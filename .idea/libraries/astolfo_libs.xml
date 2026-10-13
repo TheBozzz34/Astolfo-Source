@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="astolfo-libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/astolfo-libs.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,34 @@
+package bypass.module.other;
+
+import bypass.event.EventHandler;
+import bypass.event.Listener;
+import bypass.event.world.DestroyBlockEvent;
+import bypass.event.world.RightClickBlockEvent;
+import bypass.module.Category;
+import bypass.module.Module;
+import bypass.setting.BooleanSetting;
+
+public final class AntiDesync extends Module {
+   private final BooleanSetting breakSetting = new BooleanSetting("Break", "Prevents ghost blocks when breaking blocks", true);
+   private final BooleanSetting place = new BooleanSetting("Place", "Prevents ghost blocks when placing blocks", false);
+   @EventHandler(DestroyBlockEvent.class)
+   private final Listener<DestroyBlockEvent> onDestroyBlock = var1x -> {
+      if (this.breakSetting.getValue()) {
+         var1x.cancel();
+      }
+   };
+   @EventHandler(RightClickBlockEvent.class)
+   private final Listener<RightClickBlockEvent> onRightClickBlock = var1x -> {
+      if (this.place.getValue()) {
+         mc.thePlayer.swingItem();
+         var1x.cancel();
+      }
+   };
+   private static final long d = 112189695958198L;
+
+   public AntiDesync(Category var1) {
+      super(var1);
+      this.addSettings(this.breakSetting, this.place);
+      this.setHidden(false);
+   }
+}

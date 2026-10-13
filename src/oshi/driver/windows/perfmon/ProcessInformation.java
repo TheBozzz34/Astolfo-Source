@@ -1,0 +1,71 @@
+package oshi.driver.windows.perfmon;
+
+import java.util.List;
+import java.util.Map;
+import oshi.annotation.concurrent.ThreadSafe;
+import oshi.util.platform.windows.PerfCounterWildcardQuery;
+import oshi.util.tuples.Pair;
+
+@ThreadSafe
+public final class ProcessInformation {
+   private static final long a = 41286998565182L;
+
+   private ProcessInformation() {
+   }
+
+   public static Pair<List<String>, Map<ProcessInformation.ProcessPerformanceProperty, List<Long>>> queryProcessCounters() {
+      PerfCounterWildcardQuery var2 = new PerfCounterWildcardQuery<>(
+         ProcessInformation.ProcessPerformanceProperty.class, "Process", "Win32_Process WHERE NOT Name LIKE\"%_Total\"", "Process Information"
+      );
+      Map var3 = var2.queryValuesWildcard();
+      List var4 = var2.getInstancesFromLastQuery();
+      return new Pair<>(var4, var3);
+   }
+
+   public static Map<ProcessInformation.HandleCountProperty, List<Long>> queryHandles() {
+      PerfCounterWildcardQuery var2 = new PerfCounterWildcardQuery<>(ProcessInformation.HandleCountProperty.class, "Process", "Win32_Process");
+      return var2.queryValuesWildcard();
+   }
+
+   public enum HandleCountProperty implements PerfCounterWildcardQuery.PdhCounterWildcardProperty {
+      NAME("_Total"),
+      HANDLECOUNT("Handle Count");
+
+      private final String counter;
+      private static final ProcessInformation.HandleCountProperty[] H = new ProcessInformation.HandleCountProperty[]{NAME, HANDLECOUNT};
+
+      HandleCountProperty(String var3) {
+         this.counter = var3;
+      }
+
+      @Override
+      public String getCounter() {
+         return this.counter;
+      }
+   }
+
+   public enum ProcessPerformanceProperty implements PerfCounterWildcardQuery.PdhCounterWildcardProperty {
+      NAME("^*_Total"),
+      PRIORITY("Priority Base"),
+      CREATIONDATE("Elapsed Time"),
+      PROCESSID("ID Process"),
+      PARENTPROCESSID("Creating Process ID"),
+      READTRANSFERCOUNT("IO Read Bytes/sec"),
+      WRITETRANSFERCOUNT("IO Write Bytes/sec"),
+      PRIVATEPAGECOUNT("Working Set - Private");
+
+      private final String counter;
+      private static final ProcessInformation.ProcessPerformanceProperty[] r = new ProcessInformation.ProcessPerformanceProperty[]{
+         NAME, PRIORITY, CREATIONDATE, PROCESSID, PARENTPROCESSID, READTRANSFERCOUNT, WRITETRANSFERCOUNT, PRIVATEPAGECOUNT
+      };
+
+      ProcessPerformanceProperty(String var3) {
+         this.counter = var3;
+      }
+
+      @Override
+      public String getCounter() {
+         return this.counter;
+      }
+   }
+}

@@ -1,0 +1,17 @@
+package bypass.module.other;
+
+public enum AutoHypixelAutoCheckerGameMode {
+   SW("sw", 2),
+   BW("bw", 4),
+   UHC("uhc", 3),
+   MW("mw", 2);
+
+   public int columnAmount = 1;
+   public String name = "";
+   private static final AutoHypixelAutoCheckerGameMode[] W = new AutoHypixelAutoCheckerGameMode[]{SW, BW, UHC, MW};
+
+   AutoHypixelAutoCheckerGameMode(String var3, int var4) {
+      this.name = var3;
+      this.columnAmount = var4;
+   }
+}

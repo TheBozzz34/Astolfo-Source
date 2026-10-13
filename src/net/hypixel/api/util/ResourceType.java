@@ -1,0 +1,21 @@
+package net.hypixel.api.util;
+
+public enum ResourceType {
+   ACHIEVEMENTS("achievements"),
+   CHALLENGES("challenges"),
+   QUEST("quests"),
+   GUILDS_ACHIEVEMENTS("guilds/achievements"),
+   GUILDS_PERMISSION("guilds/permissions"),
+   SKYBLOCK_COLLECTIONS("skyblock/collections"),
+   SKYBLOCK_SKILLS("skyblock/skills");
+
+   private String path;
+
+   ResourceType(String var3) {
+      this.path = var3;
+   }
+
+   public String getPath() {
+      return this.path;
+   }
+}

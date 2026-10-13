@@ -1,0 +1,162 @@
+package net.hypixel.api.reply.skyblock;
+
+import com.google.gson.annotations.SerializedName;
+import java.util.List;
+import java.util.Map;
+import net.hypixel.api.reply.AbstractReply;
+
+public class BazaarReply extends AbstractReply {
+   private long lastUpdated;
+   private Map<String, BazaarReply.Product> products;
+   private static final long a = 31573329781358L;
+
+   public Map<String, BazaarReply.Product> getProducts() {
+      return this.products;
+   }
+
+   public BazaarReply.Product getProduct(String var1) {
+      return this.products.get(var1);
+   }
+
+   @Override
+   public String toString() {
+      return "BazaarReply{lastUpdated=" + this.lastUpdated + ", products=" + this.products + "} " + super.toString();
+   }
+
+   public class Product {
+      @SerializedName("product_id")
+      private String productId;
+      @SerializedName("sell_summary")
+      private List<BazaarReply.Product.Summary> sellSummary;
+      @SerializedName("buy_summary")
+      private List<BazaarReply.Product.Summary> buySummary;
+      @SerializedName("quick_status")
+      private BazaarReply.Product.Status quickStatus;
+      private static final long a = 97821213688116L;
+
+      public String getProductId() {
+         return this.productId;
+      }
+
+      public List<BazaarReply.Product.Summary> w() {
+         return this.sellSummary;
+      }
+
+      public List<BazaarReply.Product.Summary> P() {
+         return this.buySummary;
+      }
+
+      public BazaarReply.Product.Status getQuickStatus() {
+         return this.quickStatus;
+      }
+
+      @Override
+      public String toString() {
+         return "Product{productId='"
+            + this.productId
+            + ", sellSummary="
+            + this.sellSummary
+            + ", buySummary="
+            + this.buySummary
+            + ", quickStatus="
+            + this.quickStatus
+            + "}";
+      }
+
+      public class Status {
+         private String productId;
+         private double sellPrice;
+         private int sellVolume;
+         private int sellMovingWeek;
+         private int sellOrders;
+         private double buyPrice;
+         private int buyVolume;
+         private int buyMovingWeek;
+         private int buyOrders;
+         private static final long a = 130016534844217L;
+
+         public String getProductId() {
+            return this.productId;
+         }
+
+         public double v() {
+            return this.sellPrice;
+         }
+
+         public int m() {
+            return this.sellVolume;
+         }
+
+         public int U() {
+            return this.sellMovingWeek;
+         }
+
+         public int d() {
+            return this.sellOrders;
+         }
+
+         public double B() {
+            return this.buyPrice;
+         }
+
+         public int h() {
+            return this.buyVolume;
+         }
+
+         public int Y() {
+            return this.buyMovingWeek;
+         }
+
+         public int R() {
+            return this.buyOrders;
+         }
+
+         @Override
+         public String toString() {
+            return "Status{productId='"
+               + this.productId
+               + ", sellPrice="
+               + this.sellPrice
+               + ", sellVolume="
+               + this.sellVolume
+               + ", sellMovingWeek="
+               + this.sellMovingWeek
+               + ", sellOrders="
+               + this.sellOrders
+               + ", buyPrice="
+               + this.buyPrice
+               + ", buyVolume="
+               + this.buyVolume
+               + ", buyMovingWeek="
+               + this.buyMovingWeek
+               + ", buyOrders="
+               + this.buyOrders
+               + "}";
+         }
+      }
+
+      public class Summary {
+         private int amount;
+         private double pricePerUnit;
+         private int orders;
+         private static final long a = 40790511589156L;
+
+         public int d() {
+            return this.amount;
+         }
+
+         public double getPricePerUnit() {
+            return this.pricePerUnit;
+         }
+
+         public int b() {
+            return this.orders;
+         }
+
+         @Override
+         public String toString() {
+            return "Summary{amount=" + this.amount + ", pricePerUnit=" + this.pricePerUnit + ", orders=" + this.orders + "}";
+         }
+      }
+   }
+}

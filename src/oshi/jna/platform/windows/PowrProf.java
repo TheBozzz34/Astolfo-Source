@@ -1,0 +1,139 @@
+package oshi.jna.platform.windows;
+
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
+import com.sun.jna.Structure.FieldOrder;
+
+public interface PowrProf extends com.sun.jna.platform.win32.PowrProf {
+   PowrProf INSTANCE = Native.load("PowrProf", PowrProf.class);
+
+   @FieldOrder(
+      {
+            "Capabilities",
+            "Technology",
+            "Reserved",
+            "Chemistry",
+            "DesignedCapacity",
+            "FullChargedCapacity",
+            "DefaultAlert1",
+            "DefaultAlert2",
+            "CriticalBias",
+            "CycleCount"
+      }
+   )
+   class BATTERY_INFORMATION extends Structure {
+      public int Capabilities;
+      public byte Technology;
+      public byte[] Reserved = new byte[3];
+      public byte[] Chemistry = new byte[4];
+      public int DesignedCapacity;
+      public int FullChargedCapacity;
+      public int DefaultAlert1;
+      public int DefaultAlert2;
+      public int CriticalBias;
+      public int CycleCount;
+      private static final long a = 25808545954791L;
+   }
+
+   @FieldOrder({"Day", "Month", "Year"})
+   class BATTERY_MANUFACTURE_DATE extends Structure {
+      public byte Day;
+      public byte Month;
+      public short Year;
+   }
+
+   @FieldOrder({"BatteryTag", "InformationLevel", "AtRate"})
+   class BATTERY_QUERY_INFORMATION extends Structure {
+      public int BatteryTag;
+      public int InformationLevel;
+      public int AtRate;
+   }
+
+   enum BATTERY_QUERY_INFORMATION_LEVEL {
+      BatteryInformation,
+      BatteryGranularityInformation,
+      BatteryTemperature,
+      BatteryEstimatedTime,
+      BatteryDeviceName,
+      BatteryManufactureDate,
+      BatteryManufactureName,
+      BatteryUniqueID,
+      BatterySerialNumber;
+   }
+
+   @FieldOrder({"PowerState", "Capacity", "Voltage", "Rate"})
+   class BATTERY_STATUS extends Structure {
+      public int PowerState;
+      public int Capacity;
+      public int Voltage;
+      public int Rate;
+   }
+
+   @FieldOrder({"BatteryTag", "Timeout", "PowerState", "LowCapacity", "HighCapacity"})
+   class BATTERY_WAIT_STATUS extends Structure {
+      public int BatteryTag;
+      public int Timeout;
+      public int PowerState;
+      public int LowCapacity;
+      public int HighCapacity;
+   }
+
+   @FieldOrder({"number", "maxMhz", "currentMhz", "mhzLimit", "maxIdleState", "currentIdleState"})
+   class ProcessorPowerInformation extends Structure {
+      public int number;
+      public int maxMhz;
+      public int currentMhz;
+      public int mhzLimit;
+      public int maxIdleState;
+      public int currentIdleState;
+
+      public ProcessorPowerInformation(Pointer var1) {
+         super(var1);
+         this.read();
+      }
+
+      public ProcessorPowerInformation() {
+      }
+   }
+
+   @FieldOrder(
+      {
+            "acOnLine",
+            "batteryPresent",
+            "charging",
+            "discharging",
+            "spare1",
+            "tag",
+            "maxCapacity",
+            "remainingCapacity",
+            "rate",
+            "estimatedTime",
+            "defaultAlert1",
+            "defaultAlert2"
+      }
+   )
+   class SystemBatteryState extends Structure {
+      public byte acOnLine;
+      public byte batteryPresent;
+      public byte charging;
+      public byte discharging;
+      public byte[] spare1 = new byte[3];
+      public byte tag;
+      public int maxCapacity;
+      public int remainingCapacity;
+      public int rate;
+      public int estimatedTime;
+      public int defaultAlert1;
+      public int defaultAlert2;
+      private static final long a = 66897768793141L;
+
+      public SystemBatteryState(Pointer var1) {
+         super(var1);
+         this.read();
+      }
+
+      public SystemBatteryState() {
+      }
+   }
+}

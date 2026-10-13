@@ -1,0 +1,64 @@
+package net.minecraft.entity.passive;
+
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+
+public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
+   private static final long bb = 5602786851673L;
+
+   public EntityWaterMob(World var1) {
+      super(var1);
+   }
+
+   @Override
+   public boolean canBreatheUnderwater() {
+      return true;
+   }
+
+   @Override
+   public boolean getCanSpawnHere() {
+      return true;
+   }
+
+   @Override
+   public boolean isNotColliding() {
+      return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this);
+   }
+
+   @Override
+   public int getTalkInterval() {
+      return 120;
+   }
+
+   @Override
+   public boolean canDespawn() {
+      return true;
+   }
+
+   @Override
+   public int getExperiencePoints(EntityPlayer var1) {
+      return 1 + this.worldObj.rand.nextInt(3);
+   }
+
+   @Override
+   public void onEntityUpdate() {
+      int var4 = this.getAir();
+      super.onEntityUpdate();
+      if (this.isEntityAlive() && !this.isInWater()) {
+         this.setAir(--var4);
+         if (this.getAir() == -20) {
+            this.setAir(0);
+            this.attackEntityFrom(DamageSource.drown, 2.0F);
+         }
+      } else {
+         this.setAir(300);
+      }
+   }
+
+   @Override
+   public boolean isPushedByWater() {
+      return false;
+   }
+}

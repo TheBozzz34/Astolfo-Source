@@ -1,0 +1,62 @@
+package oshi.hardware.platform.windows;
+
+import com.sun.jna.platform.win32.Psapi;
+import com.sun.jna.platform.win32.Psapi.PERFORMANCE_INFORMATION;
+import java.util.Map;
+import java.util.function.Supplier;
+import oshi.annotation.concurrent.ThreadSafe;
+import oshi.driver.windows.perfmon.MemoryInformation;
+import oshi.driver.windows.perfmon.PagingFile;
+import oshi.hardware.common.AbstractVirtualMemory;
+import oshi.util.Memoizer;
+import oshi.util.tuples.Pair;
+
+@ThreadSafe
+public final class WindowsVirtualMemory extends AbstractVirtualMemory {
+   private final long pageSize;
+   private final Supplier<Long> used = Memoizer.memoize(this::querySwapUsed, Memoizer.defaultExpiration());
+   private final Supplier<Long> total = Memoizer.memoize(this::querySwapTotal, Memoizer.defaultExpiration());
+   private final Supplier<Pair<Long, Long>> swapInOut = Memoizer.memoize(WindowsVirtualMemory::queryPageSwaps, Memoizer.defaultExpiration());
+   private static final long b = 4675157769119L;
+
+   public WindowsVirtualMemory(long var1) {
+      this.pageSize = var1;
+   }
+
+   @Override
+   public long y() {
+      return this.used.get();
+   }
+
+   @Override
+   public long n() {
+      return this.total.get();
+   }
+
+   @Override
+   public long L() {
+      return this.swapInOut.get().getA();
+   }
+
+   @Override
+   public long I() {
+      return this.swapInOut.get().getB();
+   }
+
+   private long querySwapUsed() {
+      return PagingFile.querySwapUsed().getOrDefault(PagingFile.PagingPercentProperty.PERCENTUSAGE, 0L) * this.pageSize;
+   }
+
+   private long querySwapTotal() {
+      PERFORMANCE_INFORMATION var3 = new PERFORMANCE_INFORMATION();
+      return !Psapi.INSTANCE.GetPerformanceInfo(var3, var3.size()) ? 0L : this.pageSize * (var3.CommitLimit.longValue() - var3.PhysicalTotal.longValue());
+   }
+
+   private static Pair<Long, Long> queryPageSwaps() {
+      Map var0 = MemoryInformation.queryPageSwaps();
+      return new Pair(
+         var0.getOrDefault(MemoryInformation.PageSwapProperty.PAGESINPUTPERSEC, 0L),
+         var0.getOrDefault(MemoryInformation.PageSwapProperty.PAGESOUTPUTPERSEC, 0L)
+      );
+   }
+}

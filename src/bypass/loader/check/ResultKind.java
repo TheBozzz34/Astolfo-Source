@@ -1,0 +1,15 @@
+package bypass.loader.check;
+
+public enum ResultKind {
+   A,
+   C,
+   B,
+   D,
+   E,
+   F,
+   G,
+   H,
+   I,
+   J,
+   K;
+}

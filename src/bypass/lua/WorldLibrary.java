@@ -1,0 +1,124 @@
+package bypass.lua;
+
+import bypass.ClientAccess;
+import bypass.lua.world.Angles;
+import bypass.lua.world.Biome;
+import bypass.lua.world.Block;
+import bypass.lua.world.BoundingBox;
+import bypass.lua.world.Burning;
+import bypass.lua.world.DisplayName;
+import bypass.lua.world.Entities;
+import bypass.lua.world.Facing;
+import bypass.lua.world.Health;
+import bypass.lua.world.HeldItem;
+import bypass.lua.world.HurtTime;
+import bypass.lua.world.Inventory;
+import bypass.lua.world.IsBot;
+import bypass.lua.world.IsEnemy;
+import bypass.lua.world.IsFriend;
+import bypass.lua.world.IsInvisible;
+import bypass.lua.world.IsPlayer;
+import bypass.lua.world.IsPotionActive;
+import bypass.lua.world.IsSneaking;
+import bypass.lua.world.MaxHealth;
+import bypass.lua.world.Name;
+import bypass.lua.world.Position;
+import bypass.lua.world.PrevPosition;
+import bypass.lua.world.RefreshChunks;
+import bypass.lua.world.Remove;
+import bypass.lua.world.Riding;
+import bypass.lua.world.SetTimer;
+import bypass.lua.world.Sprinting;
+import bypass.lua.world.TicksExisted;
+import bypass.lua.world.Timer;
+import bypass.lua.world.WidthHeight;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import net.minecraft.entity.Entity;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ThreeArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
+
+public class WorldLibrary extends TwoArgFunction implements ClientAccess {
+   public static final Map<Integer, Entity> X = new HashMap<>();
+   private static final ArrayList<LuaValue> u = new ArrayList<>();
+   public static final VarArgFunction W = new Entities();
+   public static final VarArgFunction f = new Inventory();
+   public static final ThreeArgFunction Y = new Block();
+   public static final OneArgFunction G = new Name();
+   public static final OneArgFunction O = new IsBot();
+   public static final OneArgFunction r = new IsFriend();
+   public static final OneArgFunction D = new IsEnemy();
+   public static final OneArgFunction j = new HeldItem();
+   public static final OneArgFunction J = new HurtTime();
+   public static final ZeroArgFunction Z = new RefreshChunks();
+   public static final OneArgFunction s = new SetTimer();
+   public static final ZeroArgFunction U = new Timer();
+   public static final OneArgFunction m = new DisplayName();
+   public static final OneArgFunction h = new Health();
+   public static final OneArgFunction T = new Sprinting();
+   public static final OneArgFunction g = new MaxHealth();
+   public static final OneArgFunction x = new TicksExisted();
+   public static final OneArgFunction n = new Riding();
+   public static final VarArgFunction w = new Angles();
+   public static final VarArgFunction P = new BoundingBox();
+   public static final VarArgFunction F = new Position();
+   public static final VarArgFunction K = new PrevPosition();
+   public static final VarArgFunction o = new WidthHeight();
+   public static final OneArgFunction v = new IsPlayer();
+   public static final OneArgFunction l = new Facing();
+   public static final ZeroArgFunction z = new Biome();
+   public static final OneArgFunction A = new IsSneaking();
+   public static final TwoArgFunction p = new IsPotionActive();
+   public static final OneArgFunction H = new IsInvisible();
+   public static final OneArgFunction t = new Burning();
+   public static final OneArgFunction d = new Remove();
+   private static final long b = 132616292353535L;
+
+   @Override
+   public LuaValue call(LuaValue var1, LuaValue var2) {
+      LuaTable var7 = LuaValue.tableOf();
+      var7.set("timer", U);
+      var7.set("set_timer", s);
+      var7.set("refresh_chunks", Z);
+      var7.set("entities", W);
+      var7.set("block", Y);
+      var7.set("name", G);
+      var7.set("display_name", m);
+      var7.set("held_item", j);
+      var7.set("hurt_time", J);
+      var7.set("health", h);
+      var7.set("sprinting", T);
+      var7.set("facing", l);
+      var7.set("angles", w);
+      var7.set("bounding_box", P);
+      var7.set("biome", z);
+      var7.set("max_health", g);
+      var7.set("inventory", f);
+      var7.set("ticks_existed", x);
+      var7.set("is_player", v);
+      var7.set("width_height", o);
+      var7.set("is_sneaking", A);
+      var7.set("is_potion_active", p);
+      var7.set("is_invisible", H);
+      var7.set("burning", t);
+      var7.set("is_bot", O);
+      var7.set("is_friend", r);
+      var7.set("is_enemy", D);
+      var7.set("riding", n);
+      var7.set("position", F);
+      var7.set("prev_position", K);
+      var7.set("remove", d);
+      var2.set("world", var7);
+      return var7;
+   }
+
+   public static ArrayList M() {
+      return u;
+   }
+}

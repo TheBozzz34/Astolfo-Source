@@ -1,0 +1,31 @@
+package net.minecraft.item.crafting;
+
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+public class RecipesTools {
+   private String[][] recipePatterns = new String[][]{{"XXX", " # ", " # "}, {"X", "#", "#"}, {"XX", "X#", " #"}, {"XX", " #", " #"}};
+   private Object[][] recipeItems = new Object[][]{
+      {Blocks.planks, Blocks.cobblestone, Items.iron_ingot, Items.diamond, Items.gold_ingot},
+      {Items.wooden_pickaxe, Items.stone_pickaxe, Items.iron_pickaxe, Items.diamond_pickaxe, Items.golden_pickaxe},
+      {Items.wooden_shovel, Items.stone_shovel, Items.iron_shovel, Items.diamond_shovel, Items.golden_shovel},
+      {Items.wooden_axe, Items.stone_axe, Items.iron_axe, Items.diamond_axe, Items.golden_axe},
+      {Items.wooden_hoe, Items.stone_hoe, Items.iron_hoe, Items.diamond_hoe, Items.golden_hoe}
+   };
+   private static final long a = 121092318827624L;
+
+   public void addRecipes(CraftingManager var1) {
+      for (int var4 = 0; var4 < this.recipeItems[0].length; var4++) {
+         Object var5 = this.recipeItems[0][var4];
+
+         for (int var6 = 0; var6 < this.recipeItems.length - 1; var6++) {
+            Item var7 = (Item)this.recipeItems[var6 + 1][var4];
+            var1.addRecipe(new ItemStack(var7), this.recipePatterns[var6], '#', Items.stick, 'X', var5);
+         }
+      }
+
+      var1.addRecipe(new ItemStack(Items.shears), " #", "# ", '#', Items.iron_ingot);
+   }
+}

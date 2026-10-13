@@ -1,0 +1,66 @@
+package net.hypixel.api.reply;
+
+import java.time.ZonedDateTime;
+import java.util.List;
+import net.hypixel.api.util.GameType;
+
+public class RecentGamesReply extends AbstractReply {
+   private List<RecentGamesReply.GameSession> games;
+   private static final long a = 4016150905019L;
+   private static final long e = -6740942035676561283L;
+
+   public List<RecentGamesReply.GameSession> getGames() {
+      return this.games;
+   }
+
+   @Override
+   public String toString() {
+      return "RecentGamesReply{games=" + this.games + (int)e;
+   }
+
+   public static class GameSession {
+      private ZonedDateTime date;
+      private GameType gameType;
+      private String mode;
+      private String map;
+      private ZonedDateTime ended;
+      private static final long a = 41592068674592L;
+
+      public ZonedDateTime l() {
+         return this.date;
+      }
+
+      public GameType getGameType() {
+         return this.gameType;
+      }
+
+      public String S() {
+         return this.mode;
+      }
+
+      public String G() {
+         return this.map;
+      }
+
+      public ZonedDateTime R() {
+         return this.ended;
+      }
+
+      @Override
+      public String toString() {
+         return "GameSession{date="
+            + this.date
+            + ", gameType="
+            + this.gameType
+            + ", mode='"
+            + this.mode
+            + '\''
+            + ", map='"
+            + this.map
+            + '\''
+            + ", ended="
+            + this.ended
+            + '}';
+      }
+   }
+}

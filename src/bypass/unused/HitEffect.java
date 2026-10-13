@@ -1,0 +1,10 @@
+package bypass.unused;
+
+public enum HitEffect {
+   NONE,
+   NORMAL,
+   HEART,
+   FAKE;
+
+   private static final HitEffect[] Y = new HitEffect[]{NONE, NORMAL, HEART, FAKE};
+}

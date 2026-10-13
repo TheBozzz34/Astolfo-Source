@@ -1,0 +1,10 @@
+package oshi;
+
+public enum PlatformEnum {
+   WINDOWS,
+   LINUX,
+   MACOSX,
+   SOLARIS,
+   FREEBSD,
+   UNKNOWN;
+}

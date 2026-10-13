@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Astolfo" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="start.Main" />
+    <module name="Astolfo" />
+    <option name="VM_PARAMETERS" value="-Xmx4G -XX:+UseG1GC -Djava.library.path=$PROJECT_DIR$/natives -Dos.name=&quot;Windows 10&quot; -Dos.version=10.0" />
+    <option name="PROGRAM_PARAMETERS" value="--username Free --version 1.8.9 --gameDir &quot;$PROJECT_DIR$/run&quot; --assetsDir &quot;C:/Users/sansm/AppData/Roaming/.minecraft/assets&quot; --assetIndex 1.8 --uuid 887341c45ea94dd3bae9bb00502124f1 --accessToken changeme --userProperties {} --userType msa" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

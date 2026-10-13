@@ -1,0 +1,176 @@
+package bypass.gui.screen;
+
+import bypass.Astolfo;
+import bypass.ClientAccess;
+import bypass.account.AccountType;
+import bypass.account.Alt;
+import bypass.account.AltLogin;
+import bypass.account.AlteningApi;
+import bypass.account.AlteningSsl;
+import bypass.account.AuthServiceSwitcher;
+import bypass.gui.Checkbox;
+import bypass.gui.PasswordField;
+import java.io.IOException;
+import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+public class AlteningScreen extends GuiScreen implements ClientAccess {
+   private final GuiScreen d;
+   public static String b = "";
+   public static boolean f;
+   private AlteningSsl x;
+   private static AlteningApi q = new AlteningApi("nono");
+   private static final AuthServiceSwitcher p = new AuthServiceSwitcher();
+   private PasswordField w;
+   private GuiButton u;
+   private Checkbox B;
+   private String P;
+   private boolean n;
+   private static final long c = 59766492869013L;
+
+   public AlteningScreen(GuiScreen var1) {
+      this.d = var1;
+      this.x = new AlteningSsl();
+      this.x.H();
+   }
+
+   @Override
+   public void initGui() {
+      this.buttonList.clear();
+      this.w = new PasswordField(69, this.width / 2 - 85, this.height / 2 - 50, 190, 20);
+      this.w.setFocused(false);
+      this.w.setMaxStringLength(512);
+      this.w.Z(true);
+      this.w.setText(b);
+      this.buttonList.add(new GuiButton(0, this.width / 2 - 55, this.height / 2 - 15, 125, 20, "Generate"));
+      this.buttonList.add(new GuiButton(2, 2, this.height - 22, 50, 20, "<-"));
+      String var3 = "Add account";
+      this.B = new Checkbox(var3, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(var3)) / 2, this.height / 2 + 15, true);
+      this.B.K(f);
+      this.P = "";
+      super.initGui();
+   }
+
+   @Override
+   public void drawScreen(int var1, int var2, float var3) {
+      this.drawDefaultBackground();
+      GL11.glPushMatrix();
+      GL11.glScalef(0.5F, 0.5F, 0.5F);
+      Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Use coupon \"astolfo\" at check-out for a discount in The Altening", 3.0F, 3.0F, -1);
+      GL11.glPopMatrix();
+      GL11.glEnable(3553);
+      GL11.glBlendFunc(770, 771);
+      GL11.glEnable(3042);
+      Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/altening.png"));
+      GL11.glTexParameteri(3553, 10241, 9729);
+      GL11.glTexParameteri(3553, 10240, 9729);
+      Gui.drawModalRectWithCustomSizedTexture(this.width / 2 - 25, this.height / 2 - 115, 0.0F, 0.0F, 62, 64, 62.0F, 64.0F);
+      Minecraft.getMinecraft()
+         .fontRendererObj
+         .drawStringWithShadow(
+            "API key:", this.width / 2 - 115 - Minecraft.getMinecraft().fontRendererObj.getStringWidth("API key:") / 2 + 5, this.height / 2 - 42, -1
+         );
+      this.B.E(var1, var2);
+      this.w.drawTextBox();
+      super.drawScreen(var1, var2, var3);
+   }
+
+   @Override
+   public void keyTyped(char var1, int var2) throws IOException {
+      this.w.textboxKeyTyped(var1, var2);
+      super.keyTyped(var1, var2);
+   }
+
+   @Override
+   public void mouseClicked(int var1, int var2, int var3) throws IOException {
+      this.w.mouseClicked(var1, var2, var3);
+      this.B.b(var1, var2, var3);
+      f = this.B.a();
+      super.mouseClicked(var1, var2, var3);
+   }
+
+   @Override
+   public void updateScreen() {
+      long var1 = c ^ 57210950613511L;
+      long var3 = var1 ^ 62083882695697L;
+      if (!this.P.isEmpty()) {
+         try {
+            Alt var6 = new Alt(this.P, "");
+            AltLogin.AUTH.A(var6);
+            b = this.w.getText();
+            List var7 = Astolfo.INSTANCE.getAltManager().getList();
+            if (f) {
+               var7.add(var6);
+            }
+         } catch (Exception var8) {
+         }
+
+         this.P = "";
+      }
+
+      this.w.updateCursorCounter();
+      b = this.w.getText();
+      super.updateScreen();
+   }
+
+   @Override
+   public void actionPerformed(GuiButton var1) throws IOException {
+      W().d(b);
+      switch (var1.id) {
+         case 0:
+            if (!r().V().equals(AccountType.THEALTENING)) {
+               try {
+                  r().g(AccountType.THEALTENING);
+               } catch (NoSuchFieldException | IllegalAccessException var7) {
+                  this.x.m(false);
+                  var7.printStackTrace();
+               }
+            }
+
+            new Thread(() -> {
+               try {
+                  this.P = W().i(W().t()).f();
+               } catch (IOException var2) {
+                  this.P = "";
+                  this.n = true;
+               }
+            }).start();
+            break;
+         case 1:
+            try {
+               if (r().V().equals(AccountType.MOJANG)) {
+                  r().g(AccountType.THEALTENING);
+               } else if (r().V().equals(AccountType.THEALTENING)) {
+                  r().g(AccountType.MOJANG);
+               }
+            } catch (NoSuchFieldException | IllegalAccessException var6) {
+               var6.printStackTrace();
+            }
+            break;
+         case 2:
+            Minecraft.getMinecraft().displayGuiScreen(this.d);
+      }
+
+      super.actionPerformed(var1);
+   }
+
+   @Override
+   public void onGuiClosed() {
+      this.P = "";
+      this.n = false;
+      super.onGuiClosed();
+   }
+
+   public static AlteningApi W() {
+      return q;
+   }
+
+   public static AuthServiceSwitcher r() {
+      return p;
+   }
+}

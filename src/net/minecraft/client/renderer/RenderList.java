@@ -1,0 +1,35 @@
+package net.minecraft.client.renderer;
+
+import net.minecraft.client.renderer.chunk.ListedRenderChunk;
+import net.minecraft.client.renderer.chunk.RenderChunk;
+import net.minecraft.src.Config;
+import net.minecraft.util.EnumWorldBlockLayer;
+import org.lwjgl.opengl.GL11;
+
+public class RenderList extends ChunkRenderContainer {
+   private static final long c = 108267981735153L;
+
+   @Override
+   public void renderChunkLayer(EnumWorldBlockLayer var1) {
+      if (this.initialized) {
+         if (this.renderChunks.size() == 0) {
+            return;
+         }
+
+         for (RenderChunk var6 : this.renderChunks) {
+            ListedRenderChunk var7 = (ListedRenderChunk)var6;
+            GlStateManager.pushMatrix();
+            this.preRenderChunk(var6);
+            GL11.glCallList(var7.getDisplayList(var1, var7.getCompiledChunk()));
+            GlStateManager.popMatrix();
+         }
+
+         if (Config.isMultiTexture()) {
+            GlStateManager.bindCurrentTexture();
+         }
+
+         GlStateManager.resetColor();
+         this.renderChunks.clear();
+      }
+   }
+}

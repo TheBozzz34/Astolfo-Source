@@ -1,0 +1,64 @@
+package oshi.software.os.mac;
+
+import oshi.software.common.AbstractOSVersionInfoEx;
+import oshi.util.ParseUtil;
+import oshi.util.platform.mac.SysctlUtil;
+
+@Deprecated
+public class MacOSVersionInfoEx extends AbstractOSVersionInfoEx {
+   private int osxVersionNumber = -1;
+   private static final long b = 63069949332887L;
+   private static final long k = 3639299366709100554L;
+
+   public MacOSVersionInfoEx() {
+      this.n(System.getProperty("os.version"));
+      this.I(this.parseCodeName());
+      this.C(SysctlUtil.sysctl("kern.osversion", ""));
+   }
+
+   public int getOsxVersionNumber() {
+      return this.osxVersionNumber;
+   }
+
+   private String parseCodeName() {
+      if (ParseUtil.getFirstIntValue(this.getVersion()) == (int)k) {
+         this.osxVersionNumber = ParseUtil.getNthIntValue(this.getVersion(), 2);
+         switch (this.osxVersionNumber) {
+            case 0:
+               return "Cheetah";
+            case 1:
+               return "Puma";
+            case 2:
+               return "Jaguar";
+            case 3:
+               return "Panther";
+            case 4:
+               return "Tiger";
+            case 5:
+               return "Leopard";
+            case 6:
+               return "Snow Leopard";
+            case 7:
+               return "Lion";
+            case 8:
+               return "Mountain Lion";
+            case 9:
+               return "Mavericks";
+            case 10:
+               return "Yosemite";
+            case 11:
+               return "El Capitan";
+            case 12:
+               return "Sierra";
+            case 13:
+               return "High Sierra";
+            case 14:
+               return "Mojave";
+            case 15:
+               return "Catalina";
+         }
+      }
+
+      return "";
+   }
+}

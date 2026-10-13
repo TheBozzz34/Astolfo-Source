@@ -1,0 +1,27 @@
+package bypass.lua.modulemanager;
+
+import bypass.Astolfo;
+import bypass.lua.ModuleManagerLibrary2;
+import bypass.module.ModuleInfo;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.Varargs;
+import org.luaj.vm2.lib.VarArgFunction;
+
+public final class Modules extends VarArgFunction {
+   private static final long a = 117859252108526L;
+
+   @Override
+   public Varargs invoke() {
+      long var1 = a ^ 31943914266992L;
+      long var3 = var1 ^ 71792402767917L;
+      if (ModuleManagerLibrary2.i().isEmpty()) {
+         for (ModuleInfo var7 : Astolfo.INSTANCE.getModuleManager().getList()) {
+            ModuleManagerLibrary2.i().add(valueOf(var7.getName()));
+         }
+      }
+
+      LuaValue[] var8 = (org.luaj.vm2.LuaValue[])(ModuleManagerLibrary2.i().toArray(new LuaValue[0]));
+      return LuaValue.varargsOf(new LuaValue[]{new LuaTable(LuaValue.varargsOf(var8))});
+   }
+}

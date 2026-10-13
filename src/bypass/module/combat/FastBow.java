@@ -1,0 +1,54 @@
+package bypass.module.combat;
+
+import bypass.event.EventHandler;
+import bypass.event.EventState;
+import bypass.event.Listener;
+import bypass.event.player.UpdateEvent;
+import bypass.module.Category;
+import bypass.module.Module;
+import bypass.setting.EnumSetting;
+import net.minecraft.item.ItemBow;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
+
+public final class FastBow extends Module {
+   private final EnumSetting<FastBowMode> mode = new EnumSetting<>("Mode", "Set your FastBow mode", FastBowMode.VANILLA);
+   @EventHandler(UpdateEvent.class)
+   private Listener<UpdateEvent> onUpdate = var1x -> {
+      this.p();
+      if (var1x.getState() == EventState.PRE && this.mode.getValue() == FastBowMode.VANILLA && this.a()) {
+         mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem());
+         mc.thePlayer.inventory.getCurrentItem().getItem().onItemRightClick(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer);
+
+         for (int var5 = 0; var5 < 20; var5++) {
+            mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
+         }
+
+         mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
+         mc.thePlayer.inventory.getCurrentItem().getItem().onPlayerStoppedUsing(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer, 10);
+      }
+   };
+   private static final long c = 48101403322277L;
+
+   public FastBow(Category var1) {
+      super(var1);
+      this.addSettings(this.mode);
+   }
+
+   @Override
+   public void p() {
+      this.setDisplayName("Fast Bow " + EnumChatFormatting.GRAY + FastBowMode.T(this.mode.getValue()));
+      super.p();
+   }
+
+   private boolean a() {
+      return mc.thePlayer.inventory.getCurrentItem() != null
+         && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBow
+         && mc.thePlayer.getHealth() > 0.0F
+         && mc.thePlayer.onGround
+         && mc.gameSettings.Z7.pressed;
+   }
+}
