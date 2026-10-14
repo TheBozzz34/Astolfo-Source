@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public class EntitySmokeFX extends EntityFX {
    public float smokeParticleScale;
-   private static final long ab = 59904951039423L;
 
    public EntitySmokeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 1.0F);

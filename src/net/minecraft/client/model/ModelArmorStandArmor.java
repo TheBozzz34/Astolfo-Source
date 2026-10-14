@@ -4,8 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 
 public class ModelArmorStandArmor extends ModelBiped {
-   private static final long c = 139737745679282L;
-
    public ModelArmorStandArmor() {
       this(0.0F);
    }

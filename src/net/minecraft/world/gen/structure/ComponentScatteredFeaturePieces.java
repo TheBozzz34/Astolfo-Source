@@ -23,8 +23,6 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 public class ComponentScatteredFeaturePieces {
-   private static final long a = 47928846511316L;
-
    public static void registerScatteredFeaturePieces() {
       MapGenStructureIO.registerStructureComponent(ComponentScatteredFeaturePieces.DesertPyramid.class, "TeDP");
       MapGenStructureIO.registerStructureComponent(ComponentScatteredFeaturePieces.JunglePyramid.class, "TeJP");
@@ -45,7 +43,6 @@ public class ComponentScatteredFeaturePieces {
          new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1),
          new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)
       );
-      private static final long b = 73031503511605L;
 
       public DesertPyramid() {
       }
@@ -585,8 +582,6 @@ public class ComponentScatteredFeaturePieces {
       public int scatteredFeatureSizeY;
       public int scatteredFeatureSizeZ;
       public int field_74936_d = -1;
-      private static final long c = 10975085608565L;
-      private static final long q = -4726194850175647680L;
 
       public Feature() {
       }
@@ -634,7 +629,7 @@ public class ComponentScatteredFeaturePieces {
 
          for (int l = this.boundingBox.minZ; l <= this.boundingBox.maxZ; l++) {
             for (int m = this.boundingBox.minX; m <= this.boundingBox.maxX; m++) {
-               mutableBlockPos.set(m, (int)q, l);
+               mutableBlockPos.set(m, 64, l);
                if (structureBoundingBox.isVecInside(mutableBlockPos)) {
                   j += Math.max(worldIn.getTopSolidOrLiquidBlock(mutableBlockPos).getY(), worldIn.provider.getAverageGroundLevel());
                   k++;
@@ -671,7 +666,6 @@ public class ComponentScatteredFeaturePieces {
       );
       private static final List<WeightedRandomChestContent> field_175815_j = Lists.newArrayList(new WeightedRandomChestContent(Items.arrow, 0, 2, 7, 30));
       private static ComponentScatteredFeaturePieces.JunglePyramid.Stones junglePyramidsRandomScatteredStones = new ComponentScatteredFeaturePieces.JunglePyramid.Stones();
-      private static final long b = 89961959716631L;
 
       public JunglePyramid() {
       }
@@ -995,8 +989,6 @@ public class ComponentScatteredFeaturePieces {
       }
 
       public static class Stones extends StructureComponent.BlockSelector {
-         private static final long a = 103318788662987L;
-
          public Stones() {
          }
 
@@ -1013,7 +1005,6 @@ public class ComponentScatteredFeaturePieces {
 
    public static class SwampHut extends ComponentScatteredFeaturePieces.Feature {
       private boolean hasWitch;
-      private static final long b = 6381828496560L;
 
       public SwampHut() {
       }

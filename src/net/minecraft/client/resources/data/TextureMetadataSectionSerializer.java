@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import net.minecraft.util.JsonUtils;
 
 public class TextureMetadataSectionSerializer extends BaseMetadataSectionSerializer<TextureMetadataSection> {
-   private static final long a = 84658953806962L;
-
    public TextureMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
       JsonObject jsonObject = jsonElement.getAsJsonObject();
       boolean bl = JsonUtils.getBoolean(jsonObject, "blur", false);

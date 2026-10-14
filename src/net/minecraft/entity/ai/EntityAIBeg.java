@@ -12,7 +12,6 @@ public class EntityAIBeg extends EntityAIBase {
    private World worldObject;
    private float minPlayerDistance;
    private int timeoutCounter;
-   private static final long a = 104579596509084L;
 
    public EntityAIBeg(EntityWolf wolf, float minDistance) {
       this.theWolf = wolf;

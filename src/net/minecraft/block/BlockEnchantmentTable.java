@@ -17,8 +17,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 public class BlockEnchantmentTable extends BlockContainer {
-   private static final long e = 47213108222634L;
-
    public BlockEnchantmentTable() {
       super(Material.rock, MapColor.redColor);
       this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);

@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 
 public class ModelLeashKnot extends ModelBase {
    public ModelRenderer field_110723_a;
-   private static final long a = 125463655179812L;
 
    public ModelLeashKnot() {
       this(0, 0, 32, 32);

@@ -28,8 +28,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntitySpider extends EntityMob {
-   private static final long gb = 29997369721194L;
-
    public EntitySpider(World worldIn) {
       super(worldIn);
       this.setSize(1.4F, 0.9F);
@@ -177,9 +175,6 @@ public class EntitySpider extends EntityMob {
    }
 
    public static class AISpiderAttack extends EntityAIAttackOnCollide {
-      private static final long c = 93754183958447L;
-      private static final long h = 1339786868706771044L;
-
       public AISpiderAttack(EntitySpider spider, Class<? extends Entity> targetClass) {
          super(spider, targetClass, 1.0, true);
       }
@@ -187,7 +182,7 @@ public class EntitySpider extends EntityMob {
       @Override
       public boolean continueExecuting() {
          float f = this.attacker.getBrightness(1.0F);
-         if (f >= 0.5F && this.attacker.getRNG().nextInt((int)h) == 0) {
+         if (f >= 0.5F && this.attacker.getRNG().nextInt(100) == 0) {
             this.attacker.setAttackTarget((EntityLivingBase)null);
             return false;
          } else {
@@ -202,8 +197,6 @@ public class EntitySpider extends EntityMob {
    }
 
    public static class AISpiderTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget {
-      private static final long c = 71243420373749L;
-
       public AISpiderTarget(EntitySpider spider, Class<T> classTarget) {
          super(spider, classTarget, true);
       }
@@ -217,7 +210,6 @@ public class EntitySpider extends EntityMob {
 
    public static class GroupData implements IEntityLivingData {
       public int potionEffectId;
-      private static final long a = 19328430659062L;
 
       public void func_111104_a(Random randIn) {
          int i = randIn.nextInt(5);

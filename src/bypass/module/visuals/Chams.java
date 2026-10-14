@@ -62,7 +62,6 @@ public final class Chams extends Module {
    private final BooleanSetting hands = new BooleanSetting("Hands", "Color hands", true);
    @EventHandler(value = RenderModelEvent.class, priority = EventPriority.LOWEST)
    private final Listener<RenderModelEvent> onRenderModel = renderModelEvent -> {
-      long l = e ^ 52652937633881L;
       if (this.shouldRender(renderModelEvent.getEntity())) {
          switch (renderModelEvent.getState()) {
             case PRE:
@@ -95,7 +94,6 @@ public final class Chams extends Module {
                            renderModelEvent.getHeadPitch(),
                            renderModelEvent.getScale()
                         );
-                     long m = 2244473403450929002L ^ l;
                      GL11.glEnable(2929);
                      if (this.solid.getValue()) {
                         GL11.glEnable(3553);
@@ -140,13 +138,11 @@ public final class Chams extends Module {
                      GL11.glEnable(3042);
                      GL11.glBlendFunc(770, 771);
                      GL11.glLineWidth(1.1F);
-                     long n = 1197606005611931831L ^ l;
                      GL11.glEnable(2960);
                      GL11.glStencilFunc(512, 1, 15);
                      GL11.glStencilOp(7681, 7681, 7681);
                      GL11.glPolygonMode(1028, 6913);
                      RenderUtil.setColor(color2.getRGB());
-                     n = 911193093238641288L ^ l;
                      renderModelEvent.getRenderer()
                         .renderModel(
                            renderModelEvent.getEntity(),
@@ -170,13 +166,11 @@ public final class Chams extends Module {
                            renderModelEvent.getHeadPitch(),
                            renderModelEvent.getScale()
                         );
-                     n = 6380339839772114269L ^ l;
                      GL11.glStencilFunc(514, 1, 15);
                      GL11.glStencilOp(7680, 7680, 7680);
                      GL11.glPolygonMode(1028, 6913);
                      GL11.glEnable(10754);
                      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-                     n = 1197606005611931831L ^ l;
                      GlStateManager.doPolygonOffset(1.0F, -1.0E7F);
                      renderModelEvent.getRenderer()
                         .renderModel(
@@ -201,7 +195,6 @@ public final class Chams extends Module {
    };
    @EventHandler(value = RenderTileEntityEvent.class, priority = EventPriority.LOWEST)
    private final Listener<RenderTileEntityEvent> onRenderTileEntity = renderTileEntityEvent -> {
-      long l = e ^ 25534541032515L;
       if (this.shouldRenderTileEntity(renderTileEntityEvent.getTileEntity())) {
          switch (renderTileEntityEvent.getState()) {
             case PRE:
@@ -232,7 +225,6 @@ public final class Chams extends Module {
                            renderTileEntityEvent.getPartialTicks(),
                            renderTileEntityEvent.getDestroyStage()
                         );
-                     long m = 2244411581919830896L ^ l;
                      GL11.glEnable(2929);
                      if (this.solid.getValue()) {
                         GL11.glEnable(3553);
@@ -262,10 +254,8 @@ public final class Chams extends Module {
                      boolean bl = mc.gameSettings.viewBobbing;
                      mc.gameSettings.viewBobbing = false;
                      renderTileEntityEvent.cancel();
-                     long n = 3359551688184540551L ^ l;
                      GL11.glEnable(32823);
                      GlStateManager.enablePolygonOffset();
-                     n = 7496973731016948420L ^ l;
                      GlStateManager.doPolygonOffset(1.0F, -1.0E7F);
                      renderTileEntityEvent.getDispatcher()
                         .renderTileEntityAt(
@@ -298,13 +288,11 @@ public final class Chams extends Module {
                      GL11.glEnable(3042);
                      GL11.glBlendFunc(770, 771);
                      GL11.glLineWidth(1.0F);
-                     long l2 = 3570051404827713652L ^ l;
                      GL11.glEnable(2960);
                      GL11.glStencilFunc(512, 1, 15);
                      GL11.glStencilOp(7681, 7681, 7681);
                      GL11.glPolygonMode(1028, 6913);
                      RenderUtil.setColor(color2.getRGB());
-                     l2 = 911149413531704978L ^ l;
                      renderTileEntityEvent.getDispatcher()
                         .renderTileEntityAt(
                            renderTileEntityEvent.getTileEntity(),
@@ -326,13 +314,11 @@ public final class Chams extends Module {
                            renderTileEntityEvent.getPartialTicks(),
                            renderTileEntityEvent.getDestroyStage()
                         );
-                     l2 = 4231120209782579225L ^ l;
                      GL11.glStencilFunc(514, 1, 15);
                      GL11.glStencilOp(7680, 7680, 7680);
                      GL11.glPolygonMode(1028, 6913);
                      GL11.glEnable(10754);
                      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-                     l2 = 1197667827612656813L ^ l;
                      GlStateManager.doPolygonOffset(1.0F, -1.0E7F);
                      renderTileEntityEvent.getDispatcher()
                         .renderTileEntityAt(
@@ -404,7 +390,6 @@ public final class Chams extends Module {
          }
       }
    };
-   private static final long e = 103934299307939L;
 
    public Chams(Category category) {
       super(category);

@@ -7,8 +7,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemWritableBook extends Item {
-   private static final long a = 128761696988519L;
-
    public ItemWritableBook() {
       this.setMaxStackSize(1);
    }

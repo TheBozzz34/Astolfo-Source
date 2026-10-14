@@ -6,8 +6,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class WorldGenCactus extends WorldGenerator {
-   private static final long a = 30572182166201L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
       for (int i = 0; i < 10; i++) {

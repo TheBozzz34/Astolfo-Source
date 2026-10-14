@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 public class EntitySpellParticleFX extends EntityFX {
    private static final Random RANDOM = new Random();
    private int baseSpellTextureIndex = 128;
-   private static final long ab = 43050016896991L;
 
    public EntitySpellParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.5 - RANDOM.nextDouble(), d2, 0.5 - RANDOM.nextDouble());
@@ -92,15 +91,12 @@ public class EntitySpellParticleFX extends EntityFX {
    }
 
    public static class InstantFactory implements IParticleFactory {
-      private static final long a = 13579469013033L;
-      private static final long b = -8234851087085993840L;
-
       @Override
       public EntityFX getEntityFX(
          int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
       ) {
          EntitySpellParticleFX entitySpellParticleFX = new EntitySpellParticleFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-         entitySpellParticleFX.setBaseSpellTextureIndex((int)b);
+         entitySpellParticleFX.setBaseSpellTextureIndex(144);
          return entitySpellParticleFX;
       }
    }
@@ -117,15 +113,12 @@ public class EntitySpellParticleFX extends EntityFX {
    }
 
    public static class WitchFactory implements IParticleFactory {
-      private static final long a = 55671489222971L;
-      private static final long b = -7989356211055099760L;
-
       @Override
       public EntityFX getEntityFX(
          int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
       ) {
          EntitySpellParticleFX entitySpellParticleFX = new EntitySpellParticleFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-         entitySpellParticleFX.setBaseSpellTextureIndex((int)b);
+         entitySpellParticleFX.setBaseSpellTextureIndex(144);
          float f = worldIn.rand.nextFloat() * 0.5F + 0.35F;
          entitySpellParticleFX.setRBGColorF(1.0F * f, 0.0F * f, 1.0F * f);
          return entitySpellParticleFX;

@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 public class CraftingManager {
    private static final CraftingManager instance = new CraftingManager();
    private final List<IRecipe> recipes = Lists.newArrayList();
-   private static final long a = 85415875488497L;
 
    public static CraftingManager getInstance() {
       return instance;
@@ -353,8 +352,6 @@ public class CraftingManager {
       Collections.sort(
          this.recipes,
          new Comparator<IRecipe>() {
-            private static final long a = 97738236156657L;
-
             public int compare(IRecipe iRecipe, IRecipe iRecipe2) {
                return iRecipe instanceof ShapelessRecipes && iRecipe2 instanceof ShapedRecipes
                   ? 1

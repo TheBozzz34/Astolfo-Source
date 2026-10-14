@@ -17,7 +17,6 @@ public class PlayerConfigurationParser {
    public static final String CONFIG_ITEMS = "items";
    public static final String ITEM_TYPE = "type";
    public static final String ITEM_ACTIVE = "active";
-   private static final long a = 89943007046203L;
 
    public PlayerConfigurationParser(String player) {
       this.player = player;

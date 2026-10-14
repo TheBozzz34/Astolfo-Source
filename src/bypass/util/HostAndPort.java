@@ -4,7 +4,6 @@ public final class HostAndPort {
    public static final String R = ":";
    private final String host;
    private final int port;
-   private static final long a = 86513441917687L;
 
    public HostAndPort(String string, int i) {
       this.host = string;

@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentLootBonus extends Enchantment {
-   private static final long m = 129767539405857L;
-
    public EnchantmentLootBonus(int i, ResourceLocation resourceLocation, int j, EnumEnchantmentType enumEnchantmentType) {
       super(i, resourceLocation, j, enumEnchantmentType);
       if (enumEnchantmentType == EnumEnchantmentType.DIGGER) {

@@ -18,7 +18,6 @@ public class NextTickHashSet extends TreeSet {
    private int maxX = Integer.MIN_VALUE;
    private int maxZ = Integer.MIN_VALUE;
    private static final int UNDEFINED = Integer.MIN_VALUE;
-   private static final long a = 69386343082014L;
 
    public NextTickHashSet(Set oldSet) {
       for (Object object : oldSet) {
@@ -145,10 +144,5 @@ public class NextTickHashSet extends TreeSet {
       this.minZ = Integer.MIN_VALUE;
       this.maxX = Integer.MIN_VALUE;
       this.maxZ = Integer.MIN_VALUE;
-   }
-
-   static {
-      long l = a ^ 80801652512264L;
-      long m = l ^ 1358809103004623724L;
    }
 }

@@ -4,8 +4,6 @@ import java.util.Comparator;
 import org.lwjgl.opengl.DisplayMode;
 
 public class DisplayModeComparator implements Comparator {
-   private static final long a = 74186338748623L;
-
    @Override
    public int compare(Object o1, Object o2) {
       DisplayMode displayMode = (DisplayMode)o1;

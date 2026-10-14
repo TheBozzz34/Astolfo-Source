@@ -8,12 +8,8 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public final class Register extends TwoArgFunction {
-   private static final long a = 42808535312237L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
-      long l = a ^ 99408006610595L;
-      long m = l ^ 83502128751741L;
       String string = null;
       LuaTable luaTable = null;
       if (luaValue.isstring()) {

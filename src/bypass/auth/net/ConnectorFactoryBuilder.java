@@ -4,7 +4,6 @@ public class ConnectorFactoryBuilder {
    private static final ConnectionOptions n = ConnectionOptions.M(8);
    public final boolean F;
    public boolean l;
-   private static final long a = 42385277103549L;
 
    public ConnectorFactoryBuilder(boolean bl) {
       this.F = bl;

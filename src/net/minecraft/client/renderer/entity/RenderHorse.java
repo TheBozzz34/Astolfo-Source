@@ -16,7 +16,6 @@ public class RenderHorse extends RenderLiving<EntityHorse> {
    private static final ResourceLocation donkeyTextures = new ResourceLocation("textures/entity/horse/donkey.png");
    private static final ResourceLocation zombieHorseTextures = new ResourceLocation("textures/entity/horse/horse_zombie.png");
    private static final ResourceLocation skeletonHorseTextures = new ResourceLocation("textures/entity/horse/horse_skeleton.png");
-   private static final long d = 123736414345568L;
 
    public RenderHorse(RenderManager rendermanagerIn, ModelHorse model, float shadowSizeIn) {
       super(rendermanagerIn, model, shadowSizeIn);

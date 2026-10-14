@@ -17,7 +17,6 @@ public class EntityXPOrb extends Entity {
    private int xpValue;
    private EntityPlayer closestPlayer;
    private int xpTargetColor;
-   private static final long ab = 114396881832458L;
 
    public EntityXPOrb(World worldIn, double x, double y, double z, int expValue) {
       super(worldIn);

@@ -5,7 +5,6 @@ public class IntHashMap<V> {
    private transient int count;
    private int threshold = 12;
    private final float growFactor = 0.75F;
-   private static final long c = 111968634505315L;
 
    private static int computeHash(int integer) {
       integer = integer ^ integer >>> 20 ^ integer >>> 12;
@@ -148,7 +147,6 @@ public class IntHashMap<V> {
       public V valueEntry;
       public IntHashMap.Entry<V> nextEntry;
       public final int slotHash;
-      private static final long a = 69096216502792L;
 
       public Entry(int i, int j, V object, IntHashMap.Entry<V> entry) {
          this.valueEntry = (V)object;

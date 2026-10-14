@@ -20,7 +20,6 @@ public class LanguageManager implements IResourceManagerReloadListener {
    private String currentLanguage;
    public static final Locale currentLocale = new Locale();
    private Map<String, Language> languageMap = Maps.newHashMap();
-   private static final long a = 61043761627334L;
 
    public LanguageManager(IMetadataSerializer theMetadataSerializerIn, String currentLanguageIn) {
       this.theMetadataSerializer = theMetadataSerializerIn;

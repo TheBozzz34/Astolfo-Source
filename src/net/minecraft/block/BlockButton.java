@@ -22,7 +22,6 @@ public abstract class BlockButton extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing");
    public static final PropertyBool POWERED = PropertyBool.create("powered");
    private final boolean wooden;
-   private static final long e = 70984762021855L;
 
    public BlockButton(boolean wooden) {
       super(Material.circuits);

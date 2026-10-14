@@ -28,7 +28,6 @@ public class GuiChat extends GuiScreen {
    private List<String> foundPlayerNames = Lists.newArrayList();
    public GuiTextField inputField;
    private String defaultInputFieldText = "";
-   private static final long a = 94312828732271L;
 
    public GuiChat() {
    }

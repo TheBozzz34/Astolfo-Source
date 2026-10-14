@@ -282,7 +282,6 @@ public final class ScriptModule extends Module {
             this.callScript("on_render_screen", luaTable2);
       }
    };
-   private static final long e = 3956703315578L;
 
    public ScriptModule(String string, LuaTable luaTable) {
       super(string, Category.SCRIPTS);

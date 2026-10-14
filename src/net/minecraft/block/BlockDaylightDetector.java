@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 public class BlockDaylightDetector extends BlockContainer {
    public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
    private final boolean inverted;
-   private static final long e = 93111996815840L;
 
    public BlockDaylightDetector(boolean inverted) {
       super(Material.wood);

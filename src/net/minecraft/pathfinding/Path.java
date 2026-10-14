@@ -1,14 +1,8 @@
 package net.minecraft.pathfinding;
 
 public class Path {
-   private PathPoint[] pathPoints;
+   private PathPoint[] pathPoints = new PathPoint[1024];
    private int count;
-   private static final long a = 38522349457216L;
-   private static final long c = -6084360137345072128L;
-
-   public Path() {
-      this.pathPoints = new PathPoint[(int)c];
-   }
 
    public PathPoint addPoint(PathPoint point) {
       if (point.index >= 0) {

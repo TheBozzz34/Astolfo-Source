@@ -23,8 +23,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class SendPacketNoEvent extends VarArgFunction {
-   private static final long a = 76100287826302L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       if (ClientAccess.mc.thePlayer != null) {

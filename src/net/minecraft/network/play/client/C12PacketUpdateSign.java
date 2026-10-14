@@ -10,8 +10,6 @@ import net.minecraft.util.IChatComponent;
 public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
    private BlockPos pos;
    public IChatComponent[] lines;
-   private static final long a = 130734488680090L;
-   private static final long b = 8999209430159458688L;
 
    public C12PacketUpdateSign() {
    }
@@ -27,7 +25,7 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
       this.lines = new IChatComponent[4];
 
       for (int i = 0; i < 4; i++) {
-         String string = buf.readStringFromBuffer((int)b);
+         String string = buf.readStringFromBuffer(384);
          IChatComponent iChatComponent = IChatComponent.Serializer.jsonToComponent(string);
          this.lines[i] = iChatComponent;
       }

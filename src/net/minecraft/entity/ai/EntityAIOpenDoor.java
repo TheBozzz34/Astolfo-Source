@@ -5,8 +5,6 @@ import net.minecraft.entity.EntityLiving;
 public class EntityAIOpenDoor extends EntityAIDoorInteract {
    public boolean closeDoor;
    public int closeDoorTemporisation;
-   private static final long a = 97499747308583L;
-   private static final long e = -8221712812192301036L;
 
    public EntityAIOpenDoor(EntityLiving entitylivingIn, boolean shouldClose) {
       super(entitylivingIn);
@@ -21,7 +19,7 @@ public class EntityAIOpenDoor extends EntityAIDoorInteract {
 
    @Override
    public void startExecuting() {
-      this.closeDoorTemporisation = (int)e;
+      this.closeDoorTemporisation = 20;
       this.doorBlock.toggleDoor(this.theEntity.worldObj, this.doorPosition, true);
    }
 

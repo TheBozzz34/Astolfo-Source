@@ -41,7 +41,6 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
    private static final int P;
    private static final long d;
    private static final long v;
-   private static final long f = 129376003711098L;
 
    public LinuxOperatingSystem() {
       super.getVersionInfo();
@@ -438,15 +437,10 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
    public static String getReleaseFilename() {
       File file = new File("/etc");
       File[] files = file.listFiles(
-         fIn -> (
-               fIn.getName().endsWith("-release")
-                  || fIn.getName().endsWith("-version")
-                  || fIn.getName().endsWith("_release")
-                  || fIn.getName().endsWith("_version")
-            )
-            && !fIn.getName().endsWith("os-release")
-            && !fIn.getName().endsWith("lsb-release")
-            && !fIn.getName().endsWith("system-release")
+         f -> (f.getName().endsWith("-release") || f.getName().endsWith("-version") || f.getName().endsWith("_release") || f.getName().endsWith("_version"))
+            && !f.getName().endsWith("os-release")
+            && !f.getName().endsWith("lsb-release")
+            && !f.getName().endsWith("system-release")
       );
       if (files != null && files.length > 0) {
          return files[0].getPath();
@@ -547,7 +541,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
       if (!bl) {
          File file = new File("/etc/init");
          if (file.exists() && file.isDirectory()) {
-            for (File file2 : file.listFiles((fIn, name) -> name.toLowerCase().endsWith(".conf"))) {
+            for (File file2 : file.listFiles((f, name) -> name.toLowerCase().endsWith(".conf"))) {
                String string4 = file2.getName().substring(0, file2.getName().length() - 5);
                int j = string4.lastIndexOf(46);
                String string5 = j >= 0 && j <= string4.length() - 2 ? string4.substring(j + 1) : string4;

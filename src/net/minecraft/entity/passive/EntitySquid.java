@@ -25,7 +25,6 @@ public class EntitySquid extends EntityWaterMob {
    private float randomMotionVecX;
    private float randomMotionVecY;
    private float randomMotionVecZ;
-   private static final long ab = 90053086944477L;
 
    public EntitySquid(World worldIn) {
       super(worldIn);
@@ -183,7 +182,6 @@ public class EntitySquid extends EntityWaterMob {
 
    public static class AIMoveRandom extends EntityAIBase {
       private EntitySquid squid;
-      private static final long a = 85272192811135L;
 
       public AIMoveRandom(EntitySquid entitySquid) {
          this.squid = entitySquid;

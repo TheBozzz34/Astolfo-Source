@@ -10,7 +10,6 @@ public class RenderWolf extends RenderLiving<EntityWolf> {
    private static final ResourceLocation wolfTextures = new ResourceLocation("textures/entity/wolf/wolf.png");
    private static final ResourceLocation tamedWolfTextures = new ResourceLocation("textures/entity/wolf/wolf_tame.png");
    private static final ResourceLocation anrgyWolfTextures = new ResourceLocation("textures/entity/wolf/wolf_angry.png");
-   private static final long d = 108982349734651L;
 
    public RenderWolf(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
       super(renderManagerIn, modelBaseIn, shadowSizeIn);

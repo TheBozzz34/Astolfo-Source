@@ -109,7 +109,6 @@ public class ConnectedTextures {
    };
    public static final IBlockState AIR_DEFAULT_STATE = Blocks.air.getDefaultState();
    private static TextureAtlasSprite emptySprite = null;
-   private static final long a = 65484782951679L;
 
    public static synchronized BakedQuad getConnectedTexture(
       IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos, BakedQuad quad, RenderEnv renderEnv
@@ -1223,15 +1222,5 @@ public class ConnectedTextures {
       } else {
          return icon;
       }
-   }
-
-   static {
-      long l = a ^ 40006994803512L;
-      long m = l ^ 617817944395236024L;
-      m = l ^ 470373425828205768L;
-      m = l ^ 175991781878921116L;
-      m = l ^ 175991781878921116L;
-      m = l ^ 5078607984497868203L;
-      m = 8622501404010109995L ^ l;
    }
 }

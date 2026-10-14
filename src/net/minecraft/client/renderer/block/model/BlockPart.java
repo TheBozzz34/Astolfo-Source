@@ -22,7 +22,6 @@ public class BlockPart {
    public final Map<EnumFacing, BlockPartFace> mapFaces;
    public final BlockPartRotation partRotation;
    public final boolean shade;
-   private static final long b = 4500400533291L;
 
    public BlockPart(
       Vector3f positionFromIn, Vector3f positionToIn, Map<EnumFacing, BlockPartFace> mapFacesIn, BlockPartRotation partRotationIn, boolean shadeIn
@@ -65,8 +64,6 @@ public class BlockPart {
    }
 
    public static class Deserializer implements JsonDeserializer<BlockPart> {
-      private static final long a = 38873109812456L;
-
       public BlockPart deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          Vector3f vector3f = this.parsePositionFrom(jsonObject);

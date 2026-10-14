@@ -21,7 +21,6 @@ import oshi.hardware.common.AbstractPowerSource;
 public final class MacPowerSource extends AbstractPowerSource {
    private static final CoreFoundation CF = CoreFoundation.INSTANCE;
    private static final IOKit IO = IOKit.INSTANCE;
-   private static final long e = 78848464837096L;
 
    public MacPowerSource(
       String psName,
@@ -72,12 +71,11 @@ public final class MacPowerSource extends AbstractPowerSource {
    }
 
    public static PowerSource[] Y() {
-      long l = e ^ 131356754242093L;
       String string = "unknown";
       double d = 0.0;
-      double d2 = 0.0;
-      double d3 = -1.0;
-      double d4 = 0.0;
+      double e = 0.0;
+      double d2 = -1.0;
+      double d3 = 0.0;
       boolean bl = false;
       boolean bl2 = false;
       boolean bl3 = false;
@@ -85,12 +83,12 @@ public final class MacPowerSource extends AbstractPowerSource {
       int i = 0;
       int j = 1;
       int k = 1;
-      int m = -1;
+      int l = -1;
       String string2 = "unknown";
       LocalDate localDate = null;
       String string3 = "unknown";
       String string4 = "unknown";
-      double d5 = 0.0;
+      double d4 = 0.0;
       IOService ioService = IOKitUtil.getMatchingService("AppleSmartBattery");
       if (ioService != null) {
          String string5 = ioService.getStringProperty("DeviceName");
@@ -110,10 +108,10 @@ public final class MacPowerSource extends AbstractPowerSource {
 
          Integer integer = ioService.getIntegerProperty("ManufactureDate");
          if (integer != null) {
-            int n = integer & 31;
-            int i2 = integer >> 5 & 15;
-            int i3 = integer >> 9 & 127;
-            localDate = LocalDate.of(1980 + i3, i2, n);
+            int m = integer & 31;
+            int n = integer >> 5 & 15;
+            int i2 = integer >> 9 & 127;
+            localDate = LocalDate.of(1980 + i2, n, m);
          }
 
          integer = ioService.getIntegerProperty("DesignCapacity");
@@ -139,25 +137,25 @@ public final class MacPowerSource extends AbstractPowerSource {
 
          integer = ioService.getIntegerProperty("CycleCount");
          if (integer != null) {
-            m = integer;
+            l = integer;
          }
 
          integer = ioService.getIntegerProperty("Temperature");
          if (integer != null) {
-            d5 = integer.intValue() / 100.0;
+            d4 = integer.intValue() / 100.0;
          }
 
          integer = ioService.getIntegerProperty("Voltage");
          if (integer != null) {
-            d3 = integer.intValue() / 1000.0;
+            d2 = integer.intValue() / 1000.0;
          }
 
          integer = ioService.getIntegerProperty("Amperage");
          if (integer != null) {
-            d4 = integer.intValue();
+            d3 = integer.intValue();
          }
 
-         d2 = d3 * d4;
+         e = d2 * d3;
          Boolean boolean2 = ioService.getBooleanProperty("ExternalConnected");
          if (boolean2 != null) {
             bl = boolean2;
@@ -174,17 +172,16 @@ public final class MacPowerSource extends AbstractPowerSource {
 
       CFTypeRef cfTypeRef = IO.IOPSCopyPowerSourcesInfo();
       CFArrayRef cfArrayRef = IO.IOPSCopyPowerSourcesList(cfTypeRef);
-      long l2 = 4820673702787070533L ^ l;
-      int i4 = cfArrayRef.getCount();
-      double d6 = IO.IOPSGetTimeRemainingEstimate();
+      int i3 = cfArrayRef.getCount();
+      double d5 = IO.IOPSGetTimeRemainingEstimate();
       CFStringRef cfStringRef = CFStringRef.createCFString("Name");
       CFStringRef cfStringRef2 = CFStringRef.createCFString("Is Present");
       CFStringRef cfStringRef3 = CFStringRef.createCFString("Current Capacity");
       CFStringRef cfStringRef4 = CFStringRef.createCFString("Max Capacity");
-      ArrayList arrayList = new ArrayList(i4);
+      ArrayList arrayList = new ArrayList(i3);
 
-      for (int i5 = 0; i5 < i4; i5++) {
-         Pointer pointer = cfArrayRef.getValueAtIndex(i5);
+      for (int i4 = 0; i4 < i3; i4++) {
+         Pointer pointer = cfArrayRef.getValueAtIndex(i4);
          CFTypeRef cfTypeRef2 = new CFTypeRef();
          cfTypeRef2.setPointer(pointer);
          CFDictionaryRef cfDictionaryRef = IO.IOPSGetPowerSourceDescription(cfTypeRef, cfTypeRef2);
@@ -199,31 +196,31 @@ public final class MacPowerSource extends AbstractPowerSource {
                   string6 = "unknown";
                }
 
-               double d7 = 0.0;
+               double d6 = 0.0;
                if (cfDictionaryRef.getValueIfPresent(cfStringRef3, null)) {
                   pointer2 = cfDictionaryRef.getValue(cfStringRef3);
                   CFNumberRef cfNumberRef = new CFNumberRef(pointer2);
-                  d7 = cfNumberRef.intValue();
+                  d6 = cfNumberRef.intValue();
                }
 
-               double d8 = 1.0;
+               double d7 = 1.0;
                if (cfDictionaryRef.getValueIfPresent(cfStringRef4, null)) {
                   pointer2 = cfDictionaryRef.getValue(cfStringRef4);
                   CFNumberRef cfNumberRef2 = new CFNumberRef(pointer2);
-                  d8 = cfNumberRef2.intValue();
+                  d7 = cfNumberRef2.intValue();
                }
 
-               double d9 = Math.min(1.0, d7 / d8);
+               double d8 = Math.min(1.0, d6 / d7);
                arrayList.add(
                   new MacPowerSource(
                      string6,
                      string,
-                     d9,
-                     d6,
+                     d8,
+                     d5,
                      d,
+                     e,
                      d2,
                      d3,
-                     d4,
                      bl,
                      bl2,
                      bl3,
@@ -231,12 +228,12 @@ public final class MacPowerSource extends AbstractPowerSource {
                      i,
                      j,
                      k,
-                     m,
+                     l,
                      string2,
                      localDate,
                      string3,
                      string4,
-                     d5
+                     d4
                   )
                );
             }

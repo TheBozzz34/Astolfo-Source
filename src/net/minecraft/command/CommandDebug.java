@@ -15,7 +15,6 @@ public class CommandDebug extends CommandBase {
    private static final Logger logger = LogManager.getLogger();
    private long profileStartTime;
    private int profileStartTick;
-   private static final long b = 83906345623446L;
 
    @Override
    public String getCommandName() {

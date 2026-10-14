@@ -10,8 +10,6 @@ import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldServer;
 
 public class CommandSaveAll extends CommandBase {
-   private static final long b = 64009897222541L;
-
    @Override
    public String getCommandName() {
       return "save-all";

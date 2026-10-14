@@ -29,8 +29,6 @@ import net.minecraft.world.World;
 public class BlockChest extends BlockContainer {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
    public final int chestType;
-   private static final long e = 81939578559680L;
-   private static final long L = 2282472743536427023L;
 
    public BlockChest(int typeIn) {
       super(Material.wood);
@@ -394,7 +392,7 @@ public class BlockChest extends BlockContainer {
          i = ((TileEntityChest)tileEntity).numPlayersUsing;
       }
 
-      return MathHelper.clamp_int(i, 0, (int)L);
+      return MathHelper.clamp_int(i, 0, 15);
    }
 
    @Override

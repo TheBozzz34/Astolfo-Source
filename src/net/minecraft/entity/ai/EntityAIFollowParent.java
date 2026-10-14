@@ -8,8 +8,6 @@ public class EntityAIFollowParent extends EntityAIBase {
    public EntityAnimal parentAnimal;
    public double moveSpeed;
    private int delayCounter;
-   private static final long a = 107855812652931L;
-   private static final long b = 8168976304629088266L;
 
    public EntityAIFollowParent(EntityAnimal animal, double speed) {
       this.childAnimal = animal;
@@ -76,7 +74,7 @@ public class EntityAIFollowParent extends EntityAIBase {
    @Override
    public void updateTask() {
       if (--this.delayCounter <= 0) {
-         this.delayCounter = (int)b;
+         this.delayCounter = 10;
          this.childAnimal.getNavigator().tryMoveToEntityLiving(this.parentAnimal, this.moveSpeed);
       }
    }

@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class SetTimer extends OneArgFunction {
-   private static final long a = 123416773759207L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnil() && luaValue.isnumber()) {

@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class CollectionMutator<T> extends Mutator<T> {
    private CollectionContainer<T> F;
-   private static final long a = 69735078805085L;
 
    public CollectionMutator(CollectionContainer<T> collectionContainer) {
       this.F = collectionContainer;

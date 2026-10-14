@@ -11,7 +11,6 @@ public class QueuedFileSender extends FileSender {
    private final BlockingQueue<FileSendRequest> z = new LinkedBlockingQueue<>();
    private final Consumer<IOException> c;
    private Thread u;
-   private static final long d = 12741492726765L;
 
    public QueuedFileSender(Consumer<IOException> consumer) {
       this.c = consumer;

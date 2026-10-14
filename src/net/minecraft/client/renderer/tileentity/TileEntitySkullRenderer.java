@@ -24,7 +24,6 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
    public static TileEntitySkullRenderer instance;
    private final ModelSkeletonHead skeletonHead = new ModelSkeletonHead(0, 0, 64, 32);
    private final ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
-   private static final long a = 38092187634674L;
 
    public void renderTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks, int destroyStage) {
       EnumFacing enumFacing = EnumFacing.getFront(te.getBlockMetadata() & 7);
@@ -38,13 +37,11 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
    }
 
    public void renderSkull(float f, float g, float h, EnumFacing enumFacing, float f2, int i, GameProfile gameProfile, int j) {
-      long l = a ^ 106583929973648L;
       ModelSkeletonHead modelSkeletonHead = this.skeletonHead;
       if (j >= 0) {
          this.bindTexture(DESTROY_STAGES[j]);
          GlStateManager.matrixMode(5890);
          GlStateManager.pushMatrix();
-         long m = 691122399483883479L ^ l;
          GlStateManager.scale(4.0F, 2.0F, 1.0F);
          GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
          GlStateManager.matrixMode(5888);
@@ -120,7 +117,6 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
       if (j >= 0) {
          GlStateManager.matrixMode(5890);
          GlStateManager.popMatrix();
-         long n = 7892806324261564880L ^ l;
          GlStateManager.matrixMode(5888);
       }
    }

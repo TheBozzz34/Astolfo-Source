@@ -34,7 +34,6 @@ public class ItemPickaxe extends ItemTool {
       Blocks.stone,
       Blocks.stone_slab
    );
-   private static final long a = 75150493441981L;
 
    public ItemPickaxe(Item.ToolMaterial material) {
       super(2.0F, material, EFFECTIVE_ON);

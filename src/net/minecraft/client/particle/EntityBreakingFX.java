@@ -9,8 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityBreakingFX extends EntityFX {
-   private static final long ab = 73828584685559L;
-
    public EntityBreakingFX(World worldIn, double posXIn, double posYIn, double posZIn, Item item) {
       this(worldIn, posXIn, posYIn, posZIn, item, 0);
    }
@@ -90,8 +88,6 @@ public class EntityBreakingFX extends EntityFX {
    }
 
    public static class Factory implements IParticleFactory {
-      private static final long a = 8362814653556L;
-
       @Override
       public EntityFX getEntityFX(
          int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints

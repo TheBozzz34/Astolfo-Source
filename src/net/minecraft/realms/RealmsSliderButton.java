@@ -10,7 +10,6 @@ public class RealmsSliderButton extends RealmsButton {
    private final float minValue;
    private final float maxValue;
    private int steps;
-   private static final long a = 71921071527394L;
 
    public RealmsSliderButton(int i, int j, int k, int l, int m, int n) {
       this(i, j, k, l, n, 0, 1.0F, m);

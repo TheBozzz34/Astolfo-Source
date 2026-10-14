@@ -8,7 +8,6 @@ public abstract class NBTBase {
    public static final String[] NBT_TYPES = new String[]{
       "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]"
    };
-   private static final long b = 102053759416566L;
 
    public abstract void write(DataOutput output) throws IOException;
 

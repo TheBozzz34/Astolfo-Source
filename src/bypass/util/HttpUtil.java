@@ -9,13 +9,10 @@ import java.net.Proxy;
 import java.net.URL;
 
 public class HttpUtil {
-   private static final long a = 15938868970630L;
-   private static final long e = 8126313492534788296L;
-
    private static void readResponse(HttpURLConnection httpURLConnection, StringBuilder stringBuilder) {
       try {
          InputStream inputStream;
-         if (httpURLConnection.getResponseCode() == (int)e) {
+         if (httpURLConnection.getResponseCode() == 200) {
             inputStream = httpURLConnection.getInputStream();
          } else {
             inputStream = httpURLConnection.getErrorStream();

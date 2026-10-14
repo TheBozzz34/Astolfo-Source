@@ -4,8 +4,6 @@ import bypass.util.GameUtil;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
 public class LimboCommand extends Command {
-   private static final long d = 36261375256876L;
-
    public LimboCommand(String string, String string2) {
       super(string, string2);
    }

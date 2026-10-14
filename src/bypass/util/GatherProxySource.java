@@ -40,7 +40,6 @@ public class GatherProxySource implements ProxySource {
       "Portugal",
       "Sweden"
    };
-   private static final long a = 48415676494622L;
 
    public GatherProxySource() {
       this.F = Executors.newFixedThreadPool(25);

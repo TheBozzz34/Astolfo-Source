@@ -9,7 +9,6 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 public class C10PacketCreativeInventoryAction implements Packet<INetHandlerPlayServer> {
    private int slotId;
    private ItemStack stack;
-   private static final long a = 64936352792403L;
 
    public C10PacketCreativeInventoryAction() {
    }

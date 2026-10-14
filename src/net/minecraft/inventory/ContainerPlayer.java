@@ -14,7 +14,6 @@ public class ContainerPlayer extends Container {
    public IInventory craftResult = new InventoryCraftResult();
    public boolean isLocalWorld;
    private final EntityPlayer thePlayer;
-   private static final long a = 35224044280904L;
 
    public ContainerPlayer(InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player) {
       this.isLocalWorld = localWorld;
@@ -31,8 +30,6 @@ public class ContainerPlayer extends Container {
          final int l = k;
          this.addSlotToContainer(
             new Slot(playerInventory, playerInventory.getSizeInventory() - 1 - k, 8, 8 + k * 18) {
-               private static final long a = 67202619009289L;
-
                @Override
                public int getSlotStackLimit() {
                   return 1;

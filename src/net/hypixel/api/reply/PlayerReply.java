@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 public class PlayerReply extends AbstractReply {
    @SerializedName("player")
    private JsonElement player;
-   private static final long a = 8314945032339L;
 
    public JsonObject getPlayer() {
       return this.player != null && !this.player.isJsonNull() ? this.player.getAsJsonObject() : null;

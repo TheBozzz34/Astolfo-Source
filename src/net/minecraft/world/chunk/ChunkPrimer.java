@@ -7,7 +7,6 @@ import net.minecraft.init.Blocks;
 public class ChunkPrimer {
    private final short[] data = new short[65536];
    private final IBlockState defaultState = Blocks.air.getDefaultState();
-   private static final long a = 117925435555281L;
 
    public IBlockState getBlockState(int x, int y, int z) {
       int i = x << 12 | z << 8 | y;

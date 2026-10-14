@@ -2,7 +2,6 @@ package net.minecraft.world;
 
 public class ColorizerGrass {
    private static int[] grassBuffer = new int[65536];
-   private static final long a = 33174285667782L;
 
    public static void setGrassBiomeColorizer(int[] ints) {
       grassBuffer = ints;

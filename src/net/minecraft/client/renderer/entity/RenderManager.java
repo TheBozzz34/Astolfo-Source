@@ -127,7 +127,6 @@ public class RenderManager {
    private boolean renderOutlines = false;
    private boolean renderShadow = true;
    private boolean debugBoundingBox = false;
-   private static final long b = 107296153598616L;
 
    public RenderManager(TextureManager renderEngineIn, RenderItem itemRendererIn) {
       this.renderEngine = renderEngineIn;
@@ -381,8 +380,6 @@ public class RenderManager {
    }
 
    private void renderDebugBoundingBox(Entity entityIn, double x, double y, double z, float entityYaw, float partialTicks) {
-      long l = b ^ 69029690598352L;
-      long m = l ^ 114530351342843L;
       GlStateManager.depthMask(false);
       GlStateManager.disableTexture2D();
       GlStateManager.disableLighting();

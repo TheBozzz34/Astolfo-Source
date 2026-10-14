@@ -7,7 +7,6 @@ import net.minecraft.src.StrUtils;
 public class ShaderOptionVariableConst extends ShaderOptionVariable {
    private String type = null;
    private static final Pattern PATTERN_CONST = Pattern.compile("^\\s*const\\s*(float|int)\\s*([A-Za-z0-9_]+)\\s*=\\s*(-?[0-9\\.]+f?F?)\\s*;\\s*(//.*)?$");
-   private static final long f = 36180113447175L;
 
    public ShaderOptionVariableConst(String name, String typeIn, String description, String value, String[] values, String path) {
       super(name, description, value, values, path);

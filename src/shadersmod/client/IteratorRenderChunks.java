@@ -10,7 +10,6 @@ public class IteratorRenderChunks implements Iterator<RenderChunk> {
    private ViewFrustum q;
    private Iterator3d d;
    private BlockPosM s = new BlockPosM(0, 0, 0);
-   private static final long a = 129009965012957L;
 
    public IteratorRenderChunks(ViewFrustum viewFrustum, BlockPos posStart, BlockPos posEnd, int width, int height) {
       this.q = viewFrustum;

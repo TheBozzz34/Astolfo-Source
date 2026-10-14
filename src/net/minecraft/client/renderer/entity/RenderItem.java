@@ -81,7 +81,6 @@ public class RenderItem implements IResourceManagerReloadListener {
    private boolean renderItemGui = false;
    private boolean k = true;
    public ModelManager modelManager = null;
-   private static final long b = 100764447444445L;
 
    public RenderItem(TextureManager textureManager, ModelManager modelManager) {
       this.textureManager = textureManager;
@@ -177,12 +176,10 @@ public class RenderItem implements IResourceManagerReloadListener {
    }
 
    private void renderEffect(IBakedModel model) {
-      long l = b ^ 68729960124703L;
       if ((!Config.isCustomItems() || CustomItems.isUseGlint()) && (!Config.isShaders() || !Shaders.isShadowPass)) {
          GlStateManager.depthMask(false);
          GlStateManager.depthFunc(514);
          GlStateManager.disableLighting();
-         long m = 1383012830025122070L ^ l;
          GlStateManager.blendFunc(768, 1);
          this.textureManager.bindTexture(RES_ITEM_GLINT);
          if (Config.isShaders() && !this.renderItemGui) {
@@ -205,13 +202,11 @@ public class RenderItem implements IResourceManagerReloadListener {
          float g = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
          GlStateManager.translate(-g, 0.0F, 0.0F);
          GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-         m = 594234629286641898L ^ l;
          this.renderModel(model, i);
          GlStateManager.popMatrix();
          GlStateManager.matrixMode(5888);
          GlStateManager.blendFunc(770, 771);
          GlStateManager.enableLighting();
-         m = 4891724324323421568L ^ l;
          GlStateManager.depthFunc(515);
          GlStateManager.depthMask(true);
          this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
@@ -513,7 +508,6 @@ public class RenderItem implements IResourceManagerReloadListener {
    }
 
    public void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, String text) {
-      long l = b ^ 29072463541858L;
       if (stack != null) {
          if (stack.stackSize != 1 || text != null) {
             String string = text == null ? String.valueOf(stack.stackSize) : text;
@@ -546,20 +540,19 @@ public class RenderItem implements IResourceManagerReloadListener {
             if (Inventory.percentage.getValue() && ModuleManager.r.isEnabled()) {
                GlStateManager.disableDepth();
                GlStateManager.disableBlend();
-               long m = 3006784889834587034L ^ l;
                int k = 100 - stack.getItemDamage() * 100 / stack.getMaxDamage();
-               int n = 255 * k / 100;
-               int i2 = 255 * (100 - k) / 100;
-               int i3 = stack.getItemDamage() * 100 / stack.getMaxDamage();
-               i2 = MathHelper.clamp_int(i2, 0, 255);
-               n = MathHelper.clamp_int(n, 0, 255);
+               int l = 255 * k / 100;
+               int m = 255 * (100 - k) / 100;
+               int n = stack.getItemDamage() * 100 / stack.getMaxDamage();
+               m = MathHelper.clamp_int(m, 0, 255);
+               l = MathHelper.clamp_int(l, 0, 255);
                Minecraft.getMinecraft()
                   .fontRendererObj
                   .drawStringWithShadow(
-                     String.valueOf(100 - i3),
-                     xPosition + 15 - fr.getStringWidth(String.valueOf(100 - i3)),
+                     String.valueOf(100 - n),
+                     xPosition + 15 - fr.getStringWidth(String.valueOf(100 - n)),
                      yPosition + 9,
-                     new Color(i2, n, 0).getRGB()
+                     new Color(m, l, 0).getRGB()
                   );
                GlStateManager.enableLighting();
                GlStateManager.enableDepth();
@@ -1051,8 +1044,6 @@ public class RenderItem implements IResourceManagerReloadListener {
          .register(
             Items.potionitem,
             new ItemMeshDefinition() {
-               private static final long a = 125556715560945L;
-
                @Override
                public ModelResourceLocation getModelLocation(ItemStack stack) {
                   return ItemPotion.isSplash(stack.getMetadata())
@@ -1071,8 +1062,6 @@ public class RenderItem implements IResourceManagerReloadListener {
       this.registerItem(Items.ender_eye, "ender_eye");
       this.registerItem(Items.speckled_melon, "speckled_melon");
       this.itemModelMesher.register(Items.spawn_egg, new ItemMeshDefinition() {
-         private static final long a = 102256547971507L;
-
          @Override
          public ModelResourceLocation getModelLocation(ItemStack stack) {
             return new ModelResourceLocation("spawn_egg", "inventory");
@@ -1111,8 +1100,6 @@ public class RenderItem implements IResourceManagerReloadListener {
       this.registerItem(Items.lead, "lead");
       this.registerItem(Items.name_tag, "name_tag");
       this.itemModelMesher.register(Items.banner, new ItemMeshDefinition() {
-         private static final long a = 40547916680775L;
-
          @Override
          public ModelResourceLocation getModelLocation(ItemStack stack) {
             return new ModelResourceLocation("banner", "inventory");
@@ -1133,16 +1120,12 @@ public class RenderItem implements IResourceManagerReloadListener {
       this.registerItem(Items.prismarine_shard, "prismarine_shard");
       this.registerItem(Items.prismarine_crystals, "prismarine_crystals");
       this.itemModelMesher.register(Items.enchanted_book, new ItemMeshDefinition() {
-         private static final long a = 81996844889293L;
-
          @Override
          public ModelResourceLocation getModelLocation(ItemStack stack) {
             return new ModelResourceLocation("enchanted_book", "inventory");
          }
       });
       this.itemModelMesher.register(Items.filled_map, new ItemMeshDefinition() {
-         private static final long a = 12141712151365L;
-
          @Override
          public ModelResourceLocation getModelLocation(ItemStack stack) {
             return new ModelResourceLocation("filled_map", "inventory");

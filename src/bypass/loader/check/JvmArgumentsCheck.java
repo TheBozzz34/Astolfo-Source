@@ -9,7 +9,6 @@ public class JvmArgumentsCheck {
    private final StringListHolder U;
    private boolean Q;
    private boolean Y;
-   private static final long a = 92744543439124L;
 
    public JvmArgumentsCheck(StringListHolder stringListHolder) {
       this.U = stringListHolder;
@@ -24,13 +23,9 @@ public class JvmArgumentsCheck {
       for (Object object : list) {
          String string = (String)object;
          for (String string2 : this.U.A().L().getValue()) {
-            if (string.equalsIgnoreCase(String.format(JvmArgumentsCheckStrings.i("GzyuT5+zopp8S09c3Q=="), JvmArgumentsCheckStrings.i("VyW7VpK0qtJzWBAX2ivSykU=")))
-               )
-             {
+            if (string.equalsIgnoreCase(String.format("-javaagent:%s", "astolfo-agent.jar"))) {
                this.Y = true;
-            } else if (string.startsWith(JvmArgumentsCheckStrings.i("GzyuT5+zopp8S08=")) && string.endsWith(JvmArgumentsCheckStrings.i("GTe8TZG+o5A/XhIcwHGWwVZx"))
-               )
-             {
+            } else if (string.startsWith("-javaagent:") && string.endsWith("/astolfo-agent.jar")) {
                this.Y = true;
             } else if (string.contains(string2) && (holder.value = new ItemFishFood(true)) != null) {
             }

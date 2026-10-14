@@ -18,8 +18,6 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
 
 public class ItemEditableBook extends Item {
-   private static final long a = 102342940877408L;
-
    public ItemEditableBook() {
       this.setMaxStackSize(1);
    }

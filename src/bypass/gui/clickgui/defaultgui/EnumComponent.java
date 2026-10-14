@@ -7,9 +7,6 @@ import bypass.setting.Setting;
 import net.minecraft.client.gui.GuiMainMenu;
 
 public class EnumComponent extends SettingComponent {
-   private static final long c = 5155583939849L;
-   private static final long d = -7993921108442297140L;
-
    public EnumComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
    }
@@ -22,7 +19,7 @@ public class EnumComponent extends SettingComponent {
             String.valueOf(this.U().getValue()),
             this.M() + this.x() - GuiMainMenu.m.getStringWidth(String.valueOf(this.U().getValue()), true),
             this.E_float(),
-            (int)d
+            13421772
          );
    }
 

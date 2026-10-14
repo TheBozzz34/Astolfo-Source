@@ -7,7 +7,6 @@ public class AuthServerAddress {
    private final AddressParts parts = new AddressParts(
       new ListContainerOwner<>(Arrays.asList(new AddressPart1(), new AddressPart2(), new AddressPart3(), new AddressPart4()))
    );
-   private static final long a = 46431573615470L;
 
    public String getHost() {
       StringBuilder stringBuilder = new StringBuilder();

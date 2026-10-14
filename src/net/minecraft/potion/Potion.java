@@ -107,7 +107,6 @@ public class Potion {
    private int statusIconIndex = -1;
    private double effectiveness;
    private boolean usable;
-   private static final long c = 19291917828044L;
 
    public Potion(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
       this.id = potionID;

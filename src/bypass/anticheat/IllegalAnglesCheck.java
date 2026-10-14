@@ -3,8 +3,6 @@ package bypass.anticheat;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class IllegalAnglesCheck extends MovementCheck {
-   private static final long b = 111621698677684L;
-
    public IllegalAnglesCheck() {
       super("Illegal Angles");
    }

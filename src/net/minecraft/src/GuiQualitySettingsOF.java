@@ -31,7 +31,6 @@ public class GuiQualitySettingsOF extends GuiScreen {
       GameSettings.Options.DYNAMIC_LIGHTS
    };
    private TooltipProviderOptions c = new TooltipProviderOptions(this);
-   private static final long a = 18302717132104L;
 
    public GuiQualitySettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;

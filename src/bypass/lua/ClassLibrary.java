@@ -8,7 +8,6 @@ import org.luaj.vm2.lib.TwoArgFunction;
 
 public class ClassLibrary extends TwoArgFunction implements ClientAccess {
    public Globals R;
-   private static final long b = 25971575124369L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

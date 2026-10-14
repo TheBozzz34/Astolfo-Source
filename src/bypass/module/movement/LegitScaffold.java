@@ -247,7 +247,6 @@ public class LegitScaffold extends Module {
             this.callScript("on_render_screen", luaTable2);
       }
    };
-   private static final long c = 138694887050059L;
 
    public LegitScaffold(Category category, String string) {
       super(category);

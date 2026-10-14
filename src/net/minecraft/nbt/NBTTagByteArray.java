@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public class NBTTagByteArray extends NBTBase {
    private byte[] data;
-   private static final long a = 134345923447267L;
 
    public NBTTagByteArray() {
    }

@@ -13,8 +13,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandTrigger extends CommandBase {
-   private static final long b = 111827173311155L;
-
    @Override
    public String getCommandName() {
       return "trigger";

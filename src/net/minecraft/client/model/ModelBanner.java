@@ -4,7 +4,6 @@ public class ModelBanner extends ModelBase {
    public ModelRenderer bannerSlate;
    public ModelRenderer bannerStand;
    public ModelRenderer bannerTop;
-   private static final long a = 93001168835711L;
 
    public ModelBanner() {
       this.textureWidth = 64;

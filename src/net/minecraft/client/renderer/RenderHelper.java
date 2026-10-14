@@ -9,7 +9,6 @@ public class RenderHelper {
    private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
    private static final Vec3 LIGHT0_POS = new Vec3(0.2F, 1.0, -0.7F).normalize();
    private static final Vec3 LIGHT1_POS = new Vec3(-0.2F, 1.0, 0.7F).normalize();
-   private static final long a = 127962110091667L;
 
    public static void disableStandardItemLighting() {
       GlStateManager.disableLighting();

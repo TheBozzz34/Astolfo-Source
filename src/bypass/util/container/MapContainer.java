@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class MapContainer<K, V> extends Container<Map<K, V>> {
-   private static final long c = 6052820631884L;
-
    public MapContainer() {
       this(new HashMap<>());
    }

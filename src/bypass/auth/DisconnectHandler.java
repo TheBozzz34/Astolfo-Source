@@ -10,12 +10,8 @@ import net.minecraft.client.Minecraft;
 
 public class DisconnectHandler implements ConnectionListener, ClientAccess {
    public static boolean disconnected;
-   private static final long b = 20256675810443L;
 
    private static void handleDisconnect(NioConnection nioConnection) {
-      long l = b ^ 21073478651130L;
-      long m = l ^ 113367983521931L;
-
       try {
          nioConnection.close();
       } catch (IOException ioException) {

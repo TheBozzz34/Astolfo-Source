@@ -1,8 +1,6 @@
 package net.minecraft.src;
 
 public class MathUtils {
-   private static final long a = 4076898180838L;
-
    public static int o(int[] ints) {
       if (ints.length <= 0) {
          return 0;

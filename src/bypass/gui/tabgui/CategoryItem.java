@@ -7,7 +7,6 @@ import bypass.module.Module;
 
 public class CategoryItem extends TabGuiItem {
    private final Category b;
-   private static final long c = 66562054744264L;
 
    public CategoryItem(TabGui.Panel panel, Category category) {
       super(panel);
@@ -25,8 +24,6 @@ public class CategoryItem extends TabGuiItem {
 
    @Override
    public void onPress() {
-      long l = c ^ 137224528231714L;
-      long m = l ^ 131050176768089L;
       TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
       Astolfo.INSTANCE.getModuleManager().getList().forEach(moduleInfo -> {
          if (moduleInfo instanceof Module && moduleInfo.getCategory() == this.b) {

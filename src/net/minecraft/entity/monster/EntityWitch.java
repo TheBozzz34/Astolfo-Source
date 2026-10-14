@@ -34,7 +34,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob {
       Items.glowstone_dust, Items.sugar, Items.redstone, Items.spider_eye, Items.glass_bottle, Items.gunpowder, Items.stick, Items.stick
    };
    private int witchAttackTimer;
-   private static final long ab = 13914265597457L;
 
    public EntityWitch(World worldIn) {
       super(worldIn);
@@ -219,10 +218,5 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob {
    @Override
    public float getEyeHeight() {
       return 1.62F;
-   }
-
-   static {
-      long l = ab ^ 22062938081103L;
-      long m = 5210847165839715325L ^ l;
    }
 }

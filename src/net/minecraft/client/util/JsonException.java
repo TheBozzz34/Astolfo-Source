@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 public class JsonException extends IOException {
    private final List<JsonException.Entry> field_151383_a = Lists.newArrayList();
    private final String exceptionMessage;
-   private static final long a = 17609647062526L;
 
    public JsonException(String message) {
       this.field_151383_a.add(new JsonException.Entry());
@@ -52,7 +51,6 @@ public class JsonException extends IOException {
    public static class Entry {
       private String field_151376_a = null;
       private final List<String> field_151375_b = Lists.newArrayList();
-      private static final long a = 117029071211596L;
 
       public Entry() {
       }

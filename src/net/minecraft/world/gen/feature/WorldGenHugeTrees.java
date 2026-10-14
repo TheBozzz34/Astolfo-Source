@@ -13,12 +13,11 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree {
    public final IBlockState woodMetadata;
    public final IBlockState leavesMetadata;
    public int extraRandomHeight;
-   private static final long b = 117536705502551L;
 
-   public WorldGenHugeTrees(boolean bl, int i, int k, IBlockState iBlockState, IBlockState iBlockState2) {
+   public WorldGenHugeTrees(boolean bl, int i, int j, IBlockState iBlockState, IBlockState iBlockState2) {
       super(bl);
       this.baseHeight = i;
-      this.extraRandomHeight = k;
+      this.extraRandomHeight = j;
       this.woodMetadata = iBlockState;
       this.leavesMetadata = iBlockState2;
    }

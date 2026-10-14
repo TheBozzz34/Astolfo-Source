@@ -8,8 +8,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 public class GLAllocation {
-   private static final long a = 32393589474752L;
-
    public static synchronized int generateDisplayLists(int range) {
       int i = GL11.glGenLists(range);
       if (i == 0) {

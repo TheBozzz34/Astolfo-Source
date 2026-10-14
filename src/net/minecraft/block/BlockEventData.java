@@ -7,7 +7,6 @@ public class BlockEventData {
    private Block blockType;
    private int eventID;
    private int eventParameter;
-   private static final long a = 67859383971692L;
 
    public BlockEventData(BlockPos pos, Block blockType, int eventId, int i) {
       this.position = pos;

@@ -8,7 +8,6 @@ public class GuiStreamIndicator {
    private final Minecraft mc;
    private float streamAlpha = 1.0F;
    private int streamAlphaDelta = 1;
-   private static final long b = 119585383255818L;
 
    public GuiStreamIndicator(Minecraft mcIn) {
       this.mc = mcIn;

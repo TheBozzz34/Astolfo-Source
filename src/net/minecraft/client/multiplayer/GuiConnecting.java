@@ -26,7 +26,6 @@ public class GuiConnecting extends GuiScreen {
    private NetworkManager networkManager;
    private boolean cancel;
    private final GuiScreen previousGuiScreen;
-   private static final long a = 42915385894606L;
 
    public GuiConnecting(GuiScreen guiScreen, Minecraft mcIn, ServerData serverData) {
       this.mc = mcIn;
@@ -47,9 +46,6 @@ public class GuiConnecting extends GuiScreen {
    private void connect(final String ip, final int port) {
       logger.info("Connecting to " + ip + ", " + port);
       (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
-            private static final long a = 47869118792322L;
-            private static final long f = 1724232281884721199L;
-
             @Override
             public void run() {
                InetAddress inetAddress = null;
@@ -67,7 +63,7 @@ public class GuiConnecting extends GuiScreen {
                      .setNetHandler(
                         new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.Z(GuiConnecting.this), GuiConnecting.this.previousGuiScreen)
                      );
-                  GuiConnecting.this.networkManager.sendPacket(new C00Handshake((int)f, ip, port, EnumConnectionState.LOGIN));
+                  GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, EnumConnectionState.LOGIN));
                   GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.F(GuiConnecting.this).getSession().getProfile()));
                } catch (UnknownHostException unknownHostException) {
                   if (GuiConnecting.this.cancel) {

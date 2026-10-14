@@ -11,7 +11,6 @@ import oshi.util.ExecutingCommand;
 @ThreadSafe
 public final class FreeBsdNetworkParams extends AbstractNetworkParams {
    private static final FreeBsdLibc LIBC = FreeBsdLibc.INSTANCE;
-   private static final long b = 41215666105544L;
 
    @Override
    public String getDomainName() {

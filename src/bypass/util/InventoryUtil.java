@@ -28,8 +28,6 @@ import net.minecraft.potion.PotionEffect;
 import org.apache.commons.lang3.StringUtils;
 
 public final class InventoryUtil implements ClientAccess {
-   private static final long b = 92494590215507L;
-
    public static void clickSlot(int i, int j, boolean bl) {
       mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, j, bl ? 1 : 0, mc.thePlayer);
    }

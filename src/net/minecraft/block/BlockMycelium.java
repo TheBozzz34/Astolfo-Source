@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 
 public class BlockMycelium extends Block {
    public static final PropertyBool SNOWY = PropertyBool.create("snowy");
-   private static final long e = 56082587996184L;
 
    public BlockMycelium() {
       super(Material.grass, MapColor.purpleColor);

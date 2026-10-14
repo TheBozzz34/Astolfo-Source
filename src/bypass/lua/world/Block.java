@@ -6,8 +6,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ThreeArgFunction;
 
 public final class Block extends ThreeArgFunction {
-   private static final long a = 124443886286116L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
       if (luaValue.isnumber() && luaValue2.isnumber() && luaValue3.isnumber()) {

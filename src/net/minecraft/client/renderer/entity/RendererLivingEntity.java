@@ -45,7 +45,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    public static float p = 64.0F;
    public static float E = 32.0F;
    private static float f;
-   private static final long O = 90147843737786L;
 
    public RendererLivingEntity(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
       super(renderManagerIn);
@@ -229,7 +228,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    }
 
    public void renderModel(T entitylivingbaseIn, float g, float h, float f2, float f3, float f4, float scaleFactor) {
-      long l = O ^ 77041210463917L;
       boolean bl = !entitylivingbaseIn.isInvisible();
       boolean bl2 = !bl && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
       if (bl || bl2) {
@@ -240,7 +238,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
          if (bl2) {
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 0.15F);
-            long m = 8349117774095511730L ^ l;
             GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
@@ -262,7 +259,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    }
 
    public boolean setBrightness(T entitylivingbaseIn, float partialTicks, boolean combineTextures) {
-      long l = O ^ 60107803437872L;
       float f = entitylivingbaseIn.getBrightness(partialTicks);
       int i = this.getColorMultiplier((T)entitylivingbaseIn, f, partialTicks);
       boolean bl = (i >> 24 & 0xFF) > 0;
@@ -277,7 +273,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
       GlStateManager.enableTexture2D();
-      long m = 1979229814613904758L ^ l;
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_COMBINE_RGB, 8448);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_RGB, OpenGlHelper.defaultTexUnit);
@@ -288,7 +283,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_ALPHA, OpenGlHelper.defaultTexUnit);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_OPERAND0_ALPHA, 770);
       GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-      m = 1979229814613904758L ^ l;
       GlStateManager.enableTexture2D();
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_COMBINE_RGB, OpenGlHelper.GL_INTERPOLATE);
@@ -327,7 +321,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       ((Buffer)this.brightnessBuffer).flip();
       GL11.glTexEnv(8960, 8705, this.brightnessBuffer);
       GlStateManager.setActiveTexture(OpenGlHelper.GL_TEXTURE2);
-      m = 1979229814613904758L ^ l;
       GlStateManager.enableTexture2D();
       GlStateManager.bindTexture(textureBrightness.getGlTextureId());
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
@@ -344,7 +337,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    }
 
    public void unsetBrightness() {
-      long l = O ^ 67727928361702L;
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
       GlStateManager.enableTexture2D();
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
@@ -370,7 +362,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_ALPHA, 5890);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.setActiveTexture(OpenGlHelper.GL_TEXTURE2);
-      long m = 1979235504686998688L ^ l;
       GlStateManager.disableTexture2D();
       GlStateManager.bindTexture(0);
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
@@ -443,7 +434,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    }
 
    public void renderName(T entity, double x, double y, double z) {
-      long l = O ^ 80966086978154L;
       if (!Reflector.RenderLivingEvent_Specials_Pre_Constructor.exists()
          || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, entity, this, x, y, z)) {
          if (this.canRenderName((T)entity)) {
@@ -451,7 +441,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
             float f = entity.isSneaking() ? E : p;
             if (d < f * f) {
                String string = entity.getDisplayName().getFormattedText();
-               long m = 8406457471310327947L ^ l;
                GlStateManager.alphaFunc(516, 0.1F);
                RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent();
                Astolfo.INSTANCE.getEventBus().post(renderNameTagEvent);
@@ -464,7 +453,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                   GlStateManager.pushMatrix();
                   GlStateManager.translate((float)x, (float)y + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float)z);
                   GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                  m = 641125262909184929L ^ l;
                   GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                   GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
                   GlStateManager.scale(-0.02666667F, -0.02666667F, 0.02666667F);

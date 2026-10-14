@@ -11,8 +11,6 @@ import java.util.Set;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 public class FolderResourcePack extends AbstractResourcePack {
-   private static final long b = 44560436986742L;
-
    public FolderResourcePack(File resourcePackFileIn) {
       super(resourcePackFileIn);
    }

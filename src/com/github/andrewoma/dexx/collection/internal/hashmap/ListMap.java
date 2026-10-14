@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 
 public class ListMap<K, V> extends AbstractMap<K, V> {
    private static final ListMap<Object, Object> EMPTY = new ListMap<>();
-   private static final long a = 114298190645816L;
 
    public static <K, V> BuilderFactory<Pair<K, V>, ListMap<K, V>> factory() {
       return new BuilderFactory<Pair<K, V>, ListMap<K, V>>() {
@@ -91,7 +90,6 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
       private final K x;
       private final V D;
       public final ListMap C;
-      private static final long d = 33392032105613L;
 
       public Node(K this$0, V key, Object value) {
          this.C = (com.github.andrewoma.dexx.collection.internal.hashmap.ListMap)(this$0);

@@ -16,7 +16,6 @@ public class ModelPlayer extends ModelBiped {
    private ModelRenderer bipedCape;
    private ModelRenderer bipedDeadmau5Head;
    private boolean smallArms;
-   private static final long a = 28816121258200L;
 
    public ModelPlayer(float f, boolean bl) {
       super(f, 0.0F, 64, 64);
@@ -67,8 +66,6 @@ public class ModelPlayer extends ModelBiped {
 
    @Override
    public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
-      long l = a ^ 102529563793852L;
-      long m = l ^ 123156094780631L;
       super.render(entityIn, f, g, h, f2, f3, scale);
       if (entityIn != Minecraft.getMinecraft().thePlayer && Astolfo.INSTANCE.getModuleManager().get(Skeleton.class).isEnabled()) {
          Skeleton.saveRotations((EntityPlayer)entityIn, this);

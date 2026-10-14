@@ -6,8 +6,6 @@ import java.util.UUID;
 import net.minecraft.util.StringUtils;
 
 public final class NBTUtil {
-   private static final long a = 95182781775091L;
-
    public static GameProfile readGameProfileFromNBT(NBTTagCompound compound) {
       String string = null;
       String string2 = null;

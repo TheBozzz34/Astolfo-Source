@@ -8,7 +8,6 @@ import net.minecraft.src.StrUtils;
 
 public class ShaderPackFolder implements IShaderPack {
    public File packFile;
-   private static final long a = 16428691872007L;
 
    public ShaderPackFolder(String name, File file) {
       this.packFile = file;

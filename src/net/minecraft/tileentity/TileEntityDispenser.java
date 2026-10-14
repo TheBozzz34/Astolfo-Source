@@ -14,7 +14,6 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
    private static final Random RNG = new Random();
    private ItemStack[] stacks = new ItemStack[9];
    public String customName;
-   private static final long a = 52587521726578L;
 
    @Override
    public int getSizeInventory() {

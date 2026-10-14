@@ -43,12 +43,10 @@ public final class LongJump extends Module {
    private double motionY;
    @EventHandler(MoveEvent.class)
    private Listener<MoveEvent> onMove = moveEvent -> {
-      long l = d ^ 43843006971240L;
-      long n = l ^ 10171659452336L;
       if (moveEvent.getState() == EventState.PRE) {
-         double e = mc.thePlayer.movementInput.moveForward;
-         double d2 = mc.thePlayer.movementInput.moveStrafe;
-         double d3 = mc.thePlayer.rotationYaw;
+         double d = mc.thePlayer.movementInput.moveForward;
+         double e = mc.thePlayer.movementInput.moveStrafe;
+         double d2 = mc.thePlayer.rotationYaw;
          switch ((LongJumpMode)this.mode.getValue()) {
             case WATCHDOG:
                if (mc.thePlayer.m(0.01) || this.jumpTicks > 0) {
@@ -78,7 +76,7 @@ public final class LongJump extends Module {
                      this.setEnabled(false);
                   }
 
-                  Speed.setMotion(moveEvent, (float)d2, (float)e, 1.0F, this.moveSpeed);
+                  Speed.setMotion(moveEvent, (float)e, (float)d, 1.0F, this.moveSpeed);
                }
                break;
             case NORMAL:
@@ -120,18 +118,18 @@ public final class LongJump extends Module {
 
                this.wasOnGround = mc.thePlayer.onGround;
                this.moveSpeed = Math.max(this.moveSpeed, 0.27999999999999997);
-               if (e == 0.0 && d2 == 0.0) {
+               if (d == 0.0 && e == 0.0) {
                   moveEvent.setX(0.0);
                   moveEvent.setZ(0.0);
                }
 
-               if (e != 0.0 && d2 != 0.0) {
-                  e *= Math.sin((Math.PI / 4) - Math.random() * 1.0E-4);
-                  d2 *= Math.cos((Math.PI / 4) - Math.random() * 1.0E-4);
+               if (d != 0.0 && e != 0.0) {
+                  d *= Math.sin((Math.PI / 4) - Math.random() * 1.0E-4);
+                  e *= Math.cos((Math.PI / 4) - Math.random() * 1.0E-4);
                }
 
-               moveEvent.setX(e * this.moveSpeed * -Math.sin(Math.toRadians(d3)) + d2 * this.moveSpeed * Math.cos(Math.toRadians(d3)));
-               moveEvent.setZ(e * this.moveSpeed * Math.cos(Math.toRadians(d3)) - d2 * this.moveSpeed * -Math.sin(Math.toRadians(d3)));
+               moveEvent.setX(d * this.moveSpeed * -Math.sin(Math.toRadians(d2)) + e * this.moveSpeed * Math.cos(Math.toRadians(d2)));
+               moveEvent.setZ(d * this.moveSpeed * Math.cos(Math.toRadians(d2)) - e * this.moveSpeed * -Math.sin(Math.toRadians(d2)));
                break;
             case SAFE:
                if (!this.safeBoosted) {
@@ -146,7 +144,7 @@ public final class LongJump extends Module {
                   this.landedTicks++;
                   moveEvent.setX(0.0);
                   moveEvent.setZ(0.0);
-                  if (this.landedTicks > (int)w) {
+                  if (this.landedTicks > 6) {
                      this.safeBoosted = false;
                      this.safeLanded = false;
                      mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
@@ -190,23 +188,21 @@ public final class LongJump extends Module {
          }
       }
    };
-   private static final long d = 28486289309547L;
-   private static final long w = 6602843336573190150L;
 
    public LongJump(Category category) {
       super(category);
       this.addSettings(this.mode, this.jumpBoost, this.boost, this.autoScaffold, this.autoDisable);
    }
 
-   public static void selfDamage(double d2) {
-      double d = 0.0;
+   public static void selfDamage(double d) {
+      double e = 0.0;
 
-      while (d < d2) {
-         double e;
+      while (e < d) {
+         double d2;
          if (GameUtil.isOnHypixel()) {
-            e = RandomUtils.nextFloat(0.03F, 0.06F);
+            d2 = RandomUtils.nextFloat(0.03F, 0.06F);
          } else {
-            e = 0.0625;
+            d2 = 0.0625;
          }
 
          Minecraft.getMinecraft()
@@ -214,7 +210,7 @@ public final class LongJump extends Module {
             .getNetworkManager()
             .sendPacket(
                new C03PacketPlayer.C04PacketPlayerPosition(
-                  Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY + e, Minecraft.getMinecraft().thePlayer.posZ, false
+                  Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY + d2, Minecraft.getMinecraft().thePlayer.posZ, false
                )
             );
          Minecraft.getMinecraft()
@@ -228,7 +224,7 @@ public final class LongJump extends Module {
                   false
                )
             );
-         d += e - 0.012500048F;
+         e += d2 - 0.012500048F;
       }
 
       mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));

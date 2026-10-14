@@ -27,7 +27,6 @@ import net.minecraft.world.World;
 public class BlockAnvil extends BlockFalling {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
    public static final PropertyInteger DAMAGE = PropertyInteger.create("damage", 0, 2);
-   private static final long e = 18537348588443L;
 
    public BlockAnvil() {
       super(Material.anvil);
@@ -123,7 +122,6 @@ public class BlockAnvil extends BlockFalling {
    public static class Anvil implements IInteractionObject {
       private final World world;
       private final BlockPos position;
-      private static final long a = 6342697609328L;
 
       public Anvil(World worldIn, BlockPos pos) {
          this.world = worldIn;

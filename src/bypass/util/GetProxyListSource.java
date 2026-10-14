@@ -21,7 +21,6 @@ public final class GetProxyListSource implements ProxySource {
    private final int P;
    private final int J;
    private int h;
-   private static final long a = 106086643771983L;
 
    public GetProxyListSource(String string, int i, int j) {
       this.Y = string;
@@ -129,10 +128,5 @@ public final class GetProxyListSource implements ProxySource {
       }
 
       return null;
-   }
-
-   static {
-      long l = a ^ 138156732480111L;
-      long m = l ^ 881867073424406974L;
    }
 }

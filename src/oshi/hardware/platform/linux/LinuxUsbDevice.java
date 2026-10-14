@@ -13,8 +13,6 @@ import oshi.jna.platform.linux.Udev;
 
 @Immutable
 public class LinuxUsbDevice extends AbstractUsbDevice {
-   private static final long c = 108885805590377L;
-
    public LinuxUsbDevice(
       String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
    ) {

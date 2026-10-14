@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 
 public final class Stopwatch {
    private long q = this.now();
-   private static final long a = 18497897150866L;
 
    public boolean hasElapsed(float f) {
       return (float)this.getElapsed() >= f;

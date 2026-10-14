@@ -39,7 +39,6 @@ public class IntegratedServer extends MinecraftServer {
    private boolean isGamePaused;
    private boolean isPublic;
    private ThreadLanServerPing lanServerPing;
-   private static final long bb = 113248737067458L;
 
    public IntegratedServer(Minecraft mcIn) {
       super(mcIn.getProxy(), new File(mcIn.mcDataDir, USER_CACHE_FILE.getName()));
@@ -271,8 +270,6 @@ public class IntegratedServer extends MinecraftServer {
    public CrashReport addServerInfoToCrashReport(CrashReport report) {
       report = super.addServerInfoToCrashReport(report);
       report.getCategory().addCrashSectionCallable("Type", new Callable<String>() {
-         private static final long a = 88884208460044L;
-
          public String call() throws Exception {
             return "Integrated Server (map_client.txt)";
          }
@@ -281,8 +278,6 @@ public class IntegratedServer extends MinecraftServer {
          .addCrashSectionCallable(
             "Is Modded",
             new Callable<String>() {
-               private static final long a = 95120827268702L;
-
                public String call() throws Exception {
                   String string = ClientBrandRetriever.getClientModName();
                   if (!string.equals("vanilla")) {
@@ -361,8 +356,6 @@ public class IntegratedServer extends MinecraftServer {
    @Override
    public void initiateShutdown() {
       Futures.getUnchecked(this.addScheduledTask(new Runnable() {
-         private static final long a = 46232131130542L;
-
          @Override
          public void run() {
             for (EntityPlayerMP entityPlayerMP : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().getPlayerList())) {

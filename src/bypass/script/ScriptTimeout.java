@@ -4,8 +4,6 @@ public class ScriptTimeout {
    public Object L = null;
    private boolean U = false;
    public final Object W = new Object();
-   private static final long a = 2856853134267L;
-   private static final long e = 6338341585285022696L;
 
    public void i(Thread thread, int i) {
       thread.start();
@@ -15,7 +13,7 @@ public class ScriptTimeout {
                if (i < 1) {
                   this.W.wait();
                } else {
-                  this.W.wait((int)e * i);
+                  this.W.wait(1000 * i);
                }
             } catch (InterruptedException interruptedException) {
                throw new RuntimeException(interruptedException);

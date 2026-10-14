@@ -27,7 +27,6 @@ public class Profiler {
    private static final int HASH_PRE_RENDER_ERRORS = "preRenderErrors".hashCode();
    private static final int HASH_RENDER = "render".hashCode();
    private static final int HASH_DISPLAY = "display".hashCode();
-   private static final long a = 45091631055133L;
 
    public void clearProfiling() {
       this.profilingMap.clear();
@@ -164,7 +163,6 @@ public class Profiler {
       public double field_76332_a;
       public double field_76330_b;
       public String field_76331_c;
-      private static final long a = 43955187717787L;
 
       public Result(String profilerName, double usePercentage, double totalUsePercentage) {
          this.field_76331_c = profilerName;

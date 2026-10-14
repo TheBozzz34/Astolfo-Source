@@ -12,14 +12,12 @@ import net.minecraft.util.Vec3;
 
 public class RenderFish extends Render<EntityFishHook> {
    private static final ResourceLocation FISH_PARTICLES = new ResourceLocation("textures/particle/particles.png");
-   private static final long a = 20729444810482L;
 
    public RenderFish(RenderManager renderManagerIn) {
       super(renderManagerIn);
    }
 
    public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks) {
-      long l = a ^ 2612742436680L;
       GlStateManager.pushMatrix();
       GlStateManager.translate((float)x, (float)y, (float)z);
       GlStateManager.enableRescaleNormal();
@@ -67,7 +65,6 @@ public class RenderFish extends Render<EntityFishHook> {
 
          double d6 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
          double d7 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + 0.25;
-         long m = 67459851010375763L ^ l;
          double d8 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
          double d9 = (float)(d - d6);
          double d10 = (float)(e - d7) + d3;

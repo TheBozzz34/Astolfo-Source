@@ -8,8 +8,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class WorldGenGlowStone1 extends WorldGenerator {
-   private static final long a = 20876730344700L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
       if (!worldIn.isAirBlock(position)) {

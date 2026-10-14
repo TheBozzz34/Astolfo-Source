@@ -21,7 +21,6 @@ public class CustomSkyLayer {
    private int x;
    public int d;
    public static final float[] N = new float[]{1.0F, 0.0F, 0.0F};
-   private static final long a = 38928256471646L;
 
    public CustomSkyLayer(Properties props, String defSource) {
       this.b = N;

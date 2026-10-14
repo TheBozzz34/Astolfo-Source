@@ -11,7 +11,6 @@ public class NaturalProperties {
    public int rotation = 1;
    public boolean flip = false;
    private Map[] quadMaps = new Map[8];
-   private static final long a = 134718308566848L;
 
    public NaturalProperties(String typeIn) {
       if (typeIn.equals("4")) {

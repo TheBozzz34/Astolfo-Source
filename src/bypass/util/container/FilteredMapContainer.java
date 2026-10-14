@@ -11,7 +11,6 @@ public final class FilteredMapContainer<K, V> extends MapContainer<K, V> impleme
    private final Predicate<? super V> D;
    private Map<K, V> X;
    private Map<K, V> u;
-   private static final long b = 35275775015591L;
 
    public FilteredMapContainer(MapContainer<K, V> mapContainer, Predicate<? super K> predicate, Predicate<? super V> predicate2, boolean bl) {
       super(mapContainer.getValue());

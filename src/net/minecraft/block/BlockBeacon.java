@@ -20,8 +20,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 
 public class BlockBeacon extends BlockContainer {
-   private static final long e = 75762643293309L;
-
    public BlockBeacon() {
       super(Material.glass, MapColor.diamondColor);
       this.setHardness(3.0F);
@@ -90,8 +88,6 @@ public class BlockBeacon extends BlockContainer {
 
    public static void updateColorAsync(final World worldIn, final BlockPos glassPos) {
       HttpUtil.field_180193_a.submit(new Runnable() {
-         private static final long a = 108848111984645L;
-
          @Override
          public void run() {
             Chunk chunk = worldIn.getChunkFromBlockCoords(glassPos);
@@ -105,8 +101,6 @@ public class BlockBeacon extends BlockContainer {
                IBlockState iBlockState = worldIn.getBlockState(blockPos);
                if (iBlockState.getBlock() == Blocks.beacon) {
                   ((WorldServer)worldIn).addScheduledTask(new Runnable() {
-                     private static final long a = 14211617065518L;
-
                      @Override
                      public void run() {
                         TileEntity tileEntity = worldIn.getTileEntity(blockPos);

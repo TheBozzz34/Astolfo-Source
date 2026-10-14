@@ -19,8 +19,6 @@ import net.minecraft.world.World;
 
 public class BlockJukebox extends BlockContainer {
    public static final PropertyBool HAS_RECORD = PropertyBool.create("has_record");
-   private static final long e = 3736146251528L;
-   private static final long l = 9150181439034098669L;
 
    public BlockJukebox() {
       super(Material.wood, MapColor.dirtColor);
@@ -57,7 +55,7 @@ public class BlockJukebox extends BlockContainer {
             BlockJukebox.TileEntityJukebox tileEntityJukebox = (BlockJukebox.TileEntityJukebox)tileEntity;
             ItemStack itemStack = tileEntityJukebox.getRecord();
             if (itemStack != null) {
-               worldIn.playAuxSFX((int)l, pos, 0);
+               worldIn.playAuxSFX(1005, pos, 0);
                worldIn.playRecord(pos, (String)null);
                tileEntityJukebox.setRecord((ItemStack)null);
                float f = 0.7F;
@@ -131,13 +129,11 @@ public class BlockJukebox extends BlockContainer {
 
    public static class TileEntityJukebox extends TileEntity {
       private ItemStack record;
-      private static final long a = 26999528100994L;
-      private static final long g = 3321001719814422538L;
 
       @Override
       public void readFromNBT(NBTTagCompound compound) {
          super.readFromNBT(compound);
-         if (compound.hasKey("RecordItem", (int)g)) {
+         if (compound.hasKey("RecordItem", 10)) {
             this.setRecord(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("RecordItem")));
          } else if (compound.getInteger("Record") > 0) {
             this.setRecord(new ItemStack(Item.getItemById(compound.getInteger("Record")), 1, 0));

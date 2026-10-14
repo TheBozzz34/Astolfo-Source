@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 
 public class ItemHoe extends Item {
    public Item.ToolMaterial theToolMaterial;
-   private static final long a = 73707337328752L;
 
    public ItemHoe(Item.ToolMaterial material) {
       this.theToolMaterial = material;

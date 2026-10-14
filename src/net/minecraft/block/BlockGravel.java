@@ -7,16 +7,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
 public class BlockGravel extends BlockFalling {
-   private static final long e = 68009587588647L;
-   private static final long i = -8326353660225257462L;
-
    @Override
    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       if (fortune > 3) {
          fortune = 3;
       }
 
-      return rand.nextInt((int)i - fortune * 3) == 0 ? Items.flint : Item.getItemFromBlock(this);
+      return rand.nextInt(10 - fortune * 3) == 0 ? Items.flint : Item.getItemFromBlock(this);
    }
 
    @Override

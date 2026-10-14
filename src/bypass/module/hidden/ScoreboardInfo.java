@@ -22,7 +22,6 @@ public class ScoreboardInfo {
    private boolean P = false;
    private boolean z = false;
    private static final Pattern Q = Pattern.compile("(?i)§[0-9A-F]");
-   private static final long b = 117121948055747L;
 
    public ScoreboardInfo(Scoreboard scoreboard) {
       if (scoreboard != null) {

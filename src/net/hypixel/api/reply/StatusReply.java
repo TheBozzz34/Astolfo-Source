@@ -4,7 +4,6 @@ import net.hypixel.api.util.GameType;
 
 public class StatusReply extends AbstractReply {
    private StatusReply.Session session;
-   private static final long a = 73516965394880L;
 
    public StatusReply.Session getSession() {
       return this.session;
@@ -20,7 +19,6 @@ public class StatusReply extends AbstractReply {
       private GameType gameType;
       private String mode;
       private String map;
-      private static final long a = 107713985955865L;
 
       public boolean isOnline() {
          return this.online;

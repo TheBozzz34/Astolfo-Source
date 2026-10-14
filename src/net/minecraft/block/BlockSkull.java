@@ -36,8 +36,6 @@ public class BlockSkull extends BlockContainer {
    public static final PropertyDirection FACING = PropertyDirection.create("facing");
    public static final PropertyBool NODROP = PropertyBool.create("nodrop");
    private static final Predicate<BlockWorldState> IS_WITHER_SKELETON = new Predicate<BlockWorldState>() {
-      private static final long a = 7672341126908L;
-
       public boolean apply(BlockWorldState blockWorldState) {
          return blockWorldState.getBlockState() != null
             && blockWorldState.getBlockState().getBlock() == Blocks.skull
@@ -47,7 +45,6 @@ public class BlockSkull extends BlockContainer {
    };
    private BlockPattern witherBasePattern;
    private BlockPattern witherPattern;
-   private static final long i = 61880740559330L;
 
    public BlockSkull() {
       super(Material.circuits);

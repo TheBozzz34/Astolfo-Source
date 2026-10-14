@@ -14,7 +14,6 @@ public class PacketGraphHud extends Component {
    private ArrayBlockingQueue<PacketSnapshot> q = new ArrayBlockingQueue<>(50);
    private boolean h;
    private boolean G;
-   private static final long c = 37151489776439L;
 
    public PacketGraphHud(float f, float g, int i, int j) {
       super("Graph", f, g, i, j);

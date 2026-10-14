@@ -13,7 +13,6 @@ public class GuiShareToLan extends GuiScreen {
    private GuiButton field_146597_g;
    private String field_146599_h = "survival";
    private boolean field_146600_i;
-   private static final long a = 84056439665236L;
 
    public GuiShareToLan(GuiScreen guiScreen) {
       this.field_146598_a = guiScreen;

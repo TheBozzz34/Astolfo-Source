@@ -14,12 +14,10 @@ public final class GUI extends Module {
    public static SidebarClickGuiScreen P = new SidebarClickGuiScreen();
    public static TransparentClickGuiScreen K = new TransparentClickGuiScreen();
    public static DefaultClickGuiScreen w = new DefaultClickGuiScreen();
-   private static final long c = 80246500206791L;
-   private static final long e = 4290029586848153654L;
 
    public GUI(Category category) {
       super(category);
-      this.setKey((int)e);
+      this.setKey(54);
    }
 
    @Override

@@ -85,7 +85,6 @@ public class EntityTrackerEntry {
    private boolean onGround;
    public boolean playerEntitiesUpdated;
    public Set<EntityPlayerMP> trackingPlayers = Sets.newHashSet();
-   private static final long a = 65831500106796L;
 
    public EntityTrackerEntry(Entity trackedEntityIn, int trackingDistanceThresholdIn, int updateFrequencyIn, boolean sendVelocityUpdatesIn) {
       this.trackedEntity = trackedEntityIn;
@@ -402,7 +401,6 @@ public class EntityTrackerEntry {
    }
 
    private Packet createSpawnPacket() {
-      long l = a ^ 90650346816401L;
       if (this.trackedEntity.isDead) {
          logger.warn("Fetching addPacket for removed entity");
       }
@@ -466,7 +464,6 @@ public class EntityTrackerEntry {
       if (this.trackedEntity instanceof EntityFireball) {
          EntityFireball entityFireball = (EntityFireball)this.trackedEntity;
          S0EPacketSpawnObject s0EPacketSpawnObject = null;
-         long m = 1279703370763477468L ^ l;
          byte b = 63;
          if (this.trackedEntity instanceof EntitySmallFireball) {
             b = 64;

@@ -15,7 +15,6 @@ public class CommandResultStats {
    private static final String[] STRING_RESULT_TYPES = new String[NUM_RESULT_TYPES];
    private String[] entitiesID = STRING_RESULT_TYPES;
    private String[] objectives = STRING_RESULT_TYPES;
-   private static final long a = 116147922342162L;
 
    public void setCommandStatScore(final ICommandSender sender, CommandResultStats.Type resultTypeIn, int scorePoint) {
       String string = this.entitiesID[resultTypeIn.getTypeID()];
@@ -173,7 +172,6 @@ public class CommandResultStats {
 
       public final int typeID;
       public final String typeName;
-      private static final long a = 39213673372630L;
 
       Type(int id, String name) {
          this.typeID = id;

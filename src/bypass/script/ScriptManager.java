@@ -21,7 +21,6 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
    public static final Map<String, Boolean> L = new HashMap<>();
    private final ArrayList<String> Z = new ArrayList<>();
    public static final Script N = new Script("troleado", "unsafe-functions");
-   private static final long c = 94934315717384L;
 
    public ScriptManager() {
       super(B, "scripts.json");
@@ -93,8 +92,6 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
    }
 
    private void N() {
-      long l = c ^ 76255384151247L;
-      long m = l ^ 40109808716404L;
       List list = client.getModuleManager().getList();
       ArrayList arrayList = new ArrayList();
       int i = 0;

@@ -5,7 +5,6 @@ import org.apache.commons.lang3.Validate;
 public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K, V> {
    private final K defaultValueKey;
    private V defaultValue;
-   private static final long a = 100272766907113L;
 
    public RegistryNamespacedDefaultedByKey(K defaultValueKeyIn) {
       this.defaultValueKey = (K)defaultValueKeyIn;

@@ -7,7 +7,6 @@ import net.minecraft.network.status.INetHandlerStatusServer;
 
 public class C01PacketPing implements Packet<INetHandlerStatusServer> {
    private long clientTime;
-   private static final long a = 92442633450825L;
 
    public C01PacketPing() {
    }

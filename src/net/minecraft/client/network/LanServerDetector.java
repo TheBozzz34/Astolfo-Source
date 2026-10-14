@@ -85,7 +85,6 @@ public class LanServerDetector {
       private final LanServerDetector.LanServerList localServerList;
       private final InetAddress broadcastAddress;
       private final MulticastSocket socket;
-      private static final long b = 42186149686971L;
 
       public ThreadLanServerFind(LanServerDetector.LanServerList lanServerList) throws IOException {
          super("LanServerDetector #" + LanServerDetector.field_148551_a.incrementAndGet());

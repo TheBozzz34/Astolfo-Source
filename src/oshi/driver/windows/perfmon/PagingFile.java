@@ -6,8 +6,6 @@ import oshi.util.platform.windows.PerfCounterQuery;
 
 @ThreadSafe
 public final class PagingFile {
-   private static final long a = 130876006062552L;
-
    private PagingFile() {
    }
 

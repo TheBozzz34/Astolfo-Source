@@ -7,7 +7,6 @@ import net.minecraft.util.MathHelper;
 
 public class NBTTagFloat extends NBTBase.NBTPrimitive {
    private float data;
-   private static final long a = 102628788829531L;
 
    public NBTTagFloat() {
    }

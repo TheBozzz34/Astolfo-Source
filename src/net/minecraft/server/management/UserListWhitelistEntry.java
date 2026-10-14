@@ -5,8 +5,6 @@ import com.mojang.authlib.GameProfile;
 import java.util.UUID;
 
 public class UserListWhitelistEntry extends UserListEntry<GameProfile> {
-   private static final long a = 94612710633621L;
-
    public UserListWhitelistEntry(GameProfile profile) {
       super(profile);
    }

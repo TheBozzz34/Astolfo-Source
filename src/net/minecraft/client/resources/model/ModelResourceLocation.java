@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public class ModelResourceLocation extends ResourceLocation {
    private final String variant;
-   private static final long a = 139437241945711L;
 
    public ModelResourceLocation(int i, String... strings) {
       super(0, strings[0], strings[1]);

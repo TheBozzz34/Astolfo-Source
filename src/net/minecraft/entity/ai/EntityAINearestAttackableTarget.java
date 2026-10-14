@@ -17,15 +17,13 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
    public final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
    public Predicate<? super T> targetEntitySelector;
    public EntityLivingBase targetEntity;
-   private static final long a = 66396940123355L;
-   private static final long j = 5243105258149773322L;
 
    public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight) {
       this(creature, classTarget, checkSight, false);
    }
 
    public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight, boolean onlyNearby) {
-      this(creature, classTarget, (int)j, checkSight, onlyNearby, (Predicate<? super T>)null);
+      this(creature, classTarget, 10, checkSight, onlyNearby, (Predicate<? super T>)null);
    }
 
    public EntityAINearestAttackableTarget(
@@ -37,8 +35,6 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
       this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(creature);
       this.setMutexBits(1);
       this.targetEntitySelector = new Predicate<T>() {
-         private static final long a = 8051006728681L;
-
          public boolean apply(T entityLivingBase) {
             if (targetSelector != null && !targetSelector.apply(entityLivingBase)) {
                return false;
@@ -100,7 +96,6 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 
    public static class Sorter implements Comparator<Entity> {
       private final Entity theEntity;
-      private static final long a = 76493256523678L;
 
       public Sorter(Entity theEntityIn) {
          this.theEntity = theEntityIn;

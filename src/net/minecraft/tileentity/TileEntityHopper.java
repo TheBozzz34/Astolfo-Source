@@ -27,7 +27,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
    private ItemStack[] inventory = new ItemStack[5];
    private String customName;
    private int transferCooldown = -1;
-   private static final long a = 117909285935438L;
 
    @Override
    public void readFromNBT(NBTTagCompound compound) {
@@ -442,9 +441,9 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
       return getInventoryAtPosition(hopper.getWorld(), hopper.getXPos(), hopper.getYPos() + 1.0, hopper.getZPos());
    }
 
-   public static List<EntityItem> func_181556_a(World world, double d2, double d3, double d4) {
+   public static List<EntityItem> func_181556_a(World world, double d, double d2, double d3) {
       return world.getEntitiesWithinAABB(
-         EntityItem.class, new AxisAlignedBB(d2 - 0.5, d3 - 0.5, d4 - 0.5, d2 + 0.5, d3 + 0.5, d4 + 0.5), EntitySelectors.selectAnything
+         EntityItem.class, new AxisAlignedBB(d - 0.5, d2 - 0.5, d3 - 0.5, d + 0.5, d2 + 0.5, d3 + 0.5), EntitySelectors.selectAnything
       );
    }
 

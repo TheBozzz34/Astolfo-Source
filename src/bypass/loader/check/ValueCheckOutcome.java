@@ -4,7 +4,6 @@ public class ValueCheckOutcome {
    private final CheckResult x;
    private final ValueType D;
    private final int T;
-   private static final long a = 9397597820847L;
 
    public ValueCheckOutcome(CheckResult checkResult, ValueType valueType, int i) {
       this.x = checkResult;

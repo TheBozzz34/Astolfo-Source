@@ -14,8 +14,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandTestFor extends CommandBase {
-   private static final long b = 128792094121190L;
-
    @Override
    public String getCommandName() {
       return "testfor";

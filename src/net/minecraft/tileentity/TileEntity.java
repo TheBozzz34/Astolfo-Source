@@ -24,7 +24,6 @@ public abstract class TileEntity {
    public boolean tileEntityInvalid;
    private int blockMetadata = -1;
    public Block blockType;
-   private static final long C = 45356191427277L;
 
    private static void addMapping(Class<? extends TileEntity> cl, String id) {
       if (nameToClassMap.containsKey(id)) {
@@ -154,8 +153,6 @@ public abstract class TileEntity {
 
    public void addInfoToCrashReport(CrashReportCategory reportCategory) {
       reportCategory.addCrashSectionCallable("Name", new Callable<String>() {
-         private static final long a = 121457672360804L;
-
          public String call() throws Exception {
             return TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
          }
@@ -165,8 +162,6 @@ public abstract class TileEntity {
          reportCategory.addCrashSectionCallable(
             "Actual block type",
             new Callable<String>() {
-               private static final long a = 23433353352408L;
-
                public String call() throws Exception {
                   int i = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
 
@@ -181,8 +176,6 @@ public abstract class TileEntity {
             }
          );
          reportCategory.addCrashSectionCallable("Actual block data value", new Callable<String>() {
-            private static final long a = 36818990185491L;
-
             public String call() throws Exception {
                IBlockState iBlockState = TileEntity.this.worldObj.getBlockState(TileEntity.this.pos);
                int j = iBlockState.getBlock().getMetaFromState(iBlockState);

@@ -8,7 +8,6 @@ public class EntityAILeapAtTarget extends EntityAIBase {
    public EntityLiving leaper;
    public EntityLivingBase leapTarget;
    public float leapMotionY;
-   private static final long a = 74954997067625L;
 
    public EntityAILeapAtTarget(EntityLiving leapingEntity, float leapMotionYIn) {
       this.leaper = leapingEntity;

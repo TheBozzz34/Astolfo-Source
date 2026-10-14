@@ -11,7 +11,6 @@ public class HashMap1<K, V> extends CompactHashMap<K, V> {
    public final int hash;
    public final V value;
    public Pair<K, V> kv;
-   private static final long b = 24127742855281L;
 
    public HashMap1(K key, int hash, V value, Pair<K, V> kv) {
       this.key = key;

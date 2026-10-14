@@ -12,7 +12,6 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
    private final SoundCategory category;
    private double eventPitch;
    private double eventVolume;
-   private static final long a = 40999934782850L;
 
    public SoundEventAccessorComposite(ResourceLocation soundLocation, double pitch, double volume, SoundCategory category) {
       this.soundLocation = soundLocation;

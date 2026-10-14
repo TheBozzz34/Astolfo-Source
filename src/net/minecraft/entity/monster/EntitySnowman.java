@@ -22,8 +22,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
-   private static final long eb = 29121125120016L;
-
    public EntitySnowman(World worldIn) {
       super(worldIn);
       this.setSize(0.7F, 1.9F);

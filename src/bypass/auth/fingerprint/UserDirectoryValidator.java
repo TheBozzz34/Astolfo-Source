@@ -4,8 +4,6 @@ import java.io.File;
 import net.minecraft.util.Util;
 
 public final class UserDirectoryValidator implements FingerprintValidator<String> {
-   private static final long a = 122351099187892L;
-
    @Override
    public boolean test(FingerprintEntry fingerprintEntry) {
       if (!Util.getOSType().equals(Util.EnumOS.WINDOWS)) {

@@ -7,8 +7,6 @@ import net.minecraft.world.World;
 
 public class EntityCrit2FX extends EntityFX {
    public float field_174839_a;
-   private static final long ab = 50670306076521L;
-   private static final long cb = -994973854663180223L;
 
    public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 1.0F);
@@ -29,7 +27,7 @@ public class EntityCrit2FX extends EntityFX {
       this.particleMaxAge = (int)(6.0 / (Math.random() * 0.8 + 0.6));
       this.particleMaxAge = (int)(this.particleMaxAge * f);
       this.noClip = false;
-      this.setParticleTextureIndex((int)cb);
+      this.setParticleTextureIndex(65);
       this.onUpdate();
    }
 

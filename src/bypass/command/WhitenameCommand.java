@@ -8,8 +8,6 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.Vec3;
 
 public final class WhitenameCommand extends Command {
-   private static final long d = 62032771743397L;
-
    public WhitenameCommand() {
       super("whitename", "makes your name white in hypixel");
       this.setAliases(Collections.singletonList("wn"));

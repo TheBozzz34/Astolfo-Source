@@ -8,7 +8,6 @@ import java.util.Iterator;
 public class DerivedKeyHashMap<K, V> extends AbstractMap<K, V> {
    private final KeyFunction<K, V> keyFunction;
    private final CompactHashMap<K, V> compactHashMap;
-   private static final long a = 66016478668345L;
 
    public static <K, V> BuilderFactory<Pair<K, V>, DerivedKeyHashMap<K, V>> factory(final KeyFunction<K, V> keyFunction) {
       return new BuilderFactory<Pair<K, V>, DerivedKeyHashMap<K, V>>() {

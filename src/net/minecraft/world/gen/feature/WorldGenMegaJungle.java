@@ -10,10 +10,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class WorldGenMegaJungle extends WorldGenHugeTrees {
-   private static final long a = 51016080922317L;
-
-   public WorldGenMegaJungle(boolean bl, int i, int k, IBlockState iBlockState, IBlockState iBlockState2) {
-      super(bl, i, k, iBlockState, iBlockState2);
+   public WorldGenMegaJungle(boolean bl, int i, int j, IBlockState iBlockState, IBlockState iBlockState2) {
+      super(bl, i, j, iBlockState, iBlockState2);
    }
 
    @Override

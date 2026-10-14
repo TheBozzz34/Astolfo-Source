@@ -24,7 +24,6 @@ public class SharedMonsterAttributes {
       .setDescription("Movement Speed")
       .setShouldWatch(true);
    public static final IAttribute attackDamage = new RangedAttribute((IAttribute)null, "generic.attackDamage", 2.0, 0.0, 2048.0);
-   private static final long a = 127024407943985L;
 
    public static NBTTagList writeBaseAttributeMapToNBT(BaseAttributeMap map) {
       NBTTagList nbtTagList = new NBTTagList();

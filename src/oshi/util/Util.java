@@ -4,9 +4,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class Util {
-   private static final long a = 95288523370837L;
-   private static final long e = 4785992528786620510L;
-
    private Util() {
    }
 
@@ -19,7 +16,7 @@ public final class Util {
    }
 
    public static boolean wildcardMatch(String text, String pattern) {
-      return pattern.length() > 0 && pattern.charAt(0) == (int)e
+      return pattern.length() > 0 && pattern.charAt(0) == '^'
          ? !wildcardMatch(text, pattern.substring(1))
          : text.matches(pattern.replace("?", ".?").replace("*", ".*?"));
    }

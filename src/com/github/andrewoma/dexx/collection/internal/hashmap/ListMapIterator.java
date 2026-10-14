@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 
 public class ListMapIterator<K, V> implements Iterator<Pair<K, V>> {
    private ListMap<K, V> listMap;
-   private static final long a = 32862615900565L;
 
    public ListMapIterator(ListMap<K, V> listMap) {
       this.listMap = listMap;

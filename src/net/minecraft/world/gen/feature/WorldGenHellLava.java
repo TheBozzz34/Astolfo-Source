@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 public class WorldGenHellLava extends WorldGenerator {
    private final Block field_150553_a;
    private final boolean field_94524_b;
-   private static final long a = 100011368551636L;
 
    public WorldGenHellLava(Block block, boolean bl) {
       this.field_150553_a = block;

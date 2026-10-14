@@ -16,9 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class RenderFallingBlock extends Render<EntityFallingBlock> {
-   private static final long a = 25545339382847L;
-   private static final long c = 7440295791027027975L;
-
    public RenderFallingBlock(RenderManager renderManagerIn) {
       super(renderManagerIn);
       this.shadowSize = 0.5F;
@@ -37,7 +34,7 @@ public class RenderFallingBlock extends Render<EntityFallingBlock> {
             GlStateManager.disableLighting();
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-            worldRenderer.begin((int)c, DefaultVertexFormats.BLOCK);
+            worldRenderer.begin(7, DefaultVertexFormats.BLOCK);
             int i = blockPos.getX();
             int j = blockPos.getY();
             int k = blockPos.getZ();

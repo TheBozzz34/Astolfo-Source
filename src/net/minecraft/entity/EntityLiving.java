@@ -63,7 +63,6 @@ public abstract class EntityLiving extends EntityLivingBase {
    public int randomMobsId = 0;
    public BiomeGenBase spawnBiome = null;
    public BlockPos spawnPosition = null;
-   private static final long cb = 72390919354266L;
 
    public EntityLiving(World worldIn) {
       super(worldIn);

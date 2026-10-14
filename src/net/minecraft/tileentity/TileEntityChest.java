@@ -29,7 +29,6 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    private int ticksSinceSync;
    private int cachedChestType;
    private String customName;
-   private static final long a = 133053887856819L;
 
    public TileEntityChest() {
       this.cachedChestType = -1;

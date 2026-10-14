@@ -50,7 +50,6 @@ public final class NoRotate extends Module {
          s08PacketPlayerPosLook.B(mc.thePlayer.rotationPitch);
       }
    };
-   private static final long c = 52863605125408L;
 
    public NoRotate(Category category) {
       super(category);

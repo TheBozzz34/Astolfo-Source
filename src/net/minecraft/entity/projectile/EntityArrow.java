@@ -39,7 +39,6 @@ public class EntityArrow extends Entity implements IProjectile {
    private int ticksInAir;
    private double damage = 2.0;
    private int knockbackStrength;
-   private static final long ab = 37588136860315L;
 
    public EntityArrow(World worldIn) {
       super(worldIn);

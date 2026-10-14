@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 public class HFNoiseTexture {
    public int h = GL11.glGenTextures();
    public int X = 15;
-   private static final long a = 134986854817065L;
 
    public HFNoiseTexture(int width, int height) {
       byte[] bytes = this.W(width, height);

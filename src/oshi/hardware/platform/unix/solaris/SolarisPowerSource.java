@@ -11,7 +11,6 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 public final class SolarisPowerSource extends AbstractPowerSource {
    private static final String[] KSTAT_BATT_MOD = new String[]{null, "battery", "acpi_drv"};
    private static final int KSTAT_BATT_IDX;
-   private static final long e = 104726701934365L;
 
    public SolarisPowerSource(
       String psName,

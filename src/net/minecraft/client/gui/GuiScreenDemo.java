@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 public class GuiScreenDemo extends GuiScreen {
    private static final Logger logger = LogManager.getLogger();
    private static final ResourceLocation field_146348_f = new ResourceLocation("textures/gui/demo_background.png");
-   private static final long a = 11316962758479L;
 
    @Override
    public void initGui() {

@@ -38,7 +38,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
    private StatFileWriter field_146546_t;
    private GuiSlot displaySlot;
    private boolean doesGuiPauseGame = true;
-   private static final long a = 77575536971175L;
 
    public GuiStats(GuiScreen guiScreen, StatFileWriter statFileWriter) {
       this.parentScreen = guiScreen;
@@ -178,7 +177,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
       public Comparator<StatCrafting> statSorter;
       public int field_148217_o = -1;
       public int field_148215_p;
-      private static final long c = 125220978839315L;
 
       public Stats(Minecraft mcIn) {
          super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, 20);
@@ -349,8 +347,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
    }
 
    public class StatsBlock extends GuiStats.Stats {
-      private static final long e = 49909507800462L;
-
       public StatsBlock(Minecraft mcIn) {
          super(mcIn);
          this.statsHolder = Lists.newArrayList();
@@ -372,8 +368,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
          }
 
          this.statSorter = new Comparator<StatCrafting>() {
-            private static final long a = 96009582032490L;
-
             public int compare(StatCrafting statCrafting, StatCrafting statCrafting2) {
                int j = Item.getIdFromItem(statCrafting.func_150959_a());
                int k = Item.getIdFromItem(statCrafting2.func_150959_a());
@@ -451,8 +445,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
    }
 
    public class StatsGeneral extends GuiSlot {
-      private static final long c = 94725474080393L;
-
       public StatsGeneral(Minecraft mcIn) {
          super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, 10);
          this.C(false);
@@ -498,8 +490,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
    }
 
    public class StatsItem extends GuiStats.Stats {
-      private static final long d = 111793860690381L;
-
       public StatsItem(Minecraft mcIn) {
          super(mcIn);
          this.statsHolder = Lists.newArrayList();
@@ -521,8 +511,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
          }
 
          this.statSorter = new Comparator<StatCrafting>() {
-            private static final long a = 74513690210702L;
-
             public int compare(StatCrafting statCrafting, StatCrafting statCrafting2) {
                int j = Item.getIdFromItem(statCrafting.func_150959_a());
                int k = Item.getIdFromItem(statCrafting2.func_150959_a());
@@ -601,7 +589,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
    public class StatsMobsList extends GuiSlot {
       private final List<EntityList.EntityEggInfo> field_148222_l = Lists.newArrayList();
-      private static final long c = 116066803607960L;
 
       public StatsMobsList(Minecraft mcIn) {
          super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRendererObj.FONT_HEIGHT * 4);

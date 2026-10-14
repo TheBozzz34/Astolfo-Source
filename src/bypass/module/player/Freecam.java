@@ -60,8 +60,6 @@ public final class Freecam extends Module {
    };
    @EventHandler(MoveEvent.class)
    private Listener<MoveEvent> onMove = moveEvent -> {
-      long l = c ^ 51117225364289L;
-      long m = l ^ 128323223319382L;
       if (!client.getModuleManager().get(Flight.class).isEnabled() && !this.staticFlight.getValue()) {
          mc.thePlayer.capabilities.isFlying = true;
       }
@@ -127,7 +125,6 @@ public final class Freecam extends Module {
    };
    @EventHandler(PushOutOfBlocksEvent.class)
    private Listener<PushOutOfBlocksEvent> onPushOutOfBlocks = CancellableEvent::cancel;
-   private static final long c = 120671400248740L;
 
    public Freecam(Category category) {
       super(category);

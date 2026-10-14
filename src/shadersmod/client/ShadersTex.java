@@ -48,7 +48,6 @@ public class ShadersTex {
    public static IResourceManager resManager = null;
    public static ResourceLocation resLocation = null;
    public static int imageSize = 0;
-   private static final long a = 115708160086331L;
 
    public static IntBuffer getIntBuffer(int size) {
       if (intBuffer.capacity() < size) {
@@ -166,14 +165,11 @@ public class ShadersTex {
    }
 
    public static void bindNSTextures(int normTex, int specTex) {
-      long l = a ^ 28025472818474L;
       if (Shaders.isRenderingWorld && GlStateManager.getActiveTextureUnit() == 33984) {
          GlStateManager.setActiveTexture(33986);
          GlStateManager.bindTexture(normTex);
-         long m = 5977265796643902783L ^ l;
          GlStateManager.setActiveTexture(33987);
          GlStateManager.bindTexture(specTex);
-         m = 7174659571251472928L ^ l;
          GlStateManager.setActiveTexture(33984);
       }
    }
@@ -183,14 +179,11 @@ public class ShadersTex {
    }
 
    public static void bindTextures(int baseTex, int normTex, int specTex) {
-      long l = a ^ 37801774780013L;
       if (Shaders.isRenderingWorld && GlStateManager.getActiveTextureUnit() == 33984) {
          GlStateManager.setActiveTexture(33986);
          GlStateManager.bindTexture(normTex);
-         long m = 8224667203623637601L ^ l;
          GlStateManager.setActiveTexture(33987);
          GlStateManager.bindTexture(specTex);
-         m = 7174719922672335207L ^ l;
          GlStateManager.setActiveTexture(33984);
       }
 
@@ -612,11 +605,9 @@ public class ShadersTex {
    }
 
    public static void setupTexture(MultiTexID multiTex, int[] src, int width, int height, boolean linear, boolean clamp) {
-      long l = a ^ 63368218621672L;
       int i = linear ? 9729 : 9728;
       int j = clamp ? 10496 : 10497;
       int k = width * height;
-      long m = 9105653145016864870L ^ l;
       IntBuffer intBuffer = getIntBuffer(k);
       ((Buffer)intBuffer).clear();
       ((Buffer)intBuffer.put(src, 0, k)).position(0).limit(k);
@@ -627,7 +618,6 @@ public class ShadersTex {
       GL11.glTexParameteri(3553, 10242, j);
       GL11.glTexParameteri(3553, 10243, j);
       ((Buffer)intBuffer.put(src, k, k)).position(0).limit(k);
-      m = 9105653145016864870L ^ l;
       GlStateManager.bindTexture(multiTex.norm);
       GL11.glTexImage2D(3553, 0, 6408, width, height, 0, 32993, 33639, intBuffer);
       GL11.glTexParameteri(3553, 10241, i);
@@ -635,7 +625,6 @@ public class ShadersTex {
       GL11.glTexParameteri(3553, 10242, j);
       GL11.glTexParameteri(3553, 10243, j);
       ((Buffer)intBuffer.put(src, k * 2, k)).position(0).limit(k);
-      m = 9105653145016864870L ^ l;
       GlStateManager.bindTexture(multiTex.spec);
       GL11.glTexImage2D(3553, 0, 6408, width, height, 0, 32993, 33639, intBuffer);
       GL11.glTexParameteri(3553, 10241, i);
@@ -788,21 +777,17 @@ public class ShadersTex {
    }
 
    public static void updateTextureMinMagFilter() {
-      long l = a ^ 63330937206196L;
       TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
       ITextureObject iTextureObject = textureManager.getTexture(TextureMap.locationBlocksTexture);
       if (iTextureObject != null) {
          MultiTexID multiTexID = iTextureObject.getMultiTexID();
          GlStateManager.bindTexture(multiTexID.base);
-         long m = 9105653313357796154L ^ l;
          GL11.glTexParameteri(3553, 10241, Shaders.texMinFilValue[Shaders.configTexMinFilB]);
          GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.configTexMagFilB]);
          GlStateManager.bindTexture(multiTexID.norm);
-         m = 9105653313357796154L ^ l;
          GL11.glTexParameteri(3553, 10241, Shaders.texMinFilValue[Shaders.configTexMinFilN]);
          GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.ub]);
          GlStateManager.bindTexture(multiTexID.spec);
-         m = 9105653313357796154L ^ l;
          GL11.glTexParameteri(3553, 10241, Shaders.texMinFilValue[Shaders.configTexMinFilS]);
          GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.L]);
          GlStateManager.bindTexture(0);
@@ -853,12 +838,5 @@ public class ShadersTex {
    }
 
    public static void fixTransparentColor(TextureAtlasSprite tas, int[] aint) {
-   }
-
-   static {
-      long l = a ^ 40851684065142L;
-      long m = l ^ 8366248186743340471L;
-      m = l ^ 8586458847900479132L;
-      m = 738699630547068525L ^ l;
    }
 }

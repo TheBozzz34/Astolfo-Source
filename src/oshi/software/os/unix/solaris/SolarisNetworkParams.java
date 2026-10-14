@@ -9,12 +9,10 @@ import oshi.util.ExecutingCommand;
 @ThreadSafe
 public final class SolarisNetworkParams extends AbstractNetworkParams {
    private static final SolarisLibc LIBC = SolarisLibc.INSTANCE;
-   private static final long b = 114702184419316L;
-   private static final long i = 235472922032996608L;
 
    @Override
    public String getHostName() {
-      byte[] bytes = new byte[(int)i];
+      byte[] bytes = new byte[256];
       return 0 != LIBC.gethostname(bytes, bytes.length) ? super.getHostName() : Native.toString(bytes);
    }
 

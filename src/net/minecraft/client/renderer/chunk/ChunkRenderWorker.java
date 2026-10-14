@@ -19,7 +19,6 @@ public class ChunkRenderWorker implements Runnable {
    private static final Logger LOGGER = LogManager.getLogger();
    private final ChunkRenderDispatcher chunkRenderDispatcher;
    private final RegionRenderCacheBuilder regionRenderCacheBuilder;
-   private static final long a = 29960912544986L;
 
    public ChunkRenderWorker(ChunkRenderDispatcher chunkRenderDispatcher) {
       this(chunkRenderDispatcher, (RegionRenderCacheBuilder)null);
@@ -126,8 +125,6 @@ public class ChunkRenderWorker implements Runnable {
             }
          });
          Futures.addCallback(listenableFuture, new FutureCallback<List<Object>>() {
-            private static final long a = 84140900396396L;
-
             public void onSuccess(List<Object> list) {
                ChunkRenderWorker.this.freeRenderBuilder(generator);
                generator.getLock().lock();

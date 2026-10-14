@@ -5,7 +5,6 @@ import bypass.setting.BooleanSetting;
 
 public class BooleanSettingItem extends TabGuiItem {
    private final BooleanSetting w;
-   private static final long b = 112154253273414L;
 
    public BooleanSettingItem(TabGui.Panel panel, BooleanSetting booleanSetting) {
       super(panel);

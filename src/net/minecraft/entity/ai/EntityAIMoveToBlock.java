@@ -13,7 +13,6 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
    public BlockPos destinationBlock = BlockPos.ORIGIN;
    private boolean isAboveDestination;
    private int searchLength;
-   private static final long c = 101872267221811L;
 
    public EntityAIMoveToBlock(EntityCreature creature, double speedIn, int length) {
       this.theEntity = creature;

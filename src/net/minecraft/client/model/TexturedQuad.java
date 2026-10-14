@@ -11,7 +11,6 @@ public class TexturedQuad {
    public PositionTextureVertex[] vertexPositions;
    public int nVertices;
    private boolean invertNormal;
-   private static final long a = 55687692980217L;
 
    public TexturedQuad(PositionTextureVertex[] vertices) {
       this.vertexPositions = vertices;

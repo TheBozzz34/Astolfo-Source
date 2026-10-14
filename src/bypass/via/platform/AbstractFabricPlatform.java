@@ -21,7 +21,6 @@ public abstract class AbstractFabricPlatform implements ViaPlatform<UUID> {
    private final Logger e = new JLoggerToLog4j(LogManager.getLogger("ViaVersion"));
    private final VRViaConfig S = new VRViaConfig();
    private final ViaAPI<UUID> N = new VRViaAPI();
-   private static final long a = 108350551935021L;
 
    public abstract ExecutorService O();
 

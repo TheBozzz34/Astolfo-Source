@@ -7,16 +7,13 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public final class LoginPacketWriter implements PacketWriter<LoginPacket> {
-   private static final long a = 89930680398976L;
-   private static final long b = 714501026966667284L;
-
    public void write(LoginPacket loginPacket, PacketBuffer packetBuffer) {
       byte[] bytes = loginPacket.username.getBytes(StandardCharsets.UTF_8);
       byte[] bytes2 = loginPacket.password.getBytes(StandardCharsets.UTF_8);
       byte[] bytes3 = loginPacket.version.getBytes(StandardCharsets.UTF_8);
       byte[] bytes4 = loginPacket.hwid.getBytes(StandardCharsets.UTF_8);
       byte[] bytes5 = loginPacket.token.getBytes(StandardCharsets.UTF_8);
-      ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + bytes2.length + bytes3.length + bytes4.length + bytes5.length + (int)b);
+      ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + bytes2.length + bytes3.length + bytes4.length + bytes5.length + 20);
       byteBuffer.putInt(bytes.length);
       byteBuffer.put(bytes);
       byteBuffer.putInt(bytes2.length);

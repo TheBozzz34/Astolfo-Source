@@ -24,7 +24,6 @@ import net.minecraft.util.Vec3;
 public class LuaApi implements ClientAccess {
    public static final Map<Integer, Entity> Z = new HashMap<>();
    public static final Map<String, Setting<?>> f = new HashMap<>();
-   private static final long b = 79788896861913L;
 
    @ScriptName(j = "byh")
    public void w(String string, float g, float h, int i) {
@@ -61,8 +60,6 @@ public class LuaApi implements ClientAccess {
 
    @ScriptName(j = "wyhwy")
    public void y(String string, String string2, String string3, boolean bl) {
-      long l = b ^ 15643489397635L;
-      long m = l ^ 125193056102633L;
       BooleanSetting booleanSetting = new BooleanSetting(string2, string3, bl);
       f.put(string2, booleanSetting);
       client.getModuleManager().getModule(string).addSettings(booleanSetting);
@@ -70,9 +67,6 @@ public class LuaApi implements ClientAccess {
 
    @ScriptName(j = "bdwugydyuwh")
    public boolean h(String string) {
-      long l = b ^ 41396736821464L;
-      long m = l ^ 99234729216946L;
-
       try {
          return client.getModuleManager().getModule(string).isEnabled();
       } catch (Exception exception) {

@@ -14,7 +14,6 @@ public class RenderRabbit extends RenderLiving<EntityRabbit> {
    private static final ResourceLocation WHITE_SPLOTCHED = new ResourceLocation("textures/entity/rabbit/white_splotched.png");
    private static final ResourceLocation TOAST = new ResourceLocation("textures/entity/rabbit/toast.png");
    private static final ResourceLocation CAERBANNOG = new ResourceLocation("textures/entity/rabbit/caerbannog.png");
-   private static final long d = 100208880865131L;
 
    public RenderRabbit(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
       super(renderManagerIn, modelBaseIn, shadowSizeIn);

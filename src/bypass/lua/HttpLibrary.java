@@ -25,7 +25,6 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
    public static final TwoArgFunction e = new PostAsync();
    public static final TwoArgFunction B = new GetAsync();
    private final OneArgFunction L = new HttpLibrary.z8();
-   private static final long b = 123751960180539L;
 
    public HttpLibrary(Globals globals) {
       this.Z = globals;
@@ -45,8 +44,6 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
    }
 
    public class z8 extends OneArgFunction {
-      private static final long a = 56435362779393L;
-
       @Override
       public LuaValue call(LuaValue luaValue) {
          if (!ScriptManager.N.t()) {

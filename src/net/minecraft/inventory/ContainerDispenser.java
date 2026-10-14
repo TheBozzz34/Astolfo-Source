@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerDispenser extends Container {
    private IInventory dispenserInventory;
-   private static final long a = 58627766223273L;
 
    public ContainerDispenser(IInventory playerInventory, IInventory dispenserInventoryIn) {
       this.dispenserInventory = dispenserInventoryIn;

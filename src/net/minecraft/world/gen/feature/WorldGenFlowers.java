@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 public class WorldGenFlowers extends WorldGenerator {
    private BlockFlower flower;
    private IBlockState field_175915_b;
-   private static final long a = 136945969494405L;
 
    public WorldGenFlowers(BlockFlower blockFlower, BlockFlower.EnumFlowerType enumFlowerType) {
       this.setGeneratedBlock(blockFlower, enumFlowerType);

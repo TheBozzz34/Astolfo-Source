@@ -22,7 +22,6 @@ public final class TitleAnnouncer extends HiddenModule {
          D = null;
       }
    };
-   private static final long c = 121254683101945L;
 
    public TitleAnnouncer() {
       client.getEventBus().subscribe(this);

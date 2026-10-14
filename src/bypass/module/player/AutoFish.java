@@ -86,7 +86,6 @@ public final class AutoFish extends Module {
             }
       }
    };
-   private static final long c = 118521303781827L;
 
    public AutoFish(Category category) {
       super(category);

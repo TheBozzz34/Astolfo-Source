@@ -34,7 +34,6 @@ import net.minecraft.world.World;
 public class EntityOcelot extends EntityTameable {
    private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
    private EntityAITempt aiTempt;
-   private static final long gb = 32417958188157L;
 
    public EntityOcelot(World worldIn) {
       super(worldIn);

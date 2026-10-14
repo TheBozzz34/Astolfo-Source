@@ -18,7 +18,6 @@ public class MapGenStronghold extends MapGenStructure {
    private ChunkCoordIntPair[] structureCoords = new ChunkCoordIntPair[3];
    private double field_82671_h = 32.0;
    private int field_82672_i = 3;
-   private static final long c = 108787121821182L;
 
    public MapGenStronghold() {
       this.field_151546_e = Lists.newArrayList();
@@ -112,28 +111,25 @@ public class MapGenStronghold extends MapGenStructure {
    }
 
    public static class Start extends StructureStart {
-      private static final long a = 47560030480452L;
-      private static final long f = 7990649425707925514L;
-
       public Start() {
       }
 
-      public Start(World worldIn, Random random2, int j, int k) {
-         super(j, k);
+      public Start(World worldIn, Random random2, int i, int j) {
+         super(i, j);
          StructureStrongholdPieces.prepareStructurePieces();
-         StructureStrongholdPieces.Stairs2 stairs2 = new StructureStrongholdPieces.Stairs2(0, random2, (j << 4) + 2, (k << 4) + 2);
+         StructureStrongholdPieces.Stairs2 stairs2 = new StructureStrongholdPieces.Stairs2(0, random2, (i << 4) + 2, (j << 4) + 2);
          this.components.add(stairs2);
          stairs2.buildComponent(stairs2, this.components, random2);
          List list = stairs2.field_75026_c;
 
          while (!list.isEmpty()) {
-            int i = random2.nextInt(list.size());
-            StructureComponent structureComponent = (StructureComponent)list.remove(i);
+            int k = random2.nextInt(list.size());
+            StructureComponent structureComponent = (StructureComponent)list.remove(k);
             structureComponent.buildComponent(stairs2, this.components, random2);
          }
 
          this.updateBoundingBox();
-         this.markAvailableHeight(worldIn, random2, (int)f);
+         this.markAvailableHeight(worldIn, random2, 10);
       }
    }
 }

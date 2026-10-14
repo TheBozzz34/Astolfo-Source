@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 
 public class BlockTallGrass extends BlockBush implements IGrowable {
    public static final PropertyEnum<BlockTallGrass.EnumType> TYPE = PropertyEnum.create("type", BlockTallGrass.EnumType.class);
-   private static final long e = 26672734817669L;
 
    public BlockTallGrass() {
       super(Material.vine);
@@ -144,7 +143,6 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
       private static final BlockTallGrass.EnumType[] META_LOOKUP = new BlockTallGrass.EnumType[values().length];
       private final int meta;
       private final String name;
-      private static final long a = 128318602684703L;
 
       EnumType(int meta, String name) {
          this.meta = meta;

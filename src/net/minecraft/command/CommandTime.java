@@ -6,8 +6,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
 
 public class CommandTime extends CommandBase {
-   private static final long b = 38201229033972L;
-
    @Override
    public String getCommandName() {
       return "time";

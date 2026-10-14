@@ -23,7 +23,6 @@ public class DamageParticle extends EntityFX {
    private final Color oM;
    private final Color oF;
    private final boolean oW;
-   private static final long ab = 99500009999976L;
 
    public DamageParticle(
       int i,
@@ -69,7 +68,6 @@ public class DamageParticle extends EntityFX {
       float rotationXY,
       float rotationXZ
    ) {
-      long l = ab ^ 894808457906L;
       float f = -Minecraft.getMinecraft().thePlayer.rotationYaw;
       float g = Minecraft.getMinecraft().thePlayer.rotationPitch;
       float h = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
@@ -84,7 +82,6 @@ public class DamageParticle extends EntityFX {
 
       GL11.glTranslatef(h, f2, f3);
       GL11.glRotatef(f, 0.0F, 1.0F, 0.0F);
-      long m = 7893993772087282653L ^ l;
       GL11.glRotatef(g, 1.0F, 0.0F, 0.0F);
       GL11.glScalef(-1.0F, -1.0F, 1.0F);
       GL11.glScaled(this.particleScale * 0.008, this.particleScale * 0.008, this.particleScale * 0.008);
@@ -93,7 +90,6 @@ public class DamageParticle extends EntityFX {
       GL11.glEnable(3553);
       GL11.glDisable(3042);
       GL11.glDepthMask(true);
-      m = 3742998667494746246L ^ l;
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       GL11.glEnable(3553);
       GL11.glEnable(2929);
@@ -112,7 +108,6 @@ public class DamageParticle extends EntityFX {
          this.oU, -MathHelper.floor_float(fontRenderer.getStringWidth(this.oU) / 2.0F) + 1, -MathHelper.floor_float(fontRenderer.FONT_HEIGHT / 2.0F) + 1, i
       );
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      m = 320336853644347103L ^ l;
       GL11.glDepthFunc(515);
       GL11.glPopMatrix();
       if (this.o4) {

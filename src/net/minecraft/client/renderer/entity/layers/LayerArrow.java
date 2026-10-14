@@ -12,7 +12,6 @@ import net.minecraft.util.MathHelper;
 
 public class LayerArrow implements LayerRenderer<EntityLivingBase> {
    private final RendererLivingEntity field_177168_a;
-   private static final long a = 109437198992812L;
 
    public LayerArrow(RendererLivingEntity rendererLivingEntity) {
       this.field_177168_a = rendererLivingEntity;

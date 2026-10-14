@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32OperatingSystem {
-   private static final long a = 84973023934958L;
-
    private Win32OperatingSystem() {
    }
 

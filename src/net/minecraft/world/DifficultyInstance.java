@@ -5,7 +5,6 @@ import net.minecraft.util.MathHelper;
 public class DifficultyInstance {
    private final EnumDifficulty worldDifficulty;
    private final float additionalDifficulty;
-   private static final long a = 42500662477259L;
 
    public DifficultyInstance(EnumDifficulty worldDifficulty, long worldTime, long chunkInhabitedTime, float moonPhaseFactor) {
       this.worldDifficulty = worldDifficulty;

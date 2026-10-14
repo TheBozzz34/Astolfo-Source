@@ -10,7 +10,6 @@ public class EntityAIPlay extends EntityAIBase {
    private EntityLivingBase targetVillager;
    private double speed;
    private int playTime;
-   private static final long a = 14407324811403L;
 
    public EntityAIPlay(EntityVillager villagerObjIn, double speedIn) {
       this.villagerObj = villagerObjIn;

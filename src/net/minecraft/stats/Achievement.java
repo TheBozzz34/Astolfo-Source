@@ -17,7 +17,6 @@ public class Achievement extends StatBase {
    private IStatStringFormat statStringFormatter;
    public final ItemStack theItemStack;
    private boolean isSpecial;
-   private static final long a = 70683633875588L;
 
    public Achievement(String statIdIn, String unlocalizedName, int column, int row, Item itemIn, Achievement parent) {
       this(statIdIn, unlocalizedName, column, row, new ItemStack(itemIn), parent);

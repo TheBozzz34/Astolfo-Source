@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 public class ShapedMapEntrySet<K, V> extends AbstractSet<Entry<K, V>> {
    private final ShapedMap<K, V> K;
-   private static final long a = 50974752418489L;
 
    public ShapedMapEntrySet(ShapedMap<K, V> shapedMap) {
       this.K = shapedMap;

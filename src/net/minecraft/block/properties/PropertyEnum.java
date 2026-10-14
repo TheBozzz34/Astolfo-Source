@@ -13,7 +13,6 @@ import net.minecraft.util.IStringSerializable;
 public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyHelper<T> {
    private final ImmutableSet<T> allowedValues;
    private final Map<String, T> nameToValue = Maps.newHashMap();
-   private static final long a = 107728236259007L;
 
    public PropertyEnum(String name, Class<T> valueClass, Collection<T> allowedValues) {
       super(name, valueClass);

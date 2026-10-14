@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 
 public class BlockRail extends BlockRailBase {
    public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.create("shape", BlockRailBase.EnumRailDirection.class);
-   private static final long i = 44233709347906L;
 
    public BlockRail() {
       super(false);

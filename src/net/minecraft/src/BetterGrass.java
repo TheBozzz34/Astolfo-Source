@@ -19,7 +19,6 @@ public class BetterGrass {
    private static IBakedModel C = null;
    private static IBakedModel g = null;
    private static IBakedModel O = null;
-   private static final long a = 139731282429173L;
 
    public static void G() {
       O = BlockModelUtils.G("minecraft:blocks/grass_top", 0);

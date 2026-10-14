@@ -10,7 +10,6 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
    public long scheduledTime;
    public int priority;
    private long tickEntryID;
-   private static final long a = 133956705645750L;
 
    public NextTickListEntry(BlockPos positionIn, Block blockIn) {
       this.tickEntryID = nextTickEntryID++;

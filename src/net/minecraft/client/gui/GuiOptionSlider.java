@@ -11,7 +11,6 @@ public class GuiOptionSlider extends GuiButton {
    private GameSettings.Options options;
    private final float field_146132_r;
    private final float field_146131_s;
-   private static final long d = 119244681338342L;
 
    public GuiOptionSlider(int i, int j, int k, GameSettings.Options options) {
       this(i, j, k, options, 0.0F, 1.0F);

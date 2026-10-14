@@ -26,7 +26,6 @@ public class ModelBlockDefinition {
       .registerTypeAdapter(ModelBlockDefinition.Variant.class, new ModelBlockDefinition.Variant.Deserializer())
       .create();
    private final Map<String, ModelBlockDefinition.Variants> mapVariants = Maps.newHashMap();
-   private static final long a = 46443495491751L;
 
    public static ModelBlockDefinition parseFromReader(Reader reader) {
       return GSON.fromJson(reader, ModelBlockDefinition.class);
@@ -71,8 +70,6 @@ public class ModelBlockDefinition {
    }
 
    public static class Deserializer implements JsonDeserializer<ModelBlockDefinition> {
-      private static final long a = 39663679932867L;
-
       public ModelBlockDefinition deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          List list = this.parseVariantsList(jsonDeserializationContext, jsonObject);
@@ -114,7 +111,6 @@ public class ModelBlockDefinition {
       private final ModelRotation modelRotation;
       private final boolean uvLock;
       private final int weight;
-      private static final long a = 16405235670155L;
 
       public Variant(ResourceLocation modelLocationIn, ModelRotation modelRotationIn, boolean uvLockIn, int weightIn) {
          this.modelLocation = modelLocationIn;
@@ -161,8 +157,6 @@ public class ModelBlockDefinition {
       }
 
       public static class Deserializer implements JsonDeserializer<ModelBlockDefinition.Variant> {
-         private static final long a = 53774775093472L;
-
          public ModelBlockDefinition.Variant deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             String string = this.parseModel(jsonObject);
@@ -205,8 +199,6 @@ public class ModelBlockDefinition {
    public static class Variants {
       private final String name;
       private final List<ModelBlockDefinition.Variant> listVariants;
-      private static final long a = 11347617563970L;
-      private static final long b = -5962487558398017505L;
 
       public Variants(String nameIn, List<ModelBlockDefinition.Variant> listVariantsIn) {
          this.name = nameIn;
@@ -234,7 +226,7 @@ public class ModelBlockDefinition {
       @Override
       public int hashCode() {
          int i = this.name.hashCode();
-         return (int)b * i + this.listVariants.hashCode();
+         return 31 * i + this.listVariants.hashCode();
       }
    }
 }

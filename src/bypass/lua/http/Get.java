@@ -8,8 +8,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class Get extends OneArgFunction {
-   private static final long a = 85561958818498L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!ScriptManager.N.t()) {

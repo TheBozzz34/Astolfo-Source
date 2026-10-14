@@ -7,7 +7,6 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
    private String field_146589_f = "";
    private int progress;
    private boolean doneWorking;
-   private static final long a = 26978159644744L;
 
    @Override
    public void displaySavingString(String message) {

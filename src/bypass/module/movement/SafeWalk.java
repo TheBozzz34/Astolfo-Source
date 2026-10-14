@@ -16,7 +16,6 @@ public final class SafeWalk extends Module {
          safeWalkEvent.cancel();
       }
    };
-   private static final long c = 20099100964816L;
 
    public SafeWalk(Category category) {
       super(category);

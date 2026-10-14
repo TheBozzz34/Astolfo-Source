@@ -17,7 +17,6 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
    private final Minecraft field_175268_g;
    private long field_175270_h;
    private SpectatorMenu field_175271_i;
-   private static final long a = 62532206398646L;
 
    public GuiSpectator(Minecraft mcIn) {
       this.field_175268_g = mcIn;
@@ -96,7 +95,6 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
    }
 
    public void renderSelectedItem(ScaledResolution scaledResolution) {
-      long l = a ^ 113440549419096L;
       int i = (int)(this.func_175265_c() * 255.0F);
       if (i > 3 && this.field_175271_i != null) {
          ISpectatorMenuObject iSpectatorMenuObject = this.field_175271_i.func_178645_b();
@@ -107,7 +105,6 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
             int j = (scaledResolution.getScaledWidth() - this.field_175268_g.fontRendererObj.getStringWidth(string)) / 2;
             int k = scaledResolution.getScaledHeight() - 35;
             GlStateManager.pushMatrix();
-            long m = 1040590098252509686L ^ l;
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             this.field_175268_g.fontRendererObj.drawStringWithShadow(string, j, k, 16777215 + (i << 24));

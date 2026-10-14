@@ -13,7 +13,6 @@ import oshi.util.Util;
 @Immutable
 public final class SolarisComputerSystem extends AbstractComputerSystem {
    private final Supplier<SolarisComputerSystem.SmbiosStrings> smbiosStrings = Memoizer.memoize(SolarisComputerSystem::readSmbios);
-   private static final long b = 94490058673044L;
 
    @Override
    public String V() {
@@ -143,7 +142,6 @@ public final class SolarisComputerSystem extends AbstractComputerSystem {
       private final String boardModel;
       private final String boardVersion;
       private final String boardSerialNumber;
-      private static final long b = 44592109150143L;
 
       public SmbiosStrings(
          String biosVendor,

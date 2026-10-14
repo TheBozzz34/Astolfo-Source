@@ -8,7 +8,6 @@ public class Banner {
    private String base;
    @SerializedName("Patterns")
    private List<Banner.Pattern> patterns;
-   private static final long a = 81928891541161L;
 
    public String getBase() {
       return this.base;
@@ -28,7 +27,6 @@ public class Banner {
       private String pattern;
       @SerializedName("Color")
       private String color;
-      private static final long a = 92412467323745L;
 
       public String F() {
          return this.pattern;

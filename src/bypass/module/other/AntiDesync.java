@@ -24,7 +24,6 @@ public final class AntiDesync extends Module {
          rightClickBlockEvent.cancel();
       }
    };
-   private static final long d = 112189695958198L;
 
    public AntiDesync(Category category) {
       super(category);

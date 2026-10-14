@@ -5,7 +5,6 @@ import net.minecraft.world.WorldSavedData;
 
 public class MapGenStructureData extends WorldSavedData {
    private NBTTagCompound tagCompound = new NBTTagCompound();
-   private static final long a = 96120073789176L;
 
    public MapGenStructureData(String name) {
       super(name);

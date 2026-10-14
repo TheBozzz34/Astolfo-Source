@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class UserListReader implements PacketReader<UserListPacket> {
    private UserListPacket g;
-   private static final long a = 41791443513041L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

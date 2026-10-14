@@ -26,7 +26,6 @@ public class GuiShaderOptions extends GuiScreenOF {
    public static final String OPTION_PROFILE = "<profile>";
    public static final String OPTION_EMPTY = "<empty>";
    public static final String OPTION_REST = "*";
-   private static final long c = 59075150039634L;
 
    public GuiShaderOptions(GuiScreen guiscreen, GameSettings gamesettings) {
       this.title = "Shader Options";

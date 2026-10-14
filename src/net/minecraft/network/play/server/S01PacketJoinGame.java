@@ -17,7 +17,6 @@ public class S01PacketJoinGame implements Packet<INetHandlerPlayClient> {
    private int maxPlayers;
    private WorldType worldType;
    private boolean reducedDebugInfo;
-   private static final long a = 119535100722861L;
 
    public S01PacketJoinGame() {
    }

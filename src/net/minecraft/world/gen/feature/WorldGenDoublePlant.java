@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class WorldGenDoublePlant extends WorldGenerator {
    private BlockDoublePlant.EnumPlantType field_150549_a;
-   private static final long a = 89849193133944L;
 
    public void setPlantType(BlockDoublePlant.EnumPlantType enumPlantType) {
       this.field_150549_a = enumPlantType;

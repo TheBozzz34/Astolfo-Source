@@ -13,7 +13,6 @@ public class Iterator3d implements Iterator<BlockPos> {
    private int kY;
    private int kZ;
    private static final int Q = 2;
-   private static final long a = 11131627207805L;
 
    public Iterator3d(BlockPos posStart, BlockPos posEnd, int width, int height) {
       boolean bl = posStart.getX() > posEnd.getX();
@@ -115,10 +114,5 @@ public class Iterator3d implements Iterator<BlockPos> {
          BlockPos blockPos3 = iterator3d.next();
          System.out.println("" + blockPos3);
       }
-   }
-
-   static {
-      long l = a ^ 48647763933626L;
-      long m = l ^ 5905291233816531510L;
    }
 }

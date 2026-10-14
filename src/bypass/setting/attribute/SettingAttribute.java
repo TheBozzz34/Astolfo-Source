@@ -5,7 +5,6 @@ import bypass.event.Cancellable;
 public class SettingAttribute implements Cancellable {
    private boolean D;
    private AttributePriority T;
-   private static final long a = 28686905284496L;
 
    public SettingAttribute(AttributePriority attributePriority) {
       this.setPriority(attributePriority);

@@ -16,7 +16,6 @@ public class DirectLoginScreen extends GuiScreen {
    private GuiTextField u;
    private PasswordField c;
    private Checkbox n;
-   private static final long a = 46869750114722L;
 
    public DirectLoginScreen(GuiScreen guiScreen) {
       this.N = guiScreen;

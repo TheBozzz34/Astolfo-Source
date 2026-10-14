@@ -12,7 +12,6 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
    private byte amplifier;
    private int duration;
    private byte hideParticles;
-   private static final long a = 98649663364013L;
 
    public S1DPacketEntityEffect() {
    }

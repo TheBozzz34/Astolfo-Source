@@ -73,7 +73,6 @@ public final class AimAssist extends Module {
          }
       }
    };
-   private static final long d = 138865496681995L;
 
    public AimAssist(Category category) {
       super(category);
@@ -81,11 +80,6 @@ public final class AimAssist extends Module {
    }
 
    private boolean u(EntityPlayer entityPlayer) {
-      long l = d ^ 89975149020660L;
-      long m = l ^ 104280557620898L;
-      int i = (int)((l ^ 104280557620898L) >>> 56);
-      int j = (int)((l ^ 104280557620898L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if (!mc.thePlayer.canAttackPlayer(entityPlayer)) {
          return false;
       } else if (client.getRelationManager().z(entityPlayer)) {

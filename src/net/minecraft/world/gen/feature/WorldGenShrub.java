@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 public class WorldGenShrub extends WorldGenTrees {
    private final IBlockState leavesMetadata;
    private final IBlockState woodMetadata;
-   private static final long a = 39567591091198L;
 
    public WorldGenShrub(IBlockState iBlockState, IBlockState iBlockState2) {
       super(false);

@@ -24,7 +24,6 @@ import oshi.util.tuples.Pair;
 public final class WindowsDisks {
    private static final Pattern DEVICE_ID = Pattern.compile(".*\\.DeviceID=\"(.*)\"");
    private static final int BUFSIZE = 255;
-   private static final long a = 9831591367270L;
 
    private WindowsDisks() {
    }
@@ -188,11 +187,6 @@ public final class WindowsDisks {
 
    private static String getIndexFromName(String s) {
       return s.isEmpty() ? s : s.split("\\s")[0];
-   }
-
-   static {
-      long l = a ^ 8664443112264L;
-      long m = l ^ 169967579038623761L;
    }
 
    private static final class DiskStats {

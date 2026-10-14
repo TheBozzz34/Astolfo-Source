@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public final class SetAngles extends TwoArgFunction {
-   private static final long a = 92987306766068L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       if (ClientAccess.mc.thePlayer != null && luaValue.isnumber() && luaValue2.isnumber()) {

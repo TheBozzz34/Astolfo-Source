@@ -20,7 +20,6 @@ public class LoadingScreenRenderer implements IProgressUpdate {
    private boolean loadingSuccess;
    private ScaledResolution scaledResolution;
    private Framebuffer framebuffer;
-   private static final long a = 83726422598529L;
 
    public LoadingScreenRenderer(Minecraft mcIn) {
       this.mc = mcIn;
@@ -81,15 +80,14 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 
    @Override
    public void setLoadingProgress(int progress) {
-      long l = a ^ 46248809135117L;
       if (!this.mc.running) {
          if (!this.loadingSuccess) {
             throw new MinecraftError();
          }
       } else {
-         long m = Minecraft.getSystemTime();
-         if (m - this.systemTime >= 100L) {
-            this.systemTime = m;
+         long l = Minecraft.getSystemTime();
+         if (l - this.systemTime >= 100L) {
+            this.systemTime = l;
             ScaledResolution scaledResolution = new ScaledResolution(this.mc);
             int i = scaledResolution.getScaleFactor();
             int j = scaledResolution.getScaledWidth();
@@ -103,7 +101,6 @@ public class LoadingScreenRenderer implements IProgressUpdate {
             this.framebuffer.bindFramebuffer(false);
             GlStateManager.matrixMode(5889);
             GlStateManager.loadIdentity();
-            long n = 5613537673383833317L ^ l;
             GlStateManager.ortho(0.0, scaledResolution.getScaledWidth_double(), scaledResolution.getScaledHeight_double(), 0.0, 100.0, 300.0);
             GlStateManager.matrixMode(5888);
             GlStateManager.loadIdentity();
@@ -125,18 +122,18 @@ public class LoadingScreenRenderer implements IProgressUpdate {
             if (progress >= 0) {
                byte b = 100;
                byte b2 = 2;
-               int i2 = j / 2 - b / 2;
-               int i3 = k / 2 + 16;
+               int m = j / 2 - b / 2;
+               int n = k / 2 + 16;
                GlStateManager.disableTexture2D();
                worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-               worldRenderer.pos(i2, i3, 0.0).color(128, 128, 128, 255).endVertex();
-               worldRenderer.pos(i2, i3 + b2, 0.0).color(128, 128, 128, 255).endVertex();
-               worldRenderer.pos(i2 + b, i3 + b2, 0.0).color(128, 128, 128, 255).endVertex();
-               worldRenderer.pos(i2 + b, i3, 0.0).color(128, 128, 128, 255).endVertex();
-               worldRenderer.pos(i2, i3, 0.0).color(128, 255, 128, 255).endVertex();
-               worldRenderer.pos(i2, i3 + b2, 0.0).color(128, 255, 128, 255).endVertex();
-               worldRenderer.pos(i2 + progress, i3 + b2, 0.0).color(128, 255, 128, 255).endVertex();
-               worldRenderer.pos(i2 + progress, i3, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(m, n, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(m, n + b2, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(m + b, n + b2, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(m + b, n, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(m, n, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(m, n + b2, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(m + progress, n + b2, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(m + progress, n, 0.0).color(128, 255, 128, 255).endVertex();
                tessellator.draw();
                GlStateManager.enableTexture2D();
             }

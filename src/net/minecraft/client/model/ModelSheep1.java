@@ -6,7 +6,6 @@ import net.minecraft.entity.passive.EntitySheep;
 
 public class ModelSheep1 extends ModelQuadruped {
    private float headRotationAngleX;
-   private static final long b = 41511860804125L;
 
    public ModelSheep1() {
       super(12, 0.0F);

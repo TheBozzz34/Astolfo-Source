@@ -4,7 +4,6 @@ public class NibbleArrayReader {
    public final byte[] data;
    private final int depthBits;
    private final int depthBitsPlusFour;
-   private static final long a = 80149099979257L;
 
    public NibbleArrayReader(byte[] dataIn, int depthBitsIn) {
       this.data = dataIn;

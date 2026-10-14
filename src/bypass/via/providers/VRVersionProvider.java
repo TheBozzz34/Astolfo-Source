@@ -13,8 +13,6 @@ import java.net.SocketAddress;
 import java.util.Objects;
 
 public class VRVersionProvider extends BaseVersionProvider {
-   private static final long a = 43674454758878L;
-
    @Override
    public int getClosestServerProtocol(UserConnection userConnection) throws Exception {
       if (!userConnection.isClientSide()) {

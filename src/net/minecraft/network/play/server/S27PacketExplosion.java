@@ -18,7 +18,6 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient> {
    public float field_149152_f;
    public float field_149153_g;
    public float field_149159_h;
-   private static final long a = 137137977545448L;
 
    public S27PacketExplosion() {
    }

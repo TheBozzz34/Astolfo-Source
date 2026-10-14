@@ -5,8 +5,6 @@ import java.io.File;
 import java.net.SocketAddress;
 
 public class BanList extends UserList<String, IPBanEntry> {
-   private static final long a = 132942717808443L;
-
    public BanList(File bansFile) {
       super(bansFile);
    }

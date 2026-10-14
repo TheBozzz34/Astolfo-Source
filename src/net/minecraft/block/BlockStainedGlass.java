@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class BlockStainedGlass extends BlockBreakable {
    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
-   private static final long i = 16542106986510L;
 
    public BlockStainedGlass(Material materialIn) {
       super(materialIn, false);

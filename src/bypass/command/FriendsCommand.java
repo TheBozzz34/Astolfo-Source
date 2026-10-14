@@ -4,8 +4,6 @@ import bypass.relation.Relation;
 import java.util.Arrays;
 
 public final class FriendsCommand extends Command {
-   private static final long d = 26043949585898L;
-
    public FriendsCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Arrays.asList("f", "friend"));
@@ -13,11 +11,6 @@ public final class FriendsCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      long l = d ^ 122763104063607L;
-      long m = l ^ 10203745657024L;
-      int i = (int)((l ^ 10203745657024L) >>> 56);
-      int j = (int)((l ^ 10203745657024L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       switch (strings.length) {
          case 2:
             if (strings[1].equalsIgnoreCase("clear")) {
@@ -36,11 +29,6 @@ public final class FriendsCommand extends Command {
    }
 
    private void C(String[] strings) {
-      long l = d ^ 50703020371602L;
-      long m = l ^ 80253780467237L;
-      int i = (int)((l ^ 80253780467237L) >>> 56);
-      int j = (int)((l ^ 80253780467237L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       String string = strings[2];
       switch (strings.length) {
          case 3:

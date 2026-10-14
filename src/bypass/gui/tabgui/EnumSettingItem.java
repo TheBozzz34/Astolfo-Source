@@ -5,7 +5,6 @@ import bypass.setting.EnumSetting;
 
 public class EnumSettingItem extends TabGuiItem {
    private final EnumSetting z;
-   private static final long b = 95790679043354L;
 
    public EnumSettingItem(TabGui.Panel panel, EnumSetting enumSetting) {
       super(panel);

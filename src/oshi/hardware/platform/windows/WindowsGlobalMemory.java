@@ -19,7 +19,6 @@ public final class WindowsGlobalMemory extends AbstractGlobalMemory {
    private static final boolean IS_WINDOWS10_OR_GREATER = VersionHelpers.IsWindows10OrGreater();
    private final Supplier<Triplet<Long, Long, Long>> availTotalSize = Memoizer.memoize(WindowsGlobalMemory::readPerfInfo, Memoizer.defaultExpiration());
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(this::createVirtualMemory);
-   private static final long a = 39210484513134L;
 
    @Override
    public long d() {

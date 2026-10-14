@@ -34,8 +34,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ServerCommandManager extends CommandHandler implements IAdminCommand {
-   private static final long b = 123927819105232L;
-
    public ServerCommandManager() {
       this.registerCommand(new CommandTime());
       this.registerCommand(new CommandGameMode());

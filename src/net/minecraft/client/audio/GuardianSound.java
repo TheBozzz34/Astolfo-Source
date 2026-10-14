@@ -5,7 +5,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuardianSound extends MovingSound {
    private final EntityGuardian guardian;
-   private static final long a = 76963177436223L;
 
    public GuardianSound(EntityGuardian guardian) {
       super(new ResourceLocation("minecraft:mob.guardian.attack"));

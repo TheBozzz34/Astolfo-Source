@@ -9,7 +9,6 @@ public class FlatLayerInfo {
    private IBlockState layerMaterial;
    private int layerCount = 1;
    private int layerMinimumY;
-   private static final long a = 77512581052068L;
 
    public FlatLayerInfo(int i, Block block) {
       this(3, i, block);

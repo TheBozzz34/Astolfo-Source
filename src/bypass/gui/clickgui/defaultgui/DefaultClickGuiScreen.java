@@ -30,12 +30,9 @@ public class DefaultClickGuiScreen extends GuiScreen {
    private final int y = new Color(1, 1, 1, 140).getRGB();
    public static CopiedColor i;
    private Element K;
-   private static final long a = 37075201047203L;
 
    @Override
    public void initGui() {
-      long l = a ^ 15151420434663L;
-      long m = l ^ 67661234499125L;
       if (f == null) {
          f = new ConfigsPanel();
       }
@@ -62,8 +59,6 @@ public class DefaultClickGuiScreen extends GuiScreen {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = a ^ 38712368128950L;
-      long n = l ^ 21420077999460L;
       this.x++;
       float g = HUD.gui.getSetting("Scale").asFloat();
       RenderUtil.drawRect(0.0, 0.0, Display.getWidth(), Display.getHeight(), this.y);
@@ -94,8 +89,6 @@ public class DefaultClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      long m = a ^ 66209484263762L;
-      long n = m ^ 13716852234112L;
       float g = HUD.gui.getSetting("Scale").asFloat();
       if (h.G(mouseX, mouseY)) {
          h.l(mouseButton);
@@ -184,8 +177,6 @@ public class DefaultClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-      long l = a ^ 47408169902474L;
-      long m = l ^ 30031484086104L;
       float f = HUD.gui.getSetting("Scale").asFloat();
       mouseX = (int)(mouseX / f);
       mouseY = (int)(mouseY / f);
@@ -217,16 +208,12 @@ public class DefaultClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseReleased(int mouseX, int mouseY, int state) {
-      long l = a ^ 57290277591394L;
-      long m = l ^ 4762086252464L;
       Astolfo.INSTANCE.getDefaultPanelManager().Q(false);
       super.mouseReleased(mouseX, mouseY, state);
    }
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
-      long l = a ^ 113237011205710L;
-      long m = l ^ 95327453743260L;
       if (keyCode == 54 && this.x > 5) {
          B = !B;
       }
@@ -312,8 +299,6 @@ public class DefaultClickGuiScreen extends GuiScreen {
    }
 
    public void S() {
-      long l = a ^ 80818549821563L;
-      long m = l ^ 104792724428651L;
       if (ScriptCommand.z) {
          ScriptCommand.z = false;
          CategoryPanel categoryPanel = this.A("Scripts");
@@ -344,9 +329,6 @@ public class DefaultClickGuiScreen extends GuiScreen {
    }
 
    private CategoryPanel A(String string) {
-      long l = a ^ 119011607330005L;
-      long m = l ^ 101651679853063L;
-
       for (Element element : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
          if (element instanceof CategoryPanel && element.J().equalsIgnoreCase(string)) {
             return (CategoryPanel)element;

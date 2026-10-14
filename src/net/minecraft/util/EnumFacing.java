@@ -26,7 +26,6 @@ public enum EnumFacing implements IStringSerializable {
    private static final EnumFacing[] i = new EnumFacing[4];
    private static final Map<String, EnumFacing> NAME_LOOKUP = Maps.newHashMap();
    private static final EnumFacing[] M = new EnumFacing[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
-   private static final long a = 86352628985591L;
 
    EnumFacing(String string2, int k, int l, int m, int n, String string3, EnumFacing.AxisDirection axisDirection, EnumFacing.Axis axis, Vec3i vec3i) {
       this.index = l;
@@ -251,7 +250,6 @@ public enum EnumFacing implements IStringSerializable {
       private final String name;
       private final EnumFacing.Plane plane;
       private static final EnumFacing.Axis[] S = new EnumFacing.Axis[]{X, Y, Z};
-      private static final long a = 91497545210819L;
 
       Axis(String string2, int k, String string3, EnumFacing.Plane plane) {
          this.name = string3;
@@ -327,7 +325,6 @@ public enum EnumFacing implements IStringSerializable {
       VERTICAL("VERTICAL", 1);
 
       private static final EnumFacing.Plane[] c = new EnumFacing.Plane[]{HORIZONTAL, VERTICAL};
-      private static final long a = 35545594493901L;
 
       Plane(String string2, int k) {
       }

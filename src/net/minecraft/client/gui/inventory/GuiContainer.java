@@ -57,7 +57,6 @@ public abstract class GuiContainer extends GuiScreen {
    private GuiButton d;
    private GuiButton i;
    private GuiButton Xk;
-   private static final long db = 37636951297891L;
 
    public GuiContainer(Container inventorySlotsIn) {
       this.inventorySlots = inventorySlotsIn;
@@ -66,8 +65,6 @@ public abstract class GuiContainer extends GuiScreen {
 
    @Override
    public void initGui() {
-      long l = db ^ 15687370448167L;
-      long m = l ^ 29722429960183L;
       super.initGui();
       this.mc.thePlayer.openContainer = this.inventorySlots;
       this.guiLeft = (this.width - this.xSize) / 2;
@@ -362,8 +359,6 @@ public abstract class GuiContainer extends GuiScreen {
 
    @Override
    public void actionPerformed(GuiButton button) throws IOException {
-      long l = db ^ 2195983386247L;
-      long m = l ^ 22761179903063L;
       switch (button.id) {
          case 32:
             KillAura killAura = Astolfo.INSTANCE.getModuleManager().get(KillAura.class);

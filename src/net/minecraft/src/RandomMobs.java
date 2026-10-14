@@ -30,7 +30,6 @@ public class RandomMobs {
    private static final String[] DEPENDANT_SUFFIXES = new String[]{
       "_armor", "_eyes", "_exploding", "_shooting", "_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar"
    };
-   private static final long a = 10826246533459L;
 
    public static void entityLoaded(Entity entity, World world) {
       if (entity instanceof EntityLiving && world != null) {
@@ -310,10 +309,5 @@ public class RandomMobs {
             getProperties(resourceLocation);
          }
       }
-   }
-
-   static {
-      long l = a ^ 78617163711618L;
-      long m = 6767033909335402634L ^ l;
    }
 }

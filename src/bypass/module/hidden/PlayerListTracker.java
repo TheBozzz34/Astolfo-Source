@@ -117,8 +117,6 @@ public final class PlayerListTracker extends HiddenModule {
    public static Stopwatch checkTimer = new Stopwatch();
    @EventHandler(UpdateEvent.class)
    private final Listener<UpdateEvent> onUpdate = updateEvent -> {
-      long m = c ^ 84330177679483L;
-      long n = m ^ 137426619429723L;
       if (updateEvent.getState() == EventState.PRE) {
          if (mc.thePlayer.ticksExisted <= 50
             || !GameUtil.isOnHypixel()
@@ -166,7 +164,6 @@ public final class PlayerListTracker extends HiddenModule {
          }
       }
    };
-   private static final long c = 7938261704339L;
 
    public PlayerListTracker() {
       client.getEventBus().subscribe(this);

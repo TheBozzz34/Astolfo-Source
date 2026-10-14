@@ -11,9 +11,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public class BlockSnowBlock extends Block {
-   private static final long e = 85695792303681L;
-   private static final long i = -3849075727043395573L;
-
    public BlockSnowBlock() {
       super(Material.craftedSnow);
       this.setTickRandomly(true);
@@ -32,7 +29,7 @@ public class BlockSnowBlock extends Block {
 
    @Override
    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-      if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > (int)i) {
+      if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11) {
          this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
          worldIn.setBlockToAir(pos);
       }

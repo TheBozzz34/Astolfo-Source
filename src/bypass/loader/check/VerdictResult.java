@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public final class VerdictResult implements CheckResult {
    private final Verdict B;
-   private static final long a = 119053212514755L;
 
    private VerdictResult(Verdict verdict) {
       this.B = verdict;

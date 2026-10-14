@@ -22,7 +22,6 @@ public abstract class Container {
    private final Set<Slot> dragSlots = Sets.newHashSet();
    public List<ICrafting> crafters = Lists.newArrayList();
    private Set<EntityPlayer> playerList = Sets.newHashSet();
-   private static final long g = 33550479050602L;
 
    public Slot addSlotToContainer(Slot slotIn) {
       slotIn.slotNumber = this.inventorySlots.size();

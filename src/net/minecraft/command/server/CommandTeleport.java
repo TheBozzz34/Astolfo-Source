@@ -14,9 +14,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
 public class CommandTeleport extends CommandBase {
-   private static final long b = 31057643781133L;
-   private static final long j = 1341553564849274886L;
-
    @Override
    public String getCommandName() {
       return "tp";
@@ -40,7 +37,7 @@ public class CommandTeleport extends CommandBase {
 
       byte b = 0;
       Entity entity;
-      if (args.length != 2 && args.length != 4 && args.length != (int)j) {
+      if (args.length != 2 && args.length != 4 && args.length != 6) {
          entity = getCommandSenderAsPlayer(sender);
       } else {
          entity = getEntity(sender, args[0]);

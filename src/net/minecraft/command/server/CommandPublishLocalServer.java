@@ -7,8 +7,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldSettings;
 
 public class CommandPublishLocalServer extends CommandBase {
-   private static final long b = 99805926635730L;
-
    @Override
    public String getCommandName() {
       return "publish";

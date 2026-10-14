@@ -6,8 +6,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.WorldSettings;
 
 public class CommandDefaultGameMode extends CommandGameMode {
-   private static final long b = 90224620185621L;
-
    @Override
    public String getCommandName() {
       return "defaultgamemode";

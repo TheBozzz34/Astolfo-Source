@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class LoginScreenStrings {
    public static String s = "ARCFOUR";
    public static String Y = "32ijUUtMct7Iry1a";
-   private static final long a = 74312188851271L;
 
    public static String s(String string) {
       String string2 = "cB7F/oJYbmasxgH3CbDfRA==";

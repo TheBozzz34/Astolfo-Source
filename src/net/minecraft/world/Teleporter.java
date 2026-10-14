@@ -19,7 +19,6 @@ public class Teleporter {
    private final Random random;
    private final LongHashMap<Teleporter.PortalPosition> destinationCoordinateCache = new LongHashMap<>();
    private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
-   private static final long a = 136533044238811L;
 
    public Teleporter(WorldServer worldIn) {
       this.worldServerInstance = worldIn;
@@ -27,7 +26,6 @@ public class Teleporter {
    }
 
    public void placeInPortal(Entity entityIn, float rotationYaw) {
-      long l = a ^ 96545537550479L;
       if (this.worldServerInstance.provider.getDimensionId() != 1) {
          if (!this.placeInExistingPortal(entityIn, rotationYaw)) {
             this.makePortal(entityIn);
@@ -36,20 +34,19 @@ public class Teleporter {
       } else {
          int i = MathHelper.floor_double(entityIn.posX);
          int j = MathHelper.floor_double(entityIn.posY) - 1;
-         long m = 4919567686191631466L ^ l;
          int k = MathHelper.floor_double(entityIn.posZ);
          byte b = 1;
          byte b2 = 0;
 
-         for (int n = -2; n <= 2; n++) {
-            for (int i2 = -2; i2 <= 2; i2++) {
-               for (int i3 = -1; i3 < 3; i3++) {
-                  int i4 = i + i2 * b + n * b2;
-                  int i5 = j + i3;
-                  int i6 = k + i2 * b2 - n * b;
-                  boolean bl = i3 < 0;
+         for (int l = -2; l <= 2; l++) {
+            for (int m = -2; m <= 2; m++) {
+               for (int n = -1; n < 3; n++) {
+                  int i2 = i + m * b + l * b2;
+                  int i3 = j + n;
+                  int i4 = k + m * b2 - l * b;
+                  boolean bl = n < 0;
                   this.worldServerInstance
-                     .setBlockState(new BlockPos(i4, i5, i6), bl ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
+                     .setBlockState(new BlockPos(i2, i3, i4), bl ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
                }
             }
          }

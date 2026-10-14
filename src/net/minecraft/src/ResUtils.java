@@ -14,8 +14,6 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.util.ResourceLocation;
 
 public class ResUtils {
-   private static final long a = 80758993885400L;
-
    public static String[] collectFiles(String prefix, String suffix) {
       return collectFiles(new String[]{prefix}, new String[]{suffix});
    }

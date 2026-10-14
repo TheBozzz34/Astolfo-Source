@@ -6,7 +6,6 @@ import bypass.event.EventState;
 
 public class MovementInputEvent extends CancellableEvent implements Event {
    private EventState state;
-   private static final long a = 18927563709327L;
 
    public MovementInputEvent(EventState eventState) {
       this.state = eventState;

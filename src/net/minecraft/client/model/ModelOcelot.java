@@ -16,7 +16,6 @@ public class ModelOcelot extends ModelBase {
    public ModelRenderer ocelotHead;
    public ModelRenderer ocelotBody;
    public int field_78163_i = 1;
-   private static final long a = 113307397376423L;
 
    public ModelOcelot() {
       this.setTextureOffset("head.main", 0, 0);

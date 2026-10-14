@@ -27,7 +27,6 @@ import net.minecraft.client.Minecraft;
 public final class ConfigFiles implements ClientAccess {
    public static final Gson V = new Gson();
    public static final Gson G = new GsonBuilder().setPrettyPrinting().create();
-   private static final long b = 49891827257663L;
 
    private static JsonObject toJson(Setting<?> setting, String string) {
       JsonObject jsonObject = new JsonObject();
@@ -83,8 +82,6 @@ public final class ConfigFiles implements ClientAccess {
    }
 
    public static List<JsonObject> serializeModules() {
-      long l = b ^ 34046360829469L;
-      long m = l ^ 5362573070993L;
       ArrayList arrayList = new ArrayList();
       JsonObject jsonObject = new JsonObject();
 
@@ -124,9 +121,6 @@ public final class ConfigFiles implements ClientAccess {
    }
 
    public static void load(String string) {
-      long l = b ^ 29066464234499L;
-      long n = l ^ 515584549007L;
-
       try {
          File file = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), string + ".json");
          if (!file.exists()) {

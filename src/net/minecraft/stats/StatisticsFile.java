@@ -32,7 +32,6 @@ public class StatisticsFile extends StatFileWriter {
    private final Set<StatBase> field_150888_e = Sets.newHashSet();
    private int field_150885_f = -300;
    private boolean field_150886_g = false;
-   private static final long c = 23749326931841L;
 
    public StatisticsFile(MinecraftServer serverIn, File statsFileIn) {
       this.mcServer = serverIn;

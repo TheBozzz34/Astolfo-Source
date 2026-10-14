@@ -11,12 +11,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
 public class ShadowUtils {
-   private static final long a = 111988001170235L;
-   private static final long b = 446684746336960528L;
-
    public static Iterator<RenderChunk> Q(WorldClient worldClient, double d, Entity entity, int i, ViewFrustum viewFrustum) {
       float f = Shaders.getShadowRenderDistance();
-      if (f > 0.0F && f < (i - 1) * (int)b) {
+      if (f > 0.0F && f < (i - 1) * 16) {
          int j = MathHelper.ceiling_float_int(f / 16.0F) + 1;
          float g = worldClient.getCelestialAngleRadians((float)d);
          float h = Shaders.sunPathRotation * (float) (Math.PI / 180.0);

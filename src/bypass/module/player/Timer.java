@@ -30,7 +30,6 @@ public final class Timer extends Module {
          mc.timer.timerSpeed = this.speed.getValue();
       }
    };
-   private static final long c = 43346108680049L;
 
    public Timer(Category category) {
       super(category);

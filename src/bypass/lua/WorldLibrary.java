@@ -78,7 +78,6 @@ public class WorldLibrary extends TwoArgFunction implements ClientAccess {
    public static final OneArgFunction H = new IsInvisible();
    public static final OneArgFunction t = new Burning();
    public static final OneArgFunction d = new Remove();
-   private static final long b = 132616292353535L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

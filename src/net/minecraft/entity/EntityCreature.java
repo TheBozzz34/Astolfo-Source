@@ -17,7 +17,6 @@ public abstract class EntityCreature extends EntityLiving {
    private float maximumHomeDistance = -1.0F;
    private EntityAIBase aiBase = new EntityAIMoveTowardsRestriction(this, 1.0);
    private boolean isMovementAITaskSet;
-   private static final long bb = 85327421829967L;
 
    public EntityCreature(World worldIn) {
       super(worldIn);

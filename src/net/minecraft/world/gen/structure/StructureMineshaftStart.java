@@ -4,9 +4,6 @@ import java.util.Random;
 import net.minecraft.world.World;
 
 public class StructureMineshaftStart extends StructureStart {
-   private static final long a = 92813651287719L;
-   private static final long f = -751190909646798838L;
-
    public StructureMineshaftStart() {
    }
 
@@ -16,6 +13,6 @@ public class StructureMineshaftStart extends StructureStart {
       this.components.add(room);
       room.buildComponent(room, this.components, rand);
       this.updateBoundingBox();
-      this.markAvailableHeight(worldIn, rand, (int)f);
+      this.markAvailableHeight(worldIn, rand, 10);
    }
 }

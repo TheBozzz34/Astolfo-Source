@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderXPOrb extends Render<EntityXPOrb> {
    private static final ResourceLocation experienceOrbTextures = new ResourceLocation("textures/entity/experience_orb.png");
-   private static final long a = 83909860454863L;
 
    public RenderXPOrb(RenderManager renderManagerIn) {
       super(renderManagerIn);

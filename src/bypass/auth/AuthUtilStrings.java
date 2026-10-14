@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class AuthUtilStrings {
    public static String f = "ARCFOUR";
    public static String T = "ojC1QErhI5tL7NKQ";
-   private static final long a = 126257719304853L;
 
    public static String U(String string) {
       String string2 = "kXwv2mOiJc3Cs8IPnsSIkg==";

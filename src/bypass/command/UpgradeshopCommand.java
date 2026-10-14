@@ -7,8 +7,6 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
 public class UpgradeshopCommand extends Command {
-   private static final long d = 4214796333220L;
-
    public UpgradeshopCommand() {
       super("upgradeshop", "Opens the Bedwars upgrade shop in Hypixel");
       this.setAliases(Arrays.asList("ubw", "bwu"));

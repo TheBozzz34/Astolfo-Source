@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 
 public class LayerSnowmanHead implements LayerRenderer<EntitySnowman> {
    private final RenderSnowMan snowManRenderer;
-   private static final long a = 38796040581052L;
 
    public LayerSnowmanHead(RenderSnowMan snowManRendererIn) {
       this.snowManRenderer = snowManRendererIn;

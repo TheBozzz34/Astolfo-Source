@@ -17,17 +17,14 @@ public class PacketChannelBuilder {
    private List<PacketChunk> e;
    private PacketOutput P;
    private int I;
-   private ConnectionOptions i;
+   private ConnectionOptions i = ConnectionOptions.M(16);
    private ConnectionHandlerFactory p;
    private Consumer<IOException> j;
    private HandshakeAddresses R;
    private final String m;
    private Runnable t;
-   private static final long a = 137678236868828L;
-   private static final long b = 4272540870860865552L;
 
    public PacketChannelBuilder(String string) {
-      this.i = ConnectionOptions.M((int)b);
       this.m = string;
    }
 

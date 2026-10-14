@@ -16,7 +16,6 @@ public class ItemTransformVec3f {
    public final Vector3f rotation;
    public final Vector3f translation;
    public final Vector3f scale;
-   private static final long a = 104189392093063L;
 
    public ItemTransformVec3f(Vector3f rotation, Vector3f translation, Vector3f scale) {
       this.rotation = new Vector3f(rotation);
@@ -49,7 +48,6 @@ public class ItemTransformVec3f {
       private static final Vector3f ROTATION_DEFAULT = new Vector3f(0.0F, 0.0F, 0.0F);
       private static final Vector3f TRANSLATION_DEFAULT = new Vector3f(0.0F, 0.0F, 0.0F);
       private static final Vector3f SCALE_DEFAULT = new Vector3f(1.0F, 1.0F, 1.0F);
-      private static final long a = 76673069291567L;
 
       public ItemTransformVec3f deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();

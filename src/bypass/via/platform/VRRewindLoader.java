@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 
 public class VRRewindLoader implements ViaRewindPlatform, Runnable {
    private final Logger b = new LoggerWrapper(LogManager.getLogger("ViaRewind"));
-   private static final long a = 28322068994475L;
 
    @Override
    public void run() {
@@ -22,8 +21,6 @@ public class VRRewindLoader implements ViaRewindPlatform, Runnable {
    }
 
    public class d0 implements ViaRewindConfig {
-      private static final long a = 101498825064933L;
-
       @Override
       public CooldownIndicator getCooldownIndicator() {
          return CooldownIndicator.DISABLED;

@@ -12,8 +12,6 @@ import java.util.UUID;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class MicrosoftAuth {
-   private static final long a = 38768142994414L;
-
    public static Pair<String, String> X(String string) throws IllegalArgumentException, Exception {
       AuthHttp authHttp = new AuthHttp("https://login.live.com/oauth20_token.srf");
       authHttp.z("Content-Type", "application/x-www-form-urlencoded");

@@ -17,7 +17,6 @@ import net.minecraft.world.biome.BiomeColorHelper;
 
 public class BlockGrass extends Block implements IGrowable {
    public static final PropertyBool SNOWY = PropertyBool.create("snowy");
-   private static final long e = 120135262989908L;
 
    public BlockGrass() {
       super(Material.grass);

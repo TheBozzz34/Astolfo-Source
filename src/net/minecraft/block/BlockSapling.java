@@ -26,7 +26,6 @@ import net.minecraft.world.gen.feature.WorldGenTrees;
 public class BlockSapling extends BlockBush implements IGrowable {
    public static final PropertyEnum<BlockPlanks.EnumType> TYPE = PropertyEnum.create("type", BlockPlanks.EnumType.class);
    public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
-   private static final long e = 51086624602128L;
 
    public BlockSapling() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockPlanks.EnumType.OAK).withProperty(STAGE, 0));

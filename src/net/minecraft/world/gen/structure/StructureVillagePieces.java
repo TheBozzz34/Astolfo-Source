@@ -27,8 +27,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
 
 public class StructureVillagePieces {
-   private static final long a = 39738349615615L;
-
    public static void registerVillagePieces() {
       MapGenStructureIO.registerStructureComponent(StructureVillagePieces.House1.class, "ViBH");
       MapGenStructureIO.registerStructureComponent(StructureVillagePieces.Field1.class, "ViDF");
@@ -234,8 +232,6 @@ public class StructureVillagePieces {
    }
 
    public static class Church extends StructureVillagePieces.Village {
-      private static final long b = 96197707600394L;
-
       public Church() {
       }
 
@@ -379,7 +375,6 @@ public class StructureVillagePieces {
       private Block cropTypeB;
       private Block cropTypeC;
       private Block cropTypeD;
-      private static final long b = 91453669126144L;
 
       public Field1() {
       }
@@ -485,7 +480,6 @@ public class StructureVillagePieces {
    public static class Field2 extends StructureVillagePieces.Village {
       private Block cropTypeA;
       private Block cropTypeB;
-      private static final long b = 119327260531628L;
 
       public Field2() {
       }
@@ -571,8 +565,6 @@ public class StructureVillagePieces {
    }
 
    public static class Hall extends StructureVillagePieces.Village {
-      private static final long b = 32113246447740L;
-
       public Hall() {
       }
 
@@ -703,8 +695,6 @@ public class StructureVillagePieces {
    }
 
    public static class House1 extends StructureVillagePieces.Village {
-      private static final long b = 108481528717757L;
-
       public House1() {
       }
 
@@ -868,7 +858,6 @@ public class StructureVillagePieces {
          new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)
       );
       private boolean hasMadeChest;
-      private static final long b = 122215565083075L;
 
       public House2() {
       }
@@ -985,8 +974,6 @@ public class StructureVillagePieces {
    }
 
    public static class House3 extends StructureVillagePieces.Village {
-      private static final long b = 69320213766032L;
-
       public House3() {
       }
 
@@ -1145,7 +1132,6 @@ public class StructureVillagePieces {
 
    public static class House4Garden extends StructureVillagePieces.Village {
       private boolean isRoofAccessible;
-      private static final long b = 84755329968099L;
 
       public House4Garden() {
       }
@@ -1268,7 +1254,6 @@ public class StructureVillagePieces {
 
    public static class Path extends StructureVillagePieces.Road {
       private int length;
-      private static final long b = 12208910792747L;
 
       public Path() {
       }
@@ -1455,7 +1440,6 @@ public class StructureVillagePieces {
       public final int villagePieceWeight;
       public int villagePiecesSpawned;
       public int villagePiecesLimit;
-      private static final long a = 136227110327603L;
 
       public PieceWeight(Class<? extends StructureVillagePieces.Village> class2, int i, int j) {
          this.villagePieceClass = class2;
@@ -1489,7 +1473,6 @@ public class StructureVillagePieces {
       public List<StructureVillagePieces.PieceWeight> structureVillageWeightedPieceList;
       public List<StructureComponent> field_74932_i = Lists.newArrayList();
       public List<StructureComponent> field_74930_j = Lists.newArrayList();
-      private static final long b = 137487637760219L;
 
       public Start() {
       }
@@ -1510,8 +1493,6 @@ public class StructureVillagePieces {
    }
 
    public static class Torch extends StructureVillagePieces.Village {
-      private static final long b = 108756470055583L;
-
       public Torch() {
       }
 
@@ -1568,7 +1549,6 @@ public class StructureVillagePieces {
       public int field_143015_k = -1;
       private int villagersSpawned;
       private boolean isDesertVillage;
-      private static final long c = 91882474650825L;
 
       public Village() {
       }
@@ -1813,8 +1793,6 @@ public class StructureVillagePieces {
    }
 
    public static class Well extends StructureVillagePieces.Village {
-      private static final long d = 86372882674402L;
-
       public Well() {
       }
 
@@ -1921,7 +1899,6 @@ public class StructureVillagePieces {
    public static class WoodHut extends StructureVillagePieces.Village {
       private boolean isTallHouse;
       private int tablePosition;
-      private static final long b = 22391237698414L;
 
       public WoodHut() {
       }

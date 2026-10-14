@@ -16,8 +16,6 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 
 public class RecipesCrafting {
-   private static final long a = 5893763853664L;
-
    public void addRecipes(CraftingManager craftingManager) {
       craftingManager.addRecipe(new ItemStack(Blocks.chest), "###", "# #", "###", '#', Blocks.planks);
       craftingManager.addRecipe(new ItemStack(Blocks.trapped_chest), "#-", '#', Blocks.chest, '-', Blocks.tripwire_hook);

@@ -19,7 +19,6 @@ public class IteratorAxis implements Iterator<BlockPos> {
    private double zNext;
    private BlockPosM pos = new BlockPosM(0, 0, 0);
    private boolean hasNext = false;
-   private static final long b = 23353596639726L;
 
    public IteratorAxis(BlockPos posStart, BlockPos posEnd, double yDelta, double zDelta) {
       this.yDelta = yDelta;

@@ -13,7 +13,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class ItemModelGenerator {
    public static final List<String> LAYERS = Lists.newArrayList("layer0", "layer1", "layer2", "layer3", "layer4");
-   private static final long a = 4276064630866L;
 
    public ModelBlock makeItemModel(TextureMap textureMapIn, ModelBlock blockModel) {
       HashMap hashMap = Maps.newHashMap();
@@ -207,7 +206,6 @@ public class ItemModelGenerator {
       private int field_178387_b;
       private int field_178388_c;
       private final int field_178386_d;
-      private static final long a = 56688461196566L;
 
       public Span(ItemModelGenerator.SpanFacing spanFacingIn, int i, int j) {
          this.spanFacing = spanFacingIn;
@@ -250,7 +248,6 @@ public class ItemModelGenerator {
       private final EnumFacing facing;
       private final int field_178373_f;
       private final int field_178374_g;
-      private static final long a = 140273940548790L;
 
       SpanFacing(EnumFacing facing, int j, int k) {
          this.facing = facing;

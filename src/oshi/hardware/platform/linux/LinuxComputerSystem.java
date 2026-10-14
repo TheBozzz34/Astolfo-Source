@@ -16,7 +16,6 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    private final Supplier<String> manufacturer = Memoizer.memoize(LinuxComputerSystem::y);
    private final Supplier<String> model = Memoizer.memoize(LinuxComputerSystem::h);
    private final Supplier<String> serialNumber = Memoizer.memoize(LinuxComputerSystem::N);
-   private static final long b = 28769594498341L;
 
    @Override
    public String V() {

@@ -70,22 +70,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
    public static final Marker logMarkerPackets = MarkerManager.getMarker("NETWORK_PACKETS", logMarkerNetwork);
    public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
    public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
-      private static final long a = 73612865773636L;
-
       public NioEventLoopGroup load() {
          return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Client IO #%d").setDaemon(true).build());
       }
    };
    public static final LazyLoadBase<EpollEventLoopGroup> CLIENT_EPOLL_EVENTLOOP = new LazyLoadBase<EpollEventLoopGroup>() {
-      private static final long a = 31049252469656L;
-
       public EpollEventLoopGroup load() {
          return new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Client IO #%d").setDaemon(true).build());
       }
    };
    public static final LazyLoadBase<LocalEventLoopGroup> CLIENT_LOCAL_EVENTLOOP = new LazyLoadBase<LocalEventLoopGroup>() {
-      private static final long a = 102606559784122L;
-
       public LocalEventLoopGroup load() {
          return new LocalEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Local Client IO #%d").setDaemon(true).build());
       }
@@ -99,8 +93,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
    private IChatComponent terminationReason;
    private boolean isEncrypted;
    private boolean disconnected;
-   private static final long c = 100253036911086L;
-   private static final long g = 6382256058223558756L;
 
    public NetworkManager(EnumPacketDirection packetDirection) {
       this.direction = packetDirection;
@@ -230,7 +222,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
       EnumConnectionState enumConnectionState2 = this.channel.attr(attrKeyConnectionState).get();
       if (!Display.getTitle().equals("Minecraft 1.8.8") && Util.getOSType() == Util.EnumOS.WINDOWS) {
          this.channel.config().setMaxMessagesPerRead(-1);
-         this.channel.config().setConnectTimeoutMillis((int)g);
+         this.channel.config().setConnectTimeoutMillis(100);
       }
 
       if (enumConnectionState2 != enumConnectionState) {
@@ -333,8 +325,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
    public static NetworkManager provideLocalClient(SocketAddress address) {
       final NetworkManager networkManager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
       new Bootstrap().group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
-         private static final long a = 69422513303139L;
-
          @Override
          public void initChannel(Channel channel2) throws Exception {
             channel2.pipeline().addLast("packet_handler", networkManager);
@@ -439,9 +429,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
    }
 
    public final class lc extends ChannelInitializer<Channel> {
-      private static final long a = 79766163624635L;
-      private static final long e = -777262516479721442L;
-
       @Override
       public void initChannel(Channel channel2) {
          try {
@@ -450,7 +437,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
          }
 
          channel2.pipeline()
-            .addLast("timeout", new ReadTimeoutHandler((int)e))
+            .addLast("timeout", new ReadTimeoutHandler(30))
             .addLast("splitter", new MessageDeserializer2())
             .addLast("decoder", new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
             .addLast("prepender", new MessageSerializer2())
@@ -460,9 +447,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
    }
 
    public final class x3 extends ChannelInitializer<Channel> {
-      private static final long a = 55943896174766L;
-      private static final long e = 2115190527635750942L;
-
       @Override
       public void initChannel(Channel channel2) {
          try {
@@ -471,7 +455,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
          }
 
          channel2.pipeline()
-            .addLast("timeout", new ReadTimeoutHandler((int)e))
+            .addLast("timeout", new ReadTimeoutHandler(30))
             .addLast("splitter", new MessageDeserializer2())
             .addLast("decoder", new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
             .addLast("prepender", new MessageSerializer2())

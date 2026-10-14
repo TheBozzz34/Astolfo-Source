@@ -9,8 +9,6 @@ import java.util.List;
 import net.minecraft.network.PacketBuffer;
 
 public class MessageDeserializer2 extends ByteToMessageDecoder {
-   private static final long a = 8957413458737L;
-
    @Override
    public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
       byteBuf.markReaderIndex();

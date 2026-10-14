@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 
 public class BlockStainedGlassPane extends BlockPane {
    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
-   private static final long m = 11846520096113L;
 
    public BlockStainedGlassPane() {
       super(Material.glass, false);

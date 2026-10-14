@@ -14,8 +14,6 @@ public class WeightedBakedModel implements IBakedModel {
    private final int totalWeight;
    private final List<WeightedBakedModel.MyWeighedRandomItem> models;
    private final IBakedModel baseModel;
-   private static final long a = 4419971028597L;
-   private static final long b = 2305898435766648848L;
 
    public WeightedBakedModel(List<WeightedBakedModel.MyWeighedRandomItem> list) {
       this.models = list;
@@ -59,7 +57,7 @@ public class WeightedBakedModel implements IBakedModel {
    }
 
    public IBakedModel getAlternativeModel(long l) {
-      return WeightedRandom.getRandomItem(this.models, Math.abs((int)l >> (int)b) % this.totalWeight).model;
+      return WeightedRandom.getRandomItem(this.models, Math.abs((int)l >> 16) % this.totalWeight).model;
    }
 
    public static class Builder {
@@ -82,8 +80,6 @@ public class WeightedBakedModel implements IBakedModel {
 
    public static class MyWeighedRandomItem extends WeightedRandom.Item implements Comparable<WeightedBakedModel.MyWeighedRandomItem> {
       public final IBakedModel model;
-      private static final long a = 102096866608081L;
-      private static final long e = -2711945962485448579L;
 
       public MyWeighedRandomItem(IBakedModel iBakedModel, int i) {
          super(i);
@@ -109,7 +105,7 @@ public class WeightedBakedModel implements IBakedModel {
 
       @Override
       public String toString() {
-         return "MyWeighedRandomItem{weight=" + this.itemWeight + ", model=" + this.model + (int)e;
+         return "MyWeighedRandomItem{weight=" + this.itemWeight + ", model=" + this.model + '}';
       }
    }
 }

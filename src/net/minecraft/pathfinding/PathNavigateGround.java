@@ -15,8 +15,6 @@ import net.minecraft.world.pathfinder.WalkNodeProcessor;
 public class PathNavigateGround extends PathNavigate {
    public WalkNodeProcessor nodeProcessor;
    private boolean shouldAvoidSun;
-   private static final long c = 126185313564803L;
-   private static final long i = -1421992564227047408L;
 
    public PathNavigateGround(EntityLiving entitylivingIn, World worldIn) {
       super(entitylivingIn, worldIn);
@@ -43,22 +41,22 @@ public class PathNavigateGround extends PathNavigate {
 
    private int getPathablePosY() {
       if (this.theEntity.isInWater() && this.j()) {
-         int k = (int)this.theEntity.getEntityBoundingBox().minY;
+         int i = (int)this.theEntity.getEntityBoundingBox().minY;
          Block block = this.worldObj
-            .getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), k, MathHelper.floor_double(this.theEntity.posZ)))
+            .getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), i, MathHelper.floor_double(this.theEntity.posZ)))
             .getBlock();
-         int l = 0;
+         int k = 0;
 
          while (block == Blocks.flowing_water || block == Blocks.water) {
             block = this.worldObj
-               .getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), ++k, MathHelper.floor_double(this.theEntity.posZ)))
+               .getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), ++i, MathHelper.floor_double(this.theEntity.posZ)))
                .getBlock();
-            if (++l > (int)i) {
+            if (++k > 16) {
                return (int)this.theEntity.getEntityBoundingBox().minY;
             }
          }
 
-         return k;
+         return i;
       } else {
          return (int)(this.theEntity.getEntityBoundingBox().minY + 0.5);
       }
@@ -183,8 +181,8 @@ public class PathNavigateGround extends PathNavigate {
       return true;
    }
 
-   private boolean isPositionClear(int j, int k, int l, int m, int n, int i2, Vec3 vec3, double d, double d2) {
-      for (BlockPos blockPos : BlockPos.getAllInBox(new BlockPos(j, k, l), new BlockPos(j + m - 1, k + n - 1, l + i2 - 1))) {
+   private boolean isPositionClear(int i, int j, int k, int l, int m, int n, Vec3 vec3, double d, double d2) {
+      for (BlockPos blockPos : BlockPos.getAllInBox(new BlockPos(i, j, k), new BlockPos(i + l - 1, j + m - 1, k + n - 1))) {
          double e = blockPos.getX() + 0.5 - vec3.xCoord;
          double d3 = blockPos.getZ() + 0.5 - vec3.zCoord;
          if (e * d + d3 * d2 >= 0.0) {

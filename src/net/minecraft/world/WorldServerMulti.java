@@ -10,7 +10,6 @@ import net.minecraft.world.storage.ISaveHandler;
 
 public class WorldServerMulti extends WorldServer {
    private WorldServer delegate;
-   private static final long cb = 38136372876532L;
 
    public WorldServerMulti(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, WorldServer delegate, Profiler profilerIn) {
       super(server, saveHandlerIn, new DerivedWorldInfo(delegate.getWorldInfo()), dimensionId, profilerIn);

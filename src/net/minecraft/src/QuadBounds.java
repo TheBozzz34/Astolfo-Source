@@ -9,7 +9,6 @@ public class QuadBounds {
    private float k = -Float.MAX_VALUE;
    private float x = -Float.MAX_VALUE;
    private float A = -Float.MAX_VALUE;
-   private static final long a = 103981064499023L;
 
    public QuadBounds(int[] vertexData) {
       int i = vertexData.length / 4;

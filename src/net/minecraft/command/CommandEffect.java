@@ -9,8 +9,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 
 public class CommandEffect extends CommandBase {
-   private static final long b = 53975674050309L;
-
    @Override
    public String getCommandName() {
       return "effect";

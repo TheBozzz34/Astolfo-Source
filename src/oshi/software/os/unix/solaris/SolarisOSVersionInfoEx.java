@@ -6,8 +6,6 @@ import oshi.util.ParseUtil;
 
 @Deprecated
 public class SolarisOSVersionInfoEx extends AbstractOSVersionInfoEx {
-   private static final long b = 22969604460943L;
-
    public SolarisOSVersionInfoEx() {
       String string = ExecutingCommand.getFirstAnswer("uname -rv");
       String[] strings = ParseUtil.Q.split(string);

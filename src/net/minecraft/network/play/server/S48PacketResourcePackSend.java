@@ -8,7 +8,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S48PacketResourcePackSend implements Packet<INetHandlerPlayClient> {
    private String url;
    private String hash;
-   private static final long a = 126742211324551L;
 
    public S48PacketResourcePackSend() {
    }

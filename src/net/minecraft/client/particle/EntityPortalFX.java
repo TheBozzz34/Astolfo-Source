@@ -9,7 +9,6 @@ public class EntityPortalFX extends EntityFX {
    private double portalPosX;
    private double portalPosY;
    private double portalPosZ;
-   private static final long ab = 30202652017112L;
 
    public EntityPortalFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);

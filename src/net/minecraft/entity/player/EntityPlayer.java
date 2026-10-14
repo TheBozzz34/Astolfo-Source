@@ -118,7 +118,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
    private final GameProfile gameProfile;
    private boolean hasReducedDebug = false;
    public EntityFishHook fishEntity;
-   private static final long cb = 4340354591003L;
 
    public EntityPlayer(World worldIn, GameProfile gameProfileIn) {
       super(worldIn);
@@ -443,8 +442,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
    @Override
    public void onLivingUpdate() {
-      long l = cb ^ 57524029105315L;
-      long m = l ^ 910696673291L;
       if (this.flyToggleTimer > 0) {
          this.flyToggleTimer--;
       }
@@ -951,8 +948,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
    }
 
    public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
-      long l = cb ^ 13779141946963L;
-      long m = l ^ 61630202133243L;
       if (targetEntity.canAttackWithItem() && !targetEntity.hitByEntity(this)) {
          float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
          int i = 0;
@@ -1719,8 +1714,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
    }
 
    public boolean isWearing(EnumPlayerModelParts enumPlayerModelParts) {
-      long l = cb ^ 1222546604171L;
-      long m = l ^ 110721784228202L;
       return Astolfo.INSTANCE.getUserManager().g(this.getName()) != null
          ? true
          : (this.getDataWatcher().getWatchableObjectByte(10) & enumPlayerModelParts.getPartMask()) == enumPlayerModelParts.getPartMask();

@@ -9,7 +9,6 @@ import java.util.Map;
 public class KeyShape<K, V> extends MapShape<K, V> {
    private Map<K, KeyShape<K, V>> a;
    private Map<Map<K, V>, MapShape<K, V>> h;
-   private static final long c = 42495198659535L;
 
    public KeyShape(com.github.andrewoma.dexx.collection.Map<K, Integer> map) {
       super(map);

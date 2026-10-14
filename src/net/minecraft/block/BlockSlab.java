@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 
 public abstract class BlockSlab extends Block {
    public static final PropertyEnum<BlockSlab.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockSlab.EnumBlockHalf.class);
-   private static final long e = 108853380053266L;
 
    public BlockSlab(Material materialIn) {
       super(materialIn);

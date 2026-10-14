@@ -22,8 +22,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 public class ShadersRender {
-   private static final long a = 29902270934658L;
-
    public static void setFrustrumPosition(Frustum frustrum, double x, double y, double z) {
       frustrum.setPosition(x, y, z);
    }
@@ -58,13 +56,11 @@ public class ShadersRender {
    }
 
    public static void beginTranslucent() {
-      long l = a ^ 38347340608345L;
       if (Shaders.isRenderingWorld) {
          if (Shaders.ew >= 2) {
             GlStateManager.setActiveTexture(33995);
             Shaders.checkGLError("pre copy depth");
             GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, Shaders.renderWidth, Shaders.renderHeight);
-            long m = 6245932639845834108L ^ l;
             Shaders.checkGLError("copy depth");
             GlStateManager.setActiveTexture(33984);
          }
@@ -150,26 +146,21 @@ public class ShadersRender {
    }
 
    public static void renderShadowMap(EntityRenderer entityRenderer, int pass, float partialTicks, long finishTimeNano) {
-      long l = a ^ 60762455785721L;
       if (Shaders.OF > 0 && --Shaders.uU <= 0) {
          Minecraft minecraft = Minecraft.getMinecraft();
          minecraft.mcProfiler.endStartSection("shadow pass");
          RenderGlobal renderGlobal2 = minecraft.renderGlobal;
          Shaders.isShadowPass = true;
          Shaders.uU = Shaders.OO;
-         long m = 4957220021731333637L ^ l;
          Shaders.er = minecraft.gameSettings.thirdPersonView;
          minecraft.gameSettings.thirdPersonView = 1;
          Shaders.checkGLError("pre shadow");
-         m = 713584400688289600L ^ l;
          GL11.glMatrixMode(5889);
          GL11.glPushMatrix();
-         m = 2609992289330517189L ^ l;
          GL11.glMatrixMode(5888);
          GL11.glPushMatrix();
          minecraft.mcProfiler.endStartSection("shadow clear");
          EXTFramebufferObject.glBindFramebufferEXT(36160, Shaders.n);
-         m = 3032225369751746146L ^ l;
          Shaders.checkGLError("shadow bind sfb");
          Shaders.useProgram(30);
          minecraft.mcProfiler.endStartSection("shadow camera");
@@ -177,12 +168,9 @@ public class ShadersRender {
          Shaders.setCameraShadow(partialTicks);
          ActiveRenderInfo.updateRenderInfo(minecraft.thePlayer, minecraft.gameSettings.thirdPersonView == 2);
          Shaders.checkGLError("shadow camera");
-         m = 3593416244862018056L ^ l;
          GL20.glDrawBuffers(Shaders.sfbDrawBuffers);
-         long l2 = 5142470906953957167L ^ l;
          Shaders.checkGLError("shadow drawbuffers");
          GL11.glReadBuffer(0);
-         l2 = 3874332234316794071L ^ l;
          Shaders.checkGLError("shadow readbuffer");
          EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36096, 3553, Shaders.sfbDepthTextures.get(0), 0);
          if (Shaders.uQ != 0) {
@@ -193,7 +181,6 @@ public class ShadersRender {
          GL11.glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
          GL11.glClear(Shaders.uQ != 0 ? 16640 : 256);
          Shaders.checkGLError("shadow clear");
-         m = 149632112055759080L ^ l;
          minecraft.mcProfiler.endStartSection("shadow frustum");
          ClippingHelper clippingHelper = ClippingHelperShadow.getInstance();
          minecraft.mcProfiler.endStartSection("shadow culling");
@@ -205,7 +192,6 @@ public class ShadersRender {
          frustum2.setPosition(d, e, d2);
          GlStateManager.shadeModel(7425);
          GlStateManager.enableDepth();
-         m = 1432206434286879248L ^ l;
          GlStateManager.depthFunc(515);
          GlStateManager.depthMask(true);
          GlStateManager.colorMask(true, true, true, true);
@@ -219,18 +205,14 @@ public class ShadersRender {
          minecraft.mcProfiler.endStartSection("shadow updatechunks");
          minecraft.mcProfiler.endStartSection("shadow terrain");
          GlStateManager.matrixMode(5888);
-         m = 183324432622635883L ^ l;
          GlStateManager.pushMatrix();
          GlStateManager.disableAlpha();
          renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.SOLID, partialTicks, 2, entity);
          Shaders.checkGLError("shadow terrain solid");
          GlStateManager.enableAlpha();
-         m = 8500757531783953346L ^ l;
          renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.CUTOUT_MIPPED, partialTicks, 2, entity);
          Shaders.checkGLError("shadow terrain cutoutmipped");
-         m = 8811481516282464480L ^ l;
          minecraft.getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-         l2 = 7899367782786995254L ^ l;
          renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.CUTOUT, partialTicks, 2, entity);
          Shaders.checkGLError("shadow terrain cutout");
          minecraft.getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
@@ -246,10 +228,8 @@ public class ShadersRender {
 
          renderGlobal2.renderEntities(entity, frustum2, partialTicks);
          Shaders.checkGLError("shadow entities");
-         m = 6505990617124593230L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.popMatrix();
-         m = 1194866909457584513L ^ l;
          GlStateManager.depthMask(true);
          GlStateManager.disableBlend();
          GlStateManager.enableCull();
@@ -259,32 +239,27 @@ public class ShadersRender {
             GlStateManager.setActiveTexture(33989);
             Shaders.checkGLError("pre copy shadow depth");
             GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, Shaders.Ow, Shaders.e5);
-            m = 3922292682356405331L ^ l;
             Shaders.checkGLError("copy shadow depth");
             GlStateManager.setActiveTexture(33984);
          }
 
          GlStateManager.disableBlend();
          GlStateManager.depthMask(true);
-         m = 1135697088738864897L ^ l;
          minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
          GlStateManager.shadeModel(7425);
          Shaders.checkGLError("shadow pre-translucent");
          GL20.glDrawBuffers(Shaders.sfbDrawBuffers);
-         m = 5977225982888854849L ^ l;
          Shaders.checkGLError("shadow drawbuffers pre-translucent");
          Shaders.checkFramebufferStatus("shadow pre-translucent");
          if (Shaders.isRenderShadowTranslucent()) {
             minecraft.mcProfiler.endStartSection("shadow translucent");
             renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, partialTicks, 2, entity);
-            m = 7735530390833142956L ^ l;
             Shaders.checkGLError("shadow translucent");
          }
 
          if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
             RenderHelper.enableStandardItemLighting();
             Reflector.call(Reflector.ForgeHooksClient_setRenderPass, 1);
-            m = 5426547092510258830L ^ l;
             renderGlobal2.renderEntities(entity, frustum2, partialTicks);
             Reflector.call(Reflector.ForgeHooksClient_setRenderPass, -1);
             RenderHelper.disableStandardItemLighting();
@@ -293,7 +268,6 @@ public class ShadersRender {
 
          GlStateManager.shadeModel(7424);
          GlStateManager.depthMask(true);
-         m = 5597102099851875792L ^ l;
          GlStateManager.enableCull();
          GlStateManager.disableBlend();
          GL11.glFlush();
@@ -306,7 +280,6 @@ public class ShadersRender {
                if (Shaders.shadowMipmapEnabled[0]) {
                   GlStateManager.setActiveTexture(33988);
                   GlStateManager.bindTexture(Shaders.sfbDepthTextures.get(0));
-                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowFilterNearest[0] ? 9984 : 9987);
                }
@@ -314,7 +287,6 @@ public class ShadersRender {
                if (Shaders.OF >= 2 && Shaders.shadowMipmapEnabled[1]) {
                   GlStateManager.setActiveTexture(33989);
                   GlStateManager.bindTexture(Shaders.sfbDepthTextures.get(1));
-                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowFilterNearest[1] ? 9984 : 9987);
                }
@@ -326,7 +298,6 @@ public class ShadersRender {
                if (Shaders.shadowColorMipmapEnabled[0]) {
                   GlStateManager.setActiveTexture(33997);
                   GlStateManager.bindTexture(Shaders.sfbColorTextures.get(0));
-                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowColorFilterNearest[0] ? 9984 : 9987);
                }
@@ -334,7 +305,6 @@ public class ShadersRender {
                if (Shaders.uQ >= 2 && Shaders.shadowColorMipmapEnabled[1]) {
                   GlStateManager.setActiveTexture(33998);
                   GlStateManager.bindTexture(Shaders.sfbColorTextures.get(1));
-                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowColorFilterNearest[1] ? 9984 : 9987);
                }
@@ -347,7 +317,6 @@ public class ShadersRender {
          EXTFramebufferObject.glBindFramebufferEXT(36160, Shaders.OU);
          GL11.glViewport(0, 0, Shaders.renderWidth, Shaders.renderHeight);
          Shaders.activeDrawBuffers = null;
-         m = 2427063737592814041L ^ l;
          minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
          Shaders.useProgram(7);
          GL11.glMatrixMode(5888);

@@ -42,16 +42,10 @@ public final class Tracers extends Module {
    private final NumberSetting<Float> width = new NumberSetting<>("Width", "line width", 1.0F, 0.1F, 3.0F);
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
    private Listener<RenderEvent> onRender = renderEvent -> {
-      long l = c ^ 140645934746722L;
-      long m = l ^ 26630693634239L;
-      int i = (int)((l ^ 26630693634239L) >>> 56);
-      int j = (int)((l ^ 26630693634239L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       switch (renderEvent.getType()) {
          case WORLD:
             boolean bl = mc.gameSettings.viewBobbing;
             float f = mc.thePlayer.timeInPortal;
-            long n = 4194270026570116024L ^ l;
             float g = mc.thePlayer.prevTimeInPortal;
             mc.gameSettings.viewBobbing = false;
             mc.thePlayer.timeInPortal = 0.0F;
@@ -110,7 +104,6 @@ public final class Tracers extends Module {
             mc.thePlayer.prevTimeInPortal = g;
       }
    };
-   private static final long c = 24866622810496L;
 
    public Tracers(Category category) {
       super(category);
@@ -123,11 +116,6 @@ public final class Tracers extends Module {
    }
 
    private boolean W(Entity entity) {
-      long l = c ^ 82360404310483L;
-      long m = l ^ 49730777675022L;
-      int i = (int)((l ^ 49730777675022L) >>> 56);
-      int j = (int)((l ^ 49730777675022L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if ((!(entity instanceof EntityPlayer) || entity == mc.thePlayer)
          && (entity != mc.thePlayer || mc.gameSettings.thirdPersonView <= 0 || !this.entities.getSetting("Local").asBoolean())) {
          return entity instanceof EntityMob && this.entities.getSetting("Monsters").asBoolean()

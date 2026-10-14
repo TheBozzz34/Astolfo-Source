@@ -3,8 +3,6 @@ package net.minecraft.world.gen.layer;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenLayerDeepOcean extends GenLayer {
-   private static final long c = 129578246388544L;
-
    public GenLayerDeepOcean(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;

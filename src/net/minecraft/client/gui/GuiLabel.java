@@ -22,7 +22,6 @@ public class GuiLabel extends Gui {
    private int field_146165_q;
    private FontRenderer fontRenderer;
    private int field_146163_s;
-   private static final long b = 26853328968459L;
 
    public GuiLabel(FontRenderer fontRendererObj, int i, int j, int k, int l, int m, int n) {
       this.fontRenderer = fontRendererObj;

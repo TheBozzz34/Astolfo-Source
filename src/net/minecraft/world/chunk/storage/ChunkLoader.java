@@ -8,8 +8,6 @@ import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.NibbleArray;
 
 public class ChunkLoader {
-   private static final long a = 111326364152383L;
-
    public static ChunkLoader.AnvilConverterData load(NBTTagCompound nbt) {
       int i = nbt.getInteger("xPos");
       int j = nbt.getInteger("zPos");

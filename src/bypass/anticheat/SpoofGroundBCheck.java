@@ -7,8 +7,6 @@ import net.minecraft.util.BlockPos;
 
 public class SpoofGroundBCheck extends MovementCheck {
    private double o;
-   private static final long b = 128025344506953L;
-   private static final long e = -7154551926061793255L;
 
    public SpoofGroundBCheck() {
       super("Spoof Ground B");
@@ -35,6 +33,6 @@ public class SpoofGroundBCheck extends MovementCheck {
 
    @Override
    public int p() {
-      return (int)e;
+      return 25;
    }
 }

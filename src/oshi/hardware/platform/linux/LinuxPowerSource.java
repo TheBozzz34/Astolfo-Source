@@ -13,9 +13,6 @@ import oshi.util.ParseUtil;
 
 @ThreadSafe
 public final class LinuxPowerSource extends AbstractPowerSource {
-   private static final long e = 101142788395625L;
-   private static final long n = -4575320590461698148L;
-
    public LinuxPowerSource(
       String psName,
       String psDeviceName,
@@ -108,7 +105,7 @@ public final class LinuxPowerSource extends AbstractPowerSource {
                bl2 = "Charging".equals(string4);
                bl3 = "Discharging".equals(string4);
                if (hashMap.containsKey("POWER_SUPPLY_CAPACITY")) {
-                  d = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CAPACITY"), (int)n) / 100.0;
+                  d = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CAPACITY"), -100) / 100.0;
                }
 
                if (hashMap.containsKey("POWER_SUPPLY_ENERGY_NOW")) {

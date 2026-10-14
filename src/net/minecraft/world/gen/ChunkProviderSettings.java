@@ -256,7 +256,6 @@ public class ChunkProviderSettings {
       public int lapisCount = 1;
       public int lapisCenterHeight = 16;
       public int lapisSpread = 16;
-      private static final long ab = 76074268922177L;
 
       public static ChunkProviderSettings.Factory jsonToFactory(String string) {
          if (string.length() == 0) {
@@ -858,9 +857,6 @@ public class ChunkProviderSettings {
    }
 
    public static class Serializer implements JsonDeserializer<ChunkProviderSettings.Factory>, JsonSerializer<ChunkProviderSettings.Factory> {
-      private static final long a = 63486794459450L;
-      private static final long e = 8959328030296113190L;
-
       public ChunkProviderSettings.Factory deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          ChunkProviderSettings.Factory factory = new ChunkProviderSettings.Factory();
@@ -898,7 +894,7 @@ public class ChunkProviderSettings {
             factory.lavaLakeChance = JsonUtils.getInt(jsonObject, "lavaLakeChance", factory.lavaLakeChance);
             factory.useLavaOceans = JsonUtils.getBoolean(jsonObject, "useLavaOceans", factory.useLavaOceans);
             factory.fixedBiome = JsonUtils.getInt(jsonObject, "fixedBiome", factory.fixedBiome);
-            if (factory.fixedBiome >= (int)e || factory.fixedBiome < -1) {
+            if (factory.fixedBiome >= 38 || factory.fixedBiome < -1) {
                factory.fixedBiome = -1;
             } else if (factory.fixedBiome >= BiomeGenBase.hell.biomeID) {
                factory.fixedBiome += 2;

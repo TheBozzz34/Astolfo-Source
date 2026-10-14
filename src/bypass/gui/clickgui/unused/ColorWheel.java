@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 
 public class ColorWheel extends SettingComponent {
    public int L = Color.red.getRGB();
-   private static final long c = 27443863746824L;
 
    public ColorWheel(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
@@ -41,7 +40,6 @@ public class ColorWheel extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      long l = c ^ 17566477772666L;
       RenderUtil.drawRect(
          this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
       );
@@ -74,7 +72,6 @@ public class ColorWheel extends SettingComponent {
       GL11.glBegin(1);
       RenderUtil.setColor(new Color(200, 200, 200, 255).getRGB());
       GL11.glVertex2d(f + Math.cos(e) * (h - 3.5F), g + Math.sin(e) * (h - 3.5F));
-      long m = 7592729224049090461L ^ l;
       GL11.glVertex2d(f + Math.cos(e) * (h + 3.5F), g + Math.sin(e) * (h + 3.5F));
       GL11.glEnd();
       GL11.glLineWidth(1.0F);

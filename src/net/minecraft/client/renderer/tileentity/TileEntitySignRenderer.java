@@ -17,10 +17,8 @@ import org.lwjgl.opengl.GL11;
 public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntitySign> {
    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation("textures/entity/sign.png");
    private final ModelSign model = new ModelSign();
-   private static final long b = 140119004339953L;
 
    public void renderTileEntityAt(TileEntitySign te, double x, double y, double z, float partialTicks, int destroyStage) {
-      long l = b ^ 87904020361471L;
       Block block = te.getBlockType();
       GlStateManager.pushMatrix();
       float f = 0.6666667F;
@@ -54,7 +52,6 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
          this.bindTexture(DESTROY_STAGES[destroyStage]);
          GlStateManager.matrixMode(5890);
          GlStateManager.pushMatrix();
-         long m = 4255248082457419965L ^ l;
          GlStateManager.scale(4.0F, 2.0F, 1.0F);
          GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
          GlStateManager.matrixMode(5888);
@@ -100,7 +97,6 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
       if (destroyStage >= 0) {
          GlStateManager.matrixMode(5890);
          GlStateManager.popMatrix();
-         long n = 4427808520587393407L ^ l;
          GlStateManager.matrixMode(5888);
       }
    }

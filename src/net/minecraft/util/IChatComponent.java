@@ -36,7 +36,6 @@ public interface IChatComponent extends Iterable<IChatComponent> {
 
    class Serializer implements JsonDeserializer<IChatComponent>, JsonSerializer<IChatComponent> {
       private static final Gson GSON;
-      private static final long a = 50223679704650L;
 
       public IChatComponent deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          if (jsonElement.isJsonPrimitive()) {

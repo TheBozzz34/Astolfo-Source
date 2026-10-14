@@ -10,7 +10,6 @@ public class S04PacketEntityEquipment implements Packet<INetHandlerPlayClient> {
    private int entityID;
    private int equipmentSlot;
    private ItemStack itemStack;
-   private static final long a = 87393001384319L;
 
    public S04PacketEntityEquipment() {
    }

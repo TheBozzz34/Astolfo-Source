@@ -15,8 +15,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSign extends BlockContainer {
-   private static final long e = 3998217249711L;
-
    public BlockSign() {
       super(Material.wood);
       float f = 0.25F;

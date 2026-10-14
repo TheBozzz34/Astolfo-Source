@@ -301,7 +301,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    public static boolean xG;
    private static String x7 = "";
    private String xc = "";
-   private static final long ab = 118377550742639L;
 
    public Minecraft(GameConfiguration gameConfig) {
       theMinecraft = this;
@@ -386,7 +385,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    private void startGame() throws LWJGLException, IOException {
-      long l = ab ^ 111160500533317L;
       SplashScreen.e(1);
       this.gameSettings = new GameSettings(this, this.mcDataDir);
       this.defaultResourcePacks.add(this.mcDefaultResourcePack);
@@ -430,14 +428,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
       this.standardGalacticFontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
       this.mcResourceManager.registerReloadListener(this.fontRendererObj);
-      long m = 5133493022400536350L ^ l;
       this.mcResourceManager.registerReloadListener(Astolfo.INSTANCE.getFontRenderer());
       this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
       this.mcResourceManager.registerReloadListener(new GrassColorReloadListener());
       this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
       AchievementList.openInventory.setStatStringFormatter(new IStatStringFormat() {
-         private static final long a = 107355880922902L;
-
          @Override
          public String formatString(String str) {
             try {
@@ -452,16 +447,13 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       GlStateManager.enableTexture2D();
       GlStateManager.shadeModel(7425);
       GlStateManager.clearDepth(1.0);
-      m = 3210313489529356661L ^ l;
       GlStateManager.enableDepth();
       GlStateManager.depthFunc(515);
       GlStateManager.enableAlpha();
-      m = 4321534424054031229L ^ l;
       GlStateManager.alphaFunc(516, 0.1F);
       GlStateManager.cullFace(1029);
       GlStateManager.matrixMode(5889);
       GlStateManager.loadIdentity();
-      m = 5527693030937335371L ^ l;
       GlStateManager.matrixMode(5888);
       this.checkGLError("Startup");
       this.textureMapBlocks = new TextureMap("textures");
@@ -470,7 +462,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
       this.textureMapBlocks.setBlurMipmapDirect(false, this.gameSettings.g > 0);
       this.modelManager = new ModelManager(this.textureMapBlocks);
-      m = 7752571634966964805L ^ l;
       this.mcResourceManager.registerReloadListener(this.modelManager);
       this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
       this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
@@ -492,7 +483,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       Astolfo.INSTANCE.load();
       SplashScreen.e(6);
       this.ingameGUI = new GuiIngame(this);
-      m = 7979188994558015629L ^ l;
       this.displayGuiScreen(new LoginScreen());
       this.renderEngine.deleteTexture(this.mojangLogo);
       this.mojangLogo = null;
@@ -597,8 +587,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
    private void startTimerHackThread() {
       Thread thread2 = new Thread("Timer hack thread") {
-         private static final long a = 125533108795996L;
-
          @Override
          public void run() {
             while (Minecraft.this.running) {
@@ -766,8 +754,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    public static int getLoadState() {
-      long l = ab ^ 21823722746508L;
-      long m = l ^ 126182652174405L;
       int i = 0;
 
       for (LoadStage loadStage : Astolfo.INSTANCE.x().e().a().L().getValue()) {
@@ -810,8 +796,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    private void runGameLoop() throws IOException {
-      long m = ab ^ 71358527994590L;
-      long l2 = System.nanoTime();
+      long m = System.nanoTime();
       this.mcProfiler.startSection("root");
       if (Display.isCreated() && Display.isCloseRequested()) {
          this.shutdown();
@@ -833,7 +818,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       }
 
       this.mcProfiler.endSection();
-      long l3 = System.nanoTime();
+      long l2 = System.nanoTime();
       this.mcProfiler.startSection("tick");
 
       for (int i = 0; i < this.timer.elapsedTicks; i++) {
@@ -841,10 +826,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       }
 
       this.mcProfiler.endStartSection("preRenderErrors");
-      long l4 = System.nanoTime() - l3;
+      long l3 = System.nanoTime() - l2;
       this.checkGLError("Pre render");
       this.mcProfiler.endStartSection("sound");
-      long l5 = 6304076640069422054L ^ m;
       this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
       this.mcProfiler.endSection();
       this.mcProfiler.startSection("render");
@@ -860,7 +844,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.mcProfiler.endSection();
       if (!this.R) {
          this.mcProfiler.endStartSection("gameRenderer");
-         this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, l2);
+         this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, m);
          this.mcProfiler.endSection();
       }
 
@@ -871,7 +855,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          }
 
          this.mcProfiler.profilingEnabled = true;
-         this.displayDebugInfo(l4);
+         this.displayDebugInfo(l3);
       } else {
          this.mcProfiler.profilingEnabled = false;
          this.prevFrameTime = System.nanoTime();
@@ -897,9 +881,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.checkGLError("Post render");
       this.fpsCounter++;
       this.l = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame() && !this.theIntegratedServer.getPublic();
-      long l6 = System.nanoTime();
-      this.frameTimer.addFrame(l6 - this.startNanoTime);
-      this.startNanoTime = l6;
+      long l4 = System.nanoTime();
+      this.frameTimer.addFrame(l4 - this.startNanoTime);
+      this.startNanoTime = l4;
 
       while (getSystemTime() >= this.debugUpdateTime + 1000L) {
          debugFPS = this.fpsCounter;
@@ -1008,19 +992,16 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    private void displayDebugInfo(long elapsedTicksTime) {
-      long l = ab ^ 81036638229059L;
       if (this.mcProfiler.profilingEnabled) {
          List list = this.mcProfiler.getProfilingData(this.debugProfilerName);
          Profiler.Result result = (Profiler.Result)list.remove(0);
          GlStateManager.clear(256);
          GlStateManager.matrixMode(5889);
          GlStateManager.enableColorMaterial();
-         long m = 4770871202371725874L ^ l;
          GlStateManager.loadIdentity();
          GlStateManager.ortho(0.0, this.displayWidth, this.displayHeight, 0.0, 1000.0, 3000.0);
          GlStateManager.matrixMode(5888);
          GlStateManager.loadIdentity();
-         m = 218634553137331039L ^ l;
          GlStateManager.translate(0.0F, 0.0F, -2000.0F);
          GL11.glLineWidth(1.0F);
          GlStateManager.disableTexture2D();
@@ -1041,30 +1022,30 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
          for (int k = 0; k < list.size(); k++) {
             Profiler.Result result2 = (Profiler.Result)list.get(k);
-            int n = MathHelper.floor_double(result2.field_76332_a / 4.0) + 1;
+            int l = MathHelper.floor_double(result2.field_76332_a / 4.0) + 1;
             worldRenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-            int i2 = result2.getColor();
-            int i3 = i2 >> 16 & 0xFF;
-            int i4 = i2 >> 8 & 0xFF;
-            int i5 = i2 & 0xFF;
-            worldRenderer.pos(i, j, 0.0).color(i3, i4, i5, 255).endVertex();
+            int m = result2.getColor();
+            int n = m >> 16 & 0xFF;
+            int i2 = m >> 8 & 0xFF;
+            int i3 = m & 0xFF;
+            worldRenderer.pos(i, j, 0.0).color(n, i2, i3, 255).endVertex();
 
-            for (int i6 = n; i6 >= 0; i6--) {
-               float f = (float)((d + result2.field_76332_a * i6 / n) * Math.PI * 2.0 / 100.0);
+            for (int i4 = l; i4 >= 0; i4--) {
+               float f = (float)((d + result2.field_76332_a * i4 / l) * Math.PI * 2.0 / 100.0);
                float g = MathHelper.sin(f) * s;
                float h = MathHelper.cos(f) * s * 0.5F;
-               worldRenderer.pos(i + g, j - h, 0.0).color(i3, i4, i5, 255).endVertex();
+               worldRenderer.pos(i + g, j - h, 0.0).color(n, i2, i3, 255).endVertex();
             }
 
             tessellator.draw();
             worldRenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
 
-            for (int i7 = n; i7 >= 0; i7--) {
-               float f2 = (float)((d + result2.field_76332_a * i7 / n) * Math.PI * 2.0 / 100.0);
+            for (int i5 = l; i5 >= 0; i5--) {
+               float f2 = (float)((d + result2.field_76332_a * i5 / l) * Math.PI * 2.0 / 100.0);
                float f3 = MathHelper.sin(f2) * s;
                float f4 = MathHelper.cos(f2) * s * 0.5F;
-               worldRenderer.pos(i + f3, j - f4, 0.0).color(i3 >> 1, i4 >> 1, i5 >> 1, 255).endVertex();
-               worldRenderer.pos(i + f3, j - f4 + 10.0F, 0.0).color(i3 >> 1, i4 >> 1, i5 >> 1, 255).endVertex();
+               worldRenderer.pos(i + f3, j - f4, 0.0).color(n >> 1, i2 >> 1, i3 >> 1, 255).endVertex();
+               worldRenderer.pos(i + f3, j - f4 + 10.0F, 0.0).color(n >> 1, i2 >> 1, i3 >> 1, 255).endVertex();
             }
 
             tessellator.draw();
@@ -1084,36 +1065,36 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             string = string + result.field_76331_c + " ";
          }
 
-         int i8 = 16777215;
-         this.fontRendererObj.drawStringWithShadow(string, i - s, j - s / 2 - 16, i8);
+         int i6 = 16777215;
+         this.fontRendererObj.drawStringWithShadow(string, i - s, j - s / 2 - 16, i6);
          this.fontRendererObj
             .drawStringWithShadow(
-               string = decimalFormat.format(result.field_76330_b) + "%", i + s - this.fontRendererObj.getStringWidth(string), j - s / 2 - 16, i8
+               string = decimalFormat.format(result.field_76330_b) + "%", i + s - this.fontRendererObj.getStringWidth(string), j - s / 2 - 16, i6
             );
 
-         for (int i9 = 0; i9 < list.size(); i9++) {
-            Profiler.Result result3 = (Profiler.Result)list.get(i9);
+         for (int i7 = 0; i7 < list.size(); i7++) {
+            Profiler.Result result3 = (Profiler.Result)list.get(i7);
             String string2 = "";
             if (result3.field_76331_c.equals("unspecified")) {
                string2 = string2 + "[?] ";
             } else {
-               string2 = string2 + "[" + (i9 + 1) + "] ";
+               string2 = string2 + "[" + (i7 + 1) + "] ";
             }
 
             string2 = string2 + result3.field_76331_c;
-            this.fontRendererObj.drawStringWithShadow(string2, i - s, j + s / 2 + i9 * 8 + 20, result3.getColor());
+            this.fontRendererObj.drawStringWithShadow(string2, i - s, j + s / 2 + i7 * 8 + 20, result3.getColor());
             this.fontRendererObj
                .drawStringWithShadow(
                   string2 = decimalFormat.format(result3.field_76332_a) + "%",
                   i + s - 50 - this.fontRendererObj.getStringWidth(string2),
-                  j + s / 2 + i9 * 8 + 20,
+                  j + s / 2 + i7 * 8 + 20,
                   result3.getColor()
                );
             this.fontRendererObj
                .drawStringWithShadow(
                   string2 = decimalFormat.format(result3.field_76330_b) + "%",
                   i + s - this.fontRendererObj.getStringWidth(string2),
-                  j + s / 2 + i9 * 8 + 20,
+                  j + s / 2 + i7 * 8 + 20,
                   result3.getColor()
                );
          }
@@ -1326,8 +1307,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    public void runTick() throws IOException {
-      long m = ab ^ 106564788937888L;
-      long l2 = m ^ 66201089088892L;
       if (Astolfo.INSTANCE.getEventBus() != null) {
          Astolfo.INSTANCE.getEventBus().post(new TickEvent(EventState.PRE));
       }
@@ -1427,8 +1406,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                }
             }
 
-            long l3 = getSystemTime() - this.systemTime;
-            if (l3 <= 200L) {
+            long m = getSystemTime() - this.systemTime;
+            if (m <= 200L) {
                int j = Mouse.getEventDWheel();
                if (j != 0) {
                   if (this.thePlayer.isSpectator()) {
@@ -2087,8 +2066,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          }
       });
       theCrash.getCategory().addCrashSectionCallable("OpenGL", new Callable<String>() {
-         private static final long a = 24023893392391L;
-
          public String call() {
             return GL11.glGetString(7937) + " GL version " + GL11.glGetString(7938) + ", " + GL11.glGetString(7936);
          }
@@ -2099,8 +2076,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          }
       });
       theCrash.getCategory().addCrashSectionCallable("Using VBOs", new Callable<String>() {
-         private static final long a = 103676975062099L;
-
          public String call() {
             return Minecraft.this.gameSettings.useVbo ? "Yes" : "No";
          }
@@ -2109,8 +2084,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          .addCrashSectionCallable(
             "Is Modded",
             new Callable<String>() {
-               private static final long a = 40271343592918L;
-
                public String call() throws Exception {
                   String string = ClientBrandRetriever.getClientModName();
                   return !string.equals("vanilla")
@@ -2124,15 +2097,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             }
          );
       theCrash.getCategory().addCrashSectionCallable("Type", new Callable<String>() {
-         private static final long a = 25331663698498L;
-
          public String call() throws Exception {
             return "Client (map_client.txt)";
          }
       });
       theCrash.getCategory().addCrashSectionCallable("Resource Packs", new Callable<String>() {
-         private static final long a = 38342920724151L;
-
          public String call() throws Exception {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -2156,8 +2125,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          }
       });
       theCrash.getCategory().addCrashSectionCallable("Profiler Position", new Callable<String>() {
-         private static final long a = 129503972040201L;
-
          public String call() throws Exception {
             return Minecraft.this.mcProfiler.profilingEnabled ? Minecraft.this.mcProfiler.getNameOfLastSection() : "N/A (disabled)";
          }

@@ -26,7 +26,6 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
    private final List<ITickable> listTickables = Lists.newArrayList();
    private final Map<String, Integer> mapTextureCounters = Maps.newHashMap();
    private IResourceManager theResourceManager;
-   private static final long a = 103274445130813L;
 
    public TextureManager(IResourceManager resourceManager) {
       this.theResourceManager = resourceManager;

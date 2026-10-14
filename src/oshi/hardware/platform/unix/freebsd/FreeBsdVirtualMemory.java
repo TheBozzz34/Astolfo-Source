@@ -14,8 +14,6 @@ public final class FreeBsdVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Long> total = Memoizer.memoize(FreeBsdVirtualMemory::querySwapTotal, Memoizer.defaultExpiration());
    private final Supplier<Long> pagesIn = Memoizer.memoize(FreeBsdVirtualMemory::queryPagesIn, Memoizer.defaultExpiration());
    private final Supplier<Long> pagesOut = Memoizer.memoize(FreeBsdVirtualMemory::queryPagesOut, Memoizer.defaultExpiration());
-   private static final long a = 88887668179967L;
-   private static final long g = 493893901573160970L;
 
    @Override
    public long y() {
@@ -40,7 +38,7 @@ public final class FreeBsdVirtualMemory extends AbstractVirtualMemory {
    private static long querySwapUsed() {
       String string = ExecutingCommand.getAnswerAt("swapinfo -k", 1);
       String[] strings = ParseUtil.Q.split(string);
-      return strings.length < 5 ? 0L : ParseUtil.parseLongOrDefault(strings[2], 0L) << (int)g;
+      return strings.length < 5 ? 0L : ParseUtil.parseLongOrDefault(strings[2], 0L) << 10;
    }
 
    private static long querySwapTotal() {

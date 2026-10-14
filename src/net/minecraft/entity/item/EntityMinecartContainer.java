@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 public abstract class EntityMinecartContainer extends EntityMinecart implements ILockableContainer {
    private ItemStack[] minecartContainerItems = new ItemStack[36];
    private boolean dropContentsWhenDead = true;
-   private static final long cb = 55121102546858L;
 
    public EntityMinecartContainer(World worldIn) {
       super(worldIn);

@@ -25,7 +25,6 @@ public abstract class CommandBlockLogic implements ICommandSender {
    private String commandStored = "";
    private String customName = "@";
    private final CommandResultStats resultStats = new CommandResultStats();
-   private static final long a = 66599394280267L;
 
    public int getSuccessCount() {
       return this.successCount;

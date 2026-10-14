@@ -45,7 +45,6 @@ public class OldServerPinger {
    private static final Splitter PING_RESPONSE_SPLITTER = Splitter.on('\u0000').limit(6);
    private static final Logger logger = LogManager.getLogger();
    private final List<NetworkManager> pingDestinations = Collections.synchronizedList(Lists.newArrayList());
-   private static final long b = 138202638132137L;
 
    public void ping(final ServerData server) throws UnknownHostException {
       ServerAddress serverAddress = ServerAddress.fromString(server.serverIP);
@@ -59,7 +58,6 @@ public class OldServerPinger {
             private boolean field_147403_d = false;
             private boolean field_183009_e = false;
             private long field_175092_e = 0L;
-            private static final long a = 109236779036732L;
 
             @Override
             public void handleServerInfo(S00PacketServerInfo packetIn) {
@@ -179,8 +177,6 @@ public class OldServerPinger {
                   channel.pipeline()
                      .addLast(
                         new SimpleChannelInboundHandler<ByteBuf>() {
-                           private static final long a = 129847495498971L;
-
                            @Override
                            public void channelActive(ChannelHandlerContext channelHandlerContext) throws Exception {
                               super.channelActive(channelHandlerContext);

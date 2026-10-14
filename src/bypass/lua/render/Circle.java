@@ -7,9 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Circle extends VarArgFunction {
-   private static final long a = 47825080443389L;
-   private static final long b = 3972618498512781320L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       double d = 0.0;
@@ -22,7 +19,7 @@ public final class Circle extends VarArgFunction {
       int m = 0;
       int n = 0;
       int i2 = 1;
-      if (varargs.narg() < (int)b) {
+      if (varargs.narg() < 8) {
          return valueOf(false);
       }
 

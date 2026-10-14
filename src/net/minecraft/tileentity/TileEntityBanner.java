@@ -19,7 +19,6 @@ public class TileEntityBanner extends TileEntity {
    private List<TileEntityBanner.EnumBannerPattern> patternList;
    private List<EnumDyeColor> colorList;
    private String patternResourceLocation;
-   private static final long c = 115382003351562L;
 
    public void setItemValues(ItemStack stack) {
       this.patterns = null;
@@ -195,7 +194,6 @@ public class TileEntityBanner extends TileEntity {
       private String patternID;
       private String[] craftingLayers = new String[3];
       private ItemStack patternCraftingStack;
-      private static final long a = 139190778063201L;
 
       EnumBannerPattern(String name, String id) {
          this.patternName = name;

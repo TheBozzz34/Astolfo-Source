@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ThreeArgFunction;
 
 public final class SetMotion extends ThreeArgFunction {
-   private static final long a = 42601729641317L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
       if (ClientAccess.mc.thePlayer != null) {

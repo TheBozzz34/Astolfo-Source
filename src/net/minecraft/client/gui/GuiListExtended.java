@@ -3,8 +3,6 @@ package net.minecraft.client.gui;
 import net.minecraft.client.Minecraft;
 
 public abstract class GuiListExtended extends GuiSlot {
-   private static final long e = 20320261327238L;
-
    public GuiListExtended(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
       super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
    }

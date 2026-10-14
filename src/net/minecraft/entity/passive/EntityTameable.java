@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public abstract class EntityTameable extends EntityAnimal implements IEntityOwnable {
    public EntityAISit aiSit = new EntityAISit(this);
-   private static final long hb = 87179505664682L;
 
    public EntityTameable(World worldIn) {
       super(worldIn);

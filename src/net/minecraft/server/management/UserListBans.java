@@ -5,8 +5,6 @@ import com.mojang.authlib.GameProfile;
 import java.io.File;
 
 public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
-   private static final long a = 120848512167847L;
-
    public UserListBans(File bansFile) {
       super(bansFile);
    }

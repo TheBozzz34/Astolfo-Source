@@ -105,7 +105,6 @@ public abstract class CreativeTabs {
    private boolean drawTitle = true;
    private EnumEnchantmentType[] enchantmentTypes;
    private ItemStack iconItemStack;
-   private static final long a = 13965613623014L;
 
    public CreativeTabs(int index, String label) {
       this.tabIndex = index;

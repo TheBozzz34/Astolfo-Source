@@ -20,7 +20,6 @@ public class Framebuffer {
    public int depthBuffer;
    public float[] framebufferColor;
    public int framebufferFilter;
-   private static final long a = 68170991417652L;
 
    public Framebuffer(int i, int j, boolean bl) {
       this.useDepth = bl;
@@ -74,7 +73,6 @@ public class Framebuffer {
    }
 
    public void createFramebuffer(int width, int height) {
-      long l = a ^ 75151553719345L;
       this.framebufferWidth = width;
       this.framebufferHeight = height;
       this.framebufferTextureWidth = width;
@@ -90,7 +88,6 @@ public class Framebuffer {
 
          this.setFramebufferFilter(9728);
          GlStateManager.bindTexture(this.framebufferTexture);
-         long m = 5524770439045699323L ^ l;
          GL11.glTexImage2D(3553, 0, 32856, this.framebufferTextureWidth, this.framebufferTextureHeight, 0, 6408, 5121, (ByteBuffer)null);
          OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
          OpenGlHelper.glFramebufferTexture2D(OpenGlHelper.GL_FRAMEBUFFER, OpenGlHelper.GL_COLOR_ATTACHMENT0, 3553, this.framebufferTexture, 0);
@@ -108,11 +105,9 @@ public class Framebuffer {
    }
 
    public void setFramebufferFilter(int i) {
-      long l = a ^ 103765071115624L;
       if (OpenGlHelper.isFramebufferEnabled()) {
          this.framebufferFilter = i;
          GlStateManager.bindTexture(this.framebufferTexture);
-         long m = 1915925770676843379L ^ l;
          GL11.glTexParameterf(3553, 10241, i);
          GL11.glTexParameterf(3553, 10240, i);
          GL11.glTexParameterf(3553, 10242, 10496.0F);
@@ -177,15 +172,12 @@ public class Framebuffer {
    }
 
    public void framebufferRenderExt(int i, int j, boolean bl) {
-      long l = a ^ 89014826740534L;
       if (OpenGlHelper.isFramebufferEnabled()) {
          GlStateManager.colorMask(true, true, true, false);
          GlStateManager.disableDepth();
-         long m = 8526040424913307669L ^ l;
          GlStateManager.depthMask(false);
          GlStateManager.matrixMode(5889);
          GlStateManager.loadIdentity();
-         m = 802263974487195951L ^ l;
          GlStateManager.ortho(0.0, i, j, 0.0, 1000.0, 3000.0);
          GlStateManager.matrixMode(5888);
          GlStateManager.loadIdentity();

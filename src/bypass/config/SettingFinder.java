@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class SettingFinder {
-   private static final long a = 84781534054506L;
-
    public static Setting<?> getOption(Collection<Setting<?>> collection, String string) {
       return collection == null ? null : collection.stream().filter(setting -> setting.getName().equalsIgnoreCase(string)).findFirst().orElse(null);
    }

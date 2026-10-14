@@ -8,7 +8,6 @@ import java.util.Iterator;
 public class HashMapCollision1<K, V> extends CompactHashMap<K, V> {
    private final int hash;
    private final ListMap<K, V> kvs;
-   private static final long c = 90223640519476L;
 
    public HashMapCollision1(int hash, ListMap<K, V> kvs) {
       this.hash = hash;

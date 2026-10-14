@@ -23,8 +23,6 @@ import oshi.util.tuples.Pair;
 
 @Immutable
 public class WindowsUsbDevice extends AbstractUsbDevice {
-   private static final long c = 33233266106493L;
-
    public WindowsUsbDevice(
       String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
    ) {

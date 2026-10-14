@@ -15,8 +15,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockDeadBush extends BlockBush {
-   private static final long e = 132860545113556L;
-
    public BlockDeadBush() {
       super(Material.vine);
       float f = 0.4F;

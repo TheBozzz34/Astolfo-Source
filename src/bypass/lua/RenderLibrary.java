@@ -41,7 +41,6 @@ public class RenderLibrary extends TwoArgFunction implements ClientAccess {
    public static final VarArgFunction D = new Line();
    public static final VarArgFunction H = new Circle();
    private static final ResourceLocation E = new ResourceLocation("client/da.png");
-   private static final long b = 140597798818334L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

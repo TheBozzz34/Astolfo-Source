@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 public class BlockDirt extends Block {
    public static final PropertyEnum<BlockDirt.DirtType> VARIANT = PropertyEnum.create("variant", BlockDirt.DirtType.class);
    public static final PropertyBool SNOWY = PropertyBool.create("snowy");
-   private static final long i = 45345278370134L;
 
    public BlockDirt() {
       super(Material.ground);
@@ -90,14 +89,13 @@ public class BlockDirt extends Block {
       private final String name;
       private final String unlocalizedName;
       private final MapColor field_181067_h;
-      private static final long a = 1667333255427L;
 
-      DirtType(int k, String string2, MapColor mapColor) {
-         this(k, string2, string2, mapColor);
+      DirtType(int j, String string2, MapColor mapColor) {
+         this(j, string2, string2, mapColor);
       }
 
-      DirtType(int k, String string2, String string3, MapColor mapColor) {
-         this.metadata = k;
+      DirtType(int j, String string2, String string3, MapColor mapColor) {
+         this.metadata = j;
          this.name = string2;
          this.unlocalizedName = string3;
          this.field_181067_h = mapColor;

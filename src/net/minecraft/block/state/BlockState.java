@@ -27,8 +27,6 @@ import net.minecraft.util.MapPopulator;
 public class BlockState {
    private static final Joiner COMMA_JOINER = Joiner.on(", ");
    private static final Function<IProperty, String> GET_NAME_FUNC = new Function<IProperty, String>() {
-      private static final long a = 51129142378123L;
-
       public String apply(IProperty iProperty) {
          return iProperty == null ? "<NULL>" : iProperty.getName();
       }
@@ -36,7 +34,6 @@ public class BlockState {
    private final Block block;
    private final ImmutableList<IProperty> properties;
    private final ImmutableList<IBlockState> validStates;
-   private static final long a = 119042696040847L;
 
    public BlockState(Block blockIn, IProperty... properties) {
       this.block = blockIn;
@@ -102,7 +99,6 @@ public class BlockState {
       private final Block block;
       private final ImmutableMap<IProperty, Comparable> properties;
       private ImmutableTable<IProperty, Comparable, IBlockState> propertyValueTable;
-      private static final long a = 45256580002851L;
 
       public StateImplementation(Block blockIn, ImmutableMap<IProperty, Comparable> propertiesIn) {
          this.block = blockIn;

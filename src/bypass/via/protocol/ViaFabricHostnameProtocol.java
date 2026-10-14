@@ -10,7 +10,6 @@ import com.viaversion.viaversion.api.type.Type;
 
 public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
    public static final ViaFabricHostnameProtocol i = new ViaFabricHostnameProtocol();
-   private static final long a = 40667888257833L;
 
    @Override
    public void registerPackets() {
@@ -23,8 +22,6 @@ public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
    }
 
    public class alf extends PacketRemapper {
-      private static final long a = 91192389229130L;
-
       @Override
       public void registerMap() {
          this.map(Type.VAR_INT);

@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 public class ChatSettings implements JsonSerializable {
    private final boolean c;
    private final boolean R;
-   private static final long a = 139127221217819L;
 
    public ChatSettings(boolean bl, boolean bl2) {
       this.c = bl;

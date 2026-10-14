@@ -9,7 +9,6 @@ public class ServerListEntryLanDetected implements GuiListExtended.IGuiListEntry
    public final Minecraft mc;
    public final LanServerDetector.LanServer field_148291_b;
    private long field_148290_d = 0L;
-   private static final long a = 98168154137223L;
 
    public ServerListEntryLanDetected(GuiMultiplayer guiMultiplayer, LanServerDetector.LanServer lanServer) {
       this.field_148292_c = guiMultiplayer;

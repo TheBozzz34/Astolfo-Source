@@ -388,7 +388,6 @@ public final class Flight extends Module {
          }
       }
    };
-   private static final long cb = 73121372369804L;
 
    public Flight(Category category) {
       super(category);

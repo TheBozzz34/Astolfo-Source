@@ -11,14 +11,12 @@ import shadersmod.client.Shaders;
 public class LayerEnderDragonEyes implements LayerRenderer<EntityDragon> {
    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/enderdragon/dragon_eyes.png");
    private final RenderDragon dragonRenderer;
-   private static final long b = 21489159829862L;
 
    public LayerEnderDragonEyes(RenderDragon dragonRendererIn) {
       this.dragonRenderer = dragonRendererIn;
    }
 
    public void doRenderLayer(EntityDragon entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
-      long l = b ^ 93840939186788L;
       this.dragonRenderer.bindTexture(TEXTURE);
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
@@ -37,7 +35,6 @@ public class LayerEnderDragonEyes implements LayerRenderer<EntityDragon> {
 
       this.dragonRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);
       this.dragonRenderer.setLightmap(entitylivingbaseIn, partialTicks);
-      long m = 3730157493441269419L ^ l;
       GlStateManager.disableBlend();
       GlStateManager.enableAlpha();
       GlStateManager.depthFunc(515);

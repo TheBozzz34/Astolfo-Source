@@ -10,7 +10,6 @@ import java.awt.Color;
 
 public class MapComponent extends SettingContainer {
    private static final Color C = new Color(23, 23, 23);
-   private static final long d = 40832626348333L;
 
    public MapComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);

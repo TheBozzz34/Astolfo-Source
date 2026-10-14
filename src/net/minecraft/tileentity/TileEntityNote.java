@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 public class TileEntityNote extends TileEntity {
    public byte note;
    public boolean previousRedstoneState;
-   private static final long a = 108558324406126L;
 
    @Override
    public void writeToNBT(NBTTagCompound compound) {

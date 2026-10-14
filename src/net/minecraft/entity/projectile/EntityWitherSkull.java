@@ -14,8 +14,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public class EntityWitherSkull extends EntityFireball {
-   private static final long bb = 48499649661598L;
-
    public EntityWitherSkull(World worldIn) {
       super(worldIn);
       this.setSize(0.3125F, 0.3125F);

@@ -8,8 +8,6 @@ import oshi.jna.platform.unix.freebsd.FreeBsdLibc;
 
 @ThreadSafe
 public final class FreeBsdSensors extends AbstractSensors {
-   private static final long b = 26308654529878L;
-
    @Override
    public double queryCpuTemperature() {
       return queryKldloadCoretemp();

@@ -19,7 +19,6 @@ import oshi.util.platform.unix.freebsd.BsdSysctlUtil;
 @ThreadSafe
 public final class FreeBsdCentralProcessor extends AbstractCentralProcessor {
    private static final Pattern CPUMASK = Pattern.compile(".*<cpu\\s.*mask=\"(?:0x)?(\\p{XDigit}+)\".*>.*</cpu>.*");
-   private static final long c = 19818144091181L;
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {

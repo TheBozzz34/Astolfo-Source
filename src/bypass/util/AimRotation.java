@@ -8,7 +8,6 @@ public class AimRotation {
    private float G;
    private float c;
    private boolean f;
-   private static final long a = 36825389874458L;
 
    public AimRotation(float f, float g) {
       this.G = f;

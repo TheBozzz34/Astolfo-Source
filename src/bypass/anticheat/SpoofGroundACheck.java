@@ -6,9 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 public class SpoofGroundACheck extends MovementCheck {
-   private static final long b = 45380024613441L;
-   private static final long e = 1185354816998604815L;
-
    public SpoofGroundACheck() {
       super("Spoof Ground A");
    }
@@ -28,6 +25,6 @@ public class SpoofGroundACheck extends MovementCheck {
 
    @Override
    public int p() {
-      return (int)e;
+      return 15;
    }
 }

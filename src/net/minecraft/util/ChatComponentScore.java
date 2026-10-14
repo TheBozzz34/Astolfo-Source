@@ -9,7 +9,6 @@ public class ChatComponentScore extends ChatComponentStyle {
    private final String name;
    private final String objective;
    private String value = "";
-   private static final long a = 26030676759320L;
 
    public ChatComponentScore(String nameIn, String objectiveIn) {
       this.name = nameIn;

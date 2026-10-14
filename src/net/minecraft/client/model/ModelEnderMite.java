@@ -8,7 +8,6 @@ public class ModelEnderMite extends ModelBase {
    private static final int[][] field_178714_b = new int[][]{{0, 0}, {0, 5}, {0, 14}, {0, 18}};
    private static final int field_178715_c = field_178716_a.length;
    private final ModelRenderer[] field_178713_d = new ModelRenderer[field_178715_c];
-   private static final long b = 103751808029190L;
 
    public ModelEnderMite() {
       float f = -3.5F;

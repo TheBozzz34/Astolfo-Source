@@ -7,7 +7,6 @@ public class ReflectorConstructor {
    private Class[] parameterTypes = null;
    private boolean checked = false;
    private Constructor targetConstructor = null;
-   private static final long a = 105776566625076L;
 
    public ReflectorConstructor(ReflectorClass reflectorClass, Class[] parameterTypes) {
       this.reflectorClass = reflectorClass;

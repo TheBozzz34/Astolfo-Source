@@ -43,7 +43,6 @@ import org.apache.logging.log4j.LogManager;
 public class VRBackwardsLoader implements ViaBackwardsPlatform, Runnable {
    private final Logger M = new LoggerWrapper(LogManager.getLogger("ViaBackwards"));
    private File X;
-   private static final long a = 128675334728581L;
 
    @Override
    public void run() {

@@ -43,7 +43,6 @@ public class NetworkIF {
    private long speed;
    private long timeStamp;
    private final Supplier<Properties> vmMacAddrProps = Memoizer.memoize(NetworkIF::queryVmMacAddrProps);
-   private static final long a = 51326179852591L;
 
    public NetworkInterface queryNetworkInterface() {
       return this.networkInterface;

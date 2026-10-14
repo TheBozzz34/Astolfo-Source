@@ -11,12 +11,9 @@ import org.lwjgl.opengl.GL11;
 import shadersmod.client.SVertexBuilder;
 
 public class WorldVertexBufferUploader {
-   private static final long b = 61201061751505L;
-
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public void draw(WorldRenderer worldRenderer) {
-      long l = b ^ 95818232398051L;
       if (worldRenderer.getVertexCount() > 0) {
          VertexFormat vertexFormat = worldRenderer.getVertexFormat();
          int i = vertexFormat.getNextOffset();
@@ -32,7 +29,7 @@ public class WorldVertexBufferUploader {
                Reflector.callVoid(enumUsage, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, vertexFormat, j, i, byteBuffer);
             } else {
                int k = vertexFormatElement.getType().getGlConstant();
-               int m = vertexFormatElement.getIndex();
+               int l = vertexFormatElement.getIndex();
                ((Buffer)byteBuffer).position(vertexFormat.getOffset(j));
                switch (enumUsage) {
                   case POSITION:
@@ -40,9 +37,8 @@ public class WorldVertexBufferUploader {
                      GL11.glEnableClientState(32884);
                      break;
                   case UV:
-                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + m);
+                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + l);
                      GL11.glTexCoordPointer(vertexFormatElement.getElementCount(), k, i, byteBuffer);
-                     long n = 8353501295803406929L ^ l;
                      GL11.glEnableClientState(32888);
                      OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
                      break;
@@ -65,21 +61,21 @@ public class WorldVertexBufferUploader {
             GL11.glDrawArrays(worldRenderer.getDrawMode(), 0, worldRenderer.getVertexCount());
          }
 
-         int i2 = 0;
+         int m = 0;
 
-         for (int i3 = list.size(); i2 < i3; i2++) {
-            VertexFormatElement vertexFormatElement2 = (VertexFormatElement)list.get(i2);
+         for (int n = list.size(); m < n; m++) {
+            VertexFormatElement vertexFormatElement2 = (VertexFormatElement)list.get(m);
             VertexFormatElement.EnumUsage enumUsage2 = vertexFormatElement2.getUsage();
             if (bl2) {
-               Reflector.callVoid(enumUsage2, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, vertexFormat, i2, i, byteBuffer);
+               Reflector.callVoid(enumUsage2, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, vertexFormat, m, i, byteBuffer);
             } else {
-               int i4 = vertexFormatElement2.getIndex();
+               int i2 = vertexFormatElement2.getIndex();
                switch (enumUsage2) {
                   case POSITION:
                      GL11.glDisableClientState(32884);
                      break;
                   case UV:
-                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + i4);
+                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + i2);
                      GL11.glDisableClientState(32888);
                      OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
                      break;

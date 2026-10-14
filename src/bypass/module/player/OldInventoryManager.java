@@ -325,7 +325,6 @@ public final class OldInventoryManager extends Module {
             );
       }
    };
-   private static final long u = 94215075344745L;
 
    public OldInventoryManager() {
       super(Category.PLAYER);
@@ -1137,10 +1136,5 @@ public final class OldInventoryManager extends Module {
       }
 
       return false;
-   }
-
-   static {
-      long l = u ^ 139327214074234L;
-      long m = 7594547158736891620L ^ l;
    }
 }

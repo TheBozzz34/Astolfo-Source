@@ -8,8 +8,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class ItemAppleGold extends ItemFood {
-   private static final long a = 105772476593135L;
-
    public ItemAppleGold(int amount, float saturation, boolean isWolfFood) {
       super(amount, saturation, isWolfFood);
       this.setHasSubtypes(true);

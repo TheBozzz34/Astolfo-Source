@@ -5,7 +5,6 @@ public class FrameTimer {
    private int lastIndex;
    private int counter;
    private int index;
-   private static final long a = 92424025200239L;
 
    public void addFrame(long runningTime) {
       this.frames[this.index] = runningTime;

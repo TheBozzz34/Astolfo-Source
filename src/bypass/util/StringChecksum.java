@@ -3,21 +3,18 @@ package bypass.util;
 import java.nio.charset.StandardCharsets;
 
 public class StringChecksum {
-   private static final long a = 121449699069703L;
-   private static final long b = 2433289489343316095L;
-
    public static int Y(String string) {
       return U(string.getBytes(StandardCharsets.UTF_8));
    }
 
    private static int U(byte[] bytes) {
-      byte b2 = 0;
+      byte b = 0;
 
-      for (byte b3 : bytes) {
-         b2 += b3;
+      for (byte b2 : bytes) {
+         b += b2;
       }
 
-      return b2 % (int)b;
+      return b % 127;
    }
 
    public static byte[] j(int i, String string) {

@@ -59,7 +59,6 @@ public final class ScoreboardTracker extends HiddenModule {
          }
       }
    };
-   private static final long c = 29572904651931L;
 
    public ScoreboardTracker() {
       client.getEventBus().subscribe(this);

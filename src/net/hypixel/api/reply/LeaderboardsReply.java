@@ -7,7 +7,6 @@ import net.hypixel.api.util.GameType;
 
 public class LeaderboardsReply extends AbstractReply {
    private Map<GameType, List<LeaderboardsReply.Leaderboard>> leaderboards;
-   private static final long a = 105133944837762L;
 
    public Map<GameType, List<LeaderboardsReply.Leaderboard>> getLeaderboards() {
       return this.leaderboards;
@@ -24,7 +23,6 @@ public class LeaderboardsReply extends AbstractReply {
       private int count;
       private List<UUID> leaders;
       private String title;
-      private static final long a = 62383566088341L;
 
       public String D() {
          return this.path;

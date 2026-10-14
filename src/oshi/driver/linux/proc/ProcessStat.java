@@ -13,7 +13,6 @@ import oshi.util.tuples.Triplet;
 @ThreadSafe
 public final class ProcessStat {
    private static final Pattern DIGITS = Pattern.compile("\\d+");
-   private static final long a = 86335578721221L;
 
    private ProcessStat() {
    }

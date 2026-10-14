@@ -13,7 +13,6 @@ public class C0EPacketClickWindow implements Packet<INetHandlerPlayServer> {
    private short actionNumber;
    private ItemStack clickedItem;
    private int mode;
-   private static final long a = 58342067122191L;
 
    public C0EPacketClickWindow() {
    }

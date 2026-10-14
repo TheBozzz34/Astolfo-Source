@@ -11,14 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 public class FileSender implements Connection {
-   private final ByteBuffer O;
+   private final ByteBuffer O = ByteBuffer.allocateDirect(8);
    private SocketChannel b;
-   private static final long a = 31600913175106L;
-   private static final long e = -5584179601946443768L;
-
-   public FileSender() {
-      this.O = ByteBuffer.allocateDirect((int)e);
-   }
 
    @Override
    public void open(SocketChannel socketChannel) throws IOException {

@@ -59,7 +59,6 @@ public class BlockModelShapes {
    private final Map<IBlockState, IBakedModel> bakedModelStore = Maps.newIdentityHashMap();
    private final BlockStateMapper blockStateMapper = new BlockStateMapper();
    private final ModelManager modelManager;
-   private static final long a = 127546327403312L;
 
    public BlockModelShapes(ModelManager manager) {
       this.modelManager = manager;
@@ -223,8 +222,6 @@ public class BlockModelShapes {
       this.registerBlockWithStateMapper(Blocks.hopper, new StateMap.Builder().ignore(BlockHopper.ENABLED).build());
       this.registerBlockWithStateMapper(Blocks.flower_pot, new StateMap.Builder().ignore(BlockFlowerPot.LEGACY_DATA).build());
       this.registerBlockWithStateMapper(Blocks.quartz_block, new StateMapperBase() {
-         private static final long a = 130867692770442L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             BlockQuartz.EnumType enumType = state.getValue(BlockQuartz.VARIANT);
@@ -244,16 +241,12 @@ public class BlockModelShapes {
          }
       });
       this.registerBlockWithStateMapper(Blocks.deadbush, new StateMapperBase() {
-         private static final long a = 115621130746128L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             return new ModelResourceLocation("dead_bush", "normal");
          }
       });
       this.registerBlockWithStateMapper(Blocks.pumpkin_stem, new StateMapperBase() {
-         private static final long a = 111440924791370L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             LinkedHashMap linkedHashMap = Maps.newLinkedHashMap(state.getProperties());
@@ -265,8 +258,6 @@ public class BlockModelShapes {
          }
       });
       this.registerBlockWithStateMapper(Blocks.melon_stem, new StateMapperBase() {
-         private static final long a = 26511084549882L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             LinkedHashMap linkedHashMap2 = Maps.newLinkedHashMap(state.getProperties());
@@ -278,8 +269,6 @@ public class BlockModelShapes {
          }
       });
       this.registerBlockWithStateMapper(Blocks.dirt, new StateMapperBase() {
-         private static final long a = 31569239802986L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             LinkedHashMap linkedHashMap3 = Maps.newLinkedHashMap(state.getProperties());
@@ -292,8 +281,6 @@ public class BlockModelShapes {
          }
       });
       this.registerBlockWithStateMapper(Blocks.double_stone_slab, new StateMapperBase() {
-         private static final long a = 7479018015008L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             LinkedHashMap linkedHashMap4 = Maps.newLinkedHashMap(state.getProperties());
@@ -304,8 +291,6 @@ public class BlockModelShapes {
          }
       });
       this.registerBlockWithStateMapper(Blocks.double_stone_slab2, new StateMapperBase() {
-         private static final long a = 50111525593217L;
-
          @Override
          public ModelResourceLocation getModelResourceLocation(IBlockState state) {
             LinkedHashMap linkedHashMap5 = Maps.newLinkedHashMap(state.getProperties());

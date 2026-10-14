@@ -8,8 +8,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class CommandParticle extends CommandBase {
-   private static final long b = 110570871182474L;
-
    @Override
    public String getCommandName() {
       return "particle";

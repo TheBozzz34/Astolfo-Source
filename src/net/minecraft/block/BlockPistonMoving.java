@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 public class BlockPistonMoving extends BlockContainer {
    public static final PropertyDirection FACING = BlockPistonExtension.FACING;
    public static final PropertyEnum<BlockPistonExtension.EnumPistonType> TYPE = BlockPistonExtension.TYPE;
-   private static final long e = 24212196979601L;
 
    public BlockPistonMoving() {
       super(Material.piston);

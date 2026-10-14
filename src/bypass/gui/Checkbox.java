@@ -9,7 +9,6 @@ public class Checkbox extends Gui {
    public int H;
    public int x;
    private boolean a;
-   private static final long b = 13228480642808L;
 
    public Checkbox(String string, int i, int j, boolean bl) {
       this.d = string;

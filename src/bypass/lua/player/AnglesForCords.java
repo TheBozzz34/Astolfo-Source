@@ -10,8 +10,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class AnglesForCords extends VarArgFunction {
-   private static final long a = 65882888098918L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       if (varargs.narg() == 3) {

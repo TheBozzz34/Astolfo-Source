@@ -38,11 +38,6 @@ public final class PlayerList extends Module {
    public static final String O = EnumChatFormatting.BLUE + "Blue";
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
-      long l = c ^ 29775334135652L;
-      long m = l ^ 126807604784795L;
-      int k = (int)((l ^ 126807604784795L) >>> 56);
-      int i2 = (int)((l ^ 126807604784795L) << 8 >>> 32);
-      int i3 = (int)(m << 40 >>> 40);
       if (renderEvent.getType() == RenderType.SCREEN && this.W != null) {
          if (Mouse.isButtonDown(0)) {
             this.posX.setValue(this.W.M());
@@ -57,9 +52,9 @@ public final class PlayerList extends Module {
             }
          }
 
-         int i4 = renderEvent.getResolution().getScaledHeight();
-         int i5 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-         int i6 = i4 - Mouse.getY() * i4 / mc.displayHeight - 1;
+         int k = renderEvent.getResolution().getScaledHeight();
+         int l = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+         int m = k - Mouse.getY() * k / mc.displayHeight - 1;
          this.W.j().clear();
          if (this.killCounter.getValue()) {
             if (ScoreboardTracker.r()) {
@@ -89,13 +84,13 @@ public final class PlayerList extends Module {
             this.W.j().putIfAbsent(string2, "nicked");
          }
 
-         this.W.render(i5, i6);
+         this.W.render(l, m);
          if (mc.currentScreen instanceof GuiChat && this.W.u_boolean() && Mouse.isButtonDown(0)) {
-            this.W.T(i5, i6);
+            this.W.T(l, m);
          }
 
-         if (Mouse.isButtonDown(0) && this.W.G(i5, i6)) {
-            this.W.F(true, i5, i6);
+         if (Mouse.isButtonDown(0) && this.W.G(l, m)) {
+            this.W.F(true, l, m);
          } else {
             this.W.x(false);
          }
@@ -129,7 +124,6 @@ public final class PlayerList extends Module {
          }
       }
    };
-   private static final long c = 27553418976418L;
 
    public PlayerList(Category category) {
       super(category);

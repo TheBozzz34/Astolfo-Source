@@ -25,7 +25,6 @@ public class EntityItem extends Entity {
    private String thrower;
    private String owner;
    public float hoverStart = (float)(Math.random() * Math.PI * 2.0);
-   private static final long ab = 110901665805688L;
 
    public EntityItem(World worldIn, double x, double y, double z) {
       super(worldIn);

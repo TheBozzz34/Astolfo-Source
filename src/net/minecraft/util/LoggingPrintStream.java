@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 public class LoggingPrintStream extends PrintStream {
    private static final Logger LOGGER = LogManager.getLogger();
    private final String domain;
-   private static final long a = 68534076299193L;
 
    public LoggingPrintStream(String domainIn, OutputStream outStream) {
       super(outStream);

@@ -18,7 +18,6 @@ public class WorldChunkManager {
    private BiomeCache biomeCache = new BiomeCache(this);
    private List<BiomeGenBase> biomesToSpawnIn;
    private String generatorOptions = "";
-   private static final long a = 102345644744286L;
 
    public WorldChunkManager() {
       this.biomesToSpawnIn = Lists.newArrayList();

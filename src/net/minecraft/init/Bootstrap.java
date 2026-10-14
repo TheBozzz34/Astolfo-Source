@@ -57,7 +57,6 @@ public class Bootstrap {
    private static final PrintStream SYSOUT = System.out;
    private static boolean alreadyRegistered = false;
    private static final Logger LOGGER = LogManager.getLogger();
-   private static final long a = 5940285432529L;
 
    public static boolean isRegistered() {
       return alreadyRegistered;
@@ -102,7 +101,6 @@ public class Bootstrap {
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.potionitem, new IBehaviorDispenseItem() {
          private final BehaviorDefaultDispenseItem field_150843_b = new BehaviorDefaultDispenseItem();
-         private static final long a = 70477952389734L;
 
          @Override
          public ItemStack dispense(IBlockSource source, final ItemStack stack) {
@@ -125,8 +123,6 @@ public class Bootstrap {
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.spawn_egg, new BehaviorDefaultDispenseItem() {
-         private static final long b = 78067703884201L;
-
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             EnumFacing enumFacing = BlockDispenser.getFacing(source.getBlockMetadata());
@@ -143,9 +139,6 @@ public class Bootstrap {
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.fireworks, new BehaviorDefaultDispenseItem() {
-         private static final long b = 49479359609860L;
-         private static final long c = 1825254924913476586L;
-
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             EnumFacing enumFacing2 = BlockDispenser.getFacing(source.getBlockMetadata());
@@ -160,13 +153,10 @@ public class Bootstrap {
 
          @Override
          public void playDispenseSound(IBlockSource source) {
-            source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
+            source.getWorld().playAuxSFX(1002, source.getBlockPos(), 0);
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.fire_charge, new BehaviorDefaultDispenseItem() {
-         private static final long b = 106517926278307L;
-         private static final long c = 7390723583439274993L;
-
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             EnumFacing enumFacing3 = BlockDispenser.getFacing(source.getBlockMetadata());
@@ -186,13 +176,11 @@ public class Bootstrap {
 
          @Override
          public void playDispenseSound(IBlockSource source) {
-            source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
+            source.getWorld().playAuxSFX(1009, source.getBlockPos(), 0);
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.boat, new BehaviorDefaultDispenseItem() {
          private final BehaviorDefaultDispenseItem field_150842_b = new BehaviorDefaultDispenseItem();
-         private static final long b = 107772798036385L;
-         private static final long c = 7084252489771385832L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -222,12 +210,11 @@ public class Bootstrap {
 
          @Override
          public void playDispenseSound(IBlockSource source) {
-            source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
+            source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
          }
       });
       BehaviorDefaultDispenseItem behaviorDefaultDispenseItem = new BehaviorDefaultDispenseItem() {
          private final BehaviorDefaultDispenseItem field_150841_b = new BehaviorDefaultDispenseItem();
-         private static final long b = 49241626613634L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -246,7 +233,6 @@ public class Bootstrap {
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.water_bucket, behaviorDefaultDispenseItem);
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.bucket, new BehaviorDefaultDispenseItem() {
          private final BehaviorDefaultDispenseItem field_150840_b = new BehaviorDefaultDispenseItem();
-         private static final long b = 4532547767672L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -279,7 +265,6 @@ public class Bootstrap {
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.flint_and_steel, new BehaviorDefaultDispenseItem() {
          private boolean field_150839_b = true;
-         private static final long b = 24054458888466L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -311,7 +296,6 @@ public class Bootstrap {
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.dye, new BehaviorDefaultDispenseItem() {
          private boolean field_150838_b = true;
-         private static final long b = 83328342553774L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -342,8 +326,6 @@ public class Bootstrap {
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Item.getItemFromBlock(Blocks.tnt), new BehaviorDefaultDispenseItem() {
-         private static final long b = 53035816366307L;
-
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
             World world6 = source.getWorld();
@@ -357,7 +339,6 @@ public class Bootstrap {
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.skull, new BehaviorDefaultDispenseItem() {
          private boolean field_179240_b = true;
-         private static final long b = 131181088363358L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -411,7 +392,6 @@ public class Bootstrap {
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Item.getItemFromBlock(Blocks.pumpkin), new BehaviorDefaultDispenseItem() {
          private boolean field_179241_b = true;
-         private static final long b = 57079700377394L;
 
          @Override
          public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {

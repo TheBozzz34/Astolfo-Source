@@ -9,12 +9,10 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
    public float prevLidAngle;
    public int numPlayersUsing;
    private int ticksSinceSync;
-   private static final long a = 75557046285899L;
-   private static final long g = -1301569515267555308L;
 
    @Override
    public void update() {
-      if (++this.ticksSinceSync % (int)g * 4 == 0) {
+      if (++this.ticksSinceSync % 20 * 4 == 0) {
          this.worldObj.addBlockEvent(this.pos, Blocks.ender_chest, 1, this.numPlayersUsing);
       }
 
@@ -30,7 +28,7 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
       }
 
       if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-         float h = this.lidAngle;
+         float g = this.lidAngle;
          if (this.numPlayersUsing > 0) {
             this.lidAngle += f;
          } else {
@@ -41,8 +39,8 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
             this.lidAngle = 1.0F;
          }
 
-         float f2 = 0.5F;
-         if (this.lidAngle < f2 && h >= f2) {
+         float h = 0.5F;
+         if (this.lidAngle < h && g >= h) {
             double d2 = i + 0.5;
             double d3 = k + 0.5;
             this.worldObj.playSoundEffect(d2, j + 0.5, d3, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);

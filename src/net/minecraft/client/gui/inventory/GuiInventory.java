@@ -17,7 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 public class GuiInventory extends InventoryEffectRenderer {
    private float oldMouseX;
    private float oldMouseY;
-   private static final long bb = 8927156825382L;
 
    public GuiInventory(EntityPlayer entityPlayer) {
       super(entityPlayer.inventoryContainer);

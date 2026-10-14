@@ -40,7 +40,6 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
    private static final int Y = 5;
    private static final int H = 6;
    private static final long BOOTTIME;
-   private static final long d = 164746557421L;
 
    public MacOperatingSystem() {
       this.version = new MacOSVersionInfoEx();
@@ -57,10 +56,8 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public AbstractOperatingSystem.FamilyVersionInfo queryFamilyVersionInfo() {
-      long l = d ^ 48550876888294L;
       String string = this.major == 10 && this.minor >= 12 ? "macOS" : System.getProperty("os.name");
       String string2 = this.parseCodeName();
-      long m = 8784670395099931783L ^ l;
       String string3 = SysctlUtil.sysctl("kern.osversion", "");
       return new AbstractOperatingSystem.FamilyVersionInfo(string, new OperatingSystem.OSVersionInfo(this.osXVersion, string2, string3));
    }
@@ -386,13 +383,6 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
    }
 
    static {
-      long l = d ^ 31703834107096L;
-      long m = l ^ 6105657261644988929L;
-      m = l ^ 1197614836592261684L;
-      m = l ^ 743142429263370285L;
-      m = l ^ 743142429263370285L;
-      m = l ^ 6498231792738444290L;
-      m = l ^ 6973601558899677628L;
       Timeval timeval = new Timeval();
       if (SysctlUtil.sysctl("kern.boottime", timeval) && timeval.tv_sec.longValue() != 0L) {
          BOOTTIME = timeval.tv_sec.longValue();

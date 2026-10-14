@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class Slot extends OneArgFunction {
-   private static final long a = 82964650317896L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (ClientAccess.mc.thePlayer != null && luaValue.isnumber()) {

@@ -8,8 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
 public class CommandPlaySound extends CommandBase {
-   private static final long b = 31381084915842L;
-
    @Override
    public String getCommandName() {
       return "playsound";

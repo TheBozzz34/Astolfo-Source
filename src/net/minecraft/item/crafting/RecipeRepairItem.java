@@ -8,9 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class RecipeRepairItem implements IRecipe {
-   private static final long a = 6977921828562L;
-   private static final long b = -7843211187075415964L;
-
    @Override
    public boolean matches(InventoryCrafting inv, World worldIn) {
       ArrayList arrayList = Lists.newArrayList();
@@ -55,7 +52,7 @@ public class RecipeRepairItem implements IRecipe {
             Item item = itemStack3.getItem();
             int j = item.getMaxDamage() - itemStack3.getItemDamage();
             int k = item.getMaxDamage() - itemStack4.getItemDamage();
-            int l = j + k + item.getMaxDamage() * 5 / (int)b;
+            int l = j + k + item.getMaxDamage() * 5 / 100;
             int m = item.getMaxDamage() - l;
             if (m < 0) {
                m = 0;

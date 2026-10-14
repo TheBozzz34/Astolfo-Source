@@ -9,7 +9,6 @@ public class ConvertingListContainer<A, B> extends ListContainer<B> implements C
    private ListContainer<B> N;
    private Function<A, B> Z;
    private Function<B, A> U;
-   private static final long b = 63959488470954L;
 
    public ConvertingListContainer(ListContainer<B> listContainer, Function<A, B> function, Function<B, A> function2) {
       super(listContainer.getValue());

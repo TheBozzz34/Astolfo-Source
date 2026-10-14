@@ -2,19 +2,10 @@ package bypass.gui.animation;
 
 public class Animation {
    private Easing i = Easing.LINEAR;
-   public int O;
-   private boolean z;
-   private boolean r;
-   public double U;
-   private static final long a = 29336265419768L;
-   private static final long c = -6639574584083349484L;
-
-   public Animation() {
-      this.O = (int)c;
-      this.z = true;
-      this.r = false;
-      this.U = 0.0;
-   }
+   public int O = 20;
+   private boolean z = true;
+   private boolean r = false;
+   public double U = 0.0;
 
    public Animation start() {
       this.r = true;

@@ -6,7 +6,6 @@ public abstract class AbstractCommand implements CommandInfo {
    private String name;
    private String usage;
    private List<String> aliases;
-   private static final long c = 77846584001266L;
 
    public AbstractCommand(String string, String string2) {
       this.name = string;

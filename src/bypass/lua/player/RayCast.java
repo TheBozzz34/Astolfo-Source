@@ -7,8 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class RayCast extends VarArgFunction {
-   private static final long a = 7586746421673L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       if (varargs.narg() < 2) {

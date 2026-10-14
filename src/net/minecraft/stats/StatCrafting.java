@@ -6,7 +6,6 @@ import net.minecraft.util.IChatComponent;
 
 public class StatCrafting extends StatBase {
    private final Item field_150960_a;
-   private static final long a = 115065965581626L;
 
    public StatCrafting(String string, String string2, IChatComponent statNameIn, Item item) {
       super(string + string2, statNameIn);

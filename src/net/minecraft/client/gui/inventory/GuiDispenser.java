@@ -10,7 +10,6 @@ public class GuiDispenser extends GuiContainer {
    private static final ResourceLocation dispenserGuiTextures = new ResourceLocation("textures/gui/container/dispenser.png");
    private final InventoryPlayer playerInventory;
    public IInventory dispenserInventory;
-   private static final long bb = 48796425439072L;
 
    public GuiDispenser(InventoryPlayer playerInv, IInventory dispenserInv) {
       super(new ContainerDispenser(playerInv, dispenserInv));

@@ -12,8 +12,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.World;
 
 public class BlockBush extends Block {
-   private static final long l = 46223124726920L;
-
    public BlockBush() {
       this(Material.plants);
    }

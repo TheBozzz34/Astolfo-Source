@@ -29,7 +29,6 @@ public class BlockVine extends Block {
    public static final PropertyBool SOUTH = PropertyBool.create("south");
    public static final PropertyBool WEST = PropertyBool.create("west");
    public static final PropertyBool[] ALL_FACES = new PropertyBool[]{UP, NORTH, SOUTH, WEST, EAST};
-   private static final long C = 78731357203990L;
 
    public BlockVine() {
       super(Material.vine);

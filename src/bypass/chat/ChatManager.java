@@ -7,7 +7,6 @@ import java.io.File;
 public class ChatManager extends JsonFileManager<ChatSettings, JsonObject> {
    private static boolean v = true;
    private static boolean p = true;
-   private static final long c = 113002365647811L;
 
    public ChatManager(File file) {
       super(file, "chat.json");

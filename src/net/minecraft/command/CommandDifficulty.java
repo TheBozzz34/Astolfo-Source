@@ -7,8 +7,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.EnumDifficulty;
 
 public class CommandDifficulty extends CommandBase {
-   private static final long b = 86061445913258L;
-
    @Override
    public String getCommandName() {
       return "difficulty";

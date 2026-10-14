@@ -15,7 +15,6 @@ import oshi.util.tuples.Quintet;
 @Immutable
 public final class MacFirmware extends AbstractFirmware {
    private final Supplier<Quintet<String, String, String, String, String>> manufNameDescVersRelease = Memoizer.memoize(MacFirmware::queryEfi);
-   private static final long b = 72274638882170L;
 
    @Override
    public String R() {

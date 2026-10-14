@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public class FriendsReply extends AbstractReply {
    private List<FriendsReply.FriendShip> records;
-   private static final long a = 138487238749118L;
 
    public List<FriendsReply.FriendShip> getFriendShips() {
       return this.records;
@@ -21,8 +20,6 @@ public class FriendsReply extends AbstractReply {
       private UUID uuidSender;
       private UUID uuidReceiver;
       private ZonedDateTime started;
-      private static final long a = 96749424621424L;
-      private static final long e = 6034385834919067773L;
 
       public UUID T() {
          return this.uuidSender;
@@ -38,7 +35,7 @@ public class FriendsReply extends AbstractReply {
 
       @Override
       public String toString() {
-         return "FriendShip{uuidSender=" + this.uuidSender + ", uuidReceiver=" + this.uuidReceiver + ", started=" + this.started + (int)e;
+         return "FriendShip{uuidSender=" + this.uuidSender + ", uuidReceiver=" + this.uuidReceiver + ", started=" + this.started + '}';
       }
    }
 }

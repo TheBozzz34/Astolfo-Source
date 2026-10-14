@@ -57,7 +57,6 @@ public final class Hitboxes extends Module {
          }
       }
    };
-   private static final long c = 73694703082346L;
 
    public Hitboxes(Category category) {
       super(category);

@@ -13,7 +13,6 @@ public class MapGenStructureIO {
    private static Map<Class<? extends StructureStart>, String> startClassToNameMap = Maps.newHashMap();
    private static Map<String, Class<? extends StructureComponent>> componentNameToClassMap = Maps.newHashMap();
    private static Map<Class<? extends StructureComponent>, String> componentClassToNameMap = Maps.newHashMap();
-   private static final long a = 61532071068083L;
 
    private static void registerStructure(Class<? extends StructureStart> startClass, String structureName) {
       startNameToClassMap.put(structureName, startClass);

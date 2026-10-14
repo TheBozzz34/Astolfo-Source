@@ -7,7 +7,6 @@ public class LongHashMap<V> {
    private int capacity = 3072;
    private final float percentUseable = 0.75F;
    private transient volatile int modCount;
-   private static final long a = 22799504171269L;
 
    public LongHashMap() {
       this.mask = this.hashArray.length - 1;
@@ -164,7 +163,6 @@ public class LongHashMap<V> {
       public V value;
       public LongHashMap.Entry<V> nextEntry;
       public final int hash;
-      private static final long a = 21262378104440L;
 
       public Entry(int i, long l, V object, LongHashMap.Entry<V> entry) {
          this.value = (V)object;

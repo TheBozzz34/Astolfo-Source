@@ -10,7 +10,6 @@ public class GuiBrewingStand extends GuiContainer {
    private static final ResourceLocation brewingStandGuiTextures = new ResourceLocation("textures/gui/container/brewing_stand.png");
    private final InventoryPlayer playerInventory;
    private IInventory tileBrewingStand;
-   private static final long bb = 71851714743262L;
 
    public GuiBrewingStand(InventoryPlayer playerInv, IInventory iInventory) {
       super(new ContainerBrewingStand(playerInv, iInventory));

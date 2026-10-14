@@ -20,7 +20,6 @@ public abstract class TileEntitySpecialRenderer<T extends TileEntity> {
       new ResourceLocation("textures/blocks/destroy_stage_9.png")
    };
    public TileEntityRendererDispatcher rendererDispatcher;
-   private static final long e = 56969698812968L;
 
    public abstract void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage);
 

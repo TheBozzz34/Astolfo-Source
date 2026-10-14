@@ -6,7 +6,6 @@ import net.minecraft.inventory.Container;
 
 public class EntityAITradePlayer extends EntityAIBase {
    private EntityVillager villager;
-   private static final long a = 67140599962075L;
 
    public EntityAITradePlayer(EntityVillager villagerIn) {
       this.villager = villagerIn;

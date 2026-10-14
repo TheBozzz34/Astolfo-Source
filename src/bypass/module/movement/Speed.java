@@ -97,9 +97,6 @@ public final class Speed extends Module {
    private float lastForward;
    @EventHandler(MoveEvent.class)
    private Listener<MoveEvent> onMove = moveEvent -> {
-      long l = cb ^ 11481398063088L;
-      long m = l ^ 24814441719509L;
-
       try {
          if (mc.thePlayer == null || mc.theWorld == null) {
             return;
@@ -123,23 +120,23 @@ public final class Speed extends Module {
                         this.bhopStage = 2;
                      }
 
-                     label355: {
+                     label351: {
                         switch (this.bhopStage) {
                            case 1:
                               if (mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F) {
                                  this.moveSpeed = 1.35 * d - 0.01;
                               }
-                              break label355;
+                              break label351;
                            case 2:
                               if (mc.thePlayer.isCollidedVertically && (mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F)) {
                                  moveEvent.setY(mc.thePlayer.motionY = e);
                                  this.moveSpeed = d * 2.149;
                               }
-                              break label355;
+                              break label351;
                            case 3:
                               double d2 = 0.66 * (this.lastDistance - d);
                               this.moveSpeed = this.lastDistance - d2;
-                              break label355;
+                              break label351;
                         }
 
                         if (!mc.theWorld
@@ -190,7 +187,7 @@ public final class Speed extends Module {
                         return;
                      }
 
-                     label360: {
+                     label356: {
                         switch (this.stage) {
                            case 2:
                               if ((mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F) && mc.thePlayer.onGround) {
@@ -198,10 +195,10 @@ public final class Speed extends Module {
                                  mc.thePlayer.triggerAchievement(StatList.jumpStat);
                                  this.moveSpeed = d * 1.8;
                               }
-                              break label360;
+                              break label356;
                            case 3:
                               this.moveSpeed = this.lastDistance - 0.6965610249494268 * (this.lastDistance - d);
-                              break label360;
+                              break label356;
                         }
 
                         if ((
@@ -240,7 +237,7 @@ public final class Speed extends Module {
                            return;
                         }
 
-                        label357: {
+                        label353: {
                            mc.thePlayer.setSprinting(true);
                            switch (this.stage) {
                               case 2:
@@ -255,12 +252,12 @@ public final class Speed extends Module {
                                     mc.thePlayer.triggerAchievement(StatList.jumpStat);
                                     this.moveSpeed = d * 2.0356;
                                  }
-                                 break label357;
+                                 break label353;
                               case 3:
                                  this.moveSpeed = this.lastDistance
                                     - (this.damageBooster.asDouble() > 0.1 && mc.thePlayer.hurtTime > 0 ? 1.0 - this.damageBooster.asDouble() : 0.73)
                                        * (this.lastDistance - d);
-                                 break label357;
+                                 break label353;
                            }
 
                            if ((
@@ -573,7 +570,6 @@ public final class Speed extends Module {
          mc.fontRendererObj.drawStringWithShadow(string, g, renderEvent.getResolution().getScaledHeight() - 90, client.getColorSetting().getValue().getRGB());
       }
    };
-   private static final long cb = 47929494975638L;
 
    public Speed(Category category) {
       super(category);

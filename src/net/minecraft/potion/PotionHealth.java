@@ -3,8 +3,6 @@ package net.minecraft.potion;
 import net.minecraft.util.ResourceLocation;
 
 public class PotionHealth extends Potion {
-   private static final long j = 18922483111348L;
-
    public PotionHealth(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
       super(potionID, location, badEffect, potionColor);
    }
@@ -15,7 +13,7 @@ public class PotionHealth extends Potion {
    }
 
    @Override
-   public boolean isReady(int i, int k) {
+   public boolean isReady(int i, int j) {
       return i >= 1;
    }
 }

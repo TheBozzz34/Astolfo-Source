@@ -18,10 +18,8 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
    private static final ResourceLocation END_PORTAL_TEXTURE = new ResourceLocation("textures/entity/end_portal.png");
    private static final Random field_147527_e = new Random(31100L);
    public FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
-   private static final long a = 107406912118175L;
 
    public void renderTileEntityAt(TileEntityEndPortal te, double x, double y, double z, float partialTicks, int destroyStage) {
-      long l = a ^ 49161711138997L;
       float f = (float)this.rendererDispatcher.entityX;
       float g = (float)this.rendererDispatcher.entityY;
       float h = (float)this.rendererDispatcher.entityZ;
@@ -37,7 +35,6 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
          if (i == 0) {
             this.bindTexture(END_SKY_TEXTURE);
             f5 = 0.1F;
-            long m = 1286629455563104611L ^ l;
             f3 = 65.0F;
             f4 = 0.125F;
             GlStateManager.enableBlend();
@@ -69,7 +66,6 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
          GlStateManager.texGen(GlStateManager.TexGen.R, 9473, this.func_147525_a(0.0F, 0.0F, 0.0F, 1.0F));
          GlStateManager.texGen(GlStateManager.TexGen.Q, 9474, this.func_147525_a(0.0F, 1.0F, 0.0F, 0.0F));
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.S);
-         long n = 5038568056052339966L ^ l;
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.T);
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.R);
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.Q);
@@ -99,7 +95,6 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 
          worldRenderer.pos(x, y + f2, z).color(f10, f11, f12, 1.0F).endVertex();
          worldRenderer.pos(x, y + f2, z + 1.0).color(f10, f11, f12, 1.0F).endVertex();
-         n = 8401031176255678822L ^ l;
          worldRenderer.pos(x + 1.0, y + f2, z + 1.0).color(f10, f11, f12, 1.0F).endVertex();
          worldRenderer.pos(x + 1.0, y + f2, z).color(f10, f11, f12, 1.0F).endVertex();
          tessellator.draw();

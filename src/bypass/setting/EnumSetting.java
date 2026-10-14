@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class EnumSetting<E extends Enum> extends Setting<E> implements Comparable<EnumSetting<Enum<?>>> {
-   private static final long c = 101484530848789L;
-
    public EnumSetting() {
       super("", "", null, SettingType.UNDEFINED);
    }

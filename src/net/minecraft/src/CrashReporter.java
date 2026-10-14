@@ -7,9 +7,6 @@ import net.minecraft.crash.CrashReportCategory;
 import shadersmod.client.Shaders;
 
 public class CrashReporter {
-   private static final long a = 104921570701964L;
-   private static final long e = 1195253711593537546L;
-
    public static void onCrashReport(CrashReport crashReport, CrashReportCategory category) {
       try {
          GameSettings gameSettings = Config.getGameSettings();
@@ -47,7 +44,7 @@ public class CrashReporter {
          hashMap.put("OF-Version", Config.getVersion());
          hashMap.put("OF-Summary", makeSummary(crashReport));
          FileUploadThread fileUploadThread = new FileUploadThread(string, hashMap, bytes, iFileUploadListener);
-         fileUploadThread.setPriority((int)e);
+         fileUploadThread.setPriority(10);
          fileUploadThread.start();
          Thread.sleep(1000L);
       } catch (Exception exception2) {

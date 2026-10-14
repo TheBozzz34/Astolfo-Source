@@ -7,7 +7,6 @@ public class Relation implements JsonSerializable<JsonObject> {
    private final String u;
    private final String P;
    private final boolean X;
-   private static final long a = 53383391599147L;
 
    public Relation(String string, String string2, boolean bl) {
       this.u = string;

@@ -16,7 +16,6 @@ public final class SolarisGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<Pair<Long, Long>> availTotal = Memoizer.memoize(this::readSystemPages, Memoizer.defaultExpiration());
    private final Supplier<Long> pageSize = Memoizer.memoize(SolarisGlobalMemory::queryPageSize);
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(SolarisGlobalMemory::createVirtualMemory);
-   private static final long a = 79856669348290L;
 
    @Override
    public long d() {

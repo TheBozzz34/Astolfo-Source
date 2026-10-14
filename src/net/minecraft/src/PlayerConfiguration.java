@@ -6,7 +6,6 @@ import net.minecraft.client.model.ModelBiped;
 public class PlayerConfiguration {
    private PlayerItemModel[] playerItemModels = new PlayerItemModel[0];
    private boolean initialized = false;
-   private static final long a = 16156671693352L;
 
    public void renderPlayerItems(ModelBiped modelBiped, AbstractClientPlayer player, float scale, float partialTicks) {
       if (this.initialized) {

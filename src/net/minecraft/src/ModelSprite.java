@@ -23,7 +23,6 @@ public class ModelSprite {
    private float minV = 0.0F;
    private float maxU = 0.0F;
    private float maxV = 0.0F;
-   private static final long b = 139037705526000L;
 
    public ModelSprite(
       ModelRenderer modelRenderer, int textureOffsetX, int textureOffsetY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float sizeAdd

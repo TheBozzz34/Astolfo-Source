@@ -24,9 +24,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemMonsterPlacer extends Item {
-   private static final long a = 65289468248851L;
-   private static final long f = 6916219767007215615L;
-
    public ItemMonsterPlacer() {
       this.setHasSubtypes(true);
       this.setCreativeTab(CreativeTabs.tabMisc);
@@ -46,7 +43,7 @@ public class ItemMonsterPlacer extends Item {
    @Override
    public int getColorFromItemStack(ItemStack stack, int renderPass) {
       EntityList.EntityEggInfo entityEggInfo = EntityList.entityEggs.get(stack.getMetadata());
-      return entityEggInfo != null ? (renderPass == 0 ? entityEggInfo.primaryColor : entityEggInfo.secondaryColor) : (int)f;
+      return entityEggInfo != null ? (renderPass == 0 ? entityEggInfo.primaryColor : entityEggInfo.secondaryColor) : 16777215;
    }
 
    @Override

@@ -10,7 +10,6 @@ public class RenderOcelot extends RenderLiving<EntityOcelot> {
    private static final ResourceLocation ocelotTextures = new ResourceLocation("textures/entity/cat/ocelot.png");
    private static final ResourceLocation redOcelotTextures = new ResourceLocation("textures/entity/cat/red.png");
    private static final ResourceLocation siameseOcelotTextures = new ResourceLocation("textures/entity/cat/siamese.png");
-   private static final long d = 9606628568942L;
 
    public RenderOcelot(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
       super(renderManagerIn, modelBaseIn, shadowSizeIn);

@@ -6,7 +6,6 @@ import net.minecraft.client.gui.GuiTextField;
 public class PasswordField extends GuiTextField {
    private boolean P = false;
    private boolean V = false;
-   private static final long c = 135172913195417L;
 
    public PasswordField(int i, int j, int k, int l, int m) {
       super(i, Minecraft.getMinecraft().fontRendererObj, j, k, l, m);

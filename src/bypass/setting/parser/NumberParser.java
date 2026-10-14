@@ -4,8 +4,6 @@ import bypass.setting.Parser;
 import java.util.Optional;
 
 public class NumberParser implements Parser<Number> {
-   private static final long a = 39344228287756L;
-
    @Override
    public Optional<Number> parse(String string, Class<? extends Number> class2) {
       try {

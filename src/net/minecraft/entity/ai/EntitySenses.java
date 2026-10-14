@@ -9,7 +9,6 @@ public class EntitySenses {
    public EntityLiving entityObj;
    public List<Entity> seenEntities = Lists.newArrayList();
    public List<Entity> unseenEntities = Lists.newArrayList();
-   private static final long a = 131288285204801L;
 
    public EntitySenses(EntityLiving entityObjIn) {
       this.entityObj = entityObjIn;

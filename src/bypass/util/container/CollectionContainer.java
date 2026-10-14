@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.Optional;
 
 public abstract class CollectionContainer<E> extends Container<Collection<E>> {
-   private static final long c = 127847277921579L;
-
    public CollectionContainer(Collection<E> collection) {
       super(collection);
    }

@@ -36,7 +36,6 @@ public class ChunkProviderServer implements IChunkProvider {
    private LongHashMap<Chunk> id2ChunkMap = new LongHashMap<>();
    private List<Chunk> loadedChunks = Lists.newArrayList();
    private WorldServer worldObj;
-   private static final long a = 7143608497093L;
 
    public ChunkProviderServer(WorldServer worldServer, IChunkLoader iChunkLoader, IChunkProvider iChunkProvider) {
       this.dummyChunk = new EmptyChunk(worldServer, 0, 0);

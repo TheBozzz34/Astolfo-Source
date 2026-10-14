@@ -4,7 +4,6 @@ public class IntArray {
    private int[] c = null;
    private int M = 0;
    private int r = 0;
-   private static final long a = 78834527743730L;
 
    public IntArray(int size) {
       this.c = new int[size];

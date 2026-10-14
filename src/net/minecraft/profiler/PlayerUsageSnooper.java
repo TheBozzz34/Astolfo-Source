@@ -26,7 +26,6 @@ public class PlayerUsageSnooper {
    private final long minecraftStartTimeMilis;
    private boolean isRunning;
    private int selfCounter;
-   private static final long b = 6362374568035L;
 
    public PlayerUsageSnooper(String side, IPlayerUsage playerStatCollector, long startTime) {
       try {
@@ -44,8 +43,6 @@ public class PlayerUsageSnooper {
          this.isRunning = true;
          this.addOSData();
          this.threadTrigger.schedule(new TimerTask() {
-            private static final long a = 102021098559778L;
-
             @Override
             public void run() {
                if (PlayerUsageSnooper.this.playerStatsCollector.isSnooperEnabled()) {

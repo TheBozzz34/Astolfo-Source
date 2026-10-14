@@ -14,7 +14,6 @@ public class TooltipProviderOptions {
    private int Q = 0;
    private int r = 0;
    private long c = 0L;
-   private static final long a = 65311671946324L;
 
    public TooltipProviderOptions(GuiScreen guiScreen) {
       this.t = guiScreen;

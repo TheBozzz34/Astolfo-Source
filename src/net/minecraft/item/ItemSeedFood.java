@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 public class ItemSeedFood extends ItemFood {
    private Block crops;
    private Block soilId;
-   private static final long a = 66178814838473L;
 
    public ItemSeedFood(int healAmount, float saturation, Block crops, Block soil) {
       super(healAmount, saturation, false);

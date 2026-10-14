@@ -36,7 +36,6 @@ public final class Camera extends Module {
          GlStateManager.scale(this.itemSize.getValue(), this.itemSize.getValue(), this.itemSize.getValue());
       }
    };
-   private static final long c = 2182981611249L;
 
    public Camera(Category category) {
       super(category);

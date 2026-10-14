@@ -14,7 +14,6 @@ import net.minecraft.util.Vec3;
 public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
    private static final ResourceLocation minecartTextures = new ResourceLocation("textures/entity/minecart.png");
    public ModelBase modelMinecart = new ModelMinecart();
-   private static final long a = 45975228521223L;
 
    public RenderMinecart(RenderManager renderManagerIn) {
       super(renderManagerIn);

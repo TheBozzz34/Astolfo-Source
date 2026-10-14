@@ -5,8 +5,6 @@ import com.google.common.base.Objects;
 public abstract class PropertyHelper<T extends Comparable<T>> implements IProperty<T> {
    private final Class<T> valueClass;
    private final String name;
-   private static final long c = 133247674161653L;
-   private static final long i = -7933460149455290337L;
 
    public PropertyHelper(String name, Class<T> valueClass) {
       this.valueClass = valueClass;
@@ -42,6 +40,6 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
 
    @Override
    public int hashCode() {
-      return (int)i * this.valueClass.hashCode() + this.name.hashCode();
+      return 31 * this.valueClass.hashCode() + this.name.hashCode();
    }
 }

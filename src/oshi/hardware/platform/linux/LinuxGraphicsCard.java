@@ -10,8 +10,6 @@ import oshi.util.tuples.Pair;
 
 @Immutable
 public final class LinuxGraphicsCard extends AbstractGraphicsCard {
-   private static final long b = 116089374216401L;
-
    public LinuxGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
       super(name, deviceId, vendor, versionInfo, vram);
    }

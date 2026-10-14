@@ -12,7 +12,7 @@ public final class JumpCommand extends Command {
       switch (moveEvent.getState()) {
          case PRE:
             float f = mc.thePlayer.rotationYaw
-               + (mc.thePlayer.moveForward < 0.0F ? (int)h : 0)
+               + (mc.thePlayer.moveForward < 0.0F ? 180 : 0)
                + (
                   mc.thePlayer.moveStrafing > 0.0F
                      ? -90.0F * (mc.thePlayer.moveForward > 0.0F ? 0.5F : (mc.thePlayer.moveForward < 0.0F ? -0.5F : 1.0F))
@@ -24,7 +24,7 @@ public final class JumpCommand extends Command {
                      : 0.0F
                );
             float g = (float)Math.cos((f + 90.0F) * Math.PI / 180.0);
-            float f2 = (float)Math.sin((f + 90.0F) * Math.PI / 180.0);
+            float h = (float)Math.sin((f + 90.0F) * Math.PI / 180.0);
             mc.thePlayer.setSprinting(true);
             mc.thePlayer.onGround = true;
             if (mc.thePlayer.isCollidedVertically) {
@@ -32,7 +32,7 @@ public final class JumpCommand extends Command {
             } else {
                this.x = true;
                mc.thePlayer.motionX = g * 0.36;
-               mc.thePlayer.motionZ = f2 * 0.36;
+               mc.thePlayer.motionZ = h * 0.36;
             }
 
             if (this.x && mc.thePlayer.isCollidedVertically) {
@@ -41,8 +41,6 @@ public final class JumpCommand extends Command {
             }
       }
    };
-   private static final long d = 38054998759725L;
-   private static final long h = -8914742765070319436L;
 
    public JumpCommand(String string, String string2) {
       super(string, string2);

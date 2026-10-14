@@ -10,8 +10,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class LinuxDisplay extends AbstractDisplay {
-   private static final long a = 124581279143371L;
-
    public LinuxDisplay(byte[] edid) {
       super(edid);
    }

@@ -10,7 +10,6 @@ import net.minecraft.world.storage.SaveFormatComparator;
 
 public class RealmsAnvilLevelStorageSource {
    private ISaveFormat levelStorageSource;
-   private static final long a = 132936317656314L;
 
    public RealmsAnvilLevelStorageSource(ISaveFormat levelStorageSourceIn) {
       this.levelStorageSource = levelStorageSourceIn;

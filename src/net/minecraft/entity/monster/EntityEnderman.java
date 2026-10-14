@@ -47,7 +47,6 @@ public class EntityEnderman extends EntityMob {
       .setSaved(false);
    private static final Set<Block> carriableBlocks = Sets.newIdentityHashSet();
    private boolean isAggressive;
-   private static final long ab = 45949421866514L;
 
    public EntityEnderman(World worldIn) {
       super(worldIn);
@@ -357,7 +356,6 @@ public class EntityEnderman extends EntityMob {
       private int field_179450_h;
       private int field_179451_i;
       private EntityEnderman enderman;
-      private static final long c = 117357182062738L;
 
       public AIFindPlayer(EntityEnderman entityEnderman) {
          super(entityEnderman, EntityPlayer.class, true);
@@ -443,8 +441,6 @@ public class EntityEnderman extends EntityMob {
 
    public static class AIPlaceBlock extends EntityAIBase {
       private EntityEnderman enderman;
-      private static final long a = 841046061262L;
-      private static final long c = 2187081365273446352L;
 
       public AIPlaceBlock(EntityEnderman entityEnderman) {
          this.enderman = entityEnderman;
@@ -454,7 +450,7 @@ public class EntityEnderman extends EntityMob {
       public boolean shouldExecute() {
          return !this.enderman.worldObj.getGameRules().getBoolean("mobGriefing")
             ? false
-            : (this.enderman.getHeldBlockState().getBlock().getMaterial() == Material.air ? false : this.enderman.getRNG().nextInt((int)c) == 0);
+            : (this.enderman.getHeldBlockState().getBlock().getMaterial() == Material.air ? false : this.enderman.getRNG().nextInt(2000) == 0);
       }
 
       @Override
@@ -482,8 +478,6 @@ public class EntityEnderman extends EntityMob {
 
    public static class AITakeBlock extends EntityAIBase {
       private EntityEnderman enderman;
-      private static final long a = 45316933448137L;
-      private static final long c = 2421061017371934740L;
 
       public AITakeBlock(EntityEnderman entityEnderman) {
          this.enderman = entityEnderman;
@@ -493,7 +487,7 @@ public class EntityEnderman extends EntityMob {
       public boolean shouldExecute() {
          return !this.enderman.worldObj.getGameRules().getBoolean("mobGriefing")
             ? false
-            : (this.enderman.getHeldBlockState().getBlock().getMaterial() != Material.air ? false : this.enderman.getRNG().nextInt((int)c) == 0);
+            : (this.enderman.getHeldBlockState().getBlock().getMaterial() != Material.air ? false : this.enderman.getRNG().nextInt(20) == 0);
       }
 
       @Override

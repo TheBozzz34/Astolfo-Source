@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 
 public class BlockSnow extends Block {
    public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
-   private static final long e = 40573588340648L;
 
    public BlockSnow() {
       super(Material.snow);

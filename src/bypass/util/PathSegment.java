@@ -31,8 +31,6 @@ public class PathSegment {
    private ArrayList<PathSegmentNode> A = new ArrayList<>();
    private double x = 9.0;
    private boolean g = true;
-   private static final long b = 110660964146179L;
-   private static final long d = -8986403517014998040L;
 
    public PathSegment(Vector3 vector3, Vector3 vector32) {
       this.E = vector3.add(0.0, 0.0, 0.0).floor();
@@ -81,7 +79,7 @@ public class PathSegment {
    }
 
    public void Q() {
-      this.J((int)d, 4);
+      this.J(1000, 4);
    }
 
    public void J(int i, int j) {

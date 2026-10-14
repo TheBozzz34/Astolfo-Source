@@ -8,8 +8,6 @@ import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShadersRender;
 
 public class VboRenderList extends ChunkRenderContainer {
-   private static final long c = 79065654443946L;
-
    @Override
    public void renderChunkLayer(EnumWorldBlockLayer layer) {
       if (this.initialized) {

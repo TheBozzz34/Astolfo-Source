@@ -10,7 +10,6 @@ public class PhysicalMemory {
    private final long clockSpeed;
    private final String manufacturer;
    private final String memoryType;
-   private static final long a = 59422294488775L;
 
    public PhysicalMemory(String bankLabel, long capacity, long clockSpeed, String manufacturer, String memoryType) {
       this.bankLabel = bankLabel;

@@ -62,7 +62,6 @@ public class PotionHelper {
       "potion.prefix.gross",
       "potion.prefix.stinky"
    };
-   private static final long b = 22561189058296L;
 
    public static boolean checkFlag(int i, int j) {
       return (i & 1 << j) != 0;
@@ -451,8 +450,6 @@ public class PotionHelper {
    }
 
    static {
-      long l = b ^ 89265280586811L;
-      long m = 3132457776577540036L ^ l;
       potionRequirements.put(Potion.regeneration.getId(), "0 & !1 & !2 & !3 & 0+6");
       potionRequirements.put(Potion.moveSpeed.getId(), "!0 & 1 & !2 & !3 & 1+6");
       potionRequirements.put(Potion.fireResistance.getId(), "0 & 1 & !2 & !3 & 0+6");

@@ -12,7 +12,6 @@ public abstract class NodeProcessor {
    public int entitySizeX;
    public int entitySizeY;
    public int entitySizeZ;
-   private static final long a = 98331749206439L;
 
    public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {
       this.blockaccess = iblockaccessIn;

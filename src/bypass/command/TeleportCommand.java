@@ -143,7 +143,6 @@ public class TeleportCommand extends Command {
    };
    @EventHandler(WorldLoadEvent.class)
    private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.S("on_player_join");
-   private static final long d = 67690303663614L;
 
    public TeleportCommand(String string, String string2, String string3) {
       super(string, string2);

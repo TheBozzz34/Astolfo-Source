@@ -12,8 +12,6 @@ import net.minecraft.util.Util;
 import org.lwjgl.Sys;
 
 public final class SettingsCommand extends Command {
-   private static final long d = 119702255729076L;
-
    public SettingsCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Arrays.asList("config", "s", "c"));
@@ -21,8 +19,6 @@ public final class SettingsCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      long l = d ^ 22911721602089L;
-      long n = l ^ 68337651939526L;
       if (DisconnectHandler.disconnected) {
          toasts.x("You must reconnect to Astolfo before loading a config");
       } else {

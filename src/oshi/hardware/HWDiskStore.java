@@ -23,7 +23,6 @@ public class HWDiskStore implements Comparable<HWDiskStore> {
    private long transferTime = 0L;
    private HWPartition[] partitions = new HWPartition[0];
    private long timeStamp = 0L;
-   private static final long a = 120662254243529L;
 
    public HWDiskStore() {
    }

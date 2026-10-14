@@ -17,7 +17,6 @@ public class PacketConnection extends AbstractNioConnection {
    private SocketWriter V;
    private PacketReceiver A;
    private SocketChannel Z;
-   private static final long a = 34632761044039L;
 
    public PacketConnection(
       ConnectionListener connectionListener,

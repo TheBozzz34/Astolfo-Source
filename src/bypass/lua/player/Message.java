@@ -6,8 +6,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class Message extends OneArgFunction {
-   private static final long a = 70715108024355L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isstring()) {

@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 
 public class ModelHumanoidHead extends ModelSkeletonHead {
    private final ModelRenderer head = new ModelRenderer(this, 32, 0);
-   private static final long a = 20537629047613L;
 
    public ModelHumanoidHead() {
       super(0, 0, 64, 64);

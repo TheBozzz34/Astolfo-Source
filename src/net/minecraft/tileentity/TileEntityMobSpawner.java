@@ -10,8 +10,6 @@ import net.minecraft.world.World;
 
 public class TileEntityMobSpawner extends TileEntity implements ITickable {
    private final MobSpawnerBaseLogic spawnerLogic = new MobSpawnerBaseLogic() {
-      private static final long c = 28445267118455L;
-
       @Override
       public void func_98267_a(int id) {
          TileEntityMobSpawner.this.worldObj.addBlockEvent(TileEntityMobSpawner.this.pos, Blocks.mob_spawner, id, 0);
@@ -35,7 +33,6 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
          }
       }
    };
-   private static final long a = 101494246377218L;
 
    @Override
    public void readFromNBT(NBTTagCompound compound) {

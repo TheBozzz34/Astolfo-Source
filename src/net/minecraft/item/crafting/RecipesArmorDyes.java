@@ -11,8 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class RecipesArmorDyes implements IRecipe {
-   private static final long a = 111105649771980L;
-
    @Override
    public boolean matches(InventoryCrafting inv, World worldIn) {
       ItemStack itemStack = null;

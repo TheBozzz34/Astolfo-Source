@@ -132,7 +132,6 @@ public abstract class Entity implements ICommandSender {
    private boolean invulnerable;
    public UUID entityUniqueID;
    private final CommandResultStats cmdResultStats;
-   private static final long db = 135335006354497L;
 
    public int getEntityId() {
       return this.entityId;
@@ -1868,8 +1867,6 @@ public abstract class Entity implements ICommandSender {
 
    public void addEntityCrashInfo(CrashReportCategory category) {
       category.addCrashSectionCallable("Entity Type", new Callable<String>() {
-         private static final long a = 100458081021378L;
-
          public String call() throws Exception {
             return EntityList.getEntityString(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
          }

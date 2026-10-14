@@ -8,8 +8,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
 
 public class CommandWeather extends CommandBase {
-   private static final long b = 110640055066242L;
-
    @Override
    public String getCommandName() {
       return "weather";

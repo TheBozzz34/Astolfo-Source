@@ -16,7 +16,6 @@ import net.minecraft.world.WorldSettings;
 public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
    private S38PacketPlayerListItem.Action action;
    private final List<S38PacketPlayerListItem.AddPlayerData> players = Lists.newArrayList();
-   private static final long a = 39689564778700L;
 
    public S38PacketPlayerListItem() {
    }
@@ -186,7 +185,6 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
       private final WorldSettings.GameType gamemode;
       private final GameProfile profile;
       private final IChatComponent displayName;
-      private static final long a = 70903277749821L;
 
       public AddPlayerData(GameProfile profile, int pingIn, WorldSettings.GameType gamemodeIn, IChatComponent displayNameIn) {
          this.profile = profile;

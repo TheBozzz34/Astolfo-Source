@@ -6,8 +6,6 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 
 public class Adapters {
-   private static final long a = 137998105838854L;
-
    public static <E> boolean containsAll(Traversable<E> traversable, Collection<?> c) {
       for (Object object : c) {
          if (!contains(traversable, object)) {
@@ -21,8 +19,6 @@ public class Adapters {
    public static <E> boolean contains(Traversable<E> traversable, final Object o) {
       try {
          traversable.forEach(new Function<E, Object>() {
-            private static final long a = 82638705275494L;
-
             @Override
             public Object invoke(E eIn) {
                if (eIn.equals(o)) {
@@ -38,13 +34,11 @@ public class Adapters {
       }
    }
 
-   public static <T, E> T[] toArray(Traversable<E> traversable, T[] aIn) {
+   public static <T, E> T[] toArray(Traversable<E> traversable, T[] a) {
       int i = traversable.size();
-      final Object[] objects = aIn.length >= i ? aIn : (Object[])Array.newInstance(aIn.getClass().getComponentType(), i);
+      final Object[] objects = a.length >= i ? a : (Object[])Array.newInstance(a.getClass().getComponentType(), i);
       final int[] ints = new int[]{0};
       traversable.forEach(new Function<E, Object>() {
-         private static final long a = 127875383888408L;
-
          @Override
          public Object invoke(E eIn) {
             objects[ints[0]] = eIn;

@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 public class WorldGeneratorBonusChest extends WorldGenerator {
    private final List<WeightedRandomChestContent> chestItems;
    private final int itemsToGenerateInBonusChest;
-   private static final long a = 105766673501289L;
 
    public WorldGeneratorBonusChest(List<WeightedRandomChestContent> list, int i) {
       this.chestItems = list;

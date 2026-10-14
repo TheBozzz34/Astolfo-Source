@@ -8,8 +8,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemCarrotOnAStick extends Item {
-   private static final long a = 216027092150L;
-
    public ItemCarrotOnAStick() {
       this.setCreativeTab(CreativeTabs.tabTransport);
       this.setMaxStackSize(1);

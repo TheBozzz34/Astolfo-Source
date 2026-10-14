@@ -66,15 +66,14 @@ public class LoginScreen extends GuiScreen {
    public static String l;
    private static SecretKeySpec f;
    private static byte[] n;
-   private static final long c = 89496277506807L;
 
    @Override
    public void initGui() {
       DynamicTexture dynamicTexture = new DynamicTexture(256, 256);
-      this.q = this.mc.getTextureManager().getDynamicTextureLocation(LoginScreenStrings.s("/C1gfMLyXMtfCw=="), dynamicTexture);
+      this.q = this.mc.getTextureManager().getDynamicTextureLocation("background", dynamicTexture);
       Keyboard.enableRepeatEvents(true);
       this.buttonList.clear();
-      this.buttonList.add(e = new GuiButton(-88888, this.width / 2 - 95, this.height / 2 + 25, 191, 20, LoginScreenStrings.s("0iNkfss=")));
+      this.buttonList.add(e = new GuiButton(-88888, this.width / 2 - 95, this.height / 2 + 25, 191, 20, "Login"));
       e.n = true;
       usernameField = new GuiTextField(0, this.fontRendererObj, this.width / 2 - 25, this.height / 2 - 40, 120, 20);
       usernameField.w = true;
@@ -164,7 +163,7 @@ public class LoginScreen extends GuiScreen {
                      ? "Authenticating" + string
                      : (
                         !d
-                           ? (this.mc.autoLoginToken.isEmpty() ? LoginScreenStrings.s("yS1qY8zuVJ5XAIbRQWoOMrYVhYHPu8Twrsg=") : "Auto-Login ready")
+                           ? (this.mc.autoLoginToken.isEmpty() ? "Waiting for authentication" : "Auto-Login ready")
                            : (
                               x.contains("FAILED_INVALID_HWID")
                                  ? "HWID Changed, open a support request in the forums for reset"
@@ -258,7 +257,7 @@ public class LoginScreen extends GuiScreen {
 
    private void l() throws FileNotFoundException {
       try {
-         Path path = Astolfo.INSTANCE.getDirectory().getAbsoluteFile().toPath().resolve(LoginScreenStrings.s("/T5mc9Y="));
+         Path path = Astolfo.INSTANCE.getDirectory().getAbsoluteFile().toPath().resolve("creds");
          BufferedReader bufferedReader = null;
 
          try {
@@ -268,7 +267,7 @@ public class LoginScreen extends GuiScreen {
             while ((string = bufferedReader.readLine()) != null) {
                String string2 = this.b(string, AuthUtil.getHwid());
                if (string2 != null) {
-                  String[] strings = string2.split(LoginScreenStrings.s("pA=="));
+                  String[] strings = string2.split(":");
                   if (strings[0] != null) {
                      usernameField.setText(strings[0]);
                   }
@@ -287,7 +286,7 @@ public class LoginScreen extends GuiScreen {
    private String b(String string, String string2) {
       try {
          x(string2);
-         Cipher cipher = Cipher.getInstance(LoginScreenStrings.s("3wlQOODDcZFhJLeiFU87Hpcyv68="));
+         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
          cipher.init(2, f);
          return new String(cipher.doFinal(Base64.getDecoder().decode(string)));
       } catch (Exception exception) {
@@ -298,17 +297,16 @@ public class LoginScreen extends GuiScreen {
    public static void x(String string) {
       try {
          n = string.getBytes(StandardCharsets.UTF_8);
-         MessageDigest messageDigest = MessageDigest.getInstance(LoginScreenStrings.s("zQRCOpQ="));
+         MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
          n = messageDigest.digest(n);
          n = Arrays.copyOf(n, 16);
-         f = new SecretKeySpec(n, LoginScreenStrings.s("3wlQ"));
+         f = new SecretKeySpec(n, "AES");
       } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
          noSuchAlgorithmException.printStackTrace();
       }
    }
 
    private void D(int i, int j, float g) {
-      long l = c ^ 97142252523975L;
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.matrixMode(5889);
@@ -337,35 +335,35 @@ public class LoginScreen extends GuiScreen {
          GlStateManager.rotate(MathHelper.sin((this.y + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
          GlStateManager.rotate(-(this.y + g) * 0.1F, 0.0F, 1.0F, 0.0F);
 
-         for (int m = 0; m < 6; m++) {
+         for (int l = 0; l < 6; l++) {
             GlStateManager.pushMatrix();
-            if (m == 1) {
+            if (l == 1) {
                GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (m == 2) {
+            if (l == 2) {
                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (m == 3) {
+            if (l == 3) {
                GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (m == 4) {
+            if (l == 4) {
                GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            if (m == 5) {
+            if (l == 5) {
                GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            this.mc.getTextureManager().bindTexture(a[m]);
+            this.mc.getTextureManager().bindTexture(a[l]);
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            int n = 255 / (k + 1);
-            worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, n).endVertex();
-            worldRenderer.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, n).endVertex();
-            worldRenderer.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, n).endVertex();
-            worldRenderer.pos(-1.0, 1.0, 1.0).tex(0.0, 1.0).color(255, 255, 255, n).endVertex();
+            int m = 255 / (k + 1);
+            worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, m).endVertex();
+            worldRenderer.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, m).endVertex();
+            worldRenderer.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, m).endVertex();
+            worldRenderer.pos(-1.0, 1.0, 1.0).tex(0.0, 1.0).color(255, 255, 255, m).endVertex();
             tessellator.draw();
             GlStateManager.popMatrix();
          }
@@ -376,10 +374,8 @@ public class LoginScreen extends GuiScreen {
 
       worldRenderer.setTranslation(0.0, 0.0, 0.0);
       GlStateManager.colorMask(true, true, true, true);
-      long l2 = 7412287223944421437L ^ l;
       GlStateManager.matrixMode(5889);
       GlStateManager.popMatrix();
-      l2 = 2333127409049685090L ^ l;
       GlStateManager.matrixMode(5888);
       GlStateManager.popMatrix();
       GlStateManager.depthMask(true);

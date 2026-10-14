@@ -13,8 +13,6 @@ public class S07PacketRespawn implements Packet<INetHandlerPlayClient> {
    private EnumDifficulty difficulty;
    private WorldSettings.GameType gameType;
    private WorldType worldType;
-   private static final long a = 68178121632445L;
-   private static final long b = -1601712094883872752L;
 
    public S07PacketRespawn() {
    }
@@ -35,7 +33,7 @@ public class S07PacketRespawn implements Packet<INetHandlerPlayClient> {
       this.dimensionID = buf.readInt();
       this.difficulty = EnumDifficulty.getDifficultyEnum(buf.readUnsignedByte());
       this.gameType = WorldSettings.GameType.getByID(buf.readUnsignedByte());
-      this.worldType = WorldType.parseWorldType(buf.readStringFromBuffer((int)b));
+      this.worldType = WorldType.parseWorldType(buf.readStringFromBuffer(16));
       if (this.worldType == null) {
          this.worldType = WorldType.DEFAULT;
       }

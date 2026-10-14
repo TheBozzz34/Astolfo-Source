@@ -46,7 +46,6 @@ public class EntityGuardian extends EntityMob {
    private int field_175479_bo;
    private boolean field_175480_bp;
    private EntityAIWander wander;
-   private static final long ab = 30512125211793L;
 
    public EntityGuardian(World worldIn) {
       super(worldIn);
@@ -348,8 +347,6 @@ public class EntityGuardian extends EntityMob {
             Potion potion = Potion.digSlowdown;
 
             for (EntityPlayerMP entityPlayerMP2 : this.worldObj.getPlayers(EntityPlayerMP.class, new Predicate<EntityPlayerMP>() {
-               private static final long a = 104387031494019L;
-
                public boolean apply(EntityPlayerMP entityPlayerMP) {
                   return EntityGuardian.this.getDistanceSqToEntity(entityPlayerMP) < 2500.0 && entityPlayerMP.theItemInWorldManager.survivalOrAdventure();
                }
@@ -451,7 +448,6 @@ public class EntityGuardian extends EntityMob {
    public static class AIGuardianAttack extends EntityAIBase {
       private EntityGuardian theEntity;
       private int tickCounter;
-      private static final long a = 76258560849343L;
 
       public AIGuardianAttack(EntityGuardian guardian) {
          this.theEntity = guardian;
@@ -522,7 +518,6 @@ public class EntityGuardian extends EntityMob {
 
    public static class GuardianMoveHelper extends EntityMoveHelper {
       private EntityGuardian entityGuardian;
-      private static final long b = 42537469308209L;
 
       public GuardianMoveHelper(EntityGuardian guardian) {
          super(guardian);
@@ -577,7 +572,6 @@ public class EntityGuardian extends EntityMob {
 
    public static class GuardianTargetSelector implements Predicate<EntityLivingBase> {
       private EntityGuardian parentEntity;
-      private static final long a = 110705291230193L;
 
       public GuardianTargetSelector(EntityGuardian guardian) {
          this.parentEntity = guardian;

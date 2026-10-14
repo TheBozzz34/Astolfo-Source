@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 public class EntityEndermite extends EntityMob {
    private int lifetime = 0;
    private boolean playerSpawned = false;
-   private static final long ab = 72954554601060L;
 
    public EntityEndermite(World worldIn) {
       super(worldIn);

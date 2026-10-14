@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class BlockReed extends Block {
    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
-   private static final long e = 130121991611931L;
 
    public BlockReed() {
       super(Material.plants);

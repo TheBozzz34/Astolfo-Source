@@ -6,8 +6,6 @@ import java.util.HashSet;
 import net.minecraft.client.Minecraft;
 
 public class FieldLocatorActionKeyF3 implements IFieldLocator {
-   private static final long a = 137952645474901L;
-
    @Override
    public Field getField() {
       Class<Minecraft> class2 = Minecraft.class;

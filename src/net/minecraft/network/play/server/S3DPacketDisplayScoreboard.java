@@ -9,8 +9,6 @@ import net.minecraft.scoreboard.ScoreObjective;
 public class S3DPacketDisplayScoreboard implements Packet<INetHandlerPlayClient> {
    private int position;
    private String scoreName;
-   private static final long a = 43682945840317L;
-   private static final long b = 1523142462841815056L;
 
    public S3DPacketDisplayScoreboard() {
    }
@@ -27,7 +25,7 @@ public class S3DPacketDisplayScoreboard implements Packet<INetHandlerPlayClient>
    @Override
    public void readPacketData(PacketBuffer buf) throws IOException {
       this.position = buf.readByte();
-      this.scoreName = buf.readStringFromBuffer((int)b);
+      this.scoreName = buf.readStringFromBuffer(16);
    }
 
    @Override

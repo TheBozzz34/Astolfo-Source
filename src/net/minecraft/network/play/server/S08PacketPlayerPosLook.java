@@ -91,7 +91,6 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
       X_ROT(4);
 
       private int field_180058_f;
-      private static final long a = 82444587340078L;
 
       EnumFlags(int j) {
          this.field_180058_f = j;

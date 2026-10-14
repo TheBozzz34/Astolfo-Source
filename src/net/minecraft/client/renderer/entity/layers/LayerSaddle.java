@@ -9,7 +9,6 @@ public class LayerSaddle implements LayerRenderer<EntityPig> {
    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/pig/pig_saddle.png");
    private final RenderPig pigRenderer;
    private final ModelPig pigModel = new ModelPig(0.5F);
-   private static final long a = 110316837223404L;
 
    public LayerSaddle(RenderPig pigRendererIn) {
       this.pigRenderer = pigRendererIn;

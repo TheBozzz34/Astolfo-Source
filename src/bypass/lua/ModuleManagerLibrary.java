@@ -30,7 +30,6 @@ public class ModuleManagerLibrary extends TwoArgFunction implements ClientAccess
    public static final OneArgFunction G = new IsModuleOn4();
    public static final ThreeArgFunction c = new RegisterBoolean();
    public static final VarArgFunction A = new RegisterNumber3();
-   private static final long b = 14387324638711L;
 
    public ModuleManagerLibrary(Module module) {
       this.p = module;
@@ -88,8 +87,6 @@ public class ModuleManagerLibrary extends TwoArgFunction implements ClientAccess
    }
 
    public class aoq extends TwoArgFunction {
-      private static final long a = 46936245130426L;
-
       @Override
       public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
          String string = null;

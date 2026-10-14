@@ -10,8 +10,6 @@ import net.minecraft.world.World;
 public class ShapelessRecipes implements IRecipe {
    private final ItemStack recipeOutput;
    private final List<ItemStack> recipeItems;
-   private static final long a = 113690852796612L;
-   private static final long b = -1911211930769391617L;
 
    public ShapelessRecipes(ItemStack output, List<ItemStack> inputList) {
       this.recipeOutput = output;
@@ -49,7 +47,7 @@ public class ShapelessRecipes implements IRecipe {
 
                for (Object object : arrayList) {
                   ItemStack itemStack2 = (ItemStack)object;
-                  if (itemStack.getItem() == itemStack2.getItem() && (itemStack2.getMetadata() == (int)b || itemStack.getMetadata() == itemStack2.getMetadata())) {
+                  if (itemStack.getItem() == itemStack2.getItem() && (itemStack2.getMetadata() == 32767 || itemStack.getMetadata() == itemStack2.getMetadata())) {
                      bl = true;
                      arrayList.remove(itemStack2);
                      break;

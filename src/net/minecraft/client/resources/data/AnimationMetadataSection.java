@@ -11,7 +11,6 @@ public class AnimationMetadataSection implements IMetadataSection {
    private final int frameHeight;
    private final int frameTime;
    private final boolean interpolate;
-   private static final long a = 117913957708550L;
 
    public AnimationMetadataSection(List<AnimationFrame> list, int i, int j, int k, boolean bl) {
       this.animationFrames = list;

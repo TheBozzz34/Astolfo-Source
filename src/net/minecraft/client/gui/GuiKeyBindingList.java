@@ -13,7 +13,6 @@ public class GuiKeyBindingList extends GuiListExtended {
    private final Minecraft mc;
    private final GuiListExtended.IGuiListEntry[] listEntries;
    private int maxListLabelWidth = 0;
-   private static final long d = 71108590503191L;
 
    public GuiKeyBindingList(GuiControls controls, Minecraft mcIn) {
       super(mcIn, controls.width, controls.height, 63, controls.height - 32, 20);
@@ -64,8 +63,6 @@ public class GuiKeyBindingList extends GuiListExtended {
    public class CategoryEntry implements GuiListExtended.IGuiListEntry {
       private final String labelText;
       private final int labelWidth;
-      private static final long a = 112253178002106L;
-      private static final long b = 6829617502444584959L;
 
       public CategoryEntry(String string) {
          this.labelText = I18n.format(string);
@@ -80,7 +77,7 @@ public class GuiKeyBindingList extends GuiListExtended {
                this.labelText,
                GuiKeyBindingList.this.mc.currentScreen.width / 2 - this.labelWidth / 2,
                y + slotHeightIn - GuiKeyBindingList.this.mc.fontRendererObj.FONT_HEIGHT - 1,
-               (int)b
+               16777215
             );
       }
 
@@ -103,7 +100,6 @@ public class GuiKeyBindingList extends GuiListExtended {
       private final String keyDesc;
       private final GuiButton btnChangeKeyBinding;
       private final GuiButton btnReset;
-      private static final long a = 21296537949425L;
 
       public KeyEntry(KeyBinding keyBinding) {
          this.keybinding = keyBinding;

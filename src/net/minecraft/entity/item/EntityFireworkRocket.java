@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 public class EntityFireworkRocket extends Entity {
    private int fireworkAge;
    private int lifetime;
-   private static final long ab = 68861545780179L;
 
    public EntityFireworkRocket(World worldIn) {
       super(worldIn);

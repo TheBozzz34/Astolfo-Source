@@ -13,8 +13,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockLilyPad extends BlockBush {
-   private static final long e = 71516616995897L;
-
    public BlockLilyPad() {
       float f = 0.5F;
       float g = 0.015625F;

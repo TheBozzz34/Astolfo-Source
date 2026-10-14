@@ -5,7 +5,6 @@ import bypass.manager.Loadable;
 public class LoaderGuard implements Loadable {
    private final LoadStageList Q;
    private final StageVerification B;
-   private static final long a = 28509894989573L;
 
    public LoaderGuard() {
       LoadStageListFactory loadStageListFactory = new LoadStageListFactory();

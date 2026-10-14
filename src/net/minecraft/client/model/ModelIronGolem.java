@@ -11,7 +11,6 @@ public class ModelIronGolem extends ModelBase {
    public ModelRenderer ironGolemLeftArm;
    public ModelRenderer ironGolemLeftLeg;
    public ModelRenderer ironGolemRightLeg;
-   private static final long a = 28238861865159L;
 
    public ModelIronGolem() {
       this(0.0F);

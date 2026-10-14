@@ -31,7 +31,6 @@ public final class FastBow extends Module {
          mc.thePlayer.inventory.getCurrentItem().getItem().onPlayerStoppedUsing(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer, 10);
       }
    };
-   private static final long c = 48101403322277L;
 
    public FastBow(Category category) {
       super(category);

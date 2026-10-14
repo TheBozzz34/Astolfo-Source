@@ -13,7 +13,6 @@ import oshi.util.tuples.Pair;
 public final class LinuxVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Pair<Long, Long>> usedTotal = Memoizer.memoize(LinuxVirtualMemory::queryMemInfo, Memoizer.defaultExpiration());
    private final Supplier<Pair<Long, Long>> inOut = Memoizer.memoize(LinuxVirtualMemory::queryVmStat, Memoizer.defaultExpiration());
-   private static final long a = 4966177384096L;
 
    @Override
    public long y() {

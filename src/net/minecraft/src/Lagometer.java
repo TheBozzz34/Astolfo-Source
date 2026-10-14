@@ -42,7 +42,6 @@ public class Lagometer {
    private static long memTimeDiffMs = 1L;
    private static long memDiff = 0L;
    private static int memMbSec = 0;
-   private static final long a = 136562733952441L;
 
    public static boolean updateMemoryAllocation() {
       long l = System.currentTimeMillis();
@@ -117,13 +116,11 @@ public class Lagometer {
    }
 
    public static void showLagometer(ScaledResolution scaledResolution) {
-      long l = a ^ 126159213800109L;
       if (gameSettings != null && (gameSettings.ZH || gameSettings.A_)) {
-         long m = System.nanoTime();
+         long l = System.nanoTime();
          GlStateManager.clear(256);
          GlStateManager.matrixMode(5889);
          GlStateManager.pushMatrix();
-         long n = 6172834651753333208L ^ l;
          GlStateManager.enableColorMaterial();
          GlStateManager.loadIdentity();
          GlStateManager.ortho(0.0, mc.displayWidth, mc.displayHeight, 0.0, 1000.0, 3000.0);
@@ -141,7 +138,7 @@ public class Lagometer {
             int j = (i - numRecordedFrameTimes & timesFrame.length - 1) * 100 / timesFrame.length;
             j += 155;
             float f = mc.displayHeight;
-            long l2 = 0L;
+            long m = 0L;
             if (gcs[i]) {
                renderTime(i, timesFrame[i], j, j / 2, 0, f, worldRenderer);
             } else {
@@ -161,29 +158,28 @@ public class Lagometer {
          tessellator.draw();
          GlStateManager.enableTexture2D();
          int k = mc.displayHeight - 80;
-         int i2 = mc.displayHeight - 160;
-         mc.fontRendererObj.D("30", 2.0F, i2 + 1, -8947849);
-         mc.fontRendererObj.D("30", 1.0F, i2, -3881788);
+         int n = mc.displayHeight - 160;
+         mc.fontRendererObj.D("30", 2.0F, n + 1, -8947849);
+         mc.fontRendererObj.D("30", 1.0F, n, -3881788);
          mc.fontRendererObj.D("60", 2.0F, k + 1, -8947849);
          mc.fontRendererObj.D("60", 1.0F, k, -3881788);
          GlStateManager.matrixMode(5889);
          GlStateManager.popMatrix();
-         n = 2959871147967154618L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.popMatrix();
          GlStateManager.enableTexture2D();
          float h = 1.0F - (float)((System.currentTimeMillis() - memTimeStartMs) / 1000.0);
          h = Config.limit(h, 0.0F, 1.0F);
-         int i3 = (int)(170.0F + h * 85.0F);
-         int i4 = (int)(100.0F + h * 55.0F);
-         int i5 = (int)(10.0F + h * 10.0F);
-         int i6 = i3 << 16 | i4 << 8 | i5;
-         int i7 = 512 / scaledResolution.getScaleFactor() + 2;
-         int i8 = mc.displayHeight / scaledResolution.getScaleFactor() - 8;
+         int i2 = (int)(170.0F + h * 85.0F);
+         int i3 = (int)(100.0F + h * 55.0F);
+         int i4 = (int)(10.0F + h * 10.0F);
+         int i5 = i2 << 16 | i3 << 8 | i4;
+         int i6 = 512 / scaledResolution.getScaleFactor() + 2;
+         int i7 = mc.displayHeight / scaledResolution.getScaleFactor() - 8;
          GuiIngame guiIngame = mc.ingameGUI;
-         GuiIngame.drawRect(i7 - 1, i8 - 1, i7 + 50, i8 + 10, -1605349296);
-         mc.fontRendererObj.D(" " + memMbSec + " MB/s", i7, i8, i6);
-         v = System.nanoTime() - m;
+         GuiIngame.drawRect(i6 - 1, i7 - 1, i6 + 50, i7 + 10, -1605349296);
+         mc.fontRendererObj.D(" " + memMbSec + " MB/s", i6, i7, i5);
+         v = System.nanoTime() - l;
       }
    }
 
@@ -213,15 +209,9 @@ public class Lagometer {
       return active;
    }
 
-   static {
-      long l = a ^ 132449037101838L;
-      long m = 2466116030147702028L ^ l;
-   }
-
    public static class TimerNano {
       public long timeStartNano = 0L;
       public long timeNano = 0L;
-      private static final long a = 17849212439077L;
 
       public void start() {
          if (Lagometer.active && this.timeStartNano == 0L) {

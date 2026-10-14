@@ -41,7 +41,6 @@ public class GuiTextField extends Gui {
    private static int r;
    private static int n;
    public float d = 0.1F;
-   private static final long e = 44900617446799L;
 
    public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
       this.id = componentId;
@@ -347,8 +346,6 @@ public class GuiTextField extends Gui {
    }
 
    public void drawTextBox() {
-      long l = e ^ 96417654235985L;
-      long m = l ^ 83189695294706L;
       if (this.getVisible()) {
          if (!u) {
             int i = ARBShaderObjects.glCreateShaderObjectARB(35632);
@@ -400,62 +397,61 @@ public class GuiTextField extends Gui {
 
          int j = this.w ? new Color(224, 224, 224, this.I).getRGB() : (this.o ? this.t : this.b);
          int k = this.cursorPosition - this.lineScrollOffset;
-         int i2 = this.selectionEnd - this.lineScrollOffset;
+         int l = this.selectionEnd - this.lineScrollOffset;
          String string = this.fontRendererInstance.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
          boolean bl = k >= 0 && k <= string.length();
          boolean bl2 = this.isFocused && this.A / 6 % 2 == 0 && bl;
-         int i3 = this.enableBackgroundDrawing ? this.xPosition + 4 : this.xPosition;
-         int i4 = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition;
-         int i5 = i3;
-         if (i2 > string.length()) {
-            i2 = string.length();
+         int m = this.enableBackgroundDrawing ? this.xPosition + 4 : this.xPosition;
+         int i2 = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition;
+         int i3 = m;
+         if (l > string.length()) {
+            l = string.length();
          }
 
          if (string.length() > 0) {
             String string2 = bl ? string.substring(0, k) : string;
-            i5 = this.fontRendererInstance.drawStringWithShadow(string2, i3, i4, j);
+            i3 = this.fontRendererInstance.drawStringWithShadow(string2, m, i2, j);
          }
 
          boolean bl3 = this.cursorPosition < this.text.length() || this.text.length() >= this.M();
-         int i6 = i5;
+         int i4 = i3;
          if (!bl) {
-            i6 = k > 0 ? i3 + this.width : i3;
+            i4 = k > 0 ? m + this.width : m;
          } else if (bl3) {
-            i6 = i5 - 1;
-            i5--;
+            i4 = i3 - 1;
+            i3--;
          }
 
          if (string.length() > 0 && bl && k < string.length()) {
-            i5 = this.fontRendererInstance.drawStringWithShadow(string.substring(k), i5, i4, j);
+            i3 = this.fontRendererInstance.drawStringWithShadow(string.substring(k), i3, i2, j);
          }
 
          if (bl2) {
             if (bl3) {
-               Gui.drawRect(i6, i4 - 1, i6 + 1, i4 + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
+               Gui.drawRect(i4, i2 - 1, i4 + 1, i2 + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
             } else {
-               this.fontRendererInstance.drawStringWithShadow("_", i6, i4, j);
+               this.fontRendererInstance.drawStringWithShadow("_", i4, i2, j);
             }
          }
 
-         if (i2 != k) {
-            int i7 = i3 + this.fontRendererInstance.getStringWidth(string.substring(0, i2));
-            this.drawCursorVertical(i6, i4 - 1, i7 - 1, i4 + 1 + this.fontRendererInstance.FONT_HEIGHT);
+         if (l != k) {
+            int i5 = m + this.fontRendererInstance.getStringWidth(string.substring(0, l));
+            this.drawCursorVertical(i4, i2 - 1, i5 - 1, i2 + 1 + this.fontRendererInstance.FONT_HEIGHT);
          }
       }
    }
 
    private void drawCursorVertical(int i, int j, int k, int l) {
-      long m = e ^ 54923105916482L;
       if (i < k) {
-         int n = i;
+         int m = i;
          i = k;
-         k = n;
+         k = m;
       }
 
       if (j < l) {
-         int i2 = j;
+         int n = j;
          j = l;
-         l = i2;
+         l = n;
       }
 
       if (k > this.xPosition + this.width) {
@@ -468,7 +464,6 @@ public class GuiTextField extends Gui {
 
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-      long l2 = 4122863923570950327L ^ m;
       GlStateManager.color(0.0F, 0.0F, 255.0F, 255.0F);
       GlStateManager.disableTexture2D();
       GlStateManager.enableColorLogic();

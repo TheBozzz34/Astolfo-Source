@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 public abstract class JsonFileManager<T extends JsonSerializable, U extends JsonElement> extends Manager<T> implements Loadable, ClientAccess {
    public final File R;
-   private static final long b = 51472734298755L;
 
    public JsonFileManager(File file, String string) {
       this.R = new File(file, string);

@@ -3,8 +3,6 @@ package net.minecraft.client.particle;
 import net.minecraft.world.World;
 
 public class EntityFishWakeFX extends EntityFX {
-   private static final long ab = 102806127196054L;
-
    public EntityFishWakeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.3F;

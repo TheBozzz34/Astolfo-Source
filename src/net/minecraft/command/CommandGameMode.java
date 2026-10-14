@@ -8,8 +8,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.WorldSettings;
 
 public class CommandGameMode extends CommandBase {
-   private static final long d = 16627982945832L;
-
    @Override
    public String getCommandName() {
       return "gamemode";

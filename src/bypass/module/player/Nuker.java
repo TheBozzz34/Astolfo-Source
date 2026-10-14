@@ -147,7 +147,6 @@ public class Nuker extends Module {
       if (this.target != null && renderLivingEvent.getEntity() == mc.thePlayer) {
       }
    };
-   private static final long c = 128718734328322L;
 
    public Nuker(Category category) {
       super(category);

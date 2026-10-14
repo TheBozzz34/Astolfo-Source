@@ -21,7 +21,6 @@ public class NbtTagValue {
    private static final int U = 2;
    private static final int R = 3;
    private static final int B = 4;
-   private static final long a = 25088025412516L;
 
    public NbtTagValue(String tag, String value) {
       String[] strings = Config.tokenize(tag, ".");
@@ -194,12 +193,5 @@ public class NbtTagValue {
       stringBuffer.append(" = ");
       stringBuffer.append(this.m);
       return stringBuffer.toString();
-   }
-
-   static {
-      long l = a ^ 5295936175246L;
-      long m = l ^ 4374650486567341701L;
-      m = l ^ 5865959718055512320L;
-      m = l ^ 7628397100219079880L;
    }
 }

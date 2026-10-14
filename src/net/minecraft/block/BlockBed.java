@@ -22,7 +22,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class BlockBed extends BlockDirectional {
    public static final PropertyEnum<BlockBed.EnumPartType> PART = PropertyEnum.create("part", BlockBed.EnumPartType.class);
    public static final PropertyBool OCCUPIED = PropertyBool.create("occupied");
-   private static final long e = 25966967365841L;
 
    public BlockBed() {
       super(Material.cloth);

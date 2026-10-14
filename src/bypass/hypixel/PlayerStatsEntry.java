@@ -75,7 +75,6 @@ public class PlayerStatsEntry {
    public float x;
    public int sL;
    public float sp;
-   private static final long ab = 116950634248647L;
 
    public PlayerStatsEntry(String string, NetworkPlayerInfo networkPlayerInfo, PlayerStatsChecker playerStatsChecker) {
       this.Q = string;

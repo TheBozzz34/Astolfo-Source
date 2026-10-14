@@ -27,7 +27,6 @@ import net.minecraft.world.World;
 public class ItemPotion extends Item {
    private Map<Integer, List<PotionEffect>> effectCache = Maps.newHashMap();
    private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps.newLinkedHashMap();
-   private static final long b = 83509567862196L;
 
    public ItemPotion() {
       this.setMaxStackSize(1);

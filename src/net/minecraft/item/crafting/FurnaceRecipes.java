@@ -16,7 +16,6 @@ public class FurnaceRecipes {
    private static final FurnaceRecipes smeltingBase = new FurnaceRecipes();
    private Map<ItemStack, ItemStack> smeltingList = Maps.newHashMap();
    private Map<ItemStack, Float> experienceList = Maps.newHashMap();
-   private static final long a = 67264595402940L;
 
    public static FurnaceRecipes instance() {
       return smeltingBase;

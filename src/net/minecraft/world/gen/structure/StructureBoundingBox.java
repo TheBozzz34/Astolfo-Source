@@ -13,7 +13,6 @@ public class StructureBoundingBox {
    public int maxX;
    public int maxY;
    public int maxZ;
-   private static final long a = 57668130757804L;
 
    public StructureBoundingBox() {
    }

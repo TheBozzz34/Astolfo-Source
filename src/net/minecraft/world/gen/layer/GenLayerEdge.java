@@ -2,7 +2,6 @@ package net.minecraft.world.gen.layer;
 
 public class GenLayerEdge extends GenLayer {
    private final GenLayerEdge.Mode field_151627_c;
-   private static final long c = 114190713038209L;
 
    public GenLayerEdge(long l, GenLayer genLayer, GenLayerEdge.Mode mode) {
       super(l);

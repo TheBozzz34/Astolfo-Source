@@ -27,7 +27,6 @@ public class ColorPicker extends SettingContainer {
    private int e;
    private boolean r;
    private static final int t = 9;
-   private static final long h = 85180137929874L;
 
    public ColorPicker(Category category, Container container, Setting<?> setting, int i, int j) {
       super(container, setting, i, j);
@@ -298,10 +297,5 @@ public class ColorPicker extends SettingContainer {
 
    private ColorSetting z() {
       return (ColorSetting)this.r();
-   }
-
-   static {
-      long l = h ^ 59006731230397L;
-      long m = l ^ 8570650014622756227L;
    }
 }

@@ -55,7 +55,6 @@ public final class ParseUtil {
    };
    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
    private static final DateTimeFormatter CIM_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss.SSSSSSZZZZZ", Locale.US);
-   private static final long EPOCH_DIFF = 21515821039742L;
 
    private ParseUtil() {
    }
@@ -508,8 +507,6 @@ public final class ParseUtil {
    }
 
    static {
-      long l = EPOCH_DIFF ^ 121445239247611L;
-      long m = 1324656337635860659L ^ l;
       multipliers.put("Hz", 1L);
       multipliers.put("kHz", 1000L);
       multipliers.put("MHz", 1000000L);

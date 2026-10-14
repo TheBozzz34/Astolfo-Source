@@ -49,8 +49,6 @@ public class SoundManager {
    private final List<ITickableSound> tickableSounds = Lists.newArrayList();
    private final Map<ISound, Integer> delayedSounds = Maps.newHashMap();
    private final Map<String, Integer> playingSoundsStopTime = Maps.newHashMap();
-   private static final long b = 124998548071178L;
-   private static final long j = 1580840688424058900L;
 
    public SoundManager(SoundHandler soundHandler, GameSettings gameSettings) {
       this.sndHandler = soundHandler;
@@ -73,13 +71,9 @@ public class SoundManager {
       if (!this.loaded) {
          try {
             new Thread(new Runnable() {
-               private static final long a = 64053558088009L;
-
                @Override
                public void run() {
                   SoundSystemConfig.setLogger(new SoundSystemLogger() {
-                     private static final long a = 48435486109883L;
-
                      @Override
                      public void message(String string, int i) {
                         if (!string.isEmpty()) {
@@ -312,7 +306,7 @@ public class SoundManager {
                      this.sndSystem.setPitch(string, (float)d);
                      this.sndSystem.setVolume(string, h);
                      this.sndSystem.play(string);
-                     this.playingSoundsStopTime.put(string, this.playTime + (int)j);
+                     this.playingSoundsStopTime.put(string, this.playTime + 20);
                      this.playingSounds.put(string, p_sound);
                      this.playingSoundPoolEntries.put(p_sound, soundPoolEntry);
                      if (soundCategory != SoundCategory.MASTER) {
@@ -403,8 +397,6 @@ public class SoundManager {
    }
 
    public class SoundSystemStarterThread extends SoundSystem {
-      private static final long a = 7367626684981L;
-
       public SoundSystemStarterThread() {
       }
 

@@ -11,8 +11,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class EntityLeashKnot extends EntityHanging {
-   private static final long bb = 94639768984417L;
-
    public EntityLeashKnot(World worldIn) {
       super(worldIn);
    }

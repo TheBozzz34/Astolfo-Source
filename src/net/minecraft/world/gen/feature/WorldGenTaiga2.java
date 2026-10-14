@@ -18,7 +18,6 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree {
       .getDefaultState()
       .withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE)
       .withProperty(BlockLeaves.CHECK_DECAY, false);
-   private static final long a = 121062372297628L;
 
    public WorldGenTaiga2(boolean bl) {
       super(bl);

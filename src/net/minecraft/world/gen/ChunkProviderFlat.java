@@ -34,7 +34,6 @@ public class ChunkProviderFlat implements IChunkProvider {
    private final boolean hasDungeons;
    private WorldGenLakes waterLakeGenerator;
    private WorldGenLakes lavaLakeGenerator;
-   private static final long a = 41802532596386L;
 
    public ChunkProviderFlat(World worldIn, long seed, boolean generateStructures, String flatGeneratorSettings) {
       this.worldObj = worldIn;

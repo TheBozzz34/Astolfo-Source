@@ -14,8 +14,6 @@ import java.lang.reflect.Field;
 import net.minecraft.client.renderer.EntityRenderer;
 
 public class LoginResponseHandler extends PacketHandler<LoginResponse> {
-   private static final long b = 64020631058990L;
-
    public LoginResponseHandler() {
       super(PacketId.LOGIN_RESPONSE);
    }

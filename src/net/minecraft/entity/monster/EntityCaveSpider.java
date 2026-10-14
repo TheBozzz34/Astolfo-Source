@@ -11,8 +11,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityCaveSpider extends EntitySpider {
-   private static final long ab = 130610965861365L;
-
    public EntityCaveSpider(World worldIn) {
       super(worldIn);
       this.setSize(0.7F, 0.5F);

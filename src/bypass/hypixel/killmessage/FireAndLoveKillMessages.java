@@ -4,8 +4,6 @@ import bypass.hypixel.FinalKillTracker;
 import java.util.Arrays;
 
 public class FireAndLoveKillMessages {
-   private static final long a = 115536085055632L;
-
    public FireAndLoveKillMessages() {
       FinalKillTracker.c
          .addAll(

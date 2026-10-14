@@ -29,7 +29,6 @@ public class GuiWinGame extends GuiScreen {
    private List<String> field_146582_i;
    private int field_146579_r;
    private float field_146578_s = 0.5F;
-   private static final long b = 61435793279235L;
 
    @Override
    public void updateScreen() {
@@ -68,14 +67,12 @@ public class GuiWinGame extends GuiScreen {
 
    @Override
    public void initGui() {
-      long l = b ^ 30372592802631L;
       if (this.field_146582_i == null) {
          this.field_146582_i = Lists.newArrayList();
 
          try {
             String string = "";
             String string2 = "" + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + EnumChatFormatting.GREEN + EnumChatFormatting.AQUA;
-            long m = 7164191114002988431L ^ l;
             short s = 274;
             InputStream inputStream = this.mc.getResourceManager().getResource(new ResourceLocation("texts/end.txt")).getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charsets.UTF_8));

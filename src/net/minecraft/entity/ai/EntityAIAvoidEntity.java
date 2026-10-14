@@ -12,8 +12,6 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
    private final Predicate<Entity> canBeSeenSelector = new Predicate<Entity>() {
-      private static final long a = 22587339452174L;
-
       public boolean apply(Entity entity) {
          return entity.isEntityAlive() && EntityAIAvoidEntity.this.theEntity.getEntitySenses().canSee(entity);
       }
@@ -27,7 +25,6 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
    private PathNavigate entityPathNavigate;
    private Class<T> classToAvoid;
    private Predicate<? super T> avoidTargetSelector;
-   private static final long c = 43870698849270L;
 
    public EntityAIAvoidEntity(EntityCreature theEntityIn, Class<T> classToAvoidIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {
       this(theEntityIn, classToAvoidIn, Predicates.alwaysTrue(), avoidDistanceIn, farSpeedIn, nearSpeedIn);

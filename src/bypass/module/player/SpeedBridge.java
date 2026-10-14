@@ -42,7 +42,6 @@ public class SpeedBridge extends Module {
          safeWalkEvent.cancel();
       }
    };
-   private static final long c = 127982052360127L;
 
    public SpeedBridge(Category category) {
       super(category);

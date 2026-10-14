@@ -12,7 +12,6 @@ public class ContainerFurnace extends Container {
    private int totalCookTime;
    private int furnaceBurnTime;
    private int currentItemBurnTime;
-   private static final long a = 89021678422651L;
 
    public ContainerFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
       this.tileFurnace = furnaceInventory;

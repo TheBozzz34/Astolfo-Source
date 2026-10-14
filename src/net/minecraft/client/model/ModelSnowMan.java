@@ -9,7 +9,6 @@ public class ModelSnowMan extends ModelBase {
    public ModelRenderer head;
    public ModelRenderer rightHand;
    public ModelRenderer leftHand;
-   private static final long a = 79432458143889L;
 
    public ModelSnowMan() {
       float f = 4.0F;

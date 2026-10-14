@@ -2,7 +2,6 @@ package net.minecraft.src;
 
 public class RangeListInt {
    private RangeInt[] ranges = new RangeInt[0];
-   private static final long a = 114269750763004L;
 
    public void addRange(RangeInt ri) {
       this.ranges = (RangeInt[])Config.addObjectToArray(this.ranges, ri);

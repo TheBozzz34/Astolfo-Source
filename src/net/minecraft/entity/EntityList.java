@@ -83,7 +83,6 @@ public class EntityList {
    private static final Map<Class<? extends Entity>, Integer> classToIDMapping = Maps.newHashMap();
    private static final Map<String, Integer> stringToIDMapping = Maps.newHashMap();
    public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.newLinkedHashMap();
-   private static final long a = 114656458543706L;
 
    private static void addMapping(Class<? extends Entity> entityClass, String entityName, int id) {
       if (stringToClassMapping.containsKey(entityName)) {

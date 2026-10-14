@@ -6,8 +6,6 @@ import net.minecraft.entity.ai.EntityMinecartMobSpawner;
 import net.minecraft.init.Blocks;
 
 public class RenderMinecartMobSpawner extends RenderMinecart<EntityMinecartMobSpawner> {
-   private static final long c = 96485787986436L;
-
    public RenderMinecartMobSpawner(RenderManager renderManagerIn) {
       super(renderManagerIn);
    }

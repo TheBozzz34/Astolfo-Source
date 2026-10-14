@@ -16,7 +16,6 @@ public class FlatGeneratorInfo {
    private final List<FlatLayerInfo> flatLayers = Lists.newArrayList();
    private final Map<String, Map<String, String>> worldFeatures = Maps.newHashMap();
    private int biomeToUse;
-   private static final long a = 28651824603549L;
 
    public int getBiome() {
       return this.biomeToUse;

@@ -15,7 +15,6 @@ public class TargetHud extends Component {
    private boolean x;
    private boolean Q;
    private final int q = new Color(17, 17, 17, 197).getRGB();
-   private static final long c = 93912931594658L;
 
    public TargetHud(float f, float g, int i, int j) {
       super("targethud", f, g, i, j);

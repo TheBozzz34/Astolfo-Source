@@ -19,9 +19,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class CommandSummon extends CommandBase {
-   private static final long b = 64000130864738L;
-   private static final long j = -8520344701486759926L;
-
    @Override
    public String getCommandName() {
       return "summon";
@@ -99,7 +96,7 @@ public class CommandSummon extends CommandBase {
          world.spawnEntityInWorld(entity);
          Entity entity2 = entity;
 
-         for (NBTTagCompound nbtTagCompound2 = nbtTagCompound; entity2 != null && nbtTagCompound2.hasKey("Riding", (int)j); nbtTagCompound2 = nbtTagCompound2.getCompoundTag("Riding")) {
+         for (NBTTagCompound nbtTagCompound2 = nbtTagCompound; entity2 != null && nbtTagCompound2.hasKey("Riding", 10); nbtTagCompound2 = nbtTagCompound2.getCompoundTag("Riding")) {
             Entity entity3 = EntityList.createEntityFromNBT(nbtTagCompound2.getCompoundTag("Riding"), world);
             if (entity3 != null) {
                entity3.setLocationAndAngles(d, e, d2, entity3.rotationYaw, entity3.rotationPitch);

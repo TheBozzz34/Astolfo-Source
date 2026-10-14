@@ -23,7 +23,6 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
    private int currentItem;
    private DataWatcher watcher;
    private List<DataWatcher.WatchableObject> field_148958_j;
-   private static final long a = 121474230013750L;
 
    public S0CPacketSpawnPlayer() {
    }

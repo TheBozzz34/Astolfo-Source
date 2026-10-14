@@ -3,7 +3,6 @@ package bypass.loader.check;
 public final class MeasureResult {
    private MeasureStatus R;
    private String v;
-   private static final long a = 13144198824705L;
 
    public MeasureResult(MeasureStatus measureStatus, String string) {
       this.R = measureStatus;

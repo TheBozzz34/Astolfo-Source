@@ -27,7 +27,6 @@ public class BlockTripWire extends Block {
    public static final PropertyBool EAST = PropertyBool.create("east");
    public static final PropertyBool SOUTH = PropertyBool.create("south");
    public static final PropertyBool WEST = PropertyBool.create("west");
-   private static final long l = 25707111178436L;
 
    public BlockTripWire() {
       super(Material.circuits);

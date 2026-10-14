@@ -7,8 +7,6 @@ import java.util.Arrays;
 import org.lwjgl.input.Keyboard;
 
 public final class BindCommand extends Command {
-   private static final long d = 114879399539906L;
-
    public BindCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Arrays.asList("b", "key"));
@@ -16,8 +14,6 @@ public final class BindCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      long l = d ^ 18088903160159L;
-      long m = l ^ 87407226648622L;
       if (strings.length == 4 && strings[1].equalsIgnoreCase("add")) {
          Module module2 = client.getModuleManager().getModule(strings[2]);
          if (module2 == null) {

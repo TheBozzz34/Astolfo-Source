@@ -15,7 +15,6 @@ public class CategoryPanel extends Container {
    private Category X;
    private static final ResourceLocation O = new ResourceLocation("client/icon/eye_open.png");
    private static final ResourceLocation H = new ResourceLocation("client/icon/eye_close.png");
-   private static final long d = 100998427593824L;
 
    public CategoryPanel(Category category, int i, int j, int k, int l) {
       super(category.getDisplayName(), i, j, k, l);

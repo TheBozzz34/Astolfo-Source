@@ -6,8 +6,6 @@ import net.minecraft.util.MathHelper;
 public class NoiseGeneratorOctaves extends NoiseGenerator {
    private NoiseGeneratorImproved[] generatorCollection;
    private int octaves;
-   private static final long a = 75402371729958L;
-   private static final long c = -6920340848240492534L;
 
    public NoiseGeneratorOctaves(Random seed, int octavesIn) {
       this.octaves = octavesIn;
@@ -52,6 +50,6 @@ public class NoiseGeneratorOctaves extends NoiseGenerator {
    }
 
    public double[] generateNoiseOctaves(double[] noiseArray, int xOffset, int zOffset, int xSize, int zSize, double xScale, double zScale, double d) {
-      return this.generateNoiseOctaves(noiseArray, xOffset, (int)c, zOffset, xSize, 1, zSize, xScale, 1.0, zScale);
+      return this.generateNoiseOctaves(noiseArray, xOffset, 10, zOffset, xSize, 1, zSize, xScale, 1.0, zScale);
    }
 }

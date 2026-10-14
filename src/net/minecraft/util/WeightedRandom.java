@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.Random;
 
 public class WeightedRandom {
-   private static final long a = 103991711636747L;
-
    public static int getTotalWeight(Collection<? extends WeightedRandom.Item> collection) {
       int i = 0;
 

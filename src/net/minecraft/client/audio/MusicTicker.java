@@ -11,7 +11,6 @@ public class MusicTicker implements ITickable {
    private final Minecraft mc;
    private ISound currentMusic;
    private int timeUntilNextMusic = 100;
-   private static final long a = 94340144823074L;
 
    public MusicTicker(Minecraft mcIn) {
       this.mc = mcIn;

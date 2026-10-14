@@ -12,8 +12,6 @@ import net.minecraft.stats.StatList;
 
 public class S37PacketStatistics implements Packet<INetHandlerPlayClient> {
    private Map<StatBase, Integer> field_148976_a;
-   private static final long b = 129373503764139L;
-   private static final long c = 5604535101229662207L;
 
    public S37PacketStatistics() {
    }
@@ -32,7 +30,7 @@ public class S37PacketStatistics implements Packet<INetHandlerPlayClient> {
       this.field_148976_a = Maps.newHashMap();
 
       for (int j = 0; j < i; j++) {
-         StatBase statBase = StatList.getOneShotStat(buf.readStringFromBuffer((int)c));
+         StatBase statBase = StatList.getOneShotStat(buf.readStringFromBuffer(32767));
          int k = buf.readVarIntFromBuffer();
          if (statBase != null) {
             this.field_148976_a.put(statBase, k);

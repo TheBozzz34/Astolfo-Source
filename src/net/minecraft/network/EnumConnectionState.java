@@ -246,7 +246,6 @@ public enum EnumConnectionState {
    private static final Map<Class<? extends Packet>, EnumConnectionState> STATES_BY_CLASS = Maps.newHashMap();
    private final int id;
    private final Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet>>> directionMaps = Maps.newEnumMap(EnumPacketDirection.class);
-   private static final long a = 136155799028149L;
 
    EnumConnectionState(int protocolId) {
       this.id = protocolId;

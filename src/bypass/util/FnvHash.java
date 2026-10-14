@@ -9,7 +9,6 @@ public class FnvHash {
    private static final BigInteger B = new BigInteger("100000001b3", 16);
    private static final BigInteger r = new BigInteger("2").pow(32);
    private static final BigInteger q = new BigInteger("2").pow(64);
-   private static final long a = 8022724535161L;
 
    public BigInteger X(byte[] bytes) {
       BigInteger bigInteger = m;

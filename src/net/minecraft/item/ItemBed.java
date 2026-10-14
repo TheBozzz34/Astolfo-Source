@@ -12,8 +12,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemBed extends Item {
-   private static final long a = 87270199721378L;
-
    public ItemBed() {
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }

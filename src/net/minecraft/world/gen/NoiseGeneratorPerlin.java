@@ -5,7 +5,6 @@ import java.util.Random;
 public class NoiseGeneratorPerlin extends NoiseGenerator {
    private NoiseGeneratorSimplex[] field_151603_a;
    private int field_151602_b;
-   private static final long a = 90250542319733L;
 
    public NoiseGeneratorPerlin(Random random2, int i) {
       this.field_151602_b = i;

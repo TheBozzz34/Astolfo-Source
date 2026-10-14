@@ -14,7 +14,6 @@ public class GenLayerBiome extends GenLayer {
    private BiomeGenBase[] field_151622_e = new BiomeGenBase[]{BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.taiga, BiomeGenBase.plains};
    private BiomeGenBase[] field_151620_f = new BiomeGenBase[]{BiomeGenBase.icePlains, BiomeGenBase.icePlains, BiomeGenBase.icePlains, BiomeGenBase.coldTaiga};
    private final ChunkProviderSettings field_175973_g;
-   private static final long c = 23987885982097L;
 
    public GenLayerBiome(long l, GenLayer genLayer, WorldType worldType, String string) {
       super(l);

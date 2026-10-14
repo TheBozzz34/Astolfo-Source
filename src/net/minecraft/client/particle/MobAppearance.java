@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 
 public class MobAppearance extends EntityFX {
    private EntityLivingBase entity;
-   private static final long ab = 125906275393812L;
 
    public MobAppearance(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
@@ -49,11 +48,9 @@ public class MobAppearance extends EntityFX {
       float rotationXY,
       float rotationXZ
    ) {
-      long l = ab ^ 44170092490190L;
       if (this.entity != null) {
          RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
          renderManager.setRenderPosition(EntityFX.interpPosX, EntityFX.interpPosY, EntityFX.interpPosZ);
-         long m = 8016719729169694640L ^ l;
          float f = 0.42553192F;
          float g = (this.particleAge + partialTicks) / this.particleMaxAge;
          GlStateManager.depthMask(true);

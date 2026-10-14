@@ -14,7 +14,6 @@ public class GuiYesNo extends GuiScreen {
    public String cancelButtonText;
    public int parentButtonClickedId;
    private int ticksUntilEnable;
-   private static final long e = 87499803608146L;
 
    public GuiYesNo(GuiYesNoCallback guiYesNoCallback, String string, String string2, int i) {
       this.parentScreen = guiYesNoCallback;

@@ -12,7 +12,6 @@ import net.minecraft.util.BlockPos;
 public class WorldManager implements IWorldAccess {
    private MinecraftServer mcServer;
    private WorldServer theWorldServer;
-   private static final long a = 47432873660145L;
 
    public WorldManager(MinecraftServer mcServerIn, WorldServer worldServerIn) {
       this.mcServer = mcServerIn;

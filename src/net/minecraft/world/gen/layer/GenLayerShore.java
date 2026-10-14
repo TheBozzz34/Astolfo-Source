@@ -5,8 +5,6 @@ import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenMesa;
 
 public class GenLayerShore extends GenLayer {
-   private static final long c = 23285428648181L;
-
    public GenLayerShore(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;

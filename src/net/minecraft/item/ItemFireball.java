@@ -9,8 +9,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemFireball extends Item {
-   private static final long a = 54027254994726L;
-
    public ItemFireball() {
       this.setCreativeTab(CreativeTabs.tabMisc);
    }

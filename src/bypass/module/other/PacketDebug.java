@@ -13,7 +13,6 @@ public final class PacketDebug extends Module {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
       }
    };
-   private static final long c = 7624118149723L;
 
    public PacketDebug() {
       super("PacketDebug", Category.OTHER);

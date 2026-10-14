@@ -46,7 +46,6 @@ public class ModelHorse extends ModelBase {
    private ModelRenderer horseRightFaceMetal;
    private ModelRenderer horseLeftRein;
    private ModelRenderer horseRightRein;
-   private static final long q = 19478868504895L;
 
    public ModelHorse() {
       this.textureWidth = 128;

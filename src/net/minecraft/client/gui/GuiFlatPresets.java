@@ -30,7 +30,6 @@ public class GuiFlatPresets extends GuiScreen {
    private GuiFlatPresets.ListSlot field_146435_s;
    private GuiButton field_146434_t;
    private GuiTextField field_146433_u;
-   private static final long d = 28396127275834L;
 
    public GuiFlatPresets(GuiCreateFlatWorld guiCreateFlatWorld) {
       this.parentScreen = guiCreateFlatWorld;
@@ -238,7 +237,6 @@ public class GuiFlatPresets extends GuiScreen {
 
    public class ListSlot extends GuiSlot {
       public int field_148175_k = -1;
-      private static final long c = 637629496036L;
 
       public ListSlot() {
          super(GuiFlatPresets.this.mc, GuiFlatPresets.this.width, GuiFlatPresets.this.height, 80, GuiFlatPresets.this.height - 37, 24);

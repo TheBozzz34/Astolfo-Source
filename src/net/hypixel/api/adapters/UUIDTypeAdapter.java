@@ -11,8 +11,6 @@ import java.lang.reflect.Type;
 import java.util.UUID;
 
 public class UUIDTypeAdapter implements JsonDeserializer<UUID>, JsonSerializer<UUID> {
-   private static final long a = 84128820052948L;
-
    public JsonElement serialize(UUID src, Type typeOfSrc, JsonSerializationContext context) {
       return new JsonPrimitive(src.toString());
    }

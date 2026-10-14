@@ -8,8 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockPotato extends BlockCrops {
-   private static final long i = 36615360797457L;
-
    @Override
    public Item getSeed() {
       return Items.potato;

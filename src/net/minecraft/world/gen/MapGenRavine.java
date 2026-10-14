@@ -10,7 +10,6 @@ import net.minecraft.world.chunk.ChunkPrimer;
 
 public class MapGenRavine extends MapGenBase {
    private float[] field_75046_d = new float[1024];
-   private static final long c = 84305987719186L;
 
    public void func_180707_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3, float f, float g, float h, int k, int m, double d4) {
       Random random = new Random(l);

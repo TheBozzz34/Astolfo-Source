@@ -72,8 +72,6 @@ public class ServerStatusResponse {
       public static class Serializer
          implements JsonDeserializer<ServerStatusResponse.MinecraftProtocolVersionIdentifier>,
          JsonSerializer<ServerStatusResponse.MinecraftProtocolVersionIdentifier> {
-         private static final long a = 76036135667557L;
-
          public ServerStatusResponse.MinecraftProtocolVersionIdentifier deserialize(
             JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext
          ) throws JsonParseException {
@@ -121,8 +119,6 @@ public class ServerStatusResponse {
       }
 
       public static class Serializer implements JsonDeserializer<ServerStatusResponse.PlayerCountData>, JsonSerializer<ServerStatusResponse.PlayerCountData> {
-         private static final long a = 39959654111624L;
-
          public ServerStatusResponse.PlayerCountData deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "players");
             ServerStatusResponse.PlayerCountData playerCountData = new ServerStatusResponse.PlayerCountData(
@@ -170,8 +166,6 @@ public class ServerStatusResponse {
    }
 
    public static class Serializer implements JsonDeserializer<ServerStatusResponse>, JsonSerializer<ServerStatusResponse> {
-      private static final long a = 96386556883922L;
-
       public ServerStatusResponse deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "status");
          ServerStatusResponse serverStatusResponse = new ServerStatusResponse();

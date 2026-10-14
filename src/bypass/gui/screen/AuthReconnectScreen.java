@@ -18,7 +18,6 @@ public class AuthReconnectScreen extends GuiScreen {
    private Stopwatch h = new Stopwatch();
    public boolean w;
    private boolean f;
-   private static final long a = 5759898090085L;
 
    @Override
    public void initGui() {
@@ -28,7 +27,6 @@ public class AuthReconnectScreen extends GuiScreen {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = a ^ 8453677294448L;
       if (!DisconnectHandler.disconnected) {
          GUI.y();
       }
@@ -40,15 +38,12 @@ public class AuthReconnectScreen extends GuiScreen {
       this.N.enabled = !this.f;
       drawRect(0, 0, this.width, this.height, new Color(1, 1, 1, 120).getRGB());
       RenderUtil.setColor(-1);
-      long m = 2830203649742780191L ^ l;
       int i = this.width / 2 - 38;
       int j = this.height / 2 - this.height / 3;
-      m = 4773791771317562083L ^ l;
       GL11.glEnable(3553);
       GL11.glBlendFunc(770, 771);
       GL11.glEnable(3042);
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/logo.png"));
-      m = 2928868894879461594L ^ l;
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
       drawModalRectWithCustomSizedTexture(i, j, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);

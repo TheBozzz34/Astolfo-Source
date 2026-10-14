@@ -26,8 +26,6 @@ import net.minecraft.world.World;
 
 public class BlockCauldron extends Block {
    public static final PropertyInteger LEVEL = PropertyInteger.create("level", 0, 3);
-   private static final long e = 97407124030115L;
-   private static final long i = -4084739573257601004L;
 
    public BlockCauldron() {
       super(Material.iron, MapColor.stoneColor);
@@ -168,7 +166,7 @@ public class BlockCauldron extends Block {
 
    @Override
    public void fillWithRain(World worldIn, BlockPos pos) {
-      if (worldIn.rand.nextInt((int)i) == 1) {
+      if (worldIn.rand.nextInt(20) == 1) {
          IBlockState iBlockState = worldIn.getBlockState(pos);
          if (iBlockState.getValue(LEVEL) < 3) {
             worldIn.setBlockState(pos, iBlockState.cycleProperty(LEVEL), 2);

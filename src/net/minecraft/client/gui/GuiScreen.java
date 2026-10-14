@@ -66,12 +66,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    private URI clickedLinkURI;
    private static final int I = new Color(7, 7, 7).getRGB();
    private static final int Z = new Color(17, 17, 17).getRGB();
-   private static final long cb = 7985418319024L;
 
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = cb ^ 6382636428709L;
-      long m = l ^ 9065368047539L;
-
       for (LoadStage loadStage : Astolfo.INSTANCE.x().e().a().L().getValue()) {
          if (loadStage instanceof GuiStage) {
             GuiStage guiStage = (GuiStage)loadStage;
@@ -140,7 +136,6 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    }
 
    public void drawHoveringText(List<String> textLines, int x, int y) {
-      long l = cb ^ 103880243932332L;
       if (!textLines.isEmpty()) {
          GlStateManager.disableRescaleNormal();
          RenderHelper.disableStandardItemLighting();
@@ -156,44 +151,43 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
          }
 
          int k = x + 12;
-         int m = y - 12;
-         int n = 8;
+         int l = y - 12;
+         int m = 8;
          if (textLines.size() > 1) {
-            n += 2 + (textLines.size() - 1) * 10;
+            m += 2 + (textLines.size() - 1) * 10;
          }
 
          if (k + i > this.width) {
             k -= 28 + i;
          }
 
-         if (m + n + 6 > this.height) {
-            m = this.height - n - 6;
+         if (l + m + 6 > this.height) {
+            l = this.height - m - 6;
          }
 
          this.zLevel = 300.0F;
          this.itemRender.zLevel = 300.0F;
-         int i2 = -15592942;
-         this.drawGradientRect(k - 3, m - 4, k + i + 3, m - 3, i2, i2);
-         long l2 = 7569057859365955873L ^ l;
-         this.drawGradientRect(k - 3, m + n + 3, k + i + 3, m + n + 4, i2, i2);
-         this.drawGradientRect(k - 3, m - 3, k + i + 3, m + n + 3, i2, i2);
-         this.drawGradientRect(k - 4, m - 3, k - 3, m + n + 3, i2, i2);
-         this.drawGradientRect(k + i + 3, m - 3, k + i + 4, m + n + 3, i2, i2);
+         int n = -15592942;
+         this.drawGradientRect(k - 3, l - 4, k + i + 3, l - 3, n, n);
+         this.drawGradientRect(k - 3, l + m + 3, k + i + 3, l + m + 4, n, n);
+         this.drawGradientRect(k - 3, l - 3, k + i + 3, l + m + 3, n, n);
+         this.drawGradientRect(k - 4, l - 3, k - 3, l + m + 3, n, n);
+         this.drawGradientRect(k + i + 3, l - 3, k + i + 4, l + m + 3, n, n);
+         int i2 = -14606047;
          int i3 = -14606047;
-         int i4 = -14606047;
-         this.drawGradientRect(k - 3, m - 3 + 1, k - 3 + 1, m + n + 3 - 1, i3, i4);
-         this.drawGradientRect(k + i + 2, m - 3 + 1, k + i + 3, m + n + 3 - 1, i3, i4);
-         this.drawGradientRect(k - 3, m - 3, k + i + 3, m - 3 + 1, i3, i3);
-         this.drawGradientRect(k - 3, m + n + 2, k + i + 3, m + n + 3, i4, i4);
+         this.drawGradientRect(k - 3, l - 3 + 1, k - 3 + 1, l + m + 3 - 1, i2, i3);
+         this.drawGradientRect(k + i + 2, l - 3 + 1, k + i + 3, l + m + 3 - 1, i2, i3);
+         this.drawGradientRect(k - 3, l - 3, k + i + 3, l - 3 + 1, i2, i2);
+         this.drawGradientRect(k - 3, l + m + 2, k + i + 3, l + m + 3, i3, i3);
 
-         for (int i5 = 0; i5 < textLines.size(); i5++) {
-            String string2 = (String)textLines.get(i5);
-            this.fontRendererObj.drawStringWithShadow(string2, k, m, -1);
-            if (i5 == 0) {
-               m += 2;
+         for (int i4 = 0; i4 < textLines.size(); i4++) {
+            String string2 = (String)textLines.get(i4);
+            this.fontRendererObj.drawStringWithShadow(string2, k, l, -1);
+            if (i4 == 0) {
+               l += 2;
             }
 
-            m += 10;
+            l += 10;
          }
 
          this.zLevel = 0.0F;

@@ -7,7 +7,6 @@ public interface HypixelLevelMath {
    double i = -3.5;
    double r = 12.25;
    double P = 8.0E-4;
-   long a = 52548371690585L;
 
    static double V(double d) {
       return d < 0.0 ? 1.0 : Math.floor(-2.5 + Math.sqrt(12.25 + 8.0E-4 * d));

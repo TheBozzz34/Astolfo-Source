@@ -6,14 +6,11 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import java.util.zip.Deflater;
 
 public class NettyCompressionEncoder extends MessageToByteEncoder<ByteBuf> {
-   private final byte[] buffer;
+   private final byte[] buffer = new byte[8192];
    private final Deflater deflater;
    private int treshold;
-   private static final long b = 106593615627235L;
-   private static final long c = 1155236431849857024L;
 
    public NettyCompressionEncoder(int treshold) {
-      this.buffer = new byte[(int)c];
       this.treshold = treshold;
       this.deflater = new Deflater();
    }

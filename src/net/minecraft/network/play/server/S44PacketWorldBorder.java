@@ -16,7 +16,6 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient> {
    private long timeUntilTarget;
    private int warningTime;
    private int warningDistance;
-   private static final long a = 8912128949544L;
 
    public S44PacketWorldBorder() {
    }

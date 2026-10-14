@@ -19,8 +19,6 @@ import net.minecraft.world.World;
 public class BlockEndPortalFrame extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
    public static final PropertyBool EYE = PropertyBool.create("eye");
-   private static final long e = 45909674762323L;
-   private static final long i = -6494092449651097585L;
 
    public BlockEndPortalFrame() {
       super(Material.rock, MapColor.greenColor);
@@ -66,7 +64,7 @@ public class BlockEndPortalFrame extends Block {
 
    @Override
    public int getComparatorInputOverride(World worldIn, BlockPos pos) {
-      return worldIn.getBlockState(pos).getValue(EYE) ? (int)i : 0;
+      return worldIn.getBlockState(pos).getValue(EYE) ? 15 : 0;
    }
 
    @Override

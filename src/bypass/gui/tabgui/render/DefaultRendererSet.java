@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class DefaultRendererSet implements RendererSet {
    private final Map<Class<? extends Sized>, ElementRenderer<?>> R;
-   private static final long a = 58075775627356L;
 
    @Override
    public CustomFontRenderer O() {

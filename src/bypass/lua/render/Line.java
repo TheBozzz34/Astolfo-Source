@@ -7,9 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Line extends VarArgFunction {
-   private static final long a = 122233959833589L;
-   private static final long b = 1874111062668738569L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       float f = 0.0F;
@@ -22,7 +19,7 @@ public final class Line extends VarArgFunction {
       int l = 0;
       float f3 = 1.0F;
       int m = 1;
-      if (varargs.narg() < (int)b) {
+      if (varargs.narg() < 9) {
          return valueOf(false);
       }
 

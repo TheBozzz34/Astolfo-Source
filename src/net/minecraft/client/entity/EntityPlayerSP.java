@@ -103,7 +103,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    private int e8;
    private Stopwatch eM = new Stopwatch();
    private boolean el;
-   private static final long bb = 84607402890430L;
 
    public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
       super(worldIn, netHandler.getGameProfile());
@@ -132,8 +131,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
    @Override
    public void onUpdate() {
-      long l = bb ^ 91624362374408L;
-      long m = l ^ 44873893469189L;
       if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0, this.posZ))) {
          Astolfo.INSTANCE.getEventBus().post(new UpdateEvent(EventState.PRE));
          super.onUpdate();
@@ -395,8 +392,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
    @Override
    public void closeScreen() {
-      long l = bb ^ 80964073963857L;
-      long m = l ^ 55139246729308L;
       if (!Astolfo.INSTANCE.getModuleManager().get(HideWindow.class).isEnabled()) {
          this.sendQueue.addToSendQueue(new C0DPacketCloseWindow(this.openContainer.windowId));
       } else if (this.mc.currentScreen instanceof GuiChest) {
@@ -685,8 +680,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
    @Override
    public void onLivingUpdate() {
-      long l = bb ^ 135587691026694L;
-      long m = l ^ 910696673291L;
       if (this.sprintingTicksLeft > 0) {
          this.sprintingTicksLeft--;
          if (this.sprintingTicksLeft == 0) {

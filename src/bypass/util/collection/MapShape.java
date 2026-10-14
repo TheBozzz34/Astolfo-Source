@@ -15,7 +15,6 @@ public abstract class MapShape<K, V> {
    public final Map<K, Integer> slots;
    public static final String REMOVED = new String("Non existing mapping value");
    private static final Object NULL_KEY = new Object();
-   private static final long b = 49304527385437L;
 
    public MapShape(Map<K, Integer> map) {
       this.slots = map;

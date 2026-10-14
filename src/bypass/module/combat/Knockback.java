@@ -37,7 +37,6 @@ public final class Knockback extends Module {
          }
       }
    };
-   private static final long c = 133201786031317L;
 
    public Knockback(Category category) {
       super(category);

@@ -3,8 +3,6 @@ package bypass.auth.net.scramble;
 import java.nio.ByteBuffer;
 
 public final class SwapPairsScrambler implements Scrambler {
-   private static final long a = 41730414129629L;
-
    private static void h(byte[] bytes, int i, int j) {
       byte b = bytes[i];
       bytes[i] = bytes[j];

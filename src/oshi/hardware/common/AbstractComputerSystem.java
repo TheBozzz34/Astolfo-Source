@@ -11,7 +11,6 @@ import oshi.util.Memoizer;
 public abstract class AbstractComputerSystem implements ComputerSystem {
    private final Supplier<Firmware> firmware = Memoizer.memoize(this::createFirmware);
    private final Supplier<Baseboard> baseboard = Memoizer.memoize(this::createBaseboard);
-   private static final long a = 121551975839970L;
 
    @Override
    public Firmware getFirmware() {

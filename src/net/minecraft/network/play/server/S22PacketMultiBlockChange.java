@@ -13,7 +13,6 @@ import net.minecraft.world.chunk.Chunk;
 public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient> {
    private ChunkCoordIntPair chunkPosCoord;
    private S22PacketMultiBlockChange.BlockUpdateData[] changedBlocks;
-   private static final long a = 16376435705094L;
 
    public S22PacketMultiBlockChange() {
    }
@@ -60,7 +59,6 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient> 
    public class BlockUpdateData {
       private final short chunkPosCrammed;
       private final IBlockState blockState;
-      private static final long a = 83522924034995L;
 
       public BlockUpdateData(short s, IBlockState state) {
          this.chunkPosCrammed = s;

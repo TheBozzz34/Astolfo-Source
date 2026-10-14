@@ -9,7 +9,6 @@ import net.minecraft.util.IChatComponent;
 
 public class BaseSpectatorGroup implements ISpectatorMenuView {
    private final List<ISpectatorMenuObject> field_178671_a = Lists.newArrayList();
-   private static final long a = 70820198529710L;
 
    public BaseSpectatorGroup() {
       this.field_178671_a.add(new TeleportToPlayer());

@@ -16,8 +16,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 public class CommandMessage extends CommandBase {
-   private static final long b = 112663161126504L;
-
    @Override
    public List<String> getCommandAliases() {
       return Arrays.asList("w", "msg");

@@ -13,8 +13,6 @@ public final class HypixelAddressCheck {
    private static final List<String> P = new ArrayList<>();
    private static final Minecraft i = Minecraft.getMinecraft();
    private static InetAddress F;
-   private static final long a = 43525299494244L;
-   private static final long f = 2277682708245184511L;
 
    public static void C(InetAddress inetAddress) {
       String string = inetAddress.getHostAddress();
@@ -57,7 +55,7 @@ public final class HypixelAddressCheck {
                l = -1;
             }
 
-            if (l >= 0 && l <= (int)f) {
+            if (l >= 0 && l <= 65535) {
                string = string.substring(0, k - 1);
             }
          }

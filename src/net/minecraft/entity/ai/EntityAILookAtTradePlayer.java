@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EntityAILookAtTradePlayer extends EntityAIWatchClosest {
    private final EntityVillager theMerchant;
-   private static final long a = 46845952393505L;
 
    public EntityAILookAtTradePlayer(EntityVillager theMerchantIn) {
       super(theMerchantIn, EntityPlayer.class, 8.0F);

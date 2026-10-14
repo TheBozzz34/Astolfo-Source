@@ -10,12 +10,8 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class RegisterNumber4 extends VarArgFunction {
-   private static final long a = 20027655455395L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
-      long l = a ^ 109449437869489L;
-      long m = l ^ 77841455516321L;
       String string = null;
       String string2 = null;
       Number number = null;

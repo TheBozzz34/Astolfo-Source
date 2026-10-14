@@ -5,8 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 public class ScoreHealthCriteria extends ScoreDummyCriteria {
-   private static final long a = 136004039803262L;
-
    public ScoreHealthCriteria(String name) {
       super(name);
    }

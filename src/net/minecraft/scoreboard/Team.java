@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 
 public abstract class Team {
-   private static final long b = 26095391052830L;
-
    public boolean isSameTeam(Team other) {
       return other == null ? false : this == other;
    }

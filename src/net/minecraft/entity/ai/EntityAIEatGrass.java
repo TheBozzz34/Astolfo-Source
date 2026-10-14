@@ -17,7 +17,6 @@ public class EntityAIEatGrass extends EntityAIBase {
    private EntityLiving grassEaterEntity;
    private World entityWorld;
    public int eatingGrassTimer;
-   private static final long a = 43559487334165L;
 
    public EntityAIEatGrass(EntityLiving grassEaterEntityIn) {
       this.grassEaterEntity = grassEaterEntityIn;

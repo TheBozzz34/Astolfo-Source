@@ -18,7 +18,6 @@ public class FastEat extends Module {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
       }
    };
-   private static final long c = 97795217944806L;
 
    public FastEat() {
       super("FastEat", Category.PLAYER);

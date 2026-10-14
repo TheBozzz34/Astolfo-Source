@@ -12,7 +12,6 @@ import net.minecraft.util.CryptManager;
 public class C01PacketEncryptionResponse implements Packet<INetHandlerLoginServer> {
    private byte[] secretKeyEncrypted = new byte[0];
    private byte[] verifyTokenEncrypted = new byte[0];
-   private static final long a = 49437635731303L;
 
    public C01PacketEncryptionResponse() {
    }

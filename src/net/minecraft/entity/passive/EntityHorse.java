@@ -44,8 +44,6 @@ import net.minecraft.world.World;
 
 public class EntityHorse extends EntityAnimal implements IInvBasic {
    private static final Predicate<Entity> horseBreedingSelector = new Predicate<Entity>() {
-      private static final long a = 24586163153127L;
-
       public boolean apply(Entity entity) {
          return entity instanceof EntityHorse && ((EntityHorse)entity).isBreeding();
       }
@@ -100,7 +98,6 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
    private String texturePrefix;
    private String[] horseTexturesArray = new String[3];
    private boolean field_175508_bO = false;
-   private static final long gb = 75937292940380L;
 
    public EntityHorse(World worldIn) {
       super(worldIn);

@@ -63,7 +63,6 @@ public final class ListenerSuspender extends HiddenModule {
          j.clear();
       }
    };
-   private static final long c = 33985041570576L;
 
    public ListenerSuspender() {
       client.getEventBus().subscribe(this);

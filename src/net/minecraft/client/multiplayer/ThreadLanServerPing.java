@@ -15,8 +15,6 @@ public class ThreadLanServerPing extends Thread {
    private final DatagramSocket socket;
    private boolean isStopping = true;
    private final String address;
-   private static final long a = 93191026823412L;
-   private static final long e = -7047546114416832163L;
 
    public ThreadLanServerPing(String string, String string2) throws IOException {
       super("LanServerPinger #" + field_148658_a.incrementAndGet());
@@ -34,7 +32,7 @@ public class ThreadLanServerPing extends Thread {
       while (!this.isInterrupted() && this.isStopping) {
          try {
             InetAddress inetAddress = InetAddress.getByName("224.0.2.60");
-            DatagramPacket datagramPacket = new DatagramPacket(bytes, bytes.length, inetAddress, (int)e);
+            DatagramPacket datagramPacket = new DatagramPacket(bytes, bytes.length, inetAddress, 4445);
             this.socket.send(datagramPacket);
          } catch (IOException ioException) {
             logger.warn("LanServerPinger: " + ioException.getMessage());

@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public abstract class BlockRedstoneDiode extends BlockDirectional {
    public final boolean isRepeaterPowered;
-   private static final long i = 96428548308960L;
 
    public BlockRedstoneDiode(boolean powered) {
       super(Material.circuits);

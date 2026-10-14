@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class EntityLavaFX extends EntityFX {
    private float lavaParticleScale;
-   private static final long ab = 121112547858675L;
 
    public EntityLavaFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);

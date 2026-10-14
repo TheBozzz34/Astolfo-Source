@@ -17,7 +17,6 @@ import oshi.util.ParseUtil;
 @ThreadSafe
 public final class WindowsNetworkParams extends AbstractNetworkParams {
    private static final int COMPUTER_NAME_DNS_DOMAIN_FULLY_QUALIFIED = 3;
-   private static final long b = 103798698825316L;
 
    @Override
    public String getDomainName() {
@@ -91,10 +90,5 @@ public final class WindowsNetworkParams extends AbstractNetworkParams {
       }
 
       return "";
-   }
-
-   static {
-      long l = b ^ 28044446615679L;
-      long m = l ^ 8144244101046452795L;
    }
 }

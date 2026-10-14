@@ -36,7 +36,6 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
    private String field_148299_g;
    private DynamicTexture field_148305_h;
    private long field_148298_f;
-   private static final long a = 122445519407707L;
 
    public ServerListEntryNormal(GuiMultiplayer guiMultiplayer, ServerData serverIn) {
       this.owner = guiMultiplayer;
@@ -54,8 +53,6 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
          this.server.serverMOTD = "";
          this.server.populationInfo = "";
          field_148302_b.submit(new Runnable() {
-            private static final long a = 20585806632810L;
-
             @Override
             public void run() {
                try {

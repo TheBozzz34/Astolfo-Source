@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public final class TypeUtil {
-   private static final long a = 68418313599959L;
-
    public static boolean q(Object object) {
       return object.getClass().equals(int.class) || object.getClass().equals(Integer.class);
    }

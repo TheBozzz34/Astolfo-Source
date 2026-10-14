@@ -9,9 +9,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class SolarisGraphicsCard extends AbstractGraphicsCard {
-   private static final long b = 100221904319931L;
-   private static final long i = -2370727891903184888L;
-
    public SolarisGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
       super(name, deviceId, vendor, versionInfo, vram);
    }
@@ -65,7 +62,7 @@ public final class SolarisGraphicsCard extends AbstractGraphicsCard {
                } else if (strings[0].equals("revision-id")) {
                   arrayList2.add(string5.trim());
                } else if (strings[0].equals("class-code")) {
-                  string4 = string5.substring(string5.length() - (int)i, string5.length() - 4);
+                  string4 = string5.substring(string5.length() - 8, string5.length() - 4);
                }
             }
          }

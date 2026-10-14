@@ -6,7 +6,6 @@ public final class DefaultCheckContext implements CheckContext {
    private final CheckRequest c;
    private final List<StageCheck> m;
    private final List<VerdictProcessor> o;
-   private static final long a = 107289293741782L;
 
    public DefaultCheckContext(CheckRequest checkRequest, List<StageCheck> list, List<VerdictProcessor> list2) {
       this.c = checkRequest;

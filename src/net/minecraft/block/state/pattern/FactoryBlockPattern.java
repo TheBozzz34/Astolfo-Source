@@ -20,11 +20,9 @@ public class FactoryBlockPattern {
    private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps.newHashMap();
    private int aisleHeight;
    private int rowWidth;
-   private static final long a = 55713340015571L;
-   private static final long e = 1765538086176948256L;
 
    private FactoryBlockPattern() {
-      this.symbolMap.put(Character.valueOf((char)((int)e)), Predicates.alwaysTrue());
+      this.symbolMap.put(' ', Predicates.alwaysTrue());
    }
 
    public FactoryBlockPattern aisle(String... aisle) {

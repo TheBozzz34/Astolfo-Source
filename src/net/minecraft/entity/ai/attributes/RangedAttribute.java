@@ -6,7 +6,6 @@ public class RangedAttribute extends BaseAttribute {
    private final double minimumValue;
    private final double maximumValue;
    private String description;
-   private static final long b = 128456751387092L;
 
    public RangedAttribute(IAttribute iAttribute, String unlocalizedNameIn, double defaultValue, double minimumValueIn, double maximumValueIn) {
       super(iAttribute, unlocalizedNameIn, defaultValue);

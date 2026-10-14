@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 public class ResourceIndex {
    private static final Logger logger = LogManager.getLogger();
    private final Map<String, File> resourceMap = Maps.newHashMap();
-   private static final long a = 109626545375961L;
 
    public ResourceIndex(File file, String string) {
       if (string != null) {

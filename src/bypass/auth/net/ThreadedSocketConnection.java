@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 public class ThreadedSocketConnection extends SocketConnection {
    private final Consumer<IOException> o;
    private Thread V;
-   private static final long a = 52925930189940L;
 
    public ThreadedSocketConnection(
       ConnectionListener connectionListener,

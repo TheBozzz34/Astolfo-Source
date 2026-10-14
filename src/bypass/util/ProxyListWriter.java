@@ -8,8 +8,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 
 public final class ProxyListWriter {
-   private static final long a = 113720108509415L;
-
    public static void k(Path path, Collection<HostAndPort> collection, String string) throws IOException {
       if (Files.notExists(path)) {
          Files.createFile(path);

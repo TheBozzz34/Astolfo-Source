@@ -27,7 +27,6 @@ public class GuiDetailSettingsOF extends GuiScreen {
       GameSettings.Options.DYNAMIC_FOV
    };
    private TooltipProviderOptions O = new TooltipProviderOptions(this);
-   private static final long a = 109500055905928L;
 
    public GuiDetailSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;

@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentArrowDamage extends Enchantment {
-   private static final long m = 67593200183454L;
-
    public EnchantmentArrowDamage(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.BOW);
       this.setName("arrowDamage");

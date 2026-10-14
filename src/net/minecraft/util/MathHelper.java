@@ -38,7 +38,6 @@ public class MathHelper {
    private static final double[] field_181164_e;
    private static final double[] field_181165_f;
    private static boolean u;
-   private static final long a = 45300445925312L;
 
    public static float sin(float f) {
       return fastMath ? SIN_TABLE_FAST[(int)(f * 651.8986F) & 4095] : Z[(int)(f * 10430.378F) & 65535];
@@ -465,12 +464,6 @@ public class MathHelper {
    }
 
    static {
-      long l = a ^ 131006732091088L;
-      long m = l ^ 9108004536638688365L;
-      m = l ^ 724009136986876743L;
-      m = l ^ 668235815509159480L;
-      m = 1219989393797785478L ^ l;
-
       for (int i = 0; i < 65536; i++) {
          Z[i] = (float)Math.sin(i * Math.PI * 2.0 / 65536.0);
       }
@@ -487,15 +480,14 @@ public class MathHelper {
          0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9
       };
       field_181163_d = Double.longBitsToDouble(4805340802404319232L);
-      m = 3410500376536660244L ^ l;
       field_181164_e = new double[257];
       field_181165_f = new double[257];
 
-      for (int n = 0; n < 257; n++) {
-         double d = n / 256.0;
+      for (int l = 0; l < 257; l++) {
+         double d = l / 256.0;
          double e = Math.asin(d);
-         field_181165_f[n] = Math.cos(e);
-         field_181164_e[n] = e;
+         field_181165_f[l] = Math.cos(e);
+         field_181164_e[l] = e;
       }
    }
 }

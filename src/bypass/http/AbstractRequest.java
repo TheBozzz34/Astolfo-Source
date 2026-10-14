@@ -8,7 +8,6 @@ import java.util.Map;
 
 public abstract class AbstractRequest implements Request {
    public final Map<String, String> m = new HashMap<>();
-   private static final long a = 72336621491796L;
 
    @Override
    public Request m(String string, String string2) throws Exception {

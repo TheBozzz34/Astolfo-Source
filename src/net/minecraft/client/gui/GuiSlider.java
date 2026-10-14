@@ -12,7 +12,6 @@ public class GuiSlider extends GuiButton {
    private final float max;
    private final GuiPageButtonList.GuiResponder responder;
    private GuiSlider.FormatHelper formatHelper;
-   private static final long c = 103170115849427L;
 
    public GuiSlider(
       GuiPageButtonList.GuiResponder guiResponder,

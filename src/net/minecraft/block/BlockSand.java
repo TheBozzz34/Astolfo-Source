@@ -12,7 +12,6 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockSand extends BlockFalling {
    public static final PropertyEnum<BlockSand.EnumType> VARIANT = PropertyEnum.create("variant", BlockSand.EnumType.class);
-   private static final long e = 104844071973062L;
 
    public BlockSand() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockSand.EnumType.SAND));
@@ -59,7 +58,6 @@ public class BlockSand extends BlockFalling {
       private final String name;
       private final MapColor mapColor;
       private final String unlocalizedName;
-      private static final long a = 119763049334423L;
 
       EnumType(int meta, String name, String unlocalizedNameIn, MapColor mapColor) {
          this.meta = meta;

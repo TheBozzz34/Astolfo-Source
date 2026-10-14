@@ -7,7 +7,6 @@ public class PathEntity {
    private final PathPoint[] points;
    private int currentPathIndex;
    private int pathLength;
-   private static final long a = 55660991848995L;
 
    public PathEntity(PathPoint[] pathpoints) {
       this.points = pathpoints;

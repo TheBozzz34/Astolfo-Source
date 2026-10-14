@@ -6,7 +6,6 @@ import net.minecraft.entity.passive.EntityTameable;
 public class EntityAISit extends EntityAIBase {
    private EntityTameable theEntity;
    private boolean isSitting;
-   private static final long a = 66508805877303L;
 
    public EntityAISit(EntityTameable entityIn) {
       this.theEntity = entityIn;

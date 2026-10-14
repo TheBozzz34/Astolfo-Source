@@ -12,8 +12,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemLead extends Item {
-   private static final long a = 24882230529357L;
-
    public ItemLead() {
       this.setCreativeTab(CreativeTabs.tabTools);
    }

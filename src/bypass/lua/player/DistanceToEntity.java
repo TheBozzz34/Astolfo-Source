@@ -7,8 +7,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class DistanceToEntity extends OneArgFunction {
-   private static final long a = 135844402878793L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (ClientAccess.mc.thePlayer != null && luaValue.isint()) {

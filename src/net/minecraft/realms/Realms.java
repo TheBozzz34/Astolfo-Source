@@ -9,8 +9,6 @@ import net.minecraft.util.Session;
 import net.minecraft.world.WorldSettings;
 
 public class Realms {
-   private static final long a = 92354507150274L;
-
    public static boolean isTouchScreen() {
       return Minecraft.getMinecraft().gameSettings.touchscreen;
    }

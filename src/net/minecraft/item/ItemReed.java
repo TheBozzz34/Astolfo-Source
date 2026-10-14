@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 
 public class ItemReed extends Item {
    private Block block;
-   private static final long a = 18246456603224L;
 
    public ItemReed(Block block) {
       this.block = block;

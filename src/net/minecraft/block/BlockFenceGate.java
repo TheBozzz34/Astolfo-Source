@@ -18,7 +18,6 @@ public class BlockFenceGate extends BlockDirectional {
    public static final PropertyBool OPEN = PropertyBool.create("open");
    public static final PropertyBool POWERED = PropertyBool.create("powered");
    public static final PropertyBool IN_WALL = PropertyBool.create("in_wall");
-   private static final long i = 99445412501343L;
 
    public BlockFenceGate(BlockPlanks.EnumType enumType) {
       super(Material.wood, enumType.getMapColor());

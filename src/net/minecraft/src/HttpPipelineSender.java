@@ -11,8 +11,6 @@ import java.util.Map;
 public class HttpPipelineSender extends Thread {
    private HttpPipelineConnection httpPipelineConnection = null;
    private static Charset ASCII = Charset.forName("ASCII");
-   private static final long a = 40739642359755L;
-   private static final long f = 4675006755632059272L;
 
    public HttpPipelineSender(HttpPipelineConnection httpPipelineConnection) {
       super("HttpPipelineSender");
@@ -45,7 +43,7 @@ public class HttpPipelineSender extends Thread {
       int i = this.httpPipelineConnection.getPort();
       Proxy proxy = this.httpPipelineConnection.getProxy();
       Socket socket = new Socket(proxy);
-      socket.connect(new InetSocketAddress(string, i), (int)f);
+      socket.connect(new InetSocketAddress(string, i), 5000);
       this.httpPipelineConnection.setSocket(socket);
    }
 

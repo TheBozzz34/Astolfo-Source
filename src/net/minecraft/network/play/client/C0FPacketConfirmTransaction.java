@@ -9,7 +9,6 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
    public int windowId;
    public short uid;
    public boolean accepted;
-   private static final long a = 130315075654604L;
 
    public C0FPacketConfirmTransaction() {
    }

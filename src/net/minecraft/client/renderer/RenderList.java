@@ -7,8 +7,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import org.lwjgl.opengl.GL11;
 
 public class RenderList extends ChunkRenderContainer {
-   private static final long c = 108267981735153L;
-
    @Override
    public void renderChunkLayer(EnumWorldBlockLayer layer) {
       if (this.initialized) {

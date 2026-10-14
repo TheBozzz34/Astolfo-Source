@@ -12,7 +12,6 @@ public class Property {
    private String userName = null;
    private String[] userValues = null;
    private int value = 0;
-   private static final long a = 57042648926996L;
 
    public Property(String propertyName, String[] propertyValues, String userName, String[] userValues, int defaultValue) {
       this.propertyName = propertyName;

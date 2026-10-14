@@ -12,7 +12,6 @@ public abstract class BaseAttributeMap {
    public final Map<IAttribute, IAttributeInstance> attributes = Maps.newHashMap();
    public final Map<String, IAttributeInstance> attributesByName = new LowerStringMap<>();
    public final Multimap<IAttribute, IAttribute> field_180377_c = HashMultimap.create();
-   private static final long a = 87995099666996L;
 
    public IAttributeInstance getAttributeInstance(IAttribute attribute) {
       return this.attributes.get(attribute);

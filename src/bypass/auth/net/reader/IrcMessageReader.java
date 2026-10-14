@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class IrcMessageReader implements PacketReader<IrcMessage> {
    private IrcMessage s;
-   private static final long a = 103849567665028L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

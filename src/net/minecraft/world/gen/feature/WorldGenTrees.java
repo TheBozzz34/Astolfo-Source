@@ -26,7 +26,6 @@ public class WorldGenTrees extends WorldGenAbstractTree {
    private final boolean vinesGrow;
    private final IBlockState metaWood;
    private final IBlockState metaLeaves;
-   private static final long b = 82291100903143L;
 
    public WorldGenTrees(boolean bl) {
       this(bl, 4, field_181653_a, field_181654_b, false);

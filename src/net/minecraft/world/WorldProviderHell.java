@@ -8,9 +8,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderHell;
 
 public class WorldProviderHell extends WorldProvider {
-   private static final long b = 116964462484238L;
-   private static final long k = -4576341839195406321L;
-
    @Override
    public void registerWorldChunkManager() {
       this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F);
@@ -28,7 +25,7 @@ public class WorldProviderHell extends WorldProvider {
    public void generateLightBrightnessTable() {
       float f = 0.1F;
 
-      for (int i = 0; i <= (int)k; i++) {
+      for (int i = 0; i <= 15; i++) {
          float g = 1.0F - i / 15.0F;
          this.lightBrightnessTable[i] = (1.0F - g) / (g * 3.0F + 1.0F) * (1.0F - f) + f;
       }

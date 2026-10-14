@@ -13,7 +13,6 @@ public class CategoryPanel extends Container {
    private Category u;
    private static final Color C = new Color(38, 37, 38);
    private static final Color W = new Color(26, 26, 26);
-   private static final long d = 72037623796746L;
 
    public CategoryPanel(Category category, int i, int j, int k, int l) {
       super(category.getDisplayName(), i, j, k, l);
@@ -23,8 +22,6 @@ public class CategoryPanel extends Container {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 95156458949240L;
-      long m = l ^ 39308001293406L;
       int k = this.Q() + 4;
       RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + 6.0F, client.getColor().getRGB());
       client.getCustomFontRenderer().drawStringWithShadow(this.u.getDisplayName(), this.M() + 2.0F, this.E_float() + 2.0F, Color.WHITE.getRGB());
@@ -34,18 +31,18 @@ public class CategoryPanel extends Container {
          .bindTexture(new ResourceLocation(String.format("client/categories/%s.png", this.u.getDisplayName().toLowerCase())));
       Gui.drawModalRectWithCustomSizedTexture((int)(this.M() + this.x() - 10.0F), (int)this.E_float() + 4, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       if (this.s_boolean() || this.U.isRunning()) {
-         int n = 0;
+         int l = 0;
 
          for (Element element : this.M_ArrayList()) {
             if (element instanceof ModuleButton) {
                ModuleButton moduleButton = (ModuleButton)element;
-               moduleButton.r(this.M(), this.E_float() + n + 17.0F);
+               moduleButton.r(this.M(), this.E_float() + l + 17.0F);
                if (this.s_boolean()) {
                   moduleButton.render(i, j);
                }
 
-               n += !moduleButton.s_boolean() ? 15 : moduleButton.d() + (this.h((ModuleButton)element) ? this.N((ModuleButton)element) : 0);
-               n = (int)(n - this.U.getValue(0.0, n));
+               l += !moduleButton.s_boolean() ? 15 : moduleButton.d() + (this.h((ModuleButton)element) ? this.N((ModuleButton)element) : 0);
+               l = (int)(l - this.U.getValue(0.0, l));
             }
          }
       }

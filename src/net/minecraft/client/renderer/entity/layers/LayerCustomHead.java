@@ -22,7 +22,6 @@ import net.minecraft.util.StringUtils;
 
 public class LayerCustomHead implements LayerRenderer<EntityLivingBase> {
    private final ModelRenderer field_177209_a;
-   private static final long a = 107471933750943L;
 
    public LayerCustomHead(ModelRenderer modelRenderer) {
       this.field_177209_a = modelRenderer;

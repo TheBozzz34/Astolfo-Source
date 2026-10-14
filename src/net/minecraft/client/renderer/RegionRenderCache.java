@@ -21,7 +21,6 @@ public class RegionRenderCache extends ChunkCache {
    private static ArrayDeque<int[]> cacheLights = new ArrayDeque<>();
    private static ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque<>();
    private static int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
-   private static final long b = 52916503166768L;
 
    public RegionRenderCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn) {
       super(worldIn, posFromIn, posToIn, subIn);

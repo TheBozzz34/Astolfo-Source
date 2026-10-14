@@ -5,15 +5,12 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityBubbleFX extends EntityFX {
-   private static final long ab = 81809813968949L;
-   private static final long cb = 3945149631444287520L;
-
    public EntityBubbleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       this.particleRed = 1.0F;
       this.particleGreen = 1.0F;
       this.particleBlue = 1.0F;
-      this.setParticleTextureIndex((int)cb);
+      this.setParticleTextureIndex(32);
       this.setSize(0.02F, 0.02F);
       this.particleScale = this.particleScale * (this.rand.nextFloat() * 0.6F + 0.2F);
       this.motionX = xSpeedIn * 0.2F + (Math.random() * 2.0 - 1.0) * 0.02F;

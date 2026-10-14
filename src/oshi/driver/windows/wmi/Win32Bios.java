@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32Bios {
-   private static final long a = 38641694150499L;
-
    private Win32Bios() {
    }
 

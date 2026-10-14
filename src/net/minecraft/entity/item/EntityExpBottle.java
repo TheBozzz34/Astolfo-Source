@@ -7,9 +7,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityExpBottle extends EntityThrowable {
-   private static final long ab = 85090333958056L;
-   private static final long gb = 4754797580020352978L;
-
    public EntityExpBottle(World worldIn) {
       super(worldIn);
    }
@@ -40,7 +37,7 @@ public class EntityExpBottle extends EntityThrowable {
    @Override
    public void onImpact(MovingObjectPosition movingObjectPosition) {
       if (!this.worldObj.isRemote) {
-         this.worldObj.playAuxSFX((int)gb, new BlockPos(this), 0);
+         this.worldObj.playAuxSFX(2002, new BlockPos(this), 0);
          int i = 3 + this.worldObj.rand.nextInt(5) + this.worldObj.rand.nextInt(5);
 
          while (i > 0) {

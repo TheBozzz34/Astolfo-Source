@@ -10,7 +10,6 @@ public class ContainerBrewingStand extends Container {
    private IInventory tileBrewingStand;
    private final Slot theSlot;
    private int brewTime;
-   private static final long a = 86872862217658L;
 
    public ContainerBrewingStand(InventoryPlayer playerInventory, IInventory tileBrewingStandIn) {
       this.tileBrewingStand = tileBrewingStandIn;
@@ -112,9 +111,6 @@ public class ContainerBrewingStand extends Container {
    }
 
    public class Ingredient extends Slot {
-      private static final long a = 87202970613027L;
-      private static final long c = 7571432962323906624L;
-
       public Ingredient(IInventory inventoryIn, int index, int xPosition, int yPosition) {
          super(inventoryIn, index, xPosition, yPosition);
       }
@@ -126,13 +122,12 @@ public class ContainerBrewingStand extends Container {
 
       @Override
       public int getSlotStackLimit() {
-         return (int)c;
+         return 64;
       }
    }
 
    public static class Potion extends Slot {
       private EntityPlayer player;
-      private static final long a = 22234730701749L;
 
       public Potion(EntityPlayer playerIn, IInventory inventoryIn, int index, int xPosition, int yPosition) {
          super(inventoryIn, index, xPosition, yPosition);

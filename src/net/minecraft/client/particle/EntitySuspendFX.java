@@ -5,8 +5,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntitySuspendFX extends EntityFX {
-   private static final long ab = 94762411180309L;
-
    public EntitySuspendFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
       super(worldIn, xCoordIn, yCoordIn - 0.125, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       this.particleRed = 0.4F;

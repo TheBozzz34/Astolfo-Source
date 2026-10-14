@@ -8,7 +8,6 @@ import net.minecraft.util.TupleIntJsonSerializable;
 
 public class StatFileWriter {
    public final Map<StatBase, TupleIntJsonSerializable> statsData = Maps.newConcurrentMap();
-   private static final long b = 122045762422275L;
 
    public boolean hasAchievementUnlocked(Achievement achievementIn) {
       return this.readStat(achievementIn) > 0;

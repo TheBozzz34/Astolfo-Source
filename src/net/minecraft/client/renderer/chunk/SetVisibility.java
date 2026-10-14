@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 public class SetVisibility {
    private static final int COUNT_FACES = EnumFacing.values().length;
    private final BitSet bitSet = new BitSet(COUNT_FACES * COUNT_FACES);
-   private static final long a = 74764413644242L;
 
    public void setManyVisible(Set<EnumFacing> set) {
       for (EnumFacing enumFacing : set) {

@@ -3,8 +3,6 @@ package net.minecraft.src;
 import java.util.Comparator;
 
 public class CustomItemsComparator implements Comparator {
-   private static final long a = 103753410208287L;
-
    @Override
    public int compare(Object o1, Object o2) {
       CustomItemProperties customItemProperties = (CustomItemProperties)o1;

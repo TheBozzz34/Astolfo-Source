@@ -9,7 +9,6 @@ import net.minecraft.network.login.INetHandlerLoginClient;
 
 public class S02PacketLoginSuccess implements Packet<INetHandlerLoginClient> {
    private GameProfile profile;
-   private static final long a = 56560286477498L;
 
    public S02PacketLoginSuccess() {
    }

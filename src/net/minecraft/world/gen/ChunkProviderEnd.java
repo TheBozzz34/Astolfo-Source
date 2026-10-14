@@ -31,7 +31,6 @@ public class ChunkProviderEnd implements IChunkProvider {
    public double[] noiseData3;
    public double[] noiseData4;
    public double[] noiseData5;
-   private static final long a = 17716181717184L;
 
    public ChunkProviderEnd(World worldIn, long seed) {
       this.endWorld = worldIn;

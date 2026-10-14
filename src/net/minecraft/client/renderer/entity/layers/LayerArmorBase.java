@@ -27,7 +27,6 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
    private float colorB = 1.0F;
    private static boolean z;
    private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
-   private static final long b = 92043053276715L;
 
    public LayerArmorBase(RendererLivingEntity<?> rendererIn) {
       this.renderer = rendererIn;
@@ -134,7 +133,6 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
    }
 
    private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
-      long l = b ^ 100992735750836L;
       if (!Config.isShaders() || !Shaders.isShadowPass) {
          float f4 = entitylivingbaseIn.ticksExisted + partialTicks;
          this.renderer.bindTexture(ENCHANTED_ITEM_GLINT_RES);
@@ -152,14 +150,12 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
             GlStateManager.disableLighting();
             GlStateManager.blendFunc(768, 1);
             float f6 = 0.76F;
-            long m = 4694849417834371747L ^ l;
             GlStateManager.color(0.5F * f6, 0.25F * f6, 0.8F * f6, 1.0F);
             GlStateManager.matrixMode(5890);
             GlStateManager.loadIdentity();
             float f7 = 0.33333334F;
             GlStateManager.scale(f7, f7, f7);
             GlStateManager.rotate(30.0F - i * 60.0F, 0.0F, 0.0F, 1.0F);
-            m = 4524731379055971666L ^ l;
             GlStateManager.translate(0.0F, f4 * (0.001F + i * 0.003F) * 20.0F, 0.0F);
             GlStateManager.matrixMode(5888);
             modelbaseIn.render(entitylivingbaseIn, f, g, h, f2, f3, scale);
@@ -167,10 +163,8 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 
          GlStateManager.matrixMode(5890);
          GlStateManager.loadIdentity();
-         long n = 4643446299531239210L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.enableLighting();
-         n = 4594118597153128257L ^ l;
          GlStateManager.depthMask(true);
          GlStateManager.depthFunc(515);
          GlStateManager.disableBlend();

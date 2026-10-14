@@ -61,7 +61,6 @@ public class RenderChunk {
    private boolean isMipmaps = Config.pm();
    private boolean fixBlockLayer = !Reflector.BetterFoliageClient.exists();
    private boolean playerUpdate = false;
-   private static final long e = 74437678023409L;
 
    public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
       this.world = worldIn;

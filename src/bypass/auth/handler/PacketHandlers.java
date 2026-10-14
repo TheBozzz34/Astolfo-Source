@@ -5,7 +5,6 @@ import bypass.util.collection.ShapedMap;
 
 public class PacketHandlers {
    private final ShapedMap<Short, PacketHandler<?>> P = new ShapedMap<>();
-   private static final long a = 26584482795829L;
 
    public PacketHandlers() {
       LoginResponseHandler loginResponseHandler = new LoginResponseHandler();

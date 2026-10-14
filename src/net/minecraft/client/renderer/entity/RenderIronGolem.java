@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderIronGolem extends RenderLiving<EntityIronGolem> {
    private static final ResourceLocation ironGolemTextures = new ResourceLocation("textures/entity/iron_golem.png");
-   private static final long d = 139299312565541L;
 
    public RenderIronGolem(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelIronGolem(), 0.5F);

@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 
 public class BlockWallSign extends BlockSign {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-   private static final long i = 97930254345797L;
 
    public BlockWallSign() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));

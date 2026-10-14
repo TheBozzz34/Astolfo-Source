@@ -12,7 +12,6 @@ public class GameConfiguration {
    public final GameConfiguration.GameInformation gameInfo;
    public final GameConfiguration.ServerInformation serverInfo;
    public String autoLoginToken;
-   private static final long a = 1001822851414L;
 
    public GameConfiguration(
       GameConfiguration.UserInformation userInfoIn,
@@ -47,7 +46,6 @@ public class GameConfiguration {
       public final File resourcePacksDir;
       public final File assetsDir;
       public final String assetIndex;
-      private static final long a = 73759036040101L;
 
       public FolderInformation(File mcDataDirIn, File resourcePacksDirIn, File assetsDirIn, String assetIndexIn) {
          this.mcDataDir = mcDataDirIn;

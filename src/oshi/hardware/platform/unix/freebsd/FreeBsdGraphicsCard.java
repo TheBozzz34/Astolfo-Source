@@ -9,14 +9,11 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class FreeBsdGraphicsCard extends AbstractGraphicsCard {
-   private static final long b = 85341970654616L;
-
    public FreeBsdGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
       super(name, deviceId, vendor, versionInfo, vram);
    }
 
    public static List<FreeBsdGraphicsCard> getGraphicsCards() {
-      long l = b ^ 140393935783230L;
       ArrayList arrayList = new ArrayList();
       List list = ExecutingCommand.runNative("pciconf -lv");
       if (list.isEmpty()) {
@@ -27,7 +24,6 @@ public final class FreeBsdGraphicsCard extends AbstractGraphicsCard {
       String string2 = "unknown";
       String string3 = "unknown";
       String string4 = "";
-      long m = 5222384442898738441L ^ l;
       String string5 = "unknown";
 
       for (Object object : list) {

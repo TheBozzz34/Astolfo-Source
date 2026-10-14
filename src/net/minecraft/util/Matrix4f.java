@@ -1,8 +1,6 @@
 package net.minecraft.util;
 
 public class Matrix4f extends org.lwjgl.util.vector.Matrix4f {
-   private static final long a = 105382357927393L;
-
    public Matrix4f(float[] floats) {
       this.m00 = floats[0];
       this.m01 = floats[1];

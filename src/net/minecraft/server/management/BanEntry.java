@@ -11,7 +11,6 @@ public abstract class BanEntry<T> extends UserListEntry<T> {
    public final String bannedBy;
    public final Date banEndDate;
    public final String reason;
-   private static final long a = 39068475843998L;
 
    public BanEntry(T valueIn, Date startDate, String banner, Date endDate, String banReason) {
       super((T)valueIn);

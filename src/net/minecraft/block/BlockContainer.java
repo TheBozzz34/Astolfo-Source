@@ -9,8 +9,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public abstract class BlockContainer extends Block implements ITileEntityProvider {
-   private static final long bb = 61819320743519L;
-
    public BlockContainer(Material materialIn) {
       this(materialIn, materialIn.getMaterialMapColor());
    }

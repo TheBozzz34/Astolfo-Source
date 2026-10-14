@@ -5,7 +5,6 @@ import bypass.loader.LoadStage;
 public class StageVerifier {
    private final LoadStageList S;
    private final DefaultCheckRegistry C;
-   private static final long a = 27229906820923L;
 
    public StageVerifier(LoadStageList loadStageList, DefaultCheckRegistry defaultCheckRegistry) {
       this.S = loadStageList;

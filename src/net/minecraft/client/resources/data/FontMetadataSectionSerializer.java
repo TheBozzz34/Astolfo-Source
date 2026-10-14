@@ -9,8 +9,6 @@ import net.minecraft.util.JsonUtils;
 import org.apache.commons.lang3.Validate;
 
 public class FontMetadataSectionSerializer extends BaseMetadataSectionSerializer<FontMetadataSection> {
-   private static final long a = 926604860885L;
-
    public FontMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
       JsonObject jsonObject = jsonElement.getAsJsonObject();
       float[] floats = new float[256];

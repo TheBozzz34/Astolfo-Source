@@ -51,8 +51,6 @@ public class Block {
    public static final Block.SoundType soundTypePiston = new Block.SoundType("stone", 1.0F, 1.0F);
    public static final Block.SoundType soundTypeMetal = new Block.SoundType("stone", 1.0F, 1.5F);
    public static final Block.SoundType soundTypeGlass = new Block.SoundType("stone", 1.0F, 1.0F) {
-      private static final long a = 54295512307956L;
-
       @Override
       public String getBreakSound() {
          return "dig.glass";
@@ -67,16 +65,12 @@ public class Block {
    public static final Block.SoundType soundTypeSand = new Block.SoundType("sand", 1.0F, 1.0F);
    public static final Block.SoundType soundTypeSnow = new Block.SoundType("snow", 1.0F, 1.0F);
    public static final Block.SoundType soundTypeLadder = new Block.SoundType("ladder", 1.0F, 1.0F) {
-      private static final long a = 98372374212397L;
-
       @Override
       public String getBreakSound() {
          return "dig.wood";
       }
    };
    public static final Block.SoundType soundTypeAnvil = new Block.SoundType("anvil", 0.3F, 1.0F) {
-      private static final long a = 28254367381931L;
-
       @Override
       public String getBreakSound() {
          return "dig.stone";
@@ -88,8 +82,6 @@ public class Block {
       }
    };
    public static final Block.SoundType SLIME_SOUND = new Block.SoundType("slime", 1.0F, 1.0F) {
-      private static final long a = 14049040404977L;
-
       @Override
       public String getBreakSound() {
          return "mob.slime.big";
@@ -129,7 +121,6 @@ public class Block {
    public final BlockState blockState;
    private IBlockState defaultBlockState;
    private String unlocalizedName;
-   private static final long ab = 31167430580484L;
 
    public static int getIdFromBlock(Block blockIn) {
       return blockRegistry.getIDForObject(blockIn);
@@ -1612,7 +1603,6 @@ public class Block {
       public final String soundName;
       public final float volume;
       public final float frequency;
-      private static final long b = 26835569858520L;
 
       public SoundType(String name, float volume, float frequency) {
          this.soundName = name;

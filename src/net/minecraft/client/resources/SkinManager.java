@@ -31,7 +31,6 @@ public class SkinManager {
    private final File skinCacheDir;
    private final MinecraftSessionService sessionService;
    public final LoadingCache<GameProfile, Map<Type, MinecraftProfileTexture>> skinCacheLoader;
-   private static final long a = 7260984002604L;
 
    public SkinManager(TextureManager textureManagerInstance, File skinCacheDirectory, MinecraftSessionService sessionService) {
       this.textureManager = textureManagerInstance;
@@ -65,8 +64,6 @@ public class SkinManager {
          final ImageBufferDownload imageBufferDownload = type2 == Type.SKIN ? new ImageBufferDownload() : null;
          ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(
             file2, profileTexture.getUrl(), DefaultPlayerSkin.getDefaultSkinLegacy(), new IImageBuffer() {
-               private static final long a = 4382979425302L;
-
                @Override
                public BufferedImage parseUserSkin(BufferedImage image) {
                   if (imageBufferDownload != null) {
@@ -96,8 +93,6 @@ public class SkinManager {
 
    public void loadProfileTextures(final GameProfile profile, final SkinManager.SkinAvailableCallback skinAvailableCallback, final boolean requireSecure) {
       THREAD_POOL.submit(new Runnable() {
-         private static final long a = 130611592261724L;
-
          @Override
          public void run() {
             final HashMap hashMap = Maps.newHashMap();
@@ -114,8 +109,6 @@ public class SkinManager {
             }
 
             Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-               private static final long a = 6518631476421L;
-
                @Override
                public void run() {
                   if (hashMap.containsKey(Type.SKIN)) {

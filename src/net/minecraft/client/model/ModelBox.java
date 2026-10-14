@@ -12,7 +12,6 @@ public class ModelBox {
    public final float posY2;
    public final float posZ2;
    public String boxName;
-   private static final long a = 57466946435308L;
 
    public ModelBox(ModelRenderer renderer, int i, int j, float f, float g, float h, int k, int l, int m, float f2) {
       this(renderer, i, j, f, g, h, k, l, m, f2, renderer.mirror);

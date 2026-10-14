@@ -13,8 +13,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class BlockHay extends BlockRotatedPillar {
-   private static final long e = 59958815666898L;
-
    public BlockHay() {
       super(Material.grass, MapColor.yellowColor);
       this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y));

@@ -18,7 +18,6 @@ public class EntityAIMate extends EntityAIBase {
    private EntityAnimal targetMate;
    public int spawnBabyDelay;
    public double moveSpeed;
-   private static final long a = 35174016240311L;
 
    public EntityAIMate(EntityAnimal animal, double speedIn) {
       this.theAnimal = animal;

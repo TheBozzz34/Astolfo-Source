@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 
 public class BlockLadder extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-   private static final long e = 28056332845837L;
 
    public BlockLadder() {
       super(Material.circuits);

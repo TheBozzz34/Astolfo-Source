@@ -43,8 +43,6 @@ import org.apache.logging.log4j.Logger;
 public class ResourcePackRepository {
    private static final Logger logger = LogManager.getLogger();
    private static final FileFilter resourcePackFilter = new FileFilter() {
-      private static final long a = 27413602215353L;
-
       @Override
       public boolean accept(File file) {
          boolean bl = file.isFile() && file.getName().endsWith(".zip");
@@ -61,7 +59,6 @@ public class ResourcePackRepository {
    private ListenableFuture<Object> downloadingPacks;
    private List<ResourcePackRepository.Entry> repositoryEntriesAll = Lists.newArrayList();
    private List<ResourcePackRepository.Entry> repositoryEntries = Lists.newArrayList();
-   private static final long b = 37279927914059L;
 
    public ResourcePackRepository(
       File dirResourcepacksIn,
@@ -266,7 +263,6 @@ public class ResourcePackRepository {
       private PackMetadataSection rePackMetadataSection;
       private BufferedImage texturePackIcon;
       private ResourceLocation locationTexturePackIcon;
-      private static final long b = 70191259786567L;
 
       public Entry(File resourcePackFileIn) {
          this.resourcePackFile = resourcePackFileIn;

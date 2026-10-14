@@ -12,7 +12,6 @@ import net.minecraft.entity.monster.EntityEnderman;
 
 public class LayerHeldBlock implements LayerRenderer<EntityEnderman> {
    private final RenderEnderman endermanRenderer;
-   private static final long a = 129397234309130L;
 
    public LayerHeldBlock(RenderEnderman endermanRendererIn) {
       this.endermanRenderer = endermanRendererIn;

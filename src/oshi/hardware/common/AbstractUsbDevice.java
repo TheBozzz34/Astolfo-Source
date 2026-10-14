@@ -13,7 +13,6 @@ public abstract class AbstractUsbDevice implements UsbDevice {
    public String serialNumber;
    public String uniqueDeviceId;
    public UsbDevice[] connectedDevices;
-   private static final long b = 127111578330191L;
 
    public AbstractUsbDevice(
       String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices

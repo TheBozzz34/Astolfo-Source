@@ -9,7 +9,6 @@ import net.minecraft.src.StrUtils;
 public class ShaderOptionSwitch extends ShaderOption {
    private static final Pattern PATTERN_DEFINE = Pattern.compile("^\\s*(//)?\\s*#define\\s+([A-Za-z0-9_]+)\\s*(//.*)?$");
    private static final Pattern PATTERN_IFDEF = Pattern.compile("^\\s*#if(n)?def\\s+([A-Za-z0-9_]+)(\\s*)?$");
-   private static final long b = 78472606726798L;
 
    public ShaderOptionSwitch(String name, String description, String value, String path) {
       super(name, description, value, new String[]{"true", "false"}, value, path);

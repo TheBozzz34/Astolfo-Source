@@ -48,7 +48,6 @@ public class EntityRabbit extends EntityAnimal {
    private EntityRabbit.EnumMoveType moveType = EntityRabbit.EnumMoveType.HOP;
    private int carrotTicks = 0;
    private EntityPlayer field_175543_bt = null;
-   private static final long gb = 69724169035756L;
 
    public EntityRabbit(World worldIn) {
       super(worldIn);
@@ -433,7 +432,6 @@ public class EntityRabbit extends EntityAnimal {
       private final EntityRabbit rabbit;
       private boolean field_179498_d;
       private boolean field_179499_e = false;
-      private static final long a = 83914751035641L;
 
       public AIRaidFarm(EntityRabbit rabbitIn) {
          super(rabbitIn, 0.7F, 16);
@@ -553,7 +551,6 @@ public class EntityRabbit extends EntityAnimal {
    public class RabbitJumpHelper extends EntityJumpHelper {
       private EntityRabbit theEntity;
       private boolean field_180068_d = false;
-      private static final long a = 132088604175563L;
 
       public RabbitJumpHelper(EntityRabbit rabbit) {
          super(rabbit);
@@ -583,7 +580,6 @@ public class EntityRabbit extends EntityAnimal {
 
    public static class RabbitMoveHelper extends EntityMoveHelper {
       private EntityRabbit theEntity;
-      private static final long b = 127796420395451L;
 
       public RabbitMoveHelper(EntityRabbit rabbit) {
          super(rabbit);

@@ -11,8 +11,6 @@ public interface IMob extends IAnimals {
       }
    };
    Predicate<Entity> VISIBLE_MOB_SELECTOR = new Predicate<Entity>() {
-      private static final long a = 102339919495147L;
-
       public boolean apply(Entity entity) {
          return entity instanceof IMob && !entity.isInvisible();
       }

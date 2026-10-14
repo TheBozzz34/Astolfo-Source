@@ -9,8 +9,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class BlockStaticLiquid extends BlockLiquid {
-   private static final long e = 125740223855698L;
-
    public BlockStaticLiquid(Material materialIn) {
       super(materialIn);
       this.setTickRandomly(false);

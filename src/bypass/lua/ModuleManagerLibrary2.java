@@ -32,7 +32,6 @@ public class ModuleManagerLibrary2 extends TwoArgFunction implements ClientAcces
    public static final VarArgFunction X = new Modules();
    public static final ThreeArgFunction B = new RegisterBoolean2();
    public static final VarArgFunction Q = new RegisterNumber2();
-   private static final long b = 7339663642732L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

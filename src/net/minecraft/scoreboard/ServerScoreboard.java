@@ -18,7 +18,6 @@ public class ServerScoreboard extends Scoreboard {
    private final MinecraftServer scoreboardMCServer;
    private final Set<ScoreObjective> field_96553_b = Sets.newHashSet();
    private ScoreboardSaveData scoreboardSaveData;
-   private static final long e = 112742440145645L;
 
    public ServerScoreboard(MinecraftServer mcServer) {
       this.scoreboardMCServer = mcServer;

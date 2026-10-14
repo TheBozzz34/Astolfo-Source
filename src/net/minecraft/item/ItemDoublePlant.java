@@ -6,8 +6,6 @@ import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.world.ColorizerGrass;
 
 public class ItemDoublePlant extends ItemMultiTexture {
-   private static final long a = 82016496683558L;
-
    public ItemDoublePlant(Block block, Block block2, Function<ItemStack, String> nameFunction) {
       super(block, block2, nameFunction);
    }

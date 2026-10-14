@@ -28,7 +28,6 @@ public abstract class EntityFireball extends Entity {
    public double accelerationX;
    public double accelerationY;
    public double accelerationZ;
-   private static final long ab = 91722360336515L;
 
    public EntityFireball(World worldIn) {
       super(worldIn);

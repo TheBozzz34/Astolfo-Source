@@ -5,7 +5,6 @@ import net.minecraft.client.resources.I18n;
 
 public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry {
    private final Minecraft mc = Minecraft.getMinecraft();
-   private static final long a = 119534852734267L;
 
    @Override
    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {

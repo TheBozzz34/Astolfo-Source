@@ -23,8 +23,6 @@ public abstract class PathNavigate {
    private Vec3 lastPosCheck = new Vec3(0.0, 0.0, 0.0);
    private float heightRequirement = 1.0F;
    private final PathFinder pathFinder;
-   private static final long a = 123618380790522L;
-   private static final long h = -9137255176611037084L;
 
    public PathNavigate(EntityLiving entitylivingIn, World worldIn) {
       this.theEntity = entitylivingIn;
@@ -188,7 +186,7 @@ public abstract class PathNavigate {
    }
 
    public void checkForStuck(Vec3 positionVec3) {
-      if (this.totalTicks - this.ticksAtLastPos > (int)h) {
+      if (this.totalTicks - this.ticksAtLastPos > 100) {
          if (positionVec3.squareDistanceTo(this.lastPosCheck) < 2.25) {
             this.clearPathEntity();
          }

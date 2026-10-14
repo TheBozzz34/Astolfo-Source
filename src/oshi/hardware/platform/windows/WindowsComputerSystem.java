@@ -18,7 +18,6 @@ import oshi.util.tuples.Pair;
 public final class WindowsComputerSystem extends AbstractComputerSystem {
    private final Supplier<Pair<String, String>> manufacturerModel = Memoizer.memoize(WindowsComputerSystem::queryManufacturerModel);
    private final Supplier<String> serialNumber = Memoizer.memoize(WindowsComputerSystem::querySystemSerialNumber);
-   private static final long b = 137708785727110L;
 
    @Override
    public String V() {

@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 
 public abstract class BlockRailBase extends Block {
    public final boolean isPowered;
-   private static final long l = 40655877758408L;
 
    public static boolean isRailBlock(World worldIn, BlockPos pos) {
       return isRailBlock(worldIn.getBlockState(pos));
@@ -161,7 +160,6 @@ public abstract class BlockRailBase extends Block {
       private static final BlockRailBase.EnumRailDirection[] META_LOOKUP = new BlockRailBase.EnumRailDirection[values().length];
       private final int meta;
       private final String name;
-      private static final long a = 101598142959245L;
 
       EnumRailDirection(int meta, String name) {
          this.meta = meta;
@@ -208,7 +206,6 @@ public abstract class BlockRailBase extends Block {
       private IBlockState state;
       private final boolean isPowered;
       private final List<BlockPos> field_150657_g = Lists.newArrayList();
-      private static final long a = 11061687978010L;
 
       public Rail(World worldIn, BlockPos pos, IBlockState state) {
          this.world = worldIn;

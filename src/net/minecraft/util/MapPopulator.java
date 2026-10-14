@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class MapPopulator {
-   private static final long a = 63924765332250L;
-
    public static <K, V> Map<K, V> createMap(Iterable<K> keys, Iterable<V> values) {
       return populateMap(keys, values, Maps.newLinkedHashMap());
    }

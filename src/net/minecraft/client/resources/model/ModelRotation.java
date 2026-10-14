@@ -39,7 +39,6 @@ public enum ModelRotation implements IModelState, ITransformation {
    private static final ModelRotation[] u = new ModelRotation[]{
       X0_Y0, X0_Y90, X0_Y180, X0_Y270, X90_Y0, X90_Y90, X90_Y180, X90_Y270, X180_Y0, X180_Y90, X180_Y180, X180_Y270, X270_Y0, X270_Y90, X270_Y180, X270_Y270
    };
-   private static final long a = 70556392233673L;
 
    private static int combineXY(int i, int j) {
       return i * 360 + j;
@@ -125,9 +124,6 @@ public enum ModelRotation implements IModelState, ITransformation {
    }
 
    static {
-      long l = a ^ 98101457055251L;
-      long m = 1501666566874362761L ^ l;
-
       for (ModelRotation modelRotation : values()) {
          mapRotations.put(modelRotation.combinedXY, modelRotation);
       }

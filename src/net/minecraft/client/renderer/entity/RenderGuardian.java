@@ -19,7 +19,6 @@ public class RenderGuardian extends RenderLiving<EntityGuardian> {
    private static final ResourceLocation GUARDIAN_ELDER_TEXTURE = new ResourceLocation("textures/entity/guardian_elder.png");
    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = new ResourceLocation("textures/entity/guardian_beam.png");
    public int field_177115_a = ((ModelGuardian)this.mainModel).func_178706_a();
-   private static final long e = 134730947953884L;
 
    public RenderGuardian(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelGuardian(), 0.5F);
@@ -52,7 +51,6 @@ public class RenderGuardian extends RenderLiving<EntityGuardian> {
    }
 
    public void doRender(EntityGuardian entity, double x, double y, double z, float entityYaw, float partialTicks) {
-      long l = e ^ 15411579158919L;
       if (this.field_177115_a != ((ModelGuardian)this.mainModel).func_178706_a()) {
          this.mainModel = new ModelGuardian();
          this.field_177115_a = ((ModelGuardian)this.mainModel).func_178706_a();
@@ -63,13 +61,11 @@ public class RenderGuardian extends RenderLiving<EntityGuardian> {
       if (entityLivingBase != null) {
          float f = entity.func_175477_p(partialTicks);
          Tessellator tessellator = Tessellator.getInstance();
-         long m = 747033026848950311L ^ l;
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
          this.bindTexture(GUARDIAN_BEAM_TEXTURE);
          GL11.glTexParameterf(3553, 10242, 10497.0F);
          GL11.glTexParameterf(3553, 10243, 10497.0F);
          GlStateManager.disableLighting();
-         m = 9131928542262324030L ^ l;
          GlStateManager.disableCull();
          GlStateManager.disableBlend();
          GlStateManager.depthMask(true);
@@ -91,50 +87,49 @@ public class RenderGuardian extends RenderLiving<EntityGuardian> {
          GlStateManager.rotate(((float) (Math.PI / 2) + -f5) * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
          GlStateManager.rotate(f4 * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
          byte b = 1;
-         double d2 = h * 0.05 * (1.0 - (b & 1) * 2.5);
+         double e = h * 0.05 * (1.0 - (b & 1) * 2.5);
          worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
          float f6 = f * f;
-         m = 4435857273330059672L ^ l;
          int i = 64 + (int)(f6 * 240.0F);
          int j = 32 + (int)(f6 * 192.0F);
          int k = 128 - (int)(f6 * 64.0F);
-         double d3 = b * 0.2;
-         double d4 = d3 * 1.41;
-         double d5 = 0.0 + Math.cos(d2 + (Math.PI * 3.0 / 4.0)) * d4;
-         double d6 = 0.0 + Math.sin(d2 + (Math.PI * 3.0 / 4.0)) * d4;
-         double d7 = 0.0 + Math.cos(d2 + (Math.PI / 4)) * d4;
-         double d8 = 0.0 + Math.sin(d2 + (Math.PI / 4)) * d4;
-         double d9 = 0.0 + Math.cos(d2 + (Math.PI * 5.0 / 4.0)) * d4;
-         double d10 = 0.0 + Math.sin(d2 + (Math.PI * 5.0 / 4.0)) * d4;
-         double d11 = 0.0 + Math.cos(d2 + (Math.PI * 7.0 / 4.0)) * d4;
-         double d12 = 0.0 + Math.sin(d2 + (Math.PI * 7.0 / 4.0)) * d4;
-         double d13 = 0.0 + Math.cos(d2 + Math.PI) * d3;
-         double d14 = 0.0 + Math.sin(d2 + Math.PI) * d3;
-         double d15 = 0.0 + Math.cos(d2 + 0.0) * d3;
-         double d16 = 0.0 + Math.sin(d2 + 0.0) * d3;
-         double d17 = 0.0 + Math.cos(d2 + (Math.PI / 2)) * d3;
-         double d18 = 0.0 + Math.sin(d2 + (Math.PI / 2)) * d3;
-         double d19 = 0.0 + Math.cos(d2 + (Math.PI * 3.0 / 2.0)) * d3;
-         double d20 = 0.0 + Math.sin(d2 + (Math.PI * 3.0 / 2.0)) * d3;
-         double d21 = -1.0F + f2;
-         double d22 = d * (0.5 / d3) + d21;
-         worldRenderer.pos(d13, d, d14).tex(0.4999, d22).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d13, 0.0, d14).tex(0.4999, d21).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d15, 0.0, d16).tex(0.0, d21).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d15, d, d16).tex(0.0, d22).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d17, d, d18).tex(0.4999, d22).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d17, 0.0, d18).tex(0.4999, d21).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d19, 0.0, d20).tex(0.0, d21).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d19, d, d20).tex(0.0, d22).color(i, j, k, 255).endVertex();
-         double d23 = 0.0;
+         double d2 = b * 0.2;
+         double d3 = d2 * 1.41;
+         double d4 = 0.0 + Math.cos(e + (Math.PI * 3.0 / 4.0)) * d3;
+         double d5 = 0.0 + Math.sin(e + (Math.PI * 3.0 / 4.0)) * d3;
+         double d6 = 0.0 + Math.cos(e + (Math.PI / 4)) * d3;
+         double d7 = 0.0 + Math.sin(e + (Math.PI / 4)) * d3;
+         double d8 = 0.0 + Math.cos(e + (Math.PI * 5.0 / 4.0)) * d3;
+         double d9 = 0.0 + Math.sin(e + (Math.PI * 5.0 / 4.0)) * d3;
+         double d10 = 0.0 + Math.cos(e + (Math.PI * 7.0 / 4.0)) * d3;
+         double d11 = 0.0 + Math.sin(e + (Math.PI * 7.0 / 4.0)) * d3;
+         double d12 = 0.0 + Math.cos(e + Math.PI) * d2;
+         double d13 = 0.0 + Math.sin(e + Math.PI) * d2;
+         double d14 = 0.0 + Math.cos(e + 0.0) * d2;
+         double d15 = 0.0 + Math.sin(e + 0.0) * d2;
+         double d16 = 0.0 + Math.cos(e + (Math.PI / 2)) * d2;
+         double d17 = 0.0 + Math.sin(e + (Math.PI / 2)) * d2;
+         double d18 = 0.0 + Math.cos(e + (Math.PI * 3.0 / 2.0)) * d2;
+         double d19 = 0.0 + Math.sin(e + (Math.PI * 3.0 / 2.0)) * d2;
+         double d20 = -1.0F + f2;
+         double d21 = d * (0.5 / d2) + d20;
+         worldRenderer.pos(d12, d, d13).tex(0.4999, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d12, 0.0, d13).tex(0.4999, d20).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d14, 0.0, d15).tex(0.0, d20).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d14, d, d15).tex(0.0, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d16, d, d17).tex(0.4999, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d16, 0.0, d17).tex(0.4999, d20).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d18, 0.0, d19).tex(0.0, d20).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d18, d, d19).tex(0.0, d21).color(i, j, k, 255).endVertex();
+         double d22 = 0.0;
          if (entity.ticksExisted % 2 == 0) {
-            d23 = 0.5;
+            d22 = 0.5;
          }
 
-         worldRenderer.pos(d5, d, d6).tex(0.5, d23 + 0.5).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d7, d, d8).tex(1.0, d23 + 0.5).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d11, d, d12).tex(1.0, d23).color(i, j, k, 255).endVertex();
-         worldRenderer.pos(d9, d, d10).tex(0.5, d23).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d4, d, d5).tex(0.5, d22 + 0.5).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d6, d, d7).tex(1.0, d22 + 0.5).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d10, d, d11).tex(1.0, d22).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d8, d, d9).tex(0.5, d22).color(i, j, k, 255).endVertex();
          tessellator.draw();
          GlStateManager.popMatrix();
       }

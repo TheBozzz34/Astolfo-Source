@@ -7,11 +7,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemEnderPearl extends Item {
-   private static final long a = 78902821400791L;
-   private static final long d = 4533247881104064528L;
-
    public ItemEnderPearl() {
-      this.maxStackSize = (int)d;
+      this.maxStackSize = 16;
       this.setCreativeTab(CreativeTabs.tabMisc);
    }
 

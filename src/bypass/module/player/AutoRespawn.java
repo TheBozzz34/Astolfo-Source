@@ -13,13 +13,11 @@ public final class AutoRespawn extends Module {
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (this.instant.asBoolean() && mc.thePlayer.getHealth() == 0.0F
-         || mc.currentScreen instanceof GuiGameOver && ((GuiGameOver)mc.currentScreen).enableButtonsTimer >= (int)h) {
+         || mc.currentScreen instanceof GuiGameOver && ((GuiGameOver)mc.currentScreen).enableButtonsTimer >= 20) {
          mc.thePlayer.respawnPlayer();
          mc.displayGuiScreen(null);
       }
    };
-   private static final long c = 95213901566422L;
-   private static final long h = 8631118883077488660L;
 
    public AutoRespawn(Category category) {
       super(category);

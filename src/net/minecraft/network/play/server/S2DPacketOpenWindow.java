@@ -12,8 +12,6 @@ public class S2DPacketOpenWindow implements Packet<INetHandlerPlayClient> {
    private IChatComponent windowTitle;
    private int slotCount;
    private int entityId;
-   private static final long a = 113865036547038L;
-   private static final long e = -7680372561519050720L;
 
    public S2DPacketOpenWindow() {
    }
@@ -41,7 +39,7 @@ public class S2DPacketOpenWindow implements Packet<INetHandlerPlayClient> {
    @Override
    public void readPacketData(PacketBuffer buf) throws IOException {
       this.windowId = buf.readUnsignedByte();
-      this.inventoryType = buf.readStringFromBuffer((int)e);
+      this.inventoryType = buf.readStringFromBuffer(32);
       this.windowTitle = buf.readChatComponent();
       this.slotCount = buf.readUnsignedByte();
       if (this.inventoryType.equals("EntityHorse")) {

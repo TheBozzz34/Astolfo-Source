@@ -6,7 +6,6 @@ import java.util.Map;
 public class ClickEvent {
    private final ClickEvent.Action action;
    private final String value;
-   private static final long a = 4510911729302L;
 
    public ClickEvent(ClickEvent.Action theAction, String theValue) {
       this.action = theAction;

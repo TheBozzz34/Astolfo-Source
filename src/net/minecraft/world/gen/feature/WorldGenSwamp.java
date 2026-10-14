@@ -19,7 +19,6 @@ public class WorldGenSwamp extends WorldGenAbstractTree {
       .getDefaultState()
       .withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK)
       .withProperty(BlockOldLeaf.CHECK_DECAY, false);
-   private static final long a = 85386633255729L;
 
    public WorldGenSwamp() {
       super(false);

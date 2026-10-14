@@ -21,7 +21,6 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
    private final Predicate<Entity> predicate;
    private final EntityAINearestAttackableTarget.Sorter sorter;
    private EntityLivingBase entityTarget;
-   private static final long a = 111095944434681L;
 
    public EntityAIFindEntityNearestPlayer(EntityLiving entityLivingIn) {
       this.entityLiving = entityLivingIn;
@@ -30,8 +29,6 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
       }
 
       this.predicate = new Predicate<Entity>() {
-         private static final long a = 135507398792546L;
-
          public boolean apply(Entity entity) {
             if (!(entity instanceof EntityPlayer)) {
                return false;

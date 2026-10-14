@@ -13,7 +13,6 @@ public class RenderVillager extends RenderLiving<EntityVillager> {
    private static final ResourceLocation priestVillagerTextures = new ResourceLocation("textures/entity/villager/priest.png");
    private static final ResourceLocation smithVillagerTextures = new ResourceLocation("textures/entity/villager/smith.png");
    private static final ResourceLocation butcherVillagerTextures = new ResourceLocation("textures/entity/villager/butcher.png");
-   private static final long d = 64161802497687L;
 
    public RenderVillager(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelVillager(0.0F), 0.5F);

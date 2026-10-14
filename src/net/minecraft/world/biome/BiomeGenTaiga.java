@@ -24,7 +24,6 @@ public class BiomeGenTaiga extends BiomeGenBase {
    private static final WorldGenMegaPineTree field_150642_aF = new WorldGenMegaPineTree(false, true);
    private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(Blocks.mossy_cobblestone, 0);
    private int field_150644_aH;
-   private static final long bb = 29919747971781L;
 
    public BiomeGenTaiga(int id, int i) {
       super(id);

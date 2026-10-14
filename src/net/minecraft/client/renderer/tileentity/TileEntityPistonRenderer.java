@@ -20,10 +20,8 @@ import net.minecraft.world.World;
 
 public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEntityPiston> {
    private final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
-   private static final long a = 26593547584956L;
 
    public void renderTileEntityAt(TileEntityPiston te, double x, double y, double z, float partialTicks, int destroyStage) {
-      long l = a ^ 69372101033390L;
       BlockPos blockPos = te.getPos();
       IBlockState iBlockState = te.getPistonState();
       Block block = iBlockState.getBlock();
@@ -32,7 +30,6 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
          this.bindTexture(TextureMap.locationBlocksTexture);
          RenderHelper.disableStandardItemLighting();
-         long m = 3992647339877128244L ^ l;
          GlStateManager.blendFunc(770, 771);
          GlStateManager.enableBlend();
          GlStateManager.disableCull();

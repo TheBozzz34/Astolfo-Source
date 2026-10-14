@@ -10,7 +10,6 @@ import net.minecraft.src.StrUtils;
 public class ShaderPackZip implements IShaderPack {
    public File packFile;
    public ZipFile packZipFile;
-   private static final long a = 137512964160384L;
 
    public ShaderPackZip(String name, File file) {
       this.packFile = file;

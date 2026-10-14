@@ -53,8 +53,6 @@ public final class DoubleJump extends Module {
          this.d = false;
       }
    };
-   private static final long c = 79526476327355L;
-   private static final long j = 7500476456166752266L;
 
    public DoubleJump(Category category) {
       super(category);
@@ -64,7 +62,7 @@ public final class DoubleJump extends Module {
    @Override
    public void onDisable() {
       if (mc.thePlayer != null) {
-         mc.thePlayer.jumpTicks = (int)j;
+         mc.thePlayer.jumpTicks = 10;
          mc.thePlayer.onGround = false;
       }
 

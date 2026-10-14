@@ -7,7 +7,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S13PacketDestroyEntities implements Packet<INetHandlerPlayClient> {
    private int[] entityIDs;
-   private static final long a = 18767926876414L;
 
    public S13PacketDestroyEntities() {
    }

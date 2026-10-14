@@ -5,8 +5,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class NBTTagEnd extends NBTBase {
-   private static final long a = 103789956510460L;
-
    @Override
    public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
       sizeTracker.read(64L);

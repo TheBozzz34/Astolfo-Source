@@ -8,7 +8,6 @@ import javax.naming.directory.InitialDirContext;
 public class ServerAddress {
    private final String ipAddress;
    private final int serverPort;
-   private static final long a = 42452013606608L;
 
    private ServerAddress(String address, int port) {
       this.ipAddress = address;

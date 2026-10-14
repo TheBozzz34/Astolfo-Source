@@ -44,7 +44,6 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
    private int field_146554_D;
    private StatFileWriter statFileWriter;
    private boolean loadingAchievements = true;
-   private static final long a = 44911525915446L;
 
    public GuiAchievements(GuiScreen parentScreenIn, StatFileWriter statFileWriterIn) {
       this.parentScreen = parentScreenIn;
@@ -192,77 +191,74 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
    }
 
    public void drawAchievementScreen(int i, int j, float f) {
-      long m = a ^ 3445759962589L;
       int k = MathHelper.floor_double(this.field_146569_s + (this.field_146567_u - this.field_146569_s) * f);
-      int n = MathHelper.floor_double(this.field_146568_t + (this.field_146566_v - this.field_146568_t) * f);
+      int m = MathHelper.floor_double(this.field_146568_t + (this.field_146566_v - this.field_146568_t) * f);
       if (k < field_146572_y) {
          k = field_146572_y;
       }
 
-      if (n < field_146571_z) {
-         n = field_146571_z;
+      if (m < field_146571_z) {
+         m = field_146571_z;
       }
 
       if (k >= field_146559_A) {
          k = field_146559_A - 1;
       }
 
-      if (n >= field_146560_B) {
-         n = field_146560_B - 1;
+      if (m >= field_146560_B) {
+         m = field_146560_B - 1;
       }
 
-      int i2 = (this.width - this.field_146555_f) / 2;
-      int i3 = (this.height - this.field_146557_g) / 2;
-      int i4 = i2 + 16;
-      int i5 = i3 + 17;
+      int n = (this.width - this.field_146555_f) / 2;
+      int i2 = (this.height - this.field_146557_g) / 2;
+      int i3 = n + 16;
+      int i4 = i2 + 17;
       this.zLevel = 0.0F;
-      long l2 = 1984634036510663296L ^ m;
       GlStateManager.depthFunc(518);
       GlStateManager.pushMatrix();
-      GlStateManager.translate(i4, i5, -200.0F);
+      GlStateManager.translate(i3, i4, -200.0F);
       GlStateManager.scale(1.0F / this.field_146570_r, 1.0F / this.field_146570_r, 0.0F);
       GlStateManager.enableTexture2D();
       GlStateManager.disableLighting();
       GlStateManager.enableRescaleNormal();
       GlStateManager.enableColorMaterial();
-      int i6 = k + 288 >> 4;
-      int i7 = n + 288 >> 4;
-      int i8 = (k + 288) % 16;
-      int i9 = (n + 288) % 16;
-      l2 = 8988041302816562449L ^ m;
+      int i5 = k + 288 >> 4;
+      int i6 = m + 288 >> 4;
+      int i7 = (k + 288) % 16;
+      int i8 = (m + 288) % 16;
       Random random = new Random();
       float g = 16.0F / this.field_146570_r;
       float h = 16.0F / this.field_146570_r;
 
-      for (int i10 = 0; i10 * g - i9 < 155.0F; i10++) {
-         float f2 = 0.6F - (i7 + i10) / 25.0F * 0.3F;
+      for (int i9 = 0; i9 * g - i8 < 155.0F; i9++) {
+         float f2 = 0.6F - (i6 + i9) / 25.0F * 0.3F;
          GlStateManager.color(f2, f2, f2, 1.0F);
 
-         for (int i11 = 0; i11 * h - i8 < 224.0F; i11++) {
-            random.setSeed(this.mc.getSession().getPlayerID().hashCode() + i6 + i11 + (i7 + i10) * 16);
-            int i12 = random.nextInt(1 + i7 + i10) + (i7 + i10) / 2;
+         for (int i10 = 0; i10 * h - i7 < 224.0F; i10++) {
+            random.setSeed(this.mc.getSession().getPlayerID().hashCode() + i5 + i10 + (i6 + i9) * 16);
+            int i11 = random.nextInt(1 + i6 + i9) + (i6 + i9) / 2;
             TextureAtlasSprite textureAtlasSprite = this.func_175371_a(Blocks.sand);
-            if (i12 > 37 || i7 + i10 == 35) {
+            if (i11 > 37 || i6 + i9 == 35) {
                Block block = Blocks.bedrock;
                textureAtlasSprite = this.func_175371_a(block);
-            } else if (i12 == 22) {
+            } else if (i11 == 22) {
                if (random.nextInt(2) == 0) {
                   textureAtlasSprite = this.func_175371_a(Blocks.diamond_ore);
                } else {
                   textureAtlasSprite = this.func_175371_a(Blocks.redstone_ore);
                }
-            } else if (i12 == 10) {
+            } else if (i11 == 10) {
                textureAtlasSprite = this.func_175371_a(Blocks.iron_ore);
-            } else if (i12 == 8) {
+            } else if (i11 == 8) {
                textureAtlasSprite = this.func_175371_a(Blocks.coal_ore);
-            } else if (i12 > 4) {
+            } else if (i11 > 4) {
                textureAtlasSprite = this.func_175371_a(Blocks.stone);
-            } else if (i12 > 0) {
+            } else if (i11 > 0) {
                textureAtlasSprite = this.func_175371_a(Blocks.dirt);
             }
 
             this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-            this.drawTexturedModalRect(i11 * 16 - i8, i10 * 16 - i9, textureAtlasSprite, 16, 16);
+            this.drawTexturedModalRect(i10 * 16 - i7, i9 * 16 - i8, textureAtlasSprite, 16, 16);
          }
       }
 
@@ -270,67 +266,67 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
       GlStateManager.depthFunc(515);
       this.mc.getTextureManager().bindTexture(ACHIEVEMENT_BACKGROUND);
 
-      for (int i13 = 0; i13 < AchievementList.achievementList.size(); i13++) {
-         Achievement achievement2 = AchievementList.achievementList.get(i13);
+      for (int i12 = 0; i12 < AchievementList.achievementList.size(); i12++) {
+         Achievement achievement2 = AchievementList.achievementList.get(i12);
          if (achievement2.parentAchievement != null) {
-            int i14 = achievement2.displayColumn * 24 - k + 11;
-            int i15 = achievement2.displayRow * 24 - n + 11;
-            int i16 = achievement2.parentAchievement.displayColumn * 24 - k + 11;
-            int i17 = achievement2.parentAchievement.displayRow * 24 - n + 11;
+            int i13 = achievement2.displayColumn * 24 - k + 11;
+            int i14 = achievement2.displayRow * 24 - m + 11;
+            int i15 = achievement2.parentAchievement.displayColumn * 24 - k + 11;
+            int i16 = achievement2.parentAchievement.displayRow * 24 - m + 11;
             boolean bl = this.statFileWriter.hasAchievementUnlocked(achievement2);
             boolean bl2 = this.statFileWriter.canUnlockAchievement(achievement2);
-            int i18 = this.statFileWriter.func_150874_c(achievement2);
-            if (i18 <= 4) {
-               int i19 = -16777216;
+            int i17 = this.statFileWriter.func_150874_c(achievement2);
+            if (i17 <= 4) {
+               int i18 = -16777216;
                if (bl) {
-                  i19 = -6250336;
+                  i18 = -6250336;
                } else if (bl2) {
-                  i19 = -16711936;
+                  i18 = -16711936;
                }
 
-               S(i14, i16, i15, i19);
-               J(i16, i15, i17, i19);
-               if (i14 > i16) {
-                  this.drawTexturedModalRect(i14 - 11 - 7, i15 - 5, 114, 234, 7, 11);
+               S(i13, i15, i14, i18);
+               J(i15, i14, i16, i18);
+               if (i13 > i15) {
+                  this.drawTexturedModalRect(i13 - 11 - 7, i14 - 5, 114, 234, 7, 11);
+               } else if (i13 < i15) {
+                  this.drawTexturedModalRect(i13 + 11, i14 - 5, 107, 234, 7, 11);
+               } else if (i14 > i16) {
+                  this.drawTexturedModalRect(i13 - 5, i14 - 11 - 7, 96, 234, 11, 7);
                } else if (i14 < i16) {
-                  this.drawTexturedModalRect(i14 + 11, i15 - 5, 107, 234, 7, 11);
-               } else if (i15 > i17) {
-                  this.drawTexturedModalRect(i14 - 5, i15 - 11 - 7, 96, 234, 11, 7);
-               } else if (i15 < i17) {
-                  this.drawTexturedModalRect(i14 - 5, i15 + 11, 96, 241, 11, 7);
+                  this.drawTexturedModalRect(i13 - 5, i14 + 11, 96, 241, 11, 7);
                }
             }
          }
       }
 
       Achievement achievement3 = null;
-      float f3 = (i - i4) * this.field_146570_r;
-      float f4 = (j - i5) * this.field_146570_r;
+      float f3 = (i - i3) * this.field_146570_r;
+      float f4 = (j - i4) * this.field_146570_r;
       RenderHelper.enableGUIStandardItemLighting();
       GlStateManager.disableLighting();
       GlStateManager.enableRescaleNormal();
       GlStateManager.enableColorMaterial();
 
-      for (int i20 = 0; i20 < AchievementList.achievementList.size(); i20++) {
-         Achievement achievement4 = AchievementList.achievementList.get(i20);
-         int i21 = achievement4.displayColumn * 24 - k;
-         int i22 = achievement4.displayRow * 24 - n;
-         if (i21 >= -24 && i22 >= -24 && i21 <= 224.0F * this.field_146570_r && i22 <= 155.0F * this.field_146570_r) {
-            int i23 = this.statFileWriter.func_150874_c(achievement4);
+      for (int i19 = 0; i19 < AchievementList.achievementList.size(); i19++) {
+         Achievement achievement4 = AchievementList.achievementList.get(i19);
+         int i20 = achievement4.displayColumn * 24 - k;
+         int i21 = achievement4.displayRow * 24 - m;
+         if (i20 >= -24 && i21 >= -24 && i20 <= 224.0F * this.field_146570_r && i21 <= 155.0F * this.field_146570_r) {
+            int i22 = this.statFileWriter.func_150874_c(achievement4);
             if (this.statFileWriter.hasAchievementUnlocked(achievement4)) {
                float f5 = 0.75F;
                GlStateManager.color(f5, f5, f5, 1.0F);
             } else if (this.statFileWriter.canUnlockAchievement(achievement4)) {
                float f6 = 1.0F;
                GlStateManager.color(f6, f6, f6, 1.0F);
-            } else if (i23 < 3) {
+            } else if (i22 < 3) {
                float f7 = 0.3F;
                GlStateManager.color(f7, f7, f7, 1.0F);
-            } else if (i23 == 3) {
+            } else if (i22 == 3) {
                float f8 = 0.2F;
                GlStateManager.color(f8, f8, f8, 1.0F);
             } else {
-               if (i23 != 4) {
+               if (i22 != 4) {
                   continue;
                }
 
@@ -340,9 +336,9 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 
             this.mc.getTextureManager().bindTexture(ACHIEVEMENT_BACKGROUND);
             if (achievement4.getSpecial()) {
-               this.drawTexturedModalRect(i21 - 2, i22 - 2, 26, 202, 26, 26);
+               this.drawTexturedModalRect(i20 - 2, i21 - 2, 26, 202, 26, 26);
             } else {
-               this.drawTexturedModalRect(i21 - 2, i22 - 2, 0, 202, 26, 26);
+               this.drawTexturedModalRect(i20 - 2, i21 - 2, 0, 202, 26, 26);
             }
 
             if (!this.statFileWriter.canUnlockAchievement(achievement4)) {
@@ -353,8 +349,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 
             GlStateManager.enableLighting();
             GlStateManager.enableCull();
-            l2 = 5965809750228969771L ^ m;
-            this.itemRender.renderItemAndEffectIntoGUI(achievement4.theItemStack, i21 + 3, i22 + 3);
+            this.itemRender.renderItemAndEffectIntoGUI(achievement4.theItemStack, i20 + 3, i21 + 3);
             GlStateManager.blendFunc(770, 771);
             GlStateManager.disableLighting();
             if (!this.statFileWriter.canUnlockAchievement(achievement4)) {
@@ -362,7 +357,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
             }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            if (f3 >= i21 && f3 <= i21 + 22 && f4 >= i22 && f4 <= i22 + 22) {
+            if (f3 >= i20 && f3 <= i20 + 22 && f4 >= i21 && f4 <= i21 + 22) {
                achievement3 = achievement4;
             }
          }
@@ -370,11 +365,10 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 
       GlStateManager.disableDepth();
       GlStateManager.enableBlend();
-      l2 = 1015726158486668956L ^ m;
       GlStateManager.popMatrix();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(ACHIEVEMENT_BACKGROUND);
-      this.drawTexturedModalRect(i2, i3, 0, 0, this.field_146555_f, this.field_146557_g);
+      this.drawTexturedModalRect(n, i2, 0, 0, this.field_146555_f, this.field_146557_g);
       this.zLevel = 0.0F;
       GlStateManager.depthFunc(515);
       GlStateManager.disableDepth();
@@ -383,34 +377,34 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
       if (achievement3 != null) {
          String string = achievement3.getStatName().getUnformattedText();
          String string2 = achievement3.getDescription();
-         int i24 = i + 12;
-         int i25 = j - 4;
-         int i26 = this.statFileWriter.func_150874_c(achievement3);
+         int i23 = i + 12;
+         int i24 = j - 4;
+         int i25 = this.statFileWriter.func_150874_c(achievement3);
          if (this.statFileWriter.canUnlockAchievement(achievement3)) {
-            int i27 = Math.max(this.fontRendererObj.getStringWidth(string), 120);
-            int i28 = this.fontRendererObj.splitStringWidth(string2, i27);
+            int i26 = Math.max(this.fontRendererObj.getStringWidth(string), 120);
+            int i27 = this.fontRendererObj.splitStringWidth(string2, i26);
             if (this.statFileWriter.hasAchievementUnlocked(achievement3)) {
-               i28 += 12;
+               i27 += 12;
             }
 
-            this.drawGradientRect(i24 - 3, i25 - 3, i24 + i27 + 3, i25 + i28 + 3 + 12, -1073741824, -1073741824);
-            this.fontRendererObj.drawSplitString(string2, i24, i25 + 12, i27, -6250336);
+            this.drawGradientRect(i23 - 3, i24 - 3, i23 + i26 + 3, i24 + i27 + 3 + 12, -1073741824, -1073741824);
+            this.fontRendererObj.drawSplitString(string2, i23, i24 + 12, i26, -6250336);
             if (this.statFileWriter.hasAchievementUnlocked(achievement3)) {
-               this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), i24, i25 + i28 + 4, -7302913);
+               this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), i23, i24 + i27 + 4, -7302913);
             }
-         } else if (i26 == 3) {
+         } else if (i25 == 3) {
             string = I18n.format("achievement.unknown");
-            int i29 = Math.max(this.fontRendererObj.getStringWidth(string), 120);
+            int i28 = Math.max(this.fontRendererObj.getStringWidth(string), 120);
             String string3 = new ChatComponentTranslation("achievement.requires", achievement3.parentAchievement.getStatName()).getUnformattedText();
-            int i30 = this.fontRendererObj.splitStringWidth(string3, i29);
-            this.drawGradientRect(i24 - 3, i25 - 3, i24 + i29 + 3, i25 + i30 + 12 + 3, -1073741824, -1073741824);
-            this.fontRendererObj.drawSplitString(string3, i24, i25 + 12, i29, -9416624);
-         } else if (i26 < 3) {
-            int i31 = Math.max(this.fontRendererObj.getStringWidth(string), 120);
+            int i29 = this.fontRendererObj.splitStringWidth(string3, i28);
+            this.drawGradientRect(i23 - 3, i24 - 3, i23 + i28 + 3, i24 + i29 + 12 + 3, -1073741824, -1073741824);
+            this.fontRendererObj.drawSplitString(string3, i23, i24 + 12, i28, -9416624);
+         } else if (i25 < 3) {
+            int i30 = Math.max(this.fontRendererObj.getStringWidth(string), 120);
             String string4 = new ChatComponentTranslation("achievement.requires", achievement3.parentAchievement.getStatName()).getUnformattedText();
-            int i32 = this.fontRendererObj.splitStringWidth(string4, i31);
-            this.drawGradientRect(i24 - 3, i25 - 3, i24 + i31 + 3, i25 + i32 + 12 + 3, -1073741824, -1073741824);
-            this.fontRendererObj.drawSplitString(string4, i24, i25 + 12, i31, -9416624);
+            int i31 = this.fontRendererObj.splitStringWidth(string4, i30);
+            this.drawGradientRect(i23 - 3, i24 - 3, i23 + i30 + 3, i24 + i31 + 12 + 3, -1073741824, -1073741824);
+            this.fontRendererObj.drawSplitString(string4, i23, i24 + 12, i30, -9416624);
          } else {
             string = null;
          }
@@ -419,8 +413,8 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
             this.fontRendererObj
                .drawStringWithShadow(
                   string,
+                  i23,
                   i24,
-                  i25,
                   this.statFileWriter.canUnlockAchievement(achievement3) ? (achievement3.getSpecial() ? -128 : -1) : (achievement3.getSpecial() ? -8355776 : -8355712)
                );
          }

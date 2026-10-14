@@ -11,8 +11,6 @@ public class InventoryCrafting implements IInventory {
    private final int inventoryWidth;
    private final int inventoryHeight;
    private final Container eventHandler;
-   private static final long a = 125232650460522L;
-   private static final long c = 8138514146002993216L;
 
    public InventoryCrafting(Container eventHandlerIn, int width, int height) {
       int i = width * height;
@@ -94,7 +92,7 @@ public class InventoryCrafting implements IInventory {
 
    @Override
    public int getInventoryStackLimit() {
-      return (int)c;
+      return 64;
    }
 
    @Override

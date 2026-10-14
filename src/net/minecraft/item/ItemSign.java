@@ -13,8 +13,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemSign extends Item {
-   private static final long a = 34913755631709L;
-
    public ItemSign() {
       this.maxStackSize = 16;
       this.setCreativeTab(CreativeTabs.tabDecorations);

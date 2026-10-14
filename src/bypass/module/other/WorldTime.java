@@ -32,7 +32,6 @@ public final class WorldTime extends Module {
          packetEvent.cancel();
       }
    };
-   private static final long c = 40089301855447L;
 
    public WorldTime(Category category) {
       super(category);

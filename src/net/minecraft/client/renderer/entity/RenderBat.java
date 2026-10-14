@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderBat extends RenderLiving<EntityBat> {
    private static final ResourceLocation batTextures = new ResourceLocation("textures/entity/bat.png");
-   private static final long d = 15704507441798L;
 
    public RenderBat(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelBat(), 0.25F);

@@ -36,8 +36,6 @@ import oshi.util.ParseUtil;
 public final class MacDisks {
    private static final CoreFoundation CF = CoreFoundation.INSTANCE;
    private static final DiskArbitration DA = DiskArbitration.INSTANCE;
-   private static final long a = 71824371803481L;
-   private static final long e = 819779402765172752L;
 
    private MacDisks() {
    }
@@ -56,7 +54,7 @@ public final class MacDisks {
       HashMap hashMap = new HashMap();
       int i = SystemB.INSTANCE.getfsstat64(null, 0, 0);
       Statfs[] statfss = new Statfs[i];
-      SystemB.INSTANCE.getfsstat64(statfss, i * new Statfs().size(), (int)e);
+      SystemB.INSTANCE.getfsstat64(statfss, i * new Statfs().size(), 16);
 
       for (Statfs statfs : statfss) {
          String string = new String(statfs.f_mntfromname, StandardCharsets.UTF_8).trim();

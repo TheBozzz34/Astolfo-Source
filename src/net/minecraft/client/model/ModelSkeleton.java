@@ -5,8 +5,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
 
 public class ModelSkeleton extends ModelZombie {
-   private static final long a = 40616392754570L;
-
    public ModelSkeleton() {
       this(0.0F, false);
    }

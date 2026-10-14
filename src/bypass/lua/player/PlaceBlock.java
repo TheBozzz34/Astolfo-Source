@@ -9,12 +9,9 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class PlaceBlock extends VarArgFunction {
-   private static final long a = 118458972782194L;
-   private static final long b = 3340367993640058888L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
-      if (varargs.narg() < (int)b) {
+      if (varargs.narg() < 8) {
          return LuaValue.varargsOf(new LuaValue[]{NIL});
       }
 

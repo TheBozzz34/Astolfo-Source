@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 
 public class BlockDynamicLiquid extends BlockLiquid {
    public int adjacentSourceBlocks;
-   private static final long e = 127452808295627L;
 
    public BlockDynamicLiquid(Material materialIn) {
       super(materialIn);

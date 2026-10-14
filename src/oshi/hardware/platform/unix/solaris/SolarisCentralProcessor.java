@@ -16,9 +16,6 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 
 @ThreadSafe
 public final class SolarisCentralProcessor extends AbstractCentralProcessor {
-   private static final long c = 69333438023470L;
-   private static final long j = 5181961841730912288L;
-
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
       String string = "";
@@ -206,7 +203,7 @@ public final class SolarisCentralProcessor extends AbstractCentralProcessor {
          }
 
          if (!string.startsWith("64-bit")) {
-            stringBuilder.append((char)((int)j)).append(string.trim());
+            stringBuilder.append(' ').append(string.trim());
          }
       }
 

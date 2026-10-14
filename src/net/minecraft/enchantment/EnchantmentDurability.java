@@ -6,8 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentDurability extends Enchantment {
-   private static final long m = 117443754160032L;
-
    public EnchantmentDurability(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.BREAKABLE);
       this.setName("durability");

@@ -20,7 +20,6 @@ public class GuiEditSign extends GuiScreen {
    private int updateCounter;
    private int editLine;
    private GuiButton doneBtn;
-   private static final long a = 135560770405129L;
 
    public GuiEditSign(TileEntitySign teSign) {
       this.tileSign = teSign;

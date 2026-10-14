@@ -46,7 +46,6 @@ public abstract class Enchantment {
    private final int weight;
    public EnumEnchantmentType type;
    public String name;
-   private static final long h = 119829043380840L;
 
    public static Enchantment getEnchantmentById(int enchID) {
       return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;

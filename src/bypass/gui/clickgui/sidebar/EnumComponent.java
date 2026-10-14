@@ -13,16 +13,13 @@ public class EnumComponent extends DropdownComponent {
    public Animation u = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
    private float G;
    private int[] r = new int[128];
-   private static final long d = 76371513487449L;
 
-   public EnumComponent(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
-      super(moduleButton, setting, g, h, i, j);
+   public EnumComponent(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
+      super(moduleButton, setting, f, g, i, j);
    }
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 90685667257899L;
-      long m = l ^ 8972929756414L;
       float f = this.M() + this.x() / 1.7F;
       RenderUtil.drawRect(f - 1.0F, this.E_float() - 2.0F, this.M() + this.x() + 1.0F, this.E_float() + 9.0F, new Color(34, 36, 43, this.X).getRGB());
       RenderUtil.drawRect(f, this.E_float() - 1.0F, this.M() + this.x(), this.E_float() + 8.0F, new Color(29, 31, 37, this.X).getRGB());
@@ -53,8 +50,6 @@ public class EnumComponent extends DropdownComponent {
 
    @Override
    public void M(int i, int j) {
-      long l = d ^ 2296424361950L;
-      long m = l ^ 97057255664907L;
       float f = this.M() + this.x() / 1.7F;
       Enum[] enums = (Enum[])this.n().getValue().getClass().getEnumConstants();
       RenderUtil.drawRect(
@@ -64,15 +59,15 @@ public class EnumComponent extends DropdownComponent {
       int k = client.getSidebarGui().M();
       byte b = 13;
 
-      for (int i2 = 0; i2 < enums.length; i2++) {
-         Enum enum2 = enums[i2];
-         if (this.r[i2] > 30) {
+      for (int l = 0; l < enums.length; l++) {
+         Enum enum2 = enums[l];
+         if (this.r[l] > 30) {
             client.getCustomFontRenderer()
                .drawString(
                   enum2.name(),
                   f + this.x() / 4.5F - client.getCustomFontRenderer().getStringWidth(enum2.name()) / 2.0F,
                   this.E_float() + b - 3.0F,
-                  new Color(136, 141, 157, this.r[i2]).getRGB()
+                  new Color(136, 141, 157, this.r[l]).getRGB()
                );
          }
 
@@ -81,8 +76,8 @@ public class EnumComponent extends DropdownComponent {
             client.getSidebarGui().G(null);
          }
 
-         if (this.G >= b && this.r[i2] < 255) {
-            this.r[i2] = (int)this.u.getValue(0.0, 255.0);
+         if (this.G >= b && this.r[l] < 255) {
+            this.r[l] = (int)this.u.getValue(0.0, 255.0);
          }
 
          b += 13;

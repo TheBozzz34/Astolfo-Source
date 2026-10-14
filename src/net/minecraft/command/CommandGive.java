@@ -11,9 +11,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandGive extends CommandBase {
-   private static final long b = 126301419266952L;
-   private static final long j = 2165545295444705344L;
-
    @Override
    public String getCommandName() {
       return "give";
@@ -37,9 +34,9 @@ public class CommandGive extends CommandBase {
 
       EntityPlayerMP entityPlayerMP = getPlayer(sender, args[0]);
       Item item = getItemByText(sender, args[1]);
-      int i = args.length >= 3 ? parseInt(args[2], 1, (int)j) : 1;
-      int k = args.length >= 4 ? parseInt(args[3]) : 0;
-      ItemStack itemStack = new ItemStack(item, i, k);
+      int i = args.length >= 3 ? parseInt(args[2], 1, 64) : 1;
+      int j = args.length >= 4 ? parseInt(args[3]) : 0;
+      ItemStack itemStack = new ItemStack(item, i, j);
       if (args.length >= 5) {
          String string = getChatComponentFromNthArg(sender, args, 4).getUnformattedText();
 

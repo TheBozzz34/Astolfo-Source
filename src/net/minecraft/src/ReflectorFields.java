@@ -5,7 +5,6 @@ public class ReflectorFields {
    private Class fieldType;
    private int fieldCount;
    private ReflectorField[] reflectorFields;
-   private static final long a = 70872426703400L;
 
    public ReflectorFields(ReflectorClass reflectorClass, Class fieldType, int fieldCount) {
       this.reflectorClass = reflectorClass;

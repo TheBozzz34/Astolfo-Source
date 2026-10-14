@@ -27,14 +27,11 @@ import net.minecraft.world.World;
 
 public class BlockHopper extends BlockContainer {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>() {
-      private static final long a = 91987971606330L;
-
       public boolean apply(EnumFacing enumFacing) {
          return enumFacing != EnumFacing.UP;
       }
    });
    public static final PropertyBool ENABLED = PropertyBool.create("enabled");
-   private static final long e = 68582706379181L;
 
    public BlockHopper() {
       super(Material.iron, MapColor.stoneColor);

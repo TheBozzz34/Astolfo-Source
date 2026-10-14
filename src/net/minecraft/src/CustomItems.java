@@ -51,7 +51,6 @@ public class CustomItems {
    public static final String DEFAULT_TEXTURE_SPLASH = "items/potion_bottle_splash";
    public static final String DEFAULT_TEXTURE_DRINKABLE = "items/potion_bottle_drinkable";
    private static final int[][] EMPTY_INT2_ARRAY = new int[0][];
-   private static final long b = 117985789368265L;
 
    public static void N() {
       itemProperties = (CustomItemProperties[][])null;
@@ -165,8 +164,6 @@ public class CustomItems {
 
    private static Comparator getPropertiesComparator() {
       return new Comparator() {
-         private static final long a = 31755220076810L;
-
          @Override
          public int compare(Object o1, Object o2) {
             CustomItemProperties customItemProperties = (CustomItemProperties)o1;
@@ -626,7 +623,6 @@ public class CustomItems {
    }
 
    public static boolean renderCustomEffect(RenderItem renderItem, ItemStack itemStack, IBakedModel model) {
-      long l = b ^ 83978114677339L;
       if (enchantmentProperties == null) {
          return false;
       }
@@ -661,10 +657,8 @@ public class CustomItems {
                      if (!bl) {
                         bl = true;
                         GlStateManager.depthMask(false);
-                        long m = 5327203315832794785L ^ l;
                         GlStateManager.depthFunc(514);
                         GlStateManager.disableLighting();
-                        m = 3277289407484518067L ^ l;
                         GlStateManager.matrixMode(5890);
                      }
 
@@ -685,13 +679,10 @@ public class CustomItems {
       if (bl) {
          GlStateManager.enableAlpha();
          GlStateManager.enableBlend();
-         long n = 3070177632880269204L ^ l;
          GlStateManager.blendFunc(770, 771);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         n = 6835243359347191745L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.enableLighting();
-         n = 3989969245204080495L ^ l;
          GlStateManager.depthFunc(515);
          GlStateManager.depthMask(true);
          textureManager.bindTexture(TextureMap.locationBlocksTexture);
@@ -712,7 +703,6 @@ public class CustomItems {
       float pitch,
       float scale
    ) {
-      long l = b ^ 47331842571197L;
       if (enchantmentProperties == null) {
          return false;
       }
@@ -761,10 +751,8 @@ public class CustomItems {
 
                      Blender.setupBlend(customItemProperties.a, 1.0F);
                      GlStateManager.disableLighting();
-                     long m = 5822200774183856347L ^ l;
                      GlStateManager.matrixMode(5890);
                      GlStateManager.loadIdentity();
-                     m = 806422018449028303L ^ l;
                      GlStateManager.rotate(customItemProperties.rotation, 0.0F, 0.0F, 1.0F);
                      float g = f / 8.0F;
                      GlStateManager.scale(g, g / 2.0F, g);
@@ -781,16 +769,12 @@ public class CustomItems {
       if (bl) {
          GlStateManager.enableAlpha();
          GlStateManager.enableBlend();
-         long n = 7623064047634169961L ^ l;
          GlStateManager.blendFunc(770, 771);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         n = 5822200774183856347L ^ l;
          GlStateManager.matrixMode(5890);
          GlStateManager.loadIdentity();
-         n = 806422018449028303L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.enableLighting();
-         n = 6156567031697064803L ^ l;
          GlStateManager.depthMask(true);
          GlStateManager.depthFunc(515);
          GlStateManager.disableBlend();
@@ -804,12 +788,5 @@ public class CustomItems {
 
    public static boolean isUseGlint() {
       return useGlint;
-   }
-
-   static {
-      long l = b ^ 43584037636005L;
-      long m = l ^ 205739534042558113L;
-      m = l ^ 2063618468754496992L;
-      m = l ^ 8422810505225007722L;
    }
 }

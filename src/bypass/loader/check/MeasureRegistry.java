@@ -9,13 +9,7 @@ public enum MeasureRegistry {
 
    public static final Map<Integer, Measure[]> MEASURE_MAP = new HashMap<>();
    private boolean F = true;
-   private final int C;
-   private static final long a = 75820948980876L;
-   private static final long e = -971070038083603152L;
-
-   MeasureRegistry() {
-      this.C = (int)e;
-   }
+   private final int C = 30000;
 
    public void k() {
       Timer timer = new Timer();

@@ -13,8 +13,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class EntityMinecartChest extends EntityMinecartContainer {
-   private static final long ab = 70260913384049L;
-
    public EntityMinecartChest(World worldIn) {
       super(worldIn);
    }

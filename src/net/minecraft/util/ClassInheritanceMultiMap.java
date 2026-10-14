@@ -16,7 +16,6 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
    private final Set<Class<?>> knownKeys = Sets.newIdentityHashSet();
    private final Class<T> baseClass;
    private final List<T> values = Lists.newArrayList();
-   private static final long a = 36911567704328L;
 
    public ClassInheritanceMultiMap(Class<T> baseClassIn) {
       this.baseClass = baseClassIn;
@@ -96,8 +95,6 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
    public <S> Iterable<S> getByClass(final Class<S> clazz) {
       return new Iterable<S>() {
-         private static final long a = 64355247651033L;
-
          @Override
          public Iterator<S> iterator() {
             List list = ClassInheritanceMultiMap.this.map.get(ClassInheritanceMultiMap.this.initializeClassLookup(clazz));

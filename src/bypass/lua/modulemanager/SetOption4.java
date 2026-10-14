@@ -11,12 +11,8 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class SetOption4 extends VarArgFunction {
-   private static final long a = 123109082897874L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
-      long l = a ^ 137710424449831L;
-      long m = l ^ 41503981339462L;
       LuaValue luaValue = varargs.arg1();
       if (!luaValue.isstring()) {
          return NIL;

@@ -9,8 +9,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandBlockData extends CommandBase {
-   private static final long b = 117353590581572L;
-
    @Override
    public String getCommandName() {
       return "blockdata";

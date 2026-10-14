@@ -40,7 +40,6 @@ public class CustomColormap implements CustomColors.IColorizer {
    public static final String KEY_COLOR = "color";
    public static final String KEY_Y_VARIANCE = "yVariance";
    public static final String KEY_Y_OFFSET = "yOffset";
-   private static final long b = 33731680684698L;
 
    public CustomColormap(Properties props, String path, int width, int height, String formatDefault) {
       ConnectedParser connectedParser = new ConnectedParser("Colormap");
@@ -430,10 +429,5 @@ public class CustomColormap implements CustomColors.IColorizer {
    @Override
    public String toString() {
       return "" + this.basePath + "/" + this.name + ", blocks: " + Config.arrayToString(this.matchBlocks) + ", source: " + this.source;
-   }
-
-   static {
-      long l = b ^ 103864604932848L;
-      long m = l ^ 5223541030354725770L;
    }
 }

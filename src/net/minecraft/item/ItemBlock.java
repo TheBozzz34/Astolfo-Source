@@ -16,8 +16,6 @@ import net.minecraft.world.World;
 
 public class ItemBlock extends Item {
    public final Block block;
-   private static final long b = 116273878565036L;
-   private static final long r = -8540948488534360054L;
 
    public ItemBlock(Block block) {
       this.block = block;
@@ -77,7 +75,7 @@ public class ItemBlock extends Item {
          return false;
       }
 
-      if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("BlockEntityTag", (int)r)) {
+      if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("BlockEntityTag", 10)) {
          TileEntity tileEntity = worldIn.getTileEntity(stack);
          if (tileEntity != null) {
             if (!worldIn.isRemote && tileEntity.func_183000_F() && !minecraftServer.getConfigurationManager().canSendCommands(pos.getGameProfile())) {

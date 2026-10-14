@@ -6,7 +6,6 @@ public class ReflectorField {
    private IFieldLocator fieldLocator = null;
    private boolean checked = false;
    private Field targetField = null;
-   private static final long a = 105370625710687L;
 
    public ReflectorField(ReflectorClass reflectorClass, String targetFieldName) {
       this(new FieldLocatorName(reflectorClass, targetFieldName));

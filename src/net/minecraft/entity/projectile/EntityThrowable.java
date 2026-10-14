@@ -30,7 +30,6 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
    private String throwerName;
    private int ticksInGround;
    private int ticksInAir;
-   private static final long bb = 5560911139055L;
 
    public EntityThrowable(World worldIn) {
       super(worldIn);

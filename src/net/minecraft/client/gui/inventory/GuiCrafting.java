@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 
 public class GuiCrafting extends GuiContainer {
    private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation("textures/gui/container/crafting_table.png");
-   private static final long bb = 102924480757475L;
 
    public GuiCrafting(InventoryPlayer playerInv, World worldIn) {
       this(playerInv, worldIn, BlockPos.ORIGIN);

@@ -7,7 +7,6 @@ public class Rotations {
    public final float x;
    public final float y;
    public final float z;
-   private static final long a = 28461729343014L;
 
    public Rotations(float x, float y, float z) {
       this.x = x;

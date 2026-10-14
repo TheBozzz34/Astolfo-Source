@@ -19,7 +19,6 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
    private ModelChest simpleChest = new ModelChest();
    private ModelChest largeChest = new ModelLargeChest();
    private boolean isChristmas;
-   private static final long a = 27772768693376L;
 
    public TileEntityChestRenderer() {
       Calendar calendar = Calendar.getInstance();
@@ -29,7 +28,6 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
    }
 
    public void renderTileEntityAt(TileEntityChest te, double x, double y, double z, float partialTicks, int destroyStage) {
-      long l = a ^ 17263430838569L;
       GlStateManager.enableDepth();
       GlStateManager.depthFunc(515);
       GlStateManager.depthMask(true);
@@ -55,7 +53,6 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
                this.bindTexture(DESTROY_STAGES[destroyStage]);
                GlStateManager.matrixMode(5890);
                GlStateManager.pushMatrix();
-               long m = 4062313224494743971L ^ l;
                GlStateManager.scale(4.0F, 4.0F, 1.0F);
                GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                GlStateManager.matrixMode(5888);
@@ -72,7 +69,6 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
                this.bindTexture(DESTROY_STAGES[destroyStage]);
                GlStateManager.matrixMode(5890);
                GlStateManager.pushMatrix();
-               long n = 1680150609612396418L ^ l;
                GlStateManager.scale(8.0F, 4.0F, 1.0F);
                GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                GlStateManager.matrixMode(5888);
@@ -146,7 +142,6 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
          if (destroyStage >= 0) {
             GlStateManager.matrixMode(5890);
             GlStateManager.popMatrix();
-            long l2 = 1680150609612396418L ^ l;
             GlStateManager.matrixMode(5888);
          }
       }

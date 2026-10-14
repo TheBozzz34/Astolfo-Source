@@ -25,15 +25,13 @@ public final class ProcPath {
    public static final String UPTIME = PROC + "/uptime";
    public static final String VERSION = PROC + "/version";
    public static final String VMSTAT = PROC + "/vmstat";
-   private static final long a = 64054639904767L;
-   private static final long h = 2086878382393393199L;
 
    private ProcPath() {
    }
 
    private static String queryProcConfig() {
       String string = GlobalConfig.get("", "/proc");
-      string = (int)h + string.replaceAll("/$|^/", "");
+      string = '/' + string.replaceAll("/$|^/", "");
       if (!new File(string).exists()) {
          throw new GlobalConfig.PropertyException("", "The path does not exist");
       } else {

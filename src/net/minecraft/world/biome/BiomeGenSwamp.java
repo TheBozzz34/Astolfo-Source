@@ -11,8 +11,6 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 public class BiomeGenSwamp extends BiomeGenBase {
-   private static final long bb = 50904527362148L;
-
    public BiomeGenSwamp(int id) {
       super(id);
       this.theBiomeDecorator.treesPerChunk = 2;

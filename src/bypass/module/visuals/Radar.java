@@ -72,7 +72,6 @@ public final class Radar extends Module {
          }
       }
    };
-   private static final long c = 5243243149857L;
 
    public Radar(Category category) {
       super(category);

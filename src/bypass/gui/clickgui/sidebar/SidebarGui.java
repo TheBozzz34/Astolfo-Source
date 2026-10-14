@@ -27,12 +27,9 @@ public class SidebarGui extends ComponentManager implements Loadable {
    private static int E = new Color(23, 25, 31).getRGB();
    private static int B = new Color(29, 31, 37).getRGB();
    private static int F = new Color(34, 36, 43).getRGB();
-   private static final long b = 30857278881646L;
 
    @Override
    public void load() {
-      long l = b ^ 2930101301327L;
-      long m = l ^ 45962346738322L;
       Sidebar sidebar = new Sidebar(0, 0, 34, 210);
 
       for (Category category : Category.values()) {

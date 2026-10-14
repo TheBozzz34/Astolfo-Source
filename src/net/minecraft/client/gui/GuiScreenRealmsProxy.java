@@ -11,7 +11,6 @@ import net.minecraft.realms.RealmsScreen;
 
 public class GuiScreenRealmsProxy extends GuiScreen {
    private RealmsScreen field_154330_a;
-   private static final long a = 120454699248962L;
 
    public GuiScreenRealmsProxy(RealmsScreen realmsScreen) {
       this.field_154330_a = realmsScreen;

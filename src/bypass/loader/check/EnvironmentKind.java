@@ -1,8 +1,6 @@
 package bypass.loader.check;
 
 public interface EnvironmentKind {
-   long a = 6853624290782L;
-
    static EnvironmentKindC k() {
       return new EnvironmentKindC();
    }

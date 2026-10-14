@@ -10,7 +10,6 @@ public final class FilteredContainer<E> extends ListContainer<E> implements Cont
    private final ListContainer<E> m;
    private List<E> C;
    private List<E> i;
-   private static final long b = 103208129523326L;
 
    public FilteredContainer(ListContainer<E> listContainer, Predicate<? super E> predicate, boolean bl) {
       super(listContainer.getValue());

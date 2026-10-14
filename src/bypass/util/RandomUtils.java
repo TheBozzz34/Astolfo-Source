@@ -6,8 +6,6 @@ import java.util.Random;
 public final class RandomUtils {
    public static final Random RANDOM = new Random();
    public static final SecureRandom SECURE_RANDOM = new SecureRandom();
-   private static final long a = 129561955951211L;
-   private static final long b = -7500206319903703032L;
 
    public static byte[] nextBytes(int i) {
       if (i >= 0) {
@@ -15,7 +13,7 @@ public final class RandomUtils {
          RANDOM.nextBytes(bytes);
          return bytes;
       } else {
-         return new byte[(int)b];
+         return new byte[8];
       }
    }
 

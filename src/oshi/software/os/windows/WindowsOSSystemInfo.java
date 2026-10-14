@@ -7,7 +7,6 @@ import com.sun.jna.ptr.IntByReference;
 
 public class WindowsOSSystemInfo {
    private SYSTEM_INFO z = null;
-   private static final long a = 28030844735658L;
 
    public WindowsOSSystemInfo() {
       this.K();

@@ -15,8 +15,6 @@ public class InventoryMerchant implements IInventory {
    private final EntityPlayer thePlayer;
    private MerchantRecipe currentRecipe;
    private int currentRecipeIndex;
-   private static final long a = 30018990506457L;
-   private static final long c = 6161021438108106816L;
 
    public InventoryMerchant(EntityPlayer thePlayerIn, IMerchant theMerchantIn) {
       this.thePlayer = thePlayerIn;
@@ -111,7 +109,7 @@ public class InventoryMerchant implements IInventory {
 
    @Override
    public int getInventoryStackLimit() {
-      return (int)c;
+      return 64;
    }
 
    @Override

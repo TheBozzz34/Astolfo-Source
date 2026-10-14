@@ -17,7 +17,6 @@ public class FreeLook extends Module {
          this.setEnabled(false);
       }
    };
-   private static final long c = 79194499737349L;
 
    public FreeLook(Category category) {
       super(category);

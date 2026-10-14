@@ -7,9 +7,6 @@ import com.viaversion.viaversion.libs.fastutil.ints.IntSortedSet;
 import com.viaversion.viaversion.libs.gson.JsonObject;
 
 public class VRInjector implements ViaInjector {
-   private static final long a = 80067678242604L;
-   private static final long e = 463030739030507567L;
-
    @Override
    public void inject() {
    }
@@ -43,6 +40,6 @@ public class VRInjector implements ViaInjector {
 
    @Override
    public int getServerProtocolVersion() throws Exception {
-      return (int)e;
+      return 47;
    }
 }

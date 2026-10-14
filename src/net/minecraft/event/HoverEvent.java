@@ -7,7 +7,6 @@ import net.minecraft.util.IChatComponent;
 public class HoverEvent {
    private final HoverEvent.Action action;
    private final IChatComponent value;
-   private static final long a = 125928444258670L;
 
    public HoverEvent(HoverEvent.Action actionIn, IChatComponent valueIn) {
       this.action = actionIn;

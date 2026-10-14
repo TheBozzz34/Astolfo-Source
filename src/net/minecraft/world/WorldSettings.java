@@ -85,7 +85,6 @@ public final class WorldSettings {
 
       public int id;
       public String name;
-      private static final long a = 91109890500568L;
 
       GameType(int typeId, String nameIn) {
          this.id = typeId;

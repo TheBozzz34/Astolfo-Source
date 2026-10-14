@@ -12,7 +12,6 @@ public class CrashReportCategory {
    private final String name;
    private final List<CrashReportCategory.Entry> children = Lists.newArrayList();
    private StackTraceElement[] stackTrace = new StackTraceElement[0];
-   private static final long a = 35604262996765L;
 
    public CrashReportCategory(CrashReport report, String name) {
       this.crashReport = report;
@@ -175,8 +174,6 @@ public class CrashReportCategory {
    public static void addBlockInfo(CrashReportCategory category, final BlockPos pos, final Block blockIn, final int blockData) {
       final int i = Block.getIdFromBlock(blockIn);
       category.addCrashSectionCallable("Block type", new Callable<String>() {
-         private static final long a = 117100938683758L;
-
          public String call() throws Exception {
             try {
                return String.format("ID #%d (%s // %s)", i, blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
@@ -186,8 +183,6 @@ public class CrashReportCategory {
          }
       });
       category.addCrashSectionCallable("Block data value", new Callable<String>() {
-         private static final long a = 84308596675139L;
-
          public String call() throws Exception {
             if (blockData < 0) {
                return "Unknown? (Got " + blockData + ")";
@@ -220,7 +215,6 @@ public class CrashReportCategory {
    public static class Entry {
       private final String key;
       private final String value;
-      private static final long b = 9952055425890L;
 
       public Entry(String key, Object value) {
          this.key = key;

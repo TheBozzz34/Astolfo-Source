@@ -29,7 +29,6 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
    private final BlockModelRenderer blockModelRenderer = new BlockModelRenderer();
    private final ChestRenderer chestRenderer = new ChestRenderer();
    private final BlockFluidRenderer fluidRenderer = new BlockFluidRenderer();
-   private static final long a = 83134089747619L;
 
    public BlockRendererDispatcher(BlockModelShapes blockModelShapesIn, GameSettings gameSettingsIn) {
       this.blockModelShapes = blockModelShapesIn;

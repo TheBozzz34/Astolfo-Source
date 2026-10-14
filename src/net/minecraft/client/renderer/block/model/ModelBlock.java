@@ -42,7 +42,6 @@ public class ModelBlock {
    public final Map<String, String> textures;
    public ModelBlock parent;
    public ResourceLocation parentLocation;
-   private static final long a = 17964793217280L;
 
    public static ModelBlock deserialize(Reader readerIn) {
       return SERIALIZER.fromJson(readerIn, ModelBlock.class);
@@ -194,8 +193,6 @@ public class ModelBlock {
    }
 
    public static class Deserializer implements JsonDeserializer<ModelBlock> {
-      private static final long a = 59645468926705L;
-
       public ModelBlock deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          List list = this.getModelElements(jsonDeserializationContext, jsonObject);

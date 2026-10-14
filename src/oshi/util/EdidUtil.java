@@ -8,8 +8,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class EdidUtil {
-   private static final long a = 6239473398662L;
-
    private EdidUtil() {
    }
 

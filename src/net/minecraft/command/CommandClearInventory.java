@@ -11,8 +11,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 
 public class CommandClearInventory extends CommandBase {
-   private static final long b = 28751268425107L;
-
    @Override
    public String getCommandName() {
       return "clear";

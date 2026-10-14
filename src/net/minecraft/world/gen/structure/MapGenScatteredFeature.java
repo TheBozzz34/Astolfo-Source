@@ -19,7 +19,6 @@ public class MapGenScatteredFeature extends MapGenStructure {
    private List<BiomeGenBase.SpawnListEntry> scatteredFeatureSpawnList = Lists.newArrayList();
    private int maxDistanceBetweenScatteredFeatures = 32;
    private int minDistanceBetweenScatteredFeatures = 8;
-   private static final long c = 76350284654576L;
 
    public MapGenScatteredFeature() {
       this.scatteredFeatureSpawnList.add(new BiomeGenBase.SpawnListEntry(EntityWitch.class, 1, 1, 1));
@@ -97,22 +96,20 @@ public class MapGenScatteredFeature extends MapGenStructure {
    }
 
    public static class Start extends StructureStart {
-      private static final long a = 101033698915414L;
-
       public Start() {
       }
 
-      public Start(World worldIn, Random random2, int j, int k) {
-         super(j, k);
-         BiomeGenBase biomeGenBase = worldIn.getBiomeGenForCoords(new BlockPos(j * 16 + 8, 0, k * 16 + 8));
+      public Start(World worldIn, Random random2, int i, int j) {
+         super(i, j);
+         BiomeGenBase biomeGenBase = worldIn.getBiomeGenForCoords(new BlockPos(i * 16 + 8, 0, j * 16 + 8));
          if (biomeGenBase == BiomeGenBase.jungle || biomeGenBase == BiomeGenBase.jungleHills) {
-            ComponentScatteredFeaturePieces.JunglePyramid junglePyramid = new ComponentScatteredFeaturePieces.JunglePyramid(random2, j * 16, k * 16);
+            ComponentScatteredFeaturePieces.JunglePyramid junglePyramid = new ComponentScatteredFeaturePieces.JunglePyramid(random2, i * 16, j * 16);
             this.components.add(junglePyramid);
          } else if (biomeGenBase == BiomeGenBase.swampland) {
-            ComponentScatteredFeaturePieces.SwampHut swampHut = new ComponentScatteredFeaturePieces.SwampHut(random2, j * 16, k * 16);
+            ComponentScatteredFeaturePieces.SwampHut swampHut = new ComponentScatteredFeaturePieces.SwampHut(random2, i * 16, j * 16);
             this.components.add(swampHut);
          } else if (biomeGenBase == BiomeGenBase.desert || biomeGenBase == BiomeGenBase.desertHills) {
-            ComponentScatteredFeaturePieces.DesertPyramid desertPyramid = new ComponentScatteredFeaturePieces.DesertPyramid(random2, j * 16, k * 16);
+            ComponentScatteredFeaturePieces.DesertPyramid desertPyramid = new ComponentScatteredFeaturePieces.DesertPyramid(random2, i * 16, j * 16);
             this.components.add(desertPyramid);
          }
 

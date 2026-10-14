@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class NBTTagString extends NBTBase {
    private String data;
-   private static final long a = 102521581367980L;
 
    public NBTTagString() {
       this.data = "";

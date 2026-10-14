@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 
 public class BlockFarmland extends Block {
    public static final PropertyInteger MOISTURE = PropertyInteger.create("moisture", 0, 7);
-   private static final long e = 115194344734114L;
 
    public BlockFarmland() {
       super(Material.ground);

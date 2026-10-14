@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 public class C14PacketTabComplete implements Packet<INetHandlerPlayServer> {
    private String message;
    private BlockPos targetBlock;
-   private static final long a = 135972400040345L;
 
    public C14PacketTabComplete() {
    }

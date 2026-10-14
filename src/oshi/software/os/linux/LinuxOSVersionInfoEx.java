@@ -10,8 +10,6 @@ import oshi.util.platform.linux.ProcPath;
 
 @Deprecated
 public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
-   private static final long b = 29451416051243L;
-
    public LinuxOSVersionInfoEx() {
       this(null, null);
    }

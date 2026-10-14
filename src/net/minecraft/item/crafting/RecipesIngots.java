@@ -18,7 +18,6 @@ public class RecipesIngots {
       {Blocks.hay_block, new ItemStack(Items.wheat, 9)},
       {Blocks.slime_block, new ItemStack(Items.slime_ball, 9)}
    };
-   private static final long a = 102935300485656L;
 
    public void addRecipes(CraftingManager craftingManager) {
       for (int i = 0; i < this.recipeItems.length; i++) {

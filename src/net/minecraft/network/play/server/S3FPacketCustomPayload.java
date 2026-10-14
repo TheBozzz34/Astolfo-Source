@@ -8,7 +8,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S3FPacketCustomPayload implements Packet<INetHandlerPlayClient> {
    private String channel;
    private PacketBuffer data;
-   private static final long a = 134600879501773L;
 
    public S3FPacketCustomPayload() {
    }

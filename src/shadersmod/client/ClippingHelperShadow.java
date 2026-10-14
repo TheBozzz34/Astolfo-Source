@@ -10,7 +10,6 @@ public class ClippingHelperShadow extends ClippingHelper {
    public int shadowClipPlaneCount;
    public float[] matInvMP = new float[16];
    public float[] vecIntersection = new float[4];
-   private static final long b = 49460763530509L;
 
    @Override
    public boolean isBoxInFrustum(double d, double d2, double d3, double d4, double d5, double d6) {
@@ -55,10 +54,10 @@ public class ClippingHelperShadow extends ClippingHelper {
       plane[2] /= f;
    }
 
-   private void assignPlane(float[] plane, float aIn, float bIn, float c, float d) {
-      float length = (float)Math.sqrt(aIn * aIn + bIn * bIn + c * c);
-      plane[0] = aIn / length;
-      plane[1] = bIn / length;
+   private void assignPlane(float[] plane, float a, float b, float c, float d) {
+      float length = (float)Math.sqrt(a * a + b * b + c * c);
+      plane[0] = a / length;
+      plane[1] = b / length;
       plane[2] = c / length;
       plane[3] = d / length;
    }
@@ -70,10 +69,10 @@ public class ClippingHelperShadow extends ClippingHelper {
       dst[3] = src[3];
    }
 
-   private void cross3(float[] out, float[] aIn, float[] bIn) {
-      out[0] = aIn[1] * bIn[2] - aIn[2] * bIn[1];
-      out[1] = aIn[2] * bIn[0] - aIn[0] * bIn[2];
-      out[2] = aIn[0] * bIn[1] - aIn[1] * bIn[0];
+   private void cross3(float[] out, float[] a, float[] b) {
+      out[0] = a[1] * b[2] - a[2] * b[1];
+      out[1] = a[2] * b[0] - a[0] * b[2];
+      out[2] = a[0] * b[1] - a[1] * b[0];
    }
 
    private float length(float x, float y, float z) {

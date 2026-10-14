@@ -6,7 +6,6 @@ public class ChunkCoordIntPair {
    public final int chunkXPos;
    public final int chunkZPos;
    private int cachedHashCode = 0;
-   private static final long a = 58429754905576L;
 
    public ChunkCoordIntPair(int x, int z) {
       this.chunkXPos = x;

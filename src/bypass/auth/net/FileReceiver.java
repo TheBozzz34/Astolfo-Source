@@ -12,7 +12,6 @@ public class FileReceiver implements Closeable {
    public final boolean r;
    public Selector c;
    public Thread h;
-   private static final long a = 26433994730827L;
 
    public FileReceiver(boolean bl) {
       this(new DefaultFileReceiverListener(), bl);

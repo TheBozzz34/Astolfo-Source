@@ -12,7 +12,6 @@ public class S26PacketMapChunkBulk implements Packet<INetHandlerPlayClient> {
    private int[] zPositions;
    private S21PacketChunkData.Extracted[] chunksData;
    private boolean isOverworld;
-   private static final long a = 18237756360760L;
 
    public S26PacketMapChunkBulk() {
    }

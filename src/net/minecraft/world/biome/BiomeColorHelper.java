@@ -22,7 +22,6 @@ public class BiomeColorHelper {
          return biome.waterColorMultiplier;
       }
    };
-   private static final long b = 85552134623245L;
 
    private static int getColorAtPos(IBlockAccess blockAccess, BlockPos pos, BiomeColorHelper.ColorResolver colorResolver) {
       int i = 0;

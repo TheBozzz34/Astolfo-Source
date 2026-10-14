@@ -89,7 +89,6 @@ public class SoundList {
          SOUND_EVENT("event");
 
          private final String field_148583_c;
-         private static final long a = 77345476550370L;
 
          Type(String string2) {
             this.field_148583_c = string2;

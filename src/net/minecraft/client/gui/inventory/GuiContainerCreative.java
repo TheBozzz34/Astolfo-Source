@@ -44,7 +44,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
    private Slot field_147064_C;
    private boolean field_147057_D;
    private CreativeCrafting field_147059_E;
-   private static final long bb = 38095947894873L;
 
    public GuiContainerCreative(EntityPlayer entityPlayer) {
       super(new GuiContainerCreative.ContainerCreative(entityPlayer));
@@ -568,15 +567,13 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
    }
 
    public void func_147051_a(CreativeTabs creativeTabs) {
-      long l = bb ^ 77441089314959L;
       boolean bl = creativeTabs.getTabIndex() == selectedTabIndex;
       boolean bl2 = creativeTabs.isTabInFirstRow();
       int i = creativeTabs.getTabColumn();
       int j = i * 28;
       byte b = 0;
       int k = this.guiLeft + 28 * i;
-      int m = this.guiTop;
-      long n = 5442326765809611196L ^ l;
+      int l = this.guiTop;
       byte b2 = 32;
       if (bl) {
          b += 32;
@@ -589,23 +586,23 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
       }
 
       if (bl2) {
-         m -= 28;
+         l -= 28;
       } else {
          b += 64;
-         m += this.ySize - 4;
+         l += this.ySize - 4;
       }
 
       GlStateManager.disableLighting();
-      this.drawTexturedModalRect(k, m, j, b, 28, b2);
+      this.drawTexturedModalRect(k, l, j, b, 28, b2);
       this.zLevel = 100.0F;
       this.itemRender.zLevel = 100.0F;
       k += 6;
-      m = m + 8 + (bl2 ? 1 : -1);
+      l = l + 8 + (bl2 ? 1 : -1);
       GlStateManager.enableLighting();
       GlStateManager.enableRescaleNormal();
       ItemStack itemStack = creativeTabs.getIconItemStack();
-      this.itemRender.renderItemAndEffectIntoGUI(itemStack, k, m);
-      this.itemRender.renderItemOverlays(this.fontRendererObj, itemStack, k, m);
+      this.itemRender.renderItemAndEffectIntoGUI(itemStack, k, l);
+      this.itemRender.renderItemOverlays(this.fontRendererObj, itemStack, k, l);
       GlStateManager.disableLighting();
       this.itemRender.zLevel = 0.0F;
       this.zLevel = 0.0F;
@@ -628,7 +625,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 
    public static class ContainerCreative extends Container {
       public List<ItemStack> itemList = Lists.newArrayList();
-      private static final long a = 39788308248564L;
 
       public ContainerCreative(EntityPlayer entityPlayer) {
          InventoryPlayer inventoryPlayer = entityPlayer.inventory;

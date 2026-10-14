@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 
 public final class ValidatedFingerprintEntry<T> extends ValueFingerprintEntry<T> {
    public List<FingerprintValidator<T>> K;
-   private static final long b = 6563750492540L;
 
    public ValidatedFingerprintEntry(String string, T object, FingerprintValidator<T>... fingerprintValidators) {
       super(string, (T)object);

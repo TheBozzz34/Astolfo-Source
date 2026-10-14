@@ -10,8 +10,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderWither extends RenderLiving<EntityWither> {
    private static final ResourceLocation invulnerableWitherTextures = new ResourceLocation("textures/entity/wither/wither_invulnerable.png");
    private static final ResourceLocation witherTextures = new ResourceLocation("textures/entity/wither/wither.png");
-   private static final long e = 96085531808302L;
-   private static final long g = 8610858392765857872L;
 
    public RenderWither(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelWither(0.0F), 1.0F);
@@ -25,7 +23,7 @@ public class RenderWither extends RenderLiving<EntityWither> {
 
    public ResourceLocation getEntityTexture(EntityWither entity) {
       int i = entity.getInvulTime();
-      return i <= 0 || i <= (int)g && i / 5 % 2 == 1 ? witherTextures : invulnerableWitherTextures;
+      return i <= 0 || i <= 80 && i / 5 % 2 == 1 ? witherTextures : invulnerableWitherTextures;
    }
 
    public void preRenderCallback(EntityWither entitylivingbaseIn, float partialTickTime) {

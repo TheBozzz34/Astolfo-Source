@@ -7,7 +7,6 @@ public class EntityAILookIdle extends EntityAIBase {
    private double lookX;
    private double lookZ;
    private int idleTime;
-   private static final long b = 98019550944172L;
 
    public EntityAILookIdle(EntityLiving entitylivingIn) {
       this.idleEntity = entitylivingIn;

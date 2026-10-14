@@ -10,8 +10,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class SolarisDisplay extends AbstractDisplay {
-   private static final long a = 131469893851430L;
-
    public SolarisDisplay(byte[] edid) {
       super(edid);
    }

@@ -32,7 +32,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
    private ResourceLocation locationOfCape = null;
    private String nameClear = null;
    public static final ResourceLocation SF = new ResourceLocation("client/normalCape.png");
-   private static final long ab = 52656721845962L;
 
    public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
       super(worldIn, playerProfile);
@@ -74,8 +73,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
    }
 
    public ResourceLocation u() {
-      long l = ab ^ 8444913071634L;
-      long m = l ^ 85862798436386L;
       AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().g(this.getName());
       if (astolfoUser != null) {
          return LayerCape.h(this, astolfoUser.s);
@@ -119,8 +116,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
    }
 
    public float getFovModifier() {
-      long l = ab ^ 50534433803192L;
-      long m = l ^ 58712942438593L;
       float f = 1.0F;
       if (this.capabilities.isFlying) {
          f *= 1.1F;

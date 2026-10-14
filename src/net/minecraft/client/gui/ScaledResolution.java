@@ -9,7 +9,6 @@ public class ScaledResolution {
    private int scaledWidth;
    private int scaledHeight;
    private int scaleFactor;
-   private static final long b = 4809406005356L;
 
    public ScaledResolution(Minecraft minecraft) {
       this.scaledWidth = minecraft.displayWidth;

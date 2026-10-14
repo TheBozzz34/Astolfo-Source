@@ -8,15 +8,11 @@ import bypass.user.AstolfoUser;
 import bypass.user.AstolfoUserStatus;
 
 public class UserListHandler extends PacketHandler<UserListPacket> {
-   private static final long b = 87283649196622L;
-
    public UserListHandler() {
       super(PacketId.USER_LIST);
    }
 
    public void handle(UserListPacket userListPacket, PacketOutput packetOutput) {
-      long l = b ^ 127728776374741L;
-      long m = l ^ 102341454961505L;
       if (userListPacket.type == UserListType.A) {
          client.getUserManager().r().clear();
          String[] strings = userListPacket.users.split(" ");

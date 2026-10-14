@@ -19,7 +19,6 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
    private final EntityAINearestAttackableTarget.Sorter field_179440_d;
    private EntityLivingBase target;
    private Class<? extends EntityLivingBase> field_179439_f;
-   private static final long a = 42154661101006L;
 
    public EntityAIFindEntityNearest(EntityLiving mobIn, Class<? extends EntityLivingBase> class2) {
       this.mob = mobIn;
@@ -29,8 +28,6 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
       }
 
       this.field_179443_c = new Predicate<EntityLivingBase>() {
-         private static final long a = 96826145059159L;
-
          public boolean apply(EntityLivingBase entityLivingBase) {
             double d = EntityAIFindEntityNearest.this.getFollowRange();
             if (entityLivingBase.isSneaking()) {

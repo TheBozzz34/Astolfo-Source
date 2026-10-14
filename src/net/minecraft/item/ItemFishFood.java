@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 public class ItemFishFood extends ItemFood {
    private final boolean cooked;
-   private static final long a = 101241598013922L;
 
    public ItemFishFood(boolean cooked) {
       super(0, 0.0F, false);
@@ -80,7 +79,6 @@ public class ItemFishFood extends ItemFood {
       private final int cookedHealAmount;
       private final float cookedSaturationModifier;
       private boolean cookable = false;
-      private static final long a = 27987982860666L;
 
       FishType(int meta, String unlocalizedNameIn, int uncookedHeal, float uncookedSaturation, int cookedHeal, float cookedSaturation) {
          this.meta = meta;

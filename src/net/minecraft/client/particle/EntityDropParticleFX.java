@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 public class EntityDropParticleFX extends EntityFX {
    private Material materialType;
    private int bobTimer;
-   private static final long ab = 43345816824559L;
 
    public EntityDropParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, Material material) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);

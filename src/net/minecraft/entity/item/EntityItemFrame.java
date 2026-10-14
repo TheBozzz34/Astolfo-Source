@@ -16,7 +16,6 @@ import net.minecraft.world.storage.MapData;
 
 public class EntityItemFrame extends EntityHanging {
    private float itemDropChance = 1.0F;
-   private static final long bb = 102780455373603L;
 
    public EntityItemFrame(World worldIn) {
       super(worldIn);

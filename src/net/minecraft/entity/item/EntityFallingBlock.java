@@ -31,7 +31,6 @@ public class EntityFallingBlock extends Entity {
    private int fallHurtMax = 40;
    private float fallHurtAmount = 2.0F;
    public NBTTagCompound tileEntityData;
-   private static final long ab = 68513339873660L;
 
    public EntityFallingBlock(World worldIn) {
       super(worldIn);

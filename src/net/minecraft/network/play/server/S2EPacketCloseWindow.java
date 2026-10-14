@@ -13,7 +13,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S2EPacketCloseWindow implements Packet<INetHandlerPlayClient> {
    private int windowId;
-   private static final long a = 40573987190701L;
 
    public S2EPacketCloseWindow() {
    }

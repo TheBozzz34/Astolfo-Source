@@ -7,8 +7,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class LsofUtil {
-   private static final long a = 109724697980051L;
-
    private LsofUtil() {
    }
 

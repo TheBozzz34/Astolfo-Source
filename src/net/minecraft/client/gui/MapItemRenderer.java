@@ -17,7 +17,6 @@ public class MapItemRenderer {
    private static final ResourceLocation mapIcons = new ResourceLocation("textures/map/map_icons.png");
    private final TextureManager textureManager;
    private final Map<String, MapItemRenderer.Instance> loadedMaps = Maps.newHashMap();
-   private static final long a = 102715040440845L;
 
    public MapItemRenderer(TextureManager textureManagerIn) {
       this.textureManager = textureManagerIn;
@@ -54,7 +53,6 @@ public class MapItemRenderer {
       private final DynamicTexture mapTexture;
       private final ResourceLocation location;
       private final int[] mapTextureData;
-      private static final long a = 62848190280753L;
 
       public Instance(MapData mapdataIn) {
          this.mapData = mapdataIn;

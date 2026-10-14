@@ -69,7 +69,6 @@ public final class AntiFireball extends Module {
          this.O();
       }
    };
-   private static final long d = 86264799445271L;
 
    public AntiFireball(Category category) {
       super(category);

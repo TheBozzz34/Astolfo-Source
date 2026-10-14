@@ -24,8 +24,6 @@ public class ChatStyle {
    private HoverEvent chatHoverEvent;
    private String insertion;
    private static final ChatStyle rootStyle = new ChatStyle() {
-      private static final long c = 17248107746788L;
-
       @Override
       public EnumChatFormatting getColor() {
          return null;
@@ -136,7 +134,6 @@ public class ChatStyle {
          return "";
       }
    };
-   private static final long b = 67890870606750L;
 
    public EnumChatFormatting getColor() {
       return this.color == null ? this.getParent().getColor() : this.color;
@@ -360,8 +357,6 @@ public class ChatStyle {
    }
 
    public static class Serializer implements JsonDeserializer<ChatStyle>, JsonSerializer<ChatStyle> {
-      private static final long a = 98196544772308L;
-
       public ChatStyle deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          if (jsonElement.isJsonObject()) {
             ChatStyle chatStyle = new ChatStyle();

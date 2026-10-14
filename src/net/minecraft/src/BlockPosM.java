@@ -13,8 +13,6 @@ public class BlockPosM extends BlockPos {
    private int level;
    private BlockPosM[] facings;
    private boolean needsUpdate;
-   private static final long a = 138849673806756L;
-   private static final long q = 840837197920731142L;
 
    public BlockPosM(int x, int y, int z) {
       this(x, y, z, 0);
@@ -91,7 +89,7 @@ public class BlockPosM extends BlockPos {
    }
 
    private void update() {
-      for (int i = 0; i < (int)q; i++) {
+      for (int i = 0; i < 6; i++) {
          BlockPosM blockPosM = this.facings[i];
          if (blockPosM != null) {
             EnumFacing enumFacing = EnumFacing.VALUES[i];
@@ -135,7 +133,6 @@ public class BlockPosM extends BlockPos {
 
       public class r4d extends AbstractIterator {
          private BlockPosM M = null;
-         private static final long a = 1294726928773L;
 
          public BlockPosM Y() {
             if (this.M == null) {

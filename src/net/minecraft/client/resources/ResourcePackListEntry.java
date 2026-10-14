@@ -19,7 +19,6 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
    private static final IChatComponent field_183022_f = new ChatComponentTranslation("resourcePack.incompatible.new");
    public final Minecraft mc;
    public final GuiScreenResourcePacks resourcePacksGUI;
-   private static final long b = 78267819550543L;
 
    public ResourcePackListEntry(GuiScreenResourcePacks resourcePacksGUIIn) {
       this.resourcePacksGUI = resourcePacksGUIIn;
@@ -141,8 +140,6 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
                String string = I18n.format("resourcePack.incompatible.confirm.title");
                String string2 = I18n.format("resourcePack.incompatible.confirm." + (n > 1 ? "new" : "old"));
                this.mc.displayGuiScreen(new GuiYesNo(new GuiYesNoCallback() {
-                  private static final long a = 97880945572452L;
-
                   @Override
                   public void confirmClicked(boolean result, int id) {
                      List list = ResourcePackListEntry.this.resourcePacksGUI.getListContaining(ResourcePackListEntry.this);

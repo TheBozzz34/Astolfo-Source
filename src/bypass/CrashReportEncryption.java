@@ -11,13 +11,12 @@ import javax.xml.bind.DatatypeConverter;
 
 public final class CrashReportEncryption {
    private static final char[] C = "0123456789ABCDEF".toCharArray();
-   private static final long a = 40326595087952L;
 
    public static String O(String string) {
       if (string != null && !string.isEmpty()) {
          try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec("7NW3vp3p3gM3cZJt".getBytes(), CrashReportEncryptionStrings.R("Qvsf"));
-            Cipher cipher = Cipher.getInstance(CrashReportEncryptionStrings.R("QvsfDE7YSCgtExfElroMypnpEXM="));
+            SecretKeySpec secretKeySpec = new SecretKeySpec("7NW3vp3p3gM3cZJt".getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(1, secretKeySpec);
             byte[] bytes = cipher.doFinal(string.getBytes());
             return DatatypeConverter.printBase64Binary(bytes);
@@ -38,8 +37,8 @@ public final class CrashReportEncryption {
    public static String H(String string, String string2) {
       if (string != null && !string.isEmpty()) {
          try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), CrashReportEncryptionStrings.R("Qvsf"));
-            Cipher cipher = Cipher.getInstance(CrashReportEncryptionStrings.R("QvsfDE7YSCgtExfElroMypnpEXM="));
+            SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(2, secretKeySpec);
             byte[] bytes = cipher.doFinal(DatatypeConverter.parseBase64Binary(string));
             return new String(bytes);

@@ -13,7 +13,6 @@ import net.minecraft.util.EnumChatFormatting;
 public class StatsHud extends Component {
    private AutoHypixelAutoCheckerGameMode R;
    private int Q = 10;
-   private static final long c = 58458748682171L;
 
    public StatsHud(float f, float g, int i, int j) {
       super("Stats", f, g, i, j);
@@ -22,34 +21,32 @@ public class StatsHud extends Component {
 
    @Override
    public void render(int i, int j) {
-      long l = c ^ 37543297409481L;
       if (this.R != null) {
          float f = this.M();
          float g = this.E_float();
-         long l2 = 1295372147817266408L ^ l;
          float h = this.x();
          int k = (int)(h / 12.0F);
-         int i2 = 1;
+         int l = 1;
          byte b = 25;
 
          for (PlayerStatsEntry playerStatsEntry : PlayerListTracker.playerStats) {
-            if (i2 > this.Q) {
+            if (l > this.Q) {
                break;
             }
 
             if (PlayerListTracker.tabListNames.contains(playerStatsEntry.Q)) {
                b += 12;
-               i2++;
+               l++;
             }
          }
 
-         int i3 = b + 5;
+         int i2 = b + 5;
          float f2 = mc.fontRendererObj.getStringWidth("PLAYERS");
          float f3 = mc.fontRendererObj.getStringWidth("30000");
          float f4 = this.c();
          float f5 = f4 + f2 + f3 * this.R.columnAmount + 15.0F;
          RenderUtil.drawRect(f, g, f + f5, g + 15.0F, new Color(1, 1, 1, 180).getRGB());
-         RenderUtil.drawRect(f, g + 15.0F, f + f5, g + i3, new Color(1, 1, 1, 120).getRGB());
+         RenderUtil.drawRect(f, g + 15.0F, f + f5, g + i2, new Color(1, 1, 1, 120).getRGB());
          switch (this.R) {
             case BW:
                PlayerListTracker.playerStats.sort((playerStatsEntry2, playerStatsEntry3) -> Float.compare(playerStatsEntry3.w, playerStatsEntry2.w));
@@ -66,10 +63,10 @@ public class StatsHud extends Component {
 
          mc.fontRendererObj.drawStringWithShadow("PLAYERS", this.M() + 11.0F, this.E_float() + 4.0F, -1);
          byte b2 = 25;
-         int i4 = 1;
+         int i3 = 1;
 
          for (PlayerStatsEntry playerStatsEntry10 : PlayerListTracker.playerStats) {
-            if (i4 > this.Q) {
+            if (i3 > this.Q) {
                break;
             }
 
@@ -122,11 +119,11 @@ public class StatsHud extends Component {
                mc.fontRendererObj
                   .drawStringWithShadow(playerStatsEntry10.E != null ? EnumChatFormatting.GOLD + playerStatsEntry10.E : playerStatsEntry10.Q, this.M() + k, this.E_float() + b2, -1);
                b2 += 12;
-               i4++;
+               i3++;
             }
          }
 
-         this.B(i3);
+         this.B(i2);
       }
    }
 

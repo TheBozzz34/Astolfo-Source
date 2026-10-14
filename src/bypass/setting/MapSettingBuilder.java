@@ -7,7 +7,6 @@ public class MapSettingBuilder implements SettingBuilder<MapSetting> {
    private final String name;
    private String description;
    private Map<String, Setting<?>> settings;
-   private static final long a = 61775804464101L;
 
    public MapSettingBuilder(String string) {
       this.name = string;

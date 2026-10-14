@@ -18,7 +18,6 @@ public enum ChamsColor {
 
    private Color x;
    private static final ChamsColor[] S = new ChamsColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
-   private static final long a = 17969618905453L;
 
    ChamsColor(Color color) {
       this.x = color;

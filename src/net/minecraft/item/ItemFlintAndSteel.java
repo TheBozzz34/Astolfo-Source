@@ -9,12 +9,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemFlintAndSteel extends Item {
-   private static final long a = 46751732389793L;
-   private static final long d = 6637680872873001024L;
-
    public ItemFlintAndSteel() {
       this.maxStackSize = 1;
-      this.setMaxDamage((int)d);
+      this.setMaxDamage(64);
       this.setCreativeTab(CreativeTabs.tabTools);
    }
 

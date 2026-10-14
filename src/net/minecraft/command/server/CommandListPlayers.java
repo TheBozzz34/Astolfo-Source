@@ -9,8 +9,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 
 public class CommandListPlayers extends CommandBase {
-   private static final long b = 30908515721564L;
-
    @Override
    public String getCommandName() {
       return "list";

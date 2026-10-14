@@ -14,7 +14,6 @@ public class RecipesTools {
       {Items.wooden_axe, Items.stone_axe, Items.iron_axe, Items.diamond_axe, Items.golden_axe},
       {Items.wooden_hoe, Items.stone_hoe, Items.iron_hoe, Items.diamond_hoe, Items.golden_hoe}
    };
-   private static final long a = 121092318827624L;
 
    public void addRecipes(CraftingManager craftingManager) {
       for (int i = 0; i < this.recipeItems[0].length; i++) {

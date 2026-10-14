@@ -18,7 +18,6 @@ public class S2APacketParticles implements Packet<INetHandlerPlayClient> {
    private int particleCount;
    private boolean longDistance;
    private int[] particleArguments;
-   private static final long b = 100097447698324L;
 
    public S2APacketParticles() {
    }

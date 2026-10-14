@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public final class StageCheckRequest implements CheckRequest {
    private final LoadStage i;
-   private static final long a = 78814139392859L;
 
    public StageCheckRequest(LoadStage loadStage) {
       this.i = loadStage;

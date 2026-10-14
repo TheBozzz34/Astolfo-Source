@@ -12,8 +12,6 @@ import net.minecraft.client.resources.Language;
 import net.minecraft.util.JsonUtils;
 
 public class LanguageMetadataSectionSerializer extends BaseMetadataSectionSerializer<LanguageMetadataSection> {
-   private static final long a = 33089105192220L;
-
    public LanguageMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
       JsonObject jsonObject = jsonElement.getAsJsonObject();
       HashSet hashSet = Sets.newHashSet();

@@ -42,8 +42,6 @@ public final class AutoTool extends Module {
    private final Stopwatch x = new Stopwatch();
    @EventHandler(value = PacketEvent.class, priority = EventPriority.LOW)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = c ^ 117701742516905L;
-      long m = l ^ 48702075241829L;
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (client.getModuleManager().get(KillAura.class).isEnabled() && !this.withKillAura.getValue() && !AntiObsidian.C()) {
             return;
@@ -94,9 +92,9 @@ public final class AutoTool extends Module {
                   return;
                }
 
-               int n = this.Z(c07PacketPlayerDigging.getPosition());
-               if (n != -1) {
-                  this.H(n);
+               int l = this.Z(c07PacketPlayerDigging.getPosition());
+               if (l != -1) {
+                  this.H(l);
                }
             }
          }
@@ -106,7 +104,6 @@ public final class AutoTool extends Module {
          }
       }
    };
-   private static final long c = 123351539458687L;
 
    public AutoTool(Category category) {
       super(category);

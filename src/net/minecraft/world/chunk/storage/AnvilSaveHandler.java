@@ -10,9 +10,6 @@ import net.minecraft.world.storage.ThreadedFileIOBase;
 import net.minecraft.world.storage.WorldInfo;
 
 public class AnvilSaveHandler extends SaveHandler {
-   private static final long a = 8701770818447L;
-   private static final long k = -1655002361170474307L;
-
    public AnvilSaveHandler(File savesDirectory, String directoryName, boolean storePlayerdata) {
       super(savesDirectory, directoryName, storePlayerdata);
    }
@@ -35,7 +32,7 @@ public class AnvilSaveHandler extends SaveHandler {
 
    @Override
    public void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound) {
-      worldInformation.setSaveVersion((int)k);
+      worldInformation.setSaveVersion(19133);
       super.saveWorldInfoWithPlayer(worldInformation, tagCompound);
    }
 

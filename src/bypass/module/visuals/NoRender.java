@@ -37,7 +37,6 @@ public final class NoRender extends Module {
    };
    @EventHandler(PushOutOfBlocksEvent.class)
    private Listener<PushOutOfBlocksEvent> onPushOutOfBlocks = CancellableEvent::cancel;
-   private static final long c = 50777526781569L;
 
    public NoRender(Category category) {
       super(category);

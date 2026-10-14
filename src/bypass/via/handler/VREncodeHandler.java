@@ -12,7 +12,6 @@ import net.minecraft.util.MessageSerializer;
 
 public class VREncodeHandler extends MessageToMessageEncoder<ByteBuf> {
    private final UserConnection H;
-   private static final long a = 139446059215589L;
 
    public VREncodeHandler(UserConnection userConnection) {
       this.H = userConnection;

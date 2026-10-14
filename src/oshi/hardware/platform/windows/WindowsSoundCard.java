@@ -10,8 +10,6 @@ import oshi.hardware.common.AbstractSoundCard;
 
 @Immutable
 public final class WindowsSoundCard extends AbstractSoundCard {
-   private static final long c = 2514283469435L;
-
    public WindowsSoundCard(String kernelVersion, String name, String codec) {
       super(kernelVersion, name, codec);
    }

@@ -8,10 +8,8 @@ import net.minecraft.util.ResourceLocation;
 public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer<TileEntityEnderChest> {
    private static final ResourceLocation ENDER_CHEST_TEXTURE = new ResourceLocation("textures/entity/chest/ender.png");
    private ModelChest field_147521_c = new ModelChest();
-   private static final long a = 94016640789393L;
 
    public void renderTileEntityAt(TileEntityEnderChest te, double x, double y, double z, float partialTicks, int destroyStage) {
-      long l = a ^ 20856399181768L;
       int i = 0;
       if (te.hasWorldObj()) {
          i = te.getBlockMetadata();
@@ -21,7 +19,6 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer<Tile
          this.bindTexture(DESTROY_STAGES[destroyStage]);
          GlStateManager.matrixMode(5890);
          GlStateManager.pushMatrix();
-         long m = 544139840591025713L ^ l;
          GlStateManager.scale(4.0F, 4.0F, 1.0F);
          GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
          GlStateManager.matrixMode(5888);
@@ -65,7 +62,6 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer<Tile
       if (destroyStage >= 0) {
          GlStateManager.matrixMode(5890);
          GlStateManager.popMatrix();
-         long n = 8359856071166250729L ^ l;
          GlStateManager.matrixMode(5888);
       }
    }

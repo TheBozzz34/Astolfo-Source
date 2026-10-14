@@ -3,7 +3,6 @@ package bypass.auth.net;
 public final class HandshakeAddresses {
    private final String G;
    private final String O;
-   private static final long a = 59985426250122L;
 
    public HandshakeAddresses(String string, String string2) {
       this.G = string;

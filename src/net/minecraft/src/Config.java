@@ -91,7 +91,6 @@ public class Config {
    private static DefaultResourcePack defaultResourcePackLazy = null;
    public static final Float DEF_ALPHA_FUNC_LEVEL = 0.1F;
    private static final Logger LOGGER = LogManager.getLogger();
-   private static final long b = 63959641325076L;
 
    public static String getVersion() {
       return "OptiFine_1.8.8_HD_U_H8";
@@ -116,11 +115,9 @@ public class Config {
    }
 
    public static void initGameSettings(GameSettings settings) {
-      long l = b ^ 23453252208835L;
       if (gameSettings == null) {
          gameSettings = settings;
          desktopDisplayMode = Display.getDesktopDisplayMode();
-         long m = 8436825895959655514L ^ l;
          updateAvailableProcessors();
          ReflectorForge.putLaunchBlackboard("optifine.ForgeSplashCompatible", Boolean.TRUE);
       }

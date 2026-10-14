@@ -5,20 +5,19 @@ import java.util.List;
 
 public class ProcessNames {
    private final List<String> h = new ArrayList<>();
-   private static final long a = 65381727846221L;
 
    public ProcessNames() {
-      this.h.add(ProcessNamesStrings.c("r+ohGCcXS/UbFMCc1Q=="));
-      this.h.add(ProcessNamesStrings.c("qPE8HjEMWe8R"));
-      this.h.add(ProcessNamesStrings.c("ufEqHy4BSg=="));
-      this.h.add(ProcessNamesStrings.c("svE6FjIWV+UD"));
-      this.h.add(ProcessNamesStrings.c("vPAvCS4BSw=="));
-      this.h.add(ProcessNamesStrings.c("ve08CzERUekfFMSUyhQPaKld"));
-      this.h.add(ProcessNamesStrings.c("q/s+DSsBT/gI"));
-      this.h.add(ProcessNamesStrings.c("t+w6CyMKWfEDDc6L"));
-      this.h.add(ProcessNamesStrings.c("r+ohGCccSA=="));
-      this.h.add(ProcessNamesStrings.c("rPctEDEF"));
-      this.h.add(ProcessNamesStrings.c("g+14GXRXZOhPQJnB+xRXMugRmJvsFXsr"));
+      this.h.add("processhacker");
+      this.h.add("wireshark");
+      this.h.add("fiddler");
+      this.h.add("mitmproxy");
+      this.h.add("charles");
+      this.h.add("burpsuitecommunity");
+      this.h.add("tcpviewer");
+      this.h.add("httpanalyzer");
+      this.h.add("procexp");
+      this.h.add("socksa");
+      this.h.add("\\u6b63\\u5728\\u6355\\u83b7");
    }
 
    public List<String> A() {

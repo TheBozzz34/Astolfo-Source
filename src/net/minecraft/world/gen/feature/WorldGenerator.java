@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public abstract class WorldGenerator {
    private final boolean doBlockNotify;
-   private static final long j = 103000764571220L;
 
    public WorldGenerator() {
       this(false);

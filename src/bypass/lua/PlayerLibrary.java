@@ -149,7 +149,6 @@ public class PlayerLibrary extends TwoArgFunction implements ClientAccess {
    public static final VarArgFunction Y = new Strafe();
    public static final VarArgFunction U = new Motion();
    public static final ZeroArgFunction B = new Id();
-   private static final long ab = 32773497031164L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

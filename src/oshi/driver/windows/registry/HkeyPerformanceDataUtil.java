@@ -25,7 +25,6 @@ import oshi.util.tuples.Triplet;
 @ThreadSafe
 public final class HkeyPerformanceDataUtil {
    private static final Map<String, Integer> COUNTER_INDEX_MAP = mapCounterIndicesFromRegistry();
-   private static final long b = 51218759850169L;
 
    private HkeyPerformanceDataUtil() {
    }

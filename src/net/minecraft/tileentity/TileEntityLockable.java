@@ -10,7 +10,6 @@ import net.minecraft.world.LockCode;
 
 public abstract class TileEntityLockable extends TileEntity implements IInteractionObject, ILockableContainer {
    private LockCode code = LockCode.EMPTY_CODE;
-   private static final long d = 109141420127441L;
 
    @Override
    public void readFromNBT(NBTTagCompound compound) {

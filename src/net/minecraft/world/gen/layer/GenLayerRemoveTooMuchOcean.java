@@ -1,8 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerRemoveTooMuchOcean extends GenLayer {
-   private static final long c = 132708870379351L;
-
    public GenLayerRemoveTooMuchOcean(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;

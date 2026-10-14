@@ -23,7 +23,6 @@ public class BlockTripWireHook extends Block {
    public static final PropertyBool POWERED = PropertyBool.create("powered");
    public static final PropertyBool ATTACHED = PropertyBool.create("attached");
    public static final PropertyBool SUSPENDED = PropertyBool.create("suspended");
-   private static final long e = 46028017265276L;
 
    public BlockTripWireHook() {
       super(Material.circuits);
@@ -102,14 +101,12 @@ public class BlockTripWireHook extends Block {
    }
 
    public void func_176260_a(World worldIn, BlockPos pos, IBlockState hookState, boolean bl, boolean bl2, int i, IBlockState iBlockState) {
-      long l = e ^ 61214910721470L;
       EnumFacing enumFacing = hookState.getValue(FACING);
       boolean bl3 = hookState.getValue(ATTACHED);
       boolean bl4 = hookState.getValue(POWERED);
       boolean bl5 = !World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
       boolean bl6 = !bl;
       boolean bl7 = false;
-      long m = 8503730770967623031L ^ l;
       int j = 0;
       IBlockState[] iBlockStates = new IBlockState[42];
 
@@ -164,9 +161,9 @@ public class BlockTripWireHook extends Block {
       }
 
       if (bl3 != bl6) {
-         for (int n = 1; n < j; n++) {
-            BlockPos blockPos3 = pos.offset(enumFacing, n);
-            IBlockState iBlockState4 = iBlockStates[n];
+         for (int l = 1; l < j; l++) {
+            BlockPos blockPos3 = pos.offset(enumFacing, l);
+            IBlockState iBlockState4 = iBlockStates[l];
             if (iBlockState4 != null && worldIn.getBlockState(blockPos3).getBlock() != Blocks.air) {
                worldIn.setBlockState(blockPos3, iBlockState4.withProperty(ATTACHED, bl6), 3);
             }

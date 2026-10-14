@@ -14,8 +14,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandStats extends CommandBase {
-   private static final long b = 44937080297024L;
-
    @Override
    public String getCommandName() {
       return "stats";

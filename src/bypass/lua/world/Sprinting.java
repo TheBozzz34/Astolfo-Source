@@ -7,8 +7,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class Sprinting extends OneArgFunction {
-   private static final long a = 6781278460007L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {

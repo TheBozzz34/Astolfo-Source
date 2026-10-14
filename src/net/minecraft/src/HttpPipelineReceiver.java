@@ -12,7 +12,6 @@ public class HttpPipelineReceiver extends Thread {
    private static final Charset ASCII = Charset.forName("ASCII");
    private static final char CR = '\r';
    private static final char LF = '\n';
-   private static final long a = 29908504001806L;
 
    public HttpPipelineReceiver(HttpPipelineConnection httpPipelineConnection) {
       super("HttpPipelineReceiver");
@@ -136,11 +135,5 @@ public class HttpPipelineReceiver extends Thread {
       }
 
       return string;
-   }
-
-   static {
-      long l = a ^ 7637533993369L;
-      long m = l ^ 5120024432034644375L;
-      m = l ^ 1460243355857750299L;
    }
 }

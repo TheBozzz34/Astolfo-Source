@@ -8,8 +8,6 @@ import com.viaversion.viaversion.libs.gson.JsonElement;
 import com.viaversion.viaversion.libs.gson.JsonObject;
 
 public class VRViaConfig implements ViaVersionConfig {
-   private static final long a = 76237370012541L;
-
    @Override
    public boolean isCheckForUpdates() {
       return false;

@@ -12,7 +12,6 @@ public class EntityAIVillagerMate extends EntityAIBase {
    private World worldObj;
    private int matingTimeout;
    public Village villageObj;
-   private static final long a = 50451552874067L;
 
    public EntityAIVillagerMate(EntityVillager villagerIn) {
       this.villagerObj = villagerIn;

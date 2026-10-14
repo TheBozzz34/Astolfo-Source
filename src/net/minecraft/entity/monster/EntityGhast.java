@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 
 public class EntityGhast extends EntityFlying implements IMob {
    private int explosionStrength = 1;
-   private static final long bb = 99723844751675L;
 
    public EntityGhast(World worldIn) {
       super(worldIn);
@@ -155,7 +154,6 @@ public class EntityGhast extends EntityFlying implements IMob {
    public static class AIFireballAttack extends EntityAIBase {
       private EntityGhast parentEntity;
       public int attackTimer;
-      private static final long a = 7129824400833L;
 
       public AIFireballAttack(EntityGhast ghast) {
          this.parentEntity = ghast;
@@ -212,7 +210,6 @@ public class EntityGhast extends EntityFlying implements IMob {
 
    public static class AILookAround extends EntityAIBase {
       private EntityGhast parentEntity;
-      private static final long a = 79926368606003L;
 
       public AILookAround(EntityGhast ghast) {
          this.parentEntity = ghast;
@@ -244,7 +241,6 @@ public class EntityGhast extends EntityFlying implements IMob {
 
    public static class AIRandomFly extends EntityAIBase {
       private EntityGhast parentEntity;
-      private static final long b = 127316666011090L;
 
       public AIRandomFly(EntityGhast ghast) {
          this.parentEntity = ghast;
@@ -283,7 +279,6 @@ public class EntityGhast extends EntityFlying implements IMob {
    public static class GhastMoveHelper extends EntityMoveHelper {
       private EntityGhast parentEntity;
       private int courseChangeCooldown;
-      private static final long c = 32583265553584L;
 
       public GhastMoveHelper(EntityGhast ghast) {
          super(ghast);

@@ -8,8 +8,6 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    public String codeName;
    public String versionStr;
    public String buildNumber;
-   private static final long a = 108074897286372L;
-   private static final long j = -8218758274124611543L;
 
    @Override
    public String getVersion() {
@@ -46,7 +44,7 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
       if (this.versionStr == null) {
          StringBuilder stringBuilder = new StringBuilder(this.getVersion() != null ? this.getVersion() : "Unknown");
          if (this.getCodeName().length() > 0) {
-            stringBuilder.append(" (").append(this.getCodeName()).append((char)((int)j));
+            stringBuilder.append(" (").append(this.getCodeName()).append(')');
          }
 
          if (this.getBuildNumber().length() > 0) {

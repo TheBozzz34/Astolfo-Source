@@ -31,7 +31,6 @@ public class GuiPlayerTabOverlay extends Gui {
    private IChatComponent header;
    private long lastTimeOpened;
    private boolean isBeingRendered;
-   private static final long a = 72151825232001L;
 
    public GuiPlayerTabOverlay(Minecraft mcIn, GuiIngame guiIngameIn) {
       this.mc = mcIn;
@@ -53,10 +52,6 @@ public class GuiPlayerTabOverlay extends Gui {
    }
 
    public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
-      long l = a ^ 40483006498369L;
-      long m = l ^ 90406025431923L;
-      long n = l ^ 3383636309562L;
-
       try {
          NetHandlerPlayClient netHandlerPlayClient = this.mc.thePlayer.sendQueue;
          List list = field_175252_a.sortedCopy(netHandlerPlayClient.getPlayerInfoMap());
@@ -73,41 +68,41 @@ public class GuiPlayerTabOverlay extends Gui {
                string = stringBuilder.toString();
             }
 
-            int i2 = this.mc.fontRendererObj.getStringWidth(string);
-            i = Math.max(i, i2);
+            int l = this.mc.fontRendererObj.getStringWidth(string);
+            i = Math.max(i, l);
             if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-               i2 = this.mc
+               l = this.mc
                   .fontRendererObj
                   .getStringWidth(" " + scoreboardIn.getValueFromObjective(networkPlayerInfo.getGameProfile().getName(), scoreObjectiveIn).getScorePoints());
-               j = Math.max(j, i2);
+               j = Math.max(j, l);
             }
          }
 
          list = list.subList(0, Math.min(list.size(), 80));
-         int i3 = list.size();
-         int i4 = i3;
+         int m = list.size();
+         int n = m;
 
-         int i5;
-         for (i5 = 1; i4 > 20; i4 = (i3 + i5 - 1) / i5) {
-            i5++;
+         int i2;
+         for (i2 = 1; n > 20; n = (m + i2 - 1) / i2) {
+            i2++;
          }
 
          boolean bl = this.mc.isIntegratedServerRunning() || this.mc.getNetHandler().getNetworkManager().getIsencrypted();
-         int i6;
+         int i3;
          if (scoreObjectiveIn != null) {
             if (scoreObjectiveIn.getRenderType() == IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-               i6 = 90;
+               i3 = 90;
             } else {
-               i6 = j;
+               i3 = j;
             }
          } else {
-            i6 = 0;
+            i3 = 0;
          }
 
-         int i7 = Math.min(i5 * ((bl ? 9 : 0) + i + i6 + 13), width - 50) / i5;
-         int i8 = width / 2 - (i7 * i5 + (i5 - 1) * 5) / 2;
-         int i9 = 10;
-         int i10 = i7 * i5 + (i5 - 1) * 5;
+         int i4 = Math.min(i2 * ((bl ? 9 : 0) + i + i3 + 13), width - 50) / i2;
+         int i5 = width / 2 - (i4 * i2 + (i2 - 1) * 5) / 2;
+         int i6 = 10;
+         int i7 = i4 * i2 + (i2 - 1) * 5;
          List list2 = null;
          List list3 = null;
          if (this.header != null) {
@@ -115,7 +110,7 @@ public class GuiPlayerTabOverlay extends Gui {
 
             for (Object object2 : list2) {
                String string2 = (String)object2;
-               i10 = Math.max(i10, this.mc.fontRendererObj.getStringWidth(string2));
+               i7 = Math.max(i7, this.mc.fontRendererObj.getStringWidth(string2));
             }
          }
 
@@ -124,40 +119,39 @@ public class GuiPlayerTabOverlay extends Gui {
 
             for (Object object3 : list3) {
                String string3 = (String)object3;
-               i10 = Math.max(i10, this.mc.fontRendererObj.getStringWidth(string3));
+               i7 = Math.max(i7, this.mc.fontRendererObj.getStringWidth(string3));
             }
          }
 
          if (list2 != null) {
             drawRect(
-               width / 2 - i10 / 2 - 1, i9 - 1, width / 2 + i10 / 2 + 1, i9 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE
+               width / 2 - i7 / 2 - 1, i6 - 1, width / 2 + i7 / 2 + 1, i6 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE
             );
 
             for (Object object4 : list2) {
                String string4 = (String)object4;
-               int i11 = this.mc.fontRendererObj.getStringWidth(string4);
-               this.mc.fontRendererObj.drawStringWithShadow(string4, width / 2 - i11 / 2, i9, -1);
-               i9 += this.mc.fontRendererObj.FONT_HEIGHT;
+               int i8 = this.mc.fontRendererObj.getStringWidth(string4);
+               this.mc.fontRendererObj.drawStringWithShadow(string4, width / 2 - i8 / 2, i6, -1);
+               i6 += this.mc.fontRendererObj.FONT_HEIGHT;
             }
 
-            i9++;
+            i6++;
          }
 
-         drawRect(width / 2 - i10 / 2 - 1, i9 - 1, width / 2 + i10 / 2 + 1, i9 + i4 * 9, Integer.MIN_VALUE);
+         drawRect(width / 2 - i7 / 2 - 1, i6 - 1, width / 2 + i7 / 2 + 1, i6 + n * 9, Integer.MIN_VALUE);
 
-         for (int i12 = 0; i12 < i3; i12++) {
-            int i13 = i12 / i4;
-            int i14 = i12 % i4;
-            int i15 = i8 + i13 * i7 + i13 * 5;
-            int i16 = i9 + i14 * 9;
-            drawRect(i15, i16, i15 + i7, i16 + 8, 553648127);
+         for (int i9 = 0; i9 < m; i9++) {
+            int i10 = i9 / n;
+            int i11 = i9 % n;
+            int i12 = i5 + i10 * i4 + i10 * 5;
+            int i13 = i6 + i11 * 9;
+            drawRect(i12, i13, i12 + i4, i13 + 8, 553648127);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            long l2 = 6267255035119345657L ^ l;
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            if (i12 < list.size()) {
-               NetworkPlayerInfo networkPlayerInfo2 = (NetworkPlayerInfo)list.get(i12);
+            if (i9 < list.size()) {
+               NetworkPlayerInfo networkPlayerInfo2 = (NetworkPlayerInfo)list.get(i9);
                String string5 = this.getPlayerName(networkPlayerInfo2).replace("§k", "");
                if (networkPlayerInfo2.getGameProfile() != null && Astolfo.INSTANCE.getUserManager().g(networkPlayerInfo2.getGameProfile().getName()) != null) {
                   AstolfoUser astolfoUser2 = Astolfo.INSTANCE.getUserManager().g(networkPlayerInfo2.getGameProfile().getName());
@@ -176,49 +170,49 @@ public class GuiPlayerTabOverlay extends Gui {
                         && entityPlayer.isWearing(EnumPlayerModelParts.CAPE)
                         && (gameProfile.getName().equals("Dinnerbone") || gameProfile.getName().equals("Grumm"));
                      this.mc.getTextureManager().bindTexture(networkPlayerInfo2.c());
-                     int i17 = 8 + (bl2 ? 8 : 0);
-                     int i18 = 8 * (bl2 ? -1 : 1);
-                     Gui.drawScaledCustomSizeModalRect(i15, i16, 8.0F, i17, 8, i18, 8, 8, 64.0F, 64.0F);
+                     int i14 = 8 + (bl2 ? 8 : 0);
+                     int i15 = 8 * (bl2 ? -1 : 1);
+                     Gui.drawScaledCustomSizeModalRect(i12, i13, 8.0F, i14, 8, i15, 8, 8, 64.0F, 64.0F);
                      if (entityPlayer != null && entityPlayer.isWearing(EnumPlayerModelParts.HAT)) {
-                        int i19 = 8 + (bl2 ? 8 : 0);
-                        int i20 = 8 * (bl2 ? -1 : 1);
-                        Gui.drawScaledCustomSizeModalRect(i15, i16, 40.0F, i19, 8, i20, 8, 8, 64.0F, 64.0F);
+                        int i16 = 8 + (bl2 ? 8 : 0);
+                        int i17 = 8 * (bl2 ? -1 : 1);
+                        Gui.drawScaledCustomSizeModalRect(i12, i13, 40.0F, i16, 8, i17, 8, 8, 64.0F, 64.0F);
                      }
 
-                     i15 += 9;
+                     i12 += 9;
                   }
 
                   if (networkPlayerInfo2.getGameType() == WorldSettings.GameType.SPECTATOR) {
                      string5 = EnumChatFormatting.ITALIC + string5;
-                     this.mc.fontRendererObj.drawStringWithShadow(string5, i15, i16, -1862270977);
+                     this.mc.fontRendererObj.drawStringWithShadow(string5, i12, i13, -1862270977);
                   } else {
-                     this.mc.fontRendererObj.drawStringWithShadow(string5, i15, i16, -1);
+                     this.mc.fontRendererObj.drawStringWithShadow(string5, i12, i13, -1);
                   }
 
                   if (scoreObjectiveIn != null && networkPlayerInfo2.getGameType() != WorldSettings.GameType.SPECTATOR) {
-                     int i21 = i15 + i + 1;
-                     int i22 = i21 + i6;
-                     if (i22 - i21 > 5) {
-                        this.drawScoreboardValues(scoreObjectiveIn, i16, gameProfile.getName(), i21, i22, networkPlayerInfo2);
+                     int i18 = i12 + i + 1;
+                     int i19 = i18 + i3;
+                     if (i19 - i18 > 5) {
+                        this.drawScoreboardValues(scoreObjectiveIn, i13, gameProfile.getName(), i18, i19, networkPlayerInfo2);
                      }
                   }
 
-                  this.drawPing(i7, i15 - (bl ? 9 : 0), i16, networkPlayerInfo2);
+                  this.drawPing(i4, i12 - (bl ? 9 : 0), i13, networkPlayerInfo2);
                }
             }
          }
 
          if (list3 != null) {
-            i9 = i9 + i4 * 9 + 1;
+            i6 = i6 + n * 9 + 1;
             drawRect(
-               width / 2 - i10 / 2 - 1, i9 - 1, width / 2 + i10 / 2 + 1, i9 + list3.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE
+               width / 2 - i7 / 2 - 1, i6 - 1, width / 2 + i7 / 2 + 1, i6 + list3.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE
             );
 
             for (Object object5 : list3) {
                String string6 = (String)object5;
-               int i23 = this.mc.fontRendererObj.getStringWidth(string6);
-               this.mc.fontRendererObj.drawStringWithShadow(string6, width / 2 - i23 / 2, i9, -1);
-               i9 += this.mc.fontRendererObj.FONT_HEIGHT;
+               int i20 = this.mc.fontRendererObj.getStringWidth(string6);
+               this.mc.fontRendererObj.drawStringWithShadow(string6, width / 2 - i20 / 2, i6, -1);
+               i6 += this.mc.fontRendererObj.FONT_HEIGHT;
             }
          }
       } catch (Exception exception) {
@@ -333,8 +327,6 @@ public class GuiPlayerTabOverlay extends Gui {
    }
 
    public static class PlayerComparator implements Comparator<NetworkPlayerInfo> {
-      private static final long a = 46248067067356L;
-
       public PlayerComparator() {
       }
 

@@ -7,8 +7,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenDesertWells;
 
 public class BiomeGenDesert extends BiomeGenBase {
-   private static final long bb = 96306984257120L;
-
    public BiomeGenDesert(int id) {
       super(id);
       this.spawnableCreatureList.clear();

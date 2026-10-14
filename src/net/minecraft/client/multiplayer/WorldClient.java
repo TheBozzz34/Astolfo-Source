@@ -51,7 +51,6 @@ public class WorldClient extends World {
    private final Set<ChunkCoordIntPair> previousActiveChunkSet = Sets.newHashSet();
    private BlockPosM randomTickPosM = new BlockPosM(0, 0, 0, 3);
    private boolean playerUpdate = false;
-   private static final long u = 120746963449654L;
 
    public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dimension, EnumDifficulty difficulty, Profiler profilerIn) {
       super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"), WorldProvider.getProviderForDimension(dimension), profilerIn, true);
@@ -301,15 +300,11 @@ public class WorldClient extends World {
    public CrashReportCategory addWorldInfoToCrashReport(CrashReport report) {
       CrashReportCategory crashReportCategory = super.addWorldInfoToCrashReport(report);
       crashReportCategory.addCrashSectionCallable("Forced entities", new Callable<String>() {
-         private static final long a = 13337848206670L;
-
          public String call() {
             return WorldClient.this.entityList.size() + " total; " + WorldClient.this.entityList.toString();
          }
       });
       crashReportCategory.addCrashSectionCallable("Retry entities", new Callable<String>() {
-         private static final long a = 16242806181988L;
-
          public String call() {
             return WorldClient.this.entitySpawnQueue.size() + " total; " + WorldClient.this.entitySpawnQueue.toString();
          }
@@ -320,8 +315,6 @@ public class WorldClient extends World {
          }
       });
       crashReportCategory.addCrashSectionCallable("Server type", new Callable<String>() {
-         private static final long a = 96903777562323L;
-
          public String call() throws Exception {
             return WorldClient.this.mc.getIntegratedServer() == null ? "Non-integrated multiplayer server" : "Integrated singleplayer server";
          }

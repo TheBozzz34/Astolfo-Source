@@ -9,7 +9,6 @@ import net.minecraft.util.Vec3;
 
 public final class ItemshopCommand extends Command {
    public static final Vec3 P = new Vec3(0.0, 0.0, 0.0);
-   private static final long d = 92869389261183L;
 
    public ItemshopCommand() {
       super("itemshop", "Opens the Bedwars item shop in Hypixel");

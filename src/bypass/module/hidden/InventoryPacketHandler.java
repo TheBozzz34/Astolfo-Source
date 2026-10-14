@@ -122,7 +122,6 @@ public final class InventoryPacketHandler extends HiddenModule {
          u = false;
       }
    };
-   private static final long e = 110913153721384L;
 
    public InventoryPacketHandler() {
       client.getEventBus().subscribe(this);

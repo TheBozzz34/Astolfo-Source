@@ -29,7 +29,6 @@ public class GuiMerchant extends GuiContainer {
    private GuiMerchant.MerchantButton previousButton;
    private int selectedMerchantRecipe;
    private IChatComponent chatComponent;
-   private static final long bb = 75551353706711L;
 
    public GuiMerchant(InventoryPlayer inventoryPlayer, IMerchant iMerchant, World worldIn) {
       super(new ContainerMerchant(inventoryPlayer, iMerchant, worldIn));
@@ -171,7 +170,6 @@ public class GuiMerchant extends GuiContainer {
 
    public static class MerchantButton extends GuiButton {
       private final boolean field_146157_o;
-      private static final long c = 123763091282544L;
 
       public MerchantButton(int buttonID, int x, int y, boolean bl) {
          super(buttonID, x, y, 12, 19, "");
@@ -180,7 +178,6 @@ public class GuiMerchant extends GuiContainer {
 
       @Override
       public void drawButton(Minecraft mcIn, int mouseX, int mouseY) {
-         long l = c ^ 38811996112940L;
          if (this.visible) {
             mcIn.getTextureManager().bindTexture(GuiMerchant.MERCHANT_GUI_TEXTURE);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -189,7 +186,6 @@ public class GuiMerchant extends GuiContainer {
                && mouseX < this.xPosition + this.width
                && mouseY < this.yPosition + this.height;
             int i = 0;
-            long m = 3973695186554498735L ^ l;
             int j = 176;
             if (!this.enabled) {
                j += this.width * 2;

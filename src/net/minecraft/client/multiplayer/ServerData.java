@@ -18,7 +18,6 @@ public class ServerData {
    private String serverIcon;
    private boolean lanServer;
    public static String I;
-   private static final long c = 93143827063279L;
 
    public ServerData(String name, String ip, boolean isLan) {
       this.serverName = name;
@@ -96,7 +95,6 @@ public class ServerData {
       PROMPT("prompt");
 
       private final IChatComponent motd;
-      private static final long a = 64732221137578L;
 
       ServerResourceMode(String name) {
          this.motd = new ChatComponentTranslation("addServer.resourcePack." + name);

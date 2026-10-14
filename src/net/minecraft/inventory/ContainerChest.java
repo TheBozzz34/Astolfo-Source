@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 public class ContainerChest extends Container {
    private IInventory lowerChestInventory;
    private int numRows;
-   private static final long a = 8440600391199L;
 
    public ContainerChest(IInventory playerInventory, IInventory chestInventory, EntityPlayer player) {
       this.lowerChestInventory = chestInventory;

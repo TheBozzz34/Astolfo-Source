@@ -6,8 +6,6 @@ import oshi.util.platform.windows.PerfCounterQuery;
 
 @ThreadSafe
 public final class MemoryInformation {
-   private static final long b = 63415472418172L;
-
    private MemoryInformation() {
    }
 

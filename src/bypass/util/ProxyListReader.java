@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class ProxyListReader {
-   private static final long a = 36586587140980L;
-
    public static Set<HostAndPort> r(Path path, String string) throws IOException {
       HashSet hashSet = new HashSet();
 

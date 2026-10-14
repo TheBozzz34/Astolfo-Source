@@ -8,9 +8,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntitySnowball extends EntityThrowable {
-   private static final long ab = 47578136270699L;
-   private static final long gb = 5204993041214996488L;
-
    public EntitySnowball(World worldIn) {
       super(worldIn);
    }
@@ -34,7 +31,7 @@ public class EntitySnowball extends EntityThrowable {
          movingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), b);
       }
 
-      for (int i = 0; i < (int)gb; i++) {
+      for (int i = 0; i < 8; i++) {
          this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0);
       }
 

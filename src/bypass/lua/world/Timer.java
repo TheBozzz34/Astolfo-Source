@@ -7,12 +7,8 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
 public final class Timer extends ZeroArgFunction {
-   private static final long a = 26471393788142L;
-
    @Override
    public LuaValue call() {
-      long l = a ^ 89263565533700L;
-      long m = l ^ 138864123580249L;
       return ClientAccess.client.getModuleManager().get(Scaffold.class).isEnabled()
             && GameUtil.isOnHypixel()
             && Scaffold.keepSprint.getValue()

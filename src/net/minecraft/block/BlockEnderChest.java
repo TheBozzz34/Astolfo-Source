@@ -22,8 +22,6 @@ import net.minecraft.world.World;
 
 public class BlockEnderChest extends BlockContainer {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-   private static final long e = 65418375989758L;
-   private static final long i = 3949884996096884744L;
 
    public BlockEnderChest() {
       super(Material.rock);
@@ -54,7 +52,7 @@ public class BlockEnderChest extends BlockContainer {
 
    @Override
    public int quantityDropped(Random randomIn) {
-      return (int)i;
+      return 8;
    }
 
    @Override

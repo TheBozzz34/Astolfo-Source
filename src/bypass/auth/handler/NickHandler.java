@@ -9,8 +9,6 @@ import bypass.module.exploits.Denicker;
 import bypass.module.hidden.PlayerListTracker;
 
 public class NickHandler extends PacketHandler<NickPacket> {
-   private static final long b = 64693951764225L;
-
    public NickHandler() {
       super(PacketId.NICK);
    }

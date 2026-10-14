@@ -9,8 +9,6 @@ import oshi.hardware.NetworkIF;
 
 @ThreadSafe
 public class Networks {
-   private static final long a = 71406743786277L;
-
    public NetworkIF[] getNetworks() {
       ArrayList arrayList = new ArrayList();
 

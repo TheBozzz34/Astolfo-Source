@@ -113,7 +113,6 @@ public class StatList {
    public static final StatBase[] objectCraftStats = new StatBase[32000];
    public static final StatBase[] objectUseStats = new StatBase[32000];
    public static final StatBase[] objectBreakStats = new StatBase[32000];
-   private static final long ab = 87223946156603L;
 
    public static void init() {
       initMiningStats();
@@ -265,10 +264,5 @@ public class StatList {
 
    public static StatBase getOneShotStat(String string) {
       return oneShotStats.get(string);
-   }
-
-   static {
-      long l = ab ^ 35351384066293L;
-      long m = 1375895848788757002L ^ l;
    }
 }

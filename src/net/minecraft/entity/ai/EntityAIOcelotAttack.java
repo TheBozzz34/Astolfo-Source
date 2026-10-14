@@ -9,8 +9,6 @@ public class EntityAIOcelotAttack extends EntityAIBase {
    public EntityLiving theEntity;
    public EntityLivingBase theVictim;
    public int attackCountdown;
-   private static final long a = 6667810211042L;
-   private static final long b = -6304892637681811436L;
 
    public EntityAIOcelotAttack(EntityLiving theEntityIn) {
       this.theEntity = theEntityIn;
@@ -57,7 +55,7 @@ public class EntityAIOcelotAttack extends EntityAIBase {
       this.theEntity.getNavigator().tryMoveToEntityLiving(this.theVictim, d2);
       this.attackCountdown = Math.max(this.attackCountdown - 1, 0);
       if (e <= d && this.attackCountdown <= 0) {
-         this.attackCountdown = (int)b;
+         this.attackCountdown = 20;
          this.theEntity.attackEntityAsMob(this.theVictim);
       }
    }

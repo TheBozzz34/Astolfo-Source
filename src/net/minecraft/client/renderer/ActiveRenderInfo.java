@@ -25,7 +25,6 @@ public class ActiveRenderInfo {
    private static float rotationZ;
    private static float rotationYZ;
    private static float rotationXY;
-   private static final long a = 49062560652069L;
 
    public static void updateRenderInfo(EntityPlayer entityplayerIn, boolean bl) {
       GlStateManager.getFloat(EntityRenderer.ZE, MODELVIEW);

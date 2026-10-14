@@ -46,7 +46,6 @@ public final class ItemStack {
    private boolean canDestroyCacheResult = false;
    private Block canPlaceOnCacheBlock = null;
    private boolean canPlaceOnCacheResult = false;
-   private static final long a = 38983623485296L;
 
    public ItemStack(Block blockIn) {
       this(blockIn, 1);

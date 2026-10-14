@@ -11,8 +11,6 @@ public class C00Handshake implements Packet<INetHandlerHandshakeServer> {
    private String ip;
    private int port;
    private EnumConnectionState requestedState;
-   private static final long a = 72935440623544L;
-   private static final long b = 5619876041511141631L;
 
    public C00Handshake() {
    }
@@ -27,7 +25,7 @@ public class C00Handshake implements Packet<INetHandlerHandshakeServer> {
    @Override
    public void readPacketData(PacketBuffer buf) throws IOException {
       this.protocolVersion = buf.readVarIntFromBuffer();
-      this.ip = buf.readStringFromBuffer((int)b);
+      this.ip = buf.readStringFromBuffer(255);
       this.port = buf.readUnsignedShort();
       this.requestedState = EnumConnectionState.getById(buf.readVarIntFromBuffer());
    }

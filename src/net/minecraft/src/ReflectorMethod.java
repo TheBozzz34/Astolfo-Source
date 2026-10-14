@@ -9,7 +9,6 @@ public class ReflectorMethod {
    private Class[] targetMethodParameterTypes = null;
    private boolean checked = false;
    private Method targetMethod = null;
-   private static final long a = 120749656986586L;
 
    public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName) {
       this(reflectorClass, targetMethodName, (Class[])null, false);

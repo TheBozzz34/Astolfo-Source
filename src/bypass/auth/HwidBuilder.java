@@ -17,8 +17,6 @@ import oshi.util.tuples.Pair;
 
 public class HwidBuilder {
    private final StringBuilder l = new StringBuilder();
-   private static final long a = 72277192640955L;
-   private static final long e = 5063730145215381756L;
 
    public HwidBuilder(HwidOptions hwidOptions) {
       SystemInfo systemInfo = new SystemInfo();
@@ -82,7 +80,7 @@ public class HwidBuilder {
             String string3 = "Display " + j;
 
             for (byte[] bytes2 : bytess) {
-               if (EdidUtil.getDescriptorType(bytes2) == (int)e) {
+               if (EdidUtil.getDescriptorType(bytes2) == 252) {
                   string3 = EdidUtil.getDescriptorText(bytes2);
                }
             }

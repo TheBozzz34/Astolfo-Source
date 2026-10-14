@@ -5,8 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentUntouching extends Enchantment {
-   private static final long m = 45805392897086L;
-
    public EnchantmentUntouching(int i, ResourceLocation resourceLocation, int j) {
       super(i, resourceLocation, j, EnumEnchantmentType.DIGGER);
       this.setName("untouching");

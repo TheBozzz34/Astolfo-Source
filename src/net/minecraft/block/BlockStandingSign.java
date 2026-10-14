@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class BlockStandingSign extends BlockSign {
    public static final PropertyInteger ROTATION = PropertyInteger.create("rotation", 0, 15);
-   private static final long i = 49027669299152L;
 
    public BlockStandingSign() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, 0));

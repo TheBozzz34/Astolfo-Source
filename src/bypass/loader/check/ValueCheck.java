@@ -9,7 +9,6 @@ public class ValueCheck extends AbstractValueCheck {
    public final Object w;
    public final Predicate M;
    public final ValueCheckFactory D;
-   private static final long a = 60285585691743L;
 
    public ValueCheck(ValueCheckFactory valueCheckFactory, Object object, Function function, Object object2, Predicate predicate) {
       super(object);

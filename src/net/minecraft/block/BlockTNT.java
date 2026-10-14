@@ -19,8 +19,6 @@ import net.minecraft.world.World;
 
 public class BlockTNT extends Block {
    public static final PropertyBool EXPLODE = PropertyBool.create("explode");
-   private static final long i = 82619840381317L;
-   private static final long C = -8128845431590354936L;
 
    public BlockTNT() {
       super(Material.tnt);
@@ -49,7 +47,7 @@ public class BlockTNT extends Block {
    public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
       if (!worldIn.isRemote) {
          EntityTNTPrimed entityTNTPrimed = new EntityTNTPrimed(worldIn, pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, explosionIn.getExplosivePlacedBy());
-         entityTNTPrimed.fuse = worldIn.rand.nextInt(entityTNTPrimed.fuse / 4) + entityTNTPrimed.fuse / (int)C;
+         entityTNTPrimed.fuse = worldIn.rand.nextInt(entityTNTPrimed.fuse / 4) + entityTNTPrimed.fuse / 8;
          worldIn.spawnEntityInWorld(entityTNTPrimed);
       }
    }

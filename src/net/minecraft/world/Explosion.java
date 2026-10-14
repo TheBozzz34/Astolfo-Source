@@ -35,7 +35,6 @@ public class Explosion {
    private final float explosionSize;
    private final List<BlockPos> affectedBlockPositions = Lists.newArrayList();
    private final Map<EntityPlayer, Vec3> playerKnockbackMap = Maps.newHashMap();
-   private static final long a = 117867496254259L;
 
    public Explosion(World worldIn, Entity entityIn, double x, double y, double z, float size, List<BlockPos> affectedPositions) {
       this(worldIn, entityIn, x, y, z, size, false, true, affectedPositions);

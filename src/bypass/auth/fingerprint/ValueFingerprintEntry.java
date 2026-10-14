@@ -7,7 +7,6 @@ public class ValueFingerprintEntry<T> implements FingerprintEntry<T> {
    private Supplier<T> H;
    public String E;
    public T l;
-   private static final long a = 101741983376718L;
 
    public ValueFingerprintEntry(String string, T object) {
       this.E = string;

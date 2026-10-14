@@ -38,7 +38,6 @@ public enum EnumChatFormatting {
    private final boolean fancyStyling;
    private final String controlString;
    private final int colorIndex;
-   private static final long a = 68245928068756L;
 
    private static String func_175745_c(String string) {
       return string.toLowerCase().replaceAll("[^a-z]", "");

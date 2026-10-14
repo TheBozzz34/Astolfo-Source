@@ -7,7 +7,6 @@ import java.util.UUID;
 public class UserListOpsEntry extends UserListEntry<GameProfile> {
    private final int permissionLevel;
    private final boolean bypassesPlayerLimit;
-   private static final long a = 93586314382896L;
 
    public UserListOpsEntry(GameProfile player, int permissionLevelIn, boolean bypassesPlayerLimitIn) {
       super(player);

@@ -15,8 +15,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandFill extends CommandBase {
-   private static final long b = 27384847051314L;
-
    @Override
    public String getCommandName() {
       return "fill";

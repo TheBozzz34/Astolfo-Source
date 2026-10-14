@@ -10,7 +10,6 @@ public class BiomeCache {
    private long lastCleanupTime;
    private LongHashMap<BiomeCache.Block> cacheMap = new LongHashMap<>();
    private List<BiomeCache.Block> cache = Lists.newArrayList();
-   private static final long a = 63749063907619L;
 
    public BiomeCache(WorldChunkManager chunkManagerIn) {
       this.chunkManager = chunkManagerIn;
@@ -64,7 +63,6 @@ public class BiomeCache {
       public int xPosition;
       public int zPosition;
       public long lastAccessTime;
-      private static final long a = 82789090083618L;
 
       public Block(int x, int z) {
          this.xPosition = x;

@@ -13,7 +13,6 @@ public class S39PacketPlayerAbilities implements Packet<INetHandlerPlayClient> {
    private boolean creativeMode;
    private float flySpeed;
    private float walkSpeed;
-   private static final long a = 114054864197643L;
 
    public S39PacketPlayerAbilities() {
    }

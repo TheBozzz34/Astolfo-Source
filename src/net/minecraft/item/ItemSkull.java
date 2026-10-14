@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 
 public class ItemSkull extends Item {
    private static final String[] skullTypes = new String[]{"skeleton", "wither", "zombie", "char", "creeper"};
-   private static final long a = 109277541148903L;
 
    public ItemSkull() {
       this.setCreativeTab(CreativeTabs.tabDecorations);

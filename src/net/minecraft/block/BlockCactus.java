@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class BlockCactus extends Block {
    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
-   private static final long e = 42513022916739L;
 
    public BlockCactus() {
       super(Material.cactus);

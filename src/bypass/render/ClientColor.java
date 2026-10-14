@@ -14,7 +14,6 @@ public enum ClientColor {
    WHITE(Color.WHITE);
 
    private Color H;
-   private static final long a = 123711877201736L;
 
    ClientColor(Color color) {
       this.H = color;

@@ -15,7 +15,6 @@ public class ModelSpider extends ModelBase {
    public ModelRenderer spiderLeg6;
    public ModelRenderer spiderLeg7;
    public ModelRenderer spiderLeg8;
-   private static final long a = 43418279194686L;
 
    public ModelSpider() {
       float f = 0.0F;

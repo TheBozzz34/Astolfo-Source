@@ -14,8 +14,6 @@ import net.minecraft.world.World;
 
 public class BlockDropper extends BlockDispenser {
    private final IBehaviorDispenseItem dropBehavior = new BehaviorDefaultDispenseItem();
-   private static final long K = 52586829071031L;
-   private static final long gb = 4728592064697074665L;
 
    @Override
    public IBehaviorDispenseItem getBehavior(ItemStack stack) {
@@ -34,7 +32,7 @@ public class BlockDropper extends BlockDispenser {
       if (tileEntityDispenser != null) {
          int i = tileEntityDispenser.getDispenseSlot();
          if (i < 0) {
-            worldIn.playAuxSFX((int)gb, pos, 0);
+            worldIn.playAuxSFX(1001, pos, 0);
          } else {
             ItemStack itemStack = tileEntityDispenser.getStackInSlot(i);
             if (itemStack != null) {

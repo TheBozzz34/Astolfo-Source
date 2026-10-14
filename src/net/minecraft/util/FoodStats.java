@@ -12,7 +12,6 @@ public class FoodStats {
    private float foodExhaustionLevel;
    private int foodTimer;
    private int prevFoodLevel = 20;
-   private static final long a = 83389992207711L;
 
    public void addStats(int foodLevelIn, float foodSaturationModifier) {
       this.foodLevel = Math.min(foodLevelIn + this.foodLevel, 20);

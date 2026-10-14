@@ -11,7 +11,6 @@ import java.util.List;
 
 public class VRDecodeHandler extends MessageToMessageDecoder<ByteBuf> {
    private final UserConnection K;
-   private static final long a = 138098345629489L;
 
    public VRDecodeHandler(UserConnection userConnection) {
       this.K = userConnection;

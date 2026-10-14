@@ -44,7 +44,6 @@ public class GuiDisconnected extends GuiScreen {
    private String Y;
    private boolean N;
    public static int b;
-   private static final long d = 73680682158096L;
 
    public GuiDisconnected(GuiScreen screen, String reasonLocalizationKey, IChatComponent chatComp) {
       this.parentScreen = screen;
@@ -153,8 +152,6 @@ public class GuiDisconnected extends GuiScreen {
 
    @Override
    public void updateScreen() {
-      long l = d ^ 71812122919810L;
-      long m = l ^ 62083882695697L;
       if (this.Y != null && !this.Y.isEmpty() && this.V) {
          Alt alt = new Alt(this.Y, "");
          AltLogin.AUTH.A(alt);
@@ -185,8 +182,6 @@ public class GuiDisconnected extends GuiScreen {
 
    @Override
    public void actionPerformed(GuiButton button) throws IOException {
-      long m = d ^ 106409378218484L;
-      long n = m ^ 28451119922791L;
       if (button.id == 0) {
          this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
       } else if (button.id == 1) {
@@ -297,8 +292,6 @@ public class GuiDisconnected extends GuiScreen {
    }
 
    private Alt F(Alt alt) {
-      long l = d ^ 64085456306532L;
-      long m = l ^ 74140145827575L;
       if (alt == null) {
          return null;
       }

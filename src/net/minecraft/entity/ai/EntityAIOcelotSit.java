@@ -12,11 +12,9 @@ import net.minecraft.world.World;
 
 public class EntityAIOcelotSit extends EntityAIMoveToBlock {
    private final EntityOcelot ocelot;
-   private static final long a = 32406947746096L;
-   private static final long d = 7792198756694229000L;
 
-   public EntityAIOcelotSit(EntityOcelot ocelotIn, double d2) {
-      super(ocelotIn, d2, (int)d);
+   public EntityAIOcelotSit(EntityOcelot ocelotIn, double d) {
+      super(ocelotIn, d, 8);
       this.ocelot = ocelotIn;
    }
 

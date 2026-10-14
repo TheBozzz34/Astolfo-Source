@@ -27,8 +27,6 @@ public class ShaderPackParser {
    private static final Pattern PATTERN_VERSION = Pattern.compile("^\\s*#version\\s+.*$");
    private static final Pattern PATTERN_INCLUDE = Pattern.compile("^\\s*#include\\s+\"([A-Za-z0-9_/\\.]+)\".*$");
    private static final Set<String> setConstNames = makeSetConstNames();
-   private static final long a = 136516725413655L;
-   private static final long e = -4641543269564547062L;
 
    public static ShaderOption[] parseShaderPackOptions(IShaderPack shaderPack, String[] programNames, List<Integer> listDimensions) {
       if (shaderPack == null) {
@@ -453,7 +451,7 @@ public class ShaderPackParser {
    }
 
    private static String loadFile(String filePath, IShaderPack shaderPack, int fileIndex, List<String> listFiles, int includeLevel) throws IOException {
-      if (includeLevel >= (int)e) {
+      if (includeLevel >= 10) {
          throw new IOException("#include depth exceeded: " + includeLevel + ", file: " + filePath);
       }
 

@@ -36,7 +36,6 @@ public class Village {
    private TreeMap<String, Integer> playerReputation = new TreeMap<>();
    private List<Village.VillageAggressor> villageAgressors = Lists.newArrayList();
    private int numIronGolems;
-   private static final long a = 91174852638668L;
 
    public Village() {
    }

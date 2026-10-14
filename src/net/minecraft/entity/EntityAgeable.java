@@ -14,7 +14,6 @@ public abstract class EntityAgeable extends EntityCreature {
    public int field_175503_c;
    private float ageWidth = -1.0F;
    private float ageHeight;
-   private static final long ab = 140034969748022L;
 
    public EntityAgeable(World worldIn) {
       super(worldIn);

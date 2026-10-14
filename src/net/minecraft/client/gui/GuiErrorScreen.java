@@ -6,7 +6,6 @@ import net.minecraft.client.resources.I18n;
 public class GuiErrorScreen extends GuiScreen {
    private String field_146313_a;
    private String field_146312_f;
-   private static final long a = 128519538463784L;
 
    public GuiErrorScreen(String string, String string2) {
       this.field_146313_a = string;

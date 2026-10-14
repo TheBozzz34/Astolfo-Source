@@ -11,8 +11,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class CommandExecuteAt extends CommandBase {
-   private static final long b = 28661466441616L;
-
    @Override
    public String getCommandName() {
       return "execute";
@@ -58,8 +56,6 @@ public class CommandExecuteAt extends CommandBase {
 
       String string = buildString(args, b);
       ICommandSender iCommandSender = new ICommandSender() {
-         private static final long a = 28473378064137L;
-
          @Override
          public String getName() {
             return entity.getName();

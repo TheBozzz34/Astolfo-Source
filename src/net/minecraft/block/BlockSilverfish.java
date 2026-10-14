@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class BlockSilverfish extends Block {
    public static final PropertyEnum<BlockSilverfish.EnumType> VARIANT = PropertyEnum.create("variant", BlockSilverfish.EnumType.class);
-   private static final long e = 32627866232432L;
 
    public BlockSilverfish() {
       super(Material.clay);
@@ -136,7 +135,6 @@ public class BlockSilverfish extends Block {
       private final int meta;
       private final String name;
       private final String unlocalizedName;
-      private static final long a = 137729343979879L;
 
       EnumType(int meta, String name) {
          this(meta, name, name);

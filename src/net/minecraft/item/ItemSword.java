@@ -15,8 +15,6 @@ import net.minecraft.world.World;
 public class ItemSword extends Item {
    private float attackDamage;
    private final Item.ToolMaterial material;
-   private static final long a = 116543646305325L;
-   private static final long d = 7996582622379710784L;
 
    public ItemSword(Item.ToolMaterial material) {
       this.material = material;
@@ -67,7 +65,7 @@ public class ItemSword extends Item {
 
    @Override
    public int getMaxItemUseDuration(ItemStack stack) {
-      return (int)d;
+      return 72000;
    }
 
    @Override

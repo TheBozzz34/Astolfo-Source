@@ -253,7 +253,6 @@ public abstract class BiomeGenBase {
    public WorldGenTrees worldGeneratorTrees = new WorldGenTrees(false);
    public WorldGenBigTree worldGeneratorBigTree = new WorldGenBigTree(false);
    public WorldGenSwamp worldGeneratorSwamp = new WorldGenSwamp();
-   private static final long ab = 131356532790921L;
 
    public BiomeGenBase(int id) {
       this.biomeID = id;
@@ -527,8 +526,6 @@ public abstract class BiomeGenBase {
    }
 
    static {
-      long l = ab ^ 23982143559762L;
-      long m = 3474986416736007602L ^ l;
       plains.createMutation();
       desert.createMutation();
       forest.createMutation();
@@ -591,7 +588,6 @@ public abstract class BiomeGenBase {
       public Class<? extends EntityLiving> entityClass;
       public int minGroupCount;
       public int maxGroupCount;
-      private static final long a = 122887977560301L;
 
       public SpawnListEntry(Class<? extends EntityLiving> entityclassIn, int weight, int groupCountMin, int groupCountMax) {
          super(weight);

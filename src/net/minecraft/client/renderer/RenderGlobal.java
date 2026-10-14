@@ -185,7 +185,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    private int renderDistanceSq = 0;
    private static final Set SET_ALL_FACINGS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(EnumFacing.VALUES)));
    private int countTileEntitiesRendered;
-   private static final long ab = 92769071865155L;
 
    public RenderGlobal(Minecraft mcIn) {
       this.cloudRenderer = new CloudRenderer(mcIn);
@@ -504,7 +503,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    }
 
    public void renderEntities(Entity renderViewEntity, ICamera camera, float partialTicks) {
-      long l = ab ^ 25391695357848L;
       int i = 0;
       if (Reflector.MinecraftForgeClient_getRenderPass.exists()) {
          i = Reflector.callInt(Reflector.MinecraftForgeClient_getRenderPass);
@@ -575,8 +573,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             RenderHelper.disableStandardItemLighting();
             this.renderManager.S(true);
 
-            for (int m = 0; m < list.size(); m++) {
-               Entity entity3 = (Entity)list.get(m);
+            for (int l = 0; l < list.size(); l++) {
+               Entity entity3 = (Entity)list.get(l);
                if (!bl || Reflector.callBoolean(entity3, Reflector.B9, i)) {
                   boolean bl3 = this.mc.getRenderViewEntity() instanceof EntityLivingBase
                      && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
@@ -591,7 +589,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
             this.renderManager.S(false);
             RenderHelper.enableStandardItemLighting();
-            long n = 666213386336602415L ^ l;
             GlStateManager.depthMask(false);
             this.entityOutlineShader.t(partialTicks);
             GlStateManager.enableLighting();
@@ -1179,18 +1176,14 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void renderBlockLayer(EnumWorldBlockLayer blockLayerIn) {
-      long l = ab ^ 5357906993609L;
       this.mc.entityRenderer.enableLightmap();
       if (OpenGlHelper.useVbo()) {
          GL11.glEnableClientState(32884);
          OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
-         long m = 6636993951462363170L ^ l;
          GL11.glEnableClientState(32888);
          OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapTexUnit);
-         m = 8218702202729655505L ^ l;
          GL11.glEnableClientState(32888);
          OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
-         m = 8891881639302399360L ^ l;
          GL11.glEnableClientState(32886);
       }
 
@@ -1249,11 +1242,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    }
 
    private void renderSkyEnd() {
-      long l = ab ^ 4544908564813L;
       if (Config.K()) {
          GlStateManager.disableFog();
          GlStateManager.disableAlpha();
-         long m = 7682473096698927075L ^ l;
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
          RenderHelper.disableStandardItemLighting();
@@ -1300,7 +1291,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    }
 
    public void renderSky(float partialTicks, int pass) {
-      long l = ab ^ 120248783193332L;
       if (Reflector.ForgeWorldProvider_getSkyRenderer.exists()) {
          WorldProvider worldProvider = this.mc.theWorld.provider;
          Object object = Reflector.call(worldProvider, Reflector.ForgeWorldProvider_getSkyRenderer);
@@ -1360,7 +1350,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                GL11.glVertexPointer(3, 5126, 12, 0L);
                this.skyVBO.drawArrays(7);
                this.skyVBO.unbindBuffer();
-               long m = 8618625489232203640L ^ l;
                GL11.glDisableClientState(32884);
             } else {
                GlStateManager.callList(this.glSkyList);
@@ -1374,7 +1363,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
          GlStateManager.disableAlpha();
          GlStateManager.enableBlend();
-         long n = 7682518556400208474L ^ l;
          GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
          RenderHelper.disableStandardItemLighting();
          float[] floats = this.theWorld.provider.calcSunriseSunsetColors(this.theWorld.getCelestialAngle(partialTicks), partialTicks);
@@ -1453,11 +1441,11 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             this.renderEngine.bindTexture(locationMoonPhasesPng);
             int j = this.theWorld.f();
             int k = j % 4;
-            int i2 = j / 4 % 2;
+            int l = j / 4 % 2;
             float f17 = (k + 0) / 4.0F;
-            float f18 = (i2 + 0) / 2.0F;
+            float f18 = (l + 0) / 2.0F;
             float f19 = (k + 1) / 4.0F;
-            float f20 = (i2 + 1) / 2.0F;
+            float f20 = (l + 1) / 2.0F;
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
             worldRenderer.pos(-f16, -100.0, f16).tex(f19, f20).endVertex();
             worldRenderer.pos(f16, -100.0, f16).tex(f17, f20).endVertex();
@@ -1480,7 +1468,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                GL11.glVertexPointer(3, 5126, 12, 0L);
                this.starVBO.drawArrays(7);
                this.starVBO.unbindBuffer();
-               n = 8618625489232203640L ^ l;
                GL11.glDisableClientState(32884);
             } else {
                GlStateManager.callList(this.starGLCallList);
@@ -1512,7 +1499,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                GL11.glVertexPointer(3, 5126, 12, 0L);
                this.sky2VBO.drawArrays(7);
                this.sky2VBO.unbindBuffer();
-               n = 8618625489232203640L ^ l;
                GL11.glDisableClientState(32884);
             } else {
                GlStateManager.callList(this.glSkyList2);
@@ -1573,7 +1559,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    }
 
    public void renderClouds(float partialTicks, int pass) {
-      long l = ab ^ 127515741575820L;
       if (!Config.isCloudsOff()) {
          if (Reflector.ForgeWorldProvider_getCloudRenderer.exists()) {
             WorldProvider worldProvider = this.mc.theWorld.provider;
@@ -1603,7 +1588,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                WorldRenderer worldRenderer = tessellator.getWorldRenderer();
                this.renderEngine.bindTexture(locationCloudsPng);
                GlStateManager.enableBlend();
-               long m = 7682533245060109346L ^ l;
                GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                if (this.cloudRenderer.shouldUpdateGlList()) {
                   this.cloudRenderer.startUpdateGlList();
@@ -1638,21 +1622,21 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                   worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 
                   for (int k = -256; k < 256; k += 32) {
-                     for (int n = -256; n < 256; n += 32) {
-                        worldRenderer.pos(k + 0, f7, n + 32)
-                           .tex((k + 0) * 4.8828125E-4F + f8, (n + 32) * 4.8828125E-4F + f9)
+                     for (int l = -256; l < 256; l += 32) {
+                        worldRenderer.pos(k + 0, f7, l + 32)
+                           .tex((k + 0) * 4.8828125E-4F + f8, (l + 32) * 4.8828125E-4F + f9)
                            .color(g, h, f2, 0.8F)
                            .endVertex();
-                        worldRenderer.pos(k + 32, f7, n + 32)
-                           .tex((k + 32) * 4.8828125E-4F + f8, (n + 32) * 4.8828125E-4F + f9)
+                        worldRenderer.pos(k + 32, f7, l + 32)
+                           .tex((k + 32) * 4.8828125E-4F + f8, (l + 32) * 4.8828125E-4F + f9)
                            .color(g, h, f2, 0.8F)
                            .endVertex();
-                        worldRenderer.pos(k + 32, f7, n + 0)
-                           .tex((k + 32) * 4.8828125E-4F + f8, (n + 0) * 4.8828125E-4F + f9)
+                        worldRenderer.pos(k + 32, f7, l + 0)
+                           .tex((k + 32) * 4.8828125E-4F + f8, (l + 0) * 4.8828125E-4F + f9)
                            .color(g, h, f2, 0.8F)
                            .endVertex();
-                        worldRenderer.pos(k + 0, f7, n + 0)
-                           .tex((k + 0) * 4.8828125E-4F + f8, (n + 0) * 4.8828125E-4F + f9)
+                        worldRenderer.pos(k + 0, f7, l + 0)
+                           .tex((k + 0) * 4.8828125E-4F + f8, (l + 0) * 4.8828125E-4F + f9)
                            .color(g, h, f2, 0.8F)
                            .endVertex();
                      }
@@ -1975,7 +1959,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    }
 
    public void renderWorldBorder(Entity entityIn, float partialTicks) {
-      long l = ab ^ 40372035067889L;
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       WorldBorder worldBorder = this.theWorld.getWorldBorder();
@@ -1986,7 +1969,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
          || entityIn.posZ <= worldBorder.minZ() + d) {
          double e = 1.0 - worldBorder.getClosestDistance(entityIn) / d;
          e = Math.pow(e, 4.0);
-         long m = 6290795213829567164L ^ l;
          double d2 = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * partialTicks;
          double d3 = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * partialTicks;
          double d4 = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * partialTicks;
@@ -2000,7 +1982,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
          float g = (i >> 8 & 0xFF) / 255.0F;
          float h = (i & 0xFF) / 255.0F;
          GlStateManager.color(f, g, h, (float)e);
-         m = 8480944119209075206L ^ l;
          GlStateManager.doPolygonOffset(-3.0F, -3.0F);
          GlStateManager.enablePolygonOffset();
          GlStateManager.alphaFunc(516, 0.1F);

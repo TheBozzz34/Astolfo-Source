@@ -15,7 +15,6 @@ public class SlotCrafting extends Slot {
    private final InventoryCrafting craftMatrix;
    private final EntityPlayer thePlayer;
    private int amountCrafted;
-   private static final long c = 90705289458458L;
 
    public SlotCrafting(EntityPlayer player, InventoryCrafting craftingInventory, IInventory iInventory, int slotIndex, int xPosition, int yPosition) {
       super(iInventory, slotIndex, xPosition, yPosition);

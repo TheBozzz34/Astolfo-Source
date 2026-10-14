@@ -6,8 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 public final class IteminfoCommand extends Command {
-   private static final long d = 81750944261793L;
-
    public IteminfoCommand(String string, String string2) {
       super(string, string2);
    }

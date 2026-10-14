@@ -14,8 +14,6 @@ public class GuiScreenAddServer extends GuiScreen {
    private GuiTextField serverNameField;
    private GuiButton serverResourcePacks;
    private Predicate<String> field_181032_r = new Predicate<String>() {
-      private static final long a = 15103075447856L;
-
       public boolean apply(String string) {
          if (string.length() == 0) {
             return true;
@@ -34,7 +32,6 @@ public class GuiScreenAddServer extends GuiScreen {
          }
       }
    };
-   private static final long b = 66651723247614L;
 
    public GuiScreenAddServer(GuiScreen guiScreen, ServerData serverData) {
       this.parentScreen = guiScreen;

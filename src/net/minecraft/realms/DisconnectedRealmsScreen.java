@@ -9,7 +9,6 @@ public class DisconnectedRealmsScreen extends RealmsScreen {
    private List<String> lines;
    private final RealmsScreen parent;
    private int textHeight;
-   private static final long a = 118242549628469L;
 
    public DisconnectedRealmsScreen(RealmsScreen parentIn, String unlocalizedTitle, IChatComponent reasonIn) {
       this.parent = parentIn;

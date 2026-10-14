@@ -46,7 +46,6 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
          }
       }
    };
-   private static final long b = 96522318301394L;
 
    public TabGui() {
       this.N = new DefaultRendererSet();
@@ -160,7 +159,6 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
       private float x = 0.0F;
       private PanelState n;
       private final Dimension R = new Dimension(0, 0);
-      private static final long d = 67642182782063L;
 
       @Override
       public PanelState getState() {

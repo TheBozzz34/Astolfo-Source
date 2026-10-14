@@ -15,8 +15,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> {
    private int entityId;
    private final List<S20PacketEntityProperties.Snapshot> field_149444_b = Lists.newArrayList();
-   private static final long a = 7612424071979L;
-   private static final long c = 4231077174980902976L;
 
    public S20PacketEntityProperties() {
    }
@@ -36,7 +34,7 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> 
       int i = buf.readInt();
 
       for (int j = 0; j < i; j++) {
-         String string = buf.readStringFromBuffer((int)c);
+         String string = buf.readStringFromBuffer(64);
          double d = buf.readDouble();
          ArrayList arrayList = Lists.newArrayList();
          int k = buf.readVarIntFromBuffer();

@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 public class ItemSeeds extends Item {
    private Block crops;
    private Block soilBlockID;
-   private static final long a = 132142750675977L;
 
    public ItemSeeds(Block crops, Block soil) {
       this.crops = crops;

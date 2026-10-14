@@ -40,7 +40,6 @@ public class MapColor {
    public static final MapColor netherrackColor = new MapColor(35, 7340544);
    public int colorValue;
    public final int colorIndex;
-   private static final long o = 78071344005531L;
 
    private MapColor(int index, int color) {
       if (index >= 0 && index <= 63) {

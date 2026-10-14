@@ -13,7 +13,6 @@ public class BiomeGenSnow extends BiomeGenBase {
    private boolean field_150615_aC;
    private WorldGenIceSpike field_150616_aD = new WorldGenIceSpike();
    private WorldGenIcePath field_150617_aE = new WorldGenIcePath(4);
-   private static final long bb = 95500566700847L;
 
    public BiomeGenSnow(int id, boolean bl) {
       super(id);

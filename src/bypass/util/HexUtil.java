@@ -2,7 +2,6 @@ package bypass.util;
 
 public class HexUtil {
    private static final char[] x = "0123456789abcdef".toCharArray();
-   private static final long a = 3256426206891L;
 
    public static String Q(byte... bytes) {
       if (bytes == null) {

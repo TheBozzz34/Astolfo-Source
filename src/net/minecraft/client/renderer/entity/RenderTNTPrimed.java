@@ -10,15 +10,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
-   private static final long a = 69224644639933L;
-
    public RenderTNTPrimed(RenderManager renderManagerIn) {
       super(renderManagerIn);
       this.shadowSize = 0.5F;
    }
 
    public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks) {
-      long l = a ^ 91156797491890L;
       BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
       GlStateManager.pushMatrix();
       GlStateManager.translate((float)x, (float)y + 0.5F, (float)z);
@@ -39,7 +36,6 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
       if (entity.fuse / 5 % 2 == 0) {
          GlStateManager.disableTexture2D();
          GlStateManager.disableLighting();
-         long m = 4443019072265457914L ^ l;
          GlStateManager.enableBlend();
          GlStateManager.blendFunc(770, 772);
          GlStateManager.color(1.0F, 1.0F, 1.0F, h);

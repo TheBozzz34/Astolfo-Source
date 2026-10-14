@@ -1,8 +1,6 @@
 package bypass.loader.check;
 
 public final class MeasureRunner {
-   private static final long a = 140374493704060L;
-
    public static void g(MeasureRequest measureRequest) {
       boolean bl = false;
 

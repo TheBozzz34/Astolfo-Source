@@ -19,8 +19,6 @@ import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.util.Session;
 
 public class Main {
-   private static final long a = 136137129724701L;
-
    public static void main(String[] strings) {
       System.setProperty("java.net.preferIPv4Stack", "true");
       OptionParser optionParser = new OptionParser();

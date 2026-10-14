@@ -9,9 +9,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 public class GuiUtilRenderComponents {
-   private static final long a = 38412556497011L;
-   private static final long b = -978970188042993654L;
-
    public static String func_178909_a(String string, boolean bl) {
       return !bl && !Minecraft.getMinecraft().gameSettings.chatColours ? EnumChatFormatting.getTextWithoutFormattingCodes(string) : string;
    }
@@ -27,7 +24,7 @@ public class GuiUtilRenderComponents {
          String string = iChatComponent2.getUnformattedTextForChat();
          boolean bl3 = false;
          if (string.contains("\n")) {
-            int l = string.indexOf((int)b);
+            int l = string.indexOf(10);
             String string2 = string.substring(l + 1);
             string = string.substring(0, l + 1);
             ChatComponentText chatComponentText2 = new ChatComponentText(string2);

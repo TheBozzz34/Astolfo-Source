@@ -8,7 +8,6 @@ import oshi.util.platform.mac.SmcUtil;
 @ThreadSafe
 public final class MacSensors extends AbstractSensors {
    private int numFans = 0;
-   private static final long b = 91761440604788L;
 
    @Override
    public double queryCpuTemperature() {

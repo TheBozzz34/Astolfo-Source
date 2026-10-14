@@ -7,7 +7,6 @@ public enum Scramblers {
    INSTANCE;
 
    private final List<ScramblerRange> e = new ArrayList<>();
-   private static final long a = 69050655182956L;
 
    Scramblers() {
       this.e.add(new ScramblerRange((byte)-120, (byte)-100, new SwapHalvesScrambler()));

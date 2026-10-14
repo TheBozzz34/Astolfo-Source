@@ -18,7 +18,6 @@ public class ServerPingHandler implements INetHandlerStatusClient {
    public final NetworkManager x;
    public final String u;
    public final ServerPinger Q;
-   private static final long a = 54730631041341L;
 
    public ServerPingHandler(ServerPinger serverPinger, ServerPingData serverPingData, NetworkManager networkManager, String string) {
       this.Q = serverPinger;

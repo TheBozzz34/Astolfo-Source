@@ -2,7 +2,6 @@ package net.minecraft.src;
 
 public class IntegerCache {
    private static final Integer[] F = new Integer[65535];
-   private static final long a = 73208234742281L;
 
    public static Integer I(int i) {
       return i > 0 && i < F.length ? F[i] : i;

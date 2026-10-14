@@ -12,7 +12,6 @@ import net.minecraft.client.gui.GuiMainMenu;
 public class FontManager extends JsonFileManager<FontEntry, JsonObject> {
    public static String H = "default";
    public static int o = 18;
-   private static final long c = 39696472344200L;
 
    public FontManager(File file) {
       super(file, "fonts.json");

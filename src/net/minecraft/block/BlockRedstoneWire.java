@@ -32,7 +32,6 @@ public class BlockRedstoneWire extends Block {
    public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
    private boolean canProvidePower = true;
    private final Set<BlockPos> blocksNeedingUpdate = Sets.newHashSet();
-   private static final long e = 19469652593125L;
 
    public BlockRedstoneWire() {
       super(Material.circuits);

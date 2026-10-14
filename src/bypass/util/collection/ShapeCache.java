@@ -13,7 +13,6 @@ public class ShapeCache {
    private static Lock E = G.readLock();
    private static Lock Z = G.writeLock();
    public static final String O = new String("All values match");
-   private static final long a = 5206427367639L;
 
    public static void g() {
       Z.lock();

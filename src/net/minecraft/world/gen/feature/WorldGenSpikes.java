@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 
 public class WorldGenSpikes extends WorldGenerator {
    private Block baseBlockRequired;
-   private static final long a = 27259305234694L;
 
    public WorldGenSpikes(Block block) {
       this.baseBlockRequired = block;

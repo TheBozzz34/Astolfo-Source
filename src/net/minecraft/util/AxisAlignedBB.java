@@ -7,7 +7,6 @@ public class AxisAlignedBB {
    public double maxX;
    public double maxY;
    public double maxZ;
-   private static final long a = 127124594499623L;
 
    public AxisAlignedBB(double x1, double y1, double z1, double x2, double y2, double z2) {
       this.minX = Math.min(x1, x2);

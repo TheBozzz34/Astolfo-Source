@@ -1,8 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerSmooth extends GenLayer {
-   private static final long c = 109530341732165L;
-
    public GenLayerSmooth(long l, GenLayer genLayer) {
       super(l);
       super.parent = genLayer;

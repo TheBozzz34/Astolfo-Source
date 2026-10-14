@@ -101,7 +101,6 @@ public class WorldServer extends World implements IThreadListener {
       new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10)
    );
    private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
-   private static final long bb = 9802891113442L;
 
    public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, Profiler profilerIn) {
       super(saveHandlerIn, info, WorldProvider.getProviderForDimension(dimensionId), profilerIn, false);
@@ -365,8 +364,6 @@ public class WorldServer extends World implements IThreadListener {
       BlockPos blockPos = this.getPrecipitationHeight(pos);
       AxisAlignedBB axisAlignedBB = new AxisAlignedBB(blockPos, new BlockPos(blockPos.getX(), this.getHeight(), blockPos.getZ())).expand(3.0, 3.0, 3.0);
       List list = this.getEntitiesWithinAABB(EntityLivingBase.class, axisAlignedBB, new Predicate<EntityLivingBase>() {
-         private static final long a = 92100251721404L;
-
          public boolean apply(EntityLivingBase entityLivingBase) {
             return entityLivingBase != null && entityLivingBase.isEntityAlive() && WorldServer.this.canSeeSky(entityLivingBase.getPosition());
          }

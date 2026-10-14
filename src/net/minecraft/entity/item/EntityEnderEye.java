@@ -15,7 +15,6 @@ public class EntityEnderEye extends Entity {
    private double targetZ;
    private int despawnTimer;
    private boolean shatterOrDrop;
-   private static final long ab = 105959308491390L;
 
    public EntityEnderEye(World worldIn) {
       super(worldIn);

@@ -7,7 +7,6 @@ public class Vec3i implements Comparable<Vec3i> {
    private final int x;
    private final int y;
    private final int z;
-   private static final long d = 24061978726379L;
 
    public Vec3i(int xIn, int yIn, int zIn) {
       this.x = xIn;

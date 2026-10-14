@@ -99,7 +99,6 @@ public enum ContentType {
    private final String u;
    private final String a;
    private final MediaType p;
-   private static final long b = 18057567985023L;
 
    ContentType(MediaType mediaType, String string2) {
       this.u = string2;

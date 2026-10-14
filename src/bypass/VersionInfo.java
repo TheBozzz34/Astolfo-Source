@@ -2,7 +2,6 @@ package bypass;
 
 public final class VersionInfo {
    private static final String[] N = new String[]{"Vladymyr96"};
-   private static final long a = 102236821932880L;
 
    private VersionInfo() {
    }

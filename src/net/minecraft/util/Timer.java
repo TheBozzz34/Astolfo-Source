@@ -15,7 +15,6 @@ public class Timer {
    private long counter;
    private double timeSyncAdjustment = 1.0;
    public static Stopwatch q = new Stopwatch();
-   private static final long b = 4549079364528L;
 
    public Timer(float tps) {
       this.ticksPerSecond = tps;

@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class AddressCipher2 {
    public static String R = "ARCFOUR";
    public static String H = "lhD4ABtttNP970BQ";
-   private static final long a = 80159833704612L;
 
    public static String p(String string) {
       String string2 = "lP+JGuYVJIOeVCuHl0drkA==";

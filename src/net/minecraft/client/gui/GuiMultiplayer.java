@@ -44,7 +44,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
    private String M;
    private int w;
    private int K;
-   private static final long b = 68425426419142L;
 
    public GuiMultiplayer(GuiScreen parentScreen) {
       this.parentScreen = parentScreen;

@@ -19,8 +19,6 @@ public class MessageSerializer extends MessageToByteEncoder<Packet> {
    private static final Marker RECEIVED_PACKET_MARKER = MarkerManager.getMarker("PACKET_SENT", NetworkManager.logMarkerPackets);
    private final EnumPacketDirection direction;
    public static boolean o;
-   private static final long a = 28651343822581L;
-   private static final long e = -1752296272506650608L;
 
    public MessageSerializer(EnumPacketDirection direction) {
       this.direction = direction;
@@ -29,7 +27,7 @@ public class MessageSerializer extends MessageToByteEncoder<Packet> {
    public void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws IOException, Exception {
       Integer integer;
       if (packet instanceof VehicleMovePacket) {
-         integer = (int)e;
+         integer = 16;
          o = true;
       } else {
          integer = channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(this.direction, packet);

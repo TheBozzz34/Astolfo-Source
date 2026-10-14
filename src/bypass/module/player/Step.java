@@ -40,8 +40,6 @@ public final class Step extends Module {
    private boolean t;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = d ^ 86242262513195L;
-      long m = l ^ 18584933221786L;
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C03PacketPlayer) {
          if (this.V >= 0) {
             this.V++;
@@ -68,8 +66,6 @@ public final class Step extends Module {
    };
    @EventHandler(StepEvent.class)
    private Listener<StepEvent> onStep = stepEvent -> {
-      long l = d ^ 45406839570829L;
-      long m = l ^ 131687618392636L;
       if (mc.thePlayer != null) {
          if ((this.mode.getValue() == StepMode.NCP || this.mode.getValue() == StepMode.VANILLA || this.mode.getValue() == StepMode.MOTION)
             && stepEvent.getEntity() == mc.thePlayer) {
@@ -95,21 +91,21 @@ public final class Step extends Module {
                         || stepEvent.getVec().yCoord > 1.5 && stepEvent.getVec().yCoord <= 2.0
                         || stepEvent.getVec().yCoord <= 2.6 && stepEvent.getVec().yCoord > 2.1) {
                         float f = 0.41900033F;
-                        double e = 0.9800000190734864;
-                        double d2 = 0.078400001525879;
+                        double d = 0.9800000190734864;
+                        double e = 0.078400001525879;
                         byte b = 0;
                         double[] doubles = new double[0];
-                        double d3 = stepEvent.getVec().yCoord;
-                        if (d3 > 0.7 && d3 <= 1.1) {
-                           doubles = new double[]{d3 / 2.380932455289242, d3 / 1.328668648249321};
-                        } else if (d3 <= 1.4) {
+                        double d2 = stepEvent.getVec().yCoord;
+                        if (d2 > 0.7 && d2 <= 1.1) {
+                           doubles = new double[]{d2 / 2.380932455289242, d2 / 1.328668648249321};
+                        } else if (d2 <= 1.4) {
                            b = 4;
                            f = 0.419998F;
-                        } else if (d3 == 1.5) {
+                        } else if (d2 == 1.5) {
                            b = 6;
                            f = 0.4F;
                            doubles = this.u;
-                        } else if (d3 > 1.5 && d3 <= 2.0) {
+                        } else if (d2 > 1.5 && d2 <= 2.0) {
                            doubles = new double[]{
                               0.400000005960464,
                               0.713600017905236,
@@ -124,19 +120,19 @@ public final class Step extends Module {
                               1.65310796350857,
                               1.63804582456326
                            };
-                        } else if (d3 <= 2.6 && d3 > 2.1) {
+                        } else if (d2 <= 2.6 && d2 > 2.1) {
                            doubles = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907};
                         }
 
                         if (doubles.length == 0) {
                            doubles = new double[b];
-                           double d4 = 0.0;
+                           double d3 = 0.0;
 
                            for (int i = 0; i < doubles.length; i++) {
-                              d4 += f;
-                              f = (float)(f - d2);
-                              f = (float)(f * e);
-                              doubles[i] = d4;
+                              d3 += f;
+                              f = (float)(f - e);
+                              f = (float)(f * d);
+                              doubles[i] = d3;
                            }
                         }
 
@@ -149,12 +145,12 @@ public final class Step extends Module {
                            this.V = 0;
                         }
 
-                        for (double d5 : doubles) {
+                        for (double d4 : doubles) {
                            if (client.getModuleManager().get(RiderGod.class).isEnabled()) {
                               break;
                            }
 
-                           if (GameUtil.isOnHypixel() && d3 > 0.7 && d3 <= 1.1) {
+                           if (GameUtil.isOnHypixel() && d2 > 0.7 && d2 <= 1.1) {
                               for (int j = 0; j < 4; j++) {
                                  mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
                               }
@@ -164,7 +160,7 @@ public final class Step extends Module {
                               .sendQueue
                               .u(
                                  new C03PacketPlayer.C04PacketPlayerPosition(
-                                    mc.thePlayer.posX, mc.thePlayer.posY + d5 + Math.random() / 100000.0, mc.thePlayer.posZ, false
+                                    mc.thePlayer.posX, mc.thePlayer.posY + d4 + Math.random() / 100000.0, mc.thePlayer.posZ, false
                                  )
                               );
                         }
@@ -180,7 +176,6 @@ public final class Step extends Module {
          }
       }
    };
-   private static final long d = 116544757911042L;
 
    public Step(Category category) {
       super(category);

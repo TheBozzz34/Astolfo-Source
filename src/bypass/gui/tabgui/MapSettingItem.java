@@ -8,7 +8,6 @@ import bypass.setting.NumberSetting;
 
 public class MapSettingItem extends TabGuiItem {
    private final MapSetting O;
-   private static final long b = 35034049222198L;
 
    public MapSettingItem(TabGui.Panel panel, MapSetting mapSetting) {
       super(panel);

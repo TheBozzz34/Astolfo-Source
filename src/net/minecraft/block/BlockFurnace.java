@@ -24,7 +24,6 @@ public class BlockFurnace extends BlockContainer {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
    private final boolean isBurning;
    private static boolean keepInventory;
-   private static final long e = 111170725760834L;
 
    public BlockFurnace(boolean isBurning) {
       super(Material.rock);

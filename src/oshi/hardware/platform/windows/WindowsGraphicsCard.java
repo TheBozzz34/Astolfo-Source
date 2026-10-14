@@ -15,7 +15,6 @@ import oshi.util.tuples.Pair;
 @Immutable
 public final class WindowsGraphicsCard extends AbstractGraphicsCard {
    private static final boolean IS_VISTA_OR_GREATER = VersionHelpers.IsWindowsVistaOrGreater();
-   private static final long b = 1101206258170L;
 
    public WindowsGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
       super(name, deviceId, vendor, versionInfo, vram);

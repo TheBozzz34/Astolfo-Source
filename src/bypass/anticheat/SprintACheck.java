@@ -7,8 +7,6 @@ import net.minecraft.util.MathHelper;
 public class SprintACheck extends MovementCheck {
    private double S;
    private double y;
-   private static final long b = 47639754789215L;
-   private static final long e = -2692669612390088694L;
 
    public SprintACheck() {
       super("Sprint A");
@@ -53,6 +51,6 @@ public class SprintACheck extends MovementCheck {
 
    @Override
    public int p() {
-      return (int)e;
+      return 10;
    }
 }

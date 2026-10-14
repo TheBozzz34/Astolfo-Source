@@ -42,7 +42,6 @@ public class PlayerStatsChecker {
       "MHF_Mineskin",
       "08BED5"
    );
-   private static final long a = 8583257840339L;
 
    public PlayerStatsChecker(HypixelAPI hypixelAPI) {
       this.w = hypixelAPI;

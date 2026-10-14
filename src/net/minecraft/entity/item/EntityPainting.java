@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public class EntityPainting extends EntityHanging {
    public EntityPainting.EnumArt art;
-   private static final long bb = 54355535786641L;
 
    public EntityPainting(World worldIn) {
       super(worldIn);

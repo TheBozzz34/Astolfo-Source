@@ -4,8 +4,6 @@ import bypass.relation.Relation;
 import java.util.Arrays;
 
 public final class EnemiesCommand extends Command {
-   private static final long d = 134687672370386L;
-
    public EnemiesCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Arrays.asList("e", "enemy", "target"));
@@ -13,11 +11,6 @@ public final class EnemiesCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      long l = d ^ 2713307218255L;
-      long m = l ^ 10203745657024L;
-      int i = (int)((l ^ 10203745657024L) >>> 56);
-      int j = (int)((l ^ 10203745657024L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       switch (strings.length) {
          case 2:
             if (strings[1].equalsIgnoreCase("clear")) {
@@ -36,11 +29,6 @@ public final class EnemiesCommand extends Command {
    }
 
    private void h(String[] strings) {
-      long l = d ^ 129024580267991L;
-      long m = l ^ 138988955504216L;
-      int i = (int)((l ^ 138988955504216L) >>> 56);
-      int j = (int)((l ^ 138988955504216L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       String string = strings[2];
       switch (strings.length) {
          case 3:

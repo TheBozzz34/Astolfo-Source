@@ -5,7 +5,6 @@ import net.minecraft.pathfinding.PathNavigateGround;
 
 public class EntityAISwimming extends EntityAIBase {
    private EntityLiving theEntity;
-   private static final long a = 51529700221171L;
 
    public EntityAISwimming(EntityLiving entitylivingIn) {
       this.theEntity = entitylivingIn;

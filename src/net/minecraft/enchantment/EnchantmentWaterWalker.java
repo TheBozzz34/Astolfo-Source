@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentWaterWalker extends Enchantment {
-   private static final long m = 45926501747650L;
-
    public EnchantmentWaterWalker(int i, ResourceLocation resourceLocation, int j) {
       super(i, resourceLocation, j, EnumEnchantmentType.ARMOR_FEET);
       this.setName("waterWalker");

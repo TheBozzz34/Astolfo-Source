@@ -13,8 +13,6 @@ public abstract class Server extends Manager<String> implements ClientAccess {
    private final String z;
    private final String L;
    private final ServerType P;
-   private static final long b = 79331104580197L;
-   private static final long l = -4046336724475772929L;
 
    public Server(String string, String string2, ServerType serverType) {
       this.z = string;
@@ -84,20 +82,20 @@ public abstract class Server extends Manager<String> implements ClientAccess {
                k = -1;
             }
 
-            if (k >= 0 && k <= (int)l) {
+            if (k >= 0 && k <= 65535) {
                string = string.substring(0, j - 1);
             }
          }
 
          String string3 = ".";
          if (string.contains(".")) {
-            int i2 = string.lastIndexOf(".") + 1;
-            String string4 = string.substring(i2);
+            int l = string.lastIndexOf(".") + 1;
+            String string4 = string.substring(l);
             if (!string4.equalsIgnoreCase(this.z)) {
                this.n.put(string, false);
                return false;
             } else {
-               String string5 = string.substring(0, i2 - 1);
+               String string5 = string.substring(0, l - 1);
                boolean bl = string.equalsIgnoreCase(this.m_String()) || string5.endsWith("." + this.L) || this.C.contains(string5);
                this.n.put(string, bl);
                return bl && this.m();

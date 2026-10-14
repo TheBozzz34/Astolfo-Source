@@ -24,7 +24,6 @@ public class CompassHud extends Component {
    private float s;
    private int u;
    private int O;
-   private static final long c = 40005545770084L;
 
    public CompassHud(float f, float g, int i, int j) {
       super("compass", f, g, i, j);

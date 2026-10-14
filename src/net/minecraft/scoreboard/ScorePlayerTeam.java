@@ -17,7 +17,6 @@ public class ScorePlayerTeam extends Team {
    private Team.EnumVisible nameTagVisibility = Team.EnumVisible.ALWAYS;
    private Team.EnumVisible deathMessageVisibility = Team.EnumVisible.ALWAYS;
    private EnumChatFormatting chatFormat = EnumChatFormatting.RESET;
-   private static final long a = 45737796354070L;
 
    public ScorePlayerTeam(Scoreboard theScoreboardIn, String name) {
       this.theScoreboard = theScoreboardIn;

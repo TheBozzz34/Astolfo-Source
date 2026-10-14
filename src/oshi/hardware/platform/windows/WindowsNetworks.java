@@ -13,7 +13,6 @@ import oshi.util.ParseUtil;
 public final class WindowsNetworks extends Networks {
    private static final boolean IS_VISTA_OR_GREATER = VersionHelpers.IsWindowsVistaOrGreater();
    private static final byte CONNECTOR_PRESENT_BIT = 32;
-   private static final long b = 18008462853337L;
 
    public static boolean updateNetworkStats(NetworkIF netIF) {
       if (IS_VISTA_OR_GREATER) {
@@ -56,10 +55,5 @@ public final class WindowsNetworks extends Networks {
 
       netIF.setTimeStamp(System.currentTimeMillis());
       return true;
-   }
-
-   static {
-      long l = b ^ 38941009911255L;
-      long m = l ^ 8372325303697592095L;
    }
 }

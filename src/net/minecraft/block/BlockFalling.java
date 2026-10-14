@@ -11,8 +11,6 @@ import net.minecraft.world.World;
 
 public class BlockFalling extends Block {
    public static boolean fallInstantly;
-   private static final long l = 126863169432757L;
-   private static final long m = 5011311478116974624L;
 
    public BlockFalling() {
       super(Material.sand);
@@ -42,8 +40,8 @@ public class BlockFalling extends Block {
 
    private void checkFallable(World worldIn, BlockPos pos) {
       if (canFallInto(worldIn, pos.down()) && pos.getY() >= 0) {
-         int i = (int)m;
-         if (fallInstantly || !worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
+         byte b = 32;
+         if (fallInstantly || !worldIn.isAreaLoaded(pos.add(-b, -b, -b), pos.add(b, b, b))) {
             worldIn.setBlockToAir(pos);
             BlockPos blockPos = pos.down();
 

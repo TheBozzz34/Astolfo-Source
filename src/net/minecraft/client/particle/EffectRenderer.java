@@ -43,7 +43,6 @@ public class EffectRenderer {
    private TextureManager renderer;
    private Random rand = new Random();
    private Map<Integer, IParticleFactory> particleTypes = Maps.newHashMap();
-   private static final long a = 60341087835996L;
 
    public EffectRenderer(World worldIn, TextureManager rendererIn) {
       this.worldObj = worldIn;
@@ -201,8 +200,6 @@ public class EffectRenderer {
             }
          });
          crashReportCategory.addCrashSectionCallable("Particle Type", new Callable<String>() {
-            private static final long a = 83601153650809L;
-
             public String call() throws Exception {
                return i == 0 ? "MISC_TEXTURE" : (i == 1 ? "TERRAIN_TEXTURE" : (i == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + i));
             }
@@ -212,11 +209,9 @@ public class EffectRenderer {
    }
 
    public void renderParticles(Entity entityIn, float partialTicks) {
-      long l = a ^ 113718086392696L;
       if (!ModuleManager.I.isEnabled() || Integer.parseInt(Minecraft.getMinecraft().effectRenderer.getStatistics()) <= 500 && NoRender.smart.getValue()) {
          float f = ActiveRenderInfo.S();
          float g = ActiveRenderInfo.N();
-         long m = 166292431802065631L ^ l;
          float h = ActiveRenderInfo.T();
          float f2 = ActiveRenderInfo.U();
          float f3 = ActiveRenderInfo.w();
@@ -254,8 +249,8 @@ public class EffectRenderer {
                   WorldRenderer worldRenderer = tessellator.getWorldRenderer();
                   worldRenderer.begin(7, DefaultVertexFormats.T);
 
-                  for (int n = 0; n < this.fxLayers[j][k].size(); n++) {
-                     final EntityFX entityFX = this.fxLayers[j][k].get(n);
+                  for (int l = 0; l < this.fxLayers[j][k].size(); l++) {
+                     final EntityFX entityFX = this.fxLayers[j][k].get(l);
 
                      try {
                         entityFX.renderParticle(worldRenderer, entityIn, partialTicks, f, f3, g, h, f2);
@@ -270,8 +265,6 @@ public class EffectRenderer {
                         crashReportCategory.addCrashSectionCallable(
                            "Particle Type",
                            new Callable<String>() {
-                              private static final long a = 103408599645973L;
-
                               public String call() throws Exception {
                                  return j == 0
                                     ? "MISC_TEXTURE"
@@ -290,7 +283,6 @@ public class EffectRenderer {
 
          GlStateManager.depthMask(true);
          GlStateManager.disableBlend();
-         m = 7325560801518072968L ^ l;
          GlStateManager.alphaFunc(516, 0.1F);
       } else {
          this.clearEffects(this.worldObj);

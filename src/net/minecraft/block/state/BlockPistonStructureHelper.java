@@ -18,7 +18,6 @@ public class BlockPistonStructureHelper {
    private final EnumFacing moveDirection;
    private final List<BlockPos> toMove = Lists.newArrayList();
    private final List<BlockPos> toDestroy = Lists.newArrayList();
-   private static final long a = 12538446276389L;
 
    public BlockPistonStructureHelper(World worldIn, BlockPos posIn, EnumFacing pistonFacing, boolean extending) {
       this.world = worldIn;

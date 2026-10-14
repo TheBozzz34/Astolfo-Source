@@ -8,8 +8,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class DisablerScriptHandler extends PacketHandler<String> {
-   private static final long b = 127786597021020L;
-
    public DisablerScriptHandler() {
       super(PacketId.DISABLER_SCRIPT);
    }

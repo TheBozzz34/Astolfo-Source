@@ -1,8 +1,6 @@
 package bypass.util;
 
 public final class GetProxyListFetcher {
-   private static final long a = 79351643575549L;
-
    public static ProxySource G(String string, String[] strings) {
       if (string.equals("getproxylist")) {
          String string2 = strings[0];

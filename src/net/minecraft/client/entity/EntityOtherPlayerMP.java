@@ -17,7 +17,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
    private double otherPlayerMPZ;
    private double otherPlayerMPYaw;
    private double otherPlayerMPPitch;
-   private static final long bb = 116492934793263L;
 
    public EntityOtherPlayerMP(World worldIn, GameProfile gameProfileIn) {
       super(worldIn, gameProfileIn);

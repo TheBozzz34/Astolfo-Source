@@ -7,7 +7,6 @@ public class EntityEnchantmentTableParticleFX extends EntityFX {
    private double coordX;
    private double coordY;
    private double coordZ;
-   private static final long ab = 75907514823548L;
 
    public EntityEnchantmentTableParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);

@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 
 public class PlayerItemsLayer implements LayerRenderer {
    private RenderPlayer renderPlayer = null;
-   private static final long a = 42064702067052L;
 
    public PlayerItemsLayer(RenderPlayer renderPlayer) {
       this.renderPlayer = renderPlayer;

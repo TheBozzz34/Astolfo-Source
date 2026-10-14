@@ -4,8 +4,6 @@ import bypass.hypixel.FinalKillTracker;
 import java.util.Arrays;
 
 public class BbqAndBuggedKillMessages {
-   private static final long a = 131593924655325L;
-
    public BbqAndBuggedKillMessages() {
       FinalKillTracker.c
          .addAll(

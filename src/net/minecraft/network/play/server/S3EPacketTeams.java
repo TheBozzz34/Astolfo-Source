@@ -19,7 +19,6 @@ public class S3EPacketTeams implements Packet<INetHandlerPlayClient> {
    private Collection<String> players = Lists.newArrayList();
    private int action;
    private int friendlyFlags;
-   private static final long a = 52471824462213L;
 
    public S3EPacketTeams() {
    }

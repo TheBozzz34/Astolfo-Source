@@ -6,8 +6,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class Damage extends OneArgFunction {
-   private static final long a = 16039466804463L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnumber()) {

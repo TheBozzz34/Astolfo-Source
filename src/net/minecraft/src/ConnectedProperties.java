@@ -61,7 +61,6 @@ public class ConnectedProperties {
    public static final int SYMMETRY_OPPOSITE = 2;
    public static final int SYMMETRY_ALL = 6;
    public static final int SYMMETRY_UNKNOWN = 128;
-   private static final long T = 102351302801070L;
 
    public ConnectedProperties(Properties props, String path) {
       ConnectedParser connectedParser = new ConnectedParser("ConnectedTextures");
@@ -689,31 +688,5 @@ public class ConnectedProperties {
       }
 
       return maxIn;
-   }
-
-   static {
-      long l = T ^ 44114622247622L;
-      long m = l ^ 6403952073836237468L;
-      m = l ^ 8155859250628623345L;
-      m = l ^ 2887310990623235014L;
-      m = l ^ 6913467948314459574L;
-      m = l ^ 8430265563071566890L;
-      m = l ^ 5869525808785808358L;
-      m = l ^ 1428528093700250010L;
-      m = l ^ 2887310990623235014L;
-      m = l ^ 2887310990623235014L;
-      m = l ^ 592418725322477608L;
-      m = l ^ 592418725322477608L;
-      m = l ^ 2834066858742771059L;
-      m = l ^ 576502711948925390L;
-      m = l ^ 979275560414158383L;
-      m = l ^ 1859320588349717954L;
-      m = l ^ 4085068039272170867L;
-      m = l ^ 592418725322477608L;
-      m = l ^ 576502711948925390L;
-      m = l ^ 6913467948314459574L;
-      m = l ^ 1859320588349717954L;
-      m = l ^ 2887310990623235014L;
-      m = l ^ 5869525808785808358L;
    }
 }

@@ -17,8 +17,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemBanner extends ItemBlock {
-   private static final long a = 57123452889711L;
-
    public ItemBanner() {
       super(Blocks.standing_banner);
       this.maxStackSize = 16;

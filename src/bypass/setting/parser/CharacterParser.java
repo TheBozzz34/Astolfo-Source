@@ -4,8 +4,6 @@ import bypass.setting.Parser;
 import java.util.Optional;
 
 public class CharacterParser implements Parser<Character> {
-   private static final long a = 111415329009674L;
-
    @Override
    public Optional<Character> parse(String string, Class<? extends Character> class2) {
       if (string.length() > 1) {

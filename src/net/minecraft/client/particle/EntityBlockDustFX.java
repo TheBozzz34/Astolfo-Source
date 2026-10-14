@@ -15,8 +15,6 @@ public class EntityBlockDustFX extends EntityDiggingFX {
    }
 
    public static class Factory implements IParticleFactory {
-      private static final long a = 43396243402759L;
-
       @Override
       public EntityFX getEntityFX(
          int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints

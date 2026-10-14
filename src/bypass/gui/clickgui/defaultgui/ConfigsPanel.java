@@ -21,7 +21,6 @@ import org.lwjgl.opengl.GL11;
 public class ConfigsPanel extends Container {
    private Stopwatch K = new Stopwatch();
    private SimpleDateFormat T = new SimpleDateFormat("MM/dd/yyyy");
-   private static final long d = 72679344459400L;
 
    public ConfigsPanel() {
       super("configs", 0.0F, 0.0F, 107, 17);
@@ -117,7 +116,6 @@ public class ConfigsPanel extends Container {
 
    public class ax4 extends Component {
       private File L;
-      private static final long c = 91075761623407L;
 
       public ax4(String string, File file, int i, int j) {
          super(string, 0.0F, 0.0F, i, j);

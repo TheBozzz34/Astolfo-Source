@@ -6,8 +6,6 @@ import oshi.util.platform.windows.PerfCounterQuery;
 
 @ThreadSafe
 public final class SystemInformation {
-   private static final long a = 118265608339849L;
-
    private SystemInformation() {
    }
 

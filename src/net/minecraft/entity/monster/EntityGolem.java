@@ -5,9 +5,6 @@ import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.world.World;
 
 public abstract class EntityGolem extends EntityCreature implements IAnimals {
-   private static final long ab = 13418293646981L;
-   private static final long vb = 2195331580837232760L;
-
    public EntityGolem(World worldIn) {
       super(worldIn);
    }
@@ -33,7 +30,7 @@ public abstract class EntityGolem extends EntityCreature implements IAnimals {
 
    @Override
    public int getTalkInterval() {
-      return (int)vb;
+      return 120;
    }
 
    @Override

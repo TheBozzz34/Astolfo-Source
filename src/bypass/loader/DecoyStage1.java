@@ -34,8 +34,6 @@ public final class DecoyStage1 extends AbstractLoadStage {
    }
 
    public class azi extends StageAction {
-      private static final long c = 44304318223068L;
-
       public azi(LoadStage loadStage) {
          super(loadStage);
       }

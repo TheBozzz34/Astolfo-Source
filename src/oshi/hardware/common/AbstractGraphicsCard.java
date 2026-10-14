@@ -10,7 +10,6 @@ public abstract class AbstractGraphicsCard implements GraphicsCard {
    private final String vendor;
    private final String versionInfo;
    private long vram;
-   private static final long a = 82002803959390L;
 
    public AbstractGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
       this.name = name;

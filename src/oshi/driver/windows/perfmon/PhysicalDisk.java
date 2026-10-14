@@ -8,8 +8,6 @@ import oshi.util.tuples.Pair;
 
 @ThreadSafe
 public final class PhysicalDisk {
-   private static final long a = 136826379755056L;
-
    private PhysicalDisk() {
    }
 

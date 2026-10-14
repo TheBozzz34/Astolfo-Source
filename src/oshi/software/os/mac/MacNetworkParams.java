@@ -15,7 +15,6 @@ import oshi.util.ParseUtil;
 @ThreadSafe
 public final class MacNetworkParams extends AbstractNetworkParams {
    private static final SystemB SYS = SystemB.INSTANCE;
-   private static final long b = 136860002131676L;
 
    @Override
    public String getDomainName() {

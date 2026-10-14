@@ -11,8 +11,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class PlayerHead extends VarArgFunction {
-   private static final long a = 115125512759867L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       int i = 0;

@@ -11,10 +11,9 @@ public abstract class SidebarSettingComponent extends Container {
    public int X;
    public Animation B = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
    private boolean h;
-   private static final long f = 139085029211665L;
 
-   public SidebarSettingComponent(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
-      super(setting.getName(), g, h, i, j);
+   public SidebarSettingComponent(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
+      super(setting.getName(), f, g, i, j);
       this.f(moduleButton);
       this.n = setting;
    }

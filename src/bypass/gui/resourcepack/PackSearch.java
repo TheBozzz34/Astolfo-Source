@@ -15,7 +15,6 @@ public class PackSearch {
    private final List<ResourcePackListEntry> J;
    private Comparator<ResourcePackListEntry> F;
    private Pattern H;
-   private static final long a = 33754350313956L;
 
    private static String T(ResourcePackListEntry resourcePackListEntry) {
       if (resourcePackListEntry instanceof CustomPackEntry) {

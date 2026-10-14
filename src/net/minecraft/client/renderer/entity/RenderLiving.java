@@ -14,8 +14,6 @@ import net.minecraft.src.Config;
 import shadersmod.client.Shaders;
 
 public abstract class RenderLiving<T extends EntityLiving> extends RendererLivingEntity<T> {
-   private static final long I = 23306386573185L;
-
    public RenderLiving(RenderManager rendermanagerIn, ModelBase modelbaseIn, float shadowsizeIn) {
       super(rendermanagerIn, modelbaseIn, shadowsizeIn);
    }

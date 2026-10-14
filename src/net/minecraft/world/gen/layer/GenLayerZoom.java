@@ -1,8 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerZoom extends GenLayer {
-   private static final long c = 39007506209129L;
-
    public GenLayerZoom(long l, GenLayer genLayer) {
       super(l);
       super.parent = genLayer;

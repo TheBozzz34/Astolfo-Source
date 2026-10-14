@@ -50,7 +50,7 @@ public class HUD2 extends Module {
 
                hudElement.render(j, k);
                if (mc.currentScreen instanceof GuiChat) {
-                  RenderUtil.drawRect(hudElement.M(), hudElement.E_float(), hudElement.M() + hudElement.x(), hudElement.E_float() + hudElement.Y(), new Color(0, 0, 0, (int)e).getRGB());
+                  RenderUtil.drawRect(hudElement.M(), hudElement.E_float(), hudElement.M() + hudElement.x(), hudElement.E_float() + hudElement.Y(), new Color(0, 0, 0, 120).getRGB());
                   if (hudElement.u_boolean() && Mouse.isButtonDown(0)) {
                      hudElement.T(j, k);
                   }
@@ -67,8 +67,6 @@ public class HUD2 extends Module {
          }
       }
    };
-   private static final long c = 133059744355620L;
-   private static final long e = -6422960953641402248L;
 
    public HUD2() {
       super("HUD2", Category.VISUALS);

@@ -6,8 +6,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandServerKick extends CommandBase {
-   private static final long b = 46483176747560L;
-
    @Override
    public String getCommandName() {
       return "kick";

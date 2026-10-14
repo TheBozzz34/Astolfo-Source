@@ -17,8 +17,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class FileUtil {
-   private static final long a = 38113426515061L;
-
    private FileUtil() {
    }
 

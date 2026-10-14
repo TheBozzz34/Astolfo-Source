@@ -12,7 +12,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenNetherBridge extends MapGenStructure {
    private List<BiomeGenBase.SpawnListEntry> spawnList = Lists.newArrayList();
-   private static final long c = 113486085321571L;
 
    public MapGenNetherBridge() {
       this.spawnList.add(new BiomeGenBase.SpawnListEntry(EntityBlaze.class, 10, 2, 3));
@@ -45,21 +44,19 @@ public class MapGenNetherBridge extends MapGenStructure {
    }
 
    public static class Start extends StructureStart {
-      private static final long a = 33196611788234L;
-
       public Start() {
       }
 
-      public Start(World worldIn, Random random2, int j, int k) {
-         super(j, k);
-         StructureNetherBridgePieces.Start start = new StructureNetherBridgePieces.Start(random2, (j << 4) + 2, (k << 4) + 2);
+      public Start(World worldIn, Random random2, int i, int j) {
+         super(i, j);
+         StructureNetherBridgePieces.Start start = new StructureNetherBridgePieces.Start(random2, (i << 4) + 2, (j << 4) + 2);
          this.components.add(start);
          start.buildComponent(start, this.components, random2);
          List list = start.field_74967_d;
 
          while (!list.isEmpty()) {
-            int i = random2.nextInt(list.size());
-            StructureComponent structureComponent = (StructureComponent)list.remove(i);
+            int k = random2.nextInt(list.size());
+            StructureComponent structureComponent = (StructureComponent)list.remove(k);
             structureComponent.buildComponent(start, this.components, random2);
          }
 

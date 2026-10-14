@@ -7,7 +7,6 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget {
    public EntityTameable theDefendingTameable;
    public EntityLivingBase theOwnerAttacker;
    private int field_142051_e;
-   private static final long a = 65458153212031L;
 
    public EntityAIOwnerHurtByTarget(EntityTameable theDefendingTameableIn) {
       super(theDefendingTameableIn, false);

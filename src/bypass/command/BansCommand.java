@@ -6,8 +6,6 @@ import bypass.util.Stopwatch;
 public class BansCommand extends Command {
    public static int p;
    private final Stopwatch S = new Stopwatch();
-   private static final long d = 87134111985292L;
-   private static final long h = 8466051079300186124L;
 
    public BansCommand(String string, String string2) {
       super(string, string2);
@@ -31,7 +29,7 @@ public class BansCommand extends Command {
 
             try {
                p = Integer.parseInt(strings[2]);
-               if (p <= 0 || p > (int)h) {
+               if (p <= 0 || p > 12) {
                   chat.f("Invalid hour");
                   return;
                }

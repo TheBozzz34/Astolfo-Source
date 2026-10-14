@@ -13,14 +13,11 @@ import net.minecraft.item.ItemStack;
 public class BlockNewLog extends BlockLog {
    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create(
       "variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
-         private static final long a = 62804767666936L;
-
          public boolean apply(BlockPlanks.EnumType enumType) {
             return enumType.getMetadata() >= 4;
          }
       }
    );
-   private static final long m = 89037147332495L;
 
    public BlockNewLog() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));

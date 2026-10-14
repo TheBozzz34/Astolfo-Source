@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 
 public class InventoryHelper {
    private static final Random RANDOM = new Random();
-   private static final long a = 11133481835387L;
 
    public static void dropInventoryItems(World worldIn, BlockPos pos, IInventory inventory) {
       dropInventoryItems(worldIn, pos.getX(), pos.getY(), pos.getZ(), inventory);

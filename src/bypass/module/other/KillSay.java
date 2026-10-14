@@ -88,7 +88,6 @@ public final class KillSay extends Module {
             }
       }
    };
-   private static final long c = 116111440784837L;
 
    public KillSay(Category category) {
       super(category);

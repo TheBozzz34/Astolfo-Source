@@ -39,7 +39,6 @@ public class EntityIronGolem extends EntityGolem {
    public Village villageObj;
    private int attackTimer;
    private int holdRoseTick;
-   private static final long eb = 90960335560056L;
 
    public EntityIronGolem(World worldIn) {
       super(worldIn);
@@ -248,8 +247,6 @@ public class EntityIronGolem extends EntityGolem {
       ) {
          super(creature, classTarget, chance, bl, bl2, predicate);
          this.targetEntitySelector = new Predicate<T>() {
-            private static final long a = 70157262840800L;
-
             public boolean apply(T entityLivingBase) {
                if (predicate != null && !predicate.apply(entityLivingBase)) {
                   return false;

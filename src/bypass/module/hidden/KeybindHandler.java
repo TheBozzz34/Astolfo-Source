@@ -11,8 +11,6 @@ import java.util.List;
 public final class KeybindHandler extends HiddenModule {
    @EventHandler(KeyPressEvent.class)
    private Listener<KeyPressEvent> onKeyPress = keyPressEvent -> {
-      long l = d ^ 45518458676977L;
-      long m = l ^ 138356505475087L;
       List list = client.getModuleManager().getList();
       int i = 0;
 
@@ -26,7 +24,6 @@ public final class KeybindHandler extends HiddenModule {
          }
       }
    };
-   private static final long d = 109695445132109L;
 
    public KeybindHandler() {
       client.getEventBus().subscribe(this);

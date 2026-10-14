@@ -307,7 +307,6 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    public static class PairEntry implements Entry {
       public final Pair B;
       public final MapAdapter.AdaptedEntrySet.PairToEntry W;
-      private static final long a = 96575077283798L;
 
       public PairEntry(MapAdapter.AdaptedEntrySet.PairToEntry pairToEntry, Pair pair) {
          this.W = pairToEntry;

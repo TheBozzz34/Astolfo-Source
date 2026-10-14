@@ -33,7 +33,6 @@ public class HttpUtil {
    );
    private static final AtomicInteger downloadThreadsStarted = new AtomicInteger(0);
    private static final Logger logger = LogManager.getLogger();
-   private static final long a = 69641840283211L;
 
    public static String buildPostString(Map<String, Object> data) {
       StringBuilder stringBuilder = new StringBuilder();
@@ -110,9 +109,6 @@ public class HttpUtil {
       final File saveFile, final String packUrl, final Map<String, String> map, final int maxSize, final IProgressUpdate iProgressUpdate, final Proxy proxy
    ) {
       return (ListenableFuture<Object>)field_180193_a.submit(new Runnable() {
-         private static final long a = 121781366071882L;
-         private static final long e = 2436631665389342720L;
-
          @Override
          public void run() {
             HttpURLConnection httpURLConnection = null;
@@ -124,7 +120,7 @@ public class HttpUtil {
             }
 
             try {
-               byte[] bytes = new byte[(int)e];
+               byte[] bytes = new byte[4096];
                URL url = new URL(packUrl);
                httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
                float g = 0.0F;

@@ -19,8 +19,6 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
    private List<String> instancesFromLastQuery = new ArrayList<>();
    private final String perfObjectLocalized;
    private final String instanceFilter;
-   private static final long c = 39668346806085L;
-   private static final long m = 911481185077559396L;
 
    public PerfCounterWildcardQuery(Class<T> propertyEnum, String perfObject, String perfWmiClass) {
       this(propertyEnum, perfObject, perfWmiClass, perfObject);
@@ -147,7 +145,7 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
    private boolean fillCounterListMap() {
       PdhEnumObjectItems pdhEnumObjectItems;
       try {
-         pdhEnumObjectItems = PdhUtil.PdhEnumObjectItems(null, null, this.perfObjectLocalized, (int)m);
+         pdhEnumObjectItems = PdhUtil.PdhEnumObjectItems(null, null, this.perfObjectLocalized, 100);
       } catch (PdhException pdhException) {
          return false;
       }

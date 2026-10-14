@@ -11,7 +11,6 @@ public class EntityAIMoveIndoors extends EntityAIBase {
    private VillageDoorInfo doorInfo;
    private int insidePosX = -1;
    private int insidePosZ = -1;
-   private static final long a = 91877819116121L;
 
    public EntityAIMoveIndoors(EntityCreature entityObjIn) {
       this.entityObj = entityObjIn;

@@ -12,7 +12,6 @@ import net.minecraft.client.gui.GuiMainMenu;
 public class BooleanComponent extends SettingComponent {
    private final Category j;
    private final Container V;
-   private static final long c = 130516420392357L;
 
    public BooleanComponent(Category category, Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);

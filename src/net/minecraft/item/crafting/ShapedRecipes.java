@@ -11,8 +11,6 @@ public class ShapedRecipes implements IRecipe {
    private final ItemStack[] recipeItems;
    private final ItemStack recipeOutput;
    private boolean copyIngredientNBT;
-   private static final long b = 96618596064655L;
-   private static final long d = -7162599354744668161L;
 
    public ShapedRecipes(int width, int height, ItemStack[] itemStacks, ItemStack output) {
       this.recipeWidth = width;
@@ -81,7 +79,7 @@ public class ShapedRecipes implements IRecipe {
                   return false;
                }
 
-               if (itemStack.getMetadata() != (int)d && itemStack.getMetadata() != itemStack2.getMetadata()) {
+               if (itemStack.getMetadata() != 32767 && itemStack.getMetadata() != itemStack2.getMetadata()) {
                   return false;
                }
             }

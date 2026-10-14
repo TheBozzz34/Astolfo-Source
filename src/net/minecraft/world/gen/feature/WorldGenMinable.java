@@ -13,7 +13,6 @@ public class WorldGenMinable extends WorldGenerator {
    private final IBlockState oreBlock;
    private final int numberOfBlocks;
    private final Predicate<IBlockState> predicate;
-   private static final long a = 92200702009520L;
 
    public WorldGenMinable(IBlockState state, int blockCount) {
       this(state, blockCount, BlockHelper.forBlock(Blocks.stone));

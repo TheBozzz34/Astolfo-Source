@@ -8,8 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class Barrier extends EntityFX {
-   private static final long ab = 54475275198557L;
-
    public Barrier(World worldIn, double d, double d2, double d3, Item item) {
       super(worldIn, d, d2, d3, 0.0, 0.0, 0.0);
       this.setParticleIcon(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(item));

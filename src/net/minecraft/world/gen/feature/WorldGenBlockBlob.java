@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 public class WorldGenBlockBlob extends WorldGenerator {
    private final Block field_150545_a;
    private final int field_150544_b;
-   private static final long a = 126520745736234L;
 
    public WorldGenBlockBlob(Block block, int i) {
       super(false);

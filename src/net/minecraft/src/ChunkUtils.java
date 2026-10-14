@@ -7,7 +7,6 @@ import net.minecraft.world.chunk.Chunk;
 public class ChunkUtils {
    private static Field fieldHasEntities = null;
    private static boolean fieldHasEntitiesMissing = false;
-   private static final long a = 97049233684275L;
 
    public static boolean hasEntities(Chunk chunk) {
       if (fieldHasEntities == null) {

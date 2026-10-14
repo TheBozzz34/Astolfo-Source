@@ -13,7 +13,6 @@ public class NoiseGeneratorSimplex {
    public double field_151610_d;
    private static final double field_151609_g = 0.5 * (field_151614_a - 1.0);
    private static final double field_151615_h = (3.0 - field_151614_a) / 6.0;
-   private static final long a = 68990847919484L;
 
    public NoiseGeneratorSimplex() {
       this(new Random());

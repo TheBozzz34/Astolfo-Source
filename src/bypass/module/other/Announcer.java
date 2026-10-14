@@ -85,7 +85,6 @@ public final class Announcer extends Module {
          this.h++;
       }
    };
-   private static final long d = 85481621302117L;
 
    public Announcer(Category category) {
       super(category);

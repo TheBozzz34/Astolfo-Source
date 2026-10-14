@@ -4,8 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
 public class ModelZombieVillager extends ModelBiped {
-   private static final long a = 60114172947705L;
-
    public ModelZombieVillager() {
       this(0.0F, 0.0F, false);
    }

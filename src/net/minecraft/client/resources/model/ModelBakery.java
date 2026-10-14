@@ -102,7 +102,6 @@ public class ModelBakery {
    private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = Maps.newHashMap();
    private Map<Item, List<String>> variantNames = Maps.newIdentityHashMap();
    private static Map<RegistryDelegate<Item>, Set<String>> p = Maps.newHashMap();
-   private static final long b = 7775452443543L;
 
    public ModelBakery(IResourceManager iResourceManager, TextureMap textureMap, BlockModelShapes blockModelShapes) {
       this.resourceManager = iResourceManager;
@@ -745,8 +744,6 @@ public class ModelBakery {
       set.addAll(this.getItemsTextureLocations());
       set.remove(TextureMap.LOCATION_MISSING_TEXTURE);
       IIconCreator iIconCreator = new IIconCreator() {
-         private static final long a = 62218832642803L;
-
          @Override
          public void registerSprites(TextureMap iconRegistry) {
             for (Object object : set) {

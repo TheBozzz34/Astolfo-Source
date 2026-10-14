@@ -25,7 +25,6 @@ public class CategoryTab extends Container {
    public int O = 12;
    public final int f;
    private int u;
-   private static final long d = 86268410998483L;
 
    public CategoryTab(Sidebar sidebar, Category category, int i, int j, int k, int l) {
       super(category.getDisplayName(), i, j, k, l);
@@ -48,8 +47,6 @@ public class CategoryTab extends Container {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 98381257715873L;
-      long m = l ^ 8972929756414L;
       if (!this.Q.isRunning()) {
          if (!this.G(i, j) && this.t().z() != this) {
             this.Q.backwards().start();
@@ -60,8 +57,8 @@ public class CategoryTab extends Container {
 
       this.u = (int)this.Q.getValue(0.0, 255.0);
       int k = Math.min(this.u, client.getSidebarGui().e);
-      int n = client.getSidebarGui().F();
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), n);
+      int l = client.getSidebarGui().F();
+      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), l);
       RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(29, 31, 37, k).getRGB());
       RenderUtil.setColor(new Color(136, 141, 157, client.getSidebarGui().e).getRGB());
       Minecraft.getMinecraft()
@@ -83,7 +80,7 @@ public class CategoryTab extends Container {
             );
       }
 
-      int i2 = this.O;
+      int m = this.O;
       if (!this.e && this.t().s() == this && this.t().z() == null
          || this.t().s() == null && this.t().z() == this
          || this.t().s() != this && this.t().z() == this) {
@@ -93,26 +90,26 @@ public class CategoryTab extends Container {
          for (Element element : this.M_ArrayList()) {
             if (element instanceof ModuleButton) {
                ModuleButton moduleButton = (ModuleButton)element;
-               moduleButton.r(this.t().M() + 40.0F, this.t().E_float() + i2);
+               moduleButton.r(this.t().M() + 40.0F, this.t().E_float() + m);
                moduleButton.render(i, j);
                if (!moduleButton.j.isRunning()) {
                   moduleButton.j.forwards().start();
                }
 
                moduleButton.P = (int)moduleButton.j.getValue(0.0, 255.0);
-               i2 += 15;
+               m += 15;
             } else if (element instanceof Button) {
                Component component = (Component)element;
-               component.r(this.t().M() + 40.0F, this.t().E_float() + i2);
+               component.r(this.t().M() + 40.0F, this.t().E_float() + m);
                component.render(i, j);
-               i2 += 13;
+               m += 13;
             }
 
             if (element instanceof StringComponent) {
                Component component2 = (Component)element;
-               component2.r(this.t().M() + 40.0F, this.t().E_float() + i2);
+               component2.r(this.t().M() + 40.0F, this.t().E_float() + m);
                component2.render(i, j);
-               i2 += 20;
+               m += 20;
             }
          }
 

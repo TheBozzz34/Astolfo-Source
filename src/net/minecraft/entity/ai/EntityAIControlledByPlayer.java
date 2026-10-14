@@ -20,7 +20,6 @@ public class EntityAIControlledByPlayer extends EntityAIBase {
    private boolean speedBoosted;
    private int speedBoostTime;
    private int maxSpeedBoostTime;
-   private static final long b = 139447762787264L;
 
    public EntityAIControlledByPlayer(EntityLiving entitylivingIn, float maxspeed) {
       this.thisEntity = entitylivingIn;

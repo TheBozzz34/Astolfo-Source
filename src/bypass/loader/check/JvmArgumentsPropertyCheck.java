@@ -8,7 +8,6 @@ import oshi.util.tuples.Pair;
 public class JvmArgumentsPropertyCheck {
    private final StringListHolder Q;
    private boolean P;
-   private static final long a = 116872602638098L;
 
    public JvmArgumentsPropertyCheck(StringListHolder stringListHolder) {
       this.Q = stringListHolder;
@@ -29,7 +28,7 @@ public class JvmArgumentsPropertyCheck {
          }
       }
 
-      System.setProperty(JvmArgumentsPropertyStrings.J("/jJmqaAJ/A7HI2uxLkozi5uENXs2tiLrBA=="), JvmArgumentsPropertyStrings.J("8jJ8u+s="));
+      System.setProperty("java.net.useSystemProxies", "false");
       return holder;
    }
 

@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 public class ContainerHorseInventory extends Container {
    private IInventory horseInventory;
    private EntityHorse theHorse;
-   private static final long a = 99667126036234L;
 
    public ContainerHorseInventory(IInventory playerInventory, IInventory horseInventoryIn, final EntityHorse horse, EntityPlayer player) {
       this.horseInventory = horseInventoryIn;
@@ -17,16 +16,12 @@ public class ContainerHorseInventory extends Container {
       horseInventoryIn.openInventory(player);
       int i = (b - 4) * 18;
       this.addSlotToContainer(new Slot(horseInventoryIn, 0, 8, 18) {
-         private static final long a = 123320094596717L;
-
          @Override
          public boolean isItemValid(ItemStack stack) {
             return super.isItemValid(stack) && stack.getItem() == Items.saddle && !this.getHasStack();
          }
       });
       this.addSlotToContainer(new Slot(horseInventoryIn, 1, 8, 36) {
-         private static final long a = 32252764682274L;
-
          @Override
          public boolean isItemValid(ItemStack stack) {
             return super.isItemValid(stack) && horse.canWearArmor() && EntityHorse.isArmorItem(stack.getItem());

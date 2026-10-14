@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32DiskDrive {
-   private static final long a = 40314074960735L;
-
    private Win32DiskDrive() {
    }
 

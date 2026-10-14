@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 
 public class EntitySilverfish extends EntityMob {
    private EntitySilverfish.AISummonSilverfish summonSilverfish;
-   private static final long ab = 121298672216908L;
 
    public EntitySilverfish(World worldIn) {
       super(worldIn);
@@ -132,7 +131,6 @@ public class EntitySilverfish extends EntityMob {
       private final EntitySilverfish silverfish;
       private EnumFacing facing;
       private boolean field_179484_c;
-      private static final long c = 56520869211918L;
 
       public AIHideInStone(EntitySilverfish silverfishIn) {
          super(silverfishIn, 1.0, 10);
@@ -192,7 +190,6 @@ public class EntitySilverfish extends EntityMob {
    public static class AISummonSilverfish extends EntityAIBase {
       private EntitySilverfish silverfish;
       private int field_179463_b;
-      private static final long a = 85565148347182L;
 
       public AISummonSilverfish(EntitySilverfish silverfishIn) {
          this.silverfish = silverfishIn;

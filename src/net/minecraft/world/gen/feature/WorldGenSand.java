@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 public class WorldGenSand extends WorldGenerator {
    private Block block;
    private int radius;
-   private static final long a = 41701229110994L;
 
    public WorldGenSand(Block block, int i) {
       this.block = block;

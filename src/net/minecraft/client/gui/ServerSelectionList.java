@@ -12,7 +12,6 @@ public class ServerSelectionList extends GuiListExtended {
    private final List<ServerListEntryLanDetected> serverListLan = Lists.newArrayList();
    private final GuiListExtended.IGuiListEntry lanScanEntry = new ServerListEntryLanScan();
    private int selectedSlotIndex = -1;
-   private static final long c = 125064227958210L;
 
    public ServerSelectionList(GuiMultiplayer ownerIn, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
       super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);

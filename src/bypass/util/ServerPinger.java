@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 public class ServerPinger {
    private static final Logger X = LogManager.getLogger();
    private final List<NetworkManager> j = Collections.synchronizedList(Lists.newArrayList());
-   private static final long a = 75349393174193L;
 
    public void F(String string, ServerPingData serverPingData) throws UnknownHostException {
       if (string != null && !string.startsWith("0.0.0.0") && !string.isEmpty()) {

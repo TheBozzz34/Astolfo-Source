@@ -13,7 +13,6 @@ public class ModelChicken extends ModelBase {
    public ModelRenderer leftWing;
    public ModelRenderer bill;
    public ModelRenderer chin;
-   private static final long b = 131795735930748L;
 
    public ModelChicken() {
       byte b = 16;

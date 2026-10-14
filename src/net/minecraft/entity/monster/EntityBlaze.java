@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 public class EntityBlaze extends EntityMob {
    private float heightOffset = 0.5F;
    private int heightOffsetUpdateTime;
-   private static final long ab = 12225921898803L;
 
    public EntityBlaze(World worldIn) {
       super(worldIn);
@@ -177,7 +176,6 @@ public class EntityBlaze extends EntityMob {
       private EntityBlaze blaze;
       private int field_179467_b;
       private int field_179468_c;
-      private static final long a = 83340264263299L;
 
       public AIFireballAttack(EntityBlaze entityBlaze) {
          this.blaze = entityBlaze;

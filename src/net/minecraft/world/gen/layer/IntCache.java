@@ -9,7 +9,6 @@ public class IntCache {
    private static List<int[]> inUseSmallArrays = Lists.newArrayList();
    private static List<int[]> freeLargeArrays = Lists.newArrayList();
    private static List<int[]> inUseLargeArrays = Lists.newArrayList();
-   private static final long b = 101472601094776L;
 
    public static synchronized int[] getIntCache(int i) {
       if (i <= 256) {

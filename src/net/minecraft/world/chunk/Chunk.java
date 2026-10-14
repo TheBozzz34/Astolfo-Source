@@ -59,7 +59,6 @@ public class Chunk {
    private long inhabitedTime;
    private int queuedLightChecks = 4096;
    private ConcurrentLinkedQueue<BlockPos> tileEntityPosQueue = Queues.newConcurrentLinkedQueue();
-   private static final long c = 116391355854384L;
 
    public Chunk(World worldIn, int x, int z) {
       this.entityLists = new ClassInheritanceMultiMap[16];
@@ -369,8 +368,6 @@ public class Chunk {
       } catch (ReportedException reportedException) {
          CrashReportCategory crashReportCategory = reportedException.getCrashReport().makeCategory("Block being got");
          crashReportCategory.addCrashSectionCallable("Location", new Callable<String>() {
-            private static final long a = 11573433213160L;
-
             public String call() throws Exception {
                return CrashReportCategory.getCoordinateInfo(new BlockPos(Chunk.this.xPosition * 16 + x, y, Chunk.this.zPosition * 16 + z));
             }

@@ -12,7 +12,6 @@ import java.util.WeakHashMap;
 
 public final class MethodScanner implements MemberScanner<Method> {
    private final Map<Class<?>, Reference<Method[]>> J = new WeakHashMap<>();
-   private static final long a = 136677635857808L;
 
    @Override
    public void collect(Class<?> class2, List<Method> list) {

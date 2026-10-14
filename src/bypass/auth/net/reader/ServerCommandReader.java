@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerCommandReader implements PacketReader<ServerCommand> {
    private ServerCommand b;
-   private static final long a = 132347013873187L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

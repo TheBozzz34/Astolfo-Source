@@ -3,8 +3,6 @@ package net.minecraft.client.particle;
 import net.minecraft.world.World;
 
 public class EntitySplashFX extends EntityRainFX {
-   private static final long cb = 37142407898527L;
-
    public EntitySplashFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn);
       this.particleGravity = 0.04F;

@@ -29,7 +29,6 @@ public class BlockBrewingStand extends BlockContainer {
    public static final PropertyBool[] HAS_BOTTLE = new PropertyBool[]{
       PropertyBool.create("has_bottle_0"), PropertyBool.create("has_bottle_1"), PropertyBool.create("has_bottle_2")
    };
-   private static final long e = 118653185188363L;
 
    public BlockBrewingStand() {
       super(Material.iron);

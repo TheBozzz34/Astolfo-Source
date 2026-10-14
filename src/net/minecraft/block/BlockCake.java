@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 
 public class BlockCake extends Block {
    public static final PropertyInteger BITES = PropertyInteger.create("bites", 0, 6);
-   private static final long e = 92685971810671L;
 
    public BlockCake() {
       super(Material.cake);

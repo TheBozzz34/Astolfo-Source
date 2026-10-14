@@ -6,8 +6,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public abstract class EntityFlying extends EntityLiving {
-   private static final long ab = 118800346035487L;
-
    public EntityFlying(World worldIn) {
       super(worldIn);
    }

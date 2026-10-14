@@ -2,7 +2,6 @@ package net.minecraft.block;
 
 import java.util.List;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
@@ -26,8 +25,6 @@ public class BlockWall extends Block {
    public static final PropertyBool SOUTH = PropertyBool.create("south");
    public static final PropertyBool WEST = PropertyBool.create("west");
    public static final PropertyEnum<BlockWall.EnumType> VARIANT = PropertyEnum.create("variant", BlockWall.EnumType.class);
-   private static final long l = 36750201935449L;
-   private static final long bb = -1589980554923606010L;
 
    public BlockWall(Block modelBlock) {
       super(modelBlock.blockMaterial);
@@ -163,14 +160,7 @@ public class BlockWall extends Block {
 
    @Override
    public BlockState createBlockState() {
-      IProperty[] iPropertys = new IProperty[(int)bb];
-      iPropertys[0] = UP;
-      iPropertys[1] = NORTH;
-      iPropertys[2] = EAST;
-      iPropertys[3] = WEST;
-      iPropertys[4] = SOUTH;
-      iPropertys[5] = VARIANT;
-      return new BlockState(this, iPropertys);
+      return new BlockState(this, UP, NORTH, EAST, WEST, SOUTH, VARIANT);
    }
 
    public enum EnumType implements IStringSerializable {
@@ -181,7 +171,6 @@ public class BlockWall extends Block {
       private final int meta;
       private final String name;
       private String unlocalizedName;
-      private static final long a = 137487768257945L;
 
       EnumType(int meta, String name, String unlocalizedNameIn) {
          this.meta = meta;

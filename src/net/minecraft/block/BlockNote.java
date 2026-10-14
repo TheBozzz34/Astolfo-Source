@@ -16,8 +16,6 @@ import net.minecraft.world.World;
 
 public class BlockNote extends BlockContainer {
    private static final List<String> INSTRUMENTS = Lists.newArrayList("harp", "bd", "snare", "hat", "bassattack");
-   private static final long e = 63487308933721L;
-   private static final long K = -1136757330763841524L;
 
    public BlockNote() {
       super(Material.wood);
@@ -83,7 +81,7 @@ public class BlockNote extends BlockContainer {
 
    @Override
    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
-      float f = (float)Math.pow(2.0, (eventParam - (int)K) / 12.0);
+      float f = (float)Math.pow(2.0, (eventParam - 12) / 12.0);
       worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, "note." + this.getInstrument(eventID), 3.0F, f);
       worldIn.spawnParticle(EnumParticleTypes.NOTE, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, eventParam / 24.0, 0.0, 0.0);
       return true;

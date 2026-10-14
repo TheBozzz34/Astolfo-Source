@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 
 public class WorldGenBigMushroom extends WorldGenerator {
    private Block mushroomType;
-   private static final long a = 16283217815916L;
 
    public WorldGenBigMushroom(Block block) {
       super(true);

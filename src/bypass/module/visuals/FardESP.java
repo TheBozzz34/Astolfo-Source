@@ -10,7 +10,6 @@ import bypass.module.Module;
 public final class FardESP extends Module {
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
    private Listener<RenderEvent> onRender = renderEvent -> {};
-   private static final long d = 52802462950628L;
 
    public FardESP() {
       super("FardESP", Category.VISUALS);

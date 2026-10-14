@@ -6,8 +6,6 @@ public class NoSlowdownCheck extends MovementCheck {
    private double N;
    private double X;
    private boolean J;
-   private static final long b = 98640950690292L;
-   private static final long e = -5743630696602140665L;
 
    public NoSlowdownCheck() {
       super("NoSlowdown");
@@ -40,6 +38,6 @@ public class NoSlowdownCheck extends MovementCheck {
 
    @Override
    public int p() {
-      return (int)e;
+      return 7;
    }
 }

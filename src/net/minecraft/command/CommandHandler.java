@@ -19,7 +19,6 @@ public class CommandHandler implements ICommandManager {
    private static final Logger logger = LogManager.getLogger();
    private final Map<String, ICommand> commandMap = Maps.newHashMap();
    private final Set<ICommand> commandSet = Sets.newHashSet();
-   private static final long a = 48821789413626L;
 
    @Override
    public int executeCommand(ICommandSender sender, String rawCommand) {

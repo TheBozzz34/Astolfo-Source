@@ -22,7 +22,6 @@ public abstract class BlockLeaves extends BlockLeavesBase {
    public int[] surroundings;
    public int iconIndex;
    public boolean isTransparent;
-   private static final long x = 67119386082498L;
 
    public BlockLeaves() {
       super(Material.leaves, false);
@@ -72,68 +71,66 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 
    @Override
    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-      long l = x ^ 82117306801952L;
       if (!worldIn.isRemote && state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
          byte b = 4;
          int i = b + 1;
-         long m = 6234113995942740239L ^ l;
          int j = pos.getX();
          int k = pos.getY();
-         int n = pos.getZ();
+         int l = pos.getZ();
          byte b2 = 32;
-         int i2 = b2 * b2;
-         int i3 = b2 / 2;
+         int m = b2 * b2;
+         int n = b2 / 2;
          if (this.surroundings == null) {
             this.surroundings = new int[b2 * b2 * b2];
          }
 
-         if (worldIn.isAreaLoaded(new BlockPos(j - i, k - i, n - i), new BlockPos(j + i, k + i, n + i))) {
+         if (worldIn.isAreaLoaded(new BlockPos(j - i, k - i, l - i), new BlockPos(j + i, k + i, l + i))) {
             BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-            for (int i4 = -b; i4 <= b; i4++) {
-               for (int i5 = -b; i5 <= b; i5++) {
-                  for (int i6 = -b; i6 <= b; i6++) {
-                     Block block = worldIn.getBlockState(mutableBlockPos.set(j + i4, k + i5, n + i6)).getBlock();
+            for (int i2 = -b; i2 <= b; i2++) {
+               for (int i3 = -b; i3 <= b; i3++) {
+                  for (int i4 = -b; i4 <= b; i4++) {
+                     Block block = worldIn.getBlockState(mutableBlockPos.set(j + i2, k + i3, l + i4)).getBlock();
                      if (block != Blocks.log && block != Blocks.log2) {
                         if (block.getMaterial() == Material.leaves) {
-                           this.surroundings[(i4 + i3) * i2 + (i5 + i3) * b2 + i6 + i3] = -2;
+                           this.surroundings[(i2 + n) * m + (i3 + n) * b2 + i4 + n] = -2;
                         } else {
-                           this.surroundings[(i4 + i3) * i2 + (i5 + i3) * b2 + i6 + i3] = -1;
+                           this.surroundings[(i2 + n) * m + (i3 + n) * b2 + i4 + n] = -1;
                         }
                      } else {
-                        this.surroundings[(i4 + i3) * i2 + (i5 + i3) * b2 + i6 + i3] = 0;
+                        this.surroundings[(i2 + n) * m + (i3 + n) * b2 + i4 + n] = 0;
                      }
                   }
                }
             }
 
-            for (int i7 = 1; i7 <= 4; i7++) {
-               for (int i8 = -b; i8 <= b; i8++) {
-                  for (int i9 = -b; i9 <= b; i9++) {
-                     for (int i10 = -b; i10 <= b; i10++) {
-                        if (this.surroundings[(i8 + i3) * i2 + (i9 + i3) * b2 + i10 + i3] == i7 - 1) {
-                           if (this.surroundings[(i8 + i3 - 1) * i2 + (i9 + i3) * b2 + i10 + i3] == -2) {
-                              this.surroundings[(i8 + i3 - 1) * i2 + (i9 + i3) * b2 + i10 + i3] = i7;
+            for (int i5 = 1; i5 <= 4; i5++) {
+               for (int i6 = -b; i6 <= b; i6++) {
+                  for (int i7 = -b; i7 <= b; i7++) {
+                     for (int i8 = -b; i8 <= b; i8++) {
+                        if (this.surroundings[(i6 + n) * m + (i7 + n) * b2 + i8 + n] == i5 - 1) {
+                           if (this.surroundings[(i6 + n - 1) * m + (i7 + n) * b2 + i8 + n] == -2) {
+                              this.surroundings[(i6 + n - 1) * m + (i7 + n) * b2 + i8 + n] = i5;
                            }
 
-                           if (this.surroundings[(i8 + i3 + 1) * i2 + (i9 + i3) * b2 + i10 + i3] == -2) {
-                              this.surroundings[(i8 + i3 + 1) * i2 + (i9 + i3) * b2 + i10 + i3] = i7;
+                           if (this.surroundings[(i6 + n + 1) * m + (i7 + n) * b2 + i8 + n] == -2) {
+                              this.surroundings[(i6 + n + 1) * m + (i7 + n) * b2 + i8 + n] = i5;
                            }
 
-                           if (this.surroundings[(i8 + i3) * i2 + (i9 + i3 - 1) * b2 + i10 + i3] == -2) {
-                              this.surroundings[(i8 + i3) * i2 + (i9 + i3 - 1) * b2 + i10 + i3] = i7;
+                           if (this.surroundings[(i6 + n) * m + (i7 + n - 1) * b2 + i8 + n] == -2) {
+                              this.surroundings[(i6 + n) * m + (i7 + n - 1) * b2 + i8 + n] = i5;
                            }
 
-                           if (this.surroundings[(i8 + i3) * i2 + (i9 + i3 + 1) * b2 + i10 + i3] == -2) {
-                              this.surroundings[(i8 + i3) * i2 + (i9 + i3 + 1) * b2 + i10 + i3] = i7;
+                           if (this.surroundings[(i6 + n) * m + (i7 + n + 1) * b2 + i8 + n] == -2) {
+                              this.surroundings[(i6 + n) * m + (i7 + n + 1) * b2 + i8 + n] = i5;
                            }
 
-                           if (this.surroundings[(i8 + i3) * i2 + (i9 + i3) * b2 + (i10 + i3 - 1)] == -2) {
-                              this.surroundings[(i8 + i3) * i2 + (i9 + i3) * b2 + (i10 + i3 - 1)] = i7;
+                           if (this.surroundings[(i6 + n) * m + (i7 + n) * b2 + (i8 + n - 1)] == -2) {
+                              this.surroundings[(i6 + n) * m + (i7 + n) * b2 + (i8 + n - 1)] = i5;
                            }
 
-                           if (this.surroundings[(i8 + i3) * i2 + (i9 + i3) * b2 + i10 + i3 + 1] == -2) {
-                              this.surroundings[(i8 + i3) * i2 + (i9 + i3) * b2 + i10 + i3 + 1] = i7;
+                           if (this.surroundings[(i6 + n) * m + (i7 + n) * b2 + i8 + n + 1] == -2) {
+                              this.surroundings[(i6 + n) * m + (i7 + n) * b2 + i8 + n + 1] = i5;
                            }
                         }
                      }
@@ -142,8 +139,8 @@ public abstract class BlockLeaves extends BlockLeavesBase {
             }
          }
 
-         int i11 = this.surroundings[i3 * i2 + i3 * b2 + i3];
-         if (i11 >= 0) {
+         int i9 = this.surroundings[n * m + n * b2 + n];
+         if (i9 >= 0) {
             worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
          } else {
             this.destroy(worldIn, pos);

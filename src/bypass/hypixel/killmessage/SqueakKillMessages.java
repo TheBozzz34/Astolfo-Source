@@ -4,8 +4,6 @@ import bypass.hypixel.FinalKillTracker;
 import java.util.Arrays;
 
 public class SqueakKillMessages {
-   private static final long a = 55828385972815L;
-
    public SqueakKillMessages() {
       FinalKillTracker.c
          .addAll(

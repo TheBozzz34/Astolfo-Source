@@ -13,8 +13,6 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient> {
    public int field_179775_c;
    public int field_179772_d;
    public String deathMessage;
-   private static final long a = 49936597700143L;
-   private static final long b = -5867519178579083265L;
 
    public S42PacketCombatEvent() {
    }
@@ -43,7 +41,7 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient> {
       } else if (this.eventType == S42PacketCombatEvent.Event.ENTITY_DIED) {
          this.field_179774_b = buf.readVarIntFromBuffer();
          this.field_179775_c = buf.readInt();
-         this.deathMessage = buf.readStringFromBuffer((int)b);
+         this.deathMessage = buf.readStringFromBuffer(32767);
       }
    }
 

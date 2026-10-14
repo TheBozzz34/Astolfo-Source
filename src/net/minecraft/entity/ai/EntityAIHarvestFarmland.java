@@ -16,7 +16,6 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
    private boolean hasFarmItem;
    private boolean field_179503_e;
    private int field_179501_f;
-   private static final long a = 128994329980416L;
 
    public EntityAIHarvestFarmland(EntityVillager theVillagerIn, double speedIn) {
       super(theVillagerIn, speedIn, 16);

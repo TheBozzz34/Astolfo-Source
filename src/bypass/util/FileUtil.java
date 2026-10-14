@@ -19,7 +19,6 @@ import java.util.concurrent.Executors;
 
 public final class FileUtil {
    public static final ExecutorService w = Executors.newSingleThreadExecutor();
-   private static final long a = 112447251599516L;
 
    public static JsonElement readJson(File file) {
       JsonElement jsonElement = null;

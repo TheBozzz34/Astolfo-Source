@@ -9,7 +9,6 @@ import org.luaj.vm2.LuaValue;
 
 public class LuaScreen extends GuiScreen implements ClientAccess {
    private final LuaTable K;
-   private static final long b = 96183474392458L;
 
    public LuaScreen(LuaTable luaTable) {
       this.K = luaTable;

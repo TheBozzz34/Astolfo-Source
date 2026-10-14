@@ -10,7 +10,6 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockBreakable extends Block {
    private boolean ignoreSimilarity;
-   private static final long e = 26261541599133L;
 
    public BlockBreakable(Material materialIn, boolean ignoreSimilarityIn) {
       this(materialIn, ignoreSimilarityIn, materialIn.getMaterialMapColor());

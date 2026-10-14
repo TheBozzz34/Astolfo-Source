@@ -26,7 +26,6 @@ public class PlayerItemModel {
    public static final int ATTACH_LEFT_LEG = 4;
    public static final int ATTACH_RIGHT_LEG = 5;
    public static final int ATTACH_CAPE = 6;
-   private static final long a = 33883452796909L;
 
    public PlayerItemModel(Dimension textureSize, boolean usePlayerTexture, PlayerItemRenderer[] modelRenderers) {
       this.textureSize = textureSize;

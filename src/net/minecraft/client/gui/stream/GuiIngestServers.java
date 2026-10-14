@@ -54,7 +54,6 @@ public class GuiIngestServers extends GuiScreen {
    private static int y;
    private static int d;
    public static boolean f = false;
-   private static final long b = 96081786507278L;
 
    public GuiIngestServers(GuiScreen guiScreen) {
       this.field_152309_a = guiScreen;
@@ -97,8 +96,6 @@ public class GuiIngestServers extends GuiScreen {
    }
 
    public void t() {
-      long l = b ^ 140412576883912L;
-      long n = l ^ 20833144898373L;
       boolean bl = this.m != null;
       this.P.enabled = bl;
       this.G.enabled = bl;
@@ -107,8 +104,6 @@ public class GuiIngestServers extends GuiScreen {
    }
 
    private void u() {
-      long l = b ^ 113330334409251L;
-      long m = l ^ 11356021769646L;
       this.R.clear();
 
       for (Alt alt : Astolfo.INSTANCE.getAltManager().getList()) {
@@ -139,8 +134,6 @@ public class GuiIngestServers extends GuiScreen {
 
    @Override
    public void actionPerformed(GuiButton button) {
-      long l = b ^ 128258646645226L;
-      long n = l ^ 28451119922791L;
       switch (button.id) {
          case 0:
             AltLogin.AUTH.A(this.m);
@@ -208,18 +201,18 @@ public class GuiIngestServers extends GuiScreen {
                   }
                   break;
                case 4:
-                  int i2 = Astolfo.INSTANCE.getAltManager().getList().size();
+                  int l = Astolfo.INSTANCE.getAltManager().getList().size();
                   Astolfo.INSTANCE.getAltManager().getList().clear();
-                  if (i2 > 0) {
-                     Toasts.TOASTS.D(i2 + " accounts have been removed");
+                  if (l > 0) {
+                     Toasts.TOASTS.D(l + " accounts have been removed");
                   } else {
                      Toasts.TOASTS.m("No accounts have been removed");
                   }
                   break;
                case 5:
-                  int i3 = Astolfo.INSTANCE.getAltManager().removeMojang();
-                  if (i3 > 0) {
-                     Toasts.TOASTS.D(i3 + " Mojang accounts removed");
+                  int n = Astolfo.INSTANCE.getAltManager().removeMojang();
+                  if (n > 0) {
+                     Toasts.TOASTS.D(n + " Mojang accounts removed");
                   } else {
                      Toasts.TOASTS.m("No Mojang accounts found");
                   }
@@ -293,8 +286,6 @@ public class GuiIngestServers extends GuiScreen {
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
-      long l = b ^ 17763936838883L;
-      long n = l ^ 137856585745262L;
       if (this.q.isFocused()) {
          this.q.textboxKeyTyped(typedChar, keyCode);
       } else if (GuiScreen.isKeyComboCtrlV(keyCode)) {
@@ -391,8 +382,6 @@ public class GuiIngestServers extends GuiScreen {
    }
 
    public class ServerList extends GuiSlot {
-      private static final long c = 25492104763680L;
-
       public ServerList() {
          super(Minecraft.getMinecraft(), GuiIngestServers.this.width, GuiIngestServers.this.height, 32, GuiIngestServers.this.height - 60, 40);
       }

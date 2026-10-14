@@ -12,8 +12,6 @@ import oshi.util.platform.unix.freebsd.BsdSysctlUtil;
 
 @ThreadSafe
 public final class FreeBsdPowerSource extends AbstractPowerSource {
-   private static final long e = 3870967911739L;
-
    public FreeBsdPowerSource(
       String psName,
       String psDeviceName,

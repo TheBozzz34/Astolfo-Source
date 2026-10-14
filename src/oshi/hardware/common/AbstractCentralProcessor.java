@@ -20,7 +20,6 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    private final int physicalProcessorCount;
    private final int logicalProcessorCount;
    private final CentralProcessor.LogicalProcessor[] logicalProcessors = this.initProcessorCounts();
-   private static final long a = 40000205445972L;
 
    public AbstractCentralProcessor() {
       HashSet hashSet = new HashSet();

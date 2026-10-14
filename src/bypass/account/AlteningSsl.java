@@ -9,7 +9,6 @@ import javax.net.ssl.X509TrustManager;
 
 public class AlteningSsl {
    private boolean R = false;
-   private static final long a = 19617274392763L;
 
    public void H() {
       if (!this.R) {

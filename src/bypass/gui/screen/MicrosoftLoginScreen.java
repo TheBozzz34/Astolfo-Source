@@ -38,7 +38,6 @@ public class MicrosoftLoginScreen extends GuiScreen {
    public final GuiScreen q;
    private HttpServer i;
    private int f;
-   private static final long a = 9475853737830L;
 
    public MicrosoftLoginScreen(GuiScreen guiScreen) {
       this.q = guiScreen;

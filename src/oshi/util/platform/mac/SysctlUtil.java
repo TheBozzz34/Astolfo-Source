@@ -8,8 +8,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class SysctlUtil {
-   private static final long a = 92821533603094L;
-
    private SysctlUtil() {
    }
 

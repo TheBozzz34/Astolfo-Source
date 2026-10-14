@@ -11,7 +11,6 @@ public class ModelGuardian extends ModelBase {
    private ModelRenderer guardianEye;
    private ModelRenderer[] guardianSpines;
    private ModelRenderer[] guardianTail;
-   private static final long a = 127669368844850L;
 
    public ModelGuardian() {
       this.textureWidth = 64;

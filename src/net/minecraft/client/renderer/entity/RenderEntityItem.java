@@ -23,7 +23,6 @@ public class RenderEntityItem extends Render<EntityItem> {
    private final Random field_177079_e = new Random();
    public static long w;
    public static double e;
-   private static final long a = 110307147055816L;
 
    public RenderEntityItem(RenderManager renderManagerIn, RenderItem renderItem) {
       super(renderManagerIn);
@@ -76,7 +75,6 @@ public class RenderEntityItem extends Render<EntityItem> {
    }
 
    public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
-      long l = a ^ 135795353723672L;
       if (ModuleManager.J.isEnabled()) {
          this.b(entity, x, y, z, entityYaw, partialTicks);
       } else {
@@ -91,7 +89,6 @@ public class RenderEntityItem extends Render<EntityItem> {
          GlStateManager.enableRescaleNormal();
          GlStateManager.alphaFunc(516, 0.1F);
          GlStateManager.enableBlend();
-         long m = 2573219428719095706L ^ l;
          GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
          GlStateManager.pushMatrix();
          IBakedModel iBakedModel = this.itemRenderer.getItemModelMesher().getItemModel(itemStack);
@@ -136,7 +133,6 @@ public class RenderEntityItem extends Render<EntityItem> {
    }
 
    private void b(EntityItem entityItem, double d, double d2, double d3, float f, float g) {
-      long l = a ^ 11501802016012L;
       e = (System.nanoTime() - w) / 2500000.0;
       if (!Minecraft.getMinecraft().inGameHasFocus) {
          e = 0.0;
@@ -153,13 +149,11 @@ public class RenderEntityItem extends Render<EntityItem> {
 
       this.field_177079_e.setSeed(i);
       boolean bl = true;
-      long n = 7921707800919149373L ^ l;
       this.bindTexture(resourceLocation);
       this.getRenderManager().renderEngine.getTexture(resourceLocation).setBlurMipmap(false, false);
       GlStateManager.enableRescaleNormal();
       GlStateManager.alphaFunc(516, 0.1F);
       GlStateManager.enableBlend();
-      n = 473045858043443992L ^ l;
       RenderHelper.enableStandardItemLighting();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.pushMatrix();

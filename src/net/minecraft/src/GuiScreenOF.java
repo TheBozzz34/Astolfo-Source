@@ -7,8 +7,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiVideoSettings;
 
 public class GuiScreenOF extends GuiScreen {
-   private static final long a = 12410068435826L;
-
    public void actionPerformedRightClick(GuiButton button) throws IOException {
    }
 

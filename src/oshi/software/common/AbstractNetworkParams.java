@@ -12,8 +12,6 @@ import oshi.util.ParseUtil;
 
 @ThreadSafe
 public abstract class AbstractNetworkParams implements NetworkParams {
-   private static final long a = 5612684153801L;
-
    @Override
    public String getDomainName() {
       try {

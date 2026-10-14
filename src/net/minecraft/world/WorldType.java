@@ -15,7 +15,6 @@ public class WorldType {
    private boolean canBeCreated;
    private boolean isWorldTypeVersioned;
    private boolean hasNotificationData;
-   private static final long b = 106586809277169L;
 
    private WorldType(int id, String name) {
       this(id, name, 0);

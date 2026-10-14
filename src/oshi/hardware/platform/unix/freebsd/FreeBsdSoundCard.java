@@ -11,8 +11,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class FreeBsdSoundCard extends AbstractSoundCard {
-   private static final long c = 17371311099068L;
-
    public FreeBsdSoundCard(String kernelVersion, String name, String codec) {
       super(kernelVersion, name, codec);
    }

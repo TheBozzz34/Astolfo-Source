@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public class NBTTagIntArray extends NBTBase {
    private int[] intArray;
-   private static final long a = 68654914900947L;
 
    public NBTTagIntArray() {
    }

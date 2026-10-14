@@ -14,10 +14,8 @@ public class SplashScreen {
    public static int N;
    private static TextureManager k;
    private static ResourceLocation T;
-   private static final long a = 94544970112253L;
 
    public static void h(TextureManager textureManager) {
-      long l = a ^ 4908631775905L;
       if (k == null) {
          k = textureManager;
       }
@@ -28,7 +26,6 @@ public class SplashScreen {
       framebuffer.bindFramebuffer(false);
       GlStateManager.matrixMode(5889);
       GlStateManager.loadIdentity();
-      long m = 2036982545121047278L ^ l;
       GlStateManager.ortho(0.0, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), 0.0, 1000.0, 3000.0);
       GlStateManager.matrixMode(5888);
       GlStateManager.loadIdentity();
@@ -45,7 +42,6 @@ public class SplashScreen {
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       Gui.drawScaledCustomSizeModalRect(0, 0, 0.0F, 0.0F, 1920, 1080, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), 1920.0F, 1080.0F);
       h();
-      m = 608870794812234667L ^ l;
       framebuffer.unbindFramebuffer();
       framebuffer.framebufferRender(scaledResolution.getScaledWidth() * i, scaledResolution.getScaledHeight() * i);
       GlStateManager.enableAlpha();
@@ -76,10 +72,5 @@ public class SplashScreen {
          Gui.drawRect(k, j - 5, l, j + 5, new Color(0, 0, 0, 50).getRGB());
          Gui.drawRect(k, j - 5, (int)e, j + 5, new Color(167, 120, 255, 247).getRGB());
       }
-   }
-
-   static {
-      long l = a ^ 97181672479201L;
-      long m = l ^ 7506636150211785286L;
    }
 }

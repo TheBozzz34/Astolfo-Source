@@ -25,7 +25,6 @@ public class GuiRepair extends GuiContainer implements ICrafting {
    private ContainerRepair anvil;
    private GuiTextField nameField;
    private InventoryPlayer playerInventory;
-   private static final long bb = 136872546293604L;
 
    public GuiRepair(InventoryPlayer inventoryIn, World worldIn) {
       super(new ContainerRepair(inventoryIn, worldIn, Minecraft.getMinecraft().thePlayer));
@@ -57,14 +56,12 @@ public class GuiRepair extends GuiContainer implements ICrafting {
 
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-      long l = bb ^ 119476666371005L;
       GlStateManager.disableLighting();
       GlStateManager.disableBlend();
       this.fontRendererObj.D(I18n.format("container.repair"), 60.0F, 6.0F, 4210752);
       if (this.anvil.maximumCost > 0) {
          int i = 8453920;
          boolean bl = true;
-         long m = 7048619347340121451L ^ l;
          String string = I18n.format("container.repair.cost", this.anvil.maximumCost);
          if (this.anvil.maximumCost >= 40 && !this.mc.thePlayer.capabilities.isCreativeMode) {
             string = I18n.format("container.repair.expensive");

@@ -38,7 +38,6 @@ public final class NoEffect extends Module {
          renderOverlaysEvent.cancel();
       }
    };
-   private static final long d = 48021696634082L;
 
    public NoEffect(Category category) {
       super(category);

@@ -7,7 +7,6 @@ public enum Toasts {
    TOASTS;
 
    private static final Toasts[] Q = new Toasts[]{TOASTS};
-   private static final long a = 125663378243394L;
 
    public void S(String string) {
       this.g(string, null);
@@ -58,8 +57,6 @@ public enum Toasts {
    }
 
    private void m(String string, String string2, NotificationType notificationType, int i) {
-      long l = a ^ 73773453798081L;
-      long n = l ^ 131379821799640L;
       if (i <= 0) {
          i = this.k(string) + (string2 == null ? 0 : this.k(string2));
       }

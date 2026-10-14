@@ -34,7 +34,6 @@ public class ChunkRenderDispatcher {
    private final VertexBufferUploader vertexUploader = new VertexBufferUploader();
    private final Queue<ListenableFutureTask<?>> queueChunkUploads = Queues.newArrayDeque();
    private final ChunkRenderWorker renderWorker;
-   private static final long c = 87872219545781L;
 
    public ChunkRenderDispatcher() {
       for (int i = 0; i < 2; i++) {

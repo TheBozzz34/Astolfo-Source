@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class DefaultFingerprintRegistry implements FingerprintRegistry {
    private static final Map<String, FingerprintEntry<?>> k = new ConcurrentHashMap<>();
-   private static final long a = 86113207517039L;
 
    @Override
    public void e() {

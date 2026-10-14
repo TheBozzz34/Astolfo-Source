@@ -14,7 +14,6 @@ public class EntityFirework$StarterFX extends EntityFX {
    private final EffectRenderer theEffectRenderer;
    private NBTTagList fireworkExplosions;
    public boolean twinkle;
-   private static final long ab = 33939280585200L;
 
    public EntityFirework$StarterFX(
       World world, double d, double d2, double d3, double d4, double d5, double d6, EffectRenderer effectRenderer, NBTTagCompound nbtTagCompound

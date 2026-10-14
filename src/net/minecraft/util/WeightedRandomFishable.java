@@ -8,8 +8,6 @@ public class WeightedRandomFishable extends WeightedRandom.Item {
    private final ItemStack returnStack;
    private float maxDamagePercent;
    private boolean enchantable;
-   private static final long a = 20972655405507L;
-   private static final long b = -3692151808324534242L;
 
    public WeightedRandomFishable(ItemStack returnStackIn, int itemWeightIn) {
       super(itemWeightIn);
@@ -33,7 +31,7 @@ public class WeightedRandomFishable extends WeightedRandom.Item {
       }
 
       if (this.enchantable) {
-         EnchantmentHelper.addRandomEnchantment(randomIn, itemStack, (int)b);
+         EnchantmentHelper.addRandomEnchantment(randomIn, itemStack, 30);
       }
 
       return itemStack;

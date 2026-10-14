@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 
 public class LayerHeldItem implements LayerRenderer<EntityLivingBase> {
    private final RendererLivingEntity<?> livingEntityRenderer;
-   private static final long a = 42374186165773L;
 
    public LayerHeldItem(RendererLivingEntity<?> livingEntityRendererIn) {
       this.livingEntityRenderer = livingEntityRendererIn;

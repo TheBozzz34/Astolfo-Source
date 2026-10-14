@@ -32,7 +32,6 @@ public final class SmcUtil {
    public static final byte SMC_CMD_READ_BYTES = 5;
    public static final byte SMC_CMD_READ_KEYINFO = 9;
    public static final int KERNEL_INDEX_SMC = 2;
-   private static final long b = 65213212453898L;
 
    private SmcUtil() {
    }
@@ -130,13 +129,6 @@ public final class SmcUtil {
       );
    }
 
-   static {
-      long l = b ^ 115926065461821L;
-      long m = l ^ 2610946401399286723L;
-      m = l ^ 4768613574004857308L;
-      m = l ^ 6708171798858456207L;
-   }
-
    @FieldOrder({"key", "vers", "pLimitData", "keyInfo", "result", "status", "data8", "data32", "bytes"})
    public static class SMCKeyData extends Structure {
       public int key;
@@ -147,13 +139,7 @@ public final class SmcUtil {
       public byte status;
       public byte data8;
       public int data32;
-      public byte[] bytes;
-      private static final long a = 112294942794875L;
-      private static final long b = 8958239380640628768L;
-
-      public SMCKeyData() {
-         this.bytes = new byte[(int)b];
-      }
+      public byte[] bytes = new byte[32];
    }
 
    @FieldOrder({"dataSize", "dataType", "dataAttributes"})
@@ -186,12 +172,6 @@ public final class SmcUtil {
       public byte[] key = new byte[5];
       public int dataSize;
       public byte[] dataType = new byte[5];
-      public byte[] bytes;
-      private static final long a = 26655861008615L;
-      private static final long b = -5969582801421336544L;
-
-      public SMCVal() {
-         this.bytes = new byte[(int)b];
-      }
+      public byte[] bytes = new byte[32];
    }
 }

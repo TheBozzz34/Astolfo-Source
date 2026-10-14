@@ -7,7 +7,6 @@ public class ModelSlime extends ModelBase {
    public ModelRenderer slimeRightEye;
    public ModelRenderer slimeLeftEye;
    public ModelRenderer slimeMouth;
-   private static final long a = 73919860321301L;
 
    public ModelSlime(int i) {
       this.slimeBodies = new ModelRenderer(this, 0, i);

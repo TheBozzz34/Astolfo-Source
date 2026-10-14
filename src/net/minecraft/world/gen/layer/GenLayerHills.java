@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 public class GenLayerHills extends GenLayer {
    private static final Logger logger = LogManager.getLogger();
    private GenLayer field_151628_d;
-   private static final long c = 72549392538923L;
 
    public GenLayerHills(long l, GenLayer genLayer, GenLayer genLayer2) {
       super(l);

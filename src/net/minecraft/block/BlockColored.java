@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 
 public class BlockColored extends Block {
    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
-   private static final long e = 28546238582026L;
 
    public BlockColored(Material materialIn) {
       super(materialIn);

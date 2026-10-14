@@ -12,8 +12,6 @@ import oshi.util.tuples.Triplet;
 
 @ThreadSafe
 public final class ProcessPerformanceData {
-   private static final long a = 24556450108999L;
-
    private ProcessPerformanceData() {
    }
 

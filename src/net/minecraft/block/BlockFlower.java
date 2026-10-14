@@ -17,7 +17,6 @@ import net.minecraft.util.IStringSerializable;
 
 public abstract class BlockFlower extends BlockBush {
    public PropertyEnum<BlockFlower.EnumFlowerType> type;
-   private static final long e = 22398757140856L;
 
    public BlockFlower() {
       this.setDefaultState(
@@ -52,8 +51,6 @@ public abstract class BlockFlower extends BlockBush {
    public IProperty<BlockFlower.EnumFlowerType> getTypeProperty() {
       if (this.type == null) {
          this.type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class, new Predicate<BlockFlower.EnumFlowerType>() {
-            private static final long a = 99932612006769L;
-
             public boolean apply(BlockFlower.EnumFlowerType enumFlowerType) {
                return enumFlowerType.getBlockType() == BlockFlower.this.getBlockType();
             }
@@ -82,8 +79,6 @@ public abstract class BlockFlower extends BlockBush {
       YELLOW,
       RED;
 
-      private static final long a = 22341047942757L;
-
       public BlockFlower getBlock() {
          return this == YELLOW ? Blocks.yellow_flower : Blocks.red_flower;
       }
@@ -106,7 +101,6 @@ public abstract class BlockFlower extends BlockBush {
       private final int meta;
       private final String name;
       private final String unlocalizedName;
-      private static final long a = 96987490485653L;
 
       EnumFlowerType(BlockFlower.EnumFlowerColor blockType, int meta, String name) {
          this(blockType, meta, name, name);
@@ -157,8 +151,6 @@ public abstract class BlockFlower extends BlockBush {
       static {
          for (final BlockFlower.EnumFlowerColor enumFlowerColor : BlockFlower.EnumFlowerColor.values()) {
             Collection collection = Collections2.filter(Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>() {
-               private static final long a = 110501620734356L;
-
                public boolean apply(BlockFlower.EnumFlowerType enumFlowerType) {
                   return enumFlowerType.getBlockType() == enumFlowerColor;
                }

@@ -13,7 +13,6 @@ public class WatchdogStatsReply extends AbstractReply {
    private int watchdogLastMinute;
    @SerializedName("watchdog_rollingDaily")
    private int watchdogRollingDaily;
-   private static final long a = 139738386968404L;
 
    public int I() {
       return this.staffRollingDaily;

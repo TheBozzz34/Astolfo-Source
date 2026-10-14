@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 
 public class StringUtils {
    private static final Pattern patternControlCode = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
-   private static final long a = 44658011149839L;
 
    public static String ticksToElapsedTime(int ticks) {
       int i = ticks / 20;

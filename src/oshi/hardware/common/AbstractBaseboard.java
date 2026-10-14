@@ -5,8 +5,6 @@ import oshi.hardware.Baseboard;
 
 @Immutable
 public abstract class AbstractBaseboard implements Baseboard {
-   private static final long a = 17247668159673L;
-
    @Override
    public String toString() {
       StringBuilder stringBuilder = new StringBuilder();

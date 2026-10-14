@@ -12,7 +12,6 @@ import net.minecraft.src.StrUtils;
 
 public class BlockAliases {
    private static BlockAlias[][] blockAliases = (BlockAlias[][])null;
-   private static final long a = 73285643416541L;
 
    public static int getMappedBlockId(int blockId, int metadata) {
       if (blockAliases == null) {
@@ -39,7 +38,6 @@ public class BlockAliases {
    }
 
    public static void update(IShaderPack shaderPack) {
-      long l = a ^ 34939924747532L;
       Q();
       String string = "/shaders/block.properties";
 
@@ -58,7 +56,6 @@ public class BlockAliases {
 
          for (Object object : propertiesOrdered.keySet()) {
             String string2 = (String)object;
-            long m = 7580225034291966289L ^ l;
             String string3 = propertiesOrdered.getProperty(string2);
             String string4 = "block.";
             if (!string2.startsWith(string4)) {

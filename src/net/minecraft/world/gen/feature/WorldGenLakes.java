@@ -11,7 +11,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class WorldGenLakes extends WorldGenerator {
    private Block block;
-   private static final long b = 78058737247445L;
 
    public WorldGenLakes(Block blockIn) {
       this.block = blockIn;

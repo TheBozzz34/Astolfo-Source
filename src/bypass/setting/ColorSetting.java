@@ -8,8 +8,6 @@ import net.minecraft.util.MathHelper;
 
 public final class ColorSetting extends Setting<Color> {
    public ColorMode mode = ColorMode.NONE;
-   private static final long c = 81396794311465L;
-   private static final long g = -2662563648286752513L;
 
    public ColorSetting(String string, String string2, Color color) {
       super(string, string2, color, SettingType.COLOR);
@@ -20,7 +18,7 @@ public final class ColorSetting extends Setting<Color> {
       switch (this.mode) {
          case PULSATE:
             float f = 1.0F - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.6F);
-            return new Color(color.getRed(), color.getGreen(), color.getBlue(), MathHelper.clamp_int((int)(color.getAlpha() * f), 0, (int)g));
+            return new Color(color.getRed(), color.getGreen(), color.getBlue(), MathHelper.clamp_int((int)(color.getAlpha() * f), 0, 255));
          case RAINBOW:
             return ColorPicker.h(HypixelPacketHandler.r);
          default:

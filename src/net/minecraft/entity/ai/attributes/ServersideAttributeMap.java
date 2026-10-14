@@ -10,7 +10,6 @@ import net.minecraft.server.management.LowerStringMap;
 public class ServersideAttributeMap extends BaseAttributeMap {
    private final Set<IAttributeInstance> attributeInstanceSet = Sets.newHashSet();
    public final Map<String, IAttributeInstance> descriptionToAttributeInstanceMap = new LowerStringMap<>();
-   private static final long b = 38456955220476L;
 
    public ModifiableAttributeInstance getAttributeInstance(IAttribute attribute) {
       return (ModifiableAttributeInstance)super.getAttributeInstance(attribute);

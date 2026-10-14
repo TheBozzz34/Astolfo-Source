@@ -18,7 +18,6 @@ public class SidebarClickGuiScreen extends GuiScreen {
    private int m;
    private int R;
    private int d;
-   private static final long a = 8381060872897L;
 
    @Override
    public void initGui() {
@@ -27,8 +26,6 @@ public class SidebarClickGuiScreen extends GuiScreen {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = a ^ 5575083860948L;
-      long n = l ^ 32623373855641L;
       this.M = new ScaledResolution(this.mc);
       if (!this.b.isRunning()) {
          this.b.forwards().start();
@@ -86,8 +83,6 @@ public class SidebarClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      long m = a ^ 28660197069104L;
-      long l2 = m ^ 2926158616957L;
       boolean bl = Astolfo.INSTANCE.getSidebarGui().A() == null && this.R > 50;
 
       for (Element element : Astolfo.INSTANCE.getSidebarGui().getList()) {
@@ -179,9 +174,6 @@ public class SidebarClickGuiScreen extends GuiScreen {
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
-      long l = a ^ 71306855042604L;
-      long m = l ^ 97185978599009L;
-
       for (Element element : Astolfo.INSTANCE.getSidebarGui().getList()) {
          if (element instanceof Component) {
             Component component = (Component)element;
@@ -268,8 +260,6 @@ public class SidebarClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseReleased(int mouseX, int mouseY, int state) {
-      long l = a ^ 20055596390656L;
-      long m = l ^ 11563038298445L;
       Astolfo.INSTANCE.getSidebarGui().Q(false);
       super.mouseReleased(mouseX, mouseY, state);
    }

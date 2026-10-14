@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 public class BlockRedstoneTorch extends BlockTorch {
    private static Map<World, List<BlockRedstoneTorch.Toggle>> toggles = Maps.newHashMap();
    private final boolean isOn;
-   private static final long i = 43754363327437L;
 
    private boolean isBurnedOut(World worldIn, BlockPos pos, boolean turnOff) {
       if (!toggles.containsKey(worldIn)) {

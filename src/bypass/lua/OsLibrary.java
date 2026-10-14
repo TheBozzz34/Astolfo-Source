@@ -31,7 +31,6 @@ public class OsLibrary extends TwoArgFunction {
    private static final String[] X = new String[]{
       "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
    };
-   private static final long a = 34386368666718L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
@@ -59,7 +58,6 @@ public class OsLibrary extends TwoArgFunction {
    }
 
    public String x(String string, double d2) {
-      long l = a ^ 96443817699932L;
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(new Date((long)(d2 * 1000.0)));
       if (string.startsWith("!")) {
@@ -215,12 +213,11 @@ public class OsLibrary extends TwoArgFunction {
                         buffer.append(String.valueOf(calendar.get(1)).substring(2));
                         break;
                      case 122:
-                        int i2 = this.O(calendar) / 60;
-                        int i3 = Math.abs(i2);
-                        long l2 = 7237896015563187422L ^ l;
-                        String string2 = String.valueOf(100 + i3 / 60).substring(1);
-                        String string3 = String.valueOf(100 + i3 % 60).substring(1);
-                        buffer.append((i2 >= 0 ? "+" : "-") + string2 + string3);
+                        int l = this.O(calendar) / 60;
+                        int i2 = Math.abs(l);
+                        String string2 = String.valueOf(100 + i2 / 60).substring(1);
+                        String string3 = String.valueOf(100 + i2 % 60).substring(1);
+                        buffer.append((l >= 0 ? "+" : "-") + string2 + string3);
                   }
                }
                break;
@@ -309,23 +306,7 @@ public class OsLibrary extends TwoArgFunction {
       return osLibrary.S(calendar);
    }
 
-   static {
-      long l = a ^ 135563115540686L;
-      long m = l ^ 591866441202457622L;
-      m = l ^ 1838006599845597661L;
-      m = l ^ 4865360330267061601L;
-      m = l ^ 882013798488608339L;
-      m = l ^ 4653127324848495750L;
-      m = l ^ 4798389370670225603L;
-      m = l ^ 4448353121674533841L;
-      m = l ^ 7822790321494020732L;
-      m = l ^ 4898208734541847927L;
-      m = 5134378694953252986L ^ l;
-   }
-
    public class pp extends VarArgFunction {
-      private static final long a = 80524074988789L;
-
       public pp(int i, String string) {
          this.opcode = i;
          this.name = string;

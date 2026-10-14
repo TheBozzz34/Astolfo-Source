@@ -8,8 +8,6 @@ import oshi.util.FileUtil;
 
 @ThreadSafe
 public final class LinuxNetworks extends Networks {
-   private static final long b = 92511420692807L;
-
    public static boolean updateNetworkStats(NetworkIF netIF) {
       try {
          File file = new File(String.format("/sys/class/net/%s/statistics", netIF.getName()));

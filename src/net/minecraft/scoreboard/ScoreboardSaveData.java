@@ -12,7 +12,6 @@ public class ScoreboardSaveData extends WorldSavedData {
    private static final Logger logger = LogManager.getLogger();
    private Scoreboard theScoreboard;
    private NBTTagCompound delayedInitNbt;
-   private static final long a = 123098251514214L;
 
    public ScoreboardSaveData() {
       this("scoreboard");

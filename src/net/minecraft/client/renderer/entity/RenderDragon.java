@@ -18,7 +18,6 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
    private static final ResourceLocation enderDragonExplodingTextures = new ResourceLocation("textures/entity/enderdragon/dragon_exploding.png");
    private static final ResourceLocation enderDragonTextures = new ResourceLocation("textures/entity/enderdragon/dragon.png");
    public ModelDragon modelDragon = (ModelDragon)this.mainModel;
-   private static final long e = 31232384825370L;
 
    public RenderDragon(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelDragon(0.0F), 0.5F);
@@ -44,15 +43,12 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
    }
 
    public void renderModel(EntityDragon entitylivingbaseIn, float g, float h, float f2, float f3, float f4, float scaleFactor) {
-      long l = e ^ 91337012075079L;
       if (entitylivingbaseIn.deathTicks > 0) {
          float f = entitylivingbaseIn.deathTicks / 200.0F;
          GlStateManager.depthFunc(515);
          GlStateManager.enableAlpha();
-         long m = 8773314378204344674L ^ l;
          GlStateManager.alphaFunc(516, f);
          this.bindTexture(enderDragonExplodingTextures);
-         m = 3566960171468376034L ^ l;
          this.mainModel.render(entitylivingbaseIn, g, h, f2, f3, f4, scaleFactor);
          GlStateManager.alphaFunc(516, 0.1F);
          GlStateManager.depthFunc(514);
@@ -63,11 +59,9 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
       if (entitylivingbaseIn.hurtTime > 0) {
          GlStateManager.depthFunc(514);
          GlStateManager.disableTexture2D();
-         long n = 170345369150231529L ^ l;
          GlStateManager.enableBlend();
          GlStateManager.blendFunc(770, 771);
          GlStateManager.color(1.0F, 0.0F, 0.0F, 0.5F);
-         n = 3229095188248009408L ^ l;
          this.mainModel.render(entitylivingbaseIn, g, h, f2, f3, f4, scaleFactor);
          GlStateManager.enableTexture2D();
          GlStateManager.disableBlend();
@@ -84,7 +78,6 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
    }
 
    public void drawRechargeRay(EntityDragon dragon, double d, double d2, double d3, float g) {
-      long l = e ^ 53083357347742L;
       float f = dragon.healingEnderCrystal.innerRotation + g;
       float h = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
       h = (h * h + h) * 0.2F;
@@ -117,7 +110,6 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
 
       tessellator.draw();
       GlStateManager.enableCull();
-      long m = 6277333321990017845L ^ l;
       GlStateManager.shadeModel(7424);
       RenderHelper.enableStandardItemLighting();
       GlStateManager.popMatrix();

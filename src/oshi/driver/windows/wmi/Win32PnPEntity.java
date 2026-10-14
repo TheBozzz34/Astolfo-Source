@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32PnPEntity {
-   private static final long a = 79489787850691L;
-
    private Win32PnPEntity() {
    }
 

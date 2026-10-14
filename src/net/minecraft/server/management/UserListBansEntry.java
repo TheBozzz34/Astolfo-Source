@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.UUID;
 
 public class UserListBansEntry extends BanEntry<GameProfile> {
-   private static final long b = 16197147225991L;
-
    public UserListBansEntry(GameProfile profile) {
       this(profile, (Date)null, (String)null, (Date)null, (String)null);
    }

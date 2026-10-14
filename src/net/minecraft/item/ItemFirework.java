@@ -13,8 +13,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemFirework extends Item {
-   private static final long a = 119644669813052L;
-
    @Override
    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
       if (!worldIn.isRemote) {

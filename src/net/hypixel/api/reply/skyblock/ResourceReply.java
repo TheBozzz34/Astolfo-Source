@@ -6,7 +6,6 @@ import net.hypixel.api.reply.AbstractReply;
 public class ResourceReply extends AbstractReply {
    private long lastUpdated;
    private JsonObject response;
-   private static final long a = 112206433772806L;
 
    public ResourceReply(JsonObject response) {
       this.response = response;

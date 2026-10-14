@@ -7,7 +7,6 @@ public class MoveWithHeadingEvent extends CancellableEvent {
    private EventState state;
    private float strafe;
    private float forward;
-   private static final long a = 25738369960069L;
 
    public MoveWithHeadingEvent(EventState eventState, float f, float g) {
       this.state = eventState;

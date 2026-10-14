@@ -25,7 +25,6 @@ public class DynamicLight {
    private long timeCheckMs = 0L;
    private Set<BlockPos> setLitChunkPos = new HashSet<>();
    private BlockPos.MutableBlockPos blockPosMutable = new BlockPos.MutableBlockPos();
-   private static final long a = 113357607647473L;
 
    public DynamicLight(Entity entity) {
       this.entity = entity;

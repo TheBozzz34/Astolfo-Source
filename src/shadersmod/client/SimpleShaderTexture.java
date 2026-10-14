@@ -29,7 +29,6 @@ import shadersmod.common.SMCLog;
 public class SimpleShaderTexture extends AbstractTexture {
    private String texturePath;
    private static final IMetadataSerializer METADATA_SERIALIZER = makeMetadataSerializer();
-   private static final long a = 6042616228422L;
 
    public SimpleShaderTexture(String texturePath) {
       this.texturePath = texturePath;

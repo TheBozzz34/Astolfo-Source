@@ -7,11 +7,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemEgg extends Item {
-   private static final long a = 129809316842007L;
-   private static final long d = 5746317284545134608L;
-
    public ItemEgg() {
-      this.maxStackSize = (int)d;
+      this.maxStackSize = 16;
       this.setCreativeTab(CreativeTabs.tabMaterials);
    }
 

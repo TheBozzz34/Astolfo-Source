@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public abstract class CustomizedTypeAdapterFactory<C> implements TypeAdapterFactory {
    private final Class<C> customizedClass;
-   private static final long b = 80157036539332L;
 
    public CustomizedTypeAdapterFactory(Class<C> customizedClass) {
       this.customizedClass = customizedClass;
@@ -26,8 +25,6 @@ public abstract class CustomizedTypeAdapterFactory<C> implements TypeAdapterFact
       final TypeAdapter<C> delegate = gson.getDelegateAdapter(this, typeIn);
       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
       return new TypeAdapter<C>() {
-         private static final long a = 51159902679273L;
-
          @Override
          public void write(JsonWriter out, C value) throws IOException {
             JsonElement jsonElement = delegate.toJsonTree((C)value);

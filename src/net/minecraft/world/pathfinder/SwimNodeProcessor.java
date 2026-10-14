@@ -10,8 +10,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
 public class SwimNodeProcessor extends NodeProcessor {
-   private static final long b = 76384019953179L;
-
    @Override
    public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {
       super.initProcessor(iblockaccessIn, entityIn);

@@ -12,8 +12,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemLilyPad extends ItemColored {
-   private static final long d = 78110912262362L;
-
    public ItemLilyPad(Block block) {
       super(block, false);
    }

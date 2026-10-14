@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
 public class ReadOnlyLuaTable extends LuaTable {
-   private static final long a = 123943596769236L;
-
    public ReadOnlyLuaTable(LuaValue luaValue) {
       this.presize(luaValue.length(), 0);
 

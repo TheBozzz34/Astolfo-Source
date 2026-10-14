@@ -5,7 +5,6 @@ import bypass.util.SelfTyped;
 public abstract class Container<S> implements SelfTyped<Container<S>> {
    private S q;
    private ContainerSupplier R;
-   private static final long a = 124214587787650L;
 
    public Container(S object) {
       this.setValue((S)object);

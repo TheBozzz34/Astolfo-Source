@@ -14,7 +14,6 @@ public class WeightedRandomChestContent extends WeightedRandom.Item {
    private ItemStack theItemId;
    private int minStackSize;
    private int maxStackSize;
-   private static final long a = 10702279433997L;
 
    public WeightedRandomChestContent(Item item, int i, int minimumChance, int maximumChance, int itemWeightIn) {
       super(itemWeightIn);

@@ -22,7 +22,6 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class CommandBase implements ICommand {
    private static IAdminCommand theAdmin;
-   private static final long a = 53717069565400L;
 
    public int getRequiredPermissionLevel() {
       return 4;

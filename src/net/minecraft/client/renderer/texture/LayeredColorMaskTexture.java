@@ -19,7 +19,6 @@ public class LayeredColorMaskTexture extends AbstractTexture {
    private final ResourceLocation textureLocation;
    private final List<String> field_174949_h;
    private final List<EnumDyeColor> field_174950_i;
-   private static final long a = 131742729215468L;
 
    public LayeredColorMaskTexture(ResourceLocation textureLocationIn, List<String> list, List<EnumDyeColor> list2) {
       this.textureLocation = textureLocationIn;

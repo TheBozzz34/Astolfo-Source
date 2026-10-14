@@ -19,7 +19,6 @@ import java.security.NoSuchAlgorithmException;
 public final class AuthUtil {
    private static final FingerprintRegistry m = new DefaultFingerprintRegistry();
    private static final HwidBuilder M = new HwidOptions().P(true).i(true).J(true).O(true).R(true).d(true).H();
-   private static final long a = 36911620430702L;
 
    private static void Y(HttpURLConnection httpURLConnection, StringBuilder stringBuilder) {
       try {
@@ -39,7 +38,7 @@ public final class AuthUtil {
 
          String string;
          while ((string = bufferedReader.readLine()) != null) {
-            stringBuilder.append(string).append(AuthUtilStrings.U("rKA="));
+            stringBuilder.append(string).append("\\n");
          }
 
          bufferedReader.close();
@@ -56,10 +55,10 @@ public final class AuthUtil {
          String string = authHttpRequest.h();
          URL url = new URL(authHttpRequest.v + (string.isEmpty() ? "" : "?" + string));
          HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
-         httpURLConnection.setRequestMethod(AuthUtilStrings.U("t4un"));
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), authHttpRequest.F);
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), authHttpRequest.P);
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), authHttpRequest.u);
+         httpURLConnection.setRequestMethod("GET");
+         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.F);
+         httpURLConnection.setRequestProperty("Accept", authHttpRequest.P);
+         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.u);
 
          for (int j = 0; j < authHttpRequest.i.length; j++) {
             httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
@@ -80,10 +79,10 @@ public final class AuthUtil {
          String string = authHttpRequest.h();
          URL url = new URL(authHttpRequest.v + (string.isEmpty() ? "" : "?" + string));
          HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(Proxy.NO_PROXY);
-         httpURLConnection.setRequestMethod(AuthUtilStrings.U("t4un"));
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), authHttpRequest.F);
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), authHttpRequest.P);
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), authHttpRequest.u);
+         httpURLConnection.setRequestMethod("GET");
+         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.F);
+         httpURLConnection.setRequestProperty("Accept", authHttpRequest.P);
+         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.u);
 
          for (int j = 0; j < authHttpRequest.i.length; j++) {
             httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
@@ -105,10 +104,10 @@ public final class AuthUtil {
       try {
          URL url = new URL(authHttpRequest.v);
          HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
-         httpURLConnection.setRequestMethod(AuthUtilStrings.U("oIGgng=="));
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), authHttpRequest.F);
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), authHttpRequest.P);
-         httpURLConnection.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), authHttpRequest.u);
+         httpURLConnection.setRequestMethod("POST");
+         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.F);
+         httpURLConnection.setRequestProperty("Accept", authHttpRequest.P);
+         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.u);
 
          for (int j = 0; j < authHttpRequest.i.length; j++) {
             httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);

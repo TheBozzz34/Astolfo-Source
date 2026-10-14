@@ -44,7 +44,6 @@ public class ShaderManager {
    private final List<String> attributes;
    private final ShaderLoader vertexShaderLoader;
    private final ShaderLoader fragmentShaderLoader;
-   private static final long a = 114777707189823L;
 
    public ShaderManager(IResourceManager resourceManager, String programName) throws JsonException, IOException {
       JsonParser jsonParser = new JsonParser();

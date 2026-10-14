@@ -13,7 +13,6 @@ public class BooleanComponent extends SettingComponent {
    private static final Color R = new Color(57, 57, 57);
    public static final Color W = new Color(22, 22, 22);
    private int Z;
-   private static final long c = 12938358802752L;
 
    public BooleanComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
@@ -21,8 +20,6 @@ public class BooleanComponent extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      long l = c ^ 31661229266738L;
-      long m = l ^ 39308001293406L;
       if (this.G(i, j)) {
          if (this.Z < 120) {
             this.Z += 5;

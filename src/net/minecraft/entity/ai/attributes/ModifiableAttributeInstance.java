@@ -18,7 +18,6 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
    private double baseValue;
    private boolean needsUpdate = true;
    private double cachedValue;
-   private static final long a = 57671382977394L;
 
    public ModifiableAttributeInstance(BaseAttributeMap attributeMapIn, IAttribute genericAttributeIn) {
       this.attributeMap = attributeMapIn;

@@ -12,7 +12,6 @@ import net.minecraft.util.IChatComponent;
 public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
    private final MinecraftServer server;
    private final NetworkManager networkManager;
-   private static final long a = 135785117131426L;
 
    public NetHandlerHandshakeTCP(MinecraftServer serverIn, NetworkManager netManager) {
       this.server = serverIn;

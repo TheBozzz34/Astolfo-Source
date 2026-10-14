@@ -41,7 +41,6 @@ public class EntityArmorStand extends EntityLivingBase {
    private Rotations rightArmRotation = DEFAULT_RIGHTARM_ROTATION;
    private Rotations leftLegRotation = DEFAULT_LEFTLEG_ROTATION;
    private Rotations rightLegRotation = DEFAULT_RIGHTLEG_ROTATION;
-   private static final long ab = 14146458160560L;
 
    public EntityArmorStand(World worldIn) {
       super(worldIn);

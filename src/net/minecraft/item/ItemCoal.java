@@ -4,8 +4,6 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 
 public class ItemCoal extends Item {
-   private static final long a = 74907182633278L;
-
    public ItemCoal() {
       this.setHasSubtypes(true);
       this.setMaxDamage(0);

@@ -7,7 +7,6 @@ public class ListSettingBuilder implements SettingBuilder<ListSetting> {
    private final String k;
    private String Y;
    private List<Setting<?>> R;
-   private static final long a = 13104492072384L;
 
    public ListSettingBuilder(String string) {
       this.k = string;

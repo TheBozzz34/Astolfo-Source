@@ -33,7 +33,6 @@ public class DamageSource {
    private boolean magicDamage;
    private boolean explosion;
    public String damageType;
-   private static final long b = 98355004242524L;
 
    public static DamageSource causeMobDamage(EntityLivingBase mob) {
       return new EntityDamageSource("mob", mob);

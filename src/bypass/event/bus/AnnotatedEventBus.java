@@ -14,7 +14,6 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
    private final MemberScanner<A> B;
    private final ListenerFilter<A> C;
    private InvocationStrategy t;
-   private static final long a = 59978824583516L;
 
    public AnnotatedEventBus(
       Map<Class<? extends Event>, List<Subscription<?, ?>>> map,

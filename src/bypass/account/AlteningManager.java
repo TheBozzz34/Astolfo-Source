@@ -7,8 +7,6 @@ import java.io.File;
 import java.util.Base64;
 
 public class AlteningManager extends JsonFileManager<AlteningAccount, JsonObject> {
-   private static final long c = 39403370639183L;
-
    public AlteningManager(File file) {
       super(file, "altening.json");
    }

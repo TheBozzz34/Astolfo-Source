@@ -17,8 +17,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockEndPortal extends BlockContainer {
-   private static final long e = 27093562908766L;
-
    public BlockEndPortal(Material materialIn) {
       super(materialIn);
       this.setLightLevel(1.0F);

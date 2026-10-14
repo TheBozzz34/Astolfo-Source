@@ -27,7 +27,6 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
    private boolean[] filledSlots;
    private Item ingredientID;
    private String customName;
-   private static final long a = 134992188778027L;
 
    @Override
    public String getName() {

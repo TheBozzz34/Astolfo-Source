@@ -89,8 +89,6 @@ public class CustomColors {
    private static final IBlockState BLOCK_STATE_WATER = Blocks.water.getDefaultState();
    public static Random random = new Random();
    private static final CustomColors.IColorizer COLORIZER_GRASS = new CustomColors.IColorizer() {
-      private static final long a = 74837109615766L;
-
       @Override
       public int getColor(IBlockAccess blockAccess, BlockPos blockPos) {
          BiomeGenBase biomeGenBase = CustomColors.getColorBiome(blockAccess, blockPos);
@@ -103,8 +101,6 @@ public class CustomColors {
       }
    };
    private static final CustomColors.IColorizer COLORIZER_FOLIAGE = new CustomColors.IColorizer() {
-      private static final long a = 80085882544834L;
-
       @Override
       public int getColor(IBlockAccess blockAccess, BlockPos blockPos) {
          BiomeGenBase biomeGenBase = CustomColors.getColorBiome(blockAccess, blockPos);
@@ -117,8 +113,6 @@ public class CustomColors {
       }
    };
    private static final CustomColors.IColorizer COLORIZER_FOLIAGE_PINE = new CustomColors.IColorizer() {
-      private static final long a = 76363573944486L;
-
       @Override
       public int getColor(IBlockAccess blockAccess, BlockPos blockPos) {
          return CustomColors.I() != null ? CustomColors.I().getColor(blockAccess, blockPos) : ColorizerFoliage.getFoliageColorPine();
@@ -130,8 +124,6 @@ public class CustomColors {
       }
    };
    private static final CustomColors.IColorizer COLORIZER_FOLIAGE_BIRCH = new CustomColors.IColorizer() {
-      private static final long a = 116302175848277L;
-
       @Override
       public int getColor(IBlockAccess blockAccess, BlockPos blockPos) {
          return CustomColors.s() != null ? CustomColors.s().getColor(blockAccess, blockPos) : ColorizerFoliage.getFoliageColorBirch();
@@ -143,8 +135,6 @@ public class CustomColors {
       }
    };
    private static final CustomColors.IColorizer COLORIZER_WATER = new CustomColors.IColorizer() {
-      private static final long a = 78334371687161L;
-
       @Override
       public int getColor(IBlockAccess blockAccess, BlockPos blockPos) {
          BiomeGenBase biomeGenBase = CustomColors.getColorBiome(blockAccess, blockPos);
@@ -162,10 +152,8 @@ public class CustomColors {
          return false;
       }
    };
-   private static final long O = 18250294499803L;
 
    public static void update() {
-      long l = O ^ 30816986478181L;
       paletteFormatDefault = "vanilla";
       waterColors = null;
       foliageBirchColors = null;
@@ -232,7 +220,6 @@ public class CustomColors {
          stemMelonColors = getCustomColors(string + "melonstem.png", 8, 1);
          String[] strings11 = new String[]{"myceliumparticle.png", "myceliumparticlecolor.png"};
          v = getCustomColors(string, strings11, -1, -1);
-         long m = 5115117361574682099L ^ l;
          Pair pair = parseLightMapPacks();
          F = (CustomColormap[])pair.getLeft();
          lightmapMinDimensionId = (Integer)pair.getRight();
@@ -1643,11 +1630,6 @@ public class CustomColors {
 
    public static CustomColormap k() {
       return waterColors;
-   }
-
-   static {
-      long l = O ^ 2283370206762L;
-      long m = 6319544610923073784L ^ l;
    }
 
    public interface IColorizer {

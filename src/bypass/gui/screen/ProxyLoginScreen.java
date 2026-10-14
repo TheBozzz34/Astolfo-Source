@@ -19,7 +19,6 @@ public class ProxyLoginScreen extends GuiScreen {
    public int l = 40;
    public GuiButton x;
    public GuiButton M;
-   private static final long a = 52888000244283L;
 
    @Override
    public void initGui() {

@@ -10,7 +10,6 @@ public abstract class ShapedMapIterator<K, V, E> implements Iterator<E> {
    public Iterator G;
    public Entry<K, V> M;
    public Entry<K, V> y;
-   private static final long a = 66100522127055L;
 
    public ShapedMapIterator(ShapedMap<K, V> shapedMap) {
       this.Q = shapedMap;

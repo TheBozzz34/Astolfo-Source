@@ -3,8 +3,6 @@ package bypass.gui.tabgui;
 import java.util.List;
 
 public interface ListAccessor<T> extends ValueAccessor<List<T>> {
-   long a = 111981402652216L;
-
    default T Z(int i) {
       return this.L().get(i);
    }

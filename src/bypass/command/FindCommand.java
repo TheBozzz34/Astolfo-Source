@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 public class FindCommand extends Command {
    private Stopwatch N = new Stopwatch();
-   private static final long d = 97319406559614L;
 
    public FindCommand() {
       super("find", "<player name>");

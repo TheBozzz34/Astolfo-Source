@@ -15,9 +15,6 @@ import oshi.util.platform.mac.SysctlUtil;
 
 @ThreadSafe
 public final class MacCentralProcessor extends AbstractCentralProcessor {
-   private static final long c = 119714965384373L;
-   private static final long j = -7979277928561115104L;
-
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
       String string = SysctlUtil.sysctl("machdep.cpu.vendor", "");
@@ -30,7 +27,7 @@ public final class MacCentralProcessor extends AbstractCentralProcessor {
       String string5 = i < 0 ? "" : Integer.toString(i);
       long l = 0L;
       l |= SysctlUtil.sysctl("machdep.cpu.signature", 0);
-      l |= (SysctlUtil.sysctl("machdep.cpu.feature_bits", 0L) & -7841752443500147431L) << (int)j;
+      l |= (SysctlUtil.sysctl("machdep.cpu.feature_bits", 0L) & -7841752443500147431L) << 32;
       String string6 = String.format("%016X", l);
       boolean bl = SysctlUtil.sysctl("hw.cpu64bit_capable", 0) != 0;
       return new CentralProcessor.ProcessorIdentifier(string, string2, string5, string4, string3, string6, bl);

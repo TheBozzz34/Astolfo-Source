@@ -4,8 +4,6 @@ import bypass.manager.Loadable;
 import bypass.manager.Manager;
 
 public class CommandManager extends Manager<CommandInfo> implements Loadable {
-   private static final long a = 139592478139702L;
-
    @Override
    public void load() {
    }

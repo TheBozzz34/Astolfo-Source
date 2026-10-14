@@ -21,7 +21,6 @@ public class GuiScreenCustomizePresets extends GuiScreen {
    public String field_175315_a = "Customize World Presets";
    private String field_175313_s;
    private String field_175312_t;
-   private static final long b = 14581453335439L;
 
    public GuiScreenCustomizePresets(GuiCustomizeWorldScreen guiCustomizeWorldScreen) {
       this.field_175314_r = guiCustomizeWorldScreen;
@@ -158,7 +157,6 @@ public class GuiScreenCustomizePresets extends GuiScreen {
 
    public class ListPreset extends GuiSlot {
       public int field_178053_u = -1;
-      private static final long c = 118251415989360L;
 
       public ListPreset() {
          super(

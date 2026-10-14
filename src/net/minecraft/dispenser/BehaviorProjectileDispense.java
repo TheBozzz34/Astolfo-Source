@@ -8,9 +8,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispenseItem {
-   private static final long b = 27699350061526L;
-   private static final long c = 5912687945176843242L;
-
    @Override
    public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
       World world = source.getWorld();
@@ -25,7 +22,7 @@ public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispense
 
    @Override
    public void playDispenseSound(IBlockSource source) {
-      source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
+      source.getWorld().playAuxSFX(1002, source.getBlockPos(), 0);
    }
 
    public abstract IProjectile getProjectileEntity(World worldIn, IPosition position);

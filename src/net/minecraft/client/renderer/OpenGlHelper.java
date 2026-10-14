@@ -82,10 +82,8 @@ public class OpenGlHelper {
    public static int GL_STATIC_DRAW;
    public static float lastBrightnessX = 0.0F;
    public static float lastBrightnessY = 0.0F;
-   private static final long ab = 1411109385654L;
 
    public static void initializeTextures() {
-      long l = ab ^ 78976155573854L;
       Config.initDisplay();
       ContextCapabilities contextCapabilities = GLContext.getCapabilities();
       arbMultitexture = contextCapabilities.GL_ARB_multitexture && !contextCapabilities.OpenGL13;
@@ -154,7 +152,6 @@ public class OpenGlHelper {
          if (contextCapabilities.OpenGL30) {
             logText = logText + "OpenGL 3.0 is supported and separate blending is supported.\n";
             framebufferType = 0;
-            long m = 1162498087954298384L ^ l;
             GL_FRAMEBUFFER = 36160;
             GL_RENDERBUFFER = 36161;
             GL_COLOR_ATTACHMENT0 = 36064;
@@ -167,7 +164,6 @@ public class OpenGlHelper {
          } else if (contextCapabilities.GL_ARB_framebuffer_object) {
             logText = logText + "ARB_framebuffer_object is supported and separate blending is supported.\n";
             framebufferType = 1;
-            long l2 = 8184655150981709739L ^ l;
             GL_FRAMEBUFFER = 36160;
             GL_RENDERBUFFER = 36161;
             GL_COLOR_ATTACHMENT0 = 36064;
@@ -206,7 +202,6 @@ public class OpenGlHelper {
          if (contextCapabilities.OpenGL21) {
             logText = logText + "OpenGL 2.1 is supported.\n";
             arbShaders = false;
-            long l3 = 1786701935467216207L ^ l;
             GL_LINK_STATUS = 35714;
             GL_COMPILE_STATUS = 35713;
             GL_VERTEX_SHADER = 35633;
@@ -214,7 +209,6 @@ public class OpenGlHelper {
          } else {
             logText = logText + "ARB_shader_objects, ARB_vertex_shader, and ARB_fragment_shader are supported.\n";
             arbShaders = true;
-            long l4 = 8198595248411425666L ^ l;
             GL_LINK_STATUS = 35714;
             GL_COMPILE_STATUS = 35713;
             GL_VERTEX_SHADER = 35633;

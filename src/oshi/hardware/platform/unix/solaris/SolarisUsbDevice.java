@@ -13,9 +13,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public class SolarisUsbDevice extends AbstractUsbDevice {
-   private static final long c = 94980161754475L;
-   private static final long q = -2037229415150125048L;
-
    public SolarisUsbDevice(
       String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
    ) {
@@ -90,7 +87,7 @@ public class SolarisUsbDevice extends AbstractUsbDevice {
             } else if (string2.startsWith("device-id:")) {
                hashMap3.put(string, string2.substring(string2.length() - 4));
             } else if (string2.startsWith("class-code:")) {
-               hashMap5.putIfAbsent(string, string2.substring(string2.length() - (int)q, string2.length() - 4));
+               hashMap5.putIfAbsent(string, string2.substring(string2.length() - 8, string2.length() - 4));
             } else if (string2.startsWith("device_type:")) {
                hashMap5.putIfAbsent(string, ParseUtil.getSingleQuoteStringValue(string2));
             }

@@ -15,8 +15,6 @@ import java.lang.reflect.Modifier;
 
 public enum InvocationStrategy {
    METHOD_REFLECTIVE_INVOCATION(MemberKind.METHOD) {
-      private static final long a = 28013588115475L;
-
       @Override
       public <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement) {
          Method method = (Method)annotatedElement;
@@ -31,8 +29,6 @@ public enum InvocationStrategy {
       }
    },
    METHOD_LAMBDA_INVOCATION(MemberKind.METHOD) {
-      private static final long a = 8265636125559L;
-
       @Override
       public <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement) {
          Method method2 = (Method)annotatedElement;

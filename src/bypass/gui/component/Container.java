@@ -8,16 +8,12 @@ import java.util.Arrays;
 
 public abstract class Container extends Component {
    private Component x;
-   public Animation U;
-   private ArrayList<Element> c;
+   public Animation U = new TimedAnimation().setDuration(250).setEasing(Easing.LINEAR);
+   private ArrayList<Element> c = new ArrayList<>();
    private boolean V;
-   private static final long bb = 92307170903497L;
-   private static final long eb = -845582793185427206L;
 
    public Container(String string, float f, float g, int i, int j) {
       super(string, f, g, i, j);
-      this.U = new TimedAnimation().setDuration((int)eb).setEasing(Easing.LINEAR);
-      this.c = new ArrayList<>();
    }
 
    public void a(Element... elements) {

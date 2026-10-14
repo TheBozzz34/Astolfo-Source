@@ -6,7 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules {
    private TreeMap<String, GameRules.Value> theGameRules = new TreeMap<>();
-   private static final long a = 78103230490780L;
 
    public GameRules() {
       this.addGameRule("doFireTick", "true", GameRules.ValueType.BOOLEAN_VALUE);
@@ -92,7 +91,6 @@ public class GameRules {
       private int valueInteger;
       private double valueDouble;
       private final GameRules.ValueType type;
-      private static final long a = 43036533007356L;
 
       public Value(String value, GameRules.ValueType typeIn) {
          this.type = typeIn;

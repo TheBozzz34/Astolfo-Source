@@ -11,8 +11,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class IrcMessageHandler extends PacketHandler<IrcMessage> {
-   private static final long b = 64771618837165L;
-
    public IrcMessageHandler() {
       super(PacketId.IRC_MESSAGE);
    }

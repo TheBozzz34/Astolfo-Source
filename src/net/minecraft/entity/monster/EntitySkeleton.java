@@ -42,7 +42,6 @@ import net.minecraft.world.WorldProviderHell;
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
    private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0, 20, 60, 15.0F);
    private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2, false);
-   private static final long ab = 14345860322891L;
 
    public EntitySkeleton(World worldIn) {
       super(worldIn);

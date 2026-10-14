@@ -16,7 +16,6 @@ public class EntityFootStepFX extends EntityFX {
    private int footstepAge;
    private int footstepMaxAge;
    private TextureManager currentFootSteps;
-   private static final long ab = 134025360371315L;
 
    public EntityFootStepFX(TextureManager currentFootStepsIn, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
@@ -36,7 +35,6 @@ public class EntityFootStepFX extends EntityFX {
       float rotationXY,
       float rotationXZ
    ) {
-      long l = ab ^ 38808343225001L;
       float f = (this.footstepAge + partialTicks) / this.footstepMaxAge;
       f *= f;
       float g = 2.0F - f * 2.0F;
@@ -46,7 +44,6 @@ public class EntityFootStepFX extends EntityFX {
 
       g *= 0.2F;
       GlStateManager.disableLighting();
-      long m = 6464372214510650607L ^ l;
       float h = (float)(this.posX - interpPosX);
       float f2 = (float)(this.posY - interpPosY);
       float f3 = (float)(this.posZ - interpPosZ);

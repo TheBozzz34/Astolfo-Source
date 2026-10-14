@@ -9,7 +9,6 @@ public class Slot {
    public int slotNumber;
    public int xDisplayPosition;
    public int yDisplayPosition;
-   private static final long b = 64582776330203L;
 
    public Slot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
       this.inventory = inventoryIn;

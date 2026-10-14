@@ -9,7 +9,6 @@ public class ModelArmorStand extends ModelArmorStandArmor {
    public ModelRenderer standLeftSide;
    public ModelRenderer standWaist;
    public ModelRenderer standBase;
-   private static final long a = 94713161587031L;
 
    public ModelArmorStand() {
       this(0.0F);

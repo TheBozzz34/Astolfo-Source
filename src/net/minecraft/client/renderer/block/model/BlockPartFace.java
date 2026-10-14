@@ -24,8 +24,6 @@ public class BlockPartFace {
    }
 
    public static class Deserializer implements JsonDeserializer<BlockPartFace> {
-      private static final long a = 18325698551201L;
-
       public BlockPartFace deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          EnumFacing enumFacing = this.parseCullFace(jsonObject);

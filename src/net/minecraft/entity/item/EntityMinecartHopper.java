@@ -20,7 +20,6 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
    private boolean isBlocked = true;
    private int transferTicker = -1;
    private BlockPos field_174900_c = BlockPos.ORIGIN;
-   private static final long ab = 101229012403116L;
 
    public EntityMinecartHopper(World worldIn) {
       super(worldIn);

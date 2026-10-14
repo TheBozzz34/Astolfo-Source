@@ -48,7 +48,6 @@ public final class AntiObsidian extends Module {
    };
    @EventHandler(BlockOpaqueEvent.class)
    private final Listener<BlockOpaqueEvent> onBlockOpaque = blockOpaqueEvent -> blockOpaqueEvent.setCancelled(false);
-   private static final long c = 120376125722640L;
 
    public AntiObsidian(Category category) {
       super(category);

@@ -13,7 +13,6 @@ public class VertexFormat {
    private int colorElementOffset = -1;
    private List<Integer> uvOffsetsById = Lists.newArrayList();
    private int normalElementOffset = -1;
-   private static final long a = 78468434692309L;
 
    public VertexFormat(VertexFormat vertexFormatIn) {
       this();

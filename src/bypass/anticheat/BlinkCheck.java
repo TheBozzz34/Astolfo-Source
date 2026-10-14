@@ -12,7 +12,6 @@ public class BlinkCheck extends MovementCheck {
    private double R;
    private final Stopwatch W = new Stopwatch();
    private final List<Integer> V = new ArrayList<>(10);
-   private static final long b = 41383641131652L;
 
    public BlinkCheck() {
       super("Blink");

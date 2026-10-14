@@ -11,7 +11,6 @@ public class DefaultCheckRegistry implements CheckRegistry {
    private final CopyOnWriteArrayList<StageCheck> C;
    private final CopyOnWriteArrayList<VerdictProcessor> p;
    private final VerdictResolver y;
-   private static final long a = 137073617500381L;
 
    public DefaultCheckRegistry(Set<StageCheck> set, VerdictResolver verdictResolver) {
       Objects.requireNonNull(verdictResolver, "");

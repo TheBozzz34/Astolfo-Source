@@ -13,7 +13,6 @@ public class InventoryLargeChest implements ILockableContainer {
    private String name;
    private ILockableContainer upperChest;
    private ILockableContainer lowerChest;
-   private static final long a = 97849797470365L;
 
    public InventoryLargeChest(String nameIn, ILockableContainer upperChestIn, ILockableContainer lowerChestIn) {
       this.name = nameIn;

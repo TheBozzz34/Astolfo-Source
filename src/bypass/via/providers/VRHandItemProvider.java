@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VRHandItemProvider extends HandItemProvider {
    public Item Z = null;
    public final Map<UUID, Item> j = new ConcurrentHashMap<>();
-   private static final long a = 102387469170387L;
 
    @Override
    public Item getHandItem(UserConnection userConnection) {

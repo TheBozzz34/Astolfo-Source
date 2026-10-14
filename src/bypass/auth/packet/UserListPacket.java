@@ -7,7 +7,6 @@ public class UserListPacket {
    public String users;
    public String s;
    public boolean H;
-   private static final long a = 47742426424070L;
 
    public UserListPacket(UserListType userListType, String string, String string2) {
       this.type = userListType;

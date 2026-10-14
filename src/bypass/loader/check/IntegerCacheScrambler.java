@@ -4,15 +4,12 @@ import java.lang.reflect.Field;
 import java.util.Random;
 
 public class IntegerCacheScrambler {
-   private static final long a = 126629458638747L;
-
    public IntegerCacheScrambler() {
       Integer[] integers;
       try {
-         Field field = Class.forName(IntegerCacheScramblerStrings.z("ajKHMXstAkdeffy/+ZU7pPnsDs81hJw7mbtbQ65U"))
-            .getDeclaredField(IntegerCacheScramblerStrings.z("YzKSODA="));
+         Field field = Class.forName("java.lang.Integer$IntegerCache").getDeclaredField("cache");
          field.setAccessible(true);
-         integers = (Integer[])field.get(IntegerCacheScramblerStrings.z("ajKHMXstAkdeffy/+ZU7pPnsDs81hJw7mbtbQ65U"));
+         integers = (Integer[])field.get("java.lang.Integer$IntegerCache");
       } catch (IllegalAccessException | ClassNotFoundException | NoSuchFieldException value) {
          Object[] objects = null;
 

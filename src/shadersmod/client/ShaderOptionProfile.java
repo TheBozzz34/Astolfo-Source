@@ -6,7 +6,6 @@ import net.minecraft.src.Lang;
 public class ShaderOptionProfile extends ShaderOption {
    private ShaderProfile[] profiles = null;
    private ShaderOption[] options = null;
-   private static final long b = 47258307051176L;
 
    public ShaderOptionProfile(ShaderProfile[] profiles, ShaderOption[] options) {
       super("<profile>", "", detectProfileName(profiles, options), getProfileNames(profiles), detectProfileName(profiles, options, true), (String)null);

@@ -7,11 +7,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemSnowball extends Item {
-   private static final long a = 69575560901943L;
-   private static final long d = -7899574751570427888L;
-
    public ItemSnowball() {
-      this.maxStackSize = (int)d;
+      this.maxStackSize = 16;
       this.setCreativeTab(CreativeTabs.tabMisc);
    }
 

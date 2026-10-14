@@ -2,7 +2,6 @@ package net.minecraft.world;
 
 public class ColorizerFoliage {
    private static int[] foliageBuffer = new int[65536];
-   private static final long a = 29972406408919L;
 
    public static void setFoliageBiomeColorizer(int[] ints) {
       foliageBuffer = ints;

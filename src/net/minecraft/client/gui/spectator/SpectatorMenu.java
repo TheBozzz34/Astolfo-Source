@@ -40,7 +40,6 @@ public class SpectatorMenu {
    private ISpectatorMenuView field_178659_h = new BaseSpectatorGroup();
    private int field_178660_i = -1;
    private int field_178658_j;
-   private static final long a = 52534856511781L;
 
    public SpectatorMenu(ISpectatorMenuRecipient iSpectatorMenuRecipient) {
       this.field_178651_f = iSpectatorMenuRecipient;
@@ -114,8 +113,6 @@ public class SpectatorMenu {
    }
 
    public static class EndSpectatorObject implements ISpectatorMenuObject {
-      private static final long a = 132235007661659L;
-
       public EndSpectatorObject() {
       }
 
@@ -144,7 +141,6 @@ public class SpectatorMenu {
    public static class MoveMenuObject implements ISpectatorMenuObject {
       private final int field_178666_a;
       private final boolean field_178665_b;
-      private static final long a = 6691103535830L;
 
       public MoveMenuObject(int i, boolean bl) {
          this.field_178666_a = i;

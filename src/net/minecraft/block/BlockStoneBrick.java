@@ -16,7 +16,6 @@ public class BlockStoneBrick extends Block {
    public static final int MOSSY_META = BlockStoneBrick.EnumType.MOSSY.getMetadata();
    public static final int CRACKED_META = BlockStoneBrick.EnumType.CRACKED.getMetadata();
    public static final int CHISELED_META = BlockStoneBrick.EnumType.CHISELED.getMetadata();
-   private static final long i = 14451029844325L;
 
    public BlockStoneBrick() {
       super(Material.rock);
@@ -61,7 +60,6 @@ public class BlockStoneBrick extends Block {
       private final int meta;
       private final String name;
       private final String unlocalizedName;
-      private static final long a = 97475102719642L;
 
       EnumType(int meta, String name, String unlocalizedNameIn) {
          this.meta = meta;

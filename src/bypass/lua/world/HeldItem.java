@@ -8,8 +8,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class HeldItem extends OneArgFunction {
-   private static final long a = 94856513588092L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {

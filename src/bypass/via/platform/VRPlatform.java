@@ -12,8 +12,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 public class VRPlatform extends AbstractFabricPlatform {
-   private static final long b = 111879757538929L;
-
    @Override
    public ExecutorService O() {
       return ViaFabric.ASYNC_EXECUTOR;

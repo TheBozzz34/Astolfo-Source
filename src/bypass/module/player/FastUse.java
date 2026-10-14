@@ -80,7 +80,6 @@ public final class FastUse extends Module {
          this.l.reset();
       }
    };
-   private static final long c = 65051531058969L;
 
    public FastUse(Category category) {
       super(category);

@@ -16,12 +16,9 @@ import net.minecraft.world.World;
 
 public class ContainerEnchantment extends Container {
    public IInventory tableInventory = new InventoryBasic("Enchant", true, 2) {
-      private static final long a = 80269045990230L;
-      private static final long c = 8885746788019994688L;
-
       @Override
       public int getInventoryStackLimit() {
-         return (int)c;
+         return 64;
       }
 
       @Override
@@ -36,7 +33,6 @@ public class ContainerEnchantment extends Container {
    public int xpSeed;
    public int[] enchantLevels = new int[3];
    public int[] enchantmentIds = new int[]{-1, -1, -1};
-   private static final long a = 132109630087024L;
 
    public ContainerEnchantment(InventoryPlayer playerInv, World worldIn) {
       this(playerInv, worldIn, BlockPos.ORIGIN);
@@ -58,8 +54,6 @@ public class ContainerEnchantment extends Container {
          }
       });
       this.addSlotToContainer(new Slot(this.tableInventory, 1, 35, 47) {
-         private static final long a = 135605819168633L;
-
          @Override
          public boolean isItemValid(ItemStack stack) {
             return stack.getItem() == Items.dye && EnumDyeColor.byDyeDamage(stack.getMetadata()) == EnumDyeColor.BLUE;

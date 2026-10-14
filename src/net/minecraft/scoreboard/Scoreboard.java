@@ -19,7 +19,6 @@ public class Scoreboard {
    private final Map<String, ScorePlayerTeam> teams = Maps.newHashMap();
    private final Map<String, ScorePlayerTeam> teamMemberships = Maps.newHashMap();
    private static String[] field_178823_g = null;
-   private static final long b = 107193003611245L;
 
    public ScoreObjective getObjective(String name) {
       return this.scoreObjectives.get(name);

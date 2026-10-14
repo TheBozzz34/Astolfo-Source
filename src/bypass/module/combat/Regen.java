@@ -44,7 +44,6 @@ public final class Regen extends Module {
          mc.thePlayer.sendQueue.u(new C03PacketPlayer(((C03PacketPlayer)packetEvent.getPacket()).isOnGround()));
       }
    };
-   private static final long c = 19081020614194L;
 
    public Regen(Category category) {
       super(category);

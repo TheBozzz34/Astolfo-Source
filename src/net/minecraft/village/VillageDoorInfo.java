@@ -10,7 +10,6 @@ public class VillageDoorInfo {
    private int lastActivityTimestamp;
    private boolean isDetachedFromVillageFlag;
    private int doorOpeningRestrictionCounter;
-   private static final long a = 65759791777527L;
 
    public VillageDoorInfo(BlockPos pos, int i, int j, int k) {
       this(pos, getFaceDirection(i, j), k);

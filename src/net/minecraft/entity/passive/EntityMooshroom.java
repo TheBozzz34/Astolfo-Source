@@ -10,8 +10,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 public class EntityMooshroom extends EntityCow {
-   private static final long hb = 111690236893589L;
-
    public EntityMooshroom(World worldIn) {
       super(worldIn);
       this.setSize(0.9F, 1.3F);

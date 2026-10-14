@@ -3,8 +3,6 @@ package net.minecraft.world.gen.layer;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenLayerRareBiome extends GenLayer {
-   private static final long c = 38103569670656L;
-
    public GenLayerRareBiome(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;

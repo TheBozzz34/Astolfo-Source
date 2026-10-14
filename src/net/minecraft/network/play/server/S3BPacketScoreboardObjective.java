@@ -12,7 +12,6 @@ public class S3BPacketScoreboardObjective implements Packet<INetHandlerPlayClien
    private String objectiveValue;
    private IScoreObjectiveCriteria.EnumRenderType type;
    private int field_149342_c;
-   private static final long a = 79381136567898L;
 
    public S3BPacketScoreboardObjective() {
    }

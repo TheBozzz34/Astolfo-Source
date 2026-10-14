@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 public class BlockHugeMushroom extends Block {
    public static final PropertyEnum<BlockHugeMushroom.EnumType> VARIANT = PropertyEnum.create("variant", BlockHugeMushroom.EnumType.class);
    private final Block smallBlock;
-   private static final long e = 139798230686258L;
 
    public BlockHugeMushroom(Material material, MapColor mapColor, Block block) {
       super(material, mapColor);
@@ -91,7 +90,6 @@ public class BlockHugeMushroom extends Block {
       private static final BlockHugeMushroom.EnumType[] META_LOOKUP = new BlockHugeMushroom.EnumType[16];
       private final int meta;
       private final String name;
-      private static final long b = 77256946900792L;
 
       EnumType(int meta, String name) {
          this.meta = meta;

@@ -54,7 +54,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
    public double[] lowerLimitNoiseArray;
    public double[] upperLimitNoiseArray;
    public double[] depthNoiseArray;
-   private static final long a = 2014289007904L;
 
    public ChunkProviderGenerate(World worldIn, long seed, boolean generateStructures, String structuresJson) {
       this.worldObj = worldIn;

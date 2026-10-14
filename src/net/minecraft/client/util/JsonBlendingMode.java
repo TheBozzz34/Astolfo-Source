@@ -14,7 +14,6 @@ public class JsonBlendingMode {
    private final int field_148112_f;
    private final boolean field_148113_g;
    private final boolean field_148119_h;
-   private static final long a = 53479563966374L;
 
    private JsonBlendingMode(boolean bl, boolean bl2, int i, int j, int k, int l, int m) {
       this.field_148113_g = bl;

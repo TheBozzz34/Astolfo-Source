@@ -22,8 +22,6 @@ import oshi.util.platform.linux.ProcPath;
 @ThreadSafe
 public class LinuxFileSystem extends AbstractFileSystem {
    private static final List<String> TMP_FS_PATHS = Arrays.asList("/run", "/sys", "/proc", ProcPath.PROC);
-   private static final long a = 12599219933159L;
-   private static final long f = -3508644936851390458L;
 
    @Override
    public OSFileStore[] getFileStores(boolean localOnly) {
@@ -51,7 +49,7 @@ public class LinuxFileSystem extends AbstractFileSystem {
 
       for (String string : FileUtil.readFile(ProcPath.MOUNTS)) {
          String[] strings = string.split(" ");
-         if (strings.length >= (int)f) {
+         if (strings.length >= 6) {
             String string2 = strings[1].replaceAll("\\\\040", " ");
             String string3 = strings[2];
             if ((!localOnly || !NETWORK_FS_TYPES.contains(string3))

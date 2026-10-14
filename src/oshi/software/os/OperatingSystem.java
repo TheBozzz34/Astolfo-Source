@@ -59,8 +59,6 @@ public interface OperatingSystem {
       private final String codeName;
       private final String buildNumber;
       private final String versionStr;
-      private static final long a = 77598499163485L;
-      private static final long g = -3017974897860149207L;
 
       public OSVersionInfo(String version, String codeName, String buildNumber) {
          this.version = version;
@@ -68,7 +66,7 @@ public interface OperatingSystem {
          this.buildNumber = buildNumber;
          StringBuilder stringBuilder = new StringBuilder(this.getVersion() != null ? this.getVersion() : "unknown");
          if (!Util.isBlank(this.getCodeName())) {
-            stringBuilder.append(" (").append(this.getCodeName()).append((char)((int)g));
+            stringBuilder.append(" (").append(this.getCodeName()).append(')');
          }
 
          if (!Util.isBlank(this.getBuildNumber())) {

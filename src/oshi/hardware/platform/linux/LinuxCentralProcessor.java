@@ -19,8 +19,6 @@ import oshi.util.platform.linux.ProcPath;
 
 @ThreadSafe
 public final class LinuxCentralProcessor extends AbstractCentralProcessor {
-   private static final long c = 21074499392943L;
-
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
       String string = "";

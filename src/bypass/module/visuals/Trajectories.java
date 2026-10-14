@@ -170,7 +170,6 @@ public final class Trajectories extends Module {
          restoreRender();
       }
    };
-   private static final long c = 43546861681520L;
 
    public Trajectories(Category category) {
       super(category);

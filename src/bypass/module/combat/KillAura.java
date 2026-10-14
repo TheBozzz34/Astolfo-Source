@@ -231,8 +231,6 @@ public final class KillAura extends Module {
    private boolean wasMoving;
    @EventHandler(MoveWithHeadingEvent.class)
    private Listener<MoveWithHeadingEvent> onMoveWithHeading = moveWithHeadingEvent -> {
-      long l = cb ^ 34002809022621L;
-      long m = l ^ 48967030782639L;
       if (this.movementLimit.getValue() && target != null) {
          switch (moveWithHeadingEvent.getState()) {
             case PRE:
@@ -432,14 +430,8 @@ public final class KillAura extends Module {
    public static boolean strafing;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGH)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = cb ^ 88967226523239L;
-      long m = l ^ 40368445748411L;
-      int i = (int)((l ^ 40368445748411L) >>> 56);
-      int k = (int)((l ^ 40368445748411L) << 8 >>> 32);
-      int n = (int)(m << 40 >>> 40);
-      long l2 = l ^ 108369151863893L;
       boolean bl = this.isLockView();
-      int i2 = this.getSmoothing();
+      int i = this.getSmoothing();
       float f = this.getLeadOff();
       if (AutoHeal.healItem != null && AutoHeal.healItem.getType() == HealItemType.POTION) {
          ItemRenderer.J = false;
@@ -518,11 +510,11 @@ public final class KillAura extends Module {
                         }
 
                         this.rotator.setRandomize(false);
-                        this.rotator.setSmoothing(100 - i2);
+                        this.rotator.setSmoothing(100 - i);
                         Rotation rotation2 = this.rotator.rotationTo(vector3d2, vector3d);
                         Rotation rotation3 = this.rotator.smooth(rotation2, new Rotation(motionEvent.getLastYaw(), motionEvent.getLastPitch()));
-                        float g = i2 == 0 ? rotation2.getYaw() : rotation3.getYaw();
-                        float h = i2 == 0 ? rotation2.getPitch() : rotation3.getPitch();
+                        float g = i == 0 ? rotation2.getYaw() : rotation3.getYaw();
+                        float h = i == 0 ? rotation2.getPitch() : rotation3.getPitch();
                         float f2 = MathHelper.wrapAngleTo180_float(g - mc.thePlayer.rotationYaw);
                         g = mc.thePlayer.rotationYaw + f2;
                         lastYaw = motionEvent.getLastYaw();
@@ -620,9 +612,6 @@ public final class KillAura extends Module {
    };
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
-      long l = cb ^ 72262859920156L;
-      long m = l ^ 127392508756270L;
-
       try {
          switch (renderEvent.getType()) {
             case SCREEN:
@@ -682,8 +671,8 @@ public final class KillAura extends Module {
                double d = MathUtil.interpolate(mc.thePlayer.lastTickPosX, mc.thePlayer.posX, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosX);
                double e = MathUtil.interpolate(mc.thePlayer.lastTickPosY, mc.thePlayer.posY, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosY);
                double d2 = MathUtil.interpolate(mc.thePlayer.lastTickPosZ, mc.thePlayer.posZ, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosZ);
-               long n = System.currentTimeMillis();
-               double d3 = n % 7000L / 7000.0 * 360.0;
+               long l = System.currentTimeMillis();
+               double d3 = l % 7000L / 7000.0 * 360.0;
                this.drawPentagram(d, e, d2, d3);
                if (this.isVisualizationEnabled()) {
                   GL11.glPushMatrix();
@@ -747,20 +736,19 @@ public final class KillAura extends Module {
                      GL11.glDepthMask(false);
                      KillAuraStrafeFormMode killAuraStrafeFormMode = (KillAuraStrafeFormMode)this.strafe.getSetting("Form").getValue();
                      GlStateManager.pushMatrix();
-                     long l2 = 1895894368994852235L ^ l;
                      GL11.glLineWidth(5.0F);
                      GL11.glBegin(2);
                      double d4 = this.strafe.getSetting("Range").asDouble();
-                     int i2 = this.strafe.getSetting("Points").asInt();
+                     int m = this.strafe.getSetting("Points").asInt();
                      RenderUtil.setColor(Color.BLACK.getRGB());
-                     this.traceStrafeForm(d, e, d2, killAuraStrafeFormMode, d4, i2, null);
+                     this.traceStrafeForm(d, e, d2, killAuraStrafeFormMode, d4, m, null);
                      GL11.glEnd();
                      GlStateManager.popMatrix();
                      GlStateManager.pushMatrix();
                      GL11.glLineWidth(2.0F);
                      GL11.glBegin(2);
                      RenderUtil.setColor(((ColorSetting)this.strafe.getSetting("Color")).getValue().getRGB());
-                     this.traceStrafeForm(d, e, d2, killAuraStrafeFormMode, d4, i2, null);
+                     this.traceStrafeForm(d, e, d2, killAuraStrafeFormMode, d4, m, null);
                      GL11.glEnd();
                      GlStateManager.popMatrix();
                      GL11.glDepthMask(true);
@@ -779,7 +767,6 @@ public final class KillAura extends Module {
    };
    private final double critOffset = RandomUtils.nextDouble(0.001, 0.009);
    private final double unusedOffset = RandomUtils.nextDouble(0.01, 0.02);
-   private static final long cb = 5575420850049L;
 
    public KillAura(Category category) {
       super(category);
@@ -852,7 +839,6 @@ public final class KillAura extends Module {
    }
 
    public void drawPentagram(double d, double d2, double d3, double d4) {
-      long l = cb ^ 31929175839367L;
       GL11.glPushMatrix();
       GL11.glDisable(3553);
       GL11.glDisable(2896);
@@ -895,7 +881,6 @@ public final class KillAura extends Module {
       GL11.glBegin(1);
       GL11.glVertex3d(doubles[6], doubles[7], 0.0);
       GL11.glVertex3d(doubles[0], doubles[1], 0.0);
-      long m = 1895959716705500176L ^ l;
       GL11.glEnd();
       GL11.glDepthMask(true);
       GL11.glDisable(2848);
@@ -1051,18 +1036,12 @@ public final class KillAura extends Module {
    }
 
    private ArrayList<EntityLivingBase> findTargets() {
-      long l = cb ^ 104502063424041L;
-      long m = l ^ 47648391227637L;
-      int i = (int)((l ^ 47648391227637L) >>> 56);
-      int j = (int)((l ^ 47648391227637L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
-      long n = l ^ 66263561080146L;
       ArrayList arrayList = new ArrayList(this.maxTargets.getValue());
       List list = mc.theWorld.loadedEntityList;
-      int i2 = 0;
+      int i = 0;
 
-      for (int i3 = list.size(); i2 < i3; i2++) {
-         Entity entity = (Entity)list.get(i2);
+      for (int j = list.size(); i < j; i++) {
+         Entity entity = (Entity)list.get(i);
          if (entity instanceof EntityLivingBase) {
             EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
             if (arrayList.size() > this.maxTargets.getValue()) {
@@ -1146,8 +1125,6 @@ public final class KillAura extends Module {
    }
 
    private void attack(Entity entity) {
-      long l = cb ^ 133038919118032L;
-      long m = l ^ 82027074305762L;
       float f = this.getMissChance();
       boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
       int j = this.getMinAps();
@@ -1156,8 +1133,8 @@ public final class KillAura extends Module {
       }
 
       int k = this.getMinAps();
-      int n = this.getMaxAps();
-      double d = n - k;
+      int l = this.getMaxAps();
+      double d = l - k;
       double e = 1.0 / (k + Math.random() * d);
       if (d == 0.0) {
          this.attackDelay = 1000 / j;
@@ -1279,8 +1256,6 @@ public final class KillAura extends Module {
    }
 
    private boolean isValidTarget(EntityLivingBase entityLivingBase) {
-      long l = cb ^ 131418877066392L;
-      long m = l ^ 22854311646179L;
       if (mc.thePlayer == null || mc.theWorld == null || entityLivingBase == mc.thePlayer || GameUtil.isRemoved(entityLivingBase)) {
          return false;
       }
@@ -1393,8 +1368,6 @@ public final class KillAura extends Module {
    }
 
    private boolean canAttack(Entity entity) {
-      long l = cb ^ 7009825976367L;
-      long m = l ^ 57200257802781L;
       return this.canReach(mc.thePlayer, entity)
          && this.attackTimer.hasElapsed((float)this.attackDelay)
          && (
@@ -1431,11 +1404,6 @@ public final class KillAura extends Module {
    }
 
    private EntityPlayer findBlockTarget() {
-      long l = cb ^ 27720525102709L;
-      long m = l ^ 120308363015337L;
-      int i = (int)((l ^ 120308363015337L) >>> 56);
-      int j = (int)((l ^ 120308363015337L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       double d = this.blockRange.asDouble();
       EntityPlayer entityPlayer = null;
 

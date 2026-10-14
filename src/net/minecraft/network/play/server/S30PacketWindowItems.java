@@ -10,7 +10,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S30PacketWindowItems implements Packet<INetHandlerPlayClient> {
    private int windowId;
    private ItemStack[] itemStacks;
-   private static final long a = 78587540574049L;
 
    public S30PacketWindowItems() {
    }

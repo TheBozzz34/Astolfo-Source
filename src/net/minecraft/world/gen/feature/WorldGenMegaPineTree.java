@@ -22,7 +22,6 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees {
       .withProperty(BlockLeaves.CHECK_DECAY, false);
    private static final IBlockState field_181635_g = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
    private boolean useBaseHeight;
-   private static final long c = 25446705572005L;
 
    public WorldGenMegaPineTree(boolean bl, boolean bl2) {
       super(bl, 13, 15, field_181633_e, field_181634_f);
@@ -65,15 +64,15 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees {
       return true;
    }
 
-   private void func_150541_c(World worldIn, int i, int k, int l, int m, Random random2) {
-      int n = random2.nextInt(5) + (this.useBaseHeight ? this.baseHeight : 3);
-      int i2 = 0;
+   private void func_150541_c(World worldIn, int i, int j, int k, int l, Random random2) {
+      int m = random2.nextInt(5) + (this.useBaseHeight ? this.baseHeight : 3);
+      int n = 0;
 
-      for (int i3 = l - n; i3 <= l; i3++) {
-         int i4 = l - i3;
-         int i5 = m + MathHelper.floor_float((float)i4 / n * 3.5F);
-         this.j(worldIn, new BlockPos(i, i3, k), i5 + (i4 > 0 && i5 == i2 && (i3 & 1) == 0 ? 1 : 0));
-         i2 = i5;
+      for (int i2 = k - m; i2 <= k; i2++) {
+         int i3 = k - i2;
+         int i4 = l + MathHelper.floor_float((float)i3 / m * 3.5F);
+         this.j(worldIn, new BlockPos(i, i2, j), i4 + (i3 > 0 && i4 == n && (i2 & 1) == 0 ? 1 : 0));
+         n = i4;
       }
    }
 

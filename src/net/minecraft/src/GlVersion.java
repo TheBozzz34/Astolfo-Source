@@ -5,7 +5,6 @@ public class GlVersion {
    private int minor;
    private int release;
    private String suffix;
-   private static final long a = 111096911572980L;
 
    public GlVersion(int major, int minor) {
       this(major, minor, 0);

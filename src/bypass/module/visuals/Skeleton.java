@@ -65,7 +65,6 @@ public final class Skeleton extends Module {
          }
       }
    };
-   private static final long c = 45837517856036L;
 
    public Skeleton(Category category) {
       super(category);
@@ -84,28 +83,23 @@ public final class Skeleton extends Module {
    }
 
    private void drawSkeleton(EntityPlayer entityPlayer, double d, double d2, double d3) {
-      long l = c ^ 34037393528557L;
-      long m = l ^ 77017285537428L;
-      int i = (int)((l ^ 77017285537428L) >>> 56);
-      int j = (int)((l ^ 77017285537428L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       float[][] floatss = modelRotations.get(entityPlayer);
       if (floatss != null) {
-         int n = this.color.getValue().getRGB();
+         int i = this.color.getValue().getRGB();
          if (client.getRelationManager().z(entityPlayer)) {
-            n = new Color(15, 176, 245, 255).getRGB();
+            i = new Color(15, 176, 245, 255).getRGB();
          }
 
          GL11.glPushMatrix();
          GL11.glLineWidth(1.0F);
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glTranslated(d, d2, d3);
          float f = entityPlayer.prevRenderYawOffset + (entityPlayer.renderYawOffset - entityPlayer.prevRenderYawOffset) * mc.timer.timerSpeed;
          GL11.glRotatef(-f, 0.0F, 1.0F, 0.0F);
          GL11.glTranslated(0.0, 0.0, entityPlayer.isSneaking() ? -0.235 : 0.0);
          float g = entityPlayer.isSneaking() ? 0.6F : 0.75F;
          GL11.glPushMatrix();
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glTranslated(-0.125, g, 0.0);
          if (floatss[3][0] != 0.0F) {
             GL11.glRotatef(floatss[3][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
@@ -125,7 +119,7 @@ public final class Skeleton extends Module {
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPushMatrix();
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glTranslated(0.125, g, 0.0);
          if (floatss[4][0] != 0.0F) {
             GL11.glRotatef(floatss[4][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
@@ -149,7 +143,7 @@ public final class Skeleton extends Module {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          GL11.glTranslated(0.0, entityPlayer.isSneaking() ? -0.05 : 0.0, entityPlayer.isSneaking() ? -0.01725 : 0.0);
          GL11.glPushMatrix();
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glTranslated(-0.375, g + 0.55, 0.0);
          if (floatss[1][0] != 0.0F) {
             GL11.glRotatef(floatss[1][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
@@ -189,7 +183,7 @@ public final class Skeleton extends Module {
          GL11.glPopMatrix();
          GL11.glRotatef(f - entityPlayer.rotationYawHead, 0.0F, 1.0F, 0.0F);
          GL11.glPushMatrix();
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glTranslated(0.0, g + 0.55, 0.0);
          if (floatss[0][0] != 0.0F) {
             GL11.glRotatef(floatss[0][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
@@ -211,7 +205,7 @@ public final class Skeleton extends Module {
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPushMatrix();
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glTranslated(0.0, g, 0.0);
          GL11.glBegin(3);
          GL11.glVertex3d(0.0, 0.0, 0.0);
@@ -243,13 +237,11 @@ public final class Skeleton extends Module {
    }
 
    private void setupRender(boolean bl) {
-      long l = c ^ 137173192615224L;
       if (bl) {
          GlStateManager.pushMatrix();
          GlStateManager.enableBlend();
          GL11.glEnable(2848);
          GlStateManager.disableDepth();
-         long m = 5633909756340823739L ^ l;
          GlStateManager.disableTexture2D();
          GlStateManager.blendFunc(770, 771);
          GL11.glHint(3154, 4354);

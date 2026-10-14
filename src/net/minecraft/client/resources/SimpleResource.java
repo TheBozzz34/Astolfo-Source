@@ -21,8 +21,6 @@ public class SimpleResource implements IResource {
    private final IMetadataSerializer srMetadataSerializer;
    private boolean mcmetaJsonChecked;
    private JsonObject mcmetaJson;
-   private static final long a = 120211013350037L;
-   private static final long b = 4182245716107722783L;
 
    public SimpleResource(
       String resourcePackNameIn,
@@ -117,6 +115,6 @@ public class SimpleResource implements IResource {
    @Override
    public int hashCode() {
       int i = this.resourcePackName != null ? this.resourcePackName.hashCode() : 0;
-      return (int)b * i + (this.srResourceLocation != null ? this.srResourceLocation.hashCode() : 0);
+      return 31 * i + (this.srResourceLocation != null ? this.srResourceLocation.hashCode() : 0);
    }
 }

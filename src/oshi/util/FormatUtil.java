@@ -10,7 +10,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 public final class FormatUtil {
    private static final BigInteger TWOS_COMPLEMENT_REF = BigInteger.ONE.shiftLeft(64);
    public static final String HEX_ERROR = "0x%08X";
-   private static final long a = 20026014873899L;
 
    private FormatUtil() {
    }

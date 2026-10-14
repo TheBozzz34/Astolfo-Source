@@ -30,34 +30,23 @@ public final class DirectoryStage extends AbstractLoadStage {
    }
 
    public class a8h extends StageAction {
-      private static final long c = 111584894944810L;
-
       public a8h(LoadStage loadStage) {
          super(loadStage);
       }
 
       @Override
       public void run() {
-         long l = c ^ 134463124439927L;
-         long m = l ^ 109048837705839L;
-         int i = (int)((l ^ 109048837705839L) >>> 32);
-         int j = (int)((l ^ 109048837705839L) << 32 >>> 48);
-         int k = (int)(m << 48 >>> 48);
-         long n = l ^ 116415384644096L;
-         long l2 = l ^ 125177937552439L;
          if (DirectoryStage.this.getState() == 1) {
             ClientAccess.client
                .setDirectory(new File(Minecraft.getMinecraft().mcDataDir.getAbsoluteFile().getParentFile(), ClientAccess.client.getName().toLowerCase()));
             ClientAccess.client.getDirectory().mkdir();
-            ClientAccess.client.register(l2, ClientAccess.client.getFontManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getFontManager());
             FontManager.A();
          }
       }
    }
 
    public class rsh extends StageValue {
-      private static final long b = 58794049964221L;
-
       public rsh(LoadStage loadStage) {
          super(loadStage);
       }

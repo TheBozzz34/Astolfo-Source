@@ -11,8 +11,6 @@ import oshi.util.ParseUtil;
 
 @ThreadSafe
 public abstract class AbstractGlobalMemory implements GlobalMemory {
-   private static final long b = 37222365512170L;
-
    @Override
    public PhysicalMemory[] getPhysicalMemory() {
       ArrayList arrayList = new ArrayList();

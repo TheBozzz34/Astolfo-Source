@@ -5,7 +5,6 @@ import java.util.UUID;
 
 public class KeyReply extends AbstractReply {
    private KeyReply.Key record;
-   private static final long a = 94413542235754L;
 
    public KeyReply.Key getRecord() {
       return this.record;
@@ -22,8 +21,6 @@ public class KeyReply extends AbstractReply {
       private UUID ownerUuid;
       private int totalQueries;
       private int queriesInPastMin;
-      private static final long b = 7654865742832L;
-      private static final long f = -4665032385576828803L;
 
       public UUID a() {
          return this.key;
@@ -51,7 +48,7 @@ public class KeyReply extends AbstractReply {
             + this.totalQueries
             + ", queriesInPastMin="
             + this.queriesInPastMin
-            + (int)f;
+            + '}';
       }
    }
 }

@@ -11,7 +11,6 @@ public class Session {
    private final String playerID;
    private final String token;
    private final Session.Type sessionType;
-   private static final long a = 4815386971131L;
 
    public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn) {
       this.username = usernameIn;

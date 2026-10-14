@@ -18,7 +18,6 @@ import java.util.zip.ZipFile;
 public class FileResourcePack extends AbstractResourcePack implements Closeable {
    public static final Splitter entryNameSplitter = Splitter.on('/').omitEmptyStrings().limit(3);
    private ZipFile resourcePackZipFile;
-   private static final long b = 86528188425082L;
 
    public FileResourcePack(File resourcePackFileIn) {
       super(resourcePackFileIn);

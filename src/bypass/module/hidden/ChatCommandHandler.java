@@ -20,9 +20,6 @@ import net.minecraft.network.play.client.C01PacketChatMessage;
 public final class ChatCommandHandler extends HiddenModule {
    @EventHandler(ChatEvent.class)
    private Listener<ChatEvent> onChat = chatEvent -> {
-      long l = c ^ 2250943439137L;
-      long m = l ^ 82034894370664L;
-      long n = l ^ 43272982567901L;
       switch (chatEvent.getDirection()) {
          case TO_SEND:
             if (chatEvent.getWords().length == 0) {
@@ -327,7 +324,6 @@ public final class ChatCommandHandler extends HiddenModule {
             }
       }
    };
-   private static final long c = 140634036546554L;
 
    public ChatCommandHandler() {
       client.getEventBus().subscribe(this);

@@ -22,8 +22,6 @@ public class EntityAIFollowOwner extends EntityAIBase {
    public float maxDist;
    public float minDist;
    private boolean field_75344_i;
-   private static final long a = 90236977786692L;
-   private static final long c = 1162328002676129802L;
 
    public EntityAIFollowOwner(EntityTameable thePetIn, double followSpeedIn, float minDistIn, float maxDistIn) {
       this.thePet = thePetIn;
@@ -90,7 +88,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
    public void updateTask() {
       this.thePet.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, this.thePet.getVerticalFaceSpeed());
       if (!this.thePet.isSitting() && --this.field_75343_h <= 0) {
-         this.field_75343_h = (int)c;
+         this.field_75343_h = 10;
          if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.followSpeed)
             && !this.thePet.getLeashed()
             && this.thePet.getDistanceSqToEntity(this.theOwner) >= 144.0) {

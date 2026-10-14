@@ -10,7 +10,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 public class AstolfoUserManager {
    public Map<String, AstolfoUser> e = new ConcurrentHashMap<>();
    public static final FnvHash b = new FnvHash();
-   private static final long a = 138647984534202L;
 
    public Map<String, AstolfoUser> r() {
       return this.e;

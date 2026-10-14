@@ -6,8 +6,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 
 public class CommandShowSeed extends CommandBase {
-   private static final long b = 123473374347705L;
-
    @Override
    public boolean canCommandSenderUseCommand(ICommandSender sender) {
       return MinecraftServer.getServer().isSinglePlayer() || super.canCommandSenderUseCommand(sender);

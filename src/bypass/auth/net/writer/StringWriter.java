@@ -6,8 +6,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public final class StringWriter implements PacketWriter<String> {
-   private static final long a = 133138363018977L;
-
    public void write(String string, PacketBuffer packetBuffer) {
       byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
       ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + 4);

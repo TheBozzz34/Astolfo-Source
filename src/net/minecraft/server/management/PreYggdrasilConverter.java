@@ -22,13 +22,9 @@ public class PreYggdrasilConverter {
    public static final File OLD_PLAYERBAN_FILE = new File("banned-players.txt");
    public static final File OLD_OPS_FILE = new File("ops.txt");
    public static final File OLD_WHITELIST_FILE = new File("white-list.txt");
-   private static final long b = 97545681299179L;
-   private static final long c = 5769579566154645520L;
 
    private static void lookupNames(MinecraftServer server, Collection<String> names, ProfileLookupCallback callback) {
       String[] strings = Iterators.toArray(Iterators.filter(names.iterator(), new Predicate<String>() {
-         private static final long a = 120303536291525L;
-
          public boolean apply(String string) {
             return !StringUtils.isNullOrEmpty(string);
          }
@@ -45,7 +41,7 @@ public class PreYggdrasilConverter {
    }
 
    public static String getStringUUIDFromName(String string) {
-      if (!StringUtils.isNullOrEmpty(string) && string.length() <= (int)c) {
+      if (!StringUtils.isNullOrEmpty(string) && string.length() <= 16) {
          final MinecraftServer minecraftServer = MinecraftServer.getServer();
          GameProfile gameProfile2 = minecraftServer.getPlayerProfileCache().getGameProfileForUsername(string);
          if (gameProfile2 != null && gameProfile2.getId() != null) {
@@ -53,8 +49,6 @@ public class PreYggdrasilConverter {
          } else if (!minecraftServer.isSinglePlayer() && minecraftServer.isServerInOnlineMode()) {
             final ArrayList arrayList = Lists.newArrayList();
             ProfileLookupCallback profileLookupCallback = new ProfileLookupCallback() {
-               private static final long a = 130015043464921L;
-
                @Override
                public void onProfileLookupSucceeded(GameProfile gameProfile) {
                   minecraftServer.getPlayerProfileCache().addEntry(gameProfile);

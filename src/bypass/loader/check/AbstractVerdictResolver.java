@@ -4,8 +4,6 @@ import bypass.loader.AbstractLoadStage;
 import java.util.List;
 
 public abstract class AbstractVerdictResolver implements VerdictResolver {
-   private static final long a = 76963206716186L;
-
    public final Verdict processRelation(List<VerdictProcessor> list, CheckRequest checkRequest, Verdict verdict, AbstractLoadStage abstractLoadStage) {
       abstractLoadStage.setState(1);
       abstractLoadStage.getAction().run();

@@ -12,7 +12,6 @@ public class Gui {
    public static final ResourceLocation statIcons = new ResourceLocation("textures/gui/container/stats_icons.png");
    public static final ResourceLocation icons = new ResourceLocation("textures/gui/icons.png");
    public float zLevel;
-   private static final long ab = 74123780237238L;
 
    public static void f(double d, double d2, double d3, double d4, int i) {
       if (d4 < d3) {
@@ -35,7 +34,6 @@ public class Gui {
    }
 
    public static void H(double d, double d2, double d3, double d4, int i) {
-      long l = ab ^ 59168275237780L;
       if (d < d3) {
          double e = d;
          d = d3;
@@ -53,7 +51,6 @@ public class Gui {
       float h = (i >> 8 & 0xFF) / 255.0F;
       float f2 = (i & 0xFF) / 255.0F;
       Tessellator tessellator = Tessellator.getInstance();
-      long m = 4214691924892108555L ^ l;
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.enableBlend();
       GlStateManager.disableTexture2D();
@@ -90,7 +87,6 @@ public class Gui {
    }
 
    public static void drawRect(int left, int top, int right, int bottom, int color) {
-      long l = ab ^ 19418921007255L;
       if (left < right) {
          int i = left;
          left = right;
@@ -108,7 +104,6 @@ public class Gui {
       float h = (color >> 8 & 0xFF) / 255.0F;
       float f2 = (color & 0xFF) / 255.0F;
       Tessellator tessellator = Tessellator.getInstance();
-      long m = 4214722192065344520L ^ l;
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.enableBlend();
       GlStateManager.disableTexture2D();
