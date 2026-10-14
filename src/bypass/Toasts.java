@@ -9,72 +9,72 @@ public enum Toasts {
    private static final Toasts[] Q = new Toasts[]{TOASTS};
    private static final long a = 125663378243394L;
 
-   public void S(String var1) {
-      this.g(var1, null);
+   public void S(String string) {
+      this.g(string, null);
    }
 
-   public void g(String var1, String var2) {
-      this.w(var1, var2, 0);
+   public void g(String string, String string2) {
+      this.w(string, string2, 0);
    }
 
-   public void w(String var1, String var2, int var3) {
-      this.m(var1, var2, NotificationType.SUCCESS, var3);
+   public void w(String string, String string2, int i) {
+      this.m(string, string2, NotificationType.SUCCESS, i);
    }
 
-   public void D(String var1) {
-      this.B(var1, null);
+   public void D(String string) {
+      this.B(string, null);
    }
 
-   public void B(String var1, String var2) {
-      this.G(var1, var2, 0);
+   public void B(String string, String string2) {
+      this.G(string, string2, 0);
    }
 
-   public void G(String var1, String var2, int var3) {
-      this.m(var1, var2, NotificationType.INFO, var3);
+   public void G(String string, String string2, int i) {
+      this.m(string, string2, NotificationType.INFO, i);
    }
 
-   public void m(String var1) {
-      this.X(var1, null);
+   public void m(String string) {
+      this.X(string, null);
    }
 
-   public void X(String var1, String var2) {
-      this.A(var1, var2, 0);
+   public void X(String string, String string2) {
+      this.A(string, string2, 0);
    }
 
-   public void A(String var1, String var2, int var3) {
-      this.m(var1, var2, NotificationType.WARNING, var3);
+   public void A(String string, String string2, int i) {
+      this.m(string, string2, NotificationType.WARNING, i);
    }
 
-   public void x(String var1) {
-      this.k(var1, null);
+   public void x(String string) {
+      this.k(string, null);
    }
 
-   public void k(String var1, String var2) {
-      this.R(var1, var2, 0);
+   public void k(String string, String string2) {
+      this.R(string, string2, 0);
    }
 
-   public void R(String var1, String var2, int var3) {
-      this.m(var1, var2, NotificationType.DANGER, var3);
+   public void R(String string, String string2, int i) {
+      this.m(string, string2, NotificationType.DANGER, i);
    }
 
-   private void m(String var1, String var2, NotificationType var3, int var4) {
-      long var5 = a ^ 73773453798081L;
-      long var7 = var5 ^ 131379821799640L;
-      if (var4 <= 0) {
-         var4 = this.k(var1) + (var2 == null ? 0 : this.k(var2));
+   private void m(String string, String string2, NotificationType notificationType, int i) {
+      long l = a ^ 73773453798081L;
+      long n = l ^ 131379821799640L;
+      if (i <= 0) {
+         i = this.k(string) + (string2 == null ? 0 : this.k(string2));
       }
 
-      Astolfo.INSTANCE.getNotificationManager().i(var1, var2, var3, var4).K();
+      Astolfo.INSTANCE.getNotificationManager().i(string, string2, notificationType, i).K();
    }
 
-   private int k(String var1) {
-      int var4 = StringUtils.countMatches(var1, " ") + 1;
-      int var5 = var1.length() / 5;
-      int var6 = (var4 + var5) / 2;
-      float var7 = 200.0F;
-      byte var8 = 1;
-      short var9 = 1000;
-      byte var10 = 60;
-      return (int)((var6 / var7 * var10 + var8) * var9);
+   private int k(String string) {
+      int i = StringUtils.countMatches(string, " ") + 1;
+      int j = string.length() / 5;
+      int l = (i + j) / 2;
+      float f = 200.0F;
+      byte b = 1;
+      short s = 1000;
+      byte b2 = 60;
+      return (int)((l / f * b2 + b) * s);
    }
 }

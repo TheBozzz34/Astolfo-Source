@@ -19,16 +19,16 @@ public class SaveHandlerMP implements ISaveHandler {
    }
 
    @Override
-   public IChunkLoader getChunkLoader(WorldProvider var1) {
+   public IChunkLoader getChunkLoader(WorldProvider provider) {
       return null;
    }
 
    @Override
-   public void saveWorldInfoWithPlayer(WorldInfo var1, NBTTagCompound var2) {
+   public void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound) {
    }
 
    @Override
-   public void saveWorldInfo(WorldInfo var1) {
+   public void saveWorldInfo(WorldInfo worldInformation) {
    }
 
    @Override
@@ -41,7 +41,7 @@ public class SaveHandlerMP implements ISaveHandler {
    }
 
    @Override
-   public File getMapFileFromName(String var1) {
+   public File getMapFileFromName(String mapName) {
       return null;
    }
 

@@ -20,12 +20,12 @@ public class FallbackResourceManager implements IResourceManager {
    private final IMetadataSerializer frmMetadataSerializer;
    private static final long a = 737895431508L;
 
-   public FallbackResourceManager(IMetadataSerializer var1) {
-      this.frmMetadataSerializer = var1;
+   public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
+      this.frmMetadataSerializer = frmMetadataSerializerIn;
    }
 
-   public void addResourcePack(IResourcePack var1) {
-      this.resourcePacks.add(var1);
+   public void addResourcePack(IResourcePack resourcePack) {
+      this.resourcePacks.add(resourcePack);
    }
 
    @Override
@@ -34,55 +34,55 @@ public class FallbackResourceManager implements IResourceManager {
    }
 
    @Override
-   public IResource getResource(ResourceLocation var1) throws IOException {
-      IResourcePack var5 = null;
-      ResourceLocation var6 = getLocationMcmeta(var1);
+   public IResource getResource(ResourceLocation location) throws IOException {
+      IResourcePack iResourcePack = null;
+      ResourceLocation resourceLocation = getLocationMcmeta(location);
 
-      for (int var7 = this.resourcePacks.size() - 1; var7 >= 0; var7--) {
-         IResourcePack var8 = this.resourcePacks.get(var7);
-         if (var5 == null && var8.resourceExists(var6)) {
-            var5 = var8;
+      for (int i = this.resourcePacks.size() - 1; i >= 0; i--) {
+         IResourcePack iResourcePack2 = this.resourcePacks.get(i);
+         if (iResourcePack == null && iResourcePack2.resourceExists(resourceLocation)) {
+            iResourcePack = iResourcePack2;
          }
 
-         if (var8.resourceExists(var1)) {
-            InputStream var9 = null;
-            if (var5 != null) {
-               var9 = this.getInputStream(var6, var5);
+         if (iResourcePack2.resourceExists(location)) {
+            InputStream inputStream = null;
+            if (iResourcePack != null) {
+               inputStream = this.getInputStream(resourceLocation, iResourcePack);
             }
 
-            return new SimpleResource(var8.getPackName(), var1, this.getInputStream(var1, var8), var9, this.frmMetadataSerializer);
+            return new SimpleResource(iResourcePack2.getPackName(), location, this.getInputStream(location, iResourcePack2), inputStream, this.frmMetadataSerializer);
          }
       }
 
-      throw new FileNotFoundException(var1.toString());
+      throw new FileNotFoundException(location.toString());
    }
 
-   public InputStream getInputStream(ResourceLocation var1, IResourcePack var2) throws IOException {
-      InputStream var5 = var2.getInputStream(var1);
-      return logger.isDebugEnabled() ? new FallbackResourceManager.InputStreamLeakedResourceLogger(var5, var1, var2.getPackName()) : var5;
+   public InputStream getInputStream(ResourceLocation location, IResourcePack resourcePack) throws IOException {
+      InputStream inputStream = resourcePack.getInputStream(location);
+      return logger.isDebugEnabled() ? new FallbackResourceManager.InputStreamLeakedResourceLogger(inputStream, location, resourcePack.getPackName()) : inputStream;
    }
 
    @Override
-   public List<IResource> getAllResources(ResourceLocation var1) throws IOException {
-      ArrayList var5 = Lists.newArrayList();
-      ResourceLocation var6 = getLocationMcmeta(var1);
+   public List<IResource> getAllResources(ResourceLocation location) throws IOException {
+      ArrayList arrayList = Lists.newArrayList();
+      ResourceLocation resourceLocation = getLocationMcmeta(location);
 
-      for (IResourcePack var8 : this.resourcePacks) {
-         if (var8.resourceExists(var1)) {
-            InputStream var9 = var8.resourceExists(var6) ? this.getInputStream(var6, var8) : null;
-            var5.add(new SimpleResource(var8.getPackName(), var1, this.getInputStream(var1, var8), var9, this.frmMetadataSerializer));
+      for (IResourcePack iResourcePack : this.resourcePacks) {
+         if (iResourcePack.resourceExists(location)) {
+            InputStream inputStream = iResourcePack.resourceExists(resourceLocation) ? this.getInputStream(resourceLocation, iResourcePack) : null;
+            arrayList.add(new SimpleResource(iResourcePack.getPackName(), location, this.getInputStream(location, iResourcePack), inputStream, this.frmMetadataSerializer));
          }
       }
 
-      if (var5.isEmpty()) {
-         throw new FileNotFoundException(var1.toString());
+      if (arrayList.isEmpty()) {
+         throw new FileNotFoundException(location.toString());
       } else {
-         return var5;
+         return arrayList;
       }
    }
 
-   public static ResourceLocation getLocationMcmeta(ResourceLocation var0) {
-      return new ResourceLocation(var0.getResourceDomain(), var0.getResourcePath() + ".mcmeta");
+   public static ResourceLocation getLocationMcmeta(ResourceLocation location) {
+      return new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".mcmeta");
    }
 
    public static class InputStreamLeakedResourceLogger extends InputStream {
@@ -91,11 +91,11 @@ public class FallbackResourceManager implements IResourceManager {
       private boolean isClosed = false;
       private static final long a = 112383255152254L;
 
-      public InputStreamLeakedResourceLogger(InputStream var1, ResourceLocation var2, String var3) {
-         this.inputStream = var1;
-         ByteArrayOutputStream var6 = new ByteArrayOutputStream();
-         new Exception().printStackTrace(new PrintStream(var6));
-         this.message = "Leaked resource: '" + var2 + "' loaded from pack: '" + var3 + "'\n" + var6.toString();
+      public InputStreamLeakedResourceLogger(InputStream inputStream, ResourceLocation location, String resourcePack) {
+         this.inputStream = inputStream;
+         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+         new Exception().printStackTrace(new PrintStream(byteArrayOutputStream));
+         this.message = "Leaked resource: '" + location + "' loaded from pack: '" + resourcePack + "'\n" + byteArrayOutputStream.toString();
       }
 
       @Override

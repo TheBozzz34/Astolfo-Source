@@ -10,18 +10,18 @@ public class GeneratorBushFeature extends WorldGenerator {
    private BlockBush field_175908_a;
    private static final long a = 22109477986329L;
 
-   public GeneratorBushFeature(BlockBush var1) {
-      this.field_175908_a = var1;
+   public GeneratorBushFeature(BlockBush blockBush) {
+      this.field_175908_a = blockBush;
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      for (int var7 = 0; var7 < 64; var7++) {
-         BlockPos var8 = var3.add(var2.nextInt(8) - var2.nextInt(8), var2.nextInt(4) - var2.nextInt(4), var2.nextInt(8) - var2.nextInt(8));
-         if (var1.isAirBlock(var8)
-            && (!var1.provider.getHasNoSky() || var8.getY() < 255)
-            && this.field_175908_a.canBlockStay(var1, var8, this.field_175908_a.getDefaultState())) {
-            var1.setBlockState(var8, this.field_175908_a.getDefaultState(), 2);
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      for (int i = 0; i < 64; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+         if (worldIn.isAirBlock(blockPos)
+            && (!worldIn.provider.getHasNoSky() || blockPos.getY() < 255)
+            && this.field_175908_a.canBlockStay(worldIn, blockPos, this.field_175908_a.getDefaultState())) {
+            worldIn.setBlockState(blockPos, this.field_175908_a.getDefaultState(), 2);
          }
       }
 

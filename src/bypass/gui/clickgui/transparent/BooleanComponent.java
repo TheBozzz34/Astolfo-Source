@@ -15,15 +15,15 @@ public class BooleanComponent extends SettingComponent {
    private int Z;
    private static final long c = 12938358802752L;
 
-   public BooleanComponent(Container var1, Setting var2, int var3, int var4) {
-      super(var1, var2, var3, var4);
+   public BooleanComponent(Container container, Setting setting, int i, int j) {
+      super(container, setting, i, j);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = c ^ 31661229266738L;
-      long var5 = var3 ^ 39308001293406L;
-      if (this.G(var1, var2)) {
+   public void render(int i, int j) {
+      long l = c ^ 31661229266738L;
+      long m = l ^ 39308001293406L;
+      if (this.G(i, j)) {
          if (this.Z < 120) {
             this.Z += 5;
          }
@@ -48,14 +48,14 @@ public class BooleanComponent extends SettingComponent {
 
       client.getCustomFontRenderer()
          .drawStringWithShadow(EnumChatFormatting.GRAY + this.y().getName().replace("-", " "), this.M() + 15.0F, this.E_float() + 0.5F, Color.WHITE.getRGB());
-      if (this.G(var1, var2) && HUD.toolTips.getValue()) {
-         client.getCustomFontRenderer().drawStringWithShadow(this.y().getDescription(), var1 + 6, var2 - 4, -1);
+      if (this.G(i, j) && HUD.toolTips.getValue()) {
+         client.getCustomFontRenderer().drawStringWithShadow(this.y().getDescription(), i + 6, j - 4, -1);
       }
    }
 
    @Override
-   public void l(int var1) {
-      if (this.I().s_boolean() && var1 == 0) {
+   public void l(int i) {
+      if (this.I().s_boolean() && i == 0) {
          this.y().set(!this.y().getValue());
       }
    }

@@ -40,55 +40,55 @@ public class BetterSnow {
       return Blocks.snow_layer.getDefaultState();
    }
 
-   public static boolean V(IBlockAccess var0, Block var1, IBlockState var2, BlockPos var3) {
-      return !E(var1, var2) ? false : v(var0, var3);
+   public static boolean V(IBlockAccess iBlockAccess, Block block, IBlockState iBlockState, BlockPos blockPos) {
+      return !E(block, iBlockState) ? false : v(iBlockAccess, blockPos);
    }
 
-   private static boolean v(IBlockAccess var0, BlockPos var1) {
-      Block var5 = Blocks.snow_layer;
-      return var0.getBlockState(var1.north()).getBlock() != var5
-            && var0.getBlockState(var1.south()).getBlock() != var5
-            && var0.getBlockState(var1.west()).getBlock() != var5
-            && var0.getBlockState(var1.east()).getBlock() != var5
+   private static boolean v(IBlockAccess iBlockAccess, BlockPos blockPos) {
+      Block block = Blocks.snow_layer;
+      return iBlockAccess.getBlockState(blockPos.north()).getBlock() != block
+            && iBlockAccess.getBlockState(blockPos.south()).getBlock() != block
+            && iBlockAccess.getBlockState(blockPos.west()).getBlock() != block
+            && iBlockAccess.getBlockState(blockPos.east()).getBlock() != block
          ? false
-         : var0.getBlockState(var1.down()).getBlock().isOpaqueCube();
+         : iBlockAccess.getBlockState(blockPos.down()).getBlock().isOpaqueCube();
    }
 
-   private static boolean E(Block var0, IBlockState var1) {
-      if (var0.isFullCube()) {
+   private static boolean E(Block block, IBlockState iBlockState) {
+      if (block.isFullCube()) {
          return false;
       }
 
-      if (var0.isOpaqueCube()) {
+      if (block.isOpaqueCube()) {
          return false;
       }
 
-      if (var0 instanceof BlockSnow) {
+      if (block instanceof BlockSnow) {
          return false;
       }
 
-      if (!(var0 instanceof BlockBush)
-         || !(var0 instanceof BlockDoublePlant)
-            && !(var0 instanceof BlockFlower)
-            && !(var0 instanceof BlockMushroom)
-            && !(var0 instanceof BlockSapling)
-            && !(var0 instanceof BlockTallGrass)) {
-         if (var0 instanceof BlockFence
-            || var0 instanceof BlockFenceGate
-            || var0 instanceof BlockFlowerPot
-            || var0 instanceof BlockPane
-            || var0 instanceof BlockReed
-            || var0 instanceof BlockWall) {
+      if (!(block instanceof BlockBush)
+         || !(block instanceof BlockDoublePlant)
+            && !(block instanceof BlockFlower)
+            && !(block instanceof BlockMushroom)
+            && !(block instanceof BlockSapling)
+            && !(block instanceof BlockTallGrass)) {
+         if (block instanceof BlockFence
+            || block instanceof BlockFenceGate
+            || block instanceof BlockFlowerPot
+            || block instanceof BlockPane
+            || block instanceof BlockReed
+            || block instanceof BlockWall) {
             return true;
          }
 
-         if (var0 instanceof BlockRedstoneTorch && var1.getValue(BlockTorch.FACING) == EnumFacing.UP) {
+         if (block instanceof BlockRedstoneTorch && iBlockState.getValue(BlockTorch.FACING) == EnumFacing.UP) {
             return true;
          }
 
-         if (var0 instanceof BlockLever) {
-            Comparable var5 = var1.getValue(BlockLever.FACING);
-            if (var5 == BlockLever.EnumOrientation.UP_X || var5 == BlockLever.EnumOrientation.UP_Z) {
+         if (block instanceof BlockLever) {
+            Comparable comparable = iBlockState.getValue(BlockLever.FACING);
+            if (comparable == BlockLever.EnumOrientation.UP_X || comparable == BlockLever.EnumOrientation.UP_Z) {
                return true;
             }
          }

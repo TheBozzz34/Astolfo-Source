@@ -14,9 +14,9 @@ public enum Category {
    private String displayName;
    private int color;
 
-   Category(String var3, int var4) {
-      this.displayName = var3;
-      this.color = var4;
+   Category(String string2, int j) {
+      this.displayName = string2;
+      this.color = j;
    }
 
    public String getDisplayName() {

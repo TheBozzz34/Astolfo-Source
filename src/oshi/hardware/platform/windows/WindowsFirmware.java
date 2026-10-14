@@ -43,26 +43,26 @@ public final class WindowsFirmware extends AbstractFirmware {
    }
 
    private static Quintet<String, String, String, String, String> queryManufNameDescVersRelease() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      String var6 = null;
-      String var7 = null;
-      WmiResult var8 = Win32Bios.queryBiosInfo();
-      if (var8.getResultCount() > 0) {
-         var3 = WmiUtil.getString(var8, Win32Bios.BiosProperty.MANUFACTURER, 0);
-         var4 = WmiUtil.getString(var8, Win32Bios.BiosProperty.NAME, 0);
-         var5 = WmiUtil.getString(var8, Win32Bios.BiosProperty.DESCRIPTION, 0);
-         var6 = WmiUtil.getString(var8, Win32Bios.BiosProperty.VERSION, 0);
-         var7 = WmiUtil.getDateString(var8, Win32Bios.BiosProperty.RELEASEDATE, 0);
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      String string4 = null;
+      String string5 = null;
+      WmiResult wmiResult = Win32Bios.queryBiosInfo();
+      if (wmiResult.getResultCount() > 0) {
+         string = WmiUtil.getString(wmiResult, Win32Bios.BiosProperty.MANUFACTURER, 0);
+         string2 = WmiUtil.getString(wmiResult, Win32Bios.BiosProperty.NAME, 0);
+         string3 = WmiUtil.getString(wmiResult, Win32Bios.BiosProperty.DESCRIPTION, 0);
+         string4 = WmiUtil.getString(wmiResult, Win32Bios.BiosProperty.VERSION, 0);
+         string5 = WmiUtil.getDateString(wmiResult, Win32Bios.BiosProperty.RELEASEDATE, 0);
       }
 
       return new Quintet<>(
-         Util.isBlank(var3) ? "unknown" : var3,
-         Util.isBlank(var4) ? "unknown" : var4,
-         Util.isBlank(var5) ? "unknown" : var5,
-         Util.isBlank(var6) ? "unknown" : var6,
-         Util.isBlank(var7) ? "unknown" : var7
+         Util.isBlank(string) ? "unknown" : string,
+         Util.isBlank(string2) ? "unknown" : string2,
+         Util.isBlank(string3) ? "unknown" : string3,
+         Util.isBlank(string4) ? "unknown" : string4,
+         Util.isBlank(string5) ? "unknown" : string5
       );
    }
 }

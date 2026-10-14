@@ -14,25 +14,25 @@ public class C10PacketCreativeInventoryAction implements Packet<INetHandlerPlayS
    public C10PacketCreativeInventoryAction() {
    }
 
-   public C10PacketCreativeInventoryAction(int var1, ItemStack var2) {
-      this.slotId = var1;
-      this.stack = var2 != null ? var2.copy() : null;
+   public C10PacketCreativeInventoryAction(int slotIdIn, ItemStack stackIn) {
+      this.slotId = slotIdIn;
+      this.stack = stackIn != null ? stackIn.copy() : null;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processCreativeInventoryAction(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.slotId = var1.readShort();
-      this.stack = var1.readItemStackFromBuffer();
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processCreativeInventoryAction(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeShort(this.slotId);
-      var1.writeItemStackToBuffer(this.stack);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.slotId = buf.readShort();
+      this.stack = buf.readItemStackFromBuffer();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeShort(this.slotId);
+      buf.writeItemStackToBuffer(this.stack);
    }
 
    public int getSlotId() {

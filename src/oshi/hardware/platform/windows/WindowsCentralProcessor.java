@@ -38,55 +38,55 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
-      String var5 = "";
-      String var6 = "";
-      String var7 = "";
-      String var8 = "";
-      String var9 = "";
-      String var10 = "";
-      boolean var12 = false;
-      String[] var14 = Advapi32Util.registryGetKeys(WinReg.HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\");
-      if (var14.length > 0) {
-         String var15 = "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\" + var14[0];
-         var5 = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var15, "VendorIdentifier");
-         var6 = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var15, "ProcessorNameString");
-         var7 = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var15, "Identifier");
+      String string = "";
+      String string2 = "";
+      String string3 = "";
+      String string4 = "";
+      String string5 = "";
+      String string6 = "";
+      boolean bl = false;
+      String[] strings = Advapi32Util.registryGetKeys(WinReg.HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\");
+      if (strings.length > 0) {
+         String string7 = "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\" + strings[0];
+         string = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string7, "VendorIdentifier");
+         string2 = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string7, "ProcessorNameString");
+         string3 = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string7, "Identifier");
       }
 
-      if (!var7.isEmpty()) {
-         var8 = this.parseIdentifier(var7, "Family");
-         var9 = this.parseIdentifier(var7, "Model");
-         var10 = this.parseIdentifier(var7, "Stepping");
+      if (!string3.isEmpty()) {
+         string4 = this.parseIdentifier(string3, "Family");
+         string5 = this.parseIdentifier(string3, "Model");
+         string6 = this.parseIdentifier(string3, "Stepping");
       }
 
-      SYSTEM_INFO var18 = new SYSTEM_INFO();
-      Kernel32.INSTANCE.GetNativeSystemInfo(var18);
-      int var16 = var18.processorArchitecture.pi.wProcessorArchitecture.intValue();
-      if (var16 == 9 || var16 == 12 || var16 == 6) {
-         var12 = true;
+      SYSTEM_INFO systeM_INFO = new SYSTEM_INFO();
+      Kernel32.INSTANCE.GetNativeSystemInfo(systeM_INFO);
+      int i = systeM_INFO.processorArchitecture.pi.wProcessorArchitecture.intValue();
+      if (i == 9 || i == 12 || i == 6) {
+         bl = true;
       }
 
-      WmiResult var17 = Win32Processor.queryProcessorId();
-      String var11;
-      if (var17.getResultCount() > 0) {
-         var11 = WmiUtil.getString(var17, Win32Processor.ProcessorIdProperty.PROCESSORID, 0);
+      WmiResult wmiResult = Win32Processor.queryProcessorId();
+      String string8;
+      if (wmiResult.getResultCount() > 0) {
+         string8 = WmiUtil.getString(wmiResult, Win32Processor.ProcessorIdProperty.PROCESSORID, 0);
       } else {
-         var11 = createProcessorID(var10, var9, var8, var12 ? new String[]{"ia64"} : new String[0]);
+         string8 = createProcessorID(string6, string5, string4, bl ? new String[]{"ia64"} : new String[0]);
       }
 
-      return new CentralProcessor.ProcessorIdentifier(var5, var6, var8, var9, var10, var11, var12);
+      return new CentralProcessor.ProcessorIdentifier(string, string2, string4, string5, string6, string8, bl);
    }
 
-   private String parseIdentifier(String var1, String var2) {
-      String[] var6 = ParseUtil.Q.split(var1);
-      boolean var7 = false;
+   private String parseIdentifier(String identifier, String key) {
+      String[] strings = ParseUtil.Q.split(identifier);
+      boolean bl = false;
 
-      for (String var11 : var6) {
-         if (var7) {
-            return var11;
+      for (String string : strings) {
+         if (bl) {
+            return string;
          }
 
-         var7 = var11.equals(var2);
+         bl = string.equals(key);
       }
 
       return "";
@@ -98,71 +98,71 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    }
 
    private CentralProcessor.LogicalProcessor[] getLogicalProcessorInformationEx() {
-      long var1 = c ^ 67023847532962L;
+      long l = c ^ 67023847532962L;
 
       try {
-         SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX[] var4 = Kernel32Util.getLogicalProcessorInformationEx(65535);
-         ArrayList var5 = new ArrayList();
-         ArrayList var6 = new ArrayList();
-         ArrayList var7 = new ArrayList();
+         SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX[] systeM_LOGICAL_PROCESSOR_INFORMATION_EXs = Kernel32Util.getLogicalProcessorInformationEx(65535);
+         ArrayList arrayList = new ArrayList();
+         ArrayList arrayList2 = new ArrayList();
+         ArrayList arrayList3 = new ArrayList();
 
-         for (int var8 = 0; var8 < var4.length; var8++) {
-            switch (var4[var8].relationship) {
+         for (int i = 0; i < systeM_LOGICAL_PROCESSOR_INFORMATION_EXs.length; i++) {
+            switch (systeM_LOGICAL_PROCESSOR_INFORMATION_EXs[i].relationship) {
                case 0:
-                  var7.add(((PROCESSOR_RELATIONSHIP)var4[var8]).groupMask[0]);
+                  arrayList3.add(((PROCESSOR_RELATIONSHIP)systeM_LOGICAL_PROCESSOR_INFORMATION_EXs[i]).groupMask[0]);
                   break;
                case 1:
-                  var6.add((NUMA_NODE_RELATIONSHIP)var4[var8]);
+                  arrayList2.add((NUMA_NODE_RELATIONSHIP)systeM_LOGICAL_PROCESSOR_INFORMATION_EXs[i]);
                case 2:
                default:
                   break;
                case 3:
-                  var5.add(((PROCESSOR_RELATIONSHIP)var4[var8]).groupMask);
+                  arrayList.add(((PROCESSOR_RELATIONSHIP)systeM_LOGICAL_PROCESSOR_INFORMATION_EXs[i]).groupMask);
             }
          }
 
-         var7.sort(Comparator.comparing(var0 -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)var0).group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)var0).mask.longValue()));
-         var5.sort(Comparator.comparing(var0 -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY[])var0)[0].group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY[])var0)[0].mask.longValue()));
-         ArrayList var19 = new ArrayList();
+         arrayList3.sort(Comparator.comparing(cIn -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)cIn).group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)cIn).mask.longValue()));
+         arrayList.sort(Comparator.comparing(p -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY[])p)[0].group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY[])p)[0].mask.longValue()));
+         ArrayList arrayList4 = new ArrayList();
 
-         for (Object var10$raw : var7) {
-            GROUP_AFFINITY var10 = (GROUP_AFFINITY)var10$raw;
-            short var11 = var10.group;
-            long var10000 = 8309171419103477737L ^ var1;
-            long var12 = var10.mask.longValue();
-            int var14 = Long.numberOfTrailingZeros(var12);
-            int var15 = 63 - Long.numberOfLeadingZeros(var12);
+         for (Object object : arrayList3) {
+            GROUP_AFFINITY grouP_AFFINITY = (GROUP_AFFINITY)object;
+            short s = grouP_AFFINITY.group;
+            long m = 8309171419103477737L ^ l;
+            long n = grouP_AFFINITY.mask.longValue();
+            int j = Long.numberOfTrailingZeros(n);
+            int k = 63 - Long.numberOfLeadingZeros(n);
 
-            for (int var16 = var14; var16 <= var15; var16++) {
-               if ((var12 & 1L << var16) > 0L) {
-                  CentralProcessor.LogicalProcessor var17 = new CentralProcessor.LogicalProcessor(
-                     var16, getMatchingCore(var7, var11, var16), getMatchingPackage(var5, var11, var16), getMatchingNumaNode(var6, var11, var16), var11
+            for (int i2 = j; i2 <= k; i2++) {
+               if ((n & 1L << i2) > 0L) {
+                  CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(
+                     i2, getMatchingCore(arrayList3, s, i2), getMatchingPackage(arrayList, s, i2), getMatchingNumaNode(arrayList2, s, i2), s
                   );
-                  var19.add(var17);
+                  arrayList4.add(logicalProcessor);
                }
             }
          }
 
-         var19.sort(Comparator.comparing(CentralProcessor.LogicalProcessor::getNumaNode).thenComparing(CentralProcessor.LogicalProcessor::getProcessorNumber));
-         int var20 = 0;
+         arrayList4.sort(Comparator.comparing(CentralProcessor.LogicalProcessor::getNumaNode).thenComparing(CentralProcessor.LogicalProcessor::getProcessorNumber));
+         int i3 = 0;
          this.numaNodeProcToLogicalProcMap = new HashMap<>();
 
-         for (Object var22$raw : var19) {
-            CentralProcessor.LogicalProcessor var22 = (CentralProcessor.LogicalProcessor)var22$raw;
-            this.numaNodeProcToLogicalProcMap.put(String.format("%d,%d", var22.getNumaNode(), var22.getProcessorNumber()), var20++);
+         for (Object object2 : arrayList4) {
+            CentralProcessor.LogicalProcessor logicalProcessor2 = (CentralProcessor.LogicalProcessor)object2;
+            this.numaNodeProcToLogicalProcMap.put(String.format("%d,%d", logicalProcessor2.getNumaNode(), logicalProcessor2.getProcessorNumber()), i3++);
          }
 
-         return (oshi.hardware.CentralProcessor.LogicalProcessor[])(var19.toArray(new CentralProcessor.LogicalProcessor[0]));
-      } catch (Exception var18) {
+         return (oshi.hardware.CentralProcessor.LogicalProcessor[])(arrayList4.toArray(new CentralProcessor.LogicalProcessor[0]));
+      } catch (Exception exception) {
          return new CentralProcessor.LogicalProcessor[0];
       }
    }
 
-   private static int getMatchingPackage(List<GROUP_AFFINITY[]> var0, int var1, int var2) {
-      for (int var6 = 0; var6 < var0.size(); var6++) {
-         for (int var7 = 0; var7 < ((GROUP_AFFINITY[])var0.get(var6)).length; var7++) {
-            if ((((GROUP_AFFINITY[])var0.get(var6))[var7].mask.longValue() & 1L << var2) > 0L && ((GROUP_AFFINITY[])var0.get(var6))[var7].group == var1) {
-               return var6;
+   private static int getMatchingPackage(List<GROUP_AFFINITY[]> packages, int g, int lp) {
+      for (int i = 0; i < packages.size(); i++) {
+         for (int j = 0; j < ((GROUP_AFFINITY[])packages.get(i)).length; j++) {
+            if ((((GROUP_AFFINITY[])packages.get(i))[j].mask.longValue() & 1L << lp) > 0L && ((GROUP_AFFINITY[])packages.get(i))[j].group == g) {
+               return i;
             }
          }
       }
@@ -170,21 +170,21 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
       return 0;
    }
 
-   private static int getMatchingNumaNode(List<NUMA_NODE_RELATIONSHIP> var0, int var1, int var2) {
-      for (int var6 = 0; var6 < var0.size(); var6++) {
-         if ((((NUMA_NODE_RELATIONSHIP)var0.get(var6)).groupMask.mask.longValue() & 1L << var2) > 0L
-            && ((NUMA_NODE_RELATIONSHIP)var0.get(var6)).groupMask.group == var1) {
-            return ((NUMA_NODE_RELATIONSHIP)var0.get(var6)).nodeNumber;
+   private static int getMatchingNumaNode(List<NUMA_NODE_RELATIONSHIP> numaNodes, int g, int lp) {
+      for (int i = 0; i < numaNodes.size(); i++) {
+         if ((((NUMA_NODE_RELATIONSHIP)numaNodes.get(i)).groupMask.mask.longValue() & 1L << lp) > 0L
+            && ((NUMA_NODE_RELATIONSHIP)numaNodes.get(i)).groupMask.group == g) {
+            return ((NUMA_NODE_RELATIONSHIP)numaNodes.get(i)).nodeNumber;
          }
       }
 
       return 0;
    }
 
-   private static int getMatchingCore(List<GROUP_AFFINITY> var0, int var1, int var2) {
-      for (int var6 = 0; var6 < var0.size(); var6++) {
-         if ((((GROUP_AFFINITY)var0.get(var6)).mask.longValue() & 1L << var2) > 0L && ((GROUP_AFFINITY)var0.get(var6)).group == var1) {
-            return var6;
+   private static int getMatchingCore(List<GROUP_AFFINITY> cores, int g, int lp) {
+      for (int i = 0; i < cores.size(); i++) {
+         if ((((GROUP_AFFINITY)cores.get(i)).mask.longValue() & 1L << lp) > 0L && ((GROUP_AFFINITY)cores.get(i)).group == g) {
+            return i;
          }
       }
 
@@ -192,44 +192,44 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    }
 
    private CentralProcessor.LogicalProcessor[] getLogicalProcessorInformation() {
-      long var1 = c ^ 18766654459388L;
-      ArrayList var4 = new ArrayList();
-      ArrayList var5 = new ArrayList();
-      SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] var6 = Kernel32Util.getLogicalProcessorInformation();
+      long l = c ^ 18766654459388L;
+      ArrayList arrayList = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
+      SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] systeM_LOGICAL_PROCESSOR_INFORMATIONs = Kernel32Util.getLogicalProcessorInformation();
 
-      for (SYSTEM_LOGICAL_PROCESSOR_INFORMATION var10 : var6) {
-         if (var10.relationship == 3) {
-            var4.add(var10.processorMask.longValue());
-         } else if (var10.relationship == 0) {
-            var5.add(var10.processorMask.longValue());
+      for (SYSTEM_LOGICAL_PROCESSOR_INFORMATION systeM_LOGICAL_PROCESSOR_INFORMATION : systeM_LOGICAL_PROCESSOR_INFORMATIONs) {
+         if (systeM_LOGICAL_PROCESSOR_INFORMATION.relationship == 3) {
+            arrayList.add(systeM_LOGICAL_PROCESSOR_INFORMATION.processorMask.longValue());
+         } else if (systeM_LOGICAL_PROCESSOR_INFORMATION.relationship == 0) {
+            arrayList2.add(systeM_LOGICAL_PROCESSOR_INFORMATION.processorMask.longValue());
          }
       }
 
-      var5.sort(null);
-      var4.sort(null);
-      ArrayList var15 = new ArrayList();
+      arrayList2.sort(null);
+      arrayList.sort(null);
+      ArrayList arrayList3 = new ArrayList();
 
-      for (int var16 = 0; var16 < var5.size(); var16++) {
-         long var17 = (Long)var5.get(var16);
-         int var11 = Long.numberOfTrailingZeros(var17);
-         long var10000 = 6218496673654721905L ^ var1;
-         int var12 = 63 - Long.numberOfLeadingZeros(var17);
+      for (int i = 0; i < arrayList2.size(); i++) {
+         long m = (Long)arrayList2.get(i);
+         int j = Long.numberOfTrailingZeros(m);
+         long n = 6218496673654721905L ^ l;
+         int k = 63 - Long.numberOfLeadingZeros(m);
 
-         for (int var13 = var11; var13 <= var12; var13++) {
-            if ((var17 & 1L << var13) > 0L) {
-               CentralProcessor.LogicalProcessor var14 = new CentralProcessor.LogicalProcessor(var13, var16, this.getBitMatchingPackageNumber(var4, var13));
-               var15.add(var14);
+         for (int i2 = j; i2 <= k; i2++) {
+            if ((m & 1L << i2) > 0L) {
+               CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(i2, i, this.getBitMatchingPackageNumber(arrayList, i2));
+               arrayList3.add(logicalProcessor);
             }
          }
       }
 
-      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(var15.toArray(new CentralProcessor.LogicalProcessor[0]));
+      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(arrayList3.toArray(new CentralProcessor.LogicalProcessor[0]));
    }
 
-   private int getBitMatchingPackageNumber(List<Long> var1, int var2) {
-      for (int var6 = 0; var6 < var1.size(); var6++) {
-         if (((Long)var1.get(var6) & 1L << var2) > 0L) {
-            return var6;
+   private int getBitMatchingPackageNumber(List<Long> packageMaskList, int logProc) {
+      for (int i = 0; i < packageMaskList.size(); i++) {
+         if (((Long)packageMaskList.get(i) & 1L << logProc) > 0L) {
+            return i;
          }
       }
 
@@ -238,45 +238,45 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[] querySystemCpuLoadTicks() {
-      long[] var3 = new long[CentralProcessor.TickType.values().length];
-      FILETIME var4 = new FILETIME();
-      FILETIME var5 = new FILETIME();
-      FILETIME var6 = new FILETIME();
-      if (!Kernel32.INSTANCE.GetSystemTimes(var4, var5, var6)) {
-         return var3;
+      long[] longs = new long[CentralProcessor.TickType.values().length];
+      FILETIME filetime = new FILETIME();
+      FILETIME filetime2 = new FILETIME();
+      FILETIME filetime3 = new FILETIME();
+      if (!Kernel32.INSTANCE.GetSystemTimes(filetime, filetime2, filetime3)) {
+         return longs;
       }
 
-      Map var7 = ProcessorInformation.querySystemCounters();
-      var3[CentralProcessor.TickType.IRQ.getIndex()] = ((java.lang.Long)(var7.getOrDefault(ProcessorInformation.SystemTickCountProperty.PERCENTINTERRUPTTIME, 0L))) / 10000L;
-      var3[CentralProcessor.TickType.SOFTIRQ.getIndex()] = ((java.lang.Long)(var7.getOrDefault(ProcessorInformation.SystemTickCountProperty.PERCENTDPCTIME, 0L))) / 10000L;
-      var3[CentralProcessor.TickType.IDLE.getIndex()] = var4.toDWordLong().longValue() / 10000L;
-      var3[CentralProcessor.TickType.SYSTEM.getIndex()] = var5.toDWordLong().longValue() / 10000L - var3[CentralProcessor.TickType.IDLE.getIndex()];
-      var3[CentralProcessor.TickType.USER.getIndex()] = var6.toDWordLong().longValue() / 10000L;
-      var3[CentralProcessor.TickType.SYSTEM.getIndex()] -= var3[CentralProcessor.TickType.IRQ.getIndex()] + var3[CentralProcessor.TickType.SOFTIRQ.getIndex()];
-      return var3;
+      Map map = ProcessorInformation.querySystemCounters();
+      longs[CentralProcessor.TickType.IRQ.getIndex()] = ((java.lang.Long)(map.getOrDefault(ProcessorInformation.SystemTickCountProperty.PERCENTINTERRUPTTIME, 0L))) / 10000L;
+      longs[CentralProcessor.TickType.SOFTIRQ.getIndex()] = ((java.lang.Long)(map.getOrDefault(ProcessorInformation.SystemTickCountProperty.PERCENTDPCTIME, 0L))) / 10000L;
+      longs[CentralProcessor.TickType.IDLE.getIndex()] = filetime.toDWordLong().longValue() / 10000L;
+      longs[CentralProcessor.TickType.SYSTEM.getIndex()] = filetime2.toDWordLong().longValue() / 10000L - longs[CentralProcessor.TickType.IDLE.getIndex()];
+      longs[CentralProcessor.TickType.USER.getIndex()] = filetime3.toDWordLong().longValue() / 10000L;
+      longs[CentralProcessor.TickType.SYSTEM.getIndex()] -= longs[CentralProcessor.TickType.IRQ.getIndex()] + longs[CentralProcessor.TickType.SOFTIRQ.getIndex()];
+      return longs;
    }
 
    @Override
    public long[] queryCurrentFreq() {
       if (VersionHelpers.IsWindows7OrGreater()) {
-         Pair var4 = ProcessorInformation.queryFrequencyCounters();
-         List var5 = (List)var4.getA();
-         Map var6 = (Map)var4.getB();
-         List var7 = (List)var6.get(ProcessorInformation.ProcessorFrequencyProperty.PERCENTOFMAXIMUMFREQUENCY);
-         if (!var5.isEmpty()) {
-            long var8 = this.K();
-            long[] var10 = new long[this.getLogicalProcessorCount()];
+         Pair pair = ProcessorInformation.queryFrequencyCounters();
+         List list = (List)pair.getA();
+         Map map = (Map)pair.getB();
+         List list2 = (List)map.get(ProcessorInformation.ProcessorFrequencyProperty.PERCENTOFMAXIMUMFREQUENCY);
+         if (!list.isEmpty()) {
+            long l = this.K();
+            long[] longs = new long[this.getLogicalProcessorCount()];
 
-            for (int var11 = 0; var11 < var5.size(); var11++) {
-               int var12 = ((String)var5.get(var11)).contains(",")
-                  ? this.numaNodeProcToLogicalProcMap.getOrDefault(var5.get(var11), 0)
-                  : ParseUtil.parseIntOrDefault((String)var5.get(var11), 0);
-               if (var12 < this.getLogicalProcessorCount()) {
-                  var10[var12] = (Long)var7.get(var12) * var8 / 100L;
+            for (int i = 0; i < list.size(); i++) {
+               int j = ((String)list.get(i)).contains(",")
+                  ? this.numaNodeProcToLogicalProcMap.getOrDefault(list.get(i), 0)
+                  : ParseUtil.parseIntOrDefault((String)list.get(i), 0);
+               if (j < this.getLogicalProcessorCount()) {
+                  longs[j] = (Long)list2.get(j) * l / 100L;
                }
             }
 
-            return var10;
+            return longs;
          }
       }
 
@@ -285,44 +285,44 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long queryMaxFreq() {
-      long[] var1 = this.queryNTPower(1);
-      return Arrays.stream(var1).max().getAsLong();
+      long[] freqs = this.queryNTPower(1);
+      return Arrays.stream(freqs).max().getAsLong();
    }
 
-   private long[] queryNTPower(int var1) {
-      PowrProf.ProcessorPowerInformation var5 = new PowrProf.ProcessorPowerInformation();
-      long[] var6 = new long[this.getLogicalProcessorCount()];
-      int var7 = var5.size() * var6.length;
-      Memory var8 = new Memory(var7);
-      if (0 != PowrProf.INSTANCE.CallNtPowerInformation(11, null, 0, var8, var7)) {
-         Arrays.fill(var6, -1L);
-         return var6;
+   private long[] queryNTPower(int fieldIndex) {
+      PowrProf.ProcessorPowerInformation processorPowerInformation = new PowrProf.ProcessorPowerInformation();
+      long[] longs = new long[this.getLogicalProcessorCount()];
+      int i = processorPowerInformation.size() * longs.length;
+      Memory memory = new Memory(i);
+      if (0 != PowrProf.INSTANCE.CallNtPowerInformation(11, null, 0, memory, i)) {
+         Arrays.fill(longs, -1L);
+         return longs;
       }
 
-      for (int var9 = 0; var9 < var6.length; var9++) {
-         var5 = new PowrProf.ProcessorPowerInformation(var8.share((long)var9 * var5.size()));
-         if (var1 == 1) {
-            var6[var9] = var5.maxMhz * 1000000L;
-         } else if (var1 == 2) {
-            var6[var9] = var5.currentMhz * 1000000L;
+      for (int j = 0; j < longs.length; j++) {
+         processorPowerInformation = new PowrProf.ProcessorPowerInformation(memory.share((long)j * processorPowerInformation.size()));
+         if (fieldIndex == 1) {
+            longs[j] = processorPowerInformation.maxMhz * 1000000L;
+         } else if (fieldIndex == 2) {
+            longs[j] = processorPowerInformation.currentMhz * 1000000L;
          } else {
-            var6[var9] = -1L;
+            longs[j] = -1L;
          }
       }
 
-      return var6;
+      return longs;
    }
 
    @Override
-   public double[] getSystemLoadAverage(int var1) {
-      if (var1 >= 1 && var1 <= 3) {
-         double[] var5 = new double[var1];
+   public double[] getSystemLoadAverage(int nelem) {
+      if (nelem >= 1 && nelem <= 3) {
+         double[] doubles = new double[nelem];
 
-         for (int var6 = 0; var6 < var5.length; var6++) {
-            var5[var6] = -1.0;
+         for (int i = 0; i < doubles.length; i++) {
+            doubles[i] = -1.0;
          }
 
-         return var5;
+         return doubles;
       } else {
          throw new IllegalArgumentException("Must include from one to three elements.");
       }
@@ -330,39 +330,39 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[][] queryProcessorCpuLoadTicks() {
-      Pair var4 = ProcessorInformation.queryProcessorCounters();
-      List var5 = (List)var4.getA();
-      Map var6 = (Map)var4.getB();
-      List var7 = (List)var6.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTPRIVILEGEDTIME);
-      List var8 = (List)var6.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTUSERTIME);
-      List var9 = (List)var6.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTINTERRUPTTIME);
-      List var10 = (List)var6.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTDPCTIME);
-      List var11 = (List)var6.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTPROCESSORTIME);
-      long[][] var12 = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
-      if (!var5.isEmpty() && var7 != null && var8 != null && var9 != null && var10 != null && var11 != null) {
-         for (int var13 = 0; var13 < var5.size(); var13++) {
-            int var14 = ((String)var5.get(var13)).contains(",")
-               ? this.numaNodeProcToLogicalProcMap.getOrDefault(var5.get(var13), 0)
-               : ParseUtil.parseIntOrDefault((String)var5.get(var13), 0);
-            if (var14 < this.getLogicalProcessorCount()) {
-               var12[var14][CentralProcessor.TickType.SYSTEM.getIndex()] = (Long)var7.get(var14);
-               var12[var14][CentralProcessor.TickType.USER.getIndex()] = (Long)var8.get(var14);
-               var12[var14][CentralProcessor.TickType.IRQ.getIndex()] = (Long)var9.get(var14);
-               var12[var14][CentralProcessor.TickType.SOFTIRQ.getIndex()] = (Long)var10.get(var14);
-               var12[var14][CentralProcessor.TickType.IDLE.getIndex()] = (Long)var11.get(var14);
-               var12[var14][CentralProcessor.TickType.SYSTEM.getIndex()] -= var12[var14][CentralProcessor.TickType.IRQ.getIndex()]
-                  + var12[var14][CentralProcessor.TickType.SOFTIRQ.getIndex()];
-               var12[var14][CentralProcessor.TickType.SYSTEM.getIndex()] /= 10000L;
-               var12[var14][CentralProcessor.TickType.USER.getIndex()] /= 10000L;
-               var12[var14][CentralProcessor.TickType.IRQ.getIndex()] /= 10000L;
-               var12[var14][CentralProcessor.TickType.SOFTIRQ.getIndex()] /= 10000L;
-               var12[var14][CentralProcessor.TickType.IDLE.getIndex()] /= 10000L;
+      Pair pair = ProcessorInformation.queryProcessorCounters();
+      List list = (List)pair.getA();
+      Map map = (Map)pair.getB();
+      List list2 = (List)map.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTPRIVILEGEDTIME);
+      List list3 = (List)map.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTUSERTIME);
+      List list4 = (List)map.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTINTERRUPTTIME);
+      List list5 = (List)map.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTDPCTIME);
+      List list6 = (List)map.get(ProcessorInformation.ProcessorTickCountProperty.PERCENTPROCESSORTIME);
+      long[][] longss = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
+      if (!list.isEmpty() && list2 != null && list3 != null && list4 != null && list5 != null && list6 != null) {
+         for (int i = 0; i < list.size(); i++) {
+            int j = ((String)list.get(i)).contains(",")
+               ? this.numaNodeProcToLogicalProcMap.getOrDefault(list.get(i), 0)
+               : ParseUtil.parseIntOrDefault((String)list.get(i), 0);
+            if (j < this.getLogicalProcessorCount()) {
+               longss[j][CentralProcessor.TickType.SYSTEM.getIndex()] = (Long)list2.get(j);
+               longss[j][CentralProcessor.TickType.USER.getIndex()] = (Long)list3.get(j);
+               longss[j][CentralProcessor.TickType.IRQ.getIndex()] = (Long)list4.get(j);
+               longss[j][CentralProcessor.TickType.SOFTIRQ.getIndex()] = (Long)list5.get(j);
+               longss[j][CentralProcessor.TickType.IDLE.getIndex()] = (Long)list6.get(j);
+               longss[j][CentralProcessor.TickType.SYSTEM.getIndex()] -= longss[j][CentralProcessor.TickType.IRQ.getIndex()]
+                  + longss[j][CentralProcessor.TickType.SOFTIRQ.getIndex()];
+               longss[j][CentralProcessor.TickType.SYSTEM.getIndex()] /= 10000L;
+               longss[j][CentralProcessor.TickType.USER.getIndex()] /= 10000L;
+               longss[j][CentralProcessor.TickType.IRQ.getIndex()] /= 10000L;
+               longss[j][CentralProcessor.TickType.SOFTIRQ.getIndex()] /= 10000L;
+               longss[j][CentralProcessor.TickType.IDLE.getIndex()] /= 10000L;
             }
          }
 
-         return var12;
+         return longss;
       } else {
-         return var12;
+         return longss;
       }
    }
 

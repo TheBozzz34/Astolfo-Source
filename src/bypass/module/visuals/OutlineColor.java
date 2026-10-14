@@ -17,12 +17,12 @@ public enum OutlineColor {
    private Color Y;
    private static final OutlineColor[] a = new OutlineColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
 
-   OutlineColor(Color var3) {
-      this.Y = var3;
+   OutlineColor(Color color) {
+      this.Y = color;
    }
 
-   public void i(Color var1) {
-      this.Y = var1;
+   public void i(Color color) {
+      this.Y = color;
    }
 
    public Color C() {

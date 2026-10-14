@@ -30,11 +30,11 @@ public final class AutoBackstab extends Module {
    private int D;
    private final Stopwatch O = new Stopwatch();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (this.a() <= 0) {
-         int var5 = this.X_int();
-         if (var5 != -1) {
-            mc.playerController.windowClick(0, var5, this.slot.getValue() - 1, 2, mc.thePlayer);
+         int i = this.X_int();
+         if (i != -1) {
+            mc.playerController.windowClick(0, i, this.slot.getValue() - 1, 2, mc.thePlayer);
          } else if (this.z) {
             mc.thePlayer.inventory.currentItem = this.D;
             this.z = false;
@@ -42,37 +42,37 @@ public final class AutoBackstab extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING && var1x.getPacket() instanceof C02PacketUseEntity) {
-         C02PacketUseEntity var5 = (C02PacketUseEntity)var1x.getPacket();
-         Entity var6 = var5.getEntityFromWorld(mc.theWorld);
-         if (var6 instanceof EntityLivingBase) {
-            EntityLivingBase var7 = (EntityLivingBase)var5.getEntityFromWorld(mc.theWorld);
-            if (var5.getAction() == C02PacketUseEntity.Action.ATTACK && var7 instanceof EntityPlayer) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C02PacketUseEntity) {
+         C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
+         Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
+         if (entity instanceof EntityLivingBase) {
+            EntityLivingBase entityLivingBase = (EntityLivingBase)c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
+            if (c02PacketUseEntity.getAction() == C02PacketUseEntity.Action.ATTACK && entityLivingBase instanceof EntityPlayer) {
                if (this.teleport.getValue()) {
-                  float var8 = var7.rotationYaw + 90.0F + 180.0F;
-                  double var9 = var7.posX + Math.cos(Math.toRadians(var8));
-                  double var11 = var7.posZ + Math.sin(Math.toRadians(var8));
-                  int var13 = this.A((int)var9, (int)var7.posY, (int)var11);
-                  if (var13 != -1) {
-                     mc.thePlayer.setPosition(var9, var13, var11);
+                  float f = entityLivingBase.rotationYaw + 90.0F + 180.0F;
+                  double d = entityLivingBase.posX + Math.cos(Math.toRadians(f));
+                  double e = entityLivingBase.posZ + Math.sin(Math.toRadians(f));
+                  int i = this.A((int)d, (int)entityLivingBase.posY, (int)e);
+                  if (i != -1) {
+                     mc.thePlayer.setPosition(d, i, e);
                   }
                }
 
-               Vec3 var15 = var7.getPositionEyes(1.0F);
-               Vec3 var16 = mc.thePlayer.getPositionEyes(1.0F);
-               Vec3 var10 = var15.subtract(var16);
-               Vec3 var17 = new Vec3(
-                  var7.getHorizontalFacing().getDirectionVec().getX(),
-                  var7.getHorizontalFacing().getDirectionVec().getY(),
-                  var7.getHorizontalFacing().getDirectionVec().getZ()
+               Vec3 vec3 = entityLivingBase.getPositionEyes(1.0F);
+               Vec3 vec32 = mc.thePlayer.getPositionEyes(1.0F);
+               Vec3 vec33 = vec3.subtract(vec32);
+               Vec3 vec34 = new Vec3(
+                  entityLivingBase.getHorizontalFacing().getDirectionVec().getX(),
+                  entityLivingBase.getHorizontalFacing().getDirectionVec().getY(),
+                  entityLivingBase.getHorizontalFacing().getDirectionVec().getZ()
                );
-               double var12 = var10.dotProduct(var17);
-               if (var12 > 0.4) {
-                  int var14 = this.m(-1);
-                  if (var14 != -1) {
+               double d2 = vec33.dotProduct(vec34);
+               if (d2 > 0.4) {
+                  int j = this.m(-1);
+                  if (j != -1) {
                      this.D = mc.thePlayer.inventory.currentItem;
-                     mc.thePlayer.inventory.currentItem = var14;
+                     mc.thePlayer.inventory.currentItem = j;
                      this.z = true;
                      this.O.reset();
                   }
@@ -82,23 +82,23 @@ public final class AutoBackstab extends Module {
       }
    };
    @EventHandler(value = MotionEvent.class, priority = EventPriority.LOWEST)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.POST && this.z && this.O.hasElapsed(500.0F)) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.POST && this.z && this.O.hasElapsed(500.0F)) {
          mc.thePlayer.inventory.currentItem = this.D;
          this.z = false;
       }
    };
    private static final long c = 51983800228055L;
 
-   public AutoBackstab(Category var1) {
-      super(var1);
+   public AutoBackstab(Category category) {
+      super(category);
       this.addSettings(this.slot, this.teleport);
    }
 
-   private int A(int var1, int var2, int var3) {
-      for (int var7 = var2 + 2; var7 > var2 - 2; var7--) {
-         if (mc.theWorld.getBlockState(new BlockPos(var1, var7, var3)).getBlock().getMaterial() != Material.air) {
-            return var7 + 1;
+   private int A(int i, int j, int k) {
+      for (int l = j + 2; l > j - 2; l--) {
+         if (mc.theWorld.getBlockState(new BlockPos(i, l, k)).getBlock().getMaterial() != Material.air) {
+            return l + 1;
          }
       }
 
@@ -106,11 +106,11 @@ public final class AutoBackstab extends Module {
    }
 
    private int X_int() {
-      for (int var4 = 9; var4 <= 35; var4++) {
-         if (mc.thePlayer.inventoryContainer.getSlot(var4).getHasStack()) {
-            ItemStack var5 = mc.thePlayer.inventoryContainer.getSlot(var4).getStack();
-            if (this.l(var5)) {
-               return var4;
+      for (int i = 9; i <= 35; i++) {
+         if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+            ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+            if (this.l(itemStack)) {
+               return i;
             }
          }
       }
@@ -119,24 +119,24 @@ public final class AutoBackstab extends Module {
    }
 
    private int a() {
-      int var4 = 0;
+      int i = 0;
 
-      for (int var5 = 0; var5 < 9; var5++) {
-         ItemStack var6 = mc.thePlayer.inventory.getStackInSlot(var5);
-         if (var6 != null && this.l(var6)) {
-            var4 += var6.stackSize;
+      for (int j = 0; j < 9; j++) {
+         ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(j);
+         if (itemStack != null && this.l(itemStack)) {
+            i += itemStack.stackSize;
          }
       }
 
-      return var4;
+      return i;
    }
 
-   private int m(int var1) {
-      for (int var5 = 0; var5 < 9; var5++) {
-         if (var5 != var1) {
-            ItemStack var6 = mc.thePlayer.inventory.getStackInSlot(var5);
-            if (var6 != null && this.l(var6)) {
-               return var5;
+   private int m(int i) {
+      for (int j = 0; j < 9; j++) {
+         if (j != i) {
+            ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(j);
+            if (itemStack != null && this.l(itemStack)) {
+               return j;
             }
          }
       }
@@ -144,13 +144,13 @@ public final class AutoBackstab extends Module {
       return -1;
    }
 
-   private boolean l(ItemStack var1) {
-      if (var1 == null) {
+   private boolean l(ItemStack itemStack) {
+      if (itemStack == null) {
          return false;
-      } else if (var1.getItem() instanceof ItemSword) {
-         ItemSword var5 = (ItemSword)var1.getItem();
-         String var6 = var5.getToolMaterialName();
-         return var6 == null ? false : var6.toLowerCase().contains("gold");
+      } else if (itemStack.getItem() instanceof ItemSword) {
+         ItemSword itemSword = (ItemSword)itemStack.getItem();
+         String string = itemSword.getToolMaterialName();
+         return string == null ? false : string.toLowerCase().contains("gold");
       } else {
          return false;
       }

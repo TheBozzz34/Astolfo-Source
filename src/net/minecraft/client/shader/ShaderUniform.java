@@ -21,17 +21,17 @@ public class ShaderUniform {
    private final ShaderManager shaderManager;
    private static final long c = 22605898377579L;
 
-   public ShaderUniform(String var1, int var2, int var3, ShaderManager var4) {
-      this.shaderName = var1;
-      this.uniformCount = var3;
-      this.uniformType = var2;
-      this.shaderManager = var4;
-      if (var2 <= 3) {
-         this.uniformIntBuffer = BufferUtils.createIntBuffer(var3);
+   public ShaderUniform(String name, int typeIn, int count, ShaderManager manager) {
+      this.shaderName = name;
+      this.uniformCount = count;
+      this.uniformType = typeIn;
+      this.shaderManager = manager;
+      if (typeIn <= 3) {
+         this.uniformIntBuffer = BufferUtils.createIntBuffer(count);
          this.uniformFloatBuffer = null;
       } else {
          this.uniformIntBuffer = null;
-         this.uniformFloatBuffer = BufferUtils.createFloatBuffer(var3);
+         this.uniformFloatBuffer = BufferUtils.createFloatBuffer(count);
       }
 
       this.uniformLocation = -1;
@@ -45,173 +45,173 @@ public class ShaderUniform {
       }
    }
 
-   public static int parseType(String var0) {
-      byte var4 = -1;
-      if (var0.equals("int")) {
-         var4 = 0;
-      } else if (var0.equals("float")) {
-         var4 = 4;
-      } else if (var0.startsWith("matrix")) {
-         if (var0.endsWith("2x2")) {
-            var4 = 8;
-         } else if (var0.endsWith("3x3")) {
-            var4 = 9;
-         } else if (var0.endsWith("4x4")) {
-            var4 = 10;
+   public static int parseType(String string) {
+      byte b = -1;
+      if (string.equals("int")) {
+         b = 0;
+      } else if (string.equals("float")) {
+         b = 4;
+      } else if (string.startsWith("matrix")) {
+         if (string.endsWith("2x2")) {
+            b = 8;
+         } else if (string.endsWith("3x3")) {
+            b = 9;
+         } else if (string.endsWith("4x4")) {
+            b = 10;
          }
       }
 
-      return var4;
+      return b;
    }
 
-   public void setUniformLocation(int var1) {
-      this.uniformLocation = var1;
+   public void setUniformLocation(int i) {
+      this.uniformLocation = i;
    }
 
    public String getShaderName() {
       return this.shaderName;
    }
 
-   public void set(float var1) {
+   public void set(float f) {
       ((Buffer)this.uniformFloatBuffer).position(0);
-      this.uniformFloatBuffer.put(0, var1);
+      this.uniformFloatBuffer.put(0, f);
       this.markDirty();
    }
 
-   public void set(float var1, float var2) {
+   public void set(float f, float g) {
       ((Buffer)this.uniformFloatBuffer).position(0);
-      this.uniformFloatBuffer.put(0, var1);
-      this.uniformFloatBuffer.put(1, var2);
+      this.uniformFloatBuffer.put(0, f);
+      this.uniformFloatBuffer.put(1, g);
       this.markDirty();
    }
 
-   public void set(float var1, float var2, float var3) {
+   public void set(float f, float g, float h) {
       ((Buffer)this.uniformFloatBuffer).position(0);
-      this.uniformFloatBuffer.put(0, var1);
-      this.uniformFloatBuffer.put(1, var2);
-      this.uniformFloatBuffer.put(2, var3);
+      this.uniformFloatBuffer.put(0, f);
+      this.uniformFloatBuffer.put(1, g);
+      this.uniformFloatBuffer.put(2, h);
       this.markDirty();
    }
 
-   public void set(float var1, float var2, float var3, float var4) {
+   public void set(float f, float g, float h, float f2) {
       ((Buffer)this.uniformFloatBuffer).position(0);
-      this.uniformFloatBuffer.put(var1);
-      this.uniformFloatBuffer.put(var2);
-      this.uniformFloatBuffer.put(var3);
-      this.uniformFloatBuffer.put(var4);
+      this.uniformFloatBuffer.put(f);
+      this.uniformFloatBuffer.put(g);
+      this.uniformFloatBuffer.put(h);
+      this.uniformFloatBuffer.put(f2);
       ((Buffer)this.uniformFloatBuffer).flip();
       this.markDirty();
    }
 
-   public void func_148092_b(float var1, float var2, float var3, float var4) {
+   public void func_148092_b(float f, float g, float h, float f2) {
       ((Buffer)this.uniformFloatBuffer).position(0);
       if (this.uniformType >= 4) {
-         this.uniformFloatBuffer.put(0, var1);
+         this.uniformFloatBuffer.put(0, f);
       }
 
       if (this.uniformType >= 5) {
-         this.uniformFloatBuffer.put(1, var2);
+         this.uniformFloatBuffer.put(1, g);
       }
 
       if (this.uniformType >= 6) {
-         this.uniformFloatBuffer.put(2, var3);
+         this.uniformFloatBuffer.put(2, h);
       }
 
       if (this.uniformType >= 7) {
-         this.uniformFloatBuffer.put(3, var4);
+         this.uniformFloatBuffer.put(3, f2);
       }
 
       this.markDirty();
    }
 
-   public void set(int var1, int var2, int var3, int var4) {
+   public void set(int i, int j, int k, int l) {
       ((Buffer)this.uniformIntBuffer).position(0);
       if (this.uniformType >= 0) {
-         this.uniformIntBuffer.put(0, var1);
+         this.uniformIntBuffer.put(0, i);
       }
 
       if (this.uniformType >= 1) {
-         this.uniformIntBuffer.put(1, var2);
+         this.uniformIntBuffer.put(1, j);
       }
 
       if (this.uniformType >= 2) {
-         this.uniformIntBuffer.put(2, var3);
+         this.uniformIntBuffer.put(2, k);
       }
 
       if (this.uniformType >= 3) {
-         this.uniformIntBuffer.put(3, var4);
+         this.uniformIntBuffer.put(3, l);
       }
 
       this.markDirty();
    }
 
-   public void set(float[] var1) {
-      if (var1.length < this.uniformCount) {
-         logger.warn("Uniform.set called with a too-small value array (expected " + this.uniformCount + ", got " + var1.length + "). Ignoring.");
+   public void set(float[] floats) {
+      if (floats.length < this.uniformCount) {
+         logger.warn("Uniform.set called with a too-small value array (expected " + this.uniformCount + ", got " + floats.length + "). Ignoring.");
       } else {
          ((Buffer)this.uniformFloatBuffer).position(0);
-         this.uniformFloatBuffer.put(var1);
+         this.uniformFloatBuffer.put(floats);
          ((Buffer)this.uniformFloatBuffer).position(0);
          this.markDirty();
       }
    }
 
    public void set(
-      float var1,
-      float var2,
-      float var3,
-      float var4,
-      float var5,
-      float var6,
-      float var7,
-      float var8,
-      float var9,
-      float var10,
-      float var11,
-      float var12,
-      float var13,
-      float var14,
-      float var15,
-      float var16
+      float f,
+      float g,
+      float h,
+      float f2,
+      float f3,
+      float f4,
+      float f5,
+      float f6,
+      float f7,
+      float f8,
+      float f9,
+      float f10,
+      float f11,
+      float f12,
+      float f13,
+      float f14
    ) {
       ((Buffer)this.uniformFloatBuffer).position(0);
-      this.uniformFloatBuffer.put(0, var1);
-      this.uniformFloatBuffer.put(1, var2);
-      this.uniformFloatBuffer.put(2, var3);
-      this.uniformFloatBuffer.put(3, var4);
-      this.uniformFloatBuffer.put(4, var5);
-      this.uniformFloatBuffer.put(5, var6);
-      this.uniformFloatBuffer.put(6, var7);
-      this.uniformFloatBuffer.put(7, var8);
-      this.uniformFloatBuffer.put(8, var9);
-      this.uniformFloatBuffer.put(9, var10);
-      this.uniformFloatBuffer.put(10, var11);
-      this.uniformFloatBuffer.put(11, var12);
-      this.uniformFloatBuffer.put(12, var13);
-      this.uniformFloatBuffer.put(13, var14);
-      this.uniformFloatBuffer.put(14, var15);
-      this.uniformFloatBuffer.put(15, var16);
+      this.uniformFloatBuffer.put(0, f);
+      this.uniformFloatBuffer.put(1, g);
+      this.uniformFloatBuffer.put(2, h);
+      this.uniformFloatBuffer.put(3, f2);
+      this.uniformFloatBuffer.put(4, f3);
+      this.uniformFloatBuffer.put(5, f4);
+      this.uniformFloatBuffer.put(6, f5);
+      this.uniformFloatBuffer.put(7, f6);
+      this.uniformFloatBuffer.put(8, f7);
+      this.uniformFloatBuffer.put(9, f8);
+      this.uniformFloatBuffer.put(10, f9);
+      this.uniformFloatBuffer.put(11, f10);
+      this.uniformFloatBuffer.put(12, f11);
+      this.uniformFloatBuffer.put(13, f12);
+      this.uniformFloatBuffer.put(14, f13);
+      this.uniformFloatBuffer.put(15, f14);
       this.markDirty();
    }
 
-   public void set(Matrix4f var1) {
+   public void set(Matrix4f matrix4f) {
       this.set(
-         var1.m00,
-         var1.m01,
-         var1.m02,
-         var1.m03,
-         var1.m10,
-         var1.m11,
-         var1.m12,
-         var1.m13,
-         var1.m20,
-         var1.m21,
-         var1.m22,
-         var1.m23,
-         var1.m30,
-         var1.m31,
-         var1.m32,
-         var1.m33
+         matrix4f.m00,
+         matrix4f.m01,
+         matrix4f.m02,
+         matrix4f.m03,
+         matrix4f.m10,
+         matrix4f.m11,
+         matrix4f.m12,
+         matrix4f.m13,
+         matrix4f.m20,
+         matrix4f.m21,
+         matrix4f.m22,
+         matrix4f.m23,
+         matrix4f.m30,
+         matrix4f.m31,
+         matrix4f.m32,
+         matrix4f.m33
       );
    }
 

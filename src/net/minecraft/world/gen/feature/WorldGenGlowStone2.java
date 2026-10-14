@@ -11,34 +11,34 @@ public class WorldGenGlowStone2 extends WorldGenerator {
    private static final long a = 124207561199017L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      if (!var1.isAirBlock(var3)) {
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      if (!worldIn.isAirBlock(position)) {
          return false;
       }
 
-      if (var1.getBlockState(var3.up()).getBlock() != Blocks.netherrack) {
+      if (worldIn.getBlockState(position.up()).getBlock() != Blocks.netherrack) {
          return false;
       }
 
-      var1.setBlockState(var3, Blocks.glowstone.getDefaultState(), 2);
+      worldIn.setBlockState(position, Blocks.glowstone.getDefaultState(), 2);
 
-      for (int var7 = 0; var7 < 1500; var7++) {
-         BlockPos var8 = var3.add(var2.nextInt(8) - var2.nextInt(8), -var2.nextInt(12), var2.nextInt(8) - var2.nextInt(8));
-         if (var1.getBlockState(var8).getBlock().getMaterial() == Material.air) {
-            int var9 = 0;
+      for (int i = 0; i < 1500; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), -rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+         if (worldIn.getBlockState(blockPos).getBlock().getMaterial() == Material.air) {
+            int j = 0;
 
-            for (EnumFacing var13 : EnumFacing.values()) {
-               if (var1.getBlockState(var8.offset(var13)).getBlock() == Blocks.glowstone) {
-                  var9++;
+            for (EnumFacing enumFacing : EnumFacing.values()) {
+               if (worldIn.getBlockState(blockPos.offset(enumFacing)).getBlock() == Blocks.glowstone) {
+                  j++;
                }
 
-               if (var9 > 1) {
+               if (j > 1) {
                   break;
                }
             }
 
-            if (var9 == 1) {
-               var1.setBlockState(var8, Blocks.glowstone.getDefaultState(), 2);
+            if (j == 1) {
+               worldIn.setBlockState(blockPos, Blocks.glowstone.getDefaultState(), 2);
             }
          }
       }

@@ -9,11 +9,11 @@ public abstract class AbstractBaseboard implements Baseboard {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("manufacturer=").append(this.p()).append(", ");
-      var3.append("model=").append(this.g()).append(", ");
-      var3.append("version=").append(this.W()).append(", ");
-      var3.append("serial number=").append(this.A());
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("manufacturer=").append(this.p()).append(", ");
+      stringBuilder.append("model=").append(this.g()).append(", ");
+      stringBuilder.append("version=").append(this.W()).append(", ");
+      stringBuilder.append("serial number=").append(this.A());
+      return stringBuilder.toString();
    }
 }

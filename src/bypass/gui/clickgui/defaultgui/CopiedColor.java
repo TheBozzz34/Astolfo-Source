@@ -10,13 +10,13 @@ public class CopiedColor {
    private final int l;
    private final int L;
 
-   public CopiedColor(int var1, Color var2, int var3, int var4, int var5, int var6) {
-      this.L = var1;
-      this.k = var2;
-      this.K = var3;
-      this.d = var4;
-      this.G = var5;
-      this.l = var6;
+   public CopiedColor(int i, Color color, int j, int k, int l, int m) {
+      this.L = i;
+      this.k = color;
+      this.K = j;
+      this.d = k;
+      this.G = l;
+      this.l = m;
    }
 
    public int b() {

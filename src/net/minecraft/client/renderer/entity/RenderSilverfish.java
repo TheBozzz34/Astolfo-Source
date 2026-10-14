@@ -7,15 +7,15 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSilverfish extends RenderLiving<EntitySilverfish> {
    private static final ResourceLocation silverfishTextures = new ResourceLocation("textures/entity/silverfish.png");
 
-   public RenderSilverfish(RenderManager var1) {
-      super(var1, new ModelSilverfish(), 0.3F);
+   public RenderSilverfish(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelSilverfish(), 0.3F);
    }
 
-   public float getDeathMaxRotation(EntitySilverfish var1) {
+   public float getDeathMaxRotation(EntitySilverfish entityLivingBaseIn) {
       return 180.0F;
    }
 
-   public ResourceLocation getEntityTexture(EntitySilverfish var1) {
+   public ResourceLocation getEntityTexture(EntitySilverfish entity) {
       return silverfishTextures;
    }
 }

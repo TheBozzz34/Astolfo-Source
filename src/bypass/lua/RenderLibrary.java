@@ -44,35 +44,35 @@ public class RenderLibrary extends TwoArgFunction implements ClientAccess {
    private static final long b = 140597798818334L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("rect", q);
-      var7.set("line", D);
-      var7.set("player_head", u);
-      var7.set("circle", H);
-      var7.set("player", W);
-      var7.set("get_string_width", o);
-      var7.set("string", Z);
-      var7.set("show_gui", e);
-      var7.set("scale", P);
-      var7.set("line_width", r);
-      var7.set("string_shadow", c);
-      var7.set("world_to_screen", C);
-      var7.set("draw_image", f);
-      var2.set("render", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("rect", q);
+      luaTable.set("line", D);
+      luaTable.set("player_head", u);
+      luaTable.set("circle", H);
+      luaTable.set("player", W);
+      luaTable.set("get_string_width", o);
+      luaTable.set("string", Z);
+      luaTable.set("show_gui", e);
+      luaTable.set("scale", P);
+      luaTable.set("line_width", r);
+      luaTable.set("string_shadow", c);
+      luaTable.set("world_to_screen", C);
+      luaTable.set("draw_image", f);
+      luaValue2.set("render", luaTable);
+      return luaTable;
    }
 
-   public static ResourceLocation m(String var0, boolean var1) {
-      String var4 = var0.replaceAll("[^a-zA-Z0-9]", "");
-      ResourceLocation var5 = new ResourceLocation("script_img/" + var4);
-      TextureManager var6 = Minecraft.getMinecraft().getTextureManager();
-      ITextureObject var7 = var6.getTexture(var5);
-      if (var7 == null) {
-         var7 = new ThreadDownloadImageData(null, var0, E, new ImageBufferDownload(true));
-         var6.loadTexture(var5, var7);
+   public static ResourceLocation m(String string, boolean bl) {
+      String string2 = string.replaceAll("[^a-zA-Z0-9]", "");
+      ResourceLocation resourceLocation = new ResourceLocation("script_img/" + string2);
+      TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+      ITextureObject iTextureObject = textureManager.getTexture(resourceLocation);
+      if (iTextureObject == null) {
+         iTextureObject = new ThreadDownloadImageData(null, string, E, new ImageBufferDownload(true));
+         textureManager.loadTexture(resourceLocation, iTextureObject);
       }
 
-      return var5;
+      return resourceLocation;
    }
 }

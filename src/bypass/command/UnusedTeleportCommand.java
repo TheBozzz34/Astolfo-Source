@@ -40,38 +40,38 @@ public final class UnusedTeleportCommand extends Command {
    private final Stopwatch Q = new Stopwatch();
    public static int W;
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var1 -> {
-      if (var1.getDirection() == PacketDirection.OUTGOING) {
-         if (var1.getPacket() instanceof C0CPacketInput && mc.thePlayer.E()) {
-            C0CPacketInput var5 = (C0CPacketInput)var1.getPacket();
-            var5.d(true);
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         if (packetEvent.getPacket() instanceof C0CPacketInput && mc.thePlayer.E()) {
+            C0CPacketInput c0CPacketInput = (C0CPacketInput)packetEvent.getPacket();
+            c0CPacketInput.d(true);
             return;
          }
 
-         if (this.z == 1 && !this.Q.hasElapsed(6000.0F) || !this.p && var1.getPacket() instanceof C03PacketPlayer) {
-            var1.cancel();
+         if (this.z == 1 && !this.Q.hasElapsed(6000.0F) || !this.p && packetEvent.getPacket() instanceof C03PacketPlayer) {
+            packetEvent.cancel();
          }
-      } else if (var1.getPacket() instanceof S08PacketPlayerPosLook && !this.p) {
+      } else if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook && !this.p) {
          this.p = true;
       }
    };
    @EventHandler(MotionEvent.class)
-   private final Listener<MotionEvent> onMotion = var1 -> {
-      long var2 = d ^ 57577220663433L;
-      long var4 = var2 ^ 139774890254778L;
+   private final Listener<MotionEvent> onMotion = motionEvent -> {
+      long l = d ^ 57577220663433L;
+      long n = l ^ 139774890254778L;
       if (this.p) {
-         boolean var7 = client.getModuleManager().get(RiderGod.class).isEnabled();
+         boolean bl = client.getModuleManager().get(RiderGod.class).isEnabled();
          if (!this.E.isEmpty()) {
-            EntityPlayer var8 = mc.theWorld.getPlayerEntityByName(this.E);
-            if (var8 != null) {
-               if (var8.ridingEntity != null) {
-                  this.C = var8.ridingEntity.posX;
-                  this.h = var8.ridingEntity.posY;
-                  this.X = var8.ridingEntity.posZ;
+            EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName(this.E);
+            if (entityPlayer != null) {
+               if (entityPlayer.ridingEntity != null) {
+                  this.C = entityPlayer.ridingEntity.posX;
+                  this.h = entityPlayer.ridingEntity.posY;
+                  this.X = entityPlayer.ridingEntity.posZ;
                } else {
-                  this.C = var8.posX;
-                  this.h = var8.posY;
-                  this.X = var8.posZ;
+                  this.C = entityPlayer.posX;
+                  this.h = entityPlayer.posY;
+                  this.X = entityPlayer.posZ;
                }
             }
          }
@@ -84,19 +84,19 @@ public final class UnusedTeleportCommand extends Command {
          }
 
          this.T = mc.thePlayer.getPosition();
-         double var11 = mc.thePlayer.posY - this.h;
-         if (var7) {
+         double e = mc.thePlayer.posY - this.h;
+         if (bl) {
             mc.thePlayer.setPosition(this.C, this.h, this.X);
          } else {
-            boolean var10 = var11 < -30.0 && mc.thePlayer.posY > 40.0 && this.E.isEmpty() && !ScoreboardTracker.r();
-            if (var10) {
+            boolean bl2 = e < -30.0 && mc.thePlayer.posY > 40.0 && this.E.isEmpty() && !ScoreboardTracker.r();
+            if (bl2) {
                this.m(
                   InfiniteReach.Z(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, 8.9),
-                  var7
+                  bl
                );
-               this.m(InfiniteReach.Z(mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, this.C, this.h, this.X, 8.9), var7);
+               this.m(InfiniteReach.Z(mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, this.C, this.h, this.X, 8.9), bl);
             } else {
-               this.m(PathFinder.i(new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(this.C, this.h, this.X), 8.9), var7);
+               this.m(PathFinder.i(new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(this.C, this.h, this.X), 8.9), bl);
             }
          }
 
@@ -112,15 +112,15 @@ public final class UnusedTeleportCommand extends Command {
             toasts.g("Teleported", "Successfully teleported");
          }
 
-         if (var7) {
+         if (bl) {
             W++;
          }
       }
    };
    @EventHandler(MoveEvent.class)
-   private final Listener<MoveEvent> onMove = var0 -> {
-      GameUtil.setMoveSpeed(var0, 0.0, 90.0F);
-      var0.setY(mc.thePlayer.motionY = 0.0);
+   private final Listener<MoveEvent> onMove = moveEvent -> {
+      GameUtil.setMoveSpeed(moveEvent, 0.0, 90.0F);
+      moveEvent.setY(mc.thePlayer.motionY = 0.0);
    };
    private static final long d = 136569738441856L;
    private static final long j = -8984061303844765666L;
@@ -131,12 +131,12 @@ public final class UnusedTeleportCommand extends Command {
    }
 
    @Override
-   public void runCommand(String[] var1) {
-      switch (var1.length) {
+   public void runCommand(String[] strings) {
+      switch (strings.length) {
          case 2:
-            if (var1[1].equalsIgnoreCase("cancel")) {
+            if (strings[1].equalsIgnoreCase("cancel")) {
                client.getEventBus().unsubscribe(this);
-            } else if (var1[1].equalsIgnoreCase("teammate")) {
+            } else if (strings[1].equalsIgnoreCase("teammate")) {
                if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() == Items.compass) {
                   this.s = true;
                   this.c("teammate");
@@ -144,7 +144,7 @@ public final class UnusedTeleportCommand extends Command {
                } else {
                   toasts.x("You must hold your compass to use this");
                }
-            } else if (var1[1].equalsIgnoreCase("back")) {
+            } else if (strings[1].equalsIgnoreCase("back")) {
                if (this.T != null) {
                   this.C = this.T.getX();
                   this.h = 128.0;
@@ -155,30 +155,30 @@ public final class UnusedTeleportCommand extends Command {
                   toasts.x("Theres no registered last position");
                }
             } else {
-               EntityPlayer var16 = mc.theWorld.getPlayerEntityByName(var1[1]);
-               boolean var6 = false;
-               if (var16 != null) {
-                  this.C = var16.posX;
-                  this.h = var16.posY;
-                  this.X = var16.posZ;
-                  this.E = var16.getName();
+               EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName(strings[1]);
+               boolean bl = false;
+               if (entityPlayer != null) {
+                  this.C = entityPlayer.posX;
+                  this.h = entityPlayer.posY;
+                  this.X = entityPlayer.posZ;
+                  this.E = entityPlayer.getName();
                } else {
-                  BlockPos var19 = PlayerListTracker.lastPositions.get(var1[1]);
-                  if (var19 == null) {
+                  BlockPos blockPos = PlayerListTracker.lastPositions.get(strings[1]);
+                  if (blockPos == null) {
                      toasts.x("Couldn't find this player");
                      break;
                   }
 
-                  if (mc.thePlayer.getDistance(var19.getX(), var19.getY(), var19.getZ()) > 2000.0) {
-                     toasts.x(var1[1] + " last position was too far away");
+                  if (mc.thePlayer.getDistance(blockPos.getX(), blockPos.getY(), blockPos.getZ()) > 2000.0) {
+                     toasts.x(strings[1] + " last position was too far away");
                      break;
                   }
 
-                  this.C = var19.getX();
+                  this.C = blockPos.getX();
                   this.h = 128.0;
-                  this.X = var19.getZ();
-                  this.E = var1[1];
-                  var6 = true;
+                  this.X = blockPos.getZ();
+                  this.E = strings[1];
+                  bl = true;
                }
 
                if (this.o()) {
@@ -187,7 +187,7 @@ public final class UnusedTeleportCommand extends Command {
                }
 
                client.getEventBus().subscribe(this);
-               this.c(var6 ? "tracked" : "found");
+               this.c(bl ? "tracked" : "found");
             }
             break;
          case 3:
@@ -197,14 +197,14 @@ public final class UnusedTeleportCommand extends Command {
             }
 
             try {
-               double var15 = Double.parseDouble(var1[1]);
-               double var18 = Double.parseDouble(var1[2]);
-               this.C = var15;
+               double d = Double.parseDouble(strings[1]);
+               double e = Double.parseDouble(strings[2]);
+               this.C = d;
                this.h = 128.0;
-               this.X = var18;
+               this.X = e;
                client.getEventBus().subscribe(this);
                this.c("");
-            } catch (NumberFormatException var11) {
+            } catch (NumberFormatException numberFormatException) {
                ClientChat.CHAT.f("put cords correctly noob");
             }
             break;
@@ -215,28 +215,28 @@ public final class UnusedTeleportCommand extends Command {
             }
 
             try {
-               double var14 = Double.parseDouble(var1[1]);
-               double var17 = Double.parseDouble(var1[2]);
-               double var20 = Double.parseDouble(var1[3]);
-               this.C = var14;
-               this.h = var17;
-               this.X = var20;
+               double d2 = Double.parseDouble(strings[1]);
+               double d3 = Double.parseDouble(strings[2]);
+               double d4 = Double.parseDouble(strings[3]);
+               this.C = d2;
+               this.h = d3;
+               this.X = d4;
                client.getEventBus().subscribe(this);
                this.c("");
-            } catch (NumberFormatException var12) {
+            } catch (NumberFormatException numberFormatException2) {
                ClientChat.CHAT.f("put cords correctly noob");
             }
             break;
          case 5:
-            if (var1[1].equalsIgnoreCase("update")) {
+            if (strings[1].equalsIgnoreCase("update")) {
                try {
-                  double var5 = Double.parseDouble(var1[2]);
-                  double var7 = Double.parseDouble(var1[3]);
-                  double var9 = Double.parseDouble(var1[4]);
-                  this.C = var5;
-                  this.h = var7;
-                  this.X = var9;
-               } catch (NumberFormatException var13) {
+                  double d5 = Double.parseDouble(strings[2]);
+                  double d6 = Double.parseDouble(strings[3]);
+                  double d7 = Double.parseDouble(strings[4]);
+                  this.C = d5;
+                  this.h = d6;
+                  this.X = d7;
+               } catch (NumberFormatException numberFormatException3) {
                }
             }
             break;
@@ -245,9 +245,9 @@ public final class UnusedTeleportCommand extends Command {
       }
    }
 
-   private void c(String var1) {
-      long var2 = d ^ 23328835604355L;
-      long var4 = var2 ^ 103860757841584L;
+   private void c(String string) {
+      long l = d ^ 23328835604355L;
+      long m = l ^ 103860757841584L;
       this.z = 0;
       this.p = false;
       if (client.getModuleManager().get(RiderGod.class).isEnabled()) {
@@ -257,7 +257,7 @@ public final class UnusedTeleportCommand extends Command {
       mc.thePlayer.motionX = 0.0;
       mc.thePlayer.motionZ = 0.0;
       if (HUD.isPowerBranding()) {
-         if (var1.equals("tracked") || var1.equals("found")) {
+         if (string.equals("tracked") || string.equals("found")) {
             q(
                "LookTP",
                String.format(
@@ -273,7 +273,7 @@ public final class UnusedTeleportCommand extends Command {
 
          f(EnumChatFormatting.GREEN + "TP" + EnumChatFormatting.WHITE + " : " + EnumChatFormatting.AQUA + "Please wait Server Lag!");
       } else {
-         switch (var1) {
+         switch (string) {
             case "tracked":
                toasts.B("Getting ready", "Teleporting to " + this.E + " last position soon");
                break;
@@ -292,12 +292,20 @@ public final class UnusedTeleportCommand extends Command {
       }
    }
 
-   public static void q(String var0, String var1) {
+   public static void q(String string, String string2) {
       mc.ingameGUI
          .getChatGUI()
          .printChatMessage(
             new ChatComponentText(
-               EnumChatFormatting.DARK_GRAY + "[" + EnumChatFormatting.RED + var0 + EnumChatFormatting.DARK_GRAY + "]" + EnumChatFormatting.WHITE + " " + var1
+               EnumChatFormatting.DARK_GRAY
+                  + "["
+                  + EnumChatFormatting.RED
+                  + string
+                  + EnumChatFormatting.DARK_GRAY
+                  + "]"
+                  + EnumChatFormatting.WHITE
+                  + " "
+                  + string2
             )
          );
    }
@@ -323,31 +331,31 @@ public final class UnusedTeleportCommand extends Command {
          );
    }
 
-   public static void f(String var0) {
-      q("Power", var0);
+   public static void f(String string) {
+      q("Power", string);
    }
 
-   private void m(List<Vector3> var1, boolean var2) {
-      double var6 = mc.thePlayer.posY;
-      double var8 = 0.0;
+   private void m(List<Vector3> list, boolean bl) {
+      double d = mc.thePlayer.posY;
+      double e = 0.0;
 
-      for (Vector3 var11 : var1) {
-         if (var11.getY() < var6) {
-            var8 += var6 - var11.getY();
+      for (Vector3 vector3 : list) {
+         if (vector3.getY() < d) {
+            e += d - vector3.getY();
          }
 
-         if (var2) {
+         if (bl) {
             mc.thePlayer
                .sendQueue
-               .addToSendQueue(new VehicleMovePacket(var11.getX(), var11.getY(), var11.getZ(), mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch));
-         } else if (var8 > 2.85) {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(var11.getX(), var11.getY(), var11.getZ(), true));
-            var8 = 0.0;
+               .addToSendQueue(new VehicleMovePacket(vector3.getX(), vector3.getY(), vector3.getZ(), mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch));
+         } else if (e > 2.85) {
+            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
+            e = 0.0;
          } else {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(var11.getX(), var11.getY(), var11.getZ(), false));
+            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));
          }
 
-         var6 = var11.getY();
+         d = vector3.getY();
       }
    }
 

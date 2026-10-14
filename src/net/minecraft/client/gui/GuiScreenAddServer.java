@@ -16,29 +16,29 @@ public class GuiScreenAddServer extends GuiScreen {
    private Predicate<String> field_181032_r = new Predicate<String>() {
       private static final long a = 15103075447856L;
 
-      public boolean apply(String var1) {
-         if (var1.length() == 0) {
+      public boolean apply(String string) {
+         if (string.length() == 0) {
             return true;
          }
 
-         String[] var5 = var1.split(":");
-         if (var5.length == 0) {
+         String[] strings = string.split(":");
+         if (strings.length == 0) {
             return true;
          }
 
          try {
-            String var6 = IDN.toASCII(var5[0]);
+            String string2 = IDN.toASCII(strings[0]);
             return true;
-         } catch (IllegalArgumentException var7) {
+         } catch (IllegalArgumentException illegalArgumentException) {
             return false;
          }
       }
    };
    private static final long b = 66651723247614L;
 
-   public GuiScreenAddServer(GuiScreen var1, ServerData var2) {
-      this.parentScreen = var1;
-      this.serverData = var2;
+   public GuiScreenAddServer(GuiScreen guiScreen, ServerData serverData) {
+      this.parentScreen = guiScreen;
+      this.serverData = serverData;
    }
 
    @Override
@@ -80,9 +80,9 @@ public class GuiScreenAddServer extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 2) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 2) {
             this.serverData
                .setResourceMode(
                   ServerData.ServerResourceMode.values()[(this.serverData.getResourceMode().ordinal() + 1) % ServerData.ServerResourceMode.values().length]
@@ -90,9 +90,9 @@ public class GuiScreenAddServer extends GuiScreen {
             this.serverResourcePacks.displayString = I18n.format("addServer.resourcePack")
                + ": "
                + this.serverData.getResourceMode().getMotd().getFormattedText();
-         } else if (var1.id == 1) {
+         } else if (button.id == 1) {
             this.parentScreen.confirmClicked(false, 0);
-         } else if (var1.id == 0) {
+         } else if (button.id == 0) {
             this.serverData.serverName = this.serverNameField.getText();
             this.serverData.serverIP = this.serverIPField.getText();
             this.parentScreen.confirmClicked(true, 0);
@@ -101,15 +101,15 @@ public class GuiScreenAddServer extends GuiScreen {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      this.serverNameField.textboxKeyTyped(var1, var2);
-      this.serverIPField.textboxKeyTyped(var1, var2);
-      if (var2 == 15) {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      this.serverNameField.textboxKeyTyped(typedChar, keyCode);
+      this.serverIPField.textboxKeyTyped(typedChar, keyCode);
+      if (keyCode == 15) {
          this.serverNameField.setFocused(!this.serverNameField.isFocused());
          this.serverIPField.setFocused(!this.serverIPField.isFocused());
       }
 
-      if (var2 == 28 || var2 == 156) {
+      if (keyCode == 28 || keyCode == 156) {
          this.actionPerformed(this.buttonList.get(0));
       }
 
@@ -119,20 +119,20 @@ public class GuiScreenAddServer extends GuiScreen {
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      super.mouseClicked(var1, var2, var3);
-      this.serverIPField.mouseClicked(var1, var2, var3);
-      this.serverNameField.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      super.mouseClicked(mouseX, mouseY, mouseButton);
+      this.serverIPField.mouseClicked(mouseX, mouseY, mouseButton);
+      this.serverNameField.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, I18n.format("addServer.title"), this.width / 2, 17, 16777215);
       this.I(this.fontRendererObj, I18n.format("addServer.enterName"), this.width / 2 - 100, 53, 10526880);
       this.I(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 94, 10526880);
       this.serverNameField.drawTextBox();
       this.serverIPField.drawTextBox();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

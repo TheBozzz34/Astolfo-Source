@@ -33,8 +33,8 @@ public final class Skeleton extends Module {
       .build();
    private static Map<EntityPlayer, float[][]> modelRotations = new HashMap<>();
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
-   private Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.WORLD) {
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.WORLD) {
          try {
             this.setupRender(true);
             GL11.glEnable(2903);
@@ -42,24 +42,24 @@ public final class Skeleton extends Module {
                GL11.glDisable(2848);
             }
 
-            modelRotations.keySet().removeIf(var0 -> GameUtil.isRemoved(var0) || GameUtil.isDead(var0));
-            List var5 = mc.theWorld.playerEntities;
-            int var6 = 0;
+            modelRotations.keySet().removeIf(entityPlayer -> GameUtil.isRemoved(entityPlayer) || GameUtil.isDead(entityPlayer));
+            List list = mc.theWorld.playerEntities;
+            int i = 0;
 
-            for (int var7 = var5.size(); var6 < var7; var6++) {
-               EntityPlayer var8 = (EntityPlayer)var5.get(var6);
-               double var9 = MathUtil.interpolate(var8.lastTickPosX, var8.posX, var1x.getPartialTicks(), mc.getRenderManager().viewerPosX);
-               double var11 = MathUtil.interpolate(var8.lastTickPosY, var8.posY, var1x.getPartialTicks(), mc.getRenderManager().viewerPosY);
-               double var13 = MathUtil.interpolate(var8.lastTickPosZ, var8.posZ, var1x.getPartialTicks(), mc.getRenderManager().viewerPosZ);
-               if (this.shouldRender(var8)) {
-                  this.drawSkeleton(var8, var9, var11, var13);
+            for (int j = list.size(); i < j; i++) {
+               EntityPlayer entityPlayer2 = (EntityPlayer)list.get(i);
+               double d = MathUtil.interpolate(entityPlayer2.lastTickPosX, entityPlayer2.posX, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosX);
+               double e = MathUtil.interpolate(entityPlayer2.lastTickPosY, entityPlayer2.posY, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosY);
+               double d2 = MathUtil.interpolate(entityPlayer2.lastTickPosZ, entityPlayer2.posZ, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosZ);
+               if (this.shouldRender(entityPlayer2)) {
+                  this.drawSkeleton(entityPlayer2, d, e, d2);
                }
             }
 
             RenderUtil.setColor(-1);
             this.setupRender(false);
             modelRotations.clear();
-         } catch (Exception var15) {
+         } catch (Exception exception) {
             this.setupRender(false);
             modelRotations.clear();
          }
@@ -67,8 +67,8 @@ public final class Skeleton extends Module {
    };
    private static final long c = 45837517856036L;
 
-   public Skeleton(Category var1) {
-      super(var1);
+   public Skeleton(Category category) {
+      super(category);
       this.addSettings(this.checks, this.color, this.smooth);
       this.setHidden(false);
    }
@@ -79,88 +79,88 @@ public final class Skeleton extends Module {
       super.onDisable();
    }
 
-   private boolean shouldRender(EntityPlayer var1) {
-      return var1 != mc.thePlayer && !var1.isPlayerSleeping() && (!GameUtil.S(var1) || this.checks.getSetting("Invisible").asBoolean());
+   private boolean shouldRender(EntityPlayer entityPlayer) {
+      return entityPlayer != mc.thePlayer && !entityPlayer.isPlayerSleeping() && (!GameUtil.S(entityPlayer) || this.checks.getSetting("Invisible").asBoolean());
    }
 
-   private void drawSkeleton(EntityPlayer var1, double var2, double var4, double var6) {
-      long var8 = c ^ 34037393528557L;
-      long var10001 = var8 ^ 77017285537428L;
-      int var10 = (int)((var8 ^ 77017285537428L) >>> 56);
-      int var11 = (int)((var8 ^ 77017285537428L) << 8 >>> 32);
-      int var12 = (int)(var10001 << 40 >>> 40);
-      float[][] var14 = modelRotations.get(var1);
-      if (var14 != null) {
-         int var15 = this.color.getValue().getRGB();
-         if (client.getRelationManager().z(var1)) {
-            var15 = new Color(15, 176, 245, 255).getRGB();
+   private void drawSkeleton(EntityPlayer entityPlayer, double d, double d2, double d3) {
+      long l = c ^ 34037393528557L;
+      long m = l ^ 77017285537428L;
+      int i = (int)((l ^ 77017285537428L) >>> 56);
+      int j = (int)((l ^ 77017285537428L) << 8 >>> 32);
+      int k = (int)(m << 40 >>> 40);
+      float[][] floatss = modelRotations.get(entityPlayer);
+      if (floatss != null) {
+         int n = this.color.getValue().getRGB();
+         if (client.getRelationManager().z(entityPlayer)) {
+            n = new Color(15, 176, 245, 255).getRGB();
          }
 
          GL11.glPushMatrix();
          GL11.glLineWidth(1.0F);
-         RenderUtil.setColor(var15);
-         GL11.glTranslated(var2, var4, var6);
-         float var16 = var1.prevRenderYawOffset + (var1.renderYawOffset - var1.prevRenderYawOffset) * mc.timer.timerSpeed;
-         GL11.glRotatef(-var16, 0.0F, 1.0F, 0.0F);
-         GL11.glTranslated(0.0, 0.0, var1.isSneaking() ? -0.235 : 0.0);
-         float var17 = var1.isSneaking() ? 0.6F : 0.75F;
+         RenderUtil.setColor(n);
+         GL11.glTranslated(d, d2, d3);
+         float f = entityPlayer.prevRenderYawOffset + (entityPlayer.renderYawOffset - entityPlayer.prevRenderYawOffset) * mc.timer.timerSpeed;
+         GL11.glRotatef(-f, 0.0F, 1.0F, 0.0F);
+         GL11.glTranslated(0.0, 0.0, entityPlayer.isSneaking() ? -0.235 : 0.0);
+         float g = entityPlayer.isSneaking() ? 0.6F : 0.75F;
          GL11.glPushMatrix();
-         RenderUtil.setColor(var15);
-         GL11.glTranslated(-0.125, var17, 0.0);
-         if (var14[3][0] != 0.0F) {
-            GL11.glRotatef(var14[3][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+         RenderUtil.setColor(n);
+         GL11.glTranslated(-0.125, g, 0.0);
+         if (floatss[3][0] != 0.0F) {
+            GL11.glRotatef(floatss[3][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
          }
 
-         if (var14[3][1] != 0.0F) {
-            GL11.glRotatef(var14[3][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+         if (floatss[3][1] != 0.0F) {
+            GL11.glRotatef(floatss[3][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
          }
 
-         if (var14[3][2] != 0.0F) {
-            GL11.glRotatef(var14[3][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+         if (floatss[3][2] != 0.0F) {
+            GL11.glRotatef(floatss[3][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
          }
 
          GL11.glBegin(3);
          GL11.glVertex3d(0.0, 0.0, 0.0);
-         GL11.glVertex3d(0.0, -var17, 0.0);
+         GL11.glVertex3d(0.0, -g, 0.0);
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPushMatrix();
-         RenderUtil.setColor(var15);
-         GL11.glTranslated(0.125, var17, 0.0);
-         if (var14[4][0] != 0.0F) {
-            GL11.glRotatef(var14[4][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+         RenderUtil.setColor(n);
+         GL11.glTranslated(0.125, g, 0.0);
+         if (floatss[4][0] != 0.0F) {
+            GL11.glRotatef(floatss[4][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
          }
 
-         if (var14[4][1] != 0.0F) {
-            GL11.glRotatef(var14[4][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+         if (floatss[4][1] != 0.0F) {
+            GL11.glRotatef(floatss[4][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
          }
 
-         if (var14[4][2] != 0.0F) {
-            GL11.glRotatef(var14[4][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+         if (floatss[4][2] != 0.0F) {
+            GL11.glRotatef(floatss[4][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
          }
 
          GL11.glBegin(3);
          GL11.glVertex3d(0.0, 0.0, 0.0);
-         GL11.glVertex3d(0.0, -var17, 0.0);
+         GL11.glVertex3d(0.0, -g, 0.0);
          GL11.glEnd();
          GL11.glPopMatrix();
-         GL11.glTranslated(0.0, 0.0, var1.isSneaking() ? 0.25 : 0.0);
+         GL11.glTranslated(0.0, 0.0, entityPlayer.isSneaking() ? 0.25 : 0.0);
          GL11.glPushMatrix();
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         GL11.glTranslated(0.0, var1.isSneaking() ? -0.05 : 0.0, var1.isSneaking() ? -0.01725 : 0.0);
+         GL11.glTranslated(0.0, entityPlayer.isSneaking() ? -0.05 : 0.0, entityPlayer.isSneaking() ? -0.01725 : 0.0);
          GL11.glPushMatrix();
-         RenderUtil.setColor(var15);
-         GL11.glTranslated(-0.375, var17 + 0.55, 0.0);
-         if (var14[1][0] != 0.0F) {
-            GL11.glRotatef(var14[1][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+         RenderUtil.setColor(n);
+         GL11.glTranslated(-0.375, g + 0.55, 0.0);
+         if (floatss[1][0] != 0.0F) {
+            GL11.glRotatef(floatss[1][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
          }
 
-         if (var14[1][1] != 0.0F) {
-            GL11.glRotatef(var14[1][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+         if (floatss[1][1] != 0.0F) {
+            GL11.glRotatef(floatss[1][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
          }
 
-         if (var14[1][2] != 0.0F) {
-            GL11.glRotatef(-var14[1][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+         if (floatss[1][2] != 0.0F) {
+            GL11.glRotatef(-floatss[1][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
          }
 
          GL11.glBegin(3);
@@ -169,17 +169,17 @@ public final class Skeleton extends Module {
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPushMatrix();
-         GL11.glTranslated(0.375, var17 + 0.55, 0.0);
-         if (var14[2][0] != 0.0F) {
-            GL11.glRotatef(var14[2][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+         GL11.glTranslated(0.375, g + 0.55, 0.0);
+         if (floatss[2][0] != 0.0F) {
+            GL11.glRotatef(floatss[2][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
          }
 
-         if (var14[2][1] != 0.0F) {
-            GL11.glRotatef(var14[2][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+         if (floatss[2][1] != 0.0F) {
+            GL11.glRotatef(floatss[2][1] * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
          }
 
-         if (var14[2][2] != 0.0F) {
-            GL11.glRotatef(-var14[2][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+         if (floatss[2][2] != 0.0F) {
+            GL11.glRotatef(-floatss[2][2] * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
          }
 
          GL11.glBegin(3);
@@ -187,12 +187,12 @@ public final class Skeleton extends Module {
          GL11.glVertex3d(0.0, -0.5, 0.0);
          GL11.glEnd();
          GL11.glPopMatrix();
-         GL11.glRotatef(var16 - var1.rotationYawHead, 0.0F, 1.0F, 0.0F);
+         GL11.glRotatef(f - entityPlayer.rotationYawHead, 0.0F, 1.0F, 0.0F);
          GL11.glPushMatrix();
-         RenderUtil.setColor(var15);
-         GL11.glTranslated(0.0, var17 + 0.55, 0.0);
-         if (var14[0][0] != 0.0F) {
-            GL11.glRotatef(var14[0][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+         RenderUtil.setColor(n);
+         GL11.glTranslated(0.0, g + 0.55, 0.0);
+         if (floatss[0][0] != 0.0F) {
+            GL11.glRotatef(floatss[0][0] * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
          }
 
          GL11.glBegin(3);
@@ -201,25 +201,25 @@ public final class Skeleton extends Module {
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPopMatrix();
-         GL11.glRotatef(var1.isSneaking() ? 25.0F : 0.0F, 1.0F, 0.0F, 0.0F);
-         GL11.glTranslated(0.0, var1.isSneaking() ? -0.16175 : 0.0, var1.isSneaking() ? -0.48025 : 0.0);
+         GL11.glRotatef(entityPlayer.isSneaking() ? 25.0F : 0.0F, 1.0F, 0.0F, 0.0F);
+         GL11.glTranslated(0.0, entityPlayer.isSneaking() ? -0.16175 : 0.0, entityPlayer.isSneaking() ? -0.48025 : 0.0);
          GL11.glPushMatrix();
-         GL11.glTranslated(0.0, var17, 0.0);
+         GL11.glTranslated(0.0, g, 0.0);
          GL11.glBegin(3);
          GL11.glVertex3d(-0.125, 0.0, 0.0);
          GL11.glVertex3d(0.125, 0.0, 0.0);
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPushMatrix();
-         RenderUtil.setColor(var15);
-         GL11.glTranslated(0.0, var17, 0.0);
+         RenderUtil.setColor(n);
+         GL11.glTranslated(0.0, g, 0.0);
          GL11.glBegin(3);
          GL11.glVertex3d(0.0, 0.0, 0.0);
          GL11.glVertex3d(0.0, 0.55, 0.0);
          GL11.glEnd();
          GL11.glPopMatrix();
          GL11.glPushMatrix();
-         GL11.glTranslated(0.0, var17 + 0.55, 0.0);
+         GL11.glTranslated(0.0, g + 0.55, 0.0);
          GL11.glBegin(3);
          GL11.glVertex3d(-0.375, 0.0, 0.0);
          GL11.glVertex3d(0.375, 0.0, 0.0);
@@ -229,27 +229,27 @@ public final class Skeleton extends Module {
       }
    }
 
-   public static void saveRotations(EntityPlayer var0, ModelPlayer var1) {
+   public static void saveRotations(EntityPlayer entityPlayer, ModelPlayer modelPlayer) {
       modelRotations.put(
-         var0,
+         entityPlayer,
          new float[][]{
-            {var1.bipedHead.rotateAngleX, var1.bipedHead.rotateAngleY, var1.bipedHead.rotateAngleZ},
-            {var1.bipedRightArm.rotateAngleX, var1.bipedRightArm.rotateAngleY, var1.bipedRightArm.rotateAngleZ},
-            {var1.bipedLeftArm.rotateAngleX, var1.bipedLeftArm.rotateAngleY, var1.bipedLeftArm.rotateAngleZ},
-            {var1.bipedRightLeg.rotateAngleX, var1.bipedRightLeg.rotateAngleY, var1.bipedRightLeg.rotateAngleZ},
-            {var1.bipedLeftLeg.rotateAngleX, var1.bipedLeftLeg.rotateAngleY, var1.bipedLeftLeg.rotateAngleZ}
+            {modelPlayer.bipedHead.rotateAngleX, modelPlayer.bipedHead.rotateAngleY, modelPlayer.bipedHead.rotateAngleZ},
+            {modelPlayer.bipedRightArm.rotateAngleX, modelPlayer.bipedRightArm.rotateAngleY, modelPlayer.bipedRightArm.rotateAngleZ},
+            {modelPlayer.bipedLeftArm.rotateAngleX, modelPlayer.bipedLeftArm.rotateAngleY, modelPlayer.bipedLeftArm.rotateAngleZ},
+            {modelPlayer.bipedRightLeg.rotateAngleX, modelPlayer.bipedRightLeg.rotateAngleY, modelPlayer.bipedRightLeg.rotateAngleZ},
+            {modelPlayer.bipedLeftLeg.rotateAngleX, modelPlayer.bipedLeftLeg.rotateAngleY, modelPlayer.bipedLeftLeg.rotateAngleZ}
          }
       );
    }
 
-   private void setupRender(boolean var1) {
-      long var2 = c ^ 137173192615224L;
-      if (var1) {
+   private void setupRender(boolean bl) {
+      long l = c ^ 137173192615224L;
+      if (bl) {
          GlStateManager.pushMatrix();
          GlStateManager.enableBlend();
          GL11.glEnable(2848);
          GlStateManager.disableDepth();
-         long var10000 = 5633909756340823739L ^ var2;
+         long m = 5633909756340823739L ^ l;
          GlStateManager.disableTexture2D();
          GlStateManager.blendFunc(770, 771);
          GL11.glHint(3154, 4354);
@@ -261,6 +261,6 @@ public final class Skeleton extends Module {
          GlStateManager.popMatrix();
       }
 
-      GlStateManager.depthMask(!var1);
+      GlStateManager.depthMask(!bl);
    }
 }

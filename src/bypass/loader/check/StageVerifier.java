@@ -7,27 +7,27 @@ public class StageVerifier {
    private final DefaultCheckRegistry C;
    private static final long a = 27229906820923L;
 
-   public StageVerifier(LoadStageList var1, DefaultCheckRegistry var2) {
-      this.S = var1;
-      this.C = var2;
+   public StageVerifier(LoadStageList loadStageList, DefaultCheckRegistry defaultCheckRegistry) {
+      this.S = loadStageList;
+      this.C = defaultCheckRegistry;
    }
 
    public ThreadDeath t() {
-      ThreadDeath var4 = null;
+      ThreadDeath threadDeath = null;
 
-      for (LoadStage var6 : this.S.a().L().getValue()) {
-         Verdict var7 = this.C.u(new StageCheckRequest(var6));
-         switch (var7) {
+      for (LoadStage loadStage : this.S.a().L().getValue()) {
+         Verdict verdict = this.C.u(new StageCheckRequest(loadStage));
+         switch (verdict) {
             case H:
-               var4 = null;
+               threadDeath = null;
                break;
             default:
-               var4 = new ThreadDeath();
-               var4.setStackTrace(new StackTraceElement[0]);
-               return var4;
+               threadDeath = new ThreadDeath();
+               threadDeath.setStackTrace(new StackTraceElement[0]);
+               return threadDeath;
          }
       }
 
-      return var4;
+      return threadDeath;
    }
 }

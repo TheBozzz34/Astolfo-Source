@@ -6,10 +6,10 @@ public class DefaultsShape<K, V> extends MapShape<K, V> {
    private final Map<K, V> A;
    private final KeyShape<K, V> C;
 
-   public DefaultsShape(com.github.andrewoma.dexx.collection.Map<K, Integer> var1, Map<K, V> var2, KeyShape<K, V> var3) {
-      super(var1);
-      this.A = var2;
-      this.C = var3;
+   public DefaultsShape(com.github.andrewoma.dexx.collection.Map<K, Integer> map, Map<K, V> map2, KeyShape<K, V> keyShape) {
+      super(map);
+      this.A = map2;
+      this.C = keyShape;
    }
 
    @Override

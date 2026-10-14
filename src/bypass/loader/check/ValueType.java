@@ -25,8 +25,8 @@ public enum ValueType {
    public static final ShapedMap<Class<?>, ValueType> compactHashMap = new ShapedMap<>();
    private static final ValueType[] f = new ValueType[]{A, B, C, D, E, F, G, H, I, J, K};
 
-   ValueType(Class<?> var3) {
-      this.s = var3;
+   ValueType(Class<?> class2) {
+      this.s = class2;
    }
 
    public Class<?> B() {
@@ -34,8 +34,8 @@ public enum ValueType {
    }
 
    static {
-      for (ValueType var16 : values()) {
-         compactHashMap.put(var16.s, var16);
+      for (ValueType valueType : values()) {
+         compactHashMap.put(valueType.s, valueType);
       }
    }
 }

@@ -12,38 +12,38 @@ public class ContainerBrewingStand extends Container {
    private int brewTime;
    private static final long a = 86872862217658L;
 
-   public ContainerBrewingStand(InventoryPlayer var1, IInventory var2) {
-      this.tileBrewingStand = var2;
-      this.addSlotToContainer(new ContainerBrewingStand.Potion(var1.player, var2, 0, 56, 46));
-      this.addSlotToContainer(new ContainerBrewingStand.Potion(var1.player, var2, 1, 79, 53));
-      this.addSlotToContainer(new ContainerBrewingStand.Potion(var1.player, var2, 2, 102, 46));
-      this.theSlot = this.addSlotToContainer(new ContainerBrewingStand.Ingredient(var2, 3, 79, 17));
+   public ContainerBrewingStand(InventoryPlayer playerInventory, IInventory tileBrewingStandIn) {
+      this.tileBrewingStand = tileBrewingStandIn;
+      this.addSlotToContainer(new ContainerBrewingStand.Potion(playerInventory.player, tileBrewingStandIn, 0, 56, 46));
+      this.addSlotToContainer(new ContainerBrewingStand.Potion(playerInventory.player, tileBrewingStandIn, 1, 79, 53));
+      this.addSlotToContainer(new ContainerBrewingStand.Potion(playerInventory.player, tileBrewingStandIn, 2, 102, 46));
+      this.theSlot = this.addSlotToContainer(new ContainerBrewingStand.Ingredient(tileBrewingStandIn, 3, 79, 17));
 
-      for (int var6 = 0; var6 < 3; var6++) {
-         for (int var7 = 0; var7 < 9; var7++) {
-            this.addSlotToContainer(new Slot(var1, var7 + var6 * 9 + 9, 8 + var7 * 18, 84 + var6 * 18));
+      for (int i = 0; i < 3; i++) {
+         for (int j = 0; j < 9; j++) {
+            this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
          }
       }
 
-      for (int var8 = 0; var8 < 9; var8++) {
-         this.addSlotToContainer(new Slot(var1, var8, 8 + var8 * 18, 142));
+      for (int k = 0; k < 9; k++) {
+         this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
       }
    }
 
    @Override
-   public void onCraftGuiOpened(ICrafting var1) {
-      super.onCraftGuiOpened(var1);
-      var1.sendAllWindowProperties(this, this.tileBrewingStand);
+   public void onCraftGuiOpened(ICrafting listener) {
+      super.onCraftGuiOpened(listener);
+      listener.sendAllWindowProperties(this, this.tileBrewingStand);
    }
 
    @Override
    public void detectAndSendChanges() {
       super.detectAndSendChanges();
 
-      for (int var4 = 0; var4 < this.crafters.size(); var4++) {
-         ICrafting var5 = this.crafters.get(var4);
+      for (int i = 0; i < this.crafters.size(); i++) {
+         ICrafting iCrafting = this.crafters.get(i);
          if (this.brewTime != this.tileBrewingStand.getField(0)) {
-            var5.sendProgressBarUpdate(this, 0, this.tileBrewingStand.getField(0));
+            iCrafting.sendProgressBarUpdate(this, 0, this.tileBrewingStand.getField(0));
          }
       }
 
@@ -51,77 +51,77 @@ public class ContainerBrewingStand extends Container {
    }
 
    @Override
-   public void updateProgressBar(int var1, int var2) {
-      this.tileBrewingStand.setField(var1, var2);
+   public void updateProgressBar(int id, int data) {
+      this.tileBrewingStand.setField(id, data);
    }
 
    @Override
-   public boolean canInteractWith(EntityPlayer var1) {
-      return this.tileBrewingStand.isUseableByPlayer(var1);
+   public boolean canInteractWith(EntityPlayer playerIn) {
+      return this.tileBrewingStand.isUseableByPlayer(playerIn);
    }
 
    @Override
-   public ItemStack transferStackInSlot(EntityPlayer var1, int var2) {
-      ItemStack var6 = null;
-      Slot var7 = this.inventorySlots.get(var2);
-      if (var7 != null && var7.getHasStack()) {
-         ItemStack var8 = var7.getStack();
-         var6 = var8.copy();
-         if ((var2 < 0 || var2 > 2) && var2 != 3) {
-            if (!this.theSlot.getHasStack() && this.theSlot.isItemValid(var8)) {
-               if (!this.mergeItemStack(var8, 3, 4, false)) {
+   public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+      ItemStack itemStack = null;
+      Slot slot = this.inventorySlots.get(index);
+      if (slot != null && slot.getHasStack()) {
+         ItemStack itemStack2 = slot.getStack();
+         itemStack = itemStack2.copy();
+         if ((index < 0 || index > 2) && index != 3) {
+            if (!this.theSlot.getHasStack() && this.theSlot.isItemValid(itemStack2)) {
+               if (!this.mergeItemStack(itemStack2, 3, 4, false)) {
                   return null;
                }
-            } else if (ContainerBrewingStand.Potion.canHoldPotion(var6)) {
-               if (!this.mergeItemStack(var8, 0, 3, false)) {
+            } else if (ContainerBrewingStand.Potion.canHoldPotion(itemStack)) {
+               if (!this.mergeItemStack(itemStack2, 0, 3, false)) {
                   return null;
                }
-            } else if (var2 >= 4 && var2 < 31) {
-               if (!this.mergeItemStack(var8, 31, 40, false)) {
+            } else if (index >= 4 && index < 31) {
+               if (!this.mergeItemStack(itemStack2, 31, 40, false)) {
                   return null;
                }
-            } else if (var2 >= 31 && var2 < 40) {
-               if (!this.mergeItemStack(var8, 4, 31, false)) {
+            } else if (index >= 31 && index < 40) {
+               if (!this.mergeItemStack(itemStack2, 4, 31, false)) {
                   return null;
                }
-            } else if (!this.mergeItemStack(var8, 4, 40, false)) {
+            } else if (!this.mergeItemStack(itemStack2, 4, 40, false)) {
                return null;
             }
          } else {
-            if (!this.mergeItemStack(var8, 4, 40, true)) {
+            if (!this.mergeItemStack(itemStack2, 4, 40, true)) {
                return null;
             }
 
-            var7.onSlotChange(var8, var6);
+            slot.onSlotChange(itemStack2, itemStack);
          }
 
-         if (var8.stackSize == 0) {
-            var7.putStack((ItemStack)null);
+         if (itemStack2.stackSize == 0) {
+            slot.putStack((ItemStack)null);
          } else {
-            var7.onSlotChanged();
+            slot.onSlotChanged();
          }
 
-         if (var8.stackSize == var6.stackSize) {
+         if (itemStack2.stackSize == itemStack.stackSize) {
             return null;
          }
 
-         var7.onPickupFromSlot(var1, var8);
+         slot.onPickupFromSlot(playerIn, itemStack2);
       }
 
-      return var6;
+      return itemStack;
    }
 
    public class Ingredient extends Slot {
       private static final long a = 87202970613027L;
       private static final long c = 7571432962323906624L;
 
-      public Ingredient(IInventory var2, int var3, int var4, int var5) {
-         super(var2, var3, var4, var5);
+      public Ingredient(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+         super(inventoryIn, index, xPosition, yPosition);
       }
 
       @Override
-      public boolean isItemValid(ItemStack var1) {
-         return var1 != null ? var1.getItem().isPotionIngredient(var1) : false;
+      public boolean isItemValid(ItemStack stack) {
+         return stack != null ? stack.getItem().isPotionIngredient(stack) : false;
       }
 
       @Override
@@ -134,14 +134,14 @@ public class ContainerBrewingStand extends Container {
       private EntityPlayer player;
       private static final long a = 22234730701749L;
 
-      public Potion(EntityPlayer var1, IInventory var2, int var3, int var4, int var5) {
-         super(var2, var3, var4, var5);
-         this.player = var1;
+      public Potion(EntityPlayer playerIn, IInventory inventoryIn, int index, int xPosition, int yPosition) {
+         super(inventoryIn, index, xPosition, yPosition);
+         this.player = playerIn;
       }
 
       @Override
-      public boolean isItemValid(ItemStack var1) {
-         return canHoldPotion(var1);
+      public boolean isItemValid(ItemStack stack) {
+         return canHoldPotion(stack);
       }
 
       @Override
@@ -150,16 +150,16 @@ public class ContainerBrewingStand extends Container {
       }
 
       @Override
-      public void onPickupFromSlot(EntityPlayer var1, ItemStack var2) {
-         if (var2.getItem() == Items.potionitem && var2.getMetadata() > 0) {
+      public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+         if (stack.getItem() == Items.potionitem && stack.getMetadata() > 0) {
             this.player.triggerAchievement(AchievementList.potion);
          }
 
-         super.onPickupFromSlot(var1, var2);
+         super.onPickupFromSlot(playerIn, stack);
       }
 
-      public static boolean canHoldPotion(ItemStack var0) {
-         return var0 != null && (var0.getItem() == Items.potionitem || var0.getItem() == Items.glass_bottle);
+      public static boolean canHoldPotion(ItemStack stack) {
+         return stack != null && (stack.getItem() == Items.potionitem || stack.getItem() == Items.glass_bottle);
       }
    }
 }

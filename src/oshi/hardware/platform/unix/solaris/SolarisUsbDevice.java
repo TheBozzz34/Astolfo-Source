@@ -16,118 +16,126 @@ public class SolarisUsbDevice extends AbstractUsbDevice {
    private static final long c = 94980161754475L;
    private static final long q = -2037229415150125048L;
 
-   public SolarisUsbDevice(String var1, String var2, String var3, String var4, String var5, String var6, UsbDevice[] var7) {
-      super(var1, var2, var3, var4, var5, var6, var7);
+   public SolarisUsbDevice(
+      String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
+   ) {
+      super(name, vendor, vendorId, productId, serialNumber, uniqueDeviceId, connectedDevices);
    }
 
-   public static UsbDevice[] getUsbDevices(boolean var0) {
-      UsbDevice[] var4 = getUsbDevices();
-      if (var0) {
-         return var4;
+   public static UsbDevice[] getUsbDevices(boolean tree) {
+      UsbDevice[] usbDevices = getUsbDevices();
+      if (tree) {
+         return usbDevices;
       }
 
-      ArrayList var5 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (UsbDevice var9 : var4) {
-         var5.add(
+      for (UsbDevice usbDevice : usbDevices) {
+         arrayList.add(
             new SolarisUsbDevice(
-               var9.getName(),
-               var9.getVendor(),
-               var9.getVendorId(),
-               var9.getProductId(),
-               var9.getSerialNumber(),
-               var9.getUniqueDeviceId(),
+               usbDevice.getName(),
+               usbDevice.getVendor(),
+               usbDevice.getVendorId(),
+               usbDevice.getProductId(),
+               usbDevice.getSerialNumber(),
+               usbDevice.getUniqueDeviceId(),
                new SolarisUsbDevice[0]
             )
          );
-         addDevicesToList(var5, var9.getConnectedDevices());
+         addDevicesToList(arrayList, usbDevice.getConnectedDevices());
       }
 
-      return (oshi.hardware.UsbDevice[])(var5.toArray(new UsbDevice[0]));
+      return (oshi.hardware.UsbDevice[])(arrayList.toArray(new UsbDevice[0]));
    }
 
    private static UsbDevice[] getUsbDevices() {
-      HashMap var3 = new HashMap();
-      HashMap var4 = new HashMap();
-      HashMap var5 = new HashMap();
-      HashMap var6 = new HashMap();
-      HashMap var7 = new HashMap();
-      List var8 = ExecutingCommand.runNative("prtconf -pv");
-      if (var8.isEmpty()) {
+      HashMap hashMap = new HashMap();
+      HashMap hashMap2 = new HashMap();
+      HashMap hashMap3 = new HashMap();
+      HashMap hashMap4 = new HashMap();
+      HashMap hashMap5 = new HashMap();
+      List list = ExecutingCommand.runNative("prtconf -pv");
+      if (list.isEmpty()) {
          return new SolarisUsbDevice[0];
       }
 
-      HashMap var9 = new HashMap();
-      String var10 = "";
-      int var11 = 0;
-      ArrayList var12 = new ArrayList();
+      HashMap hashMap6 = new HashMap();
+      String string = "";
+      int i = 0;
+      ArrayList arrayList = new ArrayList();
 
-      for (Object var14$raw : var8) {
-         String var14 = (String)var14$raw;
-         if (var14.contains("Node 0x")) {
-            var10 = var14.replaceFirst("^\\s*", "");
-            int var15 = var14.length() - var10.length();
-            if (var11 == 0) {
-               var11 = var15;
+      for (Object object : list) {
+         String string2 = (String)object;
+         if (string2.contains("Node 0x")) {
+            string = string2.replaceFirst("^\\s*", "");
+            int j = string2.length() - string.length();
+            if (i == 0) {
+               i = j;
             }
 
-            var9.put(var15, var10);
-            if (var15 > var11) {
-               ((java.util.List)(var6.computeIfAbsent(var9.get(var15 - var11), var0 -> new ArrayList<>()))).add(var10);
+            hashMap6.put(j, string);
+            if (j > i) {
+               ((java.util.List)(hashMap4.computeIfAbsent(hashMap6.get(j - i), x -> new ArrayList<>()))).add(string);
             } else {
-               var12.add(var10);
+               arrayList.add(string);
             }
-         } else if (!var10.isEmpty()) {
-            var14 = var14.trim();
-            if (var14.startsWith("model:")) {
-               var3.put(var10, ParseUtil.getSingleQuoteStringValue(var14));
-            } else if (var14.startsWith("name:")) {
-               var3.putIfAbsent(var10, ParseUtil.getSingleQuoteStringValue(var14));
-            } else if (var14.startsWith("vendor-id:")) {
-               var4.put(var10, var14.substring(var14.length() - 4));
-            } else if (var14.startsWith("device-id:")) {
-               var5.put(var10, var14.substring(var14.length() - 4));
-            } else if (var14.startsWith("class-code:")) {
-               var7.putIfAbsent(var10, var14.substring(var14.length() - (int)q, var14.length() - 4));
-            } else if (var14.startsWith("device_type:")) {
-               var7.putIfAbsent(var10, ParseUtil.getSingleQuoteStringValue(var14));
+         } else if (!string.isEmpty()) {
+            string2 = string2.trim();
+            if (string2.startsWith("model:")) {
+               hashMap.put(string, ParseUtil.getSingleQuoteStringValue(string2));
+            } else if (string2.startsWith("name:")) {
+               hashMap.putIfAbsent(string, ParseUtil.getSingleQuoteStringValue(string2));
+            } else if (string2.startsWith("vendor-id:")) {
+               hashMap2.put(string, string2.substring(string2.length() - 4));
+            } else if (string2.startsWith("device-id:")) {
+               hashMap3.put(string, string2.substring(string2.length() - 4));
+            } else if (string2.startsWith("class-code:")) {
+               hashMap5.putIfAbsent(string, string2.substring(string2.length() - (int)q, string2.length() - 4));
+            } else if (string2.startsWith("device_type:")) {
+               hashMap5.putIfAbsent(string, ParseUtil.getSingleQuoteStringValue(string2));
             }
          }
       }
 
-      ArrayList var16 = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
 
-      for (Object var19$raw : var12) {
-         String var19 = (String)var19$raw;
-         if ("000c".equals(var7.getOrDefault(var19, "")) || "usb".equals(var7.getOrDefault(var19, ""))) {
-            var16.add(getDeviceAndChildren(var19, "0000", "0000", var3, var4, var5, var6));
+      for (Object object2 : arrayList) {
+         String string3 = (String)object2;
+         if ("000c".equals(hashMap5.getOrDefault(string3, "")) || "usb".equals(hashMap5.getOrDefault(string3, ""))) {
+            arrayList2.add(getDeviceAndChildren(string3, "0000", "0000", hashMap, hashMap2, hashMap3, hashMap4));
          }
       }
 
-      return (oshi.hardware.UsbDevice[])(var16.toArray(new UsbDevice[0]));
+      return (oshi.hardware.UsbDevice[])(arrayList2.toArray(new UsbDevice[0]));
    }
 
-   private static void addDevicesToList(List<UsbDevice> var0, UsbDevice[] var1) {
-      for (UsbDevice var8 : var1) {
-         var0.add(var8);
-         addDevicesToList(var0, var8.getConnectedDevices());
+   private static void addDevicesToList(List<UsbDevice> deviceList, UsbDevice[] connectedDevices) {
+      for (UsbDevice usbDevice : connectedDevices) {
+         deviceList.add(usbDevice);
+         addDevicesToList(deviceList, usbDevice.getConnectedDevices());
       }
    }
 
    private static SolarisUsbDevice getDeviceAndChildren(
-      String var0, String var1, String var2, Map<String, String> var3, Map<String, String> var4, Map<String, String> var5, Map<String, List<String>> var6
+      String devPath,
+      String vid,
+      String pid,
+      Map<String, String> nameMap,
+      Map<String, String> vendorIdMap,
+      Map<String, String> productIdMap,
+      Map<String, List<String>> hubMap
    ) {
-      String var10 = var4.getOrDefault(var0, var1);
-      String var11 = var5.getOrDefault(var0, var2);
-      List var12 = var6.getOrDefault(var0, new ArrayList());
-      ArrayList var13 = new ArrayList();
+      String string = vendorIdMap.getOrDefault(devPath, vid);
+      String string2 = productIdMap.getOrDefault(devPath, pid);
+      List list = hubMap.getOrDefault(devPath, new ArrayList());
+      ArrayList arrayList = new ArrayList();
 
-      for (Object var15$raw : var12) {
-         String var15 = (String)var15$raw;
-         var13.add(getDeviceAndChildren(var15, var10, var11, var3, var4, var5, var6));
+      for (Object object : list) {
+         String string3 = (String)object;
+         arrayList.add(getDeviceAndChildren(string3, string, string2, nameMap, vendorIdMap, productIdMap, hubMap));
       }
 
-      Collections.sort(var13);
-      return new SolarisUsbDevice(var3.getOrDefault(var0, var10 + ":" + var11), "", var10, var11, "", var0, (oshi.hardware.UsbDevice[])(var13.toArray(new UsbDevice[0])));
+      Collections.sort(arrayList);
+      return new SolarisUsbDevice(nameMap.getOrDefault(devPath, string + ":" + string2), "", string, string2, "", devPath, (oshi.hardware.UsbDevice[])(arrayList.toArray(new UsbDevice[0])));
    }
 }

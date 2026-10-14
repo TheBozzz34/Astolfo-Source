@@ -6,8 +6,8 @@ public class RealmsLevelSummary implements Comparable<RealmsLevelSummary> {
    private SaveFormatComparator levelSummary;
    private static final long a = 97886797181605L;
 
-   public RealmsLevelSummary(SaveFormatComparator var1) {
-      this.levelSummary = var1;
+   public RealmsLevelSummary(SaveFormatComparator saveFormatComparator) {
+      this.levelSummary = saveFormatComparator;
    }
 
    public int getGameMode() {
@@ -38,17 +38,21 @@ public class RealmsLevelSummary implements Comparable<RealmsLevelSummary> {
       return this.levelSummary.getLastTimePlayed();
    }
 
-   public int compareTo(SaveFormatComparator var1) {
-      return this.levelSummary.compareTo(var1);
+   public int compareTo(SaveFormatComparator saveFormatComparator) {
+      return this.levelSummary.compareTo(saveFormatComparator);
    }
 
    public long getSizeOnDisk() {
       return this.levelSummary.getSizeOnDisk();
    }
 
-   public int compareTo(RealmsLevelSummary var1) {
-      return this.levelSummary.getLastTimePlayed() < var1.getLastPlayed()
+   public int compareTo(RealmsLevelSummary realmsLevelSummary) {
+      return this.levelSummary.getLastTimePlayed() < realmsLevelSummary.getLastPlayed()
          ? 1
-         : (this.levelSummary.getLastTimePlayed() > var1.getLastPlayed() ? -1 : this.levelSummary.getFileName().compareTo(var1.getLevelId()));
+         : (
+            this.levelSummary.getLastTimePlayed() > realmsLevelSummary.getLastPlayed()
+               ? -1
+               : this.levelSummary.getFileName().compareTo(realmsLevelSummary.getLevelId())
+         );
    }
 }

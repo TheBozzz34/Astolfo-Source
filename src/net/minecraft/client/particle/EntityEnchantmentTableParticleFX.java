@@ -9,20 +9,20 @@ public class EntityEnchantmentTableParticleFX extends EntityFX {
    private double coordZ;
    private static final long ab = 75907514823548L;
 
-   public EntityEnchantmentTableParticleFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, var8, var10, var12);
-      this.motionX = var8;
-      this.motionY = var10;
-      this.motionZ = var12;
-      this.coordX = var2;
-      this.coordY = var4;
-      this.coordZ = var6;
-      this.posX = this.prevPosX = var2 + var8;
-      this.posY = this.prevPosY = var4 + var10;
-      this.posZ = this.prevPosZ = var6 + var12;
-      float var16 = this.rand.nextFloat() * 0.6F + 0.4F;
+   public EntityEnchantmentTableParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+      this.motionX = xSpeedIn;
+      this.motionY = ySpeedIn;
+      this.motionZ = zSpeedIn;
+      this.coordX = xCoordIn;
+      this.coordY = yCoordIn;
+      this.coordZ = zCoordIn;
+      this.posX = this.prevPosX = xCoordIn + xSpeedIn;
+      this.posY = this.prevPosY = yCoordIn + ySpeedIn;
+      this.posZ = this.prevPosZ = zCoordIn + zSpeedIn;
+      float f = this.rand.nextFloat() * 0.6F + 0.4F;
       this.field_70565_a = this.particleScale = this.rand.nextFloat() * 0.5F + 0.2F;
-      this.particleRed = this.particleGreen = this.particleBlue = 1.0F * var16;
+      this.particleRed = this.particleGreen = this.particleBlue = 1.0F * f;
       this.particleGreen *= 0.9F;
       this.particleRed *= 0.9F;
       this.particleMaxAge = (int)(Math.random() * 10.0) + 30;
@@ -31,28 +31,28 @@ public class EntityEnchantmentTableParticleFX extends EntityFX {
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
-      int var5 = super.getBrightnessForRender(var1);
-      float var6 = (float)this.particleAge / this.particleMaxAge;
-      var6 *= var6;
-      var6 *= var6;
-      int var7 = var5 & 0xFF;
-      int var8 = var5 >> 16 & 0xFF;
-      var8 += (int)(var6 * 15.0F * 16.0F);
-      if (var8 > 240) {
-         var8 = 240;
+   public int getBrightnessForRender(float partialTicks) {
+      int i = super.getBrightnessForRender(partialTicks);
+      float f = (float)this.particleAge / this.particleMaxAge;
+      f *= f;
+      f *= f;
+      int j = i & 0xFF;
+      int k = i >> 16 & 0xFF;
+      k += (int)(f * 15.0F * 16.0F);
+      if (k > 240) {
+         k = 240;
       }
 
-      return var7 | var8 << 16;
+      return j | k << 16;
    }
 
    @Override
-   public float getBrightness(float var1) {
-      float var2 = super.getBrightness(var1);
-      float var3 = (float)this.particleAge / this.particleMaxAge;
-      var3 *= var3;
-      var3 *= var3;
-      return var2 * (1.0F - var3) + var3;
+   public float getBrightness(float partialTicks) {
+      float f = super.getBrightness(partialTicks);
+      float g = (float)this.particleAge / this.particleMaxAge;
+      g *= g;
+      g *= g;
+      return f * (1.0F - g) + g;
    }
 
    @Override
@@ -60,14 +60,14 @@ public class EntityEnchantmentTableParticleFX extends EntityFX {
       this.prevPosX = this.posX;
       this.prevPosY = this.posY;
       this.prevPosZ = this.posZ;
-      float var4 = (float)this.particleAge / this.particleMaxAge;
-      var4 = 1.0F - var4;
-      float var5 = 1.0F - var4;
-      var5 *= var5;
-      var5 *= var5;
-      this.posX = this.coordX + this.motionX * var4;
-      this.posY = this.coordY + this.motionY * var4 - var5 * 1.2F;
-      this.posZ = this.coordZ + this.motionZ * var4;
+      float f = (float)this.particleAge / this.particleMaxAge;
+      f = 1.0F - f;
+      float g = 1.0F - f;
+      g *= g;
+      g *= g;
+      this.posX = this.coordX + this.motionX * f;
+      this.posY = this.coordY + this.motionY * f - g * 1.2F;
+      this.posZ = this.coordZ + this.motionZ * f;
       if (this.particleAge++ >= this.particleMaxAge) {
          this.setDead();
       }
@@ -75,8 +75,10 @@ public class EntityEnchantmentTableParticleFX extends EntityFX {
 
    public static class EnchantmentTable implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityEnchantmentTableParticleFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityEnchantmentTableParticleFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

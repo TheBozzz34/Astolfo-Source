@@ -18,11 +18,11 @@ public enum EnumPlayerModelParts {
    private final IChatComponent field_179339_k;
    private static final long a = 32445319769410L;
 
-   EnumPlayerModelParts(int var3, String var4) {
-      this.partId = var3;
-      this.partMask = 1 << var3;
-      this.partName = var4;
-      this.field_179339_k = new ChatComponentTranslation("options.modelPart." + var4);
+   EnumPlayerModelParts(int partIdIn, String partNameIn) {
+      this.partId = partIdIn;
+      this.partMask = 1 << partIdIn;
+      this.partName = partNameIn;
+      this.field_179339_k = new ChatComponentTranslation("options.modelPart." + partNameIn);
    }
 
    public int getPartMask() {

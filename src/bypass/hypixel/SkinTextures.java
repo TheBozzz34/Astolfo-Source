@@ -12,7 +12,7 @@ public class SkinTextures {
       return this.T;
    }
 
-   public void F(SkinTexture var1) {
-      this.T = var1;
+   public void F(SkinTexture skinTexture) {
+      this.T = skinTexture;
    }
 }

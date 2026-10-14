@@ -9,66 +9,66 @@ public class GuiCustomizeSkin extends GuiScreen {
    private String title;
    private static final long a = 82280882754601L;
 
-   public GuiCustomizeSkin(GuiScreen var1) {
-      this.parentScreen = var1;
+   public GuiCustomizeSkin(GuiScreen parentScreenIn) {
+      this.parentScreen = parentScreenIn;
    }
 
    @Override
    public void initGui() {
-      int var4 = 0;
+      int i = 0;
       this.title = I18n.format("options.skinCustomisation.title");
 
-      for (EnumPlayerModelParts var8 : EnumPlayerModelParts.values()) {
+      for (EnumPlayerModelParts enumPlayerModelParts : EnumPlayerModelParts.values()) {
          this.buttonList
-            .add(new GuiCustomizeSkin.ButtonPart(var8.getPartId(), this.width / 2 - 155 + var4 % 2 * 160, this.height / 6 + 24 * (var4 >> 1), 150, 20, var8));
-         var4++;
+            .add(new GuiCustomizeSkin.ButtonPart(enumPlayerModelParts.getPartId(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 + 24 * (i >> 1), 150, 20, enumPlayerModelParts));
+         i++;
       }
 
-      if (var4 % 2 == 1) {
-         var4++;
+      if (i % 2 == 1) {
+         i++;
       }
 
-      this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 24 * (var4 >> 1), I18n.format("gui.done")));
+      this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 24 * (i >> 1), I18n.format("gui.done")));
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 200) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 200) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(this.parentScreen);
-         } else if (var1 instanceof GuiCustomizeSkin.ButtonPart) {
-            EnumPlayerModelParts var5 = ((GuiCustomizeSkin.ButtonPart)var1).playerModelParts;
-            this.mc.gameSettings.switchModelPartEnabled(var5);
-            var1.displayString = this.func_175358_a(var5);
+         } else if (button instanceof GuiCustomizeSkin.ButtonPart) {
+            EnumPlayerModelParts enumPlayerModelParts = ((GuiCustomizeSkin.ButtonPart)button).playerModelParts;
+            this.mc.gameSettings.switchModelPartEnabled(enumPlayerModelParts);
+            button.displayString = this.func_175358_a(enumPlayerModelParts);
          }
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, this.title, this.width / 2, 20, 16777215);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   private String func_175358_a(EnumPlayerModelParts var1) {
-      String var5;
-      if (this.mc.gameSettings.getModelParts().contains(var1)) {
-         var5 = I18n.format("options.on");
+   private String func_175358_a(EnumPlayerModelParts playerModelParts) {
+      String string;
+      if (this.mc.gameSettings.getModelParts().contains(playerModelParts)) {
+         string = I18n.format("options.on");
       } else {
-         var5 = I18n.format("options.off");
+         string = I18n.format("options.off");
       }
 
-      return var1.func_179326_d().getFormattedText() + ": " + var5;
+      return playerModelParts.func_179326_d().getFormattedText() + ": " + string;
    }
 
    public class ButtonPart extends GuiButton {
       private final EnumPlayerModelParts playerModelParts;
 
-      public ButtonPart(int var2, int var3, int var4, int var5, int var6, EnumPlayerModelParts var7) {
-         super(var2, var3, var4, var5, var6, GuiCustomizeSkin.this.func_175358_a(var7));
-         this.playerModelParts = var7;
+      public ButtonPart(int i, int j, int k, int l, int m, EnumPlayerModelParts playerModelParts) {
+         super(i, j, k, l, m, GuiCustomizeSkin.this.func_175358_a(playerModelParts));
+         this.playerModelParts = playerModelParts;
       }
    }
 }

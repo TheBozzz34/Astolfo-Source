@@ -15,40 +15,40 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer> {
    public C0CPacketInput() {
    }
 
-   public C0CPacketInput(float var1, float var2, boolean var3, boolean var4) {
-      this.strafeSpeed = var1;
-      this.forwardSpeed = var2;
-      this.jumping = var3;
-      this.sneaking = var4;
+   public C0CPacketInput(float strafeSpeed, float forwardSpeed, boolean jumping, boolean sneaking) {
+      this.strafeSpeed = strafeSpeed;
+      this.forwardSpeed = forwardSpeed;
+      this.jumping = jumping;
+      this.sneaking = sneaking;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.strafeSpeed = var1.readFloat();
-      this.forwardSpeed = var1.readFloat();
-      byte var5 = var1.readByte();
-      this.jumping = (var5 & 1) > 0;
-      this.sneaking = (var5 & 2) > 0;
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.strafeSpeed = buf.readFloat();
+      this.forwardSpeed = buf.readFloat();
+      byte b = buf.readByte();
+      this.jumping = (b & 1) > 0;
+      this.sneaking = (b & 2) > 0;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeFloat(this.strafeSpeed);
-      var1.writeFloat(this.forwardSpeed);
-      byte var5 = 0;
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeFloat(this.strafeSpeed);
+      buf.writeFloat(this.forwardSpeed);
+      byte b = 0;
       if (this.jumping) {
-         var5 = (byte)(var5 | 1);
+         b = (byte)(b | 1);
       }
 
       if (this.sneaking) {
-         var5 = (byte)(var5 | 2);
+         b = (byte)(b | 2);
       }
 
-      var1.writeByte(var5);
+      buf.writeByte(b);
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processInput(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processInput(this);
    }
 
    public float getStrafeSpeed() {
@@ -63,8 +63,8 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer> {
       return this.jumping;
    }
 
-   public void d(boolean var1) {
-      this.sneaking = var1;
+   public void d(boolean bl) {
+      this.sneaking = bl;
    }
 
    public boolean isSneaking() {

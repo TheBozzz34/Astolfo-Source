@@ -11,72 +11,72 @@ public final class Line extends VarArgFunction {
    private static final long b = 1874111062668738569L;
 
    @Override
-   public Varargs invoke(Varargs var1) {
-      float var5 = 0.0F;
-      float var6 = 0.0F;
-      float var7 = 0.0F;
-      float var8 = 0.0F;
-      int var9 = 0;
-      int var10 = 0;
-      int var11 = 0;
-      int var12 = 0;
-      float var13 = 1.0F;
-      int var14 = 1;
-      if (var1.narg() < (int)b) {
+   public Varargs invoke(Varargs varargs) {
+      float f = 0.0F;
+      float g = 0.0F;
+      float h = 0.0F;
+      float f2 = 0.0F;
+      int i = 0;
+      int j = 0;
+      int k = 0;
+      int l = 0;
+      float f3 = 1.0F;
+      int m = 1;
+      if (varargs.narg() < (int)b) {
          return valueOf(false);
       }
 
-      for (int var15 = var1.narg(); var14 <= var15; var14++) {
-         LuaValue var16 = var1.checkvalue(var14);
-         switch (var14) {
+      for (int n = varargs.narg(); m <= n; m++) {
+         LuaValue luaValue = varargs.checkvalue(m);
+         switch (m) {
             case 1:
-               if (var16.isnumber()) {
-                  var5 = var16.tofloat();
+               if (luaValue.isnumber()) {
+                  f = luaValue.tofloat();
                }
                break;
             case 2:
-               if (var16.isnumber()) {
-                  var6 = var16.tofloat();
+               if (luaValue.isnumber()) {
+                  g = luaValue.tofloat();
                }
                break;
             case 3:
-               if (var16.isnumber()) {
-                  var7 = var16.tofloat();
+               if (luaValue.isnumber()) {
+                  h = luaValue.tofloat();
                }
                break;
             case 4:
-               if (var16.isnumber()) {
-                  var8 = var16.tofloat();
+               if (luaValue.isnumber()) {
+                  f2 = luaValue.tofloat();
                }
                break;
             case 5:
-               if (var16.isnumber()) {
-                  var13 = var16.tofloat();
+               if (luaValue.isnumber()) {
+                  f3 = luaValue.tofloat();
                }
                break;
             case 6:
-               if (var16.isnumber()) {
-                  var9 = var16.toint();
+               if (luaValue.isnumber()) {
+                  i = luaValue.toint();
                }
                break;
             case 7:
-               if (var16.isnumber()) {
-                  var10 = var16.toint();
+               if (luaValue.isnumber()) {
+                  j = luaValue.toint();
                }
                break;
             case 8:
-               if (var16.isnumber()) {
-                  var11 = var16.toint();
+               if (luaValue.isnumber()) {
+                  k = luaValue.toint();
                }
                break;
             case 9:
-               if (var16.isnumber()) {
-                  var12 = var16.toint();
+               if (luaValue.isnumber()) {
+                  l = luaValue.toint();
                }
          }
       }
 
-      RenderUtil.drawLine(var13, var5, var6, var7, var8, new Color(var9, var10, var11, var12).getRGB());
+      RenderUtil.drawLine(f3, f, g, h, f2, new Color(i, j, k, l).getRGB());
       return valueOf(true);
    }
 }

@@ -11,7 +11,7 @@ public interface IResource {
 
    boolean hasMetadata();
 
-   <T extends IMetadataSection> T getMetadata(String var1);
+   <T extends IMetadataSection> T getMetadata(String string);
 
    String getResourcePackName();
 }

@@ -31,74 +31,74 @@ public class SidebarGui extends ComponentManager implements Loadable {
 
    @Override
    public void load() {
-      long var1 = b ^ 2930101301327L;
-      long var3 = var1 ^ 45962346738322L;
-      Sidebar var6 = new Sidebar(0, 0, 34, 210);
+      long l = b ^ 2930101301327L;
+      long m = l ^ 45962346738322L;
+      Sidebar sidebar = new Sidebar(0, 0, 34, 210);
 
-      for (Category var10 : Category.values()) {
-         if (var10 != Category.HIDDEN && var10 != Category.SCRIPTS) {
-            CategoryTab var11 = new CategoryTab(var6, var10, (int)var6.M(), 25, 34, 30);
-            if (var10 == Category.CONFIG) {
-               var11.a(new StringComponent(null, config, 0.0F, 0.0F, 83, 14));
-               var11.a(new LoadConfigButton(0.0F, 0.0F, 83, 14));
-               var11.a(new SaveConfigButton(0.0F, 0.0F, 83, 14));
-               var6.a(var11);
+      for (Category category : Category.values()) {
+         if (category != Category.HIDDEN && category != Category.SCRIPTS) {
+            CategoryTab categoryTab = new CategoryTab(sidebar, category, (int)sidebar.M(), 25, 34, 30);
+            if (category == Category.CONFIG) {
+               categoryTab.a(new StringComponent(null, config, 0.0F, 0.0F, 83, 14));
+               categoryTab.a(new LoadConfigButton(0.0F, 0.0F, 83, 14));
+               categoryTab.a(new SaveConfigButton(0.0F, 0.0F, 83, 14));
+               sidebar.a(categoryTab);
             } else {
-               for (ModuleInfo var13 : Astolfo.INSTANCE.getModuleManager().getModules(var10)) {
-                  if (var13 instanceof Module) {
-                     Module var14 = (Module)var13;
-                     ModuleButton var15 = new ModuleButton(var11, var14, 0, 0, 70, 14);
+               for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getModules(category)) {
+                  if (moduleInfo instanceof Module) {
+                     Module module = (Module)moduleInfo;
+                     ModuleButton moduleButton = new ModuleButton(categoryTab, module, 0, 0, 70, 14);
 
-                     for (Setting var17 : var14.getSettings()) {
-                        if (var17 instanceof BooleanSetting) {
-                           BooleanComponent var25 = new BooleanComponent(var15, var17, 0.0F, 0.0F, 145, 12);
-                           var15.a(var25);
-                        } else if (var17 instanceof NumberSetting) {
-                           NumberSlider var24 = new NumberSlider(var15, var17, 0.0F, 0.0F, 145, 12);
-                           var15.a(var24);
-                        } else if (var17 instanceof EnumSetting) {
-                           EnumComponent var23 = new EnumComponent(var15, var17, 0.0F, 0.0F, 145, 12);
-                           var15.a(var23);
-                        } else if (var17 instanceof StringSetting) {
-                           StringComponent var22 = new StringComponent(var15, var17, 0.0F, 0.0F, 145, 12);
-                           var15.a(var22);
-                        } else if (var17 instanceof MapSetting) {
-                           MapComponent var18 = new MapComponent(var15, (MapSetting)var17, 0, 0, 145, 12);
+                     for (Setting setting : module.getSettings()) {
+                        if (setting instanceof BooleanSetting) {
+                           BooleanComponent booleanComponent = new BooleanComponent(moduleButton, setting, 0.0F, 0.0F, 145, 12);
+                           moduleButton.a(booleanComponent);
+                        } else if (setting instanceof NumberSetting) {
+                           NumberSlider numberSlider = new NumberSlider(moduleButton, setting, 0.0F, 0.0F, 145, 12);
+                           moduleButton.a(numberSlider);
+                        } else if (setting instanceof EnumSetting) {
+                           EnumComponent enumComponent = new EnumComponent(moduleButton, setting, 0.0F, 0.0F, 145, 12);
+                           moduleButton.a(enumComponent);
+                        } else if (setting instanceof StringSetting) {
+                           StringComponent stringComponent = new StringComponent(moduleButton, setting, 0.0F, 0.0F, 145, 12);
+                           moduleButton.a(stringComponent);
+                        } else if (setting instanceof MapSetting) {
+                           MapComponent mapComponent = new MapComponent(moduleButton, (MapSetting)setting, 0, 0, 145, 12);
 
-                           for (Setting var20 : ((MapSetting)var17).getSettings().values()) {
-                              if (var20 instanceof BooleanSetting) {
-                                 BooleanComponent var21 = new BooleanComponent(var15, var20, 0.0F, 0.0F, 115, 12);
-                                 var21.G(true);
-                                 var18.a(var21);
-                              } else if (var20 instanceof NumberSetting) {
-                                 NumberSlider var26 = new NumberSlider(var15, var20, 0.0F, 0.0F, 95, 12);
-                                 var26.G(true);
-                                 var18.a(var26);
-                              } else if (var20 instanceof EnumSetting) {
-                                 EnumComponent var27 = new EnumComponent(var15, var20, 0.0F, 0.0F, 115, 12);
-                                 var27.G(true);
-                                 var18.a(var27);
-                              } else if (var20 instanceof StringSetting) {
-                                 StringComponent var28 = new StringComponent(var15, var20, 0.0F, 0.0F, 115, 12);
-                                 var28.G(true);
-                                 var18.a(var28);
+                           for (Setting setting2 : ((MapSetting)setting).getSettings().values()) {
+                              if (setting2 instanceof BooleanSetting) {
+                                 BooleanComponent booleanComponent2 = new BooleanComponent(moduleButton, setting2, 0.0F, 0.0F, 115, 12);
+                                 booleanComponent2.G(true);
+                                 mapComponent.a(booleanComponent2);
+                              } else if (setting2 instanceof NumberSetting) {
+                                 NumberSlider numberSlider2 = new NumberSlider(moduleButton, setting2, 0.0F, 0.0F, 95, 12);
+                                 numberSlider2.G(true);
+                                 mapComponent.a(numberSlider2);
+                              } else if (setting2 instanceof EnumSetting) {
+                                 EnumComponent enumComponent2 = new EnumComponent(moduleButton, setting2, 0.0F, 0.0F, 115, 12);
+                                 enumComponent2.G(true);
+                                 mapComponent.a(enumComponent2);
+                              } else if (setting2 instanceof StringSetting) {
+                                 StringComponent stringComponent2 = new StringComponent(moduleButton, setting2, 0.0F, 0.0F, 115, 12);
+                                 stringComponent2.G(true);
+                                 mapComponent.a(stringComponent2);
                               }
                            }
 
-                           var15.a(var18);
+                           moduleButton.a(mapComponent);
                         }
                      }
 
-                     var11.a(var15);
+                     categoryTab.a(moduleButton);
                   }
                }
 
-               var6.a(var11);
+               sidebar.a(categoryTab);
             }
          }
       }
 
-      this.addElements(var6);
+      this.addElements(sidebar);
    }
 
    @Override
@@ -117,40 +117,40 @@ public class SidebarGui extends ComponentManager implements Loadable {
       return this.e < 255 ? new Color(34, 36, 43, this.e).getRGB() : F;
    }
 
-   public int y(int var1) {
-      return this.e < 255 ? new Color(255, 255, 255, Math.min(this.e, var1)).getRGB() : Color.WHITE.getRGB();
+   public int y(int i) {
+      return this.e < 255 ? new Color(255, 255, 255, Math.min(this.e, i)).getRGB() : Color.WHITE.getRGB();
    }
 
    public DropdownComponent A() {
       return this.j;
    }
 
-   public void G(DropdownComponent var1) {
-      this.j = var1;
+   public void G(DropdownComponent dropdownComponent) {
+      this.j = dropdownComponent;
    }
 
    public int M() {
-      int var4 = Minecraft.B();
-      if (var4 == 0) {
-         var4 = 250;
+      int i = Minecraft.B();
+      if (i == 0) {
+         i = 250;
       }
 
-      return var4 >= 250 ? 1 : 250 / var4;
+      return i >= 250 ? 1 : 250 / i;
    }
 
    public int U() {
-      float var4 = 1.0F - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.6F);
+      float f = 1.0F - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.6F);
       return new Color(
-            MathHelper.clamp_int((int)(255.0F * var4), 0, 255),
-            MathHelper.clamp_int((int)(255.0F * var4), 0, 255),
-            MathHelper.clamp_int((int)(255.0F * var4), 0, 255)
+            MathHelper.clamp_int((int)(255.0F * f), 0, 255),
+            MathHelper.clamp_int((int)(255.0F * f), 0, 255),
+            MathHelper.clamp_int((int)(255.0F * f), 0, 255)
          )
          .getRGB();
    }
 
-   public static void c(float var0, float var1, float var2, float var3) {
-      ScaledResolution var4 = new ScaledResolution(Minecraft.getMinecraft());
-      int var5 = var4.getScaleFactor();
-      GL11.glScissor((int)(var0 * var5), (int)((var4.getScaledHeight() - var3) * var5), (int)((var2 - var0) * var5), (int)((var3 - var1) * var5));
+   public static void c(float f, float g, float h, float f2) {
+      ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+      int i = scaledResolution.getScaleFactor();
+      GL11.glScissor((int)(f * i), (int)((scaledResolution.getScaledHeight() - f2) * i), (int)((h - f) * i), (int)((f2 - g) * i));
    }
 }

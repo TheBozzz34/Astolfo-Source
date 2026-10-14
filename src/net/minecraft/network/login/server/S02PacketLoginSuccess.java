@@ -14,27 +14,27 @@ public class S02PacketLoginSuccess implements Packet<INetHandlerLoginClient> {
    public S02PacketLoginSuccess() {
    }
 
-   public S02PacketLoginSuccess(GameProfile var1) {
-      this.profile = var1;
+   public S02PacketLoginSuccess(GameProfile profileIn) {
+      this.profile = profileIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      String var6 = var1.readStringFromBuffer(36);
-      String var7 = var1.readStringFromBuffer(16);
-      UUID var8 = UUID.fromString(var6);
-      this.profile = new GameProfile(var8, var7);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      String string = buf.readStringFromBuffer(36);
+      String string2 = buf.readStringFromBuffer(16);
+      UUID uuid = UUID.fromString(string);
+      this.profile = new GameProfile(uuid, string2);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      UUID var5 = this.profile.getId();
-      var1.writeString(var5 == null ? "" : var5.toString());
-      var1.writeString(this.profile.getName());
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      UUID uuid = this.profile.getId();
+      buf.writeString(uuid == null ? "" : uuid.toString());
+      buf.writeString(this.profile.getName());
    }
 
-   public void processPacket(INetHandlerLoginClient var1) {
-      var1.handleLoginSuccess(this);
+   public void processPacket(INetHandlerLoginClient handler) {
+      handler.handleLoginSuccess(this);
    }
 
    public GameProfile getProfile() {

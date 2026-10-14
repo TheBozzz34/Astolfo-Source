@@ -31,15 +31,15 @@ public final class Camera extends Module {
       .add("Enabled", new BooleanSetting("Enabled", "", false))
       .build();
    @EventHandler(RenderItemEvent.class)
-   private Listener<RenderItemEvent> onRenderItem = var1x -> {
-      if (var1x.getEntity() == mc.thePlayer) {
+   private Listener<RenderItemEvent> onRenderItem = renderItemEvent -> {
+      if (renderItemEvent.getEntity() == mc.thePlayer) {
          GlStateManager.scale(this.itemSize.getValue(), this.itemSize.getValue(), this.itemSize.getValue());
       }
    };
    private static final long c = 2182981611249L;
 
-   public Camera(Category var1) {
-      super(var1);
+   public Camera(Category category) {
+      super(category);
       this.addSettings(enchant, viewClip, this.itemSize, itemFOV, itemPosition);
       this.setHidden(false);
    }

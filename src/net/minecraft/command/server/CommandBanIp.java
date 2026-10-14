@@ -32,29 +32,29 @@ public class CommandBanIp extends CommandBase {
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(ICommandSender var1) {
-      return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isLanServer() && super.canCommandSenderUseCommand(var1);
+   public boolean canCommandSenderUseCommand(ICommandSender sender) {
+      return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isLanServer() && super.canCommandSenderUseCommand(sender);
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.banip.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length >= 1 && var2[0].length() > 1) {
-         IChatComponent var6 = var2.length >= 2 ? getChatComponentFromNthArg(var1, var2, 1) : null;
-         Matcher var7 = field_147211_a.matcher(var2[0]);
-         if (var7.matches()) {
-            this.func_147210_a(var1, var2[0], var6 == null ? null : var6.getUnformattedText());
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length >= 1 && args[0].length() > 1) {
+         IChatComponent iChatComponent = args.length >= 2 ? getChatComponentFromNthArg(sender, args, 1) : null;
+         Matcher matcher2 = field_147211_a.matcher(args[0]);
+         if (matcher2.matches()) {
+            this.func_147210_a(sender, args[0], iChatComponent == null ? null : iChatComponent.getUnformattedText());
          } else {
-            EntityPlayerMP var8 = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(var2[0]);
-            if (var8 == null) {
+            EntityPlayerMP entityPlayerMP = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
+            if (entityPlayerMP == null) {
                throw new PlayerNotFoundException("commands.banip.invalid");
             }
 
-            this.func_147210_a(var1, var8.getPlayerIP(), var6 == null ? null : var6.getUnformattedText());
+            this.func_147210_a(sender, entityPlayerMP.getPlayerIP(), iChatComponent == null ? null : iChatComponent.getUnformattedText());
          }
       } else {
          throw new WrongUsageException("commands.banip.usage");
@@ -62,27 +62,27 @@ public class CommandBanIp extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 
-   public void func_147210_a(ICommandSender var1, String var2, String var3) {
-      IPBanEntry var7 = new IPBanEntry(var2, (Date)null, var1.getName(), (Date)null, var3);
-      MinecraftServer.getServer().getConfigurationManager().getBannedIPs().addEntry(var7);
-      List var8 = MinecraftServer.getServer().getConfigurationManager().getPlayersMatchingAddress(var2);
-      String[] var9 = new String[var8.size()];
-      int var10 = 0;
+   public void func_147210_a(ICommandSender sender, String address, String reason) {
+      IPBanEntry ipBanEntry = new IPBanEntry(address, (Date)null, sender.getName(), (Date)null, reason);
+      MinecraftServer.getServer().getConfigurationManager().getBannedIPs().addEntry(ipBanEntry);
+      List list = MinecraftServer.getServer().getConfigurationManager().getPlayersMatchingAddress(address);
+      String[] strings = new String[list.size()];
+      int i = 0;
 
-      for (Object var12$raw : var8) {
-         EntityPlayerMP var12 = (EntityPlayerMP)var12$raw;
-         var12.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
-         var9[var10++] = var12.getName();
+      for (Object object : list) {
+         EntityPlayerMP entityPlayerMP = (EntityPlayerMP)object;
+         entityPlayerMP.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
+         strings[i++] = entityPlayerMP.getName();
       }
 
-      if (var8.isEmpty()) {
-         notifyOperators(var1, this, "commands.banip.success", var2);
+      if (list.isEmpty()) {
+         notifyOperators(sender, this, "commands.banip.success", address);
       } else {
-         notifyOperators(var1, this, "commands.banip.success.players", var2, joinNiceString(var9));
+         notifyOperators(sender, this, "commands.banip.success.players", address, joinNiceString(strings));
       }
    }
 }

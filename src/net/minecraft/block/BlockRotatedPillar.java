@@ -8,11 +8,11 @@ import net.minecraft.util.EnumFacing;
 public abstract class BlockRotatedPillar extends Block {
    public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class);
 
-   public BlockRotatedPillar(Material var1) {
-      super(var1, var1.getMaterialMapColor());
+   public BlockRotatedPillar(Material materialIn) {
+      super(materialIn, materialIn.getMaterialMapColor());
    }
 
-   public BlockRotatedPillar(Material var1, MapColor var2) {
-      super(var1, var2);
+   public BlockRotatedPillar(Material material, MapColor mapColor) {
+      super(material, mapColor);
    }
 }

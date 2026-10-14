@@ -9,10 +9,10 @@ public class BlockCollisionEvent implements Event {
    private AxisAlignedBB boundingBox;
    private BlockPos pos;
 
-   public BlockCollisionEvent(Block var1, AxisAlignedBB var2, BlockPos var3) {
-      this.block = var1;
-      this.boundingBox = var2;
-      this.pos = var3;
+   public BlockCollisionEvent(Block block, AxisAlignedBB axisAlignedBB, BlockPos blockPos) {
+      this.block = block;
+      this.boundingBox = axisAlignedBB;
+      this.pos = blockPos;
    }
 
    public Block getBlock() {
@@ -27,8 +27,8 @@ public class BlockCollisionEvent implements Event {
       return this.pos;
    }
 
-   public void setBoundingBox(AxisAlignedBB var1) {
-      this.boundingBox = var1;
+   public void setBoundingBox(AxisAlignedBB axisAlignedBB) {
+      this.boundingBox = axisAlignedBB;
    }
 
    public int I() {

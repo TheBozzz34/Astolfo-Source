@@ -28,8 +28,8 @@ public class ShaderMacros {
    private static final long a = 29952932747102L;
 
    public static String getOs() {
-      Util.EnumOS var2 = Util.getOSType();
-      switch (var2) {
+      Util.EnumOS enumOS = Util.getOSType();
+      switch (enumOS) {
          case WINDOWS:
             return "MC_OS_WINDOWS";
          case OSX:
@@ -42,55 +42,55 @@ public class ShaderMacros {
    }
 
    public static String getVendor() {
-      String var3 = Config.openGlVendor;
-      if (var3 == null) {
+      String string = Config.openGlVendor;
+      if (string == null) {
          return "MC_GL_VENDOR_OTHER";
       }
 
-      var3 = var3.toLowerCase();
-      return var3.startsWith("ati")
+      string = string.toLowerCase();
+      return string.startsWith("ati")
          ? "MC_GL_VENDOR_ATI"
          : (
-            var3.startsWith("intel")
+            string.startsWith("intel")
                ? "MC_GL_VENDOR_INTEL"
-               : (var3.startsWith("nvidia") ? "MC_GL_VENDOR_NVIDIA" : (var3.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER"))
+               : (string.startsWith("nvidia") ? "MC_GL_VENDOR_NVIDIA" : (string.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER"))
          );
    }
 
    public static String getRenderer() {
-      String var3 = Config.openGlRenderer;
-      if (var3 == null) {
+      String string = Config.openGlRenderer;
+      if (string == null) {
          return "MC_GL_RENDERER_OTHER";
       }
 
-      var3 = var3.toLowerCase();
-      return var3.startsWith("amd")
+      string = string.toLowerCase();
+      return string.startsWith("amd")
          ? "MC_GL_RENDERER_RADEON"
          : (
-            var3.startsWith("ati")
+            string.startsWith("ati")
                ? "MC_GL_RENDERER_RADEON"
                : (
-                  var3.startsWith("radeon")
+                  string.startsWith("radeon")
                      ? "MC_GL_RENDERER_RADEON"
                      : (
-                        var3.startsWith("gallium")
+                        string.startsWith("gallium")
                            ? "MC_GL_RENDERER_GALLIUM"
                            : (
-                              var3.startsWith("intel")
+                              string.startsWith("intel")
                                  ? "MC_GL_RENDERER_INTEL"
                                  : (
-                                    var3.startsWith("geforce")
+                                    string.startsWith("geforce")
                                        ? "MC_GL_RENDERER_GEFORCE"
                                        : (
-                                          var3.startsWith("nvidia")
+                                          string.startsWith("nvidia")
                                              ? "MC_GL_RENDERER_GEFORCE"
                                              : (
-                                                var3.startsWith("quadro")
+                                                string.startsWith("quadro")
                                                    ? "MC_GL_RENDERER_QUADRO"
                                                    : (
-                                                      var3.startsWith("nvs")
+                                                      string.startsWith("nvs")
                                                          ? "MC_GL_RENDERER_QUADRO"
-                                                         : (var3.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER")
+                                                         : (string.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER")
                                                    )
                                              )
                                        )
@@ -107,14 +107,14 @@ public class ShaderMacros {
 
    public static String[] getExtensions() {
       if (extensionMacros == null) {
-         String[] var3 = Config.getOpenGlExtensions();
-         String[] var4 = new String[var3.length];
+         String[] strings = Config.getOpenGlExtensions();
+         String[] strings2 = new String[strings.length];
 
-         for (int var5 = 0; var5 < var3.length; var5++) {
-            var4[var5] = PREFIX_MACRO + var3[var5];
+         for (int i = 0; i < strings.length; i++) {
+            strings2[i] = PREFIX_MACRO + strings[i];
          }
 
-         extensionMacros = var4;
+         extensionMacros = strings2;
       }
 
       return extensionMacros;

@@ -8,9 +8,9 @@ public class RenderItemEvent extends CancellableEvent {
    private EntityLivingBase entity;
    private ItemStack stack;
 
-   public RenderItemEvent(EntityLivingBase var1, ItemStack var2) {
-      this.entity = var1;
-      this.stack = var2;
+   public RenderItemEvent(EntityLivingBase entityLivingBase, ItemStack itemStack) {
+      this.entity = entityLivingBase;
+      this.stack = itemStack;
    }
 
    public EntityLivingBase getEntity() {

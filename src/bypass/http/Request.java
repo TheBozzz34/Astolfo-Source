@@ -17,14 +17,14 @@ public interface Request {
 
    int d();
 
-   Request m(String var1, String var2) throws Exception;
+   Request m(String string, String string2) throws Exception;
 
-   Request y(String var1) throws Exception;
+   Request y(String string) throws Exception;
 
    String D() throws Exception;
 
-   default RequestWrapper u(Request var1) {
-      return new RequestWrapper(var1);
+   default RequestWrapper u(Request request) {
+      return new RequestWrapper(request);
    }
 
    default RequestWrapper L() {

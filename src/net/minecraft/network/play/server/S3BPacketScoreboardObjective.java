@@ -17,35 +17,35 @@ public class S3BPacketScoreboardObjective implements Packet<INetHandlerPlayClien
    public S3BPacketScoreboardObjective() {
    }
 
-   public S3BPacketScoreboardObjective(ScoreObjective var1, int var2) {
-      this.objectiveName = var1.getName();
-      this.objectiveValue = var1.getDisplayName();
-      this.type = var1.getCriteria().getRenderType();
-      this.field_149342_c = var2;
+   public S3BPacketScoreboardObjective(ScoreObjective scoreObjective, int i) {
+      this.objectiveName = scoreObjective.getName();
+      this.objectiveValue = scoreObjective.getDisplayName();
+      this.type = scoreObjective.getCriteria().getRenderType();
+      this.field_149342_c = i;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.objectiveName = var1.readStringFromBuffer(16);
-      this.field_149342_c = var1.readByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.objectiveName = buf.readStringFromBuffer(16);
+      this.field_149342_c = buf.readByte();
       if (this.field_149342_c == 0 || this.field_149342_c == 2) {
-         this.objectiveValue = var1.readStringFromBuffer(32);
-         this.type = IScoreObjectiveCriteria.EnumRenderType.func_178795_a(var1.readStringFromBuffer(16));
+         this.objectiveValue = buf.readStringFromBuffer(32);
+         this.type = IScoreObjectiveCriteria.EnumRenderType.func_178795_a(buf.readStringFromBuffer(16));
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.objectiveName);
-      var1.writeByte(this.field_149342_c);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.objectiveName);
+      buf.writeByte(this.field_149342_c);
       if (this.field_149342_c == 0 || this.field_149342_c == 2) {
-         var1.writeString(this.objectiveValue);
-         var1.writeString(this.type.func_178796_a());
+         buf.writeString(this.objectiveValue);
+         buf.writeString(this.type.func_178796_a());
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleScoreboardObjective(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleScoreboardObjective(this);
    }
 
    public String func_149339_c() {

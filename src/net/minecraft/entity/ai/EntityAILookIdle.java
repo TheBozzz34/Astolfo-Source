@@ -9,8 +9,8 @@ public class EntityAILookIdle extends EntityAIBase {
    private int idleTime;
    private static final long b = 98019550944172L;
 
-   public EntityAILookIdle(EntityLiving var1) {
-      this.idleEntity = var1;
+   public EntityAILookIdle(EntityLiving entitylivingIn) {
+      this.idleEntity = entitylivingIn;
       this.setMutexBits(3);
    }
 
@@ -26,9 +26,9 @@ public class EntityAILookIdle extends EntityAIBase {
 
    @Override
    public void startExecuting() {
-      double var3 = (Math.PI * 2) * this.idleEntity.getRNG().nextDouble();
-      this.lookX = Math.cos(var3);
-      this.lookZ = Math.sin(var3);
+      double d = (Math.PI * 2) * this.idleEntity.getRNG().nextDouble();
+      this.lookX = Math.cos(d);
+      this.lookZ = Math.sin(d);
       this.idleTime = 20 + this.idleEntity.getRNG().nextInt(20);
    }
 

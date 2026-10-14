@@ -57,12 +57,12 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public AbstractOperatingSystem.FamilyVersionInfo queryFamilyVersionInfo() {
-      long var1 = d ^ 48550876888294L;
-      String var4 = this.major == 10 && this.minor >= 12 ? "macOS" : System.getProperty("os.name");
-      String var5 = this.parseCodeName();
-      long var10000 = 8784670395099931783L ^ var1;
-      String var6 = SysctlUtil.sysctl("kern.osversion", "");
-      return new AbstractOperatingSystem.FamilyVersionInfo(var4, new OperatingSystem.OSVersionInfo(this.osXVersion, var5, var6));
+      long l = d ^ 48550876888294L;
+      String string = this.major == 10 && this.minor >= 12 ? "macOS" : System.getProperty("os.name");
+      String string2 = this.parseCodeName();
+      long m = 8784670395099931783L ^ l;
+      String string3 = SysctlUtil.sysctl("kern.osversion", "");
+      return new AbstractOperatingSystem.FamilyVersionInfo(string, new OperatingSystem.OSVersionInfo(this.osXVersion, string2, string3));
    }
 
    private String parseCodeName() {
@@ -107,8 +107,10 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
    }
 
    @Override
-   public int queryBitness(int var1) {
-      return var1 != 64 && (this.major != 10 || this.minor <= 6) ? ParseUtil.parseIntOrDefault(ExecutingCommand.getFirstAnswer("getconf LONG_BIT"), 32) : 64;
+   public int queryBitness(int jvmBitness) {
+      return jvmBitness != 64 && (this.major != 10 || this.minor <= 6)
+         ? ParseUtil.parseIntOrDefault(ExecutingCommand.getFirstAnswer("getconf LONG_BIT"), 32)
+         : 64;
    }
 
    @Override
@@ -122,189 +124,189 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
    }
 
    @Override
-   public OSProcess[] getProcesses(int var1, OperatingSystem.ProcessSort var2, boolean var3) {
-      ArrayList var7 = new ArrayList();
-      int[] var8 = new int[this.maxProc];
-      int var9 = SystemB.INSTANCE.proc_listpids(1, 0, var8, var8.length * SystemB.INT_SIZE) / SystemB.INT_SIZE;
+   public OSProcess[] getProcesses(int limit, OperatingSystem.ProcessSort sortIn, boolean slowFields) {
+      ArrayList arrayList = new ArrayList();
+      int[] ints = new int[this.maxProc];
+      int i = SystemB.INSTANCE.proc_listpids(1, 0, ints, ints.length * SystemB.INT_SIZE) / SystemB.INT_SIZE;
 
-      for (int var10 = 0; var10 < var9; var10++) {
-         if (var8[var10] != 0) {
-            OSProcess var11 = this.getProcess(var8[var10], var3);
-            if (var11 != null) {
-               var7.add(var11);
+      for (int j = 0; j < i; j++) {
+         if (ints[j] != 0) {
+            OSProcess osProcess = this.getProcess(ints[j], slowFields);
+            if (osProcess != null) {
+               arrayList.add(osProcess);
             }
          }
       }
 
-      List var12 = this.processSort(var7, var1, var2);
-      return (oshi.software.os.OSProcess[])(var12.toArray(new OSProcess[0]));
+      List list = this.processSort(arrayList, limit, sortIn);
+      return (oshi.software.os.OSProcess[])(list.toArray(new OSProcess[0]));
    }
 
    @Override
-   public OSProcess getProcess(int var1, boolean var2) {
-      ProcTaskAllInfo var6 = new ProcTaskAllInfo();
-      if (0 > SystemB.INSTANCE.proc_pidinfo(var1, 2, 0L, var6, var6.size())) {
+   public OSProcess getProcess(int pid, boolean slowFields) {
+      ProcTaskAllInfo procTaskAllInfo = new ProcTaskAllInfo();
+      if (0 > SystemB.INSTANCE.proc_pidinfo(pid, 2, 0L, procTaskAllInfo, procTaskAllInfo.size())) {
          return null;
       }
 
-      String var7 = null;
-      String var8 = "";
-      Memory var9 = new Memory(4096L);
-      if (0 < SystemB.INSTANCE.proc_pidpath(var1, var9, 4096)) {
-         var8 = var9.getString(0L).trim();
-         String[] var10 = var8.split("/");
-         if (var10.length > 0) {
-            var7 = var10[var10.length - 1];
+      String string = null;
+      String string2 = "";
+      Memory memory = new Memory(4096L);
+      if (0 < SystemB.INSTANCE.proc_pidpath(pid, memory, 4096)) {
+         string2 = memory.getString(0L).trim();
+         String[] strings = string2.split("/");
+         if (strings.length > 0) {
+            string = strings[strings.length - 1];
          }
       }
 
-      if (var6.ptinfo.pti_threadnum < 1) {
+      if (procTaskAllInfo.ptinfo.pti_threadnum < 1) {
          return null;
       }
 
-      if (var7 == null) {
-         for (int var25 = 0; var25 < var6.pbsd.pbi_comm.length; var25++) {
-            if (var6.pbsd.pbi_comm[var25] == 0) {
-               var7 = new String(var6.pbsd.pbi_comm, 0, var25, StandardCharsets.UTF_8);
+      if (string == null) {
+         for (int i = 0; i < procTaskAllInfo.pbsd.pbi_comm.length; i++) {
+            if (procTaskAllInfo.pbsd.pbi_comm[i] == 0) {
+               string = new String(procTaskAllInfo.pbsd.pbi_comm, 0, i, StandardCharsets.UTF_8);
                break;
             }
          }
       }
 
-      long var26 = 0L;
-      long var12 = 0L;
+      long l = 0L;
+      long m = 0L;
       if (this.minor >= 9) {
-         RUsageInfoV2 var14 = new RUsageInfoV2();
-         if (0 == SystemB.INSTANCE.proc_pid_rusage(var1, 2, var14)) {
-            var26 = var14.ri_diskio_bytesread;
-            var12 = var14.ri_diskio_byteswritten;
+         RUsageInfoV2 rUsageInfoV2 = new RUsageInfoV2();
+         if (0 == SystemB.INSTANCE.proc_pid_rusage(pid, 2, rUsageInfoV2)) {
+            l = rUsageInfoV2.ri_diskio_bytesread;
+            m = rUsageInfoV2.ri_diskio_byteswritten;
          }
       }
 
-      long var27 = System.currentTimeMillis();
-      OSProcess var16 = new OSProcess(this);
-      var16.setName(var7);
-      var16.setPath(var8);
-      switch (var6.pbsd.pbi_status) {
+      long n = System.currentTimeMillis();
+      OSProcess osProcess = new OSProcess(this);
+      osProcess.setName(string);
+      osProcess.setPath(string2);
+      switch (procTaskAllInfo.pbsd.pbi_status) {
          case 1:
-            var16.setState(OSProcess.State.SLEEPING);
+            osProcess.setState(OSProcess.State.SLEEPING);
             break;
          case 2:
-            var16.setState(OSProcess.State.WAITING);
+            osProcess.setState(OSProcess.State.WAITING);
             break;
          case 3:
-            var16.setState(OSProcess.State.RUNNING);
+            osProcess.setState(OSProcess.State.RUNNING);
             break;
          case 4:
-            var16.setState(OSProcess.State.NEW);
+            osProcess.setState(OSProcess.State.NEW);
             break;
          case 5:
-            var16.setState(OSProcess.State.ZOMBIE);
+            osProcess.setState(OSProcess.State.ZOMBIE);
             break;
          case 6:
-            var16.setState(OSProcess.State.STOPPED);
+            osProcess.setState(OSProcess.State.STOPPED);
             break;
          default:
-            var16.setState(OSProcess.State.OTHER);
+            osProcess.setState(OSProcess.State.OTHER);
       }
 
-      var16.setProcessID(var1);
-      var16.setParentProcessID(var6.pbsd.pbi_ppid);
-      var16.setUserID(Integer.toString(var6.pbsd.pbi_uid));
-      Passwd var17 = SystemB.INSTANCE.getpwuid(var6.pbsd.pbi_uid);
-      var16.setUser(var17 == null ? var16.getUserID() : var17.pw_name);
-      var16.setGroupID(Integer.toString(var6.pbsd.pbi_gid));
-      Group var18 = SystemB.INSTANCE.getgrgid(var6.pbsd.pbi_gid);
-      var16.setGroup(var18 == null ? var16.getGroupID() : var18.gr_name);
-      var16.setThreadCount(var6.ptinfo.pti_threadnum);
-      var16.setPriority(var6.ptinfo.pti_priority);
-      var16.setVirtualSize(var6.ptinfo.pti_virtual_size);
-      var16.setResidentSetSize(var6.ptinfo.pti_resident_size);
-      var16.setKernelTime(var6.ptinfo.pti_total_system / 1000000L);
-      var16.setUserTime(var6.ptinfo.pti_total_user / 1000000L);
-      var16.setStartTime(var6.pbsd.pbi_start_tvsec * 1000L + var6.pbsd.pbi_start_tvusec / 1000L);
-      var16.setUpTime(var27 - var16.getStartTime());
-      var16.setBytesRead(var26);
-      var16.setBytesWritten(var12);
-      var16.setCommandLine(this.getCommandLine(var1));
-      var16.setOpenFiles(var6.pbsd.pbi_nfiles);
-      var16.setBitness((var6.pbsd.pbi_flags & 4) == 0 ? 32 : 64);
-      VnodePathInfo var19 = new VnodePathInfo();
-      if (0 < SystemB.INSTANCE.proc_pidinfo(var1, 9, 0L, var19, var19.size())) {
-         int var20 = 0;
+      osProcess.setProcessID(pid);
+      osProcess.setParentProcessID(procTaskAllInfo.pbsd.pbi_ppid);
+      osProcess.setUserID(Integer.toString(procTaskAllInfo.pbsd.pbi_uid));
+      Passwd passwd = SystemB.INSTANCE.getpwuid(procTaskAllInfo.pbsd.pbi_uid);
+      osProcess.setUser(passwd == null ? osProcess.getUserID() : passwd.pw_name);
+      osProcess.setGroupID(Integer.toString(procTaskAllInfo.pbsd.pbi_gid));
+      Group group = SystemB.INSTANCE.getgrgid(procTaskAllInfo.pbsd.pbi_gid);
+      osProcess.setGroup(group == null ? osProcess.getGroupID() : group.gr_name);
+      osProcess.setThreadCount(procTaskAllInfo.ptinfo.pti_threadnum);
+      osProcess.setPriority(procTaskAllInfo.ptinfo.pti_priority);
+      osProcess.setVirtualSize(procTaskAllInfo.ptinfo.pti_virtual_size);
+      osProcess.setResidentSetSize(procTaskAllInfo.ptinfo.pti_resident_size);
+      osProcess.setKernelTime(procTaskAllInfo.ptinfo.pti_total_system / 1000000L);
+      osProcess.setUserTime(procTaskAllInfo.ptinfo.pti_total_user / 1000000L);
+      osProcess.setStartTime(procTaskAllInfo.pbsd.pbi_start_tvsec * 1000L + procTaskAllInfo.pbsd.pbi_start_tvusec / 1000L);
+      osProcess.setUpTime(n - osProcess.getStartTime());
+      osProcess.setBytesRead(l);
+      osProcess.setBytesWritten(m);
+      osProcess.setCommandLine(this.getCommandLine(pid));
+      osProcess.setOpenFiles(procTaskAllInfo.pbsd.pbi_nfiles);
+      osProcess.setBitness((procTaskAllInfo.pbsd.pbi_flags & 4) == 0 ? 32 : 64);
+      VnodePathInfo vnodePathInfo = new VnodePathInfo();
+      if (0 < SystemB.INSTANCE.proc_pidinfo(pid, 9, 0L, vnodePathInfo, vnodePathInfo.size())) {
+         int j = 0;
 
-         for (byte var24 : var19.pvi_cdir.vip_path) {
-            if (var24 == 0) {
+         for (byte b : vnodePathInfo.pvi_cdir.vip_path) {
+            if (b == 0) {
                break;
             }
 
-            var20++;
+            j++;
          }
 
-         var16.setCurrentWorkingDirectory(new String(var19.pvi_cdir.vip_path, 0, var20, StandardCharsets.US_ASCII));
+         osProcess.setCurrentWorkingDirectory(new String(vnodePathInfo.pvi_cdir.vip_path, 0, j, StandardCharsets.US_ASCII));
       }
 
-      return var16;
+      return osProcess;
    }
 
    @Override
-   public OSProcess[] getChildProcesses(int var1, int var2, OperatingSystem.ProcessSort var3) {
-      ArrayList var7 = new ArrayList();
-      int[] var8 = new int[this.maxProc];
-      int var9 = SystemB.INSTANCE.proc_listpids(1, 0, var8, var8.length * SystemB.INT_SIZE) / SystemB.INT_SIZE;
+   public OSProcess[] getChildProcesses(int parentPid, int limit, OperatingSystem.ProcessSort sortIn) {
+      ArrayList arrayList = new ArrayList();
+      int[] ints = new int[this.maxProc];
+      int i = SystemB.INSTANCE.proc_listpids(1, 0, ints, ints.length * SystemB.INT_SIZE) / SystemB.INT_SIZE;
 
-      for (int var10 = 0; var10 < var9; var10++) {
-         if (var8[var10] != 0 && var1 == this.getParentProcessPid(var8[var10])) {
-            OSProcess var11 = this.getProcess(var8[var10], true);
-            if (var11 != null) {
-               var7.add(var11);
+      for (int j = 0; j < i; j++) {
+         if (ints[j] != 0 && parentPid == this.getParentProcessPid(ints[j])) {
+            OSProcess osProcess = this.getProcess(ints[j], true);
+            if (osProcess != null) {
+               arrayList.add(osProcess);
             }
          }
       }
 
-      List var12 = this.processSort(var7, var2, var3);
-      return (oshi.software.os.OSProcess[])(var12.toArray(new OSProcess[0]));
+      List list = this.processSort(arrayList, limit, sortIn);
+      return (oshi.software.os.OSProcess[])(list.toArray(new OSProcess[0]));
    }
 
-   private int getParentProcessPid(int var1) {
-      ProcTaskAllInfo var5 = new ProcTaskAllInfo();
-      return 0 > SystemB.INSTANCE.proc_pidinfo(var1, 2, 0L, var5, var5.size()) ? 0 : var5.pbsd.pbi_ppid;
+   private int getParentProcessPid(int pid) {
+      ProcTaskAllInfo procTaskAllInfo = new ProcTaskAllInfo();
+      return 0 > SystemB.INSTANCE.proc_pidinfo(pid, 2, 0L, procTaskAllInfo, procTaskAllInfo.size()) ? 0 : procTaskAllInfo.pbsd.pbi_ppid;
    }
 
-   private String getCommandLine(int var1) {
-      int[] var5 = new int[]{1, 49, var1};
-      int var6 = SysctlUtil.sysctl("kern.argmax", 0);
-      Memory var7 = new Memory(var6);
-      IntByReference var8 = new IntByReference(var6);
-      if (0 != SystemB.INSTANCE.sysctl(var5, var5.length, var7, var8, null, 0)) {
+   private String getCommandLine(int pid) {
+      int[] ints = new int[]{1, 49, pid};
+      int i = SysctlUtil.sysctl("kern.argmax", 0);
+      Memory memory = new Memory(i);
+      IntByReference intByReference = new IntByReference(i);
+      if (0 != SystemB.INSTANCE.sysctl(ints, ints.length, memory, intByReference, null, 0)) {
          return "";
       }
 
-      int var9 = var7.getInt(0L);
-      if (var9 >= 0 && var9 <= 1024) {
-         ArrayList var10 = new ArrayList(var9);
-         long var11 = SystemB.INT_SIZE;
-         var11 += var7.getString(var11).length();
+      int j = memory.getInt(0L);
+      if (j >= 0 && j <= 1024) {
+         ArrayList arrayList = new ArrayList(j);
+         long l = SystemB.INT_SIZE;
+         l += memory.getString(l).length();
 
-         while (var9-- > 0 && var11 < var8.getValue()) {
-            while (var7.getByte(var11) == 0 && ++var11 < var8.getValue()) {
+         while (j-- > 0 && l < intByReference.getValue()) {
+            while (memory.getByte(l) == 0 && ++l < intByReference.getValue()) {
             }
 
-            String var13 = var7.getString(var11);
-            var10.add(var13);
-            var11 += var13.length();
+            String string = memory.getString(l);
+            arrayList.add(string);
+            l += string.length();
          }
 
-         return String.join("\u0000", var10);
+         return String.join("\u0000", arrayList);
       } else {
          return "";
       }
    }
 
    @Override
-   public long getProcessAffinityMask(int var1) {
-      int var4 = SysctlUtil.sysctl("hw.logicalcpu", 1);
-      return var4 < 64 ? (1L << var4) - 1L : -1L;
+   public long getProcessAffinityMask(int processId) {
+      int i = SysctlUtil.sysctl("hw.logicalcpu", 1);
+      return i < 64 ? (1L << i) - 1L : -1L;
    }
 
    @Override
@@ -319,17 +321,17 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public int getThreadCount() {
-      int[] var4 = new int[this.getProcessCount() + 10];
-      int var5 = SystemB.INSTANCE.proc_listpids(1, 0, var4, var4.length) / SystemB.INT_SIZE;
-      int var6 = 0;
-      ProcTaskInfo var7 = new ProcTaskInfo();
+      int[] ints = new int[this.getProcessCount() + 10];
+      int i = SystemB.INSTANCE.proc_listpids(1, 0, ints, ints.length) / SystemB.INT_SIZE;
+      int j = 0;
+      ProcTaskInfo procTaskInfo = new ProcTaskInfo();
 
-      for (int var8 = 0; var8 < var5; var8++) {
-         SystemB.INSTANCE.proc_pidinfo(var4[var8], 4, 0L, var7, var7.size());
-         var6 += var7.pti_threadnum;
+      for (int k = 0; k < i; k++) {
+         SystemB.INSTANCE.proc_pidinfo(ints[k], 4, 0L, procTaskInfo, procTaskInfo.size());
+         j += procTaskInfo.pti_threadnum;
       }
 
-      return var6;
+      return j;
    }
 
    @Override
@@ -349,51 +351,51 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public OSService[] getServices() {
-      ArrayList var5 = new ArrayList();
-      HashSet var6 = new HashSet();
+      ArrayList arrayList = new ArrayList();
+      HashSet hashSet = new HashSet();
 
-      for (OSProcess var10 : this.getChildProcesses(1, 0, OperatingSystem.ProcessSort.PID)) {
-         OSService var11 = new OSService(var10.getName(), var10.getProcessID(), OSService.State.RUNNING);
-         var5.add(var11);
-         var6.add(var10.getName());
+      for (OSProcess osProcess : this.getChildProcesses(1, 0, OperatingSystem.ProcessSort.PID)) {
+         OSService osService = new OSService(osProcess.getName(), osProcess.getProcessID(), OSService.State.RUNNING);
+         arrayList.add(osService);
+         hashSet.add(osProcess.getName());
       }
 
-      ArrayList var15 = new ArrayList();
-      File var16 = new File("/System/Library/LaunchAgents");
-      if (var16.exists() && var16.isDirectory()) {
-         var15.addAll(Arrays.asList(var16.listFiles((var0, var1) -> var1.toLowerCase().endsWith(".plist"))));
+      ArrayList arrayList2 = new ArrayList();
+      File file = new File("/System/Library/LaunchAgents");
+      if (file.exists() && file.isDirectory()) {
+         arrayList2.addAll(Arrays.asList(file.listFiles((f, name) -> name.toLowerCase().endsWith(".plist"))));
       }
 
-      var16 = new File("/System/Library/LaunchDaemons");
-      if (var16.exists() && var16.isDirectory()) {
-         var15.addAll(Arrays.asList(var16.listFiles((var0, var1) -> var1.toLowerCase().endsWith(".plist"))));
+      file = new File("/System/Library/LaunchDaemons");
+      if (file.exists() && file.isDirectory()) {
+         arrayList2.addAll(Arrays.asList(file.listFiles((f, name) -> name.toLowerCase().endsWith(".plist"))));
       }
 
-      for (Object var19$raw : var15) {
-         File var19 = (File)var19$raw;
-         String var20 = var19.getName().substring(0, var19.getName().length() - 6);
-         int var12 = var20.lastIndexOf(46);
-         String var13 = var12 >= 0 && var12 <= var20.length() - 2 ? var20.substring(var12 + 1) : var20;
-         if (!var6.contains(var20) && !var6.contains(var13)) {
-            OSService var14 = new OSService(var20, 0, OSService.State.STOPPED);
-            var5.add(var14);
+      for (Object object : arrayList2) {
+         File file2 = (File)object;
+         String string = file2.getName().substring(0, file2.getName().length() - 6);
+         int i = string.lastIndexOf(46);
+         String string2 = i >= 0 && i <= string.length() - 2 ? string.substring(i + 1) : string;
+         if (!hashSet.contains(string) && !hashSet.contains(string2)) {
+            OSService osService2 = new OSService(string, 0, OSService.State.STOPPED);
+            arrayList.add(osService2);
          }
       }
 
-      return (oshi.software.os.OSService[])(var5.toArray(new OSService[0]));
+      return (oshi.software.os.OSService[])(arrayList.toArray(new OSService[0]));
    }
 
    static {
-      long var20 = d ^ 31703834107096L;
-      long var10000 = var20 ^ 6105657261644988929L;
-      var10000 = var20 ^ 1197614836592261684L;
-      var10000 = var20 ^ 743142429263370285L;
-      var10000 = var20 ^ 743142429263370285L;
-      var10000 = var20 ^ 6498231792738444290L;
-      var10000 = var20 ^ 6973601558899677628L;
-      Timeval var22 = new Timeval();
-      if (SysctlUtil.sysctl("kern.boottime", var22) && var22.tv_sec.longValue() != 0L) {
-         BOOTTIME = var22.tv_sec.longValue();
+      long l = d ^ 31703834107096L;
+      long m = l ^ 6105657261644988929L;
+      m = l ^ 1197614836592261684L;
+      m = l ^ 743142429263370285L;
+      m = l ^ 743142429263370285L;
+      m = l ^ 6498231792738444290L;
+      m = l ^ 6973601558899677628L;
+      Timeval timeval = new Timeval();
+      if (SysctlUtil.sysctl("kern.boottime", timeval) && timeval.tv_sec.longValue() != 0L) {
+         BOOTTIME = timeval.tv_sec.longValue();
       } else {
          BOOTTIME = ParseUtil.parseLongOrDefault(
             ExecutingCommand.getFirstAnswer("sysctl -n kern.boottime").split(",")[0].replaceAll("\\D", ""), System.currentTimeMillis() / 1000L

@@ -9,18 +9,18 @@ public class EntityHeartFX extends EntityFX {
    public float particleScaleOverTime;
    private static final long ab = 110399022462810L;
 
-   public EntityHeartFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      this(var1, var2, var4, var6, var8, var10, var12, 2.0F);
+   public EntityHeartFX(World worldIn, double d, double d2, double d3, double d4, double d5, double d6) {
+      this(worldIn, d, d2, d3, d4, d5, d6, 2.0F);
    }
 
-   public EntityHeartFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12, float var14) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityHeartFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float scale) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.01F;
       this.motionY *= 0.01F;
       this.motionZ *= 0.01F;
       this.motionY += 0.1;
       this.particleScale *= 0.75F;
-      this.particleScale *= var14;
+      this.particleScale *= scale;
       this.particleScaleOverTime = this.particleScale;
       this.particleMaxAge = 16;
       this.noClip = false;
@@ -28,11 +28,20 @@ public class EntityHeartFX extends EntityFX {
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = (this.particleAge + var3) / this.particleMaxAge * 32.0F;
-      var9 = MathHelper.clamp_float(var9, 0.0F, 1.0F);
-      this.particleScale = this.particleScaleOverTime * var9;
-      super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge * 32.0F;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      this.particleScale = this.particleScaleOverTime * f;
+      super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
    }
 
    @Override
@@ -64,18 +73,22 @@ public class EntityHeartFX extends EntityFX {
       private static final long b = 3415622894477115473L;
 
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         EntityHeartFX var18 = new EntityHeartFX(var2, var3, var5 + 0.5, var7, var9, var11, var13);
-         var18.setParticleTextureIndex((int)b);
-         var18.setRBGColorF(1.0F, 1.0F, 1.0F);
-         return var18;
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         EntityHeartFX entityHeartFX = new EntityHeartFX(worldIn, xCoordIn, yCoordIn + 0.5, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+         entityHeartFX.setParticleTextureIndex((int)b);
+         entityHeartFX.setRBGColorF(1.0F, 1.0F, 1.0F);
+         return entityHeartFX;
       }
    }
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityHeartFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityHeartFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

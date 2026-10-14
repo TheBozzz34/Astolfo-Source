@@ -20,12 +20,12 @@ public class EntityMinecartFurnace extends EntityMinecart {
    public double pushZ;
    private static final long ab = 118905500189550L;
 
-   public EntityMinecartFurnace(World var1) {
-      super(var1);
+   public EntityMinecartFurnace(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartFurnace(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartFurnace(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
@@ -62,45 +62,45 @@ public class EntityMinecartFurnace extends EntityMinecart {
    }
 
    @Override
-   public void killMinecart(DamageSource var1) {
-      super.killMinecart(var1);
-      if (!var1.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+   public void killMinecart(DamageSource source) {
+      super.killMinecart(source);
+      if (!source.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
          this.entityDropItem(new ItemStack(Blocks.furnace, 1), 0.0F);
       }
    }
 
    @Override
-   public void func_180460_a(BlockPos var1, IBlockState var2) {
-      super.func_180460_a(var1, var2);
-      double var6 = this.pushX * this.pushX + this.pushZ * this.pushZ;
-      if (var6 > 1.0E-4 && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.001) {
-         var6 = MathHelper.sqrt_double(var6);
-         this.pushX /= var6;
-         this.pushZ /= var6;
+   public void func_180460_a(BlockPos blockPos, IBlockState iBlockState) {
+      super.func_180460_a(blockPos, iBlockState);
+      double d = this.pushX * this.pushX + this.pushZ * this.pushZ;
+      if (d > 1.0E-4 && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.001) {
+         d = MathHelper.sqrt_double(d);
+         this.pushX /= d;
+         this.pushZ /= d;
          if (this.pushX * this.motionX + this.pushZ * this.motionZ < 0.0) {
             this.pushX = 0.0;
             this.pushZ = 0.0;
          } else {
-            double var8 = var6 / this.getMaximumSpeed();
-            this.pushX *= var8;
-            this.pushZ *= var8;
+            double e = d / this.getMaximumSpeed();
+            this.pushX *= e;
+            this.pushZ *= e;
          }
       }
    }
 
    @Override
    public void applyDrag() {
-      double var4 = this.pushX * this.pushX + this.pushZ * this.pushZ;
-      if (var4 > 1.0E-4) {
-         var4 = MathHelper.sqrt_double(var4);
-         this.pushX /= var4;
-         this.pushZ /= var4;
-         double var6 = 1.0;
+      double d = this.pushX * this.pushX + this.pushZ * this.pushZ;
+      if (d > 1.0E-4) {
+         d = MathHelper.sqrt_double(d);
+         this.pushX /= d;
+         this.pushZ /= d;
+         double e = 1.0;
          this.motionX *= 0.8F;
          this.motionY *= 0.0;
          this.motionZ *= 0.8F;
-         this.motionX = this.motionX + this.pushX * var6;
-         this.motionZ = this.motionZ + this.pushZ * var6;
+         this.motionX = this.motionX + this.pushX * e;
+         this.motionZ = this.motionZ + this.pushZ * e;
       } else {
          this.motionX *= 0.98F;
          this.motionY *= 0.0;
@@ -111,43 +111,43 @@ public class EntityMinecartFurnace extends EntityMinecart {
    }
 
    @Override
-   public boolean interactFirst(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      if (var5 != null && var5.getItem() == Items.coal) {
-         if (!var1.capabilities.isCreativeMode && --var5.stackSize == 0) {
-            var1.inventory.setInventorySlotContents(var1.inventory.currentItem, (ItemStack)null);
+   public boolean interactFirst(EntityPlayer playerIn) {
+      ItemStack itemStack = playerIn.inventory.getCurrentItem();
+      if (itemStack != null && itemStack.getItem() == Items.coal) {
+         if (!playerIn.capabilities.isCreativeMode && --itemStack.stackSize == 0) {
+            playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
          }
 
          this.fuel += 3600;
       }
 
-      this.pushX = this.posX - var1.posX;
-      this.pushZ = this.posZ - var1.posZ;
+      this.pushX = this.posX - playerIn.posX;
+      this.pushZ = this.posZ - playerIn.posZ;
       return true;
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setDouble("PushX", this.pushX);
-      var1.setDouble("PushZ", this.pushZ);
-      var1.setShort("Fuel", (short)this.fuel);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setDouble("PushX", this.pushX);
+      tagCompound.setDouble("PushZ", this.pushZ);
+      tagCompound.setShort("Fuel", (short)this.fuel);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.pushX = var1.getDouble("PushX");
-      this.pushZ = var1.getDouble("PushZ");
-      this.fuel = var1.getShort("Fuel");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.pushX = tagCompund.getDouble("PushX");
+      this.pushZ = tagCompund.getDouble("PushZ");
+      this.fuel = tagCompund.getShort("Fuel");
    }
 
    public boolean isMinecartPowered() {
       return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
    }
 
-   public void setMinecartPowered(boolean var1) {
-      if (var1) {
+   public void setMinecartPowered(boolean bl) {
+      if (bl) {
          this.dataWatcher.updateObject(16, (byte)(this.dataWatcher.getWatchableObjectByte(16) | 1));
       } else {
          this.dataWatcher.updateObject(16, (byte)(this.dataWatcher.getWatchableObjectByte(16) & -2));

@@ -5,18 +5,18 @@ import net.minecraft.util.ResourceLocation;
 public class EnchantmentArrowInfinite extends Enchantment {
    private static final long m = 126381424989758L;
 
-   public EnchantmentArrowInfinite(int var1, ResourceLocation var2, int var3) {
-      super(var1, var2, var3, EnumEnchantmentType.BOW);
+   public EnchantmentArrowInfinite(int enchID, ResourceLocation enchName, int enchWeight) {
+      super(enchID, enchName, enchWeight, EnumEnchantmentType.BOW);
       this.setName("arrowInfinite");
    }
 
    @Override
-   public int getMinEnchantability(int var1) {
+   public int getMinEnchantability(int enchantmentLevel) {
       return 20;
    }
 
    @Override
-   public int getMaxEnchantability(int var1) {
+   public int getMaxEnchantability(int enchantmentLevel) {
       return 50;
    }
 

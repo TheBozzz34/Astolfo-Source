@@ -12,11 +12,11 @@ import java.time.ZonedDateTime;
 import net.hypixel.api.util.Utilities;
 
 public class DateTimeTypeAdapter implements JsonDeserializer<ZonedDateTime>, JsonSerializer<ZonedDateTime> {
-   public JsonElement serialize(ZonedDateTime var1, Type var2, JsonSerializationContext var3) {
-      return new JsonPrimitive(var1.toInstant().toEpochMilli());
+   public JsonElement serialize(ZonedDateTime src, Type typeOfSrc, JsonSerializationContext context) {
+      return new JsonPrimitive(src.toInstant().toEpochMilli());
    }
 
-   public ZonedDateTime deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-      return Utilities.getDateTime(Long.parseLong(var1.getAsString()));
+   public ZonedDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      return Utilities.getDateTime(Long.parseLong(json.getAsString()));
    }
 }

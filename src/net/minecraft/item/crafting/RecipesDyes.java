@@ -11,142 +11,142 @@ import net.minecraft.item.ItemStack;
 public class RecipesDyes {
    private static final long a = 88691151789007L;
 
-   public void addRecipes(CraftingManager var1) {
-      for (int var4 = 0; var4 < 16; var4++) {
-         var1.addShapelessRecipe(
-            new ItemStack(Blocks.wool, 1, var4), new ItemStack(Items.dye, 1, 15 - var4), new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 0)
+   public void addRecipes(CraftingManager craftingManager) {
+      for (int i = 0; i < 16; i++) {
+         craftingManager.addShapelessRecipe(
+            new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.dye, 1, 15 - i), new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 0)
          );
-         var1.addRecipe(
-            new ItemStack(Blocks.stained_hardened_clay, 8, 15 - var4),
+         craftingManager.addRecipe(
+            new ItemStack(Blocks.stained_hardened_clay, 8, 15 - i),
             "###",
             "#X#",
             "###",
             '#',
             new ItemStack(Blocks.hardened_clay),
             'X',
-            new ItemStack(Items.dye, 1, var4)
+            new ItemStack(Items.dye, 1, i)
          );
-         var1.addRecipe(
-            new ItemStack(Blocks.stained_glass, 8, 15 - var4), "###", "#X#", "###", '#', new ItemStack(Blocks.glass), 'X', new ItemStack(Items.dye, 1, var4)
+         craftingManager.addRecipe(
+            new ItemStack(Blocks.stained_glass, 8, 15 - i), "###", "#X#", "###", '#', new ItemStack(Blocks.glass), 'X', new ItemStack(Items.dye, 1, i)
          );
-         var1.addRecipe(new ItemStack(Blocks.stained_glass_pane, 16, var4), "###", "###", '#', new ItemStack(Blocks.stained_glass, 1, var4));
+         craftingManager.addRecipe(new ItemStack(Blocks.stained_glass_pane, 16, i), "###", "###", '#', new ItemStack(Blocks.stained_glass, 1, i));
       }
 
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.YELLOW.getDyeDamage()),
          new ItemStack(Blocks.yellow_flower, 1, BlockFlower.EnumFlowerType.DANDELION.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.POPPY.getMeta())
       );
-      var1.addShapelessRecipe(new ItemStack(Items.dye, 3, EnumDyeColor.WHITE.getDyeDamage()), Items.bone);
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(new ItemStack(Items.dye, 3, EnumDyeColor.WHITE.getDyeDamage()), Items.bone);
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.PINK.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.ORANGE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.YELLOW.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.LIME.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.GREEN.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.GRAY.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLACK.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.SILVER.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.GRAY.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 3, EnumDyeColor.SILVER.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLACK.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.LIGHT_BLUE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.CYAN.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.GREEN.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.PURPLE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.MAGENTA.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.PURPLE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.PINK.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 3, EnumDyeColor.MAGENTA.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.PINK.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 4, EnumDyeColor.MAGENTA.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()),
          new ItemStack(Items.dye, 1, EnumDyeColor.WHITE.getDyeDamage())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.LIGHT_BLUE.getDyeDamage()),
          new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.BLUE_ORCHID.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.MAGENTA.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.ALLIUM.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.SILVER.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.HOUSTONIA.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.RED_TULIP.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.ORANGE.getDyeDamage()),
          new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.ORANGE_TULIP.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.SILVER.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.WHITE_TULIP.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.PINK.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.PINK_TULIP.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 1, EnumDyeColor.SILVER.getDyeDamage()), new ItemStack(Blocks.red_flower, 1, BlockFlower.EnumFlowerType.OXEYE_DAISY.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.YELLOW.getDyeDamage()),
          new ItemStack(Blocks.double_plant, 1, BlockDoublePlant.EnumPlantType.SUNFLOWER.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.MAGENTA.getDyeDamage()),
          new ItemStack(Blocks.double_plant, 1, BlockDoublePlant.EnumPlantType.SYRINGA.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.RED.getDyeDamage()), new ItemStack(Blocks.double_plant, 1, BlockDoublePlant.EnumPlantType.ROSE.getMeta())
       );
-      var1.addShapelessRecipe(
+      craftingManager.addShapelessRecipe(
          new ItemStack(Items.dye, 2, EnumDyeColor.PINK.getDyeDamage()), new ItemStack(Blocks.double_plant, 1, BlockDoublePlant.EnumPlantType.PAEONIA.getMeta())
       );
 
-      for (int var5 = 0; var5 < 16; var5++) {
-         var1.addRecipe(new ItemStack(Blocks.carpet, 3, var5), "##", '#', new ItemStack(Blocks.wool, 1, var5));
+      for (int j = 0; j < 16; j++) {
+         craftingManager.addRecipe(new ItemStack(Blocks.carpet, 3, j), "##", '#', new ItemStack(Blocks.wool, 1, j));
       }
    }
 }

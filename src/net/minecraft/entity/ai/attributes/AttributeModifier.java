@@ -13,17 +13,17 @@ public class AttributeModifier {
    private boolean isSaved = true;
    private static final long a = 121739643896534L;
 
-   public AttributeModifier(String var1, double var2, int var4) {
-      this(MathHelper.getRandomUuid(ThreadLocalRandom.current()), var1, var2, var4);
+   public AttributeModifier(String nameIn, double amountIn, int operationIn) {
+      this(MathHelper.getRandomUuid(ThreadLocalRandom.current()), nameIn, amountIn, operationIn);
    }
 
-   public AttributeModifier(UUID var1, String var2, double var3, int var5) {
-      this.id = var1;
-      this.name = var2;
-      this.amount = var3;
-      this.operation = var5;
-      Validate.notEmpty(var2, "Modifier name cannot be empty");
-      Validate.inclusiveBetween(0L, 2L, var5, "Invalid operation");
+   public AttributeModifier(UUID idIn, String nameIn, double amountIn, int operationIn) {
+      this.id = idIn;
+      this.name = nameIn;
+      this.amount = amountIn;
+      this.operation = operationIn;
+      Validate.notEmpty(nameIn, "Modifier name cannot be empty");
+      Validate.inclusiveBetween(0L, 2L, operationIn, "Invalid operation");
    }
 
    public UUID getID() {
@@ -46,24 +46,24 @@ public class AttributeModifier {
       return this.isSaved;
    }
 
-   public AttributeModifier setSaved(boolean var1) {
-      this.isSaved = var1;
+   public AttributeModifier setSaved(boolean saved) {
+      this.isSaved = saved;
       return this;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (var1 != null && this.getClass() == var1.getClass()) {
-         AttributeModifier var5 = (AttributeModifier)var1;
+      if (object != null && this.getClass() == object.getClass()) {
+         AttributeModifier attributeModifier = (AttributeModifier)object;
          if (this.id != null) {
-            if (!this.id.equals(var5.id)) {
+            if (!this.id.equals(attributeModifier.id)) {
                return false;
             }
-         } else if (var5.id != null) {
+         } else if (attributeModifier.id != null) {
             return false;
          }
 

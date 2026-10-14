@@ -19,20 +19,20 @@ public class BlockSign extends BlockContainer {
 
    public BlockSign() {
       super(Material.wood);
-      float var1 = 0.25F;
-      float var2 = 1.0F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, var2, 0.5F + var1);
+      float f = 0.25F;
+      float g = 1.0F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, g, 0.5F + f);
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getSelectedBoundingBox(var1, var2);
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getSelectedBoundingBox(worldIn, pos);
    }
 
    @Override
@@ -41,7 +41,7 @@ public class BlockSign extends BlockContainer {
    }
 
    @Override
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
       return true;
    }
 
@@ -56,32 +56,32 @@ public class BlockSign extends BlockContainer {
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntitySign();
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.sign;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.sign;
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var1.isRemote) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      TileEntity var12 = var1.getTileEntity(var2);
-      return var12 instanceof TileEntitySign ? ((TileEntitySign)var12).executeCommand(var4) : false;
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      return tileEntity instanceof TileEntitySign ? ((TileEntitySign)tileEntity).executeCommand(playerIn) : false;
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return !this.hasInvalidNeighbor(var1, var2) && super.canPlaceBlockAt(var1, var2);
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return !this.hasInvalidNeighbor(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos);
    }
 }

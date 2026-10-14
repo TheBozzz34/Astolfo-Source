@@ -14,54 +14,54 @@ public class CompactArrayList {
       this((int)b, 0.75F);
    }
 
-   public CompactArrayList(int var1) {
-      this(var1, 0.75F);
+   public CompactArrayList(int initialCapacity) {
+      this(initialCapacity, 0.75F);
    }
 
-   public CompactArrayList(int var1, float var2) {
-      this.l = new ArrayList(var1);
-      this.F = var1;
-      this.U = var2;
+   public CompactArrayList(int initialCapacity, float loadFactor) {
+      this.l = new ArrayList(initialCapacity);
+      this.F = initialCapacity;
+      this.U = loadFactor;
    }
 
-   public void F(int var1, Object var2) {
-      if (var2 != null) {
+   public void F(int i, Object object) {
+      if (object != null) {
          this.W++;
       }
 
-      this.l.add(var1, var2);
+      this.l.add(i, object);
    }
 
-   public boolean h(Object var1) {
-      if (var1 != null) {
+   public boolean h(Object object) {
+      if (object != null) {
          this.W++;
       }
 
-      return this.l.add(var1);
+      return this.l.add(object);
    }
 
-   public Object h(int var1, Object var2) {
-      Object var6 = this.l.set(var1, var2);
-      if (var2 != var6) {
-         if (var6 == null) {
+   public Object h(int i, Object object) {
+      Object object2 = this.l.set(i, object);
+      if (object != object2) {
+         if (object2 == null) {
             this.W++;
          }
 
-         if (var2 == null) {
+         if (object == null) {
             this.W--;
          }
       }
 
-      return var6;
+      return object2;
    }
 
-   public Object o(int var1) {
-      Object var5 = this.l.remove(var1);
-      if (var5 != null) {
+   public Object o(int i) {
+      Object object = this.l.remove(i);
+      if (object != null) {
          this.W--;
       }
 
-      return var5;
+      return object;
    }
 
    public void l() {
@@ -73,34 +73,34 @@ public class CompactArrayList {
       if (this.W <= 0 && this.l.size() <= 0) {
          this.l();
       } else if (this.l.size() > this.F) {
-         float var4 = this.W * 1.0F / this.l.size();
-         if (var4 <= this.U) {
-            int var5 = 0;
+         float f = this.W * 1.0F / this.l.size();
+         if (f <= this.U) {
+            int i = 0;
 
-            for (int var6 = 0; var6 < this.l.size(); var6++) {
-               Object var7 = this.l.get(var6);
-               if (var7 != null) {
-                  if (var6 != var5) {
-                     this.l.set(var5, var7);
+            for (int j = 0; j < this.l.size(); j++) {
+               Object object = this.l.get(j);
+               if (object != null) {
+                  if (j != i) {
+                     this.l.set(i, object);
                   }
 
-                  var5++;
+                  i++;
                }
             }
 
-            for (int var8 = this.l.size() - 1; var8 >= var5; var8--) {
-               this.l.remove(var8);
+            for (int k = this.l.size() - 1; k >= i; k--) {
+               this.l.remove(k);
             }
          }
       }
    }
 
-   public boolean a(Object var1) {
-      return this.l.contains(var1);
+   public boolean a(Object object) {
+      return this.l.contains(object);
    }
 
-   public Object W(int var1) {
-      return this.l.get(var1);
+   public Object W(int i) {
+      return this.l.get(i);
    }
 
    public boolean c() {

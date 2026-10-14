@@ -15,69 +15,69 @@ public abstract class AbstractGlobalMemory implements GlobalMemory {
 
    @Override
    public PhysicalMemory[] getPhysicalMemory() {
-      ArrayList var4 = new ArrayList();
-      List var5 = ExecutingCommand.runNative("dmidecode --type 17");
-      int var6 = 0;
-      String var7 = "unknown";
-      String var8 = "";
-      long var9 = 0L;
-      long var11 = 0L;
-      String var13 = "unknown";
-      String var14 = "unknown";
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative("dmidecode --type 17");
+      int i = 0;
+      String string = "unknown";
+      String string2 = "";
+      long l = 0L;
+      long m = 0L;
+      String string3 = "unknown";
+      String string4 = "unknown";
 
-      for (Object var16$raw : var5) {
-         String var16 = (String)var16$raw;
-         if (var16.trim().contains("DMI type 17")) {
-            if (var6++ > 0) {
-               if (var9 > 0L) {
-                  var4.add(new PhysicalMemory(var7 + var8, var9, var11, var13, var14));
+      for (Object object : list) {
+         String string5 = (String)object;
+         if (string5.trim().contains("DMI type 17")) {
+            if (i++ > 0) {
+               if (l > 0L) {
+                  arrayList.add(new PhysicalMemory(string + string2, l, m, string3, string4));
                }
 
-               var7 = "unknown";
-               var8 = "";
-               var9 = 0L;
-               var11 = 0L;
+               string = "unknown";
+               string2 = "";
+               l = 0L;
+               m = 0L;
             }
-         } else if (var6 > 0) {
-            String[] var17 = var16.trim().split(":");
-            if (var17.length == 2) {
-               switch (var17[0]) {
+         } else if (i > 0) {
+            String[] strings = string5.trim().split(":");
+            if (strings.length == 2) {
+               switch (strings[0]) {
                   case "Bank Locator":
-                     var7 = var17[1].trim();
+                     string = strings[1].trim();
                      break;
                   case "Locator":
-                     var8 = "/" + var17[1].trim();
+                     string2 = "/" + strings[1].trim();
                      break;
                   case "Size":
-                     var9 = ParseUtil.parseDecimalMemorySizeToBinary(var17[1].trim());
+                     l = ParseUtil.parseDecimalMemorySizeToBinary(strings[1].trim());
                      break;
                   case "Type":
-                     var14 = var17[1].trim();
+                     string4 = strings[1].trim();
                      break;
                   case "Speed":
-                     var11 = ParseUtil.parseHertz(var17[1]);
+                     m = ParseUtil.parseHertz(strings[1]);
                      break;
                   case "Manufacturer":
-                     var13 = var17[1].trim();
+                     string3 = strings[1].trim();
                }
             }
          }
       }
 
-      if (var9 > 0L) {
-         var4.add(new PhysicalMemory(var7 + var8, var9, var11, var13, var14));
+      if (l > 0L) {
+         arrayList.add(new PhysicalMemory(string + string2, l, m, string3, string4));
       }
 
-      return (oshi.hardware.PhysicalMemory[])(var4.toArray(new PhysicalMemory[0]));
+      return (oshi.hardware.PhysicalMemory[])(arrayList.toArray(new PhysicalMemory[0]));
    }
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("Available: ");
-      var3.append(FormatUtil.formatBytes(this.d()));
-      var3.append("/");
-      var3.append(FormatUtil.formatBytes(this.f()));
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("Available: ");
+      stringBuilder.append(FormatUtil.formatBytes(this.d()));
+      stringBuilder.append("/");
+      stringBuilder.append(FormatUtil.formatBytes(this.f()));
+      return stringBuilder.toString();
    }
 }

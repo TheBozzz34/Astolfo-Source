@@ -21,128 +21,128 @@ public final class AuthUtil {
    private static final HwidBuilder M = new HwidOptions().P(true).i(true).J(true).O(true).R(true).d(true).H();
    private static final long a = 36911620430702L;
 
-   private static void Y(HttpURLConnection var0, StringBuilder var1) {
+   private static void Y(HttpURLConnection httpURLConnection, StringBuilder stringBuilder) {
       try {
-         InputStream var5;
-         if (var0.getResponseCode() == 200) {
-            var5 = var0.getInputStream();
+         InputStream inputStream;
+         if (httpURLConnection.getResponseCode() == 200) {
+            inputStream = httpURLConnection.getInputStream();
          } else {
-            var5 = var0.getErrorStream();
+            inputStream = httpURLConnection.getErrorStream();
          }
 
-         if (var5 == null) {
+         if (inputStream == null) {
             throw new Exception();
          }
 
-         InputStreamReader var6 = new InputStreamReader(var5);
-         BufferedReader var7 = new BufferedReader(var6);
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-         String var8;
-         while ((var8 = var7.readLine()) != null) {
-            var1.append(var8).append(AuthUtilStrings.U("rKA="));
+         String string;
+         while ((string = bufferedReader.readLine()) != null) {
+            stringBuilder.append(string).append(AuthUtilStrings.U("rKA="));
          }
 
-         var7.close();
-      } catch (Exception var9) {
+         bufferedReader.close();
+      } catch (Exception exception) {
       }
    }
 
-   public static String g(AuthHttpRequest var0) {
-      return I(var0, Proxy.NO_PROXY);
+   public static String g(AuthHttpRequest authHttpRequest) {
+      return I(authHttpRequest, Proxy.NO_PROXY);
    }
 
-   public static String I(AuthHttpRequest var0, Proxy var1) {
+   public static String I(AuthHttpRequest authHttpRequest, Proxy proxy) {
       try {
-         String var5 = var0.h();
-         URL var10 = new URL(var0.v + (var5.isEmpty() ? "" : "?" + var5));
-         HttpURLConnection var7 = (HttpURLConnection)var10.openConnection(var1);
-         var7.setRequestMethod(AuthUtilStrings.U("t4un"));
-         var7.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), var0.F);
-         var7.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), var0.P);
-         var7.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), var0.u);
+         String string = authHttpRequest.h();
+         URL url = new URL(authHttpRequest.v + (string.isEmpty() ? "" : "?" + string));
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
+         httpURLConnection.setRequestMethod(AuthUtilStrings.U("t4un"));
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), authHttpRequest.F);
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), authHttpRequest.P);
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), authHttpRequest.u);
 
-         for (int var8 = 0; var8 < var0.i.length; var8++) {
-            var7.setRequestProperty(var0.i[var8], var0.n[var8]);
+         for (int j = 0; j < authHttpRequest.i.length; j++) {
+            httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
          }
 
-         StringBuilder var11 = new StringBuilder();
-         Y(var7, var11);
-         return var11.toString();
-      } catch (Exception var9) {
-         NullPointerException var6 = new NullPointerException();
-         var6.setStackTrace(new StackTraceElement[0]);
-         throw var6;
+         StringBuilder stringBuilder = new StringBuilder();
+         Y(httpURLConnection, stringBuilder);
+         return stringBuilder.toString();
+      } catch (Exception exception) {
+         NullPointerException nullPointerException = new NullPointerException();
+         nullPointerException.setStackTrace(new StackTraceElement[0]);
+         throw nullPointerException;
       }
    }
 
-   public static String Y(AuthHttpRequest var0) {
+   public static String Y(AuthHttpRequest authHttpRequest) {
       try {
-         String var4 = var0.h();
-         URL var5 = new URL(var0.v + (var4.isEmpty() ? "" : "?" + var4));
-         HttpURLConnection var6 = (HttpURLConnection)var5.openConnection(Proxy.NO_PROXY);
-         var6.setRequestMethod(AuthUtilStrings.U("t4un"));
-         var6.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), var0.F);
-         var6.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), var0.P);
-         var6.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), var0.u);
+         String string = authHttpRequest.h();
+         URL url = new URL(authHttpRequest.v + (string.isEmpty() ? "" : "?" + string));
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(Proxy.NO_PROXY);
+         httpURLConnection.setRequestMethod(AuthUtilStrings.U("t4un"));
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), authHttpRequest.F);
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), authHttpRequest.P);
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), authHttpRequest.u);
 
-         for (int var7 = 0; var7 < var0.i.length; var7++) {
-            var6.setRequestProperty(var0.i[var7], var0.n[var7]);
+         for (int j = 0; j < authHttpRequest.i.length; j++) {
+            httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
          }
 
-         StringBuilder var9 = new StringBuilder();
-         Y(var6, var9);
-         return var9.toString();
-      } catch (IOException var8) {
-         return var8.getMessage();
+         StringBuilder stringBuilder = new StringBuilder();
+         Y(httpURLConnection, stringBuilder);
+         return stringBuilder.toString();
+      } catch (IOException ioException) {
+         return ioException.getMessage();
       }
    }
 
-   public static String k(AuthHttpRequest var0) {
-      return L(var0, Proxy.NO_PROXY);
+   public static String k(AuthHttpRequest authHttpRequest) {
+      return L(authHttpRequest, Proxy.NO_PROXY);
    }
 
-   public static String L(AuthHttpRequest var0, Proxy var1) {
+   public static String L(AuthHttpRequest authHttpRequest, Proxy proxy) {
       try {
-         URL var6 = new URL(var0.v);
-         HttpURLConnection var11 = (HttpURLConnection)var6.openConnection(var1);
-         var11.setRequestMethod(AuthUtilStrings.U("oIGgng=="));
-         var11.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), var0.F);
-         var11.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), var0.P);
-         var11.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), var0.u);
+         URL url = new URL(authHttpRequest.v);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
+         httpURLConnection.setRequestMethod(AuthUtilStrings.U("oIGgng=="));
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("pb2WuLcxehEzMg=="), authHttpRequest.F);
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("sa2Qr+oE"), authHttpRequest.P);
+         httpURLConnection.setRequestProperty(AuthUtilStrings.U("s6Gdvv8eaVkJP/5C"), authHttpRequest.u);
 
-         for (int var8 = 0; var8 < var0.i.length; var8++) {
-            var11.setRequestProperty(var0.i[var8], var0.n[var8]);
+         for (int j = 0; j < authHttpRequest.i.length; j++) {
+            httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
          }
 
-         var11.setDoInput(true);
-         var11.setDoOutput(true);
-         DataOutputStream var12 = new DataOutputStream(var11.getOutputStream());
-         var12.writeBytes(var0.h());
-         var12.flush();
-         var12.close();
-         StringBuilder var9 = new StringBuilder();
-         Y(var11, var9);
-         return var9.toString().replace("\n", "");
-      } catch (Exception var10) {
-         NullPointerException var7 = new NullPointerException();
-         var7.setStackTrace(new StackTraceElement[0]);
-         throw var7;
+         httpURLConnection.setDoInput(true);
+         httpURLConnection.setDoOutput(true);
+         DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+         dataOutputStream.writeBytes(authHttpRequest.h());
+         dataOutputStream.flush();
+         dataOutputStream.close();
+         StringBuilder stringBuilder = new StringBuilder();
+         Y(httpURLConnection, stringBuilder);
+         return stringBuilder.toString().replace("\n", "");
+      } catch (Exception exception) {
+         NullPointerException nullPointerException = new NullPointerException();
+         nullPointerException.setStackTrace(new StackTraceElement[0]);
+         throw nullPointerException;
       }
    }
 
-   public static void v(String var0) {
+   public static void v(String string) {
       try {
-         u(new URI(var0));
-      } catch (URISyntaxException var2) {
-         var2.printStackTrace();
+         u(new URI(string));
+      } catch (URISyntaxException uriSyntaxException) {
+         uriSyntaxException.printStackTrace();
       }
    }
 
-   private static void u(URI var0) {
+   private static void u(URI uri) {
       try {
-         Desktop.getDesktop().browse(var0);
-      } catch (IOException var2) {
-         var2.printStackTrace();
+         Desktop.getDesktop().browse(uri);
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
@@ -150,24 +150,24 @@ public final class AuthUtil {
       return md5(M.J());
    }
 
-   public static String md5(String var0) {
+   public static String md5(String string) {
       try {
-         MessageDigest var4 = MessageDigest.getInstance("MD5");
-         byte[] var5 = var4.digest(var0.getBytes());
-         StringBuilder var6 = new StringBuilder();
+         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+         byte[] bytes = messageDigest.digest(string.getBytes());
+         StringBuilder stringBuilder = new StringBuilder();
 
-         for (byte var10 : var5) {
-            String var11 = Integer.toHexString(255 & var10);
-            if (var11.length() == 1) {
-               var6.append('0');
+         for (byte b : bytes) {
+            String string2 = Integer.toHexString(255 & b);
+            if (string2.length() == 1) {
+               stringBuilder.append('0');
             }
 
-            var6.append(var11);
+            stringBuilder.append(string2);
          }
 
-         return var6.toString();
-      } catch (NoSuchAlgorithmException var12) {
-         throw new RuntimeException(var12);
+         return stringBuilder.toString();
+      } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+         throw new RuntimeException(noSuchAlgorithmException);
       }
    }
 

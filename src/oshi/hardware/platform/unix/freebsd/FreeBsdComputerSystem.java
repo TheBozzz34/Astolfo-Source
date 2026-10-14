@@ -47,41 +47,41 @@ public final class FreeBsdComputerSystem extends AbstractComputerSystem {
    }
 
    private static Quartet<String, String, String, String> readDmiDecode() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      String var6 = null;
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      String string4 = null;
 
-      for (String var12 : ExecutingCommand.runNative("dmidecode -t system")) {
-         if (var12.contains("Manufacturer:")) {
-            var3 = var12.split("Manufacturer:")[1].trim();
-         } else if (var12.contains("Product Name:")) {
-            var4 = var12.split("Product Name:")[1].trim();
-         } else if (var12.contains("Serial Number:")) {
-            var5 = var12.split("Serial Number:")[1].trim();
-         } else if (var12.contains("Version:")) {
-            var6 = var12.split("Version:")[1].trim();
+      for (String string5 : ExecutingCommand.runNative("dmidecode -t system")) {
+         if (string5.contains("Manufacturer:")) {
+            string = string5.split("Manufacturer:")[1].trim();
+         } else if (string5.contains("Product Name:")) {
+            string2 = string5.split("Product Name:")[1].trim();
+         } else if (string5.contains("Serial Number:")) {
+            string3 = string5.split("Serial Number:")[1].trim();
+         } else if (string5.contains("Version:")) {
+            string4 = string5.split("Version:")[1].trim();
          }
       }
 
-      if (Util.isBlank(var5)) {
-         var5 = querySystemSerialNumber();
+      if (Util.isBlank(string3)) {
+         string3 = querySystemSerialNumber();
       }
 
       return new Quartet<>(
-         Util.isBlank(var3) ? "unknown" : var3,
-         Util.isBlank(var4) ? "unknown" : var4,
-         Util.isBlank(var5) ? "unknown" : var5,
-         Util.isBlank(var6) ? "unknown" : var6
+         Util.isBlank(string) ? "unknown" : string,
+         Util.isBlank(string2) ? "unknown" : string2,
+         Util.isBlank(string3) ? "unknown" : string3,
+         Util.isBlank(string4) ? "unknown" : string4
       );
    }
 
    private static String querySystemSerialNumber() {
-      String var3 = "system.hardware.serial =";
+      String string = "system.hardware.serial =";
 
-      for (String var5 : ExecutingCommand.runNative("lshal")) {
-         if (var5.contains(var3)) {
-            return ParseUtil.getSingleQuoteStringValue(var5);
+      for (String string2 : ExecutingCommand.runNative("lshal")) {
+         if (string2.contains(string)) {
+            return ParseUtil.getSingleQuoteStringValue(string2);
          }
       }
 

@@ -7,8 +7,8 @@ public class PropertyDefaultFastFancyOff extends Property {
    public static final String[] USER_VALUES = new String[]{"Default", "Fast", "Fancy", "OFF"};
    private static final long b = 129821826018998L;
 
-   public PropertyDefaultFastFancyOff(String var1, String var2, int var3) {
-      super(var1, PROPERTY_VALUES, var2, USER_VALUES, var3);
+   public PropertyDefaultFastFancyOff(String propertyName, String userName, int defaultValue) {
+      super(propertyName, PROPERTY_VALUES, userName, USER_VALUES, defaultValue);
    }
 
    public boolean E() {
@@ -28,11 +28,11 @@ public class PropertyDefaultFastFancyOff extends Property {
    }
 
    @Override
-   public boolean setPropertyValue(String var1) {
-      if (Config.equals(var1, "none")) {
-         var1 = "off";
+   public boolean setPropertyValue(String propVal) {
+      if (Config.equals(propVal, "none")) {
+         propVal = "off";
       }
 
-      return super.setPropertyValue(var1);
+      return super.setPropertyValue(propVal);
    }
 }

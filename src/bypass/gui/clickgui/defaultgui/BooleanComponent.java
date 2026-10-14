@@ -14,24 +14,24 @@ public class BooleanComponent extends SettingComponent {
    private final Container V;
    private static final long c = 130516420392357L;
 
-   public BooleanComponent(Category var1, Container var2, Setting var3, int var4, int var5) {
-      super(var2, var3, var4, var5);
-      this.j = var1;
-      this.V = var2;
+   public BooleanComponent(Category category, Container container, Setting setting, int i, int j) {
+      super(container, setting, i, j);
+      this.j = category;
+      this.V = container;
    }
 
    @Override
-   public void l(int var1) {
-      if (this.V.s_boolean() && var1 == 0) {
+   public void l(int i) {
+      if (this.V.s_boolean() && i == 0) {
          this.d().set(!this.d().getValue());
       }
    }
 
    @Override
-   public void render(int var1, int var2) {
-      int var6 = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.j.getColor() : client.getColorSetting().getValue().getRGB();
+   public void render(int i, int j) {
+      int k = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.j.getColor() : client.getColorSetting().getValue().getRGB();
       if (this.d().getValue()) {
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), var6);
+         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), k);
       }
 
       GuiMainMenu.m.drawString(this.d().getName(), this.M() + 3.0F, this.E_float(), -1);

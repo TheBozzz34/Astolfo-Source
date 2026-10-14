@@ -24,90 +24,90 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
    public S0EPacketSpawnObject() {
    }
 
-   public S0EPacketSpawnObject(Entity var1, int var2) {
-      this(var1, var2, 0);
+   public S0EPacketSpawnObject(Entity entityIn, int typeIn) {
+      this(entityIn, typeIn, 0);
    }
 
-   public S0EPacketSpawnObject(Entity var1, int var2, int var3) {
-      this.entityId = var1.getEntityId();
-      this.x = MathHelper.floor_double(var1.posX * 32.0);
-      this.y = MathHelper.floor_double(var1.posY * 32.0);
-      this.z = MathHelper.floor_double(var1.posZ * 32.0);
-      this.pitch = MathHelper.floor_float(var1.rotationPitch * 256.0F / 360.0F);
-      this.yaw = MathHelper.floor_float(var1.rotationYaw * 256.0F / 360.0F);
-      this.type = var2;
-      this.field_149020_k = var3;
-      if (var3 > 0) {
-         double var7 = var1.motionX;
-         double var9 = var1.motionY;
-         double var11 = var1.motionZ;
-         double var13 = 3.9;
-         if (var7 < -var13) {
-            var7 = -var13;
+   public S0EPacketSpawnObject(Entity entityIn, int typeIn, int i) {
+      this.entityId = entityIn.getEntityId();
+      this.x = MathHelper.floor_double(entityIn.posX * 32.0);
+      this.y = MathHelper.floor_double(entityIn.posY * 32.0);
+      this.z = MathHelper.floor_double(entityIn.posZ * 32.0);
+      this.pitch = MathHelper.floor_float(entityIn.rotationPitch * 256.0F / 360.0F);
+      this.yaw = MathHelper.floor_float(entityIn.rotationYaw * 256.0F / 360.0F);
+      this.type = typeIn;
+      this.field_149020_k = i;
+      if (i > 0) {
+         double d = entityIn.motionX;
+         double e = entityIn.motionY;
+         double d2 = entityIn.motionZ;
+         double d3 = 3.9;
+         if (d < -d3) {
+            d = -d3;
          }
 
-         if (var9 < -var13) {
-            var9 = -var13;
+         if (e < -d3) {
+            e = -d3;
          }
 
-         if (var11 < -var13) {
-            var11 = -var13;
+         if (d2 < -d3) {
+            d2 = -d3;
          }
 
-         if (var7 > var13) {
-            var7 = var13;
+         if (d > d3) {
+            d = d3;
          }
 
-         if (var9 > var13) {
-            var9 = var13;
+         if (e > d3) {
+            e = d3;
          }
 
-         if (var11 > var13) {
-            var11 = var13;
+         if (d2 > d3) {
+            d2 = d3;
          }
 
-         this.speedX = (int)(var7 * 8000.0);
-         this.speedY = (int)(var9 * 8000.0);
-         this.speedZ = (int)(var11 * 8000.0);
+         this.speedX = (int)(d * 8000.0);
+         this.speedY = (int)(e * 8000.0);
+         this.speedZ = (int)(d2 * 8000.0);
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.type = var1.readByte();
-      this.x = var1.readInt();
-      this.y = var1.readInt();
-      this.z = var1.readInt();
-      this.pitch = var1.readByte();
-      this.yaw = var1.readByte();
-      this.field_149020_k = var1.readInt();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.type = buf.readByte();
+      this.x = buf.readInt();
+      this.y = buf.readInt();
+      this.z = buf.readInt();
+      this.pitch = buf.readByte();
+      this.yaw = buf.readByte();
+      this.field_149020_k = buf.readInt();
       if (this.field_149020_k > 0) {
-         this.speedX = var1.readShort();
-         this.speedY = var1.readShort();
-         this.speedZ = var1.readShort();
+         this.speedX = buf.readShort();
+         this.speedY = buf.readShort();
+         this.speedZ = buf.readShort();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeByte(this.type);
-      var1.writeInt(this.x);
-      var1.writeInt(this.y);
-      var1.writeInt(this.z);
-      var1.writeByte(this.pitch);
-      var1.writeByte(this.yaw);
-      var1.writeInt(this.field_149020_k);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeByte(this.type);
+      buf.writeInt(this.x);
+      buf.writeInt(this.y);
+      buf.writeInt(this.z);
+      buf.writeByte(this.pitch);
+      buf.writeByte(this.yaw);
+      buf.writeInt(this.field_149020_k);
       if (this.field_149020_k > 0) {
-         var1.writeShort(this.speedX);
-         var1.writeShort(this.speedY);
-         var1.writeShort(this.speedZ);
+         buf.writeShort(this.speedX);
+         buf.writeShort(this.speedY);
+         buf.writeShort(this.speedZ);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSpawnObject(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSpawnObject(this);
    }
 
    public int getEntityID() {
@@ -154,31 +154,31 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
       return this.field_149020_k;
    }
 
-   public void setX(int var1) {
-      this.x = var1;
+   public void setX(int newX) {
+      this.x = newX;
    }
 
-   public void setY(int var1) {
-      this.y = var1;
+   public void setY(int newY) {
+      this.y = newY;
    }
 
-   public void setZ(int var1) {
-      this.z = var1;
+   public void setZ(int newZ) {
+      this.z = newZ;
    }
 
-   public void setSpeedX(int var1) {
-      this.speedX = var1;
+   public void setSpeedX(int newSpeedX) {
+      this.speedX = newSpeedX;
    }
 
-   public void setSpeedY(int var1) {
-      this.speedY = var1;
+   public void setSpeedY(int newSpeedY) {
+      this.speedY = newSpeedY;
    }
 
-   public void setSpeedZ(int var1) {
-      this.speedZ = var1;
+   public void setSpeedZ(int newSpeedZ) {
+      this.speedZ = newSpeedZ;
    }
 
-   public void func_149002_g(int var1) {
-      this.field_149020_k = var1;
+   public void func_149002_g(int i) {
+      this.field_149020_k = i;
    }
 }

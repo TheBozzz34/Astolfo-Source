@@ -23,8 +23,8 @@ public class GuiScreenCustomizePresets extends GuiScreen {
    private String field_175312_t;
    private static final long b = 14581453335439L;
 
-   public GuiScreenCustomizePresets(GuiCustomizeWorldScreen var1) {
-      this.field_175314_r = var1;
+   public GuiScreenCustomizePresets(GuiCustomizeWorldScreen guiCustomizeWorldScreen) {
+      this.field_175314_r = guiCustomizeWorldScreen;
    }
 
    @Override
@@ -56,21 +56,21 @@ public class GuiScreenCustomizePresets extends GuiScreen {
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      this.field_175317_i.mouseClicked(var1, var2, var3);
-      super.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      this.field_175317_i.mouseClicked(mouseX, mouseY, mouseButton);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      if (!this.field_175317_i.textboxKeyTyped(var1, var2)) {
-         super.keyTyped(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      if (!this.field_175317_i.textboxKeyTyped(typedChar, keyCode)) {
+         super.keyTyped(typedChar, keyCode);
       }
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      switch (button.id) {
          case 0:
             this.field_175314_r.func_175324_a(this.field_175317_i.getText());
             this.mc.displayGuiScreen(this.field_175314_r);
@@ -81,14 +81,14 @@ public class GuiScreenCustomizePresets extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.field_175311_g.drawScreen(var1, var2, var3);
+      this.field_175311_g.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, this.field_175315_a, this.width / 2, 8, 16777215);
       this.I(this.fontRendererObj, this.field_175313_s, 50, 30, 10526880);
       this.I(this.fontRendererObj, this.field_175312_t, 50, 70, 10526880);
       this.field_175317_i.drawTextBox();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
@@ -107,41 +107,41 @@ public class GuiScreenCustomizePresets extends GuiScreen {
    }
 
    static {
-      ChunkProviderSettings.Factory var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      ChunkProviderSettings.Factory factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{ \"coordinateScale\":684.412, \"heightScale\":684.412, \"upperLimitScale\":512.0, \"lowerLimitScale\":512.0, \"depthNoiseScaleX\":200.0, \"depthNoiseScaleZ\":200.0, \"depthNoiseScaleExponent\":0.5, \"mainNoiseScaleX\":5000.0, \"mainNoiseScaleY\":1000.0, \"mainNoiseScaleZ\":5000.0, \"baseSize\":8.5, \"stretchY\":8.0, \"biomeDepthWeight\":2.0, \"biomeDepthOffset\":0.5, \"biomeScaleWeight\":2.0, \"biomeScaleOffset\":0.375, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":false, \"seaLevel\":255 }"
       );
-      ResourceLocation var23 = new ResourceLocation("textures/gui/presets/water.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.waterWorld"), var23, var22));
-      var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      ResourceLocation resourceLocation = new ResourceLocation("textures/gui/presets/water.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.waterWorld"), resourceLocation, factory));
+      factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{\"coordinateScale\":3000.0, \"heightScale\":6000.0, \"upperLimitScale\":250.0, \"lowerLimitScale\":512.0, \"depthNoiseScaleX\":200.0, \"depthNoiseScaleZ\":200.0, \"depthNoiseScaleExponent\":0.5, \"mainNoiseScaleX\":80.0, \"mainNoiseScaleY\":160.0, \"mainNoiseScaleZ\":80.0, \"baseSize\":8.5, \"stretchY\":10.0, \"biomeDepthWeight\":1.0, \"biomeDepthOffset\":0.0, \"biomeScaleWeight\":1.0, \"biomeScaleOffset\":0.0, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":false, \"seaLevel\":63 }"
       );
-      var23 = new ResourceLocation("textures/gui/presets/isles.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.isleLand"), var23, var22));
-      var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      resourceLocation = new ResourceLocation("textures/gui/presets/isles.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.isleLand"), resourceLocation, factory));
+      factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{\"coordinateScale\":684.412, \"heightScale\":684.412, \"upperLimitScale\":512.0, \"lowerLimitScale\":512.0, \"depthNoiseScaleX\":200.0, \"depthNoiseScaleZ\":200.0, \"depthNoiseScaleExponent\":0.5, \"mainNoiseScaleX\":5000.0, \"mainNoiseScaleY\":1000.0, \"mainNoiseScaleZ\":5000.0, \"baseSize\":8.5, \"stretchY\":5.0, \"biomeDepthWeight\":2.0, \"biomeDepthOffset\":1.0, \"biomeScaleWeight\":4.0, \"biomeScaleOffset\":1.0, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":false, \"seaLevel\":63 }"
       );
-      var23 = new ResourceLocation("textures/gui/presets/delight.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.caveDelight"), var23, var22));
-      var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      resourceLocation = new ResourceLocation("textures/gui/presets/delight.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.caveDelight"), resourceLocation, factory));
+      factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{\"coordinateScale\":738.41864, \"heightScale\":157.69133, \"upperLimitScale\":801.4267, \"lowerLimitScale\":1254.1643, \"depthNoiseScaleX\":374.93652, \"depthNoiseScaleZ\":288.65228, \"depthNoiseScaleExponent\":1.2092624, \"mainNoiseScaleX\":1355.9908, \"mainNoiseScaleY\":745.5343, \"mainNoiseScaleZ\":1183.464, \"baseSize\":1.8758626, \"stretchY\":1.7137525, \"biomeDepthWeight\":1.7553768, \"biomeDepthOffset\":3.4701107, \"biomeScaleWeight\":1.0, \"biomeScaleOffset\":2.535211, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":false, \"seaLevel\":63 }"
       );
-      var23 = new ResourceLocation("textures/gui/presets/madness.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.mountains"), var23, var22));
-      var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      resourceLocation = new ResourceLocation("textures/gui/presets/madness.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.mountains"), resourceLocation, factory));
+      factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{\"coordinateScale\":684.412, \"heightScale\":684.412, \"upperLimitScale\":512.0, \"lowerLimitScale\":512.0, \"depthNoiseScaleX\":200.0, \"depthNoiseScaleZ\":200.0, \"depthNoiseScaleExponent\":0.5, \"mainNoiseScaleX\":1000.0, \"mainNoiseScaleY\":3000.0, \"mainNoiseScaleZ\":1000.0, \"baseSize\":8.5, \"stretchY\":10.0, \"biomeDepthWeight\":1.0, \"biomeDepthOffset\":0.0, \"biomeScaleWeight\":1.0, \"biomeScaleOffset\":0.0, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":false, \"seaLevel\":20 }"
       );
-      var23 = new ResourceLocation("textures/gui/presets/drought.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.drought"), var23, var22));
-      var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      resourceLocation = new ResourceLocation("textures/gui/presets/drought.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.drought"), resourceLocation, factory));
+      factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{\"coordinateScale\":684.412, \"heightScale\":684.412, \"upperLimitScale\":2.0, \"lowerLimitScale\":64.0, \"depthNoiseScaleX\":200.0, \"depthNoiseScaleZ\":200.0, \"depthNoiseScaleExponent\":0.5, \"mainNoiseScaleX\":80.0, \"mainNoiseScaleY\":160.0, \"mainNoiseScaleZ\":80.0, \"baseSize\":8.5, \"stretchY\":12.0, \"biomeDepthWeight\":1.0, \"biomeDepthOffset\":0.0, \"biomeScaleWeight\":1.0, \"biomeScaleOffset\":0.0, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":false, \"seaLevel\":6 }"
       );
-      var23 = new ResourceLocation("textures/gui/presets/chaos.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.caveChaos"), var23, var22));
-      var22 = ChunkProviderSettings.Factory.jsonToFactory(
+      resourceLocation = new ResourceLocation("textures/gui/presets/chaos.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.caveChaos"), resourceLocation, factory));
+      factory = ChunkProviderSettings.Factory.jsonToFactory(
          "{\"coordinateScale\":684.412, \"heightScale\":684.412, \"upperLimitScale\":512.0, \"lowerLimitScale\":512.0, \"depthNoiseScaleX\":200.0, \"depthNoiseScaleZ\":200.0, \"depthNoiseScaleExponent\":0.5, \"mainNoiseScaleX\":80.0, \"mainNoiseScaleY\":160.0, \"mainNoiseScaleZ\":80.0, \"baseSize\":8.5, \"stretchY\":12.0, \"biomeDepthWeight\":1.0, \"biomeDepthOffset\":0.0, \"biomeScaleWeight\":1.0, \"biomeScaleOffset\":0.0, \"useCaves\":true, \"useDungeons\":true, \"dungeonChance\":8, \"useStrongholds\":true, \"useVillages\":true, \"useMineShafts\":true, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":true, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":true, \"seaLevel\":40 }"
       );
-      var23 = new ResourceLocation("textures/gui/presets/luck.png");
-      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.goodLuck"), var23, var22));
+      resourceLocation = new ResourceLocation("textures/gui/presets/luck.png");
+      field_175310_f.add(new GuiScreenCustomizePresets.Info(I18n.format("createWorld.customize.custom.preset.goodLuck"), resourceLocation, factory));
    }
 
    public static class Info {
@@ -149,10 +149,10 @@ public class GuiScreenCustomizePresets extends GuiScreen {
       public ResourceLocation field_178953_b;
       public ChunkProviderSettings.Factory field_178954_c;
 
-      public Info(String var1, ResourceLocation var2, ChunkProviderSettings.Factory var3) {
-         this.field_178955_a = var1;
-         this.field_178953_b = var2;
-         this.field_178954_c = var3;
+      public Info(String string, ResourceLocation resourceLocation, ChunkProviderSettings.Factory factory) {
+         this.field_178955_a = string;
+         this.field_178953_b = resourceLocation;
+         this.field_178954_c = factory;
       }
    }
 
@@ -177,45 +177,45 @@ public class GuiScreenCustomizePresets extends GuiScreen {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
-         this.field_178053_u = var1;
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+         this.field_178053_u = slotIndex;
          GuiScreenCustomizePresets.this.func_175304_a();
          GuiScreenCustomizePresets.this.field_175317_i
             .setText(GuiScreenCustomizePresets.field_175310_f.get(GuiScreenCustomizePresets.this.field_175311_g.field_178053_u).field_178954_c.toString());
       }
 
       @Override
-      public boolean isSelected(int var1) {
-         return var1 == this.field_178053_u;
+      public boolean isSelected(int slotIndex) {
+         return slotIndex == this.field_178053_u;
       }
 
       @Override
       public void drawBackground() {
       }
 
-      private void func_178051_a(int var1, int var2, ResourceLocation var3) {
-         int var6 = var1 + 5;
-         GuiScreenCustomizePresets.S(var6 - 1, var6 + 32, var2 - 1, -2039584);
-         GuiScreenCustomizePresets.S(var6 - 1, var6 + 32, var2 + 32, -6250336);
-         GuiScreenCustomizePresets.J(var6 - 1, var2 - 1, var2 + 32, -2039584);
-         GuiScreenCustomizePresets.J(var6 + 32, var2 - 1, var2 + 32, -6250336);
+      private void func_178051_a(int i, int j, ResourceLocation resourceLocation) {
+         int k = i + 5;
+         GuiScreenCustomizePresets.S(k - 1, k + 32, j - 1, -2039584);
+         GuiScreenCustomizePresets.S(k - 1, k + 32, j + 32, -6250336);
+         GuiScreenCustomizePresets.J(k - 1, j - 1, j + 32, -2039584);
+         GuiScreenCustomizePresets.J(k + 32, j - 1, j + 32, -6250336);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         this.mc.getTextureManager().bindTexture(var3);
-         Tessellator var9 = Tessellator.getInstance();
-         WorldRenderer var10 = var9.getWorldRenderer();
-         var10.begin(7, DefaultVertexFormats.POSITION_TEX);
-         var10.pos(var6 + 0, var2 + 32, 0.0).tex(0.0, 1.0).endVertex();
-         var10.pos(var6 + 32, var2 + 32, 0.0).tex(1.0, 1.0).endVertex();
-         var10.pos(var6 + 32, var2 + 0, 0.0).tex(1.0, 0.0).endVertex();
-         var10.pos(var6 + 0, var2 + 0, 0.0).tex(0.0, 0.0).endVertex();
-         var9.draw();
+         this.mc.getTextureManager().bindTexture(resourceLocation);
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+         worldRenderer.pos(k + 0, j + 32, 0.0).tex(0.0, 1.0).endVertex();
+         worldRenderer.pos(k + 32, j + 32, 0.0).tex(1.0, 1.0).endVertex();
+         worldRenderer.pos(k + 32, j + 0, 0.0).tex(1.0, 0.0).endVertex();
+         worldRenderer.pos(k + 0, j + 0, 0.0).tex(0.0, 0.0).endVertex();
+         tessellator.draw();
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-         GuiScreenCustomizePresets.Info var9 = GuiScreenCustomizePresets.field_175310_f.get(var1);
-         this.func_178051_a(var2, var3, var9.field_178953_b);
-         GuiScreenCustomizePresets.this.fontRendererObj.D(var9.field_178955_a, var2 + 32 + 10, var3 + 14, 16777215);
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+         GuiScreenCustomizePresets.Info info = GuiScreenCustomizePresets.field_175310_f.get(entryID);
+         this.func_178051_a(i, j, info.field_178953_b);
+         GuiScreenCustomizePresets.this.fontRendererObj.D(info.field_178955_a, i + 32 + 10, j + 14, 16777215);
       }
    }
 }

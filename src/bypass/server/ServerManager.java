@@ -15,14 +15,14 @@ public class ServerManager extends Manager<Server> {
    }
 
    public void x() {
-      for (Server var5 : this.C) {
-         if (var5.g()) {
-            if (var5.y() == ServerType.HYPIXEL && !this.k && !ViaFabric.INSTANCE.isNative()) {
+      for (Server server : this.C) {
+         if (server.g()) {
+            if (server.y() == ServerType.HYPIXEL && !this.k && !ViaFabric.INSTANCE.isNative()) {
                Toasts.TOASTS.A("Important", "Using protocols that arent 1.8.x is currently not recommended for blatant cheating in Hypixel", (int)e);
                this.k = true;
             }
 
-            X = var5.y();
+            X = server.y();
             return;
          }
       }
@@ -30,7 +30,7 @@ public class ServerManager extends Manager<Server> {
       X = ServerType.UNKNOWN;
    }
 
-   public static void c(ServerType var0) {
-      X = var0;
+   public static void c(ServerType serverType) {
+      X = serverType;
    }
 }

@@ -12,24 +12,24 @@ public class EntityTNTPrimed extends Entity {
    private static final long ab = 82581249015974L;
    private static final long fb = -3476068937056124848L;
 
-   public EntityTNTPrimed(World var1) {
-      super(var1);
+   public EntityTNTPrimed(World worldIn) {
+      super(worldIn);
       this.preventEntitySpawning = true;
       this.setSize(0.98F, 0.98F);
    }
 
-   public EntityTNTPrimed(World var1, double var2, double var4, double var6, EntityLivingBase var8) {
-      this(var1);
-      this.setPosition(var2, var4, var6);
-      float var11 = (float)(Math.random() * Math.PI * 2.0);
-      this.motionX = -((float)Math.sin(var11)) * 0.02F;
+   public EntityTNTPrimed(World worldIn, double x, double y, double z, EntityLivingBase igniter) {
+      this(worldIn);
+      this.setPosition(x, y, z);
+      float f = (float)(Math.random() * Math.PI * 2.0);
+      this.motionX = -((float)Math.sin(f)) * 0.02F;
       this.motionY = 0.2F;
-      this.motionZ = -((float)Math.cos(var11)) * 0.02F;
+      this.motionZ = -((float)Math.cos(f)) * 0.02F;
       this.fuse = (int)fb;
-      this.prevPosX = var2;
-      this.prevPosY = var4;
-      this.prevPosZ = var6;
-      this.tntPlacedBy = var8;
+      this.prevPosX = x;
+      this.prevPosY = y;
+      this.prevPosZ = z;
+      this.tntPlacedBy = igniter;
    }
 
    @Override
@@ -74,18 +74,18 @@ public class EntityTNTPrimed extends Entity {
    }
 
    private void explode() {
-      float var1 = 4.0F;
-      this.worldObj.createExplosion(this, this.posX, this.posY + this.height / 16.0F, this.posZ, var1, true);
+      float f = 4.0F;
+      this.worldObj.createExplosion(this, this.posX, this.posY + this.height / 16.0F, this.posZ, f, true);
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      var1.setByte("Fuse", (byte)this.fuse);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      tagCompound.setByte("Fuse", (byte)this.fuse);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      this.fuse = var1.getByte("Fuse");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      this.fuse = tagCompund.getByte("Fuse");
    }
 
    public EntityLivingBase getTntPlacedBy() {

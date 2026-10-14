@@ -20,20 +20,20 @@ public class CombatTracker {
    private String field_94551_f;
    private static final long a = 9715138478196L;
 
-   public CombatTracker(EntityLivingBase var1) {
-      this.fighter = var1;
+   public CombatTracker(EntityLivingBase fighterIn) {
+      this.fighter = fighterIn;
    }
 
    public void func_94545_a() {
       this.func_94542_g();
       if (this.fighter.isOnLadder()) {
-         Block var4 = this.fighter
+         Block block = this.fighter
             .worldObj
             .getBlockState(new BlockPos(this.fighter.posX, this.fighter.getEntityBoundingBox().minY, this.fighter.posZ))
             .getBlock();
-         if (var4 == Blocks.ladder) {
+         if (block == Blocks.ladder) {
             this.field_94551_f = "ladder";
-         } else if (var4 == Blocks.vine) {
+         } else if (block == Blocks.vine) {
             this.field_94551_f = "vines";
          }
       } else if (this.fighter.isInWater()) {
@@ -41,14 +41,14 @@ public class CombatTracker {
       }
    }
 
-   public void trackDamage(DamageSource var1, float var2, float var3) {
+   public void trackDamage(DamageSource damageSrc, float healthIn, float damageAmount) {
       this.reset();
       this.func_94545_a();
-      CombatEntry var7 = new CombatEntry(var1, this.fighter.ticksExisted, var2, var3, this.field_94551_f, this.fighter.fallDistance);
-      this.combatEntries.add(var7);
+      CombatEntry combatEntry = new CombatEntry(damageSrc, this.fighter.ticksExisted, healthIn, damageAmount, this.field_94551_f, this.fighter.fallDistance);
+      this.combatEntries.add(combatEntry);
       this.field_94555_c = this.fighter.ticksExisted;
       this.field_94553_e = true;
-      if (var7.isLivingDamageSrc() && !this.field_94552_d && this.fighter.isEntityAlive()) {
+      if (combatEntry.isLivingDamageSrc() && !this.field_94552_d && this.fighter.isEntityAlive()) {
          this.field_94552_d = true;
          this.field_152775_d = this.fighter.ticksExisted;
          this.field_152776_e = this.field_152775_d;
@@ -61,96 +61,96 @@ public class CombatTracker {
          return new ChatComponentTranslation("death.attack.generic", this.fighter.getDisplayName());
       }
 
-      CombatEntry var4 = this.func_94544_f();
-      CombatEntry var5 = this.combatEntries.get(this.combatEntries.size() - 1);
-      IChatComponent var6 = var5.getDamageSrcDisplayName();
-      Entity var7 = var5.getDamageSrc().getEntity();
-      IChatComponent var8;
-      if (var4 != null && var5.getDamageSrc() == DamageSource.fall) {
-         IChatComponent var9 = var4.getDamageSrcDisplayName();
-         if (var4.getDamageSrc() == DamageSource.fall || var4.getDamageSrc() == DamageSource.outOfWorld) {
-            var8 = new ChatComponentTranslation("death.fell.accident." + this.func_94548_b(var4), this.fighter.getDisplayName());
-         } else if (var9 != null && (var6 == null || !var9.equals(var6))) {
-            Entity var12 = var4.getDamageSrc().getEntity();
-            ItemStack var11 = var12 instanceof EntityLivingBase ? ((EntityLivingBase)var12).getHeldItem() : null;
-            if (var11 != null && var11.hasDisplayName()) {
-               var8 = new ChatComponentTranslation("death.fell.assist.item", this.fighter.getDisplayName(), var9, var11.getChatComponent());
+      CombatEntry combatEntry = this.func_94544_f();
+      CombatEntry combatEntry2 = this.combatEntries.get(this.combatEntries.size() - 1);
+      IChatComponent iChatComponent = combatEntry2.getDamageSrcDisplayName();
+      Entity entity = combatEntry2.getDamageSrc().getEntity();
+      IChatComponent iChatComponent2;
+      if (combatEntry != null && combatEntry2.getDamageSrc() == DamageSource.fall) {
+         IChatComponent iChatComponent3 = combatEntry.getDamageSrcDisplayName();
+         if (combatEntry.getDamageSrc() == DamageSource.fall || combatEntry.getDamageSrc() == DamageSource.outOfWorld) {
+            iChatComponent2 = new ChatComponentTranslation("death.fell.accident." + this.func_94548_b(combatEntry), this.fighter.getDisplayName());
+         } else if (iChatComponent3 != null && (iChatComponent == null || !iChatComponent3.equals(iChatComponent))) {
+            Entity entity2 = combatEntry.getDamageSrc().getEntity();
+            ItemStack itemStack = entity2 instanceof EntityLivingBase ? ((EntityLivingBase)entity2).getHeldItem() : null;
+            if (itemStack != null && itemStack.hasDisplayName()) {
+               iChatComponent2 = new ChatComponentTranslation("death.fell.assist.item", this.fighter.getDisplayName(), iChatComponent3, itemStack.getChatComponent());
             } else {
-               var8 = new ChatComponentTranslation("death.fell.assist", this.fighter.getDisplayName(), var9);
+               iChatComponent2 = new ChatComponentTranslation("death.fell.assist", this.fighter.getDisplayName(), iChatComponent3);
             }
-         } else if (var6 != null) {
-            ItemStack var10 = var7 instanceof EntityLivingBase ? ((EntityLivingBase)var7).getHeldItem() : null;
-            if (var10 != null && var10.hasDisplayName()) {
-               var8 = new ChatComponentTranslation("death.fell.finish.item", this.fighter.getDisplayName(), var6, var10.getChatComponent());
+         } else if (iChatComponent != null) {
+            ItemStack itemStack2 = entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).getHeldItem() : null;
+            if (itemStack2 != null && itemStack2.hasDisplayName()) {
+               iChatComponent2 = new ChatComponentTranslation("death.fell.finish.item", this.fighter.getDisplayName(), iChatComponent, itemStack2.getChatComponent());
             } else {
-               var8 = new ChatComponentTranslation("death.fell.finish", this.fighter.getDisplayName(), var6);
+               iChatComponent2 = new ChatComponentTranslation("death.fell.finish", this.fighter.getDisplayName(), iChatComponent);
             }
          } else {
-            var8 = new ChatComponentTranslation("death.fell.killer", this.fighter.getDisplayName());
+            iChatComponent2 = new ChatComponentTranslation("death.fell.killer", this.fighter.getDisplayName());
          }
       } else {
-         var8 = var5.getDamageSrc().getDeathMessage(this.fighter);
+         iChatComponent2 = combatEntry2.getDamageSrc().getDeathMessage(this.fighter);
       }
 
-      return var8;
+      return iChatComponent2;
    }
 
    public EntityLivingBase func_94550_c() {
-      EntityLivingBase var4 = null;
-      EntityPlayer var5 = null;
-      float var6 = 0.0F;
-      float var7 = 0.0F;
+      EntityLivingBase entityLivingBase = null;
+      EntityPlayer entityPlayer = null;
+      float f = 0.0F;
+      float g = 0.0F;
 
-      for (CombatEntry var9 : this.combatEntries) {
-         if (var9.getDamageSrc().getEntity() instanceof EntityPlayer && (var5 == null || var9.func_94563_c() > var7)) {
-            var7 = var9.func_94563_c();
-            var5 = (EntityPlayer)var9.getDamageSrc().getEntity();
+      for (CombatEntry combatEntry : this.combatEntries) {
+         if (combatEntry.getDamageSrc().getEntity() instanceof EntityPlayer && (entityPlayer == null || combatEntry.func_94563_c() > g)) {
+            g = combatEntry.func_94563_c();
+            entityPlayer = (EntityPlayer)combatEntry.getDamageSrc().getEntity();
          }
 
-         if (var9.getDamageSrc().getEntity() instanceof EntityLivingBase && (var4 == null || var9.func_94563_c() > var6)) {
-            var6 = var9.func_94563_c();
-            var4 = (EntityLivingBase)var9.getDamageSrc().getEntity();
+         if (combatEntry.getDamageSrc().getEntity() instanceof EntityLivingBase && (entityLivingBase == null || combatEntry.func_94563_c() > f)) {
+            f = combatEntry.func_94563_c();
+            entityLivingBase = (EntityLivingBase)combatEntry.getDamageSrc().getEntity();
          }
       }
 
-      return var5 != null && var7 >= var6 / 3.0F ? var5 : var4;
+      return entityPlayer != null && g >= f / 3.0F ? entityPlayer : entityLivingBase;
    }
 
    private CombatEntry func_94544_f() {
-      CombatEntry var4 = null;
-      CombatEntry var5 = null;
-      byte var6 = 0;
-      float var7 = 0.0F;
+      CombatEntry combatEntry = null;
+      CombatEntry combatEntry2 = null;
+      byte b = 0;
+      float f = 0.0F;
 
-      for (int var8 = 0; var8 < this.combatEntries.size(); var8++) {
-         CombatEntry var9 = this.combatEntries.get(var8);
-         CombatEntry var10 = var8 > 0 ? this.combatEntries.get(var8 - 1) : null;
-         if ((var9.getDamageSrc() == DamageSource.fall || var9.getDamageSrc() == DamageSource.outOfWorld)
-            && var9.getDamageAmount() > 0.0F
-            && (var4 == null || var9.getDamageAmount() > var7)) {
-            if (var8 > 0) {
-               var4 = var10;
+      for (int i = 0; i < this.combatEntries.size(); i++) {
+         CombatEntry combatEntry3 = this.combatEntries.get(i);
+         CombatEntry combatEntry4 = i > 0 ? this.combatEntries.get(i - 1) : null;
+         if ((combatEntry3.getDamageSrc() == DamageSource.fall || combatEntry3.getDamageSrc() == DamageSource.outOfWorld)
+            && combatEntry3.getDamageAmount() > 0.0F
+            && (combatEntry == null || combatEntry3.getDamageAmount() > f)) {
+            if (i > 0) {
+               combatEntry = combatEntry4;
             } else {
-               var4 = var9;
+               combatEntry = combatEntry3;
             }
 
-            var7 = var9.getDamageAmount();
+            f = combatEntry3.getDamageAmount();
          }
 
-         if (var9.func_94562_g() != null && (var5 == null || var9.func_94563_c() > var6)) {
-            var5 = var9;
+         if (combatEntry3.func_94562_g() != null && (combatEntry2 == null || combatEntry3.func_94563_c() > b)) {
+            combatEntry2 = combatEntry3;
          }
       }
 
-      if (var7 > 5.0F && var4 != null) {
-         return var4;
+      if (f > 5.0F && combatEntry != null) {
+         return combatEntry;
       } else {
-         return var6 > 5 && var5 != null ? var5 : null;
+         return b > 5 && combatEntry2 != null ? combatEntry2 : null;
       }
    }
 
-   private String func_94548_b(CombatEntry var1) {
-      return var1.func_94562_g() == null ? "generic" : var1.func_94562_g();
+   private String func_94548_b(CombatEntry combatEntry) {
+      return combatEntry.func_94562_g() == null ? "generic" : combatEntry.func_94562_g();
    }
 
    public int func_180134_f() {
@@ -162,13 +162,13 @@ public class CombatTracker {
    }
 
    public void reset() {
-      int var4 = this.field_94552_d ? 300 : 100;
-      if (this.field_94553_e && (!this.fighter.isEntityAlive() || this.fighter.ticksExisted - this.field_94555_c > var4)) {
-         boolean var5 = this.field_94552_d;
+      int i = this.field_94552_d ? 300 : 100;
+      if (this.field_94553_e && (!this.fighter.isEntityAlive() || this.fighter.ticksExisted - this.field_94555_c > i)) {
+         boolean bl = this.field_94552_d;
          this.field_94553_e = false;
          this.field_94552_d = false;
          this.field_152776_e = this.fighter.ticksExisted;
-         if (var5) {
+         if (bl) {
             this.fighter.sendEndCombat();
          }
 

@@ -14,9 +14,9 @@ public class CompactHashMapIterator<K, V> implements Iterator<Pair<K, V>> {
    private Pair<K, V> next;
    private static final long a = 105276426639923L;
 
-   public CompactHashMapIterator(Object[] var1, KeyFunction<K, V> var2) {
-      this.current = new CompactHashMapIterator.Pointer(var1, 0);
-      this.keyFunction = var2;
+   public CompactHashMapIterator(Object[] elems, KeyFunction<K, V> keyFunction) {
+      this.current = new CompactHashMapIterator.Pointer(elems, 0);
+      this.keyFunction = keyFunction;
       this.computeNext();
    }
 
@@ -39,16 +39,16 @@ public class CompactHashMapIterator<K, V> implements Iterator<Pair<K, V>> {
 
             this.current = this.stack.pop();
          } else {
-            Object var4 = this.current.objects[this.current.pos++];
-            if (var4 instanceof HashTrieMap) {
+            Object object = this.current.objects[this.current.pos++];
+            if (object instanceof HashTrieMap) {
                this.stack.push(this.current);
-               this.current = new CompactHashMapIterator.Pointer(((HashTrieMap)var4).getElems(), 0);
-            } else if (var4 instanceof HashMapCollision1) {
-               this.subIterator = ((HashMapCollision1)var4).iterator(this.keyFunction);
+               this.current = new CompactHashMapIterator.Pointer(((HashTrieMap)object).getElems(), 0);
+            } else if (object instanceof HashMapCollision1) {
+               this.subIterator = ((HashMapCollision1)object).iterator(this.keyFunction);
                this.next = this.subIterator.next();
             } else {
-               Object var5 = var4;
-               this.next = new Pair<>(this.keyFunction.key((V)var5), (V)var5);
+               Object object2 = object;
+               this.next = new Pair<>(this.keyFunction.key((V)object2), (V)object2);
             }
          }
       }
@@ -64,9 +64,9 @@ public class CompactHashMapIterator<K, V> implements Iterator<Pair<K, V>> {
          throw new NoSuchElementException();
       }
 
-      Pair var4 = this.next;
+      Pair pair = this.next;
       this.computeNext();
-      return var4;
+      return pair;
    }
 
    @Override
@@ -78,9 +78,9 @@ public class CompactHashMapIterator<K, V> implements Iterator<Pair<K, V>> {
       public final Object[] objects;
       public int pos;
 
-      public Pointer(Object[] var1, int var2) {
-         this.objects = var1;
-         this.pos = var2;
+      public Pointer(Object[] objects, int pos) {
+         this.objects = objects;
+         this.pos = pos;
       }
    }
 }

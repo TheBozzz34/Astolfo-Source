@@ -44,35 +44,35 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    }
 
    private static String y() {
-      String var3 = null;
-      return (var3 = queryManufacturerFromSysfs()) == null && (var3 = queryManufacturerFromProcCpu()) == null ? "unknown" : var3;
+      String string = null;
+      return (string = queryManufacturerFromSysfs()) == null && (string = queryManufacturerFromProcCpu()) == null ? "unknown" : string;
    }
 
    private static String h() {
-      String var3 = null;
-      return (var3 = queryModelFromSysfs()) == null && (var3 = queryModelFromDeviceTree()) == null && (var3 = queryModelFromLshw()) == null ? "unknown" : var3;
+      String string = null;
+      return (string = queryModelFromSysfs()) == null && (string = queryModelFromDeviceTree()) == null && (string = queryModelFromLshw()) == null ? "unknown" : string;
    }
 
    private static String N() {
-      String var3 = null;
-      return (var3 = querySerialFromSysfs()) == null
-            && (var3 = querySerialFromDmiDecode()) == null
-            && (var3 = querySerialFromLshal()) == null
-            && (var3 = querySerialFromLshw()) == null
+      String string = null;
+      return (string = querySerialFromSysfs()) == null
+            && (string = querySerialFromDmiDecode()) == null
+            && (string = querySerialFromLshal()) == null
+            && (string = querySerialFromLshw()) == null
          ? "unknown"
-         : var3;
+         : string;
    }
 
    private static String queryManufacturerFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/sys_vendor").trim();
-      return !var3.isEmpty() ? var3 : null;
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/sys_vendor").trim();
+      return !string.isEmpty() ? string : null;
    }
 
    private static String queryManufacturerFromProcCpu() {
-      for (String var5 : FileUtil.readFile(ProcPath.CPUINFO)) {
-         if (var5.startsWith("CPU implementer")) {
-            int var6 = ParseUtil.parseLastInt(var5, 0);
-            switch (var6) {
+      for (String string : FileUtil.readFile(ProcPath.CPUINFO)) {
+         if (string.startsWith("CPU implementer")) {
+            int i = ParseUtil.parseLastInt(string, 0);
+            switch (i) {
                case 65:
                   return "ARM";
                case 66:
@@ -135,26 +135,26 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    }
 
    private static String queryModelFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/product_name").trim();
-      String var4 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/product_version").trim();
-      if (var3.isEmpty()) {
-         return !var4.isEmpty() ? var4 : null;
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/product_name").trim();
+      String string2 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/product_version").trim();
+      if (string.isEmpty()) {
+         return !string2.isEmpty() ? string2 : null;
       } else {
-         return !var4.isEmpty() && !"None".equals(var4) ? var3 + " (version: " + var4 + ")" : var3;
+         return !string2.isEmpty() && !"None".equals(string2) ? string + " (version: " + string2 + ")" : string;
       }
    }
 
    private static String queryModelFromDeviceTree() {
-      String var3 = FileUtil.getStringFromFile("/sys/firmware/devicetree/base/model");
-      return !var3.isEmpty() ? var3.replace("Machine: ", "") : null;
+      String string = FileUtil.getStringFromFile("/sys/firmware/devicetree/base/model");
+      return !string.isEmpty() ? string.replace("Machine: ", "") : null;
    }
 
    private static String queryModelFromLshw() {
-      String var3 = "product:";
+      String string = "product:";
 
-      for (String var5 : ExecutingCommand.runNative("lshw -C system")) {
-         if (var5.contains(var3)) {
-            return var5.split(var3)[1].trim();
+      for (String string2 : ExecutingCommand.runNative("lshw -C system")) {
+         if (string2.contains(string)) {
+            return string2.split(string)[1].trim();
          }
       }
 
@@ -162,21 +162,21 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    }
 
    private static String querySerialFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/product_serial");
-      if (!var3.isEmpty() && !"None".equals(var3)) {
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/product_serial");
+      if (!string.isEmpty() && !"None".equals(string)) {
          return null;
       }
 
-      var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_serial");
-      return !var3.isEmpty() && !"None".equals(var3) ? var3 : null;
+      string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_serial");
+      return !string.isEmpty() && !"None".equals(string) ? string : null;
    }
 
    private static String querySerialFromDmiDecode() {
-      String var3 = "Serial Number:";
+      String string = "Serial Number:";
 
-      for (String var5 : ExecutingCommand.runNative("dmidecode -t system")) {
-         if (var5.contains(var3)) {
-            return var5.split(var3)[1].trim();
+      for (String string2 : ExecutingCommand.runNative("dmidecode -t system")) {
+         if (string2.contains(string)) {
+            return string2.split(string)[1].trim();
          }
       }
 
@@ -184,11 +184,11 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    }
 
    private static String querySerialFromLshal() {
-      String var3 = "system.hardware.serial =";
+      String string = "system.hardware.serial =";
 
-      for (String var5 : ExecutingCommand.runNative("lshal")) {
-         if (var5.contains(var3)) {
-            return ParseUtil.getSingleQuoteStringValue(var5);
+      for (String string2 : ExecutingCommand.runNative("lshal")) {
+         if (string2.contains(string)) {
+            return ParseUtil.getSingleQuoteStringValue(string2);
          }
       }
 
@@ -196,11 +196,11 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    }
 
    private static String querySerialFromLshw() {
-      String var3 = "serial:";
+      String string = "serial:";
 
-      for (String var5 : ExecutingCommand.runNative("lshw -C system")) {
-         if (var5.contains(var3)) {
-            return var5.split(var3)[1].trim();
+      for (String string2 : ExecutingCommand.runNative("lshw -C system")) {
+         if (string2.contains(string)) {
+            return string2.split(string)[1].trim();
          }
       }
 

@@ -22,68 +22,68 @@ public class BiomeGenHills extends BiomeGenBase {
    private int field_150638_aH = this.field_150635_aE;
    private static final long bb = 36559613349613L;
 
-   public BiomeGenHills(int var1, boolean var2) {
-      super(var1);
-      if (var2) {
+   public BiomeGenHills(int id, boolean bl) {
+      super(id);
+      if (bl) {
          this.theBiomeDecorator.treesPerChunk = 3;
          this.field_150638_aH = this.field_150636_aF;
       }
    }
 
    @Override
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
-      return var1.nextInt(3) > 0 ? this.field_150634_aD : super.genBigTreeChance(var1);
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
+      return rand.nextInt(3) > 0 ? this.field_150634_aD : super.genBigTreeChance(rand);
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
-      super.decorate(var1, var2, var3);
-      int var7 = 3 + var2.nextInt(6);
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
+      super.decorate(worldIn, rand, pos);
+      int i = 3 + rand.nextInt(6);
 
-      for (int var8 = 0; var8 < var7; var8++) {
-         int var9 = var2.nextInt(16);
-         int var10 = var2.nextInt(28) + 4;
-         int var11 = var2.nextInt(16);
-         BlockPos var12 = var3.add(var9, var10, var11);
-         if (var1.getBlockState(var12).getBlock() == Blocks.stone) {
-            var1.setBlockState(var12, Blocks.emerald_ore.getDefaultState(), 2);
+      for (int j = 0; j < i; j++) {
+         int k = rand.nextInt(16);
+         int l = rand.nextInt(28) + 4;
+         int m = rand.nextInt(16);
+         BlockPos blockPos = pos.add(k, l, m);
+         if (worldIn.getBlockState(blockPos).getBlock() == Blocks.stone) {
+            worldIn.setBlockState(blockPos, Blocks.emerald_ore.getDefaultState(), 2);
          }
       }
 
-      for (int var13 = 0; var13 < 7; var13++) {
-         int var14 = var2.nextInt(16);
-         int var15 = var2.nextInt(64);
-         int var16 = var2.nextInt(16);
-         this.theWorldGenerator.generate(var1, var2, var3.add(var14, var15, var16));
+      for (int n = 0; n < 7; n++) {
+         int i2 = rand.nextInt(16);
+         int i3 = rand.nextInt(64);
+         int i4 = rand.nextInt(16);
+         this.theWorldGenerator.generate(worldIn, rand, pos.add(i2, i3, i4));
       }
    }
 
    @Override
-   public void genTerrainBlocks(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
+   public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
       this.topBlock = Blocks.grass.getDefaultState();
       this.fillerBlock = Blocks.dirt.getDefaultState();
-      if ((var6 < -1.0 || var6 > 2.0) && this.field_150638_aH == this.field_150637_aG) {
+      if ((noiseVal < -1.0 || noiseVal > 2.0) && this.field_150638_aH == this.field_150637_aG) {
          this.topBlock = Blocks.gravel.getDefaultState();
          this.fillerBlock = Blocks.gravel.getDefaultState();
-      } else if (var6 > 1.0 && this.field_150638_aH != this.field_150636_aF) {
+      } else if (noiseVal > 1.0 && this.field_150638_aH != this.field_150636_aF) {
          this.topBlock = Blocks.stone.getDefaultState();
          this.fillerBlock = Blocks.stone.getDefaultState();
       }
 
-      this.generateBiomeTerrain(var1, var2, var3, var4, var5, var6);
+      this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
    }
 
-   private BiomeGenHills mutateHills(BiomeGenBase var1) {
+   private BiomeGenHills mutateHills(BiomeGenBase biomeGenBase) {
       this.field_150638_aH = this.field_150637_aG;
-      this.func_150557_a(var1.color, true);
-      this.setBiomeName(var1.biomeName + " M");
-      this.setHeight(new BiomeGenBase.Height(var1.minHeight, var1.maxHeight));
-      this.setTemperatureRainfall(var1.temperature, var1.rainfall);
+      this.func_150557_a(biomeGenBase.color, true);
+      this.setBiomeName(biomeGenBase.biomeName + " M");
+      this.setHeight(new BiomeGenBase.Height(biomeGenBase.minHeight, biomeGenBase.maxHeight));
+      this.setTemperatureRainfall(biomeGenBase.temperature, biomeGenBase.rainfall);
       return this;
    }
 
    @Override
-   public BiomeGenBase createMutatedBiome(int var1) {
-      return new BiomeGenHills(var1, false).mutateHills(this);
+   public BiomeGenBase createMutatedBiome(int i) {
+      return new BiomeGenHills(i, false).mutateHills(this);
    }
 }

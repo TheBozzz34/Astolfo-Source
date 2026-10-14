@@ -18,7 +18,7 @@ public class AuthSession {
       return this.address;
    }
 
-   public void setAccount(AuthAccount var1) {
-      this.account = var1;
+   public void setAccount(AuthAccount authAccount) {
+      this.account = authAccount;
    }
 }

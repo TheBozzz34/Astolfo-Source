@@ -10,17 +10,17 @@ public class RenderWitch extends RenderLiving<EntityWitch> {
    private static final ResourceLocation witchTextures = new ResourceLocation("textures/entity/witch.png");
    private static final long d = 6004993694874L;
 
-   public RenderWitch(RenderManager var1) {
-      super(var1, new ModelWitch(0.0F), 0.5F);
+   public RenderWitch(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelWitch(0.0F), 0.5F);
       this.addLayer(new LayerHeldItemWitch(this));
    }
 
-   public void doRender(EntityWitch var1, double var2, double var4, double var6, float var8, float var9) {
-      ((ModelWitch)this.mainModel).field_82900_g = var1.getHeldItem() != null;
-      super.doRender(var1, var2, var4, var6, var8, var9);
+   public void doRender(EntityWitch entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      ((ModelWitch)this.mainModel).field_82900_g = entity.getHeldItem() != null;
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityWitch var1) {
+   public ResourceLocation getEntityTexture(EntityWitch entity) {
       return witchTextures;
    }
 
@@ -29,8 +29,8 @@ public class RenderWitch extends RenderLiving<EntityWitch> {
       GlStateManager.translate(0.0F, 0.1875F, 0.0F);
    }
 
-   public void preRenderCallback(EntityWitch var1, float var2) {
-      float var3 = 0.9375F;
-      GlStateManager.scale(var3, var3, var3);
+   public void preRenderCallback(EntityWitch entitylivingbaseIn, float partialTickTime) {
+      float f = 0.9375F;
+      GlStateManager.scale(f, f, f);
    }
 }

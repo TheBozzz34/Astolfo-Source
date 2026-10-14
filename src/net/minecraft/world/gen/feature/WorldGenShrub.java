@@ -13,37 +13,39 @@ public class WorldGenShrub extends WorldGenTrees {
    private final IBlockState woodMetadata;
    private static final long a = 39567591091198L;
 
-   public WorldGenShrub(IBlockState var1, IBlockState var2) {
+   public WorldGenShrub(IBlockState iBlockState, IBlockState iBlockState2) {
       super(false);
-      this.woodMetadata = var1;
-      this.leavesMetadata = var2;
+      this.woodMetadata = iBlockState;
+      this.leavesMetadata = iBlockState2;
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      Block var7;
-      while (((var7 = var1.getBlockState(var3).getBlock()).getMaterial() == Material.air || var7.getMaterial() == Material.leaves) && var3.getY() > 0) {
-         var3 = var3.down();
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      Block block;
+      while (
+         ((block = worldIn.getBlockState(position).getBlock()).getMaterial() == Material.air || block.getMaterial() == Material.leaves) && position.getY() > 0
+      ) {
+         position = position.down();
       }
 
-      Block var8 = var1.getBlockState(var3).getBlock();
-      if (var8 == Blocks.dirt || var8 == Blocks.grass) {
-         var3 = var3.up();
-         this.setBlockAndNotifyAdequately(var1, var3, this.woodMetadata);
+      Block block2 = worldIn.getBlockState(position).getBlock();
+      if (block2 == Blocks.dirt || block2 == Blocks.grass) {
+         position = position.up();
+         this.setBlockAndNotifyAdequately(worldIn, position, this.woodMetadata);
 
-         for (int var9 = var3.getY(); var9 <= var3.getY() + 2; var9++) {
-            int var10 = var9 - var3.getY();
-            int var11 = 2 - var10;
+         for (int i = position.getY(); i <= position.getY() + 2; i++) {
+            int j = i - position.getY();
+            int k = 2 - j;
 
-            for (int var12 = var3.getX() - var11; var12 <= var3.getX() + var11; var12++) {
-               int var13 = var12 - var3.getX();
+            for (int l = position.getX() - k; l <= position.getX() + k; l++) {
+               int m = l - position.getX();
 
-               for (int var14 = var3.getZ() - var11; var14 <= var3.getZ() + var11; var14++) {
-                  int var15 = var14 - var3.getZ();
-                  if (Math.abs(var13) != var11 || Math.abs(var15) != var11 || var2.nextInt(2) != 0) {
-                     BlockPos var16 = new BlockPos(var12, var9, var14);
-                     if (!var1.getBlockState(var16).getBlock().isFullBlock()) {
-                        this.setBlockAndNotifyAdequately(var1, var16, this.leavesMetadata);
+               for (int n = position.getZ() - k; n <= position.getZ() + k; n++) {
+                  int i2 = n - position.getZ();
+                  if (Math.abs(m) != k || Math.abs(i2) != k || rand.nextInt(2) != 0) {
+                     BlockPos blockPos = new BlockPos(l, i, n);
+                     if (!worldIn.getBlockState(blockPos).getBlock().isFullBlock()) {
+                        this.setBlockAndNotifyAdequately(worldIn, blockPos, this.leavesMetadata);
                      }
                   }
                }

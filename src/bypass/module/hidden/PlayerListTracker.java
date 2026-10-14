@@ -55,54 +55,54 @@ public final class PlayerListTracker extends HiddenModule {
    public static final HashMap<String, BlockPos> lastPositions = new LinkedHashMap<>();
    public static final EvictingQueue<DisconnectedPlayer> disconnectedPlayers = EvictingQueue.create(20);
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1 -> {
-      if (var1.getType() == RenderType.WORLD) {
-         this.saveMatrices(var1.getPartialTicks());
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.WORLD) {
+         this.saveMatrices(renderEvent.getPartialTicks());
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = var0 -> {
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       disconnectedPlayers.clear();
       GameUtil.N = null;
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.RECEIVED) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
          if (GuiIngame.A) {
             PlayerList.S.clear();
             lastPositions.clear();
             GuiIngame.A = false;
          }
 
-         if (var0.getPacket() instanceof S38PacketPlayerListItem) {
-            S38PacketPlayerListItem var4 = (S38PacketPlayerListItem)var0.getPacket();
+         if (packetEvent.getPacket() instanceof S38PacketPlayerListItem) {
+            S38PacketPlayerListItem s38PacketPlayerListItem = (S38PacketPlayerListItem)packetEvent.getPacket();
 
-            for (S38PacketPlayerListItem.AddPlayerData var6 : var4.getEntries()) {
-               if (var4.getAction() == S38PacketPlayerListItem.Action.REMOVE_PLAYER
-                  && var6 != null
+            for (S38PacketPlayerListItem.AddPlayerData addPlayerData : s38PacketPlayerListItem.getEntries()) {
+               if (s38PacketPlayerListItem.getAction() == S38PacketPlayerListItem.Action.REMOVE_PLAYER
+                  && addPlayerData != null
                   && mc.playerController != null
                   && mc.playerController.netClientHandler != null
                   && mc.playerController.netClientHandler.playerInfoMap != null) {
-                  recordDisconnect(mc.playerController.netClientHandler.playerInfoMap.get(var6.getProfile().getId()));
+                  recordDisconnect(mc.playerController.netClientHandler.playerInfoMap.get(addPlayerData.getProfile().getId()));
                }
             }
          }
 
-         if (var0.getPacket() instanceof S14PacketEntity) {
-            S14PacketEntity var8 = (S14PacketEntity)var0.getPacket();
-            if (var8.func_149062_c() == 0 && var8.func_149061_d() == 0 && var8.func_149064_e() == 0) {
+         if (packetEvent.getPacket() instanceof S14PacketEntity) {
+            S14PacketEntity s14PacketEntity = (S14PacketEntity)packetEvent.getPacket();
+            if (s14PacketEntity.func_149062_c() == 0 && s14PacketEntity.func_149061_d() == 0 && s14PacketEntity.func_149064_e() == 0) {
                return;
             }
 
             if (mc.theWorld != null) {
-               Entity var9 = var8.getEntity(mc.theWorld);
-               if (var9 instanceof EntityPlayer) {
-                  EntityPlayer var10 = (EntityPlayer)var9;
-                  BlockPos var7 = lastPositions.get(var10.getName());
-                  if (var7 == null) {
-                     lastPositions.put(var10.getName(), var10.getPosition());
+               Entity entity = s14PacketEntity.getEntity(mc.theWorld);
+               if (entity instanceof EntityPlayer) {
+                  EntityPlayer entityPlayer = (EntityPlayer)entity;
+                  BlockPos blockPos = lastPositions.get(entityPlayer.getName());
+                  if (blockPos == null) {
+                     lastPositions.put(entityPlayer.getName(), entityPlayer.getPosition());
                   } else {
-                     lastPositions.replace(var10.getName(), var10.getPosition());
+                     lastPositions.replace(entityPlayer.getName(), entityPlayer.getPosition());
                   }
                }
             }
@@ -116,49 +116,49 @@ public final class PlayerListTracker extends HiddenModule {
    public static final CopyOnWriteArrayList<String> tabListNames = new CopyOnWriteArrayList<>();
    public static Stopwatch checkTimer = new Stopwatch();
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var0 -> {
-      long var1 = c ^ 84330177679483L;
-      long var3 = var1 ^ 137426619429723L;
-      if (var0.getState() == EventState.PRE) {
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> {
+      long m = c ^ 84330177679483L;
+      long n = m ^ 137426619429723L;
+      if (updateEvent.getState() == EventState.PRE) {
          if (mc.thePlayer.ticksExisted <= 50
             || !GameUtil.isOnHypixel()
             || !AutoHypixel.autoChecker.getSetting("Enabled").asBoolean()
             || !client.getModuleManager().get(AutoHypixel.class).isEnabled()) {
             playerStats.clear();
          } else if (checkTimer.hasElapsed(15000.0F)) {
-            List var6 = GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap());
+            List list = GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap());
             tabListNames.clear();
 
-            for (Object var8$raw : var6) {
-               NetworkPlayerInfo var8 = (NetworkPlayerInfo)var8$raw;
-               String var9 = var8.getGameProfile().getName();
-               tabListNames.add(var9);
-               if ((var8.getGameProfile() == null || !var8.getGameProfile().getName().equals(mc.thePlayer.getGameProfile().getName()))
-                  && (var8.getDisplayName() == null || !var8.getDisplayName().getUnformattedText().contains("[NCP]"))) {
-                  String var10 = ScorePlayerTeam.formatPlayerName(var8.getPlayerTeam(), var8.getGameProfile().getName());
-                  if (var10.contains("§") && !var10.contains("§8") && !checkedPlayers.contains(var8.getGameProfile().getName())) {
-                     if (requestedPlayers.contains(var9) && HypixelAPI.O > 0) {
-                        if (!var8.lookupTimer.hasElapsed(15000.0F)) {
+            for (Object object : list) {
+               NetworkPlayerInfo networkPlayerInfo = (NetworkPlayerInfo)object;
+               String string = networkPlayerInfo.getGameProfile().getName();
+               tabListNames.add(string);
+               if ((networkPlayerInfo.getGameProfile() == null || !networkPlayerInfo.getGameProfile().getName().equals(mc.thePlayer.getGameProfile().getName()))
+                  && (networkPlayerInfo.getDisplayName() == null || !networkPlayerInfo.getDisplayName().getUnformattedText().contains("[NCP]"))) {
+                  String string2 = ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());
+                  if (string2.contains("§") && !string2.contains("§8") && !checkedPlayers.contains(networkPlayerInfo.getGameProfile().getName())) {
+                     if (requestedPlayers.contains(string) && HypixelAPI.O > 0) {
+                        if (!networkPlayerInfo.lookupTimer.hasElapsed(15000.0F)) {
                            continue;
                         }
 
-                        requestedPlayers.remove(var9);
+                        requestedPlayers.remove(string);
                      }
 
-                     var8.nickedTicks++;
-                     if (var8.nickedTicks > 50 && var8.getGameProfile() != null && !var8.getGameProfile().getName().isEmpty()) {
-                        requestedPlayers.add(var9);
-                        String var11 = AutoHypixel.autoChecker.getSetting("API-Key").asString();
+                     networkPlayerInfo.nickedTicks++;
+                     if (networkPlayerInfo.nickedTicks > 50 && networkPlayerInfo.getGameProfile() != null && !networkPlayerInfo.getGameProfile().getName().isEmpty()) {
+                        requestedPlayers.add(string);
+                        String string3 = AutoHypixel.autoChecker.getSetting("API-Key").asString();
 
                         try {
-                           hypixelApi.l(UUID.fromString(var11));
-                        } catch (Exception var13) {
+                           hypixelApi.l(UUID.fromString(string3));
+                        } catch (Exception exception) {
                            chat.f("Invalid API Key");
                         }
 
-                        PlayerStatsChecker var12 = new PlayerStatsChecker(hypixelApi);
-                        var12.h(var8.getGameProfile().getId(), var9, var8);
-                        var8.lookupTimer.reset();
+                        PlayerStatsChecker playerStatsChecker = new PlayerStatsChecker(hypixelApi);
+                        playerStatsChecker.h(networkPlayerInfo.getGameProfile().getId(), string, networkPlayerInfo);
+                        networkPlayerInfo.lookupTimer.reset();
                      }
                   }
                }
@@ -172,31 +172,31 @@ public final class PlayerListTracker extends HiddenModule {
       client.getEventBus().subscribe(this);
    }
 
-   public static void recordDisconnect(NetworkPlayerInfo var0) {
-      if (var0 != null) {
-         String var4 = var0.getGameProfile().getName();
-         disconnectedPlayers.add(new DisconnectedPlayer(System.currentTimeMillis(), var4));
+   public static void recordDisconnect(NetworkPlayerInfo networkPlayerInfo) {
+      if (networkPlayerInfo != null) {
+         String string = networkPlayerInfo.getGameProfile().getName();
+         disconnectedPlayers.add(new DisconnectedPlayer(System.currentTimeMillis(), string));
       }
    }
 
    public static void printRecentDisconnects() {
-      ArrayList var3 = new ArrayList();
-      StringBuilder var4 = new StringBuilder();
-      long var5 = System.currentTimeMillis();
+      ArrayList arrayList = new ArrayList();
+      StringBuilder stringBuilder = new StringBuilder();
+      long l = System.currentTimeMillis();
 
-      for (DisconnectedPlayer var8 : disconnectedPlayers) {
-         String var9 = var8.name;
-         if (var9 != null && var5 - var8.time <= 2000L && !var3.contains(var9)) {
-            var3.add(var9);
-            var4.append(" ").append(var9);
+      for (DisconnectedPlayer disconnectedPlayer : disconnectedPlayers) {
+         String string = disconnectedPlayer.name;
+         if (string != null && l - disconnectedPlayer.time <= 2000L && !arrayList.contains(string)) {
+            arrayList.add(string);
+            stringBuilder.append(" ").append(string);
          }
       }
 
-      if (!var3.isEmpty()) {
-         String var10 = var4.toString();
+      if (!arrayList.isEmpty()) {
+         String string2 = stringBuilder.toString();
          mc.thePlayer
             .addChatMessage(
-               new ChatComponentText(EnumChatFormatting.RED + "Player" + (var3.size() == 1 ? "" : "s") + " disconnected :" + EnumChatFormatting.AQUA + var10)
+               new ChatComponentText(EnumChatFormatting.RED + "Player" + (arrayList.size() == 1 ? "" : "s") + " disconnected :" + EnumChatFormatting.AQUA + string2)
                   .setChatStyle(
                      new ChatStyle()
                         .setChatHoverEvent(
@@ -205,33 +205,33 @@ public final class PlayerListTracker extends HiddenModule {
                               new ChatComponentText(
                                  EnumChatFormatting.GREEN
                                     + "Player"
-                                    + (var3.size() == 1 ? "" : "s")
+                                    + (arrayList.size() == 1 ? "" : "s")
                                     + " disconnected in the last 2 seconds, click this message to run : \n\n"
                                     + EnumChatFormatting.YELLOW
                                     + "/who"
-                                    + var10
+                                    + string2
                               )
                            )
                         )
-                        .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/stalk" + var10))
+                        .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/stalk" + string2))
                   )
             );
       }
    }
 
-   public static float[] project(float var0, float var1, float var2) {
+   public static float[] project(float f, float g, float h) {
       ((Buffer)projected).clear();
-      boolean var6 = GLU.gluProject(var0, var1, var2, modelView, projection, viewport, projected);
-      return var6 ? new float[]{projected.get(0), viewport.get(3) - projected.get(1), projected.get(2)} : null;
+      boolean bl = GLU.gluProject(f, g, h, modelView, projection, viewport, projected);
+      return bl ? new float[]{projected.get(0), viewport.get(3) - projected.get(1), projected.get(2)} : null;
    }
 
-   private void saveMatrices(float var1) {
+   private void saveMatrices(float f) {
       GL11.glPushAttrib(4096);
       GL11.glMatrixMode(5889);
       GL11.glPushMatrix();
       GL11.glMatrixMode(5888);
       GL11.glPushMatrix();
-      mc.entityRenderer.setupCameraTransform(var1, 0);
+      mc.entityRenderer.setupCameraTransform(f, 0);
       GlStateManager.getFloat(2983, projection);
       GlStateManager.getFloat(2982, modelView);
       GL11.glGetInteger(2978, viewport);

@@ -8,11 +8,11 @@ public class LoginPacket {
    public String token;
    private static final long a = 22694108273668L;
 
-   public LoginPacket(String var1, String var2, String var3, String var4, String var5) {
-      this.username = var2;
-      this.password = var3;
-      this.version = var1;
-      this.hwid = var4;
-      this.token = var5;
+   public LoginPacket(String string, String string2, String string3, String string4, String string5) {
+      this.username = string2;
+      this.password = string3;
+      this.version = string;
+      this.hwid = string4;
+      this.token = string5;
    }
 }

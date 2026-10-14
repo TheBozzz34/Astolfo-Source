@@ -11,54 +11,54 @@ public class LuaScreen extends GuiScreen implements ClientAccess {
    private final LuaTable K;
    private static final long b = 96183474392458L;
 
-   public LuaScreen(LuaTable var1) {
-      this.K = var1;
+   public LuaScreen(LuaTable luaTable) {
+      this.K = luaTable;
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("mouse_x", var1);
-      var7.set("mouse_y", var2);
-      var7.set("partial_ticks", var3);
-      this.X("on_render_screen", var7);
-      super.drawScreen(var1, var2, var3);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("mouse_x", mouseX);
+      luaTable.set("mouse_y", mouseY);
+      luaTable.set("partial_ticks", partialTicks);
+      this.X("on_render_screen", luaTable);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      LuaTable var6 = LuaValue.tableOf();
-      var6.set("mouse_button", var3);
-      var6.set("mouse_x", var1);
-      var6.set("mouse_y", var2);
-      this.X("on_click", var6);
-      super.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("mouse_button", mouseButton);
+      luaTable.set("mouse_x", mouseX);
+      luaTable.set("mouse_y", mouseY);
+      this.X("on_click", luaTable);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void mouseClickMove(int var1, int var2, int var3, long var4) {
-      LuaTable var10 = LuaValue.tableOf();
-      var10.set("mouse_button", var3);
-      var10.set("mouse_x", var1);
-      var10.set("mouse_y", var2);
-      var10.set("time_since", var4);
-      this.X("on_drag_click", var10);
-      super.mouseClickMove(var1, var2, var3, var4);
+   public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("mouse_button", clickedMouseButton);
+      luaTable.set("mouse_x", mouseX);
+      luaTable.set("mouse_y", mouseY);
+      luaTable.set("time_since", timeSinceLastClick);
+      this.X("on_drag_click", luaTable);
+      super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3) {
+   public void mouseReleased(int mouseX, int mouseY, int state) {
       this.v("on_mouse_released");
-      super.mouseReleased(var1, var2, var3);
+      super.mouseReleased(mouseX, mouseY, state);
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      LuaTable var5 = LuaValue.tableOf();
-      var5.set("typed_char", String.valueOf(var1));
-      var5.set("key_code", var2);
-      this.X("on_key_typed", var5);
-      super.keyTyped(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("typed_char", String.valueOf(typedChar));
+      luaTable.set("key_code", keyCode);
+      this.X("on_key_typed", luaTable);
+      super.keyTyped(typedChar, keyCode);
    }
 
    @Override
@@ -72,28 +72,28 @@ public class LuaScreen extends GuiScreen implements ClientAccess {
       return false;
    }
 
-   private LuaValue v(String var1) {
-      LuaValue var5 = this.K.get(var1);
-      if (!var5.isnil()) {
+   private LuaValue v(String string) {
+      LuaValue luaValue = this.K.get(string);
+      if (!luaValue.isnil()) {
          try {
-            return var5.call();
-         } catch (LuaError var7) {
-            var7.printStackTrace();
-            chat.f(var7.getMessage());
+            return luaValue.call();
+         } catch (LuaError luaError) {
+            luaError.printStackTrace();
+            chat.f(luaError.getMessage());
          }
       }
 
       return null;
    }
 
-   private LuaValue X(String var1, LuaValue var2) {
-      LuaValue var6 = this.K.get(var1);
-      if (!var6.isnil()) {
+   private LuaValue X(String string, LuaValue luaValue) {
+      LuaValue luaValue2 = this.K.get(string);
+      if (!luaValue2.isnil()) {
          try {
-            return var6.call(var2);
-         } catch (LuaError var8) {
-            var8.printStackTrace();
-            chat.f(var8.getMessage());
+            return luaValue2.call(luaValue);
+         } catch (LuaError luaError) {
+            luaError.printStackTrace();
+            chat.f(luaError.getMessage());
          }
       }
 

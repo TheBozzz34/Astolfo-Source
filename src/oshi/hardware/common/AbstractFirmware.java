@@ -24,12 +24,12 @@ public abstract class AbstractFirmware implements Firmware {
 
    @Override
    public String toString() {
-      StringBuilder var4 = new StringBuilder();
-      var4.append("manufacturer=").append(this.R()).append(", ");
-      var4.append("name=").append(this.getName()).append(", ");
-      var4.append("description=").append(this.getDescription()).append(", ");
-      var4.append("version=").append(this.P()).append(", ");
-      var4.append("release date=").append(this.getReleaseDate() == null ? "unknown" : this.getReleaseDate());
-      return var4.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("manufacturer=").append(this.R()).append(", ");
+      stringBuilder.append("name=").append(this.getName()).append(", ");
+      stringBuilder.append("description=").append(this.getDescription()).append(", ");
+      stringBuilder.append("version=").append(this.P()).append(", ");
+      stringBuilder.append("release date=").append(this.getReleaseDate() == null ? "unknown" : this.getReleaseDate());
+      return stringBuilder.toString();
    }
 }

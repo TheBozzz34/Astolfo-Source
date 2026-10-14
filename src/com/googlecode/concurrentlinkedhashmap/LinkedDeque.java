@@ -11,71 +11,71 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    public E last;
    private static final long a = 139428197699582L;
 
-   public void D(E var1) {
-      Linked var5 = this.first;
-      this.first = (E)var1;
-      if (var5 == null) {
-         this.last = (E)var1;
+   public void D(E linked) {
+      Linked linked2 = this.first;
+      this.first = (E)linked;
+      if (linked2 == null) {
+         this.last = (E)linked;
       } else {
-         var5.setPrevious(var1);
-         var1.setNext((E)(var5));
+         linked2.setPrevious(linked);
+         linked.setNext((E)(linked2));
       }
    }
 
-   public void B(E var1) {
-      Linked var5 = this.last;
-      this.last = (E)var1;
-      if (var5 == null) {
-         this.first = (E)var1;
+   public void B(E linked) {
+      Linked linked2 = this.last;
+      this.last = (E)linked;
+      if (linked2 == null) {
+         this.first = (E)linked;
       } else {
-         var5.setNext(var1);
-         var1.setPrevious((E)(var5));
+         linked2.setNext(linked);
+         linked.setPrevious((E)(linked2));
       }
    }
 
    public E o() {
-      Linked var4 = this.first;
-      Linked var5 = var4.getNext();
-      var4.setNext(null);
-      this.first = (E)var5;
-      if (var5 == null) {
+      Linked linked = this.first;
+      Linked linked2 = linked.getNext();
+      linked.setNext(null);
+      this.first = (E)linked2;
+      if (linked2 == null) {
          this.last = null;
       } else {
-         var5.setPrevious(null);
+         linked2.setPrevious(null);
       }
 
-      return (E)var4;
+      return (E)linked;
    }
 
    public E u() {
-      Linked var4 = this.last;
-      Linked var5 = var4.U();
-      var4.setPrevious(null);
-      this.last = (E)var5;
-      if (var5 == null) {
+      Linked linked = this.last;
+      Linked linked2 = linked.U();
+      linked.setPrevious(null);
+      this.last = (E)linked2;
+      if (linked2 == null) {
          this.first = null;
       } else {
-         var5.setNext(null);
+         linked2.setNext(null);
       }
 
-      return (E)var4;
+      return (E)linked;
    }
 
-   public void t(E var1) {
-      Linked var5 = var1.U();
-      Linked var6 = var1.getNext();
-      if (var5 == null) {
-         this.first = (E)var6;
+   public void t(E linked) {
+      Linked linked2 = linked.U();
+      Linked linked3 = linked.getNext();
+      if (linked2 == null) {
+         this.first = (E)linked3;
       } else {
-         var5.setNext(var6);
-         var1.setPrevious(null);
+         linked2.setNext(linked3);
+         linked.setPrevious(null);
       }
 
-      if (var6 == null) {
-         this.last = (E)var5;
+      if (linked3 == null) {
+         this.last = (E)linked2;
       } else {
-         var6.setPrevious(var5);
-         var1.setNext(null);
+         linked3.setPrevious(linked2);
+         linked.setNext(null);
       }
    }
 
@@ -92,49 +92,49 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
 
    @Override
    public int size() {
-      int var4 = 0;
+      int i = 0;
 
-      for (Linked var5 = this.first; var5 != null; var5 = var5.getNext()) {
-         var4++;
+      for (Linked linked = this.first; linked != null; linked = linked.getNext()) {
+         i++;
       }
 
-      return var4;
+      return i;
    }
 
    @Override
    public void clear() {
-      Linked var4 = this.first;
+      Linked linked = this.first;
 
-      while (var4 != null) {
-         Linked var5 = var4.getNext();
-         var4.setPrevious(null);
-         var4.setNext(null);
-         var4 = var5;
+      while (linked != null) {
+         Linked linked2 = linked.getNext();
+         linked.setPrevious(null);
+         linked.setNext(null);
+         linked = linked2;
       }
 
       this.first = this.last = null;
    }
 
    @Override
-   public boolean contains(Object var1) {
-      return var1 instanceof Linked && this.Z((Linked<?>)var1);
+   public boolean contains(Object o) {
+      return o instanceof Linked && this.Z((Linked<?>)o);
    }
 
-   public boolean Z(Linked<?> var1) {
-      return var1.U() != null || var1.getNext() != null || var1 == this.first;
+   public boolean Z(Linked<?> linked) {
+      return linked.U() != null || linked.getNext() != null || linked == this.first;
    }
 
-   public void g(E var1) {
-      if (var1 != this.first) {
-         this.t((E)var1);
-         this.D((E)var1);
+   public void g(E linked) {
+      if (linked != this.first) {
+         this.t((E)linked);
+         this.D((E)linked);
       }
    }
 
-   public void R(E var1) {
-      if (var1 != this.last) {
-         this.t((E)var1);
-         this.B((E)var1);
+   public void R(E linked) {
+      if (linked != this.last) {
+         this.t((E)linked);
+         this.B((E)linked);
       }
    }
 
@@ -164,40 +164,40 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       return this.getFirst();
    }
 
-   public boolean offer(E var1) {
-      return this.offerLast((E)var1);
+   public boolean offer(E eIn) {
+      return this.offerLast(eIn);
    }
 
-   public boolean offerFirst(E var1) {
-      if (this.Z(var1)) {
+   public boolean offerFirst(E eIn) {
+      if (this.Z(eIn)) {
          return false;
       }
 
-      this.D((E)var1);
+      this.D(eIn);
       return true;
    }
 
-   public boolean offerLast(E var1) {
-      if (this.Z(var1)) {
+   public boolean offerLast(E eIn) {
+      if (this.Z(eIn)) {
          return false;
       }
 
-      this.B((E)var1);
+      this.B(eIn);
       return true;
    }
 
-   public boolean add(E var1) {
-      return this.offerLast((E)var1);
+   public boolean add(E eIn) {
+      return this.offerLast(eIn);
    }
 
-   public void addFirst(E var1) {
-      if (!this.offerFirst((E)var1)) {
+   public void addFirst(E eIn) {
+      if (!this.offerFirst(eIn)) {
          throw new IllegalArgumentException();
       }
    }
 
-   public void addLast(E var1) {
-      if (!this.offerLast((E)var1)) {
+   public void addLast(E eIn) {
+      if (!this.offerLast(eIn)) {
          throw new IllegalArgumentException();
       }
    }
@@ -219,13 +219,13 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    @Override
-   public boolean remove(Object var1) {
-      return var1 instanceof Linked && this.remove((E)var1);
+   public boolean remove(Object o) {
+      return o instanceof Linked && this.remove((E)o);
    }
 
-   public boolean remove(E var1) {
-      if (this.Z(var1)) {
-         this.t((E)var1);
+   public boolean remove(E eIn) {
+      if (this.Z(eIn)) {
+         this.t(eIn);
          return true;
       } else {
          return false;
@@ -238,8 +238,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    @Override
-   public boolean removeFirstOccurrence(Object var1) {
-      return this.remove(var1);
+   public boolean removeFirstOccurrence(Object o) {
+      return this.remove(o);
    }
 
    public E removeLast() {
@@ -248,23 +248,23 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    @Override
-   public boolean removeLastOccurrence(Object var1) {
-      return this.remove(var1);
+   public boolean removeLastOccurrence(Object o) {
+      return this.remove(o);
    }
 
    @Override
-   public boolean removeAll(Collection<?> var1) {
-      boolean var5 = false;
+   public boolean removeAll(Collection<?> c) {
+      boolean bl = false;
 
-      for (Object var7 : var1) {
-         var5 |= this.remove(var7);
+      for (Object object : c) {
+         bl |= this.remove(object);
       }
 
-      return var5;
+      return bl;
    }
 
-   public void push(E var1) {
-      this.addFirst((E)var1);
+   public void push(E eIn) {
+      this.addFirst(eIn);
    }
 
    public E pop() {
@@ -286,9 +286,9 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       public final LinkedDeque X;
       private static final long a = 21846915225262L;
 
-      public AbstractLinkedIterator(LinkedDeque var1, Linked var2) {
-         this.X = var1;
-         this.N = var2;
+      public AbstractLinkedIterator(LinkedDeque linkedDeque, Linked startIn) {
+         this.X = linkedDeque;
+         this.N = startIn;
       }
 
       @Override
@@ -301,9 +301,9 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
             throw new NoSuchElementException();
          }
 
-         Linked var4 = this.N;
+         Linked linked = this.N;
          this.N = this.g();
-         return var4;
+         return linked;
       }
 
       @Override
@@ -315,8 +315,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    public class AscendingIterator extends LinkedDeque.AbstractLinkedIterator {
-      public AscendingIterator(Linked var2) {
-         super(LinkedDeque.this, var2);
+      public AscendingIterator(Linked linked) {
+         super(LinkedDeque.this, linked);
       }
 
       @Override
@@ -326,8 +326,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    public class DescendingIterator extends LinkedDeque.AbstractLinkedIterator {
-      public DescendingIterator(Linked var2) {
-         super(LinkedDeque.this, var2);
+      public DescendingIterator(Linked linked) {
+         super(LinkedDeque.this, linked);
       }
 
       @Override

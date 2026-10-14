@@ -6,11 +6,11 @@ import net.minecraft.util.EnumFacing;
 public interface IVertexConsumer {
    VertexFormat Z();
 
-   void z(int var1);
+   void z(int i);
 
-   void v(EnumFacing var1);
+   void v(EnumFacing enumFacing);
 
    void U();
 
-   void x(int var1, float... var2);
+   void x(int i, float... floats);
 }

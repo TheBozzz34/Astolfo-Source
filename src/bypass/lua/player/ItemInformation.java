@@ -15,51 +15,51 @@ public final class ItemInformation extends VarArgFunction {
    private static final long a = 86510234119895L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
+   public Varargs onInvoke(Varargs varargs) {
       if (ClientAccess.mc.thePlayer != null) {
-         LuaValue var5 = var1.arg1();
-         if (var5.isnumber()) {
+         LuaValue luaValue = varargs.arg1();
+         if (luaValue.isnumber()) {
             if (ClientAccess.mc.thePlayer.openContainer != null) {
-               net.minecraft.inventory.Slot var6 = ClientAccess.mc.thePlayer.openContainer.getSlot(var5.checkint());
-               if (var6 != null && var6.getHasStack()) {
-                  ItemStack var7 = var6.getStack();
-                  LuaTable var8 = new LuaTable();
-                  Map var9 = EnchantmentHelper.getEnchantments(var7);
+               net.minecraft.inventory.Slot slot = ClientAccess.mc.thePlayer.openContainer.getSlot(luaValue.checkint());
+               if (slot != null && slot.getHasStack()) {
+                  ItemStack itemStack = slot.getStack();
+                  LuaTable luaTable = new LuaTable();
+                  Map map = EnchantmentHelper.getEnchantments(itemStack);
 
-                  for (Object var11$raw : var9.entrySet()) {
-                     Entry var11 = (Entry)var11$raw;
-                     var8.set(String.valueOf(var11.getKey()), (Integer)var11.getValue());
+                  for (Object object : map.entrySet()) {
+                     Entry entry = (Entry)object;
+                     luaTable.set(String.valueOf(entry.getKey()), (Integer)entry.getValue());
                   }
 
                   return LuaValue.varargsOf(
                      new LuaValue[]{
-                        LuaValue.valueOf(var7.getUnlocalizedName()),
-                        LuaValue.valueOf(var7.getDisplayName()),
-                        LuaValue.valueOf(InventoryUtil.getDamageScore(var7)),
-                        LuaValue.valueOf(InventoryUtil.getToolScore(var7)),
-                        var8
+                        LuaValue.valueOf(itemStack.getUnlocalizedName()),
+                        LuaValue.valueOf(itemStack.getDisplayName()),
+                        LuaValue.valueOf(InventoryUtil.getDamageScore(itemStack)),
+                        LuaValue.valueOf(InventoryUtil.getToolScore(itemStack)),
+                        luaTable
                      }
                   );
                }
             } else {
-               net.minecraft.inventory.Slot var12 = ClientAccess.mc.thePlayer.inventoryContainer.getSlot(var5.checkint());
-               if (var12 != null && var12.getHasStack()) {
-                  ItemStack var13 = var12.getStack();
-                  LuaTable var14 = new LuaTable();
-                  Map var15 = EnchantmentHelper.getEnchantments(var13);
+               net.minecraft.inventory.Slot slot2 = ClientAccess.mc.thePlayer.inventoryContainer.getSlot(luaValue.checkint());
+               if (slot2 != null && slot2.getHasStack()) {
+                  ItemStack itemStack2 = slot2.getStack();
+                  LuaTable luaTable2 = new LuaTable();
+                  Map map2 = EnchantmentHelper.getEnchantments(itemStack2);
 
-                  for (Object var17$raw : var15.entrySet()) {
-                     Entry var17 = (Entry)var17$raw;
-                     var14.set(String.valueOf(var17.getKey()), (Integer)var17.getValue());
+                  for (Object object2 : map2.entrySet()) {
+                     Entry entry2 = (Entry)object2;
+                     luaTable2.set(String.valueOf(entry2.getKey()), (Integer)entry2.getValue());
                   }
 
                   return LuaValue.varargsOf(
                      new LuaValue[]{
-                        LuaValue.valueOf(var13.getUnlocalizedName()),
-                        LuaValue.valueOf(var13.getDisplayName()),
-                        LuaValue.valueOf(InventoryUtil.getDamageScore(var13)),
-                        LuaValue.valueOf(InventoryUtil.getToolScore(var13)),
-                        var14
+                        LuaValue.valueOf(itemStack2.getUnlocalizedName()),
+                        LuaValue.valueOf(itemStack2.getDisplayName()),
+                        LuaValue.valueOf(InventoryUtil.getDamageScore(itemStack2)),
+                        LuaValue.valueOf(InventoryUtil.getToolScore(itemStack2)),
+                        luaTable2
                      }
                   );
                }

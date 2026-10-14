@@ -15,11 +15,11 @@ public enum FlightMode {
    private String c;
    private static final FlightMode[] r = new FlightMode[]{VANILLA, GWEN, COLLISION, AAC_3, AAC_3312, AAC_3313, MC_CENTRAL, SENTINEL, FAITHFUL, CUSTOM};
 
-   FlightMode(String var3) {
-      this.c = var3;
+   FlightMode(String string2) {
+      this.c = string2;
    }
 
-   public static String A(FlightMode var0) {
-      return var0.c;
+   public static String A(FlightMode flightMode) {
+      return flightMode.c;
    }
 }

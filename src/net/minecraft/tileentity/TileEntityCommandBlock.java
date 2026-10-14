@@ -31,8 +31,8 @@ public class TileEntityCommandBlock extends TileEntity {
       }
 
       @Override
-      public void setCommand(String var1) {
-         super.setCommand(var1);
+      public void setCommand(String command) {
+         super.setCommand(command);
          TileEntityCommandBlock.this.markDirty();
       }
 
@@ -47,10 +47,10 @@ public class TileEntityCommandBlock extends TileEntity {
       }
 
       @Override
-      public void func_145757_a(ByteBuf var1) {
-         var1.writeInt(TileEntityCommandBlock.this.pos.getX());
-         var1.writeInt(TileEntityCommandBlock.this.pos.getY());
-         var1.writeInt(TileEntityCommandBlock.this.pos.getZ());
+      public void func_145757_a(ByteBuf byteBuf) {
+         byteBuf.writeInt(TileEntityCommandBlock.this.pos.getX());
+         byteBuf.writeInt(TileEntityCommandBlock.this.pos.getY());
+         byteBuf.writeInt(TileEntityCommandBlock.this.pos.getZ());
       }
 
       @Override
@@ -60,22 +60,22 @@ public class TileEntityCommandBlock extends TileEntity {
    };
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      this.commandBlockLogic.writeDataToNBT(var1);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      this.commandBlockLogic.writeDataToNBT(compound);
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      this.commandBlockLogic.readDataFromNBT(var1);
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      this.commandBlockLogic.readDataFromNBT(compound);
    }
 
    @Override
    public Packet getDescriptionPacket() {
-      NBTTagCompound var1 = new NBTTagCompound();
-      this.writeToNBT(var1);
-      return new S35PacketUpdateTileEntity(this.pos, 2, var1);
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      this.writeToNBT(nbtTagCompound);
+      return new S35PacketUpdateTileEntity(this.pos, 2, nbtTagCompound);
    }
 
    @Override

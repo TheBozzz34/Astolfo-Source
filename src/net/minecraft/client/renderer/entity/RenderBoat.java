@@ -12,36 +12,36 @@ public class RenderBoat extends Render<EntityBoat> {
    public ModelBase modelBoat = new ModelBoat();
    private static final long a = 777745356384L;
 
-   public RenderBoat(RenderManager var1) {
-      super(var1);
+   public RenderBoat(RenderManager renderManagerIn) {
+      super(renderManagerIn);
       this.shadowSize = 0.5F;
    }
 
-   public void doRender(EntityBoat var1, double var2, double var4, double var6, float var8, float var9) {
+   public void doRender(EntityBoat entity, double x, double y, double z, float entityYaw, float partialTicks) {
       GlStateManager.pushMatrix();
-      GlStateManager.translate((float)var2, (float)var4 + 0.25F, (float)var6);
-      GlStateManager.rotate(180.0F - var8, 0.0F, 1.0F, 0.0F);
-      float var13 = var1.getTimeSinceHit() - var9;
-      float var14 = var1.getDamageTaken() - var9;
-      if (var14 < 0.0F) {
-         var14 = 0.0F;
+      GlStateManager.translate((float)x, (float)y + 0.25F, (float)z);
+      GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
+      float f = entity.getTimeSinceHit() - partialTicks;
+      float g = entity.getDamageTaken() - partialTicks;
+      if (g < 0.0F) {
+         g = 0.0F;
       }
 
-      if (var13 > 0.0F) {
-         GlStateManager.rotate(MathHelper.sin(var13) * var13 * var14 / 10.0F * var1.getForwardDirection(), 1.0F, 0.0F, 0.0F);
+      if (f > 0.0F) {
+         GlStateManager.rotate(MathHelper.sin(f) * f * g / 10.0F * entity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
       }
 
-      float var15 = 0.75F;
-      GlStateManager.scale(var15, var15, var15);
-      GlStateManager.scale(1.0F / var15, 1.0F / var15, 1.0F / var15);
-      this.bindEntityTexture(var1);
+      float h = 0.75F;
+      GlStateManager.scale(h, h, h);
+      GlStateManager.scale(1.0F / h, 1.0F / h, 1.0F / h);
+      this.bindEntityTexture(entity);
       GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-      this.modelBoat.render(var1, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+      this.modelBoat.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
       GlStateManager.popMatrix();
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityBoat var1) {
+   public ResourceLocation getEntityTexture(EntityBoat entity) {
       return boatTextures;
    }
 }

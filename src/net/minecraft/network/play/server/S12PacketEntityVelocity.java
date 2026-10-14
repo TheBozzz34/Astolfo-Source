@@ -16,60 +16,60 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
    public S12PacketEntityVelocity() {
    }
 
-   public S12PacketEntityVelocity(Entity var1) {
-      this(var1.getEntityId(), var1.motionX, var1.motionY, var1.motionZ);
+   public S12PacketEntityVelocity(Entity entityIn) {
+      this(entityIn.getEntityId(), entityIn.motionX, entityIn.motionY, entityIn.motionZ);
    }
 
-   public S12PacketEntityVelocity(int var1, double var2, double var4, double var6) {
-      this.entityID = var1;
-      double var11 = 3.9;
-      if (var2 < -var11) {
-         var2 = -var11;
+   public S12PacketEntityVelocity(int entityIDIn, double motionXIn, double motionYIn, double motionZIn) {
+      this.entityID = entityIDIn;
+      double d = 3.9;
+      if (motionXIn < -d) {
+         motionXIn = -d;
       }
 
-      if (var4 < -var11) {
-         var4 = -var11;
+      if (motionYIn < -d) {
+         motionYIn = -d;
       }
 
-      if (var6 < -var11) {
-         var6 = -var11;
+      if (motionZIn < -d) {
+         motionZIn = -d;
       }
 
-      if (var2 > var11) {
-         var2 = var11;
+      if (motionXIn > d) {
+         motionXIn = d;
       }
 
-      if (var4 > var11) {
-         var4 = var11;
+      if (motionYIn > d) {
+         motionYIn = d;
       }
 
-      if (var6 > var11) {
-         var6 = var11;
+      if (motionZIn > d) {
+         motionZIn = d;
       }
 
-      this.motionX = (int)(var2 * 8000.0);
-      this.motionY = (int)(var4 * 8000.0);
-      this.motionZ = (int)(var6 * 8000.0);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityID = var1.readVarIntFromBuffer();
-      this.motionX = var1.readShort();
-      this.motionY = var1.readShort();
-      this.motionZ = var1.readShort();
+      this.motionX = (int)(motionXIn * 8000.0);
+      this.motionY = (int)(motionYIn * 8000.0);
+      this.motionZ = (int)(motionZIn * 8000.0);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityID);
-      var1.writeShort(this.motionX);
-      var1.writeShort(this.motionY);
-      var1.writeShort(this.motionZ);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityID = buf.readVarIntFromBuffer();
+      this.motionX = buf.readShort();
+      this.motionY = buf.readShort();
+      this.motionZ = buf.readShort();
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityVelocity(this);
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityID);
+      buf.writeShort(this.motionX);
+      buf.writeShort(this.motionY);
+      buf.writeShort(this.motionZ);
+   }
+
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityVelocity(this);
    }
 
    public int getEntityID() {

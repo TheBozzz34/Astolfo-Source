@@ -29,9 +29,9 @@ public class GuiDetailSettingsOF extends GuiScreen {
    private TooltipProviderOptions O = new TooltipProviderOptions(this);
    private static final long a = 109500055905928L;
 
-   public GuiDetailSettingsOF(GuiScreen var1, GameSettings var2) {
-      this.prevScreen = var1;
-      this.settings = var2;
+   public GuiDetailSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
+      this.prevScreen = guiscreen;
+      this.settings = gamesettings;
    }
 
    @Override
@@ -39,14 +39,14 @@ public class GuiDetailSettingsOF extends GuiScreen {
       this.title = I18n.format("of.options.detailsTitle");
       this.buttonList.clear();
 
-      for (int var4 = 0; var4 < enumOptions.length; var4++) {
-         GameSettings.Options var5 = enumOptions[var4];
-         int var6 = this.width / 2 - 155 + var4 % 2 * 160;
-         int var7 = this.height / 6 + 21 * (var4 / 2) - 12;
-         if (!var5.getEnumFloat()) {
-            this.buttonList.add(new GuiOptionButtonOF(var5.returnEnumOrdinal(), var6, var7, var5, this.settings.getKeyBinding(var5)));
+      for (int i = 0; i < enumOptions.length; i++) {
+         GameSettings.Options options2 = enumOptions[i];
+         int j = this.width / 2 - 155 + i % 2 * 160;
+         int k = this.height / 6 + 21 * (i / 2) - 12;
+         if (!options2.getEnumFloat()) {
+            this.buttonList.add(new GuiOptionButtonOF(options2.returnEnumOrdinal(), j, k, options2, this.settings.getKeyBinding(options2)));
          } else {
-            this.buttonList.add(new GuiOptionSliderOF(var5.returnEnumOrdinal(), var6, var7, var5));
+            this.buttonList.add(new GuiOptionSliderOF(options2.returnEnumOrdinal(), j, k, options2));
          }
       }
 
@@ -54,14 +54,14 @@ public class GuiDetailSettingsOF extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) {
-      if (var1.enabled) {
-         if (var1.id < 200 && var1 instanceof GuiOptionButton) {
-            this.settings.setOptionValue(((GuiOptionButton)var1).returnEnumOptions(), 1);
-            var1.displayString = this.settings.getKeyBinding(GameSettings.Options.getEnumOptions(var1.id));
+   public void actionPerformed(GuiButton button) {
+      if (button.enabled) {
+         if (button.id < 200 && button instanceof GuiOptionButton) {
+            this.settings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+            button.displayString = this.settings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
          }
 
-         if (var1.id == 200) {
+         if (button.id == 200) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(this.prevScreen);
          }
@@ -69,10 +69,10 @@ public class GuiDetailSettingsOF extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
-      super.drawScreen(var1, var2, var3);
-      this.O.U(var1, var2, this.buttonList);
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.O.U(mouseX, mouseY, this.buttonList);
    }
 }

@@ -13,29 +13,29 @@ public class DefaultCheckRegistry implements CheckRegistry {
    private final VerdictResolver y;
    private static final long a = 137073617500381L;
 
-   public DefaultCheckRegistry(Set<StageCheck> var1, VerdictResolver var2) {
-      Objects.requireNonNull(var2, "");
+   public DefaultCheckRegistry(Set<StageCheck> set, VerdictResolver verdictResolver) {
+      Objects.requireNonNull(verdictResolver, "");
       this.C = new CopyOnWriteArrayList<>();
       this.p = new CopyOnWriteArrayList<>();
-      this.y = var2;
-      if (this.p(var1)) {
-         this.C.addAll(var1.stream().sorted().collect(Collectors.toList()));
+      this.y = verdictResolver;
+      if (this.p(set)) {
+         this.C.addAll(set.stream().sorted().collect(Collectors.toList()));
       }
    }
 
-   private boolean p(Set<StageCheck> var1) {
-      return var1 != null && !var1.isEmpty();
+   private boolean p(Set<StageCheck> set) {
+      return set != null && !set.isEmpty();
    }
 
    @Override
-   public Verdict u(CheckRequest var1) {
-      return this.y.v(var1.Y(this.P(), this.i()));
+   public Verdict u(CheckRequest checkRequest) {
+      return this.y.v(checkRequest.Y(this.P(), this.i()));
    }
 
    @Override
-   public boolean S(StageCheck var1) {
-      Objects.requireNonNull(var1, "");
-      if (this.C.addIfAbsent(var1)) {
+   public boolean S(StageCheck stageCheck) {
+      Objects.requireNonNull(stageCheck, "");
+      if (this.C.addIfAbsent(stageCheck)) {
          Collections.sort(this.C);
          return true;
       } else {
@@ -44,9 +44,9 @@ public class DefaultCheckRegistry implements CheckRegistry {
    }
 
    @Override
-   public boolean L(StageCheck var1) {
-      Objects.requireNonNull(var1, "");
-      return this.C.remove(var1);
+   public boolean L(StageCheck stageCheck) {
+      Objects.requireNonNull(stageCheck, "");
+      return this.C.remove(stageCheck);
    }
 
    @Override
@@ -55,13 +55,13 @@ public class DefaultCheckRegistry implements CheckRegistry {
    }
 
    @Override
-   public boolean h(VerdictProcessor var1) {
-      return this.p.addIfAbsent(var1);
+   public boolean h(VerdictProcessor verdictProcessor) {
+      return this.p.addIfAbsent(verdictProcessor);
    }
 
    @Override
-   public boolean P(VerdictProcessor var1) {
-      return this.p.remove(var1);
+   public boolean P(VerdictProcessor verdictProcessor) {
+      return this.p.remove(verdictProcessor);
    }
 
    @Override

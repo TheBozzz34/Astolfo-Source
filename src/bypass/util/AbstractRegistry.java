@@ -11,11 +11,11 @@ public abstract class AbstractRegistry<K, V> {
 
    public abstract void H();
 
-   public void O(K var1, V var2) {
-      this.Q.put((K)var1, (V)var2);
+   public void O(K object, V object2) {
+      this.Q.put((K)object, (V)object2);
    }
 
-   public void h(K var1) {
-      this.Q.remove(var1);
+   public void h(K object) {
+      this.Q.remove(object);
    }
 }

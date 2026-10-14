@@ -12,9 +12,9 @@ public class IteratorRenderChunks implements Iterator<RenderChunk> {
    private BlockPosM s = new BlockPosM(0, 0, 0);
    private static final long a = 129009965012957L;
 
-   public IteratorRenderChunks(ViewFrustum var1, BlockPos var2, BlockPos var3, int var4, int var5) {
-      this.q = var1;
-      this.d = new Iterator3d(var2, var3, var4, var5);
+   public IteratorRenderChunks(ViewFrustum viewFrustum, BlockPos posStart, BlockPos posEnd, int width, int height) {
+      this.q = viewFrustum;
+      this.d = new Iterator3d(posStart, posEnd, width, height);
    }
 
    @Override
@@ -23,8 +23,8 @@ public class IteratorRenderChunks implements Iterator<RenderChunk> {
    }
 
    public RenderChunk next() {
-      BlockPos var1 = this.d.next();
-      this.s.setXyz(var1.getX() << 4, var1.getY() << 4, var1.getZ() << 4);
+      BlockPos pos = this.d.next();
+      this.s.setXyz(pos.getX() << 4, pos.getY() << 4, pos.getZ() << 4);
       return this.q.getRenderChunk(this.s);
    }
 

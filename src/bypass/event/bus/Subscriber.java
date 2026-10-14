@@ -13,35 +13,41 @@ public final class Subscriber<O, E extends Event> implements Subscription<O, E> 
    private Listener<E> e;
    private static final long a = 5444996386492L;
 
-   public Subscriber(O var1, AnnotatedElement var2, EventHandler var3, EventFilters var4, InvocationStrategy var5) {
-      this((O)var1, (Class<E>)var3.value(), var5.createDispatcher((Class<E>)var3.value(), var1, var2), var3.priority().J(), var4 != null ? var4.q() : null);
+   public Subscriber(O object, AnnotatedElement annotatedElement, EventHandler eventHandler, EventFilters eventFilters, InvocationStrategy invocationStrategy) {
+      this(
+         (O)object,
+         (Class<E>)eventHandler.value(),
+         invocationStrategy.createDispatcher((Class<E>)eventHandler.value(), object, annotatedElement),
+         eventHandler.priority().J(),
+         eventFilters != null ? eventFilters.q() : null
+      );
    }
 
-   public Subscriber(O var1, Class<E> var2, Listener<E> var3, int var4, Class<? extends SubscriptionFilter>... var5) {
-      this.f = (O)var1;
-      this.N = var2;
-      this.e = var3;
-      this.j = var4;
-      this.y = this.k(var5);
+   public Subscriber(O object, Class<E> class2, Listener<E> listener, int i, Class<? extends SubscriptionFilter>... classs) {
+      this.f = (O)object;
+      this.N = class2;
+      this.e = listener;
+      this.j = i;
+      this.y = this.k(classs);
    }
 
-   private SubscriptionFilter[] k(Class<? extends SubscriptionFilter>[] var1) {
-      if (var1 == null) {
+   private SubscriptionFilter[] k(Class<? extends SubscriptionFilter>[] classs) {
+      if (classs == null) {
          return null;
       }
 
       try {
-         SubscriptionFilter[] var5 = new SubscriptionFilter[var1.length];
+         SubscriptionFilter[] subscriptionFilters = new SubscriptionFilter[classs.length];
 
-         for (int var6 = 0; var6 < var1.length; var6++) {
-            var5[var6] = (SubscriptionFilter)var1[var6].newInstance();
+         for (int i = 0; i < classs.length; i++) {
+            subscriptionFilters[i] = (SubscriptionFilter)classs[i].newInstance();
          }
 
-         return var5;
-      } catch (InstantiationException var7) {
-         throw new RuntimeException("One or multiple of the specified filter classes can't be instantiated:\n" + var7.getMessage());
-      } catch (IllegalAccessException var8) {
-         throw new RuntimeException("Access exception encountered creating filters for method/field in \"" + this.t().toString() + "\":\n" + var8.getMessage());
+         return subscriptionFilters;
+      } catch (InstantiationException instantiationException) {
+         throw new RuntimeException("One or multiple of the specified filter classes can't be instantiated:\n" + instantiationException.getMessage());
+      } catch (IllegalAccessException illegalAccessException) {
+         throw new RuntimeException("Access exception encountered creating filters for method/field in \"" + this.t().toString() + "\":\n" + illegalAccessException.getMessage());
       }
    }
 
@@ -56,8 +62,8 @@ public final class Subscriber<O, E extends Event> implements Subscription<O, E> 
    }
 
    @Override
-   public void C(E var1) {
-      this.e.accept((E)var1);
+   public void C(E event) {
+      this.e.accept((E)event);
    }
 
    @Override

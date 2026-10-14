@@ -15,17 +15,17 @@ public class GameConfiguration {
    private static final long a = 1001822851414L;
 
    public GameConfiguration(
-      GameConfiguration.UserInformation var1,
-      GameConfiguration.DisplayInformation var2,
-      GameConfiguration.FolderInformation var3,
-      GameConfiguration.GameInformation var4,
-      GameConfiguration.ServerInformation var5
+      GameConfiguration.UserInformation userInfoIn,
+      GameConfiguration.DisplayInformation displayInfoIn,
+      GameConfiguration.FolderInformation folderInfoIn,
+      GameConfiguration.GameInformation gameInfoIn,
+      GameConfiguration.ServerInformation serverInfoIn
    ) {
-      this.userInfo = var1;
-      this.displayInfo = var2;
-      this.folderInfo = var3;
-      this.gameInfo = var4;
-      this.serverInfo = var5;
+      this.userInfo = userInfoIn;
+      this.displayInfo = displayInfoIn;
+      this.folderInfo = folderInfoIn;
+      this.gameInfo = gameInfoIn;
+      this.serverInfo = serverInfoIn;
    }
 
    public static class DisplayInformation {
@@ -34,11 +34,11 @@ public class GameConfiguration {
       public final boolean fullscreen;
       public final boolean checkGlErrors;
 
-      public DisplayInformation(int var1, int var2, boolean var3, boolean var4) {
-         this.width = var1;
-         this.height = var2;
-         this.fullscreen = var3;
-         this.checkGlErrors = var4;
+      public DisplayInformation(int widthIn, int heightIn, boolean fullscreenIn, boolean checkGlErrorsIn) {
+         this.width = widthIn;
+         this.height = heightIn;
+         this.fullscreen = fullscreenIn;
+         this.checkGlErrors = checkGlErrorsIn;
       }
    }
 
@@ -49,11 +49,11 @@ public class GameConfiguration {
       public final String assetIndex;
       private static final long a = 73759036040101L;
 
-      public FolderInformation(File var1, File var2, File var3, String var4) {
-         this.mcDataDir = var1;
-         this.resourcePacksDir = var2;
-         this.assetsDir = var3;
-         this.assetIndex = var4;
+      public FolderInformation(File mcDataDirIn, File resourcePacksDirIn, File assetsDirIn, String assetIndexIn) {
+         this.mcDataDir = mcDataDirIn;
+         this.resourcePacksDir = resourcePacksDirIn;
+         this.assetsDir = assetsDirIn;
+         this.assetIndex = assetIndexIn;
       }
    }
 
@@ -61,9 +61,9 @@ public class GameConfiguration {
       public final boolean isDemo;
       public final String version;
 
-      public GameInformation(boolean var1, String var2) {
-         this.isDemo = var1;
-         this.version = var2;
+      public GameInformation(boolean isDemoIn, String versionIn) {
+         this.isDemo = isDemoIn;
+         this.version = versionIn;
       }
    }
 
@@ -71,9 +71,9 @@ public class GameConfiguration {
       public final String serverName;
       public final int serverPort;
 
-      public ServerInformation(String var1, int var2) {
-         this.serverName = var1;
-         this.serverPort = var2;
+      public ServerInformation(String serverNameIn, int serverPortIn) {
+         this.serverName = serverNameIn;
+         this.serverPort = serverPortIn;
       }
    }
 
@@ -83,11 +83,11 @@ public class GameConfiguration {
       public final PropertyMap profileProperties;
       public final Proxy proxy;
 
-      public UserInformation(Session var1, PropertyMap var2, PropertyMap var3, Proxy var4) {
-         this.session = var1;
-         this.userProperties = var2;
-         this.profileProperties = var3;
-         this.proxy = var4;
+      public UserInformation(Session sessionIn, PropertyMap userPropertiesIn, PropertyMap profilePropertiesIn, Proxy proxyIn) {
+         this.session = sessionIn;
+         this.userProperties = userPropertiesIn;
+         this.profileProperties = profilePropertiesIn;
+         this.proxy = proxyIn;
       }
    }
 }

@@ -13,71 +13,71 @@ public class RenderArrow extends Render<EntityArrow> {
    private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
    private static final long a = 139517658063056L;
 
-   public RenderArrow(RenderManager var1) {
-      super(var1);
+   public RenderArrow(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
-   public void doRender(EntityArrow var1, double var2, double var4, double var6, float var8, float var9) {
-      this.bindEntityTexture(var1);
+   public void doRender(EntityArrow entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      this.bindEntityTexture(entity);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.pushMatrix();
-      GlStateManager.translate((float)var2, (float)var4, (float)var6);
-      GlStateManager.rotate(var1.prevRotationYaw + (var1.rotationYaw - var1.prevRotationYaw) * var9 - 90.0F, 0.0F, 1.0F, 0.0F);
-      GlStateManager.rotate(var1.prevRotationPitch + (var1.rotationPitch - var1.prevRotationPitch) * var9, 0.0F, 0.0F, 1.0F);
-      Tessellator var13 = Tessellator.getInstance();
-      WorldRenderer var14 = var13.getWorldRenderer();
-      byte var15 = 0;
-      float var16 = 0.0F;
-      float var17 = 0.5F;
-      float var18 = (0 + var15 * 10) / 32.0F;
-      float var19 = (5 + var15 * 10) / 32.0F;
-      float var20 = 0.0F;
-      float var21 = 0.15625F;
-      float var22 = (5 + var15 * 10) / 32.0F;
-      float var23 = (10 + var15 * 10) / 32.0F;
-      float var24 = 0.05625F;
+      GlStateManager.translate((float)x, (float)y, (float)z);
+      GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+      byte b = 0;
+      float f = 0.0F;
+      float g = 0.5F;
+      float h = (0 + b * 10) / 32.0F;
+      float f2 = (5 + b * 10) / 32.0F;
+      float f3 = 0.0F;
+      float f4 = 0.15625F;
+      float f5 = (5 + b * 10) / 32.0F;
+      float f6 = (10 + b * 10) / 32.0F;
+      float f7 = 0.05625F;
       GlStateManager.enableRescaleNormal();
-      float var25 = var1.arrowShake - var9;
-      if (var25 > 0.0F) {
-         float var26 = -MathHelper.sin(var25 * 3.0F) * var25;
-         GlStateManager.rotate(var26, 0.0F, 0.0F, 1.0F);
+      float f8 = entity.arrowShake - partialTicks;
+      if (f8 > 0.0F) {
+         float f9 = -MathHelper.sin(f8 * 3.0F) * f8;
+         GlStateManager.rotate(f9, 0.0F, 0.0F, 1.0F);
       }
 
       GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
-      GlStateManager.scale(var24, var24, var24);
+      GlStateManager.scale(f7, f7, f7);
       GlStateManager.translate(-4.0F, 0.0F, 0.0F);
-      GL11.glNormal3f(var24, 0.0F, 0.0F);
-      var14.begin(7, DefaultVertexFormats.POSITION_TEX);
-      var14.pos(-7.0, -2.0, -2.0).tex(var20, var22).endVertex();
-      var14.pos(-7.0, -2.0, 2.0).tex(var21, var22).endVertex();
-      var14.pos(-7.0, 2.0, 2.0).tex(var21, var23).endVertex();
-      var14.pos(-7.0, 2.0, -2.0).tex(var20, var23).endVertex();
-      var13.draw();
-      GL11.glNormal3f(-var24, 0.0F, 0.0F);
-      var14.begin(7, DefaultVertexFormats.POSITION_TEX);
-      var14.pos(-7.0, 2.0, -2.0).tex(var20, var22).endVertex();
-      var14.pos(-7.0, 2.0, 2.0).tex(var21, var22).endVertex();
-      var14.pos(-7.0, -2.0, 2.0).tex(var21, var23).endVertex();
-      var14.pos(-7.0, -2.0, -2.0).tex(var20, var23).endVertex();
-      var13.draw();
+      GL11.glNormal3f(f7, 0.0F, 0.0F);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.pos(-7.0, -2.0, -2.0).tex(f3, f5).endVertex();
+      worldRenderer.pos(-7.0, -2.0, 2.0).tex(f4, f5).endVertex();
+      worldRenderer.pos(-7.0, 2.0, 2.0).tex(f4, f6).endVertex();
+      worldRenderer.pos(-7.0, 2.0, -2.0).tex(f3, f6).endVertex();
+      tessellator.draw();
+      GL11.glNormal3f(-f7, 0.0F, 0.0F);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.pos(-7.0, 2.0, -2.0).tex(f3, f5).endVertex();
+      worldRenderer.pos(-7.0, 2.0, 2.0).tex(f4, f5).endVertex();
+      worldRenderer.pos(-7.0, -2.0, 2.0).tex(f4, f6).endVertex();
+      worldRenderer.pos(-7.0, -2.0, -2.0).tex(f3, f6).endVertex();
+      tessellator.draw();
 
-      for (int var27 = 0; var27 < 4; var27++) {
+      for (int i = 0; i < 4; i++) {
          GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-         GL11.glNormal3f(0.0F, 0.0F, var24);
-         var14.begin(7, DefaultVertexFormats.POSITION_TEX);
-         var14.pos(-8.0, -2.0, 0.0).tex(var16, var18).endVertex();
-         var14.pos(8.0, -2.0, 0.0).tex(var17, var18).endVertex();
-         var14.pos(8.0, 2.0, 0.0).tex(var17, var19).endVertex();
-         var14.pos(-8.0, 2.0, 0.0).tex(var16, var19).endVertex();
-         var13.draw();
+         GL11.glNormal3f(0.0F, 0.0F, f7);
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+         worldRenderer.pos(-8.0, -2.0, 0.0).tex(f, h).endVertex();
+         worldRenderer.pos(8.0, -2.0, 0.0).tex(g, h).endVertex();
+         worldRenderer.pos(8.0, 2.0, 0.0).tex(g, f2).endVertex();
+         worldRenderer.pos(-8.0, 2.0, 0.0).tex(f, f2).endVertex();
+         tessellator.draw();
       }
 
       GlStateManager.disableRescaleNormal();
       GlStateManager.popMatrix();
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityArrow var1) {
+   public ResourceLocation getEntityTexture(EntityArrow entity) {
       return arrowTextures;
    }
 }

@@ -20,16 +20,16 @@ public class Locale {
    private boolean unicode;
    private static final long a = 7752813143793L;
 
-   public synchronized void loadLocaleDataFiles(IResourceManager var1, List<String> var2) {
+   public synchronized void loadLocaleDataFiles(IResourceManager resourceManager, List<String> languageList) {
       this.properties.clear();
 
-      for (String var7 : var2) {
-         String var8 = String.format("lang/%s.lang", var7);
+      for (String string : languageList) {
+         String string2 = String.format("lang/%s.lang", string);
 
-         for (String var10 : var1.getResourceDomains()) {
+         for (String string3 : resourceManager.getResourceDomains()) {
             try {
-               this.loadLocaleData(var1.getAllResources(new ResourceLocation(var10, var8)));
-            } catch (IOException var12) {
+               this.loadLocaleData(resourceManager.getAllResources(new ResourceLocation(string3, string2)));
+            } catch (IOException ioException) {
             }
          }
       }
@@ -43,61 +43,61 @@ public class Locale {
 
    private void checkUnicode() {
       this.unicode = false;
-      int var4 = 0;
-      int var5 = 0;
+      int i = 0;
+      int j = 0;
 
-      for (String var7 : this.properties.values()) {
-         int var8 = var7.length();
-         var5 += var8;
+      for (String string : this.properties.values()) {
+         int k = string.length();
+         j += k;
 
-         for (int var9 = 0; var9 < var8; var9++) {
-            if (var7.charAt(var9) >= 256) {
-               var4++;
+         for (int l = 0; l < k; l++) {
+            if (string.charAt(l) >= 256) {
+               i++;
             }
          }
       }
 
-      float var10 = (float)var4 / var5;
-      this.unicode = var10 > 0.1;
+      float f = (float)i / j;
+      this.unicode = f > 0.1;
    }
 
-   private void loadLocaleData(List<IResource> var1) throws IOException {
-      for (IResource var6 : var1) {
-         InputStream var7 = var6.getInputStream();
+   private void loadLocaleData(List<IResource> resourcesList) throws IOException {
+      for (IResource iResource : resourcesList) {
+         InputStream inputStream = iResource.getInputStream();
 
          try {
-            this.loadLocaleData(var7);
+            this.loadLocaleData(inputStream);
          } finally {
-            IOUtils.closeQuietly(var7);
+            IOUtils.closeQuietly(inputStream);
          }
       }
    }
 
-   private void loadLocaleData(InputStream var1) throws IOException {
-      for (String var6 : IOUtils.readLines(var1, Charsets.UTF_8)) {
-         if (!var6.isEmpty() && var6.charAt(0) != '#') {
-            String[] var7 = Iterables.toArray(splitter.split(var6), String.class);
-            if (var7 != null && var7.length == 2) {
-               String var8 = var7[0];
-               String var9 = pattern.matcher(var7[1]).replaceAll("%$1s");
-               this.properties.put(var8, var9);
+   private void loadLocaleData(InputStream inputStreamIn) throws IOException {
+      for (String string : IOUtils.readLines(inputStreamIn, Charsets.UTF_8)) {
+         if (!string.isEmpty() && string.charAt(0) != '#') {
+            String[] strings = Iterables.toArray(splitter.split(string), String.class);
+            if (strings != null && strings.length == 2) {
+               String string2 = strings[0];
+               String string3 = pattern.matcher(strings[1]).replaceAll("%$1s");
+               this.properties.put(string2, string3);
             }
          }
       }
    }
 
-   private String translateKeyPrivate(String var1) {
-      String var4 = this.properties.get(var1);
-      return var4 == null ? var1 : var4;
+   private String translateKeyPrivate(String translateKey) {
+      String string = this.properties.get(translateKey);
+      return string == null ? translateKey : string;
    }
 
-   public String formatMessage(String var1, Object[] var2) {
-      String var5 = this.translateKeyPrivate(var1);
+   public String formatMessage(String translateKey, Object[] parameters) {
+      String string = this.translateKeyPrivate(translateKey);
 
       try {
-         return String.format(var5, var2);
-      } catch (IllegalFormatException var7) {
-         return "Format error: " + var5;
+         return String.format(string, parameters);
+      } catch (IllegalFormatException illegalFormatException) {
+         return "Format error: " + string;
       }
    }
 }

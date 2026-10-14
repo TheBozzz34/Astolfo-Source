@@ -15,39 +15,39 @@ public class S30PacketWindowItems implements Packet<INetHandlerPlayClient> {
    public S30PacketWindowItems() {
    }
 
-   public S30PacketWindowItems(int var1, List<ItemStack> var2) {
-      this.windowId = var1;
-      this.itemStacks = new ItemStack[var2.size()];
+   public S30PacketWindowItems(int windowIdIn, List<ItemStack> list) {
+      this.windowId = windowIdIn;
+      this.itemStacks = new ItemStack[list.size()];
 
-      for (int var6 = 0; var6 < this.itemStacks.length; var6++) {
-         ItemStack var7 = (ItemStack)var2.get(var6);
-         this.itemStacks[var6] = var7 == null ? null : var7.copy();
+      for (int i = 0; i < this.itemStacks.length; i++) {
+         ItemStack itemStack = (ItemStack)list.get(i);
+         this.itemStacks[i] = itemStack == null ? null : itemStack.copy();
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readUnsignedByte();
-      short var5 = var1.readShort();
-      this.itemStacks = new ItemStack[var5];
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readUnsignedByte();
+      short s = buf.readShort();
+      this.itemStacks = new ItemStack[s];
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         this.itemStacks[var6] = var1.readItemStackFromBuffer();
+      for (int i = 0; i < s; i++) {
+         this.itemStacks[i] = buf.readItemStackFromBuffer();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeShort(this.itemStacks.length);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeShort(this.itemStacks.length);
 
-      for (ItemStack var8 : this.itemStacks) {
-         var1.writeItemStackToBuffer(var8);
+      for (ItemStack itemStack : this.itemStacks) {
+         buf.writeItemStackToBuffer(itemStack);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleWindowItems(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleWindowItems(this);
    }
 
    public int func_148911_c() {

@@ -22,27 +22,27 @@ public class LoadingScreenRenderer implements IProgressUpdate {
    private Framebuffer framebuffer;
    private static final long a = 83726422598529L;
 
-   public LoadingScreenRenderer(Minecraft var1) {
-      this.mc = var1;
-      this.scaledResolution = new ScaledResolution(var1);
-      this.framebuffer = new Framebuffer(var1.displayWidth, var1.displayHeight, false);
+   public LoadingScreenRenderer(Minecraft mcIn) {
+      this.mc = mcIn;
+      this.scaledResolution = new ScaledResolution(mcIn);
+      this.framebuffer = new Framebuffer(mcIn.displayWidth, mcIn.displayHeight, false);
       this.framebuffer.setFramebufferFilter(9728);
    }
 
    @Override
-   public void resetProgressAndMessage(String var1) {
+   public void resetProgressAndMessage(String message) {
       this.loadingSuccess = false;
-      this.displayString(var1);
+      this.displayString(message);
    }
 
    @Override
-   public void displaySavingString(String var1) {
+   public void displaySavingString(String message) {
       this.loadingSuccess = true;
-      this.displayString(var1);
+      this.displayString(message);
    }
 
-   private void displayString(String var1) {
-      this.currentlyDisplayedText = var1;
+   private void displayString(String message) {
+      this.currentlyDisplayedText = message;
       if (!this.mc.running) {
          if (!this.loadingSuccess) {
             throw new MinecraftError();
@@ -52,11 +52,11 @@ public class LoadingScreenRenderer implements IProgressUpdate {
          GlStateManager.matrixMode(5889);
          GlStateManager.loadIdentity();
          if (OpenGlHelper.isFramebufferEnabled()) {
-            int var5 = this.scaledResolution.getScaleFactor();
-            GlStateManager.ortho(0.0, this.scaledResolution.getScaledWidth() * var5, this.scaledResolution.getScaledHeight() * var5, 0.0, 100.0, 300.0);
+            int i = this.scaledResolution.getScaleFactor();
+            GlStateManager.ortho(0.0, this.scaledResolution.getScaledWidth() * i, this.scaledResolution.getScaledHeight() * i, 0.0, 100.0, 300.0);
          } else {
-            ScaledResolution var6 = new ScaledResolution(this.mc);
-            GlStateManager.ortho(0.0, var6.getScaledWidth_double(), var6.getScaledHeight_double(), 0.0, 100.0, 300.0);
+            ScaledResolution scaledResolution2 = new ScaledResolution(this.mc);
+            GlStateManager.ortho(0.0, scaledResolution2.getScaledWidth_double(), scaledResolution2.getScaledHeight_double(), 0.0, 100.0, 300.0);
          }
 
          GlStateManager.matrixMode(5888);
@@ -66,34 +66,34 @@ public class LoadingScreenRenderer implements IProgressUpdate {
    }
 
    @Override
-   public void displayLoadingString(String var1) {
+   public void displayLoadingString(String message) {
       if (!this.mc.running) {
          if (!this.loadingSuccess) {
             throw new MinecraftError();
          }
       } else {
          this.systemTime = 0L;
-         this.message = var1;
+         this.message = message;
          this.setLoadingProgress(-1);
          this.systemTime = 0L;
       }
    }
 
    @Override
-   public void setLoadingProgress(int var1) {
-      long var2 = a ^ 46248809135117L;
+   public void setLoadingProgress(int progress) {
+      long l = a ^ 46248809135117L;
       if (!this.mc.running) {
          if (!this.loadingSuccess) {
             throw new MinecraftError();
          }
       } else {
-         long var5 = Minecraft.getSystemTime();
-         if (var5 - this.systemTime >= 100L) {
-            this.systemTime = var5;
-            ScaledResolution var7 = new ScaledResolution(this.mc);
-            int var8 = var7.getScaleFactor();
-            int var9 = var7.getScaledWidth();
-            int var10 = var7.getScaledHeight();
+         long m = Minecraft.getSystemTime();
+         if (m - this.systemTime >= 100L) {
+            this.systemTime = m;
+            ScaledResolution scaledResolution = new ScaledResolution(this.mc);
+            int i = scaledResolution.getScaleFactor();
+            int j = scaledResolution.getScaledWidth();
+            int k = scaledResolution.getScaledHeight();
             if (OpenGlHelper.isFramebufferEnabled()) {
                this.framebuffer.framebufferClear();
             } else {
@@ -103,8 +103,8 @@ public class LoadingScreenRenderer implements IProgressUpdate {
             this.framebuffer.bindFramebuffer(false);
             GlStateManager.matrixMode(5889);
             GlStateManager.loadIdentity();
-            long var10000 = 5613537673383833317L ^ var2;
-            GlStateManager.ortho(0.0, var7.getScaledWidth_double(), var7.getScaledHeight_double(), 0.0, 100.0, 300.0);
+            long n = 5613537673383833317L ^ l;
+            GlStateManager.ortho(0.0, scaledResolution.getScaledWidth_double(), scaledResolution.getScaledHeight_double(), 0.0, 100.0, 300.0);
             GlStateManager.matrixMode(5888);
             GlStateManager.loadIdentity();
             GlStateManager.translate(0.0F, 0.0F, -200.0F);
@@ -112,32 +112,32 @@ public class LoadingScreenRenderer implements IProgressUpdate {
                GlStateManager.clear(16640);
             }
 
-            Tessellator var11 = Tessellator.getInstance();
-            WorldRenderer var12 = var11.getWorldRenderer();
+            Tessellator tessellator = Tessellator.getInstance();
+            WorldRenderer worldRenderer = tessellator.getWorldRenderer();
             this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
-            float var13 = 32.0F;
-            var12.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            var12.pos(0.0, var10, 0.0).tex(0.0, var10 / var13).color(64, 64, 64, 255).endVertex();
-            var12.pos(var9, var10, 0.0).tex(var9 / var13, var10 / var13).color(64, 64, 64, 255).endVertex();
-            var12.pos(var9, 0.0, 0.0).tex(var9 / var13, 0.0).color(64, 64, 64, 255).endVertex();
-            var12.pos(0.0, 0.0, 0.0).tex(0.0, 0.0).color(64, 64, 64, 255).endVertex();
-            var11.draw();
-            if (var1 >= 0) {
-               byte var14 = 100;
-               byte var15 = 2;
-               int var16 = var9 / 2 - var14 / 2;
-               int var17 = var10 / 2 + 16;
+            float f = 32.0F;
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            worldRenderer.pos(0.0, k, 0.0).tex(0.0, k / f).color(64, 64, 64, 255).endVertex();
+            worldRenderer.pos(j, k, 0.0).tex(j / f, k / f).color(64, 64, 64, 255).endVertex();
+            worldRenderer.pos(j, 0.0, 0.0).tex(j / f, 0.0).color(64, 64, 64, 255).endVertex();
+            worldRenderer.pos(0.0, 0.0, 0.0).tex(0.0, 0.0).color(64, 64, 64, 255).endVertex();
+            tessellator.draw();
+            if (progress >= 0) {
+               byte b = 100;
+               byte b2 = 2;
+               int i2 = j / 2 - b / 2;
+               int i3 = k / 2 + 16;
                GlStateManager.disableTexture2D();
-               var12.begin(7, DefaultVertexFormats.POSITION_COLOR);
-               var12.pos(var16, var17, 0.0).color(128, 128, 128, 255).endVertex();
-               var12.pos(var16, var17 + var15, 0.0).color(128, 128, 128, 255).endVertex();
-               var12.pos(var16 + var14, var17 + var15, 0.0).color(128, 128, 128, 255).endVertex();
-               var12.pos(var16 + var14, var17, 0.0).color(128, 128, 128, 255).endVertex();
-               var12.pos(var16, var17, 0.0).color(128, 255, 128, 255).endVertex();
-               var12.pos(var16, var17 + var15, 0.0).color(128, 255, 128, 255).endVertex();
-               var12.pos(var16 + var1, var17 + var15, 0.0).color(128, 255, 128, 255).endVertex();
-               var12.pos(var16 + var1, var17, 0.0).color(128, 255, 128, 255).endVertex();
-               var11.draw();
+               worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+               worldRenderer.pos(i2, i3, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(i2, i3 + b2, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(i2 + b, i3 + b2, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(i2 + b, i3, 0.0).color(128, 128, 128, 255).endVertex();
+               worldRenderer.pos(i2, i3, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(i2, i3 + b2, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(i2 + progress, i3 + b2, 0.0).color(128, 255, 128, 255).endVertex();
+               worldRenderer.pos(i2 + progress, i3, 0.0).color(128, 255, 128, 255).endVertex();
+               tessellator.draw();
                GlStateManager.enableTexture2D();
             }
 
@@ -146,21 +146,21 @@ public class LoadingScreenRenderer implements IProgressUpdate {
             this.mc
                .fontRendererObj
                .drawStringWithShadow(
-                  this.currentlyDisplayedText, (var9 - this.mc.fontRendererObj.getStringWidth(this.currentlyDisplayedText)) / 2, var10 / 2 - 4 - 16, 16777215
+                  this.currentlyDisplayedText, (j - this.mc.fontRendererObj.getStringWidth(this.currentlyDisplayedText)) / 2, k / 2 - 4 - 16, 16777215
                );
             this.mc
                .fontRendererObj
-               .drawStringWithShadow(this.message, (var9 - this.mc.fontRendererObj.getStringWidth(this.message)) / 2, var10 / 2 - 4 + 8, 16777215);
+               .drawStringWithShadow(this.message, (j - this.mc.fontRendererObj.getStringWidth(this.message)) / 2, k / 2 - 4 + 8, 16777215);
             this.framebuffer.unbindFramebuffer();
             if (OpenGlHelper.isFramebufferEnabled() && Config.isFastRender()) {
-               this.framebuffer.framebufferRender(var9 * var8, var10 * var8);
+               this.framebuffer.framebufferRender(j * i, k * i);
             }
 
             this.mc.updateDisplay();
 
             try {
                Thread.yield();
-            } catch (Exception var18) {
+            } catch (Exception exception) {
             }
          }
       }

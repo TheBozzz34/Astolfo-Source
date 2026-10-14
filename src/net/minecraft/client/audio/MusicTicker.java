@@ -13,32 +13,32 @@ public class MusicTicker implements ITickable {
    private int timeUntilNextMusic = 100;
    private static final long a = 94340144823074L;
 
-   public MusicTicker(Minecraft var1) {
-      this.mc = var1;
+   public MusicTicker(Minecraft mcIn) {
+      this.mc = mcIn;
    }
 
    @Override
    public void update() {
-      MusicTicker.MusicType var4 = this.mc.getAmbientMusicType();
+      MusicTicker.MusicType musicType = this.mc.getAmbientMusicType();
       if (this.currentMusic != null) {
-         if (!var4.getMusicLocation().equals(this.currentMusic.getSoundLocation())) {
+         if (!musicType.getMusicLocation().equals(this.currentMusic.getSoundLocation())) {
             this.mc.getSoundHandler().stopSound(this.currentMusic);
-            this.timeUntilNextMusic = MathHelper.getRandomIntegerInRange(this.rand, 0, var4.getMinDelay() / 2);
+            this.timeUntilNextMusic = MathHelper.getRandomIntegerInRange(this.rand, 0, musicType.getMinDelay() / 2);
          }
 
          if (!this.mc.getSoundHandler().isSoundPlaying(this.currentMusic)) {
             this.currentMusic = null;
-            this.timeUntilNextMusic = Math.min(MathHelper.getRandomIntegerInRange(this.rand, var4.getMinDelay(), var4.getMaxDelay()), this.timeUntilNextMusic);
+            this.timeUntilNextMusic = Math.min(MathHelper.getRandomIntegerInRange(this.rand, musicType.getMinDelay(), musicType.getMaxDelay()), this.timeUntilNextMusic);
          }
       }
 
       if (this.currentMusic == null && this.timeUntilNextMusic-- <= 0) {
-         this.func_181558_a(var4);
+         this.func_181558_a(musicType);
       }
    }
 
-   public void func_181558_a(MusicTicker.MusicType var1) {
-      this.currentMusic = PositionedSoundRecord.create(var1.getMusicLocation());
+   public void func_181558_a(MusicTicker.MusicType musicType) {
+      this.currentMusic = PositionedSoundRecord.create(musicType.getMusicLocation());
       this.mc.getSoundHandler().playSound(this.currentMusic);
       this.timeUntilNextMusic = Integer.MAX_VALUE;
    }
@@ -64,10 +64,10 @@ public class MusicTicker implements ITickable {
       private final int minDelay;
       private final int maxDelay;
 
-      MusicType(ResourceLocation var3, int var4, int var5) {
-         this.musicLocation = var3;
-         this.minDelay = var4;
-         this.maxDelay = var5;
+      MusicType(ResourceLocation location, int minDelayIn, int maxDelayIn) {
+         this.musicLocation = location;
+         this.minDelay = minDelayIn;
+         this.maxDelay = maxDelayIn;
       }
 
       public ResourceLocation getMusicLocation() {

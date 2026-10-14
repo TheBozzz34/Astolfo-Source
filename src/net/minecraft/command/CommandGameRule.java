@@ -22,59 +22,59 @@ public class CommandGameRule extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.gamerule.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      GameRules var6 = this.getGameRules();
-      String var7 = var2.length > 0 ? var2[0] : "";
-      String var8 = var2.length > 1 ? buildString(var2, 1) : "";
-      switch (var2.length) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      GameRules gameRules = this.getGameRules();
+      String string = args.length > 0 ? args[0] : "";
+      String string2 = args.length > 1 ? buildString(args, 1) : "";
+      switch (args.length) {
          case 0:
-            var1.addChatMessage(new ChatComponentText(joinNiceString(var6.getRules())));
+            sender.addChatMessage(new ChatComponentText(joinNiceString(gameRules.getRules())));
             break;
          case 1:
-            if (!var6.hasRule(var7)) {
-               throw new CommandException("commands.gamerule.norule", var7);
+            if (!gameRules.hasRule(string)) {
+               throw new CommandException("commands.gamerule.norule", string);
             }
 
-            String var9 = var6.getString(var7);
-            var1.addChatMessage(new ChatComponentText(var7).appendText(" = ").appendText(var9));
-            var1.setCommandStat(CommandResultStats.Type.QUERY_RESULT, var6.getInt(var7));
+            String string3 = gameRules.getString(string);
+            sender.addChatMessage(new ChatComponentText(string).appendText(" = ").appendText(string3));
+            sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, gameRules.getInt(string));
             break;
          default:
-            if (var6.areSameType(var7, GameRules.ValueType.BOOLEAN_VALUE) && !"true".equals(var8) && !"false".equals(var8)) {
-               throw new CommandException("commands.generic.boolean.invalid", var8);
+            if (gameRules.areSameType(string, GameRules.ValueType.BOOLEAN_VALUE) && !"true".equals(string2) && !"false".equals(string2)) {
+               throw new CommandException("commands.generic.boolean.invalid", string2);
             }
 
-            var6.setOrCreateGameRule(var7, var8);
-            func_175773_a(var6, var7);
-            notifyOperators(var1, this, "commands.gamerule.success");
+            gameRules.setOrCreateGameRule(string, string2);
+            func_175773_a(gameRules, string);
+            notifyOperators(sender, this, "commands.gamerule.success");
       }
    }
 
-   public static void func_175773_a(GameRules var0, String var1) {
-      if ("reducedDebugInfo".equals(var1)) {
-         byte var5 = (byte)(var0.getBoolean(var1) ? 22 : 23);
+   public static void func_175773_a(GameRules rules, String string) {
+      if ("reducedDebugInfo".equals(string)) {
+         byte b = (byte)(rules.getBoolean(string) ? 22 : 23);
 
-         for (EntityPlayerMP var7 : MinecraftServer.getServer().getConfigurationManager().getPlayerList()) {
-            var7.playerNetServerHandler.sendPacket(new S19PacketEntityStatus(var7, var5));
+         for (EntityPlayerMP entityPlayerMP : MinecraftServer.getServer().getConfigurationManager().getPlayerList()) {
+            entityPlayerMP.playerNetServerHandler.sendPacket(new S19PacketEntityStatus(entityPlayerMP, b));
          }
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      if (var2.length == 1) {
-         return getListOfStringsMatchingLastWord(var2, this.getGameRules().getRules());
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      if (args.length == 1) {
+         return getListOfStringsMatchingLastWord(args, this.getGameRules().getRules());
       }
 
-      if (var2.length == 2) {
-         GameRules var7 = this.getGameRules();
-         if (var7.areSameType(var2[0], GameRules.ValueType.BOOLEAN_VALUE)) {
-            return getListOfStringsMatchingLastWord(var2, "true", "false");
+      if (args.length == 2) {
+         GameRules gameRules = this.getGameRules();
+         if (gameRules.areSameType(args[0], GameRules.ValueType.BOOLEAN_VALUE)) {
+            return getListOfStringsMatchingLastWord(args, "true", "false");
          }
       }
 

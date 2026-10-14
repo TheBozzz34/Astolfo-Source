@@ -28,15 +28,15 @@ public class PlayerUsageSnooper {
    private int selfCounter;
    private static final long b = 6362374568035L;
 
-   public PlayerUsageSnooper(String var1, IPlayerUsage var2, long var3) {
+   public PlayerUsageSnooper(String side, IPlayerUsage playerStatCollector, long startTime) {
       try {
-         this.serverUrl = new URL("http://snoop.minecraft.net/" + var1 + "?version=" + 2);
-      } catch (MalformedURLException var10) {
+         this.serverUrl = new URL("http://snoop.minecraft.net/" + side + "?version=" + 2);
+      } catch (MalformedURLException malformedURLException) {
          throw new IllegalArgumentException();
       }
 
-      this.playerStatsCollector = var2;
-      this.minecraftStartTimeMilis = var3;
+      this.playerStatsCollector = playerStatCollector;
+      this.minecraftStartTimeMilis = startTime;
    }
 
    public void startSnooper() {
@@ -49,18 +49,18 @@ public class PlayerUsageSnooper {
             @Override
             public void run() {
                if (PlayerUsageSnooper.this.playerStatsCollector.isSnooperEnabled()) {
-                  HashMap var4;
+                  HashMap hashMap;
                   synchronized (PlayerUsageSnooper.this.syncLock) {
-                     var4 = Maps.newHashMap(PlayerUsageSnooper.this.clientStats);
+                     hashMap = Maps.newHashMap(PlayerUsageSnooper.this.clientStats);
                      if (PlayerUsageSnooper.this.selfCounter == 0) {
-                        var4.putAll(PlayerUsageSnooper.this.snooperStats);
+                        hashMap.putAll(PlayerUsageSnooper.this.snooperStats);
                      }
 
-                     var4.put("snooper_count", PlayerUsageSnooper.this.selfCounter++);
-                     var4.put("snooper_token", PlayerUsageSnooper.this.uniqueID);
+                     hashMap.put("snooper_count", PlayerUsageSnooper.this.selfCounter++);
+                     hashMap.put("snooper_token", PlayerUsageSnooper.this.uniqueID);
                   }
 
-                  HttpUtil.postMap(PlayerUsageSnooper.this.serverUrl, var4, true);
+                  HttpUtil.postMap(PlayerUsageSnooper.this.serverUrl, hashMap, true);
                }
             }
          }, 0L, 900000L);
@@ -80,18 +80,18 @@ public class PlayerUsageSnooper {
    }
 
    private void addJvmArgsToSnooper() {
-      RuntimeMXBean var4 = ManagementFactory.getRuntimeMXBean();
-      List var5 = var4.getInputArguments();
-      int var6 = 0;
+      RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+      List list = runtimeMXBean.getInputArguments();
+      int i = 0;
 
-      for (Object var8$raw : var5) {
-         String var8 = (String)var8$raw;
-         if (var8.startsWith("-X")) {
-            this.addClientStat("jvm_arg[" + var6++ + "]", var8);
+      for (Object object : list) {
+         String string = (String)object;
+         if (string.startsWith("-X")) {
+            this.addClientStat("jvm_arg[" + i++ + "]", string);
          }
       }
 
-      this.addClientStat("jvm_args", var6);
+      this.addClientStat("jvm_args", i);
    }
 
    public void addMemoryStatsToSnooper() {
@@ -102,32 +102,32 @@ public class PlayerUsageSnooper {
       this.playerStatsCollector.addServerStatsToSnooper(this);
    }
 
-   public void addClientStat(String var1, Object var2) {
+   public void addClientStat(String statName, Object statValue) {
       synchronized (this.syncLock) {
-         this.clientStats.put(var1, var2);
+         this.clientStats.put(statName, statValue);
       }
    }
 
-   public void addStatToSnooper(String var1, Object var2) {
+   public void addStatToSnooper(String statName, Object statValue) {
       synchronized (this.syncLock) {
-         this.snooperStats.put(var1, var2);
+         this.snooperStats.put(statName, statValue);
       }
    }
 
    public Map<String, String> getCurrentStats() {
-      LinkedHashMap var4 = Maps.newLinkedHashMap();
+      LinkedHashMap linkedHashMap = Maps.newLinkedHashMap();
       synchronized (this.syncLock) {
          this.addMemoryStatsToSnooper();
 
-         for (Entry var7 : this.snooperStats.entrySet()) {
-            var4.put(var7.getKey(), var7.getValue().toString());
+         for (Entry entry : this.snooperStats.entrySet()) {
+            linkedHashMap.put(entry.getKey(), entry.getValue().toString());
          }
 
-         for (Entry var11 : this.clientStats.entrySet()) {
-            var4.put(var11.getKey(), var11.getValue().toString());
+         for (Entry entry2 : this.clientStats.entrySet()) {
+            linkedHashMap.put(entry2.getKey(), entry2.getValue().toString());
          }
 
-         return var4;
+         return linkedHashMap;
       }
    }
 

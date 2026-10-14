@@ -47,131 +47,133 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    private static float f;
    private static final long O = 90147843737786L;
 
-   public RendererLivingEntity(RenderManager var1, ModelBase var2, float var3) {
-      super(var1);
-      this.mainModel = var2;
-      this.shadowSize = var3;
+   public RendererLivingEntity(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn);
+      this.mainModel = modelBaseIn;
+      this.shadowSize = shadowSizeIn;
    }
 
-   public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer(U var1) {
-      return this.layerRenderers.add((net.minecraft.client.renderer.entity.layers.LayerRenderer)(var1));
+   public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean addLayer(U layer) {
+      return this.layerRenderers.add((net.minecraft.client.renderer.entity.layers.LayerRenderer)(layer));
    }
 
-   public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean removeLayer(U var1) {
-      return this.layerRenderers.remove(var1);
+   public <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean removeLayer(U layer) {
+      return this.layerRenderers.remove(layer);
    }
 
    public ModelBase getMainModel() {
       return this.mainModel;
    }
 
-   public float interpolateRotation(float var1, float var2, float var3) {
-      float var7 = var2 - var1;
+   public float interpolateRotation(float par1, float par2, float par3) {
+      float f = par2 - par1;
 
-      while (var7 < -180.0F) {
-         var7 += 360.0F;
+      while (f < -180.0F) {
+         f += 360.0F;
       }
 
-      while (var7 >= 180.0F) {
-         var7 -= 360.0F;
+      while (f >= 180.0F) {
+         f -= 360.0F;
       }
 
-      return var1 + var3 * var7;
+      return par1 + par3 * f;
    }
 
    public void transformHeldFull3DItemLayer() {
    }
 
-   public void doRender(T var1, double var2, double var4, double var6, float var8, float var9) {
+   public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
       if (!Reflector.RenderLivingEvent_Pre_Constructor.exists()
-         || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Pre_Constructor, var1, this, var2, var4, var6)) {
+         || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Pre_Constructor, entity, this, x, y, z)) {
          GlStateManager.pushMatrix();
          GlStateManager.disableCull();
-         this.mainModel.swingProgress = this.o((T)var1, var9);
-         this.mainModel.isRiding = var1.E();
+         this.mainModel.swingProgress = this.o((T)entity, partialTicks);
+         this.mainModel.isRiding = entity.E();
          if (Reflector.ForgeEntity_shouldRiderSit.exists()) {
-            this.mainModel.isRiding = var1.E() && var1.ridingEntity != null && Reflector.callBoolean(var1.ridingEntity, Reflector.ForgeEntity_shouldRiderSit);
+            this.mainModel.isRiding = entity.E()
+               && entity.ridingEntity != null
+               && Reflector.callBoolean(entity.ridingEntity, Reflector.ForgeEntity_shouldRiderSit);
          }
 
-         this.mainModel.isChild = var1.isChild();
+         this.mainModel.isChild = entity.isChild();
 
          try {
-            RenderLivingEvent var13 = new RenderLivingEvent(var1);
-            Astolfo.INSTANCE.getEventBus().post(var13);
-            float var14 = this.interpolateRotation(var1.prevRenderYawOffset, var1.renderYawOffset, var9);
-            float var15 = this.interpolateRotation(var1.prevRotationYawHead, var1.rotationYawHead, var9);
-            float var16 = var15 - var14;
-            if (this.mainModel.isRiding && var1.ridingEntity instanceof EntityLivingBase) {
-               EntityLivingBase var17 = (EntityLivingBase)var1.ridingEntity;
-               var14 = this.interpolateRotation(var1.prevRenderYawOffset, var1.renderYawOffset, var9);
-               var16 = var15 - var14;
-               float var18 = MathHelper.wrapAngleTo180_float(var16);
-               if (var18 < -85.0F) {
-                  var18 = -85.0F;
+            RenderLivingEvent renderLivingEvent = new RenderLivingEvent(entity);
+            Astolfo.INSTANCE.getEventBus().post(renderLivingEvent);
+            float f = this.interpolateRotation(entity.prevRenderYawOffset, entity.renderYawOffset, partialTicks);
+            float g = this.interpolateRotation(entity.prevRotationYawHead, entity.rotationYawHead, partialTicks);
+            float h = g - f;
+            if (this.mainModel.isRiding && entity.ridingEntity instanceof EntityLivingBase) {
+               EntityLivingBase entityLivingBase = (EntityLivingBase)entity.ridingEntity;
+               f = this.interpolateRotation(entity.prevRenderYawOffset, entity.renderYawOffset, partialTicks);
+               h = g - f;
+               float f2 = MathHelper.wrapAngleTo180_float(h);
+               if (f2 < -85.0F) {
+                  f2 = -85.0F;
                }
 
-               if (var18 >= 85.0F) {
-                  var18 = 85.0F;
+               if (f2 >= 85.0F) {
+                  f2 = 85.0F;
                }
 
-               var14 = var15 - var18;
-               if (var18 * var18 > 2500.0F) {
-                  var14 += var18 * 0.2F;
+               f = g - f2;
+               if (f2 * f2 > 2500.0F) {
+                  f += f2 * 0.2F;
                }
             }
 
-            float var27 = var13.getPrevPitch() + (var13.getPitch() - var13.getPrevPitch()) * var9;
-            this.renderLivingAt((T)var1, var2, var4, var6);
-            float var28 = this.handleRotationFloat((T)var1, var9);
-            this.rotateCorpse((T)var1, var28, var14, var9);
+            float f3 = renderLivingEvent.getPrevPitch() + (renderLivingEvent.getPitch() - renderLivingEvent.getPrevPitch()) * partialTicks;
+            this.renderLivingAt((T)entity, x, y, z);
+            float f4 = this.handleRotationFloat((T)entity, partialTicks);
+            this.rotateCorpse((T)entity, f4, f, partialTicks);
             GlStateManager.enableRescaleNormal();
             GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-            this.preRenderCallback((T)var1, var9);
-            float var19 = 0.0625F;
+            this.preRenderCallback((T)entity, partialTicks);
+            float f5 = 0.0625F;
             GlStateManager.translate(0.0F, -1.5078125F, 0.0F);
-            float var20 = var1.prevLimbSwingAmount + (var1.limbSwingAmount - var1.prevLimbSwingAmount) * var9;
-            float var21 = var1.limbSwing - var1.limbSwingAmount * (1.0F - var9);
-            if (var1.isChild()) {
-               var21 *= 3.0F;
+            float f6 = entity.prevLimbSwingAmount + (entity.limbSwingAmount - entity.prevLimbSwingAmount) * partialTicks;
+            float f7 = entity.limbSwing - entity.limbSwingAmount * (1.0F - partialTicks);
+            if (entity.isChild()) {
+               f7 *= 3.0F;
             }
 
-            if (var20 > 1.0F) {
-               var20 = 1.0F;
+            if (f6 > 1.0F) {
+               f6 = 1.0F;
             }
 
             GlStateManager.enableAlpha();
-            this.mainModel.setLivingAnimations(var1, var21, var20, var9);
-            this.mainModel.setRotationAngles(var21, var20, var28, var16, var27, 0.0625F, var1);
-            RenderModelEvent var22 = new RenderModelEvent(this, var1, var21, var20, var28, var16, var27, var14, var19);
-            Astolfo.INSTANCE.getEventBus().post(var22);
+            this.mainModel.setLivingAnimations(entity, f7, f6, partialTicks);
+            this.mainModel.setRotationAngles(f7, f6, f4, h, f3, 0.0625F, entity);
+            RenderModelEvent renderModelEvent = new RenderModelEvent(this, entity, f7, f6, f4, h, f3, f, f5);
+            Astolfo.INSTANCE.getEventBus().post(renderModelEvent);
             if (this.renderOutlines) {
-               boolean var29 = this.setScoreTeamColor((T)var1);
-               if (!var22.isCancelled()) {
-                  this.renderModel((T)var1, var21, var20, var28, var16, var27, 0.0625F);
+               boolean bl = this.setScoreTeamColor((T)entity);
+               if (!renderModelEvent.isCancelled()) {
+                  this.renderModel((T)entity, f7, f6, f4, h, f3, 0.0625F);
                }
 
-               if (var29) {
+               if (bl) {
                   this.z();
                }
             } else {
-               boolean var23 = this.setDoRenderBrightness((T)var1, var9);
-               if (!var22.isCancelled()) {
-                  this.renderModel((T)var1, var21, var20, var28, var16, var27, 0.0625F);
+               boolean bl2 = this.setDoRenderBrightness((T)entity, partialTicks);
+               if (!renderModelEvent.isCancelled()) {
+                  this.renderModel((T)entity, f7, f6, f4, h, f3, 0.0625F);
                }
 
-               if (var23) {
+               if (bl2) {
                   this.unsetBrightness();
                }
 
                GlStateManager.depthMask(true);
-               if (!(var1 instanceof EntityPlayer) || !((EntityPlayer)var1).isSpectator()) {
-                  this.renderLayers((T)var1, var21, var20, var9, var28, var16, var27, 0.0625F);
+               if (!(entity instanceof EntityPlayer) || !((EntityPlayer)entity).isSpectator()) {
+                  this.renderLayers((T)entity, f7, f6, partialTicks, f4, h, f3, 0.0625F);
                }
             }
 
             GlStateManager.disableRescaleNormal();
-         } catch (Exception var24) {
-            logger.error("Couldn't render entity", var24);
+         } catch (Exception exception) {
+            logger.error("Couldn't render entity", exception);
          }
 
          GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
@@ -180,36 +182,36 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
          GlStateManager.enableCull();
          GlStateManager.popMatrix();
          if (!this.renderOutlines) {
-            super.doRender((T)var1, var2, var4, var6, var8, var9);
+            super.doRender((T)entity, x, y, z, entityYaw, partialTicks);
          }
 
          if (Reflector.RenderLivingEvent_Post_Constructor.exists()
-            && !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Post_Constructor, var1, this, var2, var4, var6)) {
+            && !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Post_Constructor, entity, this, x, y, z)) {
          }
       }
 
-      RenderModelEvent var25 = new RenderModelEvent();
-      Astolfo.INSTANCE.getEventBus().post(var25);
+      RenderModelEvent renderModelEvent2 = new RenderModelEvent();
+      Astolfo.INSTANCE.getEventBus().post(renderModelEvent2);
    }
 
-   public boolean setScoreTeamColor(T var1) {
-      int var5 = 16777215;
-      if (var1 instanceof EntityPlayer) {
-         ScorePlayerTeam var6 = (ScorePlayerTeam)var1.getTeam();
-         if (var6 != null) {
-            String var7 = FontRenderer.getFormatFromString(var6.getColorPrefix());
-            if (var7.length() >= 2) {
-               var5 = this.getFontRendererFromRenderManager().getColorCode(var7.charAt(1));
+   public boolean setScoreTeamColor(T entityLivingBaseIn) {
+      int i = 16777215;
+      if (entityLivingBaseIn instanceof EntityPlayer) {
+         ScorePlayerTeam scorePlayerTeam = (ScorePlayerTeam)entityLivingBaseIn.getTeam();
+         if (scorePlayerTeam != null) {
+            String string = FontRenderer.getFormatFromString(scorePlayerTeam.getColorPrefix());
+            if (string.length() >= 2) {
+               i = this.getFontRendererFromRenderManager().getColorCode(string.charAt(1));
             }
          }
       }
 
-      float var9 = (var5 >> 16 & 0xFF) / 255.0F;
-      float var10 = (var5 >> 8 & 0xFF) / 255.0F;
-      float var8 = (var5 & 0xFF) / 255.0F;
+      float f = (i >> 16 & 0xFF) / 255.0F;
+      float g = (i >> 8 & 0xFF) / 255.0F;
+      float h = (i & 0xFF) / 255.0F;
       GlStateManager.disableLighting();
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
-      GlStateManager.color(var9, var10, var8, 1.0F);
+      GlStateManager.color(f, g, h, 1.0F);
       GlStateManager.disableTexture2D();
       GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
       GlStateManager.disableTexture2D();
@@ -226,27 +228,27 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
    }
 
-   public void renderModel(T var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      long var8 = O ^ 77041210463917L;
-      boolean var11 = !var1.isInvisible();
-      boolean var12 = !var11 && !var1.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
-      if (var11 || var12) {
-         if (!this.bindEntityTexture((T)var1)) {
+   public void renderModel(T entitylivingbaseIn, float g, float h, float f2, float f3, float f4, float scaleFactor) {
+      long l = O ^ 77041210463917L;
+      boolean bl = !entitylivingbaseIn.isInvisible();
+      boolean bl2 = !bl && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
+      if (bl || bl2) {
+         if (!this.bindEntityTexture((T)entitylivingbaseIn)) {
             return;
          }
 
-         if (var12) {
+         if (bl2) {
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 0.15F);
-            long var10000 = 8349117774095511730L ^ var8;
+            long m = 8349117774095511730L ^ l;
             GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
             GlStateManager.alphaFunc(516, 0.003921569F);
          }
 
-         this.mainModel.render(var1, var2, var3, var4, var5, var6, var7);
-         if (var12) {
+         this.mainModel.render(entitylivingbaseIn, g, h, f2, f3, f4, scaleFactor);
+         if (bl2) {
             GlStateManager.disableBlend();
             GlStateManager.alphaFunc(516, 0.1F);
             GlStateManager.popMatrix();
@@ -255,27 +257,27 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       }
    }
 
-   public boolean setDoRenderBrightness(T var1, float var2) {
-      return this.setBrightness((T)var1, var2, true);
+   public boolean setDoRenderBrightness(T entityLivingBaseIn, float partialTicks) {
+      return this.setBrightness((T)entityLivingBaseIn, partialTicks, true);
    }
 
-   public boolean setBrightness(T var1, float var2, boolean var3) {
-      long var4 = O ^ 60107803437872L;
-      float var7 = var1.getBrightness(var2);
-      int var8 = this.getColorMultiplier((T)var1, var7, var2);
-      boolean var9 = (var8 >> 24 & 0xFF) > 0;
-      boolean var10 = var1.hurtTime > 0 || var1.deathTime > 0;
-      if (!var9 && !var10) {
+   public boolean setBrightness(T entitylivingbaseIn, float partialTicks, boolean combineTextures) {
+      long l = O ^ 60107803437872L;
+      float f = entitylivingbaseIn.getBrightness(partialTicks);
+      int i = this.getColorMultiplier((T)entitylivingbaseIn, f, partialTicks);
+      boolean bl = (i >> 24 & 0xFF) > 0;
+      boolean bl2 = entitylivingbaseIn.hurtTime > 0 || entitylivingbaseIn.deathTime > 0;
+      if (!bl && !bl2) {
          return false;
       }
 
-      if (!var9 && !var3) {
+      if (!bl && !combineTextures) {
          return false;
       }
 
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
       GlStateManager.enableTexture2D();
-      long var10000 = 1979229814613904758L ^ var4;
+      long m = 1979229814613904758L ^ l;
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_COMBINE_RGB, 8448);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_RGB, OpenGlHelper.defaultTexUnit);
@@ -286,7 +288,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_ALPHA, OpenGlHelper.defaultTexUnit);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_OPERAND0_ALPHA, 770);
       GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-      var10000 = 1979229814613904758L ^ var4;
+      m = 1979229814613904758L ^ l;
       GlStateManager.enableTexture2D();
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_COMBINE_RGB, OpenGlHelper.GL_INTERPOLATE);
@@ -300,7 +302,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_ALPHA, OpenGlHelper.GL_PREVIOUS);
       GL11.glTexEnvi(8960, OpenGlHelper.GL_OPERAND0_ALPHA, 770);
       ((Buffer)this.brightnessBuffer).position(0);
-      if (var10) {
+      if (bl2) {
          this.brightnessBuffer.put(1.0F);
          this.brightnessBuffer.put(0.0F);
          this.brightnessBuffer.put(0.0F);
@@ -309,23 +311,23 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
             Shaders.setEntityColor(1.0F, 0.0F, 0.0F, 0.3F);
          }
       } else {
-         float var11 = (var8 >> 24 & 0xFF) / 255.0F;
-         float var12 = (var8 >> 16 & 0xFF) / 255.0F;
-         float var13 = (var8 >> 8 & 0xFF) / 255.0F;
-         float var14 = (var8 & 0xFF) / 255.0F;
-         this.brightnessBuffer.put(var12);
-         this.brightnessBuffer.put(var13);
-         this.brightnessBuffer.put(var14);
-         this.brightnessBuffer.put(1.0F - var11);
+         float g = (i >> 24 & 0xFF) / 255.0F;
+         float h = (i >> 16 & 0xFF) / 255.0F;
+         float f2 = (i >> 8 & 0xFF) / 255.0F;
+         float f3 = (i & 0xFF) / 255.0F;
+         this.brightnessBuffer.put(h);
+         this.brightnessBuffer.put(f2);
+         this.brightnessBuffer.put(f3);
+         this.brightnessBuffer.put(1.0F - g);
          if (Config.isShaders()) {
-            Shaders.setEntityColor(var12, var13, var14, 1.0F - var11);
+            Shaders.setEntityColor(h, f2, f3, 1.0F - g);
          }
       }
 
       ((Buffer)this.brightnessBuffer).flip();
       GL11.glTexEnv(8960, 8705, this.brightnessBuffer);
       GlStateManager.setActiveTexture(OpenGlHelper.GL_TEXTURE2);
-      var10000 = 1979229814613904758L ^ var4;
+      m = 1979229814613904758L ^ l;
       GlStateManager.enableTexture2D();
       GlStateManager.bindTexture(textureBrightness.getGlTextureId());
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
@@ -342,7 +344,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    }
 
    public void unsetBrightness() {
-      long var1 = O ^ 67727928361702L;
+      long l = O ^ 67727928361702L;
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
       GlStateManager.enableTexture2D();
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
@@ -368,7 +370,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       GL11.glTexEnvi(8960, OpenGlHelper.GL_SOURCE0_ALPHA, 5890);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.setActiveTexture(OpenGlHelper.GL_TEXTURE2);
-      long var10000 = 1979235504686998688L ^ var1;
+      long m = 1979235504686998688L ^ l;
       GlStateManager.disableTexture2D();
       GlStateManager.bindTexture(0);
       GL11.glTexEnvi(8960, 8704, OpenGlHelper.GL_COMBINE);
@@ -386,83 +388,83 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       }
    }
 
-   public void renderLivingAt(T var1, double var2, double var4, double var6) {
-      GlStateManager.translate((float)var2, (float)var4, (float)var6);
+   public void renderLivingAt(T entityLivingBaseIn, double x, double y, double z) {
+      GlStateManager.translate((float)x, (float)y, (float)z);
    }
 
-   public void rotateCorpse(T var1, float var2, float var3, float var4) {
-      GlStateManager.rotate(180.0F - var3, 0.0F, 1.0F, 0.0F);
-      if (var1.deathTime > 0) {
-         float var8 = (var1.deathTime + var4 - 1.0F) / 20.0F * 1.6F;
-         var8 = MathHelper.sqrt_float(var8);
-         if (var8 > 1.0F) {
-            var8 = 1.0F;
+   public void rotateCorpse(T bat, float g, float h, float partialTicks) {
+      GlStateManager.rotate(180.0F - h, 0.0F, 1.0F, 0.0F);
+      if (bat.deathTime > 0) {
+         float f = (bat.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
+         f = MathHelper.sqrt_float(f);
+         if (f > 1.0F) {
+            f = 1.0F;
          }
 
-         GlStateManager.rotate(var8 * this.getDeathMaxRotation((T)var1), 0.0F, 0.0F, 1.0F);
+         GlStateManager.rotate(f * this.getDeathMaxRotation((T)bat), 0.0F, 0.0F, 1.0F);
       } else {
-         String var10 = EnumChatFormatting.getTextWithoutFormattingCodes(var1.getName());
-         if (var10 != null
-            && (var10.equals("Dinnerbone") || var10.equals("Grumm"))
-            && (!(var1 instanceof EntityPlayer) || ((EntityPlayer)var1).isWearing(EnumPlayerModelParts.CAPE))) {
-            GlStateManager.translate(0.0F, var1.height + 0.1F, 0.0F);
+         String string = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
+         if (string != null
+            && (string.equals("Dinnerbone") || string.equals("Grumm"))
+            && (!(bat instanceof EntityPlayer) || ((EntityPlayer)bat).isWearing(EnumPlayerModelParts.CAPE))) {
+            GlStateManager.translate(0.0F, bat.height + 0.1F, 0.0F);
             GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
          }
       }
    }
 
-   public float o(T var1, float var2) {
-      return var1.getSwingProgress(var2);
+   public float o(T entityLivingBase, float g) {
+      return entityLivingBase.getSwingProgress(g);
    }
 
-   public float handleRotationFloat(T var1, float var2) {
-      return var1.ticksExisted + var2;
+   public float handleRotationFloat(T livingBase, float partialTicks) {
+      return livingBase.ticksExisted + partialTicks;
    }
 
-   public void renderLayers(T var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      for (LayerRenderer var13 : this.layerRenderers) {
-         boolean var14 = this.setBrightness((T)var1, var4, var13.shouldCombineTextures());
-         var13.doRenderLayer(var1, var2, var3, var4, var5, var6, var7, var8);
-         if (var14) {
+   public void renderLayers(T entitylivingbaseIn, float g, float h, float partialTicks, float f2, float f3, float f4, float f5) {
+      for (LayerRenderer layerRenderer : this.layerRenderers) {
+         boolean bl = this.setBrightness((T)entitylivingbaseIn, partialTicks, layerRenderer.shouldCombineTextures());
+         layerRenderer.doRenderLayer(entitylivingbaseIn, g, h, partialTicks, f2, f3, f4, f5);
+         if (bl) {
             this.unsetBrightness();
          }
       }
    }
 
-   public float getDeathMaxRotation(T var1) {
+   public float getDeathMaxRotation(T entityLivingBaseIn) {
       return 90.0F;
    }
 
-   public int getColorMultiplier(T var1, float var2, float var3) {
+   public int getColorMultiplier(T entitylivingbaseIn, float lightBrightness, float partialTickTime) {
       return 0;
    }
 
-   public void preRenderCallback(T var1, float var2) {
+   public void preRenderCallback(T entitylivingbaseIn, float partialTickTime) {
    }
 
-   public void renderName(T var1, double var2, double var4, double var6) {
-      long var8 = O ^ 80966086978154L;
+   public void renderName(T entity, double x, double y, double z) {
+      long l = O ^ 80966086978154L;
       if (!Reflector.RenderLivingEvent_Specials_Pre_Constructor.exists()
-         || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, var1, this, var2, var4, var6)) {
-         if (this.canRenderName((T)var1)) {
-            double var11 = var1.getDistanceSqToEntity(this.renderManager.livingPlayer);
-            float var13 = var1.isSneaking() ? E : p;
-            if (var11 < var13 * var13) {
-               String var14 = var1.getDisplayName().getFormattedText();
-               long var10000 = 8406457471310327947L ^ var8;
+         || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, entity, this, x, y, z)) {
+         if (this.canRenderName((T)entity)) {
+            double d = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
+            float f = entity.isSneaking() ? E : p;
+            if (d < f * f) {
+               String string = entity.getDisplayName().getFormattedText();
+               long m = 8406457471310327947L ^ l;
                GlStateManager.alphaFunc(516, 0.1F);
-               RenderNameTagEvent var16 = new RenderNameTagEvent();
-               Astolfo.INSTANCE.getEventBus().post(var16);
-               if (var16.isCancelled() && !(var1 instanceof EntityArmorStand)) {
+               RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent();
+               Astolfo.INSTANCE.getEventBus().post(renderNameTagEvent);
+               if (renderNameTagEvent.isCancelled() && !(entity instanceof EntityArmorStand)) {
                   return;
                }
 
-               if (var1.isSneaking()) {
-                  FontRenderer var17 = this.getFontRendererFromRenderManager();
+               if (entity.isSneaking()) {
+                  FontRenderer fontRenderer = this.getFontRendererFromRenderManager();
                   GlStateManager.pushMatrix();
-                  GlStateManager.translate((float)var2, (float)var4 + var1.height + 0.5F - (var1.isChild() ? var1.height / 2.0F : 0.0F), (float)var6);
+                  GlStateManager.translate((float)x, (float)y + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float)z);
                   GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                  var10000 = 641125262909184929L ^ var8;
+                  m = 641125262909184929L ^ l;
                   GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                   GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
                   GlStateManager.scale(-0.02666667F, -0.02666667F, 0.02666667F);
@@ -472,70 +474,70 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                   GlStateManager.enableBlend();
                   GlStateManager.disableTexture2D();
                   GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-                  int var18 = var17.getStringWidth(var14) / 2;
-                  Tessellator var19 = Tessellator.getInstance();
-                  WorldRenderer var20 = var19.getWorldRenderer();
-                  var20.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                  var20.pos(-var18 - 1, -1.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                  var20.pos(-var18 - 1, 8.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                  var20.pos(var18 + 1, 8.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                  var20.pos(var18 + 1, -1.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                  var19.draw();
+                  int i = fontRenderer.getStringWidth(string) / 2;
+                  Tessellator tessellator = Tessellator.getInstance();
+                  WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+                  worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                  worldRenderer.pos(-i - 1, -1.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                  worldRenderer.pos(-i - 1, 8.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                  worldRenderer.pos(i + 1, 8.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                  worldRenderer.pos(i + 1, -1.0, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                  tessellator.draw();
                   GlStateManager.enableTexture2D();
                   GlStateManager.depthMask(true);
-                  var17.D(var14, -var17.getStringWidth(var14) / 2, 0.0F, 553648127);
+                  fontRenderer.D(string, -fontRenderer.getStringWidth(string) / 2, 0.0F, 553648127);
                   GlStateManager.enableLighting();
                   GlStateManager.disableBlend();
                   GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                   GlStateManager.popMatrix();
                } else {
-                  this.renderOffsetLivingLabel((T)var1, var2, var4 - (var1.isChild() ? var1.height / 2.0F : 0.0), var6, var14, 0.02666667F, var11);
+                  this.renderOffsetLivingLabel((T)entity, x, y - (entity.isChild() ? entity.height / 2.0F : 0.0), z, string, 0.02666667F, d);
                }
             }
          }
 
          if (Reflector.RenderLivingEvent_Specials_Post_Constructor.exists()
-            && !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Post_Constructor, var1, this, var2, var4, var6)) {
+            && !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Post_Constructor, entity, this, x, y, z)) {
          }
       }
    }
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public boolean canRenderName(T var1) {
-      EntityPlayerSP var5 = Minecraft.getMinecraft().thePlayer;
-      if (var1 instanceof EntityPlayer && var1 != var5) {
-         Team var6 = var1.getTeam();
-         Team var7 = var5.getTeam();
-         if (var6 != null) {
-            Team.EnumVisible var8 = var6.getNameTagVisibility();
-            switch (var8) {
+   public boolean canRenderName(T entity) {
+      EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
+      if (entity instanceof EntityPlayer && entity != entityPlayerSP) {
+         Team team = entity.getTeam();
+         Team team2 = entityPlayerSP.getTeam();
+         if (team != null) {
+            Team.EnumVisible enumVisible = team.getNameTagVisibility();
+            switch (enumVisible) {
                case ALWAYS:
                   return true;
                case NEVER:
                   return false;
                case HIDE_FOR_OTHER_TEAMS:
-                  return var7 == null || var6.isSameTeam(var7);
+                  return team2 == null || team.isSameTeam(team2);
                case HIDE_FOR_OWN_TEAM:
-                  return var7 == null || !var6.isSameTeam(var7);
+                  return team2 == null || !team.isSameTeam(team2);
                default:
                   return true;
             }
          }
       }
 
-      return Minecraft.isGuiEnabled() && var1 != this.renderManager.livingPlayer && !var1.isInvisibleToPlayer(var5) && var1.riddenByEntity == null;
+      return Minecraft.isGuiEnabled() && entity != this.renderManager.livingPlayer && !entity.isInvisibleToPlayer(entityPlayerSP) && entity.riddenByEntity == null;
    }
 
-   public void setRenderOutlines(boolean var1) {
-      this.renderOutlines = var1;
+   public void setRenderOutlines(boolean renderOutlinesIn) {
+      this.renderOutlines = renderOutlinesIn;
    }
 
    static {
-      int[] var22 = textureBrightness.getTextureData();
+      int[] ints = textureBrightness.getTextureData();
 
-      for (int var23 = 0; var23 < 256; var23++) {
-         var22[var23] = -1;
+      for (int i = 0; i < 256; i++) {
+         ints[i] = -1;
       }
 
       textureBrightness.updateDynamicTexture();

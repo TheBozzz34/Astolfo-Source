@@ -33,216 +33,222 @@ public class CommandSpreadPlayers extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.spreadplayers.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 6) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 6) {
          throw new WrongUsageException("commands.spreadplayers.usage");
       }
 
-      int var6 = 0;
-      BlockPos var7 = var1.getPosition();
-      double var8 = parseDouble(var7.getX(), var2[var6++], true);
-      double var10 = parseDouble(var7.getZ(), var2[var6++], true);
-      double var12 = parseDouble(var2[var6++], 0.0);
-      double var14 = parseDouble(var2[var6++], var12 + 1.0);
-      boolean var16 = parseBoolean(var2[var6++]);
-      ArrayList var17 = Lists.newArrayList();
+      int i = 0;
+      BlockPos blockPos = sender.getPosition();
+      double d = parseDouble(blockPos.getX(), args[i++], true);
+      double e = parseDouble(blockPos.getZ(), args[i++], true);
+      double d2 = parseDouble(args[i++], 0.0);
+      double d3 = parseDouble(args[i++], d2 + 1.0);
+      boolean bl = parseBoolean(args[i++]);
+      ArrayList arrayList = Lists.newArrayList();
 
-      while (var6 < var2.length) {
-         String var18 = var2[var6++];
-         if (PlayerSelector.hasArguments(var18)) {
-            List var19 = PlayerSelector.matchEntities(var1, var18, Entity.class);
-            if (var19.size() == 0) {
+      while (i < args.length) {
+         String string = args[i++];
+         if (PlayerSelector.hasArguments(string)) {
+            List list = PlayerSelector.matchEntities(sender, string, Entity.class);
+            if (list.size() == 0) {
                throw new EntityNotFoundException();
             }
 
-            var17.addAll(var19);
+            arrayList.addAll(list);
          } else {
-            EntityPlayerMP var25 = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(var18);
-            if (var25 == null) {
+            EntityPlayerMP entityPlayerMP = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(string);
+            if (entityPlayerMP == null) {
                throw new PlayerNotFoundException();
             }
 
-            var17.add(var25);
+            arrayList.add(entityPlayerMP);
          }
       }
 
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, var17.size());
-      if (var17.isEmpty()) {
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, arrayList.size());
+      if (arrayList.isEmpty()) {
          throw new EntityNotFoundException();
       }
 
-      var1.addChatMessage(
-         new ChatComponentTranslation("commands.spreadplayers.spreading." + (var16 ? "teams" : "players"), var17.size(), var14, var8, var10, var12)
+      sender.addChatMessage(
+         new ChatComponentTranslation("commands.spreadplayers.spreading." + (bl ? "teams" : "players"), arrayList.size(), d3, d, e, d2)
       );
-      this.func_110669_a(var1, var17, new CommandSpreadPlayers.Position(var8, var10), var12, var14, ((Entity)var17.get(0)).worldObj, var16);
+      this.func_110669_a(sender, arrayList, new CommandSpreadPlayers.Position(d, e), d2, d3, ((Entity)arrayList.get(0)).worldObj, bl);
    }
 
-   private void func_110669_a(ICommandSender var1, List<Entity> var2, CommandSpreadPlayers.Position var3, double var4, double var6, World var8, boolean var9) throws CommandException {
-      Random var13 = new Random();
-      double var14 = var3.field_111101_a - var6;
-      double var16 = var3.field_111100_b - var6;
-      double var18 = var3.field_111101_a + var6;
-      double var20 = var3.field_111100_b + var6;
-      CommandSpreadPlayers.Position[] var22 = this.func_110670_a(var13, var9 ? this.func_110667_a(var2) : var2.size(), var14, var16, var18, var20);
-      int var23 = this.func_110668_a(var3, var4, var8, var13, var14, var16, var18, var20, var22, var9);
-      double var24 = this.func_110671_a(var2, var8, var22, var9);
-      notifyOperators(var1, this, "commands.spreadplayers.success." + (var9 ? "teams" : "players"), var22.length, var3.field_111101_a, var3.field_111100_b);
-      if (var22.length > 1) {
-         var1.addChatMessage(new ChatComponentTranslation("commands.spreadplayers.info." + (var9 ? "teams" : "players"), String.format("%.2f", var24), var23));
+   private void func_110669_a(
+      ICommandSender iCommandSender, List<Entity> list, CommandSpreadPlayers.Position position, double d, double d2, World worldIn, boolean bl
+   ) throws CommandException {
+      Random random = new Random();
+      double e = position.field_111101_a - d2;
+      double d3 = position.field_111100_b - d2;
+      double d4 = position.field_111101_a + d2;
+      double d5 = position.field_111100_b + d2;
+      CommandSpreadPlayers.Position[] positions = this.func_110670_a(random, bl ? this.func_110667_a(list) : list.size(), e, d3, d4, d5);
+      int i = this.func_110668_a(position, d, worldIn, random, e, d3, d4, d5, positions, bl);
+      double d6 = this.func_110671_a(list, worldIn, positions, bl);
+      notifyOperators(
+         iCommandSender, this, "commands.spreadplayers.success." + (bl ? "teams" : "players"), positions.length, position.field_111101_a, position.field_111100_b
+      );
+      if (positions.length > 1) {
+         iCommandSender.addChatMessage(
+            new ChatComponentTranslation("commands.spreadplayers.info." + (bl ? "teams" : "players"), String.format("%.2f", d6), i)
+         );
       }
    }
 
-   private int func_110667_a(List<Entity> var1) {
-      HashSet var5 = Sets.newHashSet();
+   private int func_110667_a(List<Entity> list) {
+      HashSet hashSet = Sets.newHashSet();
 
-      for (Entity var7 : var1) {
-         if (var7 instanceof EntityPlayer) {
-            var5.add(((EntityPlayer)var7).getTeam());
+      for (Entity entity : list) {
+         if (entity instanceof EntityPlayer) {
+            hashSet.add(((EntityPlayer)entity).getTeam());
          } else {
-            var5.add((Team)null);
+            hashSet.add((Team)null);
          }
       }
 
-      return var5.size();
+      return hashSet.size();
    }
 
    private int func_110668_a(
-      CommandSpreadPlayers.Position var1,
-      double var2,
-      World var4,
-      Random var5,
-      double var6,
-      double var8,
-      double var10,
-      double var12,
-      CommandSpreadPlayers.Position[] var14,
-      boolean var15
+      CommandSpreadPlayers.Position position,
+      double d,
+      World worldIn,
+      Random random2,
+      double d2,
+      double d3,
+      double d4,
+      double d5,
+      CommandSpreadPlayers.Position[] positions,
+      boolean bl
    ) throws CommandException {
-      boolean var19 = true;
-      double var20 = Float.MAX_VALUE;
+      boolean bl2 = true;
+      double e = Float.MAX_VALUE;
 
-      int var22;
-      for (var22 = 0; var22 < 10000 && var19; var22++) {
-         var19 = false;
-         var20 = Float.MAX_VALUE;
+      int i;
+      for (i = 0; i < 10000 && bl2; i++) {
+         bl2 = false;
+         e = Float.MAX_VALUE;
 
-         for (int var23 = 0; var23 < var14.length; var23++) {
-            CommandSpreadPlayers.Position var24 = var14[var23];
-            int var25 = 0;
-            CommandSpreadPlayers.Position var26 = new CommandSpreadPlayers.Position();
+         for (int j = 0; j < positions.length; j++) {
+            CommandSpreadPlayers.Position position2 = positions[j];
+            int k = 0;
+            CommandSpreadPlayers.Position position3 = new CommandSpreadPlayers.Position();
 
-            for (int var27 = 0; var27 < var14.length; var27++) {
-               if (var23 != var27) {
-                  CommandSpreadPlayers.Position var28 = var14[var27];
-                  double var29 = var24.func_111099_a(var28);
-                  var20 = Math.min(var29, var20);
-                  if (var29 < var2) {
-                     var25++;
-                     var26.field_111101_a = var26.field_111101_a + (var28.field_111101_a - var24.field_111101_a);
-                     var26.field_111100_b = var26.field_111100_b + (var28.field_111100_b - var24.field_111100_b);
+            for (int l = 0; l < positions.length; l++) {
+               if (j != l) {
+                  CommandSpreadPlayers.Position position4 = positions[l];
+                  double d6 = position2.func_111099_a(position4);
+                  e = Math.min(d6, e);
+                  if (d6 < d) {
+                     k++;
+                     position3.field_111101_a = position3.field_111101_a + (position4.field_111101_a - position2.field_111101_a);
+                     position3.field_111100_b = position3.field_111100_b + (position4.field_111100_b - position2.field_111100_b);
                   }
                }
             }
 
-            if (var25 > 0) {
-               var26.field_111101_a /= var25;
-               var26.field_111100_b /= var25;
-               double var35 = var26.func_111096_b();
-               if (var35 > 0.0) {
-                  var26.func_111095_a();
-                  var24.func_111094_b(var26);
+            if (k > 0) {
+               position3.field_111101_a /= k;
+               position3.field_111100_b /= k;
+               double d7 = position3.func_111096_b();
+               if (d7 > 0.0) {
+                  position3.func_111095_a();
+                  position2.func_111094_b(position3);
                } else {
-                  var24.func_111097_a(var5, var6, var8, var10, var12);
+                  position2.func_111097_a(random2, d2, d3, d4, d5);
                }
 
-               var19 = true;
+               bl2 = true;
             }
 
-            if (var24.func_111093_a(var6, var8, var10, var12)) {
-               var19 = true;
+            if (position2.func_111093_a(d2, d3, d4, d5)) {
+               bl2 = true;
             }
          }
 
-         if (!var19) {
-            for (CommandSpreadPlayers.Position var34 : var14) {
-               if (!var34.func_111098_b(var4)) {
-                  var34.func_111097_a(var5, var6, var8, var10, var12);
-                  var19 = true;
+         if (!bl2) {
+            for (CommandSpreadPlayers.Position position5 : positions) {
+               if (!position5.func_111098_b(worldIn)) {
+                  position5.func_111097_a(random2, d2, d3, d4, d5);
+                  bl2 = true;
                }
             }
          }
       }
 
-      if (var22 >= 10000) {
+      if (i >= 10000) {
          throw new CommandException(
-            "commands.spreadplayers.failure." + (var15 ? "teams" : "players"),
-            var14.length,
-            var1.field_111101_a,
-            var1.field_111100_b,
-            String.format("%.2f", var20)
+            "commands.spreadplayers.failure." + (bl ? "teams" : "players"),
+            positions.length,
+            position.field_111101_a,
+            position.field_111100_b,
+            String.format("%.2f", e)
          );
       } else {
-         return var22;
+         return i;
       }
    }
 
-   private double func_110671_a(List<Entity> var1, World var2, CommandSpreadPlayers.Position[] var3, boolean var4) {
-      double var8 = 0.0;
-      int var10 = 0;
-      HashMap var11 = Maps.newHashMap();
+   private double func_110671_a(List<Entity> list, World worldIn, CommandSpreadPlayers.Position[] positions, boolean bl) {
+      double d = 0.0;
+      int i = 0;
+      HashMap hashMap = Maps.newHashMap();
 
-      for (int var12 = 0; var12 < var1.size(); var12++) {
-         Entity var13 = (Entity)var1.get(var12);
-         CommandSpreadPlayers.Position var14;
-         if (var4) {
-            Team var15 = var13 instanceof EntityPlayer ? ((EntityPlayer)var13).getTeam() : null;
-            if (!var11.containsKey(var15)) {
-               var11.put(var15, var3[var10++]);
+      for (int j = 0; j < list.size(); j++) {
+         Entity entity = (Entity)list.get(j);
+         CommandSpreadPlayers.Position position;
+         if (bl) {
+            Team team = entity instanceof EntityPlayer ? ((EntityPlayer)entity).getTeam() : null;
+            if (!hashMap.containsKey(team)) {
+               hashMap.put(team, positions[i++]);
             }
 
-            var14 = (CommandSpreadPlayers.Position)var11.get(var15);
+            position = (CommandSpreadPlayers.Position)hashMap.get(team);
          } else {
-            var14 = var3[var10++];
+            position = positions[i++];
          }
 
-         var13.setPositionAndUpdate(
-            MathHelper.floor_double(var14.field_111101_a) + 0.5F, var14.func_111092_a(var2), MathHelper.floor_double(var14.field_111100_b) + 0.5
+         entity.setPositionAndUpdate(
+            MathHelper.floor_double(position.field_111101_a) + 0.5F, position.func_111092_a(worldIn), MathHelper.floor_double(position.field_111100_b) + 0.5
          );
-         double var20 = Double.MAX_VALUE;
+         double e = Double.MAX_VALUE;
 
-         for (int var17 = 0; var17 < var3.length; var17++) {
-            if (var14 != var3[var17]) {
-               double var18 = var14.func_111099_a(var3[var17]);
-               var20 = Math.min(var18, var20);
+         for (int k = 0; k < positions.length; k++) {
+            if (position != positions[k]) {
+               double d2 = position.func_111099_a(positions[k]);
+               e = Math.min(d2, e);
             }
          }
 
-         var8 += var20;
+         d += e;
       }
 
-      return var8 / var1.size();
+      return d / list.size();
    }
 
-   private CommandSpreadPlayers.Position[] func_110670_a(Random var1, int var2, double var3, double var5, double var7, double var9) {
-      CommandSpreadPlayers.Position[] var14 = new CommandSpreadPlayers.Position[var2];
+   private CommandSpreadPlayers.Position[] func_110670_a(Random random2, int i, double d, double d2, double d3, double d4) {
+      CommandSpreadPlayers.Position[] positions = new CommandSpreadPlayers.Position[i];
 
-      for (int var15 = 0; var15 < var14.length; var15++) {
-         CommandSpreadPlayers.Position var16 = new CommandSpreadPlayers.Position();
-         var16.func_111097_a(var1, var3, var5, var7, var9);
-         var14[var15] = var16;
+      for (int j = 0; j < positions.length; j++) {
+         CommandSpreadPlayers.Position position = new CommandSpreadPlayers.Position();
+         position.func_111097_a(random2, d, d2, d3, d4);
+         positions[j] = position;
       }
 
-      return var14;
+      return positions;
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length >= 1 && var2.length <= 2 ? func_181043_b(var2, 0, var3) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length >= 1 && args.length <= 2 ? func_181043_b(args, 0, pos) : null;
    }
 
    public static class Position {
@@ -254,83 +260,83 @@ public class CommandSpreadPlayers extends CommandBase {
       public Position() {
       }
 
-      public Position(double var1, double var3) {
-         this.field_111101_a = var1;
-         this.field_111100_b = var3;
+      public Position(double d, double d2) {
+         this.field_111101_a = d;
+         this.field_111100_b = d2;
       }
 
-      public double func_111099_a(CommandSpreadPlayers.Position var1) {
-         double var2 = this.field_111101_a - var1.field_111101_a;
-         double var4 = this.field_111100_b - var1.field_111100_b;
-         return Math.sqrt(var2 * var2 + var4 * var4);
+      public double func_111099_a(CommandSpreadPlayers.Position position) {
+         double d = this.field_111101_a - position.field_111101_a;
+         double e = this.field_111100_b - position.field_111100_b;
+         return Math.sqrt(d * d + e * e);
       }
 
       public void func_111095_a() {
-         double var1 = this.func_111096_b();
-         this.field_111101_a /= var1;
-         this.field_111100_b /= var1;
+         double d = this.func_111096_b();
+         this.field_111101_a /= d;
+         this.field_111100_b /= d;
       }
 
       public float func_111096_b() {
          return MathHelper.sqrt_double(this.field_111101_a * this.field_111101_a + this.field_111100_b * this.field_111100_b);
       }
 
-      public void func_111094_b(CommandSpreadPlayers.Position var1) {
-         this.field_111101_a = this.field_111101_a - var1.field_111101_a;
-         this.field_111100_b = this.field_111100_b - var1.field_111100_b;
+      public void func_111094_b(CommandSpreadPlayers.Position position) {
+         this.field_111101_a = this.field_111101_a - position.field_111101_a;
+         this.field_111100_b = this.field_111100_b - position.field_111100_b;
       }
 
-      public boolean func_111093_a(double var1, double var3, double var5, double var7) {
-         boolean var12 = false;
-         if (this.field_111101_a < var1) {
-            this.field_111101_a = var1;
-            var12 = true;
-         } else if (this.field_111101_a > var5) {
-            this.field_111101_a = var5;
-            var12 = true;
+      public boolean func_111093_a(double d, double d2, double d3, double d4) {
+         boolean bl = false;
+         if (this.field_111101_a < d) {
+            this.field_111101_a = d;
+            bl = true;
+         } else if (this.field_111101_a > d3) {
+            this.field_111101_a = d3;
+            bl = true;
          }
 
-         if (this.field_111100_b < var3) {
-            this.field_111100_b = var3;
-            var12 = true;
-         } else if (this.field_111100_b > var7) {
-            this.field_111100_b = var7;
-            var12 = true;
+         if (this.field_111100_b < d2) {
+            this.field_111100_b = d2;
+            bl = true;
+         } else if (this.field_111100_b > d4) {
+            this.field_111100_b = d4;
+            bl = true;
          }
 
-         return var12;
+         return bl;
       }
 
-      public int func_111092_a(World var1) {
-         BlockPos var5 = new BlockPos(this.field_111101_a, 256.0, this.field_111100_b);
+      public int func_111092_a(World worldIn) {
+         BlockPos blockPos = new BlockPos(this.field_111101_a, 256.0, this.field_111100_b);
 
-         while (var5.getY() > 0) {
-            var5 = var5.down();
-            if (var1.getBlockState(var5).getBlock().getMaterial() != Material.air) {
-               return var5.getY() + 1;
+         while (blockPos.getY() > 0) {
+            blockPos = blockPos.down();
+            if (worldIn.getBlockState(blockPos).getBlock().getMaterial() != Material.air) {
+               return blockPos.getY() + 1;
             }
          }
 
          return (int)b;
       }
 
-      public boolean func_111098_b(World var1) {
-         BlockPos var5 = new BlockPos(this.field_111101_a, 256.0, this.field_111100_b);
+      public boolean func_111098_b(World worldIn) {
+         BlockPos blockPos = new BlockPos(this.field_111101_a, 256.0, this.field_111100_b);
 
-         while (var5.getY() > 0) {
-            var5 = var5.down();
-            Material var6 = var1.getBlockState(var5).getBlock().getMaterial();
-            if (var6 != Material.air) {
-               return !var6.isLiquid() && var6 != Material.fire;
+         while (blockPos.getY() > 0) {
+            blockPos = blockPos.down();
+            Material material = worldIn.getBlockState(blockPos).getBlock().getMaterial();
+            if (material != Material.air) {
+               return !material.isLiquid() && material != Material.fire;
             }
          }
 
          return false;
       }
 
-      public void func_111097_a(Random var1, double var2, double var4, double var6, double var8) {
-         this.field_111101_a = MathHelper.getRandomDoubleInRange(var1, var2, var6);
-         this.field_111100_b = MathHelper.getRandomDoubleInRange(var1, var4, var8);
+      public void func_111097_a(Random random2, double d, double d2, double d3, double d4) {
+         this.field_111101_a = MathHelper.getRandomDoubleInRange(random2, d, d3);
+         this.field_111100_b = MathHelper.getRandomDoubleInRange(random2, d2, d4);
       }
    }
 }

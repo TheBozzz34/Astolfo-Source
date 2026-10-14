@@ -7,15 +7,15 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 public final class TopFileChooser extends JFileChooser {
-   public TopFileChooser(File var1) {
-      super(var1);
+   public TopFileChooser(File file) {
+      super(file);
    }
 
    @Override
-   public JDialog createDialog(Component var1) throws HeadlessException {
-      JDialog var2 = super.createDialog(var1);
-      var2.setLocationByPlatform(true);
-      var2.setAlwaysOnTop(true);
-      return var2;
+   public JDialog createDialog(Component component) throws HeadlessException {
+      JDialog jDialog = super.createDialog(component);
+      jDialog.setLocationByPlatform(true);
+      jDialog.setAlwaysOnTop(true);
+      return jDialog;
    }
 }

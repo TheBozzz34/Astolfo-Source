@@ -21,25 +21,25 @@ public class BlockRedSandstone extends Block {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(TYPE).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(TYPE).getMetadata();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (BlockRedSandstone.EnumType var10 : BlockRedSandstone.EnumType.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (BlockRedSandstone.EnumType enumType : BlockRedSandstone.EnumType.values()) {
+         list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(TYPE, BlockRedSandstone.EnumType.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(TYPE, BlockRedSandstone.EnumType.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(TYPE).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(TYPE).getMetadata();
    }
 
    @Override
@@ -58,10 +58,10 @@ public class BlockRedSandstone extends Block {
       private final String unlocalizedName;
       private static final long a = 90948916489431L;
 
-      EnumType(int var3, String var4, String var5) {
-         this.meta = var3;
-         this.name = var4;
-         this.unlocalizedName = var5;
+      EnumType(int meta, String name, String unlocalizedNameIn) {
+         this.meta = meta;
+         this.name = name;
+         this.unlocalizedName = unlocalizedNameIn;
       }
 
       public int getMetadata() {
@@ -73,12 +73,12 @@ public class BlockRedSandstone extends Block {
          return this.name;
       }
 
-      public static BlockRedSandstone.EnumType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= META_LOOKUP.length) {
-            var0 = 0;
+      public static BlockRedSandstone.EnumType byMetadata(int meta) {
+         if (meta < 0 || meta >= META_LOOKUP.length) {
+            meta = 0;
          }
 
-         return META_LOOKUP[var0];
+         return META_LOOKUP[meta];
       }
 
       @Override
@@ -91,8 +91,8 @@ public class BlockRedSandstone extends Block {
       }
 
       static {
-         for (BlockRedSandstone.EnumType var14 : values()) {
-            META_LOOKUP[var14.getMetadata()] = var14;
+         for (BlockRedSandstone.EnumType enumType : values()) {
+            META_LOOKUP[enumType.getMetadata()] = enumType;
          }
       }
    }

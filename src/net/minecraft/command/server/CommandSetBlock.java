@@ -31,91 +31,91 @@ public class CommandSetBlock extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.setblock.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 4) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 4) {
          throw new WrongUsageException("commands.setblock.usage");
       }
 
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
-      BlockPos var6 = parseBlockPos(var1, var2, 0, false);
-      Block var7 = CommandBase.getBlockByText(var1, var2[3]);
-      int var8 = 0;
-      if (var2.length >= 5) {
-         var8 = parseInt(var2[4], 0, 15);
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
+      BlockPos blockPos = parseBlockPos(sender, args, 0, false);
+      Block block = CommandBase.getBlockByText(sender, args[3]);
+      int i = 0;
+      if (args.length >= 5) {
+         i = parseInt(args[4], 0, 15);
       }
 
-      World var9 = var1.getEntityWorld();
-      if (!var9.isBlockLoaded(var6)) {
+      World world = sender.getEntityWorld();
+      if (!world.isBlockLoaded(blockPos)) {
          throw new CommandException("commands.setblock.outOfWorld");
       }
 
-      NBTTagCompound var10 = new NBTTagCompound();
-      boolean var11 = false;
-      if (var2.length >= 7 && var7.hasTileEntity()) {
-         String var12 = getChatComponentFromNthArg(var1, var2, 6).getUnformattedText();
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      boolean bl = false;
+      if (args.length >= 7 && block.hasTileEntity()) {
+         String string = getChatComponentFromNthArg(sender, args, 6).getUnformattedText();
 
          try {
-            var10 = JsonToNBT.getTagFromJson(var12);
-            var11 = true;
-         } catch (NBTException var15) {
-            throw new CommandException("commands.setblock.tagError", var15.getMessage());
+            nbtTagCompound = JsonToNBT.getTagFromJson(string);
+            bl = true;
+         } catch (NBTException nbtException) {
+            throw new CommandException("commands.setblock.tagError", nbtException.getMessage());
          }
       }
 
-      if (var2.length >= 6) {
-         if (var2[5].equals("destroy")) {
-            var9.destroyBlock(var6, true);
-            if (var7 == Blocks.air) {
-               notifyOperators(var1, this, "commands.setblock.success");
+      if (args.length >= 6) {
+         if (args[5].equals("destroy")) {
+            world.destroyBlock(blockPos, true);
+            if (block == Blocks.air) {
+               notifyOperators(sender, this, "commands.setblock.success");
                return;
             }
-         } else if (var2[5].equals("keep") && !var9.isAirBlock(var6)) {
+         } else if (args[5].equals("keep") && !world.isAirBlock(blockPos)) {
             throw new CommandException("commands.setblock.noChange");
          }
       }
 
-      TileEntity var16 = var9.getTileEntity(var6);
-      if (var16 != null) {
-         if (var16 instanceof IInventory) {
-            ((IInventory)var16).clear();
+      TileEntity tileEntity = world.getTileEntity(blockPos);
+      if (tileEntity != null) {
+         if (tileEntity instanceof IInventory) {
+            ((IInventory)tileEntity).clear();
          }
 
-         var9.setBlockState(var6, Blocks.air.getDefaultState(), var7 == Blocks.air ? 2 : 4);
+         world.setBlockState(blockPos, Blocks.air.getDefaultState(), block == Blocks.air ? 2 : 4);
       }
 
-      IBlockState var13 = var7.getStateFromMeta(var8);
-      if (!var9.setBlockState(var6, var13, 2)) {
+      IBlockState iBlockState = block.getStateFromMeta(i);
+      if (!world.setBlockState(blockPos, iBlockState, 2)) {
          throw new CommandException("commands.setblock.noChange");
       }
 
-      if (var11) {
-         TileEntity var14 = var9.getTileEntity(var6);
-         if (var14 != null) {
-            var10.setInteger("x", var6.getX());
-            var10.setInteger("y", var6.getY());
-            var10.setInteger("z", var6.getZ());
-            var14.readFromNBT(var10);
+      if (bl) {
+         TileEntity tileEntity2 = world.getTileEntity(blockPos);
+         if (tileEntity2 != null) {
+            nbtTagCompound.setInteger("x", blockPos.getX());
+            nbtTagCompound.setInteger("y", blockPos.getY());
+            nbtTagCompound.setInteger("z", blockPos.getZ());
+            tileEntity2.readFromNBT(nbtTagCompound);
          }
       }
 
-      var9.notifyNeighborsRespectDebug(var6, var13.getBlock());
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-      notifyOperators(var1, this, "commands.setblock.success");
+      world.notifyNeighborsRespectDebug(blockPos, iBlockState.getBlock());
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
+      notifyOperators(sender, this, "commands.setblock.success");
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length > 0 && var2.length <= 3
-         ? func_175771_a(var2, 0, var3)
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length > 0 && args.length <= 3
+         ? func_175771_a(args, 0, pos)
          : (
-            var2.length == 4
-               ? getListOfStringsMatchingLastWord(var2, Block.blockRegistry.getKeys())
-               : (var2.length == 6 ? getListOfStringsMatchingLastWord(var2, "replace", "destroy", "keep") : null)
+            args.length == 4
+               ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys())
+               : (args.length == 6 ? getListOfStringsMatchingLastWord(args, "replace", "destroy", "keep") : null)
          );
    }
 }

@@ -6,8 +6,8 @@ public class ProcessListOwner {
    private final ListContainerOwner<String> O;
 
    public ProcessListOwner() {
-      ProcessNames var1 = new ProcessNames();
-      this.O = new ListContainerOwner<>(var1.A());
+      ProcessNames processNames = new ProcessNames();
+      this.O = new ListContainerOwner<>(processNames.A());
    }
 
    public ListContainerOwner<String> R() {

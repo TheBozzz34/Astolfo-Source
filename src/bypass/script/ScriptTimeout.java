@@ -7,26 +7,26 @@ public class ScriptTimeout {
    private static final long a = 2856853134267L;
    private static final long e = 6338341585285022696L;
 
-   public void i(Thread var1, int var2) {
-      var1.start();
+   public void i(Thread thread, int i) {
+      thread.start();
       synchronized (this.W) {
          if (!this.U) {
             try {
-               if (var2 < 1) {
+               if (i < 1) {
                   this.W.wait();
                } else {
-                  this.W.wait((int)e * var2);
+                  this.W.wait((int)e * i);
                }
-            } catch (InterruptedException var9) {
-               throw new RuntimeException(var9);
+            } catch (InterruptedException interruptedException) {
+               throw new RuntimeException(interruptedException);
             }
          }
       }
 
       if (!this.U) {
-         var1.interrupt();
-         var1.stop();
-         throw new RuntimeException("Script was forced to termination: Execution time bigger then " + var2 + " seconds");
+         thread.interrupt();
+         thread.stop();
+         throw new RuntimeException("Script was forced to termination: Execution time bigger then " + i + " seconds");
       }
    }
 

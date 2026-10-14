@@ -17,18 +17,18 @@ public class PingHandler extends PacketHandler<Integer> {
       super(PacketId.PING);
    }
 
-   public void handle(Integer var1, PacketOutput var2) {
-      if (var1 != -1) {
+   public void handle(Integer integer, PacketOutput packetOutput) {
+      if (integer != -1) {
          k = S;
-         S = var1;
-         var2.getSender().send((short)237, var1);
+         S = integer;
+         packetOutput.getSender().send((short)237, integer);
       } else {
          if (k != null) {
-            var2.getSender().send((short)237, k);
+            packetOutput.getSender().send((short)237, k);
          }
 
          if (S != null) {
-            var2.getSender().send((short)237, S);
+            packetOutput.getSender().send((short)237, S);
          }
       }
 

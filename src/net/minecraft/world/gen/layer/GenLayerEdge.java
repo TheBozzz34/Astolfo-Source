@@ -4,103 +4,103 @@ public class GenLayerEdge extends GenLayer {
    private final GenLayerEdge.Mode field_151627_c;
    private static final long c = 114190713038209L;
 
-   public GenLayerEdge(long var1, GenLayer var3, GenLayerEdge.Mode var4) {
-      super(var1);
-      this.parent = var3;
-      this.field_151627_c = var4;
+   public GenLayerEdge(long l, GenLayer genLayer, GenLayerEdge.Mode mode) {
+      super(l);
+      this.parent = genLayer;
+      this.field_151627_c = mode;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
       switch (this.field_151627_c) {
          case COOL_WARM:
          default:
-            return this.n(var1, var2, var3, var4);
+            return this.n(areaX, areaY, areaWidth, areaHeight);
          case HEAT_ICE:
-            return this.B(var1, var2, var3, var4);
+            return this.B(areaX, areaY, areaWidth, areaHeight);
          case SPECIAL:
-            return this.getIntsSpecial(var1, var2, var3, var4);
+            return this.getIntsSpecial(areaX, areaY, areaWidth, areaHeight);
       }
    }
 
-   private int[] n(int var1, int var2, int var3, int var4) {
-      int var8 = var1 - 1;
-      int var9 = var2 - 1;
-      int var10 = 1 + var3 + 1;
-      int var11 = 1 + var4 + 1;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int[] var13 = IntCache.getIntCache(var3 * var4);
+   private int[] n(int i, int j, int k, int l) {
+      int m = i - 1;
+      int i2 = j - 1;
+      int i3 = 1 + k + 1;
+      int i4 = 1 + l + 1;
+      int[] ints = this.parent.getInts(m, i2, i3, i4);
+      int[] ints2 = IntCache.getIntCache(k * l);
 
-      for (int var14 = 0; var14 < var4; var14++) {
-         for (int var15 = 0; var15 < var3; var15++) {
-            this.initChunkSeed(var15 + var1, var14 + var2);
-            int var16 = var12[var15 + 1 + (var14 + 1) * var10];
-            if (var16 == 1) {
-               int var17 = var12[var15 + 1 + (var14 + 1 - 1) * var10];
-               int var18 = var12[var15 + 1 + 1 + (var14 + 1) * var10];
-               int var19 = var12[var15 + 1 - 1 + (var14 + 1) * var10];
-               int var20 = var12[var15 + 1 + (var14 + 1 + 1) * var10];
-               boolean var21 = var17 == 3 || var18 == 3 || var19 == 3 || var20 == 3;
-               boolean var22 = var17 == 4 || var18 == 4 || var19 == 4 || var20 == 4;
-               if (var21 || var22) {
-                  var16 = 2;
+      for (int i5 = 0; i5 < l; i5++) {
+         for (int i6 = 0; i6 < k; i6++) {
+            this.initChunkSeed(i6 + i, i5 + j);
+            int i7 = ints[i6 + 1 + (i5 + 1) * i3];
+            if (i7 == 1) {
+               int i8 = ints[i6 + 1 + (i5 + 1 - 1) * i3];
+               int i9 = ints[i6 + 1 + 1 + (i5 + 1) * i3];
+               int i10 = ints[i6 + 1 - 1 + (i5 + 1) * i3];
+               int i11 = ints[i6 + 1 + (i5 + 1 + 1) * i3];
+               boolean bl = i8 == 3 || i9 == 3 || i10 == 3 || i11 == 3;
+               boolean bl2 = i8 == 4 || i9 == 4 || i10 == 4 || i11 == 4;
+               if (bl || bl2) {
+                  i7 = 2;
                }
             }
 
-            var13[var15 + var14 * var3] = var16;
+            ints2[i6 + i5 * k] = i7;
          }
       }
 
-      return var13;
+      return ints2;
    }
 
-   private int[] B(int var1, int var2, int var3, int var4) {
-      int var8 = var1 - 1;
-      int var9 = var2 - 1;
-      int var10 = 1 + var3 + 1;
-      int var11 = 1 + var4 + 1;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int[] var13 = IntCache.getIntCache(var3 * var4);
+   private int[] B(int i, int j, int k, int l) {
+      int m = i - 1;
+      int n = j - 1;
+      int i2 = 1 + k + 1;
+      int i3 = 1 + l + 1;
+      int[] ints = this.parent.getInts(m, n, i2, i3);
+      int[] ints2 = IntCache.getIntCache(k * l);
 
-      for (int var14 = 0; var14 < var4; var14++) {
-         for (int var15 = 0; var15 < var3; var15++) {
-            int var16 = var12[var15 + 1 + (var14 + 1) * var10];
-            if (var16 == 4) {
-               int var17 = var12[var15 + 1 + (var14 + 1 - 1) * var10];
-               int var18 = var12[var15 + 1 + 1 + (var14 + 1) * var10];
-               int var19 = var12[var15 + 1 - 1 + (var14 + 1) * var10];
-               int var20 = var12[var15 + 1 + (var14 + 1 + 1) * var10];
-               boolean var21 = var17 == 2 || var18 == 2 || var19 == 2 || var20 == 2;
-               boolean var22 = var17 == 1 || var18 == 1 || var19 == 1 || var20 == 1;
-               if (var22 || var21) {
-                  var16 = 3;
+      for (int i4 = 0; i4 < l; i4++) {
+         for (int i5 = 0; i5 < k; i5++) {
+            int i6 = ints[i5 + 1 + (i4 + 1) * i2];
+            if (i6 == 4) {
+               int i7 = ints[i5 + 1 + (i4 + 1 - 1) * i2];
+               int i8 = ints[i5 + 1 + 1 + (i4 + 1) * i2];
+               int i9 = ints[i5 + 1 - 1 + (i4 + 1) * i2];
+               int i10 = ints[i5 + 1 + (i4 + 1 + 1) * i2];
+               boolean bl = i7 == 2 || i8 == 2 || i9 == 2 || i10 == 2;
+               boolean bl2 = i7 == 1 || i8 == 1 || i9 == 1 || i10 == 1;
+               if (bl2 || bl) {
+                  i6 = 3;
                }
             }
 
-            var13[var15 + var14 * var3] = var16;
+            ints2[i5 + i4 * k] = i6;
          }
       }
 
-      return var13;
+      return ints2;
    }
 
-   private int[] getIntsSpecial(int var1, int var2, int var3, int var4) {
-      int[] var8 = this.parent.getInts(var1, var2, var3, var4);
-      int[] var9 = IntCache.getIntCache(var3 * var4);
+   private int[] getIntsSpecial(int i, int j, int k, int l) {
+      int[] ints = this.parent.getInts(i, j, k, l);
+      int[] ints2 = IntCache.getIntCache(k * l);
 
-      for (int var10 = 0; var10 < var4; var10++) {
-         for (int var11 = 0; var11 < var3; var11++) {
-            this.initChunkSeed(var11 + var1, var10 + var2);
-            int var12 = var8[var11 + var10 * var3];
-            if (var12 != 0 && this.nextInt(13) == 0) {
-               var12 |= 1 + this.nextInt(15) << 8 & 3840;
+      for (int m = 0; m < l; m++) {
+         for (int n = 0; n < k; n++) {
+            this.initChunkSeed(n + i, m + j);
+            int i2 = ints[n + m * k];
+            if (i2 != 0 && this.nextInt(13) == 0) {
+               i2 |= 1 + this.nextInt(15) << 8 & 3840;
             }
 
-            var9[var11 + var10 * var3] = var12;
+            ints2[n + m * k] = i2;
          }
       }
 
-      return var9;
+      return ints2;
    }
 
    public enum Mode {

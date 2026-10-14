@@ -6,27 +6,27 @@ import java.util.Date;
 public class IPBanEntry extends BanEntry<String> {
    private static final long b = 112377575253176L;
 
-   public IPBanEntry(String var1) {
-      this(var1, (Date)null, (String)null, (Date)null, (String)null);
+   public IPBanEntry(String valueIn) {
+      this(valueIn, (Date)null, (String)null, (Date)null, (String)null);
    }
 
-   public IPBanEntry(String var1, Date var2, String var3, Date var4, String var5) {
-      super(var1, var2, var3, var4, var5);
+   public IPBanEntry(String valueIn, Date startDate, String banner, Date endDate, String banReason) {
+      super(valueIn, startDate, banner, endDate, banReason);
    }
 
-   public IPBanEntry(JsonObject var1) {
-      super(getIPFromJson(var1), var1);
+   public IPBanEntry(JsonObject json) {
+      super(getIPFromJson(json), json);
    }
 
-   private static String getIPFromJson(JsonObject var0) {
-      return var0.has("ip") ? var0.get("ip").getAsString() : null;
+   private static String getIPFromJson(JsonObject json) {
+      return json.has("ip") ? json.get("ip").getAsString() : null;
    }
 
    @Override
-   public void onSerialization(JsonObject var1) {
+   public void onSerialization(JsonObject data) {
       if (this.getValue() != null) {
-         var1.addProperty("ip", this.getValue());
-         super.onSerialization(var1);
+         data.addProperty("ip", this.getValue());
+         super.onSerialization(data);
       }
    }
 }

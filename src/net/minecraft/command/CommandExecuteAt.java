@@ -24,122 +24,122 @@ public class CommandExecuteAt extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.execute.usage";
    }
 
    @Override
-   public void processCommand(final ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 5) {
+   public void processCommand(final ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 5) {
          throw new WrongUsageException("commands.execute.usage");
       }
 
-      final Entity var6 = getEntity(var1, var2[0], Entity.class);
-      final double var7 = parseDouble(var6.posX, var2[1], false);
-      final double var9 = parseDouble(var6.posY, var2[2], false);
-      final double var11 = parseDouble(var6.posZ, var2[3], false);
-      final BlockPos var13 = new BlockPos(var7, var9, var11);
-      byte var14 = 4;
-      if ("detect".equals(var2[4]) && var2.length > 10) {
-         World var15 = var6.getEntityWorld();
-         double var16 = parseDouble(var7, var2[5], false);
-         double var18 = parseDouble(var9, var2[6], false);
-         double var20 = parseDouble(var11, var2[7], false);
-         Block var22 = getBlockByText(var1, var2[8]);
-         int var23 = parseInt(var2[9], -1, 15);
-         BlockPos var24 = new BlockPos(var16, var18, var20);
-         IBlockState var25 = var15.getBlockState(var24);
-         if (var25.getBlock() != var22 || var23 >= 0 && var25.getBlock().getMetaFromState(var25) != var23) {
-            throw new CommandException("commands.execute.failed", "detect", var6.getName());
+      final Entity entity = getEntity(sender, args[0], Entity.class);
+      final double d = parseDouble(entity.posX, args[1], false);
+      final double e = parseDouble(entity.posY, args[2], false);
+      final double d2 = parseDouble(entity.posZ, args[3], false);
+      final BlockPos blockPos = new BlockPos(d, e, d2);
+      byte b = 4;
+      if ("detect".equals(args[4]) && args.length > 10) {
+         World world = entity.getEntityWorld();
+         double d3 = parseDouble(d, args[5], false);
+         double d4 = parseDouble(e, args[6], false);
+         double d5 = parseDouble(d2, args[7], false);
+         Block block = getBlockByText(sender, args[8]);
+         int i = parseInt(args[9], -1, 15);
+         BlockPos blockPos2 = new BlockPos(d3, d4, d5);
+         IBlockState iBlockState = world.getBlockState(blockPos2);
+         if (iBlockState.getBlock() != block || i >= 0 && iBlockState.getBlock().getMetaFromState(iBlockState) != i) {
+            throw new CommandException("commands.execute.failed", "detect", entity.getName());
          }
 
-         var14 = 10;
+         b = 10;
       }
 
-      String var27 = buildString(var2, var14);
-      ICommandSender var28 = new ICommandSender() {
+      String string = buildString(args, b);
+      ICommandSender iCommandSender = new ICommandSender() {
          private static final long a = 28473378064137L;
 
          @Override
          public String getName() {
-            return var6.getName();
+            return entity.getName();
          }
 
          @Override
          public IChatComponent getDisplayName() {
-            return var6.getDisplayName();
+            return entity.getDisplayName();
          }
 
          @Override
-         public void addChatMessage(IChatComponent var1x) {
-            var1.addChatMessage(var1x);
+         public void addChatMessage(IChatComponent component) {
+            sender.addChatMessage(component);
          }
 
          @Override
-         public boolean canCommandSenderUseCommand(int var1x, String var2x) {
-            return var1.canCommandSenderUseCommand(var1x, var2x);
+         public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+            return sender.canCommandSenderUseCommand(permLevel, commandName);
          }
 
          @Override
          public BlockPos getPosition() {
-            return var13;
+            return blockPos;
          }
 
          @Override
          public Vec3 getPositionVector() {
-            return new Vec3(var7, var9, var11);
+            return new Vec3(d, e, d2);
          }
 
          @Override
          public World getEntityWorld() {
-            return var6.worldObj;
+            return entity.worldObj;
          }
 
          @Override
          public Entity getCommandSenderEntity() {
-            return var6;
+            return entity;
          }
 
          @Override
          public boolean sendCommandFeedback() {
-            MinecraftServer var4 = MinecraftServer.getServer();
-            return var4 == null || var4.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+            MinecraftServer minecraftServer = MinecraftServer.getServer();
+            return minecraftServer == null || minecraftServer.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
          }
 
          @Override
-         public void setCommandStat(CommandResultStats.Type var1x, int var2x) {
-            var6.setCommandStat(var1x, var2x);
+         public void setCommandStat(CommandResultStats.Type typeIn, int amount) {
+            entity.setCommandStat(typeIn, amount);
          }
       };
-      ICommandManager var17 = MinecraftServer.getServer().getCommandManager();
+      ICommandManager iCommandManager = MinecraftServer.getServer().getCommandManager();
 
       try {
-         int var29 = var17.executeCommand(var28, var27);
-         if (var29 < 1) {
-            throw new CommandException("commands.execute.allInvocationsFailed", var27);
+         int j = iCommandManager.executeCommand(iCommandSender, string);
+         if (j < 1) {
+            throw new CommandException("commands.execute.allInvocationsFailed", string);
          }
-      } catch (Throwable var26) {
-         throw new CommandException("commands.execute.failed", var27, var6.getName());
+      } catch (Throwable throwable) {
+         throw new CommandException("commands.execute.failed", string, entity.getName());
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames())
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames())
          : (
-            var2.length > 1 && var2.length <= 4
-               ? func_175771_a(var2, 1, var3)
+            args.length > 1 && args.length <= 4
+               ? func_175771_a(args, 1, pos)
                : (
-                  var2.length > 5 && var2.length <= 8 && "detect".equals(var2[4])
-                     ? func_175771_a(var2, 5, var3)
-                     : (var2.length == 9 && "detect".equals(var2[4]) ? getListOfStringsMatchingLastWord(var2, Block.blockRegistry.getKeys()) : null)
+                  args.length > 5 && args.length <= 8 && "detect".equals(args[4])
+                     ? func_175771_a(args, 5, pos)
+                     : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null)
                )
          );
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 }

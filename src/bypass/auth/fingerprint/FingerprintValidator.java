@@ -6,5 +6,5 @@ public interface FingerprintValidator<T> extends Predicate<FingerprintEntry<T>> 
    FingerprintValidator c = new NonEmptyValidator();
    FingerprintValidator r = new UserDirectoryValidator();
 
-   boolean test(FingerprintEntry<T> var1);
+   boolean test(FingerprintEntry<T> fingerprintEntry);
 }

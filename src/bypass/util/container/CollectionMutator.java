@@ -6,17 +6,17 @@ public class CollectionMutator<T> extends Mutator<T> {
    private CollectionContainer<T> F;
    private static final long a = 69735078805085L;
 
-   public CollectionMutator(CollectionContainer<T> var1) {
-      this.F = var1;
+   public CollectionMutator(CollectionContainer<T> collectionContainer) {
+      this.F = collectionContainer;
    }
 
    @Override
-   public void q(T... var1) {
-      this.F.k(Arrays.asList((T[])var1));
+   public void q(T... objects) {
+      this.F.k(Arrays.asList((T[])objects));
    }
 
    @Override
-   public boolean k(T var1) {
-      return this.F.k((T)var1);
+   public boolean k(T object) {
+      return this.F.k((T)object);
    }
 }

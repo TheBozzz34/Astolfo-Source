@@ -8,11 +8,11 @@ public enum AnnoyMode {
    private String e;
    private static final AnnoyMode[] a = new AnnoyMode[]{CRAZY, WITCH, DEATH};
 
-   AnnoyMode(String var3) {
-      this.e = var3;
+   AnnoyMode(String string2) {
+      this.e = string2;
    }
 
-   public static String u(AnnoyMode var0) {
-      return var0.e;
+   public static String u(AnnoyMode annoyMode) {
+      return annoyMode.e;
    }
 }

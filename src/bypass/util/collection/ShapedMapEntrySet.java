@@ -8,8 +8,8 @@ public class ShapedMapEntrySet<K, V> extends AbstractSet<Entry<K, V>> {
    private final ShapedMap<K, V> K;
    private static final long a = 50974752418489L;
 
-   public ShapedMapEntrySet(ShapedMap<K, V> var1) {
-      this.K = var1;
+   public ShapedMapEntrySet(ShapedMap<K, V> shapedMap) {
+      this.K = shapedMap;
    }
 
    @Override
@@ -18,26 +18,26 @@ public class ShapedMapEntrySet<K, V> extends AbstractSet<Entry<K, V>> {
    }
 
    @Override
-   public boolean contains(Object var1) {
-      if (!(var1 instanceof Entry)) {
+   public boolean contains(Object object) {
+      if (!(object instanceof Entry)) {
          return false;
       }
 
-      Entry var5 = (Entry)var1;
-      Object var6 = var5.getKey();
-      Object var7 = var5.getValue();
-      Object var8 = this.K.get(var6);
-      return var7 != null ? var7.equals(var8) : var8 == null && this.K.containsKey(var6);
+      Entry entry = (Entry)object;
+      Object object2 = entry.getKey();
+      Object object3 = entry.getValue();
+      Object object4 = this.K.get(object2);
+      return object3 != null ? object3.equals(object4) : object4 == null && this.K.containsKey(object2);
    }
 
    @Override
-   public boolean remove(Object var1) {
-      if (!(var1 instanceof Entry)) {
+   public boolean remove(Object object) {
+      if (!(object instanceof Entry)) {
          return false;
       }
 
-      Entry var5 = (Entry)var1;
-      return this.K.remove(var5.getKey()) != null;
+      Entry entry = (Entry)object;
+      return this.K.remove(entry.getKey()) != null;
    }
 
    @Override

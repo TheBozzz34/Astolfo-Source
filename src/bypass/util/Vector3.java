@@ -7,10 +7,10 @@ public class Vector3 {
    private double y;
    private double z;
 
-   public Vector3(double var1, double var3, double var5) {
-      this.x = var1;
-      this.y = var3;
-      this.z = var5;
+   public Vector3(double d, double d2, double d3) {
+      this.x = d;
+      this.y = d2;
+      this.z = d3;
    }
 
    public double getX() {
@@ -25,20 +25,20 @@ public class Vector3 {
       return this.z;
    }
 
-   public Vector3 add(double var1, double var3, double var5) {
-      return new Vector3(this.x + var1, this.y + var3, this.z + var5);
+   public Vector3 add(double d, double d2, double d3) {
+      return new Vector3(this.x + d, this.y + d2, this.z + d3);
    }
 
    public Vector3 floor() {
       return new Vector3(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z));
    }
 
-   public double distanceSq(Vector3 var1) {
-      return Math.pow(var1.x - this.x, 2.0) + Math.pow(var1.y - this.y, 2.0) + Math.pow(var1.z - this.z, 2.0);
+   public double distanceSq(Vector3 vector3) {
+      return Math.pow(vector3.x - this.x, 2.0) + Math.pow(vector3.y - this.y, 2.0) + Math.pow(vector3.z - this.z, 2.0);
    }
 
-   public Vector3 add(Vector3 var1) {
-      return this.add(var1.getX(), var1.getY(), var1.getZ());
+   public Vector3 add(Vector3 vector3) {
+      return this.add(vector3.getX(), vector3.getY(), vector3.getZ());
    }
 
    public Vec3 toVec3() {

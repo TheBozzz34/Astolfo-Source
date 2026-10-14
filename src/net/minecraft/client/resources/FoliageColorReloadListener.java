@@ -9,10 +9,10 @@ public class FoliageColorReloadListener implements IResourceManagerReloadListene
    private static final ResourceLocation LOC_FOLIAGE_PNG = new ResourceLocation("textures/colormap/foliage.png");
 
    @Override
-   public void onResourceManagerReload(IResourceManager var1) {
+   public void onResourceManagerReload(IResourceManager resourceManager) {
       try {
-         ColorizerFoliage.setFoliageBiomeColorizer(TextureUtil.readImageData(var1, LOC_FOLIAGE_PNG));
-      } catch (IOException var3) {
+         ColorizerFoliage.setFoliageBiomeColorizer(TextureUtil.readImageData(resourceManager, LOC_FOLIAGE_PNG));
+      } catch (IOException ioException) {
       }
    }
 }

@@ -43,61 +43,61 @@ public final class MacFirmware extends AbstractFirmware {
    }
 
    private static Quintet<String, String, String, String, String> queryEfi() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      String var6 = null;
-      String var7 = null;
-      IOService var8 = IOKitUtil.getMatchingService("IOPlatformExpertDevice");
-      if (var8 != null) {
-         IOIterator var9 = var8.getChildIterator("IODeviceTree");
-         if (var9 != null) {
-            for (IORegistryEntry var10 = var9.next(); var10 != null; var10 = var9.next()) {
-               switch (var10.getName()) {
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      String string4 = null;
+      String string5 = null;
+      IOService ioService = IOKitUtil.getMatchingService("IOPlatformExpertDevice");
+      if (ioService != null) {
+         IOIterator ioIterator = ioService.getChildIterator("IODeviceTree");
+         if (ioIterator != null) {
+            for (IORegistryEntry ioRegistryEntry = ioIterator.next(); ioRegistryEntry != null; ioRegistryEntry = ioIterator.next()) {
+               switch (ioRegistryEntry.getName()) {
                   case "rom":
-                     byte[] var15 = var10.getByteArrayProperty("vendor");
-                     if (var15 != null) {
-                        var3 = new String(var15, StandardCharsets.UTF_8).trim();
+                     byte[] bytes = ioRegistryEntry.getByteArrayProperty("vendor");
+                     if (bytes != null) {
+                        string = new String(bytes, StandardCharsets.UTF_8).trim();
                      }
 
-                     var15 = var10.getByteArrayProperty("version");
-                     if (var15 != null) {
-                        var6 = new String(var15, StandardCharsets.UTF_8).trim();
+                     bytes = ioRegistryEntry.getByteArrayProperty("version");
+                     if (bytes != null) {
+                        string4 = new String(bytes, StandardCharsets.UTF_8).trim();
                      }
 
-                     var15 = var10.getByteArrayProperty("release-date");
-                     if (var15 != null) {
-                        var7 = new String(var15, StandardCharsets.UTF_8).trim();
+                     bytes = ioRegistryEntry.getByteArrayProperty("release-date");
+                     if (bytes != null) {
+                        string5 = new String(bytes, StandardCharsets.UTF_8).trim();
                      }
                      break;
                   case "chosen":
-                     byte[] var14 = var10.getByteArrayProperty("booter-name");
-                     if (var14 != null) {
-                        var4 = new String(var14, StandardCharsets.UTF_8).trim();
+                     byte[] bytes2 = ioRegistryEntry.getByteArrayProperty("booter-name");
+                     if (bytes2 != null) {
+                        string2 = new String(bytes2, StandardCharsets.UTF_8).trim();
                      }
                      break;
                   case "efi":
-                     byte[] var13 = var10.getByteArrayProperty("firmware-abi");
-                     if (var13 != null) {
-                        var5 = new String(var13, StandardCharsets.UTF_8).trim();
+                     byte[] bytes3 = ioRegistryEntry.getByteArrayProperty("firmware-abi");
+                     if (bytes3 != null) {
+                        string3 = new String(bytes3, StandardCharsets.UTF_8).trim();
                      }
                }
 
-               var10.release();
+               ioRegistryEntry.release();
             }
 
-            var9.release();
+            ioIterator.release();
          }
 
-         var8.release();
+         ioService.release();
       }
 
       return new Quintet<>(
-         Util.isBlank(var3) ? "unknown" : var3,
-         Util.isBlank(var4) ? "unknown" : var4,
-         Util.isBlank(var5) ? "unknown" : var5,
-         Util.isBlank(var6) ? "unknown" : var6,
-         Util.isBlank(var7) ? "unknown" : var7
+         Util.isBlank(string) ? "unknown" : string,
+         Util.isBlank(string2) ? "unknown" : string2,
+         Util.isBlank(string3) ? "unknown" : string3,
+         Util.isBlank(string4) ? "unknown" : string4,
+         Util.isBlank(string5) ? "unknown" : string5
       );
    }
 }

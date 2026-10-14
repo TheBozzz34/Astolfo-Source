@@ -17,25 +17,25 @@ public class IrcMessageHandler extends PacketHandler<IrcMessage> {
       super(PacketId.IRC_MESSAGE);
    }
 
-   public void handle(IrcMessage var1, PacketOutput var2) {
-      if (var1.type == IrcMessageType.B) {
+   public void handle(IrcMessage ircMessage, PacketOutput packetOutput) {
+      if (ircMessage.type == IrcMessageType.B) {
          if (!ChatManager.g()) {
             return;
          }
 
-         String var6 = "@" + mc.mouseHelper.Y().getAccount().getUsername();
-         String var7 = var1.message;
-         if (var1.message.contains(var6)) {
-            var7 = var7.replace(var6, EnumChatFormatting.BOLD + "" + EnumChatFormatting.YELLOW + var6 + EnumChatFormatting.RESET);
+         String string = "@" + mc.mouseHelper.Y().getAccount().getUsername();
+         String string2 = ircMessage.message;
+         if (ircMessage.message.contains(string)) {
+            string2 = string2.replace(string, EnumChatFormatting.BOLD + "" + EnumChatFormatting.YELLOW + string + EnumChatFormatting.RESET);
             if (ChatManager.X()) {
                Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("random.orb"), 1.0F));
             }
          }
 
-         if (var1.sender.isEmpty()) {
-            chat.D(false, false).S().i("[A]").M().M(EnumChatFormatting.GOLD).i(" ").i(var7).N().b();
+         if (ircMessage.sender.isEmpty()) {
+            chat.D(false, false).S().i("[A]").M().M(EnumChatFormatting.GOLD).i(" ").i(string2).N().b();
          } else {
-            chat.D(false, false).S().i("[A] ").M().M(EnumChatFormatting.GOLD).i(var1.sender).M(EnumChatFormatting.GRAY).i(": ").i(var7).N().b();
+            chat.D(false, false).S().i("[A] ").M().M(EnumChatFormatting.GOLD).i(ircMessage.sender).M(EnumChatFormatting.GRAY).i(": ").i(string2).N().b();
          }
       }
    }

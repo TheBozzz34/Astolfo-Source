@@ -8,7 +8,7 @@ public enum LongJumpMode {
    private String D;
    private static final LongJumpMode[] O = new LongJumpMode[]{NORMAL, SAFE, WATCHDOG};
 
-   LongJumpMode(String var3) {
-      this.D = var3;
+   LongJumpMode(String string2) {
+      this.D = string2;
    }
 }

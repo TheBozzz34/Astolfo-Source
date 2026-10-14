@@ -24,38 +24,38 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
    public String field_146442_a = "Options";
    private static final long a = 21498478000360L;
 
-   public GuiOptions(GuiScreen var1, GameSettings var2) {
-      this.field_146441_g = var1;
-      this.game_settings_1 = var2;
+   public GuiOptions(GuiScreen guiScreen, GameSettings gameSettings) {
+      this.field_146441_g = guiScreen;
+      this.game_settings_1 = gameSettings;
    }
 
    @Override
    public void initGui() {
-      int var5 = 0;
+      int i = 0;
       this.field_146442_a = I18n.format("options.title");
 
-      for (GameSettings.Options var9 : field_146440_f) {
-         if (var9.getEnumFloat()) {
+      for (GameSettings.Options options2 : field_146440_f) {
+         if (options2.getEnumFloat()) {
             this.buttonList
-               .add(new GuiOptionSlider(var9.returnEnumOrdinal(), this.width / 2 - 155 + var5 % 2 * 160, this.height / 6 - 12 + 24 * (var5 >> 1), var9));
+               .add(new GuiOptionSlider(options2.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), options2));
          } else {
-            GuiOptionButton var10 = new GuiOptionButton(
-               var9.returnEnumOrdinal(),
-               this.width / 2 - 155 + var5 % 2 * 160,
-               this.height / 6 - 12 + 24 * (var5 >> 1),
-               var9,
-               this.game_settings_1.getKeyBinding(var9)
+            GuiOptionButton guiOptionButton = new GuiOptionButton(
+               options2.returnEnumOrdinal(),
+               this.width / 2 - 155 + i % 2 * 160,
+               this.height / 6 - 12 + 24 * (i >> 1),
+               options2,
+               this.game_settings_1.getKeyBinding(options2)
             );
-            this.buttonList.add(var10);
+            this.buttonList.add(guiOptionButton);
          }
 
-         var5++;
+         i++;
       }
 
       if (this.mc.theWorld != null) {
-         EnumDifficulty var11 = this.mc.theWorld.getDifficulty();
+         EnumDifficulty enumDifficulty = this.mc.theWorld.getDifficulty();
          this.field_175357_i = new GuiButton(
-            108, this.width / 2 - 155 + var5 % 2 * 160, this.height / 6 - 12 + 24 * (var5 >> 1), 150, 20, this.func_175355_a(var11)
+            108, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), 150, 20, this.func_175355_a(enumDifficulty)
          );
          this.buttonList.add(this.field_175357_i);
          if (this.mc.isSingleplayer() && !this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
@@ -79,12 +79,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
                private static final long c = 18288522768106L;
 
                @Override
-               public void playPressSound(SoundHandler var1) {
-                  SoundEventAccessorComposite var4 = var1.getRandomSoundFromCategories(
+               public void playPressSound(SoundHandler soundHandlerIn) {
+                  SoundEventAccessorComposite soundEventAccessorComposite = soundHandlerIn.getRandomSoundFromCategories(
                      SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER
                   );
-                  if (var4 != null) {
-                     var1.playSound(PositionedSoundRecord.create(var4.getSoundEventLocation(), 0.5F));
+                  if (soundEventAccessorComposite != null) {
+                     soundHandlerIn.playSound(PositionedSoundRecord.create(soundEventAccessorComposite.getSoundEventLocation(), 0.5F));
                   }
                }
             }
@@ -104,18 +104,18 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
       }
    }
 
-   public String func_175355_a(EnumDifficulty var1) {
-      ChatComponentText var4 = new ChatComponentText("");
-      var4.appendSibling(new ChatComponentTranslation("options.difficulty"));
-      var4.appendText(": ");
-      var4.appendSibling(new ChatComponentTranslation(var1.getDifficultyResourceKey()));
-      return var4.getFormattedText();
+   public String func_175355_a(EnumDifficulty enumDifficulty) {
+      ChatComponentText chatComponentText = new ChatComponentText("");
+      chatComponentText.appendSibling(new ChatComponentTranslation("options.difficulty"));
+      chatComponentText.appendText(": ");
+      chatComponentText.appendSibling(new ChatComponentTranslation(enumDifficulty.getDifficultyResourceKey()));
+      return chatComponentText.getFormattedText();
    }
 
    @Override
-   public void confirmClicked(boolean var1, int var2) {
+   public void confirmClicked(boolean result, int id) {
       this.mc.displayGuiScreen(this);
-      if (var2 == 109 && var1 && this.mc.theWorld != null) {
+      if (id == 109 && result && this.mc.theWorld != null) {
          this.mc.theWorld.getWorldInfo().setDifficultyLocked(true);
          this.field_175356_r.func_175229_b(true);
          this.field_175356_r.enabled = false;
@@ -124,20 +124,20 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id < 100 && var1 instanceof GuiOptionButton) {
-            GameSettings.Options var5 = ((GuiOptionButton)var1).returnEnumOptions();
-            this.game_settings_1.setOptionValue(var5, 1);
-            var1.displayString = this.game_settings_1.getKeyBinding(GameSettings.Options.getEnumOptions(var1.id));
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id < 100 && button instanceof GuiOptionButton) {
+            GameSettings.Options options = ((GuiOptionButton)button).returnEnumOptions();
+            this.game_settings_1.setOptionValue(options, 1);
+            button.displayString = this.game_settings_1.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
          }
 
-         if (var1.id == 108) {
+         if (button.id == 108) {
             this.mc.theWorld.getWorldInfo().setDifficulty(EnumDifficulty.getDifficultyEnum(this.mc.theWorld.getDifficulty().getDifficultyId() + 1));
             this.field_175357_i.displayString = this.func_175355_a(this.mc.theWorld.getDifficulty());
          }
 
-         if (var1.id == 109) {
+         if (button.id == 109) {
             this.mc
                .displayGuiScreen(
                   new GuiYesNo(
@@ -152,65 +152,65 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
                );
          }
 
-         if (var1.id == 110) {
+         if (button.id == 110) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiCustomizeSkin(this));
          }
 
-         if (var1.id == 8675309) {
+         if (button.id == 8675309) {
             this.mc.entityRenderer.D();
          }
 
-         if (var1.id == 101) {
+         if (button.id == 101) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiVideoSettings(this, this.game_settings_1));
          }
 
-         if (var1.id == 100) {
+         if (button.id == 100) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiControls(this, this.game_settings_1));
          }
 
-         if (var1.id == 102) {
+         if (button.id == 102) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiLanguage(this, this.game_settings_1, this.mc.getLanguageManager()));
          }
 
-         if (var1.id == 103) {
+         if (button.id == 103) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new ScreenChatOptions(this, this.game_settings_1));
          }
 
-         if (var1.id == 104) {
+         if (button.id == 104) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiSnooper(this, this.game_settings_1));
          }
 
-         if (var1.id == 200) {
+         if (button.id == 200) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(this.field_146441_g);
          }
 
-         if (var1.id == 105) {
+         if (button.id == 105) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new CustomResourcePacksScreen(this));
          }
 
-         if (var1.id == 106) {
+         if (button.id == 106) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(new GuiScreenOptionsSounds(this, this.game_settings_1));
          }
       }
 
-      if (var1.id == 62727568 && this instanceof GuiOptions) {
+      if (button.id == 62727568 && this instanceof GuiOptions) {
          Minecraft.getMinecraft().displayGuiScreen(new CapeSettingsScreen(this));
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

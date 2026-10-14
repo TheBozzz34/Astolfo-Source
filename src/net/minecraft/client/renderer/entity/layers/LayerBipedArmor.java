@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 public class LayerBipedArmor extends LayerArmorBase<ModelBiped> {
    private static final long c = 98648613696646L;
 
-   public LayerBipedArmor(RendererLivingEntity<?> var1) {
-      super(var1);
+   public LayerBipedArmor(RendererLivingEntity<?> rendererIn) {
+      super(rendererIn);
    }
 
    @Override
@@ -16,30 +16,30 @@ public class LayerBipedArmor extends LayerArmorBase<ModelBiped> {
       this.modelArmor = new ModelBiped(1.0F);
    }
 
-   public void setModelPartVisible(ModelBiped var1, int var2) {
-      this.setModelVisible(var1);
-      switch (var2) {
+   public void setModelPartVisible(ModelBiped model, int armorSlot) {
+      this.setModelVisible(model);
+      switch (armorSlot) {
          case 1:
-            var1.bipedRightLeg.showModel = true;
-            var1.bipedLeftLeg.showModel = true;
+            model.bipedRightLeg.showModel = true;
+            model.bipedLeftLeg.showModel = true;
             break;
          case 2:
-            var1.bipedBody.showModel = true;
-            var1.bipedRightLeg.showModel = true;
-            var1.bipedLeftLeg.showModel = true;
+            model.bipedBody.showModel = true;
+            model.bipedRightLeg.showModel = true;
+            model.bipedLeftLeg.showModel = true;
             break;
          case 3:
-            var1.bipedBody.showModel = true;
-            var1.bipedRightArm.showModel = true;
-            var1.bipedLeftArm.showModel = true;
+            model.bipedBody.showModel = true;
+            model.bipedRightArm.showModel = true;
+            model.bipedLeftArm.showModel = true;
             break;
          case 4:
-            var1.bipedHead.showModel = true;
-            var1.bipedHeadwear.showModel = true;
+            model.bipedHead.showModel = true;
+            model.bipedHeadwear.showModel = true;
       }
    }
 
-   public void setModelVisible(ModelBiped var1) {
-      var1.setInvisible(false);
+   public void setModelVisible(ModelBiped model) {
+      model.setInvisible(false);
    }
 }

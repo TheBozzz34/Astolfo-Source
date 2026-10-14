@@ -14,11 +14,11 @@ public class CommandManager extends Manager<CommandInfo> implements Loadable {
    public void a() {
    }
 
-   public CommandInfo getCommand(String var1) {
-      for (CommandInfo var7 : this.C) {
-         if (var7 instanceof Command
-            && (var7.getName().equalsIgnoreCase(var1) || ((Command)var7).getAliases() != null && ((Command)var7).getAliases().contains(var1))) {
-            return var7;
+   public CommandInfo getCommand(String string) {
+      for (CommandInfo commandInfo : this.C) {
+         if (commandInfo instanceof Command
+            && (commandInfo.getName().equalsIgnoreCase(string) || ((Command)commandInfo).getAliases() != null && ((Command)commandInfo).getAliases().contains(string))) {
+            return commandInfo;
          }
       }
 

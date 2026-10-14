@@ -36,35 +36,35 @@ public class ItemPickaxe extends ItemTool {
    );
    private static final long a = 75150493441981L;
 
-   public ItemPickaxe(Item.ToolMaterial var1) {
-      super(2.0F, var1, EFFECTIVE_ON);
+   public ItemPickaxe(Item.ToolMaterial material) {
+      super(2.0F, material, EFFECTIVE_ON);
    }
 
    @Override
-   public boolean canHarvestBlock(Block var1) {
-      return var1 == Blocks.obsidian
+   public boolean canHarvestBlock(Block blockIn) {
+      return blockIn == Blocks.obsidian
          ? this.toolMaterial.getHarvestLevel() == 3
          : (
-            var1 == Blocks.diamond_block || var1 == Blocks.diamond_ore
+            blockIn == Blocks.diamond_block || blockIn == Blocks.diamond_ore
                ? this.toolMaterial.getHarvestLevel() >= 2
                : (
-                  var1 == Blocks.emerald_ore || var1 == Blocks.emerald_block
+                  blockIn == Blocks.emerald_ore || blockIn == Blocks.emerald_block
                      ? this.toolMaterial.getHarvestLevel() >= 2
                      : (
-                        var1 == Blocks.gold_block || var1 == Blocks.gold_ore
+                        blockIn == Blocks.gold_block || blockIn == Blocks.gold_ore
                            ? this.toolMaterial.getHarvestLevel() >= 2
                            : (
-                              var1 == Blocks.iron_block || var1 == Blocks.iron_ore
+                              blockIn == Blocks.iron_block || blockIn == Blocks.iron_ore
                                  ? this.toolMaterial.getHarvestLevel() >= 1
                                  : (
-                                    var1 == Blocks.lapis_block || var1 == Blocks.lapis_ore
+                                    blockIn == Blocks.lapis_block || blockIn == Blocks.lapis_ore
                                        ? this.toolMaterial.getHarvestLevel() >= 1
                                        : (
-                                          var1 != Blocks.redstone_ore && var1 != Blocks.lit_redstone_ore
+                                          blockIn != Blocks.redstone_ore && blockIn != Blocks.lit_redstone_ore
                                              ? (
-                                                var1.getMaterial() == Material.rock
+                                                blockIn.getMaterial() == Material.rock
                                                    ? true
-                                                   : (var1.getMaterial() == Material.iron ? true : var1.getMaterial() == Material.anvil)
+                                                   : (blockIn.getMaterial() == Material.iron ? true : blockIn.getMaterial() == Material.anvil)
                                              )
                                              : this.toolMaterial.getHarvestLevel() >= 2
                                        )
@@ -76,9 +76,9 @@ public class ItemPickaxe extends ItemTool {
    }
 
    @Override
-   public float getStrVsBlock(ItemStack var1, Block var2) {
-      return var2.getMaterial() != Material.iron && var2.getMaterial() != Material.anvil && var2.getMaterial() != Material.rock
-         ? super.getStrVsBlock(var1, var2)
+   public float getStrVsBlock(ItemStack stack, Block state) {
+      return state.getMaterial() != Material.iron && state.getMaterial() != Material.anvil && state.getMaterial() != Material.rock
+         ? super.getStrVsBlock(stack, state)
          : this.efficiencyOnProperMaterial;
    }
 }

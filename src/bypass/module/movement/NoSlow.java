@@ -30,23 +30,23 @@ public final class NoSlow extends Module {
    public static final BooleanSetting ladderFix = new BooleanSetting("Ladder-Fix", "Fixes ladders or vines from slowing you down", true);
    private final List<Block> z = new CopyOnWriteArrayList<>();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      long var2 = c ^ 14932852432374L;
-      long var4 = var2 ^ 73675054456230L;
-      boolean var7 = client.getModuleManager().get(KillAura.class).isEnabled();
-      switch (var1x.getState()) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      long l = c ^ 14932852432374L;
+      long m = l ^ 73675054456230L;
+      boolean bl = client.getModuleManager().get(KillAura.class).isEnabled();
+      switch (motionEvent.getState()) {
          case PRE:
             if (this.mode.getValue() == NoSlowMode.NCP) {
-               if (mc.thePlayer.isBlocking() && !var7) {
+               if (mc.thePlayer.isBlocking() && !bl) {
                   mc.thePlayer
                      .sendQueue
                      .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
                }
             } else if (this.mode.getValue() == NoSlowMode.WATCHDOG) {
-               ItemStack var8 = mc.thePlayer.getItemInUse();
-               if (var8 != null
+               ItemStack itemStack = mc.thePlayer.getItemInUse();
+               if (itemStack != null
                   && mc.thePlayer.isUsingItem()
                   && GameUtil.isMoving(mc.thePlayer)
                   && !mc.thePlayer.isBlocking()
@@ -57,7 +57,7 @@ public final class NoSlow extends Module {
             }
             break;
          case POST:
-            if (this.mode.getValue() == NoSlowMode.NCP && mc.thePlayer.isBlocking() && !var7) {
+            if (this.mode.getValue() == NoSlowMode.NCP && mc.thePlayer.isBlocking() && !bl) {
                if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
                   mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(mc.objectMouseOver.entityHit, C02PacketUseEntity.Action.INTERACT));
                }
@@ -79,8 +79,8 @@ public final class NoSlow extends Module {
    };
    private static final long c = 134015327092195L;
 
-   public NoSlow(Category var1) {
-      super(var1);
+   public NoSlow(Category category) {
+      super(category);
       this.B(-8021543);
       this.addSettings(this.mode, soulSand, ladderFix);
    }
@@ -96,8 +96,8 @@ public final class NoSlow extends Module {
       if (mc.thePlayer != null) {
          mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
-         for (Block var5 : this.z) {
-            var5.slipperiness = 0.6F;
+         for (Block block : this.z) {
+            block.slipperiness = 0.6F;
          }
       }
 

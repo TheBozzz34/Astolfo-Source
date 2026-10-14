@@ -10,19 +10,19 @@ public class RenderGhast extends RenderLiving<EntityGhast> {
    private static final ResourceLocation ghastShootingTextures = new ResourceLocation("textures/entity/ghast/ghast_shooting.png");
    private static final long d = 92812334912362L;
 
-   public RenderGhast(RenderManager var1) {
-      super(var1, new ModelGhast(), 0.5F);
+   public RenderGhast(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelGhast(), 0.5F);
    }
 
-   public ResourceLocation getEntityTexture(EntityGhast var1) {
-      return var1.isAttacking() ? ghastShootingTextures : ghastTextures;
+   public ResourceLocation getEntityTexture(EntityGhast entity) {
+      return entity.isAttacking() ? ghastShootingTextures : ghastTextures;
    }
 
-   public void preRenderCallback(EntityGhast var1, float var2) {
-      float var3 = 1.0F;
-      float var4 = (8.0F + var3) / 2.0F;
-      float var5 = (8.0F + 1.0F / var3) / 2.0F;
-      GlStateManager.scale(var5, var4, var5);
+   public void preRenderCallback(EntityGhast entitylivingbaseIn, float partialTickTime) {
+      float f = 1.0F;
+      float g = (8.0F + f) / 2.0F;
+      float h = (8.0F + 1.0F / f) / 2.0F;
+      GlStateManager.scale(h, g, h);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
    }
 }

@@ -7,42 +7,42 @@ public class GuiLockIconButton extends GuiButton {
    private boolean field_175231_o = false;
    private static final long c = 60781847749777L;
 
-   public GuiLockIconButton(int var1, int var2, int var3) {
-      super(var1, var2, var3, 20, 20, "");
+   public GuiLockIconButton(int i, int j, int k) {
+      super(i, j, k, 20, 20, "");
    }
 
    public boolean func_175230_c() {
       return this.field_175231_o;
    }
 
-   public void func_175229_b(boolean var1) {
-      this.field_175231_o = var1;
+   public void func_175229_b(boolean bl) {
+      this.field_175231_o = bl;
    }
 
    @Override
-   public void drawButton(Minecraft var1, int var2, int var3) {
+   public void drawButton(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
-         var1.getTextureManager().bindTexture(GuiButton.buttonTextures);
+         mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         boolean var7 = var2 >= this.xPosition && var3 >= this.yPosition && var2 < this.xPosition + this.width && var3 < this.yPosition + this.height;
-         GuiLockIconButton.Icon var8;
+         boolean bl = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+         GuiLockIconButton.Icon icon;
          if (this.field_175231_o) {
             if (!this.enabled) {
-               var8 = GuiLockIconButton.Icon.LOCKED_DISABLED;
-            } else if (var7) {
-               var8 = GuiLockIconButton.Icon.LOCKED_HOVER;
+               icon = GuiLockIconButton.Icon.LOCKED_DISABLED;
+            } else if (bl) {
+               icon = GuiLockIconButton.Icon.LOCKED_HOVER;
             } else {
-               var8 = GuiLockIconButton.Icon.LOCKED;
+               icon = GuiLockIconButton.Icon.LOCKED;
             }
          } else if (!this.enabled) {
-            var8 = GuiLockIconButton.Icon.UNLOCKED_DISABLED;
-         } else if (var7) {
-            var8 = GuiLockIconButton.Icon.UNLOCKED_HOVER;
+            icon = GuiLockIconButton.Icon.UNLOCKED_DISABLED;
+         } else if (bl) {
+            icon = GuiLockIconButton.Icon.UNLOCKED_HOVER;
          } else {
-            var8 = GuiLockIconButton.Icon.UNLOCKED;
+            icon = GuiLockIconButton.Icon.UNLOCKED;
          }
 
-         this.drawTexturedModalRect(this.xPosition, this.yPosition, var8.func_178910_a(), var8.func_178912_b(), this.width, this.height);
+         this.drawTexturedModalRect(this.xPosition, this.yPosition, icon.func_178910_a(), icon.func_178912_b(), this.width, this.height);
       }
    }
 
@@ -57,9 +57,9 @@ public class GuiLockIconButton extends GuiButton {
       private final int field_178914_g;
       private final int field_178920_h;
 
-      Icon(int var3, int var4) {
-         this.field_178914_g = var3;
-         this.field_178920_h = var4;
+      Icon(int j, int k) {
+         this.field_178914_g = j;
+         this.field_178920_h = k;
       }
 
       public int func_178910_a() {

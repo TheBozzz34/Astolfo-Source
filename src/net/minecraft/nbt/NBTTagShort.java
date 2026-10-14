@@ -12,19 +12,19 @@ public class NBTTagShort extends NBTBase.NBTPrimitive {
    public NBTTagShort() {
    }
 
-   public NBTTagShort(short var1) {
-      this.data = var1;
+   public NBTTagShort(short data) {
+      this.data = data;
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
-      var1.writeShort(this.data);
+   public void write(DataOutput output) throws IOException {
+      output.writeShort(this.data);
    }
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(80L);
-      this.data = var1.readShort();
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(80L);
+      this.data = input.readShort();
    }
 
    @Override
@@ -43,10 +43,10 @@ public class NBTTagShort extends NBTBase.NBTPrimitive {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (super.equals(var1)) {
-         NBTTagShort var5 = (NBTTagShort)var1;
-         return this.data == var5.data;
+   public boolean equals(Object object) {
+      if (super.equals(object)) {
+         NBTTagShort nbtTagShort = (NBTTagShort)object;
+         return this.data == nbtTagShort.data;
       } else {
          return false;
       }

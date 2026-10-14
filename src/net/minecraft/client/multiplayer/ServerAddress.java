@@ -10,9 +10,9 @@ public class ServerAddress {
    private final int serverPort;
    private static final long a = 42452013606608L;
 
-   private ServerAddress(String var1, int var2) {
-      this.ipAddress = var1;
-      this.serverPort = var2;
+   private ServerAddress(String address, int port) {
+      this.ipAddress = address;
+      this.serverPort = port;
    }
 
    public String getIP() {
@@ -23,62 +23,62 @@ public class ServerAddress {
       return this.serverPort;
    }
 
-   public static ServerAddress fromString(String var0) {
-      if (var0 == null) {
+   public static ServerAddress fromString(String string) {
+      if (string == null) {
          return null;
       }
 
-      String[] var4 = var0.split(":");
-      if (var0.startsWith("[")) {
-         int var5 = var0.indexOf("]");
-         if (var5 > 0) {
-            String var6 = var0.substring(1, var5);
-            String var7 = var0.substring(var5 + 1).trim();
-            if (var7.startsWith(":") && var7.length() > 0) {
-               var7 = var7.substring(1);
-               var4 = new String[]{var6, var7};
+      String[] strings = string.split(":");
+      if (string.startsWith("[")) {
+         int i = string.indexOf("]");
+         if (i > 0) {
+            String string2 = string.substring(1, i);
+            String string3 = string.substring(i + 1).trim();
+            if (string3.startsWith(":") && string3.length() > 0) {
+               string3 = string3.substring(1);
+               strings = new String[]{string2, string3};
             } else {
-               var4 = new String[]{var6};
+               strings = new String[]{string2};
             }
          }
       }
 
-      if (var4.length > 2) {
-         var4 = new String[]{var0};
+      if (strings.length > 2) {
+         strings = new String[]{string};
       }
 
-      String var8 = var4[0];
-      int var9 = var4.length > 1 ? parseIntWithDefault(var4[1], 25565) : 25565;
-      if (var9 == 25565) {
-         String[] var11 = getServerAddress(var8);
-         var8 = var11[0];
-         var9 = parseIntWithDefault(var11[1], 25565);
+      String string4 = strings[0];
+      int j = strings.length > 1 ? parseIntWithDefault(strings[1], 25565) : 25565;
+      if (j == 25565) {
+         String[] strings2 = getServerAddress(string4);
+         string4 = strings2[0];
+         j = parseIntWithDefault(strings2[1], 25565);
       }
 
-      return new ServerAddress(var8, var9);
+      return new ServerAddress(string4, j);
    }
 
-   private static String[] getServerAddress(String var0) {
+   private static String[] getServerAddress(String string) {
       try {
          Class.forName("com.sun.jndi.dns.DnsContextFactory");
-         Hashtable var4 = new Hashtable();
-         var4.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
-         var4.put("java.naming.provider.url", "dns:");
-         var4.put("com.sun.jndi.dns.timeout.retries", "1");
-         InitialDirContext var5 = new InitialDirContext(var4);
-         Attributes var6 = var5.getAttributes("_minecraft._tcp." + var0, new String[]{"SRV"});
-         String[] var7 = var6.get("srv").get().toString().split(" ", 4);
-         return new String[]{var7[3], var7[2]};
-      } catch (Throwable var8) {
-         return new String[]{var0, Integer.toString(25565)};
+         Hashtable hashtable = new Hashtable();
+         hashtable.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
+         hashtable.put("java.naming.provider.url", "dns:");
+         hashtable.put("com.sun.jndi.dns.timeout.retries", "1");
+         InitialDirContext initialDirContext = new InitialDirContext(hashtable);
+         Attributes attributes = initialDirContext.getAttributes("_minecraft._tcp." + string, new String[]{"SRV"});
+         String[] strings = attributes.get("srv").get().toString().split(" ", 4);
+         return new String[]{strings[3], strings[2]};
+      } catch (Throwable throwable) {
+         return new String[]{string, Integer.toString(25565)};
       }
    }
 
-   private static int parseIntWithDefault(String var0, int var1) {
+   private static int parseIntWithDefault(String string, int i) {
       try {
-         return Integer.parseInt(var0.trim());
-      } catch (Exception var3) {
-         return var1;
+         return Integer.parseInt(string.trim());
+      } catch (Exception exception) {
+         return i;
       }
    }
 }

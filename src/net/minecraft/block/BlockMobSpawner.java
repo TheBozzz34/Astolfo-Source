@@ -18,25 +18,25 @@ public class BlockMobSpawner extends BlockContainer {
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityMobSpawner();
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return null;
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      super.dropBlockAsItemWithChance(var1, var2, var3, var4, var5);
-      int var8 = 15 + var1.rand.nextInt(15) + var1.rand.nextInt(15);
-      this.dropXpOnBlockBreak(var1, var2, var8);
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+      int i = 15 + worldIn.rand.nextInt(15) + worldIn.rand.nextInt(15);
+      this.dropXpOnBlockBreak(worldIn, pos, i);
    }
 
    @Override
@@ -55,7 +55,7 @@ public class BlockMobSpawner extends BlockContainer {
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return null;
    }
 }

@@ -21,10 +21,10 @@ public class BlockPotato extends BlockCrops {
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      super.dropBlockAsItemWithChance(var1, var2, var3, var4, var5);
-      if (!var1.isRemote && var3.getValue(AGE) >= 7 && var1.rand.nextInt(50) == 0) {
-         spawnAsEntity(var1, var2, new ItemStack(Items.poisonous_potato));
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+      if (!worldIn.isRemote && state.getValue(AGE) >= 7 && worldIn.rand.nextInt(50) == 0) {
+         spawnAsEntity(worldIn, pos, new ItemStack(Items.poisonous_potato));
       }
    }
 }

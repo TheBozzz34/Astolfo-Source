@@ -7,36 +7,36 @@ public class ModelResourceLocation extends ResourceLocation {
    private final String variant;
    private static final long a = 139437241945711L;
 
-   public ModelResourceLocation(int var1, String... var2) {
-      super(0, var2[0], var2[1]);
-      this.variant = StringUtils.isEmpty(var2[2]) ? "normal" : var2[2].toLowerCase();
+   public ModelResourceLocation(int i, String... strings) {
+      super(0, strings[0], strings[1]);
+      this.variant = StringUtils.isEmpty(strings[2]) ? "normal" : strings[2].toLowerCase();
    }
 
-   public ModelResourceLocation(String var1) {
-      this(0, parsePathString(var1));
+   public ModelResourceLocation(String string) {
+      this(0, parsePathString(string));
    }
 
-   public ModelResourceLocation(ResourceLocation var1, String var2) {
-      this(var1.toString(), var2);
+   public ModelResourceLocation(ResourceLocation resourceLocation, String string) {
+      this(resourceLocation.toString(), string);
    }
 
-   public ModelResourceLocation(String var1, String var2) {
-      this(0, parsePathString(var1 + '#' + (var2 == null ? "normal" : var2)));
+   public ModelResourceLocation(String string, String string2) {
+      this(0, parsePathString(string + '#' + (string2 == null ? "normal" : string2)));
    }
 
-   public static String[] parsePathString(String var0) {
-      String[] var3 = new String[]{null, var0, null};
-      int var4 = var0.indexOf(35);
-      String var5 = var0;
-      if (var4 >= 0) {
-         var3[2] = var0.substring(var4 + 1, var0.length());
-         if (var4 > 1) {
-            var5 = var0.substring(0, var4);
+   public static String[] parsePathString(String string) {
+      String[] strings = new String[]{null, string, null};
+      int i = string.indexOf(35);
+      String string2 = string;
+      if (i >= 0) {
+         strings[2] = string.substring(i + 1, string.length());
+         if (i > 1) {
+            string2 = string.substring(0, i);
          }
       }
 
-      System.arraycopy(ResourceLocation.splitObjectName(var5), 0, var3, 0, 2);
-      return var3;
+      System.arraycopy(ResourceLocation.splitObjectName(string2), 0, strings, 0, 2);
+      return strings;
    }
 
    public String getVariant() {
@@ -44,12 +44,12 @@ public class ModelResourceLocation extends ResourceLocation {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
-      } else if (var1 instanceof ModelResourceLocation && super.equals(var1)) {
-         ModelResourceLocation var5 = (ModelResourceLocation)var1;
-         return this.variant.equals(var5.variant);
+      } else if (object instanceof ModelResourceLocation && super.equals(object)) {
+         ModelResourceLocation modelResourceLocation = (ModelResourceLocation)object;
+         return this.variant.equals(modelResourceLocation.variant);
       } else {
          return false;
       }

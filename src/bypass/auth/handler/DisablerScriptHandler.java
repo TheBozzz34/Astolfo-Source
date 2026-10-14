@@ -14,15 +14,15 @@ public class DisablerScriptHandler extends PacketHandler<String> {
       super(PacketId.DISABLER_SCRIPT);
    }
 
-   public void handle(String var1, PacketOutput var2) {
-      ScriptEngineManager var5 = new ScriptEngineManager();
-      ScriptEngine var6 = var5.getEngineByName("nashorn");
-      var6.put("disabler", new DisablerScriptSender(this, var2));
+   public void handle(String string, PacketOutput packetOutput) {
+      ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+      ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");
+      scriptEngine.put("disabler", new DisablerScriptSender(this, packetOutput));
 
       try {
-         Disabler.jsHandler = var6.eval(var1);
-      } catch (ScriptException var8) {
-         var8.printStackTrace();
+         Disabler.jsHandler = scriptEngine.eval(string);
+      } catch (ScriptException scriptException) {
+         scriptException.printStackTrace();
       }
    }
 }

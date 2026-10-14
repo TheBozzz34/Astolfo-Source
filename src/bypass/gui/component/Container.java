@@ -14,30 +14,30 @@ public abstract class Container extends Component {
    private static final long bb = 92307170903497L;
    private static final long eb = -845582793185427206L;
 
-   public Container(String var1, float var2, float var3, int var4, int var5) {
-      super(var1, var2, var3, var4, var5);
+   public Container(String string, float f, float g, int i, int j) {
+      super(string, f, g, i, j);
       this.U = new TimedAnimation().setDuration((int)eb).setEasing(Easing.LINEAR);
       this.c = new ArrayList<>();
    }
 
-   public void a(Element... var1) {
-      this.c.addAll(Arrays.asList(var1));
+   public void a(Element... elements) {
+      this.c.addAll(Arrays.asList(elements));
    }
 
    public ArrayList<Element> M_ArrayList() {
       return this.c;
    }
 
-   public void u(boolean var1) {
-      this.V = var1;
+   public void u(boolean bl) {
+      this.V = bl;
    }
 
    public boolean s_boolean() {
       return this.V;
    }
 
-   public void f(Component var1) {
-      this.x = var1;
+   public void f(Component component) {
+      this.x = component;
    }
 
    public Component O() {

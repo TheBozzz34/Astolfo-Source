@@ -3,7 +3,7 @@ package bypass.loader;
 public interface LoadStage {
    StageValue getValue();
 
-   void setState(int var1);
+   void setState(int i);
 
    int getState();
 }

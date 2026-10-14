@@ -1,7 +1,7 @@
 package bypass.auth.net;
 
 public interface ConnectionListener {
-   void onClose(NioConnection var1, String var2);
+   void onClose(NioConnection nioConnection, String string);
 
-   void onError(NioConnection var1, String var2, Exception var3);
+   void onError(NioConnection nioConnection, String string, Exception exception);
 }

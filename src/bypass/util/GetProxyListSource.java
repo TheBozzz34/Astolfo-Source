@@ -23,44 +23,44 @@ public final class GetProxyListSource implements ProxySource {
    private int h;
    private static final long a = 106086643771983L;
 
-   public GetProxyListSource(String var1, int var2, int var3) {
-      this.Y = var1;
-      this.D = Executors.newFixedThreadPool(var2);
+   public GetProxyListSource(String string, int i, int j) {
+      this.Y = string;
+      this.D = Executors.newFixedThreadPool(i);
       this.P = 20;
-      this.J = var3;
+      this.J = j;
    }
 
    @Override
-   public Set<HostAndPort> scrap(EnumSet<ProxyType> var1) {
-      String var5 = "https://api.getproxylist.com/proxy?apiKey=" + this.Y + i(var1) + "&maxConnectTime=1&maxSecondsToFirstByte=1";
-      HashSet var6 = new HashSet();
-      ArrayList var7 = new ArrayList();
+   public Set<HostAndPort> scrap(EnumSet<ProxyType> enumSet) {
+      String string = "https://api.getproxylist.com/proxy?apiKey=" + this.Y + i(enumSet) + "&maxConnectTime=1&maxSecondsToFirstByte=1";
+      HashSet hashSet = new HashSet();
+      ArrayList arrayList = new ArrayList();
 
-      for (int var8 = 0; var8 < this.J; var8++) {
-         Future var9 = this.D.submit(() -> {
+      for (int j = 0; j < this.J; j++) {
+         Future future = this.D.submit(() -> {
             try {
-               return this.r(var5);
-            } catch (IOException var3) {
-               var3.printStackTrace();
+               return this.r(string);
+            } catch (IOException ioException) {
+               ioException.printStackTrace();
                return null;
             }
          });
-         var7.add(var9);
+         arrayList.add(future);
       }
 
-      for (Object var13$raw : var7) {
-         Future var13 = (Future)var13$raw;
+      for (Object object : arrayList) {
+         Future future2 = (Future)object;
          try {
-            HostAndPort var10 = (HostAndPort)var13.get();
-            if (var10 != null) {
-               var6.add(var10);
+            HostAndPort hostAndPort = (HostAndPort)future2.get();
+            if (hostAndPort != null) {
+               hashSet.add(hostAndPort);
             }
-         } catch (InterruptedException | ExecutionException var11) {
-            var11.printStackTrace();
+         } catch (InterruptedException | ExecutionException value) {
+            value.printStackTrace();
          }
       }
 
-      return var6;
+      return hashSet;
    }
 
    @Override
@@ -68,39 +68,39 @@ public final class GetProxyListSource implements ProxySource {
       this.D.shutdownNow();
    }
 
-   private static String i(EnumSet<ProxyType> var0) {
-      if (var0.size() == ProxyType.values().length) {
+   private static String i(EnumSet<ProxyType> enumSet) {
+      if (enumSet.size() == ProxyType.values().length) {
          return "";
       }
 
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (ProxyType var6 : var0) {
-         var4.append("&protocol[]=");
-         var4.append(var6.R());
+      for (ProxyType proxyType : enumSet) {
+         stringBuilder.append("&protocol[]=");
+         stringBuilder.append(proxyType.R());
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
-   private HostAndPort r(String var1) throws IOException {
-      URL var5 = new URL(var1);
-      URLConnection var6 = var5.openConnection();
-      BufferedReader var7 = new BufferedReader(new InputStreamReader(var6.getInputStream()));
-      String var9 = null;
-      int var10 = -1;
+   private HostAndPort r(String string) throws IOException {
+      URL url = new URL(string);
+      URLConnection urlConnection = url.openConnection();
+      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+      String string2 = null;
+      int i = -1;
 
-      String var8;
-      while ((var8 = var7.readLine()) != null) {
-         if (var8.contains("ip")) {
-            var9 = T(var8, "ip");
-            var9 = var9.substring(1, var9.length() - 1);
-         } else if (var8.contains("port")) {
-            var10 = Integer.parseInt(T(var8, "port"));
+      String string3;
+      while ((string3 = bufferedReader.readLine()) != null) {
+         if (string3.contains("ip")) {
+            string2 = T(string3, "ip");
+            string2 = string2.substring(1, string2.length() - 1);
+         } else if (string3.contains("port")) {
+            i = Integer.parseInt(T(string3, "port"));
          }
       }
 
-      if (var9 == null || var10 == -1) {
+      if (string2 == null || i == -1) {
          if (this.h >= this.P) {
             System.out.println("Couldn't parse proxy.");
             this.h = 0;
@@ -108,23 +108,23 @@ public final class GetProxyListSource implements ProxySource {
          }
 
          this.h++;
-         this.r(var1);
+         this.r(string);
       }
 
-      return new HostAndPort(var9, var10);
+      return new HostAndPort(string2, i);
    }
 
-   private static String T(String var0, String var1) {
-      var1 = '"' + var1 + "\": ";
-      return A(var0, var1, ',');
+   private static String T(String string, String string2) {
+      string2 = '"' + string2 + "\": ";
+      return A(string, string2, ',');
    }
 
-   private static String A(String var0, String var1, char var2) {
-      int var6 = var0.indexOf(var1);
-      if (var6 != -1) {
-         int var7 = var0.indexOf(var2, var6 + var1.length());
-         if (var7 != -1) {
-            return var0.substring(var6 + var1.length(), var7);
+   private static String A(String string, String string2, char c) {
+      int i = string.indexOf(string2);
+      if (i != -1) {
+         int j = string.indexOf(c, i + string2.length());
+         if (j != -1) {
+            return string.substring(i + string2.length(), j);
          }
       }
 
@@ -132,7 +132,7 @@ public final class GetProxyListSource implements ProxySource {
    }
 
    static {
-      long var20 = a ^ 138156732480111L;
-      long var10000 = var20 ^ 881867073424406974L;
+      long l = a ^ 138156732480111L;
+      long m = l ^ 881867073424406974L;
    }
 }

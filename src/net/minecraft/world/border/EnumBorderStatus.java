@@ -7,8 +7,8 @@ public enum EnumBorderStatus {
 
    private final int id;
 
-   EnumBorderStatus(int var3) {
-      this.id = var3;
+   EnumBorderStatus(int id) {
+      this.id = id;
    }
 
    public int getID() {

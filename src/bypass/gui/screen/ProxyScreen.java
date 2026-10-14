@@ -41,7 +41,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class ProxyScreen extends GuiScreen {
-   private static Map<Integer, HostAndPort> u = new TreeMap<>(Comparator.comparingInt(var0 -> var0));
+   private static Map<Integer, HostAndPort> u = new TreeMap<>(Comparator.comparingInt(integer -> integer));
    private static Set<HostAndPort> B = new HashSet<>();
    private ProxySource G = new GatherProxySource();
    public static final Map<String, ImageTexture> K = new HashMap<>();
@@ -59,34 +59,34 @@ public class ProxyScreen extends GuiScreen {
          this.N();
       }
 
-      byte var5 = 125;
-      byte var6 = 20;
-      byte var7 = 1;
-      int var8 = this.width / 2 - var5 / 2;
-      int var9 = this.height - var6 - 4;
+      byte b = 125;
+      byte b2 = 20;
+      byte b3 = 1;
+      int i = this.width / 2 - b / 2;
+      int j = this.height - b2 - 4;
       this.buttonList.clear();
-      this.buttonList.add(this.R = new GuiButton(0, var8 - var5 / 2 - var7 / 2, var9 - var6 / 2, var5, var6, "Refresh proxies"));
-      this.buttonList.add(new GuiButton(1, var8 + var5 / 2 + var7 / 2 + 3, var9 - var6 / 2, var5, var6, "Select proxy"));
-      this.buttonList.add(new GuiButton(2, this.width - var5, 20, var5, var6, "Clear proxy"));
-      this.buttonList.add(new GuiButton(3, var8, var9 - var6 / 2 - 22, var5, var6, "Custom proxy"));
-      this.buttonList.add(new GuiButton(4, var8 + var5 + 6 + var5 / 2, var9 - 10, var5 / 2, var6, "->"));
-      this.buttonList.add(new GuiButton(5, var8 - var5 - var7 - var7 / 2, var9 - 10, var5 / 2, var6, "<-"));
+      this.buttonList.add(this.R = new GuiButton(0, i - b / 2 - b3 / 2, j - b2 / 2, b, b2, "Refresh proxies"));
+      this.buttonList.add(new GuiButton(1, i + b / 2 + b3 / 2 + 3, j - b2 / 2, b, b2, "Select proxy"));
+      this.buttonList.add(new GuiButton(2, this.width - b, 20, b, b2, "Clear proxy"));
+      this.buttonList.add(new GuiButton(3, i, j - b2 / 2 - 22, b, b2, "Custom proxy"));
+      this.buttonList.add(new GuiButton(4, i + b + 6 + b / 2, j - 10, b / 2, b2, "->"));
+      this.buttonList.add(new GuiButton(5, i - b - b3 - b3 / 2, j - 10, b / 2, b2, "<-"));
       super.initGui();
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      long var4 = a ^ 45508637356001L;
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      long l = a ^ 45508637356001L;
       this.drawDefaultBackground();
-      int var7 = this.Z();
-      if (this.b > var7) {
+      int i = this.Z();
+      if (this.b > i) {
          this.b = 0;
       }
 
       this.mc.fontRendererObj.drawStringWithShadow("Proxy Manager", this.width / 2 - this.mc.fontRendererObj.getStringWidth("Proxy Manager") / 2, 1.0F, -1);
-      String var8 = String.format("%s", O ? "§aProxies checked" : "§7Checking proxies... (" + B.size() + ")");
-      this.mc.fontRendererObj.drawStringWithShadow(var8, this.width / 2 - this.mc.fontRendererObj.getStringWidth(var8) / 2, 9.0F, -1);
-      String var9 = String.format(
+      String string = String.format("%s", O ? "§aProxies checked" : "§7Checking proxies... (" + B.size() + ")");
+      this.mc.fontRendererObj.drawStringWithShadow(string, this.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, 9.0F, -1);
+      String string2 = String.format(
          "Current proxy: %s",
          Astolfo.INSTANCE.getProxy() == Proxy.NO_PROXY
             ? "No proxy"
@@ -94,12 +94,12 @@ public class ProxyScreen extends GuiScreen {
                + ":"
                + ((InetSocketAddress)Astolfo.INSTANCE.getProxy().address()).getPort()
       );
-      this.mc.fontRendererObj.drawStringWithShadow(var9, this.width - this.mc.fontRendererObj.getStringWidth(var9), 5.0F, -1);
-      long var10000 = 7980724088846442325L ^ var4;
+      this.mc.fontRendererObj.drawStringWithShadow(string2, this.width - this.mc.fontRendererObj.getStringWidth(string2), 5.0F, -1);
+      long m = 7980724088846442325L ^ l;
       this.mc
          .fontRendererObj
          .drawStringWithShadow(
-            String.format("Page (%s/%s)", this.b, var7),
+            String.format("Page (%s/%s)", this.b, i),
             this.width - this.mc.fontRendererObj.getStringWidth(String.format("Page (%s/%s)", this.b, this.Z())) - 3,
             45.0F,
             -1
@@ -107,99 +107,99 @@ public class ProxyScreen extends GuiScreen {
       GL11.glPushMatrix();
       GL11.glScalef(0.7F, 0.7F, 0.7F);
       GlStateManager.enableBlend();
-      int var10 = 0;
-      int var11 = 0;
-      byte var12 = 10;
-      int var13 = this.height / var12;
-      int var14 = this.width / 2 + 87;
+      int k = 0;
+      int n = 0;
+      byte b2 = 10;
+      int i2 = this.height / b2;
+      int i3 = this.width / 2 + 87;
       if (!O) {
          this.checkProxies();
       }
 
       if (O) {
          try {
-            for (Entry var16 : u.entrySet()) {
-               if (var10 < var13 * this.b) {
-                  var11 = ++var10;
+            for (Entry entry : u.entrySet()) {
+               if (k < i2 * this.b) {
+                  n = ++k;
                } else {
-                  if (var10 >= var13 * (this.b + 1)) {
+                  if (k >= i2 * (this.b + 1)) {
                      break;
                   }
 
-                  int var17 = (var10 - var11) * var12 + 30;
-                  RenderUtil.drawRect(var14, var17, var14 + 175, var17 + 10, new Color(1, 1, 1, 50).getRGB());
-                  if (p == var16.getValue()) {
-                     RenderUtil.drawRect(var14, var17, var14 + 175, var17 + 10, new Color(37, 37, 37, 255).getRGB());
+                  int i4 = (k - n) * b2 + 30;
+                  RenderUtil.drawRect(i3, i4, i3 + 175, i4 + 10, new Color(1, 1, 1, 50).getRGB());
+                  if (p == entry.getValue()) {
+                     RenderUtil.drawRect(i3, i4, i3 + 175, i4 + 10, new Color(37, 37, 37, 255).getRGB());
                   }
 
-                  ImageTexture var18 = L("http://api.hostip.info/flag.php?ip=" + ((HostAndPort)var16.getValue()).getHost());
-                  ResourceLocation var19 = var18 != null && var18.j != null ? var18.j : null;
-                  if (var19 != null) {
-                     Minecraft.getMinecraft().getTextureManager().bindTexture(var19);
-                     Gui.drawModalRectWithCustomSizedTexture(var14 - 16, var17 + 1, 0.0F, 0.0F, 16, 8, 16.0F, 8.0F);
+                  ImageTexture imageTexture = L("http://api.hostip.info/flag.php?ip=" + ((HostAndPort)entry.getValue()).getHost());
+                  ResourceLocation resourceLocation = imageTexture != null && imageTexture.j != null ? imageTexture.j : null;
+                  if (resourceLocation != null) {
+                     Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+                     Gui.drawModalRectWithCustomSizedTexture(i3 - 16, i4 + 1, 0.0F, 0.0F, 16, 8, 16.0F, 8.0F);
                   }
 
-                  this.I(var14 + 175, 0, var17, (Integer)var16.getKey());
+                  this.I(i3 + 175, 0, i4, (Integer)entry.getKey());
                   this.mc
                      .fontRendererObj
                      .drawStringWithShadow(
-                        String.format("§f%sms", var16.getKey()),
-                        var14 + 165 - this.mc.fontRendererObj.getStringWidth(String.format("§f%sms", var16.getKey())) - 3,
-                        var17 + 1,
+                        String.format("§f%sms", entry.getKey()),
+                        i3 + 165 - this.mc.fontRendererObj.getStringWidth(String.format("§f%sms", entry.getKey())) - 3,
+                        i4 + 1,
                         -1
                      );
                   this.mc
                      .fontRendererObj
                      .drawStringWithShadow(
-                        String.format("%s%s:%s", ((HostAndPort)var16.getValue()).getHost(), EnumChatFormatting.GRAY, ((HostAndPort)var16.getValue()).getPort()),
-                        var14 + 3,
-                        var17 + 1,
+                        String.format("%s%s:%s", ((HostAndPort)entry.getValue()).getHost(), EnumChatFormatting.GRAY, ((HostAndPort)entry.getValue()).getPort()),
+                        i3 + 3,
+                        i4 + 1,
                         -1
                      );
-                  var10++;
+                  k++;
                }
             }
-         } catch (ConcurrentModificationException var20) {
+         } catch (ConcurrentModificationException concurrentModificationException) {
             System.out.println("fuck you whore, we like fortnite");
          }
       }
 
       GL11.glPopMatrix();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static ImageTexture L(String var0) {
-      if (K.containsKey(var0)) {
-         ImageTexture var5 = K.get(var0);
-         if (var5.H != null && var5.j == null) {
-            var5.j = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(var0, new DynamicTexture(var5.H));
+   public static ImageTexture L(String string) {
+      if (K.containsKey(string)) {
+         ImageTexture imageTexture = K.get(string);
+         if (imageTexture.H != null && imageTexture.j == null) {
+            imageTexture.j = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(string, new DynamicTexture(imageTexture.H));
             return null;
          } else {
-            return var5;
+            return imageTexture;
          }
       } else {
-         ImageTexture var4 = new ImageTexture();
-         K.put(var0, var4);
-         download(var4, var0);
-         return var4;
+         ImageTexture imageTexture2 = new ImageTexture();
+         K.put(string, imageTexture2);
+         download(imageTexture2, string);
+         return imageTexture2;
       }
    }
 
-   public static void download(ImageTexture var0, String var1) {
+   public static void download(ImageTexture imageTexture, String string) {
       new Thread(
             () -> {
                try {
-                  HttpURLConnection var5 = (HttpURLConnection)new URL(var1).openConnection();
-                  var5.setRequestProperty(
+                  HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(string).openConnection();
+                  httpURLConnection.setRequestProperty(
                      "User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31"
                   );
-                  if (var5.getResponseCode() == 200) {
-                     InputStream var6 = var5.getInputStream();
-                     var0.H = ImageIO.read(var6);
+                  if (httpURLConnection.getResponseCode() == 200) {
+                     InputStream inputStream = httpURLConnection.getInputStream();
+                     imageTexture.H = ImageIO.read(inputStream);
                   }
-               } catch (IOException var7) {
-                  System.err.println("An error occurred. URL: " + var1);
-                  var7.printStackTrace();
+               } catch (IOException ioException) {
+                  System.err.println("An error occurred. URL: " + string);
+                  ioException.printStackTrace();
                }
             }
          )
@@ -207,49 +207,49 @@ public class ProxyScreen extends GuiScreen {
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      int var7 = 0;
-      int var8 = 0;
-      byte var9 = 7;
-      int var10 = this.height / var9;
-      int var11 = 0;
-      int var12 = this.width / 2 - 87;
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      int i = 0;
+      int j = 0;
+      byte b2 = 7;
+      int k = this.height / b2;
+      int l = 0;
+      int m = this.width / 2 - 87;
       if (O) {
          try {
-            for (HostAndPort var14 : u.values()) {
-               if (var7 < var10 * this.b) {
-                  var7++;
-                  var8++;
-                  var11 = var7;
+            for (HostAndPort hostAndPort : u.values()) {
+               if (i < k * this.b) {
+                  i++;
+                  j++;
+                  l = i;
                } else {
-                  if (var7 >= var10 * (this.b + 1)) {
+                  if (i >= k * (this.b + 1)) {
                      break;
                   }
 
-                  if (var7 >= 70) {
-                     var7 = 0;
-                     var11 = 0;
+                  if (i >= 70) {
+                     i = 0;
+                     l = 0;
                   }
 
-                  int var15 = (var7 - var11) * var9 + 20;
-                  if (var1 >= var12 && var2 >= var15 && var1 <= var12 + 175 && var2 <= var15 + 10) {
-                     p = var14;
+                  int n = (i - l) * b2 + 20;
+                  if (mouseX >= m && mouseY >= n && mouseX <= m + 175 && mouseY <= n + 10) {
+                     p = hostAndPort;
                   }
 
-                  var7++;
+                  i++;
                }
             }
-         } catch (ConcurrentModificationException var16) {
+         } catch (ConcurrentModificationException concurrentModificationException) {
             System.out.println("WE LIKE FORTNITE");
          }
       }
 
-      super.mouseClicked(var1, var2, var3);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      switch (button.id) {
          case 0:
             this.N();
             O = false;
@@ -268,10 +268,10 @@ public class ProxyScreen extends GuiScreen {
             Minecraft.getMinecraft().displayGuiScreen(new ProxyLoginScreen());
             break;
          case 4:
-            int var5 = this.Z();
+            int i = this.Z();
             this.b += 2;
-            if (this.b >= var5 - 1) {
-               this.b = var5 - 1;
+            if (this.b >= i - 1) {
+               this.b = i - 1;
             }
 
             p = null;
@@ -284,43 +284,43 @@ public class ProxyScreen extends GuiScreen {
             p = null;
       }
 
-      super.actionPerformed(var1);
+      super.actionPerformed(button);
    }
 
    private void N() {
-      EnumSet var1 = EnumSet.noneOf(ProxyType.class);
-      var1.add(ProxyType.SOCKS4);
-      var1.add(ProxyType.SOCKS5);
-      B = this.G.scrap(var1);
+      EnumSet enumSet = EnumSet.noneOf(ProxyType.class);
+      enumSet.add(ProxyType.SOCKS4);
+      enumSet.add(ProxyType.SOCKS5);
+      B = this.G.scrap(enumSet);
    }
 
    private void checkProxies() {
       if (!B.isEmpty()) {
          x.submit(() -> {
-            for (HostAndPort var5 : B) {
+            for (HostAndPort hostAndPort : B) {
                try {
-                  if (!u.containsValue(var5) && !this.k(var5)) {
+                  if (!u.containsValue(hostAndPort) && !this.k(hostAndPort)) {
                      if (O) {
                         break;
                      }
 
-                     InetAddress var6 = InetAddress.getByName(var5.getHost());
-                     long var7 = System.currentTimeMillis();
-                     if (var6.isReachable(500)) {
-                        int var9 = (int)(System.currentTimeMillis() - var7);
-                        if (!this.k(var5)) {
-                           u.put(var9, var5);
+                     InetAddress inetAddress = InetAddress.getByName(hostAndPort.getHost());
+                     long l = System.currentTimeMillis();
+                     if (inetAddress.isReachable(500)) {
+                        int i = (int)(System.currentTimeMillis() - l);
+                        if (!this.k(hostAndPort)) {
+                           u.put(i, hostAndPort);
                         }
 
-                        B.remove(var5);
+                        B.remove(hostAndPort);
                      } else {
-                        B.remove(var5);
+                        B.remove(hostAndPort);
                      }
                   } else {
-                     B.remove(var5);
+                     B.remove(hostAndPort);
                   }
-               } catch (IOException var10) {
-                  B.remove(var5);
+               } catch (IOException ioException) {
+                  B.remove(hostAndPort);
                }
             }
 
@@ -329,9 +329,9 @@ public class ProxyScreen extends GuiScreen {
       }
    }
 
-   private boolean k(HostAndPort var1) {
-      for (HostAndPort var6 : u.values()) {
-         if (var6.equals(var1)) {
+   private boolean k(HostAndPort hostAndPort) {
+      for (HostAndPort hostAndPort2 : u.values()) {
+         if (hostAndPort2.equals(hostAndPort)) {
             return true;
          }
       }
@@ -339,42 +339,42 @@ public class ProxyScreen extends GuiScreen {
       return false;
    }
 
-   public void I(int var1, int var2, int var3, int var4) {
+   public void I(int i, int j, int k, int l) {
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(icons);
-      byte var8 = 0;
-      byte var9 = 0;
-      if (var4 < 0) {
-         var9 = 5;
-      } else if (var4 < 150) {
-         var9 = 0;
-      } else if (var4 < 300) {
-         var9 = 1;
-      } else if (var4 < 600) {
-         var9 = 2;
-      } else if (var4 < 1000) {
-         var9 = 3;
+      byte b = 0;
+      byte b2 = 0;
+      if (l < 0) {
+         b2 = 5;
+      } else if (l < 150) {
+         b2 = 0;
+      } else if (l < 300) {
+         b2 = 1;
+      } else if (l < 600) {
+         b2 = 2;
+      } else if (l < 1000) {
+         b2 = 3;
       } else {
-         var9 = 4;
+         b2 = 4;
       }
 
       this.zLevel += 100.0F;
-      this.drawTexturedModalRect(var2 + var1 - 11, var3, 0 + var8 * 10, 176 + var9 * 8, 10, 8);
+      this.drawTexturedModalRect(j + i - 11, k, 0 + b * 10, 176 + b2 * 8, 10, 8);
       this.zLevel -= 100.0F;
    }
 
-   public static String o(InputStream var0) {
-      Scanner var4 = new Scanner(var0).useDelimiter("\\A");
-      return var4.hasNext() ? var4.next() : "";
+   public static String o(InputStream inputStream) {
+      Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+      return scanner.hasNext() ? scanner.next() : "";
    }
 
    private int Z() {
-      int var3 = u.size();
-      return MathHelper.ceiling_float_int((float)var3 / (this.height / 10));
+      int i = u.size();
+      return MathHelper.ceiling_float_int((float)i / (this.height / 10));
    }
 
    static {
-      long var20 = a ^ 57287977161539L;
-      long var10000 = 3796444336627603900L ^ var20;
+      long l = a ^ 57287977161539L;
+      long m = 3796444336627603900L ^ l;
    }
 }

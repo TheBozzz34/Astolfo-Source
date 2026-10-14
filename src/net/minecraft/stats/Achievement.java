@@ -19,37 +19,37 @@ public class Achievement extends StatBase {
    private boolean isSpecial;
    private static final long a = 70683633875588L;
 
-   public Achievement(String var1, String var2, int var3, int var4, Item var5, Achievement var6) {
-      this(var1, var2, var3, var4, new ItemStack(var5), var6);
+   public Achievement(String statIdIn, String unlocalizedName, int column, int row, Item itemIn, Achievement parent) {
+      this(statIdIn, unlocalizedName, column, row, new ItemStack(itemIn), parent);
    }
 
-   public Achievement(String var1, String var2, int var3, int var4, Block var5, Achievement var6) {
-      this(var1, var2, var3, var4, new ItemStack(var5), var6);
+   public Achievement(String statIdIn, String unlocalizedName, int column, int row, Block blockIn, Achievement parent) {
+      this(statIdIn, unlocalizedName, column, row, new ItemStack(blockIn), parent);
    }
 
-   public Achievement(String var1, String var2, int var3, int var4, ItemStack var5, Achievement var6) {
-      super(var1, new ChatComponentTranslation("achievement." + var2));
-      this.theItemStack = var5;
-      this.achievementDescription = "achievement." + var2 + ".desc";
-      this.displayColumn = var3;
-      this.displayRow = var4;
-      if (var3 < AchievementList.minDisplayColumn) {
-         AchievementList.minDisplayColumn = var3;
+   public Achievement(String statIdIn, String unlocalizedName, int column, int row, ItemStack stack, Achievement parent) {
+      super(statIdIn, new ChatComponentTranslation("achievement." + unlocalizedName));
+      this.theItemStack = stack;
+      this.achievementDescription = "achievement." + unlocalizedName + ".desc";
+      this.displayColumn = column;
+      this.displayRow = row;
+      if (column < AchievementList.minDisplayColumn) {
+         AchievementList.minDisplayColumn = column;
       }
 
-      if (var4 < AchievementList.minDisplayRow) {
-         AchievementList.minDisplayRow = var4;
+      if (row < AchievementList.minDisplayRow) {
+         AchievementList.minDisplayRow = row;
       }
 
-      if (var3 > AchievementList.maxDisplayColumn) {
-         AchievementList.maxDisplayColumn = var3;
+      if (column > AchievementList.maxDisplayColumn) {
+         AchievementList.maxDisplayColumn = column;
       }
 
-      if (var4 > AchievementList.maxDisplayRow) {
-         AchievementList.maxDisplayRow = var4;
+      if (row > AchievementList.maxDisplayRow) {
+         AchievementList.maxDisplayRow = row;
       }
 
-      this.parentAchievement = var6;
+      this.parentAchievement = parent;
    }
 
    public Achievement initIndependentStat() {
@@ -75,13 +75,13 @@ public class Achievement extends StatBase {
 
    @Override
    public IChatComponent getStatName() {
-      IChatComponent var3 = super.getStatName();
-      var3.getChatStyle().setColor(this.getSpecial() ? EnumChatFormatting.DARK_PURPLE : EnumChatFormatting.GREEN);
-      return var3;
+      IChatComponent iChatComponent = super.getStatName();
+      iChatComponent.getChatStyle().setColor(this.getSpecial() ? EnumChatFormatting.DARK_PURPLE : EnumChatFormatting.GREEN);
+      return iChatComponent;
    }
 
-   public Achievement func_150953_b(Class<? extends IJsonSerializable> var1) {
-      return (Achievement)super.func_150953_b(var1);
+   public Achievement func_150953_b(Class<? extends IJsonSerializable> class2) {
+      return (Achievement)super.func_150953_b(class2);
    }
 
    public String getDescription() {
@@ -90,8 +90,8 @@ public class Achievement extends StatBase {
          : StatCollector.translateToLocal(this.achievementDescription);
    }
 
-   public Achievement setStatStringFormatter(IStatStringFormat var1) {
-      this.statStringFormatter = var1;
+   public Achievement setStatStringFormatter(IStatStringFormat statStringFormatterIn) {
+      this.statStringFormatter = statStringFormatterIn;
       return this;
    }
 

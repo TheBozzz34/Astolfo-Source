@@ -15,98 +15,100 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree {
    public int extraRandomHeight;
    private static final long b = 117536705502551L;
 
-   public WorldGenHugeTrees(boolean var1, int var2, int var3, IBlockState var4, IBlockState var5) {
-      super(var1);
-      this.baseHeight = var2;
-      this.extraRandomHeight = var3;
-      this.woodMetadata = var4;
-      this.leavesMetadata = var5;
+   public WorldGenHugeTrees(boolean bl, int i, int k, IBlockState iBlockState, IBlockState iBlockState2) {
+      super(bl);
+      this.baseHeight = i;
+      this.extraRandomHeight = k;
+      this.woodMetadata = iBlockState;
+      this.leavesMetadata = iBlockState2;
    }
 
-   public int func_150533_a(Random var1) {
-      int var5 = var1.nextInt(3) + this.baseHeight;
+   public int func_150533_a(Random random2) {
+      int i = random2.nextInt(3) + this.baseHeight;
       if (this.extraRandomHeight > 1) {
-         var5 += var1.nextInt(this.extraRandomHeight);
+         i += random2.nextInt(this.extraRandomHeight);
       }
 
-      return var5;
+      return i;
    }
 
-   private boolean func_175926_c(World var1, BlockPos var2, int var3) {
-      boolean var7 = true;
-      if (var2.getY() >= 1 && var2.getY() + var3 + 1 <= 256) {
-         for (int var8 = 0; var8 <= 1 + var3; var8++) {
-            byte var9 = 2;
-            if (var8 == 0) {
-               var9 = 1;
-            } else if (var8 >= 1 + var3 - 2) {
-               var9 = 2;
+   private boolean func_175926_c(World worldIn, BlockPos blockPos, int i) {
+      boolean bl = true;
+      if (blockPos.getY() >= 1 && blockPos.getY() + i + 1 <= 256) {
+         for (int j = 0; j <= 1 + i; j++) {
+            byte b = 2;
+            if (j == 0) {
+               b = 1;
+            } else if (j >= 1 + i - 2) {
+               b = 2;
             }
 
-            for (int var10 = -var9; var10 <= var9 && var7; var10++) {
-               for (int var11 = -var9; var11 <= var9 && var7; var11++) {
-                  if (var2.getY() + var8 < 0 || var2.getY() + var8 >= 256 || !this.func_150523_a(var1.getBlockState(var2.add(var10, var8, var11)).getBlock())) {
-                     var7 = false;
+            for (int k = -b; k <= b && bl; k++) {
+               for (int l = -b; l <= b && bl; l++) {
+                  if (blockPos.getY() + j < 0
+                     || blockPos.getY() + j >= 256
+                     || !this.func_150523_a(worldIn.getBlockState(blockPos.add(k, j, l)).getBlock())) {
+                     bl = false;
                   }
                }
             }
          }
 
-         return var7;
+         return bl;
       } else {
          return false;
       }
    }
 
-   private boolean func_175927_a(BlockPos var1, World var2) {
-      BlockPos var6 = var1.down();
-      Block var7 = var2.getBlockState(var6).getBlock();
-      if ((var7 == Blocks.grass || var7 == Blocks.dirt) && var1.getY() >= 2) {
-         this.func_175921_a(var2, var6);
-         this.func_175921_a(var2, var6.east());
-         this.func_175921_a(var2, var6.south());
-         this.func_175921_a(var2, var6.south().east());
+   private boolean func_175927_a(BlockPos blockPos, World worldIn) {
+      BlockPos blockPos2 = blockPos.down();
+      Block block = worldIn.getBlockState(blockPos2).getBlock();
+      if ((block == Blocks.grass || block == Blocks.dirt) && blockPos.getY() >= 2) {
+         this.func_175921_a(worldIn, blockPos2);
+         this.func_175921_a(worldIn, blockPos2.east());
+         this.func_175921_a(worldIn, blockPos2.south());
+         this.func_175921_a(worldIn, blockPos2.south().east());
          return true;
       } else {
          return false;
       }
    }
 
-   public boolean func_175929_a(World var1, Random var2, BlockPos var3, int var4) {
-      return this.func_175926_c(var1, var3, var4) && this.func_175927_a(var3, var1);
+   public boolean func_175929_a(World worldIn, Random random2, BlockPos blockPos, int i) {
+      return this.func_175926_c(worldIn, blockPos, i) && this.func_175927_a(blockPos, worldIn);
    }
 
-   public void j(World var1, BlockPos var2, int var3) {
-      int var7 = var3 * var3;
+   public void j(World world, BlockPos blockPos, int i) {
+      int k = i * i;
 
-      for (int var8 = -var3; var8 <= var3 + 1; var8++) {
-         for (int var9 = -var3; var9 <= var3 + 1; var9++) {
-            int var10 = var8 - 1;
-            int var11 = var9 - 1;
-            if (var8 * var8 + var9 * var9 <= var7
-               || var10 * var10 + var11 * var11 <= var7
-               || var8 * var8 + var11 * var11 <= var7
-               || var10 * var10 + var9 * var9 <= var7) {
-               BlockPos var12 = var2.add(var8, 0, var9);
-               Material var13 = var1.getBlockState(var12).getBlock().getMaterial();
-               if (var13 == Material.air || var13 == Material.leaves) {
-                  this.setBlockAndNotifyAdequately(var1, var12, this.leavesMetadata);
+      for (int l = -i; l <= i + 1; l++) {
+         for (int m = -i; m <= i + 1; m++) {
+            int n = l - 1;
+            int i2 = m - 1;
+            if (l * l + m * m <= k
+               || n * n + i2 * i2 <= k
+               || l * l + i2 * i2 <= k
+               || n * n + m * m <= k) {
+               BlockPos blockPos2 = blockPos.add(l, 0, m);
+               Material material = world.getBlockState(blockPos2).getBlock().getMaterial();
+               if (material == Material.air || material == Material.leaves) {
+                  this.setBlockAndNotifyAdequately(world, blockPos2, this.leavesMetadata);
                }
             }
          }
       }
    }
 
-   public void e(World var1, BlockPos var2, int var3) {
-      int var7 = var3 * var3;
+   public void e(World world, BlockPos blockPos, int i) {
+      int j = i * i;
 
-      for (int var8 = -var3; var8 <= var3; var8++) {
-         for (int var9 = -var3; var9 <= var3; var9++) {
-            if (var8 * var8 + var9 * var9 <= var7) {
-               BlockPos var10 = var2.add(var8, 0, var9);
-               Material var11 = var1.getBlockState(var10).getBlock().getMaterial();
-               if (var11 == Material.air || var11 == Material.leaves) {
-                  this.setBlockAndNotifyAdequately(var1, var10, this.leavesMetadata);
+      for (int k = -i; k <= i; k++) {
+         for (int l = -i; l <= i; l++) {
+            if (k * k + l * l <= j) {
+               BlockPos blockPos2 = blockPos.add(k, 0, l);
+               Material material = world.getBlockState(blockPos2).getBlock().getMaterial();
+               if (material == Material.air || material == Material.leaves) {
+                  this.setBlockAndNotifyAdequately(world, blockPos2, this.leavesMetadata);
                }
             }
          }

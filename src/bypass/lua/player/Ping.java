@@ -14,13 +14,13 @@ public final class Ping extends ZeroArgFunction {
          return valueOf(false);
       }
 
-      int var4 = ClientAccess.mc.thePlayer.getPlayerInfo() != null && ClientAccess.mc.thePlayer.getPlayerInfo().getResponseTime() > 1
+      int i = ClientAccess.mc.thePlayer.getPlayerInfo() != null && ClientAccess.mc.thePlayer.getPlayerInfo().getResponseTime() > 1
          ? ClientAccess.mc.thePlayer.getPlayerInfo().getResponseTime()
          : (
             ClientAccess.mc.getCurrentServerData() != null && ClientAccess.mc.getCurrentServerData().pingToServer > 0L
                ? (int)ClientAccess.mc.getCurrentServerData().pingToServer
                : 0
          );
-      return valueOf(Math.min(var4, (int)b));
+      return valueOf(Math.min(i, (int)b));
    }
 }

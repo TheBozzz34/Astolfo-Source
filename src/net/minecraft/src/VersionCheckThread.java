@@ -9,38 +9,38 @@ public class VersionCheckThread extends Thread {
 
    @Override
    public void run() {
-      HttpURLConnection var4 = null;
+      HttpURLConnection httpURLConnection = null;
 
       try {
          Config.dbg("Checking for new version");
-         URL var5 = new URL("http://optifine.net/version/1.8.8/HD_U.txt");
-         var4 = (HttpURLConnection)var5.openConnection();
-         var4.setDoInput(true);
-         var4.setDoOutput(false);
-         var4.connect();
+         URL url = new URL("http://optifine.net/version/1.8.8/HD_U.txt");
+         httpURLConnection = (HttpURLConnection)url.openConnection();
+         httpURLConnection.setDoInput(true);
+         httpURLConnection.setDoOutput(false);
+         httpURLConnection.connect();
 
          try {
-            InputStream var6 = var4.getInputStream();
-            String var7 = Config.readInputStream(var6);
-            var6.close();
-            String[] var8 = Config.tokenize(var7, "\n\r");
-            if (var8.length < 1) {
+            InputStream inputStream = httpURLConnection.getInputStream();
+            String string = Config.readInputStream(inputStream);
+            inputStream.close();
+            String[] strings = Config.tokenize(string, "\n\r");
+            if (strings.length < 1) {
                return;
             }
 
-            String var9 = var8[0].trim();
-            Config.dbg("Version found: " + var9);
-            if (Config.compareRelease(var9, "H8") > 0) {
-               Config.G(var9);
+            String string2 = strings[0].trim();
+            Config.dbg("Version found: " + string2);
+            if (Config.compareRelease(string2, "H8") > 0) {
+               Config.G(string2);
                return;
             }
          } finally {
-            if (var4 != null) {
-               var4.disconnect();
+            if (httpURLConnection != null) {
+               httpURLConnection.disconnect();
             }
          }
-      } catch (Exception var14) {
-         Config.dbg(var14.getClass().getName() + ": " + var14.getMessage());
+      } catch (Exception exception) {
+         Config.dbg(exception.getClass().getName() + ": " + exception.getMessage());
       }
    }
 }

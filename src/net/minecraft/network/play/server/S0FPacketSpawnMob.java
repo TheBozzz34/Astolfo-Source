@@ -29,83 +29,83 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient> {
    public S0FPacketSpawnMob() {
    }
 
-   public S0FPacketSpawnMob(EntityLivingBase var1) {
-      this.entityId = var1.getEntityId();
-      this.type = (byte)EntityList.getEntityID(var1);
-      this.x = MathHelper.floor_double(var1.posX * 32.0);
-      this.y = MathHelper.floor_double(var1.posY * 32.0);
-      this.z = MathHelper.floor_double(var1.posZ * 32.0);
-      this.yaw = (byte)(var1.rotationYaw * 256.0F / 360.0F);
-      this.pitch = (byte)(var1.rotationPitch * 256.0F / 360.0F);
-      this.headPitch = (byte)(var1.rotationYawHead * 256.0F / 360.0F);
-      double var6 = 3.9;
-      double var8 = var1.motionX;
-      double var10 = var1.motionY;
-      double var12 = var1.motionZ;
-      if (var8 < -var6) {
-         var8 = -var6;
+   public S0FPacketSpawnMob(EntityLivingBase entityIn) {
+      this.entityId = entityIn.getEntityId();
+      this.type = (byte)EntityList.getEntityID(entityIn);
+      this.x = MathHelper.floor_double(entityIn.posX * 32.0);
+      this.y = MathHelper.floor_double(entityIn.posY * 32.0);
+      this.z = MathHelper.floor_double(entityIn.posZ * 32.0);
+      this.yaw = (byte)(entityIn.rotationYaw * 256.0F / 360.0F);
+      this.pitch = (byte)(entityIn.rotationPitch * 256.0F / 360.0F);
+      this.headPitch = (byte)(entityIn.rotationYawHead * 256.0F / 360.0F);
+      double d = 3.9;
+      double e = entityIn.motionX;
+      double d2 = entityIn.motionY;
+      double d3 = entityIn.motionZ;
+      if (e < -d) {
+         e = -d;
       }
 
-      if (var10 < -var6) {
-         var10 = -var6;
+      if (d2 < -d) {
+         d2 = -d;
       }
 
-      if (var12 < -var6) {
-         var12 = -var6;
+      if (d3 < -d) {
+         d3 = -d;
       }
 
-      if (var8 > var6) {
-         var8 = var6;
+      if (e > d) {
+         e = d;
       }
 
-      if (var10 > var6) {
-         var10 = var6;
+      if (d2 > d) {
+         d2 = d;
       }
 
-      if (var12 > var6) {
-         var12 = var6;
+      if (d3 > d) {
+         d3 = d;
       }
 
-      this.velocityX = (int)(var8 * 8000.0);
-      this.velocityY = (int)(var10 * 8000.0);
-      this.velocityZ = (int)(var12 * 8000.0);
-      this.field_149043_l = var1.getDataWatcher();
+      this.velocityX = (int)(e * 8000.0);
+      this.velocityY = (int)(d2 * 8000.0);
+      this.velocityZ = (int)(d3 * 8000.0);
+      this.field_149043_l = entityIn.getDataWatcher();
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.type = var1.readByte() & 255;
-      this.x = var1.readInt();
-      this.y = var1.readInt();
-      this.z = var1.readInt();
-      this.yaw = var1.readByte();
-      this.pitch = var1.readByte();
-      this.headPitch = var1.readByte();
-      this.velocityX = var1.readShort();
-      this.velocityY = var1.readShort();
-      this.velocityZ = var1.readShort();
-      this.watcher = DataWatcher.readWatchedListFromPacketBuffer(var1);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.type = buf.readByte() & 255;
+      this.x = buf.readInt();
+      this.y = buf.readInt();
+      this.z = buf.readInt();
+      this.yaw = buf.readByte();
+      this.pitch = buf.readByte();
+      this.headPitch = buf.readByte();
+      this.velocityX = buf.readShort();
+      this.velocityY = buf.readShort();
+      this.velocityZ = buf.readShort();
+      this.watcher = DataWatcher.readWatchedListFromPacketBuffer(buf);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeByte(this.type & 0xFF);
-      var1.writeInt(this.x);
-      var1.writeInt(this.y);
-      var1.writeInt(this.z);
-      var1.writeByte(this.yaw);
-      var1.writeByte(this.pitch);
-      var1.writeByte(this.headPitch);
-      var1.writeShort(this.velocityX);
-      var1.writeShort(this.velocityY);
-      var1.writeShort(this.velocityZ);
-      this.field_149043_l.writeTo(var1);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeByte(this.type & 0xFF);
+      buf.writeInt(this.x);
+      buf.writeInt(this.y);
+      buf.writeInt(this.z);
+      buf.writeByte(this.yaw);
+      buf.writeByte(this.pitch);
+      buf.writeByte(this.headPitch);
+      buf.writeShort(this.velocityX);
+      buf.writeShort(this.velocityY);
+      buf.writeShort(this.velocityZ);
+      this.field_149043_l.writeTo(buf);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSpawnMob(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSpawnMob(this);
    }
 
    public List<DataWatcher.WatchableObject> func_149027_c() {

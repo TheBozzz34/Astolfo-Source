@@ -20,14 +20,14 @@ public class MapGenVillage extends MapGenStructure {
    public MapGenVillage() {
    }
 
-   public MapGenVillage(Map<String, String> var1) {
+   public MapGenVillage(Map<String, String> map) {
       this();
 
-      for (Entry var6 : var1.entrySet()) {
-         if (((String)var6.getKey()).equals("size")) {
-            this.terrainType = MathHelper.parseIntWithDefaultAndMax((String)var6.getValue(), this.terrainType, 0);
-         } else if (((String)var6.getKey()).equals("distance")) {
-            this.field_82665_g = MathHelper.parseIntWithDefaultAndMax((String)var6.getValue(), this.field_82665_g, this.field_82666_h + 1);
+      for (Entry entry : map.entrySet()) {
+         if (((String)entry.getKey()).equals("size")) {
+            this.terrainType = MathHelper.parseIntWithDefaultAndMax((String)entry.getValue(), this.terrainType, 0);
+         } else if (((String)entry.getKey()).equals("distance")) {
+            this.field_82665_g = MathHelper.parseIntWithDefaultAndMax((String)entry.getValue(), this.field_82665_g, this.field_82666_h + 1);
          }
       }
    }
@@ -38,27 +38,27 @@ public class MapGenVillage extends MapGenStructure {
    }
 
    @Override
-   public boolean canSpawnStructureAtCoords(int var1, int var2) {
-      int var6 = var1;
-      int var7 = var2;
-      if (var1 < 0) {
-         var1 -= this.field_82665_g - 1;
+   public boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
+      int i = chunkX;
+      int j = chunkZ;
+      if (chunkX < 0) {
+         chunkX -= this.field_82665_g - 1;
       }
 
-      if (var2 < 0) {
-         var2 -= this.field_82665_g - 1;
+      if (chunkZ < 0) {
+         chunkZ -= this.field_82665_g - 1;
       }
 
-      int var8 = var1 / this.field_82665_g;
-      int var9 = var2 / this.field_82665_g;
-      Random var10 = this.worldObj.setRandomSeed(var8, var9, 10387312);
-      var8 *= this.field_82665_g;
-      var9 *= this.field_82665_g;
-      var8 += var10.nextInt(this.field_82665_g - this.field_82666_h);
-      var9 += var10.nextInt(this.field_82665_g - this.field_82666_h);
-      if (var6 == var8 && var7 == var9) {
-         boolean var11 = this.worldObj.getWorldChunkManager().areBiomesViable(var6 * 16 + 8, var7 * 16 + 8, 0, villageSpawnBiomes);
-         if (var11) {
+      int k = chunkX / this.field_82665_g;
+      int l = chunkZ / this.field_82665_g;
+      Random random = this.worldObj.setRandomSeed(k, l, 10387312);
+      k *= this.field_82665_g;
+      l *= this.field_82665_g;
+      k += random.nextInt(this.field_82665_g - this.field_82666_h);
+      l += random.nextInt(this.field_82665_g - this.field_82666_h);
+      if (i == k && j == l) {
+         boolean bl = this.worldObj.getWorldChunkManager().areBiomesViable(i * 16 + 8, j * 16 + 8, 0, villageSpawnBiomes);
+         if (bl) {
             return true;
          }
       }
@@ -67,8 +67,8 @@ public class MapGenVillage extends MapGenStructure {
    }
 
    @Override
-   public StructureStart getStructureStart(int var1, int var2) {
-      return new MapGenVillage.Start(this.worldObj, this.rand, var1, var2, this.terrainType);
+   public StructureStart getStructureStart(int chunkX, int chunkZ) {
+      return new MapGenVillage.Start(this.worldObj, this.rand, chunkX, chunkZ, this.terrainType);
    }
 
    public static class Start extends StructureStart {
@@ -78,39 +78,39 @@ public class MapGenVillage extends MapGenStructure {
       public Start() {
       }
 
-      public Start(World var1, Random var2, int var3, int var4, int var5) {
-         super(var3, var4);
-         List var9 = StructureVillagePieces.getStructureVillageWeightedPieceList(var2, var5);
-         StructureVillagePieces.Start var10 = new StructureVillagePieces.Start(
-            var1.getWorldChunkManager(), 0, var2, (var3 << 4) + 2, (var4 << 4) + 2, var9, var5
+      public Start(World worldIn, Random randIn, int x, int z, int size) {
+         super(x, z);
+         List list = StructureVillagePieces.getStructureVillageWeightedPieceList(randIn, size);
+         StructureVillagePieces.Start start = new StructureVillagePieces.Start(
+            worldIn.getWorldChunkManager(), 0, randIn, (x << 4) + 2, (z << 4) + 2, list, size
          );
-         this.components.add(var10);
-         var10.buildComponent(var10, this.components, var2);
-         List var11 = var10.field_74930_j;
-         List var12 = var10.field_74932_i;
+         this.components.add(start);
+         start.buildComponent(start, this.components, randIn);
+         List list2 = start.field_74930_j;
+         List list3 = start.field_74932_i;
 
-         while (!var11.isEmpty() || !var12.isEmpty()) {
-            if (var11.isEmpty()) {
-               int var13 = var2.nextInt(var12.size());
-               StructureComponent var14 = (StructureComponent)var12.remove(var13);
-               var14.buildComponent(var10, this.components, var2);
+         while (!list2.isEmpty() || !list3.isEmpty()) {
+            if (list2.isEmpty()) {
+               int i = randIn.nextInt(list3.size());
+               StructureComponent structureComponent = (StructureComponent)list3.remove(i);
+               structureComponent.buildComponent(start, this.components, randIn);
             } else {
-               int var16 = var2.nextInt(var11.size());
-               StructureComponent var18 = (StructureComponent)var11.remove(var16);
-               var18.buildComponent(var10, this.components, var2);
+               int j = randIn.nextInt(list2.size());
+               StructureComponent structureComponent2 = (StructureComponent)list2.remove(j);
+               structureComponent2.buildComponent(start, this.components, randIn);
             }
          }
 
          this.updateBoundingBox();
-         int var17 = 0;
+         int k = 0;
 
-         for (StructureComponent var15 : this.components) {
-            if (!(var15 instanceof StructureVillagePieces.Road)) {
-               var17++;
+         for (StructureComponent structureComponent3 : this.components) {
+            if (!(structureComponent3 instanceof StructureVillagePieces.Road)) {
+               k++;
             }
          }
 
-         this.hasMoreThanTwoComponents = var17 > 2;
+         this.hasMoreThanTwoComponents = k > 2;
       }
 
       @Override
@@ -119,15 +119,15 @@ public class MapGenVillage extends MapGenStructure {
       }
 
       @Override
-      public void writeToNBT(NBTTagCompound var1) {
-         super.writeToNBT(var1);
-         var1.setBoolean("Valid", this.hasMoreThanTwoComponents);
+      public void writeToNBT(NBTTagCompound tagCompound) {
+         super.writeToNBT(tagCompound);
+         tagCompound.setBoolean("Valid", this.hasMoreThanTwoComponents);
       }
 
       @Override
-      public void readFromNBT(NBTTagCompound var1) {
-         super.readFromNBT(var1);
-         this.hasMoreThanTwoComponents = var1.getBoolean("Valid");
+      public void readFromNBT(NBTTagCompound tagCompound) {
+         super.readFromNBT(tagCompound);
+         this.hasMoreThanTwoComponents = tagCompound.getBoolean("Valid");
       }
    }
 }

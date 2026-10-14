@@ -36,9 +36,9 @@ public class GuiVideoSettings extends GuiScreen {
    private TooltipProviderOptions optionsRowList = new TooltipProviderOptions(this);
    private static final long a = 101166152679118L;
 
-   public GuiVideoSettings(GuiScreen var1, GameSettings var2) {
-      this.parentGuiScreen = var1;
-      this.guiGameSettings = var2;
+   public GuiVideoSettings(GuiScreen parentScreenIn, GameSettings gameSettingsIn) {
+      this.parentGuiScreen = parentScreenIn;
+      this.guiGameSettings = gameSettingsIn;
    }
 
    @Override
@@ -46,91 +46,91 @@ public class GuiVideoSettings extends GuiScreen {
       this.screenTitle = I18n.format("options.videoTitle");
       this.buttonList.clear();
 
-      for (int var4 = 0; var4 < videoOptions.length; var4++) {
-         GameSettings.Options var5 = videoOptions[var4];
-         if (var5 != null) {
-            int var6 = this.width / 2 - 155 + var4 % 2 * 160;
-            int var7 = this.height / 6 + 21 * (var4 / 2) - 12;
-            if (var5.getEnumFloat()) {
-               this.buttonList.add(new GuiOptionSliderOF(var5.returnEnumOrdinal(), var6, var7, var5));
+      for (int i = 0; i < videoOptions.length; i++) {
+         GameSettings.Options options2 = videoOptions[i];
+         if (options2 != null) {
+            int j = this.width / 2 - 155 + i % 2 * 160;
+            int k = this.height / 6 + 21 * (i / 2) - 12;
+            if (options2.getEnumFloat()) {
+               this.buttonList.add(new GuiOptionSliderOF(options2.returnEnumOrdinal(), j, k, options2));
             } else {
-               this.buttonList.add(new GuiOptionButtonOF(var5.returnEnumOrdinal(), var6, var7, var5, this.guiGameSettings.getKeyBinding(var5)));
+               this.buttonList.add(new GuiOptionButtonOF(options2.returnEnumOrdinal(), j, k, options2, this.guiGameSettings.getKeyBinding(options2)));
             }
          }
       }
 
-      int var8 = this.height / 6 + 21 * (videoOptions.length / 2) - 12;
-      int var12 = 0;
-      var12 = this.width / 2 - 155 + 0;
-      this.buttonList.add(new GuiOptionButton(231, var12, var8, Lang.get("of.options.shaders")));
-      var12 = this.width / 2 - 155 + 160;
-      this.buttonList.add(new GuiOptionButton(202, var12, var8, Lang.get("of.options.quality")));
-      var8 += 21;
-      var12 = this.width / 2 - 155 + 0;
-      this.buttonList.add(new GuiOptionButton(201, var12, var8, Lang.get("of.options.details")));
-      var12 = this.width / 2 - 155 + 160;
-      this.buttonList.add(new GuiOptionButton(212, var12, var8, Lang.get("of.options.performance")));
-      var8 += 21;
-      var12 = this.width / 2 - 155 + 0;
-      this.buttonList.add(new GuiOptionButton(211, var12, var8, Lang.get("of.options.animations")));
-      var12 = this.width / 2 - 155 + 160;
-      this.buttonList.add(new GuiOptionButton(222, var12, var8, Lang.get("of.options.other")));
-      var8 += 21;
+      int l = this.height / 6 + 21 * (videoOptions.length / 2) - 12;
+      int m = 0;
+      m = this.width / 2 - 155 + 0;
+      this.buttonList.add(new GuiOptionButton(231, m, l, Lang.get("of.options.shaders")));
+      m = this.width / 2 - 155 + 160;
+      this.buttonList.add(new GuiOptionButton(202, m, l, Lang.get("of.options.quality")));
+      l += 21;
+      m = this.width / 2 - 155 + 0;
+      this.buttonList.add(new GuiOptionButton(201, m, l, Lang.get("of.options.details")));
+      m = this.width / 2 - 155 + 160;
+      this.buttonList.add(new GuiOptionButton(212, m, l, Lang.get("of.options.performance")));
+      l += 21;
+      m = this.width / 2 - 155 + 0;
+      this.buttonList.add(new GuiOptionButton(211, m, l, Lang.get("of.options.animations")));
+      m = this.width / 2 - 155 + 160;
+      this.buttonList.add(new GuiOptionButton(222, m, l, Lang.get("of.options.other")));
+      l += 21;
       this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done")));
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         int var5 = this.guiGameSettings.guiScale;
-         if (var1.id < 200 && var1 instanceof GuiOptionButton) {
-            this.guiGameSettings.setOptionValue(((GuiOptionButton)var1).returnEnumOptions(), 1);
-            var1.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(var1.id));
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         int i = this.guiGameSettings.guiScale;
+         if (button.id < 200 && button instanceof GuiOptionButton) {
+            this.guiGameSettings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+            button.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
          }
 
-         if (var1.id == 200) {
+         if (button.id == 200) {
             this.mc.gameSettings.saveOptions();
             this.mc.displayGuiScreen(this.parentGuiScreen);
          }
 
-         if (this.guiGameSettings.guiScale != var5) {
-            ScaledResolution var6 = new ScaledResolution(this.mc);
-            int var7 = var6.getScaledWidth();
-            int var8 = var6.getScaledHeight();
-            this.setWorldAndResolution(this.mc, var7, var8);
+         if (this.guiGameSettings.guiScale != i) {
+            ScaledResolution scaledResolution = new ScaledResolution(this.mc);
+            int j = scaledResolution.getScaledWidth();
+            int k = scaledResolution.getScaledHeight();
+            this.setWorldAndResolution(this.mc, j, k);
          }
 
-         if (var1.id == 201) {
+         if (button.id == 201) {
             this.mc.gameSettings.saveOptions();
-            GuiDetailSettingsOF var9 = new GuiDetailSettingsOF(this, this.guiGameSettings);
-            this.mc.displayGuiScreen(var9);
+            GuiDetailSettingsOF guiDetailSettingsOF = new GuiDetailSettingsOF(this, this.guiGameSettings);
+            this.mc.displayGuiScreen(guiDetailSettingsOF);
          }
 
-         if (var1.id == 202) {
+         if (button.id == 202) {
             this.mc.gameSettings.saveOptions();
-            GuiQualitySettingsOF var10 = new GuiQualitySettingsOF(this, this.guiGameSettings);
-            this.mc.displayGuiScreen(var10);
+            GuiQualitySettingsOF guiQualitySettingsOF = new GuiQualitySettingsOF(this, this.guiGameSettings);
+            this.mc.displayGuiScreen(guiQualitySettingsOF);
          }
 
-         if (var1.id == 211) {
+         if (button.id == 211) {
             this.mc.gameSettings.saveOptions();
-            GuiAnimationSettingsOF var11 = new GuiAnimationSettingsOF(this, this.guiGameSettings);
-            this.mc.displayGuiScreen(var11);
+            GuiAnimationSettingsOF guiAnimationSettingsOF = new GuiAnimationSettingsOF(this, this.guiGameSettings);
+            this.mc.displayGuiScreen(guiAnimationSettingsOF);
          }
 
-         if (var1.id == 212) {
+         if (button.id == 212) {
             this.mc.gameSettings.saveOptions();
-            GuiPerformanceSettingsOF var12 = new GuiPerformanceSettingsOF(this, this.guiGameSettings);
-            this.mc.displayGuiScreen(var12);
+            GuiPerformanceSettingsOF guiPerformanceSettingsOF = new GuiPerformanceSettingsOF(this, this.guiGameSettings);
+            this.mc.displayGuiScreen(guiPerformanceSettingsOF);
          }
 
-         if (var1.id == 222) {
+         if (button.id == 222) {
             this.mc.gameSettings.saveOptions();
-            GuiOtherSettingsOF var13 = new GuiOtherSettingsOF(this, this.guiGameSettings);
-            this.mc.displayGuiScreen(var13);
+            GuiOtherSettingsOF guiOtherSettingsOF = new GuiOtherSettingsOF(this, this.guiGameSettings);
+            this.mc.displayGuiScreen(guiOtherSettingsOF);
          }
 
-         if (var1.id == 231) {
+         if (button.id == 231) {
             if (Config.isAntialiasing() || Config.x()) {
                Config.showGuiMessage(Lang.get("of.message.shaders.aa1"), Lang.get("of.message.shaders.aa2"));
                return;
@@ -147,47 +147,47 @@ public class GuiVideoSettings extends GuiScreen {
             }
 
             this.mc.gameSettings.saveOptions();
-            GuiShaders var14 = new GuiShaders(this, this.guiGameSettings);
-            this.mc.displayGuiScreen(var14);
+            GuiShaders guiShaders = new GuiShaders(this, this.guiGameSettings);
+            this.mc.displayGuiScreen(guiShaders);
          }
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, this.screenTitle, this.width / 2, 15, 16777215);
-      String var7 = Config.getVersion();
-      String var8 = "HD_U";
-      if (var8.equals("HD")) {
-         var7 = "OptiFine HD H8";
+      String string = Config.getVersion();
+      String string2 = "HD_U";
+      if (string2.equals("HD")) {
+         string = "OptiFine HD H8";
       }
 
-      if (var8.equals("HD_U")) {
-         var7 = "OptiFine HD H8 Ultra";
+      if (string2.equals("HD_U")) {
+         string = "OptiFine HD H8 Ultra";
       }
 
-      if (var8.equals("L")) {
-         var7 = "OptiFine H8 Light";
+      if (string2.equals("L")) {
+         string = "OptiFine H8 Light";
       }
 
-      this.I(this.fontRendererObj, var7, 2, this.height - 10, 8421504);
-      String var9 = "Minecraft 1.8.8";
-      int var10 = this.fontRendererObj.getStringWidth(var9);
-      this.I(this.fontRendererObj, var9, this.width - var10 - 2, this.height - 10, 8421504);
-      super.drawScreen(var1, var2, var3);
-      this.optionsRowList.U(var1, var2, this.buttonList);
+      this.I(this.fontRendererObj, string, 2, this.height - 10, 8421504);
+      String string3 = "Minecraft 1.8.8";
+      int i = this.fontRendererObj.getStringWidth(string3);
+      this.I(this.fontRendererObj, string3, this.width - i - 2, this.height - 10, 8421504);
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.optionsRowList.U(mouseX, mouseY, this.buttonList);
    }
 
-   public static int j(GuiButton var0) {
-      return var0.width;
+   public static int j(GuiButton guiButton) {
+      return guiButton.width;
    }
 
-   public static int V(GuiButton var0) {
-      return var0.height;
+   public static int V(GuiButton guiButton) {
+      return guiButton.height;
    }
 
-   public static void drawGradientRect(GuiScreen var0, int var1, int var2, int var3, int var4, int var5, int var6) {
-      var0.drawGradientRect(var1, var2, var3, var4, var5, var6);
+   public static void drawGradientRect(GuiScreen guiScreen, int i, int j, int k, int l, int m, int n) {
+      guiScreen.drawGradientRect(i, j, k, l, m, n);
    }
 }

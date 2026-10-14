@@ -7,13 +7,13 @@ import oshi.annotation.concurrent.NotThreadSafe;
 public interface OperatingSystemVersion {
    String getVersion();
 
-   void n(String var1);
+   void n(String string);
 
    String getCodeName();
 
-   void I(String var1);
+   void I(String string);
 
    String getBuildNumber();
 
-   void C(String var1);
+   void C(String string);
 }

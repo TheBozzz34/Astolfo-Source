@@ -6,14 +6,14 @@ public final class SwapHalvesScrambler implements Scrambler {
    private static final long a = 34959906320801L;
 
    @Override
-   public void B(ByteBuffer var1) {
-      byte[] var5 = var1.array();
-      int var6 = var5.length / 2;
+   public void B(ByteBuffer byteBuffer) {
+      byte[] bytes = byteBuffer.array();
+      int i = bytes.length / 2;
 
-      for (int var7 = 0; var7 < var6; var7++) {
-         byte var8 = var5[var7 + var6];
-         var5[var7 + var6] = var5[var7];
-         var5[var7] = var8;
+      for (int j = 0; j < i; j++) {
+         byte b = bytes[j + i];
+         bytes[j + i] = bytes[j];
+         bytes[j] = b;
       }
    }
 }

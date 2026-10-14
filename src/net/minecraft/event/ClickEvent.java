@@ -8,9 +8,9 @@ public class ClickEvent {
    private final String value;
    private static final long a = 4510911729302L;
 
-   public ClickEvent(ClickEvent.Action var1, String var2) {
-      this.action = var1;
-      this.value = var2;
+   public ClickEvent(ClickEvent.Action theAction, String theValue) {
+      this.action = theAction;
+      this.value = theValue;
    }
 
    public ClickEvent.Action getAction() {
@@ -22,22 +22,22 @@ public class ClickEvent {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (var1 != null && this.getClass() == var1.getClass()) {
-         ClickEvent var5 = (ClickEvent)var1;
-         if (this.action != var5.action) {
+      if (object != null && this.getClass() == object.getClass()) {
+         ClickEvent clickEvent = (ClickEvent)object;
+         if (this.action != clickEvent.action) {
             return false;
          }
 
          if (this.value != null) {
-            if (!this.value.equals(var5.value)) {
+            if (!this.value.equals(clickEvent.value)) {
                return false;
             }
-         } else if (var5.value != null) {
+         } else if (clickEvent.value != null) {
             return false;
          }
 
@@ -54,8 +54,8 @@ public class ClickEvent {
 
    @Override
    public int hashCode() {
-      int var5 = this.action.hashCode();
-      return 31 * var5 + (this.value != null ? this.value.hashCode() : 0);
+      int i = this.action.hashCode();
+      return 31 * i + (this.value != null ? this.value.hashCode() : 0);
    }
 
    public enum Action {
@@ -70,9 +70,9 @@ public class ClickEvent {
       private final boolean allowedInChat;
       private final String canonicalName;
 
-      Action(String var3, boolean var4) {
-         this.canonicalName = var3;
-         this.allowedInChat = var4;
+      Action(String canonicalNameIn, boolean allowedInChatIn) {
+         this.canonicalName = canonicalNameIn;
+         this.allowedInChat = allowedInChatIn;
       }
 
       public boolean shouldAllowInChat() {
@@ -83,13 +83,13 @@ public class ClickEvent {
          return this.canonicalName;
       }
 
-      public static ClickEvent.Action getValueByCanonicalName(String var0) {
-         return nameMapping.get(var0);
+      public static ClickEvent.Action getValueByCanonicalName(String canonicalNameIn) {
+         return nameMapping.get(canonicalNameIn);
       }
 
       static {
-         for (ClickEvent.Action var20 : values()) {
-            nameMapping.put(var20.getCanonicalName(), var20);
+         for (ClickEvent.Action action : values()) {
+            nameMapping.put(action.getCanonicalName(), action);
          }
       }
    }

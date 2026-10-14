@@ -9,9 +9,9 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget {
    private int field_142051_e;
    private static final long a = 65458153212031L;
 
-   public EntityAIOwnerHurtByTarget(EntityTameable var1) {
-      super(var1, false);
-      this.theDefendingTameable = var1;
+   public EntityAIOwnerHurtByTarget(EntityTameable theDefendingTameableIn) {
+      super(theDefendingTameableIn, false);
+      this.theDefendingTameable = theDefendingTameableIn;
       this.setMutexBits(1);
    }
 
@@ -21,24 +21,24 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget {
          return false;
       }
 
-      EntityLivingBase var4 = this.theDefendingTameable.getOwner();
-      if (var4 == null) {
+      EntityLivingBase entityLivingBase = this.theDefendingTameable.getOwner();
+      if (entityLivingBase == null) {
          return false;
       }
 
-      this.theOwnerAttacker = var4.getAITarget();
-      int var5 = var4.getRevengeTimer();
-      return var5 != this.field_142051_e
+      this.theOwnerAttacker = entityLivingBase.getAITarget();
+      int i = entityLivingBase.getRevengeTimer();
+      return i != this.field_142051_e
          && this.isSuitableTarget(this.theOwnerAttacker, false)
-         && this.theDefendingTameable.shouldAttackEntity(this.theOwnerAttacker, var4);
+         && this.theDefendingTameable.shouldAttackEntity(this.theOwnerAttacker, entityLivingBase);
    }
 
    @Override
    public void startExecuting() {
       this.taskOwner.setAttackTarget(this.theOwnerAttacker);
-      EntityLivingBase var4 = this.theDefendingTameable.getOwner();
-      if (var4 != null) {
-         this.field_142051_e = var4.getRevengeTimer();
+      EntityLivingBase entityLivingBase = this.theDefendingTameable.getOwner();
+      if (entityLivingBase != null) {
+         this.field_142051_e = entityLivingBase.getRevengeTimer();
       }
 
       super.startExecuting();

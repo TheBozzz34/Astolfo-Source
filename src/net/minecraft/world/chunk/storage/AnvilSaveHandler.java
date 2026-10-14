@@ -13,38 +13,38 @@ public class AnvilSaveHandler extends SaveHandler {
    private static final long a = 8701770818447L;
    private static final long k = -1655002361170474307L;
 
-   public AnvilSaveHandler(File var1, String var2, boolean var3) {
-      super(var1, var2, var3);
+   public AnvilSaveHandler(File savesDirectory, String directoryName, boolean storePlayerdata) {
+      super(savesDirectory, directoryName, storePlayerdata);
    }
 
    @Override
-   public IChunkLoader getChunkLoader(WorldProvider var1) {
-      File var5 = this.getWorldDirectory();
-      if (var1 instanceof WorldProviderHell) {
-         File var7 = new File(var5, "DIM-1");
-         var7.mkdirs();
-         return new AnvilChunkLoader(var7);
-      } else if (var1 instanceof WorldProviderEnd) {
-         File var6 = new File(var5, "DIM1");
-         var6.mkdirs();
-         return new AnvilChunkLoader(var6);
+   public IChunkLoader getChunkLoader(WorldProvider provider) {
+      File file = this.getWorldDirectory();
+      if (provider instanceof WorldProviderHell) {
+         File file2 = new File(file, "DIM-1");
+         file2.mkdirs();
+         return new AnvilChunkLoader(file2);
+      } else if (provider instanceof WorldProviderEnd) {
+         File file3 = new File(file, "DIM1");
+         file3.mkdirs();
+         return new AnvilChunkLoader(file3);
       } else {
-         return new AnvilChunkLoader(var5);
+         return new AnvilChunkLoader(file);
       }
    }
 
    @Override
-   public void saveWorldInfoWithPlayer(WorldInfo var1, NBTTagCompound var2) {
-      var1.setSaveVersion((int)k);
-      super.saveWorldInfoWithPlayer(var1, var2);
+   public void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound) {
+      worldInformation.setSaveVersion((int)k);
+      super.saveWorldInfoWithPlayer(worldInformation, tagCompound);
    }
 
    @Override
    public void flush() {
       try {
          ThreadedFileIOBase.getThreadedIOInstance().waitForFinish();
-      } catch (InterruptedException var2) {
-         var2.printStackTrace();
+      } catch (InterruptedException interruptedException) {
+         interruptedException.printStackTrace();
       }
 
       RegionFileCache.clearRegionFileReferences();

@@ -8,13 +8,13 @@ public class SaveDataMemoryStorage extends MapStorage {
    }
 
    @Override
-   public WorldSavedData loadData(Class<? extends WorldSavedData> var1, String var2) {
-      return this.loadedDataMap.get(var2);
+   public WorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataIdentifier) {
+      return this.loadedDataMap.get(dataIdentifier);
    }
 
    @Override
-   public void setData(String var1, WorldSavedData var2) {
-      this.loadedDataMap.put(var1, var2);
+   public void setData(String dataIdentifier, WorldSavedData data) {
+      this.loadedDataMap.put(dataIdentifier, data);
    }
 
    @Override
@@ -22,7 +22,7 @@ public class SaveDataMemoryStorage extends MapStorage {
    }
 
    @Override
-   public int getUniqueDataId(String var1) {
+   public int getUniqueDataId(String key) {
       return 0;
    }
 }

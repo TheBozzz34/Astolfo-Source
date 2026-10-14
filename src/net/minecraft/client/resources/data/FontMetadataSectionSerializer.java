@@ -11,56 +11,56 @@ import org.apache.commons.lang3.Validate;
 public class FontMetadataSectionSerializer extends BaseMetadataSectionSerializer<FontMetadataSection> {
    private static final long a = 926604860885L;
 
-   public FontMetadataSection deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-      JsonObject var7 = var1.getAsJsonObject();
-      float[] var8 = new float[256];
-      float[] var9 = new float[256];
-      float[] var10 = new float[256];
-      float var11 = 1.0F;
-      float var12 = 0.0F;
-      float var13 = 0.0F;
-      if (var7.has("characters")) {
-         if (!var7.get("characters").isJsonObject()) {
-            throw new JsonParseException("Invalid font->characters: expected object, was " + var7.get("characters"));
+   public FontMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+      JsonObject jsonObject = jsonElement.getAsJsonObject();
+      float[] floats = new float[256];
+      float[] floats2 = new float[256];
+      float[] floats3 = new float[256];
+      float f = 1.0F;
+      float g = 0.0F;
+      float h = 0.0F;
+      if (jsonObject.has("characters")) {
+         if (!jsonObject.get("characters").isJsonObject()) {
+            throw new JsonParseException("Invalid font->characters: expected object, was " + jsonObject.get("characters"));
          }
 
-         JsonObject var14 = var7.getAsJsonObject("characters");
-         if (var14.has("default")) {
-            if (!var14.get("default").isJsonObject()) {
-               throw new JsonParseException("Invalid font->characters->default: expected object, was " + var14.get("default"));
+         JsonObject jsonObject2 = jsonObject.getAsJsonObject("characters");
+         if (jsonObject2.has("default")) {
+            if (!jsonObject2.get("default").isJsonObject()) {
+               throw new JsonParseException("Invalid font->characters->default: expected object, was " + jsonObject2.get("default"));
             }
 
-            JsonObject var15 = var14.getAsJsonObject("default");
-            var11 = JsonUtils.getFloat(var15, "width", var11);
-            Validate.inclusiveBetween(0.0, Float.MAX_VALUE, var11, "Invalid default width");
-            var12 = JsonUtils.getFloat(var15, "spacing", var12);
-            Validate.inclusiveBetween(0.0, Float.MAX_VALUE, var12, "Invalid default spacing");
-            var13 = JsonUtils.getFloat(var15, "left", var12);
-            Validate.inclusiveBetween(0.0, Float.MAX_VALUE, var13, "Invalid default left");
+            JsonObject jsonObject3 = jsonObject2.getAsJsonObject("default");
+            f = JsonUtils.getFloat(jsonObject3, "width", f);
+            Validate.inclusiveBetween(0.0, Float.MAX_VALUE, f, "Invalid default width");
+            g = JsonUtils.getFloat(jsonObject3, "spacing", g);
+            Validate.inclusiveBetween(0.0, Float.MAX_VALUE, g, "Invalid default spacing");
+            h = JsonUtils.getFloat(jsonObject3, "left", g);
+            Validate.inclusiveBetween(0.0, Float.MAX_VALUE, h, "Invalid default left");
          }
 
-         for (int var21 = 0; var21 < 256; var21++) {
-            JsonElement var16 = var14.get(Integer.toString(var21));
-            float var17 = var11;
-            float var18 = var12;
-            float var19 = var13;
-            if (var16 != null) {
-               JsonObject var20 = JsonUtils.getJsonObject(var16, "characters[" + var21 + "]");
-               var17 = JsonUtils.getFloat(var20, "width", var11);
-               Validate.inclusiveBetween(0.0, Float.MAX_VALUE, var17, "Invalid width");
-               var18 = JsonUtils.getFloat(var20, "spacing", var12);
-               Validate.inclusiveBetween(0.0, Float.MAX_VALUE, var18, "Invalid spacing");
-               var19 = JsonUtils.getFloat(var20, "left", var13);
-               Validate.inclusiveBetween(0.0, Float.MAX_VALUE, var19, "Invalid left");
+         for (int i = 0; i < 256; i++) {
+            JsonElement jsonElement2 = jsonObject2.get(Integer.toString(i));
+            float f2 = f;
+            float f3 = g;
+            float f4 = h;
+            if (jsonElement2 != null) {
+               JsonObject jsonObject4 = JsonUtils.getJsonObject(jsonElement2, "characters[" + i + "]");
+               f2 = JsonUtils.getFloat(jsonObject4, "width", f);
+               Validate.inclusiveBetween(0.0, Float.MAX_VALUE, f2, "Invalid width");
+               f3 = JsonUtils.getFloat(jsonObject4, "spacing", g);
+               Validate.inclusiveBetween(0.0, Float.MAX_VALUE, f3, "Invalid spacing");
+               f4 = JsonUtils.getFloat(jsonObject4, "left", h);
+               Validate.inclusiveBetween(0.0, Float.MAX_VALUE, f4, "Invalid left");
             }
 
-            var8[var21] = var17;
-            var9[var21] = var18;
-            var10[var21] = var19;
+            floats[i] = f2;
+            floats2[i] = f3;
+            floats3[i] = f4;
          }
       }
 
-      return new FontMetadataSection(var8, var10, var9);
+      return new FontMetadataSection(floats, floats3, floats2);
    }
 
    @Override

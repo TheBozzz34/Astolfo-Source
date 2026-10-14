@@ -5,16 +5,16 @@ import net.minecraft.client.Minecraft;
 public abstract class GuiListExtended extends GuiSlot {
    private static final long e = 20320261327238L;
 
-   public GuiListExtended(Minecraft var1, int var2, int var3, int var4, int var5, int var6) {
-      super(var1, var2, var3, var4, var5, var6);
+   public GuiListExtended(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
+      super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
    }
 
    @Override
-   public void elementClicked(int var1, boolean var2, int var3, int var4) {
+   public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
    }
 
    @Override
-   public boolean isSelected(int var1) {
+   public boolean isSelected(int slotIndex) {
       return false;
    }
 
@@ -23,24 +23,25 @@ public abstract class GuiListExtended extends GuiSlot {
    }
 
    @Override
-   public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.getListEntry(var1).drawEntry(var1, var2, var3, this.getListWidth(), var4, var5, var6, this.getSlotIndexFromScreenCoords(var5, var6) == var1);
+   public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+      this.getListEntry(entryID)
+         .drawEntry(entryID, i, j, this.getListWidth(), k, mouseXIn, mouseYIn, this.getSlotIndexFromScreenCoords(mouseXIn, mouseYIn) == entryID);
    }
 
    @Override
-   public void func_178040_a(int var1, int var2, int var3) {
-      this.getListEntry(var1).setSelected(var1, var2, var3);
+   public void func_178040_a(int i, int j, int k) {
+      this.getListEntry(i).setSelected(i, j, k);
    }
 
-   public boolean mouseClicked(int var1, int var2, int var3) {
-      if (this.isMouseYWithinSlotBounds(var2)) {
-         int var7 = this.getSlotIndexFromScreenCoords(var1, var2);
-         if (var7 >= 0) {
-            int var8 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-            int var9 = this.top + 4 - this.Y() + var7 * this.slotHeight + this.headerPadding;
-            int var10 = var1 - var8;
-            int var11 = var2 - var9;
-            if (this.getListEntry(var7).mousePressed(var7, var1, var2, var3, var10, var11)) {
+   public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent) {
+      if (this.isMouseYWithinSlotBounds(mouseY)) {
+         int i = this.getSlotIndexFromScreenCoords(mouseX, mouseY);
+         if (i >= 0) {
+            int j = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+            int k = this.top + 4 - this.Y() + i * this.slotHeight + this.headerPadding;
+            int l = mouseX - j;
+            int m = mouseY - k;
+            if (this.getListEntry(i).mousePressed(i, mouseX, mouseY, mouseEvent, l, m)) {
                this.a(false);
                return true;
             }
@@ -50,28 +51,28 @@ public abstract class GuiListExtended extends GuiSlot {
       return false;
    }
 
-   public boolean mouseReleased(int var1, int var2, int var3) {
-      for (int var7 = 0; var7 < this.getSize(); var7++) {
-         int var8 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-         int var9 = this.top + 4 - this.Y() + var7 * this.slotHeight + this.headerPadding;
-         int var10 = var1 - var8;
-         int var11 = var2 - var9;
-         this.getListEntry(var7).mouseReleased(var7, var1, var2, var3, var10, var11);
+   public boolean mouseReleased(int i, int j, int k) {
+      for (int l = 0; l < this.getSize(); l++) {
+         int m = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+         int n = this.top + 4 - this.Y() + l * this.slotHeight + this.headerPadding;
+         int i2 = i - m;
+         int i3 = j - n;
+         this.getListEntry(l).mouseReleased(l, i, j, k, i2, i3);
       }
 
       this.a(true);
       return false;
    }
 
-   public abstract GuiListExtended.IGuiListEntry getListEntry(int var1);
+   public abstract GuiListExtended.IGuiListEntry getListEntry(int index);
 
    public interface IGuiListEntry {
-      void setSelected(int var1, int var2, int var3);
+      void setSelected(int i, int j, int k);
 
-      void drawEntry(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8);
+      void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeightIn, int mouseXIn, int mouseYIn, boolean isSelected);
 
-      boolean mousePressed(int var1, int var2, int var3, int var4, int var5, int var6);
+      boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n);
 
-      void mouseReleased(int var1, int var2, int var3, int var4, int var5, int var6);
+      void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY);
    }
 }

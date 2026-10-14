@@ -13,8 +13,8 @@ public final class Win32USBController {
    }
 
    public static WmiResult<Win32USBController.USBControllerProperty> queryUSBControllers() {
-      WmiQuery var2 = new WmiQuery<>("Win32_USBController", Win32USBController.USBControllerProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_USBController", Win32USBController.USBControllerProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum USBControllerProperty {

@@ -10,8 +10,8 @@ public class ScaffoldTarget {
    public Vec3 hitVec;
    public int unused;
 
-   public ScaffoldTarget(BlockPos var1, EnumFacing var2) {
-      this.pos = var1;
-      this.facing = var2;
+   public ScaffoldTarget(BlockPos blockPos, EnumFacing enumFacing) {
+      this.pos = blockPos;
+      this.facing = enumFacing;
    }
 }

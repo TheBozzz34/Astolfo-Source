@@ -5,19 +5,19 @@ import net.minecraft.util.ResourceLocation;
 public class EnchantmentWaterWalker extends Enchantment {
    private static final long m = 45926501747650L;
 
-   public EnchantmentWaterWalker(int var1, ResourceLocation var2, int var3) {
-      super(var1, var2, var3, EnumEnchantmentType.ARMOR_FEET);
+   public EnchantmentWaterWalker(int i, ResourceLocation resourceLocation, int j) {
+      super(i, resourceLocation, j, EnumEnchantmentType.ARMOR_FEET);
       this.setName("waterWalker");
    }
 
    @Override
-   public int getMinEnchantability(int var1) {
-      return var1 * 10;
+   public int getMinEnchantability(int enchantmentLevel) {
+      return enchantmentLevel * 10;
    }
 
    @Override
-   public int getMaxEnchantability(int var1) {
-      return this.getMinEnchantability(var1) + 15;
+   public int getMaxEnchantability(int enchantmentLevel) {
+      return this.getMinEnchantability(enchantmentLevel) + 15;
    }
 
    @Override

@@ -10,19 +10,19 @@ public final class ShowGui extends OneArgFunction {
    private static final long a = 47917397440172L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      LuaTable var5 = null;
-      if (var1.isfunction()) {
-         LuaValue var6 = var1.call();
-         if (var6.istable()) {
-            var5 = (LuaTable)var6.call();
+   public LuaValue call(LuaValue luaValue) {
+      LuaTable luaTable = null;
+      if (luaValue.isfunction()) {
+         LuaValue luaValue2 = luaValue.call();
+         if (luaValue2.istable()) {
+            luaTable = (LuaTable)luaValue2.call();
          }
-      } else if (var1.istable()) {
-         var5 = (LuaTable)var1;
+      } else if (luaValue.istable()) {
+         luaTable = (LuaTable)luaValue;
       }
 
-      if (var5 != null) {
-         Minecraft.getMinecraft().displayGuiScreen(new LuaScreen(var5));
+      if (luaTable != null) {
+         Minecraft.getMinecraft().displayGuiScreen(new LuaScreen(luaTable));
          return valueOf(true);
       } else {
          return valueOf(false);

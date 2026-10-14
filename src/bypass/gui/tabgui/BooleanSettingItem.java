@@ -7,9 +7,9 @@ public class BooleanSettingItem extends TabGuiItem {
    private final BooleanSetting w;
    private static final long b = 112154253273414L;
 
-   public BooleanSettingItem(TabGui.Panel var1, BooleanSetting var2) {
-      super(var1);
-      this.w = var2;
+   public BooleanSettingItem(TabGui.Panel panel, BooleanSetting booleanSetting) {
+      super(panel);
+      this.w = booleanSetting;
    }
 
    @Override

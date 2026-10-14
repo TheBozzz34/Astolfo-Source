@@ -5,8 +5,8 @@ import bypass.event.Event;
 public class KeyPressEvent implements Event {
    private int key;
 
-   public KeyPressEvent(int var1) {
-      this.key = var1;
+   public KeyPressEvent(int i) {
+      this.key = i;
    }
 
    public int getKey() {

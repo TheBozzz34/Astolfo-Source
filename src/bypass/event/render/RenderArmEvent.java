@@ -6,8 +6,8 @@ import bypass.event.EventState;
 public class RenderArmEvent implements Event {
    private EventState state;
 
-   public RenderArmEvent(EventState var1) {
-      this.state = var1;
+   public RenderArmEvent(EventState eventState) {
+      this.state = eventState;
    }
 
    public EventState getState() {

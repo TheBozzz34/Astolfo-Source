@@ -18,93 +18,93 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
    private static final long a = 81837555799709L;
 
    @Override
-   public OSFileStore[] getFileStores(boolean var1) {
-      long var2 = a ^ 71641844292242L;
-      HashMap var6 = new HashMap();
-      String var7 = "";
+   public OSFileStore[] getFileStores(boolean localOnly) {
+      long l = a ^ 71641844292242L;
+      HashMap hashMap = new HashMap();
+      String string = "";
 
-      for (String var9 : ExecutingCommand.runNative("geom part list")) {
-         if (var9.contains("Name: ")) {
-            var7 = var9.substring(var9.lastIndexOf(32) + 1);
+      for (String string2 : ExecutingCommand.runNative("geom part list")) {
+         if (string2.contains("Name: ")) {
+            string = string2.substring(string2.lastIndexOf(32) + 1);
          }
 
-         if (!var7.isEmpty()) {
-            var9 = var9.trim();
-            if (var9.startsWith("rawuuid:")) {
-               var6.put(var7, var9.substring(var9.lastIndexOf(32) + 1));
-               var7 = "";
+         if (!string.isEmpty()) {
+            string2 = string2.trim();
+            if (string2.startsWith("rawuuid:")) {
+               hashMap.put(string, string2.substring(string2.lastIndexOf(32) + 1));
+               string = "";
             }
          }
       }
 
-      ArrayList var29 = new ArrayList();
-      HashMap var31 = new HashMap();
-      long var10000 = 6849323925694564453L ^ var2;
-      HashMap var10 = new HashMap();
+      ArrayList arrayList = new ArrayList();
+      HashMap hashMap2 = new HashMap();
+      long m = 6849323925694564453L ^ l;
+      HashMap hashMap3 = new HashMap();
 
-      for (String var12 : ExecutingCommand.runNative("df -i")) {
-         if (var12.startsWith("/")) {
-            String[] var13 = ParseUtil.Q.split(var12);
-            if (var13.length > 7) {
-               var31.put(var13[0], ParseUtil.parseLongOrDefault(var13[6], 0L));
-               var10.put(var13[0], (Long)var31.get(var13[0]) + ParseUtil.parseLongOrDefault(var13[5], 0L));
+      for (String string3 : ExecutingCommand.runNative("df -i")) {
+         if (string3.startsWith("/")) {
+            String[] strings = ParseUtil.Q.split(string3);
+            if (strings.length > 7) {
+               hashMap2.put(strings[0], ParseUtil.parseLongOrDefault(strings[6], 0L));
+               hashMap3.put(strings[0], (Long)hashMap2.get(strings[0]) + ParseUtil.parseLongOrDefault(strings[5], 0L));
             }
          }
       }
 
-      for (String var33 : ExecutingCommand.runNative("mount -p")) {
-         String[] var34 = ParseUtil.Q.split(var33);
-         if (var34.length >= 5) {
-            String var14 = var34[0];
-            String var15 = var34[1];
-            String var16 = var34[2];
-            String var17 = var34[3];
-            if ((!var1 || !NETWORK_FS_TYPES.contains(var16))
-               && !PSEUDO_FS_TYPES.contains(var16)
-               && !var15.equals("/dev")
-               && !ParseUtil.filePathStartsWith(TMP_FS_PATHS, var15)
-               && (!var14.startsWith("rpool") || var15.equals("/"))) {
-               String var18 = var15.substring(var15.lastIndexOf(47) + 1);
-               if (var18.isEmpty()) {
-                  var18 = var14.substring(var14.lastIndexOf(47) + 1);
+      for (String string4 : ExecutingCommand.runNative("mount -p")) {
+         String[] strings2 = ParseUtil.Q.split(string4);
+         if (strings2.length >= 5) {
+            String string5 = strings2[0];
+            String string6 = strings2[1];
+            String string7 = strings2[2];
+            String string8 = strings2[3];
+            if ((!localOnly || !NETWORK_FS_TYPES.contains(string7))
+               && !PSEUDO_FS_TYPES.contains(string7)
+               && !string6.equals("/dev")
+               && !ParseUtil.filePathStartsWith(TMP_FS_PATHS, string6)
+               && (!string5.startsWith("rpool") || string6.equals("/"))) {
+               String string9 = string6.substring(string6.lastIndexOf(47) + 1);
+               if (string9.isEmpty()) {
+                  string9 = string5.substring(string5.lastIndexOf(47) + 1);
                }
 
-               File var19 = new File(var15);
-               long var20 = var19.getTotalSpace();
-               long var22 = var19.getUsableSpace();
-               long var24 = var19.getFreeSpace();
-               String var26;
-               if (var14.startsWith("/dev") || var15.equals("/")) {
-                  var26 = "Local Disk";
-               } else if (var14.equals("tmpfs")) {
-                  var26 = "Ram Disk";
-               } else if (NETWORK_FS_TYPES.contains(var16)) {
-                  var26 = "Network Disk";
+               File file = new File(string6);
+               long n = file.getTotalSpace();
+               long l2 = file.getUsableSpace();
+               long l3 = file.getFreeSpace();
+               String string10;
+               if (string5.startsWith("/dev") || string6.equals("/")) {
+                  string10 = "Local Disk";
+               } else if (string5.equals("tmpfs")) {
+                  string10 = "Ram Disk";
+               } else if (NETWORK_FS_TYPES.contains(string7)) {
+                  string10 = "Network Disk";
                } else {
-                  var26 = "Mount Point";
+                  string10 = "Mount Point";
                }
 
-               String var27 = (java.lang.String)(var6.getOrDefault(var18, ""));
-               OSFileStore var28 = new OSFileStore();
-               var28.setName(var18);
-               var28.setVolume(var14);
-               var28.setLabel(var18);
-               var28.setMount(var15);
-               var28.setDescription(var26);
-               var28.setType(var16);
-               var28.setOptions(var17);
-               var28.setUUID(var27);
-               var28.setFreeSpace(var24);
-               var28.setUsableSpace(var22);
-               var28.setTotalSpace(var20);
-               var28.setFreeInodes(var31.containsKey(var15) ? (Long)var31.get(var15) : 0L);
-               var28.setTotalInodes(var10.containsKey(var15) ? (Long)var10.get(var15) : 0L);
-               var29.add(var28);
+               String string11 = (java.lang.String)(hashMap.getOrDefault(string9, ""));
+               OSFileStore osFileStore = new OSFileStore();
+               osFileStore.setName(string9);
+               osFileStore.setVolume(string5);
+               osFileStore.setLabel(string9);
+               osFileStore.setMount(string6);
+               osFileStore.setDescription(string10);
+               osFileStore.setType(string7);
+               osFileStore.setOptions(string8);
+               osFileStore.setUUID(string11);
+               osFileStore.setFreeSpace(l3);
+               osFileStore.setUsableSpace(l2);
+               osFileStore.setTotalSpace(n);
+               osFileStore.setFreeInodes(hashMap2.containsKey(string6) ? (Long)hashMap2.get(string6) : 0L);
+               osFileStore.setTotalInodes(hashMap3.containsKey(string6) ? (Long)hashMap3.get(string6) : 0L);
+               arrayList.add(osFileStore);
             }
          }
       }
 
-      return (oshi.software.os.OSFileStore[])(var29.toArray(new OSFileStore[0]));
+      return (oshi.software.os.OSFileStore[])(arrayList.toArray(new OSFileStore[0]));
    }
 
    @Override
@@ -117,18 +117,20 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
       return BsdSysctlUtil.sysctl("kern.maxfiles", 0);
    }
 
-   public static boolean updateFileStoreStats(OSFileStore var0) {
-      for (OSFileStore var7 : new FreeBsdFileSystem().getFileStores()) {
-         if (var0.getName().equals(var7.getName()) && var0.getVolume().equals(var7.getVolume()) && var0.getMount().equals(var7.getMount())) {
-            var0.setLogicalVolume(var7.getLogicalVolume());
-            var0.setDescription(var7.getDescription());
-            var0.setType(var7.getType());
-            var0.setUUID(var7.getUUID());
-            var0.setFreeSpace(var7.getFreeSpace());
-            var0.setUsableSpace(var7.getUsableSpace());
-            var0.setTotalSpace(var7.getTotalSpace());
-            var0.setFreeInodes(var7.getFreeInodes());
-            var0.setTotalInodes(var7.getTotalInodes());
+   public static boolean updateFileStoreStats(OSFileStore osFileStore) {
+      for (OSFileStore osFileStore2 : new FreeBsdFileSystem().getFileStores()) {
+         if (osFileStore.getName().equals(osFileStore2.getName()) && osFileStore.getVolume().equals(osFileStore2.getVolume()) && osFileStore.getMount().equals(osFileStore2.getMount())
+            )
+          {
+            osFileStore.setLogicalVolume(osFileStore2.getLogicalVolume());
+            osFileStore.setDescription(osFileStore2.getDescription());
+            osFileStore.setType(osFileStore2.getType());
+            osFileStore.setUUID(osFileStore2.getUUID());
+            osFileStore.setFreeSpace(osFileStore2.getFreeSpace());
+            osFileStore.setUsableSpace(osFileStore2.getUsableSpace());
+            osFileStore.setTotalSpace(osFileStore2.getTotalSpace());
+            osFileStore.setFreeInodes(osFileStore2.getFreeInodes());
+            osFileStore.setTotalInodes(osFileStore2.getTotalInodes());
             return true;
          }
       }

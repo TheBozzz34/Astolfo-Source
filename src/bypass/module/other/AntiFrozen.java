@@ -15,16 +15,16 @@ public final class AntiFrozen extends Module {
    private final BooleanSetting spawn = new BooleanSetting("Spawn", "TPs you to spawn when you hit a frozen player", true);
    private Stopwatch v = new Stopwatch();
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.RECEIVED) {
-         if (var1x.getPacket() instanceof S2DPacketOpenWindow
-            && ((S2DPacketOpenWindow)var1x.getPacket()).getWindowTitle().getUnformattedText().contains("You are frozen")) {
-            var1x.cancel();
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
+         if (packetEvent.getPacket() instanceof S2DPacketOpenWindow
+            && ((S2DPacketOpenWindow)packetEvent.getPacket()).getWindowTitle().getUnformattedText().contains("You are frozen")) {
+            packetEvent.cancel();
          }
 
-         if (this.spawn.getValue() && var1x.getPacket() instanceof S02PacketChat) {
-            S02PacketChat var5 = (S02PacketChat)var1x.getPacket();
-            if (var5.getChatComponent().getUnformattedText().contains("is currently frozen") && this.v.hasElapsed(1500.0F)) {
+         if (this.spawn.getValue() && packetEvent.getPacket() instanceof S02PacketChat) {
+            S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+            if (s02PacketChat.getChatComponent().getUnformattedText().contains("is currently frozen") && this.v.hasElapsed(1500.0F)) {
                mc.thePlayer.setPosition(mc.thePlayer.posX, -999.0, mc.thePlayer.posY);
                this.v.reset();
             }
@@ -33,8 +33,8 @@ public final class AntiFrozen extends Module {
    };
    private static final long c = 2477974446304L;
 
-   public AntiFrozen(Category var1) {
-      super(var1);
+   public AntiFrozen(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.spawn);
    }

@@ -12,15 +12,15 @@ public class RealmsSliderButton extends RealmsButton {
    private int steps;
    private static final long a = 71921071527394L;
 
-   public RealmsSliderButton(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this(var1, var2, var3, var4, var6, 0, 1.0F, var5);
+   public RealmsSliderButton(int i, int j, int k, int l, int m, int n) {
+      this(i, j, k, l, n, 0, 1.0F, m);
    }
 
-   public RealmsSliderButton(int var1, int var2, int var3, int var4, int var5, int var6, float var7, float var8) {
-      super(var1, var2, var3, var4, 20, "");
-      this.minValue = var7;
-      this.maxValue = var8;
-      this.value = this.toPct(var6);
+   public RealmsSliderButton(int i, int j, int k, int l, int m, int n, float f, float g) {
+      super(i, j, k, l, 20, "");
+      this.minValue = f;
+      this.maxValue = g;
+      this.value = this.toPct(n);
       this.getProxy().displayString = this.getMessage();
    }
 
@@ -28,41 +28,41 @@ public class RealmsSliderButton extends RealmsButton {
       return "";
    }
 
-   public float toPct(float var1) {
-      return MathHelper.clamp_float((this.clamp(var1) - this.minValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
+   public float toPct(float f) {
+      return MathHelper.clamp_float((this.clamp(f) - this.minValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
    }
 
-   public float toValue(float var1) {
-      return this.clamp(this.minValue + (this.maxValue - this.minValue) * MathHelper.clamp_float(var1, 0.0F, 1.0F));
+   public float toValue(float f) {
+      return this.clamp(this.minValue + (this.maxValue - this.minValue) * MathHelper.clamp_float(f, 0.0F, 1.0F));
    }
 
-   public float clamp(float var1) {
-      var1 = this.clampSteps(var1);
-      return MathHelper.clamp_float(var1, this.minValue, this.maxValue);
+   public float clamp(float f) {
+      f = this.clampSteps(f);
+      return MathHelper.clamp_float(f, this.minValue, this.maxValue);
    }
 
-   public float clampSteps(float var1) {
+   public float clampSteps(float f) {
       if (this.steps > 0) {
-         var1 = this.steps * Math.round(var1 / this.steps);
+         f = this.steps * Math.round(f / this.steps);
       }
 
-      return var1;
+      return f;
    }
 
    @Override
-   public int getYImage(boolean var1) {
+   public int getYImage(boolean bl) {
       return 0;
    }
 
    @Override
-   public void renderBg(int var1, int var2) {
+   public void renderBg(int i, int j) {
       if (this.getProxy().visible) {
          if (this.sliding) {
-            this.value = (float)(var1 - (this.getProxy().xPosition + 4)) / (this.getProxy().getButtonWidth() - 8);
+            this.value = (float)(i - (this.getProxy().xPosition + 4)) / (this.getProxy().getButtonWidth() - 8);
             this.value = MathHelper.clamp_float(this.value, 0.0F, 1.0F);
-            float var6 = this.toValue(this.value);
-            this.clicked(var6);
-            this.value = this.toPct(var6);
+            float f = this.toValue(this.value);
+            this.clicked(f);
+            this.value = this.toPct(f);
             this.getProxy().displayString = this.getMessage();
          }
 
@@ -74,19 +74,19 @@ public class RealmsSliderButton extends RealmsButton {
    }
 
    @Override
-   public void clicked(int var1, int var2) {
-      this.value = (float)(var1 - (this.getProxy().xPosition + 4)) / (this.getProxy().getButtonWidth() - 8);
+   public void clicked(int i, int j) {
+      this.value = (float)(i - (this.getProxy().xPosition + 4)) / (this.getProxy().getButtonWidth() - 8);
       this.value = MathHelper.clamp_float(this.value, 0.0F, 1.0F);
       this.clicked(this.toValue(this.value));
       this.getProxy().displayString = this.getMessage();
       this.sliding = true;
    }
 
-   public void clicked(float var1) {
+   public void clicked(float f) {
    }
 
    @Override
-   public void released(int var1, int var2) {
+   public void released(int i, int j) {
       this.sliding = false;
    }
 }

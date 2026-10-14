@@ -45,35 +45,35 @@ public class Lagometer {
    private static final long a = 136562733952441L;
 
    public static boolean updateMemoryAllocation() {
-      long var3 = System.currentTimeMillis();
-      long var5 = getMemoryUsed();
-      boolean var7 = false;
-      if (var5 < memLast) {
-         double var8 = memDiff / 1000000.0;
-         double var10 = memTimeDiffMs / 1000.0;
-         int var12 = (int)(var8 / var10);
-         if (var12 > 0) {
-            memMbSec = var12;
+      long l = System.currentTimeMillis();
+      long m = getMemoryUsed();
+      boolean bl = false;
+      if (m < memLast) {
+         double d = memDiff / 1000000.0;
+         double e = memTimeDiffMs / 1000.0;
+         int i = (int)(d / e);
+         if (i > 0) {
+            memMbSec = i;
          }
 
-         memTimeStartMs = var3;
-         memStart = var5;
+         memTimeStartMs = l;
+         memStart = m;
          memTimeDiffMs = 0L;
          memDiff = 0L;
-         var7 = true;
+         bl = true;
       } else {
-         memTimeDiffMs = var3 - memTimeStartMs;
-         memDiff = var5 - memStart;
+         memTimeDiffMs = l - memTimeStartMs;
+         memDiff = m - memStart;
       }
 
-      memTimeLast = var3;
-      memLast = var5;
-      return var7;
+      memTimeLast = l;
+      memLast = m;
+      return bl;
    }
 
    private static long getMemoryUsed() {
-      Runtime var0 = Runtime.getRuntime();
-      return var0.totalMemory() - var0.freeMemory();
+      Runtime r = Runtime.getRuntime();
+      return r.totalMemory() - r.freeMemory();
    }
 
    public static void updateLagometer() {
@@ -85,22 +85,22 @@ public class Lagometer {
 
       if (gameSettings.n && (gameSettings.ZH || gameSettings.A_)) {
          active = true;
-         long var3 = System.nanoTime();
+         long l = System.nanoTime();
          if (m == -1L) {
-            m = var3;
+            m = l;
          } else {
-            int var5 = numRecordedFrameTimes & timesFrame.length - 1;
+            int i = numRecordedFrameTimes & timesFrame.length - 1;
             numRecordedFrameTimes++;
-            boolean var6 = updateMemoryAllocation();
-            timesFrame[var5] = var3 - m - v;
-            timesTick[var5] = timerTick.timeNano;
-            timesScheduledExecutables[var5] = timerScheduledExecutables.timeNano;
-            timesChunkUpload[var5] = timerChunkUpload.timeNano;
-            timesChunkUpdate[var5] = timerChunkUpdate.timeNano;
-            timesVisibility[var5] = timerVisibility.timeNano;
-            timesTerrain[var5] = timerTerrain.timeNano;
-            timesServer[var5] = timerServer.timeNano;
-            gcs[var5] = var6;
+            boolean bl = updateMemoryAllocation();
+            timesFrame[i] = l - m - v;
+            timesTick[i] = timerTick.timeNano;
+            timesScheduledExecutables[i] = timerScheduledExecutables.timeNano;
+            timesChunkUpload[i] = timerChunkUpload.timeNano;
+            timesChunkUpdate[i] = timerChunkUpdate.timeNano;
+            timesVisibility[i] = timerVisibility.timeNano;
+            timesTerrain[i] = timerTerrain.timeNano;
+            timesServer[i] = timerServer.timeNano;
+            gcs[i] = bl;
             Lagometer.TimerNano.A(timerTick);
             Lagometer.TimerNano.A(timerScheduledExecutables);
             Lagometer.TimerNano.A(timerVisibility);
@@ -116,14 +116,14 @@ public class Lagometer {
       }
    }
 
-   public static void showLagometer(ScaledResolution var0) {
-      long var1 = a ^ 126159213800109L;
+   public static void showLagometer(ScaledResolution scaledResolution) {
+      long l = a ^ 126159213800109L;
       if (gameSettings != null && (gameSettings.ZH || gameSettings.A_)) {
-         long var4 = System.nanoTime();
+         long m = System.nanoTime();
          GlStateManager.clear(256);
          GlStateManager.matrixMode(5889);
          GlStateManager.pushMatrix();
-         long var10000 = 6172834651753333208L ^ var1;
+         long n = 6172834651753333208L ^ l;
          GlStateManager.enableColorMaterial();
          GlStateManager.loadIdentity();
          GlStateManager.ortho(0.0, mc.displayWidth, mc.displayHeight, 0.0, 1000.0, 3000.0);
@@ -133,80 +133,80 @@ public class Lagometer {
          GlStateManager.translate(0.0F, 0.0F, -2000.0F);
          GL11.glLineWidth(1.0F);
          GlStateManager.disableTexture2D();
-         Tessellator var6 = Tessellator.getInstance();
-         WorldRenderer var7 = var6.getWorldRenderer();
-         var7.begin(1, DefaultVertexFormats.POSITION_COLOR);
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(1, DefaultVertexFormats.POSITION_COLOR);
 
-         for (int var8 = 0; var8 < timesFrame.length; var8++) {
-            int var9 = (var8 - numRecordedFrameTimes & timesFrame.length - 1) * 100 / timesFrame.length;
-            var9 += 155;
-            float var10 = mc.displayHeight;
-            long var11 = 0L;
-            if (gcs[var8]) {
-               renderTime(var8, timesFrame[var8], var9, var9 / 2, 0, var10, var7);
+         for (int i = 0; i < timesFrame.length; i++) {
+            int j = (i - numRecordedFrameTimes & timesFrame.length - 1) * 100 / timesFrame.length;
+            j += 155;
+            float f = mc.displayHeight;
+            long l2 = 0L;
+            if (gcs[i]) {
+               renderTime(i, timesFrame[i], j, j / 2, 0, f, worldRenderer);
             } else {
-               renderTime(var8, timesFrame[var8], var9, var9, var9, var10, var7);
-               var10 -= (float)renderTime(var8, timesServer[var8], var9 / 2, var9 / 2, var9 / 2, var10, var7);
-               var10 -= (float)renderTime(var8, timesTerrain[var8], 0, var9, 0, var10, var7);
-               var10 -= (float)renderTime(var8, timesVisibility[var8], var9, var9, 0, var10, var7);
-               var10 -= (float)renderTime(var8, timesChunkUpdate[var8], var9, 0, 0, var10, var7);
-               var10 -= (float)renderTime(var8, timesChunkUpload[var8], var9, 0, var9, var10, var7);
-               var10 -= (float)renderTime(var8, timesScheduledExecutables[var8], 0, 0, var9, var10, var7);
-               float var13 = var10 - (float)renderTime(var8, timesTick[var8], 0, var9, var9, var10, var7);
+               renderTime(i, timesFrame[i], j, j, j, f, worldRenderer);
+               f -= (float)renderTime(i, timesServer[i], j / 2, j / 2, j / 2, f, worldRenderer);
+               f -= (float)renderTime(i, timesTerrain[i], 0, j, 0, f, worldRenderer);
+               f -= (float)renderTime(i, timesVisibility[i], j, j, 0, f, worldRenderer);
+               f -= (float)renderTime(i, timesChunkUpdate[i], j, 0, 0, f, worldRenderer);
+               f -= (float)renderTime(i, timesChunkUpload[i], j, 0, j, f, worldRenderer);
+               f -= (float)renderTime(i, timesScheduledExecutables[i], 0, 0, j, f, worldRenderer);
+               float g = f - (float)renderTime(i, timesTick[i], 0, j, j, f, worldRenderer);
             }
          }
 
-         renderTimeDivider(0, timesFrame.length, 33333333L, 196, 196, 196, mc.displayHeight, var7);
-         renderTimeDivider(0, timesFrame.length, 16666666L, 196, 196, 196, mc.displayHeight, var7);
-         var6.draw();
+         renderTimeDivider(0, timesFrame.length, 33333333L, 196, 196, 196, mc.displayHeight, worldRenderer);
+         renderTimeDivider(0, timesFrame.length, 16666666L, 196, 196, 196, mc.displayHeight, worldRenderer);
+         tessellator.draw();
          GlStateManager.enableTexture2D();
-         int var18 = mc.displayHeight - 80;
-         int var20 = mc.displayHeight - 160;
-         mc.fontRendererObj.D("30", 2.0F, var20 + 1, -8947849);
-         mc.fontRendererObj.D("30", 1.0F, var20, -3881788);
-         mc.fontRendererObj.D("60", 2.0F, var18 + 1, -8947849);
-         mc.fontRendererObj.D("60", 1.0F, var18, -3881788);
+         int k = mc.displayHeight - 80;
+         int i2 = mc.displayHeight - 160;
+         mc.fontRendererObj.D("30", 2.0F, i2 + 1, -8947849);
+         mc.fontRendererObj.D("30", 1.0F, i2, -3881788);
+         mc.fontRendererObj.D("60", 2.0F, k + 1, -8947849);
+         mc.fontRendererObj.D("60", 1.0F, k, -3881788);
          GlStateManager.matrixMode(5889);
          GlStateManager.popMatrix();
-         var10000 = 2959871147967154618L ^ var1;
+         n = 2959871147967154618L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.popMatrix();
          GlStateManager.enableTexture2D();
-         float var27 = 1.0F - (float)((System.currentTimeMillis() - memTimeStartMs) / 1000.0);
-         var27 = Config.limit(var27, 0.0F, 1.0F);
-         int var29 = (int)(170.0F + var27 * 85.0F);
-         int var12 = (int)(100.0F + var27 * 55.0F);
-         int var30 = (int)(10.0F + var27 * 10.0F);
-         int var14 = var29 << 16 | var12 << 8 | var30;
-         int var15 = 512 / var0.getScaleFactor() + 2;
-         int var16 = mc.displayHeight / var0.getScaleFactor() - 8;
-         GuiIngame var17 = mc.ingameGUI;
-         GuiIngame.drawRect(var15 - 1, var16 - 1, var15 + 50, var16 + 10, -1605349296);
-         mc.fontRendererObj.D(" " + memMbSec + " MB/s", var15, var16, var14);
-         v = System.nanoTime() - var4;
+         float h = 1.0F - (float)((System.currentTimeMillis() - memTimeStartMs) / 1000.0);
+         h = Config.limit(h, 0.0F, 1.0F);
+         int i3 = (int)(170.0F + h * 85.0F);
+         int i4 = (int)(100.0F + h * 55.0F);
+         int i5 = (int)(10.0F + h * 10.0F);
+         int i6 = i3 << 16 | i4 << 8 | i5;
+         int i7 = 512 / scaledResolution.getScaleFactor() + 2;
+         int i8 = mc.displayHeight / scaledResolution.getScaleFactor() - 8;
+         GuiIngame guiIngame = mc.ingameGUI;
+         GuiIngame.drawRect(i7 - 1, i8 - 1, i7 + 50, i8 + 10, -1605349296);
+         mc.fontRendererObj.D(" " + memMbSec + " MB/s", i7, i8, i6);
+         v = System.nanoTime() - m;
       }
    }
 
-   private static long renderTime(int var0, long var1, int var3, int var4, int var5, float var6, WorldRenderer var7) {
-      long var11 = var1 / 200000L;
-      if (var11 < 3L) {
+   private static long renderTime(int frameNum, long time, int r, int g, int b, float baseHeight, WorldRenderer tessellator) {
+      long l = time / 200000L;
+      if (l < 3L) {
          return 0L;
       }
 
-      var7.pos(var0 + 0.5F, var6 - (float)var11 + 0.5F, 0.0).color(var3, var4, var5, 255).endVertex();
-      var7.pos(var0 + 0.5F, var6 + 0.5F, 0.0).color(var3, var4, var5, 255).endVertex();
-      return var11;
+      tessellator.pos(frameNum + 0.5F, baseHeight - (float)l + 0.5F, 0.0).color(r, g, b, 255).endVertex();
+      tessellator.pos(frameNum + 0.5F, baseHeight + 0.5F, 0.0).color(r, g, b, 255).endVertex();
+      return l;
    }
 
-   private static long renderTimeDivider(int var0, int var1, long var2, int var4, int var5, int var6, float var7, WorldRenderer var8) {
-      long var12 = var2 / 200000L;
-      if (var12 < 3L) {
+   private static long renderTimeDivider(int frameStart, int frameEnd, long time, int r, int g, int b, float baseHeight, WorldRenderer tessellator) {
+      long l = time / 200000L;
+      if (l < 3L) {
          return 0L;
       }
 
-      var8.pos(var0 + 0.5F, var7 - (float)var12 + 0.5F, 0.0).color(var4, var5, var6, 255).endVertex();
-      var8.pos(var1 + 0.5F, var7 - (float)var12 + 0.5F, 0.0).color(var4, var5, var6, 255).endVertex();
-      return var12;
+      tessellator.pos(frameStart + 0.5F, baseHeight - (float)l + 0.5F, 0.0).color(r, g, b, 255).endVertex();
+      tessellator.pos(frameEnd + 0.5F, baseHeight - (float)l + 0.5F, 0.0).color(r, g, b, 255).endVertex();
+      return l;
    }
 
    public static boolean isActive() {
@@ -214,8 +214,8 @@ public class Lagometer {
    }
 
    static {
-      long var20 = a ^ 132449037101838L;
-      long var10000 = 2466116030147702028L ^ var20;
+      long l = a ^ 132449037101838L;
+      long m = 2466116030147702028L ^ l;
    }
 
    public static class TimerNano {
@@ -241,8 +241,8 @@ public class Lagometer {
          this.timeStartNano = 0L;
       }
 
-      public static void A(Lagometer.TimerNano var0) {
-         var0.reset();
+      public static void A(Lagometer.TimerNano timerNano) {
+         timerNano.reset();
       }
    }
 }

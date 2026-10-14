@@ -14,13 +14,13 @@ public class ItemSaddle extends Item {
    }
 
    @Override
-   public boolean itemInteractionForEntity(ItemStack var1, EntityPlayer var2, EntityLivingBase var3) {
-      if (var3 instanceof EntityPig) {
-         EntityPig var7 = (EntityPig)var3;
-         if (!var7.getSaddled() && !var7.isChild()) {
-            var7.setSaddled(true);
-            var7.worldObj.playSoundAtEntity(var7, "mob.horse.leather", 0.5F, 1.0F);
-            var1.stackSize--;
+   public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+      if (target instanceof EntityPig) {
+         EntityPig entityPig = (EntityPig)target;
+         if (!entityPig.getSaddled() && !entityPig.isChild()) {
+            entityPig.setSaddled(true);
+            entityPig.worldObj.playSoundAtEntity(entityPig, "mob.horse.leather", 0.5F, 1.0F);
+            stack.stackSize--;
          }
 
          return true;
@@ -30,8 +30,8 @@ public class ItemSaddle extends Item {
    }
 
    @Override
-   public boolean hitEntity(ItemStack var1, EntityLivingBase var2, EntityLivingBase var3) {
-      this.itemInteractionForEntity(var1, (EntityPlayer)null, var2);
+   public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+      this.itemInteractionForEntity(stack, (EntityPlayer)null, target);
       return true;
    }
 }

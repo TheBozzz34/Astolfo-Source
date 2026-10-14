@@ -17,15 +17,15 @@ public class WeightedBakedModel implements IBakedModel {
    private static final long a = 4419971028597L;
    private static final long b = 2305898435766648848L;
 
-   public WeightedBakedModel(List<WeightedBakedModel.MyWeighedRandomItem> var1) {
-      this.models = var1;
-      this.totalWeight = WeightedRandom.getTotalWeight(var1);
-      this.baseModel = ((WeightedBakedModel.MyWeighedRandomItem)var1.get(0)).model;
+   public WeightedBakedModel(List<WeightedBakedModel.MyWeighedRandomItem> list) {
+      this.models = list;
+      this.totalWeight = WeightedRandom.getTotalWeight(list);
+      this.baseModel = ((WeightedBakedModel.MyWeighedRandomItem)list.get(0)).model;
    }
 
    @Override
-   public List<BakedQuad> getFaceQuads(EnumFacing var1) {
-      return this.baseModel.getFaceQuads(var1);
+   public List<BakedQuad> getFaceQuads(EnumFacing facing) {
+      return this.baseModel.getFaceQuads(facing);
    }
 
    @Override
@@ -58,15 +58,15 @@ public class WeightedBakedModel implements IBakedModel {
       return this.baseModel.getItemCameraTransforms();
    }
 
-   public IBakedModel getAlternativeModel(long var1) {
-      return WeightedRandom.getRandomItem(this.models, Math.abs((int)var1 >> (int)b) % this.totalWeight).model;
+   public IBakedModel getAlternativeModel(long l) {
+      return WeightedRandom.getRandomItem(this.models, Math.abs((int)l >> (int)b) % this.totalWeight).model;
    }
 
    public static class Builder {
       private List<WeightedBakedModel.MyWeighedRandomItem> listItems = Lists.newArrayList();
 
-      public WeightedBakedModel.Builder add(IBakedModel var1, int var2) {
-         this.listItems.add(new WeightedBakedModel.MyWeighedRandomItem(var1, var2));
+      public WeightedBakedModel.Builder add(IBakedModel iBakedModel, int i) {
+         this.listItems.add(new WeightedBakedModel.MyWeighedRandomItem(iBakedModel, i));
          return this;
       }
 
@@ -85,23 +85,26 @@ public class WeightedBakedModel implements IBakedModel {
       private static final long a = 102096866608081L;
       private static final long e = -2711945962485448579L;
 
-      public MyWeighedRandomItem(IBakedModel var1, int var2) {
-         super(var2);
-         this.model = var1;
+      public MyWeighedRandomItem(IBakedModel iBakedModel, int i) {
+         super(i);
+         this.model = iBakedModel;
       }
 
-      public int compareTo(WeightedBakedModel.MyWeighedRandomItem var1) {
-         return ComparisonChain.start().compare(var1.itemWeight, this.itemWeight).compare(this.getCountQuads(), var1.getCountQuads()).result();
+      public int compareTo(WeightedBakedModel.MyWeighedRandomItem myWeighedRandomItem) {
+         return ComparisonChain.start()
+            .compare(myWeighedRandomItem.itemWeight, this.itemWeight)
+            .compare(this.getCountQuads(), myWeighedRandomItem.getCountQuads())
+            .result();
       }
 
       public int getCountQuads() {
-         int var4 = this.model.getGeneralQuads().size();
+         int i = this.model.getGeneralQuads().size();
 
-         for (EnumFacing var8 : EnumFacing.values()) {
-            var4 += this.model.getFaceQuads(var8).size();
+         for (EnumFacing enumFacing : EnumFacing.values()) {
+            i += this.model.getFaceQuads(enumFacing).size();
          }
 
-         return var4;
+         return i;
       }
 
       @Override

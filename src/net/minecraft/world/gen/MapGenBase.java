@@ -17,23 +17,23 @@ public class MapGenBase {
       this.rand = new Random();
    }
 
-   public void generate(IChunkProvider var1, World var2, int var3, int var4, ChunkPrimer var5) {
-      int var9 = this.range;
-      this.worldObj = var2;
-      this.rand.setSeed(var2.getSeed());
-      long var10 = this.rand.nextLong();
-      long var12 = this.rand.nextLong();
+   public void generate(IChunkProvider chunkProviderIn, World worldIn, int x, int z, ChunkPrimer chunkPrimerIn) {
+      int i = this.range;
+      this.worldObj = worldIn;
+      this.rand.setSeed(worldIn.getSeed());
+      long l = this.rand.nextLong();
+      long m = this.rand.nextLong();
 
-      for (int var14 = var3 - var9; var14 <= var3 + var9; var14++) {
-         for (int var15 = var4 - var9; var15 <= var4 + var9; var15++) {
-            long var16 = var14 * var10;
-            long var18 = var15 * var12;
-            this.rand.setSeed(var16 ^ var18 ^ var2.getSeed());
-            this.recursiveGenerate(var2, var14, var15, var3, var4, var5);
+      for (int j = x - i; j <= x + i; j++) {
+         for (int k = z - i; k <= z + i; k++) {
+            long n = j * l;
+            long l2 = k * m;
+            this.rand.setSeed(n ^ l2 ^ worldIn.getSeed());
+            this.recursiveGenerate(worldIn, j, k, x, z, chunkPrimerIn);
          }
       }
    }
 
-   public void recursiveGenerate(World var1, int var2, int var3, int var4, int var5, ChunkPrimer var6) {
+   public void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int i, int j, ChunkPrimer chunkPrimerIn) {
    }
 }

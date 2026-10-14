@@ -11,14 +11,14 @@ public final class UserListReader implements PacketReader<UserListPacket> {
    private static final long a = 41791443513041L;
 
    @Override
-   public void read(ByteBuffer var1) {
-      byte[] var5 = new byte[var1.getInt()];
-      var1.get(var5);
-      byte[] var6 = new byte[var1.getInt()];
-      var1.get(var6);
-      int var7 = var1.getInt();
-      int var8 = var1.getInt();
-      this.g = new UserListPacket(UserListType.values()[var7], new String(var5, StandardCharsets.UTF_8), new String(var6, StandardCharsets.UTF_8), var8 == 1);
+   public void read(ByteBuffer byteBuffer) {
+      byte[] bytes = new byte[byteBuffer.getInt()];
+      byteBuffer.get(bytes);
+      byte[] bytes2 = new byte[byteBuffer.getInt()];
+      byteBuffer.get(bytes2);
+      int i = byteBuffer.getInt();
+      int j = byteBuffer.getInt();
+      this.g = new UserListPacket(UserListType.values()[i], new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8), j == 1);
    }
 
    public UserListPacket getPacket() {

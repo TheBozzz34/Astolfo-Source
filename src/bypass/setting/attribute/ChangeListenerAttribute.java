@@ -20,9 +20,9 @@ public abstract class ChangeListenerAttribute extends SettingAttribute implement
    }
 
    @Override
-   public void setCancelled(boolean var1) {
-      this.i = var1;
+   public void setCancelled(boolean bl) {
+      this.i = bl;
    }
 
-   public abstract void onChange(SettingPart var1);
+   public abstract void onChange(SettingPart settingPart);
 }

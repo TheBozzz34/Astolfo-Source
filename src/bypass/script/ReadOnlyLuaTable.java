@@ -7,38 +7,38 @@ import org.luaj.vm2.Varargs;
 public class ReadOnlyLuaTable extends LuaTable {
    private static final long a = 123943596769236L;
 
-   public ReadOnlyLuaTable(LuaValue var1) {
-      this.presize(var1.length(), 0);
+   public ReadOnlyLuaTable(LuaValue luaValue) {
+      this.presize(luaValue.length(), 0);
 
-      for (Varargs var5 = var1.next(LuaValue.NIL); !var5.arg1().isnil(); var5 = var1.next(var5.arg1())) {
-         LuaValue var6 = var5.arg1();
-         LuaValue var7 = var5.arg(2);
-         super.rawset(var6, var7.istable() ? new ReadOnlyLuaTable(var7) : var7);
+      for (Varargs varargs = luaValue.next(LuaValue.NIL); !varargs.arg1().isnil(); varargs = luaValue.next(varargs.arg1())) {
+         LuaValue luaValue2 = varargs.arg1();
+         LuaValue luaValue3 = varargs.arg(2);
+         super.rawset(luaValue2, luaValue3.istable() ? new ReadOnlyLuaTable(luaValue3) : luaValue3);
       }
    }
 
    @Override
-   public LuaValue setmetatable(LuaValue var1) {
+   public LuaValue setmetatable(LuaValue luaValue) {
       return error("table is read-only");
    }
 
    @Override
-   public void set(int var1, LuaValue var2) {
+   public void set(int i, LuaValue luaValue) {
       error("table is read-only");
    }
 
    @Override
-   public void rawset(int var1, LuaValue var2) {
+   public void rawset(int i, LuaValue luaValue) {
       error("table is read-only");
    }
 
    @Override
-   public void rawset(LuaValue var1, LuaValue var2) {
+   public void rawset(LuaValue luaValue, LuaValue luaValue2) {
       error("table is read-only");
    }
 
    @Override
-   public LuaValue remove(int var1) {
+   public LuaValue remove(int i) {
       return error("table is read-only");
    }
 }

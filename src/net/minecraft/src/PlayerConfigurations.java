@@ -9,34 +9,34 @@ public class PlayerConfigurations {
    private static Map mapConfigurations = null;
    private static final long timeReloadPlayerItemsMs = 82383755495733L;
 
-   public static void renderPlayerItems(ModelBiped var0, AbstractClientPlayer var1, float var2, float var3) {
-      PlayerConfiguration var7 = getPlayerConfiguration(var1);
-      if (var7 != null) {
-         var7.renderPlayerItems(var0, var1, var2, var3);
+   public static void renderPlayerItems(ModelBiped modelBiped, AbstractClientPlayer player, float scale, float partialTicks) {
+      PlayerConfiguration playerConfiguration = getPlayerConfiguration(player);
+      if (playerConfiguration != null) {
+         playerConfiguration.renderPlayerItems(modelBiped, player, scale, partialTicks);
       }
    }
 
-   public static synchronized PlayerConfiguration getPlayerConfiguration(AbstractClientPlayer var0) {
-      String var4 = var0.getNameClear();
-      if (var4 == null) {
+   public static synchronized PlayerConfiguration getPlayerConfiguration(AbstractClientPlayer player) {
+      String string = player.getNameClear();
+      if (string == null) {
          return null;
       }
 
-      PlayerConfiguration var5 = (PlayerConfiguration)getMapConfigurations().get(var4);
-      if (var5 == null) {
-         var5 = new PlayerConfiguration();
-         getMapConfigurations().put(var4, var5);
-         PlayerConfigurationReceiver var6 = new PlayerConfigurationReceiver(var4);
-         String var7 = "http://s.optifine.net/users/" + var4 + ".cfg";
-         FileDownloadThread var8 = new FileDownloadThread(var7, var6);
-         var8.start();
+      PlayerConfiguration playerConfiguration = (PlayerConfiguration)getMapConfigurations().get(string);
+      if (playerConfiguration == null) {
+         playerConfiguration = new PlayerConfiguration();
+         getMapConfigurations().put(string, playerConfiguration);
+         PlayerConfigurationReceiver playerConfigurationReceiver = new PlayerConfigurationReceiver(string);
+         String string2 = "http://s.optifine.net/users/" + string + ".cfg";
+         FileDownloadThread fileDownloadThread = new FileDownloadThread(string2, playerConfigurationReceiver);
+         fileDownloadThread.start();
       }
 
-      return var5;
+      return playerConfiguration;
    }
 
-   public static synchronized void setPlayerConfiguration(String var0, PlayerConfiguration var1) {
-      getMapConfigurations().put(var0, var1);
+   public static synchronized void setPlayerConfiguration(String player, PlayerConfiguration pc) {
+      getMapConfigurations().put(player, pc);
    }
 
    private static Map getMapConfigurations() {

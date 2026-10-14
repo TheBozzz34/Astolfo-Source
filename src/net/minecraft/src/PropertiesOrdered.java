@@ -10,15 +10,15 @@ public class PropertiesOrdered extends Properties {
    private Set<Object> keysOrdered = new LinkedHashSet<>();
 
    @Override
-   public synchronized Object put(Object var1, Object var2) {
-      this.keysOrdered.add(var1);
-      return super.put(var1, var2);
+   public synchronized Object put(Object key, Object value) {
+      this.keysOrdered.add(key);
+      return super.put(key, value);
    }
 
    @Override
    public Set<Object> keySet() {
-      Set var1 = super.keySet();
-      this.keysOrdered.retainAll(var1);
+      Set<Object> keysParent = super.keySet();
+      this.keysOrdered.retainAll(keysParent);
       return Collections.unmodifiableSet(this.keysOrdered);
    }
 

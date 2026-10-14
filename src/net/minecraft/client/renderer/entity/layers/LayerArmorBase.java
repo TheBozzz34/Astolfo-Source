@@ -29,17 +29,17 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
    private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
    private static final long b = 92043053276715L;
 
-   public LayerArmorBase(RendererLivingEntity<?> var1) {
-      this.renderer = var1;
+   public LayerArmorBase(RendererLivingEntity<?> rendererIn) {
+      this.renderer = rendererIn;
       this.initArmor();
    }
 
    @Override
-   public void doRenderLayer(EntityLivingBase var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      this.renderLayer(var1, var2, var3, var4, var5, var6, var7, var8, 4);
-      this.renderLayer(var1, var2, var3, var4, var5, var6, var7, var8, 3);
-      this.renderLayer(var1, var2, var3, var4, var5, var6, var7, var8, 2);
-      this.renderLayer(var1, var2, var3, var4, var5, var6, var7, var8, 1);
+   public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      this.renderLayer(entitylivingbaseIn, f, g, partialTicks, h, f2, f3, scale, 4);
+      this.renderLayer(entitylivingbaseIn, f, g, partialTicks, h, f2, f3, scale, 3);
+      this.renderLayer(entitylivingbaseIn, f, g, partialTicks, h, f2, f3, scale, 2);
+      this.renderLayer(entitylivingbaseIn, f, g, partialTicks, h, f2, f3, scale, 1);
    }
 
    @Override
@@ -49,94 +49,94 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   private void renderLayer(EntityLivingBase var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8, int var9) {
-      ItemStack var13 = this.getCurrentArmor(var1, var9);
-      if (var13 != null && var13.getItem() instanceof ItemArmor) {
-         ItemArmor var14 = (ItemArmor)var13.getItem();
-         ModelBase var15 = this.getArmorModel(var9);
-         var15.setModelAttributes(this.renderer.getMainModel());
-         var15.setLivingAnimations(var1, var2, var3, var4);
+   private void renderLayer(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale, int armorSlot) {
+      ItemStack itemStack = this.getCurrentArmor(entitylivingbaseIn, armorSlot);
+      if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {
+         ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
+         ModelBase modelBase = this.getArmorModel(armorSlot);
+         modelBase.setModelAttributes(this.renderer.getMainModel());
+         modelBase.setLivingAnimations(entitylivingbaseIn, f, g, partialTicks);
          if (Reflector.ForgeHooksClient.exists()) {
-            var15 = this.getArmorModelHook(var1, var13, var9, var15);
+            modelBase = this.getArmorModelHook(entitylivingbaseIn, itemStack, armorSlot, modelBase);
          }
 
-         this.setModelPartVisible((T)var15, var9);
-         boolean var16 = this.isSlotForLeggings(var9);
-         if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(var13, var16 ? 2 : 1, (String)null)) {
+         this.setModelPartVisible((T)modelBase, armorSlot);
+         boolean bl = this.isSlotForLeggings(armorSlot);
+         if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemStack, bl ? 2 : 1, (String)null)) {
             if (Reflector.ForgeHooksClient_getArmorTexture.exists()) {
-               this.renderer.bindTexture(this.getArmorResource(var1, var13, var16 ? 2 : 1, (String)null));
+               this.renderer.bindTexture(this.getArmorResource(entitylivingbaseIn, itemStack, bl ? 2 : 1, (String)null));
             } else {
-               this.renderer.bindTexture(this.getArmorResource(var14, var16));
+               this.renderer.bindTexture(this.getArmorResource(itemArmor, bl));
             }
          }
 
          if (Reflector.ForgeHooksClient_getArmorTexture.exists()) {
-            int var21 = var14.getColor(var13);
-            if (var21 != -1) {
-               float var22 = (var21 >> 16 & 0xFF) / 255.0F;
-               float var23 = (var21 >> 8 & 0xFF) / 255.0F;
-               float var24 = (var21 & 0xFF) / 255.0F;
-               GlStateManager.color(this.colorR * var22, this.colorG * var23, this.colorB * var24, this.alpha);
-               var15.render(var1, var2, var3, var5, var6, var7, var8);
-               if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(var13, var16 ? 2 : 1, "overlay")) {
-                  this.renderer.bindTexture(this.getArmorResource(var1, var13, var16 ? 2 : 1, "overlay"));
+            int i = itemArmor.getColor(itemStack);
+            if (i != -1) {
+               float f4 = (i >> 16 & 0xFF) / 255.0F;
+               float f5 = (i >> 8 & 0xFF) / 255.0F;
+               float f6 = (i & 0xFF) / 255.0F;
+               GlStateManager.color(this.colorR * f4, this.colorG * f5, this.colorB * f6, this.alpha);
+               modelBase.render(entitylivingbaseIn, f, g, h, f2, f3, scale);
+               if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemStack, bl ? 2 : 1, "overlay")) {
+                  this.renderer.bindTexture(this.getArmorResource(entitylivingbaseIn, itemStack, bl ? 2 : 1, "overlay"));
                }
             }
 
             GlStateManager.color(this.colorR, this.colorG, this.colorB, this.alpha);
-            var15.render(var1, var2, var3, var5, var6, var7, var8);
+            modelBase.render(entitylivingbaseIn, f, g, h, f2, f3, scale);
             if (!z
-               && var13.isItemEnchanted()
-               && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(var1, var13, var15, var2, var3, var4, var5, var6, var7, var8))) {
-               this.renderGlint(var1, (T)var15, var2, var3, var4, var5, var6, var7, var8);
+               && itemStack.isItemEnchanted()
+               && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemStack, modelBase, f, g, partialTicks, h, f2, f3, scale))) {
+               this.renderGlint(entitylivingbaseIn, (T)modelBase, f, g, partialTicks, h, f2, f3, scale);
             }
 
             return;
          }
 
-         switch (var14.getArmorMaterial()) {
+         switch (itemArmor.getArmorMaterial()) {
             case LEATHER:
-               int var17 = var14.getColor(var13);
-               float var18 = (var17 >> 16 & 0xFF) / 255.0F;
-               float var19 = (var17 >> 8 & 0xFF) / 255.0F;
-               float var20 = (var17 & 0xFF) / 255.0F;
-               GlStateManager.color(this.colorR * var18, this.colorG * var19, this.colorB * var20, this.alpha);
-               var15.render(var1, var2, var3, var5, var6, var7, var8);
-               if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(var13, var16 ? 2 : 1, "overlay")) {
-                  this.renderer.bindTexture(this.getArmorResource(var14, var16, "overlay"));
+               int j = itemArmor.getColor(itemStack);
+               float f7 = (j >> 16 & 0xFF) / 255.0F;
+               float f8 = (j >> 8 & 0xFF) / 255.0F;
+               float f9 = (j & 0xFF) / 255.0F;
+               GlStateManager.color(this.colorR * f7, this.colorG * f8, this.colorB * f9, this.alpha);
+               modelBase.render(entitylivingbaseIn, f, g, h, f2, f3, scale);
+               if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemStack, bl ? 2 : 1, "overlay")) {
+                  this.renderer.bindTexture(this.getArmorResource(itemArmor, bl, "overlay"));
                }
             case CHAIN:
             case IRON:
             case GOLD:
             case DIAMOND:
                GlStateManager.color(this.colorR, this.colorG, this.colorB, this.alpha);
-               var15.render(var1, var2, var3, var5, var6, var7, var8);
+               modelBase.render(entitylivingbaseIn, f, g, h, f2, f3, scale);
          }
 
          if (!z
-            && var13.isItemEnchanted()
-            && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(var1, var13, var15, var2, var3, var4, var5, var6, var7, var8))) {
-            this.renderGlint(var1, (T)var15, var2, var3, var4, var5, var6, var7, var8);
+            && itemStack.isItemEnchanted()
+            && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemStack, modelBase, f, g, partialTicks, h, f2, f3, scale))) {
+            this.renderGlint(entitylivingbaseIn, (T)modelBase, f, g, partialTicks, h, f2, f3, scale);
          }
       }
    }
 
-   public ItemStack getCurrentArmor(EntityLivingBase var1, int var2) {
-      return var1.getCurrentArmor(var2 - 1);
+   public ItemStack getCurrentArmor(EntityLivingBase entitylivingbaseIn, int armorSlot) {
+      return entitylivingbaseIn.getCurrentArmor(armorSlot - 1);
    }
 
-   public T getArmorModel(int var1) {
-      return this.isSlotForLeggings(var1) ? this.modelLeggings : this.modelArmor;
+   public T getArmorModel(int armorSlot) {
+      return this.isSlotForLeggings(armorSlot) ? this.modelLeggings : this.modelArmor;
    }
 
-   private boolean isSlotForLeggings(int var1) {
-      return var1 == 2;
+   private boolean isSlotForLeggings(int armorSlot) {
+      return armorSlot == 2;
    }
 
-   private void renderGlint(EntityLivingBase var1, T var2, float var3, float var4, float var5, float var6, float var7, float var8, float var9) {
-      long var10 = b ^ 100992735750836L;
+   private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      long l = b ^ 100992735750836L;
       if (!Config.isShaders() || !Shaders.isShadowPass) {
-         float var13 = var1.ticksExisted + var5;
+         float f4 = entitylivingbaseIn.ticksExisted + partialTicks;
          this.renderer.bindTexture(ENCHANTED_ITEM_GLINT_RES);
          if (Config.isShaders()) {
             ShadersRender.renderEnchantedGlintBegin();
@@ -145,32 +145,32 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
          GlStateManager.enableBlend();
          GlStateManager.depthFunc(514);
          GlStateManager.depthMask(false);
-         float var14 = 0.5F;
-         GlStateManager.color(var14, var14, var14, 1.0F);
+         float f5 = 0.5F;
+         GlStateManager.color(f5, f5, f5, 1.0F);
 
-         for (int var15 = 0; var15 < 2; var15++) {
+         for (int i = 0; i < 2; i++) {
             GlStateManager.disableLighting();
             GlStateManager.blendFunc(768, 1);
-            float var16 = 0.76F;
-            long var10000 = 4694849417834371747L ^ var10;
-            GlStateManager.color(0.5F * var16, 0.25F * var16, 0.8F * var16, 1.0F);
+            float f6 = 0.76F;
+            long m = 4694849417834371747L ^ l;
+            GlStateManager.color(0.5F * f6, 0.25F * f6, 0.8F * f6, 1.0F);
             GlStateManager.matrixMode(5890);
             GlStateManager.loadIdentity();
-            float var17 = 0.33333334F;
-            GlStateManager.scale(var17, var17, var17);
-            GlStateManager.rotate(30.0F - var15 * 60.0F, 0.0F, 0.0F, 1.0F);
-            var10000 = 4524731379055971666L ^ var10;
-            GlStateManager.translate(0.0F, var13 * (0.001F + var15 * 0.003F) * 20.0F, 0.0F);
+            float f7 = 0.33333334F;
+            GlStateManager.scale(f7, f7, f7);
+            GlStateManager.rotate(30.0F - i * 60.0F, 0.0F, 0.0F, 1.0F);
+            m = 4524731379055971666L ^ l;
+            GlStateManager.translate(0.0F, f4 * (0.001F + i * 0.003F) * 20.0F, 0.0F);
             GlStateManager.matrixMode(5888);
-            var2.render(var1, var3, var4, var6, var7, var8, var9);
+            modelbaseIn.render(entitylivingbaseIn, f, g, h, f2, f3, scale);
          }
 
          GlStateManager.matrixMode(5890);
          GlStateManager.loadIdentity();
-         long var19 = 4643446299531239210L ^ var10;
+         long n = 4643446299531239210L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.enableLighting();
-         var19 = 4594118597153128257L ^ var10;
+         n = 4594118597153128257L ^ l;
          GlStateManager.depthMask(true);
          GlStateManager.depthFunc(515);
          GlStateManager.disableBlend();
@@ -180,53 +180,55 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
       }
    }
 
-   private ResourceLocation getArmorResource(ItemArmor var1, boolean var2) {
-      return this.getArmorResource(var1, var2, (String)null);
+   private ResourceLocation getArmorResource(ItemArmor itemArmor, boolean bl) {
+      return this.getArmorResource(itemArmor, bl, (String)null);
    }
 
-   private ResourceLocation getArmorResource(ItemArmor var1, boolean var2, String var3) {
-      String var7 = String.format(
-         "textures/models/armor/%s_layer_%d%s.png", var1.getArmorMaterial().getName(), var2 ? 2 : 1, var3 == null ? "" : String.format("_%s", var3)
+   private ResourceLocation getArmorResource(ItemArmor itemArmor, boolean bl, String string) {
+      String string2 = String.format(
+         "textures/models/armor/%s_layer_%d%s.png", itemArmor.getArmorMaterial().getName(), bl ? 2 : 1, string == null ? "" : String.format("_%s", string)
       );
-      ResourceLocation var8 = ARMOR_TEXTURE_RES_MAP.get(var7);
-      if (var8 == null) {
-         var8 = new ResourceLocation(var7);
-         ARMOR_TEXTURE_RES_MAP.put(var7, var8);
+      ResourceLocation resourceLocation = ARMOR_TEXTURE_RES_MAP.get(string2);
+      if (resourceLocation == null) {
+         resourceLocation = new ResourceLocation(string2);
+         ARMOR_TEXTURE_RES_MAP.put(string2, resourceLocation);
       }
 
-      return var8;
+      return resourceLocation;
    }
 
    public abstract void initArmor();
 
-   public abstract void setModelPartVisible(T var1, int var2);
+   public abstract void setModelPartVisible(T model, int armorSlot);
 
-   public ModelBase getArmorModelHook(EntityLivingBase var1, ItemStack var2, int var3, ModelBase var4) {
-      return var4;
+   public ModelBase getArmorModelHook(EntityLivingBase entityLivingBase, ItemStack itemStack, int i, ModelBase modelBase) {
+      return modelBase;
    }
 
-   public ResourceLocation getArmorResource(Entity var1, ItemStack var2, int var3, String var4) {
-      ItemArmor var8 = (ItemArmor)var2.getItem();
-      String var9 = var8.getArmorMaterial().getName();
-      String var10 = "minecraft";
-      int var11 = var9.indexOf(58);
-      if (var11 != -1) {
-         var10 = var9.substring(0, var11);
-         var9 = var9.substring(var11 + 1);
+   public ResourceLocation getArmorResource(Entity entity, ItemStack itemStack, int i, String string) {
+      ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
+      String string2 = itemArmor.getArmorMaterial().getName();
+      String string3 = "minecraft";
+      int j = string2.indexOf(58);
+      if (j != -1) {
+         string3 = string2.substring(0, j);
+         string2 = string2.substring(j + 1);
       }
 
-      String var12 = String.format("%s:textures/models/armor/%s_layer_%d%s.png", var10, var9, var3 == 2 ? 2 : 1, var4 == null ? "" : String.format("_%s", var4));
-      var12 = Reflector.callString(Reflector.ForgeHooksClient_getArmorTexture, var1, var2, var12, var3, var4);
-      ResourceLocation var13 = ARMOR_TEXTURE_RES_MAP.get(var12);
-      if (var13 == null) {
-         var13 = new ResourceLocation(var12);
-         ARMOR_TEXTURE_RES_MAP.put(var12, var13);
+      String string4 = String.format(
+         "%s:textures/models/armor/%s_layer_%d%s.png", string3, string2, i == 2 ? 2 : 1, string == null ? "" : String.format("_%s", string)
+      );
+      string4 = Reflector.callString(Reflector.ForgeHooksClient_getArmorTexture, entity, itemStack, string4, i, string);
+      ResourceLocation resourceLocation = ARMOR_TEXTURE_RES_MAP.get(string4);
+      if (resourceLocation == null) {
+         resourceLocation = new ResourceLocation(string4);
+         ARMOR_TEXTURE_RES_MAP.put(string4, resourceLocation);
       }
 
-      return var13;
+      return resourceLocation;
    }
 
-   public static void i(boolean var0) {
-      z = !var0;
+   public static void i(boolean bl) {
+      z = !bl;
    }
 }

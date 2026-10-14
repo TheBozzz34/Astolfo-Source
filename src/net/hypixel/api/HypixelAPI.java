@@ -52,8 +52,8 @@ public class HypixelAPI {
    private final HttpClient httpClient;
    public static int O = 0;
 
-   public HypixelAPI(UUID var1) {
-      this.apiKey = var1;
+   public HypixelAPI(UUID apiKey) {
+      this.apiKey = apiKey;
       this.httpClient = HttpClientBuilder.create().build();
    }
 
@@ -65,8 +65,8 @@ public class HypixelAPI {
       return this.apiKey;
    }
 
-   public void l(UUID var1) {
-      this.apiKey = var1;
+   public void l(UUID uuid) {
+      this.apiKey = uuid;
    }
 
    public CompletableFuture<BoostersReply> getBoosters() {
@@ -86,56 +86,56 @@ public class HypixelAPI {
       return this.get(PlayerCountReply.class, "playerCount");
    }
 
-   public CompletableFuture<PlayerReply> getPlayerByUuid(UUID var1) {
-      return this.get(PlayerReply.class, "player", "uuid", var1);
+   public CompletableFuture<PlayerReply> getPlayerByUuid(UUID player) {
+      return this.get(PlayerReply.class, "player", "uuid", player);
    }
 
-   public CompletableFuture<PlayerReply> getPlayerByUuid(String var1) {
-      return this.get(PlayerReply.class, "player", "uuid", var1);
-   }
-
-   @Deprecated
-   public CompletableFuture<PlayerReply> getPlayerByName(String var1) {
-      return this.get(PlayerReply.class, "player", "name", var1);
-   }
-
-   public CompletableFuture<FriendsReply> getFriends(UUID var1) {
-      return this.get(FriendsReply.class, "friends", "uuid", var1);
-   }
-
-   public CompletableFuture<FriendsReply> getFriends(String var1) {
-      return this.get(FriendsReply.class, "friends", "uuid", var1);
-   }
-
-   public CompletableFuture<GuildReply> getGuildByPlayer(UUID var1) {
-      return this.get(GuildReply.class, "guild", "player", var1);
-   }
-
-   public CompletableFuture<GuildReply> getGuildByPlayer(String var1) {
-      return this.get(GuildReply.class, "guild", "player", var1);
-   }
-
-   public CompletableFuture<GuildReply> getGuildByName(String var1) {
-      return this.get(GuildReply.class, "guild", "name", var1);
-   }
-
-   public CompletableFuture<GuildReply> getGuildById(String var1) {
-      return this.get(GuildReply.class, "guild", "id", var1);
+   public CompletableFuture<PlayerReply> getPlayerByUuid(String player) {
+      return this.get(PlayerReply.class, "player", "uuid", player);
    }
 
    @Deprecated
-   public CompletableFuture<FindGuildReply> findGuildByPlayer(UUID var1) {
-      return this.get(FindGuildReply.class, "findGuild", "byUuid", var1);
+   public CompletableFuture<PlayerReply> getPlayerByName(String player) {
+      return this.get(PlayerReply.class, "player", "name", player);
+   }
+
+   public CompletableFuture<FriendsReply> getFriends(UUID player) {
+      return this.get(FriendsReply.class, "friends", "uuid", player);
+   }
+
+   public CompletableFuture<FriendsReply> getFriends(String player) {
+      return this.get(FriendsReply.class, "friends", "uuid", player);
+   }
+
+   public CompletableFuture<GuildReply> getGuildByPlayer(UUID player) {
+      return this.get(GuildReply.class, "guild", "player", player);
+   }
+
+   public CompletableFuture<GuildReply> getGuildByPlayer(String player) {
+      return this.get(GuildReply.class, "guild", "player", player);
+   }
+
+   public CompletableFuture<GuildReply> getGuildByName(String name) {
+      return this.get(GuildReply.class, "guild", "name", name);
+   }
+
+   public CompletableFuture<GuildReply> getGuildById(String id) {
+      return this.get(GuildReply.class, "guild", "id", id);
    }
 
    @Deprecated
-   public CompletableFuture<FindGuildReply> findGuildByPlayer(String var1) {
-      return this.get(FindGuildReply.class, "findGuild", "byUuid", var1);
+   public CompletableFuture<FindGuildReply> findGuildByPlayer(UUID player) {
+      return this.get(FindGuildReply.class, "findGuild", "byUuid", player);
    }
 
    @Deprecated
-   public CompletableFuture<GuildReply> findGuildByName(String var1) {
-      return this.get(GuildReply.class, "findGuild", "byName", var1);
+   public CompletableFuture<FindGuildReply> findGuildByPlayer(String player) {
+      return this.get(FindGuildReply.class, "findGuild", "byUuid", player);
+   }
+
+   @Deprecated
+   public CompletableFuture<GuildReply> findGuildByName(String name) {
+      return this.get(GuildReply.class, "findGuild", "byName", name);
    }
 
    public CompletableFuture<KeyReply> getKey() {
@@ -146,110 +146,110 @@ public class HypixelAPI {
       return this.get(GameCountsReply.class, "gameCounts");
    }
 
-   public CompletableFuture<SkyBlockProfileReply> getSkyBlockProfile(String var1) {
-      return this.get(SkyBlockProfileReply.class, "skyblock/profile", "profile", var1);
+   public CompletableFuture<SkyBlockProfileReply> getSkyBlockProfile(String profile) {
+      return this.get(SkyBlockProfileReply.class, "skyblock/profile", "profile", profile);
    }
 
    public CompletableFuture<SkyBlockNewsReply> getSkyBlockNews() {
       return this.get(SkyBlockNewsReply.class, "skyblock/news");
    }
 
-   public CompletableFuture<SkyBlockAuctionsReply> getSkyBlockAuctions(int var1) {
-      return this.get(SkyBlockAuctionsReply.class, "skyblock/auctions", "page", var1);
+   public CompletableFuture<SkyBlockAuctionsReply> getSkyBlockAuctions(int page) {
+      return this.get(SkyBlockAuctionsReply.class, "skyblock/auctions", "page", page);
    }
 
-   public CompletableFuture<StatusReply> getStatus(UUID var1) {
-      return this.get(StatusReply.class, "status", "uuid", var1);
+   public CompletableFuture<StatusReply> getStatus(UUID uuid) {
+      return this.get(StatusReply.class, "status", "uuid", uuid);
    }
 
-   public CompletableFuture<RecentGamesReply> getRecentGames(UUID var1) {
-      return this.get(RecentGamesReply.class, "recentGames", "uuid", var1);
+   public CompletableFuture<RecentGamesReply> getRecentGames(UUID uuid) {
+      return this.get(RecentGamesReply.class, "recentGames", "uuid", uuid);
    }
 
-   public CompletableFuture<ResourceReply> getResource(ResourceType var1) {
-      return this.getResource(var1.getPath());
+   public CompletableFuture<ResourceReply> getResource(ResourceType resource) {
+      return this.getResource(resource.getPath());
    }
 
    public CompletableFuture<BazaarReply> getBazaar() {
       return this.get(BazaarReply.class, "skyblock/bazaar");
    }
 
-   public CompletableFuture<ResourceReply> getResource(String var1) {
-      return this.requestResource(var1);
+   public CompletableFuture<ResourceReply> getResource(String resource) {
+      return this.requestResource(resource);
    }
 
-   private <R extends AbstractReply> CompletableFuture<R> get(Class<R> var1, String var2, Object... var3) {
-      CompletableFuture var4 = new CompletableFuture();
+   private <R extends AbstractReply> CompletableFuture<R> get(Class<R> clazz, String request, Object... params) {
+      CompletableFuture completableFuture = new CompletableFuture();
       O++;
 
       try {
-         if (var3.length % 2 != 0) {
+         if (params.length % 2 != 0) {
             throw new IllegalArgumentException("Need both key and value for parameters");
          }
 
-         StringBuilder var5 = new StringBuilder("https://api.hypixel.net/");
-         var5.append(var2);
-         var5.append("?key=").append(this.apiKey);
+         StringBuilder stringBuilder = new StringBuilder("https://api.hypixel.net/");
+         stringBuilder.append(request);
+         stringBuilder.append("?key=").append(this.apiKey);
 
-         for (int var6 = 0; var6 < var3.length - 1; var6 += 2) {
-            var5.append("&").append(var3[var6]).append("=").append(var3[var6 + 1]);
+         for (int i = 0; i < params.length - 1; i += 2) {
+            stringBuilder.append("&").append(params[i]).append("=").append(params[i + 1]);
          }
 
          H.submit(() -> {
             try {
-               AbstractReply var4x = this.httpClient.execute(new HttpGet(var5.toString()), var1xx -> {
-                  String var2xx = EntityUtils.toString(var1xx.getEntity(), Charset.defaultCharset());
-                  return var1 == ResourceReply.class ? new ResourceReply(GSON.fromJson(var2xx, JsonObject.class)) : GSON.fromJson(var2xx, var1);
+               AbstractReply abstractReply = this.httpClient.execute(new HttpGet(stringBuilder.toString()), obj -> {
+                  String string = EntityUtils.toString(obj.getEntity(), Charset.defaultCharset());
+                  return clazz == ResourceReply.class ? new ResourceReply(GSON.fromJson(string, JsonObject.class)) : GSON.fromJson(string, clazz);
                });
-               this.checkReply(var4x);
-               var4.complete(var4x);
+               this.checkReply(abstractReply);
+               completableFuture.complete(abstractReply);
                O--;
-            } catch (Throwable var5x) {
-               var4.completeExceptionally(var5x);
+            } catch (Throwable throwable) {
+               completableFuture.completeExceptionally(throwable);
                O--;
             }
          });
-      } catch (Throwable var7) {
+      } catch (Throwable throwable2) {
          O--;
-         var4.completeExceptionally(var7);
+         completableFuture.completeExceptionally(throwable2);
       }
 
-      return var4;
+      return completableFuture;
    }
 
-   private CompletableFuture<ResourceReply> requestResource(String var1) {
-      CompletableFuture var2 = new CompletableFuture();
+   private CompletableFuture<ResourceReply> requestResource(String resource) {
+      CompletableFuture completableFuture = new CompletableFuture();
 
       try {
-         StringBuilder var3 = new StringBuilder("https://api.hypixel.net/");
-         var3.append("resources/").append(var1);
+         StringBuilder stringBuilder = new StringBuilder("https://api.hypixel.net/");
+         stringBuilder.append("resources/").append(resource);
          H.submit(() -> {
             try {
-               ResourceReply var3x = this.httpClient.execute(new HttpGet(var3.toString()), var0 -> {
-                  String var1xx = EntityUtils.toString(var0.getEntity(), "UTF-8");
-                  return new ResourceReply(GSON.fromJson(var1xx, JsonObject.class));
+               ResourceReply response = this.httpClient.execute(new HttpGet(stringBuilder.toString()), obj -> {
+                  String content = EntityUtils.toString(obj.getEntity(), "UTF-8");
+                  return new ResourceReply(GSON.fromJson(content, JsonObject.class));
                });
-               this.checkReply(var3x);
-               var2.complete(var3x);
-            } catch (Throwable var4x) {
-               var2.completeExceptionally(var4x);
+               this.checkReply(response);
+               completableFuture.complete(response);
+            } catch (Throwable t) {
+               completableFuture.completeExceptionally(t);
             }
          });
-      } catch (Throwable var4) {
-         var2.completeExceptionally(var4);
+      } catch (Throwable throwable) {
+         completableFuture.completeExceptionally(throwable);
       }
 
-      return var2;
+      return completableFuture;
    }
 
-   private <T extends AbstractReply> void checkReply(T var1) {
-      if (var1 != null) {
-         if (var1.isThrottle()) {
+   private <T extends AbstractReply> void checkReply(T reply) {
+      if (reply != null) {
+         if (reply.isThrottle()) {
             throw new APIThrottleException();
          }
 
-         if (!var1.isSuccess()) {
-            throw new HypixelAPIException(var1.getCause());
+         if (!reply.isSuccess()) {
+            throw new HypixelAPIException(reply.getCause());
          }
       }
    }

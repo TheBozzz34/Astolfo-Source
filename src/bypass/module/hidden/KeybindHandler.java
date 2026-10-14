@@ -10,18 +10,18 @@ import java.util.List;
 
 public final class KeybindHandler extends HiddenModule {
    @EventHandler(KeyPressEvent.class)
-   private Listener<KeyPressEvent> onKeyPress = var0 -> {
-      long var1 = d ^ 45518458676977L;
-      long var3 = var1 ^ 138356505475087L;
-      List var6 = client.getModuleManager().getList();
-      int var7 = 0;
+   private Listener<KeyPressEvent> onKeyPress = keyPressEvent -> {
+      long l = d ^ 45518458676977L;
+      long m = l ^ 138356505475087L;
+      List list = client.getModuleManager().getList();
+      int i = 0;
 
-      for (int var8 = var6.size(); var7 < var8; var7++) {
-         ModuleInfo var9 = (ModuleInfo)var6.get(var7);
-         if (var9 instanceof Module) {
-            Module var10 = (Module)var9;
-            if (var10.getKey() == var0.getKey()) {
-               var10.toggle();
+      for (int j = list.size(); i < j; i++) {
+         ModuleInfo moduleInfo = (ModuleInfo)list.get(i);
+         if (moduleInfo instanceof Module) {
+            Module module = (Module)moduleInfo;
+            if (module.getKey() == keyPressEvent.getKey()) {
+               module.toggle();
             }
          }
       }

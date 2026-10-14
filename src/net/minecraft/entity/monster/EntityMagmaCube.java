@@ -11,8 +11,8 @@ public class EntityMagmaCube extends EntitySlime {
    private static final long ab = 36200381593838L;
    private static final long xb = 4019650104111661296L;
 
-   public EntityMagmaCube(World var1) {
-      super(var1);
+   public EntityMagmaCube(World worldIn) {
+      super(worldIn);
       this.isImmuneToFire = true;
    }
 
@@ -40,12 +40,12 @@ public class EntityMagmaCube extends EntitySlime {
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
+   public int getBrightnessForRender(float partialTicks) {
       return (int)xb;
    }
 
    @Override
-   public float getBrightness(float var1) {
+   public float getBrightness(float partialTicks) {
       return 1.0F;
    }
 
@@ -65,16 +65,16 @@ public class EntityMagmaCube extends EntitySlime {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      Item var6 = this.getDropItem();
-      if (var6 != null && this.getSlimeSize() > 1) {
-         int var7 = this.rand.nextInt(4) - 2;
-         if (var2 > 0) {
-            var7 += this.rand.nextInt(var2 + 1);
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      Item item = this.getDropItem();
+      if (item != null && this.getSlimeSize() > 1) {
+         int i = this.rand.nextInt(4) - 2;
+         if (lootingModifier > 0) {
+            i += this.rand.nextInt(lootingModifier + 1);
          }
 
-         for (int var8 = 0; var8 < var7; var8++) {
-            this.dropItem(var6, 1);
+         for (int j = 0; j < i; j++) {
+            this.dropItem(item, 1);
          }
       }
    }
@@ -107,7 +107,7 @@ public class EntityMagmaCube extends EntitySlime {
    }
 
    @Override
-   public void fall(float var1, float var2) {
+   public void fall(float distance, float damageMultiplier) {
    }
 
    @Override

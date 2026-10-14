@@ -9,14 +9,14 @@ import java.util.Base64;
 public class AlteningManager extends JsonFileManager<AlteningAccount, JsonObject> {
    private static final long c = 39403370639183L;
 
-   public AlteningManager(File var1) {
-      super(var1, "altening.json");
+   public AlteningManager(File file) {
+      super(file, "altening.json");
    }
 
-   public void t(String var1, JsonObject var2) {
-      AlteningScreen.b = new String(Base64.getDecoder().decode(var2.get("token").getAsString().getBytes()));
-      if (var2.has("addAccount")) {
-         AlteningScreen.f = var2.get("addAccount").getAsBoolean();
+   public void t(String string, JsonObject jsonObject) {
+      AlteningScreen.b = new String(Base64.getDecoder().decode(jsonObject.get("token").getAsString().getBytes()));
+      if (jsonObject.has("addAccount")) {
+         AlteningScreen.f = jsonObject.get("addAccount").getAsBoolean();
       }
    }
 

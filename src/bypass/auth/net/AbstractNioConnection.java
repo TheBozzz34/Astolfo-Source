@@ -9,12 +9,12 @@ public abstract class AbstractNioConnection implements NioConnection {
    public Selector K;
 
    @Override
-   public void g(SocketChannel var1) throws IOException {
+   public void g(SocketChannel socketChannel) throws IOException {
       this.K = Selector.open();
    }
 
    @Override
-   public void p(SocketChannel var1, int var2) throws ClosedChannelException {
-      var1.register(this.K, var2);
+   public void p(SocketChannel socketChannel, int i) throws ClosedChannelException {
+      socketChannel.register(this.K, i);
    }
 }

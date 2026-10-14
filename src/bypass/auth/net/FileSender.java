@@ -21,36 +21,36 @@ public class FileSender implements Connection {
    }
 
    @Override
-   public void open(SocketChannel var1) throws IOException {
-      var1.configureBlocking(true);
-      this.b = var1;
+   public void open(SocketChannel socketChannel) throws IOException {
+      socketChannel.configureBlocking(true);
+      this.b = socketChannel;
    }
 
-   public void v(Path var1, long var2) throws IOException {
-      this.y(var1, var1.getFileName().toString(), var2);
+   public void v(Path path, long l) throws IOException {
+      this.y(path, path.getFileName().toString(), l);
    }
 
-   public void y(Path var1, String var2, long var3) throws IOException {
-      if (Files.isDirectory(var1)) {
-         throw new NotAFileException(var1.toString());
+   public void y(Path path, String string, long l) throws IOException {
+      if (Files.isDirectory(path)) {
+         throw new NotAFileException(path.toString());
       }
 
-      try (FileChannel var8 = FileChannel.open(var1, StandardOpenOption.READ)) {
-         int var10 = var2.length();
-         long var11 = var8.size();
+      try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
+         int i = string.length();
+         long m = fileChannel.size();
          ((Buffer)this.O).clear();
-         this.O.putInt(var10);
-         this.O.putInt((int)var11);
+         this.O.putInt(i);
+         this.O.putInt((int)m);
          ((Buffer)this.O).flip();
          this.b.write(this.O);
-         ByteBuffer var13 = ByteBuffer.allocate(var10);
-         var13.put(var2.getBytes(StandardCharsets.UTF_8));
-         ((Buffer)var13).flip();
-         this.b.write(var13);
-         long var14 = 0L;
+         ByteBuffer byteBuffer = ByteBuffer.allocate(i);
+         byteBuffer.put(string.getBytes(StandardCharsets.UTF_8));
+         ((Buffer)byteBuffer).flip();
+         this.b.write(byteBuffer);
+         long n = 0L;
 
-         while (var14 < var11) {
-            var14 += var8.transferTo(var14, var3, this.b);
+         while (n < m) {
+            n += fileChannel.transferTo(n, l, this.b);
          }
       }
    }

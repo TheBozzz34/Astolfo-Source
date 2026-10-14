@@ -9,8 +9,8 @@ import net.minecraft.world.gen.feature.WorldGenDesertWells;
 public class BiomeGenDesert extends BiomeGenBase {
    private static final long bb = 96306984257120L;
 
-   public BiomeGenDesert(int var1) {
-      super(var1);
+   public BiomeGenDesert(int id) {
+      super(id);
       this.spawnableCreatureList.clear();
       this.topBlock = Blocks.sand.getDefaultState();
       this.fillerBlock = Blocks.sand.getDefaultState();
@@ -22,13 +22,13 @@ public class BiomeGenDesert extends BiomeGenBase {
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
-      super.decorate(var1, var2, var3);
-      if (var2.nextInt(1000) == 0) {
-         int var7 = var2.nextInt(16) + 8;
-         int var8 = var2.nextInt(16) + 8;
-         BlockPos var9 = var1.getHeight(var3.add(var7, 0, var8)).up();
-         new WorldGenDesertWells().generate(var1, var2, var9);
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
+      super.decorate(worldIn, rand, pos);
+      if (rand.nextInt(1000) == 0) {
+         int i = rand.nextInt(16) + 8;
+         int j = rand.nextInt(16) + 8;
+         BlockPos blockPos = worldIn.getHeight(pos.add(i, 0, j)).up();
+         new WorldGenDesertWells().generate(worldIn, rand, blockPos);
       }
    }
 }

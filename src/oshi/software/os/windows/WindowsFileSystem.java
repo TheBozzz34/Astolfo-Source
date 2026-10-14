@@ -48,128 +48,128 @@ public class WindowsFileSystem extends AbstractFileSystem {
    }
 
    @Override
-   public OSFileStore[] getFileStores(boolean var1) {
-      ArrayList var5 = getLocalVolumes(null);
-      HashMap var6 = new HashMap();
+   public OSFileStore[] getFileStores(boolean localOnly) {
+      ArrayList arrayList = getLocalVolumes(null);
+      HashMap hashMap = new HashMap();
 
-      for (Object var8$raw : var5) {
-         OSFileStore var8 = (OSFileStore)var8$raw;
-         var6.put(var8.getMount(), var8);
+      for (Object object : arrayList) {
+         OSFileStore osFileStore = (OSFileStore)object;
+         hashMap.put(osFileStore.getMount(), osFileStore);
       }
 
-      for (OSFileStore var11 : getWmiVolumes(null, var1)) {
-         if (var6.containsKey(var11.getMount())) {
-            OSFileStore var9 = (OSFileStore)var6.get(var11.getMount());
-            var9.setName(var11.getName());
-            if (var9.getLabel().isEmpty()) {
-               var9.setLabel(var11.getLabel());
+      for (OSFileStore osFileStore2 : getWmiVolumes(null, localOnly)) {
+         if (hashMap.containsKey(osFileStore2.getMount())) {
+            OSFileStore osFileStore3 = (OSFileStore)hashMap.get(osFileStore2.getMount());
+            osFileStore3.setName(osFileStore2.getName());
+            if (osFileStore3.getLabel().isEmpty()) {
+               osFileStore3.setLabel(osFileStore2.getLabel());
             }
-         } else if (!var1) {
-            var5.add(var11);
+         } else if (!localOnly) {
+            arrayList.add(osFileStore2);
          }
       }
 
-      return (oshi.software.os.OSFileStore[])(var5.toArray(new OSFileStore[0]));
+      return (oshi.software.os.OSFileStore[])(arrayList.toArray(new OSFileStore[0]));
    }
 
-   private static ArrayList<OSFileStore> getLocalVolumes(String var0) {
-      ArrayList var4 = new ArrayList();
-      char[] var14 = new char[255];
-      HANDLE var9 = Kernel32.INSTANCE.FindFirstVolume(var14, 255);
-      if (var9 == WinBase.INVALID_HANDLE_VALUE) {
-         return var4;
+   private static ArrayList<OSFileStore> getLocalVolumes(String volumeToMatch) {
+      ArrayList arrayList = new ArrayList();
+      char[] chars = new char[255];
+      HANDLE handle = Kernel32.INSTANCE.FindFirstVolume(chars, 255);
+      if (handle == WinBase.INVALID_HANDLE_VALUE) {
+         return arrayList;
       }
 
-      boolean var13;
+      boolean bl;
       do {
-         char[] var15 = new char[16];
-         char[] var16 = new char[255];
-         char[] var17 = new char[255];
-         IntByReference var18 = new IntByReference();
-         LARGE_INTEGER var10 = new LARGE_INTEGER(0L);
-         LARGE_INTEGER var11 = new LARGE_INTEGER(0L);
-         LARGE_INTEGER var12 = new LARGE_INTEGER(0L);
-         String var5 = new String(var14).trim();
-         Kernel32.INSTANCE.GetVolumeInformation(var5, var16, 255, null, null, var18, var15, 16);
-         int var19 = var18.getValue();
-         Kernel32.INSTANCE.GetVolumePathNamesForVolumeName(var5, var17, 255, null);
-         String var8 = new String(var17).trim();
-         if (!var8.isEmpty() && (var0 == null || var0.equals(var5))) {
-            String var7 = new String(var16).trim();
-            String var6 = new String(var15).trim();
-            StringBuilder var20 = new StringBuilder((524288 & var19) == 0 ? "rw" : "ro");
-            String var21 = OPTIONS_MAP.entrySet().stream().filter(var1 -> (var1.getKey() & var19) > 0).map(Entry::getValue).collect(Collectors.joining(","));
-            if (!var21.isEmpty()) {
-               var20.append(',').append(var21);
+         char[] chars2 = new char[16];
+         char[] chars3 = new char[255];
+         char[] chars4 = new char[255];
+         IntByReference intByReference = new IntByReference();
+         LARGE_INTEGER largE_INTEGER = new LARGE_INTEGER(0L);
+         LARGE_INTEGER largE_INTEGER2 = new LARGE_INTEGER(0L);
+         LARGE_INTEGER largE_INTEGER3 = new LARGE_INTEGER(0L);
+         String string = new String(chars).trim();
+         Kernel32.INSTANCE.GetVolumeInformation(string, chars3, 255, null, null, intByReference, chars2, 16);
+         int i = intByReference.getValue();
+         Kernel32.INSTANCE.GetVolumePathNamesForVolumeName(string, chars4, 255, null);
+         String string2 = new String(chars4).trim();
+         if (!string2.isEmpty() && (volumeToMatch == null || volumeToMatch.equals(string))) {
+            String string3 = new String(chars3).trim();
+            String string4 = new String(chars2).trim();
+            StringBuilder stringBuilder = new StringBuilder((524288 & i) == 0 ? "rw" : "ro");
+            String string5 = OPTIONS_MAP.entrySet().stream().filter(eIn -> (eIn.getKey() & i) > 0).map(Entry::getValue).collect(Collectors.joining(","));
+            if (!string5.isEmpty()) {
+               stringBuilder.append(',').append(string5);
             }
 
-            Kernel32.INSTANCE.GetDiskFreeSpaceEx(var5, var10, var11, var12);
-            String var22 = ParseUtil.parseUuidOrDefault(var5, "");
-            OSFileStore var23 = new OSFileStore();
-            var23.setName(String.format("%s (%s)", var7, var8));
-            var23.setVolume(var5);
-            var23.setLabel(var7);
-            var23.setMount(var8);
-            var23.setDescription(getDriveType(var8));
-            var23.setType(var6);
-            var23.setOptions(var20.toString());
-            var23.setUUID(var22);
-            var23.setFreeSpace(var12.getValue());
-            var23.setUsableSpace(var10.getValue());
-            var23.setTotalSpace(var11.getValue());
-            var4.add(var23);
+            Kernel32.INSTANCE.GetDiskFreeSpaceEx(string, largE_INTEGER, largE_INTEGER2, largE_INTEGER3);
+            String string6 = ParseUtil.parseUuidOrDefault(string, "");
+            OSFileStore osFileStore = new OSFileStore();
+            osFileStore.setName(String.format("%s (%s)", string3, string2));
+            osFileStore.setVolume(string);
+            osFileStore.setLabel(string3);
+            osFileStore.setMount(string2);
+            osFileStore.setDescription(getDriveType(string2));
+            osFileStore.setType(string4);
+            osFileStore.setOptions(stringBuilder.toString());
+            osFileStore.setUUID(string6);
+            osFileStore.setFreeSpace(largE_INTEGER3.getValue());
+            osFileStore.setUsableSpace(largE_INTEGER.getValue());
+            osFileStore.setTotalSpace(largE_INTEGER2.getValue());
+            arrayList.add(osFileStore);
          }
 
-         var13 = Kernel32.INSTANCE.FindNextVolume(var9, var14, 255);
-      } while (var13);
+         bl = Kernel32.INSTANCE.FindNextVolume(handle, chars, 255);
+      } while (bl);
 
-      Kernel32.INSTANCE.FindVolumeClose(var9);
-      return var4;
+      Kernel32.INSTANCE.FindVolumeClose(handle);
+      return arrayList;
    }
 
-   private static List<OSFileStore> getWmiVolumes(String var0, boolean var1) {
-      ArrayList var9 = new ArrayList();
-      WmiResult var10 = Win32LogicalDisk.queryLogicalDisk(var0, var1);
+   private static List<OSFileStore> getWmiVolumes(String nameToMatch, boolean localOnly) {
+      ArrayList arrayList = new ArrayList();
+      WmiResult wmiResult = Win32LogicalDisk.queryLogicalDisk(nameToMatch, localOnly);
 
-      for (int var11 = 0; var11 < var10.getResultCount(); var11++) {
-         long var5 = WmiUtil.getUint64(var10, Win32LogicalDisk.LogicalDiskProperty.FREESPACE, var11);
-         long var7 = WmiUtil.getUint64(var10, Win32LogicalDisk.LogicalDiskProperty.SIZE, var11);
-         String var12 = WmiUtil.getString(var10, Win32LogicalDisk.LogicalDiskProperty.DESCRIPTION, var11);
-         String var13 = WmiUtil.getString(var10, Win32LogicalDisk.LogicalDiskProperty.NAME, var11);
-         String var14 = WmiUtil.getString(var10, Win32LogicalDisk.LogicalDiskProperty.VOLUMENAME, var11);
-         int var15 = WmiUtil.getUint32(var10, Win32LogicalDisk.LogicalDiskProperty.DRIVETYPE, var11);
-         String var16;
-         if (var15 != 4) {
-            char[] var17 = new char[255];
-            Kernel32.INSTANCE.GetVolumeNameForVolumeMountPoint(var13 + "\\", var17, 255);
-            var16 = new String(var17).trim();
+      for (int i = 0; i < wmiResult.getResultCount(); i++) {
+         long l = WmiUtil.getUint64(wmiResult, Win32LogicalDisk.LogicalDiskProperty.FREESPACE, i);
+         long m = WmiUtil.getUint64(wmiResult, Win32LogicalDisk.LogicalDiskProperty.SIZE, i);
+         String string = WmiUtil.getString(wmiResult, Win32LogicalDisk.LogicalDiskProperty.DESCRIPTION, i);
+         String string2 = WmiUtil.getString(wmiResult, Win32LogicalDisk.LogicalDiskProperty.NAME, i);
+         String string3 = WmiUtil.getString(wmiResult, Win32LogicalDisk.LogicalDiskProperty.VOLUMENAME, i);
+         int j = WmiUtil.getUint32(wmiResult, Win32LogicalDisk.LogicalDiskProperty.DRIVETYPE, i);
+         String string4;
+         if (j != 4) {
+            char[] chars = new char[255];
+            Kernel32.INSTANCE.GetVolumeNameForVolumeMountPoint(string2 + "\\", chars, 255);
+            string4 = new String(chars).trim();
          } else {
-            var16 = WmiUtil.getString(var10, Win32LogicalDisk.LogicalDiskProperty.PROVIDERNAME, var11);
-            String[] var18 = var16.split("\\\\");
-            if (var18.length > 1 && var18[var18.length - 1].length() > 0) {
-               var12 = var18[var18.length - 1];
+            string4 = WmiUtil.getString(wmiResult, Win32LogicalDisk.LogicalDiskProperty.PROVIDERNAME, i);
+            String[] strings = string4.split("\\\\");
+            if (strings.length > 1 && strings[strings.length - 1].length() > 0) {
+               string = strings[strings.length - 1];
             }
          }
 
-         OSFileStore var19 = new OSFileStore();
-         var19.setName(String.format("%s (%s)", var12, var13));
-         var19.setVolume(var16);
-         var19.setLabel(var14);
-         var19.setMount(var13 + "\\");
-         var19.setDescription(getDriveType(var13));
-         var19.setType(WmiUtil.getString(var10, Win32LogicalDisk.LogicalDiskProperty.FILESYSTEM, var11));
-         var19.setUUID("");
-         var19.setFreeSpace(var5);
-         var19.setUsableSpace(var5);
-         var19.setTotalSpace(var7);
-         var9.add(var19);
+         OSFileStore osFileStore = new OSFileStore();
+         osFileStore.setName(String.format("%s (%s)", string, string2));
+         osFileStore.setVolume(string4);
+         osFileStore.setLabel(string3);
+         osFileStore.setMount(string2 + "\\");
+         osFileStore.setDescription(getDriveType(string2));
+         osFileStore.setType(WmiUtil.getString(wmiResult, Win32LogicalDisk.LogicalDiskProperty.FILESYSTEM, i));
+         osFileStore.setUUID("");
+         osFileStore.setFreeSpace(l);
+         osFileStore.setUsableSpace(l);
+         osFileStore.setTotalSpace(m);
+         arrayList.add(osFileStore);
       }
 
-      return var9;
+      return arrayList;
    }
 
-   private static String getDriveType(String var0) {
-      switch (Kernel32.INSTANCE.GetDriveType(var0)) {
+   private static String getDriveType(String drive) {
+      switch (Kernel32.INSTANCE.GetDriveType(drive)) {
          case 2:
             return "Removable drive";
          case 3:
@@ -187,16 +187,16 @@ public class WindowsFileSystem extends AbstractFileSystem {
 
    @Override
    public long getOpenFileDescriptors() {
-      Map var4 = ProcessInformation.queryHandles();
-      List var5 = (List)var4.get(ProcessInformation.HandleCountProperty.HANDLECOUNT);
-      long var6 = 0L;
-      if (var5 != null) {
-         for (int var8 = 0; var8 < var5.size(); var8++) {
-            var6 += ((java.lang.Long)(var5.get(var8)));
+      Map map = ProcessInformation.queryHandles();
+      List list = (List)map.get(ProcessInformation.HandleCountProperty.HANDLECOUNT);
+      long l = 0L;
+      if (list != null) {
+         for (int i = 0; i < list.size(); i++) {
+            l += ((java.lang.Long)(list.get(i)));
          }
       }
 
-      return var6;
+      return l;
    }
 
    @Override
@@ -204,24 +204,24 @@ public class WindowsFileSystem extends AbstractFileSystem {
       return MAX_WINDOWS_HANDLES;
    }
 
-   public static boolean updateFileStoreStats(OSFileStore var0) {
-      List var4 = getLocalVolumes(var0.getVolume());
-      if (var4.isEmpty()) {
-         String var5 = var0.getMount().length() < 2 ? null : var0.getMount().substring(0, 2);
-         var4 = getWmiVolumes(var5, false);
+   public static boolean updateFileStoreStats(OSFileStore osFileStore) {
+      List list = getLocalVolumes(osFileStore.getVolume());
+      if (list.isEmpty()) {
+         String string = osFileStore.getMount().length() < 2 ? null : osFileStore.getMount().substring(0, 2);
+         list = getWmiVolumes(string, false);
       }
 
-      for (Object var6$raw : var4) {
-         OSFileStore var6 = (OSFileStore)var6$raw;
-         if (var0.getVolume().equals(var6.getVolume()) && var0.getMount().equals(var6.getMount())) {
-            var0.setLogicalVolume(var6.getLogicalVolume());
-            var0.setDescription(var6.getDescription());
-            var0.setType(var6.getType());
-            var0.setFreeSpace(var6.getFreeSpace());
-            var0.setUsableSpace(var6.getUsableSpace());
-            var0.setTotalSpace(var6.getTotalSpace());
-            var0.setFreeInodes(var6.getFreeInodes());
-            var0.setTotalInodes(var6.getTotalInodes());
+      for (Object object : list) {
+         OSFileStore osFileStore2 = (OSFileStore)object;
+         if (osFileStore.getVolume().equals(osFileStore2.getVolume()) && osFileStore.getMount().equals(osFileStore2.getMount())) {
+            osFileStore.setLogicalVolume(osFileStore2.getLogicalVolume());
+            osFileStore.setDescription(osFileStore2.getDescription());
+            osFileStore.setType(osFileStore2.getType());
+            osFileStore.setFreeSpace(osFileStore2.getFreeSpace());
+            osFileStore.setUsableSpace(osFileStore2.getUsableSpace());
+            osFileStore.setTotalSpace(osFileStore2.getTotalSpace());
+            osFileStore.setFreeInodes(osFileStore2.getFreeInodes());
+            osFileStore.setTotalInodes(osFileStore2.getTotalInodes());
             return true;
          }
       }
@@ -230,24 +230,24 @@ public class WindowsFileSystem extends AbstractFileSystem {
    }
 
    static {
-      long var20 = b ^ 2900452754953L;
-      long var10000 = var20 ^ 9168396066803755451L;
-      var10000 = var20 ^ 6405264537652694144L;
-      var10000 = var20 ^ 3760757584754506692L;
-      var10000 = var20 ^ 8314321614909431806L;
-      var10000 = var20 ^ 5835176252407130963L;
-      var10000 = var20 ^ 1257380778018589253L;
-      var10000 = var20 ^ 2448566906961024649L;
-      var10000 = var20 ^ 9043345678576879836L;
-      var10000 = var20 ^ 5171864055468318174L;
-      var10000 = var20 ^ 1181162977045451280L;
-      var10000 = var20 ^ 6676908124552546362L;
-      var10000 = var20 ^ 4100300639768648441L;
-      var10000 = var20 ^ 5340556208263051333L;
-      var10000 = var20 ^ 6269081358065699513L;
-      var10000 = var20 ^ 875527033389639534L;
-      var10000 = var20 ^ 3776995034674912706L;
-      var10000 = var20 ^ 8921696893919589040L;
+      long l = b ^ 2900452754953L;
+      long m = l ^ 9168396066803755451L;
+      m = l ^ 6405264537652694144L;
+      m = l ^ 3760757584754506692L;
+      m = l ^ 8314321614909431806L;
+      m = l ^ 5835176252407130963L;
+      m = l ^ 1257380778018589253L;
+      m = l ^ 2448566906961024649L;
+      m = l ^ 9043345678576879836L;
+      m = l ^ 5171864055468318174L;
+      m = l ^ 1181162977045451280L;
+      m = l ^ 6676908124552546362L;
+      m = l ^ 4100300639768648441L;
+      m = l ^ 5340556208263051333L;
+      m = l ^ 6269081358065699513L;
+      m = l ^ 875527033389639534L;
+      m = l ^ 3776995034674912706L;
+      m = l ^ 8921696893919589040L;
       OPTIONS_MAP.put(2, "casepn");
       OPTIONS_MAP.put(1, "casess");
       OPTIONS_MAP.put(16, "fcomp");

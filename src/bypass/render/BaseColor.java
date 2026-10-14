@@ -13,8 +13,8 @@ public enum BaseColor {
 
    private Color u;
 
-   BaseColor(Color var3) {
-      this.u = var3;
+   BaseColor(Color color) {
+      this.u = color;
    }
 
    public Color z() {

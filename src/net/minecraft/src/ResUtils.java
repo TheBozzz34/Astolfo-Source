@@ -16,120 +16,120 @@ import net.minecraft.util.ResourceLocation;
 public class ResUtils {
    private static final long a = 80758993885400L;
 
-   public static String[] collectFiles(String var0, String var1) {
-      return collectFiles(new String[]{var0}, new String[]{var1});
+   public static String[] collectFiles(String prefix, String suffix) {
+      return collectFiles(new String[]{prefix}, new String[]{suffix});
    }
 
-   public static String[] collectFiles(String[] var0, String[] var1) {
-      LinkedHashSet var5 = new LinkedHashSet();
-      IResourcePack[] var6 = Config.getResourcePacks();
+   public static String[] collectFiles(String[] prefixes, String[] suffixes) {
+      LinkedHashSet linkedHashSet = new LinkedHashSet();
+      IResourcePack[] iResourcePacks = Config.getResourcePacks();
 
-      for (int var7 = 0; var7 < var6.length; var7++) {
-         IResourcePack var8 = var6[var7];
-         String[] var9 = collectFiles(var8, var0, var1, (String[])null);
-         var5.addAll(Arrays.asList(var9));
+      for (int i = 0; i < iResourcePacks.length; i++) {
+         IResourcePack iResourcePack = iResourcePacks[i];
+         String[] strings = collectFiles(iResourcePack, prefixes, suffixes, (String[])null);
+         linkedHashSet.addAll(Arrays.asList(strings));
       }
 
-      return (java.lang.String[])(var5.toArray(new String[var5.size()]));
+      return (java.lang.String[])(linkedHashSet.toArray(new String[linkedHashSet.size()]));
    }
 
-   public static String[] collectFiles(IResourcePack var0, String var1, String var2, String[] var3) {
-      return collectFiles(var0, new String[]{var1}, new String[]{var2}, var3);
+   public static String[] collectFiles(IResourcePack rp, String prefix, String suffix, String[] defaultPaths) {
+      return collectFiles(rp, new String[]{prefix}, new String[]{suffix}, defaultPaths);
    }
 
-   public static String[] collectFiles(IResourcePack var0, String[] var1, String[] var2) {
-      return collectFiles(var0, var1, var2, (String[])null);
+   public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes) {
+      return collectFiles(rp, prefixes, suffixes, (String[])null);
    }
 
-   public static String[] collectFiles(IResourcePack var0, String[] var1, String[] var2, String[] var3) {
-      if (var0 instanceof DefaultResourcePack) {
-         return collectFilesFixed(var0, var3);
+   public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes, String[] defaultPaths) {
+      if (rp instanceof DefaultResourcePack) {
+         return collectFilesFixed(rp, defaultPaths);
       }
 
-      if (!(var0 instanceof AbstractResourcePack)) {
+      if (!(rp instanceof AbstractResourcePack)) {
          return new String[0];
       }
 
-      AbstractResourcePack var7 = (AbstractResourcePack)var0;
-      File var8 = var7.resourcePackFile;
-      return var8 == null
+      AbstractResourcePack abstractResourcePack = (AbstractResourcePack)rp;
+      File file = abstractResourcePack.resourcePackFile;
+      return file == null
          ? new String[0]
-         : (var8.isDirectory() ? collectFilesFolder(var8, "", var1, var2) : (var8.isFile() ? collectFilesZIP(var8, var1, var2) : new String[0]));
+         : (file.isDirectory() ? collectFilesFolder(file, "", prefixes, suffixes) : (file.isFile() ? collectFilesZIP(file, prefixes, suffixes) : new String[0]));
    }
 
-   private static String[] collectFilesFixed(IResourcePack var0, String[] var1) {
-      if (var1 == null) {
+   private static String[] collectFilesFixed(IResourcePack rp, String[] paths) {
+      if (paths == null) {
          return new String[0];
       }
 
-      ArrayList var5 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (int var6 = 0; var6 < var1.length; var6++) {
-         String var7 = var1[var6];
-         ResourceLocation var8 = new ResourceLocation(var7);
-         if (var0.resourceExists(var8)) {
-            var5.add(var7);
+      for (int i = 0; i < paths.length; i++) {
+         String string = paths[i];
+         ResourceLocation resourceLocation = new ResourceLocation(string);
+         if (rp.resourceExists(resourceLocation)) {
+            arrayList.add(string);
          }
       }
 
-      return (java.lang.String[])(var5.toArray(new String[var5.size()]));
+      return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
    }
 
-   private static String[] collectFilesFolder(File var0, String var1, String[] var2, String[] var3) {
-      ArrayList var7 = new ArrayList();
-      String var8 = "assets/minecraft/";
-      File[] var9 = var0.listFiles();
-      if (var9 == null) {
+   private static String[] collectFilesFolder(File tpFile, String basePath, String[] prefixes, String[] suffixes) {
+      ArrayList arrayList = new ArrayList();
+      String string = "assets/minecraft/";
+      File[] files = tpFile.listFiles();
+      if (files == null) {
          return new String[0];
       }
 
-      for (int var10 = 0; var10 < var9.length; var10++) {
-         File var11 = var9[var10];
-         if (var11.isFile()) {
-            String var16 = var1 + var11.getName();
-            if (var16.startsWith(var8)) {
-               var16 = var16.substring(var8.length());
-               if (StrUtils.startsWith(var16, var2) && StrUtils.endsWith(var16, var3)) {
-                  var7.add(var16);
+      for (int i = 0; i < files.length; i++) {
+         File file = files[i];
+         if (file.isFile()) {
+            String string2 = basePath + file.getName();
+            if (string2.startsWith(string)) {
+               string2 = string2.substring(string.length());
+               if (StrUtils.startsWith(string2, prefixes) && StrUtils.endsWith(string2, suffixes)) {
+                  arrayList.add(string2);
                }
             }
-         } else if (var11.isDirectory()) {
-            String var12 = var1 + var11.getName() + "/";
-            String[] var13 = collectFilesFolder(var11, var12, var2, var3);
+         } else if (file.isDirectory()) {
+            String string3 = basePath + file.getName() + "/";
+            String[] strings = collectFilesFolder(file, string3, prefixes, suffixes);
 
-            for (int var14 = 0; var14 < var13.length; var14++) {
-               String var15 = var13[var14];
-               var7.add(var15);
+            for (int j = 0; j < strings.length; j++) {
+               String string4 = strings[j];
+               arrayList.add(string4);
             }
          }
       }
 
-      return (java.lang.String[])(var7.toArray(new String[var7.size()]));
+      return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
    }
 
-   private static String[] collectFilesZIP(File var0, String[] var1, String[] var2) {
-      ArrayList var6 = new ArrayList();
-      String var7 = "assets/minecraft/";
+   private static String[] collectFilesZIP(File tpFile, String[] prefixes, String[] suffixes) {
+      ArrayList arrayList = new ArrayList();
+      String string = "assets/minecraft/";
 
       try {
-         ZipFile var8 = new ZipFile(var0);
-         Enumeration var9 = var8.entries();
+         ZipFile zipFile = new ZipFile(tpFile);
+         Enumeration enumeration = zipFile.entries();
 
-         while (var9.hasMoreElements()) {
-            ZipEntry var10 = (ZipEntry)var9.nextElement();
-            String var11 = var10.getName();
-            if (var11.startsWith(var7)) {
-               var11 = var11.substring(var7.length());
-               if (StrUtils.startsWith(var11, var1) && StrUtils.endsWith(var11, var2)) {
-                  var6.add(var11);
+         while (enumeration.hasMoreElements()) {
+            ZipEntry zipEntry = (ZipEntry)enumeration.nextElement();
+            String string2 = zipEntry.getName();
+            if (string2.startsWith(string)) {
+               string2 = string2.substring(string.length());
+               if (StrUtils.startsWith(string2, prefixes) && StrUtils.endsWith(string2, suffixes)) {
+                  arrayList.add(string2);
                }
             }
          }
 
-         var8.close();
-         return (java.lang.String[])(var6.toArray(new String[var6.size()]));
-      } catch (IOException var12) {
-         var12.printStackTrace();
+         zipFile.close();
+         return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
          return new String[0];
       }
    }

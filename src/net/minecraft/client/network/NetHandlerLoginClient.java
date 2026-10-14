@@ -38,54 +38,55 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
    private static final long a = 112898916112982L;
    private static final long b = -2756629822980489200L;
 
-   public NetHandlerLoginClient(NetworkManager var1, Minecraft var2, GuiScreen var3) {
-      this.networkManager = var1;
-      this.mc = var2;
-      this.previousGuiScreen = var3;
+   public NetHandlerLoginClient(NetworkManager networkManagerIn, Minecraft mcIn, GuiScreen guiScreen) {
+      this.networkManager = networkManagerIn;
+      this.mc = mcIn;
+      this.previousGuiScreen = guiScreen;
    }
 
    @Override
-   public void handleEncryptionRequest(S01PacketEncryptionRequest var1) {
-      final SecretKey var4 = CryptManager.createNewSharedKey();
-      String var5 = var1.getServerId();
-      PublicKey var6 = var1.getPublicKey();
-      String var7 = new BigInteger(CryptManager.getServerIdHash(var5, var6, var4)).toString((int)b);
+   public void handleEncryptionRequest(S01PacketEncryptionRequest packetIn) {
+      final SecretKey secretKey = CryptManager.createNewSharedKey();
+      String string = packetIn.getServerId();
+      PublicKey publicKey = packetIn.getPublicKey();
+      String string2 = new BigInteger(CryptManager.getServerIdHash(string, publicKey, secretKey)).toString((int)b);
       if (this.mc.getCurrentServerData() != null && this.mc.getCurrentServerData().isOnLAN()) {
          try {
-            this.getSessionService().joinServer(this.mc.getSession().getProfile(), this.mc.getSession().getToken(), var7);
-         } catch (AuthenticationException var13) {
+            this.getSessionService().joinServer(this.mc.getSession().getProfile(), this.mc.getSession().getToken(), string2);
+         } catch (AuthenticationException authenticationException) {
             logger.warn("Couldn't connect to auth servers but will continue to join LAN");
          }
       } else {
          try {
-            this.getSessionService().joinServer(this.mc.getSession().getProfile(), this.mc.getSession().getToken(), var7);
-         } catch (AuthenticationUnavailableException var9) {
+            this.getSessionService().joinServer(this.mc.getSession().getProfile(), this.mc.getSession().getToken(), string2);
+         } catch (AuthenticationUnavailableException authenticationUnavailableException) {
             this.networkManager
                .closeChannel(
                   new ChatComponentTranslation("disconnect.loginFailedInfo", new ChatComponentTranslation("disconnect.loginFailedInfo.serversUnavailable"))
                );
             return;
-         } catch (InvalidCredentialsException var10) {
+         } catch (InvalidCredentialsException invalidCredentialsException) {
             this.networkManager
                .closeChannel(
                   new ChatComponentTranslation("disconnect.loginFailedInfo", new ChatComponentTranslation("disconnect.loginFailedInfo.invalidSession"))
                );
             return;
-         } catch (AuthenticationException var11) {
-            this.networkManager.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", var11.getMessage()));
+         } catch (AuthenticationException authenticationException2) {
+            this.networkManager.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", authenticationException2.getMessage()));
             return;
-         } catch (NullPointerException var12) {
+         } catch (NullPointerException nullPointerException) {
             this.networkManager.closeChannel(new ChatComponentText(EnumChatFormatting.RED + "Log to a Minecraft account"));
             return;
          }
       }
 
-      this.networkManager.sendPacket(new C01PacketEncryptionResponse(var4, var6, var1.getVerifyToken()), new GenericFutureListener<Future<? super Void>>() {
-         @Override
-         public void operationComplete(Future<? super Void> var1) throws Exception {
-            NetHandlerLoginClient.this.networkManager.enableEncryption(var4);
-         }
-      });
+      this.networkManager
+         .sendPacket(new C01PacketEncryptionResponse(secretKey, publicKey, packetIn.getVerifyToken()), new GenericFutureListener<Future<? super Void>>() {
+            @Override
+            public void operationComplete(Future<? super Void> future) throws Exception {
+               NetHandlerLoginClient.this.networkManager.enableEncryption(secretKey);
+            }
+         });
    }
 
    private MinecraftSessionService getSessionService() {
@@ -93,26 +94,26 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
    }
 
    @Override
-   public void handleLoginSuccess(S02PacketLoginSuccess var1) {
-      this.gameProfile = var1.getProfile();
+   public void handleLoginSuccess(S02PacketLoginSuccess packetIn) {
+      this.gameProfile = packetIn.getProfile();
       this.networkManager.setConnectionState(EnumConnectionState.PLAY);
       this.networkManager.setNetHandler(new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
    }
 
    @Override
-   public void onDisconnect(IChatComponent var1) {
-      this.mc.displayGuiScreen(new GuiDisconnected(this.previousGuiScreen, "connect.failed", var1));
+   public void onDisconnect(IChatComponent reason) {
+      this.mc.displayGuiScreen(new GuiDisconnected(this.previousGuiScreen, "connect.failed", reason));
    }
 
    @Override
-   public void handleDisconnect(S00PacketDisconnect var1) {
-      this.networkManager.closeChannel(var1.func_149603_c());
+   public void handleDisconnect(S00PacketDisconnect packetIn) {
+      this.networkManager.closeChannel(packetIn.func_149603_c());
    }
 
    @Override
-   public void handleEnableCompression(S03PacketEnableCompression var1) {
+   public void handleEnableCompression(S03PacketEnableCompression packetIn) {
       if (!this.networkManager.isLocalChannel()) {
-         this.networkManager.setCompressionTreshold(var1.getCompressionTreshold());
+         this.networkManager.setCompressionTreshold(packetIn.getCompressionTreshold());
       }
    }
 }

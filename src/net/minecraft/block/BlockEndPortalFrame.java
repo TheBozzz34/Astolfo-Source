@@ -38,25 +38,25 @@ public class BlockEndPortalFrame extends Block {
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
       this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
-      super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
-      if (var1.getBlockState(var2).getValue(EYE)) {
+      super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+      if (worldIn.getBlockState(pos).getValue(EYE)) {
          this.setBlockBounds(0.3125F, 0.8125F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
-         super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       }
 
       this.setBlockBoundsForItemRender();
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return null;
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      return this.getDefaultState().withProperty(FACING, var8.getHorizontalFacing().getOpposite()).withProperty(EYE, false);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(EYE, false);
    }
 
    @Override
@@ -65,24 +65,24 @@ public class BlockEndPortalFrame extends Block {
    }
 
    @Override
-   public int getComparatorInputOverride(World var1, BlockPos var2) {
-      return var1.getBlockState(var2).getValue(EYE) ? (int)i : 0;
+   public int getComparatorInputOverride(World worldIn, BlockPos pos) {
+      return worldIn.getBlockState(pos).getValue(EYE) ? (int)i : 0;
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(EYE, (var1 & 4) != 0).withProperty(FACING, EnumFacing.getHorizontal(var1 & 3));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(EYE, (meta & 4) != 0).withProperty(FACING, EnumFacing.getHorizontal(meta & 3));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(FACING).getHorizontalIndex();
-      if (var1.getValue(EYE)) {
-         var5 |= 4;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(FACING).getHorizontalIndex();
+      if (state.getValue(EYE)) {
+         i |= 4;
       }
 
-      return var5;
+      return i;
    }
 
    @Override

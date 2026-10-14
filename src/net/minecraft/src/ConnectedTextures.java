@@ -111,120 +111,122 @@ public class ConnectedTextures {
    private static TextureAtlasSprite emptySprite = null;
    private static final long a = 65484782951679L;
 
-   public static synchronized BakedQuad getConnectedTexture(IBlockAccess var0, IBlockState var1, BlockPos var2, BakedQuad var3, RenderEnv var4) {
-      TextureAtlasSprite var8 = var3.getSprite();
-      if (var8 == null) {
-         return var3;
+   public static synchronized BakedQuad getConnectedTexture(
+      IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos, BakedQuad quad, RenderEnv renderEnv
+   ) {
+      TextureAtlasSprite textureAtlasSprite = quad.getSprite();
+      if (textureAtlasSprite == null) {
+         return quad;
       }
 
-      Block var9 = var1.getBlock();
-      EnumFacing var10 = var3.getFace();
-      if (var9 instanceof BlockPane && var8.getIconName().startsWith("minecraft:blocks/glass_pane_top")) {
-         IBlockState var11 = var0.getBlockState(var2.offset(var3.getFace()));
-         if (var11 == var1) {
-            return getQuad(emptySprite, var9, var1, var3);
+      Block block = blockState.getBlock();
+      EnumFacing enumFacing = quad.getFace();
+      if (block instanceof BlockPane && textureAtlasSprite.getIconName().startsWith("minecraft:blocks/glass_pane_top")) {
+         IBlockState iBlockState = blockAccess.getBlockState(blockPos.offset(quad.getFace()));
+         if (iBlockState == blockState) {
+            return getQuad(emptySprite, block, blockState, quad);
          }
       }
 
-      TextureAtlasSprite var12 = getConnectedTextureMultiPass(var0, var1, var2, var10, var8, var4);
-      return var12 == var8 ? var3 : getQuad(var12, var9, var1, var3);
+      TextureAtlasSprite textureAtlasSprite2 = getConnectedTextureMultiPass(blockAccess, blockState, blockPos, enumFacing, textureAtlasSprite, renderEnv);
+      return textureAtlasSprite2 == textureAtlasSprite ? quad : getQuad(textureAtlasSprite2, block, blockState, quad);
    }
 
-   private static BakedQuad getQuad(TextureAtlasSprite var0, Block var1, IBlockState var2, BakedQuad var3) {
+   private static BakedQuad getQuad(TextureAtlasSprite sprite, Block block, IBlockState blockState, BakedQuad quadIn) {
       if (spriteQuadMaps == null) {
-         return var3;
+         return quadIn;
       }
 
-      int var7 = var0.getIndexInMap();
-      if (var7 >= 0 && var7 < spriteQuadMaps.length) {
-         Map var8 = spriteQuadMaps[var7];
-         if (var8 == null) {
-            var8 = new IdentityHashMap(1);
-            spriteQuadMaps[var7] = var8;
+      int i = sprite.getIndexInMap();
+      if (i >= 0 && i < spriteQuadMaps.length) {
+         Map map = spriteQuadMaps[i];
+         if (map == null) {
+            map = new IdentityHashMap(1);
+            spriteQuadMaps[i] = map;
          }
 
-         BakedQuad var9 = (BakedQuad)var8.get(var3);
-         if (var9 == null) {
-            var9 = makeSpriteQuad(var3, var0);
-            var8.put(var3, var9);
+         BakedQuad bakedQuad = (BakedQuad)map.get(quadIn);
+         if (bakedQuad == null) {
+            bakedQuad = makeSpriteQuad(quadIn, sprite);
+            map.put(quadIn, bakedQuad);
          }
 
-         return var9;
+         return bakedQuad;
       } else {
-         return var3;
+         return quadIn;
       }
    }
 
-   private static BakedQuad makeSpriteQuad(BakedQuad var0, TextureAtlasSprite var1) {
-      int[] var5 = (int[])var0.getVertexData().clone();
-      TextureAtlasSprite var6 = var0.getSprite();
+   private static BakedQuad makeSpriteQuad(BakedQuad quad, TextureAtlasSprite sprite) {
+      int[] ints = (int[])quad.getVertexData().clone();
+      TextureAtlasSprite textureAtlasSprite = quad.getSprite();
 
-      for (int var7 = 0; var7 < 4; var7++) {
-         fixVertex(var5, var7, var6, var1);
+      for (int i = 0; i < 4; i++) {
+         fixVertex(ints, i, textureAtlasSprite, sprite);
       }
 
-      return new BakedQuad(var5, var0.getTintIndex(), var0.getFace(), var1);
+      return new BakedQuad(ints, quad.getTintIndex(), quad.getFace(), sprite);
    }
 
-   private static void fixVertex(int[] var0, int var1, TextureAtlasSprite var2, TextureAtlasSprite var3) {
-      int var4 = var0.length / 4;
-      int var5 = var4 * var1;
-      float var6 = Float.intBitsToFloat(var0[var5 + 4]);
-      float var7 = Float.intBitsToFloat(var0[var5 + 4 + 1]);
-      double var8 = var2.getSpriteU16(var6);
-      double var10 = var2.getSpriteV16(var7);
-      var0[var5 + 4] = Float.floatToRawIntBits(var3.getInterpolatedU(var8));
-      var0[var5 + 4 + 1] = Float.floatToRawIntBits(var3.getInterpolatedV(var10));
+   private static void fixVertex(int[] data, int vertex, TextureAtlasSprite spriteFrom, TextureAtlasSprite spriteTo) {
+      int mul = data.length / 4;
+      int pos = mul * vertex;
+      float u = Float.intBitsToFloat(data[pos + 4]);
+      float v = Float.intBitsToFloat(data[pos + 4 + 1]);
+      double su16 = spriteFrom.getSpriteU16(u);
+      double sv16 = spriteFrom.getSpriteV16(v);
+      data[pos + 4] = Float.floatToRawIntBits(spriteTo.getInterpolatedU(su16));
+      data[pos + 4 + 1] = Float.floatToRawIntBits(spriteTo.getInterpolatedV(sv16));
    }
 
    private static TextureAtlasSprite getConnectedTextureMultiPass(
-      IBlockAccess var0, IBlockState var1, BlockPos var2, EnumFacing var3, TextureAtlasSprite var4, RenderEnv var5
+      IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos, EnumFacing side, TextureAtlasSprite icon, RenderEnv renderEnv
    ) {
-      TextureAtlasSprite var9 = getConnectedTextureSingle(var0, var1, var2, var3, var4, true, var5);
+      TextureAtlasSprite textureAtlasSprite = getConnectedTextureSingle(blockAccess, blockState, blockPos, side, icon, true, renderEnv);
       if (!multipass) {
-         return var9;
+         return textureAtlasSprite;
       }
 
-      if (var9 == var4) {
-         return var9;
+      if (textureAtlasSprite == icon) {
+         return textureAtlasSprite;
       }
 
-      TextureAtlasSprite var10 = var9;
+      TextureAtlasSprite textureAtlasSprite2 = textureAtlasSprite;
 
-      for (int var11 = 0; var11 < 3; var11++) {
-         TextureAtlasSprite var12 = getConnectedTextureSingle(var0, var1, var2, var3, var10, false, var5);
-         if (var12 == var10) {
+      for (int i = 0; i < 3; i++) {
+         TextureAtlasSprite textureAtlasSprite3 = getConnectedTextureSingle(blockAccess, blockState, blockPos, side, textureAtlasSprite2, false, renderEnv);
+         if (textureAtlasSprite3 == textureAtlasSprite2) {
             break;
          }
 
-         var10 = var12;
+         textureAtlasSprite2 = textureAtlasSprite3;
       }
 
-      return var10;
+      return textureAtlasSprite2;
    }
 
    public static TextureAtlasSprite getConnectedTextureSingle(
-      IBlockAccess var0, IBlockState var1, BlockPos var2, EnumFacing var3, TextureAtlasSprite var4, boolean var5, RenderEnv var6
+      IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos, EnumFacing facing, TextureAtlasSprite icon, boolean checkBlocks, RenderEnv renderEnv
    ) {
-      Block var10 = var1.getBlock();
-      if (!(var1 instanceof BlockStateBase)) {
-         return var4;
+      Block block = blockState.getBlock();
+      if (!(blockState instanceof BlockStateBase)) {
+         return icon;
       }
 
-      BlockStateBase var11 = (BlockStateBase)var1;
+      BlockStateBase blockStateBase = (BlockStateBase)blockState;
       if (tileProperties != null) {
-         int var12 = var4.getIndexInMap();
-         if (var12 >= 0 && var12 < tileProperties.length) {
-            ConnectedProperties[] var13 = tileProperties[var12];
-            if (var13 != null) {
-               int var14 = getSide(var3);
+         int i = icon.getIndexInMap();
+         if (i >= 0 && i < tileProperties.length) {
+            ConnectedProperties[] connectedPropertiess = tileProperties[i];
+            if (connectedPropertiess != null) {
+               int j = getSide(facing);
 
-               for (int var15 = 0; var15 < var13.length; var15++) {
-                  ConnectedProperties var16 = var13[var15];
-                  if (var16 != null && var16.matchesBlockId(var11.getBlockId())) {
-                     TextureAtlasSprite var17 = getConnectedTexture(var16, var0, var11, var2, var14, var4, var6);
-                     if (var17 != null) {
-                        return var17;
+               for (int k = 0; k < connectedPropertiess.length; k++) {
+                  ConnectedProperties connectedProperties = connectedPropertiess[k];
+                  if (connectedProperties != null && connectedProperties.matchesBlockId(blockStateBase.getBlockId())) {
+                     TextureAtlasSprite textureAtlasSprite = getConnectedTexture(connectedProperties, blockAccess, blockStateBase, blockPos, j, icon, renderEnv);
+                     if (textureAtlasSprite != null) {
+                        return textureAtlasSprite;
                      }
                   }
                }
@@ -232,19 +234,19 @@ public class ConnectedTextures {
          }
       }
 
-      if (blockProperties != null && var5) {
-         int var18 = var6.getBlockId();
-         if (var18 >= 0 && var18 < blockProperties.length) {
-            ConnectedProperties[] var19 = blockProperties[var18];
-            if (var19 != null) {
-               int var20 = getSide(var3);
+      if (blockProperties != null && checkBlocks) {
+         int l = renderEnv.getBlockId();
+         if (l >= 0 && l < blockProperties.length) {
+            ConnectedProperties[] connectedPropertiess2 = blockProperties[l];
+            if (connectedPropertiess2 != null) {
+               int m = getSide(facing);
 
-               for (int var21 = 0; var21 < var19.length; var21++) {
-                  ConnectedProperties var22 = var19[var21];
-                  if (var22 != null && var22.matchesIcon(var4)) {
-                     TextureAtlasSprite var23 = getConnectedTexture(var22, var0, var11, var2, var20, var4, var6);
-                     if (var23 != null) {
-                        return var23;
+               for (int n = 0; n < connectedPropertiess2.length; n++) {
+                  ConnectedProperties connectedProperties2 = connectedPropertiess2[n];
+                  if (connectedProperties2 != null && connectedProperties2.matchesIcon(icon)) {
+                     TextureAtlasSprite textureAtlasSprite2 = getConnectedTexture(connectedProperties2, blockAccess, blockStateBase, blockPos, m, icon, renderEnv);
+                     if (textureAtlasSprite2 != null) {
+                        return textureAtlasSprite2;
                      }
                   }
                }
@@ -252,15 +254,15 @@ public class ConnectedTextures {
          }
       }
 
-      return var4;
+      return icon;
    }
 
-   public static int getSide(EnumFacing var0) {
-      if (var0 == null) {
+   public static int getSide(EnumFacing facing) {
+      if (facing == null) {
          return -1;
       }
 
-      switch (var0) {
+      switch (facing) {
          case DOWN:
             return 0;
          case UP:
@@ -278,8 +280,8 @@ public class ConnectedTextures {
       }
    }
 
-   private static EnumFacing getFacing(int var0) {
-      switch (var0) {
+   private static EnumFacing getFacing(int side) {
+      switch (side) {
          case 0:
             return EnumFacing.DOWN;
          case 1:
@@ -298,69 +300,69 @@ public class ConnectedTextures {
    }
 
    private static TextureAtlasSprite getConnectedTexture(
-      ConnectedProperties var0, IBlockAccess var1, BlockStateBase var2, BlockPos var3, int var4, TextureAtlasSprite var5, RenderEnv var6
+      ConnectedProperties cp, IBlockAccess blockAccess, BlockStateBase blockState, BlockPos blockPos, int side, TextureAtlasSprite icon, RenderEnv renderEnv
    ) {
-      int var10 = 0;
-      int var11 = var2.getMetadata();
-      int var12 = var11;
-      Block var13 = var2.getBlock();
-      if (var13 instanceof BlockRotatedPillar) {
-         var10 = getWoodAxis(var4, var11);
-         if (var0.getMetadataMax() <= 3) {
-            var12 = var11 & 3;
+      int i = 0;
+      int j = blockState.getMetadata();
+      int k = j;
+      Block block = blockState.getBlock();
+      if (block instanceof BlockRotatedPillar) {
+         i = getWoodAxis(side, j);
+         if (cp.getMetadataMax() <= 3) {
+            k = j & 3;
          }
       }
 
-      if (var13 instanceof BlockQuartz) {
-         var10 = r(var4, var11);
-         if (var0.getMetadataMax() <= 2 && var12 > 2) {
-            var12 = 2;
+      if (block instanceof BlockQuartz) {
+         i = r(side, j);
+         if (cp.getMetadataMax() <= 2 && k > 2) {
+            k = 2;
          }
       }
 
-      if (!var0.matchesBlock(var2.getBlockId(), var12)) {
+      if (!cp.matchesBlock(blockState.getBlockId(), k)) {
          return null;
       }
 
-      if (var4 >= 0 && var0.faces != 63) {
-         int var14 = var4;
-         if (var10 != 0) {
-            var14 = P(var4, var10);
+      if (side >= 0 && cp.faces != 63) {
+         int m = side;
+         if (i != 0) {
+            m = P(side, i);
          }
 
-         if ((1 << var14 & var0.faces) == 0) {
+         if ((1 << m & cp.faces) == 0) {
             return null;
          }
       }
 
-      int var16 = var3.getY();
-      if (var16 >= var0.N && var16 <= var0.l) {
-         if (var0.biomes != null) {
-            BiomeGenBase var15 = var1.getBiomeGenForCoords(var3);
-            if (!var0.matchesBiome(var15)) {
+      int n = blockPos.getY();
+      if (n >= cp.N && n <= cp.l) {
+         if (cp.biomes != null) {
+            BiomeGenBase biomeGenBase = blockAccess.getBiomeGenForCoords(blockPos);
+            if (!cp.matchesBiome(biomeGenBase)) {
                return null;
             }
          }
 
-         switch (var0.method) {
+         switch (cp.method) {
             case 1:
-               return getConnectedTextureCtm(var0, var1, var2, var3, var10, var4, var5, var11, var6);
+               return getConnectedTextureCtm(cp, blockAccess, blockState, blockPos, i, side, icon, j, renderEnv);
             case 2:
-               return N(var0, var1, var2, var3, var10, var4, var5, var11);
+               return N(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             case 3:
-               return p(var0, var1, var2, var3, var10, var4, var5, var11);
+               return p(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             case 4:
-               return H(var0, var3, var4);
+               return H(cp, blockPos, side);
             case 5:
-               return l(var0, var3, var4);
+               return l(cp, blockPos, side);
             case 6:
-               return K(var0, var1, var2, var3, var10, var4, var5, var11);
+               return K(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             case 7:
-               return getConnectedTextureFixed(var0);
+               return getConnectedTextureFixed(cp);
             case 8:
-               return b(var0, var1, var2, var3, var10, var4, var5, var11);
+               return b(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             case 9:
-               return O(var0, var1, var2, var3, var10, var4, var5, var11);
+               return O(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             default:
                return null;
          }
@@ -369,12 +371,12 @@ public class ConnectedTextures {
       }
    }
 
-   private static int P(int var0, int var1) {
-      switch (var1) {
+   private static int P(int i, int j) {
+      switch (j) {
          case 0:
-            return var0;
+            return i;
          case 1:
-            switch (var0) {
+            switch (i) {
                case 0:
                   return 2;
                case 1:
@@ -384,10 +386,10 @@ public class ConnectedTextures {
                case 3:
                   return 0;
                default:
-                  return var0;
+                  return i;
             }
          case 2:
-            switch (var0) {
+            switch (i) {
                case 0:
                   return 4;
                case 1:
@@ -395,20 +397,20 @@ public class ConnectedTextures {
                case 2:
                case 3:
                default:
-                  return var0;
+                  return i;
                case 4:
                   return 1;
                case 5:
                   return 0;
             }
          default:
-            return var0;
+            return i;
       }
    }
 
-   private static int getWoodAxis(int var0, int var1) {
-      int var5 = (var1 & 12) >> 2;
-      switch (var5) {
+   private static int getWoodAxis(int side, int metadata) {
+      int i = (metadata & 12) >> 2;
+      switch (i) {
          case 1:
             return 2;
          case 2:
@@ -418,8 +420,8 @@ public class ConnectedTextures {
       }
    }
 
-   private static int r(int var0, int var1) {
-      switch (var1) {
+   private static int r(int i, int j) {
+      switch (j) {
          case 3:
             return 2;
          case 4:
@@ -429,317 +431,327 @@ public class ConnectedTextures {
       }
    }
 
-   private static TextureAtlasSprite H(ConnectedProperties var0, BlockPos var1, int var2) {
-      if (var0.tileIcons.length == 1) {
-         return var0.tileIcons[0];
+   private static TextureAtlasSprite H(ConnectedProperties connectedProperties, BlockPos blockPos, int i) {
+      if (connectedProperties.tileIcons.length == 1) {
+         return connectedProperties.tileIcons[0];
       }
 
-      int var6 = var2 / var0.symmetry * var0.symmetry;
-      int var7 = Config.getRandom(var1, var6) & 2147483647;
-      int var8 = 0;
-      if (var0.weights == null) {
-         var8 = var7 % var0.tileIcons.length;
+      int j = i / connectedProperties.symmetry * connectedProperties.symmetry;
+      int k = Config.getRandom(blockPos, j) & 2147483647;
+      int l = 0;
+      if (connectedProperties.weights == null) {
+         l = k % connectedProperties.tileIcons.length;
       } else {
-         int var9 = var7 % var0.sumAllWeights;
-         int[] var10 = var0.sumWeights;
+         int m = k % connectedProperties.sumAllWeights;
+         int[] ints = connectedProperties.sumWeights;
 
-         for (int var11 = 0; var11 < var10.length; var11++) {
-            if (var9 < var10[var11]) {
-               var8 = var11;
+         for (int n = 0; n < ints.length; n++) {
+            if (m < ints[n]) {
+               l = n;
                break;
             }
          }
       }
 
-      return var0.tileIcons[var8];
+      return connectedProperties.tileIcons[l];
    }
 
-   private static TextureAtlasSprite getConnectedTextureFixed(ConnectedProperties var0) {
-      return var0.tileIcons[0];
+   private static TextureAtlasSprite getConnectedTextureFixed(ConnectedProperties cp) {
+      return cp.tileIcons[0];
    }
 
-   private static TextureAtlasSprite l(ConnectedProperties var0, BlockPos var1, int var2) {
-      if (var0.tileIcons.length == 1) {
-         return var0.tileIcons[0];
+   private static TextureAtlasSprite l(ConnectedProperties connectedProperties, BlockPos blockPos, int i) {
+      if (connectedProperties.tileIcons.length == 1) {
+         return connectedProperties.tileIcons[0];
       }
 
-      int var6 = var1.getX();
-      int var7 = var1.getY();
-      int var8 = var1.getZ();
-      int var9 = 0;
-      int var10 = 0;
-      switch (var2) {
+      int j = blockPos.getX();
+      int k = blockPos.getY();
+      int m = blockPos.getZ();
+      int n = 0;
+      int i2 = 0;
+      switch (i) {
          case 0:
-            var9 = var6;
-            var10 = var8;
+            n = j;
+            i2 = m;
             break;
          case 1:
-            var9 = var6;
-            var10 = var8;
+            n = j;
+            i2 = m;
             break;
          case 2:
-            var9 = -var6 - 1;
-            var10 = -var7;
+            n = -j - 1;
+            i2 = -k;
             break;
          case 3:
-            var9 = var6;
-            var10 = -var7;
+            n = j;
+            i2 = -k;
             break;
          case 4:
-            var9 = var8;
-            var10 = -var7;
+            n = m;
+            i2 = -k;
             break;
          case 5:
-            var9 = -var8 - 1;
-            var10 = -var7;
+            n = -m - 1;
+            i2 = -k;
       }
 
-      var9 %= var0.width;
-      var10 %= var0.height;
-      if (var9 < 0) {
-         var9 += var0.width;
+      n %= connectedProperties.width;
+      i2 %= connectedProperties.height;
+      if (n < 0) {
+         n += connectedProperties.width;
       }
 
-      if (var10 < 0) {
-         var10 += var0.height;
+      if (i2 < 0) {
+         i2 += connectedProperties.height;
       }
 
-      int var11 = var10 * var0.width + var9;
-      return var0.tileIcons[var11];
+      int i3 = i2 * connectedProperties.width + n;
+      return connectedProperties.tileIcons[i3];
    }
 
    private static TextureAtlasSprite getConnectedTextureCtm(
-      ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, int var5, TextureAtlasSprite var6, int var7, RenderEnv var8
+      ConnectedProperties cp,
+      IBlockAccess blockAccess,
+      IBlockState blockState,
+      BlockPos blockPos,
+      int vertAxis,
+      int side,
+      TextureAtlasSprite icon,
+      int metadata,
+      RenderEnv renderEnv
    ) {
-      boolean[] var12 = var8.getBorderFlags();
-      switch (var5) {
+      boolean[] booleans = renderEnv.getBorderFlags();
+      switch (side) {
          case 0:
-            var12[0] = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-            var12[1] = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
-            var12[2] = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
-            var12[3] = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
+            booleans[0] = isNeighbour(cp, blockAccess, blockState, blockPos.west(), side, icon, metadata);
+            booleans[1] = isNeighbour(cp, blockAccess, blockState, blockPos.east(), side, icon, metadata);
+            booleans[2] = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
+            booleans[3] = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
             break;
          case 1:
-            var12[0] = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-            var12[1] = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
-            var12[2] = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
-            var12[3] = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
+            booleans[0] = isNeighbour(cp, blockAccess, blockState, blockPos.west(), side, icon, metadata);
+            booleans[1] = isNeighbour(cp, blockAccess, blockState, blockPos.east(), side, icon, metadata);
+            booleans[2] = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
+            booleans[3] = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
             break;
          case 2:
-            var12[0] = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
-            var12[1] = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-            var12[2] = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-            var12[3] = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+            booleans[0] = isNeighbour(cp, blockAccess, blockState, blockPos.east(), side, icon, metadata);
+            booleans[1] = isNeighbour(cp, blockAccess, blockState, blockPos.west(), side, icon, metadata);
+            booleans[2] = isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
+            booleans[3] = isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
             break;
          case 3:
-            var12[0] = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-            var12[1] = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
-            var12[2] = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-            var12[3] = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+            booleans[0] = isNeighbour(cp, blockAccess, blockState, blockPos.west(), side, icon, metadata);
+            booleans[1] = isNeighbour(cp, blockAccess, blockState, blockPos.east(), side, icon, metadata);
+            booleans[2] = isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
+            booleans[3] = isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
             break;
          case 4:
-            var12[0] = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
-            var12[1] = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
-            var12[2] = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-            var12[3] = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+            booleans[0] = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
+            booleans[1] = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
+            booleans[2] = isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
+            booleans[3] = isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
             break;
          case 5:
-            var12[0] = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
-            var12[1] = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
-            var12[2] = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-            var12[3] = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+            booleans[0] = isNeighbour(cp, blockAccess, blockState, blockPos.south(), side, icon, metadata);
+            booleans[1] = isNeighbour(cp, blockAccess, blockState, blockPos.north(), side, icon, metadata);
+            booleans[2] = isNeighbour(cp, blockAccess, blockState, blockPos.down(), side, icon, metadata);
+            booleans[3] = isNeighbour(cp, blockAccess, blockState, blockPos.up(), side, icon, metadata);
       }
 
-      byte var13 = 0;
-      if (var12[0] & !var12[1] & !var12[2] & !var12[3]) {
-         var13 = 3;
-      } else if (!var12[0] & var12[1] & !var12[2] & !var12[3]) {
-         var13 = 1;
-      } else if (!var12[0] & !var12[1] & var12[2] & !var12[3]) {
-         var13 = 12;
-      } else if (!var12[0] & !var12[1] & !var12[2] & var12[3]) {
-         var13 = 36;
-      } else if (var12[0] & var12[1] & !var12[2] & !var12[3]) {
-         var13 = 2;
-      } else if (!var12[0] & !var12[1] & var12[2] & var12[3]) {
-         var13 = 24;
-      } else if (var12[0] & !var12[1] & var12[2] & !var12[3]) {
-         var13 = 15;
-      } else if (var12[0] & !var12[1] & !var12[2] & var12[3]) {
-         var13 = 39;
-      } else if (!var12[0] & var12[1] & var12[2] & !var12[3]) {
-         var13 = 13;
-      } else if (!var12[0] & var12[1] & !var12[2] & var12[3]) {
-         var13 = 37;
-      } else if (!var12[0] & var12[1] & var12[2] & var12[3]) {
-         var13 = 25;
-      } else if (var12[0] & !var12[1] & var12[2] & var12[3]) {
-         var13 = 27;
-      } else if (var12[0] & var12[1] & !var12[2] & var12[3]) {
-         var13 = 38;
-      } else if (var12[0] & var12[1] & var12[2] & !var12[3]) {
-         var13 = 14;
-      } else if (var12[0] & var12[1] & var12[2] & var12[3]) {
-         var13 = 26;
+      byte b = 0;
+      if (booleans[0] & !booleans[1] & !booleans[2] & !booleans[3]) {
+         b = 3;
+      } else if (!booleans[0] & booleans[1] & !booleans[2] & !booleans[3]) {
+         b = 1;
+      } else if (!booleans[0] & !booleans[1] & booleans[2] & !booleans[3]) {
+         b = 12;
+      } else if (!booleans[0] & !booleans[1] & !booleans[2] & booleans[3]) {
+         b = 36;
+      } else if (booleans[0] & booleans[1] & !booleans[2] & !booleans[3]) {
+         b = 2;
+      } else if (!booleans[0] & !booleans[1] & booleans[2] & booleans[3]) {
+         b = 24;
+      } else if (booleans[0] & !booleans[1] & booleans[2] & !booleans[3]) {
+         b = 15;
+      } else if (booleans[0] & !booleans[1] & !booleans[2] & booleans[3]) {
+         b = 39;
+      } else if (!booleans[0] & booleans[1] & booleans[2] & !booleans[3]) {
+         b = 13;
+      } else if (!booleans[0] & booleans[1] & !booleans[2] & booleans[3]) {
+         b = 37;
+      } else if (!booleans[0] & booleans[1] & booleans[2] & booleans[3]) {
+         b = 25;
+      } else if (booleans[0] & !booleans[1] & booleans[2] & booleans[3]) {
+         b = 27;
+      } else if (booleans[0] & booleans[1] & !booleans[2] & booleans[3]) {
+         b = 38;
+      } else if (booleans[0] & booleans[1] & booleans[2] & !booleans[3]) {
+         b = 14;
+      } else if (booleans[0] & booleans[1] & booleans[2] & booleans[3]) {
+         b = 26;
       }
 
-      if (var13 == 0) {
-         return var0.tileIcons[var13];
+      if (b == 0) {
+         return cp.tileIcons[b];
       }
 
       if (!Config.isConnectedTexturesFancy()) {
-         return var0.tileIcons[var13];
+         return cp.tileIcons[b];
       }
 
-      switch (var5) {
+      switch (side) {
          case 0:
-            var12[0] = !isNeighbour(var0, var1, var2, var3.east().north(), var5, var6, var7);
-            var12[1] = !isNeighbour(var0, var1, var2, var3.west().north(), var5, var6, var7);
-            var12[2] = !isNeighbour(var0, var1, var2, var3.east().south(), var5, var6, var7);
-            var12[3] = !isNeighbour(var0, var1, var2, var3.west().south(), var5, var6, var7);
+            booleans[0] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().north(), side, icon, metadata);
+            booleans[1] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().north(), side, icon, metadata);
+            booleans[2] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().south(), side, icon, metadata);
+            booleans[3] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().south(), side, icon, metadata);
             break;
          case 1:
-            var12[0] = !isNeighbour(var0, var1, var2, var3.east().south(), var5, var6, var7);
-            var12[1] = !isNeighbour(var0, var1, var2, var3.west().south(), var5, var6, var7);
-            var12[2] = !isNeighbour(var0, var1, var2, var3.east().north(), var5, var6, var7);
-            var12[3] = !isNeighbour(var0, var1, var2, var3.west().north(), var5, var6, var7);
+            booleans[0] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().south(), side, icon, metadata);
+            booleans[1] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().south(), side, icon, metadata);
+            booleans[2] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().north(), side, icon, metadata);
+            booleans[3] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().north(), side, icon, metadata);
             break;
          case 2:
-            var12[0] = !isNeighbour(var0, var1, var2, var3.west().down(), var5, var6, var7);
-            var12[1] = !isNeighbour(var0, var1, var2, var3.east().down(), var5, var6, var7);
-            var12[2] = !isNeighbour(var0, var1, var2, var3.west().up(), var5, var6, var7);
-            var12[3] = !isNeighbour(var0, var1, var2, var3.east().up(), var5, var6, var7);
+            booleans[0] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().down(), side, icon, metadata);
+            booleans[1] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().down(), side, icon, metadata);
+            booleans[2] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().up(), side, icon, metadata);
+            booleans[3] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().up(), side, icon, metadata);
             break;
          case 3:
-            var12[0] = !isNeighbour(var0, var1, var2, var3.east().down(), var5, var6, var7);
-            var12[1] = !isNeighbour(var0, var1, var2, var3.west().down(), var5, var6, var7);
-            var12[2] = !isNeighbour(var0, var1, var2, var3.east().up(), var5, var6, var7);
-            var12[3] = !isNeighbour(var0, var1, var2, var3.west().up(), var5, var6, var7);
+            booleans[0] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().down(), side, icon, metadata);
+            booleans[1] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().down(), side, icon, metadata);
+            booleans[2] = !isNeighbour(cp, blockAccess, blockState, blockPos.east().up(), side, icon, metadata);
+            booleans[3] = !isNeighbour(cp, blockAccess, blockState, blockPos.west().up(), side, icon, metadata);
             break;
          case 4:
-            var12[0] = !isNeighbour(var0, var1, var2, var3.down().south(), var5, var6, var7);
-            var12[1] = !isNeighbour(var0, var1, var2, var3.down().north(), var5, var6, var7);
-            var12[2] = !isNeighbour(var0, var1, var2, var3.up().south(), var5, var6, var7);
-            var12[3] = !isNeighbour(var0, var1, var2, var3.up().north(), var5, var6, var7);
+            booleans[0] = !isNeighbour(cp, blockAccess, blockState, blockPos.down().south(), side, icon, metadata);
+            booleans[1] = !isNeighbour(cp, blockAccess, blockState, blockPos.down().north(), side, icon, metadata);
+            booleans[2] = !isNeighbour(cp, blockAccess, blockState, blockPos.up().south(), side, icon, metadata);
+            booleans[3] = !isNeighbour(cp, blockAccess, blockState, blockPos.up().north(), side, icon, metadata);
             break;
          case 5:
-            var12[0] = !isNeighbour(var0, var1, var2, var3.down().north(), var5, var6, var7);
-            var12[1] = !isNeighbour(var0, var1, var2, var3.down().south(), var5, var6, var7);
-            var12[2] = !isNeighbour(var0, var1, var2, var3.up().north(), var5, var6, var7);
-            var12[3] = !isNeighbour(var0, var1, var2, var3.up().south(), var5, var6, var7);
+            booleans[0] = !isNeighbour(cp, blockAccess, blockState, blockPos.down().north(), side, icon, metadata);
+            booleans[1] = !isNeighbour(cp, blockAccess, blockState, blockPos.down().south(), side, icon, metadata);
+            booleans[2] = !isNeighbour(cp, blockAccess, blockState, blockPos.up().north(), side, icon, metadata);
+            booleans[3] = !isNeighbour(cp, blockAccess, blockState, blockPos.up().south(), side, icon, metadata);
       }
 
-      if (var13 == 13 && var12[0]) {
-         var13 = 4;
-      } else if (var13 == 15 && var12[1]) {
-         var13 = 5;
-      } else if (var13 == 37 && var12[2]) {
-         var13 = 16;
-      } else if (var13 == 39 && var12[3]) {
-         var13 = 17;
-      } else if (var13 == 14 && var12[0] && var12[1]) {
-         var13 = 7;
-      } else if (var13 == 25 && var12[0] && var12[2]) {
-         var13 = 6;
-      } else if (var13 == 27 && var12[3] && var12[1]) {
-         var13 = 19;
-      } else if (var13 == 38 && var12[3] && var12[2]) {
-         var13 = 18;
-      } else if (var13 == 14 && !var12[0] && var12[1]) {
-         var13 = 31;
-      } else if (var13 == 25 && var12[0] && !var12[2]) {
-         var13 = 30;
-      } else if (var13 == 27 && !var12[3] && var12[1]) {
-         var13 = 41;
-      } else if (var13 == 38 && var12[3] && !var12[2]) {
-         var13 = 40;
-      } else if (var13 == 14 && var12[0] && !var12[1]) {
-         var13 = 29;
-      } else if (var13 == 25 && !var12[0] && var12[2]) {
-         var13 = 28;
-      } else if (var13 == 27 && var12[3] && !var12[1]) {
-         var13 = 43;
-      } else if (var13 == 38 && !var12[3] && var12[2]) {
-         var13 = 42;
-      } else if (var13 == 26 && var12[0] && var12[1] && var12[2] && var12[3]) {
-         var13 = 46;
-      } else if (var13 == 26 && !var12[0] && var12[1] && var12[2] && var12[3]) {
-         var13 = 9;
-      } else if (var13 == 26 && var12[0] && !var12[1] && var12[2] && var12[3]) {
-         var13 = 21;
-      } else if (var13 == 26 && var12[0] && var12[1] && !var12[2] && var12[3]) {
-         var13 = 8;
-      } else if (var13 == 26 && var12[0] && var12[1] && var12[2] && !var12[3]) {
-         var13 = 20;
-      } else if (var13 == 26 && var12[0] && var12[1] && !var12[2] && !var12[3]) {
-         var13 = 11;
-      } else if (var13 == 26 && !var12[0] && !var12[1] && var12[2] && var12[3]) {
-         var13 = 22;
-      } else if (var13 == 26 && !var12[0] && var12[1] && !var12[2] && var12[3]) {
-         var13 = 23;
-      } else if (var13 == 26 && var12[0] && !var12[1] && var12[2] && !var12[3]) {
-         var13 = 10;
-      } else if (var13 == 26 && var12[0] && !var12[1] && !var12[2] && var12[3]) {
-         var13 = 34;
-      } else if (var13 == 26 && !var12[0] && var12[1] && var12[2] && !var12[3]) {
-         var13 = 35;
-      } else if (var13 == 26 && var12[0] && !var12[1] && !var12[2] && !var12[3]) {
-         var13 = 32;
-      } else if (var13 == 26 && !var12[0] && var12[1] && !var12[2] && !var12[3]) {
-         var13 = 33;
-      } else if (var13 == 26 && !var12[0] && !var12[1] && var12[2] && !var12[3]) {
-         var13 = 44;
-      } else if (var13 == 26 && !var12[0] && !var12[1] && !var12[2] && var12[3]) {
-         var13 = 45;
+      if (b == 13 && booleans[0]) {
+         b = 4;
+      } else if (b == 15 && booleans[1]) {
+         b = 5;
+      } else if (b == 37 && booleans[2]) {
+         b = 16;
+      } else if (b == 39 && booleans[3]) {
+         b = 17;
+      } else if (b == 14 && booleans[0] && booleans[1]) {
+         b = 7;
+      } else if (b == 25 && booleans[0] && booleans[2]) {
+         b = 6;
+      } else if (b == 27 && booleans[3] && booleans[1]) {
+         b = 19;
+      } else if (b == 38 && booleans[3] && booleans[2]) {
+         b = 18;
+      } else if (b == 14 && !booleans[0] && booleans[1]) {
+         b = 31;
+      } else if (b == 25 && booleans[0] && !booleans[2]) {
+         b = 30;
+      } else if (b == 27 && !booleans[3] && booleans[1]) {
+         b = 41;
+      } else if (b == 38 && booleans[3] && !booleans[2]) {
+         b = 40;
+      } else if (b == 14 && booleans[0] && !booleans[1]) {
+         b = 29;
+      } else if (b == 25 && !booleans[0] && booleans[2]) {
+         b = 28;
+      } else if (b == 27 && booleans[3] && !booleans[1]) {
+         b = 43;
+      } else if (b == 38 && !booleans[3] && booleans[2]) {
+         b = 42;
+      } else if (b == 26 && booleans[0] && booleans[1] && booleans[2] && booleans[3]) {
+         b = 46;
+      } else if (b == 26 && !booleans[0] && booleans[1] && booleans[2] && booleans[3]) {
+         b = 9;
+      } else if (b == 26 && booleans[0] && !booleans[1] && booleans[2] && booleans[3]) {
+         b = 21;
+      } else if (b == 26 && booleans[0] && booleans[1] && !booleans[2] && booleans[3]) {
+         b = 8;
+      } else if (b == 26 && booleans[0] && booleans[1] && booleans[2] && !booleans[3]) {
+         b = 20;
+      } else if (b == 26 && booleans[0] && booleans[1] && !booleans[2] && !booleans[3]) {
+         b = 11;
+      } else if (b == 26 && !booleans[0] && !booleans[1] && booleans[2] && booleans[3]) {
+         b = 22;
+      } else if (b == 26 && !booleans[0] && booleans[1] && !booleans[2] && booleans[3]) {
+         b = 23;
+      } else if (b == 26 && booleans[0] && !booleans[1] && booleans[2] && !booleans[3]) {
+         b = 10;
+      } else if (b == 26 && booleans[0] && !booleans[1] && !booleans[2] && booleans[3]) {
+         b = 34;
+      } else if (b == 26 && !booleans[0] && booleans[1] && booleans[2] && !booleans[3]) {
+         b = 35;
+      } else if (b == 26 && booleans[0] && !booleans[1] && !booleans[2] && !booleans[3]) {
+         b = 32;
+      } else if (b == 26 && !booleans[0] && booleans[1] && !booleans[2] && !booleans[3]) {
+         b = 33;
+      } else if (b == 26 && !booleans[0] && !booleans[1] && booleans[2] && !booleans[3]) {
+         b = 44;
+      } else if (b == 26 && !booleans[0] && !booleans[1] && !booleans[2] && booleans[3]) {
+         b = 45;
       }
 
-      return var0.tileIcons[var13];
+      return cp.tileIcons[b];
    }
 
-   private static boolean isNeighbour(ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, TextureAtlasSprite var5, int var6) {
-      IBlockState var10 = var1.getBlockState(var3);
-      if (var2 == var10) {
+   private static boolean isNeighbour(
+      ConnectedProperties cp, IBlockAccess iblockaccess, IBlockState blockState, BlockPos blockPos, int side, TextureAtlasSprite icon, int metadata
+   ) {
+      IBlockState iBlockState = iblockaccess.getBlockState(blockPos);
+      if (blockState == iBlockState) {
          return true;
       }
 
-      if (var0.connect == 2) {
-         if (var10 == null) {
+      if (cp.connect == 2) {
+         if (iBlockState == null) {
             return false;
          }
 
-         if (var10 == AIR_DEFAULT_STATE) {
+         if (iBlockState == AIR_DEFAULT_STATE) {
             return false;
          }
 
-         TextureAtlasSprite var11 = getNeighbourIcon(var1, var3, var10, var4);
-         return var11 == var5;
+         TextureAtlasSprite textureAtlasSprite = getNeighbourIcon(iblockaccess, blockPos, iBlockState, side);
+         return textureAtlasSprite == icon;
       } else {
-         return var0.connect == 3
-            ? (var10 == null ? false : (var10 == AIR_DEFAULT_STATE ? false : var10.getBlock().getMaterial() == var2.getBlock().getMaterial()))
+         return cp.connect == 3
+            ? (iBlockState == null ? false : (iBlockState == AIR_DEFAULT_STATE ? false : iBlockState.getBlock().getMaterial() == blockState.getBlock().getMaterial()))
             : false;
       }
    }
 
-   private static TextureAtlasSprite getNeighbourIcon(IBlockAccess var0, BlockPos var1, IBlockState var2, int var3) {
-      var2 = var2.getBlock().getActualState(var2, var0, var1);
-      IBakedModel var7 = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(var2);
-      if (var7 == null) {
+   private static TextureAtlasSprite getNeighbourIcon(IBlockAccess iblockaccess, BlockPos blockPos, IBlockState neighbourState, int side) {
+      neighbourState = neighbourState.getBlock().getActualState(neighbourState, iblockaccess, blockPos);
+      IBakedModel iBakedModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(neighbourState);
+      if (iBakedModel == null) {
          return null;
       }
 
-      EnumFacing var8 = getFacing(var3);
-      List var9 = var7.getFaceQuads(var8);
-      if (var9.size() > 0) {
-         BakedQuad var14 = (BakedQuad)var9.get(0);
-         return var14.getSprite();
+      EnumFacing enumFacing = getFacing(side);
+      List list = iBakedModel.getFaceQuads(enumFacing);
+      if (list.size() > 0) {
+         BakedQuad bakedQuad = (BakedQuad)list.get(0);
+         return bakedQuad.getSprite();
       }
 
-      List var10 = var7.getGeneralQuads();
+      List list2 = iBakedModel.getGeneralQuads();
 
-      for (int var11 = 0; var11 < var10.size(); var11++) {
-         BakedQuad var12 = (BakedQuad)var10.get(var11);
-         if (var12.getFace() == var8) {
-            return var12.getSprite();
+      for (int i = 0; i < list2.size(); i++) {
+         BakedQuad bakedQuad2 = (BakedQuad)list2.get(i);
+         if (bakedQuad2.getFace() == enumFacing) {
+            return bakedQuad2.getSprite();
          }
       }
 
@@ -747,77 +759,84 @@ public class ConnectedTextures {
    }
 
    private static TextureAtlasSprite N(
-      ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, int var5, TextureAtlasSprite var6, int var7
+      ConnectedProperties connectedProperties,
+      IBlockAccess iBlockAccess,
+      IBlockState iBlockState,
+      BlockPos blockPos,
+      int i,
+      int j,
+      TextureAtlasSprite textureAtlasSprite,
+      int l
    ) {
-      boolean var11;
-      boolean var12;
-      var11 = false;
-      var12 = false;
+      boolean bl;
+      boolean bl2;
+      bl = false;
+      bl2 = false;
       label43:
-      switch (var4) {
+      switch (i) {
          case 0:
-            switch (var5) {
+            switch (j) {
                case 0:
                case 1:
                   return null;
                case 2:
-                  var11 = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, l);
                   break label43;
                case 3:
-                  var11 = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
                   break label43;
                case 4:
-                  var11 = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
                   break label43;
                case 5:
-                  var11 = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, l);
                default:
                   break label43;
             }
          case 1:
-            switch (var5) {
+            switch (j) {
                case 0:
-                  var11 = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
                   break label43;
                case 1:
-                  var11 = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
                   break label43;
                case 2:
                case 3:
                   return null;
                case 4:
-                  var11 = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
                   break label43;
                case 5:
-                  var11 = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, l);
                default:
                   break label43;
             }
          case 2:
-            switch (var5) {
+            switch (j) {
                case 0:
-                  var11 = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
                   break;
                case 1:
-                  var11 = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
                   break;
                case 2:
-                  var11 = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
                   break;
                case 3:
-                  var11 = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
-                  var12 = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
+                  bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
+                  bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, l);
                   break;
                case 4:
                case 5:
@@ -825,141 +844,169 @@ public class ConnectedTextures {
             }
       }
 
-      byte var13 = 3;
-      if (var11) {
-         if (var12) {
-            var13 = 1;
+      byte b = 3;
+      if (bl) {
+         if (bl2) {
+            b = 1;
          } else {
-            var13 = 2;
+            b = 2;
          }
-      } else if (var12) {
-         var13 = 0;
+      } else if (bl2) {
+         b = 0;
       } else {
-         var13 = 3;
+         b = 3;
       }
 
-      return var0.tileIcons[var13];
+      return connectedProperties.tileIcons[b];
    }
 
    private static TextureAtlasSprite K(
-      ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, int var5, TextureAtlasSprite var6, int var7
+      ConnectedProperties connectedProperties,
+      IBlockAccess iBlockAccess,
+      IBlockState iBlockState,
+      BlockPos blockPos,
+      int i,
+      int j,
+      TextureAtlasSprite textureAtlasSprite,
+      int l
    ) {
-      boolean var11 = false;
-      boolean var12 = false;
-      switch (var4) {
+      boolean bl = false;
+      boolean bl2 = false;
+      switch (i) {
          case 0:
-            if (var5 == 1 || var5 == 0) {
+            if (j == 1 || j == 0) {
                return null;
             }
 
-            var11 = isNeighbour(var0, var1, var2, var3.down(), var5, var6, var7);
-            var12 = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, l);
+            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
             break;
          case 1:
-            if (var5 == 3 || var5 == 2) {
+            if (j == 3 || j == 2) {
                return null;
             }
 
-            var11 = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
-            var12 = isNeighbour(var0, var1, var2, var3.north(), var5, var6, var7);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
+            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, l);
             break;
          case 2:
-            if (var5 == 5 || var5 == 4) {
+            if (j == 5 || j == 4) {
                return null;
             }
 
-            var11 = isNeighbour(var0, var1, var2, var3.west(), var5, var6, var7);
-            var12 = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, l);
+            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
       }
 
-      byte var13 = 3;
-      if (var11) {
-         if (var12) {
-            var13 = 1;
+      byte b = 3;
+      if (bl) {
+         if (bl2) {
+            b = 1;
          } else {
-            var13 = 2;
+            b = 2;
          }
-      } else if (var12) {
-         var13 = 0;
+      } else if (bl2) {
+         b = 0;
       } else {
-         var13 = 3;
+         b = 3;
       }
 
-      return var0.tileIcons[var13];
+      return connectedProperties.tileIcons[b];
    }
 
    private static TextureAtlasSprite b(
-      ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, int var5, TextureAtlasSprite var6, int var7
+      ConnectedProperties connectedProperties,
+      IBlockAccess iBlockAccess,
+      IBlockState iBlockState,
+      BlockPos blockPos,
+      int i,
+      int j,
+      TextureAtlasSprite textureAtlasSprite,
+      int l
    ) {
-      TextureAtlasSprite[] var11 = var0.tileIcons;
-      TextureAtlasSprite var12 = N(var0, var1, var2, var3, var4, var5, var6, var7);
-      if (var12 != null && var12 != var6 && var12 != var11[3]) {
-         return var12;
+      TextureAtlasSprite[] textureAtlasSprites = connectedProperties.tileIcons;
+      TextureAtlasSprite textureAtlasSprite2 = N(connectedProperties, iBlockAccess, iBlockState, blockPos, i, j, textureAtlasSprite, l);
+      if (textureAtlasSprite2 != null && textureAtlasSprite2 != textureAtlasSprite && textureAtlasSprite2 != textureAtlasSprites[3]) {
+         return textureAtlasSprite2;
       }
 
-      TextureAtlasSprite var13 = K(var0, var1, var2, var3, var4, var5, var6, var7);
-      return var13 == var11[0] ? var11[4] : (var13 == var11[1] ? var11[5] : (var13 == var11[2] ? var11[6] : var13));
+      TextureAtlasSprite textureAtlasSprite3 = K(connectedProperties, iBlockAccess, iBlockState, blockPos, i, j, textureAtlasSprite, l);
+      return textureAtlasSprite3 == textureAtlasSprites[0] ? textureAtlasSprites[4] : (textureAtlasSprite3 == textureAtlasSprites[1] ? textureAtlasSprites[5] : (textureAtlasSprite3 == textureAtlasSprites[2] ? textureAtlasSprites[6] : textureAtlasSprite3));
    }
 
    private static TextureAtlasSprite O(
-      ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, int var5, TextureAtlasSprite var6, int var7
+      ConnectedProperties connectedProperties,
+      IBlockAccess iBlockAccess,
+      IBlockState iBlockState,
+      BlockPos blockPos,
+      int i,
+      int j,
+      TextureAtlasSprite textureAtlasSprite,
+      int l
    ) {
-      TextureAtlasSprite[] var11 = var0.tileIcons;
-      TextureAtlasSprite var12 = K(var0, var1, var2, var3, var4, var5, var6, var7);
-      if (var12 != null && var12 != var6 && var12 != var11[3]) {
-         return var12;
+      TextureAtlasSprite[] textureAtlasSprites = connectedProperties.tileIcons;
+      TextureAtlasSprite textureAtlasSprite2 = K(connectedProperties, iBlockAccess, iBlockState, blockPos, i, j, textureAtlasSprite, l);
+      if (textureAtlasSprite2 != null && textureAtlasSprite2 != textureAtlasSprite && textureAtlasSprite2 != textureAtlasSprites[3]) {
+         return textureAtlasSprite2;
       }
 
-      TextureAtlasSprite var13 = N(var0, var1, var2, var3, var4, var5, var6, var7);
-      return var13 == var11[0] ? var11[4] : (var13 == var11[1] ? var11[5] : (var13 == var11[2] ? var11[6] : var13));
+      TextureAtlasSprite textureAtlasSprite3 = N(connectedProperties, iBlockAccess, iBlockState, blockPos, i, j, textureAtlasSprite, l);
+      return textureAtlasSprite3 == textureAtlasSprites[0] ? textureAtlasSprites[4] : (textureAtlasSprite3 == textureAtlasSprites[1] ? textureAtlasSprites[5] : (textureAtlasSprite3 == textureAtlasSprites[2] ? textureAtlasSprites[6] : textureAtlasSprite3));
    }
 
    private static TextureAtlasSprite p(
-      ConnectedProperties var0, IBlockAccess var1, IBlockState var2, BlockPos var3, int var4, int var5, TextureAtlasSprite var6, int var7
+      ConnectedProperties connectedProperties,
+      IBlockAccess iBlockAccess,
+      IBlockState iBlockState,
+      BlockPos blockPos,
+      int i,
+      int j,
+      TextureAtlasSprite textureAtlasSprite,
+      int l
    ) {
-      boolean var11 = false;
-      switch (var4) {
+      boolean bl = false;
+      switch (i) {
          case 0:
-            if (var5 == 1 || var5 == 0) {
+            if (j == 1 || j == 0) {
                return null;
             }
 
-            var11 = isNeighbour(var0, var1, var2, var3.up(), var5, var6, var7);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
             break;
          case 1:
-            if (var5 == 3 || var5 == 2) {
+            if (j == 3 || j == 2) {
                return null;
             }
 
-            var11 = isNeighbour(var0, var1, var2, var3.south(), var5, var6, var7);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
             break;
          case 2:
-            if (var5 == 5 || var5 == 4) {
+            if (j == 5 || j == 4) {
                return null;
             }
 
-            var11 = isNeighbour(var0, var1, var2, var3.east(), var5, var6, var7);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
       }
 
-      return var11 ? var0.tileIcons[0] : null;
+      return bl ? connectedProperties.tileIcons[0] : null;
    }
 
-   public static void updateIcons(TextureMap var0) {
+   public static void updateIcons(TextureMap textureMap) {
       blockProperties = (ConnectedProperties[][])null;
       tileProperties = (ConnectedProperties[][])null;
       spriteQuadMaps = null;
       if (Config.isConnectedTextures()) {
-         IResourcePack[] var4 = Config.getResourcePacks();
+         IResourcePack[] iResourcePacks = Config.getResourcePacks();
 
-         for (int var5 = var4.length - 1; var5 >= 0; var5--) {
-            IResourcePack var6 = var4[var5];
-            updateIcons(var0, var6);
+         for (int i = iResourcePacks.length - 1; i >= 0; i--) {
+            IResourcePack iResourcePack = iResourcePacks[i];
+            updateIcons(textureMap, iResourcePack);
          }
 
-         updateIcons(var0, Config.getDefaultResourcePack());
-         ResourceLocation var7 = new ResourceLocation("mcpatcher/ctm/default/empty");
-         emptySprite = var0.registerSprite(var7);
-         spriteQuadMaps = new Map[var0.getCountRegisteredSprites() + 1];
+         updateIcons(textureMap, Config.getDefaultResourcePack());
+         ResourceLocation resourceLocation = new ResourceLocation("mcpatcher/ctm/default/empty");
+         emptySprite = textureMap.registerSprite(resourceLocation);
+         spriteQuadMaps = new Map[textureMap.getCountRegisteredSprites() + 1];
          if (blockProperties.length <= 0) {
             blockProperties = (ConnectedProperties[][])null;
          }
@@ -970,221 +1017,221 @@ public class ConnectedTextures {
       }
    }
 
-   public static void updateIcons(TextureMap var0, IResourcePack var1) {
-      String[] var5 = ResUtils.collectFiles(var1, "mcpatcher/ctm/", ".properties", getDefaultCtmPaths());
-      Arrays.sort(var5);
-      List var6 = makePropertyList(tileProperties);
-      List var7 = makePropertyList(blockProperties);
+   public static void updateIcons(TextureMap textureMap, IResourcePack rp) {
+      String[] strings = ResUtils.collectFiles(rp, "mcpatcher/ctm/", ".properties", getDefaultCtmPaths());
+      Arrays.sort(strings);
+      List list = makePropertyList(tileProperties);
+      List list2 = makePropertyList(blockProperties);
 
-      for (int var8 = 0; var8 < var5.length; var8++) {
-         String var9 = var5[var8];
-         Config.dbg("ConnectedTextures: " + var9);
+      for (int i = 0; i < strings.length; i++) {
+         String string = strings[i];
+         Config.dbg("ConnectedTextures: " + string);
 
          try {
-            ResourceLocation var10 = new ResourceLocation(var9);
-            InputStream var11 = var1.getInputStream(var10);
-            if (var11 == null) {
-               Config.warn("ConnectedTextures file not found: " + var9);
+            ResourceLocation resourceLocation = new ResourceLocation(string);
+            InputStream inputStream = rp.getInputStream(resourceLocation);
+            if (inputStream == null) {
+               Config.warn("ConnectedTextures file not found: " + string);
             } else {
-               Properties var12 = new Properties();
-               var12.load(var11);
-               ConnectedProperties var13 = new ConnectedProperties(var12, var9);
-               if (var13.isValid(var9)) {
-                  var13.updateIcons(var0);
-                  addToTileList(var13, var6);
-                  addToBlockList(var13, var7);
+               Properties properties2 = new Properties();
+               properties2.load(inputStream);
+               ConnectedProperties connectedProperties = new ConnectedProperties(properties2, string);
+               if (connectedProperties.isValid(string)) {
+                  connectedProperties.updateIcons(textureMap);
+                  addToTileList(connectedProperties, list);
+                  addToBlockList(connectedProperties, list2);
                }
             }
-         } catch (FileNotFoundException var14) {
-            Config.warn("ConnectedTextures file not found: " + var9);
-         } catch (Exception var15) {
-            var15.printStackTrace();
+         } catch (FileNotFoundException fileNotFoundException) {
+            Config.warn("ConnectedTextures file not found: " + string);
+         } catch (Exception exception) {
+            exception.printStackTrace();
          }
       }
 
-      blockProperties = propertyListToArray(var7);
-      tileProperties = propertyListToArray(var6);
+      blockProperties = propertyListToArray(list2);
+      tileProperties = propertyListToArray(list);
       multipass = detectMultipass();
       Config.dbg("Multipass connected textures: " + multipass);
    }
 
-   private static List makePropertyList(ConnectedProperties[][] var0) {
-      ArrayList var4 = new ArrayList();
-      if (var0 != null) {
-         for (int var5 = 0; var5 < var0.length; var5++) {
-            ConnectedProperties[] var6 = var0[var5];
-            ArrayList var7 = null;
-            if (var6 != null) {
-               var7 = new ArrayList<>(Arrays.asList(var6));
+   private static List makePropertyList(ConnectedProperties[][] propsArr) {
+      ArrayList arrayList = new ArrayList();
+      if (propsArr != null) {
+         for (int i = 0; i < propsArr.length; i++) {
+            ConnectedProperties[] connectedPropertiess = propsArr[i];
+            ArrayList arrayList2 = null;
+            if (connectedPropertiess != null) {
+               arrayList2 = new ArrayList<>(Arrays.asList(connectedPropertiess));
             }
 
-            var4.add(var7);
+            arrayList.add(arrayList2);
          }
       }
 
-      return var4;
+      return arrayList;
    }
 
    private static boolean detectMultipass() {
-      ArrayList var3 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (int var4 = 0; var4 < tileProperties.length; var4++) {
-         ConnectedProperties[] var5 = tileProperties[var4];
-         if (var5 != null) {
-            var3.addAll(Arrays.asList(var5));
+      for (int i = 0; i < tileProperties.length; i++) {
+         ConnectedProperties[] connectedPropertiess = tileProperties[i];
+         if (connectedPropertiess != null) {
+            arrayList.addAll(Arrays.asList(connectedPropertiess));
          }
       }
 
-      for (int var9 = 0; var9 < blockProperties.length; var9++) {
-         ConnectedProperties[] var11 = blockProperties[var9];
-         if (var11 != null) {
-            var3.addAll(Arrays.asList(var11));
+      for (int j = 0; j < blockProperties.length; j++) {
+         ConnectedProperties[] connectedPropertiess2 = blockProperties[j];
+         if (connectedPropertiess2 != null) {
+            arrayList.addAll(Arrays.asList(connectedPropertiess2));
          }
       }
 
-      ConnectedProperties[] var10 = (net.minecraft.src.ConnectedProperties[])(var3.toArray(new ConnectedProperties[var3.size()]));
-      HashSet var12 = new HashSet();
-      HashSet var6 = new HashSet();
+      ConnectedProperties[] connectedPropertiess3 = (net.minecraft.src.ConnectedProperties[])(arrayList.toArray(new ConnectedProperties[arrayList.size()]));
+      HashSet hashSet = new HashSet();
+      HashSet hashSet2 = new HashSet();
 
-      for (int var7 = 0; var7 < var10.length; var7++) {
-         ConnectedProperties var8 = var10[var7];
-         if (var8.matchTileIcons != null) {
-            var12.addAll(Arrays.asList(var8.matchTileIcons));
+      for (int k = 0; k < connectedPropertiess3.length; k++) {
+         ConnectedProperties connectedProperties = connectedPropertiess3[k];
+         if (connectedProperties.matchTileIcons != null) {
+            hashSet.addAll(Arrays.asList(connectedProperties.matchTileIcons));
          }
 
-         if (var8.tileIcons != null) {
-            var6.addAll(Arrays.asList(var8.tileIcons));
+         if (connectedProperties.tileIcons != null) {
+            hashSet2.addAll(Arrays.asList(connectedProperties.tileIcons));
          }
       }
 
-      var12.retainAll(var6);
-      return !var12.isEmpty();
+      hashSet.retainAll(hashSet2);
+      return !hashSet.isEmpty();
    }
 
-   private static ConnectedProperties[][] propertyListToArray(List var0) {
-      ConnectedProperties[][] var4 = new ConnectedProperties[var0.size()][];
+   private static ConnectedProperties[][] propertyListToArray(List list) {
+      ConnectedProperties[][] connectedPropertiesss = new ConnectedProperties[list.size()][];
 
-      for (int var5 = 0; var5 < var0.size(); var5++) {
-         List var6 = (List)var0.get(var5);
-         if (var6 != null) {
-            ConnectedProperties[] var7 = (net.minecraft.src.ConnectedProperties[])(var6.toArray(new ConnectedProperties[var6.size()]));
-            var4[var5] = var7;
+      for (int i = 0; i < list.size(); i++) {
+         List list2 = (List)list.get(i);
+         if (list2 != null) {
+            ConnectedProperties[] connectedPropertiess = (net.minecraft.src.ConnectedProperties[])(list2.toArray(new ConnectedProperties[list2.size()]));
+            connectedPropertiesss[i] = connectedPropertiess;
          }
       }
 
-      return var4;
+      return connectedPropertiesss;
    }
 
-   private static void addToTileList(ConnectedProperties var0, List var1) {
-      if (var0.matchTileIcons != null) {
-         for (int var5 = 0; var5 < var0.matchTileIcons.length; var5++) {
-            TextureAtlasSprite var6 = var0.matchTileIcons[var5];
-            if (!(var6 instanceof TextureAtlasSprite)) {
-               Config.warn("TextureAtlasSprite is not TextureAtlasSprite: " + var6 + ", name: " + var6.getIconName());
+   private static void addToTileList(ConnectedProperties cp, List tileList) {
+      if (cp.matchTileIcons != null) {
+         for (int i = 0; i < cp.matchTileIcons.length; i++) {
+            TextureAtlasSprite textureAtlasSprite = cp.matchTileIcons[i];
+            if (!(textureAtlasSprite instanceof TextureAtlasSprite)) {
+               Config.warn("TextureAtlasSprite is not TextureAtlasSprite: " + textureAtlasSprite + ", name: " + textureAtlasSprite.getIconName());
             } else {
-               int var7 = var6.getIndexInMap();
-               if (var7 < 0) {
-                  Config.warn("Invalid tile ID: " + var7 + ", icon: " + var6.getIconName());
+               int j = textureAtlasSprite.getIndexInMap();
+               if (j < 0) {
+                  Config.warn("Invalid tile ID: " + j + ", icon: " + textureAtlasSprite.getIconName());
                } else {
-                  addToList(var0, var1, var7);
+                  addToList(cp, tileList, j);
                }
             }
          }
       }
    }
 
-   private static void addToBlockList(ConnectedProperties var0, List var1) {
-      if (var0.matchBlocks != null) {
-         for (int var5 = 0; var5 < var0.matchBlocks.length; var5++) {
-            int var6 = var0.matchBlocks[var5].getBlockId();
-            if (var6 < 0) {
-               Config.warn("Invalid block ID: " + var6);
+   private static void addToBlockList(ConnectedProperties cp, List blockList) {
+      if (cp.matchBlocks != null) {
+         for (int i = 0; i < cp.matchBlocks.length; i++) {
+            int j = cp.matchBlocks[i].getBlockId();
+            if (j < 0) {
+               Config.warn("Invalid block ID: " + j);
             } else {
-               addToList(var0, var1, var6);
+               addToList(cp, blockList, j);
             }
          }
       }
    }
 
-   private static void addToList(ConnectedProperties var0, List var1, int var2) {
-      while (var2 >= var1.size()) {
-         var1.add(null);
+   private static void addToList(ConnectedProperties cp, List list, int id) {
+      while (id >= list.size()) {
+         list.add(null);
       }
 
-      List var6 = (List)var1.get(var2);
-      if (var6 == null) {
-         var6 = new ArrayList();
-         var1.set(var2, var6);
+      List list2 = (List)list.get(id);
+      if (list2 == null) {
+         list2 = new ArrayList();
+         list.set(id, list2);
       }
 
-      var6.add(var0);
+      list2.add(cp);
    }
 
    private static String[] getDefaultCtmPaths() {
-      ArrayList var3 = new ArrayList();
-      String var4 = "mcpatcher/ctm/default/";
+      ArrayList arrayList = new ArrayList();
+      String string = "mcpatcher/ctm/default/";
       if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/glass.png"))) {
-         var3.add(var4 + "glass.properties");
-         var3.add(var4 + "glasspane.properties");
+         arrayList.add(string + "glass.properties");
+         arrayList.add(string + "glasspane.properties");
       }
 
       if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/bookshelf.png"))) {
-         var3.add(var4 + "bookshelf.properties");
+         arrayList.add(string + "bookshelf.properties");
       }
 
       if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/sandstone_normal.png"))) {
-         var3.add(var4 + "sandstone.properties");
+         arrayList.add(string + "sandstone.properties");
       }
 
-      String[] var5 = new String[]{
+      String[] strings = new String[]{
          "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"
       };
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         String var7 = var5[var6];
-         if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/glass_" + var7 + ".png"))) {
-            var3.add(var4 + var6 + "_glass_" + var7 + "/glass_" + var7 + ".properties");
-            var3.add(var4 + var6 + "_glass_" + var7 + "/glass_pane_" + var7 + ".properties");
+      for (int i = 0; i < strings.length; i++) {
+         String string2 = strings[i];
+         if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/glass_" + string2 + ".png"))) {
+            arrayList.add(string + i + "_glass_" + string2 + "/glass_" + string2 + ".properties");
+            arrayList.add(string + i + "_glass_" + string2 + "/glass_pane_" + string2 + ".properties");
          }
       }
 
-      return (java.lang.String[])(var3.toArray(new String[var3.size()]));
+      return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
    }
 
-   public static int getPaneTextureIndex(boolean var0, boolean var1, boolean var2, boolean var3) {
-      return var1 && var0
-         ? (var2 ? (var3 ? 34 : 50) : (var3 ? 18 : 2))
+   public static int getPaneTextureIndex(boolean linkP, boolean linkN, boolean linkYp, boolean linkYn) {
+      return linkN && linkP
+         ? (linkYp ? (linkYn ? 34 : 50) : (linkYn ? 18 : 2))
          : (
-            var1 && !var0
-               ? (var2 ? (var3 ? 35 : 51) : (var3 ? 19 : 3))
-               : (!var1 && var0 ? (var2 ? (var3 ? 33 : 49) : (var3 ? 17 : 1)) : (var2 ? (var3 ? 32 : 48) : (var3 ? 16 : 0)))
+            linkN && !linkP
+               ? (linkYp ? (linkYn ? 35 : 51) : (linkYn ? 19 : 3))
+               : (!linkN && linkP ? (linkYp ? (linkYn ? 33 : 49) : (linkYn ? 17 : 1)) : (linkYp ? (linkYn ? 32 : 48) : (linkYn ? 16 : 0)))
          );
    }
 
-   public static int getReversePaneTextureIndex(int var0) {
-      int var4 = var0 % 16;
-      return var4 == 1 ? var0 + 2 : (var4 == 3 ? var0 - 2 : var0);
+   public static int getReversePaneTextureIndex(int texNum) {
+      int i = texNum % 16;
+      return i == 1 ? texNum + 2 : (i == 3 ? texNum - 2 : texNum);
    }
 
-   public static TextureAtlasSprite getCtmTexture(ConnectedProperties var0, int var1, TextureAtlasSprite var2) {
-      if (var0.method != 1) {
-         return var2;
-      } else if (var1 >= 0 && var1 < ctmIndexes.length) {
-         int var6 = ctmIndexes[var1];
-         TextureAtlasSprite[] var7 = var0.tileIcons;
-         return var6 >= 0 && var6 < var7.length ? var7[var6] : var2;
+   public static TextureAtlasSprite getCtmTexture(ConnectedProperties cp, int ctmIndex, TextureAtlasSprite icon) {
+      if (cp.method != 1) {
+         return icon;
+      } else if (ctmIndex >= 0 && ctmIndex < ctmIndexes.length) {
+         int i = ctmIndexes[ctmIndex];
+         TextureAtlasSprite[] textureAtlasSprites = cp.tileIcons;
+         return i >= 0 && i < textureAtlasSprites.length ? textureAtlasSprites[i] : icon;
       } else {
-         return var2;
+         return icon;
       }
    }
 
    static {
-      long var20 = a ^ 40006994803512L;
-      long var10000 = var20 ^ 617817944395236024L;
-      var10000 = var20 ^ 470373425828205768L;
-      var10000 = var20 ^ 175991781878921116L;
-      var10000 = var20 ^ 175991781878921116L;
-      var10000 = var20 ^ 5078607984497868203L;
-      var10000 = 8622501404010109995L ^ var20;
+      long l = a ^ 40006994803512L;
+      long m = l ^ 617817944395236024L;
+      m = l ^ 470373425828205768L;
+      m = l ^ 175991781878921116L;
+      m = l ^ 175991781878921116L;
+      m = l ^ 5078607984497868203L;
+      m = 8622501404010109995L ^ l;
    }
 }

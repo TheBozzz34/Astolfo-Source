@@ -16,27 +16,27 @@ public class AutoArmorCheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      if (var10.getTotalArmorValue() > this.w && (this.g == null || !(this.g instanceof ItemArmor))) {
-         double var14 = Math.hypot(var1 - this.X, var5 - this.G);
-         if (var14 >= 0.5 && var14 < 3.0) {
-            this.x(var10.getName());
+   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      if (entityPlayer.getTotalArmorValue() > this.w && (this.g == null || !(this.g instanceof ItemArmor))) {
+         double e = Math.hypot(d - this.X, d3 - this.G);
+         if (e >= 0.5 && e < 3.0) {
+            this.x(entityPlayer.getName());
          }
       }
 
-      this.w = var10.getTotalArmorValue();
+      this.w = entityPlayer.getTotalArmorValue();
       if (this.w == 0.0F) {
          this.w = 9999.0F;
       }
 
-      if (var10.getHeldItem() != null) {
-         this.g = var10.getHeldItem().getItem();
+      if (entityPlayer.getHeldItem() != null) {
+         this.g = entityPlayer.getHeldItem().getItem();
       } else {
          this.g = null;
       }
 
-      this.X = var1;
-      this.G = var5;
+      this.X = d;
+      this.G = d3;
       return this.T;
    }
 

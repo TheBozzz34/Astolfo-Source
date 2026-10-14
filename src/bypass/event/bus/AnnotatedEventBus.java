@@ -16,11 +16,16 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
    private InvocationStrategy t;
    private static final long a = 59978824583516L;
 
-   public AnnotatedEventBus(Map<Class<? extends Event>, List<Subscription<?, ?>>> var1, MemberScanner<A> var2, ListenerFilter<A> var3, InvocationStrategy var4) {
-      this.N = var1;
-      this.B = var2;
-      this.C = var3;
-      this.t = var4;
+   public AnnotatedEventBus(
+      Map<Class<? extends Event>, List<Subscription<?, ?>>> map,
+      MemberScanner<A> memberScanner,
+      ListenerFilter<A> listenerFilter,
+      InvocationStrategy invocationStrategy
+   ) {
+      this.N = map;
+      this.B = memberScanner;
+      this.C = listenerFilter;
+      this.t = invocationStrategy;
    }
 
    public MemberScanner<A> N() {
@@ -28,99 +33,99 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
    }
 
    @Override
-   public void subscribe(Object var1) {
-      Objects.requireNonNull(var1, "The object must not be null");
+   public void subscribe(Object object) {
+      Objects.requireNonNull(object, "The object must not be null");
 
-      for (AnnotatedElement var8 : this.B.getMembers(var1.getClass())) {
-         if (this.C.isListener((A)var8)) {
-            Subscriber var9 = Subscription.l(var1, var8, this.t);
-            this.b(var9);
+      for (AnnotatedElement annotatedElement : this.B.getMembers(object.getClass())) {
+         if (this.C.isListener((A)annotatedElement)) {
+            Subscriber subscriber = Subscription.l(object, annotatedElement, this.t);
+            this.b(subscriber);
          }
       }
    }
 
    @Override
-   public void subscribe(Object var1, Class<? extends Event> var2) {
-      Objects.requireNonNull(var1, "The object must not be null");
-      Objects.requireNonNull(var2, "You forgot to specify the event");
+   public void subscribe(Object object, Class<? extends Event> class2) {
+      Objects.requireNonNull(object, "The object must not be null");
+      Objects.requireNonNull(class2, "You forgot to specify the event");
 
-      for (AnnotatedElement var9 : this.B.getMembers(var1.getClass())) {
-         if (this.C.listensTo((A)var9, var2)) {
-            Subscriber var10 = Subscription.l(var1, var9, this.t);
-            this.b(var10);
+      for (AnnotatedElement annotatedElement : this.B.getMembers(object.getClass())) {
+         if (this.C.listensTo((A)annotatedElement, class2)) {
+            Subscriber subscriber = Subscription.l(object, annotatedElement, this.t);
+            this.b(subscriber);
          }
       }
    }
 
    @Override
-   public void addSubscribers(Subscriber... var1) {
-      Objects.requireNonNull(var1, "The object must not be null");
-      if (var1.length != 0) {
-         for (Subscriber var8 : var1) {
-            this.b(var8);
+   public void addSubscribers(Subscriber... subscribers) {
+      Objects.requireNonNull(subscribers, "The object must not be null");
+      if (subscribers.length != 0) {
+         for (Subscriber subscriber : subscribers) {
+            this.b(subscriber);
          }
       }
    }
 
    @Override
-   public void unsubscribe(Object var1) {
-      Objects.requireNonNull(var1, "The object must not be null");
-      this.g().keySet().forEach(var2 -> this.N((Class<? extends Event>)var2).ifPresent(var1xx -> var1xx.removeIf(var1xxx -> var1xxx.t().equals(var1))));
+   public void unsubscribe(Object object) {
+      Objects.requireNonNull(object, "The object must not be null");
+      this.g().keySet().forEach(class2 -> this.N((Class<? extends Event>)class2).ifPresent(list -> list.removeIf(subscription -> subscription.t().equals(object))));
    }
 
    @Override
-   public void unsubscribe(Object var1, Class<? extends Event> var2) {
-      Objects.requireNonNull(var1, "The object must not be null");
-      Objects.requireNonNull(var2, "The class of the event can't be null");
-      if (this.g().containsKey(var2)) {
-         this.g().get(var2).removeIf(var1x -> var1x.t().equals(var1));
+   public void unsubscribe(Object object, Class<? extends Event> class2) {
+      Objects.requireNonNull(object, "The object must not be null");
+      Objects.requireNonNull(class2, "The class of the event can't be null");
+      if (this.g().containsKey(class2)) {
+         this.g().get(class2).removeIf(subscription -> subscription.t().equals(object));
       }
    }
 
    @Override
-   public <E extends Event> E post(E var1) {
-      List var5 = this.g().get(var1.getClass());
-      if (var5 != null) {
+   public <E extends Event> E post(E event) {
+      List list = this.g().get(event.getClass());
+      if (list != null) {
          label29:
-         for (Object var7$raw : var5) {
-            Subscription var7 = (Subscription)var7$raw;
-            Subscription var8 = var7;
-            if (var8.i() != null) {
-               for (SubscriptionFilter var12 : var8.i()) {
-                  if (!var12.test(var8, (E)var1)) {
+         for (Object object : list) {
+            Subscription subscription = (Subscription)object;
+            Subscription subscription2 = subscription;
+            if (subscription2.i() != null) {
+               for (SubscriptionFilter subscriptionFilter : subscription2.i()) {
+                  if (!subscriptionFilter.test(subscription2, (E)event)) {
                      continue label29;
                   }
                }
             }
 
-            var8.C(var1);
+            subscription2.C(event);
          }
       }
 
-      return (E)var1;
+      return (E)event;
    }
 
    @Override
-   public <E extends Event> E publishIgnoringFilters(E var1) {
-      List var5 = this.g().get(var1.getClass());
-      if (var5 != null) {
-         var5.forEach(var1x -> ((bypass.event.bus.Subscription)var1x).C(var1));
+   public <E extends Event> E publishIgnoringFilters(E event) {
+      List list = this.g().get(event.getClass());
+      if (list != null) {
+         list.forEach(object -> ((bypass.event.bus.Subscription)object).C(event));
       }
 
-      return (E)var1;
+      return (E)event;
    }
 
-   private Optional<List<Subscription<?, ?>>> N(Class<? extends Event> var1) {
-      return Optional.ofNullable(this.N.get(var1));
+   private Optional<List<Subscription<?, ?>>> N(Class<? extends Event> class2) {
+      return Optional.ofNullable(this.N.get(class2));
    }
 
-   public <O> void b(Subscription<O, ?> var1) {
-      Class var6 = var1.V();
-      List var7 = (java.util.List)(this.N(var6).orElse(new CopyOnWriteArrayList<>()));
-      var7.add(var1);
-      var7.sort(Comparator.comparing((java.util.function.Function<Subscription, java.lang.Integer>)Subscription::l));
-      if (!this.g().containsKey(var6)) {
-         this.g().put(var6, var7);
+   public <O> void b(Subscription<O, ?> subscription) {
+      Class class2 = subscription.V();
+      List list = (java.util.List)(this.N(class2).orElse(new CopyOnWriteArrayList<>()));
+      list.add(subscription);
+      list.sort(Comparator.comparing((java.util.function.Function<Subscription, java.lang.Integer>)Subscription::l));
+      if (!this.g().containsKey(class2)) {
+         this.g().put(class2, list);
       }
    }
 

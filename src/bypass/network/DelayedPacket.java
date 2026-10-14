@@ -6,8 +6,8 @@ public class DelayedPacket {
    private float g;
    private final Packet<?> A;
 
-   public DelayedPacket(float var1, Packet<?> var2) {
-      this.g = var1;
-      this.A = var2;
+   public DelayedPacket(float f, Packet<?> packet) {
+      this.g = f;
+      this.A = packet;
    }
 }

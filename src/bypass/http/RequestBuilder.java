@@ -14,27 +14,27 @@ public class RequestBuilder {
    public RequestBuilder() {
    }
 
-   public RequestBuilder Z(AbstractRequest var1) {
-      this.s = var1;
+   public RequestBuilder Z(AbstractRequest abstractRequest) {
+      this.s = abstractRequest;
       return this;
    }
 
-   public RequestBuilder d(String var1, String var2) {
+   public RequestBuilder d(String string, String string2) {
       if (this.N == null) {
          this.N = new HashMap<>();
       }
 
-      this.N.put(var1, var2);
+      this.N.put(string, string2);
       return this;
    }
 
-   public RequestBuilder H(int var1) {
-      this.a = var1;
+   public RequestBuilder H(int i) {
+      this.a = i;
       return this;
    }
 
-   public RequestBuilder b(int var1) {
-      this.Z = var1;
+   public RequestBuilder b(int i) {
+      this.Z = i;
       return this;
    }
 
@@ -42,7 +42,7 @@ public class RequestBuilder {
       if (this.s == null) {
       }
 
-      Map var4 = this.N == null ? Collections.emptyMap() : this.N;
-      return new RequestOptions(this.s, var4, this.Z, this.a);
+      Map map = this.N == null ? Collections.emptyMap() : this.N;
+      return new RequestOptions(this.s, map, this.Z, this.a);
    }
 }

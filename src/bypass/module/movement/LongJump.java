@@ -42,13 +42,13 @@ public final class LongJump extends Module {
    private int unusedCounter;
    private double motionY;
    @EventHandler(MoveEvent.class)
-   private Listener<MoveEvent> onMove = var1x -> {
-      long var2 = d ^ 43843006971240L;
-      long var4 = var2 ^ 10171659452336L;
-      if (var1x.getState() == EventState.PRE) {
-         double var7 = mc.thePlayer.movementInput.moveForward;
-         double var9 = mc.thePlayer.movementInput.moveStrafe;
-         double var11 = mc.thePlayer.rotationYaw;
+   private Listener<MoveEvent> onMove = moveEvent -> {
+      long l = d ^ 43843006971240L;
+      long n = l ^ 10171659452336L;
+      if (moveEvent.getState() == EventState.PRE) {
+         double e = mc.thePlayer.movementInput.moveForward;
+         double d2 = mc.thePlayer.movementInput.moveStrafe;
+         double d3 = mc.thePlayer.rotationYaw;
          switch ((LongJumpMode)this.mode.getValue()) {
             case WATCHDOG:
                if (mc.thePlayer.m(0.01) || this.jumpTicks > 0) {
@@ -72,13 +72,13 @@ public final class LongJump extends Module {
                      this.motionY -= 0.066;
                   }
 
-                  var1x.setY(mc.thePlayer.motionY = this.motionY);
+                  moveEvent.setY(mc.thePlayer.motionY = this.motionY);
                   this.jumpTicks++;
                   if (mc.thePlayer.m(0.01) && this.jumpTicks > 4) {
                      this.setEnabled(false);
                   }
 
-                  Speed.setMotion(var1x, (float)var9, (float)var7, 1.0F, this.moveSpeed);
+                  Speed.setMotion(moveEvent, (float)d2, (float)e, 1.0F, this.moveSpeed);
                }
                break;
             case NORMAL:
@@ -95,7 +95,7 @@ public final class LongJump extends Module {
 
                   if (this.wasOnGround) {
                      this.moveSpeed *= 2.053232;
-                     var1x.setY(mc.thePlayer.motionY = 0.40356524352 * Speed.getJumpBoostMultiplier());
+                     moveEvent.setY(mc.thePlayer.motionY = 0.40356524352 * Speed.getJumpBoostMultiplier());
                      this.jumped = true;
                   } else {
                      this.moveSpeed = this.boost.getValue() * 0.27999999999999997;
@@ -120,18 +120,18 @@ public final class LongJump extends Module {
 
                this.wasOnGround = mc.thePlayer.onGround;
                this.moveSpeed = Math.max(this.moveSpeed, 0.27999999999999997);
-               if (var7 == 0.0 && var9 == 0.0) {
-                  var1x.setX(0.0);
-                  var1x.setZ(0.0);
+               if (e == 0.0 && d2 == 0.0) {
+                  moveEvent.setX(0.0);
+                  moveEvent.setZ(0.0);
                }
 
-               if (var7 != 0.0 && var9 != 0.0) {
-                  var7 *= Math.sin((Math.PI / 4) - Math.random() * 1.0E-4);
-                  var9 *= Math.cos((Math.PI / 4) - Math.random() * 1.0E-4);
+               if (e != 0.0 && d2 != 0.0) {
+                  e *= Math.sin((Math.PI / 4) - Math.random() * 1.0E-4);
+                  d2 *= Math.cos((Math.PI / 4) - Math.random() * 1.0E-4);
                }
 
-               var1x.setX(var7 * this.moveSpeed * -Math.sin(Math.toRadians(var11)) + var9 * this.moveSpeed * Math.cos(Math.toRadians(var11)));
-               var1x.setZ(var7 * this.moveSpeed * Math.cos(Math.toRadians(var11)) - var9 * this.moveSpeed * -Math.sin(Math.toRadians(var11)));
+               moveEvent.setX(e * this.moveSpeed * -Math.sin(Math.toRadians(d3)) + d2 * this.moveSpeed * Math.cos(Math.toRadians(d3)));
+               moveEvent.setZ(e * this.moveSpeed * Math.cos(Math.toRadians(d3)) - d2 * this.moveSpeed * -Math.sin(Math.toRadians(d3)));
                break;
             case SAFE:
                if (!this.safeBoosted) {
@@ -144,8 +144,8 @@ public final class LongJump extends Module {
 
                if (this.safeLanded) {
                   this.landedTicks++;
-                  var1x.setX(0.0);
-                  var1x.setZ(0.0);
+                  moveEvent.setX(0.0);
+                  moveEvent.setZ(0.0);
                   if (this.landedTicks > (int)w) {
                      this.safeBoosted = false;
                      this.safeLanded = false;
@@ -158,55 +158,55 @@ public final class LongJump extends Module {
       }
    };
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE) {
          this.lastDistance = Math.hypot(mc.thePlayer.posX - mc.thePlayer.prevPosX, mc.thePlayer.posZ - mc.thePlayer.prevPosZ);
          if (this.mode.getValue() == LongJumpMode.SAFE
             && !this.safeBoosted
             && mc.gameSettings.keyBindJump.isKeyDown()
             && mc.thePlayer.movementInput.moveForward > 0.0F
             && mc.thePlayer.motionY == 0.33319999363422365) {
-            double var5 = Math.toRadians(mc.thePlayer.rotationYaw);
-            double var7 = 1.261;
-            mc.thePlayer.motionX = -(Math.sin(var5) * var7);
-            mc.thePlayer.motionZ = Math.cos(var5) * var7;
+            double d = Math.toRadians(mc.thePlayer.rotationYaw);
+            double e = 1.261;
+            mc.thePlayer.motionX = -(Math.sin(d) * e);
+            mc.thePlayer.motionZ = Math.cos(d) * e;
             this.safeBoosted = true;
          }
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING) {
-         if (this.mode.getValue() == LongJumpMode.SAFE && var1x.getPacket() instanceof C03PacketPlayer) {
-            C03PacketPlayer var5 = (C03PacketPlayer)var1x.getPacket();
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         if (this.mode.getValue() == LongJumpMode.SAFE && packetEvent.getPacket() instanceof C03PacketPlayer) {
+            C03PacketPlayer c03PacketPlayer = (C03PacketPlayer)packetEvent.getPacket();
             if (this.safeLanded && this.landedTicks == 2) {
-               var5.y += 0.40426326F;
-               var5.E(false);
+               c03PacketPlayer.y += 0.40426326F;
+               c03PacketPlayer.E(false);
             }
          }
 
-         if (var1x.getPacket() instanceof C09PacketHeldItemChange && this.unusedSlotSpoofed && this.unusedSpoofItem != null) {
-            var1x.cancel();
+         if (packetEvent.getPacket() instanceof C09PacketHeldItemChange && this.unusedSlotSpoofed && this.unusedSpoofItem != null) {
+            packetEvent.cancel();
          }
       }
    };
    private static final long d = 28486289309547L;
    private static final long w = 6602843336573190150L;
 
-   public LongJump(Category var1) {
-      super(var1);
+   public LongJump(Category category) {
+      super(category);
       this.addSettings(this.mode, this.jumpBoost, this.boost, this.autoScaffold, this.autoDisable);
    }
 
-   public static void selfDamage(double var0) {
-      double var5 = 0.0;
+   public static void selfDamage(double d2) {
+      double d = 0.0;
 
-      while (var5 < var0) {
-         double var7;
+      while (d < d2) {
+         double e;
          if (GameUtil.isOnHypixel()) {
-            var7 = RandomUtils.nextFloat(0.03F, 0.06F);
+            e = RandomUtils.nextFloat(0.03F, 0.06F);
          } else {
-            var7 = 0.0625;
+            e = 0.0625;
          }
 
          Minecraft.getMinecraft()
@@ -214,7 +214,7 @@ public final class LongJump extends Module {
             .getNetworkManager()
             .sendPacket(
                new C03PacketPlayer.C04PacketPlayerPosition(
-                  Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY + var7, Minecraft.getMinecraft().thePlayer.posZ, false
+                  Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY + e, Minecraft.getMinecraft().thePlayer.posZ, false
                )
             );
          Minecraft.getMinecraft()
@@ -228,7 +228,7 @@ public final class LongJump extends Module {
                   false
                )
             );
-         var5 += var7 - 0.012500048F;
+         d += e - 0.012500048F;
       }
 
       mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));

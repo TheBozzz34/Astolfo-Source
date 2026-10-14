@@ -22,56 +22,56 @@ public class CommandBlockData extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.blockdata.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 4) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 4) {
          throw new WrongUsageException("commands.blockdata.usage");
       }
 
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
-      BlockPos var6 = parseBlockPos(var1, var2, 0, false);
-      World var7 = var1.getEntityWorld();
-      if (!var7.isBlockLoaded(var6)) {
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
+      BlockPos blockPos = parseBlockPos(sender, args, 0, false);
+      World world = sender.getEntityWorld();
+      if (!world.isBlockLoaded(blockPos)) {
          throw new CommandException("commands.blockdata.outOfWorld");
       }
 
-      TileEntity var8 = var7.getTileEntity(var6);
-      if (var8 == null) {
+      TileEntity tileEntity = world.getTileEntity(blockPos);
+      if (tileEntity == null) {
          throw new CommandException("commands.blockdata.notValid");
       }
 
-      NBTTagCompound var9 = new NBTTagCompound();
-      var8.writeToNBT(var9);
-      NBTTagCompound var10 = (NBTTagCompound)var9.copy();
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      tileEntity.writeToNBT(nbtTagCompound);
+      NBTTagCompound nbtTagCompound2 = (NBTTagCompound)nbtTagCompound.copy();
 
-      NBTTagCompound var11;
+      NBTTagCompound nbtTagCompound3;
       try {
-         var11 = JsonToNBT.getTagFromJson(getChatComponentFromNthArg(var1, var2, 3).getUnformattedText());
-      } catch (NBTException var13) {
-         throw new CommandException("commands.blockdata.tagError", var13.getMessage());
+         nbtTagCompound3 = JsonToNBT.getTagFromJson(getChatComponentFromNthArg(sender, args, 3).getUnformattedText());
+      } catch (NBTException nbtException) {
+         throw new CommandException("commands.blockdata.tagError", nbtException.getMessage());
       }
 
-      var9.merge(var11);
-      var9.setInteger("x", var6.getX());
-      var9.setInteger("y", var6.getY());
-      var9.setInteger("z", var6.getZ());
-      if (var9.equals(var10)) {
-         throw new CommandException("commands.blockdata.failed", var9.toString());
+      nbtTagCompound.merge(nbtTagCompound3);
+      nbtTagCompound.setInteger("x", blockPos.getX());
+      nbtTagCompound.setInteger("y", blockPos.getY());
+      nbtTagCompound.setInteger("z", blockPos.getZ());
+      if (nbtTagCompound.equals(nbtTagCompound2)) {
+         throw new CommandException("commands.blockdata.failed", nbtTagCompound.toString());
       }
 
-      var8.readFromNBT(var9);
-      var8.markDirty();
-      var7.markBlockForUpdate(var6);
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-      notifyOperators(var1, this, "commands.blockdata.success", var9.toString());
+      tileEntity.readFromNBT(nbtTagCompound);
+      tileEntity.markDirty();
+      world.markBlockForUpdate(blockPos);
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
+      notifyOperators(sender, this, "commands.blockdata.success", nbtTagCompound.toString());
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length > 0 && var2.length <= 3 ? func_175771_a(var2, 0, var3) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : null;
    }
 }

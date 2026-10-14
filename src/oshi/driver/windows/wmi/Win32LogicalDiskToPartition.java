@@ -13,8 +13,8 @@ public final class Win32LogicalDiskToPartition {
    }
 
    public static WmiResult<Win32LogicalDiskToPartition.DiskToPartitionProperty> queryDiskToPartition() {
-      WmiQuery var2 = new WmiQuery<>("Win32_LogicalDiskToPartition", Win32LogicalDiskToPartition.DiskToPartitionProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_LogicalDiskToPartition", Win32LogicalDiskToPartition.DiskToPartitionProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum DiskToPartitionProperty {

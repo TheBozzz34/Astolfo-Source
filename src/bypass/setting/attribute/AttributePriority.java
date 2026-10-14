@@ -9,8 +9,8 @@ public enum AttributePriority {
 
    public int level;
 
-   AttributePriority(int var3) {
-      this.level = var3;
+   AttributePriority(int k) {
+      this.level = k;
    }
 
    public int h() {

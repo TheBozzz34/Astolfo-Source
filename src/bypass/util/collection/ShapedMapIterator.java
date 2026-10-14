@@ -12,10 +12,10 @@ public abstract class ShapedMapIterator<K, V, E> implements Iterator<E> {
    public Entry<K, V> y;
    private static final long a = 66100522127055L;
 
-   public ShapedMapIterator(ShapedMap<K, V> var1) {
-      this.Q = var1;
-      if (!var1.isEmpty()) {
-         this.G = var1.shape.getDefaults().entrySet().iterator();
+   public ShapedMapIterator(ShapedMap<K, V> shapedMap) {
+      this.Q = shapedMap;
+      if (!shapedMap.isEmpty()) {
+         this.G = shapedMap.shape.getDefaults().entrySet().iterator();
          this.q();
       }
    }
@@ -29,24 +29,24 @@ public abstract class ShapedMapIterator<K, V, E> implements Iterator<E> {
       if (!this.G.hasNext()) {
          this.y = null;
       } else {
-         Entry var4;
-         Object var5;
+         Entry entry;
+         Object object;
          do {
             if (!this.G.hasNext()) {
                this.y = null;
                return;
             }
 
-            var4 = (Entry)this.G.next();
+            entry = (Entry)this.G.next();
             if (this.V) {
-               var5 = var4.getValue();
+               object = entry.getValue();
                break;
             }
 
-            var5 = MapShape.Y(this.Q, (Integer)var4.getValue());
-         } while (var5 == MapShape.REMOVED);
+            object = MapShape.Y(this.Q, (Integer)entry.getValue());
+         } while (object == MapShape.REMOVED);
 
-         this.y = new ShapedMapEntry<>(this.Q, (K)var4.getKey(), (V)var5);
+         this.y = new ShapedMapEntry<>(this.Q, (K)entry.getKey(), (V)object);
       }
    }
 

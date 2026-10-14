@@ -20,8 +20,8 @@ public final class GuiStage extends AbstractLoadStage {
    }
 
    @Override
-   public void setState(int var1) {
-      this.state = var1;
+   public void setState(int i) {
+      this.state = i;
    }
 
    @Override
@@ -29,13 +29,13 @@ public final class GuiStage extends AbstractLoadStage {
       return this.state;
    }
 
-   public static IntegrityCheckHolder t(GuiStage var0) {
-      return var0.L;
+   public static IntegrityCheckHolder t(GuiStage guiStage) {
+      return guiStage.L;
    }
 
    public class a82 extends StageAction {
-      public a82(LoadStage var2) {
-         super(var2);
+      public a82(LoadStage loadStage) {
+         super(loadStage);
       }
 
       @Override
@@ -44,8 +44,8 @@ public final class GuiStage extends AbstractLoadStage {
    }
 
    public class rs2 extends StageValue {
-      public rs2(LoadStage var2) {
-         super(var2);
+      public rs2(LoadStage loadStage) {
+         super(loadStage);
       }
 
       public EntitySkeleton get() {

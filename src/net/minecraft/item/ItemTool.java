@@ -17,31 +17,31 @@ public class ItemTool extends Item {
    public Item.ToolMaterial toolMaterial;
    private static final long b = 23474966750300L;
 
-   public ItemTool(float var1, Item.ToolMaterial var2, Set<Block> var3) {
-      this.toolMaterial = var2;
-      this.effectiveBlocks = var3;
+   public ItemTool(float attackDamage, Item.ToolMaterial material, Set<Block> effectiveBlocks) {
+      this.toolMaterial = material;
+      this.effectiveBlocks = effectiveBlocks;
       this.maxStackSize = 1;
-      this.setMaxDamage(var2.getMaxUses());
-      this.efficiencyOnProperMaterial = var2.getEfficiencyOnProperMaterial();
-      this.damageVsEntity = var1 + var2.getDamageVsEntity();
+      this.setMaxDamage(material.getMaxUses());
+      this.efficiencyOnProperMaterial = material.getEfficiencyOnProperMaterial();
+      this.damageVsEntity = attackDamage + material.getDamageVsEntity();
       this.setCreativeTab(CreativeTabs.tabTools);
    }
 
    @Override
-   public float getStrVsBlock(ItemStack var1, Block var2) {
-      return this.effectiveBlocks.contains(var2) ? this.efficiencyOnProperMaterial : 1.0F;
+   public float getStrVsBlock(ItemStack stack, Block state) {
+      return this.effectiveBlocks.contains(state) ? this.efficiencyOnProperMaterial : 1.0F;
    }
 
    @Override
-   public boolean hitEntity(ItemStack var1, EntityLivingBase var2, EntityLivingBase var3) {
-      var1.damageItem(2, var3);
+   public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+      stack.damageItem(2, attacker);
       return true;
    }
 
    @Override
-   public boolean onBlockDestroyed(ItemStack var1, World var2, Block var3, BlockPos var4, EntityLivingBase var5) {
-      if (var3.getBlockHardness(var2, var4) != 0.0) {
-         var1.damageItem(1, var5);
+   public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+      if (blockIn.getBlockHardness(worldIn, pos) != 0.0) {
+         stack.damageItem(1, playerIn);
       }
 
       return true;
@@ -66,16 +66,16 @@ public class ItemTool extends Item {
    }
 
    @Override
-   public boolean getIsRepairable(ItemStack var1, ItemStack var2) {
-      return this.toolMaterial.getRepairItem() == var2.getItem() ? true : super.getIsRepairable(var1, var2);
+   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+      return this.toolMaterial.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
    }
 
    @Override
    public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
-      Multimap var3 = super.getItemAttributeModifiers();
-      var3.put(
+      Multimap multimap = super.getItemAttributeModifiers();
+      multimap.put(
          SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", this.damageVsEntity, 0)
       );
-      return var3;
+      return multimap;
    }
 }

@@ -13,29 +13,29 @@ public final class AddressHandshake {
    private final ByteBuffer c = ByteBuffer.allocateDirect(4);
    private static final long a = 122727011848368L;
 
-   public void g(SocketChannel var1, SocketAddress var2) throws IOException {
-      if (var1.isConnected()) {
+   public void g(SocketChannel socketChannel, SocketAddress socketAddress) throws IOException {
+      if (socketChannel.isConnected()) {
          throw new AlreadyConnectedException();
       }
 
-      boolean var6 = var1.isBlocking();
-      var1.configureBlocking(true);
-      var1.connect(var2);
-      this.p(var1);
-      var1.configureBlocking(var6);
+      boolean bl = socketChannel.isBlocking();
+      socketChannel.configureBlocking(true);
+      socketChannel.connect(socketAddress);
+      this.p(socketChannel);
+      socketChannel.configureBlocking(bl);
    }
 
-   private void p(SocketChannel var1) throws IOException {
-      String var2 = ((InetSocketAddress)var1.getLocalAddress()).getAddress().getHostAddress();
-      byte[] var3 = var2.getBytes(StandardCharsets.UTF_8);
-      int var4 = var3.length;
-      this.c.putInt(var4);
+   private void p(SocketChannel socketChannel) throws IOException {
+      String string = ((InetSocketAddress)socketChannel.getLocalAddress()).getAddress().getHostAddress();
+      byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+      int i = bytes.length;
+      this.c.putInt(i);
       ((Buffer)this.c).flip();
-      var1.write(this.c);
+      socketChannel.write(this.c);
       ((Buffer)this.c).clear();
-      ByteBuffer var5 = ByteBuffer.allocate(var4);
-      var5.put(var3);
-      ((Buffer)var5).flip();
-      var1.write(var5);
+      ByteBuffer byteBuffer = ByteBuffer.allocate(i);
+      byteBuffer.put(bytes);
+      ((Buffer)byteBuffer).flip();
+      socketChannel.write(byteBuffer);
    }
 }

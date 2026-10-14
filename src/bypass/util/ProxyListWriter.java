@@ -10,22 +10,22 @@ import java.util.Collection;
 public final class ProxyListWriter {
    private static final long a = 113720108509415L;
 
-   public static void k(Path var0, Collection<HostAndPort> var1, String var2) throws IOException {
-      if (Files.notExists(var0)) {
-         Files.createFile(var0);
+   public static void k(Path path, Collection<HostAndPort> collection, String string) throws IOException {
+      if (Files.notExists(path)) {
+         Files.createFile(path);
       }
 
-      try (BufferedWriter var6 = Files.newBufferedWriter(var0, StandardOpenOption.APPEND)) {
-         for (HostAndPort var9 : var1) {
-            var6.write(var9.getHost());
-            var6.write(var2);
-            var6.write(String.valueOf(var9.getPort()));
-            var6.newLine();
+      try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+         for (HostAndPort hostAndPort : collection) {
+            bufferedWriter.write(hostAndPort.getHost());
+            bufferedWriter.write(string);
+            bufferedWriter.write(String.valueOf(hostAndPort.getPort()));
+            bufferedWriter.newLine();
          }
       }
    }
 
-   public static void y(Path var0, Collection<HostAndPort> var1) throws IOException {
-      k(var0, var1, ":");
+   public static void y(Path path, Collection<HostAndPort> collection) throws IOException {
+      k(path, collection, ":");
    }
 }

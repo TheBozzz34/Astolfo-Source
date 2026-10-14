@@ -28,7 +28,7 @@ public final class NoFall extends Module {
    private final EnumSetting<NoFallMode> mode = new EnumSetting<>("Mode", "Set your nofall modes", NoFallMode.SPOOF);
    private ArrayList<Packet<?>> Q = new ArrayList<>();
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var1x -> this.p();
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    private int J;
    private boolean O;
    private double D;
@@ -39,18 +39,18 @@ public final class NoFall extends Module {
    private boolean Y;
    private boolean G;
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.RECEIVED) {
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
       }
    };
    @EventHandler(MoveEvent.class)
-   private final Listener<MoveEvent> onMove = var0 -> {};
+   private final Listener<MoveEvent> onMove = moveEvent -> {};
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGH)
-   private final Listener<MotionEvent> onMotion = var1x -> {
-      NoFallMode var5 = this.mode.getValue();
-      if (var1x.getState().equals(EventState.PRE)) {
-         if (var1x.getMinY() < var1x.getLastY()) {
-            this.D = this.D + (var1x.getLastY() - var1x.getMinY());
+   private final Listener<MotionEvent> onMotion = motionEvent -> {
+      NoFallMode noFallMode = this.mode.getValue();
+      if (motionEvent.getState().equals(EventState.PRE)) {
+         if (motionEvent.getMinY() < motionEvent.getLastY()) {
+            this.D = this.D + (motionEvent.getLastY() - motionEvent.getMinY());
          }
 
          if (mc.thePlayer.isCollidedVertically || mc.thePlayer.onGround) {
@@ -61,21 +61,21 @@ public final class NoFall extends Module {
             return;
          }
 
-         if (var5 == NoFallMode.NO_GROUND) {
-            var1x.setOnGround(false);
+         if (noFallMode == NoFallMode.NO_GROUND) {
+            motionEvent.setOnGround(false);
             return;
          }
 
          if (this.h()) {
-            switch (var5) {
+            switch (noFallMode) {
                case SPOOF:
                   if (GameUtil.isOnHypixel()) {
                      if (this.D > 2.5) {
-                        var1x.setOnGround(true);
+                        motionEvent.setOnGround(true);
                         this.D = 0.0;
                      }
                   } else {
-                     var1x.setOnGround(true);
+                     motionEvent.setOnGround(true);
                   }
                   break;
                case AAC_3311:
@@ -102,7 +102,7 @@ public final class NoFall extends Module {
             this.J = 0;
          }
 
-         if (var5 == NoFallMode.PACKET && P_boolean() && mc.thePlayer.posY > 0.0 && this.D >= 2.5 + (mc.thePlayer.isPotionActive(Potion.jump) ? 0.3 : 0.0)) {
+         if (noFallMode == NoFallMode.PACKET && P_boolean() && mc.thePlayer.posY > 0.0 && this.D >= 2.5 + (mc.thePlayer.isPotionActive(Potion.jump) ? 0.3 : 0.0)) {
             mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
             this.D = 0.0;
          }
@@ -112,8 +112,8 @@ public final class NoFall extends Module {
    };
    private static final long c = 87600643255506L;
 
-   public NoFall(Category var1) {
-      super(var1);
+   public NoFall(Category category) {
+      super(category);
       this.addSettings(this.mode);
    }
 
@@ -121,10 +121,10 @@ public final class NoFall extends Module {
       return this.D(3.0F);
    }
 
-   private boolean D(float var1) {
-      long var2 = c ^ 63802694004856L;
-      long var4 = var2 ^ 73516519596313L;
-      return mc.thePlayer.fallDistance >= var1
+   private boolean D(float f) {
+      long l = c ^ 63802694004856L;
+      long m = l ^ 73516519596313L;
+      return mc.thePlayer.fallDistance >= f
          && !mc.thePlayer.isSpectator()
          && !mc.thePlayer.capabilities.isCreativeMode
          && !mc.thePlayer.capabilities.allowFlying
@@ -134,10 +134,10 @@ public final class NoFall extends Module {
    }
 
    public static double X_double() {
-      for (int var3 = (int)mc.thePlayer.posY; var3 > 0; var3--) {
-         Block var4 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, var3, mc.thePlayer.posZ)).getBlock();
-         if (var4 != Blocks.air) {
-            return mc.thePlayer.posY - var3;
+      for (int i = (int)mc.thePlayer.posY; i > 0; i--) {
+         Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, i, mc.thePlayer.posZ)).getBlock();
+         if (block != Blocks.air) {
+            return mc.thePlayer.posY - i;
          }
       }
 
@@ -145,9 +145,9 @@ public final class NoFall extends Module {
    }
 
    public static boolean P_boolean() {
-      for (int var3 = (int)mc.thePlayer.posY; var3 >= 0; var3--) {
-         Block var4 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, var3, mc.thePlayer.posZ)).getBlock();
-         if (var4 != Blocks.air) {
+      for (int i = (int)mc.thePlayer.posY; i >= 0; i--) {
+         Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, i, mc.thePlayer.posZ)).getBlock();
+         if (block != Blocks.air) {
             return true;
          }
       }
@@ -156,9 +156,9 @@ public final class NoFall extends Module {
    }
 
    public static boolean u_boolean() {
-      for (double var3 = (int)mc.thePlayer.posY; var3 >= 0.0; var3--) {
-         Block var5 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, var3, mc.thePlayer.posZ)).getBlock();
-         if (var5 != Blocks.air) {
+      for (double d = (int)mc.thePlayer.posY; d >= 0.0; d--) {
+         Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, d, mc.thePlayer.posZ)).getBlock();
+         if (block != Blocks.air) {
             return false;
          }
       }

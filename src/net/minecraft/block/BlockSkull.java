@@ -38,11 +38,11 @@ public class BlockSkull extends BlockContainer {
    private static final Predicate<BlockWorldState> IS_WITHER_SKELETON = new Predicate<BlockWorldState>() {
       private static final long a = 7672341126908L;
 
-      public boolean apply(BlockWorldState var1) {
-         return var1.getBlockState() != null
-            && var1.getBlockState().getBlock() == Blocks.skull
-            && var1.getTileEntity() instanceof TileEntitySkull
-            && ((TileEntitySkull)var1.getTileEntity()).getSkullType() == 1;
+      public boolean apply(BlockWorldState blockWorldState) {
+         return blockWorldState.getBlockState() != null
+            && blockWorldState.getBlockState().getBlock() == Blocks.skull
+            && blockWorldState.getTileEntity() instanceof TileEntitySkull
+            && ((TileEntitySkull)blockWorldState.getTileEntity()).getSkullType() == 1;
       }
    };
    private BlockPattern witherBasePattern;
@@ -71,8 +71,8 @@ public class BlockSkull extends BlockContainer {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      switch ((EnumFacing)var1.getBlockState(var2).getValue(FACING)) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      switch ((EnumFacing)worldIn.getBlockState(pos).getValue(FACING)) {
          case UP:
          default:
             this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
@@ -92,128 +92,128 @@ public class BlockSkull extends BlockContainer {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getCollisionBoundingBox(var1, var2, var3);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getCollisionBoundingBox(worldIn, pos, state);
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      return this.getDefaultState().withProperty(FACING, var8.getHorizontalFacing()).withProperty(NODROP, false);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing()).withProperty(NODROP, false);
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntitySkull();
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.skull;
    }
 
    @Override
-   public int getDamageValue(World var1, BlockPos var2) {
-      TileEntity var6 = var1.getTileEntity(var2);
-      return var6 instanceof TileEntitySkull ? ((TileEntitySkull)var6).getSkullType() : super.getDamageValue(var1, var2);
+   public int getDamageValue(World worldIn, BlockPos pos) {
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      return tileEntity instanceof TileEntitySkull ? ((TileEntitySkull)tileEntity).getSkullType() : super.getDamageValue(worldIn, pos);
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
    }
 
    @Override
-   public void onBlockHarvested(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4) {
-      if (var4.capabilities.isCreativeMode) {
-         var3 = var3.withProperty(NODROP, true);
-         var1.setBlockState(var2, var3, 4);
+   public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+      if (player.capabilities.isCreativeMode) {
+         state = state.withProperty(NODROP, true);
+         worldIn.setBlockState(pos, state, 4);
       }
 
-      super.onBlockHarvested(var1, var2, var3, var4);
+      super.onBlockHarvested(worldIn, pos, state, player);
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      if (!var1.isRemote) {
-         if (!var3.getValue(NODROP)) {
-            TileEntity var7 = var1.getTileEntity(var2);
-            if (var7 instanceof TileEntitySkull) {
-               TileEntitySkull var8 = (TileEntitySkull)var7;
-               ItemStack var9 = new ItemStack(Items.skull, 1, this.getDamageValue(var1, var2));
-               if (var8.getSkullType() == 3 && var8.getPlayerProfile() != null) {
-                  var9.setTagCompound(new NBTTagCompound());
-                  NBTTagCompound var10 = new NBTTagCompound();
-                  NBTUtil.writeGameProfile(var10, var8.getPlayerProfile());
-                  var9.getTagCompound().setTag("SkullOwner", var10);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      if (!worldIn.isRemote) {
+         if (!state.getValue(NODROP)) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof TileEntitySkull) {
+               TileEntitySkull tileEntitySkull = (TileEntitySkull)tileEntity;
+               ItemStack itemStack = new ItemStack(Items.skull, 1, this.getDamageValue(worldIn, pos));
+               if (tileEntitySkull.getSkullType() == 3 && tileEntitySkull.getPlayerProfile() != null) {
+                  itemStack.setTagCompound(new NBTTagCompound());
+                  NBTTagCompound nbtTagCompound = new NBTTagCompound();
+                  NBTUtil.writeGameProfile(nbtTagCompound, tileEntitySkull.getPlayerProfile());
+                  itemStack.getTagCompound().setTag("SkullOwner", nbtTagCompound);
                }
 
-               spawnAsEntity(var1, var2, var9);
+               spawnAsEntity(worldIn, pos, itemStack);
             }
          }
 
-         super.breakBlock(var1, var2, var3);
+         super.breakBlock(worldIn, pos, state);
       }
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.skull;
    }
 
-   public boolean canDispenserPlace(World var1, BlockPos var2, ItemStack var3) {
-      return var3.getMetadata() == 1 && var2.getY() >= 2 && var1.getDifficulty() != EnumDifficulty.PEACEFUL && !var1.isRemote
-         ? this.getWitherBasePattern().match(var1, var2) != null
+   public boolean canDispenserPlace(World worldIn, BlockPos pos, ItemStack stack) {
+      return stack.getMetadata() == 1 && pos.getY() >= 2 && worldIn.getDifficulty() != EnumDifficulty.PEACEFUL && !worldIn.isRemote
+         ? this.getWitherBasePattern().match(worldIn, pos) != null
          : false;
    }
 
-   public void checkWitherSpawn(World var1, BlockPos var2, TileEntitySkull var3) {
-      if (var3.getSkullType() == 1 && var2.getY() >= 2 && var1.getDifficulty() != EnumDifficulty.PEACEFUL && !var1.isRemote) {
-         BlockPattern var7 = this.getWitherPattern();
-         BlockPattern.PatternHelper var8 = var7.match(var1, var2);
-         if (var8 != null) {
-            for (int var9 = 0; var9 < 3; var9++) {
-               BlockWorldState var10 = var8.translateOffset(var9, 0, 0);
-               var1.setBlockState(var10.getPos(), var10.getBlockState().withProperty(NODROP, true), 2);
+   public void checkWitherSpawn(World worldIn, BlockPos pos, TileEntitySkull te) {
+      if (te.getSkullType() == 1 && pos.getY() >= 2 && worldIn.getDifficulty() != EnumDifficulty.PEACEFUL && !worldIn.isRemote) {
+         BlockPattern blockPattern = this.getWitherPattern();
+         BlockPattern.PatternHelper patternHelper = blockPattern.match(worldIn, pos);
+         if (patternHelper != null) {
+            for (int i = 0; i < 3; i++) {
+               BlockWorldState blockWorldState = patternHelper.translateOffset(i, 0, 0);
+               worldIn.setBlockState(blockWorldState.getPos(), blockWorldState.getBlockState().withProperty(NODROP, true), 2);
             }
 
-            for (int var15 = 0; var15 < var7.getPalmLength(); var15++) {
-               for (int var17 = 0; var17 < var7.getThumbLength(); var17++) {
-                  BlockWorldState var11 = var8.translateOffset(var15, var17, 0);
-                  var1.setBlockState(var11.getPos(), Blocks.air.getDefaultState(), 2);
+            for (int j = 0; j < blockPattern.getPalmLength(); j++) {
+               for (int k = 0; k < blockPattern.getThumbLength(); k++) {
+                  BlockWorldState blockWorldState2 = patternHelper.translateOffset(j, k, 0);
+                  worldIn.setBlockState(blockWorldState2.getPos(), Blocks.air.getDefaultState(), 2);
                }
             }
 
-            BlockPos var16 = var8.translateOffset(1, 0, 0).getPos();
-            EntityWither var18 = new EntityWither(var1);
-            BlockPos var19 = var8.translateOffset(1, 2, 0).getPos();
-            var18.setLocationAndAngles(
-               var19.getX() + 0.5, var19.getY() + 0.55, var19.getZ() + 0.5, var8.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F, 0.0F
+            BlockPos blockPos = patternHelper.translateOffset(1, 0, 0).getPos();
+            EntityWither entityWither = new EntityWither(worldIn);
+            BlockPos blockPos2 = patternHelper.translateOffset(1, 2, 0).getPos();
+            entityWither.setLocationAndAngles(
+               blockPos2.getX() + 0.5, blockPos2.getY() + 0.55, blockPos2.getZ() + 0.5, patternHelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F, 0.0F
             );
-            var18.renderYawOffset = var8.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F;
-            var18.func_82206_m();
+            entityWither.renderYawOffset = patternHelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F;
+            entityWither.func_82206_m();
 
-            for (EntityPlayer var13 : var1.getEntitiesWithinAABB(EntityPlayer.class, var18.getEntityBoundingBox().expand(50.0, 50.0, 50.0))) {
-               var13.triggerAchievement(AchievementList.spawnWither);
+            for (EntityPlayer entityPlayer : worldIn.getEntitiesWithinAABB(EntityPlayer.class, entityWither.getEntityBoundingBox().expand(50.0, 50.0, 50.0))) {
+               entityPlayer.triggerAchievement(AchievementList.spawnWither);
             }
 
-            var1.spawnEntityInWorld(var18);
+            worldIn.spawnEntityInWorld(entityWither);
 
-            for (int var20 = 0; var20 < 120; var20++) {
-               var1.spawnParticle(
+            for (int l = 0; l < 120; l++) {
+               worldIn.spawnParticle(
                   EnumParticleTypes.SNOWBALL,
-                  var16.getX() + var1.rand.nextDouble(),
-                  var16.getY() - 2 + var1.rand.nextDouble() * 3.9,
-                  var16.getZ() + var1.rand.nextDouble(),
+                  blockPos.getX() + worldIn.rand.nextDouble(),
+                  blockPos.getY() - 2 + worldIn.rand.nextDouble() * 3.9,
+                  blockPos.getZ() + worldIn.rand.nextDouble(),
                   0.0,
                   0.0,
                   0.0
                );
             }
 
-            for (int var21 = 0; var21 < var7.getPalmLength(); var21++) {
-               for (int var22 = 0; var22 < var7.getThumbLength(); var22++) {
-                  BlockWorldState var14 = var8.translateOffset(var21, var22, 0);
-                  var1.notifyNeighborsRespectDebug(var14.getPos(), Blocks.air);
+            for (int m = 0; m < blockPattern.getPalmLength(); m++) {
+               for (int n = 0; n < blockPattern.getThumbLength(); n++) {
+                  BlockWorldState blockWorldState3 = patternHelper.translateOffset(m, n, 0);
+                  worldIn.notifyNeighborsRespectDebug(blockWorldState3.getPos(), Blocks.air);
                }
             }
          }
@@ -221,19 +221,19 @@ public class BlockSkull extends BlockContainer {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(var1 & 7)).withProperty(NODROP, (var1 & 8) > 0);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7)).withProperty(NODROP, (meta & 8) > 0);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(FACING).getIndex();
-      if (var1.getValue(NODROP)) {
-         var5 |= 8;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(FACING).getIndex();
+      if (state.getValue(NODROP)) {
+         i |= 8;
       }
 
-      return var5;
+      return i;
    }
 
    @Override

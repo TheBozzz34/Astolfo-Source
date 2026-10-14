@@ -9,25 +9,25 @@ public class AddressCipher1 {
    public static String G = "2NZewLRIB1HWVnDj";
    private static final long a = 26645090906762L;
 
-   public static String O(String var0) {
-      String var4 = "zMb/dV/oz8GQ9N3FbjADPg==";
+   public static String O(String string) {
+      String string2 = "zMb/dV/oz8GQ9N3FbjADPg==";
 
-      String var3;
+      String string3;
       try {
-         Cipher var5 = Cipher.getInstance(J);
-         SecretKeySpec var6 = new SecretKeySpec(G.getBytes(), J);
-         var5.init(2, var6);
-         byte[] var7 = new BASE64Decoder().decodeBuffer(var4);
-         byte[] var8 = var5.doFinal(var7);
-         SecretKeySpec var9 = new SecretKeySpec(var8, J);
-         var5.init(2, var9);
-         byte[] var10 = new BASE64Decoder().decodeBuffer(var0);
-         byte[] var11 = var5.doFinal(var10);
-         var3 = new String(var11);
-      } catch (Exception var12) {
-         var3 = "";
+         Cipher cipher = Cipher.getInstance(J);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(G.getBytes(), J);
+         cipher.init(2, secretKeySpec);
+         byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
+         byte[] bytes2 = cipher.doFinal(bytes);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, J);
+         cipher.init(2, secretKeySpec2);
+         byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
+         byte[] bytes4 = cipher.doFinal(bytes3);
+         string3 = new String(bytes4);
+      } catch (Exception exception) {
+         string3 = "";
       }
 
-      return var3;
+      return string3;
    }
 }

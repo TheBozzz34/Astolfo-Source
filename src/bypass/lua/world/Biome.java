@@ -12,18 +12,18 @@ public final class Biome extends ZeroArgFunction {
    @Override
    public LuaValue call() {
       try {
-         BlockPos var4 = new BlockPos(
+         BlockPos blockPos = new BlockPos(
             ClientAccess.mc.getRenderViewEntity().posX,
             ClientAccess.mc.getRenderViewEntity().getEntityBoundingBox().minY,
             ClientAccess.mc.getRenderViewEntity().posZ
          );
-         if (ClientAccess.mc.theWorld != null && ClientAccess.mc.theWorld.isBlockLoaded(var4)) {
-            Chunk var5 = ClientAccess.mc.theWorld.getChunkFromBlockCoords(var4);
-            return valueOf(var5.getBiome(var4, ClientAccess.mc.theWorld.getWorldChunkManager()).biomeName);
+         if (ClientAccess.mc.theWorld != null && ClientAccess.mc.theWorld.isBlockLoaded(blockPos)) {
+            Chunk chunk = ClientAccess.mc.theWorld.getChunkFromBlockCoords(blockPos);
+            return valueOf(chunk.getBiome(blockPos, ClientAccess.mc.theWorld.getWorldChunkManager()).biomeName);
          } else {
             return NIL;
          }
-      } catch (Exception var6) {
+      } catch (Exception exception) {
          return NIL;
       }
    }

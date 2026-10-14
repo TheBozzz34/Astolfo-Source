@@ -1,5 +1,5 @@
 package com.googlecode.concurrentlinkedhashmap;
 
 public interface EntryWeigher<K, V> {
-   int weightOf(K var1, V var2);
+   int weightOf(K object, V object2);
 }

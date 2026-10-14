@@ -19,27 +19,27 @@ public final class ServerRotationTracker extends HiddenModule {
    private float G;
    private float f;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGHEST)
-   private Listener<MotionEvent> onMotion = var1 -> {
-      if (var1.getState() == EventState.PRE) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE) {
          this.f = this.G;
-         this.p = var1.getYaw();
-         this.G = var1.getPitch();
+         this.p = motionEvent.getYaw();
+         this.G = motionEvent.getPitch();
       }
    };
    @EventHandler(RotationYawEvent.class)
-   private Listener<RotationYawEvent> onRotationYaw = var1 -> var1.setYaw(this.p);
+   private Listener<RotationYawEvent> onRotationYaw = rotationYawEvent -> rotationYawEvent.setYaw(this.p);
    @EventHandler(RenderLivingEvent.class)
-   private Listener<RenderLivingEvent> onRenderLiving = var1 -> {
-      if (var1.getEntity() == mc.thePlayer) {
-         var1.setPrevPitch(this.f);
-         var1.setPitch(this.G);
-         var1.cancel();
+   private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
+      if (renderLivingEvent.getEntity() == mc.thePlayer) {
+         renderLivingEvent.setPrevPitch(this.f);
+         renderLivingEvent.setPitch(this.G);
+         renderLivingEvent.cancel();
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.RECEIVED) {
-         if (var0.getPacket() instanceof S03PacketTimeUpdate) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
+         if (packetEvent.getPacket() instanceof S03PacketTimeUpdate) {
             H = System.currentTimeMillis();
          }
 

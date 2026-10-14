@@ -9,11 +9,11 @@ public final class Damage extends OneArgFunction {
    private static final long a = 16039466804463L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnumber()) {
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnumber()) {
          return valueOf(false);
       } else if (ClientAccess.mc.thePlayer != null) {
-         LongJump.selfDamage(var1.checkdouble());
+         LongJump.selfDamage(luaValue.checkdouble());
          return valueOf(true);
       } else {
          return valueOf(false);

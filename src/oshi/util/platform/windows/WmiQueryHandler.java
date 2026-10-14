@@ -33,85 +33,85 @@ public class WmiQueryHandler {
 
       try {
          return customClass.getConstructor(EMPTY_CLASS_ARRAY).newInstance(EMPTY_OBJECT_ARRAY);
-      } catch (NoSuchMethodException | SecurityException var4) {
-      } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException var5) {
+      } catch (NoSuchMethodException | SecurityException value) {
+      } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException value2) {
       }
 
       return null;
    }
 
-   public static synchronized void setInstanceClass(Class<? extends WmiQueryHandler> var0) {
-      customClass = var0;
+   public static synchronized void setInstanceClass(Class<? extends WmiQueryHandler> instanceClass) {
+      customClass = instanceClass;
    }
 
-   public <T extends Enum<T>> WmiResult<T> queryWMI(WmiQuery<T> var1) {
-      WbemcliUtil var10002 = WbemcliUtil.INSTANCE;
+   public <T extends Enum<T>> WmiResult<T> queryWMI(WmiQuery<T> query) {
+      WbemcliUtil wbemcliUtil = WbemcliUtil.INSTANCE;
       WbemcliUtil.INSTANCE.getClass();
-      WmiResult var5 = var10002.new WmiResult(var1.getPropertyEnum());
-      if (this.failedWmiClassNames.contains(var1.getWmiClassName())) {
-         return var5;
+      WmiResult wmiResult = wbemcliUtil.new WmiResult(query.getPropertyEnum());
+      if (this.failedWmiClassNames.contains(query.getWmiClassName())) {
+         return wmiResult;
       }
 
-      boolean var6 = false;
+      boolean bl = false;
 
       try {
-         var6 = this.initCOM();
-         var5 = var1.execute(this.wmiTimeout);
-      } catch (COMException var9) {
-         if (!"ROOT\\OpenHardwareMonitor".equals(var1.getNameSpace())) {
-            int var8 = var9.getHresult() == null ? -1 : var9.getHresult().intValue();
-            switch (var8) {
+         bl = this.initCOM();
+         wmiResult = query.execute(this.wmiTimeout);
+      } catch (COMException comException) {
+         if (!"ROOT\\OpenHardwareMonitor".equals(query.getNameSpace())) {
+            int i = comException.getHresult() == null ? -1 : comException.getHresult().intValue();
+            switch (i) {
                default:
-                  this.handleComException(var1, var9);
+                  this.handleComException(query, comException);
                case -2147217394:
                case -2147217392:
                case -2147217385:
-                  this.failedWmiClassNames.add(var1.getWmiClassName());
+                  this.failedWmiClassNames.add(query.getWmiClassName());
             }
          }
-      } catch (TimeoutException var10) {
+      } catch (TimeoutException timeoutException) {
       }
 
-      if (var6) {
+      if (bl) {
          this.unInitCOM();
       }
 
-      return var5;
+      return wmiResult;
    }
 
-   public void handleComException(WmiQuery<?> var1, COMException var2) {
+   public void handleComException(WmiQuery<?> query, COMException ex) {
    }
 
    public boolean initCOM() {
-      boolean var4 = false;
-      var4 = this.initCOM(this.getComThreading());
-      if (!var4) {
-         var4 = this.initCOM(this.switchComThreading());
+      boolean bl = false;
+      bl = this.initCOM(this.getComThreading());
+      if (!bl) {
+         bl = this.initCOM(this.switchComThreading());
       }
 
-      if (var4 && !this.isSecurityInitialized()) {
-         HRESULT var5 = Ole32.INSTANCE.CoInitializeSecurity(null, -1, null, null, 0, 3, null, 0, null);
-         if (COMUtils.FAILED(var5) && var5.intValue() != -2147417831) {
+      if (bl && !this.isSecurityInitialized()) {
+         HRESULT hresult = Ole32.INSTANCE.CoInitializeSecurity(null, -1, null, null, 0, 3, null, 0, null);
+         if (COMUtils.FAILED(hresult) && hresult.intValue() != -2147417831) {
             Ole32.INSTANCE.CoUninitialize();
-            throw new COMException("Failed to initialize security.", var5);
+            throw new COMException("Failed to initialize security.", hresult);
          }
 
          this.securityInitialized = true;
       }
 
-      return var4;
+      return bl;
    }
 
-   public boolean initCOM(int var1) {
-      HRESULT var5 = Ole32.INSTANCE.CoInitializeEx(null, var1);
-      switch (var5.intValue()) {
+   public boolean initCOM(int coInitThreading) {
+      HRESULT hresult = Ole32.INSTANCE.CoInitializeEx(null, coInitThreading);
+      switch (hresult.intValue()) {
          case -2147417850:
             return false;
          case 0:
          case 1:
             return true;
          default:
-            throw new COMException("Failed to initialize COM library.", var5);
+            throw new COMException("Failed to initialize COM library.", hresult);
       }
    }
 
@@ -141,8 +141,8 @@ public class WmiQueryHandler {
       return this.wmiTimeout;
    }
 
-   public void setWmiTimeout(int var1) {
-      this.wmiTimeout = var1;
+   public void setWmiTimeout(int wmiTimeout) {
+      this.wmiTimeout = wmiTimeout;
    }
 
    static {

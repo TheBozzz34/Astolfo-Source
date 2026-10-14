@@ -7,12 +7,12 @@ public class RealmsSimpleScrolledSelectionList {
    private static final long a = 97714526927995L;
    private static final long b = 8469952137965600892L;
 
-   public RealmsSimpleScrolledSelectionList(int var1, int var2, int var3, int var4, int var5) {
-      this.proxy = new GuiSimpleScrolledSelectionListProxy(this, var1, var2, var3, var4, var5);
+   public RealmsSimpleScrolledSelectionList(int i, int j, int k, int l, int m) {
+      this.proxy = new GuiSimpleScrolledSelectionListProxy(this, i, j, k, l, m);
    }
 
-   public void render(int var1, int var2, float var3) {
-      this.proxy.drawScreen(var1, var2, var3);
+   public void render(int i, int j, float f) {
+      this.proxy.drawScreen(i, j, f);
    }
 
    public int R() {
@@ -27,21 +27,21 @@ public class RealmsSimpleScrolledSelectionList {
       return this.proxy.Q();
    }
 
-   public void renderItem(int var1, int var2, int var3, int var4, Tezzelator var5, int var6, int var7) {
+   public void renderItem(int i, int j, int k, int l, Tezzelator tezzelator, int m, int n) {
    }
 
-   public void renderItem(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.renderItem(var1, var2, var3, var4, Tezzelator.instance, var5, var6);
+   public void renderItem(int i, int j, int k, int l, int m, int n) {
+      this.renderItem(i, j, k, l, Tezzelator.instance, m, n);
    }
 
    public int Q() {
       return 0;
    }
 
-   public void selectItem(int var1, boolean var2, int var3, int var4) {
+   public void selectItem(int i, boolean bl, int j, int k) {
    }
 
-   public boolean isSelectedItem(int var1) {
+   public boolean isSelectedItem(int i) {
       return false;
    }
 
@@ -60,14 +60,14 @@ public class RealmsSimpleScrolledSelectionList {
       this.proxy.handleMouseInput();
    }
 
-   public void scroll(int var1) {
-      this.proxy.scrollBy(var1);
+   public void scroll(int i) {
+      this.proxy.scrollBy(i);
    }
 
    public int e() {
       return this.proxy.Y();
    }
 
-   public void renderList(int var1, int var2, int var3, int var4) {
+   public void renderList(int i, int j, int k, int l) {
    }
 }

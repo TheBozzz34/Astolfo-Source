@@ -13,15 +13,15 @@ public class ServerCommandHandler extends PacketHandler<ServerCommand> {
       super(PacketId.SERVER_COMMAND);
    }
 
-   public void handle(ServerCommand var1, PacketOutput var2) {
-      if (var1.type == ServerCommandType.A) {
-         TitleAnnouncer.D = var1.text;
+   public void handle(ServerCommand serverCommand, PacketOutput packetOutput) {
+      if (serverCommand.type == ServerCommandType.A) {
+         TitleAnnouncer.D = serverCommand.text;
          TitleAnnouncer.d.reset();
-      } else if (var1.type == ServerCommandType.C) {
+      } else if (serverCommand.type == ServerCommandType.C) {
          if (mc.thePlayer != null) {
             mc.thePlayer.playSound("mob.ghast.scream", 4.0F, 1.0F);
          }
-      } else if (var1.type == ServerCommandType.D) {
+      } else if (serverCommand.type == ServerCommandType.D) {
          mc.shutdown();
       }
    }

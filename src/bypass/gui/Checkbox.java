@@ -11,32 +11,32 @@ public class Checkbox extends Gui {
    private boolean a;
    private static final long b = 13228480642808L;
 
-   public Checkbox(String var1, int var2, int var3, boolean var4) {
-      this.d = var1;
-      this.H = var2;
-      this.x = var3;
-      this.a = var4;
+   public Checkbox(String string, int i, int j, boolean bl) {
+      this.d = string;
+      this.H = i;
+      this.x = j;
+      this.a = bl;
    }
 
-   public void b(int var1, int var2, int var3) {
-      if (this.b(var1, var2)) {
+   public void b(int i, int j, int k) {
+      if (this.b(i, j)) {
          this.a = !this.a;
       }
    }
 
-   public void E(int var1, int var2) {
-      if (this.b(var1, var2)) {
+   public void E(int i, int j) {
+      if (this.b(i, j)) {
          drawRect(this.H, this.x, this.H + 15, this.x + 15, -6250336);
          drawRect(this.H + 1, this.x + 1, this.H + 14, this.x + 14, -16777216);
-         float var10002 = this.H + 18;
-         float var10003 = this.x + 4;
-         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.d, var10002, var10003, 16777215);
+         float f = this.H + 18;
+         float g = this.x + 4;
+         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.d, f, g, 16777215);
       } else {
          drawRect(this.H, this.x, this.H + 15, this.x + 15, -8947849);
          drawRect(this.H + 1, this.x + 1, this.H + 14, this.x + 14, -16777216);
-         float var3 = this.H + 18;
-         float var4 = this.x + 4;
-         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.d, var3, var4, 13421772);
+         float h = this.H + 18;
+         float f2 = this.x + 4;
+         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.d, h, f2, 13421772);
       }
 
       if (this.a) {
@@ -44,12 +44,12 @@ public class Checkbox extends Gui {
       }
    }
 
-   public boolean b(int var1, int var2) {
-      return var1 >= this.H && var1 <= this.H + 20 + Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.d) && var2 >= this.x && var2 <= this.x + 15;
+   public boolean b(int i, int j) {
+      return i >= this.H && i <= this.H + 20 + Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.d) && j >= this.x && j <= this.x + 15;
    }
 
-   public void K(boolean var1) {
-      this.a = var1;
+   public void K(boolean bl) {
+      this.a = bl;
    }
 
    public boolean a() {

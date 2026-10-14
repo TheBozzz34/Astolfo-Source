@@ -16,25 +16,25 @@ public class EntityLightningBolt extends EntityWeatherEffect {
    private int boltLivingTime;
    private static final long ab = 87380344513601L;
 
-   public EntityLightningBolt(World var1, double var2, double var4, double var6) {
-      super(var1);
-      this.setLocationAndAngles(var2, var4, var6, 0.0F, 0.0F);
+   public EntityLightningBolt(World worldIn, double posX, double posY, double posZ) {
+      super(worldIn);
+      this.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
       this.lightningState = 2;
       this.boltVertex = this.rand.nextLong();
       this.boltLivingTime = this.rand.nextInt(3) + 1;
-      BlockPos var12 = new BlockPos(this);
-      if (!var1.isRemote
-         && var1.getGameRules().getBoolean("doFireTick")
-         && (var1.getDifficulty() == EnumDifficulty.NORMAL || var1.getDifficulty() == EnumDifficulty.HARD)
-         && var1.isAreaLoaded(var12, 10)) {
-         if (var1.getBlockState(var12).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(var1, var12)) {
-            var1.setBlockState(var12, Blocks.fire.getDefaultState());
+      BlockPos blockPos = new BlockPos(this);
+      if (!worldIn.isRemote
+         && worldIn.getGameRules().getBoolean("doFireTick")
+         && (worldIn.getDifficulty() == EnumDifficulty.NORMAL || worldIn.getDifficulty() == EnumDifficulty.HARD)
+         && worldIn.isAreaLoaded(blockPos, 10)) {
+         if (worldIn.getBlockState(blockPos).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(worldIn, blockPos)) {
+            worldIn.setBlockState(blockPos, Blocks.fire.getDefaultState());
          }
 
-         for (int var13 = 0; var13 < 4; var13++) {
-            BlockPos var14 = var12.add(this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1);
-            if (var1.getBlockState(var14).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(var1, var14)) {
-               var1.setBlockState(var14, Blocks.fire.getDefaultState());
+         for (int i = 0; i < 4; i++) {
+            BlockPos blockPos2 = blockPos.add(this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1);
+            if (worldIn.getBlockState(blockPos2).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(worldIn, blockPos2)) {
+               worldIn.setBlockState(blockPos2, Blocks.fire.getDefaultState());
             }
          }
       }
@@ -56,13 +56,13 @@ public class EntityLightningBolt extends EntityWeatherEffect {
             this.boltLivingTime--;
             this.lightningState = 1;
             this.boltVertex = this.rand.nextLong();
-            BlockPos var4 = new BlockPos(this);
+            BlockPos blockPos = new BlockPos(this);
             if (!this.worldObj.isRemote
                && this.worldObj.getGameRules().getBoolean("doFireTick")
-               && this.worldObj.isAreaLoaded(var4, 10)
-               && this.worldObj.getBlockState(var4).getBlock().getMaterial() == Material.air
-               && Blocks.fire.canPlaceBlockAt(this.worldObj, var4)) {
-               this.worldObj.setBlockState(var4, Blocks.fire.getDefaultState());
+               && this.worldObj.isAreaLoaded(blockPos, 10)
+               && this.worldObj.getBlockState(blockPos).getBlock().getMaterial() == Material.air
+               && Blocks.fire.canPlaceBlockAt(this.worldObj, blockPos)) {
+               this.worldObj.setBlockState(blockPos, Blocks.fire.getDefaultState());
             }
          }
       }
@@ -71,15 +71,15 @@ public class EntityLightningBolt extends EntityWeatherEffect {
          if (this.worldObj.isRemote) {
             this.worldObj.setLastLightningBolt(2);
          } else {
-            double var9 = 3.0;
-            List var6 = this.worldObj
+            double d = 3.0;
+            List list = this.worldObj
                .getEntitiesWithinAABBExcludingEntity(
-                  this, new AxisAlignedBB(this.posX - var9, this.posY - var9, this.posZ - var9, this.posX + var9, this.posY + 6.0 + var9, this.posZ + var9)
+                  this, new AxisAlignedBB(this.posX - d, this.posY - d, this.posZ - d, this.posX + d, this.posY + 6.0 + d, this.posZ + d)
                );
 
-            for (int var7 = 0; var7 < var6.size(); var7++) {
-               Entity var8 = (Entity)var6.get(var7);
-               var8.onStruckByLightning(this);
+            for (int i = 0; i < list.size(); i++) {
+               Entity entity = (Entity)list.get(i);
+               entity.onStruckByLightning(this);
             }
          }
       }
@@ -90,10 +90,10 @@ public class EntityLightningBolt extends EntityWeatherEffect {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
    }
 }

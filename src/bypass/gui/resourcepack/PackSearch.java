@@ -17,52 +17,56 @@ public class PackSearch {
    private Pattern H;
    private static final long a = 33754350313956L;
 
-   private static String T(ResourcePackListEntry var0) {
-      if (var0 instanceof CustomPackEntry) {
-         return ((CustomPackEntry)var0).func_148312_b();
+   private static String T(ResourcePackListEntry resourcePackListEntry) {
+      if (resourcePackListEntry instanceof CustomPackEntry) {
+         return ((CustomPackEntry)resourcePackListEntry).func_148312_b();
       } else {
-         return var0 instanceof ResourcePackListEntryFound ? ((ResourcePackListEntryFound)var0).func_148318_i().getResourcePackName() : "<INVALID>";
+         return resourcePackListEntry instanceof ResourcePackListEntryFound
+            ? ((ResourcePackListEntryFound)resourcePackListEntry).func_148318_i().getResourcePackName()
+            : "<INVALID>";
       }
    }
 
-   private static String c(ResourcePackListEntry var0, boolean var1) {
-      String var5 = !var1 ? "a" : "z";
-      String var6 = !var1 ? "b" : "z";
-      String var7 = !var1 ? "z" : "a";
-      if (var0 instanceof FolderPackEntry) {
-         FolderPackEntry var8 = (FolderPackEntry)var0;
-         return var8.Y ? var5 + var8.B : var6 + var8.B;
-      } else if (var0 instanceof CustomPackEntry) {
-         return var7 + ((CustomPackEntry)var0).func_148312_b();
+   private static String c(ResourcePackListEntry resourcePackListEntry, boolean bl) {
+      String string = !bl ? "a" : "z";
+      String string2 = !bl ? "b" : "z";
+      String string3 = !bl ? "z" : "a";
+      if (resourcePackListEntry instanceof FolderPackEntry) {
+         FolderPackEntry folderPackEntry = (FolderPackEntry)resourcePackListEntry;
+         return folderPackEntry.Y ? string + folderPackEntry.B : string2 + folderPackEntry.B;
+      } else if (resourcePackListEntry instanceof CustomPackEntry) {
+         return string3 + ((CustomPackEntry)resourcePackListEntry).func_148312_b();
       } else {
-         return var0 instanceof ResourcePackListEntryFound
-            ? var7 + ((ResourcePackListEntryFound)var0).func_148318_i().getResourcePackName()
-            : var7 + "<INVALID>";
+         return resourcePackListEntry instanceof ResourcePackListEntryFound
+            ? string3 + ((ResourcePackListEntryFound)resourcePackListEntry).func_148318_i().getResourcePackName()
+            : string3 + "<INVALID>";
       }
    }
 
-   private static String F(ResourcePackListEntry var0) {
-      if (var0 instanceof CustomPackEntry) {
-         return ((CustomPackEntry)var0).func_148311_a();
+   private static String F(ResourcePackListEntry resourcePackListEntry) {
+      if (resourcePackListEntry instanceof CustomPackEntry) {
+         return ((CustomPackEntry)resourcePackListEntry).func_148311_a();
       } else {
-         return var0 instanceof ResourcePackListEntryFound ? ((ResourcePackListEntryFound)var0).func_148318_i().getTexturePackDescription() : "<INVALID>";
+         return resourcePackListEntry instanceof ResourcePackListEntryFound
+            ? ((ResourcePackListEntryFound)resourcePackListEntry).func_148318_i().getTexturePackDescription()
+            : "<INVALID>";
       }
    }
 
-   public PackSearch(List<ResourcePackListEntry> var1, List<ResourcePackListEntry> var2) {
-      this.M = var1;
-      this.J = var2;
+   public PackSearch(List<ResourcePackListEntry> list, List<ResourcePackListEntry> list2) {
+      this.M = list;
+      this.J = list2;
       this.f();
    }
 
-   public void E(Comparator<ResourcePackListEntry> var1) {
-      this.F = var1;
+   public void E(Comparator<ResourcePackListEntry> comparator) {
+      this.F = comparator;
       this.f();
    }
 
-   public void R(String var1) {
-      if (var1 != null && !var1.isEmpty()) {
-         this.H = Pattern.compile("\\Q" + var1.replace("*", "\\E.*\\Q") + "\\E", 2);
+   public void R(String string) {
+      if (string != null && !string.isEmpty()) {
+         this.H = Pattern.compile("\\Q" + string.replace("*", "\\E.*\\Q") + "\\E", 2);
       } else {
          this.H = null;
       }
@@ -73,9 +77,9 @@ public class PackSearch {
    public void f() {
       this.J.clear();
 
-      for (ResourcePackListEntry var5 : this.M) {
-         if (this.S(T(var5)) || this.S(F(var5))) {
-            this.J.add(var5);
+      for (ResourcePackListEntry resourcePackListEntry : this.M) {
+         if (this.S(T(resourcePackListEntry)) || this.S(F(resourcePackListEntry))) {
+            this.J.add(resourcePackListEntry);
          }
       }
 
@@ -84,11 +88,11 @@ public class PackSearch {
       }
    }
 
-   private boolean S(String var1) {
-      return this.H == null || this.H.matcher(var1.toLowerCase(Locale.ENGLISH)).find();
+   private boolean S(String string) {
+      return this.H == null || this.H.matcher(string.toLowerCase(Locale.ENGLISH)).find();
    }
 
-   public static String A(ResourcePackListEntry var0, boolean var1) {
-      return c(var0, var1);
+   public static String A(ResourcePackListEntry resourcePackListEntry, boolean bl) {
+      return c(resourcePackListEntry, bl);
    }
 }

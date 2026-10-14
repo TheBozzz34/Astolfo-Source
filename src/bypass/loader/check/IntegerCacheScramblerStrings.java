@@ -9,25 +9,25 @@ public class IntegerCacheScramblerStrings {
    public static String A = "PtpvDfZKhTXrx8Qi";
    private static final long a = 5369934497344L;
 
-   public static String z(String var0) {
-      String var4 = "PJc/L4cQHOGvRKrnof+rsQ==";
+   public static String z(String string) {
+      String string2 = "PJc/L4cQHOGvRKrnof+rsQ==";
 
-      String var3;
+      String string3;
       try {
-         Cipher var5 = Cipher.getInstance(j);
-         SecretKeySpec var6 = new SecretKeySpec(A.getBytes(), j);
-         var5.init(2, var6);
-         byte[] var7 = new BASE64Decoder().decodeBuffer(var4);
-         byte[] var8 = var5.doFinal(var7);
-         SecretKeySpec var9 = new SecretKeySpec(var8, j);
-         var5.init(2, var9);
-         byte[] var10 = new BASE64Decoder().decodeBuffer(var0);
-         byte[] var11 = var5.doFinal(var10);
-         var3 = new String(var11);
-      } catch (Exception var12) {
-         var3 = "";
+         Cipher cipher = Cipher.getInstance(j);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(A.getBytes(), j);
+         cipher.init(2, secretKeySpec);
+         byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
+         byte[] bytes2 = cipher.doFinal(bytes);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, j);
+         cipher.init(2, secretKeySpec2);
+         byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
+         byte[] bytes4 = cipher.doFinal(bytes3);
+         string3 = new String(bytes4);
+      } catch (Exception exception) {
+         string3 = "";
       }
 
-      return var3;
+      return string3;
    }
 }

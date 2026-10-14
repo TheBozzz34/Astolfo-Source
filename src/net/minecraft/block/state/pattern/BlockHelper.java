@@ -8,15 +8,15 @@ public class BlockHelper implements Predicate<IBlockState> {
    private final Block block;
    private static final long a = 61757961246677L;
 
-   private BlockHelper(Block var1) {
-      this.block = var1;
+   private BlockHelper(Block blockType) {
+      this.block = blockType;
    }
 
-   public static BlockHelper forBlock(Block var0) {
-      return new BlockHelper(var0);
+   public static BlockHelper forBlock(Block blockType) {
+      return new BlockHelper(blockType);
    }
 
-   public boolean apply(IBlockState var1) {
-      return var1 != null && var1.getBlock() == this.block;
+   public boolean apply(IBlockState iBlockState) {
+      return iBlockState != null && iBlockState.getBlock() == this.block;
    }
 }

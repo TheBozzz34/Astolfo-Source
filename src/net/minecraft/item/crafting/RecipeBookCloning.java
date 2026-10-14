@@ -12,65 +12,65 @@ public class RecipeBookCloning implements IRecipe {
    private static final long c = -6404648853768765431L;
 
    @Override
-   public boolean matches(InventoryCrafting var1, World var2) {
-      int var6 = 0;
-      ItemStack var7 = null;
+   public boolean matches(InventoryCrafting inv, World worldIn) {
+      int i = 0;
+      ItemStack itemStack = null;
 
-      for (int var8 = 0; var8 < var1.getSizeInventory(); var8++) {
-         ItemStack var9 = var1.getStackInSlot(var8);
-         if (var9 != null) {
-            if (var9.getItem() == Items.written_book) {
-               if (var7 != null) {
+      for (int j = 0; j < inv.getSizeInventory(); j++) {
+         ItemStack itemStack2 = inv.getStackInSlot(j);
+         if (itemStack2 != null) {
+            if (itemStack2.getItem() == Items.written_book) {
+               if (itemStack != null) {
                   return false;
                }
 
-               var7 = var9;
+               itemStack = itemStack2;
             } else {
-               if (var9.getItem() != Items.writable_book) {
+               if (itemStack2.getItem() != Items.writable_book) {
                   return false;
                }
 
-               var6++;
+               i++;
             }
          }
       }
 
-      return var7 != null && var6 > 0;
+      return itemStack != null && i > 0;
    }
 
    @Override
-   public ItemStack getCraftingResult(InventoryCrafting var1) {
-      int var5 = 0;
-      ItemStack var6 = null;
+   public ItemStack getCraftingResult(InventoryCrafting inv) {
+      int i = 0;
+      ItemStack itemStack = null;
 
-      for (int var7 = 0; var7 < var1.getSizeInventory(); var7++) {
-         ItemStack var8 = var1.getStackInSlot(var7);
-         if (var8 != null) {
-            if (var8.getItem() == Items.written_book) {
-               if (var6 != null) {
+      for (int j = 0; j < inv.getSizeInventory(); j++) {
+         ItemStack itemStack2 = inv.getStackInSlot(j);
+         if (itemStack2 != null) {
+            if (itemStack2.getItem() == Items.written_book) {
+               if (itemStack != null) {
                   return null;
                }
 
-               var6 = var8;
+               itemStack = itemStack2;
             } else {
-               if (var8.getItem() != Items.writable_book) {
+               if (itemStack2.getItem() != Items.writable_book) {
                   return null;
                }
 
-               var5++;
+               i++;
             }
          }
       }
 
-      if (var6 != null && var5 >= 1 && ItemEditableBook.getGeneration(var6) < 2) {
-         ItemStack var9 = new ItemStack(Items.written_book, var5);
-         var9.setTagCompound((NBTTagCompound)var6.getTagCompound().copy());
-         var9.getTagCompound().setInteger("generation", ItemEditableBook.getGeneration(var6) + 1);
-         if (var6.hasDisplayName()) {
-            var9.setStackDisplayName(var6.getDisplayName());
+      if (itemStack != null && i >= 1 && ItemEditableBook.getGeneration(itemStack) < 2) {
+         ItemStack itemStack3 = new ItemStack(Items.written_book, i);
+         itemStack3.setTagCompound((NBTTagCompound)itemStack.getTagCompound().copy());
+         itemStack3.getTagCompound().setInteger("generation", ItemEditableBook.getGeneration(itemStack) + 1);
+         if (itemStack.hasDisplayName()) {
+            itemStack3.setStackDisplayName(itemStack.getDisplayName());
          }
 
-         return var9;
+         return itemStack3;
       } else {
          return null;
       }
@@ -87,17 +87,17 @@ public class RecipeBookCloning implements IRecipe {
    }
 
    @Override
-   public ItemStack[] getRemainingItems(InventoryCrafting var1) {
-      ItemStack[] var5 = new ItemStack[var1.getSizeInventory()];
+   public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+      ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         ItemStack var7 = var1.getStackInSlot(var6);
-         if (var7 != null && var7.getItem() instanceof ItemEditableBook) {
-            var5[var6] = var7;
+      for (int i = 0; i < itemStacks.length; i++) {
+         ItemStack itemStack = inv.getStackInSlot(i);
+         if (itemStack != null && itemStack.getItem() instanceof ItemEditableBook) {
+            itemStacks[i] = itemStack;
             break;
          }
       }
 
-      return var5;
+      return itemStacks;
    }
 }

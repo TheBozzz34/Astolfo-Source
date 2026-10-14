@@ -5,11 +5,11 @@ import bypass.event.EventHandler;
 import java.lang.reflect.AnnotatedElement;
 
 public interface ListenerFilter<A extends AnnotatedElement> {
-   default boolean isListener(A var1) {
-      return var1.isAnnotationPresent(EventHandler.class);
+   default boolean isListener(A annotatedElement) {
+      return annotatedElement.isAnnotationPresent(EventHandler.class);
    }
 
-   boolean listensTo(A var1, Class<? extends Event> var2);
+   boolean listensTo(A annotatedElement, Class<? extends Event> class2);
 
    static FieldListenerFilter W() {
       return new FieldListenerFilter();

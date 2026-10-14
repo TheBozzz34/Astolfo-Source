@@ -101,34 +101,34 @@ public final class Scaffold extends Module {
    private boolean resetMotionYOnDisable;
    private int placeSlot = -1;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.OUTGOING && var0.getPacket() instanceof C09PacketHeldItemChange && ncpHypixel.getValue()) {
-         var0.cancel();
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C09PacketHeldItemChange && ncpHypixel.getValue()) {
+         packetEvent.cancel();
       }
    };
    @EventHandler(RenderLivingEvent.class)
-   private Listener<RenderLivingEvent> onRenderLiving = var1x -> {
-      if (var1x.getEntity() == mc.thePlayer && target == null && this.keepRotations.getValue()) {
+   private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
+      if (renderLivingEvent.getEntity() == mc.thePlayer && target == null && this.keepRotations.getValue()) {
       }
    };
    @EventHandler(RenderEvent.class)
-   private Listener<RenderEvent> onRender = var0 -> {
-      if (var0.getType() == RenderType.SCREEN && mc.thePlayer != null && mc.thePlayer.inventoryContainer != null) {
-         int var4 = countBlocks();
-         String var5 = String.format("%s %s", var4, var4 > 1 ? "blocks" : (var4 <= 0 ? "blocks" : "block"));
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN && mc.thePlayer != null && mc.thePlayer.inventoryContainer != null) {
+         int i = countBlocks();
+         String string = String.format("%s %s", i, i > 1 ? "blocks" : (i <= 0 ? "blocks" : "block"));
          client.getFontRenderer()
             .drawStringWithShadow(
-               var5,
-               var0.getResolution().getScaledWidth() / 2.0F + client.getFontRenderer().getStringWidth(var5) / 2.0F,
-               var0.getResolution().getScaledHeight() / 2.0F - 3.0F,
+               string,
+               renderEvent.getResolution().getScaledWidth() / 2.0F + client.getFontRenderer().getStringWidth(string) / 2.0F,
+               renderEvent.getResolution().getScaledHeight() / 2.0F - 3.0F,
                Color.WHITE.getRGB()
             );
       }
    };
    @EventHandler(RenderHotbarEvent.class)
-   private Listener<RenderHotbarEvent> onRenderHotbar = var1x -> {
+   private Listener<RenderHotbarEvent> onRenderHotbar = renderHotbarEvent -> {
       if (this.placeSlot != -1) {
-         var1x.setSlot(this.placeSlot);
+         renderHotbarEvent.setSlot(this.placeSlot);
       }
    };
    private boolean towering;
@@ -139,85 +139,85 @@ public final class Scaffold extends Module {
    private boolean rotated;
    private int airTicks;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.NORMAL)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      long var2 = cb ^ 75440067652333L;
-      long var4 = var2 ^ 99502690093115L;
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      long l = cb ^ 75440067652333L;
+      long n = l ^ 99502690093115L;
       if (mc.thePlayer.onGround) {
          this.airTicks = 0;
       } else {
          this.airTicks++;
       }
 
-      double var7 = down.getValue()
+      double d = down.getValue()
             && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())
             && mc.thePlayer.motionY < 0.0
             && !mc.thePlayer.movementInput.jump
          ? 1.5
          : 1.0;
-      Vec3 var9 = new Vec3(mc.thePlayer.posX, this.placeY - var7, mc.thePlayer.posZ);
-      switch (var1x.getState()) {
+      Vec3 vec3 = new Vec3(mc.thePlayer.posX, this.placeY - d, mc.thePlayer.posZ);
+      switch (motionEvent.getState()) {
          case PRE:
             this.lastTarget = target;
             target = null;
-            float[] var10 = null;
-            ScaffoldRotationMode var11 = ncpHypixel.getValue() ? ScaffoldRotationMode.BACKWARD : rotation.getValue();
+            float[] floats = null;
+            ScaffoldRotationMode scaffoldRotationMode = ncpHypixel.getValue() ? ScaffoldRotationMode.BACKWARD : rotation.getValue();
             if (Disabler.mode.getValue() == DisablerMode.WATCHDOG_TIMER && client.getModuleManager().get(Disabler.class).isEnabled()) {
-               boolean var34 = true;
+               boolean bl = true;
             } else {
-               boolean var10000 = false;
+               boolean bl2 = false;
             }
 
             if (countBlocks() > 0) {
                if (this.keepRotations.getValue()) {
-                  if (var11 == ScaffoldRotationMode.EYE_ANGLE) {
-                     var1x.setPitch(RandomUtils.nextFloat(85.0F, 87.0F));
-                     this.sentPitch = var1x.getPitch();
+                  if (scaffoldRotationMode == ScaffoldRotationMode.EYE_ANGLE) {
+                     motionEvent.setPitch(RandomUtils.nextFloat(85.0F, 87.0F));
+                     this.sentPitch = motionEvent.getPitch();
                      this.sentYaw = mc.thePlayer.rotationYaw;
-                  } else if (var11 == ScaffoldRotationMode.DEFAULT) {
-                     Vector3d var13 = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-                     Vector3d var14 = new Vector3d(var1x.getLastX(), var1x.getLastY(), var1x.getLastZ());
-                     var10 = new float[]{this.rotator.rotationTo(var14, var13).getYaw(), 77.0F};
-                     var1x.setYaw(var10[0]);
-                     this.sentYaw = var10[0];
-                     this.sentPitch = var10[1];
+                  } else if (scaffoldRotationMode == ScaffoldRotationMode.DEFAULT) {
+                     Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+                     Vector3d vector3d2 = new Vector3d(motionEvent.getLastX(), motionEvent.getLastY(), motionEvent.getLastZ());
+                     floats = new float[]{this.rotator.rotationTo(vector3d2, vector3d).getYaw(), 77.0F};
+                     motionEvent.setYaw(floats[0]);
+                     this.sentYaw = floats[0];
+                     this.sentPitch = floats[1];
                   } else {
-                     var1x.setYaw(this.sentYaw);
-                     var1x.setPitch(this.sentPitch);
+                     motionEvent.setYaw(this.sentYaw);
+                     motionEvent.setPitch(this.sentPitch);
                   }
                }
 
                if (ncpHypixel.getValue()) {
-                  Rotation var22 = this.rotator
-                     .smooth(new Rotation(mc.thePlayer.rotationYaw - 180.0F, 0.0F), new Rotation(var1x.getLastYaw(), var1x.getLastPitch()));
-                  float var24 = MathHelper.wrapAngleTo180_float(var22.getYaw() - mc.thePlayer.rotationYaw);
-                  float var15 = mc.thePlayer.rotationYaw + var24;
-                  var1x.setYaw(var15);
-                  this.sentYaw = var22.getYaw();
+                  Rotation rotation2 = this.rotator
+                     .smooth(new Rotation(mc.thePlayer.rotationYaw - 180.0F, 0.0F), new Rotation(motionEvent.getLastYaw(), motionEvent.getLastPitch()));
+                  float f = MathHelper.wrapAngleTo180_float(rotation2.getYaw() - mc.thePlayer.rotationYaw);
+                  float g = mc.thePlayer.rotationYaw + f;
+                  motionEvent.setYaw(g);
+                  this.sentYaw = rotation2.getYaw();
                   this.rotator.setSmoothing(40.0F);
-                  var10 = new float[]{var15, this.sentPitch};
+                  floats = new float[]{g, this.sentPitch};
                }
             }
 
-            int var23 = this.countHotbarBlocks();
-            if (var23 <= 0) {
+            int i = this.countHotbarBlocks();
+            if (i <= 0) {
                if (mc.currentScreen instanceof GuiContainer) {
                   return;
                }
 
                this.placeY = mc.thePlayer.posY;
-               int var25 = this.findInventoryBlock();
-               if (var25 != -1 && this.hotbarMove.getValue()) {
-                  mc.playerController.windowClick(0, var25, this.slot.getValue() - 1, 2, mc.thePlayer);
+               int j = this.findInventoryBlock();
+               if (j != -1 && this.hotbarMove.getValue()) {
+                  mc.playerController.windowClick(0, j, this.slot.getValue() - 1, 2, mc.thePlayer);
                }
             } else {
                if (!this.placeTimer.hasElapsed(this.delay.getValue().intValue()) && this.delay.getValue() > 20) {
                   return;
                }
 
-               if (var23 < 10 && this.safeStack.getValue() && this.safeStackTimer.hasElapsed(250.0F) && this.hotbarMove.getValue()) {
-                  int var26 = this.findInventoryBlock();
-                  if (var26 != -1) {
-                     mc.playerController.windowClick(0, var26, this.safeStackSlot.getValue() - 1, 2, mc.thePlayer);
+               if (i < 10 && this.safeStack.getValue() && this.safeStackTimer.hasElapsed(250.0F) && this.hotbarMove.getValue()) {
+                  int k = this.findInventoryBlock();
+                  if (k != -1) {
+                     mc.playerController.windowClick(0, k, this.safeStackSlot.getValue() - 1, 2, mc.thePlayer);
                      this.safeStackTimer.reset();
                   }
                }
@@ -230,8 +230,8 @@ public final class Scaffold extends Module {
                         }
 
                         if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-                           PotionEffect var27 = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
-                           if (var27.getAmplifier() == 0) {
+                           PotionEffect potionEffect = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
+                           if (potionEffect.getAmplifier() == 0) {
                               mc.thePlayer.G(mc.thePlayer.B() * 0.43F);
                            } else {
                               mc.thePlayer.G(mc.thePlayer.B() * 0.1F);
@@ -278,8 +278,8 @@ public final class Scaffold extends Module {
                   this.placeY = mc.thePlayer.posY;
                }
 
-               BlockPos var28 = new BlockPos(mc.thePlayer.posX, this.placeY - var7, mc.thePlayer.posZ);
-               ScaffoldTowerMode var29 = this.tower.getValue();
+               BlockPos blockPos = new BlockPos(mc.thePlayer.posX, this.placeY - d, mc.thePlayer.posZ);
+               ScaffoldTowerMode scaffoldTowerMode = this.tower.getValue();
                if (this.stairs.getValue()
                   && mc.gameSettings.keyBindJump.isKeyDown()
                   && GameUtil.isMoving(mc.thePlayer)
@@ -298,7 +298,7 @@ public final class Scaffold extends Module {
                   }
                }
 
-               if (var29 == ScaffoldTowerMode.TRUE && GameUtil.isOnHypixel() && mc.gameSettings.keyBindJump.isKeyDown() && !GameUtil.isMoving(mc.thePlayer)) {
+               if (scaffoldTowerMode == ScaffoldTowerMode.TRUE && GameUtil.isOnHypixel() && mc.gameSettings.keyBindJump.isKeyDown() && !GameUtil.isMoving(mc.thePlayer)) {
                   mc.thePlayer.setSprinting(false);
                   if (this.towerCenter.getValue() && Math.floor(mc.thePlayer.posX) + 0.5 - mc.thePlayer.posX != 0.0) {
                      mc.thePlayer.setPosition(Math.floor(mc.thePlayer.posX) + 0.5, mc.thePlayer.posY, Math.floor(mc.thePlayer.posZ) + 0.5);
@@ -322,62 +322,62 @@ public final class Scaffold extends Module {
                }
 
                if (this.extend.getValue() != 0.0F) {
-                  Vec3 var16 = this.extendPosition(
-                     new Vec3(mc.thePlayer.posX, this.placeY - var7, mc.thePlayer.posZ),
+                  Vec3 vec32 = this.extendPosition(
+                     new Vec3(mc.thePlayer.posX, this.placeY - d, mc.thePlayer.posZ),
                      GameUtil.isMoving(mc.thePlayer) ? this.extend.getValue().floatValue() : 0.0
                   );
-                  if (this.findTarget(new BlockPos(var16)) != null) {
-                     var28 = new BlockPos(var16.xCoord, var16.yCoord, var16.zCoord);
+                  if (this.findTarget(new BlockPos(vec32)) != null) {
+                     blockPos = new BlockPos(vec32.xCoord, vec32.yCoord, vec32.zCoord);
                   }
                }
 
-               if (this.isReplaceable(mc.theWorld.getBlockState(var28).getBlock())) {
-                  boolean var30 = this.shouldRayCast();
-                  if (var30) {
+               if (this.isReplaceable(mc.theWorld.getBlockState(blockPos).getBlock())) {
+                  boolean bl3 = this.shouldRayCast();
+                  if (bl3) {
                      target = new ScaffoldTarget(null, null);
-                     this.rayCastTarget(var9, var1x);
+                     this.rayCastTarget(vec3, motionEvent);
                   } else {
-                     target = this.findTarget(var28);
+                     target = this.findTarget(blockPos);
                   }
 
                   if (target != null) {
-                     Vector3d var17 = new Vector3d((float)mc.thePlayer.posX, (float)mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), (float)mc.thePlayer.posZ);
+                     Vector3d vector3d3 = new Vector3d((float)mc.thePlayer.posX, (float)mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), (float)mc.thePlayer.posZ);
                      if (!ncpHypixel.getValue()) {
-                        switch (var11) {
+                        switch (scaffoldRotationMode) {
                            case SIDE:
                               if (target == null || target.facing == null || target.pos == null) {
                                  return;
                               }
 
-                              Vector3d var18 = getAimPoint(target.pos, target.facing);
-                              Rotation var19 = this.rotator.rotationTo(var18, var17);
-                              var10 = new float[]{var19.getYaw(), var19.getPitch()};
+                              Vector3d vector3d4 = getAimPoint(target.pos, target.facing);
+                              Rotation rotation3 = this.rotator.rotationTo(vector3d4, vector3d3);
+                              floats = new float[]{rotation3.getYaw(), rotation3.getPitch()};
                               break;
                            case BACKWARD:
                               if (target == null || target.facing == null || target.pos == null) {
                                  return;
                               }
 
-                              var10 = getRotations(target.pos, target.facing);
+                              floats = getRotations(target.pos, target.facing);
                         }
                      }
 
-                     if (var10 != null) {
-                        float var31 = var10[1];
-                        float var32 = var10[0];
-                        float var20 = var10[0];
+                     if (floats != null) {
+                        float h = floats[1];
+                        float f2 = floats[0];
+                        float f3 = floats[0];
                         if (ncpHypixel.getValue()) {
-                           var31 = (float)(80.0 + Math.random());
+                           h = (float)(80.0 + Math.random());
                         }
 
-                        float var21 = MathHelper.wrapAngleTo180_float(var32 - mc.thePlayer.rotationYaw);
-                        var32 = mc.thePlayer.rotationYaw + var21;
-                        var1x.setYaw(var32);
-                        var1x.setPitch(var31);
-                        this.sentYaw = var32;
-                        this.sentPitch = var31;
+                        float f4 = MathHelper.wrapAngleTo180_float(f2 - mc.thePlayer.rotationYaw);
+                        f2 = mc.thePlayer.rotationYaw + f4;
+                        motionEvent.setYaw(f2);
+                        motionEvent.setPitch(h);
+                        this.sentYaw = f2;
+                        this.sentPitch = h;
                         if (this.rotated && this.placeMode.getValue() == ScaffoldPlaceMode.PRE) {
-                           this.place(var1x, var9);
+                           this.place(motionEvent, vec3);
                         }
 
                         this.rotated = true;
@@ -385,31 +385,31 @@ public final class Scaffold extends Module {
                   }
                }
 
-               this.lastX = var1x.getX();
-               this.lastY = var1x.getY();
-               this.lastZ = var1x.getZ();
+               this.lastX = motionEvent.getX();
+               this.lastY = motionEvent.getY();
+               this.lastZ = motionEvent.getZ();
             }
             break;
          case POST:
             if (this.placeMode.getValue() == ScaffoldPlaceMode.POST) {
-               this.place(var1x, var9);
+               this.place(motionEvent, vec3);
             }
       }
    };
    private List<Double> towerHeights = Arrays.asList(0.419 + Math.random() / 10000.0, 0.753 + Math.random() / 10000.0);
    private int towerStage;
    @EventHandler(MoveEvent.class)
-   private Listener<MoveEvent> onMove = var1x -> {
-      if (var1x.getState() == EventState.PRE && target != null && this.towering) {
+   private Listener<MoveEvent> onMove = moveEvent -> {
+      if (moveEvent.getState() == EventState.PRE && target != null && this.towering) {
          switch (this.towerStage) {
             case 0:
-               var1x.setY(mc.thePlayer.motionY = 0.42F);
+               moveEvent.setY(mc.thePlayer.motionY = 0.42F);
                break;
             case 1:
-               var1x.setY(mc.thePlayer.motionY = 0.2F);
+               moveEvent.setY(mc.thePlayer.motionY = 0.2F);
                break;
             case 2:
-               var1x.setY(mc.thePlayer.motionY = 0.3F);
+               moveEvent.setY(mc.thePlayer.motionY = 0.3F);
                break;
             default:
                this.towerStage = 0;
@@ -421,12 +421,12 @@ public final class Scaffold extends Module {
       }
    };
    @EventHandler(SafeWalkEvent.class)
-   private Listener<SafeWalkEvent> onSafeWalk = var1x -> {
+   private Listener<SafeWalkEvent> onSafeWalk = safeWalkEvent -> {
       if (this.safeWalk.getValue()
          && mc.thePlayer != null
          && mc.thePlayer.inventoryContainer != null
          && (countBlocks() == 0 || this.countHotbarBlocks() == 0 || target == null && mc.thePlayer.isCollidedVertically)) {
-         var1x.setCancelled(true);
+         safeWalkEvent.setCancelled(true);
       }
 
       if (mc.thePlayer != null && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround) {
@@ -436,14 +436,14 @@ public final class Scaffold extends Module {
             return;
          }
 
-         var1x.setCancelled(this.safeWalk.getValue());
+         safeWalkEvent.setCancelled(this.safeWalk.getValue());
       }
    };
    private ItemBlock lastBlock;
    private static final long cb = 45716836261733L;
 
-   public Scaffold(Category var1) {
-      super(var1);
+   public Scaffold(Category category) {
+      super(category);
       this.addSettings(
          rotation,
          this.swing,
@@ -471,55 +471,55 @@ public final class Scaffold extends Module {
       );
    }
 
-   private void place(MotionEvent var1, Vec3 var2) {
-      int var6 = this.getBlockSlot();
-      if (target != null && target.pos != null && var6 != -1) {
+   private void place(MotionEvent motionEvent, Vec3 vec3) {
+      int i = this.getBlockSlot();
+      if (target != null && target.pos != null && i != -1) {
          if (this.edgeCheck.getValue() && !isOnEdge() && mc.thePlayer.onGround) {
             return;
          }
 
-         this.placeSlot = var6;
+         this.placeSlot = i;
          if (!ncpHypixel.getValue()) {
             if (this.spoof.getValue()) {
-               mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(var6));
+               mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(i));
             } else {
-               mc.thePlayer.inventory.currentItem = var6;
+               mc.thePlayer.inventory.currentItem = i;
                mc.playerController.u();
             }
-         } else if (this.serverSlot != var6) {
-            mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(var6));
+         } else if (this.serverSlot != i) {
+            mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(i));
             if (GameUtil.isOnHypixel()) {
-               for (int var7 = 0; var7 < 2; var7++) {
+               for (int j = 0; j < 2; j++) {
                   mc.thePlayer
                      .sendQueue
                      .u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.onGround));
                }
             }
 
-            this.serverSlot = var6;
+            this.serverSlot = i;
          }
 
-         ScaffoldTowerMode var8 = this.tower.getValue();
+         ScaffoldTowerMode scaffoldTowerMode = this.tower.getValue();
          if (mc.playerController
             .K(
                mc.thePlayer,
                mc.theWorld,
-               !this.spoof.getValue() && !ncpHypixel.getValue() ? mc.thePlayer.inventory.getCurrentItem() : mc.thePlayer.inventory.getStackInSlot(var6),
+               !this.spoof.getValue() && !ncpHypixel.getValue() ? mc.thePlayer.inventory.getCurrentItem() : mc.thePlayer.inventory.getStackInSlot(i),
                target.pos,
                target.facing,
-               target.hitVec == null ? this.getHitVec(var1, var2) : target.hitVec,
+               target.hitVec == null ? this.getHitVec(motionEvent, vec3) : target.hitVec,
                false
             )) {
             this.doSwing();
             this.unusedPlaceValue = 3.0F;
-            if (var8 == ScaffoldTowerMode.SLOW) {
+            if (scaffoldTowerMode == ScaffoldTowerMode.SLOW) {
                this.towering = !mc.thePlayer.onGround
                   && mc.thePlayer.motionY > 0.0
                   && !(Math.abs(mc.thePlayer.motionX) > 0.05)
                   && !(Math.abs(mc.thePlayer.motionZ) > 0.05)
                   && mc.gameSettings.keyBindJump.pressed
                   && !mc.thePlayer.isPotionActive(Potion.jump);
-            } else if (var8 == ScaffoldTowerMode.TRUE
+            } else if (scaffoldTowerMode == ScaffoldTowerMode.TRUE
                && !GameUtil.isOnHypixel()
                && !mc.thePlayer.onGround
                && mc.thePlayer.motionY > 0.0
@@ -548,35 +548,35 @@ public final class Scaffold extends Module {
       }
    }
 
-   public static boolean isGroundBelow(double var0) {
-      return !mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -var0, 0.0)).isEmpty();
+   public static boolean isGroundBelow(double d) {
+      return !mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -d, 0.0)).isEmpty();
    }
 
-   public void towerSpoof(MotionEvent var1) {
-      double var5 = var1.getMinY() % 1.0;
-      double var7 = floor(var1.getMinY());
-      if (var5 > 0.419 && var5 < 0.753) {
-         var1.setMinY(var7 + this.towerHeights.get(0));
-      } else if (var5 > 0.753) {
-         var1.setMinY(var7 + this.towerHeights.get(1));
+   public void towerSpoof(MotionEvent motionEvent) {
+      double d = motionEvent.getMinY() % 1.0;
+      double e = floor(motionEvent.getMinY());
+      if (d > 0.419 && d < 0.753) {
+         motionEvent.setMinY(e + this.towerHeights.get(0));
+      } else if (d > 0.753) {
+         motionEvent.setMinY(e + this.towerHeights.get(1));
       } else {
-         var1.setMinY(var7);
-         var1.onGround = true;
+         motionEvent.setMinY(e);
+         motionEvent.onGround = true;
       }
 
       if (!GameUtil.isMoving(mc.thePlayer)) {
          mc.thePlayer.r(0.0);
          mc.thePlayer.motionX = mc.thePlayer.motionZ = 0.0;
-         var1.setX(
-            var1.getX()
+         motionEvent.setX(
+            motionEvent.getX()
                + (
                   mc.thePlayer.ticksExisted % 2 == 0
                      ? ThreadLocalRandom.current().nextDouble(0.06, 0.0625)
                      : -ThreadLocalRandom.current().nextDouble(0.06, 0.0625)
                )
          );
-         var1.setZ(
-            var1.getZ()
+         motionEvent.setZ(
+            motionEvent.getZ()
                + (
                   mc.thePlayer.ticksExisted % 2 != 0
                      ? ThreadLocalRandom.current().nextDouble(0.06, 0.0625)
@@ -586,72 +586,72 @@ public final class Scaffold extends Module {
       }
    }
 
-   public static int floor(double var0) {
-      int var5 = (int)var0;
+   public static int floor(double d) {
+      int i = (int)d;
 
       try {
-         if (var0 < var5) {
-            return var5 - 1;
+         if (d < i) {
+            return i - 1;
          }
-      } catch (IllegalArgumentException var7) {
+      } catch (IllegalArgumentException illegalArgumentException) {
       }
 
-      return var5;
+      return i;
    }
 
    public static boolean isOnEdge() {
-      double var3 = mc.thePlayer.motionX;
-      double var5 = mc.thePlayer.motionY;
-      double var7 = mc.thePlayer.motionZ;
-      double var9 = var3;
-      double var13 = var7;
-      double var15 = var9;
-      double var17 = var13;
-      double var19 = 0.05;
+      double d = mc.thePlayer.motionX;
+      double e = mc.thePlayer.motionY;
+      double d2 = mc.thePlayer.motionZ;
+      double d3 = d;
+      double d4 = d2;
+      double d5 = d3;
+      double d6 = d4;
+      double d7 = 0.05;
 
-      while (var3 != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(var3, -1.0, 0.0)).isEmpty()) {
-         if (var3 < var19 && var3 >= -var19) {
-            var3 = 0.0;
-         } else if (var3 > 0.0) {
-            var3 -= var19;
+      while (d != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(d, -1.0, 0.0)).isEmpty()) {
+         if (d < d7 && d >= -d7) {
+            d = 0.0;
+         } else if (d > 0.0) {
+            d -= d7;
          } else {
-            var3 += var19;
+            d += d7;
          }
       }
 
-      while (var7 != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -1.0, var7)).isEmpty()) {
-         if (var7 < var19 && var7 >= -var19) {
-            var7 = 0.0;
-         } else if (var7 > 0.0) {
-            var7 -= var19;
+      while (d2 != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -1.0, d2)).isEmpty()) {
+         if (d2 < d7 && d2 >= -d7) {
+            d2 = 0.0;
+         } else if (d2 > 0.0) {
+            d2 -= d7;
          } else {
-            var7 += var19;
+            d2 += d7;
          }
       }
 
       while (
-         var3 != 0.0
-            && var7 != 0.0
-            && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(var3, -1.0, var7)).isEmpty()
+         d != 0.0
+            && d2 != 0.0
+            && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(d, -1.0, d2)).isEmpty()
       ) {
-         if (var3 < var19 && var3 >= -var19) {
-            var3 = 0.0;
-         } else if (var3 > 0.0) {
-            var3 -= var19;
+         if (d < d7 && d >= -d7) {
+            d = 0.0;
+         } else if (d > 0.0) {
+            d -= d7;
          } else {
-            var3 += var19;
+            d += d7;
          }
 
-         if (var7 < var19 && var7 >= -var19) {
-            var7 = 0.0;
-         } else if (var7 > 0.0) {
-            var7 -= var19;
+         if (d2 < d7 && d2 >= -d7) {
+            d2 = 0.0;
+         } else if (d2 > 0.0) {
+            d2 -= d7;
          } else {
-            var7 += var19;
+            d2 += d7;
          }
       }
 
-      return var15 != var3 || var17 != var7;
+      return d5 != d || d6 != d2;
    }
 
    @Override
@@ -697,25 +697,25 @@ public final class Scaffold extends Module {
    }
 
    public static int countBlocks() {
-      int var3 = 0;
+      int i = 0;
 
-      for (int var4 = 9; var4 <= 44; var4++) {
-         if (mc.thePlayer.inventoryContainer.getSlot(var4).getHasStack()) {
-            ItemStack var5 = mc.thePlayer.inventoryContainer.getSlot(var4).getStack();
-            if (isUsableBlock(var5)) {
-               var3 += var5.stackSize;
+      for (int j = 9; j <= 44; j++) {
+         if (mc.thePlayer.inventoryContainer.getSlot(j).getHasStack()) {
+            ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(j).getStack();
+            if (isUsableBlock(itemStack)) {
+               i += itemStack.stackSize;
             }
          }
       }
 
-      return var3;
+      return i;
    }
 
-   public static Vector3d getAimPoint(BlockPos var0, EnumFacing var1) {
+   public static Vector3d getAimPoint(BlockPos blockPos, EnumFacing enumFacing) {
       return new Vector3d(
-         (float)var0.getX() - var1.getFrontOffsetX() + 0.5F + var1.getDirectionVec().getX() * 1.5F,
-         (float)var0.getY() - var1.getFrontOffsetY() + 0.5F + var1.getDirectionVec().getY() * 1.5F,
-         (float)var0.getZ() - var1.getFrontOffsetZ() + 0.5F + var1.getDirectionVec().getZ() * 1.5F
+         (float)blockPos.getX() - enumFacing.getFrontOffsetX() + 0.5F + enumFacing.getDirectionVec().getX() * 1.5F,
+         (float)blockPos.getY() - enumFacing.getFrontOffsetY() + 0.5F + enumFacing.getDirectionVec().getY() * 1.5F,
+         (float)blockPos.getZ() - enumFacing.getFrontOffsetZ() + 0.5F + enumFacing.getDirectionVec().getZ() * 1.5F
       );
    }
 
@@ -734,76 +734,76 @@ public final class Scaffold extends Module {
          || down.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && mc.thePlayer.motionY < 0.0 && !mc.thePlayer.movementInput.jump;
    }
 
-   private void rayCastTarget(Vec3 var1, MotionEvent var2) {
-      double var6 = mc.playerController.getBlockReachDistance();
-      Vec3 var8 = new Vec3(
-         var2.getX() - this.lastX,
+   private void rayCastTarget(Vec3 vec3, MotionEvent motionEvent) {
+      double d = mc.playerController.getBlockReachDistance();
+      Vec3 vec32 = new Vec3(
+         motionEvent.getX() - this.lastX,
          down.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && mc.thePlayer.motionY < 0.0 && !mc.thePlayer.movementInput.jump
             ? -0.25
-            : Math.max(var2.getY() - this.lastY, 0.0),
-         var2.getZ() - this.lastZ
+            : Math.max(motionEvent.getY() - this.lastY, 0.0),
+         motionEvent.getZ() - this.lastZ
       );
-      Vec3 var9 = new Vec3(var8.xCoord * -var6, var8.yCoord * -var6, var8.zCoord * -var6);
-      var9 = var9.l(var1);
-      MovingObjectPosition var10 = mc.theWorld.rayTraceBlocks(var1, var9);
-      if (this.isValidHit(var10)) {
-         target.pos = var10.getBlockPos();
-         target.hitVec = var10.hitVec;
-         target.facing = var10.sideHit;
+      Vec3 vec33 = new Vec3(vec32.xCoord * -d, vec32.yCoord * -d, vec32.zCoord * -d);
+      vec33 = vec33.l(vec3);
+      MovingObjectPosition movingObjectPosition = mc.theWorld.rayTraceBlocks(vec3, vec33);
+      if (this.isValidHit(movingObjectPosition)) {
+         target.pos = movingObjectPosition.getBlockPos();
+         target.hitVec = movingObjectPosition.hitVec;
+         target.facing = movingObjectPosition.sideHit;
       }
    }
 
-   private boolean isValidHit(MovingObjectPosition var1) {
-      if (var1 != null && var1.getBlockPos() != null) {
-         BlockPos var5 = var1.getBlockPos();
-         Block var6 = mc.theWorld.getBlockState(var5).getBlock();
-         return var6.getMaterial() != Material.air || var6.getMaterial() != Material.water || var6.getMaterial() != Material.lava;
+   private boolean isValidHit(MovingObjectPosition movingObjectPosition) {
+      if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
+         BlockPos blockPos = movingObjectPosition.getBlockPos();
+         Block block = mc.theWorld.getBlockState(blockPos).getBlock();
+         return block.getMaterial() != Material.air || block.getMaterial() != Material.water || block.getMaterial() != Material.lava;
       } else {
          return false;
       }
    }
 
-   private boolean isReplaceable(Block var1) {
-      return var1 instanceof BlockAir
-         || var1 instanceof BlockTallGrass
-         || var1 instanceof BlockSnow && var1.getBlockState().getBaseState().getValue(BlockSnow.LAYERS) == 1;
+   private boolean isReplaceable(Block block) {
+      return block instanceof BlockAir
+         || block instanceof BlockTallGrass
+         || block instanceof BlockSnow && block.getBlockState().getBaseState().getValue(BlockSnow.LAYERS) == 1;
    }
 
    private int getBlockSlot() {
-      ItemBlock var4 = null;
-      int var5 = -1;
-      int var6 = -1;
+      ItemBlock itemBlock = null;
+      int i = -1;
+      int j = -1;
 
-      for (int var7 = 0; var7 < 9; var7++) {
-         ItemStack var8 = mc.thePlayer.inventory.getStackInSlot(var7);
-         if (var8 != null && isUsableBlock(var8) && var8.stackSize > var6) {
-            ItemBlock var9 = (ItemBlock)var8.getItem();
+      for (int k = 0; k < 9; k++) {
+         ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(k);
+         if (itemStack != null && isUsableBlock(itemStack) && itemStack.stackSize > j) {
+            ItemBlock itemBlock2 = (ItemBlock)itemStack.getItem();
             if (this.lastBlock == null
-               || (this.lastBlock.getBlock() != Blocks.redstone_block || var9.getBlock() != Blocks.tnt)
-                  && (this.lastBlock.getBlock() != Blocks.tnt || var9.getBlock() != Blocks.redstone_block)) {
-               var6 = var8.stackSize;
-               var5 = var7;
-               var4 = var9;
+               || (this.lastBlock.getBlock() != Blocks.redstone_block || itemBlock2.getBlock() != Blocks.tnt)
+                  && (this.lastBlock.getBlock() != Blocks.tnt || itemBlock2.getBlock() != Blocks.redstone_block)) {
+               j = itemStack.stackSize;
+               i = k;
+               itemBlock = itemBlock2;
                if (!this.biggestStack.getValue()) {
-                  return var5;
+                  return i;
                }
             }
          }
       }
 
-      if (var4 != null) {
-         this.lastBlock = var4;
+      if (itemBlock != null) {
+         this.lastBlock = itemBlock;
       }
 
-      return var5;
+      return i;
    }
 
    private int findInventoryBlock() {
-      for (int var4 = 9; var4 <= 35; var4++) {
-         if (mc.thePlayer.inventoryContainer.getSlot(var4).getHasStack()) {
-            ItemStack var5 = mc.thePlayer.inventoryContainer.getSlot(var4).getStack();
-            if (isUsableBlock(var5)) {
-               return var4;
+      for (int i = 9; i <= 35; i++) {
+         if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+            ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+            if (isUsableBlock(itemStack)) {
+               return i;
             }
          }
       }
@@ -811,46 +811,46 @@ public final class Scaffold extends Module {
       return -1;
    }
 
-   private static boolean isUsableBlock(ItemStack var0) {
-      return var0 == null
+   private static boolean isUsableBlock(ItemStack itemStack) {
+      return itemStack == null
          ? false
-         : var0.getItem() instanceof ItemBlock
-            && (var0.getDisplayName() == null || !var0.getDisplayName().contains("Pumpkinator"))
-            && (!GameUtil.scoreboardTitleContains("BED WARS") || ((ItemBlock)var0.getItem()).getBlock() != Blocks.tnt)
-            && var0.stackSize > 0
-            && OldInventoryManager.isBuildingBlock((ItemBlock)var0.getItem())
-            && (HypixelGameTracker.game != 3 || !(((ItemBlock)var0.getItem()).getBlock() instanceof BlockOre));
+         : itemStack.getItem() instanceof ItemBlock
+            && (itemStack.getDisplayName() == null || !itemStack.getDisplayName().contains("Pumpkinator"))
+            && (!GameUtil.scoreboardTitleContains("BED WARS") || ((ItemBlock)itemStack.getItem()).getBlock() != Blocks.tnt)
+            && itemStack.stackSize > 0
+            && OldInventoryManager.isBuildingBlock((ItemBlock)itemStack.getItem())
+            && (HypixelGameTracker.game != 3 || !(((ItemBlock)itemStack.getItem()).getBlock() instanceof BlockOre));
    }
 
    private int countHotbarBlocks() {
-      int var4 = 0;
+      int i = 0;
 
-      for (int var5 = 0; var5 < 9; var5++) {
-         ItemStack var6 = mc.thePlayer.inventory.getStackInSlot(var5);
-         if (var6 != null && isUsableBlock(var6)) {
-            var4 += var6.stackSize;
+      for (int j = 0; j < 9; j++) {
+         ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(j);
+         if (itemStack != null && isUsableBlock(itemStack)) {
+            i += itemStack.stackSize;
          }
       }
 
-      return var4;
+      return i;
    }
 
-   private Vec3 getHitVec(MotionEvent var1, Vec3 var2) {
-      boolean var6 = ViaFabric.INSTANCE.isNative();
-      if (var6) {
-         double var7 = mc.playerController.getBlockReachDistance();
-         Vec3 var9 = new Vec3(
-            var1.getX() - this.lastX,
+   private Vec3 getHitVec(MotionEvent motionEvent, Vec3 vec3) {
+      boolean bl = ViaFabric.INSTANCE.isNative();
+      if (bl) {
+         double d = mc.playerController.getBlockReachDistance();
+         Vec3 vec32 = new Vec3(
+            motionEvent.getX() - this.lastX,
             down.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && mc.thePlayer.motionY < 0.0 && !mc.thePlayer.movementInput.jump
                ? -0.25
-               : Math.max(var1.getY() - this.lastY, 0.0),
-            var1.getZ() - this.lastZ
+               : Math.max(motionEvent.getY() - this.lastY, 0.0),
+            motionEvent.getZ() - this.lastZ
          );
-         Vec3 var10 = new Vec3(var9.xCoord * -var7, var9.yCoord * -var7, var9.zCoord * -var7);
-         var10 = var10.l(var2);
-         MovingObjectPosition var11 = mc.theWorld.rayTraceBlocks(var2, var10);
-         if (var11 != null && var11.getBlockPos() != null) {
-            return var11.hitVec;
+         Vec3 vec33 = new Vec3(vec32.xCoord * -d, vec32.yCoord * -d, vec32.zCoord * -d);
+         vec33 = vec33.l(vec3);
+         MovingObjectPosition movingObjectPosition = mc.theWorld.rayTraceBlocks(vec3, vec33);
+         if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
+            return movingObjectPosition.hitVec;
          }
       }
 
@@ -858,232 +858,232 @@ public final class Scaffold extends Module {
    }
 
    private Vec3 randomHitVec() {
-      double var4 = target.pos.getX() + 0.5;
-      double var6 = target.pos.getY() + 0.5;
-      double var8 = target.pos.getZ() + 0.5;
-      var4 += target.facing.getFrontOffsetX() / 2.0;
-      var8 += target.facing.getFrontOffsetZ() / 2.0;
-      var6 += target.facing.getFrontOffsetY() / 2.0;
+      double d = target.pos.getX() + 0.5;
+      double e = target.pos.getY() + 0.5;
+      double d2 = target.pos.getZ() + 0.5;
+      d += target.facing.getFrontOffsetX() / 2.0;
+      d2 += target.facing.getFrontOffsetZ() / 2.0;
+      e += target.facing.getFrontOffsetY() / 2.0;
       if (target.facing != EnumFacing.UP && target.facing != EnumFacing.DOWN) {
-         var6 += randomBetween(0.49, 0.5);
+         e += randomBetween(0.49, 0.5);
       } else {
-         var4 += randomBetween(0.3, -0.3);
-         var8 += randomBetween(0.3, -0.3);
+         d += randomBetween(0.3, -0.3);
+         d2 += randomBetween(0.3, -0.3);
       }
 
       if (target.facing == EnumFacing.WEST || target.facing == EnumFacing.EAST) {
-         var8 += randomBetween(0.3, -0.3);
+         d2 += randomBetween(0.3, -0.3);
       }
 
       if (target.facing == EnumFacing.SOUTH || target.facing == EnumFacing.NORTH) {
-         var4 += randomBetween(0.3, -0.3);
+         d += randomBetween(0.3, -0.3);
       }
 
-      return new Vec3(var4, var6, var8);
+      return new Vec3(d, e, d2);
    }
 
-   public static float[] getRotations(BlockPos var0, EnumFacing var1) {
-      double var5 = 0.0;
-      double var7 = 0.0;
-      double var9 = 0.0;
-      switch (var1) {
+   public static float[] getRotations(BlockPos blockPos, EnumFacing enumFacing) {
+      double d = 0.0;
+      double e = 0.0;
+      double d2 = 0.0;
+      switch (enumFacing) {
          case UP:
-            var5 = 0.5;
-            var7 = 1.0;
-            var9 = 0.5;
+            d = 0.5;
+            e = 1.0;
+            d2 = 0.5;
             break;
          case NORTH:
-            var5 = 0.5;
-            var9 = 1.0;
-            var7 = 0.9;
+            d = 0.5;
+            d2 = 1.0;
+            e = 0.9;
             break;
          case SOUTH:
-            var5 = 0.5;
-            var9 = 0.0;
-            var7 = 0.9;
+            d = 0.5;
+            d2 = 0.0;
+            e = 0.9;
             break;
          case WEST:
-            var5 = 1.0;
-            var9 = 0.5;
-            var7 = 0.9;
+            d = 1.0;
+            d2 = 0.5;
+            e = 0.9;
             break;
          case EAST:
-            var5 = 0.0;
-            var9 = 0.5;
-            var7 = 0.9;
+            d = 0.0;
+            d2 = 0.5;
+            e = 0.9;
       }
 
-      double var11 = var0.getX() + var5 - mc.thePlayer.posX;
-      double var13 = var0.getY() + var7 - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
-      double var15 = var0.getZ() + var9 - mc.thePlayer.posZ;
+      double d3 = blockPos.getX() + d - mc.thePlayer.posX;
+      double d4 = blockPos.getY() + e - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
+      double d5 = blockPos.getZ() + d2 - mc.thePlayer.posZ;
       return new float[]{
-         (float)(Math.atan2(var15, var11) * 180.0 / Math.PI) - 90.0F, (float)(-(Math.atan2(var13, Math.sqrt(var11 * var11 + var15 * var15)) * 180.0 / Math.PI))
+         (float)(Math.atan2(d5, d3) * 180.0 / Math.PI) - 90.0F, (float)(-(Math.atan2(d4, Math.sqrt(d3 * d3 + d5 * d5)) * 180.0 / Math.PI))
       };
    }
 
-   public static double randomBetween(double var0, double var2) {
-      return Math.random() * (var0 - var2) + var2;
+   public static double randomBetween(double d, double d2) {
+      return Math.random() * (d - d2) + d2;
    }
 
-   private ScaffoldTarget findTarget(BlockPos var1) {
-      if (canPlaceAgainst(var1.add(0, -1, 0))) {
-         return new ScaffoldTarget(var1.add(0, -1, 0), EnumFacing.UP);
-      } else if (canPlaceAgainst(var1.add(-1, 0, 0))) {
-         return new ScaffoldTarget(var1.add(-1, 0, 0), EnumFacing.EAST);
-      } else if (canPlaceAgainst(var1.add(1, 0, 0))) {
-         return new ScaffoldTarget(var1.add(1, 0, 0), EnumFacing.WEST);
-      } else if (canPlaceAgainst(var1.add(0, 0, 1))) {
-         return new ScaffoldTarget(var1.add(0, 0, 1), EnumFacing.NORTH);
-      } else if (canPlaceAgainst(var1.add(0, 0, -1))) {
-         return new ScaffoldTarget(var1.add(0, 0, -1), EnumFacing.SOUTH);
+   private ScaffoldTarget findTarget(BlockPos blockPos) {
+      if (canPlaceAgainst(blockPos.add(0, -1, 0))) {
+         return new ScaffoldTarget(blockPos.add(0, -1, 0), EnumFacing.UP);
+      } else if (canPlaceAgainst(blockPos.add(-1, 0, 0))) {
+         return new ScaffoldTarget(blockPos.add(-1, 0, 0), EnumFacing.EAST);
+      } else if (canPlaceAgainst(blockPos.add(1, 0, 0))) {
+         return new ScaffoldTarget(blockPos.add(1, 0, 0), EnumFacing.WEST);
+      } else if (canPlaceAgainst(blockPos.add(0, 0, 1))) {
+         return new ScaffoldTarget(blockPos.add(0, 0, 1), EnumFacing.NORTH);
+      } else if (canPlaceAgainst(blockPos.add(0, 0, -1))) {
+         return new ScaffoldTarget(blockPos.add(0, 0, -1), EnumFacing.SOUTH);
       } else {
-         BlockPos var5 = var1.add(-1, 0, 0);
-         if (canPlaceAgainst(var5.add(0, -1, 0))) {
-            return new ScaffoldTarget(var5.add(0, -1, 0), EnumFacing.UP);
-         } else if (canPlaceAgainst(var5.add(-1, 0, 0))) {
-            return new ScaffoldTarget(var5.add(-1, 0, 0), EnumFacing.EAST);
-         } else if (canPlaceAgainst(var5.add(1, 0, 0))) {
-            return new ScaffoldTarget(var5.add(1, 0, 0), EnumFacing.WEST);
-         } else if (canPlaceAgainst(var5.add(0, 0, 1))) {
-            return new ScaffoldTarget(var5.add(0, 0, 1), EnumFacing.NORTH);
-         } else if (canPlaceAgainst(var5.add(0, 0, -1))) {
-            return new ScaffoldTarget(var5.add(0, 0, -1), EnumFacing.SOUTH);
+         BlockPos blockPos2 = blockPos.add(-1, 0, 0);
+         if (canPlaceAgainst(blockPos2.add(0, -1, 0))) {
+            return new ScaffoldTarget(blockPos2.add(0, -1, 0), EnumFacing.UP);
+         } else if (canPlaceAgainst(blockPos2.add(-1, 0, 0))) {
+            return new ScaffoldTarget(blockPos2.add(-1, 0, 0), EnumFacing.EAST);
+         } else if (canPlaceAgainst(blockPos2.add(1, 0, 0))) {
+            return new ScaffoldTarget(blockPos2.add(1, 0, 0), EnumFacing.WEST);
+         } else if (canPlaceAgainst(blockPos2.add(0, 0, 1))) {
+            return new ScaffoldTarget(blockPos2.add(0, 0, 1), EnumFacing.NORTH);
+         } else if (canPlaceAgainst(blockPos2.add(0, 0, -1))) {
+            return new ScaffoldTarget(blockPos2.add(0, 0, -1), EnumFacing.SOUTH);
          } else {
-            BlockPos var6 = var1.add(1, 0, 0);
-            if (canPlaceAgainst(var6.add(0, -1, 0))) {
-               return new ScaffoldTarget(var6.add(0, -1, 0), EnumFacing.UP);
-            } else if (canPlaceAgainst(var6.add(-1, 0, 0))) {
-               return new ScaffoldTarget(var6.add(-1, 0, 0), EnumFacing.EAST);
-            } else if (canPlaceAgainst(var6.add(1, 0, 0))) {
-               return new ScaffoldTarget(var6.add(1, 0, 0), EnumFacing.WEST);
-            } else if (canPlaceAgainst(var6.add(0, 0, 1))) {
-               return new ScaffoldTarget(var6.add(0, 0, 1), EnumFacing.NORTH);
-            } else if (canPlaceAgainst(var6.add(0, 0, -1))) {
-               return new ScaffoldTarget(var6.add(0, 0, -1), EnumFacing.SOUTH);
+            BlockPos blockPos3 = blockPos.add(1, 0, 0);
+            if (canPlaceAgainst(blockPos3.add(0, -1, 0))) {
+               return new ScaffoldTarget(blockPos3.add(0, -1, 0), EnumFacing.UP);
+            } else if (canPlaceAgainst(blockPos3.add(-1, 0, 0))) {
+               return new ScaffoldTarget(blockPos3.add(-1, 0, 0), EnumFacing.EAST);
+            } else if (canPlaceAgainst(blockPos3.add(1, 0, 0))) {
+               return new ScaffoldTarget(blockPos3.add(1, 0, 0), EnumFacing.WEST);
+            } else if (canPlaceAgainst(blockPos3.add(0, 0, 1))) {
+               return new ScaffoldTarget(blockPos3.add(0, 0, 1), EnumFacing.NORTH);
+            } else if (canPlaceAgainst(blockPos3.add(0, 0, -1))) {
+               return new ScaffoldTarget(blockPos3.add(0, 0, -1), EnumFacing.SOUTH);
             } else {
-               BlockPos var7 = var1.add(0, 0, 1);
-               if (canPlaceAgainst(var7.add(0, -1, 0))) {
-                  return new ScaffoldTarget(var7.add(0, -1, 0), EnumFacing.UP);
-               } else if (canPlaceAgainst(var7.add(-1, 0, 0))) {
-                  return new ScaffoldTarget(var7.add(-1, 0, 0), EnumFacing.EAST);
-               } else if (canPlaceAgainst(var7.add(1, 0, 0))) {
-                  return new ScaffoldTarget(var7.add(1, 0, 0), EnumFacing.WEST);
-               } else if (canPlaceAgainst(var7.add(0, 0, 1))) {
-                  return new ScaffoldTarget(var7.add(0, 0, 1), EnumFacing.NORTH);
-               } else if (canPlaceAgainst(var7.add(0, 0, -1))) {
-                  return new ScaffoldTarget(var7.add(0, 0, -1), EnumFacing.SOUTH);
+               BlockPos blockPos4 = blockPos.add(0, 0, 1);
+               if (canPlaceAgainst(blockPos4.add(0, -1, 0))) {
+                  return new ScaffoldTarget(blockPos4.add(0, -1, 0), EnumFacing.UP);
+               } else if (canPlaceAgainst(blockPos4.add(-1, 0, 0))) {
+                  return new ScaffoldTarget(blockPos4.add(-1, 0, 0), EnumFacing.EAST);
+               } else if (canPlaceAgainst(blockPos4.add(1, 0, 0))) {
+                  return new ScaffoldTarget(blockPos4.add(1, 0, 0), EnumFacing.WEST);
+               } else if (canPlaceAgainst(blockPos4.add(0, 0, 1))) {
+                  return new ScaffoldTarget(blockPos4.add(0, 0, 1), EnumFacing.NORTH);
+               } else if (canPlaceAgainst(blockPos4.add(0, 0, -1))) {
+                  return new ScaffoldTarget(blockPos4.add(0, 0, -1), EnumFacing.SOUTH);
                } else {
-                  BlockPos var8 = var1.add(0, 0, -1);
-                  if (canPlaceAgainst(var8.add(0, -1, 0))) {
-                     return new ScaffoldTarget(var8.add(0, -1, 0), EnumFacing.UP);
-                  } else if (canPlaceAgainst(var8.add(-1, 0, 0))) {
-                     return new ScaffoldTarget(var8.add(-1, 0, 0), EnumFacing.EAST);
-                  } else if (canPlaceAgainst(var8.add(1, 0, 0))) {
-                     return new ScaffoldTarget(var8.add(1, 0, 0), EnumFacing.WEST);
-                  } else if (canPlaceAgainst(var8.add(0, 0, 1))) {
-                     return new ScaffoldTarget(var8.add(0, 0, 1), EnumFacing.NORTH);
-                  } else if (canPlaceAgainst(var8.add(0, 0, -1))) {
-                     return new ScaffoldTarget(var8.add(0, 0, -1), EnumFacing.SOUTH);
-                  } else if (canPlaceAgainst(var5.add(0, -1, 0))) {
-                     return new ScaffoldTarget(var5.add(0, -1, 0), EnumFacing.UP);
-                  } else if (canPlaceAgainst(var5.add(-1, 0, 0))) {
-                     return new ScaffoldTarget(var5.add(-1, 0, 0), EnumFacing.EAST);
-                  } else if (canPlaceAgainst(var5.add(1, 0, 0))) {
-                     return new ScaffoldTarget(var5.add(1, 0, 0), EnumFacing.WEST);
-                  } else if (canPlaceAgainst(var5.add(0, 0, 1))) {
-                     return new ScaffoldTarget(var5.add(0, 0, 1), EnumFacing.NORTH);
-                  } else if (canPlaceAgainst(var5.add(0, 0, -1))) {
-                     return new ScaffoldTarget(var5.add(0, 0, -1), EnumFacing.SOUTH);
-                  } else if (canPlaceAgainst(var6.add(0, -1, 0))) {
-                     return new ScaffoldTarget(var6.add(0, -1, 0), EnumFacing.UP);
-                  } else if (canPlaceAgainst(var6.add(-1, 0, 0))) {
-                     return new ScaffoldTarget(var6.add(-1, 0, 0), EnumFacing.EAST);
-                  } else if (canPlaceAgainst(var6.add(1, 0, 0))) {
-                     return new ScaffoldTarget(var6.add(1, 0, 0), EnumFacing.WEST);
-                  } else if (canPlaceAgainst(var6.add(0, 0, 1))) {
-                     return new ScaffoldTarget(var6.add(0, 0, 1), EnumFacing.NORTH);
-                  } else if (canPlaceAgainst(var6.add(0, 0, -1))) {
-                     return new ScaffoldTarget(var6.add(0, 0, -1), EnumFacing.SOUTH);
-                  } else if (canPlaceAgainst(var7.add(0, -1, 0))) {
-                     return new ScaffoldTarget(var7.add(0, -1, 0), EnumFacing.UP);
-                  } else if (canPlaceAgainst(var7.add(-1, 0, 0))) {
-                     return new ScaffoldTarget(var7.add(-1, 0, 0), EnumFacing.EAST);
-                  } else if (canPlaceAgainst(var7.add(1, 0, 0))) {
-                     return new ScaffoldTarget(var7.add(1, 0, 0), EnumFacing.WEST);
-                  } else if (canPlaceAgainst(var7.add(0, 0, 1))) {
-                     return new ScaffoldTarget(var7.add(0, 0, 1), EnumFacing.NORTH);
-                  } else if (canPlaceAgainst(var7.add(0, 0, -1))) {
-                     return new ScaffoldTarget(var7.add(0, 0, -1), EnumFacing.SOUTH);
-                  } else if (canPlaceAgainst(var8.add(0, -1, 0))) {
-                     return new ScaffoldTarget(var8.add(0, -1, 0), EnumFacing.UP);
-                  } else if (canPlaceAgainst(var8.add(-1, 0, 0))) {
-                     return new ScaffoldTarget(var8.add(-1, 0, 0), EnumFacing.EAST);
-                  } else if (canPlaceAgainst(var8.add(1, 0, 0))) {
-                     return new ScaffoldTarget(var8.add(1, 0, 0), EnumFacing.WEST);
-                  } else if (canPlaceAgainst(var8.add(0, 0, 1))) {
-                     return new ScaffoldTarget(var8.add(0, 0, 1), EnumFacing.NORTH);
-                  } else if (canPlaceAgainst(var8.add(0, 0, -1))) {
-                     return new ScaffoldTarget(var8.add(0, 0, -1), EnumFacing.SOUTH);
+                  BlockPos blockPos5 = blockPos.add(0, 0, -1);
+                  if (canPlaceAgainst(blockPos5.add(0, -1, 0))) {
+                     return new ScaffoldTarget(blockPos5.add(0, -1, 0), EnumFacing.UP);
+                  } else if (canPlaceAgainst(blockPos5.add(-1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos5.add(-1, 0, 0), EnumFacing.EAST);
+                  } else if (canPlaceAgainst(blockPos5.add(1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos5.add(1, 0, 0), EnumFacing.WEST);
+                  } else if (canPlaceAgainst(blockPos5.add(0, 0, 1))) {
+                     return new ScaffoldTarget(blockPos5.add(0, 0, 1), EnumFacing.NORTH);
+                  } else if (canPlaceAgainst(blockPos5.add(0, 0, -1))) {
+                     return new ScaffoldTarget(blockPos5.add(0, 0, -1), EnumFacing.SOUTH);
+                  } else if (canPlaceAgainst(blockPos2.add(0, -1, 0))) {
+                     return new ScaffoldTarget(blockPos2.add(0, -1, 0), EnumFacing.UP);
+                  } else if (canPlaceAgainst(blockPos2.add(-1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos2.add(-1, 0, 0), EnumFacing.EAST);
+                  } else if (canPlaceAgainst(blockPos2.add(1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos2.add(1, 0, 0), EnumFacing.WEST);
+                  } else if (canPlaceAgainst(blockPos2.add(0, 0, 1))) {
+                     return new ScaffoldTarget(blockPos2.add(0, 0, 1), EnumFacing.NORTH);
+                  } else if (canPlaceAgainst(blockPos2.add(0, 0, -1))) {
+                     return new ScaffoldTarget(blockPos2.add(0, 0, -1), EnumFacing.SOUTH);
+                  } else if (canPlaceAgainst(blockPos3.add(0, -1, 0))) {
+                     return new ScaffoldTarget(blockPos3.add(0, -1, 0), EnumFacing.UP);
+                  } else if (canPlaceAgainst(blockPos3.add(-1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos3.add(-1, 0, 0), EnumFacing.EAST);
+                  } else if (canPlaceAgainst(blockPos3.add(1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos3.add(1, 0, 0), EnumFacing.WEST);
+                  } else if (canPlaceAgainst(blockPos3.add(0, 0, 1))) {
+                     return new ScaffoldTarget(blockPos3.add(0, 0, 1), EnumFacing.NORTH);
+                  } else if (canPlaceAgainst(blockPos3.add(0, 0, -1))) {
+                     return new ScaffoldTarget(blockPos3.add(0, 0, -1), EnumFacing.SOUTH);
+                  } else if (canPlaceAgainst(blockPos4.add(0, -1, 0))) {
+                     return new ScaffoldTarget(blockPos4.add(0, -1, 0), EnumFacing.UP);
+                  } else if (canPlaceAgainst(blockPos4.add(-1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos4.add(-1, 0, 0), EnumFacing.EAST);
+                  } else if (canPlaceAgainst(blockPos4.add(1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos4.add(1, 0, 0), EnumFacing.WEST);
+                  } else if (canPlaceAgainst(blockPos4.add(0, 0, 1))) {
+                     return new ScaffoldTarget(blockPos4.add(0, 0, 1), EnumFacing.NORTH);
+                  } else if (canPlaceAgainst(blockPos4.add(0, 0, -1))) {
+                     return new ScaffoldTarget(blockPos4.add(0, 0, -1), EnumFacing.SOUTH);
+                  } else if (canPlaceAgainst(blockPos5.add(0, -1, 0))) {
+                     return new ScaffoldTarget(blockPos5.add(0, -1, 0), EnumFacing.UP);
+                  } else if (canPlaceAgainst(blockPos5.add(-1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos5.add(-1, 0, 0), EnumFacing.EAST);
+                  } else if (canPlaceAgainst(blockPos5.add(1, 0, 0))) {
+                     return new ScaffoldTarget(blockPos5.add(1, 0, 0), EnumFacing.WEST);
+                  } else if (canPlaceAgainst(blockPos5.add(0, 0, 1))) {
+                     return new ScaffoldTarget(blockPos5.add(0, 0, 1), EnumFacing.NORTH);
+                  } else if (canPlaceAgainst(blockPos5.add(0, 0, -1))) {
+                     return new ScaffoldTarget(blockPos5.add(0, 0, -1), EnumFacing.SOUTH);
                   } else {
-                     BlockPos var9 = var1.add(0, -1, 0);
-                     if (canPlaceAgainst(var9.add(0, -1, 0))) {
-                        return new ScaffoldTarget(var9.add(0, -1, 0), EnumFacing.UP);
-                     } else if (canPlaceAgainst(var9.add(-1, 0, 0))) {
-                        return new ScaffoldTarget(var9.add(-1, 0, 0), EnumFacing.EAST);
-                     } else if (canPlaceAgainst(var9.add(1, 0, 0))) {
-                        return new ScaffoldTarget(var9.add(1, 0, 0), EnumFacing.WEST);
-                     } else if (canPlaceAgainst(var9.add(0, 0, 1))) {
-                        return new ScaffoldTarget(var9.add(0, 0, 1), EnumFacing.NORTH);
-                     } else if (canPlaceAgainst(var9.add(0, 0, -1))) {
-                        return new ScaffoldTarget(var9.add(0, 0, -1), EnumFacing.SOUTH);
+                     BlockPos blockPos6 = blockPos.add(0, -1, 0);
+                     if (canPlaceAgainst(blockPos6.add(0, -1, 0))) {
+                        return new ScaffoldTarget(blockPos6.add(0, -1, 0), EnumFacing.UP);
+                     } else if (canPlaceAgainst(blockPos6.add(-1, 0, 0))) {
+                        return new ScaffoldTarget(blockPos6.add(-1, 0, 0), EnumFacing.EAST);
+                     } else if (canPlaceAgainst(blockPos6.add(1, 0, 0))) {
+                        return new ScaffoldTarget(blockPos6.add(1, 0, 0), EnumFacing.WEST);
+                     } else if (canPlaceAgainst(blockPos6.add(0, 0, 1))) {
+                        return new ScaffoldTarget(blockPos6.add(0, 0, 1), EnumFacing.NORTH);
+                     } else if (canPlaceAgainst(blockPos6.add(0, 0, -1))) {
+                        return new ScaffoldTarget(blockPos6.add(0, 0, -1), EnumFacing.SOUTH);
                      } else {
-                        BlockPos var10 = var9.add(1, 0, 0);
-                        if (canPlaceAgainst(var10.add(0, -1, 0))) {
-                           return new ScaffoldTarget(var10.add(0, -1, 0), EnumFacing.UP);
-                        } else if (canPlaceAgainst(var10.add(-1, 0, 0))) {
-                           return new ScaffoldTarget(var10.add(-1, 0, 0), EnumFacing.EAST);
-                        } else if (canPlaceAgainst(var10.add(1, 0, 0))) {
-                           return new ScaffoldTarget(var10.add(1, 0, 0), EnumFacing.WEST);
-                        } else if (canPlaceAgainst(var10.add(0, 0, 1))) {
-                           return new ScaffoldTarget(var10.add(0, 0, 1), EnumFacing.NORTH);
-                        } else if (canPlaceAgainst(var10.add(0, 0, -1))) {
-                           return new ScaffoldTarget(var10.add(0, 0, -1), EnumFacing.SOUTH);
+                        BlockPos blockPos7 = blockPos6.add(1, 0, 0);
+                        if (canPlaceAgainst(blockPos7.add(0, -1, 0))) {
+                           return new ScaffoldTarget(blockPos7.add(0, -1, 0), EnumFacing.UP);
+                        } else if (canPlaceAgainst(blockPos7.add(-1, 0, 0))) {
+                           return new ScaffoldTarget(blockPos7.add(-1, 0, 0), EnumFacing.EAST);
+                        } else if (canPlaceAgainst(blockPos7.add(1, 0, 0))) {
+                           return new ScaffoldTarget(blockPos7.add(1, 0, 0), EnumFacing.WEST);
+                        } else if (canPlaceAgainst(blockPos7.add(0, 0, 1))) {
+                           return new ScaffoldTarget(blockPos7.add(0, 0, 1), EnumFacing.NORTH);
+                        } else if (canPlaceAgainst(blockPos7.add(0, 0, -1))) {
+                           return new ScaffoldTarget(blockPos7.add(0, 0, -1), EnumFacing.SOUTH);
                         } else {
-                           BlockPos var11 = var9.add(-1, 0, 0);
-                           if (canPlaceAgainst(var11.add(0, -1, 0))) {
-                              return new ScaffoldTarget(var11.add(0, -1, 0), EnumFacing.UP);
-                           } else if (canPlaceAgainst(var11.add(-1, 0, 0))) {
-                              return new ScaffoldTarget(var11.add(-1, 0, 0), EnumFacing.EAST);
-                           } else if (canPlaceAgainst(var11.add(1, 0, 0))) {
-                              return new ScaffoldTarget(var11.add(1, 0, 0), EnumFacing.WEST);
-                           } else if (canPlaceAgainst(var11.add(0, 0, 1))) {
-                              return new ScaffoldTarget(var11.add(0, 0, 1), EnumFacing.NORTH);
-                           } else if (canPlaceAgainst(var11.add(0, 0, -1))) {
-                              return new ScaffoldTarget(var11.add(0, 0, -1), EnumFacing.SOUTH);
+                           BlockPos blockPos8 = blockPos6.add(-1, 0, 0);
+                           if (canPlaceAgainst(blockPos8.add(0, -1, 0))) {
+                              return new ScaffoldTarget(blockPos8.add(0, -1, 0), EnumFacing.UP);
+                           } else if (canPlaceAgainst(blockPos8.add(-1, 0, 0))) {
+                              return new ScaffoldTarget(blockPos8.add(-1, 0, 0), EnumFacing.EAST);
+                           } else if (canPlaceAgainst(blockPos8.add(1, 0, 0))) {
+                              return new ScaffoldTarget(blockPos8.add(1, 0, 0), EnumFacing.WEST);
+                           } else if (canPlaceAgainst(blockPos8.add(0, 0, 1))) {
+                              return new ScaffoldTarget(blockPos8.add(0, 0, 1), EnumFacing.NORTH);
+                           } else if (canPlaceAgainst(blockPos8.add(0, 0, -1))) {
+                              return new ScaffoldTarget(blockPos8.add(0, 0, -1), EnumFacing.SOUTH);
                            } else {
-                              BlockPos var12 = var9.add(0, 0, 1);
-                              if (canPlaceAgainst(var12.add(0, -1, 0))) {
-                                 return new ScaffoldTarget(var12.add(0, -1, 0), EnumFacing.UP);
-                              } else if (canPlaceAgainst(var12.add(-1, 0, 0))) {
-                                 return new ScaffoldTarget(var12.add(-1, 0, 0), EnumFacing.EAST);
-                              } else if (canPlaceAgainst(var12.add(1, 0, 0))) {
-                                 return new ScaffoldTarget(var12.add(1, 0, 0), EnumFacing.WEST);
-                              } else if (canPlaceAgainst(var12.add(0, 0, 1))) {
-                                 return new ScaffoldTarget(var12.add(0, 0, 1), EnumFacing.NORTH);
-                              } else if (canPlaceAgainst(var12.add(0, 0, -1))) {
-                                 return new ScaffoldTarget(var12.add(0, 0, -1), EnumFacing.SOUTH);
+                              BlockPos blockPos9 = blockPos6.add(0, 0, 1);
+                              if (canPlaceAgainst(blockPos9.add(0, -1, 0))) {
+                                 return new ScaffoldTarget(blockPos9.add(0, -1, 0), EnumFacing.UP);
+                              } else if (canPlaceAgainst(blockPos9.add(-1, 0, 0))) {
+                                 return new ScaffoldTarget(blockPos9.add(-1, 0, 0), EnumFacing.EAST);
+                              } else if (canPlaceAgainst(blockPos9.add(1, 0, 0))) {
+                                 return new ScaffoldTarget(blockPos9.add(1, 0, 0), EnumFacing.WEST);
+                              } else if (canPlaceAgainst(blockPos9.add(0, 0, 1))) {
+                                 return new ScaffoldTarget(blockPos9.add(0, 0, 1), EnumFacing.NORTH);
+                              } else if (canPlaceAgainst(blockPos9.add(0, 0, -1))) {
+                                 return new ScaffoldTarget(blockPos9.add(0, 0, -1), EnumFacing.SOUTH);
                               } else {
-                                 BlockPos var13 = var9.add(0, 0, -1);
-                                 if (canPlaceAgainst(var13.add(0, -1, 0))) {
-                                    return new ScaffoldTarget(var13.add(0, -1, 0), EnumFacing.UP);
-                                 } else if (canPlaceAgainst(var13.add(-1, 0, 0))) {
-                                    return new ScaffoldTarget(var13.add(-1, 0, 0), EnumFacing.EAST);
-                                 } else if (canPlaceAgainst(var13.add(1, 0, 0))) {
-                                    return new ScaffoldTarget(var13.add(1, 0, 0), EnumFacing.WEST);
-                                 } else if (canPlaceAgainst(var13.add(0, 0, 1))) {
-                                    return new ScaffoldTarget(var13.add(0, 0, 1), EnumFacing.NORTH);
+                                 BlockPos blockPos10 = blockPos6.add(0, 0, -1);
+                                 if (canPlaceAgainst(blockPos10.add(0, -1, 0))) {
+                                    return new ScaffoldTarget(blockPos10.add(0, -1, 0), EnumFacing.UP);
+                                 } else if (canPlaceAgainst(blockPos10.add(-1, 0, 0))) {
+                                    return new ScaffoldTarget(blockPos10.add(-1, 0, 0), EnumFacing.EAST);
+                                 } else if (canPlaceAgainst(blockPos10.add(1, 0, 0))) {
+                                    return new ScaffoldTarget(blockPos10.add(1, 0, 0), EnumFacing.WEST);
+                                 } else if (canPlaceAgainst(blockPos10.add(0, 0, 1))) {
+                                    return new ScaffoldTarget(blockPos10.add(0, 0, 1), EnumFacing.NORTH);
                                  } else {
-                                    return canPlaceAgainst(var13.add(0, 0, -1)) ? new ScaffoldTarget(var13.add(0, 0, -1), EnumFacing.SOUTH) : null;
+                                    return canPlaceAgainst(blockPos10.add(0, 0, -1)) ? new ScaffoldTarget(blockPos10.add(0, 0, -1), EnumFacing.SOUTH) : null;
                                  }
                               }
                            }
@@ -1096,26 +1096,26 @@ public final class Scaffold extends Module {
       }
    }
 
-   public static boolean canPlaceAgainst(BlockPos var0) {
-      Block var4 = mc.theWorld.getBlockState(var0).getBlock();
+   public static boolean canPlaceAgainst(BlockPos blockPos) {
+      Block block = mc.theWorld.getBlockState(blockPos).getBlock();
       return (
-            var4.getMaterial().isSolid()
-               || !var4.isTranslucent()
-               || var4.isFullBlock()
-               || var4 instanceof BlockLadder
-               || var4 instanceof BlockCarpet
-               || var4 instanceof BlockSnow
-               || var4 instanceof BlockSkull
+            block.getMaterial().isSolid()
+               || !block.isTranslucent()
+               || block.isFullBlock()
+               || block instanceof BlockLadder
+               || block instanceof BlockCarpet
+               || block instanceof BlockSnow
+               || block instanceof BlockSkull
          )
-         && !var4.getMaterial().isLiquid()
-         && !(var4 instanceof BlockContainer);
+         && !block.getMaterial().isLiquid()
+         && !(block instanceof BlockContainer);
    }
 
-   public Vec3 extendPosition(Vec3 var1, double var2) {
-      float var4 = mc.thePlayer.rotationYaw;
-      double var5 = Math.cos((var4 + 90.0F) * Math.PI / 180.0) * var2;
-      double var7 = Math.sin((var4 + 90.0F) * Math.PI / 180.0) * var2;
-      return var1.addVector(var5, 0.0, var7);
+   public Vec3 extendPosition(Vec3 vec3, double d) {
+      float f = mc.thePlayer.rotationYaw;
+      double e = Math.cos((f + 90.0F) * Math.PI / 180.0) * d;
+      double d2 = Math.sin((f + 90.0F) * Math.PI / 180.0) * d;
+      return vec3.addVector(e, 0.0, d2);
    }
 
    public BooleanSetting getKeepSprint() {

@@ -13,35 +13,35 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 public class FolderResourcePack extends AbstractResourcePack {
    private static final long b = 44560436986742L;
 
-   public FolderResourcePack(File var1) {
-      super(var1);
+   public FolderResourcePack(File resourcePackFileIn) {
+      super(resourcePackFileIn);
    }
 
    @Override
-   public InputStream getInputStreamByName(String var1) throws IOException {
-      return new BufferedInputStream(new FileInputStream(new File(this.resourcePackFile, var1)));
+   public InputStream getInputStreamByName(String name) throws IOException {
+      return new BufferedInputStream(new FileInputStream(new File(this.resourcePackFile, name)));
    }
 
    @Override
-   public boolean hasResourceName(String var1) {
-      return new File(this.resourcePackFile, var1).isFile();
+   public boolean hasResourceName(String name) {
+      return new File(this.resourcePackFile, name).isFile();
    }
 
    @Override
    public Set<String> getResourceDomains() {
-      HashSet var4 = Sets.newHashSet();
-      File var5 = new File(this.resourcePackFile, "assets/");
-      if (var5.isDirectory()) {
-         for (File var9 : var5.listFiles((java.io.FileFilter)(DirectoryFileFilter.DIRECTORY))) {
-            String var10 = getRelativeName(var5, var9);
-            if (!var10.equals(var10.toLowerCase())) {
-               this.logNameNotLowercase(var10);
+      HashSet hashSet = Sets.newHashSet();
+      File file = new File(this.resourcePackFile, "assets/");
+      if (file.isDirectory()) {
+         for (File file2 : file.listFiles((java.io.FileFilter)(DirectoryFileFilter.DIRECTORY))) {
+            String string = getRelativeName(file, file2);
+            if (!string.equals(string.toLowerCase())) {
+               this.logNameNotLowercase(string);
             } else {
-               var4.add(var10.substring(0, var10.length() - 1));
+               hashSet.add(string.substring(0, string.length() - 1));
             }
          }
       }
 
-      return var4;
+      return hashSet;
    }
 }

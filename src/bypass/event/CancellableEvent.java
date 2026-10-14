@@ -9,8 +9,8 @@ public abstract class CancellableEvent implements Event, Cancellable {
    }
 
    @Override
-   public void setCancelled(boolean var1) {
-      this.cancelled = var1;
+   public void setCancelled(boolean bl) {
+      this.cancelled = bl;
    }
 
    @Override

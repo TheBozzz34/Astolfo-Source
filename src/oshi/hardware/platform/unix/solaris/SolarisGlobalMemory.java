@@ -47,17 +47,17 @@ public final class SolarisGlobalMemory extends AbstractGlobalMemory {
    }
 
    private Pair<Long, Long> readSystemPages() {
-      long var4 = 0L;
-      long var6 = 0L;
+      long l = 0L;
+      long m = 0L;
 
-      try (KstatUtil.KstatChain var8 = KstatUtil.openChain()) {
-         Kstat var10 = var8.lookup(null, -1, "system_pages");
-         if (var10 != null && var8.read(var10)) {
-            var4 = KstatUtil.dataLookupLong(var10, "availrmem") * this.getPageSize();
-            var6 = KstatUtil.dataLookupLong(var10, "physmem") * this.getPageSize();
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         Kstat kstat = kstatChain.lookup(null, -1, "system_pages");
+         if (kstat != null && kstatChain.read(kstat)) {
+            l = KstatUtil.dataLookupLong(kstat, "availrmem") * this.getPageSize();
+            m = KstatUtil.dataLookupLong(kstat, "physmem") * this.getPageSize();
          }
       }
 
-      return new Pair<>(var4, var6);
+      return new Pair<>(l, m);
    }
 }

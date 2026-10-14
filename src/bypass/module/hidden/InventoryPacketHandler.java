@@ -30,7 +30,7 @@ public final class InventoryPacketHandler extends HiddenModule {
    public static boolean u;
    private ScheduledExecutorService N = Executors.newScheduledThreadPool(1);
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1 -> {
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       u = false;
       this.N.shutdownNow();
       this.N = Executors.newScheduledThreadPool(1);
@@ -41,15 +41,15 @@ public final class InventoryPacketHandler extends HiddenModule {
    private Stopwatch w = new Stopwatch();
    private final Queue<Packet<?>> p = new LinkedList<>();
    @EventHandler(value = PacketEvent.class, priority = EventPriority.HIGHEST)
-   private Listener<PacketEvent> onPacket = var1 -> {
-      if (var1.getDirection() == PacketDirection.OUTGOING) {
-         boolean var5 = InventoryManager.general.getSetting("Spoof-GUI").asBoolean();
-         boolean var6 = InventoryManager.general.getSetting("Auto-Stop").asBoolean();
-         int var7 = InventoryManager.general.getSetting("Drop-Delay").asInt();
-         if (var6 && var1.getPacket() instanceof C03PacketPlayer) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         boolean bl = InventoryManager.general.getSetting("Spoof-GUI").asBoolean();
+         boolean bl2 = InventoryManager.general.getSetting("Auto-Stop").asBoolean();
+         int i = InventoryManager.general.getSetting("Drop-Delay").asInt();
+         if (bl2 && packetEvent.getPacket() instanceof C03PacketPlayer) {
             if (!GameUtil.isMoving(mc.thePlayer)) {
-               Packet var8 = this.p.poll();
-               if (var8 != null) {
+               Packet packet = this.p.poll();
+               if (packet != null) {
                   this.N.schedule(() -> {
                      if (!u) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
@@ -57,9 +57,9 @@ public final class InventoryPacketHandler extends HiddenModule {
                   }, 50L, TimeUnit.MILLISECONDS);
                   this.N.schedule(() -> {
                      if (u) {
-                        mc.thePlayer.sendQueue.addToSendQueue(var8);
+                        mc.thePlayer.sendQueue.addToSendQueue(packet);
                      }
-                  }, 55 + var7, TimeUnit.MILLISECONDS);
+                  }, 55 + i, TimeUnit.MILLISECONDS);
                }
             } else if (u) {
                this.N.schedule(() -> {
@@ -70,55 +70,55 @@ public final class InventoryPacketHandler extends HiddenModule {
             }
          }
 
-         if (var1.getPacket() instanceof C0EPacketClickWindow) {
-            C0EPacketClickWindow var10 = (C0EPacketClickWindow)var1.getPacket();
-            int var9 = var10.getWindowId();
-            if (var9 == 0) {
-               if (var6) {
+         if (packetEvent.getPacket() instanceof C0EPacketClickWindow) {
+            C0EPacketClickWindow c0EPacketClickWindow = (C0EPacketClickWindow)packetEvent.getPacket();
+            int j = c0EPacketClickWindow.getWindowId();
+            if (j == 0) {
+               if (bl2) {
                   if (GameUtil.isMoving(mc.thePlayer)) {
-                     this.p.offer(var1.getPacket());
-                     var1.cancel();
+                     this.p.offer(packetEvent.getPacket());
+                     packetEvent.cancel();
                   }
-               } else if (var5) {
+               } else if (bl) {
                   mc.thePlayer.sendQueue.u(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                  mc.thePlayer.sendQueue.u(var1.getPacket());
+                  mc.thePlayer.sendQueue.u(packetEvent.getPacket());
                   mc.thePlayer.sendQueue.addToSendQueue(this.V);
-                  var1.cancel();
+                  packetEvent.cancel();
                }
             }
 
             F.reset();
          }
 
-         if (var1.getPacket() instanceof C0DPacketCloseWindow) {
-            C0DPacketCloseWindow var11 = (C0DPacketCloseWindow)var1.getPacket();
-            if (var11.e() == 0) {
+         if (packetEvent.getPacket() instanceof C0DPacketCloseWindow) {
+            C0DPacketCloseWindow c0DPacketCloseWindow = (C0DPacketCloseWindow)packetEvent.getPacket();
+            if (c0DPacketCloseWindow.e() == 0) {
                if (!u) {
-                  var1.cancel();
+                  packetEvent.cancel();
                }
 
                u = false;
             }
          }
 
-         if (var1.getPacket() instanceof C16PacketClientStatus) {
-            C16PacketClientStatus var12 = (C16PacketClientStatus)var1.getPacket();
-            if (var12.getStatus() == C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
+         if (packetEvent.getPacket() instanceof C16PacketClientStatus) {
+            C16PacketClientStatus c16PacketClientStatus = (C16PacketClientStatus)packetEvent.getPacket();
+            if (c16PacketClientStatus.getStatus() == C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
                if (u) {
-                  var1.cancel();
+                  packetEvent.cancel();
                }
 
                u = true;
             }
          }
 
-         if (var1.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement var13 = (C08PacketPlayerBlockPlacement)var1.getPacket();
-            if (var13.getPlacedBlockDirection() != 255 && mc.theWorld.getBlockState(var13.getPosition()).getBlock() instanceof BlockChest) {
+         if (packetEvent.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packetEvent.getPacket();
+            if (c08PacketPlayerBlockPlacement.getPlacedBlockDirection() != 255 && mc.theWorld.getBlockState(c08PacketPlayerBlockPlacement.getPosition()).getBlock() instanceof BlockChest) {
                F.reset();
             }
          }
-      } else if (var1.getPacket() instanceof S2EPacketCloseWindow) {
+      } else if (packetEvent.getPacket() instanceof S2EPacketCloseWindow) {
          u = false;
       }
    };

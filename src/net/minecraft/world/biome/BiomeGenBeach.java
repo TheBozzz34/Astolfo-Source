@@ -3,8 +3,8 @@ package net.minecraft.world.biome;
 import net.minecraft.init.Blocks;
 
 public class BiomeGenBeach extends BiomeGenBase {
-   public BiomeGenBeach(int var1) {
-      super(var1);
+   public BiomeGenBeach(int id) {
+      super(id);
       this.spawnableCreatureList.clear();
       this.topBlock = Blocks.sand.getDefaultState();
       this.fillerBlock = Blocks.sand.getDefaultState();
@@ -15,6 +15,6 @@ public class BiomeGenBeach extends BiomeGenBase {
    }
 
    static {
-      long var10000 = 92271652612947L;
+      long l = 92271652612947L;
    }
 }

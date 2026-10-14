@@ -31,20 +31,20 @@ public abstract class BlockFlower extends BlockBush {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(this.getTypeProperty()).getMeta();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(this.getTypeProperty()).getMeta();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (BlockFlower.EnumFlowerType var10 : BlockFlower.EnumFlowerType.getTypes(this.getBlockType())) {
-         var3.add(new ItemStack(var1, 1, var10.getMeta()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (BlockFlower.EnumFlowerType enumFlowerType : BlockFlower.EnumFlowerType.getTypes(this.getBlockType())) {
+         list.add(new ItemStack(itemIn, 1, enumFlowerType.getMeta()));
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(this.getTypeProperty(), BlockFlower.EnumFlowerType.getType(this.getBlockType(), var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(this.getTypeProperty(), BlockFlower.EnumFlowerType.getType(this.getBlockType(), meta));
    }
 
    public abstract BlockFlower.EnumFlowerColor getBlockType();
@@ -54,8 +54,8 @@ public abstract class BlockFlower extends BlockBush {
          this.type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class, new Predicate<BlockFlower.EnumFlowerType>() {
             private static final long a = 99932612006769L;
 
-            public boolean apply(BlockFlower.EnumFlowerType var1) {
-               return var1.getBlockType() == BlockFlower.this.getBlockType();
+            public boolean apply(BlockFlower.EnumFlowerType enumFlowerType) {
+               return enumFlowerType.getBlockType() == BlockFlower.this.getBlockType();
             }
          });
       }
@@ -64,8 +64,8 @@ public abstract class BlockFlower extends BlockBush {
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(this.getTypeProperty()).getMeta();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(this.getTypeProperty()).getMeta();
    }
 
    @Override
@@ -108,15 +108,15 @@ public abstract class BlockFlower extends BlockBush {
       private final String unlocalizedName;
       private static final long a = 96987490485653L;
 
-      EnumFlowerType(BlockFlower.EnumFlowerColor var3, int var4, String var5) {
-         this(var3, var4, var5, var5);
+      EnumFlowerType(BlockFlower.EnumFlowerColor blockType, int meta, String name) {
+         this(blockType, meta, name, name);
       }
 
-      EnumFlowerType(BlockFlower.EnumFlowerColor var3, int var4, String var5, String var6) {
-         this.blockType = var3;
-         this.meta = var4;
-         this.name = var5;
-         this.unlocalizedName = var6;
+      EnumFlowerType(BlockFlower.EnumFlowerColor blockType, int meta, String name, String unlocalizedNameIn) {
+         this.blockType = blockType;
+         this.meta = meta;
+         this.name = name;
+         this.unlocalizedName = unlocalizedNameIn;
       }
 
       public BlockFlower.EnumFlowerColor getBlockType() {
@@ -127,17 +127,17 @@ public abstract class BlockFlower extends BlockBush {
          return this.meta;
       }
 
-      public static BlockFlower.EnumFlowerType getType(BlockFlower.EnumFlowerColor var0, int var1) {
-         BlockFlower.EnumFlowerType[] var5 = TYPES_FOR_BLOCK[var0.ordinal()];
-         if (var1 < 0 || var1 >= var5.length) {
-            var1 = 0;
+      public static BlockFlower.EnumFlowerType getType(BlockFlower.EnumFlowerColor blockType, int meta) {
+         BlockFlower.EnumFlowerType[] enumFlowerTypes = TYPES_FOR_BLOCK[blockType.ordinal()];
+         if (meta < 0 || meta >= enumFlowerTypes.length) {
+            meta = 0;
          }
 
-         return var5[var1];
+         return enumFlowerTypes[meta];
       }
 
-      public static BlockFlower.EnumFlowerType[] getTypes(BlockFlower.EnumFlowerColor var0) {
-         return TYPES_FOR_BLOCK[var0.ordinal()];
+      public static BlockFlower.EnumFlowerType[] getTypes(BlockFlower.EnumFlowerColor flowerColor) {
+         return TYPES_FOR_BLOCK[flowerColor.ordinal()];
       }
 
       @Override
@@ -155,15 +155,15 @@ public abstract class BlockFlower extends BlockBush {
       }
 
       static {
-         for (final BlockFlower.EnumFlowerColor var25 : BlockFlower.EnumFlowerColor.values()) {
-            Collection var26 = Collections2.filter(Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>() {
+         for (final BlockFlower.EnumFlowerColor enumFlowerColor : BlockFlower.EnumFlowerColor.values()) {
+            Collection collection = Collections2.filter(Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>() {
                private static final long a = 110501620734356L;
 
-               public boolean apply(BlockFlower.EnumFlowerType var1) {
-                  return var1.getBlockType() == var25;
+               public boolean apply(BlockFlower.EnumFlowerType enumFlowerType) {
+                  return enumFlowerType.getBlockType() == enumFlowerColor;
                }
             });
-            TYPES_FOR_BLOCK[var25.ordinal()] = (net.minecraft.block.BlockFlower.EnumFlowerType[])(var26.toArray(new BlockFlower.EnumFlowerType[var26.size()]));
+            TYPES_FOR_BLOCK[enumFlowerColor.ordinal()] = (net.minecraft.block.BlockFlower.EnumFlowerType[])(collection.toArray(new BlockFlower.EnumFlowerType[collection.size()]));
          }
       }
    }

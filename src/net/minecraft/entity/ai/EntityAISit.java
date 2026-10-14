@@ -8,8 +8,8 @@ public class EntityAISit extends EntityAIBase {
    private boolean isSitting;
    private static final long a = 66508805877303L;
 
-   public EntityAISit(EntityTameable var1) {
-      this.theEntity = var1;
+   public EntityAISit(EntityTameable entityIn) {
+      this.theEntity = entityIn;
       this.setMutexBits(5);
    }
 
@@ -27,8 +27,8 @@ public class EntityAISit extends EntityAIBase {
          return false;
       }
 
-      EntityLivingBase var4 = this.theEntity.getOwner();
-      return var4 == null ? true : (this.theEntity.getDistanceSqToEntity(var4) < 144.0 && var4.getAITarget() != null ? false : this.isSitting);
+      EntityLivingBase entityLivingBase = this.theEntity.getOwner();
+      return entityLivingBase == null ? true : (this.theEntity.getDistanceSqToEntity(entityLivingBase) < 144.0 && entityLivingBase.getAITarget() != null ? false : this.isSitting);
    }
 
    @Override
@@ -42,7 +42,7 @@ public class EntityAISit extends EntityAIBase {
       this.theEntity.setSitting(false);
    }
 
-   public void setSitting(boolean var1) {
-      this.isSitting = var1;
+   public void setSitting(boolean sitting) {
+      this.isSitting = sitting;
    }
 }

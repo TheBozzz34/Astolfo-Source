@@ -19,10 +19,10 @@ public class ScorePlayerTeam extends Team {
    private EnumChatFormatting chatFormat = EnumChatFormatting.RESET;
    private static final long a = 45737796354070L;
 
-   public ScorePlayerTeam(Scoreboard var1, String var2) {
-      this.theScoreboard = var1;
-      this.registeredName = var2;
-      this.teamNameSPT = var2;
+   public ScorePlayerTeam(Scoreboard theScoreboardIn, String name) {
+      this.theScoreboard = theScoreboardIn;
+      this.registeredName = name;
+      this.teamNameSPT = name;
    }
 
    @Override
@@ -34,12 +34,12 @@ public class ScorePlayerTeam extends Team {
       return this.teamNameSPT;
    }
 
-   public void setTeamName(String var1) {
-      if (var1 == null) {
+   public void setTeamName(String name) {
+      if (name == null) {
          throw new IllegalArgumentException("Name cannot be null");
       }
 
-      this.teamNameSPT = var1;
+      this.teamNameSPT = name;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
@@ -52,12 +52,12 @@ public class ScorePlayerTeam extends Team {
       return this.namePrefixSPT;
    }
 
-   public void setNamePrefix(String var1) {
-      if (var1 == null) {
+   public void setNamePrefix(String prefix) {
+      if (prefix == null) {
          throw new IllegalArgumentException("Prefix cannot be null");
       }
 
-      this.namePrefixSPT = var1;
+      this.namePrefixSPT = prefix;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
@@ -65,18 +65,18 @@ public class ScorePlayerTeam extends Team {
       return this.colorSuffix;
    }
 
-   public void setNameSuffix(String var1) {
-      this.colorSuffix = var1;
+   public void setNameSuffix(String suffix) {
+      this.colorSuffix = suffix;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
    @Override
-   public String formatString(String var1) {
-      return this.getColorPrefix() + var1 + this.getColorSuffix();
+   public String formatString(String input) {
+      return this.getColorPrefix() + input + this.getColorSuffix();
    }
 
-   public static String formatPlayerName(Team var0, String var1) {
-      return var0 == null ? var1 : var0.formatString(var1);
+   public static String formatPlayerName(Team team, String string) {
+      return team == null ? string : team.formatString(string);
    }
 
    @Override
@@ -84,8 +84,8 @@ public class ScorePlayerTeam extends Team {
       return this.allowFriendlyFire;
    }
 
-   public void setAllowFriendlyFire(boolean var1) {
-      this.allowFriendlyFire = var1;
+   public void setAllowFriendlyFire(boolean friendlyFire) {
+      this.allowFriendlyFire = friendlyFire;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
@@ -94,8 +94,8 @@ public class ScorePlayerTeam extends Team {
       return this.canSeeFriendlyInvisibles;
    }
 
-   public void setSeeFriendlyInvisiblesEnabled(boolean var1) {
-      this.canSeeFriendlyInvisibles = var1;
+   public void setSeeFriendlyInvisiblesEnabled(boolean friendlyInvisibles) {
+      this.canSeeFriendlyInvisibles = friendlyInvisibles;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
@@ -109,36 +109,36 @@ public class ScorePlayerTeam extends Team {
       return this.deathMessageVisibility;
    }
 
-   public void setNameTagVisibility(Team.EnumVisible var1) {
-      this.nameTagVisibility = var1;
+   public void setNameTagVisibility(Team.EnumVisible enumVisible) {
+      this.nameTagVisibility = enumVisible;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
-   public void setDeathMessageVisibility(Team.EnumVisible var1) {
-      this.deathMessageVisibility = var1;
+   public void setDeathMessageVisibility(Team.EnumVisible enumVisible) {
+      this.deathMessageVisibility = enumVisible;
       this.theScoreboard.sendTeamUpdate(this);
    }
 
    public int func_98299_i() {
-      byte var4 = 0;
+      byte b = 0;
       if (this.getAllowFriendlyFire()) {
-         var4 |= 1;
+         b |= 1;
       }
 
       if (this.getSeeFriendlyInvisiblesEnabled()) {
-         var4 |= 2;
+         b |= 2;
       }
 
-      return var4;
+      return b;
    }
 
-   public void func_98298_a(int var1) {
-      this.setAllowFriendlyFire((var1 & 1) > 0);
-      this.setSeeFriendlyInvisiblesEnabled((var1 & 2) > 0);
+   public void func_98298_a(int i) {
+      this.setAllowFriendlyFire((i & 1) > 0);
+      this.setSeeFriendlyInvisiblesEnabled((i & 2) > 0);
    }
 
-   public void setChatFormat(EnumChatFormatting var1) {
-      this.chatFormat = var1;
+   public void setChatFormat(EnumChatFormatting enumChatFormatting) {
+      this.chatFormat = enumChatFormatting;
    }
 
    public EnumChatFormatting getChatFormat() {

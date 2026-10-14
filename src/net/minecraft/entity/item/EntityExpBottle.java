@@ -10,16 +10,16 @@ public class EntityExpBottle extends EntityThrowable {
    private static final long ab = 85090333958056L;
    private static final long gb = 4754797580020352978L;
 
-   public EntityExpBottle(World var1) {
-      super(var1);
+   public EntityExpBottle(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityExpBottle(World var1, EntityLivingBase var2) {
-      super(var1, var2);
+   public EntityExpBottle(World worldIn, EntityLivingBase entityLivingBase) {
+      super(worldIn, entityLivingBase);
    }
 
-   public EntityExpBottle(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityExpBottle(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
@@ -38,15 +38,15 @@ public class EntityExpBottle extends EntityThrowable {
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
+   public void onImpact(MovingObjectPosition movingObjectPosition) {
       if (!this.worldObj.isRemote) {
          this.worldObj.playAuxSFX((int)gb, new BlockPos(this), 0);
-         int var5 = 3 + this.worldObj.rand.nextInt(5) + this.worldObj.rand.nextInt(5);
+         int i = 3 + this.worldObj.rand.nextInt(5) + this.worldObj.rand.nextInt(5);
 
-         while (var5 > 0) {
-            int var6 = EntityXPOrb.getXPSplit(var5);
-            var5 -= var6;
-            this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, var6));
+         while (i > 0) {
+            int j = EntityXPOrb.getXPSplit(i);
+            i -= j;
+            this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, j));
          }
 
          this.setDead();

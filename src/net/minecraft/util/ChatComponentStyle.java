@@ -12,9 +12,9 @@ public abstract class ChatComponentStyle implements IChatComponent {
    private static final long d = 105157924575597L;
 
    @Override
-   public IChatComponent appendSibling(IChatComponent var1) {
-      var1.getChatStyle().setParentStyle(this.getChatStyle());
-      this.siblings.add(var1);
+   public IChatComponent appendSibling(IChatComponent component) {
+      component.getChatStyle().setParentStyle(this.getChatStyle());
+      this.siblings.add(component);
       return this;
    }
 
@@ -24,16 +24,16 @@ public abstract class ChatComponentStyle implements IChatComponent {
    }
 
    @Override
-   public IChatComponent appendText(String var1) {
-      return this.appendSibling(new ChatComponentText(var1));
+   public IChatComponent appendText(String text) {
+      return this.appendSibling(new ChatComponentText(text));
    }
 
    @Override
-   public IChatComponent setChatStyle(ChatStyle var1) {
-      this.style = var1;
+   public IChatComponent setChatStyle(ChatStyle style) {
+      this.style = style;
 
-      for (IChatComponent var5 : this.siblings) {
-         var5.getChatStyle().setParentStyle(this.getChatStyle());
+      for (IChatComponent iChatComponent : this.siblings) {
+         iChatComponent.getChatStyle().setParentStyle(this.getChatStyle());
       }
 
       return this;
@@ -44,8 +44,8 @@ public abstract class ChatComponentStyle implements IChatComponent {
       if (this.style == null) {
          this.style = new ChatStyle();
 
-         for (IChatComponent var4 : this.siblings) {
-            var4.getChatStyle().setParentStyle(this.style);
+         for (IChatComponent iChatComponent : this.siblings) {
+            iChatComponent.getChatStyle().setParentStyle(this.style);
          }
       }
 
@@ -59,55 +59,55 @@ public abstract class ChatComponentStyle implements IChatComponent {
 
    @Override
    public final String getUnformattedText() {
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (IChatComponent var6 : this) {
-         var4.append(var6.getUnformattedTextForChat());
+      for (IChatComponent iChatComponent : this) {
+         stringBuilder.append(iChatComponent.getUnformattedTextForChat());
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
    @Override
    public final String getFormattedText() {
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (IChatComponent var6 : this) {
-         var4.append(var6.getChatStyle().getFormattingCode());
-         var4.append(var6.getUnformattedTextForChat());
-         var4.append(EnumChatFormatting.RESET);
+      for (IChatComponent iChatComponent : this) {
+         stringBuilder.append(iChatComponent.getChatStyle().getFormattingCode());
+         stringBuilder.append(iChatComponent.getUnformattedTextForChat());
+         stringBuilder.append(EnumChatFormatting.RESET);
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
-   public static Iterator<IChatComponent> createDeepCopyIterator(Iterable<IChatComponent> var0) {
-      Iterator var1 = Iterators.concat(Iterators.transform(var0.iterator(), new Function<IChatComponent, Iterator<IChatComponent>>() {
-         public Iterator<IChatComponent> apply(IChatComponent var1) {
-            return var1.iterator();
+   public static Iterator<IChatComponent> createDeepCopyIterator(Iterable<IChatComponent> components) {
+      Iterator iterator2 = Iterators.concat(Iterators.transform(components.iterator(), new Function<IChatComponent, Iterator<IChatComponent>>() {
+         public Iterator<IChatComponent> apply(IChatComponent iChatComponent) {
+            return iChatComponent.iterator();
          }
       }));
-      return Iterators.transform(var1, new Function<IChatComponent, IChatComponent>() {
-         public IChatComponent apply(IChatComponent var1) {
-            IChatComponent var2 = var1.createCopy();
-            var2.setChatStyle(var2.getChatStyle().createDeepCopy());
-            return var2;
+      return Iterators.transform(iterator2, new Function<IChatComponent, IChatComponent>() {
+         public IChatComponent apply(IChatComponent iChatComponent) {
+            IChatComponent iChatComponent2 = iChatComponent.createCopy();
+            iChatComponent2.setChatStyle(iChatComponent2.getChatStyle().createDeepCopy());
+            return iChatComponent2;
          }
       });
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ChatComponentStyle)) {
+      if (!(object instanceof ChatComponentStyle)) {
          return false;
       }
 
-      ChatComponentStyle var5 = (ChatComponentStyle)var1;
-      return this.siblings.equals(var5.siblings) && this.getChatStyle().equals(var5.getChatStyle());
+      ChatComponentStyle chatComponentStyle = (ChatComponentStyle)object;
+      return this.siblings.equals(chatComponentStyle.siblings) && this.getChatStyle().equals(chatComponentStyle.getChatStyle());
    }
 
    @Override

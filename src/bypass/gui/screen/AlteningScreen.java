@@ -33,8 +33,8 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
    private boolean n;
    private static final long c = 59766492869013L;
 
-   public AlteningScreen(GuiScreen var1) {
-      this.d = var1;
+   public AlteningScreen(GuiScreen guiScreen) {
+      this.d = guiScreen;
       this.x = new AlteningSsl();
       this.x.H();
    }
@@ -49,15 +49,15 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
       this.w.setText(b);
       this.buttonList.add(new GuiButton(0, this.width / 2 - 55, this.height / 2 - 15, 125, 20, "Generate"));
       this.buttonList.add(new GuiButton(2, 2, this.height - 22, 50, 20, "<-"));
-      String var3 = "Add account";
-      this.B = new Checkbox(var3, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(var3)) / 2, this.height / 2 + 15, true);
+      String string = "Add account";
+      this.B = new Checkbox(string, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 2 + 15, true);
       this.B.K(f);
       this.P = "";
       super.initGui();
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       GL11.glPushMatrix();
       GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -75,39 +75,39 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
          .drawStringWithShadow(
             "API key:", this.width / 2 - 115 - Minecraft.getMinecraft().fontRendererObj.getStringWidth("API key:") / 2 + 5, this.height / 2 - 42, -1
          );
-      this.B.E(var1, var2);
+      this.B.E(mouseX, mouseY);
       this.w.drawTextBox();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      this.w.textboxKeyTyped(var1, var2);
-      super.keyTyped(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      this.w.textboxKeyTyped(typedChar, keyCode);
+      super.keyTyped(typedChar, keyCode);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      this.w.mouseClicked(var1, var2, var3);
-      this.B.b(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      this.w.mouseClicked(mouseX, mouseY, mouseButton);
+      this.B.b(mouseX, mouseY, mouseButton);
       f = this.B.a();
-      super.mouseClicked(var1, var2, var3);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
    public void updateScreen() {
-      long var1 = c ^ 57210950613511L;
-      long var3 = var1 ^ 62083882695697L;
+      long l = c ^ 57210950613511L;
+      long m = l ^ 62083882695697L;
       if (!this.P.isEmpty()) {
          try {
-            Alt var6 = new Alt(this.P, "");
-            AltLogin.AUTH.A(var6);
+            Alt alt = new Alt(this.P, "");
+            AltLogin.AUTH.A(alt);
             b = this.w.getText();
-            List var7 = Astolfo.INSTANCE.getAltManager().getList();
+            List list = Astolfo.INSTANCE.getAltManager().getList();
             if (f) {
-               var7.add(var6);
+               list.add(alt);
             }
-         } catch (Exception var8) {
+         } catch (Exception exception) {
          }
 
          this.P = "";
@@ -119,23 +119,23 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
+   public void actionPerformed(GuiButton button) throws IOException {
       W().d(b);
-      switch (var1.id) {
+      switch (button.id) {
          case 0:
             if (!r().V().equals(AccountType.THEALTENING)) {
                try {
                   r().g(AccountType.THEALTENING);
-               } catch (NoSuchFieldException | IllegalAccessException var7) {
+               } catch (NoSuchFieldException | IllegalAccessException value) {
                   this.x.m(false);
-                  var7.printStackTrace();
+                  value.printStackTrace();
                }
             }
 
             new Thread(() -> {
                try {
                   this.P = W().i(W().t()).f();
-               } catch (IOException var2) {
+               } catch (IOException ioException) {
                   this.P = "";
                   this.n = true;
                }
@@ -148,15 +148,15 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
                } else if (r().V().equals(AccountType.THEALTENING)) {
                   r().g(AccountType.MOJANG);
                }
-            } catch (NoSuchFieldException | IllegalAccessException var6) {
-               var6.printStackTrace();
+            } catch (NoSuchFieldException | IllegalAccessException value2) {
+               value2.printStackTrace();
             }
             break;
          case 2:
             Minecraft.getMinecraft().displayGuiScreen(this.d);
       }
 
-      super.actionPerformed(var1);
+      super.actionPerformed(button);
    }
 
    @Override

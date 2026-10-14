@@ -14,29 +14,29 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient> {
    public S02PacketChat() {
    }
 
-   public S02PacketChat(IChatComponent var1) {
-      this(var1, (byte)1);
+   public S02PacketChat(IChatComponent component) {
+      this(component, (byte)1);
    }
 
-   public S02PacketChat(IChatComponent var1, byte var2) {
-      this.chatComponent = var1;
-      this.type = var2;
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.chatComponent = var1.readChatComponent();
-      this.type = var1.readByte();
+   public S02PacketChat(IChatComponent message, byte typeIn) {
+      this.chatComponent = message;
+      this.type = typeIn;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeChatComponent(this.chatComponent);
-      var1.writeByte(this.type);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.chatComponent = buf.readChatComponent();
+      this.type = buf.readByte();
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleChat(this);
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeChatComponent(this.chatComponent);
+      buf.writeByte(this.type);
+   }
+
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleChat(this);
    }
 
    public IChatComponent getChatComponent() {

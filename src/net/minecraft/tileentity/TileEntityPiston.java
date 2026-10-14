@@ -24,11 +24,11 @@ public class TileEntityPiston extends TileEntity implements ITickable {
    public TileEntityPiston() {
    }
 
-   public TileEntityPiston(IBlockState var1, EnumFacing var2, boolean var3, boolean var4) {
-      this.pistonState = var1;
-      this.pistonFacing = var2;
-      this.extending = var3;
-      this.shouldHeadBeRendered = var4;
+   public TileEntityPiston(IBlockState pistonStateIn, EnumFacing pistonFacingIn, boolean extendingIn, boolean shouldHeadBeRenderedIn) {
+      this.pistonState = pistonStateIn;
+      this.pistonFacing = pistonFacingIn;
+      this.extending = extendingIn;
+      this.shouldHeadBeRendered = shouldHeadBeRenderedIn;
    }
 
    public IBlockState getPistonState() {
@@ -52,61 +52,59 @@ public class TileEntityPiston extends TileEntity implements ITickable {
       return this.shouldHeadBeRendered;
    }
 
-   public float getProgress(float var1) {
-      if (var1 > 1.0F) {
-         var1 = 1.0F;
+   public float getProgress(float ticks) {
+      if (ticks > 1.0F) {
+         ticks = 1.0F;
       }
 
-      return this.lastProgress + (this.progress - this.lastProgress) * var1;
+      return this.lastProgress + (this.progress - this.lastProgress) * ticks;
    }
 
-   public float getOffsetX(float var1) {
+   public float getOffsetX(float ticks) {
       return this.extending
-         ? (this.getProgress(var1) - 1.0F) * this.pistonFacing.getFrontOffsetX()
-         : (1.0F - this.getProgress(var1)) * this.pistonFacing.getFrontOffsetX();
+         ? (this.getProgress(ticks) - 1.0F) * this.pistonFacing.getFrontOffsetX()
+         : (1.0F - this.getProgress(ticks)) * this.pistonFacing.getFrontOffsetX();
    }
 
-   public float getOffsetY(float var1) {
+   public float getOffsetY(float ticks) {
       return this.extending
-         ? (this.getProgress(var1) - 1.0F) * this.pistonFacing.getFrontOffsetY()
-         : (1.0F - this.getProgress(var1)) * this.pistonFacing.getFrontOffsetY();
+         ? (this.getProgress(ticks) - 1.0F) * this.pistonFacing.getFrontOffsetY()
+         : (1.0F - this.getProgress(ticks)) * this.pistonFacing.getFrontOffsetY();
    }
 
-   public float getOffsetZ(float var1) {
+   public float getOffsetZ(float ticks) {
       return this.extending
-         ? (this.getProgress(var1) - 1.0F) * this.pistonFacing.getFrontOffsetZ()
-         : (1.0F - this.getProgress(var1)) * this.pistonFacing.getFrontOffsetZ();
+         ? (this.getProgress(ticks) - 1.0F) * this.pistonFacing.getFrontOffsetZ()
+         : (1.0F - this.getProgress(ticks)) * this.pistonFacing.getFrontOffsetZ();
    }
 
-   private void launchWithSlimeBlock(float var1, float var2) {
+   private void launchWithSlimeBlock(float f, float g) {
       if (this.extending) {
-         var1 = 1.0F - var1;
+         f = 1.0F - f;
       } else {
-         var1--;
+         f--;
       }
 
-      AxisAlignedBB var6 = Blocks.piston_extension.getBoundingBox(this.worldObj, this.pos, this.pistonState, var1, this.pistonFacing);
-      if (var6 != null) {
-         List var7 = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)null, var6);
-         if (!var7.isEmpty()) {
-            this.field_174933_k.addAll(var7);
+      AxisAlignedBB axisAlignedBB = Blocks.piston_extension.getBoundingBox(this.worldObj, this.pos, this.pistonState, f, this.pistonFacing);
+      if (axisAlignedBB != null) {
+         List list = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)null, axisAlignedBB);
+         if (!list.isEmpty()) {
+            this.field_174933_k.addAll(list);
 
-            for (Entity var9 : this.field_174933_k) {
+            for (Entity entity : this.field_174933_k) {
                if (this.pistonState.getBlock() == Blocks.slime_block && this.extending) {
                   switch (this.pistonFacing.getAxis()) {
                      case X:
-                        var9.motionX = this.pistonFacing.getFrontOffsetX();
+                        entity.motionX = this.pistonFacing.getFrontOffsetX();
                         break;
                      case Y:
-                        var9.motionY = this.pistonFacing.getFrontOffsetY();
+                        entity.motionY = this.pistonFacing.getFrontOffsetY();
                         break;
                      case Z:
-                        var9.motionZ = this.pistonFacing.getFrontOffsetZ();
+                        entity.motionZ = this.pistonFacing.getFrontOffsetZ();
                   }
                } else {
-                  var9.moveEntity(
-                     var2 * this.pistonFacing.getFrontOffsetX(), var2 * this.pistonFacing.getFrontOffsetY(), var2 * this.pistonFacing.getFrontOffsetZ()
-                  );
+                  entity.moveEntity(g * this.pistonFacing.getFrontOffsetX(), g * this.pistonFacing.getFrontOffsetY(), g * this.pistonFacing.getFrontOffsetZ());
                }
             }
 
@@ -151,21 +149,21 @@ public class TileEntityPiston extends TileEntity implements ITickable {
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      this.pistonState = Block.getBlockById(var1.getInteger("blockId")).getStateFromMeta(var1.getInteger("blockData"));
-      this.pistonFacing = EnumFacing.getFront(var1.getInteger("facing"));
-      this.lastProgress = this.progress = var1.getFloat("progress");
-      this.extending = var1.getBoolean("extending");
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      this.pistonState = Block.getBlockById(compound.getInteger("blockId")).getStateFromMeta(compound.getInteger("blockData"));
+      this.pistonFacing = EnumFacing.getFront(compound.getInteger("facing"));
+      this.lastProgress = this.progress = compound.getFloat("progress");
+      this.extending = compound.getBoolean("extending");
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      var1.setInteger("blockId", Block.getIdFromBlock(this.pistonState.getBlock()));
-      var1.setInteger("blockData", this.pistonState.getBlock().getMetaFromState(this.pistonState));
-      var1.setInteger("facing", this.pistonFacing.getIndex());
-      var1.setFloat("progress", this.lastProgress);
-      var1.setBoolean("extending", this.extending);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      compound.setInteger("blockId", Block.getIdFromBlock(this.pistonState.getBlock()));
+      compound.setInteger("blockData", this.pistonState.getBlock().getMetaFromState(this.pistonState));
+      compound.setInteger("facing", this.pistonFacing.getIndex());
+      compound.setFloat("progress", this.lastProgress);
+      compound.setBoolean("extending", this.extending);
    }
 }

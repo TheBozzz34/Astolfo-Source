@@ -13,28 +13,28 @@ public class S48PacketResourcePackSend implements Packet<INetHandlerPlayClient> 
    public S48PacketResourcePackSend() {
    }
 
-   public S48PacketResourcePackSend(String var1, String var2) {
-      this.url = var1;
-      this.hash = var2;
-      if (var2.length() > 40) {
-         throw new IllegalArgumentException("Hash is too long (max 40, was " + var2.length() + ")");
+   public S48PacketResourcePackSend(String url, String hash) {
+      this.url = url;
+      this.hash = hash;
+      if (hash.length() > 40) {
+         throw new IllegalArgumentException("Hash is too long (max 40, was " + hash.length() + ")");
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.url = var1.readStringFromBuffer(32767);
-      this.hash = var1.readStringFromBuffer(40);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.url = buf.readStringFromBuffer(32767);
+      this.hash = buf.readStringFromBuffer(40);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.url);
-      var1.writeString(this.hash);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.url);
+      buf.writeString(this.hash);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleResourcePack(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleResourcePack(this);
    }
 
    public String R() {

@@ -3,48 +3,48 @@ package net.minecraft.world.gen.layer;
 public class GenLayerSmooth extends GenLayer {
    private static final long c = 109530341732165L;
 
-   public GenLayerSmooth(long var1, GenLayer var3) {
-      super(var1);
-      super.parent = var3;
+   public GenLayerSmooth(long l, GenLayer genLayer) {
+      super(l);
+      super.parent = genLayer;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
-      int var8 = var1 - 1;
-      int var9 = var2 - 1;
-      int var10 = var3 + 2;
-      int var11 = var4 + 2;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int[] var13 = IntCache.getIntCache(var3 * var4);
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+      int i = areaX - 1;
+      int j = areaY - 1;
+      int k = areaWidth + 2;
+      int l = areaHeight + 2;
+      int[] ints = this.parent.getInts(i, j, k, l);
+      int[] ints2 = IntCache.getIntCache(areaWidth * areaHeight);
 
-      for (int var14 = 0; var14 < var4; var14++) {
-         for (int var15 = 0; var15 < var3; var15++) {
-            int var16 = var12[var15 + 0 + (var14 + 1) * var10];
-            int var17 = var12[var15 + 2 + (var14 + 1) * var10];
-            int var18 = var12[var15 + 1 + (var14 + 0) * var10];
-            int var19 = var12[var15 + 1 + (var14 + 2) * var10];
-            int var20 = var12[var15 + 1 + (var14 + 1) * var10];
-            if (var16 == var17 && var18 == var19) {
-               this.initChunkSeed(var15 + var1, var14 + var2);
+      for (int m = 0; m < areaHeight; m++) {
+         for (int n = 0; n < areaWidth; n++) {
+            int i2 = ints[n + 0 + (m + 1) * k];
+            int i3 = ints[n + 2 + (m + 1) * k];
+            int i4 = ints[n + 1 + (m + 0) * k];
+            int i5 = ints[n + 1 + (m + 2) * k];
+            int i6 = ints[n + 1 + (m + 1) * k];
+            if (i2 == i3 && i4 == i5) {
+               this.initChunkSeed(n + areaX, m + areaY);
                if (this.nextInt(2) == 0) {
-                  var20 = var16;
+                  i6 = i2;
                } else {
-                  var20 = var18;
+                  i6 = i4;
                }
             } else {
-               if (var16 == var17) {
-                  var20 = var16;
+               if (i2 == i3) {
+                  i6 = i2;
                }
 
-               if (var18 == var19) {
-                  var20 = var18;
+               if (i4 == i5) {
+                  i6 = i4;
                }
             }
 
-            var13[var15 + var14 * var3] = var20;
+            ints2[n + m * areaWidth] = i6;
          }
       }
 
-      return var13;
+      return ints2;
    }
 }

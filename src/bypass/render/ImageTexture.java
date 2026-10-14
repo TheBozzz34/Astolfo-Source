@@ -12,7 +12,7 @@ public class ImageTexture {
    public ImageTexture() {
    }
 
-   public ImageTexture(BufferedImage var1) {
-      this.H = var1;
+   public ImageTexture(BufferedImage bufferedImage) {
+      this.H = bufferedImage;
    }
 }

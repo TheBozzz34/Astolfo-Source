@@ -14,26 +14,26 @@ public class RenderEnderman extends RenderLiving<EntityEnderman> {
    private Random rnd = new Random();
    private static final long d = 106878501039735L;
 
-   public RenderEnderman(RenderManager var1) {
-      super(var1, new ModelEnderman(0.0F), 0.5F);
+   public RenderEnderman(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelEnderman(0.0F), 0.5F);
       this.endermanModel = (ModelEnderman)super.mainModel;
       this.addLayer(new LayerEndermanEyes(this));
       this.addLayer(new LayerHeldBlock(this));
    }
 
-   public void doRender(EntityEnderman var1, double var2, double var4, double var6, float var8, float var9) {
-      this.endermanModel.isCarrying = var1.getHeldBlockState().getBlock().getMaterial() != Material.air;
-      this.endermanModel.isAttacking = var1.isScreaming();
-      if (var1.isScreaming()) {
-         double var13 = 0.02;
-         var2 += this.rnd.nextGaussian() * var13;
-         var6 += this.rnd.nextGaussian() * var13;
+   public void doRender(EntityEnderman entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      this.endermanModel.isCarrying = entity.getHeldBlockState().getBlock().getMaterial() != Material.air;
+      this.endermanModel.isAttacking = entity.isScreaming();
+      if (entity.isScreaming()) {
+         double d = 0.02;
+         x += this.rnd.nextGaussian() * d;
+         z += this.rnd.nextGaussian() * d;
       }
 
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityEnderman var1) {
+   public ResourceLocation getEntityTexture(EntityEnderman entity) {
       return endermanTextures;
    }
 }

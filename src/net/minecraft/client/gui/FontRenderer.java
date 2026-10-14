@@ -64,51 +64,51 @@ public class FontRenderer implements IResourceManagerReloadListener {
    private int g = new Color(0, 0, 0, 120).getRGB();
    private static final long b = 120209987115995L;
 
-   public FontRenderer(GameSettings var1, ResourceLocation var2, TextureManager var3, boolean var4) {
-      this.gameSettings = var1;
-      this.locationFontTextureBase = var2;
-      this.w = var2;
-      this.renderEngine = var3;
-      this.F = var4;
+   public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, boolean unicode) {
+      this.gameSettings = gameSettingsIn;
+      this.locationFontTextureBase = location;
+      this.w = location;
+      this.renderEngine = textureManagerIn;
+      this.F = unicode;
       this.w = FontUtils.getHdFontLocation(this.locationFontTextureBase);
       this.bindTexture(this.w);
 
-      for (int var8 = 0; var8 < 32; var8++) {
-         int var9 = (var8 >> 3 & 1) * 85;
-         int var10 = (var8 >> 2 & 1) * 170 + var9;
-         int var11 = (var8 >> 1 & 1) * 170 + var9;
-         int var12 = (var8 >> 0 & 1) * 170 + var9;
-         if (var8 == 6) {
-            var10 += 85;
+      for (int i = 0; i < 32; i++) {
+         int j = (i >> 3 & 1) * 85;
+         int k = (i >> 2 & 1) * 170 + j;
+         int l = (i >> 1 & 1) * 170 + j;
+         int m = (i >> 0 & 1) * 170 + j;
+         if (i == 6) {
+            k += 85;
          }
 
-         if (var1.anaglyph) {
-            int var13 = (var10 * 30 + var11 * 59 + var12 * 11) / 100;
-            int var14 = (var10 * 30 + var11 * 70) / 100;
-            int var15 = (var10 * 30 + var12 * 70) / 100;
-            var10 = var13;
-            var11 = var14;
-            var12 = var15;
+         if (gameSettingsIn.anaglyph) {
+            int n = (k * 30 + l * 59 + m * 11) / 100;
+            int i2 = (k * 30 + l * 70) / 100;
+            int i3 = (k * 30 + m * 70) / 100;
+            k = n;
+            l = i2;
+            m = i3;
          }
 
-         if (var8 >= 16) {
-            var10 /= 4;
-            var11 /= 4;
-            var12 /= 4;
+         if (i >= 16) {
+            k /= 4;
+            l /= 4;
+            m /= 4;
          }
 
-         this.H[var8] = (var10 & 0xFF) << 16 | (var11 & 0xFF) << 8 | var12 & 0xFF;
+         this.H[i] = (k & 0xFF) << 16 | (l & 0xFF) << 8 | m & 0xFF;
       }
 
       this.readGlyphSizes();
    }
 
    @Override
-   public void onResourceManagerReload(IResourceManager var1) {
+   public void onResourceManagerReload(IResourceManager resourceManager) {
       this.w = FontUtils.getHdFontLocation(this.locationFontTextureBase);
 
-      for (int var5 = 0; var5 < unicodePageLocations.length; var5++) {
-         unicodePageLocations[var5] = null;
+      for (int i = 0; i < unicodePageLocations.length; i++) {
+         unicodePageLocations[i] = null;
       }
 
       this.readFontTexture();
@@ -116,216 +116,216 @@ public class FontRenderer implements IResourceManagerReloadListener {
    }
 
    private void readFontTexture() {
-      BufferedImage var4;
+      BufferedImage bufferedImage;
       try {
-         var4 = TextureUtil.readBufferedImage(this.getResourceInputStream(this.w));
-      } catch (IOException var24) {
-         throw new RuntimeException(var24);
+         bufferedImage = TextureUtil.readBufferedImage(this.getResourceInputStream(this.w));
+      } catch (IOException ioException) {
+         throw new RuntimeException(ioException);
       }
 
-      Properties var5 = FontUtils.readFontProperties(this.w);
-      int var6 = var4.getWidth();
-      int var7 = var4.getHeight();
-      int var8 = var6 / 16;
-      int var9 = var7 / 16;
-      float var10 = var6 / 128.0F;
-      float var11 = Config.limit(var10, 1.0F, 2.0F);
-      this.offsetBold = 1.0F / var11;
-      float var12 = FontUtils.readFloat(var5, "offsetBold", -1.0F);
-      if (var12 >= 0.0F) {
-         this.offsetBold = var12;
+      Properties properties = FontUtils.readFontProperties(this.w);
+      int i = bufferedImage.getWidth();
+      int j = bufferedImage.getHeight();
+      int k = i / 16;
+      int l = j / 16;
+      float f = i / 128.0F;
+      float g = Config.limit(f, 1.0F, 2.0F);
+      this.offsetBold = 1.0F / g;
+      float h = FontUtils.readFloat(properties, "offsetBold", -1.0F);
+      if (h >= 0.0F) {
+         this.offsetBold = h;
       }
 
-      int[] var13 = new int[var6 * var7];
-      var4.getRGB(0, 0, var6, var7, var13, 0, var6);
+      int[] ints = new int[i * j];
+      bufferedImage.getRGB(0, 0, i, j, ints, 0, i);
 
-      for (int var14 = 0; var14 < 256; var14++) {
-         int var15 = var14 % 16;
-         int var16 = var14 / 16;
-         int var17 = 0;
+      for (int m = 0; m < 256; m++) {
+         int n = m % 16;
+         int i2 = m / 16;
+         int i3 = 0;
 
-         for (var17 = var8 - 1; var17 >= 0; var17--) {
-            int var18 = var15 * var8 + var17;
-            boolean var19 = true;
+         for (i3 = k - 1; i3 >= 0; i3--) {
+            int i4 = n * k + i3;
+            boolean bl = true;
 
-            for (int var20 = 0; var20 < var9 && var19; var20++) {
-               int var21 = (var16 * var9 + var20) * var6;
-               int var22 = var13[var18 + var21];
-               int var23 = var22 >> 24 & 0xFF;
-               if (var23 > 16) {
-                  var19 = false;
+            for (int i5 = 0; i5 < l && bl; i5++) {
+               int i6 = (i2 * l + i5) * i;
+               int i7 = ints[i4 + i6];
+               int i8 = i7 >> 24 & 0xFF;
+               if (i8 > 16) {
+                  bl = false;
                }
             }
 
-            if (!var19) {
+            if (!bl) {
                break;
             }
          }
 
-         if (var14 == 65) {
-            var14 = var14;
+         if (m == 65) {
+            m = m;
          }
 
-         if (var14 == 32) {
-            if (var8 <= 8) {
-               var17 = (int)(2.0F * var10);
+         if (m == 32) {
+            if (k <= 8) {
+               i3 = (int)(2.0F * f);
             } else {
-               var17 = (int)(1.5F * var10);
+               i3 = (int)(1.5F * f);
             }
          }
 
-         this.d[var14] = (var17 + 1) / var10 + 1.0F;
+         this.d[m] = (i3 + 1) / f + 1.0F;
       }
 
-      FontUtils.readCustomCharWidths(var5, this.d);
+      FontUtils.readCustomCharWidths(properties, this.d);
    }
 
    private void readGlyphSizes() {
-      InputStream var3 = null;
+      InputStream inputStream = null;
 
       try {
-         var3 = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"));
-         var3.read(this.glyphWidth);
-      } catch (IOException var8) {
-         throw new RuntimeException(var8);
+         inputStream = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"));
+         inputStream.read(this.glyphWidth);
+      } catch (IOException ioException) {
+         throw new RuntimeException(ioException);
       } finally {
-         IOUtils.closeQuietly(var3);
+         IOUtils.closeQuietly(inputStream);
       }
    }
 
-   private float renderChar(char var1, boolean var2) {
-      if (var1 == ' ') {
-         return !this.F ? this.d[var1] : 4.0F;
+   private float renderChar(char ch, boolean italic) {
+      if (ch == ' ') {
+         return !this.F ? this.d[ch] : 4.0F;
       }
 
-      int var6 = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
-         .indexOf(var1);
-      return var6 != -1 && !this.F ? this.renderDefaultChar(var6, var2) : this.renderUnicodeChar(var1, var2);
+      int i = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
+         .indexOf(ch);
+      return i != -1 && !this.F ? this.renderDefaultChar(i, italic) : this.renderUnicodeChar(ch, italic);
    }
 
-   private float renderDefaultChar(int var1, boolean var2) {
-      int var6 = var1 % 16 * 8;
-      int var7 = var1 / 16 * 8;
-      int var8 = var2 ? 1 : 0;
+   private float renderDefaultChar(int ch, boolean italic) {
+      int i = ch % 16 * 8;
+      int j = ch / 16 * 8;
+      int k = italic ? 1 : 0;
       this.bindTexture(this.w);
-      float var9 = this.d[var1];
-      float var10 = 7.99F;
+      float f = this.d[ch];
+      float g = 7.99F;
       GL11.glBegin(5);
-      GL11.glTexCoord2f(var6 / 128.0F, var7 / 128.0F);
-      GL11.glVertex3f(this.posX + var8, this.posY, 0.0F);
-      GL11.glTexCoord2f(var6 / 128.0F, (var7 + 7.99F) / 128.0F);
-      GL11.glVertex3f(this.posX - var8, this.posY + 7.99F, 0.0F);
-      GL11.glTexCoord2f((var6 + var10 - 1.0F) / 128.0F, var7 / 128.0F);
-      GL11.glVertex3f(this.posX + var10 - 1.0F + var8, this.posY, 0.0F);
-      GL11.glTexCoord2f((var6 + var10 - 1.0F) / 128.0F, (var7 + 7.99F) / 128.0F);
-      GL11.glVertex3f(this.posX + var10 - 1.0F - var8, this.posY + 7.99F, 0.0F);
+      GL11.glTexCoord2f(i / 128.0F, j / 128.0F);
+      GL11.glVertex3f(this.posX + k, this.posY, 0.0F);
+      GL11.glTexCoord2f(i / 128.0F, (j + 7.99F) / 128.0F);
+      GL11.glVertex3f(this.posX - k, this.posY + 7.99F, 0.0F);
+      GL11.glTexCoord2f((i + g - 1.0F) / 128.0F, j / 128.0F);
+      GL11.glVertex3f(this.posX + g - 1.0F + k, this.posY, 0.0F);
+      GL11.glTexCoord2f((i + g - 1.0F) / 128.0F, (j + 7.99F) / 128.0F);
+      GL11.glVertex3f(this.posX + g - 1.0F - k, this.posY + 7.99F, 0.0F);
       GL11.glEnd();
-      return var9;
+      return f;
    }
 
-   private ResourceLocation getUnicodePageLocation(int var1) {
-      if (unicodePageLocations[var1] == null) {
-         unicodePageLocations[var1] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", var1));
-         unicodePageLocations[var1] = FontUtils.getHdFontLocation(unicodePageLocations[var1]);
+   private ResourceLocation getUnicodePageLocation(int page) {
+      if (unicodePageLocations[page] == null) {
+         unicodePageLocations[page] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", page));
+         unicodePageLocations[page] = FontUtils.getHdFontLocation(unicodePageLocations[page]);
       }
 
-      return unicodePageLocations[var1];
+      return unicodePageLocations[page];
    }
 
-   private void loadGlyphTexture(int var1) {
-      this.bindTexture(this.getUnicodePageLocation(var1));
+   private void loadGlyphTexture(int page) {
+      this.bindTexture(this.getUnicodePageLocation(page));
    }
 
-   private float renderUnicodeChar(char var1, boolean var2) {
-      if (this.glyphWidth[var1] == 0) {
+   private float renderUnicodeChar(char ch, boolean italic) {
+      if (this.glyphWidth[ch] == 0) {
          return 0.0F;
       }
 
-      int var6 = var1 / 256;
-      this.loadGlyphTexture(var6);
-      int var7 = this.glyphWidth[var1] >>> 4;
-      int var8 = this.glyphWidth[var1] & 15;
-      var7 &= 15;
-      float var9 = var7;
-      float var10 = var8 + 1;
-      float var11 = var1 % 16 * 16 + var9;
-      float var12 = (var1 & 255) / 16 * 16;
-      float var13 = var10 - var9 - 0.02F;
-      float var14 = var2 ? 1.0F : 0.0F;
+      int i = ch / 256;
+      this.loadGlyphTexture(i);
+      int j = this.glyphWidth[ch] >>> 4;
+      int k = this.glyphWidth[ch] & 15;
+      j &= 15;
+      float f = j;
+      float g = k + 1;
+      float h = ch % 16 * 16 + f;
+      float f2 = (ch & 255) / 16 * 16;
+      float f3 = g - f - 0.02F;
+      float f4 = italic ? 1.0F : 0.0F;
       GL11.glBegin(5);
-      GL11.glTexCoord2f(var11 / 256.0F, var12 / 256.0F);
-      GL11.glVertex3f(this.posX + var14, this.posY, 0.0F);
-      GL11.glTexCoord2f(var11 / 256.0F, (var12 + 15.98F) / 256.0F);
-      GL11.glVertex3f(this.posX - var14, this.posY + 7.99F, 0.0F);
-      GL11.glTexCoord2f((var11 + var13) / 256.0F, var12 / 256.0F);
-      GL11.glVertex3f(this.posX + var13 / 2.0F + var14, this.posY, 0.0F);
-      GL11.glTexCoord2f((var11 + var13) / 256.0F, (var12 + 15.98F) / 256.0F);
-      GL11.glVertex3f(this.posX + var13 / 2.0F - var14, this.posY + 7.99F, 0.0F);
+      GL11.glTexCoord2f(h / 256.0F, f2 / 256.0F);
+      GL11.glVertex3f(this.posX + f4, this.posY, 0.0F);
+      GL11.glTexCoord2f(h / 256.0F, (f2 + 15.98F) / 256.0F);
+      GL11.glVertex3f(this.posX - f4, this.posY + 7.99F, 0.0F);
+      GL11.glTexCoord2f((h + f3) / 256.0F, f2 / 256.0F);
+      GL11.glVertex3f(this.posX + f3 / 2.0F + f4, this.posY, 0.0F);
+      GL11.glTexCoord2f((h + f3) / 256.0F, (f2 + 15.98F) / 256.0F);
+      GL11.glVertex3f(this.posX + f3 / 2.0F - f4, this.posY + 7.99F, 0.0F);
       GL11.glEnd();
-      return (var10 - var9) / 2.0F + 1.0F;
+      return (g - f) / 2.0F + 1.0F;
    }
 
-   public int drawStringWithShadow(String var1, float var2, float var3, int var4) {
-      return this.drawString(var1, var2, var3, var4, true);
+   public int drawStringWithShadow(String text, float x, float y, int color) {
+      return this.drawString(text, x, y, color, true);
    }
 
-   public int D(String var1, float var2, float var3, int var4) {
-      return !this.Z ? 0 : this.drawString(var1, var2, var3, var4, false);
+   public int D(String string, float f, float g, int i) {
+      return !this.Z ? 0 : this.drawString(string, f, g, i, false);
    }
 
-   public int drawString(String var1, float var2, float var3, int var4, boolean var5) {
-      long var6 = b ^ 38032282281789L;
-      long var8 = var6 ^ 132715678597461L;
-      EntityPlayerSP var11 = Minecraft.getMinecraft().thePlayer;
-      if (Minecraft.getMinecraft().theWorld != null && var11 != null && Astolfo.INSTANCE.getModuleManager() != null && ModuleManager.G.isEnabled()) {
+   public int drawString(String text, float x, float y, int color, boolean dropShadow) {
+      long l = b ^ 38032282281789L;
+      long m = l ^ 132715678597461L;
+      EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
+      if (Minecraft.getMinecraft().theWorld != null && entityPlayerSP != null && Astolfo.INSTANCE.getModuleManager() != null && ModuleManager.G.isEnabled()) {
          if (StreamerMode.scrambleNames.getValue()) {
-            for (String var13 : StreamerMode.d) {
-               if (var1.contains(var13)) {
-                  var1 = this.F(var1, var13);
+            for (String string : StreamerMode.d) {
+               if (text.contains(string)) {
+                  text = this.F(text, string);
                }
             }
 
-            for (NetworkPlayerInfo var14 : GuiPlayerTabOverlay.field_175252_a.sortedCopy(var11.sendQueue.getPlayerInfoMap())) {
-               if (var14.getGameProfile() != null && var11.getPlayerInfo() != var14) {
-                  String var15 = StreamerMode.t(var14);
-                  if (var1.contains(var15)) {
-                     var1 = this.F(var1, var15);
+            for (NetworkPlayerInfo networkPlayerInfo : GuiPlayerTabOverlay.field_175252_a.sortedCopy(entityPlayerSP.sendQueue.getPlayerInfoMap())) {
+               if (networkPlayerInfo.getGameProfile() != null && entityPlayerSP.getPlayerInfo() != networkPlayerInfo) {
+                  String string2 = StreamerMode.t(networkPlayerInfo);
+                  if (text.contains(string2)) {
+                     text = this.F(text, string2);
                   }
                }
             }
          }
 
-         if (var11.getPlayerInfo() != null && var11.getPlayerInfo().getGameProfile() != null && var1.contains(var11.getPlayerInfo().getGameProfile().getName())
+         if (entityPlayerSP.getPlayerInfo() != null && entityPlayerSP.getPlayerInfo().getGameProfile() != null && text.contains(entityPlayerSP.getPlayerInfo().getGameProfile().getName())
             )
           {
-            var1 = var1.replaceAll(var11.getPlayerInfo().getGameProfile().getName(), StreamerMode.spoofName.getValue());
+            text = text.replaceAll(entityPlayerSP.getPlayerInfo().getGameProfile().getName(), StreamerMode.spoofName.getValue());
          }
       }
 
       this.enableAlpha();
       this.resetStyles();
-      int var18;
-      if (var5) {
-         var18 = this.renderString(var1, var2 + 1.0F, var3 + 1.0F, var4, true);
-         var18 = Math.max(var18, this.renderString(var1, var2, var3, var4, false));
+      int i;
+      if (dropShadow) {
+         i = this.renderString(text, x + 1.0F, y + 1.0F, color, true);
+         i = Math.max(i, this.renderString(text, x, y, color, false));
       } else {
-         var18 = this.renderString(var1, var2, var3, var4, false);
+         i = this.renderString(text, x, y, color, false);
       }
 
-      return var18;
+      return i;
    }
 
-   private String F(String var1, String var2) {
-      return var1.replace(var2, "§k" + var2 + "§r");
+   private String F(String string, String string2) {
+      return string.replace(string2, "§k" + string2 + "§r");
    }
 
-   private String bidiReorder(String var1) {
+   private String bidiReorder(String text) {
       try {
-         Bidi var4 = new Bidi(new ArabicShaping(8).shape(var1), 127);
-         var4.setReorderingMode(0);
-         return var4.writeReordered(2);
-      } catch (ArabicShapingException var5) {
-         return var1;
+         Bidi bidi = new Bidi(new ArabicShaping(8).shape(text), 127);
+         bidi.setReorderingMode(0);
+         return bidi.writeReordered(2);
+      } catch (ArabicShapingException arabicShapingException) {
+         return text;
       }
    }
 
@@ -337,43 +337,43 @@ public class FontRenderer implements IResourceManagerReloadListener {
       this.v = false;
    }
 
-   private void renderStringAtPos(String var1, boolean var2) {
-      for (int var6 = 0; var6 < var1.length(); var6++) {
-         char var7 = var1.charAt(var6);
-         if (var7 == 167 && var6 + 1 < var1.length()) {
-            int var15 = "0123456789abcdefklmnor".indexOf(var1.toLowerCase().charAt(var6 + 1));
-            if (var15 < 16) {
+   private void renderStringAtPos(String text, boolean shadow) {
+      for (int i = 0; i < text.length(); i++) {
+         char c = text.charAt(i);
+         if (c == 167 && i + 1 < text.length()) {
+            int j = "0123456789abcdefklmnor".indexOf(text.toLowerCase().charAt(i + 1));
+            if (j < 16) {
                this.I = false;
                this.B = false;
                this.v = false;
                this.W = false;
                this.Y = false;
-               if (var15 < 0 || var15 > 15) {
-                  var15 = 15;
+               if (j < 0 || j > 15) {
+                  j = 15;
                }
 
-               if (var2) {
-                  var15 += 16;
+               if (shadow) {
+                  j += 16;
                }
 
-               int var17 = this.H[var15];
+               int k = this.H[j];
                if (Config.isCustomColors()) {
-                  var17 = CustomColors.getTextColor(var15, var17);
+                  k = CustomColors.getTextColor(j, k);
                }
 
-               this.textColor = var17;
-               this.setColor((var17 >> 16) / 255.0F, (var17 >> 8 & 0xFF) / 255.0F, (var17 & 0xFF) / 255.0F, this.alpha);
-            } else if (var15 == 16) {
+               this.textColor = k;
+               this.setColor((k >> 16) / 255.0F, (k >> 8 & 0xFF) / 255.0F, (k & 0xFF) / 255.0F, this.alpha);
+            } else if (j == 16) {
                this.I = true;
-            } else if (var15 == 17) {
+            } else if (j == 17) {
                this.B = true;
-            } else if (var15 == 18) {
+            } else if (j == 18) {
                this.v = true;
-            } else if (var15 == 19) {
+            } else if (j == 19) {
                this.W = true;
-            } else if (var15 == 20) {
+            } else if (j == 20) {
                this.Y = true;
-            } else if (var15 == 21) {
+            } else if (j == 21) {
                this.I = false;
                this.B = false;
                this.v = false;
@@ -382,404 +382,404 @@ public class FontRenderer implements IResourceManagerReloadListener {
                this.setColor(this.red, this.blue, this.green, this.alpha);
             }
 
-            var6++;
+            i++;
          } else {
-            int var8 = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
-               .indexOf(var7);
-            if (this.I && var8 != -1) {
-               int var9 = this.getCharWidth(var7);
+            int l = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
+               .indexOf(c);
+            if (this.I && l != -1) {
+               int m = this.getCharWidth(c);
 
-               char var10;
+               char c2;
                do {
-                  var8 = this.fontRandom
+                  l = this.fontRandom
                      .nextInt(
                         "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
                            .length()
                      );
-                  var10 = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
-                     .charAt(var8);
-               } while (var9 != this.getCharWidth(var10));
+                  c2 = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
+                     .charAt(l);
+               } while (m != this.getCharWidth(c2));
 
-               var7 = var10;
+               c = c2;
             }
 
-            float var16 = var8 != -1 && !this.F ? this.offsetBold : 0.5F;
-            boolean var18 = (var7 == 0 || var8 == -1 || this.F) && var2;
-            if (var18) {
-               this.posX -= var16;
-               this.posY -= var16;
+            float f = l != -1 && !this.F ? this.offsetBold : 0.5F;
+            boolean bl = (c == 0 || l == -1 || this.F) && shadow;
+            if (bl) {
+               this.posX -= f;
+               this.posY -= f;
             }
 
-            float var11 = this.renderChar(var7, this.Y);
-            if (var18) {
-               this.posX += var16;
-               this.posY += var16;
+            float g = this.renderChar(c, this.Y);
+            if (bl) {
+               this.posX += f;
+               this.posY += f;
             }
 
             if (this.B) {
-               this.posX += var16;
-               if (var18) {
-                  this.posX -= var16;
-                  this.posY -= var16;
+               this.posX += f;
+               if (bl) {
+                  this.posX -= f;
+                  this.posY -= f;
                }
 
-               this.renderChar(var7, this.Y);
-               this.posX -= var16;
-               if (var18) {
-                  this.posX += var16;
-                  this.posY += var16;
+               this.renderChar(c, this.Y);
+               this.posX -= f;
+               if (bl) {
+                  this.posX += f;
+                  this.posY += f;
                }
 
-               var11 += var16;
+               g += f;
             }
 
             if (this.v) {
-               Tessellator var12 = Tessellator.getInstance();
-               WorldRenderer var13 = var12.getWorldRenderer();
+               Tessellator tessellator = Tessellator.getInstance();
+               WorldRenderer worldRenderer = tessellator.getWorldRenderer();
                GlStateManager.disableTexture2D();
-               var13.begin(7, DefaultVertexFormats.POSITION);
-               var13.pos(this.posX, this.posY + this.FONT_HEIGHT / 2, 0.0).endVertex();
-               var13.pos(this.posX + var11, this.posY + this.FONT_HEIGHT / 2, 0.0).endVertex();
-               var13.pos(this.posX + var11, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0).endVertex();
-               var13.pos(this.posX, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0).endVertex();
-               var12.draw();
+               worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+               worldRenderer.pos(this.posX, this.posY + this.FONT_HEIGHT / 2, 0.0).endVertex();
+               worldRenderer.pos(this.posX + g, this.posY + this.FONT_HEIGHT / 2, 0.0).endVertex();
+               worldRenderer.pos(this.posX + g, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0).endVertex();
+               worldRenderer.pos(this.posX, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0).endVertex();
+               tessellator.draw();
                GlStateManager.enableTexture2D();
             }
 
             if (this.W) {
-               Tessellator var19 = Tessellator.getInstance();
-               WorldRenderer var20 = var19.getWorldRenderer();
+               Tessellator tessellator2 = Tessellator.getInstance();
+               WorldRenderer worldRenderer2 = tessellator2.getWorldRenderer();
                GlStateManager.disableTexture2D();
-               var20.begin(7, DefaultVertexFormats.POSITION);
-               int var14 = this.W ? -1 : 0;
-               var20.pos(this.posX + var14, this.posY + this.FONT_HEIGHT, 0.0).endVertex();
-               var20.pos(this.posX + var11, this.posY + this.FONT_HEIGHT, 0.0).endVertex();
-               var20.pos(this.posX + var11, this.posY + this.FONT_HEIGHT - 1.0F, 0.0).endVertex();
-               var20.pos(this.posX + var14, this.posY + this.FONT_HEIGHT - 1.0F, 0.0).endVertex();
-               var19.draw();
+               worldRenderer2.begin(7, DefaultVertexFormats.POSITION);
+               int n = this.W ? -1 : 0;
+               worldRenderer2.pos(this.posX + n, this.posY + this.FONT_HEIGHT, 0.0).endVertex();
+               worldRenderer2.pos(this.posX + g, this.posY + this.FONT_HEIGHT, 0.0).endVertex();
+               worldRenderer2.pos(this.posX + g, this.posY + this.FONT_HEIGHT - 1.0F, 0.0).endVertex();
+               worldRenderer2.pos(this.posX + n, this.posY + this.FONT_HEIGHT - 1.0F, 0.0).endVertex();
+               tessellator2.draw();
                GlStateManager.enableTexture2D();
             }
 
-            this.posX += var11;
+            this.posX += g;
          }
       }
    }
 
-   private int renderStringAligned(String var1, int var2, int var3, int var4, int var5, boolean var6) {
+   private int renderStringAligned(String text, int x, int y, int width, int color, boolean dropShadow) {
       if (this.bidiFlag) {
-         int var10 = this.getStringWidth(this.bidiReorder(var1));
-         var2 = var2 + var4 - var10;
+         int i = this.getStringWidth(this.bidiReorder(text));
+         x = x + width - i;
       }
 
-      return this.renderString(var1, var2, var3, var5, var6);
+      return this.renderString(text, x, y, color, dropShadow);
    }
 
-   private int renderString(String var1, float var2, float var3, int var4, boolean var5) {
-      if (var1 == null) {
+   private int renderString(String text, float x, float y, int color, boolean dropShadow) {
+      if (text == null) {
          return 0;
       }
 
       if (this.bidiFlag) {
-         var1 = this.bidiReorder(var1);
+         text = this.bidiReorder(text);
       }
 
-      if ((var4 & -67108864) == 0) {
-         var4 |= -16777216;
+      if ((color & -67108864) == 0) {
+         color |= -16777216;
       }
 
-      if (var5) {
-         var4 = (var4 & 16579836) >> 2 | var4 & 0xFF000000;
+      if (dropShadow) {
+         color = (color & 16579836) >> 2 | color & 0xFF000000;
       }
 
-      this.red = (var4 >> 16 & 0xFF) / 255.0F;
-      this.blue = (var4 >> 8 & 0xFF) / 255.0F;
-      this.green = (var4 & 0xFF) / 255.0F;
-      this.alpha = (var4 >> 24 & 0xFF) / 255.0F;
+      this.red = (color >> 16 & 0xFF) / 255.0F;
+      this.blue = (color >> 8 & 0xFF) / 255.0F;
+      this.green = (color & 0xFF) / 255.0F;
+      this.alpha = (color >> 24 & 0xFF) / 255.0F;
       this.setColor(this.red, this.blue, this.green, this.alpha);
-      this.posX = var2;
-      this.posY = var3;
-      this.renderStringAtPos(var1, var5);
+      this.posX = x;
+      this.posY = y;
+      this.renderStringAtPos(text, dropShadow);
       return (int)this.posX;
    }
 
-   public void O(String var1, int var2, int var3, int var4) {
-      this.D(StringUtils.stripControlCodes(var1), var2 + 1, var3, -16777216);
-      this.D(StringUtils.stripControlCodes(var1), var2 - 1, var3, -16777216);
-      this.D(StringUtils.stripControlCodes(var1), var2, var3 + 1, -16777216);
-      this.D(StringUtils.stripControlCodes(var1), var2, var3 - 1, -16777216);
-      this.D(var1, var2, var3, var4);
+   public void O(String string, int i, int j, int k) {
+      this.D(StringUtils.stripControlCodes(string), i + 1, j, -16777216);
+      this.D(StringUtils.stripControlCodes(string), i - 1, j, -16777216);
+      this.D(StringUtils.stripControlCodes(string), i, j + 1, -16777216);
+      this.D(StringUtils.stripControlCodes(string), i, j - 1, -16777216);
+      this.D(string, i, j, k);
    }
 
-   public void N(String var1, float var2, float var3, int var4) {
-      this.D(StringUtils.stripControlCodes(var1), var2 + 0.5F, var3, var4);
-      this.D(StringUtils.stripControlCodes(var1), var2 - 0.5F, var3, var4);
-      this.D(StringUtils.stripControlCodes(var1), var2, var3 + 0.5F, var4);
-      this.D(StringUtils.stripControlCodes(var1), var2, var3 - 0.5F, var4);
-      this.D(var1, var2, var3, var4);
+   public void N(String string, float f, float g, int i) {
+      this.D(StringUtils.stripControlCodes(string), f + 0.5F, g, i);
+      this.D(StringUtils.stripControlCodes(string), f - 0.5F, g, i);
+      this.D(StringUtils.stripControlCodes(string), f, g + 0.5F, i);
+      this.D(StringUtils.stripControlCodes(string), f, g - 0.5F, i);
+      this.D(string, f, g, i);
    }
 
-   public int getStringWidth(String var1) {
-      if (var1 == null) {
+   public int getStringWidth(String text) {
+      if (text == null) {
          return 0;
       }
 
-      float var4 = 0.0F;
-      boolean var5 = false;
+      float f = 0.0F;
+      boolean bl = false;
 
-      for (int var6 = 0; var6 < var1.length(); var6++) {
-         char var7 = var1.charAt(var6);
-         float var8 = this.getCharWidthFloat(var7);
-         if (var8 < 0.0F && var6 < var1.length() - 1) {
-            var7 = var1.charAt(++var6);
-            if (var7 == 'l' || var7 == 'L') {
-               var5 = true;
-            } else if (var7 == 'r' || var7 == 'R') {
-               var5 = false;
+      for (int i = 0; i < text.length(); i++) {
+         char c = text.charAt(i);
+         float g = this.getCharWidthFloat(c);
+         if (g < 0.0F && i < text.length() - 1) {
+            c = text.charAt(++i);
+            if (c == 'l' || c == 'L') {
+               bl = true;
+            } else if (c == 'r' || c == 'R') {
+               bl = false;
             }
 
-            var8 = 0.0F;
+            g = 0.0F;
          }
 
-         var4 += var8;
-         if (var5 && var8 > 0.0F) {
-            var4 += this.F ? 1.0F : this.offsetBold;
+         f += g;
+         if (bl && g > 0.0F) {
+            f += this.F ? 1.0F : this.offsetBold;
          }
       }
 
-      return (int)var4;
+      return (int)f;
    }
 
-   public int getCharWidth(char var1) {
-      return Math.round(this.getCharWidthFloat(var1));
+   public int getCharWidth(char character) {
+      return Math.round(this.getCharWidthFloat(character));
    }
 
-   private float getCharWidthFloat(char var1) {
-      if (var1 == 167) {
+   private float getCharWidthFloat(char c) {
+      if (c == 167) {
          return -1.0F;
-      } else if (var1 == ' ') {
+      } else if (c == ' ') {
          return this.d[32];
       } else {
-         int var4 = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
-            .indexOf(var1);
-         if (var1 > 0 && var4 != -1 && !this.F) {
-            return this.d[var4];
-         } else if (this.glyphWidth[var1] != 0) {
-            int var5 = this.glyphWidth[var1] >>> 4;
-            int var6 = this.glyphWidth[var1] & 15;
-            var5 &= 15;
-            var6++;
-            return (var6 - var5) / 2 + 1;
+         int i = "ÀÁÂÈÊËÍÓÔÕÚßãõğİıŒœŞşŴŵžȇ\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αβΓπΣσμτΦΘΩδ∞∅∈∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u0000"
+            .indexOf(c);
+         if (c > 0 && i != -1 && !this.F) {
+            return this.d[i];
+         } else if (this.glyphWidth[c] != 0) {
+            int j = this.glyphWidth[c] >>> 4;
+            int k = this.glyphWidth[c] & 15;
+            j &= 15;
+            k++;
+            return (k - j) / 2 + 1;
          } else {
             return 0.0F;
          }
       }
    }
 
-   public String trimStringToWidth(String var1, int var2) {
-      return this.trimStringToWidth(var1, var2, false);
+   public String trimStringToWidth(String text, int width) {
+      return this.trimStringToWidth(text, width, false);
    }
 
-   public String trimStringToWidth(String var1, int var2, boolean var3) {
-      StringBuilder var6 = new StringBuilder();
-      float var7 = 0.0F;
-      int var8 = var3 ? var1.length() - 1 : 0;
-      int var9 = var3 ? -1 : 1;
-      boolean var10 = false;
-      boolean var11 = false;
+   public String trimStringToWidth(String text, int width, boolean reverseIn) {
+      StringBuilder stringBuilder = new StringBuilder();
+      float f = 0.0F;
+      int i = reverseIn ? text.length() - 1 : 0;
+      int j = reverseIn ? -1 : 1;
+      boolean bl = false;
+      boolean bl2 = false;
 
-      for (int var12 = var8; var12 >= 0 && var12 < var1.length() && var7 < var2; var12 += var9) {
-         char var13 = var1.charAt(var12);
-         float var14 = this.getCharWidthFloat(var13);
-         if (var10) {
-            var10 = false;
-            if (var13 == 'l' || var13 == 'L') {
-               var11 = true;
-            } else if (var13 == 'r' || var13 == 'R') {
-               var11 = false;
+      for (int k = i; k >= 0 && k < text.length() && f < width; k += j) {
+         char c = text.charAt(k);
+         float g = this.getCharWidthFloat(c);
+         if (bl) {
+            bl = false;
+            if (c == 'l' || c == 'L') {
+               bl2 = true;
+            } else if (c == 'r' || c == 'R') {
+               bl2 = false;
             }
-         } else if (var14 < 0.0F) {
-            var10 = true;
+         } else if (g < 0.0F) {
+            bl = true;
          } else {
-            var7 += var14;
-            if (var11) {
-               var7++;
+            f += g;
+            if (bl2) {
+               f++;
             }
          }
 
-         if (var7 > var2) {
+         if (f > width) {
             break;
          }
 
-         if (var3) {
-            var6.insert(0, var13);
+         if (reverseIn) {
+            stringBuilder.insert(0, c);
          } else {
-            var6.append(var13);
+            stringBuilder.append(c);
          }
       }
 
-      return var6.toString();
+      return stringBuilder.toString();
    }
 
-   private String trimStringNewline(String var1) {
-      while (var1 != null && var1.endsWith("\n")) {
-         var1 = var1.substring(0, var1.length() - 1);
+   private String trimStringNewline(String text) {
+      while (text != null && text.endsWith("\n")) {
+         text = text.substring(0, text.length() - 1);
       }
 
-      return var1;
+      return text;
    }
 
-   public void drawSplitString(String var1, int var2, int var3, int var4, int var5) {
+   public void drawSplitString(String str, int x, int y, int wrapWidth, int textColor) {
       this.resetStyles();
-      this.textColor = var5;
-      var1 = this.trimStringNewline(var1);
-      this.renderSplitString(var1, var2, var3, var4, false);
+      this.textColor = textColor;
+      str = this.trimStringNewline(str);
+      this.renderSplitString(str, x, y, wrapWidth, false);
    }
 
-   private void renderSplitString(String var1, int var2, int var3, int var4, boolean var5) {
-      for (Object var10 : this.listFormattedStringToWidth(var1, var4)) {
-         this.renderStringAligned((String)var10, var2, var3, var4, this.textColor, var5);
-         var3 += this.FONT_HEIGHT;
+   private void renderSplitString(String str, int x, int y, int wrapWidth, boolean addShadow) {
+      for (Object object : this.listFormattedStringToWidth(str, wrapWidth)) {
+         this.renderStringAligned((String)object, x, y, wrapWidth, this.textColor, addShadow);
+         y += this.FONT_HEIGHT;
       }
    }
 
-   public int splitStringWidth(String var1, int var2) {
-      return this.FONT_HEIGHT * this.listFormattedStringToWidth(var1, var2).size();
+   public int splitStringWidth(String str, int maxLength) {
+      return this.FONT_HEIGHT * this.listFormattedStringToWidth(str, maxLength).size();
    }
 
-   public void setUnicodeFlag(boolean var1) {
-      this.F = var1;
+   public void setUnicodeFlag(boolean unicodeFlagIn) {
+      this.F = unicodeFlagIn;
    }
 
    public boolean n() {
       return this.F;
    }
 
-   public void setBidiFlag(boolean var1) {
-      this.bidiFlag = var1;
+   public void setBidiFlag(boolean bidiFlagIn) {
+      this.bidiFlag = bidiFlagIn;
    }
 
-   public List<String> listFormattedStringToWidth(String var1, int var2) {
-      return Arrays.asList(this.wrapFormattedStringToWidth(var1, var2).split("\n"));
+   public List<String> listFormattedStringToWidth(String str, int wrapWidth) {
+      return Arrays.asList(this.wrapFormattedStringToWidth(str, wrapWidth).split("\n"));
    }
 
-   public String wrapFormattedStringToWidth(String var1, int var2) {
-      int var6 = this.sizeStringToWidth(var1, var2);
-      if (var1.length() <= var6) {
-         return var1;
+   public String wrapFormattedStringToWidth(String str, int wrapWidth) {
+      int i = this.sizeStringToWidth(str, wrapWidth);
+      if (str.length() <= i) {
+         return str;
       }
 
-      String var7 = var1.substring(0, var6);
-      char var8 = var1.charAt(var6);
-      boolean var9 = var8 == ' ' || var8 == '\n';
-      String var10 = getFormatFromString(var7) + var1.substring(var6 + (var9 ? 1 : 0));
-      return var7 + "\n" + this.wrapFormattedStringToWidth(var10, var2);
+      String string = str.substring(0, i);
+      char c = str.charAt(i);
+      boolean bl = c == ' ' || c == '\n';
+      String string2 = getFormatFromString(string) + str.substring(i + (bl ? 1 : 0));
+      return string + "\n" + this.wrapFormattedStringToWidth(string2, wrapWidth);
    }
 
-   private int sizeStringToWidth(String var1, int var2) {
-      int var6 = var1.length();
-      float var7 = 0.0F;
-      int var8 = 0;
-      int var9 = -1;
-      boolean var10 = false;
+   private int sizeStringToWidth(String str, int wrapWidth) {
+      int i = str.length();
+      float f = 0.0F;
+      int j = 0;
+      int k = -1;
+      boolean bl = false;
 
-      while (var8 < var6) {
-         char var11 = var1.charAt(var8);
-         switch (var11) {
+      while (j < i) {
+         char c = str.charAt(j);
+         switch (c) {
             case '\n':
-               var8--;
+               j--;
                break;
             case ' ':
-               var9 = var8;
+               k = j;
             default:
-               var7 += this.getCharWidthFloat(var11);
-               if (var10) {
-                  var7++;
+               f += this.getCharWidthFloat(c);
+               if (bl) {
+                  f++;
                }
                break;
             case '§':
-               if (var8 < var6 - 1) {
-                  char var12 = var1.charAt(++var8);
-                  if (var12 == 'l' || var12 == 'L') {
-                     var10 = true;
-                  } else if (var12 == 'r' || var12 == 'R' || isFormatColor(var12)) {
-                     var10 = false;
+               if (j < i - 1) {
+                  char c2 = str.charAt(++j);
+                  if (c2 == 'l' || c2 == 'L') {
+                     bl = true;
+                  } else if (c2 == 'r' || c2 == 'R' || isFormatColor(c2)) {
+                     bl = false;
                   }
                }
          }
 
-         if (var11 == '\n') {
-            var9 = ++var8;
+         if (c == '\n') {
+            k = ++j;
             break;
          }
 
-         if (var7 > var2) {
+         if (f > wrapWidth) {
             break;
          }
 
-         var8++;
+         j++;
       }
 
-      return var8 != var6 && var9 != -1 && var9 < var8 ? var9 : var8;
+      return j != i && k != -1 && k < j ? k : j;
    }
 
-   private static boolean isFormatColor(char var0) {
-      return var0 >= '0' && var0 <= '9' || var0 >= 'a' && var0 <= 'f' || var0 >= 'A' && var0 <= 'F';
+   private static boolean isFormatColor(char colorChar) {
+      return colorChar >= '0' && colorChar <= '9' || colorChar >= 'a' && colorChar <= 'f' || colorChar >= 'A' && colorChar <= 'F';
    }
 
-   private static boolean isFormatSpecial(char var0) {
-      return var0 >= 'k' && var0 <= 'o' || var0 >= 'K' && var0 <= 'O' || var0 == 'r' || var0 == 'R';
+   private static boolean isFormatSpecial(char formatChar) {
+      return formatChar >= 'k' && formatChar <= 'o' || formatChar >= 'K' && formatChar <= 'O' || formatChar == 'r' || formatChar == 'R';
    }
 
-   public static String getFormatFromString(String var0) {
-      String var4 = "";
-      int var5 = -1;
-      int var6 = var0.length();
+   public static String getFormatFromString(String text) {
+      String string = "";
+      int i = -1;
+      int j = text.length();
 
-      while ((var5 = var0.indexOf(167, var5 + 1)) != -1) {
-         if (var5 < var6 - 1) {
-            char var7 = var0.charAt(var5 + 1);
-            if (isFormatColor(var7)) {
-               var4 = "§" + var7;
-            } else if (isFormatSpecial(var7)) {
-               var4 = var4 + "§" + var7;
+      while ((i = text.indexOf(167, i + 1)) != -1) {
+         if (i < j - 1) {
+            char c = text.charAt(i + 1);
+            if (isFormatColor(c)) {
+               string = "§" + c;
+            } else if (isFormatSpecial(c)) {
+               string = string + "§" + c;
             }
          }
       }
 
-      return var4;
+      return string;
    }
 
    public boolean U() {
       return this.bidiFlag;
    }
 
-   public int getColorCode(char var1) {
-      int var5 = "0123456789abcdef".indexOf(var1);
-      if (var5 >= 0 && var5 < this.H.length) {
-         int var6 = this.H[var5];
+   public int getColorCode(char character) {
+      int i = "0123456789abcdef".indexOf(character);
+      if (i >= 0 && i < this.H.length) {
+         int j = this.H[i];
          if (Config.isCustomColors()) {
-            var6 = CustomColors.getTextColor(var5, var6);
+            j = CustomColors.getTextColor(i, j);
          }
 
-         return var6;
+         return j;
       } else {
          return 16777215;
       }
    }
 
-   public void setColor(float var1, float var2, float var3, float var4) {
-      GlStateManager.color(var1, var2, var3, var4);
+   public void setColor(float f, float g, float h, float f2) {
+      GlStateManager.color(f, g, h, f2);
    }
 
    public void enableAlpha() {
       GlStateManager.enableAlpha();
    }
 
-   public void bindTexture(ResourceLocation var1) {
-      this.renderEngine.bindTexture(var1);
+   public void bindTexture(ResourceLocation resourceLocation) {
+      this.renderEngine.bindTexture(resourceLocation);
    }
 
-   public InputStream getResourceInputStream(ResourceLocation var1) throws IOException {
-      return Minecraft.getMinecraft().getResourceManager().getResource(var1).getInputStream();
+   public InputStream getResourceInputStream(ResourceLocation resourceLocation) throws IOException {
+      return Minecraft.getMinecraft().getResourceManager().getResource(resourceLocation).getInputStream();
    }
 }

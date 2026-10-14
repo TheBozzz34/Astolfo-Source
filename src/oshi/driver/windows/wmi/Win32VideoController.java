@@ -13,8 +13,8 @@ public final class Win32VideoController {
    }
 
    public static WmiResult<Win32VideoController.VideoControllerProperty> queryVideoController() {
-      WmiQuery var2 = new WmiQuery<>("Win32_VideoController", Win32VideoController.VideoControllerProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_VideoController", Win32VideoController.VideoControllerProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum VideoControllerProperty {

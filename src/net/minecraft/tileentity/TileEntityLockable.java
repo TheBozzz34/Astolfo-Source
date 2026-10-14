@@ -13,16 +13,16 @@ public abstract class TileEntityLockable extends TileEntity implements IInteract
    private static final long d = 109141420127441L;
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      this.code = LockCode.fromNBT(var1);
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      this.code = LockCode.fromNBT(compound);
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
       if (this.code != null) {
-         this.code.toNBT(var1);
+         this.code.toNBT(compound);
       }
    }
 
@@ -37,8 +37,8 @@ public abstract class TileEntityLockable extends TileEntity implements IInteract
    }
 
    @Override
-   public void setLockCode(LockCode var1) {
-      this.code = var1;
+   public void setLockCode(LockCode code) {
+      this.code = code;
    }
 
    @Override

@@ -11,29 +11,29 @@ import net.minecraft.item.ItemStack;
 
 public final class EntitySelectors {
    public static final Predicate<Entity> selectAnything = new Predicate<Entity>() {
-      public boolean apply(Entity var1) {
-         return var1.isEntityAlive();
+      public boolean apply(Entity entity) {
+         return entity.isEntityAlive();
       }
    };
    public static final Predicate<Entity> IS_STANDALONE = new Predicate<Entity>() {
       private static final long a = 69461571890257L;
 
-      public boolean apply(Entity var1) {
-         return var1.isEntityAlive() && var1.riddenByEntity == null && var1.ridingEntity == null;
+      public boolean apply(Entity entity) {
+         return entity.isEntityAlive() && entity.riddenByEntity == null && entity.ridingEntity == null;
       }
    };
    public static final Predicate<Entity> selectInventories = new Predicate<Entity>() {
       private static final long a = 8202236515401L;
 
-      public boolean apply(Entity var1) {
-         return var1 instanceof IInventory && var1.isEntityAlive();
+      public boolean apply(Entity entity) {
+         return entity instanceof IInventory && entity.isEntityAlive();
       }
    };
    public static final Predicate<Entity> NOT_SPECTATING = new Predicate<Entity>() {
       private static final long a = 80711639279533L;
 
-      public boolean apply(Entity var1) {
-         return !(var1 instanceof EntityPlayer) || !((EntityPlayer)var1).isSpectator();
+      public boolean apply(Entity entity) {
+         return !(entity instanceof EntityPlayer) || !((EntityPlayer)entity).isSpectator();
       }
    };
 
@@ -41,23 +41,23 @@ public final class EntitySelectors {
       private final ItemStack armor;
       private static final long a = 33427564747212L;
 
-      public ArmoredMob(ItemStack var1) {
-         this.armor = var1;
+      public ArmoredMob(ItemStack armor) {
+         this.armor = armor;
       }
 
-      public boolean apply(Entity var1) {
-         if (!var1.isEntityAlive()) {
+      public boolean apply(Entity entity) {
+         if (!entity.isEntityAlive()) {
             return false;
          }
 
-         if (!(var1 instanceof EntityLivingBase)) {
+         if (!(entity instanceof EntityLivingBase)) {
             return false;
          }
 
-         EntityLivingBase var5 = (EntityLivingBase)var1;
-         return var5.getEquipmentInSlot(EntityLiving.getArmorPosition(this.armor)) != null
+         EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+         return entityLivingBase.getEquipmentInSlot(EntityLiving.getArmorPosition(this.armor)) != null
             ? false
-            : (var5 instanceof EntityLiving ? ((EntityLiving)var5).canPickUpLoot() : (var5 instanceof EntityArmorStand ? true : var5 instanceof EntityPlayer));
+            : (entityLivingBase instanceof EntityLiving ? ((EntityLiving)entityLivingBase).canPickUpLoot() : (entityLivingBase instanceof EntityArmorStand ? true : entityLivingBase instanceof EntityPlayer));
       }
    }
 }

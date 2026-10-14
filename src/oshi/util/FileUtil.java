@@ -22,87 +22,87 @@ public final class FileUtil {
    private FileUtil() {
    }
 
-   public static List<String> readFile(String var0) {
-      return readFile(var0, true);
+   public static List<String> readFile(String filename) {
+      return readFile(filename, true);
    }
 
-   public static List<String> readFile(String var0, boolean var1) {
-      if (new File(var0).canRead()) {
+   public static List<String> readFile(String filename, boolean reportError) {
+      if (new File(filename).canRead()) {
          try {
-            return Files.readAllLines(Paths.get(var0), StandardCharsets.UTF_8);
-         } catch (IOException var5) {
+            return Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
+         } catch (IOException ioException) {
          }
       }
 
       return new ArrayList<>();
    }
 
-   public static long getLongFromFile(String var0) {
-      List var4 = readFile(var0, false);
-      return !var4.isEmpty() ? ParseUtil.parseLongOrDefault((String)var4.get(0), 0L) : 0L;
+   public static long getLongFromFile(String filename) {
+      List list = readFile(filename, false);
+      return !list.isEmpty() ? ParseUtil.parseLongOrDefault((String)list.get(0), 0L) : 0L;
    }
 
-   public static long getUnsignedLongFromFile(String var0) {
-      List var4 = readFile(var0, false);
-      return !var4.isEmpty() ? ParseUtil.parseUnsignedLongOrDefault((String)var4.get(0), 0L) : 0L;
+   public static long getUnsignedLongFromFile(String filename) {
+      List list = readFile(filename, false);
+      return !list.isEmpty() ? ParseUtil.parseUnsignedLongOrDefault((String)list.get(0), 0L) : 0L;
    }
 
-   public static int getIntFromFile(String var0) {
+   public static int getIntFromFile(String filename) {
       try {
-         List var4 = readFile(var0, false);
-         if (!var4.isEmpty()) {
-            return Integer.parseInt((String)var4.get(0));
+         List list = readFile(filename, false);
+         if (!list.isEmpty()) {
+            return Integer.parseInt((String)list.get(0));
          }
-      } catch (NumberFormatException var5) {
+      } catch (NumberFormatException numberFormatException) {
       }
 
       return 0;
    }
 
-   public static String getStringFromFile(String var0) {
-      List var3 = readFile(var0, false);
-      return !var3.isEmpty() ? (String)var3.get(0) : "";
+   public static String getStringFromFile(String filename) {
+      List list = readFile(filename, false);
+      return !list.isEmpty() ? (String)list.get(0) : "";
    }
 
-   public static Map<String, String> getKeyValueMapFromFile(String var0, String var1) {
-      HashMap var5 = new HashMap();
+   public static Map<String, String> getKeyValueMapFromFile(String filename, String separator) {
+      HashMap hashMap = new HashMap();
 
-      for (String var8 : readFile(var0, false)) {
-         String[] var9 = var8.split(var1);
-         if (var9.length == 2) {
-            var5.put(var9[0], var9[1].trim());
+      for (String string : readFile(filename, false)) {
+         String[] strings = string.split(separator);
+         if (strings.length == 2) {
+            hashMap.put(strings[0], strings[1].trim());
          }
       }
 
-      return var5;
+      return hashMap;
    }
 
-   public static Properties readPropertiesFromFilename(String var0) {
-      Properties var3 = new Properties();
+   public static Properties readPropertiesFromFilename(String propsFilename) {
+      Properties properties = new Properties();
 
       try {
-         ClassLoader var4 = Thread.currentThread().getContextClassLoader();
-         if (var4 == null) {
-            var4 = ClassLoader.getSystemClassLoader();
-            if (var4 == null) {
+         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         if (classLoader == null) {
+            classLoader = ClassLoader.getSystemClassLoader();
+            if (classLoader == null) {
                throw new IOException();
             }
          }
 
-         ArrayList var5 = Collections.list(var4.getResources(var0));
-         if (!var5.isEmpty()) {
-            if (var5.size() > 1) {
+         ArrayList arrayList = Collections.list(classLoader.getResources(propsFilename));
+         if (!arrayList.isEmpty()) {
+            if (arrayList.size() > 1) {
             }
 
-            try (InputStream var6 = ((URL)var5.get(0)).openStream()) {
-               if (var6 != null) {
-                  var3.load(var6);
+            try (InputStream inputStream = ((URL)arrayList.get(0)).openStream()) {
+               if (inputStream != null) {
+                  properties.load(inputStream);
                }
             }
          }
-      } catch (IOException var19) {
+      } catch (IOException ioException) {
       }
 
-      return var3;
+      return properties;
    }
 }

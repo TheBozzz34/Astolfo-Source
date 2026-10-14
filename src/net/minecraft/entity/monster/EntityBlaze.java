@@ -24,8 +24,8 @@ public class EntityBlaze extends EntityMob {
    private int heightOffsetUpdateTime;
    private static final long ab = 12225921898803L;
 
-   public EntityBlaze(World var1) {
-      super(var1);
+   public EntityBlaze(World worldIn) {
+      super(worldIn);
       this.isImmuneToFire = true;
       this.experienceValue = 10;
       this.tasks.addTask(4, new EntityBlaze.AIFireballAttack(this));
@@ -67,12 +67,12 @@ public class EntityBlaze extends EntityMob {
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
+   public int getBrightnessForRender(float partialTicks) {
       return 15728880;
    }
 
    @Override
-   public float getBrightness(float var1) {
+   public float getBrightness(float partialTicks) {
       return 1.0F;
    }
 
@@ -90,7 +90,7 @@ public class EntityBlaze extends EntityMob {
                );
          }
 
-         for (int var4 = 0; var4 < 2; var4++) {
+         for (int i = 0; i < 2; i++) {
             this.worldObj
                .spawnParticle(
                   EnumParticleTypes.SMOKE_LARGE,
@@ -119,8 +119,8 @@ public class EntityBlaze extends EntityMob {
          this.heightOffset = 0.5F + (float)this.rand.nextGaussian() * 3.0F;
       }
 
-      EntityLivingBase var4 = this.getAttackTarget();
-      if (var4 != null && var4.posY + var4.getEyeHeight() > this.posY + this.getEyeHeight() + this.heightOffset) {
+      EntityLivingBase entityLivingBase = this.getAttackTarget();
+      if (entityLivingBase != null && entityLivingBase.posY + entityLivingBase.getEyeHeight() > this.posY + this.getEyeHeight() + this.heightOffset) {
          this.motionY = this.motionY + (0.3F - this.motionY) * 0.3F;
          this.isAirBorne = true;
       }
@@ -129,7 +129,7 @@ public class EntityBlaze extends EntityMob {
    }
 
    @Override
-   public void fall(float var1, float var2) {
+   public void fall(float distance, float damageMultiplier) {
    }
 
    @Override
@@ -143,11 +143,11 @@ public class EntityBlaze extends EntityMob {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      if (var1) {
-         int var6 = this.rand.nextInt(2 + var2);
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      if (wasRecentlyHit) {
+         int i = this.rand.nextInt(2 + lootingModifier);
 
-         for (int var7 = 0; var7 < var6; var7++) {
+         for (int j = 0; j < i; j++) {
             this.dropItem(Items.blaze_rod, 1);
          }
       }
@@ -157,15 +157,15 @@ public class EntityBlaze extends EntityMob {
       return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
    }
 
-   public void setOnFire(boolean var1) {
-      byte var5 = this.dataWatcher.getWatchableObjectByte(16);
-      if (var1) {
-         var5 = (byte)(var5 | 1);
+   public void setOnFire(boolean onFire) {
+      byte b = this.dataWatcher.getWatchableObjectByte(16);
+      if (onFire) {
+         b = (byte)(b | 1);
       } else {
-         var5 = (byte)(var5 & -2);
+         b = (byte)(b & -2);
       }
 
-      this.dataWatcher.updateObject(16, var5);
+      this.dataWatcher.updateObject(16, b);
    }
 
    @Override
@@ -179,15 +179,15 @@ public class EntityBlaze extends EntityMob {
       private int field_179468_c;
       private static final long a = 83340264263299L;
 
-      public AIFireballAttack(EntityBlaze var1) {
-         this.blaze = var1;
+      public AIFireballAttack(EntityBlaze entityBlaze) {
+         this.blaze = entityBlaze;
          this.setMutexBits(3);
       }
 
       @Override
       public boolean shouldExecute() {
-         EntityLivingBase var4 = this.blaze.getAttackTarget();
-         return var4 != null && var4.isEntityAlive();
+         EntityLivingBase entityLivingBase = this.blaze.getAttackTarget();
+         return entityLivingBase != null && entityLivingBase.isEntityAlive();
       }
 
       @Override
@@ -203,19 +203,19 @@ public class EntityBlaze extends EntityMob {
       @Override
       public void updateTask() {
          this.field_179468_c--;
-         EntityLivingBase var4 = this.blaze.getAttackTarget();
-         double var5 = this.blaze.getDistanceSqToEntity(var4);
-         if (var5 < 4.0) {
+         EntityLivingBase entityLivingBase = this.blaze.getAttackTarget();
+         double d = this.blaze.getDistanceSqToEntity(entityLivingBase);
+         if (d < 4.0) {
             if (this.field_179468_c <= 0) {
                this.field_179468_c = 20;
-               this.blaze.attackEntityAsMob(var4);
+               this.blaze.attackEntityAsMob(entityLivingBase);
             }
 
-            this.blaze.getMoveHelper().setMoveTo(var4.posX, var4.posY, var4.posZ, 1.0);
-         } else if (var5 < 256.0) {
-            double var7 = var4.posX - this.blaze.posX;
-            double var9 = var4.getEntityBoundingBox().minY + var4.height / 2.0F - (this.blaze.posY + this.blaze.height / 2.0F);
-            double var11 = var4.posZ - this.blaze.posZ;
+            this.blaze.getMoveHelper().setMoveTo(entityLivingBase.posX, entityLivingBase.posY, entityLivingBase.posZ, 1.0);
+         } else if (d < 256.0) {
+            double e = entityLivingBase.posX - this.blaze.posX;
+            double d2 = entityLivingBase.getEntityBoundingBox().minY + entityLivingBase.height / 2.0F - (this.blaze.posY + this.blaze.height / 2.0F);
+            double d3 = entityLivingBase.posZ - this.blaze.posZ;
             if (this.field_179468_c <= 0) {
                this.field_179467_b++;
                if (this.field_179467_b == 1) {
@@ -230,29 +230,29 @@ public class EntityBlaze extends EntityMob {
                }
 
                if (this.field_179467_b > 1) {
-                  float var13 = MathHelper.sqrt_float(MathHelper.sqrt_double(var5)) * 0.5F;
+                  float f = MathHelper.sqrt_float(MathHelper.sqrt_double(d)) * 0.5F;
                   this.blaze
                      .worldObj
                      .playAuxSFXAtEntity((EntityPlayer)null, 1009, new BlockPos((int)this.blaze.posX, (int)this.blaze.posY, (int)this.blaze.posZ), 0);
 
-                  for (int var14 = 0; var14 < 1; var14++) {
-                     EntitySmallFireball var15 = new EntitySmallFireball(
+                  for (int i = 0; i < 1; i++) {
+                     EntitySmallFireball entitySmallFireball = new EntitySmallFireball(
                         this.blaze.worldObj,
                         this.blaze,
-                        var7 + this.blaze.getRNG().nextGaussian() * var13,
-                        var9,
-                        var11 + this.blaze.getRNG().nextGaussian() * var13
+                        e + this.blaze.getRNG().nextGaussian() * f,
+                        d2,
+                        d3 + this.blaze.getRNG().nextGaussian() * f
                      );
-                     var15.posY = this.blaze.posY + this.blaze.height / 2.0F + 0.5;
-                     this.blaze.worldObj.spawnEntityInWorld(var15);
+                     entitySmallFireball.posY = this.blaze.posY + this.blaze.height / 2.0F + 0.5;
+                     this.blaze.worldObj.spawnEntityInWorld(entitySmallFireball);
                   }
                }
             }
 
-            this.blaze.getLookHelper().setLookPositionWithEntity(var4, 10.0F, 10.0F);
+            this.blaze.getLookHelper().setLookPositionWithEntity(entityLivingBase, 10.0F, 10.0F);
          } else {
             this.blaze.getNavigator().clearPathEntity();
-            this.blaze.getMoveHelper().setMoveTo(var4.posX, var4.posY, var4.posZ, 1.0);
+            this.blaze.getMoveHelper().setMoveTo(entityLivingBase.posX, entityLivingBase.posY, entityLivingBase.posZ, 1.0);
          }
 
          super.updateTask();

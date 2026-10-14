@@ -9,63 +9,63 @@ public class JLoggerToLog4j extends Logger {
    private final org.apache.logging.log4j.Logger J;
    private static final long a = 128350561184852L;
 
-   public JLoggerToLog4j(org.apache.logging.log4j.Logger var1) {
+   public JLoggerToLog4j(org.apache.logging.log4j.Logger logger) {
       super("logger", null);
-      this.J = var1;
+      this.J = logger;
    }
 
    @Override
-   public void log(LogRecord var1) {
-      this.log(var1.getLevel(), var1.getMessage());
+   public void log(LogRecord logRecord) {
+      this.log(logRecord.getLevel(), logRecord.getMessage());
    }
 
    @Override
-   public void log(Level var1, String var2) {
-      if (var1 == Level.FINE) {
-         this.J.debug(var2);
-      } else if (var1 == Level.WARNING) {
-         this.J.warn(var2);
-      } else if (var1 == Level.SEVERE) {
-         this.J.error(var2);
-      } else if (var1 == Level.INFO) {
-         this.J.info(var2);
+   public void log(Level level, String string) {
+      if (level == Level.FINE) {
+         this.J.debug(string);
+      } else if (level == Level.WARNING) {
+         this.J.warn(string);
+      } else if (level == Level.SEVERE) {
+         this.J.error(string);
+      } else if (level == Level.INFO) {
+         this.J.info(string);
       } else {
-         this.J.trace(var2);
+         this.J.trace(string);
       }
    }
 
    @Override
-   public void log(Level var1, String var2, Object var3) {
-      if (var1 == Level.FINE) {
-         this.J.debug(var2, var3);
-      } else if (var1 == Level.WARNING) {
-         this.J.warn(var2, var3);
-      } else if (var1 == Level.SEVERE) {
-         this.J.error(var2, var3);
-      } else if (var1 == Level.INFO) {
-         this.J.info(var2, var3);
+   public void log(Level level, String string, Object object) {
+      if (level == Level.FINE) {
+         this.J.debug(string, object);
+      } else if (level == Level.WARNING) {
+         this.J.warn(string, object);
+      } else if (level == Level.SEVERE) {
+         this.J.error(string, object);
+      } else if (level == Level.INFO) {
+         this.J.info(string, object);
       } else {
-         this.J.trace(var2, var3);
+         this.J.trace(string, object);
       }
    }
 
    @Override
-   public void log(Level var1, String var2, Object[] var3) {
-      this.log(var1, MessageFormat.format(var2, var3));
+   public void log(Level level, String string, Object[] objects) {
+      this.log(level, MessageFormat.format(string, objects));
    }
 
    @Override
-   public void log(Level var1, String var2, Throwable var3) {
-      if (var1 == Level.FINE) {
-         this.J.debug(var2, var3);
-      } else if (var1 == Level.WARNING) {
-         this.J.warn(var2, var3);
-      } else if (var1 == Level.SEVERE) {
-         this.J.error(var2, var3);
-      } else if (var1 == Level.INFO) {
-         this.J.info(var2, var3);
+   public void log(Level level, String string, Throwable throwable) {
+      if (level == Level.FINE) {
+         this.J.debug(string, throwable);
+      } else if (level == Level.WARNING) {
+         this.J.warn(string, throwable);
+      } else if (level == Level.SEVERE) {
+         this.J.error(string, throwable);
+      } else if (level == Level.INFO) {
+         this.J.info(string, throwable);
       } else {
-         this.J.trace(var2, var3);
+         this.J.trace(string, throwable);
       }
    }
 }

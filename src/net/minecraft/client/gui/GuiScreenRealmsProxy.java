@@ -13,8 +13,8 @@ public class GuiScreenRealmsProxy extends GuiScreen {
    private RealmsScreen field_154330_a;
    private static final long a = 120454699248962L;
 
-   public GuiScreenRealmsProxy(RealmsScreen var1) {
-      this.field_154330_a = var1;
+   public GuiScreenRealmsProxy(RealmsScreen realmsScreen) {
+      this.field_154330_a = realmsScreen;
       super.buttonList = Collections.synchronizedList(Lists.newArrayList());
    }
 
@@ -28,23 +28,23 @@ public class GuiScreenRealmsProxy extends GuiScreen {
       super.initGui();
    }
 
-   public void i(String var1, int var2, int var3, int var4) {
-      super.d(this.fontRendererObj, var1, var2, var3, var4);
+   public void i(String string, int i, int j, int k) {
+      super.d(this.fontRendererObj, string, i, j, k);
    }
 
-   public void V(String var1, int var2, int var3, int var4) {
-      super.I(this.fontRendererObj, var1, var2, var3, var4);
-   }
-
-   @Override
-   public void drawTexturedModalRect(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.field_154330_a.u(var1, var2, var3, var4, var5, var6);
-      super.drawTexturedModalRect(var1, var2, var3, var4, var5, var6);
+   public void V(String string, int i, int j, int k) {
+      super.I(this.fontRendererObj, string, i, j, k);
    }
 
    @Override
-   public void drawGradientRect(int var1, int var2, int var3, int var4, int var5, int var6) {
-      super.drawGradientRect(var1, var2, var3, var4, var5, var6);
+   public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
+      this.field_154330_a.u(x, y, textureX, textureY, width, height);
+      super.drawTexturedModalRect(x, y, textureX, textureY, width, height);
+   }
+
+   @Override
+   public void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
+      super.drawGradientRect(left, top, right, bottom, startColor, endColor);
    }
 
    @Override
@@ -58,28 +58,28 @@ public class GuiScreenRealmsProxy extends GuiScreen {
    }
 
    @Override
-   public void drawWorldBackground(int var1) {
-      super.drawWorldBackground(var1);
+   public void drawWorldBackground(int tint) {
+      super.drawWorldBackground(tint);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      this.field_154330_a.render(var1, var2, var3);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      this.field_154330_a.render(mouseX, mouseY, partialTicks);
    }
 
    @Override
-   public void renderToolTip(ItemStack var1, int var2, int var3) {
-      super.renderToolTip(var1, var2, var3);
+   public void renderToolTip(ItemStack stack, int x, int y) {
+      super.renderToolTip(stack, x, y);
    }
 
    @Override
-   public void drawCreativeTabHoveringText(String var1, int var2, int var3) {
-      super.drawCreativeTabHoveringText(var1, var2, var3);
+   public void drawCreativeTabHoveringText(String tabName, int mouseX, int mouseY) {
+      super.drawCreativeTabHoveringText(tabName, mouseX, mouseY);
    }
 
    @Override
-   public void drawHoveringText(List<String> var1, int var2, int var3) {
-      super.drawHoveringText(var1, var2, var3);
+   public void drawHoveringText(List<String> textLines, int x, int y) {
+      super.drawHoveringText(textLines, x, y);
    }
 
    @Override
@@ -92,49 +92,49 @@ public class GuiScreenRealmsProxy extends GuiScreen {
       return this.fontRendererObj.FONT_HEIGHT;
    }
 
-   public int func_154326_c(String var1) {
-      return this.fontRendererObj.getStringWidth(var1);
+   public int func_154326_c(String string) {
+      return this.fontRendererObj.getStringWidth(string);
    }
 
-   public void X(String var1, int var2, int var3, int var4) {
-      this.fontRendererObj.drawStringWithShadow(var1, var2, var3, var4);
+   public void X(String string, int i, int j, int k) {
+      this.fontRendererObj.drawStringWithShadow(string, i, j, k);
    }
 
-   public List<String> func_154323_a(String var1, int var2) {
-      return this.fontRendererObj.listFormattedStringToWidth(var1, var2);
+   public List<String> func_154323_a(String string, int i) {
+      return this.fontRendererObj.listFormattedStringToWidth(string, i);
    }
 
    @Override
-   public final void actionPerformed(GuiButton var1) throws IOException {
-      this.field_154330_a.buttonClicked(((GuiButtonRealmsProxy)var1).getRealmsButton());
+   public final void actionPerformed(GuiButton button) throws IOException {
+      this.field_154330_a.buttonClicked(((GuiButtonRealmsProxy)button).getRealmsButton());
    }
 
    public void func_154324_i() {
       super.buttonList.clear();
    }
 
-   public void func_154327_a(RealmsButton var1) {
-      super.buttonList.add(var1.getProxy());
+   public void func_154327_a(RealmsButton realmsButton) {
+      super.buttonList.add(realmsButton.getProxy());
    }
 
    public List<RealmsButton> func_154320_j() {
-      ArrayList var4 = Lists.newArrayListWithExpectedSize(super.buttonList.size());
+      ArrayList arrayList = Lists.newArrayListWithExpectedSize(super.buttonList.size());
 
-      for (GuiButton var6 : super.buttonList) {
-         var4.add(((GuiButtonRealmsProxy)var6).getRealmsButton());
+      for (GuiButton guiButton : super.buttonList) {
+         arrayList.add(((GuiButtonRealmsProxy)guiButton).getRealmsButton());
       }
 
-      return var4;
+      return arrayList;
    }
 
-   public void func_154328_b(RealmsButton var1) {
-      super.buttonList.remove(var1);
+   public void func_154328_b(RealmsButton realmsButton) {
+      super.buttonList.remove(realmsButton);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      this.field_154330_a.I(var1, var2, var3);
-      super.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      this.field_154330_a.I(mouseX, mouseY, mouseButton);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
@@ -150,23 +150,23 @@ public class GuiScreenRealmsProxy extends GuiScreen {
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3) {
-      this.field_154330_a.y(var1, var2, var3);
+   public void mouseReleased(int mouseX, int mouseY, int state) {
+      this.field_154330_a.y(mouseX, mouseY, state);
    }
 
    @Override
-   public void mouseClickMove(int var1, int var2, int var3, long var4) {
-      this.field_154330_a.n(var1, var2, var3, var4);
+   public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+      this.field_154330_a.n(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      this.field_154330_a.keyPressed(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      this.field_154330_a.keyPressed(typedChar, keyCode);
    }
 
    @Override
-   public void confirmClicked(boolean var1, int var2) {
-      this.field_154330_a.confirmResult(var1, var2);
+   public void confirmClicked(boolean result, int id) {
+      this.field_154330_a.confirmResult(result, id);
    }
 
    @Override

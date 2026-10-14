@@ -17,7 +17,7 @@ public final class ProcessorInformation {
    }
 
    public static Pair<List<String>, Map<ProcessorInformation.ProcessorTickCountProperty, List<Long>>> queryProcessorCounters() {
-      PerfCounterWildcardQuery var4 = IS_WIN7_OR_GREATER
+      PerfCounterWildcardQuery perfCounterWildcardQuery = IS_WIN7_OR_GREATER
          ? new PerfCounterWildcardQuery<>(
             ProcessorInformation.ProcessorTickCountProperty.class,
             "Processor Information",
@@ -30,35 +30,35 @@ public final class ProcessorInformation {
             "Win32_PerfRawData_PerfOS_Processor WHERE NOT Name=\"_Total\"",
             "Processor Tick Count"
          );
-      Map var5 = var4.queryValuesWildcard();
-      List var6 = var4.getInstancesFromLastQuery();
-      return new Pair<>(var6, var5);
+      Map map = perfCounterWildcardQuery.queryValuesWildcard();
+      List list = perfCounterWildcardQuery.getInstancesFromLastQuery();
+      return new Pair<>(list, map);
    }
 
    public static Map<ProcessorInformation.SystemTickCountProperty, Long> querySystemCounters() {
-      PerfCounterQuery var2 = new PerfCounterQuery<>(
+      PerfCounterQuery perfCounterQuery = new PerfCounterQuery<>(
          ProcessorInformation.SystemTickCountProperty.class, "Processor", "Win32_PerfRawData_PerfOS_Processor WHERE Name=\"_Total\"", "System Tick Count"
       );
-      return var2.queryValues();
+      return perfCounterQuery.queryValues();
    }
 
    public static Map<ProcessorInformation.InterruptsProperty, Long> queryInterruptCounters() {
-      PerfCounterQuery var2 = new PerfCounterQuery<>(
+      PerfCounterQuery perfCounterQuery = new PerfCounterQuery<>(
          ProcessorInformation.InterruptsProperty.class, "Processor", "Win32_PerfRawData_PerfOS_Processor WHERE Name=\"_Total\"", "Interrupt Count"
       );
-      return var2.queryValues();
+      return perfCounterQuery.queryValues();
    }
 
    public static Pair<List<String>, Map<ProcessorInformation.ProcessorFrequencyProperty, List<Long>>> queryFrequencyCounters() {
-      PerfCounterWildcardQuery var3 = new PerfCounterWildcardQuery<>(
+      PerfCounterWildcardQuery perfCounterWildcardQuery = new PerfCounterWildcardQuery<>(
          ProcessorInformation.ProcessorFrequencyProperty.class,
          "Processor Information",
          "Win32_PerfRawData_Counters_ProcessorInformation WHERE NOT Name LIKE\"%_Total\"",
          "Processor Frequency"
       );
-      Map var4 = var3.queryValuesWildcard();
-      List var5 = var3.getInstancesFromLastQuery();
-      return new Pair<>(var5, var4);
+      Map map = perfCounterWildcardQuery.queryValuesWildcard();
+      List list = perfCounterWildcardQuery.getInstancesFromLastQuery();
+      return new Pair<>(list, map);
    }
 
    public enum InterruptsProperty implements PerfCounterQuery.PdhCounterProperty {
@@ -68,9 +68,9 @@ public final class ProcessorInformation {
       private final String w;
       private static final ProcessorInformation.InterruptsProperty[] y = new ProcessorInformation.InterruptsProperty[]{INTERRUPTSPERSEC};
 
-      InterruptsProperty(String var3, String var4) {
-         this.S = var3;
-         this.w = var4;
+      InterruptsProperty(String instance, String counter) {
+         this.S = instance;
+         this.w = counter;
       }
 
       @Override
@@ -93,8 +93,8 @@ public final class ProcessorInformation {
          NAME, PERCENTOFMAXIMUMFREQUENCY
       };
 
-      ProcessorFrequencyProperty(String var3) {
-         this.counter = var3;
+      ProcessorFrequencyProperty(String counter) {
+         this.counter = counter;
       }
 
       @Override
@@ -116,8 +116,8 @@ public final class ProcessorInformation {
          NAME, PERCENTDPCTIME, PERCENTINTERRUPTTIME, PERCENTPRIVILEGEDTIME, PERCENTPROCESSORTIME, PERCENTUSERTIME
       };
 
-      ProcessorTickCountProperty(String var3) {
-         this.counter = var3;
+      ProcessorTickCountProperty(String counter) {
+         this.counter = counter;
       }
 
       @Override
@@ -136,9 +136,9 @@ public final class ProcessorInformation {
          PERCENTDPCTIME, PERCENTINTERRUPTTIME
       };
 
-      SystemTickCountProperty(String var3, String var4) {
-         this.s = var3;
-         this.n = var4;
+      SystemTickCountProperty(String instance, String counter) {
+         this.s = instance;
+         this.n = counter;
       }
 
       @Override

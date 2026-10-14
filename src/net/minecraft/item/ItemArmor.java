@@ -29,29 +29,29 @@ public class ItemArmor extends Item {
       private static final long b = 34130440522126L;
 
       @Override
-      public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-         BlockPos var6 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-         int var7 = var6.getX();
-         int var8 = var6.getY();
-         int var9 = var6.getZ();
-         AxisAlignedBB var10 = new AxisAlignedBB(var7, var8, var9, var7 + 1, var8 + 1, var9 + 1);
-         List var11 = var1.getWorld()
-            .getEntitiesWithinAABB(EntityLivingBase.class, var10, Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(var2)));
-         if (var11.size() > 0) {
-            EntityLivingBase var12 = (EntityLivingBase)var11.get(0);
-            int var13 = var12 instanceof EntityPlayer ? 1 : 0;
-            int var14 = EntityLiving.getArmorPosition(var2);
-            ItemStack var15 = var2.copy();
-            var15.stackSize = 1;
-            var12.setCurrentItemOrArmor(var14 - var13, var15);
-            if (var12 instanceof EntityLiving) {
-               ((EntityLiving)var12).setEquipmentDropChance(var14, 2.0F);
+      public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+         BlockPos blockPos = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+         int i = blockPos.getX();
+         int j = blockPos.getY();
+         int k = blockPos.getZ();
+         AxisAlignedBB axisAlignedBB = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
+         List list = source.getWorld()
+            .getEntitiesWithinAABB(EntityLivingBase.class, axisAlignedBB, Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+         if (list.size() > 0) {
+            EntityLivingBase entityLivingBase = (EntityLivingBase)list.get(0);
+            int l = entityLivingBase instanceof EntityPlayer ? 1 : 0;
+            int m = EntityLiving.getArmorPosition(stack);
+            ItemStack itemStack = stack.copy();
+            itemStack.stackSize = 1;
+            entityLivingBase.setCurrentItemOrArmor(m - l, itemStack);
+            if (entityLivingBase instanceof EntityLiving) {
+               ((EntityLiving)entityLivingBase).setEquipmentDropChance(m, 2.0F);
             }
 
-            var2.stackSize--;
-            return var2;
+            stack.stackSize--;
+            return stack;
          } else {
-            return super.dispenseStack(var1, var2);
+            return super.dispenseStack(source, stack);
          }
       }
    };
@@ -61,29 +61,29 @@ public class ItemArmor extends Item {
    private final ItemArmor.ArmorMaterial material;
    private static final long a = 29010270412698L;
 
-   public ItemArmor(ItemArmor.ArmorMaterial var1, int var2, int var3) {
-      this.material = var1;
-      this.armorType = var3;
-      this.renderIndex = var2;
-      this.damageReduceAmount = var1.getDamageReductionAmount(var3);
-      this.setMaxDamage(var1.getDurability(var3));
+   public ItemArmor(ItemArmor.ArmorMaterial material, int renderIndex, int armorType) {
+      this.material = material;
+      this.armorType = armorType;
+      this.renderIndex = renderIndex;
+      this.damageReduceAmount = material.getDamageReductionAmount(armorType);
+      this.setMaxDamage(material.getDurability(armorType));
       this.maxStackSize = 1;
       this.setCreativeTab(CreativeTabs.tabCombat);
       BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenserBehavior);
    }
 
    @Override
-   public int getColorFromItemStack(ItemStack var1, int var2) {
-      if (var2 > 0) {
+   public int getColorFromItemStack(ItemStack stack, int renderPass) {
+      if (renderPass > 0) {
          return 16777215;
       }
 
-      int var6 = this.getColor(var1);
-      if (var6 < 0) {
-         var6 = 16777215;
+      int i = this.getColor(stack);
+      if (i < 0) {
+         i = 16777215;
       }
 
-      return var6;
+      return i;
    }
 
    @Override
@@ -95,78 +95,78 @@ public class ItemArmor extends Item {
       return this.material;
    }
 
-   public boolean hasColor(ItemStack var1) {
+   public boolean hasColor(ItemStack stack) {
       return this.material != ItemArmor.ArmorMaterial.LEATHER
          ? false
          : (
-            !var1.hasTagCompound()
+            !stack.hasTagCompound()
                ? false
-               : (!var1.getTagCompound().hasKey("display", 10) ? false : var1.getTagCompound().getCompoundTag("display").hasKey("color", 3))
+               : (!stack.getTagCompound().hasKey("display", 10) ? false : stack.getTagCompound().getCompoundTag("display").hasKey("color", 3))
          );
    }
 
-   public int getColor(ItemStack var1) {
+   public int getColor(ItemStack stack) {
       if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
          return -1;
       }
 
-      NBTTagCompound var5 = var1.getTagCompound();
-      if (var5 != null) {
-         NBTTagCompound var6 = var5.getCompoundTag("display");
-         if (var6 != null && var6.hasKey("color", 3)) {
-            return var6.getInteger("color");
+      NBTTagCompound nbtTagCompound = stack.getTagCompound();
+      if (nbtTagCompound != null) {
+         NBTTagCompound nbtTagCompound2 = nbtTagCompound.getCompoundTag("display");
+         if (nbtTagCompound2 != null && nbtTagCompound2.hasKey("color", 3)) {
+            return nbtTagCompound2.getInteger("color");
          }
       }
 
       return 10511680;
    }
 
-   public void removeColor(ItemStack var1) {
+   public void removeColor(ItemStack stack) {
       if (this.material == ItemArmor.ArmorMaterial.LEATHER) {
-         NBTTagCompound var5 = var1.getTagCompound();
-         if (var5 != null) {
-            NBTTagCompound var6 = var5.getCompoundTag("display");
-            if (var6.hasKey("color")) {
-               var6.removeTag("color");
+         NBTTagCompound nbtTagCompound = stack.getTagCompound();
+         if (nbtTagCompound != null) {
+            NBTTagCompound nbtTagCompound2 = nbtTagCompound.getCompoundTag("display");
+            if (nbtTagCompound2.hasKey("color")) {
+               nbtTagCompound2.removeTag("color");
             }
          }
       }
    }
 
-   public void setColor(ItemStack var1, int var2) {
+   public void setColor(ItemStack stack, int color) {
       if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
          throw new UnsupportedOperationException("Can't dye non-leather!");
       }
 
-      NBTTagCompound var6 = var1.getTagCompound();
-      if (var6 == null) {
-         var6 = new NBTTagCompound();
-         var1.setTagCompound(var6);
+      NBTTagCompound nbtTagCompound = stack.getTagCompound();
+      if (nbtTagCompound == null) {
+         nbtTagCompound = new NBTTagCompound();
+         stack.setTagCompound(nbtTagCompound);
       }
 
-      NBTTagCompound var7 = var6.getCompoundTag("display");
-      if (!var6.hasKey("display", 10)) {
-         var6.setTag("display", var7);
+      NBTTagCompound nbtTagCompound2 = nbtTagCompound.getCompoundTag("display");
+      if (!nbtTagCompound.hasKey("display", 10)) {
+         nbtTagCompound.setTag("display", nbtTagCompound2);
       }
 
-      var7.setInteger("color", var2);
+      nbtTagCompound2.setInteger("color", color);
    }
 
    @Override
-   public boolean getIsRepairable(ItemStack var1, ItemStack var2) {
-      return this.material.getRepairItem() == var2.getItem() ? true : super.getIsRepairable(var1, var2);
+   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+      return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      int var7 = EntityLiving.getArmorPosition(var1) - 1;
-      ItemStack var8 = var3.getCurrentArmor(var7);
-      if (var8 == null) {
-         var3.setCurrentItemOrArmor(var7, var1.copy());
-         var1.stackSize = 0;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      int i = EntityLiving.getArmorPosition(itemStackIn) - 1;
+      ItemStack itemStack = playerIn.getCurrentArmor(i);
+      if (itemStack == null) {
+         playerIn.setCurrentItemOrArmor(i, itemStackIn.copy());
+         itemStackIn.stackSize = 0;
       }
 
-      return var1;
+      return itemStackIn;
    }
 
    public enum ArmorMaterial {
@@ -182,19 +182,19 @@ public class ItemArmor extends Item {
       private final int enchantability;
       private static final long a = 33212273193048L;
 
-      ArmorMaterial(String var3, int var4, int[] var5, int var6) {
-         this.name = var3;
-         this.maxDamageFactor = var4;
-         this.damageReductionAmountArray = var5;
-         this.enchantability = var6;
+      ArmorMaterial(String name, int maxDamageIn, int[] reductionAmounts, int enchantability) {
+         this.name = name;
+         this.maxDamageFactor = maxDamageIn;
+         this.damageReductionAmountArray = reductionAmounts;
+         this.enchantability = enchantability;
       }
 
-      public int getDurability(int var1) {
-         return ItemArmor.maxDamageArray[var1] * this.maxDamageFactor;
+      public int getDurability(int armorTypeIn) {
+         return ItemArmor.maxDamageArray[armorTypeIn] * this.maxDamageFactor;
       }
 
-      public int getDamageReductionAmount(int var1) {
-         return this.damageReductionAmountArray[var1];
+      public int getDamageReductionAmount(int armorTypeIn) {
+         return this.damageReductionAmountArray[armorTypeIn];
       }
 
       public int getEnchantability() {

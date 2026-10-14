@@ -12,20 +12,20 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
    private long tickEntryID;
    private static final long a = 133956705645750L;
 
-   public NextTickListEntry(BlockPos var1, Block var2) {
+   public NextTickListEntry(BlockPos positionIn, Block blockIn) {
       this.tickEntryID = nextTickEntryID++;
-      this.position = var1;
-      this.block = var2;
+      this.position = positionIn;
+      this.block = blockIn;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!(var1 instanceof NextTickListEntry)) {
+   public boolean equals(Object object) {
+      if (!(object instanceof NextTickListEntry)) {
          return false;
       }
 
-      NextTickListEntry var5 = (NextTickListEntry)var1;
-      return this.position.equals(var5.position) && Block.isEqualTo(this.block, var5.block);
+      NextTickListEntry nextTickListEntry = (NextTickListEntry)object;
+      return this.position.equals(nextTickListEntry.position) && Block.isEqualTo(this.block, nextTickListEntry.block);
    }
 
    @Override
@@ -33,25 +33,25 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
       return this.position.hashCode();
    }
 
-   public NextTickListEntry setScheduledTime(long var1) {
-      this.scheduledTime = var1;
+   public NextTickListEntry setScheduledTime(long scheduledTimeIn) {
+      this.scheduledTime = scheduledTimeIn;
       return this;
    }
 
-   public void setPriority(int var1) {
-      this.priority = var1;
+   public void setPriority(int priorityIn) {
+      this.priority = priorityIn;
    }
 
-   public int compareTo(NextTickListEntry var1) {
-      return this.scheduledTime < var1.scheduledTime
+   public int compareTo(NextTickListEntry nextTickListEntry) {
+      return this.scheduledTime < nextTickListEntry.scheduledTime
          ? -1
          : (
-            this.scheduledTime > var1.scheduledTime
+            this.scheduledTime > nextTickListEntry.scheduledTime
                ? 1
                : (
-                  this.priority != var1.priority
-                     ? this.priority - var1.priority
-                     : (this.tickEntryID < var1.tickEntryID ? -1 : (this.tickEntryID > var1.tickEntryID ? 1 : 0))
+                  this.priority != nextTickListEntry.priority
+                     ? this.priority - nextTickListEntry.priority
+                     : (this.tickEntryID < nextTickListEntry.tickEntryID ? -1 : (this.tickEntryID > nextTickListEntry.tickEntryID ? 1 : 0))
                )
          );
    }

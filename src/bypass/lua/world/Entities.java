@@ -12,7 +12,7 @@ public final class Entities extends VarArgFunction {
    private static final long a = 82546753084627L;
 
    @Override
-   public Varargs invoke(Varargs var1) {
+   public Varargs invoke(Varargs varargs) {
       if (ClientAccess.mc.theWorld == null) {
          WorldLibrary.X.clear();
          return NIL;
@@ -21,12 +21,12 @@ public final class Entities extends VarArgFunction {
       WorldLibrary.M().clear();
       WorldLibrary.X.clear();
 
-      for (Entity var6 : ClientAccess.mc.theWorld.loadedEntityList) {
-         WorldLibrary.M().add(valueOf(var6.getEntityId()));
-         WorldLibrary.X.put(var6.getEntityId(), var6);
+      for (Entity entity : ClientAccess.mc.theWorld.loadedEntityList) {
+         WorldLibrary.M().add(valueOf(entity.getEntityId()));
+         WorldLibrary.X.put(entity.getEntityId(), entity);
       }
 
-      LuaValue[] var7 = (org.luaj.vm2.LuaValue[])(WorldLibrary.M().toArray(new LuaValue[0]));
-      return LuaValue.varargsOf(new LuaValue[]{new LuaTable(LuaValue.varargsOf(var7))});
+      LuaValue[] luaValues = (org.luaj.vm2.LuaValue[])(WorldLibrary.M().toArray(new LuaValue[0]));
+      return LuaValue.varargsOf(new LuaValue[]{new LuaTable(LuaValue.varargsOf(luaValues))});
    }
 }

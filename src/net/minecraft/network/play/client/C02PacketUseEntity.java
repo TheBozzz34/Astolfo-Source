@@ -17,42 +17,42 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
    public C02PacketUseEntity() {
    }
 
-   public C02PacketUseEntity(Entity var1, C02PacketUseEntity.Action var2) {
-      this.entityId = var1.getEntityId();
-      this.action = var2;
+   public C02PacketUseEntity(Entity entity, C02PacketUseEntity.Action action) {
+      this.entityId = entity.getEntityId();
+      this.action = action;
    }
 
-   public C02PacketUseEntity(Entity var1, Vec3 var2) {
-      this(var1, C02PacketUseEntity.Action.INTERACT_AT);
-      this.hitVec = var2;
+   public C02PacketUseEntity(Entity entity, Vec3 hitVec) {
+      this(entity, C02PacketUseEntity.Action.INTERACT_AT);
+      this.hitVec = hitVec;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.action = var1.readEnumValue(C02PacketUseEntity.Action.class);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.action = buf.readEnumValue(C02PacketUseEntity.Action.class);
       if (this.action == C02PacketUseEntity.Action.INTERACT_AT) {
-         this.hitVec = new Vec3(var1.readFloat(), var1.readFloat(), var1.readFloat());
+         this.hitVec = new Vec3(buf.readFloat(), buf.readFloat(), buf.readFloat());
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeEnumValue(this.action);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeEnumValue(this.action);
       if (this.action == C02PacketUseEntity.Action.INTERACT_AT) {
-         var1.writeFloat((float)this.hitVec.xCoord);
-         var1.writeFloat((float)this.hitVec.yCoord);
-         var1.writeFloat((float)this.hitVec.zCoord);
+         buf.writeFloat((float)this.hitVec.xCoord);
+         buf.writeFloat((float)this.hitVec.yCoord);
+         buf.writeFloat((float)this.hitVec.zCoord);
       }
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processUseEntity(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processUseEntity(this);
    }
 
-   public Entity getEntityFromWorld(World var1) {
-      return var1.getEntityByID(this.entityId);
+   public Entity getEntityFromWorld(World worldIn) {
+      return worldIn.getEntityByID(this.entityId);
    }
 
    public C02PacketUseEntity.Action getAction() {

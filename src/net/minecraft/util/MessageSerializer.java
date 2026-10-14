@@ -22,37 +22,41 @@ public class MessageSerializer extends MessageToByteEncoder<Packet> {
    private static final long a = 28651343822581L;
    private static final long e = -1752296272506650608L;
 
-   public MessageSerializer(EnumPacketDirection var1) {
-      this.direction = var1;
+   public MessageSerializer(EnumPacketDirection direction) {
+      this.direction = direction;
    }
 
-   public void encode(ChannelHandlerContext var1, Packet var2, ByteBuf var3) throws IOException, Exception {
-      Integer var7;
-      if (var2 instanceof VehicleMovePacket) {
-         var7 = (int)e;
+   public void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws IOException, Exception {
+      Integer integer;
+      if (packet instanceof VehicleMovePacket) {
+         integer = (int)e;
          o = true;
       } else {
-         var7 = var1.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(this.direction, var2);
+         integer = channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(this.direction, packet);
       }
 
       if (logger.isDebugEnabled()) {
          logger.debug(
-            RECEIVED_PACKET_MARKER, "OUT: [{}:{}] {}", var1.channel().attr(NetworkManager.attrKeyConnectionState).get(), var7, var2.getClass().getName()
+            RECEIVED_PACKET_MARKER,
+            "OUT: [{}:{}] {}",
+            channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get(),
+            integer,
+            packet.getClass().getName()
          );
       }
 
-      if (var7 == null) {
+      if (integer == null) {
          throw new IOException("Can't serialize unregistered packet");
       }
 
-      PacketBuffer var8 = new PacketBuffer(var3);
-      var8.writeVarIntToBuffer(var7);
+      PacketBuffer packetBuffer = new PacketBuffer(byteBuf);
+      packetBuffer.writeVarIntToBuffer(integer);
 
       try {
-         var2.writePacketData(var8);
-      } catch (Throwable var10) {
-         var10.printStackTrace();
-         logger.error(var10);
+         packet.writePacketData(packetBuffer);
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
+         logger.error(throwable);
       }
    }
 }

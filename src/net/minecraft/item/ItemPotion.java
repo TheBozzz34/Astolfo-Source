@@ -36,118 +36,118 @@ public class ItemPotion extends Item {
       this.setCreativeTab(CreativeTabs.tabBrewing);
    }
 
-   public List<PotionEffect> getEffects(ItemStack var1) {
-      if (var1.hasTagCompound() && var1.getTagCompound().hasKey("CustomPotionEffects", 9)) {
-         ArrayList var10 = Lists.newArrayList();
-         NBTTagList var6 = var1.getTagCompound().getTagList("CustomPotionEffects", 10);
+   public List<PotionEffect> getEffects(ItemStack stack) {
+      if (stack.hasTagCompound() && stack.getTagCompound().hasKey("CustomPotionEffects", 9)) {
+         ArrayList arrayList = Lists.newArrayList();
+         NBTTagList nbtTagList = stack.getTagCompound().getTagList("CustomPotionEffects", 10);
 
-         for (int var7 = 0; var7 < var6.tagCount(); var7++) {
-            NBTTagCompound var8 = var6.getCompoundTagAt(var7);
-            PotionEffect var9 = PotionEffect.readCustomPotionEffectFromNBT(var8);
-            if (var9 != null) {
-               var10.add(var9);
+         for (int i = 0; i < nbtTagList.tagCount(); i++) {
+            NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(i);
+            PotionEffect potionEffect = PotionEffect.readCustomPotionEffectFromNBT(nbtTagCompound);
+            if (potionEffect != null) {
+               arrayList.add(potionEffect);
             }
          }
 
-         return var10;
+         return arrayList;
       } else {
-         List var5 = this.effectCache.get(var1.getMetadata());
-         if (var5 == null) {
-            var5 = PotionHelper.getPotionEffects(var1.getMetadata(), false);
-            this.effectCache.put(var1.getMetadata(), var5);
+         List list = this.effectCache.get(stack.getMetadata());
+         if (list == null) {
+            list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
+            this.effectCache.put(stack.getMetadata(), list);
          }
 
-         return var5;
+         return list;
       }
    }
 
-   public List<PotionEffect> getEffects(int var1) {
-      List var5 = this.effectCache.get(var1);
-      if (var5 == null) {
-         var5 = PotionHelper.getPotionEffects(var1, false);
-         this.effectCache.put(var1, var5);
+   public List<PotionEffect> getEffects(int meta) {
+      List list = this.effectCache.get(meta);
+      if (list == null) {
+         list = PotionHelper.getPotionEffects(meta, false);
+         this.effectCache.put(meta, list);
       }
 
-      return var5;
+      return list;
    }
 
    @Override
-   public ItemStack onItemUseFinish(ItemStack var1, World var2, EntityPlayer var3) {
-      if (!var3.capabilities.isCreativeMode) {
-         var1.stackSize--;
+   public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+      if (!playerIn.capabilities.isCreativeMode) {
+         stack.stackSize--;
       }
 
-      if (!var2.isRemote) {
-         List var7 = this.getEffects(var1);
-         if (var7 != null) {
-            for (Object var9$raw : var7) {
-               PotionEffect var9 = (PotionEffect)var9$raw;
-               var3.addPotionEffect(new PotionEffect(var9));
+      if (!worldIn.isRemote) {
+         List list = this.getEffects(stack);
+         if (list != null) {
+            for (Object object : list) {
+               PotionEffect potionEffect = (PotionEffect)object;
+               playerIn.addPotionEffect(new PotionEffect(potionEffect));
             }
          }
       }
 
-      var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-      if (!var3.capabilities.isCreativeMode) {
-         if (var1.stackSize <= 0) {
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      if (!playerIn.capabilities.isCreativeMode) {
+         if (stack.stackSize <= 0) {
             return new ItemStack(Items.glass_bottle);
          }
 
-         var3.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
+         playerIn.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
       }
 
-      return var1;
+      return stack;
    }
 
    @Override
-   public int getMaxItemUseDuration(ItemStack var1) {
+   public int getMaxItemUseDuration(ItemStack stack) {
       return 32;
    }
 
    @Override
-   public EnumAction getItemUseAction(ItemStack var1) {
+   public EnumAction getItemUseAction(ItemStack stack) {
       return EnumAction.DRINK;
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (isSplash(var1.getMetadata())) {
-         if (!var3.capabilities.isCreativeMode) {
-            var1.stackSize--;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (isSplash(itemStackIn.getMetadata())) {
+         if (!playerIn.capabilities.isCreativeMode) {
+            itemStackIn.stackSize--;
          }
 
-         var2.playSoundAtEntity(var3, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-         if (!var2.isRemote) {
-            var2.spawnEntityInWorld(new EntityPotion(var2, var3, var1));
+         worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+         if (!worldIn.isRemote) {
+            worldIn.spawnEntityInWorld(new EntityPotion(worldIn, playerIn, itemStackIn));
          }
 
-         var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-         return var1;
+         playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+         return itemStackIn;
       } else {
-         var3.setItemInUse(var1, this.getMaxItemUseDuration(var1));
-         return var1;
+         playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+         return itemStackIn;
       }
    }
 
-   public static boolean isSplash(int var0) {
-      return (var0 & 16384) != 0;
+   public static boolean isSplash(int meta) {
+      return (meta & 16384) != 0;
    }
 
-   public int getColorFromDamage(int var1) {
-      return PotionHelper.getLiquidColor(var1, false);
+   public int getColorFromDamage(int meta) {
+      return PotionHelper.getLiquidColor(meta, false);
    }
 
    @Override
-   public int getColorFromItemStack(ItemStack var1, int var2) {
-      return var2 > 0 ? 16777215 : this.getColorFromDamage(var1.getMetadata());
+   public int getColorFromItemStack(ItemStack stack, int renderPass) {
+      return renderPass > 0 ? 16777215 : this.getColorFromDamage(stack.getMetadata());
    }
 
-   public boolean isEffectInstant(int var1) {
-      List var5 = this.getEffects(var1);
-      if (var5 != null && !var5.isEmpty()) {
-         for (Object var7$raw : var5) {
-            PotionEffect var7 = (PotionEffect)var7$raw;
-            if (Potion.potionTypes[var7.getPotionID()].isInstant()) {
+   public boolean isEffectInstant(int meta) {
+      List list = this.getEffects(meta);
+      if (list != null && !list.isEmpty()) {
+         for (Object object : list) {
+            PotionEffect potionEffect = (PotionEffect)object;
+            if (Potion.potionTypes[potionEffect.getPotionID()].isInstant()) {
                return true;
             }
          }
@@ -159,100 +159,100 @@ public class ItemPotion extends Item {
    }
 
    @Override
-   public String getItemStackDisplayName(ItemStack var1) {
-      if (var1.getMetadata() == 0) {
+   public String getItemStackDisplayName(ItemStack stack) {
+      if (stack.getMetadata() == 0) {
          return StatCollector.translateToLocal("item.emptyPotion.name").trim();
       }
 
-      String var5 = "";
-      if (isSplash(var1.getMetadata())) {
-         var5 = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
+      String string = "";
+      if (isSplash(stack.getMetadata())) {
+         string = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
       }
 
-      List var6 = Items.potionitem.getEffects(var1);
-      if (var6 != null && !var6.isEmpty()) {
-         String var8 = ((PotionEffect)var6.get(0)).getEffectName();
-         var8 = var8 + ".postfix";
-         return var5 + StatCollector.translateToLocal(var8).trim();
+      List list = Items.potionitem.getEffects(stack);
+      if (list != null && !list.isEmpty()) {
+         String string2 = ((PotionEffect)list.get(0)).getEffectName();
+         string2 = string2 + ".postfix";
+         return string + StatCollector.translateToLocal(string2).trim();
       } else {
-         String var7 = PotionHelper.getPotionPrefix(var1.getMetadata());
-         return StatCollector.translateToLocal(var7).trim() + " " + super.getItemStackDisplayName(var1);
+         String string3 = PotionHelper.getPotionPrefix(stack.getMetadata());
+         return StatCollector.translateToLocal(string3).trim() + " " + super.getItemStackDisplayName(stack);
       }
    }
 
    @Override
-   public void addInformation(ItemStack var1, EntityPlayer var2, List<String> var3, boolean var4) {
-      if (var1.getMetadata() != 0) {
-         List var8 = Items.potionitem.getEffects(var1);
-         HashMultimap var9 = HashMultimap.create();
-         if (var8 != null && !var8.isEmpty()) {
-            for (Object var11$raw : var8) {
-               PotionEffect var11 = (PotionEffect)var11$raw;
-               String var12 = StatCollector.translateToLocal(var11.getEffectName()).trim();
-               Potion var13 = Potion.potionTypes[var11.getPotionID()];
-               Map var14 = var13.getAttributeModifierMap();
-               if (var14 != null && var14.size() > 0) {
-                  for (Object var16$raw : var14.entrySet()) {
-                     Entry var16 = (Entry)var16$raw;
-                     AttributeModifier var17 = (AttributeModifier)var16.getValue();
-                     AttributeModifier var18 = new AttributeModifier(
-                        var17.getName(), var13.getAttributeModifierAmount(var11.getAmplifier(), var17), var17.getOperation()
+   public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+      if (stack.getMetadata() != 0) {
+         List list = Items.potionitem.getEffects(stack);
+         HashMultimap hashMultimap = HashMultimap.create();
+         if (list != null && !list.isEmpty()) {
+            for (Object object : list) {
+               PotionEffect potionEffect = (PotionEffect)object;
+               String string = StatCollector.translateToLocal(potionEffect.getEffectName()).trim();
+               Potion potion2 = Potion.potionTypes[potionEffect.getPotionID()];
+               Map map = potion2.getAttributeModifierMap();
+               if (map != null && map.size() > 0) {
+                  for (Object object2 : map.entrySet()) {
+                     Entry entry = (Entry)object2;
+                     AttributeModifier attributeModifier = (AttributeModifier)entry.getValue();
+                     AttributeModifier attributeModifier2 = new AttributeModifier(
+                        attributeModifier.getName(), potion2.getAttributeModifierAmount(potionEffect.getAmplifier(), attributeModifier), attributeModifier.getOperation()
                      );
-                     var9.put(((IAttribute)var16.getKey()).getAttributeUnlocalizedName(), var18);
+                     hashMultimap.put(((IAttribute)entry.getKey()).getAttributeUnlocalizedName(), attributeModifier2);
                   }
                }
 
-               if (var11.getAmplifier() > 0) {
-                  var12 = var12 + " " + StatCollector.translateToLocal("potion.potency." + var11.getAmplifier()).trim();
+               if (potionEffect.getAmplifier() > 0) {
+                  string = string + " " + StatCollector.translateToLocal("potion.potency." + potionEffect.getAmplifier()).trim();
                }
 
-               if (var11.getDuration() > 20) {
-                  var12 = var12 + " (" + Potion.getDurationString(var11) + ")";
+               if (potionEffect.getDuration() > 20) {
+                  string = string + " (" + Potion.getDurationString(potionEffect) + ")";
                }
 
-               if (var13.isBadEffect()) {
-                  var3.add(EnumChatFormatting.RED + var12);
+               if (potion2.isBadEffect()) {
+                  tooltip.add(EnumChatFormatting.RED + string);
                } else {
-                  var3.add(EnumChatFormatting.GRAY + var12);
+                  tooltip.add(EnumChatFormatting.GRAY + string);
                }
             }
          } else {
-            String var10 = StatCollector.translateToLocal("potion.empty").trim();
-            var3.add(EnumChatFormatting.GRAY + var10);
+            String string2 = StatCollector.translateToLocal("potion.empty").trim();
+            tooltip.add(EnumChatFormatting.GRAY + string2);
          }
 
-         if (!var9.isEmpty()) {
-            var3.add("");
-            var3.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
+         if (!hashMultimap.isEmpty()) {
+            tooltip.add("");
+            tooltip.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
 
-            for (Object var21$raw : var9.entries()) {
-               Entry var21 = (Entry)var21$raw;
-               AttributeModifier var22 = (AttributeModifier)var21.getValue();
-               double var23 = var22.getAmount();
-               double var24;
-               if (var22.getOperation() != 1 && var22.getOperation() != 2) {
-                  var24 = var22.getAmount();
+            for (Object object3 : hashMultimap.entries()) {
+               Entry entry2 = (Entry)object3;
+               AttributeModifier attributeModifier3 = (AttributeModifier)entry2.getValue();
+               double d = attributeModifier3.getAmount();
+               double e;
+               if (attributeModifier3.getOperation() != 1 && attributeModifier3.getOperation() != 2) {
+                  e = attributeModifier3.getAmount();
                } else {
-                  var24 = var22.getAmount() * 100.0;
+                  e = attributeModifier3.getAmount() * 100.0;
                }
 
-               if (var23 > 0.0) {
-                  var3.add(
+               if (d > 0.0) {
+                  tooltip.add(
                      EnumChatFormatting.BLUE
                         + StatCollector.translateToLocalFormatted(
-                           "attribute.modifier.plus." + var22.getOperation(),
-                           ItemStack.DECIMALFORMAT.format(var24),
-                           StatCollector.translateToLocal("attribute.name." + (String)var21.getKey())
+                           "attribute.modifier.plus." + attributeModifier3.getOperation(),
+                           ItemStack.DECIMALFORMAT.format(e),
+                           StatCollector.translateToLocal("attribute.name." + (String)entry2.getKey())
                         )
                   );
-               } else if (var23 < 0.0) {
-                  var24 *= -1.0;
-                  var3.add(
+               } else if (d < 0.0) {
+                  e *= -1.0;
+                  tooltip.add(
                      EnumChatFormatting.RED
                         + StatCollector.translateToLocalFormatted(
-                           "attribute.modifier.take." + var22.getOperation(),
-                           ItemStack.DECIMALFORMAT.format(var24),
-                           StatCollector.translateToLocal("attribute.name." + (String)var21.getKey())
+                           "attribute.modifier.take." + attributeModifier3.getOperation(),
+                           ItemStack.DECIMALFORMAT.format(e),
+                           StatCollector.translateToLocal("attribute.name." + (String)entry2.getKey())
                         )
                   );
                }
@@ -262,45 +262,45 @@ public class ItemPotion extends Item {
    }
 
    @Override
-   public boolean hasEffect(ItemStack var1) {
-      List var5 = this.getEffects(var1);
-      return var5 != null && !var5.isEmpty();
+   public boolean hasEffect(ItemStack stack) {
+      List list = this.getEffects(stack);
+      return list != null && !list.isEmpty();
    }
 
    @Override
-   public void getSubItems(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      super.getSubItems(var1, var2, var3);
+   public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+      super.getSubItems(itemIn, tab, subItems);
       if (SUB_ITEMS_CACHE.isEmpty()) {
-         for (int var7 = 0; var7 <= 15; var7++) {
-            for (int var8 = 0; var8 <= 1; var8++) {
-               int var9;
-               if (var8 == 0) {
-                  var9 = var7 | 8192;
+         for (int i = 0; i <= 15; i++) {
+            for (int j = 0; j <= 1; j++) {
+               int k;
+               if (j == 0) {
+                  k = i | 8192;
                } else {
-                  var9 = var7 | 16384;
+                  k = i | 16384;
                }
 
-               for (int var10 = 0; var10 <= 2; var10++) {
-                  int var11 = var9;
-                  if (var10 != 0) {
-                     if (var10 == 1) {
-                        var11 = var9 | 32;
-                     } else if (var10 == 2) {
-                        var11 = var9 | 64;
+               for (int l = 0; l <= 2; l++) {
+                  int m = k;
+                  if (l != 0) {
+                     if (l == 1) {
+                        m = k | 32;
+                     } else if (l == 2) {
+                        m = k | 64;
                      }
                   }
 
-                  List var12 = PotionHelper.getPotionEffects(var11, false);
-                  if (var12 != null && !var12.isEmpty()) {
-                     SUB_ITEMS_CACHE.put(var12, var11);
+                  List list = PotionHelper.getPotionEffects(m, false);
+                  if (list != null && !list.isEmpty()) {
+                     SUB_ITEMS_CACHE.put(list, m);
                   }
                }
             }
          }
       }
 
-      for (int var14 : SUB_ITEMS_CACHE.values()) {
-         var3.add(new ItemStack(var1, 1, var14));
+      for (int n : SUB_ITEMS_CACHE.values()) {
+         subItems.add(new ItemStack(itemIn, 1, n));
       }
    }
 }

@@ -5,8 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public abstract class EntityAmbientCreature extends EntityLiving implements IAnimals {
-   public EntityAmbientCreature(World var1) {
-      super(var1);
+   public EntityAmbientCreature(World worldIn) {
+      super(worldIn);
    }
 
    @Override
@@ -15,7 +15,7 @@ public abstract class EntityAmbientCreature extends EntityLiving implements IAni
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
+   public boolean interact(EntityPlayer player) {
       return false;
    }
 }

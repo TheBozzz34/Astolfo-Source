@@ -5,7 +5,7 @@ public interface Value<T> extends Named {
 
    T getValue();
 
-   void setValue(T var1);
+   void setValue(T object);
 
-   void parse(String var1);
+   void parse(String string);
 }

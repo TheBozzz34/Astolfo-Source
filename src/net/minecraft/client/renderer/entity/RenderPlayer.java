@@ -25,13 +25,13 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
    private boolean smallArms;
    private static final long d = 27286183765204L;
 
-   public RenderPlayer(RenderManager var1) {
-      this(var1, false);
+   public RenderPlayer(RenderManager renderManager) {
+      this(renderManager, false);
    }
 
-   public RenderPlayer(RenderManager var1, boolean var2) {
-      super(var1, new ModelPlayer(0.0F, var2), 0.5F);
-      this.smallArms = var2;
+   public RenderPlayer(RenderManager renderManager, boolean useSmallArms) {
+      super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
+      this.smallArms = useSmallArms;
       this.addLayer(new LayerBipedArmor(this));
       this.addLayer(new LayerHeldItem(this));
       this.addLayer(new LayerArrow(this));
@@ -44,62 +44,62 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
       return (ModelPlayer)super.getMainModel();
    }
 
-   public void doRender(AbstractClientPlayer var1, double var2, double var4, double var6, float var8, float var9) {
-      if (!var1.v() || this.renderManager.livingPlayer == var1) {
-         double var13 = var4;
-         if (var1.isSneaking() && !(var1 instanceof EntityPlayerSP)) {
-            var13 = var4 - 0.125;
+   public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      if (!entity.v() || this.renderManager.livingPlayer == entity) {
+         double d = y;
+         if (entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {
+            d = y - 0.125;
          }
 
-         if (var1.getEntityId() != -1337 && var1.getEntityId() != -420) {
-            this.setModelVisibilities(var1);
+         if (entity.getEntityId() != -1337 && entity.getEntityId() != -420) {
+            this.setModelVisibilities(entity);
          } else {
             this.setModelVisibilities(Minecraft.getMinecraft().thePlayer);
          }
 
-         this.setModelVisibilities(var1);
-         super.doRender(var1, var2, var13, var6, var8, var9);
+         this.setModelVisibilities(entity);
+         super.doRender(entity, x, d, z, entityYaw, partialTicks);
       }
    }
 
-   private void setModelVisibilities(AbstractClientPlayer var1) {
-      ModelPlayer var5 = this.getMainModel();
-      if (var1.isSpectator()) {
-         var5.setInvisible(false);
-         var5.bipedHead.showModel = true;
-         var5.bipedHeadwear.showModel = true;
+   private void setModelVisibilities(AbstractClientPlayer clientPlayer) {
+      ModelPlayer modelPlayer = this.getMainModel();
+      if (clientPlayer.isSpectator()) {
+         modelPlayer.setInvisible(false);
+         modelPlayer.bipedHead.showModel = true;
+         modelPlayer.bipedHeadwear.showModel = true;
       } else {
-         ItemStack var6 = var1.inventory.getCurrentItem();
-         var5.setInvisible(true);
-         var5.bipedHeadwear.showModel = var1.isWearing(EnumPlayerModelParts.HAT);
-         var5.bipedBodyWear.showModel = var1.isWearing(EnumPlayerModelParts.JACKET);
-         var5.bipedLeftLegwear.showModel = var1.isWearing(EnumPlayerModelParts.LEFT_PANTS_LEG);
-         var5.bipedRightLegwear.showModel = var1.isWearing(EnumPlayerModelParts.RIGHT_PANTS_LEG);
-         var5.bipedLeftArmwear.showModel = var1.isWearing(EnumPlayerModelParts.LEFT_SLEEVE);
-         var5.bipedRightArmwear.showModel = var1.isWearing(EnumPlayerModelParts.RIGHT_SLEEVE);
-         var5.heldItemLeft = 0;
-         var5.aimedBow = false;
-         PlayerModelVisibilityEvent var7 = new PlayerModelVisibilityEvent(var1);
-         Astolfo.INSTANCE.getEventBus().post(var7);
-         var5.isSneak = var7.isCancelled() || var1.isSneaking();
-         if (var6 == null) {
-            var5.heldItemRight = 0;
+         ItemStack itemStack = clientPlayer.inventory.getCurrentItem();
+         modelPlayer.setInvisible(true);
+         modelPlayer.bipedHeadwear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.HAT);
+         modelPlayer.bipedBodyWear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.JACKET);
+         modelPlayer.bipedLeftLegwear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.LEFT_PANTS_LEG);
+         modelPlayer.bipedRightLegwear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.RIGHT_PANTS_LEG);
+         modelPlayer.bipedLeftArmwear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.LEFT_SLEEVE);
+         modelPlayer.bipedRightArmwear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.RIGHT_SLEEVE);
+         modelPlayer.heldItemLeft = 0;
+         modelPlayer.aimedBow = false;
+         PlayerModelVisibilityEvent playerModelVisibilityEvent = new PlayerModelVisibilityEvent(clientPlayer);
+         Astolfo.INSTANCE.getEventBus().post(playerModelVisibilityEvent);
+         modelPlayer.isSneak = playerModelVisibilityEvent.isCancelled() || clientPlayer.isSneaking();
+         if (itemStack == null) {
+            modelPlayer.heldItemRight = 0;
          } else {
-            var5.heldItemRight = 1;
-            if (var1.p() > 0) {
-               EnumAction var8 = var6.getItemUseAction();
-               if (var8 == EnumAction.BLOCK) {
-                  var5.heldItemRight = 3;
-               } else if (var8 == EnumAction.BOW) {
-                  var5.aimedBow = true;
+            modelPlayer.heldItemRight = 1;
+            if (clientPlayer.p() > 0) {
+               EnumAction enumAction = itemStack.getItemUseAction();
+               if (enumAction == EnumAction.BLOCK) {
+                  modelPlayer.heldItemRight = 3;
+               } else if (enumAction == EnumAction.BOW) {
+                  modelPlayer.aimedBow = true;
                }
             }
          }
       }
    }
 
-   public ResourceLocation getEntityTexture(AbstractClientPlayer var1) {
-      return var1.getLocationSkin();
+   public ResourceLocation getEntityTexture(AbstractClientPlayer entity) {
+      return entity.getLocationSkin();
    }
 
    @Override
@@ -107,62 +107,64 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
       GlStateManager.translate(0.0F, 0.1875F, 0.0F);
    }
 
-   public void preRenderCallback(AbstractClientPlayer var1, float var2) {
-      float var3 = 0.9375F;
-      GlStateManager.scale(var3, var3, var3);
+   public void preRenderCallback(AbstractClientPlayer entitylivingbaseIn, float partialTickTime) {
+      float f = 0.9375F;
+      GlStateManager.scale(f, f, f);
    }
 
-   public void renderOffsetLivingLabel(AbstractClientPlayer var1, double var2, double var4, double var6, String var8, float var9, double var10) {
-      if (var10 < 100.0) {
-         Scoreboard var15 = var1.getWorldScoreboard();
-         ScoreObjective var16 = var15.getObjectiveInDisplaySlot(2);
-         if (var16 != null) {
-            Score var17 = var15.getValueFromObjective(var1.getName(), var16);
-            this.renderLivingLabel(var1, var17.getScorePoints() + " " + var16.getDisplayName(), var2, var4, var6, 64);
-            var4 += this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * var9;
+   public void renderOffsetLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String str, float g, double d2) {
+      if (d2 < 100.0) {
+         Scoreboard scoreboard = entityIn.getWorldScoreboard();
+         ScoreObjective scoreObjective = scoreboard.getObjectiveInDisplaySlot(2);
+         if (scoreObjective != null) {
+            Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreObjective);
+            this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreObjective.getDisplayName(), x, y, z, 64);
+            y += this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * g;
          }
       }
 
-      super.renderOffsetLivingLabel(var1, var2, var4, var6, var8, var9, var10);
+      super.renderOffsetLivingLabel(entityIn, x, y, z, str, g, d2);
    }
 
-   public void renderRightArm(AbstractClientPlayer var1) {
-      float var2 = 1.0F;
-      GlStateManager.color(var2, var2, var2);
-      ModelPlayer var3 = this.getMainModel();
-      this.setModelVisibilities(var1);
-      var3.swingProgress = 0.0F;
-      var3.isRiding = var3.isSneak = false;
-      var3.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, var1);
-      var3.renderRightArm();
+   public void renderRightArm(AbstractClientPlayer clientPlayer) {
+      float f = 1.0F;
+      GlStateManager.color(f, f, f);
+      ModelPlayer modelPlayer = this.getMainModel();
+      this.setModelVisibilities(clientPlayer);
+      modelPlayer.swingProgress = 0.0F;
+      modelPlayer.isRiding = modelPlayer.isSneak = false;
+      modelPlayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
+      modelPlayer.renderRightArm();
    }
 
-   public void renderLeftArm(AbstractClientPlayer var1) {
-      float var2 = 1.0F;
-      GlStateManager.color(var2, var2, var2);
-      ModelPlayer var3 = this.getMainModel();
-      this.setModelVisibilities(var1);
-      var3.isSneak = false;
-      var3.swingProgress = 0.0F;
-      var3.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, var1);
-      var3.renderLeftArm();
+   public void renderLeftArm(AbstractClientPlayer clientPlayer) {
+      float f = 1.0F;
+      GlStateManager.color(f, f, f);
+      ModelPlayer modelPlayer = this.getMainModel();
+      this.setModelVisibilities(clientPlayer);
+      modelPlayer.isSneak = false;
+      modelPlayer.swingProgress = 0.0F;
+      modelPlayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
+      modelPlayer.renderLeftArm();
    }
 
-   public void renderLivingAt(AbstractClientPlayer var1, double var2, double var4, double var6) {
-      if (var1.isEntityAlive() && var1.isPlayerSleeping()) {
-         super.renderLivingAt(var1, var2 + var1.renderOffsetX, var4 + var1.renderOffsetY, var6 + var1.renderOffsetZ);
+   public void renderLivingAt(AbstractClientPlayer entityLivingBaseIn, double x, double y, double z) {
+      if (entityLivingBaseIn.isEntityAlive() && entityLivingBaseIn.isPlayerSleeping()) {
+         super.renderLivingAt(
+            entityLivingBaseIn, x + entityLivingBaseIn.renderOffsetX, y + entityLivingBaseIn.renderOffsetY, z + entityLivingBaseIn.renderOffsetZ
+         );
       } else {
-         super.renderLivingAt(var1, var2, var4, var6);
+         super.renderLivingAt(entityLivingBaseIn, x, y, z);
       }
    }
 
-   public void rotateCorpse(AbstractClientPlayer var1, float var2, float var3, float var4) {
-      if (var1.isEntityAlive() && var1.isPlayerSleeping()) {
-         GlStateManager.rotate(var1.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
-         GlStateManager.rotate(this.getDeathMaxRotation(var1), 0.0F, 0.0F, 1.0F);
+   public void rotateCorpse(AbstractClientPlayer bat, float g, float h, float partialTicks) {
+      if (bat.isEntityAlive() && bat.isPlayerSleeping()) {
+         GlStateManager.rotate(bat.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
+         GlStateManager.rotate(this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
          GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
       } else {
-         super.rotateCorpse(var1, var2, var3, var4);
+         super.rotateCorpse(bat, g, h, partialTicks);
       }
    }
 }

@@ -13,13 +13,13 @@ public final class Win32PhysicalMemory {
    }
 
    public static WmiResult<Win32PhysicalMemory.PhysicalMemoryProperty> queryphysicalMemory() {
-      WmiQuery var2 = new WmiQuery<>("Win32_PhysicalMemory", Win32PhysicalMemory.PhysicalMemoryProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_PhysicalMemory", Win32PhysicalMemory.PhysicalMemoryProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public static WmiResult<Win32PhysicalMemory.PhysicalMemoryPropertyWin8> queryphysicalMemoryWin8() {
-      WmiQuery var2 = new WmiQuery<>("Win32_PhysicalMemory", Win32PhysicalMemory.PhysicalMemoryPropertyWin8.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_PhysicalMemory", Win32PhysicalMemory.PhysicalMemoryPropertyWin8.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum PhysicalMemoryProperty {

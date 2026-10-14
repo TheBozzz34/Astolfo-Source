@@ -28,75 +28,75 @@ public final class GlHelper {
    private GlHelper() {
    }
 
-   public static void F(int[] var0) {
-      m(var0[0], var0[1], var0[0] + var0[2], var0[1] + var0[3]);
+   public static void F(int[] ints) {
+      m(ints[0], ints[1], ints[0] + ints[2], ints[1] + ints[3]);
    }
 
-   public static void m(float var0, float var1, float var2, float var3) {
-      int var8 = q();
-      GL11.glScissor((int)(var0 * var8), (int)(Minecraft.getMinecraft().displayHeight - var3 * var8), (int)((var2 - var0) * var8), (int)((var3 - var1) * var8));
+   public static void m(float f, float g, float h, float f2) {
+      int i = q();
+      GL11.glScissor((int)(f * i), (int)(Minecraft.getMinecraft().displayHeight - f2 * i), (int)((h - f) * i), (int)((f2 - g) * i));
    }
 
    public static int T() {
-      int var0 = GL11.glGenTextures();
-      u.add(var0);
-      return var0;
+      int i = GL11.glGenTextures();
+      u.add(i);
+      return i;
    }
 
-   public static int i(int var0, File var1, int var2, int var3) throws IOException {
-      X(var0, ImageIO.read(var1), var2, var3);
-      return var0;
+   public static int i(int i, File file, int j, int k) throws IOException {
+      X(i, ImageIO.read(file), j, k);
+      return i;
    }
 
-   public static int X(int var0, BufferedImage var1, int var2, int var3) {
-      int[] var6 = new int[var1.getWidth() * var1.getHeight()];
-      var1.getRGB(0, 0, var1.getWidth(), var1.getHeight(), var6, 0, var1.getWidth());
-      ByteBuffer var7 = BufferUtils.createByteBuffer(var1.getWidth() * var1.getHeight() * 4);
+   public static int X(int i, BufferedImage bufferedImage, int j, int k) {
+      int[] ints = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
+      bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), ints, 0, bufferedImage.getWidth());
+      ByteBuffer byteBuffer = BufferUtils.createByteBuffer(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
 
-      for (int var8 = 0; var8 < var1.getHeight(); var8++) {
-         for (int var9 = 0; var9 < var1.getWidth(); var9++) {
-            int var10 = var6[var8 * var1.getWidth() + var9];
-            var7.put((byte)(var10 >> 16 & 0xFF));
-            var7.put((byte)(var10 >> 8 & 0xFF));
-            var7.put((byte)(var10 & 0xFF));
-            var7.put((byte)(var10 >> 24 & 0xFF));
+      for (int l = 0; l < bufferedImage.getHeight(); l++) {
+         for (int m = 0; m < bufferedImage.getWidth(); m++) {
+            int n = ints[l * bufferedImage.getWidth() + m];
+            byteBuffer.put((byte)(n >> 16 & 0xFF));
+            byteBuffer.put((byte)(n >> 8 & 0xFF));
+            byteBuffer.put((byte)(n & 0xFF));
+            byteBuffer.put((byte)(n >> 24 & 0xFF));
          }
       }
 
-      ((Buffer)var7).flip();
-      q(var0, var1.getWidth(), var1.getHeight(), var7, var2, var3);
-      return var0;
+      ((Buffer)byteBuffer).flip();
+      q(i, bufferedImage.getWidth(), bufferedImage.getHeight(), byteBuffer, j, k);
+      return i;
    }
 
-   public static int q(int var0, int var1, int var2, ByteBuffer var3, int var4, int var5) {
-      GL11.glBindTexture(3553, var0);
-      GL11.glTexParameteri(3553, 10241, var4);
-      GL11.glTexParameteri(3553, 10240, var4);
-      GL11.glTexParameteri(3553, 10242, var5);
-      GL11.glTexParameteri(3553, 10243, var5);
+   public static int q(int i, int j, int k, ByteBuffer byteBuffer, int l, int n) {
+      GL11.glBindTexture(3553, i);
+      GL11.glTexParameteri(3553, 10241, l);
+      GL11.glTexParameteri(3553, 10240, l);
+      GL11.glTexParameteri(3553, 10242, n);
+      GL11.glTexParameteri(3553, 10243, n);
       GL11.glPixelStorei(3317, 1);
-      GL11.glTexImage2D(3553, 0, 32856, var1, var2, 0, 6408, 5121, var3);
+      GL11.glTexImage2D(3553, 0, 32856, j, k, 0, 6408, 5121, byteBuffer);
       GL11.glBindTexture(3553, 0);
-      return var0;
+      return i;
    }
 
    public static int D() {
-      int var2 = GL15.glGenBuffers();
-      K.add(var2);
-      GL15.glBindBuffer(34962, var2);
-      return var2;
+      int i = GL15.glGenBuffers();
+      K.add(i);
+      GL15.glBindBuffer(34962, i);
+      return i;
    }
 
    public static void g() {
       GL15.glBindBuffer(34962, 0);
       GL11.glBindTexture(3553, 0);
 
-      for (int var4 : u) {
-         GL11.glDeleteTextures(var4);
+      for (int i : u) {
+         GL11.glDeleteTextures(i);
       }
 
-      for (int var6 : K) {
-         GL15.glDeleteBuffers(var6);
+      for (int j : K) {
+         GL15.glDeleteBuffers(j);
       }
    }
 
@@ -125,52 +125,52 @@ public final class GlHelper {
    }
 
    public static int q() {
-      int var3 = 1;
-      boolean var4 = Minecraft.getMinecraft().isUnicode();
-      int var5 = Minecraft.getMinecraft().gameSettings.guiScale;
-      if (var5 == 0) {
-         var5 = 1000;
+      int i = 1;
+      boolean bl = Minecraft.getMinecraft().isUnicode();
+      int j = Minecraft.getMinecraft().gameSettings.guiScale;
+      if (j == 0) {
+         j = 1000;
       }
 
-      while (var3 < var5 && Minecraft.getMinecraft().displayWidth / (var3 + 1) >= 320 && Minecraft.getMinecraft().displayHeight / (var3 + 1) >= 240) {
-         var3++;
+      while (i < j && Minecraft.getMinecraft().displayWidth / (i + 1) >= 320 && Minecraft.getMinecraft().displayHeight / (i + 1) >= 240) {
+         i++;
       }
 
-      if (var4 && var3 % 2 != 0 && var3 != 1) {
-         var3--;
+      if (bl && i % 2 != 0 && i != 1) {
+         i--;
       }
 
-      return var3;
+      return i;
    }
 
-   public static void R(float var0, float var1, float var2, float var3) {
-      GlStateManager.color(var0, var1, var2, var3);
+   public static void R(float f, float g, float h, float f2) {
+      GlStateManager.color(f, g, h, f2);
    }
 
-   public static void W(Color var0) {
-      GlStateManager.color(var0.getRed() / 255.0F, var0.getGreen() / 255.0F, var0.getBlue() / 255.0F, var0.getAlpha() / 255.0F);
+   public static void W(Color color) {
+      GlStateManager.color(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F, color.getAlpha() / 255.0F);
    }
 
-   public static void l(Color var0, float var1) {
-      GlStateManager.color(var0.getRed() / 255.0F, var0.getGreen() / 255.0F, var0.getBlue() / 255.0F, var1);
+   public static void l(Color color, float f) {
+      GlStateManager.color(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F, f);
    }
 
-   public static void R(int var0) {
-      GlStateManager.color((var0 >> 16 & 0xFF) / 255.0F, (var0 >> 8 & 0xFF) / 255.0F, (var0 & 0xFF) / 255.0F, (var0 >> 24 & 0xFF) / 255.0F);
+   public static void R(int i) {
+      GlStateManager.color((i >> 16 & 0xFF) / 255.0F, (i >> 8 & 0xFF) / 255.0F, (i & 0xFF) / 255.0F, (i >> 24 & 0xFF) / 255.0F);
    }
 
-   public static void N(int var0, float var1) {
-      GlStateManager.color((var0 >> 16 & 0xFF) / 255.0F, (var0 >> 8 & 0xFF) / 255.0F, (var0 & 0xFF) / 255.0F, var1);
+   public static void N(int i, float f) {
+      GlStateManager.color((i >> 16 & 0xFF) / 255.0F, (i >> 8 & 0xFF) / 255.0F, (i & 0xFF) / 255.0F, f);
    }
 
-   public static Color s(int var0, float var1) {
-      float var2 = b.nextFloat();
-      float var3 = ((float)b.nextInt(var0) + var0) / var0 + var0;
-      return Color.getHSBColor(var2, var3, var1);
+   public static Color s(int i, float f) {
+      float g = b.nextFloat();
+      float h = ((float)b.nextInt(i) + i) / i + i;
+      return Color.getHSBColor(g, h, f);
    }
 
-   public static Color Z(float var0, float var1, float var2) {
-      return Color.getHSBColor(var0, var1, var2);
+   public static Color Z(float f, float g, float h) {
+      return Color.getHSBColor(f, g, h);
    }
 
    public static Color o() {

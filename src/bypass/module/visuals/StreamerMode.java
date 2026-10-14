@@ -20,27 +20,27 @@ public final class StreamerMode extends Module {
    public static final StringSetting spoofName = new StringSetting("Spoof-Name", "Name you're spoofing", "You");
    public static final ArrayList<String> d = new ArrayList<>();
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var0 -> d.clear();
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> d.clear();
    @EventHandler(TickEvent.class)
-   private Listener<TickEvent> onTick = var0 -> {
-      if (var0.getState() == EventState.PRE && mc.thePlayer != null && mc.theWorld != null) {
-         for (EntityPlayer var5 : mc.theWorld.playerEntities) {
-            if (var5 != mc.thePlayer && !d.contains(var5.getName())) {
-               d.add(var5.getName());
+   private Listener<TickEvent> onTick = tickEvent -> {
+      if (tickEvent.getState() == EventState.PRE && mc.thePlayer != null && mc.theWorld != null) {
+         for (EntityPlayer entityPlayer : mc.theWorld.playerEntities) {
+            if (entityPlayer != mc.thePlayer && !d.contains(entityPlayer.getName())) {
+               d.add(entityPlayer.getName());
             }
          }
       }
    };
    private static final long c = 62595111665192L;
 
-   public StreamerMode(Category var1) {
-      super(var1);
+   public StreamerMode(Category category) {
+      super(category);
       this.addSettings(scrambleNames, hideSkins, spoofName);
    }
 
-   public static String t(NetworkPlayerInfo var0) {
-      return var0.getDisplayName() != null
-         ? var0.getDisplayName().getFormattedText()
-         : ScorePlayerTeam.formatPlayerName(var0.getPlayerTeam(), var0.getGameProfile().getName());
+   public static String t(NetworkPlayerInfo networkPlayerInfo) {
+      return networkPlayerInfo.getDisplayName() != null
+         ? networkPlayerInfo.getDisplayName().getFormattedText()
+         : ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());
    }
 }

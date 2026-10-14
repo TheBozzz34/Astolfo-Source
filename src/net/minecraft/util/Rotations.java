@@ -9,34 +9,34 @@ public class Rotations {
    public final float z;
    private static final long a = 28461729343014L;
 
-   public Rotations(float var1, float var2, float var3) {
-      this.x = var1;
-      this.y = var2;
-      this.z = var3;
+   public Rotations(float x, float y, float z) {
+      this.x = x;
+      this.y = y;
+      this.z = z;
    }
 
-   public Rotations(NBTTagList var1) {
-      this.x = var1.getFloatAt(0);
-      this.y = var1.getFloatAt(1);
-      this.z = var1.getFloatAt(2);
+   public Rotations(NBTTagList nbt) {
+      this.x = nbt.getFloatAt(0);
+      this.y = nbt.getFloatAt(1);
+      this.z = nbt.getFloatAt(2);
    }
 
    public NBTTagList writeToNBT() {
-      NBTTagList var1 = new NBTTagList();
-      var1.appendTag(new NBTTagFloat(this.x));
-      var1.appendTag(new NBTTagFloat(this.y));
-      var1.appendTag(new NBTTagFloat(this.z));
-      return var1;
+      NBTTagList nbtTagList = new NBTTagList();
+      nbtTagList.appendTag(new NBTTagFloat(this.x));
+      nbtTagList.appendTag(new NBTTagFloat(this.y));
+      nbtTagList.appendTag(new NBTTagFloat(this.z));
+      return nbtTagList;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!(var1 instanceof Rotations)) {
+   public boolean equals(Object object) {
+      if (!(object instanceof Rotations)) {
          return false;
       }
 
-      Rotations var5 = (Rotations)var1;
-      return this.x == var5.x && this.y == var5.y && this.z == var5.z;
+      Rotations rotations = (Rotations)object;
+      return this.x == rotations.x && this.y == rotations.y && this.z == rotations.z;
    }
 
    public float getX() {

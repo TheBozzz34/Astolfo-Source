@@ -5,8 +5,8 @@ import net.minecraft.world.World;
 public class EntityFishWakeFX extends EntityFX {
    private static final long ab = 102806127196054L;
 
-   public EntityFishWakeFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityFishWakeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.3F;
       this.motionY = Math.random() * 0.2F + 0.1F;
       this.motionZ *= 0.3F;
@@ -17,9 +17,9 @@ public class EntityFishWakeFX extends EntityFX {
       this.setSize(0.01F, 0.01F);
       this.particleMaxAge = (int)(8.0 / (Math.random() * 0.8 + 0.2));
       this.particleGravity = 0.0F;
-      this.motionX = var8;
-      this.motionY = var10;
-      this.motionZ = var12;
+      this.motionX = d;
+      this.motionY = d2;
+      this.motionZ = d3;
    }
 
    @Override
@@ -32,10 +32,10 @@ public class EntityFishWakeFX extends EntityFX {
       this.motionX *= 0.98F;
       this.motionY *= 0.98F;
       this.motionZ *= 0.98F;
-      int var4 = 60 - this.particleMaxAge;
-      float var5 = var4 * 0.001F;
-      this.setSize(var5, var5);
-      this.setParticleTextureIndex(19 + var4 % 4);
+      int i = 60 - this.particleMaxAge;
+      float f = i * 0.001F;
+      this.setSize(f, f);
+      this.setParticleTextureIndex(19 + i % 4);
       if (this.particleMaxAge-- <= 0) {
          this.setDead();
       }
@@ -43,8 +43,10 @@ public class EntityFishWakeFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityFishWakeFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityFishWakeFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

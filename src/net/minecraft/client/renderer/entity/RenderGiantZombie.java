@@ -12,9 +12,9 @@ public class RenderGiantZombie extends RenderLiving<EntityGiantZombie> {
    private static final ResourceLocation zombieTextures = new ResourceLocation("textures/entity/zombie/zombie.png");
    private float scale;
 
-   public RenderGiantZombie(RenderManager var1, ModelBase var2, float var3, float var4) {
-      super(var1, var2, var3 * var4);
-      this.scale = var4;
+   public RenderGiantZombie(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn, float scaleIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn * scaleIn);
+      this.scale = scaleIn;
       this.addLayer(new LayerHeldItem(this));
       this.addLayer(new LayerBipedArmor(this) {
          @Override
@@ -30,11 +30,11 @@ public class RenderGiantZombie extends RenderLiving<EntityGiantZombie> {
       GlStateManager.translate(0.0F, 0.1875F, 0.0F);
    }
 
-   public void preRenderCallback(EntityGiantZombie var1, float var2) {
+   public void preRenderCallback(EntityGiantZombie entitylivingbaseIn, float partialTickTime) {
       GlStateManager.scale(this.scale, this.scale, this.scale);
    }
 
-   public ResourceLocation getEntityTexture(EntityGiantZombie var1) {
+   public ResourceLocation getEntityTexture(EntityGiantZombie entity) {
       return zombieTextures;
    }
 }

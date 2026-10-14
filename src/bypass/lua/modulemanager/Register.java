@@ -11,27 +11,27 @@ public final class Register extends TwoArgFunction {
    private static final long a = 42808535312237L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      long var3 = a ^ 99408006610595L;
-      long var5 = var3 ^ 83502128751741L;
-      String var8 = null;
-      LuaTable var9 = null;
-      if (var1.isstring()) {
-         LuaString var10 = (LuaString)var1;
-         var8 = var10.checkjstring();
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      long l = a ^ 99408006610595L;
+      long m = l ^ 83502128751741L;
+      String string = null;
+      LuaTable luaTable = null;
+      if (luaValue.isstring()) {
+         LuaString luaString = (LuaString)luaValue;
+         string = luaString.checkjstring();
       }
 
-      if (var2.isfunction()) {
-         LuaValue var11 = var2.call();
-         if (var11.istable()) {
-            var9 = (LuaTable)var11.call();
+      if (luaValue2.isfunction()) {
+         LuaValue luaValue3 = luaValue2.call();
+         if (luaValue3.istable()) {
+            luaTable = (LuaTable)luaValue3.call();
          }
-      } else if (var2.istable()) {
-         var9 = (LuaTable)var2;
+      } else if (luaValue2.istable()) {
+         luaTable = (LuaTable)luaValue2;
       }
 
-      if (var8 != null && var9 != null) {
-         ClientAccess.client.getModuleManager().add(new ScriptModule(var8, var9));
+      if (string != null && luaTable != null) {
+         ClientAccess.client.getModuleManager().add(new ScriptModule(string, luaTable));
          return valueOf(true);
       } else {
          return valueOf(false);

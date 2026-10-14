@@ -6,9 +6,9 @@ public class EnchantmentData extends WeightedRandom.Item {
    public final Enchantment enchantmentobj;
    public final int enchantmentLevel;
 
-   public EnchantmentData(Enchantment var1, int var2) {
-      super(var1.getWeight());
-      this.enchantmentobj = var1;
-      this.enchantmentLevel = var2;
+   public EnchantmentData(Enchantment enchantmentObj, int enchLevel) {
+      super(enchantmentObj.getWeight());
+      this.enchantmentobj = enchantmentObj;
+      this.enchantmentLevel = enchLevel;
    }
 }

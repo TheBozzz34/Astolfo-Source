@@ -8,45 +8,45 @@ public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry {
    private static final long a = 119534852734267L;
 
    @Override
-   public void drawEntry(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8) {
-      int var12 = var3 + var5 / 2 - this.mc.fontRendererObj.FONT_HEIGHT / 2;
+   public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+      int i = y + slotHeight / 2 - this.mc.fontRendererObj.FONT_HEIGHT / 2;
       this.mc
          .fontRendererObj
          .D(
             I18n.format("lanServer.scanning"),
             this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(I18n.format("lanServer.scanning")) / 2,
-            var12,
+            i,
             16777215
          );
-      String var13;
+      String string;
       switch ((int)(Minecraft.getSystemTime() / 300L % 4L)) {
          case 0:
          default:
-            var13 = "O o o";
+            string = "O o o";
             break;
          case 1:
          case 3:
-            var13 = "o O o";
+            string = "o O o";
             break;
          case 2:
-            var13 = "o o O";
+            string = "o o O";
       }
 
       this.mc
          .fontRendererObj
-         .D(var13, this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(var13) / 2, var12 + this.mc.fontRendererObj.FONT_HEIGHT, 8421504);
+         .D(string, this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, i + this.mc.fontRendererObj.FONT_HEIGHT, 8421504);
    }
 
    @Override
-   public void setSelected(int var1, int var2, int var3) {
+   public void setSelected(int i, int j, int k) {
    }
 
    @Override
-   public boolean mousePressed(int var1, int var2, int var3, int var4, int var5, int var6) {
+   public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
       return false;
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3, int var4, int var5, int var6) {
+   public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
    }
 }

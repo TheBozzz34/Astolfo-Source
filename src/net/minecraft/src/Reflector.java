@@ -381,296 +381,296 @@ public class Reflector {
    public static ReflectorMethod BW = new ReflectorMethod(ModelLoader, "getInventoryVariant");
    private static final long ab = 78019759156624L;
 
-   public static void callVoid(ReflectorMethod var0, Object... var1) {
+   public static void callVoid(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var0.getTargetMethod();
-         if (var5 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return;
          }
 
-         var5.invoke(null, var1);
-      } catch (Throwable var6) {
-         handleException(var6, null, var0, var1);
+         method.invoke(null, params);
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
       }
    }
 
-   public static boolean callBoolean(ReflectorMethod var0, Object... var1) {
+   public static boolean callBoolean(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var0.getTargetMethod();
-         if (var5 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return false;
          }
 
-         Boolean var6 = (Boolean)var5.invoke(null, var1);
-         return var6;
-      } catch (Throwable var7) {
-         handleException(var7, null, var0, var1);
+         Boolean boolean2 = (Boolean)method.invoke(null, params);
+         return boolean2;
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
          return false;
       }
    }
 
-   public static int callInt(ReflectorMethod var0, Object... var1) {
+   public static int callInt(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var0.getTargetMethod();
-         if (var5 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return 0;
          }
 
-         Integer var6 = (Integer)var5.invoke(null, var1);
-         return var6;
-      } catch (Throwable var7) {
-         handleException(var7, null, var0, var1);
+         Integer integer = (Integer)method.invoke(null, params);
+         return integer;
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
          return 0;
       }
    }
 
-   public static float callFloat(ReflectorMethod var0, Object... var1) {
+   public static float callFloat(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var0.getTargetMethod();
-         if (var5 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return 0.0F;
          }
 
-         Float var6 = (Float)var5.invoke(null, var1);
-         return var6;
-      } catch (Throwable var7) {
-         handleException(var7, null, var0, var1);
+         Float float2 = (Float)method.invoke(null, params);
+         return float2;
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
          return 0.0F;
       }
    }
 
-   public static double callDouble(ReflectorMethod var0, Object... var1) {
+   public static double callDouble(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var0.getTargetMethod();
-         if (var5 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return 0.0;
          }
 
-         Double var6 = (Double)var5.invoke(null, var1);
-         return var6;
-      } catch (Throwable var7) {
-         handleException(var7, null, var0, var1);
+         Double double2 = (Double)method.invoke(null, params);
+         return double2;
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
          return 0.0;
       }
    }
 
-   public static String callString(ReflectorMethod var0, Object... var1) {
+   public static String callString(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var0.getTargetMethod();
-         return var5 == null ? null : (String)var5.invoke(null, var1);
-      } catch (Throwable var7) {
-         handleException(var7, null, var0, var1);
+         Method method = refMethod.getTargetMethod();
+         return method == null ? null : (String)method.invoke(null, params);
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
          return null;
       }
    }
 
-   public static Object call(ReflectorMethod var0, Object... var1) {
+   public static Object call(ReflectorMethod refMethod, Object... params) {
       try {
-         Method var4 = var0.getTargetMethod();
-         return var4 == null ? null : var4.invoke(null, var1);
-      } catch (Throwable var6) {
-         handleException(var6, null, var0, var1);
+         Method method = refMethod.getTargetMethod();
+         return method == null ? null : method.invoke(null, params);
+      } catch (Throwable throwable) {
+         handleException(throwable, null, refMethod, params);
          return null;
       }
    }
 
-   public static void callVoid(Object var0, ReflectorMethod var1, Object... var2) {
+   public static void callVoid(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         if (var0 == null) {
+         if (obj == null) {
             return;
          }
 
-         Method var6 = var1.getTargetMethod();
-         if (var6 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return;
          }
 
-         var6.invoke(var0, var2);
-      } catch (Throwable var7) {
-         handleException(var7, var0, var1, var2);
+         method.invoke(obj, params);
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
       }
    }
 
-   public static boolean callBoolean(Object var0, ReflectorMethod var1, Object... var2) {
+   public static boolean callBoolean(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         Method var6 = var1.getTargetMethod();
-         if (var6 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return false;
          }
 
-         Boolean var7 = (Boolean)var6.invoke(var0, var2);
-         return var7;
-      } catch (Throwable var8) {
-         handleException(var8, var0, var1, var2);
+         Boolean boolean2 = (Boolean)method.invoke(obj, params);
+         return boolean2;
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
          return false;
       }
    }
 
-   public static int callInt(Object var0, ReflectorMethod var1, Object... var2) {
+   public static int callInt(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         Method var6 = var1.getTargetMethod();
-         if (var6 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return 0;
          }
 
-         Integer var7 = (Integer)var6.invoke(var0, var2);
-         return var7;
-      } catch (Throwable var8) {
-         handleException(var8, var0, var1, var2);
+         Integer integer = (Integer)method.invoke(obj, params);
+         return integer;
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
          return 0;
       }
    }
 
-   public static float callFloat(Object var0, ReflectorMethod var1, Object... var2) {
+   public static float callFloat(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         Method var6 = var1.getTargetMethod();
-         if (var6 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return 0.0F;
          }
 
-         Float var7 = (Float)var6.invoke(var0, var2);
-         return var7;
-      } catch (Throwable var8) {
-         handleException(var8, var0, var1, var2);
+         Float float2 = (Float)method.invoke(obj, params);
+         return float2;
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
          return 0.0F;
       }
    }
 
-   public static double callDouble(Object var0, ReflectorMethod var1, Object... var2) {
+   public static double callDouble(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         Method var6 = var1.getTargetMethod();
-         if (var6 == null) {
+         Method method = refMethod.getTargetMethod();
+         if (method == null) {
             return 0.0;
          }
 
-         Double var7 = (Double)var6.invoke(var0, var2);
-         return var7;
-      } catch (Throwable var8) {
-         handleException(var8, var0, var1, var2);
+         Double double2 = (Double)method.invoke(obj, params);
+         return double2;
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
          return 0.0;
       }
    }
 
-   public static String callString(Object var0, ReflectorMethod var1, Object... var2) {
+   public static String callString(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         Method var5 = var1.getTargetMethod();
-         return var5 == null ? null : (String)var5.invoke(var0, var2);
-      } catch (Throwable var7) {
-         handleException(var7, var0, var1, var2);
+         Method method = refMethod.getTargetMethod();
+         return method == null ? null : (String)method.invoke(obj, params);
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
          return null;
       }
    }
 
-   public static Object call(Object var0, ReflectorMethod var1, Object... var2) {
+   public static Object call(Object obj, ReflectorMethod refMethod, Object... params) {
       try {
-         Method var6 = var1.getTargetMethod();
-         return var6 == null ? null : var6.invoke(var0, var2);
-      } catch (Throwable var8) {
-         handleException(var8, var0, var1, var2);
+         Method method = refMethod.getTargetMethod();
+         return method == null ? null : method.invoke(obj, params);
+      } catch (Throwable throwable) {
+         handleException(throwable, obj, refMethod, params);
          return null;
       }
    }
 
-   public static Object getFieldValue(ReflectorField var0) {
-      return getFieldValue(null, var0);
+   public static Object getFieldValue(ReflectorField refField) {
+      return getFieldValue(null, refField);
    }
 
-   public static Object getFieldValue(Object var0, ReflectorField var1) {
+   public static Object getFieldValue(Object obj, ReflectorField refField) {
       try {
-         Field var5 = var1.getTargetField();
-         return var5 == null ? null : var5.get(var0);
-      } catch (Throwable var7) {
-         var7.printStackTrace();
+         Field field = refField.getTargetField();
+         return field == null ? null : field.get(obj);
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
          return null;
       }
    }
 
-   public static Object getFieldValue(ReflectorFields var0, int var1) {
-      ReflectorField var5 = var0.getReflectorField(var1);
-      return var5 == null ? null : getFieldValue(var5);
+   public static Object getFieldValue(ReflectorFields refFields, int index) {
+      ReflectorField reflectorField = refFields.getReflectorField(index);
+      return reflectorField == null ? null : getFieldValue(reflectorField);
    }
 
-   public static Object getFieldValue(Object var0, ReflectorFields var1, int var2) {
-      ReflectorField var6 = var1.getReflectorField(var2);
-      return var6 == null ? null : getFieldValue(var0, var6);
+   public static Object getFieldValue(Object obj, ReflectorFields refFields, int index) {
+      ReflectorField reflectorField = refFields.getReflectorField(index);
+      return reflectorField == null ? null : getFieldValue(obj, reflectorField);
    }
 
-   public static float getFieldValueFloat(Object var0, ReflectorField var1, float var2) {
-      Object var6 = getFieldValue(var0, var1);
-      if (!(var6 instanceof Float)) {
-         return var2;
+   public static float getFieldValueFloat(Object obj, ReflectorField refField, float def) {
+      Object object = getFieldValue(obj, refField);
+      if (!(object instanceof Float)) {
+         return def;
       }
 
-      Float var7 = (Float)var6;
-      return var7;
+      Float float2 = (Float)object;
+      return float2;
    }
 
-   public static boolean setFieldValue(ReflectorField var0, Object var1) {
-      return setFieldValue(null, var0, var1);
+   public static boolean setFieldValue(ReflectorField refField, Object value) {
+      return setFieldValue(null, refField, value);
    }
 
-   public static boolean setFieldValue(Object var0, ReflectorField var1, Object var2) {
+   public static boolean setFieldValue(Object obj, ReflectorField refField, Object value) {
       try {
-         Field var6 = var1.getTargetField();
-         if (var6 == null) {
+         Field field = refField.getTargetField();
+         if (field == null) {
             return false;
          }
 
-         var6.set(var0, var2);
+         field.set(obj, value);
          return true;
-      } catch (Throwable var7) {
-         var7.printStackTrace();
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
          return false;
       }
    }
 
-   public static boolean postForgeBusEvent(ReflectorConstructor var0, Object... var1) {
-      Object var5 = newInstance(var0, var1);
-      return var5 == null ? false : postForgeBusEvent(var5);
+   public static boolean postForgeBusEvent(ReflectorConstructor constr, Object... params) {
+      Object object = newInstance(constr, params);
+      return object == null ? false : postForgeBusEvent(object);
    }
 
-   public static boolean postForgeBusEvent(Object var0) {
-      if (var0 == null) {
+   public static boolean postForgeBusEvent(Object event) {
+      if (event == null) {
          return false;
       }
 
-      Object var4 = getFieldValue(MinecraftForge_EVENT_BUS);
-      if (var4 == null) {
+      Object object = getFieldValue(MinecraftForge_EVENT_BUS);
+      if (object == null) {
          return false;
       }
 
-      Object var5 = call(var4, EventBus_post, var0);
-      if (!(var5 instanceof Boolean)) {
+      Object object2 = call(object, EventBus_post, event);
+      if (!(object2 instanceof Boolean)) {
          return false;
       }
 
-      Boolean var6 = (Boolean)var5;
-      return var6;
+      Boolean boolean2 = (Boolean)object2;
+      return boolean2;
    }
 
-   public static Object newInstance(ReflectorConstructor var0, Object... var1) {
-      Constructor var5 = var0.getTargetConstructor();
-      if (var5 == null) {
+   public static Object newInstance(ReflectorConstructor constr, Object... params) {
+      Constructor constructor = constr.getTargetConstructor();
+      if (constructor == null) {
          return null;
       }
 
       try {
-         return var5.newInstance(var1);
-      } catch (Throwable var7) {
-         handleException(var7, var0, var1);
+         return constructor.newInstance(params);
+      } catch (Throwable throwable) {
+         handleException(throwable, constr, params);
          return null;
       }
    }
 
-   public static boolean matchesTypes(Class[] var0, Class[] var1) {
-      if (var0.length != var1.length) {
+   public static boolean matchesTypes(Class[] pTypes, Class[] cTypes) {
+      if (pTypes.length != cTypes.length) {
          return false;
       }
 
-      for (int var4 = 0; var4 < var1.length; var4++) {
-         Class var5 = var0[var4];
-         Class var6 = var1[var4];
-         if (var5 != var6) {
+      for (int i = 0; i < cTypes.length; i++) {
+         Class class2 = pTypes[i];
+         Class class3 = cTypes[i];
+         if (class2 != class3) {
             return false;
          }
       }
@@ -678,68 +678,68 @@ public class Reflector {
       return true;
    }
 
-   private static void handleException(Throwable var0, Object var1, ReflectorMethod var2, Object[] var3) {
-      if (var0 instanceof InvocationTargetException) {
-         Throwable var6 = var0.getCause();
-         if (var6 instanceof RuntimeException) {
-            RuntimeException var7 = (RuntimeException)var6;
-            throw var7;
+   private static void handleException(Throwable eIn, Object obj, ReflectorMethod refMethod, Object[] params) {
+      if (eIn instanceof InvocationTargetException) {
+         Throwable throwable = eIn.getCause();
+         if (throwable instanceof RuntimeException) {
+            RuntimeException runtimeException = (RuntimeException)throwable;
+            throw runtimeException;
          }
 
-         var0.printStackTrace();
+         eIn.printStackTrace();
       } else {
-         if (var0 instanceof IllegalArgumentException) {
+         if (eIn instanceof IllegalArgumentException) {
             Config.warn("*** IllegalArgumentException ***");
-            Config.warn("Method: " + var2.getTargetMethod());
-            Config.warn("Object: " + var1);
-            Config.warn("Parameter classes: " + Config.arrayToString(getClasses(var3)));
-            Config.warn("Parameters: " + Config.arrayToString(var3));
+            Config.warn("Method: " + refMethod.getTargetMethod());
+            Config.warn("Object: " + obj);
+            Config.warn("Parameter classes: " + Config.arrayToString(getClasses(params)));
+            Config.warn("Parameters: " + Config.arrayToString(params));
          }
 
          Config.warn("*** Exception outside of method ***");
-         Config.warn("Method deactivated: " + var2.getTargetMethod());
-         var2.deactivate();
-         var0.printStackTrace();
+         Config.warn("Method deactivated: " + refMethod.getTargetMethod());
+         refMethod.deactivate();
+         eIn.printStackTrace();
       }
    }
 
-   private static void handleException(Throwable var0, ReflectorConstructor var1, Object[] var2) {
-      if (var0 instanceof InvocationTargetException) {
-         var0.printStackTrace();
+   private static void handleException(Throwable eIn, ReflectorConstructor refConstr, Object[] params) {
+      if (eIn instanceof InvocationTargetException) {
+         eIn.printStackTrace();
       } else {
-         if (var0 instanceof IllegalArgumentException) {
+         if (eIn instanceof IllegalArgumentException) {
             Config.warn("*** IllegalArgumentException ***");
-            Config.warn("Constructor: " + var1.getTargetConstructor());
-            Config.warn("Parameter classes: " + Config.arrayToString(getClasses(var2)));
-            Config.warn("Parameters: " + Config.arrayToString(var2));
+            Config.warn("Constructor: " + refConstr.getTargetConstructor());
+            Config.warn("Parameter classes: " + Config.arrayToString(getClasses(params)));
+            Config.warn("Parameters: " + Config.arrayToString(params));
          }
 
          Config.warn("*** Exception outside of constructor ***");
-         Config.warn("Constructor deactivated: " + var1.getTargetConstructor());
-         var1.deactivate();
-         var0.printStackTrace();
+         Config.warn("Constructor deactivated: " + refConstr.getTargetConstructor());
+         refConstr.deactivate();
+         eIn.printStackTrace();
       }
    }
 
-   private static Object[] getClasses(Object[] var0) {
-      if (var0 == null) {
+   private static Object[] getClasses(Object[] objs) {
+      if (objs == null) {
          return new Class[0];
       }
 
-      Class[] var3 = new Class[var0.length];
+      Class[] classs = new Class[objs.length];
 
-      for (int var4 = 0; var4 < var3.length; var4++) {
-         Object var5 = var0[var4];
-         if (var5 != null) {
-            var3[var4] = var5.getClass();
+      for (int i = 0; i < classs.length; i++) {
+         Object object = objs[i];
+         if (object != null) {
+            classs[i] = object.getClass();
          }
       }
 
-      return var3;
+      return classs;
    }
 
-   private static boolean logEntry(String var0) {
-      Config.dbg(var0);
+   private static boolean logEntry(String str) {
+      Config.dbg(str);
       return true;
    }
 }

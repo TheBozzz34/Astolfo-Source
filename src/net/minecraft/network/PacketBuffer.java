@@ -29,190 +29,190 @@ public class PacketBuffer extends ByteBuf {
    private final ByteBuf buf;
    private static final long a = 75668662882152L;
 
-   public PacketBuffer(ByteBuf var1) {
-      this.buf = var1;
+   public PacketBuffer(ByteBuf wrapped) {
+      this.buf = wrapped;
    }
 
-   public static int getVarIntSize(int var0) {
-      for (int var4 = 1; var4 < 5; var4++) {
-         if ((var0 & -1 << var4 * 7) == 0) {
-            return var4;
+   public static int getVarIntSize(int input) {
+      for (int i = 1; i < 5; i++) {
+         if ((input & -1 << i * 7) == 0) {
+            return i;
          }
       }
 
       return 5;
    }
 
-   public void writeByteArray(byte[] var1) {
-      this.writeVarIntToBuffer(var1.length);
-      this.writeBytes(var1);
+   public void writeByteArray(byte[] array) {
+      this.writeVarIntToBuffer(array.length);
+      this.writeBytes(array);
    }
 
    public byte[] readByteArray() {
-      byte[] var1 = new byte[this.readVarIntFromBuffer()];
-      this.readBytes(var1);
-      return var1;
+      byte[] bytes = new byte[this.readVarIntFromBuffer()];
+      this.readBytes(bytes);
+      return bytes;
    }
 
    public BlockPos readBlockPos() {
       return BlockPos.fromLong(this.readLong());
    }
 
-   public void writeBlockPos(BlockPos var1) {
-      this.writeLong(var1.toLong());
+   public void writeBlockPos(BlockPos pos) {
+      this.writeLong(pos.toLong());
    }
 
    public IChatComponent readChatComponent() throws IOException {
       return IChatComponent.Serializer.jsonToComponent(this.readStringFromBuffer(32767));
    }
 
-   public void writeChatComponent(IChatComponent var1) throws IOException {
-      this.writeString(IChatComponent.Serializer.componentToJson(var1));
+   public void writeChatComponent(IChatComponent component) throws IOException {
+      this.writeString(IChatComponent.Serializer.componentToJson(component));
    }
 
-   public <T extends Enum<T>> T readEnumValue(Class<T> var1) {
-      return (T)var1.getEnumConstants()[this.readVarIntFromBuffer()];
+   public <T extends Enum<T>> T readEnumValue(Class<T> enumClass) {
+      return (T)enumClass.getEnumConstants()[this.readVarIntFromBuffer()];
    }
 
-   public void writeEnumValue(Enum<?> var1) {
-      this.writeVarIntToBuffer(var1.ordinal());
+   public void writeEnumValue(Enum<?> value) {
+      this.writeVarIntToBuffer(value.ordinal());
    }
 
    public int readVarIntFromBuffer() {
-      int var4 = 0;
-      int var5 = 0;
+      int i = 0;
+      int j = 0;
 
-      byte var6;
+      byte b;
       do {
-         var6 = this.readByte();
-         var4 |= (var6 & 127) << var5++ * 7;
-         if (var5 > 5) {
+         b = this.readByte();
+         i |= (b & 127) << j++ * 7;
+         if (j > 5) {
             throw new RuntimeException("VarInt too big");
          }
-      } while ((var6 & 128) == 128);
+      } while ((b & 128) == 128);
 
-      return var4;
+      return i;
    }
 
    public long readVarLong() {
-      long var4 = 0L;
-      int var6 = 0;
+      long l = 0L;
+      int i = 0;
 
-      byte var7;
+      byte b;
       do {
-         var7 = this.readByte();
-         var4 |= (long)(var7 & 127) << var6++ * 7;
-         if (var6 > 10) {
+         b = this.readByte();
+         l |= (long)(b & 127) << i++ * 7;
+         if (i > 10) {
             throw new RuntimeException("VarLong too big");
          }
-      } while ((var7 & 128) == 128);
+      } while ((b & 128) == 128);
 
-      return var4;
+      return l;
    }
 
-   public void writeUuid(UUID var1) {
-      this.writeLong(var1.getMostSignificantBits());
-      this.writeLong(var1.getLeastSignificantBits());
+   public void writeUuid(UUID uuid) {
+      this.writeLong(uuid.getMostSignificantBits());
+      this.writeLong(uuid.getLeastSignificantBits());
    }
 
    public UUID readUuid() {
       return new UUID(this.readLong(), this.readLong());
    }
 
-   public void writeVarIntToBuffer(int var1) {
-      while ((var1 & -128) != 0) {
-         this.writeByte(var1 & 127 | 128);
-         var1 >>>= 7;
+   public void writeVarIntToBuffer(int input) {
+      while ((input & -128) != 0) {
+         this.writeByte(input & 127 | 128);
+         input >>>= 7;
       }
 
-      this.writeByte(var1);
+      this.writeByte(input);
    }
 
-   public void writeVarLong(long var1) {
-      while ((var1 & -128L) != 0L) {
-         this.writeByte((int)(var1 & 127L) | 128);
-         var1 >>>= 7;
+   public void writeVarLong(long value) {
+      while ((value & -128L) != 0L) {
+         this.writeByte((int)(value & 127L) | 128);
+         value >>>= 7;
       }
 
-      this.writeByte((int)var1);
+      this.writeByte((int)value);
    }
 
-   public void writeNBTTagCompoundToBuffer(NBTTagCompound var1) {
-      if (var1 == null) {
+   public void writeNBTTagCompoundToBuffer(NBTTagCompound nbt) {
+      if (nbt == null) {
          this.writeByte(0);
       } else {
          try {
-            CompressedStreamTools.write(var1, new ByteBufOutputStream(this));
-         } catch (IOException var6) {
-            throw new EncoderException(var6);
+            CompressedStreamTools.write(nbt, new ByteBufOutputStream(this));
+         } catch (IOException ioException) {
+            throw new EncoderException(ioException);
          }
       }
    }
 
    public NBTTagCompound readNBTTagCompoundFromBuffer() throws IOException {
-      int var4 = this.readerIndex();
-      byte var5 = this.readByte();
-      if (var5 == 0) {
+      int i = this.readerIndex();
+      byte b = this.readByte();
+      if (b == 0) {
          return null;
       }
 
-      this.readerIndex(var4);
+      this.readerIndex(i);
       return CompressedStreamTools.read(new ByteBufInputStream(this), new NBTSizeTracker(2097152L));
    }
 
-   public void writeItemStackToBuffer(ItemStack var1) {
-      if (var1 == null) {
+   public void writeItemStackToBuffer(ItemStack stack) {
+      if (stack == null) {
          this.writeShort(-1);
       } else {
-         this.writeShort(Item.getIdFromItem(var1.getItem()));
-         this.writeByte(var1.stackSize);
-         this.writeShort(var1.getMetadata());
-         NBTTagCompound var5 = null;
-         if (var1.getItem().isDamageable() || var1.getItem().getShareTag()) {
-            var5 = var1.getTagCompound();
+         this.writeShort(Item.getIdFromItem(stack.getItem()));
+         this.writeByte(stack.stackSize);
+         this.writeShort(stack.getMetadata());
+         NBTTagCompound nbtTagCompound = null;
+         if (stack.getItem().isDamageable() || stack.getItem().getShareTag()) {
+            nbtTagCompound = stack.getTagCompound();
          }
 
-         this.writeNBTTagCompoundToBuffer(var5);
+         this.writeNBTTagCompoundToBuffer(nbtTagCompound);
       }
    }
 
    public ItemStack readItemStackFromBuffer() throws IOException {
-      ItemStack var4 = null;
-      short var5 = this.readShort();
-      if (var5 >= 0) {
-         byte var6 = this.readByte();
-         short var7 = this.readShort();
-         var4 = new ItemStack(Item.getItemById(var5), var6, var7);
-         var4.setTagCompound(this.readNBTTagCompoundFromBuffer());
+      ItemStack itemStack = null;
+      short s = this.readShort();
+      if (s >= 0) {
+         byte b = this.readByte();
+         short s2 = this.readShort();
+         itemStack = new ItemStack(Item.getItemById(s), b, s2);
+         itemStack.setTagCompound(this.readNBTTagCompoundFromBuffer());
       }
 
-      return var4;
+      return itemStack;
    }
 
-   public String readStringFromBuffer(int var1) {
-      int var5 = this.readVarIntFromBuffer();
-      if (var5 > var1 * 4) {
-         throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + var5 + " > " + var1 * 4 + ")");
-      } else if (var5 < 0) {
+   public String readStringFromBuffer(int maxLength) {
+      int i = this.readVarIntFromBuffer();
+      if (i > maxLength * 4) {
+         throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i + " > " + maxLength * 4 + ")");
+      } else if (i < 0) {
          throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
       } else {
-         String var6 = new String(this.readBytes(var5).array(), Charsets.UTF_8);
-         if (var6.length() > var1) {
-            throw new DecoderException("The received string length is longer than maximum allowed (" + var5 + " > " + var1 + ")");
+         String string2 = new String(this.readBytes(i).array(), Charsets.UTF_8);
+         if (string2.length() > maxLength) {
+            throw new DecoderException("The received string length is longer than maximum allowed (" + i + " > " + maxLength + ")");
          } else {
-            return var6;
+            return string2;
          }
       }
    }
 
-   public PacketBuffer writeString(String var1) {
-      byte[] var5 = var1.getBytes(Charsets.UTF_8);
-      if (var5.length > 32767) {
-         throw new EncoderException("String too big (was " + var1.length() + " bytes encoded, max " + 32767 + ")");
+   public PacketBuffer writeString(String string) {
+      byte[] bytes2 = string.getBytes(Charsets.UTF_8);
+      if (bytes2.length > 32767) {
+         throw new EncoderException("String too big (was " + string.length() + " bytes encoded, max " + 32767 + ")");
       }
 
-      this.writeVarIntToBuffer(var5.length);
-      this.writeBytes(var5);
+      this.writeVarIntToBuffer(bytes2.length);
+      this.writeBytes(bytes2);
       return this;
    }
 
@@ -222,8 +222,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf capacity(int var1) {
-      return this.buf.capacity(var1);
+   public ByteBuf capacity(int i) {
+      return this.buf.capacity(i);
    }
 
    @Override
@@ -242,8 +242,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf order(ByteOrder var1) {
-      return this.buf.order(var1);
+   public ByteBuf order(ByteOrder byteOrder) {
+      return this.buf.order(byteOrder);
    }
 
    @Override
@@ -262,8 +262,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf readerIndex(int var1) {
-      return this.buf.readerIndex(var1);
+   public ByteBuf readerIndex(int i) {
+      return this.buf.readerIndex(i);
    }
 
    @Override
@@ -272,13 +272,13 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf writerIndex(int var1) {
-      return this.buf.writerIndex(var1);
+   public ByteBuf writerIndex(int i) {
+      return this.buf.writerIndex(i);
    }
 
    @Override
-   public ByteBuf setIndex(int var1, int var2) {
-      return this.buf.setIndex(var1, var2);
+   public ByteBuf setIndex(int i, int j) {
+      return this.buf.setIndex(i, j);
    }
 
    @Override
@@ -302,8 +302,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public boolean isReadable(int var1) {
-      return this.buf.isReadable(var1);
+   public boolean isReadable(int i) {
+      return this.buf.isReadable(i);
    }
 
    @Override
@@ -312,8 +312,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public boolean isWritable(int var1) {
-      return this.buf.isWritable(var1);
+   public boolean isWritable(int i) {
+      return this.buf.isWritable(i);
    }
 
    @Override
@@ -352,208 +352,208 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf ensureWritable(int var1) {
-      return this.buf.ensureWritable(var1);
+   public ByteBuf ensureWritable(int i) {
+      return this.buf.ensureWritable(i);
    }
 
    @Override
-   public int ensureWritable(int var1, boolean var2) {
-      return this.buf.ensureWritable(var1, var2);
+   public int ensureWritable(int i, boolean bl) {
+      return this.buf.ensureWritable(i, bl);
    }
 
    @Override
-   public boolean getBoolean(int var1) {
-      return this.buf.getBoolean(var1);
+   public boolean getBoolean(int i) {
+      return this.buf.getBoolean(i);
    }
 
    @Override
-   public byte getByte(int var1) {
-      return this.buf.getByte(var1);
+   public byte getByte(int i) {
+      return this.buf.getByte(i);
    }
 
    @Override
-   public short getUnsignedByte(int var1) {
-      return this.buf.getUnsignedByte(var1);
+   public short getUnsignedByte(int i) {
+      return this.buf.getUnsignedByte(i);
    }
 
    @Override
-   public short getShort(int var1) {
-      return this.buf.getShort(var1);
+   public short getShort(int i) {
+      return this.buf.getShort(i);
    }
 
    @Override
-   public int getUnsignedShort(int var1) {
-      return this.buf.getUnsignedShort(var1);
+   public int getUnsignedShort(int i) {
+      return this.buf.getUnsignedShort(i);
    }
 
    @Override
-   public int getMedium(int var1) {
-      return this.buf.getMedium(var1);
+   public int getMedium(int i) {
+      return this.buf.getMedium(i);
    }
 
    @Override
-   public int getUnsignedMedium(int var1) {
-      return this.buf.getUnsignedMedium(var1);
+   public int getUnsignedMedium(int i) {
+      return this.buf.getUnsignedMedium(i);
    }
 
    @Override
-   public int getInt(int var1) {
-      return this.buf.getInt(var1);
+   public int getInt(int i) {
+      return this.buf.getInt(i);
    }
 
    @Override
-   public long getUnsignedInt(int var1) {
-      return this.buf.getUnsignedInt(var1);
+   public long getUnsignedInt(int i) {
+      return this.buf.getUnsignedInt(i);
    }
 
    @Override
-   public long getLong(int var1) {
-      return this.buf.getLong(var1);
+   public long getLong(int i) {
+      return this.buf.getLong(i);
    }
 
    @Override
-   public char getChar(int var1) {
-      return this.buf.getChar(var1);
+   public char getChar(int i) {
+      return this.buf.getChar(i);
    }
 
    @Override
-   public float getFloat(int var1) {
-      return this.buf.getFloat(var1);
+   public float getFloat(int i) {
+      return this.buf.getFloat(i);
    }
 
    @Override
-   public double getDouble(int var1) {
-      return this.buf.getDouble(var1);
+   public double getDouble(int i) {
+      return this.buf.getDouble(i);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, ByteBuf var2) {
-      return this.buf.getBytes(var1, var2);
+   public ByteBuf getBytes(int i, ByteBuf byteBuf) {
+      return this.buf.getBytes(i, byteBuf);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, ByteBuf var2, int var3) {
-      return this.buf.getBytes(var1, var2, var3);
+   public ByteBuf getBytes(int i, ByteBuf byteBuf, int j) {
+      return this.buf.getBytes(i, byteBuf, j);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, ByteBuf var2, int var3, int var4) {
-      return this.buf.getBytes(var1, var2, var3, var4);
+   public ByteBuf getBytes(int i, ByteBuf byteBuf, int j, int k) {
+      return this.buf.getBytes(i, byteBuf, j, k);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, byte[] var2) {
-      return this.buf.getBytes(var1, var2);
+   public ByteBuf getBytes(int i, byte[] bytes) {
+      return this.buf.getBytes(i, bytes);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, byte[] var2, int var3, int var4) {
-      return this.buf.getBytes(var1, var2, var3, var4);
+   public ByteBuf getBytes(int i, byte[] bytes, int j, int k) {
+      return this.buf.getBytes(i, bytes, j, k);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, ByteBuffer var2) {
-      return this.buf.getBytes(var1, var2);
+   public ByteBuf getBytes(int i, ByteBuffer byteBuffer) {
+      return this.buf.getBytes(i, byteBuffer);
    }
 
    @Override
-   public ByteBuf getBytes(int var1, OutputStream var2, int var3) throws IOException {
-      return this.buf.getBytes(var1, var2, var3);
+   public ByteBuf getBytes(int i, OutputStream outputStream, int j) throws IOException {
+      return this.buf.getBytes(i, outputStream, j);
    }
 
    @Override
-   public int getBytes(int var1, GatheringByteChannel var2, int var3) throws IOException {
-      return this.buf.getBytes(var1, var2, var3);
+   public int getBytes(int i, GatheringByteChannel gatheringByteChannel, int j) throws IOException {
+      return this.buf.getBytes(i, gatheringByteChannel, j);
    }
 
    @Override
-   public ByteBuf setBoolean(int var1, boolean var2) {
-      return this.buf.setBoolean(var1, var2);
+   public ByteBuf setBoolean(int i, boolean bl) {
+      return this.buf.setBoolean(i, bl);
    }
 
    @Override
-   public ByteBuf setByte(int var1, int var2) {
-      return this.buf.setByte(var1, var2);
+   public ByteBuf setByte(int i, int j) {
+      return this.buf.setByte(i, j);
    }
 
    @Override
-   public ByteBuf setShort(int var1, int var2) {
-      return this.buf.setShort(var1, var2);
+   public ByteBuf setShort(int i, int j) {
+      return this.buf.setShort(i, j);
    }
 
    @Override
-   public ByteBuf setMedium(int var1, int var2) {
-      return this.buf.setMedium(var1, var2);
+   public ByteBuf setMedium(int i, int j) {
+      return this.buf.setMedium(i, j);
    }
 
    @Override
-   public ByteBuf setInt(int var1, int var2) {
-      return this.buf.setInt(var1, var2);
+   public ByteBuf setInt(int i, int j) {
+      return this.buf.setInt(i, j);
    }
 
    @Override
-   public ByteBuf setLong(int var1, long var2) {
-      return this.buf.setLong(var1, var2);
+   public ByteBuf setLong(int i, long l) {
+      return this.buf.setLong(i, l);
    }
 
    @Override
-   public ByteBuf setChar(int var1, int var2) {
-      return this.buf.setChar(var1, var2);
+   public ByteBuf setChar(int i, int j) {
+      return this.buf.setChar(i, j);
    }
 
    @Override
-   public ByteBuf setFloat(int var1, float var2) {
-      return this.buf.setFloat(var1, var2);
+   public ByteBuf setFloat(int i, float f) {
+      return this.buf.setFloat(i, f);
    }
 
    @Override
-   public ByteBuf setDouble(int var1, double var2) {
-      return this.buf.setDouble(var1, var2);
+   public ByteBuf setDouble(int i, double d) {
+      return this.buf.setDouble(i, d);
    }
 
    @Override
-   public ByteBuf setBytes(int var1, ByteBuf var2) {
-      return this.buf.setBytes(var1, var2);
+   public ByteBuf setBytes(int i, ByteBuf byteBuf) {
+      return this.buf.setBytes(i, byteBuf);
    }
 
    @Override
-   public ByteBuf setBytes(int var1, ByteBuf var2, int var3) {
-      return this.buf.setBytes(var1, var2, var3);
+   public ByteBuf setBytes(int i, ByteBuf byteBuf, int j) {
+      return this.buf.setBytes(i, byteBuf, j);
    }
 
    @Override
-   public ByteBuf setBytes(int var1, ByteBuf var2, int var3, int var4) {
-      return this.buf.setBytes(var1, var2, var3, var4);
+   public ByteBuf setBytes(int i, ByteBuf byteBuf, int j, int k) {
+      return this.buf.setBytes(i, byteBuf, j, k);
    }
 
    @Override
-   public ByteBuf setBytes(int var1, byte[] var2) {
-      return this.buf.setBytes(var1, var2);
+   public ByteBuf setBytes(int i, byte[] bytes) {
+      return this.buf.setBytes(i, bytes);
    }
 
    @Override
-   public ByteBuf setBytes(int var1, byte[] var2, int var3, int var4) {
-      return this.buf.setBytes(var1, var2, var3, var4);
+   public ByteBuf setBytes(int i, byte[] bytes, int j, int k) {
+      return this.buf.setBytes(i, bytes, j, k);
    }
 
    @Override
-   public ByteBuf setBytes(int var1, ByteBuffer var2) {
-      return this.buf.setBytes(var1, var2);
+   public ByteBuf setBytes(int i, ByteBuffer byteBuffer) {
+      return this.buf.setBytes(i, byteBuffer);
    }
 
    @Override
-   public int setBytes(int var1, InputStream var2, int var3) throws IOException {
-      return this.buf.setBytes(var1, var2, var3);
+   public int setBytes(int i, InputStream inputStream, int j) throws IOException {
+      return this.buf.setBytes(i, inputStream, j);
    }
 
    @Override
-   public int setBytes(int var1, ScatteringByteChannel var2, int var3) throws IOException {
-      return this.buf.setBytes(var1, var2, var3);
+   public int setBytes(int i, ScatteringByteChannel scatteringByteChannel, int j) throws IOException {
+      return this.buf.setBytes(i, scatteringByteChannel, j);
    }
 
    @Override
-   public ByteBuf setZero(int var1, int var2) {
-      return this.buf.setZero(var1, var2);
+   public ByteBuf setZero(int i, int j) {
+      return this.buf.setZero(i, j);
    }
 
    @Override
@@ -622,188 +622,188 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf readBytes(int var1) {
-      return this.buf.readBytes(var1);
+   public ByteBuf readBytes(int i) {
+      return this.buf.readBytes(i);
    }
 
    @Override
-   public ByteBuf readSlice(int var1) {
-      return this.buf.readSlice(var1);
+   public ByteBuf readSlice(int i) {
+      return this.buf.readSlice(i);
    }
 
    @Override
-   public ByteBuf readBytes(ByteBuf var1) {
-      return this.buf.readBytes(var1);
+   public ByteBuf readBytes(ByteBuf byteBuf) {
+      return this.buf.readBytes(byteBuf);
    }
 
    @Override
-   public ByteBuf readBytes(ByteBuf var1, int var2) {
-      return this.buf.readBytes(var1, var2);
+   public ByteBuf readBytes(ByteBuf byteBuf, int i) {
+      return this.buf.readBytes(byteBuf, i);
    }
 
    @Override
-   public ByteBuf readBytes(ByteBuf var1, int var2, int var3) {
-      return this.buf.readBytes(var1, var2, var3);
+   public ByteBuf readBytes(ByteBuf byteBuf, int i, int j) {
+      return this.buf.readBytes(byteBuf, i, j);
    }
 
    @Override
-   public ByteBuf readBytes(byte[] var1) {
-      return this.buf.readBytes(var1);
+   public ByteBuf readBytes(byte[] bytes) {
+      return this.buf.readBytes(bytes);
    }
 
    @Override
-   public ByteBuf readBytes(byte[] var1, int var2, int var3) {
-      return this.buf.readBytes(var1, var2, var3);
+   public ByteBuf readBytes(byte[] bytes, int i, int j) {
+      return this.buf.readBytes(bytes, i, j);
    }
 
    @Override
-   public ByteBuf readBytes(ByteBuffer var1) {
-      return this.buf.readBytes(var1);
+   public ByteBuf readBytes(ByteBuffer byteBuffer) {
+      return this.buf.readBytes(byteBuffer);
    }
 
    @Override
-   public ByteBuf readBytes(OutputStream var1, int var2) throws IOException {
-      return this.buf.readBytes(var1, var2);
+   public ByteBuf readBytes(OutputStream outputStream, int i) throws IOException {
+      return this.buf.readBytes(outputStream, i);
    }
 
    @Override
-   public int readBytes(GatheringByteChannel var1, int var2) throws IOException {
-      return this.buf.readBytes(var1, var2);
+   public int readBytes(GatheringByteChannel gatheringByteChannel, int i) throws IOException {
+      return this.buf.readBytes(gatheringByteChannel, i);
    }
 
    @Override
-   public ByteBuf skipBytes(int var1) {
-      return this.buf.skipBytes(var1);
+   public ByteBuf skipBytes(int i) {
+      return this.buf.skipBytes(i);
    }
 
    @Override
-   public ByteBuf writeBoolean(boolean var1) {
-      return this.buf.writeBoolean(var1);
+   public ByteBuf writeBoolean(boolean bl) {
+      return this.buf.writeBoolean(bl);
    }
 
    @Override
-   public ByteBuf writeByte(int var1) {
-      return this.buf.writeByte(var1);
+   public ByteBuf writeByte(int i) {
+      return this.buf.writeByte(i);
    }
 
    @Override
-   public ByteBuf writeShort(int var1) {
-      return this.buf.writeShort(var1);
+   public ByteBuf writeShort(int i) {
+      return this.buf.writeShort(i);
    }
 
    @Override
-   public ByteBuf writeMedium(int var1) {
-      return this.buf.writeMedium(var1);
+   public ByteBuf writeMedium(int i) {
+      return this.buf.writeMedium(i);
    }
 
    @Override
-   public ByteBuf writeInt(int var1) {
-      return this.buf.writeInt(var1);
+   public ByteBuf writeInt(int i) {
+      return this.buf.writeInt(i);
    }
 
    @Override
-   public ByteBuf writeLong(long var1) {
-      return this.buf.writeLong(var1);
+   public ByteBuf writeLong(long l) {
+      return this.buf.writeLong(l);
    }
 
    @Override
-   public ByteBuf writeChar(int var1) {
-      return this.buf.writeChar(var1);
+   public ByteBuf writeChar(int i) {
+      return this.buf.writeChar(i);
    }
 
    @Override
-   public ByteBuf writeFloat(float var1) {
-      return this.buf.writeFloat(var1);
+   public ByteBuf writeFloat(float f) {
+      return this.buf.writeFloat(f);
    }
 
    @Override
-   public ByteBuf writeDouble(double var1) {
-      return this.buf.writeDouble(var1);
+   public ByteBuf writeDouble(double d) {
+      return this.buf.writeDouble(d);
    }
 
    @Override
-   public ByteBuf writeBytes(ByteBuf var1) {
-      return this.buf.writeBytes(var1);
+   public ByteBuf writeBytes(ByteBuf byteBuf) {
+      return this.buf.writeBytes(byteBuf);
    }
 
    @Override
-   public ByteBuf writeBytes(ByteBuf var1, int var2) {
-      return this.buf.writeBytes(var1, var2);
+   public ByteBuf writeBytes(ByteBuf byteBuf, int i) {
+      return this.buf.writeBytes(byteBuf, i);
    }
 
    @Override
-   public ByteBuf writeBytes(ByteBuf var1, int var2, int var3) {
-      return this.buf.writeBytes(var1, var2, var3);
+   public ByteBuf writeBytes(ByteBuf byteBuf, int i, int j) {
+      return this.buf.writeBytes(byteBuf, i, j);
    }
 
    @Override
-   public ByteBuf writeBytes(byte[] var1) {
-      return this.buf.writeBytes(var1);
+   public ByteBuf writeBytes(byte[] bytes) {
+      return this.buf.writeBytes(bytes);
    }
 
    @Override
-   public ByteBuf writeBytes(byte[] var1, int var2, int var3) {
-      return this.buf.writeBytes(var1, var2, var3);
+   public ByteBuf writeBytes(byte[] bytes, int i, int j) {
+      return this.buf.writeBytes(bytes, i, j);
    }
 
    @Override
-   public ByteBuf writeBytes(ByteBuffer var1) {
-      return this.buf.writeBytes(var1);
+   public ByteBuf writeBytes(ByteBuffer byteBuffer) {
+      return this.buf.writeBytes(byteBuffer);
    }
 
    @Override
-   public int writeBytes(InputStream var1, int var2) throws IOException {
-      return this.buf.writeBytes(var1, var2);
+   public int writeBytes(InputStream inputStream, int i) throws IOException {
+      return this.buf.writeBytes(inputStream, i);
    }
 
    @Override
-   public int writeBytes(ScatteringByteChannel var1, int var2) throws IOException {
-      return this.buf.writeBytes(var1, var2);
+   public int writeBytes(ScatteringByteChannel scatteringByteChannel, int i) throws IOException {
+      return this.buf.writeBytes(scatteringByteChannel, i);
    }
 
    @Override
-   public ByteBuf writeZero(int var1) {
-      return this.buf.writeZero(var1);
+   public ByteBuf writeZero(int i) {
+      return this.buf.writeZero(i);
    }
 
    @Override
-   public int indexOf(int var1, int var2, byte var3) {
-      return this.buf.indexOf(var1, var2, var3);
+   public int indexOf(int i, int j, byte b) {
+      return this.buf.indexOf(i, j, b);
    }
 
    @Override
-   public int bytesBefore(byte var1) {
-      return this.buf.bytesBefore(var1);
+   public int bytesBefore(byte b) {
+      return this.buf.bytesBefore(b);
    }
 
    @Override
-   public int bytesBefore(int var1, byte var2) {
-      return this.buf.bytesBefore(var1, var2);
+   public int bytesBefore(int i, byte b) {
+      return this.buf.bytesBefore(i, b);
    }
 
    @Override
-   public int bytesBefore(int var1, int var2, byte var3) {
-      return this.buf.bytesBefore(var1, var2, var3);
+   public int bytesBefore(int i, int j, byte b) {
+      return this.buf.bytesBefore(i, j, b);
    }
 
    @Override
-   public int forEachByte(ByteBufProcessor var1) {
-      return this.buf.forEachByte(var1);
+   public int forEachByte(ByteBufProcessor byteBufProcessor) {
+      return this.buf.forEachByte(byteBufProcessor);
    }
 
    @Override
-   public int forEachByte(int var1, int var2, ByteBufProcessor var3) {
-      return this.buf.forEachByte(var1, var2, var3);
+   public int forEachByte(int i, int j, ByteBufProcessor byteBufProcessor) {
+      return this.buf.forEachByte(i, j, byteBufProcessor);
    }
 
    @Override
-   public int forEachByteDesc(ByteBufProcessor var1) {
-      return this.buf.forEachByteDesc(var1);
+   public int forEachByteDesc(ByteBufProcessor byteBufProcessor) {
+      return this.buf.forEachByteDesc(byteBufProcessor);
    }
 
    @Override
-   public int forEachByteDesc(int var1, int var2, ByteBufProcessor var3) {
-      return this.buf.forEachByteDesc(var1, var2, var3);
+   public int forEachByteDesc(int i, int j, ByteBufProcessor byteBufProcessor) {
+      return this.buf.forEachByteDesc(i, j, byteBufProcessor);
    }
 
    @Override
@@ -812,8 +812,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf copy(int var1, int var2) {
-      return this.buf.copy(var1, var2);
+   public ByteBuf copy(int i, int j) {
+      return this.buf.copy(i, j);
    }
 
    @Override
@@ -822,8 +822,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf slice(int var1, int var2) {
-      return this.buf.slice(var1, var2);
+   public ByteBuf slice(int i, int j) {
+      return this.buf.slice(i, j);
    }
 
    @Override
@@ -842,13 +842,13 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuffer nioBuffer(int var1, int var2) {
-      return this.buf.nioBuffer(var1, var2);
+   public ByteBuffer nioBuffer(int i, int j) {
+      return this.buf.nioBuffer(i, j);
    }
 
    @Override
-   public ByteBuffer internalNioBuffer(int var1, int var2) {
-      return this.buf.internalNioBuffer(var1, var2);
+   public ByteBuffer internalNioBuffer(int i, int j) {
+      return this.buf.internalNioBuffer(i, j);
    }
 
    @Override
@@ -857,8 +857,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuffer[] nioBuffers(int var1, int var2) {
-      return this.buf.nioBuffers(var1, var2);
+   public ByteBuffer[] nioBuffers(int i, int j) {
+      return this.buf.nioBuffers(i, j);
    }
 
    @Override
@@ -887,13 +887,13 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public String toString(Charset var1) {
-      return this.buf.toString(var1);
+   public String toString(Charset charset) {
+      return this.buf.toString(charset);
    }
 
    @Override
-   public String toString(int var1, int var2, Charset var3) {
-      return this.buf.toString(var1, var2, var3);
+   public String toString(int i, int j, Charset charset) {
+      return this.buf.toString(i, j, charset);
    }
 
    @Override
@@ -902,13 +902,13 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return this.buf.equals(var1);
+   public boolean equals(Object object) {
+      return this.buf.equals(object);
    }
 
    @Override
-   public int compareTo(ByteBuf var1) {
-      return this.buf.compareTo(var1);
+   public int compareTo(ByteBuf byteBuf) {
+      return this.buf.compareTo(byteBuf);
    }
 
    @Override
@@ -917,8 +917,8 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public ByteBuf retain(int var1) {
-      return this.buf.retain(var1);
+   public ByteBuf retain(int i) {
+      return this.buf.retain(i);
    }
 
    @Override
@@ -937,7 +937,7 @@ public class PacketBuffer extends ByteBuf {
    }
 
    @Override
-   public boolean release(int var1) {
-      return this.buf.release(var1);
+   public boolean release(int i) {
+      return this.buf.release(i);
    }
 }

@@ -48,12 +48,12 @@ public class BlockEnderChest extends BlockContainer {
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Item.getItemFromBlock(Blocks.obsidian);
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return (int)i;
    }
 
@@ -63,70 +63,70 @@ public class BlockEnderChest extends BlockContainer {
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      return this.getDefaultState().withProperty(FACING, var8.getHorizontalFacing().getOpposite());
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
    }
 
    @Override
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
-      var1.setBlockState(var2, var3.withProperty(FACING, var4.getHorizontalFacing().getOpposite()), 2);
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+      worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      InventoryEnderChest var12 = var4.getInventoryEnderChest();
-      TileEntity var13 = var1.getTileEntity(var2);
-      if (var12 == null || !(var13 instanceof TileEntityEnderChest)) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      InventoryEnderChest inventoryEnderChest = playerIn.getInventoryEnderChest();
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (inventoryEnderChest == null || !(tileEntity instanceof TileEntityEnderChest)) {
          return true;
       }
 
-      if (var1.getBlockState(var2.up()).getBlock().isNormalCube()) {
+      if (worldIn.getBlockState(pos.up()).getBlock().isNormalCube()) {
          return true;
       }
 
-      if (var1.isRemote) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      var12.setChestTileEntity((TileEntityEnderChest)var13);
-      var4.displayGUIChest(var12);
-      var4.triggerAchievement(StatList.field_181738_V);
+      inventoryEnderChest.setChestTileEntity((TileEntityEnderChest)tileEntity);
+      playerIn.displayGUIChest(inventoryEnderChest);
+      playerIn.triggerAchievement(StatList.field_181738_V);
       return true;
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityEnderChest();
    }
 
    @Override
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      for (int var8 = 0; var8 < 3; var8++) {
-         int var9 = var4.nextInt(2) * 2 - 1;
-         int var10 = var4.nextInt(2) * 2 - 1;
-         double var11 = var2.getX() + 0.5 + 0.25 * var9;
-         double var13 = var2.getY() + var4.nextFloat();
-         double var15 = var2.getZ() + 0.5 + 0.25 * var10;
-         double var17 = var4.nextFloat() * var9;
-         double var19 = (var4.nextFloat() - 0.5) * 0.125;
-         double var21 = var4.nextFloat() * var10;
-         var1.spawnParticle(EnumParticleTypes.PORTAL, var11, var13, var15, var17, var19, var21);
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      for (int i = 0; i < 3; i++) {
+         int j = rand.nextInt(2) * 2 - 1;
+         int k = rand.nextInt(2) * 2 - 1;
+         double d = pos.getX() + 0.5 + 0.25 * j;
+         double e = pos.getY() + rand.nextFloat();
+         double d2 = pos.getZ() + 0.5 + 0.25 * k;
+         double d3 = rand.nextFloat() * j;
+         double d4 = (rand.nextFloat() - 0.5) * 0.125;
+         double d5 = rand.nextFloat() * k;
+         worldIn.spawnParticle(EnumParticleTypes.PORTAL, d, e, d2, d3, d4, d5);
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      EnumFacing var5 = EnumFacing.getFront(var1);
-      if (var5.getAxis() == EnumFacing.Axis.Y) {
-         var5 = EnumFacing.NORTH;
+   public IBlockState getStateFromMeta(int meta) {
+      EnumFacing enumFacing = EnumFacing.getFront(meta);
+      if (enumFacing.getAxis() == EnumFacing.Axis.Y) {
+         enumFacing = EnumFacing.NORTH;
       }
 
-      return this.getDefaultState().withProperty(FACING, var5);
+      return this.getDefaultState().withProperty(FACING, enumFacing);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(FACING).getIndex();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(FACING).getIndex();
    }
 
    @Override

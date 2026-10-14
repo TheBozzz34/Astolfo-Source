@@ -17,9 +17,9 @@ public class TimedAnimation extends Animation {
 
    @Override
    public double getValue() {
-      long var5 = System.currentTimeMillis();
-      this.step((int)(var5 - this.f));
-      this.f = var5;
+      long l = System.currentTimeMillis();
+      this.step((int)(l - this.f));
+      this.f = l;
       return this.ease(this.U);
    }
 }

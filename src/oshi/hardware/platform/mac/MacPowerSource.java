@@ -24,209 +24,231 @@ public final class MacPowerSource extends AbstractPowerSource {
    private static final long e = 78848464837096L;
 
    public MacPowerSource(
-      String var1,
-      String var2,
-      double var3,
-      double var5,
-      double var7,
-      double var9,
-      double var11,
-      double var13,
-      boolean var15,
-      boolean var16,
-      boolean var17,
-      PowerSource.CapacityUnits var18,
-      int var19,
-      int var20,
-      int var21,
-      int var22,
-      String var23,
-      LocalDate var24,
-      String var25,
-      String var26,
-      double var27
+      String psName,
+      String psDeviceName,
+      double psRemainingCapacityPercent,
+      double psTimeRemainingEstimated,
+      double psTimeRemainingInstant,
+      double psPowerUsageRate,
+      double psVoltage,
+      double psAmperage,
+      boolean psPowerOnLine,
+      boolean psCharging,
+      boolean psDischarging,
+      PowerSource.CapacityUnits psCapacityUnits,
+      int psCurrentCapacity,
+      int psMaxCapacity,
+      int psDesignCapacity,
+      int psCycleCount,
+      String psChemistry,
+      LocalDate psManufactureDate,
+      String psManufacturer,
+      String psSerialNumber,
+      double psTemperature
    ) {
-      super(var1, var2, var3, var5, var7, var9, var11, var13, var15, var16, var17, var18, var19, var20, var21, var22, var23, var24, var25, var26, var27);
+      super(
+         psName,
+         psDeviceName,
+         psRemainingCapacityPercent,
+         psTimeRemainingEstimated,
+         psTimeRemainingInstant,
+         psPowerUsageRate,
+         psVoltage,
+         psAmperage,
+         psPowerOnLine,
+         psCharging,
+         psDischarging,
+         psCapacityUnits,
+         psCurrentCapacity,
+         psMaxCapacity,
+         psDesignCapacity,
+         psCycleCount,
+         psChemistry,
+         psManufactureDate,
+         psManufacturer,
+         psSerialNumber,
+         psTemperature
+      );
    }
 
    public static PowerSource[] Y() {
-      long var0 = e ^ 131356754242093L;
-      String var4 = "unknown";
-      double var5 = 0.0;
-      double var7 = 0.0;
-      double var9 = -1.0;
-      double var11 = 0.0;
-      boolean var13 = false;
-      boolean var14 = false;
-      boolean var15 = false;
-      PowerSource.CapacityUnits var16 = PowerSource.CapacityUnits.RELATIVE;
-      int var17 = 0;
-      int var18 = 1;
-      int var19 = 1;
-      int var20 = -1;
-      String var21 = "unknown";
-      LocalDate var22 = null;
-      String var23 = "unknown";
-      String var24 = "unknown";
-      double var25 = 0.0;
-      IOService var27 = IOKitUtil.getMatchingService("AppleSmartBattery");
-      if (var27 != null) {
-         String var28 = var27.getStringProperty("DeviceName");
-         if (var28 != null) {
-            var4 = var28;
+      long l = e ^ 131356754242093L;
+      String string = "unknown";
+      double d = 0.0;
+      double d2 = 0.0;
+      double d3 = -1.0;
+      double d4 = 0.0;
+      boolean bl = false;
+      boolean bl2 = false;
+      boolean bl3 = false;
+      PowerSource.CapacityUnits capacityUnits = PowerSource.CapacityUnits.RELATIVE;
+      int i = 0;
+      int j = 1;
+      int k = 1;
+      int m = -1;
+      String string2 = "unknown";
+      LocalDate localDate = null;
+      String string3 = "unknown";
+      String string4 = "unknown";
+      double d5 = 0.0;
+      IOService ioService = IOKitUtil.getMatchingService("AppleSmartBattery");
+      if (ioService != null) {
+         String string5 = ioService.getStringProperty("DeviceName");
+         if (string5 != null) {
+            string = string5;
          }
 
-         var28 = var27.getStringProperty("Manufacturer");
-         if (var28 != null) {
-            var23 = var28;
+         string5 = ioService.getStringProperty("Manufacturer");
+         if (string5 != null) {
+            string3 = string5;
          }
 
-         var28 = var27.getStringProperty("BatterySerialNumber");
-         if (var28 != null) {
-            var24 = var28;
+         string5 = ioService.getStringProperty("BatterySerialNumber");
+         if (string5 != null) {
+            string4 = string5;
          }
 
-         Integer var29 = var27.getIntegerProperty("ManufactureDate");
-         if (var29 != null) {
-            int var30 = var29 & 31;
-            int var31 = var29 >> 5 & 15;
-            int var32 = var29 >> 9 & 127;
-            var22 = LocalDate.of(1980 + var32, var31, var30);
+         Integer integer = ioService.getIntegerProperty("ManufactureDate");
+         if (integer != null) {
+            int n = integer & 31;
+            int i2 = integer >> 5 & 15;
+            int i3 = integer >> 9 & 127;
+            localDate = LocalDate.of(1980 + i3, i2, n);
          }
 
-         var29 = var27.getIntegerProperty("DesignCapacity");
-         if (var29 != null) {
-            var19 = var29;
+         integer = ioService.getIntegerProperty("DesignCapacity");
+         if (integer != null) {
+            k = integer;
          }
 
-         var29 = var27.getIntegerProperty("MaxCapacity");
-         if (var29 != null) {
-            var18 = var29;
+         integer = ioService.getIntegerProperty("MaxCapacity");
+         if (integer != null) {
+            j = integer;
          }
 
-         var29 = var27.getIntegerProperty("CurrentCapacity");
-         if (var29 != null) {
-            var17 = var29;
+         integer = ioService.getIntegerProperty("CurrentCapacity");
+         if (integer != null) {
+            i = integer;
          }
 
-         var16 = PowerSource.CapacityUnits.MAH;
-         var29 = var27.getIntegerProperty("TimeRemaining");
-         if (var29 != null) {
-            var5 = var29.intValue() * 60.0;
+         capacityUnits = PowerSource.CapacityUnits.MAH;
+         integer = ioService.getIntegerProperty("TimeRemaining");
+         if (integer != null) {
+            d = integer.intValue() * 60.0;
          }
 
-         var29 = var27.getIntegerProperty("CycleCount");
-         if (var29 != null) {
-            var20 = var29;
+         integer = ioService.getIntegerProperty("CycleCount");
+         if (integer != null) {
+            m = integer;
          }
 
-         var29 = var27.getIntegerProperty("Temperature");
-         if (var29 != null) {
-            var25 = var29.intValue() / 100.0;
+         integer = ioService.getIntegerProperty("Temperature");
+         if (integer != null) {
+            d5 = integer.intValue() / 100.0;
          }
 
-         var29 = var27.getIntegerProperty("Voltage");
-         if (var29 != null) {
-            var9 = var29.intValue() / 1000.0;
+         integer = ioService.getIntegerProperty("Voltage");
+         if (integer != null) {
+            d3 = integer.intValue() / 1000.0;
          }
 
-         var29 = var27.getIntegerProperty("Amperage");
-         if (var29 != null) {
-            var11 = var29.intValue();
+         integer = ioService.getIntegerProperty("Amperage");
+         if (integer != null) {
+            d4 = integer.intValue();
          }
 
-         var7 = var9 * var11;
-         Boolean var64 = var27.getBooleanProperty("ExternalConnected");
-         if (var64 != null) {
-            var13 = var64;
+         d2 = d3 * d4;
+         Boolean boolean2 = ioService.getBooleanProperty("ExternalConnected");
+         if (boolean2 != null) {
+            bl = boolean2;
          }
 
-         var64 = var27.getBooleanProperty("IsCharging");
-         if (var64 != null) {
-            var14 = var64;
+         boolean2 = ioService.getBooleanProperty("IsCharging");
+         if (boolean2 != null) {
+            bl2 = boolean2;
          }
 
-         var15 = !var14;
-         var27.release();
+         bl3 = !bl2;
+         ioService.release();
       }
 
-      CFTypeRef var54 = IO.IOPSCopyPowerSourcesInfo();
-      CFArrayRef var63 = IO.IOPSCopyPowerSourcesList(var54);
-      long var10000 = 4820673702787070533L ^ var0;
-      int var66 = var63.getCount();
-      double var67 = IO.IOPSGetTimeRemainingEstimate();
-      CFStringRef var33 = CFStringRef.createCFString("Name");
-      CFStringRef var34 = CFStringRef.createCFString("Is Present");
-      CFStringRef var35 = CFStringRef.createCFString("Current Capacity");
-      CFStringRef var36 = CFStringRef.createCFString("Max Capacity");
-      ArrayList var37 = new ArrayList(var66);
+      CFTypeRef cfTypeRef = IO.IOPSCopyPowerSourcesInfo();
+      CFArrayRef cfArrayRef = IO.IOPSCopyPowerSourcesList(cfTypeRef);
+      long l2 = 4820673702787070533L ^ l;
+      int i4 = cfArrayRef.getCount();
+      double d6 = IO.IOPSGetTimeRemainingEstimate();
+      CFStringRef cfStringRef = CFStringRef.createCFString("Name");
+      CFStringRef cfStringRef2 = CFStringRef.createCFString("Is Present");
+      CFStringRef cfStringRef3 = CFStringRef.createCFString("Current Capacity");
+      CFStringRef cfStringRef4 = CFStringRef.createCFString("Max Capacity");
+      ArrayList arrayList = new ArrayList(i4);
 
-      for (int var38 = 0; var38 < var66; var38++) {
-         Pointer var39 = var63.getValueAtIndex(var38);
-         CFTypeRef var40 = new CFTypeRef();
-         var40.setPointer(var39);
-         CFDictionaryRef var41 = IO.IOPSGetPowerSourceDescription(var54, var40);
-         Pointer var42 = var41.getValue(var34);
-         if (var42 != null) {
-            CFBooleanRef var43 = new CFBooleanRef(var42);
-            if (0 != CF.CFBooleanGetValue(var43)) {
-               var42 = var41.getValue(var33);
-               CFStringRef var44 = new CFStringRef(var42);
-               String var45 = var44.stringValue();
-               if (var45 == null) {
-                  var45 = "unknown";
+      for (int i5 = 0; i5 < i4; i5++) {
+         Pointer pointer = cfArrayRef.getValueAtIndex(i5);
+         CFTypeRef cfTypeRef2 = new CFTypeRef();
+         cfTypeRef2.setPointer(pointer);
+         CFDictionaryRef cfDictionaryRef = IO.IOPSGetPowerSourceDescription(cfTypeRef, cfTypeRef2);
+         Pointer pointer2 = cfDictionaryRef.getValue(cfStringRef2);
+         if (pointer2 != null) {
+            CFBooleanRef cfBooleanRef = new CFBooleanRef(pointer2);
+            if (0 != CF.CFBooleanGetValue(cfBooleanRef)) {
+               pointer2 = cfDictionaryRef.getValue(cfStringRef);
+               CFStringRef cfStringRef5 = new CFStringRef(pointer2);
+               String string6 = cfStringRef5.stringValue();
+               if (string6 == null) {
+                  string6 = "unknown";
                }
 
-               double var46 = 0.0;
-               if (var41.getValueIfPresent(var35, null)) {
-                  var42 = var41.getValue(var35);
-                  CFNumberRef var48 = new CFNumberRef(var42);
-                  var46 = var48.intValue();
+               double d7 = 0.0;
+               if (cfDictionaryRef.getValueIfPresent(cfStringRef3, null)) {
+                  pointer2 = cfDictionaryRef.getValue(cfStringRef3);
+                  CFNumberRef cfNumberRef = new CFNumberRef(pointer2);
+                  d7 = cfNumberRef.intValue();
                }
 
-               double var71 = 1.0;
-               if (var41.getValueIfPresent(var36, null)) {
-                  var42 = var41.getValue(var36);
-                  CFNumberRef var50 = new CFNumberRef(var42);
-                  var71 = var50.intValue();
+               double d8 = 1.0;
+               if (cfDictionaryRef.getValueIfPresent(cfStringRef4, null)) {
+                  pointer2 = cfDictionaryRef.getValue(cfStringRef4);
+                  CFNumberRef cfNumberRef2 = new CFNumberRef(pointer2);
+                  d8 = cfNumberRef2.intValue();
                }
 
-               double var72 = Math.min(1.0, var46 / var71);
-               var37.add(
+               double d9 = Math.min(1.0, d7 / d8);
+               arrayList.add(
                   new MacPowerSource(
-                     var45,
-                     var4,
-                     var72,
-                     var67,
-                     var5,
-                     var7,
-                     var9,
-                     var11,
-                     var13,
-                     var14,
-                     var15,
-                     var16,
-                     var17,
-                     var18,
-                     var19,
-                     var20,
-                     var21,
-                     var22,
-                     var23,
-                     var24,
-                     var25
+                     string6,
+                     string,
+                     d9,
+                     d6,
+                     d,
+                     d2,
+                     d3,
+                     d4,
+                     bl,
+                     bl2,
+                     bl3,
+                     capacityUnits,
+                     i,
+                     j,
+                     k,
+                     m,
+                     string2,
+                     localDate,
+                     string3,
+                     string4,
+                     d5
                   )
                );
             }
          }
       }
 
-      var34.release();
-      var33.release();
-      var35.release();
-      var36.release();
-      var63.release();
-      var54.release();
-      return (oshi.hardware.PowerSource[])(var37.toArray(new MacPowerSource[0]));
+      cfStringRef2.release();
+      cfStringRef.release();
+      cfStringRef3.release();
+      cfStringRef4.release();
+      cfArrayRef.release();
+      cfTypeRef.release();
+      return (oshi.hardware.PowerSource[])(arrayList.toArray(new MacPowerSource[0]));
    }
 }

@@ -13,46 +13,46 @@ public final class StringSetting extends Setting<String> implements Comparable<S
       super("", "", "", SettingType.UNDEFINED);
    }
 
-   public StringSetting(String var1, String var2, String var3) {
-      super(var1, var2, var3, SettingType.STRING);
-      if (!TypeUtil.c(var3)) {
+   public StringSetting(String string, String string2, String string3) {
+      super(string, string2, string3, SettingType.STRING);
+      if (!TypeUtil.c(string3)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var7) {
-            var7.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public StringSetting(String var1, String var2, String var3, List<SettingAttribute> var4) {
-      super(var1, var2, var3, SettingType.STRING, var4);
-      if (!TypeUtil.c(var3)) {
+   public StringSetting(String string, String string2, String string3, List<SettingAttribute> list) {
+      super(string, string2, string3, SettingType.STRING, list);
+      if (!TypeUtil.c(string3)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public StringSetting(String var1, String var2, String var3, SettingAttribute... var4) {
-      super(var1, var2, var3, SettingType.STRING, Arrays.asList(var4));
-      if (!TypeUtil.c(var3)) {
+   public StringSetting(String string, String string2, String string3, SettingAttribute... settingAttributes) {
+      super(string, string2, string3, SettingType.STRING, Arrays.asList(settingAttributes));
+      if (!TypeUtil.c(string3)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public static int compare(String var0, String var1) {
-      return Integer.compare(var0.length(), var1.length());
+   public static int compare(String string, String string2) {
+      return Integer.compare(string.length(), string2.length());
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return var1 instanceof StringSetting && Objects.equals(this.value, ((StringSetting)var1).getValue()) && super.equals(var1);
+   public boolean equals(Object object) {
+      return object instanceof StringSetting && Objects.equals(this.value, ((StringSetting)object).getValue()) && super.equals(object);
    }
 
    @Override
@@ -60,7 +60,7 @@ public final class StringSetting extends Setting<String> implements Comparable<S
       return super.hashCode() + (this.value == null ? 0 : this.value.hashCode());
    }
 
-   public int compareTo(StringSetting var1) {
-      return compare(this.value, var1.value);
+   public int compareTo(StringSetting stringSetting) {
+      return compare(this.value, stringSetting.value);
    }
 }

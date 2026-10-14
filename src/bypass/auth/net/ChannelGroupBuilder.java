@@ -5,8 +5,8 @@ import bypass.util.collection.ShapedMap;
 public class ChannelGroupBuilder {
    private final ShapedMap<String, Channel> h = new ShapedMap<>();
 
-   public ChannelGroupBuilder H(String var1, Channel var2) {
-      this.h.put(var1, var2);
+   public ChannelGroupBuilder H(String string, Channel channel) {
+      this.h.put(string, channel);
       return this;
    }
 
@@ -14,7 +14,7 @@ public class ChannelGroupBuilder {
       return new ImmutableChannelGroup(this);
    }
 
-   public static ShapedMap L(ChannelGroupBuilder var0) {
-      return var0.h;
+   public static ShapedMap L(ChannelGroupBuilder channelGroupBuilder) {
+      return channelGroupBuilder.h;
    }
 }

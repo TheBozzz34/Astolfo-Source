@@ -16,36 +16,36 @@ public class BlockPartFace {
    public final String texture;
    public final BlockFaceUV blockFaceUV;
 
-   public BlockPartFace(EnumFacing var1, int var2, String var3, BlockFaceUV var4) {
-      this.cullFace = var1;
-      this.tintIndex = var2;
-      this.texture = var3;
-      this.blockFaceUV = var4;
+   public BlockPartFace(EnumFacing cullFaceIn, int tintIndexIn, String textureIn, BlockFaceUV blockFaceUVIn) {
+      this.cullFace = cullFaceIn;
+      this.tintIndex = tintIndexIn;
+      this.texture = textureIn;
+      this.blockFaceUV = blockFaceUVIn;
    }
 
    public static class Deserializer implements JsonDeserializer<BlockPartFace> {
       private static final long a = 18325698551201L;
 
-      public BlockPartFace deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-         JsonObject var4 = var1.getAsJsonObject();
-         EnumFacing var5 = this.parseCullFace(var4);
-         int var6 = this.parseTintIndex(var4);
-         String var7 = this.parseTexture(var4);
-         BlockFaceUV var8 = var3.deserialize(var4, BlockFaceUV.class);
-         return new BlockPartFace(var5, var6, var7, var8);
+      public BlockPartFace deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+         JsonObject jsonObject = jsonElement.getAsJsonObject();
+         EnumFacing enumFacing = this.parseCullFace(jsonObject);
+         int i = this.parseTintIndex(jsonObject);
+         String string = this.parseTexture(jsonObject);
+         BlockFaceUV blockFaceUV = jsonDeserializationContext.deserialize(jsonObject, BlockFaceUV.class);
+         return new BlockPartFace(enumFacing, i, string, blockFaceUV);
       }
 
-      public int parseTintIndex(JsonObject var1) {
-         return JsonUtils.getInt(var1, "tintindex", -1);
+      public int parseTintIndex(JsonObject jsonObject) {
+         return JsonUtils.getInt(jsonObject, "tintindex", -1);
       }
 
-      private String parseTexture(JsonObject var1) {
-         return JsonUtils.getString(var1, "texture");
+      private String parseTexture(JsonObject jsonObject) {
+         return JsonUtils.getString(jsonObject, "texture");
       }
 
-      private EnumFacing parseCullFace(JsonObject var1) {
-         String var4 = JsonUtils.getString(var1, "cullface", "");
-         return EnumFacing.byName(var4);
+      private EnumFacing parseCullFace(JsonObject jsonObject) {
+         String string = JsonUtils.getString(jsonObject, "cullface", "");
+         return EnumFacing.byName(string);
       }
    }
 }

@@ -10,11 +10,11 @@ public class EntityDragonPart extends Entity {
    public final String partName;
    private static final long ab = 46301812791167L;
 
-   public EntityDragonPart(IEntityMultiPart var1, String var2, float var3, float var4) {
-      super(var1.getWorld());
-      this.setSize(var3, var4);
-      this.entityDragonObj = var1;
-      this.partName = var2;
+   public EntityDragonPart(IEntityMultiPart parent, String partName, float base, float sizeHeight) {
+      super(parent.getWorld());
+      this.setSize(base, sizeHeight);
+      this.entityDragonObj = parent;
+      this.partName = partName;
    }
 
    @Override
@@ -22,11 +22,11 @@ public class EntityDragonPart extends Entity {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
    }
 
    @Override
@@ -35,12 +35,12 @@ public class EntityDragonPart extends Entity {
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      return this.isEntityInvulnerable(var1) ? false : this.entityDragonObj.attackEntityFromPart(this, var1, var2);
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      return this.isEntityInvulnerable(source) ? false : this.entityDragonObj.attackEntityFromPart(this, source, amount);
    }
 
    @Override
-   public boolean isEntityEqual(Entity var1) {
-      return this == var1 || this.entityDragonObj == var1;
+   public boolean isEntityEqual(Entity entityIn) {
+      return this == entityIn || this.entityDragonObj == entityIn;
    }
 }

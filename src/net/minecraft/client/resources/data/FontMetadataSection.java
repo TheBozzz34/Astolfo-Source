@@ -5,9 +5,9 @@ public class FontMetadataSection implements IMetadataSection {
    private final float[] charLefts;
    private final float[] charSpacings;
 
-   public FontMetadataSection(float[] var1, float[] var2, float[] var3) {
-      this.charWidths = var1;
-      this.charLefts = var2;
-      this.charSpacings = var3;
+   public FontMetadataSection(float[] floats, float[] floats2, float[] floats3) {
+      this.charWidths = floats;
+      this.charLefts = floats2;
+      this.charSpacings = floats3;
    }
 }

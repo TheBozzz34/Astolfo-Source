@@ -12,15 +12,15 @@ public final class GetSettingFunction4 extends OneArgFunction {
    private static final long a = 52162581759507L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (var1.isstring()) {
-         LuaString var5 = (LuaString)var1;
-         Setting var6 = LuaApi.f.get(var5.checkjstring());
-         if (var6 instanceof BooleanSetting) {
-            return valueOf(var6.asBoolean());
-         } else if (var6 instanceof NumberSetting) {
-            NumberSetting var7 = (NumberSetting)var6;
-            return CoerceJavaToLua.coerce(var7.getValue());
+   public LuaValue call(LuaValue luaValue) {
+      if (luaValue.isstring()) {
+         LuaString luaString = (LuaString)luaValue;
+         Setting setting = LuaApi.f.get(luaString.checkjstring());
+         if (setting instanceof BooleanSetting) {
+            return valueOf(setting.asBoolean());
+         } else if (setting instanceof NumberSetting) {
+            NumberSetting numberSetting = (NumberSetting)setting;
+            return CoerceJavaToLua.coerce(numberSetting.getValue());
          } else {
             return valueOf(true);
          }

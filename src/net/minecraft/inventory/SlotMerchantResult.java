@@ -13,75 +13,75 @@ public class SlotMerchantResult extends Slot {
    private final IMerchant theMerchant;
    private static final long a = 139798932726083L;
 
-   public SlotMerchantResult(EntityPlayer var1, IMerchant var2, InventoryMerchant var3, int var4, int var5, int var6) {
-      super(var3, var4, var5, var6);
-      this.thePlayer = var1;
-      this.theMerchant = var2;
-      this.theMerchantInventory = var3;
+   public SlotMerchantResult(EntityPlayer player, IMerchant merchant, InventoryMerchant merchantInventory, int slotIndex, int xPosition, int yPosition) {
+      super(merchantInventory, slotIndex, xPosition, yPosition);
+      this.thePlayer = player;
+      this.theMerchant = merchant;
+      this.theMerchantInventory = merchantInventory;
    }
 
    @Override
-   public boolean isItemValid(ItemStack var1) {
+   public boolean isItemValid(ItemStack stack) {
       return false;
    }
 
    @Override
-   public ItemStack decrStackSize(int var1) {
+   public ItemStack decrStackSize(int amount) {
       if (this.getHasStack()) {
-         this.field_75231_g = this.field_75231_g + Math.min(var1, this.getStack().stackSize);
+         this.field_75231_g = this.field_75231_g + Math.min(amount, this.getStack().stackSize);
       }
 
-      return super.decrStackSize(var1);
+      return super.decrStackSize(amount);
    }
 
    @Override
-   public void onCrafting(ItemStack var1, int var2) {
-      this.field_75231_g += var2;
-      this.onCrafting(var1);
+   public void onCrafting(ItemStack stack, int amount) {
+      this.field_75231_g += amount;
+      this.onCrafting(stack);
    }
 
    @Override
-   public void onCrafting(ItemStack var1) {
-      var1.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75231_g);
+   public void onCrafting(ItemStack stack) {
+      stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75231_g);
       this.field_75231_g = 0;
    }
 
    @Override
-   public void onPickupFromSlot(EntityPlayer var1, ItemStack var2) {
-      this.onCrafting(var2);
-      MerchantRecipe var6 = this.theMerchantInventory.getCurrentRecipe();
-      if (var6 != null) {
-         ItemStack var7 = this.theMerchantInventory.getStackInSlot(0);
-         ItemStack var8 = this.theMerchantInventory.getStackInSlot(1);
-         if (this.doTrade(var6, var7, var8) || this.doTrade(var6, var8, var7)) {
-            this.theMerchant.useRecipe(var6);
-            var1.triggerAchievement(StatList.timesTradedWithVillagerStat);
-            if (var7 != null && var7.stackSize <= 0) {
-               var7 = null;
+   public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+      this.onCrafting(stack);
+      MerchantRecipe merchantRecipe = this.theMerchantInventory.getCurrentRecipe();
+      if (merchantRecipe != null) {
+         ItemStack itemStack = this.theMerchantInventory.getStackInSlot(0);
+         ItemStack itemStack2 = this.theMerchantInventory.getStackInSlot(1);
+         if (this.doTrade(merchantRecipe, itemStack, itemStack2) || this.doTrade(merchantRecipe, itemStack2, itemStack)) {
+            this.theMerchant.useRecipe(merchantRecipe);
+            playerIn.triggerAchievement(StatList.timesTradedWithVillagerStat);
+            if (itemStack != null && itemStack.stackSize <= 0) {
+               itemStack = null;
             }
 
-            if (var8 != null && var8.stackSize <= 0) {
-               var8 = null;
+            if (itemStack2 != null && itemStack2.stackSize <= 0) {
+               itemStack2 = null;
             }
 
-            this.theMerchantInventory.setInventorySlotContents(0, var7);
-            this.theMerchantInventory.setInventorySlotContents(1, var8);
+            this.theMerchantInventory.setInventorySlotContents(0, itemStack);
+            this.theMerchantInventory.setInventorySlotContents(1, itemStack2);
          }
       }
    }
 
-   private boolean doTrade(MerchantRecipe var1, ItemStack var2, ItemStack var3) {
-      ItemStack var7 = var1.getItemToBuy();
-      ItemStack var8 = var1.getSecondItemToBuy();
-      if (var2 != null && var2.getItem() == var7.getItem()) {
-         if (var8 != null && var3 != null && var8.getItem() == var3.getItem()) {
-            var2.stackSize = var2.stackSize - var7.stackSize;
-            var3.stackSize = var3.stackSize - var8.stackSize;
+   private boolean doTrade(MerchantRecipe trade, ItemStack firstItem, ItemStack secondItem) {
+      ItemStack itemStack = trade.getItemToBuy();
+      ItemStack itemStack2 = trade.getSecondItemToBuy();
+      if (firstItem != null && firstItem.getItem() == itemStack.getItem()) {
+         if (itemStack2 != null && secondItem != null && itemStack2.getItem() == secondItem.getItem()) {
+            firstItem.stackSize = firstItem.stackSize - itemStack.stackSize;
+            secondItem.stackSize = secondItem.stackSize - itemStack2.stackSize;
             return true;
          }
 
-         if (var8 == null && var3 == null) {
-            var2.stackSize = var2.stackSize - var7.stackSize;
+         if (itemStack2 == null && secondItem == null) {
+            firstItem.stackSize = firstItem.stackSize - itemStack.stackSize;
             return true;
          }
       }

@@ -11,36 +11,36 @@ public class QuadBounds {
    private float A = -Float.MAX_VALUE;
    private static final long a = 103981064499023L;
 
-   public QuadBounds(int[] var1) {
-      int var5 = var1.length / 4;
+   public QuadBounds(int[] vertexData) {
+      int i = vertexData.length / 4;
 
-      for (int var6 = 0; var6 < 4; var6++) {
-         int var7 = var6 * var5;
-         float var8 = Float.intBitsToFloat(var1[var7 + 0]);
-         float var9 = Float.intBitsToFloat(var1[var7 + 1]);
-         float var10 = Float.intBitsToFloat(var1[var7 + 2]);
-         if (this.j > var8) {
-            this.j = var8;
+      for (int l = 0; l < 4; l++) {
+         int m = l * i;
+         float f = Float.intBitsToFloat(vertexData[m + 0]);
+         float g = Float.intBitsToFloat(vertexData[m + 1]);
+         float h = Float.intBitsToFloat(vertexData[m + 2]);
+         if (this.j > f) {
+            this.j = f;
          }
 
-         if (this.z > var9) {
-            this.z = var9;
+         if (this.z > g) {
+            this.z = g;
          }
 
-         if (this.E > var10) {
-            this.E = var10;
+         if (this.E > h) {
+            this.E = h;
          }
 
-         if (this.k < var8) {
-            this.k = var8;
+         if (this.k < f) {
+            this.k = f;
          }
 
-         if (this.x < var9) {
-            this.x = var9;
+         if (this.x < g) {
+            this.x = g;
          }
 
-         if (this.A < var10) {
-            this.A = var10;
+         if (this.A < h) {
+            this.A = h;
          }
       }
    }
@@ -69,79 +69,79 @@ public class QuadBounds {
       return this.A;
    }
 
-   public boolean j(EnumFacing var1) {
-      float var5;
-      float var6;
-      float var7;
-      switch (var1) {
+   public boolean j(EnumFacing enumFacing) {
+      float f;
+      float g;
+      float h;
+      switch (enumFacing) {
          case DOWN:
-            var5 = this.T();
-            var6 = this.R();
-            var7 = 0.0F;
+            f = this.T();
+            g = this.R();
+            h = 0.0F;
             break;
          case UP:
-            var5 = this.T();
-            var6 = this.R();
-            var7 = 1.0F;
+            f = this.T();
+            g = this.R();
+            h = 1.0F;
             break;
          case NORTH:
-            var5 = this.J();
-            var6 = this.s();
-            var7 = 0.0F;
+            f = this.J();
+            g = this.s();
+            h = 0.0F;
             break;
          case SOUTH:
-            var5 = this.J();
-            var6 = this.s();
-            var7 = 1.0F;
+            f = this.J();
+            g = this.s();
+            h = 1.0F;
             break;
          case WEST:
-            var5 = this.x();
-            var6 = this.G();
-            var7 = 0.0F;
+            f = this.x();
+            g = this.G();
+            h = 0.0F;
             break;
          case EAST:
-            var5 = this.x();
-            var6 = this.G();
-            var7 = 1.0F;
+            f = this.x();
+            g = this.G();
+            h = 1.0F;
             break;
          default:
             return false;
       }
 
-      return var5 == var7 && var6 == var7;
+      return f == h && g == h;
    }
 
-   public boolean K(EnumFacing var1) {
-      float var5;
-      float var6;
-      float var7;
-      float var8;
-      switch (var1) {
+   public boolean K(EnumFacing enumFacing) {
+      float f;
+      float g;
+      float h;
+      float f2;
+      switch (enumFacing) {
          case DOWN:
          case UP:
-            var5 = this.x();
-            var6 = this.G();
-            var7 = this.J();
-            var8 = this.s();
+            f = this.x();
+            g = this.G();
+            h = this.J();
+            f2 = this.s();
             break;
          case NORTH:
          case SOUTH:
-            var5 = this.x();
-            var6 = this.G();
-            var7 = this.T();
-            var8 = this.R();
+            f = this.x();
+            g = this.G();
+            h = this.T();
+            f2 = this.R();
             break;
          case WEST:
          case EAST:
-            var5 = this.T();
-            var6 = this.R();
-            var7 = this.J();
-            var8 = this.s();
+            f = this.T();
+            g = this.R();
+            h = this.J();
+            f2 = this.s();
             break;
          default:
             return false;
       }
 
-      return var5 == 0.0F && var6 == 1.0F && var7 == 0.0F && var8 == 1.0F;
+      return f == 0.0F && g == 1.0F && h == 0.0F && f2 == 1.0F;
    }
 }

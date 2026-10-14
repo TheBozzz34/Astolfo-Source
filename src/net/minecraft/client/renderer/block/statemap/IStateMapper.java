@@ -6,5 +6,5 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public interface IStateMapper {
-   Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block var1);
+   Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block blockIn);
 }

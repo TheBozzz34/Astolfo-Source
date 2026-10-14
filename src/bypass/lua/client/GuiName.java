@@ -15,8 +15,8 @@ public final class GuiName extends ZeroArgFunction {
 
    @Override
    public LuaValue call() {
-      long var1 = a ^ 94187931862085L;
-      long var3 = var1 ^ 109496321698641L;
+      long l = a ^ 94187931862085L;
+      long m = l ^ 109496321698641L;
       if (ClientAccess.mc.currentScreen != null) {
          if (ClientAccess.mc.currentScreen instanceof GuiContainer && !(ClientAccess.mc.currentScreen instanceof GuiInventory)) {
             return valueOf("chest");

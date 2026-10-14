@@ -4,8 +4,8 @@ public class ItemBook extends Item {
    private static final long a = 6165114334048L;
 
    @Override
-   public boolean isItemTool(ItemStack var1) {
-      return var1.stackSize == 1;
+   public boolean isItemTool(ItemStack stack) {
+      return stack.stackSize == 1;
    }
 
    @Override

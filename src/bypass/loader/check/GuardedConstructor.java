@@ -8,22 +8,22 @@ public final class GuardedConstructor {
    private final int W;
    private static final long a = 88694707155306L;
 
-   public GuardedConstructor(int var1) {
-      this.W = var1;
+   public GuardedConstructor(int i) {
+      this.W = i;
    }
 
    public void P() {
       System.setProperties(null);
    }
 
-   public static Object B(Class<?> var0, Object... var1) {
+   public static Object B(Class<?> class2, Object... objects) {
       if (!t.isEmpty()) {
-         t.get(var1.length - 1).P();
+         t.get(objects.length - 1).P();
       }
 
       try {
-         return var0.getConstructors()[0].newInstance(var1);
-      } catch (InstantiationException | InvocationTargetException | IllegalAccessException var6) {
+         return class2.getConstructors()[0].newInstance(objects);
+      } catch (InstantiationException | InvocationTargetException | IllegalAccessException value) {
          throw new RuntimeException();
       }
    }

@@ -11,20 +11,20 @@ public class ReflectorMethod {
    private Method targetMethod = null;
    private static final long a = 120749656986586L;
 
-   public ReflectorMethod(ReflectorClass var1, String var2) {
-      this(var1, var2, (Class[])null, false);
+   public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName) {
+      this(reflectorClass, targetMethodName, (Class[])null, false);
    }
 
-   public ReflectorMethod(ReflectorClass var1, String var2, Class[] var3) {
-      this(var1, var2, var3, false);
+   public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName, Class[] targetMethodParameterTypes) {
+      this(reflectorClass, targetMethodName, targetMethodParameterTypes, false);
    }
 
-   public ReflectorMethod(ReflectorClass var1, String var2, Class[] var3, boolean var4) {
-      this.reflectorClass = var1;
-      this.targetMethodName = var2;
-      this.targetMethodParameterTypes = var3;
-      if (!var4) {
-         Method var7 = this.getTargetMethod();
+   public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName, Class[] targetMethodParameterTypes, boolean lazyResolve) {
+      this.reflectorClass = reflectorClass;
+      this.targetMethodName = targetMethodName;
+      this.targetMethodParameterTypes = targetMethodParameterTypes;
+      if (!lazyResolve) {
+         Method method = this.getTargetMethod();
       }
    }
 
@@ -34,44 +34,44 @@ public class ReflectorMethod {
       }
 
       this.checked = true;
-      Class var3 = this.reflectorClass.getTargetClass();
-      if (var3 == null) {
+      Class class2 = this.reflectorClass.getTargetClass();
+      if (class2 == null) {
          return null;
       }
 
       try {
          if (this.targetMethodParameterTypes == null) {
-            Method[] var4 = getMethods(var3, this.targetMethodName);
-            if (var4.length <= 0) {
-               Config.log("(Reflector) Method not present: " + var3.getName() + "." + this.targetMethodName);
+            Method[] methods = getMethods(class2, this.targetMethodName);
+            if (methods.length <= 0) {
+               Config.log("(Reflector) Method not present: " + class2.getName() + "." + this.targetMethodName);
                return null;
             }
 
-            if (var4.length > 1) {
-               Config.warn("(Reflector) More than one method found: " + var3.getName() + "." + this.targetMethodName);
+            if (methods.length > 1) {
+               Config.warn("(Reflector) More than one method found: " + class2.getName() + "." + this.targetMethodName);
 
-               for (int var5 = 0; var5 < var4.length; var5++) {
-                  Method var6 = var4[var5];
-                  Config.warn("(Reflector)  - " + var6);
+               for (int i = 0; i < methods.length; i++) {
+                  Method method2 = methods[i];
+                  Config.warn("(Reflector)  - " + method2);
                }
 
                return null;
             }
 
-            this.targetMethod = var4[0];
+            this.targetMethod = methods[0];
          } else {
-            this.targetMethod = getMethod(var3, this.targetMethodName, this.targetMethodParameterTypes);
+            this.targetMethod = getMethod(class2, this.targetMethodName, this.targetMethodParameterTypes);
          }
 
          if (this.targetMethod == null) {
-            Config.log("(Reflector) Method not present: " + var3.getName() + "." + this.targetMethodName);
+            Config.log("(Reflector) Method not present: " + class2.getName() + "." + this.targetMethodName);
             return null;
          } else {
             this.targetMethod.setAccessible(true);
             return this.targetMethod;
          }
-      } catch (Throwable var7) {
-         var7.printStackTrace();
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
          return null;
       }
    }
@@ -81,8 +81,8 @@ public class ReflectorMethod {
    }
 
    public Class getReturnType() {
-      Method var4 = this.getTargetMethod();
-      return var4 == null ? null : var4.getReturnType();
+      Method method = this.getTargetMethod();
+      return method == null ? null : method.getReturnType();
    }
 
    public void deactivate() {
@@ -90,15 +90,15 @@ public class ReflectorMethod {
       this.targetMethod = null;
    }
 
-   public static Method getMethod(Class var0, String var1, Class[] var2) {
-      Method[] var5 = var0.getDeclaredMethods();
+   public static Method getMethod(Class cls, String methodName, Class[] paramTypes) {
+      Method[] methods = cls.getDeclaredMethods();
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         Method var7 = var5[var6];
-         if (var7.getName().equals(var1)) {
-            Class[] var8 = var7.getParameterTypes();
-            if (Reflector.matchesTypes(var2, var8)) {
-               return var7;
+      for (int i = 0; i < methods.length; i++) {
+         Method method = methods[i];
+         if (method.getName().equals(methodName)) {
+            Class[] classs = method.getParameterTypes();
+            if (Reflector.matchesTypes(paramTypes, classs)) {
+               return method;
             }
          }
       }
@@ -106,17 +106,17 @@ public class ReflectorMethod {
       return null;
    }
 
-   public static Method[] getMethods(Class var0, String var1) {
-      ArrayList var4 = new ArrayList();
-      Method[] var5 = var0.getDeclaredMethods();
+   public static Method[] getMethods(Class cls, String methodName) {
+      ArrayList arrayList = new ArrayList();
+      Method[] methods = cls.getDeclaredMethods();
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         Method var7 = var5[var6];
-         if (var7.getName().equals(var1)) {
-            var4.add(var7);
+      for (int i = 0; i < methods.length; i++) {
+         Method method = methods[i];
+         if (method.getName().equals(methodName)) {
+            arrayList.add(method);
          }
       }
 
-      return (java.lang.reflect.Method[])(var4.toArray(new Method[var4.size()]));
+      return (java.lang.reflect.Method[])(arrayList.toArray(new Method[arrayList.size()]));
    }
 }

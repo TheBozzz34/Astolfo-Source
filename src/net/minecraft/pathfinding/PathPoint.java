@@ -15,39 +15,39 @@ public class PathPoint {
    public boolean visited;
    private static final long a = 77667759713957L;
 
-   public PathPoint(int var1, int var2, int var3) {
-      this.xCoord = var1;
-      this.yCoord = var2;
-      this.zCoord = var3;
-      this.hash = makeHash(var1, var2, var3);
+   public PathPoint(int x, int y, int z) {
+      this.xCoord = x;
+      this.yCoord = y;
+      this.zCoord = z;
+      this.hash = makeHash(x, y, z);
    }
 
-   public static int makeHash(int var0, int var1, int var2) {
-      return var1 & 0xFF | (var0 & 32767) << 8 | (var2 & 32767) << 24 | (var0 < 0 ? Integer.MIN_VALUE : 0) | (var2 < 0 ? 32768 : 0);
+   public static int makeHash(int x, int y, int z) {
+      return y & 0xFF | (x & 32767) << 8 | (z & 32767) << 24 | (x < 0 ? Integer.MIN_VALUE : 0) | (z < 0 ? 32768 : 0);
    }
 
-   public float distanceTo(PathPoint var1) {
-      float var2 = var1.xCoord - this.xCoord;
-      float var3 = var1.yCoord - this.yCoord;
-      float var4 = var1.zCoord - this.zCoord;
-      return MathHelper.sqrt_float(var2 * var2 + var3 * var3 + var4 * var4);
+   public float distanceTo(PathPoint pathpointIn) {
+      float f = pathpointIn.xCoord - this.xCoord;
+      float g = pathpointIn.yCoord - this.yCoord;
+      float h = pathpointIn.zCoord - this.zCoord;
+      return MathHelper.sqrt_float(f * f + g * g + h * h);
    }
 
-   public float distanceToSquared(PathPoint var1) {
-      float var2 = var1.xCoord - this.xCoord;
-      float var3 = var1.yCoord - this.yCoord;
-      float var4 = var1.zCoord - this.zCoord;
-      return var2 * var2 + var3 * var3 + var4 * var4;
+   public float distanceToSquared(PathPoint pathpointIn) {
+      float f = pathpointIn.xCoord - this.xCoord;
+      float g = pathpointIn.yCoord - this.yCoord;
+      float h = pathpointIn.zCoord - this.zCoord;
+      return f * f + g * g + h * h;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!(var1 instanceof PathPoint)) {
+   public boolean equals(Object object) {
+      if (!(object instanceof PathPoint)) {
          return false;
       }
 
-      PathPoint var5 = (PathPoint)var1;
-      return this.hash == var5.hash && this.xCoord == var5.xCoord && this.yCoord == var5.yCoord && this.zCoord == var5.zCoord;
+      PathPoint pathPoint = (PathPoint)object;
+      return this.hash == pathPoint.hash && this.xCoord == pathPoint.xCoord && this.yCoord == pathPoint.yCoord && this.zCoord == pathPoint.zCoord;
    }
 
    @Override

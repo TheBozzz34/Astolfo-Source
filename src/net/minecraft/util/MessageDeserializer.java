@@ -20,40 +20,44 @@ public class MessageDeserializer extends ByteToMessageDecoder {
    private final EnumPacketDirection direction;
    private static final long a = 87833422011271L;
 
-   public MessageDeserializer(EnumPacketDirection var1) {
-      this.direction = var1;
+   public MessageDeserializer(EnumPacketDirection direction) {
+      this.direction = direction;
    }
 
    @Override
-   public void decode(ChannelHandlerContext var1, ByteBuf var2, List<Object> var3) throws IOException, InstantiationException, IllegalAccessException, Exception {
-      if (var2.readableBytes() != 0) {
-         PacketBuffer var7 = new PacketBuffer(var2);
-         int var8 = var7.readVarIntFromBuffer();
-         Packet var9 = var1.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacket(this.direction, var8);
-         if (var9 == null) {
-            throw new IOException("Bad packet id " + var8);
+   public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws IOException, InstantiationException, IllegalAccessException, Exception {
+      if (byteBuf.readableBytes() != 0) {
+         PacketBuffer packetBuffer = new PacketBuffer(byteBuf);
+         int i = packetBuffer.readVarIntFromBuffer();
+         Packet packet2 = channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacket(this.direction, i);
+         if (packet2 == null) {
+            throw new IOException("Bad packet id " + i);
          }
 
-         var9.readPacketData(var7);
-         if (var7.readableBytes() > 0) {
+         packet2.readPacketData(packetBuffer);
+         if (packetBuffer.readableBytes() > 0) {
             throw new IOException(
                "Packet "
-                  + var1.channel().attr(NetworkManager.attrKeyConnectionState).get().getId()
+                  + channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get().getId()
                   + "/"
-                  + var8
+                  + i
                   + " ("
-                  + var9.getClass().getSimpleName()
+                  + packet2.getClass().getSimpleName()
                   + ") was larger than I expected, found "
-                  + var7.readableBytes()
+                  + packetBuffer.readableBytes()
                   + " bytes extra whilst reading packet "
-                  + var8
+                  + i
             );
          }
 
-         var3.add(var9);
+         list.add(packet2);
          if (logger.isDebugEnabled()) {
             logger.debug(
-               RECEIVED_PACKET_MARKER, " IN: [{}:{}] {}", var1.channel().attr(NetworkManager.attrKeyConnectionState).get(), var8, var9.getClass().getName()
+               RECEIVED_PACKET_MARKER,
+               " IN: [{}:{}] {}",
+               channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get(),
+               i,
+               packet2.getClass().getName()
             );
          }
       }

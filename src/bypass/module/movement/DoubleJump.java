@@ -18,9 +18,9 @@ public final class DoubleJump extends Module {
    private boolean d;
    private boolean T;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      if (var1x.getState() == EventState.PRE) {
+      if (updateEvent.getState() == EventState.PRE) {
          switch ((DoubleJumpMode)this.mode.getValue()) {
             case NCP:
                if (mc.thePlayer.isCollidedHorizontally && this.e()) {
@@ -45,9 +45,9 @@ public final class DoubleJump extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING
-         && var1x.getPacket() instanceof C03PacketPlayer
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING
+         && packetEvent.getPacket() instanceof C03PacketPlayer
          && this.d
          && this.mode.getValue() == DoubleJumpMode.NCP) {
          this.d = false;
@@ -56,8 +56,8 @@ public final class DoubleJump extends Module {
    private static final long c = 79526476327355L;
    private static final long j = 7500476456166752266L;
 
-   public DoubleJump(Category var1) {
-      super(var1);
+   public DoubleJump(Category category) {
+      super(category);
       this.addSettings(this.mode);
    }
 

@@ -6,10 +6,10 @@ import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SocketChannel;
 
 public interface NioConnection extends Closeable {
-   void g(SocketChannel var1) throws IOException;
+   void g(SocketChannel socketChannel) throws IOException;
 
    @Override
    void close() throws IOException;
 
-   void p(SocketChannel var1, int var2) throws ClosedChannelException;
+   void p(SocketChannel socketChannel, int i) throws ClosedChannelException;
 }

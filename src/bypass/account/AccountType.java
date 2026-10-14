@@ -7,7 +7,7 @@ public enum AccountType {
    public String f;
    private static final AccountType[] X = new AccountType[]{MOJANG, THEALTENING};
 
-   AccountType(String var3) {
-      this.f = var3;
+   AccountType(String string2) {
+      this.f = string2;
    }
 }

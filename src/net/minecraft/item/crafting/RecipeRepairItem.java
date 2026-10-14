@@ -12,56 +12,56 @@ public class RecipeRepairItem implements IRecipe {
    private static final long b = -7843211187075415964L;
 
    @Override
-   public boolean matches(InventoryCrafting var1, World var2) {
-      ArrayList var6 = Lists.newArrayList();
+   public boolean matches(InventoryCrafting inv, World worldIn) {
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (int var7 = 0; var7 < var1.getSizeInventory(); var7++) {
-         ItemStack var8 = var1.getStackInSlot(var7);
-         if (var8 != null) {
-            var6.add(var8);
-            if (var6.size() > 1) {
-               ItemStack var9 = (ItemStack)var6.get(0);
-               if (var8.getItem() != var9.getItem() || var9.stackSize != 1 || var8.stackSize != 1 || !var9.getItem().isDamageable()) {
+      for (int i = 0; i < inv.getSizeInventory(); i++) {
+         ItemStack itemStack = inv.getStackInSlot(i);
+         if (itemStack != null) {
+            arrayList.add(itemStack);
+            if (arrayList.size() > 1) {
+               ItemStack itemStack2 = (ItemStack)arrayList.get(0);
+               if (itemStack.getItem() != itemStack2.getItem() || itemStack2.stackSize != 1 || itemStack.stackSize != 1 || !itemStack2.getItem().isDamageable()) {
                   return false;
                }
             }
          }
       }
 
-      return var6.size() == 2;
+      return arrayList.size() == 2;
    }
 
    @Override
-   public ItemStack getCraftingResult(InventoryCrafting var1) {
-      ArrayList var5 = Lists.newArrayList();
+   public ItemStack getCraftingResult(InventoryCrafting inv) {
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (int var6 = 0; var6 < var1.getSizeInventory(); var6++) {
-         ItemStack var7 = var1.getStackInSlot(var6);
-         if (var7 != null) {
-            var5.add(var7);
-            if (var5.size() > 1) {
-               ItemStack var8 = (ItemStack)var5.get(0);
-               if (var7.getItem() != var8.getItem() || var8.stackSize != 1 || var7.stackSize != 1 || !var8.getItem().isDamageable()) {
+      for (int i = 0; i < inv.getSizeInventory(); i++) {
+         ItemStack itemStack = inv.getStackInSlot(i);
+         if (itemStack != null) {
+            arrayList.add(itemStack);
+            if (arrayList.size() > 1) {
+               ItemStack itemStack2 = (ItemStack)arrayList.get(0);
+               if (itemStack.getItem() != itemStack2.getItem() || itemStack2.stackSize != 1 || itemStack.stackSize != 1 || !itemStack2.getItem().isDamageable()) {
                   return null;
                }
             }
          }
       }
 
-      if (var5.size() == 2) {
-         ItemStack var13 = (ItemStack)var5.get(0);
-         ItemStack var14 = (ItemStack)var5.get(1);
-         if (var13.getItem() == var14.getItem() && var13.stackSize == 1 && var14.stackSize == 1 && var13.getItem().isDamageable()) {
-            Item var15 = var13.getItem();
-            int var9 = var15.getMaxDamage() - var13.getItemDamage();
-            int var10 = var15.getMaxDamage() - var14.getItemDamage();
-            int var11 = var9 + var10 + var15.getMaxDamage() * 5 / (int)b;
-            int var12 = var15.getMaxDamage() - var11;
-            if (var12 < 0) {
-               var12 = 0;
+      if (arrayList.size() == 2) {
+         ItemStack itemStack3 = (ItemStack)arrayList.get(0);
+         ItemStack itemStack4 = (ItemStack)arrayList.get(1);
+         if (itemStack3.getItem() == itemStack4.getItem() && itemStack3.stackSize == 1 && itemStack4.stackSize == 1 && itemStack3.getItem().isDamageable()) {
+            Item item = itemStack3.getItem();
+            int j = item.getMaxDamage() - itemStack3.getItemDamage();
+            int k = item.getMaxDamage() - itemStack4.getItemDamage();
+            int l = j + k + item.getMaxDamage() * 5 / (int)b;
+            int m = item.getMaxDamage() - l;
+            if (m < 0) {
+               m = 0;
             }
 
-            return new ItemStack(var13.getItem(), 1, var12);
+            return new ItemStack(itemStack3.getItem(), 1, m);
          }
       }
 
@@ -79,16 +79,16 @@ public class RecipeRepairItem implements IRecipe {
    }
 
    @Override
-   public ItemStack[] getRemainingItems(InventoryCrafting var1) {
-      ItemStack[] var5 = new ItemStack[var1.getSizeInventory()];
+   public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+      ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         ItemStack var7 = var1.getStackInSlot(var6);
-         if (var7 != null && var7.getItem().hasContainerItem()) {
-            var5[var6] = new ItemStack(var7.getItem().getContainerItem());
+      for (int i = 0; i < itemStacks.length; i++) {
+         ItemStack itemStack = inv.getStackInSlot(i);
+         if (itemStack != null && itemStack.getItem().hasContainerItem()) {
+            itemStacks[i] = new ItemStack(itemStack.getItem().getContainerItem());
          }
       }
 
-      return var5;
+      return itemStacks;
    }
 }

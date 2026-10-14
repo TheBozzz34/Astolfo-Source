@@ -84,7 +84,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
    }
 
    @Override
@@ -93,17 +93,17 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
+   public void actionPerformed(GuiButton button) throws IOException {
    }
 
    @Override
-   public void confirmClicked(boolean var1, int var2) {
+   public void confirmClicked(boolean result, int id) {
    }
 
-   private void drawPanorama(int var1, int var2, float var3) {
-      long var4 = bb ^ 98884772780215L;
-      Tessellator var7 = Tessellator.getInstance();
-      WorldRenderer var8 = var7.getWorldRenderer();
+   private void drawPanorama(int j, int k, float g) {
+      long l = bb ^ 98884772780215L;
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.matrixMode(5889);
       GlStateManager.pushMatrix();
       GlStateManager.loadIdentity();
@@ -120,47 +120,47 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.disableCull();
       GlStateManager.depthMask(false);
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-      byte var9 = 8;
+      byte b = 8;
 
-      for (int var10 = 0; var10 < var9 * var9; var10++) {
+      for (int i = 0; i < b * b; i++) {
          GlStateManager.pushMatrix();
-         float var11 = ((float)(var10 % var9) / var9 - 0.5F) / 64.0F;
-         float var12 = ((float)(var10 / var9) / var9 - 0.5F) / 64.0F;
-         float var13 = 0.0F;
-         GlStateManager.translate(var11, var12, var13);
-         GlStateManager.rotate(MathHelper.sin((this.u + var3) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-         GlStateManager.rotate(-(this.u + var3) * 0.1F, 0.0F, 1.0F, 0.0F);
+         float h = ((float)(i % b) / b - 0.5F) / 64.0F;
+         float f2 = ((float)(i / b) / b - 0.5F) / 64.0F;
+         float f3 = 0.0F;
+         GlStateManager.translate(h, f2, f3);
+         GlStateManager.rotate(MathHelper.sin((this.u + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+         GlStateManager.rotate(-(this.u + g) * 0.1F, 0.0F, 1.0F, 0.0F);
 
-         for (int var14 = 0; var14 < 6; var14++) {
+         for (int m = 0; m < 6; m++) {
             GlStateManager.pushMatrix();
-            if (var14 == 1) {
+            if (m == 1) {
                GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (var14 == 2) {
+            if (m == 2) {
                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (var14 == 3) {
+            if (m == 3) {
                GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (var14 == 4) {
+            if (m == 4) {
                GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            if (var14 == 5) {
+            if (m == 5) {
                GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            this.mc.getTextureManager().bindTexture(titlePanoramaPaths[var14]);
-            var8.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            int var15 = 255 / (var10 + 1);
-            var8.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, var15).endVertex();
-            var8.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, var15).endVertex();
-            var8.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, var15).endVertex();
-            var8.pos(-1.0, 1.0, 1.0).tex(0.0, 1.0).color(255, 255, 255, var15).endVertex();
-            var7.draw();
+            this.mc.getTextureManager().bindTexture(titlePanoramaPaths[m]);
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            int n = 255 / (i + 1);
+            worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, n).endVertex();
+            worldRenderer.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, n).endVertex();
+            worldRenderer.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, n).endVertex();
+            worldRenderer.pos(-1.0, 1.0, 1.0).tex(0.0, 1.0).color(255, 255, 255, n).endVertex();
+            tessellator.draw();
             GlStateManager.popMatrix();
          }
 
@@ -168,12 +168,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
          GlStateManager.colorMask(true, true, true, false);
       }
 
-      var8.setTranslation(0.0, 0.0, 0.0);
+      worldRenderer.setTranslation(0.0, 0.0, 0.0);
       GlStateManager.colorMask(true, true, true, true);
-      long var10000 = 7483274872786576330L ^ var4;
+      long l2 = 7483274872786576330L ^ l;
       GlStateManager.matrixMode(5889);
       GlStateManager.popMatrix();
-      var10000 = 9101244035744828431L ^ var4;
+      l2 = 9101244035744828431L ^ l;
       GlStateManager.matrixMode(5888);
       GlStateManager.popMatrix();
       GlStateManager.depthMask(true);
@@ -181,7 +181,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.enableDepth();
    }
 
-   private void rotateAndBlurSkybox(float var1) {
+   private void rotateAndBlurSkybox(float g) {
       this.mc.getTextureManager().bindTexture(Y);
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
@@ -189,175 +189,175 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.enableBlend();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.colorMask(true, true, true, false);
-      Tessellator var5 = Tessellator.getInstance();
-      WorldRenderer var6 = var5.getWorldRenderer();
-      var6.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
       GlStateManager.disableAlpha();
-      byte var7 = 3;
+      byte b = 3;
 
-      for (int var8 = 0; var8 < var7; var8++) {
-         float var9 = 1.0F / (var8 + 1);
-         int var10 = this.width;
-         int var11 = this.height;
-         float var12 = (var8 - var7 / 2) / 256.0F;
-         var6.pos(var10, var11, this.zLevel).tex(0.0F + var12, 1.0).color(1.0F, 1.0F, 1.0F, var9).endVertex();
-         var6.pos(var10, 0.0, this.zLevel).tex(1.0F + var12, 1.0).color(1.0F, 1.0F, 1.0F, var9).endVertex();
-         var6.pos(0.0, 0.0, this.zLevel).tex(1.0F + var12, 0.0).color(1.0F, 1.0F, 1.0F, var9).endVertex();
-         var6.pos(0.0, var11, this.zLevel).tex(0.0F + var12, 0.0).color(1.0F, 1.0F, 1.0F, var9).endVertex();
+      for (int i = 0; i < b; i++) {
+         float f = 1.0F / (i + 1);
+         int j = this.width;
+         int k = this.height;
+         float h = (i - b / 2) / 256.0F;
+         worldRenderer.pos(j, k, this.zLevel).tex(0.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
+         worldRenderer.pos(j, 0.0, this.zLevel).tex(1.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
+         worldRenderer.pos(0.0, 0.0, this.zLevel).tex(1.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
+         worldRenderer.pos(0.0, k, this.zLevel).tex(0.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
       }
 
-      var5.draw();
+      tessellator.draw();
       GlStateManager.enableAlpha();
       GlStateManager.colorMask(true, true, true, true);
    }
 
-   private void renderSkybox(int var1, int var2, float var3) {
+   private void renderSkybox(int j, int k, float g) {
       this.mc.getFramebuffer().unbindFramebuffer();
       GlStateManager.viewport(0, 0, 256, 256);
-      this.drawPanorama(var1, var2, var3);
-      this.rotateAndBlurSkybox(var3);
-      this.rotateAndBlurSkybox(var3);
-      this.rotateAndBlurSkybox(var3);
-      this.rotateAndBlurSkybox(var3);
-      this.rotateAndBlurSkybox(var3);
-      this.rotateAndBlurSkybox(var3);
-      this.rotateAndBlurSkybox(var3);
+      this.drawPanorama(j, k, g);
+      this.rotateAndBlurSkybox(g);
+      this.rotateAndBlurSkybox(g);
+      this.rotateAndBlurSkybox(g);
+      this.rotateAndBlurSkybox(g);
+      this.rotateAndBlurSkybox(g);
+      this.rotateAndBlurSkybox(g);
+      this.rotateAndBlurSkybox(g);
       this.mc.getFramebuffer().bindFramebuffer(true);
       GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-      float var6 = this.width > this.height ? 120.0F / this.width : 120.0F / this.height;
-      float var7 = this.height * var6 / 256.0F;
-      float var8 = this.width * var6 / 256.0F;
-      int var9 = this.width;
-      int var10 = this.height;
-      Tessellator var11 = Tessellator.getInstance();
-      WorldRenderer var12 = var11.getWorldRenderer();
-      var12.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-      var12.pos(0.0, var10, this.zLevel).tex(0.5F - var7, 0.5F + var8).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-      var12.pos(var9, var10, this.zLevel).tex(0.5F - var7, 0.5F - var8).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-      var12.pos(var9, 0.0, this.zLevel).tex(0.5F + var7, 0.5F - var8).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-      var12.pos(0.0, 0.0, this.zLevel).tex(0.5F + var7, 0.5F + var8).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-      var11.draw();
+      float f = this.width > this.height ? 120.0F / this.width : 120.0F / this.height;
+      float h = this.height * f / 256.0F;
+      float f2 = this.width * f / 256.0F;
+      int i = this.width;
+      int l = this.height;
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+      worldRenderer.pos(0.0, l, this.zLevel).tex(0.5F - h, 0.5F + f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+      worldRenderer.pos(i, l, this.zLevel).tex(0.5F - h, 0.5F - f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+      worldRenderer.pos(i, 0.0, this.zLevel).tex(0.5F + h, 0.5F - f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+      worldRenderer.pos(0.0, 0.0, this.zLevel).tex(0.5F + h, 0.5F + f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+      tessellator.draw();
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      long var4 = bb ^ 35103618917102L;
-      long var6 = (var4 ^ 7056163135495L) >>> 16;
-      int var8 = (int)((var4 ^ 7056163135495L) << 48 >>> 48);
-      ScaledResolution var10 = new ScaledResolution(this.mc);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      long l = bb ^ 35103618917102L;
+      long m = (l ^ 7056163135495L) >>> 16;
+      int j = (int)((l ^ 7056163135495L) << 48 >>> 48);
+      ScaledResolution scaledResolution = new ScaledResolution(this.mc);
       GlStateManager.disableAlpha();
-      this.renderSkybox(var1, var2, var3);
+      this.renderSkybox(mouseX, mouseY, partialTicks);
       GlStateManager.enableAlpha();
-      h.v("Astolfo Client (#" + Astolfo.INSTANCE.getVersion() + ")", 8.0F, var10.getScaledHeight() - 12, new Color(255, 255, 255, 150).getRGB(), false, false);
-      float var11 = var10.getScaledWidth() - 10.0F;
-      float var12 = 5.0F;
-      float var13 = 8.0F;
+      h.v("Astolfo Client (#" + Astolfo.INSTANCE.getVersion() + ")", 8.0F, scaledResolution.getScaledHeight() - 12, new Color(255, 255, 255, 150).getRGB(), false, false);
+      float f = scaledResolution.getScaledWidth() - 10.0F;
+      float g = 5.0F;
+      float f2 = 8.0F;
 
-      for (int var14 = 0; var14 < 5; var14++) {
-         String var15;
-         ResourceLocation var16;
-         switch (var14) {
+      for (int k = 0; k < 5; k++) {
+         String string;
+         ResourceLocation resourceLocation;
+         switch (k) {
             case 0:
-               var15 = "";
-               var16 = e;
+               string = "";
+               resourceLocation = e;
                break;
             case 1:
-               var15 = "Options";
-               var16 = x;
+               string = "Options";
+               resourceLocation = x;
                break;
             case 2:
-               var15 = "Language";
-               var16 = N;
+               string = "Language";
+               resourceLocation = N;
                break;
             case 3:
-               var15 = "Sense";
-               var16 = Astolfo.INSTANCE.getSenseSetting().getValue() ? V : K;
+               string = "Sense";
+               resourceLocation = Astolfo.INSTANCE.getSenseSetting().getValue() ? V : K;
                break;
             case 4:
-               var15 = "Discord";
-               var16 = i;
+               string = "Discord";
+               resourceLocation = i;
                break;
             default:
                continue;
          }
 
-         float var17 = R.getStringWidth(var15);
-         float var18 = var17 + var12 * 2.0F + var13 * 2.0F;
-         boolean var19 = var1 > var11 - var18 && var1 < var11 && var2 > 7.5F && var2 < 35.0F;
-         this.n(R, var15, (int)(var11 - var18 / 2.0F + var13), 20.0F, var19 ? -1 : -1442840577, false);
-         G(var16, var13, var11 - var18 - var12 + var13, 12.0F);
-         var11 -= var18 + 10.0F;
+         float f3 = R.getStringWidth(string);
+         float f4 = f3 + g * 2.0F + f2 * 2.0F;
+         boolean bl = mouseX > f - f4 && mouseX < f && mouseY > 7.5F && mouseY < 35.0F;
+         this.n(R, string, (int)(f - f4 / 2.0F + f2), 20.0F, bl ? -1 : -1442840577, false);
+         G(resourceLocation, f2, f - f4 - g + f2, 12.0F);
+         f -= f4 + 10.0F;
       }
 
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      float var23 = var10.getScaledWidth() / 2 - 100.0F;
-      float var25 = var10.getScaledHeight() / 2 - 90.0F;
-      byte var27 = 76;
-      byte var28 = 75;
-      int var29 = this.width / 2 - 38;
-      int var30 = this.height / 2 - this.height / 3;
+      float f5 = scaledResolution.getScaledWidth() / 2 - 100.0F;
+      float f6 = scaledResolution.getScaledHeight() / 2 - 90.0F;
+      byte b = 76;
+      byte b2 = 75;
+      int i2 = this.width / 2 - 38;
+      int i3 = this.height / 2 - this.height / 3;
       GL11.glEnable(3553);
       GL11.glBlendFunc(770, 771);
       GL11.glEnable(3042);
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/logo.png"));
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
-      drawModalRectWithCustomSizedTexture(var29, var30, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);
-      var23 = var10.getScaledWidth() / 2 - 65.0F;
-      var25 += 110.0F;
-      String[] var20 = new String[]{"SINGLEPLAYER", "MULTIPLAYER", "ALT MANAGER"};
+      drawModalRectWithCustomSizedTexture(i2, i3, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);
+      f5 = scaledResolution.getScaledWidth() / 2 - 65.0F;
+      f6 += 110.0F;
+      String[] strings = new String[]{"SINGLEPLAYER", "MULTIPLAYER", "ALT MANAGER"};
 
-      for (int var21 = 0; var21 < 3; var21++) {
-         RenderUtil.drawRect(var23, var25, var23 + 130.0F, var25 + 19.0F, new Color(0, 0, 0, 100).getRGB());
-         boolean var22 = var1 >= var23 && var1 <= var23 + 130.0F && var2 >= var25 && var2 <= var25 + 19.0F;
+      for (int i4 = 0; i4 < 3; i4++) {
+         RenderUtil.drawRect(f5, f6, f5 + 130.0F, f6 + 19.0F, new Color(0, 0, 0, 100).getRGB());
+         boolean bl2 = mouseX >= f5 && mouseX <= f5 + 130.0F && mouseY >= f6 && mouseY <= f6 + 19.0F;
          GlStateManager.enableBlend();
-         this.n(R, var20[var21], (int)(var23 + 65.0F), (int)(var25 + 9.5F), var22 ? -1 : -1442840577, false);
-         var25 += 21.0F;
+         this.n(R, strings[i4], (int)(f5 + 65.0F), (int)(f6 + 9.5F), bl2 ? -1 : -1442840577, false);
+         f6 += 21.0F;
       }
 
-      this.W(var1, var2, var3);
-      this.M(var1, var2);
-      String var31 = String.format("Welcome, %s", this.mc.mouseHelper.Y().getAccount().getUsername());
-      h.v(var31, var10.getScaledWidth() - h.getStringWidth(var31) - 8, var10.getScaledHeight() - 12, Color.WHITE.getRGB(), false, false);
-      super.drawScreen(var1, var2, var3);
+      this.W(mouseX, mouseY, partialTicks);
+      this.M(mouseX, mouseY);
+      String string2 = String.format("Welcome, %s", this.mc.mouseHelper.Y().getAccount().getUsername());
+      h.v(string2, scaledResolution.getScaledWidth() - h.getStringWidth(string2) - 8, scaledResolution.getScaledHeight() - 12, Color.WHITE.getRGB(), false, false);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public void H(float var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8) {
-      this.e(var1, var2, var3, var4, var5, var7);
-      this.e(var1 + var6, var2 + var6, var3 - var6, var4 - var6, var5, var8);
+   public void H(float g, float f2, float f3, float f4, float f5, float f6, int j, int k) {
+      this.e(g, f2, f3, f4, f5, j);
+      this.e(g + f6, f2 + f6, f3 - f6, f4 - f6, f5, k);
    }
 
-   public void e(double var1, double var3, double var5, double var7, double var9, int var11) {
-      float var15 = (var11 >> 24 & 0xFF) / 255.0F;
-      float var16 = (var11 >> 16 & 0xFF) / 255.0F;
-      float var17 = (var11 >> 8 & 0xFF) / 255.0F;
-      float var18 = (var11 & 0xFF) / 255.0F;
+   public void e(double d, double d2, double d3, double d4, double d5, int j) {
+      float f = (j >> 24 & 0xFF) / 255.0F;
+      float g = (j >> 16 & 0xFF) / 255.0F;
+      float h = (j >> 8 & 0xFF) / 255.0F;
+      float f2 = (j & 0xFF) / 255.0F;
       GL11.glPushAttrib(0);
       GL11.glScaled(0.5, 0.5, 0.5);
-      var1 *= 2.0;
-      var3 *= 2.0;
-      var5 *= 2.0;
-      var7 *= 2.0;
+      d *= 2.0;
+      d2 *= 2.0;
+      d3 *= 2.0;
+      d4 *= 2.0;
       GL11.glEnable(3042);
       GL11.glDisable(3553);
-      GL11.glColor4f(var16, var17, var18, var15);
+      GL11.glColor4f(g, h, f2, f);
       GL11.glEnable(2848);
       GL11.glBegin(9);
 
-      for (int var19 = 0; var19 <= 90; var19 += 3) {
-         GL11.glVertex2d(var1 + var9 + Math.sin(var19 * Math.PI / 180.0) * (var9 * -1.0), var3 + var9 + Math.cos(var19 * Math.PI / 180.0) * (var9 * -1.0));
+      for (int i = 0; i <= 90; i += 3) {
+         GL11.glVertex2d(d + d5 + Math.sin(i * Math.PI / 180.0) * (d5 * -1.0), d2 + d5 + Math.cos(i * Math.PI / 180.0) * (d5 * -1.0));
       }
 
-      for (int var24 = 90; var24 <= 180; var24 += 3) {
-         GL11.glVertex2d(var1 + var9 + Math.sin(var24 * Math.PI / 180.0) * (var9 * -1.0), var7 - var9 + Math.cos(var24 * Math.PI / 180.0) * (var9 * -1.0));
+      for (int k = 90; k <= 180; k += 3) {
+         GL11.glVertex2d(d + d5 + Math.sin(k * Math.PI / 180.0) * (d5 * -1.0), d4 - d5 + Math.cos(k * Math.PI / 180.0) * (d5 * -1.0));
       }
 
-      for (int var25 = 0; var25 <= 90; var25 += 3) {
-         GL11.glVertex2d(var5 - var9 + Math.sin(var25 * Math.PI / 180.0) * var9, var7 - var9 + Math.cos(var25 * Math.PI / 180.0) * var9);
+      for (int l = 0; l <= 90; l += 3) {
+         GL11.glVertex2d(d3 - d5 + Math.sin(l * Math.PI / 180.0) * d5, d4 - d5 + Math.cos(l * Math.PI / 180.0) * d5);
       }
 
-      for (int var26 = 90; var26 <= 180; var26 += 3) {
-         GL11.glVertex2d(var5 - var9 + Math.sin(var26 * Math.PI / 180.0) * var9, var3 + var9 + Math.cos(var26 * Math.PI / 180.0) * var9);
+      for (int m = 90; m <= 180; m += 3) {
+         GL11.glVertex2d(d3 - d5 + Math.sin(m * Math.PI / 180.0) * d5, d2 + d5 + Math.cos(m * Math.PI / 180.0) * d5);
       }
 
       GL11.glEnd();
@@ -366,76 +366,76 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GL11.glPopAttrib();
    }
 
-   public static void G(ResourceLocation var0, float var1, float var2, float var3) {
-      float var6 = var1 * 2.0F;
-      float var7 = var1 * 2.0F;
-      float var8 = 0.0F;
-      float var9 = 0.0F;
+   public static void G(ResourceLocation resourceLocation, float g, float f2, float f3) {
+      float f = g * 2.0F;
+      float h = g * 2.0F;
+      float f4 = 0.0F;
+      float f5 = 0.0F;
       GL11.glEnable(3042);
-      Minecraft.getMinecraft().getTextureManager().bindTexture(var0);
+      Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
       GL11.glBegin(7);
-      GL11.glTexCoord2d(var8 / var1, var9 / var1);
-      GL11.glVertex2d(var2, var3);
-      GL11.glTexCoord2d(var8 / var1, (var9 + var1) / var1);
-      GL11.glVertex2d(var2, var3 + var6);
-      GL11.glTexCoord2d((var8 + var1) / var1, (var9 + var1) / var1);
-      GL11.glVertex2d(var2 + var7, var3 + var6);
-      GL11.glTexCoord2d((var8 + var1) / var1, var9 / var1);
-      GL11.glVertex2d(var2 + var7, var3);
+      GL11.glTexCoord2d(f4 / g, f5 / g);
+      GL11.glVertex2d(f2, f3);
+      GL11.glTexCoord2d(f4 / g, (f5 + g) / g);
+      GL11.glVertex2d(f2, f3 + f);
+      GL11.glTexCoord2d((f4 + g) / g, (f5 + g) / g);
+      GL11.glVertex2d(f2 + h, f3 + f);
+      GL11.glTexCoord2d((f4 + g) / g, f5 / g);
+      GL11.glVertex2d(f2 + h, f3);
       GL11.glEnd();
    }
 
-   public void n(CustomFontRenderer var1, String var2, float var3, float var4, int var5, boolean var6) {
-      int var10 = var1.getStringWidth(var2);
-      int var11 = var1.getStringHeight(var2);
-      float var12 = var3 - var10 / 2.0F;
-      float var13 = var4 - var11 / 2.0F;
-      if (var6) {
-         var1.drawStringWithShadow(var2, (int)var12, (int)var13, var5);
+   public void n(CustomFontRenderer customFontRenderer, String string, float g, float f2, int j, boolean bl) {
+      int i = customFontRenderer.getStringWidth(string);
+      int k = customFontRenderer.getStringHeight(string);
+      float f = g - i / 2.0F;
+      float h = f2 - k / 2.0F;
+      if (bl) {
+         customFontRenderer.drawStringWithShadow(string, (int)f, (int)h, j);
       } else {
-         var1.drawString(var2, (int)var12, (int)var13, var5);
+         customFontRenderer.drawString(string, (int)f, (int)h, j);
       }
    }
 
-   private void M(int var1, int var2) {
-      int var6 = this.fontRendererObj.getStringWidth("Changelog");
-      boolean var7 = this.f(0, 0, var6 + 5, this.fontRendererObj.FONT_HEIGHT + 4, var1, var2);
-      Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("Changelog", 3.0F, 3.0F, var7 ? Color.WHITE.getRGB() : this.w);
-      if (var7) {
-         byte var8 = 15;
+   private void M(int j, int k) {
+      int i = this.fontRendererObj.getStringWidth("Changelog");
+      boolean bl = this.f(0, 0, i + 5, this.fontRendererObj.FONT_HEIGHT + 4, j, k);
+      Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("Changelog", 3.0F, 3.0F, bl ? Color.WHITE.getRGB() : this.w);
+      if (bl) {
+         byte b2 = 15;
 
-         for (Entry var10 : n.entrySet()) {
+         for (Entry entry : n.entrySet()) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow((String)var10.getKey(), 15.0F, var8 * 2, this.w);
+            Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow((String)entry.getKey(), 15.0F, b2 * 2, this.w);
             GlStateManager.popMatrix();
-            var8 += 5;
+            b2 += 5;
 
-            for (Object var12$raw : (List)var10.getValue()) {
-               String var12 = (String)var12$raw;
+            for (Object object : (List)entry.getValue()) {
+               String string = (String)object;
                GlStateManager.pushMatrix();
                GlStateManager.scale(0.5F, 0.5F, 0.5F);
-               int var13 = var12.startsWith("[+]")
+               int l = string.startsWith("[+]")
                   ? this.B
-                  : (var12.startsWith("[-]") ? this.q : (var12.startsWith("[0]") ? this.d : (var12.startsWith("[/]") ? this.b : Color.GRAY.getRGB())));
-               drawRect(20, var8 * 2 + 2, 25, var8 * 2 + 7, var13);
+                  : (string.startsWith("[-]") ? this.q : (string.startsWith("[0]") ? this.d : (string.startsWith("[/]") ? this.b : Color.GRAY.getRGB())));
+               drawRect(20, b2 * 2 + 2, 25, b2 * 2 + 7, l);
                GlStateManager.enableBlend();
-               String var14 = var12.replace("[+]", "").replace("[/]", "").replace("[-]", "").replace("[0]", "");
-               Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("   " + var14, 15.0F, var8 * 2, this.w);
-               var8 += 5;
+               String string2 = string.replace("[+]", "").replace("[/]", "").replace("[-]", "").replace("[0]", "");
+               Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("   " + string2, 15.0F, b2 * 2, this.w);
+               b2 += 5;
                GlStateManager.popMatrix();
             }
          }
       } else {
-         RenderUtil.drawRect(0.0, 0.0, var6 + 5, this.fontRendererObj.FONT_HEIGHT + 5, new Color(0, 0, 0, 70).getRGB());
-         RenderUtil.drawRect(1.0, this.fontRendererObj.FONT_HEIGHT + 4, var6 + 4, this.fontRendererObj.FONT_HEIGHT + 5, new Color(255, 255, 255, 70).getRGB());
+         RenderUtil.drawRect(0.0, 0.0, i + 5, this.fontRendererObj.FONT_HEIGHT + 5, new Color(0, 0, 0, 70).getRGB());
+         RenderUtil.drawRect(1.0, this.fontRendererObj.FONT_HEIGHT + 4, i + 4, this.fontRendererObj.FONT_HEIGHT + 5, new Color(255, 255, 255, 70).getRGB());
       }
    }
 
-   public void W(int var1, int var2, float var3) {
-      int var7 = this.field_175375_v ? 75 : (l == 2 ? 50 : (l == 3 ? 100 : (l == 4 ? 75 : 60)));
-      int var9 = this.width - var7;
-      int var10 = this.height - 75;
+   public void W(int j, int k, float g) {
+      int i = this.field_175375_v ? 75 : (l == 2 ? 50 : (l == 3 ? 100 : (l == 4 ? 75 : 60)));
+      int m = this.width - i;
+      int n = this.height - 75;
       GL11.glEnable(3553);
       GL11.glBlendFunc(770, 771);
       GL11.glEnable(3042);
@@ -447,86 +447,84 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
-      drawModalRectWithCustomSizedTexture(var9, var10, 0.0F, 0.0F, var7, 75, var7, 75.0F);
-      if (this.f(var9, var10, var7, 75, var1, var2) && Mouse.isButtonDown(0) && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)
-         )
-       {
+      drawModalRectWithCustomSizedTexture(m, n, 0.0F, 0.0F, i, 75, i, 75.0F);
+      if (this.f(m, n, i, 75, j, k) && Mouse.isButtonDown(0) && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
          try {
             Desktop.getDesktop().browse(new URI("https://astolfo.lgbt/forums"));
-         } catch (IOException | URISyntaxException var12) {
-            var12.printStackTrace();
+         } catch (IOException | URISyntaxException value) {
+            value.printStackTrace();
          }
       }
    }
 
-   private boolean f(int var1, int var2, int var3, int var4, int var5, int var6) {
-      int var10 = var3;
-      int var11 = var4;
-      if ((var10 | var11) < 0) {
+   private boolean f(int j, int k, int i2, int i3, int i4, int i5) {
+      int i = i2;
+      int l = i3;
+      if ((i | l) < 0) {
          return false;
-      } else if (var5 >= var1 && var6 >= var2) {
-         var10 += var1;
-         var11 += var2;
-         return (var10 < var1 || var10 > var5) && (var11 < var2 || var11 > var6);
+      } else if (i4 >= j && i5 >= k) {
+         i += j;
+         l += k;
+         return (i < j || i > i4) && (l < k || l > i5);
       } else {
          return false;
       }
    }
 
-   public static void g(float var0, float var1, ResourceLocation var2, int var3) {
+   public static void g(float g, float f2, ResourceLocation resourceLocation, int j) {
       GL11.glPushMatrix();
       GL11.glDisable(2929);
       GL11.glEnable(3042);
       GL11.glBlendFunc(770, 771);
-      Minecraft.getMinecraft().getTextureManager().bindTexture(var2);
-      L((int)var0, (int)var1, 0.0F, 0.0F, var3, var3, var3, var3, var3, var3);
+      Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+      L((int)g, (int)f2, 0.0F, 0.0F, j, j, j, j, j, j);
       GL11.glDisable(3042);
       GL11.glEnable(2929);
       GL11.glPopMatrix();
    }
 
-   public static void L(int var0, int var1, float var2, float var3, int var4, int var5, int var6, int var7, float var8, float var9) {
-      Gui.drawScaledCustomSizeModalRect(var0, var1, var2, var3, var4, var5, var6, var7, var8, var9);
+   public static void L(int j, int k, float g, float f2, int i2, int i3, int i4, int i5, float f3, float f4) {
+      Gui.drawScaledCustomSizeModalRect(j, k, g, f2, i2, i3, i4, i5, f3, f4);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      long var4 = bb ^ 1029827809290L;
-      long var6 = var4 ^ 136146140769035L;
-      if (var3 == 0) {
-         ScaledResolution var9 = new ScaledResolution(this.mc);
-         float var10 = 5.0F;
-         float var11 = 9.0F;
-         float var12 = var9.getScaledWidth() - 10.0F;
-         CustomFontRenderer var13 = R;
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      long l = bb ^ 1029827809290L;
+      long m = l ^ 136146140769035L;
+      if (mouseButton == 0) {
+         ScaledResolution scaledResolution = new ScaledResolution(this.mc);
+         float f = 5.0F;
+         float g = 9.0F;
+         float h = scaledResolution.getScaledWidth() - 10.0F;
+         CustomFontRenderer customFontRenderer = R;
 
-         for (int var14 = 0; var14 < 5; var14++) {
-            String var15;
-            switch (var14) {
+         for (int i = 0; i < 5; i++) {
+            String string;
+            switch (i) {
                case 0:
-                  var15 = "Exit";
+                  string = "Exit";
                   break;
                case 1:
-                  var15 = "Settings";
+                  string = "Settings";
                   break;
                case 2:
-                  var15 = "Language";
+                  string = "Language";
                   break;
                case 3:
-                  var15 = "Sense";
+                  string = "Sense";
                   break;
                case 4:
-                  var15 = "Discord";
+                  string = "Discord";
                   break;
                default:
                   continue;
             }
 
-            float var16 = var13.getStringWidth(var15);
-            float var17 = var16 + var10 * 2.0F + var11 * 2.0F;
-            boolean var18 = var1 > var12 - var17 && var1 < var12 && var2 > 7.5F && var2 < 35.0F;
-            if (var18) {
-               switch (var14) {
+            float f2 = customFontRenderer.getStringWidth(string);
+            float f3 = f2 + f * 2.0F + g * 2.0F;
+            boolean bl = mouseX > h - f3 && mouseX < h && mouseY > 7.5F && mouseY < 35.0F;
+            if (bl) {
+               switch (i) {
                   case 0:
                      this.mc.shutdown();
                      break;
@@ -544,8 +542,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                      if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
                         try {
                            Desktop.getDesktop().browse(new URI("https://www.astolfo.lgbt/forums/discord/invite/general/"));
-                        } catch (IOException | URISyntaxException var20) {
-                           var20.printStackTrace();
+                        } catch (IOException | URISyntaxException value) {
+                           value.printStackTrace();
                         }
                      }
                }
@@ -553,16 +551,16 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                return;
             }
 
-            var12 -= var17 + 10.0F;
+            h -= f3 + 10.0F;
          }
 
-         float var21 = var9.getScaledWidth() / 2 - 65.0F;
-         float var22 = var9.getScaledHeight() / 2 - 90.0F;
-         var22 += 110.0F;
+         float f4 = scaledResolution.getScaledWidth() / 2 - 65.0F;
+         float f5 = scaledResolution.getScaledHeight() / 2 - 90.0F;
+         f5 += 110.0F;
 
-         for (int var24 = 0; var24 < 3; var24++) {
-            if (var1 >= var21 && var1 <= var21 + 130.0F && var2 >= var22 && var2 <= var22 + 19.0F) {
-               switch (var24) {
+         for (int j = 0; j < 3; j++) {
+            if (mouseX >= f4 && mouseX <= f4 + 130.0F && mouseY >= f5 && mouseY <= f5 + 19.0F) {
+               switch (j) {
                   case 0:
                      this.mc.displayGuiScreen(new GuiSelectWorld(this));
                      break;
@@ -576,32 +574,32 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                return;
             }
 
-            var22 += 19.0F;
+            f5 += 19.0F;
          }
 
-         super.mouseClicked(var1, var2, var3);
+         super.mouseClicked(mouseX, mouseY, mouseButton);
       }
    }
 
    static {
-      DynamicTexture var22 = new DynamicTexture(256, 256);
-      Y = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("background", var22);
+      DynamicTexture dynamicTexture = new DynamicTexture(256, 256);
+      Y = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("background", dynamicTexture);
 
       try {
-         Font var23 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(28.0F);
-         Font var24 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/roboto-light.ttf")).deriveFont(20.0F);
-         Font var25 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(18.0F);
-         Font var26 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(10.0F);
-         Font var27 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Lato-Bold.ttf")).deriveFont(15.0F);
-         Font var28 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Comfortaa.ttf")).deriveFont(30.0F);
-         P.B(var23, true);
-         R.B(var24, true);
-         h.B(var25, true);
-         c.B(var26, true);
-         m.B(var27, true);
-         M.B(var28, true);
-      } catch (FontFormatException | IOException var29) {
-         var29.printStackTrace();
+         Font font2 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(28.0F);
+         Font font3 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/roboto-light.ttf")).deriveFont(20.0F);
+         Font font4 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(18.0F);
+         Font font5 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(10.0F);
+         Font font6 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Lato-Bold.ttf")).deriveFont(15.0F);
+         Font font7 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Comfortaa.ttf")).deriveFont(30.0F);
+         P.B(font2, true);
+         R.B(font3, true);
+         h.B(font4, true);
+         c.B(font5, true);
+         m.B(font6, true);
+         M.B(font7, true);
+      } catch (FontFormatException | IOException value) {
+         value.printStackTrace();
       }
    }
 }

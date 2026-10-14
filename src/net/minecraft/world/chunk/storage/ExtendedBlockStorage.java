@@ -16,52 +16,52 @@ public class ExtendedBlockStorage {
    private NibbleArray skylightArray;
    private static final long a = 102914880937644L;
 
-   public ExtendedBlockStorage(int var1, boolean var2) {
-      this.yBase = var1;
+   public ExtendedBlockStorage(int y, boolean storeSkylight) {
+      this.yBase = y;
       this.data = new char[4096];
       this.blocklightArray = new NibbleArray();
-      if (var2) {
+      if (storeSkylight) {
          this.skylightArray = new NibbleArray();
       }
    }
 
-   public IBlockState get(int var1, int var2, int var3) {
-      IBlockState var7 = Block.BLOCK_STATE_IDS.getByValue(this.data[var2 << 8 | var3 << 4 | var1]);
-      return var7 != null ? var7 : Blocks.air.getDefaultState();
+   public IBlockState get(int x, int y, int z) {
+      IBlockState iBlockState = Block.BLOCK_STATE_IDS.getByValue(this.data[y << 8 | z << 4 | x]);
+      return iBlockState != null ? iBlockState : Blocks.air.getDefaultState();
    }
 
-   public void set(int var1, int var2, int var3, IBlockState var4) {
-      if (Reflector.IExtendedBlockState.isInstance(var4)) {
-         var4 = (IBlockState)Reflector.call(var4, Reflector.IExtendedBlockState_getClean);
+   public void set(int x, int y, int z, IBlockState state) {
+      if (Reflector.IExtendedBlockState.isInstance(state)) {
+         state = (IBlockState)Reflector.call(state, Reflector.IExtendedBlockState_getClean);
       }
 
-      IBlockState var8 = this.get(var1, var2, var3);
-      Block var9 = var8.getBlock();
-      Block var10 = var4.getBlock();
-      if (var9 != Blocks.air) {
+      IBlockState iBlockState = this.get(x, y, z);
+      Block block = iBlockState.getBlock();
+      Block block2 = state.getBlock();
+      if (block != Blocks.air) {
          this.blockRefCount--;
-         if (var9.getTickRandomly()) {
+         if (block.getTickRandomly()) {
             this.tickRefCount--;
          }
       }
 
-      if (var10 != Blocks.air) {
+      if (block2 != Blocks.air) {
          this.blockRefCount++;
-         if (var10.getTickRandomly()) {
+         if (block2.getTickRandomly()) {
             this.tickRefCount++;
          }
       }
 
-      this.data[var2 << 8 | var3 << 4 | var1] = (char)Block.BLOCK_STATE_IDS.get(var4);
+      this.data[y << 8 | z << 4 | x] = (char)Block.BLOCK_STATE_IDS.get(state);
    }
 
-   public Block getBlockByExtId(int var1, int var2, int var3) {
-      return this.get(var1, var2, var3).getBlock();
+   public Block getBlockByExtId(int x, int y, int z) {
+      return this.get(x, y, z).getBlock();
    }
 
-   public int getExtBlockMetadata(int var1, int var2, int var3) {
-      IBlockState var4 = this.get(var1, var2, var3);
-      return var4.getBlock().getMetaFromState(var4);
+   public int getExtBlockMetadata(int x, int y, int z) {
+      IBlockState iBlockState = this.get(x, y, z);
+      return iBlockState.getBlock().getMetaFromState(iBlockState);
    }
 
    public boolean isEmpty() {
@@ -76,44 +76,44 @@ public class ExtendedBlockStorage {
       return this.yBase;
    }
 
-   public void setExtSkylightValue(int var1, int var2, int var3, int var4) {
-      this.skylightArray.set(var1, var2, var3, var4);
+   public void setExtSkylightValue(int x, int y, int z, int value) {
+      this.skylightArray.set(x, y, z, value);
    }
 
-   public int getExtSkylightValue(int var1, int var2, int var3) {
-      return this.skylightArray.get(var1, var2, var3);
+   public int getExtSkylightValue(int x, int y, int z) {
+      return this.skylightArray.get(x, y, z);
    }
 
-   public void setExtBlocklightValue(int var1, int var2, int var3, int var4) {
-      this.blocklightArray.set(var1, var2, var3, var4);
+   public void setExtBlocklightValue(int x, int y, int z, int value) {
+      this.blocklightArray.set(x, y, z, value);
    }
 
-   public int getExtBlocklightValue(int var1, int var2, int var3) {
-      return this.blocklightArray.get(var1, var2, var3);
+   public int getExtBlocklightValue(int x, int y, int z) {
+      return this.blocklightArray.get(x, y, z);
    }
 
    public void removeInvalidBlocks() {
-      List var4 = Block.BLOCK_STATE_IDS.getObjectList();
-      int var5 = var4.size();
-      int var6 = 0;
-      int var7 = 0;
+      List list = Block.BLOCK_STATE_IDS.getObjectList();
+      int i = list.size();
+      int j = 0;
+      int k = 0;
 
-      for (int var8 = 0; var8 < 16; var8++) {
-         int var9 = var8 << 8;
+      for (int l = 0; l < 16; l++) {
+         int m = l << 8;
 
-         for (int var10 = 0; var10 < 16; var10++) {
-            int var11 = var9 | var10 << 4;
+         for (int n = 0; n < 16; n++) {
+            int i2 = m | n << 4;
 
-            for (int var12 = 0; var12 < 16; var12++) {
-               char var13 = this.data[var11 | var12];
-               if (var13 > 0) {
-                  var6++;
-                  if (var13 < var5) {
-                     IBlockState var14 = (IBlockState)var4.get(var13);
-                     if (var14 != null) {
-                        Block var15 = var14.getBlock();
-                        if (var15.getTickRandomly()) {
-                           var7++;
+            for (int i3 = 0; i3 < 16; i3++) {
+               char c = this.data[i2 | i3];
+               if (c > 0) {
+                  j++;
+                  if (c < i) {
+                     IBlockState iBlockState = (IBlockState)list.get(c);
+                     if (iBlockState != null) {
+                        Block block = iBlockState.getBlock();
+                        if (block.getTickRandomly()) {
+                           k++;
                         }
                      }
                   }
@@ -122,16 +122,16 @@ public class ExtendedBlockStorage {
          }
       }
 
-      this.blockRefCount = var6;
-      this.tickRefCount = var7;
+      this.blockRefCount = j;
+      this.tickRefCount = k;
    }
 
    public char[] getData() {
       return this.data;
    }
 
-   public void setData(char[] var1) {
-      this.data = var1;
+   public void setData(char[] dataArray) {
+      this.data = dataArray;
    }
 
    public NibbleArray getBlocklightArray() {
@@ -142,11 +142,11 @@ public class ExtendedBlockStorage {
       return this.skylightArray;
    }
 
-   public void setBlocklightArray(NibbleArray var1) {
-      this.blocklightArray = var1;
+   public void setBlocklightArray(NibbleArray newBlocklightArray) {
+      this.blocklightArray = newBlocklightArray;
    }
 
-   public void setSkylightArray(NibbleArray var1) {
-      this.skylightArray = var1;
+   public void setSkylightArray(NibbleArray newSkylightArray) {
+      this.skylightArray = newSkylightArray;
    }
 }

@@ -14,12 +14,12 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 public final class Knockback extends Module {
    private final NumberSetting<Integer> hurtTime = new NumberSetting<>("Hurt-Time", "", 10, 0, 10);
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING
-         && var1x.getPacket() instanceof C02PacketUseEntity
-         && ((C02PacketUseEntity)var1x.getPacket()).getAction() == C02PacketUseEntity.Action.ATTACK
-         && ((C02PacketUseEntity)var1x.getPacket()).getEntityFromWorld(mc.theWorld) instanceof EntityLivingBase) {
-         if (((EntityLivingBase)((C02PacketUseEntity)var1x.getPacket()).getEntityFromWorld(mc.theWorld)).hurtTime > this.hurtTime.getValue()) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING
+         && packetEvent.getPacket() instanceof C02PacketUseEntity
+         && ((C02PacketUseEntity)packetEvent.getPacket()).getAction() == C02PacketUseEntity.Action.ATTACK
+         && ((C02PacketUseEntity)packetEvent.getPacket()).getEntityFromWorld(mc.theWorld) instanceof EntityLivingBase) {
+         if (((EntityLivingBase)((C02PacketUseEntity)packetEvent.getPacket()).getEntityFromWorld(mc.theWorld)).hurtTime > this.hurtTime.getValue()) {
             return;
          }
 
@@ -39,8 +39,8 @@ public final class Knockback extends Module {
    };
    private static final long c = 133201786031317L;
 
-   public Knockback(Category var1) {
-      super(var1);
+   public Knockback(Category category) {
+      super(category);
       this.addSettings(this.hurtTime);
    }
 }

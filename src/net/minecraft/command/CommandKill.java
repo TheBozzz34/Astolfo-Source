@@ -20,30 +20,30 @@ public class CommandKill extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.kill.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length == 0) {
-         EntityPlayerMP var6 = getCommandSenderAsPlayer(var1);
-         var6.onKillCommand();
-         notifyOperators(var1, this, "commands.kill.successful", var6.getDisplayName());
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length == 0) {
+         EntityPlayerMP entityPlayerMP = getCommandSenderAsPlayer(sender);
+         entityPlayerMP.onKillCommand();
+         notifyOperators(sender, this, "commands.kill.successful", entityPlayerMP.getDisplayName());
       } else {
-         Entity var7 = getEntity(var1, var2[0]);
-         var7.onKillCommand();
-         notifyOperators(var1, this, "commands.kill.successful", var7.getDisplayName());
+         Entity entity = getEntity(sender, args[0]);
+         entity.onKillCommand();
+         notifyOperators(sender, this, "commands.kill.successful", entity.getDisplayName());
       }
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 }

@@ -11,26 +11,26 @@ public class IntegratedPlayerList extends ServerConfigurationManager {
    private static final long a = 91003651894983L;
    private static final long q = -1594635543558225910L;
 
-   public IntegratedPlayerList(IntegratedServer var1) {
-      super(var1);
+   public IntegratedPlayerList(IntegratedServer server) {
+      super(server);
       this.setViewDistance((int)q);
    }
 
    @Override
-   public void writePlayerData(EntityPlayerMP var1) {
-      if (var1.getName().equals(this.getServerInstance().getServerOwner())) {
+   public void writePlayerData(EntityPlayerMP playerIn) {
+      if (playerIn.getName().equals(this.getServerInstance().getServerOwner())) {
          this.hostPlayerData = new NBTTagCompound();
-         var1.writeToNBT(this.hostPlayerData);
+         playerIn.writeToNBT(this.hostPlayerData);
       }
 
-      super.writePlayerData(var1);
+      super.writePlayerData(playerIn);
    }
 
    @Override
-   public String allowUserToConnect(SocketAddress var1, GameProfile var2) {
-      return var2.getName().equalsIgnoreCase(this.getServerInstance().getServerOwner()) && this.getPlayerByUsername(var2.getName()) != null
+   public String allowUserToConnect(SocketAddress address, GameProfile profile) {
+      return profile.getName().equalsIgnoreCase(this.getServerInstance().getServerOwner()) && this.getPlayerByUsername(profile.getName()) != null
          ? "That name is already taken."
-         : super.allowUserToConnect(var1, var2);
+         : super.allowUserToConnect(address, profile);
    }
 
    public IntegratedServer getServerInstance() {

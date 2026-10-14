@@ -5,19 +5,19 @@ import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.util.ResourceLocation;
 
 public class PotionAbsorption extends Potion {
-   public PotionAbsorption(int var1, ResourceLocation var2, boolean var3, int var4) {
-      super(var1, var2, var3, var4);
+   public PotionAbsorption(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
+      super(potionID, location, badEffect, potionColor);
    }
 
    @Override
-   public void removeAttributesModifiersFromEntity(EntityLivingBase var1, BaseAttributeMap var2, int var3) {
-      var1.setAbsorptionAmount(var1.getAbsorptionAmount() - 4 * (var3 + 1));
-      super.removeAttributesModifiersFromEntity(var1, var2, var3);
+   public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap baseAttributeMap, int amplifier) {
+      entityLivingBaseIn.setAbsorptionAmount(entityLivingBaseIn.getAbsorptionAmount() - 4 * (amplifier + 1));
+      super.removeAttributesModifiersFromEntity(entityLivingBaseIn, baseAttributeMap, amplifier);
    }
 
    @Override
-   public void applyAttributesModifiersToEntity(EntityLivingBase var1, BaseAttributeMap var2, int var3) {
-      var1.setAbsorptionAmount(var1.getAbsorptionAmount() + 4 * (var3 + 1));
-      super.applyAttributesModifiersToEntity(var1, var2, var3);
+   public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap baseAttributeMap, int amplifier) {
+      entityLivingBaseIn.setAbsorptionAmount(entityLivingBaseIn.getAbsorptionAmount() + 4 * (amplifier + 1));
+      super.applyAttributesModifiersToEntity(entityLivingBaseIn, baseAttributeMap, amplifier);
    }
 }

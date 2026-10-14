@@ -55,7 +55,7 @@ public class Aimbot extends Module {
    private double velocity = 1.8;
    private EntityLivingBase unusedTarget;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGH)
-   private Listener<MotionEvent> onMotion = var1 -> this.findTargets();
+   private Listener<MotionEvent> onMotion = motionEvent -> this.findTargets();
    private static final long c = 123357317965043L;
 
    public Aimbot() {
@@ -64,41 +64,41 @@ public class Aimbot extends Module {
    }
 
    private ArrayList<EntityLivingBase> findTargets() {
-      long var1 = c ^ 43126422368545L;
-      long var10001 = var1 ^ 42086716010639L;
-      int var3 = (int)((var1 ^ 42086716010639L) >>> 56);
-      int var4 = (int)((var1 ^ 42086716010639L) << 8 >>> 32);
-      int var5 = (int)(var10001 << 40 >>> 40);
-      long var6 = var1 ^ 54241723553064L;
-      ArrayList var9 = new ArrayList(10);
-      List var10 = mc.theWorld.loadedEntityList;
-      int var11 = 0;
+      long l = c ^ 43126422368545L;
+      long m = l ^ 42086716010639L;
+      int i = (int)((l ^ 42086716010639L) >>> 56);
+      int j = (int)((l ^ 42086716010639L) << 8 >>> 32);
+      int k = (int)(m << 40 >>> 40);
+      long n = l ^ 54241723553064L;
+      ArrayList arrayList = new ArrayList(10);
+      List list = mc.theWorld.loadedEntityList;
+      int i2 = 0;
 
-      for (int var12 = var10.size(); var11 < var12; var11++) {
-         Entity var13 = (Entity)var10.get(var11);
-         if (var13 instanceof EntityLivingBase) {
-            EntityLivingBase var14 = (EntityLivingBase)var13;
-            if (var9.size() > 10) {
+      for (int i3 = list.size(); i2 < i3; i2++) {
+         Entity entity = (Entity)list.get(i2);
+         if (entity instanceof EntityLivingBase) {
+            EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+            if (arrayList.size() > 10) {
                break;
             }
 
-            if (!BotDetector.w.contains(var14) && (!client.getRelationManager().z(var13) || this.entities.getSetting("Friends").asBoolean())) {
-               AstolfoUser var15 = client.getUserManager().g(var13.getName());
-               if ((var15 == null || var15.K != AstolfoUserStatus.C) && this.isValidTarget(var14) && this.canHit(var14)) {
-                  ClientChat.CHAT.I(String.valueOf(var14));
-                  var9.add(var14);
+            if (!BotDetector.w.contains(entityLivingBase) && (!client.getRelationManager().z(entity) || this.entities.getSetting("Friends").asBoolean())) {
+               AstolfoUser astolfoUser = client.getUserManager().g(entity.getName());
+               if ((astolfoUser == null || astolfoUser.K != AstolfoUserStatus.C) && this.isValidTarget(entityLivingBase) && this.canHit(entityLivingBase)) {
+                  ClientChat.CHAT.I(String.valueOf(entityLivingBase));
+                  arrayList.add(entityLivingBase);
                }
             }
          }
       }
 
-      return var9;
+      return arrayList;
    }
 
-   private boolean isValidTarget(EntityLivingBase var1) {
-      long var2 = c ^ 125985551913258L;
-      long var4 = var2 ^ 111021845804323L;
-      if (mc.thePlayer == null || mc.theWorld == null || var1 == mc.thePlayer || GameUtil.isRemoved(var1)) {
+   private boolean isValidTarget(EntityLivingBase entityLivingBase) {
+      long l = c ^ 125985551913258L;
+      long m = l ^ 111021845804323L;
+      if (mc.thePlayer == null || mc.theWorld == null || entityLivingBase == mc.thePlayer || GameUtil.isRemoved(entityLivingBase)) {
          return false;
       }
 
@@ -106,99 +106,100 @@ public class Aimbot extends Module {
          return false;
       }
 
-      if (var1 instanceof EntityPlayer && !mc.thePlayer.canAttackPlayer((EntityPlayer)var1)) {
+      if (entityLivingBase instanceof EntityPlayer && !mc.thePlayer.canAttackPlayer((EntityPlayer)entityLivingBase)) {
          return false;
       }
 
-      if ((!GameUtil.isDead(var1) || Double.isNaN(var1.getHealth())) && (!GameUtil.S(var1) || this.entities.getSetting("Invisibles").asBoolean())) {
-         if (var1 instanceof EntityPlayer && this.entities.getSetting("Players").asBoolean()) {
-            EntityPlayer var8 = (EntityPlayer)var1;
-            if (GameUtil.O(mc.thePlayer, var8) && this.entities.getSetting("Teams").asBoolean()) {
+      if ((!GameUtil.isDead(entityLivingBase) || Double.isNaN(entityLivingBase.getHealth()))
+         && (!GameUtil.S(entityLivingBase) || this.entities.getSetting("Invisibles").asBoolean())) {
+         if (entityLivingBase instanceof EntityPlayer && this.entities.getSetting("Players").asBoolean()) {
+            EntityPlayer entityPlayer = (EntityPlayer)entityLivingBase;
+            if (GameUtil.O(mc.thePlayer, entityPlayer) && this.entities.getSetting("Teams").asBoolean()) {
                return false;
-            } else if (((AbstractClientPlayer)var8).getPlayerInfo() != null
-               && ((AbstractClientPlayer)var8).getPlayerInfo().getGameType() == WorldSettings.GameType.CREATIVE) {
+            } else if (((AbstractClientPlayer)entityPlayer).getPlayerInfo() != null
+               && ((AbstractClientPlayer)entityPlayer).getPlayerInfo().getGameType() == WorldSettings.GameType.CREATIVE) {
                return false;
             } else {
-               return !this.entities.getSetting("Astolfo-Users").asBoolean() && client.getUserManager().g(var1.getName()) != null
+               return !this.entities.getSetting("Astolfo-Users").asBoolean() && client.getUserManager().g(entityLivingBase.getName()) != null
                   ? false
-                  : !var8.isPlayerSleeping() && var8.getEntityId() < 1000000000 && var8.getEntityId() > -1;
+                  : !entityPlayer.isPlayerSleeping() && entityPlayer.getEntityId() < 1000000000 && entityPlayer.getEntityId() > -1;
             }
          } else {
-            if (GameUtil.isBoss(var1) && GameUtil.O(mc.thePlayer, var1) && this.entities.getSetting("Teams").asBoolean()) {
+            if (GameUtil.isBoss(entityLivingBase) && GameUtil.O(mc.thePlayer, entityLivingBase) && this.entities.getSetting("Teams").asBoolean()) {
                return false;
             }
 
-            if (HypixelGameTracker.game == 3 && var1 instanceof EntityZombie && GameUtil.isOnHypixel()) {
-               ItemStack var7 = var1.getCurrentArmor(3);
-               if (var7 != null && var7.getItem() != null && var7.getItem() == Items.skull) {
+            if (HypixelGameTracker.game == 3 && entityLivingBase instanceof EntityZombie && GameUtil.isOnHypixel()) {
+               ItemStack itemStack = entityLivingBase.getCurrentArmor(3);
+               if (itemStack != null && itemStack.getItem() != null && itemStack.getItem() == Items.skull) {
                   return true;
                }
             }
 
-            return GameUtil.isHostile(var1) && this.entities.getSetting("Hostiles").asBoolean()
-               || GameUtil.isNeutral(var1) && this.entities.getSetting("Neutrals").asBoolean()
-               || GameUtil.isPassive(var1) && this.entities.getSetting("Passives").asBoolean()
-               || GameUtil.isBoss(var1) && this.entities.getSetting("Bosses").asBoolean();
+            return GameUtil.isHostile(entityLivingBase) && this.entities.getSetting("Hostiles").asBoolean()
+               || GameUtil.isNeutral(entityLivingBase) && this.entities.getSetting("Neutrals").asBoolean()
+               || GameUtil.isPassive(entityLivingBase) && this.entities.getSetting("Passives").asBoolean()
+               || GameUtil.isBoss(entityLivingBase) && this.entities.getSetting("Bosses").asBoolean();
          }
       } else {
          return false;
       }
    }
 
-   private boolean canHit(EntityLivingBase var1) {
-      double var5 = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX);
-      double var7 = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY);
-      double var9 = mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ);
-      double[] var11 = this.predictPosition(var1);
-      float[] var12 = this.getBowRotations(this.gravity, this.velocity, var11[0], var11[1], var11[2]);
-      if (var12 == null) {
+   private boolean canHit(EntityLivingBase entityLivingBase) {
+      double d = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX);
+      double e = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY);
+      double d2 = mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ);
+      double[] doubles = this.predictPosition(entityLivingBase);
+      float[] floats = this.getBowRotations(this.gravity, this.velocity, doubles[0], doubles[1], doubles[2]);
+      if (floats == null) {
          return false;
       }
 
-      mc.thePlayer.rotationYaw = var12[0];
-      mc.thePlayer.rotationPitch = var12[1];
-      chat.I(String.format("y: %s p: %s", var12[0], var12[1]));
-      double var13 = var5 - MathHelper.cos(var12[0] / 180.0F * (float) Math.PI) * 0.16F;
-      double var15 = var7 + mc.thePlayer.getEyeHeight() - 0.1000000014901161;
-      double var17 = var9 - MathHelper.sin(var12[0] / 180.0F * (float) Math.PI) * 0.16F;
-      double var19 = -MathHelper.sin(var12[0] / 180.0F * (float) Math.PI) * MathHelper.cos(var12[1] / 180.0F * (float) Math.PI) * 1.0;
-      double var21 = -MathHelper.sin(var12[1] / 180.0F * (float) Math.PI) * 1.0;
-      double var23 = MathHelper.cos(var12[0] / 180.0F * (float) Math.PI) * MathHelper.cos(var12[1] / 180.0F * (float) Math.PI) * 1.0;
-      float var25 = 1.0F;
-      float var26 = MathHelper.sqrt_double(var19 * var19 + var21 * var21 + var23 * var23);
-      var19 /= var26;
-      var21 /= var26;
-      var23 /= var26;
-      float var27 = var25 * 2.0F;
-      var19 *= var27 * 1.5F;
-      var21 *= var27 * 1.5F;
-      var23 *= var27 * 1.5F;
-      boolean var28 = false;
-      MovingObjectPosition var29 = null;
+      mc.thePlayer.rotationYaw = floats[0];
+      mc.thePlayer.rotationPitch = floats[1];
+      chat.I(String.format("y: %s p: %s", floats[0], floats[1]));
+      double d3 = d - MathHelper.cos(floats[0] / 180.0F * (float) Math.PI) * 0.16F;
+      double d4 = e + mc.thePlayer.getEyeHeight() - 0.1000000014901161;
+      double d5 = d2 - MathHelper.sin(floats[0] / 180.0F * (float) Math.PI) * 0.16F;
+      double d6 = -MathHelper.sin(floats[0] / 180.0F * (float) Math.PI) * MathHelper.cos(floats[1] / 180.0F * (float) Math.PI) * 1.0;
+      double d7 = -MathHelper.sin(floats[1] / 180.0F * (float) Math.PI) * 1.0;
+      double d8 = MathHelper.cos(floats[0] / 180.0F * (float) Math.PI) * MathHelper.cos(floats[1] / 180.0F * (float) Math.PI) * 1.0;
+      float f = 1.0F;
+      float g = MathHelper.sqrt_double(d6 * d6 + d7 * d7 + d8 * d8);
+      d6 /= g;
+      d7 /= g;
+      d8 /= g;
+      float h = f * 2.0F;
+      d6 *= h * 1.5F;
+      d7 *= h * 1.5F;
+      d8 *= h * 1.5F;
+      boolean bl = false;
+      MovingObjectPosition movingObjectPosition = null;
 
-      while (!var28 && var15 > 0.0) {
-         Vec3 var30 = new Vec3(var13, var15, var17);
-         Vec3 var31 = new Vec3(var13 + var19, var15 + var21, var17 + var23);
-         MovingObjectPosition var32 = mc.theWorld.rayTraceBlocks(var30, var31, false, true, false);
-         if (var32 != null && var32.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) {
-            var29 = var32;
-            var28 = true;
+      while (!bl && d4 > 0.0) {
+         Vec3 vec3 = new Vec3(d3, d4, d5);
+         Vec3 vec32 = new Vec3(d3 + d6, d4 + d7, d5 + d8);
+         MovingObjectPosition movingObjectPosition2 = mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, false);
+         if (movingObjectPosition2 != null && movingObjectPosition2.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) {
+            movingObjectPosition = movingObjectPosition2;
+            bl = true;
          }
 
-         var13 += var19;
-         var15 += var21;
-         var17 += var23;
-         float var33 = 0.99F;
-         var19 *= var33;
-         var21 *= var33;
-         var23 *= var33;
-         var21 -= 0.05;
+         d3 += d6;
+         d4 += d7;
+         d5 += d8;
+         float f2 = 0.99F;
+         d6 *= f2;
+         d7 *= f2;
+         d8 *= f2;
+         d7 -= 0.05;
       }
 
-      if (var29 != null && var29.getBlockPos() != null) {
-         double var41 = this.distance(var11[0], var11[1], var11[2], var29.getBlockPos().getX(), var29.getBlockPos().getY(), var29.getBlockPos().getZ());
-         ClientChat.CHAT.I(String.valueOf(var41));
-         if (var41 < 5.0) {
+      if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
+         double d9 = this.distance(doubles[0], doubles[1], doubles[2], movingObjectPosition.getBlockPos().getX(), movingObjectPosition.getBlockPos().getY(), movingObjectPosition.getBlockPos().getZ());
+         ClientChat.CHAT.I(String.valueOf(d9));
+         if (d9 < 5.0) {
             return true;
          }
       }
@@ -206,105 +207,105 @@ public class Aimbot extends Module {
       return false;
    }
 
-   public double distance(double var1, double var3, double var5, double var7, double var9, double var11) {
-      double var13 = var1 - var7;
-      double var15 = var3 - var9;
-      double var17 = var5 - var11;
-      return MathHelper.sqrt_double(var13 * var13 + var15 * var15 + var17 * var17);
+   public double distance(double d, double d2, double d3, double d4, double d5, double d6) {
+      double e = d - d4;
+      double d7 = d2 - d5;
+      double d8 = d3 - d6;
+      return MathHelper.sqrt_double(e * e + d7 * d7 + d8 * d8);
    }
 
-   private double[] predictPosition(EntityLivingBase var1) {
-      double var5 = mc.thePlayer.posY;
-      double var7 = var1.posX;
-      double var9 = var1.posY;
-      double var11 = var1.posZ;
-      double var13 = var1.prevPosX;
-      double var15 = var1.prevPosY;
-      double var17 = var1.prevPosZ;
-      double var19 = 0.0;
-      if (mc.thePlayer.getDistance(var13, var15, var17) > mc.thePlayer.getDistance(var7, var9, var11)) {
-         var19 = this.velocity * mc.thePlayer.getDistanceToEntity(var1) * 1.2 + 5.0;
+   private double[] predictPosition(EntityLivingBase entityLivingBase) {
+      double d = mc.thePlayer.posY;
+      double e = entityLivingBase.posX;
+      double d2 = entityLivingBase.posY;
+      double d3 = entityLivingBase.posZ;
+      double d4 = entityLivingBase.prevPosX;
+      double d5 = entityLivingBase.prevPosY;
+      double d6 = entityLivingBase.prevPosZ;
+      double d7 = 0.0;
+      if (mc.thePlayer.getDistance(d4, d5, d6) > mc.thePlayer.getDistance(e, d2, d3)) {
+         d7 = this.velocity * mc.thePlayer.getDistanceToEntity(entityLivingBase) * 1.2 + 5.0;
       }
 
-      float[] var21 = this.getBowRotations(this.gravity, this.velocity, var7, var9, var11);
-      if (var21 != null) {
-         double var22 = -1.0F * var21[1] * (Math.PI / 180.0);
-         var19 = this.flightTime(this.gravity, this.velocity, var22, var5 - var9, var7, var9, var11);
+      float[] floats = this.getBowRotations(this.gravity, this.velocity, e, d2, d3);
+      if (floats != null) {
+         double d8 = -1.0F * floats[1] * (Math.PI / 180.0);
+         d7 = this.flightTime(this.gravity, this.velocity, d8, d - d2, e, d2, d3);
       }
 
-      double var32 = 0.0;
-      double var24 = 0.0;
-      double var26 = 0.0;
-      var32 = (var7 - var13) * (var19 * 1.0 + 5.0);
-      var26 = (var11 - var17) * (var19 * 1.0 + 5.0);
-      var24 -= this.heightAboveGround(var1);
-      double var28 = var1.getEntityBoundingBox().minY;
-      double var30 = var1.getEntityBoundingBox().maxY;
-      var24 += (var30 - var28) * 0.75;
-      return new double[]{var7 + var32, var9 + var24, var11 + var26};
+      double d9 = 0.0;
+      double d10 = 0.0;
+      double d11 = 0.0;
+      d9 = (e - d4) * (d7 * 1.0 + 5.0);
+      d11 = (d3 - d6) * (d7 * 1.0 + 5.0);
+      d10 -= this.heightAboveGround(entityLivingBase);
+      double d12 = entityLivingBase.getEntityBoundingBox().minY;
+      double d13 = entityLivingBase.getEntityBoundingBox().maxY;
+      d10 += (d13 - d12) * 0.75;
+      return new double[]{e + d9, d2 + d10, d3 + d11};
    }
 
-   private float[] getBowRotations(double var1, double var3, double var5, double var7, double var9) {
-      Vector3d var14 = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-      double var15 = mc.thePlayer.posX;
-      double var17 = mc.thePlayer.posY;
-      var17 += mc.thePlayer.getEyeHeight();
-      double var19 = mc.thePlayer.posZ;
-      double var21 = this.horizontalDistance(var5, var9, var15, var19);
-      double var23 = var7 - var17;
-      double var25 = Math.pow(var3, 4.0) - var1 * (var1 * Math.pow(var21, 2.0) + 2.0 * var23 * Math.pow(var3, 2.0));
-      if (var25 >= 0.0) {
-         double var27 = (Math.pow(var3, 2.0) - Math.sqrt(var25)) / (var1 * var21);
-         double var29 = Math.atan(var27);
-         double var31 = var29 * 180.0 / Math.PI;
-         Vector3d var33 = new Vector3d(var5, var7, var9);
-         Rotation var34 = rotator.rotationTo(var33, var14);
-         float var35 = MathHelper.wrapAngleTo180_float(var34.getYaw() - mc.thePlayer.rotationYaw);
-         float var36 = mc.thePlayer.rotationYaw + var35;
-         float var37 = (float)(0.0 - var31);
-         return new float[]{var36, var37};
+   private float[] getBowRotations(double d, double d2, double d3, double d4, double d5) {
+      Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+      double e = mc.thePlayer.posX;
+      double d6 = mc.thePlayer.posY;
+      d6 += mc.thePlayer.getEyeHeight();
+      double d7 = mc.thePlayer.posZ;
+      double d8 = this.horizontalDistance(d3, d5, e, d7);
+      double d9 = d4 - d6;
+      double d10 = Math.pow(d2, 4.0) - d * (d * Math.pow(d8, 2.0) + 2.0 * d9 * Math.pow(d2, 2.0));
+      if (d10 >= 0.0) {
+         double d11 = (Math.pow(d2, 2.0) - Math.sqrt(d10)) / (d * d8);
+         double d12 = Math.atan(d11);
+         double d13 = d12 * 180.0 / Math.PI;
+         Vector3d vector3d2 = new Vector3d(d3, d4, d5);
+         Rotation rotation = rotator.rotationTo(vector3d2, vector3d);
+         float f = MathHelper.wrapAngleTo180_float(rotation.getYaw() - mc.thePlayer.rotationYaw);
+         float g = mc.thePlayer.rotationYaw + f;
+         float h = (float)(0.0 - d13);
+         return new float[]{g, h};
       } else {
          return null;
       }
    }
 
-   private double horizontalDistance(double var1, double var3, double var5, double var7) {
-      return Math.sqrt(Math.pow(var5 - var1, 2.0) + Math.pow(var7 - var3, 2.0));
+   private double horizontalDistance(double d, double d2, double d3, double d4) {
+      return Math.sqrt(Math.pow(d3 - d, 2.0) + Math.pow(d4 - d2, 2.0));
    }
 
-   private double flightTime(double var1, double var3, double var5, double var7, double var9, double var11, double var13) {
-      double var15 = mc.thePlayer.posX;
-      double var17 = mc.thePlayer.posZ;
-      return this.horizontalDistance(var15, var17, var9, var13) / (Math.cos(var5) * var3);
+   private double flightTime(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
+      double e = mc.thePlayer.posX;
+      double d8 = mc.thePlayer.posZ;
+      return this.horizontalDistance(e, d8, d5, d7) / (Math.cos(d3) * d2);
    }
 
-   private double heightAboveGround(EntityLivingBase var1) {
-      double var5 = var1.getEntityBoundingBox().minX;
-      double var7 = var1.getEntityBoundingBox().minY;
-      double var9 = var1.getEntityBoundingBox().minZ;
-      double var11 = var1.getEntityBoundingBox().maxX;
-      double var13 = var1.getEntityBoundingBox().maxZ;
+   private double heightAboveGround(EntityLivingBase entityLivingBase) {
+      double d = entityLivingBase.getEntityBoundingBox().minX;
+      double e = entityLivingBase.getEntityBoundingBox().minY;
+      double d2 = entityLivingBase.getEntityBoundingBox().minZ;
+      double d3 = entityLivingBase.getEntityBoundingBox().maxX;
+      double d4 = entityLivingBase.getEntityBoundingBox().maxZ;
 
-      for (double var15 = var7; var15 > 0.0; var15 -= 0.1) {
-         BlockPos var17 = new BlockPos(var5, var15, var9);
-         BlockPos var18 = new BlockPos(var5, var15, var13);
-         BlockPos var19 = new BlockPos(var11, var15, var9);
-         BlockPos var20 = new BlockPos(var11, var15, var13);
-         IBlockState var21 = mc.theWorld.getBlockState(new BlockPos(var17));
-         IBlockState var22 = mc.theWorld.getBlockState(new BlockPos(var18));
-         IBlockState var23 = mc.theWorld.getBlockState(new BlockPos(var19));
-         IBlockState var24 = mc.theWorld.getBlockState(new BlockPos(var20));
-         if (this.isSolid(var22.getBlock()) && this.isSolid(var21.getBlock()) && this.isSolid(var23.getBlock()) && this.isSolid(var24.getBlock())) {
-            return var7 - var15;
+      for (double d5 = e; d5 > 0.0; d5 -= 0.1) {
+         BlockPos blockPos = new BlockPos(d, d5, d2);
+         BlockPos blockPos2 = new BlockPos(d, d5, d4);
+         BlockPos blockPos3 = new BlockPos(d3, d5, d2);
+         BlockPos blockPos4 = new BlockPos(d3, d5, d4);
+         IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(blockPos));
+         IBlockState iBlockState2 = mc.theWorld.getBlockState(new BlockPos(blockPos2));
+         IBlockState iBlockState3 = mc.theWorld.getBlockState(new BlockPos(blockPos3));
+         IBlockState iBlockState4 = mc.theWorld.getBlockState(new BlockPos(blockPos4));
+         if (this.isSolid(iBlockState2.getBlock()) && this.isSolid(iBlockState.getBlock()) && this.isSolid(iBlockState3.getBlock()) && this.isSolid(iBlockState4.getBlock())) {
+            return e - d5;
          }
       }
 
       return 1.0;
    }
 
-   private boolean isSolid(Block var1) {
-      return var1 == null
+   private boolean isSolid(Block block) {
+      return block == null
          ? false
-         : var1.getMaterial().blocksMovement() && var1.isOpaqueCube() && !var1.getMaterial().isLiquid() && !(var1 instanceof BlockFalling);
+         : block.getMaterial().blocksMovement() && block.isOpaqueCube() && !block.getMaterial().isLiquid() && !(block instanceof BlockFalling);
    }
 }

@@ -10,9 +10,9 @@ public class MapSettingItem extends TabGuiItem {
    private final MapSetting O;
    private static final long b = 35034049222198L;
 
-   public MapSettingItem(TabGui.Panel var1, MapSetting var2) {
-      super(var1);
-      this.O = var2;
+   public MapSettingItem(TabGui.Panel panel, MapSetting mapSetting) {
+      super(panel);
+      this.O = mapSetting;
    }
 
    @Override
@@ -22,19 +22,19 @@ public class MapSettingItem extends TabGuiItem {
 
    @Override
    public void onPress() {
-      TabGui.Panel var4 = new TabGui.Panel(this.s().getTabGui());
-      this.O.getValue().forEach((var1, var2) -> {
-         if (var2 instanceof BooleanSetting) {
-            if (!var2.getName().equals("Hide")) {
-               var4.addItem(new BooleanSettingItem(var4, (BooleanSetting)var2));
+      TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
+      this.O.getValue().forEach((string, setting) -> {
+         if (setting instanceof BooleanSetting) {
+            if (!setting.getName().equals("Hide")) {
+               panel.addItem(new BooleanSettingItem(panel, (BooleanSetting)setting));
             }
-         } else if (var2 instanceof NumberSetting) {
-            var4.addItem(new NumberSettingItem(var4, (NumberSetting)var2));
-         } else if (var2 instanceof EnumSetting) {
-            var4.addItem(new EnumSettingItem(var4, (EnumSetting)var2));
+         } else if (setting instanceof NumberSetting) {
+            panel.addItem(new NumberSettingItem(panel, (NumberSetting)setting));
+         } else if (setting instanceof EnumSetting) {
+            panel.addItem(new EnumSettingItem(panel, (EnumSetting)setting));
          }
       });
-      this.s().getTabGui().s(var4);
+      this.s().getTabGui().s(panel);
    }
 
    @Override

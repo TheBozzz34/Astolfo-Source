@@ -15,17 +15,17 @@ import net.minecraft.world.World;
 public class EmptyChunk extends Chunk {
    private static final long d = 25027088410370L;
 
-   public EmptyChunk(World var1, int var2, int var3) {
-      super(var1, var2, var3);
+   public EmptyChunk(World worldIn, int x, int z) {
+      super(worldIn, x, z);
    }
 
    @Override
-   public boolean isAtLocation(int var1, int var2) {
-      return var1 == this.xPosition && var2 == this.zPosition;
+   public boolean isAtLocation(int x, int z) {
+      return x == this.xPosition && z == this.zPosition;
    }
 
    @Override
-   public int getHeightValue(int var1, int var2) {
+   public int getHeightValue(int x, int z) {
       return 0;
    }
 
@@ -38,66 +38,66 @@ public class EmptyChunk extends Chunk {
    }
 
    @Override
-   public Block getBlock(BlockPos var1) {
+   public Block getBlock(BlockPos pos) {
       return Blocks.air;
    }
 
    @Override
-   public int getBlockLightOpacity(BlockPos var1) {
+   public int getBlockLightOpacity(BlockPos pos) {
       return 255;
    }
 
    @Override
-   public int getBlockMetadata(BlockPos var1) {
+   public int getBlockMetadata(BlockPos pos) {
       return 0;
    }
 
    @Override
-   public int getLightFor(EnumSkyBlock var1, BlockPos var2) {
-      return var1.defaultLightValue;
+   public int getLightFor(EnumSkyBlock enumSkyBlock, BlockPos pos) {
+      return enumSkyBlock.defaultLightValue;
    }
 
    @Override
-   public void setLightFor(EnumSkyBlock var1, BlockPos var2, int var3) {
+   public void setLightFor(EnumSkyBlock enumSkyBlock, BlockPos pos, int value) {
    }
 
    @Override
-   public int getLightSubtracted(BlockPos var1, int var2) {
+   public int getLightSubtracted(BlockPos pos, int amount) {
       return 0;
    }
 
    @Override
-   public void addEntity(Entity var1) {
+   public void addEntity(Entity entityIn) {
    }
 
    @Override
-   public void removeEntity(Entity var1) {
+   public void removeEntity(Entity entityIn) {
    }
 
    @Override
-   public void removeEntityAtIndex(Entity var1, int var2) {
+   public void removeEntityAtIndex(Entity entityIn, int i) {
    }
 
    @Override
-   public boolean canSeeSky(BlockPos var1) {
+   public boolean canSeeSky(BlockPos pos) {
       return false;
    }
 
    @Override
-   public TileEntity getTileEntity(BlockPos var1, Chunk.EnumCreateEntityType var2) {
+   public TileEntity getTileEntity(BlockPos pos, Chunk.EnumCreateEntityType enumCreateEntityType) {
       return null;
    }
 
    @Override
-   public void addTileEntity(TileEntity var1) {
+   public void addTileEntity(TileEntity tileEntityIn) {
    }
 
    @Override
-   public void addTileEntity(BlockPos var1, TileEntity var2) {
+   public void addTileEntity(BlockPos pos, TileEntity tileEntityIn) {
    }
 
    @Override
-   public void removeTileEntity(BlockPos var1) {
+   public void removeTileEntity(BlockPos pos) {
    }
 
    @Override
@@ -113,27 +113,29 @@ public class EmptyChunk extends Chunk {
    }
 
    @Override
-   public void getEntitiesWithinAABBForEntity(Entity var1, AxisAlignedBB var2, List<Entity> var3, Predicate<? super Entity> var4) {
+   public void getEntitiesWithinAABBForEntity(Entity entityIn, AxisAlignedBB aabb, List<Entity> listToFill, Predicate<? super Entity> predicate) {
    }
 
    @Override
-   public <T extends Entity> void getEntitiesOfTypeWithinAAAB(Class<? extends T> var1, AxisAlignedBB var2, List<T> var3, Predicate<? super T> var4) {
+   public <T extends Entity> void getEntitiesOfTypeWithinAAAB(
+      Class<? extends T> entityClass, AxisAlignedBB aabb, List<T> listToFill, Predicate<? super T> predicate
+   ) {
    }
 
    @Override
-   public boolean needsSaving(boolean var1) {
+   public boolean needsSaving(boolean bl) {
       return false;
    }
 
    @Override
-   public Random getRandomWithSeed(long var1) {
+   public Random getRandomWithSeed(long seed) {
       return new Random(
          this.getWorld().getSeed()
                + this.xPosition * this.xPosition * 4987142
                + this.xPosition * 5947611
                + this.zPosition * this.zPosition * 4392871L
                + this.zPosition * 389711
-            ^ var1
+            ^ seed
       );
    }
 
@@ -143,7 +145,7 @@ public class EmptyChunk extends Chunk {
    }
 
    @Override
-   public boolean getAreLevelsEmpty(int var1, int var2) {
+   public boolean getAreLevelsEmpty(int startY, int endY) {
       return true;
    }
 }

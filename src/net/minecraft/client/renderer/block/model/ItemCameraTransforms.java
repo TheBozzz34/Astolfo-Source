@@ -38,39 +38,44 @@ public class ItemCameraTransforms {
       );
    }
 
-   public ItemCameraTransforms(ItemCameraTransforms var1) {
-      this.thirdPerson = var1.thirdPerson;
-      this.firstPerson = var1.firstPerson;
-      this.head = var1.head;
-      this.gui = var1.gui;
-      this.ground = var1.ground;
-      this.fixed = var1.fixed;
+   public ItemCameraTransforms(ItemCameraTransforms transforms) {
+      this.thirdPerson = transforms.thirdPerson;
+      this.firstPerson = transforms.firstPerson;
+      this.head = transforms.head;
+      this.gui = transforms.gui;
+      this.ground = transforms.ground;
+      this.fixed = transforms.fixed;
    }
 
    public ItemCameraTransforms(
-      ItemTransformVec3f var1, ItemTransformVec3f var2, ItemTransformVec3f var3, ItemTransformVec3f var4, ItemTransformVec3f var5, ItemTransformVec3f var6
+      ItemTransformVec3f thirdPersonIn,
+      ItemTransformVec3f firstPersonIn,
+      ItemTransformVec3f headIn,
+      ItemTransformVec3f guiIn,
+      ItemTransformVec3f groundIn,
+      ItemTransformVec3f fixedIn
    ) {
-      this.thirdPerson = var1;
-      this.firstPerson = var2;
-      this.head = var3;
-      this.gui = var4;
-      this.ground = var5;
-      this.fixed = var6;
+      this.thirdPerson = thirdPersonIn;
+      this.firstPerson = firstPersonIn;
+      this.head = headIn;
+      this.gui = guiIn;
+      this.ground = groundIn;
+      this.fixed = fixedIn;
    }
 
-   public void applyTransform(ItemCameraTransforms.TransformType var1) {
-      ItemTransformVec3f var5 = this.getTransform(var1);
-      if (var5 != ItemTransformVec3f.DEFAULT) {
-         GlStateManager.translate(var5.translation.x + field_181690_b, var5.translation.y + field_181691_c, var5.translation.z + field_181692_d);
-         GlStateManager.rotate(var5.rotation.y + field_181694_f, 0.0F, 1.0F, 0.0F);
-         GlStateManager.rotate(var5.rotation.x + field_181693_e, 1.0F, 0.0F, 0.0F);
-         GlStateManager.rotate(var5.rotation.z + field_181695_g, 0.0F, 0.0F, 1.0F);
-         GlStateManager.scale(var5.scale.x + field_181696_h, var5.scale.y + field_181697_i, var5.scale.z + field_181698_j);
+   public void applyTransform(ItemCameraTransforms.TransformType typeIn) {
+      ItemTransformVec3f itemTransformVec3f = this.getTransform(typeIn);
+      if (itemTransformVec3f != ItemTransformVec3f.DEFAULT) {
+         GlStateManager.translate(itemTransformVec3f.translation.x + field_181690_b, itemTransformVec3f.translation.y + field_181691_c, itemTransformVec3f.translation.z + field_181692_d);
+         GlStateManager.rotate(itemTransformVec3f.rotation.y + field_181694_f, 0.0F, 1.0F, 0.0F);
+         GlStateManager.rotate(itemTransformVec3f.rotation.x + field_181693_e, 1.0F, 0.0F, 0.0F);
+         GlStateManager.rotate(itemTransformVec3f.rotation.z + field_181695_g, 0.0F, 0.0F, 1.0F);
+         GlStateManager.scale(itemTransformVec3f.scale.x + field_181696_h, itemTransformVec3f.scale.y + field_181697_i, itemTransformVec3f.scale.z + field_181698_j);
       }
    }
 
-   public ItemTransformVec3f getTransform(ItemCameraTransforms.TransformType var1) {
-      switch (var1) {
+   public ItemTransformVec3f getTransform(ItemCameraTransforms.TransformType typeIn) {
+      switch (typeIn) {
          case THIRD_PERSON:
             return this.thirdPerson;
          case FIRST_PERSON:
@@ -88,26 +93,26 @@ public class ItemCameraTransforms {
       }
    }
 
-   public boolean func_181687_c(ItemCameraTransforms.TransformType var1) {
-      return !this.getTransform(var1).equals(ItemTransformVec3f.DEFAULT);
+   public boolean func_181687_c(ItemCameraTransforms.TransformType typeIn) {
+      return !this.getTransform(typeIn).equals(ItemTransformVec3f.DEFAULT);
    }
 
    public static class Deserializer implements JsonDeserializer<ItemCameraTransforms> {
       private static final long a = 4675101033706L;
 
-      public ItemCameraTransforms deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-         JsonObject var6 = var1.getAsJsonObject();
-         ItemTransformVec3f var7 = this.func_181683_a(var3, var6, "thirdperson");
-         ItemTransformVec3f var8 = this.func_181683_a(var3, var6, "firstperson");
-         ItemTransformVec3f var9 = this.func_181683_a(var3, var6, "head");
-         ItemTransformVec3f var10 = this.func_181683_a(var3, var6, "gui");
-         ItemTransformVec3f var11 = this.func_181683_a(var3, var6, "ground");
-         ItemTransformVec3f var12 = this.func_181683_a(var3, var6, "fixed");
-         return new ItemCameraTransforms(var7, var8, var9, var10, var11, var12);
+      public ItemCameraTransforms deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+         JsonObject jsonObject = jsonElement.getAsJsonObject();
+         ItemTransformVec3f itemTransformVec3f = this.func_181683_a(jsonDeserializationContext, jsonObject, "thirdperson");
+         ItemTransformVec3f itemTransformVec3f2 = this.func_181683_a(jsonDeserializationContext, jsonObject, "firstperson");
+         ItemTransformVec3f itemTransformVec3f3 = this.func_181683_a(jsonDeserializationContext, jsonObject, "head");
+         ItemTransformVec3f itemTransformVec3f4 = this.func_181683_a(jsonDeserializationContext, jsonObject, "gui");
+         ItemTransformVec3f itemTransformVec3f5 = this.func_181683_a(jsonDeserializationContext, jsonObject, "ground");
+         ItemTransformVec3f itemTransformVec3f6 = this.func_181683_a(jsonDeserializationContext, jsonObject, "fixed");
+         return new ItemCameraTransforms(itemTransformVec3f, itemTransformVec3f2, itemTransformVec3f3, itemTransformVec3f4, itemTransformVec3f5, itemTransformVec3f6);
       }
 
-      private ItemTransformVec3f func_181683_a(JsonDeserializationContext var1, JsonObject var2, String var3) {
-         return var2.has(var3) ? var1.deserialize(var2.get(var3), ItemTransformVec3f.class) : ItemTransformVec3f.DEFAULT;
+      private ItemTransformVec3f func_181683_a(JsonDeserializationContext jsonDeserializationContext, JsonObject jsonObject, String string) {
+         return jsonObject.has(string) ? jsonDeserializationContext.deserialize(jsonObject.get(string), ItemTransformVec3f.class) : ItemTransformVec3f.DEFAULT;
       }
    }
 

@@ -47,29 +47,29 @@ public class BlockAnvil extends BlockFalling {
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      EnumFacing var9 = var8.getHorizontalFacing().rotateY();
-      return super.onBlockPlaced(var1, var2, var3, var4, var5, var6, var7, var8).withProperty(FACING, var9).withProperty(DAMAGE, var7 >> 2);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      EnumFacing enumFacing = placer.getHorizontalFacing().rotateY();
+      return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, enumFacing).withProperty(DAMAGE, meta >> 2);
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (!var1.isRemote) {
-         var4.displayGui(new BlockAnvil.Anvil(var1, var2));
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (!worldIn.isRemote) {
+         playerIn.displayGui(new BlockAnvil.Anvil(worldIn, pos));
       }
 
       return true;
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(DAMAGE);
+   public int damageDropped(IBlockState state) {
+      return state.getValue(DAMAGE);
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      EnumFacing var6 = var1.getBlockState(var2).getValue(FACING);
-      if (var6.getAxis() == EnumFacing.Axis.X) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      EnumFacing enumFacing = worldIn.getBlockState(pos).getValue(FACING);
+      if (enumFacing.getAxis() == EnumFacing.Axis.X) {
          this.setBlockBounds(0.0F, 0.0F, 0.125F, 1.0F, 1.0F, 0.875F);
       } else {
          this.setBlockBounds(0.125F, 0.0F, 0.0F, 0.875F, 1.0F, 1.0F);
@@ -77,42 +77,42 @@ public class BlockAnvil extends BlockFalling {
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      var3.add(new ItemStack(var1, 1, 0));
-      var3.add(new ItemStack(var1, 1, 1));
-      var3.add(new ItemStack(var1, 1, 2));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      list.add(new ItemStack(itemIn, 1, 0));
+      list.add(new ItemStack(itemIn, 1, 1));
+      list.add(new ItemStack(itemIn, 1, 2));
    }
 
    @Override
-   public void onStartFalling(EntityFallingBlock var1) {
-      var1.setHurtEntities(true);
+   public void onStartFalling(EntityFallingBlock fallingEntity) {
+      fallingEntity.setHurtEntities(true);
    }
 
    @Override
-   public void onEndFalling(World var1, BlockPos var2) {
-      var1.playAuxSFX(1022, var2, 0);
+   public void onEndFalling(World worldIn, BlockPos pos) {
+      worldIn.playAuxSFX(1022, pos, 0);
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
       return true;
    }
 
    @Override
-   public IBlockState getStateForEntityRender(IBlockState var1) {
+   public IBlockState getStateForEntityRender(IBlockState state) {
       return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(var1 & 3)).withProperty(DAMAGE, (var1 & 15) >> 2);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3)).withProperty(DAMAGE, (meta & 15) >> 2);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var2 = 0;
-      var2 |= var1.getValue(FACING).getHorizontalIndex();
-      return var2 | var1.getValue(DAMAGE) << 2;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(FACING).getHorizontalIndex();
+      return i | state.getValue(DAMAGE) << 2;
    }
 
    @Override
@@ -125,9 +125,9 @@ public class BlockAnvil extends BlockFalling {
       private final BlockPos position;
       private static final long a = 6342697609328L;
 
-      public Anvil(World var1, BlockPos var2) {
-         this.world = var1;
-         this.position = var2;
+      public Anvil(World worldIn, BlockPos pos) {
+         this.world = worldIn;
+         this.position = pos;
       }
 
       @Override
@@ -146,8 +146,8 @@ public class BlockAnvil extends BlockFalling {
       }
 
       @Override
-      public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-         return new ContainerRepair(var1, this.world, this.position, var2);
+      public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+         return new ContainerRepair(playerInventory, this.world, this.position, playerIn);
       }
 
       @Override

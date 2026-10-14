@@ -7,13 +7,13 @@ import java.util.Map;
 public abstract class Team {
    private static final long b = 26095391052830L;
 
-   public boolean isSameTeam(Team var1) {
-      return var1 == null ? false : this == var1;
+   public boolean isSameTeam(Team other) {
+      return other == null ? false : this == other;
    }
 
    public abstract String getRegisteredName();
 
-   public abstract String formatString(String var1);
+   public abstract String formatString(String input);
 
    public abstract boolean getSeeFriendlyInvisiblesEnabled();
 
@@ -39,18 +39,18 @@ public abstract class Team {
          return field_178828_g.keySet().toArray(new String[field_178828_g.size()]);
       }
 
-      public static Team.EnumVisible func_178824_a(String var0) {
-         return field_178828_g.get(var0);
+      public static Team.EnumVisible func_178824_a(String string) {
+         return field_178828_g.get(string);
       }
 
-      EnumVisible(String var3, int var4) {
-         this.internalName = var3;
-         this.id = var4;
+      EnumVisible(String string2, int j) {
+         this.internalName = string2;
+         this.id = j;
       }
 
       static {
-         for (Team.EnumVisible var14 : values()) {
-            field_178828_g.put(var14.internalName, var14);
+         for (Team.EnumVisible enumVisible : values()) {
+            field_178828_g.put(enumVisible.internalName, enumVisible);
          }
       }
    }

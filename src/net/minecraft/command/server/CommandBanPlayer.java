@@ -26,44 +26,44 @@ public class CommandBanPlayer extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.ban.usage";
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(ICommandSender var1) {
-      return MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().isLanServer() && super.canCommandSenderUseCommand(var1);
+   public boolean canCommandSenderUseCommand(ICommandSender sender) {
+      return MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().isLanServer() && super.canCommandSenderUseCommand(sender);
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length >= 1 && var2[0].length() > 0) {
-         MinecraftServer var6 = MinecraftServer.getServer();
-         GameProfile var7 = var6.getPlayerProfileCache().getGameProfileForUsername(var2[0]);
-         if (var7 == null) {
-            throw new CommandException("commands.ban.failed", var2[0]);
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length >= 1 && args[0].length() > 0) {
+         MinecraftServer minecraftServer = MinecraftServer.getServer();
+         GameProfile gameProfile = minecraftServer.getPlayerProfileCache().getGameProfileForUsername(args[0]);
+         if (gameProfile == null) {
+            throw new CommandException("commands.ban.failed", args[0]);
          }
 
-         String var8 = null;
-         if (var2.length >= 2) {
-            var8 = getChatComponentFromNthArg(var1, var2, 1).getUnformattedText();
+         String string = null;
+         if (args.length >= 2) {
+            string = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
          }
 
-         UserListBansEntry var9 = new UserListBansEntry(var7, (Date)null, var1.getName(), (Date)null, var8);
-         var6.getConfigurationManager().getBannedPlayers().addEntry(var9);
-         EntityPlayerMP var10 = var6.getConfigurationManager().getPlayerByUsername(var2[0]);
-         if (var10 != null) {
-            var10.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
+         UserListBansEntry userListBansEntry = new UserListBansEntry(gameProfile, (Date)null, sender.getName(), (Date)null, string);
+         minecraftServer.getConfigurationManager().getBannedPlayers().addEntry(userListBansEntry);
+         EntityPlayerMP entityPlayerMP = minecraftServer.getConfigurationManager().getPlayerByUsername(args[0]);
+         if (entityPlayerMP != null) {
+            entityPlayerMP.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
          }
 
-         notifyOperators(var1, this, "commands.ban.success", var2[0]);
+         notifyOperators(sender, this, "commands.ban.success", args[0]);
       } else {
          throw new WrongUsageException("commands.ban.usage");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length >= 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length >= 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 }

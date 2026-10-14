@@ -19,10 +19,10 @@ public class GuiLanguage extends GuiScreen {
    private GuiOptionButton confirmSettingsBtn;
    private static final long a = 42616695162694L;
 
-   public GuiLanguage(GuiScreen var1, GameSettings var2, LanguageManager var3) {
-      this.parentScreen = var1;
-      this.game_settings_3 = var2;
-      this.languageManager = var3;
+   public GuiLanguage(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager) {
+      this.parentScreen = screen;
+      this.game_settings_3 = gameSettingsObj;
+      this.languageManager = manager;
    }
 
    @Override
@@ -49,36 +49,36 @@ public class GuiLanguage extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         switch (button.id) {
             case 5:
                break;
             case 6:
                this.mc.displayGuiScreen(this.parentScreen);
                break;
             case 100:
-               if (var1 instanceof GuiOptionButton) {
-                  this.game_settings_3.setOptionValue(((GuiOptionButton)var1).returnEnumOptions(), 1);
-                  var1.displayString = this.game_settings_3.getKeyBinding(GameSettings.Options.FORCE_UNICODE_FONT);
-                  ScaledResolution var5 = new ScaledResolution(this.mc);
-                  int var6 = var5.getScaledWidth();
-                  int var7 = var5.getScaledHeight();
-                  this.setWorldAndResolution(this.mc, var6, var7);
+               if (button instanceof GuiOptionButton) {
+                  this.game_settings_3.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+                  button.displayString = this.game_settings_3.getKeyBinding(GameSettings.Options.FORCE_UNICODE_FONT);
+                  ScaledResolution scaledResolution = new ScaledResolution(this.mc);
+                  int i = scaledResolution.getScaledWidth();
+                  int j = scaledResolution.getScaledHeight();
+                  this.setWorldAndResolution(this.mc, i, j);
                }
                break;
             default:
-               this.list.actionPerformed(var1);
+               this.list.actionPerformed(button);
          }
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      this.list.drawScreen(var1, var2, var3);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      this.list.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, I18n.format("options.language"), this.width / 2, 16, 16777215);
       this.d(this.fontRendererObj, "(" + I18n.format("options.languageWarning") + ")", this.width / 2, this.height - 56, 8421504);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    public class List extends GuiSlot {
@@ -86,12 +86,12 @@ public class GuiLanguage extends GuiScreen {
       private final Map<String, Language> languageMap = Maps.newHashMap();
       private static final long c = 126436463148379L;
 
-      public List(Minecraft var2) {
-         super(var2, GuiLanguage.this.width, GuiLanguage.this.height, 32, GuiLanguage.this.height - 65 + 4, 18);
+      public List(Minecraft mcIn) {
+         super(mcIn, GuiLanguage.this.width, GuiLanguage.this.height, 32, GuiLanguage.this.height - 65 + 4, 18);
 
-         for (Language var7 : GuiLanguage.this.languageManager.getLanguages()) {
-            this.languageMap.put(var7.getLanguageCode(), var7);
-            this.langCodeList.add(var7.getLanguageCode());
+         for (Language language : GuiLanguage.this.languageManager.getLanguages()) {
+            this.languageMap.put(language.getLanguageCode(), language);
+            this.langCodeList.add(language.getLanguageCode());
          }
       }
 
@@ -101,10 +101,10 @@ public class GuiLanguage extends GuiScreen {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
-         Language var8 = this.languageMap.get(this.langCodeList.get(var1));
-         GuiLanguage.this.languageManager.setCurrentLanguage(var8);
-         GuiLanguage.this.game_settings_3.language = var8.getLanguageCode();
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+         Language language2 = this.languageMap.get(this.langCodeList.get(slotIndex));
+         GuiLanguage.this.languageManager.setCurrentLanguage(language2);
+         GuiLanguage.this.game_settings_3.language = language2.getLanguageCode();
          this.mc.refreshResources();
          GuiLanguage.this.fontRendererObj
             .setUnicodeFlag(GuiLanguage.this.languageManager.isCurrentLocaleUnicode() || GuiLanguage.this.game_settings_3.forceUnicodeFont);
@@ -115,8 +115,8 @@ public class GuiLanguage extends GuiScreen {
       }
 
       @Override
-      public boolean isSelected(int var1) {
-         return this.langCodeList.get(var1).equals(GuiLanguage.this.languageManager.getCurrentLanguage().getLanguageCode());
+      public boolean isSelected(int slotIndex) {
+         return this.langCodeList.get(slotIndex).equals(GuiLanguage.this.languageManager.getCurrentLanguage().getLanguageCode());
       }
 
       @Override
@@ -130,9 +130,9 @@ public class GuiLanguage extends GuiScreen {
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          GuiLanguage.this.fontRendererObj.setBidiFlag(true);
-         GuiLanguage.this.d(GuiLanguage.this.fontRendererObj, this.languageMap.get(this.langCodeList.get(var1)).toString(), this.width / 2, var3 + 1, 16777215);
+         GuiLanguage.this.d(GuiLanguage.this.fontRendererObj, this.languageMap.get(this.langCodeList.get(entryID)).toString(), this.width / 2, j + 1, 16777215);
          GuiLanguage.this.fontRendererObj.setBidiFlag(GuiLanguage.this.languageManager.getCurrentLanguage().isBidirectional());
       }
    }

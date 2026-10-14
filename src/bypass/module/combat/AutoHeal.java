@@ -76,38 +76,38 @@ public final class AutoHeal extends Module {
    private float serverPitch;
    public static ItemStack unusedStack;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    @EventHandler(RenderLivingEvent.class)
-   private Listener<RenderLivingEvent> onRenderLiving = var0 -> {
-      if (healItem != null && var0.getEntity() == mc.thePlayer && HealItem.typeOf(healItem) == HealItemType.POTION) {
+   private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
+      if (healItem != null && renderLivingEvent.getEntity() == mc.thePlayer && HealItem.typeOf(healItem) == HealItemType.POTION) {
       }
    };
    private boolean unusedFlag;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.LOWEST)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      long var2 = c ^ 134748975167122L;
-      long var4 = var2 ^ 9385193959109L;
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      long l = c ^ 134748975167122L;
+      long m = l ^ 9385193959109L;
       if (Flight.slotSpoofed) {
          healItem = null;
       } else if (mc.thePlayer.ticksExisted < 15) {
          healItem = null;
       } else {
-         switch (var1x.getState()) {
+         switch (motionEvent.getState()) {
             case PRE:
                if (healItem != null && HealItem.typeOf(healItem) == HealItemType.HOLD) {
                   mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                }
 
                healItem = null;
-               int var7 = this.countHotbarItems();
-               if (var7 <= 0) {
+               int i = this.countHotbarItems();
+               if (i <= 0) {
                   if (mc.currentScreen instanceof GuiContainer) {
                      return;
                   }
 
-                  int var15 = this.findInventoryItem();
-                  if (var15 != -1 && this.clickTimer.hasElapsed(this.delay.getValue().intValue()) && this.hotBarMove.getValue()) {
-                     mc.playerController.windowClick(0, var15, this.slot.getValue() - 1, 2, mc.thePlayer);
+                  int j = this.findInventoryItem();
+                  if (j != -1 && this.clickTimer.hasElapsed(this.delay.getValue().intValue()) && this.hotBarMove.getValue()) {
+                     mc.playerController.windowClick(0, j, this.slot.getValue() - 1, 2, mc.thePlayer);
                   }
                } else {
                   if (mc.currentScreen instanceof GuiContainer && this.hotBarMove.getValue()) {
@@ -122,59 +122,59 @@ public final class AutoHeal extends Module {
                      this.belowMinHealthAbsorption = false;
                   }
 
-                  for (int var8 = 0; var8 < 9; var8++) {
-                     ItemStack var9 = mc.thePlayer.inventory.getStackInSlot(var8);
-                     if (var9 != null) {
-                        if (this.isAndurilEnabled() && this.isUsableAnduril(var9) && (!mc.thePlayer.isUsingItem() || GameUtil.isHoldingSword(mc.thePlayer))) {
-                           healItem = new HealItem(HealItemType.HOLD, var9, var8);
+                  for (int k = 0; k < 9; k++) {
+                     ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(k);
+                     if (itemStack != null) {
+                        if (this.isAndurilEnabled() && this.isUsableAnduril(itemStack) && (!mc.thePlayer.isUsingItem() || GameUtil.isHoldingSword(mc.thePlayer))) {
+                           healItem = new HealItem(HealItemType.HOLD, itemStack, k);
                         }
 
-                        boolean var10 = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
-                        float var11 = (float)(85.0 + Math.random());
-                        MovingObjectPosition var12 = GameUtil.A(mc.thePlayer.rotationYaw, var11, 3.0);
-                        if (var9.getItem() instanceof ItemPotion && (this.belowMinHealth && this.isHealingPotion(var9) || this.isBuffPotion(var9))) {
-                           if (ItemPotion.isSplash(var9.getMetadata())) {
+                        boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
+                        float f = (float)(85.0 + Math.random());
+                        MovingObjectPosition movingObjectPosition = GameUtil.A(mc.thePlayer.rotationYaw, f, 3.0);
+                        if (itemStack.getItem() instanceof ItemPotion && (this.belowMinHealth && this.isHealingPotion(itemStack) || this.isBuffPotion(itemStack))) {
+                           if (ItemPotion.isSplash(itemStack.getMetadata())) {
                               if (mc.thePlayer.onGround
-                                 && var12 != null
-                                 && var12.typeOfHit != MovingObjectPosition.MovingObjectType.MISS
+                                 && movingObjectPosition != null
+                                 && movingObjectPosition.typeOfHit != MovingObjectPosition.MovingObjectType.MISS
                                  && mc.thePlayer.isCollidedVertically) {
-                                 this.lastPitch = var1x.getLastPitch();
-                                 var1x.setPitch(var11);
-                                 this.serverPitch = var1x.getPitch();
-                                 healItem = new HealItem(HealItemType.POTION, var9, var8);
+                                 this.lastPitch = motionEvent.getLastPitch();
+                                 motionEvent.setPitch(f);
+                                 this.serverPitch = motionEvent.getPitch();
+                                 healItem = new HealItem(HealItemType.POTION, itemStack, k);
                               }
-                           } else if (var10 && this.healTimer.hasElapsed(this.delay.getValue().intValue())) {
-                              this.useInstantly(var8, var9);
+                           } else if (bl && this.healTimer.hasElapsed(this.delay.getValue().intValue())) {
+                              this.useInstantly(k, itemStack);
                               this.healTimer.reset();
                               break;
                            }
                         }
 
-                        boolean var13 = this.minHealthAbsorption.asInt() > 5;
+                        boolean bl2 = this.minHealthAbsorption.asInt() > 5;
                         if (this.belowMinHealth) {
-                           boolean var14 = GameUtil.scoreboardTitleContains("PIT");
-                           if (var9.getItem() == Items.mutton
-                              && var9.getDisplayName().contains("AAA-Rated Steak")
+                           boolean bl3 = GameUtil.scoreboardTitleContains("PIT");
+                           if (itemStack.getItem() == Items.mutton
+                              && itemStack.getDisplayName().contains("AAA-Rated Steak")
                               && !mc.thePlayer.isPotionActive(Potion.resistance)
-                              && var14
+                              && bl3
                               && this.isHeadsEnabled()) {
-                              healItem = new HealItem(HealItemType.USABLE, var9, var8);
+                              healItem = new HealItem(HealItemType.USABLE, itemStack, k);
                               break;
                            }
 
                            if ((
-                                    var9.getItem() instanceof ItemSkull && OldInventoryManager.isHead(var9)
-                                       || var9.getDisplayName().contains("Rage Potato")
-                                       || var9.getItem() == Items.magma_cream && var9.getDisplayName().contains("Fractured Soul") && var14
+                                    itemStack.getItem() instanceof ItemSkull && OldInventoryManager.isHead(itemStack)
+                                       || itemStack.getDisplayName().contains("Rage Potato")
+                                       || itemStack.getItem() == Items.magma_cream && itemStack.getDisplayName().contains("Fractured Soul") && bl3
                                  )
                                  && (!this.delayRegeneration.getValue() || !mc.thePlayer.isPotionActive(Potion.regeneration))
                                  && this.isHeadsEnabled()
-                              || var9.getItem() instanceof ItemSoup && this.isSoupsEnabled()) {
-                              healItem = new HealItem(HealItemType.USABLE, var9, var8);
-                              if (!var10
-                                 || var9.getDisplayName() != null
-                                    && (var9.getDisplayName().equals("§6Golden Head") || var9.getDisplayName().contains("Fractured Soul"))
-                                    && var13
+                              || itemStack.getItem() instanceof ItemSoup && this.isSoupsEnabled()) {
+                              healItem = new HealItem(HealItemType.USABLE, itemStack, k);
+                              if (!bl
+                                 || itemStack.getDisplayName() != null
+                                    && (itemStack.getDisplayName().equals("§6Golden Head") || itemStack.getDisplayName().contains("Fractured Soul"))
+                                    && bl2
                                     && this.belowMinHealthAbsorption) {
                                  break;
                               }
@@ -184,7 +184,7 @@ public final class AutoHeal extends Module {
                   }
                }
 
-               this.serverPitch = var1x.getPitch();
+               this.serverPitch = motionEvent.getPitch();
                break;
             case POST:
                if (healItem != null
@@ -219,47 +219,47 @@ public final class AutoHeal extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING) {
-         if (var1x.getPacket() instanceof C0EPacketClickWindow) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         if (packetEvent.getPacket() instanceof C0EPacketClickWindow) {
             this.clickTimer.reset();
          }
 
-         if (var1x.getPacket() instanceof C03PacketPlayer.C05PacketPlayerLook) {
-            C03PacketPlayer.C05PacketPlayerLook var5 = (C03PacketPlayer.C05PacketPlayerLook)var1x.getPacket();
-            this.serverPitch = var5.getPitch();
+         if (packetEvent.getPacket() instanceof C03PacketPlayer.C05PacketPlayerLook) {
+            C03PacketPlayer.C05PacketPlayerLook c05PacketPlayerLook = (C03PacketPlayer.C05PacketPlayerLook)packetEvent.getPacket();
+            this.serverPitch = c05PacketPlayerLook.getPitch();
          }
 
-         if (var1x.getPacket() instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
-            C03PacketPlayer.C06PacketPlayerPosLook var6 = (C03PacketPlayer.C06PacketPlayerPosLook)var1x.getPacket();
-            this.serverPitch = var6.getPitch();
+         if (packetEvent.getPacket() instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
+            C03PacketPlayer.C06PacketPlayerPosLook c06PacketPlayerPosLook = (C03PacketPlayer.C06PacketPlayerPosLook)packetEvent.getPacket();
+            this.serverPitch = c06PacketPlayerPosLook.getPitch();
          }
       }
 
-      if (var1x.getDirection() == PacketDirection.RECEIVED && mc.thePlayer != null) {
-         if (var1x.getPacket() instanceof S06PacketUpdateHealth) {
-            S06PacketUpdateHealth var7 = (S06PacketUpdateHealth)var1x.getPacket();
-            this.belowMinHealth = (var7.getHealth() + mc.thePlayer.getAbsorptionAmount()) / mc.thePlayer.getMaxHealth() * 100.0F <= this.minHealth.asInt();
-            this.belowMinHealthAbsorption = var7.getHealth() / mc.thePlayer.getMaxHealth() * 100.0F <= this.minHealthAbsorption.asInt();
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && mc.thePlayer != null) {
+         if (packetEvent.getPacket() instanceof S06PacketUpdateHealth) {
+            S06PacketUpdateHealth s06PacketUpdateHealth = (S06PacketUpdateHealth)packetEvent.getPacket();
+            this.belowMinHealth = (s06PacketUpdateHealth.getHealth() + mc.thePlayer.getAbsorptionAmount()) / mc.thePlayer.getMaxHealth() * 100.0F <= this.minHealth.asInt();
+            this.belowMinHealthAbsorption = s06PacketUpdateHealth.getHealth() / mc.thePlayer.getMaxHealth() * 100.0F <= this.minHealthAbsorption.asInt();
          }
 
-         if (var1x.getPacket() instanceof S08PacketPlayerPosLook) {
-            S08PacketPlayerPosLook var8 = (S08PacketPlayerPosLook)var1x.getPacket();
-            this.serverPitch = var8.getPitch();
+         if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook) {
+            S08PacketPlayerPosLook s08PacketPlayerPosLook = (S08PacketPlayerPosLook)packetEvent.getPacket();
+            this.serverPitch = s08PacketPlayerPosLook.getPitch();
          }
       }
    };
    private static final long c = 76361736906212L;
 
-   public AutoHeal(Category var1) {
-      super(var1);
+   public AutoHeal(Category category) {
+      super(category);
       this.addSettings(
          this.potions, this.other, this.minHealth, this.minHealthAbsorption, this.whenTarget, this.delayRegeneration, this.delay, this.slot, this.hotBarMove
       );
    }
 
-   private void useInstantly(int var1, ItemStack var2) {
-      FastUse.E(var1, var2, false);
+   private void useInstantly(int i, ItemStack itemStack) {
+      FastUse.E(i, itemStack, false);
       mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
       mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
       healItem = null;
@@ -318,47 +318,49 @@ public final class AutoHeal extends Module {
       return this.other.getSetting("Andúril").asBoolean();
    }
 
-   private boolean isHealingPotion(ItemStack var1) {
-      long var2 = c ^ 75140284277602L;
-      long var4 = var2 ^ 59727628827445L;
+   private boolean isHealingPotion(ItemStack itemStack) {
+      long l = c ^ 75140284277602L;
+      long m = l ^ 59727628827445L;
       if (!this.belowMinHealth && !this.belowMinHealthAbsorption) {
          return false;
       }
 
-      boolean var7 = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
-      return !ItemPotion.isSplash(var1.getMetadata()) && !var7
+      boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
+      return !ItemPotion.isSplash(itemStack.getMetadata()) && !bl
          ? false
-         : InventoryUtil.hasPotionEffect(var1, Potion.regeneration.id) && !mc.thePlayer.isPotionActive(Potion.regeneration) && this.isRegenerationEnabled()
-            || InventoryUtil.hasPotionEffect(var1, Potion.heal.id) && this.isHealEnabled()
-            || InventoryUtil.hasPotionEffect(var1, Potion.absorption.id) && this.isAbsorptionEnabled();
+         : InventoryUtil.hasPotionEffect(itemStack, Potion.regeneration.id)
+               && !mc.thePlayer.isPotionActive(Potion.regeneration)
+               && this.isRegenerationEnabled()
+            || InventoryUtil.hasPotionEffect(itemStack, Potion.heal.id) && this.isHealEnabled()
+            || InventoryUtil.hasPotionEffect(itemStack, Potion.absorption.id) && this.isAbsorptionEnabled();
    }
 
-   private boolean isBuffPotion(ItemStack var1) {
-      long var2 = c ^ 65324971785467L;
-      long var4 = var2 ^ 80733546112172L;
-      boolean var7 = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
-      return !ItemPotion.isSplash(var1.getMetadata()) && !var7
+   private boolean isBuffPotion(ItemStack itemStack) {
+      long l = c ^ 65324971785467L;
+      long m = l ^ 80733546112172L;
+      boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
+      return !ItemPotion.isSplash(itemStack.getMetadata()) && !bl
          ? false
-         : InventoryUtil.hasPotionEffect(var1, Potion.fireResistance.id)
+         : InventoryUtil.hasPotionEffect(itemStack, Potion.fireResistance.id)
                && this.isFireResistanceEnabled()
                && !mc.thePlayer.isPotionActive(Potion.fireResistance)
-            || InventoryUtil.hasPotionEffect(var1, Potion.resistance.id)
+            || InventoryUtil.hasPotionEffect(itemStack, Potion.resistance.id)
                && this.isResistanceEnabled()
                && this.findNearestPlayer() != null
                && !mc.thePlayer.isPotionActive(Potion.resistance)
-            || InventoryUtil.hasPotionEffect(var1, Potion.jump.id) && !mc.thePlayer.isPotionActive(Potion.jump) && this.isJumpBoostEnabled()
-            || InventoryUtil.hasPotionEffect(var1, Potion.moveSpeed.id)
-               && !this.hasJumpEffect(var1)
+            || InventoryUtil.hasPotionEffect(itemStack, Potion.jump.id) && !mc.thePlayer.isPotionActive(Potion.jump) && this.isJumpBoostEnabled()
+            || InventoryUtil.hasPotionEffect(itemStack, Potion.moveSpeed.id)
+               && !this.hasJumpEffect(itemStack)
                && !mc.thePlayer.isPotionActive(Potion.moveSpeed)
                && this.isSpeedEnabled();
    }
 
-   private boolean hasJumpEffect(ItemStack var1) {
-      if (var1.getItem() instanceof ItemPotion) {
-         ItemPotion var5 = (ItemPotion)var1.getItem();
+   private boolean hasJumpEffect(ItemStack itemStack) {
+      if (itemStack.getItem() instanceof ItemPotion) {
+         ItemPotion itemPotion = (ItemPotion)itemStack.getItem();
 
-         for (PotionEffect var7 : var5.getEffects(var1)) {
-            if (var7.getPotionID() == Potion.jump.id) {
+         for (PotionEffect potionEffect : itemPotion.getEffects(itemStack)) {
+            if (potionEffect.getPotionID() == Potion.jump.id) {
                return true;
             }
          }
@@ -368,56 +370,56 @@ public final class AutoHeal extends Module {
    }
 
    private EntityPlayer findNearestPlayer() {
-      float var4 = 10.0F;
-      EntityPlayer var5 = null;
+      float f = 10.0F;
+      EntityPlayer entityPlayer = null;
 
-      for (EntityPlayer var7 : mc.theWorld.playerEntities) {
-         if (var7 != mc.thePlayer && !BotDetector.w.contains(var7)) {
-            float var8 = mc.thePlayer.getDistanceToEntity(var7);
-            if (var8 < var4) {
-               var5 = var7;
-               var4 = var8;
+      for (EntityPlayer entityPlayer2 : mc.theWorld.playerEntities) {
+         if (entityPlayer2 != mc.thePlayer && !BotDetector.w.contains(entityPlayer2)) {
+            float g = mc.thePlayer.getDistanceToEntity(entityPlayer2);
+            if (g < f) {
+               entityPlayer = entityPlayer2;
+               f = g;
             }
          }
       }
 
-      return var5;
+      return entityPlayer;
    }
 
    private int countHotbarItems() {
-      int var4 = 0;
+      int i = 0;
 
-      for (int var5 = 0; var5 < 9; var5++) {
-         ItemStack var6 = mc.thePlayer.inventory.getStackInSlot(var5);
-         if (var6 != null && this.isHealItem(var6)) {
-            var4 += var6.stackSize;
+      for (int j = 0; j < 9; j++) {
+         ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(j);
+         if (itemStack != null && this.isHealItem(itemStack)) {
+            i += itemStack.stackSize;
          }
       }
 
-      return var4;
+      return i;
    }
 
    private int countItems() {
-      int var4 = 0;
+      int i = 0;
 
-      for (int var5 = 9; var5 <= 44; var5++) {
-         if (mc.thePlayer.inventoryContainer.getSlot(var5).getHasStack()) {
-            ItemStack var6 = mc.thePlayer.inventoryContainer.getSlot(var5).getStack();
-            if (this.isHealItem(var6)) {
-               var4 += var6.stackSize;
+      for (int j = 9; j <= 44; j++) {
+         if (mc.thePlayer.inventoryContainer.getSlot(j).getHasStack()) {
+            ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(j).getStack();
+            if (this.isHealItem(itemStack)) {
+               i += itemStack.stackSize;
             }
          }
       }
 
-      return var4;
+      return i;
    }
 
    private int findInventoryItem() {
-      for (int var4 = 9; var4 <= 35; var4++) {
-         if (mc.thePlayer.inventoryContainer.getSlot(var4).getHasStack()) {
-            ItemStack var5 = mc.thePlayer.inventoryContainer.getSlot(var4).getStack();
-            if (this.isHealItem(var5)) {
-               return var4;
+      for (int i = 9; i <= 35; i++) {
+         if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+            ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+            if (this.isHealItem(itemStack)) {
+               return i;
             }
          }
       }
@@ -425,37 +427,37 @@ public final class AutoHeal extends Module {
       return -1;
    }
 
-   private boolean isHealItem(ItemStack var1) {
-      if (var1 == null) {
+   private boolean isHealItem(ItemStack itemStack) {
+      if (itemStack == null) {
          return false;
       }
 
-      boolean var5 = GameUtil.scoreboardTitleContains("PIT");
-      return var1.getItem() instanceof ItemSoup && this.isSoupsEnabled()
+      boolean bl = GameUtil.scoreboardTitleContains("PIT");
+      return itemStack.getItem() instanceof ItemSoup && this.isSoupsEnabled()
          || (
-               var1.getItem() instanceof ItemSkull && OldInventoryManager.isHead(var1)
-                  || var1.getDisplayName().contains("Rage Potato")
-                  || var1.getItem() == Items.mutton
-                     && var1.getDisplayName().contains("AAA-Rated Steak")
+               itemStack.getItem() instanceof ItemSkull && OldInventoryManager.isHead(itemStack)
+                  || itemStack.getDisplayName().contains("Rage Potato")
+                  || itemStack.getItem() == Items.mutton
+                     && itemStack.getDisplayName().contains("AAA-Rated Steak")
                      && !mc.thePlayer.isPotionActive(Potion.resistance)
-                     && var5
-                  || var1.getItem() == Items.magma_cream && var1.getDisplayName().contains("Fractured Soul") && var5
+                     && bl
+                  || itemStack.getItem() == Items.magma_cream && itemStack.getDisplayName().contains("Fractured Soul") && bl
             )
             && (this.belowMinHealthAbsorption || this.belowMinHealth)
             && this.isHeadsEnabled()
-         || this.isHealingPotion(var1)
-         || this.isAndurilEnabled() && this.isUsableAnduril(var1)
-         || this.isBuffPotion(var1);
+         || this.isHealingPotion(itemStack)
+         || this.isAndurilEnabled() && this.isUsableAnduril(itemStack)
+         || this.isBuffPotion(itemStack);
    }
 
-   private boolean isUsableAnduril(ItemStack var1) {
-      return var1.getItem() == Items.iron_sword
-         && var1.getDisplayName().contains("Andúril")
+   private boolean isUsableAnduril(ItemStack itemStack) {
+      return itemStack.getItem() == Items.iron_sword
+         && itemStack.getDisplayName().contains("Andúril")
          && (
             !mc.thePlayer.isPotionActive(Potion.resistance)
                || mc.thePlayer.getActivePotionEffect(Potion.resistance).getDuration() <= 25
                   && mc.thePlayer.getActivePotionEffect(Potion.resistance).getDuration() >= 23
          )
-         && var1.getItem().hasEffect(var1);
+         && itemStack.getItem().hasEffect(itemStack);
    }
 }

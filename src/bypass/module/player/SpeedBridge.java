@@ -18,8 +18,8 @@ public class SpeedBridge extends Module {
    private final NumberSetting<Integer> unsneak = new NumberSetting<>("Unsneak", "Delay before unsneaking", 150, 0, 500, "ms");
    private final Stopwatch l = new Stopwatch();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      if (updateEvent.getState() == EventState.PRE) {
          if ((
                C()
                   || mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ)).getBlock() != null
@@ -36,16 +36,16 @@ public class SpeedBridge extends Module {
       }
    };
    @EventHandler(SafeWalkEvent.class)
-   private Listener<SafeWalkEvent> onSafeWalk = var1x -> {
+   private Listener<SafeWalkEvent> onSafeWalk = safeWalkEvent -> {
       if (mc.thePlayer != null && this.D()) {
-         var1x.setSafe(true);
-         var1x.cancel();
+         safeWalkEvent.setSafe(true);
+         safeWalkEvent.cancel();
       }
    };
    private static final long c = 127982052360127L;
 
-   public SpeedBridge(Category var1) {
-      super(var1);
+   public SpeedBridge(Category category) {
+      super(category);
       this.addSettings(this.unsneak);
    }
 
@@ -64,57 +64,57 @@ public class SpeedBridge extends Module {
    }
 
    public static boolean C() {
-      double var3 = mc.thePlayer.motionX;
-      double var5 = mc.thePlayer.motionY;
-      double var7 = mc.thePlayer.motionZ;
-      double var9 = var3;
-      double var13 = var7;
-      double var15 = var9;
-      double var17 = var13;
-      double var19 = 0.05;
+      double d = mc.thePlayer.motionX;
+      double e = mc.thePlayer.motionY;
+      double d2 = mc.thePlayer.motionZ;
+      double d3 = d;
+      double d4 = d2;
+      double d5 = d3;
+      double d6 = d4;
+      double d7 = 0.05;
 
-      while (var3 != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(var3, -1.0, 0.0)).isEmpty()) {
-         if (var3 < var19 && var3 >= -var19) {
-            var3 = 0.0;
-         } else if (var3 > 0.0) {
-            var3 -= var19;
+      while (d != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(d, -1.0, 0.0)).isEmpty()) {
+         if (d < d7 && d >= -d7) {
+            d = 0.0;
+         } else if (d > 0.0) {
+            d -= d7;
          } else {
-            var3 += var19;
+            d += d7;
          }
       }
 
-      while (var7 != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -1.0, var7)).isEmpty()) {
-         if (var7 < var19 && var7 >= -var19) {
-            var7 = 0.0;
-         } else if (var7 > 0.0) {
-            var7 -= var19;
+      while (d2 != 0.0 && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -1.0, d2)).isEmpty()) {
+         if (d2 < d7 && d2 >= -d7) {
+            d2 = 0.0;
+         } else if (d2 > 0.0) {
+            d2 -= d7;
          } else {
-            var7 += var19;
+            d2 += d7;
          }
       }
 
       while (
-         var3 != 0.0
-            && var7 != 0.0
-            && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(var3, -1.0, var7)).isEmpty()
+         d != 0.0
+            && d2 != 0.0
+            && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(d, -1.0, d2)).isEmpty()
       ) {
-         if (var3 < var19 && var3 >= -var19) {
-            var3 = 0.0;
-         } else if (var3 > 0.0) {
-            var3 -= var19;
+         if (d < d7 && d >= -d7) {
+            d = 0.0;
+         } else if (d > 0.0) {
+            d -= d7;
          } else {
-            var3 += var19;
+            d += d7;
          }
 
-         if (var7 < var19 && var7 >= -var19) {
-            var7 = 0.0;
-         } else if (var7 > 0.0) {
-            var7 -= var19;
+         if (d2 < d7 && d2 >= -d7) {
+            d2 = 0.0;
+         } else if (d2 > 0.0) {
+            d2 -= d7;
          } else {
-            var7 += var19;
+            d2 += d7;
          }
       }
 
-      return var15 != var3 || var17 != var7;
+      return d5 != d || d6 != d2;
    }
 }

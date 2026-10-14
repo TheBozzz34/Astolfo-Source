@@ -27,40 +27,40 @@ public class BetterGrass {
       C = BlockModelUtils.G("minecraft:blocks/mycelium_top", -1);
    }
 
-   public static List Q(IBlockAccess var0, Block var1, BlockPos var2, EnumFacing var3, List var4) {
-      if (var3 == EnumFacing.UP || var3 == EnumFacing.DOWN) {
-         return var4;
+   public static List Q(IBlockAccess iBlockAccess, Block block, BlockPos blockPos, EnumFacing enumFacing, List list) {
+      if (enumFacing == EnumFacing.UP || enumFacing == EnumFacing.DOWN) {
+         return list;
       }
 
-      if (var1 instanceof BlockMycelium) {
-         return Config.e() ? (e(var2.down(), var3, var0) == Blocks.mycelium ? C.getFaceQuads(var3) : var4) : C.getFaceQuads(var3);
+      if (block instanceof BlockMycelium) {
+         return Config.e() ? (e(blockPos.down(), enumFacing, iBlockAccess) == Blocks.mycelium ? C.getFaceQuads(enumFacing) : list) : C.getFaceQuads(enumFacing);
       }
 
-      if (var1 instanceof BlockGrass) {
-         Block var8 = var0.getBlockState(var2.up()).getBlock();
-         boolean var9 = var8 == Blocks.snow || var8 == Blocks.snow_layer;
+      if (block instanceof BlockGrass) {
+         Block block2 = iBlockAccess.getBlockState(blockPos.up()).getBlock();
+         boolean bl = block2 == Blocks.snow || block2 == Blocks.snow_layer;
          if (!Config.e()) {
-            if (var9) {
-               return g.getFaceQuads(var3);
+            if (bl) {
+               return g.getFaceQuads(enumFacing);
             }
 
-            return O.getFaceQuads(var3);
+            return O.getFaceQuads(enumFacing);
          }
 
-         if (var9) {
-            if (e(var2, var3, var0) == Blocks.snow_layer) {
-               return g.getFaceQuads(var3);
+         if (bl) {
+            if (e(blockPos, enumFacing, iBlockAccess) == Blocks.snow_layer) {
+               return g.getFaceQuads(enumFacing);
             }
-         } else if (e(var2.down(), var3, var0) == Blocks.grass) {
-            return O.getFaceQuads(var3);
+         } else if (e(blockPos.down(), enumFacing, iBlockAccess) == Blocks.grass) {
+            return O.getFaceQuads(enumFacing);
          }
       }
 
-      return var4;
+      return list;
    }
 
-   private static Block e(BlockPos var0, EnumFacing var1, IBlockAccess var2) {
-      BlockPos var3 = var0.offset(var1);
-      return var2.getBlockState(var3).getBlock();
+   private static Block e(BlockPos blockPos, EnumFacing enumFacing, IBlockAccess iBlockAccess) {
+      BlockPos blockPos2 = blockPos.offset(enumFacing);
+      return iBlockAccess.getBlockState(blockPos2).getBlock();
    }
 }

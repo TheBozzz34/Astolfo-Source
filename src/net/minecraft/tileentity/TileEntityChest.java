@@ -35,8 +35,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
       this.cachedChestType = -1;
    }
 
-   public TileEntityChest(int var1) {
-      this.cachedChestType = var1;
+   public TileEntityChest(int chestType) {
+      this.cachedChestType = chestType;
    }
 
    @Override
@@ -45,48 +45,48 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    }
 
    @Override
-   public ItemStack getStackInSlot(int var1) {
-      return this.chestContents[var1];
+   public ItemStack getStackInSlot(int index) {
+      return this.chestContents[index];
    }
 
    @Override
-   public ItemStack decrStackSize(int var1, int var2) {
-      if (this.chestContents[var1] != null) {
-         if (this.chestContents[var1].stackSize <= var2) {
-            ItemStack var7 = this.chestContents[var1];
-            this.chestContents[var1] = null;
+   public ItemStack decrStackSize(int index, int count) {
+      if (this.chestContents[index] != null) {
+         if (this.chestContents[index].stackSize <= count) {
+            ItemStack itemStack = this.chestContents[index];
+            this.chestContents[index] = null;
             this.markDirty();
-            return var7;
+            return itemStack;
          }
 
-         ItemStack var6 = this.chestContents[var1].splitStack(var2);
-         if (this.chestContents[var1].stackSize == 0) {
-            this.chestContents[var1] = null;
+         ItemStack itemStack2 = this.chestContents[index].splitStack(count);
+         if (this.chestContents[index].stackSize == 0) {
+            this.chestContents[index] = null;
          }
 
          this.markDirty();
-         return var6;
+         return itemStack2;
       } else {
          return null;
       }
    }
 
    @Override
-   public ItemStack removeStackFromSlot(int var1) {
-      if (this.chestContents[var1] != null) {
-         ItemStack var5 = this.chestContents[var1];
-         this.chestContents[var1] = null;
-         return var5;
+   public ItemStack removeStackFromSlot(int index) {
+      if (this.chestContents[index] != null) {
+         ItemStack itemStack = this.chestContents[index];
+         this.chestContents[index] = null;
+         return itemStack;
       } else {
          return null;
       }
    }
 
    @Override
-   public void setInventorySlotContents(int var1, ItemStack var2) {
-      this.chestContents[var1] = var2;
-      if (var2 != null && var2.stackSize > this.getInventoryStackLimit()) {
-         var2.stackSize = this.getInventoryStackLimit();
+   public void setInventorySlotContents(int index, ItemStack stack) {
+      this.chestContents[index] = stack;
+      if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+         stack.stackSize = this.getInventoryStackLimit();
       }
 
       this.markDirty();
@@ -102,45 +102,45 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
       return this.customName != null && this.customName.length() > 0;
    }
 
-   public void setCustomName(String var1) {
-      this.customName = var1;
+   public void setCustomName(String name) {
+      this.customName = name;
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      NBTTagList var5 = var1.getTagList("Items", 10);
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      NBTTagList nbtTagList = compound.getTagList("Items", 10);
       this.chestContents = new ItemStack[this.getSizeInventory()];
-      if (var1.hasKey("CustomName", 8)) {
-         this.customName = var1.getString("CustomName");
+      if (compound.hasKey("CustomName", 8)) {
+         this.customName = compound.getString("CustomName");
       }
 
-      for (int var6 = 0; var6 < var5.tagCount(); var6++) {
-         NBTTagCompound var7 = var5.getCompoundTagAt(var6);
-         int var8 = var7.getByte("Slot") & 255;
-         if (var8 >= 0 && var8 < this.chestContents.length) {
-            this.chestContents[var8] = ItemStack.loadItemStackFromNBT(var7);
+      for (int i = 0; i < nbtTagList.tagCount(); i++) {
+         NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(i);
+         int j = nbtTagCompound.getByte("Slot") & 255;
+         if (j >= 0 && j < this.chestContents.length) {
+            this.chestContents[j] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
          }
       }
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      NBTTagList var5 = new NBTTagList();
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      NBTTagList nbtTagList = new NBTTagList();
 
-      for (int var6 = 0; var6 < this.chestContents.length; var6++) {
-         if (this.chestContents[var6] != null) {
-            NBTTagCompound var7 = new NBTTagCompound();
-            var7.setByte("Slot", (byte)var6);
-            this.chestContents[var6].writeToNBT(var7);
-            var5.appendTag(var7);
+      for (int i = 0; i < this.chestContents.length; i++) {
+         if (this.chestContents[i] != null) {
+            NBTTagCompound nbtTagCompound = new NBTTagCompound();
+            nbtTagCompound.setByte("Slot", (byte)i);
+            this.chestContents[i].writeToNBT(nbtTagCompound);
+            nbtTagList.appendTag(nbtTagCompound);
          }
       }
 
-      var1.setTag("Items", var5);
+      compound.setTag("Items", nbtTagList);
       if (this.hasCustomName()) {
-         var1.setString("CustomName", this.customName);
+         compound.setString("CustomName", this.customName);
       }
    }
 
@@ -150,10 +150,10 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    }
 
    @Override
-   public boolean isUseableByPlayer(EntityPlayer var1) {
+   public boolean isUseableByPlayer(EntityPlayer player) {
       return this.worldObj.getTileEntity(this.pos) != this
          ? false
-         : var1.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
+         : player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
    }
 
    @Override
@@ -162,28 +162,28 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
       this.adjacentChestChecked = false;
    }
 
-   private void func_174910_a(TileEntityChest var1, EnumFacing var2) {
-      if (var1.isInvalid()) {
+   private void func_174910_a(TileEntityChest chestTe, EnumFacing side) {
+      if (chestTe.isInvalid()) {
          this.adjacentChestChecked = false;
       } else if (this.adjacentChestChecked) {
-         switch (var2) {
+         switch (side) {
             case NORTH:
-               if (this.adjacentChestZNeg != var1) {
+               if (this.adjacentChestZNeg != chestTe) {
                   this.adjacentChestChecked = false;
                }
                break;
             case SOUTH:
-               if (this.adjacentChestZPos != var1) {
+               if (this.adjacentChestZPos != chestTe) {
                   this.adjacentChestChecked = false;
                }
                break;
             case EAST:
-               if (this.adjacentChestXPos != var1) {
+               if (this.adjacentChestXPos != chestTe) {
                   this.adjacentChestChecked = false;
                }
                break;
             case WEST:
-               if (this.adjacentChestXNeg != var1) {
+               if (this.adjacentChestXNeg != chestTe) {
                   this.adjacentChestChecked = false;
                }
          }
@@ -200,47 +200,47 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
       }
    }
 
-   public TileEntityChest getAdjacentChest(EnumFacing var1) {
-      BlockPos var5 = this.pos.offset(var1);
-      if (this.isChestAt(var5)) {
-         TileEntity var6 = this.worldObj.getTileEntity(var5);
-         if (var6 instanceof TileEntityChest) {
-            TileEntityChest var7 = (TileEntityChest)var6;
-            var7.func_174910_a(this, var1.getOpposite());
-            return var7;
+   public TileEntityChest getAdjacentChest(EnumFacing side) {
+      BlockPos blockPos = this.pos.offset(side);
+      if (this.isChestAt(blockPos)) {
+         TileEntity tileEntity = this.worldObj.getTileEntity(blockPos);
+         if (tileEntity instanceof TileEntityChest) {
+            TileEntityChest tileEntityChest = (TileEntityChest)tileEntity;
+            tileEntityChest.func_174910_a(this, side.getOpposite());
+            return tileEntityChest;
          }
       }
 
       return null;
    }
 
-   private boolean isChestAt(BlockPos var1) {
+   private boolean isChestAt(BlockPos posIn) {
       if (this.worldObj == null) {
          return false;
       }
 
-      Block var5 = this.worldObj.getBlockState(var1).getBlock();
-      return var5 instanceof BlockChest && ((BlockChest)var5).chestType == this.getChestType();
+      Block block = this.worldObj.getBlockState(posIn).getBlock();
+      return block instanceof BlockChest && ((BlockChest)block).chestType == this.getChestType();
    }
 
    @Override
    public void update() {
       this.checkForAdjacentChests();
-      int var4 = this.pos.getX();
-      int var5 = this.pos.getY();
-      int var6 = this.pos.getZ();
+      int i = this.pos.getX();
+      int j = this.pos.getY();
+      int k = this.pos.getZ();
       this.ticksSinceSync++;
-      if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + var4 + var5 + var6) % 200 == 0) {
+      if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0) {
          this.numPlayersUsing = 0;
-         float var7 = 5.0F;
+         float f = 5.0F;
 
-         for (EntityPlayer var9 : this.worldObj
+         for (EntityPlayer entityPlayer : this.worldObj
             .getEntitiesWithinAABB(
-               EntityPlayer.class, new AxisAlignedBB(var4 - var7, var5 - var7, var6 - var7, var4 + 1 + var7, var5 + 1 + var7, var6 + 1 + var7)
+               EntityPlayer.class, new AxisAlignedBB(i - f, j - f, k - f, i + 1 + f, j + 1 + f, k + 1 + f)
             )) {
-            if (var9.openContainer instanceof ContainerChest) {
-               IInventory var10 = ((ContainerChest)var9.openContainer).getLowerChestInventory();
-               if (var10 == this || var10 instanceof InventoryLargeChest && ((InventoryLargeChest)var10).isPartOfLargeChest(this)) {
+            if (entityPlayer.openContainer instanceof ContainerChest) {
+               IInventory iInventory = ((ContainerChest)entityPlayer.openContainer).getLowerChestInventory();
+               if (iInventory == this || iInventory instanceof InventoryLargeChest && ((InventoryLargeChest)iInventory).isPartOfLargeChest(this)) {
                   this.numPlayersUsing++;
                }
             }
@@ -248,46 +248,46 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
       }
 
       this.prevLidAngle = this.lidAngle;
-      float var14 = 0.1F;
+      float g = 0.1F;
       if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null) {
-         double var15 = var4 + 0.5;
-         double var18 = var6 + 0.5;
+         double d = i + 0.5;
+         double e = k + 0.5;
          if (this.adjacentChestZPos != null) {
-            var18 += 0.5;
+            e += 0.5;
          }
 
          if (this.adjacentChestXPos != null) {
-            var15 += 0.5;
+            d += 0.5;
          }
 
-         this.worldObj.playSoundEffect(var15, var5 + 0.5, var18, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+         this.worldObj.playSoundEffect(d, j + 0.5, e, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
       }
 
       if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-         float var16 = this.lidAngle;
+         float h = this.lidAngle;
          if (this.numPlayersUsing > 0) {
-            this.lidAngle += var14;
+            this.lidAngle += g;
          } else {
-            this.lidAngle -= var14;
+            this.lidAngle -= g;
          }
 
          if (this.lidAngle > 1.0F) {
             this.lidAngle = 1.0F;
          }
 
-         float var17 = 0.5F;
-         if (this.lidAngle < var17 && var16 >= var17 && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null) {
-            double var19 = var4 + 0.5;
-            double var12 = var6 + 0.5;
+         float f2 = 0.5F;
+         if (this.lidAngle < f2 && h >= f2 && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null) {
+            double d2 = i + 0.5;
+            double d3 = k + 0.5;
             if (this.adjacentChestZPos != null) {
-               var12 += 0.5;
+               d3 += 0.5;
             }
 
             if (this.adjacentChestXPos != null) {
-               var19 += 0.5;
+               d2 += 0.5;
             }
 
-            this.worldObj.playSoundEffect(var19, var5 + 0.5, var12, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            this.worldObj.playSoundEffect(d2, j + 0.5, d3, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
          }
 
          if (this.lidAngle < 0.0F) {
@@ -297,18 +297,18 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    }
 
    @Override
-   public boolean receiveClientEvent(int var1, int var2) {
-      if (var1 == 1) {
-         this.numPlayersUsing = var2;
+   public boolean receiveClientEvent(int id, int typeIn) {
+      if (id == 1) {
+         this.numPlayersUsing = typeIn;
          return true;
       } else {
-         return super.receiveClientEvent(var1, var2);
+         return super.receiveClientEvent(id, typeIn);
       }
    }
 
    @Override
-   public void openInventory(EntityPlayer var1) {
-      if (!var1.isSpectator()) {
+   public void openInventory(EntityPlayer player) {
+      if (!player.isSpectator()) {
          if (this.numPlayersUsing < 0) {
             this.numPlayersUsing = 0;
          }
@@ -321,8 +321,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    }
 
    @Override
-   public void closeInventory(EntityPlayer var1) {
-      if (!var1.isSpectator() && this.getBlockType() instanceof BlockChest) {
+   public void closeInventory(EntityPlayer player) {
+      if (!player.isSpectator() && this.getBlockType() instanceof BlockChest) {
          this.numPlayersUsing--;
          this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
          this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
@@ -331,7 +331,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    }
 
    @Override
-   public boolean isItemValidForSlot(int var1, ItemStack var2) {
+   public boolean isItemValidForSlot(int index, ItemStack stack) {
       return true;
    }
 
@@ -360,17 +360,17 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-      return new ContainerChest(var1, this, var2);
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+      return new ContainerChest(playerInventory, this, playerIn);
    }
 
    @Override
-   public int getField(int var1) {
+   public int getField(int id) {
       return 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
+   public void setField(int id, int value) {
    }
 
    @Override
@@ -380,8 +380,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
    @Override
    public void clear() {
-      for (int var4 = 0; var4 < this.chestContents.length; var4++) {
-         this.chestContents[var4] = null;
+      for (int i = 0; i < this.chestContents.length; i++) {
+         this.chestContents[i] = null;
       }
    }
 }

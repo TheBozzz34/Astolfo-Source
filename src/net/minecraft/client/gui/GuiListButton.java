@@ -9,27 +9,27 @@ public class GuiListButton extends GuiButton {
    private final GuiPageButtonList.GuiResponder guiResponder;
    private static final long c = 123909916403334L;
 
-   public GuiListButton(GuiPageButtonList.GuiResponder var1, int var2, int var3, int var4, String var5, boolean var6) {
-      super(var2, var3, var4, 150, 20, "");
-      this.localizationStr = var5;
-      this.field_175216_o = var6;
+   public GuiListButton(GuiPageButtonList.GuiResponder responder, int i, int j, int k, String string, boolean bl) {
+      super(i, j, k, 150, 20, "");
+      this.localizationStr = string;
+      this.field_175216_o = bl;
       this.displayString = this.buildDisplayString();
-      this.guiResponder = var1;
+      this.guiResponder = responder;
    }
 
    private String buildDisplayString() {
       return I18n.format(this.localizationStr) + ": " + (this.field_175216_o ? I18n.format("gui.yes") : I18n.format("gui.no"));
    }
 
-   public void func_175212_b(boolean var1) {
-      this.field_175216_o = var1;
+   public void func_175212_b(boolean bl) {
+      this.field_175216_o = bl;
       this.displayString = this.buildDisplayString();
-      this.guiResponder.func_175321_a(this.id, var1);
+      this.guiResponder.func_175321_a(this.id, bl);
    }
 
    @Override
-   public boolean mousePressed(Minecraft var1, int var2, int var3) {
-      if (super.mousePressed(var1, var2, var3)) {
+   public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+      if (super.mousePressed(mc, mouseX, mouseY)) {
          this.field_175216_o = !this.field_175216_o;
          this.displayString = this.buildDisplayString();
          this.guiResponder.func_175321_a(this.id, this.field_175216_o);

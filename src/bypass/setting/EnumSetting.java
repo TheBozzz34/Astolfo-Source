@@ -12,35 +12,35 @@ public final class EnumSetting<E extends Enum> extends Setting<E> implements Com
       super("", "", null, SettingType.UNDEFINED);
    }
 
-   public EnumSetting(String var1, String var2, E var3) {
-      super(var1, var2, (E)var3, SettingType.ENUM);
-      if (!TypeUtil.s(var3)) {
+   public EnumSetting(String string, String string2, E enum2) {
+      super(string, string2, (E)enum2, SettingType.ENUM);
+      if (!TypeUtil.s(enum2)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var7) {
-            var7.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public EnumSetting(String var1, String var2, E var3, List<SettingAttribute> var4) {
-      super(var1, var2, (E)var3, SettingType.ENUM, var4);
-      if (!TypeUtil.s(var3)) {
+   public EnumSetting(String string, String string2, E enum2, List<SettingAttribute> list) {
+      super(string, string2, (E)enum2, SettingType.ENUM, list);
+      if (!TypeUtil.s(enum2)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public EnumSetting(String var1, String var2, E var3, SettingAttribute... var4) {
-      super(var1, var2, (E)var3, SettingType.ENUM, Arrays.asList(var4));
-      if (!TypeUtil.s(var3)) {
+   public EnumSetting(String string, String string2, E enum2, SettingAttribute... settingAttributes) {
+      super(string, string2, (E)enum2, SettingType.ENUM, Arrays.asList(settingAttributes));
+      if (!TypeUtil.s(enum2)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
@@ -49,13 +49,13 @@ public final class EnumSetting<E extends Enum> extends Setting<E> implements Com
       return (E)super.getValue();
    }
 
-   public void setValue(E var1) {
-      super.setValue(var1);
+   public void setValue(E enum2) {
+      super.setValue(enum2);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return !(var1 instanceof EnumSetting) ? false : this.value == ((EnumSetting)var1).getValue() && super.equals(var1);
+   public boolean equals(Object object) {
+      return !(object instanceof EnumSetting) ? false : this.value == ((EnumSetting)object).getValue() && super.equals(object);
    }
 
    @Override
@@ -63,7 +63,7 @@ public final class EnumSetting<E extends Enum> extends Setting<E> implements Com
       return super.hashCode() + (this.value != null ? 0 : this.value.hashCode());
    }
 
-   public int compareTo(EnumSetting var1) {
-      return this.value.compareTo((E)var1.getValue());
+   public int compareTo(EnumSetting enumSetting) {
+      return this.value.compareTo((E)enumSetting.getValue());
    }
 }

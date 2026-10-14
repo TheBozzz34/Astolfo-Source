@@ -13,28 +13,28 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
    public S32PacketConfirmTransaction() {
    }
 
-   public S32PacketConfirmTransaction(int var1, short var2, boolean var3) {
-      this.windowId = var1;
-      this.actionNumber = var2;
-      this.field_148893_c = var3;
+   public S32PacketConfirmTransaction(int windowIdIn, short actionNumberIn, boolean bl) {
+      this.windowId = windowIdIn;
+      this.actionNumber = actionNumberIn;
+      this.field_148893_c = bl;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleConfirmTransaction(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readUnsignedByte();
-      this.actionNumber = var1.readShort();
-      this.field_148893_c = var1.readBoolean();
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleConfirmTransaction(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeShort(this.actionNumber);
-      var1.writeBoolean(this.field_148893_c);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readUnsignedByte();
+      this.actionNumber = buf.readShort();
+      this.field_148893_c = buf.readBoolean();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeShort(this.actionNumber);
+      buf.writeBoolean(this.field_148893_c);
    }
 
    public int getWindowId() {

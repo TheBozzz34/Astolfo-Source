@@ -5,9 +5,9 @@ public final class HandshakeAddresses {
    private final String O;
    private static final long a = 59985426250122L;
 
-   public HandshakeAddresses(String var1, String var2) {
-      this.G = var1;
-      this.O = var2;
+   public HandshakeAddresses(String string, String string2) {
+      this.G = string;
+      this.O = string2;
    }
 
    public String W() {
@@ -19,17 +19,17 @@ public final class HandshakeAddresses {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (var1 == this) {
+   public boolean equals(Object object) {
+      if (object == this) {
          return true;
       }
 
-      if (!(var1 instanceof HandshakeAddresses)) {
+      if (!(object instanceof HandshakeAddresses)) {
          return false;
       }
 
-      HandshakeAddresses var5 = (HandshakeAddresses)var1;
-      return var5.G.equals(this.G) && var5.O.equals(this.O);
+      HandshakeAddresses handshakeAddresses = (HandshakeAddresses)object;
+      return handshakeAddresses.G.equals(this.G) && handshakeAddresses.O.equals(this.O);
    }
 
    @Override

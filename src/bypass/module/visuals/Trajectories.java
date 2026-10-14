@@ -37,11 +37,11 @@ import org.lwjgl.util.glu.Cylinder;
 public final class Trajectories extends Module {
    private final ColorSetting color = new ColorSetting("Color", "Name color", ClientColor.PURPLE.getColor());
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.WORLD) {
-         double var5 = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * var1x.getPartialTicks();
-         double var7 = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * var1x.getPartialTicks();
-         double var9 = mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) * var1x.getPartialTicks();
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.WORLD) {
+         double d = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * renderEvent.getPartialTicks();
+         double e = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * renderEvent.getPartialTicks();
+         double d2 = mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) * renderEvent.getPartialTicks();
          if (mc.thePlayer.getHeldItem() == null || mc.gameSettings.thirdPersonView != 0) {
             return;
          }
@@ -56,115 +56,115 @@ public final class Trajectories extends Module {
             return;
          }
 
-         ItemStack var11 = mc.thePlayer.getHeldItem();
-         Item var12 = mc.thePlayer.getHeldItem().getItem();
-         double var13 = var5 - MathHelper.cos(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
-         double var15 = var7 + mc.thePlayer.getEyeHeight() - 0.1000000014901161;
-         double var17 = var9 - MathHelper.sin(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
-         double var19 = -MathHelper.sin(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI)
+         ItemStack itemStack = mc.thePlayer.getHeldItem();
+         Item item = mc.thePlayer.getHeldItem().getItem();
+         double d3 = d - MathHelper.cos(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+         double d4 = e + mc.thePlayer.getEyeHeight() - 0.1000000014901161;
+         double d5 = d2 - MathHelper.sin(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+         double d6 = -MathHelper.sin(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI)
                * MathHelper.cos(mc.thePlayer.rotationPitch / 180.0F * (float) Math.PI)
-            * (var12 instanceof ItemBow ? 1.0 : 0.4);
-         double var21 = -MathHelper.sin(mc.thePlayer.rotationPitch / 180.0F * (float) Math.PI) * (var12 instanceof ItemBow ? 1.0 : 0.4);
-         double var23 = MathHelper.cos(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI)
+            * (item instanceof ItemBow ? 1.0 : 0.4);
+         double d7 = -MathHelper.sin(mc.thePlayer.rotationPitch / 180.0F * (float) Math.PI) * (item instanceof ItemBow ? 1.0 : 0.4);
+         double d8 = MathHelper.cos(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI)
                * MathHelper.cos(mc.thePlayer.rotationPitch / 180.0F * (float) Math.PI)
-            * (var12 instanceof ItemBow ? 1.0 : 0.4);
-         int var25 = 72000 - mc.thePlayer.p();
-         float var26 = var25 / 20.0F;
-         var26 = (var26 * var26 + var26 * 2.0F) / 3.0F;
-         if (var26 < 0.1) {
+            * (item instanceof ItemBow ? 1.0 : 0.4);
+         int i = 72000 - mc.thePlayer.p();
+         float f = i / 20.0F;
+         f = (f * f + f * 2.0F) / 3.0F;
+         if (f < 0.1) {
             return;
          }
 
-         if (var26 > 1.0F) {
-            var26 = 1.0F;
+         if (f > 1.0F) {
+            f = 1.0F;
          }
 
-         float var27 = MathHelper.sqrt_double(var19 * var19 + var21 * var21 + var23 * var23);
-         var19 /= var27;
-         var21 /= var27;
-         var23 /= var27;
-         float var28 = var12 instanceof ItemBow
-            ? var26 * 2.0F
+         float g = MathHelper.sqrt_double(d6 * d6 + d7 * d7 + d8 * d8);
+         d6 /= g;
+         d7 /= g;
+         d8 /= g;
+         float h = item instanceof ItemBow
+            ? f * 2.0F
             : (
-               this.isSplashPotion(var11, var12)
+               this.isSplashPotion(itemStack, item)
                   ? 0.325F
-                  : (var12 instanceof ItemFishingRod ? 1.25F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.9F : 1.0F))
+                  : (item instanceof ItemFishingRod ? 1.25F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.9F : 1.0F))
             );
-         var19 *= var28 * (var12 instanceof ItemFishingRod ? 0.75F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.75F : 1.5F));
-         var21 *= var28 * (var12 instanceof ItemFishingRod ? 0.75F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.75F : 1.5F));
-         var23 *= var28 * (var12 instanceof ItemFishingRod ? 0.75F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.75F : 1.5F));
+         d6 *= h * (item instanceof ItemFishingRod ? 0.75F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.75F : 1.5F));
+         d7 *= h * (item instanceof ItemFishingRod ? 0.75F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.75F : 1.5F));
+         d8 *= h * (item instanceof ItemFishingRod ? 0.75F : (mc.thePlayer.getHeldItem().getItem() == Items.experience_bottle ? 0.75F : 1.5F));
          setupRender();
          RenderUtil.setColor(this.color.getValue().getRGB());
-         Tessellator var29 = Tessellator.getInstance();
-         WorldRenderer var30 = var29.getWorldRenderer();
-         var30.begin(3, DefaultVertexFormats.POSITION);
-         var30.pos(var13 - var5, var15 - var7, var17 - var9).endVertex();
-         float var31 = (float)(var12 instanceof ItemBow ? 0.3 : 0.25);
-         boolean var32 = false;
-         Entity var33 = null;
-         MovingObjectPosition var34 = null;
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(3, DefaultVertexFormats.POSITION);
+         worldRenderer.pos(d3 - d, d4 - e, d5 - d2).endVertex();
+         float f2 = (float)(item instanceof ItemBow ? 0.3 : 0.25);
+         boolean bl = false;
+         Entity entity = null;
+         MovingObjectPosition movingObjectPosition = null;
 
-         while (!var32 && var15 > 0.0) {
-            Vec3 var35 = new Vec3(var13, var15, var17);
-            Vec3 var36 = new Vec3(var13 + var19, var15 + var21, var17 + var23);
-            MovingObjectPosition var37 = mc.theWorld.rayTraceBlocks(var35, var36, false, true, false);
-            if (var37 != null && var37.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) {
-               var34 = var37;
-               var32 = true;
+         while (!bl && d4 > 0.0) {
+            Vec3 vec3 = new Vec3(d3, d4, d5);
+            Vec3 vec32 = new Vec3(d3 + d6, d4 + d7, d5 + d8);
+            MovingObjectPosition movingObjectPosition2 = mc.theWorld.rayTraceBlocks(vec3, vec32, false, true, false);
+            if (movingObjectPosition2 != null && movingObjectPosition2.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) {
+               movingObjectPosition = movingObjectPosition2;
+               bl = true;
             }
 
-            AxisAlignedBB var38 = new AxisAlignedBB(var13 - var31, var15 - var31, var17 - var31, var13 + var31, var15 + var31, var17 + var31);
+            AxisAlignedBB axisAlignedBB = new AxisAlignedBB(d3 - f2, d4 - f2, d5 - f2, d3 + f2, d4 + f2, d5 + f2);
 
-            for (Object var41 : this.getEntitiesInBox(var38.addCoord(var19, var21, var23).expand(1.0, 1.0, 1.0))) {
-               Entity var42 = (Entity)var41;
-               if (var42.canBeCollidedWith() && var42 != mc.thePlayer) {
-                  float var43 = 0.3F;
-                  AxisAlignedBB var44 = var42.getEntityBoundingBox().expand(var43, var43, var43);
-                  MovingObjectPosition var45 = var44.calculateIntercept(var35, var36);
-                  if (var45 != null) {
-                     var32 = true;
-                     var33 = var42;
-                     var34 = var45;
+            for (Object object : this.getEntitiesInBox(axisAlignedBB.addCoord(d6, d7, d8).expand(1.0, 1.0, 1.0))) {
+               Entity entity2 = (Entity)object;
+               if (entity2.canBeCollidedWith() && entity2 != mc.thePlayer) {
+                  float f3 = 0.3F;
+                  AxisAlignedBB axisAlignedBB2 = entity2.getEntityBoundingBox().expand(f3, f3, f3);
+                  MovingObjectPosition movingObjectPosition3 = axisAlignedBB2.calculateIntercept(vec3, vec32);
+                  if (movingObjectPosition3 != null) {
+                     bl = true;
+                     entity = entity2;
+                     movingObjectPosition = movingObjectPosition3;
                   }
                }
             }
 
-            var13 += var19;
-            var15 += var21;
-            var17 += var23;
-            float var56 = 0.99F;
-            var19 *= var56;
-            var21 *= var56;
-            var23 *= var56;
-            var21 -= var12 instanceof ItemBow ? 0.05 : 0.03;
-            var30.pos(var13 - var5, var15 - var7, var17 - var9).endVertex();
+            d3 += d6;
+            d4 += d7;
+            d5 += d8;
+            float f4 = 0.99F;
+            d6 *= f4;
+            d7 *= f4;
+            d8 *= f4;
+            d7 -= item instanceof ItemBow ? 0.05 : 0.03;
+            worldRenderer.pos(d3 - d, d4 - e, d5 - d2).endVertex();
          }
 
-         var29.draw();
-         if (var34 != null && var34.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-            GlStateManager.translate(var13 - var5, var15 - var7, var17 - var9);
-            int var54 = var34.sideHit.getIndex();
-            if (var54 == 2) {
+         tessellator.draw();
+         if (movingObjectPosition != null && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            GlStateManager.translate(d3 - d, d4 - e, d5 - d2);
+            int j = movingObjectPosition.sideHit.getIndex();
+            if (j == 2) {
                GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-            } else if (var54 == 3) {
+            } else if (j == 3) {
                GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-            } else if (var54 == 4) {
+            } else if (j == 4) {
                GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
-            } else if (var54 == 5) {
+            } else if (j == 5) {
                GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
             }
 
-            Cylinder var55 = new Cylinder();
+            Cylinder cylinder = new Cylinder();
             GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
-            var55.setDrawStyle(100011);
-            if (var33 != null) {
+            cylinder.setDrawStyle(100011);
+            if (entity != null) {
                RenderUtil.setColor(this.color.getValue().getRGB());
                GL11.glLineWidth(3.5F);
-               var55.draw(0.6F, 0.3F, 0.0F, 4, 1);
+               cylinder.draw(0.6F, 0.3F, 0.0F, 4, 1);
                GL11.glLineWidth(1.0F);
             }
 
-            var55.draw(0.6F, 0.3F, 0.0F, 4, 1);
+            cylinder.draw(0.6F, 0.3F, 0.0F, 4, 1);
          }
 
          restoreRender();
@@ -172,8 +172,8 @@ public final class Trajectories extends Module {
    };
    private static final long c = 43546861681520L;
 
-   public Trajectories(Category var1) {
-      super(var1);
+   public Trajectories(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.color);
    }
@@ -204,14 +204,14 @@ public final class Trajectories extends Module {
       GlStateManager.popMatrix();
    }
 
-   private boolean isSplashPotion(ItemStack var1, Item var2) {
-      if (var2 != null && var2 instanceof ItemPotion) {
-         ItemPotion var6 = (ItemPotion)var2;
-         if (!ItemPotion.isSplash(var1.getItemDamage())) {
+   private boolean isSplashPotion(ItemStack itemStack, Item item) {
+      if (item != null && item instanceof ItemPotion) {
+         ItemPotion itemPotion = (ItemPotion)item;
+         if (!ItemPotion.isSplash(itemStack.getItemDamage())) {
             return false;
          }
 
-         if (var6.getEffects(var1) != null) {
+         if (itemPotion.getEffects(itemStack) != null) {
             return true;
          }
       }
@@ -219,21 +219,21 @@ public final class Trajectories extends Module {
       return false;
    }
 
-   private List getEntitiesInBox(AxisAlignedBB var1) {
-      ArrayList var5 = new ArrayList();
-      int var6 = MathHelper.floor_double((var1.minX - 2.0) / 16.0);
-      int var7 = MathHelper.floor_double((var1.maxX + 2.0) / 16.0);
-      int var8 = MathHelper.floor_double((var1.minZ - 2.0) / 16.0);
-      int var9 = MathHelper.floor_double((var1.maxZ + 2.0) / 16.0);
+   private List getEntitiesInBox(AxisAlignedBB axisAlignedBB) {
+      ArrayList arrayList = new ArrayList();
+      int i = MathHelper.floor_double((axisAlignedBB.minX - 2.0) / 16.0);
+      int j = MathHelper.floor_double((axisAlignedBB.maxX + 2.0) / 16.0);
+      int k = MathHelper.floor_double((axisAlignedBB.minZ - 2.0) / 16.0);
+      int l = MathHelper.floor_double((axisAlignedBB.maxZ + 2.0) / 16.0);
 
-      for (int var10 = var6; var10 <= var7; var10++) {
-         for (int var11 = var8; var11 <= var9; var11++) {
-            if (mc.theWorld.getChunkProvider().chunkExists(var10, var11)) {
-               mc.theWorld.getChunkFromChunkCoords(var10, var11).getEntitiesWithinAABBForEntity(mc.thePlayer, var1, var5, null);
+      for (int m = i; m <= j; m++) {
+         for (int n = k; n <= l; n++) {
+            if (mc.theWorld.getChunkProvider().chunkExists(m, n)) {
+               mc.theWorld.getChunkFromChunkCoords(m, n).getEntitiesWithinAABBForEntity(mc.thePlayer, axisAlignedBB, arrayList, null);
             }
          }
       }
 
-      return var5;
+      return arrayList;
    }
 }

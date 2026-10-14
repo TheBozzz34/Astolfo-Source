@@ -11,18 +11,18 @@ public abstract class GuiResourcePackList extends GuiListExtended {
    public final List<ResourcePackListEntry> field_148204_l;
    private static final long d = 42856277547411L;
 
-   public GuiResourcePackList(Minecraft var1, int var2, int var3, List<ResourcePackListEntry> var4) {
-      super(var1, var2, var3, 32, var3 - 55 + 4, 36);
-      this.mc = var1;
-      this.field_148204_l = var4;
+   public GuiResourcePackList(Minecraft mcIn, int i, int j, List<ResourcePackListEntry> list) {
+      super(mcIn, i, j, 32, j - 55 + 4, 36);
+      this.mc = mcIn;
+      this.field_148204_l = list;
       this.field_148163_i = false;
-      this.setHasListHeader(true, (int)(var1.fontRendererObj.FONT_HEIGHT * 1.5F));
+      this.setHasListHeader(true, (int)(mcIn.fontRendererObj.FONT_HEIGHT * 1.5F));
    }
 
    @Override
-   public void drawListHeader(int var1, int var2, Tessellator var3) {
-      String var6 = EnumChatFormatting.UNDERLINE + "" + EnumChatFormatting.BOLD + this.getListHeader();
-      this.mc.fontRendererObj.D(var6, var1 + this.width / 2 - this.mc.fontRendererObj.getStringWidth(var6) / 2, Math.min(this.top + 3, var2), 16777215);
+   public void drawListHeader(int i, int j, Tessellator tessellator) {
+      String string = EnumChatFormatting.UNDERLINE + "" + EnumChatFormatting.BOLD + this.getListHeader();
+      this.mc.fontRendererObj.D(string, i + this.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, Math.min(this.top + 3, j), 16777215);
    }
 
    public abstract String getListHeader();
@@ -36,8 +36,8 @@ public abstract class GuiResourcePackList extends GuiListExtended {
       return this.getList().size();
    }
 
-   public ResourcePackListEntry getListEntry(int var1) {
-      return this.getList().get(var1);
+   public ResourcePackListEntry getListEntry(int index) {
+      return this.getList().get(index);
    }
 
    @Override

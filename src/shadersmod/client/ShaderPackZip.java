@@ -12,8 +12,8 @@ public class ShaderPackZip implements IShaderPack {
    public ZipFile packZipFile;
    private static final long a = 137512964160384L;
 
-   public ShaderPackZip(String var1, File var2) {
-      this.packFile = var2;
+   public ShaderPackZip(String name, File file) {
+      this.packFile = file;
       this.packZipFile = null;
    }
 
@@ -22,7 +22,7 @@ public class ShaderPackZip implements IShaderPack {
       if (this.packZipFile != null) {
          try {
             this.packZipFile.close();
-         } catch (Exception var5) {
+         } catch (Exception exception) {
          }
 
          this.packZipFile = null;
@@ -30,31 +30,31 @@ public class ShaderPackZip implements IShaderPack {
    }
 
    @Override
-   public InputStream getResourceAsStream(String var1) {
+   public InputStream getResourceAsStream(String resName) {
       try {
          if (this.packZipFile == null) {
             this.packZipFile = new ZipFile(this.packFile);
          }
 
-         String var5 = StrUtils.removePrefix(var1, "/");
-         ZipEntry var6 = this.packZipFile.getEntry(var5);
-         return var6 == null ? null : this.packZipFile.getInputStream(var6);
-      } catch (Exception var7) {
+         String string = StrUtils.removePrefix(resName, "/");
+         ZipEntry zipEntry = this.packZipFile.getEntry(string);
+         return zipEntry == null ? null : this.packZipFile.getInputStream(zipEntry);
+      } catch (Exception exception) {
          return null;
       }
    }
 
    @Override
-   public boolean hasDirectory(String var1) {
+   public boolean hasDirectory(String resName) {
       try {
          if (this.packZipFile == null) {
             this.packZipFile = new ZipFile(this.packFile);
          }
 
-         String var5 = StrUtils.removePrefix(var1, "/");
-         ZipEntry var6 = this.packZipFile.getEntry(var5);
-         return var6 != null;
-      } catch (IOException var7) {
+         String string = StrUtils.removePrefix(resName, "/");
+         ZipEntry zipEntry = this.packZipFile.getEntry(string);
+         return zipEntry != null;
+      } catch (IOException ioException) {
          return false;
       }
    }

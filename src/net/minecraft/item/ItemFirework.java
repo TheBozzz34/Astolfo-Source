@@ -16,12 +16,12 @@ public class ItemFirework extends Item {
    private static final long a = 119644669813052L;
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (!var3.isRemote) {
-         EntityFireworkRocket var12 = new EntityFireworkRocket(var3, var4.getX() + var6, var4.getY() + var7, var4.getZ() + var8, var1);
-         var3.spawnEntityInWorld(var12);
-         if (!var2.capabilities.isCreativeMode) {
-            var1.stackSize--;
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (!worldIn.isRemote) {
+         EntityFireworkRocket entityFireworkRocket = new EntityFireworkRocket(worldIn, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ, stack);
+         worldIn.spawnEntityInWorld(entityFireworkRocket);
+         if (!playerIn.capabilities.isCreativeMode) {
+            stack.stackSize--;
          }
 
          return true;
@@ -31,26 +31,26 @@ public class ItemFirework extends Item {
    }
 
    @Override
-   public void addInformation(ItemStack var1, EntityPlayer var2, List<String> var3, boolean var4) {
-      if (var1.hasTagCompound()) {
-         NBTTagCompound var8 = var1.getTagCompound().getCompoundTag("Fireworks");
-         if (var8 != null) {
-            if (var8.hasKey("Flight", 99)) {
-               var3.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + var8.getByte("Flight"));
+   public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+      if (stack.hasTagCompound()) {
+         NBTTagCompound nbtTagCompound = stack.getTagCompound().getCompoundTag("Fireworks");
+         if (nbtTagCompound != null) {
+            if (nbtTagCompound.hasKey("Flight", 99)) {
+               tooltip.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + nbtTagCompound.getByte("Flight"));
             }
 
-            NBTTagList var9 = var8.getTagList("Explosions", 10);
-            if (var9 != null && var9.tagCount() > 0) {
-               for (int var10 = 0; var10 < var9.tagCount(); var10++) {
-                  NBTTagCompound var11 = var9.getCompoundTagAt(var10);
-                  ArrayList var12 = Lists.newArrayList();
-                  ItemFireworkCharge.addExplosionInfo(var11, var12);
-                  if (var12.size() > 0) {
-                     for (int var13 = 1; var13 < var12.size(); var13++) {
-                        var12.set(var13, "  " + (String)var12.get(var13));
+            NBTTagList nbtTagList = nbtTagCompound.getTagList("Explosions", 10);
+            if (nbtTagList != null && nbtTagList.tagCount() > 0) {
+               for (int i = 0; i < nbtTagList.tagCount(); i++) {
+                  NBTTagCompound nbtTagCompound2 = nbtTagList.getCompoundTagAt(i);
+                  ArrayList arrayList = Lists.newArrayList();
+                  ItemFireworkCharge.addExplosionInfo(nbtTagCompound2, arrayList);
+                  if (arrayList.size() > 0) {
+                     for (int j = 1; j < arrayList.size(); j++) {
+                        arrayList.set(j, "  " + (String)arrayList.get(j));
                      }
 
-                     var3.addAll(var12);
+                     tooltip.addAll(arrayList);
                   }
                }
             }

@@ -16,63 +16,63 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
    private boolean dropContentsWhenDead = true;
    private static final long cb = 55121102546858L;
 
-   public EntityMinecartContainer(World var1) {
-      super(var1);
+   public EntityMinecartContainer(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartContainer(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartContainer(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
-   public void killMinecart(DamageSource var1) {
-      super.killMinecart(var1);
+   public void killMinecart(DamageSource source) {
+      super.killMinecart(source);
       if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
          InventoryHelper.dropInventoryItems(this.worldObj, this, this);
       }
    }
 
    @Override
-   public ItemStack getStackInSlot(int var1) {
-      return this.minecartContainerItems[var1];
+   public ItemStack getStackInSlot(int index) {
+      return this.minecartContainerItems[index];
    }
 
    @Override
-   public ItemStack decrStackSize(int var1, int var2) {
-      if (this.minecartContainerItems[var1] != null) {
-         if (this.minecartContainerItems[var1].stackSize <= var2) {
-            ItemStack var7 = this.minecartContainerItems[var1];
-            this.minecartContainerItems[var1] = null;
-            return var7;
+   public ItemStack decrStackSize(int index, int count) {
+      if (this.minecartContainerItems[index] != null) {
+         if (this.minecartContainerItems[index].stackSize <= count) {
+            ItemStack itemStack = this.minecartContainerItems[index];
+            this.minecartContainerItems[index] = null;
+            return itemStack;
          }
 
-         ItemStack var6 = this.minecartContainerItems[var1].splitStack(var2);
-         if (this.minecartContainerItems[var1].stackSize == 0) {
-            this.minecartContainerItems[var1] = null;
+         ItemStack itemStack2 = this.minecartContainerItems[index].splitStack(count);
+         if (this.minecartContainerItems[index].stackSize == 0) {
+            this.minecartContainerItems[index] = null;
          }
 
-         return var6;
+         return itemStack2;
       } else {
          return null;
       }
    }
 
    @Override
-   public ItemStack removeStackFromSlot(int var1) {
-      if (this.minecartContainerItems[var1] != null) {
-         ItemStack var5 = this.minecartContainerItems[var1];
-         this.minecartContainerItems[var1] = null;
-         return var5;
+   public ItemStack removeStackFromSlot(int index) {
+      if (this.minecartContainerItems[index] != null) {
+         ItemStack itemStack = this.minecartContainerItems[index];
+         this.minecartContainerItems[index] = null;
+         return itemStack;
       } else {
          return null;
       }
    }
 
    @Override
-   public void setInventorySlotContents(int var1, ItemStack var2) {
-      this.minecartContainerItems[var1] = var2;
-      if (var2 != null && var2.stackSize > this.getInventoryStackLimit()) {
-         var2.stackSize = this.getInventoryStackLimit();
+   public void setInventorySlotContents(int index, ItemStack stack) {
+      this.minecartContainerItems[index] = stack;
+      if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+         stack.stackSize = this.getInventoryStackLimit();
       }
    }
 
@@ -81,20 +81,20 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
    }
 
    @Override
-   public boolean isUseableByPlayer(EntityPlayer var1) {
-      return this.isDead ? false : var1.getDistanceSqToEntity(this) <= 64.0;
+   public boolean isUseableByPlayer(EntityPlayer player) {
+      return this.isDead ? false : player.getDistanceSqToEntity(this) <= 64.0;
    }
 
    @Override
-   public void openInventory(EntityPlayer var1) {
+   public void openInventory(EntityPlayer player) {
    }
 
    @Override
-   public void closeInventory(EntityPlayer var1) {
+   public void closeInventory(EntityPlayer player) {
    }
 
    @Override
-   public boolean isItemValidForSlot(int var1, ItemStack var2) {
+   public boolean isItemValidForSlot(int index, ItemStack stack) {
       return true;
    }
 
@@ -109,9 +109,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
    }
 
    @Override
-   public void travelToDimension(int var1) {
+   public void travelToDimension(int dimensionId) {
       this.dropContentsWhenDead = false;
-      super.travelToDimension(var1);
+      super.travelToDimension(dimensionId);
    }
 
    @Override
@@ -124,41 +124,41 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      NBTTagList var5 = new NBTTagList();
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      NBTTagList nbtTagList = new NBTTagList();
 
-      for (int var6 = 0; var6 < this.minecartContainerItems.length; var6++) {
-         if (this.minecartContainerItems[var6] != null) {
-            NBTTagCompound var7 = new NBTTagCompound();
-            var7.setByte("Slot", (byte)var6);
-            this.minecartContainerItems[var6].writeToNBT(var7);
-            var5.appendTag(var7);
+      for (int i = 0; i < this.minecartContainerItems.length; i++) {
+         if (this.minecartContainerItems[i] != null) {
+            NBTTagCompound nbtTagCompound = new NBTTagCompound();
+            nbtTagCompound.setByte("Slot", (byte)i);
+            this.minecartContainerItems[i].writeToNBT(nbtTagCompound);
+            nbtTagList.appendTag(nbtTagCompound);
          }
       }
 
-      var1.setTag("Items", var5);
+      tagCompound.setTag("Items", nbtTagList);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      NBTTagList var5 = var1.getTagList("Items", 10);
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      NBTTagList nbtTagList = tagCompund.getTagList("Items", 10);
       this.minecartContainerItems = new ItemStack[this.getSizeInventory()];
 
-      for (int var6 = 0; var6 < var5.tagCount(); var6++) {
-         NBTTagCompound var7 = var5.getCompoundTagAt(var6);
-         int var8 = var7.getByte("Slot") & 255;
-         if (var8 >= 0 && var8 < this.minecartContainerItems.length) {
-            this.minecartContainerItems[var8] = ItemStack.loadItemStackFromNBT(var7);
+      for (int i = 0; i < nbtTagList.tagCount(); i++) {
+         NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(i);
+         int j = nbtTagCompound.getByte("Slot") & 255;
+         if (j >= 0 && j < this.minecartContainerItems.length) {
+            this.minecartContainerItems[j] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
          }
       }
    }
 
    @Override
-   public boolean interactFirst(EntityPlayer var1) {
+   public boolean interactFirst(EntityPlayer playerIn) {
       if (!this.worldObj.isRemote) {
-         var1.displayGUIChest(this);
+         playerIn.displayGUIChest(this);
       }
 
       return true;
@@ -166,20 +166,20 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
    @Override
    public void applyDrag() {
-      int var3 = 15 - Container.calcRedstoneFromInventory(this);
-      float var4 = 0.98F + var3 * 0.001F;
-      this.motionX *= var4;
+      int i = 15 - Container.calcRedstoneFromInventory(this);
+      float f = 0.98F + i * 0.001F;
+      this.motionX *= f;
       this.motionY *= 0.0;
-      this.motionZ *= var4;
+      this.motionZ *= f;
    }
 
    @Override
-   public int getField(int var1) {
+   public int getField(int id) {
       return 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
+   public void setField(int id, int value) {
    }
 
    @Override
@@ -193,7 +193,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
    }
 
    @Override
-   public void setLockCode(LockCode var1) {
+   public void setLockCode(LockCode code) {
    }
 
    @Override
@@ -203,8 +203,8 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
    @Override
    public void clear() {
-      for (int var4 = 0; var4 < this.minecartContainerItems.length; var4++) {
-         this.minecartContainerItems[var4] = null;
+      for (int i = 0; i < this.minecartContainerItems.length; i++) {
+         this.minecartContainerItems[i] = null;
       }
    }
 }

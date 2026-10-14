@@ -11,33 +11,33 @@ import net.minecraft.util.MathHelper;
 public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT> {
    private static final long c = 98470757018527L;
 
-   public RenderTntMinecart(RenderManager var1) {
-      super(var1);
+   public RenderTntMinecart(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
-   public void func_180560_a(EntityMinecartTNT var1, float var2, IBlockState var3) {
-      long var4 = c ^ 55617037861937L;
-      int var7 = var1.getFuseTicks();
-      if (var7 > -1 && var7 - var2 + 1.0F < 10.0F) {
-         float var8 = 1.0F - (var7 - var2 + 1.0F) / 10.0F;
-         var8 = MathHelper.clamp_float(var8, 0.0F, 1.0F);
-         var8 *= var8;
-         var8 *= var8;
-         float var9 = 1.0F + var8 * 0.3F;
-         GlStateManager.scale(var9, var9, var9);
+   public void func_180560_a(EntityMinecartTNT minecart, float partialTicks, IBlockState state) {
+      long l = c ^ 55617037861937L;
+      int i = minecart.getFuseTicks();
+      if (i > -1 && i - partialTicks + 1.0F < 10.0F) {
+         float f = 1.0F - (i - partialTicks + 1.0F) / 10.0F;
+         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+         f *= f;
+         f *= f;
+         float g = 1.0F + f * 0.3F;
+         GlStateManager.scale(g, g, g);
       }
 
-      super.func_180560_a(var1, var2, var3);
-      if (var7 > -1 && var7 / 5 % 2 == 0) {
-         BlockRendererDispatcher var13 = Minecraft.getMinecraft().getBlockRendererDispatcher();
+      super.func_180560_a(minecart, partialTicks, state);
+      if (i > -1 && i / 5 % 2 == 0) {
+         BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
          GlStateManager.disableTexture2D();
-         long var10000 = 6879750879246821350L ^ var4;
+         long m = 6879750879246821350L ^ l;
          GlStateManager.disableLighting();
          GlStateManager.enableBlend();
          GlStateManager.blendFunc(770, 772);
-         GlStateManager.color(1.0F, 1.0F, 1.0F, (1.0F - (var7 - var2 + 1.0F) / 100.0F) * 0.8F);
+         GlStateManager.color(1.0F, 1.0F, 1.0F, (1.0F - (i - partialTicks + 1.0F) / 100.0F) * 0.8F);
          GlStateManager.pushMatrix();
-         var13.renderBlockBrightness(Blocks.tnt.getDefaultState(), 1.0F);
+         blockRendererDispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), 1.0F);
          GlStateManager.popMatrix();
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          GlStateManager.disableBlend();

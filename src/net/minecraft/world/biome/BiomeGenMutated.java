@@ -10,39 +10,39 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 public class BiomeGenMutated extends BiomeGenBase {
    public BiomeGenBase baseBiome;
 
-   public BiomeGenMutated(int var1, BiomeGenBase var2) {
-      super(var1);
-      this.baseBiome = var2;
-      this.func_150557_a(var2.color, true);
-      this.biomeName = var2.biomeName + " M";
-      this.topBlock = var2.topBlock;
-      this.fillerBlock = var2.fillerBlock;
-      this.fillerBlockMetadata = var2.fillerBlockMetadata;
-      this.minHeight = var2.minHeight;
-      this.maxHeight = var2.maxHeight;
-      this.temperature = var2.temperature;
-      this.rainfall = var2.rainfall;
-      this.waterColorMultiplier = var2.waterColorMultiplier;
-      this.enableSnow = var2.enableSnow;
-      this.enableRain = var2.enableRain;
-      this.spawnableCreatureList = Lists.newArrayList(var2.spawnableCreatureList);
-      this.spawnableMonsterList = Lists.newArrayList(var2.spawnableMonsterList);
-      this.spawnableCaveCreatureList = Lists.newArrayList(var2.spawnableCaveCreatureList);
-      this.spawnableWaterCreatureList = Lists.newArrayList(var2.spawnableWaterCreatureList);
-      this.temperature = var2.temperature;
-      this.rainfall = var2.rainfall;
-      this.minHeight = var2.minHeight + 0.1F;
-      this.maxHeight = var2.maxHeight + 0.2F;
+   public BiomeGenMutated(int id, BiomeGenBase biome) {
+      super(id);
+      this.baseBiome = biome;
+      this.func_150557_a(biome.color, true);
+      this.biomeName = biome.biomeName + " M";
+      this.topBlock = biome.topBlock;
+      this.fillerBlock = biome.fillerBlock;
+      this.fillerBlockMetadata = biome.fillerBlockMetadata;
+      this.minHeight = biome.minHeight;
+      this.maxHeight = biome.maxHeight;
+      this.temperature = biome.temperature;
+      this.rainfall = biome.rainfall;
+      this.waterColorMultiplier = biome.waterColorMultiplier;
+      this.enableSnow = biome.enableSnow;
+      this.enableRain = biome.enableRain;
+      this.spawnableCreatureList = Lists.newArrayList(biome.spawnableCreatureList);
+      this.spawnableMonsterList = Lists.newArrayList(biome.spawnableMonsterList);
+      this.spawnableCaveCreatureList = Lists.newArrayList(biome.spawnableCaveCreatureList);
+      this.spawnableWaterCreatureList = Lists.newArrayList(biome.spawnableWaterCreatureList);
+      this.temperature = biome.temperature;
+      this.rainfall = biome.rainfall;
+      this.minHeight = biome.minHeight + 0.1F;
+      this.maxHeight = biome.maxHeight + 0.2F;
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
-      this.baseBiome.theBiomeDecorator.decorate(var1, var2, this, var3);
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
+      this.baseBiome.theBiomeDecorator.decorate(worldIn, rand, this, pos);
    }
 
    @Override
-   public void genTerrainBlocks(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
-      this.baseBiome.genTerrainBlocks(var1, var2, var3, var4, var5, var6);
+   public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
+      this.baseBiome.genTerrainBlocks(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
    }
 
    @Override
@@ -51,18 +51,18 @@ public class BiomeGenMutated extends BiomeGenBase {
    }
 
    @Override
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
-      return this.baseBiome.genBigTreeChance(var1);
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
+      return this.baseBiome.genBigTreeChance(rand);
    }
 
    @Override
-   public int getFoliageColorAtPos(BlockPos var1) {
-      return this.baseBiome.getFoliageColorAtPos(var1);
+   public int getFoliageColorAtPos(BlockPos pos) {
+      return this.baseBiome.getFoliageColorAtPos(pos);
    }
 
    @Override
-   public int getGrassColorAtPos(BlockPos var1) {
-      return this.baseBiome.getGrassColorAtPos(var1);
+   public int getGrassColorAtPos(BlockPos pos) {
+      return this.baseBiome.getGrassColorAtPos(pos);
    }
 
    @Override
@@ -71,8 +71,8 @@ public class BiomeGenMutated extends BiomeGenBase {
    }
 
    @Override
-   public boolean isEqualTo(BiomeGenBase var1) {
-      return this.baseBiome.isEqualTo(var1);
+   public boolean isEqualTo(BiomeGenBase biome) {
+      return this.baseBiome.isEqualTo(biome);
    }
 
    @Override
@@ -81,6 +81,6 @@ public class BiomeGenMutated extends BiomeGenBase {
    }
 
    static {
-      long var10000 = 68881851382262L;
+      long l = 68881851382262L;
    }
 }

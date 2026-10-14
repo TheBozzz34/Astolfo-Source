@@ -14,9 +14,9 @@ public class EntityAIVillagerMate extends EntityAIBase {
    public Village villageObj;
    private static final long a = 50451552874067L;
 
-   public EntityAIVillagerMate(EntityVillager var1) {
-      this.villagerObj = var1;
-      this.worldObj = var1.worldObj;
+   public EntityAIVillagerMate(EntityVillager villagerIn) {
+      this.villagerObj = villagerIn;
+      this.worldObj = villagerIn.worldObj;
       this.setMutexBits(3);
    }
 
@@ -36,13 +36,13 @@ public class EntityAIVillagerMate extends EntityAIBase {
       }
 
       if (this.checkSufficientDoorsPresentForNewVillager() && this.villagerObj.getIsWillingToMate(true)) {
-         Entity var4 = this.worldObj
+         Entity entity = this.worldObj
             .findNearestEntityWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(8.0, 3.0, 8.0), this.villagerObj);
-         if (var4 == null) {
+         if (entity == null) {
             return false;
          }
 
-         this.mate = (EntityVillager)var4;
+         this.mate = (EntityVillager)entity;
          return this.mate.getGrowingAge() == 0 && this.mate.getIsWillingToMate(true);
       } else {
          return false;
@@ -90,19 +90,19 @@ public class EntityAIVillagerMate extends EntityAIBase {
          return false;
       }
 
-      int var4 = (int)(this.villageObj.getNumVillageDoors() * 0.35);
-      return this.villageObj.getNumVillagers() < var4;
+      int i = (int)(this.villageObj.getNumVillageDoors() * 0.35);
+      return this.villageObj.getNumVillagers() < i;
    }
 
    private void giveBirth() {
-      EntityVillager var3 = this.villagerObj.createChild(this.mate);
+      EntityVillager entityVillager = this.villagerObj.createChild(this.mate);
       this.mate.setGrowingAge(6000);
       this.villagerObj.setGrowingAge(6000);
       this.mate.setIsWillingToMate(false);
       this.villagerObj.setIsWillingToMate(false);
-      var3.setGrowingAge(-24000);
-      var3.setLocationAndAngles(this.villagerObj.posX, this.villagerObj.posY, this.villagerObj.posZ, 0.0F, 0.0F);
-      this.worldObj.spawnEntityInWorld(var3);
-      this.worldObj.setEntityState(var3, (byte)12);
+      entityVillager.setGrowingAge(-24000);
+      entityVillager.setLocationAndAngles(this.villagerObj.posX, this.villagerObj.posY, this.villagerObj.posZ, 0.0F, 0.0F);
+      this.worldObj.spawnEntityInWorld(entityVillager);
+      this.worldObj.setEntityState(entityVillager, (byte)12);
    }
 }

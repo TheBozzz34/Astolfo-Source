@@ -29,93 +29,93 @@ public class BlockTNT extends Block {
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      super.onBlockAdded(var1, var2, var3);
-      if (var1.isBlockPowered(var2)) {
-         this.onBlockDestroyedByPlayer(var1, var2, var3.withProperty(EXPLODE, true));
-         var1.setBlockToAir(var2);
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      super.onBlockAdded(worldIn, pos, state);
+      if (worldIn.isBlockPowered(pos)) {
+         this.onBlockDestroyedByPlayer(worldIn, pos, state.withProperty(EXPLODE, true));
+         worldIn.setBlockToAir(pos);
       }
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (var1.isBlockPowered(var2)) {
-         this.onBlockDestroyedByPlayer(var1, var2, var3.withProperty(EXPLODE, true));
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (worldIn.isBlockPowered(pos)) {
+         this.onBlockDestroyedByPlayer(worldIn, pos, state.withProperty(EXPLODE, true));
+         worldIn.setBlockToAir(pos);
       }
    }
 
    @Override
-   public void onBlockDestroyedByExplosion(World var1, BlockPos var2, Explosion var3) {
-      if (!var1.isRemote) {
-         EntityTNTPrimed var6 = new EntityTNTPrimed(var1, var2.getX() + 0.5F, var2.getY(), var2.getZ() + 0.5F, var3.getExplosivePlacedBy());
-         var6.fuse = var1.rand.nextInt(var6.fuse / 4) + var6.fuse / (int)C;
-         var1.spawnEntityInWorld(var6);
+   public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
+      if (!worldIn.isRemote) {
+         EntityTNTPrimed entityTNTPrimed = new EntityTNTPrimed(worldIn, pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, explosionIn.getExplosivePlacedBy());
+         entityTNTPrimed.fuse = worldIn.rand.nextInt(entityTNTPrimed.fuse / 4) + entityTNTPrimed.fuse / (int)C;
+         worldIn.spawnEntityInWorld(entityTNTPrimed);
       }
    }
 
    @Override
-   public void onBlockDestroyedByPlayer(World var1, BlockPos var2, IBlockState var3) {
-      this.explode(var1, var2, var3, (EntityLivingBase)null);
+   public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+      this.explode(worldIn, pos, state, (EntityLivingBase)null);
    }
 
-   public void explode(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4) {
-      if (!var1.isRemote && var3.getValue(EXPLODE)) {
-         EntityTNTPrimed var8 = new EntityTNTPrimed(var1, var2.getX() + 0.5F, var2.getY(), var2.getZ() + 0.5F, var4);
-         var1.spawnEntityInWorld(var8);
-         var1.playSoundAtEntity(var8, "game.tnt.primed", 1.0F, 1.0F);
+   public void explode(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase igniter) {
+      if (!worldIn.isRemote && state.getValue(EXPLODE)) {
+         EntityTNTPrimed entityTNTPrimed = new EntityTNTPrimed(worldIn, pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, igniter);
+         worldIn.spawnEntityInWorld(entityTNTPrimed);
+         worldIn.playSoundAtEntity(entityTNTPrimed, "game.tnt.primed", 1.0F, 1.0F);
       }
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var4.getCurrentEquippedItem() != null) {
-         Item var12 = var4.getCurrentEquippedItem().getItem();
-         if (var12 == Items.flint_and_steel || var12 == Items.fire_charge) {
-            this.explode(var1, var2, var3.withProperty(EXPLODE, true), var4);
-            var1.setBlockToAir(var2);
-            if (var12 == Items.flint_and_steel) {
-               var4.getCurrentEquippedItem().damageItem(1, var4);
-            } else if (!var4.capabilities.isCreativeMode) {
-               var4.getCurrentEquippedItem().stackSize--;
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (playerIn.getCurrentEquippedItem() != null) {
+         Item item = playerIn.getCurrentEquippedItem().getItem();
+         if (item == Items.flint_and_steel || item == Items.fire_charge) {
+            this.explode(worldIn, pos, state.withProperty(EXPLODE, true), playerIn);
+            worldIn.setBlockToAir(pos);
+            if (item == Items.flint_and_steel) {
+               playerIn.getCurrentEquippedItem().damageItem(1, playerIn);
+            } else if (!playerIn.capabilities.isCreativeMode) {
+               playerIn.getCurrentEquippedItem().stackSize--;
             }
 
             return true;
          }
       }
 
-      return super.onBlockActivated(var1, var2, var3, var4, var5, var6, var7, var8);
+      return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      if (!var1.isRemote && var4 instanceof EntityArrow) {
-         EntityArrow var8 = (EntityArrow)var4;
-         if (var8.isBurning()) {
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      if (!worldIn.isRemote && entityIn instanceof EntityArrow) {
+         EntityArrow entityArrow = (EntityArrow)entityIn;
+         if (entityArrow.isBurning()) {
             this.explode(
-               var1,
-               var2,
-               var1.getBlockState(var2).withProperty(EXPLODE, true),
-               var8.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)var8.shootingEntity : null
+               worldIn,
+               pos,
+               worldIn.getBlockState(pos).withProperty(EXPLODE, true),
+               entityArrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityArrow.shootingEntity : null
             );
-            var1.setBlockToAir(var2);
+            worldIn.setBlockToAir(pos);
          }
       }
    }
 
    @Override
-   public boolean canDropFromExplosion(Explosion var1) {
+   public boolean canDropFromExplosion(Explosion explosionIn) {
       return false;
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(EXPLODE, (var1 & 1) > 0);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(EXPLODE, (meta & 1) > 0);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(EXPLODE) ? 1 : 0;
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(EXPLODE) ? 1 : 0;
    }
 
    @Override

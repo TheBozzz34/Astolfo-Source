@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 public class EntityMinecartMobSpawner extends EntityMinecart {
    private final MobSpawnerBaseLogic mobSpawnerLogic = new MobSpawnerBaseLogic() {
       @Override
-      public void func_98267_a(int var1) {
-         EntityMinecartMobSpawner.this.worldObj.setEntityState(EntityMinecartMobSpawner.this, (byte)var1);
+      public void func_98267_a(int id) {
+         EntityMinecartMobSpawner.this.worldObj.setEntityState(EntityMinecartMobSpawner.this, (byte)id);
       }
 
       @Override
@@ -26,12 +26,12 @@ public class EntityMinecartMobSpawner extends EntityMinecart {
       }
    };
 
-   public EntityMinecartMobSpawner(World var1) {
-      super(var1);
+   public EntityMinecartMobSpawner(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartMobSpawner(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartMobSpawner(World worldIn, double d, double d2, double d3) {
+      super(worldIn, d, d2, d3);
    }
 
    @Override
@@ -45,20 +45,20 @@ public class EntityMinecartMobSpawner extends EntityMinecart {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.mobSpawnerLogic.readFromNBT(var1);
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.mobSpawnerLogic.readFromNBT(tagCompund);
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      this.mobSpawnerLogic.writeToNBT(var1);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      this.mobSpawnerLogic.writeToNBT(tagCompound);
    }
 
    @Override
-   public void handleStatusUpdate(byte var1) {
-      this.mobSpawnerLogic.setDelayToMin(var1);
+   public void handleStatusUpdate(byte id) {
+      this.mobSpawnerLogic.setDelayToMin(id);
    }
 
    @Override

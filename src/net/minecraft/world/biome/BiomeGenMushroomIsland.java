@@ -4,8 +4,8 @@ import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.init.Blocks;
 
 public class BiomeGenMushroomIsland extends BiomeGenBase {
-   public BiomeGenMushroomIsland(int var1) {
-      super(var1);
+   public BiomeGenMushroomIsland(int id) {
+      super(id);
       this.theBiomeDecorator.treesPerChunk = -100;
       this.theBiomeDecorator.flowersPerChunk = -100;
       this.theBiomeDecorator.grassPerChunk = -100;
@@ -19,6 +19,6 @@ public class BiomeGenMushroomIsland extends BiomeGenBase {
    }
 
    static {
-      long var10000 = 70983858730572L;
+      long l = 70983858730572L;
    }
 }

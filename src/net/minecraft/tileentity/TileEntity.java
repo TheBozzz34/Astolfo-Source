@@ -26,68 +26,68 @@ public abstract class TileEntity {
    public Block blockType;
    private static final long C = 45356191427277L;
 
-   private static void addMapping(Class<? extends TileEntity> var0, String var1) {
-      if (nameToClassMap.containsKey(var1)) {
-         throw new IllegalArgumentException("Duplicate id: " + var1);
+   private static void addMapping(Class<? extends TileEntity> cl, String id) {
+      if (nameToClassMap.containsKey(id)) {
+         throw new IllegalArgumentException("Duplicate id: " + id);
       }
 
-      nameToClassMap.put(var1, var0);
-      classToNameMap.put(var0, var1);
+      nameToClassMap.put(id, cl);
+      classToNameMap.put(cl, id);
    }
 
    public World getWorld() {
       return this.worldObj;
    }
 
-   public void setWorldObj(World var1) {
-      this.worldObj = var1;
+   public void setWorldObj(World worldIn) {
+      this.worldObj = worldIn;
    }
 
    public boolean hasWorldObj() {
       return this.worldObj != null;
    }
 
-   public void readFromNBT(NBTTagCompound var1) {
-      this.pos = new BlockPos(var1.getInteger("x"), var1.getInteger("y"), var1.getInteger("z"));
+   public void readFromNBT(NBTTagCompound compound) {
+      this.pos = new BlockPos(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
    }
 
-   public void writeToNBT(NBTTagCompound var1) {
-      String var5 = classToNameMap.get(this.getClass());
-      if (var5 == null) {
+   public void writeToNBT(NBTTagCompound compound) {
+      String string = classToNameMap.get(this.getClass());
+      if (string == null) {
          throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
       }
 
-      var1.setString("id", var5);
-      var1.setInteger("x", this.pos.getX());
-      var1.setInteger("y", this.pos.getY());
-      var1.setInteger("z", this.pos.getZ());
+      compound.setString("id", string);
+      compound.setInteger("x", this.pos.getX());
+      compound.setInteger("y", this.pos.getY());
+      compound.setInteger("z", this.pos.getZ());
    }
 
-   public static TileEntity createAndLoadEntity(NBTTagCompound var0) {
-      TileEntity var4 = null;
+   public static TileEntity createAndLoadEntity(NBTTagCompound nbt) {
+      TileEntity tileEntity = null;
 
       try {
-         Class var5 = nameToClassMap.get(var0.getString("id"));
-         if (var5 != null) {
-            var4 = (TileEntity)var5.newInstance();
+         Class class2 = nameToClassMap.get(nbt.getString("id"));
+         if (class2 != null) {
+            tileEntity = (TileEntity)class2.newInstance();
          }
-      } catch (Exception var6) {
-         var6.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      if (var4 != null) {
-         var4.readFromNBT(var0);
+      if (tileEntity != null) {
+         tileEntity.readFromNBT(nbt);
       } else {
-         logger.warn("Skipping BlockEntity with id " + var0.getString("id"));
+         logger.warn("Skipping BlockEntity with id " + nbt.getString("id"));
       }
 
-      return var4;
+      return tileEntity;
    }
 
    public int getBlockMetadata() {
       if (this.blockMetadata == -1) {
-         IBlockState var4 = this.worldObj.getBlockState(this.pos);
-         this.blockMetadata = var4.getBlock().getMetaFromState(var4);
+         IBlockState iBlockState = this.worldObj.getBlockState(this.pos);
+         this.blockMetadata = iBlockState.getBlock().getMetaFromState(iBlockState);
       }
 
       return this.blockMetadata;
@@ -95,8 +95,8 @@ public abstract class TileEntity {
 
    public void markDirty() {
       if (this.worldObj != null) {
-         IBlockState var4 = this.worldObj.getBlockState(this.pos);
-         this.blockMetadata = var4.getBlock().getMetaFromState(var4);
+         IBlockState iBlockState = this.worldObj.getBlockState(this.pos);
+         this.blockMetadata = iBlockState.getBlock().getMetaFromState(iBlockState);
          this.worldObj.markChunkDirty(this.pos, this);
          if (this.getBlockType() != Blocks.air) {
             this.worldObj.updateComparatorOutputLevel(this.pos, this.getBlockType());
@@ -104,11 +104,11 @@ public abstract class TileEntity {
       }
    }
 
-   public double getDistanceSq(double var1, double var3, double var5) {
-      double var7 = this.pos.getX() + 0.5 - var1;
-      double var9 = this.pos.getY() + 0.5 - var3;
-      double var11 = this.pos.getZ() + 0.5 - var5;
-      return var7 * var7 + var9 * var9 + var11 * var11;
+   public double getDistanceSq(double x, double y, double z) {
+      double d = this.pos.getX() + 0.5 - x;
+      double e = this.pos.getY() + 0.5 - y;
+      double d2 = this.pos.getZ() + 0.5 - z;
+      return d * d + e * e + d2 * d2;
    }
 
    public double getMaxRenderDistanceSquared() {
@@ -143,7 +143,7 @@ public abstract class TileEntity {
       this.tileEntityInvalid = false;
    }
 
-   public boolean receiveClientEvent(int var1, int var2) {
+   public boolean receiveClientEvent(int id, int typeIn) {
       return false;
    }
 
@@ -152,8 +152,8 @@ public abstract class TileEntity {
       this.blockMetadata = -1;
    }
 
-   public void addInfoToCrashReport(CrashReportCategory var1) {
-      var1.addCrashSectionCallable("Name", new Callable<String>() {
+   public void addInfoToCrashReport(CrashReportCategory reportCategory) {
+      reportCategory.addCrashSectionCallable("Name", new Callable<String>() {
          private static final long a = 121457672360804L;
 
          public String call() throws Exception {
@@ -161,44 +161,44 @@ public abstract class TileEntity {
          }
       });
       if (this.worldObj != null) {
-         CrashReportCategory.addBlockInfo(var1, this.pos, this.getBlockType(), this.getBlockMetadata());
-         var1.addCrashSectionCallable(
+         CrashReportCategory.addBlockInfo(reportCategory, this.pos, this.getBlockType(), this.getBlockMetadata());
+         reportCategory.addCrashSectionCallable(
             "Actual block type",
             new Callable<String>() {
                private static final long a = 23433353352408L;
 
                public String call() throws Exception {
-                  int var3 = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
+                  int i = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
 
                   try {
                      return String.format(
-                        "ID #%d (%s // %s)", var3, Block.getBlockById(var3).getUnlocalizedName(), Block.getBlockById(var3).getClass().getCanonicalName()
+                        "ID #%d (%s // %s)", i, Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName()
                      );
-                  } catch (Throwable var5) {
-                     return "ID #" + var3;
+                  } catch (Throwable throwable) {
+                     return "ID #" + i;
                   }
                }
             }
          );
-         var1.addCrashSectionCallable("Actual block data value", new Callable<String>() {
+         reportCategory.addCrashSectionCallable("Actual block data value", new Callable<String>() {
             private static final long a = 36818990185491L;
 
             public String call() throws Exception {
-               IBlockState var3 = TileEntity.this.worldObj.getBlockState(TileEntity.this.pos);
-               int var4 = var3.getBlock().getMetaFromState(var3);
-               if (var4 < 0) {
-                  return "Unknown? (Got " + var4 + ")";
+               IBlockState iBlockState = TileEntity.this.worldObj.getBlockState(TileEntity.this.pos);
+               int j = iBlockState.getBlock().getMetaFromState(iBlockState);
+               if (j < 0) {
+                  return "Unknown? (Got " + j + ")";
                }
 
-               String var5 = String.format("%4s", Integer.toBinaryString(var4)).replace(" ", "0");
-               return String.format("%1$d / 0x%1$X / 0b%2$s", var4, var5);
+               String string = String.format("%4s", Integer.toBinaryString(j)).replace(" ", "0");
+               return String.format("%1$d / 0x%1$X / 0b%2$s", j, string);
             }
          });
       }
    }
 
-   public void setPos(BlockPos var1) {
-      this.pos = var1;
+   public void setPos(BlockPos posIn) {
+      this.pos = posIn;
    }
 
    public boolean func_183000_F() {

@@ -8,25 +8,25 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSquid extends RenderLiving<EntitySquid> {
    private static final ResourceLocation squidTextures = new ResourceLocation("textures/entity/squid.png");
 
-   public RenderSquid(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderSquid(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
    }
 
-   public ResourceLocation getEntityTexture(EntitySquid var1) {
+   public ResourceLocation getEntityTexture(EntitySquid entity) {
       return squidTextures;
    }
 
-   public void rotateCorpse(EntitySquid var1, float var2, float var3, float var4) {
-      float var5 = var1.prevSquidPitch + (var1.squidPitch - var1.prevSquidPitch) * var4;
-      float var6 = var1.prevSquidYaw + (var1.squidYaw - var1.prevSquidYaw) * var4;
+   public void rotateCorpse(EntitySquid bat, float g, float h, float partialTicks) {
+      float f = bat.prevSquidPitch + (bat.squidPitch - bat.prevSquidPitch) * partialTicks;
+      float f2 = bat.prevSquidYaw + (bat.squidYaw - bat.prevSquidYaw) * partialTicks;
       GlStateManager.translate(0.0F, 0.5F, 0.0F);
-      GlStateManager.rotate(180.0F - var3, 0.0F, 1.0F, 0.0F);
-      GlStateManager.rotate(var5, 1.0F, 0.0F, 0.0F);
-      GlStateManager.rotate(var6, 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(180.0F - h, 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(f, 1.0F, 0.0F, 0.0F);
+      GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
       GlStateManager.translate(0.0F, -1.2F, 0.0F);
    }
 
-   public float handleRotationFloat(EntitySquid var1, float var2) {
-      return var1.lastTentacleAngle + (var1.tentacleAngle - var1.lastTentacleAngle) * var2;
+   public float handleRotationFloat(EntitySquid livingBase, float partialTicks) {
+      return livingBase.lastTentacleAngle + (livingBase.tentacleAngle - livingBase.lastTentacleAngle) * partialTicks;
    }
 }

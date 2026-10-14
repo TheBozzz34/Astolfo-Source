@@ -16,9 +16,9 @@ public class ChunkCompileTaskGenerator {
    private boolean finished;
    private static final long a = 76594464718134L;
 
-   public ChunkCompileTaskGenerator(RenderChunk var1, ChunkCompileTaskGenerator.Type var2) {
-      this.renderChunk = var1;
-      this.type = var2;
+   public ChunkCompileTaskGenerator(RenderChunk renderChunkIn, ChunkCompileTaskGenerator.Type typeIn) {
+      this.renderChunk = renderChunkIn;
+      this.type = typeIn;
    }
 
    public ChunkCompileTaskGenerator.Status getStatus() {
@@ -33,23 +33,23 @@ public class ChunkCompileTaskGenerator {
       return this.compiledChunk;
    }
 
-   public void setCompiledChunk(CompiledChunk var1) {
-      this.compiledChunk = var1;
+   public void setCompiledChunk(CompiledChunk compiledChunkIn) {
+      this.compiledChunk = compiledChunkIn;
    }
 
    public RegionRenderCacheBuilder getRegionRenderCacheBuilder() {
       return this.regionRenderCacheBuilder;
    }
 
-   public void setRegionRenderCacheBuilder(RegionRenderCacheBuilder var1) {
-      this.regionRenderCacheBuilder = var1;
+   public void setRegionRenderCacheBuilder(RegionRenderCacheBuilder regionRenderCacheBuilderIn) {
+      this.regionRenderCacheBuilder = regionRenderCacheBuilderIn;
    }
 
-   public void setStatus(ChunkCompileTaskGenerator.Status var1) {
+   public void setStatus(ChunkCompileTaskGenerator.Status statusIn) {
       this.lock.lock();
 
       try {
-         this.status = var1;
+         this.status = statusIn;
       } finally {
          this.lock.unlock();
       }
@@ -66,21 +66,21 @@ public class ChunkCompileTaskGenerator {
          this.finished = true;
          this.status = ChunkCompileTaskGenerator.Status.DONE;
 
-         for (Runnable var5 : this.listFinishRunnables) {
-            var5.run();
+         for (Runnable runnable : this.listFinishRunnables) {
+            runnable.run();
          }
       } finally {
          this.lock.unlock();
       }
    }
 
-   public void addFinishRunnable(Runnable var1) {
+   public void addFinishRunnable(Runnable runnable) {
       this.lock.lock();
 
       try {
-         this.listFinishRunnables.add(var1);
+         this.listFinishRunnables.add(runnable);
          if (this.finished) {
-            var1.run();
+            runnable.run();
          }
       } finally {
          this.lock.unlock();

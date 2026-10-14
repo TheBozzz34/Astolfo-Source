@@ -9,38 +9,38 @@ import org.lwjgl.input.Keyboard;
 public final class BindCommand extends Command {
    private static final long d = 114879399539906L;
 
-   public BindCommand(String var1, String var2) {
-      super(var1, var2);
+   public BindCommand(String string, String string2) {
+      super(string, string2);
       this.setAliases(Arrays.asList("b", "key"));
    }
 
    @Override
-   public void runCommand(String[] var1) {
-      long var2 = d ^ 18088903160159L;
-      long var4 = var2 ^ 87407226648622L;
-      if (var1.length == 4 && var1[1].equalsIgnoreCase("add")) {
-         Module var10 = client.getModuleManager().getModule(var1[2]);
-         if (var10 == null) {
-            chat.P(String.format("Module %s not found.", var1[2]));
+   public void runCommand(String[] strings) {
+      long l = d ^ 18088903160159L;
+      long m = l ^ 87407226648622L;
+      if (strings.length == 4 && strings[1].equalsIgnoreCase("add")) {
+         Module module2 = client.getModuleManager().getModule(strings[2]);
+         if (module2 == null) {
+            chat.P(String.format("Module %s not found.", strings[2]));
             return;
          }
 
-         int var11 = Keyboard.getKeyIndex(var1[3].toUpperCase());
-         var10.setKey(var11);
-         chat.I(String.format("%s was bound to %s", var10.getName(), Keyboard.getKeyName(var10.getKey())));
-      } else if (var1.length == 3 && var1[1].equalsIgnoreCase("del")) {
-         Module var9 = client.getModuleManager().getModule(var1[2]);
-         if (var9 == null) {
-            chat.P(String.format("Module %s not found.", var1[2]));
+         int i = Keyboard.getKeyIndex(strings[3].toUpperCase());
+         module2.setKey(i);
+         chat.I(String.format("%s was bound to %s", module2.getName(), Keyboard.getKeyName(module2.getKey())));
+      } else if (strings.length == 3 && strings[1].equalsIgnoreCase("del")) {
+         Module module3 = client.getModuleManager().getModule(strings[2]);
+         if (module3 == null) {
+            chat.P(String.format("Module %s not found.", strings[2]));
             return;
          }
 
-         var9.setKey(0);
-         chat.I(String.format("%s keybind was deleted.", var9.getName()));
-      } else if (var1.length == 2 && var1[1].equalsIgnoreCase("clear")) {
-         for (ModuleInfo var8 : client.getModuleManager().getList()) {
-            if (var8 instanceof Module && !(var8 instanceof GUI)) {
-               ((Module)var8).setKey(0);
+         module3.setKey(0);
+         chat.I(String.format("%s keybind was deleted.", module3.getName()));
+      } else if (strings.length == 2 && strings[1].equalsIgnoreCase("clear")) {
+         for (ModuleInfo moduleInfo : client.getModuleManager().getList()) {
+            if (moduleInfo instanceof Module && !(moduleInfo instanceof GUI)) {
+               ((Module)moduleInfo).setKey(0);
             }
          }
 

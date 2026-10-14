@@ -11,26 +11,26 @@ public class ServerListEntryLanDetected implements GuiListExtended.IGuiListEntry
    private long field_148290_d = 0L;
    private static final long a = 98168154137223L;
 
-   public ServerListEntryLanDetected(GuiMultiplayer var1, LanServerDetector.LanServer var2) {
-      this.field_148292_c = var1;
-      this.field_148291_b = var2;
+   public ServerListEntryLanDetected(GuiMultiplayer guiMultiplayer, LanServerDetector.LanServer lanServer) {
+      this.field_148292_c = guiMultiplayer;
+      this.field_148291_b = lanServer;
       this.mc = Minecraft.getMinecraft();
    }
 
    @Override
-   public void drawEntry(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8) {
-      this.mc.fontRendererObj.D(I18n.format("lanServer.title"), var2 + 32 + 3, var3 + 1, 16777215);
-      this.mc.fontRendererObj.D(this.field_148291_b.getServerMotd(), var2 + 32 + 3, var3 + 12, 8421504);
+   public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+      this.mc.fontRendererObj.D(I18n.format("lanServer.title"), x + 32 + 3, y + 1, 16777215);
+      this.mc.fontRendererObj.D(this.field_148291_b.getServerMotd(), x + 32 + 3, y + 12, 8421504);
       if (this.mc.gameSettings.hideServerAddress) {
-         this.mc.fontRendererObj.D(I18n.format("selectServer.hiddenAddress"), var2 + 32 + 3, var3 + 12 + 11, 3158064);
+         this.mc.fontRendererObj.D(I18n.format("selectServer.hiddenAddress"), x + 32 + 3, y + 12 + 11, 3158064);
       } else {
-         this.mc.fontRendererObj.D(this.field_148291_b.getServerIpPort(), var2 + 32 + 3, var3 + 12 + 11, 3158064);
+         this.mc.fontRendererObj.D(this.field_148291_b.getServerIpPort(), x + 32 + 3, y + 12 + 11, 3158064);
       }
    }
 
    @Override
-   public boolean mousePressed(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.field_148292_c.selectServer(var1);
+   public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
+      this.field_148292_c.selectServer(slotIndex);
       if (Minecraft.getSystemTime() - this.field_148290_d < 250L) {
          this.field_148292_c.connectToSelected();
       }
@@ -40,11 +40,11 @@ public class ServerListEntryLanDetected implements GuiListExtended.IGuiListEntry
    }
 
    @Override
-   public void setSelected(int var1, int var2, int var3) {
+   public void setSelected(int i, int j, int k) {
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3, int var4, int var5, int var6) {
+   public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
    }
 
    public LanServerDetector.LanServer getLanServer() {

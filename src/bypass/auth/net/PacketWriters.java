@@ -8,14 +8,14 @@ public final class PacketWriters implements PacketOutput {
    private final Map<Short, Supplier<?>> j;
    private PacketSender u;
 
-   public PacketWriters(PacketWritersBuilder var1) {
-      this.n = PacketWritersBuilder.T(var1);
-      this.j = PacketWritersBuilder.F(var1);
+   public PacketWriters(PacketWritersBuilder packetWritersBuilder) {
+      this.n = PacketWritersBuilder.T(packetWritersBuilder);
+      this.j = PacketWritersBuilder.F(packetWritersBuilder);
    }
 
    @Override
-   public void attach(SocketWriter var1) {
-      this.u = new DefaultPacketSender(this.j, this.n, var1);
+   public void attach(SocketWriter socketWriter) {
+      this.u = new DefaultPacketSender(this.j, this.n, socketWriter);
    }
 
    @Override

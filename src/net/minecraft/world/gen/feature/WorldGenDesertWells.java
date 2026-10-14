@@ -24,65 +24,65 @@ public class WorldGenDesertWells extends WorldGenerator {
    private static final long a = 64668807484802L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      while (var1.isAirBlock(var3) && var3.getY() > 2) {
-         var3 = var3.down();
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      while (worldIn.isAirBlock(position) && position.getY() > 2) {
+         position = position.down();
       }
 
-      if (!field_175913_a.apply(var1.getBlockState(var3))) {
+      if (!field_175913_a.apply(worldIn.getBlockState(position))) {
          return false;
       }
 
-      for (int var7 = -2; var7 <= 2; var7++) {
-         for (int var8 = -2; var8 <= 2; var8++) {
-            if (var1.isAirBlock(var3.add(var7, -1, var8)) && var1.isAirBlock(var3.add(var7, -2, var8))) {
+      for (int i = -2; i <= 2; i++) {
+         for (int j = -2; j <= 2; j++) {
+            if (worldIn.isAirBlock(position.add(i, -1, j)) && worldIn.isAirBlock(position.add(i, -2, j))) {
                return false;
             }
          }
       }
 
-      for (int var10 = -1; var10 <= 0; var10++) {
-         for (int var15 = -2; var15 <= 2; var15++) {
-            for (int var9 = -2; var9 <= 2; var9++) {
-               var1.setBlockState(var3.add(var15, var10, var9), this.field_175912_c, 2);
+      for (int k = -1; k <= 0; k++) {
+         for (int l = -2; l <= 2; l++) {
+            for (int m = -2; m <= 2; m++) {
+               worldIn.setBlockState(position.add(l, k, m), this.field_175912_c, 2);
             }
          }
       }
 
-      var1.setBlockState(var3, this.field_175910_d, 2);
+      worldIn.setBlockState(position, this.field_175910_d, 2);
 
-      for (Object var16 : EnumFacing.Plane.HORIZONTAL) {
-         var1.setBlockState(var3.offset((EnumFacing)var16), this.field_175910_d, 2);
+      for (Object object : EnumFacing.Plane.HORIZONTAL) {
+         worldIn.setBlockState(position.offset((EnumFacing)object), this.field_175910_d, 2);
       }
 
-      for (int var12 = -2; var12 <= 2; var12++) {
-         for (int var17 = -2; var17 <= 2; var17++) {
-            if (var12 == -2 || var12 == 2 || var17 == -2 || var17 == 2) {
-               var1.setBlockState(var3.add(var12, 1, var17), this.field_175912_c, 2);
+      for (int n = -2; n <= 2; n++) {
+         for (int i2 = -2; i2 <= 2; i2++) {
+            if (n == -2 || n == 2 || i2 == -2 || i2 == 2) {
+               worldIn.setBlockState(position.add(n, 1, i2), this.field_175912_c, 2);
             }
          }
       }
 
-      var1.setBlockState(var3.add(2, 1, 0), this.field_175911_b, 2);
-      var1.setBlockState(var3.add(-2, 1, 0), this.field_175911_b, 2);
-      var1.setBlockState(var3.add(0, 1, 2), this.field_175911_b, 2);
-      var1.setBlockState(var3.add(0, 1, -2), this.field_175911_b, 2);
+      worldIn.setBlockState(position.add(2, 1, 0), this.field_175911_b, 2);
+      worldIn.setBlockState(position.add(-2, 1, 0), this.field_175911_b, 2);
+      worldIn.setBlockState(position.add(0, 1, 2), this.field_175911_b, 2);
+      worldIn.setBlockState(position.add(0, 1, -2), this.field_175911_b, 2);
 
-      for (int var13 = -1; var13 <= 1; var13++) {
-         for (int var18 = -1; var18 <= 1; var18++) {
-            if (var13 == 0 && var18 == 0) {
-               var1.setBlockState(var3.add(var13, 4, var18), this.field_175912_c, 2);
+      for (int i3 = -1; i3 <= 1; i3++) {
+         for (int i4 = -1; i4 <= 1; i4++) {
+            if (i3 == 0 && i4 == 0) {
+               worldIn.setBlockState(position.add(i3, 4, i4), this.field_175912_c, 2);
             } else {
-               var1.setBlockState(var3.add(var13, 4, var18), this.field_175911_b, 2);
+               worldIn.setBlockState(position.add(i3, 4, i4), this.field_175911_b, 2);
             }
          }
       }
 
-      for (int var14 = 1; var14 <= 3; var14++) {
-         var1.setBlockState(var3.add(-1, var14, -1), this.field_175912_c, 2);
-         var1.setBlockState(var3.add(-1, var14, 1), this.field_175912_c, 2);
-         var1.setBlockState(var3.add(1, var14, -1), this.field_175912_c, 2);
-         var1.setBlockState(var3.add(1, var14, 1), this.field_175912_c, 2);
+      for (int i5 = 1; i5 <= 3; i5++) {
+         worldIn.setBlockState(position.add(-1, i5, -1), this.field_175912_c, 2);
+         worldIn.setBlockState(position.add(-1, i5, 1), this.field_175912_c, 2);
+         worldIn.setBlockState(position.add(1, i5, -1), this.field_175912_c, 2);
+         worldIn.setBlockState(position.add(1, i5, 1), this.field_175912_c, 2);
       }
 
       return true;

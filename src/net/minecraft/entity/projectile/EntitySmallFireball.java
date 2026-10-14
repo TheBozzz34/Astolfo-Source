@@ -11,42 +11,42 @@ import net.minecraft.world.World;
 public class EntitySmallFireball extends EntityFireball {
    private static final long bb = 113055726730359L;
 
-   public EntitySmallFireball(World var1) {
-      super(var1);
+   public EntitySmallFireball(World worldIn) {
+      super(worldIn);
       this.setSize(0.3125F, 0.3125F);
    }
 
-   public EntitySmallFireball(World var1, EntityLivingBase var2, double var3, double var5, double var7) {
-      super(var1, var2, var3, var5, var7);
+   public EntitySmallFireball(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+      super(worldIn, shooter, accelX, accelY, accelZ);
       this.setSize(0.3125F, 0.3125F);
    }
 
-   public EntitySmallFireball(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, var8, var10, var12);
+   public EntitySmallFireball(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+      super(worldIn, x, y, z, accelX, accelY, accelZ);
       this.setSize(0.3125F, 0.3125F);
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
+   public void onImpact(MovingObjectPosition movingObject) {
       if (!this.worldObj.isRemote) {
-         if (var1.entityHit != null) {
-            boolean var5 = var1.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
-            if (var5) {
-               this.applyEnchantments(this.shootingEntity, var1.entityHit);
-               if (!var1.entityHit.isImmuneToFire()) {
-                  var1.entityHit.setFire(5);
+         if (movingObject.entityHit != null) {
+            boolean bl = movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
+            if (bl) {
+               this.applyEnchantments(this.shootingEntity, movingObject.entityHit);
+               if (!movingObject.entityHit.isImmuneToFire()) {
+                  movingObject.entityHit.setFire(5);
                }
             }
          } else {
-            boolean var7 = true;
+            boolean bl2 = true;
             if (this.shootingEntity != null && this.shootingEntity instanceof EntityLiving) {
-               var7 = this.worldObj.getGameRules().getBoolean("mobGriefing");
+               bl2 = this.worldObj.getGameRules().getBoolean("mobGriefing");
             }
 
-            if (var7) {
-               BlockPos var6 = var1.getBlockPos().offset(var1.sideHit);
-               if (this.worldObj.isAirBlock(var6)) {
-                  this.worldObj.setBlockState(var6, Blocks.fire.getDefaultState());
+            if (bl2) {
+               BlockPos blockPos = movingObject.getBlockPos().offset(movingObject.sideHit);
+               if (this.worldObj.isAirBlock(blockPos)) {
+                  this.worldObj.setBlockState(blockPos, Blocks.fire.getDefaultState());
                }
             }
          }
@@ -61,7 +61,7 @@ public class EntitySmallFireball extends EntityFireball {
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
       return false;
    }
 }

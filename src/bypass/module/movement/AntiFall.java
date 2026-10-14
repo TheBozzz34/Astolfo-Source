@@ -35,14 +35,14 @@ public final class AntiFall extends Module {
    private Vec3 C;
    private final Stopwatch y = new Stopwatch();
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> this.C = null;
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.C = null;
    private Stopwatch P = new Stopwatch();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      if (var1x.getState() == EventState.PRE && mc.thePlayer != null) {
-         boolean var5 = NoFall.u_boolean();
-         if (mc.thePlayer.onGround && !var5 && mc.thePlayer.isCollidedVertically && !Scaffold.isOnEdge()) {
+      if (updateEvent.getState() == EventState.PRE && mc.thePlayer != null) {
+         boolean bl = NoFall.u_boolean();
+         if (mc.thePlayer.onGround && !bl && mc.thePlayer.isCollidedVertically && !Scaffold.isOnEdge()) {
             this.C = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
             this.P.reset();
          }
@@ -61,20 +61,20 @@ public final class AntiFall extends Module {
    private int A;
    private boolean Q;
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var1x -> {
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (mc.thePlayer != null) {
-         if (var1x.getDirection() == PacketDirection.OUTGOING) {
-            if (var1x.getPacket() instanceof C03PacketPlayer && this.h() && this.mode.getValue() == AntiFallMode.LAG) {
-               var1x.cancel();
+         if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+            if (packetEvent.getPacket() instanceof C03PacketPlayer && this.h() && this.mode.getValue() == AntiFallMode.LAG) {
+               packetEvent.cancel();
             }
-         } else if (var1x.getPacket() instanceof S08PacketPlayerPosLook && this.Q) {
+         } else if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook && this.Q) {
             mc.thePlayer.fallDistance = 0.0F;
          }
       }
    };
    @EventHandler(TeleportEvent.class)
-   private Listener<TeleportEvent> onTeleport = var1x -> {
-      if (var1x.y()) {
+   private Listener<TeleportEvent> onTeleport = teleportEvent -> {
+      if (teleportEvent.y()) {
          this.A++;
          if (this.A > 10) {
             this.N = true;
@@ -82,16 +82,16 @@ public final class AntiFall extends Module {
       }
    };
    @EventHandler(value = MoveEvent.class, priority = EventPriority.HIGHEST)
-   private Listener<MoveEvent> onMove = var1x -> {
-      if (var1x.getState() == EventState.PRE && this.Q) {
-         GameUtil.setMoveSpeed(var1x, 0.0, 90.0F);
-         var1x.setY(mc.thePlayer.motionY = 0.0);
+   private Listener<MoveEvent> onMove = moveEvent -> {
+      if (moveEvent.getState() == EventState.PRE && this.Q) {
+         GameUtil.setMoveSpeed(moveEvent, 0.0, 90.0F);
+         moveEvent.setY(mc.thePlayer.motionY = 0.0);
       }
    };
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      long var2 = d ^ 2368323770163L;
-      long var4 = var2 ^ 121686549348941L;
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      long l = d ^ 2368323770163L;
+      long m = l ^ 121686549348941L;
       this.Q = false;
       if (mc.thePlayer.fallDistance > (this.voidOnly.getValue() ? 3.0 : this.height.getValue().intValue())
          && !client.getModuleManager().get(Flight.class).isEnabled()
@@ -105,10 +105,10 @@ public final class AntiFall extends Module {
             }
          } else if (this.mode.getValue() != AntiFallMode.LAG) {
             if (this.C != null) {
-               var1x.setMinY(var1x.getMinY() + 3.0);
+               motionEvent.setMinY(motionEvent.getMinY() + 3.0);
             } else if (this.y.hasElapsed(1000.0F)) {
-               var1x.setZ(var1x.getZ() + 25.0);
-               var1x.setOnGround(false);
+               motionEvent.setZ(motionEvent.getZ() + 25.0);
+               motionEvent.setOnGround(false);
                mc.thePlayer.fallDistance = 0.0F;
                this.y.reset();
             }
@@ -117,30 +117,30 @@ public final class AntiFall extends Module {
    };
    private static final long d = 101141971855565L;
 
-   public AntiFall(Category var1) {
-      super(var1);
+   public AntiFall(Category category) {
+      super(category);
       this.addSettings(this.mode, this.height, this.voidOnly);
    }
 
    private boolean h() {
-      long var1 = d ^ 96169894116253L;
-      long var3 = var1 ^ 65955614224099L;
-      double var6 = mc.thePlayer.posX - mc.thePlayer.prevPosX;
-      double var8 = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
-      double var10 = MathHelper.sqrt_double(var6 * var6 + var8 * var8);
-      double var12 = var10 / 0.05F;
+      long l = d ^ 96169894116253L;
+      long m = l ^ 65955614224099L;
+      double e = mc.thePlayer.posX - mc.thePlayer.prevPosX;
+      double d2 = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
+      double d3 = MathHelper.sqrt_double(e * e + d2 * d2);
+      double d4 = d3 / 0.05F;
 
-      for (double var14 = 0.0; var14 < var12 - 1.0; var14 += 0.2) {
-         double var16 = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
-         double var18 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
-         long var10000 = 7776788986887341479L ^ var1;
-         double var20 = mc.thePlayer.movementInput.moveForward * var14 * var16 + mc.thePlayer.movementInput.moveStrafe * var14 * var18;
-         double var22 = mc.thePlayer.movementInput.moveForward * var14 * var18 - mc.thePlayer.movementInput.moveStrafe * var14 * var16;
+      for (double d5 = 0.0; d5 < d4 - 1.0; d5 += 0.2) {
+         double d6 = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
+         double d7 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
+         long n = 7776788986887341479L ^ l;
+         double d8 = mc.thePlayer.movementInput.moveForward * d5 * d6 + mc.thePlayer.movementInput.moveStrafe * d5 * d7;
+         double d9 = mc.thePlayer.movementInput.moveForward * d5 * d7 - mc.thePlayer.movementInput.moveStrafe * d5 * d6;
 
-         for (int var24 = -7; var24 < 0; var24++) {
-            Block var25 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + var20, mc.thePlayer.posY + var24, mc.thePlayer.posZ + var22)).getBlock();
-            Block var26 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + var20, mc.thePlayer.posY + var24, mc.thePlayer.posZ + var22)).getBlock();
-            if (var25 != Blocks.air || var26 != Blocks.air) {
+         for (int i = -7; i < 0; i++) {
+            Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + d8, mc.thePlayer.posY + i, mc.thePlayer.posZ + d9)).getBlock();
+            Block block2 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + d8, mc.thePlayer.posY + i, mc.thePlayer.posZ + d9)).getBlock();
+            if (block != Blocks.air || block2 != Blocks.air) {
                return false;
             }
          }

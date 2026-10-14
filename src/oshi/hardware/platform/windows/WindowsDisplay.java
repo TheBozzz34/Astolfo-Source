@@ -21,37 +21,37 @@ public final class WindowsDisplay extends AbstractDisplay {
    private static final GUID GUID_DEVINTERFACE_MONITOR = new GUID("E6F07B5F-EE97-4a90-B076-33F57BF4EAA7");
    private static final long a = 81778597713438L;
 
-   public WindowsDisplay(byte[] var1) {
-      super(var1);
+   public WindowsDisplay(byte[] edid) {
+      super(edid);
    }
 
    public static Display[] getDisplays() {
-      ArrayList var3 = new ArrayList();
-      HANDLE var4 = SU.SetupDiGetClassDevs(GUID_DEVINTERFACE_MONITOR, null, null, 18);
-      if (!var4.equals(WinBase.INVALID_HANDLE_VALUE)) {
-         SP_DEVICE_INTERFACE_DATA var5 = new SP_DEVICE_INTERFACE_DATA();
-         var5.cbSize = var5.size();
-         SP_DEVINFO_DATA var6 = new SP_DEVINFO_DATA();
+      ArrayList arrayList = new ArrayList();
+      HANDLE handle = SU.SetupDiGetClassDevs(GUID_DEVINTERFACE_MONITOR, null, null, 18);
+      if (!handle.equals(WinBase.INVALID_HANDLE_VALUE)) {
+         SP_DEVICE_INTERFACE_DATA sP_DEVICE_INTERFACE_DATA = new SP_DEVICE_INTERFACE_DATA();
+         sP_DEVICE_INTERFACE_DATA.cbSize = sP_DEVICE_INTERFACE_DATA.size();
+         SP_DEVINFO_DATA sP_DEVINFO_DATA = new SP_DEVINFO_DATA();
 
-         for (int var7 = 0; SU.SetupDiEnumDeviceInfo(var4, var7, var6); var7++) {
-            HKEY var8 = SU.SetupDiOpenDevRegKey(var4, var6, 1, 0, 1, 1);
-            byte[] var9 = new byte[1];
-            IntByReference var10 = new IntByReference();
-            IntByReference var11 = new IntByReference();
-            if (ADV.RegQueryValueEx(var8, "EDID", 0, var10, var9, var11) == 234) {
-               var9 = new byte[var11.getValue()];
-               if (ADV.RegQueryValueEx(var8, "EDID", 0, var10, var9, var11) == 0) {
-                  WindowsDisplay var12 = new WindowsDisplay(var9);
-                  var3.add(var12);
+         for (int i = 0; SU.SetupDiEnumDeviceInfo(handle, i, sP_DEVINFO_DATA); i++) {
+            HKEY hkey = SU.SetupDiOpenDevRegKey(handle, sP_DEVINFO_DATA, 1, 0, 1, 1);
+            byte[] bytes = new byte[1];
+            IntByReference intByReference = new IntByReference();
+            IntByReference intByReference2 = new IntByReference();
+            if (ADV.RegQueryValueEx(hkey, "EDID", 0, intByReference, bytes, intByReference2) == 234) {
+               bytes = new byte[intByReference2.getValue()];
+               if (ADV.RegQueryValueEx(hkey, "EDID", 0, intByReference, bytes, intByReference2) == 0) {
+                  WindowsDisplay windowsDisplay = new WindowsDisplay(bytes);
+                  arrayList.add(windowsDisplay);
                }
             }
 
-            Advapi32.INSTANCE.RegCloseKey(var8);
+            Advapi32.INSTANCE.RegCloseKey(hkey);
          }
 
-         SU.SetupDiDestroyDeviceInfoList(var4);
+         SU.SetupDiDestroyDeviceInfoList(handle);
       }
 
-      return (oshi.hardware.Display[])(var3.toArray(new Display[0]));
+      return (oshi.hardware.Display[])(arrayList.toArray(new Display[0]));
    }
 }

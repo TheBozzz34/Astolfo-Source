@@ -16,21 +16,21 @@ public final class PacketChannel implements Channel {
    private final Runnable J;
 
    public PacketChannel(
-      ConnectionListener var1,
-      Map<Short, PacketReader<?>> var2,
-      Map<Short, List<PacketListener<?>>> var3,
-      PacketOutput var4,
-      ConnectionHandlerFactory var5,
-      Consumer<IOException> var6,
-      Runnable var7
+      ConnectionListener connectionListener,
+      Map<Short, PacketReader<?>> map,
+      Map<Short, List<PacketListener<?>>> map2,
+      PacketOutput packetOutput,
+      ConnectionHandlerFactory connectionHandlerFactory,
+      Consumer<IOException> consumer,
+      Runnable runnable
    ) {
-      this.I = var1;
-      this.y = var2;
-      this.E = var3;
-      this.Q = var4;
-      this.w = var5;
-      this.s = var6;
-      this.J = var7;
+      this.I = connectionListener;
+      this.y = map;
+      this.E = map2;
+      this.Q = packetOutput;
+      this.w = connectionHandlerFactory;
+      this.s = consumer;
+      this.J = runnable;
    }
 
    public static PacketChannelBuilder U() {

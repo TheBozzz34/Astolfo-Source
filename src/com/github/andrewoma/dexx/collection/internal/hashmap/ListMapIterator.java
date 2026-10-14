@@ -8,8 +8,8 @@ public class ListMapIterator<K, V> implements Iterator<Pair<K, V>> {
    private ListMap<K, V> listMap;
    private static final long a = 32862615900565L;
 
-   public ListMapIterator(ListMap<K, V> var1) {
-      this.listMap = var1;
+   public ListMapIterator(ListMap<K, V> listMap) {
+      this.listMap = listMap;
    }
 
    @Override
@@ -22,9 +22,9 @@ public class ListMapIterator<K, V> implements Iterator<Pair<K, V>> {
          throw new NoSuchElementException("next on empty iterator");
       }
 
-      Pair var3 = new Pair<>(this.listMap.getKey(), this.listMap.getValue());
+      Pair pair = new Pair<>(this.listMap.getKey(), this.listMap.getValue());
       this.listMap = this.listMap.tail();
-      return var3;
+      return pair;
    }
 
    @Override

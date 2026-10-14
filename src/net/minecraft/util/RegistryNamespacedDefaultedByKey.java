@@ -7,17 +7,17 @@ public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K
    private V defaultValue;
    private static final long a = 100272766907113L;
 
-   public RegistryNamespacedDefaultedByKey(K var1) {
-      this.defaultValueKey = (K)var1;
+   public RegistryNamespacedDefaultedByKey(K defaultValueKeyIn) {
+      this.defaultValueKey = (K)defaultValueKeyIn;
    }
 
    @Override
-   public void register(int var1, K var2, V var3) {
-      if (this.defaultValueKey.equals(var2)) {
-         this.defaultValue = (V)var3;
+   public void register(int id, K key, V value) {
+      if (this.defaultValueKey.equals(key)) {
+         this.defaultValue = (V)value;
       }
 
-      super.register(var1, (K)var2, (V)var3);
+      super.register(id, (K)key, (V)value);
    }
 
    public void validateKey() {
@@ -25,14 +25,14 @@ public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K
    }
 
    @Override
-   public V getObject(K var1) {
-      Object var4 = super.getObject((K)var1);
-      return (V)(var4 == null ? this.defaultValue : var4);
+   public V getObject(K name) {
+      Object object = super.getObject((K)name);
+      return (V)(object == null ? this.defaultValue : object);
    }
 
    @Override
-   public V getObjectById(int var1) {
-      Object var5 = super.getObjectById(var1);
-      return (V)(var5 == null ? this.defaultValue : var5);
+   public V getObjectById(int id) {
+      Object object = super.getObjectById(id);
+      return (V)(object == null ? this.defaultValue : object);
    }
 }

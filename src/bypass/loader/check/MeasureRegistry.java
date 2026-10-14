@@ -18,26 +18,26 @@ public enum MeasureRegistry {
    }
 
    public void k() {
-      Timer var4 = new Timer();
-      var4.schedule(new MeasureTimerTask(this), 0L, 30000L);
+      Timer timer = new Timer();
+      timer.schedule(new MeasureTimerTask(this), 0L, 30000L);
    }
 
-   public void N(int var1) throws MeasureException {
-      this.W(MEASURE_MAP.get(var1));
+   public void N(int i) throws MeasureException {
+      this.W(MEASURE_MAP.get(i));
    }
 
-   public boolean W(Measure... var1) throws MeasureException {
-      if (var1 == null) {
+   public boolean W(Measure... measures) throws MeasureException {
+      if (measures == null) {
          return false;
       }
 
-      boolean var5 = false;
+      boolean bl = false;
 
-      for (Measure var9 : var1) {
-         var9.E();
+      for (Measure measure : measures) {
+         measure.E();
       }
 
-      if (var5) {
+      if (bl) {
          throw new MeasureException("Failed measures during authorization check");
       }
 
@@ -45,7 +45,7 @@ public enum MeasureRegistry {
          this.F = false;
       }
 
-      return !var5;
+      return !bl;
    }
 
    static {

@@ -15,28 +15,28 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient> {
    public S2FPacketSetSlot() {
    }
 
-   public S2FPacketSetSlot(int var1, int var2, ItemStack var3) {
-      this.windowId = var1;
-      this.slot = var2;
-      this.item = var3 == null ? null : var3.copy();
+   public S2FPacketSetSlot(int windowIdIn, int slotIn, ItemStack itemIn) {
+      this.windowId = windowIdIn;
+      this.slot = slotIn;
+      this.item = itemIn == null ? null : itemIn.copy();
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSetSlot(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readByte();
-      this.slot = var1.readShort();
-      this.item = var1.readItemStackFromBuffer();
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSetSlot(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeShort(this.slot);
-      var1.writeItemStackToBuffer(this.item);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readByte();
+      this.slot = buf.readShort();
+      this.item = buf.readItemStackFromBuffer();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeShort(this.slot);
+      buf.writeItemStackToBuffer(this.item);
    }
 
    public int func_149175_c() {

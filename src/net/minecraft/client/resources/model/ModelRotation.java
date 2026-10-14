@@ -41,70 +41,70 @@ public enum ModelRotation implements IModelState, ITransformation {
    };
    private static final long a = 70556392233673L;
 
-   private static int combineXY(int var0, int var1) {
-      return var0 * 360 + var1;
+   private static int combineXY(int i, int j) {
+      return i * 360 + j;
    }
 
-   ModelRotation(String var3, int var4, int var5, int var6) {
-      this.combinedXY = combineXY(var5, var6);
+   ModelRotation(String string2, int j, int k, int l) {
+      this.combinedXY = combineXY(k, l);
       this.matrix4d = new Matrix4f();
-      Matrix4f var9 = new Matrix4f();
-      var9.setIdentity();
-      Matrix4f.rotate(-var5 * (float) (Math.PI / 180.0), new Vector3f(1.0F, 0.0F, 0.0F), var9, var9);
-      this.quartersX = MathHelper.abs_int(var5 / 90);
-      Matrix4f var10 = new Matrix4f();
-      var10.setIdentity();
-      Matrix4f.rotate(-var6 * (float) (Math.PI / 180.0), new Vector3f(0.0F, 1.0F, 0.0F), var10, var10);
-      this.quartersY = MathHelper.abs_int(var6 / 90);
-      Matrix4f.mul(var10, var9, this.matrix4d);
+      Matrix4f matrix4f = new Matrix4f();
+      matrix4f.setIdentity();
+      Matrix4f.rotate(-k * (float) (Math.PI / 180.0), new Vector3f(1.0F, 0.0F, 0.0F), matrix4f, matrix4f);
+      this.quartersX = MathHelper.abs_int(k / 90);
+      Matrix4f matrix4f2 = new Matrix4f();
+      matrix4f2.setIdentity();
+      Matrix4f.rotate(-l * (float) (Math.PI / 180.0), new Vector3f(0.0F, 1.0F, 0.0F), matrix4f2, matrix4f2);
+      this.quartersY = MathHelper.abs_int(l / 90);
+      Matrix4f.mul(matrix4f2, matrix4f, this.matrix4d);
    }
 
    public Matrix4f getMatrix4d() {
       return this.matrix4d;
    }
 
-   public EnumFacing s(EnumFacing var1) {
-      EnumFacing var5 = var1;
+   public EnumFacing s(EnumFacing enumFacing) {
+      EnumFacing enumFacing2 = enumFacing;
 
-      for (int var6 = 0; var6 < this.quartersX; var6++) {
-         var5 = var5.rotateAround(EnumFacing.Axis.X);
+      for (int i = 0; i < this.quartersX; i++) {
+         enumFacing2 = enumFacing2.rotateAround(EnumFacing.Axis.X);
       }
 
-      if (var5.getAxis() != EnumFacing.Axis.Y) {
-         for (int var7 = 0; var7 < this.quartersY; var7++) {
-            var5 = var5.rotateAround(EnumFacing.Axis.Y);
+      if (enumFacing2.getAxis() != EnumFacing.Axis.Y) {
+         for (int j = 0; j < this.quartersY; j++) {
+            enumFacing2 = enumFacing2.rotateAround(EnumFacing.Axis.Y);
          }
       }
 
-      return var5;
+      return enumFacing2;
    }
 
-   public int g(EnumFacing var1, int var2) {
-      int var6 = var2;
-      if (var1.getAxis() == EnumFacing.Axis.X) {
-         var6 = (var2 + this.quartersX) % 4;
+   public int g(EnumFacing enumFacing, int i) {
+      int j = i;
+      if (enumFacing.getAxis() == EnumFacing.Axis.X) {
+         j = (i + this.quartersX) % 4;
       }
 
-      EnumFacing var7 = var1;
+      EnumFacing enumFacing2 = enumFacing;
 
-      for (int var8 = 0; var8 < this.quartersX; var8++) {
-         var7 = var7.rotateAround(EnumFacing.Axis.X);
+      for (int k = 0; k < this.quartersX; k++) {
+         enumFacing2 = enumFacing2.rotateAround(EnumFacing.Axis.X);
       }
 
-      if (var7.getAxis() == EnumFacing.Axis.Y) {
-         var6 = (var6 + this.quartersY) % 4;
+      if (enumFacing2.getAxis() == EnumFacing.Axis.Y) {
+         j = (j + this.quartersY) % 4;
       }
 
-      return var6;
+      return j;
    }
 
-   public static ModelRotation getModelRotation(int var0, int var1) {
-      return mapRotations.get(combineXY(MathHelper.normalizeAngle(var0, 360), MathHelper.normalizeAngle(var1, 360)));
+   public static ModelRotation getModelRotation(int i, int j) {
+      return mapRotations.get(combineXY(MathHelper.normalizeAngle(i, 360), MathHelper.normalizeAngle(j, 360)));
    }
 
    @Override
-   public Optional<TRSRTransformation> apply(Optional<? extends IModelPart> var1) {
-      return (Optional<TRSRTransformation>)Reflector.call(Reflector.ForgeHooksClient_applyTransform, this.m(), var1);
+   public Optional<TRSRTransformation> apply(Optional<? extends IModelPart> optional) {
+      return (Optional<TRSRTransformation>)Reflector.call(Reflector.ForgeHooksClient_applyTransform, this.m(), optional);
    }
 
    @Override
@@ -115,21 +115,21 @@ public enum ModelRotation implements IModelState, ITransformation {
    }
 
    @Override
-   public EnumFacing E(EnumFacing var1) {
-      return this.s(var1);
+   public EnumFacing E(EnumFacing enumFacing) {
+      return this.s(enumFacing);
    }
 
    @Override
-   public int x(EnumFacing var1, int var2) {
-      return this.g(var1, var2);
+   public int x(EnumFacing enumFacing, int i) {
+      return this.g(enumFacing, i);
    }
 
    static {
-      long var20 = a ^ 98101457055251L;
-      long var10000 = 1501666566874362761L ^ var20;
+      long l = a ^ 98101457055251L;
+      long m = 1501666566874362761L ^ l;
 
-      for (ModelRotation var25 : values()) {
-         mapRotations.put(var25.combinedXY, var25);
+      for (ModelRotation modelRotation : values()) {
+         mapRotations.put(modelRotation.combinedXY, modelRotation);
       }
    }
 }

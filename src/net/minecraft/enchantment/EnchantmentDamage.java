@@ -17,19 +17,19 @@ public class EnchantmentDamage extends Enchantment {
    public final int damageType;
    private static final long m = 120058455614418L;
 
-   public EnchantmentDamage(int var1, ResourceLocation var2, int var3, int var4) {
-      super(var1, var2, var3, EnumEnchantmentType.WEAPON);
-      this.damageType = var4;
+   public EnchantmentDamage(int enchID, ResourceLocation enchName, int enchWeight, int classification) {
+      super(enchID, enchName, enchWeight, EnumEnchantmentType.WEAPON);
+      this.damageType = classification;
    }
 
    @Override
-   public int getMinEnchantability(int var1) {
-      return baseEnchantability[this.damageType] + (var1 - 1) * levelEnchantability[this.damageType];
+   public int getMinEnchantability(int enchantmentLevel) {
+      return baseEnchantability[this.damageType] + (enchantmentLevel - 1) * levelEnchantability[this.damageType];
    }
 
    @Override
-   public int getMaxEnchantability(int var1) {
-      return this.getMinEnchantability(var1) + thresholdEnchantability[this.damageType];
+   public int getMaxEnchantability(int enchantmentLevel) {
+      return this.getMinEnchantability(enchantmentLevel) + thresholdEnchantability[this.damageType];
    }
 
    @Override
@@ -38,13 +38,13 @@ public class EnchantmentDamage extends Enchantment {
    }
 
    @Override
-   public float calcDamageByCreature(int var1, EnumCreatureAttribute var2) {
+   public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
       return this.damageType == 0
-         ? var1 * 1.25F
+         ? level * 1.25F
          : (
-            this.damageType == 1 && var2 == EnumCreatureAttribute.UNDEAD
-               ? var1 * 2.5F
-               : (this.damageType == 2 && var2 == EnumCreatureAttribute.ARTHROPOD ? var1 * 2.5F : 0.0F)
+            this.damageType == 1 && creatureType == EnumCreatureAttribute.UNDEAD
+               ? level * 2.5F
+               : (this.damageType == 2 && creatureType == EnumCreatureAttribute.ARTHROPOD ? level * 2.5F : 0.0F)
          );
    }
 
@@ -54,22 +54,22 @@ public class EnchantmentDamage extends Enchantment {
    }
 
    @Override
-   public boolean canApplyTogether(Enchantment var1) {
-      return !(var1 instanceof EnchantmentDamage);
+   public boolean canApplyTogether(Enchantment ench) {
+      return !(ench instanceof EnchantmentDamage);
    }
 
    @Override
-   public boolean canApply(ItemStack var1) {
-      return var1.getItem() instanceof ItemAxe ? true : super.canApply(var1);
+   public boolean canApply(ItemStack stack) {
+      return stack.getItem() instanceof ItemAxe ? true : super.canApply(stack);
    }
 
    @Override
-   public void onEntityDamaged(EntityLivingBase var1, Entity var2, int var3) {
-      if (var2 instanceof EntityLivingBase) {
-         EntityLivingBase var7 = (EntityLivingBase)var2;
-         if (this.damageType == 2 && var7.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
-            int var8 = 20 + var1.getRNG().nextInt(10 * var3);
-            var7.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, var8, 3));
+   public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
+      if (target instanceof EntityLivingBase) {
+         EntityLivingBase entityLivingBase = (EntityLivingBase)target;
+         if (this.damageType == 2 && entityLivingBase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
+            int i = 20 + user.getRNG().nextInt(10 * level);
+            entityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, i, 3));
          }
       }
    }

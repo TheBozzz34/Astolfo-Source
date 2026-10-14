@@ -17,17 +17,17 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry {
    private final ResourceLocation resourcePackIcon;
    private static final long a = 63455722881498L;
 
-   public ResourcePackListEntryDefault(GuiScreenResourcePacks var1) {
-      super(var1);
+   public ResourcePackListEntryDefault(GuiScreenResourcePacks resourcePacksGUIIn) {
+      super(resourcePacksGUIIn);
 
-      DynamicTexture var4;
+      DynamicTexture dynamicTexture;
       try {
-         var4 = new DynamicTexture(this.field_148320_d.getPackImage());
-      } catch (IOException var6) {
-         var4 = TextureUtil.missingTexture;
+         dynamicTexture = new DynamicTexture(this.field_148320_d.getPackImage());
+      } catch (IOException ioException) {
+         dynamicTexture = TextureUtil.missingTexture;
       }
 
-      this.resourcePackIcon = this.mc.getTextureManager().getDynamicTextureLocation("texturepackicon", var4);
+      this.resourcePackIcon = this.mc.getTextureManager().getDynamicTextureLocation("texturepackicon", dynamicTexture);
    }
 
    @Override
@@ -38,14 +38,14 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry {
    @Override
    public String func_148311_a() {
       try {
-         PackMetadataSection var4 = this.field_148320_d.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
-         if (var4 != null) {
-            return var4.getPackDescription().getFormattedText();
+         PackMetadataSection packMetadataSection = this.field_148320_d.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
+         if (packMetadataSection != null) {
+            return packMetadataSection.getPackDescription().getFormattedText();
          }
-      } catch (JsonParseException var5) {
-         logger.error("Couldn't load metadata info", var5);
-      } catch (IOException var6) {
-         logger.error("Couldn't load metadata info", var6);
+      } catch (JsonParseException jsonParseException) {
+         logger.error("Couldn't load metadata info", jsonParseException);
+      } catch (IOException ioException) {
+         logger.error("Couldn't load metadata info", ioException);
       }
 
       return EnumChatFormatting.RED + "Missing pack.mcmeta :(";

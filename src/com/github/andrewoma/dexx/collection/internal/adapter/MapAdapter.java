@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 public class MapAdapter<K, V> extends AbstractMap<K, V> {
    private final Map<K, V> map;
 
-   public MapAdapter(Map<K, V> var1) {
-      this.map = var1;
+   public MapAdapter(Map<K, V> map) {
+      this.map = map;
    }
 
    @Override
@@ -30,44 +30,44 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    }
 
    @Override
-   public boolean containsKey(Object var1) {
+   public boolean containsKey(Object key) {
       try {
-         return this.map.containsKey((K)var1);
-      } catch (ClassCastException var3) {
+         return this.map.containsKey((K)key);
+      } catch (ClassCastException eIn) {
          return false;
-      } catch (NullPointerException var4) {
+      } catch (NullPointerException eIn) {
          return false;
       }
    }
 
    @Override
-   public boolean containsValue(Object var1) {
-      return Adapters.contains(this.map.values(), var1);
+   public boolean containsValue(Object value) {
+      return Adapters.contains(this.map.values(), value);
    }
 
    @Override
-   public V get(Object var1) {
+   public V get(Object key) {
       try {
-         return this.map.get((K)var1);
-      } catch (ClassCastException var3) {
+         return this.map.get((K)key);
+      } catch (ClassCastException eIn) {
          return null;
-      } catch (NullPointerException var4) {
+      } catch (NullPointerException eIn) {
          return null;
       }
    }
 
    @Override
-   public V put(K var1, V var2) {
+   public V put(K key, V value) {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public V remove(Object var1) {
+   public V remove(Object key) {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void putAll(java.util.Map<? extends K, ? extends V> var1) {
+   public void putAll(java.util.Map<? extends K, ? extends V> m) {
       throw new UnsupportedOperationException();
    }
 
@@ -95,8 +95,8 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
          }
 
          @Override
-         public boolean contains(Object var1) {
-            return MapAdapter.this.containsValue(var1);
+         public boolean contains(Object o) {
+            return MapAdapter.this.containsValue(o);
          }
 
          @Override
@@ -110,37 +110,37 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
          }
 
          @Override
-         public <T> T[] toArray(T[] var1) {
-            return (T[])Adapters.toArray(MapAdapter.m(MapAdapter.this).values(), var1);
+         public <T> T[] toArray(T[] a) {
+            return (T[])Adapters.toArray(MapAdapter.m(MapAdapter.this).values(), a);
          }
 
          @Override
-         public boolean add(V var1) {
+         public boolean add(V v) {
             throw new UnsupportedOperationException();
          }
 
          @Override
-         public boolean remove(Object var1) {
+         public boolean remove(Object o) {
             throw new UnsupportedOperationException();
          }
 
          @Override
-         public boolean containsAll(Collection<?> var1) {
-            return Adapters.containsAll(MapAdapter.m(MapAdapter.this).values(), var1);
+         public boolean containsAll(Collection<?> c) {
+            return Adapters.containsAll(MapAdapter.m(MapAdapter.this).values(), c);
          }
 
          @Override
-         public boolean addAll(Collection<? extends V> var1) {
+         public boolean addAll(Collection<? extends V> c) {
             throw new UnsupportedOperationException();
          }
 
          @Override
-         public boolean removeAll(Collection<?> var1) {
+         public boolean removeAll(Collection<?> c) {
             throw new UnsupportedOperationException();
          }
 
          @Override
-         public boolean retainAll(Collection<?> var1) {
+         public boolean retainAll(Collection<?> c) {
             throw new UnsupportedOperationException();
          }
 
@@ -156,8 +156,8 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       return new MapAdapter.AdaptedEntrySet();
    }
 
-   public static Map m(MapAdapter var0) {
-      return var0.map;
+   public static Map m(MapAdapter mapAdapter) {
+      return mapAdapter.map;
    }
 
    public class AdaptedEntrySet extends AbstractSet<Entry<K, V>> {
@@ -172,12 +172,12 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public boolean contains(Object var1) {
+      public boolean contains(Object object) {
          try {
-            Entry var2 = (Entry)var1;
-            Pair var3 = new Pair<>(var2.getKey(), var2.getValue());
-            return Adapters.contains(MapAdapter.m(MapAdapter.this), var3);
-         } catch (ClassCastException var4) {
+            Entry entry = (Entry)object;
+            Pair pair = new Pair<>(entry.getKey(), entry.getValue());
+            return Adapters.contains(MapAdapter.m(MapAdapter.this), pair);
+         } catch (ClassCastException classCastException) {
             return false;
          }
       }
@@ -197,31 +197,31 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public <T> T[] toArray(T[] var1) {
-         return (T[])Adapters.toArray(this.b(), var1);
+      public <T> T[] toArray(T[] objects) {
+         return (T[])Adapters.toArray(this.b(), objects);
       }
 
-      public boolean add(Entry<K, V> var1) {
+      public boolean add(Entry<K, V> entry) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean remove(Object var1) {
+      public boolean remove(Object object) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean addAll(Collection<? extends Entry<K, V>> var1) {
+      public boolean addAll(Collection<? extends Entry<K, V>> collection) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean retainAll(Collection<?> var1) {
+      public boolean retainAll(Collection<?> collection) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean removeAll(Collection<?> var1) {
+      public boolean removeAll(Collection<?> collection) {
          throw new UnsupportedOperationException();
       }
 
@@ -231,8 +231,8 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       }
 
       public class PairToEntry implements Function<Pair<K, V>, Entry<K, V>> {
-         public Entry<K, V> invoke(Pair<K, V> var1) {
-            return new MapAdapter.PairEntry(this, var1);
+         public Entry<K, V> invoke(Pair<K, V> pair) {
+            return new MapAdapter.PairEntry(this, pair);
          }
       }
    }
@@ -249,8 +249,8 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public boolean contains(Object var1) {
-         return MapAdapter.this.containsKey(var1);
+      public boolean contains(Object object) {
+         return MapAdapter.this.containsKey(object);
       }
 
       @Override
@@ -264,37 +264,37 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public <T> T[] toArray(T[] var1) {
-         return (T[])Adapters.toArray(MapAdapter.m(MapAdapter.this).H(), var1);
+      public <T> T[] toArray(T[] objects) {
+         return (T[])Adapters.toArray(MapAdapter.m(MapAdapter.this).H(), objects);
       }
 
       @Override
-      public boolean add(K var1) {
+      public boolean add(K object) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean remove(Object var1) {
+      public boolean remove(Object object) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean containsAll(Collection<?> var1) {
-         return Adapters.containsAll(MapAdapter.m(MapAdapter.this).H(), var1);
+      public boolean containsAll(Collection<?> collection) {
+         return Adapters.containsAll(MapAdapter.m(MapAdapter.this).H(), collection);
       }
 
       @Override
-      public boolean addAll(Collection<? extends K> var1) {
+      public boolean addAll(Collection<? extends K> collection) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean retainAll(Collection<?> var1) {
+      public boolean retainAll(Collection<?> collection) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean removeAll(Collection<?> var1) {
+      public boolean removeAll(Collection<?> collection) {
          throw new UnsupportedOperationException();
       }
 
@@ -309,9 +309,9 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       public final MapAdapter.AdaptedEntrySet.PairToEntry W;
       private static final long a = 96575077283798L;
 
-      public PairEntry(MapAdapter.AdaptedEntrySet.PairToEntry var1, Pair var2) {
-         this.W = var1;
-         this.B = var2;
+      public PairEntry(MapAdapter.AdaptedEntrySet.PairToEntry pairToEntry, Pair pair) {
+         this.W = pairToEntry;
+         this.B = pair;
       }
 
       @Override
@@ -325,19 +325,19 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public Object setValue(Object var1) {
+      public Object setValue(Object object) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean equals(Object var1) {
-         if (!(var1 instanceof Entry)) {
+      public boolean equals(Object object) {
+         if (!(object instanceof Entry)) {
             return false;
          }
 
-         Entry var5 = (Entry)var1;
-         return (this.getKey() != null ? this.getKey().equals(var5.getKey()) : var5.getKey() == null)
-            && (this.getValue() != null ? this.getValue().equals(var5.getValue()) : var5.getValue() == null);
+         Entry entry = (Entry)object;
+         return (this.getKey() != null ? this.getKey().equals(entry.getKey()) : entry.getKey() == null)
+            && (this.getValue() != null ? this.getValue().equals(entry.getValue()) : entry.getValue() == null);
       }
 
       @Override

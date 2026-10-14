@@ -40,24 +40,24 @@ public enum EnumChatFormatting {
    private final int colorIndex;
    private static final long a = 68245928068756L;
 
-   private static String func_175745_c(String var0) {
-      return var0.toLowerCase().replaceAll("[^a-z]", "");
+   private static String func_175745_c(String string) {
+      return string.toLowerCase().replaceAll("[^a-z]", "");
    }
 
-   EnumChatFormatting(String var3, char var4, int var5) {
-      this(var3, var4, false, var5);
+   EnumChatFormatting(String formattingName, char formattingCodeIn, int colorIndex) {
+      this(formattingName, formattingCodeIn, false, colorIndex);
    }
 
-   EnumChatFormatting(String var3, char var4, boolean var5) {
-      this(var3, var4, var5, -1);
+   EnumChatFormatting(String formattingName, char formattingCodeIn, boolean fancyStylingIn) {
+      this(formattingName, formattingCodeIn, fancyStylingIn, -1);
    }
 
-   EnumChatFormatting(String var3, char var4, boolean var5, int var6) {
-      this.name = var3;
-      this.formattingCode = var4;
-      this.fancyStyling = var5;
-      this.colorIndex = var6;
-      this.controlString = "§" + var4;
+   EnumChatFormatting(String formattingName, char formattingCodeIn, boolean fancyStylingIn, int colorIndex) {
+      this.name = formattingName;
+      this.formattingCode = formattingCodeIn;
+      this.fancyStyling = fancyStylingIn;
+      this.colorIndex = colorIndex;
+      this.controlString = "§" + formattingCodeIn;
    }
 
    public int getColorIndex() {
@@ -81,43 +81,43 @@ public enum EnumChatFormatting {
       return this.controlString;
    }
 
-   public static String getTextWithoutFormattingCodes(String var0) {
-      return var0 == null ? null : formattingCodePattern.matcher(var0).replaceAll("");
+   public static String getTextWithoutFormattingCodes(String text) {
+      return text == null ? null : formattingCodePattern.matcher(text).replaceAll("");
    }
 
-   public static EnumChatFormatting getValueByName(String var0) {
-      return var0 == null ? null : nameMapping.get(func_175745_c(var0));
+   public static EnumChatFormatting getValueByName(String friendlyName) {
+      return friendlyName == null ? null : nameMapping.get(func_175745_c(friendlyName));
    }
 
-   public static EnumChatFormatting func_175744_a(int var0) {
-      if (var0 < 0) {
+   public static EnumChatFormatting func_175744_a(int i) {
+      if (i < 0) {
          return RESET;
       }
 
-      for (EnumChatFormatting var7 : values()) {
-         if (var7.getColorIndex() == var0) {
-            return var7;
+      for (EnumChatFormatting enumChatFormatting : values()) {
+         if (enumChatFormatting.getColorIndex() == i) {
+            return enumChatFormatting;
          }
       }
 
       return null;
    }
 
-   public static Collection<String> getValidValues(boolean var0, boolean var1) {
-      ArrayList var5 = Lists.newArrayList();
+   public static Collection<String> getValidValues(boolean bl, boolean bl2) {
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (EnumChatFormatting var9 : values()) {
-         if ((!var9.isColor() || var0) && (!var9.isFancyStyling() || var1)) {
-            var5.add(var9.getFriendlyName());
+      for (EnumChatFormatting enumChatFormatting : values()) {
+         if ((!enumChatFormatting.isColor() || bl) && (!enumChatFormatting.isFancyStyling() || bl2)) {
+            arrayList.add(enumChatFormatting.getFriendlyName());
          }
       }
 
-      return var5;
+      return arrayList;
    }
 
    static {
-      for (EnumChatFormatting var25 : values()) {
-         nameMapping.put(func_175745_c(var25.name), var25);
+      for (EnumChatFormatting enumChatFormatting : values()) {
+         nameMapping.put(func_175745_c(enumChatFormatting.name), enumChatFormatting);
       }
    }
 }

@@ -32,42 +32,42 @@ public class RandomMobs {
    };
    private static final long a = 10826246533459L;
 
-   public static void entityLoaded(Entity var0, World var1) {
-      if (var0 instanceof EntityLiving && var1 != null) {
-         EntityLiving var5 = (EntityLiving)var0;
-         var5.spawnPosition = var5.getPosition();
-         var5.spawnBiome = var1.getBiomeGenForCoords(var5.spawnPosition);
-         WorldServer var6 = Config.getWorldServer();
-         if (var6 != null) {
-            Entity var7 = var6.getEntityByID(var0.getEntityId());
-            if (var7 instanceof EntityLiving) {
-               EntityLiving var8 = (EntityLiving)var7;
-               UUID var9 = var8.getUniqueID();
-               long var10 = var9.getLeastSignificantBits();
-               int var12 = (int)(var10 & 2147483647L);
-               var5.randomMobsId = var12;
+   public static void entityLoaded(Entity entity, World world) {
+      if (entity instanceof EntityLiving && world != null) {
+         EntityLiving entityLiving = (EntityLiving)entity;
+         entityLiving.spawnPosition = entityLiving.getPosition();
+         entityLiving.spawnBiome = world.getBiomeGenForCoords(entityLiving.spawnPosition);
+         WorldServer worldServer = Config.getWorldServer();
+         if (worldServer != null) {
+            Entity entity2 = worldServer.getEntityByID(entity.getEntityId());
+            if (entity2 instanceof EntityLiving) {
+               EntityLiving entityLiving2 = (EntityLiving)entity2;
+               UUID uuid = entityLiving2.getUniqueID();
+               long l = uuid.getLeastSignificantBits();
+               int i = (int)(l & 2147483647L);
+               entityLiving.randomMobsId = i;
             }
          }
       }
    }
 
-   public static void worldChanged(World var0, World var1) {
-      if (var1 != null) {
-         List var5 = var1.getLoadedEntityList();
+   public static void worldChanged(World oldWorld, World newWorld) {
+      if (newWorld != null) {
+         List list = newWorld.getLoadedEntityList();
 
-         for (int var6 = 0; var6 < var5.size(); var6++) {
-            Entity var7 = (Entity)var5.get(var6);
-            entityLoaded(var7, var1);
+         for (int i = 0; i < list.size(); i++) {
+            Entity entity = (Entity)list.get(i);
+            entityLoaded(entity, newWorld);
          }
       }
    }
 
-   public static ResourceLocation getTextureLocation(ResourceLocation var0) {
+   public static ResourceLocation getTextureLocation(ResourceLocation loc) {
       if (working) {
-         return var0;
+         return loc;
       }
 
-      ResourceLocation var4;
+      ResourceLocation resourceLocation;
       try {
          working = true;
          if (!initialized) {
@@ -75,171 +75,171 @@ public class RandomMobs {
          }
 
          if (renderGlobal != null) {
-            Entity var5 = renderGlobal.renderedEntity;
-            if (!(var5 instanceof EntityLiving)) {
-               return var0;
+            Entity entity2 = renderGlobal.renderedEntity;
+            if (!(entity2 instanceof EntityLiving)) {
+               return loc;
             }
 
-            EntityLiving var6 = (EntityLiving)var5;
-            String var7 = var0.getResourcePath();
-            if (!var7.startsWith("textures/entity/")) {
-               return var0;
+            EntityLiving entityLiving = (EntityLiving)entity2;
+            String string = loc.getResourcePath();
+            if (!string.startsWith("textures/entity/")) {
+               return loc;
             }
 
-            RandomMobsProperties var8 = getProperties(var0);
-            if (var8 == null) {
-               return var0;
+            RandomMobsProperties randomMobsProperties = getProperties(loc);
+            if (randomMobsProperties == null) {
+               return loc;
             }
 
-            return var8.getTextureLocation(var0, var6);
+            return randomMobsProperties.getTextureLocation(loc, entityLiving);
          }
 
-         var4 = var0;
+         resourceLocation = loc;
       } finally {
          working = false;
       }
 
-      return var4;
+      return resourceLocation;
    }
 
-   private static RandomMobsProperties getProperties(ResourceLocation var0) {
-      String var4 = var0.getResourcePath();
-      RandomMobsProperties var5 = (RandomMobsProperties)locationProperties.get(var4);
-      if (var5 == null) {
-         var5 = makeProperties(var0);
-         locationProperties.put(var4, var5);
+   private static RandomMobsProperties getProperties(ResourceLocation loc) {
+      String string = loc.getResourcePath();
+      RandomMobsProperties randomMobsProperties = (RandomMobsProperties)locationProperties.get(string);
+      if (randomMobsProperties == null) {
+         randomMobsProperties = makeProperties(loc);
+         locationProperties.put(string, randomMobsProperties);
       }
 
-      return var5;
+      return randomMobsProperties;
    }
 
-   private static RandomMobsProperties makeProperties(ResourceLocation var0) {
-      String var4 = var0.getResourcePath();
-      ResourceLocation var5 = getPropertyLocation(var0);
-      if (var5 != null) {
-         RandomMobsProperties var6 = parseProperties(var5, var0);
-         if (var6 != null) {
-            return var6;
+   private static RandomMobsProperties makeProperties(ResourceLocation loc) {
+      String string = loc.getResourcePath();
+      ResourceLocation resourceLocation = getPropertyLocation(loc);
+      if (resourceLocation != null) {
+         RandomMobsProperties randomMobsProperties = parseProperties(resourceLocation, loc);
+         if (randomMobsProperties != null) {
+            return randomMobsProperties;
          }
       }
 
-      ResourceLocation[] var7 = getTextureVariants(var0);
-      return new RandomMobsProperties(var4, var7);
+      ResourceLocation[] resourceLocations = getTextureVariants(loc);
+      return new RandomMobsProperties(string, resourceLocations);
    }
 
-   private static RandomMobsProperties parseProperties(ResourceLocation var0, ResourceLocation var1) {
+   private static RandomMobsProperties parseProperties(ResourceLocation propLoc, ResourceLocation resLoc) {
       try {
-         String var5 = var0.getResourcePath();
-         Config.dbg("RandomMobs: " + var1.getResourcePath() + ", variants: " + var5);
-         InputStream var6 = Config.getResourceStream(var0);
-         if (var6 == null) {
-            Config.warn("RandomMobs properties not found: " + var5);
+         String string = propLoc.getResourcePath();
+         Config.dbg("RandomMobs: " + resLoc.getResourcePath() + ", variants: " + string);
+         InputStream inputStream = Config.getResourceStream(propLoc);
+         if (inputStream == null) {
+            Config.warn("RandomMobs properties not found: " + string);
             return null;
          } else {
-            Properties var7 = new Properties();
-            var7.load(var6);
-            var6.close();
-            RandomMobsProperties var8 = new RandomMobsProperties(var7, var5, var1);
-            return !var8.isValid(var5) ? null : var8;
+            Properties properties2 = new Properties();
+            properties2.load(inputStream);
+            inputStream.close();
+            RandomMobsProperties randomMobsProperties = new RandomMobsProperties(properties2, string, resLoc);
+            return !randomMobsProperties.isValid(string) ? null : randomMobsProperties;
          }
-      } catch (FileNotFoundException var9) {
-         Config.warn("RandomMobs file not found: " + var1.getResourcePath());
+      } catch (FileNotFoundException fileNotFoundException) {
+         Config.warn("RandomMobs file not found: " + resLoc.getResourcePath());
          return null;
-      } catch (IOException var10) {
-         var10.printStackTrace();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
          return null;
       }
    }
 
-   private static ResourceLocation getPropertyLocation(ResourceLocation var0) {
-      ResourceLocation var4 = getMcpatcherLocation(var0);
-      if (var4 == null) {
+   private static ResourceLocation getPropertyLocation(ResourceLocation loc) {
+      ResourceLocation resourceLocation = getMcpatcherLocation(loc);
+      if (resourceLocation == null) {
          return null;
       }
 
-      String var5 = var4.getResourceDomain();
-      String var6 = var4.getResourcePath();
-      String var7 = var6;
-      if (var6.endsWith(".png")) {
-         var7 = var6.substring(0, var6.length() - ".png".length());
+      String string = resourceLocation.getResourceDomain();
+      String string2 = resourceLocation.getResourcePath();
+      String string3 = string2;
+      if (string2.endsWith(".png")) {
+         string3 = string2.substring(0, string2.length() - ".png".length());
       }
 
-      String var8 = var7 + ".properties";
-      ResourceLocation var9 = new ResourceLocation(var5, var8);
-      if (Config.hasResource(var9)) {
-         return var9;
+      String string4 = string3 + ".properties";
+      ResourceLocation resourceLocation2 = new ResourceLocation(string, string4);
+      if (Config.hasResource(resourceLocation2)) {
+         return resourceLocation2;
       }
 
-      String var10 = getParentPath(var7);
-      if (var10 == null) {
+      String string5 = getParentPath(string3);
+      if (string5 == null) {
          return null;
       }
 
-      ResourceLocation var11 = new ResourceLocation(var5, var10 + ".properties");
-      return Config.hasResource(var11) ? var11 : null;
+      ResourceLocation resourceLocation3 = new ResourceLocation(string, string5 + ".properties");
+      return Config.hasResource(resourceLocation3) ? resourceLocation3 : null;
    }
 
-   public static ResourceLocation getMcpatcherLocation(ResourceLocation var0) {
-      String var4 = var0.getResourcePath();
-      if (!var4.startsWith("textures/entity/")) {
+   public static ResourceLocation getMcpatcherLocation(ResourceLocation loc) {
+      String string = loc.getResourcePath();
+      if (!string.startsWith("textures/entity/")) {
          return null;
       }
 
-      String var5 = "mcpatcher/mob/" + var4.substring("textures/entity/".length());
-      return new ResourceLocation(var0.getResourceDomain(), var5);
+      String string2 = "mcpatcher/mob/" + string.substring("textures/entity/".length());
+      return new ResourceLocation(loc.getResourceDomain(), string2);
    }
 
-   public static ResourceLocation getLocationIndexed(ResourceLocation var0, int var1) {
-      if (var0 == null) {
+   public static ResourceLocation getLocationIndexed(ResourceLocation loc, int index) {
+      if (loc == null) {
          return null;
       }
 
-      String var5 = var0.getResourcePath();
-      int var6 = var5.lastIndexOf(46);
-      if (var6 < 0) {
+      String string = loc.getResourcePath();
+      int i = string.lastIndexOf(46);
+      if (i < 0) {
          return null;
       }
 
-      String var7 = var5.substring(0, var6);
-      String var8 = var5.substring(var6);
-      String var9 = var7 + var1 + var8;
-      return new ResourceLocation(var0.getResourceDomain(), var9);
+      String string2 = string.substring(0, i);
+      String string3 = string.substring(i);
+      String string4 = string2 + index + string3;
+      return new ResourceLocation(loc.getResourceDomain(), string4);
    }
 
-   private static String getParentPath(String var0) {
-      for (int var4 = 0; var4 < DEPENDANT_SUFFIXES.length; var4++) {
-         String var5 = DEPENDANT_SUFFIXES[var4];
-         if (var0.endsWith(var5)) {
-            return var0.substring(0, var0.length() - var5.length());
+   private static String getParentPath(String path) {
+      for (int i = 0; i < DEPENDANT_SUFFIXES.length; i++) {
+         String string = DEPENDANT_SUFFIXES[i];
+         if (path.endsWith(string)) {
+            return path.substring(0, path.length() - string.length());
          }
       }
 
       return null;
    }
 
-   private static ResourceLocation[] getTextureVariants(ResourceLocation var0) {
-      ArrayList var4 = new ArrayList();
-      var4.add(var0);
-      ResourceLocation var5 = getMcpatcherLocation(var0);
-      if (var5 == null) {
+   private static ResourceLocation[] getTextureVariants(ResourceLocation loc) {
+      ArrayList arrayList = new ArrayList();
+      arrayList.add(loc);
+      ResourceLocation resourceLocation = getMcpatcherLocation(loc);
+      if (resourceLocation == null) {
          return null;
       }
 
-      for (int var6 = 1; var6 < var4.size() + 10; var6++) {
-         int var7 = var6 + 1;
-         ResourceLocation var8 = getLocationIndexed(var5, var7);
-         if (Config.hasResource(var8)) {
-            var4.add(var8);
+      for (int i = 1; i < arrayList.size() + 10; i++) {
+         int j = i + 1;
+         ResourceLocation resourceLocation2 = getLocationIndexed(resourceLocation, j);
+         if (Config.hasResource(resourceLocation2)) {
+            arrayList.add(resourceLocation2);
          }
       }
 
-      if (var4.size() <= 1) {
+      if (arrayList.size() <= 1) {
          return null;
       }
 
-      ResourceLocation[] var9 = (net.minecraft.util.ResourceLocation[])(var4.toArray(new ResourceLocation[var4.size()]));
-      Config.dbg("RandomMobs: " + var0.getResourcePath() + ", variants: " + var9.length);
-      return var9;
+      ResourceLocation[] resourceLocations = (net.minecraft.util.ResourceLocation[])(arrayList.toArray(new ResourceLocation[arrayList.size()]));
+      Config.dbg("RandomMobs: " + loc.getResourcePath() + ", variants: " + resourceLocations.length);
+      return resourceLocations;
    }
 
    public static void resetTextures() {
@@ -253,67 +253,67 @@ public class RandomMobs {
       renderGlobal = Config.getRenderGlobal();
       if (renderGlobal != null) {
          initialized = true;
-         ArrayList var3 = new ArrayList();
-         var3.add("bat");
-         var3.add("blaze");
-         var3.add("cat/black");
-         var3.add("cat/ocelot");
-         var3.add("cat/red");
-         var3.add("cat/siamese");
-         var3.add("chicken");
-         var3.add("cow/cow");
-         var3.add("cow/mooshroom");
-         var3.add("creeper/creeper");
-         var3.add("enderman/enderman");
-         var3.add("enderman/enderman_eyes");
-         var3.add("ghast/ghast");
-         var3.add("ghast/ghast_shooting");
-         var3.add("iron_golem");
-         var3.add("pig/pig");
-         var3.add("sheep/sheep");
-         var3.add("sheep/sheep_fur");
-         var3.add("silverfish");
-         var3.add("skeleton/skeleton");
-         var3.add("skeleton/wither_skeleton");
-         var3.add("slime/slime");
-         var3.add("slime/magmacube");
-         var3.add("snowman");
-         var3.add("spider/cave_spider");
-         var3.add("spider/spider");
-         var3.add("spider_eyes");
-         var3.add("squid");
-         var3.add("villager/villager");
-         var3.add("villager/butcher");
-         var3.add("villager/farmer");
-         var3.add("villager/librarian");
-         var3.add("villager/priest");
-         var3.add("villager/smith");
-         var3.add("wither/wither");
-         var3.add("wither/wither_armor");
-         var3.add("wither/wither_invulnerable");
-         var3.add("wolf/wolf");
-         var3.add("wolf/wolf_angry");
-         var3.add("wolf/wolf_collar");
-         var3.add("wolf/wolf_tame");
-         var3.add("zombie_pigman");
-         var3.add("zombie/zombie");
-         var3.add("zombie/zombie_villager");
+         ArrayList arrayList = new ArrayList();
+         arrayList.add("bat");
+         arrayList.add("blaze");
+         arrayList.add("cat/black");
+         arrayList.add("cat/ocelot");
+         arrayList.add("cat/red");
+         arrayList.add("cat/siamese");
+         arrayList.add("chicken");
+         arrayList.add("cow/cow");
+         arrayList.add("cow/mooshroom");
+         arrayList.add("creeper/creeper");
+         arrayList.add("enderman/enderman");
+         arrayList.add("enderman/enderman_eyes");
+         arrayList.add("ghast/ghast");
+         arrayList.add("ghast/ghast_shooting");
+         arrayList.add("iron_golem");
+         arrayList.add("pig/pig");
+         arrayList.add("sheep/sheep");
+         arrayList.add("sheep/sheep_fur");
+         arrayList.add("silverfish");
+         arrayList.add("skeleton/skeleton");
+         arrayList.add("skeleton/wither_skeleton");
+         arrayList.add("slime/slime");
+         arrayList.add("slime/magmacube");
+         arrayList.add("snowman");
+         arrayList.add("spider/cave_spider");
+         arrayList.add("spider/spider");
+         arrayList.add("spider_eyes");
+         arrayList.add("squid");
+         arrayList.add("villager/villager");
+         arrayList.add("villager/butcher");
+         arrayList.add("villager/farmer");
+         arrayList.add("villager/librarian");
+         arrayList.add("villager/priest");
+         arrayList.add("villager/smith");
+         arrayList.add("wither/wither");
+         arrayList.add("wither/wither_armor");
+         arrayList.add("wither/wither_invulnerable");
+         arrayList.add("wolf/wolf");
+         arrayList.add("wolf/wolf_angry");
+         arrayList.add("wolf/wolf_collar");
+         arrayList.add("wolf/wolf_tame");
+         arrayList.add("zombie_pigman");
+         arrayList.add("zombie/zombie");
+         arrayList.add("zombie/zombie_villager");
 
-         for (int var4 = 0; var4 < var3.size(); var4++) {
-            String var5 = (String)var3.get(var4);
-            String var6 = "textures/entity/" + var5 + ".png";
-            ResourceLocation var7 = new ResourceLocation(var6);
-            if (!Config.hasResource(var7)) {
-               Config.warn("Not found: " + var7);
+         for (int i = 0; i < arrayList.size(); i++) {
+            String string = (String)arrayList.get(i);
+            String string2 = "textures/entity/" + string + ".png";
+            ResourceLocation resourceLocation = new ResourceLocation(string2);
+            if (!Config.hasResource(resourceLocation)) {
+               Config.warn("Not found: " + resourceLocation);
             }
 
-            getProperties(var7);
+            getProperties(resourceLocation);
          }
       }
    }
 
    static {
-      long var20 = a ^ 78617163711618L;
-      long var10000 = 6767033909335402634L ^ var20;
+      long l = a ^ 78617163711618L;
+      long m = 6767033909335402634L ^ l;
    }
 }

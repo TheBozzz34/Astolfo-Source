@@ -8,8 +8,8 @@ public class ShaderPackDefault implements IShaderPack {
    }
 
    @Override
-   public InputStream getResourceAsStream(String var1) {
-      return ShaderPackDefault.class.getResourceAsStream(var1);
+   public InputStream getResourceAsStream(String resName) {
+      return ShaderPackDefault.class.getResourceAsStream(resName);
    }
 
    @Override
@@ -18,7 +18,7 @@ public class ShaderPackDefault implements IShaderPack {
    }
 
    @Override
-   public boolean hasDirectory(String var1) {
+   public boolean hasDirectory(String name) {
       return false;
    }
 }

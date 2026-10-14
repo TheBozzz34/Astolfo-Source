@@ -17,52 +17,52 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
    public S45PacketTitle() {
    }
 
-   public S45PacketTitle(S45PacketTitle.Type var1, IChatComponent var2) {
-      this(var1, var2, -1, -1, -1);
+   public S45PacketTitle(S45PacketTitle.Type typeIn, IChatComponent message) {
+      this(typeIn, message, -1, -1, -1);
    }
 
-   public S45PacketTitle(int var1, int var2, int var3) {
-      this(S45PacketTitle.Type.TIMES, (IChatComponent)null, var1, var2, var3);
+   public S45PacketTitle(int fadeInTime, int displayTime, int fadeOutTime) {
+      this(S45PacketTitle.Type.TIMES, (IChatComponent)null, fadeInTime, displayTime, fadeOutTime);
    }
 
-   public S45PacketTitle(S45PacketTitle.Type var1, IChatComponent var2, int var3, int var4, int var5) {
-      this.type = var1;
-      this.message = var2;
-      this.fadeInTime = var3;
-      this.displayTime = var4;
-      this.fadeOutTime = var5;
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.type = var1.readEnumValue(S45PacketTitle.Type.class);
-      if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE) {
-         this.message = var1.readChatComponent();
-      }
-
-      if (this.type == S45PacketTitle.Type.TIMES) {
-         this.fadeInTime = var1.readInt();
-         this.displayTime = var1.readInt();
-         this.fadeOutTime = var1.readInt();
-      }
+   public S45PacketTitle(S45PacketTitle.Type typeIn, IChatComponent message, int fadeInTime, int displayTime, int fadeOutTime) {
+      this.type = typeIn;
+      this.message = message;
+      this.fadeInTime = fadeInTime;
+      this.displayTime = displayTime;
+      this.fadeOutTime = fadeOutTime;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeEnumValue(this.type);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.type = buf.readEnumValue(S45PacketTitle.Type.class);
       if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE) {
-         var1.writeChatComponent(this.message);
+         this.message = buf.readChatComponent();
       }
 
       if (this.type == S45PacketTitle.Type.TIMES) {
-         var1.writeInt(this.fadeInTime);
-         var1.writeInt(this.displayTime);
-         var1.writeInt(this.fadeOutTime);
+         this.fadeInTime = buf.readInt();
+         this.displayTime = buf.readInt();
+         this.fadeOutTime = buf.readInt();
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleTitle(this);
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeEnumValue(this.type);
+      if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE) {
+         buf.writeChatComponent(this.message);
+      }
+
+      if (this.type == S45PacketTitle.Type.TIMES) {
+         buf.writeInt(this.fadeInTime);
+         buf.writeInt(this.displayTime);
+         buf.writeInt(this.fadeOutTime);
+      }
+   }
+
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleTitle(this);
    }
 
    public S45PacketTitle.Type getType() {
@@ -94,10 +94,10 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
 
       private static final long a = 105422181686245L;
 
-      public static S45PacketTitle.Type byName(String var0) {
-         for (S45PacketTitle.Type var7 : values()) {
-            if (var7.name().equalsIgnoreCase(var0)) {
-               return var7;
+      public static S45PacketTitle.Type byName(String name) {
+         for (S45PacketTitle.Type type : values()) {
+            if (type.name().equalsIgnoreCase(name)) {
+               return type;
             }
          }
 
@@ -105,14 +105,14 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
       }
 
       public static String[] getNames() {
-         String[] var3 = new String[values().length];
-         int var4 = 0;
+         String[] strings = new String[values().length];
+         int i = 0;
 
-         for (S45PacketTitle.Type var8 : values()) {
-            var3[var4++] = var8.name().toLowerCase();
+         for (S45PacketTitle.Type type : values()) {
+            strings[i++] = type.name().toLowerCase();
          }
 
-         return var3;
+         return strings;
       }
    }
 }

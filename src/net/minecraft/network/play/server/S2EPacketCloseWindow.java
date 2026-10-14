@@ -18,27 +18,27 @@ public class S2EPacketCloseWindow implements Packet<INetHandlerPlayClient> {
    public S2EPacketCloseWindow() {
    }
 
-   public S2EPacketCloseWindow(int var1) {
-      this.windowId = var1;
+   public S2EPacketCloseWindow(int windowIdIn) {
+      this.windowId = windowIdIn;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      GuiScreen var5 = Minecraft.getMinecraft().currentScreen;
-      if (!(var5 instanceof GuiChat)
-         && !(var5 instanceof DefaultClickGuiScreen)
-         && !(var5 instanceof TransparentClickGuiScreen)
-         && !(var5 instanceof SidebarClickGuiScreen)) {
-         var1.handleCloseWindow(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
+      if (!(guiScreen instanceof GuiChat)
+         && !(guiScreen instanceof DefaultClickGuiScreen)
+         && !(guiScreen instanceof TransparentClickGuiScreen)
+         && !(guiScreen instanceof SidebarClickGuiScreen)) {
+         handler.handleCloseWindow(this);
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readUnsignedByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
    }
 }

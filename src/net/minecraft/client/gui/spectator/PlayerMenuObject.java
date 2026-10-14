@@ -15,14 +15,14 @@ public class PlayerMenuObject implements ISpectatorMenuObject {
    private final ResourceLocation resourceLocation;
    private static final long a = 54759314241399L;
 
-   public PlayerMenuObject(GameProfile var1) {
-      this.profile = var1;
-      this.resourceLocation = AbstractClientPlayer.getLocationSkin(var1.getName());
-      AbstractClientPlayer.getDownloadImageSkin(this.resourceLocation, var1.getName());
+   public PlayerMenuObject(GameProfile profileIn) {
+      this.profile = profileIn;
+      this.resourceLocation = AbstractClientPlayer.getLocationSkin(profileIn.getName());
+      AbstractClientPlayer.getDownloadImageSkin(this.resourceLocation, profileIn.getName());
    }
 
    @Override
-   public void func_178661_a(SpectatorMenu var1) {
+   public void func_178661_a(SpectatorMenu menu) {
       Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C18PacketSpectate(this.profile.getId()));
    }
 
@@ -32,9 +32,9 @@ public class PlayerMenuObject implements ISpectatorMenuObject {
    }
 
    @Override
-   public void func_178663_a(float var1, int var2) {
+   public void func_178663_a(float f, int alpha) {
       Minecraft.getMinecraft().getTextureManager().bindTexture(this.resourceLocation);
-      GlStateManager.color(1.0F, 1.0F, 1.0F, var2 / 255.0F);
+      GlStateManager.color(1.0F, 1.0F, 1.0F, alpha / 255.0F);
       Gui.drawScaledCustomSizeModalRect(2, 2, 8.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
       Gui.drawScaledCustomSizeModalRect(2, 2, 40.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
    }

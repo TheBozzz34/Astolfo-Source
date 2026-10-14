@@ -8,10 +8,10 @@ public class RenderLivingEvent extends CancellableEvent {
    private float pitch;
    private EntityLivingBase entity;
 
-   public RenderLivingEvent(EntityLivingBase var1) {
-      this.entity = var1;
-      this.pitch = var1.rotationPitch;
-      this.prevPitch = var1.prevRotationPitch;
+   public RenderLivingEvent(EntityLivingBase entityLivingBase) {
+      this.entity = entityLivingBase;
+      this.pitch = entityLivingBase.rotationPitch;
+      this.prevPitch = entityLivingBase.prevRotationPitch;
    }
 
    public EntityLivingBase getEntity() {
@@ -22,15 +22,15 @@ public class RenderLivingEvent extends CancellableEvent {
       return this.pitch;
    }
 
-   public void setPitch(float var1) {
-      this.pitch = var1;
+   public void setPitch(float f) {
+      this.pitch = f;
    }
 
    public float getPrevPitch() {
       return this.prevPitch;
    }
 
-   public void setPrevPitch(float var1) {
-      this.prevPitch = var1;
+   public void setPrevPitch(float f) {
+      this.prevPitch = f;
    }
 }

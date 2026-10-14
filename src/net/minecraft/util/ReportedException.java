@@ -5,8 +5,8 @@ import net.minecraft.crash.CrashReport;
 public class ReportedException extends RuntimeException {
    private final CrashReport theReportedExceptionCrashReport;
 
-   public ReportedException(CrashReport var1) {
-      this.theReportedExceptionCrashReport = var1;
+   public ReportedException(CrashReport report) {
+      this.theReportedExceptionCrashReport = report;
    }
 
    public CrashReport getCrashReport() {

@@ -6,13 +6,13 @@ import net.minecraft.util.EnumChatFormatting;
 public final class NicklistCommand extends Command {
    private static final long d = 107110009519772L;
 
-   public NicklistCommand(String var1, String var2) {
-      super(var1, var2);
+   public NicklistCommand(String string, String string2) {
+      super(string, string2);
    }
 
    @Override
-   public void runCommand(String[] var1) {
+   public void runCommand(String[] strings) {
       Denicker.nicks
-         .forEach((var0, var1x) -> chat.D(false, false).i("> ").i(var0).M(EnumChatFormatting.GRAY).i(": ").M(EnumChatFormatting.WHITE).i(var1x).N().b());
+         .forEach((string, string2) -> chat.D(false, false).i("> ").i(string).M(EnumChatFormatting.GRAY).i(": ").M(EnumChatFormatting.WHITE).i(string2).N().b());
    }
 }

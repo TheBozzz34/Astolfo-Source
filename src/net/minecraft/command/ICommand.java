@@ -6,15 +6,15 @@ import net.minecraft.util.BlockPos;
 public interface ICommand extends Comparable<ICommand> {
    String getCommandName();
 
-   String getCommandUsage(ICommandSender var1);
+   String getCommandUsage(ICommandSender sender);
 
    List<String> getCommandAliases();
 
-   void processCommand(ICommandSender var1, String[] var2) throws CommandException;
+   void processCommand(ICommandSender sender, String[] args) throws CommandException;
 
-   boolean canCommandSenderUseCommand(ICommandSender var1);
+   boolean canCommandSenderUseCommand(ICommandSender sender);
 
-   List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3);
+   List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos);
 
-   boolean isUsernameIndex(String[] var1, int var2);
+   boolean isUsernameIndex(String[] args, int index);
 }

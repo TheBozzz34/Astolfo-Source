@@ -22,18 +22,18 @@ public class ShaderLoader {
    private static final long a = 61273118313009L;
    private static final long f = 5788503952270065664L;
 
-   private ShaderLoader(ShaderLoader.ShaderType var1, int var2, String var3) {
-      this.shaderType = var1;
-      this.shader = var2;
-      this.shaderFilename = var3;
+   private ShaderLoader(ShaderLoader.ShaderType typeIn, int shaderId, String filename) {
+      this.shaderType = typeIn;
+      this.shader = shaderId;
+      this.shaderFilename = filename;
    }
 
-   public void attachShader(ShaderManager var1) {
+   public void attachShader(ShaderManager manager) {
       this.shaderAttachCount++;
-      OpenGlHelper.glAttachShader(var1.getProgram(), this.shader);
+      OpenGlHelper.glAttachShader(manager.getProgram(), this.shader);
    }
 
-   public void deleteShader(ShaderManager var1) {
+   public void deleteShader(ShaderManager manager) {
       this.shaderAttachCount--;
       if (this.shaderAttachCount <= 0) {
          OpenGlHelper.glDeleteShader(this.shader);
@@ -45,41 +45,41 @@ public class ShaderLoader {
       return this.shaderFilename;
    }
 
-   public static ShaderLoader loadShader(IResourceManager var0, ShaderLoader.ShaderType var1, String var2) throws IOException {
-      ShaderLoader var6 = var1.getLoadedShaders().get(var2);
-      if (var6 == null) {
-         ResourceLocation var7 = new ResourceLocation("shaders/program/" + var2 + var1.getShaderExtension());
-         BufferedInputStream var8 = new BufferedInputStream(var0.getResource(var7).getInputStream());
-         byte[] var9 = toByteArray(var8);
-         ByteBuffer var10 = BufferUtils.createByteBuffer(var9.length);
-         var10.put(var9);
-         ((Buffer)var10).position(0);
-         int var11 = OpenGlHelper.glCreateShader(var1.getShaderMode());
-         OpenGlHelper.glShaderSource(var11, var10);
-         OpenGlHelper.glCompileShader(var11);
-         if (OpenGlHelper.glGetShaderi(var11, OpenGlHelper.GL_COMPILE_STATUS) == 0) {
-            String var12 = StringUtils.trim(OpenGlHelper.glGetShaderInfoLog(var11, (int)f));
-            JsonException var13 = new JsonException("Couldn't compile " + var1.getShaderName() + " program: " + var12);
-            var13.func_151381_b(var7.getResourcePath());
-            throw var13;
+   public static ShaderLoader loadShader(IResourceManager resourceManager, ShaderLoader.ShaderType typeIn, String filename) throws IOException {
+      ShaderLoader shaderLoader = typeIn.getLoadedShaders().get(filename);
+      if (shaderLoader == null) {
+         ResourceLocation resourceLocation = new ResourceLocation("shaders/program/" + filename + typeIn.getShaderExtension());
+         BufferedInputStream bufferedInputStream = new BufferedInputStream(resourceManager.getResource(resourceLocation).getInputStream());
+         byte[] bytes = toByteArray(bufferedInputStream);
+         ByteBuffer byteBuffer = BufferUtils.createByteBuffer(bytes.length);
+         byteBuffer.put(bytes);
+         ((Buffer)byteBuffer).position(0);
+         int i = OpenGlHelper.glCreateShader(typeIn.getShaderMode());
+         OpenGlHelper.glShaderSource(i, byteBuffer);
+         OpenGlHelper.glCompileShader(i);
+         if (OpenGlHelper.glGetShaderi(i, OpenGlHelper.GL_COMPILE_STATUS) == 0) {
+            String string = StringUtils.trim(OpenGlHelper.glGetShaderInfoLog(i, (int)f));
+            JsonException jsonException = new JsonException("Couldn't compile " + typeIn.getShaderName() + " program: " + string);
+            jsonException.func_151381_b(resourceLocation.getResourcePath());
+            throw jsonException;
          }
 
-         var6 = new ShaderLoader(var1, var11, var2);
-         var1.getLoadedShaders().put(var2, var6);
+         shaderLoader = new ShaderLoader(typeIn, i, filename);
+         typeIn.getLoadedShaders().put(filename, shaderLoader);
       }
 
-      return var6;
+      return shaderLoader;
    }
 
-   public static byte[] toByteArray(BufferedInputStream var0) throws IOException {
-      byte[] var1;
+   public static byte[] toByteArray(BufferedInputStream bufferedInputStream) throws IOException {
+      byte[] bytes;
       try {
-         var1 = IOUtils.toByteArray(var0);
+         bytes = IOUtils.toByteArray(bufferedInputStream);
       } finally {
-         var0.close();
+         bufferedInputStream.close();
       }
 
-      return var1;
+      return bytes;
    }
 
    public enum ShaderType {
@@ -91,10 +91,10 @@ public class ShaderLoader {
       private final int shaderMode;
       private final Map<String, ShaderLoader> loadedShaders = Maps.newHashMap();
 
-      ShaderType(String var3, String var4, int var5) {
-         this.shaderName = var3;
-         this.shaderExtension = var4;
-         this.shaderMode = var5;
+      ShaderType(String string2, String string3, int j) {
+         this.shaderName = string2;
+         this.shaderExtension = string3;
+         this.shaderMode = j;
       }
 
       public String getShaderName() {

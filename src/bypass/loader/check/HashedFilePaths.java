@@ -12,9 +12,9 @@ public class HashedFilePaths implements ClientAccess {
    private static final long c = 122997398136430L;
 
    public HashedFilePaths() {
-      ArrayList var5 = new ArrayList();
-      var5.add(new File(System.getProperty("user.home")).toPath().resolve(".astolfo").resolve(N));
-      this.b = new ListContainerOwner<>(var5);
+      ArrayList arrayList = new ArrayList();
+      arrayList.add(new File(System.getProperty("user.home")).toPath().resolve(".astolfo").resolve(N));
+      this.b = new ListContainerOwner<>(arrayList);
    }
 
    public ListContainerOwner<Path> d() {

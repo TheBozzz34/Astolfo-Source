@@ -15,17 +15,17 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
    private final Map<String, T> nameToValue = Maps.newHashMap();
    private static final long a = 107728236259007L;
 
-   public PropertyEnum(String var1, Class<T> var2, Collection<T> var3) {
-      super(var1, var2);
-      this.allowedValues = ImmutableSet.copyOf(var3);
+   public PropertyEnum(String name, Class<T> valueClass, Collection<T> allowedValues) {
+      super(name, valueClass);
+      this.allowedValues = ImmutableSet.copyOf(allowedValues);
 
-      for (Enum var7 : var3) {
-         String var8 = ((IStringSerializable)var7).getName();
-         if (this.nameToValue.containsKey(var8)) {
-            throw new IllegalArgumentException("Multiple values have the same name '" + var8 + "'");
+      for (Enum enum2 : allowedValues) {
+         String string = ((IStringSerializable)enum2).getName();
+         if (this.nameToValue.containsKey(string)) {
+            throw new IllegalArgumentException("Multiple values have the same name '" + string + "'");
          }
 
-         this.nameToValue.put(var8, (T)var7);
+         this.nameToValue.put(string, (T)enum2);
       }
    }
 
@@ -34,23 +34,23 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
       return this.allowedValues;
    }
 
-   public String getName(T var1) {
-      return ((IStringSerializable)var1).getName();
+   public String getName(T value) {
+      return ((IStringSerializable)value).getName();
    }
 
-   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String var0, Class<T> var1) {
-      return create(var0, var1, Predicates.alwaysTrue());
+   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz) {
+      return create(name, clazz, Predicates.alwaysTrue());
    }
 
-   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String var0, Class<T> var1, Predicate<T> var2) {
-      return create(var0, var1, Collections2.filter(Lists.newArrayList((T[])var1.getEnumConstants()), var2));
+   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Predicate<T> filter) {
+      return create(name, clazz, Collections2.filter(Lists.newArrayList((T[])clazz.getEnumConstants()), filter));
    }
 
-   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String var0, Class<T> var1, T... var2) {
-      return create(var0, var1, Lists.newArrayList((T[])var2));
+   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, T... values) {
+      return create(name, clazz, Lists.newArrayList((T[])values));
    }
 
-   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String var0, Class<T> var1, Collection<T> var2) {
-      return new PropertyEnum<>(var0, var1, var2);
+   public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Collection<T> values) {
+      return new PropertyEnum<>(name, clazz, values);
    }
 }

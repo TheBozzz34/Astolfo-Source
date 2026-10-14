@@ -1,11 +1,11 @@
 package bypass.gui.animation;
 
 public class AnimationFactory {
-   public Animation P(int var1) {
-      return new Animation().setDuration(var1);
+   public Animation P(int i) {
+      return new Animation().setDuration(i);
    }
 
-   public Animation O(int var1) {
-      return new TimedAnimation().setDuration(var1);
+   public Animation O(int i) {
+      return new TimedAnimation().setDuration(i);
    }
 }

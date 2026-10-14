@@ -17,35 +17,35 @@ public class ItemGlassBottle extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      MovingObjectPosition var7 = this.getMovingObjectPositionFromPlayer(var2, var3, true);
-      if (var7 == null) {
-         return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+      if (movingObjectPosition == null) {
+         return itemStackIn;
       }
 
-      if (var7.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-         BlockPos var8 = var7.getBlockPos();
-         if (!var2.isBlockModifiable(var3, var8)) {
-            return var1;
+      if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+         BlockPos blockPos = movingObjectPosition.getBlockPos();
+         if (!worldIn.isBlockModifiable(playerIn, blockPos)) {
+            return itemStackIn;
          }
 
-         if (!var3.canPlayerEdit(var8.offset(var7.sideHit), var7.sideHit, var1)) {
-            return var1;
+         if (!playerIn.canPlayerEdit(blockPos.offset(movingObjectPosition.sideHit), movingObjectPosition.sideHit, itemStackIn)) {
+            return itemStackIn;
          }
 
-         if (var2.getBlockState(var8).getBlock().getMaterial() == Material.water) {
-            var1.stackSize--;
-            var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-            if (var1.stackSize <= 0) {
+         if (worldIn.getBlockState(blockPos).getBlock().getMaterial() == Material.water) {
+            itemStackIn.stackSize--;
+            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+            if (itemStackIn.stackSize <= 0) {
                return new ItemStack(Items.potionitem);
             }
 
-            if (!var3.inventory.addItemStackToInventory(new ItemStack(Items.potionitem))) {
-               var3.dropPlayerItemWithRandomChoice(new ItemStack(Items.potionitem, 1, 0), false);
+            if (!playerIn.inventory.addItemStackToInventory(new ItemStack(Items.potionitem))) {
+               playerIn.dropPlayerItemWithRandomChoice(new ItemStack(Items.potionitem, 1, 0), false);
             }
          }
       }
 
-      return var1;
+      return itemStackIn;
    }
 }

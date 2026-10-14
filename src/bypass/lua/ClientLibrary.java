@@ -27,17 +27,17 @@ public class ClientLibrary extends TwoArgFunction implements ClientAccess {
    private static final long b = 5556459501463L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("gui_name", u);
-      var7.set("chest_name", r);
-      var7.set("time", L);
-      var7.set("config", O);
-      var7.set("print", f);
-      var7.set("title", N);
-      var7.set("subtitle", T);
-      var7.set("fps", C);
-      var2.set("client", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("gui_name", u);
+      luaTable.set("chest_name", r);
+      luaTable.set("time", L);
+      luaTable.set("config", O);
+      luaTable.set("print", f);
+      luaTable.set("title", N);
+      luaTable.set("subtitle", T);
+      luaTable.set("fps", C);
+      luaValue2.set("client", luaTable);
+      return luaTable;
    }
 }

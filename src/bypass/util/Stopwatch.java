@@ -6,8 +6,8 @@ public final class Stopwatch {
    private long q = this.now();
    private static final long a = 18497897150866L;
 
-   public boolean hasElapsed(float var1) {
-      return (float)this.getElapsed() >= var1;
+   public boolean hasElapsed(float f) {
+      return (float)this.getElapsed() >= f;
    }
 
    public long getElapsed() {

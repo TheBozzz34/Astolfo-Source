@@ -44,13 +44,13 @@ public interface CentralProcessor {
 
    CentralProcessor.LogicalProcessor[] getLogicalProcessors();
 
-   double getSystemCpuLoadBetweenTicks(long[] var1);
+   double getSystemCpuLoadBetweenTicks(long[] longs);
 
    long[] getSystemCpuLoadTicks();
 
-   double[] getSystemLoadAverage(int var1);
+   double[] getSystemLoadAverage(int i);
 
-   double[] getProcessorCpuLoadBetweenTicks(long[][] var1);
+   double[] getProcessorCpuLoadBetweenTicks(long[][] longs);
 
    long[][] getProcessorCpuLoadTicks();
 
@@ -71,20 +71,20 @@ public interface CentralProcessor {
       private final int numaNode;
       private final int processorGroup;
 
-      public LogicalProcessor(int var1, int var2, int var3) {
-         this(var1, var2, var3, 0, 0);
+      public LogicalProcessor(int processorNumber, int physicalProcessorNumber, int physicalPackageNumber) {
+         this(processorNumber, physicalProcessorNumber, physicalPackageNumber, 0, 0);
       }
 
-      public LogicalProcessor(int var1, int var2, int var3, int var4) {
-         this(var1, var2, var3, var4, 0);
+      public LogicalProcessor(int processorNumber, int physicalProcessorNumber, int physicalPackageNumber, int numaNode) {
+         this(processorNumber, physicalProcessorNumber, physicalPackageNumber, numaNode, 0);
       }
 
-      public LogicalProcessor(int var1, int var2, int var3, int var4, int var5) {
-         this.processorNumber = var1;
-         this.physicalProcessorNumber = var2;
-         this.physicalPackageNumber = var3;
-         this.numaNode = var4;
-         this.processorGroup = var5;
+      public LogicalProcessor(int processorNumber, int physicalProcessorNumber, int physicalPackageNumber, int numaNode, int processorGroup) {
+         this.processorNumber = processorNumber;
+         this.physicalProcessorNumber = physicalProcessorNumber;
+         this.physicalPackageNumber = physicalPackageNumber;
+         this.numaNode = numaNode;
+         this.processorGroup = processorGroup;
       }
 
       public int getProcessorNumber() {
@@ -121,33 +121,33 @@ public interface CentralProcessor {
       private final Supplier<String> microArchictecture;
       private static final long a = 83851945464550L;
 
-      public ProcessorIdentifier(String var1, String var2, String var3, String var4, String var5, String var6, boolean var7) {
-         long var8 = a ^ 56485931112025L;
+      public ProcessorIdentifier(String cpuVendor, String cpuName, String cpuFamily, String cpuModel, String cpuStepping, String processorID, boolean cpu64bit) {
+         long l = a ^ 56485931112025L;
          this.microArchictecture = Memoizer.memoize(this::h);
-         this.cpuVendor = var1;
-         this.cpuName = var2;
-         this.cpuFamily = var3;
-         this.cpuModel = var4;
-         this.cpuStepping = var5;
-         this.processorID = var6;
-         this.cpu64bit = var7;
-         StringBuilder var11 = new StringBuilder();
-         if (var1.contentEquals("GenuineIntel")) {
-            var11.append(var7 ? "Intel64" : "x86");
+         this.cpuVendor = cpuVendor;
+         this.cpuName = cpuName;
+         this.cpuFamily = cpuFamily;
+         this.cpuModel = cpuModel;
+         this.cpuStepping = cpuStepping;
+         this.processorID = processorID;
+         this.cpu64bit = cpu64bit;
+         StringBuilder stringBuilder = new StringBuilder();
+         if (cpuVendor.contentEquals("GenuineIntel")) {
+            stringBuilder.append(cpu64bit ? "Intel64" : "x86");
          } else {
-            var11.append(var1);
+            stringBuilder.append(cpuVendor);
          }
 
-         var11.append(" Family ").append(var3);
-         var11.append(" Model ").append(var4);
-         var11.append(" Stepping ").append(var5);
-         this.cpuIdentifier = var11.toString();
-         long var10000 = 7486698780836764118L ^ var8;
-         Pattern var12 = Pattern.compile("@ (.*)$");
-         Matcher var13 = var12.matcher(var2);
-         if (var13.find()) {
-            String var14 = var13.group(1);
-            this.cpuVendorFreq = ParseUtil.parseHertz(var14);
+         stringBuilder.append(" Family ").append(cpuFamily);
+         stringBuilder.append(" Model ").append(cpuModel);
+         stringBuilder.append(" Stepping ").append(cpuStepping);
+         this.cpuIdentifier = stringBuilder.toString();
+         long m = 7486698780836764118L ^ l;
+         Pattern pattern = Pattern.compile("@ (.*)$");
+         Matcher matcher2 = pattern.matcher(cpuName);
+         if (matcher2.find()) {
+            String string = matcher2.group(1);
+            this.cpuVendorFreq = ParseUtil.parseHertz(string);
          } else {
             this.cpuVendorFreq = -1L;
          }
@@ -215,8 +215,8 @@ public interface CentralProcessor {
 
       private int index;
 
-      TickType(int var3) {
-         this.index = var3;
+      TickType(int value) {
+         this.index = value;
       }
 
       public int getIndex() {

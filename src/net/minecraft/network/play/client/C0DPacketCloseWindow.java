@@ -11,22 +11,22 @@ public class C0DPacketCloseWindow implements Packet<INetHandlerPlayServer> {
    public C0DPacketCloseWindow() {
    }
 
-   public C0DPacketCloseWindow(int var1) {
-      this.windowId = var1;
+   public C0DPacketCloseWindow(int windowId) {
+      this.windowId = windowId;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processCloseWindow(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readByte();
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processCloseWindow(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readByte();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
    }
 
    public int e() {

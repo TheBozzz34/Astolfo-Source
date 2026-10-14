@@ -27,34 +27,34 @@ public class FactoryBlockPattern {
       this.symbolMap.put(Character.valueOf((char)((int)e)), Predicates.alwaysTrue());
    }
 
-   public FactoryBlockPattern aisle(String... var1) {
-      if (!ArrayUtils.isEmpty(var1) && !StringUtils.isEmpty(var1[0])) {
+   public FactoryBlockPattern aisle(String... aisle) {
+      if (!ArrayUtils.isEmpty(aisle) && !StringUtils.isEmpty(aisle[0])) {
          if (this.depth.isEmpty()) {
-            this.aisleHeight = var1.length;
-            this.rowWidth = var1[0].length();
+            this.aisleHeight = aisle.length;
+            this.rowWidth = aisle[0].length();
          }
 
-         if (var1.length != this.aisleHeight) {
+         if (aisle.length != this.aisleHeight) {
             throw new IllegalArgumentException(
-               "Expected aisle with height of " + this.aisleHeight + ", but was given one with a height of " + var1.length + ")"
+               "Expected aisle with height of " + this.aisleHeight + ", but was given one with a height of " + aisle.length + ")"
             );
          }
 
-         for (String var8 : var1) {
-            if (var8.length() != this.rowWidth) {
+         for (String string : aisle) {
+            if (string.length() != this.rowWidth) {
                throw new IllegalArgumentException(
-                  "Not all rows in the given aisle are the correct width (expected " + this.rowWidth + ", found one with " + var8.length() + ")"
+                  "Not all rows in the given aisle are the correct width (expected " + this.rowWidth + ", found one with " + string.length() + ")"
                );
             }
 
-            for (char var12 : var8.toCharArray()) {
-               if (!this.symbolMap.containsKey(var12)) {
-                  this.symbolMap.put(var12, (Predicate<BlockWorldState>)null);
+            for (char c : string.toCharArray()) {
+               if (!this.symbolMap.containsKey(c)) {
+                  this.symbolMap.put(c, (Predicate<BlockWorldState>)null);
                }
             }
          }
 
-         this.depth.add(var1);
+         this.depth.add(aisle);
          return this;
       } else {
          throw new IllegalArgumentException("Empty pattern for aisle");
@@ -65,8 +65,8 @@ public class FactoryBlockPattern {
       return new FactoryBlockPattern();
    }
 
-   public FactoryBlockPattern where(char var1, Predicate<BlockWorldState> var2) {
-      this.symbolMap.put(var1, var2);
+   public FactoryBlockPattern where(char symbol, Predicate<BlockWorldState> blockMatcher) {
+      this.symbolMap.put(symbol, blockMatcher);
       return this;
    }
 
@@ -76,30 +76,30 @@ public class FactoryBlockPattern {
 
    private Predicate<BlockWorldState>[][][] makePredicateArray() {
       this.checkMissingPredicates();
-      Predicate[][][] var4 = (Predicate[][][])Array.newInstance(Predicate.class, this.depth.size(), this.aisleHeight, this.rowWidth);
+      Predicate[][][] predicatesss = (Predicate[][][])Array.newInstance(Predicate.class, this.depth.size(), this.aisleHeight, this.rowWidth);
 
-      for (int var5 = 0; var5 < this.depth.size(); var5++) {
-         for (int var6 = 0; var6 < this.aisleHeight; var6++) {
-            for (int var7 = 0; var7 < this.rowWidth; var7++) {
-               var4[var5][var6][var7] = this.symbolMap.get(this.depth.get(var5)[var6].charAt(var7));
+      for (int i = 0; i < this.depth.size(); i++) {
+         for (int j = 0; j < this.aisleHeight; j++) {
+            for (int k = 0; k < this.rowWidth; k++) {
+               predicatesss[i][j][k] = this.symbolMap.get(this.depth.get(i)[j].charAt(k));
             }
          }
       }
 
-      return var4;
+      return predicatesss;
    }
 
    private void checkMissingPredicates() {
-      ArrayList var4 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (Entry var6 : this.symbolMap.entrySet()) {
-         if (var6.getValue() == null) {
-            var4.add(var6.getKey());
+      for (Entry entry : this.symbolMap.entrySet()) {
+         if (entry.getValue() == null) {
+            arrayList.add(entry.getKey());
          }
       }
 
-      if (!var4.isEmpty()) {
-         throw new IllegalStateException("Predicates for character(s) " + COMMA_JOIN.join(var4) + " are missing");
+      if (!arrayList.isEmpty()) {
+         throw new IllegalStateException("Predicates for character(s) " + COMMA_JOIN.join(arrayList) + " are missing");
       }
    }
 }

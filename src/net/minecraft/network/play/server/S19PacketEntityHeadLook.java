@@ -14,29 +14,29 @@ public class S19PacketEntityHeadLook implements Packet<INetHandlerPlayClient> {
    public S19PacketEntityHeadLook() {
    }
 
-   public S19PacketEntityHeadLook(Entity var1, byte var2) {
-      this.entityId = var1.getEntityId();
-      this.yaw = var2;
+   public S19PacketEntityHeadLook(Entity entityIn, byte b) {
+      this.entityId = entityIn.getEntityId();
+      this.yaw = b;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.yaw = var1.readByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.yaw = buf.readByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeByte(this.yaw);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeByte(this.yaw);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityHeadLook(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityHeadLook(this);
    }
 
-   public Entity getEntity(World var1) {
-      return var1.getEntityByID(this.entityId);
+   public Entity getEntity(World worldIn) {
+      return worldIn.getEntityByID(this.entityId);
    }
 
    public byte getYaw() {

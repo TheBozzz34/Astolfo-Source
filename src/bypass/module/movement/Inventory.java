@@ -32,8 +32,8 @@ public final class Inventory extends Module {
    private final BooleanSetting inventory = new BooleanSetting("Inventory+", "lets u have items in the craft thing", false);
    private final BooleanSetting silent = new BooleanSetting("Silent", "Pranks the server", false);
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      if (updateEvent.getState() == EventState.PRE) {
          if (!(mc.currentScreen instanceof GuiContainer)
             && !(mc.currentScreen instanceof DefaultClickGuiScreen)
             && !(mc.currentScreen instanceof TransparentClickGuiScreen)
@@ -50,8 +50,8 @@ public final class Inventory extends Module {
             mc.inGameHasFocus = false;
          }
 
-         for (int var8 : this.J) {
-            KeyBinding.setKeyBindState(var8, !Keyboard.areRepeatEventsEnabled() && Keyboard.isKeyDown(var8));
+         for (int i : this.J) {
+            KeyBinding.setKeyBindState(i, !Keyboard.areRepeatEventsEnabled() && Keyboard.isKeyDown(i));
          }
 
          if (this.inventory.getValue() && mc.currentScreen instanceof GuiInventory) {
@@ -60,24 +60,24 @@ public final class Inventory extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection().equals(PacketDirection.OUTGOING)) {
-         if (this.inventory.getValue() && var1x.getPacket() instanceof C0DPacketCloseWindow) {
-            var1x.cancel();
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection().equals(PacketDirection.OUTGOING)) {
+         if (this.inventory.getValue() && packetEvent.getPacket() instanceof C0DPacketCloseWindow) {
+            packetEvent.cancel();
          }
 
-         if (this.silent.getValue() && var1x.getPacket() instanceof C16PacketClientStatus) {
-            C16PacketClientStatus var5 = (C16PacketClientStatus)var1x.getPacket();
-            if (var5.getStatus() == C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
-               var1x.cancel();
+         if (this.silent.getValue() && packetEvent.getPacket() instanceof C16PacketClientStatus) {
+            C16PacketClientStatus c16PacketClientStatus = (C16PacketClientStatus)packetEvent.getPacket();
+            if (c16PacketClientStatus.getStatus() == C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
+               packetEvent.cancel();
             }
          }
       }
    };
    private static final long c = 97520652034366L;
 
-   public Inventory(Category var1) {
-      super(var1);
+   public Inventory(Category category) {
+      super(category);
       this.addSettings(percentage, this.inventory, this.silent);
       this.setHidden(false);
    }

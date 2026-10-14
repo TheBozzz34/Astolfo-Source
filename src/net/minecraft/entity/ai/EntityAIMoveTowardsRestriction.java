@@ -12,9 +12,9 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase {
    private double movementSpeed;
    private static final long a = 35204732029101L;
 
-   public EntityAIMoveTowardsRestriction(EntityCreature var1, double var2) {
-      this.theEntity = var1;
-      this.movementSpeed = var2;
+   public EntityAIMoveTowardsRestriction(EntityCreature creatureIn, double speedIn) {
+      this.theEntity = creatureIn;
+      this.movementSpeed = speedIn;
       this.setMutexBits(1);
    }
 
@@ -24,15 +24,15 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase {
          return false;
       }
 
-      BlockPos var4 = this.theEntity.getHomePosition();
-      Vec3 var5 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(var4.getX(), var4.getY(), var4.getZ()));
-      if (var5 == null) {
+      BlockPos blockPos = this.theEntity.getHomePosition();
+      Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+      if (vec3 == null) {
          return false;
       }
 
-      this.movePosX = var5.xCoord;
-      this.movePosY = var5.yCoord;
-      this.movePosZ = var5.zCoord;
+      this.movePosX = vec3.xCoord;
+      this.movePosY = vec3.yCoord;
+      this.movePosZ = vec3.zCoord;
       return true;
    }
 

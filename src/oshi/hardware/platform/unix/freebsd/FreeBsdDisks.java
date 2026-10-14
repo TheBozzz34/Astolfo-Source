@@ -22,173 +22,173 @@ public final class FreeBsdDisks {
    private FreeBsdDisks() {
    }
 
-   public static boolean updateDiskStats(HWDiskStore var0) {
-      List var4 = ExecutingCommand.runNative("iostat -Ix " + var0.getName());
-      long var5 = System.currentTimeMillis();
-      boolean var7 = false;
+   public static boolean updateDiskStats(HWDiskStore diskStore) {
+      List list = ExecutingCommand.runNative("iostat -Ix " + diskStore.getName());
+      long l = System.currentTimeMillis();
+      boolean bl = false;
 
-      for (Object var9$raw : var4) {
-         String var9 = (String)var9$raw;
-         String[] var10 = ParseUtil.Q.split(var9);
-         if (var10.length >= 7 && var10[0].equals(var0.getName())) {
-            var7 = true;
-            var0.setReads((long)ParseUtil.parseDoubleOrDefault(var10[1], 0.0));
-            var0.setWrites((long)ParseUtil.parseDoubleOrDefault(var10[2], 0.0));
-            var0.setReadBytes((long)(ParseUtil.parseDoubleOrDefault(var10[3], 0.0) * 1024.0));
-            var0.setWriteBytes((long)(ParseUtil.parseDoubleOrDefault(var10[4], 0.0) * 1024.0));
-            var0.setCurrentQueueLength(ParseUtil.parseLongOrDefault(var10[5], 0L));
-            var0.setTransferTime((long)(ParseUtil.parseDoubleOrDefault(var10[6], 0.0) * 1000.0));
-            var0.setTimeStamp(var5);
+      for (Object object : list) {
+         String string = (String)object;
+         String[] strings = ParseUtil.Q.split(string);
+         if (strings.length >= 7 && strings[0].equals(diskStore.getName())) {
+            bl = true;
+            diskStore.setReads((long)ParseUtil.parseDoubleOrDefault(strings[1], 0.0));
+            diskStore.setWrites((long)ParseUtil.parseDoubleOrDefault(strings[2], 0.0));
+            diskStore.setReadBytes((long)(ParseUtil.parseDoubleOrDefault(strings[3], 0.0) * 1024.0));
+            diskStore.setWriteBytes((long)(ParseUtil.parseDoubleOrDefault(strings[4], 0.0) * 1024.0));
+            diskStore.setCurrentQueueLength(ParseUtil.parseLongOrDefault(strings[5], 0L));
+            diskStore.setTransferTime((long)(ParseUtil.parseDoubleOrDefault(strings[6], 0.0) * 1000.0));
+            diskStore.setTimeStamp(l);
          }
       }
 
-      return var7;
+      return bl;
    }
 
    public static HWDiskStore[] getDisks() {
-      long var0 = a ^ 104737533163670L;
-      HashMap var4 = new HashMap();
+      long l = a ^ 104737533163670L;
+      HashMap hashMap = new HashMap();
 
-      for (String var6 : ExecutingCommand.runNative("mount")) {
-         Matcher var7 = MOUNT_PATTERN.matcher(var6);
-         if (var7.matches()) {
-            var4.put(var7.group(1), var7.group(2));
+      for (String string : ExecutingCommand.runNative("mount")) {
+         Matcher matcher2 = MOUNT_PATTERN.matcher(string);
+         if (matcher2.matches()) {
+            hashMap.put(matcher2.group(1), matcher2.group(2));
          }
       }
 
-      HashMap var17 = new HashMap();
-      List var18 = Arrays.asList(ParseUtil.Q.split(BsdSysctlUtil.sysctl("kern.disks", "")));
-      ArrayList var19 = new ArrayList();
-      long var10000 = 7497337034854158552L ^ var0;
-      List var8 = ExecutingCommand.runNative("iostat -Ix");
-      long var9 = System.currentTimeMillis();
+      HashMap hashMap2 = new HashMap();
+      List list2 = Arrays.asList(ParseUtil.Q.split(BsdSysctlUtil.sysctl("kern.disks", "")));
+      ArrayList arrayList = new ArrayList();
+      long m = 7497337034854158552L ^ l;
+      List list3 = ExecutingCommand.runNative("iostat -Ix");
+      long n = System.currentTimeMillis();
 
-      for (Object var12$raw : var8) {
-         String var12 = (String)var12$raw;
-         String[] var13 = ParseUtil.Q.split(var12);
-         if (var13.length >= 7 && var18.contains(var13[0])) {
-            HWDiskStore var14 = new HWDiskStore();
-            var14.setName(var13[0]);
-            var14.setReads((long)ParseUtil.parseDoubleOrDefault(var13[1], 0.0));
-            var14.setWrites((long)ParseUtil.parseDoubleOrDefault(var13[2], 0.0));
-            var14.setReadBytes((long)(ParseUtil.parseDoubleOrDefault(var13[3], 0.0) * 1024.0));
-            var14.setWriteBytes((long)(ParseUtil.parseDoubleOrDefault(var13[4], 0.0) * 1024.0));
-            var14.setCurrentQueueLength(ParseUtil.parseLongOrDefault(var13[5], 0L));
-            var14.setTransferTime((long)(ParseUtil.parseDoubleOrDefault(var13[6], 0.0) * 1000.0));
-            var14.setTimeStamp(var9);
-            var17.put(var13[0], var14);
+      for (Object object : list3) {
+         String string2 = (String)object;
+         String[] strings = ParseUtil.Q.split(string2);
+         if (strings.length >= 7 && list2.contains(strings[0])) {
+            HWDiskStore hwDiskStore = new HWDiskStore();
+            hwDiskStore.setName(strings[0]);
+            hwDiskStore.setReads((long)ParseUtil.parseDoubleOrDefault(strings[1], 0.0));
+            hwDiskStore.setWrites((long)ParseUtil.parseDoubleOrDefault(strings[2], 0.0));
+            hwDiskStore.setReadBytes((long)(ParseUtil.parseDoubleOrDefault(strings[3], 0.0) * 1024.0));
+            hwDiskStore.setWriteBytes((long)(ParseUtil.parseDoubleOrDefault(strings[4], 0.0) * 1024.0));
+            hwDiskStore.setCurrentQueueLength(ParseUtil.parseLongOrDefault(strings[5], 0L));
+            hwDiskStore.setTransferTime((long)(ParseUtil.parseDoubleOrDefault(strings[6], 0.0) * 1000.0));
+            hwDiskStore.setTimeStamp(n);
+            hashMap2.put(strings[0], hwDiskStore);
          }
       }
 
-      List var20 = ExecutingCommand.runNative("geom disk list");
-      HWDiskStore var22 = null;
+      List list4 = ExecutingCommand.runNative("geom disk list");
+      HWDiskStore hwDiskStore2 = null;
 
-      for (Object var26$raw : var20) {
-         String var26 = (String)var26$raw;
-         if (var26.startsWith("Geom name:")) {
-            if (var22 != null) {
-               setPartitions(var22, var19);
+      for (Object object2 : list4) {
+         String string3 = (String)object2;
+         if (string3.startsWith("Geom name:")) {
+            if (hwDiskStore2 != null) {
+               setPartitions(hwDiskStore2, arrayList);
             }
 
-            String var15 = var26.substring(var26.lastIndexOf(32) + 1);
-            if (var18.contains(var15)) {
-               var22 = (HWDiskStore)var17.get(var15);
-               if (var22 == null) {
-                  var22 = new HWDiskStore();
-                  var22.setName(var15);
+            String string4 = string3.substring(string3.lastIndexOf(32) + 1);
+            if (list2.contains(string4)) {
+               hwDiskStore2 = (HWDiskStore)hashMap2.get(string4);
+               if (hwDiskStore2 == null) {
+                  hwDiskStore2 = new HWDiskStore();
+                  hwDiskStore2.setName(string4);
                }
             }
          }
 
-         if (var22 != null) {
-            var26 = var26.trim();
-            if (var26.startsWith("Mediasize:")) {
-               String[] var30 = ParseUtil.Q.split(var26);
-               if (var30.length > 1) {
-                  var22.setSize(ParseUtil.parseLongOrDefault(var30[1], 0L));
+         if (hwDiskStore2 != null) {
+            string3 = string3.trim();
+            if (string3.startsWith("Mediasize:")) {
+               String[] strings2 = ParseUtil.Q.split(string3);
+               if (strings2.length > 1) {
+                  hwDiskStore2.setSize(ParseUtil.parseLongOrDefault(strings2[1], 0L));
                }
             }
 
-            if (var26.startsWith("descr:")) {
-               var22.setModel(var26.replace("descr:", "").trim());
+            if (string3.startsWith("descr:")) {
+               hwDiskStore2.setModel(string3.replace("descr:", "").trim());
             }
 
-            if (var26.startsWith("ident:")) {
-               var22.setSerial(var26.replace("ident:", "").replace("(null)", "").trim());
+            if (string3.startsWith("ident:")) {
+               hwDiskStore2.setSerial(string3.replace("ident:", "").replace("(null)", "").trim());
             }
          }
       }
 
-      var20 = ExecutingCommand.runNative("geom part list");
-      var22 = null;
-      HWPartition var25 = null;
+      list4 = ExecutingCommand.runNative("geom part list");
+      hwDiskStore2 = null;
+      HWPartition hwPartition = null;
 
-      for (Object var31$raw : var20) {
-         String var31 = (String)var31$raw;
-         var31 = var31.trim();
-         if (var31.startsWith("Geom name:")) {
-            String var16 = var31.substring(var31.lastIndexOf(32) + 1);
-            if (var18.contains(var16)) {
-               var22 = (HWDiskStore)var17.get(var16);
-               if (var22 == null) {
-                  var22 = new HWDiskStore();
-                  var22.setName(var16);
+      for (Object object3 : list4) {
+         String string5 = (String)object3;
+         string5 = string5.trim();
+         if (string5.startsWith("Geom name:")) {
+            String string6 = string5.substring(string5.lastIndexOf(32) + 1);
+            if (list2.contains(string6)) {
+               hwDiskStore2 = (HWDiskStore)hashMap2.get(string6);
+               if (hwDiskStore2 == null) {
+                  hwDiskStore2 = new HWDiskStore();
+                  hwDiskStore2.setName(string6);
                }
             }
          }
 
-         if (var22 != null) {
-            if (var31.contains("Name:")) {
-               if (var25 != null) {
-                  var19.add(var25);
-                  var25 = null;
+         if (hwDiskStore2 != null) {
+            if (string5.contains("Name:")) {
+               if (hwPartition != null) {
+                  arrayList.add(hwPartition);
+                  hwPartition = null;
                }
 
-               String var33 = var31.substring(var31.lastIndexOf(32) + 1);
-               if (var33.startsWith(var22.getName())) {
-                  var25 = new HWPartition();
-                  var25.setIdentification(var33);
-                  var25.setName(var33);
-                  var25.setMountPoint((java.lang.String)(var4.getOrDefault(var33, "")));
+               String string7 = string5.substring(string5.lastIndexOf(32) + 1);
+               if (string7.startsWith(hwDiskStore2.getName())) {
+                  hwPartition = new HWPartition();
+                  hwPartition.setIdentification(string7);
+                  hwPartition.setName(string7);
+                  hwPartition.setMountPoint((java.lang.String)(hashMap.getOrDefault(string7, "")));
                }
             }
 
-            if (var25 != null) {
-               String[] var34 = ParseUtil.Q.split(var31);
-               if (var34.length >= 2) {
-                  if (var31.startsWith("Mediasize:")) {
-                     var25.setSize(ParseUtil.parseLongOrDefault(var34[1], 0L));
-                  } else if (var31.startsWith("rawuuid:")) {
-                     var25.setUuid(var34[1]);
-                  } else if (var31.startsWith("type:")) {
-                     var25.setType(var34[1]);
+            if (hwPartition != null) {
+               String[] strings3 = ParseUtil.Q.split(string5);
+               if (strings3.length >= 2) {
+                  if (string5.startsWith("Mediasize:")) {
+                     hwPartition.setSize(ParseUtil.parseLongOrDefault(strings3[1], 0L));
+                  } else if (string5.startsWith("rawuuid:")) {
+                     hwPartition.setUuid(strings3[1]);
+                  } else if (string5.startsWith("type:")) {
+                     hwPartition.setType(strings3[1]);
                   }
                }
             }
          }
       }
 
-      if (var22 != null) {
-         setPartitions(var22, var19);
+      if (hwDiskStore2 != null) {
+         setPartitions(hwDiskStore2, arrayList);
       }
 
-      ArrayList var29 = new ArrayList(var17.keySet().size());
-      var29.addAll(var17.values());
-      Collections.sort(var29);
-      return (oshi.hardware.HWDiskStore[])(var29.toArray(new HWDiskStore[0]));
+      ArrayList arrayList2 = new ArrayList(hashMap2.keySet().size());
+      arrayList2.addAll(hashMap2.values());
+      Collections.sort(arrayList2);
+      return (oshi.hardware.HWDiskStore[])(arrayList2.toArray(new HWDiskStore[0]));
    }
 
-   private static void setPartitions(HWDiskStore var0, List<HWPartition> var1) {
-      HWPartition[] var5 = new HWPartition[var1.size()];
-      int var6 = 0;
-      Collections.sort(var1);
+   private static void setPartitions(HWDiskStore store, List<HWPartition> partList) {
+      HWPartition[] hwPartitions = new HWPartition[partList.size()];
+      int j = 0;
+      Collections.sort(partList);
 
-      for (HWPartition var8 : var1) {
-         var8.setMinor(ParseUtil.parseIntOrDefault(ExecutingCommand.getFirstAnswer("stat -f %i /dev/" + var8.getName()), 0));
-         var5[var6++] = var8;
+      for (HWPartition hwPartition : partList) {
+         hwPartition.setMinor(ParseUtil.parseIntOrDefault(ExecutingCommand.getFirstAnswer("stat -f %i /dev/" + hwPartition.getName()), 0));
+         hwPartitions[j++] = hwPartition;
       }
 
-      var1.clear();
-      var0.setPartitions(var5);
+      partList.clear();
+      store.setPartitions(hwPartitions);
    }
 }

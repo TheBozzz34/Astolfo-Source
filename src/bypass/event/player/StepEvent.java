@@ -10,10 +10,10 @@ public class StepEvent extends CancellableEvent {
    private Vec3 vec;
    private float height = 0.6F;
 
-   public StepEvent(StepState var1, Entity var2, Vec3 var3) {
-      this.state = var1;
-      this.entity = var2;
-      this.vec = var3;
+   public StepEvent(StepState stepState, Entity entity, Vec3 vec3) {
+      this.state = stepState;
+      this.entity = entity;
+      this.vec = vec3;
    }
 
    public StepState getState() {
@@ -28,8 +28,8 @@ public class StepEvent extends CancellableEvent {
       return this.vec;
    }
 
-   public void setHeight(float var1) {
-      this.height = var1;
+   public void setHeight(float f) {
+      this.height = f;
    }
 
    public float getHeight() {

@@ -3,14 +3,14 @@ package bypass.account;
 public class AuthException extends Exception {
    private String h;
 
-   public AuthException(String var1) {
-      super(var1);
-      this.h = var1;
+   public AuthException(String string) {
+      super(string);
+      this.h = string;
    }
 
-   public AuthException(String var1, String var2) {
-      super(var1 + ":" + var2);
-      this.h = var1;
+   public AuthException(String string, String string2) {
+      super(string + ":" + string2);
+      this.h = string;
    }
 
    public String U() {

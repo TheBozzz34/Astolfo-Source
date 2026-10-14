@@ -17,39 +17,39 @@ public class Timer {
    public static Stopwatch q = new Stopwatch();
    private static final long b = 4549079364528L;
 
-   public Timer(float var1) {
-      this.ticksPerSecond = var1;
+   public Timer(float tps) {
+      this.ticksPerSecond = tps;
       this.lastSyncSysClock = Minecraft.getSystemTime();
       this.lastSyncHRClock = System.nanoTime() / 1000000L;
    }
 
    public void updateTimer() {
-      long var4 = Minecraft.getSystemTime();
-      long var6 = var4 - this.lastSyncSysClock;
-      long var8 = System.nanoTime() / 1000000L;
-      double var10 = var8 / 1000.0;
-      if (var6 <= 1000L && var6 >= 0L) {
-         this.counter += var6;
+      long l = Minecraft.getSystemTime();
+      long m = l - this.lastSyncSysClock;
+      long n = System.nanoTime() / 1000000L;
+      double d = n / 1000.0;
+      if (m <= 1000L && m >= 0L) {
+         this.counter += m;
          if (this.counter > 1000L) {
-            long var12 = var8 - this.lastSyncHRClock;
-            double var14 = (double)this.counter / var12;
-            this.timeSyncAdjustment = this.timeSyncAdjustment + (var14 - this.timeSyncAdjustment) * 0.2F;
-            this.lastSyncHRClock = var8;
+            long l2 = n - this.lastSyncHRClock;
+            double e = (double)this.counter / l2;
+            this.timeSyncAdjustment = this.timeSyncAdjustment + (e - this.timeSyncAdjustment) * 0.2F;
+            this.lastSyncHRClock = n;
             this.counter = 0L;
          }
 
          if (this.counter < 0L) {
-            this.lastSyncHRClock = var8;
+            this.lastSyncHRClock = n;
          }
       } else {
-         this.lastHRTime = var10;
+         this.lastHRTime = d;
       }
 
-      this.lastSyncSysClock = var4;
-      double var16 = (var10 - this.lastHRTime) * this.timeSyncAdjustment;
-      this.lastHRTime = var10;
-      var16 = MathHelper.clamp_double(var16, 0.0, 1.0);
-      this.elapsedPartialTicks = (float)(this.elapsedPartialTicks + var16 * this.timerSpeed * this.ticksPerSecond);
+      this.lastSyncSysClock = l;
+      double d2 = (d - this.lastHRTime) * this.timeSyncAdjustment;
+      this.lastHRTime = d;
+      d2 = MathHelper.clamp_double(d2, 0.0, 1.0);
+      this.elapsedPartialTicks = (float)(this.elapsedPartialTicks + d2 * this.timerSpeed * this.ticksPerSecond);
       this.elapsedTicks = (int)this.elapsedPartialTicks;
       this.elapsedPartialTicks = this.elapsedPartialTicks - this.elapsedTicks;
       if (this.elapsedTicks > 10) {

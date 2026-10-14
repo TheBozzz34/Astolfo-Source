@@ -53,7 +53,7 @@ public interface IScoreObjectiveCriteria {
 
    String getName();
 
-   int setScore(List<EntityPlayer> var1);
+   int setScore(List<EntityPlayer> list);
 
    boolean isReadOnly();
 
@@ -67,22 +67,22 @@ public interface IScoreObjectiveCriteria {
       private final String field_178798_d;
       private static final long a = 129641415538286L;
 
-      EnumRenderType(String var3) {
-         this.field_178798_d = var3;
+      EnumRenderType(String string2) {
+         this.field_178798_d = string2;
       }
 
       public String func_178796_a() {
          return this.field_178798_d;
       }
 
-      public static IScoreObjectiveCriteria.EnumRenderType func_178795_a(String var0) {
-         IScoreObjectiveCriteria.EnumRenderType var4 = field_178801_c.get(var0);
-         return var4 == null ? INTEGER : var4;
+      public static IScoreObjectiveCriteria.EnumRenderType func_178795_a(String string) {
+         IScoreObjectiveCriteria.EnumRenderType enumRenderType = field_178801_c.get(string);
+         return enumRenderType == null ? INTEGER : enumRenderType;
       }
 
       static {
-         for (IScoreObjectiveCriteria.EnumRenderType var14 : values()) {
-            field_178801_c.put(var14.func_178796_a(), var14);
+         for (IScoreObjectiveCriteria.EnumRenderType enumRenderType : values()) {
+            field_178801_c.put(enumRenderType.func_178796_a(), enumRenderType);
          }
       }
    }

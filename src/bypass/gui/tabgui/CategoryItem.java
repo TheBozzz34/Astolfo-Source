@@ -9,9 +9,9 @@ public class CategoryItem extends TabGuiItem {
    private final Category b;
    private static final long c = 66562054744264L;
 
-   public CategoryItem(TabGui.Panel var1, Category var2) {
-      super(var1);
-      this.b = var2;
+   public CategoryItem(TabGui.Panel panel, Category category) {
+      super(panel);
+      this.b = category;
    }
 
    public Category C() {
@@ -25,16 +25,16 @@ public class CategoryItem extends TabGuiItem {
 
    @Override
    public void onPress() {
-      long var1 = c ^ 137224528231714L;
-      long var3 = var1 ^ 131050176768089L;
-      TabGui.Panel var7 = new TabGui.Panel(this.s().getTabGui());
-      Astolfo.INSTANCE.getModuleManager().getList().forEach(var2 -> {
-         if (var2 instanceof Module && var2.getCategory() == this.b) {
-            var7.addItem(new ModuleItem(var7, (Module)var2));
+      long l = c ^ 137224528231714L;
+      long m = l ^ 131050176768089L;
+      TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
+      Astolfo.INSTANCE.getModuleManager().getList().forEach(moduleInfo -> {
+         if (moduleInfo instanceof Module && moduleInfo.getCategory() == this.b) {
+            panel.addItem(new ModuleItem(panel, (Module)moduleInfo));
          }
       });
-      if (var7.getItems().size() != 0) {
-         this.s().getTabGui().s(var7);
+      if (panel.getItems().size() != 0) {
+         this.s().getTabGui().s(panel);
       }
    }
 

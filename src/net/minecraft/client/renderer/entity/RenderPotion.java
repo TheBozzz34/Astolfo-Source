@@ -5,11 +5,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class RenderPotion extends RenderSnowball<EntityPotion> {
-   public RenderPotion(RenderManager var1, RenderItem var2) {
-      super(var1, Items.potionitem, var2);
+   public RenderPotion(RenderManager renderManagerIn, RenderItem itemRendererIn) {
+      super(renderManagerIn, Items.potionitem, itemRendererIn);
    }
 
-   public ItemStack func_177082_d(EntityPotion var1) {
-      return new ItemStack(this.field_177084_a, 1, var1.getPotionDamage());
+   public ItemStack func_177082_d(EntityPotion entityIn) {
+      return new ItemStack(this.field_177084_a, 1, entityIn.getPotionDamage());
    }
 }

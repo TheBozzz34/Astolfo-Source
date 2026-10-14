@@ -30,14 +30,14 @@ public class StructureOceanMonument extends MapGenStructure {
    public StructureOceanMonument() {
    }
 
-   public StructureOceanMonument(Map<String, String> var1) {
+   public StructureOceanMonument(Map<String, String> map) {
       this();
 
-      for (Entry var6 : var1.entrySet()) {
-         if (((String)var6.getKey()).equals("spacing")) {
-            this.field_175800_f = MathHelper.parseIntWithDefaultAndMax((String)var6.getValue(), this.field_175800_f, 1);
-         } else if (((String)var6.getKey()).equals("separation")) {
-            this.field_175801_g = MathHelper.parseIntWithDefaultAndMax((String)var6.getValue(), this.field_175801_g, 1);
+      for (Entry entry : map.entrySet()) {
+         if (((String)entry.getKey()).equals("spacing")) {
+            this.field_175800_f = MathHelper.parseIntWithDefaultAndMax((String)entry.getValue(), this.field_175800_f, 1);
+         } else if (((String)entry.getKey()).equals("separation")) {
+            this.field_175801_g = MathHelper.parseIntWithDefaultAndMax((String)entry.getValue(), this.field_175801_g, 1);
          }
       }
    }
@@ -48,32 +48,32 @@ public class StructureOceanMonument extends MapGenStructure {
    }
 
    @Override
-   public boolean canSpawnStructureAtCoords(int var1, int var2) {
-      int var6 = var1;
-      int var7 = var2;
-      if (var1 < 0) {
-         var1 -= this.field_175800_f - 1;
+   public boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
+      int i = chunkX;
+      int j = chunkZ;
+      if (chunkX < 0) {
+         chunkX -= this.field_175800_f - 1;
       }
 
-      if (var2 < 0) {
-         var2 -= this.field_175800_f - 1;
+      if (chunkZ < 0) {
+         chunkZ -= this.field_175800_f - 1;
       }
 
-      int var8 = var1 / this.field_175800_f;
-      int var9 = var2 / this.field_175800_f;
-      Random var10 = this.worldObj.setRandomSeed(var8, var9, 10387313);
-      var8 *= this.field_175800_f;
-      var9 *= this.field_175800_f;
-      var8 += (var10.nextInt(this.field_175800_f - this.field_175801_g) + var10.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
-      var9 += (var10.nextInt(this.field_175800_f - this.field_175801_g) + var10.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
-      if (var6 == var8 && var7 == var9) {
-         if (this.worldObj.getWorldChunkManager().getBiomeGenerator(new BlockPos(var6 * 16 + 8, 64, var7 * 16 + 8), (BiomeGenBase)null)
+      int k = chunkX / this.field_175800_f;
+      int l = chunkZ / this.field_175800_f;
+      Random random = this.worldObj.setRandomSeed(k, l, 10387313);
+      k *= this.field_175800_f;
+      l *= this.field_175800_f;
+      k += (random.nextInt(this.field_175800_f - this.field_175801_g) + random.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
+      l += (random.nextInt(this.field_175800_f - this.field_175801_g) + random.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
+      if (i == k && j == l) {
+         if (this.worldObj.getWorldChunkManager().getBiomeGenerator(new BlockPos(i * 16 + 8, 64, j * 16 + 8), (BiomeGenBase)null)
             != BiomeGenBase.deepOcean) {
             return false;
          }
 
-         boolean var11 = this.worldObj.getWorldChunkManager().areBiomesViable(var6 * 16 + 8, var7 * 16 + 8, 29, field_175802_d);
-         if (var11) {
+         boolean bl = this.worldObj.getWorldChunkManager().areBiomesViable(i * 16 + 8, j * 16 + 8, 29, field_175802_d);
+         if (bl) {
             return true;
          }
       }
@@ -82,8 +82,8 @@ public class StructureOceanMonument extends MapGenStructure {
    }
 
    @Override
-   public StructureStart getStructureStart(int var1, int var2) {
-      return new StructureOceanMonument.StartMonument(this.worldObj, this.rand, var1, var2);
+   public StructureStart getStructureStart(int chunkX, int chunkZ) {
+      return new StructureOceanMonument.StartMonument(this.worldObj, this.rand, chunkX, chunkZ);
    }
 
    public List<BiomeGenBase.SpawnListEntry> getScatteredFeatureSpawnList() {
@@ -102,71 +102,71 @@ public class StructureOceanMonument extends MapGenStructure {
       public StartMonument() {
       }
 
-      public StartMonument(World var1, Random var2, int var3, int var4) {
-         super(var3, var4);
-         this.func_175789_b(var1, var2, var3, var4);
+      public StartMonument(World worldIn, Random random2, int j, int k) {
+         super(j, k);
+         this.func_175789_b(worldIn, random2, j, k);
       }
 
-      private void func_175789_b(World var1, Random var2, int var3, int var4) {
-         var2.setSeed(var1.getSeed());
-         long var7 = var2.nextLong();
-         long var9 = var2.nextLong();
-         long var11 = var3 * var7;
-         long var13 = var4 * var9;
-         var2.setSeed(var11 ^ var13 ^ var1.getSeed());
-         int var15 = var3 * 16 + 8 - 29;
-         int var16 = var4 * 16 + 8 - 29;
-         EnumFacing var17 = EnumFacing.Plane.HORIZONTAL.random(var2);
-         this.components.add(new StructureOceanMonumentPieces.MonumentBuilding(var2, var15, var16, var17));
+      private void func_175789_b(World worldIn, Random random2, int j, int k) {
+         random2.setSeed(worldIn.getSeed());
+         long l = random2.nextLong();
+         long m = random2.nextLong();
+         long n = j * l;
+         long l2 = k * m;
+         random2.setSeed(n ^ l2 ^ worldIn.getSeed());
+         int i = j * 16 + 8 - 29;
+         int i2 = k * 16 + 8 - 29;
+         EnumFacing enumFacing = EnumFacing.Plane.HORIZONTAL.random(random2);
+         this.components.add(new StructureOceanMonumentPieces.MonumentBuilding(random2, i, i2, enumFacing));
          this.updateBoundingBox();
          this.field_175790_d = true;
       }
 
       @Override
-      public void generateStructure(World var1, Random var2, StructureBoundingBox var3) {
+      public void generateStructure(World worldIn, Random randIn, StructureBoundingBox structurebb) {
          if (!this.field_175790_d) {
             this.components.clear();
-            this.func_175789_b(var1, var2, this.getChunkPosX(), this.getChunkPosZ());
+            this.func_175789_b(worldIn, randIn, this.getChunkPosX(), this.getChunkPosZ());
          }
 
-         super.generateStructure(var1, var2, var3);
+         super.generateStructure(worldIn, randIn, structurebb);
       }
 
       @Override
-      public boolean func_175788_a(ChunkCoordIntPair var1) {
-         return this.field_175791_c.contains(var1) ? false : super.func_175788_a(var1);
+      public boolean func_175788_a(ChunkCoordIntPair pair) {
+         return this.field_175791_c.contains(pair) ? false : super.func_175788_a(pair);
       }
 
       @Override
-      public void func_175787_b(ChunkCoordIntPair var1) {
-         super.func_175787_b(var1);
-         this.field_175791_c.add(var1);
+      public void func_175787_b(ChunkCoordIntPair pair) {
+         super.func_175787_b(pair);
+         this.field_175791_c.add(pair);
       }
 
       @Override
-      public void writeToNBT(NBTTagCompound var1) {
-         super.writeToNBT(var1);
-         NBTTagList var5 = new NBTTagList();
+      public void writeToNBT(NBTTagCompound tagCompound) {
+         super.writeToNBT(tagCompound);
+         NBTTagList nbtTagList = new NBTTagList();
 
-         for (ChunkCoordIntPair var7 : this.field_175791_c) {
-            NBTTagCompound var8 = new NBTTagCompound();
-            var8.setInteger("X", var7.chunkXPos);
-            var8.setInteger("Z", var7.chunkZPos);
-            var5.appendTag(var8);
+         for (ChunkCoordIntPair chunkCoordIntPair : this.field_175791_c) {
+            NBTTagCompound nbtTagCompound = new NBTTagCompound();
+            nbtTagCompound.setInteger("X", chunkCoordIntPair.chunkXPos);
+            nbtTagCompound.setInteger("Z", chunkCoordIntPair.chunkZPos);
+            nbtTagList.appendTag(nbtTagCompound);
          }
 
-         var1.setTag("Processed", var5);
+         tagCompound.setTag("Processed", nbtTagList);
       }
 
       @Override
-      public void readFromNBT(NBTTagCompound var1) {
-         super.readFromNBT(var1);
-         if (var1.hasKey("Processed", 9)) {
-            NBTTagList var5 = var1.getTagList("Processed", 10);
+      public void readFromNBT(NBTTagCompound tagCompound) {
+         super.readFromNBT(tagCompound);
+         if (tagCompound.hasKey("Processed", 9)) {
+            NBTTagList nbtTagList = tagCompound.getTagList("Processed", 10);
 
-            for (int var6 = 0; var6 < var5.tagCount(); var6++) {
-               NBTTagCompound var7 = var5.getCompoundTagAt(var6);
-               this.field_175791_c.add(new ChunkCoordIntPair(var7.getInteger("X"), var7.getInteger("Z")));
+            for (int i = 0; i < nbtTagList.tagCount(); i++) {
+               NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(i);
+               this.field_175791_c.add(new ChunkCoordIntPair(nbtTagCompound.getInteger("X"), nbtTagCompound.getInteger("Z")));
             }
          }
       }

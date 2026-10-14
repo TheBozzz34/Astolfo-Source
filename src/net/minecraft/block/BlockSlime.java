@@ -23,31 +23,31 @@ public class BlockSlime extends BlockBreakable {
    }
 
    @Override
-   public void onFallenUpon(World var1, BlockPos var2, Entity var3, float var4) {
-      if (var3.isSneaking()) {
-         super.onFallenUpon(var1, var2, var3, var4);
+   public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+      if (entityIn.isSneaking()) {
+         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
       } else {
-         var3.fall(var4, 0.0F);
+         entityIn.fall(fallDistance, 0.0F);
       }
    }
 
    @Override
-   public void onLanded(World var1, Entity var2) {
-      if (var2.isSneaking()) {
-         super.onLanded(var1, var2);
-      } else if (var2.motionY < 0.0) {
-         var2.motionY = -var2.motionY;
+   public void onLanded(World worldIn, Entity entityIn) {
+      if (entityIn.isSneaking()) {
+         super.onLanded(worldIn, entityIn);
+      } else if (entityIn.motionY < 0.0) {
+         entityIn.motionY = -entityIn.motionY;
       }
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, Entity var3) {
-      if (Math.abs(var3.motionY) < 0.1 && !var3.isSneaking()) {
-         double var7 = 0.4 + Math.abs(var3.motionY) * 0.2;
-         var3.motionX *= var7;
-         var3.motionZ *= var7;
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
+      if (Math.abs(entityIn.motionY) < 0.1 && !entityIn.isSneaking()) {
+         double d = 0.4 + Math.abs(entityIn.motionY) * 0.2;
+         entityIn.motionX *= d;
+         entityIn.motionZ *= d;
       }
 
-      super.onEntityCollidedWithBlock(var1, var2, var3);
+      super.onEntityCollidedWithBlock(worldIn, pos, entityIn);
    }
 }

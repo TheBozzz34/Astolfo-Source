@@ -24,30 +24,30 @@ public abstract class BlockStoneSlab extends BlockSlab {
 
    public BlockStoneSlab() {
       super(Material.rock);
-      IBlockState var4 = this.blockState.getBaseState();
+      IBlockState iBlockState = this.blockState.getBaseState();
       if (this.isDouble()) {
-         var4 = var4.withProperty(SEAMLESS, false);
+         iBlockState = iBlockState.withProperty(SEAMLESS, false);
       } else {
-         var4 = var4.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+         iBlockState = iBlockState.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
       }
 
-      this.setDefaultState(var4.withProperty(VARIANT, BlockStoneSlab.EnumType.STONE));
+      this.setDefaultState(iBlockState.withProperty(VARIANT, BlockStoneSlab.EnumType.STONE));
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Item.getItemFromBlock(Blocks.stone_slab);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Item.getItemFromBlock(Blocks.stone_slab);
    }
 
    @Override
-   public String getUnlocalizedName(int var1) {
-      return super.getUnlocalizedName() + "." + BlockStoneSlab.EnumType.byMetadata(var1).getUnlocalizedName();
+   public String getUnlocalizedName(int meta) {
+      return super.getUnlocalizedName() + "." + BlockStoneSlab.EnumType.byMetadata(meta).getUnlocalizedName();
    }
 
    @Override
@@ -56,46 +56,46 @@ public abstract class BlockStoneSlab extends BlockSlab {
    }
 
    @Override
-   public Object getVariant(ItemStack var1) {
-      return BlockStoneSlab.EnumType.byMetadata(var1.getMetadata() & 7);
+   public Object getVariant(ItemStack stack) {
+      return BlockStoneSlab.EnumType.byMetadata(stack.getMetadata() & 7);
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      if (var1 != Item.getItemFromBlock(Blocks.double_stone_slab)) {
-         for (BlockStoneSlab.EnumType var10 : BlockStoneSlab.EnumType.values()) {
-            if (var10 != BlockStoneSlab.EnumType.WOOD) {
-               var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      if (itemIn != Item.getItemFromBlock(Blocks.double_stone_slab)) {
+         for (BlockStoneSlab.EnumType enumType : BlockStoneSlab.EnumType.values()) {
+            if (enumType != BlockStoneSlab.EnumType.WOOD) {
+               list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
             }
          }
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      IBlockState var5 = this.getDefaultState().withProperty(VARIANT, BlockStoneSlab.EnumType.byMetadata(var1 & 7));
+   public IBlockState getStateFromMeta(int meta) {
+      IBlockState iBlockState = this.getDefaultState().withProperty(VARIANT, BlockStoneSlab.EnumType.byMetadata(meta & 7));
       if (this.isDouble()) {
-         var5 = var5.withProperty(SEAMLESS, (var1 & 8) != 0);
+         iBlockState = iBlockState.withProperty(SEAMLESS, (meta & 8) != 0);
       } else {
-         var5 = var5.withProperty(HALF, (var1 & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+         iBlockState = iBlockState.withProperty(HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
       }
 
-      return var5;
+      return iBlockState;
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(VARIANT).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(VARIANT).getMetadata();
       if (this.isDouble()) {
-         if (var1.getValue(SEAMLESS)) {
-            var5 |= 8;
+         if (state.getValue(SEAMLESS)) {
+            i |= 8;
          }
-      } else if (var1.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
-         var5 |= 8;
+      } else if (state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
+         i |= 8;
       }
 
-      return var5;
+      return i;
    }
 
    @Override
@@ -104,13 +104,13 @@ public abstract class BlockStoneSlab extends BlockSlab {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(VARIANT).func_181074_c();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(VARIANT).func_181074_c();
    }
 
    public enum EnumType implements IStringSerializable {
@@ -130,15 +130,15 @@ public abstract class BlockStoneSlab extends BlockSlab {
       private final String unlocalizedName;
       private static final long a = 7670391174655L;
 
-      EnumType(int var3, MapColor var4, String var5) {
-         this(var3, var4, var5, var5);
+      EnumType(int k, MapColor mapColor, String string2) {
+         this(k, mapColor, string2, string2);
       }
 
-      EnumType(int var3, MapColor var4, String var5, String var6) {
-         this.meta = var3;
-         this.field_181075_k = var4;
-         this.name = var5;
-         this.unlocalizedName = var6;
+      EnumType(int k, MapColor mapColor, String string2, String string3) {
+         this.meta = k;
+         this.field_181075_k = mapColor;
+         this.name = string2;
+         this.unlocalizedName = string3;
       }
 
       public int getMetadata() {
@@ -154,12 +154,12 @@ public abstract class BlockStoneSlab extends BlockSlab {
          return this.name;
       }
 
-      public static BlockStoneSlab.EnumType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= META_LOOKUP.length) {
-            var0 = 0;
+      public static BlockStoneSlab.EnumType byMetadata(int meta) {
+         if (meta < 0 || meta >= META_LOOKUP.length) {
+            meta = 0;
          }
 
-         return META_LOOKUP[var0];
+         return META_LOOKUP[meta];
       }
 
       @Override
@@ -172,8 +172,8 @@ public abstract class BlockStoneSlab extends BlockSlab {
       }
 
       static {
-         for (BlockStoneSlab.EnumType var25 : values()) {
-            META_LOOKUP[var25.getMetadata()] = var25;
+         for (BlockStoneSlab.EnumType enumType : values()) {
+            META_LOOKUP[enumType.getMetadata()] = enumType;
          }
       }
    }

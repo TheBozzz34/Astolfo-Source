@@ -12,13 +12,13 @@ public class BlockBreakable extends Block {
    private boolean ignoreSimilarity;
    private static final long e = 26261541599133L;
 
-   public BlockBreakable(Material var1, boolean var2) {
-      this(var1, var2, var1.getMaterialMapColor());
+   public BlockBreakable(Material materialIn, boolean ignoreSimilarityIn) {
+      this(materialIn, ignoreSimilarityIn, materialIn.getMaterialMapColor());
    }
 
-   public BlockBreakable(Material var1, boolean var2, MapColor var3) {
-      super(var1, var3);
-      this.ignoreSimilarity = var2;
+   public BlockBreakable(Material material, boolean bl, MapColor mapColor) {
+      super(material, mapColor);
+      this.ignoreSimilarity = bl;
    }
 
    @Override
@@ -27,19 +27,19 @@ public class BlockBreakable extends Block {
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      IBlockState var7 = var1.getBlockState(var2);
-      Block var8 = var7.getBlock();
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      Block block = iBlockState.getBlock();
       if (this == Blocks.glass || this == Blocks.stained_glass) {
-         if (var1.getBlockState(var2.offset(var3.getOpposite())) != var7) {
+         if (worldIn.getBlockState(pos.offset(side.getOpposite())) != iBlockState) {
             return true;
          }
 
-         if (var8 == this) {
+         if (block == this) {
             return false;
          }
       }
 
-      return !this.ignoreSimilarity && var8 == this ? false : super.shouldSideBeRendered(var1, var2, var3);
+      return !this.ignoreSimilarity && block == this ? false : super.shouldSideBeRendered(worldIn, pos, side);
    }
 }

@@ -16,13 +16,13 @@ public class RecipesArmor {
    private static final long b = 132361122403266L;
    private static final long f = 3710999232920944728L;
 
-   public void addRecipes(CraftingManager var1) {
-      for (int var4 = 0; var4 < this.recipeItems[0].length; var4++) {
-         Item var5 = this.recipeItems[0][var4];
+   public void addRecipes(CraftingManager craftManager) {
+      for (int i = 0; i < this.recipeItems[0].length; i++) {
+         Item item = this.recipeItems[0][i];
 
-         for (int var6 = 0; var6 < this.recipeItems.length - 1; var6++) {
-            Item var7 = this.recipeItems[var6 + 1][var4];
-            var1.addRecipe(new ItemStack(var7), this.recipePatterns[var6], Character.valueOf((char)((int)f)), var5);
+         for (int j = 0; j < this.recipeItems.length - 1; j++) {
+            Item item2 = this.recipeItems[j + 1][i];
+            craftManager.addRecipe(new ItemStack(item2), this.recipePatterns[j], Character.valueOf((char)((int)f)), item);
          }
       }
    }

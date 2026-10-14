@@ -10,24 +10,24 @@ import net.minecraft.item.ItemStack;
 public class CreativeCrafting implements ICrafting {
    private final Minecraft mc;
 
-   public CreativeCrafting(Minecraft var1) {
-      this.mc = var1;
+   public CreativeCrafting(Minecraft mc) {
+      this.mc = mc;
    }
 
    @Override
-   public void updateCraftingInventory(Container var1, List<ItemStack> var2) {
+   public void updateCraftingInventory(Container containerToSend, List<ItemStack> itemsList) {
    }
 
    @Override
-   public void sendSlotContents(Container var1, int var2, ItemStack var3) {
-      this.mc.playerController.sendSlotPacket(var3, var2);
+   public void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack) {
+      this.mc.playerController.sendSlotPacket(stack, slotInd);
    }
 
    @Override
-   public void sendProgressBarUpdate(Container var1, int var2, int var3) {
+   public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue) {
    }
 
    @Override
-   public void sendAllWindowProperties(Container var1, IInventory var2) {
+   public void sendAllWindowProperties(Container container, IInventory iInventory) {
    }
 }

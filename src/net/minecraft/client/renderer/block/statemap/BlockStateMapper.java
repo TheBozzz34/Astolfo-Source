@@ -16,23 +16,23 @@ public class BlockStateMapper {
    private Set<Block> setBuiltInBlocks = Sets.newIdentityHashSet();
    private static final long a = 97922312865680L;
 
-   public void registerBlockStateMapper(Block var1, IStateMapper var2) {
-      this.blockStateMap.put(var1, var2);
+   public void registerBlockStateMapper(Block block, IStateMapper iStateMapper) {
+      this.blockStateMap.put(block, iStateMapper);
    }
 
-   public void registerBuiltInBlocks(Block... var1) {
-      Collections.addAll(this.setBuiltInBlocks, var1);
+   public void registerBuiltInBlocks(Block... blocks) {
+      Collections.addAll(this.setBuiltInBlocks, blocks);
    }
 
    public Map<IBlockState, ModelResourceLocation> putAllStateModelLocations() {
-      IdentityHashMap var4 = Maps.newIdentityHashMap();
+      IdentityHashMap identityHashMap = Maps.newIdentityHashMap();
 
-      for (Block var6 : Block.blockRegistry) {
-         if (!this.setBuiltInBlocks.contains(var6)) {
-            var4.putAll(Objects.firstNonNull(this.blockStateMap.get(var6), new DefaultStateMapper()).putStateModelLocations(var6));
+      for (Block block : Block.blockRegistry) {
+         if (!this.setBuiltInBlocks.contains(block)) {
+            identityHashMap.putAll(Objects.firstNonNull(this.blockStateMap.get(block), new DefaultStateMapper()).putStateModelLocations(block));
          }
       }
 
-      return var4;
+      return identityHashMap;
    }
 }

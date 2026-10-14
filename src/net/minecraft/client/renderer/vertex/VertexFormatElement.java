@@ -11,21 +11,21 @@ public class VertexFormatElement {
    private int elementCount;
    private static final long a = 110602970323374L;
 
-   public VertexFormatElement(int var1, VertexFormatElement.EnumType var2, VertexFormatElement.EnumUsage var3, int var4) {
-      if (!this.func_177372_a(var1, var3)) {
+   public VertexFormatElement(int indexIn, VertexFormatElement.EnumType typeIn, VertexFormatElement.EnumUsage usageIn, int count) {
+      if (!this.func_177372_a(indexIn, usageIn)) {
          LOGGER.warn("Multiple vertex elements of the same type other than UVs are not supported. Forcing type to UV.");
          this.usage = VertexFormatElement.EnumUsage.UV;
       } else {
-         this.usage = var3;
+         this.usage = usageIn;
       }
 
-      this.type = var2;
-      this.index = var1;
-      this.elementCount = var4;
+      this.type = typeIn;
+      this.index = indexIn;
+      this.elementCount = count;
    }
 
-   private final boolean func_177372_a(int var1, VertexFormatElement.EnumUsage var2) {
-      return var1 == 0 || var2 == VertexFormatElement.EnumUsage.UV;
+   private final boolean func_177372_a(int i, VertexFormatElement.EnumUsage enumUsage) {
+      return i == 0 || enumUsage == VertexFormatElement.EnumUsage.UV;
    }
 
    public final VertexFormatElement.EnumType getType() {
@@ -58,14 +58,14 @@ public class VertexFormatElement {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
-      } else if (var1 != null && this.getClass() == var1.getClass()) {
-         VertexFormatElement var5 = (VertexFormatElement)var1;
-         return this.elementCount != var5.elementCount
+      } else if (object != null && this.getClass() == object.getClass()) {
+         VertexFormatElement vertexFormatElement = (VertexFormatElement)object;
+         return this.elementCount != vertexFormatElement.elementCount
             ? false
-            : (this.index != var5.index ? false : (this.type != var5.type ? false : this.usage == var5.usage));
+            : (this.index != vertexFormatElement.index ? false : (this.type != vertexFormatElement.type ? false : this.usage == vertexFormatElement.usage));
       } else {
          return false;
       }
@@ -73,10 +73,10 @@ public class VertexFormatElement {
 
    @Override
    public int hashCode() {
-      int var5 = this.type.hashCode();
-      var5 = 31 * var5 + this.usage.hashCode();
-      var5 = 31 * var5 + this.index;
-      return 31 * var5 + this.elementCount;
+      int i = this.type.hashCode();
+      i = 31 * i + this.usage.hashCode();
+      i = 31 * i + this.index;
+      return 31 * i + this.elementCount;
    }
 
    public enum EnumType {
@@ -92,10 +92,10 @@ public class VertexFormatElement {
       private final String displayName;
       private final int glConstant;
 
-      EnumType(int var3, String var4, int var5) {
-         this.size = var3;
-         this.displayName = var4;
-         this.glConstant = var5;
+      EnumType(int sizeIn, String displayNameIn, int glConstantIn) {
+         this.size = sizeIn;
+         this.displayName = displayNameIn;
+         this.glConstant = glConstantIn;
       }
 
       public int getSize() {
@@ -122,8 +122,8 @@ public class VertexFormatElement {
 
       private final String displayName;
 
-      EnumUsage(String var3) {
-         this.displayName = var3;
+      EnumUsage(String displayNameIn) {
+         this.displayName = displayNameIn;
       }
 
       public String getDisplayName() {

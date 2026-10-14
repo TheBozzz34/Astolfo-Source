@@ -19,37 +19,37 @@ public class BlockDeadBush extends BlockBush {
 
    public BlockDeadBush() {
       super(Material.vine);
-      float var1 = 0.4F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, 0.8F, 0.5F + var1);
+      float f = 0.4F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.8F, 0.5F + f);
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
+   public MapColor getMapColor(IBlockState state) {
       return MapColor.woodColor;
    }
 
    @Override
-   public boolean canPlaceBlockOn(Block var1) {
-      return var1 == Blocks.sand || var1 == Blocks.hardened_clay || var1 == Blocks.stained_hardened_clay || var1 == Blocks.dirt;
+   public boolean canPlaceBlockOn(Block ground) {
+      return ground == Blocks.sand || ground == Blocks.hardened_clay || ground == Blocks.stained_hardened_clay || ground == Blocks.dirt;
    }
 
    @Override
-   public boolean isReplaceable(World var1, BlockPos var2) {
+   public boolean isReplaceable(World worldIn, BlockPos pos) {
       return true;
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return null;
    }
 
    @Override
-   public void harvestBlock(World var1, EntityPlayer var2, BlockPos var3, IBlockState var4, TileEntity var5) {
-      if (!var1.isRemote && var2.getCurrentEquippedItem() != null && var2.getCurrentEquippedItem().getItem() == Items.shears) {
-         var2.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-         spawnAsEntity(var1, var3, new ItemStack(Blocks.deadbush, 1, 0));
+   public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+      if (!worldIn.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
+         player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
+         spawnAsEntity(worldIn, pos, new ItemStack(Blocks.deadbush, 1, 0));
       } else {
-         super.harvestBlock(var1, var2, var3, var4, var5);
+         super.harvestBlock(worldIn, player, pos, state, te);
       }
    }
 }

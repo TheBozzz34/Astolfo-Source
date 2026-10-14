@@ -12,7 +12,7 @@ public class SkinTexture {
       return this.G;
    }
 
-   public void h(String var1) {
-      this.G = var1;
+   public void h(String string) {
+      this.G = string;
    }
 }

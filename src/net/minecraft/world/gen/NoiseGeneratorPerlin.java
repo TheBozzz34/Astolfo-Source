@@ -7,49 +7,49 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
    private int field_151602_b;
    private static final long a = 90250542319733L;
 
-   public NoiseGeneratorPerlin(Random var1, int var2) {
-      this.field_151602_b = var2;
-      this.field_151603_a = new NoiseGeneratorSimplex[var2];
+   public NoiseGeneratorPerlin(Random random2, int i) {
+      this.field_151602_b = i;
+      this.field_151603_a = new NoiseGeneratorSimplex[i];
 
-      for (int var5 = 0; var5 < var2; var5++) {
-         this.field_151603_a[var5] = new NoiseGeneratorSimplex(var1);
+      for (int j = 0; j < i; j++) {
+         this.field_151603_a[j] = new NoiseGeneratorSimplex(random2);
       }
    }
 
-   public double func_151601_a(double var1, double var3) {
-      double var8 = 0.0;
-      double var10 = 1.0;
+   public double func_151601_a(double d, double d2) {
+      double e = 0.0;
+      double d3 = 1.0;
 
-      for (int var12 = 0; var12 < this.field_151602_b; var12++) {
-         var8 += this.field_151603_a[var12].func_151605_a(var1 * var10, var3 * var10) / var10;
-         var10 /= 2.0;
+      for (int i = 0; i < this.field_151602_b; i++) {
+         e += this.field_151603_a[i].func_151605_a(d * d3, d2 * d3) / d3;
+         d3 /= 2.0;
       }
 
-      return var8;
+      return e;
    }
 
-   public double[] func_151599_a(double[] var1, double var2, double var4, int var6, int var7, double var8, double var10, double var12) {
-      return this.func_151600_a(var1, var2, var4, var6, var7, var8, var10, var12, 0.5);
+   public double[] func_151599_a(double[] doubles, double d, double d2, int i, int j, double d3, double d4, double d5) {
+      return this.func_151600_a(doubles, d, d2, i, j, d3, d4, d5, 0.5);
    }
 
-   public double[] func_151600_a(double[] var1, double var2, double var4, int var6, int var7, double var8, double var10, double var12, double var14) {
-      if (var1 != null && var1.length >= var6 * var7) {
-         for (int var19 = 0; var19 < var1.length; var19++) {
-            var1[var19] = 0.0;
+   public double[] func_151600_a(double[] doubles, double d, double d2, int i, int j, double d3, double d4, double d5, double d6) {
+      if (doubles != null && doubles.length >= i * j) {
+         for (int k = 0; k < doubles.length; k++) {
+            doubles[k] = 0.0;
          }
       } else {
-         var1 = new double[var6 * var7];
+         doubles = new double[i * j];
       }
 
-      double var24 = 1.0;
-      double var21 = 1.0;
+      double e = 1.0;
+      double d7 = 1.0;
 
-      for (int var23 = 0; var23 < this.field_151602_b; var23++) {
-         this.field_151603_a[var23].func_151606_a(var1, var2, var4, var6, var7, var8 * var21 * var24, var10 * var21 * var24, 0.55 / var24);
-         var21 *= var12;
-         var24 *= var14;
+      for (int l = 0; l < this.field_151602_b; l++) {
+         this.field_151603_a[l].func_151606_a(doubles, d, d2, i, j, d3 * d7 * e, d4 * d7 * e, 0.55 / e);
+         d7 *= d5;
+         e *= d6;
       }
 
-      return var1;
+      return doubles;
    }
 }

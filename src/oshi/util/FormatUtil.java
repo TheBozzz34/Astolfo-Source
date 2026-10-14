@@ -15,86 +15,86 @@ public final class FormatUtil {
    private FormatUtil() {
    }
 
-   public static String formatBytes(long var0) {
-      if (var0 == 1L) {
-         return String.format("%d byte", var0);
-      } else if (var0 < 1024L) {
-         return String.format("%d bytes", var0);
-      } else if (var0 < 1048576L) {
-         return formatUnits(var0, 1024L, "KiB");
-      } else if (var0 < 1073741824L) {
-         return formatUnits(var0, 1048576L, "MiB");
-      } else if (var0 < 1099511627776L) {
-         return formatUnits(var0, 1073741824L, "GiB");
-      } else if (var0 < 1125899906842624L) {
-         return formatUnits(var0, 1099511627776L, "TiB");
+   public static String formatBytes(long bytes) {
+      if (bytes == 1L) {
+         return String.format("%d byte", bytes);
+      } else if (bytes < 1024L) {
+         return String.format("%d bytes", bytes);
+      } else if (bytes < 1048576L) {
+         return formatUnits(bytes, 1024L, "KiB");
+      } else if (bytes < 1073741824L) {
+         return formatUnits(bytes, 1048576L, "MiB");
+      } else if (bytes < 1099511627776L) {
+         return formatUnits(bytes, 1073741824L, "GiB");
+      } else if (bytes < 1125899906842624L) {
+         return formatUnits(bytes, 1099511627776L, "TiB");
       } else {
-         return var0 < 1152921504606846976L ? formatUnits(var0, 1125899906842624L, "PiB") : formatUnits(var0, 1152921504606846976L, "EiB");
+         return bytes < 1152921504606846976L ? formatUnits(bytes, 1125899906842624L, "PiB") : formatUnits(bytes, 1152921504606846976L, "EiB");
       }
    }
 
-   private static String formatUnits(long var0, long var2, String var4) {
-      return var0 % var2 == 0L ? String.format("%d %s", var0 / var2, var4) : String.format("%.1f %s", (double)var0 / var2, var4);
+   private static String formatUnits(long value, long prefix, String unit) {
+      return value % prefix == 0L ? String.format("%d %s", value / prefix, unit) : String.format("%.1f %s", (double)value / prefix, unit);
    }
 
-   public static String formatBytesDecimal(long var0) {
-      if (var0 == 1L) {
-         return String.format("%d byte", var0);
+   public static String formatBytesDecimal(long bytes) {
+      if (bytes == 1L) {
+         return String.format("%d byte", bytes);
       } else {
-         return var0 < 1000L ? String.format("%d bytes", var0) : formatValue(var0, "B");
+         return bytes < 1000L ? String.format("%d bytes", bytes) : formatValue(bytes, "B");
       }
    }
 
-   public static String formatHertz(long var0) {
-      return formatValue(var0, "Hz");
+   public static String formatHertz(long hertz) {
+      return formatValue(hertz, "Hz");
    }
 
-   public static String formatValue(long var0, String var2) {
-      if (var0 < 1000L) {
-         return String.format("%d %s", var0, var2);
-      } else if (var0 < 1000000L) {
-         return formatUnits(var0, 1000L, "K" + var2);
-      } else if (var0 < 1000000000L) {
-         return formatUnits(var0, 1000000L, "M" + var2);
-      } else if (var0 < 1000000000000L) {
-         return formatUnits(var0, 1000000000L, "G" + var2);
-      } else if (var0 < 1000000000000000L) {
-         return formatUnits(var0, 1000000000000L, "T" + var2);
+   public static String formatValue(long value, String unit) {
+      if (value < 1000L) {
+         return String.format("%d %s", value, unit);
+      } else if (value < 1000000L) {
+         return formatUnits(value, 1000L, "K" + unit);
+      } else if (value < 1000000000L) {
+         return formatUnits(value, 1000000L, "M" + unit);
+      } else if (value < 1000000000000L) {
+         return formatUnits(value, 1000000000L, "G" + unit);
+      } else if (value < 1000000000000000L) {
+         return formatUnits(value, 1000000000000L, "T" + unit);
       } else {
-         return var0 < 1000000000000000000L ? formatUnits(var0, 1000000000000000L, "P" + var2) : formatUnits(var0, 1000000000000000000L, "E" + var2);
+         return value < 1000000000000000000L ? formatUnits(value, 1000000000000000L, "P" + unit) : formatUnits(value, 1000000000000000000L, "E" + unit);
       }
    }
 
-   public static String formatElapsedSecs(long var0) {
-      long var4 = var0;
-      long var6 = TimeUnit.SECONDS.toDays(var4);
-      var4 -= TimeUnit.DAYS.toSeconds(var6);
-      long var8 = TimeUnit.SECONDS.toHours(var4);
-      var4 -= TimeUnit.HOURS.toSeconds(var8);
-      long var10 = TimeUnit.SECONDS.toMinutes(var4);
-      var4 -= TimeUnit.MINUTES.toSeconds(var10);
-      long var12 = var4;
-      return String.format("%d days, %02d:%02d:%02d", var6, var8, var10, var12);
+   public static String formatElapsedSecs(long secs) {
+      long l = secs;
+      long m = TimeUnit.SECONDS.toDays(l);
+      l -= TimeUnit.DAYS.toSeconds(m);
+      long n = TimeUnit.SECONDS.toHours(l);
+      l -= TimeUnit.HOURS.toSeconds(n);
+      long l2 = TimeUnit.SECONDS.toMinutes(l);
+      l -= TimeUnit.MINUTES.toSeconds(l2);
+      long l3 = l;
+      return String.format("%d days, %02d:%02d:%02d", m, n, l2, l3);
    }
 
-   public static float round(float var0, int var1) {
-      BigDecimal var2 = new BigDecimal(Float.toString(var0)).setScale(var1, RoundingMode.HALF_UP);
-      return var2.floatValue();
+   public static float round(float d, int decimalPlace) {
+      BigDecimal bd = new BigDecimal(Float.toString(d)).setScale(decimalPlace, RoundingMode.HALF_UP);
+      return bd.floatValue();
    }
 
-   public static long getUnsignedInt(int var0) {
-      return var0 & 4294967295L;
+   public static long getUnsignedInt(int x) {
+      return x & 4294967295L;
    }
 
-   public static String toUnsignedString(int var0) {
-      return var0 >= 0 ? Integer.toString(var0) : Long.toString(getUnsignedInt(var0));
+   public static String toUnsignedString(int i) {
+      return i >= 0 ? Integer.toString(i) : Long.toString(getUnsignedInt(i));
    }
 
-   public static String toUnsignedString(long var0) {
-      return var0 >= 0L ? Long.toString(var0) : BigInteger.valueOf(var0).add(TWOS_COMPLEMENT_REF).toString();
+   public static String toUnsignedString(long l) {
+      return l >= 0L ? Long.toString(l) : BigInteger.valueOf(l).add(TWOS_COMPLEMENT_REF).toString();
    }
 
-   public static String formatError(int var0) {
-      return String.format("0x%08X", var0);
+   public static String formatError(int errorCode) {
+      return String.format("0x%08X", errorCode);
    }
 }

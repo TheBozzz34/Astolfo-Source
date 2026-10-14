@@ -1,7 +1,7 @@
 package bypass.auth.net;
 
 public interface PacketOutput {
-   void attach(SocketWriter var1);
+   void attach(SocketWriter socketWriter);
 
    PacketSender getSender();
 }

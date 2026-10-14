@@ -26,12 +26,12 @@ public class RConConsoleSource implements ICommandSender {
    }
 
    @Override
-   public void addChatMessage(IChatComponent var1) {
-      this.buffer.append(var1.getUnformattedText());
+   public void addChatMessage(IChatComponent component) {
+      this.buffer.append(component.getUnformattedText());
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(int var1, String var2) {
+   public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
       return true;
    }
 
@@ -61,6 +61,6 @@ public class RConConsoleSource implements ICommandSender {
    }
 
    @Override
-   public void setCommandStat(CommandResultStats.Type var1, int var2) {
+   public void setCommandStat(CommandResultStats.Type typeIn, int amount) {
    }
 }

@@ -9,13 +9,13 @@ public class WorldGenWaterlily extends WorldGenerator {
    private static final long a = 18831106842090L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      for (int var7 = 0; var7 < 10; var7++) {
-         int var8 = var3.getX() + var2.nextInt(8) - var2.nextInt(8);
-         int var9 = var3.getY() + var2.nextInt(4) - var2.nextInt(4);
-         int var10 = var3.getZ() + var2.nextInt(8) - var2.nextInt(8);
-         if (var1.isAirBlock(new BlockPos(var8, var9, var10)) && Blocks.waterlily.canPlaceBlockAt(var1, new BlockPos(var8, var9, var10))) {
-            var1.setBlockState(new BlockPos(var8, var9, var10), Blocks.waterlily.getDefaultState(), 2);
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      for (int i = 0; i < 10; i++) {
+         int j = position.getX() + rand.nextInt(8) - rand.nextInt(8);
+         int k = position.getY() + rand.nextInt(4) - rand.nextInt(4);
+         int l = position.getZ() + rand.nextInt(8) - rand.nextInt(8);
+         if (worldIn.isAirBlock(new BlockPos(j, k, l)) && Blocks.waterlily.canPlaceBlockAt(worldIn, new BlockPos(j, k, l))) {
+            worldIn.setBlockState(new BlockPos(j, k, l), Blocks.waterlily.getDefaultState(), 2);
          }
       }
 

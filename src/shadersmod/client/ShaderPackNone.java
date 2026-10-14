@@ -8,12 +8,12 @@ public class ShaderPackNone implements IShaderPack {
    }
 
    @Override
-   public InputStream getResourceAsStream(String var1) {
+   public InputStream getResourceAsStream(String resName) {
       return null;
    }
 
    @Override
-   public boolean hasDirectory(String var1) {
+   public boolean hasDirectory(String name) {
       return false;
    }
 

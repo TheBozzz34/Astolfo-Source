@@ -7,17 +7,17 @@ import net.hypixel.api.reply.BoostersReply;
 public class BoostersTypeAdapterFactory<T extends BoostersReply.Booster> extends CustomizedTypeAdapterFactory<T> {
    private static final long a = 69917661911809L;
 
-   public BoostersTypeAdapterFactory(Class<T> var1) {
-      super(var1);
+   public BoostersTypeAdapterFactory(Class<T> customizedClass) {
+      super(customizedClass);
    }
 
    @Override
-   public void afterRead(JsonElement var1) {
-      JsonObject var5 = var1.getAsJsonObject();
-      JsonElement var6 = var5.get("stacked");
-      if (var6 != null && var6.isJsonPrimitive() && var6.getAsJsonPrimitive().isBoolean()) {
-         var5.addProperty("queuedToStack", var6.getAsJsonPrimitive().getAsBoolean());
-         var5.remove("stacked");
+   public void afterRead(JsonElement json) {
+      JsonObject jsonObject = json.getAsJsonObject();
+      JsonElement jsonElement = jsonObject.get("stacked");
+      if (jsonElement != null && jsonElement.isJsonPrimitive() && jsonElement.getAsJsonPrimitive().isBoolean()) {
+         jsonObject.addProperty("queuedToStack", jsonElement.getAsJsonPrimitive().getAsBoolean());
+         jsonObject.remove("stacked");
       }
    }
 }

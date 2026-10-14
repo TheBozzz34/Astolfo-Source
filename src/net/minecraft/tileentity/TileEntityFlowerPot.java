@@ -15,43 +15,43 @@ public class TileEntityFlowerPot extends TileEntity {
    public TileEntityFlowerPot() {
    }
 
-   public TileEntityFlowerPot(Item var1, int var2) {
-      this.flowerPotItem = var1;
-      this.flowerPotData = var2;
+   public TileEntityFlowerPot(Item potItem, int potData) {
+      this.flowerPotItem = potItem;
+      this.flowerPotData = potData;
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      ResourceLocation var5 = Item.itemRegistry.getNameForObject(this.flowerPotItem);
-      var1.setString("Item", var5 == null ? "" : var5.toString());
-      var1.setInteger("Data", this.flowerPotData);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      ResourceLocation resourceLocation = Item.itemRegistry.getNameForObject(this.flowerPotItem);
+      compound.setString("Item", resourceLocation == null ? "" : resourceLocation.toString());
+      compound.setInteger("Data", this.flowerPotData);
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      if (var1.hasKey("Item", (int)g)) {
-         this.flowerPotItem = Item.getByNameOrId(var1.getString("Item"));
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      if (compound.hasKey("Item", (int)g)) {
+         this.flowerPotItem = Item.getByNameOrId(compound.getString("Item"));
       } else {
-         this.flowerPotItem = Item.getItemById(var1.getInteger("Item"));
+         this.flowerPotItem = Item.getItemById(compound.getInteger("Item"));
       }
 
-      this.flowerPotData = var1.getInteger("Data");
+      this.flowerPotData = compound.getInteger("Data");
    }
 
    @Override
    public Packet getDescriptionPacket() {
-      NBTTagCompound var3 = new NBTTagCompound();
-      this.writeToNBT(var3);
-      var3.removeTag("Item");
-      var3.setInteger("Item", Item.getIdFromItem(this.flowerPotItem));
-      return new S35PacketUpdateTileEntity(this.pos, 5, var3);
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      this.writeToNBT(nbtTagCompound);
+      nbtTagCompound.removeTag("Item");
+      nbtTagCompound.setInteger("Item", Item.getIdFromItem(this.flowerPotItem));
+      return new S35PacketUpdateTileEntity(this.pos, 5, nbtTagCompound);
    }
 
-   public void setFlowerPotData(Item var1, int var2) {
-      this.flowerPotItem = var1;
-      this.flowerPotData = var2;
+   public void setFlowerPotData(Item potItem, int potData) {
+      this.flowerPotItem = potItem;
+      this.flowerPotData = potData;
    }
 
    public Item getFlowerPotItem() {

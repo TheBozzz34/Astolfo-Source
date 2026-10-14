@@ -6,20 +6,20 @@ public class ReflectorClass {
    private Class targetClass = null;
    private static final long a = 18149157250304L;
 
-   public ReflectorClass(String var1) {
-      this(var1, false);
+   public ReflectorClass(String targetClassName) {
+      this(targetClassName, false);
    }
 
-   public ReflectorClass(String var1, boolean var2) {
-      this.targetClassName = var1;
-      if (!var2) {
-         Class var5 = this.getTargetClass();
+   public ReflectorClass(String targetClassName, boolean lazyResolve) {
+      this.targetClassName = targetClassName;
+      if (!lazyResolve) {
+         Class class2 = this.getTargetClass();
       }
    }
 
-   public ReflectorClass(Class var1) {
-      this.targetClass = var1;
-      this.targetClassName = var1.getName();
+   public ReflectorClass(Class targetClass) {
+      this.targetClass = targetClass;
+      this.targetClassName = targetClass.getName();
       this.checked = true;
    }
 
@@ -32,10 +32,10 @@ public class ReflectorClass {
 
       try {
          this.targetClass = Class.forName(this.targetClassName);
-      } catch (ClassNotFoundException var4) {
+      } catch (ClassNotFoundException classNotFoundException) {
          Config.log("(Reflector) Class not present: " + this.targetClassName);
-      } catch (Throwable var5) {
-         var5.printStackTrace();
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
       }
 
       return this.targetClass;
@@ -49,23 +49,23 @@ public class ReflectorClass {
       return this.targetClassName;
    }
 
-   public boolean isInstance(Object var1) {
-      return this.getTargetClass() == null ? false : this.getTargetClass().isInstance(var1);
+   public boolean isInstance(Object obj) {
+      return this.getTargetClass() == null ? false : this.getTargetClass().isInstance(obj);
    }
 
-   public ReflectorField makeField(String var1) {
-      return new ReflectorField(this, var1);
+   public ReflectorField makeField(String name) {
+      return new ReflectorField(this, name);
    }
 
-   public ReflectorMethod makeMethod(String var1) {
-      return new ReflectorMethod(this, var1);
+   public ReflectorMethod makeMethod(String name) {
+      return new ReflectorMethod(this, name);
    }
 
-   public ReflectorMethod makeMethod(String var1, Class[] var2) {
-      return new ReflectorMethod(this, var1, var2);
+   public ReflectorMethod makeMethod(String name, Class[] paramTypes) {
+      return new ReflectorMethod(this, name, paramTypes);
    }
 
-   public ReflectorMethod makeMethod(String var1, Class[] var2, boolean var3) {
-      return new ReflectorMethod(this, var1, var2, var3);
+   public ReflectorMethod makeMethod(String name, Class[] paramTypes, boolean lazyResolve) {
+      return new ReflectorMethod(this, name, paramTypes, lazyResolve);
    }
 }

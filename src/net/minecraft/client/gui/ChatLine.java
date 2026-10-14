@@ -7,10 +7,10 @@ public class ChatLine {
    private final IChatComponent lineString;
    private final int chatLineID;
 
-   public ChatLine(int var1, IChatComponent var2, int var3) {
-      this.lineString = var2;
-      this.updateCounterCreated = var1;
-      this.chatLineID = var3;
+   public ChatLine(int i, IChatComponent iChatComponent, int j) {
+      this.lineString = iChatComponent;
+      this.updateCounterCreated = i;
+      this.chatLineID = j;
    }
 
    public IChatComponent getChatComponent() {

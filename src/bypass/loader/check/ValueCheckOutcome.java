@@ -6,10 +6,10 @@ public class ValueCheckOutcome {
    private final int T;
    private static final long a = 9397597820847L;
 
-   public ValueCheckOutcome(CheckResult var1, ValueType var2, int var3) {
-      this.x = var1;
-      this.D = var2;
-      this.T = var3;
+   public ValueCheckOutcome(CheckResult checkResult, ValueType valueType, int i) {
+      this.x = checkResult;
+      this.D = valueType;
+      this.T = i;
    }
 
    public CheckResult o() {

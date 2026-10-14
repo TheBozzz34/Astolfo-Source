@@ -8,7 +8,7 @@ public final class IsKeyDown extends OneArgFunction {
    private static final long a = 138145460098398L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      return !var1.isnumber() ? valueOf(false) : valueOf(Keyboard.isKeyDown(var1.checkint()));
+   public LuaValue call(LuaValue luaValue) {
+      return !luaValue.isnumber() ? valueOf(false) : valueOf(Keyboard.isKeyDown(luaValue.checkint()));
    }
 }

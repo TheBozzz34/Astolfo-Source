@@ -10,11 +10,11 @@ public enum NoFallMode {
    private String U;
    private static final NoFallMode[] J = new NoFallMode[]{SPOOF, PACKET, NO_GROUND, AAC_3315, AAC_3311};
 
-   NoFallMode(String var3) {
-      this.U = var3;
+   NoFallMode(String string2) {
+      this.U = string2;
    }
 
-   public static String W(NoFallMode var0) {
-      return var0.U;
+   public static String W(NoFallMode noFallMode) {
+      return noFallMode.U;
    }
 }

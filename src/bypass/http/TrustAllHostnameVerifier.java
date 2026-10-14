@@ -8,7 +8,7 @@ public final class TrustAllHostnameVerifier implements HostnameVerifier {
    }
 
    @Override
-   public boolean verify(String var1, SSLSession var2) {
+   public boolean verify(String string, SSLSession sslSession) {
       return true;
    }
 }

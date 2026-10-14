@@ -20,74 +20,74 @@ public class ServerData {
    public static String I;
    private static final long c = 93143827063279L;
 
-   public ServerData(String var1, String var2, boolean var3) {
-      this.serverName = var1;
-      this.serverIP = var2;
-      this.lanServer = var3;
+   public ServerData(String name, String ip, boolean isLan) {
+      this.serverName = name;
+      this.serverIP = ip;
+      this.lanServer = isLan;
    }
 
    public NBTTagCompound getNBTCompound() {
-      NBTTagCompound var4 = new NBTTagCompound();
-      var4.setString("name", this.serverName);
-      var4.setString("ip", this.serverIP);
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      nbtTagCompound.setString("name", this.serverName);
+      nbtTagCompound.setString("ip", this.serverIP);
       if (this.serverIcon != null) {
-         var4.setString("icon", this.serverIcon);
+         nbtTagCompound.setString("icon", this.serverIcon);
       }
 
       if (this.resourceMode == ServerData.ServerResourceMode.ENABLED) {
-         var4.setBoolean("acceptTextures", true);
+         nbtTagCompound.setBoolean("acceptTextures", true);
       } else if (this.resourceMode == ServerData.ServerResourceMode.DISABLED) {
-         var4.setBoolean("acceptTextures", false);
+         nbtTagCompound.setBoolean("acceptTextures", false);
       }
 
-      return var4;
+      return nbtTagCompound;
    }
 
    public ServerData.ServerResourceMode getResourceMode() {
       return this.resourceMode;
    }
 
-   public void setResourceMode(ServerData.ServerResourceMode var1) {
-      this.resourceMode = var1;
+   public void setResourceMode(ServerData.ServerResourceMode mode) {
+      this.resourceMode = mode;
    }
 
-   public static ServerData getServerDataFromNBTCompound(NBTTagCompound var0) {
-      ServerData var4 = new ServerData(var0.getString("name"), var0.getString("ip"), false);
-      if (var0.hasKey("icon", 8)) {
-         var4.setBase64EncodedIconData(var0.getString("icon"));
+   public static ServerData getServerDataFromNBTCompound(NBTTagCompound nbtCompound) {
+      ServerData serverData = new ServerData(nbtCompound.getString("name"), nbtCompound.getString("ip"), false);
+      if (nbtCompound.hasKey("icon", 8)) {
+         serverData.setBase64EncodedIconData(nbtCompound.getString("icon"));
       }
 
-      if (var0.hasKey("acceptTextures", 1)) {
-         if (var0.getBoolean("acceptTextures")) {
-            var4.setResourceMode(ServerData.ServerResourceMode.ENABLED);
+      if (nbtCompound.hasKey("acceptTextures", 1)) {
+         if (nbtCompound.getBoolean("acceptTextures")) {
+            serverData.setResourceMode(ServerData.ServerResourceMode.ENABLED);
          } else {
-            var4.setResourceMode(ServerData.ServerResourceMode.DISABLED);
+            serverData.setResourceMode(ServerData.ServerResourceMode.DISABLED);
          }
       } else {
-         var4.setResourceMode(ServerData.ServerResourceMode.PROMPT);
+         serverData.setResourceMode(ServerData.ServerResourceMode.PROMPT);
       }
 
-      return var4;
+      return serverData;
    }
 
    public String getBase64EncodedIconData() {
       return this.serverIcon;
    }
 
-   public void setBase64EncodedIconData(String var1) {
-      this.serverIcon = var1;
+   public void setBase64EncodedIconData(String icon) {
+      this.serverIcon = icon;
    }
 
    public boolean isOnLAN() {
       return this.lanServer;
    }
 
-   public void copyFrom(ServerData var1) {
-      this.serverIP = var1.serverIP;
-      this.serverName = var1.serverName;
-      this.setResourceMode(var1.getResourceMode());
-      this.serverIcon = var1.serverIcon;
-      this.lanServer = var1.lanServer;
+   public void copyFrom(ServerData serverDataIn) {
+      this.serverIP = serverDataIn.serverIP;
+      this.serverName = serverDataIn.serverName;
+      this.setResourceMode(serverDataIn.getResourceMode());
+      this.serverIcon = serverDataIn.serverIcon;
+      this.lanServer = serverDataIn.lanServer;
    }
 
    public enum ServerResourceMode {
@@ -98,8 +98,8 @@ public class ServerData {
       private final IChatComponent motd;
       private static final long a = 64732221137578L;
 
-      ServerResourceMode(String var3) {
-         this.motd = new ChatComponentTranslation("addServer.resourcePack." + var3);
+      ServerResourceMode(String name) {
+         this.motd = new ChatComponentTranslation("addServer.resourcePack." + name);
       }
 
       public IChatComponent getMotd() {

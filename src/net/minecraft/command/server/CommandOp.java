@@ -25,39 +25,39 @@ public class CommandOp extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.op.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length == 1 && var2[0].length() > 0) {
-         MinecraftServer var6 = MinecraftServer.getServer();
-         GameProfile var7 = var6.getPlayerProfileCache().getGameProfileForUsername(var2[0]);
-         if (var7 == null) {
-            throw new CommandException("commands.op.failed", var2[0]);
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length == 1 && args[0].length() > 0) {
+         MinecraftServer minecraftServer = MinecraftServer.getServer();
+         GameProfile gameProfile = minecraftServer.getPlayerProfileCache().getGameProfileForUsername(args[0]);
+         if (gameProfile == null) {
+            throw new CommandException("commands.op.failed", args[0]);
          }
 
-         var6.getConfigurationManager().J(var7);
-         notifyOperators(var1, this, "commands.op.success", var2[0]);
+         minecraftServer.getConfigurationManager().J(gameProfile);
+         notifyOperators(sender, this, "commands.op.success", args[0]);
       } else {
          throw new WrongUsageException("commands.op.usage");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      if (var2.length == 1) {
-         String var7 = var2[var2.length - 1];
-         ArrayList var8 = Lists.newArrayList();
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      if (args.length == 1) {
+         String string = args[args.length - 1];
+         ArrayList arrayList = Lists.newArrayList();
 
-         for (GameProfile var12 : MinecraftServer.getServer().getGameProfiles()) {
-            if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands(var12) && doesStringStartWith(var7, var12.getName())) {
-               var8.add(var12.getName());
+         for (GameProfile gameProfile : MinecraftServer.getServer().getGameProfiles()) {
+            if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands(gameProfile) && doesStringStartWith(string, gameProfile.getName())) {
+               arrayList.add(gameProfile.getName());
             }
          }
 
-         return var8;
+         return arrayList;
       } else {
          return null;
       }

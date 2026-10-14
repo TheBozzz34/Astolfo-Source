@@ -8,11 +8,11 @@ public final class SetHeldItemSlot extends OneArgFunction {
    private static final long a = 102837836281275L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnumber()) {
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnumber()) {
          return valueOf(false);
-      } else if (ClientAccess.mc.thePlayer != null && var1.isint()) {
-         ClientAccess.mc.thePlayer.inventory.currentItem = var1.checkint() + 1;
+      } else if (ClientAccess.mc.thePlayer != null && luaValue.isint()) {
+         ClientAccess.mc.thePlayer.inventory.currentItem = luaValue.checkint() + 1;
          ClientAccess.mc.playerController.u();
          return valueOf(true);
       } else {

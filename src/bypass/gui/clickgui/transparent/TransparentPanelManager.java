@@ -21,22 +21,22 @@ public class TransparentPanelManager extends ComponentManager implements Loadabl
    }
 
    public List<JsonObject> n() {
-      ArrayList var5 = new ArrayList();
-      JsonObject var6 = new JsonObject();
+      ArrayList arrayList = new ArrayList();
+      JsonObject jsonObject = new JsonObject();
 
-      for (Element var8 : this.getList()) {
-         if (var8 instanceof CategoryPanel) {
-            CategoryPanel var9 = (CategoryPanel)var8;
-            JsonObject var10 = new JsonObject();
-            var10.addProperty("state", var9.s_boolean());
-            var10.addProperty("x", var9.M());
-            var10.addProperty("y", var9.E_float());
-            var6.add(var9.J(), var10);
+      for (Element element : this.getList()) {
+         if (element instanceof CategoryPanel) {
+            CategoryPanel categoryPanel = (CategoryPanel)element;
+            JsonObject jsonObject2 = new JsonObject();
+            jsonObject2.addProperty("state", categoryPanel.s_boolean());
+            jsonObject2.addProperty("x", categoryPanel.M());
+            jsonObject2.addProperty("y", categoryPanel.E_float());
+            jsonObject.add(categoryPanel.J(), jsonObject2);
          }
       }
 
-      var5.add(var6);
-      return var5;
+      arrayList.add(jsonObject);
+      return arrayList;
    }
 
    public String u() {

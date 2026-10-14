@@ -29,29 +29,29 @@ public class RenderEnv {
    private static ThreadLocal threadLocalInstance = new ThreadLocal();
    private static final long a = 54713055753620L;
 
-   private RenderEnv(IBlockAccess var1, IBlockState var2, BlockPos var3) {
-      this.blockAccess = var1;
-      this.blockState = var2;
-      this.blockPos = var3;
+   private RenderEnv(IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos) {
+      this.blockAccess = blockAccess;
+      this.blockState = blockState;
+      this.blockPos = blockPos;
       this.gameSettings = Config.getGameSettings();
    }
 
-   public static RenderEnv getInstance(IBlockAccess var0, IBlockState var1, BlockPos var2) {
-      RenderEnv var6 = (RenderEnv)threadLocalInstance.get();
-      if (var6 == null) {
-         var6 = new RenderEnv(var0, var1, var2);
-         threadLocalInstance.set(var6);
-         return var6;
+   public static RenderEnv getInstance(IBlockAccess blockAccessIn, IBlockState blockStateIn, BlockPos blockPosIn) {
+      RenderEnv renderEnv = (RenderEnv)threadLocalInstance.get();
+      if (renderEnv == null) {
+         renderEnv = new RenderEnv(blockAccessIn, blockStateIn, blockPosIn);
+         threadLocalInstance.set(renderEnv);
+         return renderEnv;
       } else {
-         var6.reset(var0, var1, var2);
-         return var6;
+         renderEnv.reset(blockAccessIn, blockStateIn, blockPosIn);
+         return renderEnv;
       }
    }
 
-   private void reset(IBlockAccess var1, IBlockState var2, BlockPos var3) {
-      this.blockAccess = var1;
-      this.blockState = var2;
-      this.blockPos = var3;
+   private void reset(IBlockAccess blockAccessIn, IBlockState blockStateIn, BlockPos blockPosIn) {
+      this.blockAccess = blockAccessIn;
+      this.blockState = blockStateIn;
+      this.blockPos = blockPosIn;
       this.blockId = -1;
       this.metadata = -1;
       this.breakingAnimation = -1;
@@ -61,8 +61,8 @@ public class RenderEnv {
    public int getBlockId() {
       if (this.blockId < 0) {
          if (this.blockState instanceof BlockStateBase) {
-            BlockStateBase var4 = (BlockStateBase)this.blockState;
-            this.blockId = var4.getBlockId();
+            BlockStateBase blockStateBase = (BlockStateBase)this.blockState;
+            this.blockId = blockStateBase.getBlockId();
          } else {
             this.blockId = Block.getIdFromBlock(this.blockState.getBlock());
          }
@@ -74,8 +74,8 @@ public class RenderEnv {
    public int getMetadata() {
       if (this.metadata < 0) {
          if (this.blockState instanceof BlockStateBase) {
-            BlockStateBase var4 = (BlockStateBase)this.blockState;
-            this.metadata = var4.getMetadata();
+            BlockStateBase blockStateBase = (BlockStateBase)this.blockState;
+            this.metadata = blockStateBase.getMetadata();
          } else {
             this.metadata = this.blockState.getBlock().getMetaFromState(this.blockState);
          }
@@ -96,9 +96,9 @@ public class RenderEnv {
       return this.aoFace;
    }
 
-   public boolean isBreakingAnimation(List var1) {
-      if (this.breakingAnimation < 0 && var1.size() > 0) {
-         if (var1.get(0) instanceof BreakingFour) {
+   public boolean isBreakingAnimation(List listQuads) {
+      if (this.breakingAnimation < 0 && listQuads.size() > 0) {
+         if (listQuads.get(0) instanceof BreakingFour) {
             this.breakingAnimation = 1;
          } else {
             this.breakingAnimation = 0;
@@ -108,9 +108,9 @@ public class RenderEnv {
       return this.breakingAnimation == 1;
    }
 
-   public boolean isBreakingAnimation(BakedQuad var1) {
+   public boolean isBreakingAnimation(BakedQuad quad) {
       if (this.breakingAnimation < 0) {
-         if (var1 instanceof BreakingFour) {
+         if (quad instanceof BreakingFour) {
             this.breakingAnimation = 1;
          } else {
             this.breakingAnimation = 0;

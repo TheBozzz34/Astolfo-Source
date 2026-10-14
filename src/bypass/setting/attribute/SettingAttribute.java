@@ -7,8 +7,8 @@ public class SettingAttribute implements Cancellable {
    private AttributePriority T;
    private static final long a = 28686905284496L;
 
-   public SettingAttribute(AttributePriority var1) {
-      this.setPriority(var1);
+   public SettingAttribute(AttributePriority attributePriority) {
+      this.setPriority(attributePriority);
    }
 
    @Override
@@ -22,15 +22,15 @@ public class SettingAttribute implements Cancellable {
    }
 
    @Override
-   public void setCancelled(boolean var1) {
-      this.D = var1;
+   public void setCancelled(boolean bl) {
+      this.D = bl;
    }
 
    public AttributePriority getPriority() {
       return this.T;
    }
 
-   public void setPriority(AttributePriority var1) {
-      this.T = var1;
+   public void setPriority(AttributePriority attributePriority) {
+      this.T = attributePriority;
    }
 }

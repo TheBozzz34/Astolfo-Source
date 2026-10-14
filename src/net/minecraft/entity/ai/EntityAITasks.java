@@ -17,28 +17,28 @@ public class EntityAITasks {
    private static final long a = 18105175025529L;
    private static final long e = -4211324311148953597L;
 
-   public EntityAITasks(Profiler var1) {
+   public EntityAITasks(Profiler profilerIn) {
       this.tickRate = (int)e;
-      this.theProfiler = var1;
+      this.theProfiler = profilerIn;
    }
 
-   public void addTask(int var1, EntityAIBase var2) {
-      this.taskEntries.add(new EntityAITasks.EntityAITaskEntry(var1, var2));
+   public void addTask(int priority, EntityAIBase task) {
+      this.taskEntries.add(new EntityAITasks.EntityAITaskEntry(priority, task));
    }
 
-   public void removeTask(EntityAIBase var1) {
-      Iterator var5 = this.taskEntries.iterator();
+   public void removeTask(EntityAIBase task) {
+      Iterator iterator2 = this.taskEntries.iterator();
 
-      while (var5.hasNext()) {
-         EntityAITasks.EntityAITaskEntry var6 = (EntityAITasks.EntityAITaskEntry)var5.next();
-         EntityAIBase var7 = var6.action;
-         if (var7 == var1) {
-            if (this.executingTaskEntries.contains(var6)) {
-               var7.resetTask();
-               this.executingTaskEntries.remove(var6);
+      while (iterator2.hasNext()) {
+         EntityAITasks.EntityAITaskEntry entityAITaskEntry = (EntityAITasks.EntityAITaskEntry)iterator2.next();
+         EntityAIBase entityAIBase = entityAITaskEntry.action;
+         if (entityAIBase == task) {
+            if (this.executingTaskEntries.contains(entityAITaskEntry)) {
+               entityAIBase.resetTask();
+               this.executingTaskEntries.remove(entityAITaskEntry);
             }
 
-            var5.remove();
+            iterator2.remove();
          }
       }
    }
@@ -46,30 +46,30 @@ public class EntityAITasks {
    public void onUpdateTasks() {
       this.theProfiler.startSection("goalSetup");
       if (this.tickCount++ % this.tickRate == 0) {
-         for (EntityAITasks.EntityAITaskEntry var5 : this.taskEntries) {
-            boolean var6 = this.executingTaskEntries.contains(var5);
-            if (var6) {
-               if (this.canUse(var5) && this.canContinue(var5)) {
+         for (EntityAITasks.EntityAITaskEntry entityAITaskEntry : this.taskEntries) {
+            boolean bl = this.executingTaskEntries.contains(entityAITaskEntry);
+            if (bl) {
+               if (this.canUse(entityAITaskEntry) && this.canContinue(entityAITaskEntry)) {
                   continue;
                }
 
-               var5.action.resetTask();
-               this.executingTaskEntries.remove(var5);
+               entityAITaskEntry.action.resetTask();
+               this.executingTaskEntries.remove(entityAITaskEntry);
             }
 
-            if (this.canUse(var5) && var5.action.shouldExecute()) {
-               var5.action.startExecuting();
-               this.executingTaskEntries.add(var5);
+            if (this.canUse(entityAITaskEntry) && entityAITaskEntry.action.shouldExecute()) {
+               entityAITaskEntry.action.startExecuting();
+               this.executingTaskEntries.add(entityAITaskEntry);
             }
          }
       } else {
-         Iterator var7 = this.executingTaskEntries.iterator();
+         Iterator iterator2 = this.executingTaskEntries.iterator();
 
-         while (var7.hasNext()) {
-            EntityAITasks.EntityAITaskEntry var9 = (EntityAITasks.EntityAITaskEntry)var7.next();
-            if (!this.canContinue(var9)) {
-               var9.action.resetTask();
-               var7.remove();
+         while (iterator2.hasNext()) {
+            EntityAITasks.EntityAITaskEntry entityAITaskEntry2 = (EntityAITasks.EntityAITaskEntry)iterator2.next();
+            if (!this.canContinue(entityAITaskEntry2)) {
+               entityAITaskEntry2.action.resetTask();
+               iterator2.remove();
             }
          }
       }
@@ -77,25 +77,25 @@ public class EntityAITasks {
       this.theProfiler.endSection();
       this.theProfiler.startSection("goalTick");
 
-      for (EntityAITasks.EntityAITaskEntry var10 : this.executingTaskEntries) {
-         var10.action.updateTask();
+      for (EntityAITasks.EntityAITaskEntry entityAITaskEntry3 : this.executingTaskEntries) {
+         entityAITaskEntry3.action.updateTask();
       }
 
       this.theProfiler.endSection();
    }
 
-   private boolean canContinue(EntityAITasks.EntityAITaskEntry var1) {
-      return var1.action.continueExecuting();
+   private boolean canContinue(EntityAITasks.EntityAITaskEntry taskEntry) {
+      return taskEntry.action.continueExecuting();
    }
 
-   private boolean canUse(EntityAITasks.EntityAITaskEntry var1) {
-      for (EntityAITasks.EntityAITaskEntry var6 : this.taskEntries) {
-         if (var6 != var1) {
-            if (var1.priority >= var6.priority) {
-               if (!this.areTasksCompatible(var1, var6) && this.executingTaskEntries.contains(var6)) {
+   private boolean canUse(EntityAITasks.EntityAITaskEntry taskEntry) {
+      for (EntityAITasks.EntityAITaskEntry entityAITaskEntry : this.taskEntries) {
+         if (entityAITaskEntry != taskEntry) {
+            if (taskEntry.priority >= entityAITaskEntry.priority) {
+               if (!this.areTasksCompatible(taskEntry, entityAITaskEntry) && this.executingTaskEntries.contains(entityAITaskEntry)) {
                   return false;
                }
-            } else if (!var6.action.isInterruptible() && this.executingTaskEntries.contains(var6)) {
+            } else if (!entityAITaskEntry.action.isInterruptible() && this.executingTaskEntries.contains(entityAITaskEntry)) {
                return false;
             }
          }
@@ -104,17 +104,17 @@ public class EntityAITasks {
       return true;
    }
 
-   private boolean areTasksCompatible(EntityAITasks.EntityAITaskEntry var1, EntityAITasks.EntityAITaskEntry var2) {
-      return (var1.action.getMutexBits() & var2.action.getMutexBits()) == 0;
+   private boolean areTasksCompatible(EntityAITasks.EntityAITaskEntry taskEntry1, EntityAITasks.EntityAITaskEntry taskEntry2) {
+      return (taskEntry1.action.getMutexBits() & taskEntry2.action.getMutexBits()) == 0;
    }
 
    public class EntityAITaskEntry {
       public EntityAIBase action;
       public int priority;
 
-      public EntityAITaskEntry(int var2, EntityAIBase var3) {
-         this.priority = var2;
-         this.action = var3;
+      public EntityAITaskEntry(int priorityIn, EntityAIBase task) {
+         this.priority = priorityIn;
+         this.action = task;
       }
    }
 }

@@ -10,99 +10,99 @@ import net.minecraft.util.EnumFacing;
 public class ModelUtils {
    private static final long a = 136646981529561L;
 
-   public static void dbgModel(IBakedModel var0) {
-      if (var0 != null) {
+   public static void dbgModel(IBakedModel model) {
+      if (model != null) {
          Config.dbg(
             "Model: "
-               + var0
+               + model
                + ", ao: "
-               + var0.isAmbientOcclusion()
+               + model.isAmbientOcclusion()
                + ", gui3d: "
-               + var0.isGui3d()
+               + model.isGui3d()
                + ", builtIn: "
-               + var0.isBuiltInRenderer()
+               + model.isBuiltInRenderer()
                + ", particle: "
-               + var0.getParticleTexture()
+               + model.getParticleTexture()
          );
-         EnumFacing[] var4 = EnumFacing.VALUES;
+         EnumFacing[] enumFacings = EnumFacing.VALUES;
 
-         for (int var5 = 0; var5 < var4.length; var5++) {
-            EnumFacing var6 = var4[var5];
-            List var7 = var0.getFaceQuads(var6);
-            dbgQuads(var6.getName(), var7, "  ");
+         for (int i = 0; i < enumFacings.length; i++) {
+            EnumFacing enumFacing = enumFacings[i];
+            List list = model.getFaceQuads(enumFacing);
+            dbgQuads(enumFacing.getName(), list, "  ");
          }
 
-         List var8 = var0.getGeneralQuads();
-         dbgQuads("General", var8, "  ");
+         List list2 = model.getGeneralQuads();
+         dbgQuads("General", list2, "  ");
       }
    }
 
-   private static void dbgQuads(String var0, List var1, String var2) {
-      for (Object var7 : var1) {
-         dbgQuad(var0, (BakedQuad)var7, var2);
+   private static void dbgQuads(String name, List quads, String prefix) {
+      for (Object object : quads) {
+         dbgQuad(name, (BakedQuad)object, prefix);
       }
    }
 
-   public static void dbgQuad(String var0, BakedQuad var1, String var2) {
+   public static void dbgQuad(String name, BakedQuad quad, String prefix) {
       Config.dbg(
-         var2
+         prefix
             + "Quad: "
-            + var1.getClass().getName()
+            + quad.getClass().getName()
             + ", type: "
-            + var0
+            + name
             + ", face: "
-            + var1.getFace()
+            + quad.getFace()
             + ", tint: "
-            + var1.getTintIndex()
+            + quad.getTintIndex()
             + ", sprite: "
-            + var1.getSprite()
+            + quad.getSprite()
       );
-      dbgVertexData(var1.getVertexData(), "  " + var2);
+      dbgVertexData(quad.getVertexData(), "  " + prefix);
    }
 
-   public static void dbgVertexData(int[] var0, String var1) {
-      int var5 = var0.length / 4;
-      Config.dbg(var1 + "Length: " + var0.length + ", step: " + var5);
+   public static void dbgVertexData(int[] vd, String prefix) {
+      int i = vd.length / 4;
+      Config.dbg(prefix + "Length: " + vd.length + ", step: " + i);
 
-      for (int var6 = 0; var6 < 4; var6++) {
-         int var7 = var6 * var5;
-         float var8 = Float.intBitsToFloat(var0[var7 + 0]);
-         float var9 = Float.intBitsToFloat(var0[var7 + 1]);
-         float var10 = Float.intBitsToFloat(var0[var7 + 2]);
-         int var11 = var0[var7 + 3];
-         float var12 = Float.intBitsToFloat(var0[var7 + 4]);
-         float var13 = Float.intBitsToFloat(var0[var7 + 5]);
-         Config.dbg(var1 + var6 + " xyz: " + var8 + "," + var9 + "," + var10 + " col: " + var11 + " u,v: " + var12 + "," + var13);
+      for (int j = 0; j < 4; j++) {
+         int k = j * i;
+         float f = Float.intBitsToFloat(vd[k + 0]);
+         float g = Float.intBitsToFloat(vd[k + 1]);
+         float h = Float.intBitsToFloat(vd[k + 2]);
+         int l = vd[k + 3];
+         float f2 = Float.intBitsToFloat(vd[k + 4]);
+         float f3 = Float.intBitsToFloat(vd[k + 5]);
+         Config.dbg(prefix + j + " xyz: " + f + "," + g + "," + h + " col: " + l + " u,v: " + f2 + "," + f3);
       }
    }
 
-   public static IBakedModel duplicateModel(IBakedModel var0) {
-      List var4 = duplicateQuadList(var0.getGeneralQuads());
-      EnumFacing[] var5 = EnumFacing.VALUES;
-      ArrayList var6 = new ArrayList();
+   public static IBakedModel duplicateModel(IBakedModel model) {
+      List list = duplicateQuadList(model.getGeneralQuads());
+      EnumFacing[] enumFacings = EnumFacing.VALUES;
+      ArrayList arrayList = new ArrayList();
 
-      for (int var7 = 0; var7 < var5.length; var7++) {
-         EnumFacing var8 = var5[var7];
-         List var9 = var0.getFaceQuads(var8);
-         List var10 = duplicateQuadList(var9);
-         var6.add(var10);
+      for (int i = 0; i < enumFacings.length; i++) {
+         EnumFacing enumFacing = enumFacings[i];
+         List list2 = model.getFaceQuads(enumFacing);
+         List list3 = duplicateQuadList(list2);
+         arrayList.add(list3);
       }
 
-      return new SimpleBakedModel(var4, var6, var0.isAmbientOcclusion(), var0.isGui3d(), var0.getParticleTexture(), var0.getItemCameraTransforms());
+      return new SimpleBakedModel(list, arrayList, model.isAmbientOcclusion(), model.isGui3d(), model.getParticleTexture(), model.getItemCameraTransforms());
    }
 
-   public static List duplicateQuadList(List var0) {
-      ArrayList var4 = new ArrayList();
+   public static List duplicateQuadList(List list) {
+      ArrayList arrayList = new ArrayList();
 
-      for (Object var6 : var0) {
-         BakedQuad var7 = duplicateQuad((BakedQuad)var6);
-         var4.add(var7);
+      for (Object object : list) {
+         BakedQuad bakedQuad = duplicateQuad((BakedQuad)object);
+         arrayList.add(bakedQuad);
       }
 
-      return var4;
+      return arrayList;
    }
 
-   public static BakedQuad duplicateQuad(BakedQuad var0) {
-      return new BakedQuad((int[])var0.getVertexData().clone(), var0.getTintIndex(), var0.getFace(), var0.getSprite());
+   public static BakedQuad duplicateQuad(BakedQuad quad) {
+      return new BakedQuad((int[])quad.getVertexData().clone(), quad.getTintIndex(), quad.getFace(), quad.getSprite());
    }
 }

@@ -21,58 +21,58 @@ public class ItemModelMesher {
    private static final long a = 56581327128507L;
    private static final long b = 2576319923299024912L;
 
-   public ItemModelMesher(ModelManager var1) {
-      this.modelManager = var1;
+   public ItemModelMesher(ModelManager modelManager) {
+      this.modelManager = modelManager;
    }
 
-   public TextureAtlasSprite getParticleIcon(Item var1) {
-      return this.getParticleIcon(var1, 0);
+   public TextureAtlasSprite getParticleIcon(Item item) {
+      return this.getParticleIcon(item, 0);
    }
 
-   public TextureAtlasSprite getParticleIcon(Item var1, int var2) {
-      return this.getItemModel(new ItemStack(var1, 1, var2)).getParticleTexture();
+   public TextureAtlasSprite getParticleIcon(Item item, int meta) {
+      return this.getItemModel(new ItemStack(item, 1, meta)).getParticleTexture();
    }
 
-   public IBakedModel getItemModel(ItemStack var1) {
-      Item var5 = var1.getItem();
-      IBakedModel var6 = this.getItemModel(var5, this.getMetadata(var1));
-      if (var6 == null) {
-         ItemMeshDefinition var7 = this.shapers.get(var5);
-         if (var7 != null) {
-            var6 = this.modelManager.getModel(var7.getModelLocation(var1));
+   public IBakedModel getItemModel(ItemStack stack) {
+      Item item = stack.getItem();
+      IBakedModel iBakedModel = this.getItemModel(item, this.getMetadata(stack));
+      if (iBakedModel == null) {
+         ItemMeshDefinition itemMeshDefinition = this.shapers.get(item);
+         if (itemMeshDefinition != null) {
+            iBakedModel = this.modelManager.getModel(itemMeshDefinition.getModelLocation(stack));
          }
       }
 
-      if (var6 == null) {
-         var6 = this.modelManager.getMissingModel();
+      if (iBakedModel == null) {
+         iBakedModel = this.modelManager.getMissingModel();
       }
 
       if (Config.isCustomItems()) {
-         var6 = CustomItems.r(var1, var6, (ResourceLocation)null, true);
+         iBakedModel = CustomItems.r(stack, iBakedModel, (ResourceLocation)null, true);
       }
 
-      return var6;
+      return iBakedModel;
    }
 
-   public int getMetadata(ItemStack var1) {
-      return var1.isItemStackDamageable() ? 0 : var1.getMetadata();
+   public int getMetadata(ItemStack stack) {
+      return stack.isItemStackDamageable() ? 0 : stack.getMetadata();
    }
 
-   public IBakedModel getItemModel(Item var1, int var2) {
-      return this.simpleShapesCache.get(this.getIndex(var1, var2));
+   public IBakedModel getItemModel(Item item, int meta) {
+      return this.simpleShapesCache.get(this.getIndex(item, meta));
    }
 
-   private int getIndex(Item var1, int var2) {
-      return Item.getIdFromItem(var1) << (int)b | var2;
+   private int getIndex(Item item, int meta) {
+      return Item.getIdFromItem(item) << (int)b | meta;
    }
 
-   public void register(Item var1, int var2, ModelResourceLocation var3) {
-      this.simpleShapes.put(this.getIndex(var1, var2), var3);
-      this.simpleShapesCache.put(this.getIndex(var1, var2), this.modelManager.getModel(var3));
+   public void register(Item item, int meta, ModelResourceLocation location) {
+      this.simpleShapes.put(this.getIndex(item, meta), location);
+      this.simpleShapesCache.put(this.getIndex(item, meta), this.modelManager.getModel(location));
    }
 
-   public void register(Item var1, ItemMeshDefinition var2) {
-      this.shapers.put(var1, var2);
+   public void register(Item item, ItemMeshDefinition definition) {
+      this.shapers.put(item, definition);
    }
 
    public ModelManager getModelManager() {
@@ -82,8 +82,8 @@ public class ItemModelMesher {
    public void rebuildCache() {
       this.simpleShapesCache.clear();
 
-      for (Entry var5 : this.simpleShapes.entrySet()) {
-         this.simpleShapesCache.put((Integer)var5.getKey(), this.modelManager.getModel((ModelResourceLocation)var5.getValue()));
+      for (Entry entry : this.simpleShapes.entrySet()) {
+         this.simpleShapesCache.put((Integer)entry.getKey(), this.modelManager.getModel((ModelResourceLocation)entry.getValue()));
       }
    }
 }

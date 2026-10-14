@@ -30,21 +30,21 @@ public final class FreeBsdFirmware extends AbstractFirmware {
    }
 
    private static Triplet<String, String, String> readDmiDecode() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = "";
+      String string = null;
+      String string2 = null;
+      String string3 = "";
 
-      for (String var10 : ExecutingCommand.runNative("dmidecode -t bios")) {
-         if (var10.contains("Vendor:")) {
-            var3 = var10.split("Vendor:")[1].trim();
-         } else if (var10.contains("Version:")) {
-            var4 = var10.split("Version:")[1].trim();
-         } else if (var10.contains("Release Date:")) {
-            var5 = var10.split("Release Date:")[1].trim();
+      for (String string4 : ExecutingCommand.runNative("dmidecode -t bios")) {
+         if (string4.contains("Vendor:")) {
+            string = string4.split("Vendor:")[1].trim();
+         } else if (string4.contains("Version:")) {
+            string2 = string4.split("Version:")[1].trim();
+         } else if (string4.contains("Release Date:")) {
+            string3 = string4.split("Release Date:")[1].trim();
          }
       }
 
-      var5 = ParseUtil.parseMmDdYyyyToYyyyMmDD(var5);
-      return new Triplet<>(Util.isBlank(var3) ? "unknown" : var3, Util.isBlank(var4) ? "unknown" : var4, Util.isBlank(var5) ? "unknown" : var5);
+      string3 = ParseUtil.parseMmDdYyyyToYyyyMmDD(string3);
+      return new Triplet<>(Util.isBlank(string) ? "unknown" : string, Util.isBlank(string2) ? "unknown" : string2, Util.isBlank(string3) ? "unknown" : string3);
    }
 }

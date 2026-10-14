@@ -176,64 +176,64 @@ public final class OldInventoryManager extends Module {
    private boolean unused;
    private boolean unused2;
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var1 -> {
-      if (var1.getDirection() == PacketDirection.OUTGOING && var1.getPacket() instanceof C0EPacketClickWindow) {
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C0EPacketClickWindow) {
          this.switchTimer.reset();
          this.dropTimer.reset();
       }
    };
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1 -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (mc.thePlayer.ticksExisted < 30 && this.autoWhitelist.getValue()) {
-         for (int var5 = 0; var5 < mc.thePlayer.inventoryContainer.inventorySlots.size(); var5++) {
-            Slot var6 = mc.thePlayer.inventoryContainer.inventorySlots.get(var5);
-            if (var6 != null && var6.getSlotTexture() == null && var6.getHasStack()) {
-               ItemStack var7 = var6.getStack();
-               if (var7 != null) {
-                  whitelist.add(var7);
+         for (int i = 0; i < mc.thePlayer.inventoryContainer.inventorySlots.size(); i++) {
+            Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(i);
+            if (slot != null && slot.getSlotTexture() == null && slot.getHasStack()) {
+               ItemStack itemStack = slot.getStack();
+               if (itemStack != null) {
+                  whitelist.add(itemStack);
                }
             }
          }
       }
    };
    @EventHandler(MotionEvent.class)
-   private final Listener<MotionEvent> onMotion = var1 -> {
+   private final Listener<MotionEvent> onMotion = motionEvent -> {
       if (!(mc.currentScreen instanceof GuiContainer) || mc.currentScreen instanceof GuiInventory) {
-         if (var1.getState() == EventState.PRE) {
-            ItemStack[] var5 = getBestItems();
-            List var6 = Arrays.asList(var5);
-            int var7 = slots.getSetting("Pickaxe-Slot").asInt();
-            int var8 = slots.getSetting("Axe-Slot").asInt();
-            int var9 = slots.getSetting("Shovel-Slot").asInt();
-            int var10 = slots.getSetting("Sword-Slot").asInt();
-            int var11 = slots.getSetting("Gapple-Slot").asInt();
-            int var12 = slots.getSetting("Head-Slot").asInt();
-            int var13 = slots.getSetting("Bow-Slot").asInt();
-            int var14 = slots.getSetting("Pearl-Slot").asInt();
-            int var15 = slots.getSetting("Fishing-Rod-Slot").asInt();
-            boolean var16 = this.slotsUnique = !hasDuplicateSlots(new int[]{var7, var8, var9, var10, var11, var12, var13, var14, var15});
+         if (motionEvent.getState() == EventState.PRE) {
+            ItemStack[] itemStacks = getBestItems();
+            List list = Arrays.asList(itemStacks);
+            int i = slots.getSetting("Pickaxe-Slot").asInt();
+            int j = slots.getSetting("Axe-Slot").asInt();
+            int k = slots.getSetting("Shovel-Slot").asInt();
+            int l = slots.getSetting("Sword-Slot").asInt();
+            int m = slots.getSetting("Gapple-Slot").asInt();
+            int n = slots.getSetting("Head-Slot").asInt();
+            int i2 = slots.getSetting("Bow-Slot").asInt();
+            int i3 = slots.getSetting("Pearl-Slot").asInt();
+            int i4 = slots.getSetting("Fishing-Rod-Slot").asInt();
+            boolean bl = this.slotsUnique = !hasDuplicateSlots(new int[]{i, j, k, l, m, n, i2, i3, i4});
             if (!(mc.currentScreen instanceof GuiInventory) && this.inventory.getValue()) {
                return;
             }
 
-            for (int var17 = 0; var17 < mc.thePlayer.inventoryContainer.inventorySlots.size(); var17++) {
-               Slot var18 = mc.thePlayer.inventoryContainer.inventorySlots.get(var17);
-               if (var18 != null && var18.getSlotTexture() == null && var18.getHasStack()) {
-                  ItemStack var19 = var18.getStack();
-                  Item var20 = var19.getItem();
-                  if (!whitelist.contains(var19)) {
-                     if (uhc.getSetting("Enable").asBoolean() && !var6.contains(var19)) {
-                        String var21 = getLore(var19);
-                        boolean var22 = false;
+            for (int i5 = 0; i5 < mc.thePlayer.inventoryContainer.inventorySlots.size(); i5++) {
+               Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(i5);
+               if (slot != null && slot.getSlotTexture() == null && slot.getHasStack()) {
+                  ItemStack itemStack = slot.getStack();
+                  Item item = itemStack.getItem();
+                  if (!whitelist.contains(itemStack)) {
+                     if (uhc.getSetting("Enable").asBoolean() && !list.contains(itemStack)) {
+                        String string = getLore(itemStack);
+                        boolean bl2 = false;
 
-                        for (String var24 : uhcItemLore) {
-                           if (var21.contains(var24)) {
-                              var22 = true;
+                        for (String string2 : uhcItemLore) {
+                           if (string.contains(string2)) {
+                              bl2 = true;
                               break;
                            }
                         }
 
-                        if (uhcItemNames.contains(StringUtils.stripControlCodes(var19.getDisplayName())) || var19.getDisplayName().contains("Andúril") || var22
+                        if (uhcItemNames.contains(StringUtils.stripControlCodes(itemStack.getDisplayName())) || itemStack.getDisplayName().contains("Andúril") || bl2
                            )
                          {
                            continue;
@@ -241,42 +241,42 @@ public final class OldInventoryManager extends Module {
                      }
 
                      if (ScoreboardTracker.r()) {
-                        if (var19.getItem() instanceof ItemBlock) {
-                           ItemBlock var25 = (ItemBlock)var19.getItem();
-                           if (var25.getBlock() == Blocks.ender_chest) {
+                        if (itemStack.getItem() instanceof ItemBlock) {
+                           ItemBlock itemBlock = (ItemBlock)itemStack.getItem();
+                           if (itemBlock.getBlock() == Blocks.ender_chest) {
                               continue;
                            }
                         }
 
-                        if (var19.getItem() == Items.compass || var19.getItem() == Items.bow || var19.getItem() == Items.milk_bucket) {
+                        if (itemStack.getItem() == Items.compass || itemStack.getItem() == Items.bow || itemStack.getItem() == Items.milk_bucket) {
                            continue;
                         }
                      }
 
-                     if ((var18.slotNumber != this.toContainerSlot(var7) || !(var20 instanceof ItemPickaxe))
-                        && (var18.slotNumber != this.toContainerSlot(var8) || !(var20 instanceof ItemAxe))
-                        && (var18.slotNumber != this.toContainerSlot(var9) || !(var20 instanceof ItemSpade))
-                        && (var18.slotNumber != this.toContainerSlot(var10) || !(var20 instanceof ItemSword))
-                        && (var18.slotNumber != this.toContainerSlot(var13) || !(var20 instanceof ItemBow))
-                        && (var18.slotNumber != this.toContainerSlot(var14) || !(var20 instanceof ItemEnderPearl))
-                        && (var18.slotNumber != this.toContainerSlot(var15) || !(var20 instanceof ItemFishingRod))
+                     if ((slot.slotNumber != this.toContainerSlot(i) || !(item instanceof ItemPickaxe))
+                        && (slot.slotNumber != this.toContainerSlot(j) || !(item instanceof ItemAxe))
+                        && (slot.slotNumber != this.toContainerSlot(k) || !(item instanceof ItemSpade))
+                        && (slot.slotNumber != this.toContainerSlot(l) || !(item instanceof ItemSword))
+                        && (slot.slotNumber != this.toContainerSlot(i2) || !(item instanceof ItemBow))
+                        && (slot.slotNumber != this.toContainerSlot(i3) || !(item instanceof ItemEnderPearl))
+                        && (slot.slotNumber != this.toContainerSlot(i4) || !(item instanceof ItemFishingRod))
                         && (
                            !this.autoWhitelist.getValue()
-                              || !(var19.getItem() instanceof ItemBook)
-                              || !var19.getDisplayName().contains(EnumChatFormatting.GREEN.toString())
-                              || var19.isItemEnchanted()
+                              || !(itemStack.getItem() instanceof ItemBook)
+                              || !itemStack.getDisplayName().contains(EnumChatFormatting.GREEN.toString())
+                              || itemStack.isItemEnchanted()
                         )
                         && (
                            !this.autoWhitelist.getValue()
-                              || !var19.getDisplayName().contains("§7(")
-                              || var19.getItem() instanceof ItemArmor
-                              || var19.getItem() instanceof ItemSword
+                              || !itemStack.getDisplayName().contains("§7(")
+                              || itemStack.getItem() instanceof ItemArmor
+                              || itemStack.getItem() instanceof ItemSword
                         )) {
-                        if (var19.getItem() instanceof ItemBlock && this.autoCraft.getValue()) {
-                           ItemBlock var26 = (ItemBlock)var19.getItem();
-                           if (var26.getBlock() == Blocks.log || var26.getBlock() == Blocks.log2) {
+                        if (itemStack.getItem() instanceof ItemBlock && this.autoCraft.getValue()) {
+                           ItemBlock itemBlock2 = (ItemBlock)itemStack.getItem();
+                           if (itemBlock2.getBlock() == Blocks.log || itemBlock2.getBlock() == Blocks.log2) {
                               if (!AutoArmor.c() && this.dropTimer.hasElapsed(this.delay.getValue().intValue())) {
-                                 mc.playerController.windowClick(0, var18.slotNumber, 0, 0, mc.thePlayer);
+                                 mc.playerController.windowClick(0, slot.slotNumber, 0, 0, mc.thePlayer);
                                  mc.playerController.windowClick(0, 1, 0, 0, mc.thePlayer);
                                  mc.playerController.windowClick(0, 0, 0, 1, mc.thePlayer);
                               }
@@ -284,25 +284,25 @@ public final class OldInventoryManager extends Module {
                            }
                         }
 
-                        if (var20 instanceof ItemArmor) {
-                           if (this.shouldDropArmor() && isWorseThanWorn(var19)) {
-                              this.dropSlot(var18.slotNumber);
+                        if (item instanceof ItemArmor) {
+                           if (this.shouldDropArmor() && isWorseThanWorn(itemStack)) {
+                              this.dropSlot(slot.slotNumber);
                            }
                         } else {
-                           boolean var27 = var6.contains(var19);
-                           if (var27) {
-                              if (var16) {
-                                 OldInventoryManagerSlot var28 = getSlotFor(var19);
-                                 if (var28 != null && this.switchTimer.hasElapsed(this.switchDelay.getValue().intValue())) {
-                                    this.moveToSlot(var28, var19, var18.slotNumber);
+                           boolean bl3 = list.contains(itemStack);
+                           if (bl3) {
+                              if (bl) {
+                                 OldInventoryManagerSlot oldInventoryManagerSlot = getSlotFor(itemStack);
+                                 if (oldInventoryManagerSlot != null && this.switchTimer.hasElapsed(this.switchDelay.getValue().intValue())) {
+                                    this.moveToSlot(oldInventoryManagerSlot, itemStack, slot.slotNumber);
                                  }
                               }
-                           } else if (var20 instanceof ItemTool) {
+                           } else if (item instanceof ItemTool) {
                               if (this.shouldDropTools()) {
-                                 this.dropSlot(var18.slotNumber);
+                                 this.dropSlot(slot.slotNumber);
                               }
-                           } else if (!this.shouldKeep(var19)) {
-                              this.dropSlot(var18.slotNumber);
+                           } else if (!this.shouldKeep(itemStack)) {
+                              this.dropSlot(slot.slotNumber);
                            }
                         }
                      }
@@ -313,14 +313,14 @@ public final class OldInventoryManager extends Module {
       }
    };
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1 -> {
-      if (var1.getType() == RenderType.SCREEN && !this.slotsUnique) {
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN && !this.slotsUnique) {
          mc.fontRendererObj
             .drawStringWithShadow(
                "Some InventoryManager slots are the same, make each slot unique for sorting to work",
-               var1.getResolution().getScaledWidth() / 2.0F
+               renderEvent.getResolution().getScaledWidth() / 2.0F
                   - mc.fontRendererObj.getStringWidth("Some InventoryManager slots are the same, make each slot unique for sorting to work") / 2.0F,
-               var1.getResolution().getScaledHeight() - 100,
+               renderEvent.getResolution().getScaledHeight() - 100,
                Color.RED.getRGB()
             );
       }
@@ -353,577 +353,577 @@ public final class OldInventoryManager extends Module {
       super.onDisable();
    }
 
-   private boolean shouldKeep(ItemStack var1) {
+   private boolean shouldKeep(ItemStack itemStack) {
       if (!this.isDropEnabled()) {
          return true;
       }
 
-      Item var5 = var1.getItem();
+      Item item2 = itemStack.getItem();
 
       try {
          if (uhc.getSetting("Enable").asBoolean()) {
-            if (var5 instanceof ItemBlock) {
-               ItemBlock var6 = (ItemBlock)var5;
-               if (isOreBlock(var6)) {
+            if (item2 instanceof ItemBlock) {
+               ItemBlock itemBlock = (ItemBlock)item2;
+               if (isOreBlock(itemBlock)) {
                   return true;
                }
 
-               if (var6.getBlock() instanceof BlockWorkbench) {
-                  int var17 = uhc.getSetting("Workbenches").asInt();
-                  if (var17 == 0) {
+               if (itemBlock.getBlock() instanceof BlockWorkbench) {
+                  int i = uhc.getSetting("Workbenches").asInt();
+                  if (i == 0) {
                      return false;
                   }
 
-                  return countWorkbenches() <= var17;
+                  return countWorkbenches() <= i;
                }
 
-               if (var6.getBlock() instanceof BlockFurnace && var1.hasEffect()) {
-                  int var7 = uhc.getSetting("Forges").asInt();
-                  if (var7 == 0) {
+               if (itemBlock.getBlock() instanceof BlockFurnace && itemStack.hasEffect()) {
+                  int j = uhc.getSetting("Forges").asInt();
+                  if (j == 0) {
                      return false;
                   }
 
-                  return countForges() <= var7;
+                  return countForges() <= j;
                }
             }
 
-            if (var5 == Items.nether_star) {
+            if (item2 == Items.nether_star) {
                return true;
             }
 
-            if (var5 instanceof ItemAnvilBlock) {
-               int var16 = uhc.getSetting("Anvils").asInt();
-               if (var16 == 0) {
+            if (item2 instanceof ItemAnvilBlock) {
+               int k = uhc.getSetting("Anvils").asInt();
+               if (k == 0) {
                   return false;
                }
 
-               return countItemsOf(ItemAnvilBlock.class) <= var16;
+               return countItemsOf(ItemAnvilBlock.class) <= k;
             }
 
-            if (var5 instanceof ItemBoat) {
-               int var15 = uhc.getSetting("Boats").asInt();
-               if (var15 == 0) {
+            if (item2 instanceof ItemBoat) {
+               int l = uhc.getSetting("Boats").asInt();
+               if (l == 0) {
                   return false;
                }
 
-               return countItemsOf(ItemBoat.class) <= var15;
+               return countItemsOf(ItemBoat.class) <= l;
             }
 
-            if (var5 instanceof ItemAppleGold) {
+            if (item2 instanceof ItemAppleGold) {
                return true;
             }
 
-            if (var5 instanceof ItemFood) {
-               ItemFood var9 = (ItemFood)var5;
-               if (var9.getUnlocalizedName().equals("item.apple")) {
+            if (item2 instanceof ItemFood) {
+               ItemFood itemFood = (ItemFood)item2;
+               if (itemFood.getUnlocalizedName().equals("item.apple")) {
                   return true;
                }
             }
 
-            if (var5 instanceof ItemBucket) {
-               int var14 = uhc.getSetting("Buckets").asInt();
-               if (var14 == 0) {
+            if (item2 instanceof ItemBucket) {
+               int m = uhc.getSetting("Buckets").asInt();
+               if (m == 0) {
                   return false;
                }
 
-               return countItemsOf(ItemBucket.class) <= var14;
+               return countItemsOf(ItemBucket.class) <= m;
             }
 
-            if (var5 == Items.stick) {
-               int var13 = uhc.getSetting("Sticks").asInt();
-               if (var13 == 0) {
+            if (item2 == Items.stick) {
+               int n = uhc.getSetting("Sticks").asInt();
+               if (n == 0) {
                   return false;
                }
 
-               return countItems(null, Items.stick) <= var13;
+               return countItems(null, Items.stick) <= n;
             }
 
             if (this.uhcCrafts.getSetting("Seven-League-Boots").asBoolean()) {
-               if (var5 instanceof ItemEnderPearl) {
+               if (item2 instanceof ItemEnderPearl) {
                   return true;
                }
 
-               if (var5 instanceof ItemArmor) {
-                  ItemArmor var10 = (ItemArmor)var5;
-                  if (var10.getArmorMaterial() == ItemArmor.ArmorMaterial.DIAMOND && var10.armorType == 3) {
+               if (item2 instanceof ItemArmor) {
+                  ItemArmor itemArmor = (ItemArmor)item2;
+                  if (itemArmor.getArmorMaterial() == ItemArmor.ArmorMaterial.DIAMOND && itemArmor.armorType == 3) {
                      return true;
                   }
                }
 
-               if (var5 == Items.feather) {
+               if (item2 == Items.feather) {
                   return true;
                }
             }
 
             if (this.uhcCrafts.getSetting("Protection-Book").asBoolean()) {
-               if (var5 == Items.reeds) {
+               if (item2 == Items.reeds) {
                   return true;
                }
 
-               if (var5 == Items.iron_ingot) {
+               if (item2 == Items.iron_ingot) {
                   return true;
                }
 
-               if (var5 == Items.paper) {
+               if (item2 == Items.paper) {
                   return true;
                }
             }
 
             if (this.uhcCrafts.getSetting("Sharpness-Book").asBoolean()) {
-               if (var5 == Items.paper) {
+               if (item2 == Items.paper) {
                   return true;
                }
 
-               if (var5 == Items.reeds) {
+               if (item2 == Items.reeds) {
                   return true;
                }
 
-               if (var5 == Items.iron_sword) {
+               if (item2 == Items.iron_sword) {
                   return true;
                }
 
-               if (var5 == Items.flint) {
+               if (item2 == Items.flint) {
                   return true;
                }
             }
 
             if (this.uhcCrafts.getSetting("Eves-Temptation").asBoolean()) {
-               if (var5 == Items.bone) {
+               if (item2 == Items.bone) {
                   return true;
                }
 
-               if (var5 instanceof ItemDye && EnumDyeColor.WHITE == EnumDyeColor.byDyeDamage(var1.getMetadata())) {
+               if (item2 instanceof ItemDye && EnumDyeColor.WHITE == EnumDyeColor.byDyeDamage(itemStack.getMetadata())) {
                   return true;
                }
             }
 
-            if (this.uhcCrafts.getSetting("Fusion-Armor").asBoolean() && var5 instanceof ItemArmor) {
-               ItemArmor var11 = (ItemArmor)var5;
-               if (var11.getArmorMaterial() == ItemArmor.ArmorMaterial.DIAMOND) {
+            if (this.uhcCrafts.getSetting("Fusion-Armor").asBoolean() && item2 instanceof ItemArmor) {
+               ItemArmor itemArmor2 = (ItemArmor)item2;
+               if (itemArmor2.getArmorMaterial() == ItemArmor.ArmorMaterial.DIAMOND) {
                   return true;
                }
             }
 
             if (this.uhcCrafts.getSetting("Enlightening-Pack").asBoolean()) {
-               if (var5 instanceof ItemGlassBottle) {
+               if (item2 instanceof ItemGlassBottle) {
                   return true;
                }
 
-               if (var5 instanceof ItemExpBottle) {
+               if (item2 instanceof ItemExpBottle) {
                   return true;
                }
 
-               if (var5 instanceof ItemBlock) {
-                  ItemBlock var12 = (ItemBlock)var5;
-                  if (var12.getBlock() == Blocks.redstone_block) {
+               if (item2 instanceof ItemBlock) {
+                  ItemBlock itemBlock2 = (ItemBlock)item2;
+                  if (itemBlock2.getBlock() == Blocks.redstone_block) {
                      return true;
                   }
                }
             }
          }
 
-         return var5 instanceof ItemBlock && keepBlocks() && isBuildingBlock((ItemBlock)var5)
-            || var5 instanceof ItemFood && isSafeFood((ItemFood)var5) && keepFood()
-            || var5 instanceof ItemEnderPearl && keepPearls()
-            || var5 instanceof ItemEnchantedBook && keepEnchantedBooks()
-            || var5 instanceof ItemSkull && keepHeads() && isHead(var1)
-            || var5 instanceof ItemPotion && isGoodPotion(var1) && keepPotions()
-            || var5 instanceof ItemSword && keepSwords()
-            || isWantedOre(var1) && keepOres()
-            || var5 == Items.arrow && keepBows() && countItems(null, Items.arrow) <= arrowLimit.getValue();
-      } catch (Exception var8) {
+         return item2 instanceof ItemBlock && keepBlocks() && isBuildingBlock((ItemBlock)item2)
+            || item2 instanceof ItemFood && isSafeFood((ItemFood)item2) && keepFood()
+            || item2 instanceof ItemEnderPearl && keepPearls()
+            || item2 instanceof ItemEnchantedBook && keepEnchantedBooks()
+            || item2 instanceof ItemSkull && keepHeads() && isHead(itemStack)
+            || item2 instanceof ItemPotion && isGoodPotion(itemStack) && keepPotions()
+            || item2 instanceof ItemSword && keepSwords()
+            || isWantedOre(itemStack) && keepOres()
+            || item2 == Items.arrow && keepBows() && countItems(null, Items.arrow) <= arrowLimit.getValue();
+      } catch (Exception exception) {
          return false;
       }
    }
 
-   private static boolean isOreBlock(ItemBlock var0) {
-      return var0.getBlock() == Blocks.iron_ore || var0.getBlock() == Blocks.gold_block || var0.getBlock() == Blocks.gold_ore;
+   private static boolean isOreBlock(ItemBlock itemBlock) {
+      return itemBlock.getBlock() == Blocks.iron_ore || itemBlock.getBlock() == Blocks.gold_block || itemBlock.getBlock() == Blocks.gold_ore;
    }
 
-   private static boolean isWantedOre(ItemStack var0) {
-      return var0.getItem() == Items.emerald && ores.getSetting("Emerald").asBoolean()
-         || var0.getItem() == Items.diamond && ores.getSetting("Diamond").asBoolean()
-         || var0.getItem() == Items.iron_ingot && ores.getSetting("Iron").asBoolean()
-         || var0.getItem() == Items.gold_ingot && ores.getSetting("Gold").asBoolean()
-         || var0.getItem() == Items.gold_nugget && ores.getSetting("Gold").asBoolean()
-         || var0.getItem() == Items.dye && EnumDyeColor.byDyeDamage(var0.getMetadata()) == EnumDyeColor.BLUE && ores.getSetting("Lapis").asBoolean()
-         || var0.getItem() == Items.coal && ores.getSetting("Coal").asBoolean()
-         || var0.getItem() == Items.redstone && ores.getSetting("Redstone").asBoolean();
+   private static boolean isWantedOre(ItemStack itemStack) {
+      return itemStack.getItem() == Items.emerald && ores.getSetting("Emerald").asBoolean()
+         || itemStack.getItem() == Items.diamond && ores.getSetting("Diamond").asBoolean()
+         || itemStack.getItem() == Items.iron_ingot && ores.getSetting("Iron").asBoolean()
+         || itemStack.getItem() == Items.gold_ingot && ores.getSetting("Gold").asBoolean()
+         || itemStack.getItem() == Items.gold_nugget && ores.getSetting("Gold").asBoolean()
+         || itemStack.getItem() == Items.dye && EnumDyeColor.byDyeDamage(itemStack.getMetadata()) == EnumDyeColor.BLUE && ores.getSetting("Lapis").asBoolean()
+         || itemStack.getItem() == Items.coal && ores.getSetting("Coal").asBoolean()
+         || itemStack.getItem() == Items.redstone && ores.getSetting("Redstone").asBoolean();
    }
 
-   public static boolean isUseful(ItemStack var0) {
+   public static boolean isUseful(ItemStack itemStack) {
       try {
-         ItemStack[] var4 = getBestItems();
-         float var5 = 0.0F;
-         float var6 = 0.0F;
-         float var7 = 0.0F;
-         float var8 = 0.0F;
-         float var9 = 0.0F;
-         if (var4[0] != null) {
-            var5 = InventoryUtil.getToolScore(var4[0]);
+         ItemStack[] itemStacks = getBestItems();
+         float f = 0.0F;
+         float g = 0.0F;
+         float h = 0.0F;
+         float f2 = 0.0F;
+         float f3 = 0.0F;
+         if (itemStacks[0] != null) {
+            f = InventoryUtil.getToolScore(itemStacks[0]);
          }
 
-         if (var4[1] != null) {
-            var6 = InventoryUtil.getToolScore(var4[1]);
+         if (itemStacks[1] != null) {
+            g = InventoryUtil.getToolScore(itemStacks[1]);
          }
 
-         if (var4[2] != null) {
-            var8 = InventoryUtil.getToolScore(var4[2]);
+         if (itemStacks[2] != null) {
+            f2 = InventoryUtil.getToolScore(itemStacks[2]);
          }
 
-         if (var4[4] != null) {
-            var7 = InventoryUtil.getDamageScore(var4[4]);
+         if (itemStacks[4] != null) {
+            h = InventoryUtil.getDamageScore(itemStacks[4]);
          }
 
-         if (var4[7] != null) {
-            var9 = InventoryUtil.getBowScore(var4[7]);
+         if (itemStacks[7] != null) {
+            f3 = InventoryUtil.getBowScore(itemStacks[7]);
          }
 
-         Item var10 = var0.getItem();
-         return var10 instanceof ItemBlock && keepBlocks() && isBuildingBlock((ItemBlock)var10)
-            || var10 instanceof ItemFood && isSafeFood((ItemFood)var10) && keepFood()
-            || var10 instanceof ItemEnderPearl && keepPearls()
-            || var10 instanceof ItemFishingRod && keepFishingRods()
-            || var10 instanceof ItemSkull && keepHeads() && isHead(var0)
-            || var10 instanceof ItemPotion && isGoodPotion(var0) && keepPotions()
-            || var10 instanceof ItemArmor && !isWorseThanWorn(var0)
-            || var10 instanceof ItemPickaxe && InventoryUtil.getToolScore(var0) > var5
-            || var10 instanceof ItemAxe && InventoryUtil.getToolScore(var0) > var6
-            || var10 instanceof ItemSpade && InventoryUtil.getToolScore(var0) > var8
-            || var10 instanceof ItemSword && InventoryUtil.getDamageScore(var0) > var7
-            || var10 instanceof ItemBow && keepBows() && InventoryUtil.getBowScore(var0) > var9
-            || var0.getItem() == Items.arrow && keepBows() && countItems(null, Items.arrow) <= arrowLimit.getValue();
-      } catch (Exception var11) {
+         Item item = itemStack.getItem();
+         return item instanceof ItemBlock && keepBlocks() && isBuildingBlock((ItemBlock)item)
+            || item instanceof ItemFood && isSafeFood((ItemFood)item) && keepFood()
+            || item instanceof ItemEnderPearl && keepPearls()
+            || item instanceof ItemFishingRod && keepFishingRods()
+            || item instanceof ItemSkull && keepHeads() && isHead(itemStack)
+            || item instanceof ItemPotion && isGoodPotion(itemStack) && keepPotions()
+            || item instanceof ItemArmor && !isWorseThanWorn(itemStack)
+            || item instanceof ItemPickaxe && InventoryUtil.getToolScore(itemStack) > f
+            || item instanceof ItemAxe && InventoryUtil.getToolScore(itemStack) > g
+            || item instanceof ItemSpade && InventoryUtil.getToolScore(itemStack) > f2
+            || item instanceof ItemSword && InventoryUtil.getDamageScore(itemStack) > h
+            || item instanceof ItemBow && keepBows() && InventoryUtil.getBowScore(itemStack) > f3
+            || itemStack.getItem() == Items.arrow && keepBows() && countItems(null, Items.arrow) <= arrowLimit.getValue();
+      } catch (Exception exception) {
          return false;
       }
    }
 
-   public static boolean isBuildingBlock(ItemBlock var0) {
-      Block var4 = var0.getBlock();
-      return var4.getMaterial().blocksMovement()
-         && var4.isOpaqueCube()
-         && !var4.getMaterial().isLiquid()
-         && !(var4 instanceof BlockFalling)
-         && !(var4 instanceof BlockWorkbench)
-         && !(var4 instanceof BlockContainer);
+   public static boolean isBuildingBlock(ItemBlock itemBlock) {
+      Block block = itemBlock.getBlock();
+      return block.getMaterial().blocksMovement()
+         && block.isOpaqueCube()
+         && !block.getMaterial().isLiquid()
+         && !(block instanceof BlockFalling)
+         && !(block instanceof BlockWorkbench)
+         && !(block instanceof BlockContainer);
    }
 
-   private static boolean isWorseThanWorn(ItemStack var0) {
-      ItemArmor var4 = (ItemArmor)var0.getItem();
-      ArmorSlot var5 = ArmorSlots.byArmorType(var4.armorType);
-      if (var5 == null) {
+   private static boolean isWorseThanWorn(ItemStack itemStack) {
+      ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
+      ArmorSlot armorSlot = ArmorSlots.byArmorType(itemArmor.armorType);
+      if (armorSlot == null) {
          return true;
       }
 
-      ItemStack var6 = mc.thePlayer.inventoryContainer.getSlot(var5.slot).getStack();
-      int var7 = InventoryUtil.getArmorScore(var0);
-      int var8 = InventoryUtil.getArmorScore(var6);
-      return var8 > var7 || var8 == var7 && (var6.hasEffect() || !var0.hasEffect());
+      ItemStack itemStack2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot.slot).getStack();
+      int i = InventoryUtil.getArmorScore(itemStack);
+      int j = InventoryUtil.getArmorScore(itemStack2);
+      return j > i || j == i && (itemStack2.hasEffect() || !itemStack.hasEffect());
    }
 
    private static ItemStack[] getBestItems() {
-      ItemStack var3 = null;
-      ItemStack var4 = null;
-      ItemStack var5 = null;
-      ItemStack var6 = null;
-      ItemStack var7 = null;
-      ItemStack var8 = null;
-      ItemStack var9 = null;
-      ItemStack var10 = null;
-      ItemStack var11 = null;
-      ItemStack var12 = null;
-      float var13 = 0.0F;
-      float var14 = 0.0F;
-      float var15 = 0.0F;
-      float var16 = 0.0F;
-      float var17 = 0.0F;
-      int var18 = 0;
-      int var19 = 0;
-      int var20 = 0;
-      int var21 = 0;
-      int var22 = 0;
-      ArrayList var23 = null;
+      ItemStack itemStack = null;
+      ItemStack itemStack2 = null;
+      ItemStack itemStack3 = null;
+      ItemStack itemStack4 = null;
+      ItemStack itemStack5 = null;
+      ItemStack itemStack6 = null;
+      ItemStack itemStack7 = null;
+      ItemStack itemStack8 = null;
+      ItemStack itemStack9 = null;
+      ItemStack itemStack10 = null;
+      float f = 0.0F;
+      float g = 0.0F;
+      float h = 0.0F;
+      float f2 = 0.0F;
+      float f3 = 0.0F;
+      int i = 0;
+      int j = 0;
+      int k = 0;
+      int l = 0;
+      int m = 0;
+      ArrayList arrayList = null;
 
-      for (Slot var26 : mc.thePlayer.inventoryContainer.inventorySlots) {
-         if (var26 != null && var26.getHasStack()) {
-            ItemStack var27 = var26.getStack();
-            Item var28 = var27.getItem();
-            if (var27.isItemDamaged() && minDurability.getValue() > 0) {
-               int var29 = var27.getItemDamage() * 100 / var27.getMaxDamage();
-               int var30 = 100 - var29;
-               if (var30 < minDurability.getValue()) {
-                  if (var23 == null) {
-                     var23 = new ArrayList();
+      for (Slot slot : mc.thePlayer.inventoryContainer.inventorySlots) {
+         if (slot != null && slot.getHasStack()) {
+            ItemStack itemStack11 = slot.getStack();
+            Item item = itemStack11.getItem();
+            if (itemStack11.isItemDamaged() && minDurability.getValue() > 0) {
+               int n = itemStack11.getItemDamage() * 100 / itemStack11.getMaxDamage();
+               int i2 = 100 - n;
+               if (i2 < minDurability.getValue()) {
+                  if (arrayList == null) {
+                     arrayList = new ArrayList();
                   }
 
-                  var23.add(var27);
+                  arrayList.add(itemStack11);
                   continue;
                }
             }
 
-            if (var28 instanceof ItemPickaxe) {
-               int var48 = slots.getSetting("Pickaxe-Slot").asInt();
-               float var57 = InventoryUtil.getToolScore(var27);
-               if (var48 != 0) {
-                  ItemStack var66 = mc.thePlayer.inventory.getStackInSlot(var48 - 1);
-                  if (var66 != null) {
-                     float var71 = InventoryUtil.getToolScore(var66);
-                     if (var71 == var57 && var13 < var57 && var27 != var66 && var66.getItem() instanceof ItemPickaxe) {
-                        var13 = var71;
-                        var3 = var66;
+            if (item instanceof ItemPickaxe) {
+               int i3 = slots.getSetting("Pickaxe-Slot").asInt();
+               float f4 = InventoryUtil.getToolScore(itemStack11);
+               if (i3 != 0) {
+                  ItemStack itemStack12 = mc.thePlayer.inventory.getStackInSlot(i3 - 1);
+                  if (itemStack12 != null) {
+                     float f5 = InventoryUtil.getToolScore(itemStack12);
+                     if (f5 == f4 && f < f4 && itemStack11 != itemStack12 && itemStack12.getItem() instanceof ItemPickaxe) {
+                        f = f5;
+                        itemStack = itemStack12;
                         continue;
                      }
                   }
                }
 
-               if (var57 > var13) {
-                  var13 = var57;
-                  var3 = var27;
+               if (f4 > f) {
+                  f = f4;
+                  itemStack = itemStack11;
                }
-            } else if (var28 instanceof ItemAxe) {
-               int var47 = slots.getSetting("Axe-Slot").asInt();
-               float var56 = InventoryUtil.getToolScore(var27);
-               if (var47 != 0) {
-                  ItemStack var65 = mc.thePlayer.inventory.getStackInSlot(var47 - 1);
-                  if (var65 != null) {
-                     float var70 = InventoryUtil.getToolScore(var65);
-                     if (var70 == var56 && var14 < var56 && var27 != var65 && var65.getItem() instanceof ItemAxe) {
-                        var14 = var70;
-                        var4 = var65;
+            } else if (item instanceof ItemAxe) {
+               int i4 = slots.getSetting("Axe-Slot").asInt();
+               float f6 = InventoryUtil.getToolScore(itemStack11);
+               if (i4 != 0) {
+                  ItemStack itemStack13 = mc.thePlayer.inventory.getStackInSlot(i4 - 1);
+                  if (itemStack13 != null) {
+                     float f7 = InventoryUtil.getToolScore(itemStack13);
+                     if (f7 == f6 && g < f6 && itemStack11 != itemStack13 && itemStack13.getItem() instanceof ItemAxe) {
+                        g = f7;
+                        itemStack2 = itemStack13;
                         continue;
                      }
                   }
                }
 
-               if (var56 > var14) {
-                  var14 = var56;
-                  var4 = var27;
+               if (f6 > g) {
+                  g = f6;
+                  itemStack2 = itemStack11;
                }
-            } else if (var28 instanceof ItemSpade) {
-               int var46 = slots.getSetting("Shovel-Slot").asInt();
-               float var55 = InventoryUtil.getToolScore(var27);
-               if (var46 != 0) {
-                  ItemStack var64 = mc.thePlayer.inventory.getStackInSlot(var46 - 1);
-                  if (var64 != null) {
-                     float var69 = InventoryUtil.getToolScore(var64);
-                     if (var69 == var55 && var15 < var55 && var27 != var64 && var64.getItem() instanceof ItemSpade) {
-                        var15 = var69;
-                        var5 = var64;
+            } else if (item instanceof ItemSpade) {
+               int i5 = slots.getSetting("Shovel-Slot").asInt();
+               float f8 = InventoryUtil.getToolScore(itemStack11);
+               if (i5 != 0) {
+                  ItemStack itemStack14 = mc.thePlayer.inventory.getStackInSlot(i5 - 1);
+                  if (itemStack14 != null) {
+                     float f9 = InventoryUtil.getToolScore(itemStack14);
+                     if (f9 == f8 && h < f8 && itemStack11 != itemStack14 && itemStack14.getItem() instanceof ItemSpade) {
+                        h = f9;
+                        itemStack3 = itemStack14;
                         continue;
                      }
                   }
                }
 
-               if (var55 > var15) {
-                  var15 = var55;
-                  var5 = var27;
+               if (f8 > h) {
+                  h = f8;
+                  itemStack3 = itemStack11;
                }
-            } else if (var28 instanceof ItemShears) {
-               int var45 = var27.getItemDamage() + (var27.hasEffect() ? 50 : 0);
-               if (var45 >= var18) {
-                  var18 = var45;
-                  var6 = var27;
+            } else if (item instanceof ItemShears) {
+               int i6 = itemStack11.getItemDamage() + (itemStack11.hasEffect() ? 50 : 0);
+               if (i6 >= i) {
+                  i = i6;
+                  itemStack4 = itemStack11;
                }
-            } else if (var28 instanceof ItemFishingRod && keepFishingRods()) {
-               int var44 = var27.getItemDamage() + (var27.hasEffect() ? 50 : 0);
-               if (var44 >= var22) {
-                  var22 = var44;
-                  var12 = var27;
+            } else if (item instanceof ItemFishingRod && keepFishingRods()) {
+               int i7 = itemStack11.getItemDamage() + (itemStack11.hasEffect() ? 50 : 0);
+               if (i7 >= m) {
+                  m = i7;
+                  itemStack10 = itemStack11;
                }
-            } else if (!(var28 instanceof ItemSword)) {
-               if (var28 instanceof ItemAppleGold) {
-                  int var43 = slots.getSetting("Gapple-Slot").asInt();
-                  if (var43 != 0) {
-                     ItemStack var54 = mc.thePlayer.inventory.getStackInSlot(var43 - 1);
-                     if (var54 != null) {
-                        int var63 = var27.stackSize;
-                        if (var63 == var54.stackSize && var19 < var63 && var27 != var54 && var54.getItem() instanceof ItemAppleGold) {
-                           var19 = var63;
-                           var8 = var54;
+            } else if (!(item instanceof ItemSword)) {
+               if (item instanceof ItemAppleGold) {
+                  int i8 = slots.getSetting("Gapple-Slot").asInt();
+                  if (i8 != 0) {
+                     ItemStack itemStack15 = mc.thePlayer.inventory.getStackInSlot(i8 - 1);
+                     if (itemStack15 != null) {
+                        int i9 = itemStack11.stackSize;
+                        if (i9 == itemStack15.stackSize && j < i9 && itemStack11 != itemStack15 && itemStack15.getItem() instanceof ItemAppleGold) {
+                           j = i9;
+                           itemStack6 = itemStack15;
                            continue;
                         }
                      }
                   }
 
-                  if (var27.stackSize > var19) {
-                     var19 = var27.stackSize;
-                     var8 = var27;
+                  if (itemStack11.stackSize > j) {
+                     j = itemStack11.stackSize;
+                     itemStack6 = itemStack11;
                   }
-               } else if (var28 instanceof ItemEnderPearl && keepPearls()) {
-                  int var42 = slots.getSetting("Pearl-Slot").asInt();
-                  if (var42 != 0) {
-                     ItemStack var53 = mc.thePlayer.inventory.getStackInSlot(var42 - 1);
-                     if (var53 != null) {
-                        int var62 = var27.stackSize;
-                        if (var62 == var53.stackSize && var21 < var62 && var27 != var53 && var53.getItem() instanceof ItemEnderPearl) {
-                           var21 = var62;
-                           var11 = var53;
+               } else if (item instanceof ItemEnderPearl && keepPearls()) {
+                  int i10 = slots.getSetting("Pearl-Slot").asInt();
+                  if (i10 != 0) {
+                     ItemStack itemStack16 = mc.thePlayer.inventory.getStackInSlot(i10 - 1);
+                     if (itemStack16 != null) {
+                        int i11 = itemStack11.stackSize;
+                        if (i11 == itemStack16.stackSize && l < i11 && itemStack11 != itemStack16 && itemStack16.getItem() instanceof ItemEnderPearl) {
+                           l = i11;
+                           itemStack9 = itemStack16;
                            continue;
                         }
                      }
                   }
 
-                  if (var27.stackSize > var21) {
-                     var21 = var27.stackSize;
-                     var11 = var27;
+                  if (itemStack11.stackSize > l) {
+                     l = itemStack11.stackSize;
+                     itemStack9 = itemStack11;
                   }
-               } else if (var28 instanceof ItemSkull && isHead(var27) && keepHeads()) {
-                  int var41 = slots.getSetting("Head-Slot").asInt();
-                  if (var41 != 0) {
-                     ItemStack var52 = mc.thePlayer.inventory.getStackInSlot(var41 - 1);
-                     if (var52 != null) {
-                        int var61 = var27.stackSize;
-                        if (var61 == var52.stackSize && var20 < var61 && var27 != var52 && var52.getItem() instanceof ItemSkull && isHead(var52)) {
-                           var20 = var61;
-                           var9 = var52;
+               } else if (item instanceof ItemSkull && isHead(itemStack11) && keepHeads()) {
+                  int i12 = slots.getSetting("Head-Slot").asInt();
+                  if (i12 != 0) {
+                     ItemStack itemStack17 = mc.thePlayer.inventory.getStackInSlot(i12 - 1);
+                     if (itemStack17 != null) {
+                        int i13 = itemStack11.stackSize;
+                        if (i13 == itemStack17.stackSize && k < i13 && itemStack11 != itemStack17 && itemStack17.getItem() instanceof ItemSkull && isHead(itemStack17)) {
+                           k = i13;
+                           itemStack7 = itemStack17;
                            continue;
                         }
                      }
                   }
 
-                  if (var27.stackSize > var20) {
-                     var20 = var27.stackSize;
-                     var9 = var27;
+                  if (itemStack11.stackSize > k) {
+                     k = itemStack11.stackSize;
+                     itemStack7 = itemStack11;
                   }
-               } else if (var28 instanceof ItemBow && keepBows()) {
-                  int var40 = slots.getSetting("Bow-Slot").asInt();
-                  float var51 = InventoryUtil.getBowScore(var27);
-                  if (var40 != 0) {
-                     ItemStack var60 = mc.thePlayer.inventory.getStackInSlot(var40 - 1);
-                     if (var60 != null) {
-                        float var68 = InventoryUtil.getBowScore(var60);
-                        if (var68 == var51 && var17 < var51 && var27 != var60 && var60.getItem() instanceof ItemBow) {
-                           var17 = var68;
-                           var10 = var60;
+               } else if (item instanceof ItemBow && keepBows()) {
+                  int i14 = slots.getSetting("Bow-Slot").asInt();
+                  float f10 = InventoryUtil.getBowScore(itemStack11);
+                  if (i14 != 0) {
+                     ItemStack itemStack18 = mc.thePlayer.inventory.getStackInSlot(i14 - 1);
+                     if (itemStack18 != null) {
+                        float f11 = InventoryUtil.getBowScore(itemStack18);
+                        if (f11 == f10 && f3 < f10 && itemStack11 != itemStack18 && itemStack18.getItem() instanceof ItemBow) {
+                           f3 = f11;
+                           itemStack8 = itemStack18;
                            continue;
                         }
                      }
                   }
 
-                  if (var51 > var17) {
-                     var17 = var51;
-                     var10 = var27;
+                  if (f10 > f3) {
+                     f3 = f10;
+                     itemStack8 = itemStack11;
                   }
                }
             } else {
-               float var39 = InventoryUtil.getDamageScore(var27);
-               OldInventoryManagerUHCSwordMode var50 = (OldInventoryManagerUHCSwordMode)uhc.getSetting("Sword").getValue();
+               float f12 = InventoryUtil.getDamageScore(itemStack11);
+               OldInventoryManagerUHCSwordMode oldInventoryManagerUHCSwordMode = (OldInventoryManagerUHCSwordMode)uhc.getSetting("Sword").getValue();
                if (uhc.getSetting("Enable").asBoolean()) {
-                  boolean var31 = var50 == OldInventoryManagerUHCSwordMode.DRAGON_SWORD && isDragonSword(var27)
-                     || var50 == OldInventoryManagerUHCSwordMode.BLOODLUST && isBloodlust(var27);
-                  if (var31) {
-                     var39 = 999.0F;
+                  boolean bl = oldInventoryManagerUHCSwordMode == OldInventoryManagerUHCSwordMode.DRAGON_SWORD && isDragonSword(itemStack11)
+                     || oldInventoryManagerUHCSwordMode == OldInventoryManagerUHCSwordMode.BLOODLUST && isBloodlust(itemStack11);
+                  if (bl) {
+                     f12 = 999.0F;
                   }
                }
 
-               int var59 = slots.getSetting("Sword-Slot").asInt();
-               if (var59 != 0) {
-                  ItemStack var32 = mc.thePlayer.inventory.getStackInSlot(var59 - 1);
-                  if (var32 != null) {
-                     boolean var33 = uhc.getSetting("Enable").asBoolean()
+               int i15 = slots.getSetting("Sword-Slot").asInt();
+               if (i15 != 0) {
+                  ItemStack itemStack19 = mc.thePlayer.inventory.getStackInSlot(i15 - 1);
+                  if (itemStack19 != null) {
+                     boolean bl2 = uhc.getSetting("Enable").asBoolean()
                         && (
-                           var50 == OldInventoryManagerUHCSwordMode.DRAGON_SWORD && isDragonSword(var32)
-                              || var50 == OldInventoryManagerUHCSwordMode.BLOODLUST && isBloodlust(var32)
+                           oldInventoryManagerUHCSwordMode == OldInventoryManagerUHCSwordMode.DRAGON_SWORD && isDragonSword(itemStack19)
+                              || oldInventoryManagerUHCSwordMode == OldInventoryManagerUHCSwordMode.BLOODLUST && isBloodlust(itemStack19)
                         );
-                     float var34 = InventoryUtil.getDamageScore(var32);
-                     if (var33) {
-                        var34 = 999.0F;
+                     float f13 = InventoryUtil.getDamageScore(itemStack19);
+                     if (bl2) {
+                        f13 = 999.0F;
                      }
 
-                     if (var34 == var39 && var16 < var34 && var27 != var32 && var32.getItem() instanceof ItemSword) {
-                        var16 = var34;
-                        var7 = var32;
+                     if (f13 == f12 && f2 < f13 && itemStack11 != itemStack19 && itemStack19.getItem() instanceof ItemSword) {
+                        f2 = f13;
+                        itemStack5 = itemStack19;
                         continue;
                      }
                   }
                }
 
-               if (var39 > var16) {
-                  var16 = var39;
-                  var7 = var27;
+               if (f12 > f2) {
+                  f2 = f12;
+                  itemStack5 = itemStack11;
                }
             }
          }
       }
 
-      if (var23 != null) {
-         int var35 = 9999;
-         int var36 = 9999;
-         int var37 = 9999;
-         int var38 = 9999;
-         ItemStack var49 = null;
-         ItemStack var58 = null;
-         ItemStack var67 = null;
-         ItemStack var72 = null;
+      if (arrayList != null) {
+         int i16 = 9999;
+         int i17 = 9999;
+         int i18 = 9999;
+         int i19 = 9999;
+         ItemStack itemStack20 = null;
+         ItemStack itemStack21 = null;
+         ItemStack itemStack22 = null;
+         ItemStack itemStack23 = null;
 
-         for (Object var74$raw : var23) {
-            ItemStack var74 = (ItemStack)var74$raw;
-            if (var74.getItem() instanceof ItemPickaxe && var3 == null && var35 > var74.getItemDamage()) {
-               var49 = var74;
-               var35 = var74.getItemDamage();
+         for (Object object : arrayList) {
+            ItemStack itemStack24 = (ItemStack)object;
+            if (itemStack24.getItem() instanceof ItemPickaxe && itemStack == null && i16 > itemStack24.getItemDamage()) {
+               itemStack20 = itemStack24;
+               i16 = itemStack24.getItemDamage();
             }
 
-            if (var74.getItem() instanceof ItemAxe && var4 == null && var36 > var74.getItemDamage()) {
-               var58 = var74;
-               var36 = var74.getItemDamage();
+            if (itemStack24.getItem() instanceof ItemAxe && itemStack2 == null && i17 > itemStack24.getItemDamage()) {
+               itemStack21 = itemStack24;
+               i17 = itemStack24.getItemDamage();
             }
 
-            if (var74.getItem() instanceof ItemSpade && var5 == null && var37 > var74.getItemDamage()) {
-               var67 = var74;
-               var37 = var74.getItemDamage();
+            if (itemStack24.getItem() instanceof ItemSpade && itemStack3 == null && i18 > itemStack24.getItemDamage()) {
+               itemStack22 = itemStack24;
+               i18 = itemStack24.getItemDamage();
             }
 
-            if (var74.getItem() instanceof ItemSword && var7 == null && var38 > var74.getItemDamage()) {
-               var72 = var74;
-               var38 = var74.getItemDamage();
+            if (itemStack24.getItem() instanceof ItemSword && itemStack5 == null && i19 > itemStack24.getItemDamage()) {
+               itemStack23 = itemStack24;
+               i19 = itemStack24.getItemDamage();
             }
          }
 
-         if (var49 != null) {
-            var3 = var49;
+         if (itemStack20 != null) {
+            itemStack = itemStack20;
          }
 
-         if (var58 != null) {
-            var4 = var58;
+         if (itemStack21 != null) {
+            itemStack2 = itemStack21;
          }
 
-         if (var67 != null) {
-            var5 = var67;
+         if (itemStack22 != null) {
+            itemStack3 = itemStack22;
          }
 
-         if (var72 != null) {
-            var7 = var72;
+         if (itemStack23 != null) {
+            itemStack5 = itemStack23;
          }
       }
 
-      return new ItemStack[]{var3, var4, var5, var6, var7, var8, var9, var10, var11, var12};
+      return new ItemStack[]{itemStack, itemStack2, itemStack3, itemStack4, itemStack5, itemStack6, itemStack7, itemStack8, itemStack9, itemStack10};
    }
 
-   private int toContainerSlot(int var1) {
-      return var1 == 0 ? -999 : 35 + var1;
+   private int toContainerSlot(int i) {
+      return i == 0 ? -999 : 35 + i;
    }
 
-   private static boolean isGoodPotion(ItemStack var0) {
-      int var4 = 0;
-      int var5 = 0;
-      if (var0 == null) {
+   private static boolean isGoodPotion(ItemStack itemStack) {
+      int i = 0;
+      int j = 0;
+      if (itemStack == null) {
          return false;
       }
 
-      for (PotionEffect var7 : Items.potionitem.getEffects(var0)) {
-         if (var7 != null) {
-            Potion var8 = Potion.potionTypes[var7.getPotionID()];
-            if (var8 != null) {
-               if (var8.isBadEffect()) {
-                  var4++;
+      for (PotionEffect potionEffect : Items.potionitem.getEffects(itemStack)) {
+         if (potionEffect != null) {
+            Potion potion = Potion.potionTypes[potionEffect.getPotionID()];
+            if (potion != null) {
+               if (potion.isBadEffect()) {
+                  i++;
                } else {
-                  var5++;
+                  j++;
                }
             }
          }
       }
 
-      return var4 < var5;
+      return i < j;
    }
 
    private boolean shouldDropArmor() {
@@ -978,148 +978,148 @@ public final class OldInventoryManager extends Module {
       return drop.getSetting("Enabled").asBoolean();
    }
 
-   private void dropSlot(int var1) {
+   private void dropSlot(int i) {
       if (this.dropTimer.hasElapsed(this.delay.getValue().intValue())) {
-         InventoryUtil.dropSlot(var1, 0);
+         InventoryUtil.dropSlot(i, 0);
       }
    }
 
-   public static int countItems(Class<?> var0, Object var1) {
-      int var5 = 0;
+   public static int countItems(Class<?> class2, Object object) {
+      int i = 0;
 
-      for (int var6 = 0; var6 < mc.thePlayer.inventoryContainer.inventorySlots.size(); var6++) {
-         Slot var7 = mc.thePlayer.inventoryContainer.inventorySlots.get(var6);
-         if (var7 != null && var7.getSlotTexture() == null && var7.getHasStack()) {
-            ItemStack var8 = var7.getStack();
-            if ((!(var8.getItem() instanceof ItemBlock) || !isOreBlock((ItemBlock)var8.getItem()))
-               && (var0 != null && var0.isInstance(var8.getItem()) || var1 == var8.getItem())) {
-               var5 += var8.stackSize;
+      for (int j = 0; j < mc.thePlayer.inventoryContainer.inventorySlots.size(); j++) {
+         Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+         if (slot != null && slot.getSlotTexture() == null && slot.getHasStack()) {
+            ItemStack itemStack = slot.getStack();
+            if ((!(itemStack.getItem() instanceof ItemBlock) || !isOreBlock((ItemBlock)itemStack.getItem()))
+               && (class2 != null && class2.isInstance(itemStack.getItem()) || object == itemStack.getItem())) {
+               i += itemStack.stackSize;
             }
          }
       }
 
-      return var5;
+      return i;
    }
 
    private static int countWorkbenches() {
-      int var3 = 0;
+      int i = 0;
 
-      for (int var4 = 0; var4 < mc.thePlayer.inventoryContainer.inventorySlots.size(); var4++) {
-         Slot var5 = mc.thePlayer.inventoryContainer.inventorySlots.get(var4);
-         if (var5 != null && var5.getSlotTexture() == null && var5.getHasStack()) {
-            ItemStack var6 = var5.getStack();
-            if (var6.getItem() instanceof ItemBlock && ((ItemBlock)var6.getItem()).getBlock() instanceof BlockWorkbench) {
-               var3 += var6.stackSize;
+      for (int j = 0; j < mc.thePlayer.inventoryContainer.inventorySlots.size(); j++) {
+         Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+         if (slot != null && slot.getSlotTexture() == null && slot.getHasStack()) {
+            ItemStack itemStack = slot.getStack();
+            if (itemStack.getItem() instanceof ItemBlock && ((ItemBlock)itemStack.getItem()).getBlock() instanceof BlockWorkbench) {
+               i += itemStack.stackSize;
             }
          }
       }
 
-      return var3;
+      return i;
    }
 
    private static int countForges() {
-      int var3 = 0;
+      int i = 0;
 
-      for (int var4 = 0; var4 < mc.thePlayer.inventoryContainer.inventorySlots.size(); var4++) {
-         Slot var5 = mc.thePlayer.inventoryContainer.inventorySlots.get(var4);
-         if (var5 != null && var5.getSlotTexture() == null && var5.getHasStack()) {
-            ItemStack var6 = var5.getStack();
-            if (var6.getItem() instanceof ItemBlock && ((ItemBlock)var6.getItem()).getBlock() instanceof BlockFurnace && var6.hasEffect()) {
-               var3 += var6.stackSize;
+      for (int j = 0; j < mc.thePlayer.inventoryContainer.inventorySlots.size(); j++) {
+         Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+         if (slot != null && slot.getSlotTexture() == null && slot.getHasStack()) {
+            ItemStack itemStack = slot.getStack();
+            if (itemStack.getItem() instanceof ItemBlock && ((ItemBlock)itemStack.getItem()).getBlock() instanceof BlockFurnace && itemStack.hasEffect()) {
+               i += itemStack.stackSize;
             }
          }
       }
 
-      return var3;
+      return i;
    }
 
-   private static int countItemsOf(Class<?> var0) {
-      return countItems(var0, null);
+   private static int countItemsOf(Class<?> class2) {
+      return countItems(class2, null);
    }
 
-   private static boolean isSafeFood(ItemFood var0) {
-      return var0.J() != Potion.hunger.id && var0.J() != Potion.poison.id;
+   private static boolean isSafeFood(ItemFood itemFood) {
+      return itemFood.J() != Potion.hunger.id && itemFood.J() != Potion.poison.id;
    }
 
-   public static boolean isHead(ItemStack var0) {
-      return var0.getMetadata() == 3 && (var0.getDisplayName() == null || !var0.getDisplayName().contains("Backpack"));
+   public static boolean isHead(ItemStack itemStack) {
+      return itemStack.getMetadata() == 3 && (itemStack.getDisplayName() == null || !itemStack.getDisplayName().contains("Backpack"));
    }
 
-   private void moveToSlot(OldInventoryManagerSlot var1, ItemStack var2, int var3) {
-      int var7 = slots.getSetting(var1.getSettingName()).asInt();
-      if (var7 > 0) {
-         int var8 = var7 - 1;
-         ItemStack var9 = mc.thePlayer.inventory.getStackInSlot(var8);
-         if (var9 != var2) {
-            this.swapToHotbar(var3, var8);
+   private void moveToSlot(OldInventoryManagerSlot oldInventoryManagerSlot, ItemStack itemStack, int i) {
+      int j = slots.getSetting(oldInventoryManagerSlot.getSettingName()).asInt();
+      if (j > 0) {
+         int k = j - 1;
+         ItemStack itemStack2 = mc.thePlayer.inventory.getStackInSlot(k);
+         if (itemStack2 != itemStack) {
+            this.swapToHotbar(i, k);
          }
       }
    }
 
-   private void swapToHotbar(int var1, int var2) {
-      mc.playerController.windowClick(0, var1, var2, 2, mc.thePlayer);
+   private void swapToHotbar(int i, int j) {
+      mc.playerController.windowClick(0, i, j, 2, mc.thePlayer);
    }
 
-   public static boolean hasDuplicateSlots(int[] var0) {
-      BitSet var5 = new BitSet(11);
-      var5.set(0, 10, false);
+   public static boolean hasDuplicateSlots(int[] ints) {
+      BitSet bitSet = new BitSet(11);
+      bitSet.set(0, 10, false);
 
-      for (int var9 : var0) {
-         if (var9 != 0) {
-            if (var5.get(var9)) {
+      for (int i : ints) {
+         if (i != 0) {
+            if (bitSet.get(i)) {
                return true;
             }
 
-            var5.set(var9, true);
+            bitSet.set(i, true);
          }
       }
 
       return false;
    }
 
-   private static OldInventoryManagerSlot getSlotFor(ItemStack var0) {
-      Item var4 = var0.getItem();
-      if (var4 instanceof ItemSpade) {
+   private static OldInventoryManagerSlot getSlotFor(ItemStack itemStack) {
+      Item item = itemStack.getItem();
+      if (item instanceof ItemSpade) {
          return OldInventoryManagerSlot.SHOVEL;
-      } else if (var4 instanceof ItemPickaxe) {
+      } else if (item instanceof ItemPickaxe) {
          return OldInventoryManagerSlot.PICKAXE;
-      } else if (var4 instanceof ItemAxe) {
+      } else if (item instanceof ItemAxe) {
          return OldInventoryManagerSlot.AXE;
-      } else if (var4 instanceof ItemSword) {
+      } else if (item instanceof ItemSword) {
          return OldInventoryManagerSlot.SWORD;
-      } else if (var4 instanceof ItemAppleGold) {
+      } else if (item instanceof ItemAppleGold) {
          return OldInventoryManagerSlot.GAPPLE;
-      } else if (var4 instanceof ItemSkull && isHead(var0)) {
+      } else if (item instanceof ItemSkull && isHead(itemStack)) {
          return OldInventoryManagerSlot.HEAD;
-      } else if (var4 instanceof ItemBow) {
+      } else if (item instanceof ItemBow) {
          return OldInventoryManagerSlot.BOW;
-      } else if (var4 instanceof ItemEnderPearl) {
+      } else if (item instanceof ItemEnderPearl) {
          return OldInventoryManagerSlot.PEARL;
       } else {
-         return var4 instanceof ItemFishingRod ? OldInventoryManagerSlot.FISHING_ROD : null;
+         return item instanceof ItemFishingRod ? OldInventoryManagerSlot.FISHING_ROD : null;
       }
    }
 
-   public static String getLore(ItemStack var0) {
-      StringBuilder var4 = new StringBuilder();
-      if (var0.V() != null && var0.V().hasKey("display", 10)) {
-         NBTTagCompound var5 = var0.V().getCompoundTag("display");
-         NBTTagList var6 = var5.getTagList("Lore", 8);
-         if (var6.tagCount() > 0) {
-            for (int var7 = 0; var7 < var6.tagCount(); var7++) {
-               var4.append(var6.getStringTagAt(var7));
+   public static String getLore(ItemStack itemStack) {
+      StringBuilder stringBuilder = new StringBuilder();
+      if (itemStack.V() != null && itemStack.V().hasKey("display", 10)) {
+         NBTTagCompound nbtTagCompound = itemStack.V().getCompoundTag("display");
+         NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
+         if (nbtTagList.tagCount() > 0) {
+            for (int i = 0; i < nbtTagList.tagCount(); i++) {
+               stringBuilder.append(nbtTagList.getStringTagAt(i));
             }
          }
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
-   public static boolean isDragonSword(ItemStack var0) {
-      String var4 = getLore(var0);
+   public static boolean isDragonSword(ItemStack itemStack) {
+      String string = getLore(itemStack);
 
-      for (String var6 : uhcItemLore) {
-         if (var4.contains(var6) && var6.equals("Weaponsmith Ultimate")) {
+      for (String string2 : uhcItemLore) {
+         if (string.contains(string2) && string2.equals("Weaponsmith Ultimate")) {
             return true;
          }
       }
@@ -1127,11 +1127,11 @@ public final class OldInventoryManager extends Module {
       return false;
    }
 
-   public static boolean isBloodlust(ItemStack var0) {
-      String var4 = getLore(var0);
+   public static boolean isBloodlust(ItemStack itemStack) {
+      String string = getLore(itemStack);
 
-      for (String var6 : uhcItemLore) {
-         if (var4.contains(var6) && var6.contains("Gains Sharpness II after 1 kill")) {
+      for (String string2 : uhcItemLore) {
+         if (string.contains(string2) && string2.contains("Gains Sharpness II after 1 kill")) {
             return true;
          }
       }
@@ -1140,7 +1140,7 @@ public final class OldInventoryManager extends Module {
    }
 
    static {
-      long var20 = u ^ 139327214074234L;
-      long var10000 = 7594547158736891620L ^ var20;
+      long l = u ^ 139327214074234L;
+      long m = 7594547158736891620L ^ l;
    }
 }

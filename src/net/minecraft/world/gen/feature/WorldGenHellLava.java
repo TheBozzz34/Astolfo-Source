@@ -12,66 +12,66 @@ public class WorldGenHellLava extends WorldGenerator {
    private final boolean field_94524_b;
    private static final long a = 100011368551636L;
 
-   public WorldGenHellLava(Block var1, boolean var2) {
-      this.field_150553_a = var1;
-      this.field_94524_b = var2;
+   public WorldGenHellLava(Block block, boolean bl) {
+      this.field_150553_a = block;
+      this.field_94524_b = bl;
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      if (var1.getBlockState(var3.up()).getBlock() != Blocks.netherrack) {
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      if (worldIn.getBlockState(position.up()).getBlock() != Blocks.netherrack) {
          return false;
       }
 
-      if (var1.getBlockState(var3).getBlock().getMaterial() != Material.air && var1.getBlockState(var3).getBlock() != Blocks.netherrack) {
+      if (worldIn.getBlockState(position).getBlock().getMaterial() != Material.air && worldIn.getBlockState(position).getBlock() != Blocks.netherrack) {
          return false;
       }
 
-      int var7 = 0;
-      if (var1.getBlockState(var3.west()).getBlock() == Blocks.netherrack) {
-         var7++;
+      int i = 0;
+      if (worldIn.getBlockState(position.west()).getBlock() == Blocks.netherrack) {
+         i++;
       }
 
-      if (var1.getBlockState(var3.east()).getBlock() == Blocks.netherrack) {
-         var7++;
+      if (worldIn.getBlockState(position.east()).getBlock() == Blocks.netherrack) {
+         i++;
       }
 
-      if (var1.getBlockState(var3.north()).getBlock() == Blocks.netherrack) {
-         var7++;
+      if (worldIn.getBlockState(position.north()).getBlock() == Blocks.netherrack) {
+         i++;
       }
 
-      if (var1.getBlockState(var3.south()).getBlock() == Blocks.netherrack) {
-         var7++;
+      if (worldIn.getBlockState(position.south()).getBlock() == Blocks.netherrack) {
+         i++;
       }
 
-      if (var1.getBlockState(var3.down()).getBlock() == Blocks.netherrack) {
-         var7++;
+      if (worldIn.getBlockState(position.down()).getBlock() == Blocks.netherrack) {
+         i++;
       }
 
-      int var8 = 0;
-      if (var1.isAirBlock(var3.west())) {
-         var8++;
+      int j = 0;
+      if (worldIn.isAirBlock(position.west())) {
+         j++;
       }
 
-      if (var1.isAirBlock(var3.east())) {
-         var8++;
+      if (worldIn.isAirBlock(position.east())) {
+         j++;
       }
 
-      if (var1.isAirBlock(var3.north())) {
-         var8++;
+      if (worldIn.isAirBlock(position.north())) {
+         j++;
       }
 
-      if (var1.isAirBlock(var3.south())) {
-         var8++;
+      if (worldIn.isAirBlock(position.south())) {
+         j++;
       }
 
-      if (var1.isAirBlock(var3.down())) {
-         var8++;
+      if (worldIn.isAirBlock(position.down())) {
+         j++;
       }
 
-      if (!this.field_94524_b && var7 == 4 && var8 == 1 || var7 == 5) {
-         var1.setBlockState(var3, this.field_150553_a.getDefaultState(), 2);
-         var1.forceBlockUpdateTick(this.field_150553_a, var3, var2);
+      if (!this.field_94524_b && i == 4 && j == 1 || i == 5) {
+         worldIn.setBlockState(position, this.field_150553_a.getDefaultState(), 2);
+         worldIn.forceBlockUpdateTick(this.field_150553_a, position, rand);
       }
 
       return true;

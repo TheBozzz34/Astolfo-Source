@@ -19,9 +19,9 @@ public class GuiControls extends GuiScreen {
    private GuiButton buttonReset;
    private static final long b = 91663225943679L;
 
-   public GuiControls(GuiScreen var1, GameSettings var2) {
-      this.parentScreen = var1;
-      this.options = var2;
+   public GuiControls(GuiScreen screen, GameSettings settings) {
+      this.parentScreen = screen;
+      this.options = settings;
    }
 
    @Override
@@ -30,21 +30,21 @@ public class GuiControls extends GuiScreen {
       this.buttonList.add(new GuiButton(200, this.width / 2 - 155, this.height - 29, 150, 20, I18n.format("gui.done")));
       this.buttonList.add(this.buttonReset = new GuiButton(201, this.width / 2 - 155 + 160, this.height - 29, 150, 20, I18n.format("controls.resetAll")));
       this.screenTitle = I18n.format("controls.title");
-      int var4 = 0;
+      int i = 0;
 
-      for (GameSettings.Options var8 : optionsArr) {
-         if (var8.getEnumFloat()) {
-            this.buttonList.add(new GuiOptionSlider(var8.returnEnumOrdinal(), this.width / 2 - 155 + var4 % 2 * 160, 18 + 24 * (var4 >> 1), var8));
+      for (GameSettings.Options options2 : optionsArr) {
+         if (options2.getEnumFloat()) {
+            this.buttonList.add(new GuiOptionSlider(options2.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, 18 + 24 * (i >> 1), options2));
          } else {
             this.buttonList
                .add(
                   new GuiOptionButton(
-                     var8.returnEnumOrdinal(), this.width / 2 - 155 + var4 % 2 * 160, 18 + 24 * (var4 >> 1), var8, this.options.getKeyBinding(var8)
+                     options2.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, 18 + 24 * (i >> 1), options2, this.options.getKeyBinding(options2)
                   )
                );
          }
 
-         var4++;
+         i++;
       }
    }
 
@@ -55,73 +55,73 @@ public class GuiControls extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 200) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 200) {
          this.mc.displayGuiScreen(this.parentScreen);
-      } else if (var1.id == 201) {
-         for (KeyBinding var8 : this.mc.gameSettings.keyBindings) {
-            var8.setKeyCode(var8.getKeyCodeDefault());
+      } else if (button.id == 201) {
+         for (KeyBinding keyBinding : this.mc.gameSettings.keyBindings) {
+            keyBinding.setKeyCode(keyBinding.getKeyCodeDefault());
          }
 
          KeyBinding.resetKeyBindingArrayAndHash();
-      } else if (var1.id < 100 && var1 instanceof GuiOptionButton) {
-         this.options.setOptionValue(((GuiOptionButton)var1).returnEnumOptions(), 1);
-         var1.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(var1.id));
+      } else if (button.id < 100 && button instanceof GuiOptionButton) {
+         this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+         button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
       }
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
       if (this.buttonId != null) {
-         this.options.setOptionKeyBinding(this.buttonId, -100 + var3);
+         this.options.setOptionKeyBinding(this.buttonId, -100 + mouseButton);
          this.buttonId = null;
          KeyBinding.resetKeyBindingArrayAndHash();
-      } else if (var3 != 0 || !this.keyBindingList.mouseClicked(var1, var2, var3)) {
-         super.mouseClicked(var1, var2, var3);
+      } else if (mouseButton != 0 || !this.keyBindingList.mouseClicked(mouseX, mouseY, mouseButton)) {
+         super.mouseClicked(mouseX, mouseY, mouseButton);
       }
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3) {
-      if (var3 != 0 || !this.keyBindingList.mouseReleased(var1, var2, var3)) {
-         super.mouseReleased(var1, var2, var3);
+   public void mouseReleased(int mouseX, int mouseY, int state) {
+      if (state != 0 || !this.keyBindingList.mouseReleased(mouseX, mouseY, state)) {
+         super.mouseReleased(mouseX, mouseY, state);
       }
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
       if (this.buttonId != null) {
-         if (var2 == 1) {
+         if (keyCode == 1) {
             this.options.setOptionKeyBinding(this.buttonId, 0);
-         } else if (var2 != 0) {
-            this.options.setOptionKeyBinding(this.buttonId, var2);
-         } else if (var1 > 0) {
-            this.options.setOptionKeyBinding(this.buttonId, var1 + 256);
+         } else if (keyCode != 0) {
+            this.options.setOptionKeyBinding(this.buttonId, keyCode);
+         } else if (typedChar > 0) {
+            this.options.setOptionKeyBinding(this.buttonId, typedChar + 256);
          }
 
          this.buttonId = null;
          this.time = Minecraft.getSystemTime();
          KeyBinding.resetKeyBindingArrayAndHash();
       } else {
-         super.keyTyped(var1, var2);
+         super.keyTyped(typedChar, keyCode);
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.keyBindingList.drawScreen(var1, var2, var3);
+      this.keyBindingList.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, this.screenTitle, this.width / 2, 8, 16777215);
-      boolean var7 = true;
+      boolean bl = true;
 
-      for (KeyBinding var11 : this.options.keyBindings) {
-         if (var11.getKeyCode() != var11.getKeyCodeDefault()) {
-            var7 = false;
+      for (KeyBinding keyBinding : this.options.keyBindings) {
+         if (keyBinding.getKeyCode() != keyBinding.getKeyCodeDefault()) {
+            bl = false;
             break;
          }
       }
 
-      this.buttonReset.enabled = !var7;
-      super.drawScreen(var1, var2, var3);
+      this.buttonReset.enabled = !bl;
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

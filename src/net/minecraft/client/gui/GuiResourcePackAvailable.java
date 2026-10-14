@@ -8,8 +8,8 @@ import net.minecraft.client.resources.ResourcePackListEntry;
 public class GuiResourcePackAvailable extends GuiResourcePackList {
    private static final long c = 21114068759901L;
 
-   public GuiResourcePackAvailable(Minecraft var1, int var2, int var3, List<ResourcePackListEntry> var4) {
-      super(var1, var2, var3, var4);
+   public GuiResourcePackAvailable(Minecraft mcIn, int i, int j, List<ResourcePackListEntry> list) {
+      super(mcIn, i, j, list);
    }
 
    @Override

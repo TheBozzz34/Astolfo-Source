@@ -9,32 +9,32 @@ public interface TabGuiPanel {
 
    List<TabGuiItem> getItems();
 
-   default void addItem(TabGuiItem var1) {
-      this.getItems().add(var1);
+   default void addItem(TabGuiItem tabGuiItem) {
+      this.getItems().add(tabGuiItem);
    }
 
    Dimension x();
 
    int getSelectedIndex();
 
-   void setSelectedIndex(int var1);
+   void setSelectedIndex(int i);
 
    default TabGuiItem getSelectedItem() {
       return this.getItems().get(this.getSelectedIndex());
    }
 
-   default boolean isSelected(TabGuiItem var1) {
-      return this.getItems().indexOf(var1) == this.getSelectedIndex();
+   default boolean isSelected(TabGuiItem tabGuiItem) {
+      return this.getItems().indexOf(tabGuiItem) == this.getSelectedIndex();
    }
 
-   default void onKeyPressed(int var1) {
+   default void onKeyPressed(int i) {
       if (this.getTabGui().Q_r6q() == this) {
-         this.getSelectedItem().z(var1);
-         if (var1 == 200) {
+         this.getSelectedItem().z(i);
+         if (i == 200) {
             this.selectPrevious();
-         } else if (var1 == 208) {
+         } else if (i == 208) {
             this.selectNext();
-         } else if (var1 == 203 && this.getTabGui().L().indexOf(this) != 0 && this.getState() != PanelState.CLOSING) {
+         } else if (i == 203 && this.getTabGui().L().indexOf(this) != 0 && this.getState() != PanelState.CLOSING) {
             this.q((float)this.x().getWidth());
             this.setState(PanelState.CLOSING);
          }
@@ -42,16 +42,16 @@ public interface TabGuiPanel {
    }
 
    default void selectPrevious() {
-      int var3 = this.getSelectedIndex() - 1;
-      if (var3 >= 0) {
-         this.setSelectedIndex(var3);
+      int i = this.getSelectedIndex() - 1;
+      if (i >= 0) {
+         this.setSelectedIndex(i);
       }
    }
 
    default void selectNext() {
-      int var3 = this.getSelectedIndex() + 1;
-      if (var3 < this.getItems().size()) {
-         this.setSelectedIndex(var3);
+      int i = this.getSelectedIndex() + 1;
+      if (i < this.getItems().size()) {
+         this.setSelectedIndex(i);
       }
    }
 
@@ -59,12 +59,12 @@ public interface TabGuiPanel {
       this.x().setSize(0, 0);
       this.getItems()
          .forEach(
-            var1 -> this.x()
+            tabGuiItem -> this.x()
                .setSize(
-                  this.x().getWidth() < this.getTabGui().p().get((Class<? extends Sized>)var1.getClass()).p(var1)[0]
-                     ? this.getTabGui().p().get((Class<? extends Sized>)var1.getClass()).p(var1)[0]
+                  this.x().getWidth() < this.getTabGui().p().get((Class<? extends Sized>)tabGuiItem.getClass()).p(tabGuiItem)[0]
+                     ? this.getTabGui().p().get((Class<? extends Sized>)tabGuiItem.getClass()).p(tabGuiItem)[0]
                      : this.x().getWidth(),
-                  this.x().getHeight() + this.getTabGui().p().get((Class<? extends Sized>)var1.getClass()).p(var1)[1]
+                  this.x().getHeight() + this.getTabGui().p().get((Class<? extends Sized>)tabGuiItem.getClass()).p(tabGuiItem)[1]
                )
          );
    }
@@ -73,11 +73,11 @@ public interface TabGuiPanel {
 
    float j();
 
-   void q(float var1);
+   void q(float f);
 
    float F();
 
    PanelState getState();
 
-   void setState(PanelState var1);
+   void setState(PanelState panelState);
 }

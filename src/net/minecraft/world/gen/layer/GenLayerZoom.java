@@ -3,58 +3,58 @@ package net.minecraft.world.gen.layer;
 public class GenLayerZoom extends GenLayer {
    private static final long c = 39007506209129L;
 
-   public GenLayerZoom(long var1, GenLayer var3) {
-      super(var1);
-      super.parent = var3;
+   public GenLayerZoom(long l, GenLayer genLayer) {
+      super(l);
+      super.parent = genLayer;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
-      int var8 = var1 >> 1;
-      int var9 = var2 >> 1;
-      int var10 = (var3 >> 1) + 2;
-      int var11 = (var4 >> 1) + 2;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int var13 = var10 - 1 << 1;
-      int var14 = var11 - 1 << 1;
-      int[] var15 = IntCache.getIntCache(var13 * var14);
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+      int i = areaX >> 1;
+      int j = areaY >> 1;
+      int k = (areaWidth >> 1) + 2;
+      int l = (areaHeight >> 1) + 2;
+      int[] ints = this.parent.getInts(i, j, k, l);
+      int m = k - 1 << 1;
+      int n = l - 1 << 1;
+      int[] ints2 = IntCache.getIntCache(m * n);
 
-      for (int var16 = 0; var16 < var11 - 1; var16++) {
-         int var17 = (var16 << 1) * var13;
-         int var18 = 0;
-         int var19 = var12[var18 + 0 + (var16 + 0) * var10];
-         int var20 = var12[var18 + 0 + (var16 + 1) * var10];
+      for (int i2 = 0; i2 < l - 1; i2++) {
+         int i3 = (i2 << 1) * m;
+         int i4 = 0;
+         int i5 = ints[i4 + 0 + (i2 + 0) * k];
+         int i6 = ints[i4 + 0 + (i2 + 1) * k];
 
-         while (var18 < var10 - 1) {
-            this.initChunkSeed(var18 + var8 << 1, var16 + var9 << 1);
-            int var21 = var12[var18 + 1 + (var16 + 0) * var10];
-            int var22 = var12[var18 + 1 + (var16 + 1) * var10];
-            var15[var17] = var19;
-            var15[var17++ + var13] = this.selectRandom(var19, var20);
-            var15[var17] = this.selectRandom(var19, var21);
-            var15[var17++ + var13] = this.selectModeOrRandom(var19, var21, var20, var22);
-            var19 = var21;
-            var20 = var22;
-            var18++;
+         while (i4 < k - 1) {
+            this.initChunkSeed(i4 + i << 1, i2 + j << 1);
+            int i7 = ints[i4 + 1 + (i2 + 0) * k];
+            int i8 = ints[i4 + 1 + (i2 + 1) * k];
+            ints2[i3] = i5;
+            ints2[i3++ + m] = this.selectRandom(i5, i6);
+            ints2[i3] = this.selectRandom(i5, i7);
+            ints2[i3++ + m] = this.selectModeOrRandom(i5, i7, i6, i8);
+            i5 = i7;
+            i6 = i8;
+            i4++;
          }
       }
 
-      int[] var23 = IntCache.getIntCache(var3 * var4);
+      int[] ints3 = IntCache.getIntCache(areaWidth * areaHeight);
 
-      for (int var25 = 0; var25 < var4; var25++) {
-         System.arraycopy(var15, (var25 + (var2 & 1)) * var13 + (var1 & 1), var23, var25 * var3, var3);
+      for (int i9 = 0; i9 < areaHeight; i9++) {
+         System.arraycopy(ints2, (i9 + (areaY & 1)) * m + (areaX & 1), ints3, i9 * areaWidth, areaWidth);
       }
 
-      return var23;
+      return ints3;
    }
 
-   public static GenLayer magnify(long var0, GenLayer var2, int var3) {
-      GenLayer var7 = var2;
+   public static GenLayer magnify(long l, GenLayer genLayer, int i) {
+      GenLayer genLayer2 = genLayer;
 
-      for (int var8 = 0; var8 < var3; var8++) {
-         var7 = new GenLayerZoom(var0 + var8, var7);
+      for (int j = 0; j < i; j++) {
+         genLayer2 = new GenLayerZoom(l + j, genLayer2);
       }
 
-      return var7;
+      return genLayer2;
    }
 }

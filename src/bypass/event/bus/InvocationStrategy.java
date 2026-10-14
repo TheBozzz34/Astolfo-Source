@@ -18,14 +18,14 @@ public enum InvocationStrategy {
       private static final long a = 28013588115475L;
 
       @Override
-      public <O, E extends Event> Listener<E> createDispatcher(Class<E> var1, O var2, AnnotatedElement var3) {
-         Method var8 = (Method)var3;
-         var8.setAccessible(true);
-         return var2x -> {
+      public <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement) {
+         Method method = (Method)annotatedElement;
+         method.setAccessible(true);
+         return value -> {
             try {
-               var8.invoke(var2, var2x);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException var4) {
-               ReflectionErrors.H(var4);
+               method.invoke(object, value);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException value2) {
+               ReflectionErrors.H(value2);
             }
          };
       }
@@ -34,59 +34,59 @@ public enum InvocationStrategy {
       private static final long a = 8265636125559L;
 
       @Override
-      public <O, E extends Event> Listener<E> createDispatcher(Class<E> var1, O var2, AnnotatedElement var3) {
-         Method var7 = (Method)var3;
-         var7.setAccessible(true);
+      public <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement) {
+         Method method2 = (Method)annotatedElement;
+         method2.setAccessible(true);
 
          try {
-            Lookup var8 = n.in(var2.getClass());
-            MethodHandle var9 = null;
-            int var10 = var7.getModifiers();
-            if (Modifier.isPrivate(var10)) {
+            Lookup lookup2 = n.in(object.getClass());
+            MethodHandle methodHandle = null;
+            int i = method2.getModifiers();
+            if (Modifier.isPrivate(i)) {
                if (J) {
-                  var9 = Modifier.isStatic(var10) ? var8.unreflect(var7) : var8.unreflectSpecial(var7, var2.getClass());
+                  methodHandle = Modifier.isStatic(i) ? lookup2.unreflect(method2) : lookup2.unreflectSpecial(method2, object.getClass());
                }
-            } else if (Modifier.isProtected(var10)) {
+            } else if (Modifier.isProtected(i)) {
                if (J) {
-                  var9 = var8.unreflect(var7);
+                  methodHandle = lookup2.unreflect(method2);
                }
-            } else if (Modifier.isPublic(var10)) {
-               var9 = var8.unreflect(var7);
+            } else if (Modifier.isPublic(i)) {
+               methodHandle = lookup2.unreflect(method2);
             } else {
-               var9 = var8.unreflect(var7);
+               methodHandle = lookup2.unreflect(method2);
             }
 
-            if (var9 != null) {
-               MethodType var13 = MethodType.methodType(void.class, var1);
-               Listener var14;
-               if (Modifier.isStatic(var10)) {
-                  MethodType var12 = MethodType.methodType(Listener.class);
-                  var14 = (Listener)LambdaMetafactory.metafactory(var8, "accept", var12, var13.erase(), var9, var13).dynamicInvoker().invoke();
+            if (methodHandle != null) {
+               MethodType methodType2 = MethodType.methodType(void.class, class2);
+               Listener listener;
+               if (Modifier.isStatic(i)) {
+                  MethodType methodType3 = MethodType.methodType(Listener.class);
+                  listener = (Listener)LambdaMetafactory.metafactory(lookup2, "accept", methodType3, methodType2.erase(), methodHandle, methodType2).dynamicInvoker().invoke();
                } else {
-                  MethodType var16 = MethodType.methodType(Listener.class, var2.getClass());
-                  var14 = (Listener)LambdaMetafactory.metafactory(var8, "accept", var16, var13.erase(), var9, var13).dynamicInvoker().invoke((Object)var2);
+                  MethodType methodType4 = MethodType.methodType(Listener.class, object.getClass());
+                  listener = (Listener)LambdaMetafactory.metafactory(lookup2, "accept", methodType4, methodType2.erase(), methodHandle, methodType2).dynamicInvoker().invoke((Object)object);
                }
 
-               return var14;
+               return listener;
             } else {
-               throw new RuntimeException("Unable to do lookup on method \"" + var7.getName() + "\".");
+               throw new RuntimeException("Unable to do lookup on method \"" + method2.getName() + "\".");
             }
-         } catch (Throwable var15) {
-            ReflectionErrors.H(var15);
+         } catch (Throwable throwable) {
+            ReflectionErrors.H(throwable);
             return null;
          }
       }
    },
    FIELD_REFLECTIVE_INVOCATION(MemberKind.FIELD) {
       @Override
-      public <O, E extends Event> Listener<E> createDispatcher(Class<E> var1, O var2, AnnotatedElement var3) {
-         Field var4 = (Field)var3;
-         var4.setAccessible(true);
+      public <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement) {
+         Field field = (Field)annotatedElement;
+         field.setAccessible(true);
 
          try {
-            return (Listener<E>)var4.get(var2);
-         } catch (IllegalArgumentException | IllegalAccessException var6) {
-            ReflectionErrors.H(var6);
+            return (Listener<E>)field.get(object);
+         } catch (IllegalArgumentException | IllegalAccessException value) {
+            ReflectionErrors.H(value);
             return null;
          }
       }
@@ -97,30 +97,30 @@ public enum InvocationStrategy {
    private MemberKind C;
    private static final InvocationStrategy[] X = new InvocationStrategy[]{METHOD_REFLECTIVE_INVOCATION, METHOD_LAMBDA_INVOCATION, FIELD_REFLECTIVE_INVOCATION};
 
-   InvocationStrategy(MemberKind var3) {
-      this.C = var3;
+   InvocationStrategy(MemberKind memberKind) {
+      this.C = memberKind;
    }
 
-   public abstract <O, E extends Event> Listener<E> createDispatcher(Class<E> var1, O var2, AnnotatedElement var3);
+   public abstract <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement);
 
    public MemberKind e() {
       return this.C;
    }
 
    static {
-      Lookup var11;
-      boolean var12;
+      Lookup lookup2;
+      boolean bl;
       try {
-         Field var13 = Lookup.class.getDeclaredField("IMPL_LOOKUP");
-         var13.setAccessible(true);
-         var11 = (Lookup)var13.get(null);
-         var12 = true;
-      } catch (ReflectiveOperationException var14) {
-         var11 = MethodHandles.lookup();
-         var12 = false;
+         Field field = Lookup.class.getDeclaredField("IMPL_LOOKUP");
+         field.setAccessible(true);
+         lookup2 = (Lookup)field.get(null);
+         bl = true;
+      } catch (ReflectiveOperationException reflectiveOperationException) {
+         lookup2 = MethodHandles.lookup();
+         bl = false;
       }
 
-      n = var11;
-      J = var12;
+      n = lookup2;
+      J = bl;
    }
 }

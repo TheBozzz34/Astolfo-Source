@@ -20,39 +20,39 @@ public class DefaultResourcePack implements IResourcePack {
    private final Map<String, File> mapAssets;
    private static final long a = 6589187294271L;
 
-   public DefaultResourcePack(Map<String, File> var1) {
-      this.mapAssets = var1;
+   public DefaultResourcePack(Map<String, File> mapAssetsIn) {
+      this.mapAssets = mapAssetsIn;
    }
 
    @Override
-   public InputStream getInputStream(ResourceLocation var1) throws IOException {
-      InputStream var5 = this.getResourceStream(var1);
-      if (var5 != null) {
-         return var5;
+   public InputStream getInputStream(ResourceLocation location) throws IOException {
+      InputStream inputStream = this.getResourceStream(location);
+      if (inputStream != null) {
+         return inputStream;
       } else {
-         InputStream var6 = this.getInputStreamAssets(var1);
-         if (var6 != null) {
-            return var6;
+         InputStream inputStream2 = this.getInputStreamAssets(location);
+         if (inputStream2 != null) {
+            return inputStream2;
          } else {
-            throw new FileNotFoundException(var1.getResourcePath());
+            throw new FileNotFoundException(location.getResourcePath());
          }
       }
    }
 
-   public InputStream getInputStreamAssets(ResourceLocation var1) throws IOException, FileNotFoundException {
-      File var5 = this.mapAssets.get(var1.toString());
-      return var5 != null && var5.isFile() ? new FileInputStream(var5) : null;
+   public InputStream getInputStreamAssets(ResourceLocation location) throws IOException, FileNotFoundException {
+      File file = this.mapAssets.get(location.toString());
+      return file != null && file.isFile() ? new FileInputStream(file) : null;
    }
 
-   private InputStream getResourceStream(ResourceLocation var1) {
-      String var5 = "/assets/" + var1.getResourceDomain() + "/" + var1.getResourcePath();
-      InputStream var6 = ReflectorForge.getOptiFineResourceStream(var5);
-      return var6 != null ? var6 : DefaultResourcePack.class.getResourceAsStream("/assets/" + var1.getResourceDomain() + "/" + var1.getResourcePath());
+   private InputStream getResourceStream(ResourceLocation location) {
+      String string = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
+      InputStream inputStream = ReflectorForge.getOptiFineResourceStream(string);
+      return inputStream != null ? inputStream : DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
    }
 
    @Override
-   public boolean resourceExists(ResourceLocation var1) {
-      return this.getResourceStream(var1) != null || this.mapAssets.containsKey(var1.toString());
+   public boolean resourceExists(ResourceLocation location) {
+      return this.getResourceStream(location) != null || this.mapAssets.containsKey(location.toString());
    }
 
    @Override
@@ -61,13 +61,13 @@ public class DefaultResourcePack implements IResourcePack {
    }
 
    @Override
-   public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer var1, String var2) throws IOException {
+   public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer metadataSerializer, String metadataSectionName) throws IOException {
       try {
-         FileInputStream var5 = new FileInputStream(this.mapAssets.get("pack.mcmeta"));
-         return AbstractResourcePack.readMetadata(var1, var5, var2);
-      } catch (RuntimeException var6) {
+         FileInputStream fileInputStream = new FileInputStream(this.mapAssets.get("pack.mcmeta"));
+         return AbstractResourcePack.readMetadata(metadataSerializer, fileInputStream, metadataSectionName);
+      } catch (RuntimeException runtimeException) {
          return null;
-      } catch (FileNotFoundException var7) {
+      } catch (FileNotFoundException fileNotFoundException) {
          return null;
       }
    }

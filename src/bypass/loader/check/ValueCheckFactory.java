@@ -14,7 +14,7 @@ public enum ValueCheckFactory implements Initializable {
    public void C() {
    }
 
-   public <T> AbstractValueCheck Z(T var1, Function<T, Integer> var2, Predicate<Integer> var3) {
-      return new ValueCheck(this, var1, var2, var1, var3);
+   public <T> AbstractValueCheck Z(T object, Function<T, Integer> function, Predicate<Integer> predicate) {
+      return new ValueCheck(this, object, function, object, predicate);
    }
 }

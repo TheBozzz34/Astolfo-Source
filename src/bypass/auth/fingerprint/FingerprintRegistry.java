@@ -9,19 +9,19 @@ public interface FingerprintRegistry {
 
    int l();
 
-   int o(String var1);
+   int o(String string);
 
    int C();
 
-   void Q(String var1, FingerprintEntry<?> var2);
+   void Q(String string, FingerprintEntry<?> fingerprintEntry);
 
-   void s(String var1, FingerprintEntrySupplier var2);
+   void s(String string, FingerprintEntrySupplier fingerprintEntrySupplier);
 
-   int F(String var1);
+   int F(String string);
 
    int B();
 
-   boolean f(String var1);
+   boolean f(String string);
 
    void invalidateAll();
 }

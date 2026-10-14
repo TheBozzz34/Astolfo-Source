@@ -5,16 +5,16 @@ import java.util.List;
 public class ListContainerOwner<T> extends InitializedContainerOwner<T> {
    private final List<T> y;
 
-   public ListContainerOwner(List<T> var1) {
-      this.y = var1;
+   public ListContainerOwner(List<T> list) {
+      this.y = list;
       this.onInit();
    }
 
    @Override
    public void onInit() {
       try {
-         this.y.stream().forEach(var1 -> this.T.q((T[])(new Object[]{var1})));
-      } catch (Exception var2) {
+         this.y.stream().forEach(value -> this.T.q((T[])(new Object[]{value})));
+      } catch (Exception exception) {
       }
    }
 }

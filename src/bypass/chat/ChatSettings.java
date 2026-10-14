@@ -9,9 +9,9 @@ public class ChatSettings implements JsonSerializable {
    private final boolean R;
    private static final long a = 139127221217819L;
 
-   public ChatSettings(boolean var1, boolean var2) {
-      this.c = var1;
-      this.R = var2;
+   public ChatSettings(boolean bl, boolean bl2) {
+      this.c = bl;
+      this.R = bl2;
    }
 
    @Override
@@ -21,9 +21,9 @@ public class ChatSettings implements JsonSerializable {
 
    @Override
    public JsonElement V() {
-      JsonObject var5 = new JsonObject();
-      var5.addProperty("enabled", this.c);
-      var5.addProperty("pings", this.R);
-      return var5;
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("enabled", this.c);
+      jsonObject.addProperty("pings", this.R);
+      return jsonObject;
    }
 }

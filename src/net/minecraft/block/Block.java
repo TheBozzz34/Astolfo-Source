@@ -131,38 +131,38 @@ public class Block {
    private String unlocalizedName;
    private static final long ab = 31167430580484L;
 
-   public static int getIdFromBlock(Block var0) {
-      return blockRegistry.getIDForObject(var0);
+   public static int getIdFromBlock(Block blockIn) {
+      return blockRegistry.getIDForObject(blockIn);
    }
 
-   public static int getStateId(IBlockState var0) {
-      Block var3 = var0.getBlock();
-      return getIdFromBlock(var3) + (var3.getMetaFromState(var0) << 12);
+   public static int getStateId(IBlockState state) {
+      Block block = state.getBlock();
+      return getIdFromBlock(block) + (block.getMetaFromState(state) << 12);
    }
 
-   public static Block getBlockById(int var0) {
-      return blockRegistry.getObjectById(var0);
+   public static Block getBlockById(int id) {
+      return blockRegistry.getObjectById(id);
    }
 
-   public static IBlockState getStateById(int var0) {
-      int var3 = var0 & 4095;
-      int var4 = var0 >> 12 & 15;
-      return getBlockById(var3).getStateFromMeta(var4);
+   public static IBlockState getStateById(int id) {
+      int i = id & 4095;
+      int j = id >> 12 & 15;
+      return getBlockById(i).getStateFromMeta(j);
    }
 
-   public static Block getBlockFromItem(Item var0) {
-      return var0 instanceof ItemBlock ? ((ItemBlock)var0).getBlock() : null;
+   public static Block getBlockFromItem(Item itemIn) {
+      return itemIn instanceof ItemBlock ? ((ItemBlock)itemIn).getBlock() : null;
    }
 
-   public static Block getBlockFromName(String var0) {
-      ResourceLocation var4 = new ResourceLocation(var0);
-      if (blockRegistry.containsKey(var4)) {
-         return blockRegistry.getObject(var4);
+   public static Block getBlockFromName(String name) {
+      ResourceLocation resourceLocation = new ResourceLocation(name);
+      if (blockRegistry.containsKey(resourceLocation)) {
+         return blockRegistry.getObject(resourceLocation);
       }
 
       try {
-         return blockRegistry.getObjectById(Integer.parseInt(var0));
-      } catch (NumberFormatException var6) {
+         return blockRegistry.getObjectById(Integer.parseInt(name));
+      } catch (NumberFormatException numberFormatException) {
          return null;
       }
    }
@@ -191,58 +191,58 @@ public class Block {
       return this.blockMaterial;
    }
 
-   public MapColor getMapColor(IBlockState var1) {
+   public MapColor getMapColor(IBlockState state) {
       return this.blockMapColor;
    }
 
-   public IBlockState getStateFromMeta(int var1) {
+   public IBlockState getStateFromMeta(int meta) {
       return this.getDefaultState();
    }
 
-   public int getMetaFromState(IBlockState var1) {
-      if (var1 != null && !var1.getPropertyNames().isEmpty()) {
-         throw new IllegalArgumentException("Don't know how to convert " + var1 + " back into data...");
+   public int getMetaFromState(IBlockState state) {
+      if (state != null && !state.getPropertyNames().isEmpty()) {
+         throw new IllegalArgumentException("Don't know how to convert " + state + " back into data...");
       } else {
          return 0;
       }
    }
 
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      return var1;
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      return state;
    }
 
-   public Block(Material var1, MapColor var2) {
-      this.blockMaterial = var1;
-      this.blockMapColor = var2;
+   public Block(Material blockMaterialIn, MapColor blockMapColorIn) {
+      this.blockMaterial = blockMaterialIn;
+      this.blockMapColor = blockMapColorIn;
       this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
       this.fullBlock = this.isOpaqueCube();
       this.lightOpacity = this.isOpaqueCube() ? 255 : 0;
-      this.translucent = !var1.blocksLight();
+      this.translucent = !blockMaterialIn.blocksLight();
       this.blockState = this.createBlockState();
       this.setDefaultState(this.blockState.getBaseState());
    }
 
-   public Block(Material var1) {
-      this(var1, var1.getMaterialMapColor());
+   public Block(Material materialIn) {
+      this(materialIn, materialIn.getMaterialMapColor());
    }
 
-   public Block setStepSound(Block.SoundType var1) {
-      this.stepSound = var1;
+   public Block setStepSound(Block.SoundType sound) {
+      this.stepSound = sound;
       return this;
    }
 
-   public Block setLightOpacity(int var1) {
-      this.lightOpacity = var1;
+   public Block setLightOpacity(int opacity) {
+      this.lightOpacity = opacity;
       return this;
    }
 
-   public Block setLightLevel(float var1) {
-      this.lightValue = (int)(15.0F * var1);
+   public Block setLightLevel(float value) {
+      this.lightValue = (int)(15.0F * value);
       return this;
    }
 
-   public Block setResistance(float var1) {
-      this.blockResistance = var1 * 3.0F;
+   public Block setResistance(float resistance) {
+      this.blockResistance = resistance * 3.0F;
       return this;
    }
 
@@ -255,16 +255,16 @@ public class Block {
    }
 
    public boolean isVisuallyOpaque() {
-      BlockOpaqueEvent var4 = new BlockOpaqueEvent();
-      Astolfo.INSTANCE.getEventBus().post(var4);
-      return var4.isCancelled() ? false : this.blockMaterial.blocksMovement() && this.isFullCube();
+      BlockOpaqueEvent blockOpaqueEvent = new BlockOpaqueEvent();
+      Astolfo.INSTANCE.getEventBus().post(blockOpaqueEvent);
+      return blockOpaqueEvent.isCancelled() ? false : this.blockMaterial.blocksMovement() && this.isFullCube();
    }
 
    public boolean isFullCube() {
       return !ModuleManager.s.isEnabled() || Xray.isEnabledOre(this);
    }
 
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
       return !this.blockMaterial.blocksMovement();
    }
 
@@ -272,14 +272,14 @@ public class Block {
       return 3;
    }
 
-   public boolean isReplaceable(World var1, BlockPos var2) {
+   public boolean isReplaceable(World worldIn, BlockPos pos) {
       return false;
    }
 
-   public Block setHardness(float var1) {
-      this.blockHardness = var1;
-      if (this.blockResistance < var1 * 5.0F) {
-         this.blockResistance = var1 * 5.0F;
+   public Block setHardness(float hardness) {
+      this.blockHardness = hardness;
+      if (this.blockResistance < hardness * 5.0F) {
+         this.blockResistance = hardness * 5.0F;
       }
 
       return this;
@@ -290,12 +290,12 @@ public class Block {
       return this;
    }
 
-   public float getBlockHardness(World var1, BlockPos var2) {
+   public float getBlockHardness(World worldIn, BlockPos pos) {
       return this.blockHardness;
    }
 
-   public Block setTickRandomly(boolean var1) {
-      this.needsRandomTick = var1;
+   public Block setTickRandomly(boolean shouldTick) {
+      this.needsRandomTick = shouldTick;
       return this;
    }
 
@@ -307,49 +307,49 @@ public class Block {
       return this.isBlockContainer;
    }
 
-   public final void setBlockBounds(float var1, float var2, float var3, float var4, float var5, float var6) {
-      this.minX = var1;
-      this.minY = var2;
-      this.minZ = var3;
-      this.maxX = var4;
-      this.maxY = var5;
-      this.maxZ = var6;
+   public final void setBlockBounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+      this.minX = minX;
+      this.minY = minY;
+      this.minZ = minZ;
+      this.maxX = maxX;
+      this.maxY = maxY;
+      this.maxZ = maxZ;
    }
 
-   public int getMixedBrightnessForBlock(IBlockAccess var1, BlockPos var2) {
+   public int getMixedBrightnessForBlock(IBlockAccess worldIn, BlockPos pos) {
       if (ModuleManager.s.isEnabled() && Xray.isEnabledOre(this)) {
          return 200;
       } else {
-         Block var6 = var1.getBlockState(var2).getBlock();
-         int var7 = var1.getCombinedLight(var2, var6.getLightValue());
-         if (var7 == 0 && var6 instanceof BlockSlab) {
-            var2 = var2.down();
-            var6 = var1.getBlockState(var2).getBlock();
-            return var1.getCombinedLight(var2, var6.getLightValue());
+         Block block = worldIn.getBlockState(pos).getBlock();
+         int i = worldIn.getCombinedLight(pos, block.getLightValue());
+         if (i == 0 && block instanceof BlockSlab) {
+            pos = pos.down();
+            block = worldIn.getBlockState(pos).getBlock();
+            return worldIn.getCombinedLight(pos, block.getLightValue());
          } else {
-            return var7;
+            return i;
          }
       }
    }
 
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
       if (ModuleManager.s.isEnabled() && Xray.isEnabledOre(this)) {
          if (Xray.hypixel.getValue() == XrayHypixelMode.FALSE) {
             return true;
          }
 
-         for (EnumFacing var10 : EnumFacing.VALUES) {
-            if (Xray.revealedOres.contains(var2.offset(var10))) {
+         for (EnumFacing enumFacing : EnumFacing.VALUES) {
+            if (Xray.revealedOres.contains(pos.offset(enumFacing))) {
                return true;
             }
 
-            if (this.D(var1, var2.offset(var10), var10)) {
+            if (this.D(worldIn, pos.offset(enumFacing), enumFacing)) {
                return true;
             }
          }
       }
 
-      switch (var3) {
+      switch (side) {
          case DOWN:
             if (this.minY > 0.0) {
                return true;
@@ -381,57 +381,57 @@ public class Block {
             }
       }
 
-      return !var1.getBlockState(var2).getBlock().isOpaqueCube();
+      return !worldIn.getBlockState(pos).getBlock().isOpaqueCube();
    }
 
-   public boolean D(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return var3 == EnumFacing.DOWN && this.minY > 0.0
+   public boolean D(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing enumFacing) {
+      return enumFacing == EnumFacing.DOWN && this.minY > 0.0
          ? true
          : (
-            var3 == EnumFacing.UP && this.maxY < 1.0
+            enumFacing == EnumFacing.UP && this.maxY < 1.0
                ? true
                : (
-                  var3 == EnumFacing.NORTH && this.minZ > 0.0
+                  enumFacing == EnumFacing.NORTH && this.minZ > 0.0
                      ? true
                      : (
-                        var3 == EnumFacing.SOUTH && this.maxZ < 1.0
+                        enumFacing == EnumFacing.SOUTH && this.maxZ < 1.0
                            ? true
                            : (
-                              var3 == EnumFacing.WEST && this.minX > 0.0
+                              enumFacing == EnumFacing.WEST && this.minX > 0.0
                                  ? true
-                                 : (var3 == EnumFacing.EAST && this.maxX < 1.0 ? true : !var1.getBlockState(var2).getBlock().isOpaqueCube())
+                                 : (enumFacing == EnumFacing.EAST && this.maxX < 1.0 ? true : !iBlockAccess.getBlockState(blockPos).getBlock().isOpaqueCube())
                            )
                      )
                )
          );
    }
 
-   public boolean isBlockSolid(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return var1.getBlockState(var2).getBlock().getMaterial().isSolid();
+   public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      return worldIn.getBlockState(pos).getBlock().getMaterial().isSolid();
    }
 
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
       return new AxisAlignedBB(
-         var2.getX() + this.minX, var2.getY() + this.minY, var2.getZ() + this.minZ, var2.getX() + this.maxX, var2.getY() + this.maxY, var2.getZ() + this.maxZ
+         pos.getX() + this.minX, pos.getY() + this.minY, pos.getZ() + this.minZ, pos.getX() + this.maxX, pos.getY() + this.maxY, pos.getZ() + this.maxZ
       );
    }
 
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
-      AxisAlignedBB var10 = this.getCollisionBoundingBox(var1, var2, var3);
-      if (var6 == Minecraft.getMinecraft().thePlayer) {
-         Block.CollisionBoxEvent var11 = new Block.CollisionBoxEvent(var10, this, var2.getX(), var2.getY(), var2.getZ());
-         Astolfo.INSTANCE.getEventBus().post(var11);
-         var10 = var11.getBoundingBox();
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+      AxisAlignedBB axisAlignedBB = this.getCollisionBoundingBox(worldIn, pos, state);
+      if (collidingEntity == Minecraft.getMinecraft().thePlayer) {
+         Block.CollisionBoxEvent collisionBoxEvent = new Block.CollisionBoxEvent(axisAlignedBB, this, pos.getX(), pos.getY(), pos.getZ());
+         Astolfo.INSTANCE.getEventBus().post(collisionBoxEvent);
+         axisAlignedBB = collisionBoxEvent.getBoundingBox();
       }
 
-      if (var10 != null && var4.intersectsWith(var10)) {
-         var5.add(var10);
+      if (axisAlignedBB != null && mask.intersectsWith(axisAlignedBB)) {
+         list.add(axisAlignedBB);
       }
    }
 
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return new AxisAlignedBB(
-         var2.getX() + this.minX, var2.getY() + this.minY, var2.getZ() + this.minZ, var2.getX() + this.maxX, var2.getY() + this.maxY, var2.getZ() + this.maxZ
+         pos.getX() + this.minX, pos.getY() + this.minY, pos.getZ() + this.minZ, pos.getX() + this.maxX, pos.getY() + this.maxY, pos.getZ() + this.maxZ
       );
    }
 
@@ -439,7 +439,7 @@ public class Block {
       return true;
    }
 
-   public boolean canCollideCheck(IBlockState var1, boolean var2) {
+   public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
       return this.isCollidable();
    }
 
@@ -447,237 +447,237 @@ public class Block {
       return true;
    }
 
-   public void randomTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      this.updateTick(var1, var2, var3, var4);
+   public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random randomIn) {
+      this.updateTick(worldIn, pos, state, randomIn);
    }
 
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
    }
 
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
    }
 
-   public void onBlockDestroyedByPlayer(World var1, BlockPos var2, IBlockState var3) {
+   public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
    }
 
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
    }
 
-   public int tickRate(World var1) {
+   public int tickRate(World worldIn) {
       return 10;
    }
 
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
    }
 
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
    }
 
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 1;
    }
 
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Item.getItemFromBlock(this);
    }
 
-   public float getPlayerRelativeBlockHardness(EntityPlayer var1, World var2, BlockPos var3) {
-      float var7 = this.getBlockHardness(var2, var3);
-      return var7 < 0.0F
+   public float getPlayerRelativeBlockHardness(EntityPlayer playerIn, World worldIn, BlockPos pos) {
+      float f = this.getBlockHardness(worldIn, pos);
+      return f < 0.0F
          ? 0.0F
-         : (!var1.canHarvestBlock(this) ? var1.getToolDigEfficiency(this) / var7 / 100.0F : var1.getToolDigEfficiency(this) / var7 / 30.0F);
+         : (!playerIn.canHarvestBlock(this) ? playerIn.getToolDigEfficiency(this) / f / 100.0F : playerIn.getToolDigEfficiency(this) / f / 30.0F);
    }
 
-   public final void dropBlockAsItem(World var1, BlockPos var2, IBlockState var3, int var4) {
-      this.dropBlockAsItemWithChance(var1, var2, var3, 1.0F, var4);
+   public final void dropBlockAsItem(World worldIn, BlockPos pos, IBlockState state, int forture) {
+      this.dropBlockAsItemWithChance(worldIn, pos, state, 1.0F, forture);
    }
 
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      if (!var1.isRemote) {
-         int var9 = this.quantityDroppedWithBonus(var5, var1.rand);
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      if (!worldIn.isRemote) {
+         int i = this.quantityDroppedWithBonus(fortune, worldIn.rand);
 
-         for (int var10 = 0; var10 < var9; var10++) {
-            if (var1.rand.nextFloat() <= var4) {
-               Item var11 = this.getItemDropped(var3, var1.rand, var5);
-               if (var11 != null) {
-                  spawnAsEntity(var1, var2, new ItemStack(var11, 1, this.damageDropped(var3)));
+         for (int j = 0; j < i; j++) {
+            if (worldIn.rand.nextFloat() <= chance) {
+               Item item = this.getItemDropped(state, worldIn.rand, fortune);
+               if (item != null) {
+                  spawnAsEntity(worldIn, pos, new ItemStack(item, 1, this.damageDropped(state)));
                }
             }
          }
       }
    }
 
-   public static void spawnAsEntity(World var0, BlockPos var1, ItemStack var2) {
-      if (!var0.isRemote && var0.getGameRules().getBoolean("doTileDrops")) {
-         float var6 = 0.5F;
-         double var7 = var0.rand.nextFloat() * var6 + (1.0F - var6) * 0.5;
-         double var9 = var0.rand.nextFloat() * var6 + (1.0F - var6) * 0.5;
-         double var11 = var0.rand.nextFloat() * var6 + (1.0F - var6) * 0.5;
-         EntityItem var13 = new EntityItem(var0, var1.getX() + var7, var1.getY() + var9, var1.getZ() + var11, var2);
-         var13.setDefaultPickupDelay();
-         var0.spawnEntityInWorld(var13);
+   public static void spawnAsEntity(World worldIn, BlockPos pos, ItemStack stack) {
+      if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops")) {
+         float f = 0.5F;
+         double d = worldIn.rand.nextFloat() * f + (1.0F - f) * 0.5;
+         double e = worldIn.rand.nextFloat() * f + (1.0F - f) * 0.5;
+         double d2 = worldIn.rand.nextFloat() * f + (1.0F - f) * 0.5;
+         EntityItem entityItem = new EntityItem(worldIn, pos.getX() + d, pos.getY() + e, pos.getZ() + d2, stack);
+         entityItem.setDefaultPickupDelay();
+         worldIn.spawnEntityInWorld(entityItem);
       }
    }
 
-   public void dropXpOnBlockBreak(World var1, BlockPos var2, int var3) {
-      if (!var1.isRemote) {
-         while (var3 > 0) {
-            int var7 = EntityXPOrb.getXPSplit(var3);
-            var3 -= var7;
-            var1.spawnEntityInWorld(new EntityXPOrb(var1, var2.getX() + 0.5, var2.getY() + 0.5, var2.getZ() + 0.5, var7));
+   public void dropXpOnBlockBreak(World worldIn, BlockPos pos, int amount) {
+      if (!worldIn.isRemote) {
+         while (amount > 0) {
+            int i = EntityXPOrb.getXPSplit(amount);
+            amount -= i;
+            worldIn.spawnEntityInWorld(new EntityXPOrb(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, i));
          }
       }
    }
 
-   public int damageDropped(IBlockState var1) {
+   public int damageDropped(IBlockState state) {
       return 0;
    }
 
-   public float getExplosionResistance(Entity var1) {
+   public float getExplosionResistance(Entity exploder) {
       return this.blockResistance / 5.0F;
    }
 
-   public MovingObjectPosition collisionRayTrace(World var1, BlockPos var2, Vec3 var3, Vec3 var4) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      var3 = var3.addVector(-var2.getX(), -var2.getY(), -var2.getZ());
-      var4 = var4.addVector(-var2.getX(), -var2.getY(), -var2.getZ());
-      Vec3 var8 = var3.getIntermediateWithXValue(var4, this.minX);
-      Vec3 var9 = var3.getIntermediateWithXValue(var4, this.maxX);
-      Vec3 var10 = var3.getIntermediateWithYValue(var4, this.minY);
-      Vec3 var11 = var3.getIntermediateWithYValue(var4, this.maxY);
-      Vec3 var12 = var3.getIntermediateWithZValue(var4, this.minZ);
-      Vec3 var13 = var3.getIntermediateWithZValue(var4, this.maxZ);
-      if (!this.isVecInsideYZBounds(var8)) {
-         var8 = null;
+   public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 startIn, Vec3 end) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      startIn = startIn.addVector(-pos.getX(), -pos.getY(), -pos.getZ());
+      end = end.addVector(-pos.getX(), -pos.getY(), -pos.getZ());
+      Vec3 vec3 = startIn.getIntermediateWithXValue(end, this.minX);
+      Vec3 vec32 = startIn.getIntermediateWithXValue(end, this.maxX);
+      Vec3 vec33 = startIn.getIntermediateWithYValue(end, this.minY);
+      Vec3 vec34 = startIn.getIntermediateWithYValue(end, this.maxY);
+      Vec3 vec35 = startIn.getIntermediateWithZValue(end, this.minZ);
+      Vec3 vec36 = startIn.getIntermediateWithZValue(end, this.maxZ);
+      if (!this.isVecInsideYZBounds(vec3)) {
+         vec3 = null;
       }
 
-      if (!this.isVecInsideYZBounds(var9)) {
-         var9 = null;
+      if (!this.isVecInsideYZBounds(vec32)) {
+         vec32 = null;
       }
 
-      if (!this.isVecInsideXZBounds(var10)) {
-         var10 = null;
+      if (!this.isVecInsideXZBounds(vec33)) {
+         vec33 = null;
       }
 
-      if (!this.isVecInsideXZBounds(var11)) {
-         var11 = null;
+      if (!this.isVecInsideXZBounds(vec34)) {
+         vec34 = null;
       }
 
-      if (!this.isVecInsideXYBounds(var12)) {
-         var12 = null;
+      if (!this.isVecInsideXYBounds(vec35)) {
+         vec35 = null;
       }
 
-      if (!this.isVecInsideXYBounds(var13)) {
-         var13 = null;
+      if (!this.isVecInsideXYBounds(vec36)) {
+         vec36 = null;
       }
 
-      Vec3 var14 = null;
-      if (var8 != null && (var14 == null || var3.squareDistanceTo(var8) < var3.squareDistanceTo(var14))) {
-         var14 = var8;
+      Vec3 vec37 = null;
+      if (vec3 != null && (vec37 == null || startIn.squareDistanceTo(vec3) < startIn.squareDistanceTo(vec37))) {
+         vec37 = vec3;
       }
 
-      if (var9 != null && (var14 == null || var3.squareDistanceTo(var9) < var3.squareDistanceTo(var14))) {
-         var14 = var9;
+      if (vec32 != null && (vec37 == null || startIn.squareDistanceTo(vec32) < startIn.squareDistanceTo(vec37))) {
+         vec37 = vec32;
       }
 
-      if (var10 != null && (var14 == null || var3.squareDistanceTo(var10) < var3.squareDistanceTo(var14))) {
-         var14 = var10;
+      if (vec33 != null && (vec37 == null || startIn.squareDistanceTo(vec33) < startIn.squareDistanceTo(vec37))) {
+         vec37 = vec33;
       }
 
-      if (var11 != null && (var14 == null || var3.squareDistanceTo(var11) < var3.squareDistanceTo(var14))) {
-         var14 = var11;
+      if (vec34 != null && (vec37 == null || startIn.squareDistanceTo(vec34) < startIn.squareDistanceTo(vec37))) {
+         vec37 = vec34;
       }
 
-      if (var12 != null && (var14 == null || var3.squareDistanceTo(var12) < var3.squareDistanceTo(var14))) {
-         var14 = var12;
+      if (vec35 != null && (vec37 == null || startIn.squareDistanceTo(vec35) < startIn.squareDistanceTo(vec37))) {
+         vec37 = vec35;
       }
 
-      if (var13 != null && (var14 == null || var3.squareDistanceTo(var13) < var3.squareDistanceTo(var14))) {
-         var14 = var13;
+      if (vec36 != null && (vec37 == null || startIn.squareDistanceTo(vec36) < startIn.squareDistanceTo(vec37))) {
+         vec37 = vec36;
       }
 
-      if (var14 == null) {
+      if (vec37 == null) {
          return null;
       }
 
-      EnumFacing var15 = null;
-      if (var14 == var8) {
-         var15 = EnumFacing.WEST;
+      EnumFacing enumFacing = null;
+      if (vec37 == vec3) {
+         enumFacing = EnumFacing.WEST;
       }
 
-      if (var14 == var9) {
-         var15 = EnumFacing.EAST;
+      if (vec37 == vec32) {
+         enumFacing = EnumFacing.EAST;
       }
 
-      if (var14 == var10) {
-         var15 = EnumFacing.DOWN;
+      if (vec37 == vec33) {
+         enumFacing = EnumFacing.DOWN;
       }
 
-      if (var14 == var11) {
-         var15 = EnumFacing.UP;
+      if (vec37 == vec34) {
+         enumFacing = EnumFacing.UP;
       }
 
-      if (var14 == var12) {
-         var15 = EnumFacing.NORTH;
+      if (vec37 == vec35) {
+         enumFacing = EnumFacing.NORTH;
       }
 
-      if (var14 == var13) {
-         var15 = EnumFacing.SOUTH;
+      if (vec37 == vec36) {
+         enumFacing = EnumFacing.SOUTH;
       }
 
-      return new MovingObjectPosition(var14.addVector(var2.getX(), var2.getY(), var2.getZ()), var15, var2);
+      return new MovingObjectPosition(vec37.addVector(pos.getX(), pos.getY(), pos.getZ()), enumFacing, pos);
    }
 
-   private boolean isVecInsideYZBounds(Vec3 var1) {
-      return var1 == null ? false : var1.yCoord >= this.minY && var1.yCoord <= this.maxY && var1.zCoord >= this.minZ && var1.zCoord <= this.maxZ;
+   private boolean isVecInsideYZBounds(Vec3 point) {
+      return point == null ? false : point.yCoord >= this.minY && point.yCoord <= this.maxY && point.zCoord >= this.minZ && point.zCoord <= this.maxZ;
    }
 
-   private boolean isVecInsideXZBounds(Vec3 var1) {
-      return var1 == null ? false : var1.xCoord >= this.minX && var1.xCoord <= this.maxX && var1.zCoord >= this.minZ && var1.zCoord <= this.maxZ;
+   private boolean isVecInsideXZBounds(Vec3 point) {
+      return point == null ? false : point.xCoord >= this.minX && point.xCoord <= this.maxX && point.zCoord >= this.minZ && point.zCoord <= this.maxZ;
    }
 
-   private boolean isVecInsideXYBounds(Vec3 var1) {
-      return var1 == null ? false : var1.xCoord >= this.minX && var1.xCoord <= this.maxX && var1.yCoord >= this.minY && var1.yCoord <= this.maxY;
+   private boolean isVecInsideXYBounds(Vec3 point) {
+      return point == null ? false : point.xCoord >= this.minX && point.xCoord <= this.maxX && point.yCoord >= this.minY && point.yCoord <= this.maxY;
    }
 
-   public void onBlockDestroyedByExplosion(World var1, BlockPos var2, Explosion var3) {
+   public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
    }
 
    public EnumWorldBlockLayer getBlockLayer() {
       return EnumWorldBlockLayer.SOLID;
    }
 
-   public boolean canReplace(World var1, BlockPos var2, EnumFacing var3, ItemStack var4) {
-      return this.canPlaceBlockOnSide(var1, var2, var3);
+   public boolean canReplace(World worldIn, BlockPos pos, EnumFacing side, ItemStack stack) {
+      return this.canPlaceBlockOnSide(worldIn, pos, side);
    }
 
-   public boolean canPlaceBlockOnSide(World var1, BlockPos var2, EnumFacing var3) {
-      return this.canPlaceBlockAt(var1, var2);
+   public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+      return this.canPlaceBlockAt(worldIn, pos);
    }
 
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return var1.getBlockState(var2).getBlock().blockMaterial.isReplaceable();
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return worldIn.getBlockState(pos).getBlock().blockMaterial.isReplaceable();
    }
 
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
       return false;
    }
 
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, Entity var3) {
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
    }
 
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      return this.getStateFromMeta(var7);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      return this.getStateFromMeta(meta);
    }
 
-   public void onBlockClicked(World var1, BlockPos var2, EntityPlayer var3) {
+   public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
    }
 
-   public Vec3 modifyAcceleration(World var1, BlockPos var2, Entity var3, Vec3 var4) {
-      return var4;
+   public Vec3 modifyAcceleration(World worldIn, BlockPos pos, Entity entityIn, Vec3 motion) {
+      return motion;
    }
 
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
    }
 
    public final double getBlockBoundsMinX() {
@@ -708,19 +708,19 @@ public class Block {
       return 16777215;
    }
 
-   public int getRenderColor(IBlockState var1) {
+   public int getRenderColor(IBlockState state) {
       return 16777215;
    }
 
-   public int colorMultiplier(IBlockAccess var1, BlockPos var2, int var3) {
+   public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
       return 16777215;
    }
 
-   public final int colorMultiplier(IBlockAccess var1, BlockPos var2) {
-      return this.colorMultiplier(var1, var2, 0);
+   public final int colorMultiplier(IBlockAccess worldIn, BlockPos pos) {
+      return this.colorMultiplier(worldIn, pos, 0);
    }
 
-   public int getWeakPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
+   public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
       return 0;
    }
 
@@ -728,27 +728,27 @@ public class Block {
       return false;
    }
 
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
    }
 
-   public int getStrongPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
+   public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
       return 0;
    }
 
    public void setBlockBoundsForItemRender() {
    }
 
-   public void harvestBlock(World var1, EntityPlayer var2, BlockPos var3, IBlockState var4, TileEntity var5) {
-      var2.triggerAchievement(StatList.mineBlockStatArray[getIdFromBlock(this)]);
-      var2.addExhaustion(0.025F);
-      if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(var2)) {
-         ItemStack var10 = this.createStackedBlock(var4);
-         if (var10 != null) {
-            spawnAsEntity(var1, var3, var10);
+   public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+      player.triggerAchievement(StatList.mineBlockStatArray[getIdFromBlock(this)]);
+      player.addExhaustion(0.025F);
+      if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player)) {
+         ItemStack itemStack = this.createStackedBlock(state);
+         if (itemStack != null) {
+            spawnAsEntity(worldIn, pos, itemStack);
          }
       } else {
-         int var9 = EnchantmentHelper.getFortuneModifier(var2);
-         this.dropBlockAsItem(var1, var3, var4, var9);
+         int i = EnchantmentHelper.getFortuneModifier(player);
+         this.dropBlockAsItem(worldIn, pos, state, i);
       }
    }
 
@@ -756,29 +756,29 @@ public class Block {
       return this.isFullCube() && !this.isBlockContainer;
    }
 
-   public ItemStack createStackedBlock(IBlockState var1) {
-      int var5 = 0;
-      Item var6 = Item.getItemFromBlock(this);
-      if (var6 != null && var6.getHasSubtypes()) {
-         var5 = this.getMetaFromState(var1);
+   public ItemStack createStackedBlock(IBlockState state) {
+      int i = 0;
+      Item item = Item.getItemFromBlock(this);
+      if (item != null && item.getHasSubtypes()) {
+         i = this.getMetaFromState(state);
       }
 
-      return new ItemStack(var6, 1, var5);
+      return new ItemStack(item, 1, i);
    }
 
-   public int quantityDroppedWithBonus(int var1, Random var2) {
-      return this.quantityDropped(var2);
+   public int quantityDroppedWithBonus(int fortune, Random randomIn) {
+      return this.quantityDropped(randomIn);
    }
 
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
    }
 
    public boolean canSpawnInBlock() {
       return !this.blockMaterial.isSolid() && !this.blockMaterial.isLiquid();
    }
 
-   public Block setUnlocalizedName(String var1) {
-      this.unlocalizedName = var1;
+   public Block setUnlocalizedName(String name) {
+      this.unlocalizedName = name;
       return this;
    }
 
@@ -790,7 +790,7 @@ public class Block {
       return "tile." + this.unlocalizedName;
    }
 
-   public boolean onBlockEventReceived(World var1, BlockPos var2, IBlockState var3, int var4, int var5) {
+   public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
       return false;
    }
 
@@ -811,39 +811,39 @@ public class Block {
       return this.isBlockNormalCube() ? 0.2F : 1.0F;
    }
 
-   public void onFallenUpon(World var1, BlockPos var2, Entity var3, float var4) {
-      var3.fall(var4, 1.0F);
+   public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+      entityIn.fall(fallDistance, 1.0F);
    }
 
-   public void onLanded(World var1, Entity var2) {
-      var2.motionY = 0.0;
+   public void onLanded(World worldIn, Entity entityIn) {
+      entityIn.motionY = 0.0;
    }
 
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Item.getItemFromBlock(this);
    }
 
-   public int getDamageValue(World var1, BlockPos var2) {
-      return this.damageDropped(var1.getBlockState(var2));
+   public int getDamageValue(World worldIn, BlockPos pos) {
+      return this.damageDropped(worldIn.getBlockState(pos));
    }
 
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      var3.add(new ItemStack(var1, 1, 0));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      list.add(new ItemStack(itemIn, 1, 0));
    }
 
    public CreativeTabs getCreativeTabToDisplayOn() {
       return this.displayOnCreativeTab;
    }
 
-   public Block setCreativeTab(CreativeTabs var1) {
-      this.displayOnCreativeTab = var1;
+   public Block setCreativeTab(CreativeTabs tab) {
+      this.displayOnCreativeTab = tab;
       return this;
    }
 
-   public void onBlockHarvested(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4) {
+   public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
    }
 
-   public void fillWithRain(World var1, BlockPos var2) {
+   public void fillWithRain(World worldIn, BlockPos pos) {
    }
 
    public boolean isFlowerPot() {
@@ -854,28 +854,28 @@ public class Block {
       return true;
    }
 
-   public boolean canDropFromExplosion(Explosion var1) {
+   public boolean canDropFromExplosion(Explosion explosionIn) {
       return true;
    }
 
-   public boolean isAssociatedBlock(Block var1) {
-      return this == var1;
+   public boolean isAssociatedBlock(Block other) {
+      return this == other;
    }
 
-   public static boolean isEqualTo(Block var0, Block var1) {
-      return var0 != null && var1 != null ? (var0 == var1 ? true : var0.isAssociatedBlock(var1)) : false;
+   public static boolean isEqualTo(Block blockIn, Block other) {
+      return blockIn != null && other != null ? (blockIn == other ? true : blockIn.isAssociatedBlock(other)) : false;
    }
 
    public boolean hasComparatorInputOverride() {
       return false;
    }
 
-   public int getComparatorInputOverride(World var1, BlockPos var2) {
+   public int getComparatorInputOverride(World worldIn, BlockPos pos) {
       return 0;
    }
 
-   public IBlockState getStateForEntityRender(IBlockState var1) {
-      return var1;
+   public IBlockState getStateForEntityRender(IBlockState state) {
+      return state;
    }
 
    public BlockState createBlockState() {
@@ -886,8 +886,8 @@ public class Block {
       return this.blockState;
    }
 
-   public final void setDefaultState(IBlockState var1) {
-      this.defaultBlockState = var1;
+   public final void setDefaultState(IBlockState state) {
+      this.defaultBlockState = state;
    }
 
    public final IBlockState getDefaultState() {
@@ -908,15 +908,15 @@ public class Block {
       registerBlock(1, "stone", new BlockStone().setHardness(1.5F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stone"));
       registerBlock(2, "grass", new BlockGrass().setHardness(0.6F).setStepSound(soundTypeGrass).setUnlocalizedName("grass"));
       registerBlock(3, "dirt", new BlockDirt().setHardness(0.5F).setStepSound(soundTypeGravel).setUnlocalizedName("dirt"));
-      Block var4 = new Block(Material.rock)
+      Block block = new Block(Material.rock)
          .setHardness(2.0F)
          .setResistance(10.0F)
          .setStepSound(soundTypePiston)
          .setUnlocalizedName("stonebrick")
          .setCreativeTab(CreativeTabs.tabBlock);
-      registerBlock(4, "cobblestone", var4);
-      Block var5 = new BlockPlanks().setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("wood");
-      registerBlock(5, "planks", var5);
+      registerBlock(4, "cobblestone", block);
+      Block block2 = new BlockPlanks().setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("wood");
+      registerBlock(5, "planks", block2);
       registerBlock(6, "sapling", new BlockSapling().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("sapling"));
       registerBlock(
          7,
@@ -956,8 +956,8 @@ public class Block {
             .setCreativeTab(CreativeTabs.tabBlock)
       );
       registerBlock(23, "dispenser", new BlockDispenser().setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("dispenser"));
-      Block var6 = new BlockSandStone().setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("sandStone");
-      registerBlock(24, "sandstone", var6);
+      Block block3 = new BlockSandStone().setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("sandStone");
+      registerBlock(24, "sandstone", block3);
       registerBlock(25, "noteblock", new BlockNote().setHardness(0.8F).setUnlocalizedName("musicBlock"));
       registerBlock(26, "bed", new BlockBed().setStepSound(soundTypeWood).setHardness(0.2F).setUnlocalizedName("bed").disableStats());
       registerBlock(27, "golden_rail", new BlockRailPowered().setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("goldenRail"));
@@ -972,10 +972,10 @@ public class Block {
       registerBlock(36, "piston_extension", new BlockPistonMoving());
       registerBlock(37, "yellow_flower", new BlockYellowFlower().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("flower1"));
       registerBlock(38, "red_flower", new BlockRedFlower().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("flower2"));
-      Block var7 = new BlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
-      registerBlock(39, "brown_mushroom", var7);
-      Block var8 = new BlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
-      registerBlock(40, "red_mushroom", var8);
+      Block block4 = new BlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
+      registerBlock(39, "brown_mushroom", block4);
+      Block block5 = new BlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
+      registerBlock(40, "red_mushroom", block5);
       registerBlock(
          41,
          "gold_block",
@@ -1004,13 +1004,13 @@ public class Block {
       registerBlock(
          44, "stone_slab", new BlockHalfStoneSlab().setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stoneSlab")
       );
-      Block var9 = new Block(Material.rock, MapColor.redColor)
+      Block block6 = new Block(Material.rock, MapColor.redColor)
          .setHardness(2.0F)
          .setResistance(10.0F)
          .setStepSound(soundTypePiston)
          .setUnlocalizedName("brick")
          .setCreativeTab(CreativeTabs.tabBlock);
-      registerBlock(45, "brick_block", var9);
+      registerBlock(45, "brick_block", block6);
       registerBlock(46, "tnt", new BlockTNT().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("tnt"));
       registerBlock(47, "bookshelf", new BlockBookshelf().setHardness(1.5F).setStepSound(soundTypeWood).setUnlocalizedName("bookshelf"));
       registerBlock(
@@ -1028,7 +1028,7 @@ public class Block {
       registerBlock(51, "fire", new BlockFire().setHardness(0.0F).setLightLevel(1.0F).setStepSound(soundTypeCloth).setUnlocalizedName("fire").disableStats());
       registerBlock(52, "mob_spawner", new BlockMobSpawner().setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats());
       registerBlock(
-         53, "oak_stairs", new BlockStairs(var5.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK)).setUnlocalizedName("stairsWood")
+         53, "oak_stairs", new BlockStairs(block2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK)).setUnlocalizedName("stairsWood")
       );
       registerBlock(54, "chest", new BlockChest(0).setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("chest"));
       registerBlock(
@@ -1047,8 +1047,8 @@ public class Block {
       );
       registerBlock(58, "crafting_table", new BlockWorkbench().setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("workbench"));
       registerBlock(59, "wheat", new BlockCrops().setUnlocalizedName("crops"));
-      Block var10 = new BlockFarmland().setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
-      registerBlock(60, "farmland", var10);
+      Block block7 = new BlockFarmland().setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
+      registerBlock(60, "farmland", block7);
       registerBlock(
          61,
          "furnace",
@@ -1061,7 +1061,7 @@ public class Block {
       registerBlock(64, "wooden_door", new BlockDoor(Material.wood).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorOak").disableStats());
       registerBlock(65, "ladder", new BlockLadder().setHardness(0.4F).setStepSound(soundTypeLadder).setUnlocalizedName("ladder"));
       registerBlock(66, "rail", new BlockRail().setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("rail"));
-      registerBlock(67, "stone_stairs", new BlockStairs(var4.getDefaultState()).setUnlocalizedName("stairsStone"));
+      registerBlock(67, "stone_stairs", new BlockStairs(block.getDefaultState()).setUnlocalizedName("stairsStone"));
       registerBlock(68, "wall_sign", new BlockWallSign().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("sign").disableStats());
       registerBlock(69, "lever", new BlockLever().setHardness(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("lever"));
       registerBlock(
@@ -1124,8 +1124,8 @@ public class Block {
             .setStepSound(soundTypeWood)
             .setUnlocalizedName("fence")
       );
-      Block var11 = new BlockPumpkin().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkin");
-      registerBlock(86, "pumpkin", var11);
+      Block block8 = new BlockPumpkin().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkin");
+      registerBlock(86, "pumpkin", block8);
       registerBlock(87, "netherrack", new BlockNetherrack().setHardness(0.4F).setStepSound(soundTypePiston).setUnlocalizedName("hellrock"));
       registerBlock(88, "soul_sand", new BlockSoulSand().setHardness(0.5F).setStepSound(soundTypeSand).setUnlocalizedName("hellsand"));
       registerBlock(
@@ -1147,17 +1147,17 @@ public class Block {
          96, "trapdoor", new BlockTrapDoor(Material.wood).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("trapdoor").disableStats()
       );
       registerBlock(97, "monster_egg", new BlockSilverfish().setHardness(0.75F).setUnlocalizedName("monsterStoneEgg"));
-      Block var12 = new BlockStoneBrick().setHardness(1.5F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stonebricksmooth");
-      registerBlock(98, "stonebrick", var12);
+      Block block9 = new BlockStoneBrick().setHardness(1.5F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stonebricksmooth");
+      registerBlock(98, "stonebrick", block9);
       registerBlock(
          99,
          "brown_mushroom_block",
-         new BlockHugeMushroom(Material.wood, MapColor.dirtColor, var7).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom")
+         new BlockHugeMushroom(Material.wood, MapColor.dirtColor, block4).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom")
       );
       registerBlock(
          100,
          "red_mushroom_block",
-         new BlockHugeMushroom(Material.wood, MapColor.redColor, var8).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom")
+         new BlockHugeMushroom(Material.wood, MapColor.redColor, block5).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom")
       );
       registerBlock(
          101,
@@ -1165,32 +1165,32 @@ public class Block {
          new BlockPane(Material.iron, true).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("fenceIron")
       );
       registerBlock(102, "glass_pane", new BlockPane(Material.glass, false).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("thinGlass"));
-      Block var13 = new BlockMelon().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("melon");
-      registerBlock(103, "melon_block", var13);
-      registerBlock(104, "pumpkin_stem", new BlockStem(var11).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkinStem"));
-      registerBlock(105, "melon_stem", new BlockStem(var13).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkinStem"));
+      Block block10 = new BlockMelon().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("melon");
+      registerBlock(103, "melon_block", block10);
+      registerBlock(104, "pumpkin_stem", new BlockStem(block8).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkinStem"));
+      registerBlock(105, "melon_stem", new BlockStem(block10).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkinStem"));
       registerBlock(106, "vine", new BlockVine().setHardness(0.2F).setStepSound(soundTypeGrass).setUnlocalizedName("vine"));
       registerBlock(
          107,
          "fence_gate",
          new BlockFenceGate(BlockPlanks.EnumType.OAK).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("fenceGate")
       );
-      registerBlock(108, "brick_stairs", new BlockStairs(var9.getDefaultState()).setUnlocalizedName("stairsBrick"));
+      registerBlock(108, "brick_stairs", new BlockStairs(block6.getDefaultState()).setUnlocalizedName("stairsBrick"));
       registerBlock(
          109,
          "stone_brick_stairs",
-         new BlockStairs(var12.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.DEFAULT))
+         new BlockStairs(block9.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.DEFAULT))
             .setUnlocalizedName("stairsStoneBrickSmooth")
       );
       registerBlock(110, "mycelium", new BlockMycelium().setHardness(0.6F).setStepSound(soundTypeGrass).setUnlocalizedName("mycel"));
       registerBlock(111, "waterlily", new BlockLilyPad().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("waterlily"));
-      Block var14 = new BlockNetherBrick()
+      Block block11 = new BlockNetherBrick()
          .setHardness(2.0F)
          .setResistance(10.0F)
          .setStepSound(soundTypePiston)
          .setUnlocalizedName("netherBrick")
          .setCreativeTab(CreativeTabs.tabBlock);
-      registerBlock(112, "nether_brick", var14);
+      registerBlock(112, "nether_brick", block11);
       registerBlock(
          113,
          "nether_brick_fence",
@@ -1200,7 +1200,7 @@ public class Block {
             .setStepSound(soundTypePiston)
             .setUnlocalizedName("netherFence")
       );
-      registerBlock(114, "nether_brick_stairs", new BlockStairs(var14.getDefaultState()).setUnlocalizedName("stairsNetherBrick"));
+      registerBlock(114, "nether_brick_stairs", new BlockStairs(block11.getDefaultState()).setUnlocalizedName("stairsNetherBrick"));
       registerBlock(115, "nether_wart", new BlockNetherWart().setUnlocalizedName("netherStalk"));
       registerBlock(116, "enchanting_table", new BlockEnchantmentTable().setHardness(5.0F).setResistance(2000.0F).setUnlocalizedName("enchantmentTable"));
       registerBlock(117, "brewing_stand", new BlockBrewingStand().setHardness(0.5F).setLightLevel(0.125F).setUnlocalizedName("brewingStand"));
@@ -1252,7 +1252,7 @@ public class Block {
       registerBlock(
          128,
          "sandstone_stairs",
-         new BlockStairs(var6.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.SMOOTH)).setUnlocalizedName("stairsSandStone")
+         new BlockStairs(block3.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.SMOOTH)).setUnlocalizedName("stairsSandStone")
       );
       registerBlock(129, "emerald_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreEmerald"));
       registerBlock(
@@ -1275,21 +1275,21 @@ public class Block {
       registerBlock(
          134,
          "spruce_stairs",
-         new BlockStairs(var5.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE)).setUnlocalizedName("stairsWoodSpruce")
+         new BlockStairs(block2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE)).setUnlocalizedName("stairsWoodSpruce")
       );
       registerBlock(
          135,
          "birch_stairs",
-         new BlockStairs(var5.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH)).setUnlocalizedName("stairsWoodBirch")
+         new BlockStairs(block2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH)).setUnlocalizedName("stairsWoodBirch")
       );
       registerBlock(
          136,
          "jungle_stairs",
-         new BlockStairs(var5.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE)).setUnlocalizedName("stairsWoodJungle")
+         new BlockStairs(block2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE)).setUnlocalizedName("stairsWoodJungle")
       );
       registerBlock(137, "command_block", new BlockCommandBlock().setBlockUnbreakable().setResistance(6000000.0F).setUnlocalizedName("commandBlock"));
       registerBlock(138, "beacon", new BlockBeacon().setUnlocalizedName("beacon").setLightLevel(1.0F));
-      registerBlock(139, "cobblestone_wall", new BlockWall(var4).setUnlocalizedName("cobbleWall"));
+      registerBlock(139, "cobblestone_wall", new BlockWall(block).setUnlocalizedName("cobbleWall"));
       registerBlock(140, "flower_pot", new BlockFlowerPot().setHardness(0.0F).setStepSound(soundTypeStone).setUnlocalizedName("flowerPot"));
       registerBlock(141, "carrots", new BlockCarrot().setUnlocalizedName("carrots"));
       registerBlock(142, "potatoes", new BlockPotato().setUnlocalizedName("potatoes"));
@@ -1337,12 +1337,12 @@ public class Block {
          new BlockOre(MapColor.netherrackColor).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("netherquartz")
       );
       registerBlock(154, "hopper", new BlockHopper().setHardness(3.0F).setResistance(8.0F).setStepSound(soundTypeMetal).setUnlocalizedName("hopper"));
-      Block var15 = new BlockQuartz().setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("quartzBlock");
-      registerBlock(155, "quartz_block", var15);
+      Block block12 = new BlockQuartz().setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("quartzBlock");
+      registerBlock(155, "quartz_block", block12);
       registerBlock(
          156,
          "quartz_stairs",
-         new BlockStairs(var15.getDefaultState().withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.DEFAULT)).setUnlocalizedName("stairsQuartz")
+         new BlockStairs(block12.getDefaultState().withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.DEFAULT)).setUnlocalizedName("stairsQuartz")
       );
       registerBlock(157, "activator_rail", new BlockRailPowered().setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("activatorRail"));
       registerBlock(158, "dropper", new BlockDropper().setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("dropper"));
@@ -1359,12 +1359,12 @@ public class Block {
       registerBlock(
          163,
          "acacia_stairs",
-         new BlockStairs(var5.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA)).setUnlocalizedName("stairsWoodAcacia")
+         new BlockStairs(block2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA)).setUnlocalizedName("stairsWoodAcacia")
       );
       registerBlock(
          164,
          "dark_oak_stairs",
-         new BlockStairs(var5.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK)).setUnlocalizedName("stairsWoodDarkOak")
+         new BlockStairs(block2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK)).setUnlocalizedName("stairsWoodDarkOak")
       );
       registerBlock(165, "slime", new BlockSlime().setUnlocalizedName("slime").setStepSound(SLIME_SOUND));
       registerBlock(166, "barrier", new BlockBarrier().setUnlocalizedName("barrier"));
@@ -1409,12 +1409,12 @@ public class Block {
          177, "wall_banner", new BlockBanner.BlockBannerHanging().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("banner").disableStats()
       );
       registerBlock(178, "daylight_detector_inverted", new BlockDaylightDetector(true));
-      Block var16 = new BlockRedSandstone().setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("redSandStone");
-      registerBlock(179, "red_sandstone", var16);
+      Block block13 = new BlockRedSandstone().setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("redSandStone");
+      registerBlock(179, "red_sandstone", block13);
       registerBlock(
          180,
          "red_sandstone_stairs",
-         new BlockStairs(var16.getDefaultState().withProperty(BlockRedSandstone.TYPE, BlockRedSandstone.EnumType.SMOOTH))
+         new BlockStairs(block13.getDefaultState().withProperty(BlockRedSandstone.TYPE, BlockRedSandstone.EnumType.SMOOTH))
             .setUnlocalizedName("stairsRedSandStone")
       );
       registerBlock(
@@ -1528,38 +1528,38 @@ public class Block {
       );
       blockRegistry.validateKey();
 
-      for (Block var18 : blockRegistry) {
-         if (var18.blockMaterial == Material.air) {
-            var18.useNeighborBrightness = false;
+      for (Block block14 : blockRegistry) {
+         if (block14.blockMaterial == Material.air) {
+            block14.useNeighborBrightness = false;
          } else {
-            boolean var19 = false;
-            boolean var20 = var18 instanceof BlockStairs;
-            boolean var21 = var18 instanceof BlockSlab;
-            boolean var22 = var18 == var10;
-            boolean var23 = var18.translucent;
-            boolean var24 = var18.lightOpacity == 0;
-            if (var20 || var21 || var22 || var23 || var24) {
-               var19 = true;
+            boolean bl = false;
+            boolean bl2 = block14 instanceof BlockStairs;
+            boolean bl3 = block14 instanceof BlockSlab;
+            boolean bl4 = block14 == block7;
+            boolean bl5 = block14.translucent;
+            boolean bl6 = block14.lightOpacity == 0;
+            if (bl2 || bl3 || bl4 || bl5 || bl6) {
+               bl = true;
             }
 
-            var18.useNeighborBrightness = var19;
+            block14.useNeighborBrightness = bl;
          }
       }
 
-      for (Block var26 : blockRegistry) {
-         for (IBlockState var28 : var26.getBlockState().getValidStates()) {
-            int var29 = blockRegistry.getIDForObject(var26) << 4 | var26.getMetaFromState(var28);
-            BLOCK_STATE_IDS.put(var28, var29);
+      for (Block block15 : blockRegistry) {
+         for (IBlockState iBlockState : block15.getBlockState().getValidStates()) {
+            int i = blockRegistry.getIDForObject(block15) << 4 | block15.getMetaFromState(iBlockState);
+            BLOCK_STATE_IDS.put(iBlockState, i);
          }
       }
    }
 
-   private static void registerBlock(int var0, ResourceLocation var1, Block var2) {
-      blockRegistry.register(var0, var1, var2);
+   private static void registerBlock(int id, ResourceLocation textualID, Block block_) {
+      blockRegistry.register(id, textualID, block_);
    }
 
-   private static void registerBlock(int var0, String var1, Block var2) {
-      registerBlock(var0, new ResourceLocation(var1), var2);
+   private static void registerBlock(int id, String textualID, Block block_) {
+      registerBlock(id, new ResourceLocation(textualID), block_);
    }
 
    public static class CollisionBoxEvent extends CancellableEvent {
@@ -1569,20 +1569,20 @@ public class Block {
       private final double y;
       private final double z;
 
-      public CollisionBoxEvent(AxisAlignedBB var1, Block var2, double var3, double var5, double var7) {
-         this.block = var2;
-         this.boundingBox = var1;
-         this.x = var3;
-         this.y = var5;
-         this.z = var7;
+      public CollisionBoxEvent(AxisAlignedBB axisAlignedBB, Block block, double d, double d2, double d3) {
+         this.block = block;
+         this.boundingBox = axisAlignedBB;
+         this.x = d;
+         this.y = d2;
+         this.z = d3;
       }
 
       public AxisAlignedBB getBoundingBox() {
          return this.boundingBox;
       }
 
-      public void setBoundingBox(AxisAlignedBB var1) {
-         this.boundingBox = var1;
+      public void setBoundingBox(AxisAlignedBB axisAlignedBB) {
+         this.boundingBox = axisAlignedBB;
       }
 
       public Block getBlock() {
@@ -1614,10 +1614,10 @@ public class Block {
       public final float frequency;
       private static final long b = 26835569858520L;
 
-      public SoundType(String var1, float var2, float var3) {
-         this.soundName = var1;
-         this.volume = var2;
-         this.frequency = var3;
+      public SoundType(String name, float volume, float frequency) {
+         this.soundName = name;
+         this.volume = volume;
+         this.frequency = frequency;
       }
 
       public float getVolume() {

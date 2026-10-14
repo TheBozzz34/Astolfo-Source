@@ -8,8 +8,8 @@ public final class StageCheckRequest implements CheckRequest {
    private final LoadStage i;
    private static final long a = 78814139392859L;
 
-   public StageCheckRequest(LoadStage var1) {
-      this.i = var1;
+   public StageCheckRequest(LoadStage loadStage) {
+      this.i = loadStage;
    }
 
    @Override
@@ -18,8 +18,8 @@ public final class StageCheckRequest implements CheckRequest {
    }
 
    @Override
-   public CheckContext Y(List<StageCheck> var1, List<VerdictProcessor> var2) {
-      Objects.requireNonNull(var1, "https://i.imgur.com/UDP1Ycm.png");
-      return new DefaultCheckContext(this, var1, var2);
+   public CheckContext Y(List<StageCheck> list, List<VerdictProcessor> list2) {
+      Objects.requireNonNull(list, "https://i.imgur.com/UDP1Ycm.png");
+      return new DefaultCheckContext(this, list, list2);
    }
 }

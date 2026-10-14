@@ -12,8 +12,8 @@ public class RenderSkeleton extends RenderBiped<EntitySkeleton> {
    private static final ResourceLocation witherSkeletonTextures = new ResourceLocation("textures/entity/skeleton/wither_skeleton.png");
    private static final long d = 46505082216814L;
 
-   public RenderSkeleton(RenderManager var1) {
-      super(var1, new ModelSkeleton(), 0.5F);
+   public RenderSkeleton(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelSkeleton(), 0.5F);
       this.addLayer(new LayerHeldItem(this));
       this.addLayer(new LayerBipedArmor(this) {
          @Override
@@ -24,8 +24,8 @@ public class RenderSkeleton extends RenderBiped<EntitySkeleton> {
       });
    }
 
-   public void preRenderCallback(EntitySkeleton var1, float var2) {
-      if (var1.getSkeletonType() == 1) {
+   public void preRenderCallback(EntitySkeleton entitylivingbaseIn, float partialTickTime) {
+      if (entitylivingbaseIn.getSkeletonType() == 1) {
          GlStateManager.scale(1.2F, 1.2F, 1.2F);
       }
    }
@@ -35,7 +35,7 @@ public class RenderSkeleton extends RenderBiped<EntitySkeleton> {
       GlStateManager.translate(0.09375F, 0.1875F, 0.0F);
    }
 
-   public ResourceLocation getEntityTexture(EntitySkeleton var1) {
-      return var1.getSkeletonType() == 1 ? witherSkeletonTextures : skeletonTextures;
+   public ResourceLocation getEntityTexture(EntitySkeleton entity) {
+      return entity.getSkeletonType() == 1 ? witherSkeletonTextures : skeletonTextures;
    }
 }

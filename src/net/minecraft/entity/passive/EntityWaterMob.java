@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
    private static final long bb = 5602786851673L;
 
-   public EntityWaterMob(World var1) {
-      super(var1);
+   public EntityWaterMob(World worldIn) {
+      super(worldIn);
    }
 
    @Override
@@ -38,16 +38,16 @@ public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
    }
 
    @Override
-   public int getExperiencePoints(EntityPlayer var1) {
+   public int getExperiencePoints(EntityPlayer player) {
       return 1 + this.worldObj.rand.nextInt(3);
    }
 
    @Override
    public void onEntityUpdate() {
-      int var4 = this.getAir();
+      int i = this.getAir();
       super.onEntityUpdate();
       if (this.isEntityAlive() && !this.isInWater()) {
-         this.setAir(--var4);
+         this.setAir(--i);
          if (this.getAir() == -20) {
             this.setAir(0);
             this.attackEntityFrom(DamageSource.drown, 2.0F);

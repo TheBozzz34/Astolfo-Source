@@ -21,8 +21,8 @@ public abstract class BlockSlab extends Block {
    public static final PropertyEnum<BlockSlab.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockSlab.EnumBlockHalf.class);
    private static final long e = 108853380053266L;
 
-   public BlockSlab(Material var1) {
-      super(var1);
+   public BlockSlab(Material materialIn) {
+      super(materialIn);
       if (this.isDouble()) {
          this.fullBlock = true;
       } else {
@@ -38,13 +38,13 @@ public abstract class BlockSlab extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
       if (this.isDouble()) {
          this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
       } else {
-         IBlockState var6 = var1.getBlockState(var2);
-         if (var6.getBlock() == this) {
-            if (var6.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
+         IBlockState iBlockState = worldIn.getBlockState(pos);
+         if (iBlockState.getBlock() == this) {
+            if (iBlockState.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
                this.setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
             } else {
                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
@@ -63,9 +63,9 @@ public abstract class BlockSlab extends Block {
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
    }
 
    @Override
@@ -74,15 +74,15 @@ public abstract class BlockSlab extends Block {
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      IBlockState var12 = super.onBlockPlaced(var1, var2, var3, var4, var5, var6, var7, var8).withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      IBlockState iBlockState = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
       return this.isDouble()
-         ? var12
-         : (var3 == EnumFacing.DOWN || var3 != EnumFacing.UP && !(var5 <= 0.5) ? var12.withProperty(HALF, BlockSlab.EnumBlockHalf.TOP) : var12);
+         ? iBlockState
+         : (facing == EnumFacing.DOWN || facing != EnumFacing.UP && !(hitY <= 0.5) ? iBlockState.withProperty(HALF, BlockSlab.EnumBlockHalf.TOP) : iBlockState);
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return this.isDouble() ? 2 : 1;
    }
 
@@ -92,45 +92,49 @@ public abstract class BlockSlab extends Block {
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
       if (this.isDouble()) {
-         return super.shouldSideBeRendered(var1, var2, var3);
+         return super.shouldSideBeRendered(worldIn, pos, side);
       }
 
-      if (var3 != EnumFacing.UP && var3 != EnumFacing.DOWN && !super.shouldSideBeRendered(var1, var2, var3)) {
+      if (side != EnumFacing.UP && side != EnumFacing.DOWN && !super.shouldSideBeRendered(worldIn, pos, side)) {
          return false;
       }
 
-      BlockPos var7 = var2.offset(var3.getOpposite());
-      IBlockState var8 = var1.getBlockState(var2);
-      IBlockState var9 = var1.getBlockState(var7);
-      boolean var10 = isSlab(var8.getBlock()) && var8.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
-      boolean var11 = isSlab(var9.getBlock()) && var9.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
-      return var11
+      BlockPos blockPos = pos.offset(side.getOpposite());
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      IBlockState iBlockState2 = worldIn.getBlockState(blockPos);
+      boolean bl = isSlab(iBlockState.getBlock()) && iBlockState.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
+      boolean bl2 = isSlab(iBlockState2.getBlock()) && iBlockState2.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
+      return bl2
          ? (
-            var3 == EnumFacing.DOWN
+            side == EnumFacing.DOWN
                ? true
-               : (var3 == EnumFacing.UP && super.shouldSideBeRendered(var1, var2, var3) ? true : !isSlab(var8.getBlock()) || !var10)
+               : (side == EnumFacing.UP && super.shouldSideBeRendered(worldIn, pos, side) ? true : !isSlab(iBlockState.getBlock()) || !bl)
          )
-         : (var3 == EnumFacing.UP ? true : (var3 == EnumFacing.DOWN && super.shouldSideBeRendered(var1, var2, var3) ? true : !isSlab(var8.getBlock()) || var10));
+         : (
+            side == EnumFacing.UP
+               ? true
+               : (side == EnumFacing.DOWN && super.shouldSideBeRendered(worldIn, pos, side) ? true : !isSlab(iBlockState.getBlock()) || bl)
+         );
    }
 
-   public static boolean isSlab(Block var0) {
-      return var0 == Blocks.stone_slab || var0 == Blocks.wooden_slab || var0 == Blocks.stone_slab2;
+   public static boolean isSlab(Block blockIn) {
+      return blockIn == Blocks.stone_slab || blockIn == Blocks.wooden_slab || blockIn == Blocks.stone_slab2;
    }
 
-   public abstract String getUnlocalizedName(int var1);
+   public abstract String getUnlocalizedName(int meta);
 
    @Override
-   public int getDamageValue(World var1, BlockPos var2) {
-      return super.getDamageValue(var1, var2) & 7;
+   public int getDamageValue(World worldIn, BlockPos pos) {
+      return super.getDamageValue(worldIn, pos) & 7;
    }
 
    public abstract boolean isDouble();
 
    public abstract IProperty<?> getVariantProperty();
 
-   public abstract Object getVariant(ItemStack var1);
+   public abstract Object getVariant(ItemStack stack);
 
    public enum EnumBlockHalf implements IStringSerializable {
       TOP("top"),
@@ -138,8 +142,8 @@ public abstract class BlockSlab extends Block {
 
       private final String name;
 
-      EnumBlockHalf(String var3) {
-         this.name = var3;
+      EnumBlockHalf(String name) {
+         this.name = name;
       }
 
       @Override

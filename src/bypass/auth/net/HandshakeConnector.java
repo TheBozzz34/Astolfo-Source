@@ -13,9 +13,9 @@ public final class HandshakeConnector implements Connector {
    }
 
    @Override
-   public void K(Connection var1, ChannelOpener var2, SocketAddress var3) throws IOException {
-      SocketChannel var4 = var2.j();
-      this.P.g(var4, var3);
-      var1.open(var4);
+   public void K(Connection connection, ChannelOpener channelOpener, SocketAddress socketAddress) throws IOException {
+      SocketChannel socketChannel = channelOpener.j();
+      this.P.g(socketChannel, socketAddress);
+      connection.open(socketChannel);
    }
 }

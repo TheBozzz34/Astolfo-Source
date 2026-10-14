@@ -9,12 +9,12 @@ public class MapSettingBuilder implements SettingBuilder<MapSetting> {
    private Map<String, Setting<?>> settings;
    private static final long a = 61775804464101L;
 
-   public MapSettingBuilder(String var1) {
-      this.name = var1;
+   public MapSettingBuilder(String string) {
+      this.name = string;
    }
 
-   public MapSettingBuilder description(String var1) {
-      this.description = var1;
+   public MapSettingBuilder description(String string) {
+      this.description = string;
       return this;
    }
 
@@ -23,13 +23,13 @@ public class MapSettingBuilder implements SettingBuilder<MapSetting> {
       return this;
    }
 
-   public MapSettingBuilder settings(Map<String, Setting<?>> var1) {
-      this.settings = var1;
+   public MapSettingBuilder settings(Map<String, Setting<?>> map) {
+      this.settings = map;
       return this;
    }
 
-   public MapSettingBuilder add(String var1, Setting<?> var2) {
-      this.settings.put(var1, var2);
+   public MapSettingBuilder add(String string, Setting<?> setting) {
+      this.settings.put(string, setting);
       return this;
    }
 

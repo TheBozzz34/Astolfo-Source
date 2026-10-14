@@ -18,7 +18,7 @@ public class SpectatorMenu {
    private static final ISpectatorMenuObject field_178654_e = new SpectatorMenu.MoveMenuObject(1, false);
    public static final ISpectatorMenuObject field_178657_a = new ISpectatorMenuObject() {
       @Override
-      public void func_178661_a(SpectatorMenu var1) {
+      public void func_178661_a(SpectatorMenu menu) {
       }
 
       @Override
@@ -27,7 +27,7 @@ public class SpectatorMenu {
       }
 
       @Override
-      public void func_178663_a(float var1, int var2) {
+      public void func_178663_a(float f, int alpha) {
       }
 
       @Override
@@ -42,23 +42,23 @@ public class SpectatorMenu {
    private int field_178658_j;
    private static final long a = 52534856511781L;
 
-   public SpectatorMenu(ISpectatorMenuRecipient var1) {
-      this.field_178651_f = var1;
+   public SpectatorMenu(ISpectatorMenuRecipient iSpectatorMenuRecipient) {
+      this.field_178651_f = iSpectatorMenuRecipient;
    }
 
-   public ISpectatorMenuObject func_178643_a(int var1) {
-      int var5 = var1 + this.field_178658_j * 6;
-      return this.field_178658_j > 0 && var1 == 0
+   public ISpectatorMenuObject func_178643_a(int i) {
+      int j = i + this.field_178658_j * 6;
+      return this.field_178658_j > 0 && i == 0
          ? field_178656_c
          : (
-            var1 == 7
-               ? (var5 < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e)
+            i == 7
+               ? (j < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e)
                : (
-                  var1 == 8
+                  i == 8
                      ? field_178655_b
                      : (
-                        var5 >= 0 && var5 < this.field_178659_h.func_178669_a().size()
-                           ? Objects.firstNonNull(this.field_178659_h.func_178669_a().get(var5), field_178657_a)
+                        j >= 0 && j < this.field_178659_h.func_178669_a().size()
+                           ? Objects.firstNonNull(this.field_178659_h.func_178669_a().get(j), field_178657_a)
                            : field_178657_a
                      )
                )
@@ -66,13 +66,13 @@ public class SpectatorMenu {
    }
 
    public List<ISpectatorMenuObject> func_178642_a() {
-      ArrayList var4 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (int var5 = 0; var5 <= 8; var5++) {
-         var4.add(this.func_178643_a(var5));
+      for (int i = 0; i <= 8; i++) {
+         arrayList.add(this.func_178643_a(i));
       }
 
-      return var4;
+      return arrayList;
    }
 
    public ISpectatorMenuObject func_178645_b() {
@@ -83,13 +83,13 @@ public class SpectatorMenu {
       return this.field_178659_h;
    }
 
-   public void func_178644_b(int var1) {
-      ISpectatorMenuObject var5 = this.func_178643_a(var1);
-      if (var5 != field_178657_a) {
-         if (this.field_178660_i == var1 && var5.func_178662_A_()) {
-            var5.func_178661_a(this);
+   public void func_178644_b(int i) {
+      ISpectatorMenuObject iSpectatorMenuObject = this.func_178643_a(i);
+      if (iSpectatorMenuObject != field_178657_a) {
+         if (this.field_178660_i == i && iSpectatorMenuObject.func_178662_A_()) {
+            iSpectatorMenuObject.func_178661_a(this);
          } else {
-            this.field_178660_i = var1;
+            this.field_178660_i = i;
          }
       }
    }
@@ -102,9 +102,9 @@ public class SpectatorMenu {
       return this.field_178660_i;
    }
 
-   public void func_178647_a(ISpectatorMenuView var1) {
+   public void func_178647_a(ISpectatorMenuView iSpectatorMenuView) {
       this.field_178652_g.add(this.func_178646_f());
-      this.field_178659_h = var1;
+      this.field_178659_h = iSpectatorMenuView;
       this.field_178660_i = -1;
       this.field_178658_j = 0;
    }
@@ -120,8 +120,8 @@ public class SpectatorMenu {
       }
 
       @Override
-      public void func_178661_a(SpectatorMenu var1) {
-         var1.func_178641_d();
+      public void func_178661_a(SpectatorMenu menu) {
+         menu.func_178641_d();
       }
 
       @Override
@@ -130,7 +130,7 @@ public class SpectatorMenu {
       }
 
       @Override
-      public void func_178663_a(float var1, int var2) {
+      public void func_178663_a(float f, int alpha) {
          Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
          Gui.drawModalRectWithCustomSizedTexture(0, 0, 128.0F, 0.0F, 16, 16, 256.0F, 256.0F);
       }
@@ -146,14 +146,14 @@ public class SpectatorMenu {
       private final boolean field_178665_b;
       private static final long a = 6691103535830L;
 
-      public MoveMenuObject(int var1, boolean var2) {
-         this.field_178666_a = var1;
-         this.field_178665_b = var2;
+      public MoveMenuObject(int i, boolean bl) {
+         this.field_178666_a = i;
+         this.field_178665_b = bl;
       }
 
       @Override
-      public void func_178661_a(SpectatorMenu var1) {
-         var1.field_178658_j = this.field_178666_a;
+      public void func_178661_a(SpectatorMenu menu) {
+         menu.field_178658_j = this.field_178666_a;
       }
 
       @Override
@@ -162,7 +162,7 @@ public class SpectatorMenu {
       }
 
       @Override
-      public void func_178663_a(float var1, int var2) {
+      public void func_178663_a(float f, int alpha) {
          Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
          if (this.field_178666_a < 0) {
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 144.0F, 0.0F, 16, 16, 256.0F, 256.0F);

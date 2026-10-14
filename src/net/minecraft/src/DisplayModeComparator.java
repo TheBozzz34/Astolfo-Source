@@ -7,18 +7,18 @@ public class DisplayModeComparator implements Comparator {
    private static final long a = 74186338748623L;
 
    @Override
-   public int compare(Object var1, Object var2) {
-      DisplayMode var6 = (DisplayMode)var1;
-      DisplayMode var7 = (DisplayMode)var2;
-      return var6.getWidth() != var7.getWidth()
-         ? var6.getWidth() - var7.getWidth()
+   public int compare(Object o1, Object o2) {
+      DisplayMode displayMode = (DisplayMode)o1;
+      DisplayMode displayMode2 = (DisplayMode)o2;
+      return displayMode.getWidth() != displayMode2.getWidth()
+         ? displayMode.getWidth() - displayMode2.getWidth()
          : (
-            var6.getHeight() != var7.getHeight()
-               ? var6.getHeight() - var7.getHeight()
+            displayMode.getHeight() != displayMode2.getHeight()
+               ? displayMode.getHeight() - displayMode2.getHeight()
                : (
-                  var6.getBitsPerPixel() != var7.getBitsPerPixel()
-                     ? var6.getBitsPerPixel() - var7.getBitsPerPixel()
-                     : (var6.getFrequency() != var7.getFrequency() ? var6.getFrequency() - var7.getFrequency() : 0)
+                  displayMode.getBitsPerPixel() != displayMode2.getBitsPerPixel()
+                     ? displayMode.getBitsPerPixel() - displayMode2.getBitsPerPixel()
+                     : (displayMode.getFrequency() != displayMode2.getFrequency() ? displayMode.getFrequency() - displayMode2.getFrequency() : 0)
                )
          );
    }

@@ -9,32 +9,32 @@ public class GuiOptionsRowList extends GuiListExtended {
    private final List<GuiOptionsRowList.Row> field_148184_k = Lists.newArrayList();
    private static final long d = 139625456373595L;
 
-   public GuiOptionsRowList(Minecraft var1, int var2, int var3, int var4, int var5, int var6, GameSettings.Options... var7) {
-      super(var1, var2, var3, var4, var5, var6);
+   public GuiOptionsRowList(Minecraft mcIn, int i, int j, int k, int m, int n, GameSettings.Options... optionss) {
+      super(mcIn, i, j, k, m, n);
       this.field_148163_i = false;
 
-      for (int var11 = 0; var11 < var7.length; var11 += 2) {
-         GameSettings.Options var12 = var7[var11];
-         GameSettings.Options var13 = var11 < var7.length - 1 ? var7[var11 + 1] : null;
-         GuiButton var14 = this.func_148182_a(var1, var2 / 2 - 155, 0, var12);
-         GuiButton var15 = this.func_148182_a(var1, var2 / 2 - 155 + 160, 0, var13);
-         this.field_148184_k.add(new GuiOptionsRowList.Row(var14, var15));
+      for (int l = 0; l < optionss.length; l += 2) {
+         GameSettings.Options options = optionss[l];
+         GameSettings.Options options2 = l < optionss.length - 1 ? optionss[l + 1] : null;
+         GuiButton guiButton = this.func_148182_a(mcIn, i / 2 - 155, 0, options);
+         GuiButton guiButton2 = this.func_148182_a(mcIn, i / 2 - 155 + 160, 0, options2);
+         this.field_148184_k.add(new GuiOptionsRowList.Row(guiButton, guiButton2));
       }
    }
 
-   private GuiButton func_148182_a(Minecraft var1, int var2, int var3, GameSettings.Options var4) {
-      if (var4 == null) {
+   private GuiButton func_148182_a(Minecraft mcIn, int i, int j, GameSettings.Options options) {
+      if (options == null) {
          return null;
       }
 
-      int var8 = var4.returnEnumOrdinal();
-      return var4.getEnumFloat()
-         ? new GuiOptionSlider(var8, var2, var3, var4)
-         : new GuiOptionButton(var8, var2, var3, var4, var1.gameSettings.getKeyBinding(var4));
+      int k = options.returnEnumOrdinal();
+      return options.getEnumFloat()
+         ? new GuiOptionSlider(k, i, j, options)
+         : new GuiOptionButton(k, i, j, options, mcIn.gameSettings.getKeyBinding(options));
    }
 
-   public GuiOptionsRowList.Row getListEntry(int var1) {
-      return this.field_148184_k.get(var1);
+   public GuiOptionsRowList.Row getListEntry(int index) {
+      return this.field_148184_k.get(index);
    }
 
    @Override
@@ -58,34 +58,34 @@ public class GuiOptionsRowList extends GuiListExtended {
       private final GuiButton field_148324_c;
       private static final long a = 542697058727L;
 
-      public Row(GuiButton var1, GuiButton var2) {
-         this.field_148323_b = var1;
-         this.field_148324_c = var2;
+      public Row(GuiButton guiButton, GuiButton guiButton2) {
+         this.field_148323_b = guiButton;
+         this.field_148324_c = guiButton2;
       }
 
       @Override
-      public void drawEntry(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8) {
+      public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeightIn, int mouseXIn, int mouseYIn, boolean isSelected) {
          if (this.field_148323_b != null) {
-            this.field_148323_b.yPosition = var3;
-            this.field_148323_b.drawButton(this.field_148325_a, var6, var7);
+            this.field_148323_b.yPosition = y;
+            this.field_148323_b.drawButton(this.field_148325_a, mouseXIn, mouseYIn);
          }
 
          if (this.field_148324_c != null) {
-            this.field_148324_c.yPosition = var3;
-            this.field_148324_c.drawButton(this.field_148325_a, var6, var7);
+            this.field_148324_c.yPosition = y;
+            this.field_148324_c.drawButton(this.field_148325_a, mouseXIn, mouseYIn);
          }
       }
 
       @Override
-      public boolean mousePressed(int var1, int var2, int var3, int var4, int var5, int var6) {
-         if (this.field_148323_b.mousePressed(this.field_148325_a, var2, var3)) {
+      public boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n) {
+         if (this.field_148323_b.mousePressed(this.field_148325_a, i, j)) {
             if (this.field_148323_b instanceof GuiOptionButton) {
                this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148323_b).returnEnumOptions(), 1);
                this.field_148323_b.displayString = this.field_148325_a.gameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(this.field_148323_b.id));
             }
 
             return true;
-         } else if (this.field_148324_c != null && this.field_148324_c.mousePressed(this.field_148325_a, var2, var3)) {
+         } else if (this.field_148324_c != null && this.field_148324_c.mousePressed(this.field_148325_a, i, j)) {
             if (this.field_148324_c instanceof GuiOptionButton) {
                this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148324_c).returnEnumOptions(), 1);
                this.field_148324_c.displayString = this.field_148325_a.gameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(this.field_148324_c.id));
@@ -98,18 +98,18 @@ public class GuiOptionsRowList extends GuiListExtended {
       }
 
       @Override
-      public void mouseReleased(int var1, int var2, int var3, int var4, int var5, int var6) {
+      public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
          if (this.field_148323_b != null) {
-            this.field_148323_b.mouseReleased(var2, var3);
+            this.field_148323_b.mouseReleased(x, y);
          }
 
          if (this.field_148324_c != null) {
-            this.field_148324_c.mouseReleased(var2, var3);
+            this.field_148324_c.mouseReleased(x, y);
          }
       }
 
       @Override
-      public void setSelected(int var1, int var2, int var3) {
+      public void setSelected(int i, int j, int k) {
       }
    }
 }

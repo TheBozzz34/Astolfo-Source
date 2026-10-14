@@ -12,57 +12,57 @@ import net.minecraft.world.World;
 public class EntityMooshroom extends EntityCow {
    private static final long hb = 111690236893589L;
 
-   public EntityMooshroom(World var1) {
-      super(var1);
+   public EntityMooshroom(World worldIn) {
+      super(worldIn);
       this.setSize(0.9F, 1.3F);
       this.spawnableBlock = Blocks.mycelium;
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      if (var5 != null && var5.getItem() == Items.bowl && this.getGrowingAge() >= 0) {
-         if (var5.stackSize == 1) {
-            var1.inventory.setInventorySlotContents(var1.inventory.currentItem, new ItemStack(Items.mushroom_stew));
+   public boolean interact(EntityPlayer player) {
+      ItemStack itemStack = player.inventory.getCurrentItem();
+      if (itemStack != null && itemStack.getItem() == Items.bowl && this.getGrowingAge() >= 0) {
+         if (itemStack.stackSize == 1) {
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.mushroom_stew));
             return true;
          }
 
-         if (var1.inventory.addItemStackToInventory(new ItemStack(Items.mushroom_stew)) && !var1.capabilities.isCreativeMode) {
-            var1.inventory.decrStackSize(var1.inventory.currentItem, 1);
+         if (player.inventory.addItemStackToInventory(new ItemStack(Items.mushroom_stew)) && !player.capabilities.isCreativeMode) {
+            player.inventory.decrStackSize(player.inventory.currentItem, 1);
             return true;
          }
       }
 
-      if (var5 != null && var5.getItem() == Items.shears && this.getGrowingAge() >= 0) {
+      if (itemStack != null && itemStack.getItem() == Items.shears && this.getGrowingAge() >= 0) {
          this.setDead();
          this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + this.height / 2.0F, this.posZ, 0.0, 0.0, 0.0);
          if (!this.worldObj.isRemote) {
-            EntityCow var6 = new EntityCow(this.worldObj);
-            var6.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-            var6.setHealth(this.getHealth());
-            var6.renderYawOffset = this.renderYawOffset;
+            EntityCow entityCow = new EntityCow(this.worldObj);
+            entityCow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+            entityCow.setHealth(this.getHealth());
+            entityCow.renderYawOffset = this.renderYawOffset;
             if (this.hasCustomName()) {
-               var6.setCustomNameTag(this.getCustomNameTag());
+               entityCow.setCustomNameTag(this.getCustomNameTag());
             }
 
-            this.worldObj.spawnEntityInWorld(var6);
+            this.worldObj.spawnEntityInWorld(entityCow);
 
-            for (int var7 = 0; var7 < 5; var7++) {
+            for (int i = 0; i < 5; i++) {
                this.worldObj
                   .spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + this.height, this.posZ, new ItemStack(Blocks.red_mushroom)));
             }
 
-            var5.damageItem(1, var1);
+            itemStack.damageItem(1, player);
             this.playSound("mob.sheep.shear", 1.0F, 1.0F);
          }
 
          return true;
       } else {
-         return super.interact(var1);
+         return super.interact(player);
       }
    }
 
-   public EntityMooshroom createChild(EntityAgeable var1) {
+   public EntityMooshroom createChild(EntityAgeable ageable) {
       return new EntityMooshroom(this.worldObj);
    }
 }

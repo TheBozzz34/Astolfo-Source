@@ -24,23 +24,23 @@ public class ChatMessageBuilder implements ClientAccess {
    public final ClientChat k;
    private static final long c = 96288178624678L;
 
-   public ChatMessageBuilder(ClientChat var1) {
-      this.k = var1;
+   public ChatMessageBuilder(ClientChat clientChat) {
+      this.k = clientChat;
       this.b = new ChatComponentText("");
       this.N = false;
       this.d = new ChatStyle();
       this.q = new ChatComponentText("");
    }
 
-   public ChatMessageBuilder i(String var1) {
+   public ChatMessageBuilder i(String string) {
       this.w();
-      this.q = new ChatComponentText(var1);
+      this.q = new ChatComponentText(string);
       this.d = new ChatStyle();
       if (this.f) {
-         Matcher var4 = ClientChat.N().matcher(var1);
+         Matcher matcher2 = ClientChat.N().matcher(string);
 
-         while (var4.find()) {
-            this.m(var1.substring(var4.start(1), var4.end(0)));
+         while (matcher2.find()) {
+            this.m(string.substring(matcher2.start(1), matcher2.end(0)));
          }
       }
 
@@ -56,8 +56,8 @@ public class ChatMessageBuilder implements ClientAccess {
       return this;
    }
 
-   public ChatMessageBuilder M(EnumChatFormatting var1) {
-      this.d.setColor(var1);
+   public ChatMessageBuilder M(EnumChatFormatting enumChatFormatting) {
+      this.d.setColor(enumChatFormatting);
       return this;
    }
 
@@ -81,24 +81,24 @@ public class ChatMessageBuilder implements ClientAccess {
       return this;
    }
 
-   public ChatMessageBuilder V(String var1) {
-      this.d.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, var1));
+   public ChatMessageBuilder V(String string) {
+      this.d.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, string));
       return this;
    }
 
-   public ChatMessageBuilder y(String var1) {
-      this.d.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(var1)));
+   public ChatMessageBuilder y(String string) {
+      this.d.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(string)));
       return this;
    }
 
-   public ChatMessageBuilder m(String var1) {
-      this.d.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, var1));
+   public ChatMessageBuilder m(String string) {
+      this.d.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, string));
       return this;
    }
 
-   public ChatMessageBuilder g(TextAlignment var1) {
+   public ChatMessageBuilder g(TextAlignment textAlignment) {
       this.w();
-      this.b.appendSibling(new AlignedChatComponent(this.k, var1));
+      this.b.appendSibling(new AlignedChatComponent(this.k, textAlignment));
       return this;
    }
 
@@ -116,53 +116,53 @@ public class ChatMessageBuilder implements ClientAccess {
    }
 
    private void resolveColumns() {
-      if (!this.b.getSiblings().stream().noneMatch(var0 -> var0 instanceof AlignedChatComponent)) {
-         int var3 = MathHelper.floor_float(MathHelper.floor_float(mc.gameSettings.l6 * 280.0F + 40.0F) / mc.gameSettings.chatScale);
-         List var4 = GuiUtilRenderComponents.splitText(this.b, var3, mc.fontRendererObj, false, false);
-         ChatComponentText var5 = this.b;
-         var5.getSiblings().add(0, new AlignedChatComponent(this.k, TextAlignment.CENTER));
-         int var6 = 0;
-         ArrayList var7 = new ArrayList();
-         ChatComponentText var8 = new ChatComponentText("");
+      if (!this.b.getSiblings().stream().noneMatch(iChatComponent -> iChatComponent instanceof AlignedChatComponent)) {
+         int i = MathHelper.floor_float(MathHelper.floor_float(mc.gameSettings.l6 * 280.0F + 40.0F) / mc.gameSettings.chatScale);
+         List list = GuiUtilRenderComponents.splitText(this.b, i, mc.fontRendererObj, false, false);
+         ChatComponentText chatComponentText = this.b;
+         chatComponentText.getSiblings().add(0, new AlignedChatComponent(this.k, TextAlignment.CENTER));
+         int j = 0;
+         ArrayList arrayList = new ArrayList();
+         ChatComponentText chatComponentText2 = new ChatComponentText("");
 
-         for (IChatComponent var10 : var5) {
-            var8.getSiblings().add(new ChatComponentText(var10.getUnformattedText()).setChatStyle(var10.getChatStyle()));
-            if (var10 instanceof AlignedChatComponent) {
-               AlignedChatComponent var11 = (AlignedChatComponent)var10;
-               String var12 = GuiUtilRenderComponents.func_178909_a(var8.getFormattedText(), false);
-               var11.x = mc.fontRendererObj.getStringWidth(var12);
-               var6 += var11.x;
-               var7.add(var11);
-               var8 = new ChatComponentText("");
+         for (IChatComponent iChatComponent2 : chatComponentText) {
+            chatComponentText2.getSiblings().add(new ChatComponentText(iChatComponent2.getUnformattedText()).setChatStyle(iChatComponent2.getChatStyle()));
+            if (iChatComponent2 instanceof AlignedChatComponent) {
+               AlignedChatComponent alignedChatComponent = (AlignedChatComponent)iChatComponent2;
+               String string = GuiUtilRenderComponents.func_178909_a(chatComponentText2.getFormattedText(), false);
+               alignedChatComponent.x = mc.fontRendererObj.getStringWidth(string);
+               j += alignedChatComponent.x;
+               arrayList.add(alignedChatComponent);
+               chatComponentText2 = new ChatComponentText("");
             }
          }
 
-         int var15 = var3 - var6;
-         int var16 = var7.size();
-         int var17 = var15 / var16;
+         int l = i - j;
+         int m = arrayList.size();
+         int n = l / m;
 
-         for (int var18 = 0; var18 < var7.size(); var18++) {
-            AlignedChatComponent var13 = (AlignedChatComponent)var7.get(var18);
-            AlignedChatComponent var14 = var18 > 0 ? (AlignedChatComponent)var7.get(var18 - 1) : null;
-            var13.x = var17;
-            switch (var13.f) {
+         for (int i2 = 0; i2 < arrayList.size(); i2++) {
+            AlignedChatComponent alignedChatComponent2 = (AlignedChatComponent)arrayList.get(i2);
+            AlignedChatComponent alignedChatComponent3 = i2 > 0 ? (AlignedChatComponent)arrayList.get(i2 - 1) : null;
+            alignedChatComponent2.x = n;
+            switch (alignedChatComponent2.f) {
                case LEFT:
-                  var14.x -= var17;
-                  var13.x += var17;
+                  alignedChatComponent3.x -= n;
+                  alignedChatComponent2.x += n;
                   break;
                case RIGHT:
-                  var14.x += var17;
-                  var13.x -= var17;
+                  alignedChatComponent3.x += n;
+                  alignedChatComponent2.x -= n;
             }
          }
       }
    }
 
-   public static ChatComponentText Y(ChatMessageBuilder var0) {
-      return var0.b;
+   public static ChatComponentText Y(ChatMessageBuilder chatMessageBuilder) {
+      return chatMessageBuilder.b;
    }
 
-   public static boolean m(ChatMessageBuilder var0, boolean var1) {
-      return var0.N = var1;
+   public static boolean m(ChatMessageBuilder chatMessageBuilder, boolean bl) {
+      return chatMessageBuilder.N = bl;
    }
 }

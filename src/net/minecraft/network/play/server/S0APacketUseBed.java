@@ -15,29 +15,29 @@ public class S0APacketUseBed implements Packet<INetHandlerPlayClient> {
    public S0APacketUseBed() {
    }
 
-   public S0APacketUseBed(EntityPlayer var1, BlockPos var2) {
-      this.playerID = var1.getEntityId();
-      this.bedPos = var2;
+   public S0APacketUseBed(EntityPlayer player, BlockPos bedPosIn) {
+      this.playerID = player.getEntityId();
+      this.bedPos = bedPosIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.playerID = var1.readVarIntFromBuffer();
-      this.bedPos = var1.readBlockPos();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.playerID = buf.readVarIntFromBuffer();
+      this.bedPos = buf.readBlockPos();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.playerID);
-      var1.writeBlockPos(this.bedPos);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.playerID);
+      buf.writeBlockPos(this.bedPos);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleUseBed(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleUseBed(this);
    }
 
-   public EntityPlayer getPlayer(World var1) {
-      return (EntityPlayer)var1.getEntityByID(this.playerID);
+   public EntityPlayer getPlayer(World worldIn) {
+      return (EntityPlayer)worldIn.getEntityByID(this.playerID);
    }
 
    public BlockPos getBedPosition() {

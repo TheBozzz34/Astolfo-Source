@@ -33,34 +33,34 @@ public final class Spammer extends Module {
    private final Stopwatch m = new Stopwatch();
    private int S;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.RECEIVED && var1x.getPacket() instanceof C01PacketChatMessage && !this.hypixel.getValue()) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof C01PacketChatMessage && !this.hypixel.getValue()) {
          this.m.reset();
       }
    };
    private boolean A;
    private final String[] V = new String[]{"", "sw", "bw", "duels"};
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      String var5 = this.message.getValue();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      String string = this.message.getValue();
       if (this.message.getValue().contains(";") && this.multiLine.getValue()) {
-         String[] var6 = this.message.getValue().split(";");
-         if (this.S >= var6.length) {
+         String[] strings = this.message.getValue().split(";");
+         if (this.S >= strings.length) {
             this.S = 0;
          }
 
-         var5 = var6[this.S];
+         string = strings[this.S];
          this.S++;
       }
 
-      boolean var11 = this.random.getSetting("Enable").asBoolean();
-      int var7 = this.random.getSetting("Length").asInt();
-      boolean var8 = this.random.getSetting("Letters").asBoolean();
-      boolean var9 = this.random.getSetting("Numbers").asBoolean();
-      String var10 = RandomStringUtils.random(var7, var8, var9);
+      boolean bl = this.random.getSetting("Enable").asBoolean();
+      int i = this.random.getSetting("Length").asInt();
+      boolean bl2 = this.random.getSetting("Letters").asBoolean();
+      boolean bl3 = this.random.getSetting("Numbers").asBoolean();
+      String string2 = RandomStringUtils.random(i, bl2, bl3);
       if (this.hypixel.getValue()) {
          if (!this.A) {
-            mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(var5 + (var11 ? var10 : "")));
+            mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(string + (bl ? string2 : "")));
             this.A = true;
          } else if (this.m.hasElapsed(200.0F)) {
             mc.thePlayer.sendChatMessage("/hub " + this.V[(int)(Math.random() * this.V.length)]);
@@ -68,24 +68,24 @@ public final class Spammer extends Module {
          }
       } else {
          if (this.m.hasElapsed(this.delay.getValue().intValue())) {
-            if (var5.startsWith("-") || var5.startsWith(" -")) {
+            if (string.startsWith("-") || string.startsWith(" -")) {
                return;
             }
 
-            mc.thePlayer.sendChatMessage(var5 + (var11 ? var10 : ""));
+            mc.thePlayer.sendChatMessage(string + (bl ? string2 : ""));
             this.m.reset();
          }
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> {
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       this.m.reset();
       this.A = false;
    };
    private static final long c = 285072059933L;
 
-   public Spammer(Category var1) {
-      super(var1);
+   public Spammer(Category category) {
+      super(category);
       this.addSettings(this.message, this.delay, this.random, this.multiLine, this.hypixel);
    }
 }

@@ -12,33 +12,33 @@ public class SocketConnection implements Connection {
    private SocketChannel T;
 
    public SocketConnection(
-      ConnectionListener var1,
-      Map<Short, PacketReader<?>> var2,
-      Map<Short, List<PacketListener<?>>> var3,
-      PacketOutput var4,
-      ConnectionHandlerFactory var5,
-      Consumer<IOException> var6,
-      Runnable var7
+      ConnectionListener connectionListener,
+      Map<Short, PacketReader<?>> map,
+      Map<Short, List<PacketListener<?>>> map2,
+      PacketOutput packetOutput,
+      ConnectionHandlerFactory connectionHandlerFactory,
+      Consumer<IOException> consumer,
+      Runnable runnable
    ) {
-      this.C = new PacketConnection(var1, var2, var3, var4, () -> {
-         this.O(var6);
-         var7.run();
+      this.C = new PacketConnection(connectionListener, map, map2, packetOutput, () -> {
+         this.O(consumer);
+         runnable.run();
       });
-      this.K = var5;
+      this.K = connectionHandlerFactory;
    }
 
-   private void O(Consumer<IOException> var1) {
+   private void O(Consumer<IOException> consumer) {
       try {
          this.K.y(this.C).c(this.T);
-      } catch (IOException var3) {
-         var1.accept(var3);
+      } catch (IOException ioException) {
+         consumer.accept(ioException);
       }
    }
 
    @Override
-   public void open(SocketChannel var1) throws IOException {
-      this.T = var1;
-      this.C.g(var1);
+   public void open(SocketChannel socketChannel) throws IOException {
+      this.T = socketChannel;
+      this.C.g(socketChannel);
    }
 
    @Override

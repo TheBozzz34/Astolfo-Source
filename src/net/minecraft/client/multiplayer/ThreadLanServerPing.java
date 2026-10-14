@@ -18,32 +18,32 @@ public class ThreadLanServerPing extends Thread {
    private static final long a = 93191026823412L;
    private static final long e = -7047546114416832163L;
 
-   public ThreadLanServerPing(String var1, String var2) throws IOException {
+   public ThreadLanServerPing(String string, String string2) throws IOException {
       super("LanServerPinger #" + field_148658_a.incrementAndGet());
-      this.motd = var1;
-      this.address = var2;
+      this.motd = string;
+      this.address = string2;
       this.setDaemon(true);
       this.socket = new DatagramSocket();
    }
 
    @Override
    public void run() {
-      String var4 = getPingResponse(this.motd, this.address);
-      byte[] var5 = var4.getBytes();
+      String string = getPingResponse(this.motd, this.address);
+      byte[] bytes = string.getBytes();
 
       while (!this.isInterrupted() && this.isStopping) {
          try {
-            InetAddress var6 = InetAddress.getByName("224.0.2.60");
-            DatagramPacket var7 = new DatagramPacket(var5, var5.length, var6, (int)e);
-            this.socket.send(var7);
-         } catch (IOException var9) {
-            logger.warn("LanServerPinger: " + var9.getMessage());
+            InetAddress inetAddress = InetAddress.getByName("224.0.2.60");
+            DatagramPacket datagramPacket = new DatagramPacket(bytes, bytes.length, inetAddress, (int)e);
+            this.socket.send(datagramPacket);
+         } catch (IOException ioException) {
+            logger.warn("LanServerPinger: " + ioException.getMessage());
             break;
          }
 
          try {
             sleep(1500L);
-         } catch (InterruptedException var8) {
+         } catch (InterruptedException interruptedException) {
          }
       }
    }
@@ -54,37 +54,37 @@ public class ThreadLanServerPing extends Thread {
       this.isStopping = false;
    }
 
-   public static String getPingResponse(String var0, String var1) {
-      return "[MOTD]" + var0 + "[/MOTD][AD]" + var1 + "[/AD]";
+   public static String getPingResponse(String string, String string2) {
+      return "[MOTD]" + string + "[/MOTD][AD]" + string2 + "[/AD]";
    }
 
-   public static String getMotdFromPingResponse(String var0) {
-      int var4 = var0.indexOf("[MOTD]");
-      if (var4 < 0) {
+   public static String getMotdFromPingResponse(String string) {
+      int i = string.indexOf("[MOTD]");
+      if (i < 0) {
          return "missing no";
       }
 
-      int var5 = var0.indexOf("[/MOTD]", var4 + "[MOTD]".length());
-      return var5 < var4 ? "missing no" : var0.substring(var4 + "[MOTD]".length(), var5);
+      int j = string.indexOf("[/MOTD]", i + "[MOTD]".length());
+      return j < i ? "missing no" : string.substring(i + "[MOTD]".length(), j);
    }
 
-   public static String getAdFromPingResponse(String var0) {
-      int var4 = var0.indexOf("[/MOTD]");
-      if (var4 < 0) {
+   public static String getAdFromPingResponse(String string) {
+      int i = string.indexOf("[/MOTD]");
+      if (i < 0) {
          return null;
       }
 
-      int var5 = var0.indexOf("[/MOTD]", var4 + "[/MOTD]".length());
-      if (var5 >= 0) {
+      int j = string.indexOf("[/MOTD]", i + "[/MOTD]".length());
+      if (j >= 0) {
          return null;
       }
 
-      int var6 = var0.indexOf("[AD]", var4 + "[/MOTD]".length());
-      if (var6 < 0) {
+      int k = string.indexOf("[AD]", i + "[/MOTD]".length());
+      if (k < 0) {
          return null;
       }
 
-      int var7 = var0.indexOf("[/AD]", var6 + "[AD]".length());
-      return var7 < var6 ? null : var0.substring(var6 + "[AD]".length(), var7);
+      int l = string.indexOf("[/AD]", k + "[AD]".length());
+      return l < k ? null : string.substring(k + "[AD]".length(), l);
    }
 }

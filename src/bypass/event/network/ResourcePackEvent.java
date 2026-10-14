@@ -5,8 +5,8 @@ import bypass.event.CancellableEvent;
 public class ResourcePackEvent extends CancellableEvent {
    private String x;
 
-   public ResourcePackEvent(String var1) {
-      this.x = var1;
+   public ResourcePackEvent(String string) {
+      this.x = string;
    }
 
    public String Q() {

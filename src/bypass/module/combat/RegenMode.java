@@ -8,11 +8,11 @@ public enum RegenMode {
    private String w;
    private static final RegenMode[] m = new RegenMode[]{VANILLA, POTION, WAIT};
 
-   RegenMode(String var3) {
-      this.w = var3;
+   RegenMode(String string2) {
+      this.w = string2;
    }
 
-   public static String S(RegenMode var0) {
-      return var0.w;
+   public static String S(RegenMode regenMode) {
+      return regenMode.w;
    }
 }

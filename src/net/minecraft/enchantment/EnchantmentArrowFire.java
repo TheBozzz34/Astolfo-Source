@@ -5,18 +5,18 @@ import net.minecraft.util.ResourceLocation;
 public class EnchantmentArrowFire extends Enchantment {
    private static final long m = 98343978568831L;
 
-   public EnchantmentArrowFire(int var1, ResourceLocation var2, int var3) {
-      super(var1, var2, var3, EnumEnchantmentType.BOW);
+   public EnchantmentArrowFire(int enchID, ResourceLocation enchName, int enchWeight) {
+      super(enchID, enchName, enchWeight, EnumEnchantmentType.BOW);
       this.setName("arrowFire");
    }
 
    @Override
-   public int getMinEnchantability(int var1) {
+   public int getMinEnchantability(int enchantmentLevel) {
       return 20;
    }
 
    @Override
-   public int getMaxEnchantability(int var1) {
+   public int getMaxEnchantability(int enchantmentLevel) {
       return 50;
    }
 

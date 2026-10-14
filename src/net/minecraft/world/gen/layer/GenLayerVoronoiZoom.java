@@ -3,77 +3,77 @@ package net.minecraft.world.gen.layer;
 public class GenLayerVoronoiZoom extends GenLayer {
    private static final long c = 51371569411676L;
 
-   public GenLayerVoronoiZoom(long var1, GenLayer var3) {
-      super(var1);
-      super.parent = var3;
+   public GenLayerVoronoiZoom(long l, GenLayer genLayer) {
+      super(l);
+      super.parent = genLayer;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
-      var1 -= 2;
-      var2 -= 2;
-      int var8 = var1 >> 2;
-      int var9 = var2 >> 2;
-      int var10 = (var3 >> 2) + 2;
-      int var11 = (var4 >> 2) + 2;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int var13 = var10 - 1 << 2;
-      int var14 = var11 - 1 << 2;
-      int[] var15 = IntCache.getIntCache(var13 * var14);
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+      areaX -= 2;
+      areaY -= 2;
+      int i = areaX >> 2;
+      int j = areaY >> 2;
+      int k = (areaWidth >> 2) + 2;
+      int l = (areaHeight >> 2) + 2;
+      int[] ints = this.parent.getInts(i, j, k, l);
+      int m = k - 1 << 2;
+      int n = l - 1 << 2;
+      int[] ints2 = IntCache.getIntCache(m * n);
 
-      for (int var16 = 0; var16 < var11 - 1; var16++) {
-         int var17 = 0;
-         int var18 = var12[var17 + 0 + (var16 + 0) * var10];
-         int var19 = var12[var17 + 0 + (var16 + 1) * var10];
+      for (int i2 = 0; i2 < l - 1; i2++) {
+         int i3 = 0;
+         int i4 = ints[i3 + 0 + (i2 + 0) * k];
+         int i5 = ints[i3 + 0 + (i2 + 1) * k];
 
-         while (var17 < var10 - 1) {
-            this.initChunkSeed(var17 + var8 << 2, var16 + var9 << 2);
-            double var22 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
-            double var24 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
-            this.initChunkSeed(var17 + var8 + 1 << 2, var16 + var9 << 2);
-            double var26 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
-            double var28 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
-            this.initChunkSeed(var17 + var8 << 2, var16 + var9 + 1 << 2);
-            double var30 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
-            double var32 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
-            this.initChunkSeed(var17 + var8 + 1 << 2, var16 + var9 + 1 << 2);
-            double var34 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
-            double var36 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
-            int var38 = var12[var17 + 1 + (var16 + 0) * var10] & 0xFF;
-            int var39 = var12[var17 + 1 + (var16 + 1) * var10] & 0xFF;
+         while (i3 < k - 1) {
+            this.initChunkSeed(i3 + i << 2, i2 + j << 2);
+            double d = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
+            double e = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
+            this.initChunkSeed(i3 + i + 1 << 2, i2 + j << 2);
+            double d2 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
+            double d3 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
+            this.initChunkSeed(i3 + i << 2, i2 + j + 1 << 2);
+            double d4 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6;
+            double d5 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
+            this.initChunkSeed(i3 + i + 1 << 2, i2 + j + 1 << 2);
+            double d6 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
+            double d7 = (this.nextInt(1024) / 1024.0 - 0.5) * 3.6 + 4.0;
+            int i6 = ints[i3 + 1 + (i2 + 0) * k] & 0xFF;
+            int i7 = ints[i3 + 1 + (i2 + 1) * k] & 0xFF;
 
-            for (int var40 = 0; var40 < 4; var40++) {
-               int var41 = ((var16 << 2) + var40) * var13 + (var17 << 2);
+            for (int i8 = 0; i8 < 4; i8++) {
+               int i9 = ((i2 << 2) + i8) * m + (i3 << 2);
 
-               for (int var42 = 0; var42 < 4; var42++) {
-                  double var43 = (var40 - var24) * (var40 - var24) + (var42 - var22) * (var42 - var22);
-                  double var45 = (var40 - var28) * (var40 - var28) + (var42 - var26) * (var42 - var26);
-                  double var47 = (var40 - var32) * (var40 - var32) + (var42 - var30) * (var42 - var30);
-                  double var49 = (var40 - var36) * (var40 - var36) + (var42 - var34) * (var42 - var34);
-                  if (var43 < var45 && var43 < var47 && var43 < var49) {
-                     var15[var41++] = var18;
-                  } else if (var45 < var43 && var45 < var47 && var45 < var49) {
-                     var15[var41++] = var38;
-                  } else if (var47 < var43 && var47 < var45 && var47 < var49) {
-                     var15[var41++] = var19;
+               for (int i10 = 0; i10 < 4; i10++) {
+                  double d8 = (i8 - e) * (i8 - e) + (i10 - d) * (i10 - d);
+                  double d9 = (i8 - d3) * (i8 - d3) + (i10 - d2) * (i10 - d2);
+                  double d10 = (i8 - d5) * (i8 - d5) + (i10 - d4) * (i10 - d4);
+                  double d11 = (i8 - d7) * (i8 - d7) + (i10 - d6) * (i10 - d6);
+                  if (d8 < d9 && d8 < d10 && d8 < d11) {
+                     ints2[i9++] = i4;
+                  } else if (d9 < d8 && d9 < d10 && d9 < d11) {
+                     ints2[i9++] = i6;
+                  } else if (d10 < d8 && d10 < d9 && d10 < d11) {
+                     ints2[i9++] = i5;
                   } else {
-                     var15[var41++] = var39;
+                     ints2[i9++] = i7;
                   }
                }
             }
 
-            var18 = var38;
-            var19 = var39;
-            var17++;
+            i4 = i6;
+            i5 = i7;
+            i3++;
          }
       }
 
-      int[] var53 = IntCache.getIntCache(var3 * var4);
+      int[] ints3 = IntCache.getIntCache(areaWidth * areaHeight);
 
-      for (int var54 = 0; var54 < var4; var54++) {
-         System.arraycopy(var15, (var54 + (var2 & 3)) * var13 + (var1 & 3), var53, var54 * var3, var3);
+      for (int i11 = 0; i11 < areaHeight; i11++) {
+         System.arraycopy(ints2, (i11 + (areaY & 3)) * m + (areaX & 3), ints3, i11 * areaWidth, areaWidth);
       }
 
-      return var53;
+      return ints3;
    }
 }

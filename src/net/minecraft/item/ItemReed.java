@@ -14,46 +14,46 @@ public class ItemReed extends Item {
    private Block block;
    private static final long a = 18246456603224L;
 
-   public ItemReed(Block var1) {
-      this.block = var1;
+   public ItemReed(Block block) {
+      this.block = block;
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      IBlockState var12 = var3.getBlockState(var4);
-      Block var13 = var12.getBlock();
-      if (var13 == Blocks.snow_layer && var12.getValue(BlockSnow.LAYERS) < 1) {
-         var5 = EnumFacing.UP;
-      } else if (!var13.isReplaceable(var3, var4)) {
-         var4 = var4.offset(var5);
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      Block block2 = iBlockState.getBlock();
+      if (block2 == Blocks.snow_layer && iBlockState.getValue(BlockSnow.LAYERS) < 1) {
+         side = EnumFacing.UP;
+      } else if (!block2.isReplaceable(worldIn, pos)) {
+         pos = pos.offset(side);
       }
 
-      if (!var2.canPlayerEdit(var4, var5, var1)) {
+      if (!playerIn.canPlayerEdit(pos, side, stack)) {
          return false;
       }
 
-      if (var1.stackSize == 0) {
+      if (stack.stackSize == 0) {
          return false;
       }
 
-      if (var3.canBlockBePlaced(this.block, var4, false, var5, (Entity)null, var1)) {
-         IBlockState var14 = this.block.onBlockPlaced(var3, var4, var5, var6, var7, var8, 0, var2);
-         if (var3.setBlockState(var4, var14, 3)) {
-            var14 = var3.getBlockState(var4);
-            if (var14.getBlock() == this.block) {
-               ItemBlock.setTileEntityNBT(var3, var2, var4, var1);
-               var14.getBlock().onBlockPlacedBy(var3, var4, var14, var2, var1);
+      if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack)) {
+         IBlockState iBlockState2 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
+         if (worldIn.setBlockState(pos, iBlockState2, 3)) {
+            iBlockState2 = worldIn.getBlockState(pos);
+            if (iBlockState2.getBlock() == this.block) {
+               ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack);
+               iBlockState2.getBlock().onBlockPlacedBy(worldIn, pos, iBlockState2, playerIn, stack);
             }
 
-            var3.playSoundEffect(
-               var4.getX() + 0.5F,
-               var4.getY() + 0.5F,
-               var4.getZ() + 0.5F,
+            worldIn.playSoundEffect(
+               pos.getX() + 0.5F,
+               pos.getY() + 0.5F,
+               pos.getZ() + 0.5F,
                this.block.stepSound.getPlaceSound(),
                (this.block.stepSound.getVolume() + 1.0F) / 2.0F,
                this.block.stepSound.getFrequency() * 0.8F
             );
-            var1.stackSize--;
+            stack.stackSize--;
             return true;
          }
       }

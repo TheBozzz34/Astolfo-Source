@@ -14,13 +14,13 @@ public class VRHandItemProvider extends HandItemProvider {
    private static final long a = 102387469170387L;
 
    @Override
-   public Item getHandItem(UserConnection var1) {
-      if (var1.isClientSide()) {
+   public Item getHandItem(UserConnection userConnection) {
+      if (userConnection.isClientSide()) {
          return this.b();
       }
 
-      Item var5;
-      return (var5 = this.j.get(var1.getProtocolInfo().getUuid())) != null ? new DataItem(var5) : super.getHandItem(var1);
+      Item item;
+      return (item = this.j.get(userConnection.getProtocolInfo().getUuid())) != null ? new DataItem(item) : super.getHandItem(userConnection);
    }
 
    private Item b() {

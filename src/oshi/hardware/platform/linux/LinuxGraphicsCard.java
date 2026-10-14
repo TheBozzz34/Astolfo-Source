@@ -12,115 +12,115 @@ import oshi.util.tuples.Pair;
 public final class LinuxGraphicsCard extends AbstractGraphicsCard {
    private static final long b = 116089374216401L;
 
-   public LinuxGraphicsCard(String var1, String var2, String var3, String var4, long var5) {
-      super(var1, var2, var3, var4, var5);
+   public LinuxGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
+      super(name, deviceId, vendor, versionInfo, vram);
    }
 
    public static List<LinuxGraphicsCard> getGraphicsCards() {
-      List var3 = getGraphicsCardsFromLspci();
-      if (var3.isEmpty()) {
-         var3 = getGraphicsCardsFromLshw();
+      List list = getGraphicsCardsFromLspci();
+      if (list.isEmpty()) {
+         list = getGraphicsCardsFromLshw();
       }
 
-      return var3;
+      return list;
    }
 
    private static List<LinuxGraphicsCard> getGraphicsCardsFromLspci() {
-      ArrayList var3 = new ArrayList();
-      List var4 = ExecutingCommand.runNative("lspci -vnnm");
-      String var5 = "unknown";
-      String var6 = "unknown";
-      String var7 = "unknown";
-      ArrayList var8 = new ArrayList();
-      boolean var9 = false;
-      String var10 = null;
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative("lspci -vnnm");
+      String string = "unknown";
+      String string2 = "unknown";
+      String string3 = "unknown";
+      ArrayList arrayList2 = new ArrayList();
+      boolean bl = false;
+      String string4 = null;
 
-      for (Object var12$raw : var4) {
-         String var12 = (String)var12$raw;
-         String[] var13 = var12.trim().split(":", 2);
-         String var14 = var13[0];
-         if (var14.equals("Class") && var12.contains("VGA")) {
-            var9 = true;
-         } else if (var14.equals("Device") && !var9 && var13.length > 1) {
-            var10 = var13[1].trim();
+      for (Object object : list) {
+         String string5 = (String)object;
+         String[] strings = string5.trim().split(":", 2);
+         String string6 = strings[0];
+         if (string6.equals("Class") && string5.contains("VGA")) {
+            bl = true;
+         } else if (string6.equals("Device") && !bl && strings.length > 1) {
+            string4 = strings[1].trim();
          }
 
-         if (var9) {
-            if (var13.length < 2) {
-               var3.add(new LinuxGraphicsCard(var5, var6, var7, var8.isEmpty() ? "unknown" : String.join(", ", var8), queryLspciMemorySize(var10)));
-               var8.clear();
-               var9 = false;
-            } else if (var14.equals("Device")) {
-               Pair var15 = ParseUtil.parseLspciMachineReadable(var13[1].trim());
-               if (var15 != null) {
-                  var5 = (String)var15.getA();
-                  var6 = "0x" + (String)var15.getB();
+         if (bl) {
+            if (strings.length < 2) {
+               arrayList.add(new LinuxGraphicsCard(string, string2, string3, arrayList2.isEmpty() ? "unknown" : String.join(", ", arrayList2), queryLspciMemorySize(string4)));
+               arrayList2.clear();
+               bl = false;
+            } else if (string6.equals("Device")) {
+               Pair pair = ParseUtil.parseLspciMachineReadable(strings[1].trim());
+               if (pair != null) {
+                  string = (String)pair.getA();
+                  string2 = "0x" + (String)pair.getB();
                }
-            } else if (var14.equals("Vendor")) {
-               Pair var16 = ParseUtil.parseLspciMachineReadable(var13[1].trim());
-               if (var16 != null) {
-                  var7 = (String)var16.getA() + " (0x" + (String)var16.getB() + ")";
+            } else if (string6.equals("Vendor")) {
+               Pair pair2 = ParseUtil.parseLspciMachineReadable(strings[1].trim());
+               if (pair2 != null) {
+                  string3 = (String)pair2.getA() + " (0x" + (String)pair2.getB() + ")";
                } else {
-                  var7 = var13[1].trim();
+                  string3 = strings[1].trim();
                }
-            } else if (var14.equals("Rev:")) {
-               var8.add(var12.trim());
+            } else if (string6.equals("Rev:")) {
+               arrayList2.add(string5.trim());
             }
          }
       }
 
-      if (var9) {
-         var3.add(new LinuxGraphicsCard(var5, var6, var7, var8.isEmpty() ? "unknown" : String.join(", ", var8), queryLspciMemorySize(var10)));
+      if (bl) {
+         arrayList.add(new LinuxGraphicsCard(string, string2, string3, arrayList2.isEmpty() ? "unknown" : String.join(", ", arrayList2), queryLspciMemorySize(string4)));
       }
 
-      return var3;
+      return arrayList;
    }
 
-   private static long queryLspciMemorySize(String var0) {
-      long var4 = 0L;
+   private static long queryLspciMemorySize(String lookupDevice) {
+      long l = 0L;
 
-      for (String var8 : ExecutingCommand.runNative("lspci -v -s " + var0)) {
-         if (var8.contains(" prefetchable")) {
-            var4 += ParseUtil.parseLspciMemorySize(var8);
+      for (String string : ExecutingCommand.runNative("lspci -v -s " + lookupDevice)) {
+         if (string.contains(" prefetchable")) {
+            l += ParseUtil.parseLspciMemorySize(string);
          }
       }
 
-      return var4;
+      return l;
    }
 
    private static List<LinuxGraphicsCard> getGraphicsCardsFromLshw() {
-      ArrayList var3 = new ArrayList();
-      List var4 = ExecutingCommand.runNative("lshw -C display");
-      String var5 = "unknown";
-      String var6 = "unknown";
-      String var7 = "unknown";
-      ArrayList var8 = new ArrayList();
-      long var9 = 0L;
-      int var11 = 0;
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative("lshw -C display");
+      String string = "unknown";
+      String string2 = "unknown";
+      String string3 = "unknown";
+      ArrayList arrayList2 = new ArrayList();
+      long l = 0L;
+      int i = 0;
 
-      for (Object var13$raw : var4) {
-         String var13 = (String)var13$raw;
-         String[] var14 = var13.trim().split(":");
-         if (var14[0].startsWith("*-display")) {
-            if (var11++ > 0) {
-               var3.add(new LinuxGraphicsCard(var5, var6, var7, var8.isEmpty() ? "unknown" : String.join(", ", var8), var9));
-               var8.clear();
+      for (Object object : list) {
+         String string4 = (String)object;
+         String[] strings = string4.trim().split(":");
+         if (strings[0].startsWith("*-display")) {
+            if (i++ > 0) {
+               arrayList.add(new LinuxGraphicsCard(string, string2, string3, arrayList2.isEmpty() ? "unknown" : String.join(", ", arrayList2), l));
+               arrayList2.clear();
             }
-         } else if (var14.length == 2) {
-            String var15 = var14[0];
-            if (var15.equals("product")) {
-               var5 = var14[1].trim();
-            } else if (var15.equals("vendor")) {
-               var7 = var14[1].trim();
-            } else if (var15.equals("version")) {
-               var8.add(var13.trim());
-            } else if (var15.startsWith("resources")) {
-               var9 = ParseUtil.parseLshwResourceString(var14[1].trim());
+         } else if (strings.length == 2) {
+            String string5 = strings[0];
+            if (string5.equals("product")) {
+               string = strings[1].trim();
+            } else if (string5.equals("vendor")) {
+               string3 = strings[1].trim();
+            } else if (string5.equals("version")) {
+               arrayList2.add(string4.trim());
+            } else if (string5.startsWith("resources")) {
+               l = ParseUtil.parseLshwResourceString(strings[1].trim());
             }
          }
       }
 
-      var3.add(new LinuxGraphicsCard(var5, var6, var7, var8.isEmpty() ? "unknown" : String.join(", ", var8), var9));
-      return var3;
+      arrayList.add(new LinuxGraphicsCard(string, string2, string3, arrayList2.isEmpty() ? "unknown" : String.join(", ", arrayList2), l));
+      return arrayList;
    }
 }

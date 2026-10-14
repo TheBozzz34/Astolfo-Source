@@ -7,10 +7,10 @@ public class HealItem {
    private final int slot;
    private final HealItemType type;
 
-   public HealItem(HealItemType var1, ItemStack var2, int var3) {
-      this.type = var1;
-      this.stack = var2;
-      this.slot = var3;
+   public HealItem(HealItemType healItemType, ItemStack itemStack, int i) {
+      this.type = healItemType;
+      this.stack = itemStack;
+      this.slot = i;
    }
 
    public int getSlot() {
@@ -25,15 +25,15 @@ public class HealItem {
       return this.type;
    }
 
-   public static HealItemType typeOf(HealItem var0) {
-      return var0.type;
+   public static HealItemType typeOf(HealItem healItem) {
+      return healItem.type;
    }
 
-   public static ItemStack stackOf(HealItem var0) {
-      return var0.stack;
+   public static ItemStack stackOf(HealItem healItem) {
+      return healItem.stack;
    }
 
-   public static int slotOf(HealItem var0) {
-      return var0.slot;
+   public static int slotOf(HealItem healItem) {
+      return healItem.slot;
    }
 }

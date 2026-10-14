@@ -14,25 +14,25 @@ public class C18PacketSpectate implements Packet<INetHandlerPlayServer> {
    public C18PacketSpectate() {
    }
 
-   public C18PacketSpectate(UUID var1) {
-      this.id = var1;
+   public C18PacketSpectate(UUID id) {
+      this.id = id;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.id = var1.readUuid();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.id = buf.readUuid();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeUuid(this.id);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeUuid(this.id);
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.handleSpectate(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.handleSpectate(this);
    }
 
-   public Entity getEntity(WorldServer var1) {
-      return var1.getEntityFromUuid(this.id);
+   public Entity getEntity(WorldServer worldIn) {
+      return worldIn.getEntityFromUuid(this.id);
    }
 }

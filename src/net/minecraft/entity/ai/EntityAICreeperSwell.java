@@ -8,15 +8,15 @@ public class EntityAICreeperSwell extends EntityAIBase {
    public EntityLivingBase creeperAttackTarget;
    private static final long a = 59914620477175L;
 
-   public EntityAICreeperSwell(EntityCreeper var1) {
-      this.swellingCreeper = var1;
+   public EntityAICreeperSwell(EntityCreeper entitycreeperIn) {
+      this.swellingCreeper = entitycreeperIn;
       this.setMutexBits(1);
    }
 
    @Override
    public boolean shouldExecute() {
-      EntityLivingBase var4 = this.swellingCreeper.getAttackTarget();
-      return this.swellingCreeper.getCreeperState() > 0 || var4 != null && this.swellingCreeper.getDistanceSqToEntity(var4) < 9.0;
+      EntityLivingBase entityLivingBase = this.swellingCreeper.getAttackTarget();
+      return this.swellingCreeper.getCreeperState() > 0 || entityLivingBase != null && this.swellingCreeper.getDistanceSqToEntity(entityLivingBase) < 9.0;
    }
 
    @Override

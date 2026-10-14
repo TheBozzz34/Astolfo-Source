@@ -17,13 +17,13 @@ public class BlockPattern {
    private final int palmLength;
    private static final long a = 35711034483539L;
 
-   public BlockPattern(Predicate<BlockWorldState>[][][] var1) {
-      this.blockMatches = var1;
-      this.fingerLength = var1.length;
+   public BlockPattern(Predicate<BlockWorldState>[][][] predicatesIn) {
+      this.blockMatches = predicatesIn;
+      this.fingerLength = predicatesIn.length;
       if (this.fingerLength > 0) {
-         this.thumbLength = var1[0].length;
+         this.thumbLength = predicatesIn[0].length;
          if (this.thumbLength > 0) {
-            this.palmLength = var1[0][0].length;
+            this.palmLength = predicatesIn[0][0].length;
          } else {
             this.palmLength = 0;
          }
@@ -41,31 +41,31 @@ public class BlockPattern {
       return this.palmLength;
    }
 
-   private BlockPattern.PatternHelper checkPatternAt(BlockPos var1, EnumFacing var2, EnumFacing var3, LoadingCache<BlockPos, BlockWorldState> var4) {
-      for (int var8 = 0; var8 < this.palmLength; var8++) {
-         for (int var9 = 0; var9 < this.thumbLength; var9++) {
-            for (int var10 = 0; var10 < this.fingerLength; var10++) {
-               if (!this.blockMatches[var10][var9][var8].apply((BlockWorldState)var4.getUnchecked(translateOffset(var1, var2, var3, var8, var9, var10)))) {
+   private BlockPattern.PatternHelper checkPatternAt(BlockPos pos, EnumFacing finger, EnumFacing thumb, LoadingCache<BlockPos, BlockWorldState> lcache) {
+      for (int i = 0; i < this.palmLength; i++) {
+         for (int j = 0; j < this.thumbLength; j++) {
+            for (int k = 0; k < this.fingerLength; k++) {
+               if (!this.blockMatches[k][j][i].apply((BlockWorldState)lcache.getUnchecked(translateOffset(pos, finger, thumb, i, j, k)))) {
                   return null;
                }
             }
          }
       }
 
-      return new BlockPattern.PatternHelper(var1, var2, var3, var4, this.palmLength, this.thumbLength, this.fingerLength);
+      return new BlockPattern.PatternHelper(pos, finger, thumb, lcache, this.palmLength, this.thumbLength, this.fingerLength);
    }
 
-   public BlockPattern.PatternHelper match(World var1, BlockPos var2) {
-      LoadingCache var6 = func_181627_a(var1, false);
-      int var7 = Math.max(Math.max(this.palmLength, this.thumbLength), this.fingerLength);
+   public BlockPattern.PatternHelper match(World worldIn, BlockPos pos) {
+      LoadingCache loadingCache = func_181627_a(worldIn, false);
+      int i = Math.max(Math.max(this.palmLength, this.thumbLength), this.fingerLength);
 
-      for (BlockPos var9 : BlockPos.getAllInBox(var2, var2.add(var7 - 1, var7 - 1, var7 - 1))) {
-         for (EnumFacing var13 : EnumFacing.values()) {
-            for (EnumFacing var17 : EnumFacing.values()) {
-               if (var17 != var13 && var17 != var13.getOpposite()) {
-                  BlockPattern.PatternHelper var18 = this.checkPatternAt(var9, var13, var17, var6);
-                  if (var18 != null) {
-                     return var18;
+      for (BlockPos blockPos : BlockPos.getAllInBox(pos, pos.add(i - 1, i - 1, i - 1))) {
+         for (EnumFacing enumFacing : EnumFacing.values()) {
+            for (EnumFacing enumFacing2 : EnumFacing.values()) {
+               if (enumFacing2 != enumFacing && enumFacing2 != enumFacing.getOpposite()) {
+                  BlockPattern.PatternHelper patternHelper = this.checkPatternAt(blockPos, enumFacing, enumFacing2, loadingCache);
+                  if (patternHelper != null) {
+                     return patternHelper;
                   }
                }
             }
@@ -75,19 +75,19 @@ public class BlockPattern {
       return null;
    }
 
-   public static LoadingCache<BlockPos, BlockWorldState> func_181627_a(World var0, boolean var1) {
-      return CacheBuilder.newBuilder().build(new BlockPattern.CacheLoader(var0, var1));
+   public static LoadingCache<BlockPos, BlockWorldState> func_181627_a(World world, boolean bl) {
+      return CacheBuilder.newBuilder().build(new BlockPattern.CacheLoader(world, bl));
    }
 
-   public static BlockPos translateOffset(BlockPos var0, EnumFacing var1, EnumFacing var2, int var3, int var4, int var5) {
-      if (var1 != var2 && var1 != var2.getOpposite()) {
-         Vec3i var10 = new Vec3i(var1.getFrontOffsetX(), var1.getFrontOffsetY(), var1.getFrontOffsetZ());
-         Vec3i var11 = new Vec3i(var2.getFrontOffsetX(), var2.getFrontOffsetY(), var2.getFrontOffsetZ());
-         Vec3i var12 = var10.crossProduct(var11);
-         return var0.add(
-            var11.getX() * -var4 + var12.getX() * var3 + var10.getX() * var5,
-            var11.getY() * -var4 + var12.getY() * var3 + var10.getY() * var5,
-            var11.getZ() * -var4 + var12.getZ() * var3 + var10.getZ() * var5
+   public static BlockPos translateOffset(BlockPos pos, EnumFacing finger, EnumFacing thumb, int palmOffset, int thumbOffset, int fingerOffset) {
+      if (finger != thumb && finger != thumb.getOpposite()) {
+         Vec3i vec3i = new Vec3i(finger.getFrontOffsetX(), finger.getFrontOffsetY(), finger.getFrontOffsetZ());
+         Vec3i vec3i2 = new Vec3i(thumb.getFrontOffsetX(), thumb.getFrontOffsetY(), thumb.getFrontOffsetZ());
+         Vec3i vec3i3 = vec3i.crossProduct(vec3i2);
+         return pos.add(
+            vec3i2.getX() * -thumbOffset + vec3i3.getX() * palmOffset + vec3i.getX() * fingerOffset,
+            vec3i2.getY() * -thumbOffset + vec3i3.getY() * palmOffset + vec3i.getY() * fingerOffset,
+            vec3i2.getZ() * -thumbOffset + vec3i3.getZ() * palmOffset + vec3i.getZ() * fingerOffset
          );
       } else {
          throw new IllegalArgumentException("Invalid forwards & up combination");
@@ -98,13 +98,13 @@ public class BlockPattern {
       private final World world;
       private final boolean field_181626_b;
 
-      public CacheLoader(World var1, boolean var2) {
-         this.world = var1;
-         this.field_181626_b = var2;
+      public CacheLoader(World worldIn, boolean bl) {
+         this.world = worldIn;
+         this.field_181626_b = bl;
       }
 
-      public BlockWorldState load(BlockPos var1) throws Exception {
-         return new BlockWorldState(this.world, var1, this.field_181626_b);
+      public BlockWorldState load(BlockPos blockPos) throws Exception {
+         return new BlockWorldState(this.world, blockPos, this.field_181626_b);
       }
    }
 
@@ -118,14 +118,14 @@ public class BlockPattern {
       private final int field_181122_g;
       private static final long a = 31604302278869L;
 
-      public PatternHelper(BlockPos var1, EnumFacing var2, EnumFacing var3, LoadingCache<BlockPos, BlockWorldState> var4, int var5, int var6, int var7) {
-         this.pos = var1;
-         this.finger = var2;
-         this.thumb = var3;
-         this.lcache = var4;
-         this.field_181120_e = var5;
-         this.field_181121_f = var6;
-         this.field_181122_g = var7;
+      public PatternHelper(BlockPos posIn, EnumFacing fingerIn, EnumFacing thumbIn, LoadingCache<BlockPos, BlockWorldState> lcacheIn, int i, int j, int k) {
+         this.pos = posIn;
+         this.finger = fingerIn;
+         this.thumb = thumbIn;
+         this.lcache = lcacheIn;
+         this.field_181120_e = i;
+         this.field_181121_f = j;
+         this.field_181122_g = k;
       }
 
       public BlockPos getPos() {
@@ -148,8 +148,8 @@ public class BlockPattern {
          return this.field_181121_f;
       }
 
-      public BlockWorldState translateOffset(int var1, int var2, int var3) {
-         return this.lcache.getUnchecked(BlockPattern.translateOffset(this.pos, this.getFinger(), this.getThumb(), var1, var2, var3));
+      public BlockWorldState translateOffset(int palmOffset, int thumbOffset, int fingerOffset) {
+         return this.lcache.getUnchecked(BlockPattern.translateOffset(this.pos, this.getFinger(), this.getThumb(), palmOffset, thumbOffset, fingerOffset));
       }
 
       @Override

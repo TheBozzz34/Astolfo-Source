@@ -107,10 +107,10 @@ public abstract class CreativeTabs {
    private ItemStack iconItemStack;
    private static final long a = 13965613623014L;
 
-   public CreativeTabs(int var1, String var2) {
-      this.tabIndex = var1;
-      this.tabLabel = var2;
-      creativeTabArray[var1] = this;
+   public CreativeTabs(int index, String label) {
+      this.tabIndex = index;
+      this.tabLabel = label;
+      creativeTabArray[index] = this;
    }
 
    public int getTabIndex() {
@@ -143,8 +143,8 @@ public abstract class CreativeTabs {
       return this.theTexture;
    }
 
-   public CreativeTabs setBackgroundImageName(String var1) {
-      this.theTexture = var1;
+   public CreativeTabs setBackgroundImageName(String texture) {
+      this.theTexture = texture;
       return this;
    }
 
@@ -178,18 +178,18 @@ public abstract class CreativeTabs {
       return this.enchantmentTypes;
    }
 
-   public CreativeTabs setRelevantEnchantmentTypes(EnumEnchantmentType... var1) {
-      this.enchantmentTypes = var1;
+   public CreativeTabs setRelevantEnchantmentTypes(EnumEnchantmentType... types) {
+      this.enchantmentTypes = types;
       return this;
    }
 
-   public boolean hasRelevantEnchantmentType(EnumEnchantmentType var1) {
+   public boolean hasRelevantEnchantmentType(EnumEnchantmentType enchantmentType) {
       if (this.enchantmentTypes == null) {
          return false;
       }
 
-      for (EnumEnchantmentType var8 : this.enchantmentTypes) {
-         if (var8 == var1) {
+      for (EnumEnchantmentType enumEnchantmentType : this.enchantmentTypes) {
+         if (enumEnchantmentType == enchantmentType) {
             return true;
          }
       }
@@ -197,31 +197,31 @@ public abstract class CreativeTabs {
       return false;
    }
 
-   public void displayAllReleventItems(List<ItemStack> var1) {
-      for (Item var6 : Item.itemRegistry) {
-         if (var6 != null && var6.getCreativeTab() == this) {
-            var6.getSubItems(var6, this, var1);
+   public void displayAllReleventItems(List<ItemStack> list) {
+      for (Item item : Item.itemRegistry) {
+         if (item != null && item.getCreativeTab() == this) {
+            item.getSubItems(item, this, list);
          }
       }
 
       if (this.getRelevantEnchantmentTypes() != null) {
-         this.addEnchantmentBooksToList(var1, this.getRelevantEnchantmentTypes());
+         this.addEnchantmentBooksToList(list, this.getRelevantEnchantmentTypes());
       }
    }
 
-   public void addEnchantmentBooksToList(List<ItemStack> var1, EnumEnchantmentType... var2) {
-      for (Enchantment var10 : Enchantment.enchantmentsBookList) {
-         if (var10 != null && var10.type != null) {
-            boolean var11 = false;
+   public void addEnchantmentBooksToList(List<ItemStack> itemList, EnumEnchantmentType... enchantmentType) {
+      for (Enchantment enchantment : Enchantment.enchantmentsBookList) {
+         if (enchantment != null && enchantment.type != null) {
+            boolean bl = false;
 
-            for (int var12 = 0; var12 < var2.length && !var11; var12++) {
-               if (var10.type == var2[var12]) {
-                  var11 = true;
+            for (int i = 0; i < enchantmentType.length && !bl; i++) {
+               if (enchantment.type == enchantmentType[i]) {
+                  bl = true;
                }
             }
 
-            if (var11) {
-               var1.add(Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(var10, var10.getMaxLevel())));
+            if (bl) {
+               itemList.add(Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, enchantment.getMaxLevel())));
             }
          }
       }

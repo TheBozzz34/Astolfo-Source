@@ -22,30 +22,30 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
    private static final long c = 39668346806085L;
    private static final long m = 911481185077559396L;
 
-   public PerfCounterWildcardQuery(Class<T> var1, String var2, String var3) {
-      this(var1, var2, var3, var2);
+   public PerfCounterWildcardQuery(Class<T> propertyEnum, String perfObject, String perfWmiClass) {
+      this(propertyEnum, perfObject, perfWmiClass, perfObject);
    }
 
-   public PerfCounterWildcardQuery(Class<T> var1, String var2, String var3, String var4) {
-      super(var1, var2, var3, var4);
-      if (((Enum[])var1.getEnumConstants()).length < 2) {
-         throw new IllegalArgumentException("Enum " + var1.getName() + " must have at least two elements, an instance filter and a counter.");
+   public PerfCounterWildcardQuery(Class<T> propertyEnum, String perfObject, String perfWmiClass, String queryKey) {
+      super(propertyEnum, perfObject, perfWmiClass, queryKey);
+      if (((Enum[])propertyEnum.getEnumConstants()).length < 2) {
+         throw new IllegalArgumentException("Enum " + propertyEnum.getName() + " must have at least two elements, an instance filter and a counter.");
       }
 
-      this.instanceFilter = ((PerfCounterWildcardQuery.PdhCounterWildcardProperty)((Enum[])var1.getEnumConstants())[0]).getCounter().toLowerCase();
+      this.instanceFilter = ((PerfCounterWildcardQuery.PdhCounterWildcardProperty)((Enum[])propertyEnum.getEnumConstants())[0]).getCounter().toLowerCase();
       this.perfObjectLocalized = localize(this.perfObject);
    }
 
-   private static String localize(String var0) {
-      String var4 = null;
+   private static String localize(String perfObject) {
+      String string = null;
 
       try {
-         var4 = PdhUtil.PdhLookupPerfNameByIndex(null, PdhUtil.PdhLookupPerfIndexByEnglishName(var0));
-      } catch (Win32Exception var6) {
-      } catch (PdhException var7) {
+         string = PdhUtil.PdhLookupPerfNameByIndex(null, PdhUtil.PdhLookupPerfIndexByEnglishName(perfObject));
+      } catch (Win32Exception win32Exception) {
+      } catch (PdhException pdhException) {
       }
 
-      return var4 != null && var4.length() != 0 ? var4 : var0;
+      return string != null && string.length() != 0 ? string : perfObject;
    }
 
    @Override
@@ -65,11 +65,11 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
    }
 
    public Map<T, List<Long>> queryValuesWildcard() {
-      EnumMap var4 = new EnumMap<>(this.propertyEnum);
+      EnumMap enumMap = new EnumMap<>(this.propertyEnum);
       this.instancesFromLastQuery.clear();
-      Enum[] var5 = this.propertyEnum.getEnumConstants();
+      Enum[] enums = this.propertyEnum.getEnumConstants();
       if (this.source.equals(PerfCounterQuery.CounterDataSource.PDH)) {
-         if (this.initPdhCounters() && this.queryPdhWildcard(var4, (T[])var5)) {
+         if (this.initPdhCounters() && this.queryPdhWildcard(enumMap, (T[])enums)) {
             this.unInitPdhCounters();
          } else {
             this.setDataSource(PerfCounterQuery.CounterDataSource.WMI);
@@ -77,26 +77,26 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
       }
 
       if (this.source.equals(PerfCounterQuery.CounterDataSource.WMI)) {
-         this.queryWmiWildcard(var4, (T[])var5);
+         this.queryWmiWildcard(enumMap, (T[])enums);
       }
 
-      return var4;
+      return enumMap;
    }
 
-   private boolean queryPdhWildcard(Map<T, List<Long>> var1, T[] var2) {
+   private boolean queryPdhWildcard(Map<T, List<Long>> valueMap, T[] props) {
       if (this.counterListMap != null && 0L < this.pdhQueryHandler.updateQuery(this.queryKey)) {
-         for (int var6 = 1; var6 < var2.length; var6++) {
-            Enum var7 = var2[var6];
-            ArrayList var8 = new ArrayList();
+         for (int i = 1; i < props.length; i++) {
+            Enum enum2 = props[i];
+            ArrayList arrayList = new ArrayList();
 
-            for (PerfDataUtil.PerfCounter var10 : this.counterListMap.get(var7)) {
-               var8.add(this.pdhQueryHandler.queryCounter(var10));
-               if (var6 == 1) {
-                  this.instancesFromLastQuery.add(var10.getInstance());
+            for (PerfDataUtil.PerfCounter perfCounter : this.counterListMap.get(enum2)) {
+               arrayList.add(this.pdhQueryHandler.queryCounter(perfCounter));
+               if (i == 1) {
+                  this.instancesFromLastQuery.add(perfCounter.getInstance());
                }
             }
 
-            var1.put((T)(var7), var8);
+            valueMap.put((T)(enum2), arrayList);
          }
 
          return true;
@@ -105,37 +105,37 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
       }
    }
 
-   private void queryWmiWildcard(Map<T, List<Long>> var1, T[] var2) {
-      WmiResult var6 = WmiQueryHandler.createInstance().queryWMI(this.counterQuery);
-      if (var6.getResultCount() > 0) {
-         for (int var7 = 0; var7 < var6.getResultCount(); var7++) {
-            this.instancesFromLastQuery.add(WmiUtil.getString(var6, (T)var2[0], var7));
+   private void queryWmiWildcard(Map<T, List<Long>> valueMap, T[] props) {
+      WmiResult wmiResult = WmiQueryHandler.createInstance().queryWMI(this.counterQuery);
+      if (wmiResult.getResultCount() > 0) {
+         for (int i = 0; i < wmiResult.getResultCount(); i++) {
+            this.instancesFromLastQuery.add(WmiUtil.getString(wmiResult, (T)props[0], i));
          }
 
-         for (int var11 = 1; var11 < var2.length; var11++) {
-            Enum var8 = var2[var11];
-            ArrayList var9 = new ArrayList();
+         for (int j = 1; j < props.length; j++) {
+            Enum enum2 = props[j];
+            ArrayList arrayList = new ArrayList();
 
-            for (int var10 = 0; var10 < var6.getResultCount(); var10++) {
-               switch (var6.getCIMType((T)var8)) {
+            for (int k = 0; k < wmiResult.getResultCount(); k++) {
+               switch (wmiResult.getCIMType((T)enum2)) {
                   case 18:
-                     var9.add((long)WmiUtil.getUint16(var6, (T)var8, var10));
+                     arrayList.add((long)WmiUtil.getUint16(wmiResult, (T)enum2, k));
                      break;
                   case 19:
-                     var9.add(WmiUtil.getUint32asLong(var6, (T)var8, var10));
+                     arrayList.add(WmiUtil.getUint32asLong(wmiResult, (T)enum2, k));
                      break;
                   case 21:
-                     var9.add(WmiUtil.getUint64(var6, (T)var8, var10));
+                     arrayList.add(WmiUtil.getUint64(wmiResult, (T)enum2, k));
                      break;
                   case 101:
-                     var9.add(WmiUtil.getDateTime(var6, (T)var8, var10).toInstant().toEpochMilli());
+                     arrayList.add(WmiUtil.getDateTime(wmiResult, (T)enum2, k).toInstant().toEpochMilli());
                      break;
                   default:
                      throw new ClassCastException("Unimplemented CIM Type Mapping.");
                }
             }
 
-            var1.put((T)(var8), var9);
+            valueMap.put((T)(enum2), arrayList);
          }
       }
    }
@@ -145,36 +145,36 @@ public class PerfCounterWildcardQuery<T extends Enum<T>> extends PerfCounterQuer
    }
 
    private boolean fillCounterListMap() {
-      PdhEnumObjectItems var4;
+      PdhEnumObjectItems pdhEnumObjectItems;
       try {
-         var4 = PdhUtil.PdhEnumObjectItems(null, null, this.perfObjectLocalized, (int)m);
-      } catch (PdhException var13) {
+         pdhEnumObjectItems = PdhUtil.PdhEnumObjectItems(null, null, this.perfObjectLocalized, (int)m);
+      } catch (PdhException pdhException) {
          return false;
       }
 
-      List var5 = var4.getInstances();
-      var5.removeIf(var1 -> !Util.wildcardMatch(((java.lang.String)var1).toLowerCase(), this.instanceFilter));
-      HashSet var6 = new HashSet(var5);
+      List list = pdhEnumObjectItems.getInstances();
+      list.removeIf(i -> !Util.wildcardMatch(((java.lang.String)i).toLowerCase(), this.instanceFilter));
+      HashSet hashSet = new HashSet(list);
       this.counterListMap = new EnumMap<>(this.propertyEnum);
 
-      for (int var7 = 1; var7 < ((Enum[])this.propertyEnum.getEnumConstants()).length; var7++) {
-         Enum var8 = ((Enum[])this.propertyEnum.getEnumConstants())[var7];
-         ArrayList var9 = new ArrayList(var5.size());
+      for (int j = 1; j < ((Enum[])this.propertyEnum.getEnumConstants()).length; j++) {
+         Enum enum2 = ((Enum[])this.propertyEnum.getEnumConstants())[j];
+         ArrayList arrayList = new ArrayList(list.size());
 
-         for (Object var11$raw : var6) {
-            String var11 = (String)var11$raw;
-            PerfDataUtil.PerfCounter var12 = PerfDataUtil.createCounter(
-               this.perfObject, var11, ((PerfCounterWildcardQuery.PdhCounterWildcardProperty)var8).getCounter()
+         for (Object object : hashSet) {
+            String string = (String)object;
+            PerfDataUtil.PerfCounter perfCounter = PerfDataUtil.createCounter(
+               this.perfObject, string, ((PerfCounterWildcardQuery.PdhCounterWildcardProperty)enum2).getCounter()
             );
-            if (!this.pdhQueryHandler.addCounterToQuery(var12, this.queryKey)) {
+            if (!this.pdhQueryHandler.addCounterToQuery(perfCounter, this.queryKey)) {
                this.unInitPdhCounters();
                return false;
             }
 
-            var9.add(var12);
+            arrayList.add(perfCounter);
          }
 
-         this.counterListMap.put((T)var8, var9);
+         this.counterListMap.put((T)enum2, arrayList);
       }
 
       return this.counterListMap.size() > 0;

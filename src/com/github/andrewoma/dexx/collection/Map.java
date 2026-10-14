@@ -1,17 +1,17 @@
 package com.github.andrewoma.dexx.collection;
 
 public interface Map<K, V> extends Iterable<Pair<K, V>> {
-   Map<K, V> put(K var1, V var2);
+   Map<K, V> put(K object, V object2);
 
-   V get(K var1);
+   V get(K object);
 
-   Map<K, V> remove(K var1);
+   Map<K, V> remove(K object);
 
    Iterable<K> H();
 
    Iterable<V> values();
 
-   boolean containsKey(K var1);
+   boolean containsKey(K object);
 
    java.util.Map<K, V> asMap();
 }

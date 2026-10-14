@@ -12,13 +12,13 @@ public final class IsPotionActive extends TwoArgFunction {
    private static final long a = 33455840051243L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      if (!var1.isnil() && var1.isnumber() && var1.isint() && !var2.isnil() && var2.isnumber() && var2.isint()) {
-         Entity var6 = WorldLibrary.X.get(var1.checkint());
-         if (var6 instanceof EntityPlayer) {
-            PlayerPotionEffects var7 = HypixelGameTracker.playerEffects.get((EntityPlayer)var6);
-            if (var7 != null) {
-               return valueOf(var7.effects.get(var2.checkint()) != null);
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint() && !luaValue2.isnil() && luaValue2.isnumber() && luaValue2.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity instanceof EntityPlayer) {
+            PlayerPotionEffects playerPotionEffects = HypixelGameTracker.playerEffects.get((EntityPlayer)entity);
+            if (playerPotionEffects != null) {
+               return valueOf(playerPotionEffects.effects.get(luaValue2.checkint()) != null);
             }
          }
       }

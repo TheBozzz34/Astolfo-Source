@@ -9,35 +9,35 @@ public class BansCommand extends Command {
    private static final long d = 87134111985292L;
    private static final long h = 8466051079300186124L;
 
-   public BansCommand(String var1, String var2) {
-      super(var1, var2);
+   public BansCommand(String string, String string2) {
+      super(string, string2);
    }
 
    @Override
-   public void runCommand(String[] var1) {
+   public void runCommand(String[] strings) {
       if (DisconnectHandler.disconnected) {
          chat.f("You are disconnected");
       } else {
-         if (var1.length == 3) {
+         if (strings.length == 3) {
             if (!this.S.hasElapsed(5000.0F)) {
                chat.I("Wait " + Math.round(5.0F - (float)this.S.getElapsed() / 1000.0F) + "s before using this command again");
                return;
             }
 
-            int var5 = l(var1[1].toLowerCase());
-            if (!var1[1].equalsIgnoreCase("all") && var5 == 0) {
+            int i = l(strings[1].toLowerCase());
+            if (!strings[1].equalsIgnoreCase("all") && i == 0) {
                chat.I("Gamemode is invalid, defaulting to all");
             }
 
             try {
-               p = Integer.parseInt(var1[2]);
+               p = Integer.parseInt(strings[2]);
                if (p <= 0 || p > (int)h) {
                   chat.f("Invalid hour");
                   return;
                }
 
                this.S.reset();
-            } catch (NumberFormatException var7) {
+            } catch (NumberFormatException numberFormatException) {
                chat.f("Invalid hour");
             }
          } else {
@@ -46,8 +46,8 @@ public class BansCommand extends Command {
       }
    }
 
-   public static int l(String var0) {
-      switch (var0) {
+   public static int l(String string) {
+      switch (string) {
          case "sw":
             return 1;
          case "bw":
@@ -63,8 +63,8 @@ public class BansCommand extends Command {
       }
    }
 
-   public static String G(int var0) {
-      switch (var0) {
+   public static String G(int i) {
+      switch (i) {
          case 1:
             return "sw";
          case 2:

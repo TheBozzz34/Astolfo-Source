@@ -13,38 +13,38 @@ public class GuiOptionSlider extends GuiButton {
    private final float field_146131_s;
    private static final long d = 119244681338342L;
 
-   public GuiOptionSlider(int var1, int var2, int var3, GameSettings.Options var4) {
-      this(var1, var2, var3, var4, 0.0F, 1.0F);
+   public GuiOptionSlider(int i, int j, int k, GameSettings.Options options) {
+      this(i, j, k, options, 0.0F, 1.0F);
    }
 
-   public GuiOptionSlider(int var1, int var2, int var3, GameSettings.Options var4, float var5, float var6) {
-      super(var1, var2, var3, 150, 20, "");
-      this.options = var4;
-      this.field_146132_r = var5;
-      this.field_146131_s = var6;
-      Minecraft var9 = Minecraft.getMinecraft();
-      this.sliderValue = var4.normalizeValue(var9.gameSettings.getOptionFloatValue(var4));
-      this.displayString = var9.gameSettings.getKeyBinding(var4);
+   public GuiOptionSlider(int i, int j, int k, GameSettings.Options options, float f, float g) {
+      super(i, j, k, 150, 20, "");
+      this.options = options;
+      this.field_146132_r = f;
+      this.field_146131_s = g;
+      Minecraft minecraft = Minecraft.getMinecraft();
+      this.sliderValue = options.normalizeValue(minecraft.gameSettings.getOptionFloatValue(options));
+      this.displayString = minecraft.gameSettings.getKeyBinding(options);
    }
 
    @Override
-   public int getHoverState(boolean var1) {
+   public int getHoverState(boolean mouseOver) {
       return 0;
    }
 
    @Override
-   public void mouseDragged(Minecraft var1, int var2, int var3) {
+   public void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
          if (this.dragging) {
-            this.sliderValue = (float)(var2 - (this.xPosition + 4)) / (this.width - 8);
+            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
             this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
-            float var7 = this.options.denormalizeValue(this.sliderValue);
-            var1.gameSettings.setOptionFloatValue(this.options, var7);
-            this.sliderValue = this.options.normalizeValue(var7);
-            this.displayString = var1.gameSettings.getKeyBinding(this.options);
+            float f = this.options.denormalizeValue(this.sliderValue);
+            mc.gameSettings.setOptionFloatValue(this.options, f);
+            this.sliderValue = this.options.normalizeValue(f);
+            this.displayString = mc.gameSettings.getKeyBinding(this.options);
          }
 
-         var1.getTextureManager().bindTexture(buttonTextures);
+         mc.getTextureManager().bindTexture(buttonTextures);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
          this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
@@ -52,12 +52,12 @@ public class GuiOptionSlider extends GuiButton {
    }
 
    @Override
-   public boolean mousePressed(Minecraft var1, int var2, int var3) {
-      if (super.mousePressed(var1, var2, var3)) {
-         this.sliderValue = (float)(var2 - (this.xPosition + 4)) / (this.width - 8);
+   public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+      if (super.mousePressed(mc, mouseX, mouseY)) {
+         this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
          this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
-         var1.gameSettings.setOptionFloatValue(this.options, this.options.denormalizeValue(this.sliderValue));
-         this.displayString = var1.gameSettings.getKeyBinding(this.options);
+         mc.gameSettings.setOptionFloatValue(this.options, this.options.denormalizeValue(this.sliderValue));
+         this.displayString = mc.gameSettings.getKeyBinding(this.options);
          this.dragging = true;
          return true;
       } else {
@@ -66,7 +66,7 @@ public class GuiOptionSlider extends GuiButton {
    }
 
    @Override
-   public void mouseReleased(int var1, int var2) {
+   public void mouseReleased(int mouseX, int mouseY) {
       this.dragging = false;
    }
 }

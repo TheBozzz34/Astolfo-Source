@@ -23,42 +23,42 @@ public class ChunkProviderClient implements IChunkProvider {
    private World worldObj;
    private static final long a = 5634219151539L;
 
-   public ChunkProviderClient(World var1) {
-      this.blankChunk = new EmptyChunk(var1, 0, 0);
-      this.worldObj = var1;
+   public ChunkProviderClient(World worldIn) {
+      this.blankChunk = new EmptyChunk(worldIn, 0, 0);
+      this.worldObj = worldIn;
    }
 
    @Override
-   public boolean chunkExists(int var1, int var2) {
+   public boolean chunkExists(int x, int z) {
       return true;
    }
 
-   public void unloadChunk(int var1, int var2) {
-      Chunk var6 = this.provideChunk(var1, var2);
-      if (!var6.isEmpty()) {
-         var6.onChunkUnload();
+   public void unloadChunk(int x, int z) {
+      Chunk chunk = this.provideChunk(x, z);
+      if (!chunk.isEmpty()) {
+         chunk.onChunkUnload();
       }
 
-      this.chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(var1, var2));
-      this.chunkListing.remove(var6);
+      this.chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(x, z));
+      this.chunkListing.remove(chunk);
    }
 
-   public Chunk loadChunk(int var1, int var2) {
-      Chunk var3 = new Chunk(this.worldObj, var1, var2);
-      this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(var1, var2), var3);
-      this.chunkListing.add(var3);
-      var3.setChunkLoaded(true);
-      return var3;
-   }
-
-   @Override
-   public Chunk provideChunk(int var1, int var2) {
-      Chunk var6 = this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(var1, var2));
-      return var6 == null ? this.blankChunk : var6;
+   public Chunk loadChunk(int chunkX, int chunkZ) {
+      Chunk chunk = new Chunk(this.worldObj, chunkX, chunkZ);
+      this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ), chunk);
+      this.chunkListing.add(chunk);
+      chunk.setChunkLoaded(true);
+      return chunk;
    }
 
    @Override
-   public boolean saveChunks(boolean var1, IProgressUpdate var2) {
+   public Chunk provideChunk(int x, int z) {
+      Chunk chunk = this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
+      return chunk == null ? this.blankChunk : chunk;
+   }
+
+   @Override
+   public boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback) {
       return true;
    }
 
@@ -68,14 +68,14 @@ public class ChunkProviderClient implements IChunkProvider {
 
    @Override
    public boolean unloadQueuedChunks() {
-      long var4 = System.currentTimeMillis();
+      long l = System.currentTimeMillis();
 
-      for (Chunk var7 : this.chunkListing) {
-         var7.func_150804_b(System.currentTimeMillis() - var4 > 5L);
+      for (Chunk chunk2 : this.chunkListing) {
+         chunk2.func_150804_b(System.currentTimeMillis() - l > 5L);
       }
 
-      if (System.currentTimeMillis() - var4 > 100L) {
-         logger.info("Warning: Clientside chunk ticking took {} ms", new Object[]{System.currentTimeMillis() - var4});
+      if (System.currentTimeMillis() - l > 100L) {
+         logger.info("Warning: Clientside chunk ticking took {} ms", new Object[]{System.currentTimeMillis() - l});
       }
 
       return false;
@@ -87,11 +87,11 @@ public class ChunkProviderClient implements IChunkProvider {
    }
 
    @Override
-   public void populate(IChunkProvider var1, int var2, int var3) {
+   public void populate(IChunkProvider chunkProvider, int x, int z) {
    }
 
    @Override
-   public boolean populateChunk(IChunkProvider var1, Chunk var2, int var3, int var4) {
+   public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z) {
       return false;
    }
 
@@ -101,12 +101,12 @@ public class ChunkProviderClient implements IChunkProvider {
    }
 
    @Override
-   public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType var1, BlockPos var2) {
+   public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
       return null;
    }
 
    @Override
-   public BlockPos getStrongholdGen(World var1, String var2, BlockPos var3) {
+   public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {
       return null;
    }
 
@@ -116,11 +116,11 @@ public class ChunkProviderClient implements IChunkProvider {
    }
 
    @Override
-   public void recreateStructures(Chunk var1, int var2, int var3) {
+   public void recreateStructures(Chunk chunkIn, int x, int z) {
    }
 
    @Override
-   public Chunk provideChunk(BlockPos var1) {
-      return this.provideChunk(var1.getX() >> 4, var1.getZ() >> 4);
+   public Chunk provideChunk(BlockPos blockPosIn) {
+      return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
    }
 }

@@ -10,12 +10,12 @@ public class NickReader implements PacketReader<NickPacket> {
    private static final long a = 75223491193498L;
 
    @Override
-   public void read(ByteBuffer var1) {
-      byte[] var6 = new byte[var1.getInt()];
-      var1.get(var6);
-      byte[] var7 = new byte[var1.getInt()];
-      var1.get(var7);
-      this.r = new NickPacket(new String(var6, StandardCharsets.UTF_8), new String(var7, StandardCharsets.UTF_8));
+   public void read(ByteBuffer byteBuffer) {
+      byte[] bytes = new byte[byteBuffer.getInt()];
+      byteBuffer.get(bytes);
+      byte[] bytes2 = new byte[byteBuffer.getInt()];
+      byteBuffer.get(bytes2);
+      this.r = new NickPacket(new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8));
    }
 
    public NickPacket getPacket() {

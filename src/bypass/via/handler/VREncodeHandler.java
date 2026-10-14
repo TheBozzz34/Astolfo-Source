@@ -14,34 +14,34 @@ public class VREncodeHandler extends MessageToMessageEncoder<ByteBuf> {
    private final UserConnection H;
    private static final long a = 139446059215589L;
 
-   public VREncodeHandler(UserConnection var1) {
-      this.H = var1;
+   public VREncodeHandler(UserConnection userConnection) {
+      this.H = userConnection;
    }
 
-   public void encode(ChannelHandlerContext var1, ByteBuf var2, List<Object> var3) throws Exception {
+   public void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
       if (!this.H.checkOutgoingPacket()) {
          throw CancelEncoderException.generate(null);
       }
 
       if (this.H.shouldTransformPacket() && !MessageSerializer.o) {
-         ByteBuf var7 = var1.alloc().buffer().writeBytes(var2);
+         ByteBuf byteBuf2 = channelHandlerContext.alloc().buffer().writeBytes(byteBuf);
 
          try {
-            this.H.transformOutgoing(var7, CancelEncoderException::generate);
-            var3.add(var7.retain());
+            this.H.transformOutgoing(byteBuf2, CancelEncoderException::generate);
+            list.add(byteBuf2.retain());
          } finally {
-            var7.release();
+            byteBuf2.release();
          }
       } else {
-         var3.add(var2.retain());
+         list.add(byteBuf.retain());
          MessageSerializer.o = false;
       }
    }
 
    @Override
-   public void exceptionCaught(ChannelHandlerContext var1, Throwable var2) throws Exception {
-      if (!PipelineUtil.containsCause(var2, CancelCodecException.class)) {
-         super.exceptionCaught(var1, var2);
+   public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable throwable) throws Exception {
+      if (!PipelineUtil.containsCause(throwable, CancelCodecException.class)) {
+         super.exceptionCaught(channelHandlerContext, throwable);
       }
    }
 }

@@ -6,13 +6,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.EnumWorldBlockLayer;
 
 public class BlockGlass extends BlockBreakable {
-   public BlockGlass(Material var1, boolean var2) {
-      super(var1, var2);
+   public BlockGlass(Material materialIn, boolean ignoreSimilarity) {
+      super(materialIn, ignoreSimilarity);
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 

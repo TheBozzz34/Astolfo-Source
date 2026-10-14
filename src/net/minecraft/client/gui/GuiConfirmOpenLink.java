@@ -10,13 +10,13 @@ public class GuiConfirmOpenLink extends GuiYesNo {
    private boolean showSecurityWarning = true;
    private static final long a = 139450768045781L;
 
-   public GuiConfirmOpenLink(GuiYesNoCallback var1, String var2, int var3, boolean var4) {
-      super(var1, I18n.format(var4 ? "chat.link.confirmTrusted" : "chat.link.confirm"), var2, var3);
-      this.confirmButtonText = I18n.format(var4 ? "chat.link.open" : "gui.yes");
-      this.cancelButtonText = I18n.format(var4 ? "gui.cancel" : "gui.no");
+   public GuiConfirmOpenLink(GuiYesNoCallback guiYesNoCallback, String linkTextIn, int i, boolean bl) {
+      super(guiYesNoCallback, I18n.format(bl ? "chat.link.confirmTrusted" : "chat.link.confirm"), linkTextIn, i);
+      this.confirmButtonText = I18n.format(bl ? "chat.link.open" : "gui.yes");
+      this.cancelButtonText = I18n.format(bl ? "gui.cancel" : "gui.no");
       this.copyLinkButtonText = I18n.format("chat.copy");
       this.openLinkWarning = I18n.format("chat.link.warning");
-      this.linkText = var2;
+      this.linkText = linkTextIn;
    }
 
    @Override
@@ -29,12 +29,12 @@ public class GuiConfirmOpenLink extends GuiYesNo {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 2) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 2) {
          this.copyLinkToClipboard();
       }
 
-      this.parentScreen.confirmClicked(var1.id == 0, this.parentButtonClickedId);
+      this.parentScreen.confirmClicked(button.id == 0, this.parentButtonClickedId);
    }
 
    public void copyLinkToClipboard() {
@@ -42,8 +42,8 @@ public class GuiConfirmOpenLink extends GuiYesNo {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      super.drawScreen(var1, var2, var3);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
       if (this.showSecurityWarning) {
          this.d(this.fontRendererObj, this.openLinkWarning, this.width / 2, 110, 16764108);
       }

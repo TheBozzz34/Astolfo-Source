@@ -14,14 +14,14 @@ public class CommandStop extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.stop.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
       if (MinecraftServer.getServer().worldServers != null) {
-         notifyOperators(var1, this, "commands.stop.start");
+         notifyOperators(sender, this, "commands.stop.start");
       }
 
       MinecraftServer.getServer().initiateShutdown();

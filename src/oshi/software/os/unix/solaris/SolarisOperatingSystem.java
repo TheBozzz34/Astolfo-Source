@@ -35,19 +35,19 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public AbstractOperatingSystem.FamilyVersionInfo queryFamilyVersionInfo() {
-      String[] var4 = ParseUtil.Q.split(ExecutingCommand.getFirstAnswer("uname -rv"));
-      String var5 = var4[0];
-      String var6 = null;
-      if (var4.length > 1) {
-         var6 = var4[1];
+      String[] strings = ParseUtil.Q.split(ExecutingCommand.getFirstAnswer("uname -rv"));
+      String string = strings[0];
+      String string2 = null;
+      if (strings.length > 1) {
+         string2 = strings[1];
       }
 
-      return new AbstractOperatingSystem.FamilyVersionInfo("SunOS", new OperatingSystem.OSVersionInfo(var5, "Solaris", var6));
+      return new AbstractOperatingSystem.FamilyVersionInfo("SunOS", new OperatingSystem.OSVersionInfo(string, "Solaris", string2));
    }
 
    @Override
-   public int queryBitness(int var1) {
-      return var1 == 64 ? 64 : ParseUtil.parseIntOrDefault(ExecutingCommand.getFirstAnswer("isainfo -b"), 32);
+   public int queryBitness(int jvmBitness) {
+      return jvmBitness == 64 ? 64 : ParseUtil.parseIntOrDefault(ExecutingCommand.getFirstAnswer("isainfo -b"), 32);
    }
 
    @Override
@@ -61,41 +61,41 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
    }
 
    @Override
-   public OSProcess[] getProcesses(int var1, OperatingSystem.ProcessSort var2, boolean var3) {
-      List var6 = this.getProcessListFromPS("ps -eo s,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etime,time,comm,args", -1, var3);
-      List var7 = this.processSort(var6, var1, var2);
-      return (oshi.software.os.OSProcess[])(var7.toArray(new OSProcess[0]));
+   public OSProcess[] getProcesses(int limit, OperatingSystem.ProcessSort sortIn, boolean slowFields) {
+      List list = this.getProcessListFromPS("ps -eo s,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etime,time,comm,args", -1, slowFields);
+      List list2 = this.processSort(list, limit, sortIn);
+      return (oshi.software.os.OSProcess[])(list2.toArray(new OSProcess[0]));
    }
 
    @Override
-   public OSProcess getProcess(int var1, boolean var2) {
-      List var6 = this.getProcessListFromPS("ps -o s,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etime,time,comm,args -p ", var1, var2);
-      return var6.isEmpty() ? null : (OSProcess)var6.get(0);
+   public OSProcess getProcess(int pid, boolean slowFields) {
+      List list = this.getProcessListFromPS("ps -o s,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etime,time,comm,args -p ", pid, slowFields);
+      return list.isEmpty() ? null : (OSProcess)list.get(0);
    }
 
    @Override
-   public OSProcess[] getChildProcesses(int var1, int var2, OperatingSystem.ProcessSort var3) {
-      List var6 = this.getProcessListFromPS("ps -eo s,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etime,time,comm,args --ppid", var1, true);
-      List var7 = this.processSort(var6, var2, var3);
-      return (oshi.software.os.OSProcess[])(var7.toArray(new OSProcess[0]));
+   public OSProcess[] getChildProcesses(int parentPid, int limit, OperatingSystem.ProcessSort sortIn) {
+      List list = this.getProcessListFromPS("ps -eo s,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etime,time,comm,args --ppid", parentPid, true);
+      List list2 = this.processSort(list, limit, sortIn);
+      return (oshi.software.os.OSProcess[])(list2.toArray(new OSProcess[0]));
    }
 
-   private List<OSProcess> getProcessListFromPS(String var1, int var2, boolean var3) {
-      Map var7 = LsofUtil.getCwdMap(var2);
-      ArrayList var8 = new ArrayList();
-      List var9 = ExecutingCommand.runNative(var1 + (var2 < 0 ? "" : var2));
-      if (!var9.isEmpty() && var9.size() >= 2) {
-         var9.remove(0);
+   private List<OSProcess> getProcessListFromPS(String psCommand, int pid, boolean slowFields) {
+      Map map = LsofUtil.getCwdMap(pid);
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative(psCommand + (pid < 0 ? "" : pid));
+      if (!list.isEmpty() && list.size() >= 2) {
+         list.remove(0);
 
-         for (Object var11$raw : var9) {
-            String var11 = (String)var11$raw;
-            String[] var12 = ParseUtil.Q.split(var11.trim(), 15);
-            if (var12.length >= 15) {
-               long var13 = System.currentTimeMillis();
-               OSProcess var15 = new OSProcess(this);
-               switch (var12[0].charAt(0)) {
+         for (Object object : list) {
+            String string = (String)object;
+            String[] strings = ParseUtil.Q.split(string.trim(), 15);
+            if (strings.length >= 15) {
+               long l = System.currentTimeMillis();
+               OSProcess osProcess = new OSProcess(this);
+               switch (strings[0].charAt(0)) {
                   case 'O':
-                     var15.setState(OSProcess.State.RUNNING);
+                     osProcess.setState(OSProcess.State.RUNNING);
                      break;
                   case 'P':
                   case 'Q':
@@ -104,96 +104,96 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
                   case 'X':
                   case 'Y':
                   default:
-                     var15.setState(OSProcess.State.OTHER);
+                     osProcess.setState(OSProcess.State.OTHER);
                      break;
                   case 'R':
                   case 'W':
-                     var15.setState(OSProcess.State.WAITING);
+                     osProcess.setState(OSProcess.State.WAITING);
                      break;
                   case 'S':
-                     var15.setState(OSProcess.State.SLEEPING);
+                     osProcess.setState(OSProcess.State.SLEEPING);
                      break;
                   case 'T':
-                     var15.setState(OSProcess.State.STOPPED);
+                     osProcess.setState(OSProcess.State.STOPPED);
                      break;
                   case 'Z':
-                     var15.setState(OSProcess.State.ZOMBIE);
+                     osProcess.setState(OSProcess.State.ZOMBIE);
                }
 
-               var15.setProcessID(ParseUtil.parseIntOrDefault(var12[1], 0));
-               var15.setParentProcessID(ParseUtil.parseIntOrDefault(var12[2], 0));
-               var15.setUser(var12[3]);
-               var15.setUserID(var12[4]);
-               var15.setGroup(var12[5]);
-               var15.setGroupID(var12[6]);
-               var15.setThreadCount(ParseUtil.parseIntOrDefault(var12[7], 0));
-               var15.setPriority(ParseUtil.parseIntOrDefault(var12[8], 0));
-               var15.setVirtualSize(ParseUtil.parseLongOrDefault(var12[9], 0L) * 1024L);
-               var15.setResidentSetSize(ParseUtil.parseLongOrDefault(var12[10], 0L) * 1024L);
-               long var16 = ParseUtil.parseDHMSOrDefault(var12[11], 0L);
-               var15.setUpTime(var16 < 1L ? 1L : var16);
-               var15.setStartTime(var13 - var15.getUpTime());
-               var15.setUserTime(ParseUtil.parseDHMSOrDefault(var12[12], 0L));
-               var15.setPath(var12[13]);
-               var15.setName(var15.getPath().substring(var15.getPath().lastIndexOf(47) + 1));
-               var15.setCommandLine(var12[14]);
-               var15.setCurrentWorkingDirectory((java.lang.String)(var7.getOrDefault(var15.getProcessID(), "")));
-               if (var3) {
-                  List var18 = ExecutingCommand.runNative(String.format("lsof -p %d", var2));
-                  var15.setOpenFiles(var18.size() - 1L);
+               osProcess.setProcessID(ParseUtil.parseIntOrDefault(strings[1], 0));
+               osProcess.setParentProcessID(ParseUtil.parseIntOrDefault(strings[2], 0));
+               osProcess.setUser(strings[3]);
+               osProcess.setUserID(strings[4]);
+               osProcess.setGroup(strings[5]);
+               osProcess.setGroupID(strings[6]);
+               osProcess.setThreadCount(ParseUtil.parseIntOrDefault(strings[7], 0));
+               osProcess.setPriority(ParseUtil.parseIntOrDefault(strings[8], 0));
+               osProcess.setVirtualSize(ParseUtil.parseLongOrDefault(strings[9], 0L) * 1024L);
+               osProcess.setResidentSetSize(ParseUtil.parseLongOrDefault(strings[10], 0L) * 1024L);
+               long m = ParseUtil.parseDHMSOrDefault(strings[11], 0L);
+               osProcess.setUpTime(m < 1L ? 1L : m);
+               osProcess.setStartTime(l - osProcess.getUpTime());
+               osProcess.setUserTime(ParseUtil.parseDHMSOrDefault(strings[12], 0L));
+               osProcess.setPath(strings[13]);
+               osProcess.setName(osProcess.getPath().substring(osProcess.getPath().lastIndexOf(47) + 1));
+               osProcess.setCommandLine(strings[14]);
+               osProcess.setCurrentWorkingDirectory((java.lang.String)(map.getOrDefault(osProcess.getProcessID(), "")));
+               if (slowFields) {
+                  List list2 = ExecutingCommand.runNative(String.format("lsof -p %d", pid));
+                  osProcess.setOpenFiles(list2.size() - 1L);
 
-                  for (String var21 : ExecutingCommand.runNative("pflags " + var2)) {
-                     if (var21.contains("data model")) {
-                        if (var21.contains("LP32")) {
-                           var15.setBitness(32);
-                        } else if (var21.contains("LP64")) {
-                           var15.setBitness(64);
+                  for (String string2 : ExecutingCommand.runNative("pflags " + pid)) {
+                     if (string2.contains("data model")) {
+                        if (string2.contains("LP32")) {
+                           osProcess.setBitness(32);
+                        } else if (string2.contains("LP64")) {
+                           osProcess.setBitness(64);
                         }
                         break;
                      }
                   }
                }
 
-               var8.add(var15);
+               arrayList.add(osProcess);
             }
          }
 
-         return var8;
+         return arrayList;
       } else {
-         return var8;
+         return arrayList;
       }
    }
 
    @Override
-   public long getProcessAffinityMask(int var1) {
-      long var5 = 0L;
-      String var7 = ExecutingCommand.getFirstAnswer("pbind -q " + var1);
-      if (var7.isEmpty()) {
-         for (String var15 : ExecutingCommand.runNative("psrinfo")) {
-            String[] var16 = ParseUtil.Q.split(var15);
-            int var12 = ParseUtil.parseIntOrDefault(var16[0], -1);
-            if (var12 >= 0) {
-               var5 |= 1L << var12;
+   public long getProcessAffinityMask(int processId) {
+      long l = 0L;
+      String string = ExecutingCommand.getFirstAnswer("pbind -q " + processId);
+      if (string.isEmpty()) {
+         for (String string2 : ExecutingCommand.runNative("psrinfo")) {
+            String[] strings = ParseUtil.Q.split(string2);
+            int i = ParseUtil.parseIntOrDefault(strings[0], -1);
+            if (i >= 0) {
+               l |= 1L << i;
             }
          }
 
-         return var5;
+         return l;
       } else {
-         if (var7.endsWith(".") && var7.contains("strongly bound to processor(s)")) {
-            String var8 = var7.substring(0, var7.length() - 1);
-            String[] var9 = ParseUtil.Q.split(var8);
+         if (string.endsWith(".") && string.contains("strongly bound to processor(s)")) {
+            String string3 = string.substring(0, string.length() - 1);
+            String[] strings2 = ParseUtil.Q.split(string3);
 
-            for (int var10 = var9.length - 1; var10 >= 0; var10--) {
-               int var11 = ParseUtil.parseIntOrDefault(var9[var10], -1);
-               if (var11 < 0) {
+            for (int j = strings2.length - 1; j >= 0; j--) {
+               int k = ParseUtil.parseIntOrDefault(strings2[j], -1);
+               if (k < 0) {
                   break;
                }
 
-               var5 |= 1L << var11;
+               l |= 1L << k;
             }
          }
 
-         return var5;
+         return l;
       }
    }
 
@@ -209,8 +209,8 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public int getThreadCount() {
-      List var4 = ExecutingCommand.runNative("ps -eLo pid");
-      return !var4.isEmpty() ? var4.size() - 1 : this.getProcessCount();
+      List list = ExecutingCommand.runNative("ps -eLo pid");
+      return !list.isEmpty() ? list.size() - 1 : this.getProcessCount();
    }
 
    @Override
@@ -219,10 +219,10 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
    }
 
    private static long querySystemUptime() {
-      try (KstatUtil.KstatChain var2 = KstatUtil.openChain()) {
-         Kstat var4 = var2.lookup("unix", 0, "system_misc");
-         if (var4 != null) {
-            return var4.ks_snaptime / 1000000000L;
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         Kstat kstat = kstatChain.lookup("unix", 0, "system_misc");
+         if (kstat != null) {
+            return kstat.ks_snaptime / 1000000000L;
          }
       }
 
@@ -235,10 +235,10 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
    }
 
    private static long querySystemBootTime() {
-      try (KstatUtil.KstatChain var2 = KstatUtil.openChain()) {
-         Kstat var4 = var2.lookup("unix", 0, "system_misc");
-         if (var4 != null && var2.read(var4)) {
-            return KstatUtil.dataLookupLong(var4, "boot_time");
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         Kstat kstat = kstatChain.lookup("unix", 0, "system_misc");
+         if (kstat != null && kstatChain.read(kstat)) {
+            return KstatUtil.dataLookupLong(kstat, "boot_time");
          }
       }
 
@@ -252,43 +252,43 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public OSService[] getServices() {
-      ArrayList var5 = new ArrayList();
-      ArrayList var6 = new ArrayList();
-      File var7 = new File("/etc/init.d");
-      File[] var8;
-      if (var7.exists() && var7.isDirectory() && (var8 = var7.listFiles()) != null) {
-         for (File var12 : var8) {
-            var6.add(var12.getName());
+      ArrayList arrayList = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
+      File file = new File("/etc/init.d");
+      File[] files;
+      if (file.exists() && file.isDirectory() && (files = file.listFiles()) != null) {
+         for (File file2 : files) {
+            arrayList2.add(file2.getName());
          }
       }
 
-      for (String var16 : ExecutingCommand.runNative("svcs -p")) {
-         if (var16.startsWith("online")) {
-            int var19 = var16.lastIndexOf(":/");
-            if (var19 > 0) {
-               String var20 = var16.substring(var19 + 1);
-               if (var20.endsWith(":default")) {
-                  var20 = var20.substring(0, var20.length() - 8);
+      for (String string : ExecutingCommand.runNative("svcs -p")) {
+         if (string.startsWith("online")) {
+            int i = string.lastIndexOf(":/");
+            if (i > 0) {
+               String string2 = string.substring(i + 1);
+               if (string2.endsWith(":default")) {
+                  string2 = string2.substring(0, string2.length() - 8);
                }
 
-               var5.add(new OSService(var20, 0, OSService.State.STOPPED));
+               arrayList.add(new OSService(string2, 0, OSService.State.STOPPED));
             }
-         } else if (var16.startsWith(" ")) {
-            String[] var18 = ParseUtil.Q.split(var16.trim());
-            if (var18.length == 3) {
-               var5.add(new OSService(var18[2], ParseUtil.parseIntOrDefault(var18[1], 0), OSService.State.RUNNING));
+         } else if (string.startsWith(" ")) {
+            String[] strings = ParseUtil.Q.split(string.trim());
+            if (strings.length == 3) {
+               arrayList.add(new OSService(strings[2], ParseUtil.parseIntOrDefault(strings[1], 0), OSService.State.RUNNING));
             }
-         } else if (var16.startsWith("legacy_run")) {
-            for (Object var13$raw : var6) {
-               String var13 = (String)var13$raw;
-               if (var16.endsWith(var13)) {
-                  var5.add(new OSService(var13, 0, OSService.State.STOPPED));
+         } else if (string.startsWith("legacy_run")) {
+            for (Object object : arrayList2) {
+               String string3 = (String)object;
+               if (string.endsWith(string3)) {
+                  arrayList.add(new OSService(string3, 0, OSService.State.STOPPED));
                   break;
                }
             }
          }
       }
 
-      return (oshi.software.os.OSService[])(var5.toArray(new OSService[0]));
+      return (oshi.software.os.OSService[])(arrayList.toArray(new OSService[0]));
    }
 }

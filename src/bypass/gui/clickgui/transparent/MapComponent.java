@@ -12,12 +12,12 @@ public class MapComponent extends SettingContainer {
    private static final Color C = new Color(23, 23, 23);
    private static final long d = 40832626348333L;
 
-   public MapComponent(Container var1, Setting var2, int var3, int var4) {
-      super(var1, var2, var3, var4);
+   public MapComponent(Container container, Setting setting, int i, int j) {
+      super(container, setting, i, j);
    }
 
    @Override
-   public void render(int var1, int var2) {
+   public void render(int i, int j) {
       RenderUtil.drawRect(
          this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
       );
@@ -29,22 +29,22 @@ public class MapComponent extends SettingContainer {
             Color.WHITE.getRGB()
          );
       if (this.s_boolean()) {
-         int var6 = 0;
+         int k = 0;
 
-         for (Element var8 : this.M_ArrayList()) {
-            if (var8 instanceof SettingComponent) {
-               ((SettingComponent)var8).r(this.M() + 1.5F, this.E_float() + var6 + 15.0F);
-               var8.render(var1, var2);
-               var6 += 15;
-               var6 = (int)(var6 - this.U.getValue(0.0, var6));
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof SettingComponent) {
+               ((SettingComponent)element).r(this.M() + 1.5F, this.E_float() + k + 15.0F);
+               element.render(i, j);
+               k += 15;
+               k = (int)(k - this.U.getValue(0.0, k));
             }
          }
       }
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 0) {
+   public void l(int i) {
+      if (i == 0) {
          this.u(!this.s_boolean());
          if (this.s_boolean()) {
             this.U.backwards().rewind().start();
@@ -55,15 +55,15 @@ public class MapComponent extends SettingContainer {
    }
 
    public int d() {
-      byte var4 = 0;
+      byte b = 0;
       if (this.s_boolean()) {
-         for (Element var6 : this.M_ArrayList()) {
-            if (var6 instanceof BooleanComponent || var6 instanceof StringComponent || var6 instanceof NumberSlider || var6 instanceof EnumComponent) {
-               var4 += 15;
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof BooleanComponent || element instanceof StringComponent || element instanceof NumberSlider || element instanceof EnumComponent) {
+               b += 15;
             }
          }
       }
 
-      return var4;
+      return b;
    }
 }

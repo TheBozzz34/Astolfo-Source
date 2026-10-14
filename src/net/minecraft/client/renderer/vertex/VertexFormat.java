@@ -15,14 +15,14 @@ public class VertexFormat {
    private int normalElementOffset = -1;
    private static final long a = 78468434692309L;
 
-   public VertexFormat(VertexFormat var1) {
+   public VertexFormat(VertexFormat vertexFormatIn) {
       this();
 
-      for (int var5 = 0; var5 < var1.getElementCount(); var5++) {
-         this.addElement(var1.getElement(var5));
+      for (int i = 0; i < vertexFormatIn.getElementCount(); i++) {
+         this.addElement(vertexFormatIn.getElement(i));
       }
 
-      this.nextOffset = var1.getNextOffset();
+      this.nextOffset = vertexFormatIn.getNextOffset();
    }
 
    public VertexFormat() {
@@ -37,15 +37,15 @@ public class VertexFormat {
       this.nextOffset = 0;
    }
 
-   public VertexFormat addElement(VertexFormatElement var1) {
-      if (var1.isPositionElement() && this.hasPosition()) {
+   public VertexFormat addElement(VertexFormatElement element) {
+      if (element.isPositionElement() && this.hasPosition()) {
          LOGGER.warn("VertexFormat error: Trying to add a position VertexFormatElement when one already exists, ignoring.");
          return this;
       }
 
-      this.elements.add(var1);
+      this.elements.add(element);
       this.offsets.add(this.nextOffset);
-      switch (var1.getUsage()) {
+      switch (element.getUsage()) {
          case NORMAL:
             this.normalElementOffset = this.nextOffset;
             break;
@@ -53,10 +53,10 @@ public class VertexFormat {
             this.colorElementOffset = this.nextOffset;
             break;
          case UV:
-            this.uvOffsetsById.add(var1.getIndex(), this.nextOffset);
+            this.uvOffsetsById.add(element.getIndex(), this.nextOffset);
       }
 
-      this.nextOffset = this.nextOffset + var1.getSize();
+      this.nextOffset = this.nextOffset + element.getSize();
       return this;
    }
 
@@ -76,34 +76,34 @@ public class VertexFormat {
       return this.colorElementOffset;
    }
 
-   public boolean hasUvOffset(int var1) {
-      return this.uvOffsetsById.size() - 1 >= var1;
+   public boolean hasUvOffset(int id) {
+      return this.uvOffsetsById.size() - 1 >= id;
    }
 
-   public int getUvOffsetById(int var1) {
-      return this.uvOffsetsById.get(var1);
+   public int getUvOffsetById(int id) {
+      return this.uvOffsetsById.get(id);
    }
 
    @Override
    public String toString() {
-      String var4 = "format: " + this.elements.size() + " elements: ";
+      String string = "format: " + this.elements.size() + " elements: ";
 
-      for (int var5 = 0; var5 < this.elements.size(); var5++) {
-         var4 = var4 + this.elements.get(var5).toString();
-         if (var5 != this.elements.size() - 1) {
-            var4 = var4 + " ";
+      for (int i = 0; i < this.elements.size(); i++) {
+         string = string + this.elements.get(i).toString();
+         if (i != this.elements.size() - 1) {
+            string = string + " ";
          }
       }
 
-      return var4;
+      return string;
    }
 
    private boolean hasPosition() {
-      int var3 = 0;
+      int i = 0;
 
-      for (int var4 = this.elements.size(); var3 < var4; var3++) {
-         VertexFormatElement var5 = this.elements.get(var3);
-         if (var5.isPositionElement()) {
+      for (int j = this.elements.size(); i < j; i++) {
+         VertexFormatElement vertexFormatElement = this.elements.get(i);
+         if (vertexFormatElement.isPositionElement()) {
             return true;
          }
       }
@@ -127,21 +127,21 @@ public class VertexFormat {
       return this.elements.size();
    }
 
-   public VertexFormatElement getElement(int var1) {
-      return this.elements.get(var1);
+   public VertexFormatElement getElement(int index) {
+      return this.elements.get(index);
    }
 
-   public int getOffset(int var1) {
-      return this.offsets.get(var1);
+   public int getOffset(int i) {
+      return this.offsets.get(i);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
-      } else if (var1 != null && this.getClass() == var1.getClass()) {
-         VertexFormat var5 = (VertexFormat)var1;
-         return this.nextOffset != var5.nextOffset ? false : (!this.elements.equals(var5.elements) ? false : this.offsets.equals(var5.offsets));
+      } else if (object != null && this.getClass() == object.getClass()) {
+         VertexFormat vertexFormat = (VertexFormat)object;
+         return this.nextOffset != vertexFormat.nextOffset ? false : (!this.elements.equals(vertexFormat.elements) ? false : this.offsets.equals(vertexFormat.offsets));
       } else {
          return false;
       }
@@ -149,8 +149,8 @@ public class VertexFormat {
 
    @Override
    public int hashCode() {
-      int var3 = this.elements.hashCode();
-      var3 = 31 * var3 + this.offsets.hashCode();
-      return 31 * var3 + this.nextOffset;
+      int i = this.elements.hashCode();
+      i = 31 * i + this.offsets.hashCode();
+      return 31 * i + this.nextOffset;
    }
 }

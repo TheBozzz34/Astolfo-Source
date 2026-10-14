@@ -9,21 +9,21 @@ public class EntityNoteFX extends EntityFX {
    public float noteParticleScale;
    private static final long ab = 35532454681594L;
 
-   public EntityNoteFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      this(var1, var2, var4, var6, var8, var10, var12, 2.0F);
+   public EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 2.0F);
    }
 
-   public EntityNoteFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12, float var14) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float f) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.01F;
       this.motionY *= 0.01F;
       this.motionZ *= 0.01F;
       this.motionY += 0.2;
-      this.particleRed = MathHelper.sin(((float)var8 + 0.0F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
-      this.particleGreen = MathHelper.sin(((float)var8 + 0.33333334F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
-      this.particleBlue = MathHelper.sin(((float)var8 + 0.6666667F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+      this.particleRed = MathHelper.sin(((float)d + 0.0F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+      this.particleGreen = MathHelper.sin(((float)d + 0.33333334F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+      this.particleBlue = MathHelper.sin(((float)d + 0.6666667F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
       this.particleScale *= 0.75F;
-      this.particleScale *= var14;
+      this.particleScale *= f;
       this.noteParticleScale = this.particleScale;
       this.particleMaxAge = 6;
       this.noClip = false;
@@ -31,11 +31,20 @@ public class EntityNoteFX extends EntityFX {
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = (this.particleAge + var3) / this.particleMaxAge * 32.0F;
-      var9 = MathHelper.clamp_float(var9, 0.0F, 1.0F);
-      this.particleScale = this.noteParticleScale * var9;
-      super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge * 32.0F;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      this.particleScale = this.noteParticleScale * f;
+      super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
    }
 
    @Override
@@ -64,8 +73,10 @@ public class EntityNoteFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityNoteFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityNoteFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

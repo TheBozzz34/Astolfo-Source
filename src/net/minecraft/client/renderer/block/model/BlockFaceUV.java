@@ -14,79 +14,79 @@ public class BlockFaceUV {
    public final int rotation;
    private static final long a = 34955891176846L;
 
-   public BlockFaceUV(float[] var1, int var2) {
-      this.uvs = var1;
-      this.rotation = var2;
+   public BlockFaceUV(float[] uvsIn, int rotationIn) {
+      this.uvs = uvsIn;
+      this.rotation = rotationIn;
    }
 
-   public float func_178348_a(int var1) {
+   public float func_178348_a(int i) {
       if (this.uvs == null) {
          throw new NullPointerException("uvs");
       }
 
-      int var5 = this.func_178347_d(var1);
-      return var5 != 0 && var5 != 1 ? this.uvs[2] : this.uvs[0];
+      int j = this.func_178347_d(i);
+      return j != 0 && j != 1 ? this.uvs[2] : this.uvs[0];
    }
 
-   public float func_178346_b(int var1) {
+   public float func_178346_b(int i) {
       if (this.uvs == null) {
          throw new NullPointerException("uvs");
       }
 
-      int var5 = this.func_178347_d(var1);
-      return var5 != 0 && var5 != 3 ? this.uvs[3] : this.uvs[1];
+      int j = this.func_178347_d(i);
+      return j != 0 && j != 3 ? this.uvs[3] : this.uvs[1];
    }
 
-   private int func_178347_d(int var1) {
-      return (var1 + this.rotation / 90) % 4;
+   private int func_178347_d(int i) {
+      return (i + this.rotation / 90) % 4;
    }
 
-   public int func_178345_c(int var1) {
-      return (var1 + (4 - this.rotation / 90)) % 4;
+   public int func_178345_c(int i) {
+      return (i + (4 - this.rotation / 90)) % 4;
    }
 
-   public void setUvs(float[] var1) {
+   public void setUvs(float[] uvsIn) {
       if (this.uvs == null) {
-         this.uvs = var1;
+         this.uvs = uvsIn;
       }
    }
 
    public static class Deserializer implements JsonDeserializer<BlockFaceUV> {
       private static final long a = 71142802366384L;
 
-      public BlockFaceUV deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-         JsonObject var4 = var1.getAsJsonObject();
-         float[] var5 = this.parseUV(var4);
-         int var6 = this.parseRotation(var4);
-         return new BlockFaceUV(var5, var6);
+      public BlockFaceUV deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+         JsonObject jsonObject = jsonElement.getAsJsonObject();
+         float[] floats = this.parseUV(jsonObject);
+         int i = this.parseRotation(jsonObject);
+         return new BlockFaceUV(floats, i);
       }
 
-      public int parseRotation(JsonObject var1) {
-         int var5 = JsonUtils.getInt(var1, "rotation", 0);
-         if (var5 >= 0 && var5 % 90 == 0 && var5 / 90 <= 3) {
-            return var5;
+      public int parseRotation(JsonObject jsonObject) {
+         int i = JsonUtils.getInt(jsonObject, "rotation", 0);
+         if (i >= 0 && i % 90 == 0 && i / 90 <= 3) {
+            return i;
          } else {
-            throw new JsonParseException("Invalid rotation " + var5 + " found, only 0/90/180/270 allowed");
+            throw new JsonParseException("Invalid rotation " + i + " found, only 0/90/180/270 allowed");
          }
       }
 
-      private float[] parseUV(JsonObject var1) {
-         if (!var1.has("uv")) {
+      private float[] parseUV(JsonObject jsonObject) {
+         if (!jsonObject.has("uv")) {
             return null;
          }
 
-         JsonArray var5 = JsonUtils.getJsonArray(var1, "uv");
-         if (var5.size() != 4) {
-            throw new JsonParseException("Expected 4 uv values, found: " + var5.size());
+         JsonArray jsonArray = JsonUtils.getJsonArray(jsonObject, "uv");
+         if (jsonArray.size() != 4) {
+            throw new JsonParseException("Expected 4 uv values, found: " + jsonArray.size());
          }
 
-         float[] var6 = new float[4];
+         float[] floats = new float[4];
 
-         for (int var7 = 0; var7 < var6.length; var7++) {
-            var6[var7] = JsonUtils.getFloat(var5.get(var7), "uv[" + var7 + "]");
+         for (int i = 0; i < floats.length; i++) {
+            floats[i] = JsonUtils.getFloat(jsonArray.get(i), "uv[" + i + "]");
          }
 
-         return var6;
+         return floats;
       }
    }
 }

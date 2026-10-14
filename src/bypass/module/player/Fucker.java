@@ -56,42 +56,42 @@ public final class Fucker extends Module {
    private float z;
    private float x;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.LOW)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      switch (var1x.getState()) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      switch (motionEvent.getState()) {
          case PRE:
             this.H = null;
 
-            for (int var5 = -5; var5 < 6; var5++) {
-               for (int var6 = -5; var6 < 6; var6++) {
-                  for (int var7 = 5; var7 > -5; var7--) {
-                     double var8 = mc.thePlayer.posX + var5;
-                     double var10 = mc.thePlayer.posY + var7;
-                     double var12 = mc.thePlayer.posZ + var6;
-                     if (this.U(new BlockPos(var8, var10, var12))) {
-                        this.H = new BlockPos(var8, var10, var12);
-                        Vector3d var14 = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-                        Vector3d var15 = new Vector3d(Math.floor(this.H.getX()) + 0.5, Math.floor(this.H.getY()) + 0.5, Math.floor(this.H.getZ()) + 0.5);
-                        Rotation var16 = this.N.rotationTo(var15, var14);
+            for (int i = -5; i < 6; i++) {
+               for (int j = -5; j < 6; j++) {
+                  for (int k = 5; k > -5; k--) {
+                     double d = mc.thePlayer.posX + i;
+                     double e = mc.thePlayer.posY + k;
+                     double d2 = mc.thePlayer.posZ + j;
+                     if (this.U(new BlockPos(d, e, d2))) {
+                        this.H = new BlockPos(d, e, d2);
+                        Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+                        Vector3d vector3d2 = new Vector3d(Math.floor(this.H.getX()) + 0.5, Math.floor(this.H.getY()) + 0.5, Math.floor(this.H.getZ()) + 0.5);
+                        Rotation rotation = this.N.rotationTo(vector3d2, vector3d);
                         if (this.rayCast.getValue()) {
-                           MovingObjectPosition var17 = GameUtil.A(var16.getYaw(), var16.getPitch(), this.range.getValue().floatValue());
-                           if (var17 != null) {
-                              if (var17.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+                           MovingObjectPosition movingObjectPosition = GameUtil.A(rotation.getYaw(), rotation.getPitch(), this.range.getValue().floatValue());
+                           if (movingObjectPosition != null) {
+                              if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
                                  return;
                               }
 
-                              if (var17.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
-                                 && !(mc.theWorld.getBlockState(var17.getBlockPos()).getBlock() instanceof BlockAir)) {
-                                 this.H = var17.getBlockPos();
+                              if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+                                 && !(mc.theWorld.getBlockState(movingObjectPosition.getBlockPos()).getBlock() instanceof BlockAir)) {
+                                 this.H = movingObjectPosition.getBlockPos();
                               }
                            }
                         }
 
-                        this.f = var1x.getLastYaw();
-                        this.x = var1x.getLastPitch();
-                        var1x.setPitch(var16.getPitch());
-                        var1x.setYaw(var16.getYaw());
-                        this.W = var1x.getYaw();
-                        this.z = var1x.getPitch();
+                        this.f = motionEvent.getLastYaw();
+                        this.x = motionEvent.getLastPitch();
+                        motionEvent.setPitch(rotation.getPitch());
+                        motionEvent.setYaw(rotation.getYaw());
+                        this.W = motionEvent.getYaw();
+                        this.z = motionEvent.getPitch();
                      }
                   }
                }
@@ -127,24 +127,24 @@ public final class Fucker extends Module {
       }
    };
    @EventHandler(RenderLivingEvent.class)
-   private Listener<RenderLivingEvent> onRenderLiving = var1x -> {
-      if (this.H != null && var1x.getEntity() == mc.thePlayer) {
+   private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
+      if (this.H != null && renderLivingEvent.getEntity() == mc.thePlayer) {
       }
    };
    @EventHandler(RenderEvent.class)
-   private Listener<RenderEvent> onRender = var1x -> {
-      long var2 = c ^ 101615082007119L;
-      if (var1x.getType() == RenderType.WORLD) {
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      long l = c ^ 101615082007119L;
+      if (renderEvent.getType() == RenderType.WORLD) {
          if (this.H == null) {
             return;
          }
 
-         IBlockState var5 = mc.theWorld.getBlockState(this.H);
-         if (var5 == null) {
+         IBlockState iBlockState = mc.theWorld.getBlockState(this.H);
+         if (iBlockState == null) {
             return;
          }
 
-         if (var5.getBlock() == null) {
+         if (iBlockState.getBlock() == null) {
             return;
          }
 
@@ -153,20 +153,20 @@ public final class Fucker extends Module {
          GL11.glBlendFunc(770, 771);
          GL11.glEnable(2848);
          GL11.glLineWidth(2.0F);
-         long var10000 = 5651812435595044275L ^ var2;
+         long m = 5651812435595044275L ^ l;
          GL11.glDisable(3553);
          GL11.glEnable(2884);
          GL11.glDisable(2929);
-         double var6 = mc.getRenderManager().viewerPosX;
-         double var8 = mc.getRenderManager().viewerPosY;
-         double var10 = mc.getRenderManager().viewerPosZ;
-         GL11.glTranslated(-var6, -var8, -var10);
+         double d = mc.getRenderManager().viewerPosX;
+         double e = mc.getRenderManager().viewerPosY;
+         double d2 = mc.getRenderManager().viewerPosZ;
+         GL11.glTranslated(-d, -e, -d2);
          GL11.glTranslated(this.H.getX(), this.H.getY(), this.H.getZ());
-         Color var12 = (Color)this.render.getSetting("Color").getValue();
-         GL11.glColor4f(var12.getRed() / 255.0F, var12.getGreen() / 255.0F, var12.getBlue() / 255.0F, var12.getAlpha() / 255.0F);
-         AxisAlignedBB var13 = var5.getBlock().getSelectedBoundingBox(mc.theWorld, new BlockPos(0, 0, 0));
-         if (var13 != null) {
-            BlockOverlay.z(var13);
+         Color color = (Color)this.render.getSetting("Color").getValue();
+         GL11.glColor4f(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F, color.getAlpha() / 255.0F);
+         AxisAlignedBB axisAlignedBB = iBlockState.getBlock().getSelectedBoundingBox(mc.theWorld, new BlockPos(0, 0, 0));
+         if (axisAlignedBB != null) {
+            BlockOverlay.z(axisAlignedBB);
          }
 
          GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -179,8 +179,8 @@ public final class Fucker extends Module {
    };
    private static final long c = 62677715610170L;
 
-   public Fucker(Category var1) {
-      super(var1);
+   public Fucker(Category category) {
+      super(category);
       this.addSettings(this.blocks, this.render, this.range, this.rayCast);
    }
 
@@ -193,9 +193,9 @@ public final class Fucker extends Module {
       super.onDisable();
    }
 
-   private boolean U(BlockPos var1) {
-      return mc.theWorld.getBlockState(var1).getBlock().equals(Blocks.cake) && this.blocks.getSetting("Cake").asBoolean()
-         || mc.theWorld.getBlockState(var1).getBlock().equals(Blocks.end_stone) && this.blocks.getSetting("End-Stone").asBoolean()
-         || mc.theWorld.getBlockState(var1).getBlock().equals(Blocks.bed) && this.blocks.getSetting("Bed").asBoolean();
+   private boolean U(BlockPos blockPos) {
+      return mc.theWorld.getBlockState(blockPos).getBlock().equals(Blocks.cake) && this.blocks.getSetting("Cake").asBoolean()
+         || mc.theWorld.getBlockState(blockPos).getBlock().equals(Blocks.end_stone) && this.blocks.getSetting("End-Stone").asBoolean()
+         || mc.theWorld.getBlockState(blockPos).getBlock().equals(Blocks.bed) && this.blocks.getSetting("Bed").asBoolean();
    }
 }

@@ -21,194 +21,196 @@ public class Teleporter {
    private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
    private static final long a = 136533044238811L;
 
-   public Teleporter(WorldServer var1) {
-      this.worldServerInstance = var1;
-      this.random = new Random(var1.getSeed());
+   public Teleporter(WorldServer worldIn) {
+      this.worldServerInstance = worldIn;
+      this.random = new Random(worldIn.getSeed());
    }
 
-   public void placeInPortal(Entity var1, float var2) {
-      long var3 = a ^ 96545537550479L;
+   public void placeInPortal(Entity entityIn, float rotationYaw) {
+      long l = a ^ 96545537550479L;
       if (this.worldServerInstance.provider.getDimensionId() != 1) {
-         if (!this.placeInExistingPortal(var1, var2)) {
-            this.makePortal(var1);
-            this.placeInExistingPortal(var1, var2);
+         if (!this.placeInExistingPortal(entityIn, rotationYaw)) {
+            this.makePortal(entityIn);
+            this.placeInExistingPortal(entityIn, rotationYaw);
          }
       } else {
-         int var6 = MathHelper.floor_double(var1.posX);
-         int var7 = MathHelper.floor_double(var1.posY) - 1;
-         long var10000 = 4919567686191631466L ^ var3;
-         int var8 = MathHelper.floor_double(var1.posZ);
-         byte var9 = 1;
-         byte var10 = 0;
+         int i = MathHelper.floor_double(entityIn.posX);
+         int j = MathHelper.floor_double(entityIn.posY) - 1;
+         long m = 4919567686191631466L ^ l;
+         int k = MathHelper.floor_double(entityIn.posZ);
+         byte b = 1;
+         byte b2 = 0;
 
-         for (int var11 = -2; var11 <= 2; var11++) {
-            for (int var12 = -2; var12 <= 2; var12++) {
-               for (int var13 = -1; var13 < 3; var13++) {
-                  int var14 = var6 + var12 * var9 + var11 * var10;
-                  int var15 = var7 + var13;
-                  int var16 = var8 + var12 * var10 - var11 * var9;
-                  boolean var17 = var13 < 0;
+         for (int n = -2; n <= 2; n++) {
+            for (int i2 = -2; i2 <= 2; i2++) {
+               for (int i3 = -1; i3 < 3; i3++) {
+                  int i4 = i + i2 * b + n * b2;
+                  int i5 = j + i3;
+                  int i6 = k + i2 * b2 - n * b;
+                  boolean bl = i3 < 0;
                   this.worldServerInstance
-                     .setBlockState(new BlockPos(var14, var15, var16), var17 ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
+                     .setBlockState(new BlockPos(i4, i5, i6), bl ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
                }
             }
          }
 
-         var1.setLocationAndAngles(var6, var7, var8, var1.rotationYaw, 0.0F);
-         var1.motionX = var1.motionY = var1.motionZ = 0.0;
+         entityIn.setLocationAndAngles(i, j, k, entityIn.rotationYaw, 0.0F);
+         entityIn.motionX = entityIn.motionY = entityIn.motionZ = 0.0;
       }
    }
 
-   public boolean placeInExistingPortal(Entity var1, float var2) {
-      double var7 = -1.0;
-      int var9 = MathHelper.floor_double(var1.posX);
-      int var10 = MathHelper.floor_double(var1.posZ);
-      boolean var11 = true;
-      BlockPos var12 = BlockPos.ORIGIN;
-      long var13 = ChunkCoordIntPair.chunkXZ2Int(var9, var10);
-      if (this.destinationCoordinateCache.containsItem(var13)) {
-         Teleporter.PortalPosition var15 = this.destinationCoordinateCache.getValueByKey(var13);
-         var7 = 0.0;
-         var12 = var15;
-         var15.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();
-         var11 = false;
+   public boolean placeInExistingPortal(Entity entityIn, float rotationYaw) {
+      double d = -1.0;
+      int i = MathHelper.floor_double(entityIn.posX);
+      int j = MathHelper.floor_double(entityIn.posZ);
+      boolean bl = true;
+      BlockPos blockPos = BlockPos.ORIGIN;
+      long l = ChunkCoordIntPair.chunkXZ2Int(i, j);
+      if (this.destinationCoordinateCache.containsItem(l)) {
+         Teleporter.PortalPosition portalPosition = this.destinationCoordinateCache.getValueByKey(l);
+         d = 0.0;
+         blockPos = portalPosition;
+         portalPosition.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();
+         bl = false;
       } else {
-         BlockPos var33 = new BlockPos(var1);
+         BlockPos blockPos2 = new BlockPos(entityIn);
 
-         for (int var16 = -128; var16 <= 128; var16++) {
-            for (int var18 = -128; var18 <= 128; var18++) {
-               BlockPos var19 = var33.add(var16, this.worldServerInstance.getActualHeight() - 1 - var33.getY(), var18);
+         for (int k = -128; k <= 128; k++) {
+            for (int m = -128; m <= 128; m++) {
+               BlockPos blockPos3 = blockPos2.add(k, this.worldServerInstance.getActualHeight() - 1 - blockPos2.getY(), m);
 
-               while (var19.getY() >= 0) {
-                  BlockPos var17 = var19.down();
-                  if (this.worldServerInstance.getBlockState(var19).getBlock() == Blocks.portal) {
-                     while (this.worldServerInstance.getBlockState(var17 = var19.down()).getBlock() == Blocks.portal) {
-                        var19 = var17;
+               while (blockPos3.getY() >= 0) {
+                  BlockPos blockPos4 = blockPos3.down();
+                  if (this.worldServerInstance.getBlockState(blockPos3).getBlock() == Blocks.portal) {
+                     while (this.worldServerInstance.getBlockState(blockPos4 = blockPos3.down()).getBlock() == Blocks.portal) {
+                        blockPos3 = blockPos4;
                      }
 
-                     double var20 = var19.distanceSq(var33);
-                     if (var7 < 0.0 || var20 < var7) {
-                        var7 = var20;
-                        var12 = var19;
+                     double e = blockPos3.distanceSq(blockPos2);
+                     if (d < 0.0 || e < d) {
+                        d = e;
+                        blockPos = blockPos3;
                      }
                   }
 
-                  var19 = var17;
+                  blockPos3 = blockPos4;
                }
             }
          }
       }
 
-      if (var7 >= 0.0) {
-         if (var11) {
-            this.destinationCoordinateCache.add(var13, new Teleporter.PortalPosition(var12, this.worldServerInstance.getTotalWorldTime()));
-            this.destinationCoordinateKeys.add(var13);
+      if (d >= 0.0) {
+         if (bl) {
+            this.destinationCoordinateCache.add(l, new Teleporter.PortalPosition(blockPos, this.worldServerInstance.getTotalWorldTime()));
+            this.destinationCoordinateKeys.add(l);
          }
 
-         double var34 = var12.getX() + 0.5;
-         double var35 = var12.getY() + 0.5;
-         double var37 = var12.getZ() + 0.5;
-         BlockPattern.PatternHelper var21 = Blocks.portal.func_181089_f(this.worldServerInstance, var12);
-         boolean var22 = var21.getFinger().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE;
-         double var23 = var21.getFinger().getAxis() == EnumFacing.Axis.X ? var21.getPos().getZ() : var21.getPos().getX();
-         var35 = var21.getPos().getY() + 1 - var1.func_181014_aG().yCoord * var21.func_181119_e();
-         if (var22) {
-            var23++;
+         double d2 = blockPos.getX() + 0.5;
+         double d3 = blockPos.getY() + 0.5;
+         double d4 = blockPos.getZ() + 0.5;
+         BlockPattern.PatternHelper patternHelper = Blocks.portal.func_181089_f(this.worldServerInstance, blockPos);
+         boolean bl2 = patternHelper.getFinger().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE;
+         double d5 = patternHelper.getFinger().getAxis() == EnumFacing.Axis.X ? patternHelper.getPos().getZ() : patternHelper.getPos().getX();
+         d3 = patternHelper.getPos().getY() + 1 - entityIn.func_181014_aG().yCoord * patternHelper.func_181119_e();
+         if (bl2) {
+            d5++;
          }
 
-         if (var21.getFinger().getAxis() == EnumFacing.Axis.X) {
-            var37 = var23 + (1.0 - var1.func_181014_aG().xCoord) * var21.func_181118_d() * var21.getFinger().rotateY().getAxisDirection().getOffset();
+         if (patternHelper.getFinger().getAxis() == EnumFacing.Axis.X) {
+            d4 = d5 + (1.0 - entityIn.func_181014_aG().xCoord) * patternHelper.func_181118_d() * patternHelper.getFinger().rotateY().getAxisDirection().getOffset();
          } else {
-            var34 = var23 + (1.0 - var1.func_181014_aG().xCoord) * var21.func_181118_d() * var21.getFinger().rotateY().getAxisDirection().getOffset();
+            d2 = d5 + (1.0 - entityIn.func_181014_aG().xCoord) * patternHelper.func_181118_d() * patternHelper.getFinger().rotateY().getAxisDirection().getOffset();
          }
 
-         float var25 = 0.0F;
-         float var26 = 0.0F;
-         float var27 = 0.0F;
-         float var28 = 0.0F;
-         if (var21.getFinger().getOpposite() == var1.getTeleportDirection()) {
-            var25 = 1.0F;
-            var26 = 1.0F;
-         } else if (var21.getFinger().getOpposite() == var1.getTeleportDirection().getOpposite()) {
-            var25 = -1.0F;
-            var26 = -1.0F;
-         } else if (var21.getFinger().getOpposite() == var1.getTeleportDirection().rotateY()) {
-            var27 = 1.0F;
-            var28 = -1.0F;
+         float f = 0.0F;
+         float g = 0.0F;
+         float h = 0.0F;
+         float f2 = 0.0F;
+         if (patternHelper.getFinger().getOpposite() == entityIn.getTeleportDirection()) {
+            f = 1.0F;
+            g = 1.0F;
+         } else if (patternHelper.getFinger().getOpposite() == entityIn.getTeleportDirection().getOpposite()) {
+            f = -1.0F;
+            g = -1.0F;
+         } else if (patternHelper.getFinger().getOpposite() == entityIn.getTeleportDirection().rotateY()) {
+            h = 1.0F;
+            f2 = -1.0F;
          } else {
-            var27 = -1.0F;
-            var28 = 1.0F;
+            h = -1.0F;
+            f2 = 1.0F;
          }
 
-         double var29 = var1.motionX;
-         double var31 = var1.motionZ;
-         var1.motionX = var29 * var25 + var31 * var28;
-         var1.motionZ = var29 * var27 + var31 * var26;
-         var1.rotationYaw = var2 - var1.getTeleportDirection().getOpposite().getHorizontalIndex() * 90 + var21.getFinger().getHorizontalIndex() * 90;
-         var1.setLocationAndAngles(var34, var35, var37, var1.rotationYaw, var1.rotationPitch);
+         double d6 = entityIn.motionX;
+         double d7 = entityIn.motionZ;
+         entityIn.motionX = d6 * f + d7 * f2;
+         entityIn.motionZ = d6 * h + d7 * g;
+         entityIn.rotationYaw = rotationYaw
+            - entityIn.getTeleportDirection().getOpposite().getHorizontalIndex() * 90
+            + patternHelper.getFinger().getHorizontalIndex() * 90;
+         entityIn.setLocationAndAngles(d2, d3, d4, entityIn.rotationYaw, entityIn.rotationPitch);
          return true;
       } else {
          return false;
       }
    }
 
-   public boolean makePortal(Entity var1) {
-      byte var5 = 16;
-      double var6 = -1.0;
-      int var8 = MathHelper.floor_double(var1.posX);
-      int var9 = MathHelper.floor_double(var1.posY);
-      int var10 = MathHelper.floor_double(var1.posZ);
-      int var11 = var8;
-      int var12 = var9;
-      int var13 = var10;
-      int var14 = 0;
-      int var15 = this.random.nextInt(4);
-      BlockPos.MutableBlockPos var16 = new BlockPos.MutableBlockPos();
+   public boolean makePortal(Entity entityIn) {
+      byte b = 16;
+      double d = -1.0;
+      int i = MathHelper.floor_double(entityIn.posX);
+      int j = MathHelper.floor_double(entityIn.posY);
+      int k = MathHelper.floor_double(entityIn.posZ);
+      int l = i;
+      int m = j;
+      int n = k;
+      int i2 = 0;
+      int i3 = this.random.nextInt(4);
+      BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-      for (int var17 = var8 - var5; var17 <= var8 + var5; var17++) {
-         double var18 = var17 + 0.5 - var1.posX;
+      for (int i4 = i - b; i4 <= i + b; i4++) {
+         double e = i4 + 0.5 - entityIn.posX;
 
-         for (int var20 = var10 - var5; var20 <= var10 + var5; var20++) {
-            double var21 = var20 + 0.5 - var1.posZ;
+         for (int i5 = k - b; i5 <= k + b; i5++) {
+            double d2 = i5 + 0.5 - entityIn.posZ;
 
             label294:
-            for (int var23 = this.worldServerInstance.getActualHeight() - 1; var23 >= 0; var23--) {
-               if (this.worldServerInstance.isAirBlock(var16.set(var17, var23, var20))) {
-                  while (var23 > 0 && this.worldServerInstance.isAirBlock(var16.set(var17, var23 - 1, var20))) {
-                     var23--;
+            for (int i6 = this.worldServerInstance.getActualHeight() - 1; i6 >= 0; i6--) {
+               if (this.worldServerInstance.isAirBlock(mutableBlockPos.set(i4, i6, i5))) {
+                  while (i6 > 0 && this.worldServerInstance.isAirBlock(mutableBlockPos.set(i4, i6 - 1, i5))) {
+                     i6--;
                   }
 
-                  for (int var24 = var15; var24 < var15 + 4; var24++) {
-                     int var25 = var24 % 2;
-                     int var26 = 1 - var25;
-                     if (var24 % 4 >= 2) {
-                        var25 = -var25;
-                        var26 = -var26;
+                  for (int i7 = i3; i7 < i3 + 4; i7++) {
+                     int i8 = i7 % 2;
+                     int i9 = 1 - i8;
+                     if (i7 % 4 >= 2) {
+                        i8 = -i8;
+                        i9 = -i9;
                      }
 
-                     for (int var27 = 0; var27 < 3; var27++) {
-                        for (int var28 = 0; var28 < 4; var28++) {
-                           for (int var29 = -1; var29 < 4; var29++) {
-                              int var30 = var17 + (var28 - 1) * var25 + var27 * var26;
-                              int var31 = var23 + var29;
-                              int var32 = var20 + (var28 - 1) * var26 - var27 * var25;
-                              var16.set(var30, var31, var32);
-                              if (var29 < 0 && !this.worldServerInstance.getBlockState(var16).getBlock().getMaterial().isSolid()
-                                 || var29 >= 0 && !this.worldServerInstance.isAirBlock(var16)) {
+                     for (int i10 = 0; i10 < 3; i10++) {
+                        for (int i11 = 0; i11 < 4; i11++) {
+                           for (int i12 = -1; i12 < 4; i12++) {
+                              int i13 = i4 + (i11 - 1) * i8 + i10 * i9;
+                              int i14 = i6 + i12;
+                              int i15 = i5 + (i11 - 1) * i9 - i10 * i8;
+                              mutableBlockPos.set(i13, i14, i15);
+                              if (i12 < 0 && !this.worldServerInstance.getBlockState(mutableBlockPos).getBlock().getMaterial().isSolid()
+                                 || i12 >= 0 && !this.worldServerInstance.isAirBlock(mutableBlockPos)) {
                                  continue label294;
                               }
                            }
                         }
                      }
 
-                     double var58 = var23 + 0.5 - var1.posY;
-                     double var68 = var18 * var18 + var58 * var58 + var21 * var21;
-                     if (var6 < 0.0 || var68 < var6) {
-                        var6 = var68;
-                        var11 = var17;
-                        var12 = var23;
-                        var13 = var20;
-                        var14 = var24 % 4;
+                     double d3 = i6 + 0.5 - entityIn.posY;
+                     double d4 = e * e + d3 * d3 + d2 * d2;
+                     if (d < 0.0 || d4 < d) {
+                        d = d4;
+                        l = i4;
+                        m = i6;
+                        n = i5;
+                        i2 = i7 % 4;
                      }
                   }
                }
@@ -216,45 +218,45 @@ public class Teleporter {
          }
       }
 
-      if (var6 < 0.0) {
-         for (int var34 = var8 - var5; var34 <= var8 + var5; var34++) {
-            double var36 = var34 + 0.5 - var1.posX;
+      if (d < 0.0) {
+         for (int i16 = i - b; i16 <= i + b; i16++) {
+            double d5 = i16 + 0.5 - entityIn.posX;
 
-            for (int var38 = var10 - var5; var38 <= var10 + var5; var38++) {
-               double var40 = var38 + 0.5 - var1.posZ;
+            for (int i17 = k - b; i17 <= k + b; i17++) {
+               double d6 = i17 + 0.5 - entityIn.posZ;
 
                label231:
-               for (int var43 = this.worldServerInstance.getActualHeight() - 1; var43 >= 0; var43--) {
-                  if (this.worldServerInstance.isAirBlock(var16.set(var34, var43, var38))) {
-                     while (var43 > 0 && this.worldServerInstance.isAirBlock(var16.set(var34, var43 - 1, var38))) {
-                        var43--;
+               for (int i18 = this.worldServerInstance.getActualHeight() - 1; i18 >= 0; i18--) {
+                  if (this.worldServerInstance.isAirBlock(mutableBlockPos.set(i16, i18, i17))) {
+                     while (i18 > 0 && this.worldServerInstance.isAirBlock(mutableBlockPos.set(i16, i18 - 1, i17))) {
+                        i18--;
                      }
 
-                     for (int var46 = var15; var46 < var15 + 2; var46++) {
-                        int var50 = var46 % 2;
-                        int var54 = 1 - var50;
+                     for (int i19 = i3; i19 < i3 + 2; i19++) {
+                        int i20 = i19 % 2;
+                        int i21 = 1 - i20;
 
-                        for (int var59 = 0; var59 < 4; var59++) {
-                           for (int var64 = -1; var64 < 4; var64++) {
-                              int var69 = var34 + (var59 - 1) * var50;
-                              int var73 = var43 + var64;
-                              int var74 = var38 + (var59 - 1) * var54;
-                              var16.set(var69, var73, var74);
-                              if (var64 < 0 && !this.worldServerInstance.getBlockState(var16).getBlock().getMaterial().isSolid()
-                                 || var64 >= 0 && !this.worldServerInstance.isAirBlock(var16)) {
+                        for (int i22 = 0; i22 < 4; i22++) {
+                           for (int i23 = -1; i23 < 4; i23++) {
+                              int i24 = i16 + (i22 - 1) * i20;
+                              int i25 = i18 + i23;
+                              int i26 = i17 + (i22 - 1) * i21;
+                              mutableBlockPos.set(i24, i25, i26);
+                              if (i23 < 0 && !this.worldServerInstance.getBlockState(mutableBlockPos).getBlock().getMaterial().isSolid()
+                                 || i23 >= 0 && !this.worldServerInstance.isAirBlock(mutableBlockPos)) {
                                  continue label231;
                               }
                            }
                         }
 
-                        double var60 = var43 + 0.5 - var1.posY;
-                        double var70 = var36 * var36 + var60 * var60 + var40 * var40;
-                        if (var6 < 0.0 || var70 < var6) {
-                           var6 = var70;
-                           var11 = var34;
-                           var12 = var43;
-                           var13 = var38;
-                           var14 = var46 % 2;
+                        double d7 = i18 + 0.5 - entityIn.posY;
+                        double d8 = d5 * d5 + d7 * d7 + d6 * d6;
+                        if (d < 0.0 || d8 < d) {
+                           d = d8;
+                           l = i16;
+                           m = i18;
+                           n = i17;
+                           i2 = i19 % 2;
                         }
                      }
                   }
@@ -263,54 +265,54 @@ public class Teleporter {
          }
       }
 
-      int var35 = var11;
-      int var37 = var12;
-      int var19 = var13;
-      int var39 = var14 % 2;
-      int var41 = 1 - var39;
-      if (var14 % 4 >= 2) {
-         var39 = -var39;
-         var41 = -var41;
+      int i27 = l;
+      int i28 = m;
+      int i29 = n;
+      int i30 = i2 % 2;
+      int i31 = 1 - i30;
+      if (i2 % 4 >= 2) {
+         i30 = -i30;
+         i31 = -i31;
       }
 
-      if (var6 < 0.0) {
-         var12 = MathHelper.clamp_int(var12, 70, this.worldServerInstance.getActualHeight() - 10);
-         var37 = var12;
+      if (d < 0.0) {
+         m = MathHelper.clamp_int(m, 70, this.worldServerInstance.getActualHeight() - 10);
+         i28 = m;
 
-         for (int var22 = -1; var22 <= 1; var22++) {
-            for (int var44 = 1; var44 < 3; var44++) {
-               for (int var47 = -1; var47 < 3; var47++) {
-                  int var51 = var35 + (var44 - 1) * var39 + var22 * var41;
-                  int var55 = var37 + var47;
-                  int var61 = var19 + (var44 - 1) * var41 - var22 * var39;
-                  boolean var65 = var47 < 0;
+         for (int i32 = -1; i32 <= 1; i32++) {
+            for (int i33 = 1; i33 < 3; i33++) {
+               for (int i34 = -1; i34 < 3; i34++) {
+                  int i35 = i27 + (i33 - 1) * i30 + i32 * i31;
+                  int i36 = i28 + i34;
+                  int i37 = i29 + (i33 - 1) * i31 - i32 * i30;
+                  boolean bl = i34 < 0;
                   this.worldServerInstance
-                     .setBlockState(new BlockPos(var51, var55, var61), var65 ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
+                     .setBlockState(new BlockPos(i35, i36, i37), bl ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
                }
             }
          }
       }
 
-      IBlockState var42 = Blocks.portal.getDefaultState().withProperty(BlockPortal.AXIS, var39 != 0 ? EnumFacing.Axis.X : EnumFacing.Axis.Z);
+      IBlockState iBlockState = Blocks.portal.getDefaultState().withProperty(BlockPortal.AXIS, i30 != 0 ? EnumFacing.Axis.X : EnumFacing.Axis.Z);
 
-      for (int var45 = 0; var45 < 4; var45++) {
-         for (int var48 = 0; var48 < 4; var48++) {
-            for (int var52 = -1; var52 < 4; var52++) {
-               int var56 = var35 + (var48 - 1) * var39;
-               int var62 = var37 + var52;
-               int var66 = var19 + (var48 - 1) * var41;
-               boolean var71 = var48 == 0 || var48 == 3 || var52 == -1 || var52 == 3;
-               this.worldServerInstance.setBlockState(new BlockPos(var56, var62, var66), var71 ? Blocks.obsidian.getDefaultState() : var42, 2);
+      for (int i38 = 0; i38 < 4; i38++) {
+         for (int i39 = 0; i39 < 4; i39++) {
+            for (int i40 = -1; i40 < 4; i40++) {
+               int i41 = i27 + (i39 - 1) * i30;
+               int i42 = i28 + i40;
+               int i43 = i29 + (i39 - 1) * i31;
+               boolean bl2 = i39 == 0 || i39 == 3 || i40 == -1 || i40 == 3;
+               this.worldServerInstance.setBlockState(new BlockPos(i41, i42, i43), bl2 ? Blocks.obsidian.getDefaultState() : iBlockState, 2);
             }
          }
 
-         for (int var49 = 0; var49 < 4; var49++) {
-            for (int var53 = -1; var53 < 4; var53++) {
-               int var57 = var35 + (var49 - 1) * var39;
-               int var63 = var37 + var53;
-               int var67 = var19 + (var49 - 1) * var41;
-               BlockPos var72 = new BlockPos(var57, var63, var67);
-               this.worldServerInstance.notifyNeighborsOfStateChange(var72, this.worldServerInstance.getBlockState(var72).getBlock());
+         for (int i44 = 0; i44 < 4; i44++) {
+            for (int i45 = -1; i45 < 4; i45++) {
+               int i46 = i27 + (i44 - 1) * i30;
+               int i47 = i28 + i45;
+               int i48 = i29 + (i44 - 1) * i31;
+               BlockPos blockPos = new BlockPos(i46, i47, i48);
+               this.worldServerInstance.notifyNeighborsOfStateChange(blockPos, this.worldServerInstance.getBlockState(blockPos).getBlock());
             }
          }
       }
@@ -318,17 +320,17 @@ public class Teleporter {
       return true;
    }
 
-   public void removeStalePortalLocations(long var1) {
-      if (var1 % 100L == 0L) {
-         Iterator var6 = this.destinationCoordinateKeys.iterator();
-         long var7 = var1 - 300L;
+   public void removeStalePortalLocations(long worldTime) {
+      if (worldTime % 100L == 0L) {
+         Iterator iterator2 = this.destinationCoordinateKeys.iterator();
+         long l = worldTime - 300L;
 
-         while (var6.hasNext()) {
-            Long var9 = (Long)var6.next();
-            Teleporter.PortalPosition var10 = this.destinationCoordinateCache.getValueByKey(var9);
-            if (var10 == null || var10.lastUpdateTime < var7) {
-               var6.remove();
-               this.destinationCoordinateCache.remove(var9);
+         while (iterator2.hasNext()) {
+            Long long2 = (Long)iterator2.next();
+            Teleporter.PortalPosition portalPosition = this.destinationCoordinateCache.getValueByKey(long2);
+            if (portalPosition == null || portalPosition.lastUpdateTime < l) {
+               iterator2.remove();
+               this.destinationCoordinateCache.remove(long2);
             }
          }
       }
@@ -337,9 +339,9 @@ public class Teleporter {
    public class PortalPosition extends BlockPos {
       public long lastUpdateTime;
 
-      public PortalPosition(BlockPos var2, long var3) {
-         super(var2.getX(), var2.getY(), var2.getZ());
-         this.lastUpdateTime = var3;
+      public PortalPosition(BlockPos pos, long lastUpdate) {
+         super(pos.getX(), pos.getY(), pos.getZ());
+         this.lastUpdateTime = lastUpdate;
       }
    }
 }

@@ -8,10 +8,10 @@ public final class DefaultCheckContext implements CheckContext {
    private final List<VerdictProcessor> o;
    private static final long a = 107289293741782L;
 
-   public DefaultCheckContext(CheckRequest var1, List<StageCheck> var2, List<VerdictProcessor> var3) {
-      this.c = var1;
-      this.m = var2;
-      this.o = var3;
+   public DefaultCheckContext(CheckRequest checkRequest, List<StageCheck> list, List<VerdictProcessor> list2) {
+      this.c = checkRequest;
+      this.m = list;
+      this.o = list2;
    }
 
    @Override

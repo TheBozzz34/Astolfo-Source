@@ -11,13 +11,13 @@ public class CombatEntry {
    private final float fallDistance;
    private static final long a = 24021902994220L;
 
-   public CombatEntry(DamageSource var1, int var2, float var3, float var4, String var5, float var6) {
-      this.damageSrc = var1;
-      this.field_94567_b = var2;
-      this.damage = var4;
-      this.health = var3;
-      this.field_94566_e = var5;
-      this.fallDistance = var6;
+   public CombatEntry(DamageSource damageSrcIn, int i, float healthAmount, float damageAmount, String string, float fallDistanceIn) {
+      this.damageSrc = damageSrcIn;
+      this.field_94567_b = i;
+      this.damage = damageAmount;
+      this.health = healthAmount;
+      this.field_94566_e = string;
+      this.fallDistance = fallDistanceIn;
    }
 
    public DamageSource getDamageSrc() {

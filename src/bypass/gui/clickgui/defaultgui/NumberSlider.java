@@ -19,75 +19,75 @@ public class NumberSlider extends SettingComponent {
    private static final long c = 94672730686451L;
    private static final long j = 826872970764668108L;
 
-   public NumberSlider(Category var1, Container var2, Setting var3, int var4, int var5) {
-      super(var2, var3, var4, var5);
-      this.w = var1;
+   public NumberSlider(Category category, Container container, Setting setting, int i, int k) {
+      super(container, setting, i, k);
+      this.w = category;
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 0 && this.I().s_boolean()) {
+   public void l(int i) {
+      if (i == 0 && this.I().s_boolean()) {
          this.Z = true;
       }
    }
 
    @Override
-   public void render(int var1, int var2) {
-      int var6 = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.w.getColor() : client.getColorSetting().getValue().getRGB();
-      int var7 = this.a(var1, (int)this.M(), this.x());
-      String var8 = o.format(this.o().getValue());
+   public void render(int i, int k) {
+      int l = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.w.getColor() : client.getColorSetting().getValue().getRGB();
+      int n = this.a(i, (int)this.M(), this.x());
+      String string = o.format(this.o().getValue());
       if (this.o().getSuffix().equals("stacks")) {
          if (this.o().asInt() == 1) {
-            var8 = var8 + " stack";
+            string = string + " stack";
          } else {
-            var8 = var8 + " " + this.o().getSuffix();
+            string = string + " " + this.o().getSuffix();
          }
       } else {
-         var8 = var8 + this.o().getSuffix();
+         string = string + this.o().getSuffix();
       }
 
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + var7, this.E_float() + this.Y(), var6);
-      RenderUtil.drawRect(this.M() + Math.max(var7 - 3, 0), this.E_float(), this.M() + var7, this.E_float() + this.Y(), new Color(var6).darker().getRGB());
+      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + n, this.E_float() + this.Y(), l);
+      RenderUtil.drawRect(this.M() + Math.max(n - 3, 0), this.E_float(), this.M() + n, this.E_float() + this.Y(), new Color(l).darker().getRGB());
       GuiMainMenu.m.drawString(this.o().getName(), this.M() + 3.0F, this.E_float(), -1);
-      GuiMainMenu.m.drawString(var8, this.M() + this.x() - GuiMainMenu.m.getStringWidth(var8, true), this.E_float() + 1.0F, (int)j);
+      GuiMainMenu.m.drawString(string, this.M() + this.x() - GuiMainMenu.m.getStringWidth(string, true), this.E_float() + 1.0F, (int)j);
    }
 
-   public int a(int var1, int var2, int var3) {
-      int var7 = Math.max(Math.min(var1 - var2, var3), 0);
-      NumberSetting var8 = this.o();
+   public int a(int i, int k, int l) {
+      int j = Math.max(Math.min(i - k, l), 0);
+      NumberSetting numberSetting = this.o();
       if (this.Z) {
          this.Z = Mouse.isButtonDown(0);
-         if (var8.valueClass == Integer.class) {
-            NumberSetting var9 = var8;
-            var9.setValue(
+         if (numberSetting.valueClass == Integer.class) {
+            NumberSetting numberSetting2 = numberSetting;
+            numberSetting2.setValue(
                (int)(
-                  ((Integer)var9.getMin()).intValue()
+                  ((Integer)numberSetting2.getMin()).intValue()
                      + 0.1F
-                     + var7 * ((((Integer)var9.getMax()).intValue() + 0.1F - ((Integer)var9.getMin()).intValue() + 0.1F) / var3)
+                     + j * ((((Integer)numberSetting2.getMax()).intValue() + 0.1F - ((Integer)numberSetting2.getMin()).intValue() + 0.1F) / l)
                )
             );
-         } else if (var8.valueClass == Double.class) {
-            NumberSetting var10 = var8;
-            var10.setValue((Double)var10.getMin() + var7 * (((Double)var10.getMax() - (Double)var10.getMin()) / var3));
+         } else if (numberSetting.valueClass == Double.class) {
+            NumberSetting numberSetting3 = numberSetting;
+            numberSetting3.setValue((Double)numberSetting3.getMin() + j * (((Double)numberSetting3.getMax() - (Double)numberSetting3.getMin()) / l));
          } else {
-            NumberSetting var11 = var8;
-            var11.setValue((Float)var11.getMin() + var7 * (((Float)var11.getMax() - (Float)var11.getMin()) / var3));
+            NumberSetting numberSetting4 = numberSetting;
+            numberSetting4.setValue((Float)numberSetting4.getMin() + j * (((Float)numberSetting4.getMax() - (Float)numberSetting4.getMin()) / l));
          }
       }
 
-      if (var8.valueClass == Integer.class) {
-         NumberSetting var14 = var8;
+      if (numberSetting.valueClass == Integer.class) {
+         NumberSetting numberSetting5 = numberSetting;
          return (int)(
-            (var14.asInt() + 0.1F - ((Integer)var14.getMin()).intValue() + 0.1F)
-               / (((Integer)var14.getMax()).intValue() + 0.1F - ((Integer)var14.getMin()).intValue() + 0.1F)
-               * var3
+            (numberSetting5.asInt() + 0.1F - ((Integer)numberSetting5.getMin()).intValue() + 0.1F)
+               / (((Integer)numberSetting5.getMax()).intValue() + 0.1F - ((Integer)numberSetting5.getMin()).intValue() + 0.1F)
+               * l
          );
-      } else if (var8.valueClass == Double.class) {
-         NumberSetting var13 = var8;
-         return (int)((var13.asDouble() - (Double)var13.getMin()) / ((Double)var13.getMax() - (Double)var13.getMin()) * var3);
+      } else if (numberSetting.valueClass == Double.class) {
+         NumberSetting numberSetting6 = numberSetting;
+         return (int)((numberSetting6.asDouble() - (Double)numberSetting6.getMin()) / ((Double)numberSetting6.getMax() - (Double)numberSetting6.getMin()) * l);
       } else {
-         NumberSetting var12 = var8;
-         return (int)((var12.asFloat() - (Float)var12.getMin()) / ((Float)var12.getMax() - (Float)var12.getMin()) * var3);
+         NumberSetting numberSetting7 = numberSetting;
+         return (int)((numberSetting7.asFloat() - (Float)numberSetting7.getMin()) / ((Float)numberSetting7.getMax() - (Float)numberSetting7.getMin()) * l);
       }
    }
 

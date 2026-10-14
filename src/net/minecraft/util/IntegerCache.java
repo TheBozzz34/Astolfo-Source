@@ -5,22 +5,22 @@ public class IntegerCache {
    private static final Integer[] CACHE = v(4096);
    private static final long a = 103307658487378L;
 
-   private static Integer[] v(int var0) {
-      Integer[] var3 = new Integer[var0];
+   private static Integer[] v(int i) {
+      Integer[] integers = new Integer[i];
 
-      for (int var4 = 0; var4 < var0; var4++) {
-         var3[var4] = new Integer(var4);
+      for (int j = 0; j < i; j++) {
+         integers[j] = new Integer(j);
       }
 
-      return var3;
+      return integers;
    }
 
-   public static Integer getInteger(int var0) {
-      return var0 >= 0 && var0 < 4096 ? CACHE[var0] : new Integer(var0);
+   public static Integer getInteger(int value) {
+      return value >= 0 && value < 4096 ? CACHE[value] : new Integer(value);
    }
 
    static {
-      long var11 = a ^ 131595654935356L;
-      long var10000 = var11 ^ 6681108975686996300L;
+      long l = a ^ 131595654935356L;
+      long m = l ^ 6681108975686996300L;
    }
 }

@@ -9,9 +9,9 @@ public class PathEntity {
    private int pathLength;
    private static final long a = 55660991848995L;
 
-   public PathEntity(PathPoint[] var1) {
-      this.points = var1;
-      this.pathLength = var1.length;
+   public PathEntity(PathPoint[] pathpoints) {
+      this.points = pathpoints;
+      this.pathLength = pathpoints.length;
    }
 
    public void incrementPathIndex() {
@@ -26,50 +26,50 @@ public class PathEntity {
       return this.pathLength > 0 ? this.points[this.pathLength - 1] : null;
    }
 
-   public PathPoint getPathPointFromIndex(int var1) {
-      return this.points[var1];
+   public PathPoint getPathPointFromIndex(int index) {
+      return this.points[index];
    }
 
    public int getCurrentPathLength() {
       return this.pathLength;
    }
 
-   public void setCurrentPathLength(int var1) {
-      this.pathLength = var1;
+   public void setCurrentPathLength(int length) {
+      this.pathLength = length;
    }
 
    public int getCurrentPathIndex() {
       return this.currentPathIndex;
    }
 
-   public void setCurrentPathIndex(int var1) {
-      this.currentPathIndex = var1;
+   public void setCurrentPathIndex(int currentPathIndexIn) {
+      this.currentPathIndex = currentPathIndexIn;
    }
 
-   public Vec3 getVectorFromIndex(Entity var1, int var2) {
-      double var3 = this.points[var2].xCoord + (int)(var1.width + 1.0F) * 0.5;
-      double var5 = this.points[var2].yCoord;
-      double var7 = this.points[var2].zCoord + (int)(var1.width + 1.0F) * 0.5;
-      return new Vec3(var3, var5, var7);
+   public Vec3 getVectorFromIndex(Entity entityIn, int index) {
+      double d = this.points[index].xCoord + (int)(entityIn.width + 1.0F) * 0.5;
+      double e = this.points[index].yCoord;
+      double d2 = this.points[index].zCoord + (int)(entityIn.width + 1.0F) * 0.5;
+      return new Vec3(d, e, d2);
    }
 
-   public Vec3 getPosition(Entity var1) {
-      return this.getVectorFromIndex(var1, this.currentPathIndex);
+   public Vec3 getPosition(Entity entityIn) {
+      return this.getVectorFromIndex(entityIn, this.currentPathIndex);
    }
 
-   public boolean isSamePath(PathEntity var1) {
-      if (var1 == null) {
+   public boolean isSamePath(PathEntity pathentityIn) {
+      if (pathentityIn == null) {
          return false;
       }
 
-      if (var1.points.length != this.points.length) {
+      if (pathentityIn.points.length != this.points.length) {
          return false;
       }
 
-      for (int var5 = 0; var5 < this.points.length; var5++) {
-         if (this.points[var5].xCoord != var1.points[var5].xCoord
-            || this.points[var5].yCoord != var1.points[var5].yCoord
-            || this.points[var5].zCoord != var1.points[var5].zCoord) {
+      for (int i = 0; i < this.points.length; i++) {
+         if (this.points[i].xCoord != pathentityIn.points[i].xCoord
+            || this.points[i].yCoord != pathentityIn.points[i].yCoord
+            || this.points[i].zCoord != pathentityIn.points[i].zCoord) {
             return false;
          }
       }
@@ -77,8 +77,8 @@ public class PathEntity {
       return true;
    }
 
-   public boolean isDestinationSame(Vec3 var1) {
-      PathPoint var5 = this.getFinalPathPoint();
-      return var5 == null ? false : var5.xCoord == (int)var1.xCoord && var5.zCoord == (int)var1.zCoord;
+   public boolean isDestinationSame(Vec3 vec) {
+      PathPoint pathPoint = this.getFinalPathPoint();
+      return pathPoint == null ? false : pathPoint.xCoord == (int)vec.xCoord && pathPoint.zCoord == (int)vec.zCoord;
    }
 }

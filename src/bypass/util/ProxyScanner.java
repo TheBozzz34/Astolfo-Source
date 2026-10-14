@@ -14,46 +14,46 @@ public final class ProxyScanner {
    private final boolean o;
    private static final long a = 134739016826435L;
 
-   public ProxyScanner(boolean var1) {
-      this.o = var1;
+   public ProxyScanner(boolean bl) {
+      this.o = bl;
    }
 
-   public List<HostAndPort> scan(Collection<HostAndPort> var1, int var2, int var3) {
-      ExecutorService var8 = Executors.newFixedThreadPool(var2);
-      ArrayList var9 = new ArrayList();
-      ArrayList var10 = new ArrayList();
-      var1.forEach(var4 -> var9.add(this.scanProxy(var8, var4, var3)));
-      var9.forEach(var2x -> {
+   public List<HostAndPort> scan(Collection<HostAndPort> collection, int i, int j) {
+      ExecutorService executorService = Executors.newFixedThreadPool(i);
+      ArrayList arrayList = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
+      collection.forEach(hostAndPort -> arrayList.add(this.scanProxy(executorService, hostAndPort, j)));
+      arrayList.forEach(object -> {
          try {
-            ProxyCheckResult var6 = (ProxyCheckResult)((java.util.concurrent.Future)var2x).get();
+            ProxyCheckResult proxyCheckResult = (ProxyCheckResult)((java.util.concurrent.Future)object).get();
             if (this.o) {
-               System.out.println("Proxy " + var6.q() + " scanned. Status: " + (var6.r() ? "valid" : "invalid") + ".\n");
+               System.out.println("Proxy " + proxyCheckResult.q() + " scanned. Status: " + (proxyCheckResult.r() ? "valid" : "invalid") + ".\n");
             }
 
-            if (var6.r()) {
-               var10.add(var6.q());
+            if (proxyCheckResult.r()) {
+               arrayList2.add(proxyCheckResult.q());
             }
-         } catch (InterruptedException | ExecutionException var7) {
-            System.err.format("Caught an %s while trying to scan a proxy: %s.", var7.getClass().getSimpleName(), var7.getMessage());
+         } catch (InterruptedException | ExecutionException value) {
+            System.err.format("Caught an %s while trying to scan a proxy: %s.", value.getClass().getSimpleName(), value.getMessage());
          }
       });
-      var8.shutdown();
-      return var10;
+      executorService.shutdown();
+      return arrayList2;
    }
 
-   private Future<ProxyCheckResult> scanProxy(ExecutorService var1, HostAndPort var2, int var3) {
-      return var1.submit(() -> {
-         boolean var5 = false;
+   private Future<ProxyCheckResult> scanProxy(ExecutorService executorService, HostAndPort hostAndPort, int i) {
+      return executorService.submit(() -> {
+         boolean bl = false;
 
          try {
-            InetAddress var6 = InetAddress.getByName(var2.getHost());
-            if (var6.isReachable(var3)) {
-               var5 = true;
+            InetAddress inetAddress = InetAddress.getByName(hostAndPort.getHost());
+            if (inetAddress.isReachable(i)) {
+               bl = true;
             }
-         } catch (IOException var7) {
+         } catch (IOException ioException) {
          }
 
-         return new ProxyCheckResult(var2, var5);
+         return new ProxyCheckResult(hostAndPort, bl);
       });
    }
 }

@@ -16,7 +16,7 @@ public final class WhitenameCommand extends Command {
    }
 
    @Override
-   public void runCommand(String[] var1) {
+   public void runCommand(String[] strings) {
       if (ServerManager.X == ServerType.HYPIXEL) {
          if (GameUtil.scoreboardTitleContains("BED WARS")) {
             mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(mc.thePlayer, new Vec3(0.0, 0.0, 0.0)));

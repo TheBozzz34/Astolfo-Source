@@ -21,33 +21,33 @@ public abstract class BlockWoodSlab extends BlockSlab {
 
    public BlockWoodSlab() {
       super(Material.wood);
-      IBlockState var4 = this.blockState.getBaseState();
+      IBlockState iBlockState = this.blockState.getBaseState();
       if (!this.isDouble()) {
-         var4 = var4.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+         iBlockState = iBlockState.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
       }
 
-      this.setDefaultState(var4.withProperty(VARIANT, BlockPlanks.EnumType.OAK));
+      this.setDefaultState(iBlockState.withProperty(VARIANT, BlockPlanks.EnumType.OAK));
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(VARIANT).getMapColor();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(VARIANT).getMapColor();
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Item.getItemFromBlock(Blocks.wooden_slab);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Item.getItemFromBlock(Blocks.wooden_slab);
    }
 
    @Override
-   public String getUnlocalizedName(int var1) {
-      return super.getUnlocalizedName() + "." + BlockPlanks.EnumType.byMetadata(var1).getUnlocalizedName();
+   public String getUnlocalizedName(int meta) {
+      return super.getUnlocalizedName() + "." + BlockPlanks.EnumType.byMetadata(meta).getUnlocalizedName();
    }
 
    @Override
@@ -56,38 +56,38 @@ public abstract class BlockWoodSlab extends BlockSlab {
    }
 
    @Override
-   public Object getVariant(ItemStack var1) {
-      return BlockPlanks.EnumType.byMetadata(var1.getMetadata() & 7);
+   public Object getVariant(ItemStack stack) {
+      return BlockPlanks.EnumType.byMetadata(stack.getMetadata() & 7);
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      if (var1 != Item.getItemFromBlock(Blocks.double_wooden_slab)) {
-         for (BlockPlanks.EnumType var10 : BlockPlanks.EnumType.values()) {
-            var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      if (itemIn != Item.getItemFromBlock(Blocks.double_wooden_slab)) {
+         for (BlockPlanks.EnumType enumType : BlockPlanks.EnumType.values()) {
+            list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
          }
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      IBlockState var4 = this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata(var1 & 7));
+   public IBlockState getStateFromMeta(int meta) {
+      IBlockState iBlockState = this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata(meta & 7));
       if (!this.isDouble()) {
-         var4 = var4.withProperty(HALF, (var1 & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+         iBlockState = iBlockState.withProperty(HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
       }
 
-      return var4;
+      return iBlockState;
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(VARIANT).getMetadata();
-      if (!this.isDouble() && var1.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
-         var5 |= 8;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(VARIANT).getMetadata();
+      if (!this.isDouble() && state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
+         i |= 8;
       }
 
-      return var5;
+      return i;
    }
 
    @Override
@@ -96,7 +96,7 @@ public abstract class BlockWoodSlab extends BlockSlab {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 }

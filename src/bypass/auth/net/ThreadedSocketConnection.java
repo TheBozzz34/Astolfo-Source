@@ -12,26 +12,26 @@ public class ThreadedSocketConnection extends SocketConnection {
    private static final long a = 52925930189940L;
 
    public ThreadedSocketConnection(
-      ConnectionListener var1,
-      Map<Short, PacketReader<?>> var2,
-      Map<Short, List<PacketListener<?>>> var3,
-      PacketOutput var4,
-      ConnectionHandlerFactory var5,
-      Consumer<IOException> var6,
-      Consumer<IOException> var7,
-      Runnable var8
+      ConnectionListener connectionListener,
+      Map<Short, PacketReader<?>> map,
+      Map<Short, List<PacketListener<?>>> map2,
+      PacketOutput packetOutput,
+      ConnectionHandlerFactory connectionHandlerFactory,
+      Consumer<IOException> consumer,
+      Consumer<IOException> consumer2,
+      Runnable runnable
    ) {
-      super(var1, var2, var3, var4, var5, var6, var8);
-      this.o = var7;
+      super(connectionListener, map, map2, packetOutput, connectionHandlerFactory, consumer, runnable);
+      this.o = consumer2;
    }
 
    @Override
-   public void open(SocketChannel var1) {
+   public void open(SocketChannel socketChannel) {
       this.V = new Thread(() -> {
          try {
-            super.open(var1);
-         } catch (IOException var3) {
-            this.o.accept(var3);
+            super.open(socketChannel);
+         } catch (IOException ioException) {
+            this.o.accept(ioException);
          }
       });
       this.V.start();

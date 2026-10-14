@@ -7,10 +7,10 @@ public class EnumParser implements Parser<Enum<?>> {
    private static final long a = 115948171567273L;
 
    @Override
-   public Optional<Enum<?>> parse(String var1, Class<? extends Enum<?>> var2) {
-      for (Enum var9 : (Enum[])var2.getEnumConstants()) {
-         if (var9.name().equalsIgnoreCase(var1)) {
-            return Optional.ofNullable(var9);
+   public Optional<Enum<?>> parse(String string, Class<? extends Enum<?>> class2) {
+      for (Enum enum2 : (Enum[])class2.getEnumConstants()) {
+         if (enum2.name().equalsIgnoreCase(string)) {
+            return Optional.ofNullable(enum2);
          }
       }
 

@@ -17,8 +17,8 @@ public final class WorldTime extends Module {
    private long N = -1L;
    private long O;
    @EventHandler(RenderEvent.class)
-   private Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.WORLD) {
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.WORLD) {
          mc.theWorld.setWorldTime(this.mode.getValue() == WorldTimeMode.LOOP ? this.O : WorldTimeMode.W(this.mode.getValue()));
          if (this.O++ >= 23999L) {
             this.O = 0L;
@@ -26,16 +26,16 @@ public final class WorldTime extends Module {
       }
    };
    @EventHandler(value = PacketEvent.class, priority = EventPriority.LOWEST)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.RECEIVED && var1x.getPacket() instanceof S03PacketTimeUpdate) {
-         this.N = ((S03PacketTimeUpdate)var1x.getPacket()).getWorldTime();
-         var1x.cancel();
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S03PacketTimeUpdate) {
+         this.N = ((S03PacketTimeUpdate)packetEvent.getPacket()).getWorldTime();
+         packetEvent.cancel();
       }
    };
    private static final long c = 40089301855447L;
 
-   public WorldTime(Category var1) {
-      super(var1);
+   public WorldTime(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.mode);
    }

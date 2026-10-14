@@ -197,31 +197,31 @@ public final class ModulesStage extends AbstractLoadStage {
       return new ModulesStage.r9s(this);
    }
 
-   public static String l(String var0) {
-      return W(var0, "4N4z6CCb6bvBeeJH");
+   public static String l(String string) {
+      return W(string, "4N4z6CCb6bvBeeJH");
    }
 
-   public static String W(String var0, String var1) {
-      if (var0 != null && !var0.isEmpty()) {
+   public static String W(String string, String string2) {
+      if (string != null && !string.isEmpty()) {
          try {
-            SecretKeySpec var5 = new SecretKeySpec(var1.getBytes(), "AES");
-            Cipher var9 = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            var9.init(2, var5);
-            byte[] var7 = var9.doFinal(DatatypeConverter.parseBase64Binary(var0));
-            return new String(var7);
-         } catch (NoSuchAlgorithmException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException var8) {
-            NullPointerException var6 = new NullPointerException();
-            var6.setStackTrace(new StackTraceElement[0]);
-            throw var6;
+            SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(2, secretKeySpec);
+            byte[] bytes = cipher.doFinal(DatatypeConverter.parseBase64Binary(string));
+            return new String(bytes);
+         } catch (NoSuchAlgorithmException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException value) {
+            NullPointerException nullPointerException = new NullPointerException();
+            nullPointerException.setStackTrace(new StackTraceElement[0]);
+            throw nullPointerException;
          }
       } else {
-         return var0;
+         return string;
       }
    }
 
    @Override
-   public void setState(int var1) {
-      this.state = var1;
+   public void setState(int i) {
+      this.state = i;
    }
 
    @Override
@@ -229,69 +229,69 @@ public final class ModulesStage extends AbstractLoadStage {
       return this.state;
    }
 
-   public static ProcessCheckSetup C(ModulesStage var0) {
-      return var0.A;
+   public static ProcessCheckSetup C(ModulesStage modulesStage) {
+      return modulesStage.A;
    }
 
    public class azs extends StageAction {
       private static final long c = 87952406802221L;
 
-      public azs(LoadStage var2) {
-         super(var2);
+      public azs(LoadStage loadStage) {
+         super(loadStage);
       }
 
       @Override
       public void run() {
-         long var1 = c ^ 88825346189936L;
-         long var10001 = var1 ^ 121462363529216L;
-         int var3 = (int)((var1 ^ 121462363529216L) >>> 56);
-         int var4 = (int)((var1 ^ 121462363529216L) << 8 >>> 32);
-         int var5 = (int)(var10001 << 40 >>> 40);
-         long var6 = var1 ^ 75876890577L;
-         long var8 = var1 ^ 14836274706623L;
-         long var10 = var1 ^ 44257542633710L;
-         long var12 = var1 ^ 125177937552439L;
-         long var14 = var1 ^ 76450307150939L;
-         long var16 = var1 ^ 122130596410910L;
-         long var18 = var1 ^ 16223469484332L;
+         long l2 = c ^ 88825346189936L;
+         long l3 = l2 ^ 121462363529216L;
+         int i2 = (int)((l2 ^ 121462363529216L) >>> 56);
+         int i3 = (int)((l2 ^ 121462363529216L) << 8 >>> 32);
+         int i4 = (int)(l3 << 40 >>> 40);
+         long l4 = l2 ^ 75876890577L;
+         long l5 = l2 ^ 14836274706623L;
+         long l6 = l2 ^ 44257542633710L;
+         long l7 = l2 ^ 125177937552439L;
+         long l8 = l2 ^ 76450307150939L;
+         long l9 = l2 ^ 122130596410910L;
+         long l10 = l2 ^ 16223469484332L;
          if (ModulesStage.this.getState() == 1) {
             if (ClientAccess.client.getEventBus() == null) {
                ClientAccess.client
                   .setEventBus(EventBus.<Field>p().e(MemberScanner.z()).j(ListenerFilter.W()).v(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION).v());
             }
 
-            ClientAccess.client.register(var12, ClientAccess.client.getRelationManager());
+            ClientAccess.client.register(l7, ClientAccess.client.getRelationManager());
             LuaGlobals.init();
-            StringBuilder var21 = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
 
-            String var26;
+            String string2;
             try (
-               InputStream var22 = this.getClass().getResourceAsStream("/assets/minecraft/blockstates/a.json");
-               BufferedReader var24 = new BufferedReader(new InputStreamReader(var22));
+               InputStream inputStream = this.getClass().getResourceAsStream("/assets/minecraft/blockstates/a.json");
+               BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             ) {
-               while ((var26 = var24.readLine()) != null) {
-                  var21.append(var26).append("\n");
+               while ((string2 = bufferedReader.readLine()) != null) {
+                  stringBuilder.append(string2).append("\n");
                }
-            } catch (Exception var124) {
-               var124.printStackTrace();
+            } catch (Exception exception) {
+               exception.printStackTrace();
             }
 
-            StringBuilder var125 = new StringBuilder();
+            StringBuilder stringBuilder2 = new StringBuilder();
 
-            String var27;
+            String string3;
             try (
-               InputStream var126 = this.getClass().getResourceAsStream("/assets/minecraft/shaders/post/yellow.json");
-               BufferedReader var130 = new BufferedReader(new InputStreamReader(var126));
+               InputStream inputStream2 = this.getClass().getResourceAsStream("/assets/minecraft/shaders/post/yellow.json");
+               BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(inputStream2));
             ) {
-               while ((var27 = var130.readLine()) != null) {
-                  var125.append(var27).append("\n");
+               while ((string3 = bufferedReader2.readLine()) != null) {
+                  stringBuilder2.append(string3).append("\n");
                }
-            } catch (Exception var119) {
-               var119.printStackTrace();
+            } catch (Exception exception2) {
+               exception2.printStackTrace();
             }
 
-            String var127 = ModulesStage.l(var21.toString());
-            String var129 = var125.toString();
+            String string4 = ModulesStage.l(stringBuilder.toString());
+            String string5 = stringBuilder2.toString();
             ClientAccess.client
                .getModuleManager()
                .add(
@@ -353,7 +353,7 @@ public final class ModulesStage extends AbstractLoadStage {
                   new LongJump(Category.MOVEMENT),
                   new SafeWalk(Category.MOVEMENT),
                   new Water(Category.MOVEMENT),
-                  new LegitScaffold(Category.MOVEMENT, var127),
+                  new LegitScaffold(Category.MOVEMENT, string4),
                   new PingSpoofer(Category.EXPLOITS),
                   new HypixelPacketHandler(),
                   new ChatFilter(Category.EXPLOITS),
@@ -362,7 +362,7 @@ public final class ModulesStage extends AbstractLoadStage {
                   new RogueSign(Category.EXPLOITS),
                   new Disabler(
                      Category.EXPLOITS,
-                     var129,
+                     string5,
                      "local a={}local b={}local c=0;local d=false;local e=0;local f,g=0,0;local h=0;local i=0;local j=0;local k=false;local l=false;local m=false;local n=false;local o=0;local function p()do return false end;for q=44,9,-1 do local r,s,t,u,v=player.inventory.item_information(q)if r~=nil and string.match(r,\"compass\")then return true end end;return false end;local function w()if player.ticks_existed()>35 and not p()and false then return true end;return false end;local function x(y)return y.packet_id==0x03 or y.packet_id==0x04 or y.packet_id==0x05 or y.packet_id==0x06 end;local function z(A,B,C)local D,E,F=player.position()return math.sqrt((D-A)^2+(E-B)^2+(F-C)^2)end;local function G(H,I)if I~=nil then while#b>I do if b[1]~=nil then player.send_packet_no_event(0x00,b[1])end;table.remove(b,1)end end;if H~=nil then while#a>H do if a[1]~=nil then player.send_packet_no_event(0x0F,a[1][1],a[1][2],a[1][3])end;table.remove(a,1)end end end;module_manager.register(\"gytffty\",{on_enable=function()e=0;c=client.time()d=false end,on_disable=function()G(0,0)world.set_timer(1)end,on_player_join=function()a={}b={}c=0;d=false;e=0;f,g=0,0;h=0;i=0;j=0;k=false;l=false;m=false;n=false;o=0 end,on_send_packet=function(J)if w()then if J.packet_id==0x0F then J.cancel=true;table.insert(a,{J.window_id,J.uid,J.accept})if not d then d=true end end;if J.packet_id==0x00 then J.cancel=true;table.insert(b,J.keep_alive_key)if n then c=client.time()n=false end end;if J.packet_id==0x02 and J.action==2 then j=client.time()end end;if J.packet_id==0x03 or J.packet_id==0x05 then J.cancel=true end;if J.packet_id==0x0B or J.packet_id==0x02 then if not d and w()or player.ticks_existed()<=35 then J.cancel=true end end;if(J.packet_id==0x0A or J.packet_id==0x08)and player.ticks_existed()<=35 then J.cancel=true end;if player.ticks_existed()<=35 then if J.packet_id==0x06 or J.packet_id==0x05 or J.packet_id==0x04 then if J.packet_id==0x06 or player.ticks_existed()%2==0 then J.cancel=true end end end;return J end,on_receive_packet=function(J)if w()then if J.packet_id==0x02 and l then if J.message:find(\"command. Type\")then J.cancel=true;h=client.time()-i;l=false end end end;if J.packet_id==0x08 then if player.ticks_existed()<=35 and z(J.pos_x,J.pos_y,J.pos_z)<=10 then J.cancel=true;if not m then player.send_packet_no_event(0x04,J.pos_x,J.pos_y+math.random()/1250+math.random()/750,J.pos_z,false)m=true else if player.ticks_existed()>35 then player.send_packet_no_event(0x04,J.pos_x,J.pos_y,J.pos_z,false)end end;player.set_position(J.pos_x,J.pos_y,J.pos_z)player.set_motion(0,-0.0784,0)end end;return J end,on_pre_motion=function(J)if w()then if client.time()-i>=10000 and client.time()-j>=350 then player.message(\"/\"..tostring(math.random()))i=client.time()l=true end;f=math.max(0,400-h)g=math.max(200,600-h)if d then if client.time()-c>=e then if#a>0 or#b>0 then G(nil,0)e=math.random(f,g)n=true;o=client.time()c=client.time()end end;if client.time()-o>=e/2 then G(0,nil)o=client.time()*2 end end end;return J end})"
                   ),
                   new SuicideClip(Category.EXPLOITS),
@@ -450,203 +450,203 @@ public final class ModulesStage extends AbstractLoadStage {
                   ),
                   new LimboCommand("limbo", "Sends you to limbo in Hypixel")
                );
-            String var131 = "1,8,8+latest-DisconnectSystem/FinalKill/FixSpeed/KillAura/Keybindings/Velocity/Commands/Criticals/AntiBot/AutoClicker/HackNotifier/AutoArmor/HandleInventory/Regen/AutoHeal/FastBow/AutoBackStab/Reach/AimAssist/Knockback/Hitboxes/AntiFireball/KeepSprint/AutoProjectile/ScaffoldRecode/AutoRespawn/Timer/NoRotate/FastMine/DoubleJump/Stealer/Freecam/MCF/Phase/InventoryManager/Blink/Fucker/Step/FastUse/AutoTool/AutoFish/Bridge/NoFall/Sprint/NoSlowdown/Flight/Speed/Inventory/Jesus/AntiFall/Terrain/Sneak/LongJump/SafeWalk/WaterHack/LegitScaffold/PingSpoofer/ArgumentPingSpoof/ChatFilter/AntiHunger/ConsoleKiller/RougeSign/Disabler/SuicideClip/Plugins/HideWindow/PackSpoofer/AntiTabComplete/Annoy/FriendProtect/Announcer/AutoHypixel/PingCounter/WorldTime/AntiFrozen/FastPlace/KillSay/Spammer/AntiDesync/AntiObsidian/InfiniteReach/ThunderNotifier/NoMouseIntersect/HackerDetector/Freelook/GUI/ESP/Chams/HUD/FullBright/Waypoints/NoEffect/Scoreboard/Skeleton/Camera/Outline/Animations/Tracers/Crosshair/Radar/CaveFinder/NoRender/ChunkBorders/ServerText/NoTitle/Trajectories/NameProtect/StreamerMode/Xray/BlockOverlay/DamageParticles/WorldColor/ItemPhysics/PlayerList/MoreParticles/HorseGod/Nuker;32.0;5888;free;1;16640;2982;";
-            String[] var133 = var131.split(";");
-            var27 = var133[0];
-            String[] var28 = var27.split("/");
-            ModuleManager.C(Double.parseDouble(var133[1]));
-            ModuleManager.k(Integer.parseInt(var133[2]));
-            ClientAccess.mc.mouseHelper.Y().setAccount(new AuthAccount(var133[3]));
-            EntityRenderer.Z0 = Integer.parseInt(var133[4]);
-            EntityRenderer.C = Integer.parseInt(var133[5]);
-            EntityRenderer.ZE = Integer.parseInt(var133[6]);
+            String string6 = "1,8,8+latest-DisconnectSystem/FinalKill/FixSpeed/KillAura/Keybindings/Velocity/Commands/Criticals/AntiBot/AutoClicker/HackNotifier/AutoArmor/HandleInventory/Regen/AutoHeal/FastBow/AutoBackStab/Reach/AimAssist/Knockback/Hitboxes/AntiFireball/KeepSprint/AutoProjectile/ScaffoldRecode/AutoRespawn/Timer/NoRotate/FastMine/DoubleJump/Stealer/Freecam/MCF/Phase/InventoryManager/Blink/Fucker/Step/FastUse/AutoTool/AutoFish/Bridge/NoFall/Sprint/NoSlowdown/Flight/Speed/Inventory/Jesus/AntiFall/Terrain/Sneak/LongJump/SafeWalk/WaterHack/LegitScaffold/PingSpoofer/ArgumentPingSpoof/ChatFilter/AntiHunger/ConsoleKiller/RougeSign/Disabler/SuicideClip/Plugins/HideWindow/PackSpoofer/AntiTabComplete/Annoy/FriendProtect/Announcer/AutoHypixel/PingCounter/WorldTime/AntiFrozen/FastPlace/KillSay/Spammer/AntiDesync/AntiObsidian/InfiniteReach/ThunderNotifier/NoMouseIntersect/HackerDetector/Freelook/GUI/ESP/Chams/HUD/FullBright/Waypoints/NoEffect/Scoreboard/Skeleton/Camera/Outline/Animations/Tracers/Crosshair/Radar/CaveFinder/NoRender/ChunkBorders/ServerText/NoTitle/Trajectories/NameProtect/StreamerMode/Xray/BlockOverlay/DamageParticles/WorldColor/ItemPhysics/PlayerList/MoreParticles/HorseGod/Nuker;32.0;5888;free;1;16640;2982;";
+            String[] strings = string6.split(";");
+            string3 = strings[0];
+            String[] strings2 = string3.split("/");
+            ModuleManager.C(Double.parseDouble(strings[1]));
+            ModuleManager.k(Integer.parseInt(strings[2]));
+            ClientAccess.mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
+            EntityRenderer.Z0 = Integer.parseInt(strings[4]);
+            EntityRenderer.C = Integer.parseInt(strings[5]);
+            EntityRenderer.ZE = Integer.parseInt(strings[6]);
 
-            for (int var29 = 0; var29 < var28.length; var29++) {
-               String var30 = var28[var29];
-               if (ClientAccess.client.getModuleManager().getList().get(var29) instanceof Module) {
-                  Module var31 = (Module)ClientAccess.client.getModuleManager().getList().get(var29);
-                  if (var31.getName() == null) {
-                     var31.setName(var30);
+            for (int i5 = 0; i5 < strings2.length; i5++) {
+               String string7 = strings2[i5];
+               if (ClientAccess.client.getModuleManager().getList().get(i5) instanceof Module) {
+                  Module module2 = (Module)ClientAccess.client.getModuleManager().getList().get(i5);
+                  if (module2.getName() == null) {
+                     module2.setName(string7);
                   }
 
-                  if (var31.getDisplayName() == null) {
-                     var31.setDisplayName(var31.getName());
+                  if (module2.getDisplayName() == null) {
+                     module2.setDisplayName(module2.getName());
                   }
                }
             }
 
             ConfigFiles.load("default");
             ConfigFiles.save(ConfigFiles.serializeModules(), "default");
-            byte var135 = 3;
-            NumberSetting var136 = null;
+            byte b10 = 3;
+            NumberSetting numberSetting = null;
 
-            for (Category var34 : Category.values()) {
-               if (var34 != Category.HIDDEN && var34 != Category.CONFIG) {
-                  CategoryPanel var35 = new CategoryPanel(var34, var135, 3, 107, 17);
+            for (Category category : Category.values()) {
+               if (category != Category.HIDDEN && category != Category.CONFIG) {
+                  CategoryPanel categoryPanel = new CategoryPanel(category, b10, 3, 107, 17);
 
-                  for (Module var37 : Astolfo.INSTANCE.getModuleManager().getModules(var34)) {
-                     ModuleButton var38 = new ModuleButton(var35, var37, 103, 15);
+                  for (Module module3 : Astolfo.INSTANCE.getModuleManager().getModules(category)) {
+                     ModuleButton moduleButton = new ModuleButton(categoryPanel, module3, 103, 15);
 
-                     for (Setting var40 : var37.getSettings()) {
-                        if (!var40.getName().startsWith("Pos-") && !var40.getName().equals("Hide")) {
-                           if (var40 instanceof ColorSetting) {
-                              var38.M_ArrayList().add(new ColorPicker(var34, var38, var40, 99, 70));
+                     for (Setting setting : module3.getSettings()) {
+                        if (!setting.getName().startsWith("Pos-") && !setting.getName().equals("Hide")) {
+                           if (setting instanceof ColorSetting) {
+                              moduleButton.M_ArrayList().add(new ColorPicker(category, moduleButton, setting, 99, 70));
                            }
 
-                           if (var40 instanceof BooleanSetting) {
-                              var38.M_ArrayList().add(new BooleanComponent(var34, var38, var40, 99, 10));
+                           if (setting instanceof BooleanSetting) {
+                              moduleButton.M_ArrayList().add(new BooleanComponent(category, moduleButton, setting, 99, 10));
                            }
 
-                           if (var40 instanceof NumberSetting) {
-                              if (var40.getName().startsWith("Min-") && !var40.getName().contains("Min-Health")) {
-                                 var136 = (NumberSetting)var40;
+                           if (setting instanceof NumberSetting) {
+                              if (setting.getName().startsWith("Min-") && !setting.getName().contains("Min-Health")) {
+                                 numberSetting = (NumberSetting)setting;
                                  continue;
                               }
 
-                              if (var40.getName().startsWith("Max-") && var136 != null) {
-                                 var38.M_ArrayList().add(new RangeSlider(var34, var38, var136, var40, 99, 10));
-                                 var136 = null;
+                              if (setting.getName().startsWith("Max-") && numberSetting != null) {
+                                 moduleButton.M_ArrayList().add(new RangeSlider(category, moduleButton, numberSetting, setting, 99, 10));
+                                 numberSetting = null;
                                  continue;
                               }
 
-                              var38.M_ArrayList().add(new NumberSlider(var34, var38, var40, 99, 10));
+                              moduleButton.M_ArrayList().add(new NumberSlider(category, moduleButton, setting, 99, 10));
                            }
 
-                           if (var40 instanceof EnumSetting) {
-                              var38.M_ArrayList().add(new EnumComponent(var38, var40, 99, 10));
+                           if (setting instanceof EnumSetting) {
+                              moduleButton.M_ArrayList().add(new EnumComponent(moduleButton, setting, 99, 10));
                            }
 
-                           if (var40 instanceof StringSetting) {
-                              var38.M_ArrayList().add(new StringComponent(var34, var38, var40, 93, 10));
+                           if (setting instanceof StringSetting) {
+                              moduleButton.M_ArrayList().add(new StringComponent(category, moduleButton, setting, 93, 10));
                            }
 
-                           if (var40 instanceof MapSetting) {
-                              MapComponent var41 = new MapComponent(var38, var40, 99, 10);
+                           if (setting instanceof MapSetting) {
+                              MapComponent mapComponent = new MapComponent(moduleButton, setting, 99, 10);
 
-                              for (Setting var43 : ((MapSetting)var40).getSettings().values()) {
-                                 if (!var43.getName().startsWith("Pos-")) {
-                                    if (var43 instanceof BooleanSetting) {
-                                       var41.M_ArrayList().add(new BooleanComponent(var34, var41, var43, 93, 10));
+                              for (Setting setting2 : ((MapSetting)setting).getSettings().values()) {
+                                 if (!setting2.getName().startsWith("Pos-")) {
+                                    if (setting2 instanceof BooleanSetting) {
+                                       mapComponent.M_ArrayList().add(new BooleanComponent(category, mapComponent, setting2, 93, 10));
                                     }
 
-                                    if (var43 instanceof NumberSetting) {
-                                       if (var43.getName().startsWith("Min-") && !var40.getName().contains("Min-Health")) {
-                                          var136 = (NumberSetting)var43;
+                                    if (setting2 instanceof NumberSetting) {
+                                       if (setting2.getName().startsWith("Min-") && !setting.getName().contains("Min-Health")) {
+                                          numberSetting = (NumberSetting)setting2;
                                           continue;
                                        }
 
-                                       if (var43.getName().startsWith("Max-")) {
-                                          var41.M_ArrayList().add(new RangeSlider(var34, var41, var136, var43, 93, 10));
-                                          var136 = null;
+                                       if (setting2.getName().startsWith("Max-")) {
+                                          mapComponent.M_ArrayList().add(new RangeSlider(category, mapComponent, numberSetting, setting2, 93, 10));
+                                          numberSetting = null;
                                           continue;
                                        }
 
-                                       var41.M_ArrayList().add(new NumberSlider(var34, var41, var43, 93, 10));
+                                       mapComponent.M_ArrayList().add(new NumberSlider(category, mapComponent, setting2, 93, 10));
                                     }
 
-                                    if (var43 instanceof EnumSetting) {
-                                       var41.M_ArrayList().add(new EnumComponent(var41, var43, 93, 10));
+                                    if (setting2 instanceof EnumSetting) {
+                                       mapComponent.M_ArrayList().add(new EnumComponent(mapComponent, setting2, 93, 10));
                                     }
 
-                                    if (var43 instanceof StringSetting) {
-                                       var41.M_ArrayList().add(new StringComponent(var34, var41, var43, 93, 10));
+                                    if (setting2 instanceof StringSetting) {
+                                       mapComponent.M_ArrayList().add(new StringComponent(category, mapComponent, setting2, 93, 10));
                                     }
 
-                                    if (var43 instanceof ColorSetting) {
-                                       var41.M_ArrayList().add(new ColorPicker(var34, var41, var43, 93, 70));
+                                    if (setting2 instanceof ColorSetting) {
+                                       mapComponent.M_ArrayList().add(new ColorPicker(category, mapComponent, setting2, 93, 70));
                                     }
                                  }
                               }
 
-                              var38.M_ArrayList().add(var41);
+                              moduleButton.M_ArrayList().add(mapComponent);
                            }
                         }
                      }
 
-                     var35.a(var38);
+                     categoryPanel.a(moduleButton);
                   }
 
-                  ClientAccess.client.getDefaultPanelManager().addElements(var35);
-                  var135 += 125;
+                  ClientAccess.client.getDefaultPanelManager().addElements(categoryPanel);
+                  b10 += 125;
                }
             }
 
-            byte var138 = 3;
+            byte b11 = 3;
 
-            for (Category var142 : Category.values()) {
-               if (var142 != Category.HIDDEN && var142 != Category.CONFIG) {
-                  bypass.gui.clickgui.transparent.CategoryPanel var143 = new bypass.gui.clickgui.transparent.CategoryPanel(var142, var138, 3, 105, 10);
+            for (Category category2 : Category.values()) {
+               if (category2 != Category.HIDDEN && category2 != Category.CONFIG) {
+                  bypass.gui.clickgui.transparent.CategoryPanel categoryPanel2 = new bypass.gui.clickgui.transparent.CategoryPanel(category2, b11, 3, 105, 10);
 
-                  for (Module var145 : Astolfo.INSTANCE.getModuleManager().getModules(var142)) {
-                     bypass.gui.clickgui.transparent.ModuleButton var146 = new bypass.gui.clickgui.transparent.ModuleButton(var143, var145, 103, 10);
+                  for (Module module4 : Astolfo.INSTANCE.getModuleManager().getModules(category2)) {
+                     bypass.gui.clickgui.transparent.ModuleButton moduleButton2 = new bypass.gui.clickgui.transparent.ModuleButton(categoryPanel2, module4, 103, 10);
 
-                     for (Setting var148 : var145.getSettings()) {
-                        if (!var148.getName().startsWith("Pos-") && !var148.getName().equals("Hide")) {
-                           if (var148 instanceof BooleanSetting) {
-                              var146.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(var146, var148, 101, 10));
+                     for (Setting setting3 : module4.getSettings()) {
+                        if (!setting3.getName().startsWith("Pos-") && !setting3.getName().equals("Hide")) {
+                           if (setting3 instanceof BooleanSetting) {
+                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(moduleButton2, setting3, 101, 10));
                            }
 
-                           if (var148 instanceof NumberSetting) {
-                              var146.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(var146, var148, 101, 10));
+                           if (setting3 instanceof NumberSetting) {
+                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(moduleButton2, setting3, 101, 10));
                            }
 
-                           if (var148 instanceof EnumSetting) {
-                              var146.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(var146, var148, 101, 10));
+                           if (setting3 instanceof EnumSetting) {
+                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(moduleButton2, setting3, 101, 10));
                            }
 
-                           if (var148 instanceof StringSetting) {
-                              var146.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(var146, var148, 101, 10));
+                           if (setting3 instanceof StringSetting) {
+                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(moduleButton2, setting3, 101, 10));
                            }
 
-                           if (var148 instanceof MapSetting) {
-                              bypass.gui.clickgui.transparent.MapComponent var149 = new bypass.gui.clickgui.transparent.MapComponent(var146, var148, 101, 10);
+                           if (setting3 instanceof MapSetting) {
+                              bypass.gui.clickgui.transparent.MapComponent mapComponent2 = new bypass.gui.clickgui.transparent.MapComponent(moduleButton2, setting3, 101, 10);
 
-                              for (Setting var44 : ((MapSetting)var148).getSettings().values()) {
-                                 if (!var44.getName().startsWith("Pos-")) {
-                                    if (var44 instanceof BooleanSetting) {
-                                       var149.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(var149, var44, 98, 10));
+                              for (Setting setting4 : ((MapSetting)setting3).getSettings().values()) {
+                                 if (!setting4.getName().startsWith("Pos-")) {
+                                    if (setting4 instanceof BooleanSetting) {
+                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(mapComponent2, setting4, 98, 10));
                                     }
 
-                                    if (var44 instanceof NumberSetting) {
-                                       var149.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(var149, var44, 98, 10));
+                                    if (setting4 instanceof NumberSetting) {
+                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(mapComponent2, setting4, 98, 10));
                                     }
 
-                                    if (var44 instanceof EnumSetting) {
-                                       var149.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(var149, var44, 98, 10));
+                                    if (setting4 instanceof EnumSetting) {
+                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(mapComponent2, setting4, 98, 10));
                                     }
 
-                                    if (var44 instanceof StringSetting) {
-                                       var149.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(var149, var44, 98, 10));
+                                    if (setting4 instanceof StringSetting) {
+                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(mapComponent2, setting4, 98, 10));
                                     }
                                  }
                               }
 
-                              var146.M_ArrayList().add(var149);
+                              moduleButton2.M_ArrayList().add(mapComponent2);
                            }
                         }
                      }
 
-                     var143.a(var146);
+                     categoryPanel2.a(moduleButton2);
                   }
 
-                  Astolfo.INSTANCE.getTransparentPanelManager().addElements(var143);
-                  var138 += 110;
+                  Astolfo.INSTANCE.getTransparentPanelManager().addElements(categoryPanel2);
+                  b11 += 110;
                }
             }
 
             System.gc();
-            ClientAccess.client.register(var12, ClientAccess.client.getModuleManager());
-            ClientAccess.client.register(var12, ClientAccess.client.getCommandManager());
-            ClientAccess.client.register(var12, ClientAccess.client.getTransparentPanelManager());
-            ClientAccess.client.register(var12, ClientAccess.client.getScriptManager());
-            ClientAccess.client.register(var12, ClientAccess.client.getSidebarGui());
+            ClientAccess.client.register(l7, ClientAccess.client.getModuleManager());
+            ClientAccess.client.register(l7, ClientAccess.client.getCommandManager());
+            ClientAccess.client.register(l7, ClientAccess.client.getTransparentPanelManager());
+            ClientAccess.client.register(l7, ClientAccess.client.getScriptManager());
+            ClientAccess.client.register(l7, ClientAccess.client.getSidebarGui());
          }
       }
    }
 
    public class r9s extends StageValue {
-      public r9s(LoadStage var2) {
-         super(var2);
+      public r9s(LoadStage loadStage) {
+         super(loadStage);
       }
 
       public EntityPig get() {

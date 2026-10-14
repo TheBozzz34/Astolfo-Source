@@ -37,8 +37,8 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    private GuiButton recreateButton;
    private static final long e = 101737716579130L;
 
-   public GuiSelectWorld(GuiScreen var1) {
-      this.parentScreen = var1;
+   public GuiSelectWorld(GuiScreen parentScreenIn) {
+      this.parentScreen = parentScreenIn;
    }
 
    @Override
@@ -47,9 +47,9 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 
       try {
          this.loadLevelList();
-      } catch (AnvilConverterException var4) {
-         logger.error("Couldn't load level list", var4);
-         this.mc.displayGuiScreen(new GuiErrorScreen("Unable to load worlds", var4.getMessage()));
+      } catch (AnvilConverterException anvilConverterException) {
+         logger.error("Couldn't load level list", anvilConverterException);
+         this.mc.displayGuiScreen(new GuiErrorScreen("Unable to load worlds", anvilConverterException.getMessage()));
          return;
       }
 
@@ -71,23 +71,23 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    }
 
    private void loadLevelList() throws AnvilConverterException {
-      ISaveFormat var1 = this.mc.getSaveLoader();
-      this.field_146639_s = var1.getSaveList();
+      ISaveFormat iSaveFormat = this.mc.getSaveLoader();
+      this.field_146639_s = iSaveFormat.getSaveList();
       Collections.sort(this.field_146639_s);
       this.selectedIndex = -1;
    }
 
-   public String func_146621_a(int var1) {
-      return this.field_146639_s.get(var1).getFileName();
+   public String func_146621_a(int i) {
+      return this.field_146639_s.get(i).getFileName();
    }
 
-   public String func_146614_d(int var1) {
-      String var5 = this.field_146639_s.get(var1).getDisplayName();
-      if (StringUtils.isEmpty(var5)) {
-         var5 = I18n.format("selectWorld.world") + " " + (var1 + 1);
+   public String func_146614_d(int i) {
+      String string = this.field_146639_s.get(i).getDisplayName();
+      if (StringUtils.isEmpty(string)) {
+         string = I18n.format("selectWorld.world") + " " + (i + 1);
       }
 
-      return var5;
+      return string;
    }
 
    public void addWorldSelectionButtons() {
@@ -104,69 +104,69 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 2) {
-            String var5 = this.func_146614_d(this.selectedIndex);
-            if (var5 != null) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 2) {
+            String string = this.func_146614_d(this.selectedIndex);
+            if (string != null) {
                this.confirmingDelete = true;
-               GuiYesNo var6 = makeDeleteWorldYesNo(this, var5, this.selectedIndex);
-               this.mc.displayGuiScreen(var6);
+               GuiYesNo guiYesNo = makeDeleteWorldYesNo(this, string, this.selectedIndex);
+               this.mc.displayGuiScreen(guiYesNo);
             }
-         } else if (var1.id == 1) {
+         } else if (button.id == 1) {
             this.func_146615_e(this.selectedIndex);
-         } else if (var1.id == 3) {
+         } else if (button.id == 3) {
             this.mc.displayGuiScreen(new GuiCreateWorld(this));
-         } else if (var1.id == 6) {
+         } else if (button.id == 6) {
             this.mc.displayGuiScreen(new GuiRenameWorld(this, this.func_146621_a(this.selectedIndex)));
-         } else if (var1.id == 0) {
+         } else if (button.id == 0) {
             this.mc.displayGuiScreen(this.parentScreen);
-         } else if (var1.id == 7) {
-            GuiCreateWorld var8 = new GuiCreateWorld(this);
-            ISaveHandler var9 = this.mc.getSaveLoader().getSaveLoader(this.func_146621_a(this.selectedIndex), false);
-            WorldInfo var7 = var9.loadWorldInfo();
-            var9.flush();
-            var8.recreateFromExistingWorld(var7);
-            this.mc.displayGuiScreen(var8);
+         } else if (button.id == 7) {
+            GuiCreateWorld guiCreateWorld = new GuiCreateWorld(this);
+            ISaveHandler iSaveHandler = this.mc.getSaveLoader().getSaveLoader(this.func_146621_a(this.selectedIndex), false);
+            WorldInfo worldInfo = iSaveHandler.loadWorldInfo();
+            iSaveHandler.flush();
+            guiCreateWorld.recreateFromExistingWorld(worldInfo);
+            this.mc.displayGuiScreen(guiCreateWorld);
          } else {
-            this.availableWorlds.actionPerformed(var1);
+            this.availableWorlds.actionPerformed(button);
          }
       }
    }
 
-   public void func_146615_e(int var1) {
+   public void func_146615_e(int i) {
       this.mc.displayGuiScreen((GuiScreen)null);
       if (!this.field_146634_i) {
          this.field_146634_i = true;
-         String var5 = this.func_146621_a(var1);
-         if (var5 == null) {
-            var5 = "World" + var1;
+         String string = this.func_146621_a(i);
+         if (string == null) {
+            string = "World" + i;
          }
 
-         String var6 = this.func_146614_d(var1);
-         if (var6 == null) {
-            var6 = "World" + var1;
+         String string2 = this.func_146614_d(i);
+         if (string2 == null) {
+            string2 = "World" + i;
          }
 
-         if (this.mc.getSaveLoader().canLoadWorld(var5)) {
-            this.mc.launchIntegratedServer(var5, var6, (WorldSettings)null);
+         if (this.mc.getSaveLoader().canLoadWorld(string)) {
+            this.mc.launchIntegratedServer(string, string2, (WorldSettings)null);
          }
       }
    }
 
    @Override
-   public void confirmClicked(boolean var1, int var2) {
+   public void confirmClicked(boolean result, int id) {
       if (this.confirmingDelete) {
          this.confirmingDelete = false;
-         if (var1) {
-            ISaveFormat var6 = this.mc.getSaveLoader();
-            var6.flushCache();
-            var6.deleteWorldDirectory(this.func_146621_a(var2));
+         if (result) {
+            ISaveFormat iSaveFormat = this.mc.getSaveLoader();
+            iSaveFormat.flushCache();
+            iSaveFormat.deleteWorldDirectory(this.func_146621_a(id));
 
             try {
                this.loadLevelList();
-            } catch (AnvilConverterException var8) {
-               logger.error("Couldn't load level list", var8);
+            } catch (AnvilConverterException anvilConverterException) {
+               logger.error("Couldn't load level list", anvilConverterException);
             }
          }
 
@@ -175,25 +175,25 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      this.availableWorlds.drawScreen(var1, var2, var3);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      this.availableWorlds.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, this.screenTitle, this.width / 2, 20, 16777215);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static GuiYesNo makeDeleteWorldYesNo(GuiYesNoCallback var0, String var1, int var2) {
-      String var5 = I18n.format("selectWorld.deleteQuestion");
-      String var6 = "'" + var1 + "' " + I18n.format("selectWorld.deleteWarning");
-      String var7 = I18n.format("selectWorld.deleteButton");
-      String var8 = I18n.format("gui.cancel");
-      return new GuiYesNo(var0, var5, var6, var7, var8, var2);
+   public static GuiYesNo makeDeleteWorldYesNo(GuiYesNoCallback selectWorld, String name, int id) {
+      String string = I18n.format("selectWorld.deleteQuestion");
+      String string2 = "'" + name + "' " + I18n.format("selectWorld.deleteWarning");
+      String string3 = I18n.format("selectWorld.deleteButton");
+      String string4 = I18n.format("gui.cancel");
+      return new GuiYesNo(selectWorld, string, string2, string3, string4, id);
    }
 
    public class List extends GuiSlot {
       private static final long d = 126369446155060L;
 
-      public List(Minecraft var2) {
-         super(var2, GuiSelectWorld.this.width, GuiSelectWorld.this.height, 32, GuiSelectWorld.this.height - 64, 36);
+      public List(Minecraft mcIn) {
+         super(mcIn, GuiSelectWorld.this.width, GuiSelectWorld.this.height, 32, GuiSelectWorld.this.height - 64, 36);
       }
 
       @Override
@@ -202,21 +202,21 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
-         GuiSelectWorld.this.selectedIndex = var1;
-         boolean var8 = GuiSelectWorld.this.selectedIndex >= 0 && GuiSelectWorld.this.selectedIndex < this.getSize();
-         GuiSelectWorld.this.selectButton.enabled = var8;
-         GuiSelectWorld.this.deleteButton.enabled = var8;
-         GuiSelectWorld.this.renameButton.enabled = var8;
-         GuiSelectWorld.this.recreateButton.enabled = var8;
-         if (var2 && var8) {
-            GuiSelectWorld.this.func_146615_e(var1);
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+         GuiSelectWorld.this.selectedIndex = slotIndex;
+         boolean bl = GuiSelectWorld.this.selectedIndex >= 0 && GuiSelectWorld.this.selectedIndex < this.getSize();
+         GuiSelectWorld.this.selectButton.enabled = bl;
+         GuiSelectWorld.this.deleteButton.enabled = bl;
+         GuiSelectWorld.this.renameButton.enabled = bl;
+         GuiSelectWorld.this.recreateButton.enabled = bl;
+         if (isDoubleClick && bl) {
+            GuiSelectWorld.this.func_146615_e(slotIndex);
          }
       }
 
       @Override
-      public boolean isSelected(int var1) {
-         return var1 == GuiSelectWorld.this.selectedIndex;
+      public boolean isSelected(int slotIndex) {
+         return slotIndex == GuiSelectWorld.this.selectedIndex;
       }
 
       @Override
@@ -230,33 +230,33 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-         SaveFormatComparator var10 = GuiSelectWorld.this.field_146639_s.get(var1);
-         String var11 = var10.getDisplayName();
-         if (StringUtils.isEmpty(var11)) {
-            var11 = GuiSelectWorld.this.field_146637_u + " " + (var1 + 1);
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+         SaveFormatComparator saveFormatComparator = GuiSelectWorld.this.field_146639_s.get(entryID);
+         String string = saveFormatComparator.getDisplayName();
+         if (StringUtils.isEmpty(string)) {
+            string = GuiSelectWorld.this.field_146637_u + " " + (entryID + 1);
          }
 
-         String var12 = var10.getFileName();
-         var12 = var12 + " (" + GuiSelectWorld.this.field_146633_h.format(new Date(var10.getLastTimePlayed()));
-         var12 = var12 + ")";
-         String var13 = "";
-         if (var10.requiresConversion()) {
-            var13 = GuiSelectWorld.this.field_146636_v + " " + var13;
+         String string2 = saveFormatComparator.getFileName();
+         string2 = string2 + " (" + GuiSelectWorld.this.field_146633_h.format(new Date(saveFormatComparator.getLastTimePlayed()));
+         string2 = string2 + ")";
+         String string3 = "";
+         if (saveFormatComparator.requiresConversion()) {
+            string3 = GuiSelectWorld.this.field_146636_v + " " + string3;
          } else {
-            var13 = GuiSelectWorld.this.field_146635_w[var10.getEnumGameType().getID()];
-            if (var10.isHardcoreModeEnabled()) {
-               var13 = EnumChatFormatting.DARK_RED + I18n.format("gameMode.hardcore") + EnumChatFormatting.RESET;
+            string3 = GuiSelectWorld.this.field_146635_w[saveFormatComparator.getEnumGameType().getID()];
+            if (saveFormatComparator.isHardcoreModeEnabled()) {
+               string3 = EnumChatFormatting.DARK_RED + I18n.format("gameMode.hardcore") + EnumChatFormatting.RESET;
             }
 
-            if (var10.getCheatsEnabled()) {
-               var13 = var13 + ", " + I18n.format("selectWorld.cheats");
+            if (saveFormatComparator.getCheatsEnabled()) {
+               string3 = string3 + ", " + I18n.format("selectWorld.cheats");
             }
          }
 
-         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, var11, var2 + 2, var3 + 1, 16777215);
-         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, var12, var2 + 2, var3 + 12, 8421504);
-         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, var13, var2 + 2, var3 + 12 + 10, 8421504);
+         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, string, i + 2, j + 1, 16777215);
+         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, string2, i + 2, j + 12, 8421504);
+         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, string3, i + 2, j + 12 + 10, 8421504);
       }
    }
 }

@@ -13,25 +13,25 @@ public class S0BPacketAnimation implements Packet<INetHandlerPlayClient> {
    public S0BPacketAnimation() {
    }
 
-   public S0BPacketAnimation(Entity var1, int var2) {
-      this.entityId = var1.getEntityId();
-      this.type = var2;
+   public S0BPacketAnimation(Entity ent, int animationType) {
+      this.entityId = ent.getEntityId();
+      this.type = animationType;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.type = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.type = buf.readUnsignedByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeByte(this.type);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeByte(this.type);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleAnimation(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleAnimation(this);
    }
 
    public int getEntityID() {

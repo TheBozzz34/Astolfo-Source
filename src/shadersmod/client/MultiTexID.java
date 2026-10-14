@@ -5,9 +5,9 @@ public class MultiTexID {
    public int norm;
    public int spec;
 
-   public MultiTexID(int var1, int var2, int var3) {
-      this.base = var1;
-      this.norm = var2;
-      this.spec = var3;
+   public MultiTexID(int baseTex, int normTex, int specTex) {
+      this.base = baseTex;
+      this.norm = normTex;
+      this.spec = specTex;
    }
 }

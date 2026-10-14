@@ -11,44 +11,44 @@ import bypass.util.GameUtil;
 public final class Water extends Module {
    private int m;
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE && mc.thePlayer.isInWater() && GameUtil.isMoving(mc.thePlayer)) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE && mc.thePlayer.isInWater() && GameUtil.isMoving(mc.thePlayer)) {
          this.m++;
-         double var5 = this.g(0.0F)[0];
-         double var7 = this.g(0.0F)[1];
+         double d = this.g(0.0F)[0];
+         double e = this.g(0.0F)[1];
          if (this.m >= 3) {
-            mc.thePlayer.motionX = var5 * 0.06F;
-            mc.thePlayer.motionZ = var7 * 0.06F;
+            mc.thePlayer.motionX = d * 0.06F;
+            mc.thePlayer.motionZ = e * 0.06F;
             this.m = 0;
          } else {
-            mc.thePlayer.motionX = var5 * 0.27F;
-            mc.thePlayer.motionZ = var7 * 0.27F;
+            mc.thePlayer.motionX = d * 0.27F;
+            mc.thePlayer.motionZ = e * 0.27F;
          }
       }
    };
    private static final long c = 93352456244166L;
 
-   public Water(Category var1) {
-      super(var1);
+   public Water(Category category) {
+      super(category);
       this.setHidden(false);
    }
 
-   private double[] g(float var1) {
-      float var5 = mc.thePlayer.rotationYaw + var1;
+   private double[] g(float f) {
+      float h = mc.thePlayer.rotationYaw + f;
       if (mc.thePlayer.moveForward < 0.0F) {
-         var5 += 180.0F;
+         h += 180.0F;
       }
 
       if (mc.thePlayer.moveStrafing > 0.0F) {
-         var5 -= 90.0F * (mc.thePlayer.moveForward < 0.0F ? -0.5F : (mc.thePlayer.moveForward > 0.0F ? 0.5F : 1.0F));
+         h -= 90.0F * (mc.thePlayer.moveForward < 0.0F ? -0.5F : (mc.thePlayer.moveForward > 0.0F ? 0.5F : 1.0F));
       }
 
       if (mc.thePlayer.moveStrafing < 0.0F) {
-         var5 += 90.0F * (mc.thePlayer.moveForward < 0.0F ? -0.5F : (mc.thePlayer.moveForward > 0.0F ? 0.5F : 1.0F));
+         h += 90.0F * (mc.thePlayer.moveForward < 0.0F ? -0.5F : (mc.thePlayer.moveForward > 0.0F ? 0.5F : 1.0F));
       }
 
-      float var6 = (float)Math.cos((var5 + 90.0F) * Math.PI / 180.0);
-      float var7 = (float)Math.sin((var5 + 90.0F) * Math.PI / 180.0);
-      return new double[]{var6, var7};
+      float f2 = (float)Math.cos((h + 90.0F) * Math.PI / 180.0);
+      float f3 = (float)Math.sin((h + 90.0F) * Math.PI / 180.0);
+      return new double[]{f2, f3};
    }
 }

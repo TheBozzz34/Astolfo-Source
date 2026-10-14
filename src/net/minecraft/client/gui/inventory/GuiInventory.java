@@ -19,8 +19,8 @@ public class GuiInventory extends InventoryEffectRenderer {
    private float oldMouseY;
    private static final long bb = 8927156825382L;
 
-   public GuiInventory(EntityPlayer var1) {
-      super(var1.inventoryContainer);
+   public GuiInventory(EntityPlayer entityPlayer) {
+      super(entityPlayer.inventoryContainer);
       this.allowUserInput = true;
    }
 
@@ -44,58 +44,58 @@ public class GuiInventory extends InventoryEffectRenderer {
    }
 
    @Override
-   public void drawGuiContainerForegroundLayer(int var1, int var2) {
+   public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       this.fontRendererObj.D(I18n.format("container.crafting"), 86.0F, 16.0F, 4210752);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      super.drawScreen(var1, var2, var3);
-      this.oldMouseX = var1;
-      this.oldMouseY = var2;
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.oldMouseX = mouseX;
+      this.oldMouseY = mouseY;
    }
 
    @Override
-   public void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+   public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(inventoryBackground);
-      int var6 = this.guiLeft;
-      int var7 = this.guiTop;
-      this.drawTexturedModalRect(var6, var7, 0, 0, this.xSize, this.ySize);
-      drawEntityOnScreen(var6 + 51, var7 + 75, 30, var6 + 51 - this.oldMouseX, var7 + 75 - 50 - this.oldMouseY, this.mc.thePlayer);
+      int i = this.guiLeft;
+      int j = this.guiTop;
+      this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+      drawEntityOnScreen(i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50 - this.oldMouseY, this.mc.thePlayer);
    }
 
-   public static void drawEntityOnScreen(int var0, int var1, int var2, float var3, float var4, EntityLivingBase var5) {
+   public static void drawEntityOnScreen(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase ent) {
       GlStateManager.enableColorMaterial();
       GlStateManager.pushMatrix();
-      GlStateManager.translate(var0, var1, 50.0F);
-      GlStateManager.scale(-var2, var2, var2);
+      GlStateManager.translate(posX, posY, 50.0F);
+      GlStateManager.scale(-scale, scale, scale);
       GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-      float var10 = var5.renderYawOffset;
-      float var11 = var5.rotationYaw;
-      float var12 = var5.rotationPitch;
-      float var13 = var5.prevRotationYawHead;
-      float var14 = var5.rotationYawHead;
+      float f = ent.renderYawOffset;
+      float g = ent.rotationYaw;
+      float h = ent.rotationPitch;
+      float f2 = ent.prevRotationYawHead;
+      float f3 = ent.rotationYawHead;
       GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
       RenderHelper.enableStandardItemLighting();
       GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-      GlStateManager.rotate(-((float)Math.atan(var4 / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
-      var5.renderYawOffset = (float)Math.atan(var3 / 40.0F) * 20.0F;
-      var5.rotationYaw = (float)Math.atan(var3 / 40.0F) * 40.0F;
-      var5.rotationPitch = -((float)Math.atan(var4 / 40.0F)) * 20.0F;
-      var5.rotationYawHead = var5.rotationYaw;
-      var5.prevRotationYawHead = var5.rotationYaw;
+      GlStateManager.rotate(-((float)Math.atan(mouseY / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+      ent.renderYawOffset = (float)Math.atan(mouseX / 40.0F) * 20.0F;
+      ent.rotationYaw = (float)Math.atan(mouseX / 40.0F) * 40.0F;
+      ent.rotationPitch = -((float)Math.atan(mouseY / 40.0F)) * 20.0F;
+      ent.rotationYawHead = ent.rotationYaw;
+      ent.prevRotationYawHead = ent.rotationYaw;
       GlStateManager.translate(0.0F, 0.0F, 0.0F);
-      RenderManager var15 = Minecraft.getMinecraft().getRenderManager();
-      var15.setPlayerViewY(180.0F);
-      var15.setRenderShadow(false);
-      var15.renderEntityWithPosYaw(var5, 0.0, 0.0, 0.0, 0.0F, 1.0F);
-      var15.setRenderShadow(true);
-      var5.renderYawOffset = var10;
-      var5.rotationYaw = var11;
-      var5.rotationPitch = var12;
-      var5.prevRotationYawHead = var13;
-      var5.rotationYawHead = var14;
+      RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
+      renderManager.setPlayerViewY(180.0F);
+      renderManager.setRenderShadow(false);
+      renderManager.renderEntityWithPosYaw(ent, 0.0, 0.0, 0.0, 0.0F, 1.0F);
+      renderManager.setRenderShadow(true);
+      ent.renderYawOffset = f;
+      ent.rotationYaw = g;
+      ent.rotationPitch = h;
+      ent.prevRotationYawHead = f2;
+      ent.rotationYawHead = f3;
       GlStateManager.popMatrix();
       RenderHelper.disableStandardItemLighting();
       GlStateManager.disableRescaleNormal();
@@ -104,37 +104,37 @@ public class GuiInventory extends InventoryEffectRenderer {
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
    }
 
-   public static void g(int var0, int var1, float var2, float var3, int var4, EntityLivingBase var5) {
+   public static void g(int i, int j, float f, float g, int k, EntityLivingBase entityLivingBase) {
       GlStateManager.enableColorMaterial();
       GlStateManager.pushMatrix();
-      GlStateManager.translate(var0, var1, 50.0F);
-      GlStateManager.scale(-var4, var4, var4);
+      GlStateManager.translate(i, j, 50.0F);
+      GlStateManager.scale(-k, k, k);
       GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-      float var9 = var5.renderYawOffset;
-      float var10 = var5.rotationYaw;
-      float var11 = var5.rotationPitch;
-      float var12 = var5.prevRotationYawHead;
-      float var13 = var5.rotationYawHead;
+      float h = entityLivingBase.renderYawOffset;
+      float f2 = entityLivingBase.rotationYaw;
+      float f3 = entityLivingBase.rotationPitch;
+      float f4 = entityLivingBase.prevRotationYawHead;
+      float f5 = entityLivingBase.rotationYawHead;
       GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
       RenderHelper.enableStandardItemLighting();
       GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
       GlStateManager.rotate(-((float)Math.atan(0.025F)) * 20.0F, 1.0F, 0.0F, 0.0F);
-      var5.renderYawOffset = (float)Math.atan(0.025F) * 20.0F;
-      var5.rotationYaw = var2;
-      var5.rotationPitch = var3;
-      var5.rotationYawHead = var5.rotationYaw;
-      var5.prevRotationYawHead = var5.rotationYaw;
+      entityLivingBase.renderYawOffset = (float)Math.atan(0.025F) * 20.0F;
+      entityLivingBase.rotationYaw = f;
+      entityLivingBase.rotationPitch = g;
+      entityLivingBase.rotationYawHead = entityLivingBase.rotationYaw;
+      entityLivingBase.prevRotationYawHead = entityLivingBase.rotationYaw;
       GlStateManager.translate(0.0F, 0.0F, 0.0F);
-      RenderManager var14 = Minecraft.getMinecraft().getRenderManager();
-      var14.setPlayerViewY(180.0F);
-      var14.setRenderShadow(false);
-      var14.renderEntityWithPosYaw(var5, 0.0, 0.0, 0.0, 0.0F, 1.0F);
-      var14.setRenderShadow(true);
-      var5.renderYawOffset = var9;
-      var5.rotationYaw = var10;
-      var5.rotationPitch = var11;
-      var5.prevRotationYawHead = var12;
-      var5.rotationYawHead = var13;
+      RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
+      renderManager.setPlayerViewY(180.0F);
+      renderManager.setRenderShadow(false);
+      renderManager.renderEntityWithPosYaw(entityLivingBase, 0.0, 0.0, 0.0, 0.0F, 1.0F);
+      renderManager.setRenderShadow(true);
+      entityLivingBase.renderYawOffset = h;
+      entityLivingBase.rotationYaw = f2;
+      entityLivingBase.rotationPitch = f3;
+      entityLivingBase.prevRotationYawHead = f4;
+      entityLivingBase.rotationYawHead = f5;
       GlStateManager.popMatrix();
       RenderHelper.disableStandardItemLighting();
       GlStateManager.disableRescaleNormal();
@@ -144,12 +144,12 @@ public class GuiInventory extends InventoryEffectRenderer {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 0) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 0) {
          this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
       }
 
-      if (var1.id == 1) {
+      if (button.id == 1) {
          this.mc.displayGuiScreen(new GuiStats(this, this.mc.thePlayer.getStatFileWriter()));
       }
    }

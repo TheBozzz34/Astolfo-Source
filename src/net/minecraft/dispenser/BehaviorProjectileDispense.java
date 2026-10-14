@@ -12,23 +12,23 @@ public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispense
    private static final long c = 5912687945176843242L;
 
    @Override
-   public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-      World var6 = var1.getWorld();
-      IPosition var7 = BlockDispenser.getDispensePosition(var1);
-      EnumFacing var8 = BlockDispenser.getFacing(var1.getBlockMetadata());
-      IProjectile var9 = this.getProjectileEntity(var6, var7);
-      var9.setThrowableHeading(var8.getFrontOffsetX(), var8.getFrontOffsetY() + 0.1F, var8.getFrontOffsetZ(), this.func_82500_b(), this.func_82498_a());
-      var6.spawnEntityInWorld((Entity)var9);
-      var2.splitStack(1);
-      return var2;
+   public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+      World world = source.getWorld();
+      IPosition iPosition = BlockDispenser.getDispensePosition(source);
+      EnumFacing enumFacing = BlockDispenser.getFacing(source.getBlockMetadata());
+      IProjectile iProjectile = this.getProjectileEntity(world, iPosition);
+      iProjectile.setThrowableHeading(enumFacing.getFrontOffsetX(), enumFacing.getFrontOffsetY() + 0.1F, enumFacing.getFrontOffsetZ(), this.func_82500_b(), this.func_82498_a());
+      world.spawnEntityInWorld((Entity)iProjectile);
+      stack.splitStack(1);
+      return stack;
    }
 
    @Override
-   public void playDispenseSound(IBlockSource var1) {
-      var1.getWorld().playAuxSFX((int)c, var1.getBlockPos(), 0);
+   public void playDispenseSound(IBlockSource source) {
+      source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
    }
 
-   public abstract IProjectile getProjectileEntity(World var1, IPosition var2);
+   public abstract IProjectile getProjectileEntity(World worldIn, IPosition position);
 
    public float func_82498_a() {
       return 6.0F;

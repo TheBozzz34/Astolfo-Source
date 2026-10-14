@@ -43,25 +43,25 @@ public final class MacComputerSystem extends AbstractComputerSystem {
    }
 
    private static Triplet<String, String, String> platformExpert() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      IOService var6 = IOKitUtil.getMatchingService("IOPlatformExpertDevice");
-      if (var6 != null) {
-         byte[] var7 = var6.getByteArrayProperty("manufacturer");
-         if (var7 != null) {
-            var3 = new String(var7, StandardCharsets.UTF_8).trim();
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      IOService ioService = IOKitUtil.getMatchingService("IOPlatformExpertDevice");
+      if (ioService != null) {
+         byte[] bytes = ioService.getByteArrayProperty("manufacturer");
+         if (bytes != null) {
+            string = new String(bytes, StandardCharsets.UTF_8).trim();
          }
 
-         var7 = var6.getByteArrayProperty("model");
-         if (var7 != null) {
-            var4 = new String(var7, StandardCharsets.UTF_8).trim();
+         bytes = ioService.getByteArrayProperty("model");
+         if (bytes != null) {
+            string2 = new String(bytes, StandardCharsets.UTF_8).trim();
          }
 
-         var5 = var6.getStringProperty("IOPlatformSerialNumber");
-         var6.release();
+         string3 = ioService.getStringProperty("IOPlatformSerialNumber");
+         ioService.release();
       }
 
-      return new Triplet<>(Util.isBlank(var3) ? "Apple Inc." : var3, Util.isBlank(var4) ? "unknown" : var4, Util.isBlank(var5) ? "unknown" : var5);
+      return new Triplet<>(Util.isBlank(string) ? "Apple Inc." : string, Util.isBlank(string2) ? "unknown" : string2, Util.isBlank(string3) ? "unknown" : string3);
    }
 }

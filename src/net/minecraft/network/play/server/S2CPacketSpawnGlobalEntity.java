@@ -19,36 +19,36 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
    public S2CPacketSpawnGlobalEntity() {
    }
 
-   public S2CPacketSpawnGlobalEntity(Entity var1) {
-      this.entityId = var1.getEntityId();
-      this.x = MathHelper.floor_double(var1.posX * 32.0);
-      this.y = MathHelper.floor_double(var1.posY * 32.0);
-      this.z = MathHelper.floor_double(var1.posZ * 32.0);
-      if (var1 instanceof EntityLightningBolt) {
+   public S2CPacketSpawnGlobalEntity(Entity entityIn) {
+      this.entityId = entityIn.getEntityId();
+      this.x = MathHelper.floor_double(entityIn.posX * 32.0);
+      this.y = MathHelper.floor_double(entityIn.posY * 32.0);
+      this.z = MathHelper.floor_double(entityIn.posZ * 32.0);
+      if (entityIn instanceof EntityLightningBolt) {
          this.type = 1;
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.type = var1.readByte();
-      this.x = var1.readInt();
-      this.y = var1.readInt();
-      this.z = var1.readInt();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.type = buf.readByte();
+      this.x = buf.readInt();
+      this.y = buf.readInt();
+      this.z = buf.readInt();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeByte(this.type);
-      var1.writeInt(this.x);
-      var1.writeInt(this.y);
-      var1.writeInt(this.z);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeByte(this.type);
+      buf.writeInt(this.x);
+      buf.writeInt(this.y);
+      buf.writeInt(this.z);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSpawnGlobalEntity(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSpawnGlobalEntity(this);
    }
 
    public int func_149052_c() {

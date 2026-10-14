@@ -27,7 +27,7 @@ public class Freecam2 extends Module {
    public Freecam2() {
       super("Freecam2", Category.VISUALS);
       this.c = new TimedAnimation().setDuration((int)j).setEasing(Easing.LINEAR);
-      this.onMovementInput = var1 -> {
+      this.onMovementInput = movementInputEvent -> {
          this.O = this.d = 0.0F;
          if (mc.gameSettings.keyBindForward.isKeyDown()) {
             this.O++;
@@ -45,28 +45,28 @@ public class Freecam2 extends Module {
             this.d--;
          }
 
-         var1.cancel();
+         movementInputEvent.cancel();
       };
-      this.onUpdate = var1 -> {
-         double var5 = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
-         double var7 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
-         double var9 = this.d * 1.0F * var5 + this.O * 1.0F * var7;
-         double var11 = this.d * -1.0F * var5 + this.O * -1.0F * var7;
-         double var13 = this.d * 1.0F * var7 - this.O * 1.0F * var5;
-         double var15 = this.d * -1.0F * var7 - this.O * -1.0F * var5;
+      this.onUpdate = updateEvent -> {
+         double e = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
+         double d2 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
+         double d3 = this.d * 1.0F * e + this.O * 1.0F * d2;
+         double d4 = this.d * -1.0F * e + this.O * -1.0F * d2;
+         double d5 = this.d * 1.0F * d2 - this.O * 1.0F * e;
+         double d6 = this.d * -1.0F * d2 - this.O * -1.0F * e;
          if (this.O != 0.0F) {
             if (this.O > 0.0F) {
-               R += var9;
+               R += d3;
             } else {
-               R -= var11;
+               R -= d4;
             }
          }
 
          if (this.d != 0.0F) {
             if (this.d > 0.0F) {
-               V -= var13;
+               V -= d5;
             } else {
-               V += var15;
+               V += d6;
             }
          }
       };

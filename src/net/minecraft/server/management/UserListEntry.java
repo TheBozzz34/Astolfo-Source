@@ -5,12 +5,12 @@ import com.google.gson.JsonObject;
 public class UserListEntry<T> {
    private final T value;
 
-   public UserListEntry(T var1) {
-      this.value = (T)var1;
+   public UserListEntry(T valueIn) {
+      this.value = (T)valueIn;
    }
 
-   public UserListEntry(T var1, JsonObject var2) {
-      this.value = (T)var1;
+   public UserListEntry(T valueIn, JsonObject json) {
+      this.value = (T)valueIn;
    }
 
    public T getValue() {
@@ -21,6 +21,6 @@ public class UserListEntry<T> {
       return false;
    }
 
-   public void onSerialization(JsonObject var1) {
+   public void onSerialization(JsonObject data) {
    }
 }

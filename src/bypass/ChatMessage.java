@@ -7,9 +7,9 @@ public class ChatMessage implements ClientAccess {
    public final ClientChat E;
    private static final long b = 136952962367006L;
 
-   public ChatMessage(ClientChat var1, ChatComponentText var2) {
-      this.E = var1;
-      this.T = var2;
+   public ChatMessage(ClientChat clientChat, ChatComponentText chatComponentText) {
+      this.E = clientChat;
+      this.T = chatComponentText;
    }
 
    public void b() {

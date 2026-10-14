@@ -31,8 +31,8 @@ public class GuiShaders extends GuiScreen {
    public static final int EnumOS_LINUX = 4;
    private static final long a = 19177304600223L;
 
-   public GuiShaders(GuiScreen var1, GameSettings var2) {
-      this.parentGui = var1;
+   public GuiShaders(GuiScreen par1GuiScreen, GameSettings par2GameSettings) {
+      this.parentGui = par1GuiScreen;
    }
 
    @Override
@@ -42,35 +42,35 @@ public class GuiShaders extends GuiScreen {
          Shaders.loadConfig();
       }
 
-      byte var3 = 120;
-      byte var4 = 20;
-      int var5 = this.width - var3 - 10;
-      byte var6 = 30;
-      byte var7 = 20;
-      int var8 = this.width - var3 - 20;
-      this.shaderList = new GuiShaders.zo(this, var8, this.height, var6, this.height - 50, 16);
+      byte b = 120;
+      byte b2 = 20;
+      int i = this.width - b - 10;
+      byte b3 = 30;
+      byte b4 = 20;
+      int j = this.width - b - 20;
+      this.shaderList = new GuiShaders.zo(this, j, this.height, b3, this.height - 50, 16);
       this.shaderList.U(7, 8);
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, var5, 0 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, var5, 1 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, var5, 2 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.RENDER_RES_MUL, var5, 3 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SHADOW_RES_MUL, var5, 4 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.HAND_DEPTH_MUL, var5, 5 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_HAND_LIGHT, var5, 6 * var7 + var6, var3, var4));
-      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, var5, 7 * var7 + var6, var3, var4));
-      int var9 = Math.min(150, var8 / 2 - 10);
-      this.buttonList.add(new GuiButton(201, var8 / 4 - var9 / 2, this.height - 25, var9, var4, Lang.get("of.options.shaders.shadersFolder")));
-      this.buttonList.add(new GuiButton(202, var8 / 4 * 3 - var9 / 2, this.height - 25, var9, var4, I18n.format("gui.done")));
-      this.buttonList.add(new GuiButton(203, var5, this.height - 25, var3, var4, Lang.get("of.options.shaders.shaderOptions")));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, i, 0 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, i, 1 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, i, 2 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.RENDER_RES_MUL, i, 3 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SHADOW_RES_MUL, i, 4 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.HAND_DEPTH_MUL, i, 5 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_HAND_LIGHT, i, 6 * b4 + b3, b, b2));
+      this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, i, 7 * b4 + b3, b, b2));
+      int k = Math.min(150, j / 2 - 10);
+      this.buttonList.add(new GuiButton(201, j / 4 - k / 2, this.height - 25, k, b2, Lang.get("of.options.shaders.shadersFolder")));
+      this.buttonList.add(new GuiButton(202, j / 4 * 3 - k / 2, this.height - 25, k, b2, I18n.format("gui.done")));
+      this.buttonList.add(new GuiButton(203, i, this.height - 25, b, b2, Lang.get("of.options.shaders.shaderOptions")));
       this.updateButtons();
    }
 
    public void updateButtons() {
-      boolean var4 = Config.isShaders();
+      boolean bl = Config.isShaders();
 
-      for (GuiButton var6 : this.buttonList) {
-         if (var6.id != 201 && var6.id != 202 && var6.id != EnumShaderOption.ANTIALIASING.ordinal()) {
-            var6.enabled = var4;
+      for (GuiButton guiButton : this.buttonList) {
+         if (guiButton.id != 201 && guiButton.id != 202 && guiButton.id != EnumShaderOption.ANTIALIASING.ordinal()) {
+            guiButton.enabled = bl;
          }
       }
    }
@@ -82,11 +82,11 @@ public class GuiShaders extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) {
-      if (var1.enabled) {
-         if (var1 instanceof GuiButtonEnumShaderOption) {
-            GuiButtonEnumShaderOption var5 = (GuiButtonEnumShaderOption)var1;
-            switch (var5.getEnumShaderOption()) {
+   public void actionPerformed(GuiButton button) {
+      if (button.enabled) {
+         if (button instanceof GuiButtonEnumShaderOption) {
+            GuiButtonEnumShaderOption guiButtonEnumShaderOption = (GuiButtonEnumShaderOption)button;
+            switch (guiButtonEnumShaderOption.getEnumShaderOption()) {
                case ANTIALIASING:
                   Shaders.p();
                   Shaders.uninit();
@@ -100,51 +100,51 @@ public class GuiShaders extends GuiScreen {
                   this.mc.scheduleResourcesRefresh();
                   break;
                case RENDER_RES_MUL:
-                  float var6 = Shaders.configRenderResMul;
-                  float[] var7 = QUALITY_MULTIPLIERS;
-                  String[] var8 = QUALITY_MULTIPLIER_NAMES;
-                  int var9 = getValueIndex(var6, var7);
+                  float f = Shaders.configRenderResMul;
+                  float[] floats = QUALITY_MULTIPLIERS;
+                  String[] strings = QUALITY_MULTIPLIER_NAMES;
+                  int i = getValueIndex(f, floats);
                   if (isShiftKeyDown()) {
-                     if (--var9 < 0) {
-                        var9 = var7.length - 1;
+                     if (--i < 0) {
+                        i = floats.length - 1;
                      }
-                  } else if (++var9 >= var7.length) {
-                     var9 = 0;
+                  } else if (++i >= floats.length) {
+                     i = 0;
                   }
 
-                  Shaders.configRenderResMul = var7[var9];
+                  Shaders.configRenderResMul = floats[i];
                   Shaders.L();
                   break;
                case SHADOW_RES_MUL:
-                  float var10 = Shaders.configShadowResMul;
-                  float[] var11 = QUALITY_MULTIPLIERS;
-                  String[] var12 = QUALITY_MULTIPLIER_NAMES;
-                  int var13 = getValueIndex(var10, var11);
+                  float g = Shaders.configShadowResMul;
+                  float[] floats2 = QUALITY_MULTIPLIERS;
+                  String[] strings2 = QUALITY_MULTIPLIER_NAMES;
+                  int j = getValueIndex(g, floats2);
                   if (isShiftKeyDown()) {
-                     if (--var13 < 0) {
-                        var13 = var11.length - 1;
+                     if (--j < 0) {
+                        j = floats2.length - 1;
                      }
-                  } else if (++var13 >= var11.length) {
-                     var13 = 0;
+                  } else if (++j >= floats2.length) {
+                     j = 0;
                   }
 
-                  Shaders.configShadowResMul = var11[var13];
+                  Shaders.configShadowResMul = floats2[j];
                   Shaders.Ue();
                   break;
                case HAND_DEPTH_MUL:
-                  float var14 = Shaders.configHandDepthMul;
-                  float[] var15 = HAND_DEPTH_VALUES;
-                  String[] var16 = HAND_DEPTH_NAMES;
-                  int var17 = getValueIndex(var14, var15);
+                  float h = Shaders.configHandDepthMul;
+                  float[] floats3 = HAND_DEPTH_VALUES;
+                  String[] strings3 = HAND_DEPTH_NAMES;
+                  int k = getValueIndex(h, floats3);
                   if (isShiftKeyDown()) {
-                     if (--var17 < 0) {
-                        var17 = var15.length - 1;
+                     if (--k < 0) {
+                        k = floats3.length - 1;
                      }
-                  } else if (++var17 >= var15.length) {
-                     var17 = 0;
+                  } else if (++k >= floats3.length) {
+                     k = 0;
                   }
 
-                  Shaders.configHandDepthMul = var15[var17];
+                  Shaders.configHandDepthMul = floats3[k];
                   break;
                case CLOUD_SHADOW:
                   Shaders.configCloudShadow = !Shaders.configCloudShadow;
@@ -163,61 +163,61 @@ public class GuiShaders extends GuiScreen {
                case TEX_MIN_FIL_B:
                   Shaders.configTexMinFilB = (Shaders.configTexMinFilB + 1) % 3;
                   Shaders.configTexMinFilN = Shaders.configTexMinFilS = Shaders.configTexMinFilB;
-                  var1.displayString = "Tex Min: " + Shaders.texMinFilDesc[Shaders.configTexMinFilB];
+                  button.displayString = "Tex Min: " + Shaders.texMinFilDesc[Shaders.configTexMinFilB];
                   ShadersTex.updateTextureMinMagFilter();
                   break;
                case TEX_MAG_FIL_N:
                   Shaders.ub = (Shaders.ub + 1) % 2;
-                  var1.displayString = "Tex_n Mag: " + Shaders.texMagFilDesc[Shaders.ub];
+                  button.displayString = "Tex_n Mag: " + Shaders.texMagFilDesc[Shaders.ub];
                   ShadersTex.updateTextureMinMagFilter();
                   break;
                case TEX_MAG_FIL_S:
                   Shaders.L = (Shaders.L + 1) % 2;
-                  var1.displayString = "Tex_s Mag: " + Shaders.texMagFilDesc[Shaders.L];
+                  button.displayString = "Tex_s Mag: " + Shaders.texMagFilDesc[Shaders.L];
                   ShadersTex.updateTextureMinMagFilter();
                   break;
                case SHADOW_CLIP_FRUSTRUM:
                   Shaders.configShadowClipFrustrum = !Shaders.configShadowClipFrustrum;
-                  var1.displayString = "ShadowClipFrustrum: " + toStringOnOff(Shaders.configShadowClipFrustrum);
+                  button.displayString = "ShadowClipFrustrum: " + toStringOnOff(Shaders.configShadowClipFrustrum);
                   ShadersTex.updateTextureMinMagFilter();
             }
 
-            var5.updateButtonText();
+            guiButtonEnumShaderOption.updateButtonText();
          } else {
-            switch (var1.id) {
+            switch (button.id) {
                case 201:
                   switch (getOSType()) {
                      case 1:
-                        String var21 = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderpacksdir.getAbsolutePath());
+                        String string = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderpacksdir.getAbsolutePath());
 
                         try {
-                           Runtime.getRuntime().exec(var21);
+                           Runtime.getRuntime().exec(string);
                            return;
-                        } catch (IOException var20) {
-                           var20.printStackTrace();
+                        } catch (IOException ioException) {
+                           ioException.printStackTrace();
                            break;
                         }
                      case 2:
                         try {
                            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", Shaders.shaderpacksdir.getAbsolutePath()});
                            return;
-                        } catch (IOException var19) {
-                           var19.printStackTrace();
+                        } catch (IOException ioException2) {
+                           ioException2.printStackTrace();
                         }
                   }
 
-                  boolean var22 = false;
+                  boolean bl = false;
 
                   try {
-                     Class var24 = Class.forName("java.awt.Desktop");
-                     Object var25 = var24.getMethod("getDesktop").invoke(null);
-                     var24.getMethod("browse", URI.class).invoke(var25, new File(this.mc.mcDataDir, Shaders.shaderpacksdirname).toURI());
-                  } catch (Throwable var18) {
-                     var18.printStackTrace();
-                     var22 = true;
+                     Class class2 = Class.forName("java.awt.Desktop");
+                     Object object = class2.getMethod("getDesktop").invoke(null);
+                     class2.getMethod("browse", URI.class).invoke(object, new File(this.mc.mcDataDir, Shaders.shaderpacksdirname).toURI());
+                  } catch (Throwable throwable) {
+                     throwable.printStackTrace();
+                     bl = true;
                   }
 
-                  if (var22) {
+                  if (bl) {
                      Config.dbg("Opening via system class!");
                      Sys.openURL("file://" + Shaders.shaderpacksdir.getAbsolutePath());
                   }
@@ -229,11 +229,11 @@ public class GuiShaders extends GuiScreen {
                   this.mc.displayGuiScreen(this.parentGui);
                   break;
                case 203:
-                  GuiShaderOptions var23 = new GuiShaderOptions(this, Config.getGameSettings());
-                  Config.getMinecraft().displayGuiScreen(var23);
+                  GuiShaderOptions guiShaderOptions = new GuiShaderOptions(this, Config.getGameSettings());
+                  Config.getMinecraft().displayGuiScreen(guiShaderOptions);
                   break;
                default:
-                  this.shaderList.actionPerformed(var1);
+                  this.shaderList.actionPerformed(button);
             }
          }
       }
@@ -248,24 +248,24 @@ public class GuiShaders extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.shaderList.drawScreen(var1, var2, var3);
+      this.shaderList.drawScreen(mouseX, mouseY, partialTicks);
       if (this.updateTimer <= 0) {
          this.shaderList.updateList();
          this.updateTimer += 20;
       }
 
       this.d(this.fontRendererObj, this.screenTitle + " ", this.width / 2, 15, 16777215);
-      String var7 = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
-      int var8 = this.fontRendererObj.getStringWidth(var7);
-      if (var8 < this.width - 5) {
-         this.d(this.fontRendererObj, var7, this.width / 2, this.height - 40, 8421504);
+      String string = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
+      int i = this.fontRendererObj.getStringWidth(string);
+      if (i < this.width - 5) {
+         this.d(this.fontRendererObj, string, this.width / 2, this.height - 40, 8421504);
       } else {
-         this.I(this.fontRendererObj, var7, 5, this.height - 40, 8421504);
+         this.I(this.fontRendererObj, string, 5, this.height - 40, 8421504);
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
@@ -278,60 +278,60 @@ public class GuiShaders extends GuiScreen {
       return this.mc;
    }
 
-   public void drawCenteredString(String var1, int var2, int var3, int var4) {
-      this.d(this.fontRendererObj, var1, var2, var3, var4);
+   public void drawCenteredString(String text, int x, int y, int color) {
+      this.d(this.fontRendererObj, text, x, y, color);
    }
 
-   public static String toStringOnOff(boolean var0) {
-      String var3 = Lang.getOn();
-      String var4 = Lang.getOff();
-      return var0 ? var3 : var4;
+   public static String toStringOnOff(boolean value) {
+      String string = Lang.getOn();
+      String string2 = Lang.getOff();
+      return value ? string : string2;
    }
 
-   public static String toStringAa(int var0) {
-      return var0 == 2 ? "FXAA 2x" : (var0 == 4 ? "FXAA 4x" : Lang.getOff());
+   public static String toStringAa(int value) {
+      return value == 2 ? "FXAA 2x" : (value == 4 ? "FXAA 4x" : Lang.getOff());
    }
 
-   public static String toStringValue(float var0, float[] var1, String[] var2) {
-      int var3 = getValueIndex(var0, var1);
-      return var2[var3];
+   public static String toStringValue(float val, float[] values, String[] names) {
+      int index = getValueIndex(val, values);
+      return names[index];
    }
 
-   public static int getValueIndex(float var0, float[] var1) {
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         float var6 = var1[var5];
-         if (var6 >= var0) {
-            return var5;
+   public static int getValueIndex(float val, float[] values) {
+      for (int i = 0; i < values.length; i++) {
+         float f = values[i];
+         if (f >= val) {
+            return i;
          }
       }
 
-      return var1.length - 1;
+      return values.length - 1;
    }
 
-   public static String toStringQuality(float var0) {
-      return toStringValue(var0, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_NAMES);
+   public static String toStringQuality(float val) {
+      return toStringValue(val, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_NAMES);
    }
 
-   public static String toStringHandDepth(float var0) {
-      return toStringValue(var0, HAND_DEPTH_VALUES, HAND_DEPTH_NAMES);
+   public static String toStringHandDepth(float val) {
+      return toStringValue(val, HAND_DEPTH_VALUES, HAND_DEPTH_NAMES);
    }
 
    public static int getOSType() {
-      String var3 = System.getProperty("os.name").toLowerCase();
-      return var3.contains("win")
+      String string = System.getProperty("os.name").toLowerCase();
+      return string.contains("win")
          ? 1
          : (
-            var3.contains("mac")
+            string.contains("mac")
                ? 2
-               : (var3.contains("solaris") ? 3 : (var3.contains("sunos") ? 3 : (var3.contains("linux") ? 4 : (var3.contains("unix") ? 4 : 0))))
+               : (string.contains("solaris") ? 3 : (string.contains("sunos") ? 3 : (string.contains("linux") ? 4 : (string.contains("unix") ? 4 : 0))))
          );
    }
 
    static {
-      long var20 = a ^ 56502878983207L;
-      long var10000 = var20 ^ 9079170252082270759L;
-      var10000 = var20 ^ 1104758489604619360L;
-      var10000 = var20 ^ 1227990452596629803L;
+      long l = a ^ 56502878983207L;
+      long m = l ^ 9079170252082270759L;
+      m = l ^ 1104758489604619360L;
+      m = l ^ 1227990452596629803L;
    }
 
    public static class zo extends GuiSlot {
@@ -341,15 +341,15 @@ public class GuiShaders extends GuiScreen {
       public final GuiShaders shadersGui;
       private static final long c = 119638189874796L;
 
-      public zo(GuiShaders var1, int var2, int var3, int var4, int var5, int var6) {
-         super(var1.getMc(), var2, var3, var4, var5, var6);
-         this.shadersGui = var1;
+      public zo(GuiShaders guiShaders, int i, int j, int k, int m, int n) {
+         super(guiShaders.getMc(), i, j, k, m, n);
+         this.shadersGui = guiShaders;
          this.updateList();
          this.amountScrolled = 0.0F;
-         int var9 = this.selectedIndex * var6;
-         int var10 = (var5 - var4) / 2;
-         if (var9 > var10) {
-            this.scrollBy(var9 - var10);
+         int l = this.selectedIndex * n;
+         int i2 = (m - k) / 2;
+         if (l > i2) {
+            this.scrollBy(l - i2);
          }
       }
 
@@ -361,11 +361,11 @@ public class GuiShaders extends GuiScreen {
       public void updateList() {
          this.shaderslist = Shaders.listOfShaders();
          this.selectedIndex = 0;
-         int var4 = 0;
+         int i = 0;
 
-         for (int var5 = this.shaderslist.size(); var4 < var5; var4++) {
-            if (((String)this.shaderslist.get(var4)).equals(Shaders.currentshadername)) {
-               this.selectedIndex = var4;
+         for (int j = this.shaderslist.size(); i < j; i++) {
+            if (((String)this.shaderslist.get(i)).equals(Shaders.currentshadername)) {
+               this.selectedIndex = i;
                break;
             }
          }
@@ -377,19 +377,19 @@ public class GuiShaders extends GuiScreen {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
-         if (var1 != this.selectedIndex || this.lastClicked != this.lastClickedCached) {
-            this.selectedIndex = var1;
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+         if (slotIndex != this.selectedIndex || this.lastClicked != this.lastClickedCached) {
+            this.selectedIndex = slotIndex;
             this.lastClickedCached = this.lastClicked;
-            Shaders.setShaderPack((String)this.shaderslist.get(var1));
+            Shaders.setShaderPack((String)this.shaderslist.get(slotIndex));
             Shaders.uninit();
             this.shadersGui.updateButtons();
          }
       }
 
       @Override
-      public boolean isSelected(int var1) {
-         return var1 == this.selectedIndex;
+      public boolean isSelected(int slotIndex) {
+         return slotIndex == this.selectedIndex;
       }
 
       @Override
@@ -407,15 +407,15 @@ public class GuiShaders extends GuiScreen {
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-         String var10 = (String)this.shaderslist.get(var1);
-         if (var10.equals(Shaders.packNameNone)) {
-            var10 = Lang.get("of.options.shaders.packNone");
-         } else if (var10.equals(Shaders.packNameDefault)) {
-            var10 = Lang.get("of.options.shaders.packDefault");
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+         String string = (String)this.shaderslist.get(entryID);
+         if (string.equals(Shaders.packNameNone)) {
+            string = Lang.get("of.options.shaders.packNone");
+         } else if (string.equals(Shaders.packNameDefault)) {
+            string = Lang.get("of.options.shaders.packDefault");
          }
 
-         this.shadersGui.drawCenteredString(var10, this.width / 2, var3 + 1, 16777215);
+         this.shadersGui.drawCenteredString(string, this.width / 2, j + 1, 16777215);
       }
 
       public int getSelectedIndex() {

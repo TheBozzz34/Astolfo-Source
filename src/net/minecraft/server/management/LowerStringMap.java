@@ -21,33 +21,33 @@ public class LowerStringMap<V> implements Map<String, V> {
    }
 
    @Override
-   public boolean containsKey(Object var1) {
-      return this.internalMap.containsKey(var1.toString().toLowerCase());
+   public boolean containsKey(Object object) {
+      return this.internalMap.containsKey(object.toString().toLowerCase());
    }
 
    @Override
-   public boolean containsValue(Object var1) {
-      return this.internalMap.containsKey(var1);
+   public boolean containsValue(Object object) {
+      return this.internalMap.containsKey(object);
    }
 
    @Override
-   public V get(Object var1) {
-      return this.internalMap.get(var1.toString().toLowerCase());
+   public V get(Object object) {
+      return this.internalMap.get(object.toString().toLowerCase());
    }
 
-   public V put(String var1, V var2) {
-      return this.internalMap.put(var1.toLowerCase(), (V)var2);
-   }
-
-   @Override
-   public V remove(Object var1) {
-      return this.internalMap.remove(var1.toString().toLowerCase());
+   public V put(String string, V object) {
+      return this.internalMap.put(string.toLowerCase(), (V)object);
    }
 
    @Override
-   public void putAll(Map<? extends String, ? extends V> var1) {
-      for (Entry var6 : var1.entrySet()) {
-         this.put((String)var6.getKey(), (V)var6.getValue());
+   public V remove(Object object) {
+      return this.internalMap.remove(object.toString().toLowerCase());
+   }
+
+   @Override
+   public void putAll(Map<? extends String, ? extends V> map) {
+      for (Entry entry : map.entrySet()) {
+         this.put((String)entry.getKey(), (V)entry.getValue());
       }
    }
 

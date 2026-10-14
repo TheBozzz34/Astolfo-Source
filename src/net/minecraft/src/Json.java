@@ -8,68 +8,68 @@ import com.google.gson.JsonParseException;
 public class Json {
    private static final long a = 41659433334232L;
 
-   public static float getFloat(JsonObject var0, String var1, float var2) {
-      JsonElement var6 = var0.get(var1);
-      return var6 == null ? var2 : var6.getAsFloat();
+   public static float getFloat(JsonObject obj, String field, float def) {
+      JsonElement jsonElement = obj.get(field);
+      return jsonElement == null ? def : jsonElement.getAsFloat();
    }
 
-   public static boolean getBoolean(JsonObject var0, String var1, boolean var2) {
-      JsonElement var6 = var0.get(var1);
-      return var6 == null ? var2 : var6.getAsBoolean();
+   public static boolean getBoolean(JsonObject obj, String field, boolean def) {
+      JsonElement jsonElement = obj.get(field);
+      return jsonElement == null ? def : jsonElement.getAsBoolean();
    }
 
-   public static String getString(JsonObject var0, String var1) {
-      return getString(var0, var1, (String)null);
+   public static String getString(JsonObject jsonObj, String field) {
+      return getString(jsonObj, field, (String)null);
    }
 
-   public static String getString(JsonObject var0, String var1, String var2) {
-      JsonElement var6 = var0.get(var1);
-      return var6 == null ? var2 : var6.getAsString();
+   public static String getString(JsonObject jsonObj, String field, String def) {
+      JsonElement jsonElement = jsonObj.get(field);
+      return jsonElement == null ? def : jsonElement.getAsString();
    }
 
-   public static float[] parseFloatArray(JsonElement var0, int var1) {
-      return parseFloatArray(var0, var1, (float[])null);
+   public static float[] parseFloatArray(JsonElement jsonElement, int lenIn) {
+      return parseFloatArray(jsonElement, lenIn, (float[])null);
    }
 
-   public static float[] parseFloatArray(JsonElement var0, int var1, float[] var2) {
-      if (var0 == null) {
-         return var2;
+   public static float[] parseFloatArray(JsonElement jsonElement, int lenIn, float[] def) {
+      if (jsonElement == null) {
+         return def;
       }
 
-      JsonArray var6 = var0.getAsJsonArray();
-      if (var6.size() != var1) {
-         throw new JsonParseException("Wrong array length: " + var6.size() + ", should be: " + var1 + ", array: " + var6);
+      JsonArray jsonArray = jsonElement.getAsJsonArray();
+      if (jsonArray.size() != lenIn) {
+         throw new JsonParseException("Wrong array length: " + jsonArray.size() + ", should be: " + lenIn + ", array: " + jsonArray);
       }
 
-      float[] var7 = new float[var6.size()];
+      float[] floats = new float[jsonArray.size()];
 
-      for (int var8 = 0; var8 < var7.length; var8++) {
-         var7[var8] = var6.get(var8).getAsFloat();
+      for (int i = 0; i < floats.length; i++) {
+         floats[i] = jsonArray.get(i).getAsFloat();
       }
 
-      return var7;
+      return floats;
    }
 
-   public static int[] parseIntArray(JsonElement var0, int var1) {
-      return parseIntArray(var0, var1, (int[])null);
+   public static int[] parseIntArray(JsonElement jsonElement, int lenIn) {
+      return parseIntArray(jsonElement, lenIn, (int[])null);
    }
 
-   public static int[] parseIntArray(JsonElement var0, int var1, int[] var2) {
-      if (var0 == null) {
-         return var2;
+   public static int[] parseIntArray(JsonElement jsonElement, int lenIn, int[] def) {
+      if (jsonElement == null) {
+         return def;
       }
 
-      JsonArray var6 = var0.getAsJsonArray();
-      if (var6.size() != var1) {
-         throw new JsonParseException("Wrong array length: " + var6.size() + ", should be: " + var1 + ", array: " + var6);
+      JsonArray jsonArray = jsonElement.getAsJsonArray();
+      if (jsonArray.size() != lenIn) {
+         throw new JsonParseException("Wrong array length: " + jsonArray.size() + ", should be: " + lenIn + ", array: " + jsonArray);
       }
 
-      int[] var7 = new int[var6.size()];
+      int[] ints = new int[jsonArray.size()];
 
-      for (int var8 = 0; var8 < var7.length; var8++) {
-         var7[var8] = var6.get(var8).getAsInt();
+      for (int i = 0; i < ints.length; i++) {
+         ints[i] = jsonArray.get(i).getAsInt();
       }
 
-      return var7;
+      return ints;
    }
 }

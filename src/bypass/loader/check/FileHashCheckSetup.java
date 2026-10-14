@@ -8,8 +8,8 @@ public class FileHashCheckSetup implements ClientAccess {
    private static final long b = 70945743115021L;
 
    public FileHashCheckSetup() {
-      HashedFilePaths var4 = new HashedFilePaths();
-      this.w = new PathListHolder(var4.d());
+      HashedFilePaths hashedFilePaths = new HashedFilePaths();
+      this.w = new PathListHolder(hashedFilePaths.d());
       this.d = new FileHashCheck(this.w);
    }
 

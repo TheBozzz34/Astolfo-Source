@@ -22,8 +22,8 @@ import net.minecraft.world.World;
 public class EntityCow extends EntityAnimal {
    private static final long gb = 27924027695353L;
 
-   public EntityCow(World var1) {
-      super(var1);
+   public EntityCow(World worldIn) {
+      super(worldIn);
       this.setSize(0.9F, 1.3F);
       ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
       this.tasks.addTask(0, new EntityAISwimming(this));
@@ -59,7 +59,7 @@ public class EntityCow extends EntityAnimal {
    }
 
    @Override
-   public void playStepSound(BlockPos var1, Block var2) {
+   public void playStepSound(BlockPos pos, Block blockIn) {
       this.playSound("mob.cow.step", 0.15F, 1.0F);
    }
 
@@ -74,16 +74,16 @@ public class EntityCow extends EntityAnimal {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      int var6 = this.rand.nextInt(3) + this.rand.nextInt(1 + var2);
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      int i = this.rand.nextInt(3) + this.rand.nextInt(1 + lootingModifier);
 
-      for (int var7 = 0; var7 < var6; var7++) {
+      for (int j = 0; j < i; j++) {
          this.dropItem(Items.leather, 1);
       }
 
-      var6 = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + var2);
+      i = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + lootingModifier);
 
-      for (int var9 = 0; var9 < var6; var9++) {
+      for (int k = 0; k < i; k++) {
          if (this.isBurning()) {
             this.dropItem(Items.cooked_beef, 1);
          } else {
@@ -93,22 +93,22 @@ public class EntityCow extends EntityAnimal {
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      if (var5 != null && var5.getItem() == Items.bucket && !var1.capabilities.isCreativeMode && !this.isChild()) {
-         if (var5.stackSize-- == 1) {
-            var1.inventory.setInventorySlotContents(var1.inventory.currentItem, new ItemStack(Items.milk_bucket));
-         } else if (!var1.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket))) {
-            var1.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket, 1, 0), false);
+   public boolean interact(EntityPlayer player) {
+      ItemStack itemStack = player.inventory.getCurrentItem();
+      if (itemStack != null && itemStack.getItem() == Items.bucket && !player.capabilities.isCreativeMode && !this.isChild()) {
+         if (itemStack.stackSize-- == 1) {
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.milk_bucket));
+         } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket))) {
+            player.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket, 1, 0), false);
          }
 
          return true;
       } else {
-         return super.interact(var1);
+         return super.interact(player);
       }
    }
 
-   public EntityCow createChild(EntityAgeable var1) {
+   public EntityCow createChild(EntityAgeable ageable) {
       return new EntityCow(this.worldObj);
    }
 

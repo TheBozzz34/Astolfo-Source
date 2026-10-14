@@ -19,11 +19,11 @@ public abstract class EntityCreature extends EntityLiving {
    private boolean isMovementAITaskSet;
    private static final long bb = 85327421829967L;
 
-   public EntityCreature(World var1) {
-      super(var1);
+   public EntityCreature(World worldIn) {
+      super(worldIn);
    }
 
-   public float getBlockPathWeight(BlockPos var1) {
+   public float getBlockPathWeight(BlockPos pos) {
       return 0.0F;
    }
 
@@ -40,13 +40,13 @@ public abstract class EntityCreature extends EntityLiving {
       return this.isWithinHomeDistanceFromPosition(new BlockPos(this));
    }
 
-   public boolean isWithinHomeDistanceFromPosition(BlockPos var1) {
-      return this.maximumHomeDistance == -1.0F ? true : this.homePosition.distanceSq(var1) < this.maximumHomeDistance * this.maximumHomeDistance;
+   public boolean isWithinHomeDistanceFromPosition(BlockPos pos) {
+      return this.maximumHomeDistance == -1.0F ? true : this.homePosition.distanceSq(pos) < this.maximumHomeDistance * this.maximumHomeDistance;
    }
 
-   public void setHomePosAndDistance(BlockPos var1, int var2) {
-      this.homePosition = var1;
-      this.maximumHomeDistance = var2;
+   public void setHomePosAndDistance(BlockPos pos, int distance) {
+      this.homePosition = pos;
+      this.maximumHomeDistance = distance;
    }
 
    public BlockPos getHomePosition() {
@@ -69,11 +69,11 @@ public abstract class EntityCreature extends EntityLiving {
    public void updateLeashedState() {
       super.updateLeashedState();
       if (this.getLeashed() && this.getLeashedToEntity() != null && this.getLeashedToEntity().worldObj == this.worldObj) {
-         Entity var4 = this.getLeashedToEntity();
-         this.setHomePosAndDistance(new BlockPos((int)var4.posX, (int)var4.posY, (int)var4.posZ), 5);
-         float var5 = this.getDistanceToEntity(var4);
+         Entity entity = this.getLeashedToEntity();
+         this.setHomePosAndDistance(new BlockPos((int)entity.posX, (int)entity.posY, (int)entity.posZ), 5);
+         float f = this.getDistanceToEntity(entity);
          if (this instanceof EntityTameable && ((EntityTameable)this).isSitting()) {
-            if (var5 > 10.0F) {
+            if (f > 10.0F) {
                this.clearLeashed(true, true);
             }
 
@@ -89,21 +89,21 @@ public abstract class EntityCreature extends EntityLiving {
             this.isMovementAITaskSet = true;
          }
 
-         this.func_142017_o(var5);
-         if (var5 > 4.0F) {
-            this.getNavigator().tryMoveToEntityLiving(var4, 1.0);
+         this.func_142017_o(f);
+         if (f > 4.0F) {
+            this.getNavigator().tryMoveToEntityLiving(entity, 1.0);
          }
 
-         if (var5 > 6.0F) {
-            double var6 = (var4.posX - this.posX) / var5;
-            double var8 = (var4.posY - this.posY) / var5;
-            double var10 = (var4.posZ - this.posZ) / var5;
-            this.motionX = this.motionX + var6 * Math.abs(var6) * 0.4;
-            this.motionY = this.motionY + var8 * Math.abs(var8) * 0.4;
-            this.motionZ = this.motionZ + var10 * Math.abs(var10) * 0.4;
+         if (f > 6.0F) {
+            double d = (entity.posX - this.posX) / f;
+            double e = (entity.posY - this.posY) / f;
+            double d2 = (entity.posZ - this.posZ) / f;
+            this.motionX = this.motionX + d * Math.abs(d) * 0.4;
+            this.motionY = this.motionY + e * Math.abs(e) * 0.4;
+            this.motionZ = this.motionZ + d2 * Math.abs(d2) * 0.4;
          }
 
-         if (var5 > 10.0F) {
+         if (f > 10.0F) {
             this.clearLeashed(true, true);
          }
       } else if (!this.getLeashed() && this.isMovementAITaskSet) {
@@ -117,6 +117,6 @@ public abstract class EntityCreature extends EntityLiving {
       }
    }
 
-   public void func_142017_o(float var1) {
+   public void func_142017_o(float f) {
    }
 }

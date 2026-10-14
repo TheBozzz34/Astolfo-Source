@@ -13,8 +13,8 @@ public final class Win32ComputerSystem {
    }
 
    public static WmiResult<Win32ComputerSystem.ComputerSystemProperty> queryComputerSystem() {
-      WmiQuery var2 = new WmiQuery<>("Win32_ComputerSystem", Win32ComputerSystem.ComputerSystemProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_ComputerSystem", Win32ComputerSystem.ComputerSystemProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum ComputerSystemProperty {

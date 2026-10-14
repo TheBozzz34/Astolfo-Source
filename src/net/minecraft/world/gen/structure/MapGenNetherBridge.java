@@ -31,17 +31,17 @@ public class MapGenNetherBridge extends MapGenStructure {
    }
 
    @Override
-   public boolean canSpawnStructureAtCoords(int var1, int var2) {
-      int var6 = var1 >> 4;
-      int var7 = var2 >> 4;
-      this.rand.setSeed(var6 ^ var7 << 4 ^ this.worldObj.getSeed());
+   public boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
+      int i = chunkX >> 4;
+      int j = chunkZ >> 4;
+      this.rand.setSeed(i ^ j << 4 ^ this.worldObj.getSeed());
       this.rand.nextInt();
-      return this.rand.nextInt(3) != 0 ? false : (var1 != (var6 << 4) + 4 + this.rand.nextInt(8) ? false : var2 == (var7 << 4) + 4 + this.rand.nextInt(8));
+      return this.rand.nextInt(3) != 0 ? false : (chunkX != (i << 4) + 4 + this.rand.nextInt(8) ? false : chunkZ == (j << 4) + 4 + this.rand.nextInt(8));
    }
 
    @Override
-   public StructureStart getStructureStart(int var1, int var2) {
-      return new MapGenNetherBridge.Start(this.worldObj, this.rand, var1, var2);
+   public StructureStart getStructureStart(int chunkX, int chunkZ) {
+      return new MapGenNetherBridge.Start(this.worldObj, this.rand, chunkX, chunkZ);
    }
 
    public static class Start extends StructureStart {
@@ -50,21 +50,21 @@ public class MapGenNetherBridge extends MapGenStructure {
       public Start() {
       }
 
-      public Start(World var1, Random var2, int var3, int var4) {
-         super(var3, var4);
-         StructureNetherBridgePieces.Start var8 = new StructureNetherBridgePieces.Start(var2, (var3 << 4) + 2, (var4 << 4) + 2);
-         this.components.add(var8);
-         var8.buildComponent(var8, this.components, var2);
-         List var9 = var8.field_74967_d;
+      public Start(World worldIn, Random random2, int j, int k) {
+         super(j, k);
+         StructureNetherBridgePieces.Start start = new StructureNetherBridgePieces.Start(random2, (j << 4) + 2, (k << 4) + 2);
+         this.components.add(start);
+         start.buildComponent(start, this.components, random2);
+         List list = start.field_74967_d;
 
-         while (!var9.isEmpty()) {
-            int var10 = var2.nextInt(var9.size());
-            StructureComponent var11 = (StructureComponent)var9.remove(var10);
-            var11.buildComponent(var8, this.components, var2);
+         while (!list.isEmpty()) {
+            int i = random2.nextInt(list.size());
+            StructureComponent structureComponent = (StructureComponent)list.remove(i);
+            structureComponent.buildComponent(start, this.components, random2);
          }
 
          this.updateBoundingBox();
-         this.setRandomHeight(var1, var2, 48, 70);
+         this.setRandomHeight(worldIn, random2, 48, 70);
       }
    }
 }

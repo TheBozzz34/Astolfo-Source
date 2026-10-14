@@ -38,75 +38,75 @@ public final class LinuxBaseboard extends AbstractBaseboard {
    }
 
    private static String E() {
-      String var3 = null;
-      return (var3 = queryManufacturerFromSysfs()) == null && (var3 = LinuxBaseboard.ProcCpuStrings.J(queryProcCpu())) == null ? "unknown" : var3;
+      String string = null;
+      return (string = queryManufacturerFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.J(queryProcCpu())) == null ? "unknown" : string;
    }
 
    private static String H() {
-      String var3 = null;
-      return (var3 = queryModelFromSysfs()) == null && (var3 = LinuxBaseboard.ProcCpuStrings.F(queryProcCpu())) == null ? "unknown" : var3;
+      String string = null;
+      return (string = queryModelFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.F(queryProcCpu())) == null ? "unknown" : string;
    }
 
    private static String L() {
-      String var3 = null;
-      return (var3 = queryVersionFromSysfs()) == null && (var3 = LinuxBaseboard.ProcCpuStrings.q(queryProcCpu())) == null ? "unknown" : var3;
+      String string = null;
+      return (string = queryVersionFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.q(queryProcCpu())) == null ? "unknown" : string;
    }
 
    private static String T() {
-      String var3 = null;
-      return (var3 = querySerialFromSysfs()) == null && (var3 = LinuxBaseboard.ProcCpuStrings.j(queryProcCpu())) == null ? "unknown" : var3;
+      String string = null;
+      return (string = querySerialFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.j(queryProcCpu())) == null ? "unknown" : string;
    }
 
    private static String queryManufacturerFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_vendor").trim();
-      return !var3.isEmpty() ? var3 : null;
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_vendor").trim();
+      return !string.isEmpty() ? string : null;
    }
 
    private static String queryModelFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_name").trim();
-      return !var3.isEmpty() ? var3 : null;
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_name").trim();
+      return !string.isEmpty() ? string : null;
    }
 
    private static String queryVersionFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_version").trim();
-      return !var3.isEmpty() ? var3 : null;
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_version").trim();
+      return !string.isEmpty() ? string : null;
    }
 
    private static String querySerialFromSysfs() {
-      String var3 = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_serial").trim();
-      return !var3.isEmpty() ? var3 : null;
+      String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/board_serial").trim();
+      return !string.isEmpty() ? string : null;
    }
 
    private static LinuxBaseboard.ProcCpuStrings queryProcCpu() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      String var6 = null;
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      String string4 = null;
 
-      for (String var9 : FileUtil.readFile(ProcPath.CPUINFO)) {
-         String[] var10 = ParseUtil.H.split(var9);
-         if (var10.length >= 2) {
-            switch (var10[0]) {
+      for (String string5 : FileUtil.readFile(ProcPath.CPUINFO)) {
+         String[] strings = ParseUtil.H.split(string5);
+         if (strings.length >= 2) {
+            switch (strings[0]) {
                case "Hardware":
-                  var4 = var10[1];
+                  string2 = strings[1];
                   break;
                case "Revision":
-                  var5 = var10[1];
-                  if (var5.length() > 1) {
-                     var3 = queryBoardManufacturer(var5.charAt(1));
+                  string3 = strings[1];
+                  if (string3.length() > 1) {
+                     string = queryBoardManufacturer(string3.charAt(1));
                   }
                   break;
                case "Serial":
-                  var6 = var10[1];
+                  string4 = strings[1];
             }
          }
       }
 
-      return new LinuxBaseboard.ProcCpuStrings(var3, var4, var5, var6);
+      return new LinuxBaseboard.ProcCpuStrings(string, string2, string3, string4);
    }
 
-   private static String queryBoardManufacturer(char var0) {
-      switch (var0) {
+   private static String queryBoardManufacturer(char digit) {
+      switch (digit) {
          case '0':
             return "Sony UK";
          case '1':
@@ -131,27 +131,27 @@ public final class LinuxBaseboard extends AbstractBaseboard {
       private final String serialNumber;
       private static final long a = 9123625676264L;
 
-      public ProcCpuStrings(String var1, String var2, String var3, String var4) {
-         this.manufacturer = Util.isBlank(var1) ? "unknown" : var1;
-         this.model = Util.isBlank(var2) ? "unknown" : var2;
-         this.version = Util.isBlank(var3) ? "unknown" : var3;
-         this.serialNumber = Util.isBlank(var4) ? "unknown" : var4;
+      public ProcCpuStrings(String manufacturerIn, String modelIn, String versionIn, String serialNumberIn) {
+         this.manufacturer = Util.isBlank(manufacturerIn) ? "unknown" : manufacturerIn;
+         this.model = Util.isBlank(modelIn) ? "unknown" : modelIn;
+         this.version = Util.isBlank(versionIn) ? "unknown" : versionIn;
+         this.serialNumber = Util.isBlank(serialNumberIn) ? "unknown" : serialNumberIn;
       }
 
-      public static String J(LinuxBaseboard.ProcCpuStrings var0) {
-         return var0.manufacturer;
+      public static String J(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+         return procCpuStrings.manufacturer;
       }
 
-      public static String F(LinuxBaseboard.ProcCpuStrings var0) {
-         return var0.model;
+      public static String F(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+         return procCpuStrings.model;
       }
 
-      public static String q(LinuxBaseboard.ProcCpuStrings var0) {
-         return var0.version;
+      public static String q(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+         return procCpuStrings.version;
       }
 
-      public static String j(LinuxBaseboard.ProcCpuStrings var0) {
-         return var0.serialNumber;
+      public static String j(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+         return procCpuStrings.serialNumber;
       }
    }
 }

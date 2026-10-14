@@ -18,37 +18,37 @@ public class C0EPacketClickWindow implements Packet<INetHandlerPlayServer> {
    public C0EPacketClickWindow() {
    }
 
-   public C0EPacketClickWindow(int var1, int var2, int var3, int var4, ItemStack var5, short var6) {
-      this.windowId = var1;
-      this.slotId = var2;
-      this.usedButton = var3;
-      this.clickedItem = var5 != null ? var5.copy() : null;
-      this.actionNumber = var6;
-      this.mode = var4;
+   public C0EPacketClickWindow(int windowId, int slotId, int usedButton, int mode, ItemStack clickedItem, short actionNumber) {
+      this.windowId = windowId;
+      this.slotId = slotId;
+      this.usedButton = usedButton;
+      this.clickedItem = clickedItem != null ? clickedItem.copy() : null;
+      this.actionNumber = actionNumber;
+      this.mode = mode;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processClickWindow(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readByte();
-      this.slotId = var1.readShort();
-      this.usedButton = var1.readByte();
-      this.actionNumber = var1.readShort();
-      this.mode = var1.readByte();
-      this.clickedItem = var1.readItemStackFromBuffer();
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processClickWindow(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeShort(this.slotId);
-      var1.writeByte(this.usedButton);
-      var1.writeShort(this.actionNumber);
-      var1.writeByte(this.mode);
-      var1.writeItemStackToBuffer(this.clickedItem);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readByte();
+      this.slotId = buf.readShort();
+      this.usedButton = buf.readByte();
+      this.actionNumber = buf.readShort();
+      this.mode = buf.readByte();
+      this.clickedItem = buf.readItemStackFromBuffer();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeShort(this.slotId);
+      buf.writeByte(this.usedButton);
+      buf.writeShort(this.actionNumber);
+      buf.writeByte(this.mode);
+      buf.writeItemStackToBuffer(this.clickedItem);
    }
 
    public int getWindowId() {

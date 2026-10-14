@@ -13,27 +13,27 @@ public class QueuedFileSender extends FileSender {
    private Thread u;
    private static final long d = 12741492726765L;
 
-   public QueuedFileSender(Consumer<IOException> var1) {
-      this.c = var1;
+   public QueuedFileSender(Consumer<IOException> consumer) {
+      this.c = consumer;
    }
 
    @Override
-   public void open(SocketChannel var1) throws IOException {
-      super.open(var1);
+   public void open(SocketChannel socketChannel) throws IOException {
+      super.open(socketChannel);
       this.u = new Thread(() -> {
          while (!Thread.currentThread().isInterrupted()) {
-            FileSendRequest var4;
+            FileSendRequest fileSendRequest;
             try {
-               var4 = this.z.take();
-            } catch (InterruptedException var7) {
-               var7.printStackTrace();
+               fileSendRequest = this.z.take();
+            } catch (InterruptedException interruptedException) {
+               interruptedException.printStackTrace();
                return;
             }
 
             try {
-               super.y(var4.q, var4.X, var4.g);
-            } catch (IOException var6) {
-               this.c.accept(var6);
+               super.y(fileSendRequest.q, fileSendRequest.X, fileSendRequest.g);
+            } catch (IOException ioException) {
+               this.c.accept(ioException);
             }
          }
       });
@@ -41,8 +41,8 @@ public class QueuedFileSender extends FileSender {
    }
 
    @Override
-   public void y(Path var1, String var2, long var3) {
-      this.z.add(new FileSendRequest(var2, var1, var3));
+   public void y(Path path, String string, long l) {
+      this.z.add(new FileSendRequest(string, path, l));
    }
 
    @Override

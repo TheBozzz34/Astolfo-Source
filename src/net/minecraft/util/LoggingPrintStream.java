@@ -10,24 +10,24 @@ public class LoggingPrintStream extends PrintStream {
    private final String domain;
    private static final long a = 68534076299193L;
 
-   public LoggingPrintStream(String var1, OutputStream var2) {
-      super(var2);
-      this.domain = var1;
+   public LoggingPrintStream(String domainIn, OutputStream outStream) {
+      super(outStream);
+      this.domain = domainIn;
    }
 
    @Override
-   public void println(String var1) {
-      this.logString(var1);
+   public void println(String string) {
+      this.logString(string);
    }
 
    @Override
-   public void println(Object var1) {
-      this.logString(String.valueOf(var1));
+   public void println(Object object) {
+      this.logString(String.valueOf(object));
    }
 
-   private void logString(String var1) {
-      StackTraceElement[] var4 = Thread.currentThread().getStackTrace();
-      StackTraceElement var5 = var4[Math.min(3, var4.length)];
-      LOGGER.info("[{}]@.({}:{}): {}", this.domain, var5.getFileName(), var5.getLineNumber(), var1);
+   private void logString(String string) {
+      StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+      StackTraceElement stackTraceElement = stackTraceElements[Math.min(3, stackTraceElements.length)];
+      LOGGER.info("[{}]@.({}:{}): {}", this.domain, stackTraceElement.getFileName(), stackTraceElement.getLineNumber(), string);
    }
 }

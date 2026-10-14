@@ -122,94 +122,94 @@ public class TextureUtils {
    private static final long ab = 84052644820302L;
 
    public static void update() {
-      TextureMap var2 = getTextureMapBlocks();
-      if (var2 != null) {
-         String var3 = "minecraft:blocks/";
-         iconGrassTop = var2.getSpriteSafe(var3 + "grass_top");
-         iconGrassSide = var2.getSpriteSafe(var3 + "grass_side");
-         iconGrassSideOverlay = var2.getSpriteSafe(var3 + "grass_side_overlay");
-         iconSnow = var2.getSpriteSafe(var3 + "snow");
-         iconGrassSideSnowed = var2.getSpriteSafe(var3 + "grass_side_snowed");
-         iconMyceliumSide = var2.getSpriteSafe(var3 + "mycelium_side");
-         iconMyceliumTop = var2.getSpriteSafe(var3 + "mycelium_top");
-         iconWaterStill = var2.getSpriteSafe(var3 + "water_still");
-         iconWaterFlow = var2.getSpriteSafe(var3 + "water_flow");
-         iconLavaStill = var2.getSpriteSafe(var3 + "lava_still");
-         iconLavaFlow = var2.getSpriteSafe(var3 + "lava_flow");
-         iconFireLayer0 = var2.getSpriteSafe(var3 + "fire_layer_0");
-         iconFireLayer1 = var2.getSpriteSafe(var3 + "fire_layer_1");
-         iconPortal = var2.getSpriteSafe(var3 + "portal");
-         iconGlass = var2.getSpriteSafe(var3 + "glass");
-         iconGlassPaneTop = var2.getSpriteSafe(var3 + "glass_pane_top");
-         String var4 = "minecraft:items/";
-         iconCompass = var2.getSpriteSafe(var4 + "compass");
-         iconClock = var2.getSpriteSafe(var4 + "clock");
+      TextureMap textureMap = getTextureMapBlocks();
+      if (textureMap != null) {
+         String string = "minecraft:blocks/";
+         iconGrassTop = textureMap.getSpriteSafe(string + "grass_top");
+         iconGrassSide = textureMap.getSpriteSafe(string + "grass_side");
+         iconGrassSideOverlay = textureMap.getSpriteSafe(string + "grass_side_overlay");
+         iconSnow = textureMap.getSpriteSafe(string + "snow");
+         iconGrassSideSnowed = textureMap.getSpriteSafe(string + "grass_side_snowed");
+         iconMyceliumSide = textureMap.getSpriteSafe(string + "mycelium_side");
+         iconMyceliumTop = textureMap.getSpriteSafe(string + "mycelium_top");
+         iconWaterStill = textureMap.getSpriteSafe(string + "water_still");
+         iconWaterFlow = textureMap.getSpriteSafe(string + "water_flow");
+         iconLavaStill = textureMap.getSpriteSafe(string + "lava_still");
+         iconLavaFlow = textureMap.getSpriteSafe(string + "lava_flow");
+         iconFireLayer0 = textureMap.getSpriteSafe(string + "fire_layer_0");
+         iconFireLayer1 = textureMap.getSpriteSafe(string + "fire_layer_1");
+         iconPortal = textureMap.getSpriteSafe(string + "portal");
+         iconGlass = textureMap.getSpriteSafe(string + "glass");
+         iconGlassPaneTop = textureMap.getSpriteSafe(string + "glass_pane_top");
+         String string2 = "minecraft:items/";
+         iconCompass = textureMap.getSpriteSafe(string2 + "compass");
+         iconClock = textureMap.getSpriteSafe(string2 + "clock");
       }
    }
 
-   public static BufferedImage fixTextureDimensions(String var0, BufferedImage var1) {
-      if (var0.startsWith("/mob/zombie") || var0.startsWith("/mob/pigzombie")) {
-         int var5 = var1.getWidth();
-         int var6 = var1.getHeight();
-         if (var5 == var6 * 2) {
-            BufferedImage var7 = new BufferedImage(var5, var6 * 2, 2);
-            Graphics2D var8 = var7.createGraphics();
-            var8.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            var8.drawImage(var1, 0, 0, var5, var6, (ImageObserver)null);
-            return var7;
+   public static BufferedImage fixTextureDimensions(String name, BufferedImage bi) {
+      if (name.startsWith("/mob/zombie") || name.startsWith("/mob/pigzombie")) {
+         int i = bi.getWidth();
+         int j = bi.getHeight();
+         if (i == j * 2) {
+            BufferedImage bufferedImage = new BufferedImage(i, j * 2, 2);
+            Graphics2D graphics2D = bufferedImage.createGraphics();
+            graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            graphics2D.drawImage(bi, 0, 0, i, j, (ImageObserver)null);
+            return bufferedImage;
          }
       }
 
-      return var1;
+      return bi;
    }
 
-   public static int ceilPowerOfTwo(int var0) {
-      byte var4 = 1;
+   public static int ceilPowerOfTwo(int val) {
+      byte b = 1;
 
-      while (var4 < var0) {
-         var4 *= 2;
+      while (b < val) {
+         b *= 2;
       }
 
-      return var4;
+      return b;
    }
 
-   public static int g(int var0) {
-      byte var4 = 1;
+   public static int g(int i) {
+      byte b = 1;
 
-      int var5;
-      for (var5 = 0; var4 < var0; var5++) {
-         var4 *= 2;
+      int j;
+      for (j = 0; b < i; j++) {
+         b *= 2;
       }
 
-      return var5;
+      return j;
    }
 
-   public static int P(int var0) {
-      byte var4 = 1;
+   public static int P(int i) {
+      byte b = 1;
 
-      for (int var5 = 0; var5 < var0; var5++) {
-         var4 *= 2;
+      for (int j = 0; j < i; j++) {
+         b *= 2;
       }
 
-      return var4;
+      return b;
    }
 
-   public static ITextureObject getTexture(ResourceLocation var0) {
-      ITextureObject var4 = Config.getTextureManager().getTexture(var0);
-      if (var4 != null) {
-         return var4;
+   public static ITextureObject getTexture(ResourceLocation loc) {
+      ITextureObject iTextureObject = Config.getTextureManager().getTexture(loc);
+      if (iTextureObject != null) {
+         return iTextureObject;
       }
 
-      if (!Config.hasResource(var0)) {
+      if (!Config.hasResource(loc)) {
          return null;
       }
 
-      SimpleTexture var5 = new SimpleTexture(var0);
-      Config.getTextureManager().loadTexture(var0, var5);
-      return var5;
+      SimpleTexture simpleTexture = new SimpleTexture(loc);
+      Config.getTextureManager().loadTexture(loc, simpleTexture);
+      return simpleTexture;
    }
 
-   public static void resourcesReloaded(IResourceManager var0) {
+   public static void resourcesReloaded(IResourceManager rm) {
       if (getTextureMapBlocks() != null) {
          Config.dbg("*** Reloading custom textures ***");
          CustomSky.v();
@@ -236,26 +236,26 @@ public class TextureUtils {
    }
 
    public static void registerResourceListener() {
-      IResourceManager var3 = Config.getResourceManager();
-      if (var3 instanceof IReloadableResourceManager) {
-         IReloadableResourceManager var4 = (IReloadableResourceManager)var3;
-         IResourceManagerReloadListener var5 = new IResourceManagerReloadListener() {
+      IResourceManager iResourceManager = Config.getResourceManager();
+      if (iResourceManager instanceof IReloadableResourceManager) {
+         IReloadableResourceManager iReloadableResourceManager = (IReloadableResourceManager)iResourceManager;
+         IResourceManagerReloadListener iResourceManagerReloadListener = new IResourceManagerReloadListener() {
             @Override
-            public void onResourceManagerReload(IResourceManager var1) {
-               TextureUtils.resourcesReloaded(var1);
+            public void onResourceManagerReload(IResourceManager resourceManager) {
+               TextureUtils.resourcesReloaded(resourceManager);
             }
          };
-         var4.registerReloadListener(var5);
+         iReloadableResourceManager.registerReloadListener(iResourceManagerReloadListener);
       }
 
-      ITickableTextureObject var6 = new ITickableTextureObject() {
+      ITickableTextureObject iTickableTextureObject = new ITickableTextureObject() {
          @Override
          public void tick() {
             TextureAnimations.s();
          }
 
          @Override
-         public void loadTexture(IResourceManager var1) throws IOException {
+         public void loadTexture(IResourceManager resourceManager) throws IOException {
          }
 
          @Override
@@ -264,7 +264,7 @@ public class TextureUtils {
          }
 
          @Override
-         public void setBlurMipmap(boolean var1, boolean var2) {
+         public void setBlurMipmap(boolean bl, boolean bl2) {
          }
 
          @Override
@@ -276,218 +276,218 @@ public class TextureUtils {
             return null;
          }
       };
-      ResourceLocation var7 = new ResourceLocation("optifine/TickableTextures");
-      Config.getTextureManager().loadTickableTexture(var7, var6);
+      ResourceLocation resourceLocation = new ResourceLocation("optifine/TickableTextures");
+      Config.getTextureManager().loadTickableTexture(resourceLocation, iTickableTextureObject);
    }
 
-   public static String fixResourcePath(String var0, String var1) {
-      String var5 = "assets/minecraft/";
-      if (var0.startsWith(var5)) {
-         return var0.substring(var5.length());
+   public static String fixResourcePath(String path, String basePath) {
+      String string = "assets/minecraft/";
+      if (path.startsWith(string)) {
+         return path.substring(string.length());
       }
 
-      if (var0.startsWith("./")) {
-         var0 = var0.substring(2);
-         if (!var1.endsWith("/")) {
-            var1 = var1 + "/";
+      if (path.startsWith("./")) {
+         path = path.substring(2);
+         if (!basePath.endsWith("/")) {
+            basePath = basePath + "/";
          }
 
-         return var1 + var0;
+         return basePath + path;
       } else {
-         if (var0.startsWith("/~")) {
-            var0 = var0.substring(1);
+         if (path.startsWith("/~")) {
+            path = path.substring(1);
          }
 
-         String var6 = "mcpatcher/";
-         if (var0.startsWith("~/")) {
-            var0 = var0.substring(2);
-            return var6 + var0;
+         String string2 = "mcpatcher/";
+         if (path.startsWith("~/")) {
+            path = path.substring(2);
+            return string2 + path;
          } else {
-            return var0.startsWith("/") ? var6 + var0.substring(1) : var0;
+            return path.startsWith("/") ? string2 + path.substring(1) : path;
          }
       }
    }
 
-   public static String getBasePath(String var0) {
-      int var3 = var0.lastIndexOf(47);
-      return var3 < 0 ? "" : var0.substring(0, var3);
+   public static String getBasePath(String path) {
+      int i = path.lastIndexOf(47);
+      return i < 0 ? "" : path.substring(0, i);
    }
 
    public static void applyAnisotropicLevel() {
-      long var0 = ab ^ 140355487236456L;
+      long l = ab ^ 140355487236456L;
       if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic) {
-         float var3 = GL11.glGetFloat(34047);
-         float var4 = Config.getAnisotropicFilterLevel();
-         long var10000 = 5253308827969494935L ^ var0;
-         var4 = Math.min(var4, var3);
-         GL11.glTexParameterf(3553, 34046, var4);
+         float f = GL11.glGetFloat(34047);
+         float g = Config.getAnisotropicFilterLevel();
+         long m = 5253308827969494935L ^ l;
+         g = Math.min(g, f);
+         GL11.glTexParameterf(3553, 34046, g);
       }
    }
 
-   public static void bindTexture(int var0) {
-      GlStateManager.bindTexture(var0);
+   public static void bindTexture(int glTexId) {
+      GlStateManager.bindTexture(glTexId);
    }
 
-   public static boolean isPowerOfTwo(int var0) {
-      int var4 = MathHelper.roundUpToPowerOfTwo(var0);
-      return var4 == var0;
+   public static boolean isPowerOfTwo(int x) {
+      int i = MathHelper.roundUpToPowerOfTwo(x);
+      return i == x;
    }
 
-   public static BufferedImage scaleImage(BufferedImage var0, int var1) {
-      int var5 = var0.getWidth();
-      int var6 = var0.getHeight();
-      int var7 = var6 * var1 / var5;
-      BufferedImage var8 = new BufferedImage(var1, var7, 2);
-      Graphics2D var9 = var8.createGraphics();
-      Object var10 = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-      if (var1 < var5 || var1 % var5 != 0) {
-         var10 = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+   public static BufferedImage scaleImage(BufferedImage bi, int w2) {
+      int i = bi.getWidth();
+      int j = bi.getHeight();
+      int k = j * w2 / i;
+      BufferedImage bufferedImage = new BufferedImage(w2, k, 2);
+      Graphics2D graphics2D = bufferedImage.createGraphics();
+      Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+      if (w2 < i || w2 % i != 0) {
+         object = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
       }
 
-      var9.setRenderingHint(RenderingHints.KEY_INTERPOLATION, var10);
-      var9.drawImage(var0, 0, 0, var1, var7, (ImageObserver)null);
-      return var8;
+      graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
+      graphics2D.drawImage(bi, 0, 0, w2, k, (ImageObserver)null);
+      return bufferedImage;
    }
 
-   public static BufferedImage scaleToPowerOfTwo(BufferedImage var0, int var1) {
-      if (var0 == null) {
-         return var0;
+   public static BufferedImage scaleToPowerOfTwo(BufferedImage bi, int minSize) {
+      if (bi == null) {
+         return bi;
       }
 
-      int var5 = var0.getWidth();
-      int var6 = var0.getHeight();
-      int var7 = Math.max(var5, var1);
-      var7 = MathHelper.roundUpToPowerOfTwo(var7);
-      if (var7 == var5) {
-         return var0;
+      int i = bi.getWidth();
+      int j = bi.getHeight();
+      int k = Math.max(i, minSize);
+      k = MathHelper.roundUpToPowerOfTwo(k);
+      if (k == i) {
+         return bi;
       }
 
-      int var8 = var6 * var7 / var5;
-      BufferedImage var9 = new BufferedImage(var7, var8, 2);
-      Graphics2D var10 = var9.createGraphics();
-      Object var11 = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-      if (var7 % var5 != 0) {
-         var11 = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+      int l = j * k / i;
+      BufferedImage bufferedImage = new BufferedImage(k, l, 2);
+      Graphics2D graphics2D = bufferedImage.createGraphics();
+      Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+      if (k % i != 0) {
+         object = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
       }
 
-      var10.setRenderingHint(RenderingHints.KEY_INTERPOLATION, var11);
-      var10.drawImage(var0, 0, 0, var7, var8, (ImageObserver)null);
-      return var9;
+      graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
+      graphics2D.drawImage(bi, 0, 0, k, l, (ImageObserver)null);
+      return bufferedImage;
    }
 
-   public static BufferedImage m(BufferedImage var0, int var1) {
-      if (var0 == null) {
-         return var0;
+   public static BufferedImage m(BufferedImage bufferedImage, int i) {
+      if (bufferedImage == null) {
+         return bufferedImage;
       }
 
-      int var5 = var0.getWidth();
-      int var6 = var0.getHeight();
-      if (var5 >= var1) {
-         return var0;
+      int j = bufferedImage.getWidth();
+      int k = bufferedImage.getHeight();
+      if (j >= i) {
+         return bufferedImage;
       }
 
-      int var7 = var5;
+      int l = j;
 
-      while (var7 < var1) {
-         var7 *= 2;
+      while (l < i) {
+         l *= 2;
       }
 
-      int var8 = var6 * var7 / var5;
-      BufferedImage var9 = new BufferedImage(var7, var8, 2);
-      Graphics2D var10 = var9.createGraphics();
-      Object var11 = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-      var10.setRenderingHint(RenderingHints.KEY_INTERPOLATION, var11);
-      var10.drawImage(var0, 0, 0, var7, var8, (ImageObserver)null);
-      return var9;
+      int n = k * l / j;
+      BufferedImage bufferedImage2 = new BufferedImage(l, n, 2);
+      Graphics2D graphics2D = bufferedImage2.createGraphics();
+      Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+      graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
+      graphics2D.drawImage(bufferedImage, 0, 0, l, n, (ImageObserver)null);
+      return bufferedImage2;
    }
 
-   public static Dimension getImageSize(InputStream var0, String var1) {
-      Iterator var5 = ImageIO.getImageReadersBySuffix(var1);
+   public static Dimension getImageSize(InputStream in, String suffix) {
+      Iterator iterator = ImageIO.getImageReadersBySuffix(suffix);
 
-      while (var5.hasNext()) {
-         ImageReader var6 = (ImageReader)var5.next();
+      while (iterator.hasNext()) {
+         ImageReader imageReader = (ImageReader)iterator.next();
 
-         Dimension var7;
+         Dimension dimension;
          try {
-            ImageInputStream var8 = ImageIO.createImageInputStream(var0);
-            var6.setInput(var8);
-            int var9 = var6.getWidth(var6.getMinIndex());
-            int var10 = var6.getHeight(var6.getMinIndex());
-            var7 = new Dimension(var9, var10);
-         } catch (IOException var14) {
+            ImageInputStream imageInputStream = ImageIO.createImageInputStream(in);
+            imageReader.setInput(imageInputStream);
+            int i = imageReader.getWidth(imageReader.getMinIndex());
+            int j = imageReader.getHeight(imageReader.getMinIndex());
+            dimension = new Dimension(i, j);
+         } catch (IOException ioException) {
             continue;
          } finally {
-            var6.dispose();
+            imageReader.dispose();
          }
 
-         return var7;
+         return dimension;
       }
 
       return null;
    }
 
-   public static void dbgMipmaps(TextureAtlasSprite var0) {
-      int[][] var4 = var0.getFrameTextureData(0);
+   public static void dbgMipmaps(TextureAtlasSprite textureatlassprite) {
+      int[][] intss = textureatlassprite.getFrameTextureData(0);
 
-      for (int var5 = 0; var5 < var4.length; var5++) {
-         int[] var6 = var4[var5];
-         if (var6 == null) {
-            Config.dbg("" + var5 + ": " + var6);
+      for (int i = 0; i < intss.length; i++) {
+         int[] ints = intss[i];
+         if (ints == null) {
+            Config.dbg("" + i + ": " + ints);
          } else {
-            Config.dbg("" + var5 + ": " + var6.length);
+            Config.dbg("" + i + ": " + ints.length);
          }
       }
    }
 
-   public static void saveGlTexture(String var0, int var1, int var2, int var3, int var4) {
-      long var5 = ab ^ 49330444783295L;
-      bindTexture(var1);
+   public static void saveGlTexture(String name, int textureId, int mipmapLevels, int width, int height) {
+      long l = ab ^ 49330444783295L;
+      bindTexture(textureId);
       GL11.glPixelStorei(3333, 1);
       GL11.glPixelStorei(3317, 1);
-      File var8 = new File(var0);
-      File var9 = var8.getParentFile();
-      if (var9 != null) {
-         var9.mkdirs();
+      File file = new File(name);
+      File file2 = file.getParentFile();
+      if (file2 != null) {
+         file2.mkdirs();
       }
 
-      for (int var10 = 0; var10 < 16; var10++) {
-         File var11 = new File(var0 + "_" + var10 + ".png");
-         var11.delete();
+      for (int i = 0; i < 16; i++) {
+         File file3 = new File(name + "_" + i + ".png");
+         file3.delete();
       }
 
-      for (int var20 = 0; var20 <= var2; var20++) {
-         File var21 = new File(var0 + "_" + var20 + ".png");
-         int var12 = var3 >> var20;
-         long var10000 = 2528722534420107649L ^ var5;
-         int var13 = var4 >> var20;
-         int var14 = var12 * var13;
-         IntBuffer var15 = BufferUtils.createIntBuffer(var14);
-         int[] var16 = new int[var14];
-         GL11.glGetTexImage(3553, var20, 32993, 33639, var15);
-         var15.get(var16);
-         BufferedImage var17 = new BufferedImage(var12, var13, 2);
-         var17.setRGB(0, 0, var12, var13, var16, 0, var12);
+      for (int j = 0; j <= mipmapLevels; j++) {
+         File file4 = new File(name + "_" + j + ".png");
+         int k = width >> j;
+         long m = 2528722534420107649L ^ l;
+         int n = height >> j;
+         int i2 = k * n;
+         IntBuffer intBuffer = BufferUtils.createIntBuffer(i2);
+         int[] ints = new int[i2];
+         GL11.glGetTexImage(3553, j, 32993, 33639, intBuffer);
+         intBuffer.get(ints);
+         BufferedImage bufferedImage = new BufferedImage(k, n, 2);
+         bufferedImage.setRGB(0, 0, k, n, ints, 0, k);
 
          try {
-            ImageIO.write(var17, "png", var21);
-            Config.dbg("Exported: " + var21);
-         } catch (Exception var19) {
-            Config.warn("Error writing: " + var21);
-            Config.warn("" + var19.getClass().getName() + ": " + var19.getMessage());
+            ImageIO.write(bufferedImage, "png", file4);
+            Config.dbg("Exported: " + file4);
+         } catch (Exception exception) {
+            Config.warn("Error writing: " + file4);
+            Config.warn("" + exception.getClass().getName() + ": " + exception.getMessage());
          }
       }
    }
 
    public static int getGLMaximumTextureSize() {
-      long var0 = ab ^ 129269130181127L;
+      long l = ab ^ 129269130181127L;
 
-      for (int var3 = 65536; var3 > 0; var3 >>= 1) {
-         GL11.glTexImage2D(32868, 0, 6408, var3, var3, 0, 6408, 5121, (IntBuffer)null);
-         int var4 = GL11.glGetError();
-         long var10000 = 1998288007323378328L ^ var0;
-         int var5 = GL11.glGetTexLevelParameteri(32868, 0, 4096);
-         if (var5 != 0) {
-            return var3;
+      for (int i = 65536; i > 0; i >>= 1) {
+         GL11.glTexImage2D(32868, 0, 6408, i, i, 0, 6408, 5121, (IntBuffer)null);
+         int j = GL11.glGetError();
+         long m = 1998288007323378328L ^ l;
+         int k = GL11.glGetTexLevelParameteri(32868, 0, 4096);
+         if (k != 0) {
+            return i;
          }
       }
 

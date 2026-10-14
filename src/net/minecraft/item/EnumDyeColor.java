@@ -32,13 +32,13 @@ public enum EnumDyeColor implements IStringSerializable {
    private final EnumChatFormatting chatColor;
    private static final long a = 93535748262780L;
 
-   EnumDyeColor(int var3, int var4, String var5, String var6, MapColor var7, EnumChatFormatting var8) {
-      this.meta = var3;
-      this.dyeDamage = var4;
-      this.name = var5;
-      this.unlocalizedName = var6;
-      this.mapColor = var7;
-      this.chatColor = var8;
+   EnumDyeColor(int meta, int dyeDamage, String name, String unlocalizedName, MapColor mapColorIn, EnumChatFormatting chatColor) {
+      this.meta = meta;
+      this.dyeDamage = dyeDamage;
+      this.name = name;
+      this.unlocalizedName = unlocalizedName;
+      this.mapColor = mapColorIn;
+      this.chatColor = chatColor;
    }
 
    public int getMetadata() {
@@ -57,20 +57,20 @@ public enum EnumDyeColor implements IStringSerializable {
       return this.mapColor;
    }
 
-   public static EnumDyeColor byDyeDamage(int var0) {
-      if (var0 < 0 || var0 >= DYE_DMG_LOOKUP.length) {
-         var0 = 0;
+   public static EnumDyeColor byDyeDamage(int damage) {
+      if (damage < 0 || damage >= DYE_DMG_LOOKUP.length) {
+         damage = 0;
       }
 
-      return DYE_DMG_LOOKUP[var0];
+      return DYE_DMG_LOOKUP[damage];
    }
 
-   public static EnumDyeColor byMetadata(int var0) {
-      if (var0 < 0 || var0 >= META_LOOKUP.length) {
-         var0 = 0;
+   public static EnumDyeColor byMetadata(int meta) {
+      if (meta < 0 || meta >= META_LOOKUP.length) {
+         meta = 0;
       }
 
-      return META_LOOKUP[var0];
+      return META_LOOKUP[meta];
    }
 
    @Override
@@ -84,9 +84,9 @@ public enum EnumDyeColor implements IStringSerializable {
    }
 
    static {
-      for (EnumDyeColor var25 : values()) {
-         META_LOOKUP[var25.getMetadata()] = var25;
-         DYE_DMG_LOOKUP[var25.getDyeDamage()] = var25;
+      for (EnumDyeColor enumDyeColor : values()) {
+         META_LOOKUP[enumDyeColor.getMetadata()] = enumDyeColor;
+         DYE_DMG_LOOKUP[enumDyeColor.getDyeDamage()] = enumDyeColor;
       }
    }
 }

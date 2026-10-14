@@ -10,35 +10,44 @@ public class EntityCrit2FX extends EntityFX {
    private static final long ab = 50670306076521L;
    private static final long cb = -994973854663180223L;
 
-   public EntityCrit2FX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      this(var1, var2, var4, var6, var8, var10, var12, 1.0F);
+   public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 1.0F);
    }
 
-   public EntityCrit2FX(World var1, double var2, double var4, double var6, double var8, double var10, double var12, float var14) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float f) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.1F;
       this.motionY *= 0.1F;
       this.motionZ *= 0.1F;
-      this.motionX += var8 * 0.4;
-      this.motionY += var10 * 0.4;
-      this.motionZ += var12 * 0.4;
+      this.motionX += d * 0.4;
+      this.motionY += d2 * 0.4;
+      this.motionZ += d3 * 0.4;
       this.particleRed = this.particleGreen = this.particleBlue = (float)(Math.random() * 0.3F + 0.6F);
       this.particleScale *= 0.75F;
-      this.particleScale *= var14;
+      this.particleScale *= f;
       this.field_174839_a = this.particleScale;
       this.particleMaxAge = (int)(6.0 / (Math.random() * 0.8 + 0.6));
-      this.particleMaxAge = (int)(this.particleMaxAge * var14);
+      this.particleMaxAge = (int)(this.particleMaxAge * f);
       this.noClip = false;
       this.setParticleTextureIndex((int)cb);
       this.onUpdate();
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = (this.particleAge + var3) / this.particleMaxAge * 32.0F;
-      var9 = MathHelper.clamp_float(var9, 0.0F, 1.0F);
-      this.particleScale = this.field_174839_a * var9;
-      super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge * 32.0F;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      this.particleScale = this.field_174839_a * f;
+      super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
    }
 
    @Override
@@ -65,18 +74,22 @@ public class EntityCrit2FX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityCrit2FX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityCrit2FX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 
    public static class MagicFactory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         EntityCrit2FX var16 = new EntityCrit2FX(var2, var3, var5, var7, var9, var11, var13);
-         var16.setRBGColorF(var16.getRedColorF() * 0.3F, var16.getGreenColorF() * 0.8F, var16.getBlueColorF());
-         var16.nextTextureIndexX();
-         return var16;
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         EntityCrit2FX entityCrit2FX = new EntityCrit2FX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+         entityCrit2FX.setRBGColorF(entityCrit2FX.getRedColorF() * 0.3F, entityCrit2FX.getGreenColorF() * 0.8F, entityCrit2FX.getBlueColorF());
+         entityCrit2FX.nextTextureIndexX();
+         return entityCrit2FX;
       }
    }
 }

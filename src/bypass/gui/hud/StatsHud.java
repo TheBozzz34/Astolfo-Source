@@ -15,144 +15,144 @@ public class StatsHud extends Component {
    private int Q = 10;
    private static final long c = 58458748682171L;
 
-   public StatsHud(float var1, float var2, int var3, int var4) {
-      super("Stats", var1, var2, var3, var4);
+   public StatsHud(float f, float g, int i, int j) {
+      super("Stats", f, g, i, j);
       this.F(true);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = c ^ 37543297409481L;
+   public void render(int i, int j) {
+      long l = c ^ 37543297409481L;
       if (this.R != null) {
-         float var6 = this.M();
-         float var7 = this.E_float();
-         long var10000 = 1295372147817266408L ^ var3;
-         float var8 = this.x();
-         int var9 = (int)(var8 / 12.0F);
-         int var10 = 1;
-         byte var11 = 25;
+         float f = this.M();
+         float g = this.E_float();
+         long l2 = 1295372147817266408L ^ l;
+         float h = this.x();
+         int k = (int)(h / 12.0F);
+         int i2 = 1;
+         byte b = 25;
 
-         for (PlayerStatsEntry var13 : PlayerListTracker.playerStats) {
-            if (var10 > this.Q) {
+         for (PlayerStatsEntry playerStatsEntry : PlayerListTracker.playerStats) {
+            if (i2 > this.Q) {
                break;
             }
 
-            if (PlayerListTracker.tabListNames.contains(var13.Q)) {
-               var11 += 12;
-               var10++;
+            if (PlayerListTracker.tabListNames.contains(playerStatsEntry.Q)) {
+               b += 12;
+               i2++;
             }
          }
 
-         int var21 = var11 + 5;
-         float var22 = mc.fontRendererObj.getStringWidth("PLAYERS");
-         float var14 = mc.fontRendererObj.getStringWidth("30000");
-         float var15 = this.c();
-         float var16 = var15 + var22 + var14 * this.R.columnAmount + 15.0F;
-         RenderUtil.drawRect(var6, var7, var6 + var16, var7 + 15.0F, new Color(1, 1, 1, 180).getRGB());
-         RenderUtil.drawRect(var6, var7 + 15.0F, var6 + var16, var7 + var21, new Color(1, 1, 1, 120).getRGB());
+         int i3 = b + 5;
+         float f2 = mc.fontRendererObj.getStringWidth("PLAYERS");
+         float f3 = mc.fontRendererObj.getStringWidth("30000");
+         float f4 = this.c();
+         float f5 = f4 + f2 + f3 * this.R.columnAmount + 15.0F;
+         RenderUtil.drawRect(f, g, f + f5, g + 15.0F, new Color(1, 1, 1, 180).getRGB());
+         RenderUtil.drawRect(f, g + 15.0F, f + f5, g + i3, new Color(1, 1, 1, 120).getRGB());
          switch (this.R) {
             case BW:
-               PlayerListTracker.playerStats.sort((var0, var1x) -> Float.compare(var1x.w, var0.w));
+               PlayerListTracker.playerStats.sort((playerStatsEntry2, playerStatsEntry3) -> Float.compare(playerStatsEntry3.w, playerStatsEntry2.w));
                break;
             case SW:
-               PlayerListTracker.playerStats.sort((var0, var1x) -> Float.compare(var1x.sF, var0.sF));
+               PlayerListTracker.playerStats.sort((playerStatsEntry4, playerStatsEntry5) -> Float.compare(playerStatsEntry5.sF, playerStatsEntry4.sF));
                break;
             case UHC:
-               PlayerListTracker.playerStats.sort((var0, var1x) -> Float.compare(var1x.O, var0.O));
+               PlayerListTracker.playerStats.sort((playerStatsEntry6, playerStatsEntry7) -> Float.compare(playerStatsEntry7.O, playerStatsEntry6.O));
                break;
             case MW:
-               PlayerListTracker.playerStats.sort((var0, var1x) -> Float.compare(var1x.F, var0.F));
+               PlayerListTracker.playerStats.sort((playerStatsEntry8, playerStatsEntry9) -> Float.compare(playerStatsEntry9.F, playerStatsEntry8.F));
          }
 
          mc.fontRendererObj.drawStringWithShadow("PLAYERS", this.M() + 11.0F, this.E_float() + 4.0F, -1);
-         byte var17 = 25;
-         int var18 = 1;
+         byte b2 = 25;
+         int i4 = 1;
 
-         for (PlayerStatsEntry var20 : PlayerListTracker.playerStats) {
-            if (var18 > this.Q) {
+         for (PlayerStatsEntry playerStatsEntry10 : PlayerListTracker.playerStats) {
+            if (i4 > this.Q) {
                break;
             }
 
-            if (PlayerListTracker.tabListNames.contains(var20.Q)) {
-               if (var20.m != null) {
-                  mc.getTextureManager().bindTexture(var20.m.c());
-                  Gui.drawScaledCustomSizeModalRect((int)(this.M() + var9 - 12.0F), (int)(this.E_float() + var17), 8.0F, 8.0F, 8, 8, 8, 8, 64.0F, 64.0F);
+            if (PlayerListTracker.tabListNames.contains(playerStatsEntry10.Q)) {
+               if (playerStatsEntry10.m != null) {
+                  mc.getTextureManager().bindTexture(playerStatsEntry10.m.c());
+                  Gui.drawScaledCustomSizeModalRect((int)(this.M() + k - 12.0F), (int)(this.E_float() + b2), 8.0F, 8.0F, 8, 8, 8, 8, 64.0F, 64.0F);
                }
 
                switch (this.R) {
                   case BW:
-                     mc.fontRendererObj.drawStringWithShadow("WS", this.M() + var15 + var22, this.E_float() + 4.0F, -1);
-                     mc.fontRendererObj.drawStringWithShadow(String.valueOf(var20.w), this.M() + var15 + var22, this.E_float() + var17, -1);
-                     RenderUtil.drawArrow(this.M() + var15 + var22 + 14.0F, this.E_float() + 10.0F, 6.0, false, Color.WHITE.getRGB());
-                     mc.fontRendererObj.drawStringWithShadow("KD", this.M() + var15 + var22 + var14, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow("WS", this.M() + f4 + f2, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow(String.valueOf(playerStatsEntry10.w), this.M() + f4 + f2, this.E_float() + b2, -1);
+                     RenderUtil.drawArrow(this.M() + f4 + f2 + 14.0F, this.E_float() + 10.0F, 6.0, false, Color.WHITE.getRGB());
+                     mc.fontRendererObj.drawStringWithShadow("KD", this.M() + f4 + f2 + f3, this.E_float() + 4.0F, -1);
                      mc.fontRendererObj
-                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.Z), this.M() + var15 + var14 + var22, this.E_float() + var17, -1);
-                     mc.fontRendererObj.drawStringWithShadow("FKD", this.M() + var15 + var22 + var14 * 2.0F, this.E_float() + 4.0F, -1);
+                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.Z), this.M() + f4 + f3 + f2, this.E_float() + b2, -1);
+                     mc.fontRendererObj.drawStringWithShadow("FKD", this.M() + f4 + f2 + f3 * 2.0F, this.E_float() + 4.0F, -1);
                      mc.fontRendererObj
-                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.sO), this.M() + var15 + var14 * 2.0F + var22, this.E_float() + var17, -1);
-                     mc.fontRendererObj.drawStringWithShadow("STARS", this.M() + var15 + var22 + var14 * 3.0F, this.E_float() + 4.0F, -1);
-                     mc.fontRendererObj.drawStringWithShadow(String.valueOf(var20.sV), this.M() + var15 + var14 * 3.0F + var22, this.E_float() + var17, -1);
+                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.sO), this.M() + f4 + f3 * 2.0F + f2, this.E_float() + b2, -1);
+                     mc.fontRendererObj.drawStringWithShadow("STARS", this.M() + f4 + f2 + f3 * 3.0F, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow(String.valueOf(playerStatsEntry10.sV), this.M() + f4 + f3 * 3.0F + f2, this.E_float() + b2, -1);
                      break;
                   case SW:
-                     mc.fontRendererObj.drawStringWithShadow("KD", this.M() + var15 + var22, this.E_float() + 4.0F, -1);
-                     mc.fontRendererObj.drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.sF), this.M() + var15 + var22, this.E_float() + var17, -1);
-                     RenderUtil.drawArrow(this.M() + var15 + var22 + 14.0F, this.E_float() + 10.0F, 6.0, false, Color.WHITE.getRGB());
-                     mc.fontRendererObj.drawStringWithShadow("WL", this.M() + var15 + var22 + var14, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow("KD", this.M() + f4 + f2, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.sF), this.M() + f4 + f2, this.E_float() + b2, -1);
+                     RenderUtil.drawArrow(this.M() + f4 + f2 + 14.0F, this.E_float() + 10.0F, 6.0, false, Color.WHITE.getRGB());
+                     mc.fontRendererObj.drawStringWithShadow("WL", this.M() + f4 + f2 + f3, this.E_float() + 4.0F, -1);
                      mc.fontRendererObj
-                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.M), this.M() + var15 + var14 + var22, this.E_float() + var17, -1);
+                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.M), this.M() + f4 + f3 + f2, this.E_float() + b2, -1);
                      break;
                   case UHC:
-                     mc.fontRendererObj.drawStringWithShadow("SKD", this.M() + var15 + var22, this.E_float() + 4.0F, -1);
-                     mc.fontRendererObj.drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.n), this.M() + var15 + var22, this.E_float() + var17, -1);
-                     mc.fontRendererObj.drawStringWithShadow("TKD", this.M() + var15 + var22 + var14, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow("SKD", this.M() + f4 + f2, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.n), this.M() + f4 + f2, this.E_float() + b2, -1);
+                     mc.fontRendererObj.drawStringWithShadow("TKD", this.M() + f4 + f2 + f3, this.E_float() + 4.0F, -1);
                      mc.fontRendererObj
-                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.e), this.M() + var15 + var14 + var22, this.E_float() + var17, -1);
-                     mc.fontRendererObj.drawStringWithShadow("STARS", this.M() + var15 + var22 + var14 * 2.0F, this.E_float() + 4.0F, -1);
-                     mc.fontRendererObj.drawStringWithShadow(String.valueOf(var20.V), this.M() + var15 + var14 * 2.0F + var22, this.E_float() + var17, -1);
+                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.e), this.M() + f4 + f3 + f2, this.E_float() + b2, -1);
+                     mc.fontRendererObj.drawStringWithShadow("STARS", this.M() + f4 + f2 + f3 * 2.0F, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow(String.valueOf(playerStatsEntry10.V), this.M() + f4 + f3 * 2.0F + f2, this.E_float() + b2, -1);
                      break;
                   case MW:
-                     mc.fontRendererObj.drawStringWithShadow("KD", this.M() + var15 + var22, this.E_float() + 4.0F, -1);
-                     mc.fontRendererObj.drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.F), this.M() + var15 + var22, this.E_float() + var17, -1);
-                     RenderUtil.drawArrow(this.M() + var15 + var22 + 14.0F, this.E_float() + 10.0F, 6.0, false, Color.WHITE.getRGB());
-                     mc.fontRendererObj.drawStringWithShadow("FKD", this.M() + var15 + var22 + var14, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow("KD", this.M() + f4 + f2, this.E_float() + 4.0F, -1);
+                     mc.fontRendererObj.drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.F), this.M() + f4 + f2, this.E_float() + b2, -1);
+                     RenderUtil.drawArrow(this.M() + f4 + f2 + 14.0F, this.E_float() + 10.0F, 6.0, false, Color.WHITE.getRGB());
+                     mc.fontRendererObj.drawStringWithShadow("FKD", this.M() + f4 + f2 + f3, this.E_float() + 4.0F, -1);
                      mc.fontRendererObj
-                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(var20.J), this.M() + var15 + var14 + var22, this.E_float() + var17, -1);
+                        .drawStringWithShadow(MathUtil.ONE_DECIMAL.format(playerStatsEntry10.J), this.M() + f4 + f3 + f2, this.E_float() + b2, -1);
                }
 
                mc.fontRendererObj
-                  .drawStringWithShadow(var20.E != null ? EnumChatFormatting.GOLD + var20.E : var20.Q, this.M() + var9, this.E_float() + var17, -1);
-               var17 += 12;
-               var18++;
+                  .drawStringWithShadow(playerStatsEntry10.E != null ? EnumChatFormatting.GOLD + playerStatsEntry10.E : playerStatsEntry10.Q, this.M() + k, this.E_float() + b2, -1);
+               b2 += 12;
+               i4++;
             }
          }
 
-         this.B(var21);
+         this.B(i3);
       }
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
    }
 
    private float c() {
-      float var4 = 30.0F;
+      float f = 30.0F;
 
-      for (PlayerStatsEntry var6 : PlayerListTracker.playerStats) {
-         String var7 = var6.Q;
-         float var8 = mc.fontRendererObj.getStringWidth(var7);
-         if (var8 > var4) {
-            var4 = var8;
+      for (PlayerStatsEntry playerStatsEntry : PlayerListTracker.playerStats) {
+         String string = playerStatsEntry.Q;
+         float g = mc.fontRendererObj.getStringWidth(string);
+         if (g > f) {
+            f = g;
          }
       }
 
-      return var4;
+      return f;
    }
 
-   public void I(int var1) {
-      this.Q = var1;
+   public void I(int i) {
+      this.Q = i;
    }
 
-   public void J(AutoHypixelAutoCheckerGameMode var1) {
-      this.R = var1;
+   public void J(AutoHypixelAutoCheckerGameMode autoHypixelAutoCheckerGameMode) {
+      this.R = autoHypixelAutoCheckerGameMode;
    }
 }

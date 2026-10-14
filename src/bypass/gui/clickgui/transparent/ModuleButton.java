@@ -24,17 +24,17 @@ public class ModuleButton extends Container {
    private int Y;
    private static final long d = 71779781047116L;
 
-   public ModuleButton(Container var1, Module var2, int var3, int var4) {
-      super(var2.getName(), 0.0F, 0.0F, var3, var4);
-      this.L = var1;
-      this.A = var2;
+   public ModuleButton(Container container, Module module, int i, int j) {
+      super(module.getName(), 0.0F, 0.0F, i, j);
+      this.L = container;
+      this.A = module;
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = d ^ 94864256331070L;
-      long var5 = var3 ^ 39308001293406L;
-      if (this.G(var1, var2)) {
+   public void render(int i, int j) {
+      long l = d ^ 94864256331070L;
+      long m = l ^ 39308001293406L;
+      if (this.G(i, j)) {
          if (this.Y < 120) {
             this.Y += 5;
          }
@@ -48,7 +48,7 @@ public class ModuleButton extends Container {
          );
       }
 
-      if (this.K && Mouse.isButtonDown(0) && !this.G(var1, var2)) {
+      if (this.K && Mouse.isButtonDown(0) && !this.G(i, j)) {
          this.K = false;
       }
 
@@ -85,17 +85,17 @@ public class ModuleButton extends Container {
       }
 
       if (this.s_boolean() || this.U.isRunning()) {
-         int var8 = 0;
+         int k = 0;
 
-         for (Element var10 : this.M_ArrayList()) {
-            if (var10 instanceof Component) {
-               ((Component)var10).r(this.M() + 1.0F, this.E_float() + var8 + 15.0F);
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof Component) {
+               ((Component)element).r(this.M() + 1.0F, this.E_float() + k + 15.0F);
                if (this.s_boolean()) {
-                  var10.render(var1, var2);
+                  element.render(i, j);
                }
 
-               var8 += 15 + (var10 instanceof MapComponent && ((MapComponent)var10).s_boolean() ? ((MapComponent)var10).d() : 0);
-               var8 = (int)(var8 - this.U.getValue(0.0, var8));
+               k += 15 + (element instanceof MapComponent && ((MapComponent)element).s_boolean() ? ((MapComponent)element).d() : 0);
+               k = (int)(k - this.U.getValue(0.0, k));
             }
          }
       }
@@ -114,36 +114,36 @@ public class ModuleButton extends Container {
    }
 
    @Override
-   public boolean G(int var1, int var2) {
-      return var1 >= this.M() && var1 <= this.M() + this.x() && var2 >= this.E_float() && var2 <= this.E_float() + this.Y();
+   public boolean G(int i, int j) {
+      return i >= this.M() && i <= this.M() + this.x() && j >= this.E_float() && j <= this.E_float() + this.Y();
    }
 
-   private void u(float var1, float var2, float var3, float var4, float var5, int var6) {
-      RenderUtil.drawLine(var5, var1, var2, var1 + var3 / 2.0F, var2 + var4, var6);
-      RenderUtil.drawLine(var5, var1 + var3 / 2.0F, var2 + var4, var1 + var3, var2, var6);
+   private void u(float f, float g, float h, float f2, float f3, int i) {
+      RenderUtil.drawLine(f3, f, g, f + h / 2.0F, g + f2, i);
+      RenderUtil.drawLine(f3, f + h / 2.0F, g + f2, f + h, g, i);
    }
 
    @Override
-   public void l(int var1) {
-      long var2 = d ^ 36655112826250L;
-      long var4 = var2 ^ 96109111944053L;
+   public void l(int i) {
+      long m = d ^ 36655112826250L;
+      long n = m ^ 96109111944053L;
       if (this.L.s_boolean()) {
-         if (var1 == 0) {
+         if (i == 0) {
             if (this.K) {
                this.K = false;
                return;
             }
 
-            Module var7 = client.getModuleManager().getModule(this.A.getName());
-            var7.setEnabled(!var7.isEnabled());
+            Module module = client.getModuleManager().getModule(this.A.getName());
+            module.setEnabled(!module.isEnabled());
          }
 
-         if (var1 == 1 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54))) {
+         if (i == 1 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54))) {
             this.K = true;
             return;
          }
 
-         if (var1 == 1 && this.O > 0 && !this.M_ArrayList().isEmpty() && !this.K) {
+         if (i == 1 && this.O > 0 && !this.M_ArrayList().isEmpty() && !this.K) {
             this.u(!this.s_boolean());
             if (this.s_boolean()) {
                this.U.backwards().rewind().start();
@@ -155,31 +155,31 @@ public class ModuleButton extends Container {
    }
 
    @Override
-   public void P(char var1, int var2) {
-      long var3 = d ^ 78080380800216L;
-      long var5 = var3 ^ 70801581277903L;
-      if (this.K && ChatAllowedCharacters.isAllowedCharacter(var1)) {
+   public void P(char c, int i) {
+      long l = d ^ 78080380800216L;
+      long m = l ^ 70801581277903L;
+      if (this.K && ChatAllowedCharacters.isAllowedCharacter(c)) {
          client.getNotificationManager()
-            .i(String.format("%s's bind is now %s", this.a().getName(), Character.toUpperCase(var1)), "", NotificationType.SUCCESS, 1500)
+            .i(String.format("%s's bind is now %s", this.a().getName(), Character.toUpperCase(c)), "", NotificationType.SUCCESS, 1500)
             .K();
-         this.a().setKey(var2);
+         this.a().setKey(i);
          this.K = false;
       }
 
-      super.P(var1, var2);
+      super.P(c, i);
    }
 
    public int d() {
-      byte var4 = 0;
+      byte b = 0;
       if (this.s_boolean()) {
-         for (Element var6 : this.M_ArrayList()) {
-            if (var6 instanceof SettingComponent || var6 instanceof SettingContainer) {
-               var4 += 15;
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof SettingComponent || element instanceof SettingContainer) {
+               b += 15;
             }
          }
       }
 
-      return var4 + 15;
+      return b + 15;
    }
 
    public Module a() {

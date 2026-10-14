@@ -12,8 +12,8 @@ public class EntityAIFollowGolem extends EntityAIBase {
    private static final long a = 42686877352903L;
    private static final long b = -8382761364099169984L;
 
-   public EntityAIFollowGolem(EntityVillager var1) {
-      this.theVillager = var1;
+   public EntityAIFollowGolem(EntityVillager theVillagerIn) {
+      this.theVillager = theVillagerIn;
       this.setMutexBits(3);
    }
 
@@ -27,15 +27,15 @@ public class EntityAIFollowGolem extends EntityAIBase {
          return false;
       }
 
-      List var4 = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.getEntityBoundingBox().expand(6.0, 2.0, 6.0));
-      if (var4.isEmpty()) {
+      List list = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.getEntityBoundingBox().expand(6.0, 2.0, 6.0));
+      if (list.isEmpty()) {
          return false;
       }
 
-      for (Object var6$raw : var4) {
-         EntityIronGolem var6 = (EntityIronGolem)var6$raw;
-         if (var6.getHoldRoseTick() > 0) {
-            this.theGolem = var6;
+      for (Object object : list) {
+         EntityIronGolem entityIronGolem = (EntityIronGolem)object;
+         if (entityIronGolem.getHoldRoseTick() > 0) {
+            this.theGolem = entityIronGolem;
             break;
          }
       }

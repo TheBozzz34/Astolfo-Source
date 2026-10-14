@@ -6,8 +6,8 @@ import net.minecraft.client.gui.GuiTextField;
 public class RealmsEditBox {
    private final GuiTextField editBox;
 
-   public RealmsEditBox(int var1, int var2, int var3, int var4, int var5) {
-      this.editBox = new GuiTextField(var1, Minecraft.getMinecraft().fontRendererObj, var2, var3, var4, var5);
+   public RealmsEditBox(int i, int j, int k, int l, int m) {
+      this.editBox = new GuiTextField(i, Minecraft.getMinecraft().fontRendererObj, j, k, l, m);
    }
 
    public String getValue() {
@@ -18,35 +18,35 @@ public class RealmsEditBox {
       this.editBox.updateCursorCounter();
    }
 
-   public void w(boolean var1) {
-      this.editBox.setFocused(var1);
+   public void w(boolean bl) {
+      this.editBox.setFocused(bl);
    }
 
-   public void setValue(String var1) {
-      this.editBox.setText(var1);
+   public void setValue(String string) {
+      this.editBox.setText(string);
    }
 
-   public void keyPressed(char var1, int var2) {
-      this.editBox.textboxKeyTyped(var1, var2);
+   public void keyPressed(char c, int i) {
+      this.editBox.textboxKeyTyped(c, i);
    }
 
    public boolean isFocused() {
       return this.editBox.isFocused();
    }
 
-   public void mouseClicked(int var1, int var2, int var3) {
-      this.editBox.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int i, int j, int k) {
+      this.editBox.mouseClicked(i, j, k);
    }
 
    public void L() {
       this.editBox.drawTextBox();
    }
 
-   public void setMaxLength(int var1) {
-      this.editBox.setMaxStringLength(var1);
+   public void setMaxLength(int i) {
+      this.editBox.setMaxStringLength(i);
    }
 
-   public void i(boolean var1) {
-      this.editBox.setEnabled(var1);
+   public void i(boolean bl) {
+      this.editBox.setEnabled(bl);
    }
 }

@@ -14,8 +14,8 @@ public class FastEat extends Module {
    private boolean H;
    private boolean D;
    @EventHandler(value = PacketEvent.class, priority = EventPriority.HIGH)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.OUTGOING) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
       }
    };
    private static final long c = 97795217944806L;

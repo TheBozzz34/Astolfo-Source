@@ -8,14 +8,14 @@ import net.minecraft.init.Blocks;
 public class RenderMinecartMobSpawner extends RenderMinecart<EntityMinecartMobSpawner> {
    private static final long c = 96485787986436L;
 
-   public RenderMinecartMobSpawner(RenderManager var1) {
-      super(var1);
+   public RenderMinecartMobSpawner(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
-   public void func_180560_a(EntityMinecartMobSpawner var1, float var2, IBlockState var3) {
-      super.func_180560_a(var1, var2, var3);
-      if (var3.getBlock() == Blocks.mob_spawner) {
-         TileEntityMobSpawnerRenderer.renderMob(var1.func_98039_d(), var1.posX, var1.posY, var1.posZ, var2);
+   public void func_180560_a(EntityMinecartMobSpawner minecart, float partialTicks, IBlockState state) {
+      super.func_180560_a(minecart, partialTicks, state);
+      if (state.getBlock() == Blocks.mob_spawner) {
+         TileEntityMobSpawnerRenderer.renderMob(minecart.func_98039_d(), minecart.posX, minecart.posY, minecart.posZ, partialTicks);
       }
    }
 }

@@ -20,87 +20,87 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree {
       .withProperty(BlockLeaves.CHECK_DECAY, false);
    private static final long a = 121062372297628L;
 
-   public WorldGenTaiga2(boolean var1) {
-      super(var1);
+   public WorldGenTaiga2(boolean bl) {
+      super(bl);
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      int var7 = var2.nextInt(4) + 6;
-      int var8 = 1 + var2.nextInt(2);
-      int var9 = var7 - var8;
-      int var10 = 2 + var2.nextInt(2);
-      boolean var11 = true;
-      if (var3.getY() >= 1 && var3.getY() + var7 + 1 <= 256) {
-         for (int var12 = var3.getY(); var12 <= var3.getY() + 1 + var7 && var11; var12++) {
-            int var13 = 1;
-            if (var12 - var3.getY() < var8) {
-               var13 = 0;
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      int i = rand.nextInt(4) + 6;
+      int j = 1 + rand.nextInt(2);
+      int k = i - j;
+      int l = 2 + rand.nextInt(2);
+      boolean bl = true;
+      if (position.getY() >= 1 && position.getY() + i + 1 <= 256) {
+         for (int m = position.getY(); m <= position.getY() + 1 + i && bl; m++) {
+            int n = 1;
+            if (m - position.getY() < j) {
+               n = 0;
             } else {
-               var13 = var10;
+               n = l;
             }
 
-            BlockPos.MutableBlockPos var14 = new BlockPos.MutableBlockPos();
+            BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-            for (int var15 = var3.getX() - var13; var15 <= var3.getX() + var13 && var11; var15++) {
-               for (int var16 = var3.getZ() - var13; var16 <= var3.getZ() + var13 && var11; var16++) {
-                  if (var12 >= 0 && var12 < 256) {
-                     Block var17 = var1.getBlockState(var14.set(var15, var12, var16)).getBlock();
-                     if (var17.getMaterial() != Material.air && var17.getMaterial() != Material.leaves) {
-                        var11 = false;
+            for (int i2 = position.getX() - n; i2 <= position.getX() + n && bl; i2++) {
+               for (int i3 = position.getZ() - n; i3 <= position.getZ() + n && bl; i3++) {
+                  if (m >= 0 && m < 256) {
+                     Block block = worldIn.getBlockState(mutableBlockPos.set(i2, m, i3)).getBlock();
+                     if (block.getMaterial() != Material.air && block.getMaterial() != Material.leaves) {
+                        bl = false;
                      }
                   } else {
-                     var11 = false;
+                     bl = false;
                   }
                }
             }
          }
 
-         if (!var11) {
+         if (!bl) {
             return false;
          }
 
-         Block var23 = var1.getBlockState(var3.down()).getBlock();
-         if ((var23 == Blocks.grass || var23 == Blocks.dirt || var23 == Blocks.farmland) && var3.getY() < 256 - var7 - 1) {
-            this.func_175921_a(var1, var3.down());
-            int var25 = var2.nextInt(2);
-            int var26 = 1;
-            byte var27 = 0;
+         Block block2 = worldIn.getBlockState(position.down()).getBlock();
+         if ((block2 == Blocks.grass || block2 == Blocks.dirt || block2 == Blocks.farmland) && position.getY() < 256 - i - 1) {
+            this.func_175921_a(worldIn, position.down());
+            int i4 = rand.nextInt(2);
+            int i5 = 1;
+            byte b = 0;
 
-            for (int var28 = 0; var28 <= var9; var28++) {
-               int var30 = var3.getY() + var7 - var28;
+            for (int i6 = 0; i6 <= k; i6++) {
+               int i7 = position.getY() + i - i6;
 
-               for (int var18 = var3.getX() - var25; var18 <= var3.getX() + var25; var18++) {
-                  int var19 = var18 - var3.getX();
+               for (int i8 = position.getX() - i4; i8 <= position.getX() + i4; i8++) {
+                  int i9 = i8 - position.getX();
 
-                  for (int var20 = var3.getZ() - var25; var20 <= var3.getZ() + var25; var20++) {
-                     int var21 = var20 - var3.getZ();
-                     if (Math.abs(var19) != var25 || Math.abs(var21) != var25 || var25 <= 0) {
-                        BlockPos var22 = new BlockPos(var18, var30, var20);
-                        if (!var1.getBlockState(var22).getBlock().isFullBlock()) {
-                           this.setBlockAndNotifyAdequately(var1, var22, field_181646_b);
+                  for (int i10 = position.getZ() - i4; i10 <= position.getZ() + i4; i10++) {
+                     int i11 = i10 - position.getZ();
+                     if (Math.abs(i9) != i4 || Math.abs(i11) != i4 || i4 <= 0) {
+                        BlockPos blockPos = new BlockPos(i8, i7, i10);
+                        if (!worldIn.getBlockState(blockPos).getBlock().isFullBlock()) {
+                           this.setBlockAndNotifyAdequately(worldIn, blockPos, field_181646_b);
                         }
                      }
                   }
                }
 
-               if (var25 >= var26) {
-                  var25 = var27;
-                  var27 = 1;
-                  if (++var26 > var10) {
-                     var26 = var10;
+               if (i4 >= i5) {
+                  i4 = b;
+                  b = 1;
+                  if (++i5 > l) {
+                     i5 = l;
                   }
                } else {
-                  var25++;
+                  i4++;
                }
             }
 
-            int var29 = var2.nextInt(3);
+            int i12 = rand.nextInt(3);
 
-            for (int var31 = 0; var31 < var7 - var29; var31++) {
-               Block var32 = var1.getBlockState(var3.up(var31)).getBlock();
-               if (var32.getMaterial() == Material.air || var32.getMaterial() == Material.leaves) {
-                  this.setBlockAndNotifyAdequately(var1, var3.up(var31), field_181645_a);
+            for (int i13 = 0; i13 < i - i12; i13++) {
+               Block block3 = worldIn.getBlockState(position.up(i13)).getBlock();
+               if (block3.getMaterial() == Material.air || block3.getMaterial() == Material.leaves) {
+                  this.setBlockAndNotifyAdequately(worldIn, position.up(i13), field_181645_a);
                }
             }
 

@@ -19,133 +19,133 @@ import net.minecraft.util.IChatComponent;
 public final class NameProtect extends Module {
    private final BooleanSetting switchNames = new BooleanSetting("Switch-Names", "Switches names", false);
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = c ^ 106979336202516L;
-      long var10001 = var2 ^ 58265579090293L;
-      int var4 = (int)((var2 ^ 58265579090293L) >>> 56);
-      int var5 = (int)((var2 ^ 58265579090293L) << 8 >>> 32);
-      int var6 = (int)(var10001 << 40 >>> 40);
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = c ^ 106979336202516L;
+      long l2 = l ^ 58265579090293L;
+      int j = (int)((l ^ 58265579090293L) >>> 56);
+      int k = (int)((l ^ 58265579090293L) << 8 >>> 32);
+      int i2 = (int)(l2 << 40 >>> 40);
       if (mc.theWorld != null) {
-         switch (var1x.getDirection()) {
+         switch (packetEvent.getDirection()) {
             case OUTGOING:
-               if (var1x.getPacket() instanceof C01PacketChatMessage && this.switchNames.getValue()) {
-                  C01PacketChatMessage var13 = (C01PacketChatMessage)var1x.getPacket();
-                  String var14 = var13.getMessage();
-                  if (var14 == null) {
+               if (packetEvent.getPacket() instanceof C01PacketChatMessage && this.switchNames.getValue()) {
+                  C01PacketChatMessage c01PacketChatMessage = (C01PacketChatMessage)packetEvent.getPacket();
+                  String string = c01PacketChatMessage.getMessage();
+                  if (string == null) {
                      return;
                   }
 
-                  if (var14.startsWith(".")) {
+                  if (string.startsWith(".")) {
                      return;
                   }
 
-                  if (var14.startsWith("/")) {
+                  if (string.startsWith("/")) {
                      return;
                   }
 
-                  for (Relation var16 : client.getRelationManager().n().values()) {
-                     if (var14.contains(var16.m())) {
-                        var14 = var14.replaceAll(var16.m(), var16.i());
+                  for (Relation relation : client.getRelationManager().n().values()) {
+                     if (string.contains(relation.m())) {
+                        string = string.replaceAll(relation.m(), relation.i());
                      }
                   }
 
-                  var1x.cancel();
-                  mc.thePlayer.sendQueue.u(new C01PacketChatMessage(var14));
+                  packetEvent.cancel();
+                  mc.thePlayer.sendQueue.u(new C01PacketChatMessage(string));
                }
                break;
             case RECEIVED:
-               if (var1x.getPacket() instanceof S02PacketChat) {
-                  S02PacketChat var8 = (S02PacketChat)var1x.getPacket();
-                  if (var8.getType() == 2) {
+               if (packetEvent.getPacket() instanceof S02PacketChat) {
+                  S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+                  if (s02PacketChat.getType() == 2) {
                      return;
                   }
 
-                  Iterator var9 = var8.getChatComponent().iterator();
-                  ChatComponentText var10 = new ChatComponentText("");
+                  Iterator iterator2 = s02PacketChat.getChatComponent().iterator();
+                  ChatComponentText chatComponentText = new ChatComponentText("");
 
-                  while (var9.hasNext()) {
-                     IChatComponent var11 = (IChatComponent)var9.next();
-                     ChatComponentText var12 = new ChatComponentText(this.v(var11.getUnformattedTextForChat(), var11.getFormattedText()));
-                     var12.setChatStyle(var11.getChatStyle());
-                     var10.appendSibling(var12);
+                  while (iterator2.hasNext()) {
+                     IChatComponent iChatComponent = (IChatComponent)iterator2.next();
+                     ChatComponentText chatComponentText2 = new ChatComponentText(this.v(iChatComponent.getUnformattedTextForChat(), iChatComponent.getFormattedText()));
+                     chatComponentText2.setChatStyle(iChatComponent.getChatStyle());
+                     chatComponentText.appendSibling(chatComponentText2);
                   }
 
-                  var1x.cancel();
-                  mc.ingameGUI.getChatGUI().printChatMessage(var10);
+                  packetEvent.cancel();
+                  mc.ingameGUI.getChatGUI().printChatMessage(chatComponentText);
                }
          }
       }
    };
    private static final long c = 40671121243452L;
 
-   public NameProtect(Category var1) {
-      super(var1);
+   public NameProtect(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.switchNames);
    }
 
-   public String v(String var1, String var2) {
-      long var3 = c ^ 47323119762000L;
-      long var10001 = var3 ^ 139330212323889L;
-      int var5 = (int)((var3 ^ 139330212323889L) >>> 56);
-      int var6 = (int)((var3 ^ 139330212323889L) << 8 >>> 32);
-      int var7 = (int)(var10001 << 40 >>> 40);
-      String var9 = var1;
+   public String v(String string, String string2) {
+      long l = c ^ 47323119762000L;
+      long n = l ^ 139330212323889L;
+      int j = (int)((l ^ 139330212323889L) >>> 56);
+      int k = (int)((l ^ 139330212323889L) << 8 >>> 32);
+      int i2 = (int)(n << 40 >>> 40);
+      String string3 = string;
 
-      for (Relation var11 : client.getRelationManager().getList()) {
-         if (var9.contains(var11.i())) {
-            List var12 = this.w(var2.split(var11.i())[0]);
-            StringBuilder var13 = new StringBuilder();
+      for (Relation relation : client.getRelationManager().getList()) {
+         if (string3.contains(relation.i())) {
+            List list = this.w(string2.split(relation.i())[0]);
+            StringBuilder stringBuilder = new StringBuilder();
 
-            for (Object var15$raw : var12) {
-               Character var15 = (Character)var15$raw;
-               var13.append("§").append(var15);
+            for (Object object : list) {
+               Character character = (Character)object;
+               stringBuilder.append("§").append(character);
             }
 
-            var9 = var9.replaceAll(var11.i(), (var11.z() ? "§b" : "§4") + var11.m() + var13);
+            string3 = string3.replaceAll(relation.i(), (relation.z() ? "§b" : "§4") + relation.m() + stringBuilder);
          }
       }
 
-      return var9;
+      return string3;
    }
 
-   public List<Character> w(String var1) {
-      int var5 = var1.length();
-      char var6 = 'f';
-      ArrayList var7 = new ArrayList();
+   public List<Character> w(String string) {
+      int i = string.length();
+      char c = 'f';
+      ArrayList arrayList = new ArrayList();
 
-      for (int var8 = 0; var8 < var5; var8++) {
-         char var9 = var1.charAt(var8);
-         char var10 = var8 > 0 ? var1.charAt(var8 - 1) : '.';
-         if (var10 != 167 && var9 == 167 && var8 < var5) {
-            int var11 = "0123456789abcdefklmnor".indexOf(var1.toLowerCase(Locale.ENGLISH).charAt(var8 + 1));
-            if (var11 < 16) {
-               var7.clear();
-               if (var11 < 0 || var11 > 15) {
-                  var11 = 15;
+      for (int j = 0; j < i; j++) {
+         char c2 = string.charAt(j);
+         char c3 = j > 0 ? string.charAt(j - 1) : '.';
+         if (c3 != 167 && c2 == 167 && j < i) {
+            int i2 = "0123456789abcdefklmnor".indexOf(string.toLowerCase(Locale.ENGLISH).charAt(j + 1));
+            if (i2 < 16) {
+               arrayList.clear();
+               if (i2 < 0 || i2 > 15) {
+                  i2 = 15;
                }
 
-               var6 = "0123456789abcdef".charAt(var11);
-            } else if (var11 == 16) {
-               var7.add('k');
-            } else if (var11 == 17) {
-               var7.add('l');
-            } else if (var11 == 18) {
-               var7.add('m');
-            } else if (var11 == 19) {
-               var7.add('n');
-            } else if (var11 == 20) {
-               var7.add('o');
-            } else if (var11 == 21) {
-               var7.clear();
-               var6 = 'f';
+               c = "0123456789abcdef".charAt(i2);
+            } else if (i2 == 16) {
+               arrayList.add('k');
+            } else if (i2 == 17) {
+               arrayList.add('l');
+            } else if (i2 == 18) {
+               arrayList.add('m');
+            } else if (i2 == 19) {
+               arrayList.add('n');
+            } else if (i2 == 20) {
+               arrayList.add('o');
+            } else if (i2 == 21) {
+               arrayList.clear();
+               c = 'f';
             }
          }
       }
 
-      ArrayList var12 = new ArrayList();
-      var12.add(var6);
-      var12.addAll(var7);
-      return var12;
+      ArrayList arrayList2 = new ArrayList();
+      arrayList2.add(c);
+      arrayList2.addAll(arrayList);
+      return arrayList2;
    }
 }

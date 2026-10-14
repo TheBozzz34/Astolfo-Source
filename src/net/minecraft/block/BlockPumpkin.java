@@ -27,8 +27,8 @@ public class BlockPumpkin extends BlockDirectional {
    private static final Predicate<IBlockState> field_181085_Q = new Predicate<IBlockState>() {
       private static final long a = 136028497038362L;
 
-      public boolean apply(IBlockState var1) {
-         return var1 != null && (var1.getBlock() == Blocks.pumpkin || var1.getBlock() == Blocks.lit_pumpkin);
+      public boolean apply(IBlockState iBlockState) {
+         return iBlockState != null && (iBlockState.getBlock() == Blocks.pumpkin || iBlockState.getBlock() == Blocks.lit_pumpkin);
       }
    };
    private static final long l = 105740951920552L;
@@ -41,96 +41,96 @@ public class BlockPumpkin extends BlockDirectional {
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      super.onBlockAdded(var1, var2, var3);
-      this.trySpawnGolem(var1, var2);
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      super.onBlockAdded(worldIn, pos, state);
+      this.trySpawnGolem(worldIn, pos);
    }
 
-   public boolean canDispenserPlace(World var1, BlockPos var2) {
-      return this.getSnowmanBasePattern().match(var1, var2) != null || this.getGolemBasePattern().match(var1, var2) != null;
+   public boolean canDispenserPlace(World worldIn, BlockPos pos) {
+      return this.getSnowmanBasePattern().match(worldIn, pos) != null || this.getGolemBasePattern().match(worldIn, pos) != null;
    }
 
-   private void trySpawnGolem(World var1, BlockPos var2) {
-      BlockPattern.PatternHelper var6;
-      if ((var6 = this.getSnowmanPattern().match(var1, var2)) != null) {
-         for (int var7 = 0; var7 < this.getSnowmanPattern().getThumbLength(); var7++) {
-            BlockWorldState var8 = var6.translateOffset(0, var7, 0);
-            var1.setBlockState(var8.getPos(), Blocks.air.getDefaultState(), 2);
+   private void trySpawnGolem(World worldIn, BlockPos pos) {
+      BlockPattern.PatternHelper patternHelper;
+      if ((patternHelper = this.getSnowmanPattern().match(worldIn, pos)) != null) {
+         for (int i = 0; i < this.getSnowmanPattern().getThumbLength(); i++) {
+            BlockWorldState blockWorldState = patternHelper.translateOffset(0, i, 0);
+            worldIn.setBlockState(blockWorldState.getPos(), Blocks.air.getDefaultState(), 2);
          }
 
-         EntitySnowman var13 = new EntitySnowman(var1);
-         BlockPos var16 = var6.translateOffset(0, 2, 0).getPos();
-         var13.setLocationAndAngles(var16.getX() + 0.5, var16.getY() + 0.05, var16.getZ() + 0.5, 0.0F, 0.0F);
-         var1.spawnEntityInWorld(var13);
+         EntitySnowman entitySnowman = new EntitySnowman(worldIn);
+         BlockPos blockPos = patternHelper.translateOffset(0, 2, 0).getPos();
+         entitySnowman.setLocationAndAngles(blockPos.getX() + 0.5, blockPos.getY() + 0.05, blockPos.getZ() + 0.5, 0.0F, 0.0F);
+         worldIn.spawnEntityInWorld(entitySnowman);
 
-         for (int var9 = 0; var9 < 120; var9++) {
-            var1.spawnParticle(
+         for (int j = 0; j < 120; j++) {
+            worldIn.spawnParticle(
                EnumParticleTypes.SNOW_SHOVEL,
-               var16.getX() + var1.rand.nextDouble(),
-               var16.getY() + var1.rand.nextDouble() * 2.5,
-               var16.getZ() + var1.rand.nextDouble(),
+               blockPos.getX() + worldIn.rand.nextDouble(),
+               blockPos.getY() + worldIn.rand.nextDouble() * 2.5,
+               blockPos.getZ() + worldIn.rand.nextDouble(),
                0.0,
                0.0,
                0.0
             );
          }
 
-         for (int var19 = 0; var19 < this.getSnowmanPattern().getThumbLength(); var19++) {
-            BlockWorldState var10 = var6.translateOffset(0, var19, 0);
-            var1.notifyNeighborsRespectDebug(var10.getPos(), Blocks.air);
+         for (int k = 0; k < this.getSnowmanPattern().getThumbLength(); k++) {
+            BlockWorldState blockWorldState2 = patternHelper.translateOffset(0, k, 0);
+            worldIn.notifyNeighborsRespectDebug(blockWorldState2.getPos(), Blocks.air);
          }
-      } else if ((var6 = this.getGolemPattern().match(var1, var2)) != null) {
-         for (int var14 = 0; var14 < this.getGolemPattern().getPalmLength(); var14++) {
-            for (int var17 = 0; var17 < this.getGolemPattern().getThumbLength(); var17++) {
-               var1.setBlockState(var6.translateOffset(var14, var17, 0).getPos(), Blocks.air.getDefaultState(), 2);
+      } else if ((patternHelper = this.getGolemPattern().match(worldIn, pos)) != null) {
+         for (int l = 0; l < this.getGolemPattern().getPalmLength(); l++) {
+            for (int m = 0; m < this.getGolemPattern().getThumbLength(); m++) {
+               worldIn.setBlockState(patternHelper.translateOffset(l, m, 0).getPos(), Blocks.air.getDefaultState(), 2);
             }
          }
 
-         BlockPos var15 = var6.translateOffset(1, 2, 0).getPos();
-         EntityIronGolem var18 = new EntityIronGolem(var1);
-         var18.setPlayerCreated(true);
-         var18.setLocationAndAngles(var15.getX() + 0.5, var15.getY() + 0.05, var15.getZ() + 0.5, 0.0F, 0.0F);
-         var1.spawnEntityInWorld(var18);
+         BlockPos blockPos2 = patternHelper.translateOffset(1, 2, 0).getPos();
+         EntityIronGolem entityIronGolem = new EntityIronGolem(worldIn);
+         entityIronGolem.setPlayerCreated(true);
+         entityIronGolem.setLocationAndAngles(blockPos2.getX() + 0.5, blockPos2.getY() + 0.05, blockPos2.getZ() + 0.5, 0.0F, 0.0F);
+         worldIn.spawnEntityInWorld(entityIronGolem);
 
-         for (int var20 = 0; var20 < 120; var20++) {
-            var1.spawnParticle(
+         for (int n = 0; n < 120; n++) {
+            worldIn.spawnParticle(
                EnumParticleTypes.SNOWBALL,
-               var15.getX() + var1.rand.nextDouble(),
-               var15.getY() + var1.rand.nextDouble() * 3.9,
-               var15.getZ() + var1.rand.nextDouble(),
+               blockPos2.getX() + worldIn.rand.nextDouble(),
+               blockPos2.getY() + worldIn.rand.nextDouble() * 3.9,
+               blockPos2.getZ() + worldIn.rand.nextDouble(),
                0.0,
                0.0,
                0.0
             );
          }
 
-         for (int var21 = 0; var21 < this.getGolemPattern().getPalmLength(); var21++) {
-            for (int var22 = 0; var22 < this.getGolemPattern().getThumbLength(); var22++) {
-               BlockWorldState var11 = var6.translateOffset(var21, var22, 0);
-               var1.notifyNeighborsRespectDebug(var11.getPos(), Blocks.air);
+         for (int i2 = 0; i2 < this.getGolemPattern().getPalmLength(); i2++) {
+            for (int i3 = 0; i3 < this.getGolemPattern().getThumbLength(); i3++) {
+               BlockWorldState blockWorldState3 = patternHelper.translateOffset(i2, i3, 0);
+               worldIn.notifyNeighborsRespectDebug(blockWorldState3.getPos(), Blocks.air);
             }
          }
       }
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return var1.getBlockState(var2).getBlock().blockMaterial.isReplaceable() && World.doesBlockHaveSolidTopSurface(var1, var2.down());
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return worldIn.getBlockState(pos).getBlock().blockMaterial.isReplaceable() && World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      return this.getDefaultState().withProperty(FACING, var8.getHorizontalFacing().getOpposite());
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(FACING).getHorizontalIndex();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(FACING).getHorizontalIndex();
    }
 
    @Override

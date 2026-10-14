@@ -15,53 +15,53 @@ import net.minecraft.world.chunk.IChunkProvider;
 public class ClearWater {
    private static final long a = 14276141465017L;
 
-   public static void updateWaterOpacity(GameSettings var0, World var1) {
-      if (var0 != null) {
-         byte var5 = 3;
-         if (var0.ofClearWater) {
-            var5 = 1;
+   public static void updateWaterOpacity(GameSettings settings, World world) {
+      if (settings != null) {
+         byte b = 3;
+         if (settings.ofClearWater) {
+            b = 1;
          }
 
-         BlockLeavesBase.setLightOpacity(Blocks.water, var5);
-         BlockLeavesBase.setLightOpacity(Blocks.flowing_water, var5);
+         BlockLeavesBase.setLightOpacity(Blocks.water, b);
+         BlockLeavesBase.setLightOpacity(Blocks.flowing_water, b);
       }
 
-      if (var1 != null) {
-         IChunkProvider var28 = var1.getChunkProvider();
-         if (var28 != null) {
-            Entity var6 = Config.getMinecraft().getRenderViewEntity();
-            if (var6 != null) {
-               int var7 = (int)var6.posX / 16;
-               int var8 = (int)var6.posZ / 16;
-               int var9 = var7 - 512;
-               int var10 = var7 + 512;
-               int var11 = var8 - 512;
-               int var12 = var8 + 512;
-               int var13 = 0;
+      if (world != null) {
+         IChunkProvider iChunkProvider = world.getChunkProvider();
+         if (iChunkProvider != null) {
+            Entity entity = Config.getMinecraft().getRenderViewEntity();
+            if (entity != null) {
+               int i = (int)entity.posX / 16;
+               int j = (int)entity.posZ / 16;
+               int k = i - 512;
+               int l = i + 512;
+               int m = j - 512;
+               int n = j + 512;
+               int i2 = 0;
 
-               for (int var14 = var9; var14 < var10; var14++) {
-                  for (int var15 = var11; var15 < var12; var15++) {
-                     if (var28.chunkExists(var14, var15)) {
-                        Chunk var16 = var28.provideChunk(var14, var15);
-                        if (var16 != null && !(var16 instanceof EmptyChunk)) {
-                           int var17 = var14 << 4;
-                           int var18 = var15 << 4;
-                           int var19 = var17 + 16;
-                           int var20 = var18 + 16;
-                           BlockPosM var21 = new BlockPosM(0, 0, 0);
-                           BlockPosM var22 = new BlockPosM(0, 0, 0);
+               for (int i3 = k; i3 < l; i3++) {
+                  for (int i4 = m; i4 < n; i4++) {
+                     if (iChunkProvider.chunkExists(i3, i4)) {
+                        Chunk chunk = iChunkProvider.provideChunk(i3, i4);
+                        if (chunk != null && !(chunk instanceof EmptyChunk)) {
+                           int i5 = i3 << 4;
+                           int i6 = i4 << 4;
+                           int i7 = i5 + 16;
+                           int i8 = i6 + 16;
+                           BlockPosM blockPosM = new BlockPosM(0, 0, 0);
+                           BlockPosM blockPosM2 = new BlockPosM(0, 0, 0);
 
-                           for (int var23 = var17; var23 < var19; var23++) {
-                              for (int var24 = var18; var24 < var20; var24++) {
-                                 var21.setXyz(var23, 0, var24);
-                                 BlockPos var25 = var1.getPrecipitationHeight(var21);
+                           for (int i9 = i5; i9 < i7; i9++) {
+                              for (int i10 = i6; i10 < i8; i10++) {
+                                 blockPosM.setXyz(i9, 0, i10);
+                                 BlockPos blockPos = world.getPrecipitationHeight(blockPosM);
 
-                                 for (int var26 = 0; var26 < var25.getY(); var26++) {
-                                    var22.setXyz(var23, var26, var24);
-                                    IBlockState var27 = var1.getBlockState(var22);
-                                    if (var27.getBlock().getMaterial() == Material.water) {
-                                       var1.markBlocksDirtyVertical(var23, var24, var22.getY(), var25.getY());
-                                       var13++;
+                                 for (int i11 = 0; i11 < blockPos.getY(); i11++) {
+                                    blockPosM2.setXyz(i9, i11, i10);
+                                    IBlockState iBlockState = world.getBlockState(blockPosM2);
+                                    if (iBlockState.getBlock().getMaterial() == Material.water) {
+                                       world.markBlocksDirtyVertical(i9, i10, blockPosM2.getY(), blockPos.getY());
+                                       i2++;
                                        break;
                                     }
                                  }
@@ -72,13 +72,13 @@ public class ClearWater {
                   }
                }
 
-               if (var13 > 0) {
-                  String var29 = "server";
+               if (i2 > 0) {
+                  String string = "server";
                   if (Config.isMinecraftThread()) {
-                     var29 = "client";
+                     string = "client";
                   }
 
-                  Config.dbg("ClearWater (" + var29 + ") relighted " + var13 + " chunks");
+                  Config.dbg("ClearWater (" + string + ") relighted " + i2 + " chunks");
                }
             }
          }

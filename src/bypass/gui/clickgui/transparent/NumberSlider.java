@@ -17,64 +17,63 @@ public class NumberSlider extends SettingComponent {
    private static final Color Y = new Color(22, 22, 22);
    private static final long c = 17220884941168L;
 
-   public NumberSlider(Container var1, Setting var2, int var3, int var4) {
-      super(var1, var2, var3, var4);
+   public NumberSlider(Container container, Setting setting, int i, int j) {
+      super(container, setting, i, j);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = c ^ 27102496675586L;
-      long var5 = var3 ^ 39308001293406L;
-      float var8 = this.o().getMax().floatValue() - this.o().getMin().floatValue();
-      int var9 = this.o().getMax().intValue() - this.o().getMin().intValue();
-      float var10 = Math.round((this.C() - this.o().getMin().floatValue()) / (this.o().valueClass == Integer.class ? var9 : var8) * this.x());
+   public void render(int i, int j) {
+      long l = c ^ 27102496675586L;
+      long m = l ^ 39308001293406L;
+      float f = this.o().getMax().floatValue() - this.o().getMin().floatValue();
+      int k = this.o().getMax().intValue() - this.o().getMin().intValue();
+      float g = Math.round((this.C() - this.o().getMin().floatValue()) / (this.o().valueClass == Integer.class ? k : f) * this.x());
       RenderUtil.drawRect(
          this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
       );
-      RenderUtil.drawRect(this.M() + 1.5F, this.E_float() + 10.0F, this.M() + var10, this.E_float() + this.Y() + 2.0F, client.getColor().getRGB());
-      String var11;
+      RenderUtil.drawRect(this.M() + 1.5F, this.E_float() + 10.0F, this.M() + g, this.E_float() + this.Y() + 2.0F, client.getColor().getRGB());
+      String string;
       if (this.o().valueClass.equals(Integer.class)) {
-         var11 = String.format("%s %s", this.o().getName().replace("-", " "), this.h());
+         string = String.format("%s %s", this.o().getName().replace("-", " "), this.h());
       } else if (this.o().valueClass.equals(Float.class)) {
-         var11 = String.format("%s %s", this.o().getName().replace("-", " "), this.C());
+         string = String.format("%s %s", this.o().getName().replace("-", " "), this.C());
       } else if (this.o().valueClass.equals(Double.class)) {
-         var11 = String.format("%s %s", this.o().getName().replace("-", " "), this.j());
+         string = String.format("%s %s", this.o().getName().replace("-", " "), this.j());
       } else {
-         var11 = String.format("%s %s", this.o().getName().replace("-", " "), this.h());
+         string = String.format("%s %s", this.o().getName().replace("-", " "), this.h());
       }
 
-      var11 = var11 + this.o().getSuffix();
-      client.getCustomFontRenderer().drawStringWithShadow(EnumChatFormatting.GRAY + var11, this.M() + 4.0F, this.E_float() - 1.0F, Color.WHITE.getRGB());
-      if (this.G(var1, var2) && HUD.toolTips.getValue()) {
-         client.getCustomFontRenderer().drawStringWithShadow(this.o().getDescription(), var1 + 6, var2 - 4, -1);
+      string = string + this.o().getSuffix();
+      client.getCustomFontRenderer().drawStringWithShadow(EnumChatFormatting.GRAY + string, this.M() + 4.0F, this.E_float() - 1.0F, Color.WHITE.getRGB());
+      if (this.G(i, j) && HUD.toolTips.getValue()) {
+         client.getCustomFontRenderer().drawStringWithShadow(this.o().getDescription(), i + 6, j - 4, -1);
       }
 
-      if (this.G(var1, var2) && Mouse.isButtonDown(0) && this.I().s_boolean()) {
+      if (this.G(i, j) && Mouse.isButtonDown(0) && this.I().s_boolean()) {
          if (this.o().valueClass == Integer.class) {
-            this.o().setValue((var1 - (int)this.M()) * this.o().getMax().intValue() / this.x() + this.o().getMin().intValue());
+            this.o().setValue((i - (int)this.M()) * this.o().getMax().intValue() / this.x() + this.o().getMin().intValue());
          } else if (this.o().valueClass == Double.class) {
             this.o()
-               .setValue(Double.valueOf(MathUtil.ONE_DECIMAL.format((var1 - this.M()) * var8 / this.x() + this.o().getMin().doubleValue()).replace(",", ".")));
+               .setValue(Double.valueOf(MathUtil.ONE_DECIMAL.format((i - this.M()) * f / this.x() + this.o().getMin().doubleValue()).replace(",", ".")));
          } else {
-            this.o()
-               .setValue(Float.valueOf(MathUtil.ONE_DECIMAL.format((var1 - this.M()) * var8 / this.x() + this.o().getMin().floatValue()).replace(",", ".")));
+            this.o().setValue(Float.valueOf(MathUtil.ONE_DECIMAL.format((i - this.M()) * f / this.x() + this.o().getMin().floatValue()).replace(",", ".")));
          }
       }
    }
 
    public int h() {
-      String var1 = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", "");
-      return Integer.valueOf(var1);
+      String string = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", "");
+      return Integer.valueOf(string);
    }
 
    public float C() {
-      String var1 = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", ".");
-      return Float.parseFloat(var1);
+      String string = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", ".");
+      return Float.parseFloat(string);
    }
 
    public double j() {
-      String var1 = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", ".");
-      return Double.parseDouble(var1);
+      String string = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", ".");
+      return Double.parseDouble(string);
    }
 
    private NumberSetting o() {
@@ -82,6 +81,6 @@ public class NumberSlider extends SettingComponent {
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
    }
 }

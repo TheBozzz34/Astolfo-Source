@@ -18,68 +18,68 @@ public class ScoreboardUtil {
    private static final long a = 66278723889102L;
 
    public static List<String> p() {
-      ArrayList var3 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
       if (x.theWorld == null) {
-         return var3;
+         return arrayList;
       }
 
-      Scoreboard var4 = x.theWorld.getScoreboard();
-      return var4 == null ? var3 : getFormattedSidebarText(var4);
+      Scoreboard scoreboard = x.theWorld.getScoreboard();
+      return scoreboard == null ? arrayList : getFormattedSidebarText(scoreboard);
    }
 
-   public static List<String> getFormattedSidebarText(Scoreboard var0) {
-      ArrayList var3 = new ArrayList();
-      ScoreObjective var4 = var0.getObjectiveInDisplaySlot(1);
-      if (var4 == null) {
-         return var3;
+   public static List<String> getFormattedSidebarText(Scoreboard scoreboard) {
+      ArrayList arrayList = new ArrayList();
+      ScoreObjective scoreObjective = scoreboard.getObjectiveInDisplaySlot(1);
+      if (scoreObjective == null) {
+         return arrayList;
       }
 
-      java.util.Collection var5 = var0.getSortedScores(var4);
-      List var6 = (java.util.List)(var5.stream()
-         .filter(var0x -> var0x != null && ((net.minecraft.scoreboard.Score)var0x).getPlayerName() != null && !((net.minecraft.scoreboard.Score)var0x).getPlayerName().startsWith("#"))
+      java.util.Collection collection = scoreboard.getSortedScores(scoreObjective);
+      List list = (java.util.List)(collection.stream()
+         .filter(object -> object != null && ((net.minecraft.scoreboard.Score)object).getPlayerName() != null && !((net.minecraft.scoreboard.Score)object).getPlayerName().startsWith("#"))
          .collect(Collectors.toList()));
-      if (var6.size() > 15) {
-         var5 = Lists.newArrayList(Iterables.skip(var6, var5.size() - 15));
+      if (list.size() > 15) {
+         collection = Lists.newArrayList(Iterables.skip(list, collection.size() - 15));
       } else {
-         var5 = var6;
+         collection = list;
       }
 
-      for (Object var8$raw : var5) {
-         Score var8 = (Score)var8$raw;
-         ScorePlayerTeam var9 = var0.getPlayersTeam(var8.getPlayerName());
-         var3.add(ScorePlayerTeam.formatPlayerName(var9, ""));
+      for (Object object2 : collection) {
+         Score score = (Score)object2;
+         ScorePlayerTeam scorePlayerTeam = scoreboard.getPlayersTeam(score.getPlayerName());
+         arrayList.add(ScorePlayerTeam.formatPlayerName(scorePlayerTeam, ""));
       }
 
-      Collections.reverse(var3);
-      return var3;
+      Collections.reverse(arrayList);
+      return arrayList;
    }
 
    public static List<String> d() {
       return z(p());
    }
 
-   public static List<String> P(Scoreboard var0) {
-      List var1 = getFormattedSidebarText(var0);
-      return z(var1);
+   public static List<String> P(Scoreboard scoreboard) {
+      List list = getFormattedSidebarText(scoreboard);
+      return z(list);
    }
 
-   public static List<String> z(List<String> var0) {
-      ArrayList var3 = new ArrayList();
+   public static List<String> z(List<String> list) {
+      ArrayList arrayList = new ArrayList();
 
-      for (int var4 = 0; var4 < var0.size(); var4++) {
-         var3.add(var4, StringUtils.stripControlCodes((String)var0.get(var4)));
+      for (int i = 0; i < list.size(); i++) {
+         arrayList.add(i, StringUtils.stripControlCodes((String)list.get(i)));
       }
 
-      return var3;
+      return arrayList;
    }
 
-   public static String k(Scoreboard var0) {
-      ScoreObjective var3 = var0.getObjectiveInDisplaySlot(1);
-      return var3 == null ? "" : var3.getDisplayName();
+   public static String k(Scoreboard scoreboard) {
+      ScoreObjective scoreObjective = scoreboard.getObjectiveInDisplaySlot(1);
+      return scoreObjective == null ? "" : scoreObjective.getDisplayName();
    }
 
-   public static String c(Scoreboard var0) {
-      return StringUtils.stripControlCodes(k(var0));
+   public static String c(Scoreboard scoreboard) {
+      return StringUtils.stripControlCodes(k(scoreboard));
    }
 
    public static String m() {

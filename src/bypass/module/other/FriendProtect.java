@@ -18,36 +18,36 @@ public final class FriendProtect extends Module {
    private final BooleanSetting notifies = new BooleanSetting("Notifies", "Notifies you when trying to attack a friend", true);
    private final BooleanSetting swordOnly = new BooleanSetting("Sword-Only", "Only prevents attack with sword", false);
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = c ^ 105307080271894L;
-      long var10001 = var2 ^ 136644924826719L;
-      int var4 = (int)((var2 ^ 136644924826719L) >>> 56);
-      int var5 = (int)((var2 ^ 136644924826719L) << 8 >>> 32);
-      int var6 = (int)(var10001 << 40 >>> 40);
-      if (var1x.getDirection() == PacketDirection.OUTGOING && var1x.getPacket() instanceof C02PacketUseEntity) {
-         C02PacketUseEntity var8 = (C02PacketUseEntity)var1x.getPacket();
-         if (var8.getAction().equals(C02PacketUseEntity.Action.ATTACK)) {
-            Entity var9 = var8.getEntityFromWorld(mc.theWorld);
-            ItemStack var10 = mc.thePlayer.getCurrentEquippedItem();
-            Item var11 = var10 == null ? null : var10.getItem();
-            if (var9 instanceof EntityPlayer && client.getRelationManager().z(var9)) {
-               if (this.swordOnly.getValue() && var11 instanceof ItemSword) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = c ^ 105307080271894L;
+      long m = l ^ 136644924826719L;
+      int i = (int)((l ^ 136644924826719L) >>> 56);
+      int j = (int)((l ^ 136644924826719L) << 8 >>> 32);
+      int k = (int)(m << 40 >>> 40);
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C02PacketUseEntity) {
+         C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
+         if (c02PacketUseEntity.getAction().equals(C02PacketUseEntity.Action.ATTACK)) {
+            Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
+            ItemStack itemStack = mc.thePlayer.getCurrentEquippedItem();
+            Item item = itemStack == null ? null : itemStack.getItem();
+            if (entity instanceof EntityPlayer && client.getRelationManager().z(entity)) {
+               if (this.swordOnly.getValue() && item instanceof ItemSword) {
                   return;
                }
 
                if (this.notifies.getValue()) {
-                  toasts.B("Friend protect", String.format("%s is your friend", var9.getName()));
+                  toasts.B("Friend protect", String.format("%s is your friend", entity.getName()));
                }
 
-               var1x.cancel();
+               packetEvent.cancel();
             }
          }
       }
    };
    private static final long c = 91048993024276L;
 
-   public FriendProtect(Category var1) {
-      super(var1);
+   public FriendProtect(Category category) {
+      super(category);
       this.addSettings(this.notifies, this.swordOnly);
       this.setHidden(false);
    }

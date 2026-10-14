@@ -28,35 +28,35 @@ public class HWDiskStore implements Comparable<HWDiskStore> {
    public HWDiskStore() {
    }
 
-   public HWDiskStore(HWDiskStore var1) {
-      HWPartition[] var5 = var1.getPartitions();
-      HWPartition[] var6 = new HWPartition[var5.length];
+   public HWDiskStore(HWDiskStore diskStore) {
+      HWPartition[] hwPartitions = diskStore.getPartitions();
+      HWPartition[] hwPartitions2 = new HWPartition[hwPartitions.length];
 
-      for (int var7 = 0; var7 < var5.length; var7++) {
-         var6[var7] = new HWPartition(
-            var5[var7].getIdentification(),
-            var5[var7].getName(),
-            var5[var7].getType(),
-            var5[var7].getUuid(),
-            var5[var7].getSize(),
-            var5[var7].getMajor(),
-            var5[var7].getMinor(),
-            var5[var7].getMountPoint()
+      for (int i = 0; i < hwPartitions.length; i++) {
+         hwPartitions2[i] = new HWPartition(
+            hwPartitions[i].getIdentification(),
+            hwPartitions[i].getName(),
+            hwPartitions[i].getType(),
+            hwPartitions[i].getUuid(),
+            hwPartitions[i].getSize(),
+            hwPartitions[i].getMajor(),
+            hwPartitions[i].getMinor(),
+            hwPartitions[i].getMountPoint()
          );
       }
 
-      this.name = var1.name;
-      this.model = var1.model;
-      this.serial = var1.serial;
-      this.size = var1.size;
-      this.reads = var1.reads;
-      this.readBytes = var1.readBytes;
-      this.writes = var1.writes;
-      this.writeBytes = var1.writeBytes;
-      this.currentQueueLength = var1.currentQueueLength;
-      this.transferTime = var1.transferTime;
-      this.partitions = var6;
-      this.timeStamp = var1.timeStamp;
+      this.name = diskStore.name;
+      this.model = diskStore.model;
+      this.serial = diskStore.serial;
+      this.size = diskStore.size;
+      this.reads = diskStore.reads;
+      this.readBytes = diskStore.readBytes;
+      this.writes = diskStore.writes;
+      this.writeBytes = diskStore.writeBytes;
+      this.currentQueueLength = diskStore.currentQueueLength;
+      this.transferTime = diskStore.transferTime;
+      this.partitions = hwPartitions2;
+      this.timeStamp = diskStore.timeStamp;
    }
 
    public boolean updateAtrributes() {
@@ -124,122 +124,122 @@ public class HWDiskStore implements Comparable<HWDiskStore> {
       return this.timeStamp;
    }
 
-   public void setName(String var1) {
-      this.name = var1 == null ? "" : var1;
+   public void setName(String name) {
+      this.name = name == null ? "" : name;
    }
 
-   public void setModel(String var1) {
-      this.model = var1 == null ? "" : var1;
+   public void setModel(String model) {
+      this.model = model == null ? "" : model;
    }
 
-   public void setSerial(String var1) {
-      this.serial = var1 == null ? "" : var1;
+   public void setSerial(String serial) {
+      this.serial = serial == null ? "" : serial;
    }
 
-   public void setSize(long var1) {
-      this.size = var1;
+   public void setSize(long size) {
+      this.size = size;
    }
 
-   public void setReads(long var1) {
-      this.reads = var1;
+   public void setReads(long reads) {
+      this.reads = reads;
    }
 
-   public void setReadBytes(long var1) {
-      this.readBytes = var1;
+   public void setReadBytes(long readBytes) {
+      this.readBytes = readBytes;
    }
 
-   public void setWrites(long var1) {
-      this.writes = var1;
+   public void setWrites(long writes) {
+      this.writes = writes;
    }
 
-   public void setWriteBytes(long var1) {
-      this.writeBytes = var1;
+   public void setWriteBytes(long writeBytes) {
+      this.writeBytes = writeBytes;
    }
 
-   public void setCurrentQueueLength(long var1) {
-      this.currentQueueLength = var1;
+   public void setCurrentQueueLength(long currentQueueLength) {
+      this.currentQueueLength = currentQueueLength;
    }
 
-   public void setTransferTime(long var1) {
-      this.transferTime = var1;
+   public void setTransferTime(long transferTime) {
+      this.transferTime = transferTime;
    }
 
-   public void setPartitions(HWPartition[] var1) {
-      this.partitions = var1;
+   public void setPartitions(HWPartition[] partitions) {
+      this.partitions = partitions;
    }
 
-   public void setTimeStamp(long var1) {
-      this.timeStamp = var1;
+   public void setTimeStamp(long timeStamp) {
+      this.timeStamp = timeStamp;
    }
 
-   public int compareTo(HWDiskStore var1) {
-      return this.getName().compareTo(var1.getName());
+   public int compareTo(HWDiskStore store) {
+      return this.getName().compareTo(store.getName());
    }
 
    @Override
    public int hashCode() {
-      int var5 = 1;
-      var5 = 31 * var5 + (this.model == null ? 0 : this.model.hashCode());
-      var5 = 31 * var5 + (this.name == null ? 0 : this.name.hashCode());
-      var5 = 31 * var5 + (this.serial == null ? 0 : this.serial.hashCode());
-      return 31 * var5 + (int)(this.size ^ this.size >>> 32);
+      int i = 1;
+      i = 31 * i + (this.model == null ? 0 : this.model.hashCode());
+      i = 31 * i + (this.name == null ? 0 : this.name.hashCode());
+      i = 31 * i + (this.serial == null ? 0 : this.serial.hashCode());
+      return 31 * i + (int)(this.size ^ this.size >>> 32);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object obj) {
+      if (this == obj) {
          return true;
       }
 
-      if (var1 == null) {
+      if (obj == null) {
          return false;
       }
 
-      if (!var1.getClass().equals(this.getClass())) {
+      if (!obj.getClass().equals(this.getClass())) {
          return false;
       }
 
-      HWDiskStore var5 = (HWDiskStore)var1;
+      HWDiskStore hwDiskStore = (HWDiskStore)obj;
       if (this.model == null) {
-         if (var5.model != null) {
+         if (hwDiskStore.model != null) {
             return false;
          }
-      } else if (!this.model.equals(var5.model)) {
+      } else if (!this.model.equals(hwDiskStore.model)) {
          return false;
       }
 
       if (this.name == null) {
-         if (var5.name != null) {
+         if (hwDiskStore.name != null) {
             return false;
          }
-      } else if (!this.name.equals(var5.name)) {
+      } else if (!this.name.equals(hwDiskStore.name)) {
          return false;
       }
 
       if (this.serial == null) {
-         if (var5.serial != null) {
+         if (hwDiskStore.serial != null) {
             return false;
          }
-      } else if (!this.serial.equals(var5.serial)) {
+      } else if (!this.serial.equals(hwDiskStore.serial)) {
          return false;
       }
 
-      return this.size == var5.size;
+      return this.size == hwDiskStore.size;
    }
 
    @Override
    public String toString() {
-      boolean var4 = this.getReads() > 0L || this.getWrites() > 0L;
-      StringBuilder var5 = new StringBuilder();
-      var5.append(this.getName()).append(": ");
-      var5.append("(model: ").append(this.getModel());
-      var5.append(" - S/N: ").append(this.getSerial()).append(") ");
-      var5.append("size: ").append(this.getSize() > 0L ? FormatUtil.formatBytesDecimal(this.getSize()) : "?").append(", ");
-      var5.append("reads: ").append(var4 ? this.getReads() : "?");
-      var5.append(" (").append(var4 ? FormatUtil.formatBytes(this.getReadBytes()) : "?").append("), ");
-      var5.append("writes: ").append(var4 ? this.getWrites() : "?");
-      var5.append(" (").append(var4 ? FormatUtil.formatBytes(this.getWriteBytes()) : "?").append("), ");
-      var5.append("xfer: ").append(var4 ? this.getTransferTime() : "?");
-      return var5.toString();
+      boolean bl = this.getReads() > 0L || this.getWrites() > 0L;
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append(this.getName()).append(": ");
+      stringBuilder.append("(model: ").append(this.getModel());
+      stringBuilder.append(" - S/N: ").append(this.getSerial()).append(") ");
+      stringBuilder.append("size: ").append(this.getSize() > 0L ? FormatUtil.formatBytesDecimal(this.getSize()) : "?").append(", ");
+      stringBuilder.append("reads: ").append(bl ? this.getReads() : "?");
+      stringBuilder.append(" (").append(bl ? FormatUtil.formatBytes(this.getReadBytes()) : "?").append("), ");
+      stringBuilder.append("writes: ").append(bl ? this.getWrites() : "?");
+      stringBuilder.append(" (").append(bl ? FormatUtil.formatBytes(this.getWriteBytes()) : "?").append("), ");
+      stringBuilder.append("xfer: ").append(bl ? this.getTransferTime() : "?");
+      return stringBuilder.toString();
    }
 }

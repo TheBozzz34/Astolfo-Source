@@ -12,7 +12,7 @@ public class BlockNetherrack extends Block {
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
+   public MapColor getMapColor(IBlockState state) {
       return MapColor.netherrackColor;
    }
 }

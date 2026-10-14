@@ -22,73 +22,75 @@ public class BlockDragonEgg extends Block {
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      var1.scheduleUpdate(var2, this, this.tickRate(var1));
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      var1.scheduleUpdate(var2, this, this.tickRate(var1));
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      this.checkFall(var1, var2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      this.checkFall(worldIn, pos);
    }
 
-   private void checkFall(World var1, BlockPos var2) {
-      if (BlockFalling.canFallInto(var1, var2.down()) && var2.getY() >= 0) {
-         byte var6 = 32;
-         if (!BlockFalling.fallInstantly && var1.isAreaLoaded(var2.add(-var6, -var6, -var6), var2.add(var6, var6, var6))) {
-            var1.spawnEntityInWorld(new EntityFallingBlock(var1, var2.getX() + 0.5F, var2.getY(), var2.getZ() + 0.5F, this.getDefaultState()));
+   private void checkFall(World worldIn, BlockPos pos) {
+      if (BlockFalling.canFallInto(worldIn, pos.down()) && pos.getY() >= 0) {
+         byte b = 32;
+         if (!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-b, -b, -b), pos.add(b, b, b))) {
+            worldIn.spawnEntityInWorld(new EntityFallingBlock(worldIn, pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, this.getDefaultState()));
          } else {
-            var1.setBlockToAir(var2);
-            BlockPos var7 = var2;
+            worldIn.setBlockToAir(pos);
+            BlockPos blockPos = pos;
 
-            while (BlockFalling.canFallInto(var1, var7) && var7.getY() > 0) {
-               var7 = var7.down();
+            while (BlockFalling.canFallInto(worldIn, blockPos) && blockPos.getY() > 0) {
+               blockPos = blockPos.down();
             }
 
-            if (var7.getY() > 0) {
-               var1.setBlockState(var7, this.getDefaultState(), 2);
+            if (blockPos.getY() > 0) {
+               worldIn.setBlockState(blockPos, this.getDefaultState(), 2);
             }
          }
       }
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      this.teleport(var1, var2);
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      this.teleport(worldIn, pos);
       return true;
    }
 
    @Override
-   public void onBlockClicked(World var1, BlockPos var2, EntityPlayer var3) {
-      this.teleport(var1, var2);
+   public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+      this.teleport(worldIn, pos);
    }
 
-   private void teleport(World var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      if (var6.getBlock() == this) {
-         for (int var7 = 0; var7 < 1000; var7++) {
-            BlockPos var8 = var2.add(
-               var1.rand.nextInt(16) - var1.rand.nextInt(16), var1.rand.nextInt(8) - var1.rand.nextInt(8), var1.rand.nextInt(16) - var1.rand.nextInt(16)
+   private void teleport(World worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      if (iBlockState.getBlock() == this) {
+         for (int i = 0; i < 1000; i++) {
+            BlockPos blockPos = pos.add(
+               worldIn.rand.nextInt(16) - worldIn.rand.nextInt(16),
+               worldIn.rand.nextInt(8) - worldIn.rand.nextInt(8),
+               worldIn.rand.nextInt(16) - worldIn.rand.nextInt(16)
             );
-            if (var1.getBlockState(var8).getBlock().blockMaterial == Material.air) {
-               if (var1.isRemote) {
-                  for (int var9 = 0; var9 < 128; var9++) {
-                     double var10 = var1.rand.nextDouble();
-                     float var12 = (var1.rand.nextFloat() - 0.5F) * 0.2F;
-                     float var13 = (var1.rand.nextFloat() - 0.5F) * 0.2F;
-                     float var14 = (var1.rand.nextFloat() - 0.5F) * 0.2F;
-                     double var15 = var8.getX() + (var2.getX() - var8.getX()) * var10 + (var1.rand.nextDouble() - 0.5) * 1.0 + 0.5;
-                     double var17 = var8.getY() + (var2.getY() - var8.getY()) * var10 + var1.rand.nextDouble() * 1.0 - 0.5;
-                     double var19 = var8.getZ() + (var2.getZ() - var8.getZ()) * var10 + (var1.rand.nextDouble() - 0.5) * 1.0 + 0.5;
-                     var1.spawnParticle(EnumParticleTypes.PORTAL, var15, var17, var19, var12, var13, var14);
+            if (worldIn.getBlockState(blockPos).getBlock().blockMaterial == Material.air) {
+               if (worldIn.isRemote) {
+                  for (int j = 0; j < 128; j++) {
+                     double d = worldIn.rand.nextDouble();
+                     float f = (worldIn.rand.nextFloat() - 0.5F) * 0.2F;
+                     float g = (worldIn.rand.nextFloat() - 0.5F) * 0.2F;
+                     float h = (worldIn.rand.nextFloat() - 0.5F) * 0.2F;
+                     double e = blockPos.getX() + (pos.getX() - blockPos.getX()) * d + (worldIn.rand.nextDouble() - 0.5) * 1.0 + 0.5;
+                     double d2 = blockPos.getY() + (pos.getY() - blockPos.getY()) * d + worldIn.rand.nextDouble() * 1.0 - 0.5;
+                     double d3 = blockPos.getZ() + (pos.getZ() - blockPos.getZ()) * d + (worldIn.rand.nextDouble() - 0.5) * 1.0 + 0.5;
+                     worldIn.spawnParticle(EnumParticleTypes.PORTAL, e, d2, d3, f, g, h);
                   }
                } else {
-                  var1.setBlockState(var8, var6, 2);
-                  var1.setBlockToAir(var2);
+                  worldIn.setBlockState(blockPos, iBlockState, 2);
+                  worldIn.setBlockToAir(pos);
                }
 
                return;
@@ -98,7 +100,7 @@ public class BlockDragonEgg extends Block {
    }
 
    @Override
-   public int tickRate(World var1) {
+   public int tickRate(World worldIn) {
       return 5;
    }
 
@@ -113,12 +115,12 @@ public class BlockDragonEgg extends Block {
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
       return true;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return null;
    }
 }

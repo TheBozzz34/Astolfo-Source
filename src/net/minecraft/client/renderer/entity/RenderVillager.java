@@ -15,8 +15,8 @@ public class RenderVillager extends RenderLiving<EntityVillager> {
    private static final ResourceLocation butcherVillagerTextures = new ResourceLocation("textures/entity/villager/butcher.png");
    private static final long d = 64161802497687L;
 
-   public RenderVillager(RenderManager var1) {
-      super(var1, new ModelVillager(0.0F), 0.5F);
+   public RenderVillager(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelVillager(0.0F), 0.5F);
       this.addLayer(new LayerCustomHead(this.getMainModel().villagerHead));
    }
 
@@ -24,8 +24,8 @@ public class RenderVillager extends RenderLiving<EntityVillager> {
       return (ModelVillager)super.getMainModel();
    }
 
-   public ResourceLocation getEntityTexture(EntityVillager var1) {
-      switch (var1.getProfession()) {
+   public ResourceLocation getEntityTexture(EntityVillager entity) {
+      switch (entity.getProfession()) {
          case 0:
             return farmerVillagerTextures;
          case 1:
@@ -41,15 +41,15 @@ public class RenderVillager extends RenderLiving<EntityVillager> {
       }
    }
 
-   public void preRenderCallback(EntityVillager var1, float var2) {
-      float var6 = 0.9375F;
-      if (var1.getGrowingAge() < 0) {
-         var6 = (float)(var6 * 0.5);
+   public void preRenderCallback(EntityVillager entitylivingbaseIn, float partialTickTime) {
+      float f = 0.9375F;
+      if (entitylivingbaseIn.getGrowingAge() < 0) {
+         f = (float)(f * 0.5);
          this.shadowSize = 0.25F;
       } else {
          this.shadowSize = 0.5F;
       }
 
-      GlStateManager.scale(var6, var6, var6);
+      GlStateManager.scale(f, f, f);
    }
 }

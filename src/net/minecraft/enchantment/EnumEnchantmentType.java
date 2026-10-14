@@ -22,31 +22,31 @@ public enum EnumEnchantmentType {
 
    private static final long a = 13763999508849L;
 
-   public boolean canEnchantItem(Item var1) {
+   public boolean canEnchantItem(Item item) {
       if (this == ALL) {
          return true;
       }
 
-      if (this == BREAKABLE && var1.isDamageable()) {
+      if (this == BREAKABLE && item.isDamageable()) {
          return true;
       }
 
-      if (var1 instanceof ItemArmor) {
+      if (item instanceof ItemArmor) {
          if (this == ARMOR) {
             return true;
          }
 
-         ItemArmor var5 = (ItemArmor)var1;
-         return var5.armorType == 0
+         ItemArmor itemArmor = (ItemArmor)item;
+         return itemArmor.armorType == 0
             ? this == ARMOR_HEAD
-            : (var5.armorType == 2 ? this == ARMOR_LEGS : (var5.armorType == 1 ? this == ARMOR_TORSO : (var5.armorType == 3 ? this == ARMOR_FEET : false)));
+            : (itemArmor.armorType == 2 ? this == ARMOR_LEGS : (itemArmor.armorType == 1 ? this == ARMOR_TORSO : (itemArmor.armorType == 3 ? this == ARMOR_FEET : false)));
       } else {
-         return var1 instanceof ItemSword
+         return item instanceof ItemSword
             ? this == WEAPON
             : (
-               var1 instanceof ItemTool
+               item instanceof ItemTool
                   ? this == DIGGER
-                  : (var1 instanceof ItemBow ? this == BOW : (var1 instanceof ItemFishingRod ? this == FISHING_ROD : false))
+                  : (item instanceof ItemBow ? this == BOW : (item instanceof ItemFishingRod ? this == FISHING_ROD : false))
             );
       }
    }

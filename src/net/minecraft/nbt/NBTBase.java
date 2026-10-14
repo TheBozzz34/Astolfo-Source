@@ -10,17 +10,17 @@ public abstract class NBTBase {
    };
    private static final long b = 102053759416566L;
 
-   public abstract void write(DataOutput var1) throws IOException;
+   public abstract void write(DataOutput output) throws IOException;
 
-   public abstract void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException;
+   public abstract void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException;
 
    @Override
    public abstract String toString();
 
    public abstract byte getId();
 
-   public static NBTBase createNewByType(byte var0) {
-      switch (var0) {
+   public static NBTBase createNewByType(byte id) {
+      switch (id) {
          case 0:
             return new NBTTagEnd();
          case 1:
@@ -57,13 +57,13 @@ public abstract class NBTBase {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!(var1 instanceof NBTBase)) {
+   public boolean equals(Object object) {
+      if (!(object instanceof NBTBase)) {
          return false;
       }
 
-      NBTBase var5 = (NBTBase)var1;
-      return this.getId() == var5.getId();
+      NBTBase nbtBase = (NBTBase)object;
+      return this.getId() == nbtBase.getId();
    }
 
    @Override

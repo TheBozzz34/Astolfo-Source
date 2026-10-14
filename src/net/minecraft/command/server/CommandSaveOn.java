@@ -15,27 +15,27 @@ public class CommandSaveOn extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.save-on.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      MinecraftServer var6 = MinecraftServer.getServer();
-      boolean var7 = false;
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      boolean bl = false;
 
-      for (int var8 = 0; var8 < var6.worldServers.length; var8++) {
-         if (var6.worldServers[var8] != null) {
-            WorldServer var9 = var6.worldServers[var8];
-            if (var9.disableLevelSaving) {
-               var9.disableLevelSaving = false;
-               var7 = true;
+      for (int i = 0; i < minecraftServer.worldServers.length; i++) {
+         if (minecraftServer.worldServers[i] != null) {
+            WorldServer worldServer = minecraftServer.worldServers[i];
+            if (worldServer.disableLevelSaving) {
+               worldServer.disableLevelSaving = false;
+               bl = true;
             }
          }
       }
 
-      if (var7) {
-         notifyOperators(var1, this, "commands.save.enabled");
+      if (bl) {
+         notifyOperators(sender, this, "commands.save.enabled");
       } else {
          throw new CommandException("commands.save-on.alreadyOn");
       }

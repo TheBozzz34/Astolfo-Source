@@ -24,28 +24,28 @@ public class RenderHelper {
       GlStateManager.enableLight(1);
       GlStateManager.enableColorMaterial();
       GlStateManager.colorMaterial(1032, 5634);
-      float var2 = 0.4F;
-      float var3 = 0.6F;
-      float var4 = 0.0F;
+      float f = 0.4F;
+      float g = 0.6F;
+      float h = 0.0F;
       GL11.glLight(16384, 4611, setColorBuffer(LIGHT0_POS.xCoord, LIGHT0_POS.yCoord, LIGHT0_POS.zCoord, 0.0));
-      GL11.glLight(16384, 4609, setColorBuffer(var3, var3, var3, 1.0F));
+      GL11.glLight(16384, 4609, setColorBuffer(g, g, g, 1.0F));
       GL11.glLight(16384, 4608, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
-      GL11.glLight(16384, 4610, setColorBuffer(var4, var4, var4, 1.0F));
+      GL11.glLight(16384, 4610, setColorBuffer(h, h, h, 1.0F));
       GL11.glLight(16385, 4611, setColorBuffer(LIGHT1_POS.xCoord, LIGHT1_POS.yCoord, LIGHT1_POS.zCoord, 0.0));
-      GL11.glLight(16385, 4609, setColorBuffer(var3, var3, var3, 1.0F));
+      GL11.glLight(16385, 4609, setColorBuffer(g, g, g, 1.0F));
       GL11.glLight(16385, 4608, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
-      GL11.glLight(16385, 4610, setColorBuffer(var4, var4, var4, 1.0F));
+      GL11.glLight(16385, 4610, setColorBuffer(h, h, h, 1.0F));
       GlStateManager.shadeModel(7424);
-      GL11.glLightModel(2899, setColorBuffer(var2, var2, var2, 1.0F));
+      GL11.glLightModel(2899, setColorBuffer(f, f, f, 1.0F));
    }
 
-   private static FloatBuffer setColorBuffer(double var0, double var2, double var4, double var6) {
-      return setColorBuffer((float)var0, (float)var2, (float)var4, (float)var6);
+   private static FloatBuffer setColorBuffer(double d, double d2, double d3, double d4) {
+      return setColorBuffer((float)d, (float)d2, (float)d3, (float)d4);
    }
 
-   private static FloatBuffer setColorBuffer(float var0, float var1, float var2, float var3) {
+   private static FloatBuffer setColorBuffer(float f, float g, float h, float f2) {
       ((Buffer)colorBuffer).clear();
-      colorBuffer.put(var0).put(var1).put(var2).put(var3);
+      colorBuffer.put(f).put(g).put(h).put(f2);
       ((Buffer)colorBuffer).flip();
       return colorBuffer;
    }

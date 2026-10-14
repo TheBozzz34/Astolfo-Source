@@ -44,29 +44,40 @@ public class ModelBlock {
    public ResourceLocation parentLocation;
    private static final long a = 17964793217280L;
 
-   public static ModelBlock deserialize(Reader var0) {
-      return SERIALIZER.fromJson(var0, ModelBlock.class);
+   public static ModelBlock deserialize(Reader readerIn) {
+      return SERIALIZER.fromJson(readerIn, ModelBlock.class);
    }
 
-   public static ModelBlock deserialize(String var0) {
-      return deserialize(new StringReader(var0));
+   public static ModelBlock deserialize(String jsonString) {
+      return deserialize(new StringReader(jsonString));
    }
 
-   public ModelBlock(List<BlockPart> var1, Map<String, String> var2, boolean var3, boolean var4, ItemCameraTransforms var5) {
-      this((ResourceLocation)null, var1, var2, var3, var4, var5);
+   public ModelBlock(
+      List<BlockPart> elementsIn, Map<String, String> texturesIn, boolean ambientOcclusionIn, boolean gui3dIn, ItemCameraTransforms cameraTransformsIn
+   ) {
+      this((ResourceLocation)null, elementsIn, texturesIn, ambientOcclusionIn, gui3dIn, cameraTransformsIn);
    }
 
-   public ModelBlock(ResourceLocation var1, Map<String, String> var2, boolean var3, boolean var4, ItemCameraTransforms var5) {
-      this(var1, Collections.emptyList(), var2, var3, var4, var5);
+   public ModelBlock(
+      ResourceLocation parentLocationIn, Map<String, String> texturesIn, boolean ambientOcclusionIn, boolean gui3dIn, ItemCameraTransforms cameraTransformsIn
+   ) {
+      this(parentLocationIn, Collections.emptyList(), texturesIn, ambientOcclusionIn, gui3dIn, cameraTransformsIn);
    }
 
-   private ModelBlock(ResourceLocation var1, List<BlockPart> var2, Map<String, String> var3, boolean var4, boolean var5, ItemCameraTransforms var6) {
-      this.elements = var2;
-      this.ambientOcclusion = var4;
-      this.gui3d = var5;
-      this.textures = var3;
-      this.parentLocation = var1;
-      this.cameraTransforms = var6;
+   private ModelBlock(
+      ResourceLocation parentLocationIn,
+      List<BlockPart> elementsIn,
+      Map<String, String> texturesIn,
+      boolean ambientOcclusionIn,
+      boolean gui3dIn,
+      ItemCameraTransforms cameraTransformsIn
+   ) {
+      this.elements = elementsIn;
+      this.ambientOcclusion = ambientOcclusionIn;
+      this.gui3d = gui3dIn;
+      this.textures = texturesIn;
+      this.parentLocation = parentLocationIn;
+      this.cameraTransforms = cameraTransformsIn;
    }
 
    public List<BlockPart> getElements() {
@@ -89,49 +100,49 @@ public class ModelBlock {
       return this.parentLocation == null || this.parent != null && this.parent.isResolved();
    }
 
-   public void getParentFromMap(Map<ResourceLocation, ModelBlock> var1) {
+   public void getParentFromMap(Map<ResourceLocation, ModelBlock> map) {
       if (this.parentLocation != null) {
-         this.parent = (ModelBlock)var1.get(this.parentLocation);
+         this.parent = (ModelBlock)map.get(this.parentLocation);
       }
    }
 
-   public boolean isTexturePresent(String var1) {
-      return !"missingno".equals(this.resolveTextureName(var1));
+   public boolean isTexturePresent(String textureName) {
+      return !"missingno".equals(this.resolveTextureName(textureName));
    }
 
-   public String resolveTextureName(String var1) {
-      if (!this.startsWithHash(var1)) {
-         var1 = '#' + var1;
+   public String resolveTextureName(String textureName) {
+      if (!this.startsWithHash(textureName)) {
+         textureName = '#' + textureName;
       }
 
-      return this.resolveTextureName(var1, new ModelBlock.Bookkeep(this));
+      return this.resolveTextureName(textureName, new ModelBlock.Bookkeep(this));
    }
 
-   private String resolveTextureName(String var1, ModelBlock.Bookkeep var2) {
-      if (this.startsWithHash(var1)) {
-         if (this == var2.modelExt) {
-            LOGGER.warn("Unable to resolve texture due to upward reference: " + var1 + " in " + this.name);
+   private String resolveTextureName(String textureName, ModelBlock.Bookkeep bookkeep) {
+      if (this.startsWithHash(textureName)) {
+         if (this == bookkeep.modelExt) {
+            LOGGER.warn("Unable to resolve texture due to upward reference: " + textureName + " in " + this.name);
             return "missingno";
          }
 
-         String var6 = this.textures.get(var1.substring(1));
-         if (var6 == null && this.hasParent()) {
-            var6 = this.parent.resolveTextureName(var1, var2);
+         String string = this.textures.get(textureName.substring(1));
+         if (string == null && this.hasParent()) {
+            string = this.parent.resolveTextureName(textureName, bookkeep);
          }
 
-         var2.modelExt = this;
-         if (var6 != null && this.startsWithHash(var6)) {
-            var6 = var2.model.resolveTextureName(var6, var2);
+         bookkeep.modelExt = this;
+         if (string != null && this.startsWithHash(string)) {
+            string = bookkeep.model.resolveTextureName(string, bookkeep);
          }
 
-         return var6 != null && !this.startsWithHash(var6) ? var6 : "missingno";
+         return string != null && !this.startsWithHash(string) ? string : "missingno";
       } else {
-         return var1;
+         return textureName;
       }
    }
 
-   private boolean startsWithHash(String var1) {
-      return var1.charAt(0) == '#';
+   private boolean startsWithHash(String hash) {
+      return hash.charAt(0) == '#';
    }
 
    public ResourceLocation getParentLocation() {
@@ -143,30 +154,32 @@ public class ModelBlock {
    }
 
    public ItemCameraTransforms getAllTransforms() {
-      ItemTransformVec3f var1 = this.getTransform(ItemCameraTransforms.TransformType.THIRD_PERSON);
-      ItemTransformVec3f var2 = this.getTransform(ItemCameraTransforms.TransformType.FIRST_PERSON);
-      ItemTransformVec3f var3 = this.getTransform(ItemCameraTransforms.TransformType.HEAD);
-      ItemTransformVec3f var4 = this.getTransform(ItemCameraTransforms.TransformType.GUI);
-      ItemTransformVec3f var5 = this.getTransform(ItemCameraTransforms.TransformType.GROUND);
-      ItemTransformVec3f var6 = this.getTransform(ItemCameraTransforms.TransformType.FIXED);
-      return new ItemCameraTransforms(var1, var2, var3, var4, var5, var6);
+      ItemTransformVec3f itemTransformVec3f = this.getTransform(ItemCameraTransforms.TransformType.THIRD_PERSON);
+      ItemTransformVec3f itemTransformVec3f2 = this.getTransform(ItemCameraTransforms.TransformType.FIRST_PERSON);
+      ItemTransformVec3f itemTransformVec3f3 = this.getTransform(ItemCameraTransforms.TransformType.HEAD);
+      ItemTransformVec3f itemTransformVec3f4 = this.getTransform(ItemCameraTransforms.TransformType.GUI);
+      ItemTransformVec3f itemTransformVec3f5 = this.getTransform(ItemCameraTransforms.TransformType.GROUND);
+      ItemTransformVec3f itemTransformVec3f6 = this.getTransform(ItemCameraTransforms.TransformType.FIXED);
+      return new ItemCameraTransforms(itemTransformVec3f, itemTransformVec3f2, itemTransformVec3f3, itemTransformVec3f4, itemTransformVec3f5, itemTransformVec3f6);
    }
 
-   private ItemTransformVec3f getTransform(ItemCameraTransforms.TransformType var1) {
-      return this.parent != null && !this.cameraTransforms.func_181687_c(var1) ? this.parent.getTransform(var1) : this.cameraTransforms.getTransform(var1);
+   private ItemTransformVec3f getTransform(ItemCameraTransforms.TransformType typeIn) {
+      return this.parent != null && !this.cameraTransforms.func_181687_c(typeIn)
+         ? this.parent.getTransform(typeIn)
+         : this.cameraTransforms.getTransform(typeIn);
    }
 
-   public static void checkModelHierarchy(Map<ResourceLocation, ModelBlock> var0) {
-      for (ModelBlock var5 : var0.values()) {
+   public static void checkModelHierarchy(Map<ResourceLocation, ModelBlock> map) {
+      for (ModelBlock modelBlock : map.values()) {
          try {
-            ModelBlock var6 = var5.parent;
+            ModelBlock modelBlock2 = modelBlock.parent;
 
-            for (ModelBlock var7 = var6.parent; var6 != var7; var7 = var7.parent.parent) {
-               var6 = var6.parent;
+            for (ModelBlock modelBlock3 = modelBlock2.parent; modelBlock2 != modelBlock3; modelBlock3 = modelBlock3.parent.parent) {
+               modelBlock2 = modelBlock2.parent;
             }
 
             throw new ModelBlock.LoopException();
-         } catch (NullPointerException var8) {
+         } catch (NullPointerException nullPointerException) {
          }
       }
    }
@@ -175,69 +188,69 @@ public class ModelBlock {
       public final ModelBlock model;
       public ModelBlock modelExt;
 
-      public Bookkeep(ModelBlock var1) {
-         this.model = var1;
+      public Bookkeep(ModelBlock modelBlock) {
+         this.model = modelBlock;
       }
    }
 
    public static class Deserializer implements JsonDeserializer<ModelBlock> {
       private static final long a = 59645468926705L;
 
-      public ModelBlock deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-         JsonObject var7 = var1.getAsJsonObject();
-         List var8 = this.getModelElements(var3, var7);
-         String var9 = this.getParent(var7);
-         boolean var10 = StringUtils.isEmpty(var9);
-         boolean var11 = var8.isEmpty();
-         if (var11 && var10) {
+      public ModelBlock deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+         JsonObject jsonObject = jsonElement.getAsJsonObject();
+         List list = this.getModelElements(jsonDeserializationContext, jsonObject);
+         String string = this.getParent(jsonObject);
+         boolean bl = StringUtils.isEmpty(string);
+         boolean bl2 = list.isEmpty();
+         if (bl2 && bl) {
             throw new JsonParseException("BlockModel requires either elements or parent, found neither");
          }
 
-         if (!var10 && !var11) {
+         if (!bl && !bl2) {
             throw new JsonParseException("BlockModel requires either elements or parent, found both");
          }
 
-         Map var12 = this.getTextures(var7);
-         boolean var13 = this.getAmbientOcclusionEnabled(var7);
-         ItemCameraTransforms var14 = ItemCameraTransforms.DEFAULT;
-         if (var7.has("display")) {
-            JsonObject var15 = JsonUtils.getJsonObject(var7, "display");
-            var14 = var3.deserialize(var15, ItemCameraTransforms.class);
+         Map map = this.getTextures(jsonObject);
+         boolean bl3 = this.getAmbientOcclusionEnabled(jsonObject);
+         ItemCameraTransforms itemCameraTransforms = ItemCameraTransforms.DEFAULT;
+         if (jsonObject.has("display")) {
+            JsonObject jsonObject2 = JsonUtils.getJsonObject(jsonObject, "display");
+            itemCameraTransforms = jsonDeserializationContext.deserialize(jsonObject2, ItemCameraTransforms.class);
          }
 
-         return var11 ? new ModelBlock(new ResourceLocation(var9), var12, var13, true, var14) : new ModelBlock(var8, var12, var13, true, var14);
+         return bl2 ? new ModelBlock(new ResourceLocation(string), map, bl3, true, itemCameraTransforms) : new ModelBlock(list, map, bl3, true, itemCameraTransforms);
       }
 
-      private Map<String, String> getTextures(JsonObject var1) {
-         HashMap var5 = Maps.newHashMap();
-         if (var1.has("textures")) {
-            JsonObject var6 = var1.getAsJsonObject("textures");
+      private Map<String, String> getTextures(JsonObject jsonObject) {
+         HashMap hashMap = Maps.newHashMap();
+         if (jsonObject.has("textures")) {
+            JsonObject jsonObject2 = jsonObject.getAsJsonObject("textures");
 
-            for (Entry var8 : var6.entrySet()) {
-               var5.put(var8.getKey(), ((JsonElement)var8.getValue()).getAsString());
+            for (Entry entry : jsonObject2.entrySet()) {
+               hashMap.put(entry.getKey(), ((JsonElement)entry.getValue()).getAsString());
             }
          }
 
-         return var5;
+         return hashMap;
       }
 
-      private String getParent(JsonObject var1) {
-         return JsonUtils.getString(var1, "parent", "");
+      private String getParent(JsonObject jsonObject) {
+         return JsonUtils.getString(jsonObject, "parent", "");
       }
 
-      public boolean getAmbientOcclusionEnabled(JsonObject var1) {
-         return JsonUtils.getBoolean(var1, "ambientocclusion", true);
+      public boolean getAmbientOcclusionEnabled(JsonObject jsonObject) {
+         return JsonUtils.getBoolean(jsonObject, "ambientocclusion", true);
       }
 
-      public List<BlockPart> getModelElements(JsonDeserializationContext var1, JsonObject var2) {
-         ArrayList var6 = Lists.newArrayList();
-         if (var2.has("elements")) {
-            for (JsonElement var8 : JsonUtils.getJsonArray(var2, "elements")) {
-               var6.add((BlockPart)var1.deserialize(var8, BlockPart.class));
+      public List<BlockPart> getModelElements(JsonDeserializationContext jsonDeserializationContext, JsonObject jsonObject) {
+         ArrayList arrayList = Lists.newArrayList();
+         if (jsonObject.has("elements")) {
+            for (JsonElement jsonElement : JsonUtils.getJsonArray(jsonObject, "elements")) {
+               arrayList.add((BlockPart)jsonDeserializationContext.deserialize(jsonElement, BlockPart.class));
             }
          }
 
-         return var6;
+         return arrayList;
       }
    }
 

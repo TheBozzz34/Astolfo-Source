@@ -13,20 +13,20 @@ public final class Win32LogicalDisk {
    private Win32LogicalDisk() {
    }
 
-   public static WmiResult<Win32LogicalDisk.LogicalDiskProperty> queryLogicalDisk(String var0, boolean var1) {
-      StringBuilder var5 = new StringBuilder("Win32_LogicalDisk");
-      boolean var6 = false;
-      if (var1) {
-         var5.append(" WHERE DriveType != 4");
-         var6 = true;
+   public static WmiResult<Win32LogicalDisk.LogicalDiskProperty> queryLogicalDisk(String nameToMatch, boolean localOnly) {
+      StringBuilder stringBuilder = new StringBuilder("Win32_LogicalDisk");
+      boolean bl = false;
+      if (localOnly) {
+         stringBuilder.append(" WHERE DriveType != 4");
+         bl = true;
       }
 
-      if (var0 != null) {
-         var5.append(var6 ? " AND" : " WHERE").append(" Name=\"").append(var0).append((char)((int)e));
+      if (nameToMatch != null) {
+         stringBuilder.append(bl ? " AND" : " WHERE").append(" Name=\"").append(nameToMatch).append((char)((int)e));
       }
 
-      WmiQuery var7 = new WmiQuery<>(var5.toString(), Win32LogicalDisk.LogicalDiskProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var7);
+      WmiQuery wmiQuery = new WmiQuery<>(stringBuilder.toString(), Win32LogicalDisk.LogicalDiskProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum LogicalDiskProperty {

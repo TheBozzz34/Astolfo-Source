@@ -12,37 +12,37 @@ public class EntitySpeed extends Module {
    private final NumberSetting<Float> speed = new NumberSetting<>("Speed", "Move speed", 1.0F, 0.1F, 5.0F);
    private final NumberSetting<Float> vertical = new NumberSetting<>("Vertical", "Vertical move speed", 3.0F, 0.1F, 5.0F);
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1 -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (mc.thePlayer.E()) {
          if (mc.thePlayer.ridingEntity instanceof EntityHorse) {
-            EntityHorse var5 = (EntityHorse)mc.thePlayer.ridingEntity;
-            var5.setHorseSaddled(true);
-            float var6 = this.speed.getValue();
-            double var7 = mc.thePlayer.movementInput.moveForward;
-            double var9 = mc.thePlayer.movementInput.moveStrafe;
-            float var11 = mc.thePlayer.rotationYaw;
-            if (var7 == 0.0 && var9 == 0.0) {
+            EntityHorse entityHorse = (EntityHorse)mc.thePlayer.ridingEntity;
+            entityHorse.setHorseSaddled(true);
+            float f = this.speed.getValue();
+            double d = mc.thePlayer.movementInput.moveForward;
+            double e = mc.thePlayer.movementInput.moveStrafe;
+            float g = mc.thePlayer.rotationYaw;
+            if (d == 0.0 && e == 0.0) {
                mc.thePlayer.ridingEntity.motionX = mc.thePlayer.ridingEntity.motionZ = 0.0;
             } else {
-               if (var7 != 0.0) {
-                  if (var9 > 0.0) {
-                     var11 += var7 > 0.0 ? -45 : 45;
-                  } else if (var9 < 0.0) {
-                     var11 += var7 > 0.0 ? 45 : -45;
+               if (d != 0.0) {
+                  if (e > 0.0) {
+                     g += d > 0.0 ? -45 : 45;
+                  } else if (e < 0.0) {
+                     g += d > 0.0 ? 45 : -45;
                   }
 
-                  var9 = 0.0;
-                  if (var7 > 0.0) {
-                     var7 = 1.0;
-                  } else if (var7 < 0.0) {
-                     var7 = -1.0;
+                  e = 0.0;
+                  if (d > 0.0) {
+                     d = 1.0;
+                  } else if (d < 0.0) {
+                     d = -1.0;
                   }
                }
 
-               double var12 = Math.cos(Math.toRadians(var11 + 90.0F));
-               double var14 = Math.sin(Math.toRadians(var11 + 90.0F));
-               mc.thePlayer.ridingEntity.motionX = var7 * var6 * var12 + var9 * var6 * var14;
-               mc.thePlayer.ridingEntity.motionZ = var7 * var6 * var14 - var9 * var6 * var12;
+               double d2 = Math.cos(Math.toRadians(g + 90.0F));
+               double d3 = Math.sin(Math.toRadians(g + 90.0F));
+               mc.thePlayer.ridingEntity.motionX = d * f * d2 + e * f * d3;
+               mc.thePlayer.ridingEntity.motionZ = d * f * d3 - e * f * d2;
             }
 
             mc.thePlayer.ridingEntity.motionY = 0.0;

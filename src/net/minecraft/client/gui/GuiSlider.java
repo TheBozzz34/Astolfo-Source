@@ -15,15 +15,23 @@ public class GuiSlider extends GuiButton {
    private static final long c = 103170115849427L;
 
    public GuiSlider(
-      GuiPageButtonList.GuiResponder var1, int var2, int var3, int var4, String var5, float var6, float var7, float var8, GuiSlider.FormatHelper var9
+      GuiPageButtonList.GuiResponder guiResponder,
+      int idIn,
+      int x,
+      int y,
+      String name,
+      float minIn,
+      float maxIn,
+      float defaultValue,
+      GuiSlider.FormatHelper formatter
    ) {
-      super(var2, var3, var4, 150, 20, "");
-      this.name = var5;
-      this.min = var6;
-      this.max = var7;
-      this.sliderPosition = (var8 - var6) / (var7 - var6);
-      this.formatHelper = var9;
-      this.responder = var1;
+      super(idIn, x, y, 150, 20, "");
+      this.name = name;
+      this.min = minIn;
+      this.max = maxIn;
+      this.sliderPosition = (defaultValue - minIn) / (maxIn - minIn);
+      this.formatHelper = formatter;
+      this.responder = guiResponder;
       this.displayString = this.getDisplayString();
    }
 
@@ -31,10 +39,10 @@ public class GuiSlider extends GuiButton {
       return this.min + (this.max - this.min) * this.sliderPosition;
    }
 
-   public void func_175218_a(float var1, boolean var2) {
-      this.sliderPosition = (var1 - this.min) / (this.max - this.min);
+   public void func_175218_a(float f, boolean bl) {
+      this.sliderPosition = (f - this.min) / (this.max - this.min);
       this.displayString = this.getDisplayString();
-      if (var2) {
+      if (bl) {
          this.responder.onTick(this.id, this.func_175220_c());
       }
    }
@@ -50,15 +58,15 @@ public class GuiSlider extends GuiButton {
    }
 
    @Override
-   public int getHoverState(boolean var1) {
+   public int getHoverState(boolean mouseOver) {
       return 0;
    }
 
    @Override
-   public void mouseDragged(Minecraft var1, int var2, int var3) {
+   public void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
          if (this.isMouseDown) {
-            this.sliderPosition = (float)(var2 - (this.xPosition + 4)) / (this.width - 8);
+            this.sliderPosition = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
             if (this.sliderPosition < 0.0F) {
                this.sliderPosition = 0.0F;
             }
@@ -77,16 +85,16 @@ public class GuiSlider extends GuiButton {
       }
    }
 
-   public void func_175219_a(float var1) {
-      this.sliderPosition = var1;
+   public void func_175219_a(float f) {
+      this.sliderPosition = f;
       this.displayString = this.getDisplayString();
       this.responder.onTick(this.id, this.func_175220_c());
    }
 
    @Override
-   public boolean mousePressed(Minecraft var1, int var2, int var3) {
-      if (super.mousePressed(var1, var2, var3)) {
-         this.sliderPosition = (float)(var2 - (this.xPosition + 4)) / (this.width - 8);
+   public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+      if (super.mousePressed(mc, mouseX, mouseY)) {
+         this.sliderPosition = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
          if (this.sliderPosition < 0.0F) {
             this.sliderPosition = 0.0F;
          }
@@ -105,11 +113,11 @@ public class GuiSlider extends GuiButton {
    }
 
    @Override
-   public void mouseReleased(int var1, int var2) {
+   public void mouseReleased(int mouseX, int mouseY) {
       this.isMouseDown = false;
    }
 
    public interface FormatHelper {
-      String getText(int var1, String var2, float var3);
+      String getText(int idIn, String nameIn, float value);
    }
 }

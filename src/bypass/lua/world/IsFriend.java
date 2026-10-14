@@ -11,16 +11,16 @@ public final class IsFriend extends OneArgFunction {
    private static final long a = 23998462244357L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      long var2 = a ^ 56081814171565L;
-      long var10001 = var2 ^ 96333608762613L;
-      int var4 = (int)((var2 ^ 96333608762613L) >>> 56);
-      int var5 = (int)((var2 ^ 96333608762613L) << 8 >>> 32);
-      int var6 = (int)(var10001 << 40 >>> 40);
-      if (!var1.isnil() && var1.isnumber() && var1.isint()) {
-         Entity var8 = WorldLibrary.X.get(var1.checkint());
-         if (var8 instanceof EntityLivingBase) {
-            return valueOf(ClientAccess.client.getRelationManager().z(var8));
+   public LuaValue call(LuaValue luaValue) {
+      long l = a ^ 56081814171565L;
+      long m = l ^ 96333608762613L;
+      int i = (int)((l ^ 96333608762613L) >>> 56);
+      int j = (int)((l ^ 96333608762613L) << 8 >>> 32);
+      int k = (int)(m << 40 >>> 40);
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity instanceof EntityLivingBase) {
+            return valueOf(ClientAccess.client.getRelationManager().z(entity));
          }
       }
 

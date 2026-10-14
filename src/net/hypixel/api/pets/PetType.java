@@ -120,13 +120,13 @@ public enum PetType {
    private final String name;
    private final Rarity rarity;
 
-   PetType(String var3) {
-      this(var3, null);
+   PetType(String name) {
+      this(name, null);
    }
 
-   PetType(String var3, Rarity var4) {
-      this.name = var3;
-      this.rarity = var4;
+   PetType(String name, Rarity rarity) {
+      this.name = name;
+      this.rarity = rarity;
    }
 
    public String getName() {

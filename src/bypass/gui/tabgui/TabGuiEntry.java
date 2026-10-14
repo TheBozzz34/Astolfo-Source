@@ -11,7 +11,7 @@ public interface TabGuiEntry {
    default void onExpand() {
    }
 
-   void z(int var1);
+   void z(int i);
 
    TabGui.Panel s();
 }

@@ -18,31 +18,31 @@ public final class ProcessStat {
    private ProcessStat() {
    }
 
-   public static Triplet<String, Character, Map<ProcessStat.PidStat, Long>> getPidStats(int var0) {
-      String var4 = FileUtil.getStringFromFile(String.format(ProcPath.PID_STAT, var0));
-      if (var4.isEmpty()) {
+   public static Triplet<String, Character, Map<ProcessStat.PidStat, Long>> getPidStats(int pid) {
+      String string = FileUtil.getStringFromFile(String.format(ProcPath.PID_STAT, pid));
+      if (string.isEmpty()) {
          return null;
       }
 
-      int var5 = var4.indexOf(40) + 1;
-      int var6 = var4.indexOf(41);
-      String var7 = var4.substring(var5, var6);
-      Character var8 = var4.charAt(var6 + 2);
-      String[] var9 = ParseUtil.Q.split(var4.substring(var6 + 4).trim());
-      EnumMap var10 = new EnumMap<>(ProcessStat.PidStat.class);
-      ProcessStat.PidStat[] var11 = ProcessStat.PidStat.class.getEnumConstants();
+      int i = string.indexOf(40) + 1;
+      int j = string.indexOf(41);
+      String string2 = string.substring(i, j);
+      Character character = string.charAt(j + 2);
+      String[] strings = ParseUtil.Q.split(string.substring(j + 4).trim());
+      EnumMap enumMap = new EnumMap<>(ProcessStat.PidStat.class);
+      ProcessStat.PidStat[] pidStats = ProcessStat.PidStat.class.getEnumConstants();
 
-      for (int var12 = 3; var12 < var11.length && var12 - 3 < var9.length; var12++) {
-         var10.put(var11[var12], ParseUtil.parseLongOrDefault(var9[var12 - 3], 0L));
+      for (int k = 3; k < pidStats.length && k - 3 < strings.length; k++) {
+         enumMap.put(pidStats[k], ParseUtil.parseLongOrDefault(strings[k - 3], 0L));
       }
 
-      return new Triplet<>(var7, var8, var10);
+      return new Triplet<>(string2, character, enumMap);
    }
 
    public static File[] getPidFiles() {
-      File var3 = new File(ProcPath.PROC);
-      File[] var4 = var3.listFiles(var0 -> DIGITS.matcher(var0.getName()).matches());
-      return var4 != null ? var4 : new File[0];
+      File file = new File(ProcPath.PROC);
+      File[] files = file.listFiles(f -> DIGITS.matcher(f.getName()).matches());
+      return files != null ? files : new File[0];
    }
 
    public enum PidStat {

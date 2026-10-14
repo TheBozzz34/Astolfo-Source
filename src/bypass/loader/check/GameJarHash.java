@@ -19,7 +19,7 @@ public class GameJarHash {
    public GameJarHash() {
       try {
          this.g = new ArrayList<>(Collections.singleton(this.G()));
-      } catch (IOException | URISyntaxException | NoSuchAlgorithmException var2) {
+      } catch (IOException | URISyntaxException | NoSuchAlgorithmException value) {
       }
    }
 
@@ -28,8 +28,8 @@ public class GameJarHash {
    }
 
    private String G() throws IOException, NoSuchAlgorithmException, URISyntaxException {
-      byte[] var3 = Files.readAllBytes(Paths.get(ConfigFiles.getGameJarPath()));
-      byte[] var4 = MessageDigest.getInstance("MD5").digest(var3);
-      return DatatypeConverter.printHexBinary(var4).toLowerCase();
+      byte[] bytes = Files.readAllBytes(Paths.get(ConfigFiles.getGameJarPath()));
+      byte[] bytes2 = MessageDigest.getInstance("MD5").digest(bytes);
+      return DatatypeConverter.printHexBinary(bytes2).toLowerCase();
    }
 }

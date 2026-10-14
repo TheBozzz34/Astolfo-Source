@@ -17,8 +17,8 @@ public class CapeSettingsScreen extends GuiScreen {
    private GuiScreen m;
    private static final long a = 53481734187291L;
 
-   public CapeSettingsScreen(GuiScreen var1) {
-      this.m = var1;
+   public CapeSettingsScreen(GuiScreen guiScreen) {
+      this.m = guiScreen;
    }
 
    @Override
@@ -29,8 +29,8 @@ public class CapeSettingsScreen extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) {
+      switch (button.id) {
          case 0:
             this.W();
             break;
@@ -40,9 +40,9 @@ public class CapeSettingsScreen extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       super.drawDefaultBackground();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
@@ -52,21 +52,21 @@ public class CapeSettingsScreen extends GuiScreen {
 
    private void W() {
       try {
-         GameProfile var3 = Minecraft.getMinecraft().thePlayer.getGameProfile();
-         String var4 = var3.getName();
-         String var5 = var3.getId().toString().replace("-", "");
-         String var6 = Minecraft.getMinecraft().getSession().getToken();
-         Random var7 = new Random();
-         Random var8 = new Random(System.identityHashCode(new Object()));
-         BigInteger var9 = new BigInteger(128, var7);
-         BigInteger var10 = new BigInteger(128, var8);
-         BigInteger var11 = var9.xor(var10);
-         String var12 = var11.toString(16);
-         Minecraft.getMinecraft().getSessionService().joinServer(var3, var6, var12);
-         String var13 = "https://optifine.net/capeChange?u=" + var5 + "&n=" + var4 + "&s=" + var12;
-         Desktop.getDesktop().browse(new URL(var13).toURI());
-      } catch (URISyntaxException | IOException | AuthenticationException var14) {
-         var14.printStackTrace();
+         GameProfile gameProfile = Minecraft.getMinecraft().thePlayer.getGameProfile();
+         String string = gameProfile.getName();
+         String string2 = gameProfile.getId().toString().replace("-", "");
+         String string3 = Minecraft.getMinecraft().getSession().getToken();
+         Random random = new Random();
+         Random random2 = new Random(System.identityHashCode(new Object()));
+         BigInteger bigInteger = new BigInteger(128, random);
+         BigInteger bigInteger2 = new BigInteger(128, random2);
+         BigInteger bigInteger3 = bigInteger.xor(bigInteger2);
+         String string4 = bigInteger3.toString(16);
+         Minecraft.getMinecraft().getSessionService().joinServer(gameProfile, string3, string4);
+         String string5 = "https://optifine.net/capeChange?u=" + string2 + "&n=" + string + "&s=" + string4;
+         Desktop.getDesktop().browse(new URL(string5).toURI());
+      } catch (URISyntaxException | IOException | AuthenticationException value) {
+         value.printStackTrace();
       }
    }
 

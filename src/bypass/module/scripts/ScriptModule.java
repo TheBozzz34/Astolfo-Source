@@ -49,31 +49,31 @@ import org.lwjgl.input.Mouse;
 public final class ScriptModule extends Module {
    private final LuaTable callbacks;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      switch (var1x.getDirection()) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      switch (packetEvent.getDirection()) {
          case OUTGOING:
-            int var5 = getOutgoingPacketId(var1x.getPacket());
-            if (var5 == -1) {
+            int i = getOutgoingPacketId(packetEvent.getPacket());
+            if (i == -1) {
                return;
             }
 
-            LuaTable var6 = LuaValue.tableOf();
-            switch (var5) {
+            LuaTable luaTable = LuaValue.tableOf();
+            switch (i) {
                case 0:
-                  var6.set("keep_alive_key", ((C00PacketKeepAlive)var1x.getPacket()).getKey());
+                  luaTable.set("keep_alive_key", ((C00PacketKeepAlive)packetEvent.getPacket()).getKey());
                   break;
                case 1:
-                  var6.set("message", ((C01PacketChatMessage)var1x.getPacket()).getMessage());
+                  luaTable.set("message", ((C01PacketChatMessage)packetEvent.getPacket()).getMessage());
                   break;
                case 2:
-                  C02PacketUseEntity var7 = (C02PacketUseEntity)var1x.getPacket();
-                  Entity var14 = var7.getEntityFromWorld(mc.theWorld);
-                  if (var14 != null) {
-                     var6.set("entity_id", var14.getEntityId());
+                  C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
+                  Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
+                  if (entity != null) {
+                     luaTable.set("entity_id", entity.getEntityId());
                   }
 
-                  var6.set("action_name", var7.getAction().name());
-                  var6.set("action", var7.getAction().ordinal() + 1);
+                  luaTable.set("action_name", c02PacketUseEntity.getAction().name());
+                  luaTable.set("action", c02PacketUseEntity.getAction().ordinal() + 1);
                case 3:
                case 4:
                case 5:
@@ -87,75 +87,75 @@ public final class ScriptModule extends Module {
                default:
                   break;
                case 9:
-                  C09PacketHeldItemChange var19 = (C09PacketHeldItemChange)var1x.getPacket();
-                  var6.set("slot", var19.getSlotId());
+                  C09PacketHeldItemChange c09PacketHeldItemChange = (C09PacketHeldItemChange)packetEvent.getPacket();
+                  luaTable.set("slot", c09PacketHeldItemChange.getSlotId());
                   break;
                case 14:
-                  C0EPacketClickWindow var21 = (C0EPacketClickWindow)var1x.getPacket();
-                  var6.set("slot", var21.getSlotId());
-                  var6.set("window_id", var21.getWindowId());
-                  var6.set("mode", var21.getMode());
+                  C0EPacketClickWindow c0EPacketClickWindow = (C0EPacketClickWindow)packetEvent.getPacket();
+                  luaTable.set("slot", c0EPacketClickWindow.getSlotId());
+                  luaTable.set("window_id", c0EPacketClickWindow.getWindowId());
+                  luaTable.set("mode", c0EPacketClickWindow.getMode());
                   break;
                case 15:
-                  C0FPacketConfirmTransaction var16 = (C0FPacketConfirmTransaction)var1x.getPacket();
-                  var6.set("window_id", var16.getWindowId());
-                  var6.set("uid", var16.getUid());
-                  var6.set("accept", LuaValue.valueOf(var16.N()));
+                  C0FPacketConfirmTransaction c0FPacketConfirmTransaction = (C0FPacketConfirmTransaction)packetEvent.getPacket();
+                  luaTable.set("window_id", c0FPacketConfirmTransaction.getWindowId());
+                  luaTable.set("uid", c0FPacketConfirmTransaction.getUid());
+                  luaTable.set("accept", LuaValue.valueOf(c0FPacketConfirmTransaction.N()));
             }
 
-            var6.set("packet_id", var5);
-            var6.set("cancel", LuaValue.valueOf(var1x.isCancelled()));
-            LuaValue var13 = this.callScript("on_send_packet", var6);
-            if (var13 != null && !var13.isnil() && var13.istable()) {
-               LuaTable var15 = (LuaTable)var13;
-               LuaValue var17 = var15.get("cancel");
-               if (!var17.isnil() && var17.isboolean() && var17.checkboolean()) {
-                  var1x.setCancelled(true);
+            luaTable.set("packet_id", i);
+            luaTable.set("cancel", LuaValue.valueOf(packetEvent.isCancelled()));
+            LuaValue luaValue = this.callScript("on_send_packet", luaTable);
+            if (luaValue != null && !luaValue.isnil() && luaValue.istable()) {
+               LuaTable luaTable2 = (LuaTable)luaValue;
+               LuaValue luaValue2 = luaTable2.get("cancel");
+               if (!luaValue2.isnil() && luaValue2.isboolean() && luaValue2.checkboolean()) {
+                  packetEvent.setCancelled(true);
                }
             }
             break;
          case RECEIVED:
-            int var8 = getIncomingPacketId(var1x.getPacket());
-            if (var8 == -1) {
+            int j = getIncomingPacketId(packetEvent.getPacket());
+            if (j == -1) {
                return;
             }
 
-            LuaTable var9 = LuaValue.tableOf();
-            var9.set("packet_id", var8);
-            var9.set("cancel", LuaValue.valueOf(var1x.isCancelled()));
-            switch (var8) {
+            LuaTable luaTable3 = LuaValue.tableOf();
+            luaTable3.set("packet_id", j);
+            luaTable3.set("cancel", LuaValue.valueOf(packetEvent.isCancelled()));
+            switch (j) {
                case 2:
-                  S02PacketChat var10 = (S02PacketChat)var1x.getPacket();
-                  var9.set("message", var10.getChatComponent().getFormattedText());
+                  S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+                  luaTable3.set("message", s02PacketChat.getChatComponent().getFormattedText());
                   break;
                case 8:
-                  S08PacketPlayerPosLook var12 = (S08PacketPlayerPosLook)var1x.getPacket();
-                  var9.set("pos_x", var12.getX());
-                  var9.set("pos_y", var12.getY());
-                  var9.set("pos_z", var12.getZ());
-                  var9.set("yaw", var12.getYaw());
-                  var9.set("pitch", var12.getPitch());
+                  S08PacketPlayerPosLook s08PacketPlayerPosLook = (S08PacketPlayerPosLook)packetEvent.getPacket();
+                  luaTable3.set("pos_x", s08PacketPlayerPosLook.getX());
+                  luaTable3.set("pos_y", s08PacketPlayerPosLook.getY());
+                  luaTable3.set("pos_z", s08PacketPlayerPosLook.getZ());
+                  luaTable3.set("yaw", s08PacketPlayerPosLook.getYaw());
+                  luaTable3.set("pitch", s08PacketPlayerPosLook.getPitch());
                   break;
                case 18:
-                  S12PacketEntityVelocity var11 = (S12PacketEntityVelocity)var1x.getPacket();
-                  var9.set("entity_id", var11.getEntityID());
-                  var9.set("motion_x", var11.getMotionX());
-                  var9.set("motion_y", var11.getMotionY());
-                  var9.set("motion_z", var11.getMotionZ());
+                  S12PacketEntityVelocity s12PacketEntityVelocity = (S12PacketEntityVelocity)packetEvent.getPacket();
+                  luaTable3.set("entity_id", s12PacketEntityVelocity.getEntityID());
+                  luaTable3.set("motion_x", s12PacketEntityVelocity.getMotionX());
+                  luaTable3.set("motion_y", s12PacketEntityVelocity.getMotionY());
+                  luaTable3.set("motion_z", s12PacketEntityVelocity.getMotionZ());
             }
 
-            LuaValue var18 = this.callScript("on_receive_packet", var9);
-            if (var18 != null && !var18.isnil() && var18.istable()) {
-               LuaValue var20 = var18.get("cancel");
-               if (!var20.isnil() && var20.isboolean() && var20.checkboolean()) {
-                  var1x.setCancelled(true);
+            LuaValue luaValue3 = this.callScript("on_receive_packet", luaTable3);
+            if (luaValue3 != null && !luaValue3.isnil() && luaValue3.istable()) {
+               LuaValue luaValue4 = luaValue3.get("cancel");
+               if (!luaValue4.isnil() && luaValue4.isboolean() && luaValue4.checkboolean()) {
+                  packetEvent.setCancelled(true);
                }
             }
       }
    };
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      switch (var1x.getState()) {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      switch (updateEvent.getState()) {
          case PRE:
             this.callScript("on_pre_update");
             break;
@@ -164,43 +164,43 @@ public final class ScriptModule extends Module {
       }
    };
    @EventHandler(MoveEvent.class)
-   private Listener<MoveEvent> onMove = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
-         LuaTable var5 = LuaValue.tableOf();
-         var5.set("x", var1x.getX());
-         var5.set("y", var1x.getY());
-         var5.set("z", var1x.getZ());
-         LuaValue var6 = this.callScript("on_player_move", var5);
-         if (var6 != null && !var6.isnil() && var6.istable()) {
-            LuaTable var7 = (LuaTable)var6;
-            LuaValue var8 = var7.get("x");
-            if (var8 != null && !var8.isnil() && var8.isnumber()) {
-               var1x.setX(var8.tofloat());
+   private Listener<MoveEvent> onMove = moveEvent -> {
+      if (moveEvent.getState() == EventState.PRE) {
+         LuaTable luaTable = LuaValue.tableOf();
+         luaTable.set("x", moveEvent.getX());
+         luaTable.set("y", moveEvent.getY());
+         luaTable.set("z", moveEvent.getZ());
+         LuaValue luaValue = this.callScript("on_player_move", luaTable);
+         if (luaValue != null && !luaValue.isnil() && luaValue.istable()) {
+            LuaTable luaTable2 = (LuaTable)luaValue;
+            LuaValue luaValue2 = luaTable2.get("x");
+            if (luaValue2 != null && !luaValue2.isnil() && luaValue2.isnumber()) {
+               moveEvent.setX(luaValue2.tofloat());
             }
 
-            LuaValue var9 = var7.get("y");
-            if (var9 != null && !var9.isnil() && var9.isnumber()) {
-               var1x.setY(var9.tofloat());
+            LuaValue luaValue3 = luaTable2.get("y");
+            if (luaValue3 != null && !luaValue3.isnil() && luaValue3.isnumber()) {
+               moveEvent.setY(luaValue3.tofloat());
             }
 
-            LuaValue var10 = var7.get("z");
-            if (var10 != null && !var10.isnil() && var10.isnumber()) {
-               var1x.setZ(var10.tofloat());
+            LuaValue luaValue4 = luaTable2.get("z");
+            if (luaValue4 != null && !luaValue4.isnil() && luaValue4.isnumber()) {
+               moveEvent.setZ(luaValue4.tofloat());
             }
          }
       }
    };
    @EventHandler(MoveWithHeadingEvent.class)
-   private Listener<MoveWithHeadingEvent> onMoveWithHeading = var1x -> {
-      switch (var1x.getState()) {
+   private Listener<MoveWithHeadingEvent> onMoveWithHeading = moveWithHeadingEvent -> {
+      switch (moveWithHeadingEvent.getState()) {
          case PRE:
-            LuaTable var5 = LuaValue.tableOf(0, 3);
-            var5.set("strafe", var1x.getForward());
-            var5.set("forward", var1x.getStrafe());
-            LuaValue var6 = this.callScript("on_pre_player_input", var5);
-            if (var6 != null && !var6.isnil() && var6.istable()) {
-               var1x.setForward(var6.get("strafe").tofloat());
-               var1x.setStrafe(var6.get("forward").tofloat());
+            LuaTable luaTable = LuaValue.tableOf(0, 3);
+            luaTable.set("strafe", moveWithHeadingEvent.getForward());
+            luaTable.set("forward", moveWithHeadingEvent.getStrafe());
+            LuaValue luaValue = this.callScript("on_pre_player_input", luaTable);
+            if (luaValue != null && !luaValue.isnil() && luaValue.istable()) {
+               moveWithHeadingEvent.setForward(luaValue.get("strafe").tofloat());
+               moveWithHeadingEvent.setStrafe(luaValue.get("forward").tofloat());
             }
             break;
          case POST:
@@ -208,51 +208,51 @@ public final class ScriptModule extends Module {
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> this.callScript("on_player_join");
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.callScript("on_player_join");
    @EventHandler(MouseClickEvent.class)
-   private Listener<MouseClickEvent> onMouseClick = var1x -> this.callScript("on_click", LuaValue.valueOf(var1x.button));
+   private Listener<MouseClickEvent> onMouseClick = mouseClickEvent -> this.callScript("on_click", LuaValue.valueOf(mouseClickEvent.button));
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      switch (var1x.getState()) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      switch (motionEvent.getState()) {
          case PRE:
-            LuaTable var5 = LuaValue.tableOf();
-            var5.set("x", var1x.getX());
-            var5.set("y", var1x.getMinY());
-            var5.set("z", var1x.getZ());
-            var5.set("yaw", var1x.getYaw());
-            var5.set("pitch", var1x.getPitch());
-            var5.set("on_ground", LuaValue.valueOf(var1x.isOnGround()));
-            LuaValue var6 = this.callScript("on_pre_motion", var5);
-            if (var6 != null && !var6.isnil() && var6.istable()) {
-               LuaTable var7 = (LuaTable)var6;
-               LuaValue var8 = var7.get("x");
-               LuaValue var9 = var7.get("y");
-               LuaValue var10 = var7.get("z");
-               LuaValue var11 = var7.get("yaw");
-               LuaValue var12 = var7.get("pitch");
-               LuaValue var13 = var7.get("on_ground");
-               if (!var8.isnil() && var8.isnumber()) {
-                  var1x.setX(var8.checkdouble());
+            LuaTable luaTable = LuaValue.tableOf();
+            luaTable.set("x", motionEvent.getX());
+            luaTable.set("y", motionEvent.getMinY());
+            luaTable.set("z", motionEvent.getZ());
+            luaTable.set("yaw", motionEvent.getYaw());
+            luaTable.set("pitch", motionEvent.getPitch());
+            luaTable.set("on_ground", LuaValue.valueOf(motionEvent.isOnGround()));
+            LuaValue luaValue = this.callScript("on_pre_motion", luaTable);
+            if (luaValue != null && !luaValue.isnil() && luaValue.istable()) {
+               LuaTable luaTable2 = (LuaTable)luaValue;
+               LuaValue luaValue2 = luaTable2.get("x");
+               LuaValue luaValue3 = luaTable2.get("y");
+               LuaValue luaValue4 = luaTable2.get("z");
+               LuaValue luaValue5 = luaTable2.get("yaw");
+               LuaValue luaValue6 = luaTable2.get("pitch");
+               LuaValue luaValue7 = luaTable2.get("on_ground");
+               if (!luaValue2.isnil() && luaValue2.isnumber()) {
+                  motionEvent.setX(luaValue2.checkdouble());
                }
 
-               if (!var9.isnil() && var9.isnumber()) {
-                  var1x.setMinY(var9.checkdouble());
+               if (!luaValue3.isnil() && luaValue3.isnumber()) {
+                  motionEvent.setMinY(luaValue3.checkdouble());
                }
 
-               if (!var10.isnil() && var10.isnumber()) {
-                  var1x.setZ(var10.checkdouble());
+               if (!luaValue4.isnil() && luaValue4.isnumber()) {
+                  motionEvent.setZ(luaValue4.checkdouble());
                }
 
-               if (!var11.isnil() && var11.isnumber()) {
-                  var1x.setYaw(var11.tofloat());
+               if (!luaValue5.isnil() && luaValue5.isnumber()) {
+                  motionEvent.setYaw(luaValue5.tofloat());
                }
 
-               if (!var12.isnil() && var12.isnumber()) {
-                  var1x.setPitch(var12.tofloat());
+               if (!luaValue6.isnil() && luaValue6.isnumber()) {
+                  motionEvent.setPitch(luaValue6.tofloat());
                }
 
-               if (!var13.isnil() && var13.isboolean()) {
-                  var1x.setOnGround(var13.checkboolean());
+               if (!luaValue7.isnil() && luaValue7.isboolean()) {
+                  motionEvent.setOnGround(luaValue7.checkboolean());
                }
             }
             break;
@@ -261,32 +261,32 @@ public final class ScriptModule extends Module {
       }
    };
    @EventHandler(RenderEvent.class)
-   private Listener<RenderEvent> onRender = var1x -> {
-      switch (var1x.getType()) {
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      switch (renderEvent.getType()) {
          case WORLD:
-            LuaTable var5 = LuaValue.tableOf();
-            var5.set("partial_ticks", var1x.getPartialTicks());
-            this.callScript("on_render_world", var5);
+            LuaTable luaTable = LuaValue.tableOf();
+            luaTable.set("partial_ticks", renderEvent.getPartialTicks());
+            this.callScript("on_render_world", luaTable);
             break;
          case SCREEN:
-            int var6 = var1x.getResolution().getScaledHeight();
-            int var7 = Mouse.getX() * var1x.getResolution().getScaledWidth() / mc.displayWidth;
-            int var8 = var6 - Mouse.getY() * var6 / mc.displayHeight - 1;
-            LuaTable var9 = LuaValue.tableOf();
-            var9.set("partial_ticks", var1x.getPartialTicks());
-            var9.set("width", var1x.getResolution().getScaledWidth());
-            var9.set("height", var1x.getResolution().getScaledHeight());
-            var9.set("scale_factor", var1x.getResolution().getScaleFactor());
-            var9.set("mouse_x", var7);
-            var9.set("mouse_y", var8);
-            this.callScript("on_render_screen", var9);
+            int i = renderEvent.getResolution().getScaledHeight();
+            int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+            int k = i - Mouse.getY() * i / mc.displayHeight - 1;
+            LuaTable luaTable2 = LuaValue.tableOf();
+            luaTable2.set("partial_ticks", renderEvent.getPartialTicks());
+            luaTable2.set("width", renderEvent.getResolution().getScaledWidth());
+            luaTable2.set("height", renderEvent.getResolution().getScaledHeight());
+            luaTable2.set("scale_factor", renderEvent.getResolution().getScaleFactor());
+            luaTable2.set("mouse_x", j);
+            luaTable2.set("mouse_y", k);
+            this.callScript("on_render_screen", luaTable2);
       }
    };
    private static final long e = 3956703315578L;
 
-   public ScriptModule(String var1, LuaTable var2) {
-      super(var1, Category.SCRIPTS);
-      this.callbacks = var2;
+   public ScriptModule(String string, LuaTable luaTable) {
+      super(string, Category.SCRIPTS);
+      this.callbacks = luaTable;
    }
 
    @Override
@@ -301,81 +301,81 @@ public final class ScriptModule extends Module {
       super.onDisable();
    }
 
-   public static int getOutgoingPacketId(Packet<?> var0) {
-      if (var0 instanceof C00PacketKeepAlive) {
+   public static int getOutgoingPacketId(Packet<?> packet) {
+      if (packet instanceof C00PacketKeepAlive) {
          return 0;
-      } else if (var0 instanceof C01PacketChatMessage) {
+      } else if (packet instanceof C01PacketChatMessage) {
          return 1;
-      } else if (var0 instanceof C02PacketUseEntity) {
+      } else if (packet instanceof C02PacketUseEntity) {
          return 2;
-      } else if (var0 instanceof C03PacketPlayer.C04PacketPlayerPosition) {
+      } else if (packet instanceof C03PacketPlayer.C04PacketPlayerPosition) {
          return 4;
-      } else if (var0 instanceof C03PacketPlayer.C05PacketPlayerLook) {
+      } else if (packet instanceof C03PacketPlayer.C05PacketPlayerLook) {
          return 5;
-      } else if (var0 instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
+      } else if (packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
          return 6;
-      } else if (var0 instanceof C03PacketPlayer) {
+      } else if (packet instanceof C03PacketPlayer) {
          return 3;
-      } else if (var0 instanceof C07PacketPlayerDigging) {
+      } else if (packet instanceof C07PacketPlayerDigging) {
          return 7;
-      } else if (var0 instanceof C08PacketPlayerBlockPlacement) {
+      } else if (packet instanceof C08PacketPlayerBlockPlacement) {
          return 8;
-      } else if (var0 instanceof C09PacketHeldItemChange) {
+      } else if (packet instanceof C09PacketHeldItemChange) {
          return 9;
-      } else if (var0 instanceof C0APacketAnimation) {
+      } else if (packet instanceof C0APacketAnimation) {
          return 10;
-      } else if (var0 instanceof C0BPacketEntityAction) {
+      } else if (packet instanceof C0BPacketEntityAction) {
          return 11;
-      } else if (var0 instanceof C0CPacketInput) {
+      } else if (packet instanceof C0CPacketInput) {
          return 12;
-      } else if (var0 instanceof C0DPacketCloseWindow) {
+      } else if (packet instanceof C0DPacketCloseWindow) {
          return 13;
-      } else if (var0 instanceof C0EPacketClickWindow) {
+      } else if (packet instanceof C0EPacketClickWindow) {
          return 14;
-      } else if (var0 instanceof C0FPacketConfirmTransaction) {
+      } else if (packet instanceof C0FPacketConfirmTransaction) {
          return 15;
-      } else if (var0 instanceof C10PacketCreativeInventoryAction) {
+      } else if (packet instanceof C10PacketCreativeInventoryAction) {
          return 16;
-      } else if (var0 instanceof C11PacketEnchantItem) {
+      } else if (packet instanceof C11PacketEnchantItem) {
          return 17;
-      } else if (var0 instanceof C12PacketUpdateSign) {
+      } else if (packet instanceof C12PacketUpdateSign) {
          return 18;
-      } else if (var0 instanceof C13PacketPlayerAbilities) {
+      } else if (packet instanceof C13PacketPlayerAbilities) {
          return 19;
-      } else if (var0 instanceof C14PacketTabComplete) {
+      } else if (packet instanceof C14PacketTabComplete) {
          return 20;
-      } else if (var0 instanceof C15PacketClientSettings) {
+      } else if (packet instanceof C15PacketClientSettings) {
          return 21;
-      } else if (var0 instanceof C16PacketClientStatus) {
+      } else if (packet instanceof C16PacketClientStatus) {
          return 22;
-      } else if (var0 instanceof C17PacketCustomPayload) {
+      } else if (packet instanceof C17PacketCustomPayload) {
          return 23;
-      } else if (var0 instanceof C18PacketSpectate) {
+      } else if (packet instanceof C18PacketSpectate) {
          return 24;
       } else {
-         return var0 instanceof C19PacketResourcePackStatus ? 25 : -1;
+         return packet instanceof C19PacketResourcePackStatus ? 25 : -1;
       }
    }
 
-   public static int getIncomingPacketId(Packet<?> var0) {
-      if (var0 instanceof S02PacketChat) {
+   public static int getIncomingPacketId(Packet<?> packet) {
+      if (packet instanceof S02PacketChat) {
          return 2;
-      } else if (var0 instanceof S08PacketPlayerPosLook) {
+      } else if (packet instanceof S08PacketPlayerPosLook) {
          return 8;
       } else {
-         return var0 instanceof S12PacketEntityVelocity ? 18 : -1;
+         return packet instanceof S12PacketEntityVelocity ? 18 : -1;
       }
    }
 
    @Override
-   public LuaValue callScript(String var1, LuaValue var2) {
-      LuaValue var6 = this.callbacks.get(var1);
-      if (!var6.isnil()) {
+   public LuaValue callScript(String string, LuaValue luaValue) {
+      LuaValue luaValue2 = this.callbacks.get(string);
+      if (!luaValue2.isnil()) {
          try {
-            return var6.call(var2);
-         } catch (LuaError var8) {
-            var8.printStackTrace();
-            chat.f(var8.getMessage());
+            return luaValue2.call(luaValue);
+         } catch (LuaError luaError) {
+            luaError.printStackTrace();
+            chat.f(luaError.getMessage());
          }
       }
 
@@ -383,14 +383,14 @@ public final class ScriptModule extends Module {
    }
 
    @Override
-   public LuaValue callScript(String var1) {
-      LuaValue var5 = this.callbacks.get(var1);
-      if (!var5.isnil()) {
+   public LuaValue callScript(String string) {
+      LuaValue luaValue = this.callbacks.get(string);
+      if (!luaValue.isnil()) {
          try {
-            return var5.call();
-         } catch (LuaError var7) {
-            var7.printStackTrace();
-            chat.f(var7.getMessage());
+            return luaValue.call();
+         } catch (LuaError luaError) {
+            luaError.printStackTrace();
+            chat.f(luaError.getMessage());
          }
       }
 

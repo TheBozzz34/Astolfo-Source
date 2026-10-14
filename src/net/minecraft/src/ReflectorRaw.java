@@ -9,141 +9,141 @@ import java.util.List;
 public class ReflectorRaw {
    private static final long a = 139436697422967L;
 
-   public static Field getField(Class var0, Class var1) {
+   public static Field getField(Class cls, Class fieldType) {
       try {
-         Field[] var5 = var0.getDeclaredFields();
+         Field[] fields = cls.getDeclaredFields();
 
-         for (int var6 = 0; var6 < var5.length; var6++) {
-            Field var7 = var5[var6];
-            if (var7.getType() == var1) {
-               var7.setAccessible(true);
-               return var7;
+         for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            if (field.getType() == fieldType) {
+               field.setAccessible(true);
+               return field;
             }
          }
 
          return null;
-      } catch (Exception var8) {
+      } catch (Exception exception) {
          return null;
       }
    }
 
-   public static Field[] getFields(Class var0, Class var1) {
+   public static Field[] getFields(Class cls, Class fieldType) {
       try {
-         Field[] var2 = var0.getDeclaredFields();
-         return getFields(var2, var1);
-      } catch (Exception var3) {
+         Field[] fields = cls.getDeclaredFields();
+         return getFields(fields, fieldType);
+      } catch (Exception eIn) {
          return null;
       }
    }
 
-   public static Field[] getFields(Field[] var0, Class var1) {
+   public static Field[] getFields(Field[] fields, Class fieldType) {
       try {
-         ArrayList var5 = new ArrayList();
+         ArrayList arrayList = new ArrayList();
 
-         for (int var6 = 0; var6 < var0.length; var6++) {
-            Field var7 = var0[var6];
-            if (var7.getType() == var1) {
-               var7.setAccessible(true);
-               var5.add(var7);
+         for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            if (field.getType() == fieldType) {
+               field.setAccessible(true);
+               arrayList.add(field);
             }
          }
 
-         return (java.lang.reflect.Field[])(var5.toArray(new Field[var5.size()]));
-      } catch (Exception var8) {
+         return (java.lang.reflect.Field[])(arrayList.toArray(new Field[arrayList.size()]));
+      } catch (Exception exception) {
          return null;
       }
    }
 
-   public static Field[] getFieldsAfter(Class var0, Field var1, Class var2) {
+   public static Field[] getFieldsAfter(Class cls, Field field, Class fieldType) {
       try {
-         Field[] var6 = var0.getDeclaredFields();
-         List var7 = Arrays.asList(var6);
-         int var8 = var7.indexOf(var1);
-         if (var8 < 0) {
+         Field[] fields = cls.getDeclaredFields();
+         List list = Arrays.asList(fields);
+         int i = list.indexOf(field);
+         if (i < 0) {
             return new Field[0];
          }
 
-         List var9 = var7.subList(var8 + 1, var7.size());
-         Field[] var10 = (java.lang.reflect.Field[])(var9.toArray(new Field[var9.size()]));
-         return getFields(var10, var2);
-      } catch (Exception var11) {
+         List list2 = list.subList(i + 1, list.size());
+         Field[] fields2 = (java.lang.reflect.Field[])(list2.toArray(new Field[list2.size()]));
+         return getFields(fields2, fieldType);
+      } catch (Exception exception) {
          return null;
       }
    }
 
-   public static Field[] getFields(Object var0, Field[] var1, Class var2, Object var3) {
+   public static Field[] getFields(Object obj, Field[] fields, Class fieldType, Object value) {
       try {
-         ArrayList var7 = new ArrayList();
+         ArrayList arrayList = new ArrayList();
 
-         for (int var8 = 0; var8 < var1.length; var8++) {
-            Field var9 = var1[var8];
-            if (var9.getType() == var2) {
-               boolean var10 = Modifier.isStatic(var9.getModifiers());
-               if ((var0 != null || var10) && (var0 == null || !var10)) {
-                  var9.setAccessible(true);
-                  Object var11 = var9.get(var0);
-                  if (var11 == var3) {
-                     var7.add(var9);
-                  } else if (var11 != null && var3 != null && var11.equals(var3)) {
-                     var7.add(var9);
+         for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            if (field.getType() == fieldType) {
+               boolean bl = Modifier.isStatic(field.getModifiers());
+               if ((obj != null || bl) && (obj == null || !bl)) {
+                  field.setAccessible(true);
+                  Object object = field.get(obj);
+                  if (object == value) {
+                     arrayList.add(field);
+                  } else if (object != null && value != null && object.equals(value)) {
+                     arrayList.add(field);
                   }
                }
             }
          }
 
-         return (java.lang.reflect.Field[])(var7.toArray(new Field[var7.size()]));
-      } catch (Exception var12) {
+         return (java.lang.reflect.Field[])(arrayList.toArray(new Field[arrayList.size()]));
+      } catch (Exception exception) {
          return null;
       }
    }
 
-   public static Field getField(Class var0, Class var1, int var2) {
-      Field[] var6 = getFields(var0, var1);
-      return var2 >= 0 && var2 < var6.length ? var6[var2] : null;
+   public static Field getField(Class cls, Class fieldType, int index) {
+      Field[] fields = getFields(cls, fieldType);
+      return index >= 0 && index < fields.length ? fields[index] : null;
    }
 
-   public static Field getFieldAfter(Class var0, Field var1, Class var2, int var3) {
-      Field[] var7 = getFieldsAfter(var0, var1, var2);
-      return var3 >= 0 && var3 < var7.length ? var7[var3] : null;
+   public static Field getFieldAfter(Class cls, Field field, Class fieldType, int index) {
+      Field[] fields = getFieldsAfter(cls, field, fieldType);
+      return index >= 0 && index < fields.length ? fields[index] : null;
    }
 
-   public static Object getFieldValue(Object var0, Class var1, Class var2) {
-      ReflectorField var6 = getReflectorField(var1, var2);
-      return var6 == null ? null : (!var6.exists() ? null : Reflector.getFieldValue(var0, var6));
+   public static Object getFieldValue(Object obj, Class cls, Class fieldType) {
+      ReflectorField reflectorField = getReflectorField(cls, fieldType);
+      return reflectorField == null ? null : (!reflectorField.exists() ? null : Reflector.getFieldValue(obj, reflectorField));
    }
 
-   public static Object getFieldValue(Object var0, Class var1, Class var2, int var3) {
-      ReflectorField var7 = getReflectorField(var1, var2, var3);
-      return var7 == null ? null : (!var7.exists() ? null : Reflector.getFieldValue(var0, var7));
+   public static Object getFieldValue(Object obj, Class cls, Class fieldType, int index) {
+      ReflectorField reflectorField = getReflectorField(cls, fieldType, index);
+      return reflectorField == null ? null : (!reflectorField.exists() ? null : Reflector.getFieldValue(obj, reflectorField));
    }
 
-   public static boolean setFieldValue(Object var0, Class var1, Class var2, Object var3) {
-      ReflectorField var7 = getReflectorField(var1, var2);
-      return var7 == null ? false : (!var7.exists() ? false : Reflector.setFieldValue(var0, var7, var3));
+   public static boolean setFieldValue(Object obj, Class cls, Class fieldType, Object value) {
+      ReflectorField reflectorField = getReflectorField(cls, fieldType);
+      return reflectorField == null ? false : (!reflectorField.exists() ? false : Reflector.setFieldValue(obj, reflectorField, value));
    }
 
-   public static boolean setFieldValue(Object var0, Class var1, Class var2, int var3, Object var4) {
-      ReflectorField var8 = getReflectorField(var1, var2, var3);
-      return var8 == null ? false : (!var8.exists() ? false : Reflector.setFieldValue(var0, var8, var4));
+   public static boolean setFieldValue(Object obj, Class cls, Class fieldType, int index, Object value) {
+      ReflectorField reflectorField = getReflectorField(cls, fieldType, index);
+      return reflectorField == null ? false : (!reflectorField.exists() ? false : Reflector.setFieldValue(obj, reflectorField, value));
    }
 
-   public static ReflectorField getReflectorField(Class var0, Class var1) {
-      Field var4 = getField(var0, var1);
-      if (var4 == null) {
+   public static ReflectorField getReflectorField(Class cls, Class fieldType) {
+      Field field = getField(cls, fieldType);
+      if (field == null) {
          return null;
       }
 
-      ReflectorClass var5 = new ReflectorClass(var0);
-      return new ReflectorField(var5, var4.getName());
+      ReflectorClass reflectorClass = new ReflectorClass(cls);
+      return new ReflectorField(reflectorClass, field.getName());
    }
 
-   public static ReflectorField getReflectorField(Class var0, Class var1, int var2) {
-      Field var5 = getField(var0, var1, var2);
-      if (var5 == null) {
+   public static ReflectorField getReflectorField(Class cls, Class fieldType, int index) {
+      Field field = getField(cls, fieldType, index);
+      if (field == null) {
          return null;
       }
 
-      ReflectorClass var6 = new ReflectorClass(var0);
-      return new ReflectorField(var6, var5.getName());
+      ReflectorClass reflectorClass = new ReflectorClass(cls);
+      return new ReflectorField(reflectorClass, field.getName());
    }
 }

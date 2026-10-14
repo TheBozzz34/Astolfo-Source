@@ -3,13 +3,13 @@ package bypass.module;
 public interface Toggleable {
    void toggle();
 
-   void setEnabled(boolean var1);
+   void setEnabled(boolean bl);
 
    boolean isEnabled();
 
    int getKey();
 
-   void setKey(int var1);
+   void setKey(int i);
 
    void onEnable();
 

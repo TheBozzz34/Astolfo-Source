@@ -15,132 +15,132 @@ public class Blender {
    public static final int BLEND_DEFAULT = 1;
    private static final long b = 125099542188790L;
 
-   public static int parseBlend(String var0) {
-      if (var0 == null) {
+   public static int parseBlend(String str) {
+      if (str == null) {
          return 1;
       }
 
-      var0 = var0.toLowerCase().trim();
-      if (var0.equals("alpha")) {
+      str = str.toLowerCase().trim();
+      if (str.equals("alpha")) {
          return 0;
       }
 
-      if (var0.equals("add")) {
+      if (str.equals("add")) {
          return 1;
       }
 
-      if (var0.equals("subtract")) {
+      if (str.equals("subtract")) {
          return 2;
       }
 
-      if (var0.equals("multiply")) {
+      if (str.equals("multiply")) {
          return 3;
       }
 
-      if (var0.equals("dodge")) {
+      if (str.equals("dodge")) {
          return 4;
       }
 
-      if (var0.equals("burn")) {
+      if (str.equals("burn")) {
          return 5;
       }
 
-      if (var0.equals("screen")) {
+      if (str.equals("screen")) {
          return 6;
       }
 
-      if (var0.equals("overlay")) {
+      if (str.equals("overlay")) {
          return 7;
       }
 
-      if (var0.equals("replace")) {
+      if (str.equals("replace")) {
          return 8;
       }
 
-      Config.warn("Unknown blend: " + var0);
+      Config.warn("Unknown blend: " + str);
       return 1;
    }
 
-   public static void setupBlend(int var0, float var1) {
-      long var2 = b ^ 109951973336739L;
-      switch (var0) {
+   public static void setupBlend(int blend, float brightness) {
+      long l = b ^ 109951973336739L;
+      switch (blend) {
          case 0:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
-            long var7 = 5496290096778020069L ^ var2;
+            long m = 5496290096778020069L ^ l;
             GlStateManager.blendFunc(770, 771);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, var1);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, brightness);
             break;
          case 1:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
-            long var6 = 5496290096778020069L ^ var2;
+            long n = 5496290096778020069L ^ l;
             GlStateManager.blendFunc(770, 1);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, var1);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, brightness);
             break;
          case 2:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
-            long var5 = 3053005766412172941L ^ var2;
+            long l2 = 3053005766412172941L ^ l;
             GlStateManager.blendFunc(775, 0);
-            GlStateManager.color(var1, var1, var1, 1.0F);
+            GlStateManager.color(brightness, brightness, brightness, 1.0F);
             break;
          case 3:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
-            long var4 = 8769878985459675894L ^ var2;
+            long l3 = 8769878985459675894L ^ l;
             GlStateManager.blendFunc(774, 771);
-            GlStateManager.color(var1, var1, var1, var1);
+            GlStateManager.color(brightness, brightness, brightness, brightness);
             break;
          case 4:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(1, 1);
-            GlStateManager.color(var1, var1, var1, 1.0F);
+            GlStateManager.color(brightness, brightness, brightness, 1.0F);
             break;
          case 5:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(0, 769);
-            GlStateManager.color(var1, var1, var1, 1.0F);
+            GlStateManager.color(brightness, brightness, brightness, 1.0F);
             break;
          case 6:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(1, 769);
-            GlStateManager.color(var1, var1, var1, 1.0F);
+            GlStateManager.color(brightness, brightness, brightness, 1.0F);
             break;
          case 7:
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
-            long var10000 = 6897688568257617263L ^ var2;
+            long l4 = 6897688568257617263L ^ l;
             GlStateManager.blendFunc(774, 768);
-            GlStateManager.color(var1, var1, var1, 1.0F);
+            GlStateManager.color(brightness, brightness, brightness, 1.0F);
             break;
          case 8:
             GlStateManager.enableAlpha();
             GlStateManager.disableBlend();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, var1);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, brightness);
       }
 
       GlStateManager.enableTexture2D();
    }
 
-   public static void clearBlend(float var0) {
+   public static void clearBlend(float rainBrightness) {
       GlStateManager.disableAlpha();
       GlStateManager.enableBlend();
       GlStateManager.blendFunc(770, 1);
-      GlStateManager.color(1.0F, 1.0F, 1.0F, var0);
+      GlStateManager.color(1.0F, 1.0F, 1.0F, rainBrightness);
    }
 
    static {
-      long var11 = b ^ 59891862505950L;
-      long var10000 = var11 ^ 1243232283727057597L;
-      var10000 = var11 ^ 4140675952995868507L;
-      var10000 = var11 ^ 2460985279192287900L;
-      var10000 = var11 ^ 8746573612015405545L;
-      var10000 = var11 ^ 6115514171016456520L;
-      var10000 = var11 ^ 338628925286904563L;
-      var10000 = var11 ^ 1130001480011713178L;
+      long l = b ^ 59891862505950L;
+      long m = l ^ 1243232283727057597L;
+      m = l ^ 4140675952995868507L;
+      m = l ^ 2460985279192287900L;
+      m = l ^ 8746573612015405545L;
+      m = l ^ 6115514171016456520L;
+      m = l ^ 338628925286904563L;
+      m = l ^ 1130001480011713178L;
    }
 }

@@ -45,21 +45,21 @@ public final class HypixelPacketHandler extends HiddenModule {
    public int P;
    private static boolean f;
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var1 -> {
-      long var2 = c ^ 111837101702005L;
-      long var4 = var2 ^ 129927802570145L;
-      if (var1.getDirection() == PacketDirection.RECEIVED) {
-         if (var1.getPacket() instanceof S08PacketPlayerPosLook) {
-            TeleportEvent var7 = new TeleportEvent((S08PacketPlayerPosLook)var1.getPacket());
-            client.getEventBus().post(var7);
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = c ^ 111837101702005L;
+      long m = l ^ 129927802570145L;
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
+         if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook) {
+            TeleportEvent teleportEvent = new TeleportEvent((S08PacketPlayerPosLook)packetEvent.getPacket());
+            client.getEventBus().post(teleportEvent);
          }
 
-         if (var1.getPacket() instanceof S3FPacketCustomPayload) {
+         if (packetEvent.getPacket() instanceof S3FPacketCustomPayload) {
             this.v.reset();
          }
       }
 
-      if (var1.getDirection() == PacketDirection.OUTGOING
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING
          && !Minecraft.c
          && mc.theWorld != null
          && mc.thePlayer != null
@@ -67,36 +67,36 @@ public final class HypixelPacketHandler extends HiddenModule {
          && !mc.isSingleplayer()
          && ServerData.I != null
          && ServerData.I.toLowerCase().endsWith("hypixel.net")) {
-         if (var1.getPacket() instanceof C02PacketUseEntity) {
-            C02PacketUseEntity var9 = (C02PacketUseEntity)var1.getPacket();
+         if (packetEvent.getPacket() instanceof C02PacketUseEntity) {
+            C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
             if (client.getModuleManager().get(AutoClicker.class).isEnabled()) {
-               Entity var8 = var9.getEntityFromWorld(mc.theWorld);
-               if (var8 instanceof EntityPlayer && BotDetector.w.contains(var8) && var9.getAction() == C02PacketUseEntity.Action.ATTACK) {
-                  var1.cancel();
+               Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
+               if (entity instanceof EntityPlayer && BotDetector.w.contains(entity) && c02PacketUseEntity.getAction() == C02PacketUseEntity.Action.ATTACK) {
+                  packetEvent.cancel();
                }
             }
          }
 
-         if (var1.getPacket() instanceof C0FPacketConfirmTransaction) {
-            C0FPacketConfirmTransaction var10 = (C0FPacketConfirmTransaction)var1.getPacket();
-            if (var10.getUid() < 0) {
+         if (packetEvent.getPacket() instanceof C0FPacketConfirmTransaction) {
+            C0FPacketConfirmTransaction c0FPacketConfirmTransaction = (C0FPacketConfirmTransaction)packetEvent.getPacket();
+            if (c0FPacketConfirmTransaction.getUid() < 0) {
                f = true;
             } else {
-               S = var10.getUid();
+               S = c0FPacketConfirmTransaction.getUid();
             }
          }
       }
    };
    public static int r;
    @EventHandler(TickEvent.class)
-   private Listener<TickEvent> onTick = var0 -> {
+   private Listener<TickEvent> onTick = tickEvent -> {
       r++;
       if (r >= (int)h) {
          r = 0;
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1 -> {
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       this.Z.reset();
       this.G.clear();
       this.e.clear();
@@ -123,21 +123,21 @@ public final class HypixelPacketHandler extends HiddenModule {
    public static void F() {
       if (GameUtil.isInHypixelGame()) {
          try {
-            PlayerCapabilities var2 = (PlayerCapabilities)mc.thePlayer.capabilities.getClass().newInstance();
-            var2.isFlying = true;
-            var2.allowFlying = true;
-            mc.thePlayer.sendQueue.u(new C13PacketPlayerAbilities(var2));
-         } catch (InstantiationException | IllegalAccessException var4) {
-            var4.printStackTrace();
+            PlayerCapabilities playerCapabilities = (PlayerCapabilities)mc.thePlayer.capabilities.getClass().newInstance();
+            playerCapabilities.isFlying = true;
+            playerCapabilities.allowFlying = true;
+            mc.thePlayer.sendQueue.u(new C13PacketPlayerAbilities(playerCapabilities));
+         } catch (InstantiationException | IllegalAccessException value) {
+            value.printStackTrace();
          }
       }
    }
 
    public void d() {
       while (this.x.peek() != null) {
-         Packet var4 = this.x.poll();
-         if (var4 != null) {
-            mc.thePlayer.sendQueue.u(var4);
+         Packet packet = this.x.poll();
+         if (packet != null) {
+            mc.thePlayer.sendQueue.u(packet);
          }
       }
 

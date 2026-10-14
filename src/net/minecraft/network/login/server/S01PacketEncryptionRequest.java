@@ -17,28 +17,28 @@ public class S01PacketEncryptionRequest implements Packet<INetHandlerLoginClient
    public S01PacketEncryptionRequest() {
    }
 
-   public S01PacketEncryptionRequest(String var1, PublicKey var2, byte[] var3) {
-      this.hashedServerId = var1;
-      this.publicKey = var2;
-      this.verifyToken = var3;
+   public S01PacketEncryptionRequest(String serverId, PublicKey key, byte[] verifyToken) {
+      this.hashedServerId = serverId;
+      this.publicKey = key;
+      this.verifyToken = verifyToken;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.hashedServerId = var1.readStringFromBuffer((int)b);
-      this.publicKey = CryptManager.decodePublicKey(var1.readByteArray());
-      this.verifyToken = var1.readByteArray();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.hashedServerId = buf.readStringFromBuffer((int)b);
+      this.publicKey = CryptManager.decodePublicKey(buf.readByteArray());
+      this.verifyToken = buf.readByteArray();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.hashedServerId);
-      var1.writeByteArray(this.publicKey.getEncoded());
-      var1.writeByteArray(this.verifyToken);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.hashedServerId);
+      buf.writeByteArray(this.publicKey.getEncoded());
+      buf.writeByteArray(this.verifyToken);
    }
 
-   public void processPacket(INetHandlerLoginClient var1) {
-      var1.handleEncryptionRequest(this);
+   public void processPacket(INetHandlerLoginClient handler) {
+      handler.handleEncryptionRequest(this);
    }
 
    public String getServerId() {

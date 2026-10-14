@@ -17,9 +17,9 @@ public class BlockRail extends BlockRailBase {
    }
 
    @Override
-   public void onNeighborChangedInternal(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (var4.canProvidePower() && new BlockRailBase.Rail(var1, var2, var3).countAdjacentRails() == 3) {
-         this.func_176564_a(var1, var2, var3, false);
+   public void onNeighborChangedInternal(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (neighborBlock.canProvidePower() && new BlockRailBase.Rail(worldIn, pos, state).countAdjacentRails() == 3) {
+         this.func_176564_a(worldIn, pos, state, false);
       }
    }
 
@@ -29,13 +29,13 @@ public class BlockRail extends BlockRailBase {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(SHAPE).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(SHAPE).getMetadata();
    }
 
    @Override

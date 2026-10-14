@@ -17,12 +17,12 @@ public class EntityMinecartTNT extends EntityMinecart {
    private int minecartTNTFuse = -1;
    private static final long ab = 31679656379482L;
 
-   public EntityMinecartTNT(World var1) {
-      super(var1);
+   public EntityMinecartTNT(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartTNT(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartTNT(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
@@ -46,74 +46,74 @@ public class EntityMinecartTNT extends EntityMinecart {
       }
 
       if (this.isCollidedHorizontally) {
-         double var4 = this.motionX * this.motionX + this.motionZ * this.motionZ;
-         if (var4 >= 0.01F) {
-            this.explodeCart(var4);
+         double d = this.motionX * this.motionX + this.motionZ * this.motionZ;
+         if (d >= 0.01F) {
+            this.explodeCart(d);
          }
       }
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      Entity var6 = var1.getSourceOfDamage();
-      if (var6 instanceof EntityArrow) {
-         EntityArrow var7 = (EntityArrow)var6;
-         if (var7.isBurning()) {
-            this.explodeCart(var7.motionX * var7.motionX + var7.motionY * var7.motionY + var7.motionZ * var7.motionZ);
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      Entity entity = source.getSourceOfDamage();
+      if (entity instanceof EntityArrow) {
+         EntityArrow entityArrow = (EntityArrow)entity;
+         if (entityArrow.isBurning()) {
+            this.explodeCart(entityArrow.motionX * entityArrow.motionX + entityArrow.motionY * entityArrow.motionY + entityArrow.motionZ * entityArrow.motionZ);
          }
       }
 
-      return super.attackEntityFrom(var1, var2);
+      return super.attackEntityFrom(source, amount);
    }
 
    @Override
-   public void killMinecart(DamageSource var1) {
-      super.killMinecart(var1);
-      double var5 = this.motionX * this.motionX + this.motionZ * this.motionZ;
-      if (!var1.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+   public void killMinecart(DamageSource source) {
+      super.killMinecart(source);
+      double d = this.motionX * this.motionX + this.motionZ * this.motionZ;
+      if (!source.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
          this.entityDropItem(new ItemStack(Blocks.tnt, 1), 0.0F);
       }
 
-      if (var1.isFireDamage() || var1.isExplosion() || var5 >= 0.01F) {
-         this.explodeCart(var5);
+      if (source.isFireDamage() || source.isExplosion() || d >= 0.01F) {
+         this.explodeCart(d);
       }
    }
 
-   public void explodeCart(double var1) {
+   public void explodeCart(double d) {
       if (!this.worldObj.isRemote) {
-         double var6 = Math.sqrt(var1);
-         if (var6 > 5.0) {
-            var6 = 5.0;
+         double e = Math.sqrt(d);
+         if (e > 5.0) {
+            e = 5.0;
          }
 
-         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0 + this.rand.nextDouble() * 1.5 * var6), true);
+         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0 + this.rand.nextDouble() * 1.5 * e), true);
          this.setDead();
       }
    }
 
    @Override
-   public void fall(float var1, float var2) {
-      if (var1 >= 3.0F) {
-         float var6 = var1 / 10.0F;
-         this.explodeCart(var6 * var6);
+   public void fall(float distance, float damageMultiplier) {
+      if (distance >= 3.0F) {
+         float f = distance / 10.0F;
+         this.explodeCart(f * f);
       }
 
-      super.fall(var1, var2);
+      super.fall(distance, damageMultiplier);
    }
 
    @Override
-   public void onActivatorRailPass(int var1, int var2, int var3, boolean var4) {
-      if (var4 && this.minecartTNTFuse < 0) {
+   public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
+      if (receivingPower && this.minecartTNTFuse < 0) {
          this.ignite();
       }
    }
 
    @Override
-   public void handleStatusUpdate(byte var1) {
-      if (var1 == 10) {
+   public void handleStatusUpdate(byte id) {
+      if (id == 10) {
          this.ignite();
       } else {
-         super.handleStatusUpdate(var1);
+         super.handleStatusUpdate(id);
       }
    }
 
@@ -136,30 +136,30 @@ public class EntityMinecartTNT extends EntityMinecart {
    }
 
    @Override
-   public float getExplosionResistance(Explosion var1, World var2, BlockPos var3, IBlockState var4) {
-      return this.isIgnited() && (BlockRailBase.isRailBlock(var4) || BlockRailBase.isRailBlock(var2, var3.up()))
+   public float getExplosionResistance(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn) {
+      return this.isIgnited() && (BlockRailBase.isRailBlock(blockStateIn) || BlockRailBase.isRailBlock(worldIn, pos.up()))
          ? 0.0F
-         : super.getExplosionResistance(var1, var2, var3, var4);
+         : super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn);
    }
 
    @Override
-   public boolean verifyExplosion(Explosion var1, World var2, BlockPos var3, IBlockState var4, float var5) {
-      return this.isIgnited() && (BlockRailBase.isRailBlock(var4) || BlockRailBase.isRailBlock(var2, var3.up()))
+   public boolean verifyExplosion(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn, float f) {
+      return this.isIgnited() && (BlockRailBase.isRailBlock(blockStateIn) || BlockRailBase.isRailBlock(worldIn, pos.up()))
          ? false
-         : super.verifyExplosion(var1, var2, var3, var4, var5);
+         : super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, f);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      if (var1.hasKey("TNTFuse", 99)) {
-         this.minecartTNTFuse = var1.getInteger("TNTFuse");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      if (tagCompund.hasKey("TNTFuse", 99)) {
+         this.minecartTNTFuse = tagCompund.getInteger("TNTFuse");
       }
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setInteger("TNTFuse", this.minecartTNTFuse);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setInteger("TNTFuse", this.minecartTNTFuse);
    }
 }

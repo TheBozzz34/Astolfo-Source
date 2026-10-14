@@ -8,5 +8,5 @@ import com.sun.jna.win32.W32APIOptions;
 public interface Kernel32 extends com.sun.jna.platform.win32.Kernel32 {
    Kernel32 INSTANCE = Native.load("kernel32", Kernel32.class, W32APIOptions.DEFAULT_OPTIONS);
 
-   boolean GetProcessAffinityMask(HANDLE var1, ULONG_PTRByReference var2, ULONG_PTRByReference var3);
+   boolean GetProcessAffinityMask(HANDLE handle, ULONG_PTRByReference ulonG_PTRByReference, ULONG_PTRByReference ulonG_PTRByReference2);
 }

@@ -12,7 +12,7 @@ public class BlockPackedIce extends Block {
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 }

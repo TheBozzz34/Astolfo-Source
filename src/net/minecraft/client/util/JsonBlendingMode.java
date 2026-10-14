@@ -16,26 +16,26 @@ public class JsonBlendingMode {
    private final boolean field_148119_h;
    private static final long a = 53479563966374L;
 
-   private JsonBlendingMode(boolean var1, boolean var2, int var3, int var4, int var5, int var6, int var7) {
-      this.field_148113_g = var1;
-      this.field_148116_b = var3;
-      this.field_148114_d = var4;
-      this.field_148117_c = var5;
-      this.field_148115_e = var6;
-      this.field_148119_h = var2;
-      this.field_148112_f = var7;
+   private JsonBlendingMode(boolean bl, boolean bl2, int i, int j, int k, int l, int m) {
+      this.field_148113_g = bl;
+      this.field_148116_b = i;
+      this.field_148114_d = j;
+      this.field_148117_c = k;
+      this.field_148115_e = l;
+      this.field_148119_h = bl2;
+      this.field_148112_f = m;
    }
 
    public JsonBlendingMode() {
       this(false, true, 1, 0, 1, 0, 32774);
    }
 
-   public JsonBlendingMode(int var1, int var2, int var3) {
-      this(false, false, var1, var2, var1, var2, var3);
+   public JsonBlendingMode(int i, int j, int k) {
+      this(false, false, i, j, i, j, k);
    }
 
-   public JsonBlendingMode(int var1, int var2, int var3, int var4, int var5) {
-      this(true, false, var1, var2, var3, var4, var5);
+   public JsonBlendingMode(int i, int j, int k, int l, int m) {
+      this(true, false, i, j, k, l, m);
    }
 
    public void func_148109_a() {
@@ -60,31 +60,31 @@ public class JsonBlendingMode {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof JsonBlendingMode)) {
+      if (!(object instanceof JsonBlendingMode)) {
          return false;
       }
 
-      JsonBlendingMode var5 = (JsonBlendingMode)var1;
-      return this.field_148112_f != var5.field_148112_f
+      JsonBlendingMode jsonBlendingMode = (JsonBlendingMode)object;
+      return this.field_148112_f != jsonBlendingMode.field_148112_f
          ? false
          : (
-            this.field_148115_e != var5.field_148115_e
+            this.field_148115_e != jsonBlendingMode.field_148115_e
                ? false
                : (
-                  this.field_148114_d != var5.field_148114_d
+                  this.field_148114_d != jsonBlendingMode.field_148114_d
                      ? false
                      : (
-                        this.field_148119_h != var5.field_148119_h
+                        this.field_148119_h != jsonBlendingMode.field_148119_h
                            ? false
                            : (
-                              this.field_148113_g != var5.field_148113_g
+                              this.field_148113_g != jsonBlendingMode.field_148113_g
                                  ? false
-                                 : (this.field_148117_c != var5.field_148117_c ? false : this.field_148116_b == var5.field_148116_b)
+                                 : (this.field_148117_c != jsonBlendingMode.field_148117_c ? false : this.field_148116_b == jsonBlendingMode.field_148116_b)
                            )
                      )
                )
@@ -93,115 +93,115 @@ public class JsonBlendingMode {
 
    @Override
    public int hashCode() {
-      int var5 = this.field_148116_b;
-      var5 = 31 * var5 + this.field_148117_c;
-      var5 = 31 * var5 + this.field_148114_d;
-      var5 = 31 * var5 + this.field_148115_e;
-      var5 = 31 * var5 + this.field_148112_f;
-      var5 = 31 * var5 + (this.field_148113_g ? 1 : 0);
-      return 31 * var5 + (this.field_148119_h ? 1 : 0);
+      int i = this.field_148116_b;
+      i = 31 * i + this.field_148117_c;
+      i = 31 * i + this.field_148114_d;
+      i = 31 * i + this.field_148115_e;
+      i = 31 * i + this.field_148112_f;
+      i = 31 * i + (this.field_148113_g ? 1 : 0);
+      return 31 * i + (this.field_148119_h ? 1 : 0);
    }
 
    public boolean func_148111_b() {
       return this.field_148119_h;
    }
 
-   public static JsonBlendingMode func_148110_a(JsonObject var0) {
-      if (var0 == null) {
+   public static JsonBlendingMode func_148110_a(JsonObject jsonObject) {
+      if (jsonObject == null) {
          return new JsonBlendingMode();
       }
 
-      int var4 = 32774;
-      int var5 = 1;
-      int var6 = 0;
-      int var7 = 1;
-      int var8 = 0;
-      boolean var9 = true;
-      boolean var10 = false;
-      if (JsonUtils.isString(var0, "func")) {
-         var4 = func_148108_a(var0.get("func").getAsString());
-         if (var4 != 32774) {
-            var9 = false;
+      int i = 32774;
+      int j = 1;
+      int k = 0;
+      int l = 1;
+      int m = 0;
+      boolean bl = true;
+      boolean bl2 = false;
+      if (JsonUtils.isString(jsonObject, "func")) {
+         i = func_148108_a(jsonObject.get("func").getAsString());
+         if (i != 32774) {
+            bl = false;
          }
       }
 
-      if (JsonUtils.isString(var0, "srcrgb")) {
-         var5 = func_148107_b(var0.get("srcrgb").getAsString());
-         if (var5 != 1) {
-            var9 = false;
+      if (JsonUtils.isString(jsonObject, "srcrgb")) {
+         j = func_148107_b(jsonObject.get("srcrgb").getAsString());
+         if (j != 1) {
+            bl = false;
          }
       }
 
-      if (JsonUtils.isString(var0, "dstrgb")) {
-         var6 = func_148107_b(var0.get("dstrgb").getAsString());
-         if (var6 != 0) {
-            var9 = false;
+      if (JsonUtils.isString(jsonObject, "dstrgb")) {
+         k = func_148107_b(jsonObject.get("dstrgb").getAsString());
+         if (k != 0) {
+            bl = false;
          }
       }
 
-      if (JsonUtils.isString(var0, "srcalpha")) {
-         var7 = func_148107_b(var0.get("srcalpha").getAsString());
-         if (var7 != 1) {
-            var9 = false;
+      if (JsonUtils.isString(jsonObject, "srcalpha")) {
+         l = func_148107_b(jsonObject.get("srcalpha").getAsString());
+         if (l != 1) {
+            bl = false;
          }
 
-         var10 = true;
+         bl2 = true;
       }
 
-      if (JsonUtils.isString(var0, "dstalpha")) {
-         var8 = func_148107_b(var0.get("dstalpha").getAsString());
-         if (var8 != 0) {
-            var9 = false;
+      if (JsonUtils.isString(jsonObject, "dstalpha")) {
+         m = func_148107_b(jsonObject.get("dstalpha").getAsString());
+         if (m != 0) {
+            bl = false;
          }
 
-         var10 = true;
+         bl2 = true;
       }
 
-      return var9 ? new JsonBlendingMode() : (var10 ? new JsonBlendingMode(var5, var6, var7, var8, var4) : new JsonBlendingMode(var5, var6, var4));
+      return bl ? new JsonBlendingMode() : (bl2 ? new JsonBlendingMode(j, k, l, m, i) : new JsonBlendingMode(j, k, i));
    }
 
-   private static int func_148108_a(String var0) {
-      String var4 = var0.trim().toLowerCase();
-      return var4.equals("add")
+   private static int func_148108_a(String string) {
+      String string2 = string.trim().toLowerCase();
+      return string2.equals("add")
          ? 32774
          : (
-            var4.equals("subtract")
+            string2.equals("subtract")
                ? 32778
                : (
-                  var4.equals("reversesubtract")
+                  string2.equals("reversesubtract")
                      ? 32779
-                     : (var4.equals("reverse_subtract") ? 32779 : (var4.equals("min") ? 32775 : (var4.equals("max") ? 32776 : 32774)))
+                     : (string2.equals("reverse_subtract") ? 32779 : (string2.equals("min") ? 32775 : (string2.equals("max") ? 32776 : 32774)))
                )
          );
    }
 
-   private static int func_148107_b(String var0) {
-      String var4 = var0.trim().toLowerCase();
-      var4 = var4.replaceAll("_", "");
-      var4 = var4.replaceAll("one", "1");
-      var4 = var4.replaceAll("zero", "0");
-      var4 = var4.replaceAll("minus", "-");
-      return var4.equals("0")
+   private static int func_148107_b(String string) {
+      String string2 = string.trim().toLowerCase();
+      string2 = string2.replaceAll("_", "");
+      string2 = string2.replaceAll("one", "1");
+      string2 = string2.replaceAll("zero", "0");
+      string2 = string2.replaceAll("minus", "-");
+      return string2.equals("0")
          ? 0
          : (
-            var4.equals("1")
+            string2.equals("1")
                ? 1
                : (
-                  var4.equals("srccolor")
+                  string2.equals("srccolor")
                      ? 768
                      : (
-                        var4.equals("1-srccolor")
+                        string2.equals("1-srccolor")
                            ? 769
                            : (
-                              var4.equals("dstcolor")
+                              string2.equals("dstcolor")
                                  ? 774
                                  : (
-                                    var4.equals("1-dstcolor")
+                                    string2.equals("1-dstcolor")
                                        ? 775
                                        : (
-                                          var4.equals("srcalpha")
+                                          string2.equals("srcalpha")
                                              ? 770
-                                             : (var4.equals("1-srcalpha") ? 771 : (var4.equals("dstalpha") ? 772 : (var4.equals("1-dstalpha") ? 773 : -1)))
+                                             : (string2.equals("1-srcalpha") ? 771 : (string2.equals("dstalpha") ? 772 : (string2.equals("1-dstalpha") ? 773 : -1)))
                                        )
                                  )
                            )

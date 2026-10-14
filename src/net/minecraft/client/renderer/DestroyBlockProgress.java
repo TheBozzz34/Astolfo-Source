@@ -9,29 +9,29 @@ public class DestroyBlockProgress {
    private int createdAtCloudUpdateTick;
    private static final long a = 62082265650570L;
 
-   public DestroyBlockProgress(int var1, BlockPos var2) {
-      this.miningPlayerEntId = var1;
-      this.position = var2;
+   public DestroyBlockProgress(int miningPlayerEntIdIn, BlockPos positionIn) {
+      this.miningPlayerEntId = miningPlayerEntIdIn;
+      this.position = positionIn;
    }
 
    public BlockPos getPosition() {
       return this.position;
    }
 
-   public void setPartialBlockDamage(int var1) {
-      if (var1 > 10) {
-         var1 = 10;
+   public void setPartialBlockDamage(int damage) {
+      if (damage > 10) {
+         damage = 10;
       }
 
-      this.partialBlockProgress = var1;
+      this.partialBlockProgress = damage;
    }
 
    public int getPartialBlockDamage() {
       return this.partialBlockProgress;
    }
 
-   public void setCloudUpdateTick(int var1) {
-      this.createdAtCloudUpdateTick = var1;
+   public void setCloudUpdateTick(int createdAtCloudUpdateTickIn) {
+      this.createdAtCloudUpdateTick = createdAtCloudUpdateTickIn;
    }
 
    public int getCreationCloudUpdateTick() {

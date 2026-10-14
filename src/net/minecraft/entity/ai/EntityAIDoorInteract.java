@@ -18,9 +18,9 @@ public abstract class EntityAIDoorInteract extends EntityAIBase {
    public float entityPositionZ;
    private static final long b = 104376205134183L;
 
-   public EntityAIDoorInteract(EntityLiving var1) {
-      this.theEntity = var1;
-      if (!(var1.getNavigator() instanceof PathNavigateGround)) {
+   public EntityAIDoorInteract(EntityLiving entityIn) {
+      this.theEntity = entityIn;
+      if (!(entityIn.getNavigator() instanceof PathNavigateGround)) {
          throw new IllegalArgumentException("Unsupported mob type for DoorInteractGoal");
       }
    }
@@ -31,12 +31,12 @@ public abstract class EntityAIDoorInteract extends EntityAIBase {
          return false;
       }
 
-      PathNavigateGround var4 = (PathNavigateGround)this.theEntity.getNavigator();
-      PathEntity var5 = var4.getPath();
-      if (var5 != null && !var5.isFinished() && var4.getEnterDoors()) {
-         for (int var6 = 0; var6 < Math.min(var5.getCurrentPathIndex() + 2, var5.getCurrentPathLength()); var6++) {
-            PathPoint var7 = var5.getPathPointFromIndex(var6);
-            this.doorPosition = new BlockPos(var7.xCoord, var7.yCoord + 1, var7.zCoord);
+      PathNavigateGround pathNavigateGround = (PathNavigateGround)this.theEntity.getNavigator();
+      PathEntity pathEntity = pathNavigateGround.getPath();
+      if (pathEntity != null && !pathEntity.isFinished() && pathNavigateGround.getEnterDoors()) {
+         for (int i = 0; i < Math.min(pathEntity.getCurrentPathIndex() + 2, pathEntity.getCurrentPathLength()); i++) {
+            PathPoint pathPoint = pathEntity.getPathPointFromIndex(i);
+            this.doorPosition = new BlockPos(pathPoint.xCoord, pathPoint.yCoord + 1, pathPoint.zCoord);
             if (this.theEntity.getDistanceSq(this.doorPosition.getX(), this.theEntity.posY, this.doorPosition.getZ()) <= 2.25) {
                this.doorBlock = this.getBlockDoor(this.doorPosition);
                if (this.doorBlock != null) {
@@ -67,16 +67,16 @@ public abstract class EntityAIDoorInteract extends EntityAIBase {
 
    @Override
    public void updateTask() {
-      float var3 = (float)(this.doorPosition.getX() + 0.5F - this.theEntity.posX);
-      float var4 = (float)(this.doorPosition.getZ() + 0.5F - this.theEntity.posZ);
-      float var5 = this.entityPositionX * var3 + this.entityPositionZ * var4;
-      if (var5 < 0.0F) {
+      float f = (float)(this.doorPosition.getX() + 0.5F - this.theEntity.posX);
+      float g = (float)(this.doorPosition.getZ() + 0.5F - this.theEntity.posZ);
+      float h = this.entityPositionX * f + this.entityPositionZ * g;
+      if (h < 0.0F) {
          this.hasStoppedDoorInteraction = true;
       }
    }
 
-   private BlockDoor getBlockDoor(BlockPos var1) {
-      Block var5 = this.theEntity.worldObj.getBlockState(var1).getBlock();
-      return var5 instanceof BlockDoor && var5.getMaterial() == Material.wood ? (BlockDoor)var5 : null;
+   private BlockDoor getBlockDoor(BlockPos pos) {
+      Block block = this.theEntity.worldObj.getBlockState(pos).getBlock();
+      return block instanceof BlockDoor && block.getMaterial() == Material.wood ? (BlockDoor)block : null;
    }
 }

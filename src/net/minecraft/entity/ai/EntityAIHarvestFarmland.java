@@ -18,9 +18,9 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
    private int field_179501_f;
    private static final long a = 128994329980416L;
 
-   public EntityAIHarvestFarmland(EntityVillager var1, double var2) {
-      super(var1, var2, 16);
-      this.theVillager = var1;
+   public EntityAIHarvestFarmland(EntityVillager theVillagerIn, double speedIn) {
+      super(theVillagerIn, speedIn, 16);
+      this.theVillager = theVillagerIn;
    }
 
    @Override
@@ -66,35 +66,35 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
             this.theVillager.getVerticalFaceSpeed()
          );
       if (this.getIsAboveDestination()) {
-         World var4 = this.theVillager.worldObj;
-         BlockPos var5 = this.destinationBlock.up();
-         IBlockState var6 = var4.getBlockState(var5);
-         Block var7 = var6.getBlock();
-         if (this.field_179501_f == 0 && var7 instanceof BlockCrops && var6.getValue(BlockCrops.AGE) == 7) {
-            var4.destroyBlock(var5, true);
-         } else if (this.field_179501_f == 1 && var7 == Blocks.air) {
-            InventoryBasic var8 = this.theVillager.getVillagerInventory();
+         World world = this.theVillager.worldObj;
+         BlockPos blockPos = this.destinationBlock.up();
+         IBlockState iBlockState = world.getBlockState(blockPos);
+         Block block = iBlockState.getBlock();
+         if (this.field_179501_f == 0 && block instanceof BlockCrops && iBlockState.getValue(BlockCrops.AGE) == 7) {
+            world.destroyBlock(blockPos, true);
+         } else if (this.field_179501_f == 1 && block == Blocks.air) {
+            InventoryBasic inventoryBasic = this.theVillager.getVillagerInventory();
 
-            for (int var9 = 0; var9 < var8.getSizeInventory(); var9++) {
-               ItemStack var10 = var8.getStackInSlot(var9);
-               boolean var11 = false;
-               if (var10 != null) {
-                  if (var10.getItem() == Items.wheat_seeds) {
-                     var4.setBlockState(var5, Blocks.wheat.getDefaultState(), 3);
-                     var11 = true;
-                  } else if (var10.getItem() == Items.potato) {
-                     var4.setBlockState(var5, Blocks.potatoes.getDefaultState(), 3);
-                     var11 = true;
-                  } else if (var10.getItem() == Items.carrot) {
-                     var4.setBlockState(var5, Blocks.carrots.getDefaultState(), 3);
-                     var11 = true;
+            for (int i = 0; i < inventoryBasic.getSizeInventory(); i++) {
+               ItemStack itemStack = inventoryBasic.getStackInSlot(i);
+               boolean bl = false;
+               if (itemStack != null) {
+                  if (itemStack.getItem() == Items.wheat_seeds) {
+                     world.setBlockState(blockPos, Blocks.wheat.getDefaultState(), 3);
+                     bl = true;
+                  } else if (itemStack.getItem() == Items.potato) {
+                     world.setBlockState(blockPos, Blocks.potatoes.getDefaultState(), 3);
+                     bl = true;
+                  } else if (itemStack.getItem() == Items.carrot) {
+                     world.setBlockState(blockPos, Blocks.carrots.getDefaultState(), 3);
+                     bl = true;
                   }
                }
 
-               if (var11) {
-                  var10.stackSize--;
-                  if (var10.stackSize <= 0) {
-                     var8.setInventorySlotContents(var9, (ItemStack)null);
+               if (bl) {
+                  itemStack.stackSize--;
+                  if (itemStack.stackSize <= 0) {
+                     inventoryBasic.setInventorySlotContents(i, (ItemStack)null);
                   }
                   break;
                }
@@ -107,18 +107,18 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
    }
 
    @Override
-   public boolean shouldMoveTo(World var1, BlockPos var2) {
-      Block var6 = var1.getBlockState(var2).getBlock();
-      if (var6 == Blocks.farmland) {
-         var2 = var2.up();
-         IBlockState var7 = var1.getBlockState(var2);
-         var6 = var7.getBlock();
-         if (var6 instanceof BlockCrops && var7.getValue(BlockCrops.AGE) == 7 && this.field_179503_e && (this.field_179501_f == 0 || this.field_179501_f < 0)) {
+   public boolean shouldMoveTo(World worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos).getBlock();
+      if (block == Blocks.farmland) {
+         pos = pos.up();
+         IBlockState iBlockState = worldIn.getBlockState(pos);
+         block = iBlockState.getBlock();
+         if (block instanceof BlockCrops && iBlockState.getValue(BlockCrops.AGE) == 7 && this.field_179503_e && (this.field_179501_f == 0 || this.field_179501_f < 0)) {
             this.field_179501_f = 0;
             return true;
          }
 
-         if (var6 == Blocks.air && this.hasFarmItem && (this.field_179501_f == 1 || this.field_179501_f < 0)) {
+         if (block == Blocks.air && this.hasFarmItem && (this.field_179501_f == 1 || this.field_179501_f < 0)) {
             this.field_179501_f = 1;
             return true;
          }

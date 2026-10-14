@@ -25,38 +25,38 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
    }
 
    @Override
-   public boolean containsKey(Object var1) {
-      return this.shape.O(this, var1);
+   public boolean containsKey(Object object) {
+      return this.shape.O(this, object);
    }
 
    @Override
-   public boolean containsValue(Object var1) {
-      return this.values().contains(var1);
+   public boolean containsValue(Object object) {
+      return this.values().contains(object);
    }
 
    @Override
-   public V get(Object var1) {
-      return this.shape.k(this, (K)var1);
+   public V get(Object object) {
+      return this.shape.k(this, (K)object);
    }
 
    @Override
-   public V put(K var1, V var2) {
-      return this.shape.n(this, (K)var1, var2);
+   public V put(K object, V object2) {
+      return this.shape.n(this, (K)object, object2);
    }
 
-   public V F(K var1, Object var2) {
-      return this.shape.n(this, (K)var1, var2);
-   }
-
-   @Override
-   public V remove(Object var1) {
-      return this.shape.n(this, (K)var1, MapShape.REMOVED);
+   public V F(K object, Object object2) {
+      return this.shape.n(this, (K)object, object2);
    }
 
    @Override
-   public void putAll(Map<? extends K, ? extends V> var1) {
-      for (Entry var6 : var1.entrySet()) {
-         this.put((K)var6.getKey(), (V)var6.getValue());
+   public V remove(Object object) {
+      return this.shape.n(this, (K)object, MapShape.REMOVED);
+   }
+
+   @Override
+   public void putAll(Map<? extends K, ? extends V> map) {
+      for (Entry entry : map.entrySet()) {
+         this.put((K)entry.getKey(), (V)entry.getValue());
       }
    }
 
@@ -82,28 +82,28 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (var1 == this) {
+   public boolean equals(Object object) {
+      if (object == this) {
          return true;
       }
 
-      if (!(var1 instanceof Map)) {
+      if (!(object instanceof Map)) {
          return false;
       }
 
-      Map var5 = (Map)var1;
-      if (var5.size() != this.size()) {
+      Map map = (Map)object;
+      if (map.size() != this.size()) {
          return false;
       }
 
-      for (Entry var7 : this.entrySet()) {
-         Object var8 = var7.getKey();
-         Object var9 = var7.getValue();
-         if (var9 == null) {
-            if (var5.get(var8) != null || !var5.containsKey(var8)) {
+      for (Entry entry : this.entrySet()) {
+         Object object2 = entry.getKey();
+         Object object3 = entry.getValue();
+         if (object3 == null) {
+            if (map.get(object2) != null || !map.containsKey(object2)) {
                return false;
             }
-         } else if (!var9.equals(var5.get(var8))) {
+         } else if (!object3.equals(map.get(object2))) {
             return false;
          }
       }
@@ -113,34 +113,34 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
 
    @Override
    public String toString() {
-      Iterator var4 = this.entrySet().iterator();
-      if (!var4.hasNext()) {
+      Iterator iterator2 = this.entrySet().iterator();
+      if (!iterator2.hasNext()) {
          return "{}";
       }
 
-      StringBuilder var5 = new StringBuilder();
-      var5.append('{');
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append('{');
 
-      while (var4.hasNext()) {
-         Entry var6 = (Entry)var4.next();
-         Object var7 = var6.getKey();
-         Object var8 = var6.getValue();
-         var5.append(var7).append('=').append(var8);
-         var5.append(',').append(' ');
+      while (iterator2.hasNext()) {
+         Entry entry = (Entry)iterator2.next();
+         Object object = entry.getKey();
+         Object object2 = entry.getValue();
+         stringBuilder.append(object).append('=').append(object2);
+         stringBuilder.append(',').append(' ');
       }
 
-      var5.setLength(var5.length() - 2);
-      return var5.append('}').toString();
+      stringBuilder.setLength(stringBuilder.length() - 2);
+      return stringBuilder.append('}').toString();
    }
 
    @Override
    public int hashCode() {
-      int var4 = 0;
+      int i = 0;
 
-      for (Entry var6 : this.entrySet()) {
-         var4 += var6.hashCode();
+      for (Entry entry : this.entrySet()) {
+         i += entry.hashCode();
       }
 
-      return var4;
+      return i;
    }
 }

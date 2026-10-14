@@ -24,61 +24,71 @@ public class S2APacketParticles implements Packet<INetHandlerPlayClient> {
    }
 
    public S2APacketParticles(
-      EnumParticleTypes var1, boolean var2, float var3, float var4, float var5, float var6, float var7, float var8, float var9, int var10, int... var11
+      EnumParticleTypes particleTypeIn,
+      boolean longDistanceIn,
+      float x,
+      float y,
+      float z,
+      float xOffsetIn,
+      float yOffset,
+      float zOffset,
+      float particleSpeedIn,
+      int particleCountIn,
+      int... particleArgumentsIn
    ) {
-      this.particleType = var1;
-      this.longDistance = var2;
-      this.xCoord = var3;
-      this.yCoord = var4;
-      this.zCoord = var5;
-      this.xOffset = var6;
-      this.yOffset = var7;
-      this.zOffset = var8;
-      this.particleSpeed = var9;
-      this.particleCount = var10;
-      this.particleArguments = var11;
+      this.particleType = particleTypeIn;
+      this.longDistance = longDistanceIn;
+      this.xCoord = x;
+      this.yCoord = y;
+      this.zCoord = z;
+      this.xOffset = xOffsetIn;
+      this.yOffset = yOffset;
+      this.zOffset = zOffset;
+      this.particleSpeed = particleSpeedIn;
+      this.particleCount = particleCountIn;
+      this.particleArguments = particleArgumentsIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.particleType = EnumParticleTypes.getParticleFromId(var1.readInt());
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.particleType = EnumParticleTypes.getParticleFromId(buf.readInt());
       if (this.particleType == null) {
          this.particleType = EnumParticleTypes.BARRIER;
       }
 
-      this.longDistance = var1.readBoolean();
-      this.xCoord = var1.readFloat();
-      this.yCoord = var1.readFloat();
-      this.zCoord = var1.readFloat();
-      this.xOffset = var1.readFloat();
-      this.yOffset = var1.readFloat();
-      this.zOffset = var1.readFloat();
-      this.particleSpeed = var1.readFloat();
-      this.particleCount = var1.readInt();
-      int var5 = this.particleType.getArgumentCount();
-      this.particleArguments = new int[var5];
+      this.longDistance = buf.readBoolean();
+      this.xCoord = buf.readFloat();
+      this.yCoord = buf.readFloat();
+      this.zCoord = buf.readFloat();
+      this.xOffset = buf.readFloat();
+      this.yOffset = buf.readFloat();
+      this.zOffset = buf.readFloat();
+      this.particleSpeed = buf.readFloat();
+      this.particleCount = buf.readInt();
+      int i = this.particleType.getArgumentCount();
+      this.particleArguments = new int[i];
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         this.particleArguments[var6] = var1.readVarIntFromBuffer();
+      for (int j = 0; j < i; j++) {
+         this.particleArguments[j] = buf.readVarIntFromBuffer();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeInt(this.particleType.getParticleID());
-      var1.writeBoolean(this.longDistance);
-      var1.writeFloat(this.xCoord);
-      var1.writeFloat(this.yCoord);
-      var1.writeFloat(this.zCoord);
-      var1.writeFloat(this.xOffset);
-      var1.writeFloat(this.yOffset);
-      var1.writeFloat(this.zOffset);
-      var1.writeFloat(this.particleSpeed);
-      var1.writeInt(this.particleCount);
-      int var5 = this.particleType.getArgumentCount();
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeInt(this.particleType.getParticleID());
+      buf.writeBoolean(this.longDistance);
+      buf.writeFloat(this.xCoord);
+      buf.writeFloat(this.yCoord);
+      buf.writeFloat(this.zCoord);
+      buf.writeFloat(this.xOffset);
+      buf.writeFloat(this.yOffset);
+      buf.writeFloat(this.zOffset);
+      buf.writeFloat(this.particleSpeed);
+      buf.writeInt(this.particleCount);
+      int i = this.particleType.getArgumentCount();
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         var1.writeVarIntToBuffer(this.particleArguments[var6]);
+      for (int j = 0; j < i; j++) {
+         buf.writeVarIntToBuffer(this.particleArguments[j]);
       }
    }
 
@@ -126,7 +136,7 @@ public class S2APacketParticles implements Packet<INetHandlerPlayClient> {
       return this.particleArguments;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleParticles(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleParticles(this);
    }
 }

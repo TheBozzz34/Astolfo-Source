@@ -11,24 +11,24 @@ import net.minecraft.world.World;
 public abstract class BlockContainer extends Block implements ITileEntityProvider {
    private static final long bb = 61819320743519L;
 
-   public BlockContainer(Material var1) {
-      this(var1, var1.getMaterialMapColor());
+   public BlockContainer(Material materialIn) {
+      this(materialIn, materialIn.getMaterialMapColor());
    }
 
-   public BlockContainer(Material var1, MapColor var2) {
-      super(var1, var2);
+   public BlockContainer(Material material, MapColor mapColor) {
+      super(material, mapColor);
       this.isBlockContainer = true;
    }
 
-   public boolean isInvalidNeighbor(World var1, BlockPos var2, EnumFacing var3) {
-      return var1.getBlockState(var2.offset(var3)).getBlock().getMaterial() == Material.cactus;
+   public boolean isInvalidNeighbor(World world, BlockPos blockPos, EnumFacing enumFacing) {
+      return world.getBlockState(blockPos.offset(enumFacing)).getBlock().getMaterial() == Material.cactus;
    }
 
-   public boolean hasInvalidNeighbor(World var1, BlockPos var2) {
-      return this.isInvalidNeighbor(var1, var2, EnumFacing.NORTH)
-         || this.isInvalidNeighbor(var1, var2, EnumFacing.SOUTH)
-         || this.isInvalidNeighbor(var1, var2, EnumFacing.WEST)
-         || this.isInvalidNeighbor(var1, var2, EnumFacing.EAST);
+   public boolean hasInvalidNeighbor(World world, BlockPos blockPos) {
+      return this.isInvalidNeighbor(world, blockPos, EnumFacing.NORTH)
+         || this.isInvalidNeighbor(world, blockPos, EnumFacing.SOUTH)
+         || this.isInvalidNeighbor(world, blockPos, EnumFacing.WEST)
+         || this.isInvalidNeighbor(world, blockPos, EnumFacing.EAST);
    }
 
    @Override
@@ -37,15 +37,15 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      super.breakBlock(var1, var2, var3);
-      var1.removeTileEntity(var2);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      super.breakBlock(worldIn, pos, state);
+      worldIn.removeTileEntity(pos);
    }
 
    @Override
-   public boolean onBlockEventReceived(World var1, BlockPos var2, IBlockState var3, int var4, int var5) {
-      super.onBlockEventReceived(var1, var2, var3, var4, var5);
-      TileEntity var9 = var1.getTileEntity(var2);
-      return var9 == null ? false : var9.receiveClientEvent(var4, var5);
+   public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
+      super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      return tileEntity == null ? false : tileEntity.receiveClientEvent(eventID, eventParam);
    }
 }

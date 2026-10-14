@@ -11,8 +11,8 @@ public interface EnvironmentKind {
       return new EnvironmentKindD();
    }
 
-   static EnvironmentKind M(BooleanCondition var0) {
-      return var0.c() ? k() : O();
+   static EnvironmentKind M(BooleanCondition booleanCondition) {
+      return booleanCondition.c() ? k() : O();
    }
 
    EnvironmentType w();

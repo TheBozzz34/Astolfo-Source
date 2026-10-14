@@ -9,37 +9,46 @@ public class EntityReddustFX extends EntityFX {
    public float reddustParticleScale;
    private static final long ab = 47168576080594L;
 
-   public EntityReddustFX(World var1, double var2, double var4, double var6, float var8, float var9, float var10) {
-      this(var1, var2, var4, var6, 1.0F, var8, var9, var10);
+   public EntityReddustFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, float f, float g, float h) {
+      this(worldIn, xCoordIn, yCoordIn, zCoordIn, 1.0F, f, g, h);
    }
 
-   public EntityReddustFX(World var1, double var2, double var4, double var6, float var8, float var9, float var10, float var11) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityReddustFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, float f, float g, float h, float f2) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.1F;
       this.motionY *= 0.1F;
       this.motionZ *= 0.1F;
-      if (var9 == 0.0F) {
-         var9 = 1.0F;
+      if (g == 0.0F) {
+         g = 1.0F;
       }
 
-      float var15 = (float)Math.random() * 0.4F + 0.6F;
-      this.particleRed = ((float)(Math.random() * 0.2F) + 0.8F) * var9 * var15;
-      this.particleGreen = ((float)(Math.random() * 0.2F) + 0.8F) * var10 * var15;
-      this.particleBlue = ((float)(Math.random() * 0.2F) + 0.8F) * var11 * var15;
+      float f3 = (float)Math.random() * 0.4F + 0.6F;
+      this.particleRed = ((float)(Math.random() * 0.2F) + 0.8F) * g * f3;
+      this.particleGreen = ((float)(Math.random() * 0.2F) + 0.8F) * h * f3;
+      this.particleBlue = ((float)(Math.random() * 0.2F) + 0.8F) * f2 * f3;
       this.particleScale *= 0.75F;
-      this.particleScale *= var8;
+      this.particleScale *= f;
       this.reddustParticleScale = this.particleScale;
       this.particleMaxAge = (int)(8.0 / (Math.random() * 0.8 + 0.2));
-      this.particleMaxAge = (int)(this.particleMaxAge * var8);
+      this.particleMaxAge = (int)(this.particleMaxAge * f);
       this.noClip = false;
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = (this.particleAge + var3) / this.particleMaxAge * 32.0F;
-      var9 = MathHelper.clamp_float(var9, 0.0F, 1.0F);
-      this.particleScale = this.reddustParticleScale * var9;
-      super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge * 32.0F;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      this.particleScale = this.reddustParticleScale * f;
+      super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
    }
 
    @Override
@@ -69,8 +78,10 @@ public class EntityReddustFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityReddustFX(var2, var3, var5, var7, (float)var9, (float)var11, (float)var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityReddustFX(worldIn, xCoordIn, yCoordIn, zCoordIn, (float)xSpeedIn, (float)ySpeedIn, (float)zSpeedIn);
       }
    }
 }

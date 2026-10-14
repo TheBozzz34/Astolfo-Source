@@ -11,22 +11,22 @@ public final class Get extends OneArgFunction {
    private static final long a = 85561958818498L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
+   public LuaValue call(LuaValue luaValue) {
       if (!ScriptManager.N.t()) {
          return valueOf(false);
       }
 
-      if (!var1.isstring()) {
+      if (!luaValue.isstring()) {
          return valueOf(false);
       }
 
-      HttpRequest var5 = new HttpRequest().g(var1.checkjstring());
-      var5.W("Astolfo-User");
-      var5.V(AuthUtil.getHwid());
-      var5.T("Astolfo-Client");
-      var5.i("");
-      var5.S("");
-      String var6 = HttpUtil.get(var5);
-      return valueOf(var6);
+      HttpRequest httpRequest = new HttpRequest().g(luaValue.checkjstring());
+      httpRequest.W("Astolfo-User");
+      httpRequest.V(AuthUtil.getHwid());
+      httpRequest.T("Astolfo-Client");
+      httpRequest.i("");
+      httpRequest.S("");
+      String string = HttpUtil.get(httpRequest);
+      return valueOf(string);
    }
 }

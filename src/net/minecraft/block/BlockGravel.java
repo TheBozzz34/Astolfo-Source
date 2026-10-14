@@ -11,16 +11,16 @@ public class BlockGravel extends BlockFalling {
    private static final long i = -8326353660225257462L;
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      if (var3 > 3) {
-         var3 = 3;
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      if (fortune > 3) {
+         fortune = 3;
       }
 
-      return var2.nextInt((int)i - var3 * 3) == 0 ? Items.flint : Item.getItemFromBlock(this);
+      return rand.nextInt((int)i - fortune * 3) == 0 ? Items.flint : Item.getItemFromBlock(this);
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
+   public MapColor getMapColor(IBlockState state) {
       return MapColor.stoneColor;
    }
 }

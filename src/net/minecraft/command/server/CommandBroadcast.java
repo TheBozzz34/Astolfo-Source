@@ -24,22 +24,24 @@ public class CommandBroadcast extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.say.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length > 0 && var2[0].length() > 0) {
-         IChatComponent var6 = getChatComponentFromNthArg(var1, var2, 0, true);
-         MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.announcement", var1.getDisplayName(), var6));
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length > 0 && args[0].length() > 0) {
+         IChatComponent iChatComponent = getChatComponentFromNthArg(sender, args, 0, true);
+         MinecraftServer.getServer()
+            .getConfigurationManager()
+            .sendChatMsg(new ChatComponentTranslation("chat.type.announcement", sender.getDisplayName(), iChatComponent));
       } else {
          throw new WrongUsageException("commands.say.usage");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length >= 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length >= 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 }

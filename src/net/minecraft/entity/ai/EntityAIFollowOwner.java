@@ -25,27 +25,27 @@ public class EntityAIFollowOwner extends EntityAIBase {
    private static final long a = 90236977786692L;
    private static final long c = 1162328002676129802L;
 
-   public EntityAIFollowOwner(EntityTameable var1, double var2, float var4, float var5) {
-      this.thePet = var1;
-      this.theWorld = var1.worldObj;
-      this.followSpeed = var2;
-      this.petPathfinder = var1.getNavigator();
-      this.minDist = var4;
-      this.maxDist = var5;
+   public EntityAIFollowOwner(EntityTameable thePetIn, double followSpeedIn, float minDistIn, float maxDistIn) {
+      this.thePet = thePetIn;
+      this.theWorld = thePetIn.worldObj;
+      this.followSpeed = followSpeedIn;
+      this.petPathfinder = thePetIn.getNavigator();
+      this.minDist = minDistIn;
+      this.maxDist = maxDistIn;
       this.setMutexBits(3);
-      if (!(var1.getNavigator() instanceof PathNavigateGround)) {
+      if (!(thePetIn.getNavigator() instanceof PathNavigateGround)) {
          throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
       }
    }
 
    @Override
    public boolean shouldExecute() {
-      EntityLivingBase var4 = this.thePet.getOwner();
-      if (var4 == null) {
+      EntityLivingBase entityLivingBase = this.thePet.getOwner();
+      if (entityLivingBase == null) {
          return false;
       }
 
-      if (var4 instanceof EntityPlayer && ((EntityPlayer)var4).isSpectator()) {
+      if (entityLivingBase instanceof EntityPlayer && ((EntityPlayer)entityLivingBase).isSpectator()) {
          return false;
       }
 
@@ -53,11 +53,11 @@ public class EntityAIFollowOwner extends EntityAIBase {
          return false;
       }
 
-      if (this.thePet.getDistanceSqToEntity(var4) < this.minDist * this.minDist) {
+      if (this.thePet.getDistanceSqToEntity(entityLivingBase) < this.minDist * this.minDist) {
          return false;
       }
 
-      this.theOwner = var4;
+      this.theOwner = entityLivingBase;
       return true;
    }
 
@@ -80,10 +80,10 @@ public class EntityAIFollowOwner extends EntityAIBase {
       ((PathNavigateGround)this.thePet.getNavigator()).setAvoidsWater(true);
    }
 
-   private boolean func_181065_a(BlockPos var1) {
-      IBlockState var5 = this.theWorld.getBlockState(var1);
-      Block var6 = var5.getBlock();
-      return var6 == Blocks.air ? true : !var6.isFullCube();
+   private boolean func_181065_a(BlockPos blockPos) {
+      IBlockState iBlockState = this.theWorld.getBlockState(blockPos);
+      Block block = iBlockState.getBlock();
+      return block == Blocks.air ? true : !block.isFullCube();
    }
 
    @Override
@@ -94,17 +94,17 @@ public class EntityAIFollowOwner extends EntityAIBase {
          if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.followSpeed)
             && !this.thePet.getLeashed()
             && this.thePet.getDistanceSqToEntity(this.theOwner) >= 144.0) {
-            int var4 = MathHelper.floor_double(this.theOwner.posX) - 2;
-            int var5 = MathHelper.floor_double(this.theOwner.posZ) - 2;
-            int var6 = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
+            int i = MathHelper.floor_double(this.theOwner.posX) - 2;
+            int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
+            int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
 
-            for (int var7 = 0; var7 <= 4; var7++) {
-               for (int var8 = 0; var8 <= 4; var8++) {
-                  if ((var7 < 1 || var8 < 1 || var7 > 3 || var8 > 3)
-                     && World.doesBlockHaveSolidTopSurface(this.theWorld, new BlockPos(var4 + var7, var6 - 1, var5 + var8))
-                     && this.func_181065_a(new BlockPos(var4 + var7, var6, var5 + var8))
-                     && this.func_181065_a(new BlockPos(var4 + var7, var6 + 1, var5 + var8))) {
-                     this.thePet.setLocationAndAngles(var4 + var7 + 0.5F, var6, var5 + var8 + 0.5F, this.thePet.rotationYaw, this.thePet.rotationPitch);
+            for (int l = 0; l <= 4; l++) {
+               for (int m = 0; m <= 4; m++) {
+                  if ((l < 1 || m < 1 || l > 3 || m > 3)
+                     && World.doesBlockHaveSolidTopSurface(this.theWorld, new BlockPos(i + l, k - 1, j + m))
+                     && this.func_181065_a(new BlockPos(i + l, k, j + m))
+                     && this.func_181065_a(new BlockPos(i + l, k + 1, j + m))) {
+                     this.thePet.setLocationAndAngles(i + l + 0.5F, k, j + m + 0.5F, this.thePet.rotationYaw, this.thePet.rotationPitch);
                      this.petPathfinder.clearPathEntity();
                      return;
                   }

@@ -21,49 +21,49 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
    public C08PacketPlayerBlockPlacement() {
    }
 
-   public C08PacketPlayerBlockPlacement(ItemStack var1) {
-      this(field_179726_a, (int)c, var1, 0.0F, 0.0F, 0.0F);
+   public C08PacketPlayerBlockPlacement(ItemStack stackIn) {
+      this(field_179726_a, (int)c, stackIn, 0.0F, 0.0F, 0.0F);
    }
 
-   public C08PacketPlayerBlockPlacement(BlockPos var1, int var2, ItemStack var3, float var4, float var5, float var6) {
-      this.position = var1;
-      this.placedBlockDirection = var2;
-      this.stack = var3 != null ? var3.copy() : null;
-      this.facingX = var4;
-      this.facingY = var5;
-      this.facingZ = var6;
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.position = var1.readBlockPos();
-      this.placedBlockDirection = var1.readUnsignedByte();
-      this.stack = var1.readItemStackFromBuffer();
-      this.facingX = var1.readUnsignedByte() / 16.0F;
-      this.facingY = var1.readUnsignedByte() / 16.0F;
-      this.facingZ = var1.readUnsignedByte() / 16.0F;
+   public C08PacketPlayerBlockPlacement(BlockPos positionIn, int placedBlockDirectionIn, ItemStack stackIn, float facingXIn, float facingYIn, float facingZIn) {
+      this.position = positionIn;
+      this.placedBlockDirection = placedBlockDirectionIn;
+      this.stack = stackIn != null ? stackIn.copy() : null;
+      this.facingX = facingXIn;
+      this.facingY = facingYIn;
+      this.facingZ = facingZIn;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.position);
-      var1.writeByte(this.placedBlockDirection);
-      var1.writeItemStackToBuffer(this.stack);
-      var1.writeByte((int)(this.facingX * 16.0F));
-      var1.writeByte((int)(this.facingY * 16.0F));
-      var1.writeByte((int)(this.facingZ * 16.0F));
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.position = buf.readBlockPos();
+      this.placedBlockDirection = buf.readUnsignedByte();
+      this.stack = buf.readItemStackFromBuffer();
+      this.facingX = buf.readUnsignedByte() / 16.0F;
+      this.facingY = buf.readUnsignedByte() / 16.0F;
+      this.facingZ = buf.readUnsignedByte() / 16.0F;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processPlayerBlockPlacement(this);
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.position);
+      buf.writeByte(this.placedBlockDirection);
+      buf.writeItemStackToBuffer(this.stack);
+      buf.writeByte((int)(this.facingX * 16.0F));
+      buf.writeByte((int)(this.facingY * 16.0F));
+      buf.writeByte((int)(this.facingZ * 16.0F));
+   }
+
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processPlayerBlockPlacement(this);
    }
 
    public BlockPos getPosition() {
       return this.position;
    }
 
-   public void d(BlockPos var1) {
-      this.position = var1;
+   public void d(BlockPos blockPos) {
+      this.position = blockPos;
    }
 
    public int getPlacedBlockDirection() {
@@ -74,24 +74,24 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
       return this.stack;
    }
 
-   public void s(ItemStack var1) {
-      this.stack = var1;
+   public void s(ItemStack itemStack) {
+      this.stack = itemStack;
    }
 
-   public void T(float var1) {
-      this.facingX = var1;
+   public void T(float f) {
+      this.facingX = f;
    }
 
-   public void a(float var1) {
-      this.facingY = var1;
+   public void a(float f) {
+      this.facingY = f;
    }
 
-   public void y(float var1) {
-      this.facingZ = var1;
+   public void y(float f) {
+      this.facingZ = f;
    }
 
-   public void h(int var1) {
-      this.placedBlockDirection = var1;
+   public void h(int i) {
+      this.placedBlockDirection = i;
    }
 
    public float getPlacedBlockOffsetX() {

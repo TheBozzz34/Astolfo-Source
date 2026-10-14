@@ -7,7 +7,7 @@ public enum InfiniteReachMode {
    private String m;
    private static final InfiniteReachMode[] s = new InfiniteReachMode[]{LINEAR, PATH_FIND};
 
-   InfiniteReachMode(String var3) {
-      this.m = var3;
+   InfiniteReachMode(String string2) {
+      this.m = string2;
    }
 }

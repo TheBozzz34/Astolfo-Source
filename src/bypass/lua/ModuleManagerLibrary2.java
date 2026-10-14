@@ -35,55 +35,55 @@ public class ModuleManagerLibrary2 extends TwoArgFunction implements ClientAcces
    private static final long b = 7339663642732L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("register", e);
-      var7.set("register_boolean", B);
-      var7.set("register_number", Q);
-      var7.set("modules", X);
-      var7.set("option", L);
-      var7.set("set_option", n);
-      var7.set("is_module_on", J);
-      var2.set("module_manager", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("register", e);
+      luaTable.set("register_boolean", B);
+      luaTable.set("register_number", Q);
+      luaTable.set("modules", X);
+      luaTable.set("option", L);
+      luaTable.set("set_option", n);
+      luaTable.set("is_module_on", J);
+      luaValue2.set("module_manager", luaTable);
+      return luaTable;
    }
 
-   private static void R(LuaValue var0, Setting<?> var1) {
-      if (var0.isnumber()) {
-         if (var1.getType() == SettingType.NUMBER) {
-            NumberSetting var5 = (NumberSetting)var1;
-            if (var5.valueClass == Integer.class) {
-               var5.setValue(var0.toint());
+   private static void R(LuaValue luaValue, Setting<?> setting) {
+      if (luaValue.isnumber()) {
+         if (setting.getType() == SettingType.NUMBER) {
+            NumberSetting numberSetting = (NumberSetting)setting;
+            if (numberSetting.valueClass == Integer.class) {
+               numberSetting.setValue(luaValue.toint());
             } else {
-               var5.setValue(var0.tofloat());
+               numberSetting.setValue(luaValue.tofloat());
             }
-         } else if (var1.getType() == SettingType.ENUM) {
-            if (var0.isnumber()) {
-               EnumSetting var9 = (EnumSetting)var1;
-               Enum[] var6 = (Enum[])var9.getValue().getClass().getEnumConstants();
+         } else if (setting.getType() == SettingType.ENUM) {
+            if (luaValue.isnumber()) {
+               EnumSetting enumSetting = (EnumSetting)setting;
+               Enum[] enums = (Enum[])enumSetting.getValue().getClass().getEnumConstants();
 
                try {
-                  var9.setValue(var6[var0.toint() + 1]);
-               } catch (Exception var8) {
-                  var9.setValue(var6[0]);
+                  enumSetting.setValue(enums[luaValue.toint() + 1]);
+               } catch (Exception exception) {
+                  enumSetting.setValue(enums[0]);
                }
-            } else if (var0.isstring()) {
-               var1.parse(var0.checkjstring());
+            } else if (luaValue.isstring()) {
+               setting.parse(luaValue.checkjstring());
             }
          }
-      } else if (var0.isboolean()) {
-         if (var1.getType() == SettingType.BOOLEAN) {
-            BooleanSetting var10 = (BooleanSetting)var1;
-            var10.set(var0.checkboolean());
+      } else if (luaValue.isboolean()) {
+         if (setting.getType() == SettingType.BOOLEAN) {
+            BooleanSetting booleanSetting = (BooleanSetting)setting;
+            booleanSetting.set(luaValue.checkboolean());
          }
-      } else if (var0.isstring() && var1.getType() == SettingType.STRING) {
-         StringSetting var11 = (StringSetting)var1;
-         var11.setValue(var0.checkjstring());
+      } else if (luaValue.isstring() && setting.getType() == SettingType.STRING) {
+         StringSetting stringSetting = (StringSetting)setting;
+         stringSetting.setValue(luaValue.checkjstring());
       }
    }
 
-   public static void i(LuaValue var0, Setting var1) {
-      R(var0, var1);
+   public static void i(LuaValue luaValue, Setting setting) {
+      R(luaValue, setting);
    }
 
    public static ArrayList i() {

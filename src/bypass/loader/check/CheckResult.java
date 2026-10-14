@@ -7,8 +7,8 @@ public interface CheckResult {
 
    ResultKind c();
 
-   static CheckResult S(Verdict var0) {
-      return VerdictResult.a(var0);
+   static CheckResult S(Verdict verdict) {
+      return VerdictResult.a(verdict);
    }
 
    static CheckResult I() {

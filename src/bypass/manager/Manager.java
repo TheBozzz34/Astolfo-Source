@@ -13,20 +13,20 @@ public abstract class Manager<T> {
    }
 
    @SafeVarargs
-   public final void add(T... var1) {
-      this.C.addAll(Arrays.asList((T[])var1));
+   public final void add(T... objects) {
+      this.C.addAll(Arrays.asList((T[])objects));
    }
 
    @SafeVarargs
-   public final void remove(T... var1) {
-      this.C.removeAll(Arrays.asList(var1));
+   public final void remove(T... objects) {
+      this.C.removeAll(Arrays.asList(objects));
    }
 
-   public boolean canAdd(T var1) {
+   public boolean canAdd(T object) {
       return true;
    }
 
-   public boolean canRemove(Object var1) {
+   public boolean canRemove(Object object) {
       return true;
    }
 
@@ -34,35 +34,35 @@ public abstract class Manager<T> {
       private static final long a = 39446278696327L;
 
       @Override
-      public boolean addAll(Collection<? extends T> var1) {
-         for (Object var6 : var1) {
-            Manager.this.canAdd((T)var6);
+      public boolean addAll(Collection<? extends T> collection) {
+         for (Object object : collection) {
+            Manager.this.canAdd((T)object);
          }
 
-         return super.addAll(var1);
+         return super.addAll(collection);
       }
 
       @Override
-      public boolean add(T var1) {
-         return Manager.this.canAdd((T)var1) && super.add(var1);
+      public boolean add(T object) {
+         return Manager.this.canAdd((T)object) && super.add(object);
       }
 
       @Override
-      public void add(int var1, T var2) {
-         if (Manager.this.canAdd((T)var2)) {
-            super.add(var1, var2);
+      public void add(int i, T object) {
+         if (Manager.this.canAdd((T)object)) {
+            super.add(i, object);
          }
       }
 
       @Override
-      public T remove(int var1) {
-         Object var5 = this.get(var1);
-         return (T)(Manager.this.canRemove(var5) ? super.remove(var1) : var5);
+      public T remove(int i) {
+         Object object = this.get(i);
+         return (T)(Manager.this.canRemove(object) ? super.remove(i) : object);
       }
 
       @Override
-      public boolean remove(Object var1) {
-         return Manager.this.canRemove(var1) && super.remove(var1);
+      public boolean remove(Object object) {
+         return Manager.this.canRemove(object) && super.remove(object);
       }
    }
 }

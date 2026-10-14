@@ -12,50 +12,50 @@ public class BiomeCache {
    private List<BiomeCache.Block> cache = Lists.newArrayList();
    private static final long a = 63749063907619L;
 
-   public BiomeCache(WorldChunkManager var1) {
-      this.chunkManager = var1;
+   public BiomeCache(WorldChunkManager chunkManagerIn) {
+      this.chunkManager = chunkManagerIn;
    }
 
-   public BiomeCache.Block getBiomeCacheBlock(int var1, int var2) {
-      var1 >>= 4;
-      var2 >>= 4;
-      long var6 = var1 & 4294967295L | (var2 & 4294967295L) << 32;
-      BiomeCache.Block var8 = this.cacheMap.getValueByKey(var6);
-      if (var8 == null) {
-         var8 = new BiomeCache.Block(var1, var2);
-         this.cacheMap.add(var6, var8);
-         this.cache.add(var8);
+   public BiomeCache.Block getBiomeCacheBlock(int x, int z) {
+      x >>= 4;
+      z >>= 4;
+      long l = x & 4294967295L | (z & 4294967295L) << 32;
+      BiomeCache.Block block = this.cacheMap.getValueByKey(l);
+      if (block == null) {
+         block = new BiomeCache.Block(x, z);
+         this.cacheMap.add(l, block);
+         this.cache.add(block);
       }
 
-      var8.lastAccessTime = MinecraftServer.getCurrentTimeMillis();
-      return var8;
+      block.lastAccessTime = MinecraftServer.getCurrentTimeMillis();
+      return block;
    }
 
-   public BiomeGenBase func_180284_a(int var1, int var2, BiomeGenBase var3) {
-      BiomeGenBase var7 = this.getBiomeCacheBlock(var1, var2).getBiomeGenAt(var1, var2);
-      return var7 == null ? var3 : var7;
+   public BiomeGenBase func_180284_a(int x, int z, BiomeGenBase biomeGenBase) {
+      BiomeGenBase biomeGenBase2 = this.getBiomeCacheBlock(x, z).getBiomeGenAt(x, z);
+      return biomeGenBase2 == null ? biomeGenBase : biomeGenBase2;
    }
 
    public void cleanupCache() {
-      long var4 = MinecraftServer.getCurrentTimeMillis();
-      long var6 = var4 - this.lastCleanupTime;
-      if (var6 > 7500L || var6 < 0L) {
-         this.lastCleanupTime = var4;
+      long l = MinecraftServer.getCurrentTimeMillis();
+      long m = l - this.lastCleanupTime;
+      if (m > 7500L || m < 0L) {
+         this.lastCleanupTime = l;
 
-         for (int var8 = 0; var8 < this.cache.size(); var8++) {
-            BiomeCache.Block var9 = this.cache.get(var8);
-            long var10 = var4 - var9.lastAccessTime;
-            if (var10 > 30000L || var10 < 0L) {
-               this.cache.remove(var8--);
-               long var12 = var9.xPosition & 4294967295L | (var9.zPosition & 4294967295L) << 32;
-               this.cacheMap.remove(var12);
+         for (int i = 0; i < this.cache.size(); i++) {
+            BiomeCache.Block block = this.cache.get(i);
+            long n = l - block.lastAccessTime;
+            if (n > 30000L || n < 0L) {
+               this.cache.remove(i--);
+               long l2 = block.xPosition & 4294967295L | (block.zPosition & 4294967295L) << 32;
+               this.cacheMap.remove(l2);
             }
          }
       }
    }
 
-   public BiomeGenBase[] getCachedBiomes(int var1, int var2) {
-      return this.getBiomeCacheBlock(var1, var2).biomes;
+   public BiomeGenBase[] getCachedBiomes(int x, int z) {
+      return this.getBiomeCacheBlock(x, z).biomes;
    }
 
    public class Block {
@@ -66,15 +66,15 @@ public class BiomeCache {
       public long lastAccessTime;
       private static final long a = 82789090083618L;
 
-      public Block(int var2, int var3) {
-         this.xPosition = var2;
-         this.zPosition = var3;
-         BiomeCache.this.chunkManager.getRainfall(this.rainfallValues, var2 << 4, var3 << 4, 16, 16);
-         BiomeCache.this.chunkManager.getBiomeGenAt(this.biomes, var2 << 4, var3 << 4, 16, 16, false);
+      public Block(int x, int z) {
+         this.xPosition = x;
+         this.zPosition = z;
+         BiomeCache.this.chunkManager.getRainfall(this.rainfallValues, x << 4, z << 4, 16, 16);
+         BiomeCache.this.chunkManager.getBiomeGenAt(this.biomes, x << 4, z << 4, 16, 16, false);
       }
 
-      public BiomeGenBase getBiomeGenAt(int var1, int var2) {
-         return this.biomes[var1 & 15 | (var2 & 15) << 4];
+      public BiomeGenBase getBiomeGenAt(int x, int z) {
+         return this.biomes[x & 15 | (z & 15) << 4];
       }
    }
 }

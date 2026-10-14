@@ -9,12 +9,12 @@ public class RealmsButton {
    public static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/widgets.png");
    private GuiButtonRealmsProxy proxy;
 
-   public RealmsButton(int var1, int var2, int var3, String var4) {
-      this.proxy = new GuiButtonRealmsProxy(this, var1, var2, var3, var4);
+   public RealmsButton(int buttonId, int x, int y, String text) {
+      this.proxy = new GuiButtonRealmsProxy(this, buttonId, x, y, text);
    }
 
-   public RealmsButton(int var1, int var2, int var3, int var4, int var5, String var6) {
-      this.proxy = new GuiButtonRealmsProxy(this, var1, var2, var3, var6, var4, var5);
+   public RealmsButton(int buttonId, int x, int y, int widthIn, int heightIn, String text) {
+      this.proxy = new GuiButtonRealmsProxy(this, buttonId, x, y, text, widthIn, heightIn);
    }
 
    public GuiButton getProxy() {
@@ -29,12 +29,12 @@ public class RealmsButton {
       return this.proxy.getEnabled();
    }
 
-   public void active(boolean var1) {
-      this.proxy.setEnabled(var1);
+   public void active(boolean bl) {
+      this.proxy.setEnabled(bl);
    }
 
-   public void msg(String var1) {
-      this.proxy.setText(var1);
+   public void msg(String string) {
+      this.proxy.setText(string);
    }
 
    public int h() {
@@ -49,24 +49,24 @@ public class RealmsButton {
       return this.proxy.V();
    }
 
-   public void render(int var1, int var2) {
-      this.proxy.drawButton(Minecraft.getMinecraft(), var1, var2);
+   public void render(int i, int j) {
+      this.proxy.drawButton(Minecraft.getMinecraft(), i, j);
    }
 
-   public void clicked(int var1, int var2) {
+   public void clicked(int i, int j) {
    }
 
-   public void released(int var1, int var2) {
+   public void released(int i, int j) {
    }
 
-   public void blit(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.proxy.drawTexturedModalRect(var1, var2, var3, var4, var5, var6);
+   public void blit(int i, int j, int k, int l, int m, int n) {
+      this.proxy.drawTexturedModalRect(i, j, k, l, m, n);
    }
 
-   public void renderBg(int var1, int var2) {
+   public void renderBg(int i, int j) {
    }
 
-   public int getYImage(boolean var1) {
-      return this.proxy.func_154312_c(var1);
+   public int getYImage(boolean bl) {
+      return this.proxy.func_154312_c(bl);
    }
 }

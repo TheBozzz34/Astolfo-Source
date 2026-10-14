@@ -29,8 +29,8 @@ public class BlockWall extends Block {
    private static final long l = 36750201935449L;
    private static final long bb = -1589980554923606010L;
 
-   public BlockWall(Block var1) {
-      super(var1.blockMaterial);
+   public BlockWall(Block modelBlock) {
+      super(modelBlock.blockMaterial);
       this.setDefaultState(
          this.blockState
             .getBaseState()
@@ -41,9 +41,9 @@ public class BlockWall extends Block {
             .withProperty(WEST, false)
             .withProperty(VARIANT, BlockWall.EnumType.NORMAL)
       );
-      this.setHardness(var1.blockHardness);
-      this.setResistance(var1.blockResistance / 3.0F);
-      this.setStepSound(var1.stepSound);
+      this.setHardness(modelBlock.blockHardness);
+      this.setResistance(modelBlock.blockResistance / 3.0F);
+      this.setStepSound(modelBlock.stepSound);
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
@@ -58,7 +58,7 @@ public class BlockWall extends Block {
    }
 
    @Override
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
       return false;
    }
 
@@ -68,109 +68,109 @@ public class BlockWall extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      boolean var6 = this.canConnectTo(var1, var2.north());
-      boolean var7 = this.canConnectTo(var1, var2.south());
-      boolean var8 = this.canConnectTo(var1, var2.west());
-      boolean var9 = this.canConnectTo(var1, var2.east());
-      float var10 = 0.25F;
-      float var11 = 0.75F;
-      float var12 = 0.25F;
-      float var13 = 0.75F;
-      float var14 = 1.0F;
-      if (var6) {
-         var12 = 0.0F;
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      boolean bl = this.canConnectTo(worldIn, pos.north());
+      boolean bl2 = this.canConnectTo(worldIn, pos.south());
+      boolean bl3 = this.canConnectTo(worldIn, pos.west());
+      boolean bl4 = this.canConnectTo(worldIn, pos.east());
+      float f = 0.25F;
+      float g = 0.75F;
+      float h = 0.25F;
+      float f2 = 0.75F;
+      float f3 = 1.0F;
+      if (bl) {
+         h = 0.0F;
       }
 
-      if (var7) {
-         var13 = 1.0F;
+      if (bl2) {
+         f2 = 1.0F;
       }
 
-      if (var8) {
-         var10 = 0.0F;
+      if (bl3) {
+         f = 0.0F;
       }
 
-      if (var9) {
-         var11 = 1.0F;
+      if (bl4) {
+         g = 1.0F;
       }
 
-      if (var6 && var7 && !var8 && !var9) {
-         var14 = 0.8125F;
-         var10 = 0.3125F;
-         var11 = 0.6875F;
-      } else if (!var6 && !var7 && var8 && var9) {
-         var14 = 0.8125F;
-         var12 = 0.3125F;
-         var13 = 0.6875F;
+      if (bl && bl2 && !bl3 && !bl4) {
+         f3 = 0.8125F;
+         f = 0.3125F;
+         g = 0.6875F;
+      } else if (!bl && !bl2 && bl3 && bl4) {
+         f3 = 0.8125F;
+         h = 0.3125F;
+         f2 = 0.6875F;
       }
 
-      this.setBlockBounds(var10, 0.0F, var12, var11, var14, var13);
+      this.setBlockBounds(f, 0.0F, h, g, f3, f2);
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      this.setBlockBoundsBasedOnState(var1, var2);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
       this.maxY = 1.5;
-      return super.getCollisionBoundingBox(var1, var2, var3);
+      return super.getCollisionBoundingBox(worldIn, pos, state);
    }
 
-   public boolean canConnectTo(IBlockAccess var1, BlockPos var2) {
-      Block var6 = var1.getBlockState(var2).getBlock();
-      return var6 == Blocks.barrier
+   public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos).getBlock();
+      return block == Blocks.barrier
          ? false
          : (
-            var6 != this && !(var6 instanceof BlockFenceGate)
-               ? (var6.blockMaterial.isOpaque() && var6.isFullCube() ? var6.blockMaterial != Material.gourd : false)
+            block != this && !(block instanceof BlockFenceGate)
+               ? (block.blockMaterial.isOpaque() && block.isFullCube() ? block.blockMaterial != Material.gourd : false)
                : true
          );
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (BlockWall.EnumType var10 : BlockWall.EnumType.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (BlockWall.EnumType enumType : BlockWall.EnumType.values()) {
+         list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
       }
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return var3 == EnumFacing.DOWN ? super.shouldSideBeRendered(var1, var2, var3) : true;
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      return side == EnumFacing.DOWN ? super.shouldSideBeRendered(worldIn, pos, side) : true;
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(VARIANT, BlockWall.EnumType.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(VARIANT, BlockWall.EnumType.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      return var1.withProperty(UP, !var2.isAirBlock(var3.up()))
-         .withProperty(NORTH, this.canConnectTo(var2, var3.north()))
-         .withProperty(EAST, this.canConnectTo(var2, var3.east()))
-         .withProperty(SOUTH, this.canConnectTo(var2, var3.south()))
-         .withProperty(WEST, this.canConnectTo(var2, var3.west()));
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      return state.withProperty(UP, !worldIn.isAirBlock(pos.up()))
+         .withProperty(NORTH, this.canConnectTo(worldIn, pos.north()))
+         .withProperty(EAST, this.canConnectTo(worldIn, pos.east()))
+         .withProperty(SOUTH, this.canConnectTo(worldIn, pos.south()))
+         .withProperty(WEST, this.canConnectTo(worldIn, pos.west()));
    }
 
    @Override
    public BlockState createBlockState() {
-      IProperty[] var10003 = new IProperty[(int)bb];
-      var10003[0] = UP;
-      var10003[1] = NORTH;
-      var10003[2] = EAST;
-      var10003[3] = WEST;
-      var10003[4] = SOUTH;
-      var10003[5] = VARIANT;
-      return new BlockState(this, var10003);
+      IProperty[] iPropertys = new IProperty[(int)bb];
+      iPropertys[0] = UP;
+      iPropertys[1] = NORTH;
+      iPropertys[2] = EAST;
+      iPropertys[3] = WEST;
+      iPropertys[4] = SOUTH;
+      iPropertys[5] = VARIANT;
+      return new BlockState(this, iPropertys);
    }
 
    public enum EnumType implements IStringSerializable {
@@ -183,10 +183,10 @@ public class BlockWall extends Block {
       private String unlocalizedName;
       private static final long a = 137487768257945L;
 
-      EnumType(int var3, String var4, String var5) {
-         this.meta = var3;
-         this.name = var4;
-         this.unlocalizedName = var5;
+      EnumType(int meta, String name, String unlocalizedNameIn) {
+         this.meta = meta;
+         this.name = name;
+         this.unlocalizedName = unlocalizedNameIn;
       }
 
       public int getMetadata() {
@@ -198,12 +198,12 @@ public class BlockWall extends Block {
          return this.name;
       }
 
-      public static BlockWall.EnumType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= META_LOOKUP.length) {
-            var0 = 0;
+      public static BlockWall.EnumType byMetadata(int meta) {
+         if (meta < 0 || meta >= META_LOOKUP.length) {
+            meta = 0;
          }
 
-         return META_LOOKUP[var0];
+         return META_LOOKUP[meta];
       }
 
       @Override
@@ -216,8 +216,8 @@ public class BlockWall extends Block {
       }
 
       static {
-         for (BlockWall.EnumType var14 : values()) {
-            META_LOOKUP[var14.getMetadata()] = var14;
+         for (BlockWall.EnumType enumType : values()) {
+            META_LOOKUP[enumType.getMetadata()] = enumType;
          }
       }
    }

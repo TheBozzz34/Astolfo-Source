@@ -6,19 +6,19 @@ public class HypixelAPIException extends RuntimeException {
    public HypixelAPIException() {
    }
 
-   public HypixelAPIException(String var1) {
-      super(var1);
+   public HypixelAPIException(String message) {
+      super(message);
    }
 
-   public HypixelAPIException(String var1, Throwable var2) {
-      super(var1, var2);
+   public HypixelAPIException(String message, Throwable cause) {
+      super(message, cause);
    }
 
-   public HypixelAPIException(Throwable var1) {
-      super(var1);
+   public HypixelAPIException(Throwable cause) {
+      super(cause);
    }
 
-   public HypixelAPIException(String var1, Throwable var2, boolean var3, boolean var4) {
-      super(var1, var2, var3, var4);
+   public HypixelAPIException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+      super(message, cause, enableSuppression, writableStackTrace);
    }
 }

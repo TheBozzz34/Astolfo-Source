@@ -15,98 +15,98 @@ public class ContainerWorkbench extends Container {
    private BlockPos pos;
    private static final long a = 25637773429L;
 
-   public ContainerWorkbench(InventoryPlayer var1, World var2, BlockPos var3) {
-      this.worldObj = var2;
-      this.pos = var3;
-      this.addSlotToContainer(new SlotCrafting(var1.player, this.craftMatrix, this.craftResult, 0, 124, 35));
+   public ContainerWorkbench(InventoryPlayer playerInventory, World worldIn, BlockPos posIn) {
+      this.worldObj = worldIn;
+      this.pos = posIn;
+      this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 35));
 
-      for (int var7 = 0; var7 < 3; var7++) {
-         for (int var8 = 0; var8 < 3; var8++) {
-            this.addSlotToContainer(new Slot(this.craftMatrix, var8 + var7 * 3, 30 + var8 * 18, 17 + var7 * 18));
+      for (int i = 0; i < 3; i++) {
+         for (int j = 0; j < 3; j++) {
+            this.addSlotToContainer(new Slot(this.craftMatrix, j + i * 3, 30 + j * 18, 17 + i * 18));
          }
       }
 
-      for (int var9 = 0; var9 < 3; var9++) {
-         for (int var11 = 0; var11 < 9; var11++) {
-            this.addSlotToContainer(new Slot(var1, var11 + var9 * 9 + 9, 8 + var11 * 18, 84 + var9 * 18));
+      for (int k = 0; k < 3; k++) {
+         for (int l = 0; l < 9; l++) {
+            this.addSlotToContainer(new Slot(playerInventory, l + k * 9 + 9, 8 + l * 18, 84 + k * 18));
          }
       }
 
-      for (int var10 = 0; var10 < 9; var10++) {
-         this.addSlotToContainer(new Slot(var1, var10, 8 + var10 * 18, 142));
+      for (int m = 0; m < 9; m++) {
+         this.addSlotToContainer(new Slot(playerInventory, m, 8 + m * 18, 142));
       }
 
       this.onCraftMatrixChanged(this.craftMatrix);
    }
 
    @Override
-   public void onCraftMatrixChanged(IInventory var1) {
+   public void onCraftMatrixChanged(IInventory inventoryIn) {
       this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
    }
 
    @Override
-   public void onContainerClosed(EntityPlayer var1) {
-      super.onContainerClosed(var1);
+   public void onContainerClosed(EntityPlayer playerIn) {
+      super.onContainerClosed(playerIn);
       if (!this.worldObj.isRemote) {
-         for (int var5 = 0; var5 < 9; var5++) {
-            ItemStack var6 = this.craftMatrix.removeStackFromSlot(var5);
-            if (var6 != null) {
-               var1.dropPlayerItemWithRandomChoice(var6, false);
+         for (int i = 0; i < 9; i++) {
+            ItemStack itemStack = this.craftMatrix.removeStackFromSlot(i);
+            if (itemStack != null) {
+               playerIn.dropPlayerItemWithRandomChoice(itemStack, false);
             }
          }
       }
    }
 
    @Override
-   public boolean canInteractWith(EntityPlayer var1) {
+   public boolean canInteractWith(EntityPlayer playerIn) {
       return this.worldObj.getBlockState(this.pos).getBlock() != Blocks.crafting_table
          ? false
-         : var1.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
+         : playerIn.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
    }
 
    @Override
-   public ItemStack transferStackInSlot(EntityPlayer var1, int var2) {
-      ItemStack var6 = null;
-      Slot var7 = this.inventorySlots.get(var2);
-      if (var7 != null && var7.getHasStack()) {
-         ItemStack var8 = var7.getStack();
-         var6 = var8.copy();
-         if (var2 == 0) {
-            if (!this.mergeItemStack(var8, 10, 46, true)) {
+   public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+      ItemStack itemStack = null;
+      Slot slot = this.inventorySlots.get(index);
+      if (slot != null && slot.getHasStack()) {
+         ItemStack itemStack2 = slot.getStack();
+         itemStack = itemStack2.copy();
+         if (index == 0) {
+            if (!this.mergeItemStack(itemStack2, 10, 46, true)) {
                return null;
             }
 
-            var7.onSlotChange(var8, var6);
-         } else if (var2 >= 10 && var2 < 37) {
-            if (!this.mergeItemStack(var8, 37, 46, false)) {
+            slot.onSlotChange(itemStack2, itemStack);
+         } else if (index >= 10 && index < 37) {
+            if (!this.mergeItemStack(itemStack2, 37, 46, false)) {
                return null;
             }
-         } else if (var2 >= 37 && var2 < 46) {
-            if (!this.mergeItemStack(var8, 10, 37, false)) {
+         } else if (index >= 37 && index < 46) {
+            if (!this.mergeItemStack(itemStack2, 10, 37, false)) {
                return null;
             }
-         } else if (!this.mergeItemStack(var8, 10, 46, false)) {
+         } else if (!this.mergeItemStack(itemStack2, 10, 46, false)) {
             return null;
          }
 
-         if (var8.stackSize == 0) {
-            var7.putStack((ItemStack)null);
+         if (itemStack2.stackSize == 0) {
+            slot.putStack((ItemStack)null);
          } else {
-            var7.onSlotChanged();
+            slot.onSlotChanged();
          }
 
-         if (var8.stackSize == var6.stackSize) {
+         if (itemStack2.stackSize == itemStack.stackSize) {
             return null;
          }
 
-         var7.onPickupFromSlot(var1, var8);
+         slot.onPickupFromSlot(playerIn, itemStack2);
       }
 
-      return var6;
+      return itemStack;
    }
 
    @Override
-   public boolean canMergeSlot(ItemStack var1, Slot var2) {
-      return var2.inventory != this.craftResult && super.canMergeSlot(var1, var2);
+   public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
+      return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
    }
 }

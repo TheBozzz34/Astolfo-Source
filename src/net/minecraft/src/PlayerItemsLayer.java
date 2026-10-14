@@ -13,23 +13,23 @@ public class PlayerItemsLayer implements LayerRenderer {
    private RenderPlayer renderPlayer = null;
    private static final long a = 42064702067052L;
 
-   public PlayerItemsLayer(RenderPlayer var1) {
-      this.renderPlayer = var1;
+   public PlayerItemsLayer(RenderPlayer renderPlayer) {
+      this.renderPlayer = renderPlayer;
    }
 
    @Override
-   public void doRenderLayer(EntityLivingBase var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      this.renderEquippedItems(var1, var8, var4);
+   public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      this.renderEquippedItems(entitylivingbaseIn, scale, partialTicks);
    }
 
-   public void renderEquippedItems(EntityLivingBase var1, float var2, float var3) {
-      if (Config.b() && var1 instanceof AbstractClientPlayer) {
-         AbstractClientPlayer var7 = (AbstractClientPlayer)var1;
+   public void renderEquippedItems(EntityLivingBase entityLiving, float scale, float partialTicks) {
+      if (Config.b() && entityLiving instanceof AbstractClientPlayer) {
+         AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entityLiving;
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          GlStateManager.disableRescaleNormal();
          GlStateManager.enableCull();
-         ModelPlayer var8 = this.renderPlayer.getMainModel();
-         PlayerConfigurations.renderPlayerItems(var8, var7, var2, var3);
+         ModelPlayer modelPlayer = this.renderPlayer.getMainModel();
+         PlayerConfigurations.renderPlayerItems(modelPlayer, abstractClientPlayer, scale, partialTicks);
          GlStateManager.disableCull();
       }
    }
@@ -39,20 +39,20 @@ public class PlayerItemsLayer implements LayerRenderer {
       return false;
    }
 
-   public static void register(Map var0) {
-      Set var4 = var0.keySet();
-      boolean var5 = false;
+   public static void register(Map renderPlayerMap) {
+      Set set = renderPlayerMap.keySet();
+      boolean bl = false;
 
-      for (Object var7 : var4) {
-         Object var8 = var0.get(var7);
-         if (var8 instanceof RenderPlayer) {
-            RenderPlayer var9 = (RenderPlayer)var8;
-            var9.addLayer(new PlayerItemsLayer(var9));
-            var5 = true;
+      for (Object object : set) {
+         Object object2 = renderPlayerMap.get(object);
+         if (object2 instanceof RenderPlayer) {
+            RenderPlayer renderPlayer = (RenderPlayer)object2;
+            renderPlayer.addLayer(new PlayerItemsLayer(renderPlayer));
+            bl = true;
          }
       }
 
-      if (!var5) {
+      if (!bl) {
          Config.warn("PlayerItemsLayer not registered");
       }
    }

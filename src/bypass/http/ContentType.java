@@ -101,21 +101,21 @@ public enum ContentType {
    private final MediaType p;
    private static final long b = 18057567985023L;
 
-   ContentType(MediaType var3, String var4) {
-      this.u = var4;
-      this.p = var3;
-      this.a = this.T().e().concat(!var4.isEmpty() ? "/" : "").concat(var4);
+   ContentType(MediaType mediaType, String string2) {
+      this.u = string2;
+      this.p = mediaType;
+      this.a = this.T().e().concat(!string2.isEmpty() ? "/" : "").concat(string2);
    }
 
-   public static ContentType d(String var0) {
-      String var4 = var0.replace(";", "");
-      if (var0.contains(":")) {
-         var4 = var0.substring(var0.indexOf(58));
+   public static ContentType d(String string) {
+      String string2 = string.replace(";", "");
+      if (string.contains(":")) {
+         string2 = string.substring(string.indexOf(58));
       }
 
-      for (ContentType var8 : values()) {
-         if (var8.S().trim().equalsIgnoreCase(var0.trim()) || var8.S().trim().equalsIgnoreCase(var4.trim())) {
-            return var8;
+      for (ContentType contentType : values()) {
+         if (contentType.S().trim().equalsIgnoreCase(string.trim()) || contentType.S().trim().equalsIgnoreCase(string2.trim())) {
+            return contentType;
          }
       }
 

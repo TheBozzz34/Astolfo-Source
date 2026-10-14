@@ -13,41 +13,41 @@ public final class AnglesForCords extends VarArgFunction {
    private static final long a = 65882888098918L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
-      if (var1.narg() == 3) {
-         Vector3d var5 = new Vector3d(
+   public Varargs onInvoke(Varargs varargs) {
+      if (varargs.narg() == 3) {
+         Vector3d vector3d = new Vector3d(
             ClientAccess.mc.thePlayer.posX, ClientAccess.mc.thePlayer.posY + ClientAccess.mc.thePlayer.getEyeHeight(), ClientAccess.mc.thePlayer.posZ
          );
-         double var6 = 0.0;
-         double var8 = 0.0;
-         double var10 = 0.0;
-         int var12 = 1;
+         double d = 0.0;
+         double e = 0.0;
+         double d2 = 0.0;
+         int i = 1;
 
-         for (int var13 = var1.narg(); var12 <= var13; var12++) {
-            LuaValue var14 = var1.checkvalue(var12);
-            switch (var12) {
+         for (int j = varargs.narg(); i <= j; i++) {
+            LuaValue luaValue = varargs.checkvalue(i);
+            switch (i) {
                case 1:
-                  if (var14.isnumber()) {
-                     var6 = var14.checkdouble();
+                  if (luaValue.isnumber()) {
+                     d = luaValue.checkdouble();
                   }
                   break;
                case 2:
-                  if (var14.isnumber()) {
-                     var8 = var14.checkdouble();
+                  if (luaValue.isnumber()) {
+                     e = luaValue.checkdouble();
                   }
                   break;
                case 3:
-                  if (var14.isnumber()) {
-                     var10 = var14.checkdouble();
+                  if (luaValue.isnumber()) {
+                     d2 = luaValue.checkdouble();
                   }
             }
          }
 
-         Vector3d var17 = new Vector3d(var6, var8, var10);
-         Rotation var18 = PlayerLibrary.K().rotationTo(var17, var5);
-         float var15 = MathHelper.wrapAngleTo180_float(var18.getYaw() - ClientAccess.mc.thePlayer.rotationYaw);
-         float var16 = ClientAccess.mc.thePlayer.rotationYaw + var15;
-         return LuaValue.varargsOf(new LuaValue[]{LuaValue.valueOf(var16), LuaValue.valueOf(var18.getPitch())});
+         Vector3d vector3d2 = new Vector3d(d, e, d2);
+         Rotation rotation = PlayerLibrary.K().rotationTo(vector3d2, vector3d);
+         float f = MathHelper.wrapAngleTo180_float(rotation.getYaw() - ClientAccess.mc.thePlayer.rotationYaw);
+         float g = ClientAccess.mc.thePlayer.rotationYaw + f;
+         return LuaValue.varargsOf(new LuaValue[]{LuaValue.valueOf(g), LuaValue.valueOf(rotation.getPitch())});
       } else {
          return NIL;
       }

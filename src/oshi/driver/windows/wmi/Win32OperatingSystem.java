@@ -13,8 +13,8 @@ public final class Win32OperatingSystem {
    }
 
    public static WmiResult<Win32OperatingSystem.OSVersionProperty> queryOsVersion() {
-      WmiQuery var2 = new WmiQuery<>("Win32_OperatingSystem", Win32OperatingSystem.OSVersionProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_OperatingSystem", Win32OperatingSystem.OSVersionProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum OSVersionProperty {

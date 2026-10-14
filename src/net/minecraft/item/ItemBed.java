@@ -19,41 +19,41 @@ public class ItemBed extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var3.isRemote) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      if (var5 != EnumFacing.UP) {
+      if (side != EnumFacing.UP) {
          return false;
       }
 
-      IBlockState var12 = var3.getBlockState(var4);
-      Block var13 = var12.getBlock();
-      boolean var14 = var13.isReplaceable(var3, var4);
-      if (!var14) {
-         var4 = var4.up();
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      Block block = iBlockState.getBlock();
+      boolean bl = block.isReplaceable(worldIn, pos);
+      if (!bl) {
+         pos = pos.up();
       }
 
-      int var15 = MathHelper.floor_double(var2.rotationYaw * 4.0F / 360.0F + 0.5) & 3;
-      EnumFacing var16 = EnumFacing.getHorizontal(var15);
-      BlockPos var17 = var4.offset(var16);
-      if (var2.canPlayerEdit(var4, var5, var1) && var2.canPlayerEdit(var17, var5, var1)) {
-         boolean var18 = var3.getBlockState(var17).getBlock().isReplaceable(var3, var17);
-         boolean var19 = var14 || var3.isAirBlock(var4);
-         boolean var20 = var18 || var3.isAirBlock(var17);
-         if (var19 && var20 && World.doesBlockHaveSolidTopSurface(var3, var4.down()) && World.doesBlockHaveSolidTopSurface(var3, var17.down())) {
-            IBlockState var21 = Blocks.bed
+      int i = MathHelper.floor_double(playerIn.rotationYaw * 4.0F / 360.0F + 0.5) & 3;
+      EnumFacing enumFacing = EnumFacing.getHorizontal(i);
+      BlockPos blockPos = pos.offset(enumFacing);
+      if (playerIn.canPlayerEdit(pos, side, stack) && playerIn.canPlayerEdit(blockPos, side, stack)) {
+         boolean bl2 = worldIn.getBlockState(blockPos).getBlock().isReplaceable(worldIn, blockPos);
+         boolean bl3 = bl || worldIn.isAirBlock(pos);
+         boolean bl4 = bl2 || worldIn.isAirBlock(blockPos);
+         if (bl3 && bl4 && World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && World.doesBlockHaveSolidTopSurface(worldIn, blockPos.down())) {
+            IBlockState iBlockState2 = Blocks.bed
                .getDefaultState()
                .withProperty(BlockBed.OCCUPIED, false)
-               .withProperty(BlockBed.FACING, var16)
+               .withProperty(BlockBed.FACING, enumFacing)
                .withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT);
-            if (var3.setBlockState(var4, var21, 3)) {
-               IBlockState var22 = var21.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD);
-               var3.setBlockState(var17, var22, 3);
+            if (worldIn.setBlockState(pos, iBlockState2, 3)) {
+               IBlockState iBlockState3 = iBlockState2.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD);
+               worldIn.setBlockState(blockPos, iBlockState3, 3);
             }
 
-            var1.stackSize--;
+            stack.stackSize--;
             return true;
          } else {
             return false;

@@ -5,19 +5,19 @@ import net.minecraft.util.ResourceLocation;
 public class EnchantmentFishingSpeed extends Enchantment {
    private static final long m = 102996643276754L;
 
-   public EnchantmentFishingSpeed(int var1, ResourceLocation var2, int var3, EnumEnchantmentType var4) {
-      super(var1, var2, var3, var4);
+   public EnchantmentFishingSpeed(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType) {
+      super(enchID, enchName, enchWeight, enchType);
       this.setName("fishingSpeed");
    }
 
    @Override
-   public int getMinEnchantability(int var1) {
-      return 15 + (var1 - 1) * 9;
+   public int getMinEnchantability(int enchantmentLevel) {
+      return 15 + (enchantmentLevel - 1) * 9;
    }
 
    @Override
-   public int getMaxEnchantability(int var1) {
-      return super.getMinEnchantability(var1) + 50;
+   public int getMaxEnchantability(int enchantmentLevel) {
+      return super.getMinEnchantability(enchantmentLevel) + 50;
    }
 
    @Override

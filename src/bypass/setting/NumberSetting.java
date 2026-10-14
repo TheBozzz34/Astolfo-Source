@@ -16,114 +16,114 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       super("", "", null, SettingType.UNDEFINED);
    }
 
-   public NumberSetting(String var1, String var2, T var3) {
-      super(var1, var2, (T)var3, SettingType.NUMBER);
-      if (!TypeUtil.Z(var3)) {
+   public NumberSetting(String string, String string2, T number) {
+      super(string, string2, (T)number, SettingType.NUMBER);
+      if (!TypeUtil.Z(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var7) {
-            var7.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public NumberSetting(String var1, String var2, T var3, T var4, T var5) {
-      super(var1, var2, (T)var3, SettingType.NUMBER);
-      this.min = (T)var4;
-      this.max = (T)var5;
-      if (!TypeUtil.Z(var3)) {
+   public NumberSetting(String string, String string2, T number, T number2, T number3) {
+      super(string, string2, (T)number, SettingType.NUMBER);
+      this.min = (T)number2;
+      this.max = (T)number3;
+      if (!TypeUtil.Z(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var11) {
-            var11.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var4)) {
+      } else if (!TypeUtil.Z(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
-         } catch (InvalidValueException var10) {
-            var10.printStackTrace();
+         } catch (InvalidValueException invalidValueException2) {
+            invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var5)) {
+      } else if (!TypeUtil.Z(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
-         } catch (InvalidValueException var9) {
-            var9.printStackTrace();
+         } catch (InvalidValueException invalidValueException3) {
+            invalidValueException3.printStackTrace();
          }
       }
    }
 
-   public NumberSetting(String var1, String var2, T var3, T var4, T var5, String var6) {
-      super(var1, var2, (T)var3, SettingType.NUMBER);
-      this.min = (T)var4;
-      this.max = (T)var5;
-      this.suffix = var6;
-      if (!TypeUtil.Z(var3)) {
+   public NumberSetting(String string, String string2, T number, T number2, T number3, String string3) {
+      super(string, string2, (T)number, SettingType.NUMBER);
+      this.min = (T)number2;
+      this.max = (T)number3;
+      this.suffix = string3;
+      if (!TypeUtil.Z(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var12) {
-            var12.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var4)) {
+      } else if (!TypeUtil.Z(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
-         } catch (InvalidValueException var11) {
-            var11.printStackTrace();
+         } catch (InvalidValueException invalidValueException2) {
+            invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var5)) {
+      } else if (!TypeUtil.Z(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
-         } catch (InvalidValueException var10) {
-            var10.printStackTrace();
+         } catch (InvalidValueException invalidValueException3) {
+            invalidValueException3.printStackTrace();
          }
       }
    }
 
-   public NumberSetting(String var1, String var2, T var3, T var4, T var5, List<SettingAttribute> var6) {
-      super(var1, var2, (T)var3, SettingType.NUMBER, var6);
-      this.min = (T)var4;
-      this.max = (T)var5;
-      if (!TypeUtil.Z(var3)) {
+   public NumberSetting(String string, String string2, T number, T number2, T number3, List<SettingAttribute> list) {
+      super(string, string2, (T)number, SettingType.NUMBER, list);
+      this.min = (T)number2;
+      this.max = (T)number3;
+      if (!TypeUtil.Z(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var13) {
-            var13.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var4)) {
+      } else if (!TypeUtil.Z(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
-         } catch (InvalidValueException var12) {
-            var12.printStackTrace();
+         } catch (InvalidValueException invalidValueException2) {
+            invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var5)) {
+      } else if (!TypeUtil.Z(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
-         } catch (InvalidValueException var11) {
-            var11.printStackTrace();
+         } catch (InvalidValueException invalidValueException3) {
+            invalidValueException3.printStackTrace();
          }
       }
    }
 
-   public NumberSetting(String var1, String var2, T var3, T var4, T var5, SettingAttribute... var6) {
-      super(var1, var2, (T)var3, SettingType.NUMBER, Arrays.asList(var6));
-      this.min = (T)var4;
-      this.max = (T)var5;
-      if (!TypeUtil.Z(var3)) {
+   public NumberSetting(String string, String string2, T number, T number2, T number3, SettingAttribute... settingAttributes) {
+      super(string, string2, (T)number, SettingType.NUMBER, Arrays.asList(settingAttributes));
+      this.min = (T)number2;
+      this.max = (T)number3;
+      if (!TypeUtil.Z(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var13) {
-            var13.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var4)) {
+      } else if (!TypeUtil.Z(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
-         } catch (InvalidValueException var12) {
-            var12.printStackTrace();
+         } catch (InvalidValueException invalidValueException2) {
+            invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(var5)) {
+      } else if (!TypeUtil.Z(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
-         } catch (InvalidValueException var11) {
-            var11.printStackTrace();
+         } catch (InvalidValueException invalidValueException3) {
+            invalidValueException3.printStackTrace();
          }
       }
    }
@@ -132,15 +132,15 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       return this.min != null ? this.min : this.value;
    }
 
-   public void setMin(T var1) {
-      for (SettingAttribute var6 : this.getAttributes()) {
-         if (var6 instanceof ReadOnlyAttribute) {
+   public void setMin(T number) {
+      for (SettingAttribute settingAttribute : this.getAttributes()) {
+         if (settingAttribute instanceof ReadOnlyAttribute) {
             return;
          }
       }
 
-      if (var1 != null) {
-         this.min = (T)var1;
+      if (number != null) {
+         this.min = (T)number;
       }
    }
 
@@ -148,15 +148,15 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       return this.max != null ? this.max : this.value;
    }
 
-   public void setMax(T var1) {
-      for (SettingAttribute var6 : this.getAttributes()) {
-         if (var6 instanceof ReadOnlyAttribute) {
+   public void setMax(T number) {
+      for (SettingAttribute settingAttribute : this.getAttributes()) {
+         if (settingAttribute instanceof ReadOnlyAttribute) {
             return;
          }
       }
 
-      if (var1 != null) {
-         this.max = (T)var1;
+      if (number != null) {
+         this.max = (T)number;
       }
    }
 
@@ -168,44 +168,44 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       return Double.isInfinite(this.asDouble());
    }
 
-   public void setValue(T var1) {
+   public void setValue(T number) {
       if (this.max != null | this.min != null) {
-         if (var1.doubleValue() > this.max.doubleValue()) {
-            var1 = this.max;
-         } else if (var1.doubleValue() < this.min.doubleValue()) {
-            var1 = this.min;
+         if (number.doubleValue() > this.max.doubleValue()) {
+            number = this.max;
+         } else if (number.doubleValue() < this.min.doubleValue()) {
+            number = this.min;
          }
       }
 
-      super.setValue((T)var1);
+      super.setValue((T)number);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return var1 instanceof NumberSetting
-         && Double.doubleToLongBits(Double.valueOf(((NumberSetting)var1).value.toString())) == Double.doubleToLongBits(this.asDouble())
-         && super.equals(var1);
+   public boolean equals(Object object) {
+      return object instanceof NumberSetting
+         && Double.doubleToLongBits(Double.valueOf(((NumberSetting)object).value.toString())) == Double.doubleToLongBits(this.asDouble())
+         && super.equals(object);
    }
 
    @Override
    public int hashCode() {
-      int var5 = 0;
-      var5 = (byte)17;
-      var5 = 37 * var5 + this.getClass().hashCode();
-      var5 = (this.min != null ? 1 : 37) * var5 + (this.min != null ? 0 : this.getMin().hashCode());
-      var5 = (this.max != null ? 1 : 37) * var5 + (this.max != null ? 0 : this.getMax().hashCode());
-      return super.hashCode() + var5;
+      int i = 0;
+      i = (byte)17;
+      i = 37 * i + this.getClass().hashCode();
+      i = (this.min != null ? 1 : 37) * i + (this.min != null ? 0 : this.getMin().hashCode());
+      i = (this.max != null ? 1 : 37) * i + (this.max != null ? 0 : this.getMax().hashCode());
+      return super.hashCode() + i;
    }
 
-   public int compareTo(NumberSetting<T> var1) {
-      return this.compare(this.value, var1.value);
+   public int compareTo(NumberSetting<T> numberSetting) {
+      return this.compare(this.value, numberSetting.value);
    }
 
-   public int compare(T var1, T var2) {
-      if (var1 == var2) {
+   public int compare(T number, T number2) {
+      if (number == number2) {
          return 0;
       } else {
-         return var1.doubleValue() < var2.doubleValue() ? -1 : 1;
+         return number.doubleValue() < number2.doubleValue() ? -1 : 1;
       }
    }
 

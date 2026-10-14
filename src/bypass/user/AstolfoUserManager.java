@@ -16,24 +16,24 @@ public class AstolfoUserManager {
       return this.e;
    }
 
-   public AstolfoUser g(String var1) {
-      boolean var6 = Astolfo.INSTANCE.getSenseSetting().getValue();
-      String var7 = b.s(var1.getBytes()).toString();
-      AstolfoUser var8 = this.e.get(var7);
-      if (var8 != null && var8.K == AstolfoUserStatus.C) {
-         return var8;
+   public AstolfoUser g(String string) {
+      boolean bl = Astolfo.INSTANCE.getSenseSetting().getValue();
+      String string2 = b.s(string.getBytes()).toString();
+      AstolfoUser astolfoUser = this.e.get(string2);
+      if (astolfoUser != null && astolfoUser.K == AstolfoUserStatus.C) {
+         return astolfoUser;
       }
 
-      boolean var9 = false;
-      EntityPlayerSP var10 = Minecraft.getMinecraft().thePlayer;
-      if (var10 != null) {
-         String var11 = b.s(var10.getName().getBytes()).toString();
-         AstolfoUser var12 = this.e.get(var11);
-         if (var12 != null && var12.K == AstolfoUserStatus.C) {
-            var9 = true;
+      boolean bl2 = false;
+      EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
+      if (entityPlayerSP != null) {
+         String string3 = b.s(entityPlayerSP.getName().getBytes()).toString();
+         AstolfoUser astolfoUser2 = this.e.get(string3);
+         if (astolfoUser2 != null && astolfoUser2.K == AstolfoUserStatus.C) {
+            bl2 = true;
          }
       }
 
-      return !var6 && !var9 ? null : var8;
+      return !bl && !bl2 ? null : astolfoUser;
    }
 }

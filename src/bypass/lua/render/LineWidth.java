@@ -8,9 +8,9 @@ public final class LineWidth extends OneArgFunction {
    private static final long a = 71155750255436L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (var1.isnumber()) {
-         GL11.glLineWidth(var1.tofloat());
+   public LuaValue call(LuaValue luaValue) {
+      if (luaValue.isnumber()) {
+         GL11.glLineWidth(luaValue.tofloat());
          return valueOf(true);
       } else {
          return valueOf(0);

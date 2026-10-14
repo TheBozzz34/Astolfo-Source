@@ -16,11 +16,11 @@ public class MojangAuth implements Authenticator {
    public long T;
    private static final long b = 110086881115662L;
 
-   public MojangAuth(String var1, String var2, UUID var3, UUID var4) {
-      this.X = var1;
-      this.a = var2;
-      this.f = var3;
-      this.C = var4;
+   public MojangAuth(String string, String string2, UUID uuid, UUID uuid2) {
+      this.X = string;
+      this.a = string2;
+      this.f = uuid;
+      this.C = uuid2;
    }
 
    @Override
@@ -29,34 +29,34 @@ public class MojangAuth implements Authenticator {
    }
 
    @Override
-   public void Y(Minecraft var1, Consumer<Throwable> var2) {
+   public void Y(Minecraft minecraft, Consumer<Throwable> consumer) {
    }
 
    public boolean h() throws Exception {
-      AuthHttp var4 = new AuthHttp("https://authserver.mojang.com/validate");
-      var4.z("Content-Type", "application/json");
-      JsonObject var5 = new JsonObject();
-      var5.addProperty("accessToken", this.a);
-      var5.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.f));
-      var4.C(var5.toString());
-      return var4.s() >= 200 && var4.s() < 300;
+      AuthHttp authHttp = new AuthHttp("https://authserver.mojang.com/validate");
+      authHttp.z("Content-Type", "application/json");
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("accessToken", this.a);
+      jsonObject.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.f));
+      authHttp.C(jsonObject.toString());
+      return authHttp.s() >= 200 && authHttp.s() < 300;
    }
 
    public void Z() throws Exception {
-      AuthHttp var4 = new AuthHttp("https://authserver.mojang.com/refresh");
-      var4.z("Content-Type", "application/json");
-      JsonObject var5 = new JsonObject();
-      var5.addProperty("accessToken", this.a);
-      var5.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.f));
-      var4.C(var5.toString());
-      if (var4.s() >= 200 && var4.s() < 300) {
-         JsonObject var6 = new Gson().fromJson(var4.K(), JsonObject.class);
-         this.a = var6.get("accessToken").getAsString();
-         this.f = UUIDTypeAdapter.fromString(var6.get("clientToken").getAsString());
-         this.C = UUIDTypeAdapter.fromString(var6.getAsJsonObject("selectedProfile").get("id").getAsString());
-         this.X = var6.getAsJsonObject("selectedProfile").get("name").getAsString();
+      AuthHttp authHttp = new AuthHttp("https://authserver.mojang.com/refresh");
+      authHttp.z("Content-Type", "application/json");
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("accessToken", this.a);
+      jsonObject.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.f));
+      authHttp.C(jsonObject.toString());
+      if (authHttp.s() >= 200 && authHttp.s() < 300) {
+         JsonObject jsonObject2 = new Gson().fromJson(authHttp.K(), JsonObject.class);
+         this.a = jsonObject2.get("accessToken").getAsString();
+         this.f = UUIDTypeAdapter.fromString(jsonObject2.get("clientToken").getAsString());
+         this.C = UUIDTypeAdapter.fromString(jsonObject2.getAsJsonObject("selectedProfile").get("id").getAsString());
+         this.X = jsonObject2.getAsJsonObject("selectedProfile").get("name").getAsString();
       } else {
-         throw new AuthException("ias.mojauth.unknown", var4.q());
+         throw new AuthException("ias.mojauth.unknown", authHttp.q());
       }
    }
 

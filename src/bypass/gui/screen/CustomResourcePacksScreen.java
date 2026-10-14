@@ -51,9 +51,9 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    private static final int q = new Color(17, 17, 17).getRGB();
    private static final long K = 87295963114827L;
 
-   public CustomResourcePacksScreen(GuiScreen var1) {
-      super(var1);
-      this.V = var1;
+   public CustomResourcePacksScreen(GuiScreen guiScreen) {
+      super(guiScreen);
+      this.V = guiScreen;
    }
 
    @Override
@@ -64,21 +64,21 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
       this.buttonList.add(new GuiOptionButton(10, this.width / 2 - 204, this.height - 26, 40, 20, "A-Z"));
       this.buttonList.add(new GuiOptionButton(11, this.width / 2 - 204 + 44, this.height - 26, 40, 20, "Z-A"));
       this.buttonList.add(new GuiOptionButton(20, this.width / 2 - 74, this.height - 26, 70, 20, "Refresh"));
-      String var5 = this.l == null ? "" : this.l.getText();
+      String string = this.l == null ? "" : this.l.getText();
       this.l = new GuiTextField(30, this.fontRendererObj, this.width / 2 - 203, this.height - 46, 198, 16);
-      this.l.setText(var5);
+      this.l.setText(string);
       if (!this.a) {
          this.m = Lists.newArrayListWithCapacity(8);
          this.w = Lists.newArrayListWithCapacity(8);
          this.c = Lists.newArrayListWithCapacity(1);
          this.B = Lists.newArrayListWithCapacity(8);
-         ResourcePackRepository var6 = this.mc.getResourcePackRepository();
-         var6.updateRepositoryEntriesAll();
-         this.O = var6.getDirResourcepacks();
-         this.m.addAll(this.createAvailablePackList(var6));
+         ResourcePackRepository resourcePackRepository = this.mc.getResourcePackRepository();
+         resourcePackRepository.updateRepositoryEntriesAll();
+         this.O = resourcePackRepository.getDirResourcepacks();
+         this.m.addAll(this.createAvailablePackList(resourcePackRepository));
 
-         for (ResourcePackRepository.Entry var8 : Lists.reverse(var6.getRepositoryEntries())) {
-            this.B.add(new ResourcePackListEntryFound(this, var8));
+         for (ResourcePackRepository.Entry entry : Lists.reverse(resourcePackRepository.getRepositoryEntries())) {
+            this.B.add(new ResourcePackListEntryFound(this, entry));
          }
 
          this.B.add(new ResourcePackListEntryDefault(this));
@@ -96,23 +96,23 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) {
-      if (var1.id == 20) {
+   public void actionPerformed(GuiButton button) {
+      if (button.id == 20) {
          this.b();
-      } else if (var1.id == 11) {
+      } else if (button.id == 11) {
          this.y.E(this.b = PackSearch.A);
-      } else if (var1.id == 10) {
+      } else if (button.id == 10) {
          this.y.E(this.b = PackSearch.b);
-      } else if (var1.id == 2) {
+      } else if (button.id == 2) {
          X(this.mc.getResourcePackRepository().getDirResourcepacks());
-      } else if (var1.id == 1) {
+      } else if (button.id == 1) {
          if (this.a) {
-            List var5 = this.t();
+            List list = this.t();
             this.mc.gameSettings.resourcePacks.clear();
 
-            for (Object var7$raw : var5) {
-               ResourcePackRepository.Entry var7 = (ResourcePackRepository.Entry)var7$raw;
-               this.mc.gameSettings.resourcePacks.add(var7.getResourcePackName());
+            for (Object object : list) {
+               ResourcePackRepository.Entry entry = (ResourcePackRepository.Entry)object;
+               this.mc.gameSettings.resourcePacks.add(entry.getResourcePackName());
             }
 
             this.mc.gameSettings.saveOptions();
@@ -125,20 +125,20 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) {
-      if (var3 == 0) {
-         for (GuiButton var8 : this.buttonList) {
-            if (var8.mousePressed(this.mc, var1, var2)) {
-               this.N = var8;
-               var8.playPressSound(this.mc.getSoundHandler());
-               this.actionPerformed(var8);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+      if (mouseButton == 0) {
+         for (GuiButton guiButton : this.buttonList) {
+            if (guiButton.mousePressed(this.mc, mouseX, mouseY)) {
+               this.N = guiButton;
+               guiButton.playPressSound(this.mc.getSoundHandler());
+               this.actionPerformed(guiButton);
             }
          }
       }
 
-      this.f.mouseClicked(var1, var2, var3);
-      this.n.mouseClicked(var1, var2, var3);
-      this.l.mouseClicked(var1, var2, var3);
+      this.f.mouseClicked(mouseX, mouseY, mouseButton);
+      this.n.mouseClicked(mouseX, mouseY, mouseButton);
+      this.l.mouseClicked(mouseX, mouseY, mouseButton);
       this.y.f();
    }
 
@@ -146,7 +146,7 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    public void handleMouseInput() throws IOException {
       try {
          super.handleMouseInput();
-      } catch (NullPointerException var2) {
+      } catch (NullPointerException nullPointerException) {
       }
 
       this.f.handleMouseInput();
@@ -154,18 +154,18 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3) {
-      if (var3 == 0 && this.N != null) {
-         this.N.mouseReleased(var1, var2);
+   public void mouseReleased(int mouseX, int mouseY, int state) {
+      if (state == 0 && this.N != null) {
+         this.N.mouseReleased(mouseX, mouseY);
          this.N = null;
       }
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      super.keyTyped(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      super.keyTyped(typedChar, keyCode);
       if (this.l.isFocused()) {
-         this.l.textboxKeyTyped(var1, var2);
+         this.l.textboxKeyTyped(typedChar, keyCode);
          this.y.R(this.l.getText().trim());
       }
    }
@@ -191,8 +191,8 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
       }
    }
 
-   public void S(File var1) {
-      this.O = var1;
+   public void S(File file) {
+      this.O = file;
       this.t();
       this.b();
    }
@@ -204,133 +204,133 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    }
 
    public List<ResourcePackRepository.Entry> t() {
-      ArrayList var4 = Lists.newArrayListWithCapacity(this.B.size());
+      ArrayList arrayList = Lists.newArrayListWithCapacity(this.B.size());
 
-      for (ResourcePackListEntry var6 : this.B) {
-         if (var6 instanceof ResourcePackListEntryFound) {
-            ResourcePackListEntryFound var7 = (ResourcePackListEntryFound)var6;
-            if (var7.func_148318_i() != null) {
-               var4.add(var7.func_148318_i());
+      for (ResourcePackListEntry resourcePackListEntry : this.B) {
+         if (resourcePackListEntry instanceof ResourcePackListEntryFound) {
+            ResourcePackListEntryFound resourcePackListEntryFound = (ResourcePackListEntryFound)resourcePackListEntry;
+            if (resourcePackListEntryFound.func_148318_i() != null) {
+               arrayList.add(resourcePackListEntryFound.func_148318_i());
             }
          }
       }
 
-      Collections.reverse(var4);
-      this.mc.getResourcePackRepository().setRepositories(var4);
-      return var4;
+      Collections.reverse(arrayList);
+      this.mc.getResourcePackRepository().setRepositories(arrayList);
+      return arrayList;
    }
 
-   public static void X(File var0) {
-      String var4 = var0.getAbsolutePath();
+   public static void X(File file) {
+      String string = file.getAbsolutePath();
       if (Util.getOSType() == Util.EnumOS.OSX) {
          try {
-            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", var4});
+            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", string});
             return;
-         } catch (Exception var9) {
+         } catch (Exception exception) {
          }
       } else if (Util.getOSType() == Util.EnumOS.WINDOWS) {
-         String var5 = String.format("cmd.exe /C start \"Open file\" \"%s\"", var4);
+         String string2 = String.format("cmd.exe /C start \"Open file\" \"%s\"", string);
 
          try {
-            Runtime.getRuntime().exec(var5);
+            Runtime.getRuntime().exec(string2);
             return;
-         } catch (Exception var8) {
+         } catch (Exception exception2) {
          }
       }
 
       try {
-         Class var10 = Class.forName("java.awt.Desktop");
-         Object var6 = var10.getMethod("getDesktop").invoke(null);
-         var10.getMethod("browse", URI.class).invoke(var6, var0.toURI());
-      } catch (Throwable var7) {
-         Sys.openURL("file://" + var4);
+         Class class2 = Class.forName("java.awt.Desktop");
+         Object object = class2.getMethod("getDesktop").invoke(null);
+         class2.getMethod("browse", URI.class).invoke(object, file.toURI());
+      } catch (Throwable throwable) {
+         Sys.openURL("file://" + string);
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawBackground(0);
-      this.f.drawScreen(var1, var2, var3);
-      this.n.drawScreen(var1, var2, var3);
+      this.f.drawScreen(mouseX, mouseY, partialTicks);
+      this.n.drawScreen(mouseX, mouseY, partialTicks);
       this.v(0, 32, 255, 255);
       this.v(this.height - 52, this.height, 255, 255);
       this.l.drawTextBox();
 
-      for (GuiButton var8 : this.buttonList) {
-         var8.drawButton(this.mc, var1, var2);
+      for (GuiButton guiButton : this.buttonList) {
+         guiButton.drawButton(this.mc, mouseX, mouseY);
       }
    }
 
-   public void v(int var1, int var2, int var3, int var4) {
-      this.drawGradientRect(0, var1, this.width, var2, G, q);
+   public void v(int i, int j, int k, int l) {
+      this.drawGradientRect(0, i, this.width, j, G, q);
    }
 
    @Override
-   public void drawGradientRect(int var1, int var2, int var3, int var4, int var5, int var6) {
-      float var10 = (var5 >> 24 & 0xFF) / 255.0F;
-      float var11 = (var5 >> 16 & 0xFF) / 255.0F;
-      float var12 = (var5 >> 8 & 0xFF) / 255.0F;
-      float var13 = (var5 & 0xFF) / 255.0F;
-      float var14 = (var6 >> 24 & 0xFF) / 255.0F;
-      float var15 = (var6 >> 16 & 0xFF) / 255.0F;
-      float var16 = (var6 >> 8 & 0xFF) / 255.0F;
-      float var17 = (var6 & 0xFF) / 255.0F;
+   public void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
+      float f = (startColor >> 24 & 0xFF) / 255.0F;
+      float g = (startColor >> 16 & 0xFF) / 255.0F;
+      float h = (startColor >> 8 & 0xFF) / 255.0F;
+      float f2 = (startColor & 0xFF) / 255.0F;
+      float f3 = (endColor >> 24 & 0xFF) / 255.0F;
+      float f4 = (endColor >> 16 & 0xFF) / 255.0F;
+      float f5 = (endColor >> 8 & 0xFF) / 255.0F;
+      float f6 = (endColor & 0xFF) / 255.0F;
       GlStateManager.disableTexture2D();
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.shadeModel(7425);
-      Tessellator var18 = Tessellator.getInstance();
-      WorldRenderer var19 = var18.getWorldRenderer();
-      var19.begin(7, DefaultVertexFormats.POSITION_COLOR);
-      var19.pos(var3, var2, 0.0).color(var11, var12, var13, var10).endVertex();
-      var19.pos(var1, var2, 0.0).color(var11, var12, var13, var10).endVertex();
-      var19.pos(var1, var4, 0.0).color(var15, var16, var17, var14).endVertex();
-      var19.pos(var3, var4, 0.0).color(var15, var16, var17, var14).endVertex();
-      var18.draw();
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+      worldRenderer.pos(right, top, 0.0).color(g, h, f2, f).endVertex();
+      worldRenderer.pos(left, top, 0.0).color(g, h, f2, f).endVertex();
+      worldRenderer.pos(left, bottom, 0.0).color(f4, f5, f6, f3).endVertex();
+      worldRenderer.pos(right, bottom, 0.0).color(f4, f5, f6, f3).endVertex();
+      tessellator.draw();
       GlStateManager.shadeModel(7424);
       GlStateManager.disableBlend();
       GlStateManager.enableAlpha();
       GlStateManager.enableTexture2D();
    }
 
-   private List<ResourcePackListEntryFound> createAvailablePackList(ResourcePackRepository var1) {
-      ArrayList var5 = Lists.newArrayList();
-      if (!var1.getDirResourcepacks().equals(this.O)) {
-         var5.add(new FolderPackEntry(this, this.O.getParentFile(), true));
+   private List<ResourcePackListEntryFound> createAvailablePackList(ResourcePackRepository resourcePackRepository) {
+      ArrayList arrayList = Lists.newArrayList();
+      if (!resourcePackRepository.getDirResourcepacks().equals(this.O)) {
+         arrayList.add(new FolderPackEntry(this, this.O.getParentFile(), true));
       }
 
-      File[] var6 = this.O.listFiles();
-      if (var6 != null) {
-         for (File var10 : var6) {
-            if (var10.isDirectory() && !new File(var10, "pack.mcmeta").isFile()) {
-               var5.add(new FolderPackEntry(this, var10));
+      File[] files = this.O.listFiles();
+      if (files != null) {
+         for (File file : files) {
+            if (file.isDirectory() && !new File(file, "pack.mcmeta").isFile()) {
+               arrayList.add(new FolderPackEntry(this, file));
             } else {
-               ResourcePackRepository.Entry var11 = FolderResourcePackRepository.b(var1, var10);
-               if (var11 != null) {
+               ResourcePackRepository.Entry entry = FolderResourcePackRepository.b(resourcePackRepository, file);
+               if (entry != null) {
                   try {
-                     var11.updateResourcePack();
-                     var5.add(new ResourcePackListEntryFound(this, var11));
-                  } catch (Exception var13) {
+                     entry.updateResourcePack();
+                     arrayList.add(new ResourcePackListEntryFound(this, entry));
+                  } catch (Exception exception) {
                   }
                }
             }
          }
       }
 
-      List var14 = var1.getRepositoryEntries();
-      var5.removeIf(var1x -> ((net.minecraft.client.resources.ResourcePackListEntryFound)var1x).func_148318_i() != null && var14.contains(((net.minecraft.client.resources.ResourcePackListEntryFound)var1x).func_148318_i()));
-      return var5;
+      List list = resourcePackRepository.getRepositoryEntries();
+      arrayList.removeIf(object -> ((net.minecraft.client.resources.ResourcePackListEntryFound)object).func_148318_i() != null && list.contains(((net.minecraft.client.resources.ResourcePackListEntryFound)object).func_148318_i()));
+      return arrayList;
    }
 
    @Override
-   public boolean hasResourcePackEntry(ResourcePackListEntry var1) {
-      return this.B.contains(var1);
+   public boolean hasResourcePackEntry(ResourcePackListEntry resourcePackListEntry) {
+      return this.B.contains(resourcePackListEntry);
    }
 
    @Override
-   public List getListContaining(ResourcePackListEntry var1) {
-      return this.hasResourcePackEntry(var1) ? this.B : this.m;
+   public List getListContaining(ResourcePackListEntry resourcePackListEntry) {
+      return this.hasResourcePackEntry(resourcePackListEntry) ? this.B : this.m;
    }
 
    @Override

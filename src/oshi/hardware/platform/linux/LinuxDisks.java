@@ -25,120 +25,120 @@ public final class LinuxDisks {
       return getDisks(null);
    }
 
-   private static HWDiskStore[] getDisks(HWDiskStore var0) {
-      HWDiskStore var4 = null;
-      ArrayList var5 = new ArrayList();
-      Map var6 = readMountsMap();
-      Udev.UdevHandle var7 = Udev.INSTANCE.udev_new();
-      Udev.UdevEnumerate var8 = Udev.INSTANCE.udev_enumerate_new(var7);
-      Udev.INSTANCE.udev_enumerate_add_match_subsystem(var8, "block");
-      Udev.INSTANCE.udev_enumerate_scan_devices(var8);
+   private static HWDiskStore[] getDisks(HWDiskStore storeToUpdate) {
+      HWDiskStore hwDiskStore = null;
+      ArrayList arrayList = new ArrayList();
+      Map map = readMountsMap();
+      Udev.UdevHandle udevHandle = Udev.INSTANCE.udev_new();
+      Udev.UdevEnumerate udevEnumerate = Udev.INSTANCE.udev_enumerate_new(udevHandle);
+      Udev.INSTANCE.udev_enumerate_add_match_subsystem(udevEnumerate, "block");
+      Udev.INSTANCE.udev_enumerate_scan_devices(udevEnumerate);
 
-      Udev.UdevDevice var10;
-      for (Udev.UdevListEntry var9 = Udev.INSTANCE.udev_enumerate_get_list_entry(var8);
-         (var10 = Udev.INSTANCE.udev_device_new_from_syspath(var7, Udev.INSTANCE.udev_list_entry_get_name(var9))) != null;
-         var9 = Udev.INSTANCE.udev_list_entry_get_next(var9)
+      Udev.UdevDevice udevDevice;
+      for (Udev.UdevListEntry udevListEntry = Udev.INSTANCE.udev_enumerate_get_list_entry(udevEnumerate);
+         (udevDevice = Udev.INSTANCE.udev_device_new_from_syspath(udevHandle, Udev.INSTANCE.udev_list_entry_get_name(udevListEntry))) != null;
+         udevListEntry = Udev.INSTANCE.udev_list_entry_get_next(udevListEntry)
       ) {
-         String var11 = Udev.INSTANCE.udev_device_get_devnode(var10);
-         if (var11 != null && !var11.startsWith("/dev/loop") && !var11.startsWith("/dev/ram")) {
-            if ("disk".equals(Udev.INSTANCE.udev_device_get_devtype(var10))) {
-               var4 = new HWDiskStore();
-               var4.setName(var11);
-               var4.setModel(
-                  Udev.INSTANCE.udev_device_get_property_value(var10, "ID_MODEL") == null
+         String string = Udev.INSTANCE.udev_device_get_devnode(udevDevice);
+         if (string != null && !string.startsWith("/dev/loop") && !string.startsWith("/dev/ram")) {
+            if ("disk".equals(Udev.INSTANCE.udev_device_get_devtype(udevDevice))) {
+               hwDiskStore = new HWDiskStore();
+               hwDiskStore.setName(string);
+               hwDiskStore.setModel(
+                  Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_MODEL") == null
                      ? "Unknown"
-                     : Udev.INSTANCE.udev_device_get_property_value(var10, "ID_MODEL")
+                     : Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_MODEL")
                );
-               var4.setSerial(
-                  Udev.INSTANCE.udev_device_get_property_value(var10, "ID_SERIAL_SHORT") == null
+               hwDiskStore.setSerial(
+                  Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_SERIAL_SHORT") == null
                      ? "Unknown"
-                     : Udev.INSTANCE.udev_device_get_property_value(var10, "ID_SERIAL_SHORT")
+                     : Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_SERIAL_SHORT")
                );
-               var4.setSize(ParseUtil.parseLongOrDefault(Udev.INSTANCE.udev_device_get_sysattr_value(var10, "size"), 0L) * 512L);
-               if (var0 == null) {
-                  var4.setPartitions(new HWPartition[0]);
-                  computeDiskStats(var4, var10);
-                  var5.add(var4);
-               } else if (var4.equals(var0)) {
-                  computeDiskStats(var0, var10);
-                  var5.add(var0);
-                  Udev.INSTANCE.udev_device_unref(var10);
+               hwDiskStore.setSize(ParseUtil.parseLongOrDefault(Udev.INSTANCE.udev_device_get_sysattr_value(udevDevice, "size"), 0L) * 512L);
+               if (storeToUpdate == null) {
+                  hwDiskStore.setPartitions(new HWPartition[0]);
+                  computeDiskStats(hwDiskStore, udevDevice);
+                  arrayList.add(hwDiskStore);
+               } else if (hwDiskStore.equals(storeToUpdate)) {
+                  computeDiskStats(storeToUpdate, udevDevice);
+                  arrayList.add(storeToUpdate);
+                  Udev.INSTANCE.udev_device_unref(udevDevice);
                   break;
                }
-            } else if ("partition".equals(Udev.INSTANCE.udev_device_get_devtype(var10)) && var4 != null) {
-               HWPartition[] var12 = new HWPartition[var4.getPartitions().length + 1];
-               System.arraycopy(var4.getPartitions(), 0, var12, 0, var4.getPartitions().length);
-               String var13 = Udev.INSTANCE.udev_device_get_devnode(var10);
-               var12[var12.length - 1] = new HWPartition(
-                  var13,
-                  Udev.INSTANCE.udev_device_get_sysname(var10),
-                  Udev.INSTANCE.udev_device_get_property_value(var10, "ID_FS_TYPE") == null
+            } else if ("partition".equals(Udev.INSTANCE.udev_device_get_devtype(udevDevice)) && hwDiskStore != null) {
+               HWPartition[] hwPartitions = new HWPartition[hwDiskStore.getPartitions().length + 1];
+               System.arraycopy(hwDiskStore.getPartitions(), 0, hwPartitions, 0, hwDiskStore.getPartitions().length);
+               String string2 = Udev.INSTANCE.udev_device_get_devnode(udevDevice);
+               hwPartitions[hwPartitions.length - 1] = new HWPartition(
+                  string2,
+                  Udev.INSTANCE.udev_device_get_sysname(udevDevice),
+                  Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_FS_TYPE") == null
                      ? "partition"
-                     : Udev.INSTANCE.udev_device_get_property_value(var10, "ID_FS_TYPE"),
-                  Udev.INSTANCE.udev_device_get_property_value(var10, "ID_FS_UUID") == null
+                     : Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_FS_TYPE"),
+                  Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_FS_UUID") == null
                      ? ""
-                     : Udev.INSTANCE.udev_device_get_property_value(var10, "ID_FS_UUID"),
-                  ParseUtil.parseLongOrDefault(Udev.INSTANCE.udev_device_get_sysattr_value(var10, "size"), 0L) * 512L,
-                  ParseUtil.parseIntOrDefault(Udev.INSTANCE.udev_device_get_property_value(var10, "MAJOR"), 0),
-                  ParseUtil.parseIntOrDefault(Udev.INSTANCE.udev_device_get_property_value(var10, "MINOR"), 0),
-                  (java.lang.String)(var6.getOrDefault(var13, ""))
+                     : Udev.INSTANCE.udev_device_get_property_value(udevDevice, "ID_FS_UUID"),
+                  ParseUtil.parseLongOrDefault(Udev.INSTANCE.udev_device_get_sysattr_value(udevDevice, "size"), 0L) * 512L,
+                  ParseUtil.parseIntOrDefault(Udev.INSTANCE.udev_device_get_property_value(udevDevice, "MAJOR"), 0),
+                  ParseUtil.parseIntOrDefault(Udev.INSTANCE.udev_device_get_property_value(udevDevice, "MINOR"), 0),
+                  (java.lang.String)(map.getOrDefault(string2, ""))
                );
-               var4.setPartitions(var12);
+               hwDiskStore.setPartitions(hwPartitions);
             }
          }
 
-         Udev.INSTANCE.udev_device_unref(var10);
+         Udev.INSTANCE.udev_device_unref(udevDevice);
       }
 
-      Udev.INSTANCE.udev_enumerate_unref(var8);
-      Udev.INSTANCE.udev_unref(var7);
-      return (oshi.hardware.HWDiskStore[])(var5.toArray(new HWDiskStore[0]));
+      Udev.INSTANCE.udev_enumerate_unref(udevEnumerate);
+      Udev.INSTANCE.udev_unref(udevHandle);
+      return (oshi.hardware.HWDiskStore[])(arrayList.toArray(new HWDiskStore[0]));
    }
 
-   public static boolean updateDiskStats(HWDiskStore var0) {
-      return 0 < getDisks(var0).length;
+   public static boolean updateDiskStats(HWDiskStore diskStore) {
+      return 0 < getDisks(diskStore).length;
    }
 
    private static Map<String, String> readMountsMap() {
-      HashMap var3 = new HashMap();
+      HashMap hashMap = new HashMap();
 
-      for (String var6 : FileUtil.readFile(ProcPath.MOUNTS)) {
-         String[] var7 = ParseUtil.Q.split(var6);
-         if (var7.length >= 2 && var7[0].startsWith("/dev/")) {
-            var3.put(var7[0], var7[1]);
+      for (String string : FileUtil.readFile(ProcPath.MOUNTS)) {
+         String[] strings = ParseUtil.Q.split(string);
+         if (strings.length >= 2 && strings[0].startsWith("/dev/")) {
+            hashMap.put(strings[0], strings[1]);
          }
       }
 
-      return var3;
+      return hashMap;
    }
 
-   private static void computeDiskStats(HWDiskStore var0, Udev.UdevDevice var1) {
-      String var4 = Udev.INSTANCE.udev_device_get_sysattr_value(var1, "stat");
-      long[] var5 = ParseUtil.parseStringToLongArray(var4, UDEV_STAT_ORDERS, UDEV_STAT_LENGTH, ' ');
-      var0.setTimeStamp(System.currentTimeMillis());
-      var0.setReads(var5[LinuxDisks.UdevStat.READS.ordinal()]);
-      var0.setReadBytes(var5[LinuxDisks.UdevStat.READ_BYTES.ordinal()] * 512L);
-      var0.setWrites(var5[LinuxDisks.UdevStat.WRITES.ordinal()]);
-      var0.setWriteBytes(var5[LinuxDisks.UdevStat.WRITE_BYTES.ordinal()] * 512L);
-      var0.setCurrentQueueLength(var5[LinuxDisks.UdevStat.QUEUE_LENGTH.ordinal()]);
-      var0.setTransferTime(var5[LinuxDisks.UdevStat.ACTIVE_MS.ordinal()]);
+   private static void computeDiskStats(HWDiskStore store, Udev.UdevDevice disk) {
+      String string = Udev.INSTANCE.udev_device_get_sysattr_value(disk, "stat");
+      long[] longs = ParseUtil.parseStringToLongArray(string, UDEV_STAT_ORDERS, UDEV_STAT_LENGTH, ' ');
+      store.setTimeStamp(System.currentTimeMillis());
+      store.setReads(longs[LinuxDisks.UdevStat.READS.ordinal()]);
+      store.setReadBytes(longs[LinuxDisks.UdevStat.READ_BYTES.ordinal()] * 512L);
+      store.setWrites(longs[LinuxDisks.UdevStat.WRITES.ordinal()]);
+      store.setWriteBytes(longs[LinuxDisks.UdevStat.WRITE_BYTES.ordinal()] * 512L);
+      store.setCurrentQueueLength(longs[LinuxDisks.UdevStat.QUEUE_LENGTH.ordinal()]);
+      store.setTransferTime(longs[LinuxDisks.UdevStat.ACTIVE_MS.ordinal()]);
    }
 
    static {
-      long var20 = a ^ 11268348412566L;
-      long var10000 = var20 ^ 3924662742454959701L;
+      long l = a ^ 11268348412566L;
+      long m = l ^ 3924662742454959701L;
 
-      for (LinuxDisks.UdevStat var25 : LinuxDisks.UdevStat.values()) {
-         UDEV_STAT_ORDERS[var25.ordinal()] = var25.getOrder();
+      for (LinuxDisks.UdevStat udevStat : LinuxDisks.UdevStat.values()) {
+         UDEV_STAT_ORDERS[udevStat.ordinal()] = udevStat.getOrder();
       }
 
-      String var26 = FileUtil.getStringFromFile(ProcPath.DISKSTATS);
-      int var27 = 11;
-      if (!var26.isEmpty()) {
-         var27 = ParseUtil.countStringToLongArray(var26, ' ');
+      String string = FileUtil.getStringFromFile(ProcPath.DISKSTATS);
+      int i = 11;
+      if (!string.isEmpty()) {
+         i = ParseUtil.countStringToLongArray(string, ' ');
       }
 
-      UDEV_STAT_LENGTH = var27;
+      UDEV_STAT_LENGTH = i;
    }
 
    public enum UdevStat {
@@ -155,8 +155,8 @@ public final class LinuxDisks {
          return this.order;
       }
 
-      UdevStat(int var3) {
-         this.order = var3;
+      UdevStat(int order) {
+         this.order = order;
       }
    }
 }

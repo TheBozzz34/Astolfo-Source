@@ -12,27 +12,27 @@ public final class FilteredContainer<E> extends ListContainer<E> implements Cont
    private List<E> i;
    private static final long b = 103208129523326L;
 
-   public FilteredContainer(ListContainer<E> var1, Predicate<? super E> var2, boolean var3) {
-      super(var1.getValue());
-      this.m = var1;
-      this.s = var2;
-      if (var3) {
+   public FilteredContainer(ListContainer<E> listContainer, Predicate<? super E> predicate, boolean bl) {
+      super(listContainer.getValue());
+      this.m = listContainer;
+      this.s = predicate;
+      if (bl) {
          this.C = new ArrayList<>();
          this.i = new ArrayList<>();
       }
    }
 
    @Override
-   public boolean addAll(E... var1) {
-      boolean var5 = false;
+   public boolean addAll(E... objects) {
+      boolean bl = false;
 
-      for (int var6 = 0; var6 < var1.length; var6++) {
-         var5 = this.A((E)var1[var6]);
-         if (var5) {
-            super.add((E)var1[var6]);
+      for (int i = 0; i < objects.length; i++) {
+         bl = this.A((E)objects[i]);
+         if (bl) {
+            super.add((E)objects[i]);
          }
 
-         if (var6 == var1.length) {
+         if (i == objects.length) {
             return true;
          }
       }
@@ -41,41 +41,43 @@ public final class FilteredContainer<E> extends ListContainer<E> implements Cont
    }
 
    @Override
-   public boolean add(E var1) {
-      return this.A((E)var1) ? super.add((E)var1) : false;
+   public boolean add(E object) {
+      return this.A((E)object) ? super.add((E)object) : false;
    }
 
    @Override
-   public void b(int var1, E var2) {
-      if (this.A((E)var2)) {
-         super.b(var1, (E)var2);
+   public void b(int i, E object) {
+      if (this.A((E)object)) {
+         super.b(i, (E)object);
       }
    }
 
    @Override
-   public boolean k(Collection<? extends E> var1) {
-      for (Object var6 : var1) {
-         if (!this.A((E)var6)) {
+   public boolean k(Collection<? extends E> collection) {
+      for (Object object : collection) {
+         if (!this.A((E)object)) {
             return false;
          }
       }
 
-      return super.k(var1);
+      return super.k(collection);
    }
 
    @Override
-   public boolean Z(int var1, Collection<? extends E> var2) {
-      for (Object var7 : var2) {
-         if (!this.A((E)var7)) {
+   public boolean Z(int i, Collection<? extends E> collection) {
+      for (Object object : collection) {
+         if (!this.A((E)object)) {
             return false;
          }
       }
 
-      return super.Z(var1, var2);
+      return super.Z(i, collection);
    }
 
-   private boolean A(E var1) {
-      return this.s != null ? (this.s.test((E)var1) ? (this.C != null ? this.C.add((E)var1) : true) : (this.i != null ? !this.i.add((E)var1) : false)) : true;
+   private boolean A(E object) {
+      return this.s != null
+         ? (this.s.test((E)object) ? (this.C != null ? this.C.add((E)object) : true) : (this.i != null ? !this.i.add((E)object) : false))
+         : true;
    }
 
    public List<E> w() {

@@ -12,8 +12,8 @@ public final class PagingFile {
    }
 
    public static Map<PagingFile.PagingPercentProperty, Long> querySwapUsed() {
-      PerfCounterQuery var2 = new PerfCounterQuery<>(PagingFile.PagingPercentProperty.class, "Paging File", "Win32_PerfRawData_PerfOS_PagingFile");
-      return var2.queryValues();
+      PerfCounterQuery perfCounterQuery = new PerfCounterQuery<>(PagingFile.PagingPercentProperty.class, "Paging File", "Win32_PerfRawData_PerfOS_PagingFile");
+      return perfCounterQuery.queryValues();
    }
 
    public enum PagingPercentProperty implements PerfCounterQuery.PdhCounterProperty {
@@ -22,9 +22,9 @@ public final class PagingFile {
       private final String instance;
       private final String counter;
 
-      PagingPercentProperty(String var3, String var4) {
-         this.instance = var3;
-         this.counter = var4;
+      PagingPercentProperty(String instance, String counter) {
+         this.instance = instance;
+         this.counter = counter;
       }
 
       @Override

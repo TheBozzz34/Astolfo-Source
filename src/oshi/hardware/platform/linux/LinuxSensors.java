@@ -31,12 +31,12 @@ public final class LinuxSensors extends AbstractSensors {
    }
 
    private void populateSensorsMapFromHwmon() {
-      for (String var7 : SENSORS) {
-         String var8 = var7;
-         this.getSensorFilesFromPath("/sys/class/hwmon/hwmon", var7, var1 -> {
+      for (String string : SENSORS) {
+         String string2 = string;
+         this.getSensorFilesFromPath("/sys/class/hwmon/hwmon", string, f -> {
             try {
-               return var1.getName().startsWith(var8) && var1.getName().endsWith("_input") && FileUtil.getIntFromFile(var1.getCanonicalPath()) > 0;
-            } catch (IOException var6) {
+               return f.getName().startsWith(string2) && f.getName().endsWith("_input") && FileUtil.getIntFromFile(f.getCanonicalPath()) > 0;
+            } catch (IOException ioException) {
                return false;
             }
          });
@@ -44,16 +44,16 @@ public final class LinuxSensors extends AbstractSensors {
    }
 
    private void populateSensorsMapFromThermalZone() {
-      this.getSensorFilesFromPath("/sys/class/thermal/thermal_zone", "temp", var0 -> var0.getName().equals("temp"));
+      this.getSensorFilesFromPath("/sys/class/thermal/thermal_zone", "temp", f -> f.getName().equals("temp"));
    }
 
-   private void getSensorFilesFromPath(String var1, String var2, FileFilter var3) {
-      for (int var7 = 0; Paths.get(var1 + var7).toFile().isDirectory(); var7++) {
-         String var8 = var1 + var7;
-         File var9 = new File(var8);
-         File[] var10 = var9.listFiles(var3);
-         if (var10 != null && var10.length > 0) {
-            this.sensorsMap.put(var2, String.format("%s/%s", var8, var2));
+   private void getSensorFilesFromPath(String sensorPath, String sensor, FileFilter sensorFileFilter) {
+      for (int i = 0; Paths.get(sensorPath + i).toFile().isDirectory(); i++) {
+         String string = sensorPath + i;
+         File file = new File(string);
+         File[] files = file.listFiles(sensorFileFilter);
+         if (files != null && files.length > 0) {
+            this.sensorsMap.put(sensor, String.format("%s/%s", string, sensor));
          }
       }
    }
@@ -64,33 +64,33 @@ public final class LinuxSensors extends AbstractSensors {
          return queryCpuTemperatureFromVcGenCmd();
       }
 
-      String var4 = this.sensorsMap.get("temp");
-      if (var4 != null) {
-         long var5 = 0L;
-         if (var4.contains("hwmon")) {
-            var5 = FileUtil.getLongFromFile(String.format("%s1_input", var4));
-            if (var5 > 0L) {
-               return var5 / 1000.0;
+      String string = this.sensorsMap.get("temp");
+      if (string != null) {
+         long l = 0L;
+         if (string.contains("hwmon")) {
+            l = FileUtil.getLongFromFile(String.format("%s1_input", string));
+            if (l > 0L) {
+               return l / 1000.0;
             }
 
-            long var7 = 0L;
-            int var9 = 0;
+            long m = 0L;
+            int i = 0;
 
-            for (int var10 = 2; var10 <= (int)k; var10++) {
-               var5 = FileUtil.getLongFromFile(String.format("%s%d_input", var4, var10));
-               if (var5 > 0L) {
-                  var7 += var5;
-                  var9++;
+            for (int j = 2; j <= (int)k; j++) {
+               l = FileUtil.getLongFromFile(String.format("%s%d_input", string, j));
+               if (l > 0L) {
+                  m += l;
+                  i++;
                }
             }
 
-            if (var9 > 0) {
-               return var7 / (var9 * 1000.0);
+            if (i > 0) {
+               return m / (i * 1000.0);
             }
-         } else if (var4.contains("thermal_zone")) {
-            var5 = FileUtil.getLongFromFile(var4);
-            if (var5 > 0L) {
-               return var5 / 1000.0;
+         } else if (string.contains("thermal_zone")) {
+            l = FileUtil.getLongFromFile(string);
+            if (l > 0L) {
+               return l / 1000.0;
             }
          }
       }
@@ -99,32 +99,32 @@ public final class LinuxSensors extends AbstractSensors {
    }
 
    private static double queryCpuTemperatureFromVcGenCmd() {
-      String var2 = ExecutingCommand.getFirstAnswer("vcgencmd measure_temp");
-      return var2.startsWith("temp=") && var2.endsWith("'C") ? ParseUtil.parseDoubleOrDefault(var2.replaceAll("\\^[0-9]+(\\.[0-9]{1,4})?$", ""), 0.0) : 0.0;
+      String string = ExecutingCommand.getFirstAnswer("vcgencmd measure_temp");
+      return string.startsWith("temp=") && string.endsWith("'C") ? ParseUtil.parseDoubleOrDefault(string.replaceAll("\\^[0-9]+(\\.[0-9]{1,4})?$", ""), 0.0) : 0.0;
    }
 
    @Override
    public int[] queryFanSpeeds() {
       if (!IS_PI) {
-         String var4 = this.sensorsMap.get("fan");
-         if (var4 != null) {
-            ArrayList var5 = new ArrayList();
-            int var6 = 1;
+         String string = this.sensorsMap.get("fan");
+         if (string != null) {
+            ArrayList arrayList = new ArrayList();
+            int i = 1;
 
             while (true) {
-               String var7 = String.format("%s%d_input", var4, var6);
-               if (!new File(var7).exists()) {
-                  int[] var9 = new int[var5.size()];
+               String string2 = String.format("%s%d_input", string, i);
+               if (!new File(string2).exists()) {
+                  int[] ints = new int[arrayList.size()];
 
-                  for (int var8 = 0; var8 < var5.size(); var8++) {
-                     var9[var8] = (Integer)var5.get(var8);
+                  for (int j = 0; j < arrayList.size(); j++) {
+                     ints[j] = (Integer)arrayList.get(j);
                   }
 
-                  return var9;
+                  return ints;
                }
 
-               var5.add(FileUtil.getIntFromFile(var7));
-               var6++;
+               arrayList.add(FileUtil.getIntFromFile(string2));
+               i++;
             }
          }
       }
@@ -138,12 +138,12 @@ public final class LinuxSensors extends AbstractSensors {
          return queryCpuVoltageFromVcGenCmd();
       }
 
-      String var4 = this.sensorsMap.get("in");
-      return var4 != null ? FileUtil.getIntFromFile(String.format("%s1_input", var4)) / 1000.0 : 0.0;
+      String string = this.sensorsMap.get("in");
+      return string != null ? FileUtil.getIntFromFile(String.format("%s1_input", string)) / 1000.0 : 0.0;
    }
 
    private static double queryCpuVoltageFromVcGenCmd() {
-      String var3 = ExecutingCommand.getFirstAnswer("vcgencmd measure_volts core");
-      return var3.startsWith("volt=") && var3.endsWith("V") ? ParseUtil.parseDoubleOrDefault(var3.replaceAll("\\^[0-9]+(\\.[0-9]{1,4})?$", ""), 0.0) : 0.0;
+      String string = ExecutingCommand.getFirstAnswer("vcgencmd measure_volts core");
+      return string.startsWith("volt=") && string.endsWith("V") ? ParseUtil.parseDoubleOrDefault(string.replaceAll("\\^[0-9]+(\\.[0-9]{1,4})?$", ""), 0.0) : 0.0;
    }
 }

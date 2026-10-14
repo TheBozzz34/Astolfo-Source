@@ -13,13 +13,13 @@ public final class Win32DiskDrive {
    }
 
    public static WmiResult<Win32DiskDrive.DiskDriveProperty> queryDiskDrive() {
-      WmiQuery var2 = new WmiQuery<>("Win32_DiskDrive", Win32DiskDrive.DiskDriveProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_DiskDrive", Win32DiskDrive.DiskDriveProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
-   public static WmiResult<Win32DiskDrive.DeviceIdProperty> queryDiskDriveId(String var0) {
-      WmiQuery var3 = new WmiQuery<>("Win32_DiskDrive" + var0, Win32DiskDrive.DeviceIdProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var3);
+   public static WmiResult<Win32DiskDrive.DeviceIdProperty> queryDiskDriveId(String whereClause) {
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_DiskDrive" + whereClause, Win32DiskDrive.DeviceIdProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum DeviceIdProperty {

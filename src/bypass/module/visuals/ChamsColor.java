@@ -20,12 +20,12 @@ public enum ChamsColor {
    private static final ChamsColor[] S = new ChamsColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
    private static final long a = 17969618905453L;
 
-   ChamsColor(Color var3) {
-      this.x = var3;
+   ChamsColor(Color color) {
+      this.x = color;
    }
 
-   public void o(Color var1) {
-      this.x = var1;
+   public void o(Color color) {
+      this.x = color;
    }
 
    public Color d() {
@@ -36,10 +36,10 @@ public enum ChamsColor {
       }
    }
 
-   private Color X(long var1, float var3) {
-      float var6 = 1.0F - MathHelper.abs(MathHelper.sin((float)var1 % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.5F);
-      long var7 = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(var6, 0.5F, 1.0F)), 16);
-      Color var9 = new Color((int)var7);
-      return new Color(var9.getRed() / 255.0F * var3, var9.getGreen() / 255.0F * var3, var9.getBlue() / 255.0F * var3, var9.getAlpha() / 255.0F);
+   private Color X(long l, float f) {
+      float g = 1.0F - MathHelper.abs(MathHelper.sin((float)l % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.5F);
+      long m = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(g, 0.5F, 1.0F)), 16);
+      Color color = new Color((int)m);
+      return new Color(color.getRed() / 255.0F * f, color.getGreen() / 255.0F * f, color.getBlue() / 255.0F * f, color.getAlpha() / 255.0F);
    }
 }

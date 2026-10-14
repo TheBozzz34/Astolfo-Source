@@ -22,12 +22,12 @@ public abstract class TileEntitySpecialRenderer<T extends TileEntity> {
    public TileEntityRendererDispatcher rendererDispatcher;
    private static final long e = 56969698812968L;
 
-   public abstract void renderTileEntityAt(T var1, double var2, double var4, double var6, float var8, int var9);
+   public abstract void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage);
 
-   public void bindTexture(ResourceLocation var1) {
-      TextureManager var5 = this.rendererDispatcher.renderEngine;
-      if (var5 != null) {
-         var5.bindTexture(var1);
+   public void bindTexture(ResourceLocation location) {
+      TextureManager textureManager = this.rendererDispatcher.renderEngine;
+      if (textureManager != null) {
+         textureManager.bindTexture(location);
       }
    }
 
@@ -35,8 +35,8 @@ public abstract class TileEntitySpecialRenderer<T extends TileEntity> {
       return this.rendererDispatcher.worldObj;
    }
 
-   public void setRendererDispatcher(TileEntityRendererDispatcher var1) {
-      this.rendererDispatcher = var1;
+   public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcherIn) {
+      this.rendererDispatcher = rendererDispatcherIn;
    }
 
    public FontRenderer getFontRenderer() {

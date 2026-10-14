@@ -7,19 +7,19 @@ public class GlVersion {
    private String suffix;
    private static final long a = 111096911572980L;
 
-   public GlVersion(int var1, int var2) {
-      this(var1, var2, 0);
+   public GlVersion(int major, int minor) {
+      this(major, minor, 0);
    }
 
-   public GlVersion(int var1, int var2, int var3) {
-      this(var1, var2, var3, (String)null);
+   public GlVersion(int major, int minor, int release) {
+      this(major, minor, release, (String)null);
    }
 
-   public GlVersion(int var1, int var2, int var3, String var4) {
-      this.major = var1;
-      this.minor = var2;
-      this.release = var3;
-      this.suffix = var4;
+   public GlVersion(int major, int minor, int release, String suffix) {
+      this.major = major;
+      this.minor = minor;
+      this.release = release;
+      this.suffix = suffix;
    }
 
    public int getMajor() {

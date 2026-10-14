@@ -24,86 +24,86 @@ public class ItemEditableBook extends Item {
       this.setMaxStackSize(1);
    }
 
-   public static boolean validBookTagContents(NBTTagCompound var0) {
-      if (!ItemWritableBook.isNBTValid(var0)) {
+   public static boolean validBookTagContents(NBTTagCompound nbt) {
+      if (!ItemWritableBook.isNBTValid(nbt)) {
          return false;
       }
 
-      if (!var0.hasKey("title", 8)) {
+      if (!nbt.hasKey("title", 8)) {
          return false;
       }
 
-      String var4 = var0.getString("title");
-      return var4 != null && var4.length() <= 32 ? var0.hasKey("author", 8) : false;
+      String string = nbt.getString("title");
+      return string != null && string.length() <= 32 ? nbt.hasKey("author", 8) : false;
    }
 
-   public static int getGeneration(ItemStack var0) {
-      return var0.getTagCompound().getInteger("generation");
+   public static int getGeneration(ItemStack book) {
+      return book.getTagCompound().getInteger("generation");
    }
 
    @Override
-   public String getItemStackDisplayName(ItemStack var1) {
-      if (var1.hasTagCompound()) {
-         NBTTagCompound var5 = var1.getTagCompound();
-         String var6 = var5.getString("title");
-         if (!StringUtils.isNullOrEmpty(var6)) {
-            return var6;
+   public String getItemStackDisplayName(ItemStack stack) {
+      if (stack.hasTagCompound()) {
+         NBTTagCompound nbtTagCompound = stack.getTagCompound();
+         String string = nbtTagCompound.getString("title");
+         if (!StringUtils.isNullOrEmpty(string)) {
+            return string;
          }
       }
 
-      return super.getItemStackDisplayName(var1);
+      return super.getItemStackDisplayName(stack);
    }
 
    @Override
-   public void addInformation(ItemStack var1, EntityPlayer var2, List<String> var3, boolean var4) {
-      if (var1.hasTagCompound()) {
-         NBTTagCompound var8 = var1.getTagCompound();
-         String var9 = var8.getString("author");
-         if (!StringUtils.isNullOrEmpty(var9)) {
-            var3.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", var9));
+   public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+      if (stack.hasTagCompound()) {
+         NBTTagCompound nbtTagCompound = stack.getTagCompound();
+         String string = nbtTagCompound.getString("author");
+         if (!StringUtils.isNullOrEmpty(string)) {
+            tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", string));
          }
 
-         var3.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal("book.generation." + var8.getInteger("generation")));
+         tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal("book.generation." + nbtTagCompound.getInteger("generation")));
       }
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (!var2.isRemote) {
-         this.resolveContents(var1, var3);
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (!worldIn.isRemote) {
+         this.resolveContents(itemStackIn, playerIn);
       }
 
-      var3.displayGUIBook(var1);
-      var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-      return var1;
+      playerIn.displayGUIBook(itemStackIn);
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      return itemStackIn;
    }
 
-   private void resolveContents(ItemStack var1, EntityPlayer var2) {
-      if (var1 != null && var1.getTagCompound() != null) {
-         NBTTagCompound var6 = var1.getTagCompound();
-         if (!var6.getBoolean("resolved")) {
-            var6.setBoolean("resolved", true);
-            if (validBookTagContents(var6)) {
-               NBTTagList var7 = var6.getTagList("pages", 8);
+   private void resolveContents(ItemStack stack, EntityPlayer player) {
+      if (stack != null && stack.getTagCompound() != null) {
+         NBTTagCompound nbtTagCompound = stack.getTagCompound();
+         if (!nbtTagCompound.getBoolean("resolved")) {
+            nbtTagCompound.setBoolean("resolved", true);
+            if (validBookTagContents(nbtTagCompound)) {
+               NBTTagList nbtTagList = nbtTagCompound.getTagList("pages", 8);
 
-               for (int var8 = 0; var8 < var7.tagCount(); var8++) {
-                  String var9 = var7.getStringTagAt(var8);
+               for (int i = 0; i < nbtTagList.tagCount(); i++) {
+                  String string = nbtTagList.getStringTagAt(i);
 
-                  IChatComponent var10;
+                  IChatComponent iChatComponent;
                   try {
-                     var10 = IChatComponent.Serializer.jsonToComponent(var9);
-                     var10 = ChatComponentProcessor.processComponent(var2, var10, var2);
-                  } catch (Exception var12) {
-                     var10 = new ChatComponentText(var9);
+                     iChatComponent = IChatComponent.Serializer.jsonToComponent(string);
+                     iChatComponent = ChatComponentProcessor.processComponent(player, iChatComponent, player);
+                  } catch (Exception exception) {
+                     iChatComponent = new ChatComponentText(string);
                   }
 
-                  var7.set(var8, new NBTTagString(IChatComponent.Serializer.componentToJson(var10)));
+                  nbtTagList.set(i, new NBTTagString(IChatComponent.Serializer.componentToJson(iChatComponent)));
                }
 
-               var6.setTag("pages", var7);
-               if (var2 instanceof EntityPlayerMP && var2.getCurrentEquippedItem() == var1) {
-                  Slot var13 = var2.openContainer.getSlotFromInventory(var2.inventory, var2.inventory.currentItem);
-                  ((EntityPlayerMP)var2).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, var13.slotNumber, var1));
+               nbtTagCompound.setTag("pages", nbtTagList);
+               if (player instanceof EntityPlayerMP && player.getCurrentEquippedItem() == stack) {
+                  Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
+                  ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
                }
             }
          }
@@ -111,7 +111,7 @@ public class ItemEditableBook extends Item {
    }
 
    @Override
-   public boolean hasEffect(ItemStack var1) {
+   public boolean hasEffect(ItemStack stack) {
       return true;
    }
 }

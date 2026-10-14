@@ -30,16 +30,16 @@ public class EntityPigZombie extends EntityZombie {
    private UUID angerTargetUUID;
    private static final long ab = 113449227378542L;
 
-   public EntityPigZombie(World var1) {
-      super(var1);
+   public EntityPigZombie(World worldIn) {
+      super(worldIn);
       this.isImmuneToFire = true;
    }
 
    @Override
-   public void setRevengeTarget(EntityLivingBase var1) {
-      super.setRevengeTarget(var1);
-      if (var1 != null) {
-         this.angerTargetUUID = var1.getUniqueID();
+   public void setRevengeTarget(EntityLivingBase livingBase) {
+      super.setRevengeTarget(livingBase);
+      if (livingBase != null) {
+         this.angerTargetUUID = livingBase.getUniqueID();
       }
    }
 
@@ -64,15 +64,15 @@ public class EntityPigZombie extends EntityZombie {
 
    @Override
    public void updateAITasks() {
-      IAttributeInstance var4 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+      IAttributeInstance iAttributeInstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
       if (this.isAngry()) {
-         if (!this.isChild() && !var4.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
-            var4.applyModifier(ATTACK_SPEED_BOOST_MODIFIER);
+         if (!this.isChild() && !iAttributeInstance.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
+            iAttributeInstance.applyModifier(ATTACK_SPEED_BOOST_MODIFIER);
          }
 
          this.angerLevel--;
-      } else if (var4.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
-         var4.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
+      } else if (iAttributeInstance.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
+         iAttributeInstance.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
       }
 
       if (this.randomSoundDelay > 0 && --this.randomSoundDelay == 0) {
@@ -80,9 +80,9 @@ public class EntityPigZombie extends EntityZombie {
       }
 
       if (this.angerLevel > 0 && this.angerTargetUUID != null && this.getAITarget() == null) {
-         EntityPlayer var5 = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
-         this.setRevengeTarget(var5);
-         this.attackingPlayer = var5;
+         EntityPlayer entityPlayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
+         this.setRevengeTarget(entityPlayer);
+         this.attackingPlayer = entityPlayer;
          this.recentlyHit = this.getRevengeTimer();
       }
 
@@ -102,51 +102,51 @@ public class EntityPigZombie extends EntityZombie {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setShort("Anger", (short)this.angerLevel);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setShort("Anger", (short)this.angerLevel);
       if (this.angerTargetUUID != null) {
-         var1.setString("HurtBy", this.angerTargetUUID.toString());
+         tagCompound.setString("HurtBy", this.angerTargetUUID.toString());
       } else {
-         var1.setString("HurtBy", "");
+         tagCompound.setString("HurtBy", "");
       }
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.angerLevel = var1.getShort("Anger");
-      String var5 = var1.getString("HurtBy");
-      if (var5.length() > 0) {
-         this.angerTargetUUID = UUID.fromString(var5);
-         EntityPlayer var6 = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
-         this.setRevengeTarget(var6);
-         if (var6 != null) {
-            this.attackingPlayer = var6;
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.angerLevel = tagCompund.getShort("Anger");
+      String string = tagCompund.getString("HurtBy");
+      if (string.length() > 0) {
+         this.angerTargetUUID = UUID.fromString(string);
+         EntityPlayer entityPlayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
+         this.setRevengeTarget(entityPlayer);
+         if (entityPlayer != null) {
+            this.attackingPlayer = entityPlayer;
             this.recentlyHit = this.getRevengeTimer();
          }
       }
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      if (this.isEntityInvulnerable(var1)) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isEntityInvulnerable(source)) {
          return false;
       }
 
-      Entity var6 = var1.getEntity();
-      if (var6 instanceof EntityPlayer) {
-         this.becomeAngryAt(var6);
+      Entity entity = source.getEntity();
+      if (entity instanceof EntityPlayer) {
+         this.becomeAngryAt(entity);
       }
 
-      return super.attackEntityFrom(var1, var2);
+      return super.attackEntityFrom(source, amount);
    }
 
-   private void becomeAngryAt(Entity var1) {
+   private void becomeAngryAt(Entity entity) {
       this.angerLevel = 400 + this.rand.nextInt(400);
       this.randomSoundDelay = this.rand.nextInt(40);
-      if (var1 instanceof EntityLivingBase) {
-         this.setRevengeTarget((EntityLivingBase)var1);
+      if (entity instanceof EntityLivingBase) {
+         this.setRevengeTarget((EntityLivingBase)entity);
       }
    }
 
@@ -170,22 +170,22 @@ public class EntityPigZombie extends EntityZombie {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      int var6 = this.rand.nextInt(2 + var2);
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      int i = this.rand.nextInt(2 + lootingModifier);
 
-      for (int var7 = 0; var7 < var6; var7++) {
+      for (int j = 0; j < i; j++) {
          this.dropItem(Items.rotten_flesh, 1);
       }
 
-      var6 = this.rand.nextInt(2 + var2);
+      i = this.rand.nextInt(2 + lootingModifier);
 
-      for (int var9 = 0; var9 < var6; var9++) {
+      for (int k = 0; k < i; k++) {
          this.dropItem(Items.gold_nugget, 1);
       }
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
+   public boolean interact(EntityPlayer player) {
       return false;
    }
 
@@ -195,29 +195,29 @@ public class EntityPigZombie extends EntityZombie {
    }
 
    @Override
-   public void setEquipmentBasedOnDifficulty(DifficultyInstance var1) {
+   public void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
       this.setCurrentItemOrArmor(0, new ItemStack(Items.golden_sword));
    }
 
    @Override
-   public IEntityLivingData onInitialSpawn(DifficultyInstance var1, IEntityLivingData var2) {
-      super.onInitialSpawn(var1, var2);
+   public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+      super.onInitialSpawn(difficulty, livingdata);
       this.setVillager(false);
-      return var2;
+      return livingdata;
    }
 
    public static class AIHurtByAggressor extends EntityAIHurtByTarget {
       private static final long c = 87469934673729L;
 
-      public AIHurtByAggressor(EntityPigZombie var1) {
-         super(var1, true);
+      public AIHurtByAggressor(EntityPigZombie entityPigZombie) {
+         super(entityPigZombie, true);
       }
 
       @Override
-      public void setEntityAttackTarget(EntityCreature var1, EntityLivingBase var2) {
-         super.setEntityAttackTarget(var1, var2);
-         if (var1 instanceof EntityPigZombie) {
-            ((EntityPigZombie)var1).becomeAngryAt(var2);
+      public void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+         super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
+         if (creatureIn instanceof EntityPigZombie) {
+            ((EntityPigZombie)creatureIn).becomeAngryAt(entityLivingBaseIn);
          }
       }
    }
@@ -225,8 +225,8 @@ public class EntityPigZombie extends EntityZombie {
    public static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer> {
       private static final long c = 24135392844148L;
 
-      public AITargetAggressor(EntityPigZombie var1) {
-         super(var1, EntityPlayer.class, true);
+      public AITargetAggressor(EntityPigZombie entityPigZombie) {
+         super(entityPigZombie, EntityPlayer.class, true);
       }
 
       @Override

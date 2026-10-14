@@ -27,29 +27,29 @@ public abstract class WorldProvider {
    private final float[] colorsSunriseSunset = new float[4];
    private static final long a = 15963653166596L;
 
-   public final void registerWorld(World var1) {
-      this.worldObj = var1;
-      this.terrainType = var1.getWorldInfo().getTerrainType();
-      this.generatorSettings = var1.getWorldInfo().getGeneratorOptions();
+   public final void registerWorld(World worldIn) {
+      this.worldObj = worldIn;
+      this.terrainType = worldIn.getWorldInfo().getTerrainType();
+      this.generatorSettings = worldIn.getWorldInfo().getGeneratorOptions();
       this.registerWorldChunkManager();
       this.generateLightBrightnessTable();
    }
 
    public void generateLightBrightnessTable() {
-      float var4 = 0.0F;
+      float f = 0.0F;
 
-      for (int var5 = 0; var5 <= 15; var5++) {
-         float var6 = 1.0F - var5 / 15.0F;
-         this.lightBrightnessTable[var5] = (1.0F - var6) / (var6 * 3.0F + 1.0F) * (1.0F - var4) + var4;
+      for (int i = 0; i <= 15; i++) {
+         float g = 1.0F - i / 15.0F;
+         this.lightBrightnessTable[i] = (1.0F - g) / (g * 3.0F + 1.0F) * (1.0F - f) + f;
       }
    }
 
    public void registerWorldChunkManager() {
-      WorldType var4 = this.worldObj.getWorldInfo().getTerrainType();
-      if (var4 == WorldType.FLAT) {
-         FlatGeneratorInfo var5 = FlatGeneratorInfo.createFlatGeneratorFromString(this.worldObj.getWorldInfo().getGeneratorOptions());
-         this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.getBiomeFromBiomeList(var5.getBiome(), BiomeGenBase.field_180279_ad), 0.5F);
-      } else if (var4 == WorldType.DEBUG_WORLD) {
+      WorldType worldType = this.worldObj.getWorldInfo().getTerrainType();
+      if (worldType == WorldType.FLAT) {
+         FlatGeneratorInfo flatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(this.worldObj.getWorldInfo().getGeneratorOptions());
+         this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.getBiomeFromBiomeList(flatGeneratorInfo.getBiome(), BiomeGenBase.field_180279_ad), 0.5F);
+      } else if (worldType == WorldType.DEBUG_WORLD) {
          this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.plains, 0.0F);
       } else {
          this.worldChunkMgr = new WorldChunkManager(this.worldObj);
@@ -74,69 +74,69 @@ public abstract class WorldProvider {
          );
    }
 
-   public boolean canCoordinateBeSpawn(int var1, int var2) {
-      return this.worldObj.getGroundAboveSeaLevel(new BlockPos(var1, 0, var2)) == Blocks.grass;
+   public boolean canCoordinateBeSpawn(int x, int z) {
+      return this.worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)) == Blocks.grass;
    }
 
-   public float calculateCelestialAngle(long var1, float var3) {
-      int var7 = (int)(var1 % 24000L);
-      float var8 = (var7 + var3) / 24000.0F - 0.25F;
-      if (var8 < 0.0F) {
-         var8++;
+   public float calculateCelestialAngle(long worldTime, float partialTicks) {
+      int i = (int)(worldTime % 24000L);
+      float f = (i + partialTicks) / 24000.0F - 0.25F;
+      if (f < 0.0F) {
+         f++;
       }
 
-      if (var8 > 1.0F) {
-         var8--;
+      if (f > 1.0F) {
+         f--;
       }
 
-      var8 = 1.0F - (float)((Math.cos(var8 * Math.PI) + 1.0) / 2.0);
-      return var8 + (var8 - var8) / 3.0F;
+      f = 1.0F - (float)((Math.cos(f * Math.PI) + 1.0) / 2.0);
+      return f + (f - f) / 3.0F;
    }
 
-   public int getMoonPhase(long var1) {
-      return (int)(var1 / 24000L % 8L + 8L) % 8;
+   public int getMoonPhase(long worldTime) {
+      return (int)(worldTime / 24000L % 8L + 8L) % 8;
    }
 
    public boolean isSurfaceWorld() {
       return true;
    }
 
-   public float[] calcSunriseSunsetColors(float var1, float var2) {
-      float var6 = 0.4F;
-      float var7 = MathHelper.cos(var1 * (float) Math.PI * 2.0F) - 0.0F;
-      float var8 = -0.0F;
-      if (var7 >= var8 - var6 && var7 <= var8 + var6) {
-         float var9 = (var7 - var8) / var6 * 0.5F + 0.5F;
-         float var10 = 1.0F - (1.0F - MathHelper.sin(var9 * (float) Math.PI)) * 0.99F;
-         var10 *= var10;
-         this.colorsSunriseSunset[0] = var9 * 0.3F + 0.7F;
-         this.colorsSunriseSunset[1] = var9 * var9 * 0.7F + 0.2F;
-         this.colorsSunriseSunset[2] = var9 * var9 * 0.0F + 0.2F;
-         this.colorsSunriseSunset[3] = var10;
+   public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
+      float f = 0.4F;
+      float g = MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) - 0.0F;
+      float h = -0.0F;
+      if (g >= h - f && g <= h + f) {
+         float f2 = (g - h) / f * 0.5F + 0.5F;
+         float f3 = 1.0F - (1.0F - MathHelper.sin(f2 * (float) Math.PI)) * 0.99F;
+         f3 *= f3;
+         this.colorsSunriseSunset[0] = f2 * 0.3F + 0.7F;
+         this.colorsSunriseSunset[1] = f2 * f2 * 0.7F + 0.2F;
+         this.colorsSunriseSunset[2] = f2 * f2 * 0.0F + 0.2F;
+         this.colorsSunriseSunset[3] = f3;
          return this.colorsSunriseSunset;
       } else {
          return null;
       }
    }
 
-   public Vec3 getFogColor(float var1, float var2) {
-      float var3 = MathHelper.cos(var1 * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
-      var3 = MathHelper.clamp_float(var3, 0.0F, 1.0F);
-      float var4 = 0.7529412F;
-      float var5 = 0.84705883F;
-      float var6 = 1.0F;
-      var4 *= var3 * 0.94F + 0.06F;
-      var5 *= var3 * 0.94F + 0.06F;
-      var6 *= var3 * 0.91F + 0.09F;
-      return new Vec3(var4, var5, var6);
+   public Vec3 getFogColor(float f, float g) {
+      float h = MathHelper.cos(f * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
+      h = MathHelper.clamp_float(h, 0.0F, 1.0F);
+      float f2 = 0.7529412F;
+      float f3 = 0.84705883F;
+      float f4 = 1.0F;
+      f2 *= h * 0.94F + 0.06F;
+      f3 *= h * 0.94F + 0.06F;
+      f4 *= h * 0.91F + 0.09F;
+      return new Vec3(f2, f3, f4);
    }
 
    public boolean canRespawnHere() {
       return true;
    }
 
-   public static WorldProvider getProviderForDimension(int var0) {
-      return var0 == -1 ? new WorldProviderHell() : (var0 == 0 ? new WorldProviderSurface() : (var0 == 1 ? new WorldProviderEnd() : null));
+   public static WorldProvider getProviderForDimension(int dimension) {
+      return dimension == -1 ? new WorldProviderHell() : (dimension == 0 ? new WorldProviderSurface() : (dimension == 1 ? new WorldProviderEnd() : null));
    }
 
    public float getCloudHeight() {
@@ -159,7 +159,7 @@ public abstract class WorldProvider {
       return this.terrainType == WorldType.FLAT ? 1.0 : 0.03125;
    }
 
-   public boolean doesXZShowFog(int var1, int var2) {
+   public boolean doesXZShowFog(int x, int z) {
       return false;
    }
 

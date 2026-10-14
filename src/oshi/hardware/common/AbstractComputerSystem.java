@@ -29,10 +29,10 @@ public abstract class AbstractComputerSystem implements ComputerSystem {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("manufacturer=").append(this.V()).append(", ");
-      var3.append("model=").append(this.z()).append(", ");
-      var3.append("serial number=").append(this.k());
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("manufacturer=").append(this.V()).append(", ");
+      stringBuilder.append("model=").append(this.z()).append(", ");
+      stringBuilder.append("serial number=").append(this.k());
+      return stringBuilder.toString();
    }
 }

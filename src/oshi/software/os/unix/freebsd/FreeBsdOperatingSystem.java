@@ -37,16 +37,16 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public AbstractOperatingSystem.FamilyVersionInfo queryFamilyVersionInfo() {
-      String var3 = BsdSysctlUtil.sysctl("kern.ostype", "FreeBSD");
-      String var4 = BsdSysctlUtil.sysctl("kern.osrelease", "");
-      String var5 = BsdSysctlUtil.sysctl("kern.version", "");
-      String var6 = var5.split(":")[0].replace(var3, "").replace(var4, "").trim();
-      return new AbstractOperatingSystem.FamilyVersionInfo(var3, new OperatingSystem.OSVersionInfo(var4, null, var6));
+      String string = BsdSysctlUtil.sysctl("kern.ostype", "FreeBSD");
+      String string2 = BsdSysctlUtil.sysctl("kern.osrelease", "");
+      String string3 = BsdSysctlUtil.sysctl("kern.version", "");
+      String string4 = string3.split(":")[0].replace(string, "").replace(string2, "").trim();
+      return new AbstractOperatingSystem.FamilyVersionInfo(string, new OperatingSystem.OSVersionInfo(string2, null, string4));
    }
 
    @Override
-   public int queryBitness(int var1) {
-      return var1 < 64 && ExecutingCommand.getFirstAnswer("uname -m").indexOf("64") == -1 ? var1 : 64;
+   public int queryBitness(int jvmBitness) {
+      return jvmBitness < 64 && ExecutingCommand.getFirstAnswer("uname -m").indexOf("64") == -1 ? jvmBitness : 64;
    }
 
    @Override
@@ -60,50 +60,50 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
    }
 
    @Override
-   public OSProcess[] getProcesses(int var1, OperatingSystem.ProcessSort var2, boolean var3) {
-      List var6 = this.getProcessListFromPS("ps -awwxo state,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etimes,systime,time,comm,args", -1, var3);
-      List var7 = this.processSort(var6, var1, var2);
-      return (oshi.software.os.OSProcess[])(var7.toArray(new OSProcess[0]));
+   public OSProcess[] getProcesses(int limit, OperatingSystem.ProcessSort sortIn, boolean slowFields) {
+      List list = this.getProcessListFromPS("ps -awwxo state,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etimes,systime,time,comm,args", -1, slowFields);
+      List list2 = this.processSort(list, limit, sortIn);
+      return (oshi.software.os.OSProcess[])(list2.toArray(new OSProcess[0]));
    }
 
    @Override
-   public OSProcess getProcess(int var1, boolean var2) {
-      List var6 = this.getProcessListFromPS("ps -awwxo state,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etimes,systime,time,comm,args -p ", var1, var2);
-      return var6.isEmpty() ? null : (OSProcess)var6.get(0);
+   public OSProcess getProcess(int pid, boolean slowFields) {
+      List list = this.getProcessListFromPS("ps -awwxo state,pid,ppid,user,uid,group,gid,nlwp,pri,vsz,rss,etimes,systime,time,comm,args -p ", pid, slowFields);
+      return list.isEmpty() ? null : (OSProcess)list.get(0);
    }
 
    @Override
-   public OSProcess[] getChildProcesses(int var1, int var2, OperatingSystem.ProcessSort var3) {
-      ArrayList var7 = new ArrayList();
+   public OSProcess[] getChildProcesses(int parentPid, int limit, OperatingSystem.ProcessSort sortIn) {
+      ArrayList arrayList = new ArrayList();
 
-      for (OSProcess var11 : this.getProcesses(0, null)) {
-         if (var11.getParentProcessID() == var1) {
-            var7.add(var11);
+      for (OSProcess osProcess : this.getProcesses(0, null)) {
+         if (osProcess.getParentProcessID() == parentPid) {
+            arrayList.add(osProcess);
          }
       }
 
-      List var12 = this.processSort(var7, var2, var3);
-      return (oshi.software.os.OSProcess[])(var12.toArray(new OSProcess[0]));
+      List list = this.processSort(arrayList, limit, sortIn);
+      return (oshi.software.os.OSProcess[])(list.toArray(new OSProcess[0]));
    }
 
-   private List<OSProcess> getProcessListFromPS(String var1, int var2, boolean var3) {
-      Map var7 = LsofUtil.getCwdMap(var2);
-      ArrayList var8 = new ArrayList();
-      List var9 = ExecutingCommand.runNative(var1 + (var2 < 0 ? "" : var2));
-      if (!var9.isEmpty() && var9.size() >= 2) {
-         var9.remove(0);
+   private List<OSProcess> getProcessListFromPS(String psCommand, int pid, boolean slowFields) {
+      Map map = LsofUtil.getCwdMap(pid);
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative(psCommand + (pid < 0 ? "" : pid));
+      if (!list.isEmpty() && list.size() >= 2) {
+         list.remove(0);
 
-         for (Object var11$raw : var9) {
-            String var11 = (String)var11$raw;
-            String[] var12 = ParseUtil.Q.split(var11.trim(), 16);
-            if (var12.length >= 16) {
-               long var13 = System.currentTimeMillis();
-               OSProcess var15 = new OSProcess(this);
-               switch (var12[0].charAt(0)) {
+         for (Object object : list) {
+            String string = (String)object;
+            String[] strings = ParseUtil.Q.split(string.trim(), 16);
+            if (strings.length >= 16) {
+               long l = System.currentTimeMillis();
+               OSProcess osProcess = new OSProcess(this);
+               switch (strings[0].charAt(0)) {
                   case 'D':
                   case 'L':
                   case 'U':
-                     var15.setState(OSProcess.State.WAITING);
+                     osProcess.setState(OSProcess.State.WAITING);
                      break;
                   case 'E':
                   case 'F':
@@ -121,84 +121,84 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
                   case 'X':
                   case 'Y':
                   default:
-                     var15.setState(OSProcess.State.OTHER);
+                     osProcess.setState(OSProcess.State.OTHER);
                      break;
                   case 'I':
                   case 'S':
-                     var15.setState(OSProcess.State.SLEEPING);
+                     osProcess.setState(OSProcess.State.SLEEPING);
                      break;
                   case 'R':
-                     var15.setState(OSProcess.State.RUNNING);
+                     osProcess.setState(OSProcess.State.RUNNING);
                      break;
                   case 'T':
-                     var15.setState(OSProcess.State.STOPPED);
+                     osProcess.setState(OSProcess.State.STOPPED);
                      break;
                   case 'Z':
-                     var15.setState(OSProcess.State.ZOMBIE);
+                     osProcess.setState(OSProcess.State.ZOMBIE);
                }
 
-               var15.setProcessID(ParseUtil.parseIntOrDefault(var12[1], 0));
-               var15.setParentProcessID(ParseUtil.parseIntOrDefault(var12[2], 0));
-               var15.setUser(var12[3]);
-               var15.setUserID(var12[4]);
-               var15.setGroup(var12[5]);
-               var15.setGroupID(var12[6]);
-               var15.setThreadCount(ParseUtil.parseIntOrDefault(var12[7], 0));
-               var15.setPriority(ParseUtil.parseIntOrDefault(var12[8], 0));
-               var15.setVirtualSize(ParseUtil.parseLongOrDefault(var12[9], 0L) * 1024L);
-               var15.setResidentSetSize(ParseUtil.parseLongOrDefault(var12[10], 0L) * 1024L);
-               long var16 = ParseUtil.parseDHMSOrDefault(var12[11], 0L);
-               var15.setUpTime(var16 < 1L ? 1L : var16);
-               var15.setStartTime(var13 - var15.getUpTime());
-               var15.setKernelTime(ParseUtil.parseDHMSOrDefault(var12[12], 0L));
-               var15.setUserTime(ParseUtil.parseDHMSOrDefault(var12[13], 0L) - var15.getKernelTime());
-               var15.setPath(var12[14]);
-               var15.setName(var15.getPath().substring(var15.getPath().lastIndexOf(47) + 1));
-               var15.setCommandLine(var12[15]);
-               var15.setCurrentWorkingDirectory((java.lang.String)(var7.getOrDefault(var15.getProcessID(), "")));
-               if (var3) {
-                  List var18 = ExecutingCommand.runNative(String.format("lsof -p %d", var2));
-                  var15.setOpenFiles(var18.size() - 1L);
-                  int[] var19 = new int[]{1, 14, 9, var2};
-                  Memory var20 = new Memory(32L);
-                  IntByReference var21 = new IntByReference(32);
-                  if (0 == FreeBsdLibc.INSTANCE.sysctl(var19, var19.length, var20, var21, null, 0)) {
-                     String var22 = var20.getString(0L);
-                     if (var22.contains("ELF32")) {
-                        var15.setBitness(32);
-                     } else if (var22.contains("ELF64")) {
-                        var15.setBitness(64);
+               osProcess.setProcessID(ParseUtil.parseIntOrDefault(strings[1], 0));
+               osProcess.setParentProcessID(ParseUtil.parseIntOrDefault(strings[2], 0));
+               osProcess.setUser(strings[3]);
+               osProcess.setUserID(strings[4]);
+               osProcess.setGroup(strings[5]);
+               osProcess.setGroupID(strings[6]);
+               osProcess.setThreadCount(ParseUtil.parseIntOrDefault(strings[7], 0));
+               osProcess.setPriority(ParseUtil.parseIntOrDefault(strings[8], 0));
+               osProcess.setVirtualSize(ParseUtil.parseLongOrDefault(strings[9], 0L) * 1024L);
+               osProcess.setResidentSetSize(ParseUtil.parseLongOrDefault(strings[10], 0L) * 1024L);
+               long m = ParseUtil.parseDHMSOrDefault(strings[11], 0L);
+               osProcess.setUpTime(m < 1L ? 1L : m);
+               osProcess.setStartTime(l - osProcess.getUpTime());
+               osProcess.setKernelTime(ParseUtil.parseDHMSOrDefault(strings[12], 0L));
+               osProcess.setUserTime(ParseUtil.parseDHMSOrDefault(strings[13], 0L) - osProcess.getKernelTime());
+               osProcess.setPath(strings[14]);
+               osProcess.setName(osProcess.getPath().substring(osProcess.getPath().lastIndexOf(47) + 1));
+               osProcess.setCommandLine(strings[15]);
+               osProcess.setCurrentWorkingDirectory((java.lang.String)(map.getOrDefault(osProcess.getProcessID(), "")));
+               if (slowFields) {
+                  List list2 = ExecutingCommand.runNative(String.format("lsof -p %d", pid));
+                  osProcess.setOpenFiles(list2.size() - 1L);
+                  int[] ints = new int[]{1, 14, 9, pid};
+                  Memory memory = new Memory(32L);
+                  IntByReference intByReference = new IntByReference(32);
+                  if (0 == FreeBsdLibc.INSTANCE.sysctl(ints, ints.length, memory, intByReference, null, 0)) {
+                     String string2 = memory.getString(0L);
+                     if (string2.contains("ELF32")) {
+                        osProcess.setBitness(32);
+                     } else if (string2.contains("ELF64")) {
+                        osProcess.setBitness(64);
                      }
                   }
                }
 
-               var8.add(var15);
+               arrayList.add(osProcess);
             }
          }
 
-         return var8;
+         return arrayList;
       } else {
-         return var8;
+         return arrayList;
       }
    }
 
    @Override
-   public long getProcessAffinityMask(int var1) {
-      long var5 = 0L;
-      String var7 = ExecutingCommand.getFirstAnswer("cpuset -gp " + var1);
-      String[] var8 = var7.split(":");
-      if (var8.length > 1) {
-         String[] var9 = var8[1].split(",");
+   public long getProcessAffinityMask(int processId) {
+      long l = 0L;
+      String string = ExecutingCommand.getFirstAnswer("cpuset -gp " + processId);
+      String[] strings = string.split(":");
+      if (strings.length > 1) {
+         String[] strings2 = strings[1].split(",");
 
-         for (String var13 : var9) {
-            int var14 = ParseUtil.parseIntOrDefault(var13.trim(), -1);
-            if (var14 >= 0) {
-               var5 |= 1L << var14;
+         for (String string2 : strings2) {
+            int i = ParseUtil.parseIntOrDefault(string2.trim(), -1);
+            if (i >= 0) {
+               l |= 1L << i;
             }
          }
       }
 
-      return var5;
+      return l;
    }
 
    @Override
@@ -208,19 +208,19 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public int getProcessCount() {
-      List var4 = ExecutingCommand.runNative("ps -axo pid");
-      return !var4.isEmpty() ? var4.size() - 1 : 0;
+      List list = ExecutingCommand.runNative("ps -axo pid");
+      return !list.isEmpty() ? list.size() - 1 : 0;
    }
 
    @Override
    public int getThreadCount() {
-      int var4 = 0;
+      int i = 0;
 
-      for (String var6 : ExecutingCommand.runNative("ps -axo nlwp")) {
-         var4 += ParseUtil.parseIntOrDefault(var6.trim(), 0);
+      for (String string : ExecutingCommand.runNative("ps -axo nlwp")) {
+         i += ParseUtil.parseIntOrDefault(string.trim(), 0);
       }
 
-      return var4;
+      return i;
    }
 
    @Override
@@ -234,9 +234,9 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
    }
 
    private static long querySystemBootTime() {
-      CLibrary.Timeval var2 = new CLibrary.Timeval();
-      return BsdSysctlUtil.sysctl("kern.boottime", var2) && var2.tv_sec != 0L
-         ? var2.tv_sec
+      CLibrary.Timeval timeval = new CLibrary.Timeval();
+      return BsdSysctlUtil.sysctl("kern.boottime", timeval) && timeval.tv_sec != 0L
+         ? timeval.tv_sec
          : ParseUtil.parseLongOrDefault(
             ExecutingCommand.getFirstAnswer("sysctl -n kern.boottime").split(",")[0].replaceAll("\\D", ""), System.currentTimeMillis() / 1000L
          );
@@ -249,27 +249,27 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public OSService[] getServices() {
-      ArrayList var4 = new ArrayList();
-      HashSet var5 = new HashSet();
+      ArrayList arrayList = new ArrayList();
+      HashSet hashSet = new HashSet();
 
-      for (OSProcess var9 : this.getChildProcesses(1, 0, OperatingSystem.ProcessSort.PID)) {
-         OSService var10 = new OSService(var9.getName(), var9.getProcessID(), OSService.State.RUNNING);
-         var4.add(var10);
-         var5.add(var9.getName());
+      for (OSProcess osProcess : this.getChildProcesses(1, 0, OperatingSystem.ProcessSort.PID)) {
+         OSService osService = new OSService(osProcess.getName(), osProcess.getProcessID(), OSService.State.RUNNING);
+         arrayList.add(osService);
+         hashSet.add(osProcess.getName());
       }
 
-      File var14 = new File("/etc/rc.d");
-      File[] var15;
-      if (var14.exists() && var14.isDirectory() && (var15 = var14.listFiles()) != null) {
-         for (File var11 : var15) {
-            String var12 = var11.getName();
-            if (!var5.contains(var12)) {
-               OSService var13 = new OSService(var12, 0, OSService.State.STOPPED);
-               var4.add(var13);
+      File file = new File("/etc/rc.d");
+      File[] files;
+      if (file.exists() && file.isDirectory() && (files = file.listFiles()) != null) {
+         for (File file2 : files) {
+            String string = file2.getName();
+            if (!hashSet.contains(string)) {
+               OSService osService2 = new OSService(string, 0, OSService.State.STOPPED);
+               arrayList.add(osService2);
             }
          }
       }
 
-      return (oshi.software.os.OSService[])(var4.toArray(new OSService[0]));
+      return (oshi.software.os.OSService[])(arrayList.toArray(new OSService[0]));
    }
 }

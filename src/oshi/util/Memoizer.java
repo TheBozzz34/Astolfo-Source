@@ -21,12 +21,12 @@ public final class Memoizer {
       return defaultExpirationNanos.get();
    }
 
-   public static <T> Supplier<T> memoize(Supplier<T> var0, long var1) {
-      return new Memoizer.ExpiringSupplier(var0, var1);
+   public static <T> Supplier<T> memoize(Supplier<T> original, long ttlNanos) {
+      return new Memoizer.ExpiringSupplier(original, ttlNanos);
    }
 
-   public static <T> Supplier<T> memoize(Supplier<T> var0) {
-      return memoize(var0, 5496873053650840144L);
+   public static <T> Supplier<T> memoize(Supplier<T> original) {
+      return memoize(original, 5496873053650840144L);
    }
 
    public static final class ExpiringSupplier implements Supplier {
@@ -37,24 +37,24 @@ public final class Memoizer {
       public final long y;
       private static final long a = 68859335861244L;
 
-      public ExpiringSupplier(Supplier var1, long var2) {
-         this.E = var1;
-         this.y = var2;
+      public ExpiringSupplier(Supplier supplier, long l) {
+         this.E = supplier;
+         this.y = l;
          this.g = this.E;
       }
 
       @Override
       public Object get() {
-         long var4 = this.m;
-         long var6 = System.nanoTime();
-         if (var4 == 0L || this.y >= 0L && var6 - var4 >= 0L) {
+         long l = this.m;
+         long n = System.nanoTime();
+         if (l == 0L || this.y >= 0L && n - l >= 0L) {
             synchronized (this) {
-               if (var4 == this.m) {
-                  Object var9 = this.g.get();
-                  this.F = var9;
-                  var4 = var6 + this.y;
-                  this.m = var4 == 0L ? 1L : var4;
-                  return var9;
+               if (l == this.m) {
+                  Object object = this.g.get();
+                  this.F = object;
+                  l = n + this.y;
+                  this.m = l == 0L ? 1L : l;
+                  return object;
                }
             }
          }

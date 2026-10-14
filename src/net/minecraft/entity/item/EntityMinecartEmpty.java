@@ -8,34 +8,34 @@ public class EntityMinecartEmpty extends EntityMinecart {
    private static final long ab = 75805242391353L;
    private static final long cb = -6097683783027261430L;
 
-   public EntityMinecartEmpty(World var1) {
-      super(var1);
+   public EntityMinecartEmpty(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartEmpty(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartEmpty(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
-   public boolean interactFirst(EntityPlayer var1) {
-      if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != var1) {
+   public boolean interactFirst(EntityPlayer playerIn) {
+      if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn) {
          return true;
       }
 
-      if (this.riddenByEntity != null && this.riddenByEntity != var1) {
+      if (this.riddenByEntity != null && this.riddenByEntity != playerIn) {
          return false;
       }
 
       if (!this.worldObj.isRemote) {
-         var1.mountEntity(this);
+         playerIn.mountEntity(this);
       }
 
       return true;
    }
 
    @Override
-   public void onActivatorRailPass(int var1, int var2, int var3, boolean var4) {
-      if (var4) {
+   public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
+      if (receivingPower) {
          if (this.riddenByEntity != null) {
             this.riddenByEntity.mountEntity((Entity)null);
          }

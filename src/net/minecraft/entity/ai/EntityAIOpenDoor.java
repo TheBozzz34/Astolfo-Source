@@ -8,10 +8,10 @@ public class EntityAIOpenDoor extends EntityAIDoorInteract {
    private static final long a = 97499747308583L;
    private static final long e = -8221712812192301036L;
 
-   public EntityAIOpenDoor(EntityLiving var1, boolean var2) {
-      super(var1);
-      this.theEntity = var1;
-      this.closeDoor = var2;
+   public EntityAIOpenDoor(EntityLiving entitylivingIn, boolean shouldClose) {
+      super(entitylivingIn);
+      this.theEntity = entitylivingIn;
+      this.closeDoor = shouldClose;
    }
 
    @Override

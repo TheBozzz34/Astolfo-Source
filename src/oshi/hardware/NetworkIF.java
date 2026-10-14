@@ -49,47 +49,47 @@ public class NetworkIF {
       return this.networkInterface;
    }
 
-   public void setNetworkInterface(NetworkInterface var1) {
-      this.networkInterface = var1;
+   public void setNetworkInterface(NetworkInterface networkInterface) {
+      this.networkInterface = networkInterface;
 
       try {
-         this.mtu = var1.getMTU();
-         byte[] var5 = var1.getHardwareAddress();
-         if (var5 == null) {
+         this.mtu = networkInterface.getMTU();
+         byte[] bytes = networkInterface.getHardwareAddress();
+         if (bytes == null) {
             this.mac = "Unknown";
          } else {
-            ArrayList var6 = new ArrayList(6);
+            ArrayList arrayList = new ArrayList(6);
 
-            for (byte var10 : var5) {
-               var6.add(String.format("%02x", var10));
+            for (byte b : bytes) {
+               arrayList.add(String.format("%02x", b));
             }
 
-            this.mac = String.join(":", var6);
+            this.mac = String.join(":", arrayList);
          }
 
-         ArrayList var14 = new ArrayList();
-         ArrayList var15 = new ArrayList();
-         ArrayList var16 = new ArrayList();
-         ArrayList var17 = new ArrayList();
+         ArrayList arrayList2 = new ArrayList();
+         ArrayList arrayList3 = new ArrayList();
+         ArrayList arrayList4 = new ArrayList();
+         ArrayList arrayList5 = new ArrayList();
 
-         for (InterfaceAddress var11 : var1.getInterfaceAddresses()) {
-            InetAddress var12 = var11.getAddress();
-            if (var12.getHostAddress().length() > 0) {
-               if (var12.getHostAddress().contains(":")) {
-                  var16.add(var12.getHostAddress().split("%")[0]);
-                  var17.add(var11.getNetworkPrefixLength());
+         for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+            InetAddress inetAddress = interfaceAddress.getAddress();
+            if (inetAddress.getHostAddress().length() > 0) {
+               if (inetAddress.getHostAddress().contains(":")) {
+                  arrayList4.add(inetAddress.getHostAddress().split("%")[0]);
+                  arrayList5.add(interfaceAddress.getNetworkPrefixLength());
                } else {
-                  var14.add(var12.getHostAddress());
-                  var15.add(var11.getNetworkPrefixLength());
+                  arrayList2.add(inetAddress.getHostAddress());
+                  arrayList3.add(interfaceAddress.getNetworkPrefixLength());
                }
             }
          }
 
-         this.ipv4 = (java.lang.String[])(var14.toArray(new String[0]));
-         this.subnetMasks = (java.lang.Short[])(var15.toArray(new Short[0]));
-         this.ipv6 = (java.lang.String[])(var16.toArray(new String[0]));
-         this.prefixLengths = (java.lang.Short[])(var17.toArray(new Short[0]));
-      } catch (SocketException var13) {
+         this.ipv4 = (java.lang.String[])(arrayList2.toArray(new String[0]));
+         this.subnetMasks = (java.lang.Short[])(arrayList3.toArray(new Short[0]));
+         this.ipv6 = (java.lang.String[])(arrayList4.toArray(new String[0]));
+         this.prefixLengths = (java.lang.Short[])(arrayList5.toArray(new Short[0]));
+      } catch (SocketException socketException) {
       }
    }
 
@@ -129,104 +129,104 @@ public class NetworkIF {
       return this.ifType;
    }
 
-   public void setIfType(int var1) {
-      this.ifType = var1;
+   public void setIfType(int ifType) {
+      this.ifType = ifType;
    }
 
    public int U() {
       return this.ndisPhysicalMediumType;
    }
 
-   public void d(int var1) {
-      this.ndisPhysicalMediumType = var1;
+   public void d(int i) {
+      this.ndisPhysicalMediumType = i;
    }
 
    public boolean k() {
       return this.connectorPresent;
    }
 
-   public void setConnectorPresent(boolean var1) {
-      this.connectorPresent = var1;
+   public void setConnectorPresent(boolean connectorPresent) {
+      this.connectorPresent = connectorPresent;
    }
 
    public long getBytesRecv() {
       return this.bytesRecv;
    }
 
-   public void setBytesRecv(long var1) {
-      this.bytesRecv = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setBytesRecv(long bytesRecv) {
+      this.bytesRecv = ParseUtil.unsignedLongToSignedLong(bytesRecv);
    }
 
    public long getBytesSent() {
       return this.bytesSent;
    }
 
-   public void setBytesSent(long var1) {
-      this.bytesSent = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setBytesSent(long bytesSent) {
+      this.bytesSent = ParseUtil.unsignedLongToSignedLong(bytesSent);
    }
 
    public long getPacketsRecv() {
       return this.packetsRecv;
    }
 
-   public void setPacketsRecv(long var1) {
-      this.packetsRecv = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setPacketsRecv(long packetsRecv) {
+      this.packetsRecv = ParseUtil.unsignedLongToSignedLong(packetsRecv);
    }
 
    public long getPacketsSent() {
       return this.packetsSent;
    }
 
-   public void setPacketsSent(long var1) {
-      this.packetsSent = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setPacketsSent(long packetsSent) {
+      this.packetsSent = ParseUtil.unsignedLongToSignedLong(packetsSent);
    }
 
    public long getInErrors() {
       return this.inErrors;
    }
 
-   public void setInErrors(long var1) {
-      this.inErrors = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setInErrors(long inErrors) {
+      this.inErrors = ParseUtil.unsignedLongToSignedLong(inErrors);
    }
 
    public long getOutErrors() {
       return this.outErrors;
    }
 
-   public void setOutErrors(long var1) {
-      this.outErrors = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setOutErrors(long outErrors) {
+      this.outErrors = ParseUtil.unsignedLongToSignedLong(outErrors);
    }
 
    public long getInDrops() {
       return this.inDrops;
    }
 
-   public void setInDrops(long var1) {
-      this.inDrops = var1;
+   public void setInDrops(long inDrops) {
+      this.inDrops = inDrops;
    }
 
    public long getCollisions() {
       return this.collisions;
    }
 
-   public void setCollisions(long var1) {
-      this.collisions = var1;
+   public void setCollisions(long collisions) {
+      this.collisions = collisions;
    }
 
    public long getSpeed() {
       return this.speed;
    }
 
-   public void setSpeed(long var1) {
-      this.speed = ParseUtil.unsignedLongToSignedLong(var1);
+   public void setSpeed(long speed) {
+      this.speed = ParseUtil.unsignedLongToSignedLong(speed);
    }
 
    public long a() {
       return this.timeStamp;
    }
 
-   public void setTimeStamp(long var1) {
-      this.timeStamp = var1;
+   public void setTimeStamp(long timeStamp) {
+      this.timeStamp = timeStamp;
    }
 
    public boolean updateAttributes() {
@@ -247,8 +247,8 @@ public class NetworkIF {
    }
 
    public boolean isKnownVmMacAddr() {
-      String var4 = this.getMacaddr().length() > 7 ? this.getMacaddr().substring(0, 8) : this.getMacaddr();
-      return this.vmMacAddrProps.get().containsKey(var4.toUpperCase());
+      String string = this.getMacaddr().length() > 7 ? this.getMacaddr().substring(0, 8) : this.getMacaddr();
+      return this.vmMacAddrProps.get().containsKey(string.toUpperCase());
    }
 
    private static Properties queryVmMacAddrProps() {
@@ -257,26 +257,26 @@ public class NetworkIF {
 
    @Override
    public String toString() {
-      StringBuilder var5 = new StringBuilder();
-      var5.append("Name: ").append(this.getName()).append(" ").append("(").append(this.getDisplayName()).append(")").append("\n");
-      var5.append("  MAC Address: ").append(this.getMacaddr()).append("\n");
-      var5.append("  MTU: ").append(this.getMTU()).append(", ").append("Speed: ").append(this.getSpeed()).append("\n");
-      var5.append("  IPv4: ").append(Arrays.toString(this.getIPv4addr())).append("\n");
-      var5.append("  Netmask:  ").append(Arrays.toString(this.getSubnetMasks())).append("\n");
-      var5.append("  IPv6: ").append(Arrays.toString(this.getIPv6addr())).append("\n");
-      var5.append("  Prefix Lengths:  ").append(Arrays.toString(this.getPrefixLengths())).append("\n");
-      var5.append("  Traffic: received ")
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("Name: ").append(this.getName()).append(" ").append("(").append(this.getDisplayName()).append(")").append("\n");
+      stringBuilder.append("  MAC Address: ").append(this.getMacaddr()).append("\n");
+      stringBuilder.append("  MTU: ").append(this.getMTU()).append(", ").append("Speed: ").append(this.getSpeed()).append("\n");
+      stringBuilder.append("  IPv4: ").append(Arrays.toString(this.getIPv4addr())).append("\n");
+      stringBuilder.append("  Netmask:  ").append(Arrays.toString(this.getSubnetMasks())).append("\n");
+      stringBuilder.append("  IPv6: ").append(Arrays.toString(this.getIPv6addr())).append("\n");
+      stringBuilder.append("  Prefix Lengths:  ").append(Arrays.toString(this.getPrefixLengths())).append("\n");
+      stringBuilder.append("  Traffic: received ")
          .append(this.getPacketsRecv())
          .append(" packets/")
          .append(FormatUtil.formatBytes(this.getBytesRecv()))
          .append(" (" + this.getInErrors() + " err, ")
          .append(this.getInDrops() + " drop);");
-      var5.append(" transmitted ")
+      stringBuilder.append(" transmitted ")
          .append(this.getPacketsSent())
          .append(" packets/")
          .append(FormatUtil.formatBytes(this.getBytesSent()))
          .append(" (" + this.getOutErrors() + " err, ")
          .append(this.getCollisions() + " coll);");
-      return var5.toString();
+      return stringBuilder.toString();
    }
 }

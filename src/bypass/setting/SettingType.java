@@ -19,10 +19,10 @@ public enum SettingType {
    private Class<?> q;
    private static final long a = 129022484490582L;
 
-   SettingType(String var3, int var4, Class<?> var5) {
-      this.E = var4;
-      this.R = var3;
-      this.q = var5;
+   SettingType(String string2, int j, Class<?> class2) {
+      this.E = j;
+      this.R = string2;
+      this.q = class2;
    }
 
    public int J() {
@@ -37,20 +37,20 @@ public enum SettingType {
       return this.q;
    }
 
-   public static SettingType U(String var0) {
-      for (SettingType var7 : values()) {
-         if (var7.l().equalsIgnoreCase(var0)) {
-            return var7;
+   public static SettingType U(String string) {
+      for (SettingType settingType : values()) {
+         if (settingType.l().equalsIgnoreCase(string)) {
+            return settingType;
          }
       }
 
       return null;
    }
 
-   public static Class<?> S(String var0) {
-      for (SettingType var8 : values()) {
-         if (var8.l().equalsIgnoreCase(var0)) {
-            return var8.x();
+   public static Class<?> S(String string) {
+      for (SettingType settingType : values()) {
+         if (settingType.l().equalsIgnoreCase(string)) {
+            return settingType.x();
          }
       }
 

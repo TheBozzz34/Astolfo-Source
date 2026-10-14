@@ -10,10 +10,10 @@ public class BlockBrokenEvent implements Event {
    private EnumFacing facing;
    private BlockPos pos;
 
-   public BlockBrokenEvent(Block var1, EnumFacing var2, BlockPos var3) {
-      this.block = var1;
-      this.facing = var2;
-      this.pos = var3;
+   public BlockBrokenEvent(Block block, EnumFacing enumFacing, BlockPos blockPos) {
+      this.block = block;
+      this.facing = enumFacing;
+      this.pos = blockPos;
    }
 
    public Block getBlock() {

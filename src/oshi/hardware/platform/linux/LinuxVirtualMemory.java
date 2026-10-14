@@ -36,55 +36,55 @@ public final class LinuxVirtualMemory extends AbstractVirtualMemory {
    }
 
    private static Pair<Long, Long> queryMemInfo() {
-      long var3 = 0L;
-      long var5 = 0L;
+      long l = 0L;
+      long m = 0L;
 
-      for (String var9 : FileUtil.readFile(ProcPath.MEMINFO)) {
-         String[] var10 = ParseUtil.Q.split(var9);
-         if (var10.length > 1) {
-            switch (var10[0]) {
+      for (String string : FileUtil.readFile(ProcPath.MEMINFO)) {
+         String[] strings = ParseUtil.Q.split(string);
+         if (strings.length > 1) {
+            switch (strings[0]) {
                case "SwapTotal:":
-                  var5 = parseMeminfo(var10);
+                  m = parseMeminfo(strings);
                   break;
                case "SwapFree:":
-                  var3 = parseMeminfo(var10);
+                  l = parseMeminfo(strings);
             }
          }
       }
 
-      return new Pair<>(var5 - var3, var5);
+      return new Pair<>(m - l, m);
    }
 
    private static Pair<Long, Long> queryVmStat() {
-      long var3 = 0L;
-      long var5 = 0L;
+      long l = 0L;
+      long m = 0L;
 
-      for (String var9 : FileUtil.readFile(ProcPath.VMSTAT)) {
-         String[] var10 = ParseUtil.Q.split(var9);
-         if (var10.length > 1) {
-            switch (var10[0]) {
+      for (String string : FileUtil.readFile(ProcPath.VMSTAT)) {
+         String[] strings = ParseUtil.Q.split(string);
+         if (strings.length > 1) {
+            switch (strings[0]) {
                case "pgpgin":
-                  var3 = ParseUtil.parseLongOrDefault(var10[1], 0L);
+                  l = ParseUtil.parseLongOrDefault(strings[1], 0L);
                   break;
                case "pgpgout":
-                  var5 = ParseUtil.parseLongOrDefault(var10[1], 0L);
+                  m = ParseUtil.parseLongOrDefault(strings[1], 0L);
             }
          }
       }
 
-      return new Pair<>(var3, var5);
+      return new Pair<>(l, m);
    }
 
-   private static long parseMeminfo(String[] var0) {
-      if (var0.length < 2) {
+   private static long parseMeminfo(String[] memorySplit) {
+      if (memorySplit.length < 2) {
          return 0L;
       }
 
-      long var4 = ParseUtil.parseLongOrDefault(var0[1], 0L);
-      if (var0.length > 2 && "kB".equals(var0[2])) {
-         var4 *= 1024L;
+      long l = ParseUtil.parseLongOrDefault(memorySplit[1], 0L);
+      if (memorySplit.length > 2 && "kB".equals(memorySplit[2])) {
+         l *= 1024L;
       }
 
-      return var4;
+      return l;
    }
 }

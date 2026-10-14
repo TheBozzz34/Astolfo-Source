@@ -18,45 +18,45 @@ public class S2DPacketOpenWindow implements Packet<INetHandlerPlayClient> {
    public S2DPacketOpenWindow() {
    }
 
-   public S2DPacketOpenWindow(int var1, String var2, IChatComponent var3) {
-      this(var1, var2, var3, 0);
+   public S2DPacketOpenWindow(int incomingWindowId, String incomingWindowTitle, IChatComponent windowTitleIn) {
+      this(incomingWindowId, incomingWindowTitle, windowTitleIn, 0);
    }
 
-   public S2DPacketOpenWindow(int var1, String var2, IChatComponent var3, int var4) {
-      this.windowId = var1;
-      this.inventoryType = var2;
-      this.windowTitle = var3;
-      this.slotCount = var4;
+   public S2DPacketOpenWindow(int windowIdIn, String guiId, IChatComponent windowTitleIn, int slotCountIn) {
+      this.windowId = windowIdIn;
+      this.inventoryType = guiId;
+      this.windowTitle = windowTitleIn;
+      this.slotCount = slotCountIn;
    }
 
-   public S2DPacketOpenWindow(int var1, String var2, IChatComponent var3, int var4, int var5) {
-      this(var1, var2, var3, var4);
-      this.entityId = var5;
+   public S2DPacketOpenWindow(int windowIdIn, String guiId, IChatComponent windowTitleIn, int slotCountIn, int incomingEntityId) {
+      this(windowIdIn, guiId, windowTitleIn, slotCountIn);
+      this.entityId = incomingEntityId;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleOpenWindow(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleOpenWindow(this);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readUnsignedByte();
-      this.inventoryType = var1.readStringFromBuffer((int)e);
-      this.windowTitle = var1.readChatComponent();
-      this.slotCount = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readUnsignedByte();
+      this.inventoryType = buf.readStringFromBuffer((int)e);
+      this.windowTitle = buf.readChatComponent();
+      this.slotCount = buf.readUnsignedByte();
       if (this.inventoryType.equals("EntityHorse")) {
-         this.entityId = var1.readInt();
+         this.entityId = buf.readInt();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeString(this.inventoryType);
-      var1.writeChatComponent(this.windowTitle);
-      var1.writeByte(this.slotCount);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeString(this.inventoryType);
+      buf.writeChatComponent(this.windowTitle);
+      buf.writeByte(this.slotCount);
       if (this.inventoryType.equals("EntityHorse")) {
-         var1.writeInt(this.entityId);
+         buf.writeInt(this.entityId);
       }
    }
 

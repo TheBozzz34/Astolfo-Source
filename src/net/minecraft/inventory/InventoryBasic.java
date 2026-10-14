@@ -17,74 +17,74 @@ public class InventoryBasic implements IInventory {
    private static final long b = 54028134748460L;
    private static final long f = -2792295836996861888L;
 
-   public InventoryBasic(String var1, boolean var2, int var3) {
-      this.inventoryTitle = var1;
-      this.hasCustomName = var2;
-      this.slotsCount = var3;
-      this.inventoryContents = new ItemStack[var3];
+   public InventoryBasic(String title, boolean customName, int slotCount) {
+      this.inventoryTitle = title;
+      this.hasCustomName = customName;
+      this.slotsCount = slotCount;
+      this.inventoryContents = new ItemStack[slotCount];
    }
 
-   public InventoryBasic(IChatComponent var1, int var2) {
-      this(var1.getUnformattedText(), true, var2);
+   public InventoryBasic(IChatComponent title, int slotCount) {
+      this(title.getUnformattedText(), true, slotCount);
    }
 
-   public void addInventoryChangeListener(IInvBasic var1) {
+   public void addInventoryChangeListener(IInvBasic listener) {
       if (this.changeListeners == null) {
          this.changeListeners = Lists.newArrayList();
       }
 
-      this.changeListeners.add(var1);
+      this.changeListeners.add(listener);
    }
 
-   public void removeInventoryChangeListener(IInvBasic var1) {
-      this.changeListeners.remove(var1);
-   }
-
-   @Override
-   public ItemStack getStackInSlot(int var1) {
-      return var1 >= 0 && var1 < this.inventoryContents.length ? this.inventoryContents[var1] : null;
+   public void removeInventoryChangeListener(IInvBasic listener) {
+      this.changeListeners.remove(listener);
    }
 
    @Override
-   public ItemStack decrStackSize(int var1, int var2) {
-      if (this.inventoryContents[var1] != null) {
-         if (this.inventoryContents[var1].stackSize <= var2) {
-            ItemStack var7 = this.inventoryContents[var1];
-            this.inventoryContents[var1] = null;
+   public ItemStack getStackInSlot(int index) {
+      return index >= 0 && index < this.inventoryContents.length ? this.inventoryContents[index] : null;
+   }
+
+   @Override
+   public ItemStack decrStackSize(int index, int count) {
+      if (this.inventoryContents[index] != null) {
+         if (this.inventoryContents[index].stackSize <= count) {
+            ItemStack itemStack = this.inventoryContents[index];
+            this.inventoryContents[index] = null;
             this.markDirty();
-            return var7;
+            return itemStack;
          }
 
-         ItemStack var6 = this.inventoryContents[var1].splitStack(var2);
-         if (this.inventoryContents[var1].stackSize == 0) {
-            this.inventoryContents[var1] = null;
+         ItemStack itemStack2 = this.inventoryContents[index].splitStack(count);
+         if (this.inventoryContents[index].stackSize == 0) {
+            this.inventoryContents[index] = null;
          }
 
          this.markDirty();
-         return var6;
+         return itemStack2;
       } else {
          return null;
       }
    }
 
-   public ItemStack func_174894_a(ItemStack var1) {
-      ItemStack var5 = var1.copy();
+   public ItemStack func_174894_a(ItemStack stack) {
+      ItemStack itemStack = stack.copy();
 
-      for (int var6 = 0; var6 < this.slotsCount; var6++) {
-         ItemStack var7 = this.getStackInSlot(var6);
-         if (var7 == null) {
-            this.setInventorySlotContents(var6, var5);
+      for (int i = 0; i < this.slotsCount; i++) {
+         ItemStack itemStack2 = this.getStackInSlot(i);
+         if (itemStack2 == null) {
+            this.setInventorySlotContents(i, itemStack);
             this.markDirty();
             return null;
          }
 
-         if (ItemStack.areItemsEqual(var7, var5)) {
-            int var8 = Math.min(this.getInventoryStackLimit(), var7.getMaxStackSize());
-            int var9 = Math.min(var5.stackSize, var8 - var7.stackSize);
-            if (var9 > 0) {
-               var7.stackSize += var9;
-               var5.stackSize -= var9;
-               if (var5.stackSize <= 0) {
+         if (ItemStack.areItemsEqual(itemStack2, itemStack)) {
+            int j = Math.min(this.getInventoryStackLimit(), itemStack2.getMaxStackSize());
+            int k = Math.min(itemStack.stackSize, j - itemStack2.stackSize);
+            if (k > 0) {
+               itemStack2.stackSize += k;
+               itemStack.stackSize -= k;
+               if (itemStack.stackSize <= 0) {
                   this.markDirty();
                   return null;
                }
@@ -92,29 +92,29 @@ public class InventoryBasic implements IInventory {
          }
       }
 
-      if (var5.stackSize != var1.stackSize) {
+      if (itemStack.stackSize != stack.stackSize) {
          this.markDirty();
       }
 
-      return var5;
+      return itemStack;
    }
 
    @Override
-   public ItemStack removeStackFromSlot(int var1) {
-      if (this.inventoryContents[var1] != null) {
-         ItemStack var5 = this.inventoryContents[var1];
-         this.inventoryContents[var1] = null;
-         return var5;
+   public ItemStack removeStackFromSlot(int index) {
+      if (this.inventoryContents[index] != null) {
+         ItemStack itemStack = this.inventoryContents[index];
+         this.inventoryContents[index] = null;
+         return itemStack;
       } else {
          return null;
       }
    }
 
    @Override
-   public void setInventorySlotContents(int var1, ItemStack var2) {
-      this.inventoryContents[var1] = var2;
-      if (var2 != null && var2.stackSize > this.getInventoryStackLimit()) {
-         var2.stackSize = this.getInventoryStackLimit();
+   public void setInventorySlotContents(int index, ItemStack stack) {
+      this.inventoryContents[index] = stack;
+      if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+         stack.stackSize = this.getInventoryStackLimit();
       }
 
       this.markDirty();
@@ -135,9 +135,9 @@ public class InventoryBasic implements IInventory {
       return this.hasCustomName;
    }
 
-   public void setCustomName(String var1) {
+   public void setCustomName(String inventoryTitleIn) {
       this.hasCustomName = true;
-      this.inventoryTitle = var1;
+      this.inventoryTitle = inventoryTitleIn;
    }
 
    @Override
@@ -153,37 +153,37 @@ public class InventoryBasic implements IInventory {
    @Override
    public void markDirty() {
       if (this.changeListeners != null) {
-         for (int var4 = 0; var4 < this.changeListeners.size(); var4++) {
-            this.changeListeners.get(var4).onInventoryChanged(this);
+         for (int i = 0; i < this.changeListeners.size(); i++) {
+            this.changeListeners.get(i).onInventoryChanged(this);
          }
       }
    }
 
    @Override
-   public boolean isUseableByPlayer(EntityPlayer var1) {
+   public boolean isUseableByPlayer(EntityPlayer player) {
       return true;
    }
 
    @Override
-   public void openInventory(EntityPlayer var1) {
+   public void openInventory(EntityPlayer player) {
    }
 
    @Override
-   public void closeInventory(EntityPlayer var1) {
+   public void closeInventory(EntityPlayer player) {
    }
 
    @Override
-   public boolean isItemValidForSlot(int var1, ItemStack var2) {
+   public boolean isItemValidForSlot(int index, ItemStack stack) {
       return true;
    }
 
    @Override
-   public int getField(int var1) {
+   public int getField(int id) {
       return 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
+   public void setField(int id, int value) {
    }
 
    @Override
@@ -193,8 +193,8 @@ public class InventoryBasic implements IInventory {
 
    @Override
    public void clear() {
-      for (int var4 = 0; var4 < this.inventoryContents.length; var4++) {
-         this.inventoryContents[var4] = null;
+      for (int i = 0; i < this.inventoryContents.length; i++) {
+         this.inventoryContents[i] = null;
       }
    }
 }

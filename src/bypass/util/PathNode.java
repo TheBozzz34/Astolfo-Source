@@ -10,60 +10,60 @@ public class PathNode {
    private double a;
    private double o;
 
-   public PathNode(Vector3 var1, PathNode var2, ArrayList<Vector3> var3, double var4, double var6, double var8) {
-      this.B = var1;
-      this.e = var2;
-      this.c = var3;
-      this.P = var4;
-      this.a = var6;
-      this.o = var8;
+   public PathNode(Vector3 vector3, PathNode pathNode, ArrayList<Vector3> arrayList, double d, double d2, double d3) {
+      this.B = vector3;
+      this.e = pathNode;
+      this.c = arrayList;
+      this.P = d;
+      this.a = d2;
+      this.o = d3;
    }
 
    public Vector3 K() {
       return this.B;
    }
 
-   public void p(Vector3 var1) {
-      this.B = var1;
+   public void p(Vector3 vector3) {
+      this.B = vector3;
    }
 
    public PathNode b() {
       return this.e;
    }
 
-   public void u(PathNode var1) {
-      this.e = var1;
+   public void u(PathNode pathNode) {
+      this.e = pathNode;
    }
 
    public ArrayList<Vector3> l() {
       return this.c;
    }
 
-   public void t(ArrayList<Vector3> var1) {
-      this.c = var1;
+   public void t(ArrayList<Vector3> arrayList) {
+      this.c = arrayList;
    }
 
    public double M() {
       return this.P;
    }
 
-   public void y(double var1) {
-      this.P = var1;
+   public void y(double d) {
+      this.P = d;
    }
 
    public double u() {
       return this.a;
    }
 
-   public void b(double var1) {
-      this.a = var1;
+   public void b(double d) {
+      this.a = d;
    }
 
    public double d() {
       return this.o;
    }
 
-   public void S(double var1) {
-      this.o = var1;
+   public void S(double d) {
+      this.o = d;
    }
 }

@@ -7,14 +7,14 @@ public class ReflectorFields {
    private ReflectorField[] reflectorFields;
    private static final long a = 70872426703400L;
 
-   public ReflectorFields(ReflectorClass var1, Class var2, int var3) {
-      this.reflectorClass = var1;
-      this.fieldType = var2;
-      if (var1.exists() && var2 != null) {
-         this.reflectorFields = new ReflectorField[var3];
+   public ReflectorFields(ReflectorClass reflectorClass, Class fieldType, int fieldCount) {
+      this.reflectorClass = reflectorClass;
+      this.fieldType = fieldType;
+      if (reflectorClass.exists() && fieldType != null) {
+         this.reflectorFields = new ReflectorField[fieldCount];
 
-         for (int var6 = 0; var6 < this.reflectorFields.length; var6++) {
-            this.reflectorFields[var6] = new ReflectorField(var1, var2, var6);
+         for (int i = 0; i < this.reflectorFields.length; i++) {
+            this.reflectorFields[i] = new ReflectorField(reflectorClass, fieldType, i);
          }
       }
    }
@@ -31,7 +31,7 @@ public class ReflectorFields {
       return this.fieldCount;
    }
 
-   public ReflectorField getReflectorField(int var1) {
-      return var1 >= 0 && var1 < this.reflectorFields.length ? this.reflectorFields[var1] : null;
+   public ReflectorField getReflectorField(int index) {
+      return index >= 0 && index < this.reflectorFields.length ? this.reflectorFields[index] : null;
    }
 }

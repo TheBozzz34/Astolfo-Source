@@ -12,41 +12,41 @@ import net.minecraft.world.World;
 public class EntityEgg extends EntityThrowable {
    private static final long ab = 19204106887080L;
 
-   public EntityEgg(World var1) {
-      super(var1);
+   public EntityEgg(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityEgg(World var1, EntityLivingBase var2) {
-      super(var1, var2);
+   public EntityEgg(World worldIn, EntityLivingBase throwerIn) {
+      super(worldIn, throwerIn);
    }
 
-   public EntityEgg(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityEgg(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
-      if (var1.entityHit != null) {
-         var1.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+   public void onImpact(MovingObjectPosition movingObjectPosition) {
+      if (movingObjectPosition.entityHit != null) {
+         movingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
       }
 
       if (!this.worldObj.isRemote && this.rand.nextInt(8) == 0) {
-         byte var5 = 1;
+         byte b = 1;
          if (this.rand.nextInt(32) == 0) {
-            var5 = 4;
+            b = 4;
          }
 
-         for (int var6 = 0; var6 < var5; var6++) {
-            EntityChicken var7 = new EntityChicken(this.worldObj);
-            var7.setGrowingAge(-24000);
-            var7.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            this.worldObj.spawnEntityInWorld(var7);
+         for (int i = 0; i < b; i++) {
+            EntityChicken entityChicken = new EntityChicken(this.worldObj);
+            entityChicken.setGrowingAge(-24000);
+            entityChicken.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+            this.worldObj.spawnEntityInWorld(entityChicken);
          }
       }
 
-      double var8 = 0.08;
+      double d = 0.08;
 
-      for (int var9 = 0; var9 < 8; var9++) {
+      for (int j = 0; j < 8; j++) {
          this.worldObj
             .spawnParticle(
                EnumParticleTypes.ITEM_CRACK,

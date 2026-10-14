@@ -13,19 +13,19 @@ public class EntityAIWatchClosest extends EntityAIBase {
    public Class<? extends Entity> watchedClass;
    private static final long b = 58930012790027L;
 
-   public EntityAIWatchClosest(EntityLiving var1, Class<? extends Entity> var2, float var3) {
-      this.theWatcher = var1;
-      this.watchedClass = var2;
-      this.maxDistanceForPlayer = var3;
+   public EntityAIWatchClosest(EntityLiving entitylivingIn, Class<? extends Entity> watchTargetClass, float maxDistance) {
+      this.theWatcher = entitylivingIn;
+      this.watchedClass = watchTargetClass;
+      this.maxDistanceForPlayer = maxDistance;
       this.chance = 0.02F;
       this.setMutexBits(2);
    }
 
-   public EntityAIWatchClosest(EntityLiving var1, Class<? extends Entity> var2, float var3, float var4) {
-      this.theWatcher = var1;
-      this.watchedClass = var2;
-      this.maxDistanceForPlayer = var3;
-      this.chance = var4;
+   public EntityAIWatchClosest(EntityLiving entitylivingIn, Class<? extends Entity> watchTargetClass, float maxDistance, float chanceIn) {
+      this.theWatcher = entitylivingIn;
+      this.watchedClass = watchTargetClass;
+      this.maxDistanceForPlayer = maxDistance;
+      this.chance = chanceIn;
       this.setMutexBits(2);
    }
 

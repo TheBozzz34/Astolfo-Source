@@ -10,7 +10,7 @@ public class CompactHashMap<K, V> {
    public static final CompactHashMap EMPTY = new CompactHashMap();
    private static final long a = 66779442934562L;
 
-   public Iterator<Pair<K, V>> iterator(KeyFunction<K, V> var1) {
+   public Iterator<Pair<K, V>> iterator(KeyFunction<K, V> kf) {
       return Collections.<Pair<K, V>>emptyList().iterator();
    }
 
@@ -22,83 +22,83 @@ public class CompactHashMap<K, V> {
       return EMPTY;
    }
 
-   public <U> void forEach(Function<Pair<K, V>, U> var1, KeyFunction<K, V> var2) {
+   public <U> void forEach(Function<Pair<K, V>, U> f, KeyFunction<K, V> keyFunction) {
    }
 
-   public V get(K var1, KeyFunction<K, V> var2) {
-      return this.get0((K)var1, this.computeHash((K)var1), 0, var2);
+   public V get(K key, KeyFunction<K, V> keyFunction) {
+      return this.get0(key, this.computeHash(key), 0, keyFunction);
    }
 
-   public CompactHashMap<K, V> put(K var1, V var2, KeyFunction<K, V> var3) {
-      assert var1.equals(var3.key(var2));
-      return this.updated0((K)var1, this.computeHash((K)var1), 0, (V)var2, null, var3);
+   public CompactHashMap<K, V> put(K key, V value, KeyFunction<K, V> keyFunction) {
+      assert key.equals(keyFunction.key(value));
+      return this.updated0(key, this.computeHash(key), 0, value, null, keyFunction);
    }
 
-   public CompactHashMap<K, V> remove(K var1, KeyFunction<K, V> var2) {
-      return this.removed0((K)var1, this.computeHash((K)var1), 0, var2);
+   public CompactHashMap<K, V> remove(K key, KeyFunction<K, V> keyFunction) {
+      return this.removed0(key, this.computeHash(key), 0, keyFunction);
    }
 
-   public int elemHashCode(K var1) {
-      return var1.hashCode();
+   public int elemHashCode(K key) {
+      return key.hashCode();
    }
 
-   public final int improve(int var1) {
-      int var4 = var1 + ~(var1 << 9);
-      var4 ^= var4 >>> 14;
-      var4 += var4 << 4;
-      return var4 ^ var4 >>> 10;
+   public final int improve(int hashCode) {
+      int i = hashCode + ~(hashCode << 9);
+      i ^= i >>> 14;
+      i += i << 4;
+      return i ^ i >>> 10;
    }
 
-   public int computeHash(K var1) {
-      return this.improve(this.elemHashCode((K)var1));
+   public int computeHash(K key) {
+      return this.improve(this.elemHashCode(key));
    }
 
-   public V get0(K var1, int var2, int var3, KeyFunction<K, V> var4) {
+   public V get0(K key, int hash, int level, KeyFunction<K, V> keyFunction) {
       return null;
    }
 
-   public CompactHashMap<K, V> updated0(K var1, int var2, int var3, V var4, Pair<K, V> var5, KeyFunction<K, V> var6) {
-      return new HashMap1<>((K)var1, var2, (V)var4, var5);
+   public CompactHashMap<K, V> updated0(K key, int hash, int level, V value, Pair<K, V> kv, KeyFunction<K, V> keyFunction) {
+      return new HashMap1<>(key, hash, value, kv);
    }
 
-   public CompactHashMap<K, V> removed0(K var1, int var2, int var3, KeyFunction<K, V> var4) {
+   public CompactHashMap<K, V> removed0(K key, int hash, int level, KeyFunction<K, V> keyFunction) {
       return this;
    }
 
-   public static <K, V> HashTrieMap<K, V> makeHashTrieMap(int var0, CompactHashMap<K, V> var1, int var2, CompactHashMap<K, V> var3, int var4, int var5) {
-      int var9 = var0 >>> var4 & 31;
-      int var10 = var2 >>> var4 & 31;
-      if (var9 != var10) {
-         int var13 = 1 << var9 | 1 << var10;
-         Object[] var14 = new Object[2];
-         if (var9 < var10) {
-            var14[0] = unwrap(var1);
-            var14[1] = unwrap(var3);
+   public static <K, V> HashTrieMap<K, V> makeHashTrieMap(int hash0, CompactHashMap<K, V> elem0, int hash1, CompactHashMap<K, V> elem1, int level, int size) {
+      int i = hash0 >>> level & 31;
+      int j = hash1 >>> level & 31;
+      if (i != j) {
+         int k = 1 << i | 1 << j;
+         Object[] objects = new Object[2];
+         if (i < j) {
+            objects[0] = unwrap(elem0);
+            objects[1] = unwrap(elem1);
          } else {
-            var14[0] = unwrap(var3);
-            var14[1] = unwrap(var1);
+            objects[0] = unwrap(elem1);
+            objects[1] = unwrap(elem0);
          }
 
-         return new HashTrieMap<>(var13, var14, var5);
+         return new HashTrieMap<>(k, objects, size);
       } else {
-         Object[] var11 = new Object[1];
-         int var12 = 1 << var9;
-         var11[0] = makeHashTrieMap(var0, var1, var2, var3, var4 + 5, var5);
-         return new HashTrieMap<>(var12, var11, var5);
+         Object[] objects2 = new Object[1];
+         int l = 1 << i;
+         objects2[0] = makeHashTrieMap(hash0, elem0, hash1, elem1, level + 5, size);
+         return new HashTrieMap<>(l, objects2, size);
       }
    }
 
-   public static <K, V> Object unwrap(CompactHashMap<K, V> var0) {
-      return var0 instanceof HashMap1 ? ((HashMap1)var0).value : var0;
+   public static <K, V> Object unwrap(CompactHashMap<K, V> hashMap) {
+      return hashMap instanceof HashMap1 ? ((HashMap1)hashMap).value : hashMap;
    }
 
-   public CompactHashMap<K, V> G(Object var1, KeyFunction<K, V> var2) {
-      if (var1 instanceof CompactHashMap) {
-         return (CompactHashMap<K, V>)var1;
+   public CompactHashMap<K, V> G(Object object, KeyFunction<K, V> keyFunction) {
+      if (object instanceof CompactHashMap) {
+         return (CompactHashMap<K, V>)object;
       }
 
-      Object var6 = var1;
-      Object var7 = var2.key((V)(var6));
-      return new HashMap1<>((K)var7, this.computeHash((K)var7), (V)var6, null);
+      Object object2 = object;
+      Object object3 = keyFunction.key((V)(object2));
+      return new HashMap1<>((K)object3, this.computeHash((K)object3), (V)object2, null);
    }
 }

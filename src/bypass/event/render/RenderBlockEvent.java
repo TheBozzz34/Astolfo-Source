@@ -8,9 +8,9 @@ public class RenderBlockEvent implements Event {
    private final BlockPos pos;
    private final Block block;
 
-   public RenderBlockEvent(Block var1, BlockPos var2) {
-      this.pos = var2;
-      this.block = var1;
+   public RenderBlockEvent(Block block, BlockPos blockPos) {
+      this.pos = blockPos;
+      this.block = block;
    }
 
    public BlockPos getPos() {

@@ -15,29 +15,29 @@ public class S1CPacketEntityMetadata implements Packet<INetHandlerPlayClient> {
    public S1CPacketEntityMetadata() {
    }
 
-   public S1CPacketEntityMetadata(int var1, DataWatcher var2, boolean var3) {
-      this.entityId = var1;
-      if (var3) {
-         this.field_149378_b = var2.getAllWatched();
+   public S1CPacketEntityMetadata(int entityIdIn, DataWatcher dataWatcher, boolean bl) {
+      this.entityId = entityIdIn;
+      if (bl) {
+         this.field_149378_b = dataWatcher.getAllWatched();
       } else {
-         this.field_149378_b = var2.getChanged();
+         this.field_149378_b = dataWatcher.getChanged();
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.field_149378_b = DataWatcher.readWatchedListFromPacketBuffer(var1);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.field_149378_b = DataWatcher.readWatchedListFromPacketBuffer(buf);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      DataWatcher.writeWatchedListToPacketBuffer(this.field_149378_b, var1);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      DataWatcher.writeWatchedListToPacketBuffer(this.field_149378_b, buf);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityMetadata(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityMetadata(this);
    }
 
    public List<DataWatcher.WatchableObject> func_149376_c() {

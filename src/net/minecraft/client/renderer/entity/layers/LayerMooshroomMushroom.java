@@ -13,32 +13,32 @@ public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom> {
    private final RenderMooshroom mooshroomRenderer;
    private static final long a = 33403370154732L;
 
-   public LayerMooshroomMushroom(RenderMooshroom var1) {
-      this.mooshroomRenderer = var1;
+   public LayerMooshroomMushroom(RenderMooshroom mooshroomRendererIn) {
+      this.mooshroomRenderer = mooshroomRendererIn;
    }
 
-   public void doRenderLayer(EntityMooshroom var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      long var9 = a ^ 43919433167563L;
-      if (!var1.isChild() && !var1.isInvisible()) {
-         BlockRendererDispatcher var12 = Minecraft.getMinecraft().getBlockRendererDispatcher();
+   public void doRenderLayer(EntityMooshroom entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      long l = a ^ 43919433167563L;
+      if (!entitylivingbaseIn.isChild() && !entitylivingbaseIn.isInvisible()) {
+         BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
          this.mooshroomRenderer.bindTexture(TextureMap.locationBlocksTexture);
-         long var10000 = 616475218097275209L ^ var9;
+         long m = 616475218097275209L ^ l;
          GlStateManager.enableCull();
          GlStateManager.cullFace(1028);
          GlStateManager.pushMatrix();
-         var10000 = 2057505049910219876L ^ var9;
+         m = 2057505049910219876L ^ l;
          GlStateManager.scale(1.0F, -1.0F, 1.0F);
          GlStateManager.translate(0.2F, 0.35F, 0.5F);
          GlStateManager.rotate(42.0F, 0.0F, 1.0F, 0.0F);
          GlStateManager.pushMatrix();
          GlStateManager.translate(-0.5F, -0.5F, 0.5F);
-         var12.renderBlockBrightness(Blocks.red_mushroom.getDefaultState(), 1.0F);
+         blockRendererDispatcher.renderBlockBrightness(Blocks.red_mushroom.getDefaultState(), 1.0F);
          GlStateManager.popMatrix();
          GlStateManager.pushMatrix();
          GlStateManager.translate(0.1F, 0.0F, -0.6F);
          GlStateManager.rotate(42.0F, 0.0F, 1.0F, 0.0F);
          GlStateManager.translate(-0.5F, -0.5F, 0.5F);
-         var12.renderBlockBrightness(Blocks.red_mushroom.getDefaultState(), 1.0F);
+         blockRendererDispatcher.renderBlockBrightness(Blocks.red_mushroom.getDefaultState(), 1.0F);
          GlStateManager.popMatrix();
          GlStateManager.popMatrix();
          GlStateManager.pushMatrix();
@@ -47,7 +47,7 @@ public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom> {
          GlStateManager.translate(0.0F, 0.7F, -0.2F);
          GlStateManager.rotate(12.0F, 0.0F, 1.0F, 0.0F);
          GlStateManager.translate(-0.5F, -0.5F, 0.5F);
-         var12.renderBlockBrightness(Blocks.red_mushroom.getDefaultState(), 1.0F);
+         blockRendererDispatcher.renderBlockBrightness(Blocks.red_mushroom.getDefaultState(), 1.0F);
          GlStateManager.popMatrix();
          GlStateManager.cullFace(1029);
          GlStateManager.disableCull();

@@ -29,22 +29,22 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient> {
    public S00PacketServerInfo() {
    }
 
-   public S00PacketServerInfo(ServerStatusResponse var1) {
-      this.response = var1;
+   public S00PacketServerInfo(ServerStatusResponse responseIn) {
+      this.response = responseIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.response = GSON.fromJson(var1.readStringFromBuffer((int)b), ServerStatusResponse.class);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.response = GSON.fromJson(buf.readStringFromBuffer((int)b), ServerStatusResponse.class);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(GSON.toJson(this.response));
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(GSON.toJson(this.response));
    }
 
-   public void processPacket(INetHandlerStatusClient var1) {
-      var1.handleServerInfo(this);
+   public void processPacket(INetHandlerStatusClient handler) {
+      handler.handleServerInfo(this);
    }
 
    public ServerStatusResponse getResponse() {

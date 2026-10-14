@@ -11,27 +11,27 @@ public class EntityAIDefendVillage extends EntityAITarget {
    private static final long a = 16294140577205L;
    private static final long c = -2646858752476577772L;
 
-   public EntityAIDefendVillage(EntityIronGolem var1) {
-      super(var1, false, true);
-      this.irongolem = var1;
+   public EntityAIDefendVillage(EntityIronGolem ironGolemIn) {
+      super(ironGolemIn, false, true);
+      this.irongolem = ironGolemIn;
       this.setMutexBits(1);
    }
 
    @Override
    public boolean shouldExecute() {
-      Village var4 = this.irongolem.getVillage();
-      if (var4 == null) {
+      Village village = this.irongolem.getVillage();
+      if (village == null) {
          return false;
       }
 
-      this.villageAgressorTarget = var4.findNearestVillageAggressor(this.irongolem);
+      this.villageAgressorTarget = village.findNearestVillageAggressor(this.irongolem);
       if (this.villageAgressorTarget instanceof EntityCreeper) {
          return false;
       }
 
       if (!this.isSuitableTarget(this.villageAgressorTarget, false)) {
          if (this.taskOwner.getRNG().nextInt((int)c) == 0) {
-            this.villageAgressorTarget = var4.getNearestTargetPlayer(this.irongolem);
+            this.villageAgressorTarget = village.getNearestTargetPlayer(this.irongolem);
             return this.isSuitableTarget(this.villageAgressorTarget, false);
          } else {
             return false;

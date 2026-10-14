@@ -30,21 +30,21 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!this.canBlockStay(var1, var2, var3)) {
-         this.dropBlock(var1, var2, var3);
-      } else if (var1.rand.nextInt(5) == 0) {
-         int var8 = var3.getValue(AGE);
-         if (var8 < 2) {
-            var1.setBlockState(var2, var3.withProperty(AGE, var8 + 1), 2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!this.canBlockStay(worldIn, pos, state)) {
+         this.dropBlock(worldIn, pos, state);
+      } else if (worldIn.rand.nextInt(5) == 0) {
+         int i = state.getValue(AGE);
+         if (i < 2) {
+            worldIn.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
          }
       }
    }
 
-   public boolean canBlockStay(World var1, BlockPos var2, IBlockState var3) {
-      var2 = var2.offset(var3.getValue(FACING));
-      IBlockState var7 = var1.getBlockState(var2);
-      return var7.getBlock() == Blocks.log && var7.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE;
+   public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+      pos = pos.offset(state.getValue(FACING));
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      return iBlockState.getBlock() == Blocks.log && iBlockState.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE;
    }
 
    @Override
@@ -58,103 +58,103 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getCollisionBoundingBox(var1, var2, var3);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getCollisionBoundingBox(worldIn, pos, state);
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getSelectedBoundingBox(var1, var2);
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getSelectedBoundingBox(worldIn, pos);
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      EnumFacing var7 = var6.getValue(FACING);
-      int var8 = var6.getValue(AGE);
-      int var9 = 4 + var8 * 2;
-      int var10 = 5 + var8 * 2;
-      float var11 = var9 / 2.0F;
-      switch (var7) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      EnumFacing enumFacing = iBlockState.getValue(FACING);
+      int i = iBlockState.getValue(AGE);
+      int j = 4 + i * 2;
+      int k = 5 + i * 2;
+      float f = j / 2.0F;
+      switch (enumFacing) {
          case SOUTH:
-            this.setBlockBounds((8.0F - var11) / 16.0F, (12.0F - var10) / 16.0F, (15.0F - var9) / 16.0F, (8.0F + var11) / 16.0F, 0.75F, 0.9375F);
+            this.setBlockBounds((8.0F - f) / 16.0F, (12.0F - k) / 16.0F, (15.0F - j) / 16.0F, (8.0F + f) / 16.0F, 0.75F, 0.9375F);
             break;
          case NORTH:
-            this.setBlockBounds((8.0F - var11) / 16.0F, (12.0F - var10) / 16.0F, 0.0625F, (8.0F + var11) / 16.0F, 0.75F, (1.0F + var9) / 16.0F);
+            this.setBlockBounds((8.0F - f) / 16.0F, (12.0F - k) / 16.0F, 0.0625F, (8.0F + f) / 16.0F, 0.75F, (1.0F + j) / 16.0F);
             break;
          case WEST:
-            this.setBlockBounds(0.0625F, (12.0F - var10) / 16.0F, (8.0F - var11) / 16.0F, (1.0F + var9) / 16.0F, 0.75F, (8.0F + var11) / 16.0F);
+            this.setBlockBounds(0.0625F, (12.0F - k) / 16.0F, (8.0F - f) / 16.0F, (1.0F + j) / 16.0F, 0.75F, (8.0F + f) / 16.0F);
             break;
          case EAST:
-            this.setBlockBounds((15.0F - var9) / 16.0F, (12.0F - var10) / 16.0F, (8.0F - var11) / 16.0F, 0.9375F, 0.75F, (8.0F + var11) / 16.0F);
+            this.setBlockBounds((15.0F - j) / 16.0F, (12.0F - k) / 16.0F, (8.0F - f) / 16.0F, 0.9375F, 0.75F, (8.0F + f) / 16.0F);
       }
    }
 
    @Override
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
-      EnumFacing var6 = EnumFacing.fromAngle(var4.rotationYaw);
-      var1.setBlockState(var2, var3.withProperty(FACING, var6), 2);
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+      EnumFacing enumFacing = EnumFacing.fromAngle(placer.rotationYaw);
+      worldIn.setBlockState(pos, state.withProperty(FACING, enumFacing), 2);
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      if (!var3.getAxis().isHorizontal()) {
-         var3 = EnumFacing.NORTH;
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      if (!facing.getAxis().isHorizontal()) {
+         facing = EnumFacing.NORTH;
       }
 
-      return this.getDefaultState().withProperty(FACING, var3.getOpposite()).withProperty(AGE, 0);
+      return this.getDefaultState().withProperty(FACING, facing.getOpposite()).withProperty(AGE, 0);
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (!this.canBlockStay(var1, var2, var3)) {
-         this.dropBlock(var1, var2, var3);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (!this.canBlockStay(worldIn, pos, state)) {
+         this.dropBlock(worldIn, pos, state);
       }
    }
 
-   private void dropBlock(World var1, BlockPos var2, IBlockState var3) {
-      var1.setBlockState(var2, Blocks.air.getDefaultState(), 3);
-      this.dropBlockAsItem(var1, var2, var3, 0);
-   }
-
-   @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      int var9 = var3.getValue(AGE);
-      byte var10 = 1;
-      if (var9 >= 2) {
-         var10 = 3;
-      }
-
-      for (int var11 = 0; var11 < var10; var11++) {
-         spawnAsEntity(var1, var2, new ItemStack(Items.dye, 1, EnumDyeColor.BROWN.getDyeDamage()));
-      }
+   private void dropBlock(World worldIn, BlockPos pos, IBlockState state) {
+      worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+      this.dropBlockAsItem(worldIn, pos, state, 0);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      int i = state.getValue(AGE);
+      byte b = 1;
+      if (i >= 2) {
+         b = 3;
+      }
+
+      for (int j = 0; j < b; j++) {
+         spawnAsEntity(worldIn, pos, new ItemStack(Items.dye, 1, EnumDyeColor.BROWN.getDyeDamage()));
+      }
+   }
+
+   @Override
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.dye;
    }
 
    @Override
-   public int getDamageValue(World var1, BlockPos var2) {
+   public int getDamageValue(World worldIn, BlockPos pos) {
       return EnumDyeColor.BROWN.getDyeDamage();
    }
 
    @Override
-   public boolean canGrow(World var1, BlockPos var2, IBlockState var3, boolean var4) {
-      return var3.getValue(AGE) < 2;
+   public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+      return state.getValue(AGE) < 2;
    }
 
    @Override
-   public boolean canUseBonemeal(World var1, Random var2, BlockPos var3, IBlockState var4) {
+   public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
       return true;
    }
 
    @Override
-   public void grow(World var1, Random var2, BlockPos var3, IBlockState var4) {
-      var1.setBlockState(var3, var4.withProperty(AGE, var4.getValue(AGE) + 1), 2);
+   public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+      worldIn.setBlockState(pos, state.withProperty(AGE, state.getValue(AGE) + 1), 2);
    }
 
    @Override
@@ -163,15 +163,15 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(var1)).withProperty(AGE, (var1 & (int)i) >> 2);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(AGE, (meta & (int)i) >> 2);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var2 = 0;
-      var2 |= var1.getValue(FACING).getHorizontalIndex();
-      return var2 | var1.getValue(AGE) << 2;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(FACING).getHorizontalIndex();
+      return i | state.getValue(AGE) << 2;
    }
 
    @Override

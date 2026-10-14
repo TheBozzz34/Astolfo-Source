@@ -28,12 +28,12 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
       this.C.add(N);
    }
 
-   public void t(String var1, JsonObject var2) {
-      if (var1.equals("unsafe-functions")) {
-         N.j(var2.get("state").getAsBoolean());
+   public void t(String string, JsonObject jsonObject) {
+      if (string.equals("unsafe-functions")) {
+         N.j(jsonObject.get("state").getAsBoolean());
       }
 
-      L.put(var1, var2.get("state").getAsBoolean());
+      L.put(string, jsonObject.get("state").getAsBoolean());
    }
 
    @Override
@@ -41,24 +41,24 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
    }
 
    private void E() {
-      try (Stream var4 = Files.walk(Paths.get(B.getAbsolutePath()))) {
-         var4.forEach(var1 -> {
-            String var5 = ((java.nio.file.Path)var1).getFileName().toString();
-            String var6 = var1.toString();
-            if (var5.endsWith(".lua")) {
-               Script var7 = new Script(var6, var5);
-               if (!var7.K()) {
-                  this.C.add(var7);
-                  if (L.get(var7.C) != null && L.get(var7.C) && var7.o()) {
-                     var7.A();
+      try (Stream stream = Files.walk(Paths.get(B.getAbsolutePath()))) {
+         stream.forEach(object -> {
+            String string = ((java.nio.file.Path)object).getFileName().toString();
+            String string2 = object.toString();
+            if (string.endsWith(".lua")) {
+               Script script = new Script(string2, string);
+               if (!script.K()) {
+                  this.C.add(script);
+                  if (L.get(script.C) != null && L.get(script.C) && script.o()) {
+                     script.A();
                   }
                } else {
-                  chat.f("Error loading " + var7.C + " " + var7.Q);
+                  chat.f("Error loading " + script.C + " " + script.Q);
                }
             }
          });
-      } catch (IOException var17) {
-         var17.printStackTrace();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
@@ -71,10 +71,10 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
       this.E();
    }
 
-   public boolean v(String var1) {
-      for (Script var6 : this.C) {
-         if (var6.C.equals(var1)) {
-            var6.r();
+   public boolean v(String string) {
+      for (Script script : this.C) {
+         if (script.C.equals(string)) {
+            script.r();
             return true;
          }
       }
@@ -82,10 +82,10 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
       return false;
    }
 
-   public Script T(String var1) {
-      for (Script var6 : this.C) {
-         if (var6.C.equals(var1)) {
-            return var6;
+   public Script T(String string) {
+      for (Script script : this.C) {
+         if (script.C.equals(string)) {
+            return script;
          }
       }
 
@@ -93,37 +93,37 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
    }
 
    private void N() {
-      long var1 = c ^ 76255384151247L;
-      long var3 = var1 ^ 40109808716404L;
-      List var6 = client.getModuleManager().getList();
-      ArrayList var7 = new ArrayList();
-      int var8 = 0;
+      long l = c ^ 76255384151247L;
+      long m = l ^ 40109808716404L;
+      List list = client.getModuleManager().getList();
+      ArrayList arrayList = new ArrayList();
+      int i = 0;
 
-      for (int var9 = var6.size(); var8 < var9; var8++) {
-         ModuleInfo var10 = (ModuleInfo)var6.get(var8);
-         if (var10 instanceof ScriptModule) {
-            client.getEventBus().unsubscribe(var10);
-            var7.add(var10);
+      for (int j = list.size(); i < j; i++) {
+         ModuleInfo moduleInfo = (ModuleInfo)list.get(i);
+         if (moduleInfo instanceof ScriptModule) {
+            client.getEventBus().unsubscribe(moduleInfo);
+            arrayList.add(moduleInfo);
          }
       }
 
-      for (Object var12$raw : var7) {
-         ModuleInfo var12 = (ModuleInfo)var12$raw;
-         client.getModuleManager().remove(var12);
+      for (Object object : arrayList) {
+         ModuleInfo moduleInfo2 = (ModuleInfo)object;
+         client.getModuleManager().remove(moduleInfo2);
       }
    }
 
    public void X() {
-      for (Script var5 : this.C) {
-         if (var5 != null) {
-            var5.A();
+      for (Script script : this.C) {
+         if (script != null) {
+            script.A();
          }
       }
    }
 
    public void t() {
-      for (Script var5 : this.C) {
-         var5.x();
+      for (Script script : this.C) {
+         script.x();
       }
    }
 

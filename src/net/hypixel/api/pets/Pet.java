@@ -110,15 +110,15 @@ public class Pet {
    private String name;
    private static final long a = 72919244296480L;
 
-   public Pet(Map<String, Object> var1) {
-      this.stats = var1;
-      if (var1 != null) {
-         if (var1.get("experience") != null) {
-            this.experience = ((Number)var1.get("experience")).intValue();
+   public Pet(Map<String, Object> stats) {
+      this.stats = stats;
+      if (stats != null) {
+         if (stats.get("experience") != null) {
+            this.experience = ((Number)stats.get("experience")).intValue();
          }
 
-         if (var1.get("name") != null) {
-            this.name = (String)var1.get("name");
+         if (stats.get("name") != null) {
+            this.name = (String)stats.get("name");
          }
       }
 
@@ -130,30 +130,30 @@ public class Pet {
    }
 
    public double getAverageHappiness() {
-      double var4 = 0.0;
+      double d = 0.0;
 
-      for (PetAttribute var9 : PetAttribute.values()) {
-         var4 += this.getAttribute(var9);
+      for (PetAttribute petAttribute : PetAttribute.values()) {
+         d += this.getAttribute(petAttribute);
       }
 
-      return var4 / PetAttribute.values().length;
+      return d / PetAttribute.values().length;
    }
 
-   public int getAttribute(PetAttribute var1) {
-      Map var5 = (Map)this.stats.get(var1.name());
-      if (var5 == null) {
+   public int getAttribute(PetAttribute attribute) {
+      Map map = (Map)this.stats.get(attribute.name());
+      if (map == null) {
          return 1;
       } else {
-         Object var6 = var5.get("timestamp");
-         Object var7 = var5.get("value");
-         if (var6 instanceof Number && var7 instanceof Number) {
-            long var8 = System.currentTimeMillis();
-            long var10 = ((Number)var6).longValue();
-            int var12 = ((Number)var7).intValue();
-            long var13 = var8 - var10;
-            long var15 = var13 / 60000L;
-            long var17 = (long)Math.floor(var15 / 5L);
-            return Math.max(0, Math.round((float)(var12 - var17 * var1.getDecay())));
+         Object object = map.get("timestamp");
+         Object object2 = map.get("value");
+         if (object instanceof Number && object2 instanceof Number) {
+            long l = System.currentTimeMillis();
+            long m = ((Number)object).longValue();
+            int i = ((Number)object2).intValue();
+            long n = l - m;
+            long l2 = n / 60000L;
+            long l3 = (long)Math.floor(l2 / 5L);
+            return Math.max(0, Math.round((float)(i - l3 * attribute.getDecay())));
          } else {
             return 1;
          }
@@ -161,19 +161,19 @@ public class Pet {
    }
 
    public boolean updateLevel() {
-      int var4 = this.experience;
-      int var5 = 1;
+      int i = this.experience;
+      int j = 1;
 
-      for (int var9 : EXPERIENCE_LEVELS) {
-         if (var4 < var9) {
+      for (int k : EXPERIENCE_LEVELS) {
+         if (i < k) {
             break;
          }
 
-         var4 -= var9;
-         var5++;
+         i -= k;
+         j++;
       }
 
-      this.level = var5;
+      this.level = j;
       return false;
    }
 
@@ -181,14 +181,14 @@ public class Pet {
       return this.level;
    }
 
-   public int getExperienceUntilLevel(int var1) {
-      int var5 = 0;
+   public int getExperienceUntilLevel(int level) {
+      int i = 0;
 
-      for (int var6 = 0; var6 < Math.min(var1 - 1, 100); var6++) {
-         var5 += EXPERIENCE_LEVELS[var6];
+      for (int j = 0; j < Math.min(level - 1, 100); j++) {
+         i += EXPERIENCE_LEVELS[j];
       }
 
-      return var5;
+      return i;
    }
 
    public int J() {

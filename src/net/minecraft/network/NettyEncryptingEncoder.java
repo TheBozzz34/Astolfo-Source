@@ -9,11 +9,11 @@ import javax.crypto.ShortBufferException;
 public class NettyEncryptingEncoder extends MessageToByteEncoder<ByteBuf> {
    private final NettyEncryptionTranslator encryptionCodec;
 
-   public NettyEncryptingEncoder(Cipher var1) {
-      this.encryptionCodec = new NettyEncryptionTranslator(var1);
+   public NettyEncryptingEncoder(Cipher cipher) {
+      this.encryptionCodec = new NettyEncryptionTranslator(cipher);
    }
 
-   public void encode(ChannelHandlerContext var1, ByteBuf var2, ByteBuf var3) throws ShortBufferException, Exception {
-      this.encryptionCodec.cipher(var2, var3);
+   public void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, ByteBuf byteBuf2) throws ShortBufferException, Exception {
+      this.encryptionCodec.cipher(byteBuf, byteBuf2);
    }
 }

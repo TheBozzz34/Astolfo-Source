@@ -15,9 +15,9 @@ public class ListContainer<E> extends CollectionContainer<E> {
       this.I(this.getValue());
    }
 
-   public ListContainer(List<E> var1) {
-      super(var1);
-      this.I(var1);
+   public ListContainer(List<E> list) {
+      super(list);
+      this.I(list);
    }
 
    @Override
@@ -42,61 +42,61 @@ public class ListContainer<E> extends CollectionContainer<E> {
       return (List<E>)super.getValue();
    }
 
-   public List<E> I(List<E> var1) {
-      return (List<E>)super.setValue(var1);
+   public List<E> I(List<E> list) {
+      return (List<E>)super.setValue(list);
    }
 
    public List<E> Z() {
       return Collections.unmodifiableList(this.getValue());
    }
 
-   public void b(int var1, E var2) {
-      this.getValue().add(var1, (E)var2);
+   public void b(int i, E object) {
+      this.getValue().add(i, (E)object);
    }
 
-   public E o(int var1) {
-      return this.getValue().remove(var1);
+   public E o(int i) {
+      return this.getValue().remove(i);
    }
 
-   public E k(int var1, E var2) {
-      return this.getValue().set(var1, (E)var2);
+   public E k(int i, E object) {
+      return this.getValue().set(i, (E)object);
    }
 
-   public E J(int var1) {
-      return this.getValue().get(var1);
+   public E J(int i) {
+      return this.getValue().get(i);
    }
 
-   public Optional<E> G(int var1) {
-      return Optional.ofNullable(this.getValue().get(var1));
+   public Optional<E> G(int i) {
+      return Optional.ofNullable(this.getValue().get(i));
    }
 
-   public <T extends E> Optional<T> z(Class<T> var1) {
-      for (Object var6 : this.getValue()) {
-         if (var6.getClass() == var1) {
-            return Optional.of((T)var6);
+   public <T extends E> Optional<T> z(Class<T> class2) {
+      for (Object object : this.getValue()) {
+         if (object.getClass() == class2) {
+            return Optional.of((T)object);
          }
       }
 
       return Optional.empty();
    }
 
-   public int u(E var1) {
-      return this.getValue().indexOf(var1);
+   public int u(E object) {
+      return this.getValue().indexOf(object);
    }
 
-   public int d(E var1) {
-      return this.getValue().lastIndexOf(var1);
+   public int d(E object) {
+      return this.getValue().lastIndexOf(object);
    }
 
-   public boolean Z(int var1, Collection<? extends E> var2) {
-      return this.getValue().addAll(var1, var2);
+   public boolean Z(int i, Collection<? extends E> collection) {
+      return this.getValue().addAll(i, collection);
    }
 
    public ListIterator<E> h() {
       return this.getValue().listIterator();
    }
 
-   public ListIterator<E> X(int var1) {
-      return this.getValue().listIterator(var1);
+   public ListIterator<E> X(int i) {
+      return this.getValue().listIterator(i);
    }
 }

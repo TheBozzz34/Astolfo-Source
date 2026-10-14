@@ -15,17 +15,17 @@ public class NickHandler extends PacketHandler<NickPacket> {
       super(PacketId.NICK);
    }
 
-   public void handle(NickPacket var1, PacketOutput var2) {
-      System.out.println(var1.nick + " is " + var1.name);
-      Denicker.nicks.put(var1.nick, var1.name);
-      PlayerStatsChecker.r95 var7 = PlayerStatsChecker.V.get(var1.nick);
-      if (var7 != null) {
-         PlayerStatsChecker var8 = new PlayerStatsChecker(PlayerListTracker.hypixelApi);
-         var8.initialize(var7.F.getGameProfile().getId(), var1.name, var7.F, true);
-         PlayerStatsEntry var9 = new PlayerStatsEntry(var1.name, var7.F, var8);
-         var9.E = var1.name;
-         var9.Q = var1.nick;
-         PlayerListTracker.playerStats.add(var9);
+   public void handle(NickPacket nickPacket, PacketOutput packetOutput) {
+      System.out.println(nickPacket.nick + " is " + nickPacket.name);
+      Denicker.nicks.put(nickPacket.nick, nickPacket.name);
+      PlayerStatsChecker.r95 r952 = PlayerStatsChecker.V.get(nickPacket.nick);
+      if (r952 != null) {
+         PlayerStatsChecker playerStatsChecker = new PlayerStatsChecker(PlayerListTracker.hypixelApi);
+         playerStatsChecker.initialize(r952.F.getGameProfile().getId(), nickPacket.name, r952.F, true);
+         PlayerStatsEntry playerStatsEntry = new PlayerStatsEntry(nickPacket.name, r952.F, playerStatsChecker);
+         playerStatsEntry.E = nickPacket.name;
+         playerStatsEntry.Q = nickPacket.nick;
+         PlayerListTracker.playerStats.add(playerStatsEntry);
       }
    }
 }

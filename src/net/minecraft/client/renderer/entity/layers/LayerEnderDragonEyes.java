@@ -13,31 +13,31 @@ public class LayerEnderDragonEyes implements LayerRenderer<EntityDragon> {
    private final RenderDragon dragonRenderer;
    private static final long b = 21489159829862L;
 
-   public LayerEnderDragonEyes(RenderDragon var1) {
-      this.dragonRenderer = var1;
+   public LayerEnderDragonEyes(RenderDragon dragonRendererIn) {
+      this.dragonRenderer = dragonRendererIn;
    }
 
-   public void doRenderLayer(EntityDragon var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      long var9 = b ^ 93840939186788L;
+   public void doRenderLayer(EntityDragon entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      long l = b ^ 93840939186788L;
       this.dragonRenderer.bindTexture(TEXTURE);
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
       GlStateManager.blendFunc(1, 1);
       GlStateManager.disableLighting();
       GlStateManager.depthFunc(514);
-      char var12 = '\uf0f0';
-      int var13 = var12 % 65536;
-      int var14 = var12 / 65536;
-      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var13 / 1.0F, var14 / 1.0F);
+      char c = '\uf0f0';
+      int i = c % 65536;
+      int j = c / 65536;
+      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, i / 1.0F, j / 1.0F);
       GlStateManager.enableLighting();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       if (Config.isShaders()) {
          Shaders.s();
       }
 
-      this.dragonRenderer.getMainModel().render(var1, var2, var3, var5, var6, var7, var8);
-      this.dragonRenderer.setLightmap(var1, var4);
-      long var10000 = 3730157493441269419L ^ var9;
+      this.dragonRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);
+      this.dragonRenderer.setLightmap(entitylivingbaseIn, partialTicks);
+      long m = 3730157493441269419L ^ l;
       GlStateManager.disableBlend();
       GlStateManager.enableAlpha();
       GlStateManager.depthFunc(515);

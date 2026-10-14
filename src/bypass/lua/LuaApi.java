@@ -27,66 +27,70 @@ public class LuaApi implements ClientAccess {
    private static final long b = 79788896861913L;
 
    @ScriptName(j = "byh")
-   public void w(String var1, float var2, float var3, int var4) {
-      if (!var1.contains("bypass.") && !var1.contains("jdk") && !var1.contains("drawRect") && !var1.contains("function(") && !var1.contains("worldCls")) {
-         mc.fontRendererObj.drawStringWithShadow(var1, var2, var3, var4);
+   public void w(String string, float g, float h, int i) {
+      if (!string.contains("bypass.")
+         && !string.contains("jdk")
+         && !string.contains("drawRect")
+         && !string.contains("function(")
+         && !string.contains("worldCls")) {
+         mc.fontRendererObj.drawStringWithShadow(string, g, h, i);
       }
    }
 
    @ScriptName(j = "dgytw")
-   public int r(String var1) {
-      return mc.fontRendererObj.getStringWidth(var1);
+   public int r(String string) {
+      return mc.fontRendererObj.getStringWidth(string);
    }
 
    @ScriptName(j = "drw")
-   public void y(double var1, double var3, double var5, double var7, int var9, int var10, int var11, int var12) {
-      if (var9 <= 255 && var9 >= 0 && var10 >= 0 && var11 >= 0 && var12 >= 0 && var10 <= 255 && var11 <= 255 && var12 <= 255) {
-         RenderUtil.j(var1, var3, var5, var7, var9, var10, var11, var12);
+   public void y(double d, double d2, double d3, double d4, int i, int j, int k, int l) {
+      if (i <= 255 && i >= 0 && j >= 0 && k >= 0 && l >= 0 && j <= 255 && k <= 255 && l <= 255) {
+         RenderUtil.j(d, d2, d3, d4, i, j, k, l);
       } else {
          chat.I("Incorrect color");
       }
    }
 
    @ScriptName(j = "rgmr")
-   public void a(ScriptObjectMirror var1) {
+   public void a(ScriptObjectMirror scriptObjectMirror) {
    }
 
    @ScriptName(j = "vrnj")
-   public void F(ScriptObjectMirror var1) {
+   public void F(ScriptObjectMirror scriptObjectMirror) {
    }
 
    @ScriptName(j = "wyhwy")
-   public void y(String var1, String var2, String var3, boolean var4) {
-      long var5 = b ^ 15643489397635L;
-      long var7 = var5 ^ 125193056102633L;
-      BooleanSetting var11 = new BooleanSetting(var2, var3, var4);
-      f.put(var2, var11);
-      client.getModuleManager().getModule(var1).addSettings(var11);
+   public void y(String string, String string2, String string3, boolean bl) {
+      long l = b ^ 15643489397635L;
+      long m = l ^ 125193056102633L;
+      BooleanSetting booleanSetting = new BooleanSetting(string2, string3, bl);
+      f.put(string2, booleanSetting);
+      client.getModuleManager().getModule(string).addSettings(booleanSetting);
    }
 
    @ScriptName(j = "bdwugydyuwh")
-   public boolean h(String var1) {
-      long var2 = b ^ 41396736821464L;
-      long var4 = var2 ^ 99234729216946L;
+   public boolean h(String string) {
+      long l = b ^ 41396736821464L;
+      long m = l ^ 99234729216946L;
 
       try {
-         return client.getModuleManager().getModule(var1).isEnabled();
-      } catch (Exception var7) {
+         return client.getModuleManager().getModule(string).isEnabled();
+      } catch (Exception exception) {
          return false;
       }
    }
 
    @ScriptName(j = "ewbdwyb")
-   public boolean t(String var1) {
-      return f.get(var1).asBoolean();
+   public boolean t(String string) {
+      return f.get(string).asBoolean();
    }
 
    @ScriptName(j = "dbuywaehyudwa")
-   public void l(double var1, double var3, double var5) {
+   public void l(double d, double d2, double d3) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.motionX = var1;
-         mc.thePlayer.motionY = var3;
-         mc.thePlayer.motionZ = var5;
+         mc.thePlayer.motionX = d;
+         mc.thePlayer.motionY = d2;
+         mc.thePlayer.motionZ = d3;
       }
    }
 
@@ -96,25 +100,29 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "wjn")
-   public void r(double var1, double var3, double var5) {
+   public void r(double d, double d2, double d3) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.setPosition(var1, var3, var5);
+         mc.thePlayer.setPosition(d, d2, d3);
       }
    }
 
    @ScriptName(j = "evh")
-   public void M(String var1) {
+   public void M(String string) {
       if (mc.thePlayer != null) {
-         if (!var1.contains("bypass.") && !var1.contains("jdk") && !var1.contains("drawRect") && !var1.contains("function(") && !var1.contains("worldCls")) {
-            mc.thePlayer.sendClientChatMessage(var1);
+         if (!string.contains("bypass.")
+            && !string.contains("jdk")
+            && !string.contains("drawRect")
+            && !string.contains("function(")
+            && !string.contains("worldCls")) {
+            mc.thePlayer.sendClientChatMessage(string);
          }
       }
    }
 
    @ScriptName(j = "evj")
-   public void t(double var1) {
+   public void t(double d) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.r(var1);
+         mc.thePlayer.r(d);
       }
    }
 
@@ -126,9 +134,9 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "evg")
-   public void M(boolean var1) {
+   public void M(boolean bl) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.onGround = var1;
+         mc.thePlayer.onGround = bl;
       }
    }
 
@@ -138,9 +146,9 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "nbhdwuinwd")
-   public void Z(double var1, double var3, double var5) {
+   public void Z(double d, double d2, double d3) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.setPosition(var1, var3, var5);
+         mc.thePlayer.setPosition(d, d2, d3);
       }
    }
 
@@ -155,8 +163,8 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "eio")
-   public void D(float var1) {
-      mc.timer.timerSpeed = var1;
+   public void D(float g) {
+      mc.timer.timerSpeed = g;
    }
 
    @ScriptName(j = "dfbgeuwy")
@@ -170,29 +178,29 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "ejf")
-   public void d(int var1, Object... var2) {
+   public void d(int i, Object... objects) {
       if (mc.thePlayer != null) {
-         switch (var1) {
+         switch (i) {
             case 0:
                mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
                break;
             case 1:
-               int var6 = 0;
-               int[] var7 = new int[var2.length];
+               int k = 0;
+               int[] ints = new int[objects.length];
 
-               for (Object var23 : var2) {
-                  if (var23 instanceof Number) {
-                     var7[var6] = ((Number)var23).intValue();
-                     var6++;
+               for (Object object : objects) {
+                  if (object instanceof Number) {
+                     ints[k] = ((Number)object).intValue();
+                     k++;
                   }
                }
 
-               if (var2.length == 1) {
-                  if (var7[0] > C0BPacketEntityAction.Action.values().length) {
+               if (objects.length == 1) {
+                  if (ints[0] > C0BPacketEntityAction.Action.values().length) {
                      return;
                   }
 
-                  mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.values()[var7[0]]));
+                  mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.values()[ints[0]]));
                }
             case 2:
             case 3:
@@ -203,77 +211,77 @@ public class LuaApi implements ClientAccess {
             default:
                break;
             case 8:
-               int var8 = 0;
-               int[] var9 = new int[var2.length];
+               int l = 0;
+               int[] ints2 = new int[objects.length];
 
-               for (Object var25 : var2) {
-                  if (var25 instanceof Number) {
-                     var9[var8] = ((Number)var25).intValue();
-                     var8++;
+               for (Object object2 : objects) {
+                  if (object2 instanceof Number) {
+                     ints2[l] = ((Number)object2).intValue();
+                     l++;
                   }
                }
 
-               switch (var2.length) {
+               switch (objects.length) {
                   case 2:
-                     if (Z.get(var9[0]) == null) {
+                     if (Z.get(ints2[0]) == null) {
                         chat.I("Entity not found, remember to call world.getEntities()");
                         return;
                      }
 
-                     if (var9[1] > C02PacketUseEntity.Action.values().length) {
+                     if (ints2[1] > C02PacketUseEntity.Action.values().length) {
                         return;
                      }
 
-                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(Z.get(var9[0]), C02PacketUseEntity.Action.values()[var9[1]]));
+                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(Z.get(ints2[0]), C02PacketUseEntity.Action.values()[ints2[1]]));
                      return;
                   case 4:
-                     if (Z.get(var9[0]) == null) {
+                     if (Z.get(ints2[0]) == null) {
                         chat.I("Entity not found, remember to call world.getEntities()");
                         return;
                      }
 
-                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(Z.get(var9[0]), new Vec3(var9[1], var9[2], var9[3])));
+                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(Z.get(ints2[0]), new Vec3(ints2[1], ints2[2], ints2[3])));
                      return;
                   default:
                      return;
                }
             case 9:
-               int var10 = 0;
-               double[] var11 = new double[var2.length];
-               boolean var12 = false;
-               boolean var13 = false;
+               int m = 0;
+               double[] doubles = new double[objects.length];
+               boolean bl = false;
+               boolean bl2 = false;
 
-               for (Object var17 : var2) {
-                  if (var17 instanceof Number) {
-                     var11[var10] = ((Number)var17).doubleValue();
-                     var10++;
+               for (Object object3 : objects) {
+                  if (object3 instanceof Number) {
+                     doubles[m] = ((Number)object3).doubleValue();
+                     m++;
                   }
 
-                  if (var17 instanceof Boolean) {
-                     var13 = true;
-                     var12 = (Boolean)var17;
+                  if (object3 instanceof Boolean) {
+                     bl2 = true;
+                     bl = (Boolean)object3;
                   }
                }
 
-               switch (var2.length) {
+               switch (objects.length) {
                   case 1:
-                     if (var13) {
-                        mc.thePlayer.sendQueue.u(new C03PacketPlayer(var12));
+                     if (bl2) {
+                        mc.thePlayer.sendQueue.u(new C03PacketPlayer(bl));
                      }
                   case 2:
                   case 5:
                   default:
                      break;
                   case 3:
-                     mc.thePlayer.sendQueue.u(new C03PacketPlayer.C05PacketPlayerLook((float)var11[0], (float)var11[1], var12));
+                     mc.thePlayer.sendQueue.u(new C03PacketPlayer.C05PacketPlayerLook((float)doubles[0], (float)doubles[1], bl));
                      break;
                   case 4:
-                     mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(var11[0], var11[1], var11[2], var12));
+                     mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(doubles[0], doubles[1], doubles[2], bl));
                      break;
                   case 6:
                      mc.thePlayer
                         .sendQueue
-                        .u(new C03PacketPlayer.C06PacketPlayerPosLook(var11[0], var11[1], var11[2], (float)var11[3], (float)var11[4], var12));
+                        .u(new C03PacketPlayer.C06PacketPlayerPosLook(doubles[0], doubles[1], doubles[2], (float)doubles[3], (float)doubles[4], bl));
                }
          }
       }
@@ -295,17 +303,17 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "dbwhydgwydw")
-   public void z(float var1, float var2) {
+   public void z(float g, float h) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.rotationPitch = var1;
-         mc.thePlayer.rotationYaw = var2;
+         mc.thePlayer.rotationPitch = g;
+         mc.thePlayer.rotationYaw = h;
       }
    }
 
    @ScriptName(j = "fhuyer")
-   public void h(int var1) {
+   public void h(int i) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.inventory.currentItem = var1;
+         mc.thePlayer.inventory.currentItem = i;
          mc.playerController.u();
       }
    }
@@ -330,23 +338,23 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "wgytw")
-   public boolean W_boolean(int var1) {
+   public boolean W_boolean(int i) {
       if (mc.thePlayer == null) {
          return false;
       }
 
-      Entity var5 = Z.get(var1);
-      return var5 != null ? mc.thePlayer.C(var5) : false;
+      Entity entity = Z.get(i);
+      return entity != null ? mc.thePlayer.C(entity) : false;
    }
 
    @ScriptName(j = "cvhbru8y")
-   public double W(int var1) {
+   public double W(int i) {
       if (mc.thePlayer == null) {
          return -1.0;
       }
 
-      Entity var5 = Z.get(var1);
-      return var5 != null ? mc.thePlayer.getDistanceToEntity(var5) : -1.0;
+      Entity entity = Z.get(i);
+      return entity != null ? mc.thePlayer.getDistanceToEntity(entity) : -1.0;
    }
 
    @ScriptName(j = "bgchuyerguy")
@@ -356,86 +364,86 @@ public class LuaApi implements ClientAccess {
       }
 
       Z.clear();
-      int[] var4 = new int[mc.theWorld.loadedEntityList.size()];
-      int var5 = 0;
+      int[] ints = new int[mc.theWorld.loadedEntityList.size()];
+      int i = 0;
 
-      for (Entity var7 : mc.theWorld.loadedEntityList) {
-         int var8 = var7.getEntityId();
-         Z.put(var8, var7);
-         var4[var5] = var8;
-         var5++;
+      for (Entity entity : mc.theWorld.loadedEntityList) {
+         int k = entity.getEntityId();
+         Z.put(k, entity);
+         ints[i] = k;
+         i++;
       }
 
-      return var4;
+      return ints;
    }
 
    @ScriptName(j = "fbeyugy")
-   public float b(int var1) {
-      Entity var5 = Z.get(var1);
-      return var5 != null && var5 instanceof EntityLivingBase ? ((EntityLivingBase)var5).getHealth() : -1.0F;
+   public float b(int i) {
+      Entity entity = Z.get(i);
+      return entity != null && entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).getHealth() : -1.0F;
    }
 
    @ScriptName(j = "chneuy")
-   public float F(int var1) {
-      Entity var5 = Z.get(var1);
-      return var5 != null && var5 instanceof EntityLivingBase ? ((EntityLivingBase)var5).hurtTime : -1.0F;
+   public float F(int i) {
+      Entity entity = Z.get(i);
+      return entity != null && entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).hurtTime : -1.0F;
    }
 
    @ScriptName(j = "dhweiuehiu")
-   public double[] T(int var1) {
-      Entity var4 = Z.get(var1);
-      return var4 != null
+   public double[] T(int i) {
+      Entity entity = Z.get(i);
+      return entity != null
          ? new double[]{
-            var4.getEntityBoundingBox().minX,
-            var4.getEntityBoundingBox().minY,
-            var4.getEntityBoundingBox().minZ,
-            var4.getEntityBoundingBox().maxX,
-            var4.getEntityBoundingBox().maxY,
-            var4.getEntityBoundingBox().maxZ
+            entity.getEntityBoundingBox().minX,
+            entity.getEntityBoundingBox().minY,
+            entity.getEntityBoundingBox().minZ,
+            entity.getEntityBoundingBox().maxX,
+            entity.getEntityBoundingBox().maxY,
+            entity.getEntityBoundingBox().maxZ
          }
          : null;
    }
 
    @ScriptName(j = "dnwauyhdwuaiy")
-   public double[] G(int var1) {
-      Entity var4 = Z.get(var1);
-      return var4 != null ? new double[]{var4.posX, var4.posY, var4.posZ} : null;
+   public double[] G(int i) {
+      Entity entity = Z.get(i);
+      return entity != null ? new double[]{entity.posX, entity.posY, entity.posZ} : null;
    }
 
    @ScriptName(j = "kdwaoihdauiyw")
-   public float[] z(int var1) {
-      Entity var4 = Z.get(var1);
-      return var4 != null ? new float[]{var4.rotationPitch, var4.rotationYaw} : null;
+   public float[] z(int i) {
+      Entity entity = Z.get(i);
+      return entity != null ? new float[]{entity.rotationPitch, entity.rotationYaw} : null;
    }
 
    @ScriptName(j = "swkajhxcjaw")
-   public String V(int var1) {
-      Entity var5 = Z.get(var1);
-      if (var5 != null) {
-         return var5.getDisplayName() == null ? var5.getName() : var5.getDisplayName().getFormattedText();
+   public String V(int i) {
+      Entity entity = Z.get(i);
+      if (entity != null) {
+         return entity.getDisplayName() == null ? entity.getName() : entity.getDisplayName().getFormattedText();
       } else {
          return null;
       }
    }
 
    @ScriptName(j = "dwhtydwga")
-   public String r(int var1) {
-      Entity var5 = Z.get(var1);
-      return var5 != null ? var5.getName() : null;
+   public String r(int i) {
+      Entity entity = Z.get(i);
+      return entity != null ? entity.getName() : null;
    }
 
    @ScriptName(j = "dbwuy")
-   public boolean Z(int var1) {
-      Entity var2 = Z.get(var1);
-      return var2 instanceof EntityPlayer;
+   public boolean Z(int i) {
+      Entity entity = Z.get(i);
+      return entity instanceof EntityPlayer;
    }
 
    @ScriptName(j = "dbwtytydgw")
-   public String i(int var1) {
-      Entity var5 = Z.get(var1);
-      if (var5 != null && var5 instanceof EntityLivingBase) {
-         EntityLivingBase var6 = (EntityLivingBase)var5;
-         return var6.getHeldItem() == null ? "hand" : var6.getHeldItem().getDisplayName();
+   public String i(int i) {
+      Entity entity = Z.get(i);
+      if (entity != null && entity instanceof EntityLivingBase) {
+         EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+         return entityLivingBase.getHeldItem() == null ? "hand" : entityLivingBase.getHeldItem().getDisplayName();
       } else {
          return null;
       }
@@ -447,16 +455,16 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "vdtrwdtryw")
-   public void J(float var1) {
-      mc.timer.timerSpeed = var1;
+   public void J(float g) {
+      mc.timer.timerSpeed = g;
    }
 
    @ScriptName(j = "dhwiudhwu")
-   public String n(double var1, double var3, double var5) {
+   public String n(double d, double d2, double d3) {
       if (mc.theWorld != null) {
-         Block var10 = mc.theWorld.getBlockState(new BlockPos(var1, var3, var5)).getBlock();
-         if (var10 != null) {
-            return var10.getUnlocalizedName();
+         Block block = mc.theWorld.getBlockState(new BlockPos(d, d2, d3)).getBlock();
+         if (block != null) {
+            return block.getUnlocalizedName();
          }
       }
 
@@ -474,23 +482,23 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "dwaydgywaudawdhaw")
-   public void a(String var1, String var2, int var3) {
-      Toasts.TOASTS.A(var1, var2, var3);
+   public void a(String string, String string2, int i) {
+      Toasts.TOASTS.A(string, string2, i);
    }
 
    @ScriptName(j = "debwtgfdywtfdwatfy")
-   public void C(String var1, String var2, int var3) {
-      Toasts.TOASTS.w(var1, var2, var3);
+   public void C(String string, String string2, int i) {
+      Toasts.TOASTS.w(string, string2, i);
    }
 
    @ScriptName(j = "dbawygtfdwyatdwaftyd")
-   public void K(String var1, String var2, int var3) {
-      Toasts.TOASTS.G(var1, var2, var3);
+   public void K(String string, String string2, int i) {
+      Toasts.TOASTS.G(string, string2, i);
    }
 
    @ScriptName(j = "dgaytfdwtayfdtawyd")
-   public void H(String var1, String var2, int var3) {
-      Toasts.TOASTS.R(var1, var2, var3);
+   public void H(String string, String string2, int i) {
+      Toasts.TOASTS.R(string, string2, i);
    }
 
    @ScriptName(j = "bdhgvwgdyvwgytdw")
@@ -499,8 +507,8 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName(j = "bdgawgdawtydfawtydfa")
-   public void L(String var1) {
-      ClientChat.CHAT.I(var1);
+   public void L(String string) {
+      ClientChat.CHAT.I(string);
    }
 
    @ScriptName(j = "hdhwagbduyawdgwauy")

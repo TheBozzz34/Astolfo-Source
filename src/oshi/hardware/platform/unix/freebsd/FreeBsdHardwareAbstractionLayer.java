@@ -57,8 +57,8 @@ public final class FreeBsdHardwareAbstractionLayer extends AbstractHardwareAbstr
    }
 
    @Override
-   public UsbDevice[] getUsbDevices(boolean var1) {
-      return FreeBsdUsbDevice.getUsbDevices(var1);
+   public UsbDevice[] getUsbDevices(boolean tree) {
+      return FreeBsdUsbDevice.getUsbDevices(tree);
    }
 
    @Override

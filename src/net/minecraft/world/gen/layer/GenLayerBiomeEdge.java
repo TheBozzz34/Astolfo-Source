@@ -5,127 +5,124 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class GenLayerBiomeEdge extends GenLayer {
    private static final long c = 50075045644253L;
 
-   public GenLayerBiomeEdge(long var1, GenLayer var3) {
-      super(var1);
-      this.parent = var3;
+   public GenLayerBiomeEdge(long l, GenLayer genLayer) {
+      super(l);
+      this.parent = genLayer;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
-      int[] var8 = this.parent.getInts(var1 - 1, var2 - 1, var3 + 2, var4 + 2);
-      int[] var9 = IntCache.getIntCache(var3 * var4);
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+      int[] ints = this.parent.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
+      int[] ints2 = IntCache.getIntCache(areaWidth * areaHeight);
 
-      for (int var10 = 0; var10 < var4; var10++) {
-         for (int var11 = 0; var11 < var3; var11++) {
-            this.initChunkSeed(var11 + var1, var10 + var2);
-            int var12 = var8[var11 + 1 + (var10 + 1) * (var3 + 2)];
+      for (int i = 0; i < areaHeight; i++) {
+         for (int j = 0; j < areaWidth; j++) {
+            this.initChunkSeed(j + areaX, i + areaY);
+            int k = ints[j + 1 + (i + 1) * (areaWidth + 2)];
             if (!this.replaceBiomeEdgeIfNecessary(
-                  var8, var9, var11, var10, var3, var12, BiomeGenBase.extremeHills.biomeID, BiomeGenBase.extremeHillsEdge.biomeID
+                  ints, ints2, j, i, areaWidth, k, BiomeGenBase.extremeHills.biomeID, BiomeGenBase.extremeHillsEdge.biomeID
                )
-               && !this.replaceBiomeEdge(var8, var9, var11, var10, var3, var12, BiomeGenBase.mesaPlateau_F.biomeID, BiomeGenBase.mesa.biomeID)
-               && !this.replaceBiomeEdge(var8, var9, var11, var10, var3, var12, BiomeGenBase.mesaPlateau.biomeID, BiomeGenBase.mesa.biomeID)
-               && !this.replaceBiomeEdge(var8, var9, var11, var10, var3, var12, BiomeGenBase.megaTaiga.biomeID, BiomeGenBase.taiga.biomeID)) {
-               if (var12 == BiomeGenBase.desert.biomeID) {
-                  int var13 = var8[var11 + 1 + (var10 + 1 - 1) * (var3 + 2)];
-                  int var14 = var8[var11 + 1 + 1 + (var10 + 1) * (var3 + 2)];
-                  int var15 = var8[var11 + 1 - 1 + (var10 + 1) * (var3 + 2)];
-                  int var16 = var8[var11 + 1 + (var10 + 1 + 1) * (var3 + 2)];
-                  if (var13 != BiomeGenBase.icePlains.biomeID
-                     && var14 != BiomeGenBase.icePlains.biomeID
-                     && var15 != BiomeGenBase.icePlains.biomeID
-                     && var16 != BiomeGenBase.icePlains.biomeID) {
-                     var9[var11 + var10 * var3] = var12;
+               && !this.replaceBiomeEdge(ints, ints2, j, i, areaWidth, k, BiomeGenBase.mesaPlateau_F.biomeID, BiomeGenBase.mesa.biomeID)
+               && !this.replaceBiomeEdge(ints, ints2, j, i, areaWidth, k, BiomeGenBase.mesaPlateau.biomeID, BiomeGenBase.mesa.biomeID)
+               && !this.replaceBiomeEdge(ints, ints2, j, i, areaWidth, k, BiomeGenBase.megaTaiga.biomeID, BiomeGenBase.taiga.biomeID)) {
+               if (k == BiomeGenBase.desert.biomeID) {
+                  int l = ints[j + 1 + (i + 1 - 1) * (areaWidth + 2)];
+                  int m = ints[j + 1 + 1 + (i + 1) * (areaWidth + 2)];
+                  int n = ints[j + 1 - 1 + (i + 1) * (areaWidth + 2)];
+                  int i2 = ints[j + 1 + (i + 1 + 1) * (areaWidth + 2)];
+                  if (l != BiomeGenBase.icePlains.biomeID
+                     && m != BiomeGenBase.icePlains.biomeID
+                     && n != BiomeGenBase.icePlains.biomeID
+                     && i2 != BiomeGenBase.icePlains.biomeID) {
+                     ints2[j + i * areaWidth] = k;
                   } else {
-                     var9[var11 + var10 * var3] = BiomeGenBase.extremeHillsPlus.biomeID;
+                     ints2[j + i * areaWidth] = BiomeGenBase.extremeHillsPlus.biomeID;
                   }
-               } else if (var12 == BiomeGenBase.swampland.biomeID) {
-                  int var17 = var8[var11 + 1 + (var10 + 1 - 1) * (var3 + 2)];
-                  int var18 = var8[var11 + 1 + 1 + (var10 + 1) * (var3 + 2)];
-                  int var19 = var8[var11 + 1 - 1 + (var10 + 1) * (var3 + 2)];
-                  int var20 = var8[var11 + 1 + (var10 + 1 + 1) * (var3 + 2)];
-                  if (var17 == BiomeGenBase.desert.biomeID
-                     || var18 == BiomeGenBase.desert.biomeID
-                     || var19 == BiomeGenBase.desert.biomeID
-                     || var20 == BiomeGenBase.desert.biomeID
-                     || var17 == BiomeGenBase.coldTaiga.biomeID
-                     || var18 == BiomeGenBase.coldTaiga.biomeID
-                     || var19 == BiomeGenBase.coldTaiga.biomeID
-                     || var20 == BiomeGenBase.coldTaiga.biomeID
-                     || var17 == BiomeGenBase.icePlains.biomeID
-                     || var18 == BiomeGenBase.icePlains.biomeID
-                     || var19 == BiomeGenBase.icePlains.biomeID
-                     || var20 == BiomeGenBase.icePlains.biomeID) {
-                     var9[var11 + var10 * var3] = BiomeGenBase.plains.biomeID;
-                  } else if (var17 != BiomeGenBase.jungle.biomeID
-                     && var20 != BiomeGenBase.jungle.biomeID
-                     && var18 != BiomeGenBase.jungle.biomeID
-                     && var19 != BiomeGenBase.jungle.biomeID) {
-                     var9[var11 + var10 * var3] = var12;
+               } else if (k == BiomeGenBase.swampland.biomeID) {
+                  int i3 = ints[j + 1 + (i + 1 - 1) * (areaWidth + 2)];
+                  int i4 = ints[j + 1 + 1 + (i + 1) * (areaWidth + 2)];
+                  int i5 = ints[j + 1 - 1 + (i + 1) * (areaWidth + 2)];
+                  int i6 = ints[j + 1 + (i + 1 + 1) * (areaWidth + 2)];
+                  if (i3 == BiomeGenBase.desert.biomeID
+                     || i4 == BiomeGenBase.desert.biomeID
+                     || i5 == BiomeGenBase.desert.biomeID
+                     || i6 == BiomeGenBase.desert.biomeID
+                     || i3 == BiomeGenBase.coldTaiga.biomeID
+                     || i4 == BiomeGenBase.coldTaiga.biomeID
+                     || i5 == BiomeGenBase.coldTaiga.biomeID
+                     || i6 == BiomeGenBase.coldTaiga.biomeID
+                     || i3 == BiomeGenBase.icePlains.biomeID
+                     || i4 == BiomeGenBase.icePlains.biomeID
+                     || i5 == BiomeGenBase.icePlains.biomeID
+                     || i6 == BiomeGenBase.icePlains.biomeID) {
+                     ints2[j + i * areaWidth] = BiomeGenBase.plains.biomeID;
+                  } else if (i3 != BiomeGenBase.jungle.biomeID
+                     && i6 != BiomeGenBase.jungle.biomeID
+                     && i4 != BiomeGenBase.jungle.biomeID
+                     && i5 != BiomeGenBase.jungle.biomeID) {
+                     ints2[j + i * areaWidth] = k;
                   } else {
-                     var9[var11 + var10 * var3] = BiomeGenBase.jungleEdge.biomeID;
+                     ints2[j + i * areaWidth] = BiomeGenBase.jungleEdge.biomeID;
                   }
                } else {
-                  var9[var11 + var10 * var3] = var12;
+                  ints2[j + i * areaWidth] = k;
                }
             }
          }
       }
 
-      return var9;
+      return ints2;
    }
 
-   private boolean replaceBiomeEdgeIfNecessary(int[] var1, int[] var2, int var3, int var4, int var5, int var6, int var7, int var8) {
-      if (!biomesEqualOrMesaPlateau(var6, var7)) {
+   private boolean replaceBiomeEdgeIfNecessary(int[] ints, int[] ints2, int i, int j, int k, int l, int m, int n) {
+      if (!biomesEqualOrMesaPlateau(l, m)) {
          return false;
       }
 
-      int var12 = var1[var3 + 1 + (var4 + 1 - 1) * (var5 + 2)];
-      int var13 = var1[var3 + 1 + 1 + (var4 + 1) * (var5 + 2)];
-      int var14 = var1[var3 + 1 - 1 + (var4 + 1) * (var5 + 2)];
-      int var15 = var1[var3 + 1 + (var4 + 1 + 1) * (var5 + 2)];
-      if (this.canBiomesBeNeighbors(var12, var7)
-         && this.canBiomesBeNeighbors(var13, var7)
-         && this.canBiomesBeNeighbors(var14, var7)
-         && this.canBiomesBeNeighbors(var15, var7)) {
-         var2[var3 + var4 * var5] = var6;
+      int i2 = ints[i + 1 + (j + 1 - 1) * (k + 2)];
+      int i3 = ints[i + 1 + 1 + (j + 1) * (k + 2)];
+      int i4 = ints[i + 1 - 1 + (j + 1) * (k + 2)];
+      int i5 = ints[i + 1 + (j + 1 + 1) * (k + 2)];
+      if (this.canBiomesBeNeighbors(i2, m)
+         && this.canBiomesBeNeighbors(i3, m)
+         && this.canBiomesBeNeighbors(i4, m)
+         && this.canBiomesBeNeighbors(i5, m)) {
+         ints2[i + j * k] = l;
       } else {
-         var2[var3 + var4 * var5] = var8;
+         ints2[i + j * k] = n;
       }
 
       return true;
    }
 
-   private boolean replaceBiomeEdge(int[] var1, int[] var2, int var3, int var4, int var5, int var6, int var7, int var8) {
-      if (var6 != var7) {
+   private boolean replaceBiomeEdge(int[] ints, int[] ints2, int i, int j, int k, int l, int m, int n) {
+      if (l != m) {
          return false;
       }
 
-      int var12 = var1[var3 + 1 + (var4 + 1 - 1) * (var5 + 2)];
-      int var13 = var1[var3 + 1 + 1 + (var4 + 1) * (var5 + 2)];
-      int var14 = var1[var3 + 1 - 1 + (var4 + 1) * (var5 + 2)];
-      int var15 = var1[var3 + 1 + (var4 + 1 + 1) * (var5 + 2)];
-      if (biomesEqualOrMesaPlateau(var12, var7)
-         && biomesEqualOrMesaPlateau(var13, var7)
-         && biomesEqualOrMesaPlateau(var14, var7)
-         && biomesEqualOrMesaPlateau(var15, var7)) {
-         var2[var3 + var4 * var5] = var6;
+      int i2 = ints[i + 1 + (j + 1 - 1) * (k + 2)];
+      int i3 = ints[i + 1 + 1 + (j + 1) * (k + 2)];
+      int i4 = ints[i + 1 - 1 + (j + 1) * (k + 2)];
+      int i5 = ints[i + 1 + (j + 1 + 1) * (k + 2)];
+      if (biomesEqualOrMesaPlateau(i2, m) && biomesEqualOrMesaPlateau(i3, m) && biomesEqualOrMesaPlateau(i4, m) && biomesEqualOrMesaPlateau(i5, m)) {
+         ints2[i + j * k] = l;
       } else {
-         var2[var3 + var4 * var5] = var8;
+         ints2[i + j * k] = n;
       }
 
       return true;
    }
 
-   private boolean canBiomesBeNeighbors(int var1, int var2) {
-      if (biomesEqualOrMesaPlateau(var1, var2)) {
+   private boolean canBiomesBeNeighbors(int i, int j) {
+      if (biomesEqualOrMesaPlateau(i, j)) {
          return true;
       } else {
-         BiomeGenBase var6 = BiomeGenBase.getBiome(var1);
-         BiomeGenBase var7 = BiomeGenBase.getBiome(var2);
-         if (var6 != null && var7 != null) {
-            BiomeGenBase.TempCategory var8 = var6.getTempCategory();
-            BiomeGenBase.TempCategory var9 = var7.getTempCategory();
-            return var8 == var9 || var8 == BiomeGenBase.TempCategory.MEDIUM || var9 == BiomeGenBase.TempCategory.MEDIUM;
+         BiomeGenBase biomeGenBase = BiomeGenBase.getBiome(i);
+         BiomeGenBase biomeGenBase2 = BiomeGenBase.getBiome(j);
+         if (biomeGenBase != null && biomeGenBase2 != null) {
+            BiomeGenBase.TempCategory tempCategory = biomeGenBase.getTempCategory();
+            BiomeGenBase.TempCategory tempCategory2 = biomeGenBase2.getTempCategory();
+            return tempCategory == tempCategory2 || tempCategory == BiomeGenBase.TempCategory.MEDIUM || tempCategory2 == BiomeGenBase.TempCategory.MEDIUM;
          } else {
             return false;
          }

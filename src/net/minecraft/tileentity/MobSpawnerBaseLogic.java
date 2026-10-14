@@ -46,24 +46,24 @@ public abstract class MobSpawnerBaseLogic {
       }
    }
 
-   public void setEntityName(String var1) {
-      this.mobID = var1;
+   public void setEntityName(String name) {
+      this.mobID = name;
    }
 
    private boolean isActivated() {
-      BlockPos var1 = this.getSpawnerPosition();
-      return this.getSpawnerWorld().isAnyPlayerWithinRangeAt(var1.getX() + 0.5, var1.getY() + 0.5, var1.getZ() + 0.5, this.activatingRangeFromPlayer);
+      BlockPos blockPos = this.getSpawnerPosition();
+      return this.getSpawnerWorld().isAnyPlayerWithinRangeAt(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, this.activatingRangeFromPlayer);
    }
 
    public void updateSpawner() {
       if (this.isActivated()) {
-         BlockPos var4 = this.getSpawnerPosition();
+         BlockPos blockPos = this.getSpawnerPosition();
          if (this.getSpawnerWorld().isRemote) {
-            double var5 = var4.getX() + this.getSpawnerWorld().rand.nextFloat();
-            double var7 = var4.getY() + this.getSpawnerWorld().rand.nextFloat();
-            double var9 = var4.getZ() + this.getSpawnerWorld().rand.nextFloat();
-            this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var5, var7, var9, 0.0, 0.0, 0.0);
-            this.getSpawnerWorld().spawnParticle(EnumParticleTypes.FLAME, var5, var7, var9, 0.0, 0.0, 0.0);
+            double d = blockPos.getX() + this.getSpawnerWorld().rand.nextFloat();
+            double e = blockPos.getY() + this.getSpawnerWorld().rand.nextFloat();
+            double d2 = blockPos.getZ() + this.getSpawnerWorld().rand.nextFloat();
+            this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d, e, d2, 0.0, 0.0, 0.0);
+            this.getSpawnerWorld().spawnParticle(EnumParticleTypes.FLAME, d, e, d2, 0.0, 0.0, 0.0);
             if (this.spawnDelay > 0) {
                this.spawnDelay--;
             }
@@ -80,107 +80,107 @@ public abstract class MobSpawnerBaseLogic {
                return;
             }
 
-            boolean var16 = false;
+            boolean bl = false;
 
-            for (int var6 = 0; var6 < this.spawnCount; var6++) {
-               Entity var17 = EntityList.createEntityByName(this.getEntityNameToSpawn(), this.getSpawnerWorld());
-               if (var17 == null) {
+            for (int i = 0; i < this.spawnCount; i++) {
+               Entity entity = EntityList.createEntityByName(this.getEntityNameToSpawn(), this.getSpawnerWorld());
+               if (entity == null) {
                   return;
                }
 
-               int var8 = this.getSpawnerWorld()
+               int j = this.getSpawnerWorld()
                   .getEntitiesWithinAABB(
-                     var17.getClass(),
-                     new AxisAlignedBB(var4.getX(), var4.getY(), var4.getZ(), var4.getX() + 1, var4.getY() + 1, var4.getZ() + 1)
+                     entity.getClass(),
+                     new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1)
                         .expand(this.spawnRange, this.spawnRange, this.spawnRange)
                   )
                   .size();
-               if (var8 >= this.maxNearbyEntities) {
+               if (j >= this.maxNearbyEntities) {
                   this.resetTimer();
                   return;
                }
 
-               double var18 = var4.getX() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * this.spawnRange + 0.5;
-               double var11 = var4.getY() + this.getSpawnerWorld().rand.nextInt(3) - 1;
-               double var13 = var4.getZ() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * this.spawnRange + 0.5;
-               EntityLiving var15 = var17 instanceof EntityLiving ? (EntityLiving)var17 : null;
-               var17.setLocationAndAngles(var18, var11, var13, this.getSpawnerWorld().rand.nextFloat() * 360.0F, 0.0F);
-               if (var15 == null || var15.getCanSpawnHere() && var15.isNotColliding()) {
-                  this.spawnNewEntity(var17, true);
-                  this.getSpawnerWorld().playAuxSFX(2004, var4, 0);
-                  if (var15 != null) {
-                     var15.spawnExplosionParticle();
+               double d3 = blockPos.getX() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * this.spawnRange + 0.5;
+               double d4 = blockPos.getY() + this.getSpawnerWorld().rand.nextInt(3) - 1;
+               double d5 = blockPos.getZ() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * this.spawnRange + 0.5;
+               EntityLiving entityLiving = entity instanceof EntityLiving ? (EntityLiving)entity : null;
+               entity.setLocationAndAngles(d3, d4, d5, this.getSpawnerWorld().rand.nextFloat() * 360.0F, 0.0F);
+               if (entityLiving == null || entityLiving.getCanSpawnHere() && entityLiving.isNotColliding()) {
+                  this.spawnNewEntity(entity, true);
+                  this.getSpawnerWorld().playAuxSFX(2004, blockPos, 0);
+                  if (entityLiving != null) {
+                     entityLiving.spawnExplosionParticle();
                   }
 
-                  var16 = true;
+                  bl = true;
                }
             }
 
-            if (var16) {
+            if (bl) {
                this.resetTimer();
             }
          }
       }
    }
 
-   private Entity spawnNewEntity(Entity var1, boolean var2) {
+   private Entity spawnNewEntity(Entity entityIn, boolean spawn) {
       if (this.getRandomEntity() != null) {
-         NBTTagCompound var6 = new NBTTagCompound();
-         var1.writeToNBTOptional(var6);
+         NBTTagCompound nbtTagCompound = new NBTTagCompound();
+         entityIn.writeToNBTOptional(nbtTagCompound);
 
-         for (String var8 : this.getRandomEntity().nbtData.getKeySet()) {
-            NBTBase var9 = this.getRandomEntity().nbtData.getTag(var8);
-            var6.setTag(var8, var9.copy());
+         for (String string : this.getRandomEntity().nbtData.getKeySet()) {
+            NBTBase nbtBase = this.getRandomEntity().nbtData.getTag(string);
+            nbtTagCompound.setTag(string, nbtBase.copy());
          }
 
-         var1.readFromNBT(var6);
-         if (var1.worldObj != null && var2) {
-            var1.worldObj.spawnEntityInWorld(var1);
+         entityIn.readFromNBT(nbtTagCompound);
+         if (entityIn.worldObj != null && spawn) {
+            entityIn.worldObj.spawnEntityInWorld(entityIn);
          }
 
-         Entity var15 = var1;
+         Entity entity = entityIn;
 
-         while (var6.hasKey("Riding", 10)) {
-            NBTTagCompound var14 = var6.getCompoundTag("Riding");
-            Entity var16 = EntityList.createEntityByName(var14.getString("id"), var1.worldObj);
-            if (var16 != null) {
-               NBTTagCompound var10 = new NBTTagCompound();
-               var16.writeToNBTOptional(var10);
+         while (nbtTagCompound.hasKey("Riding", 10)) {
+            NBTTagCompound nbtTagCompound2 = nbtTagCompound.getCompoundTag("Riding");
+            Entity entity2 = EntityList.createEntityByName(nbtTagCompound2.getString("id"), entityIn.worldObj);
+            if (entity2 != null) {
+               NBTTagCompound nbtTagCompound3 = new NBTTagCompound();
+               entity2.writeToNBTOptional(nbtTagCompound3);
 
-               for (String var12 : var14.getKeySet()) {
-                  NBTBase var13 = var14.getTag(var12);
-                  var10.setTag(var12, var13.copy());
+               for (String string2 : nbtTagCompound2.getKeySet()) {
+                  NBTBase nbtBase2 = nbtTagCompound2.getTag(string2);
+                  nbtTagCompound3.setTag(string2, nbtBase2.copy());
                }
 
-               var16.readFromNBT(var10);
-               var16.setLocationAndAngles(var15.posX, var15.posY, var15.posZ, var15.rotationYaw, var15.rotationPitch);
-               if (var1.worldObj != null && var2) {
-                  var1.worldObj.spawnEntityInWorld(var16);
+               entity2.readFromNBT(nbtTagCompound3);
+               entity2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+               if (entityIn.worldObj != null && spawn) {
+                  entityIn.worldObj.spawnEntityInWorld(entity2);
                }
 
-               var15.mountEntity(var16);
+               entity.mountEntity(entity2);
             }
 
-            var15 = var16;
-            var6 = var14;
+            entity = entity2;
+            nbtTagCompound = nbtTagCompound2;
          }
-      } else if (var1 instanceof EntityLivingBase && var1.worldObj != null && var2) {
-         if (var1 instanceof EntityLiving) {
-            ((EntityLiving)var1).onInitialSpawn(var1.worldObj.getDifficultyForLocation(new BlockPos(var1)), (IEntityLivingData)null);
+      } else if (entityIn instanceof EntityLivingBase && entityIn.worldObj != null && spawn) {
+         if (entityIn instanceof EntityLiving) {
+            ((EntityLiving)entityIn).onInitialSpawn(entityIn.worldObj.getDifficultyForLocation(new BlockPos(entityIn)), (IEntityLivingData)null);
          }
 
-         var1.worldObj.spawnEntityInWorld(var1);
+         entityIn.worldObj.spawnEntityInWorld(entityIn);
       }
 
-      return var1;
+      return entityIn;
    }
 
    private void resetTimer() {
       if (this.maxSpawnDelay <= this.minSpawnDelay) {
          this.spawnDelay = this.minSpawnDelay;
       } else {
-         int var4 = this.maxSpawnDelay - this.minSpawnDelay;
-         this.spawnDelay = this.minSpawnDelay + this.getSpawnerWorld().rand.nextInt(var4);
+         int i = this.maxSpawnDelay - this.minSpawnDelay;
+         this.spawnDelay = this.minSpawnDelay + this.getSpawnerWorld().rand.nextInt(i);
       }
 
       if (this.minecartToSpawn.size() > 0) {
@@ -190,37 +190,37 @@ public abstract class MobSpawnerBaseLogic {
       this.func_98267_a(1);
    }
 
-   public void readFromNBT(NBTTagCompound var1) {
-      this.mobID = var1.getString("EntityId");
-      this.spawnDelay = var1.getShort("Delay");
+   public void readFromNBT(NBTTagCompound nbt) {
+      this.mobID = nbt.getString("EntityId");
+      this.spawnDelay = nbt.getShort("Delay");
       this.minecartToSpawn.clear();
-      if (var1.hasKey("SpawnPotentials", 9)) {
-         NBTTagList var5 = var1.getTagList("SpawnPotentials", 10);
+      if (nbt.hasKey("SpawnPotentials", 9)) {
+         NBTTagList nbtTagList = nbt.getTagList("SpawnPotentials", 10);
 
-         for (int var6 = 0; var6 < var5.tagCount(); var6++) {
-            this.minecartToSpawn.add(new MobSpawnerBaseLogic.WeightedRandomMinecart(var5.getCompoundTagAt(var6)));
+         for (int i = 0; i < nbtTagList.tagCount(); i++) {
+            this.minecartToSpawn.add(new MobSpawnerBaseLogic.WeightedRandomMinecart(nbtTagList.getCompoundTagAt(i)));
          }
       }
 
-      if (var1.hasKey("SpawnData", 10)) {
-         this.setRandomEntity(new MobSpawnerBaseLogic.WeightedRandomMinecart(var1.getCompoundTag("SpawnData"), this.mobID));
+      if (nbt.hasKey("SpawnData", 10)) {
+         this.setRandomEntity(new MobSpawnerBaseLogic.WeightedRandomMinecart(nbt.getCompoundTag("SpawnData"), this.mobID));
       } else {
          this.setRandomEntity((MobSpawnerBaseLogic.WeightedRandomMinecart)null);
       }
 
-      if (var1.hasKey("MinSpawnDelay", 99)) {
-         this.minSpawnDelay = var1.getShort("MinSpawnDelay");
-         this.maxSpawnDelay = var1.getShort("MaxSpawnDelay");
-         this.spawnCount = var1.getShort("SpawnCount");
+      if (nbt.hasKey("MinSpawnDelay", 99)) {
+         this.minSpawnDelay = nbt.getShort("MinSpawnDelay");
+         this.maxSpawnDelay = nbt.getShort("MaxSpawnDelay");
+         this.spawnCount = nbt.getShort("SpawnCount");
       }
 
-      if (var1.hasKey("MaxNearbyEntities", 99)) {
-         this.maxNearbyEntities = var1.getShort("MaxNearbyEntities");
-         this.activatingRangeFromPlayer = var1.getShort("RequiredPlayerRange");
+      if (nbt.hasKey("MaxNearbyEntities", 99)) {
+         this.maxNearbyEntities = nbt.getShort("MaxNearbyEntities");
+         this.activatingRangeFromPlayer = nbt.getShort("RequiredPlayerRange");
       }
 
-      if (var1.hasKey("SpawnRange", 99)) {
-         this.spawnRange = var1.getShort("SpawnRange");
+      if (nbt.hasKey("SpawnRange", 99)) {
+         this.spawnRange = nbt.getShort("SpawnRange");
       }
 
       if (this.getSpawnerWorld() != null) {
@@ -228,50 +228,50 @@ public abstract class MobSpawnerBaseLogic {
       }
    }
 
-   public void writeToNBT(NBTTagCompound var1) {
-      String var5 = this.getEntityNameToSpawn();
-      if (!StringUtils.isNullOrEmpty(var5)) {
-         var1.setString("EntityId", var5);
-         var1.setShort("Delay", (short)this.spawnDelay);
-         var1.setShort("MinSpawnDelay", (short)this.minSpawnDelay);
-         var1.setShort("MaxSpawnDelay", (short)this.maxSpawnDelay);
-         var1.setShort("SpawnCount", (short)this.spawnCount);
-         var1.setShort("MaxNearbyEntities", (short)this.maxNearbyEntities);
-         var1.setShort("RequiredPlayerRange", (short)this.activatingRangeFromPlayer);
-         var1.setShort("SpawnRange", (short)this.spawnRange);
+   public void writeToNBT(NBTTagCompound nbt) {
+      String string = this.getEntityNameToSpawn();
+      if (!StringUtils.isNullOrEmpty(string)) {
+         nbt.setString("EntityId", string);
+         nbt.setShort("Delay", (short)this.spawnDelay);
+         nbt.setShort("MinSpawnDelay", (short)this.minSpawnDelay);
+         nbt.setShort("MaxSpawnDelay", (short)this.maxSpawnDelay);
+         nbt.setShort("SpawnCount", (short)this.spawnCount);
+         nbt.setShort("MaxNearbyEntities", (short)this.maxNearbyEntities);
+         nbt.setShort("RequiredPlayerRange", (short)this.activatingRangeFromPlayer);
+         nbt.setShort("SpawnRange", (short)this.spawnRange);
          if (this.getRandomEntity() != null) {
-            var1.setTag("SpawnData", this.getRandomEntity().nbtData.copy());
+            nbt.setTag("SpawnData", this.getRandomEntity().nbtData.copy());
          }
 
          if (this.getRandomEntity() != null || this.minecartToSpawn.size() > 0) {
-            NBTTagList var6 = new NBTTagList();
+            NBTTagList nbtTagList = new NBTTagList();
             if (this.minecartToSpawn.size() > 0) {
-               for (MobSpawnerBaseLogic.WeightedRandomMinecart var8 : this.minecartToSpawn) {
-                  var6.appendTag(var8.toNBT());
+               for (MobSpawnerBaseLogic.WeightedRandomMinecart weightedRandomMinecart : this.minecartToSpawn) {
+                  nbtTagList.appendTag(weightedRandomMinecart.toNBT());
                }
             } else {
-               var6.appendTag(this.getRandomEntity().toNBT());
+               nbtTagList.appendTag(this.getRandomEntity().toNBT());
             }
 
-            var1.setTag("SpawnPotentials", var6);
+            nbt.setTag("SpawnPotentials", nbtTagList);
          }
       }
    }
 
-   public Entity func_180612_a(World var1) {
+   public Entity func_180612_a(World worldIn) {
       if (this.cachedEntity == null) {
-         Entity var5 = EntityList.createEntityByName(this.getEntityNameToSpawn(), var1);
-         if (var5 != null) {
-            var5 = this.spawnNewEntity(var5, false);
-            this.cachedEntity = var5;
+         Entity entity = EntityList.createEntityByName(this.getEntityNameToSpawn(), worldIn);
+         if (entity != null) {
+            entity = this.spawnNewEntity(entity, false);
+            this.cachedEntity = entity;
          }
       }
 
       return this.cachedEntity;
    }
 
-   public boolean setDelayToMin(int var1) {
-      if (var1 == 1 && this.getSpawnerWorld().isRemote) {
+   public boolean setDelayToMin(int delay) {
+      if (delay == 1 && this.getSpawnerWorld().isRemote) {
          this.spawnDelay = this.minSpawnDelay;
          return true;
       } else {
@@ -283,11 +283,11 @@ public abstract class MobSpawnerBaseLogic {
       return this.randomEntity;
    }
 
-   public void setRandomEntity(MobSpawnerBaseLogic.WeightedRandomMinecart var1) {
-      this.randomEntity = var1;
+   public void setRandomEntity(MobSpawnerBaseLogic.WeightedRandomMinecart weightedRandomMinecart) {
+      this.randomEntity = weightedRandomMinecart;
    }
 
-   public abstract void func_98267_a(int var1);
+   public abstract void func_98267_a(int id);
 
    public abstract World getSpawnerWorld();
 
@@ -306,34 +306,34 @@ public abstract class MobSpawnerBaseLogic {
       private final String entityType;
       private static final long a = 108210089452650L;
 
-      public WeightedRandomMinecart(NBTTagCompound var2) {
-         this(var2.getCompoundTag("Properties"), var2.getString("Type"), var2.getInteger("Weight"));
+      public WeightedRandomMinecart(NBTTagCompound tagCompound) {
+         this(tagCompound.getCompoundTag("Properties"), tagCompound.getString("Type"), tagCompound.getInteger("Weight"));
       }
 
-      public WeightedRandomMinecart(NBTTagCompound var2, String var3) {
-         this(var2, var3, 1);
+      public WeightedRandomMinecart(NBTTagCompound tagCompound, String typeIn) {
+         this(tagCompound, typeIn, 1);
       }
 
-      private WeightedRandomMinecart(NBTTagCompound var2, String var3, int var4) {
-         super(var4);
-         if (var3.equals("Minecart")) {
-            if (var2 != null) {
-               var3 = EntityMinecart.EnumMinecartType.byNetworkID(var2.getInteger("Type")).getName();
+      private WeightedRandomMinecart(NBTTagCompound tagCompound, String typeIn, int weight) {
+         super(weight);
+         if (typeIn.equals("Minecart")) {
+            if (tagCompound != null) {
+               typeIn = EntityMinecart.EnumMinecartType.byNetworkID(tagCompound.getInteger("Type")).getName();
             } else {
-               var3 = "MinecartRideable";
+               typeIn = "MinecartRideable";
             }
          }
 
-         this.nbtData = var2;
-         this.entityType = var3;
+         this.nbtData = tagCompound;
+         this.entityType = typeIn;
       }
 
       public NBTTagCompound toNBT() {
-         NBTTagCompound var3 = new NBTTagCompound();
-         var3.setTag("Properties", this.nbtData);
-         var3.setString("Type", this.entityType);
-         var3.setInteger("Weight", this.itemWeight);
-         return var3;
+         NBTTagCompound nbtTagCompound = new NBTTagCompound();
+         nbtTagCompound.setTag("Properties", this.nbtData);
+         nbtTagCompound.setString("Type", this.entityType);
+         nbtTagCompound.setInteger("Weight", this.itemWeight);
+         return nbtTagCompound;
       }
    }
 }

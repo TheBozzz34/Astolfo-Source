@@ -21,131 +21,131 @@ public final class SolarisCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
-      String var4 = "";
-      String var5 = "";
-      String var6 = "";
-      String var7 = "";
-      String var8 = "";
+      String string = "";
+      String string2 = "";
+      String string3 = "";
+      String string4 = "";
+      String string5 = "";
 
-      try (KstatUtil.KstatChain var9 = KstatUtil.openChain()) {
-         Kstat var11 = var9.lookup("cpu_info", -1, null);
-         if (var11 != null && var9.read(var11)) {
-            var4 = KstatUtil.dataLookupString(var11, "vendor_id");
-            var5 = KstatUtil.dataLookupString(var11, "brand");
-            var6 = KstatUtil.dataLookupString(var11, "family");
-            var7 = KstatUtil.dataLookupString(var11, "model");
-            var8 = KstatUtil.dataLookupString(var11, "stepping");
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         Kstat kstat = kstatChain.lookup("cpu_info", -1, null);
+         if (kstat != null && kstatChain.read(kstat)) {
+            string = KstatUtil.dataLookupString(kstat, "vendor_id");
+            string2 = KstatUtil.dataLookupString(kstat, "brand");
+            string3 = KstatUtil.dataLookupString(kstat, "family");
+            string4 = KstatUtil.dataLookupString(kstat, "model");
+            string5 = KstatUtil.dataLookupString(kstat, "stepping");
          }
       }
 
-      boolean var21 = "64".equals(ExecutingCommand.getFirstAnswer("isainfo -b").trim());
-      String var22 = getProcessorID(var8, var7, var6);
-      return new CentralProcessor.ProcessorIdentifier(var4, var5, var6, var7, var8, var22, var21);
+      boolean bl = "64".equals(ExecutingCommand.getFirstAnswer("isainfo -b").trim());
+      String string6 = getProcessorID(string5, string4, string3);
+      return new CentralProcessor.ProcessorIdentifier(string, string2, string3, string4, string5, string6, bl);
    }
 
    @Override
    public CentralProcessor.LogicalProcessor[] initProcessorCounts() {
-      Map var4 = mapNumaNodes();
-      ArrayList var5 = new ArrayList();
+      Map map = mapNumaNodes();
+      ArrayList arrayList = new ArrayList();
 
-      try (KstatUtil.KstatChain var6 = KstatUtil.openChain()) {
-         for (Kstat var10 : var6.lookupAll("cpu_info", -1, null)) {
-            if (var10 != null && var6.read(var10)) {
-               int var11 = var5.size();
-               String var12 = KstatUtil.dataLookupString(var10, "chip_id");
-               String var13 = KstatUtil.dataLookupString(var10, "core_id");
-               CentralProcessor.LogicalProcessor var14 = new CentralProcessor.LogicalProcessor(
-                  var11, ParseUtil.parseIntOrDefault(var13, 0), ParseUtil.parseIntOrDefault(var12, 0), (int)(var4.getOrDefault(var11, 0))
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         for (Kstat kstat : kstatChain.lookupAll("cpu_info", -1, null)) {
+            if (kstat != null && kstatChain.read(kstat)) {
+               int i = arrayList.size();
+               String string = KstatUtil.dataLookupString(kstat, "chip_id");
+               String string2 = KstatUtil.dataLookupString(kstat, "core_id");
+               CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(
+                  i, ParseUtil.parseIntOrDefault(string2, 0), ParseUtil.parseIntOrDefault(string, 0), (int)(map.getOrDefault(i, 0))
                );
-               var5.add(var14);
+               arrayList.add(logicalProcessor);
             }
          }
       }
 
-      if (var5.isEmpty()) {
-         var5.add(new CentralProcessor.LogicalProcessor(0, 0, 0));
+      if (arrayList.isEmpty()) {
+         arrayList.add(new CentralProcessor.LogicalProcessor(0, 0, 0));
       }
 
-      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(var5.toArray(new CentralProcessor.LogicalProcessor[0]));
+      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(arrayList.toArray(new CentralProcessor.LogicalProcessor[0]));
    }
 
    private static Map<Integer, Integer> mapNumaNodes() {
-      HashMap var3 = new HashMap();
-      List var4 = ExecutingCommand.runNative("lgrpinfo -c leaves");
-      int var5 = 0;
+      HashMap hashMap = new HashMap();
+      List list = ExecutingCommand.runNative("lgrpinfo -c leaves");
+      int i = 0;
 
-      for (Object var7$raw : var4) {
-         String var7 = (String)var7$raw;
-         if (var7.startsWith("lgroup")) {
-            var5 = ParseUtil.getFirstIntValue(var7);
-         } else if (var7.contains("CPUs:")) {
-            String[] var8 = ParseUtil.Q.split(var7.split(":")[1]);
+      for (Object object : list) {
+         String string = (String)object;
+         if (string.startsWith("lgroup")) {
+            i = ParseUtil.getFirstIntValue(string);
+         } else if (string.contains("CPUs:")) {
+            String[] strings = ParseUtil.Q.split(string.split(":")[1]);
 
-            for (String var12 : var8) {
-               if (var12.contains("-")) {
-                  int var13 = ParseUtil.getFirstIntValue(var12);
-                  int var14 = ParseUtil.getNthIntValue(var7, 2);
+            for (String string2 : strings) {
+               if (string2.contains("-")) {
+                  int j = ParseUtil.getFirstIntValue(string2);
+                  int k = ParseUtil.getNthIntValue(string, 2);
 
-                  for (int var15 = var13; var15 <= var14; var15++) {
-                     var3.put(var15, var5);
+                  for (int l = j; l <= k; l++) {
+                     hashMap.put(l, i);
                   }
                } else {
-                  var3.put(ParseUtil.parseIntOrDefault(var12, 0), var5);
+                  hashMap.put(ParseUtil.parseIntOrDefault(string2, 0), i);
                }
             }
          }
       }
 
-      return var3;
+      return hashMap;
    }
 
    @Override
    public long[] querySystemCpuLoadTicks() {
-      long[] var4 = new long[CentralProcessor.TickType.values().length];
-      long[][] var5 = this.getProcessorCpuLoadTicks();
+      long[] longs = new long[CentralProcessor.TickType.values().length];
+      long[][] longss = this.getProcessorCpuLoadTicks();
 
-      for (int var6 = 0; var6 < var4.length; var6++) {
-         for (long[] var10 : var5) {
-            var4[var6] += var10[var6];
+      for (int i = 0; i < longs.length; i++) {
+         for (long[] longs2 : longss) {
+            longs[i] += longs2[i];
          }
 
-         var4[var6] /= var5.length;
+         longs[i] /= longss.length;
       }
 
-      return var4;
+      return longs;
    }
 
    @Override
    public long[] queryCurrentFreq() {
-      long[] var4 = new long[this.getLogicalProcessorCount()];
-      Arrays.fill(var4, -7922361626683138111L);
+      long[] longs = new long[this.getLogicalProcessorCount()];
+      Arrays.fill(longs, -7922361626683138111L);
 
-      try (KstatUtil.KstatChain var5 = KstatUtil.openChain()) {
-         for (int var7 = 0; var7 < var4.length; var7++) {
-            for (Kstat var9 : var5.lookupAll("cpu_info", var7, null)) {
-               if (var5.read(var9)) {
-                  var4[var7] = KstatUtil.dataLookupLong(var9, "current_clock_Hz");
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         for (int i = 0; i < longs.length; i++) {
+            for (Kstat kstat : kstatChain.lookupAll("cpu_info", i, null)) {
+               if (kstatChain.read(kstat)) {
+                  longs[i] = KstatUtil.dataLookupLong(kstat, "current_clock_Hz");
                }
             }
          }
       }
 
-      return var4;
+      return longs;
    }
 
    @Override
    public long queryMaxFreq() {
-      long var4 = -7922361626683138111L;
+      long l = -7922361626683138111L;
 
-      try (KstatUtil.KstatChain var6 = KstatUtil.openChain()) {
-         for (Kstat var9 : var6.lookupAll("cpu_info", 0, null)) {
-            if (var6.read(var9)) {
-               String var10 = KstatUtil.dataLookupString(var9, "supported_frequencies_Hz");
-               if (!var10.isEmpty()) {
-                  for (String var14 : var10.split(":")) {
-                     long var15 = ParseUtil.parseLongOrDefault(var14, -7922361626683138111L);
-                     if (var4 < var15) {
-                        var4 = var15;
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         for (Kstat kstat : kstatChain.lookupAll("cpu_info", 0, null)) {
+            if (kstatChain.read(kstat)) {
+               String string = KstatUtil.dataLookupString(kstat, "supported_frequencies_Hz");
+               if (!string.isEmpty()) {
+                  for (String string2 : string.split(":")) {
+                     long m = ParseUtil.parseLongOrDefault(string2, -7922361626683138111L);
+                     if (l < m) {
+                        l = m;
                      }
                   }
                }
@@ -153,21 +153,21 @@ public final class SolarisCentralProcessor extends AbstractCentralProcessor {
          }
       }
 
-      return var4;
+      return l;
    }
 
    @Override
-   public double[] getSystemLoadAverage(int var1) {
-      if (var1 >= 1 && var1 <= 3) {
-         double[] var5 = new double[var1];
-         int var6 = SolarisLibc.INSTANCE.getloadavg(var5, var1);
-         if (var6 < var1) {
-            for (int var7 = Math.max(var6, 0); var7 < var5.length; var7++) {
-               var5[var7] = -1.0;
+   public double[] getSystemLoadAverage(int nelem) {
+      if (nelem >= 1 && nelem <= 3) {
+         double[] doubles = new double[nelem];
+         int i = SolarisLibc.INSTANCE.getloadavg(doubles, nelem);
+         if (i < nelem) {
+            for (int j = Math.max(i, 0); j < doubles.length; j++) {
+               doubles[j] = -1.0;
             }
          }
 
-         return var5;
+         return doubles;
       } else {
          throw new IllegalArgumentException("Must include from one to three elements.");
       }
@@ -175,63 +175,63 @@ public final class SolarisCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[][] queryProcessorCpuLoadTicks() {
-      long[][] var4 = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
-      int var5 = -1;
+      long[][] longss = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
+      int i = -1;
 
-      try (KstatUtil.KstatChain var6 = KstatUtil.openChain()) {
-         for (Kstat var9 : var6.lookupAll("cpu", -1, "sys")) {
-            if (++var5 >= var4.length) {
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         for (Kstat kstat : kstatChain.lookupAll("cpu", -1, "sys")) {
+            if (++i >= longss.length) {
                break;
             }
 
-            if (var6.read(var9)) {
-               var4[var5][CentralProcessor.TickType.IDLE.getIndex()] = KstatUtil.dataLookupLong(var9, "cpu_ticks_idle");
-               var4[var5][CentralProcessor.TickType.SYSTEM.getIndex()] = KstatUtil.dataLookupLong(var9, "cpu_ticks_kernel");
-               var4[var5][CentralProcessor.TickType.USER.getIndex()] = KstatUtil.dataLookupLong(var9, "cpu_ticks_user");
+            if (kstatChain.read(kstat)) {
+               longss[i][CentralProcessor.TickType.IDLE.getIndex()] = KstatUtil.dataLookupLong(kstat, "cpu_ticks_idle");
+               longss[i][CentralProcessor.TickType.SYSTEM.getIndex()] = KstatUtil.dataLookupLong(kstat, "cpu_ticks_kernel");
+               longss[i][CentralProcessor.TickType.USER.getIndex()] = KstatUtil.dataLookupLong(kstat, "cpu_ticks_user");
             }
          }
       }
 
-      return var4;
+      return longss;
    }
 
-   private static String getProcessorID(String var0, String var1, String var2) {
-      List var6 = ExecutingCommand.runNative("isainfo -v");
-      StringBuilder var7 = new StringBuilder();
+   private static String getProcessorID(String stepping, String model, String family) {
+      List list = ExecutingCommand.runNative("isainfo -v");
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (Object var9$raw : var6) {
-         String var9 = (String)var9$raw;
-         if (var9.startsWith("32-bit")) {
+      for (Object object : list) {
+         String string = (String)object;
+         if (string.startsWith("32-bit")) {
             break;
          }
 
-         if (!var9.startsWith("64-bit")) {
-            var7.append((char)((int)j)).append(var9.trim());
+         if (!string.startsWith("64-bit")) {
+            stringBuilder.append((char)((int)j)).append(string.trim());
          }
       }
 
-      return createProcessorID(var0, var1, var2, ParseUtil.Q.split(var7.toString().toLowerCase()));
+      return createProcessorID(stepping, model, family, ParseUtil.Q.split(stringBuilder.toString().toLowerCase()));
    }
 
    @Override
    public long queryContextSwitches() {
-      long var4 = 0L;
+      long l = 0L;
 
-      for (String var8 : ExecutingCommand.runNative("kstat -p cpu_stat:::/pswitch\\\\|inv_swtch/")) {
-         var4 += ParseUtil.parseLastLong(var8, 0L);
+      for (String string : ExecutingCommand.runNative("kstat -p cpu_stat:::/pswitch\\\\|inv_swtch/")) {
+         l += ParseUtil.parseLastLong(string, 0L);
       }
 
-      return var4 > 0L ? var4 : -7922361626683138111L;
+      return l > 0L ? l : -7922361626683138111L;
    }
 
    @Override
    public long queryInterrupts() {
-      long var4 = 0L;
+      long l = 0L;
 
-      for (String var8 : ExecutingCommand.runNative("kstat -p cpu_stat:::/intr/")) {
-         var4 += ParseUtil.parseLastLong(var8, 0L);
+      for (String string : ExecutingCommand.runNative("kstat -p cpu_stat:::/intr/")) {
+         l += ParseUtil.parseLastLong(string, 0L);
       }
 
-      return var4 > 0L ? var4 : -7922361626683138111L;
+      return l > 0L ? l : -7922361626683138111L;
    }
 }

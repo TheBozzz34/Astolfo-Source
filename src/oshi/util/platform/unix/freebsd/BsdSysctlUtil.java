@@ -13,34 +13,34 @@ public final class BsdSysctlUtil {
    private BsdSysctlUtil() {
    }
 
-   public static int sysctl(String var0, int var1) {
-      IntByReference var5 = new IntByReference(FreeBsdLibc.INT_SIZE);
-      Memory var6 = new Memory(var5.getValue());
-      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(var0, var6, var5, null, 0) ? var1 : var6.getInt(0L);
+   public static int sysctl(String name, int def) {
+      IntByReference intByReference = new IntByReference(FreeBsdLibc.INT_SIZE);
+      Memory memory = new Memory(intByReference.getValue());
+      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(name, memory, intByReference, null, 0) ? def : memory.getInt(0L);
    }
 
-   public static long sysctl(String var0, long var1) {
-      IntByReference var7 = new IntByReference(FreeBsdLibc.UINT64_SIZE);
-      Memory var8 = new Memory(var7.getValue());
-      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(var0, var8, var7, null, 0) ? var1 : var8.getLong(0L);
+   public static long sysctl(String name, long def) {
+      IntByReference intByReference = new IntByReference(FreeBsdLibc.UINT64_SIZE);
+      Memory memory = new Memory(intByReference.getValue());
+      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(name, memory, intByReference, null, 0) ? def : memory.getLong(0L);
    }
 
-   public static String sysctl(String var0, String var1) {
-      IntByReference var4 = new IntByReference();
-      if (0 != FreeBsdLibc.INSTANCE.sysctlbyname(var0, null, var4, null, 0)) {
-         return var1;
+   public static String sysctl(String name, String def) {
+      IntByReference intByReference = new IntByReference();
+      if (0 != FreeBsdLibc.INSTANCE.sysctlbyname(name, null, intByReference, null, 0)) {
+         return def;
       }
 
-      Memory var5 = new Memory(var4.getValue() + 1L);
-      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(var0, var5, var4, null, 0) ? var1 : var5.getString(0L);
+      Memory memory = new Memory(intByReference.getValue() + 1L);
+      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(name, memory, intByReference, null, 0) ? def : memory.getString(0L);
    }
 
-   public static boolean sysctl(String var0, Structure var1) {
-      if (0 != FreeBsdLibc.INSTANCE.sysctlbyname(var0, var1.getPointer(), new IntByReference(var1.size()), null, 0)) {
+   public static boolean sysctl(String name, Structure struct) {
+      if (0 != FreeBsdLibc.INSTANCE.sysctlbyname(name, struct.getPointer(), new IntByReference(struct.size()), null, 0)) {
          return false;
       }
 
-      var1.read();
+      struct.read();
       return true;
    }
 }

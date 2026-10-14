@@ -17,41 +17,41 @@ public class SimpleTexture extends AbstractTexture {
    public final ResourceLocation textureLocation;
    private static final long b = 116934800512870L;
 
-   public SimpleTexture(ResourceLocation var1) {
-      this.textureLocation = var1;
+   public SimpleTexture(ResourceLocation textureResourceLocation) {
+      this.textureLocation = textureResourceLocation;
    }
 
    @Override
-   public void loadTexture(IResourceManager var1) throws IOException {
+   public void loadTexture(IResourceManager resourceManager) throws IOException {
       this.deleteGlTexture();
-      InputStream var5 = null;
+      InputStream inputStream = null;
 
       try {
-         IResource var6 = var1.getResource(this.textureLocation);
-         var5 = var6.getInputStream();
-         BufferedImage var7 = TextureUtil.readBufferedImage(var5);
-         boolean var8 = false;
-         boolean var9 = false;
-         if (var6.hasMetadata()) {
+         IResource iResource = resourceManager.getResource(this.textureLocation);
+         inputStream = iResource.getInputStream();
+         BufferedImage bufferedImage = TextureUtil.readBufferedImage(inputStream);
+         boolean bl = false;
+         boolean bl2 = false;
+         if (iResource.hasMetadata()) {
             try {
-               TextureMetadataSection var10 = var6.getMetadata("texture");
-               if (var10 != null) {
-                  var8 = var10.getTextureBlur();
-                  var9 = var10.getTextureClamp();
+               TextureMetadataSection textureMetadataSection = iResource.getMetadata("texture");
+               if (textureMetadataSection != null) {
+                  bl = textureMetadataSection.getTextureBlur();
+                  bl2 = textureMetadataSection.getTextureClamp();
                }
-            } catch (RuntimeException var14) {
-               logger.warn("Failed reading metadata of: " + this.textureLocation, var14);
+            } catch (RuntimeException runtimeException) {
+               logger.warn("Failed reading metadata of: " + this.textureLocation, runtimeException);
             }
          }
 
          if (Config.isShaders()) {
-            ShadersTex.loadSimpleTexture(this.getGlTextureId(), var7, var8, var9, var1, this.textureLocation, this.getMultiTexID());
+            ShadersTex.loadSimpleTexture(this.getGlTextureId(), bufferedImage, bl, bl2, resourceManager, this.textureLocation, this.getMultiTexID());
          } else {
-            TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), var7, var8, var9);
+            TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), bufferedImage, bl, bl2);
          }
       } finally {
-         if (var5 != null) {
-            var5.close();
+         if (inputStream != null) {
+            inputStream.close();
          }
       }
    }

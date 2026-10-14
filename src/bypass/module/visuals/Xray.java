@@ -86,28 +86,28 @@ public final class Xray extends Module {
    @EventHandler(value = SetupTerrainEvent.class, priority = EventPriority.LOWEST)
    private final Listener<SetupTerrainEvent> onSetupTerrain = CancellableEvent::cancel;
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var0 -> {
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (hypixel.getValue() == XrayHypixelMode.FURTHER) {
-         if (var0.getDirection() == PacketDirection.RECEIVED) {
-            if (var0.getPacket() instanceof S22PacketMultiBlockChange) {
-               S22PacketMultiBlockChange var4 = (S22PacketMultiBlockChange)var0.getPacket();
+         if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
+            if (packetEvent.getPacket() instanceof S22PacketMultiBlockChange) {
+               S22PacketMultiBlockChange s22PacketMultiBlockChange = (S22PacketMultiBlockChange)packetEvent.getPacket();
 
-               for (S22PacketMultiBlockChange.BlockUpdateData var8 : var4.getChangedBlocks()) {
-                  if (isEnabledOre(var8.getBlockState().getBlock())
-                     && mc.thePlayer.getDistance(var8.getPos().getX(), var8.getPos().getY(), var8.getPos().getZ()) <= further.getSetting("Range").asInt()) {
-                     revealedOres.add(var8.getPos());
-                     foundOres.replace(var8.getPos(), var8.getBlockState().getBlock());
+               for (S22PacketMultiBlockChange.BlockUpdateData blockUpdateData : s22PacketMultiBlockChange.getChangedBlocks()) {
+                  if (isEnabledOre(blockUpdateData.getBlockState().getBlock())
+                     && mc.thePlayer.getDistance(blockUpdateData.getPos().getX(), blockUpdateData.getPos().getY(), blockUpdateData.getPos().getZ()) <= further.getSetting("Range").asInt()) {
+                     revealedOres.add(blockUpdateData.getPos());
+                     foundOres.replace(blockUpdateData.getPos(), blockUpdateData.getBlockState().getBlock());
                   }
                }
             }
 
-            if (var0.getPacket() instanceof S23PacketBlockChange) {
-               S23PacketBlockChange var9 = (S23PacketBlockChange)var0.getPacket();
-               if (isEnabledOre(var9.getBlockState().getBlock())
-                  && mc.thePlayer.getDistance(var9.getBlockPosition().getX(), var9.getBlockPosition().getY(), var9.getBlockPosition().getZ())
+            if (packetEvent.getPacket() instanceof S23PacketBlockChange) {
+               S23PacketBlockChange s23PacketBlockChange = (S23PacketBlockChange)packetEvent.getPacket();
+               if (isEnabledOre(s23PacketBlockChange.getBlockState().getBlock())
+                  && mc.thePlayer.getDistance(s23PacketBlockChange.getBlockPosition().getX(), s23PacketBlockChange.getBlockPosition().getY(), s23PacketBlockChange.getBlockPosition().getZ())
                      <= further.getSetting("Range").asInt()) {
-                  revealedOres.add(var9.getBlockPosition());
-                  foundOres.replace(var9.getBlockPosition(), var9.getBlockState().getBlock());
+                  revealedOres.add(s23PacketBlockChange.getBlockPosition());
+                  foundOres.replace(s23PacketBlockChange.getBlockPosition(), s23PacketBlockChange.getBlockState().getBlock());
                }
             }
          }
@@ -116,26 +116,26 @@ public final class Xray extends Module {
    private XrayScan scan;
    private Vec3 lastScanPos = new Vec3(0.0, 0.0, 0.0);
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var1x -> {
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (this.lastOpacity != opacity.getValue()) {
          this.reloadChunks(256);
          this.lastOpacity = opacity.getValue();
       }
 
-      if (var1x.getState() == EventState.PRE && hypixel.getValue() == XrayHypixelMode.FURTHER) {
-         int var5 = further.getSetting("Range").asInt();
+      if (updateEvent.getState() == EventState.PRE && hypixel.getValue() == XrayHypixelMode.FURTHER) {
+         int i = further.getSetting("Range").asInt();
          if (mc.thePlayer.getDistance(this.lastScanPos.xCoord, this.lastScanPos.yCoord, this.lastScanPos.zCoord)
                >= further.getSetting("Refresh-Distance").asInt()
             && (this.scan == null || XrayScan.isDone(this.scan))) {
             this.lastScanPos = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
-            Thread var6 = new Thread(() -> {
+            Thread thread = new Thread(() -> {
                if (this.scan != null) {
-                  XrayScan.setTotal(this.scan, Math.pow(var5 * 2 + 1, 3.0));
+                  XrayScan.setTotal(this.scan, Math.pow(i * 2 + 1, 3.0));
                }
 
-               for (int var5x = -var5; var5x <= var5; var5x++) {
-                  for (int var6x = -var5; var6x <= var5; var6x++) {
-                     for (int var7 = -var5; var7 <= var5; var7++) {
+               for (int j = -i; j <= i; j++) {
+                  for (int k = -i; k <= i; k++) {
+                     for (int l = -i; l <= i; l++) {
                         if (this.scan != null) {
                            XrayScan.incrementScanned(this.scan);
                            if (XrayScan.getScanned(this.scan) > XrayScan.getTotal(this.scan)) {
@@ -143,16 +143,16 @@ public final class Xray extends Module {
                            }
                         }
 
-                        BlockPos var8 = new BlockPos(mc.thePlayer.posX + var5x, mc.thePlayer.posY + var6x, mc.thePlayer.posZ + var7);
-                        IBlockState var9 = mc.theWorld.getBlockState(var8);
-                        if (var9 != null && Scaffold.canPlaceAgainst(var8) && var9.getBlock() != Blocks.cobblestone && var9.getBlock() != Blocks.air) {
-                           C07PacketPlayerDigging var10 = new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, var8, EnumFacing.UP);
-                           mc.thePlayer.sendQueue.u(var10);
+                        BlockPos blockPos = new BlockPos(mc.thePlayer.posX + j, mc.thePlayer.posY + k, mc.thePlayer.posZ + l);
+                        IBlockState iBlockState = mc.theWorld.getBlockState(blockPos);
+                        if (iBlockState != null && Scaffold.canPlaceAgainst(blockPos) && iBlockState.getBlock() != Blocks.cobblestone && iBlockState.getBlock() != Blocks.air) {
+                           C07PacketPlayerDigging c07PacketPlayerDigging = new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, blockPos, EnumFacing.UP);
+                           mc.thePlayer.sendQueue.u(c07PacketPlayerDigging);
 
                            try {
                               Thread.sleep(further.getSetting("Delay").asInt());
-                           } catch (InterruptedException var12) {
-                              var12.printStackTrace();
+                           } catch (InterruptedException interruptedException) {
+                              interruptedException.printStackTrace();
                            }
                         }
                      }
@@ -163,8 +163,8 @@ public final class Xray extends Module {
                   XrayScan.setDone(this.scan, true);
                }
             });
-            this.scan = new XrayScan(this, var6);
-            var6.start();
+            this.scan = new XrayScan(this, thread);
+            thread.start();
          }
       }
    };
@@ -176,99 +176,99 @@ public final class Xray extends Module {
    private final Color emeraldColor = new Color(106, 250, 106);
    private final Color lapisColor = new Color(30, 112, 175);
    @EventHandler(RenderBlockEvent.class)
-   private final Listener<RenderBlockEvent> onRenderBlock = var0 -> {
-      if (esp.getSetting("Enable").asBoolean() && isEnabledOre(var0.getBlock())) {
-         BlockPos var4 = new BlockPos(var0.getPos().getX(), var0.getPos().getY(), var0.getPos().getZ());
-         float var5 = (float)(mc.thePlayer.posX - var0.getPos().getX());
-         float var6 = (float)(mc.thePlayer.posZ - var0.getPos().getZ());
-         float var7 = MathHelper.sqrt_float(var5 * var5 + var6 * var6);
-         if (var7 < esp.getSetting("Distance").asDouble()) {
-            foundOres.computeIfAbsent(var4, var1x -> var0.getBlock());
+   private final Listener<RenderBlockEvent> onRenderBlock = renderBlockEvent -> {
+      if (esp.getSetting("Enable").asBoolean() && isEnabledOre(renderBlockEvent.getBlock())) {
+         BlockPos blockPos = new BlockPos(renderBlockEvent.getPos().getX(), renderBlockEvent.getPos().getY(), renderBlockEvent.getPos().getZ());
+         float f = (float)(mc.thePlayer.posX - renderBlockEvent.getPos().getX());
+         float g = (float)(mc.thePlayer.posZ - renderBlockEvent.getPos().getZ());
+         float h = MathHelper.sqrt_float(f * f + g * g);
+         if (h < esp.getSetting("Distance").asDouble()) {
+            foundOres.computeIfAbsent(blockPos, blockPos2 -> renderBlockEvent.getBlock());
          }
       }
    };
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.WORLD) {
-         Iterator var5 = foundOres.entrySet().iterator();
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.WORLD) {
+         Iterator iterator2 = foundOres.entrySet().iterator();
 
-         while (var5.hasNext()) {
-            Entry var6 = (Entry)var5.next();
-            if (!isEnabledOre(mc.theWorld.getBlockState((BlockPos)var6.getKey()).getBlock())) {
-               var5.remove();
+         while (iterator2.hasNext()) {
+            Entry entry = (Entry)iterator2.next();
+            if (!isEnabledOre(mc.theWorld.getBlockState((BlockPos)entry.getKey()).getBlock())) {
+               iterator2.remove();
             } else {
-               double var7 = ((BlockPos)var6.getKey()).getX() - mc.getRenderManager().renderPosX;
-               double var9 = ((BlockPos)var6.getKey()).getY() - mc.getRenderManager().renderPosY;
-               double var11 = ((BlockPos)var6.getKey()).getZ() - mc.getRenderManager().renderPosZ;
-               Color var13 = null;
-               if (var6.getValue() == Blocks.diamond_ore) {
-                  var13 = this.diamondColor;
-               } else if (var6.getValue() == Blocks.iron_ore) {
-                  var13 = this.ironColor;
-               } else if (var6.getValue() == Blocks.coal_ore) {
-                  var13 = this.coalColor;
-               } else if (var6.getValue() == Blocks.emerald_ore) {
-                  var13 = this.emeraldColor;
-               } else if (var6.getValue() == Blocks.gold_ore) {
-                  var13 = this.goldColor;
-               } else if (var6.getValue() == Blocks.redstone_ore || var6.getValue() == Blocks.lit_redstone_ore) {
-                  var13 = this.redstoneColor;
-               } else if (var6.getValue() == Blocks.lapis_ore) {
-                  var13 = this.lapisColor;
+               double d = ((BlockPos)entry.getKey()).getX() - mc.getRenderManager().renderPosX;
+               double e = ((BlockPos)entry.getKey()).getY() - mc.getRenderManager().renderPosY;
+               double d2 = ((BlockPos)entry.getKey()).getZ() - mc.getRenderManager().renderPosZ;
+               Color color = null;
+               if (entry.getValue() == Blocks.diamond_ore) {
+                  color = this.diamondColor;
+               } else if (entry.getValue() == Blocks.iron_ore) {
+                  color = this.ironColor;
+               } else if (entry.getValue() == Blocks.coal_ore) {
+                  color = this.coalColor;
+               } else if (entry.getValue() == Blocks.emerald_ore) {
+                  color = this.emeraldColor;
+               } else if (entry.getValue() == Blocks.gold_ore) {
+                  color = this.goldColor;
+               } else if (entry.getValue() == Blocks.redstone_ore || entry.getValue() == Blocks.lit_redstone_ore) {
+                  color = this.redstoneColor;
+               } else if (entry.getValue() == Blocks.lapis_ore) {
+                  color = this.lapisColor;
                }
 
-               if (var13 != null) {
-                  boolean var14 = mc.gameSettings.viewBobbing;
-                  float var15 = mc.thePlayer.timeInPortal;
-                  float var16 = mc.thePlayer.prevTimeInPortal;
+               if (color != null) {
+                  boolean bl = mc.gameSettings.viewBobbing;
+                  float f = mc.thePlayer.timeInPortal;
+                  float g = mc.thePlayer.prevTimeInPortal;
                   mc.gameSettings.viewBobbing = false;
                   mc.thePlayer.timeInPortal = 0.0F;
                   mc.thePlayer.prevTimeInPortal = 0.0F;
-                  mc.entityRenderer.setupCameraTransform(var1x.getPartialTicks(), 0);
-                  drawOre(var1x, var7, var9, var11, var13.getRed(), var13.getGreen(), var13.getBlue(), 255);
-                  mc.gameSettings.viewBobbing = var14;
-                  mc.thePlayer.timeInPortal = var15;
-                  mc.thePlayer.prevTimeInPortal = var16;
+                  mc.entityRenderer.setupCameraTransform(renderEvent.getPartialTicks(), 0);
+                  drawOre(renderEvent, d, e, d2, color.getRed(), color.getGreen(), color.getBlue(), 255);
+                  mc.gameSettings.viewBobbing = bl;
+                  mc.thePlayer.timeInPortal = f;
+                  mc.thePlayer.prevTimeInPortal = g;
                }
             }
          }
       } else if (this.scan != null && !XrayScan.isDone(this.scan)) {
-         String var17 = String.format("Scanning blocks (%s/%s)", XrayScan.getScanned(this.scan), (int)XrayScan.getTotal(this.scan));
-         float var18 = var1x.getResolution().getScaledWidth() / 2.0F;
-         float var19 = var18 - 80.0F;
-         float var8 = var18 + 80.0F;
-         int var20 = (int)((var19 + var8) / 2.0F - mc.fontRendererObj.getStringWidth(var17) / 4.0F);
-         int var10 = (int)(var19 + (var8 - var19) * (XrayScan.getScanned(this.scan) / XrayScan.getTotal(this.scan) * 100.0 * 0.01F));
+         String string = String.format("Scanning blocks (%s/%s)", XrayScan.getScanned(this.scan), (int)XrayScan.getTotal(this.scan));
+         float h = renderEvent.getResolution().getScaledWidth() / 2.0F;
+         float f2 = h - 80.0F;
+         float f3 = h + 80.0F;
+         int i = (int)((f2 + f3) / 2.0F - mc.fontRendererObj.getStringWidth(string) / 4.0F);
+         int j = (int)(f2 + (f3 - f2) * (XrayScan.getScanned(this.scan) / XrayScan.getTotal(this.scan) * 100.0 * 0.01F));
          RenderUtil.drawThinBorderedRect(
-            var19 - 1.0F,
-            var1x.getResolution().getScaledHeight() - 91.0F,
-            var8 + 1.0F,
-            var1x.getResolution().getScaledHeight() - 79.0F,
+            f2 - 1.0F,
+            renderEvent.getResolution().getScaledHeight() - 91.0F,
+            f3 + 1.0F,
+            renderEvent.getResolution().getScaledHeight() - 79.0F,
             new Color(1, 1, 1, 120).getRGB(),
             new Color(1, 1, 1, 200).getRGB()
          );
          RenderUtil.drawRect(
-            var10,
-            var1x.getResolution().getScaledHeight() - 80,
-            var19,
-            var1x.getResolution().getScaledHeight() - 90,
+            j,
+            renderEvent.getResolution().getScaledHeight() - 80,
+            f2,
+            renderEvent.getResolution().getScaledHeight() - 90,
             client.getColorSetting().getValue().getRGB()
          );
          GL11.glPushMatrix();
          GL11.glScalef(0.5F, 0.5F, 0.5F);
-         mc.fontRendererObj.drawStringWithShadow(var17, var20 * 2, (var1x.getResolution().getScaledHeight() - 87.5F) * 2.0F, -1);
+         mc.fontRendererObj.drawStringWithShadow(string, i * 2, (renderEvent.getResolution().getScaledHeight() - 87.5F) * 2.0F, -1);
          GL11.glPopMatrix();
       }
    };
    private static final long e = 99221782711289L;
 
-   public Xray(Category var1) {
-      super(var1);
+   public Xray(Category category) {
+      super(category);
       this.addSettings(ores, esp, further, opacity, hypixel);
    }
 
-   public static void drawOre(RenderEvent var0, double var1, double var3, double var5, int var7, int var8, int var9, int var10) {
-      long var11 = e ^ 116506298947349L;
+   public static void drawOre(RenderEvent renderEvent, double d, double d2, double d3, int i, int j, int k, int l) {
+      long m = e ^ 116506298947349L;
       GL11.glPushMatrix();
       GL11.glEnable(3042);
       GL11.glBlendFunc(770, 771);
@@ -278,16 +278,16 @@ public final class Xray extends Module {
       GL11.glDepthMask(false);
       GL11.glLineWidth(esp.getSetting("Width").asFloat());
       GlStateManager.disableLighting();
-      GL11.glColor4f(var7 / 255.0F, var8 / 255.0F, var9 / 255.0F, 1.0F);
+      GL11.glColor4f(i / 255.0F, j / 255.0F, k / 255.0F, 1.0F);
       if (esp.getSetting("Tracers").asBoolean()) {
          GL11.glBegin(1);
          GL11.glVertex3d(0.0, mc.thePlayer.getEyeHeight(), 0.0);
-         GL11.glVertex3d(var1, var3, var5);
+         GL11.glVertex3d(d, d2, d3);
          GL11.glEnd();
       }
 
       if (esp.getSetting("Boxes").asBoolean()) {
-         drawOutlinedBox(new AxisAlignedBB(var1, var3, var5, var1 + 1.0, var3 + 1.0, var5 + 1.0));
+         drawOutlinedBox(new AxisAlignedBB(d, d2, d3, d + 1.0, d2 + 1.0, d3 + 1.0));
       }
 
       GlStateManager.enableLighting();
@@ -295,38 +295,38 @@ public final class Xray extends Module {
       GL11.glEnable(3553);
       GL11.glEnable(2929);
       GL11.glDepthMask(true);
-      long var10000 = 5931225241701262368L ^ var11;
+      long n = 5931225241701262368L ^ m;
       GL11.glDisable(3042);
       GL11.glPopMatrix();
    }
 
-   public static void drawOutlinedBox(AxisAlignedBB var0) {
-      Tessellator var1 = Tessellator.getInstance();
-      WorldRenderer var2 = var1.getWorldRenderer();
-      var2.begin(3, DefaultVertexFormats.POSITION);
-      var2.pos(var0.minX, var0.minY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.minY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.minY, var0.maxZ).endVertex();
-      var2.pos(var0.minX, var0.minY, var0.maxZ).endVertex();
-      var2.pos(var0.minX, var0.minY, var0.minZ).endVertex();
-      var1.draw();
-      var2.begin(3, DefaultVertexFormats.POSITION);
-      var2.pos(var0.minX, var0.maxY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.maxY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.maxY, var0.maxZ).endVertex();
-      var2.pos(var0.minX, var0.maxY, var0.maxZ).endVertex();
-      var2.pos(var0.minX, var0.maxY, var0.minZ).endVertex();
-      var1.draw();
-      var2.begin(1, DefaultVertexFormats.POSITION);
-      var2.pos(var0.minX, var0.minY, var0.minZ).endVertex();
-      var2.pos(var0.minX, var0.maxY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.minY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.maxY, var0.minZ).endVertex();
-      var2.pos(var0.maxX, var0.minY, var0.maxZ).endVertex();
-      var2.pos(var0.maxX, var0.maxY, var0.maxZ).endVertex();
-      var2.pos(var0.minX, var0.minY, var0.maxZ).endVertex();
-      var2.pos(var0.minX, var0.maxY, var0.maxZ).endVertex();
-      var1.draw();
+   public static void drawOutlinedBox(AxisAlignedBB axisAlignedBB) {
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+      worldRenderer.begin(3, DefaultVertexFormats.POSITION);
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.minY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.minY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.minZ).endVertex();
+      tessellator.draw();
+      worldRenderer.begin(3, DefaultVertexFormats.POSITION);
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.maxY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.maxY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.maxY, axisAlignedBB.minZ).endVertex();
+      tessellator.draw();
+      worldRenderer.begin(1, DefaultVertexFormats.POSITION);
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.maxY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.minY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.minZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.minY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.maxZ).endVertex();
+      worldRenderer.pos(axisAlignedBB.minX, axisAlignedBB.maxY, axisAlignedBB.maxZ).endVertex();
+      tessellator.draw();
    }
 
    @Override
@@ -361,30 +361,30 @@ public final class Xray extends Module {
       super.onDisable();
    }
 
-   public void reloadChunks(int var1) {
+   public void reloadChunks(int i) {
       if (mc.theWorld != null) {
-         int var5 = (int)mc.thePlayer.posX;
-         int var6 = (int)mc.thePlayer.posY;
-         int var7 = (int)mc.thePlayer.posZ;
-         mc.theWorld.markBlockRangeForRenderUpdate(var5 - var1, var6 - var1, var7 - var1, var5 + var1, var6 + var1, var7 + var1);
+         int j = (int)mc.thePlayer.posX;
+         int k = (int)mc.thePlayer.posY;
+         int l = (int)mc.thePlayer.posZ;
+         mc.theWorld.markBlockRangeForRenderUpdate(j - i, k - i, l - i, j + i, k + i, l + i);
       }
    }
 
-   public static boolean isEnabledOre(Block var0) {
-      if (var0 == Blocks.diamond_ore) {
+   public static boolean isEnabledOre(Block block) {
+      if (block == Blocks.diamond_ore) {
          return ores.getSetting("Diamond").asBoolean();
-      } else if (var0 == Blocks.iron_ore) {
+      } else if (block == Blocks.iron_ore) {
          return ores.getSetting("Iron").asBoolean();
-      } else if (var0 == Blocks.coal_ore) {
+      } else if (block == Blocks.coal_ore) {
          return ores.getSetting("Coal").asBoolean();
-      } else if (var0 == Blocks.emerald_ore) {
+      } else if (block == Blocks.emerald_ore) {
          return ores.getSetting("Emerald").asBoolean();
-      } else if (var0 == Blocks.gold_ore) {
+      } else if (block == Blocks.gold_ore) {
          return ores.getSetting("Gold").asBoolean();
-      } else if (var0 == Blocks.redstone_ore || var0 == Blocks.lit_redstone_ore) {
+      } else if (block == Blocks.redstone_ore || block == Blocks.lit_redstone_ore) {
          return ores.getSetting("Redstone").asBoolean();
       } else {
-         return var0 == Blocks.lapis_ore ? ores.getSetting("Lapis").asBoolean() : false;
+         return block == Blocks.lapis_ore ? ores.getSetting("Lapis").asBoolean() : false;
       }
    }
 

@@ -9,24 +9,25 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSlime extends RenderLiving<EntitySlime> {
    private static final ResourceLocation slimeTextures = new ResourceLocation("textures/entity/slime/slime.png");
 
-   public RenderSlime(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderSlime(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
       this.addLayer(new LayerSlimeGel(this));
    }
 
-   public void doRender(EntitySlime var1, double var2, double var4, double var6, float var8, float var9) {
-      this.shadowSize = 0.25F * var1.getSlimeSize();
-      super.doRender(var1, var2, var4, var6, var8, var9);
+   public void doRender(EntitySlime entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      this.shadowSize = 0.25F * entity.getSlimeSize();
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public void preRenderCallback(EntitySlime var1, float var2) {
-      float var3 = var1.getSlimeSize();
-      float var4 = (var1.prevSquishFactor + (var1.squishFactor - var1.prevSquishFactor) * var2) / (var3 * 0.5F + 1.0F);
-      float var5 = 1.0F / (var4 + 1.0F);
-      GlStateManager.scale(var5 * var3, 1.0F / var5 * var3, var5 * var3);
+   public void preRenderCallback(EntitySlime entitylivingbaseIn, float partialTickTime) {
+      float f = entitylivingbaseIn.getSlimeSize();
+      float g = (entitylivingbaseIn.prevSquishFactor + (entitylivingbaseIn.squishFactor - entitylivingbaseIn.prevSquishFactor) * partialTickTime)
+         / (f * 0.5F + 1.0F);
+      float h = 1.0F / (g + 1.0F);
+      GlStateManager.scale(h * f, 1.0F / h * f, h * f);
    }
 
-   public ResourceLocation getEntityTexture(EntitySlime var1) {
+   public ResourceLocation getEntityTexture(EntitySlime entity) {
       return slimeTextures;
    }
 }

@@ -14,10 +14,10 @@ public class BlockWorldState {
    private boolean tileEntityInitialized;
    private static final long a = 70751544373813L;
 
-   public BlockWorldState(World var1, BlockPos var2, boolean var3) {
-      this.world = var1;
-      this.pos = var2;
-      this.field_181628_c = var3;
+   public BlockWorldState(World worldIn, BlockPos posIn, boolean bl) {
+      this.world = worldIn;
+      this.pos = posIn;
+      this.field_181628_c = bl;
    }
 
    public IBlockState getBlockState() {
@@ -41,12 +41,12 @@ public class BlockWorldState {
       return this.pos;
    }
 
-   public static Predicate<BlockWorldState> hasState(final Predicate<IBlockState> var0) {
+   public static Predicate<BlockWorldState> hasState(final Predicate<IBlockState> predicatesIn) {
       return new Predicate<BlockWorldState>() {
          private static final long a = 97833484951791L;
 
-         public boolean apply(BlockWorldState var1) {
-            return var1 != null && var0.apply(var1.getBlockState());
+         public boolean apply(BlockWorldState blockWorldState) {
+            return blockWorldState != null && predicatesIn.apply(blockWorldState.getBlockState());
          }
       };
    }

@@ -29,18 +29,18 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
    private static final long a = 1091837686886L;
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
       if (this.hasCustomName()) {
-         var1.setString("CustomName", this.customName);
+         compound.setString("CustomName", this.customName);
       }
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      if (var1.hasKey("CustomName", 8)) {
-         this.customName = var1.getString("CustomName");
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      if (compound.hasKey("CustomName", 8)) {
+         this.customName = compound.getString("CustomName");
       }
    }
 
@@ -48,18 +48,18 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
    public void update() {
       this.bookSpreadPrev = this.bookSpread;
       this.bookRotationPrev = this.bookRotation;
-      EntityPlayer var5 = this.worldObj.getClosestPlayer(this.pos.getX() + 0.5F, this.pos.getY() + 0.5F, this.pos.getZ() + 0.5F, 3.0);
-      if (var5 != null) {
-         double var6 = var5.posX - (this.pos.getX() + 0.5F);
-         double var8 = var5.posZ - (this.pos.getZ() + 0.5F);
-         this.field_145924_q = (float)MathHelper.atan2(var8, var6);
+      EntityPlayer entityPlayer = this.worldObj.getClosestPlayer(this.pos.getX() + 0.5F, this.pos.getY() + 0.5F, this.pos.getZ() + 0.5F, 3.0);
+      if (entityPlayer != null) {
+         double d = entityPlayer.posX - (this.pos.getX() + 0.5F);
+         double e = entityPlayer.posZ - (this.pos.getZ() + 0.5F);
+         this.field_145924_q = (float)MathHelper.atan2(e, d);
          this.bookSpread += 0.1F;
          if (this.bookSpread < 0.5F || rand.nextInt(40) == 0) {
-            float var10 = this.field_145932_k;
+            float f = this.field_145932_k;
 
             do {
                this.field_145932_k = this.field_145932_k + (rand.nextInt(4) - rand.nextInt(4));
-            } while (var10 == this.field_145932_k);
+            } while (f == this.field_145932_k);
          }
       } else {
          this.field_145924_q += 0.02F;
@@ -82,24 +82,24 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
          this.field_145924_q += (float) (Math.PI * 2);
       }
 
-      float var11 = this.field_145924_q - this.bookRotation;
+      float g = this.field_145924_q - this.bookRotation;
 
-      while (var11 >= (float) Math.PI) {
-         var11 -= (float) (Math.PI * 2);
+      while (g >= (float) Math.PI) {
+         g -= (float) (Math.PI * 2);
       }
 
-      while (var11 < (float) -Math.PI) {
-         var11 += (float) (Math.PI * 2);
+      while (g < (float) -Math.PI) {
+         g += (float) (Math.PI * 2);
       }
 
-      this.bookRotation += var11 * 0.4F;
+      this.bookRotation += g * 0.4F;
       this.bookSpread = MathHelper.clamp_float(this.bookSpread, 0.0F, 1.0F);
       this.tickCount++;
       this.pageFlipPrev = this.pageFlip;
-      float var7 = (this.field_145932_k - this.pageFlip) * 0.4F;
-      float var13 = 0.2F;
-      var7 = MathHelper.clamp_float(var7, -var13, var13);
-      this.field_145929_l = this.field_145929_l + (var7 - this.field_145929_l) * 0.9F;
+      float h = (this.field_145932_k - this.pageFlip) * 0.4F;
+      float f2 = 0.2F;
+      h = MathHelper.clamp_float(h, -f2, f2);
+      this.field_145929_l = this.field_145929_l + (h - this.field_145929_l) * 0.9F;
       this.pageFlip = this.pageFlip + this.field_145929_l;
    }
 
@@ -113,8 +113,8 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
       return this.customName != null && this.customName.length() > 0;
    }
 
-   public void setCustomName(String var1) {
-      this.customName = var1;
+   public void setCustomName(String customNameIn) {
+      this.customName = customNameIn;
    }
 
    @Override
@@ -123,8 +123,8 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-      return new ContainerEnchantment(var1, this.worldObj, this.pos);
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+      return new ContainerEnchantment(playerInventory, this.worldObj, this.pos);
    }
 
    @Override

@@ -39,12 +39,12 @@ public class DefaultVertexFormats {
       }
 
       if (Reflector.Attributes_DEFAULT_BAKED_FORMAT.exists()) {
-         VertexFormat var3 = ITEM;
-         VertexFormat var4 = (VertexFormat)Reflector.getFieldValue(Reflector.Attributes_DEFAULT_BAKED_FORMAT);
-         var4.clear();
+         VertexFormat vertexFormat = ITEM;
+         VertexFormat vertexFormat2 = (VertexFormat)Reflector.getFieldValue(Reflector.Attributes_DEFAULT_BAKED_FORMAT);
+         vertexFormat2.clear();
 
-         for (int var5 = 0; var5 < var3.getElementCount(); var5++) {
-            var4.addElement(var3.getElement(var5));
+         for (int i = 0; i < vertexFormat.getElementCount(); i++) {
+            vertexFormat2.addElement(vertexFormat.getElement(i));
          }
       }
    }

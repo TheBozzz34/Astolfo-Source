@@ -19,63 +19,63 @@ public class Lang {
    private static final long a = 4752896723902L;
 
    public static void resourcesReloaded() {
-      Map var3 = I18n.getLocaleProperties();
-      ArrayList var4 = new ArrayList();
-      String var5 = "optifine/lang/";
-      String var6 = "en_US";
-      String var7 = ".lang";
-      var4.add(var5 + var6 + var7);
-      if (!Config.getGameSettings().language.equals(var6)) {
-         var4.add(var5 + Config.getGameSettings().language + var7);
+      Map map = I18n.getLocaleProperties();
+      ArrayList arrayList = new ArrayList();
+      String string = "optifine/lang/";
+      String string2 = "en_US";
+      String string3 = ".lang";
+      arrayList.add(string + string2 + string3);
+      if (!Config.getGameSettings().language.equals(string2)) {
+         arrayList.add(string + Config.getGameSettings().language + string3);
       }
 
-      String[] var8 = (java.lang.String[])(var4.toArray(new String[var4.size()]));
-      loadResources(Config.getDefaultResourcePack(), var8, var3);
-      IResourcePack[] var9 = Config.getResourcePacks();
+      String[] strings = (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
+      loadResources(Config.getDefaultResourcePack(), strings, map);
+      IResourcePack[] iResourcePacks = Config.getResourcePacks();
 
-      for (int var10 = 0; var10 < var9.length; var10++) {
-         IResourcePack var11 = var9[var10];
-         loadResources(var11, var8, var3);
+      for (int i = 0; i < iResourcePacks.length; i++) {
+         IResourcePack iResourcePack = iResourcePacks[i];
+         loadResources(iResourcePack, strings, map);
       }
    }
 
-   private static void loadResources(IResourcePack var0, String[] var1, Map var2) {
+   private static void loadResources(IResourcePack rp, String[] files, Map localeProperties) {
       try {
-         for (int var6 = 0; var6 < var1.length; var6++) {
-            String var7 = var1[var6];
-            ResourceLocation var8 = new ResourceLocation(var7);
-            if (var0.resourceExists(var8)) {
-               InputStream var9 = var0.getInputStream(var8);
-               if (var9 != null) {
-                  loadLocaleData(var9, var2);
+         for (int i = 0; i < files.length; i++) {
+            String string = files[i];
+            ResourceLocation resourceLocation = new ResourceLocation(string);
+            if (rp.resourceExists(resourceLocation)) {
+               InputStream inputStream = rp.getInputStream(resourceLocation);
+               if (inputStream != null) {
+                  loadLocaleData(inputStream, localeProperties);
                }
             }
          }
-      } catch (IOException var10) {
-         var10.printStackTrace();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
-   public static void loadLocaleData(InputStream var0, Map var1) throws IOException {
-      for (String var6 : IOUtils.readLines(var0, Charsets.UTF_8)) {
-         if (!var6.isEmpty() && var6.charAt(0) != '#') {
-            String[] var7 = Iterables.toArray(splitter.split(var6), String.class);
-            if (var7 != null && var7.length == 2) {
-               String var8 = var7[0];
-               String var9 = pattern.matcher(var7[1]).replaceAll("%$1s");
-               var1.put(var8, var9);
+   public static void loadLocaleData(InputStream is, Map localeProperties) throws IOException {
+      for (String string : IOUtils.readLines(is, Charsets.UTF_8)) {
+         if (!string.isEmpty() && string.charAt(0) != '#') {
+            String[] strings = Iterables.toArray(splitter.split(string), String.class);
+            if (strings != null && strings.length == 2) {
+               String string2 = strings[0];
+               String string3 = pattern.matcher(strings[1]).replaceAll("%$1s");
+               localeProperties.put(string2, string3);
             }
          }
       }
    }
 
-   public static String get(String var0) {
-      return I18n.format(var0);
+   public static String get(String key) {
+      return I18n.format(key);
    }
 
-   public static String get(String var0, String var1) {
-      String var5 = I18n.format(var0);
-      return var5 != null && !var5.equals(var0) ? var5 : var1;
+   public static String get(String key, String def) {
+      String string = I18n.format(key);
+      return string != null && !string.equals(key) ? string : def;
    }
 
    public static String getOn() {

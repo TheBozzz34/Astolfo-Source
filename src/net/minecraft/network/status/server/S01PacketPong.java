@@ -11,21 +11,21 @@ public class S01PacketPong implements Packet<INetHandlerStatusClient> {
    public S01PacketPong() {
    }
 
-   public S01PacketPong(long var1) {
-      this.clientTime = var1;
+   public S01PacketPong(long time) {
+      this.clientTime = time;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.clientTime = var1.readLong();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.clientTime = buf.readLong();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeLong(this.clientTime);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeLong(this.clientTime);
    }
 
-   public void processPacket(INetHandlerStatusClient var1) {
-      var1.handlePong(this);
+   public void processPacket(INetHandlerStatusClient handler) {
+      handler.handlePong(this);
    }
 }

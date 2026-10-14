@@ -13,8 +13,8 @@ public final class Win32ComputerSystemProduct {
    }
 
    public static WmiResult<Win32ComputerSystemProduct.ComputerSystemProductProperty> queryIdentifyingNumber() {
-      WmiQuery var2 = new WmiQuery<>("Win32_ComputerSystemProduct", Win32ComputerSystemProduct.ComputerSystemProductProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_ComputerSystemProduct", Win32ComputerSystemProduct.ComputerSystemProductProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum ComputerSystemProductProperty {

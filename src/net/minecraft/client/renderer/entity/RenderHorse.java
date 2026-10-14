@@ -18,26 +18,26 @@ public class RenderHorse extends RenderLiving<EntityHorse> {
    private static final ResourceLocation skeletonHorseTextures = new ResourceLocation("textures/entity/horse/horse_skeleton.png");
    private static final long d = 123736414345568L;
 
-   public RenderHorse(RenderManager var1, ModelHorse var2, float var3) {
-      super(var1, var2, var3);
+   public RenderHorse(RenderManager rendermanagerIn, ModelHorse model, float shadowSizeIn) {
+      super(rendermanagerIn, model, shadowSizeIn);
    }
 
-   public void preRenderCallback(EntityHorse var1, float var2) {
-      float var6 = 1.0F;
-      int var7 = var1.getHorseType();
-      if (var7 == 1) {
-         var6 *= 0.87F;
-      } else if (var7 == 2) {
-         var6 *= 0.92F;
+   public void preRenderCallback(EntityHorse entitylivingbaseIn, float partialTickTime) {
+      float f = 1.0F;
+      int i = entitylivingbaseIn.getHorseType();
+      if (i == 1) {
+         f *= 0.87F;
+      } else if (i == 2) {
+         f *= 0.92F;
       }
 
-      GlStateManager.scale(var6, var6, var6);
-      super.preRenderCallback(var1, var2);
+      GlStateManager.scale(f, f, f);
+      super.preRenderCallback(entitylivingbaseIn, partialTickTime);
    }
 
-   public ResourceLocation getEntityTexture(EntityHorse var1) {
-      if (!var1.func_110239_cn()) {
-         switch (var1.getHorseType()) {
+   public ResourceLocation getEntityTexture(EntityHorse entity) {
+      if (!entity.func_110239_cn()) {
+         switch (entity.getHorseType()) {
             case 0:
             default:
                return whiteHorseTextures;
@@ -51,23 +51,23 @@ public class RenderHorse extends RenderLiving<EntityHorse> {
                return skeletonHorseTextures;
          }
       } else {
-         return this.func_110848_b(var1);
+         return this.func_110848_b(entity);
       }
    }
 
-   private ResourceLocation func_110848_b(EntityHorse var1) {
-      String var5 = var1.getHorseTexture();
-      if (!var1.func_175507_cI()) {
+   private ResourceLocation func_110848_b(EntityHorse horse) {
+      String string = horse.getHorseTexture();
+      if (!horse.func_175507_cI()) {
          return null;
       }
 
-      ResourceLocation var6 = field_110852_a.get(var5);
-      if (var6 == null) {
-         var6 = new ResourceLocation(var5);
-         Minecraft.getMinecraft().getTextureManager().loadTexture(var6, new LayeredTexture(var1.getVariantTexturePaths()));
-         field_110852_a.put(var5, var6);
+      ResourceLocation resourceLocation = field_110852_a.get(string);
+      if (resourceLocation == null) {
+         resourceLocation = new ResourceLocation(string);
+         Minecraft.getMinecraft().getTextureManager().loadTexture(resourceLocation, new LayeredTexture(horse.getVariantTexturePaths()));
+         field_110852_a.put(string, resourceLocation);
       }
 
-      return var6;
+      return resourceLocation;
    }
 }

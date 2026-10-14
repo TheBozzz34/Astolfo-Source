@@ -21,117 +21,117 @@ import net.minecraft.util.ReportedException;
 public class CompressedStreamTools {
    private static final long a = 67467306098877L;
 
-   public static NBTTagCompound readCompressed(InputStream var0) throws IOException {
-      DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0)));
+   public static NBTTagCompound readCompressed(InputStream is) throws IOException {
+      DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new GZIPInputStream(is)));
 
-      NBTTagCompound var2;
+      NBTTagCompound nbtTagCompound;
       try {
-         var2 = read(var1, NBTSizeTracker.INFINITE);
+         nbtTagCompound = read(dataInputStream, NBTSizeTracker.INFINITE);
       } finally {
-         var1.close();
+         dataInputStream.close();
       }
 
-      return var2;
+      return nbtTagCompound;
    }
 
-   public static void writeCompressed(NBTTagCompound var0, OutputStream var1) throws IOException {
-      DataOutputStream var2 = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(var1)));
-
-      try {
-         write(var0, var2);
-      } finally {
-         var2.close();
-      }
-   }
-
-   public static void safeWrite(NBTTagCompound var0, File var1) throws IOException {
-      File var5 = new File(var1.getAbsolutePath() + "_tmp");
-      if (var5.exists()) {
-         var5.delete();
-      }
-
-      write(var0, var5);
-      if (var1.exists()) {
-         var1.delete();
-      }
-
-      if (var1.exists()) {
-         throw new IOException("Failed to delete " + var1);
-      }
-
-      var5.renameTo(var1);
-   }
-
-   public static void write(NBTTagCompound var0, File var1) throws IOException {
-      DataOutputStream var2 = new DataOutputStream(new FileOutputStream(var1));
+   public static void writeCompressed(NBTTagCompound nbtTagCompound, OutputStream outputStream) throws IOException {
+      DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(outputStream)));
 
       try {
-         write(var0, var2);
+         write(nbtTagCompound, dataOutputStream);
       } finally {
-         var2.close();
+         dataOutputStream.close();
       }
    }
 
-   public static NBTTagCompound read(File var0) throws IOException {
-      if (!var0.exists()) {
+   public static void safeWrite(NBTTagCompound nbtTagCompound, File file) throws IOException {
+      File file2 = new File(file.getAbsolutePath() + "_tmp");
+      if (file2.exists()) {
+         file2.delete();
+      }
+
+      write(nbtTagCompound, file2);
+      if (file.exists()) {
+         file.delete();
+      }
+
+      if (file.exists()) {
+         throw new IOException("Failed to delete " + file);
+      }
+
+      file2.renameTo(file);
+   }
+
+   public static void write(NBTTagCompound nbtTagCompound, File file) throws IOException {
+      DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file));
+
+      try {
+         write(nbtTagCompound, dataOutputStream);
+      } finally {
+         dataOutputStream.close();
+      }
+   }
+
+   public static NBTTagCompound read(File file) throws IOException {
+      if (!file.exists()) {
          return null;
       }
 
-      DataInputStream var3 = new DataInputStream(new FileInputStream(var0));
+      DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file));
 
-      NBTTagCompound var4;
+      NBTTagCompound nbtTagCompound;
       try {
-         var4 = read(var3, NBTSizeTracker.INFINITE);
+         nbtTagCompound = read(dataInputStream, NBTSizeTracker.INFINITE);
       } finally {
-         var3.close();
+         dataInputStream.close();
       }
 
-      return var4;
+      return nbtTagCompound;
    }
 
-   public static NBTTagCompound read(DataInputStream var0) throws IOException {
-      return read(var0, NBTSizeTracker.INFINITE);
+   public static NBTTagCompound read(DataInputStream inputStream) throws IOException {
+      return read(inputStream, NBTSizeTracker.INFINITE);
    }
 
-   public static NBTTagCompound read(DataInput var0, NBTSizeTracker var1) throws IOException {
-      NBTBase var5 = func_152455_a(var0, 0, var1);
-      if (var5 instanceof NBTTagCompound) {
-         return (NBTTagCompound)var5;
+   public static NBTTagCompound read(DataInput dataInput, NBTSizeTracker nbtSizeTracker) throws IOException {
+      NBTBase nbtBase = func_152455_a(dataInput, 0, nbtSizeTracker);
+      if (nbtBase instanceof NBTTagCompound) {
+         return (NBTTagCompound)nbtBase;
       } else {
          throw new IOException("Root tag must be a named compound tag");
       }
    }
 
-   public static void write(NBTTagCompound var0, DataOutput var1) throws IOException {
-      writeTag(var0, var1);
+   public static void write(NBTTagCompound nbtTagCompound, DataOutput dataOutput) throws IOException {
+      writeTag(nbtTagCompound, dataOutput);
    }
 
-   private static void writeTag(NBTBase var0, DataOutput var1) throws IOException {
-      var1.writeByte(var0.getId());
-      if (var0.getId() != 0) {
-         var1.writeUTF("");
-         var0.write(var1);
+   private static void writeTag(NBTBase nbtBase, DataOutput dataOutput) throws IOException {
+      dataOutput.writeByte(nbtBase.getId());
+      if (nbtBase.getId() != 0) {
+         dataOutput.writeUTF("");
+         nbtBase.write(dataOutput);
       }
    }
 
-   private static NBTBase func_152455_a(DataInput var0, int var1, NBTSizeTracker var2) throws IOException {
-      byte var6 = var0.readByte();
-      if (var6 == 0) {
+   private static NBTBase func_152455_a(DataInput dataInput, int i, NBTSizeTracker nbtSizeTracker) throws IOException {
+      byte b = dataInput.readByte();
+      if (b == 0) {
          return new NBTTagEnd();
       }
 
-      var0.readUTF();
-      NBTBase var7 = NBTBase.createNewByType(var6);
+      dataInput.readUTF();
+      NBTBase nbtBase = NBTBase.createNewByType(b);
 
       try {
-         var7.read(var0, var1, var2);
-         return var7;
-      } catch (IOException var11) {
-         CrashReport var9 = CrashReport.makeCrashReport(var11, "Loading NBT data");
-         CrashReportCategory var10 = var9.makeCategory("NBT Tag");
-         var10.addCrashSection("Tag name", "[UNNAMED TAG]");
-         var10.addCrashSection("Tag type", var6);
-         throw new ReportedException(var9);
+         nbtBase.read(dataInput, i, nbtSizeTracker);
+         return nbtBase;
+      } catch (IOException ioException) {
+         CrashReport crashReport = CrashReport.makeCrashReport(ioException, "Loading NBT data");
+         CrashReportCategory crashReportCategory = crashReport.makeCategory("NBT Tag");
+         crashReportCategory.addCrashSection("Tag name", "[UNNAMED TAG]");
+         crashReportCategory.addCrashSection("Tag type", b);
+         throw new ReportedException(crashReport);
       }
    }
 }

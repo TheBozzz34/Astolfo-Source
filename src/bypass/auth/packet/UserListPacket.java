@@ -9,17 +9,17 @@ public class UserListPacket {
    public boolean H;
    private static final long a = 47742426424070L;
 
-   public UserListPacket(UserListType var1, String var2, String var3) {
-      this.type = var1;
-      this.users = var2;
-      this.s = var3;
+   public UserListPacket(UserListType userListType, String string, String string2) {
+      this.type = userListType;
+      this.users = string;
+      this.s = string2;
       this.H = Astolfo.INSTANCE.getSenseSetting().getValue();
    }
 
-   public UserListPacket(UserListType var1, String var2, String var3, boolean var4) {
-      this.type = var1;
-      this.users = var2;
-      this.s = var3;
-      this.H = var4;
+   public UserListPacket(UserListType userListType, String string, String string2, boolean bl) {
+      this.type = userListType;
+      this.users = string;
+      this.s = string2;
+      this.H = bl;
    }
 }

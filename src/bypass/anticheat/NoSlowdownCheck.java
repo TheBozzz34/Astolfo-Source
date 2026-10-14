@@ -14,21 +14,21 @@ public class NoSlowdownCheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      if (var10.isUsingItem()) {
+   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      if (entityPlayer.isUsingItem()) {
          if (this.N != 0.0 && this.X != 0.0) {
-            double var14 = Math.hypot(var1 - this.N, var5 - this.X);
-            if (var10.isSprinting() && var14 >= 0.25 && var14 < 3.0 && this.J) {
-               this.x(var10.getName());
+            double e = Math.hypot(d - this.N, d3 - this.X);
+            if (entityPlayer.isSprinting() && e >= 0.25 && e < 3.0 && this.J) {
+               this.x(entityPlayer.getName());
             }
 
-            if (var10.isSprinting()) {
+            if (entityPlayer.isSprinting()) {
                this.J = true;
             }
          }
 
-         this.N = var1;
-         this.X = var5;
+         this.N = d;
+         this.X = d3;
       } else {
          this.J = false;
          this.X = 0.0;

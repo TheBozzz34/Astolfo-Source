@@ -30,8 +30,8 @@ public class BlockCarpet extends Block {
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(COLOR).getMapColor();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(COLOR).getMapColor();
    }
 
    @Override
@@ -50,65 +50,65 @@ public class BlockCarpet extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
       this.setBlockBoundsFromMeta(0);
    }
 
-   public void setBlockBoundsFromMeta(int var1) {
-      byte var2 = 0;
-      float var3 = 1 * (1 + var2) / 16.0F;
-      this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var3, 1.0F);
+   public void setBlockBoundsFromMeta(int meta) {
+      byte b = 0;
+      float f = 1 * (1 + b) / 16.0F;
+      this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return super.canPlaceBlockAt(var1, var2) && this.canBlockStay(var1, var2);
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return super.canPlaceBlockAt(worldIn, pos) && this.canBlockStay(worldIn, pos);
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      this.checkForDrop(var1, var2, var3);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      this.checkForDrop(worldIn, pos, state);
    }
 
-   private boolean checkForDrop(World var1, BlockPos var2, IBlockState var3) {
-      if (!this.canBlockStay(var1, var2)) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+   private boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
+      if (!this.canBlockStay(worldIn, pos)) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
          return false;
       } else {
          return true;
       }
    }
 
-   private boolean canBlockStay(World var1, BlockPos var2) {
-      return !var1.isAirBlock(var2.down());
+   private boolean canBlockStay(World worldIn, BlockPos pos) {
+      return !worldIn.isAirBlock(pos.down());
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return var3 == EnumFacing.UP ? true : super.shouldSideBeRendered(var1, var2, var3);
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      return side == EnumFacing.UP ? true : super.shouldSideBeRendered(worldIn, pos, side);
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(COLOR).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(COLOR).getMetadata();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (int var7 = 0; var7 < (int)i; var7++) {
-         var3.add(new ItemStack(var1, 1, var7));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (int j = 0; j < (int)i; j++) {
+         list.add(new ItemStack(itemIn, 1, j));
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(COLOR).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(COLOR).getMetadata();
    }
 
    @Override

@@ -7,12 +7,12 @@ public class RealmsScrolledSelectionList {
    private static final long a = 109397933927662L;
    private static final long b = -4242488550899056516L;
 
-   public RealmsScrolledSelectionList(int var1, int var2, int var3, int var4, int var5) {
-      this.proxy = new GuiSlotRealmsProxy(this, var1, var2, var3, var4, var5);
+   public RealmsScrolledSelectionList(int i, int j, int k, int l, int m) {
+      this.proxy = new GuiSlotRealmsProxy(this, i, j, k, l, m);
    }
 
-   public void render(int var1, int var2, float var3) {
-      this.proxy.drawScreen(var1, var2, var3);
+   public void render(int i, int j, float f) {
+      this.proxy.drawScreen(i, j, f);
    }
 
    public int z() {
@@ -27,21 +27,21 @@ public class RealmsScrolledSelectionList {
       return this.proxy.N();
    }
 
-   public void renderItem(int var1, int var2, int var3, int var4, Tezzelator var5, int var6, int var7) {
+   public void renderItem(int i, int j, int k, int l, Tezzelator tezzelator, int m, int n) {
    }
 
-   public void renderItem(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.renderItem(var1, var2, var3, var4, Tezzelator.instance, var5, var6);
+   public void renderItem(int i, int j, int k, int l, int m, int n) {
+      this.renderItem(i, j, k, l, Tezzelator.instance, m, n);
    }
 
    public int h() {
       return 0;
    }
 
-   public void selectItem(int var1, boolean var2, int var3, int var4) {
+   public void selectItem(int i, boolean bl, int j, int k) {
    }
 
-   public boolean isSelectedItem(int var1) {
+   public boolean isSelectedItem(int i) {
       return false;
    }
 
@@ -60,14 +60,14 @@ public class RealmsScrolledSelectionList {
       this.proxy.handleMouseInput();
    }
 
-   public void scroll(int var1) {
-      this.proxy.scrollBy(var1);
+   public void scroll(int i) {
+      this.proxy.scrollBy(i);
    }
 
    public int F() {
       return this.proxy.Y();
    }
 
-   public void renderList(int var1, int var2, int var3, int var4) {
+   public void renderList(int i, int j, int k, int l) {
    }
 }

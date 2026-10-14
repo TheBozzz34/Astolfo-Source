@@ -11,48 +11,48 @@ public class HubPanel extends Container {
    private HubCategory f;
    private static final long d = 129259732381092L;
 
-   public HubPanel(int var1, int var2, int var3, int var4) {
-      super("Hub", var1, var2, var3, var4);
+   public HubPanel(int i, int j, int k, int l) {
+      super("Hub", i, j, k, l);
       this.F(true);
    }
 
    @Override
-   public void render(int var1, int var2) {
+   public void render(int i, int j) {
       RenderUtil.drawRect(this.M() - 4.0F, this.E_float() - 4.0F, this.M() + this.x() + 4.0F, this.E_float() + this.Y() + 4.0F, new Color(67, 63, 65).getRGB());
       RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(32, 31, 32).getRGB());
       if (this.f != null) {
          this.f.Z(this);
          client.getCustomFontRenderer().drawString(this.f.J(), this.M() + 50.0F, this.E_float() + 5.0F, Color.WHITE.getRGB());
-         this.f.render(var1, var2);
+         this.f.render(i, j);
       } else {
          client.getCustomFontRenderer()
             .drawString(
                this.J(), this.M() + this.x() / 2 - client.getCustomFontRenderer().getStringWidth("Hub") / 2, this.E_float() + 5.0F, Color.WHITE.getRGB()
             );
-         int var7 = 0;
-         int var8 = 0;
+         int k = 0;
+         int l = 0;
 
-         for (Element var10 : this.M_ArrayList()) {
-            if (var10 instanceof HubCategory) {
-               Component var11 = (Component)var10;
-               float var12 = this.M() + this.x() / 3 * var8;
-               int var13 = var7 >= 3 ? 110 : 20;
-               var11.r(var12, this.E_float() + var13);
-               var11.render(var1, var2);
-               ((HubCategory)var11).Z(this);
-               var7++;
-               if (++var8 >= 3) {
-                  var8 = 0;
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof HubCategory) {
+               Component component = (Component)element;
+               float g = this.M() + this.x() / 3 * l;
+               int m = k >= 3 ? 110 : 20;
+               component.r(g, this.E_float() + m);
+               component.render(i, j);
+               ((HubCategory)component).Z(this);
+               k++;
+               if (++l >= 3) {
+                  l = 0;
                }
             }
          }
 
          if (this.f == null) {
-            for (Element var15 : this.M_ArrayList()) {
-               if (var15 instanceof HubCategory) {
-                  Component var16 = (Component)var15;
-                  if (this.G(var1, var2) && Mouse.isButtonDown(0)) {
-                     this.f = (HubCategory)var16;
+            for (Element element2 : this.M_ArrayList()) {
+               if (element2 instanceof HubCategory) {
+                  Component component2 = (Component)element2;
+                  if (this.G(i, j) && Mouse.isButtonDown(0)) {
+                     this.f = (HubCategory)component2;
                   }
                }
             }
@@ -61,7 +61,7 @@ public class HubPanel extends Container {
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
    }
 
    public HubCategory n() {

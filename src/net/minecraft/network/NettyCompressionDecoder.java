@@ -14,39 +14,39 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder {
    private int treshold;
    private static final long a = 94875971219713L;
 
-   public NettyCompressionDecoder(int var1) {
-      this.treshold = var1;
+   public NettyCompressionDecoder(int treshold) {
+      this.treshold = treshold;
       this.inflater = new Inflater();
    }
 
    @Override
-   public void decode(ChannelHandlerContext var1, ByteBuf var2, List<Object> var3) throws DataFormatException, Exception {
-      if (var2.readableBytes() != 0) {
-         PacketBuffer var7 = new PacketBuffer(var2);
-         int var8 = var7.readVarIntFromBuffer();
-         if (var8 == 0) {
-            var3.add(var7.readBytes(var7.readableBytes()));
+   public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws DataFormatException, Exception {
+      if (byteBuf.readableBytes() != 0) {
+         PacketBuffer packetBuffer = new PacketBuffer(byteBuf);
+         int i = packetBuffer.readVarIntFromBuffer();
+         if (i == 0) {
+            list.add(packetBuffer.readBytes(packetBuffer.readableBytes()));
          } else {
-            if (var8 < this.treshold) {
-               throw new DecoderException("Badly compressed packet - size of " + var8 + " is below server threshold of " + this.treshold);
+            if (i < this.treshold) {
+               throw new DecoderException("Badly compressed packet - size of " + i + " is below server threshold of " + this.treshold);
             }
 
-            if (var8 > 2097152) {
-               throw new DecoderException("Badly compressed packet - size of " + var8 + " is larger than protocol maximum of " + 2097152);
+            if (i > 2097152) {
+               throw new DecoderException("Badly compressed packet - size of " + i + " is larger than protocol maximum of " + 2097152);
             }
 
-            byte[] var9 = new byte[var7.readableBytes()];
-            var7.readBytes(var9);
-            this.inflater.setInput(var9);
-            byte[] var10 = new byte[var8];
-            this.inflater.inflate(var10);
-            var3.add(Unpooled.wrappedBuffer(var10));
+            byte[] bytes = new byte[packetBuffer.readableBytes()];
+            packetBuffer.readBytes(bytes);
+            this.inflater.setInput(bytes);
+            byte[] bytes2 = new byte[i];
+            this.inflater.inflate(bytes2);
+            list.add(Unpooled.wrappedBuffer(bytes2));
             this.inflater.reset();
          }
       }
    }
 
-   public void setCompressionTreshold(int var1) {
-      this.treshold = var1;
+   public void setCompressionTreshold(int treshold) {
+      this.treshold = treshold;
    }
 }

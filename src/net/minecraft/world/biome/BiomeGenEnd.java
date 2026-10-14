@@ -4,8 +4,8 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 
 public class BiomeGenEnd extends BiomeGenBase {
-   public BiomeGenEnd(int var1) {
-      super(var1);
+   public BiomeGenEnd(int id) {
+      super(id);
       this.spawnableMonsterList.clear();
       this.spawnableCreatureList.clear();
       this.spawnableWaterCreatureList.clear();
@@ -17,11 +17,11 @@ public class BiomeGenEnd extends BiomeGenBase {
    }
 
    @Override
-   public int getSkyColorByTemp(float var1) {
+   public int getSkyColorByTemp(float f) {
       return 0;
    }
 
    static {
-      long var10000 = 102430949191652L;
+      long l = 102430949191652L;
    }
 }

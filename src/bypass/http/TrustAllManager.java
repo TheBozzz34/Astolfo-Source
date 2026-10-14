@@ -8,11 +8,11 @@ public final class TrustAllManager implements X509TrustManager {
    }
 
    @Override
-   public void checkClientTrusted(X509Certificate[] var1, String var2) {
+   public void checkClientTrusted(X509Certificate[] x509Certificates, String string) {
    }
 
    @Override
-   public void checkServerTrusted(X509Certificate[] var1, String var2) {
+   public void checkServerTrusted(X509Certificate[] x509Certificates, String string) {
    }
 
    @Override

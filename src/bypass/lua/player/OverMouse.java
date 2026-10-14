@@ -9,7 +9,7 @@ public final class OverMouse extends VarArgFunction {
    private static final long a = 34921107760939L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
+   public Varargs onInvoke(Varargs varargs) {
       if (ClientAccess.mc.objectMouseOver == null) {
          return LuaValue.varargsOf(new LuaValue[]{NIL});
       }

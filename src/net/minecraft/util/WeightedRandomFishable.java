@@ -11,36 +11,36 @@ public class WeightedRandomFishable extends WeightedRandom.Item {
    private static final long a = 20972655405507L;
    private static final long b = -3692151808324534242L;
 
-   public WeightedRandomFishable(ItemStack var1, int var2) {
-      super(var2);
-      this.returnStack = var1;
+   public WeightedRandomFishable(ItemStack returnStackIn, int itemWeightIn) {
+      super(itemWeightIn);
+      this.returnStack = returnStackIn;
    }
 
-   public ItemStack getItemStack(Random var1) {
-      ItemStack var5 = this.returnStack.copy();
+   public ItemStack getItemStack(Random randomIn) {
+      ItemStack itemStack = this.returnStack.copy();
       if (this.maxDamagePercent > 0.0F) {
-         int var6 = (int)(this.maxDamagePercent * this.returnStack.getMaxDamage());
-         int var7 = var5.getMaxDamage() - var1.nextInt(var1.nextInt(var6) + 1);
-         if (var7 > var6) {
-            var7 = var6;
+         int i = (int)(this.maxDamagePercent * this.returnStack.getMaxDamage());
+         int j = itemStack.getMaxDamage() - randomIn.nextInt(randomIn.nextInt(i) + 1);
+         if (j > i) {
+            j = i;
          }
 
-         if (var7 < 1) {
-            var7 = 1;
+         if (j < 1) {
+            j = 1;
          }
 
-         var5.setItemDamage(var7);
+         itemStack.setItemDamage(j);
       }
 
       if (this.enchantable) {
-         EnchantmentHelper.addRandomEnchantment(var1, var5, (int)b);
+         EnchantmentHelper.addRandomEnchantment(randomIn, itemStack, (int)b);
       }
 
-      return var5;
+      return itemStack;
    }
 
-   public WeightedRandomFishable setMaxDamagePercent(float var1) {
-      this.maxDamagePercent = var1;
+   public WeightedRandomFishable setMaxDamagePercent(float maxDamagePercentIn) {
+      this.maxDamagePercent = maxDamagePercentIn;
       return this;
    }
 

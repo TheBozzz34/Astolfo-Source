@@ -10,11 +10,11 @@ public abstract class AbstractVirtualMemory implements VirtualMemory {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("Used: ");
-      var3.append(FormatUtil.formatBytes(this.y()));
-      var3.append("/");
-      var3.append(FormatUtil.formatBytes(this.n()));
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("Used: ");
+      stringBuilder.append(FormatUtil.formatBytes(this.y()));
+      stringBuilder.append("/");
+      stringBuilder.append(FormatUtil.formatBytes(this.n()));
+      return stringBuilder.toString();
    }
 }

@@ -17,36 +17,36 @@ import org.lwjgl.util.vector.Vector3f;
 public class BlockModelUtils {
    private static final long a = 5133602769716L;
 
-   public static IBakedModel G(String var0, int var1) {
-      TextureAtlasSprite var2 = Config.getMinecraft().getTextureMapBlocks().getAtlasSprite(var0);
-      return Z(var2, var1);
+   public static IBakedModel G(String string, int i) {
+      TextureAtlasSprite textureAtlasSprite = Config.getMinecraft().getTextureMapBlocks().getAtlasSprite(string);
+      return Z(textureAtlasSprite, i);
    }
 
-   public static IBakedModel Z(TextureAtlasSprite var0, int var1) {
-      ArrayList var5 = new ArrayList();
-      EnumFacing[] var6 = EnumFacing.VALUES;
-      ArrayList var7 = new ArrayList(var6.length);
+   public static IBakedModel Z(TextureAtlasSprite textureAtlasSprite, int i) {
+      ArrayList arrayList = new ArrayList();
+      EnumFacing[] enumFacings = EnumFacing.VALUES;
+      ArrayList arrayList2 = new ArrayList(enumFacings.length);
 
-      for (int var8 = 0; var8 < var6.length; var8++) {
-         EnumFacing var9 = var6[var8];
-         ArrayList var10 = new ArrayList();
-         var10.add(F(var9, var0, var1));
-         var7.add(var10);
+      for (int j = 0; j < enumFacings.length; j++) {
+         EnumFacing enumFacing = enumFacings[j];
+         ArrayList arrayList3 = new ArrayList();
+         arrayList3.add(F(enumFacing, textureAtlasSprite, i));
+         arrayList2.add(arrayList3);
       }
 
-      return new SimpleBakedModel(var5, var7, true, true, var0, ItemCameraTransforms.DEFAULT);
+      return new SimpleBakedModel(arrayList, arrayList2, true, true, textureAtlasSprite, ItemCameraTransforms.DEFAULT);
    }
 
-   private static BakedQuad F(EnumFacing var0, TextureAtlasSprite var1, int var2) {
-      Vector3f var3 = new Vector3f(0.0F, 0.0F, 0.0F);
-      Vector3f var4 = new Vector3f(16.0F, 16.0F, 16.0F);
-      BlockFaceUV var5 = new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0);
-      BlockPartFace var6 = new BlockPartFace(var0, var2, "#" + var0.getName(), var5);
-      ModelRotation var7 = ModelRotation.X0_Y0;
-      Object var8 = null;
-      boolean var9 = false;
-      boolean var10 = true;
-      FaceBakery var11 = new FaceBakery();
-      return var11.makeBakedQuad(var3, var4, var6, var1, var0, var7, (BlockPartRotation)var8, var9, var10);
+   private static BakedQuad F(EnumFacing enumFacing, TextureAtlasSprite textureAtlasSprite, int i) {
+      Vector3f vector3f = new Vector3f(0.0F, 0.0F, 0.0F);
+      Vector3f vector3f2 = new Vector3f(16.0F, 16.0F, 16.0F);
+      BlockFaceUV blockFaceUV = new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0);
+      BlockPartFace blockPartFace = new BlockPartFace(enumFacing, i, "#" + enumFacing.getName(), blockFaceUV);
+      ModelRotation modelRotation = ModelRotation.X0_Y0;
+      Object object = null;
+      boolean bl = false;
+      boolean bl2 = true;
+      FaceBakery faceBakery = new FaceBakery();
+      return faceBakery.makeBakedQuad(vector3f, vector3f2, blockPartFace, textureAtlasSprite, enumFacing, modelRotation, (BlockPartRotation)object, bl, bl2);
    }
 }

@@ -8,25 +8,25 @@ public class RangedAttribute extends BaseAttribute {
    private String description;
    private static final long b = 128456751387092L;
 
-   public RangedAttribute(IAttribute var1, String var2, double var3, double var5, double var7) {
-      super(var1, var2, var3);
-      this.minimumValue = var5;
-      this.maximumValue = var7;
-      if (var5 > var7) {
+   public RangedAttribute(IAttribute iAttribute, String unlocalizedNameIn, double defaultValue, double minimumValueIn, double maximumValueIn) {
+      super(iAttribute, unlocalizedNameIn, defaultValue);
+      this.minimumValue = minimumValueIn;
+      this.maximumValue = maximumValueIn;
+      if (minimumValueIn > maximumValueIn) {
          throw new IllegalArgumentException("Minimum value cannot be bigger than maximum value!");
       }
 
-      if (var3 < var5) {
+      if (defaultValue < minimumValueIn) {
          throw new IllegalArgumentException("Default value cannot be lower than minimum value!");
       }
 
-      if (var3 > var7) {
+      if (defaultValue > maximumValueIn) {
          throw new IllegalArgumentException("Default value cannot be bigger than maximum value!");
       }
    }
 
-   public RangedAttribute setDescription(String var1) {
-      this.description = var1;
+   public RangedAttribute setDescription(String descriptionIn) {
+      this.description = descriptionIn;
       return this;
    }
 
@@ -35,7 +35,7 @@ public class RangedAttribute extends BaseAttribute {
    }
 
    @Override
-   public double clampValue(double var1) {
-      return MathHelper.clamp_double(var1, this.minimumValue, this.maximumValue);
+   public double clampValue(double d) {
+      return MathHelper.clamp_double(d, this.minimumValue, this.maximumValue);
    }
 }

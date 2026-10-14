@@ -14,19 +14,19 @@ public class ServerSelectionList extends GuiListExtended {
    private int selectedSlotIndex = -1;
    private static final long c = 125064227958210L;
 
-   public ServerSelectionList(GuiMultiplayer var1, Minecraft var2, int var3, int var4, int var5, int var6, int var7) {
-      super(var2, var3, var4, var5, var6, var7);
-      this.owner = var1;
+   public ServerSelectionList(GuiMultiplayer ownerIn, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
+      super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
+      this.owner = ownerIn;
    }
 
    @Override
-   public GuiListExtended.IGuiListEntry getListEntry(int var1) {
-      if (var1 < this.serverListInternet.size()) {
-         return this.serverListInternet.get(var1);
+   public GuiListExtended.IGuiListEntry getListEntry(int index) {
+      if (index < this.serverListInternet.size()) {
+         return this.serverListInternet.get(index);
       }
 
-      var1 -= this.serverListInternet.size();
-      return var1 == 0 ? this.lanScanEntry : this.serverListLan.get(--var1);
+      index -= this.serverListInternet.size();
+      return index == 0 ? this.lanScanEntry : this.serverListLan.get(--index);
    }
 
    @Override
@@ -34,32 +34,32 @@ public class ServerSelectionList extends GuiListExtended {
       return this.serverListInternet.size() + 1 + this.serverListLan.size();
    }
 
-   public void setSelectedSlotIndex(int var1) {
-      this.selectedSlotIndex = var1;
+   public void setSelectedSlotIndex(int selectedSlotIndexIn) {
+      this.selectedSlotIndex = selectedSlotIndexIn;
    }
 
    @Override
-   public boolean isSelected(int var1) {
-      return var1 == this.selectedSlotIndex;
+   public boolean isSelected(int slotIndex) {
+      return slotIndex == this.selectedSlotIndex;
    }
 
    public int func_148193_k() {
       return this.selectedSlotIndex;
    }
 
-   public void func_148195_a(ServerList var1) {
+   public void func_148195_a(ServerList serverList) {
       this.serverListInternet.clear();
 
-      for (int var5 = 0; var5 < var1.countServers(); var5++) {
-         this.serverListInternet.add(new ServerListEntryNormal(this.owner, var1.getServerData(var5)));
+      for (int i = 0; i < serverList.countServers(); i++) {
+         this.serverListInternet.add(new ServerListEntryNormal(this.owner, serverList.getServerData(i)));
       }
    }
 
-   public void func_148194_a(List<LanServerDetector.LanServer> var1) {
+   public void func_148194_a(List<LanServerDetector.LanServer> list) {
       this.serverListLan.clear();
 
-      for (LanServerDetector.LanServer var6 : var1) {
-         this.serverListLan.add(new ServerListEntryLanDetected(this.owner, var6));
+      for (LanServerDetector.LanServer lanServer : list) {
+         this.serverListLan.add(new ServerListEntryLanDetected(this.owner, lanServer));
       }
    }
 

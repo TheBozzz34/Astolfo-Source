@@ -11,40 +11,40 @@ public class JvmArgumentsCheck {
    private boolean Y;
    private static final long a = 92744543439124L;
 
-   public JvmArgumentsCheck(StringListHolder var1) {
-      this.U = var1;
+   public JvmArgumentsCheck(StringListHolder stringListHolder) {
+      this.U = stringListHolder;
    }
 
    public Holder V() {
-      Holder var4 = new Holder();
-      var4.value = new ItemFishFood(false);
-      List var5 = ManagementFactory.getRuntimeMXBean().getInputArguments();
+      Holder holder = new Holder();
+      holder.value = new ItemFishFood(false);
+      List list = ManagementFactory.getRuntimeMXBean().getInputArguments();
       this.l(true);
 
-      for (Object var7$raw : var5) {
-         String var7 = (String)var7$raw;
-         for (String var9 : this.U.A().L().getValue()) {
-            if (var7.equalsIgnoreCase(String.format(JvmArgumentsCheckStrings.i("GzyuT5+zopp8S09c3Q=="), JvmArgumentsCheckStrings.i("VyW7VpK0qtJzWBAX2ivSykU=")))
+      for (Object object : list) {
+         String string = (String)object;
+         for (String string2 : this.U.A().L().getValue()) {
+            if (string.equalsIgnoreCase(String.format(JvmArgumentsCheckStrings.i("GzyuT5+zopp8S09c3Q=="), JvmArgumentsCheckStrings.i("VyW7VpK0qtJzWBAX2ivSykU=")))
                )
              {
                this.Y = true;
-            } else if (var7.startsWith(JvmArgumentsCheckStrings.i("GzyuT5+zopp8S08=")) && var7.endsWith(JvmArgumentsCheckStrings.i("GTe8TZG+o5A/XhIcwHGWwVZx"))
+            } else if (string.startsWith(JvmArgumentsCheckStrings.i("GzyuT5+zopp8S08=")) && string.endsWith(JvmArgumentsCheckStrings.i("GTe8TZG+o5A/XhIcwHGWwVZx"))
                )
              {
                this.Y = true;
-            } else if (var7.contains(var9) && (var4.value = new ItemFishFood(true)) != null) {
+            } else if (string.contains(string2) && (holder.value = new ItemFishFood(true)) != null) {
             }
          }
       }
 
-      if (!this.Y && (var4.value = new ItemFishFood(true)) != null) {
+      if (!this.Y && (holder.value = new ItemFishFood(true)) != null) {
       }
 
-      return var4;
+      return holder;
    }
 
-   public void l(boolean var1) {
-      this.Q = var1;
+   public void l(boolean bl) {
+      this.Q = bl;
    }
 
    public boolean U() {

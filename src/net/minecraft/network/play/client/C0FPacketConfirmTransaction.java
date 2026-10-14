@@ -14,40 +14,40 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
    public C0FPacketConfirmTransaction() {
    }
 
-   public C0FPacketConfirmTransaction(int var1, short var2, boolean var3) {
-      this.windowId = var1;
-      this.uid = var2;
-      this.accepted = var3;
+   public C0FPacketConfirmTransaction(int windowId, short uid, boolean accepted) {
+      this.windowId = windowId;
+      this.uid = uid;
+      this.accepted = accepted;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processConfirmTransaction(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readByte();
-      this.uid = var1.readShort();
-      this.accepted = var1.readByte() != 0;
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processConfirmTransaction(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeShort(this.uid);
-      var1.writeByte(this.accepted ? 1 : 0);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readByte();
+      this.uid = buf.readShort();
+      this.accepted = buf.readByte() != 0;
    }
 
-   public void i(short var1) {
-      this.uid = var1;
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeShort(this.uid);
+      buf.writeByte(this.accepted ? 1 : 0);
    }
 
-   public void J(boolean var1) {
-      this.accepted = var1;
+   public void i(short s) {
+      this.uid = s;
    }
 
-   public void k(int var1) {
-      this.windowId = var1;
+   public void J(boolean bl) {
+      this.accepted = bl;
+   }
+
+   public void k(int i) {
+      this.windowId = i;
    }
 
    public int getWindowId() {

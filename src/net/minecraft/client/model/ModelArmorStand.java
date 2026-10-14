@@ -15,102 +15,104 @@ public class ModelArmorStand extends ModelArmorStandArmor {
       this(0.0F);
    }
 
-   public ModelArmorStand(float var1) {
-      super(var1, 64, 64);
+   public ModelArmorStand(float f) {
+      super(f, 64, 64);
       this.bipedHead = new ModelRenderer(this, 0, 0);
-      this.bipedHead.addBox(-1.0F, -7.0F, -1.0F, 2, 7, 2, var1);
+      this.bipedHead.addBox(-1.0F, -7.0F, -1.0F, 2, 7, 2, f);
       this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
       this.bipedBody = new ModelRenderer(this, 0, 26);
-      this.bipedBody.addBox(-6.0F, 0.0F, -1.5F, 12, 3, 3, var1);
+      this.bipedBody.addBox(-6.0F, 0.0F, -1.5F, 12, 3, 3, f);
       this.bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
       this.bipedRightArm = new ModelRenderer(this, 24, 0);
-      this.bipedRightArm.addBox(-2.0F, -2.0F, -1.0F, 2, 12, 2, var1);
+      this.bipedRightArm.addBox(-2.0F, -2.0F, -1.0F, 2, 12, 2, f);
       this.bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
       this.bipedLeftArm = new ModelRenderer(this, 32, 16);
       this.bipedLeftArm.mirror = true;
-      this.bipedLeftArm.addBox(0.0F, -2.0F, -1.0F, 2, 12, 2, var1);
+      this.bipedLeftArm.addBox(0.0F, -2.0F, -1.0F, 2, 12, 2, f);
       this.bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
       this.bipedRightLeg = new ModelRenderer(this, 8, 0);
-      this.bipedRightLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 11, 2, var1);
+      this.bipedRightLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 11, 2, f);
       this.bipedRightLeg.setRotationPoint(-1.9F, 12.0F, 0.0F);
       this.bipedLeftLeg = new ModelRenderer(this, 40, 16);
       this.bipedLeftLeg.mirror = true;
-      this.bipedLeftLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 11, 2, var1);
+      this.bipedLeftLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 11, 2, f);
       this.bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
       this.standRightSide = new ModelRenderer(this, 16, 0);
-      this.standRightSide.addBox(-3.0F, 3.0F, -1.0F, 2, 7, 2, var1);
+      this.standRightSide.addBox(-3.0F, 3.0F, -1.0F, 2, 7, 2, f);
       this.standRightSide.setRotationPoint(0.0F, 0.0F, 0.0F);
       this.standRightSide.showModel = true;
       this.standLeftSide = new ModelRenderer(this, 48, 16);
-      this.standLeftSide.addBox(1.0F, 3.0F, -1.0F, 2, 7, 2, var1);
+      this.standLeftSide.addBox(1.0F, 3.0F, -1.0F, 2, 7, 2, f);
       this.standLeftSide.setRotationPoint(0.0F, 0.0F, 0.0F);
       this.standWaist = new ModelRenderer(this, 0, 48);
-      this.standWaist.addBox(-4.0F, 10.0F, -1.0F, 8, 2, 2, var1);
+      this.standWaist.addBox(-4.0F, 10.0F, -1.0F, 8, 2, 2, f);
       this.standWaist.setRotationPoint(0.0F, 0.0F, 0.0F);
       this.standBase = new ModelRenderer(this, 0, 32);
-      this.standBase.addBox(-6.0F, 11.0F, -6.0F, 12, 1, 12, var1);
+      this.standBase.addBox(-6.0F, 11.0F, -6.0F, 12, 1, 12, f);
       this.standBase.setRotationPoint(0.0F, 12.0F, 0.0F);
    }
 
    @Override
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
-      super.setRotationAngles(var1, var2, var3, var4, var5, var6, var7);
-      if (var7 instanceof EntityArmorStand) {
-         EntityArmorStand var11 = (EntityArmorStand)var7;
-         this.bipedLeftArm.showModel = var11.getShowArms();
-         this.bipedRightArm.showModel = var11.getShowArms();
-         this.standBase.showModel = !var11.hasNoBasePlate();
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
+      super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+      if (entityIn instanceof EntityArmorStand) {
+         EntityArmorStand entityArmorStand = (EntityArmorStand)entityIn;
+         this.bipedLeftArm.showModel = entityArmorStand.getShowArms();
+         this.bipedRightArm.showModel = entityArmorStand.getShowArms();
+         this.standBase.showModel = !entityArmorStand.hasNoBasePlate();
          this.bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
          this.bipedRightLeg.setRotationPoint(-1.9F, 12.0F, 0.0F);
-         this.standRightSide.rotateAngleX = (float) (Math.PI / 180.0) * var11.getBodyRotation().getX();
-         this.standRightSide.rotateAngleY = (float) (Math.PI / 180.0) * var11.getBodyRotation().getY();
-         this.standRightSide.rotateAngleZ = (float) (Math.PI / 180.0) * var11.getBodyRotation().getZ();
-         this.standLeftSide.rotateAngleX = (float) (Math.PI / 180.0) * var11.getBodyRotation().getX();
-         this.standLeftSide.rotateAngleY = (float) (Math.PI / 180.0) * var11.getBodyRotation().getY();
-         this.standLeftSide.rotateAngleZ = (float) (Math.PI / 180.0) * var11.getBodyRotation().getZ();
-         this.standWaist.rotateAngleX = (float) (Math.PI / 180.0) * var11.getBodyRotation().getX();
-         this.standWaist.rotateAngleY = (float) (Math.PI / 180.0) * var11.getBodyRotation().getY();
-         this.standWaist.rotateAngleZ = (float) (Math.PI / 180.0) * var11.getBodyRotation().getZ();
-         float var12 = (var11.getLeftLegRotation().getX() + var11.getRightLegRotation().getX()) / 2.0F;
-         float var13 = (var11.getLeftLegRotation().getY() + var11.getRightLegRotation().getY()) / 2.0F;
-         float var14 = (var11.getLeftLegRotation().getZ() + var11.getRightLegRotation().getZ()) / 2.0F;
+         this.standRightSide.rotateAngleX = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getX();
+         this.standRightSide.rotateAngleY = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getY();
+         this.standRightSide.rotateAngleZ = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getZ();
+         this.standLeftSide.rotateAngleX = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getX();
+         this.standLeftSide.rotateAngleY = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getY();
+         this.standLeftSide.rotateAngleZ = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getZ();
+         this.standWaist.rotateAngleX = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getX();
+         this.standWaist.rotateAngleY = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getY();
+         this.standWaist.rotateAngleZ = (float) (Math.PI / 180.0) * entityArmorStand.getBodyRotation().getZ();
+         float f = (entityArmorStand.getLeftLegRotation().getX() + entityArmorStand.getRightLegRotation().getX()) / 2.0F;
+         float g = (entityArmorStand.getLeftLegRotation().getY() + entityArmorStand.getRightLegRotation().getY()) / 2.0F;
+         float h = (entityArmorStand.getLeftLegRotation().getZ() + entityArmorStand.getRightLegRotation().getZ()) / 2.0F;
          this.standBase.rotateAngleX = 0.0F;
-         this.standBase.rotateAngleY = (float) (Math.PI / 180.0) * -var7.rotationYaw;
+         this.standBase.rotateAngleY = (float) (Math.PI / 180.0) * -entityIn.rotationYaw;
          this.standBase.rotateAngleZ = 0.0F;
       }
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      super.render(var1, var2, var3, var4, var5, var6, var7);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      super.render(entityIn, f, g, h, f2, f3, scale);
       GlStateManager.pushMatrix();
       if (this.isChild) {
-         float var11 = 2.0F;
-         GlStateManager.scale(1.0F / var11, 1.0F / var11, 1.0F / var11);
-         GlStateManager.translate(0.0F, 24.0F * var7, 0.0F);
-         this.standRightSide.render(var7);
-         this.standLeftSide.render(var7);
-         this.standWaist.render(var7);
-         this.standBase.render(var7);
+         float f4 = 2.0F;
+         GlStateManager.scale(1.0F / f4, 1.0F / f4, 1.0F / f4);
+         GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
+         this.standRightSide.render(scale);
+         this.standLeftSide.render(scale);
+         this.standWaist.render(scale);
+         this.standBase.render(scale);
       } else {
-         if (var1.isSneaking()) {
+         if (entityIn.isSneaking()) {
             GlStateManager.translate(0.0F, 0.2F, 0.0F);
          }
 
-         this.standRightSide.render(var7);
-         this.standLeftSide.render(var7);
-         this.standWaist.render(var7);
-         this.standBase.render(var7);
+         this.standRightSide.render(scale);
+         this.standLeftSide.render(scale);
+         this.standWaist.render(scale);
+         this.standBase.render(scale);
       }
 
       GlStateManager.popMatrix();
    }
 
    @Override
-   public void postRenderArm(float var1) {
-      boolean var2 = this.bipedRightArm.showModel;
+   public void postRenderArm(float scale) {
+      boolean bl = this.bipedRightArm.showModel;
       this.bipedRightArm.showModel = true;
-      super.postRenderArm(var1);
-      this.bipedRightArm.showModel = var2;
+      super.postRenderArm(scale);
+      this.bipedRightArm.showModel = bl;
    }
 }

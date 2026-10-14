@@ -20,8 +20,8 @@ public final class DirectoryStage extends AbstractLoadStage {
    }
 
    @Override
-   public void setState(int var1) {
-      this.state = var1;
+   public void setState(int i) {
+      this.state = i;
    }
 
    @Override
@@ -32,24 +32,24 @@ public final class DirectoryStage extends AbstractLoadStage {
    public class a8h extends StageAction {
       private static final long c = 111584894944810L;
 
-      public a8h(LoadStage var2) {
-         super(var2);
+      public a8h(LoadStage loadStage) {
+         super(loadStage);
       }
 
       @Override
       public void run() {
-         long var1 = c ^ 134463124439927L;
-         long var10001 = var1 ^ 109048837705839L;
-         int var3 = (int)((var1 ^ 109048837705839L) >>> 32);
-         int var4 = (int)((var1 ^ 109048837705839L) << 32 >>> 48);
-         int var5 = (int)(var10001 << 48 >>> 48);
-         long var6 = var1 ^ 116415384644096L;
-         long var8 = var1 ^ 125177937552439L;
+         long l = c ^ 134463124439927L;
+         long m = l ^ 109048837705839L;
+         int i = (int)((l ^ 109048837705839L) >>> 32);
+         int j = (int)((l ^ 109048837705839L) << 32 >>> 48);
+         int k = (int)(m << 48 >>> 48);
+         long n = l ^ 116415384644096L;
+         long l2 = l ^ 125177937552439L;
          if (DirectoryStage.this.getState() == 1) {
             ClientAccess.client
                .setDirectory(new File(Minecraft.getMinecraft().mcDataDir.getAbsoluteFile().getParentFile(), ClientAccess.client.getName().toLowerCase()));
             ClientAccess.client.getDirectory().mkdir();
-            ClientAccess.client.register(var8, ClientAccess.client.getFontManager());
+            ClientAccess.client.register(l2, ClientAccess.client.getFontManager());
             FontManager.A();
          }
       }
@@ -58,32 +58,32 @@ public final class DirectoryStage extends AbstractLoadStage {
    public class rsh extends StageValue {
       private static final long b = 58794049964221L;
 
-      public rsh(LoadStage var2) {
-         super(var2);
+      public rsh(LoadStage loadStage) {
+         super(loadStage);
       }
 
       public EnvironmentKind get() {
-         boolean var5 = Util.getOSType().equals(Util.EnumOS.WINDOWS);
-         if (!var5) {
+         boolean bl = Util.getOSType().equals(Util.EnumOS.WINDOWS);
+         if (!bl) {
             return EnvironmentKind.M(() -> EnvironmentKinds.O(EnvironmentKind.O()));
          }
 
-         var5 = false;
+         bl = false;
          if (Util.getOSType().equals(Util.EnumOS.WINDOWS)) {
-            File var6 = new File("C:/Users");
-            String[] var7 = var6.list((var0, var1) -> new File(var0, var1).isDirectory());
-            if (var7 != null) {
-               for (String var11 : var7) {
-                  if (var11.contains(System.getProperty("user.home").replace("C:\\Users\\", ""))) {
-                     var5 = true;
+            File file = new File("C:/Users");
+            String[] strings = file.list((file2, string) -> new File(file2, string).isDirectory());
+            if (strings != null) {
+               for (String string2 : strings) {
+                  if (string2.contains(System.getProperty("user.home").replace("C:\\Users\\", ""))) {
+                     bl = true;
                      break;
                   }
                }
             }
          }
 
-         boolean var13 = var5;
-         return EnvironmentKind.M(() -> !var13);
+         boolean bl2 = bl;
+         return EnvironmentKind.M(() -> !bl2);
       }
    }
 }

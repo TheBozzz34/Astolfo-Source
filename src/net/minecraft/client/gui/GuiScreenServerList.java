@@ -11,9 +11,9 @@ public class GuiScreenServerList extends GuiScreen {
    private GuiTextField field_146302_g;
    private static final long a = 137460453320519L;
 
-   public GuiScreenServerList(GuiScreen var1, ServerData var2) {
-      this.field_146303_a = var1;
-      this.field_146301_f = var2;
+   public GuiScreenServerList(GuiScreen guiScreen, ServerData serverData) {
+      this.field_146303_a = guiScreen;
+      this.field_146301_f = serverData;
    }
 
    @Override
@@ -42,11 +42,11 @@ public class GuiScreenServerList extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 1) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 1) {
             this.field_146303_a.confirmClicked(false, 0);
-         } else if (var1.id == 0) {
+         } else if (button.id == 0) {
             this.field_146301_f.serverIP = this.field_146302_g.getText();
             this.field_146303_a.confirmClicked(true, 0);
          }
@@ -54,26 +54,26 @@ public class GuiScreenServerList extends GuiScreen {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      if (this.field_146302_g.textboxKeyTyped(var1, var2)) {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      if (this.field_146302_g.textboxKeyTyped(typedChar, keyCode)) {
          this.buttonList.get(0).enabled = this.field_146302_g.getText().length() > 0 && this.field_146302_g.getText().split(":").length > 0;
-      } else if (var2 == 28 || var2 == 156) {
+      } else if (keyCode == 28 || keyCode == 156) {
          this.actionPerformed(this.buttonList.get(0));
       }
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      super.mouseClicked(var1, var2, var3);
-      this.field_146302_g.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      super.mouseClicked(mouseX, mouseY, mouseButton);
+      this.field_146302_g.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, I18n.format("selectServer.direct"), this.width / 2, 20, 16777215);
       this.I(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 100, 10526880);
       this.field_146302_g.drawTextBox();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

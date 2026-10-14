@@ -4,8 +4,8 @@ public class ChatComponentSelector extends ChatComponentStyle {
    private final String selector;
    private static final long a = 23917152885201L;
 
-   public ChatComponentSelector(String var1) {
-      this.selector = var1;
+   public ChatComponentSelector(String selectorIn) {
+      this.selector = selectorIn;
    }
 
    public String getSelector() {
@@ -18,28 +18,28 @@ public class ChatComponentSelector extends ChatComponentStyle {
    }
 
    public ChatComponentSelector createCopy() {
-      ChatComponentSelector var4 = new ChatComponentSelector(this.selector);
-      var4.setChatStyle(this.getChatStyle().createShallowCopy());
+      ChatComponentSelector chatComponentSelector = new ChatComponentSelector(this.selector);
+      chatComponentSelector.setChatStyle(this.getChatStyle().createShallowCopy());
 
-      for (IChatComponent var6 : this.getSiblings()) {
-         var4.appendSibling(var6.createCopy());
+      for (IChatComponent iChatComponent : this.getSiblings()) {
+         chatComponentSelector.appendSibling(iChatComponent.createCopy());
       }
 
-      return var4;
+      return chatComponentSelector;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ChatComponentSelector)) {
+      if (!(object instanceof ChatComponentSelector)) {
          return false;
       }
 
-      ChatComponentSelector var5 = (ChatComponentSelector)var1;
-      return this.selector.equals(var5.selector) && super.equals(var1);
+      ChatComponentSelector chatComponentSelector = (ChatComponentSelector)object;
+      return this.selector.equals(chatComponentSelector.selector) && super.equals(object);
    }
 
    @Override

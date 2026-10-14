@@ -10,11 +10,11 @@ public enum PhaseMode {
    private String F;
    private static final PhaseMode[] A = new PhaseMode[]{VERTICAL, FULLBLOCK, SKIP, VANILLA, PACKETLESS};
 
-   PhaseMode(String var3) {
-      this.F = var3;
+   PhaseMode(String string2) {
+      this.F = string2;
    }
 
-   public static String G(PhaseMode var0) {
-      return var0.F;
+   public static String G(PhaseMode phaseMode) {
+      return phaseMode.F;
    }
 }

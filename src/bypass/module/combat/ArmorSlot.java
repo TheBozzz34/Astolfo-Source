@@ -10,12 +10,12 @@ public enum ArmorSlot {
    private int K;
    private static final ArmorSlot[] l = new ArmorSlot[]{HELMET, CHEST_PLATE, LEGGINGS, BOOTS};
 
-   ArmorSlot(int var3, int var4) {
-      this.slot = var3;
-      this.K = var4;
+   ArmorSlot(int j, int k) {
+      this.slot = j;
+      this.K = k;
    }
 
-   public static int z(ArmorSlot var0) {
-      return var0.K;
+   public static int z(ArmorSlot armorSlot) {
+      return armorSlot.K;
    }
 }

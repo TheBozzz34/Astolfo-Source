@@ -13,72 +13,72 @@ import net.minecraft.util.Vec3;
 public final class RaycastUtil implements ClientAccess {
    private static final long b = 73866837190362L;
 
-   public static Entity r(double var0, EntityFilter var2) {
-      return L(var0, RotationUtil.A.r(), RotationUtil.A.z(), var2);
+   public static Entity r(double d, EntityFilter entityFilter) {
+      return L(d, RotationUtil.A.r(), RotationUtil.A.z(), entityFilter);
    }
 
-   private static Entity L(double var0, float var2, float var3, EntityFilter var4) {
-      Entity var8 = null;
-      double var9 = mc.playerController.getBlockReachDistance();
-      double var11 = var9;
-      MovingObjectPosition var13 = H(var9, var2, var3);
-      Vec3 var14 = mc.thePlayer.getPositionEyes(1.0F);
+   private static Entity L(double d, float f, float g, EntityFilter entityFilter) {
+      Entity entity = null;
+      double e = mc.playerController.getBlockReachDistance();
+      double d2 = e;
+      MovingObjectPosition movingObjectPosition = H(e, f, g);
+      Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
       if (mc.playerController.L()) {
-         var9 = 6.0;
-         var11 = 6.0;
+         e = 6.0;
+         d2 = 6.0;
       }
 
-      if (var13 != null) {
-         var11 = var13.hitVec.distanceTo(var14);
+      if (movingObjectPosition != null) {
+         d2 = movingObjectPosition.hitVec.distanceTo(vec3);
       }
 
-      Vec3 var15 = mc.thePlayer.getVectorForRotation(var3, var2);
-      Vec3 var16 = var14.addVector(var15.xCoord * var9, var15.yCoord * var9, var15.zCoord * var9);
-      List var17 = mc.theWorld
+      Vec3 vec32 = mc.thePlayer.getVectorForRotation(g, f);
+      Vec3 vec33 = vec3.addVector(vec32.xCoord * e, vec32.yCoord * e, vec32.zCoord * e);
+      List list = mc.theWorld
          .getEntitiesInAABBexcluding(
             mc.thePlayer,
-            mc.thePlayer.getEntityBoundingBox().addCoord(var15.xCoord * var9, var15.yCoord * var9, var15.zCoord * var9).expand(1.0, 1.0, 1.0),
+            mc.thePlayer.getEntityBoundingBox().addCoord(vec32.xCoord * e, vec32.yCoord * e, vec32.zCoord * e).expand(1.0, 1.0, 1.0),
             Predicates.and(EntitySelectors.NOT_SPECTATING)
          );
-      double var18 = var11;
+      double d3 = d2;
 
-      for (Object var21$raw : var17) {
-         Entity var21 = (Entity)var21$raw;
-         if (var4.j(var21)) {
-            float var22 = var21.getCollisionBorderSize();
-            AxisAlignedBB var23 = var21.getEntityBoundingBox().expand(var22, var22, var22);
-            MovingObjectPosition var24 = var23.calculateIntercept(var14, var16);
-            if (var23.isVecInside(var14)) {
-               if (var18 >= 0.0) {
-                  var8 = var21;
-                  var18 = 0.0;
+      for (Object object : list) {
+         Entity entity2 = (Entity)object;
+         if (entityFilter.j(entity2)) {
+            float h = entity2.getCollisionBorderSize();
+            AxisAlignedBB axisAlignedBB = entity2.getEntityBoundingBox().expand(h, h, h);
+            MovingObjectPosition movingObjectPosition2 = axisAlignedBB.calculateIntercept(vec3, vec33);
+            if (axisAlignedBB.isVecInside(vec3)) {
+               if (d3 >= 0.0) {
+                  entity = entity2;
+                  d3 = 0.0;
                }
-            } else if (var24 != null) {
-               double var25 = var14.distanceTo(var24.hitVec);
-               if (var25 < var18 || var18 == 0.0) {
-                  boolean var27 = false;
+            } else if (movingObjectPosition2 != null) {
+               double d4 = vec3.distanceTo(movingObjectPosition2.hitVec);
+               if (d4 < d3 || d3 == 0.0) {
+                  boolean bl = false;
                   if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-                     var27 = Reflector.callBoolean(var21, Reflector.ForgeEntity_canRiderInteract);
+                     bl = Reflector.callBoolean(entity2, Reflector.ForgeEntity_canRiderInteract);
                   }
 
-                  if (var21 != var21.ridingEntity || var27) {
-                     var8 = var21;
-                     var18 = var25;
-                  } else if (var18 == 0.0) {
-                     var8 = var21;
+                  if (entity2 != entity2.ridingEntity || bl) {
+                     entity = entity2;
+                     d3 = d4;
+                  } else if (d3 == 0.0) {
+                     entity = entity2;
                   }
                }
             }
          }
       }
 
-      return var8;
+      return entity;
    }
 
-   private static MovingObjectPosition H(double var0, float var2, float var3) {
-      Vec3 var4 = mc.thePlayer.getPositionEyes(1.0F);
-      Vec3 var5 = mc.thePlayer.getVectorForRotation(var3, var2);
-      Vec3 var6 = var4.addVector(var5.xCoord * var0, var5.yCoord * var0, var5.zCoord * var0);
-      return mc.theWorld.rayTraceBlocks(var4, var6, false, false, true);
+   private static MovingObjectPosition H(double d, float f, float g) {
+      Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
+      Vec3 vec32 = mc.thePlayer.getVectorForRotation(g, f);
+      Vec3 vec33 = vec3.addVector(vec32.xCoord * d, vec32.yCoord * d, vec32.zCoord * d);
+      return mc.theWorld.rayTraceBlocks(vec3, vec33, false, false, true);
    }
 }

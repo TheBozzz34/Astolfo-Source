@@ -15,9 +15,9 @@ public enum NotificationType {
    public final Color consoleColor;
    private static final NotificationType[] f = new NotificationType[]{SUCCESS, INFO, WARNING, DANGER};
 
-   NotificationType(Color var3, int var4, ResourceLocation var5) {
-      this.consoleColor = var3;
-      this.color = var4;
-      this.texture = var5;
+   NotificationType(Color color, int j, ResourceLocation resourceLocation) {
+      this.consoleColor = color;
+      this.color = j;
+      this.texture = resourceLocation;
    }
 }

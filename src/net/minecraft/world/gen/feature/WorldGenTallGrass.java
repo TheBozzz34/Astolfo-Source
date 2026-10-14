@@ -13,21 +13,23 @@ public class WorldGenTallGrass extends WorldGenerator {
    private final IBlockState tallGrassState;
    private static final long a = 128083234366648L;
 
-   public WorldGenTallGrass(BlockTallGrass.EnumType var1) {
-      this.tallGrassState = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, var1);
+   public WorldGenTallGrass(BlockTallGrass.EnumType enumType) {
+      this.tallGrassState = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, enumType);
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      Block var7;
-      while (((var7 = var1.getBlockState(var3).getBlock()).getMaterial() == Material.air || var7.getMaterial() == Material.leaves) && var3.getY() > 0) {
-         var3 = var3.down();
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      Block block;
+      while (
+         ((block = worldIn.getBlockState(position).getBlock()).getMaterial() == Material.air || block.getMaterial() == Material.leaves) && position.getY() > 0
+      ) {
+         position = position.down();
       }
 
-      for (int var8 = 0; var8 < 128; var8++) {
-         BlockPos var9 = var3.add(var2.nextInt(8) - var2.nextInt(8), var2.nextInt(4) - var2.nextInt(4), var2.nextInt(8) - var2.nextInt(8));
-         if (var1.isAirBlock(var9) && Blocks.tallgrass.canBlockStay(var1, var9, this.tallGrassState)) {
-            var1.setBlockState(var9, this.tallGrassState, 2);
+      for (int i = 0; i < 128; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+         if (worldIn.isAirBlock(blockPos) && Blocks.tallgrass.canBlockStay(worldIn, blockPos, this.tallGrassState)) {
+            worldIn.setBlockState(blockPos, this.tallGrassState, 2);
          }
       }
 

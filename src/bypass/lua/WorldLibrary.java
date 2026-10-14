@@ -81,41 +81,41 @@ public class WorldLibrary extends TwoArgFunction implements ClientAccess {
    private static final long b = 132616292353535L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("timer", U);
-      var7.set("set_timer", s);
-      var7.set("refresh_chunks", Z);
-      var7.set("entities", W);
-      var7.set("block", Y);
-      var7.set("name", G);
-      var7.set("display_name", m);
-      var7.set("held_item", j);
-      var7.set("hurt_time", J);
-      var7.set("health", h);
-      var7.set("sprinting", T);
-      var7.set("facing", l);
-      var7.set("angles", w);
-      var7.set("bounding_box", P);
-      var7.set("biome", z);
-      var7.set("max_health", g);
-      var7.set("inventory", f);
-      var7.set("ticks_existed", x);
-      var7.set("is_player", v);
-      var7.set("width_height", o);
-      var7.set("is_sneaking", A);
-      var7.set("is_potion_active", p);
-      var7.set("is_invisible", H);
-      var7.set("burning", t);
-      var7.set("is_bot", O);
-      var7.set("is_friend", r);
-      var7.set("is_enemy", D);
-      var7.set("riding", n);
-      var7.set("position", F);
-      var7.set("prev_position", K);
-      var7.set("remove", d);
-      var2.set("world", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("timer", U);
+      luaTable.set("set_timer", s);
+      luaTable.set("refresh_chunks", Z);
+      luaTable.set("entities", W);
+      luaTable.set("block", Y);
+      luaTable.set("name", G);
+      luaTable.set("display_name", m);
+      luaTable.set("held_item", j);
+      luaTable.set("hurt_time", J);
+      luaTable.set("health", h);
+      luaTable.set("sprinting", T);
+      luaTable.set("facing", l);
+      luaTable.set("angles", w);
+      luaTable.set("bounding_box", P);
+      luaTable.set("biome", z);
+      luaTable.set("max_health", g);
+      luaTable.set("inventory", f);
+      luaTable.set("ticks_existed", x);
+      luaTable.set("is_player", v);
+      luaTable.set("width_height", o);
+      luaTable.set("is_sneaking", A);
+      luaTable.set("is_potion_active", p);
+      luaTable.set("is_invisible", H);
+      luaTable.set("burning", t);
+      luaTable.set("is_bot", O);
+      luaTable.set("is_friend", r);
+      luaTable.set("is_enemy", D);
+      luaTable.set("riding", n);
+      luaTable.set("position", F);
+      luaTable.set("prev_position", K);
+      luaTable.set("remove", d);
+      luaValue2.set("world", luaTable);
+      return luaTable;
    }
 
    public static ArrayList M() {

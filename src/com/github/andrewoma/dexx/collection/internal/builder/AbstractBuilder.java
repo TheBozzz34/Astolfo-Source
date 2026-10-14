@@ -10,11 +10,11 @@ public abstract class AbstractBuilder<E, R> implements Builder<E, R> {
    private static final long b = 74666353650036L;
 
    @Override
-   public Builder<E, R> addAll(Traversable<E> var1) {
-      var1.forEach(new Function<E, Object>() {
+   public Builder<E, R> addAll(Traversable<E> elements) {
+      elements.forEach(new Function<E, Object>() {
          @Override
-         public Object invoke(E var1) {
-            AbstractBuilder.this.add(var1);
+         public Object invoke(E element) {
+            AbstractBuilder.this.add(element);
             return null;
          }
       });
@@ -22,30 +22,30 @@ public abstract class AbstractBuilder<E, R> implements Builder<E, R> {
    }
 
    @Override
-   public Builder<E, R> addAll(Iterable<E> var1) {
-      for (Object var6 : var1) {
-         this.add((E)var6);
+   public Builder<E, R> addAll(Iterable<E> elements) {
+      for (Object object : elements) {
+         this.add((E)object);
       }
 
       return this;
    }
 
    @Override
-   public Builder<E, R> addAll(Iterator<E> var1) {
-      while (var1.hasNext()) {
-         this.add((E)var1.next());
+   public Builder<E, R> addAll(Iterator<E> iterator) {
+      while (iterator.hasNext()) {
+         this.add(iterator.next());
       }
 
       return this;
    }
 
    @Override
-   public Builder<E, R> addAll(E var1, E var2, E... var3) {
-      this.add((E)var1);
-      this.add((E)var2);
+   public Builder<E, R> addAll(E e1, E e2, E... es) {
+      this.add((E)e1);
+      this.add((E)e2);
 
-      for (Object var11 : var3) {
-         this.add((E)var11);
+      for (Object object : es) {
+         this.add((E)object);
       }
 
       return this;

@@ -19,15 +19,17 @@ public class ModelSheep2 extends ModelQuadruped {
    }
 
    @Override
-   public void setLivingAnimations(EntityLivingBase var1, float var2, float var3, float var4) {
-      super.setLivingAnimations(var1, var2, var3, var4);
-      this.head.rotationPointY = 6.0F + ((EntitySheep)var1).getHeadRotationPointY(var4) * 9.0F;
-      this.headRotationAngleX = ((EntitySheep)var1).getHeadRotationAngleX(var4);
+   public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTickTime) {
+      super.setLivingAnimations(entitylivingbaseIn, f, g, partialTickTime);
+      this.head.rotationPointY = 6.0F + ((EntitySheep)entitylivingbaseIn).getHeadRotationPointY(partialTickTime) * 9.0F;
+      this.headRotationAngleX = ((EntitySheep)entitylivingbaseIn).getHeadRotationAngleX(partialTickTime);
    }
 
    @Override
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
-      super.setRotationAngles(var1, var2, var3, var4, var5, var6, var7);
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
+      super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
       this.head.rotateAngleX = this.headRotationAngleX;
    }
 }

@@ -9,9 +9,9 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
    private final RealmsClickableScrolledSelectionList field_178046_u;
    private static final long c = 3139962015141L;
 
-   public GuiClickableScrolledSelectionListProxy(RealmsClickableScrolledSelectionList var1, int var2, int var3, int var4, int var5, int var6) {
-      super(Minecraft.getMinecraft(), var2, var3, var4, var5, var6);
-      this.field_178046_u = var1;
+   public GuiClickableScrolledSelectionListProxy(RealmsClickableScrolledSelectionList selectionList, int i, int j, int k, int m, int n) {
+      super(Minecraft.getMinecraft(), i, j, k, m, n);
+      this.field_178046_u = selectionList;
    }
 
    @Override
@@ -20,13 +20,13 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
    }
 
    @Override
-   public void elementClicked(int var1, boolean var2, int var3, int var4) {
-      this.field_178046_u.selectItem(var1, var2, var3, var4);
+   public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+      this.field_178046_u.selectItem(slotIndex, isDoubleClick, mouseX, mouseY);
    }
 
    @Override
-   public boolean isSelected(int var1) {
-      return this.field_178046_u.isSelectedItem(var1);
+   public boolean isSelected(int slotIndex) {
+      return this.field_178046_u.isSelectedItem(slotIndex);
    }
 
    @Override
@@ -35,8 +35,8 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
    }
 
    @Override
-   public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.field_178046_u.renderItem(var1, var2, var3, var4, var5, var6);
+   public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+      this.field_178046_u.renderItem(entryID, i, j, k, mouseXIn, mouseYIn);
    }
 
    public int X() {
@@ -69,26 +69,26 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
       }
    }
 
-   public void func_178043_a(int var1, int var2, int var3, Tezzelator var4) {
-      this.field_178046_u.renderSelected(var1, var2, var3, var4);
+   public void func_178043_a(int i, int j, int k, Tezzelator tezzelator) {
+      this.field_178046_u.renderSelected(i, j, k, tezzelator);
    }
 
    @Override
-   public void drawSelectionBox(int var1, int var2, int var3, int var4) {
-      int var8 = this.getSize();
+   public void drawSelectionBox(int i, int j, int mouseXIn, int mouseYIn) {
+      int k = this.getSize();
 
-      for (int var9 = 0; var9 < var8; var9++) {
-         int var10 = var2 + var9 * this.slotHeight + this.headerPadding;
-         int var11 = this.slotHeight - 4;
-         if (var10 > this.bottom || var10 + var11 < this.top) {
-            this.func_178040_a(var9, var1, var10);
+      for (int l = 0; l < k; l++) {
+         int m = j + l * this.slotHeight + this.headerPadding;
+         int n = this.slotHeight - 4;
+         if (m > this.bottom || m + n < this.top) {
+            this.func_178040_a(l, i, m);
          }
 
-         if (this.showSelectionBox && this.isSelected(var9)) {
-            this.func_178043_a(this.width, var10, var11, Tezzelator.instance);
+         if (this.showSelectionBox && this.isSelected(l)) {
+            this.func_178043_a(this.width, m, n, Tezzelator.instance);
          }
 
-         this.drawSlot(var9, var1, var10, var11, var3, var4);
+         this.drawSlot(l, i, m, n, mouseXIn, mouseYIn);
       }
    }
 }

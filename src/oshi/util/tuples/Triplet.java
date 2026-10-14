@@ -8,10 +8,10 @@ public class Triplet<A, B, C> {
    private final B b;
    private final C c;
 
-   public Triplet(A var1, B var2, C var3) {
-      this.a = (A)var1;
-      this.b = (B)var2;
-      this.c = (C)var3;
+   public Triplet(A a, B b, C c) {
+      this.a = a;
+      this.b = b;
+      this.c = c;
    }
 
    public final A v() {

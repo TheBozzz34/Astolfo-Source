@@ -16,25 +16,25 @@ public class S23PacketBlockChange implements Packet<INetHandlerPlayClient> {
    public S23PacketBlockChange() {
    }
 
-   public S23PacketBlockChange(World var1, BlockPos var2) {
-      this.blockPosition = var2;
-      this.blockState = var1.getBlockState(var2);
+   public S23PacketBlockChange(World worldIn, BlockPos blockPositionIn) {
+      this.blockPosition = blockPositionIn;
+      this.blockState = worldIn.getBlockState(blockPositionIn);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.blockPosition = var1.readBlockPos();
-      this.blockState = Block.BLOCK_STATE_IDS.getByValue(var1.readVarIntFromBuffer());
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.blockPosition = buf.readBlockPos();
+      this.blockState = Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer());
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.blockPosition);
-      var1.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(this.blockState));
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.blockPosition);
+      buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(this.blockState));
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleBlockChange(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleBlockChange(this);
    }
 
    public IBlockState getBlockState() {

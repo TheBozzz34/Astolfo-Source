@@ -32,8 +32,8 @@ public class GuiFlatPresets extends GuiScreen {
    private GuiTextField field_146433_u;
    private static final long d = 28396127275834L;
 
-   public GuiFlatPresets(GuiCreateFlatWorld var1) {
-      this.parentScreen = var1;
+   public GuiFlatPresets(GuiCreateFlatWorld guiCreateFlatWorld) {
+      this.parentScreen = guiCreateFlatWorld;
    }
 
    @Override
@@ -65,37 +65,37 @@ public class GuiFlatPresets extends GuiScreen {
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      this.field_146433_u.mouseClicked(var1, var2, var3);
-      super.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      this.field_146433_u.mouseClicked(mouseX, mouseY, mouseButton);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      if (!this.field_146433_u.textboxKeyTyped(var1, var2)) {
-         super.keyTyped(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      if (!this.field_146433_u.textboxKeyTyped(typedChar, keyCode)) {
+         super.keyTyped(typedChar, keyCode);
       }
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 0 && this.func_146430_p()) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 0 && this.func_146430_p()) {
          this.parentScreen.func_146383_a(this.field_146433_u.getText());
          this.mc.displayGuiScreen(this.parentScreen);
-      } else if (var1.id == 1) {
+      } else if (button.id == 1) {
          this.mc.displayGuiScreen(this.parentScreen);
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.field_146435_s.drawScreen(var1, var2, var3);
+      this.field_146435_s.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, this.presetsTitle, this.width / 2, 8, 16777215);
       this.I(this.fontRendererObj, this.presetsShare, 50, 30, 10526880);
       this.I(this.fontRendererObj, this.field_146436_r, 50, 70, 10526880);
       this.field_146433_u.drawTextBox();
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
@@ -105,8 +105,8 @@ public class GuiFlatPresets extends GuiScreen {
    }
 
    public void func_146426_g() {
-      boolean var1 = this.func_146430_p();
-      this.field_146434_t.enabled = var1;
+      boolean bl = this.func_146430_p();
+      this.field_146434_t.enabled = bl;
    }
 
    private boolean func_146430_p() {
@@ -114,30 +114,30 @@ public class GuiFlatPresets extends GuiScreen {
          || this.field_146433_u.getText().length() > 1;
    }
 
-   private static void func_146425_a(String var0, Item var1, BiomeGenBase var2, FlatLayerInfo... var3) {
-      func_175354_a(var0, var1, 0, var2, (List<String>)null, var3);
+   private static void func_146425_a(String string, Item item, BiomeGenBase biomeGenBase, FlatLayerInfo... flatLayerInfos) {
+      func_175354_a(string, item, 0, biomeGenBase, (List<String>)null, flatLayerInfos);
    }
 
-   private static void func_146421_a(String var0, Item var1, BiomeGenBase var2, List<String> var3, FlatLayerInfo... var4) {
-      func_175354_a(var0, var1, 0, var2, var3, var4);
+   private static void func_146421_a(String string, Item item, BiomeGenBase biomeGenBase, List<String> list, FlatLayerInfo... flatLayerInfos) {
+      func_175354_a(string, item, 0, biomeGenBase, list, flatLayerInfos);
    }
 
-   private static void func_175354_a(String var0, Item var1, int var2, BiomeGenBase var3, List<String> var4, FlatLayerInfo... var5) {
-      FlatGeneratorInfo var8 = new FlatGeneratorInfo();
+   private static void func_175354_a(String string, Item item, int i, BiomeGenBase biomeGenBase, List<String> list, FlatLayerInfo... flatLayerInfos) {
+      FlatGeneratorInfo flatGeneratorInfo = new FlatGeneratorInfo();
 
-      for (int var9 = var5.length - 1; var9 >= 0; var9--) {
-         var8.getFlatLayers().add(var5[var9]);
+      for (int j = flatLayerInfos.length - 1; j >= 0; j--) {
+         flatGeneratorInfo.getFlatLayers().add(flatLayerInfos[j]);
       }
 
-      var8.setBiome(var3.biomeID);
-      var8.func_82645_d();
-      if (var4 != null) {
-         for (String var10 : var4) {
-            var8.getWorldFeatures().put(var10, Maps.newHashMap());
+      flatGeneratorInfo.setBiome(biomeGenBase.biomeID);
+      flatGeneratorInfo.func_82645_d();
+      if (list != null) {
+         for (String string2 : list) {
+            flatGeneratorInfo.getWorldFeatures().put(string2, Maps.newHashMap());
          }
       }
 
-      FLAT_WORLD_PRESETS.add(new GuiFlatPresets.LayerItem(var1, var2, var0, var8.toString()));
+      FLAT_WORLD_PRESETS.add(new GuiFlatPresets.LayerItem(item, i, string, flatGeneratorInfo.toString()));
    }
 
    static {
@@ -228,11 +228,11 @@ public class GuiFlatPresets extends GuiScreen {
       public String field_148232_b;
       public String field_148233_c;
 
-      public LayerItem(Item var1, int var2, String var3, String var4) {
-         this.field_148234_a = var1;
-         this.field_179037_b = var2;
-         this.field_148232_b = var3;
-         this.field_148233_c = var4;
+      public LayerItem(Item item, int i, String string, String string2) {
+         this.field_148234_a = item;
+         this.field_179037_b = i;
+         this.field_148232_b = string;
+         this.field_148233_c = string2;
       }
    }
 
@@ -244,30 +244,30 @@ public class GuiFlatPresets extends GuiScreen {
          super(GuiFlatPresets.this.mc, GuiFlatPresets.this.width, GuiFlatPresets.this.height, 80, GuiFlatPresets.this.height - 37, 24);
       }
 
-      private void func_178054_a(int var1, int var2, Item var3, int var4) {
-         this.func_148173_e(var1 + 1, var2 + 1);
+      private void func_178054_a(int i, int j, Item item, int k) {
+         this.func_148173_e(i + 1, j + 1);
          GlStateManager.enableRescaleNormal();
          RenderHelper.enableGUIStandardItemLighting();
-         GuiFlatPresets.this.itemRender.renderItemIntoGUI(new ItemStack(var3, 1, var4), var1 + 2, var2 + 2);
+         GuiFlatPresets.this.itemRender.renderItemIntoGUI(new ItemStack(item, 1, k), i + 2, j + 2);
          RenderHelper.disableStandardItemLighting();
          GlStateManager.disableRescaleNormal();
       }
 
-      private void func_148173_e(int var1, int var2) {
-         this.func_148171_c(var1, var2, 0, 0);
+      private void func_148173_e(int i, int j) {
+         this.func_148171_c(i, j, 0, 0);
       }
 
-      private void func_148171_c(int var1, int var2, int var3, int var4) {
+      private void func_148171_c(int i, int j, int k, int m) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(Gui.statIcons);
-         Tessellator var11 = Tessellator.getInstance();
-         WorldRenderer var12 = var11.getWorldRenderer();
-         var12.begin(7, DefaultVertexFormats.POSITION_TEX);
-         var12.pos(var1 + 0, var2 + 18, GuiFlatPresets.this.zLevel).tex((var3 + 0) * 0.0078125F, (var4 + 18) * 0.0078125F).endVertex();
-         var12.pos(var1 + 18, var2 + 18, GuiFlatPresets.this.zLevel).tex((var3 + 18) * 0.0078125F, (var4 + 18) * 0.0078125F).endVertex();
-         var12.pos(var1 + 18, var2 + 0, GuiFlatPresets.this.zLevel).tex((var3 + 18) * 0.0078125F, (var4 + 0) * 0.0078125F).endVertex();
-         var12.pos(var1 + 0, var2 + 0, GuiFlatPresets.this.zLevel).tex((var3 + 0) * 0.0078125F, (var4 + 0) * 0.0078125F).endVertex();
-         var11.draw();
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+         worldRenderer.pos(i + 0, j + 18, GuiFlatPresets.this.zLevel).tex((k + 0) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 18, GuiFlatPresets.this.zLevel).tex((k + 18) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 0, GuiFlatPresets.this.zLevel).tex((k + 18) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 0, j + 0, GuiFlatPresets.this.zLevel).tex((k + 0) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
+         tessellator.draw();
       }
 
       @Override
@@ -276,15 +276,15 @@ public class GuiFlatPresets extends GuiScreen {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
-         this.field_148175_k = var1;
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+         this.field_148175_k = slotIndex;
          GuiFlatPresets.this.func_146426_g();
          GuiFlatPresets.this.field_146433_u.setText(GuiFlatPresets.FLAT_WORLD_PRESETS.get(GuiFlatPresets.this.field_146435_s.field_148175_k).field_148233_c);
       }
 
       @Override
-      public boolean isSelected(int var1) {
-         return var1 == this.field_148175_k;
+      public boolean isSelected(int slotIndex) {
+         return slotIndex == this.field_148175_k;
       }
 
       @Override
@@ -292,10 +292,10 @@ public class GuiFlatPresets extends GuiScreen {
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-         GuiFlatPresets.LayerItem var9 = GuiFlatPresets.FLAT_WORLD_PRESETS.get(var1);
-         this.func_178054_a(var2, var3, var9.field_148234_a, var9.field_179037_b);
-         GuiFlatPresets.this.fontRendererObj.D(var9.field_148232_b, var2 + 18 + 5, var3 + 6, 16777215);
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+         GuiFlatPresets.LayerItem layerItem = GuiFlatPresets.FLAT_WORLD_PRESETS.get(entryID);
+         this.func_178054_a(i, j, layerItem.field_148234_a, layerItem.field_179037_b);
+         GuiFlatPresets.this.fontRendererObj.D(layerItem.field_148232_b, i + 18 + 5, j + 6, 16777215);
       }
    }
 }

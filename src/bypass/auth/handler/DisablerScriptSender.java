@@ -9,12 +9,12 @@ public class DisablerScriptSender implements Consumer<String> {
    private static final long a = 99435218102672L;
    private static final long b = 2626205594779910613L;
 
-   public DisablerScriptSender(DisablerScriptHandler var1, PacketOutput var2) {
-      this.u = var1;
-      this.l = var2;
+   public DisablerScriptSender(DisablerScriptHandler disablerScriptHandler, PacketOutput packetOutput) {
+      this.u = disablerScriptHandler;
+      this.l = packetOutput;
    }
 
-   public void accept(String var1) {
-      this.l.getSender().send((short)((int)b), var1);
+   public void accept(String string) {
+      this.l.getSender().send((short)((int)b), string);
    }
 }

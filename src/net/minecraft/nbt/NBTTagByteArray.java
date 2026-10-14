@@ -12,23 +12,23 @@ public class NBTTagByteArray extends NBTBase {
    public NBTTagByteArray() {
    }
 
-   public NBTTagByteArray(byte[] var1) {
-      this.data = var1;
+   public NBTTagByteArray(byte[] data) {
+      this.data = data;
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
-      var1.writeInt(this.data.length);
-      var1.write(this.data);
+   public void write(DataOutput output) throws IOException {
+      output.writeInt(this.data.length);
+      output.write(this.data);
    }
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(192L);
-      int var6 = var1.readInt();
-      var3.read(8 * var6);
-      this.data = new byte[var6];
-      var1.readFully(this.data);
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(192L);
+      int i = input.readInt();
+      sizeTracker.read(8 * i);
+      this.data = new byte[i];
+      input.readFully(this.data);
    }
 
    @Override
@@ -43,14 +43,14 @@ public class NBTTagByteArray extends NBTBase {
 
    @Override
    public NBTBase copy() {
-      byte[] var1 = new byte[this.data.length];
-      System.arraycopy(this.data, 0, var1, 0, this.data.length);
-      return new NBTTagByteArray(var1);
+      byte[] bytes = new byte[this.data.length];
+      System.arraycopy(this.data, 0, bytes, 0, this.data.length);
+      return new NBTTagByteArray(bytes);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return super.equals(var1) ? Arrays.equals(this.data, ((NBTTagByteArray)var1).data) : false;
+   public boolean equals(Object object) {
+      return super.equals(object) ? Arrays.equals(this.data, ((NBTTagByteArray)object).data) : false;
    }
 
    @Override

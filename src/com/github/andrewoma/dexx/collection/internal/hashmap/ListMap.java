@@ -18,8 +18,8 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
          @Override
          public Builder<Pair<K, V>, ListMap<K, V>> newBuilder() {
             return new AbstractSelfBuilder<Pair<K, V>, ListMap<K, V>>(ListMap.empty()) {
-               public Builder<Pair<K, V>, ListMap<K, V>> add(Pair<K, V> var1) {
-                  this.result = this.result.put((K)var1.component1(), (V)var1.component2());
+               public Builder<Pair<K, V>, ListMap<K, V>> add(Pair<K, V> element) {
+                  this.result = this.result.put(element.component1(), element.component2());
                   return this;
                }
             };
@@ -37,22 +37,22 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
    }
 
    @Override
-   public V get(K var1) {
+   public V get(K key) {
       return null;
    }
 
-   public ListMap<K, V> put(K var1, V var2) {
-      return new ListMap.Node<>((K)this, (V)var1, var2);
+   public ListMap<K, V> put(K key, V value) {
+      return new ListMap.Node<>((K)this, (V)key, value);
    }
 
-   public ListMap<K, V> remove(K var1) {
+   public ListMap<K, V> remove(K key) {
       return this;
    }
 
    @Override
-   public <U> void forEach(Function<Pair<K, V>, U> var1) {
-      for (Pair var6 : this) {
-         var1.invoke(var6);
+   public <U> void forEach(Function<Pair<K, V>, U> f) {
+      for (Pair pair : this) {
+         f.invoke(pair);
       }
    }
 
@@ -78,12 +78,12 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
       return true;
    }
 
-   public ListMap.Node<K, V> createNode(K var1, V var2) {
-      return new ListMap.Node<>((K)this, (V)var1, var2);
+   public ListMap.Node<K, V> createNode(K key, V value) {
+      return new ListMap.Node<>((K)this, (V)key, value);
    }
 
    @Override
-   public boolean containsKey(K var1) {
+   public boolean containsKey(K key) {
       return false;
    }
 
@@ -93,10 +93,10 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
       public final ListMap C;
       private static final long d = 33392032105613L;
 
-      public Node(K var1, V var2, Object var3) {
-         this.C = (com.github.andrewoma.dexx.collection.internal.hashmap.ListMap)(var1);
-         this.x = (K)var2;
-         this.D = (V)var3;
+      public Node(K this$0, V key, Object value) {
+         this.C = (com.github.andrewoma.dexx.collection.internal.hashmap.ListMap)(this$0);
+         this.x = (K)(key);
+         this.D = (V)(value);
       }
 
       @Override
@@ -104,8 +104,8 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
          return this.X(this, 0);
       }
 
-      private int X(ListMap<K, V> var1, int var2) {
-         return var1.isEmpty() ? var2 : this.X(var1.tail(), var2 + 1);
+      private int X(ListMap<K, V> listMap, int i) {
+         return listMap.isEmpty() ? i : this.X(listMap.tail(), i + 1);
       }
 
       @Override
@@ -114,13 +114,13 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public V get(K var1) {
-         ListMap var5 = this.E(this, (K)var1);
-         return (V)(var5 == null ? null : var5.getValue());
+      public V get(K key) {
+         ListMap listMap = this.E(this, (K)key);
+         return (V)(listMap == null ? null : listMap.getValue());
       }
 
-      private ListMap<K, V> E(ListMap<K, V> var1, K var2) {
-         return var1.isEmpty() ? null : (var2.equals(var1.getKey()) ? var1 : this.E(var1.tail(), (K)var2));
+      private ListMap<K, V> E(ListMap<K, V> listMap, K object) {
+         return listMap.isEmpty() ? null : (object.equals(listMap.getKey()) ? listMap : this.E(listMap.tail(), (K)object));
       }
 
       @Override
@@ -129,22 +129,22 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public ListMap<K, V> put(K var1, V var2) {
-         ListMap var6 = this.containsKey((K)var1) ? this.remove((K)var1) : this;
-         return (ListMap<K, V>)var6.createNode(var1, var2);
+      public ListMap<K, V> put(K key, V value) {
+         ListMap listMap = this.containsKey((K)key) ? this.remove((K)key) : this;
+         return (ListMap<K, V>)listMap.createNode(key, value);
       }
 
       @Override
-      public ListMap<K, V> remove(K var1) {
-         ListMap var5 = ListMap.empty();
+      public ListMap<K, V> remove(K key) {
+         ListMap listMap = ListMap.empty();
 
-         for (Pair var7 : this) {
-            if (!var1.equals(var7.component1())) {
-               var5 = var5.put(var7.component1(), var7.component2());
+         for (Pair pair : this) {
+            if (!key.equals(pair.component1())) {
+               listMap = listMap.put(pair.component1(), pair.component2());
             }
          }
 
-         return var5;
+         return listMap;
       }
 
       @Override
@@ -158,8 +158,8 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
       }
 
       @Override
-      public boolean containsKey(K var1) {
-         return this.E(this, (K)var1) != null;
+      public boolean containsKey(K key) {
+         return this.E(this, key) != null;
       }
    }
 }

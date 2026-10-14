@@ -6,8 +6,8 @@ import bypass.util.container.ListContainerOwner;
 public class LoadStageList {
    private final ListContainerOwner<LoadStage> E;
 
-   public LoadStageList(ListContainerOwner<LoadStage> var1) {
-      this.E = var1;
+   public LoadStageList(ListContainerOwner<LoadStage> listContainerOwner) {
+      this.E = listContainerOwner;
    }
 
    public ListContainerOwner<LoadStage> a() {

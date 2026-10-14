@@ -6,8 +6,8 @@ import bypass.event.EventState;
 public class UpdateEvent implements Event {
    private EventState state;
 
-   public UpdateEvent(EventState var1) {
-      this.state = var1;
+   public UpdateEvent(EventState eventState) {
+      this.state = eventState;
    }
 
    public EventState getState() {

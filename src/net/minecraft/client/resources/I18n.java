@@ -5,12 +5,12 @@ import java.util.Map;
 public class I18n {
    private static Locale i18nLocale;
 
-   public static void setLocale(Locale var0) {
-      i18nLocale = var0;
+   public static void setLocale(Locale i18nLocaleIn) {
+      i18nLocale = i18nLocaleIn;
    }
 
-   public static String format(String var0, Object... var1) {
-      return i18nLocale.formatMessage(var0, var1);
+   public static String format(String translateKey, Object... parameters) {
+      return i18nLocale.formatMessage(translateKey, parameters);
    }
 
    public static Map getLocaleProperties() {

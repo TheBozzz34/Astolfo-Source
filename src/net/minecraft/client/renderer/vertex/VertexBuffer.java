@@ -11,8 +11,8 @@ public class VertexBuffer {
    private static final long a = 111296615867569L;
    private static final long b = -1927494967832311580L;
 
-   public VertexBuffer(VertexFormat var1) {
-      this.vertexFormat = var1;
+   public VertexBuffer(VertexFormat vertexFormatIn) {
+      this.vertexFormat = vertexFormatIn;
       this.glBufferId = OpenGlHelper.glGenBuffers();
    }
 
@@ -20,15 +20,15 @@ public class VertexBuffer {
       OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, this.glBufferId);
    }
 
-   public void bufferData(ByteBuffer var1) {
+   public void bufferData(ByteBuffer byteBuffer) {
       this.bindBuffer();
-      OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, var1, (int)b);
+      OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, byteBuffer, (int)b);
       this.unbindBuffer();
-      this.count = var1.limit() / this.vertexFormat.getNextOffset();
+      this.count = byteBuffer.limit() / this.vertexFormat.getNextOffset();
    }
 
-   public void drawArrays(int var1) {
-      GL11.glDrawArrays(var1, 0, this.count);
+   public void drawArrays(int mode) {
+      GL11.glDrawArrays(mode, 0, this.count);
    }
 
    public void unbindBuffer() {

@@ -8,10 +8,10 @@ public class ShapedMapEntry<K, V> implements Entry<K, V> {
    private final ShapedMap<K, V> B;
    private static final long a = 120791272448374L;
 
-   public ShapedMapEntry(ShapedMap<K, V> var1, K var2, V var3) {
-      this.B = var1;
-      this.b = (K)var2;
-      this.f = (V)var3;
+   public ShapedMapEntry(ShapedMap<K, V> shapedMap, K object, V object2) {
+      this.B = shapedMap;
+      this.b = (K)object;
+      this.f = (V)object2;
    }
 
    @Override
@@ -25,23 +25,23 @@ public class ShapedMapEntry<K, V> implements Entry<K, V> {
    }
 
    @Override
-   public V setValue(V var1) {
-      this.f = (V)var1;
-      return this.B.put(this.b, (V)var1);
+   public V setValue(V object) {
+      this.f = (V)object;
+      return this.B.put(this.b, (V)object);
    }
 
-   private static boolean t(Object var0, Object var1) {
-      return var0 == null ? var1 == null : var0.equals(var1);
+   private static boolean t(Object object, Object object2) {
+      return object == null ? object2 == null : object.equals(object2);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!(var1 instanceof Entry)) {
+   public boolean equals(Object object) {
+      if (!(object instanceof Entry)) {
          return false;
       }
 
-      Entry var5 = (Entry)var1;
-      return t(this.getKey(), var5.getKey()) && t(this.f, var5.getValue());
+      Entry entry = (Entry)object;
+      return t(this.getKey(), entry.getKey()) && t(this.f, entry.getValue());
    }
 
    @Override

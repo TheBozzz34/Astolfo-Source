@@ -12,22 +12,22 @@ public class C01PacketPing implements Packet<INetHandlerStatusServer> {
    public C01PacketPing() {
    }
 
-   public C01PacketPing(long var1) {
-      this.clientTime = var1;
+   public C01PacketPing(long ping) {
+      this.clientTime = ping;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.clientTime = var1.readLong();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.clientTime = buf.readLong();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeLong(this.clientTime);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeLong(this.clientTime);
    }
 
-   public void processPacket(INetHandlerStatusServer var1) {
-      var1.processPing(this);
+   public void processPacket(INetHandlerStatusServer handler) {
+      handler.processPing(this);
    }
 
    public long getClientTime() {

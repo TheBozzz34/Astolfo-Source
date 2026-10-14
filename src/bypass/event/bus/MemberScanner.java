@@ -4,11 +4,11 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
 public interface MemberScanner<E extends AnnotatedElement> {
-   void collect(Class<?> var1, List<E> var2);
+   void collect(Class<?> class2, List<E> list);
 
-   E[] getMembers(Class<?> var1);
+   E[] getMembers(Class<?> class2);
 
-   boolean hides(E var1, E var2);
+   boolean hides(E annotatedElement, E annotatedElement2);
 
    static FieldScanner z() {
       return new FieldScanner();

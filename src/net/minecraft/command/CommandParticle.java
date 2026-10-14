@@ -21,85 +21,85 @@ public class CommandParticle extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.particle.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 8) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 8) {
          throw new WrongUsageException("commands.particle.usage");
       }
 
-      boolean var6 = false;
-      EnumParticleTypes var7 = null;
+      boolean bl = false;
+      EnumParticleTypes enumParticleTypes = null;
 
-      for (EnumParticleTypes var11 : EnumParticleTypes.values()) {
-         if (var11.hasArguments()) {
-            if (var2[0].startsWith(var11.getParticleName())) {
-               var6 = true;
-               var7 = var11;
+      for (EnumParticleTypes enumParticleTypes2 : EnumParticleTypes.values()) {
+         if (enumParticleTypes2.hasArguments()) {
+            if (args[0].startsWith(enumParticleTypes2.getParticleName())) {
+               bl = true;
+               enumParticleTypes = enumParticleTypes2;
                break;
             }
-         } else if (var2[0].equals(var11.getParticleName())) {
-            var6 = true;
-            var7 = var11;
+         } else if (args[0].equals(enumParticleTypes2.getParticleName())) {
+            bl = true;
+            enumParticleTypes = enumParticleTypes2;
             break;
          }
       }
 
-      if (!var6) {
-         throw new CommandException("commands.particle.notFound", var2[0]);
+      if (!bl) {
+         throw new CommandException("commands.particle.notFound", args[0]);
       }
 
-      String var33 = var2[0];
-      Vec3 var34 = var1.getPositionVector();
-      double var35 = (float)parseDouble(var34.xCoord, var2[1], true);
-      double var12 = (float)parseDouble(var34.yCoord, var2[2], true);
-      double var14 = (float)parseDouble(var34.zCoord, var2[3], true);
-      double var16 = (float)parseDouble(var2[4]);
-      double var18 = (float)parseDouble(var2[5]);
-      double var20 = (float)parseDouble(var2[6]);
-      double var22 = (float)parseDouble(var2[7]);
-      int var24 = 0;
-      if (var2.length > 8) {
-         var24 = parseInt(var2[8], 0);
+      String string = args[0];
+      Vec3 vec3 = sender.getPositionVector();
+      double d = (float)parseDouble(vec3.xCoord, args[1], true);
+      double e = (float)parseDouble(vec3.yCoord, args[2], true);
+      double d2 = (float)parseDouble(vec3.zCoord, args[3], true);
+      double d3 = (float)parseDouble(args[4]);
+      double d4 = (float)parseDouble(args[5]);
+      double d5 = (float)parseDouble(args[6]);
+      double d6 = (float)parseDouble(args[7]);
+      int i = 0;
+      if (args.length > 8) {
+         i = parseInt(args[8], 0);
       }
 
-      boolean var25 = false;
-      if (var2.length > 9 && "force".equals(var2[9])) {
-         var25 = true;
+      boolean bl2 = false;
+      if (args.length > 9 && "force".equals(args[9])) {
+         bl2 = true;
       }
 
-      World var26 = var1.getEntityWorld();
-      if (var26 instanceof WorldServer) {
-         WorldServer var27 = (WorldServer)var26;
-         int[] var28 = new int[var7.getArgumentCount()];
-         if (var7.hasArguments()) {
-            String[] var29 = var2[0].split("_", 3);
+      World world = sender.getEntityWorld();
+      if (world instanceof WorldServer) {
+         WorldServer worldServer = (WorldServer)world;
+         int[] ints = new int[enumParticleTypes.getArgumentCount()];
+         if (enumParticleTypes.hasArguments()) {
+            String[] strings = args[0].split("_", 3);
 
-            for (int var30 = 1; var30 < var29.length; var30++) {
+            for (int j = 1; j < strings.length; j++) {
                try {
-                  var28[var30 - 1] = Integer.parseInt(var29[var30]);
-               } catch (NumberFormatException var32) {
-                  throw new CommandException("commands.particle.notFound", var2[0]);
+                  ints[j - 1] = Integer.parseInt(strings[j]);
+               } catch (NumberFormatException numberFormatException) {
+                  throw new CommandException("commands.particle.notFound", args[0]);
                }
             }
          }
 
-         var27.spawnParticle(var7, var25, var35, var12, var14, var24, var16, var18, var20, var22, var28);
-         notifyOperators(var1, this, "commands.particle.success", var33, Math.max(var24, 1));
+         worldServer.spawnParticle(enumParticleTypes, bl2, d, e, d2, i, d3, d4, d5, d6, ints);
+         notifyOperators(sender, this, "commands.particle.success", string, Math.max(i, 1));
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, EnumParticleTypes.getParticleNames())
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, EnumParticleTypes.getParticleNames())
          : (
-            var2.length > 1 && var2.length <= 4
-               ? func_175771_a(var2, 1, var3)
-               : (var2.length == 10 ? getListOfStringsMatchingLastWord(var2, "normal", "force") : null)
+            args.length > 1 && args.length <= 4
+               ? func_175771_a(args, 1, pos)
+               : (args.length == 10 ? getListOfStringsMatchingLastWord(args, "normal", "force") : null)
          );
    }
 }

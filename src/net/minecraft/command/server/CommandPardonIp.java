@@ -24,22 +24,22 @@ public class CommandPardonIp extends CommandBase {
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(ICommandSender var1) {
-      return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isLanServer() && super.canCommandSenderUseCommand(var1);
+   public boolean canCommandSenderUseCommand(ICommandSender sender) {
+      return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isLanServer() && super.canCommandSenderUseCommand(sender);
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.unbanip.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length == 1 && var2[0].length() > 1) {
-         Matcher var6 = CommandBanIp.field_147211_a.matcher(var2[0]);
-         if (var6.matches()) {
-            MinecraftServer.getServer().getConfigurationManager().getBannedIPs().removeEntry(var2[0]);
-            notifyOperators(var1, this, "commands.unbanip.success", var2[0]);
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length == 1 && args[0].length() > 1) {
+         Matcher matcher2 = CommandBanIp.field_147211_a.matcher(args[0]);
+         if (matcher2.matches()) {
+            MinecraftServer.getServer().getConfigurationManager().getBannedIPs().removeEntry(args[0]);
+            notifyOperators(sender, this, "commands.unbanip.success", args[0]);
          } else {
             throw new SyntaxErrorException("commands.unbanip.invalid");
          }
@@ -49,7 +49,7 @@ public class CommandPardonIp extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys()) : null;
    }
 }

@@ -14,13 +14,13 @@ public class FileReceiver implements Closeable {
    public Thread h;
    private static final long a = 26433994730827L;
 
-   public FileReceiver(boolean var1) {
-      this(new DefaultFileReceiverListener(), var1);
+   public FileReceiver(boolean bl) {
+      this(new DefaultFileReceiverListener(), bl);
    }
 
-   public FileReceiver(FileReceiverListener var1, boolean var2) {
-      this.g = var1;
-      this.r = var2;
+   public FileReceiver(FileReceiverListener fileReceiverListener, boolean bl) {
+      this.g = fileReceiverListener;
+      this.r = bl;
    }
 
    public void R() throws IOException {
@@ -41,34 +41,34 @@ public class FileReceiver implements Closeable {
 
          try {
             this.c.select();
-         } catch (IOException var9) {
-            this.g.C(this, "sel", var9);
+         } catch (IOException ioException) {
+            this.g.C(this, "sel", ioException);
             return;
          }
 
-         Iterator var4 = this.c.selectedKeys().iterator();
+         Iterator iterator2 = this.c.selectedKeys().iterator();
 
-         while (var4.hasNext()) {
-            SelectionKey var5 = (SelectionKey)var4.next();
-            var4.remove();
-            if (var5.isValid() && var5.isReadable()) {
-               FileReceiveSession var6 = (FileReceiveSession)var5.attachment();
+         while (iterator2.hasNext()) {
+            SelectionKey selectionKey = (SelectionKey)iterator2.next();
+            iterator2.remove();
+            if (selectionKey.isValid() && selectionKey.isReadable()) {
+               FileReceiveSession fileReceiveSession = (FileReceiveSession)selectionKey.attachment();
 
                try {
-                  var6.e((SocketChannel)var5.channel());
-               } catch (IOException var8) {
-                  this.g.q(this, "retrieve", var8, var6);
+                  fileReceiveSession.e((SocketChannel)selectionKey.channel());
+               } catch (IOException ioException2) {
+                  this.g.q(this, "retrieve", ioException2, fileReceiveSession);
                }
             }
          }
       }
    }
 
-   public void f(SocketChannel var1, FileReceiveSession var2) throws IOException {
-      var1.configureBlocking(false);
+   public void f(SocketChannel socketChannel, FileReceiveSession fileReceiveSession) throws IOException {
+      socketChannel.configureBlocking(false);
       synchronized (this) {
          this.c.wakeup();
-         var1.register(this.c, 1, var2);
+         socketChannel.register(this.c, 1, fileReceiveSession);
       }
    }
 

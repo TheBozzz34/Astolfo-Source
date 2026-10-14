@@ -12,44 +12,44 @@ public class ServersideAttributeMap extends BaseAttributeMap {
    public final Map<String, IAttributeInstance> descriptionToAttributeInstanceMap = new LowerStringMap<>();
    private static final long b = 38456955220476L;
 
-   public ModifiableAttributeInstance getAttributeInstance(IAttribute var1) {
-      return (ModifiableAttributeInstance)super.getAttributeInstance(var1);
+   public ModifiableAttributeInstance getAttributeInstance(IAttribute attribute) {
+      return (ModifiableAttributeInstance)super.getAttributeInstance(attribute);
    }
 
-   public ModifiableAttributeInstance getAttributeInstanceByName(String var1) {
-      IAttributeInstance var5 = super.getAttributeInstanceByName(var1);
-      if (var5 == null) {
-         var5 = this.descriptionToAttributeInstanceMap.get(var1);
+   public ModifiableAttributeInstance getAttributeInstanceByName(String attributeName) {
+      IAttributeInstance iAttributeInstance = super.getAttributeInstanceByName(attributeName);
+      if (iAttributeInstance == null) {
+         iAttributeInstance = this.descriptionToAttributeInstanceMap.get(attributeName);
       }
 
-      return (ModifiableAttributeInstance)var5;
+      return (ModifiableAttributeInstance)iAttributeInstance;
    }
 
    @Override
-   public IAttributeInstance registerAttribute(IAttribute var1) {
-      IAttributeInstance var5 = super.registerAttribute(var1);
-      if (var1 instanceof RangedAttribute && ((RangedAttribute)var1).getDescription() != null) {
-         this.descriptionToAttributeInstanceMap.put(((RangedAttribute)var1).getDescription(), var5);
+   public IAttributeInstance registerAttribute(IAttribute attribute) {
+      IAttributeInstance iAttributeInstance = super.registerAttribute(attribute);
+      if (attribute instanceof RangedAttribute && ((RangedAttribute)attribute).getDescription() != null) {
+         this.descriptionToAttributeInstanceMap.put(((RangedAttribute)attribute).getDescription(), iAttributeInstance);
       }
 
-      return var5;
+      return iAttributeInstance;
    }
 
    @Override
-   public IAttributeInstance func_180376_c(IAttribute var1) {
-      return new ModifiableAttributeInstance(this, var1);
+   public IAttributeInstance func_180376_c(IAttribute attribute) {
+      return new ModifiableAttributeInstance(this, attribute);
    }
 
    @Override
-   public void func_180794_a(IAttributeInstance var1) {
-      if (var1.getAttribute().getShouldWatch()) {
-         this.attributeInstanceSet.add(var1);
+   public void func_180794_a(IAttributeInstance instance) {
+      if (instance.getAttribute().getShouldWatch()) {
+         this.attributeInstanceSet.add(instance);
       }
 
-      for (IAttribute var6 : this.field_180377_c.get(var1.getAttribute())) {
-         ModifiableAttributeInstance var7 = this.getAttributeInstance(var6);
-         if (var7 != null) {
-            var7.flagForUpdate();
+      for (IAttribute iAttribute : this.field_180377_c.get(instance.getAttribute())) {
+         ModifiableAttributeInstance modifiableAttributeInstance = this.getAttributeInstance(iAttribute);
+         if (modifiableAttributeInstance != null) {
+            modifiableAttributeInstance.flagForUpdate();
          }
       }
    }
@@ -59,14 +59,14 @@ public class ServersideAttributeMap extends BaseAttributeMap {
    }
 
    public Collection<IAttributeInstance> getWatchedAttributes() {
-      HashSet var4 = Sets.newHashSet();
+      HashSet hashSet = Sets.newHashSet();
 
-      for (IAttributeInstance var6 : this.getAllAttributes()) {
-         if (var6.getAttribute().getShouldWatch()) {
-            var4.add(var6);
+      for (IAttributeInstance iAttributeInstance : this.getAllAttributes()) {
+         if (iAttributeInstance.getAttribute().getShouldWatch()) {
+            hashSet.add(iAttributeInstance);
          }
       }
 
-      return var4;
+      return hashSet;
    }
 }

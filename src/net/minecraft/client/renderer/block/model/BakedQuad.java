@@ -16,11 +16,11 @@ public class BakedQuad implements IVertexProducer {
    private int[] vertexDataSingle = null;
    private static final long a = 2360413664131L;
 
-   public BakedQuad(int[] var1, int var2, EnumFacing var3, TextureAtlasSprite var4) {
-      this.u = var1;
-      this.tintIndex = var2;
-      this.face = var3;
-      this.sprite = var4;
+   public BakedQuad(int[] ints, int i, EnumFacing enumFacing, TextureAtlasSprite textureAtlasSprite) {
+      this.u = ints;
+      this.tintIndex = i;
+      this.face = enumFacing;
+      this.sprite = textureAtlasSprite;
       this.fixVertexData();
    }
 
@@ -37,10 +37,10 @@ public class BakedQuad implements IVertexProducer {
       return "vertex: " + this.u.length / 7 + ", tint: " + this.tintIndex + ", facing: " + this.face + ", sprite: " + this.sprite;
    }
 
-   public BakedQuad(int[] var1, int var2, EnumFacing var3) {
-      this.u = var1;
-      this.tintIndex = var2;
-      this.face = var3;
+   public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn) {
+      this.u = vertexDataIn;
+      this.tintIndex = tintIndexIn;
+      this.face = faceIn;
       this.fixVertexData();
    }
 
@@ -69,50 +69,50 @@ public class BakedQuad implements IVertexProducer {
       return this.vertexDataSingle;
    }
 
-   private static int[] makeVertexDataSingle(int[] var0, TextureAtlasSprite var1) {
-      int[] var5 = (int[])var0.clone();
-      int var6 = var1.sheetWidth / var1.getIconWidth();
-      int var7 = var1.sheetHeight / var1.getIconHeight();
-      int var8 = var5.length / 4;
+   private static int[] makeVertexDataSingle(int[] ints, TextureAtlasSprite textureAtlasSprite) {
+      int[] ints2 = (int[])ints.clone();
+      int i = textureAtlasSprite.sheetWidth / textureAtlasSprite.getIconWidth();
+      int j = textureAtlasSprite.sheetHeight / textureAtlasSprite.getIconHeight();
+      int k = ints2.length / 4;
 
-      for (int var9 = 0; var9 < 4; var9++) {
-         int var10 = var9 * var8;
-         float var11 = Float.intBitsToFloat(var5[var10 + 4]);
-         float var12 = Float.intBitsToFloat(var5[var10 + 4 + 1]);
-         float var13 = var1.toSingleU(var11);
-         float var14 = var1.toSingleV(var12);
-         var5[var10 + 4] = Float.floatToRawIntBits(var13);
-         var5[var10 + 4 + 1] = Float.floatToRawIntBits(var14);
+      for (int l = 0; l < 4; l++) {
+         int m = l * k;
+         float f = Float.intBitsToFloat(ints2[m + 4]);
+         float g = Float.intBitsToFloat(ints2[m + 4 + 1]);
+         float h = textureAtlasSprite.toSingleU(f);
+         float f2 = textureAtlasSprite.toSingleV(g);
+         ints2[m + 4] = Float.floatToRawIntBits(h);
+         ints2[m + 4 + 1] = Float.floatToRawIntBits(f2);
       }
 
-      return var5;
+      return ints2;
    }
 
    @Override
-   public void pipe(IVertexConsumer var1) {
-      Reflector.callVoid(Reflector.LightUtil_putBakedQuad, var1, this);
+   public void pipe(IVertexConsumer iVertexConsumer) {
+      Reflector.callVoid(Reflector.LightUtil_putBakedQuad, iVertexConsumer, this);
    }
 
-   private static TextureAtlasSprite getSpriteByUv(int[] var0) {
-      float var4 = 1.0F;
-      float var5 = 1.0F;
-      float var6 = 0.0F;
-      float var7 = 0.0F;
-      int var8 = var0.length / 4;
+   private static TextureAtlasSprite getSpriteByUv(int[] ints) {
+      float f = 1.0F;
+      float g = 1.0F;
+      float h = 0.0F;
+      float f2 = 0.0F;
+      int i = ints.length / 4;
 
-      for (int var9 = 0; var9 < 4; var9++) {
-         int var10 = var9 * var8;
-         float var11 = Float.intBitsToFloat(var0[var10 + 4]);
-         float var12 = Float.intBitsToFloat(var0[var10 + 4 + 1]);
-         var4 = Math.min(var4, var11);
-         var5 = Math.min(var5, var12);
-         var6 = Math.max(var6, var11);
-         var7 = Math.max(var7, var12);
+      for (int j = 0; j < 4; j++) {
+         int k = j * i;
+         float f3 = Float.intBitsToFloat(ints[k + 4]);
+         float f4 = Float.intBitsToFloat(ints[k + 4 + 1]);
+         f = Math.min(f, f3);
+         g = Math.min(g, f4);
+         h = Math.max(h, f3);
+         f2 = Math.max(f2, f4);
       }
 
-      float var13 = (var4 + var6) / 2.0F;
-      float var14 = (var5 + var7) / 2.0F;
-      return Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV(var13, var14);
+      float f5 = (f + h) / 2.0F;
+      float f6 = (g + f2) / 2.0F;
+      return Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV(f5, f6);
    }
 
    private void fixVertexData() {
@@ -125,27 +125,27 @@ public class BakedQuad implements IVertexProducer {
       }
    }
 
-   private static int[] expandVertexData(int[] var0) {
-      int var4 = var0.length / 4;
-      int var5 = var4 * 2;
-      int[] var6 = new int[var5 * 4];
+   private static int[] expandVertexData(int[] ints) {
+      int i = ints.length / 4;
+      int j = i * 2;
+      int[] ints2 = new int[j * 4];
 
-      for (int var7 = 0; var7 < 4; var7++) {
-         System.arraycopy(var0, var7 * var4, var6, var7 * var5, var4);
+      for (int k = 0; k < 4; k++) {
+         System.arraycopy(ints, k * i, ints2, k * j, i);
       }
 
-      return var6;
+      return ints2;
    }
 
-   private static int[] compactVertexData(int[] var0) {
-      int var4 = var0.length / 4;
-      int var5 = var4 / 2;
-      int[] var6 = new int[var5 * 4];
+   private static int[] compactVertexData(int[] ints) {
+      int i = ints.length / 4;
+      int j = i / 2;
+      int[] ints2 = new int[j * 4];
 
-      for (int var7 = 0; var7 < 4; var7++) {
-         System.arraycopy(var0, var7 * var4, var6, var7 * var5, var5);
+      for (int k = 0; k < 4; k++) {
+         System.arraycopy(ints, k * i, ints2, k * j, j);
       }
 
-      return var6;
+      return ints2;
    }
 }

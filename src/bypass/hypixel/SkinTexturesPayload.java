@@ -24,39 +24,39 @@ public class SkinTexturesPayload {
       return this.t;
    }
 
-   public void o(Long var1) {
-      this.t = var1;
+   public void o(Long long2) {
+      this.t = long2;
    }
 
    public String o() {
       return this.n;
    }
 
-   public void W(String var1) {
-      this.n = var1;
+   public void W(String string) {
+      this.n = string;
    }
 
    public String g() {
       return this.r;
    }
 
-   public void F(String var1) {
-      this.r = var1;
+   public void F(String string) {
+      this.r = string;
    }
 
    public Boolean D() {
       return this.c;
    }
 
-   public void H(Boolean var1) {
-      this.c = var1;
+   public void H(Boolean boolean2) {
+      this.c = boolean2;
    }
 
    public SkinTextures Y() {
       return this.b;
    }
 
-   public void P(SkinTextures var1) {
-      this.b = var1;
+   public void P(SkinTextures skinTextures) {
+      this.b = skinTextures;
    }
 }

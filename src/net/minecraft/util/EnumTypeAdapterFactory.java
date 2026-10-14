@@ -16,43 +16,43 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
    private static final long a = 40530997590878L;
 
    @Override
-   public <T> TypeAdapter<T> create(Gson var1, TypeToken<T> var2) {
-      Class var6 = var2.getRawType();
-      if (!var6.isEnum()) {
+   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+      Class class2 = typeToken.getRawType();
+      if (!class2.isEnum()) {
          return null;
       }
 
-      final HashMap var7 = Maps.newHashMap();
+      final HashMap hashMap = Maps.newHashMap();
 
-      for (Object var11 : var6.getEnumConstants()) {
-         var7.put(this.func_151232_a(var11), var11);
+      for (Object object2 : class2.getEnumConstants()) {
+         hashMap.put(this.func_151232_a(object2), object2);
       }
 
       return new TypeAdapter<T>() {
          private static final long a = 61609283281043L;
 
          @Override
-         public void write(JsonWriter var1, T var2x) throws IOException {
-            if (var2x == null) {
-               var1.nullValue();
+         public void write(JsonWriter jsonWriter, T object) throws IOException {
+            if (object == null) {
+               jsonWriter.nullValue();
             } else {
-               var1.value(EnumTypeAdapterFactory.this.func_151232_a(var2x));
+               jsonWriter.value(EnumTypeAdapterFactory.this.func_151232_a(object));
             }
          }
 
          @Override
-         public T read(JsonReader var1) throws IOException {
-            if (var1.peek() == JsonToken.NULL) {
-               var1.nextNull();
+         public T read(JsonReader jsonReader) throws IOException {
+            if (jsonReader.peek() == JsonToken.NULL) {
+               jsonReader.nextNull();
                return null;
             } else {
-               return (T)var7.get(var1.nextString());
+               return (T)hashMap.get(jsonReader.nextString());
             }
          }
       };
    }
 
-   private String func_151232_a(Object var1) {
-      return var1 instanceof Enum ? ((Enum)var1).name().toLowerCase(Locale.US) : var1.toString().toLowerCase(Locale.US);
+   private String func_151232_a(Object object) {
+      return object instanceof Enum ? ((Enum)object).name().toLowerCase(Locale.US) : object.toString().toLowerCase(Locale.US);
    }
 }

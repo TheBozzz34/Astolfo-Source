@@ -19,15 +19,15 @@ public class EntityXPOrb extends Entity {
    private int xpTargetColor;
    private static final long ab = 114396881832458L;
 
-   public EntityXPOrb(World var1, double var2, double var4, double var6, int var8) {
-      super(var1);
+   public EntityXPOrb(World worldIn, double x, double y, double z, int expValue) {
+      super(worldIn);
       this.setSize(0.5F, 0.5F);
-      this.setPosition(var2, var4, var6);
+      this.setPosition(x, y, z);
       this.rotationYaw = (float)(Math.random() * 360.0);
       this.motionX = (float)(Math.random() * 0.2F - 0.1F) * 2.0F;
       this.motionY = (float)(Math.random() * 0.2) * 2.0F;
       this.motionZ = (float)(Math.random() * 0.2F - 0.1F) * 2.0F;
-      this.xpValue = var8;
+      this.xpValue = expValue;
    }
 
    @Override
@@ -35,8 +35,8 @@ public class EntityXPOrb extends Entity {
       return false;
    }
 
-   public EntityXPOrb(World var1) {
-      super(var1);
+   public EntityXPOrb(World worldIn) {
+      super(worldIn);
       this.setSize(0.25F, 0.25F);
    }
 
@@ -45,18 +45,18 @@ public class EntityXPOrb extends Entity {
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
-      float var5 = 0.5F;
-      var5 = MathHelper.clamp_float(var5, 0.0F, 1.0F);
-      int var6 = super.getBrightnessForRender(var1);
-      int var7 = var6 & 0xFF;
-      int var8 = var6 >> 16 & 0xFF;
-      var7 += (int)(var5 * 15.0F * 16.0F);
-      if (var7 > 240) {
-         var7 = 240;
+   public int getBrightnessForRender(float partialTicks) {
+      float f = 0.5F;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      int i = super.getBrightnessForRender(partialTicks);
+      int j = i & 0xFF;
+      int k = i >> 16 & 0xFF;
+      j += (int)(f * 15.0F * 16.0F);
+      if (j > 240) {
+         j = 240;
       }
 
-      return var7 | var8 << 16;
+      return j | k << 16;
    }
 
    @Override
@@ -78,10 +78,10 @@ public class EntityXPOrb extends Entity {
       }
 
       this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0, this.posZ);
-      double var4 = 8.0;
+      double d = 8.0;
       if (this.xpTargetColor < this.xpColor - 20 + this.getEntityId() % 100) {
-         if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > var4 * var4) {
-            this.closestPlayer = this.worldObj.getClosestPlayerToEntity(this, var4);
+         if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > d * d) {
+            this.closestPlayer = this.worldObj.getClosestPlayerToEntity(this, d);
          }
 
          this.xpTargetColor = this.xpColor;
@@ -92,23 +92,23 @@ public class EntityXPOrb extends Entity {
       }
 
       if (this.closestPlayer != null) {
-         double var6 = (this.closestPlayer.posX - this.posX) / var4;
-         double var8 = (this.closestPlayer.posY + this.closestPlayer.getEyeHeight() - this.posY) / var4;
-         double var10 = (this.closestPlayer.posZ - this.posZ) / var4;
-         double var12 = Math.sqrt(var6 * var6 + var8 * var8 + var10 * var10);
-         double var14 = 1.0 - var12;
-         if (var14 > 0.0) {
-            var14 *= var14;
-            this.motionX += var6 / var12 * var14 * 0.1;
-            this.motionY += var8 / var12 * var14 * 0.1;
-            this.motionZ += var10 / var12 * var14 * 0.1;
+         double e = (this.closestPlayer.posX - this.posX) / d;
+         double d2 = (this.closestPlayer.posY + this.closestPlayer.getEyeHeight() - this.posY) / d;
+         double d3 = (this.closestPlayer.posZ - this.posZ) / d;
+         double d4 = Math.sqrt(e * e + d2 * d2 + d3 * d3);
+         double d5 = 1.0 - d4;
+         if (d5 > 0.0) {
+            d5 *= d5;
+            this.motionX += e / d4 * d5 * 0.1;
+            this.motionY += d2 / d4 * d5 * 0.1;
+            this.motionZ += d3 / d4 * d5 * 0.1;
          }
       }
 
       this.moveEntity(this.motionX, this.motionY, this.motionZ);
-      float var16 = 0.98F;
+      float f = 0.98F;
       if (this.onGround) {
-         var16 = this.worldObj
+         f = this.worldObj
                .getBlockState(
                   new BlockPos(
                      MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ)
@@ -119,9 +119,9 @@ public class EntityXPOrb extends Entity {
             * 0.98F;
       }
 
-      this.motionX *= var16;
+      this.motionX *= f;
       this.motionY *= 0.98F;
-      this.motionZ *= var16;
+      this.motionZ *= f;
       if (this.onGround) {
          this.motionY *= -0.9F;
       }
@@ -139,18 +139,18 @@ public class EntityXPOrb extends Entity {
    }
 
    @Override
-   public void dealFireDamage(int var1) {
-      this.attackEntityFrom(DamageSource.inFire, var1);
+   public void dealFireDamage(int amount) {
+      this.attackEntityFrom(DamageSource.inFire, amount);
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      if (this.isEntityInvulnerable(var1)) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isEntityInvulnerable(source)) {
          return false;
       }
 
       this.setBeenAttacked();
-      this.xpOrbHealth = (int)(this.xpOrbHealth - var2);
+      this.xpOrbHealth = (int)(this.xpOrbHealth - amount);
       if (this.xpOrbHealth <= 0) {
          this.setDead();
       }
@@ -159,26 +159,26 @@ public class EntityXPOrb extends Entity {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      var1.setShort("Health", (byte)this.xpOrbHealth);
-      var1.setShort("Age", (short)this.xpOrbAge);
-      var1.setShort("Value", (short)this.xpValue);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      tagCompound.setShort("Health", (byte)this.xpOrbHealth);
+      tagCompound.setShort("Age", (short)this.xpOrbAge);
+      tagCompound.setShort("Value", (short)this.xpValue);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      this.xpOrbHealth = var1.getShort("Health") & 255;
-      this.xpOrbAge = var1.getShort("Age");
-      this.xpValue = var1.getShort("Value");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      this.xpOrbHealth = tagCompund.getShort("Health") & 255;
+      this.xpOrbAge = tagCompund.getShort("Age");
+      this.xpValue = tagCompund.getShort("Value");
    }
 
    @Override
-   public void onCollideWithPlayer(EntityPlayer var1) {
-      if (!this.worldObj.isRemote && this.delayBeforeCanPickup == 0 && var1.xpCooldown == 0) {
-         var1.xpCooldown = 2;
-         this.worldObj.playSoundAtEntity(var1, "random.orb", 0.1F, 0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
-         var1.onItemPickup(this, 1);
-         var1.addExperience(this.xpValue);
+   public void onCollideWithPlayer(EntityPlayer entityIn) {
+      if (!this.worldObj.isRemote && this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0) {
+         entityIn.xpCooldown = 2;
+         this.worldObj.playSoundAtEntity(entityIn, "random.orb", 0.1F, 0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
+         entityIn.onItemPickup(this, 1);
+         entityIn.addExperience(this.xpValue);
          this.setDead();
       }
    }
@@ -213,19 +213,23 @@ public class EntityXPOrb extends Entity {
          );
    }
 
-   public static int getXPSplit(int var0) {
-      return var0 >= 2477
+   public static int getXPSplit(int expValue) {
+      return expValue >= 2477
          ? 2477
          : (
-            var0 >= 1237
+            expValue >= 1237
                ? 1237
                : (
-                  var0 >= 617
+                  expValue >= 617
                      ? 617
                      : (
-                        var0 >= 307
+                        expValue >= 307
                            ? 307
-                           : (var0 >= 149 ? 149 : (var0 >= 73 ? 73 : (var0 >= 37 ? 37 : (var0 >= 17 ? 17 : (var0 >= 7 ? 7 : (var0 >= 3 ? 3 : 1))))))
+                           : (
+                              expValue >= 149
+                                 ? 149
+                                 : (expValue >= 73 ? 73 : (expValue >= 37 ? 37 : (expValue >= 17 ? 17 : (expValue >= 7 ? 7 : (expValue >= 3 ? 3 : 1)))))
+                           )
                      )
                )
          );

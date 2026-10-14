@@ -13,55 +13,57 @@ public class TexturedQuad {
    private boolean invertNormal;
    private static final long a = 55687692980217L;
 
-   public TexturedQuad(PositionTextureVertex[] var1) {
-      this.vertexPositions = var1;
-      this.nVertices = var1.length;
+   public TexturedQuad(PositionTextureVertex[] vertices) {
+      this.vertexPositions = vertices;
+      this.nVertices = vertices.length;
    }
 
-   public TexturedQuad(PositionTextureVertex[] var1, int var2, int var3, int var4, int var5, float var6, float var7) {
-      this(var1);
-      float var8 = 0.0F / var6;
-      float var9 = 0.0F / var7;
-      var1[0] = var1[0].setTexturePosition(var4 / var6 - var8, var3 / var7 + var9);
-      var1[1] = var1[1].setTexturePosition(var2 / var6 + var8, var3 / var7 + var9);
-      var1[2] = var1[2].setTexturePosition(var2 / var6 + var8, var5 / var7 - var9);
-      var1[3] = var1[3].setTexturePosition(var4 / var6 - var8, var5 / var7 - var9);
+   public TexturedQuad(
+      PositionTextureVertex[] vertices, int texcoordU1, int texcoordV1, int texcoordU2, int texcoordV2, float textureWidth, float textureHeight
+   ) {
+      this(vertices);
+      float f = 0.0F / textureWidth;
+      float g = 0.0F / textureHeight;
+      vertices[0] = vertices[0].setTexturePosition(texcoordU2 / textureWidth - f, texcoordV1 / textureHeight + g);
+      vertices[1] = vertices[1].setTexturePosition(texcoordU1 / textureWidth + f, texcoordV1 / textureHeight + g);
+      vertices[2] = vertices[2].setTexturePosition(texcoordU1 / textureWidth + f, texcoordV2 / textureHeight - g);
+      vertices[3] = vertices[3].setTexturePosition(texcoordU2 / textureWidth - f, texcoordV2 / textureHeight - g);
    }
 
    public void flipFace() {
-      PositionTextureVertex[] var3 = new PositionTextureVertex[this.vertexPositions.length];
+      PositionTextureVertex[] positionTextureVertexs = new PositionTextureVertex[this.vertexPositions.length];
 
-      for (int var4 = 0; var4 < this.vertexPositions.length; var4++) {
-         var3[var4] = this.vertexPositions[this.vertexPositions.length - var4 - 1];
+      for (int i = 0; i < this.vertexPositions.length; i++) {
+         positionTextureVertexs[i] = this.vertexPositions[this.vertexPositions.length - i - 1];
       }
 
-      this.vertexPositions = var3;
+      this.vertexPositions = positionTextureVertexs;
    }
 
-   public void draw(WorldRenderer var1, float var2) {
-      Vec3 var6 = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[0].vector3D);
-      Vec3 var7 = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[2].vector3D);
-      Vec3 var8 = var7.crossProduct(var6).normalize();
-      float var9 = (float)var8.xCoord;
-      float var10 = (float)var8.yCoord;
-      float var11 = (float)var8.zCoord;
+   public void draw(WorldRenderer renderer, float scale) {
+      Vec3 vec3 = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[0].vector3D);
+      Vec3 vec32 = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[2].vector3D);
+      Vec3 vec33 = vec32.crossProduct(vec3).normalize();
+      float f = (float)vec33.xCoord;
+      float g = (float)vec33.yCoord;
+      float h = (float)vec33.zCoord;
       if (this.invertNormal) {
-         var9 = -var9;
-         var10 = -var10;
-         var11 = -var11;
+         f = -f;
+         g = -g;
+         h = -h;
       }
 
       if (Config.isShaders()) {
-         var1.begin(7, SVertexFormat.defVertexFormatTextured);
+         renderer.begin(7, SVertexFormat.defVertexFormatTextured);
       } else {
-         var1.begin(7, DefaultVertexFormats.b);
+         renderer.begin(7, DefaultVertexFormats.b);
       }
 
-      for (int var12 = 0; var12 < 4; var12++) {
-         PositionTextureVertex var13 = this.vertexPositions[var12];
-         var1.pos(var13.vector3D.xCoord * var2, var13.vector3D.yCoord * var2, var13.vector3D.zCoord * var2)
-            .tex(var13.texturePositionX, var13.texturePositionY)
-            .normal(var9, var10, var11)
+      for (int i = 0; i < 4; i++) {
+         PositionTextureVertex positionTextureVertex = this.vertexPositions[i];
+         renderer.pos(positionTextureVertex.vector3D.xCoord * scale, positionTextureVertex.vector3D.yCoord * scale, positionTextureVertex.vector3D.zCoord * scale)
+            .tex(positionTextureVertex.texturePositionX, positionTextureVertex.texturePositionY)
+            .normal(f, g, h)
             .endVertex();
       }
 

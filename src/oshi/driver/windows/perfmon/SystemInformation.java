@@ -12,8 +12,8 @@ public final class SystemInformation {
    }
 
    public static Map<SystemInformation.ContextSwitchProperty, Long> queryContextSwitchCounters() {
-      PerfCounterQuery var2 = new PerfCounterQuery<>(SystemInformation.ContextSwitchProperty.class, "System", "Win32_PerfRawData_PerfOS_System");
-      return var2.queryValues();
+      PerfCounterQuery perfCounterQuery = new PerfCounterQuery<>(SystemInformation.ContextSwitchProperty.class, "System", "Win32_PerfRawData_PerfOS_System");
+      return perfCounterQuery.queryValues();
    }
 
    public enum ContextSwitchProperty implements PerfCounterQuery.PdhCounterProperty {
@@ -22,9 +22,9 @@ public final class SystemInformation {
       private final String instance;
       private final String counter;
 
-      ContextSwitchProperty(String var3, String var4) {
-         this.instance = var3;
-         this.counter = var4;
+      ContextSwitchProperty(String instance, String counter) {
+         this.instance = instance;
+         this.counter = counter;
       }
 
       @Override

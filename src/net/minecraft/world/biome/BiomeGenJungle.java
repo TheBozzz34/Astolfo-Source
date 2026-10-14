@@ -34,10 +34,10 @@ public class BiomeGenJungle extends BiomeGenBase {
       .withProperty(BlockLeaves.CHECK_DECAY, false);
    private static final long bb = 127646850488105L;
 
-   public BiomeGenJungle(int var1, boolean var2) {
-      super(var1);
-      this.field_150614_aC = var2;
-      if (var2) {
+   public BiomeGenJungle(int id, boolean bl) {
+      super(id);
+      this.field_150614_aC = bl;
+      if (bl) {
          this.theBiomeDecorator.treesPerChunk = 2;
       } else {
          this.theBiomeDecorator.treesPerChunk = 50;
@@ -45,7 +45,7 @@ public class BiomeGenJungle extends BiomeGenBase {
 
       this.theBiomeDecorator.grassPerChunk = 25;
       this.theBiomeDecorator.flowersPerChunk = 4;
-      if (!var2) {
+      if (!bl) {
          this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityOcelot.class, 2, 1, 1));
       }
 
@@ -53,38 +53,38 @@ public class BiomeGenJungle extends BiomeGenBase {
    }
 
    @Override
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
-      return var1.nextInt(10) == 0
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
+      return rand.nextInt(10) == 0
          ? this.worldGeneratorBigTree
          : (
-            var1.nextInt(2) == 0
+            rand.nextInt(2) == 0
                ? new WorldGenShrub(field_181620_aE, field_181622_aG)
                : (
-                  !this.field_150614_aC && var1.nextInt(3) == 0
+                  !this.field_150614_aC && rand.nextInt(3) == 0
                      ? new WorldGenMegaJungle(false, 10, 20, field_181620_aE, field_181621_aF)
-                     : new WorldGenTrees(false, 4 + var1.nextInt(7), field_181620_aE, field_181621_aF, true)
+                     : new WorldGenTrees(false, 4 + rand.nextInt(7), field_181620_aE, field_181621_aF, true)
                )
          );
    }
 
    @Override
-   public WorldGenerator getRandomWorldGenForGrass(Random var1) {
-      return var1.nextInt(4) == 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
+   public WorldGenerator getRandomWorldGenForGrass(Random rand) {
+      return rand.nextInt(4) == 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
-      super.decorate(var1, var2, var3);
-      int var7 = var2.nextInt(16) + 8;
-      int var8 = var2.nextInt(16) + 8;
-      int var9 = var2.nextInt(var1.getHeight(var3.add(var7, 0, var8)).getY() * 2);
-      new WorldGenMelon().generate(var1, var2, var3.add(var7, var9, var8));
-      WorldGenVines var10 = new WorldGenVines();
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
+      super.decorate(worldIn, rand, pos);
+      int i = rand.nextInt(16) + 8;
+      int j = rand.nextInt(16) + 8;
+      int k = rand.nextInt(worldIn.getHeight(pos.add(i, 0, j)).getY() * 2);
+      new WorldGenMelon().generate(worldIn, rand, pos.add(i, k, j));
+      WorldGenVines worldGenVines = new WorldGenVines();
 
-      for (int var13 = 0; var13 < 50; var13++) {
-         var9 = var2.nextInt(16) + 8;
-         int var12 = var2.nextInt(16) + 8;
-         var10.generate(var1, var2, var3.add(var9, 128, var12));
+      for (int l = 0; l < 50; l++) {
+         k = rand.nextInt(16) + 8;
+         int m = rand.nextInt(16) + 8;
+         worldGenVines.generate(worldIn, rand, pos.add(k, 128, m));
       }
    }
 }

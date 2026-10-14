@@ -13,41 +13,41 @@ public class RenderWitherSkull extends Render<EntityWitherSkull> {
    private final ModelSkeletonHead skeletonHeadModel = new ModelSkeletonHead();
    private static final long a = 113568273568508L;
 
-   public RenderWitherSkull(RenderManager var1) {
-      super(var1);
+   public RenderWitherSkull(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
-   private float func_82400_a(float var1, float var2, float var3) {
-      float var7 = var2 - var1;
+   private float func_82400_a(float f, float g, float h) {
+      float f2 = g - f;
 
-      while (var7 < -180.0F) {
-         var7 += 360.0F;
+      while (f2 < -180.0F) {
+         f2 += 360.0F;
       }
 
-      while (var7 >= 180.0F) {
-         var7 -= 360.0F;
+      while (f2 >= 180.0F) {
+         f2 -= 360.0F;
       }
 
-      return var1 + var3 * var7;
+      return f + h * f2;
    }
 
-   public void doRender(EntityWitherSkull var1, double var2, double var4, double var6, float var8, float var9) {
+   public void doRender(EntityWitherSkull entity, double x, double y, double z, float entityYaw, float partialTicks) {
       GlStateManager.pushMatrix();
       GlStateManager.disableCull();
-      float var10 = this.func_82400_a(var1.prevRotationYaw, var1.rotationYaw, var9);
-      float var11 = var1.prevRotationPitch + (var1.rotationPitch - var1.prevRotationPitch) * var9;
-      GlStateManager.translate((float)var2, (float)var4, (float)var6);
-      float var12 = 0.0625F;
+      float f = this.func_82400_a(entity.prevRotationYaw, entity.rotationYaw, partialTicks);
+      float g = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
+      GlStateManager.translate((float)x, (float)y, (float)z);
+      float h = 0.0625F;
       GlStateManager.enableRescaleNormal();
       GlStateManager.scale(-1.0F, -1.0F, 1.0F);
       GlStateManager.enableAlpha();
-      this.bindEntityTexture(var1);
-      this.skeletonHeadModel.render(var1, 0.0F, 0.0F, 0.0F, var10, var11, var12);
+      this.bindEntityTexture(entity);
+      this.skeletonHeadModel.render(entity, 0.0F, 0.0F, 0.0F, f, g, h);
       GlStateManager.popMatrix();
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityWitherSkull var1) {
-      return var1.isInvulnerable() ? invulnerableWitherTextures : witherTextures;
+   public ResourceLocation getEntityTexture(EntityWitherSkull entity) {
+      return entity.isInvulnerable() ? invulnerableWitherTextures : witherTextures;
    }
 }

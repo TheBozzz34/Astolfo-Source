@@ -16,18 +16,18 @@ public final class Reach extends Module {
    private final NumberSetting<Double> maxBlocks = new NumberSetting<>("Max-Blocks", "Randomizes reach on hit", 3.65, 3.0, 6.0);
    public double s;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
       if (mc.thePlayer.swingProgressInt == 3) {
          this.s = RandomUtils.nextDouble(this.minBlocks.asDouble(), this.maxBlocks.asDouble());
       }
    };
    @EventHandler(ReachEvent.class)
-   private Listener<ReachEvent> onReach = var1x -> var1x.setReach(this.s);
+   private Listener<ReachEvent> onReach = reachEvent -> reachEvent.setReach(this.s);
    private static final long c = 17216868200059L;
 
-   public Reach(Category var1) {
-      super(var1);
+   public Reach(Category category) {
+      super(category);
       this.addSettings(this.minBlocks, this.maxBlocks);
    }
 

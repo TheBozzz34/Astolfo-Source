@@ -13,11 +13,11 @@ public class Session {
    private final Session.Type sessionType;
    private static final long a = 4815386971131L;
 
-   public Session(String var1, String var2, String var3, String var4) {
-      this.username = var1;
-      this.playerID = var2;
-      this.token = var3;
-      this.sessionType = Session.Type.setSessionType(var4);
+   public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn) {
+      this.username = usernameIn;
+      this.playerID = playerIDIn;
+      this.token = tokenIn;
+      this.sessionType = Session.Type.setSessionType(sessionTypeIn);
    }
 
    public String getSessionID() {
@@ -38,9 +38,9 @@ public class Session {
 
    public GameProfile getProfile() {
       try {
-         UUID var1 = UUIDTypeAdapter.fromString(this.getPlayerID());
-         return new GameProfile(var1, this.getUsername());
-      } catch (IllegalArgumentException var2) {
+         UUID uuid = UUIDTypeAdapter.fromString(this.getPlayerID());
+         return new GameProfile(uuid, this.getUsername());
+      } catch (IllegalArgumentException illegalArgumentException) {
          return new GameProfile((UUID)null, this.getUsername());
       }
    }
@@ -56,17 +56,17 @@ public class Session {
       private static final Map<String, Session.Type> SESSION_TYPES = Maps.newHashMap();
       private final String sessionType;
 
-      Type(String var3) {
-         this.sessionType = var3;
+      Type(String sessionTypeIn) {
+         this.sessionType = sessionTypeIn;
       }
 
-      public static Session.Type setSessionType(String var0) {
-         return SESSION_TYPES.get(var0.toLowerCase());
+      public static Session.Type setSessionType(String sessionTypeIn) {
+         return SESSION_TYPES.get(sessionTypeIn.toLowerCase());
       }
 
       static {
-         for (Session.Type var14 : values()) {
-            SESSION_TYPES.put(var14.sessionType, var14);
+         for (Session.Type type : values()) {
+            SESSION_TYPES.put(type.sessionType, type);
          }
       }
    }

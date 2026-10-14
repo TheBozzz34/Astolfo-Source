@@ -5,7 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 
 public interface IInteractionObject extends IWorldNameable {
-   Container createContainer(InventoryPlayer var1, EntityPlayer var2);
+   Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn);
 
    String getGuiID();
 }

@@ -17,8 +17,8 @@ public final class GUI extends Module {
    private static final long c = 80246500206791L;
    private static final long e = 4290029586848153654L;
 
-   public GUI(Category var1) {
-      super(var1);
+   public GUI(Category category) {
+      super(category);
       this.setKey((int)e);
    }
 

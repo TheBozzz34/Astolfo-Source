@@ -16,8 +16,8 @@ public enum PacketId {
 
    private final short R;
 
-   PacketId(short var3) {
-      this.R = var3;
+   PacketId(short s) {
+      this.R = s;
    }
 
    public short getId() {

@@ -17,62 +17,62 @@ public class FinalKillTracker {
    public static HashMap<Integer, Integer> teamFinals = new HashMap<>();
    public static HashMap<String, Integer> playerFinals = new HashMap<>();
 
-   public static void setGame(String var0) {
-      if (!Objects.equals(var0, game)) {
+   public static void setGame(String string) {
+      if (!Objects.equals(string, game)) {
          teamFinals.clear();
          playerFinals.clear();
-         game = var0;
+         game = string;
       }
    }
 
    public static void K() {
    }
 
-   public static HashMap<String, Integer> N(int var0) {
+   public static HashMap<String, Integer> N(int j) {
       return new HashMap<>();
    }
 
-   private static boolean d(String var0) {
-      return !ScoreboardTracker.N.O(var0);
+   private static boolean d(String string) {
+      return !ScoreboardTracker.N.O(string);
    }
 
-   public static int getTeamFinals(int var0) {
-      Integer var1 = teamFinals.get(var0);
-      return var1 != null ? var1 : 0;
+   public static int getTeamFinals(int j) {
+      Integer integer = teamFinals.get(j);
+      return integer != null ? integer : 0;
    }
 
-   public static boolean onChatMessage(String var0, String var1) {
+   public static boolean onChatMessage(String string, String string2) {
       if (ScoreboardTracker.r() && !ScoreboardTracker.N.K() && !ScoreboardTracker.N.G()) {
-         if (var0.contains("by ") && var0.endsWith("§r")) {
-            String[] var2 = var0.split("by ");
+         if (string.contains("by ") && string.endsWith("§r")) {
+            String[] strings = string.split("by ");
             System.out.println("Found kill");
-            if (var2.length > 1) {
-               String[] var3 = var0.split(" ");
-               if (var3.length >= 1) {
-                  String var4 = var3[0].replace("§r", "").split("'")[0];
-                  String var5 = var4.substring(0, 2);
-                  if (d(var5)) {
-                     String var6 = var2[1].replace("§r", "");
-                     String var7 = var6.substring(0, 2);
-                     int var8 = teamIndex(var7);
-                     if (var8 != -1) {
-                        String var9 = var1.split("by ")[1];
-                        String var10 = StringUtils.stripControlCodes(var4);
-                        Integer var11 = playerFinals.get(var10);
-                        int var12 = playerFinals.containsKey(var9) ? playerFinals.get(var9) : 0;
-                        int var13 = teamFinals.containsKey(var8) ? teamFinals.get(var8) : 0;
-                        if (var11 == null) {
-                           playerFinals.put(var9, var12 + 1);
-                           teamFinals.put(var8, var13 + 1);
+            if (strings.length > 1) {
+               String[] strings2 = string.split(" ");
+               if (strings2.length >= 1) {
+                  String string3 = strings2[0].replace("§r", "").split("'")[0];
+                  String string4 = string3.substring(0, 2);
+                  if (d(string4)) {
+                     String string5 = strings[1].replace("§r", "");
+                     String string6 = string5.substring(0, 2);
+                     int i = teamIndex(string6);
+                     if (i != -1) {
+                        String string7 = string2.split("by ")[1];
+                        String string8 = StringUtils.stripControlCodes(string3);
+                        Integer integer = playerFinals.get(string8);
+                        int j = playerFinals.containsKey(string7) ? playerFinals.get(string7) : 0;
+                        int k = teamFinals.containsKey(i) ? teamFinals.get(i) : 0;
+                        if (integer == null) {
+                           playerFinals.put(string7, j + 1);
+                           teamFinals.put(i, k + 1);
                            return true;
                         }
 
-                        int var14 = teamIndex(var5);
-                        if (var14 != -1) {
-                           playerFinals.put(var9, var12 + var11 + 1);
-                           int var15 = teamFinals.containsKey(var14) ? teamFinals.get(var14) : 0;
-                           teamFinals.put(var14, Math.max(var15 - var11, 0));
-                           teamFinals.put(var8, var13 + var11 + 1);
+                        int l = teamIndex(string4);
+                        if (l != -1) {
+                           playerFinals.put(string7, j + integer + 1);
+                           int m = teamFinals.containsKey(l) ? teamFinals.get(l) : 0;
+                           teamFinals.put(l, Math.max(m - integer, 0));
+                           teamFinals.put(i, k + integer + 1);
                            return true;
                         }
                      }
@@ -87,8 +87,8 @@ public class FinalKillTracker {
       }
    }
 
-   private static int teamIndex(String var0) {
-      switch (var0) {
+   private static int teamIndex(String string) {
+      switch (string) {
          case "§c":
             return 0;
          case "§a":

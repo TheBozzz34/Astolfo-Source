@@ -13,20 +13,20 @@ public abstract class WorldGenerator {
       this(false);
    }
 
-   public WorldGenerator(boolean var1) {
-      this.doBlockNotify = var1;
+   public WorldGenerator(boolean notify) {
+      this.doBlockNotify = notify;
    }
 
-   public abstract boolean generate(World var1, Random var2, BlockPos var3);
+   public abstract boolean generate(World worldIn, Random rand, BlockPos position);
 
    public void func_175904_e() {
    }
 
-   public void setBlockAndNotifyAdequately(World var1, BlockPos var2, IBlockState var3) {
+   public void setBlockAndNotifyAdequately(World worldIn, BlockPos pos, IBlockState state) {
       if (this.doBlockNotify) {
-         var1.setBlockState(var2, var3, 3);
+         worldIn.setBlockState(pos, state, 3);
       } else {
-         var1.setBlockState(var2, var3, 2);
+         worldIn.setBlockState(pos, state, 2);
       }
    }
 }

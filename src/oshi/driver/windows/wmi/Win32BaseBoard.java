@@ -13,8 +13,8 @@ public final class Win32BaseBoard {
    }
 
    public static WmiResult<Win32BaseBoard.BaseBoardProperty> queryBaseboardInfo() {
-      WmiQuery var2 = new WmiQuery<>("Win32_BaseBoard", Win32BaseBoard.BaseBoardProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_BaseBoard", Win32BaseBoard.BaseBoardProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum BaseBoardProperty {

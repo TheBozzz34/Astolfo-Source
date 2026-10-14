@@ -12,13 +12,13 @@ public class DisconnectHandler implements ConnectionListener, ClientAccess {
    public static boolean disconnected;
    private static final long b = 20256675810443L;
 
-   private static void handleDisconnect(NioConnection var0) {
-      long var1 = b ^ 21073478651130L;
-      long var3 = var1 ^ 113367983521931L;
+   private static void handleDisconnect(NioConnection nioConnection) {
+      long l = b ^ 21073478651130L;
+      long m = l ^ 113367983521931L;
 
       try {
-         var0.close();
-      } catch (IOException var7) {
+         nioConnection.close();
+      } catch (IOException ioException) {
       }
 
       mc.mouseHelper.Y().getEndpoint().E(null);
@@ -31,12 +31,12 @@ public class DisconnectHandler implements ConnectionListener, ClientAccess {
    }
 
    @Override
-   public void onClose(NioConnection var1, String var2) {
-      handleDisconnect(var1);
+   public void onClose(NioConnection nioConnection, String string) {
+      handleDisconnect(nioConnection);
    }
 
    @Override
-   public void onError(NioConnection var1, String var2, Exception var3) {
-      handleDisconnect(var1);
+   public void onError(NioConnection nioConnection, String string, Exception exception) {
+      handleDisconnect(nioConnection);
    }
 }

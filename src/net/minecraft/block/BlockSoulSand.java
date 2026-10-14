@@ -20,18 +20,18 @@ public class BlockSoulSand extends Block {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      float var4 = 0.125F;
-      return new AxisAlignedBB(var2.getX(), var2.getY(), var2.getZ(), var2.getX() + 1, var2.getY() + 1 - var4, var2.getZ() + 1);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      float f = 0.125F;
+      return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1 - f, pos.getZ() + 1);
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      long var5 = e ^ 95524182448853L;
-      long var7 = var5 ^ 137486825848261L;
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      long l = e ^ 95524182448853L;
+      long m = l ^ 137486825848261L;
       if (!Astolfo.INSTANCE.getModuleManager().get(NoSlow.class).isEnabled() || !NoSlow.soulSand.getValue()) {
-         var4.motionX *= 0.4;
-         var4.motionZ *= 0.4;
+         entityIn.motionX *= 0.4;
+         entityIn.motionZ *= 0.4;
       }
    }
 }

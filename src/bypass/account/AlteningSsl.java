@@ -20,26 +20,26 @@ public class AlteningSsl {
    }
 
    private void i() {
-      TrustManager[] var3 = new TrustManager[]{new AlteningSsl.alr()};
+      TrustManager[] trustManagers = new TrustManager[]{new AlteningSsl.alr()};
 
       try {
-         SSLContext var4 = SSLContext.getInstance("SSL");
-         var4.init(null, var3, new SecureRandom());
-         HttpsURLConnection.setDefaultSSLSocketFactory(var4.getSocketFactory());
-      } catch (Exception var5) {
+         SSLContext sslContext = SSLContext.getInstance("SSL");
+         sslContext.init(null, trustManagers, new SecureRandom());
+         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+      } catch (Exception exception) {
       }
    }
 
    private void whitelistTheAltening() {
-      HttpsURLConnection.setDefaultHostnameVerifier((var0, var1) -> var0.equals("authserver.thealtening.com") || var0.equals("sessionserver.thealtening.com"));
+      HttpsURLConnection.setDefaultHostnameVerifier((string, sslSession) -> string.equals("authserver.thealtening.com") || string.equals("sessionserver.thealtening.com"));
    }
 
    public boolean A() {
       return this.R;
    }
 
-   public void m(boolean var1) {
-      this.R = var1;
+   public void m(boolean bl) {
+      this.R = bl;
    }
 
    public class alr implements X509TrustManager {
@@ -49,11 +49,11 @@ public class AlteningSsl {
       }
 
       @Override
-      public void checkClientTrusted(X509Certificate[] var1, String var2) {
+      public void checkClientTrusted(X509Certificate[] x509Certificates, String string) {
       }
 
       @Override
-      public void checkServerTrusted(X509Certificate[] var1, String var2) {
+      public void checkServerTrusted(X509Certificate[] x509Certificates, String string) {
       }
    }
 }

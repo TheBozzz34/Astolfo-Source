@@ -8,20 +8,20 @@ public class FieldSetter {
    private static final long a = 35121540462273L;
    private static final long c = -6896822431961317393L;
 
-   public FieldSetter(String var1) {
+   public FieldSetter(String string) {
       try {
-         this.P = Class.forName(var1);
-      } catch (ClassNotFoundException var3) {
-         var3.printStackTrace();
+         this.P = Class.forName(string);
+      } catch (ClassNotFoundException classNotFoundException) {
+         classNotFoundException.printStackTrace();
       }
    }
 
-   public void k(String var1, Object var2) throws NoSuchFieldException, IllegalAccessException {
-      Field var7 = this.P.getDeclaredField(var1);
-      var7.setAccessible(true);
-      Field var8 = Field.class.getDeclaredField("modifiers");
-      var8.setAccessible(true);
-      var8.setInt(var7, var7.getModifiers() & (int)c);
-      var7.set(null, var2);
+   public void k(String string, Object object) throws NoSuchFieldException, IllegalAccessException {
+      Field field = this.P.getDeclaredField(string);
+      field.setAccessible(true);
+      Field field2 = Field.class.getDeclaredField("modifiers");
+      field2.setAccessible(true);
+      field2.setInt(field, field.getModifiers() & (int)c);
+      field.set(null, object);
    }
 }

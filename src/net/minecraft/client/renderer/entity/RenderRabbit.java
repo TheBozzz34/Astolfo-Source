@@ -16,17 +16,17 @@ public class RenderRabbit extends RenderLiving<EntityRabbit> {
    private static final ResourceLocation CAERBANNOG = new ResourceLocation("textures/entity/rabbit/caerbannog.png");
    private static final long d = 100208880865131L;
 
-   public RenderRabbit(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderRabbit(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
    }
 
-   public ResourceLocation getEntityTexture(EntityRabbit var1) {
-      String var5 = EnumChatFormatting.getTextWithoutFormattingCodes(var1.getName());
-      if (var5 != null && var5.equals("Toast")) {
+   public ResourceLocation getEntityTexture(EntityRabbit entity) {
+      String string = EnumChatFormatting.getTextWithoutFormattingCodes(entity.getName());
+      if (string != null && string.equals("Toast")) {
          return TOAST;
       }
 
-      switch (var1.getRabbitType()) {
+      switch (entity.getRabbitType()) {
          case 0:
          default:
             return BROWN;

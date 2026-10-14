@@ -4,33 +4,33 @@ import java.io.IOException;
 
 public class DefaultFileReceiverListener implements FileReceiverListener {
    @Override
-   public void C(FileReceiver var1, String var2, Exception var3) {
-      var3.printStackTrace();
+   public void C(FileReceiver fileReceiver, String string, Exception exception) {
+      exception.printStackTrace();
 
       try {
-         var1.close();
-      } catch (IOException var5) {
-         var5.printStackTrace();
+         fileReceiver.close();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
    @Override
-   public void b(FileReceiver var1, String var2, FileReceiveSession var3) {
+   public void b(FileReceiver fileReceiver, String string, FileReceiveSession fileReceiveSession) {
       try {
-         var3.close();
-      } catch (IOException var5) {
-         var5.printStackTrace();
+         fileReceiveSession.close();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
    @Override
-   public void q(FileReceiver var1, String var2, Exception var3, FileReceiveSession var4) {
-      var3.printStackTrace();
+   public void q(FileReceiver fileReceiver, String string, Exception exception, FileReceiveSession fileReceiveSession) {
+      exception.printStackTrace();
 
       try {
-         var4.close();
-      } catch (IOException var6) {
-         var6.printStackTrace();
+         fileReceiveSession.close();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 }

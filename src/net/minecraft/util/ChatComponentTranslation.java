@@ -18,117 +18,117 @@ public class ChatComponentTranslation extends ChatComponentStyle {
    public static final Pattern stringVariablePattern = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
    private static final long a = 82059539470389L;
 
-   public ChatComponentTranslation(String var1, Object... var2) {
-      this.key = var1;
-      this.formatArgs = var2;
+   public ChatComponentTranslation(String translationKey, Object... args) {
+      this.key = translationKey;
+      this.formatArgs = args;
 
-      for (Object var8 : var2) {
-         if (var8 instanceof IChatComponent) {
-            ((IChatComponent)var8).getChatStyle().setParentStyle(this.getChatStyle());
+      for (Object object : args) {
+         if (object instanceof IChatComponent) {
+            ((IChatComponent)object).getChatStyle().setParentStyle(this.getChatStyle());
          }
       }
    }
 
    public synchronized void ensureInitialized() {
       synchronized (this.syncLock) {
-         long var5 = StatCollector.getLastTranslationUpdateTimeInMilliseconds();
-         if (var5 == this.lastTranslationUpdateTimeInMilliseconds) {
+         long l = StatCollector.getLastTranslationUpdateTimeInMilliseconds();
+         if (l == this.lastTranslationUpdateTimeInMilliseconds) {
             return;
          }
 
-         this.lastTranslationUpdateTimeInMilliseconds = var5;
+         this.lastTranslationUpdateTimeInMilliseconds = l;
          this.children.clear();
       }
 
       try {
          this.initializeFromFormat(StatCollector.translateToLocal(this.key));
-      } catch (ChatComponentTranslationFormatException var9) {
+      } catch (ChatComponentTranslationFormatException chatComponentTranslationFormatException) {
          this.children.clear();
 
          try {
             this.initializeFromFormat(StatCollector.translateToFallback(this.key));
-         } catch (ChatComponentTranslationFormatException var8) {
-            throw var9;
+         } catch (ChatComponentTranslationFormatException chatComponentTranslationFormatException2) {
+            throw chatComponentTranslationFormatException;
          }
       }
    }
 
-   public void initializeFromFormat(String var1) {
-      Matcher var6 = stringVariablePattern.matcher(var1);
-      int var7 = 0;
-      int var8 = 0;
+   public void initializeFromFormat(String formatIn) {
+      Matcher matcher2 = stringVariablePattern.matcher(formatIn);
+      int i = 0;
+      int j = 0;
 
       try {
-         while (var6.find(var8)) {
-            int var10 = var6.start();
-            int var9 = var6.end();
-            if (var10 > var8) {
-               ChatComponentText var11 = new ChatComponentText(String.format(var1.substring(var8, var10)));
-               var11.getChatStyle().setParentStyle(this.getChatStyle());
-               this.children.add(var11);
+         while (matcher2.find(j)) {
+            int k = matcher2.start();
+            int l = matcher2.end();
+            if (k > j) {
+               ChatComponentText chatComponentText = new ChatComponentText(String.format(formatIn.substring(j, k)));
+               chatComponentText.getChatStyle().setParentStyle(this.getChatStyle());
+               this.children.add(chatComponentText);
             }
 
-            String var17 = var6.group(2);
-            String var12 = var1.substring(var10, var9);
-            if ("%".equals(var17) && "%%".equals(var12)) {
-               ChatComponentText var18 = new ChatComponentText("%");
-               var18.getChatStyle().setParentStyle(this.getChatStyle());
-               this.children.add(var18);
+            String string = matcher2.group(2);
+            String string2 = formatIn.substring(k, l);
+            if ("%".equals(string) && "%%".equals(string2)) {
+               ChatComponentText chatComponentText2 = new ChatComponentText("%");
+               chatComponentText2.getChatStyle().setParentStyle(this.getChatStyle());
+               this.children.add(chatComponentText2);
             } else {
-               if (!"s".equals(var17)) {
-                  throw new ChatComponentTranslationFormatException(this, "Unsupported format: '" + var12 + "'");
+               if (!"s".equals(string)) {
+                  throw new ChatComponentTranslationFormatException(this, "Unsupported format: '" + string2 + "'");
                }
 
-               String var13 = var6.group(1);
-               int var14 = var13 != null ? Integer.parseInt(var13) - 1 : var7++;
-               if (var14 < this.formatArgs.length) {
-                  this.children.add(this.getFormatArgumentAsComponent(var14));
+               String string3 = matcher2.group(1);
+               int m = string3 != null ? Integer.parseInt(string3) - 1 : i++;
+               if (m < this.formatArgs.length) {
+                  this.children.add(this.getFormatArgumentAsComponent(m));
                }
             }
 
-            var8 = var9;
+            j = l;
          }
 
-         if (var8 < var1.length()) {
-            ChatComponentText var16 = new ChatComponentText(String.format(var1.substring(var8)));
-            var16.getChatStyle().setParentStyle(this.getChatStyle());
-            this.children.add(var16);
+         if (j < formatIn.length()) {
+            ChatComponentText chatComponentText3 = new ChatComponentText(String.format(formatIn.substring(j)));
+            chatComponentText3.getChatStyle().setParentStyle(this.getChatStyle());
+            this.children.add(chatComponentText3);
          }
-      } catch (IllegalFormatException var15) {
-         throw new ChatComponentTranslationFormatException(this, var15);
+      } catch (IllegalFormatException illegalFormatException) {
+         throw new ChatComponentTranslationFormatException(this, illegalFormatException);
       }
    }
 
-   private IChatComponent getFormatArgumentAsComponent(int var1) {
-      if (var1 >= this.formatArgs.length) {
-         throw new ChatComponentTranslationFormatException(this, var1);
+   private IChatComponent getFormatArgumentAsComponent(int index) {
+      if (index >= this.formatArgs.length) {
+         throw new ChatComponentTranslationFormatException(this, index);
       }
 
-      Object var5 = this.formatArgs[var1];
-      IChatComponent var6;
-      if (var5 instanceof IChatComponent) {
-         var6 = (IChatComponent)var5;
+      Object object = this.formatArgs[index];
+      IChatComponent iChatComponent;
+      if (object instanceof IChatComponent) {
+         iChatComponent = (IChatComponent)object;
       } else {
-         var6 = new ChatComponentText(var5 == null ? "null" : var5.toString());
-         var6.getChatStyle().setParentStyle(this.getChatStyle());
+         iChatComponent = new ChatComponentText(object == null ? "null" : object.toString());
+         iChatComponent.getChatStyle().setParentStyle(this.getChatStyle());
       }
 
-      return var6;
+      return iChatComponent;
    }
 
    @Override
-   public IChatComponent setChatStyle(ChatStyle var1) {
-      super.setChatStyle(var1);
+   public IChatComponent setChatStyle(ChatStyle style) {
+      super.setChatStyle(style);
 
-      for (Object var8 : this.formatArgs) {
-         if (var8 instanceof IChatComponent) {
-            ((IChatComponent)var8).getChatStyle().setParentStyle(this.getChatStyle());
+      for (Object object : this.formatArgs) {
+         if (object instanceof IChatComponent) {
+            ((IChatComponent)object).getChatStyle().setParentStyle(this.getChatStyle());
          }
       }
 
       if (this.lastTranslationUpdateTimeInMilliseconds > -1L) {
-         for (IChatComponent var10 : this.children) {
-            var10.getChatStyle().setParentStyle(var1);
+         for (IChatComponent iChatComponent : this.children) {
+            iChatComponent.getChatStyle().setParentStyle(style);
          }
       }
 
@@ -144,55 +144,55 @@ public class ChatComponentTranslation extends ChatComponentStyle {
    @Override
    public String getUnformattedTextForChat() {
       this.ensureInitialized();
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (IChatComponent var6 : this.children) {
-         var4.append(var6.getUnformattedTextForChat());
+      for (IChatComponent iChatComponent : this.children) {
+         stringBuilder.append(iChatComponent.getUnformattedTextForChat());
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
    public ChatComponentTranslation createCopy() {
-      Object[] var4 = new Object[this.formatArgs.length];
+      Object[] objects = new Object[this.formatArgs.length];
 
-      for (int var5 = 0; var5 < this.formatArgs.length; var5++) {
-         if (this.formatArgs[var5] instanceof IChatComponent) {
-            var4[var5] = ((IChatComponent)this.formatArgs[var5]).createCopy();
+      for (int i = 0; i < this.formatArgs.length; i++) {
+         if (this.formatArgs[i] instanceof IChatComponent) {
+            objects[i] = ((IChatComponent)this.formatArgs[i]).createCopy();
          } else {
-            var4[var5] = this.formatArgs[var5];
+            objects[i] = this.formatArgs[i];
          }
       }
 
-      ChatComponentTranslation var8 = new ChatComponentTranslation(this.key, var4);
-      var8.setChatStyle(this.getChatStyle().createShallowCopy());
+      ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation(this.key, objects);
+      chatComponentTranslation.setChatStyle(this.getChatStyle().createShallowCopy());
 
-      for (IChatComponent var7 : this.getSiblings()) {
-         var8.appendSibling(var7.createCopy());
+      for (IChatComponent iChatComponent : this.getSiblings()) {
+         chatComponentTranslation.appendSibling(iChatComponent.createCopy());
       }
 
-      return var8;
+      return chatComponentTranslation;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ChatComponentTranslation)) {
+      if (!(object instanceof ChatComponentTranslation)) {
          return false;
       }
 
-      ChatComponentTranslation var5 = (ChatComponentTranslation)var1;
-      return Arrays.equals(this.formatArgs, var5.formatArgs) && this.key.equals(var5.key) && super.equals(var1);
+      ChatComponentTranslation chatComponentTranslation = (ChatComponentTranslation)object;
+      return Arrays.equals(this.formatArgs, chatComponentTranslation.formatArgs) && this.key.equals(chatComponentTranslation.key) && super.equals(object);
    }
 
    @Override
    public int hashCode() {
-      int var3 = super.hashCode();
-      var3 = 31 * var3 + this.key.hashCode();
-      return 31 * var3 + Arrays.hashCode(this.formatArgs);
+      int i = super.hashCode();
+      i = 31 * i + this.key.hashCode();
+      return 31 * i + Arrays.hashCode(this.formatArgs);
    }
 
    @Override

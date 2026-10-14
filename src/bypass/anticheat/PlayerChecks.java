@@ -12,15 +12,15 @@ public class PlayerChecks {
       this.w = new ArrayList<>((int)b);
    }
 
-   private void f(AbstractCheck var1) {
-      this.w.add(var1);
+   private void f(AbstractCheck abstractCheck) {
+      this.w.add(abstractCheck);
    }
 
-   public static List P(PlayerChecks var0) {
-      return var0.w;
+   public static List P(PlayerChecks playerChecks) {
+      return playerChecks.w;
    }
 
-   public static void p(PlayerChecks var0, AbstractCheck var1) {
-      var0.f(var1);
+   public static void p(PlayerChecks playerChecks, AbstractCheck abstractCheck) {
+      playerChecks.f(abstractCheck);
    }
 }

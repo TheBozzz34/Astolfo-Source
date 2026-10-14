@@ -14,28 +14,28 @@ public class S25PacketBlockBreakAnim implements Packet<INetHandlerPlayClient> {
    public S25PacketBlockBreakAnim() {
    }
 
-   public S25PacketBlockBreakAnim(int var1, BlockPos var2, int var3) {
-      this.breakerId = var1;
-      this.position = var2;
-      this.progress = var3;
+   public S25PacketBlockBreakAnim(int breakerId, BlockPos pos, int progress) {
+      this.breakerId = breakerId;
+      this.position = pos;
+      this.progress = progress;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.breakerId = var1.readVarIntFromBuffer();
-      this.position = var1.readBlockPos();
-      this.progress = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.breakerId = buf.readVarIntFromBuffer();
+      this.position = buf.readBlockPos();
+      this.progress = buf.readUnsignedByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.breakerId);
-      var1.writeBlockPos(this.position);
-      var1.writeByte(this.progress);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.breakerId);
+      buf.writeBlockPos(this.position);
+      buf.writeByte(this.progress);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleBlockBreakAnim(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleBlockBreakAnim(this);
    }
 
    public int getBreakerId() {

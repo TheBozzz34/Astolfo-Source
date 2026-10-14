@@ -10,16 +10,16 @@ public abstract class HudElement extends Component {
    private final NumberSetting<Float> scale = new NumberSetting<>("Scale", "Scale", 2.0F, 1.0F, 4.0F);
    private static final long c = 5493745151876L;
 
-   public HudElement(String var1, float var2, float var3, int var4, int var5) {
-      super(var1, var2, var3, var4, var5);
+   public HudElement(String string, float f, float g, int i, int j) {
+      super(string, f, g, i, j);
    }
 
    public boolean N() {
       return this.j;
    }
 
-   public void f(boolean var1) {
-      this.j = var1;
+   public void f(boolean bl) {
+      this.j = bl;
    }
 
    public NumberSetting<Float> getPosX() {

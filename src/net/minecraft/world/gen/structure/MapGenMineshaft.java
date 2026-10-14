@@ -17,21 +17,21 @@ public class MapGenMineshaft extends MapGenStructure {
       return "Mineshaft";
    }
 
-   public MapGenMineshaft(Map<String, String> var1) {
-      for (Entry var6 : var1.entrySet()) {
-         if (((String)var6.getKey()).equals("chance")) {
-            this.field_82673_e = MathHelper.parseDoubleWithDefault((String)var6.getValue(), this.field_82673_e);
+   public MapGenMineshaft(Map<String, String> map) {
+      for (Entry entry : map.entrySet()) {
+         if (((String)entry.getKey()).equals("chance")) {
+            this.field_82673_e = MathHelper.parseDoubleWithDefault((String)entry.getValue(), this.field_82673_e);
          }
       }
    }
 
    @Override
-   public boolean canSpawnStructureAtCoords(int var1, int var2) {
-      return this.rand.nextDouble() < this.field_82673_e && this.rand.nextInt((int)k) < Math.max(Math.abs(var1), Math.abs(var2));
+   public boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
+      return this.rand.nextDouble() < this.field_82673_e && this.rand.nextInt((int)k) < Math.max(Math.abs(chunkX), Math.abs(chunkZ));
    }
 
    @Override
-   public StructureStart getStructureStart(int var1, int var2) {
-      return new StructureMineshaftStart(this.worldObj, this.rand, var1, var2);
+   public StructureStart getStructureStart(int chunkX, int chunkZ) {
+      return new StructureMineshaftStart(this.worldObj, this.rand, chunkX, chunkZ);
    }
 }

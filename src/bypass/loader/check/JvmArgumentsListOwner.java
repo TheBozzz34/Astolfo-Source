@@ -6,8 +6,8 @@ public class JvmArgumentsListOwner {
    private final ListContainerOwner<String> F;
 
    public JvmArgumentsListOwner() {
-      JvmArgumentPatterns var1 = new JvmArgumentPatterns();
-      this.F = new ListContainerOwner<>(var1.N());
+      JvmArgumentPatterns jvmArgumentPatterns = new JvmArgumentPatterns();
+      this.F = new ListContainerOwner<>(jvmArgumentPatterns.N());
    }
 
    public ListContainerOwner<String> d() {

@@ -35,10 +35,10 @@ public class VRInjector implements ViaInjector {
 
    @Override
    public IntSortedSet getServerProtocolVersions() {
-      IntLinkedOpenHashSet var4 = new IntLinkedOpenHashSet();
-      var4.add(ProtocolVersion.v1_8.getOriginalVersion());
-      var4.add(ProtocolVersion.getProtocols().stream().mapToInt(ProtocolVersion::getOriginalVersion).max().getAsInt());
-      return var4;
+      IntLinkedOpenHashSet intLinkedOpenHashSet = new IntLinkedOpenHashSet();
+      intLinkedOpenHashSet.add(ProtocolVersion.v1_8.getOriginalVersion());
+      intLinkedOpenHashSet.add(ProtocolVersion.getProtocols().stream().mapToInt(ProtocolVersion::getOriginalVersion).max().getAsInt());
+      return intLinkedOpenHashSet;
    }
 
    @Override

@@ -24,22 +24,22 @@ public final class PerfCounterQueryHandler {
       });
    }
 
-   public boolean a(PerfDataUtil.PerfCounter var1) {
-      return this.addCounterToQuery(var1, var1.c());
+   public boolean a(PerfDataUtil.PerfCounter perfCounter) {
+      return this.addCounterToQuery(perfCounter, perfCounter.c());
    }
 
-   public boolean addCounterToQuery(PerfDataUtil.PerfCounter var1, String var2) {
-      HANDLEByReference var6 = this.getOrOpenQuery(var2);
-      if (var6 == null) {
+   public boolean addCounterToQuery(PerfDataUtil.PerfCounter counter, String key) {
+      HANDLEByReference handleByReference = this.getOrOpenQuery(key);
+      if (handleByReference == null) {
          return false;
       }
 
-      HANDLEByReference var7 = new HANDLEByReference();
-      if (PerfDataUtil.addCounter(var6, var1.getCounterPath(), var7)) {
-         this.counterHandleMap.put(var1, var7);
-         List var8 = this.queryCounterMap.get(var2);
-         if (var8 != null) {
-            var8.add(var1);
+      HANDLEByReference handleByReference2 = new HANDLEByReference();
+      if (PerfDataUtil.addCounter(handleByReference, counter.getCounterPath(), handleByReference2)) {
+         this.counterHandleMap.put(counter, handleByReference2);
+         List list = this.queryCounterMap.get(key);
+         if (list != null) {
+            list.add(counter);
          }
 
          return true;
@@ -48,82 +48,82 @@ public final class PerfCounterQueryHandler {
       }
    }
 
-   public boolean O(PerfDataUtil.PerfCounter var1) {
-      return this.removeCounterFromQuery(var1, var1.c());
+   public boolean O(PerfDataUtil.PerfCounter perfCounter) {
+      return this.removeCounterFromQuery(perfCounter, perfCounter.c());
    }
 
-   public boolean removeCounterFromQuery(PerfDataUtil.PerfCounter var1, String var2) {
-      HANDLEByReference var6 = this.counterHandleMap.remove(var1);
-      boolean var7 = false;
-      if (var6 != null) {
-         var7 = PerfDataUtil.removeCounter(var6);
+   public boolean removeCounterFromQuery(PerfDataUtil.PerfCounter counter, String key) {
+      HANDLEByReference handleByReference = this.counterHandleMap.remove(counter);
+      boolean bl = false;
+      if (handleByReference != null) {
+         bl = PerfDataUtil.removeCounter(handleByReference);
       }
 
-      List var8 = this.queryCounterMap.get(var2);
-      if (var8 != null && var8.remove(var1) && var8.isEmpty()) {
-         this.queryCounterMap.remove(var2);
-         PerfDataUtil.closeQuery(this.queryHandleMap.remove(var2));
+      List list = this.queryCounterMap.get(key);
+      if (list != null && list.remove(counter) && list.isEmpty()) {
+         this.queryCounterMap.remove(key);
+         PerfDataUtil.closeQuery(this.queryHandleMap.remove(key));
       }
 
-      return var7;
+      return bl;
    }
 
-   public void removeAllCountersFromQuery(String var1) {
-      List var5 = this.queryCounterMap.remove(var1);
-      if (var5 != null) {
-         for (Object var7$raw : var5) {
-            PerfDataUtil.PerfCounter var7 = (PerfDataUtil.PerfCounter)var7$raw;
-            HANDLEByReference var8 = this.counterHandleMap.remove(var7);
-            if (var8 != null) {
-               PerfDataUtil.removeCounter(var8);
+   public void removeAllCountersFromQuery(String queryKey) {
+      List list = this.queryCounterMap.remove(queryKey);
+      if (list != null) {
+         for (Object object : list) {
+            PerfDataUtil.PerfCounter perfCounter = (PerfDataUtil.PerfCounter)object;
+            HANDLEByReference handleByReference = this.counterHandleMap.remove(perfCounter);
+            if (handleByReference != null) {
+               PerfDataUtil.removeCounter(handleByReference);
             }
          }
 
-         HANDLEByReference var9 = this.queryHandleMap.remove(var1);
-         if (var9 != null) {
-            PerfDataUtil.closeQuery(var9);
+         HANDLEByReference handleByReference2 = this.queryHandleMap.remove(queryKey);
+         if (handleByReference2 != null) {
+            PerfDataUtil.closeQuery(handleByReference2);
          }
       }
    }
 
    public void removeAllCounters() {
-      for (HANDLEByReference var5 : this.counterHandleMap.values()) {
-         PerfDataUtil.removeCounter(var5);
+      for (HANDLEByReference handleByReference : this.counterHandleMap.values()) {
+         PerfDataUtil.removeCounter(handleByReference);
       }
 
       this.counterHandleMap.clear();
 
-      for (HANDLEByReference var7 : this.queryHandleMap.values()) {
-         PerfDataUtil.closeQuery(var7);
+      for (HANDLEByReference handleByReference2 : this.queryHandleMap.values()) {
+         PerfDataUtil.closeQuery(handleByReference2);
       }
 
       this.queryHandleMap.clear();
       this.queryCounterMap.clear();
    }
 
-   public long updateQuery(String var1) {
-      return !this.queryHandleMap.containsKey(var1) ? 0L : PerfDataUtil.updateQueryTimestamp(this.queryHandleMap.get(var1));
+   public long updateQuery(String key) {
+      return !this.queryHandleMap.containsKey(key) ? 0L : PerfDataUtil.updateQueryTimestamp(this.queryHandleMap.get(key));
    }
 
-   public long queryCounter(PerfDataUtil.PerfCounter var1) {
-      if (!this.counterHandleMap.containsKey(var1)) {
+   public long queryCounter(PerfDataUtil.PerfCounter counter) {
+      if (!this.counterHandleMap.containsKey(counter)) {
          return 0L;
       }
 
-      long var5 = PerfDataUtil.queryCounter(this.counterHandleMap.get(var1));
-      return var5 < 0L ? 0L : var5;
+      long l = PerfDataUtil.queryCounter(this.counterHandleMap.get(counter));
+      return l < 0L ? 0L : l;
    }
 
-   private HANDLEByReference getOrOpenQuery(String var1) {
-      if (this.queryHandleMap.containsKey(var1)) {
-         return this.queryHandleMap.get(var1);
+   private HANDLEByReference getOrOpenQuery(String key) {
+      if (this.queryHandleMap.containsKey(key)) {
+         return this.queryHandleMap.get(key);
       } else {
-         HANDLEByReference var5 = new HANDLEByReference();
-         if (PerfDataUtil.openQuery(var5)) {
-            this.queryHandleMap.put(var1, var5);
-            List var6 = Collections.synchronizedList(new ArrayList());
-            this.queryCounterMap.put(var1, var6);
-            return var5;
+         HANDLEByReference handleByReference = new HANDLEByReference();
+         if (PerfDataUtil.openQuery(handleByReference)) {
+            this.queryHandleMap.put(key, handleByReference);
+            List list = Collections.synchronizedList(new ArrayList());
+            this.queryCounterMap.put(key, list);
+            return handleByReference;
          } else {
             return null;
          }

@@ -44,8 +44,8 @@ public enum ViaFabric {
       new VRRewindLoader().run();
    }
 
-   public void setVersion(ProtocolVersion var1) {
-      this.version = var1;
+   public void setVersion(ProtocolVersion protocolVersion) {
+      this.version = protocolVersion;
    }
 
    public boolean isNative() {
@@ -61,11 +61,11 @@ public enum ViaFabric {
    }
 
    static {
-      long var20 = a ^ 74516771677396L;
-      long var10000 = 7312635741812825108L ^ var20;
-      ThreadFactory var22 = new ThreadFactoryBuilder().setDaemon(true).setNameFormat("ViaFabric-%d").build();
-      ASYNC_EXECUTOR = Executors.newFixedThreadPool(8, var22);
-      EVENT_LOOP = new LocalEventLoopGroup(1, var22).next();
+      long l = a ^ 74516771677396L;
+      long m = 7312635741812825108L ^ l;
+      ThreadFactory threadFactory = new ThreadFactoryBuilder().setDaemon(true).setNameFormat("ViaFabric-%d").build();
+      ASYNC_EXECUTOR = Executors.newFixedThreadPool(8, threadFactory);
+      EVENT_LOOP = new LocalEventLoopGroup(1, threadFactory).next();
       EVENT_LOOP.submit(INIT_FUTURE::join);
    }
 }

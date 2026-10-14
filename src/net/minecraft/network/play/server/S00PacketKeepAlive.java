@@ -11,22 +11,22 @@ public class S00PacketKeepAlive implements Packet<INetHandlerPlayClient> {
    public S00PacketKeepAlive() {
    }
 
-   public S00PacketKeepAlive(int var1) {
-      this.id = var1;
+   public S00PacketKeepAlive(int idIn) {
+      this.id = idIn;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleKeepAlive(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.id = var1.readVarIntFromBuffer();
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleKeepAlive(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.id);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.id = buf.readVarIntFromBuffer();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.id);
    }
 
    public int func_149134_c() {

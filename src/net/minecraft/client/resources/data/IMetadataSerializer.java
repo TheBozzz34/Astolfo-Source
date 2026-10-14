@@ -21,25 +21,26 @@ public class IMetadataSerializer {
       this.gsonBuilder.registerTypeAdapterFactory(new EnumTypeAdapterFactory());
    }
 
-   public <T extends IMetadataSection> void registerMetadataSectionType(IMetadataSectionSerializer<T> var1, Class<T> var2) {
-      this.metadataSectionSerializerRegistry.putObject(var1.getSectionName(), new IMetadataSerializer.Registration<>(var1, var2));
-      this.gsonBuilder.registerTypeAdapter(var2, var1);
+   public <T extends IMetadataSection> void registerMetadataSectionType(IMetadataSectionSerializer<T> metadataSectionSerializer, Class<T> clazz) {
+      this.metadataSectionSerializerRegistry
+         .putObject(metadataSectionSerializer.getSectionName(), new IMetadataSerializer.Registration<>(metadataSectionSerializer, clazz));
+      this.gsonBuilder.registerTypeAdapter(clazz, metadataSectionSerializer);
       this.gson = null;
    }
 
-   public <T extends IMetadataSection> T parseMetadataSection(String var1, JsonObject var2) {
-      if (var1 == null) {
+   public <T extends IMetadataSection> T parseMetadataSection(String sectionName, JsonObject json) {
+      if (sectionName == null) {
          throw new IllegalArgumentException("Metadata section name cannot be null");
-      } else if (!var2.has(var1)) {
+      } else if (!json.has(sectionName)) {
          return null;
-      } else if (!var2.get(var1).isJsonObject()) {
-         throw new IllegalArgumentException("Invalid metadata for '" + var1 + "' - expected object, found " + var2.get(var1));
+      } else if (!json.get(sectionName).isJsonObject()) {
+         throw new IllegalArgumentException("Invalid metadata for '" + sectionName + "' - expected object, found " + json.get(sectionName));
       } else {
-         IMetadataSerializer.Registration var6 = this.metadataSectionSerializerRegistry.getObject(var1);
-         if (var6 == null) {
-            throw new IllegalArgumentException("Don't know how to handle metadata section '" + var1 + "'");
+         IMetadataSerializer.Registration registration = this.metadataSectionSerializerRegistry.getObject(sectionName);
+         if (registration == null) {
+            throw new IllegalArgumentException("Don't know how to handle metadata section '" + sectionName + "'");
          } else {
-            return (T)(this.getGson().fromJson(var2.getAsJsonObject(var1), var6.clazz));
+            return (T)(this.getGson().fromJson(json.getAsJsonObject(sectionName), registration.clazz));
          }
       }
    }
@@ -56,9 +57,9 @@ public class IMetadataSerializer {
       public final IMetadataSectionSerializer<T> section;
       public final Class<T> clazz;
 
-      public Registration(IMetadataSectionSerializer<T> var2, Class<T> var3) {
-         this.section = var2;
-         this.clazz = var3;
+      public Registration(IMetadataSectionSerializer<T> metadataSectionSerializer, Class<T> clazzToRegister) {
+         this.section = metadataSectionSerializer;
+         this.clazz = clazzToRegister;
       }
    }
 }

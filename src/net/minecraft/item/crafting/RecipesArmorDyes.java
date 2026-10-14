@@ -14,97 +14,97 @@ public class RecipesArmorDyes implements IRecipe {
    private static final long a = 111105649771980L;
 
    @Override
-   public boolean matches(InventoryCrafting var1, World var2) {
-      ItemStack var6 = null;
-      ArrayList var7 = Lists.newArrayList();
+   public boolean matches(InventoryCrafting inv, World worldIn) {
+      ItemStack itemStack = null;
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (int var8 = 0; var8 < var1.getSizeInventory(); var8++) {
-         ItemStack var9 = var1.getStackInSlot(var8);
-         if (var9 != null) {
-            if (var9.getItem() instanceof ItemArmor) {
-               ItemArmor var10 = (ItemArmor)var9.getItem();
-               if (var10.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || var6 != null) {
+      for (int i = 0; i < inv.getSizeInventory(); i++) {
+         ItemStack itemStack2 = inv.getStackInSlot(i);
+         if (itemStack2 != null) {
+            if (itemStack2.getItem() instanceof ItemArmor) {
+               ItemArmor itemArmor = (ItemArmor)itemStack2.getItem();
+               if (itemArmor.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || itemStack != null) {
                   return false;
                }
 
-               var6 = var9;
+               itemStack = itemStack2;
             } else {
-               if (var9.getItem() != Items.dye) {
+               if (itemStack2.getItem() != Items.dye) {
                   return false;
                }
 
-               var7.add(var9);
+               arrayList.add(itemStack2);
             }
          }
       }
 
-      return var6 != null && !var7.isEmpty();
+      return itemStack != null && !arrayList.isEmpty();
    }
 
    @Override
-   public ItemStack getCraftingResult(InventoryCrafting var1) {
-      ItemStack var5 = null;
-      int[] var6 = new int[3];
-      int var7 = 0;
-      int var8 = 0;
-      ItemArmor var9 = null;
+   public ItemStack getCraftingResult(InventoryCrafting inv) {
+      ItemStack itemStack = null;
+      int[] ints = new int[3];
+      int i = 0;
+      int j = 0;
+      ItemArmor itemArmor = null;
 
-      for (int var10 = 0; var10 < var1.getSizeInventory(); var10++) {
-         ItemStack var11 = var1.getStackInSlot(var10);
-         if (var11 != null) {
-            if (var11.getItem() instanceof ItemArmor) {
-               var9 = (ItemArmor)var11.getItem();
-               if (var9.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || var5 != null) {
+      for (int k = 0; k < inv.getSizeInventory(); k++) {
+         ItemStack itemStack2 = inv.getStackInSlot(k);
+         if (itemStack2 != null) {
+            if (itemStack2.getItem() instanceof ItemArmor) {
+               itemArmor = (ItemArmor)itemStack2.getItem();
+               if (itemArmor.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || itemStack != null) {
                   return null;
                }
 
-               var5 = var11.copy();
-               var5.stackSize = 1;
-               if (var9.hasColor(var11)) {
-                  int var12 = var9.getColor(var5);
-                  float var13 = (var12 >> 16 & 0xFF) / 255.0F;
-                  float var14 = (var12 >> 8 & 0xFF) / 255.0F;
-                  float var15 = (var12 & 0xFF) / 255.0F;
-                  var7 = (int)(var7 + Math.max(var13, Math.max(var14, var15)) * 255.0F);
-                  var6[0] = (int)(var6[0] + var13 * 255.0F);
-                  var6[1] = (int)(var6[1] + var14 * 255.0F);
-                  var6[2] = (int)(var6[2] + var15 * 255.0F);
-                  var8++;
+               itemStack = itemStack2.copy();
+               itemStack.stackSize = 1;
+               if (itemArmor.hasColor(itemStack2)) {
+                  int l = itemArmor.getColor(itemStack);
+                  float f = (l >> 16 & 0xFF) / 255.0F;
+                  float g = (l >> 8 & 0xFF) / 255.0F;
+                  float h = (l & 0xFF) / 255.0F;
+                  i = (int)(i + Math.max(f, Math.max(g, h)) * 255.0F);
+                  ints[0] = (int)(ints[0] + f * 255.0F);
+                  ints[1] = (int)(ints[1] + g * 255.0F);
+                  ints[2] = (int)(ints[2] + h * 255.0F);
+                  j++;
                }
             } else {
-               if (var11.getItem() != Items.dye) {
+               if (itemStack2.getItem() != Items.dye) {
                   return null;
                }
 
-               float[] var20 = EntitySheep.getDyeRgb(EnumDyeColor.byDyeDamage(var11.getMetadata()));
-               int var23 = (int)(var20[0] * 255.0F);
-               int var25 = (int)(var20[1] * 255.0F);
-               int var27 = (int)(var20[2] * 255.0F);
-               var7 += Math.max(var23, Math.max(var25, var27));
-               var6[0] += var23;
-               var6[1] += var25;
-               var6[2] += var27;
-               var8++;
+               float[] floats = EntitySheep.getDyeRgb(EnumDyeColor.byDyeDamage(itemStack2.getMetadata()));
+               int m = (int)(floats[0] * 255.0F);
+               int n = (int)(floats[1] * 255.0F);
+               int i2 = (int)(floats[2] * 255.0F);
+               i += Math.max(m, Math.max(n, i2));
+               ints[0] += m;
+               ints[1] += n;
+               ints[2] += i2;
+               j++;
             }
          }
       }
 
-      if (var9 == null) {
+      if (itemArmor == null) {
          return null;
       }
 
-      int var16 = var6[0] / var8;
-      int var18 = var6[1] / var8;
-      int var21 = var6[2] / var8;
-      float var24 = (float)var7 / var8;
-      float var26 = Math.max(var16, Math.max(var18, var21));
-      var16 = (int)(var16 * var24 / var26);
-      var18 = (int)(var18 * var24 / var26);
-      var21 = (int)(var21 * var24 / var26);
-      int var28 = (var16 << 8) + var18;
-      var28 = (var28 << 8) + var21;
-      var9.setColor(var5, var28);
-      return var5;
+      int i3 = ints[0] / j;
+      int i4 = ints[1] / j;
+      int i5 = ints[2] / j;
+      float f2 = (float)i / j;
+      float f3 = Math.max(i3, Math.max(i4, i5));
+      i3 = (int)(i3 * f2 / f3);
+      i4 = (int)(i4 * f2 / f3);
+      i5 = (int)(i5 * f2 / f3);
+      int i6 = (i3 << 8) + i4;
+      i6 = (i6 << 8) + i5;
+      itemArmor.setColor(itemStack, i6);
+      return itemStack;
    }
 
    @Override
@@ -118,16 +118,16 @@ public class RecipesArmorDyes implements IRecipe {
    }
 
    @Override
-   public ItemStack[] getRemainingItems(InventoryCrafting var1) {
-      ItemStack[] var5 = new ItemStack[var1.getSizeInventory()];
+   public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+      ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         ItemStack var7 = var1.getStackInSlot(var6);
-         if (var7 != null && var7.getItem().hasContainerItem()) {
-            var5[var6] = new ItemStack(var7.getItem().getContainerItem());
+      for (int i = 0; i < itemStacks.length; i++) {
+         ItemStack itemStack = inv.getStackInSlot(i);
+         if (itemStack != null && itemStack.getItem().hasContainerItem()) {
+            itemStacks[i] = new ItemStack(itemStack.getItem().getContainerItem());
          }
       }
 
-      return var5;
+      return itemStacks;
    }
 }

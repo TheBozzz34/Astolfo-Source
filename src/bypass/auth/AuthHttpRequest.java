@@ -18,48 +18,48 @@ public class AuthHttpRequest {
       this.F("application/json");
    }
 
-   public AuthHttpRequest r(String var1) {
-      this.v = var1;
+   public AuthHttpRequest r(String string) {
+      this.v = string;
       return this;
    }
 
-   public AuthHttpRequest v(String var1) {
-      this.F = var1;
+   public AuthHttpRequest v(String string) {
+      this.F = string;
       return this;
    }
 
-   public AuthHttpRequest U(String var1) {
-      this.P = var1;
+   public AuthHttpRequest U(String string) {
+      this.P = string;
       return this;
    }
 
-   public AuthHttpRequest F(String var1) {
-      this.u = var1;
+   public AuthHttpRequest F(String string) {
+      this.u = string;
       return this;
    }
 
-   public AuthHttpRequest a(String... var1) {
-      this.X = var1;
+   public AuthHttpRequest a(String... strings) {
+      this.X = strings;
       return this;
    }
 
-   public AuthHttpRequest O(String... var1) {
-      this.E = var1;
+   public AuthHttpRequest O(String... strings) {
+      this.E = strings;
       return this;
    }
 
-   public AuthHttpRequest y(String var1) {
-      this.s = var1;
+   public AuthHttpRequest y(String string) {
+      this.s = string;
       return this;
    }
 
-   public AuthHttpRequest d(String... var1) {
-      this.i = var1;
+   public AuthHttpRequest d(String... strings) {
+      this.i = strings;
       return this;
    }
 
-   public AuthHttpRequest y(String... var1) {
-      this.n = var1;
+   public AuthHttpRequest y(String... strings) {
+      this.n = strings;
       return this;
    }
 
@@ -68,12 +68,12 @@ public class AuthHttpRequest {
          return this.s;
       }
 
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (int var5 = 0; var5 < this.X.length; var5++) {
-         var4.append(this.X[var5]).append("=").append(this.E[var5]).append("&");
+      for (int i = 0; i < this.X.length; i++) {
+         stringBuilder.append(this.X[i]).append("=").append(this.E[i]).append("&");
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 }

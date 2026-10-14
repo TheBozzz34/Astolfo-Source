@@ -15,22 +15,22 @@ public class EnumComponent extends DropdownComponent {
    private int[] r = new int[128];
    private static final long d = 76371513487449L;
 
-   public EnumComponent(ModuleButton var1, Setting var2, float var3, float var4, int var5, int var6) {
-      super(var1, var2, var3, var4, var5, var6);
+   public EnumComponent(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
+      super(moduleButton, setting, g, h, i, j);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = d ^ 90685667257899L;
-      long var5 = var3 ^ 8972929756414L;
-      float var8 = this.M() + this.x() / 1.7F;
-      RenderUtil.drawRect(var8 - 1.0F, this.E_float() - 2.0F, this.M() + this.x() + 1.0F, this.E_float() + 9.0F, new Color(34, 36, 43, this.X).getRGB());
-      RenderUtil.drawRect(var8, this.E_float() - 1.0F, this.M() + this.x(), this.E_float() + 8.0F, new Color(29, 31, 37, this.X).getRGB());
+   public void render(int i, int j) {
+      long l = d ^ 90685667257899L;
+      long m = l ^ 8972929756414L;
+      float f = this.M() + this.x() / 1.7F;
+      RenderUtil.drawRect(f - 1.0F, this.E_float() - 2.0F, this.M() + this.x() + 1.0F, this.E_float() + 9.0F, new Color(34, 36, 43, this.X).getRGB());
+      RenderUtil.drawRect(f, this.E_float() - 1.0F, this.M() + this.x(), this.E_float() + 8.0F, new Color(29, 31, 37, this.X).getRGB());
       if (this.G > 0.0F && client.getSidebarGui().A() != this) {
          RenderUtil.drawRect(
-            var8 - 0.5F, this.E_float() + 8.0F, this.M() + this.x() + 0.5F, this.E_float() + this.G + 8.5F, new Color(34, 36, 43, this.X).getRGB()
+            f - 0.5F, this.E_float() + 8.0F, this.M() + this.x() + 0.5F, this.E_float() + this.G + 8.5F, new Color(34, 36, 43, this.X).getRGB()
          );
-         RenderUtil.drawRect(var8, this.E_float() + 8.0F, this.M() + this.x(), this.E_float() + this.G + 8.0F, new Color(29, 31, 37, this.X).getRGB());
+         RenderUtil.drawRect(f, this.E_float() + 8.0F, this.M() + this.x(), this.E_float() + this.G + 8.0F, new Color(29, 31, 37, this.X).getRGB());
          this.r = new int[128];
          if (!this.u.isRunning()) {
             this.u.backwards().start();
@@ -44,7 +44,7 @@ public class EnumComponent extends DropdownComponent {
          client.getCustomFontRenderer()
             .drawString(
                this.n().getValue().name(),
-               var8 + this.x() / 4.5F - client.getCustomFontRenderer().getStringWidth(this.n().getValue().name()) / 2.0F,
+               f + this.x() / 4.5F - client.getCustomFontRenderer().getStringWidth(this.n().getValue().name()) / 2.0F,
                this.E_float() - 2.0F,
                new Color(136, 141, 157, this.X).getRGB()
             );
@@ -52,40 +52,40 @@ public class EnumComponent extends DropdownComponent {
    }
 
    @Override
-   public void M(int var1, int var2) {
-      long var3 = d ^ 2296424361950L;
-      long var5 = var3 ^ 97057255664907L;
-      float var8 = this.M() + this.x() / 1.7F;
-      Enum[] var9 = (Enum[])this.n().getValue().getClass().getEnumConstants();
+   public void M(int i, int j) {
+      long l = d ^ 2296424361950L;
+      long m = l ^ 97057255664907L;
+      float f = this.M() + this.x() / 1.7F;
+      Enum[] enums = (Enum[])this.n().getValue().getClass().getEnumConstants();
       RenderUtil.drawRect(
-         var8 - 1.0F, this.E_float() + 8.0F, this.M() + this.x() + 1.0F, this.E_float() + this.G + 9.0F, new Color(34, 36, 43, this.X).getRGB()
+         f - 1.0F, this.E_float() + 8.0F, this.M() + this.x() + 1.0F, this.E_float() + this.G + 9.0F, new Color(34, 36, 43, this.X).getRGB()
       );
-      RenderUtil.drawRect(var8, this.E_float() + 8.0F, this.M() + this.x(), this.E_float() + this.G + 8.0F, new Color(29, 31, 37, this.X).getRGB());
-      int var10 = client.getSidebarGui().M();
-      byte var11 = 13;
+      RenderUtil.drawRect(f, this.E_float() + 8.0F, this.M() + this.x(), this.E_float() + this.G + 8.0F, new Color(29, 31, 37, this.X).getRGB());
+      int k = client.getSidebarGui().M();
+      byte b = 13;
 
-      for (int var12 = 0; var12 < var9.length; var12++) {
-         Enum var13 = var9[var12];
-         if (this.r[var12] > 30) {
+      for (int i2 = 0; i2 < enums.length; i2++) {
+         Enum enum2 = enums[i2];
+         if (this.r[i2] > 30) {
             client.getCustomFontRenderer()
                .drawString(
-                  var13.name(),
-                  var8 + this.x() / 4.5F - client.getCustomFontRenderer().getStringWidth(var13.name()) / 2.0F,
-                  this.E_float() + var11 - 3.0F,
-                  new Color(136, 141, 157, this.r[var12]).getRGB()
+                  enum2.name(),
+                  f + this.x() / 4.5F - client.getCustomFontRenderer().getStringWidth(enum2.name()) / 2.0F,
+                  this.E_float() + b - 3.0F,
+                  new Color(136, 141, 157, this.r[i2]).getRGB()
                );
          }
 
-         if (this.o(var1, var2, (int)(this.E_float() + var11)) && Mouse.isButtonDown(0)) {
-            this.n().setValue(var13);
+         if (this.o(i, j, (int)(this.E_float() + b)) && Mouse.isButtonDown(0)) {
+            this.n().setValue(enum2);
             client.getSidebarGui().G(null);
          }
 
-         if (this.G >= var11 && this.r[var12] < 255) {
-            this.r[var12] = (int)this.u.getValue(0.0, 255.0);
+         if (this.G >= b && this.r[i2] < 255) {
+            this.r[i2] = (int)this.u.getValue(0.0, 255.0);
          }
 
-         var11 += 13;
+         b += 13;
       }
 
       if (!this.u.isRunning()) {
@@ -93,22 +93,22 @@ public class EnumComponent extends DropdownComponent {
       }
 
       this.G = (float)this.u.getValue(0.0, this.O_int());
-      super.M(var1, var2);
+      super.M(i, j);
    }
 
-   public boolean o(int var1, int var2, int var3) {
-      return var1 >= this.M() + this.x() / 1.7F && var1 <= this.M() + this.x() && var2 >= var3 && var2 <= var3 + this.Y();
+   public boolean o(int i, int j, int k) {
+      return i >= this.M() + this.x() / 1.7F && i <= this.M() + this.x() && j >= k && j <= k + this.Y();
    }
 
    private int O_int() {
-      Enum[] var4 = (Enum[])this.n().getValue().getClass().getEnumConstants();
-      byte var5 = 0;
+      Enum[] enums = (Enum[])this.n().getValue().getClass().getEnumConstants();
+      byte b = 0;
 
-      for (Enum var9 : var4) {
-         var5 += 13;
+      for (Enum enum2 : enums) {
+         b += 13;
       }
 
-      return var5;
+      return b;
    }
 
    public EnumSetting n() {

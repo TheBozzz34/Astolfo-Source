@@ -14,8 +14,8 @@ public enum OldInventoryManagerSlot {
    private final String settingName;
    private static final OldInventoryManagerSlot[] B = new OldInventoryManagerSlot[]{PICKAXE, SHOVEL, AXE, SWORD, GAPPLE, HEAD, BOW, FISHING_ROD, PEARL};
 
-   OldInventoryManagerSlot(String var3) {
-      this.settingName = var3;
+   OldInventoryManagerSlot(String string2) {
+      this.settingName = string2;
    }
 
    public String getSettingName() {

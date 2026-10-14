@@ -6,19 +6,19 @@ import net.minecraft.util.EnumChatFormatting;
 public final class HelpCommand extends Command {
    private static final long d = 104505031812019L;
 
-   public HelpCommand(String var1, String var2) {
-      super(var1, var2);
+   public HelpCommand(String string, String string2) {
+      super(string, string2);
    }
 
    @Override
-   public void runCommand(String[] var1) {
-      long var2 = d ^ 42894612555310L;
-      long var4 = var2 ^ 38175528195227L;
+   public void runCommand(String[] strings) {
+      long l = d ^ 42894612555310L;
+      long m = l ^ 38175528195227L;
       Denicker.nicks.clear();
 
-      for (CommandInfo var8 : client.getCommandManager().getList()) {
-         if (var8 instanceof Command) {
-            chat.D(false, false).i(".").i(var8.getName()).M(EnumChatFormatting.DARK_PURPLE).i(" - ").M(EnumChatFormatting.WHITE).i(var8.getUsage()).N().b();
+      for (CommandInfo commandInfo : client.getCommandManager().getList()) {
+         if (commandInfo instanceof Command) {
+            chat.D(false, false).i(".").i(commandInfo.getName()).M(EnumChatFormatting.DARK_PURPLE).i(" - ").M(EnumChatFormatting.WHITE).i(commandInfo.getUsage()).N().b();
          }
       }
    }

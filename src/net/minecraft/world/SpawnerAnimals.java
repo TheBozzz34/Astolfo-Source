@@ -22,30 +22,30 @@ public final class SpawnerAnimals {
    private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.newHashSet();
    private static final long a = 92894341218988L;
 
-   public int findChunksForSpawning(WorldServer var1, boolean var2, boolean var3, boolean var4) {
-      long var5 = a ^ 98560144167614L;
-      if (!var2 && !var3) {
+   public int findChunksForSpawning(WorldServer worldServerIn, boolean spawnHostileMobs, boolean spawnPeacefulMobs, boolean bl) {
+      long l = a ^ 98560144167614L;
+      if (!spawnHostileMobs && !spawnPeacefulMobs) {
          return 0;
       }
 
       this.eligibleChunksForSpawning.clear();
-      int var8 = 0;
+      int i = 0;
 
-      for (EntityPlayer var10 : var1.playerEntities) {
-         if (!var10.isSpectator()) {
-            int var11 = MathHelper.floor_double(var10.posX / 16.0);
-            int var12 = MathHelper.floor_double(var10.posZ / 16.0);
-            long var10000 = 3408594515062740785L ^ var5;
-            byte var13 = 8;
+      for (EntityPlayer entityPlayer : worldServerIn.playerEntities) {
+         if (!entityPlayer.isSpectator()) {
+            int j = MathHelper.floor_double(entityPlayer.posX / 16.0);
+            int k = MathHelper.floor_double(entityPlayer.posZ / 16.0);
+            long m = 3408594515062740785L ^ l;
+            byte b = 8;
 
-            for (int var14 = -var13; var14 <= var13; var14++) {
-               for (int var15 = -var13; var15 <= var13; var15++) {
-                  boolean var16 = var14 == -var13 || var14 == var13 || var15 == -var13 || var15 == var13;
-                  ChunkCoordIntPair var17 = new ChunkCoordIntPair(var14 + var11, var15 + var12);
-                  if (!this.eligibleChunksForSpawning.contains(var17)) {
-                     var8++;
-                     if (!var16 && var1.getWorldBorder().contains(var17)) {
-                        this.eligibleChunksForSpawning.add(var17);
+            for (int n = -b; n <= b; n++) {
+               for (int i2 = -b; i2 <= b; i2++) {
+                  boolean bl2 = n == -b || n == b || i2 == -b || i2 == b;
+                  ChunkCoordIntPair chunkCoordIntPair = new ChunkCoordIntPair(n + j, i2 + k);
+                  if (!this.eligibleChunksForSpawning.contains(chunkCoordIntPair)) {
+                     i++;
+                     if (!bl2 && worldServerIn.getWorldBorder().contains(chunkCoordIntPair)) {
+                        this.eligibleChunksForSpawning.add(chunkCoordIntPair);
                      }
                   }
                }
@@ -53,72 +53,74 @@ public final class SpawnerAnimals {
          }
       }
 
-      int var39 = 0;
-      BlockPos var40 = var1.getSpawnPoint();
+      int i3 = 0;
+      BlockPos blockPos = worldServerIn.getSpawnPoint();
 
-      for (EnumCreatureType var44 : EnumCreatureType.values()) {
-         if ((!var44.getPeacefulCreature() || var3) && (var44.getPeacefulCreature() || var2) && (!var44.getAnimal() || var4)) {
-            int var45 = var1.countEntities(var44.getCreatureClass());
-            int var46 = var44.getMaxNumberOfCreature() * var8 / MOB_COUNT_DIV;
-            if (var45 <= var46) {
+      for (EnumCreatureType enumCreatureType : EnumCreatureType.values()) {
+         if ((!enumCreatureType.getPeacefulCreature() || spawnPeacefulMobs) && (enumCreatureType.getPeacefulCreature() || spawnHostileMobs) && (!enumCreatureType.getAnimal() || bl)) {
+            int i4 = worldServerIn.countEntities(enumCreatureType.getCreatureClass());
+            int i5 = enumCreatureType.getMaxNumberOfCreature() * i / MOB_COUNT_DIV;
+            if (i4 <= i5) {
                label121:
-               for (ChunkCoordIntPair var18 : this.eligibleChunksForSpawning) {
-                  BlockPos var19 = getRandomChunkPosition(var1, var18.chunkXPos, var18.chunkZPos);
-                  int var20 = var19.getX();
-                  int var21 = var19.getY();
-                  int var22 = var19.getZ();
-                  Block var23 = var1.getBlockState(var19).getBlock();
-                  if (!var23.isNormalCube()) {
-                     int var24 = 0;
+               for (ChunkCoordIntPair chunkCoordIntPair2 : this.eligibleChunksForSpawning) {
+                  BlockPos blockPos2 = getRandomChunkPosition(worldServerIn, chunkCoordIntPair2.chunkXPos, chunkCoordIntPair2.chunkZPos);
+                  int i6 = blockPos2.getX();
+                  int i7 = blockPos2.getY();
+                  int i8 = blockPos2.getZ();
+                  Block block = worldServerIn.getBlockState(blockPos2).getBlock();
+                  if (!block.isNormalCube()) {
+                     int i9 = 0;
 
-                     for (int var25 = 0; var25 < 3; var25++) {
-                        int var26 = var20;
-                        int var27 = var21;
-                        long var48 = 3006838497115828214L ^ var5;
-                        int var28 = var22;
-                        byte var29 = 6;
-                        BiomeGenBase.SpawnListEntry var30 = null;
-                        IEntityLivingData var31 = null;
+                     for (int i10 = 0; i10 < 3; i10++) {
+                        int i11 = i6;
+                        int i12 = i7;
+                        long l2 = 3006838497115828214L ^ l;
+                        int i13 = i8;
+                        byte b2 = 6;
+                        BiomeGenBase.SpawnListEntry spawnListEntry = null;
+                        IEntityLivingData iEntityLivingData = null;
 
-                        for (int var32 = 0; var32 < 4; var32++) {
-                           var26 += var1.rand.nextInt(var29) - var1.rand.nextInt(var29);
-                           var27 += var1.rand.nextInt(1) - var1.rand.nextInt(1);
-                           var28 += var1.rand.nextInt(var29) - var1.rand.nextInt(var29);
-                           BlockPos var33 = new BlockPos(var26, var27, var28);
-                           float var34 = var26 + 0.5F;
-                           float var35 = var28 + 0.5F;
-                           if (!var1.isAnyPlayerWithinRangeAt(var34, var27, var35, 24.0) && var40.distanceSq(var34, var27, var35) >= 576.0) {
-                              if (var30 == null) {
-                                 var30 = var1.getSpawnListEntryForTypeAt(var44, var33);
-                                 if (var30 == null) {
+                        for (int i14 = 0; i14 < 4; i14++) {
+                           i11 += worldServerIn.rand.nextInt(b2) - worldServerIn.rand.nextInt(b2);
+                           i12 += worldServerIn.rand.nextInt(1) - worldServerIn.rand.nextInt(1);
+                           i13 += worldServerIn.rand.nextInt(b2) - worldServerIn.rand.nextInt(b2);
+                           BlockPos blockPos3 = new BlockPos(i11, i12, i13);
+                           float f = i11 + 0.5F;
+                           float g = i13 + 0.5F;
+                           if (!worldServerIn.isAnyPlayerWithinRangeAt(f, i12, g, 24.0) && blockPos.distanceSq(f, i12, g) >= 576.0) {
+                              if (spawnListEntry == null) {
+                                 spawnListEntry = worldServerIn.getSpawnListEntryForTypeAt(enumCreatureType, blockPos3);
+                                 if (spawnListEntry == null) {
                                     break;
                                  }
                               }
 
-                              if (var1.canCreatureTypeSpawnHere(var44, var30, var33)
-                                 && canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(var30.entityClass), var1, var33)) {
-                                 EntityLiving var36;
+                              if (worldServerIn.canCreatureTypeSpawnHere(enumCreatureType, spawnListEntry, blockPos3)
+                                 && canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(spawnListEntry.entityClass), worldServerIn, blockPos3)
+                                 )
+                               {
+                                 EntityLiving entityLiving;
                                  try {
-                                    var36 = var30.entityClass.getConstructor(World.class).newInstance(var1);
-                                 } catch (Exception var38) {
-                                    var38.printStackTrace();
-                                    return var39;
+                                    entityLiving = spawnListEntry.entityClass.getConstructor(World.class).newInstance(worldServerIn);
+                                 } catch (Exception exception) {
+                                    exception.printStackTrace();
+                                    return i3;
                                  }
 
-                                 var36.setLocationAndAngles(var34, var27, var35, var1.rand.nextFloat() * 360.0F, 0.0F);
-                                 if (var36.getCanSpawnHere() && var36.isNotColliding()) {
-                                    var31 = var36.onInitialSpawn(var1.getDifficultyForLocation(new BlockPos(var36)), var31);
-                                    if (var36.isNotColliding()) {
-                                       var24++;
-                                       var1.spawnEntityInWorld(var36);
+                                 entityLiving.setLocationAndAngles(f, i12, g, worldServerIn.rand.nextFloat() * 360.0F, 0.0F);
+                                 if (entityLiving.getCanSpawnHere() && entityLiving.isNotColliding()) {
+                                    iEntityLivingData = entityLiving.onInitialSpawn(worldServerIn.getDifficultyForLocation(new BlockPos(entityLiving)), iEntityLivingData);
+                                    if (entityLiving.isNotColliding()) {
+                                       i9++;
+                                       worldServerIn.spawnEntityInWorld(entityLiving);
                                     }
 
-                                    if (var24 >= var36.getMaxSpawnedInChunk()) {
+                                    if (i9 >= entityLiving.getMaxSpawnedInChunk()) {
                                        continue label121;
                                     }
                                  }
 
-                                 var39 += var24;
+                                 i3 += i9;
                               }
                            }
                         }
@@ -129,79 +131,79 @@ public final class SpawnerAnimals {
          }
       }
 
-      return var39;
+      return i3;
    }
 
-   public static BlockPos getRandomChunkPosition(World var0, int var1, int var2) {
-      Chunk var6 = var0.getChunkFromChunkCoords(var1, var2);
-      int var7 = var1 * 16 + var0.rand.nextInt(16);
-      int var8 = var2 * 16 + var0.rand.nextInt(16);
-      int var9 = MathHelper.roundUp(var6.getHeight(new BlockPos(var7, 0, var8)) + 1, 16);
-      int var10 = var0.rand.nextInt(var9 > 0 ? var9 : var6.getTopFilledSegment() + 16 - 1);
-      return new BlockPos(var7, var10, var8);
+   public static BlockPos getRandomChunkPosition(World worldIn, int x, int z) {
+      Chunk chunk = worldIn.getChunkFromChunkCoords(x, z);
+      int i = x * 16 + worldIn.rand.nextInt(16);
+      int j = z * 16 + worldIn.rand.nextInt(16);
+      int k = MathHelper.roundUp(chunk.getHeight(new BlockPos(i, 0, j)) + 1, 16);
+      int l = worldIn.rand.nextInt(k > 0 ? k : chunk.getTopFilledSegment() + 16 - 1);
+      return new BlockPos(i, l, j);
    }
 
-   public static boolean canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType var0, World var1, BlockPos var2) {
-      if (!var1.getWorldBorder().contains(var2)) {
+   public static boolean canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType spawnPlacementTypeIn, World worldIn, BlockPos pos) {
+      if (!worldIn.getWorldBorder().contains(pos)) {
          return false;
       }
 
-      Block var6 = var1.getBlockState(var2).getBlock();
-      if (var0 == EntityLiving.SpawnPlacementType.IN_WATER) {
-         return var6.getMaterial().isLiquid()
-            && var1.getBlockState(var2.down()).getBlock().getMaterial().isLiquid()
-            && !var1.getBlockState(var2.up()).getBlock().isNormalCube();
+      Block block = worldIn.getBlockState(pos).getBlock();
+      if (spawnPlacementTypeIn == EntityLiving.SpawnPlacementType.IN_WATER) {
+         return block.getMaterial().isLiquid()
+            && worldIn.getBlockState(pos.down()).getBlock().getMaterial().isLiquid()
+            && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
       }
 
-      BlockPos var7 = var2.down();
-      if (!World.doesBlockHaveSolidTopSurface(var1, var7)) {
+      BlockPos blockPos = pos.down();
+      if (!World.doesBlockHaveSolidTopSurface(worldIn, blockPos)) {
          return false;
       }
 
-      Block var8 = var1.getBlockState(var7).getBlock();
-      boolean var9 = var8 != Blocks.bedrock && var8 != Blocks.barrier;
-      return var9 && !var6.isNormalCube() && !var6.getMaterial().isLiquid() && !var1.getBlockState(var2.up()).getBlock().isNormalCube();
+      Block block2 = worldIn.getBlockState(blockPos).getBlock();
+      boolean bl = block2 != Blocks.bedrock && block2 != Blocks.barrier;
+      return bl && !block.isNormalCube() && !block.getMaterial().isLiquid() && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
    }
 
-   public static void performWorldGenSpawning(World var0, BiomeGenBase var1, int var2, int var3, int var4, int var5, Random var6) {
-      List var10 = var1.getSpawnableList(EnumCreatureType.CREATURE);
-      if (!var10.isEmpty()) {
-         while (var6.nextFloat() < var1.getSpawningChance()) {
-            BiomeGenBase.SpawnListEntry var11 = (net.minecraft.world.biome.BiomeGenBase.SpawnListEntry)(WeightedRandom.getRandomItem(var0.rand, var10));
-            int var12 = var11.minGroupCount + var6.nextInt(1 + var11.maxGroupCount - var11.minGroupCount);
-            IEntityLivingData var13 = null;
-            int var14 = var2 + var6.nextInt(var4);
-            int var15 = var3 + var6.nextInt(var5);
-            int var16 = var14;
-            int var17 = var15;
+   public static void performWorldGenSpawning(World worldIn, BiomeGenBase biomeIn, int i, int j, int k, int l, Random randomIn) {
+      List list = biomeIn.getSpawnableList(EnumCreatureType.CREATURE);
+      if (!list.isEmpty()) {
+         while (randomIn.nextFloat() < biomeIn.getSpawningChance()) {
+            BiomeGenBase.SpawnListEntry spawnListEntry = (net.minecraft.world.biome.BiomeGenBase.SpawnListEntry)(WeightedRandom.getRandomItem(worldIn.rand, list));
+            int m = spawnListEntry.minGroupCount + randomIn.nextInt(1 + spawnListEntry.maxGroupCount - spawnListEntry.minGroupCount);
+            IEntityLivingData iEntityLivingData = null;
+            int n = i + randomIn.nextInt(k);
+            int i2 = j + randomIn.nextInt(l);
+            int i3 = n;
+            int i4 = i2;
 
-            for (int var18 = 0; var18 < var12; var18++) {
-               boolean var19 = false;
+            for (int i5 = 0; i5 < m; i5++) {
+               boolean bl = false;
 
-               for (int var20 = 0; !var19 && var20 < 4; var20++) {
-                  BlockPos var21 = var0.getTopSolidOrLiquidBlock(new BlockPos(var14, 0, var15));
-                  if (canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, var0, var21)) {
-                     EntityLiving var22;
+               for (int i6 = 0; !bl && i6 < 4; i6++) {
+                  BlockPos blockPos = worldIn.getTopSolidOrLiquidBlock(new BlockPos(n, 0, i2));
+                  if (canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, worldIn, blockPos)) {
+                     EntityLiving entityLiving;
                      try {
-                        var22 = var11.entityClass.getConstructor(World.class).newInstance(var0);
-                     } catch (Exception var24) {
-                        var24.printStackTrace();
+                        entityLiving = spawnListEntry.entityClass.getConstructor(World.class).newInstance(worldIn);
+                     } catch (Exception exception) {
+                        exception.printStackTrace();
                         continue;
                      }
 
-                     var22.setLocationAndAngles(var14 + 0.5F, var21.getY(), var15 + 0.5F, var6.nextFloat() * 360.0F, 0.0F);
-                     var0.spawnEntityInWorld(var22);
-                     var13 = var22.onInitialSpawn(var0.getDifficultyForLocation(new BlockPos(var22)), var13);
-                     var19 = true;
+                     entityLiving.setLocationAndAngles(n + 0.5F, blockPos.getY(), i2 + 0.5F, randomIn.nextFloat() * 360.0F, 0.0F);
+                     worldIn.spawnEntityInWorld(entityLiving);
+                     iEntityLivingData = entityLiving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityLiving)), iEntityLivingData);
+                     bl = true;
                   }
 
-                  var14 += var6.nextInt(5) - var6.nextInt(5);
+                  n += randomIn.nextInt(5) - randomIn.nextInt(5);
 
-                  for (var15 += var6.nextInt(5) - var6.nextInt(5);
-                     var14 < var2 || var14 >= var2 + var4 || var15 < var3 || var15 >= var3 + var4;
-                     var15 = var17 + var6.nextInt(5) - var6.nextInt(5)
+                  for (i2 += randomIn.nextInt(5) - randomIn.nextInt(5);
+                     n < i || n >= i + k || i2 < j || i2 >= j + k;
+                     i2 = i4 + randomIn.nextInt(5) - randomIn.nextInt(5)
                   ) {
-                     var14 = var16 + var6.nextInt(5) - var6.nextInt(5);
+                     n = i3 + randomIn.nextInt(5) - randomIn.nextInt(5);
                   }
                }
             }

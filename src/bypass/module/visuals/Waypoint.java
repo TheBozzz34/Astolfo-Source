@@ -8,13 +8,13 @@ public class Waypoint {
    private final double T;
    private final double v;
 
-   public Waypoint(String var1, String var2, int var3, double var4, double var6, double var8) {
-      this.r = var1;
-      this.a = var2;
-      this.o = var3;
-      this.W = var4;
-      this.T = var6;
-      this.v = var8;
+   public Waypoint(String string, String string2, int i, double d, double d2, double d3) {
+      this.r = string;
+      this.a = string2;
+      this.o = i;
+      this.W = d;
+      this.T = d2;
+      this.v = d3;
    }
 
    public String r() {
@@ -41,7 +41,7 @@ public class Waypoint {
       return this.v;
    }
 
-   public static int L(Waypoint var0) {
-      return var0.o;
+   public static int L(Waypoint waypoint) {
+      return waypoint.o;
    }
 }

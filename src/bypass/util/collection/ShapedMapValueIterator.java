@@ -1,8 +1,8 @@
 package bypass.util.collection;
 
 public class ShapedMapValueIterator<K, V> extends ShapedMapIterator<K, V, V> {
-   public ShapedMapValueIterator(ShapedMap<K, V> var1) {
-      super(var1);
+   public ShapedMapValueIterator(ShapedMap<K, V> shapedMap) {
+      super(shapedMap);
    }
 
    @Override

@@ -6,7 +6,7 @@ import org.luaj.vm2.LuaValue;
 public abstract class Command extends AbstractCommand implements ClientAccess {
    public LuaValue w;
 
-   public Command(String var1, String var2) {
-      super(var1, var2);
+   public Command(String string, String string2) {
+      super(string, string2);
    }
 }

@@ -10,17 +10,17 @@ public class EntityAIHurtByTarget extends EntityAITarget {
    private final Class[] targetClasses;
    private static final long a = 51707186993422L;
 
-   public EntityAIHurtByTarget(EntityCreature var1, boolean var2, Class... var3) {
-      super(var1, false);
-      this.entityCallsForHelp = var2;
-      this.targetClasses = var3;
+   public EntityAIHurtByTarget(EntityCreature creatureIn, boolean entityCallsForHelpIn, Class... targetClassesIn) {
+      super(creatureIn, false);
+      this.entityCallsForHelp = entityCallsForHelpIn;
+      this.targetClasses = targetClassesIn;
       this.setMutexBits(1);
    }
 
    @Override
    public boolean shouldExecute() {
-      int var4 = this.taskOwner.getRevengeTimer();
-      return var4 != this.revengeTimerOld && this.isSuitableTarget(this.taskOwner.getAITarget(), false);
+      int i = this.taskOwner.getRevengeTimer();
+      return i != this.revengeTimerOld && this.isSuitableTarget(this.taskOwner.getAITarget(), false);
    }
 
    @Override
@@ -28,9 +28,9 @@ public class EntityAIHurtByTarget extends EntityAITarget {
       this.taskOwner.setAttackTarget(this.taskOwner.getAITarget());
       this.revengeTimerOld = this.taskOwner.getRevengeTimer();
       if (this.entityCallsForHelp) {
-         double var4 = this.getTargetDistance();
+         double d = this.getTargetDistance();
 
-         for (EntityCreature var7 : this.taskOwner
+         for (EntityCreature entityCreature : this.taskOwner
             .worldObj
             .getEntitiesWithinAABB(
                this.taskOwner.getClass(),
@@ -42,20 +42,20 @@ public class EntityAIHurtByTarget extends EntityAITarget {
                      this.taskOwner.posY + 1.0,
                      this.taskOwner.posZ + 1.0
                   )
-                  .expand(var4, 10.0, var4)
+                  .expand(d, 10.0, d)
             )) {
-            if (this.taskOwner != var7 && var7.getAttackTarget() == null && !var7.isOnSameTeam(this.taskOwner.getAITarget())) {
-               boolean var8 = false;
+            if (this.taskOwner != entityCreature && entityCreature.getAttackTarget() == null && !entityCreature.isOnSameTeam(this.taskOwner.getAITarget())) {
+               boolean bl = false;
 
-               for (Class var12 : this.targetClasses) {
-                  if (var7.getClass() == var12) {
-                     var8 = true;
+               for (Class class2 : this.targetClasses) {
+                  if (entityCreature.getClass() == class2) {
+                     bl = true;
                      break;
                   }
                }
 
-               if (!var8) {
-                  this.setEntityAttackTarget(var7, this.taskOwner.getAITarget());
+               if (!bl) {
+                  this.setEntityAttackTarget(entityCreature, this.taskOwner.getAITarget());
                }
             }
          }
@@ -64,7 +64,7 @@ public class EntityAIHurtByTarget extends EntityAITarget {
       super.startExecuting();
    }
 
-   public void setEntityAttackTarget(EntityCreature var1, EntityLivingBase var2) {
-      var1.setAttackTarget(var2);
+   public void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+      creatureIn.setAttackTarget(entityLivingBaseIn);
    }
 }

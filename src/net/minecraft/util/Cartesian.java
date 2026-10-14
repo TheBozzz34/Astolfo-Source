@@ -15,38 +15,38 @@ import java.util.NoSuchElementException;
 public class Cartesian {
    private static final long a = 118693516936280L;
 
-   public static <T> Iterable<T[]> cartesianProduct(Class<T> var0, Iterable<? extends Iterable<? extends T>> var1) {
-      return new Cartesian.Product<>(var0, toArray(Iterable.class, var1));
+   public static <T> Iterable<T[]> cartesianProduct(Class<T> clazz, Iterable<? extends Iterable<? extends T>> sets) {
+      return new Cartesian.Product<>(clazz, toArray(Iterable.class, sets));
    }
 
-   public static <T> Iterable<List<T>> cartesianProduct(Iterable<? extends Iterable<? extends T>> var0) {
-      return arraysAsLists(cartesianProduct(Object.class, var0));
+   public static <T> Iterable<List<T>> cartesianProduct(Iterable<? extends Iterable<? extends T>> sets) {
+      return arraysAsLists(cartesianProduct(Object.class, sets));
    }
 
-   private static <T> Iterable<List<T>> arraysAsLists(Iterable<Object[]> var0) {
-      return Iterables.transform(var0, new Cartesian.GetList<>());
+   private static <T> Iterable<List<T>> arraysAsLists(Iterable<Object[]> arrays) {
+      return Iterables.transform(arrays, new Cartesian.GetList<>());
    }
 
-   private static <T> T[] toArray(Class<? super T> var0, Iterable<? extends T> var1) {
-      ArrayList var5 = Lists.newArrayList();
+   private static <T> T[] toArray(Class<? super T> clazz, Iterable<? extends T> it) {
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (Object var7 : var1) {
-         var5.add(var7);
+      for (Object object : it) {
+         arrayList.add(object);
       }
 
-      return (T[])var5.toArray(createArray(var0, var5.size()));
+      return (T[])arrayList.toArray(createArray(clazz, arrayList.size()));
    }
 
-   private static <T> T[] createArray(Class<? super T> var0, int var1) {
-      return (T[])((Object[])Array.newInstance(var0, var1));
+   private static <T> T[] createArray(Class<? super T> class2, int i) {
+      return (T[])((Object[])Array.newInstance(class2, i));
    }
 
    public static class GetList<T> implements Function<Object[], List<T>> {
       public GetList() {
       }
 
-      public List<T> apply(Object[] var1) {
-         return Arrays.asList((T[])var1);
+      public List<T> apply(Object[] objects) {
+         return Arrays.asList((T[])objects);
       }
    }
 
@@ -55,9 +55,9 @@ public class Cartesian {
       private final Iterable<? extends T>[] iterables;
       private static final long a = 100083686606487L;
 
-      public Product(Class<T> var1, Iterable<? extends T>[] var2) {
-         this.clazz = var1;
-         this.iterables = var2;
+      public Product(Class<T> clazz, Iterable<? extends T>[] iterables) {
+         this.clazz = clazz;
+         this.iterables = iterables;
       }
 
       @Override
@@ -74,15 +74,15 @@ public class Cartesian {
          private final T[] results;
          private static final long a = 67822640136776L;
 
-         public ProductIterator(Class<T> var1, Iterable<? extends T>[] var2) {
-            this.iterables = var2;
+         public ProductIterator(Class<T> clazzIn, Iterable<? extends T>[] iterablesIn) {
+            this.iterables = iterablesIn;
             this.iterators = Cartesian.createArray(Iterator.class, this.iterables.length);
 
-            for (int var6 = 0; var6 < this.iterables.length; var6++) {
-               this.iterators[var6] = var2[var6].iterator();
+            for (int i = 0; i < this.iterables.length; i++) {
+               this.iterators[i] = iterablesIn[i].iterator();
             }
 
-            this.results = (T[])Cartesian.createArray(var1, this.iterators.length);
+            this.results = (T[])Cartesian.createArray(clazzIn, this.iterators.length);
          }
 
          private void endOfData() {
@@ -96,8 +96,8 @@ public class Cartesian {
             if (this.index == -2) {
                this.index = 0;
 
-               for (Iterator var7 : this.iterators) {
-                  if (!var7.hasNext()) {
+               for (Iterator iterator2 : this.iterators) {
+                  if (!iterator2.hasNext()) {
                      this.endOfData();
                      break;
                   }
@@ -107,8 +107,8 @@ public class Cartesian {
             } else {
                if (this.index >= this.iterators.length) {
                   for (this.index = this.iterators.length - 1; this.index >= 0; this.index--) {
-                     Iterator var4 = this.iterators[this.index];
-                     if (var4.hasNext()) {
+                     Iterator iterator3 = this.iterators[this.index];
+                     if (iterator3.hasNext()) {
                         break;
                      }
 
@@ -117,9 +117,9 @@ public class Cartesian {
                         break;
                      }
 
-                     var4 = this.iterables[this.index].iterator();
-                     this.iterators[this.index] = var4;
-                     if (!var4.hasNext()) {
+                     iterator3 = this.iterables[this.index].iterator();
+                     this.iterators[this.index] = iterator3;
+                     if (!iterator3.hasNext()) {
                         this.endOfData();
                         break;
                      }

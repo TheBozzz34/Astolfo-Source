@@ -10,15 +10,15 @@ public enum HUDFlagColor {
    private Color j;
    private static final HUDFlagColor[] P = new HUDFlagColor[]{BLUE, WHITE, PINK};
 
-   HUDFlagColor(Color var3) {
-      this.j = var3;
+   HUDFlagColor(Color color) {
+      this.j = color;
    }
 
    public Color m() {
       return this.j;
    }
 
-   public static Color s(HUDFlagColor var0) {
-      return var0.j;
+   public static Color s(HUDFlagColor hudFlagColor) {
+      return hudFlagColor.j;
    }
 }

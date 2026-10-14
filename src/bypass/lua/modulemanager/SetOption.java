@@ -14,62 +14,62 @@ public final class SetOption extends VarArgFunction {
    private static final long a = 15020849389102L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
-      long var2 = a ^ 11869274448186L;
-      long var4 = var2 ^ 52867094151847L;
-      LuaValue var7 = var1.arg1();
-      if (!var7.isstring()) {
+   public Varargs onInvoke(Varargs varargs) {
+      long l = a ^ 11869274448186L;
+      long m = l ^ 52867094151847L;
+      LuaValue luaValue = varargs.arg1();
+      if (!luaValue.isstring()) {
          return NIL;
       }
 
-      int var8 = var1.narg();
-      LuaValue var9 = var1.arg(2);
-      LuaValue var10 = var1.arg(3);
-      LuaValue var11 = var1.arg(4);
-      switch (var8) {
+      int i = varargs.narg();
+      LuaValue luaValue2 = varargs.arg(2);
+      LuaValue luaValue3 = varargs.arg(3);
+      LuaValue luaValue4 = varargs.arg(4);
+      switch (i) {
          case 3:
-            if (var9.isstring()) {
-               String var12 = var7.checkjstring() + var9.checkjstring();
-               Setting var13 = LuaApi.f.get(var12);
-               if (var13 == null) {
-                  Module var21 = ClientAccess.client.getModuleManager().getModule(var7.checkjstring());
-                  if (var21 != null) {
-                     for (Setting var23 : var21.getSettings()) {
-                        if (var23.getName().equals(var9.checkjstring())) {
-                           LuaApi.f.put(var12, var23);
-                           var13 = var23;
+            if (luaValue2.isstring()) {
+               String string = luaValue.checkjstring() + luaValue2.checkjstring();
+               Setting setting = LuaApi.f.get(string);
+               if (setting == null) {
+                  Module module = ClientAccess.client.getModuleManager().getModule(luaValue.checkjstring());
+                  if (module != null) {
+                     for (Setting setting2 : module.getSettings()) {
+                        if (setting2.getName().equals(luaValue2.checkjstring())) {
+                           LuaApi.f.put(string, setting2);
+                           setting = setting2;
                         }
                      }
                   }
                }
 
-               if (var13 != null) {
-                  ModuleManagerLibrary4.h(var10, var13);
+               if (setting != null) {
+                  ModuleManagerLibrary4.h(luaValue3, setting);
                }
             }
             break;
          case 4:
-            if (var9.isstring() && var10.isstring()) {
-               String var14 = var7.checkjstring() + var9.checkjstring() + var10.checkjstring();
-               Setting var15 = LuaApi.f.get(var14);
-               if (var15 == null) {
-                  Module var16 = ClientAccess.client.getModuleManager().getModule(var7.checkjstring());
-                  if (var16 != null) {
-                     for (Setting var18 : var16.getSettings()) {
-                        if (var18 instanceof MapSetting) {
-                           MapSetting var19 = (MapSetting)var18;
-                           Setting var20 = var19.getSettings().get(var10.checkjstring());
-                           if (var20 != null) {
-                              LuaApi.f.put(var14, var20);
-                              var15 = var20;
+            if (luaValue2.isstring() && luaValue3.isstring()) {
+               String string2 = luaValue.checkjstring() + luaValue2.checkjstring() + luaValue3.checkjstring();
+               Setting setting3 = LuaApi.f.get(string2);
+               if (setting3 == null) {
+                  Module module2 = ClientAccess.client.getModuleManager().getModule(luaValue.checkjstring());
+                  if (module2 != null) {
+                     for (Setting setting4 : module2.getSettings()) {
+                        if (setting4 instanceof MapSetting) {
+                           MapSetting mapSetting = (MapSetting)setting4;
+                           Setting setting5 = mapSetting.getSettings().get(luaValue3.checkjstring());
+                           if (setting5 != null) {
+                              LuaApi.f.put(string2, setting5);
+                              setting3 = setting5;
                            }
                         }
                      }
                   }
                }
 
-               if (var15 != null) {
-                  ModuleManagerLibrary4.h(var11, var15);
+               if (setting3 != null) {
+                  ModuleManagerLibrary4.h(luaValue4, setting3);
                }
             }
       }

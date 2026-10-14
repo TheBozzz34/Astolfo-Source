@@ -16,13 +16,13 @@ public class StringComponent extends SettingComponent {
    private static final long c = 74464720209322L;
    private static final long e = 4874718530123071608L;
 
-   public StringComponent(Container var1, Setting var2, int var3, int var4) {
-      super(var1, var2, var3, var4);
+   public StringComponent(Container container, Setting setting, int i, int j) {
+      super(container, setting, i, j);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      if (Mouse.isButtonDown(0) && !this.G(var1, var2)) {
+   public void render(int i, int j) {
+      if (Mouse.isButtonDown(0) && !this.G(i, j)) {
          this.s = false;
       }
 
@@ -44,31 +44,31 @@ public class StringComponent extends SettingComponent {
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 0) {
+   public void l(int i) {
+      if (i == 0) {
          this.s = true;
       }
    }
 
    @Override
-   public void P(char var1, int var2) {
+   public void P(char c2, int i) {
       if (this.s) {
-         if (GuiScreen.isKeyComboCtrlV(var2)) {
+         if (GuiScreen.isKeyComboCtrlV(i)) {
             this.z().setValue(this.z().getValue() + GuiScreen.getClipboardString());
          } else {
-            switch (var2) {
+            switch (i) {
                case 14:
                   if (!StringUtils.isNullOrEmpty(this.z().getValue())) {
                      this.z().setValue(this.z().getValue().substring(0, this.z().getValue().length() - 1));
                   }
                   break;
                default:
-                  if (ChatAllowedCharacters.isAllowedCharacter(var1)) {
-                     this.z().setValue(this.z().getValue() + var1);
+                  if (ChatAllowedCharacters.isAllowedCharacter(c2)) {
+                     this.z().setValue(this.z().getValue() + c2);
                   }
             }
 
-            super.P(var1, var2);
+            super.P(c2, i);
          }
       }
    }

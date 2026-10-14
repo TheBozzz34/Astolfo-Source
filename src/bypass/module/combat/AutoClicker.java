@@ -31,8 +31,8 @@ public final class AutoClicker extends Module {
    private int S;
    private final Stopwatch J = new Stopwatch();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      long var2 = c ^ 32826558056167L;
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      long l = c ^ 32826558056167L;
       this.p();
       if (this.maxCPS.getValue() < this.minCPS.getValue()) {
          this.maxCPS.setValue(this.minCPS.getValue());
@@ -56,27 +56,27 @@ public final class AutoClicker extends Module {
                if (this.block.getSetting("Enable").asBoolean() && GameUtil.isHoldingSword(mc.thePlayer) && Mouse.isButtonDown(1)) {
                   KeyBinding.onTick(mc.gameSettings.Z7.getKeyCode());
                   mc.gameSettings.Z7.pressed = true;
-                  long var10000 = 4858544727439837639L ^ var2;
-                  float var5 = 100 - this.block.getSetting("Chance").asInt();
-                  boolean var6 = RandomUtils.RANDOM.nextFloat() > (var5 != 0.0F ? var5 / 100.0F : -0.1);
-                  if (var6) {
+                  long m = 4858544727439837639L ^ l;
+                  float f = 100 - this.block.getSetting("Chance").asInt();
+                  boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
+                  if (bl) {
                      KeyBinding.onTick(mc.gameSettings.Z7.getKeyCode());
                      mc.gameSettings.Z7.pressed = false;
                   }
                }
 
-               double var11 = this.minCPS.getValue().intValue();
-               double var7 = this.maxCPS.getValue() - this.minCPS.getValue();
-               double var9 = 1.0 / (var11 + Math.random() * var7);
-               this.S = (int)Math.floor(var9 * 1000.0);
+               double d = this.minCPS.getValue().intValue();
+               double e = this.maxCPS.getValue() - this.minCPS.getValue();
+               double d2 = 1.0 / (d + Math.random() * e);
+               this.S = (int)Math.floor(d2 * 1000.0);
             }
          }
       }
    };
    private static final long c = 2072982790672L;
 
-   public AutoClicker(Category var1) {
-      super(var1);
+   public AutoClicker(Category category) {
+      super(category);
       this.addSettings(this.block, this.minCPS, this.maxCPS, this.blockCheck, this.swordCheck);
    }
 

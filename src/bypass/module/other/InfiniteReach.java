@@ -29,38 +29,38 @@ public final class InfiniteReach extends Module {
    public static final NumberSetting<Float> range = new NumberSetting<>("Range", "Distance of blocks", 30.0F, 4.5F, 64.0F);
    private List<Vector3> m;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING) {
-         if (var1x.getPacket() instanceof C07PacketPlayerDigging) {
-            C07PacketPlayerDigging var5 = (C07PacketPlayerDigging)var1x.getPacket();
-            if (var5.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK
-               && mc.thePlayer.getDistance(var5.getPosition().getX(), var5.getPosition().getY(), var5.getPosition().getZ()) > 4.5) {
-               this.teleportToPath(var1x, var5.getPosition());
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         if (packetEvent.getPacket() instanceof C07PacketPlayerDigging) {
+            C07PacketPlayerDigging c07PacketPlayerDigging = (C07PacketPlayerDigging)packetEvent.getPacket();
+            if (c07PacketPlayerDigging.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK
+               && mc.thePlayer.getDistance(c07PacketPlayerDigging.getPosition().getX(), c07PacketPlayerDigging.getPosition().getY(), c07PacketPlayerDigging.getPosition().getZ()) > 4.5) {
+               this.teleportToPath(packetEvent, c07PacketPlayerDigging.getPosition());
             }
          }
 
-         if (var1x.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement var7 = (C08PacketPlayerBlockPlacement)var1x.getPacket();
-            if (var7.getPlacedBlockDirection() != 255) {
-               this.teleportToPath(var1x, var7.getPosition());
+         if (packetEvent.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packetEvent.getPacket();
+            if (c08PacketPlayerBlockPlacement.getPlacedBlockDirection() != 255) {
+               this.teleportToPath(packetEvent, c08PacketPlayerBlockPlacement.getPosition());
             }
          }
 
-         if (var1x.getPacket() instanceof C02PacketUseEntity) {
-            C02PacketUseEntity var8 = (C02PacketUseEntity)var1x.getPacket();
-            if (var8.getAction() == C02PacketUseEntity.Action.ATTACK) {
-               Entity var6 = var8.getEntityFromWorld(mc.theWorld);
-               if (var6 != null) {
-                  this.teleportToPath(var1x, var6.getPosition());
+         if (packetEvent.getPacket() instanceof C02PacketUseEntity) {
+            C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
+            if (c02PacketUseEntity.getAction() == C02PacketUseEntity.Action.ATTACK) {
+               Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
+               if (entity != null) {
+                  this.teleportToPath(packetEvent, entity.getPosition());
                }
             }
          }
       }
    };
    @EventHandler(RenderEvent.class)
-   private Listener<RenderEvent> onRender = var1x -> {
-      long var2 = c ^ 31923425309270L;
-      if (var1x.getType() == RenderType.WORLD && this.m != null) {
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      long l = c ^ 31923425309270L;
+      if (renderEvent.getType() == RenderType.WORLD && this.m != null) {
          GL11.glPushMatrix();
          GL11.glDisable(3553);
          GL11.glDisable(2896);
@@ -73,15 +73,15 @@ public final class InfiniteReach extends Module {
          GL11.glColor3f(1.0F, 1.0F, 1.0F);
          GL11.glBegin(3);
 
-         for (Vector3 var6 : this.m) {
+         for (Vector3 vector3 : this.m) {
             GL11.glVertex3d(
-               var6.getX() - mc.getRenderManager().viewerPosX, var6.getY() - mc.getRenderManager().viewerPosY, var6.getZ() - mc.getRenderManager().viewerPosZ
+               vector3.getX() - mc.getRenderManager().viewerPosX, vector3.getY() - mc.getRenderManager().viewerPosY, vector3.getZ() - mc.getRenderManager().viewerPosZ
             );
          }
 
          GL11.glEnd();
          GL11.glDepthMask(true);
-         long var10000 = 8336396032766770604L ^ var2;
+         long n = 8336396032766770604L ^ l;
          GL11.glDisable(2848);
          GL11.glEnable(2929);
          GL11.glEnable(2896);
@@ -92,100 +92,106 @@ public final class InfiniteReach extends Module {
    };
    private static final long c = 108326489742469L;
 
-   public InfiniteReach(Category var1) {
-      super(var1);
+   public InfiniteReach(Category category) {
+      super(category);
       this.addSettings(this.mode, range);
    }
 
-   private void teleportToPath(PacketEvent var1, BlockPos var2) {
-      List var6 = null;
-      double var7 = 3.0 * Math.cos(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
-      double var9 = 3.0 * Math.sin(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
+   private void teleportToPath(PacketEvent packetEvent, BlockPos blockPos) {
+      List list = null;
+      double d = 3.0 * Math.cos(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
+      double e = 3.0 * Math.sin(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
       switch ((InfiniteReachMode)this.mode.getValue()) {
          case LINEAR:
-            var6 = Z(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, var2.getX() - var7, Math.floor(var2.getY()) + 3.0, var2.getZ() - var9, 5.5);
+            list = Z(
+               mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, blockPos.getX() - d, Math.floor(blockPos.getY()) + 3.0, blockPos.getZ() - e, 5.5
+            );
             break;
          case PATH_FIND:
-            var6 = TeleportPath.U(
-               new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(var2.getX(), Math.floor(var2.getY()) + 1.0, var2.getZ()), 90
+            list = TeleportPath.U(
+               new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ),
+               new Vector3(blockPos.getX(), Math.floor(blockPos.getY()) + 1.0, blockPos.getZ()),
+               90
             );
       }
 
-      if (var6.size() > 500 && this.mode.getValue() == InfiniteReachMode.PATH_FIND) {
-         var6 = Z(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, var2.getX() - var7, Math.floor(var2.getY()) + 3.0, var2.getZ() - var9, 5.5);
+      if (list.size() > 500 && this.mode.getValue() == InfiniteReachMode.PATH_FIND) {
+         list = Z(
+            mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, blockPos.getX() - d, Math.floor(blockPos.getY()) + 3.0, blockPos.getZ() - e, 5.5
+         );
       }
 
-      var6.forEach(var0 -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)var0).getX(), ((bypass.util.Vector3)var0).getY(), ((bypass.util.Vector3)var0).getZ(), true)));
-      mc.thePlayer.sendQueue.u(var1.getPacket());
-      Collections.reverse(var6);
-      var6.forEach(var0 -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)var0).getX(), ((bypass.util.Vector3)var0).getY(), ((bypass.util.Vector3)var0).getZ(), true)));
-      this.m = var6;
+      list.forEach(object -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)object).getX(), ((bypass.util.Vector3)object).getY(), ((bypass.util.Vector3)object).getZ(), true)));
+      mc.thePlayer.sendQueue.u(packetEvent.getPacket());
+      Collections.reverse(list);
+      list.forEach(object2 -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)object2).getX(), ((bypass.util.Vector3)object2).getY(), ((bypass.util.Vector3)object2).getZ(), true)));
+      this.m = list;
    }
 
-   public static List<Vector3> Y(double var0, double var2, double var4) {
-      ArrayList var9 = new ArrayList();
-      double var10 = mc.thePlayer.posX;
-      double var12 = mc.thePlayer.posY;
-      double var14 = mc.thePlayer.posZ;
-      double var16 = Math.abs(var10 - var0) + Math.abs(var12 - var2) + Math.abs(var14 - var4);
+   public static List<Vector3> Y(double d, double d2, double d3) {
+      ArrayList arrayList = new ArrayList();
+      double e = mc.thePlayer.posX;
+      double d4 = mc.thePlayer.posY;
+      double d5 = mc.thePlayer.posZ;
+      double d6 = Math.abs(e - d) + Math.abs(d4 - d2) + Math.abs(d5 - d3);
 
-      for (int var18 = 0; var16 > 0.0; var18++) {
-         var16 = Math.abs(var10 - var0) + Math.abs(var12 - var2) + Math.abs(var14 - var4);
-         double var19 = var10 - var0;
-         double var21 = var12 - var2;
-         double var23 = var14 - var4;
-         double var25 = (var18 & 1) == 0 ? 0.4 : 0.1;
-         double var27 = Math.min(Math.abs(var19), var25);
-         if (var19 < 0.0) {
-            var10 += var27;
+      for (int i = 0; d6 > 0.0; i++) {
+         d6 = Math.abs(e - d) + Math.abs(d4 - d2) + Math.abs(d5 - d3);
+         double d7 = e - d;
+         double d8 = d4 - d2;
+         double d9 = d5 - d3;
+         double d10 = (i & 1) == 0 ? 0.4 : 0.1;
+         double d11 = Math.min(Math.abs(d7), d10);
+         if (d7 < 0.0) {
+            e += d11;
          }
 
-         if (var19 > 0.0) {
-            var10 -= var27;
+         if (d7 > 0.0) {
+            e -= d11;
          }
 
-         double var29 = Math.min(Math.abs(var21), 0.25);
-         if (var21 < 0.0) {
-            var12 += var29;
+         double d12 = Math.min(Math.abs(d8), 0.25);
+         if (d8 < 0.0) {
+            d4 += d12;
          }
 
-         if (var21 > 0.0) {
-            var12 -= var29;
+         if (d8 > 0.0) {
+            d4 -= d12;
          }
 
-         double var31 = Math.min(Math.abs(var23), var25);
-         if (var23 < 0.0) {
-            var14 += var31;
+         double d13 = Math.min(Math.abs(d9), d10);
+         if (d9 < 0.0) {
+            d5 += d13;
          }
 
-         if (var23 > 0.0) {
-            var14 -= var31;
+         if (d9 > 0.0) {
+            d5 -= d13;
          }
 
-         var9.add(new Vector3(var10, var12, var14));
+         arrayList.add(new Vector3(e, d4, d5));
       }
 
-      return var9;
+      return arrayList;
    }
 
-   public static List<Vector3> Z(double var0, double var2, double var4, double var6, double var8, double var10, double var12) {
-      ArrayList var17 = new ArrayList();
-      double var18 = Math.ceil(F(var0, var2, var4, var6, var8, var10) / var12);
-      double var20 = var6 - var0;
-      double var22 = var8 - var2;
-      double var24 = var10 - var4;
+   public static List<Vector3> Z(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
+      ArrayList arrayList = new ArrayList();
+      double e = Math.ceil(F(d, d2, d3, d4, d5, d6) / d7);
+      double d8 = d4 - d;
+      double d9 = d5 - d2;
+      double d10 = d6 - d3;
 
-      for (double var26 = 1.0; var26 <= var18; var26++) {
-         var17.add(new Vector3(var0 + var20 * var26 / var18, var2 + var22 * var26 / var18, var4 + var24 * var26 / var18));
+      for (double d11 = 1.0; d11 <= e; d11++) {
+         arrayList.add(new Vector3(d + d8 * d11 / e, d2 + d9 * d11 / e, d3 + d10 * d11 / e));
       }
 
-      return var17;
+      return arrayList;
    }
 
-   private static double F(double var0, double var2, double var4, double var6, double var8, double var10) {
-      double var12 = var0 - var6;
-      double var14 = var2 - var8;
-      double var16 = var4 - var10;
-      return MathHelper.sqrt_double(var12 * var12 + var14 * var14 + var16 * var16);
+   private static double F(double d, double d2, double d3, double d4, double d5, double d6) {
+      double e = d - d4;
+      double d7 = d2 - d5;
+      double d8 = d3 - d6;
+      return MathHelper.sqrt_double(e * e + d7 * d7 + d8 * d8);
    }
 }

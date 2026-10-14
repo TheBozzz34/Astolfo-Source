@@ -22,42 +22,42 @@ public class RenderZombie extends RenderBiped<EntityZombie> {
    private final List<LayerRenderer<EntityZombie>> field_177122_o;
    private static final long e = 64054122814966L;
 
-   public RenderZombie(RenderManager var1) {
-      super(var1, new ModelZombie(), 0.5F, 1.0F);
-      LayerRenderer var5 = this.layerRenderers.get(0);
+   public RenderZombie(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelZombie(), 0.5F, 1.0F);
+      LayerRenderer layerRenderer = this.layerRenderers.get(0);
       this.field_82434_o = this.modelBipedMain;
       this.zombieVillagerModel = new ModelZombieVillager();
       this.addLayer(new LayerHeldItem(this));
-      LayerBipedArmor var6 = new LayerBipedArmor(this) {
+      LayerBipedArmor layerBipedArmor = new LayerBipedArmor(this) {
          @Override
          public void initArmor() {
             this.modelLeggings = new ModelZombie(0.5F, true);
             this.modelArmor = new ModelZombie(1.0F, true);
          }
       };
-      this.addLayer(var6);
+      this.addLayer(layerBipedArmor);
       this.field_177122_o = Lists.newArrayList(this.layerRenderers);
-      if (var5 instanceof LayerCustomHead) {
-         this.removeLayer(var5);
+      if (layerRenderer instanceof LayerCustomHead) {
+         this.removeLayer(layerRenderer);
          this.addLayer(new LayerCustomHead(this.zombieVillagerModel.bipedHead));
       }
 
-      this.removeLayer(var6);
+      this.removeLayer(layerBipedArmor);
       this.addLayer(new LayerVillagerArmor(this));
       this.field_177121_n = Lists.newArrayList(this.layerRenderers);
    }
 
-   public void doRender(EntityZombie var1, double var2, double var4, double var6, float var8, float var9) {
-      this.func_82427_a(var1);
-      super.doRender(var1, var2, var4, var6, var8, var9);
+   public void doRender(EntityZombie entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      this.func_82427_a(entity);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityZombie var1) {
-      return var1.isVillager() ? zombieVillagerTextures : zombieTextures;
+   public ResourceLocation getEntityTexture(EntityZombie entity) {
+      return entity.isVillager() ? zombieVillagerTextures : zombieTextures;
    }
 
-   private void func_82427_a(EntityZombie var1) {
-      if (var1.isVillager()) {
+   private void func_82427_a(EntityZombie zombie) {
+      if (zombie.isVillager()) {
          this.mainModel = this.zombieVillagerModel;
          this.layerRenderers = this.field_177121_n;
       } else {
@@ -68,11 +68,11 @@ public class RenderZombie extends RenderBiped<EntityZombie> {
       this.modelBipedMain = (ModelBiped)this.mainModel;
    }
 
-   public void rotateCorpse(EntityZombie var1, float var2, float var3, float var4) {
-      if (var1.isConverting()) {
-         var3 += (float)(Math.cos(var1.ticksExisted * 3.25) * Math.PI * 0.25);
+   public void rotateCorpse(EntityZombie bat, float g, float h, float partialTicks) {
+      if (bat.isConverting()) {
+         h += (float)(Math.cos(bat.ticksExisted * 3.25) * Math.PI * 0.25);
       }
 
-      super.rotateCorpse(var1, var2, var3, var4);
+      super.rotateCorpse(bat, g, h, partialTicks);
    }
 }

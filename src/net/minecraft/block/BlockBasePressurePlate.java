@@ -16,24 +16,24 @@ public abstract class BlockBasePressurePlate extends Block {
    private static final long e = 18717455217648L;
    private static final long L = 8260034292818640916L;
 
-   public BlockBasePressurePlate(Material var1) {
-      this(var1, var1.getMaterialMapColor());
+   public BlockBasePressurePlate(Material materialIn) {
+      this(materialIn, materialIn.getMaterialMapColor());
    }
 
-   public BlockBasePressurePlate(Material var1, MapColor var2) {
-      super(var1, var2);
+   public BlockBasePressurePlate(Material material, MapColor mapColor) {
+      super(material, mapColor);
       this.setCreativeTab(CreativeTabs.tabRedstone);
       this.setTickRandomly(true);
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      this.setBlockBoundsBasedOnState0(var1.getBlockState(var2));
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      this.setBlockBoundsBasedOnState0(worldIn.getBlockState(pos));
    }
 
-   public void setBlockBoundsBasedOnState0(IBlockState var1) {
-      boolean var5 = this.getRedstoneStrength(var1) > 0;
-      if (var5) {
+   public void setBlockBoundsBasedOnState0(IBlockState state) {
+      boolean bl = this.getRedstoneStrength(state) > 0;
+      if (bl) {
          this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.03125F, 0.9375F);
       } else {
          this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.0625F, 0.9375F);
@@ -41,12 +41,12 @@ public abstract class BlockBasePressurePlate extends Block {
    }
 
    @Override
-   public int tickRate(World var1) {
+   public int tickRate(World worldIn) {
       return (int)L;
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
@@ -61,7 +61,7 @@ public abstract class BlockBasePressurePlate extends Block {
    }
 
    @Override
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
       return true;
    }
 
@@ -71,94 +71,94 @@ public abstract class BlockBasePressurePlate extends Block {
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return this.canBePlacedOn(var1, var2.down());
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return this.canBePlacedOn(worldIn, pos.down());
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (!this.canBePlacedOn(var1, var2.down())) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (!this.canBePlacedOn(worldIn, pos.down())) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
       }
    }
 
-   private boolean canBePlacedOn(World var1, BlockPos var2) {
-      return World.doesBlockHaveSolidTopSurface(var1, var2) || var1.getBlockState(var2).getBlock() instanceof BlockFence;
+   private boolean canBePlacedOn(World worldIn, BlockPos pos) {
+      return World.doesBlockHaveSolidTopSurface(worldIn, pos) || worldIn.getBlockState(pos).getBlock() instanceof BlockFence;
    }
 
    @Override
-   public void randomTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
+   public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random randomIn) {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote) {
-         int var8 = this.getRedstoneStrength(var3);
-         if (var8 > 0) {
-            this.updateState(var1, var2, var3, var8);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote) {
+         int i = this.getRedstoneStrength(state);
+         if (i > 0) {
+            this.updateState(worldIn, pos, state, i);
          }
       }
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      if (!var1.isRemote) {
-         int var8 = this.getRedstoneStrength(var3);
-         if (var8 == 0) {
-            this.updateState(var1, var2, var3, var8);
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      if (!worldIn.isRemote) {
+         int i = this.getRedstoneStrength(state);
+         if (i == 0) {
+            this.updateState(worldIn, pos, state, i);
          }
       }
    }
 
-   public void updateState(World var1, BlockPos var2, IBlockState var3, int var4) {
-      int var8 = this.computeRedstoneStrength(var1, var2);
-      boolean var9 = var4 > 0;
-      boolean var10 = var8 > 0;
-      if (var4 != var8) {
-         var3 = this.setRedstoneStrength(var3, var8);
-         var1.setBlockState(var2, var3, 2);
-         this.updateNeighbors(var1, var2);
-         var1.markBlockRangeForRenderUpdate(var2, var2);
+   public void updateState(World worldIn, BlockPos pos, IBlockState state, int oldRedstoneStrength) {
+      int i = this.computeRedstoneStrength(worldIn, pos);
+      boolean bl = oldRedstoneStrength > 0;
+      boolean bl2 = i > 0;
+      if (oldRedstoneStrength != i) {
+         state = this.setRedstoneStrength(state, i);
+         worldIn.setBlockState(pos, state, 2);
+         this.updateNeighbors(worldIn, pos);
+         worldIn.markBlockRangeForRenderUpdate(pos, pos);
       }
 
-      if (!var10 && var9) {
-         var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.1, var2.getZ() + 0.5, "random.click", 0.3F, 0.5F);
-      } else if (var10 && !var9) {
-         var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.1, var2.getZ() + 0.5, "random.click", 0.3F, 0.6F);
+      if (!bl2 && bl) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, "random.click", 0.3F, 0.5F);
+      } else if (bl2 && !bl) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, "random.click", 0.3F, 0.6F);
       }
 
-      if (var10) {
-         var1.scheduleUpdate(var2, this, this.tickRate(var1));
+      if (bl2) {
+         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
       }
    }
 
-   public AxisAlignedBB getSensitiveAABB(BlockPos var1) {
-      return new AxisAlignedBB(var1.getX() + 0.125F, var1.getY(), var1.getZ() + 0.125F, var1.getX() + 1 - 0.125F, var1.getY() + 0.25, var1.getZ() + 1 - 0.125F);
+   public AxisAlignedBB getSensitiveAABB(BlockPos pos) {
+      return new AxisAlignedBB(pos.getX() + 0.125F, pos.getY(), pos.getZ() + 0.125F, pos.getX() + 1 - 0.125F, pos.getY() + 0.25, pos.getZ() + 1 - 0.125F);
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      if (this.getRedstoneStrength(var3) > 0) {
-         this.updateNeighbors(var1, var2);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      if (this.getRedstoneStrength(state) > 0) {
+         this.updateNeighbors(worldIn, pos);
       }
 
-      super.breakBlock(var1, var2, var3);
+      super.breakBlock(worldIn, pos, state);
    }
 
-   public void updateNeighbors(World var1, BlockPos var2) {
-      var1.notifyNeighborsOfStateChange(var2, this);
-      var1.notifyNeighborsOfStateChange(var2.down(), this);
-   }
-
-   @Override
-   public int getWeakPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
-      return this.getRedstoneStrength(var3);
+   public void updateNeighbors(World worldIn, BlockPos pos) {
+      worldIn.notifyNeighborsOfStateChange(pos, this);
+      worldIn.notifyNeighborsOfStateChange(pos.down(), this);
    }
 
    @Override
-   public int getStrongPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
-      return var4 == EnumFacing.UP ? this.getRedstoneStrength(var3) : 0;
+   public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
+      return this.getRedstoneStrength(state);
+   }
+
+   @Override
+   public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
+      return side == EnumFacing.UP ? this.getRedstoneStrength(state) : 0;
    }
 
    @Override
@@ -176,9 +176,9 @@ public abstract class BlockBasePressurePlate extends Block {
       return 1;
    }
 
-   public abstract int computeRedstoneStrength(World var1, BlockPos var2);
+   public abstract int computeRedstoneStrength(World worldIn, BlockPos pos);
 
-   public abstract int getRedstoneStrength(IBlockState var1);
+   public abstract int getRedstoneStrength(IBlockState state);
 
-   public abstract IBlockState setRedstoneStrength(IBlockState var1, int var2);
+   public abstract IBlockState setRedstoneStrength(IBlockState state, int strength);
 }

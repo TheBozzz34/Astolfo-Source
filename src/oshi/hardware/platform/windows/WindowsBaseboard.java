@@ -36,23 +36,23 @@ public final class WindowsBaseboard extends AbstractBaseboard {
    }
 
    private static Quartet<String, String, String, String> queryManufModelVersSerial() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      String var6 = null;
-      WmiResult var7 = Win32BaseBoard.queryBaseboardInfo();
-      if (var7.getResultCount() > 0) {
-         var3 = WmiUtil.getString(var7, Win32BaseBoard.BaseBoardProperty.MANUFACTURER, 0);
-         var4 = WmiUtil.getString(var7, Win32BaseBoard.BaseBoardProperty.MODEL, 0);
-         var5 = WmiUtil.getString(var7, Win32BaseBoard.BaseBoardProperty.VERSION, 0);
-         var6 = WmiUtil.getString(var7, Win32BaseBoard.BaseBoardProperty.SERIALNUMBER, 0);
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      String string4 = null;
+      WmiResult wmiResult = Win32BaseBoard.queryBaseboardInfo();
+      if (wmiResult.getResultCount() > 0) {
+         string = WmiUtil.getString(wmiResult, Win32BaseBoard.BaseBoardProperty.MANUFACTURER, 0);
+         string2 = WmiUtil.getString(wmiResult, Win32BaseBoard.BaseBoardProperty.MODEL, 0);
+         string3 = WmiUtil.getString(wmiResult, Win32BaseBoard.BaseBoardProperty.VERSION, 0);
+         string4 = WmiUtil.getString(wmiResult, Win32BaseBoard.BaseBoardProperty.SERIALNUMBER, 0);
       }
 
       return new Quartet<>(
-         Util.isBlank(var3) ? "unknown" : var3,
-         Util.isBlank(var4) ? "unknown" : var4,
-         Util.isBlank(var5) ? "unknown" : var5,
-         Util.isBlank(var6) ? "unknown" : var6
+         Util.isBlank(string) ? "unknown" : string,
+         Util.isBlank(string2) ? "unknown" : string2,
+         Util.isBlank(string3) ? "unknown" : string3,
+         Util.isBlank(string4) ? "unknown" : string4
       );
    }
 }

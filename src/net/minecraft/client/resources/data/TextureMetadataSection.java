@@ -8,10 +8,10 @@ public class TextureMetadataSection implements IMetadataSection {
    private final boolean textureClamp;
    private final List<Integer> listMipmaps;
 
-   public TextureMetadataSection(boolean var1, boolean var2, List<Integer> var3) {
-      this.textureBlur = var1;
-      this.textureClamp = var2;
-      this.listMipmaps = var3;
+   public TextureMetadataSection(boolean bl, boolean bl2, List<Integer> list) {
+      this.textureBlur = bl;
+      this.textureClamp = bl2;
+      this.listMipmaps = list;
    }
 
    public boolean getTextureBlur() {

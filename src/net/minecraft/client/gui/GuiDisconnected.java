@@ -46,14 +46,14 @@ public class GuiDisconnected extends GuiScreen {
    public static int b;
    private static final long d = 73680682158096L;
 
-   public GuiDisconnected(GuiScreen var1, String var2, IChatComponent var3) {
-      this.parentScreen = var1;
-      this.reason = I18n.format(var2);
-      this.message = var3;
+   public GuiDisconnected(GuiScreen screen, String reasonLocalizationKey, IChatComponent chatComp) {
+      this.parentScreen = screen;
+      this.reason = I18n.format(reasonLocalizationKey);
+      this.message = chatComp;
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
    }
 
    @Override
@@ -66,15 +66,15 @@ public class GuiDisconnected extends GuiScreen {
       this.p = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 21 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, String.valueOf(this.B));
       this.p.enabled = false;
       this.buttonList.add(this.p);
-      GuiButton var4 = new GuiButton(
+      GuiButton guiButton = new GuiButton(
          2, this.width / 2 - 100, this.height / 2 + 42 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, 100, 20, "Reconnect with alt"
       );
       AlteningScreen.W().d(AlteningScreen.b);
       if ((AlteningScreen.W().O().equals("nono") || AlteningScreen.W().O().isEmpty()) && b == 0) {
-         var4.enabled = false;
+         guiButton.enabled = false;
       }
 
-      this.buttonList.add(this.R = var4);
+      this.buttonList.add(this.R = guiButton);
       this.buttonList
          .add(
             this.l = new GuiButton(
@@ -92,75 +92,75 @@ public class GuiDisconnected extends GuiScreen {
       }
 
       this.P = new Stopwatch();
-      Alt var5 = this.F(AltLogin.AUTH.lastLoggedAlt);
-      if (var5 != null) {
-         for (String var7 : this.multilineMessage) {
-            if (var7.contains("You are temporarily banned")) {
-               Date var8 = new Date();
-               Calendar var9 = Calendar.getInstance();
-               var9.setTime(var8);
-               String var10 = StringUtils.stripControlCodes(H(var7, "for ", "from"));
+      Alt alt2 = this.F(AltLogin.AUTH.lastLoggedAlt);
+      if (alt2 != null) {
+         for (String string : this.multilineMessage) {
+            if (string.contains("You are temporarily banned")) {
+               Date date = new Date();
+               Calendar calendar = Calendar.getInstance();
+               calendar.setTime(date);
+               String string2 = StringUtils.stripControlCodes(H(string, "for ", "from"));
 
-               for (String var14 : var10.split(" ")) {
-                  String var15 = var14.replaceAll("[^\\d.]", "");
-                  if (var14.endsWith("d")) {
-                     var9.add(5, Integer.parseInt(var15));
+               for (String string3 : string2.split(" ")) {
+                  String string4 = string3.replaceAll("[^\\d.]", "");
+                  if (string3.endsWith("d")) {
+                     calendar.add(5, Integer.parseInt(string4));
                   }
 
-                  if (var14.endsWith("h")) {
-                     var9.add(10, Integer.parseInt(var15));
+                  if (string3.endsWith("h")) {
+                     calendar.add(10, Integer.parseInt(string4));
                   }
 
-                  if (var14.endsWith("m")) {
-                     var9.add(12, Integer.parseInt(var15));
+                  if (string3.endsWith("m")) {
+                     calendar.add(12, Integer.parseInt(string4));
                   }
 
-                  if (var14.endsWith("s")) {
-                     var9.add(13, Integer.parseInt(var15));
+                  if (string3.endsWith("s")) {
+                     calendar.add(13, Integer.parseInt(string4));
                   }
                }
 
-               var5.m = var9.getTime().getTime();
-               if (!var5.N) {
+               alt2.m = calendar.getTime().getTime();
+               if (!alt2.N) {
                   Toasts.TOASTS.X("Marked account as banned", AltLogin.AUTH.lastLoggedAlt.j + " is now marked as temporarily banned");
                }
 
-               var5.N = true;
+               alt2.N = true;
             }
 
-            if (var7.contains("You are permanently banned") && !var5.N) {
-               var5.N = true;
+            if (string.contains("You are permanently banned") && !alt2.N) {
+               alt2.N = true;
                Toasts.TOASTS.X("Marked account as banned", AltLogin.AUTH.lastLoggedAlt.j + " is now marked as banned");
             }
          }
       }
    }
 
-   public static String H(String var0, String var1, String var2) {
-      int var6 = var0.indexOf(var1);
-      if (var6 == -1) {
+   public static String H(String string, String string2, String string3) {
+      int i = string.indexOf(string2);
+      if (i == -1) {
          return "";
       }
 
-      int var7 = var0.lastIndexOf(var2);
-      if (var7 == -1) {
+      int j = string.lastIndexOf(string3);
+      if (j == -1) {
          return "";
       }
 
-      int var8 = var6 + var1.length();
-      return var8 >= var7 ? "" : var0.substring(var8, var7);
+      int k = i + string2.length();
+      return k >= j ? "" : string.substring(k, j);
    }
 
    @Override
    public void updateScreen() {
-      long var1 = d ^ 71812122919810L;
-      long var3 = var1 ^ 62083882695697L;
+      long l = d ^ 71812122919810L;
+      long m = l ^ 62083882695697L;
       if (this.Y != null && !this.Y.isEmpty() && this.V) {
-         Alt var6 = new Alt(this.Y, "");
-         AltLogin.AUTH.A(var6);
-         List var7 = Astolfo.INSTANCE.getAltManager().getList();
+         Alt alt = new Alt(this.Y, "");
+         AltLogin.AUTH.A(alt);
+         List list = Astolfo.INSTANCE.getAltManager().getList();
          if (AlteningScreen.f) {
-            var7.add(var6);
+            list.add(alt);
          }
 
          this.Y = "";
@@ -184,14 +184,14 @@ public class GuiDisconnected extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      long var2 = d ^ 106409378218484L;
-      long var4 = var2 ^ 28451119922791L;
-      if (var1.id == 0) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      long m = d ^ 106409378218484L;
+      long n = m ^ 28451119922791L;
+      if (button.id == 0) {
          this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
-      } else if (var1.id == 1) {
+      } else if (button.id == 1) {
          this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, new ServerData("i said nigga please", ServerData.I, false)));
-      } else if (var1.id == 2) {
+      } else if (button.id == 2) {
          this.c = this.mc.session.getUsername();
          switch (b) {
             case 0:
@@ -208,23 +208,23 @@ public class GuiDisconnected extends GuiScreen {
                   FileUtil.w.execute(() -> {
                      try {
                         this.Y = AlteningScreen.W().i(AlteningScreen.W().t()).f();
-                     } catch (IOException var2x) {
+                     } catch (IOException ioException) {
                         this.Y = "";
                         this.N = true;
                      }
                   });
                   this.V = true;
-               } catch (NoSuchFieldException | IllegalAccessException var14) {
+               } catch (NoSuchFieldException | IllegalAccessException value) {
                   this.V = false;
                   this.Y = "";
-                  var14.printStackTrace();
+                  value.printStackTrace();
                }
                break;
             case 1:
                this.R.enabled = true;
-               Alt var7 = Astolfo.INSTANCE.getAltManager().getList().get(RandomUtils.RANDOM.nextInt(Astolfo.INSTANCE.getAltManager().getList().size()));
-               if (var7 != null) {
-                  AltLogin.AUTH.A(var7);
+               Alt alt = Astolfo.INSTANCE.getAltManager().getList().get(RandomUtils.RANDOM.nextInt(Astolfo.INSTANCE.getAltManager().getList().size()));
+               if (alt != null) {
+                  AltLogin.AUTH.A(alt);
                   this.V = true;
                }
                break;
@@ -233,16 +233,16 @@ public class GuiDisconnected extends GuiScreen {
                if (AlteningScreen.r().V().equals(AccountType.THEALTENING)) {
                   try {
                      AlteningScreen.r().g(AccountType.MOJANG);
-                  } catch (NoSuchFieldException | IllegalAccessException var13) {
-                     var13.printStackTrace();
+                  } catch (NoSuchFieldException | IllegalAccessException value2) {
+                     value2.printStackTrace();
                   }
                }
 
-               ArrayList var8 = Astolfo.INSTANCE.getAltManager().e();
-               if (var8.size() > 0) {
-                  Alt var15 = (Alt)var8.get(0);
-                  if (var15 != null) {
-                     AltLogin.AUTH.A(var15);
+               ArrayList arrayList = Astolfo.INSTANCE.getAltManager().e();
+               if (arrayList.size() > 0) {
+                  Alt alt2 = (Alt)arrayList.get(0);
+                  if (alt2 != null) {
+                     AltLogin.AUTH.A(alt2);
                      this.V = true;
                   }
                }
@@ -255,37 +255,37 @@ public class GuiDisconnected extends GuiScreen {
                this.R.enabled = true;
 
                try {
-                  String var9 = GuiScreen.getClipboardString();
-                  String[] var10 = var9.split(":");
-                  AltLogin.AUTH.A(new Alt(var10[0], var10[1]));
-               } catch (ArrayIndexOutOfBoundsException var12) {
+                  String string = GuiScreen.getClipboardString();
+                  String[] strings = string.split(":");
+                  AltLogin.AUTH.A(new Alt(strings[0], strings[1]));
+               } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
                }
          }
-      } else if (var1.id == 3) {
+      } else if (button.id == 3) {
          b++;
          if (b > 4) {
             b = 0;
          }
 
          this.l.displayString = "Alt type: " + (b == 0 ? "Altening" : (b == 1 ? "random" : (b == 2 ? "unbanned" : (b == 3 ? "username" : "clipboard"))));
-      } else if (var1.id == 5 && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
+      } else if (button.id == 5 && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
          try {
             Desktop.getDesktop().browse(new URI("https://shop.thealtening.com/?r=astolfo"));
-         } catch (IOException | URISyntaxException var11) {
-            var11.printStackTrace();
+         } catch (IOException | URISyntaxException value3) {
+            value3.printStackTrace();
          }
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810);
-      int var7 = this.height / 2 - this.field_175353_i / 2;
+      int i = this.height / 2 - this.field_175353_i / 2;
       if (this.multilineMessage != null) {
-         for (String var9 : this.multilineMessage) {
-            this.d(this.fontRendererObj, var9, this.width / 2, var7, 16777215);
-            var7 += this.fontRendererObj.FONT_HEIGHT;
+         for (String string : this.multilineMessage) {
+            this.d(this.fontRendererObj, string, this.width / 2, i, 16777215);
+            i += this.fontRendererObj.FONT_HEIGHT;
          }
       }
 
@@ -293,19 +293,19 @@ public class GuiDisconnected extends GuiScreen {
          this.mc.fontRendererObj.drawStringWithShadow("Altening login has failed, maintenance or plan?", 3.0F, 3.0F, Color.RED.getRGB());
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   private Alt F(Alt var1) {
-      long var2 = d ^ 64085456306532L;
-      long var4 = var2 ^ 74140145827575L;
-      if (var1 == null) {
+   private Alt F(Alt alt) {
+      long l = d ^ 64085456306532L;
+      long m = l ^ 74140145827575L;
+      if (alt == null) {
          return null;
       }
 
-      for (Alt var8 : Astolfo.INSTANCE.getAltManager().getList()) {
-         if (var8.equals(var1)) {
-            return var8;
+      for (Alt alt2 : Astolfo.INSTANCE.getAltManager().getList()) {
+         if (alt2.equals(alt)) {
+            return alt2;
          }
       }
 

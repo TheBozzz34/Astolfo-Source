@@ -22,8 +22,8 @@ public class GuiCommandBlock extends GuiScreen {
    private boolean field_175389_t;
    private static final long a = 132828306873478L;
 
-   public GuiCommandBlock(CommandBlockLogic var1) {
-      this.localCommandBlock = var1;
+   public GuiCommandBlock(CommandBlockLogic commandBlockLogic) {
+      this.localCommandBlock = commandBlockLogic;
    }
 
    @Override
@@ -57,24 +57,24 @@ public class GuiCommandBlock extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 1) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 1) {
             this.localCommandBlock.setTrackOutput(this.field_175389_t);
             this.mc.displayGuiScreen((GuiScreen)null);
-         } else if (var1.id == 0) {
-            PacketBuffer var5 = new PacketBuffer(Unpooled.buffer());
-            var5.writeByte(this.localCommandBlock.func_145751_f());
-            this.localCommandBlock.func_145757_a(var5);
-            var5.writeString(this.commandTextField.getText());
-            var5.writeBoolean(this.localCommandBlock.shouldTrackOutput());
-            this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("MC|AdvCdm", var5));
+         } else if (button.id == 0) {
+            PacketBuffer packetBuffer = new PacketBuffer(Unpooled.buffer());
+            packetBuffer.writeByte(this.localCommandBlock.func_145751_f());
+            this.localCommandBlock.func_145757_a(packetBuffer);
+            packetBuffer.writeString(this.commandTextField.getText());
+            packetBuffer.writeBoolean(this.localCommandBlock.shouldTrackOutput());
+            this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("MC|AdvCdm", packetBuffer));
             if (!this.localCommandBlock.shouldTrackOutput()) {
                this.localCommandBlock.setLastOutput((IChatComponent)null);
             }
 
             this.mc.displayGuiScreen((GuiScreen)null);
-         } else if (var1.id == 4) {
+         } else if (button.id == 4) {
             this.localCommandBlock.setTrackOutput(!this.localCommandBlock.shouldTrackOutput());
             this.func_175388_a();
          }
@@ -82,44 +82,44 @@ public class GuiCommandBlock extends GuiScreen {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      this.commandTextField.textboxKeyTyped(var1, var2);
-      this.previousOutputTextField.textboxKeyTyped(var1, var2);
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      this.commandTextField.textboxKeyTyped(typedChar, keyCode);
+      this.previousOutputTextField.textboxKeyTyped(typedChar, keyCode);
       this.doneBtn.enabled = this.commandTextField.getText().trim().length() > 0;
-      if (var2 == 28 || var2 == 156) {
+      if (keyCode == 28 || keyCode == 156) {
          this.actionPerformed(this.doneBtn);
-      } else if (var2 == 1) {
+      } else if (keyCode == 1) {
          this.actionPerformed(this.cancelBtn);
       }
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      super.mouseClicked(var1, var2, var3);
-      this.commandTextField.mouseClicked(var1, var2, var3);
-      this.previousOutputTextField.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      super.mouseClicked(mouseX, mouseY, mouseButton);
+      this.commandTextField.mouseClicked(mouseX, mouseY, mouseButton);
+      this.previousOutputTextField.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, I18n.format("advMode.setCommand"), this.width / 2, 20, 16777215);
       this.I(this.fontRendererObj, I18n.format("advMode.command"), this.width / 2 - 150, 37, 10526880);
       this.commandTextField.drawTextBox();
-      int var7 = 75;
-      int var8 = 0;
-      this.I(this.fontRendererObj, I18n.format("advMode.nearestPlayer"), this.width / 2 - 150, var7 + var8++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, var7 + var8++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, I18n.format("advMode.allPlayers"), this.width / 2 - 150, var7 + var8++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, var7 + var8++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, "", this.width / 2 - 150, var7 + var8++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      int i = 75;
+      int j = 0;
+      this.I(this.fontRendererObj, I18n.format("advMode.nearestPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      this.I(this.fontRendererObj, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      this.I(this.fontRendererObj, I18n.format("advMode.allPlayers"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      this.I(this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      this.I(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
       if (this.previousOutputTextField.getText().length() > 0) {
-         var7 = var7 + var8 * this.fontRendererObj.FONT_HEIGHT + 16;
-         this.I(this.fontRendererObj, I18n.format("advMode.previousOutput"), this.width / 2 - 150, var7, 10526880);
+         i = i + j * this.fontRendererObj.FONT_HEIGHT + 16;
+         this.I(this.fontRendererObj, I18n.format("advMode.previousOutput"), this.width / 2 - 150, i, 10526880);
          this.previousOutputTextField.drawTextBox();
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    private void func_175388_a() {

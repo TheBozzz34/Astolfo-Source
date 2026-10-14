@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 public class EntityCaveSpider extends EntitySpider {
    private static final long ab = 130610965861365L;
 
-   public EntityCaveSpider(World var1) {
-      super(var1);
+   public EntityCaveSpider(World worldIn) {
+      super(worldIn);
       this.setSize(0.7F, 0.5F);
    }
 
@@ -25,18 +25,18 @@ public class EntityCaveSpider extends EntitySpider {
    }
 
    @Override
-   public boolean attackEntityAsMob(Entity var1) {
-      if (super.attackEntityAsMob(var1)) {
-         if (var1 instanceof EntityLivingBase) {
-            byte var5 = 0;
+   public boolean attackEntityAsMob(Entity entityIn) {
+      if (super.attackEntityAsMob(entityIn)) {
+         if (entityIn instanceof EntityLivingBase) {
+            byte b = 0;
             if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL) {
-               var5 = 7;
+               b = 7;
             } else if (this.worldObj.getDifficulty() == EnumDifficulty.HARD) {
-               var5 = 15;
+               b = 15;
             }
 
-            if (var5 > 0) {
-               ((EntityLivingBase)var1).addPotionEffect(new PotionEffect(Potion.poison.id, var5 * 20, 0));
+            if (b > 0) {
+               ((EntityLivingBase)entityIn).addPotionEffect(new PotionEffect(Potion.poison.id, b * 20, 0));
             }
          }
 
@@ -47,8 +47,8 @@ public class EntityCaveSpider extends EntitySpider {
    }
 
    @Override
-   public IEntityLivingData onInitialSpawn(DifficultyInstance var1, IEntityLivingData var2) {
-      return var2;
+   public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+      return livingdata;
    }
 
    @Override

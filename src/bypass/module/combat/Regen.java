@@ -17,10 +17,10 @@ import net.minecraft.util.EnumChatFormatting;
 public final class Regen extends Module {
    private final EnumSetting<RegenMode> mode = new EnumSetting<>("Mode", "Set your Regen mode", RegenMode.VANILLA);
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE && this.v()) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE && this.v()) {
          switch ((RegenMode)this.mode.getValue()) {
             case POTION:
                if (mc.thePlayer.getActivePotionEffect(Potion.regeneration) != null) {
@@ -33,27 +33,27 @@ public final class Regen extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING
-         && var1x.getPacket() instanceof C03PacketPlayer
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING
+         && packetEvent.getPacket() instanceof C03PacketPlayer
          && mc.thePlayer != null
          && this.mode.getValue() == RegenMode.WAIT
          && this.v()
          && mc.thePlayer.getHealth() < mc.thePlayer.getMaxHealth()
          && mc.thePlayer.ticksExisted % 2 == 0) {
-         mc.thePlayer.sendQueue.u(new C03PacketPlayer(((C03PacketPlayer)var1x.getPacket()).isOnGround()));
+         mc.thePlayer.sendQueue.u(new C03PacketPlayer(((C03PacketPlayer)packetEvent.getPacket()).isOnGround()));
       }
    };
    private static final long c = 19081020614194L;
 
-   public Regen(Category var1) {
-      super(var1);
+   public Regen(Category category) {
+      super(category);
       this.addSettings(this.mode);
    }
 
    private void z() {
       if (mc.thePlayer.getHealth() < mc.thePlayer.getMaxHealth()) {
-         for (int var4 = 0; var4 < mc.thePlayer.getMaxHealth() - mc.thePlayer.getHealth(); var4++) {
+         for (int i = 0; i < mc.thePlayer.getMaxHealth() - mc.thePlayer.getHealth(); i++) {
             mc.thePlayer.sendQueue.u(new C03PacketPlayer(mc.thePlayer.onGround));
          }
       }

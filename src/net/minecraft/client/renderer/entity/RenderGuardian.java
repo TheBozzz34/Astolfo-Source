@@ -21,21 +21,21 @@ public class RenderGuardian extends RenderLiving<EntityGuardian> {
    public int field_177115_a = ((ModelGuardian)this.mainModel).func_178706_a();
    private static final long e = 134730947953884L;
 
-   public RenderGuardian(RenderManager var1) {
-      super(var1, new ModelGuardian(), 0.5F);
+   public RenderGuardian(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelGuardian(), 0.5F);
    }
 
-   public boolean shouldRender(EntityGuardian var1, ICamera var2, double var3, double var5, double var7) {
-      if (super.shouldRender(var1, var2, var3, var5, var7)) {
+   public boolean shouldRender(EntityGuardian livingEntity, ICamera camera, double camX, double camY, double camZ) {
+      if (super.shouldRender(livingEntity, camera, camX, camY, camZ)) {
          return true;
       }
 
-      if (var1.hasTargetedEntity()) {
-         EntityLivingBase var12 = var1.getTargetedEntity();
-         if (var12 != null) {
-            Vec3 var13 = this.func_177110_a(var12, var12.height * 0.5, 1.0F);
-            Vec3 var14 = this.func_177110_a(var1, var1.getEyeHeight(), 1.0F);
-            if (var2.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(var14.xCoord, var14.yCoord, var14.zCoord, var13.xCoord, var13.yCoord, var13.zCoord))) {
+      if (livingEntity.hasTargetedEntity()) {
+         EntityLivingBase entityLivingBase = livingEntity.getTargetedEntity();
+         if (entityLivingBase != null) {
+            Vec3 vec3 = this.func_177110_a(entityLivingBase, entityLivingBase.height * 0.5, 1.0F);
+            Vec3 vec32 = this.func_177110_a(livingEntity, livingEntity.getEyeHeight(), 1.0F);
+            if (camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec32.xCoord, vec32.yCoord, vec32.zCoord, vec3.xCoord, vec3.yCoord, vec3.zCoord))) {
                return true;
             }
          }
@@ -44,109 +44,109 @@ public class RenderGuardian extends RenderLiving<EntityGuardian> {
       return false;
    }
 
-   private Vec3 func_177110_a(EntityLivingBase var1, double var2, float var4) {
-      double var5 = var1.lastTickPosX + (var1.posX - var1.lastTickPosX) * var4;
-      double var7 = var2 + var1.lastTickPosY + (var1.posY - var1.lastTickPosY) * var4;
-      double var9 = var1.lastTickPosZ + (var1.posZ - var1.lastTickPosZ) * var4;
-      return new Vec3(var5, var7, var9);
+   private Vec3 func_177110_a(EntityLivingBase entityLivingBaseIn, double d, float g) {
+      double e = entityLivingBaseIn.lastTickPosX + (entityLivingBaseIn.posX - entityLivingBaseIn.lastTickPosX) * g;
+      double d2 = d + entityLivingBaseIn.lastTickPosY + (entityLivingBaseIn.posY - entityLivingBaseIn.lastTickPosY) * g;
+      double d3 = entityLivingBaseIn.lastTickPosZ + (entityLivingBaseIn.posZ - entityLivingBaseIn.lastTickPosZ) * g;
+      return new Vec3(e, d2, d3);
    }
 
-   public void doRender(EntityGuardian var1, double var2, double var4, double var6, float var8, float var9) {
-      long var10 = e ^ 15411579158919L;
+   public void doRender(EntityGuardian entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      long l = e ^ 15411579158919L;
       if (this.field_177115_a != ((ModelGuardian)this.mainModel).func_178706_a()) {
          this.mainModel = new ModelGuardian();
          this.field_177115_a = ((ModelGuardian)this.mainModel).func_178706_a();
       }
 
-      super.doRender(var1, var2, var4, var6, var8, var9);
-      EntityLivingBase var13 = var1.getTargetedEntity();
-      if (var13 != null) {
-         float var14 = var1.func_175477_p(var9);
-         Tessellator var15 = Tessellator.getInstance();
-         long var10000 = 747033026848950311L ^ var10;
-         WorldRenderer var16 = var15.getWorldRenderer();
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
+      EntityLivingBase entityLivingBase = entity.getTargetedEntity();
+      if (entityLivingBase != null) {
+         float f = entity.func_175477_p(partialTicks);
+         Tessellator tessellator = Tessellator.getInstance();
+         long m = 747033026848950311L ^ l;
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
          this.bindTexture(GUARDIAN_BEAM_TEXTURE);
          GL11.glTexParameterf(3553, 10242, 10497.0F);
          GL11.glTexParameterf(3553, 10243, 10497.0F);
          GlStateManager.disableLighting();
-         var10000 = 9131928542262324030L ^ var10;
+         m = 9131928542262324030L ^ l;
          GlStateManager.disableCull();
          GlStateManager.disableBlend();
          GlStateManager.depthMask(true);
-         float var17 = 240.0F;
-         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var17, var17);
+         float g = 240.0F;
+         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, g, g);
          GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
-         float var18 = (float)var1.worldObj.getTotalWorldTime() + var9;
-         float var19 = var18 * 0.5F % 1.0F;
-         float var20 = var1.getEyeHeight();
+         float h = (float)entity.worldObj.getTotalWorldTime() + partialTicks;
+         float f2 = h * 0.5F % 1.0F;
+         float f3 = entity.getEyeHeight();
          GlStateManager.pushMatrix();
-         GlStateManager.translate((float)var2, (float)var4 + var20, (float)var6);
-         Vec3 var21 = this.func_177110_a(var13, var13.height * 0.5, var9);
-         Vec3 var22 = this.func_177110_a(var1, var20, var9);
-         Vec3 var23 = var21.subtract(var22);
-         double var24 = var23.lengthVector() + 1.0;
-         var23 = var23.normalize();
-         float var26 = (float)Math.acos(var23.yCoord);
-         float var27 = (float)Math.atan2(var23.zCoord, var23.xCoord);
-         GlStateManager.rotate(((float) (Math.PI / 2) + -var27) * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
-         GlStateManager.rotate(var26 * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
-         byte var28 = 1;
-         double var29 = var18 * 0.05 * (1.0 - (var28 & 1) * 2.5);
-         var16.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-         float var31 = var14 * var14;
-         var10000 = 4435857273330059672L ^ var10;
-         int var32 = 64 + (int)(var31 * 240.0F);
-         int var33 = 32 + (int)(var31 * 192.0F);
-         int var34 = 128 - (int)(var31 * 64.0F);
-         double var35 = var28 * 0.2;
-         double var37 = var35 * 1.41;
-         double var39 = 0.0 + Math.cos(var29 + (Math.PI * 3.0 / 4.0)) * var37;
-         double var41 = 0.0 + Math.sin(var29 + (Math.PI * 3.0 / 4.0)) * var37;
-         double var43 = 0.0 + Math.cos(var29 + (Math.PI / 4)) * var37;
-         double var45 = 0.0 + Math.sin(var29 + (Math.PI / 4)) * var37;
-         double var47 = 0.0 + Math.cos(var29 + (Math.PI * 5.0 / 4.0)) * var37;
-         double var49 = 0.0 + Math.sin(var29 + (Math.PI * 5.0 / 4.0)) * var37;
-         double var51 = 0.0 + Math.cos(var29 + (Math.PI * 7.0 / 4.0)) * var37;
-         double var53 = 0.0 + Math.sin(var29 + (Math.PI * 7.0 / 4.0)) * var37;
-         double var55 = 0.0 + Math.cos(var29 + Math.PI) * var35;
-         double var57 = 0.0 + Math.sin(var29 + Math.PI) * var35;
-         double var59 = 0.0 + Math.cos(var29 + 0.0) * var35;
-         double var61 = 0.0 + Math.sin(var29 + 0.0) * var35;
-         double var63 = 0.0 + Math.cos(var29 + (Math.PI / 2)) * var35;
-         double var65 = 0.0 + Math.sin(var29 + (Math.PI / 2)) * var35;
-         double var67 = 0.0 + Math.cos(var29 + (Math.PI * 3.0 / 2.0)) * var35;
-         double var69 = 0.0 + Math.sin(var29 + (Math.PI * 3.0 / 2.0)) * var35;
-         double var75 = -1.0F + var19;
-         double var77 = var24 * (0.5 / var35) + var75;
-         var16.pos(var55, var24, var57).tex(0.4999, var77).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var55, 0.0, var57).tex(0.4999, var75).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var59, 0.0, var61).tex(0.0, var75).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var59, var24, var61).tex(0.0, var77).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var63, var24, var65).tex(0.4999, var77).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var63, 0.0, var65).tex(0.4999, var75).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var67, 0.0, var69).tex(0.0, var75).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var67, var24, var69).tex(0.0, var77).color(var32, var33, var34, 255).endVertex();
-         double var79 = 0.0;
-         if (var1.ticksExisted % 2 == 0) {
-            var79 = 0.5;
+         GlStateManager.translate((float)x, (float)y + f3, (float)z);
+         Vec3 vec3 = this.func_177110_a(entityLivingBase, entityLivingBase.height * 0.5, partialTicks);
+         Vec3 vec32 = this.func_177110_a(entity, f3, partialTicks);
+         Vec3 vec33 = vec3.subtract(vec32);
+         double d = vec33.lengthVector() + 1.0;
+         vec33 = vec33.normalize();
+         float f4 = (float)Math.acos(vec33.yCoord);
+         float f5 = (float)Math.atan2(vec33.zCoord, vec33.xCoord);
+         GlStateManager.rotate(((float) (Math.PI / 2) + -f5) * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+         GlStateManager.rotate(f4 * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+         byte b = 1;
+         double d2 = h * 0.05 * (1.0 - (b & 1) * 2.5);
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+         float f6 = f * f;
+         m = 4435857273330059672L ^ l;
+         int i = 64 + (int)(f6 * 240.0F);
+         int j = 32 + (int)(f6 * 192.0F);
+         int k = 128 - (int)(f6 * 64.0F);
+         double d3 = b * 0.2;
+         double d4 = d3 * 1.41;
+         double d5 = 0.0 + Math.cos(d2 + (Math.PI * 3.0 / 4.0)) * d4;
+         double d6 = 0.0 + Math.sin(d2 + (Math.PI * 3.0 / 4.0)) * d4;
+         double d7 = 0.0 + Math.cos(d2 + (Math.PI / 4)) * d4;
+         double d8 = 0.0 + Math.sin(d2 + (Math.PI / 4)) * d4;
+         double d9 = 0.0 + Math.cos(d2 + (Math.PI * 5.0 / 4.0)) * d4;
+         double d10 = 0.0 + Math.sin(d2 + (Math.PI * 5.0 / 4.0)) * d4;
+         double d11 = 0.0 + Math.cos(d2 + (Math.PI * 7.0 / 4.0)) * d4;
+         double d12 = 0.0 + Math.sin(d2 + (Math.PI * 7.0 / 4.0)) * d4;
+         double d13 = 0.0 + Math.cos(d2 + Math.PI) * d3;
+         double d14 = 0.0 + Math.sin(d2 + Math.PI) * d3;
+         double d15 = 0.0 + Math.cos(d2 + 0.0) * d3;
+         double d16 = 0.0 + Math.sin(d2 + 0.0) * d3;
+         double d17 = 0.0 + Math.cos(d2 + (Math.PI / 2)) * d3;
+         double d18 = 0.0 + Math.sin(d2 + (Math.PI / 2)) * d3;
+         double d19 = 0.0 + Math.cos(d2 + (Math.PI * 3.0 / 2.0)) * d3;
+         double d20 = 0.0 + Math.sin(d2 + (Math.PI * 3.0 / 2.0)) * d3;
+         double d21 = -1.0F + f2;
+         double d22 = d * (0.5 / d3) + d21;
+         worldRenderer.pos(d13, d, d14).tex(0.4999, d22).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d13, 0.0, d14).tex(0.4999, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d15, 0.0, d16).tex(0.0, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d15, d, d16).tex(0.0, d22).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d17, d, d18).tex(0.4999, d22).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d17, 0.0, d18).tex(0.4999, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d19, 0.0, d20).tex(0.0, d21).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d19, d, d20).tex(0.0, d22).color(i, j, k, 255).endVertex();
+         double d23 = 0.0;
+         if (entity.ticksExisted % 2 == 0) {
+            d23 = 0.5;
          }
 
-         var16.pos(var39, var24, var41).tex(0.5, var79 + 0.5).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var43, var24, var45).tex(1.0, var79 + 0.5).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var51, var24, var53).tex(1.0, var79).color(var32, var33, var34, 255).endVertex();
-         var16.pos(var47, var24, var49).tex(0.5, var79).color(var32, var33, var34, 255).endVertex();
-         var15.draw();
+         worldRenderer.pos(d5, d, d6).tex(0.5, d23 + 0.5).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d7, d, d8).tex(1.0, d23 + 0.5).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d11, d, d12).tex(1.0, d23).color(i, j, k, 255).endVertex();
+         worldRenderer.pos(d9, d, d10).tex(0.5, d23).color(i, j, k, 255).endVertex();
+         tessellator.draw();
          GlStateManager.popMatrix();
       }
    }
 
-   public void preRenderCallback(EntityGuardian var1, float var2) {
-      if (var1.isElder()) {
+   public void preRenderCallback(EntityGuardian entitylivingbaseIn, float partialTickTime) {
+      if (entitylivingbaseIn.isElder()) {
          GlStateManager.scale(2.35F, 2.35F, 2.35F);
       }
    }
 
-   public ResourceLocation getEntityTexture(EntityGuardian var1) {
-      return var1.isElder() ? GUARDIAN_ELDER_TEXTURE : GUARDIAN_TEXTURE;
+   public ResourceLocation getEntityTexture(EntityGuardian entity) {
+      return entity.isElder() ? GUARDIAN_ELDER_TEXTURE : GUARDIAN_TEXTURE;
    }
 }

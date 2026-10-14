@@ -16,28 +16,28 @@ public final class DiskStats {
    }
 
    public static Map<String, Map<DiskStats.IoStat, Long>> getDiskStats() {
-      HashMap var4 = new HashMap();
-      DiskStats.IoStat[] var5 = DiskStats.IoStat.class.getEnumConstants();
+      HashMap hashMap = new HashMap();
+      DiskStats.IoStat[] ioStats = DiskStats.IoStat.class.getEnumConstants();
 
-      for (String var8 : FileUtil.readFile(ProcPath.DISKSTATS)) {
-         String[] var9 = ParseUtil.Q.split(var8.trim());
-         EnumMap var10 = new EnumMap<>(DiskStats.IoStat.class);
-         String var11 = null;
+      for (String string : FileUtil.readFile(ProcPath.DISKSTATS)) {
+         String[] strings = ParseUtil.Q.split(string.trim());
+         EnumMap enumMap = new EnumMap<>(DiskStats.IoStat.class);
+         String string2 = null;
 
-         for (int var12 = 0; var12 < var5.length && var12 < var9.length; var12++) {
-            if (var5[var12] == DiskStats.IoStat.NAME) {
-               var11 = var9[var12];
+         for (int i = 0; i < ioStats.length && i < strings.length; i++) {
+            if (ioStats[i] == DiskStats.IoStat.NAME) {
+               string2 = strings[i];
             } else {
-               var10.put(var5[var12], ParseUtil.parseLongOrDefault(var9[var12], 0L));
+               enumMap.put(ioStats[i], ParseUtil.parseLongOrDefault(strings[i], 0L));
             }
          }
 
-         if (var11 != null) {
-            var4.put(var11, var10);
+         if (string2 != null) {
+            hashMap.put(string2, enumMap);
          }
       }
 
-      return var4;
+      return hashMap;
    }
 
    public enum IoStat {

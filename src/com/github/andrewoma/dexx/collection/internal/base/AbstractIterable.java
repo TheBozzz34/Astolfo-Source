@@ -7,9 +7,9 @@ public abstract class AbstractIterable<E> extends AbstractTraversable<E> impleme
    private static final long b = 139221054812707L;
 
    @Override
-   public <U> void forEach(Function<E, U> var1) {
-      for (Object var6 : this) {
-         var1.invoke((E)(var6));
+   public <U> void forEach(Function<E, U> f) {
+      for (Object object : this) {
+         f.invoke((E)(object));
       }
    }
 }

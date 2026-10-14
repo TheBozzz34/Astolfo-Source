@@ -9,13 +9,13 @@ public class PacketWritersBuilder {
    private final ShapedMap<Short, Supplier<?>> M = new ShapedMap<>();
    private PacketSender R;
 
-   public PacketWritersBuilder y(short var1, PacketWriter<?> var2) {
-      this.I.put(var1, var2);
+   public PacketWritersBuilder y(short s, PacketWriter<?> packetWriter) {
+      this.I.put(s, packetWriter);
       return this;
    }
 
-   public PacketWritersBuilder T(short var1, Supplier<?> var2) {
-      this.M.put(var1, var2);
+   public PacketWritersBuilder T(short s, Supplier<?> supplier) {
+      this.M.put(s, supplier);
       return this;
    }
 
@@ -23,11 +23,11 @@ public class PacketWritersBuilder {
       return new PacketWriters(this);
    }
 
-   public static ShapedMap T(PacketWritersBuilder var0) {
-      return var0.I;
+   public static ShapedMap T(PacketWritersBuilder packetWritersBuilder) {
+      return packetWritersBuilder.I;
    }
 
-   public static ShapedMap F(PacketWritersBuilder var0) {
-      return var0.M;
+   public static ShapedMap F(PacketWritersBuilder packetWritersBuilder) {
+      return packetWritersBuilder.M;
    }
 }

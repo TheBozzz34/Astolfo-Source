@@ -15,32 +15,32 @@ public class ItemHoe extends Item {
    public Item.ToolMaterial theToolMaterial;
    private static final long a = 73707337328752L;
 
-   public ItemHoe(Item.ToolMaterial var1) {
-      this.theToolMaterial = var1;
+   public ItemHoe(Item.ToolMaterial material) {
+      this.theToolMaterial = material;
       this.maxStackSize = 1;
-      this.setMaxDamage(var1.getMaxUses());
+      this.setMaxDamage(material.getMaxUses());
       this.setCreativeTab(CreativeTabs.tabTools);
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (!var2.canPlayerEdit(var4.offset(var5), var5, var1)) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (!playerIn.canPlayerEdit(pos.offset(side), side, stack)) {
          return false;
       }
 
-      IBlockState var12 = var3.getBlockState(var4);
-      Block var13 = var12.getBlock();
-      if (var5 != EnumFacing.DOWN && var3.getBlockState(var4.up()).getBlock().getMaterial() == Material.air) {
-         if (var13 == Blocks.grass) {
-            return this.useHoe(var1, var2, var3, var4, Blocks.farmland.getDefaultState());
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      Block block = iBlockState.getBlock();
+      if (side != EnumFacing.DOWN && worldIn.getBlockState(pos.up()).getBlock().getMaterial() == Material.air) {
+         if (block == Blocks.grass) {
+            return this.useHoe(stack, playerIn, worldIn, pos, Blocks.farmland.getDefaultState());
          }
 
-         if (var13 == Blocks.dirt) {
-            switch ((BlockDirt.DirtType)var12.getValue(BlockDirt.VARIANT)) {
+         if (block == Blocks.dirt) {
+            switch ((BlockDirt.DirtType)iBlockState.getValue(BlockDirt.VARIANT)) {
                case DIRT:
-                  return this.useHoe(var1, var2, var3, var4, Blocks.farmland.getDefaultState());
+                  return this.useHoe(stack, playerIn, worldIn, pos, Blocks.farmland.getDefaultState());
                case COARSE_DIRT:
-                  return this.useHoe(var1, var2, var3, var4, Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
+                  return this.useHoe(stack, playerIn, worldIn, pos, Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
             }
          }
       }
@@ -48,21 +48,21 @@ public class ItemHoe extends Item {
       return false;
    }
 
-   public boolean useHoe(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, IBlockState var5) {
-      var3.playSoundEffect(
-         var4.getX() + 0.5F,
-         var4.getY() + 0.5F,
-         var4.getZ() + 0.5F,
-         var5.getBlock().stepSound.getStepSound(),
-         (var5.getBlock().stepSound.getVolume() + 1.0F) / 2.0F,
-         var5.getBlock().stepSound.getFrequency() * 0.8F
+   public boolean useHoe(ItemStack stack, EntityPlayer player, World worldIn, BlockPos target, IBlockState newState) {
+      worldIn.playSoundEffect(
+         target.getX() + 0.5F,
+         target.getY() + 0.5F,
+         target.getZ() + 0.5F,
+         newState.getBlock().stepSound.getStepSound(),
+         (newState.getBlock().stepSound.getVolume() + 1.0F) / 2.0F,
+         newState.getBlock().stepSound.getFrequency() * 0.8F
       );
-      if (var3.isRemote) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      var3.setBlockState(var4, var5);
-      var1.damageItem(1, var2);
+      worldIn.setBlockState(target, newState);
+      stack.damageItem(1, player);
       return true;
    }
 

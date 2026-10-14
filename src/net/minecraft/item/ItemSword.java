@@ -18,12 +18,12 @@ public class ItemSword extends Item {
    private static final long a = 116543646305325L;
    private static final long d = 7996582622379710784L;
 
-   public ItemSword(Item.ToolMaterial var1) {
-      this.material = var1;
+   public ItemSword(Item.ToolMaterial material) {
+      this.material = material;
       this.maxStackSize = 1;
-      this.setMaxDamage(var1.getMaxUses());
+      this.setMaxDamage(material.getMaxUses());
       this.setCreativeTab(CreativeTabs.tabCombat);
-      this.attackDamage = 4.0F + var1.getDamageVsEntity();
+      this.attackDamage = 4.0F + material.getDamageVsEntity();
    }
 
    public float Q() {
@@ -31,25 +31,25 @@ public class ItemSword extends Item {
    }
 
    @Override
-   public float getStrVsBlock(ItemStack var1, Block var2) {
-      if (var2 == Blocks.web) {
+   public float getStrVsBlock(ItemStack stack, Block state) {
+      if (state == Blocks.web) {
          return 15.0F;
       }
 
-      Material var6 = var2.getMaterial();
-      return var6 != Material.plants && var6 != Material.vine && var6 != Material.coral && var6 != Material.leaves && var6 != Material.gourd ? 1.0F : 1.5F;
+      Material material = state.getMaterial();
+      return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : 1.5F;
    }
 
    @Override
-   public boolean hitEntity(ItemStack var1, EntityLivingBase var2, EntityLivingBase var3) {
-      var1.damageItem(1, var3);
+   public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+      stack.damageItem(1, attacker);
       return true;
    }
 
    @Override
-   public boolean onBlockDestroyed(ItemStack var1, World var2, Block var3, BlockPos var4, EntityLivingBase var5) {
-      if (var3.getBlockHardness(var2, var4) != 0.0) {
-         var1.damageItem(2, var5);
+   public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+      if (blockIn.getBlockHardness(worldIn, pos) != 0.0) {
+         stack.damageItem(2, playerIn);
       }
 
       return true;
@@ -61,24 +61,24 @@ public class ItemSword extends Item {
    }
 
    @Override
-   public EnumAction getItemUseAction(ItemStack var1) {
+   public EnumAction getItemUseAction(ItemStack stack) {
       return EnumAction.BLOCK;
    }
 
    @Override
-   public int getMaxItemUseDuration(ItemStack var1) {
+   public int getMaxItemUseDuration(ItemStack stack) {
       return (int)d;
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      var3.setItemInUse(var1, this.getMaxItemUseDuration(var1));
-      return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+      return itemStackIn;
    }
 
    @Override
-   public boolean canHarvestBlock(Block var1) {
-      return var1 == Blocks.web;
+   public boolean canHarvestBlock(Block blockIn) {
+      return blockIn == Blocks.web;
    }
 
    @Override
@@ -91,17 +91,17 @@ public class ItemSword extends Item {
    }
 
    @Override
-   public boolean getIsRepairable(ItemStack var1, ItemStack var2) {
-      return this.material.getRepairItem() == var2.getItem() ? true : super.getIsRepairable(var1, var2);
+   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+      return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
    }
 
    @Override
    public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
-      Multimap var3 = super.getItemAttributeModifiers();
-      var3.put(
+      Multimap multimap = super.getItemAttributeModifiers();
+      multimap.put(
          SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", this.attackDamage, 0)
       );
-      return var3;
+      return multimap;
    }
 
    public float E() {

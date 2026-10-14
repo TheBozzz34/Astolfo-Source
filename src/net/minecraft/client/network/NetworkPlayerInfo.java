@@ -30,15 +30,15 @@ public class NetworkPlayerInfo {
    public Stopwatch lookupTimer = new Stopwatch();
    public int nickedTicks;
 
-   public NetworkPlayerInfo(GameProfile var1) {
-      this.gameProfile = var1;
+   public NetworkPlayerInfo(GameProfile gameProfile) {
+      this.gameProfile = gameProfile;
    }
 
-   public NetworkPlayerInfo(S38PacketPlayerListItem.AddPlayerData var1) {
-      this.gameProfile = var1.getProfile();
-      this.gameType = var1.getGameMode();
-      this.D = var1.getPing();
-      this.displayName = var1.getDisplayName();
+   public NetworkPlayerInfo(S38PacketPlayerListItem.AddPlayerData addPlayerData) {
+      this.gameProfile = addPlayerData.getProfile();
+      this.gameType = addPlayerData.getGameMode();
+      this.D = addPlayerData.getPing();
+      this.displayName = addPlayerData.getDisplayName();
    }
 
    public GameProfile getGameProfile() {
@@ -53,12 +53,12 @@ public class NetworkPlayerInfo {
       return this.D;
    }
 
-   public void setGameType(WorldSettings.GameType var1) {
-      this.gameType = var1;
+   public void setGameType(WorldSettings.GameType gameType) {
+      this.gameType = gameType;
    }
 
-   public void setResponseTime(int var1) {
-      this.D = var1;
+   public void setResponseTime(int i) {
+      this.D = i;
    }
 
    public boolean hasLocationSkin() {
@@ -70,13 +70,13 @@ public class NetworkPlayerInfo {
    }
 
    public ResourceLocation c() {
-      boolean var1 = ModuleManager.G.isEnabled();
-      boolean var2 = var1 && StreamerMode.hideSkins.getValue();
+      boolean bl = ModuleManager.G.isEnabled();
+      boolean bl2 = bl && StreamerMode.hideSkins.getValue();
       if (this.locationSkin == null) {
          this.loadPlayerTextures();
       }
 
-      return Objects.firstNonNull(var2 ? null : (!var1 ? this.locationSkin : this.locationSkin), DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
+      return Objects.firstNonNull(bl2 ? null : (!bl ? this.locationSkin : this.locationSkin), DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
    }
 
    public ResourceLocation getLocationSkin() {
@@ -103,29 +103,29 @@ public class NetworkPlayerInfo {
       synchronized (this) {
          if (!this.playerTexturesLoaded) {
             this.playerTexturesLoaded = true;
-            Minecraft.getMinecraft().getSkinManager().loadProfileTextures(this.gameProfile, (var1, var2, var3) -> {
-               switch (var1) {
+            Minecraft.getMinecraft().getSkinManager().loadProfileTextures(this.gameProfile, (type, resourceLocation, minecraftProfileTexture) -> {
+               switch (type) {
                   case SKIN:
-                     this.locationSkin = var2;
-                     this.skinType = var3.getMetadata("model");
+                     this.locationSkin = resourceLocation;
+                     this.skinType = minecraftProfileTexture.getMetadata("model");
                      if (this.skinType == null) {
                         this.skinType = "default";
                      }
                      break;
                   case CAPE:
-                     this.locationCape = var2;
+                     this.locationCape = resourceLocation;
                }
             }, true);
          }
       }
    }
 
-   public void R(ResourceLocation var1) {
-      this.locationSkin = var1;
+   public void R(ResourceLocation resourceLocation) {
+      this.locationSkin = resourceLocation;
    }
 
-   public void setDisplayName(IChatComponent var1) {
-      this.displayName = var1;
+   public void setDisplayName(IChatComponent displayNameIn) {
+      this.displayName = displayNameIn;
    }
 
    public IChatComponent getDisplayName() {
@@ -136,39 +136,39 @@ public class NetworkPlayerInfo {
       return this.A;
    }
 
-   public void func_178836_b(int var1) {
-      this.A = var1;
+   public void func_178836_b(int i) {
+      this.A = i;
    }
 
    public int func_178860_m() {
       return this.K;
    }
 
-   public void func_178857_c(int var1) {
-      this.K = var1;
+   public void func_178857_c(int i) {
+      this.K = i;
    }
 
    public long func_178847_n() {
       return this.field_178871_k;
    }
 
-   public void func_178846_a(long var1) {
-      this.field_178871_k = var1;
+   public void func_178846_a(long l) {
+      this.field_178871_k = l;
    }
 
    public long func_178858_o() {
       return this.field_178868_l;
    }
 
-   public void func_178844_b(long var1) {
-      this.field_178868_l = var1;
+   public void func_178844_b(long l) {
+      this.field_178868_l = l;
    }
 
    public long func_178855_p() {
       return this.field_178869_m;
    }
 
-   public void func_178843_c(long var1) {
-      this.field_178869_m = var1;
+   public void func_178843_c(long l) {
+      this.field_178869_m = l;
    }
 }

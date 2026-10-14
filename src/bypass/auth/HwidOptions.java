@@ -9,38 +9,38 @@ public class HwidOptions {
    private boolean z;
    private boolean m;
 
-   public HwidOptions J(boolean var1) {
-      this.Y = var1;
+   public HwidOptions J(boolean bl) {
+      this.Y = bl;
       return this;
    }
 
-   public HwidOptions i(boolean var1) {
-      this.h = var1;
+   public HwidOptions i(boolean bl) {
+      this.h = bl;
       return this;
    }
 
-   public HwidOptions n(boolean var1) {
-      this.c = var1;
+   public HwidOptions n(boolean bl) {
+      this.c = bl;
       return this;
    }
 
-   public HwidOptions O(boolean var1) {
-      this.A = var1;
+   public HwidOptions O(boolean bl) {
+      this.A = bl;
       return this;
    }
 
-   public HwidOptions R(boolean var1) {
-      this.z = var1;
+   public HwidOptions R(boolean bl) {
+      this.z = bl;
       return this;
    }
 
-   public HwidOptions d(boolean var1) {
-      this.m = var1;
+   public HwidOptions d(boolean bl) {
+      this.m = bl;
       return this;
    }
 
-   public HwidOptions P(boolean var1) {
-      this.f = var1;
+   public HwidOptions P(boolean bl) {
+      this.f = bl;
       return this;
    }
 
@@ -48,31 +48,31 @@ public class HwidOptions {
       return new HwidBuilder(this);
    }
 
-   public static boolean E(HwidOptions var0) {
-      return var0.f;
+   public static boolean E(HwidOptions hwidOptions) {
+      return hwidOptions.f;
    }
 
-   public static boolean o(HwidOptions var0) {
-      return var0.Y;
+   public static boolean o(HwidOptions hwidOptions) {
+      return hwidOptions.Y;
    }
 
-   public static boolean k(HwidOptions var0) {
-      return var0.h;
+   public static boolean k(HwidOptions hwidOptions) {
+      return hwidOptions.h;
    }
 
-   public static boolean s(HwidOptions var0) {
-      return var0.A;
+   public static boolean s(HwidOptions hwidOptions) {
+      return hwidOptions.A;
    }
 
-   public static boolean z(HwidOptions var0) {
-      return var0.z;
+   public static boolean z(HwidOptions hwidOptions) {
+      return hwidOptions.z;
    }
 
-   public static boolean D(HwidOptions var0) {
-      return var0.m;
+   public static boolean D(HwidOptions hwidOptions) {
+      return hwidOptions.m;
    }
 
-   public static boolean X(HwidOptions var0) {
-      return var0.c;
+   public static boolean X(HwidOptions hwidOptions) {
+      return hwidOptions.c;
    }
 }

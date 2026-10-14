@@ -14,36 +14,36 @@ public class ProxyChannelFactory implements ChannelFactory<OioSocketChannel> {
    private static final long a = 111967031101865L;
    private static final long e = 4231176096667672464L;
 
-   public ProxyChannelFactory(Proxy var1) {
-      this.l = var1;
+   public ProxyChannelFactory(Proxy proxy) {
+      this.l = proxy;
    }
 
    public OioSocketChannel newChannel() {
       if (this.l.address() != null && ((InetSocketAddress)this.l.address()).getPort() == (int)e) {
-         Socket var12 = new Socket(this.l);
-         return new OioSocketChannel(var12);
+         Socket socket = new Socket(this.l);
+         return new OioSocketChannel(socket);
       }
 
-      Socket var5 = new Socket(this.l);
-      Class var6 = var5.getClass();
+      Socket socket2 = new Socket(this.l);
+      Class class2 = socket2.getClass();
 
       try {
-         Field var8 = var6.getDeclaredField("impl");
-         var8.setAccessible(true);
-         SocketImpl var9 = (SocketImpl)var8.get(var5);
-         if (var9.getClass().getSimpleName().equalsIgnoreCase("PlainSocketImpl")) {
-            return new OioSocketChannel(var5);
+         Field field = class2.getDeclaredField("impl");
+         field.setAccessible(true);
+         SocketImpl socketImpl = (SocketImpl)field.get(socket2);
+         if (socketImpl.getClass().getSimpleName().equalsIgnoreCase("PlainSocketImpl")) {
+            return new OioSocketChannel(socket2);
          }
 
-         Class var10 = var9.getClass();
-         Method var7 = var10.getDeclaredMethod("setV4");
-         var7.setAccessible(true);
-         var7.invoke(var9);
-         var8.set(var5, var9);
-      } catch (Exception var11) {
-         var11.printStackTrace();
+         Class class3 = socketImpl.getClass();
+         Method method = class3.getDeclaredMethod("setV4");
+         method.setAccessible(true);
+         method.invoke(socketImpl);
+         field.set(socket2, socketImpl);
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      return new OioSocketChannel(var5);
+      return new OioSocketChannel(socket2);
    }
 }

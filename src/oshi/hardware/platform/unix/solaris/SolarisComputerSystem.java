@@ -50,86 +50,86 @@ public final class SolarisComputerSystem extends AbstractComputerSystem {
    }
 
    private static SolarisComputerSystem.SmbiosStrings readSmbios() {
-      String var3 = null;
-      String var4 = null;
-      String var5 = null;
-      String var6 = null;
-      String var7 = null;
-      String var8 = null;
-      String var9 = null;
-      String var10 = null;
-      String var11 = null;
-      String var12 = null;
-      int var20 = -1;
+      String string = null;
+      String string2 = null;
+      String string3 = null;
+      String string4 = null;
+      String string5 = null;
+      String string6 = null;
+      String string7 = null;
+      String string8 = null;
+      String string9 = null;
+      String string10 = null;
+      int i = -1;
 
-      for (String var22 : ExecutingCommand.runNative("smbios")) {
-         if (var22.contains("SMB_TYPE_") && (var20 = getSmbType(var22)) == Integer.MAX_VALUE) {
+      for (String string11 : ExecutingCommand.runNative("smbios")) {
+         if (string11.contains("SMB_TYPE_") && (i = getSmbType(string11)) == Integer.MAX_VALUE) {
             break;
          }
 
-         switch (var20) {
+         switch (i) {
             case 0:
-               if (var22.contains("Vendor:")) {
-                  var3 = var22.split("Vendor:")[1].trim();
-               } else if (var22.contains("VersionString:")) {
-                  var4 = var22.split("VersionString:")[1].trim();
-               } else if (var22.contains("Release Date:")) {
-                  var5 = var22.split("Release Date:")[1].trim();
+               if (string11.contains("Vendor:")) {
+                  string = string11.split("Vendor:")[1].trim();
+               } else if (string11.contains("VersionString:")) {
+                  string2 = string11.split("VersionString:")[1].trim();
+               } else if (string11.contains("Release Date:")) {
+                  string3 = string11.split("Release Date:")[1].trim();
                }
                break;
             case 1:
-               if (var22.contains("Manufacturer:")) {
-                  var6 = var22.split("Manufacturer:")[1].trim();
-               } else if (var22.contains("Product:")) {
-                  var7 = var22.split("Product:")[1].trim();
-               } else if (var22.contains("Serial Number:")) {
-                  var8 = var22.split("Serial Number:")[1].trim();
+               if (string11.contains("Manufacturer:")) {
+                  string4 = string11.split("Manufacturer:")[1].trim();
+               } else if (string11.contains("Product:")) {
+                  string5 = string11.split("Product:")[1].trim();
+               } else if (string11.contains("Serial Number:")) {
+                  string6 = string11.split("Serial Number:")[1].trim();
                }
                break;
             case 2:
-               if (var22.contains("Manufacturer:")) {
-                  var9 = var22.split("Manufacturer:")[1].trim();
-               } else if (var22.contains("Product:")) {
-                  var10 = var22.split("Product:")[1].trim();
-               } else if (var22.contains("Version:")) {
-                  var11 = var22.split("Version:")[1].trim();
-               } else if (var22.contains("Serial Number:")) {
-                  var12 = var22.split("Serial Number:")[1].trim();
+               if (string11.contains("Manufacturer:")) {
+                  string7 = string11.split("Manufacturer:")[1].trim();
+               } else if (string11.contains("Product:")) {
+                  string8 = string11.split("Product:")[1].trim();
+               } else if (string11.contains("Version:")) {
+                  string9 = string11.split("Version:")[1].trim();
+               } else if (string11.contains("Serial Number:")) {
+                  string10 = string11.split("Serial Number:")[1].trim();
                }
          }
       }
 
-      if (Util.isBlank(var8)) {
-         var8 = readSerialNumber();
+      if (Util.isBlank(string6)) {
+         string6 = readSerialNumber();
       }
 
-      return new SolarisComputerSystem.SmbiosStrings(var3, var4, var5, var6, var7, var8, var9, var10, var11, var12);
+      return new SolarisComputerSystem.SmbiosStrings(string, string2, string3, string4, string5, string6, string7, string8, string9, string10);
    }
 
-   private static int getSmbType(String var0) {
-      if (var0.contains("SMB_TYPE_BIOS")) {
+   private static int getSmbType(String checkLine) {
+      if (checkLine.contains("SMB_TYPE_BIOS")) {
          return 0;
-      } else if (var0.contains("SMB_TYPE_SYSTEM")) {
+      } else if (checkLine.contains("SMB_TYPE_SYSTEM")) {
          return 1;
       } else {
-         return var0.contains("SMB_TYPE_BASEBOARD") ? 2 : Integer.MAX_VALUE;
+         return checkLine.contains("SMB_TYPE_BASEBOARD") ? 2 : Integer.MAX_VALUE;
       }
    }
 
    private static String readSerialNumber() {
-      String var3 = ExecutingCommand.getFirstAnswer("sneep");
-      if (var3.isEmpty()) {
-         String var4 = "chassis-sn:";
+      String string = ExecutingCommand.getFirstAnswer("sneep");
+      if (string.isEmpty()) {
+         String string2 = "chassis-sn:";
 
-         for (String var6 : ExecutingCommand.runNative("prtconf -pv")) {
-            if (var6.contains(var4)) {
-               var3 = ParseUtil.getSingleQuoteStringValue(var6);
+         for (String string3 : ExecutingCommand.runNative("prtconf -pv")) {
+            if (string3.contains(string2)) {
+               string = ParseUtil.getSingleQuoteStringValue(string3);
                break;
             }
          }
       }
 
-      return var3;
+      return string;
    }
 
    private static final class SmbiosStrings {
@@ -145,57 +145,68 @@ public final class SolarisComputerSystem extends AbstractComputerSystem {
       private final String boardSerialNumber;
       private static final long b = 44592109150143L;
 
-      public SmbiosStrings(String var1, String var2, String var3, String var4, String var5, String var6, String var7, String var8, String var9, String var10) {
-         this.biosVendor = Util.isBlank(var1) ? "unknown" : var1;
-         this.biosVersion = Util.isBlank(var2) ? "unknown" : var2;
-         this.biosDate = Util.isBlank(var3) ? "unknown" : var3;
-         this.manufacturer = Util.isBlank(var4) ? "unknown" : var4;
-         this.model = Util.isBlank(var5) ? "unknown" : var5;
-         this.serialNumber = Util.isBlank(var6) ? "unknown" : var6;
-         this.boardManufacturer = Util.isBlank(var7) ? "unknown" : var7;
-         this.boardModel = Util.isBlank(var8) ? "unknown" : var8;
-         this.boardVersion = Util.isBlank(var9) ? "unknown" : var9;
-         this.boardSerialNumber = Util.isBlank(var10) ? "unknown" : var10;
+      public SmbiosStrings(
+         String biosVendor,
+         String biosVersion,
+         String biosDate,
+         String manufacturer,
+         String model,
+         String serialNumber,
+         String boardManufacturer,
+         String boardModel,
+         String boardVersion,
+         String boardSerialNumber
+      ) {
+         this.biosVendor = Util.isBlank(biosVendor) ? "unknown" : biosVendor;
+         this.biosVersion = Util.isBlank(biosVersion) ? "unknown" : biosVersion;
+         this.biosDate = Util.isBlank(biosDate) ? "unknown" : biosDate;
+         this.manufacturer = Util.isBlank(manufacturer) ? "unknown" : manufacturer;
+         this.model = Util.isBlank(model) ? "unknown" : model;
+         this.serialNumber = Util.isBlank(serialNumber) ? "unknown" : serialNumber;
+         this.boardManufacturer = Util.isBlank(boardManufacturer) ? "unknown" : boardManufacturer;
+         this.boardModel = Util.isBlank(boardModel) ? "unknown" : boardModel;
+         this.boardVersion = Util.isBlank(boardVersion) ? "unknown" : boardVersion;
+         this.boardSerialNumber = Util.isBlank(boardSerialNumber) ? "unknown" : boardSerialNumber;
       }
 
-      public static String L(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.manufacturer;
+      public static String L(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.manufacturer;
       }
 
-      public static String v(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.model;
+      public static String v(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.model;
       }
 
-      public static String X(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.serialNumber;
+      public static String X(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.serialNumber;
       }
 
-      public static String V(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.biosVendor;
+      public static String V(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.biosVendor;
       }
 
-      public static String C(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.biosVersion;
+      public static String C(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.biosVersion;
       }
 
-      public static String P(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.biosDate;
+      public static String P(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.biosDate;
       }
 
-      public static String Y(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.boardManufacturer;
+      public static String Y(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.boardManufacturer;
       }
 
-      public static String a(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.boardModel;
+      public static String a(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.boardModel;
       }
 
-      public static String r(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.boardSerialNumber;
+      public static String r(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.boardSerialNumber;
       }
 
-      public static String O(SolarisComputerSystem.SmbiosStrings var0) {
-         return var0.boardVersion;
+      public static String O(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+         return smbiosStrings2.boardVersion;
       }
    }
 }

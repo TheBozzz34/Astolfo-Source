@@ -6,60 +6,60 @@ import java.math.BigInteger;
 public final class TypeUtil {
    private static final long a = 68418313599959L;
 
-   public static boolean q(Object var0) {
-      return var0.getClass().equals(int.class) || var0.getClass().equals(Integer.class);
+   public static boolean q(Object object) {
+      return object.getClass().equals(int.class) || object.getClass().equals(Integer.class);
    }
 
-   public static boolean F(Object var0) {
-      return var0.getClass().equals(boolean.class) || var0.getClass().equals(Boolean.class);
+   public static boolean F(Object object) {
+      return object.getClass().equals(boolean.class) || object.getClass().equals(Boolean.class);
    }
 
-   public static boolean w(Object var0) {
-      return var0.getClass().equals(char.class) || var0.getClass().equals(Character.class);
+   public static boolean w(Object object) {
+      return object.getClass().equals(char.class) || object.getClass().equals(Character.class);
    }
 
-   public static boolean d(Object var0) {
-      return var0.getClass().equals(byte.class) || var0.getClass().equals(Byte.class);
+   public static boolean d(Object object) {
+      return object.getClass().equals(byte.class) || object.getClass().equals(Byte.class);
    }
 
-   public static boolean P(Object var0) {
-      return var0.getClass().equals(long.class) || var0.getClass().equals(Long.class);
+   public static boolean P(Object object) {
+      return object.getClass().equals(long.class) || object.getClass().equals(Long.class);
    }
 
-   public static boolean Y(Object var0) {
-      return var0.getClass().equals(short.class) || var0.getClass().equals(Short.class);
+   public static boolean Y(Object object) {
+      return object.getClass().equals(short.class) || object.getClass().equals(Short.class);
    }
 
-   public static boolean o(Object var0) {
-      return var0.getClass().equals(double.class) || var0.getClass().equals(Double.class);
+   public static boolean o(Object object) {
+      return object.getClass().equals(double.class) || object.getClass().equals(Double.class);
    }
 
-   public static boolean a(Object var0) {
-      return var0.getClass().equals(float.class) || var0.getClass().equals(Float.class);
+   public static boolean a(Object object) {
+      return object.getClass().equals(float.class) || object.getClass().equals(Float.class);
    }
 
-   public static boolean b(Object var0) {
-      return var0.getClass().equals(void.class) || var0.getClass().equals(Void.class);
+   public static boolean b(Object object) {
+      return object.getClass().equals(void.class) || object.getClass().equals(Void.class);
    }
 
-   public static boolean c(Object var0) {
-      return var0.getClass().equals(String.class);
+   public static boolean c(Object object) {
+      return object.getClass().equals(String.class);
    }
 
-   public static boolean s(Object var0) {
-      return var0.getClass().equals(Enum.class) || var0 instanceof Enum || var0.getClass().isAssignableFrom(Enum.class);
+   public static boolean s(Object object) {
+      return object.getClass().equals(Enum.class) || object instanceof Enum || object.getClass().isAssignableFrom(Enum.class);
    }
 
-   public static boolean Z(Object var0) {
-      return q(var0)
-         || w(var0)
-         || d(var0)
-         || P(var0)
-         || Y(var0)
-         || o(var0)
-         || a(var0)
-         || var0.getClass().equals(BigInteger.class)
-         || var0.getClass().equals(BigDecimal.class)
-         || var0.getClass().equals(Number.class);
+   public static boolean Z(Object object) {
+      return q(object)
+         || w(object)
+         || d(object)
+         || P(object)
+         || Y(object)
+         || o(object)
+         || a(object)
+         || object.getClass().equals(BigInteger.class)
+         || object.getClass().equals(BigDecimal.class)
+         || object.getClass().equals(Number.class);
    }
 }

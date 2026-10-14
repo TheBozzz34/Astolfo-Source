@@ -10,8 +10,8 @@ public class TeleportEvent extends CancellableEvent implements ClientAccess {
    private final S08PacketPlayerPosLook s08PacketPlayerPosLook;
    private static final long b = 63973655574476L;
 
-   public TeleportEvent(S08PacketPlayerPosLook var1) {
-      this.s08PacketPlayerPosLook = var1;
+   public TeleportEvent(S08PacketPlayerPosLook s08PacketPlayerPosLook) {
+      this.s08PacketPlayerPosLook = s08PacketPlayerPosLook;
    }
 
    public boolean y() {
@@ -27,13 +27,13 @@ public class TeleportEvent extends CancellableEvent implements ClientAccess {
       return !mc.getNetHandler().doneLoadingTerrain;
    }
 
-   public void i(Module var1) {
-      var1.setEnabled(false);
-      toasts.X("Server spawn", var1.getName() + " was disabled");
+   public void i(Module module) {
+      module.setEnabled(false);
+      toasts.X("Server spawn", module.getName() + " was disabled");
    }
 
-   public void b(Entity var1) {
-      var1.setPositionAndRotation(
+   public void b(Entity entity) {
+      entity.setPositionAndRotation(
          this.s08PacketPlayerPosLook.getX(),
          this.s08PacketPlayerPosLook.getY(),
          this.s08PacketPlayerPosLook.getZ(),

@@ -17,140 +17,162 @@ public final class LinuxPowerSource extends AbstractPowerSource {
    private static final long n = -4575320590461698148L;
 
    public LinuxPowerSource(
-      String var1,
-      String var2,
-      double var3,
-      double var5,
-      double var7,
-      double var9,
-      double var11,
-      double var13,
-      boolean var15,
-      boolean var16,
-      boolean var17,
-      PowerSource.CapacityUnits var18,
-      int var19,
-      int var20,
-      int var21,
-      int var22,
-      String var23,
-      LocalDate var24,
-      String var25,
-      String var26,
-      double var27
+      String psName,
+      String psDeviceName,
+      double psRemainingCapacityPercent,
+      double psTimeRemainingEstimated,
+      double psTimeRemainingInstant,
+      double psPowerUsageRate,
+      double psVoltage,
+      double psAmperage,
+      boolean psPowerOnLine,
+      boolean psCharging,
+      boolean psDischarging,
+      PowerSource.CapacityUnits psCapacityUnits,
+      int psCurrentCapacity,
+      int psMaxCapacity,
+      int psDesignCapacity,
+      int psCycleCount,
+      String psChemistry,
+      LocalDate psManufactureDate,
+      String psManufacturer,
+      String psSerialNumber,
+      double psTemperature
    ) {
-      super(var1, var2, var3, var5, var7, var9, var11, var13, var15, var16, var17, var18, var19, var20, var21, var22, var23, var24, var25, var26, var27);
+      super(
+         psName,
+         psDeviceName,
+         psRemainingCapacityPercent,
+         psTimeRemainingEstimated,
+         psTimeRemainingInstant,
+         psPowerUsageRate,
+         psVoltage,
+         psAmperage,
+         psPowerOnLine,
+         psCharging,
+         psDischarging,
+         psCapacityUnits,
+         psCurrentCapacity,
+         psMaxCapacity,
+         psDesignCapacity,
+         psCycleCount,
+         psChemistry,
+         psManufactureDate,
+         psManufacturer,
+         psSerialNumber,
+         psTemperature
+      );
    }
 
    public static PowerSource[] x() {
-      double var6 = -1.0;
-      double var8 = -1.0;
-      double var10 = -1.0;
-      double var12 = 0.0;
-      double var14 = -1.0;
-      double var16 = 0.0;
-      boolean var18 = false;
-      boolean var19 = false;
-      boolean var20 = false;
-      PowerSource.CapacityUnits var21 = PowerSource.CapacityUnits.RELATIVE;
-      int var22 = -1;
-      int var23 = -1;
-      byte var24 = -1;
-      int var25 = -1;
-      Object var27 = null;
-      double var30 = 0.0;
-      File var32 = new File("/sys/class/power_supply/");
-      String[] var33 = var32.list();
-      if (var33 == null) {
-         var33 = new String[0];
+      double d = -1.0;
+      double e = -1.0;
+      double d2 = -1.0;
+      double d3 = 0.0;
+      double d4 = -1.0;
+      double d5 = 0.0;
+      boolean bl = false;
+      boolean bl2 = false;
+      boolean bl3 = false;
+      PowerSource.CapacityUnits capacityUnits = PowerSource.CapacityUnits.RELATIVE;
+      int i = -1;
+      int j = -1;
+      byte b = -1;
+      int k = -1;
+      Object object = null;
+      double d6 = 0.0;
+      File file = new File("/sys/class/power_supply/");
+      String[] strings = file.list();
+      if (strings == null) {
+         strings = new String[0];
       }
 
-      ArrayList var34 = new ArrayList(var33.length);
+      ArrayList arrayList = new ArrayList(strings.length);
 
-      for (String var38 : var33) {
-         if (!var38.startsWith("ADP") && !var38.startsWith("AC")) {
-            List var39 = FileUtil.readFile("/sys/class/power_supply/" + var38 + "/uevent", false);
-            if (!var39.isEmpty()) {
-               HashMap var40 = new HashMap();
+      for (String string : strings) {
+         if (!string.startsWith("ADP") && !string.startsWith("AC")) {
+            List list2 = FileUtil.readFile("/sys/class/power_supply/" + string + "/uevent", false);
+            if (!list2.isEmpty()) {
+               HashMap hashMap = new HashMap();
 
-               for (Object var42$raw : var39) {
-                  String var42 = (String)var42$raw;
-                  String[] var43 = var42.split("=");
-                  if (var43.length > 1 && !var43[1].isEmpty()) {
-                     var40.put(var43[0], var43[1]);
+               for (Object object2 : list2) {
+                  String string2 = (String)object2;
+                  String[] strings2 = string2.split("=");
+                  if (strings2.length > 1 && !strings2[1].isEmpty()) {
+                     hashMap.put(strings2[0], strings2[1]);
                   }
                }
 
-               String var4 = (java.lang.String)(var40.getOrDefault("POWER_SUPPLY_NAME", var38));
-               String var46 = (String)var40.get("POWER_SUPPLY_STATUS");
-               var19 = "Charging".equals(var46);
-               var20 = "Discharging".equals(var46);
-               if (var40.containsKey("POWER_SUPPLY_CAPACITY")) {
-                  var6 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_CAPACITY"), (int)n) / 100.0;
+               String string3 = (java.lang.String)(hashMap.getOrDefault("POWER_SUPPLY_NAME", string));
+               String string4 = (String)hashMap.get("POWER_SUPPLY_STATUS");
+               bl2 = "Charging".equals(string4);
+               bl3 = "Discharging".equals(string4);
+               if (hashMap.containsKey("POWER_SUPPLY_CAPACITY")) {
+                  d = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CAPACITY"), (int)n) / 100.0;
                }
 
-               if (var40.containsKey("POWER_SUPPLY_ENERGY_NOW")) {
-                  var22 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_ENERGY_NOW"), -1);
-               } else if (var40.containsKey("POWER_SUPPLY_CHARGE_NOW")) {
-                  var22 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_CHARGE_NOW"), -1);
+               if (hashMap.containsKey("POWER_SUPPLY_ENERGY_NOW")) {
+                  i = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_ENERGY_NOW"), -1);
+               } else if (hashMap.containsKey("POWER_SUPPLY_CHARGE_NOW")) {
+                  i = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CHARGE_NOW"), -1);
                }
 
-               if (var40.containsKey("POWER_SUPPLY_ENERGY_FULL")) {
-                  var22 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_ENERGY_FULL"), 1);
-               } else if (var40.containsKey("POWER_SUPPLY_CHARGE_FULL")) {
-                  var22 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_CHARGE_FULL"), 1);
+               if (hashMap.containsKey("POWER_SUPPLY_ENERGY_FULL")) {
+                  i = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_ENERGY_FULL"), 1);
+               } else if (hashMap.containsKey("POWER_SUPPLY_CHARGE_FULL")) {
+                  i = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CHARGE_FULL"), 1);
                }
 
-               if (var40.containsKey("POWER_SUPPLY_ENERGY_FULL_DESIGN")) {
-                  var23 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_ENERGY_FULL_DESIGN"), 1);
-               } else if (var40.containsKey("POWER_SUPPLY_CHARGE_FULL_DESIGN")) {
-                  var23 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_CHARGE_FULL_DESIGN"), 1);
+               if (hashMap.containsKey("POWER_SUPPLY_ENERGY_FULL_DESIGN")) {
+                  j = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_ENERGY_FULL_DESIGN"), 1);
+               } else if (hashMap.containsKey("POWER_SUPPLY_CHARGE_FULL_DESIGN")) {
+                  j = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CHARGE_FULL_DESIGN"), 1);
                }
 
-               if (var40.containsKey("POWER_SUPPLY_VOLTAGE_NOW")) {
-                  var14 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_VOLTAGE_NOW"), -1);
+               if (hashMap.containsKey("POWER_SUPPLY_VOLTAGE_NOW")) {
+                  d4 = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_VOLTAGE_NOW"), -1);
                }
 
-               if (var40.containsKey("POWER_SUPPLY_POWER_NOW")) {
-                  var12 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_POWER_NOW"), -1);
+               if (hashMap.containsKey("POWER_SUPPLY_POWER_NOW")) {
+                  d3 = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_POWER_NOW"), -1);
                }
 
-               if (var14 > 0.0) {
-                  var16 = var12 / var14;
+               if (d4 > 0.0) {
+                  d5 = d3 / d4;
                }
 
-               if (var40.containsKey("POWER_SUPPLY_CYCLE_COUNT")) {
-                  var25 = ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_CYCLE_COUNT"), -1);
+               if (hashMap.containsKey("POWER_SUPPLY_CYCLE_COUNT")) {
+                  k = ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_CYCLE_COUNT"), -1);
                }
 
-               String var26 = (java.lang.String)(var40.getOrDefault("POWER_SUPPLY_TECHNOLOGY", "unknown"));
-               String var5 = (java.lang.String)(var40.getOrDefault("POWER_SUPPLY_MODEL_NAME", "unknown"));
-               String var28 = (java.lang.String)(var40.getOrDefault("POWER_SUPPLY_MANUFACTURER", "unknown"));
-               String var29 = (java.lang.String)(var40.getOrDefault("POWER_SUPPLY_SERIAL_NUMBER", "unknown"));
-               if (ParseUtil.parseIntOrDefault((String)var40.get("POWER_SUPPLY_PRESENT"), 1) > 0) {
-                  var34.add(
+               String string5 = (java.lang.String)(hashMap.getOrDefault("POWER_SUPPLY_TECHNOLOGY", "unknown"));
+               String string6 = (java.lang.String)(hashMap.getOrDefault("POWER_SUPPLY_MODEL_NAME", "unknown"));
+               String string7 = (java.lang.String)(hashMap.getOrDefault("POWER_SUPPLY_MANUFACTURER", "unknown"));
+               String string8 = (java.lang.String)(hashMap.getOrDefault("POWER_SUPPLY_SERIAL_NUMBER", "unknown"));
+               if (ParseUtil.parseIntOrDefault((String)hashMap.get("POWER_SUPPLY_PRESENT"), 1) > 0) {
+                  arrayList.add(
                      new LinuxPowerSource(
-                        var4,
-                        var5,
-                        var6,
-                        var8,
-                        var10,
-                        var12,
-                        var14,
-                        var16,
-                        var18,
-                        var19,
-                        var20,
-                        var21,
-                        var22,
-                        var23,
-                        var24,
-                        var25,
-                        var26,
-                        (LocalDate)var27,
-                        var28,
-                        var29,
-                        var30
+                        string3,
+                        string6,
+                        d,
+                        e,
+                        d2,
+                        d3,
+                        d4,
+                        d5,
+                        bl,
+                        bl2,
+                        bl3,
+                        capacityUnits,
+                        i,
+                        j,
+                        b,
+                        k,
+                        string5,
+                        (LocalDate)object,
+                        string7,
+                        string8,
+                        d6
                      )
                   );
                }
@@ -158,6 +180,6 @@ public final class LinuxPowerSource extends AbstractPowerSource {
          }
       }
 
-      return (oshi.hardware.PowerSource[])(var34.toArray(new LinuxPowerSource[0]));
+      return (oshi.hardware.PowerSource[])(arrayList.toArray(new LinuxPowerSource[0]));
    }
 }

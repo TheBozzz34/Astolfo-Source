@@ -22,12 +22,12 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
    private BlockPos field_174900_c = BlockPos.ORIGIN;
    private static final long ab = 101229012403116L;
 
-   public EntityMinecartHopper(World var1) {
-      super(var1);
+   public EntityMinecartHopper(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartHopper(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartHopper(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
@@ -51,19 +51,19 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
    }
 
    @Override
-   public boolean interactFirst(EntityPlayer var1) {
+   public boolean interactFirst(EntityPlayer playerIn) {
       if (!this.worldObj.isRemote) {
-         var1.displayGUIChest(this);
+         playerIn.displayGUIChest(this);
       }
 
       return true;
    }
 
    @Override
-   public void onActivatorRailPass(int var1, int var2, int var3, boolean var4) {
-      boolean var8 = !var4;
-      if (var8 != this.getBlocked()) {
-         this.setBlocked(var8);
+   public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
+      boolean bl = !receivingPower;
+      if (bl != this.getBlocked()) {
+         this.setBlocked(bl);
       }
    }
 
@@ -71,8 +71,8 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
       return this.isBlocked;
    }
 
-   public void setBlocked(boolean var1) {
-      this.isBlocked = var1;
+   public void setBlocked(boolean bl) {
+      this.isBlocked = bl;
    }
 
    @Override
@@ -99,8 +99,8 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
    public void onUpdate() {
       super.onUpdate();
       if (!this.worldObj.isRemote && this.isEntityAlive() && this.getBlocked()) {
-         BlockPos var4 = new BlockPos(this);
-         if (var4.equals(this.field_174900_c)) {
+         BlockPos blockPos = new BlockPos(this);
+         if (blockPos.equals(this.field_174900_c)) {
             this.transferTicker--;
          } else {
             this.setTransferTicker(0);
@@ -121,36 +121,36 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
          return true;
       }
 
-      List var4 = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25, 0.0, 0.25), EntitySelectors.selectAnything);
-      if (var4.size() > 0) {
-         TileEntityHopper.putDropInInventoryAllSlots(this, (EntityItem)var4.get(0));
+      List list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25, 0.0, 0.25), EntitySelectors.selectAnything);
+      if (list.size() > 0) {
+         TileEntityHopper.putDropInInventoryAllSlots(this, (EntityItem)list.get(0));
       }
 
       return false;
    }
 
    @Override
-   public void killMinecart(DamageSource var1) {
-      super.killMinecart(var1);
+   public void killMinecart(DamageSource source) {
+      super.killMinecart(source);
       if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
          this.dropItemWithOffset(Item.getItemFromBlock(Blocks.hopper), 1, 0.0F);
       }
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setInteger("TransferCooldown", this.transferTicker);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setInteger("TransferCooldown", this.transferTicker);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.transferTicker = var1.getInteger("TransferCooldown");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.transferTicker = tagCompund.getInteger("TransferCooldown");
    }
 
-   public void setTransferTicker(int var1) {
-      this.transferTicker = var1;
+   public void setTransferTicker(int i) {
+      this.transferTicker = i;
    }
 
    public boolean canTransfer() {
@@ -163,7 +163,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-      return new ContainerHopper(var1, this, var2);
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+      return new ContainerHopper(playerInventory, this, playerIn);
    }
 }

@@ -11,12 +11,12 @@ public class Quintet<A, B, C, D, E> {
    private final E e;
    private static final long a = 77049214425797L;
 
-   public Quintet(A var1, B var2, C var3, D var4, E var5) {
-      this.N = (A)var1;
-      this.b = (B)var2;
-      this.c = (C)var3;
-      this.d = (D)var4;
-      this.e = (E)var5;
+   public Quintet(A aIn, B b, C c, D d, E eIn) {
+      this.N = aIn;
+      this.b = b;
+      this.c = c;
+      this.d = d;
+      this.e = eIn;
    }
 
    public final A y() {

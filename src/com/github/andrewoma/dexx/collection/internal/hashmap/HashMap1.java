@@ -13,11 +13,11 @@ public class HashMap1<K, V> extends CompactHashMap<K, V> {
    public Pair<K, V> kv;
    private static final long b = 24127742855281L;
 
-   public HashMap1(K var1, int var2, V var3, Pair<K, V> var4) {
-      this.key = (K)var1;
-      this.hash = var2;
-      this.value = (V)var3;
-      this.kv = var4;
+   public HashMap1(K key, int hash, V value, Pair<K, V> kv) {
+      this.key = key;
+      this.hash = hash;
+      this.value = value;
+      this.kv = kv;
    }
 
    @Override
@@ -26,30 +26,30 @@ public class HashMap1<K, V> extends CompactHashMap<K, V> {
    }
 
    @Override
-   public V get0(K var1, int var2, int var3, KeyFunction<K, V> var4) {
-      return var2 == this.hash && var1.equals(this.key) ? this.value : null;
+   public V get0(K key, int hash, int level, KeyFunction<K, V> keyFunction) {
+      return hash == this.hash && key.equals(this.key) ? this.value : null;
    }
 
    @Override
-   public CompactHashMap<K, V> updated0(K var1, int var2, int var3, V var4, Pair<K, V> var5, KeyFunction<K, V> var6) {
-      if (var2 == this.hash && var1.equals(this.key)) {
-         return new HashMap1<>((K)var1, var2, (V)var4, var5);
-      } else if (var2 != this.hash) {
-         HashMap1 var10 = new HashMap1<>(var1, var2, var4, var5);
-         return makeHashTrieMap(this.hash, this, var2, var10, var3, 2);
+   public CompactHashMap<K, V> updated0(K key, int hash, int level, V value, Pair<K, V> kv, KeyFunction<K, V> keyFunction) {
+      if (hash == this.hash && key.equals(this.key)) {
+         return new HashMap1<>((K)key, hash, (V)value, kv);
+      } else if (hash != this.hash) {
+         HashMap1 hashMap1 = new HashMap1<>(key, hash, value, kv);
+         return makeHashTrieMap(this.hash, this, hash, hashMap1, level, 2);
       } else {
-         return new HashMapCollision1<>(var2, ListMap.<K, V>empty().put(this.key, this.value).put((K)var1, (V)var4));
+         return new HashMapCollision1<>(hash, ListMap.<K, V>empty().put(this.key, this.value).put((K)key, (V)value));
       }
    }
 
    @Override
-   public CompactHashMap<K, V> removed0(K var1, int var2, int var3, KeyFunction<K, V> var4) {
-      return var2 == this.hash && var1.equals(this.key) ? CompactHashMap.empty() : this;
+   public CompactHashMap<K, V> removed0(K key, int hash, int level, KeyFunction<K, V> keyFunction) {
+      return hash == this.hash && key.equals(this.key) ? CompactHashMap.empty() : this;
    }
 
    @Override
-   public <U> void forEach(Function<Pair<K, V>, U> var1, KeyFunction<K, V> var2) {
-      var1.invoke(new Pair<>(this.key, this.value));
+   public <U> void forEach(Function<Pair<K, V>, U> f, KeyFunction<K, V> keyFunction) {
+      f.invoke(new Pair<>(this.key, this.value));
    }
 
    private Pair<K, V> ensureKv() {
@@ -61,7 +61,7 @@ public class HashMap1<K, V> extends CompactHashMap<K, V> {
    }
 
    @Override
-   public Iterator<Pair<K, V>> iterator(KeyFunction<K, V> var1) {
+   public Iterator<Pair<K, V>> iterator(KeyFunction<K, V> kf) {
       return Collections.singleton(this.ensureKv()).iterator();
    }
 }

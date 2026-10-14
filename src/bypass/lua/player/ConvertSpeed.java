@@ -8,21 +8,21 @@ public final class ConvertSpeed extends TwoArgFunction {
    private static final long a = 31235114793141L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      if (var1 != null && !var1.isnil() && var1.istable() && var2 != null && !var2.isnil() && var2.isnumber()) {
-         double[] var6 = PlayerLibrary.U(var2.tofloat());
-         if (var6 != null) {
-            LuaValue var7 = var1.get("x");
-            if (!var7.isnil() && var7.isnumber()) {
-               var1.set("x", var6[0]);
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      if (luaValue != null && !luaValue.isnil() && luaValue.istable() && luaValue2 != null && !luaValue2.isnil() && luaValue2.isnumber()) {
+         double[] doubles = PlayerLibrary.U(luaValue2.tofloat());
+         if (doubles != null) {
+            LuaValue luaValue3 = luaValue.get("x");
+            if (!luaValue3.isnil() && luaValue3.isnumber()) {
+               luaValue.set("x", doubles[0]);
             }
 
-            LuaValue var8 = var1.get("z");
-            if (!var8.isnil() && var8.isnumber()) {
-               var1.set("z", var6[1]);
+            LuaValue luaValue4 = luaValue.get("z");
+            if (!luaValue4.isnil() && luaValue4.isnumber()) {
+               luaValue.set("z", doubles[1]);
             }
 
-            return var1;
+            return luaValue;
          }
       }
 

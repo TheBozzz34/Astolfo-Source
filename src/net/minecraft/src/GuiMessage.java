@@ -17,10 +17,10 @@ public class GuiMessage extends GuiScreen {
    private int ticksUntilEnable;
    private static final long a = 77574471849270L;
 
-   public GuiMessage(GuiScreen var1, String var2, String var3) {
-      this.parentScreen = var1;
-      this.messageLine1 = var2;
-      this.messageLine2 = var3;
+   public GuiMessage(GuiScreen parentScreen, String line1, String line2) {
+      this.parentScreen = parentScreen;
+      this.messageLine1 = line1;
+      this.messageLine2 = line2;
       this.confirmButtonText = I18n.format("gui.done");
    }
 
@@ -32,29 +32,29 @@ public class GuiMessage extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
+   public void actionPerformed(GuiButton button) throws IOException {
       Config.getMinecraft().displayGuiScreen(this.parentScreen);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, this.messageLine1, this.width / 2, 70, 16777215);
-      int var7 = 90;
+      int i = 90;
 
-      for (Object var9 : this.listLines2) {
-         this.d(this.fontRendererObj, (String)var9, this.width / 2, var7, 16777215);
-         var7 += this.fontRendererObj.FONT_HEIGHT;
+      for (Object object : this.listLines2) {
+         this.d(this.fontRendererObj, (String)object, this.width / 2, i, 16777215);
+         i += this.fontRendererObj.FONT_HEIGHT;
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public void setButtonDelay(int var1) {
-      this.ticksUntilEnable = var1;
+   public void setButtonDelay(int ticksUntilEnable) {
+      this.ticksUntilEnable = ticksUntilEnable;
 
-      for (GuiButton var6 : this.buttonList) {
-         var6.enabled = false;
+      for (GuiButton guiButton : this.buttonList) {
+         guiButton.enabled = false;
       }
    }
 
@@ -62,8 +62,8 @@ public class GuiMessage extends GuiScreen {
    public void updateScreen() {
       super.updateScreen();
       if (--this.ticksUntilEnable == 0) {
-         for (GuiButton var5 : this.buttonList) {
-            var5.enabled = true;
+         for (GuiButton guiButton : this.buttonList) {
+            guiButton.enabled = true;
          }
       }
    }

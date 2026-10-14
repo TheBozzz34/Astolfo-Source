@@ -13,55 +13,55 @@ public class BlockRedstoneLight extends Block {
    private final boolean isOn;
    private static final long e = 114509669303708L;
 
-   public BlockRedstoneLight(boolean var1) {
+   public BlockRedstoneLight(boolean isOn) {
       super(Material.redstoneLight);
-      this.isOn = var1;
-      if (var1) {
+      this.isOn = isOn;
+      if (isOn) {
          this.setLightLevel(1.0F);
       }
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      if (!var1.isRemote) {
-         if (this.isOn && !var1.isBlockPowered(var2)) {
-            var1.setBlockState(var2, Blocks.redstone_lamp.getDefaultState(), 2);
-         } else if (!this.isOn && var1.isBlockPowered(var2)) {
-            var1.setBlockState(var2, Blocks.lit_redstone_lamp.getDefaultState(), 2);
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      if (!worldIn.isRemote) {
+         if (this.isOn && !worldIn.isBlockPowered(pos)) {
+            worldIn.setBlockState(pos, Blocks.redstone_lamp.getDefaultState(), 2);
+         } else if (!this.isOn && worldIn.isBlockPowered(pos)) {
+            worldIn.setBlockState(pos, Blocks.lit_redstone_lamp.getDefaultState(), 2);
          }
       }
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (!var1.isRemote) {
-         if (this.isOn && !var1.isBlockPowered(var2)) {
-            var1.scheduleUpdate(var2, this, 4);
-         } else if (!this.isOn && var1.isBlockPowered(var2)) {
-            var1.setBlockState(var2, Blocks.lit_redstone_lamp.getDefaultState(), 2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (!worldIn.isRemote) {
+         if (this.isOn && !worldIn.isBlockPowered(pos)) {
+            worldIn.scheduleUpdate(pos, this, 4);
+         } else if (!this.isOn && worldIn.isBlockPowered(pos)) {
+            worldIn.setBlockState(pos, Blocks.lit_redstone_lamp.getDefaultState(), 2);
          }
       }
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote && this.isOn && !var1.isBlockPowered(var2)) {
-         var1.setBlockState(var2, Blocks.redstone_lamp.getDefaultState(), 2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote && this.isOn && !worldIn.isBlockPowered(pos)) {
+         worldIn.setBlockState(pos, Blocks.redstone_lamp.getDefaultState(), 2);
       }
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Item.getItemFromBlock(Blocks.redstone_lamp);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Item.getItemFromBlock(Blocks.redstone_lamp);
    }
 
    @Override
-   public ItemStack createStackedBlock(IBlockState var1) {
+   public ItemStack createStackedBlock(IBlockState state) {
       return new ItemStack(Blocks.redstone_lamp);
    }
 }

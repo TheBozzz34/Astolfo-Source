@@ -10,11 +10,11 @@ public class GuiStreamIndicator {
    private int streamAlphaDelta = 1;
    private static final long b = 119585383255818L;
 
-   public GuiStreamIndicator(Minecraft var1) {
-      this.mc = var1;
+   public GuiStreamIndicator(Minecraft mcIn) {
+      this.mc = mcIn;
    }
 
-   public void render(int var1, int var2) {
+   public void render(int i, int j) {
    }
 
    public void updateStreamAlpha() {

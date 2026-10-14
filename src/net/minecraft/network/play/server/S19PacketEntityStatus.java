@@ -14,29 +14,29 @@ public class S19PacketEntityStatus implements Packet<INetHandlerPlayClient> {
    public S19PacketEntityStatus() {
    }
 
-   public S19PacketEntityStatus(Entity var1, byte var2) {
-      this.entityId = var1.getEntityId();
-      this.logicOpcode = var2;
+   public S19PacketEntityStatus(Entity entityIn, byte opCodeIn) {
+      this.entityId = entityIn.getEntityId();
+      this.logicOpcode = opCodeIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readInt();
-      this.logicOpcode = var1.readByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readInt();
+      this.logicOpcode = buf.readByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeInt(this.entityId);
-      var1.writeByte(this.logicOpcode);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeInt(this.entityId);
+      buf.writeByte(this.logicOpcode);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityStatus(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityStatus(this);
    }
 
-   public Entity getEntity(World var1) {
-      return var1.getEntityByID(this.entityId);
+   public Entity getEntity(World worldIn) {
+      return worldIn.getEntityByID(this.entityId);
    }
 
    public byte getOpCode() {

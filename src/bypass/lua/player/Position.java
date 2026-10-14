@@ -9,7 +9,7 @@ public final class Position extends VarArgFunction {
    private static final long a = 78282985264553L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
+   public Varargs onInvoke(Varargs varargs) {
       return ClientAccess.mc.thePlayer == null
          ? NIL
          : LuaValue.varargsOf(

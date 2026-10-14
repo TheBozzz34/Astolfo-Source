@@ -19,34 +19,34 @@ public class S07PacketRespawn implements Packet<INetHandlerPlayClient> {
    public S07PacketRespawn() {
    }
 
-   public S07PacketRespawn(int var1, EnumDifficulty var2, WorldType var3, WorldSettings.GameType var4) {
-      this.dimensionID = var1;
-      this.difficulty = var2;
-      this.gameType = var4;
-      this.worldType = var3;
+   public S07PacketRespawn(int dimensionIDIn, EnumDifficulty difficultyIn, WorldType worldTypeIn, WorldSettings.GameType gameTypeIn) {
+      this.dimensionID = dimensionIDIn;
+      this.difficulty = difficultyIn;
+      this.gameType = gameTypeIn;
+      this.worldType = worldTypeIn;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleRespawn(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleRespawn(this);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.dimensionID = var1.readInt();
-      this.difficulty = EnumDifficulty.getDifficultyEnum(var1.readUnsignedByte());
-      this.gameType = WorldSettings.GameType.getByID(var1.readUnsignedByte());
-      this.worldType = WorldType.parseWorldType(var1.readStringFromBuffer((int)b));
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.dimensionID = buf.readInt();
+      this.difficulty = EnumDifficulty.getDifficultyEnum(buf.readUnsignedByte());
+      this.gameType = WorldSettings.GameType.getByID(buf.readUnsignedByte());
+      this.worldType = WorldType.parseWorldType(buf.readStringFromBuffer((int)b));
       if (this.worldType == null) {
          this.worldType = WorldType.DEFAULT;
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeInt(this.dimensionID);
-      var1.writeByte(this.difficulty.getDifficultyId());
-      var1.writeByte(this.gameType.getID());
-      var1.writeString(this.worldType.getWorldTypeName());
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeInt(this.dimensionID);
+      buf.writeByte(this.difficulty.getDifficultyId());
+      buf.writeByte(this.gameType.getID());
+      buf.writeString(this.worldType.getWorldTypeName());
    }
 
    public int getDimensionID() {

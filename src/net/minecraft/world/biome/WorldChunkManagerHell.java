@@ -10,58 +10,60 @@ public class WorldChunkManagerHell extends WorldChunkManager {
    private float rainfall;
    private static final long b = 120550548390892L;
 
-   public WorldChunkManagerHell(BiomeGenBase var1, float var2) {
-      this.biomeGenerator = var1;
-      this.rainfall = var2;
+   public WorldChunkManagerHell(BiomeGenBase biomeGenBase, float f) {
+      this.biomeGenerator = biomeGenBase;
+      this.rainfall = f;
    }
 
    @Override
-   public BiomeGenBase getBiomeGenerator(BlockPos var1) {
+   public BiomeGenBase getBiomeGenerator(BlockPos pos) {
       return this.biomeGenerator;
    }
 
    @Override
-   public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] var1, int var2, int var3, int var4, int var5) {
-      if (var1 == null || var1.length < var4 * var5) {
-         var1 = new BiomeGenBase[var4 * var5];
+   public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] biomes, int x, int z, int width, int height) {
+      if (biomes == null || biomes.length < width * height) {
+         biomes = new BiomeGenBase[width * height];
       }
 
-      Arrays.fill(var1, 0, var4 * var5, this.biomeGenerator);
-      return var1;
+      Arrays.fill(biomes, 0, width * height, this.biomeGenerator);
+      return biomes;
    }
 
    @Override
-   public float[] getRainfall(float[] var1, int var2, int var3, int var4, int var5) {
-      if (var1 == null || var1.length < var4 * var5) {
-         var1 = new float[var4 * var5];
+   public float[] getRainfall(float[] listToReuse, int x, int z, int width, int length) {
+      if (listToReuse == null || listToReuse.length < width * length) {
+         listToReuse = new float[width * length];
       }
 
-      Arrays.fill(var1, 0, var4 * var5, this.rainfall);
-      return var1;
+      Arrays.fill(listToReuse, 0, width * length, this.rainfall);
+      return listToReuse;
    }
 
    @Override
-   public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] var1, int var2, int var3, int var4, int var5) {
-      if (var1 == null || var1.length < var4 * var5) {
-         var1 = new BiomeGenBase[var4 * var5];
+   public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] oldBiomeList, int x, int z, int width, int depth) {
+      if (oldBiomeList == null || oldBiomeList.length < width * depth) {
+         oldBiomeList = new BiomeGenBase[width * depth];
       }
 
-      Arrays.fill(var1, 0, var4 * var5, this.biomeGenerator);
-      return var1;
+      Arrays.fill(oldBiomeList, 0, width * depth, this.biomeGenerator);
+      return oldBiomeList;
    }
 
    @Override
-   public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] var1, int var2, int var3, int var4, int var5, boolean var6) {
-      return this.loadBlockGeneratorData(var1, var2, var3, var4, var5);
+   public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] listToReuse, int x, int z, int width, int length, boolean cacheFlag) {
+      return this.loadBlockGeneratorData(listToReuse, x, z, width, length);
    }
 
    @Override
-   public BlockPos findBiomePosition(int var1, int var2, int var3, List<BiomeGenBase> var4, Random var5) {
-      return var4.contains(this.biomeGenerator) ? new BlockPos(var1 - var3 + var5.nextInt(var3 * 2 + 1), 0, var2 - var3 + var5.nextInt(var3 * 2 + 1)) : null;
+   public BlockPos findBiomePosition(int x, int z, int range, List<BiomeGenBase> biomes, Random randomIn) {
+      return biomes.contains(this.biomeGenerator)
+         ? new BlockPos(x - range + randomIn.nextInt(range * 2 + 1), 0, z - range + randomIn.nextInt(range * 2 + 1))
+         : null;
    }
 
    @Override
-   public boolean areBiomesViable(int var1, int var2, int var3, List<BiomeGenBase> var4) {
-      return var4.contains(this.biomeGenerator);
+   public boolean areBiomesViable(int i, int j, int k, List<BiomeGenBase> list) {
+      return list.contains(this.biomeGenerator);
    }
 }

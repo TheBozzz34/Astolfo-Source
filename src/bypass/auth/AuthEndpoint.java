@@ -12,8 +12,8 @@ public class AuthEndpoint {
    private AuthConnection connection;
    private static final long a = 91597366608243L;
 
-   public AuthEndpoint(String var1) {
-      this.host = var1;
+   public AuthEndpoint(String string) {
+      this.host = string;
       this.choosePort();
    }
 
@@ -25,9 +25,9 @@ public class AuthEndpoint {
       return this.connection;
    }
 
-   public void E(AuthConnection var1) {
+   public void E(AuthConnection authConnection) {
       this.choosePort();
-      this.connection = var1;
+      this.connection = authConnection;
    }
 
    public String getHost() {
@@ -39,8 +39,8 @@ public class AuthEndpoint {
    }
 
    private void choosePort() {
-      int var1 = RandomUtils.SECURE_RANDOM.nextInt(PORTS.size());
-      this.port = new PortChoice(var1, PORTS.get(var1));
+      int i = RandomUtils.SECURE_RANDOM.nextInt(PORTS.size());
+      this.port = new PortChoice(i, PORTS.get(i));
    }
 
    public static void resetPorts() {

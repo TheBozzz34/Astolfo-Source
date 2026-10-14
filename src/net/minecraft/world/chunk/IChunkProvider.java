@@ -8,17 +8,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public interface IChunkProvider {
-   boolean chunkExists(int var1, int var2);
+   boolean chunkExists(int x, int z);
 
-   Chunk provideChunk(int var1, int var2);
+   Chunk provideChunk(int x, int z);
 
-   Chunk provideChunk(BlockPos var1);
+   Chunk provideChunk(BlockPos blockPosIn);
 
-   void populate(IChunkProvider var1, int var2, int var3);
+   void populate(IChunkProvider chunkProvider, int x, int z);
 
-   boolean populateChunk(IChunkProvider var1, Chunk var2, int var3, int var4);
+   boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z);
 
-   boolean saveChunks(boolean var1, IProgressUpdate var2);
+   boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback);
 
    boolean unloadQueuedChunks();
 
@@ -26,13 +26,13 @@ public interface IChunkProvider {
 
    String makeString();
 
-   List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType var1, BlockPos var2);
+   List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos);
 
-   BlockPos getStrongholdGen(World var1, String var2, BlockPos var3);
+   BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position);
 
    int getLoadedChunkCount();
 
-   void recreateStructures(Chunk var1, int var2, int var3);
+   void recreateStructures(Chunk chunkIn, int x, int z);
 
    void saveExtraData();
 }

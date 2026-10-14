@@ -14,32 +14,32 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer> {
    public C0BPacketEntityAction() {
    }
 
-   public C0BPacketEntityAction(Entity var1, C0BPacketEntityAction.Action var2) {
-      this(var1, var2, 0);
+   public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action) {
+      this(entity, action, 0);
    }
 
-   public C0BPacketEntityAction(Entity var1, C0BPacketEntityAction.Action var2, int var3) {
-      this.entityID = var1.getEntityId();
-      this.action = var2;
-      this.auxData = var3;
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityID = var1.readVarIntFromBuffer();
-      this.action = var1.readEnumValue(C0BPacketEntityAction.Action.class);
-      this.auxData = var1.readVarIntFromBuffer();
+   public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action, int auxData) {
+      this.entityID = entity.getEntityId();
+      this.action = action;
+      this.auxData = auxData;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityID);
-      var1.writeEnumValue(this.action);
-      var1.writeVarIntToBuffer(this.auxData);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityID = buf.readVarIntFromBuffer();
+      this.action = buf.readEnumValue(C0BPacketEntityAction.Action.class);
+      this.auxData = buf.readVarIntFromBuffer();
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processEntityAction(this);
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityID);
+      buf.writeEnumValue(this.action);
+      buf.writeVarIntToBuffer(this.auxData);
+   }
+
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processEntityAction(this);
    }
 
    public C0BPacketEntityAction.Action getAction() {

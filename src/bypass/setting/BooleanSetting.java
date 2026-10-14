@@ -12,77 +12,77 @@ public final class BooleanSetting extends Setting<Boolean> implements Comparable
       super("", "", false, SettingType.UNDEFINED);
    }
 
-   public BooleanSetting(String var1, String var2, boolean var3) {
-      super(var1, var2, var3, SettingType.BOOLEAN);
-      if (!TypeUtil.F(var3)) {
+   public BooleanSetting(String string, String string2, boolean bl) {
+      super(string, string2, bl, SettingType.BOOLEAN);
+      if (!TypeUtil.F(bl)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var7) {
-            var7.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public BooleanSetting(String var1, String var2, Boolean var3) {
-      super(var1, var2, var3, SettingType.BOOLEAN);
-      if (!TypeUtil.F(var3)) {
+   public BooleanSetting(String string, String string2, Boolean boolean2) {
+      super(string, string2, boolean2, SettingType.BOOLEAN);
+      if (!TypeUtil.F(boolean2)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var7) {
-            var7.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public BooleanSetting(String var1, String var2, boolean var3, List<SettingAttribute> var4) {
-      super(var1, var2, var3, SettingType.BOOLEAN, var4);
-      if (!TypeUtil.F(var3)) {
+   public BooleanSetting(String string, String string2, boolean bl, List<SettingAttribute> list) {
+      super(string, string2, bl, SettingType.BOOLEAN, list);
+      if (!TypeUtil.F(bl)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public BooleanSetting(String var1, String var2, Boolean var3, List<SettingAttribute> var4) {
-      super(var1, var2, var3, SettingType.BOOLEAN, var4);
-      if (!TypeUtil.F(var3)) {
+   public BooleanSetting(String string, String string2, Boolean boolean2, List<SettingAttribute> list) {
+      super(string, string2, boolean2, SettingType.BOOLEAN, list);
+      if (!TypeUtil.F(boolean2)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public BooleanSetting(String var1, String var2, boolean var3, SettingAttribute... var4) {
-      super(var1, var2, var3, SettingType.BOOLEAN, Arrays.asList(var4));
-      if (!TypeUtil.F(var3)) {
+   public BooleanSetting(String string, String string2, boolean bl, SettingAttribute... settingAttributes) {
+      super(string, string2, bl, SettingType.BOOLEAN, Arrays.asList(settingAttributes));
+      if (!TypeUtil.F(bl)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public BooleanSetting(String var1, String var2, Boolean var3, SettingAttribute... var4) {
-      super(var1, var2, var3, SettingType.BOOLEAN, Arrays.asList(var4));
-      if (!TypeUtil.F(var3)) {
+   public BooleanSetting(String string, String string2, Boolean boolean2, SettingAttribute... settingAttributes) {
+      super(string, string2, boolean2, SettingType.BOOLEAN, Arrays.asList(settingAttributes));
+      if (!TypeUtil.F(boolean2)) {
          try {
             throw new InvalidValueException("Invalid value.");
-         } catch (InvalidValueException var8) {
-            var8.printStackTrace();
+         } catch (InvalidValueException invalidValueException) {
+            invalidValueException.printStackTrace();
          }
       }
    }
 
-   public static int compare(boolean var0, boolean var1) {
-      if (var0 == var1) {
+   public static int compare(boolean bl, boolean bl2) {
+      if (bl == bl2) {
          return 0;
       } else {
-         return var0 ? 1 : -1;
+         return bl ? 1 : -1;
       }
    }
 
@@ -94,12 +94,12 @@ public final class BooleanSetting extends Setting<Boolean> implements Comparable
       super.setValue(true);
    }
 
-   public void set(boolean var1) {
-      super.setValue(var1);
+   public void set(boolean bl) {
+      super.setValue(bl);
    }
 
-   public void setValue(Boolean var1) {
-      super.setValue(var1);
+   public void setValue(Boolean boolean2) {
+      super.setValue(boolean2);
    }
 
    public boolean isEnabled() {
@@ -111,8 +111,8 @@ public final class BooleanSetting extends Setting<Boolean> implements Comparable
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return !(var1 instanceof BooleanSetting) ? false : this.value == ((BooleanSetting)var1).getValue() && super.equals(var1);
+   public boolean equals(Object object) {
+      return !(object instanceof BooleanSetting) ? false : this.value == ((BooleanSetting)object).getValue() && super.equals(object);
    }
 
    @Override
@@ -120,7 +120,7 @@ public final class BooleanSetting extends Setting<Boolean> implements Comparable
       return super.hashCode() + (this.value ? Boolean.TRUE.hashCode() : Boolean.FALSE.hashCode());
    }
 
-   public int compareTo(BooleanSetting var1) {
-      return compare(this.value, var1.value);
+   public int compareTo(BooleanSetting booleanSetting) {
+      return compare(this.value, booleanSetting.value);
    }
 }

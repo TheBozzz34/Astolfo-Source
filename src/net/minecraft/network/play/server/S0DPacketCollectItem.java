@@ -12,25 +12,25 @@ public class S0DPacketCollectItem implements Packet<INetHandlerPlayClient> {
    public S0DPacketCollectItem() {
    }
 
-   public S0DPacketCollectItem(int var1, int var2) {
-      this.collectedItemEntityId = var1;
-      this.entityId = var2;
+   public S0DPacketCollectItem(int collectedItemEntityIdIn, int entityIdIn) {
+      this.collectedItemEntityId = collectedItemEntityIdIn;
+      this.entityId = entityIdIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.collectedItemEntityId = var1.readVarIntFromBuffer();
-      this.entityId = var1.readVarIntFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.collectedItemEntityId = buf.readVarIntFromBuffer();
+      this.entityId = buf.readVarIntFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.collectedItemEntityId);
-      var1.writeVarIntToBuffer(this.entityId);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.collectedItemEntityId);
+      buf.writeVarIntToBuffer(this.entityId);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleCollectItem(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleCollectItem(this);
    }
 
    public int getCollectedItemEntityID() {

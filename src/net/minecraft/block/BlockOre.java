@@ -20,13 +20,13 @@ public class BlockOre extends Block {
       this(Material.rock.getMaterialMapColor());
    }
 
-   public BlockOre(MapColor var1) {
-      super(Material.rock, var1);
+   public BlockOre(MapColor mapColor) {
+      super(Material.rock, mapColor);
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return this == Blocks.coal_ore
          ? Items.coal
          : (
@@ -41,52 +41,52 @@ public class BlockOre extends Block {
    }
 
    @Override
-   public int quantityDropped(Random var1) {
-      return this == Blocks.lapis_ore ? 4 + var1.nextInt(5) : 1;
+   public int quantityDropped(Random randomIn) {
+      return this == Blocks.lapis_ore ? 4 + randomIn.nextInt(5) : 1;
    }
 
    @Override
-   public int quantityDroppedWithBonus(int var1, Random var2) {
-      if (var1 > 0 && Item.getItemFromBlock(this) != this.getItemDropped(this.getBlockState().getValidStates().iterator().next(), var2, var1)) {
-         int var6 = var2.nextInt(var1 + 2) - 1;
-         if (var6 < 0) {
-            var6 = 0;
+   public int quantityDroppedWithBonus(int fortune, Random randomIn) {
+      if (fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(this.getBlockState().getValidStates().iterator().next(), randomIn, fortune)) {
+         int i = randomIn.nextInt(fortune + 2) - 1;
+         if (i < 0) {
+            i = 0;
          }
 
-         return this.quantityDropped(var2) * (var6 + 1);
+         return this.quantityDropped(randomIn) * (i + 1);
       } else {
-         return this.quantityDropped(var2);
+         return this.quantityDropped(randomIn);
       }
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      super.dropBlockAsItemWithChance(var1, var2, var3, var4, var5);
-      if (this.getItemDropped(var3, var1.rand, var5) != Item.getItemFromBlock(this)) {
-         int var9 = 0;
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+      if (this.getItemDropped(state, worldIn.rand, fortune) != Item.getItemFromBlock(this)) {
+         int i = 0;
          if (this == Blocks.coal_ore) {
-            var9 = MathHelper.getRandomIntegerInRange(var1.rand, 0, 2);
+            i = MathHelper.getRandomIntegerInRange(worldIn.rand, 0, 2);
          } else if (this == Blocks.diamond_ore) {
-            var9 = MathHelper.getRandomIntegerInRange(var1.rand, 3, 7);
+            i = MathHelper.getRandomIntegerInRange(worldIn.rand, 3, 7);
          } else if (this == Blocks.emerald_ore) {
-            var9 = MathHelper.getRandomIntegerInRange(var1.rand, 3, 7);
+            i = MathHelper.getRandomIntegerInRange(worldIn.rand, 3, 7);
          } else if (this == Blocks.lapis_ore) {
-            var9 = MathHelper.getRandomIntegerInRange(var1.rand, 2, 5);
+            i = MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
          } else if (this == Blocks.quartz_ore) {
-            var9 = MathHelper.getRandomIntegerInRange(var1.rand, 2, 5);
+            i = MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
          }
 
-         this.dropXpOnBlockBreak(var1, var2, var9);
+         this.dropXpOnBlockBreak(worldIn, pos, i);
       }
    }
 
    @Override
-   public int getDamageValue(World var1, BlockPos var2) {
+   public int getDamageValue(World worldIn, BlockPos pos) {
       return 0;
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
+   public int damageDropped(IBlockState state) {
       return this == Blocks.lapis_ore ? EnumDyeColor.BLUE.getDyeDamage() : 0;
    }
 }

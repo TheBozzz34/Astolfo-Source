@@ -26,17 +26,17 @@ public final class FastUse extends Module {
    private final EnumSetting<FastUseMode> mode = new EnumSetting<>("Mode", "Fast use mode", FastUseMode.VANILLA);
    private final NumberSetting<Integer> delay = new NumberSetting<>("Delay", "Ticks that will be needed to pass to fast use", 12, 8, 32);
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      boolean var5 = RiderGod.r() && GameUtil.isOnHypixel();
-      if (!var5
-         && var1x.getState() == EventState.PRE
+      boolean bl = RiderGod.r() && GameUtil.isOnHypixel();
+      if (!bl
+         && updateEvent.getState() == EventState.PRE
          && this.mode.getValue() == FastUseMode.VANILLA
          && this.o_boolean()
          && mc.thePlayer.n() >= this.delay.getValue()) {
-         int var6 = 32 - mc.thePlayer.n();
+         int i = 32 - mc.thePlayer.n();
 
-         for (int var7 = 0; var7 < var6; var7++) {
+         for (int j = 0; j < i; j++) {
             mc.thePlayer
                .sendQueue
                .addToSendQueue(
@@ -52,23 +52,23 @@ public final class FastUse extends Module {
    private int z;
    private Stopwatch l = new Stopwatch();
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      boolean var5 = RiderGod.r() && GameUtil.isOnHypixel();
-      if (!var5
-         && var1x.getState() == EventState.PRE
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      boolean bl = RiderGod.r() && GameUtil.isOnHypixel();
+      if (!bl
+         && motionEvent.getState() == EventState.PRE
          && this.mode.getValue() == FastUseMode.SENTINEL
          && this.o_boolean()
          && mc.thePlayer.n() >= this.delay.getValue()
          && mc.thePlayer.ticksExisted % 2 == 0) {
-         for (int var6 = 0; var6 < 2; var6++) {
+         for (int i = 0; i < 2; i++) {
             mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
          }
 
-         var1x.setYaw((float)(var1x.getYaw() + Math.random()));
+         motionEvent.setYaw((float)(motionEvent.getYaw() + Math.random()));
       }
 
-      if (var5
-         && var1x.getState() == EventState.PRE
+      if (bl
+         && motionEvent.getState() == EventState.PRE
          && mc.thePlayer.n() > 0
          && mc.thePlayer.getHeldItem() != null
          && (
@@ -82,22 +82,22 @@ public final class FastUse extends Module {
    };
    private static final long c = 65051531058969L;
 
-   public FastUse(Category var1) {
-      super(var1);
+   public FastUse(Category category) {
+      super(category);
       this.addSettings(this.mode, this.delay);
    }
 
-   public static void E(int var0, ItemStack var1, boolean var2) {
-      mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(var0));
-      mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(var1));
+   public static void E(int i, ItemStack itemStack, boolean bl) {
+      mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(i));
+      mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(itemStack));
       mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(0));
-      mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(var2 ? mc.thePlayer.inventory.currentItem : var0));
+      mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(bl ? mc.thePlayer.inventory.currentItem : i));
    }
 
    @Override
    public void p() {
-      boolean var4 = RiderGod.r() && GameUtil.isOnHypixel();
-      if (!var4) {
+      boolean bl = RiderGod.r() && GameUtil.isOnHypixel();
+      if (!bl) {
          this.setDisplayName("Fast Use " + EnumChatFormatting.GRAY + this.delay.getValue());
       } else {
          this.setDisplayName("Fast Use " + EnumChatFormatting.GRAY + "Instant");

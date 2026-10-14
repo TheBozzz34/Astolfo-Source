@@ -22,71 +22,71 @@ public class ChunkProviderDebug implements IChunkProvider {
    private final World world;
    private static final long a = 82529366371374L;
 
-   public ChunkProviderDebug(World var1) {
-      this.world = var1;
+   public ChunkProviderDebug(World worldIn) {
+      this.world = worldIn;
    }
 
    @Override
-   public Chunk provideChunk(int var1, int var2) {
-      ChunkPrimer var6 = new ChunkPrimer();
+   public Chunk provideChunk(int x, int z) {
+      ChunkPrimer chunkPrimer = new ChunkPrimer();
 
-      for (int var7 = 0; var7 < 16; var7++) {
-         for (int var8 = 0; var8 < 16; var8++) {
-            int var9 = var1 * 16 + var7;
-            int var10 = var2 * 16 + var8;
-            var6.setBlockState(var7, 60, var8, Blocks.barrier.getDefaultState());
-            IBlockState var11 = func_177461_b(var9, var10);
-            if (var11 != null) {
-               var6.setBlockState(var7, 70, var8, var11);
+      for (int i = 0; i < 16; i++) {
+         for (int j = 0; j < 16; j++) {
+            int k = x * 16 + i;
+            int l = z * 16 + j;
+            chunkPrimer.setBlockState(i, 60, j, Blocks.barrier.getDefaultState());
+            IBlockState iBlockState = func_177461_b(k, l);
+            if (iBlockState != null) {
+               chunkPrimer.setBlockState(i, 70, j, iBlockState);
             }
          }
       }
 
-      Chunk var12 = new Chunk(this.world, var6, var1, var2);
-      var12.generateSkylightMap();
-      BiomeGenBase[] var13 = this.world.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, var1 * 16, var2 * 16, 16, 16);
-      byte[] var14 = var12.getBiomeArray();
+      Chunk chunk = new Chunk(this.world, chunkPrimer, x, z);
+      chunk.generateSkylightMap();
+      BiomeGenBase[] biomeGenBases = this.world.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, x * 16, z * 16, 16, 16);
+      byte[] bytes = chunk.getBiomeArray();
 
-      for (int var15 = 0; var15 < var14.length; var15++) {
-         var14[var15] = (byte)var13[var15].biomeID;
+      for (int m = 0; m < bytes.length; m++) {
+         bytes[m] = (byte)biomeGenBases[m].biomeID;
       }
 
-      var12.generateSkylightMap();
-      return var12;
+      chunk.generateSkylightMap();
+      return chunk;
    }
 
-   public static IBlockState func_177461_b(int var0, int var1) {
-      IBlockState var5 = null;
-      if (var0 > 0 && var1 > 0 && var0 % 2 != 0 && var1 % 2 != 0) {
-         var0 /= 2;
-         var1 /= 2;
-         if (var0 <= field_177462_b && var1 <= field_181039_c) {
-            int var6 = MathHelper.abs_int(var0 * field_177462_b + var1);
-            if (var6 < field_177464_a.size()) {
-               var5 = field_177464_a.get(var6);
+   public static IBlockState func_177461_b(int i, int j) {
+      IBlockState iBlockState = null;
+      if (i > 0 && j > 0 && i % 2 != 0 && j % 2 != 0) {
+         i /= 2;
+         j /= 2;
+         if (i <= field_177462_b && j <= field_181039_c) {
+            int k = MathHelper.abs_int(i * field_177462_b + j);
+            if (k < field_177464_a.size()) {
+               iBlockState = field_177464_a.get(k);
             }
          }
       }
 
-      return var5;
+      return iBlockState;
    }
 
    @Override
-   public boolean chunkExists(int var1, int var2) {
+   public boolean chunkExists(int x, int z) {
       return true;
    }
 
    @Override
-   public void populate(IChunkProvider var1, int var2, int var3) {
+   public void populate(IChunkProvider chunkProvider, int x, int z) {
    }
 
    @Override
-   public boolean populateChunk(IChunkProvider var1, Chunk var2, int var3, int var4) {
+   public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z) {
       return false;
    }
 
    @Override
-   public boolean saveChunks(boolean var1, IProgressUpdate var2) {
+   public boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback) {
       return true;
    }
 
@@ -110,13 +110,13 @@ public class ChunkProviderDebug implements IChunkProvider {
    }
 
    @Override
-   public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType var1, BlockPos var2) {
-      BiomeGenBase var3 = this.world.getBiomeGenForCoords(var2);
-      return var3.getSpawnableList(var1);
+   public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
+      BiomeGenBase biomeGenBase = this.world.getBiomeGenForCoords(pos);
+      return biomeGenBase.getSpawnableList(creatureType);
    }
 
    @Override
-   public BlockPos getStrongholdGen(World var1, String var2, BlockPos var3) {
+   public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {
       return null;
    }
 
@@ -126,17 +126,17 @@ public class ChunkProviderDebug implements IChunkProvider {
    }
 
    @Override
-   public void recreateStructures(Chunk var1, int var2, int var3) {
+   public void recreateStructures(Chunk chunkIn, int x, int z) {
    }
 
    @Override
-   public Chunk provideChunk(BlockPos var1) {
-      return this.provideChunk(var1.getX() >> 4, var1.getZ() >> 4);
+   public Chunk provideChunk(BlockPos blockPosIn) {
+      return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
    }
 
    static {
-      for (Block var17 : Block.blockRegistry) {
-         field_177464_a.addAll(var17.getBlockState().getValidStates());
+      for (Block block : Block.blockRegistry) {
+         field_177464_a.addAll(block.getBlockState().getValidStates());
       }
 
       field_177462_b = MathHelper.ceiling_float_int(MathHelper.sqrt_float(field_177464_a.size()));

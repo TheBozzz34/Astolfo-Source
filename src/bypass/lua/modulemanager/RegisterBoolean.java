@@ -12,31 +12,31 @@ public final class RegisterBoolean extends ThreeArgFunction {
    private static final long a = 80749154130833L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2, LuaValue var3) {
-      long var4 = a ^ 48682990277566L;
-      long var6 = var4 ^ 90442467849628L;
-      String var9 = null;
-      String var10 = null;
-      boolean var11 = false;
-      if (var1.isstring()) {
-         LuaString var12 = (LuaString)var1;
-         var9 = var12.checkjstring();
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
+      long l = a ^ 48682990277566L;
+      long m = l ^ 90442467849628L;
+      String string = null;
+      String string2 = null;
+      boolean bl = false;
+      if (luaValue.isstring()) {
+         LuaString luaString = (LuaString)luaValue;
+         string = luaString.checkjstring();
       }
 
-      if (var2.isstring()) {
-         LuaString var13 = (LuaString)var2;
-         var10 = var13.checkjstring();
+      if (luaValue2.isstring()) {
+         LuaString luaString2 = (LuaString)luaValue2;
+         string2 = luaString2.checkjstring();
       }
 
-      if (var3.isboolean()) {
-         LuaBoolean var14 = (LuaBoolean)var3;
-         var11 = var14.toboolean();
+      if (luaValue3.isboolean()) {
+         LuaBoolean luaBoolean = (LuaBoolean)luaValue3;
+         bl = luaBoolean.toboolean();
       }
 
-      if (var9 != null && var10 != null) {
-         BooleanSetting var15 = new BooleanSetting(var10, "script option", var11);
-         LuaApi.f.put(var10, var15);
-         ClientAccess.client.getModuleManager().getModule(var9).addSettings(var15);
+      if (string != null && string2 != null) {
+         BooleanSetting booleanSetting = new BooleanSetting(string2, "script option", bl);
+         LuaApi.f.put(string2, booleanSetting);
+         ClientAccess.client.getModuleManager().getModule(string).addSettings(booleanSetting);
          return valueOf(true);
       } else {
          return valueOf(false);

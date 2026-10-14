@@ -23,72 +23,72 @@ public class BlockNetherWart extends BlockBush {
       super(Material.plants, MapColor.redColor);
       this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
       this.setTickRandomly(true);
-      float var1 = 0.5F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, 0.25F, 0.5F + var1);
+      float f = 0.5F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
       this.setCreativeTab((CreativeTabs)null);
    }
 
    @Override
-   public boolean canPlaceBlockOn(Block var1) {
-      return var1 == Blocks.soul_sand;
+   public boolean canPlaceBlockOn(Block ground) {
+      return ground == Blocks.soul_sand;
    }
 
    @Override
-   public boolean canBlockStay(World var1, BlockPos var2, IBlockState var3) {
-      return this.canPlaceBlockOn(var1.getBlockState(var2.down()).getBlock());
+   public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+      return this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      int var8 = var3.getValue(AGE);
-      if (var8 < 3 && var4.nextInt((int)i) == 0) {
-         var3 = var3.withProperty(AGE, var8 + 1);
-         var1.setBlockState(var2, var3, 2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      int j = state.getValue(AGE);
+      if (j < 3 && rand.nextInt((int)i) == 0) {
+         state = state.withProperty(AGE, j + 1);
+         worldIn.setBlockState(pos, state, 2);
       }
 
-      super.updateTick(var1, var2, var3, var4);
+      super.updateTick(worldIn, pos, state, rand);
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      if (!var1.isRemote) {
-         int var9 = 1;
-         if (var3.getValue(AGE) >= 3) {
-            var9 = 2 + var1.rand.nextInt(3);
-            if (var5 > 0) {
-               var9 += var1.rand.nextInt(var5 + 1);
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      if (!worldIn.isRemote) {
+         int i = 1;
+         if (state.getValue(AGE) >= 3) {
+            i = 2 + worldIn.rand.nextInt(3);
+            if (fortune > 0) {
+               i += worldIn.rand.nextInt(fortune + 1);
             }
          }
 
-         for (int var10 = 0; var10 < var9; var10++) {
-            spawnAsEntity(var1, var2, new ItemStack(Items.nether_wart));
+         for (int j = 0; j < i; j++) {
+            spawnAsEntity(worldIn, pos, new ItemStack(Items.nether_wart));
          }
       }
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return null;
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.nether_wart;
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(AGE, var1);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(AGE, meta);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(AGE);
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(AGE);
    }
 
    @Override

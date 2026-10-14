@@ -17,36 +17,45 @@ public class EntityPickupFX extends EntityFX {
    private RenderManager field_174842_aB = Minecraft.getMinecraft().getRenderManager();
    private static final long ab = 2642768705333L;
 
-   public EntityPickupFX(World var1, Entity var2, Entity var3, float var4) {
-      super(var1, var2.posX, var2.posY, var2.posZ, var2.motionX, var2.motionY, var2.motionZ);
-      this.field_174840_a = var2;
-      this.field_174843_ax = var3;
+   public EntityPickupFX(World worldIn, Entity entity, Entity entity2, float f) {
+      super(worldIn, entity.posX, entity.posY, entity.posZ, entity.motionX, entity.motionY, entity.motionZ);
+      this.field_174840_a = entity;
+      this.field_174843_ax = entity2;
       this.maxAge = 3;
-      this.field_174841_aA = var4;
+      this.field_174841_aA = f;
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var11 = (this.age + var3) / this.maxAge;
-      var11 *= var11;
-      double var12 = this.field_174840_a.posX;
-      double var14 = this.field_174840_a.posY;
-      double var16 = this.field_174840_a.posZ;
-      double var18 = this.field_174843_ax.lastTickPosX + (this.field_174843_ax.posX - this.field_174843_ax.lastTickPosX) * var3;
-      double var20 = this.field_174843_ax.lastTickPosY + (this.field_174843_ax.posY - this.field_174843_ax.lastTickPosY) * var3 + this.field_174841_aA;
-      double var22 = this.field_174843_ax.lastTickPosZ + (this.field_174843_ax.posZ - this.field_174843_ax.lastTickPosZ) * var3;
-      double var24 = var12 + (var18 - var12) * var11;
-      double var26 = var14 + (var20 - var14) * var11;
-      double var28 = var16 + (var22 - var16) * var11;
-      int var30 = this.getBrightnessForRender(var3);
-      int var31 = var30 % 65536;
-      int var32 = var30 / 65536;
-      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var31 / 1.0F, var32 / 1.0F);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.age + partialTicks) / this.maxAge;
+      f *= f;
+      double d = this.field_174840_a.posX;
+      double e = this.field_174840_a.posY;
+      double d2 = this.field_174840_a.posZ;
+      double d3 = this.field_174843_ax.lastTickPosX + (this.field_174843_ax.posX - this.field_174843_ax.lastTickPosX) * partialTicks;
+      double d4 = this.field_174843_ax.lastTickPosY + (this.field_174843_ax.posY - this.field_174843_ax.lastTickPosY) * partialTicks + this.field_174841_aA;
+      double d5 = this.field_174843_ax.lastTickPosZ + (this.field_174843_ax.posZ - this.field_174843_ax.lastTickPosZ) * partialTicks;
+      double d6 = d + (d3 - d) * f;
+      double d7 = e + (d4 - e) * f;
+      double d8 = d2 + (d5 - d2) * f;
+      int i = this.getBrightnessForRender(partialTicks);
+      int j = i % 65536;
+      int k = i / 65536;
+      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j / 1.0F, k / 1.0F);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-      var24 -= interpPosX;
-      var26 -= interpPosY;
-      var28 -= interpPosZ;
-      this.field_174842_aB.renderEntityWithPosYaw(this.field_174840_a, (float)var24, (float)var26, (float)var28, this.field_174840_a.rotationYaw, var3);
+      d6 -= interpPosX;
+      d7 -= interpPosY;
+      d8 -= interpPosZ;
+      this.field_174842_aB.renderEntityWithPosYaw(this.field_174840_a, (float)d6, (float)d7, (float)d8, this.field_174840_a.rotationYaw, partialTicks);
    }
 
    @Override

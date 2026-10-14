@@ -16,18 +16,18 @@ public class CommandSetPlayerTimeout extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.setidletimeout.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length != 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length != 1) {
          throw new WrongUsageException("commands.setidletimeout.usage");
       }
 
-      int var6 = parseInt(var2[0], 0);
-      MinecraftServer.getServer().setPlayerIdleTimeout(var6);
-      notifyOperators(var1, this, "commands.setidletimeout.success", var6);
+      int i = parseInt(args[0], 0);
+      MinecraftServer.getServer().setPlayerIdleTimeout(i);
+      notifyOperators(sender, this, "commands.setidletimeout.success", i);
    }
 }

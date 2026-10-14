@@ -103,16 +103,16 @@ public enum EnumFaceDirection {
    private static final EnumFaceDirection[] facings = new EnumFaceDirection[6];
    private final EnumFaceDirection.VertexInformation[] vertexInfos;
 
-   public static EnumFaceDirection getFacing(EnumFacing var0) {
-      return facings[var0.getIndex()];
+   public static EnumFaceDirection getFacing(EnumFacing facing) {
+      return facings[facing.getIndex()];
    }
 
-   EnumFaceDirection(EnumFaceDirection.VertexInformation[] var3) {
-      this.vertexInfos = var3;
+   EnumFaceDirection(EnumFaceDirection.VertexInformation[] vertexInfosIn) {
+      this.vertexInfos = vertexInfosIn;
    }
 
-   public EnumFaceDirection.VertexInformation getVertexInformation(int var1) {
-      return this.vertexInfos[var1];
+   public EnumFaceDirection.VertexInformation getVertexInformation(int index) {
+      return this.vertexInfos[index];
    }
 
    static {
@@ -138,10 +138,10 @@ public enum EnumFaceDirection {
       public final int yIndex;
       public final int zIndex;
 
-      public VertexInformation(int var1, int var2, int var3) {
-         this.xIndex = var1;
-         this.yIndex = var2;
-         this.zIndex = var3;
+      public VertexInformation(int xIndexIn, int yIndexIn, int zIndexIn) {
+         this.xIndex = xIndexIn;
+         this.yIndex = yIndexIn;
+         this.zIndex = zIndexIn;
       }
    }
 }

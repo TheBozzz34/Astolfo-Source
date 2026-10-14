@@ -11,9 +11,9 @@ public class EntityAIFollowParent extends EntityAIBase {
    private static final long a = 107855812652931L;
    private static final long b = 8168976304629088266L;
 
-   public EntityAIFollowParent(EntityAnimal var1, double var2) {
-      this.childAnimal = var1;
-      this.moveSpeed = var2;
+   public EntityAIFollowParent(EntityAnimal animal, double speed) {
+      this.childAnimal = animal;
+      this.moveSpeed = speed;
    }
 
    @Override
@@ -22,30 +22,30 @@ public class EntityAIFollowParent extends EntityAIBase {
          return false;
       }
 
-      List var4 = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.getEntityBoundingBox().expand(8.0, 4.0, 8.0));
-      EntityAnimal var5 = null;
-      double var6 = Double.MAX_VALUE;
+      List list = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.getEntityBoundingBox().expand(8.0, 4.0, 8.0));
+      EntityAnimal entityAnimal = null;
+      double d = Double.MAX_VALUE;
 
-      for (Object var9$raw : var4) {
-         EntityAnimal var9 = (EntityAnimal)var9$raw;
-         if (var9.getGrowingAge() >= 0) {
-            double var10 = this.childAnimal.getDistanceSqToEntity(var9);
-            if (var10 <= var6) {
-               var6 = var10;
-               var5 = var9;
+      for (Object object : list) {
+         EntityAnimal entityAnimal2 = (EntityAnimal)object;
+         if (entityAnimal2.getGrowingAge() >= 0) {
+            double e = this.childAnimal.getDistanceSqToEntity(entityAnimal2);
+            if (e <= d) {
+               d = e;
+               entityAnimal = entityAnimal2;
             }
          }
       }
 
-      if (var5 == null) {
+      if (entityAnimal == null) {
          return false;
       }
 
-      if (var6 < 9.0) {
+      if (d < 9.0) {
          return false;
       }
 
-      this.parentAnimal = var5;
+      this.parentAnimal = entityAnimal;
       return true;
    }
 
@@ -59,8 +59,8 @@ public class EntityAIFollowParent extends EntityAIBase {
          return false;
       }
 
-      double var4 = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
-      return var4 >= 9.0 && var4 <= 256.0;
+      double d = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
+      return d >= 9.0 && d <= 256.0;
    }
 
    @Override

@@ -26,43 +26,43 @@ public class MotionEvent extends CancellableEvent {
    private static final long b = 25027395791350L;
 
    public MotionEvent(
-      NetHandlerPlayClient var1,
-      AxisAlignedBB var2,
-      boolean var3,
-      double var4,
-      double var6,
-      double var8,
-      float var10,
-      float var11,
-      double var12,
-      double var14,
-      double var16,
-      float var18,
-      float var19,
-      int var20,
-      EventState var21
+      NetHandlerPlayClient netHandlerPlayClient,
+      AxisAlignedBB axisAlignedBB,
+      boolean bl,
+      double d,
+      double d2,
+      double d3,
+      float f,
+      float g,
+      double d4,
+      double d5,
+      double d6,
+      float h,
+      float f2,
+      int i,
+      EventState eventState
    ) {
-      this.netHandler = var1;
-      this.boundingBox = var2;
-      this.minY = var2.minY;
-      this.onGround = var3;
-      this.x = var4;
-      this.y = var6;
-      this.z = var8;
-      this.yaw = var10;
-      this.pitch = var11;
-      this.lastX = var12;
-      this.lastY = var14;
-      this.lastZ = var16;
-      this.lastYaw = var18;
-      this.lastPitch = var19;
-      this.positionUpdateTicks = var20;
-      this.state = var21;
+      this.netHandler = netHandlerPlayClient;
+      this.boundingBox = axisAlignedBB;
+      this.minY = axisAlignedBB.minY;
+      this.onGround = bl;
+      this.x = d;
+      this.y = d2;
+      this.z = d3;
+      this.yaw = f;
+      this.pitch = g;
+      this.lastX = d4;
+      this.lastY = d5;
+      this.lastZ = d6;
+      this.lastYaw = h;
+      this.lastPitch = f2;
+      this.positionUpdateTicks = i;
+      this.state = eventState;
    }
 
-   public MotionEvent(EventState var1, NetHandlerPlayClient var2) {
-      this.state = var1;
-      this.netHandler = var2;
+   public MotionEvent(EventState eventState, NetHandlerPlayClient netHandlerPlayClient) {
+      this.state = eventState;
+      this.netHandler = netHandlerPlayClient;
    }
 
    public EventState getState() {
@@ -81,104 +81,104 @@ public class MotionEvent extends CancellableEvent {
       return this.minY;
    }
 
-   public void setMinY(double var1) {
-      this.minY = var1;
+   public void setMinY(double d) {
+      this.minY = d;
    }
 
    public boolean isOnGround() {
       return this.onGround;
    }
 
-   public void setOnGround(boolean var1) {
-      this.onGround = var1;
+   public void setOnGround(boolean bl) {
+      this.onGround = bl;
    }
 
    public double getX() {
       return this.x;
    }
 
-   public void setX(double var1) {
-      this.x = var1;
+   public void setX(double d) {
+      this.x = d;
    }
 
    public double getY() {
       return this.y;
    }
 
-   public void setY(double var1) {
-      this.y = var1;
+   public void setY(double d) {
+      this.y = d;
    }
 
    public double getZ() {
       return this.z;
    }
 
-   public void setZ(double var1) {
-      this.z = var1;
+   public void setZ(double d) {
+      this.z = d;
    }
 
    public float getYaw() {
       return this.yaw;
    }
 
-   public void setYaw(float var1) {
-      this.yaw = var1;
+   public void setYaw(float f) {
+      this.yaw = f;
    }
 
    public float getPitch() {
       return this.pitch;
    }
 
-   public void setPitch(float var1) {
-      this.pitch = var1;
+   public void setPitch(float f) {
+      this.pitch = f;
    }
 
    public boolean J_boolean() {
       return this.s;
    }
 
-   public void A(boolean var1) {
-      this.s = var1;
+   public void A(boolean bl) {
+      this.s = bl;
    }
 
    public double getLastX() {
       return this.lastX;
    }
 
-   public void setLastX(double var1) {
-      this.lastX = var1;
+   public void setLastX(double d) {
+      this.lastX = d;
    }
 
    public double getLastY() {
       return this.lastY;
    }
 
-   public void setLastY(double var1) {
-      this.lastY = var1;
+   public void setLastY(double d) {
+      this.lastY = d;
    }
 
    public double getLastZ() {
       return this.lastZ;
    }
 
-   public void setLastZ(double var1) {
-      this.lastZ = var1;
+   public void setLastZ(double d) {
+      this.lastZ = d;
    }
 
    public float getLastYaw() {
       return this.lastYaw;
    }
 
-   public void setLastYaw(float var1) {
-      this.lastYaw = var1;
+   public void setLastYaw(float f) {
+      this.lastYaw = f;
    }
 
    public float getLastPitch() {
       return this.lastPitch;
    }
 
-   public void setLastPitch(float var1) {
-      this.lastPitch = var1;
+   public void setLastPitch(float f) {
+      this.lastPitch = f;
    }
 
    public int getPositionUpdateTicks() {
@@ -186,15 +186,15 @@ public class MotionEvent extends CancellableEvent {
    }
 
    public boolean isMoved() {
-      double var4 = this.x - this.lastX;
-      double var6 = this.y - this.lastY;
-      double var8 = this.z - this.lastZ;
-      return Math.abs(Math.pow(var4, 2.0) + Math.pow(var6, 2.0) + Math.pow(var8, 2.0)) > 9.0E-4;
+      double d = this.x - this.lastX;
+      double e = this.y - this.lastY;
+      double d2 = this.z - this.lastZ;
+      return Math.abs(Math.pow(d, 2.0) + Math.pow(e, 2.0) + Math.pow(d2, 2.0)) > 9.0E-4;
    }
 
    public boolean isRotated() {
-      double var4 = this.yaw - this.lastYaw;
-      double var6 = this.lastPitch - this.lastPitch;
-      return Math.abs(var4) != 0.0 || Math.abs(var6) != 0.0;
+      double d = this.yaw - this.lastYaw;
+      double e = this.lastPitch - this.lastPitch;
+      return Math.abs(d) != 0.0 || Math.abs(e) != 0.0;
    }
 }

@@ -6,9 +6,9 @@ public class PackMetadataSection implements IMetadataSection {
    private final IChatComponent packDescription;
    private final int packFormat;
 
-   public PackMetadataSection(IChatComponent var1, int var2) {
-      this.packDescription = var1;
-      this.packFormat = var2;
+   public PackMetadataSection(IChatComponent iChatComponent, int i) {
+      this.packDescription = iChatComponent;
+      this.packFormat = i;
    }
 
    public IChatComponent getPackDescription() {

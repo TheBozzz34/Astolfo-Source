@@ -7,15 +7,15 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEndermite extends RenderLiving<EntityEndermite> {
    private static final ResourceLocation ENDERMITE_TEXTURES = new ResourceLocation("textures/entity/endermite.png");
 
-   public RenderEndermite(RenderManager var1) {
-      super(var1, new ModelEnderMite(), 0.3F);
+   public RenderEndermite(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelEnderMite(), 0.3F);
    }
 
-   public float getDeathMaxRotation(EntityEndermite var1) {
+   public float getDeathMaxRotation(EntityEndermite entityLivingBaseIn) {
       return 180.0F;
    }
 
-   public ResourceLocation getEntityTexture(EntityEndermite var1) {
+   public ResourceLocation getEntityTexture(EntityEndermite entity) {
       return ENDERMITE_TEXTURES;
    }
 }

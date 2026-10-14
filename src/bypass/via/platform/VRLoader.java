@@ -20,8 +20,8 @@ public class VRLoader implements ViaPlatformLoader {
       Via.getManager().getProviders().use(MovementTransmitterProvider.class, new BungeeMovementTransmitter());
       Via.getManager().getProviders().use(VersionProvider.class, new VRVersionProvider());
       if (Via.getPlatform().getConf().isItemCache()) {
-         VRHandItemProvider var5 = new VRHandItemProvider();
-         Via.getManager().getProviders().use(HandItemProvider.class, var5);
+         VRHandItemProvider vrHandItemProvider = new VRHandItemProvider();
+         Via.getManager().getProviders().use(HandItemProvider.class, vrHandItemProvider);
       }
    }
 

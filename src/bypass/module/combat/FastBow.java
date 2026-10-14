@@ -17,13 +17,13 @@ import net.minecraft.util.EnumFacing;
 public final class FastBow extends Module {
    private final EnumSetting<FastBowMode> mode = new EnumSetting<>("Mode", "Set your FastBow mode", FastBowMode.VANILLA);
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      if (var1x.getState() == EventState.PRE && this.mode.getValue() == FastBowMode.VANILLA && this.a()) {
+      if (updateEvent.getState() == EventState.PRE && this.mode.getValue() == FastBowMode.VANILLA && this.a()) {
          mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem());
          mc.thePlayer.inventory.getCurrentItem().getItem().onItemRightClick(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer);
 
-         for (int var5 = 0; var5 < 20; var5++) {
+         for (int i = 0; i < 20; i++) {
             mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
          }
 
@@ -33,8 +33,8 @@ public final class FastBow extends Module {
    };
    private static final long c = 48101403322277L;
 
-   public FastBow(Category var1) {
-      super(var1);
+   public FastBow(Category category) {
+      super(category);
       this.addSettings(this.mode);
    }
 

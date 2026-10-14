@@ -27,9 +27,9 @@ public class BlockGrass extends Block implements IGrowable {
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      Block var7 = var2.getBlockState(var3.up()).getBlock();
-      return var1.withProperty(SNOWY, var7 == Blocks.snow || var7 == Blocks.snow_layer);
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos.up()).getBlock();
+      return state.withProperty(SNOWY, block == Blocks.snow || block == Blocks.snow_layer);
    }
 
    @Override
@@ -38,30 +38,30 @@ public class BlockGrass extends Block implements IGrowable {
    }
 
    @Override
-   public int getRenderColor(IBlockState var1) {
+   public int getRenderColor(IBlockState state) {
       return this.getBlockColor();
    }
 
    @Override
-   public int colorMultiplier(IBlockAccess var1, BlockPos var2, int var3) {
-      return BiomeColorHelper.getGrassColorAtPos(var1, var2);
+   public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+      return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote) {
-         if (var1.getLightFromNeighbors(var2.up()) < 4 && var1.getBlockState(var2.up()).getBlock().getLightOpacity() > 2) {
-            var1.setBlockState(var2, Blocks.dirt.getDefaultState());
-         } else if (var1.getLightFromNeighbors(var2.up()) >= 9) {
-            for (int var8 = 0; var8 < 4; var8++) {
-               BlockPos var9 = var2.add(var4.nextInt(3) - 1, var4.nextInt(5) - 3, var4.nextInt(3) - 1);
-               Block var10 = var1.getBlockState(var9.up()).getBlock();
-               IBlockState var11 = var1.getBlockState(var9);
-               if (var11.getBlock() == Blocks.dirt
-                  && var11.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT
-                  && var1.getLightFromNeighbors(var9.up()) >= 4
-                  && var10.getLightOpacity() <= 2) {
-                  var1.setBlockState(var9, Blocks.grass.getDefaultState());
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote) {
+         if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getBlock().getLightOpacity() > 2) {
+            worldIn.setBlockState(pos, Blocks.dirt.getDefaultState());
+         } else if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
+            for (int i = 0; i < 4; i++) {
+               BlockPos blockPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
+               Block block = worldIn.getBlockState(blockPos.up()).getBlock();
+               IBlockState iBlockState = worldIn.getBlockState(blockPos);
+               if (iBlockState.getBlock() == Blocks.dirt
+                  && iBlockState.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT
+                  && worldIn.getLightFromNeighbors(blockPos.up()) >= 4
+                  && block.getLightOpacity() <= 2) {
+                  worldIn.setBlockState(blockPos, Blocks.grass.getDefaultState());
                }
             }
          }
@@ -69,47 +69,47 @@ public class BlockGrass extends Block implements IGrowable {
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), var2, var3);
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
    }
 
    @Override
-   public boolean canGrow(World var1, BlockPos var2, IBlockState var3, boolean var4) {
+   public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
       return true;
    }
 
    @Override
-   public boolean canUseBonemeal(World var1, Random var2, BlockPos var3, IBlockState var4) {
+   public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
       return true;
    }
 
    @Override
-   public void grow(World var1, Random var2, BlockPos var3, IBlockState var4) {
-      BlockPos var8 = var3.up();
+   public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+      BlockPos blockPos = pos.up();
 
       label38:
-      for (int var9 = 0; var9 < 128; var9++) {
-         BlockPos var10 = var8;
+      for (int i = 0; i < 128; i++) {
+         BlockPos blockPos2 = blockPos;
 
-         for (int var11 = 0; var11 < var9 / 16; var11++) {
-            var10 = var10.add(var2.nextInt(3) - 1, (var2.nextInt(3) - 1) * var2.nextInt(3) / 2, var2.nextInt(3) - 1);
-            if (var1.getBlockState(var10.down()).getBlock() != Blocks.grass || var1.getBlockState(var10).getBlock().isNormalCube()) {
+         for (int j = 0; j < i / 16; j++) {
+            blockPos2 = blockPos2.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
+            if (worldIn.getBlockState(blockPos2.down()).getBlock() != Blocks.grass || worldIn.getBlockState(blockPos2).getBlock().isNormalCube()) {
                continue label38;
             }
          }
 
-         if (var1.getBlockState(var10).getBlock().blockMaterial == Material.air) {
-            if (var2.nextInt(8) == 0) {
-               BlockFlower.EnumFlowerType var12 = var1.getBiomeGenForCoords(var10).pickRandomFlower(var2, var10);
-               BlockFlower var13 = var12.getBlockType().getBlock();
-               IBlockState var14 = var13.getDefaultState().withProperty(var13.getTypeProperty(), var12);
-               if (var13.canBlockStay(var1, var10, var14)) {
-                  var1.setBlockState(var10, var14, 3);
+         if (worldIn.getBlockState(blockPos2).getBlock().blockMaterial == Material.air) {
+            if (rand.nextInt(8) == 0) {
+               BlockFlower.EnumFlowerType enumFlowerType = worldIn.getBiomeGenForCoords(blockPos2).pickRandomFlower(rand, blockPos2);
+               BlockFlower blockFlower = enumFlowerType.getBlockType().getBlock();
+               IBlockState iBlockState = blockFlower.getDefaultState().withProperty(blockFlower.getTypeProperty(), enumFlowerType);
+               if (blockFlower.canBlockStay(worldIn, blockPos2, iBlockState)) {
+                  worldIn.setBlockState(blockPos2, iBlockState, 3);
                }
             } else {
-               IBlockState var15 = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.GRASS);
-               if (Blocks.tallgrass.canBlockStay(var1, var10, var15)) {
-                  var1.setBlockState(var10, var15, 3);
+               IBlockState iBlockState2 = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.GRASS);
+               if (Blocks.tallgrass.canBlockStay(worldIn, blockPos2, iBlockState2)) {
+                  worldIn.setBlockState(blockPos2, iBlockState2, 3);
                }
             }
          }
@@ -122,7 +122,7 @@ public class BlockGrass extends Block implements IGrowable {
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
+   public int getMetaFromState(IBlockState state) {
       return 0;
    }
 

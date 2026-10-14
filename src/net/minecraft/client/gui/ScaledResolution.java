@@ -11,21 +11,21 @@ public class ScaledResolution {
    private int scaleFactor;
    private static final long b = 4809406005356L;
 
-   public ScaledResolution(Minecraft var1) {
-      this.scaledWidth = var1.displayWidth;
-      this.scaledHeight = var1.displayHeight;
+   public ScaledResolution(Minecraft minecraft) {
+      this.scaledWidth = minecraft.displayWidth;
+      this.scaledHeight = minecraft.displayHeight;
       this.scaleFactor = 1;
-      boolean var5 = var1.isUnicode();
-      int var6 = var1.gameSettings.guiScale;
-      if (var6 == 0) {
-         var6 = 1000;
+      boolean bl = minecraft.isUnicode();
+      int i = minecraft.gameSettings.guiScale;
+      if (i == 0) {
+         i = 1000;
       }
 
-      while (this.scaleFactor < var6 && this.scaledWidth / (this.scaleFactor + 1) >= 320 && this.scaledHeight / (this.scaleFactor + 1) >= 240) {
+      while (this.scaleFactor < i && this.scaledWidth / (this.scaleFactor + 1) >= 320 && this.scaledHeight / (this.scaleFactor + 1) >= 240) {
          this.scaleFactor++;
       }
 
-      if (var5 && this.scaleFactor % 2 != 0 && this.scaleFactor != 1) {
+      if (bl && this.scaleFactor % 2 != 0 && this.scaleFactor != 1) {
          this.scaleFactor--;
       }
 

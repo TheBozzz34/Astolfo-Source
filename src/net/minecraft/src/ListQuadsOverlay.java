@@ -13,25 +13,25 @@ public class ListQuadsOverlay {
    private List<BakedQuad> Y = Arrays.asList();
    private static final long a = 85620408113011L;
 
-   public void P(BakedQuad var1, IBlockState var2) {
-      this.c.add(var1);
-      this.o.add(var2);
+   public void P(BakedQuad bakedQuad, IBlockState iBlockState) {
+      this.c.add(bakedQuad);
+      this.o.add(iBlockState);
    }
 
    public int N() {
       return this.c.size();
    }
 
-   public BakedQuad k(int var1) {
-      return this.c.get(var1);
+   public BakedQuad k(int i) {
+      return this.c.get(i);
    }
 
-   public IBlockState a(int var1) {
-      return var1 >= 0 && var1 < this.o.size() ? this.o.get(var1) : Blocks.air.getDefaultState();
+   public IBlockState a(int i) {
+      return i >= 0 && i < this.o.size() ? this.o.get(i) : Blocks.air.getDefaultState();
    }
 
-   public List<BakedQuad> y(BakedQuad var1) {
-      this.Y.set(0, var1);
+   public List<BakedQuad> y(BakedQuad bakedQuad) {
+      this.Y.set(0, bakedQuad);
       return this.Y;
    }
 

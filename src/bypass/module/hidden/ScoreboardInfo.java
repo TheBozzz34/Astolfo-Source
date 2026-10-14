@@ -24,19 +24,19 @@ public class ScoreboardInfo {
    private static final Pattern Q = Pattern.compile("(?i)§[0-9A-F]");
    private static final long b = 117121948055747L;
 
-   public ScoreboardInfo(Scoreboard var1) {
-      if (var1 != null) {
-         String var4 = ScoreboardUtil.c(var1);
-         if (R.matcher(var4).matches()) {
+   public ScoreboardInfo(Scoreboard scoreboard) {
+      if (scoreboard != null) {
+         String string = ScoreboardUtil.c(scoreboard);
+         if (R.matcher(string).matches()) {
             this.w = true;
-            List var5 = ScoreboardUtil.getFormattedSidebarText(var1);
-            List var6 = ScoreboardUtil.z(var5);
-            if (var6.size() != 0) {
-               Matcher var7 = N.matcher((CharSequence)var6.get(0));
-               if (!var7.matches()) {
-                  for (Object var21$raw : var6) {
-                     String var21 = (String)var21$raw;
-                     if (x.matcher(var21).find()) {
+            List list = ScoreboardUtil.getFormattedSidebarText(scoreboard);
+            List list2 = ScoreboardUtil.z(list);
+            if (list2.size() != 0) {
+               Matcher matcher2 = N.matcher((CharSequence)list2.get(0));
+               if (!matcher2.matches()) {
+                  for (Object object : list2) {
+                     String string2 = (String)object;
+                     if (x.matcher(string2).find()) {
                         this.a = null;
                         this.o = true;
                         this.G = false;
@@ -44,13 +44,13 @@ public class ScoreboardInfo {
                      }
                   }
                } else {
-                  this.a = var7.group(1);
+                  this.a = matcher2.group(1);
 
-                  for (Object var9$raw : var6) {
-                     String var9 = (String)var9$raw;
-                     if (y.matcher(var9).find()) {
+                  for (Object object2 : list2) {
+                     String string3 = (String)object2;
+                     if (y.matcher(string3).find()) {
                         this.G = true;
-                     } else if (x.matcher(var9).find()) {
+                     } else if (x.matcher(string3).find()) {
                         this.a = null;
                         this.o = true;
                         this.G = false;
@@ -58,38 +58,38 @@ public class ScoreboardInfo {
                      }
                   }
 
-                  if (var6.size() >= 7) {
-                     if (((String)var6.get(1)).contains("Walls Fall:") || ((String)var6.get(1)).contains("Gates Open:")) {
+                  if (list2.size() >= 7) {
+                     if (((String)list2.get(1)).contains("Walls Fall:") || ((String)list2.get(1)).contains("Gates Open:")) {
                         this.P = true;
                      }
 
-                     int var16 = 0;
-                     int var18 = 1000;
+                     int i = 0;
+                     int j = 1000;
 
-                     for (int var10 = 3; var10 < Math.min(var6.size(), 7); var10++) {
-                        String var11 = (String)var6.get(var10);
-                        Matcher var12 = F.matcher(var11);
-                        if (var12.matches()) {
-                           String var14 = (String)var5.get(var10);
-                           String var13 = E(var14, "\\[").replace("§", "");
-                           this.I.add(var13);
-                           var18 = Integer.parseInt(var12.group(1));
+                     for (int k = 3; k < Math.min(list2.size(), 7); k++) {
+                        String string4 = (String)list2.get(k);
+                        Matcher matcher3 = F.matcher(string4);
+                        if (matcher3.matches()) {
+                           String string5 = (String)list.get(k);
+                           String string6 = E(string5, "\\[").replace("§", "");
+                           this.I.add(string6);
+                           j = Integer.parseInt(matcher3.group(1));
                         } else {
-                           Matcher var23 = g.matcher(var11);
-                           if (var23.matches()) {
-                              String var15 = (String)var5.get(var10);
-                              String var22 = E(var15, "\\[").replace("§", "");
-                              this.I.add(var22);
-                              var18 = 2 * Integer.parseInt(var23.group(1));
+                           Matcher matcher4 = g.matcher(string4);
+                           if (matcher4.matches()) {
+                              String string7 = (String)list.get(k);
+                              String string8 = E(string7, "\\[").replace("§", "");
+                              this.I.add(string8);
+                              j = 2 * Integer.parseInt(matcher4.group(1));
                            }
                         }
 
-                        if (var11.contains("eliminated!")) {
-                           var16++;
+                        if (string4.contains("eliminated!")) {
+                           i++;
                         }
                      }
 
-                     if (var16 == 3 || ((String)var6.get(1)).contains("None!:")) {
+                     if (i == 3 || ((String)list2.get(1)).contains("None!:")) {
                         this.z = true;
                      }
 
@@ -102,8 +102,8 @@ public class ScoreboardInfo {
       }
    }
 
-   public boolean O(String var1) {
-      return this.I.contains(var1);
+   public boolean O(String string) {
+      return this.I.contains(string);
    }
 
    public String s() {
@@ -142,19 +142,19 @@ public class ScoreboardInfo {
       return this.o;
    }
 
-   public static String E(String var0, String var1) {
-      String[] var4 = var0.split(var1, 2);
-      return var4.length != 2 ? "" : R(var4[0]);
+   public static String E(String string, String string2) {
+      String[] strings = string.split(string2, 2);
+      return strings.length != 2 ? "" : R(strings[0]);
    }
 
-   public static String R(String var0) {
-      Matcher var3 = Q.matcher(var0);
-      String var4 = "";
+   public static String R(String string) {
+      Matcher matcher2 = Q.matcher(string);
+      String string2 = "";
 
-      while (var3.find()) {
-         var4 = var3.group();
+      while (matcher2.find()) {
+         string2 = matcher2.group();
       }
 
-      return var4;
+      return string2;
    }
 }

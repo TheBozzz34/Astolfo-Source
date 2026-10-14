@@ -14,36 +14,36 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
    private double eventVolume;
    private static final long a = 40999934782850L;
 
-   public SoundEventAccessorComposite(ResourceLocation var1, double var2, double var4, SoundCategory var6) {
-      this.soundLocation = var1;
-      this.eventVolume = var4;
-      this.eventPitch = var2;
-      this.category = var6;
+   public SoundEventAccessorComposite(ResourceLocation soundLocation, double pitch, double volume, SoundCategory category) {
+      this.soundLocation = soundLocation;
+      this.eventVolume = volume;
+      this.eventPitch = pitch;
+      this.category = category;
    }
 
    @Override
    public int getWeight() {
-      int var4 = 0;
+      int i = 0;
 
-      for (ISoundEventAccessor var6 : this.soundPool) {
-         var4 += var6.getWeight();
+      for (ISoundEventAccessor iSoundEventAccessor : this.soundPool) {
+         i += iSoundEventAccessor.getWeight();
       }
 
-      return var4;
+      return i;
    }
 
    public SoundPoolEntry cloneEntry() {
-      int var4 = this.getWeight();
-      if (!this.soundPool.isEmpty() && var4 != 0) {
-         int var5 = this.rnd.nextInt(var4);
+      int i = this.getWeight();
+      if (!this.soundPool.isEmpty() && i != 0) {
+         int j = this.rnd.nextInt(i);
 
-         for (ISoundEventAccessor var7 : this.soundPool) {
-            var5 -= var7.getWeight();
-            if (var5 < 0) {
-               SoundPoolEntry var8 = (SoundPoolEntry)var7.cloneEntry();
-               var8.setPitch(var8.getPitch() * this.eventPitch);
-               var8.setVolume(var8.getVolume() * this.eventVolume);
-               return var8;
+         for (ISoundEventAccessor iSoundEventAccessor : this.soundPool) {
+            j -= iSoundEventAccessor.getWeight();
+            if (j < 0) {
+               SoundPoolEntry soundPoolEntry = (SoundPoolEntry)iSoundEventAccessor.cloneEntry();
+               soundPoolEntry.setPitch(soundPoolEntry.getPitch() * this.eventPitch);
+               soundPoolEntry.setVolume(soundPoolEntry.getVolume() * this.eventVolume);
+               return soundPoolEntry;
             }
          }
 
@@ -53,8 +53,8 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
       }
    }
 
-   public void addSoundToEventPool(ISoundEventAccessor<SoundPoolEntry> var1) {
-      this.soundPool.add(var1);
+   public void addSoundToEventPool(ISoundEventAccessor<SoundPoolEntry> sound) {
+      this.soundPool.add(sound);
    }
 
    public ResourceLocation getSoundEventLocation() {

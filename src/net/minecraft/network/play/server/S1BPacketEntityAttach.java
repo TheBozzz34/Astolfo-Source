@@ -15,28 +15,28 @@ public class S1BPacketEntityAttach implements Packet<INetHandlerPlayClient> {
    public S1BPacketEntityAttach() {
    }
 
-   public S1BPacketEntityAttach(int var1, Entity var2, Entity var3) {
-      this.leash = var1;
-      this.entityId = var2.getEntityId();
-      this.vehicleEntityId = var3 != null ? var3.getEntityId() : -1;
+   public S1BPacketEntityAttach(int leashIn, Entity entityIn, Entity vehicle) {
+      this.leash = leashIn;
+      this.entityId = entityIn.getEntityId();
+      this.vehicleEntityId = vehicle != null ? vehicle.getEntityId() : -1;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readInt();
-      this.vehicleEntityId = var1.readInt();
-      this.leash = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readInt();
+      this.vehicleEntityId = buf.readInt();
+      this.leash = buf.readUnsignedByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeInt(this.entityId);
-      var1.writeInt(this.vehicleEntityId);
-      var1.writeByte(this.leash);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeInt(this.entityId);
+      buf.writeInt(this.vehicleEntityId);
+      buf.writeByte(this.leash);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityAttach(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityAttach(this);
    }
 
    public int getLeash() {

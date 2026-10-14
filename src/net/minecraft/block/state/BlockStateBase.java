@@ -16,13 +16,13 @@ public abstract class BlockStateBase implements IBlockState {
    private static final Function<Entry<IProperty, Comparable>, String> MAP_ENTRY_TO_STRING = new Function<Entry<IProperty, Comparable>, String>() {
       private static final long a = 47686318496203L;
 
-      public String apply(Entry<IProperty, Comparable> var1) {
-         if (var1 == null) {
+      public String apply(Entry<IProperty, Comparable> entry) {
+         if (entry == null) {
             return "<NULL>";
          }
 
-         IProperty var5 = (IProperty)var1.getKey();
-         return var5.getName() + "=" + var5.getName((Comparable)var1.getValue());
+         IProperty iProperty = (IProperty)entry.getKey();
+         return iProperty.getName() + "=" + iProperty.getName((Comparable)entry.getValue());
       }
    };
    private int blockId = -1;
@@ -64,37 +64,37 @@ public abstract class BlockStateBase implements IBlockState {
    }
 
    @Override
-   public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> var1) {
-      return this.withProperty(var1, cyclePropertyValue(var1.getAllowedValues(), this.getValue(var1)));
+   public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> property) {
+      return this.withProperty(property, cyclePropertyValue(property.getAllowedValues(), this.getValue(property)));
    }
 
-   public static <T> T cyclePropertyValue(Collection<T> var0, T var1) {
-      Iterator var5 = var0.iterator();
+   public static <T> T cyclePropertyValue(Collection<T> values, T currentValue) {
+      Iterator iterator2 = values.iterator();
 
-      while (var5.hasNext()) {
-         if (var5.next().equals(var1)) {
-            if (var5.hasNext()) {
-               return (T)var5.next();
+      while (iterator2.hasNext()) {
+         if (iterator2.next().equals(currentValue)) {
+            if (iterator2.hasNext()) {
+               return (T)iterator2.next();
             }
 
-            return (T)var0.iterator().next();
+            return (T)values.iterator().next();
          }
       }
 
-      return (T)var5.next();
+      return (T)iterator2.next();
    }
 
    @Override
    public String toString() {
-      StringBuilder var4 = new StringBuilder();
-      var4.append(Block.blockRegistry.getNameForObject(this.getBlock()));
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append(Block.blockRegistry.getNameForObject(this.getBlock()));
       if (!this.getProperties().isEmpty()) {
-         var4.append("[");
-         COMMA_JOINER.appendTo(var4, Iterables.transform(this.getProperties().entrySet(), MAP_ENTRY_TO_STRING));
-         var4.append("]");
+         stringBuilder.append("[");
+         COMMA_JOINER.appendTo(stringBuilder, Iterables.transform(this.getProperties().entrySet(), MAP_ENTRY_TO_STRING));
+         stringBuilder.append("]");
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
    public ImmutableTable<IProperty, Comparable, IBlockState> getPropertyValueTable() {

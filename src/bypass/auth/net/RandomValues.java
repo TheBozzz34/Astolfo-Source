@@ -25,12 +25,12 @@ public final class RandomValues {
       return (short)ThreadLocalRandom.current().nextInt(-32768, 32768);
    }
 
-   public static short k(short var0) {
-      return (short)ThreadLocalRandom.current().nextInt(-32768, var0);
+   public static short k(short s) {
+      return (short)ThreadLocalRandom.current().nextInt(-32768, s);
    }
 
-   public static byte c(byte var0) {
-      return (byte)ThreadLocalRandom.current().nextInt(-128, var0);
+   public static byte c(byte b) {
+      return (byte)ThreadLocalRandom.current().nextInt(-128, b);
    }
 
    public static byte S() {

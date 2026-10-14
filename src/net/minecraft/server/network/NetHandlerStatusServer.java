@@ -17,17 +17,17 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer {
    private boolean handled;
    private static final long a = 134141068945994L;
 
-   public NetHandlerStatusServer(MinecraftServer var1, NetworkManager var2) {
-      this.server = var1;
-      this.networkManager = var2;
+   public NetHandlerStatusServer(MinecraftServer serverIn, NetworkManager netManager) {
+      this.server = serverIn;
+      this.networkManager = netManager;
    }
 
    @Override
-   public void onDisconnect(IChatComponent var1) {
+   public void onDisconnect(IChatComponent reason) {
    }
 
    @Override
-   public void processServerQuery(C00PacketServerQuery var1) {
+   public void processServerQuery(C00PacketServerQuery packetIn) {
       if (this.handled) {
          this.networkManager.closeChannel(EXIT_MESSAGE);
       } else {
@@ -37,8 +37,8 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer {
    }
 
    @Override
-   public void processPing(C01PacketPing var1) {
-      this.networkManager.sendPacket(new S01PacketPong(var1.getClientTime()));
+   public void processPing(C01PacketPing packetIn) {
+      this.networkManager.sendPacket(new S01PacketPong(packetIn.getClientTime()));
       this.networkManager.closeChannel(EXIT_MESSAGE);
    }
 }

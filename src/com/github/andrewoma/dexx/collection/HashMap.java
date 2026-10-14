@@ -8,8 +8,8 @@ import java.util.Iterator;
 public class HashMap<K, V> extends AbstractMap<K, V> {
    private static final HashMap EMPTY = new HashMap();
    private static final KeyFunction keyFunction = new KeyFunction<Object, Pair>() {
-      public Object key(Pair var1) {
-         return var1.component1();
+      public Object key(Pair value) {
+         return value.component1();
       }
    };
    private final CompactHashMap<K, Pair<K, V>> compactHashMap;
@@ -24,8 +24,8 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
          @Override
          public Builder<Pair<K, V>, HashMap<K, V>> newBuilder() {
             return new AbstractSelfBuilder<Pair<K, V>, HashMap<K, V>>(HashMap.empty()) {
-               public Builder<Pair<K, V>, HashMap<K, V>> add(Pair<K, V> var1) {
-                  this.result = this.result.put((K)var1.component1(), (V)var1.component2());
+               public Builder<Pair<K, V>, HashMap<K, V>> add(Pair<K, V> element) {
+                  this.result = this.result.put(element.component1(), element.component2());
                   return this;
                }
             };
@@ -38,30 +38,30 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
    }
 
    @Override
-   public boolean containsKey(K var1) {
-      return this.compactHashMap.get((K)var1, this.keyFunction()) != null;
+   public boolean containsKey(K key) {
+      return this.compactHashMap.get(key, this.keyFunction()) != null;
    }
 
    public HashMap() {
       this(CompactHashMap.empty());
    }
 
-   private HashMap(CompactHashMap<K, Pair<K, V>> var1) {
-      this.compactHashMap = var1;
+   private HashMap(CompactHashMap<K, Pair<K, V>> compactHashMap) {
+      this.compactHashMap = compactHashMap;
    }
 
-   public HashMap<K, V> put(K var1, V var2) {
-      return new HashMap<>(this.compactHashMap.put((K)var1, new Pair<>((K)var1, (V)var2), this.keyFunction()));
+   public HashMap<K, V> put(K key, V value) {
+      return new HashMap<>(this.compactHashMap.put(key, new Pair<>(key, value), this.keyFunction()));
    }
 
    @Override
-   public V get(K var1) {
-      Pair var5 = this.compactHashMap.get((K)var1, this.keyFunction());
-      return (V)(var5 == null ? null : var5.component2());
+   public V get(K key) {
+      Pair pair = this.compactHashMap.get((K)key, this.keyFunction());
+      return (V)(pair == null ? null : pair.component2());
    }
 
-   public HashMap<K, V> remove(K var1) {
-      return new HashMap<>(this.compactHashMap.remove((K)var1, this.keyFunction()));
+   public HashMap<K, V> remove(K key) {
+      return new HashMap<>(this.compactHashMap.remove(key, this.keyFunction()));
    }
 
    @Override
@@ -70,10 +70,10 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
    }
 
    @Override
-   public <U> void forEach(final Function<Pair<K, V>, U> var1) {
+   public <U> void forEach(final Function<Pair<K, V>, U> f) {
       this.compactHashMap.forEach(new Function<Pair<K, Pair<K, V>>, Object>() {
-         public Object invoke(Pair<K, Pair<K, V>> var1x) {
-            var1.invoke(var1x.component2());
+         public Object invoke(Pair<K, Pair<K, V>> pair) {
+            f.invoke(pair.component2());
             return null;
          }
       }, this.keyFunction());
@@ -87,8 +87,8 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
    public static class Itr<K, V> implements Iterator<Pair<K, V>> {
       public final Iterator<Pair<K, Pair<K, V>>> iterator;
 
-      public Itr(Iterator<Pair<K, Pair<K, V>>> var1) {
-         this.iterator = var1;
+      public Itr(Iterator<Pair<K, Pair<K, V>>> iterator) {
+         this.iterator = iterator;
       }
 
       @Override
@@ -97,8 +97,8 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
       }
 
       public Pair<K, V> next() {
-         Pair var1 = this.iterator.next();
-         return (Pair<K, V>)var1.component2();
+         Pair<K, Pair<K, V>> nextIn = this.iterator.next();
+         return nextIn.component2();
       }
 
       @Override

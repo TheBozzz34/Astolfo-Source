@@ -5,20 +5,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderEntity extends Render<Entity> {
-   public RenderEntity(RenderManager var1) {
-      super(var1);
+   public RenderEntity(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
    @Override
-   public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
+   public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
       GlStateManager.pushMatrix();
-      renderOffsetAABB(var1.getEntityBoundingBox(), var2 - var1.lastTickPosX, var4 - var1.lastTickPosY, var6 - var1.lastTickPosZ);
+      renderOffsetAABB(entity.getEntityBoundingBox(), x - entity.lastTickPosX, y - entity.lastTickPosY, z - entity.lastTickPosZ);
       GlStateManager.popMatrix();
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
    @Override
-   public ResourceLocation getEntityTexture(Entity var1) {
+   public ResourceLocation getEntityTexture(Entity entity) {
       return null;
    }
 }

@@ -29,8 +29,8 @@ public class BlockFarmland extends Block {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      return new AxisAlignedBB(var2.getX(), var2.getY(), var2.getZ(), var2.getX() + 1, var2.getY() + 1, var2.getZ() + 1);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
    }
 
    @Override
@@ -44,42 +44,42 @@ public class BlockFarmland extends Block {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      int var8 = var3.getValue(MOISTURE);
-      if (!this.hasWater(var1, var2) && !var1.isRainingAt(var2.up())) {
-         if (var8 > 0) {
-            var1.setBlockState(var2, var3.withProperty(MOISTURE, var8 - 1), 2);
-         } else if (!this.hasCrops(var1, var2)) {
-            var1.setBlockState(var2, Blocks.dirt.getDefaultState());
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      int i = state.getValue(MOISTURE);
+      if (!this.hasWater(worldIn, pos) && !worldIn.isRainingAt(pos.up())) {
+         if (i > 0) {
+            worldIn.setBlockState(pos, state.withProperty(MOISTURE, i - 1), 2);
+         } else if (!this.hasCrops(worldIn, pos)) {
+            worldIn.setBlockState(pos, Blocks.dirt.getDefaultState());
          }
-      } else if (var8 < 7) {
-         var1.setBlockState(var2, var3.withProperty(MOISTURE, 7), 2);
+      } else if (i < 7) {
+         worldIn.setBlockState(pos, state.withProperty(MOISTURE, 7), 2);
       }
    }
 
    @Override
-   public void onFallenUpon(World var1, BlockPos var2, Entity var3, float var4) {
-      if (var3 instanceof EntityLivingBase) {
-         if (!var1.isRemote && var1.rand.nextFloat() < var4 - 0.5F) {
-            if (!(var3 instanceof EntityPlayer) && !var1.getGameRules().getBoolean("mobGriefing")) {
+   public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+      if (entityIn instanceof EntityLivingBase) {
+         if (!worldIn.isRemote && worldIn.rand.nextFloat() < fallDistance - 0.5F) {
+            if (!(entityIn instanceof EntityPlayer) && !worldIn.getGameRules().getBoolean("mobGriefing")) {
                return;
             }
 
-            var1.setBlockState(var2, Blocks.dirt.getDefaultState());
+            worldIn.setBlockState(pos, Blocks.dirt.getDefaultState());
          }
 
-         super.onFallenUpon(var1, var2, var3, var4);
+         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
       }
    }
 
-   private boolean hasCrops(World var1, BlockPos var2) {
-      Block var6 = var1.getBlockState(var2.up()).getBlock();
-      return var6 instanceof BlockCrops || var6 instanceof BlockStem;
+   private boolean hasCrops(World worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos.up()).getBlock();
+      return block instanceof BlockCrops || block instanceof BlockStem;
    }
 
-   private boolean hasWater(World var1, BlockPos var2) {
-      for (BlockPos.MutableBlockPos var7 : BlockPos.getAllInBoxMutable(var2.add(-4, 0, -4), var2.add(4, 1, 4))) {
-         if (var1.getBlockState(var7).getBlock().getMaterial() == Material.water) {
+   private boolean hasWater(World worldIn, BlockPos pos) {
+      for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-4, 0, -4), pos.add(4, 1, 4))) {
+         if (worldIn.getBlockState(mutableBlockPos).getBlock().getMaterial() == Material.water) {
             return true;
          }
       }
@@ -88,47 +88,47 @@ public class BlockFarmland extends Block {
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      super.onNeighborBlockChange(var1, var2, var3, var4);
-      if (var1.getBlockState(var2.up()).getBlock().getMaterial().isSolid()) {
-         var1.setBlockState(var2, Blocks.dirt.getDefaultState());
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+      if (worldIn.getBlockState(pos.up()).getBlock().getMaterial().isSolid()) {
+         worldIn.setBlockState(pos, Blocks.dirt.getDefaultState());
       }
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      switch (var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      switch (side) {
          case UP:
             return true;
          case NORTH:
          case SOUTH:
          case WEST:
          case EAST:
-            Block var7 = var1.getBlockState(var2).getBlock();
-            return !var7.isOpaqueCube() && var7 != Blocks.farmland;
+            Block block = worldIn.getBlockState(pos).getBlock();
+            return !block.isOpaqueCube() && block != Blocks.farmland;
          default:
-            return super.shouldSideBeRendered(var1, var2, var3);
+            return super.shouldSideBeRendered(worldIn, pos, side);
       }
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), var2, var3);
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Item.getItemFromBlock(Blocks.dirt);
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(MOISTURE, var1 & 7);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(MOISTURE, meta & 7);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(MOISTURE);
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(MOISTURE);
    }
 
    @Override

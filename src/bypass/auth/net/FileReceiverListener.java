@@ -1,9 +1,9 @@
 package bypass.auth.net;
 
 public interface FileReceiverListener {
-   void C(FileReceiver var1, String var2, Exception var3);
+   void C(FileReceiver fileReceiver, String string, Exception exception);
 
-   void b(FileReceiver var1, String var2, FileReceiveSession var3);
+   void b(FileReceiver fileReceiver, String string, FileReceiveSession fileReceiveSession);
 
-   void q(FileReceiver var1, String var2, Exception var3, FileReceiveSession var4);
+   void q(FileReceiver fileReceiver, String string, Exception exception, FileReceiveSession fileReceiveSession);
 }

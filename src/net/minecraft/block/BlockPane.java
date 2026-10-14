@@ -25,26 +25,26 @@ public class BlockPane extends Block {
    private final boolean canDrop;
    private static final long e = 11753762983719L;
 
-   public BlockPane(Material var1, boolean var2) {
-      super(var1);
+   public BlockPane(Material materialIn, boolean canDrop) {
+      super(materialIn);
       this.setDefaultState(
          this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false)
       );
-      this.canDrop = var2;
+      this.canDrop = canDrop;
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      return var1.withProperty(NORTH, this.canPaneConnectToBlock(var2.getBlockState(var3.north()).getBlock()))
-         .withProperty(SOUTH, this.canPaneConnectToBlock(var2.getBlockState(var3.south()).getBlock()))
-         .withProperty(WEST, this.canPaneConnectToBlock(var2.getBlockState(var3.west()).getBlock()))
-         .withProperty(EAST, this.canPaneConnectToBlock(var2.getBlockState(var3.east()).getBlock()));
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      return state.withProperty(NORTH, this.canPaneConnectToBlock(worldIn.getBlockState(pos.north()).getBlock()))
+         .withProperty(SOUTH, this.canPaneConnectToBlock(worldIn.getBlockState(pos.south()).getBlock()))
+         .withProperty(WEST, this.canPaneConnectToBlock(worldIn.getBlockState(pos.west()).getBlock()))
+         .withProperty(EAST, this.canPaneConnectToBlock(worldIn.getBlockState(pos.east()).getBlock()));
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      return !this.canDrop ? null : super.getItemDropped(var1, var2, var3);
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      return !this.canDrop ? null : super.getItemDropped(state, rand, fortune);
    }
 
    @Override
@@ -58,40 +58,40 @@ public class BlockPane extends Block {
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return var1.getBlockState(var2).getBlock() == this ? false : super.shouldSideBeRendered(var1, var2, var3);
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      return worldIn.getBlockState(pos).getBlock() == this ? false : super.shouldSideBeRendered(worldIn, pos, side);
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
-      boolean var10 = this.canPaneConnectToBlock(var1.getBlockState(var2.north()).getBlock());
-      boolean var11 = this.canPaneConnectToBlock(var1.getBlockState(var2.south()).getBlock());
-      boolean var12 = this.canPaneConnectToBlock(var1.getBlockState(var2.west()).getBlock());
-      boolean var13 = this.canPaneConnectToBlock(var1.getBlockState(var2.east()).getBlock());
-      if ((!var12 || !var13) && (var12 || var13 || var10 || var11)) {
-         if (var12) {
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+      boolean bl = this.canPaneConnectToBlock(worldIn.getBlockState(pos.north()).getBlock());
+      boolean bl2 = this.canPaneConnectToBlock(worldIn.getBlockState(pos.south()).getBlock());
+      boolean bl3 = this.canPaneConnectToBlock(worldIn.getBlockState(pos.west()).getBlock());
+      boolean bl4 = this.canPaneConnectToBlock(worldIn.getBlockState(pos.east()).getBlock());
+      if ((!bl3 || !bl4) && (bl3 || bl4 || bl || bl2)) {
+         if (bl3) {
             this.setBlockBounds(0.0F, 0.0F, 0.4375F, 0.5F, 1.0F, 0.5625F);
-            super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
-         } else if (var13) {
+            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+         } else if (bl4) {
             this.setBlockBounds(0.5F, 0.0F, 0.4375F, 1.0F, 1.0F, 0.5625F);
-            super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
          }
       } else {
          this.setBlockBounds(0.0F, 0.0F, 0.4375F, 1.0F, 1.0F, 0.5625F);
-         super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       }
 
-      if ((!var10 || !var11) && (var12 || var13 || var10 || var11)) {
-         if (var10) {
+      if ((!bl || !bl2) && (bl3 || bl4 || bl || bl2)) {
+         if (bl) {
             this.setBlockBounds(0.4375F, 0.0F, 0.0F, 0.5625F, 1.0F, 0.5F);
-            super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
-         } else if (var11) {
+            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+         } else if (bl2) {
             this.setBlockBounds(0.4375F, 0.0F, 0.5F, 0.5625F, 1.0F, 1.0F);
-            super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
          }
       } else {
          this.setBlockBounds(0.4375F, 0.0F, 0.0F, 0.5625F, 1.0F, 1.0F);
-         super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       }
    }
 
@@ -101,47 +101,47 @@ public class BlockPane extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      float var6 = 0.4375F;
-      float var7 = 0.5625F;
-      float var8 = 0.4375F;
-      float var9 = 0.5625F;
-      boolean var10 = this.canPaneConnectToBlock(var1.getBlockState(var2.north()).getBlock());
-      boolean var11 = this.canPaneConnectToBlock(var1.getBlockState(var2.south()).getBlock());
-      boolean var12 = this.canPaneConnectToBlock(var1.getBlockState(var2.west()).getBlock());
-      boolean var13 = this.canPaneConnectToBlock(var1.getBlockState(var2.east()).getBlock());
-      if ((!var12 || !var13) && (var12 || var13 || var10 || var11)) {
-         if (var12) {
-            var6 = 0.0F;
-         } else if (var13) {
-            var7 = 1.0F;
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      float f = 0.4375F;
+      float g = 0.5625F;
+      float h = 0.4375F;
+      float f2 = 0.5625F;
+      boolean bl = this.canPaneConnectToBlock(worldIn.getBlockState(pos.north()).getBlock());
+      boolean bl2 = this.canPaneConnectToBlock(worldIn.getBlockState(pos.south()).getBlock());
+      boolean bl3 = this.canPaneConnectToBlock(worldIn.getBlockState(pos.west()).getBlock());
+      boolean bl4 = this.canPaneConnectToBlock(worldIn.getBlockState(pos.east()).getBlock());
+      if ((!bl3 || !bl4) && (bl3 || bl4 || bl || bl2)) {
+         if (bl3) {
+            f = 0.0F;
+         } else if (bl4) {
+            g = 1.0F;
          }
       } else {
-         var6 = 0.0F;
-         var7 = 1.0F;
+         f = 0.0F;
+         g = 1.0F;
       }
 
-      if ((!var10 || !var11) && (var12 || var13 || var10 || var11)) {
-         if (var10) {
-            var8 = 0.0F;
-         } else if (var11) {
-            var9 = 1.0F;
+      if ((!bl || !bl2) && (bl3 || bl4 || bl || bl2)) {
+         if (bl) {
+            h = 0.0F;
+         } else if (bl2) {
+            f2 = 1.0F;
          }
       } else {
-         var8 = 0.0F;
-         var9 = 1.0F;
+         h = 0.0F;
+         f2 = 1.0F;
       }
 
-      this.setBlockBounds(var6, 0.0F, var8, var7, 1.0F, var9);
+      this.setBlockBounds(f, 0.0F, h, g, 1.0F, f2);
    }
 
-   public final boolean canPaneConnectToBlock(Block var1) {
-      return var1.isFullBlock()
-         || var1 == this
-         || var1 == Blocks.glass
-         || var1 == Blocks.stained_glass
-         || var1 == Blocks.stained_glass_pane
-         || var1 instanceof BlockPane;
+   public final boolean canPaneConnectToBlock(Block blockIn) {
+      return blockIn.isFullBlock()
+         || blockIn == this
+         || blockIn == Blocks.glass
+         || blockIn == Blocks.stained_glass
+         || blockIn == Blocks.stained_glass_pane
+         || blockIn instanceof BlockPane;
    }
 
    @Override
@@ -155,7 +155,7 @@ public class BlockPane extends Block {
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
+   public int getMetaFromState(IBlockState state) {
       return 0;
    }
 

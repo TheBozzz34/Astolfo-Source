@@ -27,9 +27,9 @@ public final class SocketWriter {
    private byte M;
    private static final long a = 66296606086539L;
 
-   public SocketWriter(SocketChannel var1, Selector var2) {
-      this.c = var1;
-      this.t = var2;
+   public SocketWriter(SocketChannel socketChannel, Selector selector) {
+      this.c = socketChannel;
+      this.t = selector;
       this.e = new ArrayDeque<>();
       this.Z = ByteBuffer.allocateDirect(5);
       this.s = ByteBuffer.allocateDirect(3);
@@ -39,14 +39,14 @@ public final class SocketWriter {
 
    public void j() throws IOException {
       while (!this.e.isEmpty()) {
-         OutgoingPacket var4 = this.e.peek();
-         Queue var5 = var4.G;
+         OutgoingPacket outgoingPacket = this.e.peek();
+         Queue queue = outgoingPacket.G;
          if (!this.r) {
             if (!this.q) {
                this.M = RandomValues.S();
                this.Z.put(XorMasks.m(this.M));
-               this.Z.putShort((short)(var5.size() ^ this.M));
-               this.Z.putShort((short)(var4.Z ^ this.M));
+               this.Z.putShort((short)(queue.size() ^ this.M));
+               this.Z.putShort((short)(outgoingPacket.Z ^ this.M));
                ((Buffer)this.Z).flip();
                this.q = true;
             }
@@ -60,27 +60,27 @@ public final class SocketWriter {
             this.r = true;
          }
 
-         while (!var5.isEmpty()) {
-            PacketChunk var6 = (PacketChunk)var5.peek();
-            ByteBuffer var7 = var6.u;
+         while (!queue.isEmpty()) {
+            PacketChunk packetChunk = (PacketChunk)queue.peek();
+            ByteBuffer byteBuffer = packetChunk.u;
             if (this.B) {
-               this.c.write(var7);
+               this.c.write(byteBuffer);
             } else {
                if (!this.I) {
-                  int var8 = 0;
+                  int i = 0;
 
-                  for (int var9 = var7.limit(); var8 < var9; var8++) {
-                     var7.put(var8, (byte)(var7.get(var8) ^ this.M));
+                  for (int k = byteBuffer.limit(); i < k; i++) {
+                     byteBuffer.put(i, (byte)(byteBuffer.get(i) ^ this.M));
                   }
 
-                  ScramblerRange var10 = Z();
-                  var10.m.B(var7);
+                  ScramblerRange scramblerRange = Z();
+                  scramblerRange.m.B(byteBuffer);
                   ((Buffer)this.s).clear();
-                  this.s.put(q(var10));
-                  this.s.putShort((short)(var7.position() ^ this.M));
+                  this.s.put(q(scramblerRange));
+                  this.s.putShort((short)(byteBuffer.position() ^ this.M));
                   ((Buffer)this.s).flip();
-                  ((Buffer)var7).flip();
-                  this.m[1] = var7;
+                  ((Buffer)byteBuffer).flip();
+                  this.m[1] = byteBuffer;
                   this.I = true;
                }
 
@@ -92,13 +92,13 @@ public final class SocketWriter {
                this.B = true;
             }
 
-            if (var7.hasRemaining()) {
+            if (byteBuffer.hasRemaining()) {
                return;
             }
 
             this.B = false;
             this.I = false;
-            var5.remove();
+            queue.remove();
          }
 
          this.r = false;
@@ -111,12 +111,12 @@ public final class SocketWriter {
    }
 
    private static ScramblerRange Z() {
-      List var0 = Scramblers.INSTANCE.Q();
-      return (ScramblerRange)var0.get(ThreadLocalRandom.current().nextInt(var0.size()));
+      List list = Scramblers.INSTANCE.Q();
+      return (ScramblerRange)list.get(ThreadLocalRandom.current().nextInt(list.size()));
    }
 
-   private static byte q(ScramblerRange var0) {
-      return (byte)ThreadLocalRandom.current().nextInt(var0.r, var0.X);
+   private static byte q(ScramblerRange scramblerRange) {
+      return (byte)ThreadLocalRandom.current().nextInt(scramblerRange.r, scramblerRange.X);
    }
 
    public SocketChannel q() {
@@ -127,8 +127,8 @@ public final class SocketWriter {
       return this.t;
    }
 
-   public void k(OutgoingPacket var1) {
-      this.e.add(var1);
+   public void k(OutgoingPacket outgoingPacket) {
+      this.e.add(outgoingPacket);
    }
 
    public void m() {

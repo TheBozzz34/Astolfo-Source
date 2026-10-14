@@ -12,32 +12,32 @@ public class PlayerCapabilities {
    private float walkSpeed = 0.1F;
    private static final long a = 93822400042065L;
 
-   public void writeCapabilitiesToNBT(NBTTagCompound var1) {
-      NBTTagCompound var4 = new NBTTagCompound();
-      var4.setBoolean("invulnerable", this.disableDamage);
-      var4.setBoolean("flying", this.isFlying);
-      var4.setBoolean("mayfly", this.allowFlying);
-      var4.setBoolean("instabuild", this.isCreativeMode);
-      var4.setBoolean("mayBuild", this.allowEdit);
-      var4.setFloat("flySpeed", this.flySpeed);
-      var4.setFloat("walkSpeed", this.walkSpeed);
-      var1.setTag("abilities", var4);
+   public void writeCapabilitiesToNBT(NBTTagCompound tagCompound) {
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      nbtTagCompound.setBoolean("invulnerable", this.disableDamage);
+      nbtTagCompound.setBoolean("flying", this.isFlying);
+      nbtTagCompound.setBoolean("mayfly", this.allowFlying);
+      nbtTagCompound.setBoolean("instabuild", this.isCreativeMode);
+      nbtTagCompound.setBoolean("mayBuild", this.allowEdit);
+      nbtTagCompound.setFloat("flySpeed", this.flySpeed);
+      nbtTagCompound.setFloat("walkSpeed", this.walkSpeed);
+      tagCompound.setTag("abilities", nbtTagCompound);
    }
 
-   public void readCapabilitiesFromNBT(NBTTagCompound var1) {
-      if (var1.hasKey("abilities", 10)) {
-         NBTTagCompound var5 = var1.getCompoundTag("abilities");
-         this.disableDamage = var5.getBoolean("invulnerable");
-         this.isFlying = var5.getBoolean("flying");
-         this.allowFlying = var5.getBoolean("mayfly");
-         this.isCreativeMode = var5.getBoolean("instabuild");
-         if (var5.hasKey("flySpeed", 99)) {
-            this.flySpeed = var5.getFloat("flySpeed");
-            this.walkSpeed = var5.getFloat("walkSpeed");
+   public void readCapabilitiesFromNBT(NBTTagCompound tagCompound) {
+      if (tagCompound.hasKey("abilities", 10)) {
+         NBTTagCompound nbtTagCompound = tagCompound.getCompoundTag("abilities");
+         this.disableDamage = nbtTagCompound.getBoolean("invulnerable");
+         this.isFlying = nbtTagCompound.getBoolean("flying");
+         this.allowFlying = nbtTagCompound.getBoolean("mayfly");
+         this.isCreativeMode = nbtTagCompound.getBoolean("instabuild");
+         if (nbtTagCompound.hasKey("flySpeed", 99)) {
+            this.flySpeed = nbtTagCompound.getFloat("flySpeed");
+            this.walkSpeed = nbtTagCompound.getFloat("walkSpeed");
          }
 
-         if (var5.hasKey("mayBuild", 1)) {
-            this.allowEdit = var5.getBoolean("mayBuild");
+         if (nbtTagCompound.hasKey("mayBuild", 1)) {
+            this.allowEdit = nbtTagCompound.getBoolean("mayBuild");
          }
       }
    }
@@ -46,15 +46,15 @@ public class PlayerCapabilities {
       return this.flySpeed;
    }
 
-   public void setFlySpeed(float var1) {
-      this.flySpeed = var1;
+   public void setFlySpeed(float speed) {
+      this.flySpeed = speed;
    }
 
    public float getWalkSpeed() {
       return this.walkSpeed;
    }
 
-   public void setPlayerWalkSpeed(float var1) {
-      this.walkSpeed = var1;
+   public void setPlayerWalkSpeed(float speed) {
+      this.walkSpeed = speed;
    }
 }

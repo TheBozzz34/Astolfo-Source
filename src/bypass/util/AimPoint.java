@@ -6,9 +6,9 @@ public class AimPoint {
    private Vec3 y;
    private AimRotation f;
 
-   public AimPoint(Vec3 var1, AimRotation var2) {
-      this.y = var1;
-      this.f = var2;
+   public AimPoint(Vec3 vec3, AimRotation aimRotation) {
+      this.y = vec3;
+      this.f = aimRotation;
    }
 
    public AimRotation r() {

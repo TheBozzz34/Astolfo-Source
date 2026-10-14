@@ -8,7 +8,7 @@ public final class IsMouseDown extends OneArgFunction {
    private static final long a = 98565084159257L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      return !var1.isnumber() ? valueOf(false) : valueOf(Mouse.isButtonDown(var1.checkint()));
+   public LuaValue call(LuaValue luaValue) {
+      return !luaValue.isnumber() ? valueOf(false) : valueOf(Mouse.isButtonDown(luaValue.checkint()));
    }
 }

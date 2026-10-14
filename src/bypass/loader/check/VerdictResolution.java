@@ -12,24 +12,24 @@ public final class VerdictResolution {
    public final CachingVerdictResolver t;
    private static final long a = 67765570146915L;
 
-   public VerdictResolution(CachingVerdictResolver var1, CheckContext var2) {
-      this.t = var1;
-      this.P = var2.f();
-      this.g = var2.i();
-      this.Q = var2.a();
+   public VerdictResolution(CachingVerdictResolver cachingVerdictResolver, CheckContext checkContext) {
+      this.t = cachingVerdictResolver;
+      this.P = checkContext.f();
+      this.g = checkContext.i();
+      this.Q = checkContext.a();
    }
 
    private Verdict z() {
       return this.r(this.P.N());
    }
 
-   private Verdict r(LoadStage var1) {
-      for (Object var7$raw : CachingVerdictResolver.s(this.t, var1, this.g)) {
-         StageCheck var7 = (StageCheck)var7$raw;
-         CheckResult var8 = var7.H(this.P);
-         switch (var8.c()) {
+   private Verdict r(LoadStage loadStage) {
+      for (Object object : CachingVerdictResolver.s(this.t, loadStage, this.g)) {
+         StageCheck stageCheck = (StageCheck)object;
+         CheckResult checkResult = stageCheck.H(this.P);
+         switch (checkResult.c()) {
             case A:
-               return this.y((AbstractLoadStage)var1, var8.u());
+               return this.y((AbstractLoadStage)loadStage, checkResult.u());
             case B:
                return null;
             case C:
@@ -41,25 +41,25 @@ public final class VerdictResolution {
       return Verdict.N;
    }
 
-   private Verdict y(AbstractLoadStage var1, Verdict var2) {
-      return this.t.processRelation(this.Q, this.P, var2, var1);
+   private Verdict y(AbstractLoadStage abstractLoadStage, Verdict verdict) {
+      return this.t.processRelation(this.Q, this.P, verdict, abstractLoadStage);
    }
 
-   public String g(int var1) {
-      Random var6 = new Random(var1);
-      StringBuilder var7 = new StringBuilder();
+   public String g(int i) {
+      Random random = new Random(i);
+      StringBuilder stringBuilder = new StringBuilder();
 
       while (true) {
-         int var8 = var6.nextInt(27);
-         if (var8 == 0) {
-            return var7.toString();
+         int j = random.nextInt(27);
+         if (j == 0) {
+            return stringBuilder.toString();
          }
 
-         var7.append((char)(96 + var8));
+         stringBuilder.append((char)(96 + j));
       }
    }
 
-   public static Verdict M(VerdictResolution var0) {
-      return var0.z();
+   public static Verdict M(VerdictResolution verdictResolution) {
+      return verdictResolution.z();
    }
 }

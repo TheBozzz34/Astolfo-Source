@@ -17,24 +17,24 @@ public class Notification {
    private static final long a = 51304178136456L;
    private static final long c = 2383881169117643002L;
 
-   public Notification(String var1, String var2, NotificationType var3, int var4) {
-      this.i = var1;
-      this.u = var2 == null ? "" : var2;
-      this.t = var3;
-      this.S = var4;
+   public Notification(String string, String string2, NotificationType notificationType, int i) {
+      this.i = string;
+      this.u = string2 == null ? "" : string2;
+      this.t = notificationType;
+      this.S = i;
    }
 
    public void K() {
-      long var1 = a ^ 140338932476934L;
-      long var3 = var1 ^ 25451262682325L;
+      long l = a ^ 140338932476934L;
+      long m = l ^ 25451262682325L;
       this.h.setDuration(this.S);
       this.v.setDuration((int)c);
       Astolfo.INSTANCE.getNotificationManager().add(this);
    }
 
    public void E() {
-      long var1 = a ^ 108225880169274L;
-      long var3 = var1 ^ 11994441438185L;
+      long l = a ^ 108225880169274L;
+      long m = l ^ 11994441438185L;
       Astolfo.INSTANCE.getNotificationManager().getList().remove(this);
    }
 

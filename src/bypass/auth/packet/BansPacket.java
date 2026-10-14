@@ -5,9 +5,9 @@ public class BansPacket {
    public int mode;
    public String bans;
 
-   public BansPacket(BansPacketType var1, int var2, String var3) {
-      this.type = var1;
-      this.mode = var2;
-      this.bans = var3;
+   public BansPacket(BansPacketType bansPacketType, int i, String string) {
+      this.type = bansPacketType;
+      this.mode = i;
+      this.bans = string;
    }
 }

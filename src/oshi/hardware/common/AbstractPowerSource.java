@@ -37,49 +37,49 @@ public abstract class AbstractPowerSource implements PowerSource {
    private static final long b = 59213222441595L;
 
    public AbstractPowerSource(
-      String var1,
-      String var2,
-      double var3,
-      double var5,
-      double var7,
-      double var9,
-      double var11,
-      double var13,
-      boolean var15,
-      boolean var16,
-      boolean var17,
-      PowerSource.CapacityUnits var18,
-      int var19,
-      int var20,
-      int var21,
-      int var22,
-      String var23,
-      LocalDate var24,
-      String var25,
-      String var26,
-      double var27
+      String name,
+      String deviceName,
+      double remainingCapacityPercent,
+      double timeRemainingEstimated,
+      double timeRemainingInstant,
+      double powerUsageRate,
+      double voltage,
+      double amperage,
+      boolean powerOnLine,
+      boolean charging,
+      boolean discharging,
+      PowerSource.CapacityUnits capacityUnits,
+      int currentCapacity,
+      int maxCapacity,
+      int designCapacity,
+      int cycleCount,
+      String chemistry,
+      LocalDate manufactureDate,
+      String manufacturer,
+      String serialNumber,
+      double temperature
    ) {
-      this.name = var1;
-      this.deviceName = var2;
-      this.remainingCapacityPercent = var3;
-      this.timeRemainingEstimated = var5;
-      this.timeRemainingInstant = var7;
-      this.powerUsageRate = var9;
-      this.voltage = var11;
-      this.amperage = var13;
-      this.powerOnLine = var15;
-      this.charging = var16;
-      this.discharging = var17;
-      this.capacityUnits = var18;
-      this.currentCapacity = var19;
-      this.maxCapacity = var20;
-      this.designCapacity = var21;
-      this.cycleCount = var22;
-      this.chemistry = var23;
-      this.manufactureDate = var24;
-      this.manufacturer = var25;
-      this.serialNumber = var26;
-      this.temperature = var27;
+      this.name = name;
+      this.deviceName = deviceName;
+      this.remainingCapacityPercent = remainingCapacityPercent;
+      this.timeRemainingEstimated = timeRemainingEstimated;
+      this.timeRemainingInstant = timeRemainingInstant;
+      this.powerUsageRate = powerUsageRate;
+      this.voltage = voltage;
+      this.amperage = amperage;
+      this.powerOnLine = powerOnLine;
+      this.charging = charging;
+      this.discharging = discharging;
+      this.capacityUnits = capacityUnits;
+      this.currentCapacity = currentCapacity;
+      this.maxCapacity = maxCapacity;
+      this.designCapacity = designCapacity;
+      this.cycleCount = cycleCount;
+      this.chemistry = chemistry;
+      this.manufactureDate = manufactureDate;
+      this.manufacturer = manufacturer;
+      this.serialNumber = serialNumber;
+      this.temperature = temperature;
    }
 
    @Override
@@ -199,31 +199,31 @@ public abstract class AbstractPowerSource implements PowerSource {
 
    @Override
    public boolean updateAttributes() {
-      PowerSource[] var4 = getPowerSources();
+      PowerSource[] powerSources = getPowerSources();
 
-      for (PowerSource var8 : var4) {
-         if (var8.getName().equals(this.name)) {
-            this.name = var8.getName();
-            this.deviceName = var8.getDeviceName();
-            this.remainingCapacityPercent = var8.getRemainingCapacityPercent();
-            this.timeRemainingEstimated = var8.getTimeRemainingEstimated();
-            this.timeRemainingInstant = var8.getTimeRemainingInstant();
-            this.powerUsageRate = var8.getPowerUsageRate();
-            this.voltage = var8.getVoltage();
-            this.amperage = var8.getAmperage();
-            this.powerOnLine = var8.isPowerOnLine();
-            this.charging = var8.isCharging();
-            this.discharging = var8.isDischarging();
-            this.capacityUnits = var8.getCapacityUnits();
-            this.currentCapacity = var8.getCurrentCapacity();
-            this.maxCapacity = var8.getMaxCapacity();
-            this.designCapacity = var8.getDesignCapacity();
-            this.cycleCount = var8.getCycleCount();
-            this.chemistry = var8.getChemistry();
-            this.manufactureDate = var8.getManufactureDate();
-            this.manufacturer = var8.getManufacturer();
-            this.serialNumber = var8.getSerialNumber();
-            this.temperature = var8.getTemperature();
+      for (PowerSource powerSource : powerSources) {
+         if (powerSource.getName().equals(this.name)) {
+            this.name = powerSource.getName();
+            this.deviceName = powerSource.getDeviceName();
+            this.remainingCapacityPercent = powerSource.getRemainingCapacityPercent();
+            this.timeRemainingEstimated = powerSource.getTimeRemainingEstimated();
+            this.timeRemainingInstant = powerSource.getTimeRemainingInstant();
+            this.powerUsageRate = powerSource.getPowerUsageRate();
+            this.voltage = powerSource.getVoltage();
+            this.amperage = powerSource.getAmperage();
+            this.powerOnLine = powerSource.isPowerOnLine();
+            this.charging = powerSource.isCharging();
+            this.discharging = powerSource.isDischarging();
+            this.capacityUnits = powerSource.getCapacityUnits();
+            this.currentCapacity = powerSource.getCurrentCapacity();
+            this.maxCapacity = powerSource.getMaxCapacity();
+            this.designCapacity = powerSource.getDesignCapacity();
+            this.cycleCount = powerSource.getCycleCount();
+            this.chemistry = powerSource.getChemistry();
+            this.manufactureDate = powerSource.getManufactureDate();
+            this.manufacturer = powerSource.getManufacturer();
+            this.serialNumber = powerSource.getSerialNumber();
+            this.temperature = powerSource.getTemperature();
             return true;
          }
       }
@@ -250,51 +250,51 @@ public abstract class AbstractPowerSource implements PowerSource {
 
    @Override
    public String toString() {
-      StringBuilder var5 = new StringBuilder();
-      var5.append("Name: ").append(this.getName()).append(", ");
-      var5.append("Device Name: ").append(this.getDeviceName()).append(",\n ");
-      var5.append("RemainingCapacityPercent: ").append(this.getRemainingCapacityPercent() * 100.0).append("%, ");
-      var5.append("Time Remaining: ").append(formatTimeRemaining(this.getTimeRemainingEstimated())).append(", ");
-      var5.append("Time Remaining Instant: ").append(formatTimeRemaining(this.getTimeRemainingInstant())).append(",\n ");
-      var5.append("Power Usage Rate: ").append(this.getPowerUsageRate()).append("mW, ");
-      var5.append("Voltage: ").append(this.getVoltage()).append("V, ");
-      var5.append("Amperage: ").append(this.getAmperage()).append("mA,\n ");
-      var5.append("Power OnLine: ").append(this.isPowerOnLine()).append(", ");
-      var5.append("Charging: ").append(this.isCharging()).append(", ");
-      var5.append("Discharging: ").append(this.isDischarging()).append(",\n ");
-      var5.append("Capacity Units: ").append(this.getCapacityUnits()).append(", ");
-      var5.append("Current Capacity: ").append(this.getCurrentCapacity()).append(", ");
-      var5.append("Max Capacity: ").append(this.getMaxCapacity()).append(", ");
-      var5.append("Design Capacity: ").append(this.getDesignCapacity()).append(",\n ");
-      var5.append("Cycle Count: ").append(this.getCycleCount()).append(", ");
-      var5.append("Chemistry: ").append(this.getChemistry()).append(", ");
-      var5.append("Manufacture Date: ").append(this.getManufactureDate() != null ? this.getManufactureDate() : "unknown").append(", ");
-      var5.append("Manufacturer: ").append(this.getManufacturer()).append(",\n ");
-      var5.append("SerialNumber: ").append(this.getSerialNumber()).append(", ");
-      var5.append("Temperature: ");
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("Name: ").append(this.getName()).append(", ");
+      stringBuilder.append("Device Name: ").append(this.getDeviceName()).append(",\n ");
+      stringBuilder.append("RemainingCapacityPercent: ").append(this.getRemainingCapacityPercent() * 100.0).append("%, ");
+      stringBuilder.append("Time Remaining: ").append(formatTimeRemaining(this.getTimeRemainingEstimated())).append(", ");
+      stringBuilder.append("Time Remaining Instant: ").append(formatTimeRemaining(this.getTimeRemainingInstant())).append(",\n ");
+      stringBuilder.append("Power Usage Rate: ").append(this.getPowerUsageRate()).append("mW, ");
+      stringBuilder.append("Voltage: ").append(this.getVoltage()).append("V, ");
+      stringBuilder.append("Amperage: ").append(this.getAmperage()).append("mA,\n ");
+      stringBuilder.append("Power OnLine: ").append(this.isPowerOnLine()).append(", ");
+      stringBuilder.append("Charging: ").append(this.isCharging()).append(", ");
+      stringBuilder.append("Discharging: ").append(this.isDischarging()).append(",\n ");
+      stringBuilder.append("Capacity Units: ").append(this.getCapacityUnits()).append(", ");
+      stringBuilder.append("Current Capacity: ").append(this.getCurrentCapacity()).append(", ");
+      stringBuilder.append("Max Capacity: ").append(this.getMaxCapacity()).append(", ");
+      stringBuilder.append("Design Capacity: ").append(this.getDesignCapacity()).append(",\n ");
+      stringBuilder.append("Cycle Count: ").append(this.getCycleCount()).append(", ");
+      stringBuilder.append("Chemistry: ").append(this.getChemistry()).append(", ");
+      stringBuilder.append("Manufacture Date: ").append(this.getManufactureDate() != null ? this.getManufactureDate() : "unknown").append(", ");
+      stringBuilder.append("Manufacturer: ").append(this.getManufacturer()).append(",\n ");
+      stringBuilder.append("SerialNumber: ").append(this.getSerialNumber()).append(", ");
+      stringBuilder.append("Temperature: ");
       if (this.getTemperature() > 0.0) {
-         var5.append(this.getTemperature()).append("°C");
+         stringBuilder.append(this.getTemperature()).append("°C");
       } else {
-         var5.append("unknown");
+         stringBuilder.append("unknown");
       }
 
-      return var5.toString();
+      return stringBuilder.toString();
    }
 
-   private static String formatTimeRemaining(double var0) {
-      long var2 = b ^ 135901085588239L;
-      String var5;
-      if (var0 < -1.5) {
-         var5 = "Charging";
-      } else if (var0 < 0.0) {
-         var5 = "Unknown";
+   private static String formatTimeRemaining(double timeInSeconds) {
+      long l = b ^ 135901085588239L;
+      String string;
+      if (timeInSeconds < -1.5) {
+         string = "Charging";
+      } else if (timeInSeconds < 0.0) {
+         string = "Unknown";
       } else {
-         int var6 = (int)(var0 / 3600.0);
-         int var7 = (int)(var0 % 3600.0 / 60.0);
-         long var10000 = 4148454402148095858L ^ var2;
-         var5 = String.format("%d:%02d", var6, var7);
+         int i = (int)(timeInSeconds / 3600.0);
+         int j = (int)(timeInSeconds % 3600.0 / 60.0);
+         long m = 4148454402148095858L ^ l;
+         string = String.format("%d:%02d", i, j);
       }
 
-      return var5;
+      return string;
    }
 }

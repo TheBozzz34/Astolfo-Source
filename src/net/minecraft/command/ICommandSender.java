@@ -11,9 +11,9 @@ public interface ICommandSender {
 
    IChatComponent getDisplayName();
 
-   void addChatMessage(IChatComponent var1);
+   void addChatMessage(IChatComponent component);
 
-   boolean canCommandSenderUseCommand(int var1, String var2);
+   boolean canCommandSenderUseCommand(int permLevel, String commandName);
 
    BlockPos getPosition();
 
@@ -25,5 +25,5 @@ public interface ICommandSender {
 
    boolean sendCommandFeedback();
 
-   void setCommandStat(CommandResultStats.Type var1, int var2);
+   void setCommandStat(CommandResultStats.Type typeIn, int amount);
 }

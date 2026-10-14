@@ -8,12 +8,12 @@ public abstract class EntityGolem extends EntityCreature implements IAnimals {
    private static final long ab = 13418293646981L;
    private static final long vb = 2195331580837232760L;
 
-   public EntityGolem(World var1) {
-      super(var1);
+   public EntityGolem(World worldIn) {
+      super(worldIn);
    }
 
    @Override
-   public void fall(float var1, float var2) {
+   public void fall(float distance, float damageMultiplier) {
    }
 
    @Override

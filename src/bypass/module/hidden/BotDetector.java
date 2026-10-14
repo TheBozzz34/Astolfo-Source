@@ -18,20 +18,20 @@ public final class BotDetector extends HiddenModule {
    public static final ArrayList<EntityLivingBase> w = new ArrayList<>();
    public static final ArrayList<EntityLivingBase> E = new ArrayList<>();
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var0 -> {
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       E.clear();
       w.clear();
    };
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1 -> {
-      if (var1.getState() == EventState.PRE) {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      if (updateEvent.getState() == EventState.PRE) {
          if (!w.isEmpty()) {
             w.clear();
          }
 
-         for (Entity var6 : mc.theWorld.loadedEntityList) {
-            if (var6 instanceof EntityPlayer && !w.contains(var6) && var6 != mc.thePlayer && this.f((EntityPlayer)var6)) {
-               w.add((EntityLivingBase)var6);
+         for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityPlayer && !w.contains(entity) && entity != mc.thePlayer && this.f((EntityPlayer)entity)) {
+               w.add((EntityLivingBase)entity);
             }
          }
       }
@@ -42,28 +42,28 @@ public final class BotDetector extends HiddenModule {
       client.getEventBus().subscribe(this);
    }
 
-   private boolean f(EntityPlayer var1) {
+   private boolean f(EntityPlayer entityPlayer) {
       if (GameUtil.isOnServer("syuu")) {
          return false;
       }
 
-      if (var1.getDisplayName().getFormattedText().startsWith("§8[NPC]") && !mc.thePlayer.getDisplayName().getFormattedText().startsWith("§8[NPC]")) {
+      if (entityPlayer.getDisplayName().getFormattedText().startsWith("§8[NPC]") && !mc.thePlayer.getDisplayName().getFormattedText().startsWith("§8[NPC]")) {
          return true;
       }
 
       if (GameUtil.isOnServer("hypixel")) {
-         AbstractClientPlayer var5 = (AbstractClientPlayer)var1;
-         if (var5.getLocationSkin().toString().equalsIgnoreCase("minecraft:skins/b2f3fc4516774596bfe5c2e16f661106f115ebf651e1287a7cca43399e8c194")) {
+         AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entityPlayer;
+         if (abstractClientPlayer.getLocationSkin().toString().equalsIgnoreCase("minecraft:skins/b2f3fc4516774596bfe5c2e16f661106f115ebf651e1287a7cca43399e8c194")) {
             return true;
          }
 
-         if (var5.getName().contains("§") || var5.hasCustomName() && var5.getCustomNameTag().contains(var5.getName())) {
+         if (abstractClientPlayer.getName().contains("§") || abstractClientPlayer.hasCustomName() && abstractClientPlayer.getCustomNameTag().contains(abstractClientPlayer.getName())) {
             return true;
          }
 
-         if (var5.getPlayerInfo() != null && var5.getPlayerInfo().getResponseTime() > 1 && !E.contains(var5)) {
-            if (var5.hurtTime > 0) {
-               E.add(var5);
+         if (abstractClientPlayer.getPlayerInfo() != null && abstractClientPlayer.getPlayerInfo().getResponseTime() > 1 && !E.contains(abstractClientPlayer)) {
+            if (abstractClientPlayer.hurtTime > 0) {
+               E.add(abstractClientPlayer);
                return false;
             }
 
@@ -72,24 +72,24 @@ public final class BotDetector extends HiddenModule {
 
          if (GameUtil.scoreboardTitleContains("PIT")
             && mc.thePlayer.getDisplayName().getUnformattedText().contains("BEAST")
-            && !var1.getName().contains("BEAST")
-            && var1.getDisplayName().getUnformattedText().contains("BEAST")) {
+            && !entityPlayer.getName().contains("BEAST")
+            && entityPlayer.getDisplayName().getUnformattedText().contains("BEAST")) {
             return true;
          }
 
-         if (GameUtil.scoreboardTitleContains("BED WARS") && !var1.getDisplayName().getUnformattedText().contains("§")) {
+         if (GameUtil.scoreboardTitleContains("BED WARS") && !entityPlayer.getDisplayName().getUnformattedText().contains("§")) {
             return true;
          }
       }
 
-      if (GameUtil.isOnServer("mineplex") && !Double.isNaN(var1.getHealth())) {
+      if (GameUtil.isOnServer("mineplex") && !Double.isNaN(entityPlayer.getHealth())) {
          return true;
-      } else if (var1.getUniqueID().toString().startsWith(var1.getName())) {
+      } else if (entityPlayer.getUniqueID().toString().startsWith(entityPlayer.getName())) {
          return true;
       } else {
-         return !StringUtils.stripControlCodes(var1.getGameProfile().getName()).equals(var1.getName())
+         return !StringUtils.stripControlCodes(entityPlayer.getGameProfile().getName()).equals(entityPlayer.getName())
             ? true
-            : var1.getGameProfile().getId() != var1.getUniqueID();
+            : entityPlayer.getGameProfile().getId() != entityPlayer.getUniqueID();
       }
    }
 }

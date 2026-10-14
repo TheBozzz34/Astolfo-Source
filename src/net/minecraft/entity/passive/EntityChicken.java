@@ -31,8 +31,8 @@ public class EntityChicken extends EntityAnimal {
    public boolean chickenJockey;
    private static final long gb = 48073949983794L;
 
-   public EntityChicken(World var1) {
-      super(var1);
+   public EntityChicken(World worldIn) {
+      super(worldIn);
       this.setSize(0.4F, 0.7F);
       this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
       this.tasks.addTask(0, new EntityAISwimming(this));
@@ -82,7 +82,7 @@ public class EntityChicken extends EntityAnimal {
    }
 
    @Override
-   public void fall(float var1, float var2) {
+   public void fall(float distance, float damageMultiplier) {
    }
 
    @Override
@@ -101,7 +101,7 @@ public class EntityChicken extends EntityAnimal {
    }
 
    @Override
-   public void playStepSound(BlockPos var1, Block var2) {
+   public void playStepSound(BlockPos pos, Block blockIn) {
       this.playSound("mob.chicken.step", 0.15F, 1.0F);
    }
 
@@ -111,10 +111,10 @@ public class EntityChicken extends EntityAnimal {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      int var6 = this.rand.nextInt(3) + this.rand.nextInt(1 + var2);
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      int i = this.rand.nextInt(3) + this.rand.nextInt(1 + lootingModifier);
 
-      for (int var7 = 0; var7 < var6; var7++) {
+      for (int j = 0; j < i; j++) {
          this.dropItem(Items.feather, 1);
       }
 
@@ -125,34 +125,34 @@ public class EntityChicken extends EntityAnimal {
       }
    }
 
-   public EntityChicken createChild(EntityAgeable var1) {
+   public EntityChicken createChild(EntityAgeable ageable) {
       return new EntityChicken(this.worldObj);
    }
 
    @Override
-   public boolean isBreedingItem(ItemStack var1) {
-      return var1 != null && var1.getItem() == Items.wheat_seeds;
+   public boolean isBreedingItem(ItemStack stack) {
+      return stack != null && stack.getItem() == Items.wheat_seeds;
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.chickenJockey = var1.getBoolean("IsChickenJockey");
-      if (var1.hasKey("EggLayTime")) {
-         this.timeUntilNextEgg = var1.getInteger("EggLayTime");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.chickenJockey = tagCompund.getBoolean("IsChickenJockey");
+      if (tagCompund.hasKey("EggLayTime")) {
+         this.timeUntilNextEgg = tagCompund.getInteger("EggLayTime");
       }
    }
 
    @Override
-   public int getExperiencePoints(EntityPlayer var1) {
-      return this.isChickenJockey() ? 10 : super.getExperiencePoints(var1);
+   public int getExperiencePoints(EntityPlayer player) {
+      return this.isChickenJockey() ? 10 : super.getExperiencePoints(player);
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setBoolean("IsChickenJockey", this.chickenJockey);
-      var1.setInteger("EggLayTime", this.timeUntilNextEgg);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setBoolean("IsChickenJockey", this.chickenJockey);
+      tagCompound.setInteger("EggLayTime", this.timeUntilNextEgg);
    }
 
    @Override
@@ -163,12 +163,12 @@ public class EntityChicken extends EntityAnimal {
    @Override
    public void updateRiderPosition() {
       super.updateRiderPosition();
-      float var4 = MathHelper.sin(this.renderYawOffset * (float) Math.PI / 180.0F);
-      float var5 = MathHelper.cos(this.renderYawOffset * (float) Math.PI / 180.0F);
-      float var6 = 0.1F;
-      float var7 = 0.0F;
+      float f = MathHelper.sin(this.renderYawOffset * (float) Math.PI / 180.0F);
+      float g = MathHelper.cos(this.renderYawOffset * (float) Math.PI / 180.0F);
+      float h = 0.1F;
+      float f2 = 0.0F;
       this.riddenByEntity
-         .setPosition(this.posX + var6 * var4, this.posY + this.height * 0.5F + this.riddenByEntity.getYOffset() + var7, this.posZ - var6 * var5);
+         .setPosition(this.posX + h * f, this.posY + this.height * 0.5F + this.riddenByEntity.getYOffset() + f2, this.posZ - h * g);
       if (this.riddenByEntity instanceof EntityLivingBase) {
          ((EntityLivingBase)this.riddenByEntity).renderYawOffset = this.renderYawOffset;
       }
@@ -178,7 +178,7 @@ public class EntityChicken extends EntityAnimal {
       return this.chickenJockey;
    }
 
-   public void setChickenJockey(boolean var1) {
-      this.chickenJockey = var1;
+   public void setChickenJockey(boolean jockey) {
+      this.chickenJockey = jockey;
    }
 }

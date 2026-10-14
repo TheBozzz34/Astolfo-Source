@@ -10,17 +10,17 @@ public class ProcessCheck {
    private boolean q;
    private static final long a = 34062357179795L;
 
-   public ProcessCheck(StringListHolder var1) {
-      this.L = var1;
+   public ProcessCheck(StringListHolder stringListHolder) {
+      this.L = stringListHolder;
    }
 
-   private boolean k(String var1) throws Exception {
-      Process var5 = Runtime.getRuntime().exec(ProcessNamesStrings.c("q/k9EC4NS+k="));
-      BufferedReader var6 = new BufferedReader(new InputStreamReader(var5.getInputStream()));
+   private boolean k(String string) throws Exception {
+      Process process = Runtime.getRuntime().exec(ProcessNamesStrings.c("q/k9EC4NS+k="));
+      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-      String var7;
-      while ((var7 = var6.readLine()) != null) {
-         if (var7.toLowerCase().contains(var1 + ProcessNamesStrings.c("8f02Hg=="))) {
+      String string2;
+      while ((string2 = bufferedReader.readLine()) != null) {
+         if (string2.toLowerCase().contains(string + ProcessNamesStrings.c("8f02Hg=="))) {
             return true;
          }
       }
@@ -29,23 +29,23 @@ public class ProcessCheck {
    }
 
    public Holder C() {
-      Holder var4 = new Holder();
-      var4.value = new EntityPig(2147483646);
+      Holder holder = new Holder();
+      holder.value = new EntityPig(2147483646);
       this.u(true);
 
-      for (String var6 : this.L.A().L().getValue()) {
+      for (String string : this.L.A().L().getValue()) {
          try {
-            if (this.k(var6) && (var4.value = new EntityPig(135278)) != null) {
+            if (this.k(string) && (holder.value = new EntityPig(135278)) != null) {
             }
-         } catch (Exception var8) {
+         } catch (Exception exception) {
          }
       }
 
-      return var4;
+      return holder;
    }
 
-   public void u(boolean var1) {
-      this.q = var1;
+   public void u(boolean bl) {
+      this.q = bl;
    }
 
    public boolean P() {

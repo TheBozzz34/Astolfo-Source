@@ -5,24 +5,24 @@ import java.util.Collections;
 public final class VclipCommand extends Command {
    private static final long d = 91260789774393L;
 
-   public VclipCommand(String var1, String var2) {
-      super(var1, var2);
+   public VclipCommand(String string, String string2) {
+      super(string, string2);
       this.setAliases(Collections.singletonList("clip"));
    }
 
    @Override
-   public void runCommand(String[] var1) {
-      if (var1.length > 1) {
-         double var5;
+   public void runCommand(String[] strings) {
+      if (strings.length > 1) {
+         double d;
          try {
-            var5 = Double.parseDouble(var1[1]);
-         } catch (NumberFormatException var8) {
-            chat.P("\"" + var1[1] + "\" is not a number.");
+            d = Double.parseDouble(strings[1]);
+         } catch (NumberFormatException numberFormatException) {
+            chat.P("\"" + strings[1] + "\" is not a number.");
             return;
          }
 
-         mc.thePlayer.getEntityBoundingBox().X(0.0, var5, 0.0);
-         chat.R("Teleported " + (var5 != Double.NaN && var5 != 0.0 ? (var5 > 0.0 ? "up " : "down ") : "nowhere ") + var5 + " blocks");
+         mc.thePlayer.getEntityBoundingBox().X(0.0, d, 0.0);
+         chat.R("Teleported " + (d != Double.NaN && d != 0.0 ? (d > 0.0 ? "up " : "down ") : "nowhere ") + d + " blocks");
       } else {
          chat.I("Vclip: " + this.getUsage());
       }

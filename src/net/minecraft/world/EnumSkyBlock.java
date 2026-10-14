@@ -6,7 +6,7 @@ public enum EnumSkyBlock {
 
    public final int defaultLightValue;
 
-   EnumSkyBlock(int var3) {
-      this.defaultLightValue = var3;
+   EnumSkyBlock(int j) {
+      this.defaultLightValue = j;
    }
 }

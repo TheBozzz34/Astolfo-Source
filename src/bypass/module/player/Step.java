@@ -30,19 +30,19 @@ public final class Step extends Module {
    private final Stopwatch Y = new Stopwatch();
    private int V;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE && this.reverse.getValue() && mc.thePlayer.onGround && !mc.thePlayer.isInWater() && NoFall.P_boolean()) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE && this.reverse.getValue() && mc.thePlayer.onGround && !mc.thePlayer.isInWater() && NoFall.P_boolean()) {
          mc.thePlayer.motionY = -9.99;
       }
    };
    private boolean t;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = d ^ 86242262513195L;
-      long var4 = var2 ^ 18584933221786L;
-      if (var1x.getDirection() == PacketDirection.OUTGOING && var1x.getPacket() instanceof C03PacketPlayer) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = d ^ 86242262513195L;
+      long m = l ^ 18584933221786L;
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C03PacketPlayer) {
          if (this.V >= 0) {
             this.V++;
          }
@@ -67,50 +67,50 @@ public final class Step extends Module {
       0.4199935232546, 0.75323672435624, 1.0 + Math.random() / 10000.0, 1.0 + Math.random() / 100.0, 0.98 + Math.random() / 1000.0
    };
    @EventHandler(StepEvent.class)
-   private Listener<StepEvent> onStep = var1x -> {
-      long var2 = d ^ 45406839570829L;
-      long var4 = var2 ^ 131687618392636L;
+   private Listener<StepEvent> onStep = stepEvent -> {
+      long l = d ^ 45406839570829L;
+      long m = l ^ 131687618392636L;
       if (mc.thePlayer != null) {
          if ((this.mode.getValue() == StepMode.NCP || this.mode.getValue() == StepMode.VANILLA || this.mode.getValue() == StepMode.MOTION)
-            && var1x.getEntity() == mc.thePlayer) {
-            switch (var1x.getState()) {
+            && stepEvent.getEntity() == mc.thePlayer) {
+            switch (stepEvent.getState()) {
                case PRE:
-                  if (var1x.getEntity().isInWater()
-                     || var1x.getEntity().isInLava()
+                  if (stepEvent.getEntity().isInWater()
+                     || stepEvent.getEntity().isInLava()
                      || client.getModuleManager().get(Speed.class).isEnabled()
                      || !mc.thePlayer.onGround
                      || !mc.thePlayer.isCollidedVertically
                      || mc.thePlayer.movementInput.jump) {
-                     var1x.getEntity().stepHeight = 0.6F;
+                     stepEvent.getEntity().stepHeight = 0.6F;
                      return;
                   }
 
-                  if (var1x.getVec().yCoord <= this.height.getValue().floatValue()) {
-                     var1x.getEntity().stepHeight = this.height.getValue();
+                  if (stepEvent.getVec().yCoord <= this.height.getValue().floatValue()) {
+                     stepEvent.getEntity().stepHeight = this.height.getValue();
                      if (this.mode.getValue() == StepMode.VANILLA) {
                         return;
                      }
 
-                     if (var1x.getVec().yCoord >= 0.7 && var1x.getVec().yCoord <= 1.5
-                        || var1x.getVec().yCoord > 1.5 && var1x.getVec().yCoord <= 2.0
-                        || var1x.getVec().yCoord <= 2.6 && var1x.getVec().yCoord > 2.1) {
-                        float var7 = 0.41900033F;
-                        double var8 = 0.9800000190734864;
-                        double var10 = 0.078400001525879;
-                        byte var12 = 0;
-                        double[] var13 = new double[0];
-                        double var14 = var1x.getVec().yCoord;
-                        if (var14 > 0.7 && var14 <= 1.1) {
-                           var13 = new double[]{var14 / 2.380932455289242, var14 / 1.328668648249321};
-                        } else if (var14 <= 1.4) {
-                           var12 = 4;
-                           var7 = 0.419998F;
-                        } else if (var14 == 1.5) {
-                           var12 = 6;
-                           var7 = 0.4F;
-                           var13 = this.u;
-                        } else if (var14 > 1.5 && var14 <= 2.0) {
-                           var13 = new double[]{
+                     if (stepEvent.getVec().yCoord >= 0.7 && stepEvent.getVec().yCoord <= 1.5
+                        || stepEvent.getVec().yCoord > 1.5 && stepEvent.getVec().yCoord <= 2.0
+                        || stepEvent.getVec().yCoord <= 2.6 && stepEvent.getVec().yCoord > 2.1) {
+                        float f = 0.41900033F;
+                        double e = 0.9800000190734864;
+                        double d2 = 0.078400001525879;
+                        byte b = 0;
+                        double[] doubles = new double[0];
+                        double d3 = stepEvent.getVec().yCoord;
+                        if (d3 > 0.7 && d3 <= 1.1) {
+                           doubles = new double[]{d3 / 2.380932455289242, d3 / 1.328668648249321};
+                        } else if (d3 <= 1.4) {
+                           b = 4;
+                           f = 0.419998F;
+                        } else if (d3 == 1.5) {
+                           b = 6;
+                           f = 0.4F;
+                           doubles = this.u;
+                        } else if (d3 > 1.5 && d3 <= 2.0) {
+                           doubles = new double[]{
                               0.400000005960464,
                               0.713600017905236,
                               0.942528034066676,
@@ -124,19 +124,19 @@ public final class Step extends Module {
                               1.65310796350857,
                               1.63804582456326
                            };
-                        } else if (var14 <= 2.6 && var14 > 2.1) {
-                           var13 = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907};
+                        } else if (d3 <= 2.6 && d3 > 2.1) {
+                           doubles = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907};
                         }
 
-                        if (var13.length == 0) {
-                           var13 = new double[var12];
-                           double var16 = 0.0;
+                        if (doubles.length == 0) {
+                           doubles = new double[b];
+                           double d4 = 0.0;
 
-                           for (int var18 = 0; var18 < var13.length; var18++) {
-                              var16 += var7;
-                              var7 = (float)(var7 - var10);
-                              var7 = (float)(var7 * var8);
-                              var13[var18] = var16;
+                           for (int i = 0; i < doubles.length; i++) {
+                              d4 += f;
+                              f = (float)(f - d2);
+                              f = (float)(f * e);
+                              doubles[i] = d4;
                            }
                         }
 
@@ -149,13 +149,13 @@ public final class Step extends Module {
                            this.V = 0;
                         }
 
-                        for (double var19 : var13) {
+                        for (double d5 : doubles) {
                            if (client.getModuleManager().get(RiderGod.class).isEnabled()) {
                               break;
                            }
 
-                           if (GameUtil.isOnHypixel() && var14 > 0.7 && var14 <= 1.1) {
-                              for (int var21 = 0; var21 < 4; var21++) {
+                           if (GameUtil.isOnHypixel() && d3 > 0.7 && d3 <= 1.1) {
+                              for (int j = 0; j < 4; j++) {
                                  mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
                               }
                            }
@@ -164,7 +164,7 @@ public final class Step extends Module {
                               .sendQueue
                               .u(
                                  new C03PacketPlayer.C04PacketPlayerPosition(
-                                    mc.thePlayer.posX, mc.thePlayer.posY + var19 + Math.random() / 100000.0, mc.thePlayer.posZ, false
+                                    mc.thePlayer.posX, mc.thePlayer.posY + d5 + Math.random() / 100000.0, mc.thePlayer.posZ, false
                                  )
                               );
                         }
@@ -175,15 +175,15 @@ public final class Step extends Module {
                   }
                   break;
                case POST:
-                  var1x.getEntity().stepHeight = 0.6F;
+                  stepEvent.getEntity().stepHeight = 0.6F;
             }
          }
       }
    };
    private static final long d = 116544757911042L;
 
-   public Step(Category var1) {
-      super(var1);
+   public Step(Category category) {
+      super(category);
       this.addSettings(this.mode, this.height, this.motionTick, this.reverse);
    }
 

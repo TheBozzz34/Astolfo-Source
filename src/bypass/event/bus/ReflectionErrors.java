@@ -6,37 +6,37 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class ReflectionErrors {
    private static final long a = 73615270588222L;
 
-   public static void H(Exception var0) {
-      if (var0 instanceof NoSuchMethodException) {
-         throw new IllegalStateException("Couldn't find the method:\n" + var0.getMessage());
+   public static void H(Exception exception) {
+      if (exception instanceof NoSuchMethodException) {
+         throw new IllegalStateException("Couldn't find the method:\n" + exception.getMessage());
       }
 
-      if (var0 instanceof IllegalAccessException) {
-         throw new IllegalStateException("Unable to access method:\n" + var0.getMessage());
+      if (exception instanceof IllegalAccessException) {
+         throw new IllegalStateException("Unable to access method:\n" + exception.getMessage());
       }
 
-      if (var0 instanceof InvocationTargetException) {
-         x((InvocationTargetException)var0);
+      if (exception instanceof InvocationTargetException) {
+         x((InvocationTargetException)exception);
       }
 
-      if (var0 instanceof RuntimeException) {
-         throw (RuntimeException)var0;
+      if (exception instanceof RuntimeException) {
+         throw (RuntimeException)exception;
       } else {
-         throw new UndeclaredThrowableException(var0);
+         throw new UndeclaredThrowableException(exception);
       }
    }
 
-   public static void x(InvocationTargetException var0) {
-      H(var0.getTargetException());
+   public static void x(InvocationTargetException invocationTargetException) {
+      H(invocationTargetException.getTargetException());
    }
 
-   public static void H(Throwable var0) {
-      if (var0 instanceof RuntimeException) {
-         throw (RuntimeException)var0;
-      } else if (var0 instanceof Error) {
-         throw (Error)var0;
+   public static void H(Throwable throwable) {
+      if (throwable instanceof RuntimeException) {
+         throw (RuntimeException)throwable;
+      } else if (throwable instanceof Error) {
+         throw (Error)throwable;
       } else {
-         throw new UndeclaredThrowableException(var0);
+         throw new UndeclaredThrowableException(throwable);
       }
    }
 }

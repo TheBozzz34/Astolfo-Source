@@ -51,8 +51,8 @@ public class Material {
    private static final long a = 26504449481523L;
    private static final long c = -4229544477246619646L;
 
-   public Material(MapColor var1) {
-      this.materialMapColor = var1;
+   public Material(MapColor color) {
+      this.materialMapColor = color;
    }
 
    public boolean isLiquid() {

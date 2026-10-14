@@ -13,8 +13,8 @@ public class SwimNodeProcessor extends NodeProcessor {
    private static final long b = 76384019953179L;
 
    @Override
-   public void initProcessor(IBlockAccess var1, Entity var2) {
-      super.initProcessor(var1, var2);
+   public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {
+      super.initProcessor(iblockaccessIn, entityIn);
    }
 
    @Override
@@ -23,50 +23,53 @@ public class SwimNodeProcessor extends NodeProcessor {
    }
 
    @Override
-   public PathPoint getPathPointTo(Entity var1) {
+   public PathPoint getPathPointTo(Entity entityIn) {
       return this.openPoint(
-         MathHelper.floor_double(var1.getEntityBoundingBox().minX),
-         MathHelper.floor_double(var1.getEntityBoundingBox().minY + 0.5),
-         MathHelper.floor_double(var1.getEntityBoundingBox().minZ)
+         MathHelper.floor_double(entityIn.getEntityBoundingBox().minX),
+         MathHelper.floor_double(entityIn.getEntityBoundingBox().minY + 0.5),
+         MathHelper.floor_double(entityIn.getEntityBoundingBox().minZ)
       );
    }
 
    @Override
-   public PathPoint getPathPointToCoords(Entity var1, double var2, double var4, double var6) {
+   public PathPoint getPathPointToCoords(Entity entityIn, double x, double y, double target) {
       return this.openPoint(
-         MathHelper.floor_double(var2 - var1.width / 2.0F), MathHelper.floor_double(var4 + 0.5), MathHelper.floor_double(var6 - var1.width / 2.0F)
+         MathHelper.floor_double(x - entityIn.width / 2.0F), MathHelper.floor_double(y + 0.5), MathHelper.floor_double(target - entityIn.width / 2.0F)
       );
    }
 
    @Override
-   public int findPathOptions(PathPoint[] var1, Entity var2, PathPoint var3, PathPoint var4, float var5) {
-      int var9 = 0;
+   public int findPathOptions(PathPoint[] pathOptions, Entity entityIn, PathPoint currentPoint, PathPoint targetPoint, float maxDistance) {
+      int i = 0;
 
-      for (EnumFacing var13 : EnumFacing.values()) {
-         PathPoint var14 = this.getSafePoint(
-            var2, var3.xCoord + var13.getFrontOffsetX(), var3.yCoord + var13.getFrontOffsetY(), var3.zCoord + var13.getFrontOffsetZ()
+      for (EnumFacing enumFacing : EnumFacing.values()) {
+         PathPoint pathPoint = this.getSafePoint(
+            entityIn,
+            currentPoint.xCoord + enumFacing.getFrontOffsetX(),
+            currentPoint.yCoord + enumFacing.getFrontOffsetY(),
+            currentPoint.zCoord + enumFacing.getFrontOffsetZ()
          );
-         if (var14 != null && !var14.visited && var14.distanceTo(var4) < var5) {
-            var1[var9++] = var14;
+         if (pathPoint != null && !pathPoint.visited && pathPoint.distanceTo(targetPoint) < maxDistance) {
+            pathOptions[i++] = pathPoint;
          }
       }
 
-      return var9;
+      return i;
    }
 
-   private PathPoint getSafePoint(Entity var1, int var2, int var3, int var4) {
-      int var7 = this.func_176186_b(var1, var2, var3, var4);
-      return var7 == -1 ? this.openPoint(var2, var3, var4) : null;
+   private PathPoint getSafePoint(Entity entityIn, int x, int y, int z) {
+      int i = this.func_176186_b(entityIn, x, y, z);
+      return i == -1 ? this.openPoint(x, y, z) : null;
    }
 
-   private int func_176186_b(Entity var1, int var2, int var3, int var4) {
-      BlockPos.MutableBlockPos var8 = new BlockPos.MutableBlockPos();
+   private int func_176186_b(Entity entityIn, int x, int y, int z) {
+      BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-      for (int var9 = var2; var9 < var2 + this.entitySizeX; var9++) {
-         for (int var10 = var3; var10 < var3 + this.entitySizeY; var10++) {
-            for (int var11 = var4; var11 < var4 + this.entitySizeZ; var11++) {
-               Block var12 = this.blockaccess.getBlockState(var8.set(var9, var10, var11)).getBlock();
-               if (var12.getMaterial() != Material.water) {
+      for (int i = x; i < x + this.entitySizeX; i++) {
+         for (int j = y; j < y + this.entitySizeY; j++) {
+            for (int k = z; k < z + this.entitySizeZ; k++) {
+               Block block = this.blockaccess.getBlockState(mutableBlockPos.set(i, j, k)).getBlock();
+               if (block.getMaterial() != Material.water) {
                   return 0;
                }
             }

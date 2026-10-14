@@ -10,17 +10,17 @@ public class RenderList extends ChunkRenderContainer {
    private static final long c = 108267981735153L;
 
    @Override
-   public void renderChunkLayer(EnumWorldBlockLayer var1) {
+   public void renderChunkLayer(EnumWorldBlockLayer layer) {
       if (this.initialized) {
          if (this.renderChunks.size() == 0) {
             return;
          }
 
-         for (RenderChunk var6 : this.renderChunks) {
-            ListedRenderChunk var7 = (ListedRenderChunk)var6;
+         for (RenderChunk renderChunk : this.renderChunks) {
+            ListedRenderChunk listedRenderChunk = (ListedRenderChunk)renderChunk;
             GlStateManager.pushMatrix();
-            this.preRenderChunk(var6);
-            GL11.glCallList(var7.getDisplayList(var1, var7.getCompiledChunk()));
+            this.preRenderChunk(renderChunk);
+            GL11.glCallList(listedRenderChunk.getDisplayList(layer, listedRenderChunk.getCompiledChunk()));
             GlStateManager.popMatrix();
          }
 

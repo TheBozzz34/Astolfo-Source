@@ -17,16 +17,16 @@ public abstract class MapShape<K, V> {
    private static final Object NULL_KEY = new Object();
    private static final long b = 49304527385437L;
 
-   public MapShape(Map<K, Integer> var1) {
-      this.slots = var1;
+   public MapShape(Map<K, Integer> map) {
+      this.slots = map;
    }
 
-   private K d(K var1) {
-      return (K)(var1 == null ? NULL_KEY : var1);
+   private K d(K object) {
+      return (K)(object == null ? NULL_KEY : object);
    }
 
-   private K Q(K var1) {
-      return (K)(var1 == NULL_KEY ? null : var1);
+   private K Q(K object) {
+      return (K)(object == NULL_KEY ? null : object);
    }
 
    public java.util.Map<K, V> getDefaults() {
@@ -35,198 +35,198 @@ public abstract class MapShape<K, V> {
 
    public abstract KeyShape<K, V> getKeyShape();
 
-   public V k(ShapedMap<K, V> var1, K var2) {
-      Object var6 = this.w(var1, var2);
-      return (V)(var6 != REMOVED ? var6 : null);
+   public V k(ShapedMap<K, V> shapedMap, K object) {
+      Object object2 = this.w(shapedMap, object);
+      return (V)(object2 != REMOVED ? object2 : null);
    }
 
-   private Object w(ShapedMap<K, V> var1, Object var2) {
-      Object var6 = this.d((K)var2);
-      Integer var7 = this.slots.get((K)var6);
-      return var7 == null ? this.getDefaults().get(var6) : Y(var1, var7);
+   private Object w(ShapedMap<K, V> shapedMap, Object object) {
+      Object object2 = this.d((K)object);
+      Integer integer = this.slots.get((K)object2);
+      return integer == null ? this.getDefaults().get(object2) : Y(shapedMap, integer);
    }
 
-   public static Object Y(ShapedMap var0, int var1) {
-      switch (var1) {
+   public static Object Y(ShapedMap shapedMap, int i) {
+      switch (i) {
          case -3:
-            return var0.M;
+            return shapedMap.M;
          case -2:
-            return var0.D;
+            return shapedMap.D;
          case -1:
-            return var0.w;
+            return shapedMap.w;
          default:
-            return ((Object[])var0.w)[var1];
+            return ((Object[])shapedMap.w)[i];
       }
    }
 
-   public V n(ShapedMap<K, V> var1, K var2, Object var3) {
-      Object var6 = this.d((K)var2);
-      Integer var7 = this.slots.get((K)var6);
-      Object var8 = REMOVED;
-      if (var7 == null) {
-         var8 = this.getDefaults().get(var6);
-         java.util.Map var9 = ShapeCache.v(this.getDefaults(), (K)var6, var3);
-         if (var9 != null) {
-            var1.shape = this.getKeyShape().V(var9);
-            return (V)var8;
+   public V n(ShapedMap<K, V> shapedMap, K object, Object object2) {
+      Object object3 = this.d((K)object);
+      Integer integer = this.slots.get((K)object3);
+      Object object4 = REMOVED;
+      if (integer == null) {
+         object4 = this.getDefaults().get(object3);
+         java.util.Map map = ShapeCache.v(this.getDefaults(), (K)object3, object2);
+         if (map != null) {
+            shapedMap.shape = this.getKeyShape().V(map);
+            return (V)object4;
          }
 
-         if (var3 == REMOVED) {
-            return (V)var8;
+         if (object2 == REMOVED) {
+            return (V)object4;
          }
 
-         var7 = this.W(var1, (K)var6);
+         integer = this.W(shapedMap, (K)object3);
       }
 
-      switch (var7) {
+      switch (integer) {
          case -3:
-            if (var8 == REMOVED) {
-               var8 = var1.M;
+            if (object4 == REMOVED) {
+               object4 = shapedMap.M;
             }
 
-            var1.M = var3;
+            shapedMap.M = object2;
             break;
          case -2:
-            if (var8 == REMOVED) {
-               var8 = var1.D;
+            if (object4 == REMOVED) {
+               object4 = shapedMap.D;
             }
 
-            var1.D = var3;
+            shapedMap.D = object2;
             break;
          case -1:
-            if (var8 == REMOVED) {
-               var8 = var1.w;
+            if (object4 == REMOVED) {
+               object4 = shapedMap.w;
             }
 
-            var1.w = var3;
+            shapedMap.w = object2;
             break;
          default:
-            Object[] var10 = (Object[])var1.w;
-            if (var8 == REMOVED) {
-               var8 = var10[var7];
+            Object[] objects = (Object[])shapedMap.w;
+            if (object4 == REMOVED) {
+               object4 = objects[integer];
             }
 
-            var10[var7] = var3;
+            objects[integer] = object2;
       }
 
-      return (V)var8;
+      return (V)object4;
    }
 
-   private Integer W(ShapedMap<K, V> var1, K var2) {
-      MapShape var5 = this.getKeyShape().O((K)var2, this.getDefaults());
-      var1.shape = var5;
-      int var6 = this.slots.size();
-      if (var6 == 3) {
-         Object[] var7 = new Object[4];
-         var7[0] = var1.w;
-         var1.w = var7;
-      } else if (var6 > 3) {
-         Object[] var10 = (Object[])var1.w;
-         if (var10.length < var6 - 1) {
-            int var8 = var10.length * 3 / 2;
-            var8 += var8 & 1;
-            Object[] var9 = new Object[var8];
-            System.arraycopy(var10, 0, var9, 0, var10.length);
-            var1.w = var9;
+   private Integer W(ShapedMap<K, V> shapedMap, K object) {
+      MapShape mapShape = this.getKeyShape().O((K)object, this.getDefaults());
+      shapedMap.shape = mapShape;
+      int i = this.slots.size();
+      if (i == 3) {
+         Object[] objects = new Object[4];
+         objects[0] = shapedMap.w;
+         shapedMap.w = objects;
+      } else if (i > 3) {
+         Object[] objects2 = (Object[])shapedMap.w;
+         if (objects2.length < i - 1) {
+            int j = objects2.length * 3 / 2;
+            j += j & 1;
+            Object[] objects3 = new Object[j];
+            System.arraycopy(objects2, 0, objects3, 0, objects2.length);
+            shapedMap.w = objects3;
          }
       }
 
-      return (java.lang.Integer)(var5.slots.get((K)var2));
+      return (java.lang.Integer)(mapShape.slots.get((K)object));
    }
 
-   public int P(ShapedMap<K, V> var1) {
-      return this.slots.size() + this.getDefaults().size() - this.O(var1);
+   public int P(ShapedMap<K, V> shapedMap) {
+      return this.slots.size() + this.getDefaults().size() - this.O(shapedMap);
    }
 
-   private int O(ShapedMap<K, V> var1) {
-      int var5;
+   private int O(ShapedMap<K, V> shapedMap) {
+      int i;
       label34: {
-         var5 = 0;
+         i = 0;
          switch (this.slots.size()) {
             case 0:
-               return var5;
+               return i;
             case 1:
                break label34;
             case 2:
                break;
             default:
-               for (Object var9 : (Object[])var1.w) {
-                  if (var9 == REMOVED) {
-                     var5++;
+               for (Object object : (Object[])shapedMap.w) {
+                  if (object == REMOVED) {
+                     i++;
                   }
                }
             case 3:
-               if (var1.w == REMOVED) {
-                  var5++;
+               if (shapedMap.w == REMOVED) {
+                  i++;
                }
          }
 
-         if (var1.D == REMOVED) {
-            var5++;
+         if (shapedMap.D == REMOVED) {
+            i++;
          }
       }
 
-      if (var1.M == REMOVED) {
-         var5++;
+      if (shapedMap.M == REMOVED) {
+         i++;
       }
 
-      return var5;
+      return i;
    }
 
-   public boolean O(ShapedMap<K, V> var1, Object var2) {
-      Object var6 = this.d((K)var2);
-      Integer var7 = this.slots.get((K)var6);
-      return var7 == null ? this.getDefaults().containsKey(var6) : Y(var1, var7) != REMOVED;
+   public boolean O(ShapedMap<K, V> shapedMap, Object object) {
+      Object object2 = this.d((K)object);
+      Integer integer = this.slots.get((K)object2);
+      return integer == null ? this.getDefaults().containsKey(object2) : Y(shapedMap, integer) != REMOVED;
    }
 
-   public Set<K> J(ShapedMap<K, V> var1) {
-      return new ShapedMapKeySet<>(var1);
+   public Set<K> J(ShapedMap<K, V> shapedMap) {
+      return new ShapedMapKeySet<>(shapedMap);
    }
 
-   public Set<V> i(ShapedMap<K, V> var1) {
-      return new ShapedMapValues<>(var1);
+   public Set<V> i(ShapedMap<K, V> shapedMap) {
+      return new ShapedMapValues<>(shapedMap);
    }
 
-   public Set<Entry<K, V>> f(ShapedMap<K, V> var1) {
-      return new ShapedMapEntrySet<>(var1);
+   public Set<Entry<K, V>> f(ShapedMap<K, V> shapedMap) {
+      return new ShapedMapEntrySet<>(shapedMap);
    }
 
-   public void A(ShapedMap<K, V> var1, ObjectOutputStream var2) throws IOException {
-      int var6 = this.slots.size() - this.O(var1);
-      var2.writeInt(var6);
-      if (var6 > 0) {
-         for (Pair var8 : this.slots) {
-            Object var9 = Y(var1, (Integer)var8.component2());
-            if (var9 != REMOVED) {
-               var2.writeObject(this.Q((K)var8.component1()));
-               var2.writeObject(var9);
+   public void A(ShapedMap<K, V> shapedMap, ObjectOutputStream objectOutputStream) throws IOException {
+      int i = this.slots.size() - this.O(shapedMap);
+      objectOutputStream.writeInt(i);
+      if (i > 0) {
+         for (Pair pair : this.slots) {
+            Object object = Y(shapedMap, (Integer)pair.component2());
+            if (object != REMOVED) {
+               objectOutputStream.writeObject(this.Q((K)pair.component1()));
+               objectOutputStream.writeObject(object);
             }
          }
       }
 
-      var2.writeObject(this.getDefaults());
+      objectOutputStream.writeObject(this.getDefaults());
    }
 
-   public static <K, V> void i(ShapedMap<K, V> var0, ObjectInputStream var1) throws IOException, ClassNotFoundException {
-      int var6 = var1.readInt();
-      var0.shape = EMPTY;
+   public static <K, V> void i(ShapedMap<K, V> shapedMap, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+      int j = objectInputStream.readInt();
+      shapedMap.shape = EMPTY;
 
-      for (int var7 = 0; var7 < var6; var7++) {
-         Object var8 = var1.readObject();
-         Object var9 = var1.readObject();
-         var0.put((K)(var8), (V)(var9));
+      for (int k = 0; k < j; k++) {
+         Object object = objectInputStream.readObject();
+         Object object2 = objectInputStream.readObject();
+         shapedMap.put((K)(object), (V)(object2));
       }
 
-      java.util.Map var10 = (java.util.Map)var1.readObject();
+      java.util.Map map = (java.util.Map)objectInputStream.readObject();
 
-      for (Object var12$raw : var10.entrySet()) {
-         Entry var12 = (Entry)var12$raw;
-         var0.put((K)(var12.getKey()), (V)(var12.getValue()));
+      for (Object object3 : map.entrySet()) {
+         Entry entry = (Entry)object3;
+         shapedMap.put((K)(entry.getKey()), (V)(entry.getValue()));
       }
    }
 
-   public static Object f(MapShape var0, Object var1) {
-      return var0.Q(var1);
+   public static Object f(MapShape mapShape, Object object) {
+      return mapShape.Q(object);
    }
 
    public static Object getNULL_KEY() {

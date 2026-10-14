@@ -7,14 +7,14 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class Matches {
    private static final long a = 61400101845240L;
 
-   public static boolean block(BlockStateBase var0, MatchBlock[] var1) {
-      if (var1 == null) {
+   public static boolean block(BlockStateBase blockStateBase, MatchBlock[] matchBlocks) {
+      if (matchBlocks == null) {
          return true;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         MatchBlock var6 = var1[var5];
-         if (var6.matches(var0)) {
+      for (int i = 0; i < matchBlocks.length; i++) {
+         MatchBlock matchBlock = matchBlocks[i];
+         if (matchBlock.matches(blockStateBase)) {
             return true;
          }
       }
@@ -22,14 +22,14 @@ public class Matches {
       return false;
    }
 
-   public static boolean block(int var0, int var1, MatchBlock[] var2) {
-      if (var2 == null) {
+   public static boolean block(int blockId, int metadata, MatchBlock[] matchBlocks) {
+      if (matchBlocks == null) {
          return true;
       }
 
-      for (int var6 = 0; var6 < var2.length; var6++) {
-         MatchBlock var7 = var2[var6];
-         if (var7.matches(var0, var1)) {
+      for (int i = 0; i < matchBlocks.length; i++) {
+         MatchBlock matchBlock = matchBlocks[i];
+         if (matchBlock.matches(blockId, metadata)) {
             return true;
          }
       }
@@ -37,14 +37,14 @@ public class Matches {
       return false;
    }
 
-   public static boolean blockId(int var0, MatchBlock[] var1) {
-      if (var1 == null) {
+   public static boolean blockId(int blockId, MatchBlock[] matchBlocks) {
+      if (matchBlocks == null) {
          return true;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         MatchBlock var6 = var1[var5];
-         if (var6.getBlockId() == var0) {
+      for (int i = 0; i < matchBlocks.length; i++) {
+         MatchBlock matchBlock = matchBlocks[i];
+         if (matchBlock.getBlockId() == blockId) {
             return true;
          }
       }
@@ -52,13 +52,13 @@ public class Matches {
       return false;
    }
 
-   public static boolean metadata(int var0, int[] var1) {
-      if (var1 == null) {
+   public static boolean metadata(int metadata, int[] metadatas) {
+      if (metadatas == null) {
          return true;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         if (var1[var5] == var0) {
+      for (int i = 0; i < metadatas.length; i++) {
+         if (metadatas[i] == metadata) {
             return true;
          }
       }
@@ -66,13 +66,13 @@ public class Matches {
       return false;
    }
 
-   public static boolean sprite(TextureAtlasSprite var0, TextureAtlasSprite[] var1) {
-      if (var1 == null) {
+   public static boolean sprite(TextureAtlasSprite sprite, TextureAtlasSprite[] sprites) {
+      if (sprites == null) {
          return true;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         if (var1[var5] == var0) {
+      for (int i = 0; i < sprites.length; i++) {
+         if (sprites[i] == sprite) {
             return true;
          }
       }
@@ -80,13 +80,13 @@ public class Matches {
       return false;
    }
 
-   public static boolean biome(BiomeGenBase var0, BiomeGenBase[] var1) {
-      if (var1 == null) {
+   public static boolean biome(BiomeGenBase biome, BiomeGenBase[] biomes) {
+      if (biomes == null) {
          return true;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         if (var1[var5] == var0) {
+      for (int i = 0; i < biomes.length; i++) {
+         if (biomes[i] == biome) {
             return true;
          }
       }

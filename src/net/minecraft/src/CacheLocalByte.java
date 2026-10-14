@@ -12,51 +12,51 @@ public class CacheLocalByte {
    private int y = 0;
    private static final long a = 69421592994260L;
 
-   public CacheLocalByte(int var1, int var2, int var3) {
-      this.m = var1;
-      this.f = var2;
-      this.b = var3;
-      this.k = new byte[var1][var2][var3];
+   public CacheLocalByte(int maxX, int maxY, int maxZ) {
+      this.m = maxX;
+      this.f = maxY;
+      this.b = maxZ;
+      this.k = new byte[maxX][maxY][maxZ];
       this.I();
    }
 
    public void I() {
-      for (int var4 = 0; var4 < this.m; var4++) {
-         byte[][] var5 = this.k[var4];
+      for (int i = 0; i < this.m; i++) {
+         byte[][] bytess = this.k[i];
 
-         for (int var6 = 0; var6 < this.f; var6++) {
-            byte[] var7 = var5[var6];
+         for (int j = 0; j < this.f; j++) {
+            byte[] bytes = bytess[j];
 
-            for (int var8 = 0; var8 < this.b; var8++) {
-               var7[var8] = -1;
+            for (int l = 0; l < this.b; l++) {
+               bytes[l] = -1;
             }
          }
       }
    }
 
-   public void r(int var1, int var2, int var3) {
-      this.T = var1;
-      this.d = var2;
-      this.D = var3;
+   public void r(int i, int j, int k) {
+      this.T = i;
+      this.d = j;
+      this.D = k;
       this.I();
    }
 
-   public byte P(int var1, int var2, int var3) {
+   public byte P(int i, int j, int k) {
       try {
-         this.j = this.k[var1 - this.T][var2 - this.d];
-         this.y = var3 - this.D;
+         this.j = this.k[i - this.T][j - this.d];
+         this.y = k - this.D;
          return this.j[this.y];
-      } catch (ArrayIndexOutOfBoundsException var5) {
-         var5.printStackTrace();
+      } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+         arrayIndexOutOfBoundsException.printStackTrace();
          return -1;
       }
    }
 
-   public void x(byte var1) {
+   public void x(byte b) {
       try {
-         this.j[this.y] = var1;
-      } catch (Exception var3) {
-         var3.printStackTrace();
+         this.j[this.y] = b;
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
    }
 }

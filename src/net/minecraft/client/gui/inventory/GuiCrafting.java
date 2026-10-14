@@ -12,26 +12,26 @@ public class GuiCrafting extends GuiContainer {
    private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation("textures/gui/container/crafting_table.png");
    private static final long bb = 102924480757475L;
 
-   public GuiCrafting(InventoryPlayer var1, World var2) {
-      this(var1, var2, BlockPos.ORIGIN);
+   public GuiCrafting(InventoryPlayer playerInv, World worldIn) {
+      this(playerInv, worldIn, BlockPos.ORIGIN);
    }
 
-   public GuiCrafting(InventoryPlayer var1, World var2, BlockPos var3) {
-      super(new ContainerWorkbench(var1, var2, var3));
+   public GuiCrafting(InventoryPlayer playerInv, World worldIn, BlockPos blockPosition) {
+      super(new ContainerWorkbench(playerInv, worldIn, blockPosition));
    }
 
    @Override
-   public void drawGuiContainerForegroundLayer(int var1, int var2) {
+   public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       this.fontRendererObj.D(I18n.format("container.crafting"), 28.0F, 6.0F, 4210752);
       this.fontRendererObj.D(I18n.format("container.inventory"), 8.0F, this.ySize - 96 + 2, 4210752);
    }
 
    @Override
-   public void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+   public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(craftingTableGuiTextures);
-      int var4 = (this.width - this.xSize) / 2;
-      int var5 = (this.height - this.ySize) / 2;
-      this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
+      int i = (this.width - this.xSize) / 2;
+      int j = (this.height - this.ySize) / 2;
+      this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
    }
 }

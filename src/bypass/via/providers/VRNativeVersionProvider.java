@@ -12,8 +12,8 @@ public class VRNativeVersionProvider implements NativeVersionProvider {
    private int R() {
       try {
          return RealmsSharedConstants.class.getField("e").getInt(null);
-      } catch (IllegalAccessException | NoSuchFieldException var2) {
-         var2.printStackTrace();
+      } catch (IllegalAccessException | NoSuchFieldException value) {
+         value.printStackTrace();
          return ProtocolVersion.v1_8.getVersion();
       }
    }

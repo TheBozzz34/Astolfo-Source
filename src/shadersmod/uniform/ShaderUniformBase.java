@@ -8,14 +8,14 @@ public abstract class ShaderUniformBase {
    private int location = -1;
    private static final long a = 95174164555149L;
 
-   public ShaderUniformBase(String var1) {
-      this.name = var1;
+   public ShaderUniformBase(String name) {
+      this.name = name;
    }
 
-   public void setProgram(int var1) {
-      if (this.program != var1) {
-         this.program = var1;
-         this.location = ARBShaderObjects.glGetUniformLocationARB(var1, this.name);
+   public void setProgram(int program) {
+      if (this.program != program) {
+         this.program = program;
+         this.location = ARBShaderObjects.glGetUniformLocationARB(program, this.name);
          this.onProgramChanged();
       }
    }

@@ -19,49 +19,49 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient> {
    public S42PacketCombatEvent() {
    }
 
-   public S42PacketCombatEvent(CombatTracker var1, S42PacketCombatEvent.Event var2) {
-      this.eventType = var2;
-      EntityLivingBase var6 = var1.func_94550_c();
-      switch (var2) {
+   public S42PacketCombatEvent(CombatTracker combatTrackerIn, S42PacketCombatEvent.Event combatEventType) {
+      this.eventType = combatEventType;
+      EntityLivingBase entityLivingBase = combatTrackerIn.func_94550_c();
+      switch (combatEventType) {
          case END_COMBAT:
-            this.field_179772_d = var1.func_180134_f();
-            this.field_179775_c = var6 == null ? -1 : var6.getEntityId();
+            this.field_179772_d = combatTrackerIn.func_180134_f();
+            this.field_179775_c = entityLivingBase == null ? -1 : entityLivingBase.getEntityId();
             break;
          case ENTITY_DIED:
-            this.field_179774_b = var1.getFighter().getEntityId();
-            this.field_179775_c = var6 == null ? -1 : var6.getEntityId();
-            this.deathMessage = var1.getDeathMessage().getUnformattedText();
+            this.field_179774_b = combatTrackerIn.getFighter().getEntityId();
+            this.field_179775_c = entityLivingBase == null ? -1 : entityLivingBase.getEntityId();
+            this.deathMessage = combatTrackerIn.getDeathMessage().getUnformattedText();
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.eventType = var1.readEnumValue(S42PacketCombatEvent.Event.class);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.eventType = buf.readEnumValue(S42PacketCombatEvent.Event.class);
       if (this.eventType == S42PacketCombatEvent.Event.END_COMBAT) {
-         this.field_179772_d = var1.readVarIntFromBuffer();
-         this.field_179775_c = var1.readInt();
+         this.field_179772_d = buf.readVarIntFromBuffer();
+         this.field_179775_c = buf.readInt();
       } else if (this.eventType == S42PacketCombatEvent.Event.ENTITY_DIED) {
-         this.field_179774_b = var1.readVarIntFromBuffer();
-         this.field_179775_c = var1.readInt();
-         this.deathMessage = var1.readStringFromBuffer((int)b);
+         this.field_179774_b = buf.readVarIntFromBuffer();
+         this.field_179775_c = buf.readInt();
+         this.deathMessage = buf.readStringFromBuffer((int)b);
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeEnumValue(this.eventType);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeEnumValue(this.eventType);
       if (this.eventType == S42PacketCombatEvent.Event.END_COMBAT) {
-         var1.writeVarIntToBuffer(this.field_179772_d);
-         var1.writeInt(this.field_179775_c);
+         buf.writeVarIntToBuffer(this.field_179772_d);
+         buf.writeInt(this.field_179775_c);
       } else if (this.eventType == S42PacketCombatEvent.Event.ENTITY_DIED) {
-         var1.writeVarIntToBuffer(this.field_179774_b);
-         var1.writeInt(this.field_179775_c);
-         var1.writeString(this.deathMessage);
+         buf.writeVarIntToBuffer(this.field_179774_b);
+         buf.writeInt(this.field_179775_c);
+         buf.writeString(this.deathMessage);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleCombatEvent(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleCombatEvent(this);
    }
 
    public enum Event {

@@ -16,36 +16,36 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
    public C12PacketUpdateSign() {
    }
 
-   public C12PacketUpdateSign(BlockPos var1, IChatComponent[] var2) {
-      this.pos = var1;
-      this.lines = new IChatComponent[]{var2[0], var2[1], var2[2], var2[3]};
+   public C12PacketUpdateSign(BlockPos pos, IChatComponent[] lines) {
+      this.pos = pos;
+      this.lines = new IChatComponent[]{lines[0], lines[1], lines[2], lines[3]};
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.pos = var1.readBlockPos();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.pos = buf.readBlockPos();
       this.lines = new IChatComponent[4];
 
-      for (int var5 = 0; var5 < 4; var5++) {
-         String var6 = var1.readStringFromBuffer((int)b);
-         IChatComponent var7 = IChatComponent.Serializer.jsonToComponent(var6);
-         this.lines[var5] = var7;
+      for (int i = 0; i < 4; i++) {
+         String string = buf.readStringFromBuffer((int)b);
+         IChatComponent iChatComponent = IChatComponent.Serializer.jsonToComponent(string);
+         this.lines[i] = iChatComponent;
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.pos);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.pos);
 
-      for (int var5 = 0; var5 < 4; var5++) {
-         IChatComponent var6 = this.lines[var5];
-         String var7 = IChatComponent.Serializer.componentToJson(var6);
-         var1.writeString(var7);
+      for (int i = 0; i < 4; i++) {
+         IChatComponent iChatComponent = this.lines[i];
+         String string = IChatComponent.Serializer.componentToJson(iChatComponent);
+         buf.writeString(string);
       }
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processUpdateSign(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processUpdateSign(this);
    }
 
    public BlockPos getPosition() {

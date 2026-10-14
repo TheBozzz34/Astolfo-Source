@@ -17,49 +17,49 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
    public S3CPacketUpdateScore() {
    }
 
-   public S3CPacketUpdateScore(Score var1) {
-      this.name = var1.getPlayerName();
-      this.objective = var1.getObjective().getName();
-      this.value = var1.getScorePoints();
+   public S3CPacketUpdateScore(Score scoreIn) {
+      this.name = scoreIn.getPlayerName();
+      this.objective = scoreIn.getObjective().getName();
+      this.value = scoreIn.getScorePoints();
       this.action = S3CPacketUpdateScore.Action.CHANGE;
    }
 
-   public S3CPacketUpdateScore(String var1) {
-      this.name = var1;
+   public S3CPacketUpdateScore(String nameIn) {
+      this.name = nameIn;
       this.objective = "";
       this.value = 0;
       this.action = S3CPacketUpdateScore.Action.REMOVE;
    }
 
-   public S3CPacketUpdateScore(String var1, ScoreObjective var2) {
-      this.name = var1;
-      this.objective = var2.getName();
+   public S3CPacketUpdateScore(String nameIn, ScoreObjective objectiveIn) {
+      this.name = nameIn;
+      this.objective = objectiveIn.getName();
       this.value = 0;
       this.action = S3CPacketUpdateScore.Action.REMOVE;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.name = var1.readStringFromBuffer(40);
-      this.action = var1.readEnumValue(S3CPacketUpdateScore.Action.class);
-      this.objective = var1.readStringFromBuffer(16);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.name = buf.readStringFromBuffer(40);
+      this.action = buf.readEnumValue(S3CPacketUpdateScore.Action.class);
+      this.objective = buf.readStringFromBuffer(16);
       if (this.action != S3CPacketUpdateScore.Action.REMOVE) {
-         this.value = var1.readVarIntFromBuffer();
+         this.value = buf.readVarIntFromBuffer();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.name);
-      var1.writeEnumValue(this.action);
-      var1.writeString(this.objective);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.name);
+      buf.writeEnumValue(this.action);
+      buf.writeString(this.objective);
       if (this.action != S3CPacketUpdateScore.Action.REMOVE) {
-         var1.writeVarIntToBuffer(this.value);
+         buf.writeVarIntToBuffer(this.value);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleUpdateScore(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleUpdateScore(this);
    }
 
    public String getPlayerName() {

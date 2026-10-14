@@ -13,13 +13,13 @@ public final class Win32Bios {
    }
 
    public static WmiResult<Win32Bios.BiosSerialProperty> k() {
-      WmiQuery var2 = new WmiQuery<>("Win32_BIOS where PrimaryBIOS=true", Win32Bios.BiosSerialProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_BIOS where PrimaryBIOS=true", Win32Bios.BiosSerialProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public static WmiResult<Win32Bios.BiosProperty> queryBiosInfo() {
-      WmiQuery var2 = new WmiQuery<>("Win32_BIOS where PrimaryBIOS=true", Win32Bios.BiosProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_BIOS where PrimaryBIOS=true", Win32Bios.BiosProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum BiosProperty {

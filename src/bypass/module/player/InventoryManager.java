@@ -354,21 +354,21 @@ public class InventoryManager extends Module {
    private final Pattern recipeBookPattern = Pattern.compile("§a.*§7", 2);
    private boolean slotsUnique;
    @EventHandler(MotionEvent.class)
-   private final Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
+   private final Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE) {
          this.update();
       }
    };
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.SCREEN) {
-         this.drawSlotWarning(var1x);
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN) {
+         this.drawSlotWarning(renderEvent);
       }
    };
    private static final long cb = 139904808579327L;
 
-   public InventoryManager(Category var1) {
-      super(var1);
+   public InventoryManager(Category category) {
+      super(category);
       this.addSettings(
          general,
          slots,
@@ -385,13 +385,13 @@ public class InventoryManager extends Module {
       );
    }
 
-   public int remainingDurability(ItemStack var1) {
-      int var5 = -1;
-      if (var1 != null) {
-         var5 = var1.getMaxDamage() - var1.getItemDamage();
+   public int remainingDurability(ItemStack itemStack) {
+      int i = -1;
+      if (itemStack != null) {
+         i = itemStack.getMaxDamage() - itemStack.getItemDamage();
       }
 
-      return var5;
+      return i;
    }
 
    public void resetScan() {
@@ -482,474 +482,474 @@ public class InventoryManager extends Module {
 
    public void scanInventory() {
       this.resetScan();
-      float var4 = -1.0F;
-      float var5 = -1.0F;
-      float var6 = -1.0F;
-      float var7 = -1.0F;
-      float var8 = -1.0F;
-      float var9 = -1.0F;
-      float var10 = -1.0F;
-      float var11 = -1.0F;
-      float var12 = -1.0F;
-      float var13 = -1.0F;
-      int var14 = this.tools.getSetting("Min-Tool-Durability").asInt();
-      boolean var15 = slots.getSetting("Golden-Apple-Refill").getValue() == InventoryManagerRefillMode.MOST;
-      boolean var16 = slots.getSetting("Ender-Pearl-Refill").getValue() == InventoryManagerRefillMode.MOST;
-      boolean var17 = slots.getSetting("Head-Refill").getValue() == InventoryManagerRefillMode.MOST;
-      boolean var18 = slots.getSetting("Blocks-Refill").getValue() == InventoryManagerRefillMode.MOST;
-      float var19 = var15 ? -1.0F : 42069.0F;
-      float var20 = var16 ? -1.0F : 42069.0F;
-      float var21 = var17 ? -1.0F : 42069.0F;
-      float var22 = var18 ? -1.0F : 42069.0F;
-      boolean var23 = general.getSetting("Auto-WhiteList").asBoolean();
+      float f = -1.0F;
+      float g = -1.0F;
+      float h = -1.0F;
+      float f2 = -1.0F;
+      float f3 = -1.0F;
+      float f4 = -1.0F;
+      float f5 = -1.0F;
+      float f6 = -1.0F;
+      float f7 = -1.0F;
+      float f8 = -1.0F;
+      int i = this.tools.getSetting("Min-Tool-Durability").asInt();
+      boolean bl = slots.getSetting("Golden-Apple-Refill").getValue() == InventoryManagerRefillMode.MOST;
+      boolean bl2 = slots.getSetting("Ender-Pearl-Refill").getValue() == InventoryManagerRefillMode.MOST;
+      boolean bl3 = slots.getSetting("Head-Refill").getValue() == InventoryManagerRefillMode.MOST;
+      boolean bl4 = slots.getSetting("Blocks-Refill").getValue() == InventoryManagerRefillMode.MOST;
+      float f9 = bl ? -1.0F : 42069.0F;
+      float f10 = bl2 ? -1.0F : 42069.0F;
+      float f11 = bl3 ? -1.0F : 42069.0F;
+      float f12 = bl4 ? -1.0F : 42069.0F;
+      boolean bl5 = general.getSetting("Auto-WhiteList").asBoolean();
 
-      for (int var24 = 0; var24 < mc.thePlayer.inventoryContainer.inventorySlots.size(); var24++) {
-         boolean var25 = true;
-         Slot var26 = mc.thePlayer.inventoryContainer.inventorySlots.get(var24);
-         if (var26.getHasStack() && var26.getHasStack()) {
-            ItemStack var27 = var26.getStack();
+      for (int j = 0; j < mc.thePlayer.inventoryContainer.inventorySlots.size(); j++) {
+         boolean bl6 = true;
+         Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+         if (slot.getHasStack() && slot.getHasStack()) {
+            ItemStack itemStack = slot.getStack();
             if ((
-                  !var23
-                     || !(var27.getItem() instanceof ItemBook)
-                     || !var27.getDisplayName().contains(EnumChatFormatting.GREEN.toString())
-                     || var27.isItemEnchanted()
+                  !bl5
+                     || !(itemStack.getItem() instanceof ItemBook)
+                     || !itemStack.getDisplayName().contains(EnumChatFormatting.GREEN.toString())
+                     || itemStack.isItemEnchanted()
                )
-               && (!var23 || !var27.getDisplayName().contains("§7(") || var27.getItem() instanceof ItemArmor || var27.getItem() instanceof ItemSword)) {
-               if (!this.lastStacks.containsKey(var24) || !var27.equals(this.lastStacks.get(var24))) {
-                  this.changeTimes.put(var24, System.currentTimeMillis());
+               && (!bl5 || !itemStack.getDisplayName().contains("§7(") || itemStack.getItem() instanceof ItemArmor || itemStack.getItem() instanceof ItemSword)) {
+               if (!this.lastStacks.containsKey(j) || !itemStack.equals(this.lastStacks.get(j))) {
+                  this.changeTimes.put(j, System.currentTimeMillis());
                }
 
-               Item var28 = var27.getItem();
-               String var29 = var27.getUnlocalizedName();
-               String var30 = var27.getDisplayName();
-               if (var28 instanceof ItemSword) {
-                  var25 = false;
-                  this.swords.add(new InventoryManager.RankedSlot(var24, this.swordRank(var27, var14)));
-                  if (this.swordScore(var27) > var4) {
-                     this.bestSwordSlot = var24;
-                     var4 = this.swordScore(var27);
+               Item item2 = itemStack.getItem();
+               String string2 = itemStack.getUnlocalizedName();
+               String string3 = itemStack.getDisplayName();
+               if (item2 instanceof ItemSword) {
+                  bl6 = false;
+                  this.swords.add(new InventoryManager.RankedSlot(j, this.swordRank(itemStack, i)));
+                  if (this.swordScore(itemStack) > f) {
+                     this.bestSwordSlot = j;
+                     f = this.swordScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemBow) {
-                  var25 = false;
-                  this.bows.add(new InventoryManager.RankedSlot(var24, this.bowRank(var27, var14)));
-                  if (this.bowScore(var27) > var5) {
-                     this.bestBowSlot = var24;
-                     var5 = this.bowScore(var27);
+               if (item2 instanceof ItemBow) {
+                  bl6 = false;
+                  this.bows.add(new InventoryManager.RankedSlot(j, this.bowRank(itemStack, i)));
+                  if (this.bowScore(itemStack) > g) {
+                     this.bestBowSlot = j;
+                     g = this.bowScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemPickaxe) {
-                  var25 = false;
-                  this.pickaxes.add(new InventoryManager.RankedSlot(var24, this.pickaxeRank(var27, var14)));
-                  if (this.pickaxeScore(var27) > var6) {
-                     this.bestPickaxeSlot = var24;
-                     var6 = this.pickaxeScore(var27);
+               if (item2 instanceof ItemPickaxe) {
+                  bl6 = false;
+                  this.pickaxes.add(new InventoryManager.RankedSlot(j, this.pickaxeRank(itemStack, i)));
+                  if (this.pickaxeScore(itemStack) > h) {
+                     this.bestPickaxeSlot = j;
+                     h = this.pickaxeScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemSpade) {
-                  var25 = false;
-                  this.shovels.add(new InventoryManager.RankedSlot(var24, this.shovelRank(var27, var14)));
-                  if (this.shovelScore(var27) > var7) {
-                     this.bestShovelSlot = var24;
-                     var7 = this.shovelScore(var27);
+               if (item2 instanceof ItemSpade) {
+                  bl6 = false;
+                  this.shovels.add(new InventoryManager.RankedSlot(j, this.shovelRank(itemStack, i)));
+                  if (this.shovelScore(itemStack) > f2) {
+                     this.bestShovelSlot = j;
+                     f2 = this.shovelScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemAxe) {
-                  var25 = false;
-                  this.axes.add(new InventoryManager.RankedSlot(var24, this.axeRank(var27, var14)));
-                  if (this.axeScore(var27) > var8) {
-                     this.bestAxeSlot = var24;
-                     var8 = this.axeScore(var27);
+               if (item2 instanceof ItemAxe) {
+                  bl6 = false;
+                  this.axes.add(new InventoryManager.RankedSlot(j, this.axeRank(itemStack, i)));
+                  if (this.axeScore(itemStack) > f3) {
+                     this.bestAxeSlot = j;
+                     f3 = this.axeScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemFishingRod) {
-                  var25 = false;
-                  this.fishingRods.add(new InventoryManager.RankedSlot(var24, this.fishingRodRank(var27, var14)));
-                  if (this.fishingRodScore(var27) > var9) {
-                     this.bestFishingRodSlot = var24;
-                     var9 = this.fishingRodScore(var27);
+               if (item2 instanceof ItemFishingRod) {
+                  bl6 = false;
+                  this.fishingRods.add(new InventoryManager.RankedSlot(j, this.fishingRodRank(itemStack, i)));
+                  if (this.fishingRodScore(itemStack) > f4) {
+                     this.bestFishingRodSlot = j;
+                     f4 = this.fishingRodScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemShears) {
-                  var25 = false;
-                  this.shears.add(new InventoryManager.RankedSlot(var24, this.remainingDurability(var27)));
+               if (item2 instanceof ItemShears) {
+                  bl6 = false;
+                  this.shears.add(new InventoryManager.RankedSlot(j, this.remainingDurability(itemStack)));
                }
 
-               if (var28 instanceof ItemFlintAndSteel) {
-                  var25 = false;
-                  this.flintAndSteels.add(new InventoryManager.RankedSlot(var24, this.remainingDurability(var27)));
+               if (item2 instanceof ItemFlintAndSteel) {
+                  bl6 = false;
+                  this.flintAndSteels.add(new InventoryManager.RankedSlot(j, this.remainingDurability(itemStack)));
                }
 
-               if (var28 instanceof ItemArmor && ((ItemArmor)var28).armorType == 0) {
-                  var25 = false;
-                  this.helmets.add(new InventoryManager.RankedSlot(var24, this.armorRank(var27, var14)));
-                  if (this.armorScore(var27) > var10) {
-                     this.bestHelmetSlot = var24;
-                     var10 = this.armorScore(var27);
+               if (item2 instanceof ItemArmor && ((ItemArmor)item2).armorType == 0) {
+                  bl6 = false;
+                  this.helmets.add(new InventoryManager.RankedSlot(j, this.armorRank(itemStack, i)));
+                  if (this.armorScore(itemStack) > f5) {
+                     this.bestHelmetSlot = j;
+                     f5 = this.armorScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemArmor && ((ItemArmor)var28).armorType == 1) {
-                  var25 = false;
-                  this.chestplates.add(new InventoryManager.RankedSlot(var24, this.armorRank(var27, var14)));
-                  if (this.armorScore(var27) > var11) {
-                     this.bestChestplateSlot = var24;
-                     var11 = this.armorScore(var27);
+               if (item2 instanceof ItemArmor && ((ItemArmor)item2).armorType == 1) {
+                  bl6 = false;
+                  this.chestplates.add(new InventoryManager.RankedSlot(j, this.armorRank(itemStack, i)));
+                  if (this.armorScore(itemStack) > f6) {
+                     this.bestChestplateSlot = j;
+                     f6 = this.armorScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemArmor && ((ItemArmor)var28).armorType == 2) {
-                  var25 = false;
-                  this.leggings.add(new InventoryManager.RankedSlot(var24, this.armorRank(var27, var14)));
-                  if (this.armorScore(var27) > var12) {
-                     this.bestLeggingsSlot = var24;
-                     var12 = this.armorScore(var27);
+               if (item2 instanceof ItemArmor && ((ItemArmor)item2).armorType == 2) {
+                  bl6 = false;
+                  this.leggings.add(new InventoryManager.RankedSlot(j, this.armorRank(itemStack, i)));
+                  if (this.armorScore(itemStack) > f7) {
+                     this.bestLeggingsSlot = j;
+                     f7 = this.armorScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemArmor && ((ItemArmor)var28).armorType == 3) {
-                  var25 = false;
-                  this.boots.add(new InventoryManager.RankedSlot(var24, this.armorRank(var27, var14)));
-                  if (this.armorScore(var27) > var13) {
-                     this.bestBootsSlot = var24;
-                     var13 = this.armorScore(var27);
+               if (item2 instanceof ItemArmor && ((ItemArmor)item2).armorType == 3) {
+                  bl6 = false;
+                  this.boots.add(new InventoryManager.RankedSlot(j, this.armorRank(itemStack, i)));
+                  if (this.armorScore(itemStack) > f8) {
+                     this.bestBootsSlot = j;
+                     f8 = this.armorScore(itemStack);
                   }
                }
 
-               if (var28 instanceof ItemAppleGold) {
-                  var25 = false;
-                  this.goldenApples.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
-                  if (var15 && var27.stackSize > var19
-                     || slots.getSetting("Golden-Apple-Refill").getValue() == InventoryManagerRefillMode.LEAST && var27.stackSize < var19) {
-                     this.goldenAppleRefillSlot = var24;
-                     var19 = var27.stackSize;
+               if (item2 instanceof ItemAppleGold) {
+                  bl6 = false;
+                  this.goldenApples.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
+                  if (bl && itemStack.stackSize > f9
+                     || slots.getSetting("Golden-Apple-Refill").getValue() == InventoryManagerRefillMode.LEAST && itemStack.stackSize < f9) {
+                     this.goldenAppleRefillSlot = j;
+                     f9 = itemStack.stackSize;
                   }
                }
 
-               if (var28 instanceof ItemEnderPearl) {
-                  var25 = false;
-                  this.enderPearls.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
-                  if (var16 && var27.stackSize > var20
-                     || slots.getSetting("Ender-Pearl-Refill").getValue() == InventoryManagerRefillMode.LEAST && var27.stackSize < var20) {
-                     this.enderPearlRefillSlot = var24;
-                     var20 = var27.stackSize;
+               if (item2 instanceof ItemEnderPearl) {
+                  bl6 = false;
+                  this.enderPearls.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
+                  if (bl2 && itemStack.stackSize > f10
+                     || slots.getSetting("Ender-Pearl-Refill").getValue() == InventoryManagerRefillMode.LEAST && itemStack.stackSize < f10) {
+                     this.enderPearlRefillSlot = j;
+                     f10 = itemStack.stackSize;
                   }
                }
 
-               if (var28 instanceof ItemBoat) {
-                  var25 = false;
-                  this.boats.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (item2 instanceof ItemBoat) {
+                  bl6 = false;
+                  this.boats.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var28 instanceof ItemBlock && ((ItemBlock)var28).getBlock() instanceof BlockTNT) {
-                  var25 = false;
-                  this.tnt.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (item2 instanceof ItemBlock && ((ItemBlock)item2).getBlock() instanceof BlockTNT) {
+                  bl6 = false;
+                  this.tnt.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.arrow")) {
-                  var25 = false;
-                  this.arrows.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.arrow")) {
+                  bl6 = false;
+                  this.arrows.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.egg") || var28.getUnlocalizedName().equals("item.snowball")) {
-                  var25 = false;
-                  this.eggsAndSnowballs.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.egg") || item2.getUnlocalizedName().equals("item.snowball")) {
+                  bl6 = false;
+                  this.eggsAndSnowballs.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.monsterPlacer")) {
-                  var25 = false;
-                  this.spawnEggs.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.monsterPlacer")) {
+                  bl6 = false;
+                  this.spawnEggs.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var28 instanceof ItemFood && !this.nonFoods.contains(var29)) {
-                  var25 = false;
-                  this.food.add(new InventoryManager.RankedSlot(var24, this.foodRank(var27)));
+               if (item2 instanceof ItemFood && !this.nonFoods.contains(string2)) {
+                  bl6 = false;
+                  this.food.add(new InventoryManager.RankedSlot(j, this.foodRank(itemStack)));
                }
 
-               if (var29.equals("item.bucketWater")) {
-                  var25 = false;
-                  this.waterBuckets.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.bucketWater")) {
+                  bl6 = false;
+                  this.waterBuckets.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.bucketLava")) {
-                  var25 = false;
-                  this.lavaBuckets.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.bucketLava")) {
+                  bl6 = false;
+                  this.lavaBuckets.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var28 instanceof ItemBlock && isBuildingBlock((ItemBlock)var28) && !this.nonBuildingBlocks.contains(var29)) {
-                  var25 = false;
-                  this.blocks.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
-                  if (var18 && var27.stackSize > var22
-                     || slots.getSetting("Blocks-Refill").getValue() == InventoryManagerRefillMode.LEAST && var27.stackSize < var22) {
-                     this.blockRefillSlot = var24;
-                     var22 = var27.stackSize;
+               if (item2 instanceof ItemBlock && isBuildingBlock((ItemBlock)item2) && !this.nonBuildingBlocks.contains(string2)) {
+                  bl6 = false;
+                  this.blocks.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
+                  if (bl4 && itemStack.stackSize > f12
+                     || slots.getSetting("Blocks-Refill").getValue() == InventoryManagerRefillMode.LEAST && itemStack.stackSize < f12) {
+                     this.blockRefillSlot = j;
+                     f12 = itemStack.stackSize;
                   }
                }
 
-               if (var28 instanceof ItemBlock && (var29.equals("tile.sand.default") || var29.equals("tile.gravel"))) {
-                  var25 = false;
-                  this.sandAndGravel.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (item2 instanceof ItemBlock && (string2.equals("tile.sand.default") || string2.equals("tile.gravel"))) {
+                  bl6 = false;
+                  this.sandAndGravel.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.web")) {
-                  var25 = false;
-                  this.cobwebs.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.web")) {
+                  bl6 = false;
+                  this.cobwebs.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.apple")) {
-                  var25 = false;
-                  this.apples.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.apple")) {
+                  bl6 = false;
+                  this.apples.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.workbench")) {
-                  var25 = false;
-                  this.craftingTables.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.workbench")) {
+                  bl6 = false;
+                  this.craftingTables.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.stick")) {
-                  var25 = false;
-                  this.sticks.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.stick")) {
+                  bl6 = false;
+                  this.sticks.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.contains("tile.anvil")) {
-                  var25 = false;
-                  this.anvils.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.contains("tile.anvil")) {
+                  bl6 = false;
+                  this.anvils.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.enchantmentTable")) {
-                  var25 = false;
-                  this.enchantingTables.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.enchantmentTable")) {
+                  bl6 = false;
+                  this.enchantingTables.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.furnace")) {
-                  var25 = false;
-                  this.furnaces.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.furnace")) {
+                  bl6 = false;
+                  this.furnaces.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.expBottle")) {
-                  var25 = false;
-                  this.expBottles.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.expBottle")) {
+                  bl6 = false;
+                  this.expBottles.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.milk")) {
-                  var25 = false;
-                  this.milkBuckets.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.milk")) {
+                  bl6 = false;
+                  this.milkBuckets.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.chest")) {
-                  var25 = false;
-                  this.chests.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.chest")) {
+                  bl6 = false;
+                  this.chests.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.bucket")) {
-                  var25 = false;
-                  this.emptyBuckets.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.bucket")) {
+                  bl6 = false;
+                  this.emptyBuckets.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.string")) {
-                  var25 = false;
-                  this.strings.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.string")) {
+                  bl6 = false;
+                  this.strings.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.ingotIron")) {
-                  var25 = false;
-                  this.ironIngots.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.ingotIron")) {
+                  bl6 = false;
+                  this.ironIngots.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.ingotGold")) {
-                  var25 = false;
-                  this.goldIngots.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.ingotGold")) {
+                  bl6 = false;
+                  this.goldIngots.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.oreIron")) {
-                  var25 = false;
-                  this.ironOres.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.oreIron")) {
+                  bl6 = false;
+                  this.ironOres.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("tile.oreGold")) {
-                  var25 = false;
-                  this.goldOres.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("tile.oreGold")) {
+                  bl6 = false;
+                  this.goldOres.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.coal")) {
-                  var25 = false;
-                  this.coal.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.coal")) {
+                  bl6 = false;
+                  this.coal.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.redstone")) {
-                  var25 = false;
-                  this.redstone.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.redstone")) {
+                  bl6 = false;
+                  this.redstone.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.dyePowder.blue")) {
-                  var25 = false;
-                  this.lapis.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.dyePowder.blue")) {
+                  bl6 = false;
+                  this.lapis.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.diamond")) {
-                  var25 = false;
-                  this.diamonds.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.diamond")) {
+                  bl6 = false;
+                  this.diamonds.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var29.equals("item.emerald")) {
-                  var25 = false;
-                  this.emeralds.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (string2.equals("item.emerald")) {
+                  bl6 = false;
+                  this.emeralds.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               EnumSetting var31 = (EnumSetting)this.potions.getSetting("Potion-Sort");
-               boolean var32 = var31.getValue() == InventoryManagerPotionSortMode.AMPLIFIER;
-               if (var28 instanceof ItemPotion) {
-                  var25 = false;
-                  ItemPotion var33 = (ItemPotion)var28;
-                  List var34 = var33.getEffects(var27);
-                  if (var34 != null) {
-                     for (Object var36$raw : var34) {
-                        PotionEffect var36 = (PotionEffect)var36$raw;
-                        if (var36.getPotionID() == 1) {
+               EnumSetting enumSetting = (EnumSetting)this.potions.getSetting("Potion-Sort");
+               boolean bl7 = enumSetting.getValue() == InventoryManagerPotionSortMode.AMPLIFIER;
+               if (item2 instanceof ItemPotion) {
+                  bl6 = false;
+                  ItemPotion itemPotion = (ItemPotion)item2;
+                  List list = itemPotion.getEffects(itemStack);
+                  if (list != null) {
+                     for (Object object : list) {
+                        PotionEffect potionEffect = (PotionEffect)object;
+                        if (potionEffect.getPotionID() == 1) {
                            this.speedPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 5) {
+                        if (potionEffect.getPotionID() == 5) {
                            this.strengthPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 10) {
+                        if (potionEffect.getPotionID() == 10) {
                            this.regenerationPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 6) {
+                        if (potionEffect.getPotionID() == 6) {
                            this.healingPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 8) {
+                        if (potionEffect.getPotionID() == 8) {
                            this.jumpBoostPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 12) {
+                        if (potionEffect.getPotionID() == 12) {
                            this.fireResistancePotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 11) {
+                        if (potionEffect.getPotionID() == 11) {
                            this.resistancePotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 14) {
+                        if (potionEffect.getPotionID() == 14) {
                            this.invisibilityPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 22) {
+                        if (potionEffect.getPotionID() == 22) {
                            this.absorptionPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 18) {
+                        if (potionEffect.getPotionID() == 18) {
                            this.weaknessPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 2) {
+                        if (potionEffect.getPotionID() == 2) {
                            this.slownessPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 19) {
+                        if (potionEffect.getPotionID() == 19) {
                            this.poisonPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
 
-                        if (var36.getPotionID() == 7) {
+                        if (potionEffect.getPotionID() == 7) {
                            this.harmingPotions
                               .add(
                                  new InventoryManager.RankedSlot(
-                                    var24,
-                                    var27.stackSize
-                                       * (var32 ? var36.getAmplifier() + var36.getDuration() / 10000000 : var36.getDuration() + var36.getAmplifier() / 10000000)
+                                    j,
+                                    itemStack.stackSize
+                                       * (bl7 ? potionEffect.getAmplifier() + potionEffect.getDuration() / 10000000 : potionEffect.getDuration() + potionEffect.getAmplifier() / 10000000)
                                  )
                               );
                         }
@@ -957,209 +957,209 @@ public class InventoryManager extends Module {
                   }
                }
 
-               if ((var27.getItem().isPotionIngredient(var27) || var27.getItem().getUnlocalizedName().equals("item.brewingStand"))
-                  && (!var27.getItem().getUnlocalizedName().equals("item.redstone") || this.ores.getSetting("Redstone").asInt() <= 0)) {
-                  var25 = false;
-                  this.brewingItems.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if ((itemStack.getItem().isPotionIngredient(itemStack) || itemStack.getItem().getUnlocalizedName().equals("item.brewingStand"))
+                  && (!itemStack.getItem().getUnlocalizedName().equals("item.redstone") || this.ores.getSetting("Redstone").asInt() <= 0)) {
+                  bl6 = false;
+                  this.brewingItems.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var28 instanceof ItemSkull && isHead(var27)) {
-                  var25 = false;
-                  this.heads.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
-                  if (var17 && var27.stackSize > var21
-                     || slots.getSetting("Head-Refill").getValue() == InventoryManagerRefillMode.LEAST && var27.stackSize < var21) {
-                     this.headRefillSlot = var24;
-                     var21 = var27.stackSize;
+               if (item2 instanceof ItemSkull && isHead(itemStack)) {
+                  bl6 = false;
+                  this.heads.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
+                  if (bl3 && itemStack.stackSize > f11
+                     || slots.getSetting("Head-Refill").getValue() == InventoryManagerRefillMode.LEAST && itemStack.stackSize < f11) {
+                     this.headRefillSlot = j;
+                     f11 = itemStack.stackSize;
                   }
                }
 
-               if (this.isWhitelisted(var24)) {
-                  var25 = false;
-                  this.whitelisted.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (this.isWhitelisted(j)) {
+                  bl6 = false;
+                  this.whitelisted.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               if (var25) {
-                  this.garbage.add(new InventoryManager.RankedSlot(var24, var27.stackSize));
+               if (bl6) {
+                  this.garbage.add(new InventoryManager.RankedSlot(j, itemStack.stackSize));
                }
 
-               this.lastStacks.put(var24, var26.getStack());
+               this.lastStacks.put(j, slot.getStack());
             }
          } else {
-            this.lastStacks.remove(var24);
+            this.lastStacks.remove(j);
          }
       }
    }
 
-   public void generateSwapList(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10) {
-      if (var1 != 0 && this.bestSwordSlot != -1) {
-         int var14 = var1 - 1;
-         Slot var15 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var14);
-         Slot var16 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestSwordSlot);
-         if (!var15.getHasStack() || var15.getHasStack() && var16.getHasStack() && this.swordScore(var15.getStack()) < this.swordScore(var16.getStack())) {
-            Integer[] var17 = new Integer[]{this.bestSwordSlot, var14};
-            this.swaps.add(var17);
+   public void generateSwapList(int i, int j, int k, int l, int m, int n, int i2, int i3, int i4, int i5) {
+      if (i != 0 && this.bestSwordSlot != -1) {
+         int i6 = i - 1;
+         Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i6);
+         Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestSwordSlot);
+         if (!slot.getHasStack() || slot.getHasStack() && slot2.getHasStack() && this.swordScore(slot.getStack()) < this.swordScore(slot2.getStack())) {
+            Integer[] integers = new Integer[]{this.bestSwordSlot, i6};
+            this.swaps.add(integers);
          }
       }
 
-      if (var2 != 0 && this.bestBowSlot != -1) {
-         int var18 = var2 - 1;
-         Slot var28 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var18);
-         Slot var38 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestBowSlot);
-         if (!var28.getHasStack() || var28.getHasStack() && var38.getHasStack() && this.bowScore(var28.getStack()) < this.bowScore(var38.getStack())) {
-            Integer[] var48 = new Integer[]{this.bestBowSlot, var18};
-            this.swaps.add(var48);
+      if (j != 0 && this.bestBowSlot != -1) {
+         int i7 = j - 1;
+         Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i7);
+         Slot slot4 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestBowSlot);
+         if (!slot3.getHasStack() || slot3.getHasStack() && slot4.getHasStack() && this.bowScore(slot3.getStack()) < this.bowScore(slot4.getStack())) {
+            Integer[] integers2 = new Integer[]{this.bestBowSlot, i7};
+            this.swaps.add(integers2);
          }
       }
 
-      if (var3 != 0 && this.bestPickaxeSlot != -1) {
-         int var19 = var3 - 1;
-         Slot var29 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var19);
-         Slot var39 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestPickaxeSlot);
-         if (!var29.getHasStack() || var29.getHasStack() && var39.getHasStack() && this.pickaxeScore(var29.getStack()) < this.pickaxeScore(var39.getStack())) {
-            Integer[] var49 = new Integer[]{this.bestPickaxeSlot, var19};
-            this.swaps.add(var49);
+      if (k != 0 && this.bestPickaxeSlot != -1) {
+         int i8 = k - 1;
+         Slot slot5 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i8);
+         Slot slot6 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestPickaxeSlot);
+         if (!slot5.getHasStack() || slot5.getHasStack() && slot6.getHasStack() && this.pickaxeScore(slot5.getStack()) < this.pickaxeScore(slot6.getStack())) {
+            Integer[] integers3 = new Integer[]{this.bestPickaxeSlot, i8};
+            this.swaps.add(integers3);
          }
       }
 
-      if (var4 != 0 && this.bestShovelSlot != -1) {
-         int var20 = var4 - 1;
-         Slot var30 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var20);
-         Slot var40 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestShovelSlot);
-         if (!var30.getHasStack() || var30.getHasStack() && var40.getHasStack() && this.shovelScore(var30.getStack()) < this.shovelScore(var40.getStack())) {
-            Integer[] var50 = new Integer[]{this.bestShovelSlot, var20};
-            this.swaps.add(var50);
+      if (l != 0 && this.bestShovelSlot != -1) {
+         int i9 = l - 1;
+         Slot slot7 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i9);
+         Slot slot8 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestShovelSlot);
+         if (!slot7.getHasStack() || slot7.getHasStack() && slot8.getHasStack() && this.shovelScore(slot7.getStack()) < this.shovelScore(slot8.getStack())) {
+            Integer[] integers4 = new Integer[]{this.bestShovelSlot, i9};
+            this.swaps.add(integers4);
          }
       }
 
-      if (var5 != 0 && this.bestAxeSlot != -1) {
-         int var21 = var5 - 1;
-         Slot var31 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var21);
-         Slot var41 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestAxeSlot);
-         if (!var31.getHasStack() || var31.getHasStack() && var41.getHasStack() && this.axeScore(var31.getStack()) < this.axeScore(var41.getStack())) {
-            Integer[] var51 = new Integer[]{this.bestAxeSlot, var21};
-            this.swaps.add(var51);
+      if (m != 0 && this.bestAxeSlot != -1) {
+         int i10 = m - 1;
+         Slot slot9 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i10);
+         Slot slot10 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestAxeSlot);
+         if (!slot9.getHasStack() || slot9.getHasStack() && slot10.getHasStack() && this.axeScore(slot9.getStack()) < this.axeScore(slot10.getStack())) {
+            Integer[] integers5 = new Integer[]{this.bestAxeSlot, i10};
+            this.swaps.add(integers5);
          }
       }
 
-      if (var6 != 0 && this.bestFishingRodSlot != -1) {
-         int var22 = var6 - 1;
-         Slot var32 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var22);
-         Slot var42 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestFishingRodSlot);
-         if (!var32.getHasStack()
-            || var32.getHasStack() && var42.getHasStack() && this.fishingRodScore(var32.getStack()) < this.fishingRodScore(var42.getStack())) {
-            Integer[] var52 = new Integer[]{this.bestFishingRodSlot, var22};
-            this.swaps.add(var52);
+      if (n != 0 && this.bestFishingRodSlot != -1) {
+         int i11 = n - 1;
+         Slot slot11 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i11);
+         Slot slot12 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bestFishingRodSlot);
+         if (!slot11.getHasStack()
+            || slot11.getHasStack() && slot12.getHasStack() && this.fishingRodScore(slot11.getStack()) < this.fishingRodScore(slot12.getStack())) {
+            Integer[] integers6 = new Integer[]{this.bestFishingRodSlot, i11};
+            this.swaps.add(integers6);
          }
       }
 
-      if (var7 != 0 && this.goldenAppleRefillSlot != -1) {
-         int var23 = var7 - 1;
-         Slot var33 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var23);
-         if (!var33.getHasStack() || !(var33.getStack().getItem() instanceof ItemAppleGold)) {
-            Integer[] var43 = new Integer[]{this.goldenAppleRefillSlot, var23};
-            this.swaps.add(var43);
+      if (i2 != 0 && this.goldenAppleRefillSlot != -1) {
+         int i12 = i2 - 1;
+         Slot slot13 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i12);
+         if (!slot13.getHasStack() || !(slot13.getStack().getItem() instanceof ItemAppleGold)) {
+            Integer[] integers7 = new Integer[]{this.goldenAppleRefillSlot, i12};
+            this.swaps.add(integers7);
          }
       }
 
-      if (var8 != 0 && this.enderPearlRefillSlot != -1) {
-         int var24 = var8 - 1;
-         Slot var34 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var24);
-         if (!var34.getHasStack() || !(var34.getStack().getItem() instanceof ItemEnderPearl)) {
-            Integer[] var44 = new Integer[]{this.enderPearlRefillSlot, var24};
-            this.swaps.add(var44);
+      if (i3 != 0 && this.enderPearlRefillSlot != -1) {
+         int i13 = i3 - 1;
+         Slot slot14 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i13);
+         if (!slot14.getHasStack() || !(slot14.getStack().getItem() instanceof ItemEnderPearl)) {
+            Integer[] integers8 = new Integer[]{this.enderPearlRefillSlot, i13};
+            this.swaps.add(integers8);
          }
       }
 
-      if (var9 != 0 && this.headRefillSlot != -1) {
-         int var25 = var9 - 1;
-         Slot var35 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var25);
-         if (!var35.getHasStack() || !(var35.getStack().getItem() instanceof ItemSkull) || !isHead(var35.getStack())) {
-            Integer[] var45 = new Integer[]{this.headRefillSlot, var25};
-            this.swaps.add(var45);
+      if (i4 != 0 && this.headRefillSlot != -1) {
+         int i14 = i4 - 1;
+         Slot slot15 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i14);
+         if (!slot15.getHasStack() || !(slot15.getStack().getItem() instanceof ItemSkull) || !isHead(slot15.getStack())) {
+            Integer[] integers9 = new Integer[]{this.headRefillSlot, i14};
+            this.swaps.add(integers9);
          }
       }
 
-      if (var10 != 0 && this.blockRefillSlot != -1) {
-         int var26 = var10 - 1;
-         Slot var36 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + var26);
-         if (!var36.getHasStack()
-            || !(var36.getStack().getItem() instanceof ItemBlock)
-            || !isBuildingBlock((ItemBlock)var36.getStack().getItem())
-            || this.nonBuildingBlocks.contains(var36.getStack().getUnlocalizedName())) {
-            Integer[] var46 = new Integer[]{this.blockRefillSlot, var26};
-            this.swaps.add(var46);
+      if (i5 != 0 && this.blockRefillSlot != -1) {
+         int i15 = i5 - 1;
+         Slot slot16 = mc.thePlayer.inventoryContainer.inventorySlots.get(36 + i15);
+         if (!slot16.getHasStack()
+            || !(slot16.getStack().getItem() instanceof ItemBlock)
+            || !isBuildingBlock((ItemBlock)slot16.getStack().getItem())
+            || this.nonBuildingBlocks.contains(slot16.getStack().getUnlocalizedName())) {
+            Integer[] integers10 = new Integer[]{this.blockRefillSlot, i15};
+            this.swaps.add(integers10);
          }
       }
 
-      EnumSetting var27 = (EnumSetting)general.getSetting("Swap-Pattern");
-      if (((InventoryManagerPatternMode)var27.getValue()).equals(InventoryManagerPatternMode.RANDOM)) {
-         Random var37 = new Random();
-         ArrayList var47 = new ArrayList();
+      EnumSetting enumSetting = (EnumSetting)general.getSetting("Swap-Pattern");
+      if (((InventoryManagerPatternMode)enumSetting.getValue()).equals(InventoryManagerPatternMode.RANDOM)) {
+         Random random = new Random();
+         ArrayList arrayList = new ArrayList();
 
          while (this.swaps.size() > 0) {
-            var47.add(this.swaps.remove(var37.nextInt(this.swaps.size())));
+            arrayList.add(this.swaps.remove(random.nextInt(this.swaps.size())));
          }
 
-         this.swaps = var47;
-      } else if (((InventoryManagerPatternMode)var27.getValue()).equals(InventoryManagerPatternMode.SEQUENTIAL)) {
-         this.swaps.sort(Comparator.comparing(var0 -> (Integer)var0[1]));
-      } else if (((InventoryManagerPatternMode)var27.getValue()).equals(InventoryManagerPatternMode.REVERSE)) {
-         this.swaps.sort(Comparator.comparing(var0 -> (Integer)var0[1]));
+         this.swaps = arrayList;
+      } else if (((InventoryManagerPatternMode)enumSetting.getValue()).equals(InventoryManagerPatternMode.SEQUENTIAL)) {
+         this.swaps.sort(Comparator.comparing(integers11 -> (Integer)integers11[1]));
+      } else if (((InventoryManagerPatternMode)enumSetting.getValue()).equals(InventoryManagerPatternMode.REVERSE)) {
+         this.swaps.sort(Comparator.comparing(integers12 -> (Integer)integers12[1]));
          Collections.reverse(this.swaps);
       }
    }
 
-   public void generateDropList(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10) {
-      this.processSwords(var1);
-      this.processBows(var2);
-      this.processTools(var3, var4, var5, var6);
+   public void generateDropList(int i, int j, int k, int l, int m, int n, int i2, int i3, int i4, int i5) {
+      this.processSwords(i);
+      this.processBows(j);
+      this.processTools(k, l, m, n);
       this.processArmor();
-      this.processUtils(var7, var8, var9);
+      this.processUtils(i2, i3, i4);
       this.processUhcItems();
       this.processOres();
       this.processPotions();
-      this.processHeads(var10);
+      this.processHeads(i5);
       this.processGarbage();
-      InventoryManagerPatternMode var14 = (InventoryManagerPatternMode)general.getSetting("Drop-Pattern").getValue();
-      if (var14.equals(InventoryManagerPatternMode.RANDOM)) {
-         ArrayList var15 = new ArrayList();
-         Random var16 = new Random();
+      InventoryManagerPatternMode inventoryManagerPatternMode = (InventoryManagerPatternMode)general.getSetting("Drop-Pattern").getValue();
+      if (inventoryManagerPatternMode.equals(InventoryManagerPatternMode.RANDOM)) {
+         ArrayList arrayList = new ArrayList();
+         Random random = new Random();
 
          while (this.dropSlots.size() > 0) {
-            var15.add(this.dropSlots.remove(var16.nextInt(this.dropSlots.size())));
+            arrayList.add(this.dropSlots.remove(random.nextInt(this.dropSlots.size())));
          }
 
-         this.dropSlots = var15;
-      } else if (var14.equals(InventoryManagerPatternMode.SEQUENTIAL)) {
+         this.dropSlots = arrayList;
+      } else if (inventoryManagerPatternMode.equals(InventoryManagerPatternMode.SEQUENTIAL)) {
          Collections.sort(this.dropSlots);
-      } else if (var14.equals(InventoryManagerPatternMode.REVERSE)) {
+      } else if (inventoryManagerPatternMode.equals(InventoryManagerPatternMode.REVERSE)) {
          Collections.sort(this.dropSlots);
          Collections.reverse(this.dropSlots);
       }
    }
 
-   public static boolean isHead(ItemStack var0) {
-      return var0.getMetadata() == 3 && (var0.getDisplayName() == null || !var0.getDisplayName().contains("Backpack"));
+   public static boolean isHead(ItemStack itemStack) {
+      return itemStack.getMetadata() == 3 && (itemStack.getDisplayName() == null || !itemStack.getDisplayName().contains("Backpack"));
    }
 
-   public void processHeads(int var1) {
+   public void processHeads(int i) {
       while (this.heads.size() > 0) {
          if (this.drop.getSetting("Util").asBoolean()) {
-            InventoryManager.RankedSlot var5 = this.heads.peek();
-            int var6 = var5.slot;
-            if (this.heads.size() > this.hypixelUHCItems.getSetting("Heads").asInt() && !this.isWhitelisted(var6)) {
-               int var7 = var1 - 1 + 36;
-               if (var7 == var6 && this.heads.size() > 1) {
-                  InventoryManager.RankedSlot var8 = this.heads.poll();
-                  Slot var9 = mc.thePlayer.inventoryContainer.inventorySlots.get(var8.slot);
-                  Slot var10 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.heads.peek().slot);
-                  if (var9.getHasStack() && var10.getHasStack() && var9.getStack().stackSize == var10.getStack().stackSize) {
+            InventoryManager.RankedSlot rankedSlot = this.heads.peek();
+            int j = rankedSlot.slot;
+            if (this.heads.size() > this.hypixelUHCItems.getSetting("Heads").asInt() && !this.isWhitelisted(j)) {
+               int k = i - 1 + 36;
+               if (k == j && this.heads.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot2 = this.heads.poll();
+                  Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot2.slot);
+                  Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.heads.peek().slot);
+                  if (slot2.getHasStack() && slot3.getHasStack() && slot2.getStack().stackSize == slot3.getStack().stackSize) {
                      this.dropSlots.add(this.heads.poll().slot);
-                     this.heads.add(var8);
+                     this.heads.add(rankedSlot2);
                      continue;
                   }
 
-                  this.heads.add(var8);
+                  this.heads.add(rankedSlot2);
                }
 
                this.dropSlots.add(this.heads.poll().slot);
@@ -1186,13 +1186,13 @@ public class InventoryManager extends Module {
    }
 
    public void processPotions() {
-      boolean var4 = this.drop.getSetting("Potions").asBoolean();
+      boolean bl = this.drop.getSetting("Potions").asBoolean();
 
       while (this.speedPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var5 = this.speedPotions.peek();
-            int var6 = var5.slot;
-            if (this.speedPotions.size() > this.potions.getSetting("Speed-Potions").asInt() && !this.isWhitelisted(var6)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot = this.speedPotions.peek();
+            int i = rankedSlot.slot;
+            if (this.speedPotions.size() > this.potions.getSetting("Speed-Potions").asInt() && !this.isWhitelisted(i)) {
                this.dropSlots.add(this.speedPotions.poll().slot);
                continue;
             }
@@ -1202,10 +1202,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.strengthPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var7 = this.strengthPotions.peek();
-            int var19 = var7.slot;
-            if (this.strengthPotions.size() > this.potions.getSetting("Strength-Potions").asInt() && !this.isWhitelisted(var19)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot2 = this.strengthPotions.peek();
+            int j = rankedSlot2.slot;
+            if (this.strengthPotions.size() > this.potions.getSetting("Strength-Potions").asInt() && !this.isWhitelisted(j)) {
                this.dropSlots.add(this.strengthPotions.poll().slot);
                continue;
             }
@@ -1215,10 +1215,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.regenerationPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var8 = this.regenerationPotions.peek();
-            int var20 = var8.slot;
-            if (this.regenerationPotions.size() > this.potions.getSetting("Regeneration-Potions").asInt() && !this.isWhitelisted(var20)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot3 = this.regenerationPotions.peek();
+            int k = rankedSlot3.slot;
+            if (this.regenerationPotions.size() > this.potions.getSetting("Regeneration-Potions").asInt() && !this.isWhitelisted(k)) {
                this.dropSlots.add(this.regenerationPotions.poll().slot);
                continue;
             }
@@ -1228,10 +1228,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.healingPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var9 = this.healingPotions.peek();
-            int var21 = var9.slot;
-            if (this.healingPotions.size() > this.potions.getSetting("Healing-Potions").asInt() && !this.isWhitelisted(var21)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot4 = this.healingPotions.peek();
+            int l = rankedSlot4.slot;
+            if (this.healingPotions.size() > this.potions.getSetting("Healing-Potions").asInt() && !this.isWhitelisted(l)) {
                this.dropSlots.add(this.healingPotions.poll().slot);
                continue;
             }
@@ -1241,10 +1241,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.jumpBoostPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var10 = this.jumpBoostPotions.peek();
-            int var22 = var10.slot;
-            if (this.jumpBoostPotions.size() > this.potions.getSetting("Jump-Boost-Potions").asInt() && !this.isWhitelisted(var22)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot5 = this.jumpBoostPotions.peek();
+            int m = rankedSlot5.slot;
+            if (this.jumpBoostPotions.size() > this.potions.getSetting("Jump-Boost-Potions").asInt() && !this.isWhitelisted(m)) {
                this.dropSlots.add(this.jumpBoostPotions.poll().slot);
                continue;
             }
@@ -1254,10 +1254,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.fireResistancePotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var11 = this.fireResistancePotions.peek();
-            int var23 = var11.slot;
-            if (this.fireResistancePotions.size() > this.potions.getSetting("Fire-Resistance-Potions").asInt() && !this.isWhitelisted(var23)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot6 = this.fireResistancePotions.peek();
+            int n = rankedSlot6.slot;
+            if (this.fireResistancePotions.size() > this.potions.getSetting("Fire-Resistance-Potions").asInt() && !this.isWhitelisted(n)) {
                this.dropSlots.add(this.fireResistancePotions.poll().slot);
                continue;
             }
@@ -1267,10 +1267,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.resistancePotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var12 = this.resistancePotions.peek();
-            int var24 = var12.slot;
-            if (this.resistancePotions.size() > this.potions.getSetting("Resistance-Potions").asInt() && !this.isWhitelisted(var24)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot7 = this.resistancePotions.peek();
+            int i2 = rankedSlot7.slot;
+            if (this.resistancePotions.size() > this.potions.getSetting("Resistance-Potions").asInt() && !this.isWhitelisted(i2)) {
                this.dropSlots.add(this.resistancePotions.poll().slot);
                continue;
             }
@@ -1280,10 +1280,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.invisibilityPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var13 = this.invisibilityPotions.peek();
-            int var25 = var13.slot;
-            if (this.invisibilityPotions.size() > this.potions.getSetting("Invisibility-Potions").asInt() && !this.isWhitelisted(var25)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot8 = this.invisibilityPotions.peek();
+            int i3 = rankedSlot8.slot;
+            if (this.invisibilityPotions.size() > this.potions.getSetting("Invisibility-Potions").asInt() && !this.isWhitelisted(i3)) {
                this.dropSlots.add(this.invisibilityPotions.poll().slot);
                continue;
             }
@@ -1293,10 +1293,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.absorptionPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var14 = this.absorptionPotions.peek();
-            int var26 = var14.slot;
-            if (this.absorptionPotions.size() > this.potions.getSetting("Absorption-Potions").asInt() && !this.isWhitelisted(var26)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot9 = this.absorptionPotions.peek();
+            int i4 = rankedSlot9.slot;
+            if (this.absorptionPotions.size() > this.potions.getSetting("Absorption-Potions").asInt() && !this.isWhitelisted(i4)) {
                this.dropSlots.add(this.absorptionPotions.poll().slot);
                continue;
             }
@@ -1306,10 +1306,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.weaknessPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var15 = this.weaknessPotions.peek();
-            int var27 = var15.slot;
-            if (this.weaknessPotions.size() > this.potions.getSetting("Weakness-Potions").asInt() && !this.isWhitelisted(var27)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot10 = this.weaknessPotions.peek();
+            int i5 = rankedSlot10.slot;
+            if (this.weaknessPotions.size() > this.potions.getSetting("Weakness-Potions").asInt() && !this.isWhitelisted(i5)) {
                this.dropSlots.add(this.weaknessPotions.poll().slot);
                continue;
             }
@@ -1319,10 +1319,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.slownessPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var16 = this.slownessPotions.peek();
-            int var28 = var16.slot;
-            if (this.slownessPotions.size() > this.potions.getSetting("Slowness-Potions").asInt() && !this.isWhitelisted(var28)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot11 = this.slownessPotions.peek();
+            int i6 = rankedSlot11.slot;
+            if (this.slownessPotions.size() > this.potions.getSetting("Slowness-Potions").asInt() && !this.isWhitelisted(i6)) {
                this.dropSlots.add(this.slownessPotions.poll().slot);
                continue;
             }
@@ -1332,10 +1332,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.poisonPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var17 = this.poisonPotions.peek();
-            int var29 = var17.slot;
-            if (this.poisonPotions.size() > this.potions.getSetting("Poison-Potions").asInt() && !this.isWhitelisted(var29)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot12 = this.poisonPotions.peek();
+            int i7 = rankedSlot12.slot;
+            if (this.poisonPotions.size() > this.potions.getSetting("Poison-Potions").asInt() && !this.isWhitelisted(i7)) {
                this.dropSlots.add(this.poisonPotions.poll().slot);
                continue;
             }
@@ -1345,10 +1345,10 @@ public class InventoryManager extends Module {
       }
 
       while (this.harmingPotions.size() > 0) {
-         if (var4) {
-            InventoryManager.RankedSlot var18 = this.harmingPotions.peek();
-            int var30 = var18.slot;
-            if (this.harmingPotions.size() > this.potions.getSetting("Harming-Potions").asInt() && !this.isWhitelisted(var30)) {
+         if (bl) {
+            InventoryManager.RankedSlot rankedSlot13 = this.harmingPotions.peek();
+            int i8 = rankedSlot13.slot;
+            if (this.harmingPotions.size() > this.potions.getSetting("Harming-Potions").asInt() && !this.isWhitelisted(i8)) {
                this.dropSlots.add(this.harmingPotions.poll().slot);
                continue;
             }
@@ -1368,109 +1368,109 @@ public class InventoryManager extends Module {
 
    public void processOres() {
       if (this.drop.getSetting("Ores").asBoolean()) {
-         int var4 = this.ores.getSetting("Iron-Ingots").asInt();
+         int i = this.ores.getSetting("Iron-Ingots").asInt();
 
          while (this.ironIngots.size() > 0) {
-            InventoryManager.RankedSlot var5 = this.ironIngots.peek();
-            int var6 = var5.slot;
-            if (this.ironIngots.size() > var4 && !this.isWhitelisted(var6)) {
+            InventoryManager.RankedSlot rankedSlot = this.ironIngots.peek();
+            int j = rankedSlot.slot;
+            if (this.ironIngots.size() > i && !this.isWhitelisted(j)) {
                this.dropSlots.add(this.ironIngots.poll().slot);
             } else {
                this.keepSlots.add(this.ironIngots.poll().slot);
             }
          }
 
-         int var16 = this.ores.getSetting("Gold-Ingots").asInt();
+         int k = this.ores.getSetting("Gold-Ingots").asInt();
 
          while (this.goldIngots.size() > 0) {
-            InventoryManager.RankedSlot var17 = this.goldIngots.peek();
-            int var7 = var17.slot;
-            if (this.goldIngots.size() > var16 && !this.isWhitelisted(var7)) {
+            InventoryManager.RankedSlot rankedSlot2 = this.goldIngots.peek();
+            int l = rankedSlot2.slot;
+            if (this.goldIngots.size() > k && !this.isWhitelisted(l)) {
                this.dropSlots.add(this.goldIngots.poll().slot);
             } else {
                this.keepSlots.add(this.goldIngots.poll().slot);
             }
          }
 
-         int var18 = this.ores.getSetting("Iron-Ores").asInt();
+         int m = this.ores.getSetting("Iron-Ores").asInt();
 
          while (this.ironOres.size() > 0) {
-            InventoryManager.RankedSlot var19 = this.ironOres.peek();
-            int var8 = var19.slot;
-            if (this.ironOres.size() > var18 && !this.isWhitelisted(var8)) {
+            InventoryManager.RankedSlot rankedSlot3 = this.ironOres.peek();
+            int n = rankedSlot3.slot;
+            if (this.ironOres.size() > m && !this.isWhitelisted(n)) {
                this.dropSlots.add(this.ironOres.poll().slot);
             } else {
                this.keepSlots.add(this.ironOres.poll().slot);
             }
          }
 
-         int var20 = this.ores.getSetting("Gold-Ores").asInt();
+         int i2 = this.ores.getSetting("Gold-Ores").asInt();
 
          while (this.goldOres.size() > 0) {
-            InventoryManager.RankedSlot var21 = this.goldOres.peek();
-            int var9 = var21.slot;
-            if (this.goldOres.size() > var20 && !this.isWhitelisted(var9)) {
+            InventoryManager.RankedSlot rankedSlot4 = this.goldOres.peek();
+            int i3 = rankedSlot4.slot;
+            if (this.goldOres.size() > i2 && !this.isWhitelisted(i3)) {
                this.dropSlots.add(this.goldOres.poll().slot);
             } else {
                this.keepSlots.add(this.goldOres.poll().slot);
             }
          }
 
-         int var22 = this.ores.getSetting("Coal").asInt();
+         int i4 = this.ores.getSetting("Coal").asInt();
 
          while (this.coal.size() > 0) {
-            InventoryManager.RankedSlot var23 = this.coal.peek();
-            int var10 = var23.slot;
-            if (this.coal.size() > var22 && !this.isWhitelisted(var10)) {
+            InventoryManager.RankedSlot rankedSlot5 = this.coal.peek();
+            int i5 = rankedSlot5.slot;
+            if (this.coal.size() > i4 && !this.isWhitelisted(i5)) {
                this.dropSlots.add(this.coal.poll().slot);
             } else {
                this.keepSlots.add(this.coal.poll().slot);
             }
          }
 
-         int var24 = this.ores.getSetting("Redstone").asInt();
-         boolean var25 = this.potions.getSetting("Brewing-Items").asBoolean();
+         int i6 = this.ores.getSetting("Redstone").asInt();
+         boolean bl = this.potions.getSetting("Brewing-Items").asBoolean();
 
          while (this.redstone.size() > 0) {
-            InventoryManager.RankedSlot var11 = this.redstone.peek();
-            int var12 = var11.slot;
-            if (this.redstone.size() > Math.max(var24, var25 ? 1 : 0) && !this.isWhitelisted(var12)) {
+            InventoryManager.RankedSlot rankedSlot6 = this.redstone.peek();
+            int i7 = rankedSlot6.slot;
+            if (this.redstone.size() > Math.max(i6, bl ? 1 : 0) && !this.isWhitelisted(i7)) {
                this.dropSlots.add(this.redstone.poll().slot);
             } else {
                this.keepSlots.add(this.redstone.poll().slot);
             }
          }
 
-         int var26 = this.ores.getSetting("Lapis").asInt();
+         int i8 = this.ores.getSetting("Lapis").asInt();
 
          while (this.lapis.size() > 0) {
-            InventoryManager.RankedSlot var27 = this.lapis.peek();
-            int var13 = var27.slot;
-            if (this.lapis.size() > var26 && !this.isWhitelisted(var13)) {
+            InventoryManager.RankedSlot rankedSlot7 = this.lapis.peek();
+            int i9 = rankedSlot7.slot;
+            if (this.lapis.size() > i8 && !this.isWhitelisted(i9)) {
                this.dropSlots.add(this.lapis.poll().slot);
             } else {
                this.keepSlots.add(this.lapis.poll().slot);
             }
          }
 
-         int var28 = this.ores.getSetting("Diamonds").asInt();
+         int i10 = this.ores.getSetting("Diamonds").asInt();
 
          while (this.diamonds.size() > 0) {
-            InventoryManager.RankedSlot var29 = this.diamonds.peek();
-            int var14 = var29.slot;
-            if (this.diamonds.size() > var28 && !this.isWhitelisted(var14)) {
+            InventoryManager.RankedSlot rankedSlot8 = this.diamonds.peek();
+            int i11 = rankedSlot8.slot;
+            if (this.diamonds.size() > i10 && !this.isWhitelisted(i11)) {
                this.dropSlots.add(this.diamonds.poll().slot);
             } else {
                this.keepSlots.add(this.diamonds.poll().slot);
             }
          }
 
-         int var30 = this.ores.getSetting("Emeralds").asInt();
+         int i12 = this.ores.getSetting("Emeralds").asInt();
 
          while (this.emeralds.size() > 0) {
-            InventoryManager.RankedSlot var31 = this.emeralds.peek();
-            int var15 = var31.slot;
-            if (this.emeralds.size() > var30 && !this.isWhitelisted(var15)) {
+            InventoryManager.RankedSlot rankedSlot9 = this.emeralds.peek();
+            int i13 = rankedSlot9.slot;
+            if (this.emeralds.size() > i12 && !this.isWhitelisted(i13)) {
                this.dropSlots.add(this.emeralds.poll().slot);
             } else {
                this.keepSlots.add(this.emeralds.poll().slot);
@@ -1482,9 +1482,9 @@ public class InventoryManager extends Module {
    public void processUhcItems() {
       if (this.drop.getSetting("UHC").asBoolean()) {
          while (this.apples.size() > 0) {
-            InventoryManager.RankedSlot var4 = this.apples.peek();
-            int var5 = var4.slot;
-            if (this.apples.size() > this.uhc.getSetting("Apples").asInt() && !this.isWhitelisted(var5)) {
+            InventoryManager.RankedSlot rankedSlot = this.apples.peek();
+            int i = rankedSlot.slot;
+            if (this.apples.size() > this.uhc.getSetting("Apples").asInt() && !this.isWhitelisted(i)) {
                this.dropSlots.add(this.apples.poll().slot);
             } else {
                this.keepSlots.add(this.apples.poll().slot);
@@ -1492,9 +1492,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.craftingTables.size() > 0) {
-            InventoryManager.RankedSlot var7 = this.craftingTables.peek();
-            int var15 = var7.slot;
-            if (this.craftingTables.size() > this.uhc.getSetting("Crafting-Tables").asInt() && !this.isWhitelisted(var15)) {
+            InventoryManager.RankedSlot rankedSlot2 = this.craftingTables.peek();
+            int j = rankedSlot2.slot;
+            if (this.craftingTables.size() > this.uhc.getSetting("Crafting-Tables").asInt() && !this.isWhitelisted(j)) {
                this.dropSlots.add(this.craftingTables.poll().slot);
             } else {
                this.keepSlots.add(this.craftingTables.poll().slot);
@@ -1502,9 +1502,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.sticks.size() > 0) {
-            InventoryManager.RankedSlot var8 = this.sticks.peek();
-            int var16 = var8.slot;
-            if (this.sticks.size() > this.uhc.getSetting("Sticks").asInt() && !this.isWhitelisted(var16)) {
+            InventoryManager.RankedSlot rankedSlot3 = this.sticks.peek();
+            int k = rankedSlot3.slot;
+            if (this.sticks.size() > this.uhc.getSetting("Sticks").asInt() && !this.isWhitelisted(k)) {
                this.dropSlots.add(this.sticks.poll().slot);
             } else {
                this.keepSlots.add(this.sticks.poll().slot);
@@ -1512,9 +1512,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.anvils.size() > 0) {
-            InventoryManager.RankedSlot var9 = this.anvils.peek();
-            int var17 = var9.slot;
-            if (this.anvils.size() > this.uhc.getSetting("Anvils").asInt() && !this.isWhitelisted(var17)) {
+            InventoryManager.RankedSlot rankedSlot4 = this.anvils.peek();
+            int l = rankedSlot4.slot;
+            if (this.anvils.size() > this.uhc.getSetting("Anvils").asInt() && !this.isWhitelisted(l)) {
                this.dropSlots.add(this.anvils.poll().slot);
             } else {
                this.keepSlots.add(this.anvils.poll().slot);
@@ -1522,9 +1522,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.enchantingTables.size() > 0) {
-            InventoryManager.RankedSlot var10 = this.enchantingTables.peek();
-            int var18 = var10.slot;
-            if (this.enchantingTables.size() > this.uhc.getSetting("Enchanting-Tables").asInt() && !this.isWhitelisted(var18)) {
+            InventoryManager.RankedSlot rankedSlot5 = this.enchantingTables.peek();
+            int m = rankedSlot5.slot;
+            if (this.enchantingTables.size() > this.uhc.getSetting("Enchanting-Tables").asInt() && !this.isWhitelisted(m)) {
                this.dropSlots.add(this.enchantingTables.poll().slot);
             } else {
                this.keepSlots.add(this.enchantingTables.poll().slot);
@@ -1532,9 +1532,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.furnaces.size() > 0) {
-            InventoryManager.RankedSlot var11 = this.furnaces.peek();
-            int var19 = var11.slot;
-            if (this.furnaces.size() > this.uhc.getSetting("Furnaces").asInt() && !this.isWhitelisted(var19)) {
+            InventoryManager.RankedSlot rankedSlot6 = this.furnaces.peek();
+            int n = rankedSlot6.slot;
+            if (this.furnaces.size() > this.uhc.getSetting("Furnaces").asInt() && !this.isWhitelisted(n)) {
                this.dropSlots.add(this.furnaces.poll().slot);
             } else {
                this.keepSlots.add(this.furnaces.poll().slot);
@@ -1542,9 +1542,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.expBottles.size() > 0) {
-            InventoryManager.RankedSlot var12 = this.expBottles.peek();
-            int var20 = var12.slot;
-            if (this.expBottles.size() > this.uhc.getSetting("EXP-Bottles").asInt() && !this.isWhitelisted(var20)) {
+            InventoryManager.RankedSlot rankedSlot7 = this.expBottles.peek();
+            int i2 = rankedSlot7.slot;
+            if (this.expBottles.size() > this.uhc.getSetting("EXP-Bottles").asInt() && !this.isWhitelisted(i2)) {
                this.dropSlots.add(this.expBottles.poll().slot);
             } else {
                this.keepSlots.add(this.expBottles.poll().slot);
@@ -1554,9 +1554,9 @@ public class InventoryManager extends Module {
          this.missingMilkBuckets = this.utils.getSetting("Milk-Buckets").asInt();
 
          while (this.milkBuckets.size() > 0) {
-            InventoryManager.RankedSlot var13 = this.milkBuckets.peek();
-            int var21 = var13.slot;
-            if (this.milkBuckets.size() > this.utils.getSetting("Milk-Buckets").asInt() && !this.isWhitelisted(var21)) {
+            InventoryManager.RankedSlot rankedSlot8 = this.milkBuckets.peek();
+            int i3 = rankedSlot8.slot;
+            if (this.milkBuckets.size() > this.utils.getSetting("Milk-Buckets").asInt() && !this.isWhitelisted(i3)) {
                this.dropSlots.add(this.milkBuckets.poll().slot);
             } else {
                this.keepSlots.add(this.milkBuckets.poll().slot);
@@ -1564,11 +1564,11 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var14 = this.missingWaterBuckets + this.missingLavaBuckets + this.missingMilkBuckets;
+         int i4 = this.missingWaterBuckets + this.missingLavaBuckets + this.missingMilkBuckets;
 
          while (this.emptyBuckets.size() > 0) {
-            if (var14 > 0) {
-               var14 = (int)(var14 - this.emptyBuckets.peek().rank);
+            if (i4 > 0) {
+               i4 = (int)(i4 - this.emptyBuckets.peek().rank);
                this.keepSlots.add(this.emptyBuckets.poll().slot);
             } else {
                this.dropSlots.add(this.emptyBuckets.poll().slot);
@@ -1576,9 +1576,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.chests.size() > 0) {
-            InventoryManager.RankedSlot var22 = this.chests.peek();
-            int var6 = var22.slot;
-            if (this.chests.size() > this.uhc.getSetting("Chests").asInt() && !this.isWhitelisted(var6)) {
+            InventoryManager.RankedSlot rankedSlot9 = this.chests.peek();
+            int i5 = rankedSlot9.slot;
+            if (this.chests.size() > this.uhc.getSetting("Chests").asInt() && !this.isWhitelisted(i5)) {
                this.dropSlots.add(this.chests.poll().slot);
             } else {
                this.keepSlots.add(this.chests.poll().slot);
@@ -1586,9 +1586,9 @@ public class InventoryManager extends Module {
          }
 
          while (this.strings.size() > 0) {
-            InventoryManager.RankedSlot var23 = this.strings.peek();
-            int var24 = var23.slot;
-            if (this.strings.size() > this.uhc.getSetting("String").asInt() && !this.isWhitelisted(var24)) {
+            InventoryManager.RankedSlot rankedSlot10 = this.strings.peek();
+            int i6 = rankedSlot10.slot;
+            if (this.strings.size() > this.uhc.getSetting("String").asInt() && !this.isWhitelisted(i6)) {
                this.dropSlots.add(this.strings.poll().slot);
             } else {
                this.keepSlots.add(this.strings.poll().slot);
@@ -1597,26 +1597,26 @@ public class InventoryManager extends Module {
       }
    }
 
-   public void processUtils(int var1, int var2, int var3) {
-      int var7 = this.utils.getSetting("Golden-Apples").asInt();
-      int var8 = this.utils.getSetting("Ender-Pearls").asInt();
+   public void processUtils(int i, int j, int k) {
+      int l = this.utils.getSetting("Golden-Apples").asInt();
+      int m = this.utils.getSetting("Ender-Pearls").asInt();
       if (this.drop.getSetting("Util").asBoolean()) {
          while (this.goldenApples.size() > 0) {
-            InventoryManager.RankedSlot var9 = this.goldenApples.peek();
-            int var10 = var9.slot;
-            if (this.goldenApples.size() > var7 && !this.isWhitelisted(var10)) {
-               int var11 = var2 - 1 + 36;
-               if (var11 == var10 && this.goldenApples.size() > 1) {
-                  InventoryManager.RankedSlot var12 = this.goldenApples.poll();
-                  Slot var13 = mc.thePlayer.inventoryContainer.inventorySlots.get(var12.slot);
-                  Slot var14 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.goldenApples.peek().slot);
-                  if (var13.getHasStack() && var14.getHasStack() && var13.getStack().stackSize == var14.getStack().stackSize) {
+            InventoryManager.RankedSlot rankedSlot = this.goldenApples.peek();
+            int n = rankedSlot.slot;
+            if (this.goldenApples.size() > l && !this.isWhitelisted(n)) {
+               int i2 = j - 1 + 36;
+               if (i2 == n && this.goldenApples.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot2 = this.goldenApples.poll();
+                  Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot2.slot);
+                  Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.goldenApples.peek().slot);
+                  if (slot2.getHasStack() && slot3.getHasStack() && slot2.getStack().stackSize == slot3.getStack().stackSize) {
                      this.dropSlots.add(this.goldenApples.poll().slot);
-                     this.goldenApples.add(var12);
+                     this.goldenApples.add(rankedSlot2);
                      continue;
                   }
 
-                  this.goldenApples.add(var12);
+                  this.goldenApples.add(rankedSlot2);
                }
 
                this.dropSlots.add(this.goldenApples.poll().slot);
@@ -1626,21 +1626,21 @@ public class InventoryManager extends Module {
          }
 
          while (this.enderPearls.size() > 0) {
-            InventoryManager.RankedSlot var23 = this.enderPearls.peek();
-            int var25 = var23.slot;
-            if (this.enderPearls.size() > var8 && !this.isWhitelisted(var25)) {
-               int var28 = var3 - 1 + 36;
-               if (var28 == var25 && this.enderPearls.size() > 1) {
-                  InventoryManager.RankedSlot var32 = this.enderPearls.poll();
-                  Slot var36 = mc.thePlayer.inventoryContainer.inventorySlots.get(var32.slot);
-                  Slot var40 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.enderPearls.peek().slot);
-                  if (var36.getHasStack() && var40.getHasStack() && var36.getStack().stackSize == var40.getStack().stackSize) {
+            InventoryManager.RankedSlot rankedSlot3 = this.enderPearls.peek();
+            int i3 = rankedSlot3.slot;
+            if (this.enderPearls.size() > m && !this.isWhitelisted(i3)) {
+               int i4 = k - 1 + 36;
+               if (i4 == i3 && this.enderPearls.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot4 = this.enderPearls.poll();
+                  Slot slot4 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot4.slot);
+                  Slot slot5 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.enderPearls.peek().slot);
+                  if (slot4.getHasStack() && slot5.getHasStack() && slot4.getStack().stackSize == slot5.getStack().stackSize) {
                      this.dropSlots.add(this.enderPearls.poll().slot);
-                     this.enderPearls.add(var32);
+                     this.enderPearls.add(rankedSlot4);
                      continue;
                   }
 
-                  this.enderPearls.add(var32);
+                  this.enderPearls.add(rankedSlot4);
                }
 
                this.dropSlots.add(this.enderPearls.poll().slot);
@@ -1649,72 +1649,72 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var24 = this.utils.getSetting("Boats").asInt();
+         int i5 = this.utils.getSetting("Boats").asInt();
 
          while (this.boats.size() > 0) {
-            InventoryManager.RankedSlot var26 = this.boats.peek();
-            int var29 = var26.slot;
-            if (this.boats.size() > var24 && !this.isWhitelisted(var29)) {
+            InventoryManager.RankedSlot rankedSlot5 = this.boats.peek();
+            int i6 = rankedSlot5.slot;
+            if (this.boats.size() > i5 && !this.isWhitelisted(i6)) {
                this.dropSlots.add(this.boats.poll().slot);
             } else {
                this.keepSlots.add(this.boats.poll().slot);
             }
          }
 
-         int var27 = this.utils.getSetting("TNT").asInt();
+         int i7 = this.utils.getSetting("TNT").asInt();
 
          while (this.tnt.size() > 0) {
-            InventoryManager.RankedSlot var30 = this.tnt.peek();
-            int var33 = var30.slot;
-            if (this.tnt.size() > var27 && !this.isWhitelisted(var33)) {
+            InventoryManager.RankedSlot rankedSlot6 = this.tnt.peek();
+            int i8 = rankedSlot6.slot;
+            if (this.tnt.size() > i7 && !this.isWhitelisted(i8)) {
                this.dropSlots.add(this.tnt.poll().slot);
             } else {
                this.keepSlots.add(this.tnt.poll().slot);
             }
          }
 
-         int var31 = this.utils.getSetting("Arrows").asInt();
+         int i9 = this.utils.getSetting("Arrows").asInt();
 
          while (this.arrows.size() > 0) {
-            InventoryManager.RankedSlot var34 = this.arrows.peek();
-            int var37 = var34.slot;
-            if (this.arrows.size() > var31 && !this.isWhitelisted(var37)) {
+            InventoryManager.RankedSlot rankedSlot7 = this.arrows.peek();
+            int i10 = rankedSlot7.slot;
+            if (this.arrows.size() > i9 && !this.isWhitelisted(i10)) {
                this.dropSlots.add(this.arrows.poll().slot);
             } else {
                this.keepSlots.add(this.arrows.poll().slot);
             }
          }
 
-         int var35 = this.utils.getSetting("Eggs-Snowballs").asInt();
+         int i11 = this.utils.getSetting("Eggs-Snowballs").asInt();
 
          while (this.eggsAndSnowballs.size() > 0) {
-            InventoryManager.RankedSlot var38 = this.eggsAndSnowballs.peek();
-            int var41 = var38.slot;
-            if (this.eggsAndSnowballs.size() > var35 && !this.isWhitelisted(var41)) {
+            InventoryManager.RankedSlot rankedSlot8 = this.eggsAndSnowballs.peek();
+            int i12 = rankedSlot8.slot;
+            if (this.eggsAndSnowballs.size() > i11 && !this.isWhitelisted(i12)) {
                this.dropSlots.add(this.eggsAndSnowballs.poll().slot);
             } else {
                this.keepSlots.add(this.eggsAndSnowballs.poll().slot);
             }
          }
 
-         int var39 = this.utils.getSetting("Spawn-Eggs").asInt();
+         int i13 = this.utils.getSetting("Spawn-Eggs").asInt();
 
          while (this.spawnEggs.size() > 0) {
-            InventoryManager.RankedSlot var42 = this.spawnEggs.peek();
-            int var15 = var42.slot;
-            if (this.spawnEggs.size() > var39 && !this.isWhitelisted(var15)) {
+            InventoryManager.RankedSlot rankedSlot9 = this.spawnEggs.peek();
+            int i14 = rankedSlot9.slot;
+            if (this.spawnEggs.size() > i13 && !this.isWhitelisted(i14)) {
                this.dropSlots.add(this.spawnEggs.poll().slot);
             } else {
                this.keepSlots.add(this.spawnEggs.poll().slot);
             }
          }
 
-         int var43 = this.utils.getSetting("Water-Buckets").asInt();
+         int i15 = this.utils.getSetting("Water-Buckets").asInt();
 
          while (this.waterBuckets.size() > 0) {
-            InventoryManager.RankedSlot var44 = this.waterBuckets.peek();
-            int var16 = var44.slot;
-            if (this.waterBuckets.size() > var43 && !this.isWhitelisted(var16)) {
+            InventoryManager.RankedSlot rankedSlot10 = this.waterBuckets.peek();
+            int i16 = rankedSlot10.slot;
+            if (this.waterBuckets.size() > i15 && !this.isWhitelisted(i16)) {
                this.dropSlots.add(this.waterBuckets.poll().slot);
             } else {
                this.keepSlots.add(this.waterBuckets.poll().slot);
@@ -1722,12 +1722,12 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var45 = this.utils.getSetting("Lava-Buckets").asInt();
+         int i17 = this.utils.getSetting("Lava-Buckets").asInt();
 
          while (this.lavaBuckets.size() > 0) {
-            InventoryManager.RankedSlot var46 = this.lavaBuckets.peek();
-            int var17 = var46.slot;
-            if (this.lavaBuckets.size() > var45 && !this.isWhitelisted(var17)) {
+            InventoryManager.RankedSlot rankedSlot11 = this.lavaBuckets.peek();
+            int i18 = rankedSlot11.slot;
+            if (this.lavaBuckets.size() > i17 && !this.isWhitelisted(i18)) {
                this.dropSlots.add(this.lavaBuckets.poll().slot);
             } else {
                this.keepSlots.add(this.lavaBuckets.poll().slot);
@@ -1735,24 +1735,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var47 = this.utils.getSetting("Blocks").asInt();
+         int i19 = this.utils.getSetting("Blocks").asInt();
          if (this.drop.getSetting("Blocks").asBoolean()) {
             while (this.blocks.size() > 0) {
-               InventoryManager.RankedSlot var48 = this.blocks.peek();
-               int var18 = var48.slot;
-               if (this.blocks.size() > var47 && !this.isWhitelisted(var18)) {
-                  int var19 = var1 - 1 + 36;
-                  if (var19 == var18 && this.blocks.size() > 1) {
-                     InventoryManager.RankedSlot var20 = this.blocks.poll();
-                     Slot var21 = mc.thePlayer.inventoryContainer.inventorySlots.get(var20.slot);
-                     Slot var22 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.blocks.peek().slot);
-                     if (var21.getHasStack() && var22.getHasStack() && var21.getStack().stackSize == var22.getStack().stackSize) {
+               InventoryManager.RankedSlot rankedSlot12 = this.blocks.peek();
+               int i20 = rankedSlot12.slot;
+               if (this.blocks.size() > i19 && !this.isWhitelisted(i20)) {
+                  int i21 = i - 1 + 36;
+                  if (i21 == i20 && this.blocks.size() > 1) {
+                     InventoryManager.RankedSlot rankedSlot13 = this.blocks.poll();
+                     Slot slot6 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot13.slot);
+                     Slot slot7 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.blocks.peek().slot);
+                     if (slot6.getHasStack() && slot7.getHasStack() && slot6.getStack().stackSize == slot7.getStack().stackSize) {
                         this.dropSlots.add(this.blocks.poll().slot);
-                        this.blocks.add(var20);
+                        this.blocks.add(rankedSlot13);
                         continue;
                      }
 
-                     this.blocks.add(var20);
+                     this.blocks.add(rankedSlot13);
                   }
 
                   this.dropSlots.add(this.blocks.poll().slot);
@@ -1762,36 +1762,36 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var49 = this.utils.getSetting("Sand-Gravel").asInt();
+         int i22 = this.utils.getSetting("Sand-Gravel").asInt();
 
          while (this.sandAndGravel.size() > 0) {
-            InventoryManager.RankedSlot var50 = this.sandAndGravel.peek();
-            int var52 = var50.slot;
-            if (this.sandAndGravel.size() > var49 && !this.isWhitelisted(var52)) {
+            InventoryManager.RankedSlot rankedSlot14 = this.sandAndGravel.peek();
+            int i23 = rankedSlot14.slot;
+            if (this.sandAndGravel.size() > i22 && !this.isWhitelisted(i23)) {
                this.dropSlots.add(this.sandAndGravel.poll().slot);
             } else {
                this.keepSlots.add(this.sandAndGravel.poll().slot);
             }
          }
 
-         int var51 = this.utils.getSetting("Cobwebs").asInt();
+         int i24 = this.utils.getSetting("Cobwebs").asInt();
 
          while (this.cobwebs.size() > 0) {
-            InventoryManager.RankedSlot var53 = this.cobwebs.peek();
-            int var55 = var53.slot;
-            if (this.cobwebs.size() > var51 && !this.isWhitelisted(var55)) {
+            InventoryManager.RankedSlot rankedSlot15 = this.cobwebs.peek();
+            int i25 = rankedSlot15.slot;
+            if (this.cobwebs.size() > i24 && !this.isWhitelisted(i25)) {
                this.dropSlots.add(this.cobwebs.poll().slot);
             } else {
                this.keepSlots.add(this.cobwebs.poll().slot);
             }
          }
 
-         int var54 = this.utils.getSetting("Food").asInt();
+         int i26 = this.utils.getSetting("Food").asInt();
          if (this.drop.getSetting("Food").asBoolean()) {
             while (this.food.size() > 0) {
-               InventoryManager.RankedSlot var56 = this.food.peek();
-               int var57 = var56.slot;
-               if (this.food.size() > var54 && !this.isWhitelisted(var57)) {
+               InventoryManager.RankedSlot rankedSlot16 = this.food.peek();
+               int i27 = rankedSlot16.slot;
+               if (this.food.size() > i26 && !this.isWhitelisted(i27)) {
                   this.dropSlots.add(this.food.poll().slot);
                } else {
                   this.keepSlots.add(this.food.poll().slot);
@@ -1801,48 +1801,48 @@ public class InventoryManager extends Module {
       }
    }
 
-   public float foodRank(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null && var1.getItem() instanceof ItemFood && !this.nonFoods.contains(var1.getItem().getUnlocalizedName())) {
-         ItemFood var6 = (ItemFood)var1.getItem();
-         var5 = var1.stackSize * var6.getSaturationModifier(var1);
+   public float foodRank(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null && itemStack.getItem() instanceof ItemFood && !this.nonFoods.contains(itemStack.getItem().getUnlocalizedName())) {
+         ItemFood itemFood = (ItemFood)itemStack.getItem();
+         f = itemStack.stackSize * itemFood.getSaturationModifier(itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public static boolean isBuildingBlock(ItemBlock var0) {
-      Block var4 = var0.getBlock();
-      return var4.getMaterial().blocksMovement()
-         && var4.isOpaqueCube()
-         && !var4.getMaterial().isLiquid()
-         && !(var4 instanceof BlockFalling)
-         && !(var4 instanceof BlockWorkbench)
-         && !(var4 instanceof BlockContainer);
+   public static boolean isBuildingBlock(ItemBlock itemBlock) {
+      Block block = itemBlock.getBlock();
+      return block.getMaterial().blocksMovement()
+         && block.isOpaqueCube()
+         && !block.getMaterial().isLiquid()
+         && !(block instanceof BlockFalling)
+         && !(block instanceof BlockWorkbench)
+         && !(block instanceof BlockContainer);
    }
 
    public void processArmor() {
       if (this.drop.getSetting("Armor").asBoolean()) {
-         boolean var4 = this.enchants.getSetting("Combinable-Protection").asBoolean();
-         int var5 = this.armor.getSetting("Helmets").asInt();
-         int var6 = this.armor.getSetting("Chestplates").asInt();
+         boolean bl = this.enchants.getSetting("Combinable-Protection").asBoolean();
+         int i = this.armor.getSetting("Helmets").asInt();
+         int j = this.armor.getSetting("Chestplates").asInt();
 
          while (this.helmets.size() > 0) {
-            InventoryManager.RankedSlot var7 = this.helmets.peek();
-            int var8 = var7.slot;
-            if (this.helmets.size() > var5 && (!var4 || !this.canCombineProtection(this.bestHelmetSlot, var8)) && !this.isWhitelisted(var8)) {
-               byte var9 = 5;
-               if (var9 == var8 && this.helmets.size() > 1) {
-                  InventoryManager.RankedSlot var10 = this.helmets.poll();
-                  Slot var11 = mc.thePlayer.inventoryContainer.inventorySlots.get(var10.slot);
-                  Slot var12 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.helmets.peek().slot);
-                  if (var11.getHasStack() && var12.getHasStack() && this.armorScore(var11.getStack()) == this.armorScore(var12.getStack())) {
+            InventoryManager.RankedSlot rankedSlot = this.helmets.peek();
+            int k = rankedSlot.slot;
+            if (this.helmets.size() > i && (!bl || !this.canCombineProtection(this.bestHelmetSlot, k)) && !this.isWhitelisted(k)) {
+               byte b = 5;
+               if (b == k && this.helmets.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot2 = this.helmets.poll();
+                  Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot2.slot);
+                  Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.helmets.peek().slot);
+                  if (slot2.getHasStack() && slot3.getHasStack() && this.armorScore(slot2.getStack()) == this.armorScore(slot3.getStack())) {
                      this.dropSlots.add(this.helmets.poll().slot);
-                     this.helmets.add(var10);
+                     this.helmets.add(rankedSlot2);
                      continue;
                   }
 
-                  this.helmets.add(var10);
+                  this.helmets.add(rankedSlot2);
                }
 
                this.dropSlots.add(this.helmets.poll().slot);
@@ -1852,21 +1852,21 @@ public class InventoryManager extends Module {
          }
 
          while (this.chestplates.size() > 0) {
-            InventoryManager.RankedSlot var15 = this.chestplates.peek();
-            int var17 = var15.slot;
-            if (this.chestplates.size() > var6 && (!var4 || !this.canCombineProtection(this.bestChestplateSlot, var17)) && !this.isWhitelisted(var17)) {
-               byte var20 = 6;
-               if (var20 == var17 && this.chestplates.size() > 1) {
-                  InventoryManager.RankedSlot var23 = this.chestplates.poll();
-                  Slot var26 = mc.thePlayer.inventoryContainer.inventorySlots.get(var23.slot);
-                  Slot var29 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.chestplates.peek().slot);
-                  if (var26.getHasStack() && var29.getHasStack() && this.armorScore(var26.getStack()) == this.armorScore(var29.getStack())) {
+            InventoryManager.RankedSlot rankedSlot3 = this.chestplates.peek();
+            int l = rankedSlot3.slot;
+            if (this.chestplates.size() > j && (!bl || !this.canCombineProtection(this.bestChestplateSlot, l)) && !this.isWhitelisted(l)) {
+               byte b2 = 6;
+               if (b2 == l && this.chestplates.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot4 = this.chestplates.poll();
+                  Slot slot4 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot4.slot);
+                  Slot slot5 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.chestplates.peek().slot);
+                  if (slot4.getHasStack() && slot5.getHasStack() && this.armorScore(slot4.getStack()) == this.armorScore(slot5.getStack())) {
                      this.dropSlots.add(this.chestplates.poll().slot);
-                     this.chestplates.add(var23);
+                     this.chestplates.add(rankedSlot4);
                      continue;
                   }
 
-                  this.chestplates.add(var23);
+                  this.chestplates.add(rankedSlot4);
                }
 
                this.dropSlots.add(this.chestplates.poll().slot);
@@ -1875,24 +1875,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var16 = this.armor.getSetting("Leggings").asInt();
+         int m = this.armor.getSetting("Leggings").asInt();
 
          while (this.leggings.size() > 0) {
-            InventoryManager.RankedSlot var18 = this.leggings.peek();
-            int var21 = var18.slot;
-            if (this.leggings.size() > var16 && (!var4 || !this.canCombineProtection(this.bestLeggingsSlot, var21)) && !this.isWhitelisted(var21)) {
-               byte var24 = 7;
-               if (var24 == var21 && this.leggings.size() > 1) {
-                  InventoryManager.RankedSlot var27 = this.leggings.poll();
-                  Slot var30 = mc.thePlayer.inventoryContainer.inventorySlots.get(var27.slot);
-                  Slot var13 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.leggings.peek().slot);
-                  if (var30.getHasStack() && var13.getHasStack() && this.armorScore(var30.getStack()) == this.armorScore(var13.getStack())) {
+            InventoryManager.RankedSlot rankedSlot5 = this.leggings.peek();
+            int n = rankedSlot5.slot;
+            if (this.leggings.size() > m && (!bl || !this.canCombineProtection(this.bestLeggingsSlot, n)) && !this.isWhitelisted(n)) {
+               byte b3 = 7;
+               if (b3 == n && this.leggings.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot6 = this.leggings.poll();
+                  Slot slot6 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot6.slot);
+                  Slot slot7 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.leggings.peek().slot);
+                  if (slot6.getHasStack() && slot7.getHasStack() && this.armorScore(slot6.getStack()) == this.armorScore(slot7.getStack())) {
                      this.dropSlots.add(this.leggings.poll().slot);
-                     this.leggings.add(var27);
+                     this.leggings.add(rankedSlot6);
                      continue;
                   }
 
-                  this.leggings.add(var27);
+                  this.leggings.add(rankedSlot6);
                }
 
                this.dropSlots.add(this.leggings.poll().slot);
@@ -1901,24 +1901,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var19 = this.armor.getSetting("Boots").asInt();
+         int i2 = this.armor.getSetting("Boots").asInt();
 
          while (this.boots.size() > 0) {
-            InventoryManager.RankedSlot var22 = this.boots.peek();
-            int var25 = var22.slot;
-            if (this.boots.size() > var19 && (!var4 || !this.canCombineProtection(this.bestBootsSlot, var25)) && !this.isWhitelisted(var25)) {
-               byte var28 = 8;
-               if (var28 == var25 && this.boots.size() > 1) {
-                  InventoryManager.RankedSlot var31 = this.boots.poll();
-                  Slot var32 = mc.thePlayer.inventoryContainer.inventorySlots.get(var31.slot);
-                  Slot var14 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.boots.peek().slot);
-                  if (var32.getHasStack() && var14.getHasStack() && this.armorScore(var32.getStack()) == this.armorScore(var14.getStack())) {
+            InventoryManager.RankedSlot rankedSlot7 = this.boots.peek();
+            int i3 = rankedSlot7.slot;
+            if (this.boots.size() > i2 && (!bl || !this.canCombineProtection(this.bestBootsSlot, i3)) && !this.isWhitelisted(i3)) {
+               byte b4 = 8;
+               if (b4 == i3 && this.boots.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot8 = this.boots.poll();
+                  Slot slot8 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot8.slot);
+                  Slot slot9 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.boots.peek().slot);
+                  if (slot8.getHasStack() && slot9.getHasStack() && this.armorScore(slot8.getStack()) == this.armorScore(slot9.getStack())) {
                      this.dropSlots.add(this.boots.poll().slot);
-                     this.boots.add(var31);
+                     this.boots.add(rankedSlot8);
                      continue;
                   }
 
-                  this.boots.add(var31);
+                  this.boots.add(rankedSlot8);
                }
 
                this.dropSlots.add(this.boots.poll().slot);
@@ -1929,61 +1929,61 @@ public class InventoryManager extends Module {
       }
    }
 
-   public boolean canCombineProtection(int var1, int var2) {
-      Slot var6 = mc.thePlayer.inventoryContainer.inventorySlots.get(var1);
-      Slot var7 = mc.thePlayer.inventoryContainer.inventorySlots.get(var2);
-      if (var6.getHasStack() && var7.getHasStack()) {
-         ItemStack var8 = var6.getStack();
-         ItemStack var9 = var7.getStack();
-         return this.isCombinable(var8) && this.isCombinable(var9)
-            ? EnchantmentHelper.getEnchantmentLevel(0, var8) > 0
-               && EnchantmentHelper.getEnchantmentLevel(0, var8) < 4
-               && var8.getUnlocalizedName().equals(var9.getUnlocalizedName())
-               && EnchantmentHelper.getEnchantmentLevel(0, var8) == EnchantmentHelper.getEnchantmentLevel(0, var9)
+   public boolean canCombineProtection(int i, int j) {
+      Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(i);
+      Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+      if (slot.getHasStack() && slot2.getHasStack()) {
+         ItemStack itemStack = slot.getStack();
+         ItemStack itemStack2 = slot2.getStack();
+         return this.isCombinable(itemStack) && this.isCombinable(itemStack2)
+            ? EnchantmentHelper.getEnchantmentLevel(0, itemStack) > 0
+               && EnchantmentHelper.getEnchantmentLevel(0, itemStack) < 4
+               && itemStack.getUnlocalizedName().equals(itemStack2.getUnlocalizedName())
+               && EnchantmentHelper.getEnchantmentLevel(0, itemStack) == EnchantmentHelper.getEnchantmentLevel(0, itemStack2)
             : false;
       } else {
          return false;
       }
    }
 
-   public float armorScore(ItemStack var1) {
-      return InventoryUtil.getArmorScore(var1);
+   public float armorScore(ItemStack itemStack) {
+      return InventoryUtil.getArmorScore(itemStack);
    }
 
-   public float armorRank(ItemStack var1, int var2) {
-      float var6 = 0.0F;
-      if (var1 != null && var1.getItem() instanceof ItemArmor) {
-         ItemArmor var7 = (ItemArmor)var1.getItem();
-         var6 = (float)(var6 + (var7.damageReduceAmount + (100 - var7.damageReduceAmount) * EnchantmentHelper.getEnchantmentLevel(0, var1) * 0.0075));
-         var6 += InventoryUtil.getArmorScore(var1);
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float armorRank(ItemStack itemStack, int i) {
+      float f = 0.0F;
+      if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {
+         ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
+         f = (float)(f + (itemArmor.damageReduceAmount + (100 - itemArmor.damageReduceAmount) * EnchantmentHelper.getEnchantmentLevel(0, itemStack) * 0.0075));
+         f += InventoryUtil.getArmorScore(itemStack);
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public void processTools(int var1, int var2, int var3, int var4) {
+   public void processTools(int i, int j, int k, int l) {
       if (this.drop.getSetting("Tools").asBoolean()) {
-         int var8 = this.tools.getSetting("Pickaxes").asInt();
+         int m = this.tools.getSetting("Pickaxes").asInt();
 
          while (this.pickaxes.size() > 0) {
-            InventoryManager.RankedSlot var9 = this.pickaxes.peek();
-            int var10 = var9.slot;
-            if (this.pickaxes.size() > var8 && !this.isWhitelisted(var10)) {
-               int var11 = var1 - 1 + 36;
-               if (var11 == var10 && this.pickaxes.size() > 1) {
-                  InventoryManager.RankedSlot var12 = this.pickaxes.poll();
-                  Slot var13 = mc.thePlayer.inventoryContainer.inventorySlots.get(var12.slot);
-                  Slot var14 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.pickaxes.peek().slot);
-                  if (var13.getHasStack() && var14.getHasStack() && this.pickaxeScore(var13.getStack()) == this.pickaxeScore(var14.getStack())) {
+            InventoryManager.RankedSlot rankedSlot = this.pickaxes.peek();
+            int n = rankedSlot.slot;
+            if (this.pickaxes.size() > m && !this.isWhitelisted(n)) {
+               int i2 = i - 1 + 36;
+               if (i2 == n && this.pickaxes.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot2 = this.pickaxes.poll();
+                  Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot2.slot);
+                  Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.pickaxes.peek().slot);
+                  if (slot2.getHasStack() && slot3.getHasStack() && this.pickaxeScore(slot2.getStack()) == this.pickaxeScore(slot3.getStack())) {
                      this.dropSlots.add(this.pickaxes.poll().slot);
-                     this.pickaxes.add(var12);
+                     this.pickaxes.add(rankedSlot2);
                      continue;
                   }
 
-                  this.pickaxes.add(var12);
+                  this.pickaxes.add(rankedSlot2);
                }
 
                this.dropSlots.add(this.pickaxes.poll().slot);
@@ -1992,24 +1992,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var18 = this.tools.getSetting("Shovels").asInt();
+         int i3 = this.tools.getSetting("Shovels").asInt();
 
          while (this.shovels.size() > 0) {
-            InventoryManager.RankedSlot var19 = this.shovels.peek();
-            int var21 = var19.slot;
-            if (this.shovels.size() > var18 && !this.isWhitelisted(var21)) {
-               int var24 = var2 - 1 + 36;
-               if (var24 == var21 && this.shovels.size() > 1) {
-                  InventoryManager.RankedSlot var28 = this.shovels.poll();
-                  Slot var33 = mc.thePlayer.inventoryContainer.inventorySlots.get(var28.slot);
-                  Slot var15 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.shovels.peek().slot);
-                  if (var33.getHasStack() && var15.getHasStack() && this.shovelScore(var33.getStack()) == this.shovelScore(var15.getStack())) {
+            InventoryManager.RankedSlot rankedSlot3 = this.shovels.peek();
+            int i4 = rankedSlot3.slot;
+            if (this.shovels.size() > i3 && !this.isWhitelisted(i4)) {
+               int i5 = j - 1 + 36;
+               if (i5 == i4 && this.shovels.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot4 = this.shovels.poll();
+                  Slot slot4 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot4.slot);
+                  Slot slot5 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.shovels.peek().slot);
+                  if (slot4.getHasStack() && slot5.getHasStack() && this.shovelScore(slot4.getStack()) == this.shovelScore(slot5.getStack())) {
                      this.dropSlots.add(this.shovels.poll().slot);
-                     this.shovels.add(var28);
+                     this.shovels.add(rankedSlot4);
                      continue;
                   }
 
-                  this.shovels.add(var28);
+                  this.shovels.add(rankedSlot4);
                }
 
                this.dropSlots.add(this.shovels.poll().slot);
@@ -2018,24 +2018,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var20 = this.tools.getSetting("Axes").asInt();
+         int i6 = this.tools.getSetting("Axes").asInt();
 
          while (this.axes.size() > 0) {
-            InventoryManager.RankedSlot var22 = this.axes.peek();
-            int var25 = var22.slot;
-            if (this.axes.size() > var20 && !this.isWhitelisted(var25)) {
-               int var29 = var3 - 1 + 36;
-               if (var29 == var25 && this.axes.size() > 1) {
-                  InventoryManager.RankedSlot var34 = this.axes.poll();
-                  Slot var38 = mc.thePlayer.inventoryContainer.inventorySlots.get(var34.slot);
-                  Slot var16 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.axes.peek().slot);
-                  if (var38.getHasStack() && var16.getHasStack() && this.axeScore(var38.getStack()) == this.axeScore(var16.getStack())) {
+            InventoryManager.RankedSlot rankedSlot5 = this.axes.peek();
+            int i7 = rankedSlot5.slot;
+            if (this.axes.size() > i6 && !this.isWhitelisted(i7)) {
+               int i8 = k - 1 + 36;
+               if (i8 == i7 && this.axes.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot6 = this.axes.poll();
+                  Slot slot6 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot6.slot);
+                  Slot slot7 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.axes.peek().slot);
+                  if (slot6.getHasStack() && slot7.getHasStack() && this.axeScore(slot6.getStack()) == this.axeScore(slot7.getStack())) {
                      this.dropSlots.add(this.axes.poll().slot);
-                     this.axes.add(var34);
+                     this.axes.add(rankedSlot6);
                      continue;
                   }
 
-                  this.axes.add(var34);
+                  this.axes.add(rankedSlot6);
                }
 
                this.dropSlots.add(this.axes.poll().slot);
@@ -2044,24 +2044,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var23 = this.tools.getSetting("Fishing-Rods").asInt();
+         int i9 = this.tools.getSetting("Fishing-Rods").asInt();
 
          while (this.fishingRods.size() > 0) {
-            InventoryManager.RankedSlot var26 = this.fishingRods.peek();
-            int var30 = var26.slot;
-            if (this.fishingRods.size() > var23 && !this.isWhitelisted(var30)) {
-               int var35 = var4 - 1 + 36;
-               if (var35 == var30 && this.fishingRods.size() > 1) {
-                  InventoryManager.RankedSlot var39 = this.fishingRods.poll();
-                  Slot var41 = mc.thePlayer.inventoryContainer.inventorySlots.get(var39.slot);
-                  Slot var17 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.fishingRods.peek().slot);
-                  if (var41.getHasStack() && var17.getHasStack() && this.fishingRodScore(var41.getStack()) == this.fishingRodScore(var17.getStack())) {
+            InventoryManager.RankedSlot rankedSlot7 = this.fishingRods.peek();
+            int i10 = rankedSlot7.slot;
+            if (this.fishingRods.size() > i9 && !this.isWhitelisted(i10)) {
+               int i11 = l - 1 + 36;
+               if (i11 == i10 && this.fishingRods.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot8 = this.fishingRods.poll();
+                  Slot slot8 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot8.slot);
+                  Slot slot9 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.fishingRods.peek().slot);
+                  if (slot8.getHasStack() && slot9.getHasStack() && this.fishingRodScore(slot8.getStack()) == this.fishingRodScore(slot9.getStack())) {
                      this.dropSlots.add(this.fishingRods.poll().slot);
-                     this.fishingRods.add(var39);
+                     this.fishingRods.add(rankedSlot8);
                      continue;
                   }
 
-                  this.fishingRods.add(var39);
+                  this.fishingRods.add(rankedSlot8);
                }
 
                this.dropSlots.add(this.fishingRods.poll().slot);
@@ -2070,24 +2070,24 @@ public class InventoryManager extends Module {
             }
          }
 
-         int var27 = this.tools.getSetting("Shears").asInt();
+         int i12 = this.tools.getSetting("Shears").asInt();
 
          while (this.shears.size() > 0) {
-            InventoryManager.RankedSlot var31 = this.shears.peek();
-            int var36 = var31.slot;
-            if (this.shears.size() > var27 && !this.isWhitelisted(var36)) {
+            InventoryManager.RankedSlot rankedSlot9 = this.shears.peek();
+            int i13 = rankedSlot9.slot;
+            if (this.shears.size() > i12 && !this.isWhitelisted(i13)) {
                this.dropSlots.add(this.shears.poll().slot);
             } else {
                this.keepSlots.add(this.shears.poll().slot);
             }
          }
 
-         int var32 = this.tools.getSetting("Flint-Steel").asInt();
+         int i14 = this.tools.getSetting("Flint-Steel").asInt();
 
          while (this.flintAndSteels.size() > 0) {
-            InventoryManager.RankedSlot var37 = this.flintAndSteels.peek();
-            int var40 = var37.slot;
-            if (this.flintAndSteels.size() > var32 && !this.isWhitelisted(var40)) {
+            InventoryManager.RankedSlot rankedSlot10 = this.flintAndSteels.peek();
+            int i15 = rankedSlot10.slot;
+            if (this.flintAndSteels.size() > i14 && !this.isWhitelisted(i15)) {
                this.dropSlots.add(this.flintAndSteels.poll().slot);
             } else {
                this.keepSlots.add(this.flintAndSteels.poll().slot);
@@ -2096,168 +2096,171 @@ public class InventoryManager extends Module {
       }
    }
 
-   public float fishingRodScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null && var1.getUnlocalizedName().equals("item.fishingRod")) {
-         var5 = 1.0F;
-         var5 += EnchantmentHelper.getEnchantmentLevel(62, var1);
-         var5 += EnchantmentHelper.getEnchantmentLevel(19, var1) / 1000;
+   public float fishingRodScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null && itemStack.getUnlocalizedName().equals("item.fishingRod")) {
+         f = 1.0F;
+         f += EnchantmentHelper.getEnchantmentLevel(62, itemStack);
+         f += EnchantmentHelper.getEnchantmentLevel(19, itemStack) / 1000;
       }
 
-      return var5;
+      return f;
    }
 
-   public float fishingRodRank(ItemStack var1, int var2) {
-      float var6 = -1.0F;
-      if (var1 != null) {
-         var6 = EnchantmentHelper.getEnchantmentLevel(62, var1);
-         var6 += EnchantmentHelper.getEnchantmentLevel(19, var1) / 1000;
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float fishingRodRank(ItemStack itemStack, int i) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = EnchantmentHelper.getEnchantmentLevel(62, itemStack);
+         f += EnchantmentHelper.getEnchantmentLevel(19, itemStack) / 1000;
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public float pickaxeScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null) {
-         var5 = InventoryUtil.getToolScore(var1);
+   public float pickaxeScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = InventoryUtil.getToolScore(itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public float pickaxeRank(ItemStack var1, int var2) {
-      float var6 = -1.0F;
-      if (var1 != null) {
-         var6 = var1.getItem().getStrVsBlock(var1, Block.getBlockById(4)) * Math.max(1, (int)Math.pow(EnchantmentHelper.getEnchantmentLevel(32, var1), 2.0));
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float pickaxeRank(ItemStack itemStack, int i) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = itemStack.getItem().getStrVsBlock(itemStack, Block.getBlockById(4))
+            * Math.max(1, (int)Math.pow(EnchantmentHelper.getEnchantmentLevel(32, itemStack), 2.0));
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public float shovelScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null) {
-         var5 = InventoryUtil.getToolScore(var1);
+   public float shovelScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = InventoryUtil.getToolScore(itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public float shovelRank(ItemStack var1, int var2) {
-      float var6 = -1.0F;
-      if (var1 != null) {
-         var6 = var1.getItem().getStrVsBlock(var1, Block.getBlockById(3)) * Math.max(1, (int)Math.pow(EnchantmentHelper.getEnchantmentLevel(32, var1), 2.0));
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float shovelRank(ItemStack itemStack, int i) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = itemStack.getItem().getStrVsBlock(itemStack, Block.getBlockById(3))
+            * Math.max(1, (int)Math.pow(EnchantmentHelper.getEnchantmentLevel(32, itemStack), 2.0));
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public float axeScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null) {
-         var5 = InventoryUtil.getToolScore(var1);
+   public float axeScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = InventoryUtil.getToolScore(itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public float axeRank(ItemStack var1, int var2) {
-      float var6 = -1.0F;
-      if (var1 != null) {
-         var6 = var1.getItem().getStrVsBlock(var1, Block.getBlockById(17)) * Math.max(1, (int)Math.pow(EnchantmentHelper.getEnchantmentLevel(32, var1), 2.0));
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float axeRank(ItemStack itemStack, int i) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = itemStack.getItem().getStrVsBlock(itemStack, Block.getBlockById(17))
+            * Math.max(1, (int)Math.pow(EnchantmentHelper.getEnchantmentLevel(32, itemStack), 2.0));
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public float bowScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null && var1.getUnlocalizedName().equals("item.bow")) {
-         var5 = 1.0F;
-         var5 += EnchantmentHelper.getEnchantmentLevel(48, var1);
+   public float bowScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null && itemStack.getUnlocalizedName().equals("item.bow")) {
+         f = 1.0F;
+         f += EnchantmentHelper.getEnchantmentLevel(48, itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public float bowRank(ItemStack var1, int var2) {
-      float var6 = -1.0F;
-      if (var1 != null && var1.getUnlocalizedName().equals("item.bow")) {
-         var6 = 1.0F;
-         var6 += EnchantmentHelper.getEnchantmentLevel(48, var1);
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float bowRank(ItemStack itemStack, int i) {
+      float f = -1.0F;
+      if (itemStack != null && itemStack.getUnlocalizedName().equals("item.bow")) {
+         f = 1.0F;
+         f += EnchantmentHelper.getEnchantmentLevel(48, itemStack);
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public float damageScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null) {
-         var5 = InventoryUtil.getDamageScore(var1);
+   public float damageScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = InventoryUtil.getDamageScore(itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public float swordScore(ItemStack var1) {
-      float var5 = -1.0F;
-      if (var1 != null) {
-         var5 = InventoryUtil.getDamageScore(var1);
+   public float swordScore(ItemStack itemStack) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = InventoryUtil.getDamageScore(itemStack);
       }
 
-      return var5;
+      return f;
    }
 
-   public float swordRank(ItemStack var1, int var2) {
-      float var6 = -1.0F;
-      if (var1 != null) {
-         var6 = InventoryUtil.getDamageScore(var1);
-         if (this.remainingDurability(var1) < var2) {
-            var6 /= 1000.0F;
+   public float swordRank(ItemStack itemStack, int i) {
+      float f = -1.0F;
+      if (itemStack != null) {
+         f = InventoryUtil.getDamageScore(itemStack);
+         if (this.remainingDurability(itemStack) < i) {
+            f /= 1000.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
-   public void processBows(int var1) {
-      boolean var5 = this.enchants.getSetting("Combinable-Power").asBoolean();
+   public void processBows(int i) {
+      boolean bl = this.enchants.getSetting("Combinable-Power").asBoolean();
 
       while (this.bows.size() > 0) {
          if (this.drop.getSetting("Bows").asBoolean()) {
-            InventoryManager.RankedSlot var6 = this.bows.peek();
-            int var7 = var6.slot;
+            InventoryManager.RankedSlot rankedSlot = this.bows.peek();
+            int j = rankedSlot.slot;
             if (this.bows.size() > this.tools.getSetting("Bows").asInt()
-               && (!var5 || !this.canCombinePower(this.bestBowSlot, var7))
-               && !this.isWhitelisted(var7)) {
-               int var8 = var1 - 1 + 36;
-               if (var8 == var7 && this.bows.size() > 1) {
-                  InventoryManager.RankedSlot var9 = this.bows.poll();
-                  Slot var10 = mc.thePlayer.inventoryContainer.inventorySlots.get(var9.slot);
-                  Slot var11 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bows.peek().slot);
-                  if (var10.getHasStack() && var11.getHasStack() && this.bowScore(var10.getStack()) == this.bowScore(var11.getStack())) {
+               && (!bl || !this.canCombinePower(this.bestBowSlot, j))
+               && !this.isWhitelisted(j)) {
+               int k = i - 1 + 36;
+               if (k == j && this.bows.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot2 = this.bows.poll();
+                  Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot2.slot);
+                  Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.bows.peek().slot);
+                  if (slot2.getHasStack() && slot3.getHasStack() && this.bowScore(slot2.getStack()) == this.bowScore(slot3.getStack())) {
                      this.dropSlots.add(this.bows.poll().slot);
-                     this.bows.add(var9);
+                     this.bows.add(rankedSlot2);
                      continue;
                   }
 
-                  this.bows.add(var9);
+                  this.bows.add(rankedSlot2);
                }
 
                this.dropSlots.add(this.bows.poll().slot);
@@ -2269,17 +2272,17 @@ public class InventoryManager extends Module {
       }
    }
 
-   public boolean canCombinePower(int var1, int var2) {
-      Slot var6 = mc.thePlayer.inventoryContainer.inventorySlots.get(var1);
-      Slot var7 = mc.thePlayer.inventoryContainer.inventorySlots.get(var2);
-      if (var6.getHasStack() && var7.getHasStack()) {
-         ItemStack var8 = var6.getStack();
-         ItemStack var9 = var7.getStack();
-         return this.isCombinable(var8) && this.isCombinable(var9)
-            ? EnchantmentHelper.getEnchantmentLevel(48, var8) > 0
-               && EnchantmentHelper.getEnchantmentLevel(48, var8) < 5
-               && var8.getUnlocalizedName().equals(var9.getUnlocalizedName())
-               && EnchantmentHelper.getEnchantmentLevel(48, var8) == EnchantmentHelper.getEnchantmentLevel(48, var9)
+   public boolean canCombinePower(int i, int j) {
+      Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(i);
+      Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+      if (slot.getHasStack() && slot2.getHasStack()) {
+         ItemStack itemStack = slot.getStack();
+         ItemStack itemStack2 = slot2.getStack();
+         return this.isCombinable(itemStack) && this.isCombinable(itemStack2)
+            ? EnchantmentHelper.getEnchantmentLevel(48, itemStack) > 0
+               && EnchantmentHelper.getEnchantmentLevel(48, itemStack) < 5
+               && itemStack.getUnlocalizedName().equals(itemStack2.getUnlocalizedName())
+               && EnchantmentHelper.getEnchantmentLevel(48, itemStack) == EnchantmentHelper.getEnchantmentLevel(48, itemStack2)
             : false;
       } else {
          return false;
@@ -2288,70 +2291,70 @@ public class InventoryManager extends Module {
 
    public boolean shouldSwap() {
       if (this.swaps.size() > 0 && this.delay.hasPassed()) {
-         EnumSetting var4 = (EnumSetting)general.getSetting("Swap-Mode");
-         return this.isModeActive(var4);
+         EnumSetting enumSetting = (EnumSetting)general.getSetting("Swap-Mode");
+         return this.isModeActive(enumSetting);
       } else {
          return false;
       }
    }
 
    public void doSwaps() {
-      for (int var4 = 0; var4 < this.swaps.size(); var4++) {
-         Integer[] var5 = this.swaps.get(var4);
-         if (this.canSwap(var5[0], var5[1])) {
-            this.swap(var5[0], var5[1]);
-            this.swaps.remove(var4);
+      for (int i = 0; i < this.swaps.size(); i++) {
+         Integer[] integers = this.swaps.get(i);
+         if (this.canSwap(integers[0], integers[1])) {
+            this.swap(integers[0], integers[1]);
+            this.swaps.remove(i);
          }
       }
    }
 
-   public boolean canSwap(int var1, int var2) {
-      return this.heldTime(var1) >= general.getSetting("Min-Hold-Time").asInt()
+   public boolean canSwap(int i, int j) {
+      return this.heldTime(i) >= general.getSetting("Min-Hold-Time").asInt()
          && this.delay.hasPassed()
-         && var2 >= 0
-         && var2 <= 8
-         && var1 >= 0
-         && var1 <= mc.thePlayer.inventoryContainer.inventorySlots.size() - 1;
+         && j >= 0
+         && j <= 8
+         && i >= 0
+         && i <= mc.thePlayer.inventoryContainer.inventorySlots.size() - 1;
    }
 
-   public long heldTime(int var1) {
-      return System.currentTimeMillis() - this.changeTimes.get(var1);
+   public long heldTime(int i) {
+      return System.currentTimeMillis() - this.changeTimes.get(i);
    }
 
-   public void swap(int var1, int var2) {
-      this.replaceDropSlot(var1, 36 + var2);
-      mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, var1, var2, 2, mc.thePlayer);
+   public void swap(int i, int j) {
+      this.replaceDropSlot(i, 36 + j);
+      mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, j, 2, mc.thePlayer);
       this.delay = new InventoryManager.Delay(general.getSetting("Swap-Delay").asInt());
    }
 
-   public void replaceDropSlot(int var1, int var2) {
-      for (int var6 = 0; var6 < this.dropSlots.size(); var6++) {
-         if (this.dropSlots.get(var6) == var1) {
-            this.dropSlots.set(var6, var2);
+   public void replaceDropSlot(int i, int j) {
+      for (int k = 0; k < this.dropSlots.size(); k++) {
+         if (this.dropSlots.get(k) == i) {
+            this.dropSlots.set(k, j);
          }
       }
    }
 
-   public void processSwords(int var1) {
-      int var5 = this.tools.getSetting("Swords").asInt();
-      boolean var6 = this.enchants.getSetting("Combinable-Sharpness").asBoolean();
+   public void processSwords(int i) {
+      int j = this.tools.getSetting("Swords").asInt();
+      boolean bl = this.enchants.getSetting("Combinable-Sharpness").asBoolean();
       if (this.drop.getSetting("Swords").asBoolean()) {
          while (this.swords.size() > 0) {
-            InventoryManager.RankedSlot var7 = this.swords.peek();
-            int var8 = var7.slot;
-            if (this.swords.size() > var5 && (!var6 || !this.canCombineSharpness(this.bestSwordSlot, var8)) && !this.isWhitelisted(var8)) {
-               int var9 = var1 - 1 + 36;
-               if (var9 == var8 && this.swords.size() > 1) {
-                  InventoryManager.RankedSlot var10 = this.swords.poll();
-                  Slot var11 = mc.thePlayer.inventoryContainer.inventorySlots.get(var10.slot);
-                  Slot var12 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.swords.peek().slot);
-                  if (var11.getHasStack() && var12.getHasStack() && this.swordScore(var11.getStack()) == this.swordScore(var12.getStack())) {
+            InventoryManager.RankedSlot rankedSlot = this.swords.peek();
+            int k = rankedSlot.slot;
+            if (this.swords.size() > j && (!bl || !this.canCombineSharpness(this.bestSwordSlot, k)) && !this.isWhitelisted(k)) {
+               int l = i - 1 + 36;
+               if (l == k && this.swords.size() > 1) {
+                  InventoryManager.RankedSlot rankedSlot2 = this.swords.poll();
+                  Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot2.slot);
+                  Slot slot3 = mc.thePlayer.inventoryContainer.inventorySlots.get(this.swords.peek().slot);
+                  if (slot2.getHasStack() && slot3.getHasStack() && this.swordScore(slot2.getStack()) == this.swordScore(slot3.getStack())) {
                      this.dropSlots.add(this.swords.poll().slot);
-                     this.swords.add(var10);
+                     this.swords.add(rankedSlot2);
                      continue;
                   }
 
-                  this.swords.add(var10);
+                  this.swords.add(rankedSlot2);
                }
 
                this.dropSlots.add(this.swords.poll().slot);
@@ -2362,143 +2365,143 @@ public class InventoryManager extends Module {
       }
    }
 
-   public boolean isWhitelisted(int var1) {
-      Slot var5 = mc.thePlayer.inventoryContainer.inventorySlots.get(var1);
-      if (var5.getHasStack() && !this.dropSlots.contains(var1)) {
-         ItemStack var6 = var5.getStack();
-         if (var6 != null) {
-            String var7 = var6.getUnlocalizedName();
-            String var8 = var6.getDisplayName();
-            if (this.hypixelUHCItems.getSetting("Forges").asBoolean() && var7.equals("tile.furnace") && var8.contains("Forge")) {
+   public boolean isWhitelisted(int i) {
+      Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(i);
+      if (slot.getHasStack() && !this.dropSlots.contains(i)) {
+         ItemStack itemStack = slot.getStack();
+         if (itemStack != null) {
+            String string = itemStack.getUnlocalizedName();
+            String string2 = itemStack.getDisplayName();
+            if (this.hypixelUHCItems.getSetting("Forges").asBoolean() && string.equals("tile.furnace") && string2.contains("Forge")) {
                return true;
             }
 
             if (this.hypixelUHCItems.getSetting("Dragon-Sword").asBoolean()
-               && var7.equals("item.swordDiamond")
-               && this.getLore(var6).contains("Weaponsmith Ultimate")) {
+               && string.equals("item.swordDiamond")
+               && this.getLore(itemStack).contains("Weaponsmith Ultimate")) {
                return true;
             }
 
             if (this.hypixelUHCItems.getSetting("Bloodlust").asBoolean()
-               && var7.equals("item.swordDiamond")
-               && this.getLore(var6).contains("Gains Sharpness II after 1 kill")) {
+               && string.equals("item.swordDiamond")
+               && this.getLore(itemStack).contains("Gains Sharpness II after 1 kill")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Exodus").asBoolean() && var7.equals("item.helmetDiamond") && var8.contains("xodus")) {
+            if (this.hypixelUHCItems.getSetting("Exodus").asBoolean() && string.equals("item.helmetDiamond") && string2.contains("xodus")) {
                return true;
             }
 
             if (this.hypixelUHCItems.getSetting("Barbarian").asBoolean()
-               && var7.equals("item.chestplateDiamond")
-               && this.getLore(var6).contains("Resistance I (While Wearing)")) {
+               && string.equals("item.chestplateDiamond")
+               && this.getLore(itemStack).contains("Resistance I (While Wearing)")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Vidar").asBoolean() && var7.equals("item.bootsDiamond") && var8.contains("Vidar")) {
+            if (this.hypixelUHCItems.getSetting("Vidar").asBoolean() && string.equals("item.bootsDiamond") && string2.contains("Vidar")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Scythe").asBoolean() && var7.contains("item.hoe") && var8.contains("Scythe")) {
+            if (this.hypixelUHCItems.getSetting("Scythe").asBoolean() && string.contains("item.hoe") && string2.contains("Scythe")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Perun").asBoolean() && var7.contains("item.hatchet") && var8.contains("Perun")) {
+            if (this.hypixelUHCItems.getSetting("Perun").asBoolean() && string.contains("item.hatchet") && string2.contains("Perun")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Excalibur").asBoolean() && var7.contains("item.sword") && var8.contains("Excalibur")) {
+            if (this.hypixelUHCItems.getSetting("Excalibur").asBoolean() && string.contains("item.sword") && string2.contains("Excalibur")) {
                return true;
             }
 
             if (this.hypixelUHCItems.getSetting("Anduril").asBoolean()
-               && var7.equals("item.swordIron")
-               && this.getLore(var6).contains("Resistance I (While Holding)")) {
+               && string.equals("item.swordIron")
+               && this.getLore(itemStack).contains("Resistance I (While Holding)")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Philo").asBoolean() && var7.equals("item.pickaxeDiamond") && var8.contains("Philo")) {
+            if (this.hypixelUHCItems.getSetting("Philo").asBoolean() && string.equals("item.pickaxeDiamond") && string2.contains("Philo")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Expert-Seal").asBoolean() && var7.equals("item.netherStar")) {
+            if (this.hypixelUHCItems.getSetting("Expert-Seal").asBoolean() && string.equals("item.netherStar")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Artemis-Bow").asBoolean() && var7.equals("item.bow") && var8.contains("Artemis")) {
+            if (this.hypixelUHCItems.getSetting("Artemis-Bow").asBoolean() && string.equals("item.bow") && string2.contains("Artemis")) {
                return true;
             }
 
-            if (this.hypixelUHCItems.getSetting("Backpack").asBoolean() && var6.getItem() instanceof ItemSkull && var8.contains("Backpack")) {
+            if (this.hypixelUHCItems.getSetting("Backpack").asBoolean() && itemStack.getItem() instanceof ItemSkull && string2.contains("Backpack")) {
                return true;
             }
 
             if (!this.hypixelUHCCrafts.getSetting("Backpack").asBoolean()
-               || !var7.equals("tile.chest") && !var7.equals("item.stick") && !var7.equals("item.leather")) {
-               if (this.hypixelUHCItems.getSetting("Modular-Bow").asBoolean() && var7.equals("item.bow") && var8.contains("Modular")) {
+               || !string.equals("tile.chest") && !string.equals("item.stick") && !string.equals("item.leather")) {
+               if (this.hypixelUHCItems.getSetting("Modular-Bow").asBoolean() && string.equals("item.bow") && string2.contains("Modular")) {
                   return true;
                }
 
                if (!this.hypixelUHCCrafts.getSetting("Eves-Temptation").asBoolean()
-                  || !var7.equals("item.bone") && !var7.equals("item.dyePowder.white") && !var8.contains("Bone Meal")) {
-                  if (!this.hypixelUHCCrafts.getSetting("Enlightening-Pack").asBoolean() || !var7.equals("item.redstone") && !var7.equals("tile.blockRedstone")
+                  || !string.equals("item.bone") && !string.equals("item.dyePowder.white") && !string2.contains("Bone Meal")) {
+                  if (!this.hypixelUHCCrafts.getSetting("Enlightening-Pack").asBoolean() || !string.equals("item.redstone") && !string.equals("tile.blockRedstone")
                      )
                    {
                      if (!this.hypixelUHCCrafts.getSetting("Sharpness-Books").asBoolean()
-                        || !var7.equals("item.paper") && !var7.equals("item.swordIron") && !var7.equals("item.flint")) {
+                        || !string.equals("item.paper") && !string.equals("item.swordIron") && !string.equals("item.flint")) {
                         if (!this.hypixelUHCCrafts.getSetting("Protection-Books").asBoolean()
-                           || !var7.equals("item.reeds") && !var7.equals("item.paper") && !var7.equals("item.ingotIron")) {
-                           if (!this.hypixelUHCCrafts.getSetting("Seven-League").asBoolean() || !var7.equals("item.enderPearl") && !var7.equals("item.feather")
+                           || !string.equals("item.reeds") && !string.equals("item.paper") && !string.equals("item.ingotIron")) {
+                           if (!this.hypixelUHCCrafts.getSetting("Seven-League").asBoolean() || !string.equals("item.enderPearl") && !string.equals("item.feather")
                               )
                             {
                               if (!this.hypixelUHCCrafts.getSetting("Philo").asBoolean()
-                                 || !var7.equals("tile.oreIron") && !var7.equals("tile.oreGold") && !var7.equals("tile.blockLapis")) {
+                                 || !string.equals("tile.oreIron") && !string.equals("tile.oreGold") && !string.equals("tile.blockLapis")) {
                                  if (!this.hypixelUHCCrafts.getSetting("Holy-Water").asBoolean()
-                                    || !var7.equals("item.glassBottle") && !var7.equals("item.record") && !var7.equals("tile.blockRedstone")) {
+                                    || !string.equals("item.glassBottle") && !string.equals("item.record") && !string.equals("tile.blockRedstone")) {
                                     if (!this.hypixelUHCCrafts.getSetting("Arrow-Economy").asBoolean()
-                                       || !var7.equals("item.feather") && !var7.equals("item.flint")) {
-                                       if (this.enchants.getSetting("Fire-Aspect").asBoolean() && EnchantmentHelper.getEnchantmentLevel(20, var6) > 0) {
+                                       || !string.equals("item.feather") && !string.equals("item.flint")) {
+                                       if (this.enchants.getSetting("Fire-Aspect").asBoolean() && EnchantmentHelper.getEnchantmentLevel(20, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       if (this.enchants.getSetting("Punch").asBoolean() && EnchantmentHelper.getEnchantmentLevel(49, var6) > 0) {
+                                       if (this.enchants.getSetting("Punch").asBoolean() && EnchantmentHelper.getEnchantmentLevel(49, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       if (this.enchants.getSetting("Knockback").asBoolean() && EnchantmentHelper.getEnchantmentLevel(19, var6) > 0) {
+                                       if (this.enchants.getSetting("Knockback").asBoolean() && EnchantmentHelper.getEnchantmentLevel(19, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       if (this.enchants.getSetting("Thorns").asBoolean() && EnchantmentHelper.getEnchantmentLevel(7, var6) > 0) {
+                                       if (this.enchants.getSetting("Thorns").asBoolean() && EnchantmentHelper.getEnchantmentLevel(7, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       if (this.enchants.getSetting("Fortune").asBoolean() && EnchantmentHelper.getEnchantmentLevel(35, var6) > 0) {
+                                       if (this.enchants.getSetting("Fortune").asBoolean() && EnchantmentHelper.getEnchantmentLevel(35, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       if (this.enchants.getSetting("Flame").asBoolean() && EnchantmentHelper.getEnchantmentLevel(50, var6) > 0) {
+                                       if (this.enchants.getSetting("Flame").asBoolean() && EnchantmentHelper.getEnchantmentLevel(50, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       if (this.enchants.getSetting("Looting").asBoolean() && EnchantmentHelper.getEnchantmentLevel(21, var6) > 0) {
+                                       if (this.enchants.getSetting("Looting").asBoolean() && EnchantmentHelper.getEnchantmentLevel(21, itemStack) > 0) {
                                           return true;
                                        }
 
-                                       boolean var9 = this.hypixelUHCItems.getSetting("Recipe-Books").asBoolean();
-                                       if (var9 && var7.equals("item.enchantedBook")) {
-                                          Matcher var11 = this.recipeBookPattern.matcher(var8);
-                                          if (var11.find()) {
+                                       boolean bl = this.hypixelUHCItems.getSetting("Recipe-Books").asBoolean();
+                                       if (bl && string.equals("item.enchantedBook")) {
+                                          Matcher matcher2 = this.recipeBookPattern.matcher(string2);
+                                          if (matcher2.find()) {
                                              return true;
                                           }
-                                       } else if (!var9 && var7.equals("item.enchantedBook")) {
-                                          Matcher var10 = this.recipeBookPattern.matcher(var8);
-                                          if (var10.find()) {
+                                       } else if (!bl && string.equals("item.enchantedBook")) {
+                                          Matcher matcher3 = this.recipeBookPattern.matcher(string2);
+                                          if (matcher3.find()) {
                                              return false;
                                           }
                                        }
 
-                                       return this.enchants.getSetting("Enchanted-Books").asBoolean() && var7.equals("item.enchantedBook");
+                                       return this.enchants.getSetting("Enchanted-Books").asBoolean() && string.equals("item.enchantedBook");
                                     }
 
                                     return true;
@@ -2532,111 +2535,111 @@ public class InventoryManager extends Module {
       return false;
    }
 
-   public boolean canCombineSharpness(int var1, int var2) {
-      Slot var6 = mc.thePlayer.inventoryContainer.inventorySlots.get(var1);
-      Slot var7 = mc.thePlayer.inventoryContainer.inventorySlots.get(var2);
-      if (var6.getHasStack() && var7.getHasStack()) {
-         ItemStack var8 = var6.getStack();
-         ItemStack var9 = var7.getStack();
-         return this.isCombinable(var8) && this.isCombinable(var9)
-            ? EnchantmentHelper.getEnchantmentLevel(16, var8) > 0
-               && EnchantmentHelper.getEnchantmentLevel(16, var8) < 5
-               && var8.getUnlocalizedName().equals(var9.getUnlocalizedName())
-               && EnchantmentHelper.getEnchantmentLevel(16, var8) == EnchantmentHelper.getEnchantmentLevel(16, var9)
+   public boolean canCombineSharpness(int i, int j) {
+      Slot slot = mc.thePlayer.inventoryContainer.inventorySlots.get(i);
+      Slot slot2 = mc.thePlayer.inventoryContainer.inventorySlots.get(j);
+      if (slot.getHasStack() && slot2.getHasStack()) {
+         ItemStack itemStack = slot.getStack();
+         ItemStack itemStack2 = slot2.getStack();
+         return this.isCombinable(itemStack) && this.isCombinable(itemStack2)
+            ? EnchantmentHelper.getEnchantmentLevel(16, itemStack) > 0
+               && EnchantmentHelper.getEnchantmentLevel(16, itemStack) < 5
+               && itemStack.getUnlocalizedName().equals(itemStack2.getUnlocalizedName())
+               && EnchantmentHelper.getEnchantmentLevel(16, itemStack) == EnchantmentHelper.getEnchantmentLevel(16, itemStack2)
             : false;
       } else {
          return false;
       }
    }
 
-   public boolean isCombinable(ItemStack var1) {
-      String var5 = var1.getUnlocalizedName();
-      String var6 = var1.getDisplayName();
-      if (var5.equals("item.chestplateDiamond") && this.getLore(var1).contains("Resistance I (While Wearing)")) {
+   public boolean isCombinable(ItemStack itemStack) {
+      String string = itemStack.getUnlocalizedName();
+      String string2 = itemStack.getDisplayName();
+      if (string.equals("item.chestplateDiamond") && this.getLore(itemStack).contains("Resistance I (While Wearing)")) {
          return false;
-      } else if (var5.equals("item.swordIron") && this.getLore(var1).contains("Resistance I (While Holding)")) {
+      } else if (string.equals("item.swordIron") && this.getLore(itemStack).contains("Resistance I (While Holding)")) {
          return false;
-      } else if (var5.contains("item.sword") && var6.contains("Excalibur")) {
+      } else if (string.contains("item.sword") && string2.contains("Excalibur")) {
          return false;
-      } else if (var5.equals("item.swordIron") && var6.contains("Apprentice")) {
+      } else if (string.equals("item.swordIron") && string2.contains("Apprentice")) {
          return false;
       } else {
-         return var5.equals("item.helmetIron") && var6.contains("Apprentice") ? false : !var5.equals("item.helmetDiamond") || !var6.contains("Tarnhelm");
+         return string.equals("item.helmetIron") && string2.contains("Apprentice") ? false : !string.equals("item.helmetDiamond") || !string2.contains("Tarnhelm");
       }
    }
 
-   public String getLore(ItemStack var1) {
-      StringBuilder var5 = new StringBuilder();
-      if (var1.getTagCompound() != null && var1.getTagCompound().hasKey("display", 10)) {
-         NBTTagCompound var6 = var1.getTagCompound().getCompoundTag("display");
-         NBTTagList var7 = var6.getTagList("Lore", 8);
-         if (var7.tagCount() > 0) {
-            for (int var8 = 0; var8 < var7.tagCount(); var8++) {
-               var5.append(var7.getStringTagAt(var8));
+   public String getLore(ItemStack itemStack) {
+      StringBuilder stringBuilder = new StringBuilder();
+      if (itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey("display", 10)) {
+         NBTTagCompound nbtTagCompound = itemStack.getTagCompound().getCompoundTag("display");
+         NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
+         if (nbtTagList.tagCount() > 0) {
+            for (int i = 0; i < nbtTagList.tagCount(); i++) {
+               stringBuilder.append(nbtTagList.getStringTagAt(i));
             }
          }
       }
 
-      return var5.toString();
+      return stringBuilder.toString();
    }
 
    public boolean shouldDrop() {
       if (this.dropSlots.size() > 0 && this.delay.hasPassed()) {
-         EnumSetting var4 = (EnumSetting)general.getSetting("Drop-Mode");
-         return this.isModeActive(var4);
+         EnumSetting enumSetting = (EnumSetting)general.getSetting("Drop-Mode");
+         return this.isModeActive(enumSetting);
       } else {
          return false;
       }
    }
 
-   private boolean isModeActive(EnumSetting<InventoryManagerMode> var1) {
+   private boolean isModeActive(EnumSetting<InventoryManagerMode> enumSetting) {
       if (mc.currentScreen instanceof GuiChest) {
          return false;
-      } else if (var1.getValue() == InventoryManagerMode.INVENTORY && mc.currentScreen instanceof GuiInventory) {
+      } else if (enumSetting.getValue() == InventoryManagerMode.INVENTORY && mc.currentScreen instanceof GuiInventory) {
          return true;
-      } else if (var1.getValue() == InventoryManagerMode.INVENTORY_LSHIFT && mc.currentScreen instanceof GuiInventory && Keyboard.isKeyDown(42)) {
+      } else if (enumSetting.getValue() == InventoryManagerMode.INVENTORY_LSHIFT && mc.currentScreen instanceof GuiInventory && Keyboard.isKeyDown(42)) {
          return true;
       } else {
-         return var1.getValue() == InventoryManagerMode.NOT_MOVING && mc.thePlayer.moveForward == 0.0F && mc.thePlayer.moveStrafing == 0.0F
+         return enumSetting.getValue() == InventoryManagerMode.NOT_MOVING && mc.thePlayer.moveForward == 0.0F && mc.thePlayer.moveStrafing == 0.0F
             ? true
-            : var1.getValue() == InventoryManagerMode.ALWAYS;
+            : enumSetting.getValue() == InventoryManagerMode.ALWAYS;
       }
    }
 
    public void doDrops() {
-      for (int var4 = 0; var4 < this.dropSlots.size(); var4++) {
-         if (this.canDrop(this.dropSlots.get(var4))) {
-            this.dropSlot(this.dropSlots.remove(var4));
+      for (int i = 0; i < this.dropSlots.size(); i++) {
+         if (this.canDrop(this.dropSlots.get(i))) {
+            this.dropSlot(this.dropSlots.remove(i));
          }
       }
    }
 
-   public boolean canDrop(int var1) {
-      return this.heldTime(var1) >= general.getSetting("Min-Hold-Time").asInt()
+   public boolean canDrop(int i) {
+      return this.heldTime(i) >= general.getSetting("Min-Hold-Time").asInt()
          && this.delay.hasPassed()
-         && var1 >= 0
-         && var1 <= mc.thePlayer.inventoryContainer.inventorySlots.size() - 1;
+         && i >= 0
+         && i <= mc.thePlayer.inventoryContainer.inventorySlots.size() - 1;
    }
 
-   public void dropSlot(int var1) {
-      if (var1 >= 0 && var1 < mc.thePlayer.inventoryContainer.inventorySlots.size()) {
-         InventoryUtil.dropSlot(var1, 0);
+   public void dropSlot(int i) {
+      if (i >= 0 && i < mc.thePlayer.inventoryContainer.inventorySlots.size()) {
+         InventoryUtil.dropSlot(i, 0);
          this.delay = new InventoryManager.Delay(general.getSetting("Drop-Delay").asInt());
       }
    }
 
-   public boolean isHotbarSlot(int var1) {
-      return var1 >= 36 && var1 <= 44;
+   public boolean isHotbarSlot(int i) {
+      return i >= 36 && i <= 44;
    }
 
-   public void drawSlotWarning(RenderEvent var1) {
+   public void drawSlotWarning(RenderEvent renderEvent) {
       if (!this.slotsUnique) {
          mc.fontRendererObj
             .drawStringWithShadow(
                "Some InventoryManager slots are the same, make each slot unique for sorting to work",
-               var1.getResolution().getScaledWidth() / 2.0F
+               renderEvent.getResolution().getScaledWidth() / 2.0F
                   - mc.fontRendererObj.getStringWidth("Some InventoryManager slots are the same, make each slot unique for sorting to work") / 2.0F,
-               var1.getResolution().getScaledHeight() - 100,
+               renderEvent.getResolution().getScaledHeight() - 100,
                Color.RED.getRGB()
             );
          this.delay = new InventoryManager.Delay(500L);
@@ -2644,18 +2647,18 @@ public class InventoryManager extends Module {
    }
 
    public void update() {
-      int var4 = slots.getSetting("Sword-Slot").asInt();
-      int var5 = slots.getSetting("Golden-Apple-Slot").asInt();
-      int var6 = slots.getSetting("Head-Slot").asInt();
-      int var7 = slots.getSetting("Pearl-Slot").asInt();
-      int var8 = slots.getSetting("Bow-Slot").asInt();
-      int var9 = slots.getSetting("Fishing-Rod-Slot").asInt();
-      int var10 = slots.getSetting("Pickaxe-Slot").asInt();
-      int var11 = slots.getSetting("Axe-Slot").asInt();
-      int var12 = slots.getSetting("Shovel-Slot").asInt();
-      int var13 = slots.getSetting("Blocks-Slot").asInt();
-      boolean var14 = this.slotsUnique = !OldInventoryManager.hasDuplicateSlots(new int[]{var4, var5, var6, var7, var8, var9, var10, var11, var12, var13});
-      if (var14) {
+      int i = slots.getSetting("Sword-Slot").asInt();
+      int j = slots.getSetting("Golden-Apple-Slot").asInt();
+      int k = slots.getSetting("Head-Slot").asInt();
+      int l = slots.getSetting("Pearl-Slot").asInt();
+      int m = slots.getSetting("Bow-Slot").asInt();
+      int n = slots.getSetting("Fishing-Rod-Slot").asInt();
+      int i2 = slots.getSetting("Pickaxe-Slot").asInt();
+      int i3 = slots.getSetting("Axe-Slot").asInt();
+      int i4 = slots.getSetting("Shovel-Slot").asInt();
+      int i5 = slots.getSetting("Blocks-Slot").asInt();
+      boolean bl = this.slotsUnique = !OldInventoryManager.hasDuplicateSlots(new int[]{i, j, k, l, m, n, i2, i3, i4, i5});
+      if (bl) {
          this.inInventory = mc.currentScreen instanceof GuiInventory;
          if (this.inInventory != this.wasInInventory) {
             this.delay = new InventoryManager.Delay(general.getSetting("Open-Inv-Delay").asInt());
@@ -2663,38 +2666,38 @@ public class InventoryManager extends Module {
 
          this.wasInInventory = this.inInventory;
          this.scanInventory();
-         this.generateSwapList(var4, var8, var10, var12, var11, var9, var5, var7, var6, var13);
+         this.generateSwapList(i, m, i2, i4, i3, n, j, l, k, i5);
          if (this.shouldSwap()) {
             this.doSwaps();
          }
 
-         this.generateDropList(var4, var8, var10, var12, var11, var9, var13, var5, var7, var6);
+         this.generateDropList(i, m, i2, i4, i3, n, i5, j, l, k);
          if (this.shouldDrop()) {
             this.doDrops();
          }
       }
    }
 
-   public boolean wouldKeep(ItemStack var1) {
+   public boolean wouldKeep(ItemStack itemStack) {
       this.dropSlots.clear();
-      int var5 = slots.getSetting("Sword-Slot").asInt();
-      int var6 = slots.getSetting("Golden-Apple-Slot").asInt();
-      int var7 = slots.getSetting("Head-Slot").asInt();
-      int var8 = slots.getSetting("Pearl-Slot").asInt();
-      int var9 = slots.getSetting("Bow-Slot").asInt();
-      int var10 = slots.getSetting("Fishing-Rod-Slot").asInt();
-      int var11 = slots.getSetting("Pickaxe-Slot").asInt();
-      int var12 = slots.getSetting("Axe-Slot").asInt();
-      int var13 = slots.getSetting("Shovel-Slot").asInt();
-      int var14 = slots.getSetting("Blocks-Slot").asInt();
-      Slot var15 = new Slot(mc.thePlayer.inventory, 28, 0, 0);
-      ItemStack var16 = mc.thePlayer.inventory.mainInventory[28];
-      mc.thePlayer.inventoryContainer.inventorySlots.add(28, var15);
-      var15.putStack(var1);
+      int i = slots.getSetting("Sword-Slot").asInt();
+      int j = slots.getSetting("Golden-Apple-Slot").asInt();
+      int k = slots.getSetting("Head-Slot").asInt();
+      int l = slots.getSetting("Pearl-Slot").asInt();
+      int m = slots.getSetting("Bow-Slot").asInt();
+      int n = slots.getSetting("Fishing-Rod-Slot").asInt();
+      int i2 = slots.getSetting("Pickaxe-Slot").asInt();
+      int i3 = slots.getSetting("Axe-Slot").asInt();
+      int i4 = slots.getSetting("Shovel-Slot").asInt();
+      int i5 = slots.getSetting("Blocks-Slot").asInt();
+      Slot slot = new Slot(mc.thePlayer.inventory, 28, 0, 0);
+      ItemStack itemStack2 = mc.thePlayer.inventory.mainInventory[28];
+      mc.thePlayer.inventoryContainer.inventorySlots.add(28, slot);
+      slot.putStack(itemStack);
       this.scanInventory();
-      this.generateDropList(var5, var9, var11, var13, var12, var10, var14, var6, var8, var7);
-      mc.thePlayer.inventoryContainer.inventorySlots.remove(var15);
-      mc.thePlayer.inventory.mainInventory[28] = var16;
+      this.generateDropList(i, m, i2, i4, i3, n, i5, j, l, k);
+      mc.thePlayer.inventoryContainer.inventorySlots.remove(slot);
+      mc.thePlayer.inventory.mainInventory[28] = itemStack2;
       return !this.dropSlots.contains(28);
    }
 
@@ -2712,8 +2715,8 @@ public class InventoryManager extends Module {
          this.delay = 0L;
       }
 
-      public Delay(long var2) {
-         this.delay = var2;
+      public Delay(long l) {
+         this.delay = l;
       }
 
       public boolean hasPassed() {
@@ -2726,19 +2729,19 @@ public class InventoryManager extends Module {
       public float rank;
       private static final long a = 71847512793467L;
 
-      public RankedSlot(int var2, float var3) {
-         this.slot = var2;
-         this.rank = var3;
+      public RankedSlot(int i, float f) {
+         this.slot = i;
+         this.rank = f;
       }
 
-      public int compareTo(InventoryManager.RankedSlot var1) {
-         if (this.rank != var1.rank) {
-            return this.rank > var1.rank ? 1 : -1;
+      public int compareTo(InventoryManager.RankedSlot rankedSlot) {
+         if (this.rank != rankedSlot.rank) {
+            return this.rank > rankedSlot.rank ? 1 : -1;
          } else {
-            Slot var5 = ClientAccess.mc.thePlayer.inventoryContainer.inventorySlots.get(this.slot);
-            Slot var6 = ClientAccess.mc.thePlayer.inventoryContainer.inventorySlots.get(var1.slot);
-            if (var5.getHasStack() && var6.getHasStack()) {
-               return InventoryManager.this.remainingDurability(var5.getStack()) > InventoryManager.this.remainingDurability(var6.getStack()) ? 1 : -1;
+            Slot slot2 = ClientAccess.mc.thePlayer.inventoryContainer.inventorySlots.get(this.slot);
+            Slot slot3 = ClientAccess.mc.thePlayer.inventoryContainer.inventorySlots.get(rankedSlot.slot);
+            if (slot2.getHasStack() && slot3.getHasStack()) {
+               return InventoryManager.this.remainingDurability(slot2.getStack()) > InventoryManager.this.remainingDurability(slot3.getStack()) ? 1 : -1;
             } else {
                return 0;
             }

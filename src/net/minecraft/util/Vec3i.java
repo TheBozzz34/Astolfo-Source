@@ -9,28 +9,28 @@ public class Vec3i implements Comparable<Vec3i> {
    private final int z;
    private static final long d = 24061978726379L;
 
-   public Vec3i(int var1, int var2, int var3) {
-      this.x = var1;
-      this.y = var2;
-      this.z = var3;
+   public Vec3i(int xIn, int yIn, int zIn) {
+      this.x = xIn;
+      this.y = yIn;
+      this.z = zIn;
    }
 
-   public Vec3i(double var1, double var3, double var5) {
-      this(MathHelper.floor_double(var1), MathHelper.floor_double(var3), MathHelper.floor_double(var5));
+   public Vec3i(double xIn, double yIn, double zIn) {
+      this(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof Vec3i)) {
+      if (!(object instanceof Vec3i)) {
          return false;
       }
 
-      Vec3i var5 = (Vec3i)var1;
-      return this.getX() != var5.getX() ? false : (this.getY() != var5.getY() ? false : this.getZ() == var5.getZ());
+      Vec3i vec3i = (Vec3i)object;
+      return this.getX() != vec3i.getX() ? false : (this.getY() != vec3i.getY() ? false : this.getZ() == vec3i.getZ());
    }
 
    @Override
@@ -38,8 +38,8 @@ public class Vec3i implements Comparable<Vec3i> {
       return (this.getY() + this.getZ() * 31) * 31 + this.getX();
    }
 
-   public int compareTo(Vec3i var1) {
-      return this.getY() == var1.getY() ? (this.getZ() == var1.getZ() ? this.getX() - var1.getX() : this.getZ() - var1.getZ()) : this.getY() - var1.getY();
+   public int compareTo(Vec3i vec3i) {
+      return this.getY() == vec3i.getY() ? (this.getZ() == vec3i.getZ() ? this.getX() - vec3i.getX() : this.getZ() - vec3i.getZ()) : this.getY() - vec3i.getY();
    }
 
    public int getX() {
@@ -54,30 +54,30 @@ public class Vec3i implements Comparable<Vec3i> {
       return this.z;
    }
 
-   public Vec3i crossProduct(Vec3i var1) {
+   public Vec3i crossProduct(Vec3i vec) {
       return new Vec3i(
-         this.getY() * var1.getZ() - this.getZ() * var1.getY(),
-         this.getZ() * var1.getX() - this.getX() * var1.getZ(),
-         this.getX() * var1.getY() - this.getY() * var1.getX()
+         this.getY() * vec.getZ() - this.getZ() * vec.getY(),
+         this.getZ() * vec.getX() - this.getX() * vec.getZ(),
+         this.getX() * vec.getY() - this.getY() * vec.getX()
       );
    }
 
-   public double distanceSq(double var1, double var3, double var5) {
-      double var7 = this.getX() - var1;
-      double var9 = this.getY() - var3;
-      double var11 = this.getZ() - var5;
-      return var7 * var7 + var9 * var9 + var11 * var11;
+   public double distanceSq(double toX, double toY, double toZ) {
+      double d = this.getX() - toX;
+      double e = this.getY() - toY;
+      double d2 = this.getZ() - toZ;
+      return d * d + e * e + d2 * d2;
    }
 
-   public double distanceSqToCenter(double var1, double var3, double var5) {
-      double var7 = this.getX() + 0.5 - var1;
-      double var9 = this.getY() + 0.5 - var3;
-      double var11 = this.getZ() + 0.5 - var5;
-      return var7 * var7 + var9 * var9 + var11 * var11;
+   public double distanceSqToCenter(double xIn, double yIn, double zIn) {
+      double d = this.getX() + 0.5 - xIn;
+      double e = this.getY() + 0.5 - yIn;
+      double d2 = this.getZ() + 0.5 - zIn;
+      return d * d + e * e + d2 * d2;
    }
 
-   public double distanceSq(Vec3i var1) {
-      return this.distanceSq(var1.getX(), var1.getY(), var1.getZ());
+   public double distanceSq(Vec3i to) {
+      return this.distanceSq(to.getX(), to.getY(), to.getZ());
    }
 
    @Override
