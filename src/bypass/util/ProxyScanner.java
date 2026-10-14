@@ -12,7 +12,6 @@ import java.util.concurrent.Future;
 
 public final class ProxyScanner {
    private final boolean o;
-   private static final long a = 134739016826435L;
 
    public ProxyScanner(boolean bl) {
       this.o = bl;

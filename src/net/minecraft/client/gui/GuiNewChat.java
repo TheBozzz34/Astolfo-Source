@@ -20,7 +20,6 @@ public class GuiNewChat extends Gui {
    private final List<ChatLine> drawnChatLines = Lists.newArrayList();
    private int scrollPos;
    private boolean isScrolled;
-   private static final long d = 34027939022577L;
 
    public GuiNewChat(Minecraft mcIn) {
       this.mc = mcIn;

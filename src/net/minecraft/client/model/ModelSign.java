@@ -3,7 +3,6 @@ package net.minecraft.client.model;
 public class ModelSign extends ModelBase {
    public ModelRenderer signBoard = new ModelRenderer(this, 0, 0);
    public ModelRenderer signStick;
-   private static final long a = 52933897850535L;
 
    public ModelSign() {
       this.signBoard.addBox(-12.0F, -14.0F, -1.0F, 24, 12, 2, 0.0F);

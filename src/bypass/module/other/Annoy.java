@@ -12,7 +12,6 @@ import bypass.module.Module;
 import bypass.setting.BooleanSetting;
 import bypass.setting.EnumSetting;
 import bypass.setting.NumberSetting;
-import bypass.setting.Setting;
 import bypass.util.Rotation;
 import bypass.util.Rotator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -126,19 +125,10 @@ public final class Annoy extends Module {
       if (renderLivingEvent.getEntity() == mc.thePlayer && !this.mode.getValue().equals(AnnoyMode.DEATH)) {
       }
    };
-   private static final long e = 10548188722617L;
-   private static final long v = -3774130557772890106L;
 
    public Annoy(Category category) {
       super(category);
-      Setting[] settings = new Setting[(int)v];
-      settings[0] = this.mode;
-      settings[1] = this.range;
-      settings[2] = this.speed;
-      settings[3] = this.pitch;
-      settings[4] = this.sneak;
-      settings[5] = this.spam;
-      this.addSettings(settings);
+      this.addSettings(this.mode, this.range, this.speed, this.pitch, this.sneak, this.spam);
    }
 
    @Override

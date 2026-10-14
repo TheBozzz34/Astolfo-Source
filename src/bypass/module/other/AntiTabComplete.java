@@ -24,7 +24,6 @@ public final class AntiTabComplete extends Module {
          }
       }
    };
-   private static final long c = 90130258760057L;
 
    public AntiTabComplete(Category category) {
       super(category);

@@ -11,7 +11,6 @@ public class SlotMerchantResult extends Slot {
    private EntityPlayer thePlayer;
    private int field_75231_g;
    private final IMerchant theMerchant;
-   private static final long a = 139798932726083L;
 
    public SlotMerchantResult(EntityPlayer player, IMerchant merchant, InventoryMerchant merchantInventory, int slotIndex, int xPosition, int yPosition) {
       super(merchantInventory, slotIndex, xPosition, yPosition);

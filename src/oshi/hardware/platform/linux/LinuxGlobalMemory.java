@@ -16,7 +16,6 @@ public final class LinuxGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<Pair<Long, Long>> availTotal = Memoizer.memoize(LinuxGlobalMemory::readMemInfo, Memoizer.defaultExpiration());
    private final Supplier<Long> pageSize = Memoizer.memoize(LinuxGlobalMemory::queryPageSize);
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(LinuxGlobalMemory::createVirtualMemory);
-   private static final long a = 9001266690894L;
 
    @Override
    public long d() {

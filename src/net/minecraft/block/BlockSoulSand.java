@@ -12,8 +12,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockSoulSand extends Block {
-   private static final long e = 31456647010979L;
-
    public BlockSoulSand() {
       super(Material.sand, MapColor.brownColor);
       this.setCreativeTab(CreativeTabs.tabBlock);
@@ -27,8 +25,6 @@ public class BlockSoulSand extends Block {
 
    @Override
    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-      long l = e ^ 95524182448853L;
-      long m = l ^ 137486825848261L;
       if (!Astolfo.INSTANCE.getModuleManager().get(NoSlow.class).isEnabled() || !NoSlow.soulSand.getValue()) {
          entityIn.motionX *= 0.4;
          entityIn.motionZ *= 0.4;

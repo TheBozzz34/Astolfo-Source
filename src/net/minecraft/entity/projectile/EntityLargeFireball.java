@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 
 public class EntityLargeFireball extends EntityFireball {
    public int explosionPower = 1;
-   private static final long bb = 77616454307903L;
-   private static final long pb = 3414640450772926563L;
 
    public EntityLargeFireball(World worldIn) {
       super(worldIn);
@@ -47,7 +45,7 @@ public class EntityLargeFireball extends EntityFireball {
    @Override
    public void readEntityFromNBT(NBTTagCompound tagCompund) {
       super.readEntityFromNBT(tagCompund);
-      if (tagCompund.hasKey("ExplosionPower", (int)pb)) {
+      if (tagCompund.hasKey("ExplosionPower", 99)) {
          this.explosionPower = tagCompund.getInteger("ExplosionPower");
       }
    }

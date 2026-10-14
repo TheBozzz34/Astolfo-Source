@@ -9,8 +9,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Player extends VarArgFunction {
-   private static final long a = 18062544119377L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       int i = 0;

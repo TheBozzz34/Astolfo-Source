@@ -123,7 +123,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
    public boolean isChangingQuantityOnly;
    public int ping;
    public boolean playerConqueredTheEnd;
-   private static final long ab = 10609144307497L;
 
    public EntityPlayerMP(MinecraftServer server, WorldServer worldIn, GameProfile profile, ItemInWorldManager interactionManager) {
       super(worldIn, profile);

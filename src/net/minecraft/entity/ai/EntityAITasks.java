@@ -13,12 +13,9 @@ public class EntityAITasks {
    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.newArrayList();
    private final Profiler theProfiler;
    private int tickCount;
-   private int tickRate;
-   private static final long a = 18105175025529L;
-   private static final long e = -4211324311148953597L;
+   private int tickRate = 3;
 
    public EntityAITasks(Profiler profilerIn) {
-      this.tickRate = (int)e;
       this.theProfiler = profilerIn;
    }
 

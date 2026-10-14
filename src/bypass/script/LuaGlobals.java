@@ -12,7 +12,6 @@ import org.luaj.vm2.lib.jse.JseMathLib;
 
 public class LuaGlobals {
    public static Globals globals;
-   private static final long a = 47651154009291L;
 
    public static void init() {
       globals = new Globals();

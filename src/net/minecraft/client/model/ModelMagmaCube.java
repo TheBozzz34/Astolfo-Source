@@ -7,7 +7,6 @@ import net.minecraft.entity.monster.EntityMagmaCube;
 public class ModelMagmaCube extends ModelBase {
    public ModelRenderer[] segments = new ModelRenderer[8];
    public ModelRenderer core;
-   private static final long a = 59114420738080L;
 
    public ModelMagmaCube() {
       for (int i = 0; i < this.segments.length; i++) {

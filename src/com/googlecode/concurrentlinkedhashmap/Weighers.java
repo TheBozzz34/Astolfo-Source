@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 public final class Weighers {
-   private static final long a = 15047677922800L;
-
    private Weighers() {
       throw new AssertionError();
    }
@@ -69,7 +67,6 @@ public final class Weighers {
    public static final class EntryWeigherView<K, V> implements EntryWeigher<K, V>, Serializable {
       public static final long serialVersionUID = 1L;
       public final Weigher<? super V> weigher;
-      private static final long a = 119771151034914L;
 
       public EntryWeigherView(Weigher<? super V> weigher) {
          this.weigher = weigher;
@@ -83,8 +80,6 @@ public final class Weighers {
 
    public enum IterableWeigher implements Weigher<Iterable<?>> {
       INSTANCE;
-
-      private static final long a = 25803324189206L;
 
       public int weightOf(Iterable<?> values) {
          if (values instanceof Collection) {

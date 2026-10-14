@@ -8,8 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class WorldGenAbstractTree extends WorldGenerator {
-   private static final long h = 43863308049279L;
-
    public WorldGenAbstractTree(boolean notify) {
       super(notify);
    }

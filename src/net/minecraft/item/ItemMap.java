@@ -21,8 +21,6 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
 
 public class ItemMap extends ItemMapBase {
-   private static final long a = 57825591181896L;
-
    public ItemMap() {
       this.setHasSubtypes(true);
    }

@@ -17,7 +17,6 @@ public class RealmsConnect {
    private final RealmsScreen onlineScreen;
    private volatile boolean aborted = false;
    private NetworkManager connection;
-   private static final long a = 101331843092958L;
 
    public RealmsConnect(RealmsScreen realmsScreen) {
       this.onlineScreen = realmsScreen;
@@ -26,9 +25,6 @@ public class RealmsConnect {
    public void connect(final String string, final int i) {
       Realms.setConnectedToRealms(true);
       (new Thread("Realms-connect-task") {
-            private static final long a = 105647256874816L;
-            private static final long f = 492340721139843119L;
-
             @Override
             public void run() {
                InetAddress inetAddress = null;
@@ -54,7 +50,7 @@ public class RealmsConnect {
                      return;
                   }
 
-                  RealmsConnect.this.connection.sendPacket(new C00Handshake((int)f, string, i, EnumConnectionState.LOGIN));
+                  RealmsConnect.this.connection.sendPacket(new C00Handshake(47, string, i, EnumConnectionState.LOGIN));
                   if (RealmsConnect.this.aborted) {
                      return;
                   }

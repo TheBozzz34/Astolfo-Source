@@ -6,8 +6,6 @@ import oshi.util.FormatUtil;
 
 @ThreadSafe
 public abstract class AbstractVirtualMemory implements VirtualMemory {
-   private static final long e = 118731116964533L;
-
    @Override
    public String toString() {
       StringBuilder stringBuilder = new StringBuilder();

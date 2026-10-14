@@ -31,7 +31,6 @@ public final class AntiFrozen extends Module {
          }
       }
    };
-   private static final long c = 2477974446304L;
 
    public AntiFrozen(Category category) {
       super(category);

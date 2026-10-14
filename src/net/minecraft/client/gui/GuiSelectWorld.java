@@ -35,7 +35,6 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    private GuiButton selectButton;
    private GuiButton renameButton;
    private GuiButton recreateButton;
-   private static final long e = 101737716579130L;
 
    public GuiSelectWorld(GuiScreen parentScreenIn) {
       this.parentScreen = parentScreenIn;
@@ -190,8 +189,6 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    }
 
    public class List extends GuiSlot {
-      private static final long d = 126369446155060L;
-
       public List(Minecraft mcIn) {
          super(mcIn, GuiSelectWorld.this.width, GuiSelectWorld.this.height, 32, GuiSelectWorld.this.height - 64, 36);
       }

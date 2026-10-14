@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ListSetting extends Setting<List<Setting<?>>> {
-   private static final long c = 116953105784105L;
-
    public ListSetting(String string, String string2, List<Setting<?>> list) {
       super(string, string2, list, SettingType.LIST);
    }

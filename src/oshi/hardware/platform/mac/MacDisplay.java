@@ -14,8 +14,6 @@ import oshi.hardware.common.AbstractDisplay;
 
 @Immutable
 public final class MacDisplay extends AbstractDisplay {
-   private static final long a = 90693491687959L;
-
    public MacDisplay(byte[] edid) {
       super(edid);
    }

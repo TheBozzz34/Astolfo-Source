@@ -25,7 +25,6 @@ public class ShaderMacros {
    public static final String I = "MC_GL_RENDERER_MESA";
    public static final String u = "MC_GL_RENDERER_OTHER";
    private static String[] extensionMacros;
-   private static final long a = 29952932747102L;
 
    public static String getOs() {
       Util.EnumOS enumOS = Util.getOSType();

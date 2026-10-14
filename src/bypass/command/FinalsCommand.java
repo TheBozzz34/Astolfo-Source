@@ -6,8 +6,6 @@ import java.util.Collections;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FinalsCommand extends Command {
-   private static final long d = 6489868230846L;
-
    public FinalsCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Collections.singletonList("final"));

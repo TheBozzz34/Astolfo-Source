@@ -8,8 +8,6 @@ import oshi.util.ParseUtil;
 
 @ThreadSafe
 public final class FreeBsdNetworks extends Networks {
-   private static final long b = 76108154854552L;
-
    public static boolean updateNetworkStats(NetworkIF netIF) {
       String string = ExecutingCommand.getAnswerAt("netstat -bI " + netIF.getName(), 1);
       netIF.setTimeStamp(System.currentTimeMillis());

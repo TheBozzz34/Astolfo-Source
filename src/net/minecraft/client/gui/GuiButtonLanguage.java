@@ -4,8 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiButtonLanguage extends GuiButton {
-   private static final long c = 54778387476942L;
-
    public GuiButtonLanguage(int buttonID, int xPos, int yPos) {
       super(buttonID, xPos, yPos, 20, 20, "");
    }

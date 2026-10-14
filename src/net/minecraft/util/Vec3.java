@@ -4,7 +4,6 @@ public class Vec3 {
    public final double xCoord;
    public final double yCoord;
    public final double zCoord;
-   private static final long a = 5838913629429L;
 
    public Vec3(double x, double y, double z) {
       if (x == -0.0) {

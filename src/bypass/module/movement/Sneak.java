@@ -55,7 +55,6 @@ public final class Sneak extends Module {
          }
       }
    };
-   private static final long c = 13967002925836L;
 
    public Sneak(Category category) {
       super(category);
@@ -78,8 +77,6 @@ public final class Sneak extends Module {
    }
 
    private void S(MotionEvent motionEvent) {
-      long l = c ^ 84868902129426L;
-      long m = l ^ 130790967314861L;
       boolean bl = GameUtil.isMoving(mc.thePlayer);
       switch ((SneakMode)this.mode.getValue()) {
          case WATCHDOG:

@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentFireAspect extends Enchantment {
-   private static final long m = 43545394507364L;
-
    public EnchantmentFireAspect(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.WEAPON);
       this.setName("fire");

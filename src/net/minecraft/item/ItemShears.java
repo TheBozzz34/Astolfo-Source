@@ -9,12 +9,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemShears extends Item {
-   private static final long a = 64653354698640L;
-   private static final long b = -8908532401274093330L;
-
    public ItemShears() {
       this.setMaxStackSize(1);
-      this.setMaxDamage((int)b);
+      this.setMaxDamage(238);
       this.setCreativeTab(CreativeTabs.tabTools);
    }
 

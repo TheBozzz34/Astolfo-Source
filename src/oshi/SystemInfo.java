@@ -20,7 +20,6 @@ public class SystemInfo {
    private static final PlatformEnum currentPlatformEnum;
    private final Supplier<OperatingSystem> os = Memoizer.memoize(this::createOperatingSystem);
    private final Supplier<HardwareAbstractionLayer> hardware = Memoizer.memoize(this::createHardware);
-   private static final long a = 8348707172413L;
 
    public static PlatformEnum getCurrentPlatformEnum() {
       return currentPlatformEnum;

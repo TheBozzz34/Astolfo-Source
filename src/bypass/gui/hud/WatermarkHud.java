@@ -10,7 +10,6 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class WatermarkHud extends HudElement {
    private final SimpleDateFormat B = new SimpleDateFormat("hh:mm a");
-   private static final long d = 59441810956495L;
 
    public WatermarkHud() {
       super("Watermark", 4.0F, 4.0F, 12, 9);
@@ -19,8 +18,6 @@ public class WatermarkHud extends HudElement {
 
    @Override
    public void render(int i, int j) {
-      long m = d ^ 36284522561213L;
-      long n = m ^ 39308001293406L;
       String string = HUD.getWatermarkText();
       string = string.replace("&", "§");
       string = string.replace("%fps%", String.valueOf(Minecraft.B()));

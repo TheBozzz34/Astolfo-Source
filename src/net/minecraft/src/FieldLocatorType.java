@@ -6,7 +6,6 @@ public class FieldLocatorType implements IFieldLocator {
    private ReflectorClass reflectorClass = null;
    private Class targetFieldType = null;
    private int targetFieldIndex;
-   private static final long a = 84588247639097L;
 
    public FieldLocatorType(ReflectorClass reflectorClass, Class targetFieldType) {
       this(reflectorClass, targetFieldType, 0);

@@ -79,8 +79,6 @@ public final class Stealer extends Module {
    private boolean unusedFlag;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = c ^ 128838197311750L;
-      long m = l ^ 90164795600890L;
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (packetEvent.getPacket() instanceof C0EPacketClickWindow) {
             this.clickTimer.reset();
@@ -286,7 +284,6 @@ public final class Stealer extends Module {
       this.openedChests.clear();
       this.resetSilentChest();
    };
-   private static final long c = 17985607461711L;
 
    public Stealer(Category category) {
       super(category);
@@ -294,8 +291,6 @@ public final class Stealer extends Module {
    }
 
    private void stealSlot(GuiContainer guiContainer, GuiChest guiChest, int i) {
-      long l = c ^ 10525064128907L;
-      long m = l ^ 51397149228919L;
       ItemStack itemStack = guiChest.lowerChestInventory.getStackInSlot(i);
       if (itemStack != null && itemStack.getItem() != null) {
          if ((
@@ -343,9 +338,6 @@ public final class Stealer extends Module {
    }
 
    private boolean hasItemsLeft(GuiChest guiChest) {
-      long l = c ^ 84239377091547L;
-      long m = l ^ 118411581644071L;
-
       for (int i = 0; i < guiChest.lowerChestInventory.getSizeInventory(); i++) {
          if (isChestTitle(guiChest.lowerChestInventory.getDisplayName().getFormattedText())
             && guiChest.inventorySlots.getSlot(i).getHasStack()

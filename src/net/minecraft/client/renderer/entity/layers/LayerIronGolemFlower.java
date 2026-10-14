@@ -12,7 +12,6 @@ import net.minecraft.init.Blocks;
 
 public class LayerIronGolemFlower implements LayerRenderer<EntityIronGolem> {
    private final RenderIronGolem ironGolemRenderer;
-   private static final long a = 40742298032329L;
 
    public LayerIronGolemFlower(RenderIronGolem ironGolemRendererIn) {
       this.ironGolemRenderer = ironGolemRendererIn;

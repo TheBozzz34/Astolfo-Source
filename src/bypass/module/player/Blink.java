@@ -91,7 +91,6 @@ public final class Blink extends Module {
          teleportEvent.i(this);
       }
    };
-   private static final long c = 85402930600385L;
 
    public Blink(Category category) {
       super(category);

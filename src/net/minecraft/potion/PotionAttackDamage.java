@@ -4,8 +4,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.util.ResourceLocation;
 
 public class PotionAttackDamage extends Potion {
-   private static final long j = 96238872918620L;
-
    public PotionAttackDamage(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
       super(potionID, location, badEffect, potionColor);
    }

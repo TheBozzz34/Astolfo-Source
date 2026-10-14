@@ -10,7 +10,6 @@ public class RingBuffer<T> {
    private final ReadWriteLock q = new ReentrantReadWriteLock();
    private int Y;
    private int R;
-   private static final long a = 21303592652026L;
 
    public RingBuffer(Class<? extends T> class2, int i) {
       this.k = class2;

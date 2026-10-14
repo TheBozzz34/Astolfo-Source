@@ -8,8 +8,6 @@ public class MovingObjectPosition {
    public EnumFacing sideHit;
    public Vec3 hitVec;
    public Entity entityHit;
-   private static final long a = 101721252498636L;
-   private static final long f = 9024847228115615869L;
 
    public MovingObjectPosition(Vec3 hitVecIn, EnumFacing facing, BlockPos blockPosIn) {
       this(MovingObjectPosition.MovingObjectType.BLOCK, hitVecIn, facing, blockPosIn);
@@ -52,7 +50,7 @@ public class MovingObjectPosition {
          + this.hitVec
          + ", entity="
          + this.entityHit
-         + (int)f;
+         + '}';
    }
 
    public enum MovingObjectType {

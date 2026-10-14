@@ -11,7 +11,6 @@ public class EnchantmentProtection extends Enchantment {
    private static final int[] levelEnchantability = new int[]{11, 8, 6, 8, 6};
    private static final int[] thresholdEnchantability = new int[]{20, 12, 10, 12, 15};
    public final int protectionType;
-   private static final long q = 138252648913744L;
 
    public EnchantmentProtection(int i, ResourceLocation resourceLocation, int j, int k) {
       super(i, resourceLocation, j, EnumEnchantmentType.ARMOR);

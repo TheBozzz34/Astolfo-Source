@@ -9,7 +9,6 @@ public class ItemSpade extends ItemTool {
    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(
       Blocks.clay, Blocks.dirt, Blocks.farmland, Blocks.grass, Blocks.gravel, Blocks.mycelium, Blocks.sand, Blocks.snow, Blocks.snow_layer, Blocks.soul_sand
    );
-   private static final long a = 105412916980203L;
 
    public ItemSpade(Item.ToolMaterial material) {
       super(1.0F, material, EFFECTIVE_ON);

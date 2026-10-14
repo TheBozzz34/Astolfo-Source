@@ -5,7 +5,6 @@ import org.apache.commons.lang3.Validate;
 public class ResourceLocation {
    public final String resourceDomain;
    public final String resourcePath;
-   private static final long b = 38198896827140L;
 
    public ResourceLocation(int i, String... resourceName) {
       this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft" : resourceName[0].toLowerCase();

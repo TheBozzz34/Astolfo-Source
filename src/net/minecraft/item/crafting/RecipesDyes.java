@@ -9,8 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class RecipesDyes {
-   private static final long a = 88691151789007L;
-
    public void addRecipes(CraftingManager craftingManager) {
       for (int i = 0; i < 16; i++) {
          craftingManager.addShapelessRecipe(

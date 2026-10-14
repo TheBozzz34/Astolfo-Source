@@ -5,8 +5,6 @@ import oshi.hardware.Firmware;
 
 @Immutable
 public abstract class AbstractFirmware implements Firmware {
-   private static final long a = 138758548213852L;
-
    @Override
    public String getName() {
       return "unknown";

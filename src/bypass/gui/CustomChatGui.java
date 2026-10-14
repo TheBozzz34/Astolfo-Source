@@ -27,7 +27,6 @@ public class CustomChatGui extends GuiNewChat {
    public static int S;
    public static long l = -1L;
    public boolean f;
-   private static final long c = 127710865482847L;
 
    public CustomChatGui(Minecraft minecraft) {
       super(minecraft);

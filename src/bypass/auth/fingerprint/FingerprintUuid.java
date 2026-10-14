@@ -6,7 +6,6 @@ public final class FingerprintUuid {
    public static final UUID W = UUID.fromString("00000000-0000-0000-0000-000000000000");
    private final FingerprintRegistry R;
    private UUID j;
-   private static final long a = 59518042135852L;
 
    public FingerprintUuid(FingerprintRegistry fingerprintRegistry) {
       this.R = fingerprintRegistry;

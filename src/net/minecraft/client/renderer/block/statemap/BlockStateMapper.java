@@ -14,7 +14,6 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 public class BlockStateMapper {
    private Map<Block, IStateMapper> blockStateMap = Maps.newIdentityHashMap();
    private Set<Block> setBuiltInBlocks = Sets.newIdentityHashSet();
-   private static final long a = 97922312865680L;
 
    public void registerBlockStateMapper(Block block, IStateMapper iStateMapper) {
       this.blockStateMap.put(block, iStateMapper);

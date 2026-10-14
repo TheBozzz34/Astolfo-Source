@@ -8,7 +8,6 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 
 public class InventoryEnderChest extends InventoryBasic {
    private TileEntityEnderChest associatedChest;
-   private static final long a = 92070153852673L;
 
    public InventoryEnderChest() {
       super("container.enderchest", false, 27);

@@ -56,7 +56,6 @@ public class EntitySpeed extends Module {
          }
       }
    };
-   private static final long c = 120985874079522L;
 
    public EntitySpeed() {
       super("EntitySpeed", Category.OTHER);

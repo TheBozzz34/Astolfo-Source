@@ -9,12 +9,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class WorldGenVines extends WorldGenerator {
-   private static final long a = 11406565195909L;
-   private static final long b = -2057056964168384384L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
-      while (position.getY() < (int)b) {
+      while (position.getY() < 128) {
          if (worldIn.isAirBlock(position)) {
             for (EnumFacing enumFacing : EnumFacing.Plane.HORIZONTAL.facings()) {
                if (Blocks.vine.canPlaceBlockOnSide(worldIn, position, enumFacing)) {

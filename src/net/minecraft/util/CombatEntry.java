@@ -9,7 +9,6 @@ public class CombatEntry {
    private final float health;
    private final String field_94566_e;
    private final float fallDistance;
-   private static final long a = 24021902994220L;
 
    public CombatEntry(DamageSource damageSrcIn, int i, float healthAmount, float damageAmount, String string, float fallDistanceIn) {
       this.damageSrc = damageSrcIn;

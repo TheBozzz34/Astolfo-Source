@@ -57,8 +57,6 @@ public final class UnusedTeleportCommand extends Command {
    };
    @EventHandler(MotionEvent.class)
    private final Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = d ^ 57577220663433L;
-      long n = l ^ 139774890254778L;
       if (this.p) {
          boolean bl = client.getModuleManager().get(RiderGod.class).isEnabled();
          if (!this.E.isEmpty()) {
@@ -84,11 +82,11 @@ public final class UnusedTeleportCommand extends Command {
          }
 
          this.T = mc.thePlayer.getPosition();
-         double e = mc.thePlayer.posY - this.h;
+         double d = mc.thePlayer.posY - this.h;
          if (bl) {
             mc.thePlayer.setPosition(this.C, this.h, this.X);
          } else {
-            boolean bl2 = e < -30.0 && mc.thePlayer.posY > 40.0 && this.E.isEmpty() && !ScoreboardTracker.r();
+            boolean bl2 = d < -30.0 && mc.thePlayer.posY > 40.0 && this.E.isEmpty() && !ScoreboardTracker.r();
             if (bl2) {
                this.m(
                   InfiniteReach.Z(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, 8.9),
@@ -122,8 +120,6 @@ public final class UnusedTeleportCommand extends Command {
       GameUtil.setMoveSpeed(moveEvent, 0.0, 90.0F);
       moveEvent.setY(mc.thePlayer.motionY = 0.0);
    };
-   private static final long d = 136569738441856L;
-   private static final long j = -8984061303844765666L;
 
    public UnusedTeleportCommand() {
       super("teleport", "<x> <y> <z>/<x> <z>");
@@ -246,8 +242,6 @@ public final class UnusedTeleportCommand extends Command {
    }
 
    private void c(String string) {
-      long l = d ^ 23328835604355L;
-      long m = l ^ 103860757841584L;
       this.z = 0;
       this.p = false;
       if (client.getModuleManager().get(RiderGod.class).isEnabled()) {
@@ -360,6 +354,6 @@ public final class UnusedTeleportCommand extends Command {
    }
 
    private boolean o() {
-      return !GameUtil.isOnHypixel() || !mc.thePlayer.E() && mc.thePlayer.ticksExisted > (int)j;
+      return !GameUtil.isOnHypixel() || !mc.thePlayer.E() && mc.thePlayer.ticksExisted > 30;
    }
 }

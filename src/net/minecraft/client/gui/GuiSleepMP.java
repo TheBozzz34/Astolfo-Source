@@ -6,8 +6,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 
 public class GuiSleepMP extends GuiChat {
-   private static final long b = 107945530625452L;
-
    @Override
    public void initGui() {
       super.initGui();

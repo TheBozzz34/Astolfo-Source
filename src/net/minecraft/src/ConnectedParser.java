@@ -18,7 +18,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class ConnectedParser {
    private String context = null;
    private static final MatchBlock[] C = new MatchBlock[0];
-   private static final long a = 11636544326233L;
 
    public ConnectedParser(String context) {
       this.context = context;

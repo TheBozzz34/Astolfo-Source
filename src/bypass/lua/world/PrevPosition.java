@@ -7,8 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class PrevPosition extends VarArgFunction {
-   private static final long a = 66802772767264L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       LuaValue luaValue = varargs.arg1();

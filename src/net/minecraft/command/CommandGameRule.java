@@ -9,8 +9,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.GameRules;
 
 public class CommandGameRule extends CommandBase {
-   private static final long b = 75902399097173L;
-
    @Override
    public String getCommandName() {
       return "gamerule";

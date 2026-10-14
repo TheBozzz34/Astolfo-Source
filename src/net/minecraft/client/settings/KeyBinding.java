@@ -17,7 +17,6 @@ public class KeyBinding implements Comparable<KeyBinding> {
    private int keyCode;
    public boolean pressed;
    private int pressTime;
-   private static final long a = 62620788192000L;
 
    public static void onTick(int keyCode) {
       if (keyCode != 0) {

@@ -72,7 +72,6 @@ public class CustomItemProperties {
    public static final int j = 1;
    public static final int s = 2;
    public static final String R = "inventory";
-   private static final long h = 33447728426410L;
 
    public CustomItemProperties(Properties props, String path) {
       this.name = parseName(path);
@@ -916,12 +915,5 @@ public class CustomItemProperties {
       return Reflector.ModelLoader.exists() && !string.startsWith("mcpatcher/") && !string.startsWith("optifine/")
          ? new ResourceLocation("models/" + string)
          : new ResourceLocation(string);
-   }
-
-   static {
-      long l = h ^ 92130644525583L;
-      long m = l ^ 9056037918860405563L;
-      m = l ^ 4326873559655952389L;
-      m = l ^ 4326873559655952389L;
    }
 }

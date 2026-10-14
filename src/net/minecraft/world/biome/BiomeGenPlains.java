@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 
 public class BiomeGenPlains extends BiomeGenBase {
    public boolean field_150628_aC;
-   private static final long bb = 5327718498573L;
 
    public BiomeGenPlains(int id) {
       super(id);

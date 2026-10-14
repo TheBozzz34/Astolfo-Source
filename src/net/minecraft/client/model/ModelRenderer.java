@@ -36,8 +36,6 @@ public class ModelRenderer {
    public List spriteList = new ArrayList();
    public boolean mirrorV = false;
    public float savedScale;
-   private static final long b = 53198452871995L;
-   private static final long c = 636454045199897344L;
 
    public ModelRenderer(ModelBase model, String boxNameIn) {
       this.textureWidth = 64.0F;
@@ -212,7 +210,7 @@ public class ModelRenderer {
          this.displayList = GLAllocation.generateDisplayLists(1);
       }
 
-      GL11.glNewList(this.displayList, (int)c);
+      GL11.glNewList(this.displayList, 4864);
       WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
 
       for (int i = 0; i < this.cubeList.size(); i++) {

@@ -7,7 +7,6 @@ public class PlayerItemRenderer {
    private int attachTo = 0;
    private float q = 0.0F;
    private ModelRenderer modelRenderer = null;
-   private static final long a = 75541727112086L;
 
    public PlayerItemRenderer(int i, float f, ModelRenderer modelRenderer) {
       this.attachTo = i;

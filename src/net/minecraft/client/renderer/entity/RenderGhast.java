@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderGhast extends RenderLiving<EntityGhast> {
    private static final ResourceLocation ghastTextures = new ResourceLocation("textures/entity/ghast/ghast.png");
    private static final ResourceLocation ghastShootingTextures = new ResourceLocation("textures/entity/ghast/ghast_shooting.png");
-   private static final long d = 92812334912362L;
 
    public RenderGhast(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelGhast(), 0.5F);

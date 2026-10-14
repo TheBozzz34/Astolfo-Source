@@ -25,7 +25,6 @@ public class StructureOceanMonument extends MapGenStructure {
       BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver
    );
    private static final List<BiomeGenBase.SpawnListEntry> field_175803_h = Lists.newArrayList();
-   private static final long c = 49600259522505L;
 
    public StructureOceanMonument() {
    }
@@ -97,27 +96,26 @@ public class StructureOceanMonument extends MapGenStructure {
    public static class StartMonument extends StructureStart {
       private Set<ChunkCoordIntPair> field_175791_c = Sets.newHashSet();
       private boolean field_175790_d;
-      private static final long a = 16372114707539L;
 
       public StartMonument() {
       }
 
-      public StartMonument(World worldIn, Random random2, int j, int k) {
-         super(j, k);
-         this.func_175789_b(worldIn, random2, j, k);
+      public StartMonument(World worldIn, Random random2, int i, int j) {
+         super(i, j);
+         this.func_175789_b(worldIn, random2, i, j);
       }
 
-      private void func_175789_b(World worldIn, Random random2, int j, int k) {
+      private void func_175789_b(World worldIn, Random random2, int i, int j) {
          random2.setSeed(worldIn.getSeed());
          long l = random2.nextLong();
          long m = random2.nextLong();
-         long n = j * l;
-         long l2 = k * m;
+         long n = i * l;
+         long l2 = j * m;
          random2.setSeed(n ^ l2 ^ worldIn.getSeed());
-         int i = j * 16 + 8 - 29;
-         int i2 = k * 16 + 8 - 29;
+         int k = i * 16 + 8 - 29;
+         int i2 = j * 16 + 8 - 29;
          EnumFacing enumFacing = EnumFacing.Plane.HORIZONTAL.random(random2);
-         this.components.add(new StructureOceanMonumentPieces.MonumentBuilding(random2, i, i2, enumFacing));
+         this.components.add(new StructureOceanMonumentPieces.MonumentBuilding(random2, k, i2, enumFacing));
          this.updateBoundingBox();
          this.field_175790_d = true;
       }

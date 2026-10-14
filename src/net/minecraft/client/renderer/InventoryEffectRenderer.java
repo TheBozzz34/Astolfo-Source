@@ -9,7 +9,6 @@ import net.minecraft.potion.PotionEffect;
 
 public abstract class InventoryEffectRenderer extends GuiContainer {
    private boolean hasActivePotionEffects;
-   private static final long eb = 54053655700859L;
 
    public InventoryEffectRenderer(Container inventorySlotsIn) {
       super(inventorySlotsIn);
@@ -35,14 +34,12 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
    }
 
    private void drawActivePotionEffects() {
-      long l = eb ^ 113550737551618L;
       int i = this.guiLeft - 124;
       int j = this.guiTop;
       Collection collection = this.mc.thePlayer.getActivePotionEffects();
       if (!collection.isEmpty()) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          GlStateManager.disableLighting();
-         long m = 7280758743181350207L ^ l;
          int k = 33;
          if (collection.size() > 5) {
             k = 132 / (collection.size() - 1);
@@ -54,8 +51,8 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
             this.mc.getTextureManager().bindTexture(inventoryBackground);
             this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
             if (potion.hasStatusIcon()) {
-               int n = potion.getStatusIconIndex();
-               this.drawTexturedModalRect(i + 6, j + 7, 0 + n % 8 * 18, 198 + n / 8 * 18, 18, 18);
+               int l = potion.getStatusIconIndex();
+               this.drawTexturedModalRect(i + 6, j + 7, 0 + l % 8 * 18, 198 + l / 8 * 18, 18, 18);
             }
 
             String string = I18n.format(potion.getName());

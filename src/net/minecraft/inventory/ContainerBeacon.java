@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 public class ContainerBeacon extends Container {
    private IInventory tileBeacon;
    private final ContainerBeacon.BeaconSlot beaconSlot;
-   private static final long a = 102205230103921L;
 
    public ContainerBeacon(IInventory playerInventory, IInventory tileBeaconIn) {
       this.tileBeacon = tileBeaconIn;
@@ -103,8 +102,6 @@ public class ContainerBeacon extends Container {
    }
 
    public class BeaconSlot extends Slot {
-      private static final long a = 10415451948L;
-
       public BeaconSlot(IInventory iInventory, int i, int j, int k) {
          super(iInventory, i, j, k);
       }

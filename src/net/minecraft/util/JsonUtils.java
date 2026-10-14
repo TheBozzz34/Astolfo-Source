@@ -7,9 +7,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 
 public class JsonUtils {
-   private static final long a = 98541310735800L;
-   private static final long e = 1409568946121605130L;
-
    public static boolean isString(JsonObject jsonObject, String string) {
       return !isJsonPrimitive(jsonObject, string) ? false : jsonObject.getAsJsonPrimitive(string).isString();
    }
@@ -155,7 +152,7 @@ public class JsonUtils {
    }
 
    public static String toString(JsonElement jsonElement) {
-      String string = org.apache.commons.lang3.StringUtils.abbreviateMiddle(String.valueOf(jsonElement), "...", (int)e);
+      String string = org.apache.commons.lang3.StringUtils.abbreviateMiddle(String.valueOf(jsonElement), "...", 10);
       if (jsonElement == null) {
          return "null (missing)";
       }

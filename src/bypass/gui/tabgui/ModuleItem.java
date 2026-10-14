@@ -9,7 +9,6 @@ import bypass.setting.NumberSetting;
 
 public class ModuleItem extends TabGuiItem {
    private final Module U;
-   private static final long b = 49190119730991L;
 
    public ModuleItem(TabGui.Panel panel, Module module) {
       super(panel);

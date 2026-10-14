@@ -13,16 +13,15 @@ import net.minecraft.world.World;
 public class BlockPressurePlateWeighted extends BlockBasePressurePlate {
    public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
    private final int field_150068_a;
-   private static final long i = 59702308586741L;
 
-   public BlockPressurePlateWeighted(Material material, int j) {
-      this(material, j, material.getMaterialMapColor());
+   public BlockPressurePlateWeighted(Material material, int i) {
+      this(material, i, material.getMaterialMapColor());
    }
 
-   public BlockPressurePlateWeighted(Material material, int j, MapColor mapColor) {
+   public BlockPressurePlateWeighted(Material material, int i, MapColor mapColor) {
       super(material, mapColor);
       this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, 0));
-      this.field_150068_a = j;
+      this.field_150068_a = i;
    }
 
    @Override

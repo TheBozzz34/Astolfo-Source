@@ -11,7 +11,6 @@ public class ModelCreeper extends ModelBase {
    public ModelRenderer leg2;
    public ModelRenderer leg3;
    public ModelRenderer leg4;
-   private static final long a = 69385176476932L;
 
    public ModelCreeper() {
       this(0.0F);

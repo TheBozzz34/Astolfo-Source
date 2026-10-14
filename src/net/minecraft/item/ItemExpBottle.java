@@ -7,8 +7,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemExpBottle extends Item {
-   private static final long a = 83172639018351L;
-
    public ItemExpBottle() {
       this.setCreativeTab(CreativeTabs.tabMisc);
    }

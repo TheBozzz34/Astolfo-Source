@@ -12,8 +12,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class CommandEmote extends CommandBase {
-   private static final long b = 130074280573051L;
-
    @Override
    public String getCommandName() {
       return "me";

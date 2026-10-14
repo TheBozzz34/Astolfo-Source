@@ -17,7 +17,6 @@ import oshi.util.platform.unix.freebsd.BsdSysctlUtil;
 @ThreadSafe
 public final class FreeBsdDisks {
    private static final Pattern MOUNT_PATTERN = Pattern.compile("/dev/(\\S+p\\d+) on (\\S+) .*");
-   private static final long a = 137318154758226L;
 
    private FreeBsdDisks() {
    }
@@ -46,7 +45,6 @@ public final class FreeBsdDisks {
    }
 
    public static HWDiskStore[] getDisks() {
-      long l = a ^ 104737533163670L;
       HashMap hashMap = new HashMap();
 
       for (String string : ExecutingCommand.runNative("mount")) {
@@ -59,9 +57,8 @@ public final class FreeBsdDisks {
       HashMap hashMap2 = new HashMap();
       List list2 = Arrays.asList(ParseUtil.Q.split(BsdSysctlUtil.sysctl("kern.disks", "")));
       ArrayList arrayList = new ArrayList();
-      long m = 7497337034854158552L ^ l;
       List list3 = ExecutingCommand.runNative("iostat -Ix");
-      long n = System.currentTimeMillis();
+      long l = System.currentTimeMillis();
 
       for (Object object : list3) {
          String string2 = (String)object;
@@ -75,7 +72,7 @@ public final class FreeBsdDisks {
             hwDiskStore.setWriteBytes((long)(ParseUtil.parseDoubleOrDefault(strings[4], 0.0) * 1024.0));
             hwDiskStore.setCurrentQueueLength(ParseUtil.parseLongOrDefault(strings[5], 0L));
             hwDiskStore.setTransferTime((long)(ParseUtil.parseDoubleOrDefault(strings[6], 0.0) * 1000.0));
-            hwDiskStore.setTimeStamp(n);
+            hwDiskStore.setTimeStamp(l);
             hashMap2.put(strings[0], hwDiskStore);
          }
       }

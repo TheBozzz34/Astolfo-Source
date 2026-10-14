@@ -3,7 +3,6 @@ package net.minecraft.client.resources.data;
 public class AnimationFrame {
    private final int frameIndex;
    private final int frameTime;
-   private static final long a = 73760853614430L;
 
    public AnimationFrame(int i) {
       this(i, -1);

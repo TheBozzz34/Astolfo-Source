@@ -29,7 +29,6 @@ public class EntityChicken extends EntityAnimal {
    public float wingRotDelta = 1.0F;
    public int timeUntilNextEgg;
    public boolean chickenJockey;
-   private static final long gb = 48073949983794L;
 
    public EntityChicken(World worldIn) {
       super(worldIn);

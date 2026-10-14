@@ -7,7 +7,6 @@ public abstract class TabGuiItem implements Sized, TabGuiEntry {
    public float k;
    private final TabGui.Panel T;
    private final Dimension h = new Dimension(0, 0);
-   private static final long a = 107816900586236L;
 
    public TabGuiItem(TabGui.Panel panel) {
       this.T = panel;

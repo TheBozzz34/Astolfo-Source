@@ -36,7 +36,6 @@ public class ShaderGroup {
    private int mainFramebufferHeight;
    private float field_148036_j;
    private float field_148037_k;
-   private static final long a = 111075183169828L;
 
    public ShaderGroup(TextureManager textureManager, IResourceManager iResourceManager, Framebuffer framebuffer, ResourceLocation resourceLocation) throws JsonException, IOException, JsonSyntaxException {
       this.resourceManager = iResourceManager;

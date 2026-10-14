@@ -4,7 +4,6 @@ public class ReflectorClass {
    private String targetClassName = null;
    private boolean checked = false;
    private Class targetClass = null;
-   private static final long a = 18149157250304L;
 
    public ReflectorClass(String targetClassName) {
       this(targetClassName, false);

@@ -6,7 +6,6 @@ public class ShapedMapEntry<K, V> implements Entry<K, V> {
    public final K b;
    public V f;
    private final ShapedMap<K, V> B;
-   private static final long a = 120791272448374L;
 
    public ShapedMapEntry(ShapedMap<K, V> shapedMap, K object, V object2) {
       this.B = shapedMap;

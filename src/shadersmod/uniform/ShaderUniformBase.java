@@ -6,7 +6,6 @@ public abstract class ShaderUniformBase {
    private String name;
    private int program = -1;
    private int location = -1;
-   private static final long a = 95174164555149L;
 
    public ShaderUniformBase(String name) {
       this.name = name;

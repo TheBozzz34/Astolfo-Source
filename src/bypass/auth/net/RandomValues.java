@@ -3,8 +3,6 @@ package bypass.auth.net;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class RandomValues {
-   private static final long a = 136084739936287L;
-
    public static byte y() {
       return -128;
    }

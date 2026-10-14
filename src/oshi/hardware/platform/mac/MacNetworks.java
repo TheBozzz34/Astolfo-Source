@@ -20,7 +20,6 @@ public final class MacNetworks extends Networks {
    private static final int PF_ROUTE = 17;
    private static final int NET_RT_IFLIST2 = 6;
    private static final int RTM_IFINFO2 = 18;
-   private static final long b = 55078139080763L;
 
    @Override
    public NetworkIF[] getNetworks() {
@@ -109,14 +108,6 @@ public final class MacNetworks extends Networks {
       } else {
          return false;
       }
-   }
-
-   static {
-      long l = b ^ 74652082511814L;
-      long m = l ^ 7851762012635518982L;
-      m = l ^ 6730855356239594532L;
-      m = l ^ 6375911885522177253L;
-      m = l ^ 7471781183167827523L;
    }
 
    private static class IFdata {

@@ -19,8 +19,6 @@ public class ShaderLoader {
    private final String shaderFilename;
    private int shader;
    private int shaderAttachCount = 0;
-   private static final long a = 61273118313009L;
-   private static final long f = 5788503952270065664L;
 
    private ShaderLoader(ShaderLoader.ShaderType typeIn, int shaderId, String filename) {
       this.shaderType = typeIn;
@@ -58,7 +56,7 @@ public class ShaderLoader {
          OpenGlHelper.glShaderSource(i, byteBuffer);
          OpenGlHelper.glCompileShader(i);
          if (OpenGlHelper.glGetShaderi(i, OpenGlHelper.GL_COMPILE_STATUS) == 0) {
-            String string = StringUtils.trim(OpenGlHelper.glGetShaderInfoLog(i, (int)f));
+            String string = StringUtils.trim(OpenGlHelper.glGetShaderInfoLog(i, 32768));
             JsonException jsonException = new JsonException("Couldn't compile " + typeIn.getShaderName() + " program: " + string);
             jsonException.func_151381_b(resourceLocation.getResourcePath());
             throw jsonException;

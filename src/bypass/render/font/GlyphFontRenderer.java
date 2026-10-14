@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.GlStateManager;
 public class GlyphFontRenderer implements TextRenderer {
    public int N = 0;
    public final GlyphPage v = new GlyphPage();
-   private static final long a = 21706810875415L;
 
    @Override
    public float B(GlyphPage glyphPage, String string, float f, float g, int i) {

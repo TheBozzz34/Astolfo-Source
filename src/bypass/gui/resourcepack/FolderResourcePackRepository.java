@@ -17,7 +17,6 @@ public class FolderResourcePackRepository extends ResourcePackRepository {
    private List<ResourcePackRepository.Entry> W = Lists.newArrayList();
    private List<ResourcePackRepository.Entry> s = Lists.newArrayList();
    private boolean R = true;
-   private static final long a = 112939523825849L;
 
    public static ResourcePackRepository.Entry b(ResourcePackRepository resourcePackRepository, File file) {
       try {

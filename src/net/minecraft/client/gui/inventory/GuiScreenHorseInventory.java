@@ -14,7 +14,6 @@ public class GuiScreenHorseInventory extends GuiContainer {
    private EntityHorse horseEntity;
    private float mousePosx;
    private float mousePosY;
-   private static final long bb = 129646921174906L;
 
    public GuiScreenHorseInventory(IInventory playerInv, IInventory horseInv, EntityHorse horse) {
       super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.getMinecraft().thePlayer));

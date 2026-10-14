@@ -2,7 +2,6 @@ package net.minecraft.util;
 
 public class ChatComponentText extends ChatComponentStyle {
    private final String text;
-   private static final long a = 114867671507196L;
 
    public ChatComponentText(String msg) {
       this.text = msg;

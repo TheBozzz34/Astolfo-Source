@@ -19,7 +19,6 @@ public final class KstatUtil {
    private static final LibKstat KS = LibKstat.INSTANCE;
    private static final KstatCtl KC = KS.kstat_open();
    private static final ReentrantLock CHAIN = new ReentrantLock();
-   private static final long a = 121704915534839L;
 
    private KstatUtil() {
    }
@@ -99,8 +98,6 @@ public final class KstatUtil {
    }
 
    public static class KstatChain implements AutoCloseable {
-      private static final long a = 68567881504371L;
-
       public KstatChain() {
          KstatUtil.j().lock();
          this.update();

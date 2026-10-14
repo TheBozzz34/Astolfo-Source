@@ -7,8 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class WidthHeight extends VarArgFunction {
-   private static final long a = 120772192504124L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       LuaValue luaValue = varargs.arg1();

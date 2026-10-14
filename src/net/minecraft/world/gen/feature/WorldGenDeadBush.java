@@ -8,8 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class WorldGenDeadBush extends WorldGenerator {
-   private static final long a = 37256308154712L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
       Block block;

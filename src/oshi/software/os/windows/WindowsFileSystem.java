@@ -41,7 +41,6 @@ public class WindowsFileSystem extends AbstractFileSystem {
    private static final int Q = 32;
    private static final Map<Integer, String> OPTIONS_MAP = new HashMap<>();
    private static final long MAX_WINDOWS_HANDLES;
-   private static final long b = 91749895903559L;
 
    public WindowsFileSystem() {
       Kernel32.INSTANCE.SetErrorMode(1);
@@ -230,24 +229,6 @@ public class WindowsFileSystem extends AbstractFileSystem {
    }
 
    static {
-      long l = b ^ 2900452754953L;
-      long m = l ^ 9168396066803755451L;
-      m = l ^ 6405264537652694144L;
-      m = l ^ 3760757584754506692L;
-      m = l ^ 8314321614909431806L;
-      m = l ^ 5835176252407130963L;
-      m = l ^ 1257380778018589253L;
-      m = l ^ 2448566906961024649L;
-      m = l ^ 9043345678576879836L;
-      m = l ^ 5171864055468318174L;
-      m = l ^ 1181162977045451280L;
-      m = l ^ 6676908124552546362L;
-      m = l ^ 4100300639768648441L;
-      m = l ^ 5340556208263051333L;
-      m = l ^ 6269081358065699513L;
-      m = l ^ 875527033389639534L;
-      m = l ^ 3776995034674912706L;
-      m = l ^ 8921696893919589040L;
       OPTIONS_MAP.put(2, "casepn");
       OPTIONS_MAP.put(1, "casess");
       OPTIONS_MAP.put(16, "fcomp");

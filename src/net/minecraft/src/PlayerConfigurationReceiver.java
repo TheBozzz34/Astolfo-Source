@@ -5,7 +5,6 @@ import com.google.gson.JsonParser;
 
 public class PlayerConfigurationReceiver implements IFileDownloadListener {
    private String player = null;
-   private static final long a = 133311146099872L;
 
    public PlayerConfigurationReceiver(String player) {
       this.player = player;

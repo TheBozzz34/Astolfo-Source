@@ -10,8 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandDeOp extends CommandBase {
-   private static final long b = 106319104453525L;
-
    @Override
    public String getCommandName() {
       return "deop";

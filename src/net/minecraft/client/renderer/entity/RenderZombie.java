@@ -20,7 +20,6 @@ public class RenderZombie extends RenderBiped<EntityZombie> {
    private final ModelZombieVillager zombieVillagerModel;
    private final List<LayerRenderer<EntityZombie>> field_177121_n;
    private final List<LayerRenderer<EntityZombie>> field_177122_o;
-   private static final long e = 64054122814966L;
 
    public RenderZombie(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelZombie(), 0.5F, 1.0F);

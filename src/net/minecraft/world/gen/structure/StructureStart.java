@@ -13,8 +13,6 @@ public abstract class StructureStart {
    public StructureBoundingBox boundingBox;
    private int chunkPosX;
    private int chunkPosZ;
-   private static final long b = 139517476950036L;
-   private static final long i = -4891874910130929654L;
 
    public StructureStart() {
    }
@@ -78,10 +76,10 @@ public abstract class StructureStart {
          this.boundingBox = new StructureBoundingBox(tagCompound.getIntArray("BB"));
       }
 
-      NBTTagList nbtTagList = tagCompound.getTagList("Children", (int)i);
+      NBTTagList nbtTagList = tagCompound.getTagList("Children", 10);
 
-      for (int j = 0; j < nbtTagList.tagCount(); j++) {
-         this.components.add(MapGenStructureIO.getStructureComponent(nbtTagList.getCompoundTagAt(j), worldIn));
+      for (int i = 0; i < nbtTagList.tagCount(); i++) {
+         this.components.add(MapGenStructureIO.getStructureComponent(nbtTagList.getCompoundTagAt(i), worldIn));
       }
 
       this.readFromNBT(tagCompound);
@@ -90,11 +88,11 @@ public abstract class StructureStart {
    public void readFromNBT(NBTTagCompound tagCompound) {
    }
 
-   public void markAvailableHeight(World worldIn, Random rand, int j) {
-      int i = worldIn.getSeaLevel() - j;
+   public void markAvailableHeight(World worldIn, Random rand, int i) {
+      int j = worldIn.getSeaLevel() - i;
       int k = this.boundingBox.getYSize() + 1;
-      if (k < i) {
-         k += rand.nextInt(i - k);
+      if (k < j) {
+         k += rand.nextInt(j - k);
       }
 
       int l = k - this.boundingBox.maxY;
@@ -105,13 +103,13 @@ public abstract class StructureStart {
       }
    }
 
-   public void setRandomHeight(World worldIn, Random rand, int j, int k) {
-      int i = k - j + 1 - this.boundingBox.getYSize();
+   public void setRandomHeight(World worldIn, Random rand, int i, int j) {
+      int k = j - i + 1 - this.boundingBox.getYSize();
       int l = 1;
-      if (i > 1) {
-         l = j + rand.nextInt(i);
+      if (k > 1) {
+         l = i + rand.nextInt(k);
       } else {
-         l = j;
+         l = i;
       }
 
       int m = l - this.boundingBox.minY;

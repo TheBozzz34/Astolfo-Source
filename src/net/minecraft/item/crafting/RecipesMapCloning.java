@@ -6,9 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class RecipesMapCloning implements IRecipe {
-   private static final long a = 130197091373589L;
-   private static final long b = -6277061709165232119L;
-
    @Override
    public boolean matches(InventoryCrafting inv, World worldIn) {
       int i = 0;
@@ -74,7 +71,7 @@ public class RecipesMapCloning implements IRecipe {
 
    @Override
    public int getRecipeSize() {
-      return (int)b;
+      return 9;
    }
 
    @Override

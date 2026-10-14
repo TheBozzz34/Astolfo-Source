@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 public final class BodyRequest extends AbstractRequest {
    private static final Map<String, String> h = new HashMap<>();
-   private static final long b = 88286633402691L;
 
    @Override
    public String D() throws Exception {

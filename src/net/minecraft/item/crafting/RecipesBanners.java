@@ -11,8 +11,6 @@ import net.minecraft.tileentity.TileEntityBanner;
 import net.minecraft.world.World;
 
 public class RecipesBanners {
-   private static final long a = 70204417053631L;
-
    public void addRecipes(CraftingManager craftingManager) {
       for (EnumDyeColor enumDyeColor : EnumDyeColor.values()) {
          craftingManager.addRecipe(
@@ -25,8 +23,6 @@ public class RecipesBanners {
    }
 
    public static class RecipeAddPattern implements IRecipe {
-      private static final long a = 114534032667084L;
-
       public RecipeAddPattern() {
       }
 
@@ -195,8 +191,6 @@ public class RecipesBanners {
    }
 
    public static class RecipeDuplicatePattern implements IRecipe {
-      private static final long a = 131059367198762L;
-
       public RecipeDuplicatePattern() {
       }
 

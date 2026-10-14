@@ -85,8 +85,6 @@ public final class AutoHeal extends Module {
    private boolean unusedFlag;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.LOWEST)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = c ^ 134748975167122L;
-      long m = l ^ 9385193959109L;
       if (Flight.slotSpoofed) {
          healItem = null;
       } else if (mc.thePlayer.ticksExisted < 15) {
@@ -249,7 +247,6 @@ public final class AutoHeal extends Module {
          }
       }
    };
-   private static final long c = 76361736906212L;
 
    public AutoHeal(Category category) {
       super(category);
@@ -319,8 +316,6 @@ public final class AutoHeal extends Module {
    }
 
    private boolean isHealingPotion(ItemStack itemStack) {
-      long l = c ^ 75140284277602L;
-      long m = l ^ 59727628827445L;
       if (!this.belowMinHealth && !this.belowMinHealthAbsorption) {
          return false;
       }
@@ -336,8 +331,6 @@ public final class AutoHeal extends Module {
    }
 
    private boolean isBuffPotion(ItemStack itemStack) {
-      long l = c ^ 65324971785467L;
-      long m = l ^ 80733546112172L;
       boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
       return !ItemPotion.isSplash(itemStack.getMetadata()) && !bl
          ? false

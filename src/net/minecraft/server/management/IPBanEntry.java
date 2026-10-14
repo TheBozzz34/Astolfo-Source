@@ -4,8 +4,6 @@ import com.google.gson.JsonObject;
 import java.util.Date;
 
 public class IPBanEntry extends BanEntry<String> {
-   private static final long b = 112377575253176L;
-
    public IPBanEntry(String valueIn) {
       this(valueIn, (Date)null, (String)null, (Date)null, (String)null);
    }

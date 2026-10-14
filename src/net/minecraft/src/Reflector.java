@@ -379,7 +379,6 @@ public class Reflector {
    public static ReflectorField ko = new ReflectorField(Bh, Map.class);
    public static ReflectorField um = new ReflectorField(Bh, ResourceLocation.class);
    public static ReflectorMethod BW = new ReflectorMethod(ModelLoader, "getInventoryVariant");
-   private static final long ab = 78019759156624L;
 
    public static void callVoid(ReflectorMethod refMethod, Object... params) {
       try {

@@ -11,8 +11,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Inventory extends VarArgFunction {
-   private static final long a = 74251697092318L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       if (varargs.arg1() != null && !varargs.arg1().isnil() && varargs.arg1().isnumber()) {

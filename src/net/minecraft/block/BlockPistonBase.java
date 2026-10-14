@@ -25,7 +25,6 @@ public class BlockPistonBase extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing");
    public static final PropertyBool EXTENDED = PropertyBool.create("extended");
    private final boolean isSticky;
-   private static final long e = 6865743439998L;
 
    public BlockPistonBase(boolean isSticky) {
       super(Material.piston);

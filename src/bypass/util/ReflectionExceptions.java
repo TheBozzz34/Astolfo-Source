@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 public final class ReflectionExceptions {
-   private static final long a = 105854379820039L;
-
    public static void F(Exception exception) {
       if (exception instanceof NoSuchMethodException) {
          throw new IllegalStateException("Couldn't find the method:\n" + exception.getMessage());

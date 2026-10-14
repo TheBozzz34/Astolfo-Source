@@ -10,8 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandPardonPlayer extends CommandBase {
-   private static final long b = 86386518290267L;
-
    @Override
    public String getCommandName() {
       return "pardon";

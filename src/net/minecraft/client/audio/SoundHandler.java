@@ -48,7 +48,6 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
    private final SoundRegistry sndRegistry = new SoundRegistry();
    private final SoundManager sndManager;
    private final IResourceManager mcResourceManager;
-   private static final long a = 104700702354303L;
 
    public SoundHandler(IResourceManager manager, GameSettings gameSettingsIn) {
       this.mcResourceManager = manager;
@@ -131,7 +130,6 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
             case SOUND_EVENT:
                iSoundEventAccessor = new ISoundEventAccessor<SoundPoolEntry>() {
                   public final ResourceLocation field_148726_a = new ResourceLocation(string2, soundEntry.getSoundEntryName());
-                  private static final long a = 122117350247287L;
 
                   @Override
                   public int getWeight() {

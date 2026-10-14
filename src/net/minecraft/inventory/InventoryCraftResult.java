@@ -8,8 +8,6 @@ import net.minecraft.util.IChatComponent;
 
 public class InventoryCraftResult implements IInventory {
    private ItemStack[] stackResult = new ItemStack[1];
-   private static final long a = 31712658054187L;
-   private static final long c = 5698696319254659136L;
 
    @Override
    public int getSizeInventory() {
@@ -65,7 +63,7 @@ public class InventoryCraftResult implements IInventory {
 
    @Override
    public int getInventoryStackLimit() {
-      return (int)c;
+      return 64;
    }
 
    @Override

@@ -4,8 +4,6 @@ import net.minecraft.client.gui.GuiSlotRealmsProxy;
 
 public class RealmsScrolledSelectionList {
    private final GuiSlotRealmsProxy proxy;
-   private static final long a = 109397933927662L;
-   private static final long b = -4242488550899056516L;
 
    public RealmsScrolledSelectionList(int i, int j, int k, int l, int m) {
       this.proxy = new GuiSlotRealmsProxy(this, i, j, k, l, m);
@@ -53,7 +51,7 @@ public class RealmsScrolledSelectionList {
    }
 
    public int r() {
-      return this.proxy.J() / 2 + (int)b;
+      return this.proxy.J() / 2 + 124;
    }
 
    public void h_void() {

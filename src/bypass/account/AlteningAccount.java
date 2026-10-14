@@ -8,7 +8,6 @@ import java.util.Base64;
 public class AlteningAccount implements JsonSerializable {
    private final String f;
    private final boolean g;
-   private static final long a = 137268381768746L;
 
    public AlteningAccount(String string, boolean bl) {
       this.f = string;

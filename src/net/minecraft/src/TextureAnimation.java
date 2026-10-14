@@ -22,7 +22,6 @@ public class TextureAnimation {
    private int activeFrame = 0;
    public byte[] srcData = null;
    private ByteBuffer imageData = null;
-   private static final long a = 91556960218487L;
 
    public TextureAnimation(
       String texFrom,
@@ -112,7 +111,6 @@ public class TextureAnimation {
    }
 
    public boolean updateTexture() {
-      long l = a ^ 5986741842575L;
       if (this.dstTextId < 0) {
          ITextureObject iTextureObject = TextureUtils.getTexture(this.dstTexLoc);
          if (iTextureObject == null) {
@@ -141,7 +139,6 @@ public class TextureAnimation {
 
       ((Buffer)this.imageData).position(k);
       GlStateManager.bindTexture(this.dstTextId);
-      long m = 1455253693910378400L ^ l;
       GL11.glTexSubImage2D(3553, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, 6408, 5121, this.imageData);
       return true;
    }

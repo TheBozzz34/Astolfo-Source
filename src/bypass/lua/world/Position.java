@@ -7,8 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Position extends VarArgFunction {
-   private static final long a = 40018340418420L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       LuaValue luaValue = varargs.arg1();

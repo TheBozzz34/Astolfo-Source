@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ThreeArgFunction;
 
 public final class Click extends ThreeArgFunction {
-   private static final long a = 78949646917886L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
       if (ClientAccess.mc.thePlayer != null && luaValue.isnumber() && luaValue2.isnumber() && luaValue3.isnumber()) {

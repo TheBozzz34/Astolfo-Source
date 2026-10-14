@@ -26,7 +26,6 @@ import org.apache.logging.log4j.Logger;
 
 public class CryptManager {
    private static final Logger LOGGER = LogManager.getLogger();
-   private static final long a = 16981134938495L;
 
    public static SecretKey createNewSharedKey() {
       try {

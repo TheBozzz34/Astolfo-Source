@@ -8,8 +8,6 @@ import oshi.jna.platform.unix.freebsd.FreeBsdLibc;
 
 @ThreadSafe
 public final class BsdSysctlUtil {
-   private static final long a = 137374768743723L;
-
    private BsdSysctlUtil() {
    }
 

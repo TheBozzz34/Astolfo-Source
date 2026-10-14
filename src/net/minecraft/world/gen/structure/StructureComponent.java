@@ -22,8 +22,6 @@ public abstract class StructureComponent {
    public StructureBoundingBox boundingBox;
    public EnumFacing coordBaseMode;
    public int componentType;
-   private static final long f = 114162865585155L;
-   private static final long K = 2461909613805568255L;
 
    public StructureComponent() {
    }
@@ -559,7 +557,7 @@ public abstract class StructureComponent {
    public void clearCurrentPositionBlocksUpwards(World worldIn, int x, int y, int z, StructureBoundingBox structurebb) {
       BlockPos blockPos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
       if (structurebb.isVecInside(blockPos)) {
-         while (!worldIn.isAirBlock(blockPos) && blockPos.getY() < (int)K) {
+         while (!worldIn.isAirBlock(blockPos) && blockPos.getY() < 255) {
             worldIn.setBlockState(blockPos, Blocks.air.getDefaultState(), 2);
             blockPos = blockPos.up();
          }

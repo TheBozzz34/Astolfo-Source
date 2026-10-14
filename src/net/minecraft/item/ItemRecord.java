@@ -17,8 +17,6 @@ import net.minecraft.world.World;
 public class ItemRecord extends Item {
    private static final Map<String, ItemRecord> RECORDS = Maps.newHashMap();
    public final String recordName;
-   private static final long a = 77288676802459L;
-   private static final long f = 9127178783902663661L;
 
    public ItemRecord(String name) {
       this.recordName = name;
@@ -39,7 +37,7 @@ public class ItemRecord extends Item {
       }
 
       ((BlockJukebox)Blocks.jukebox).insertRecord(worldIn, pos, iBlockState, stack);
-      worldIn.playAuxSFXAtEntity((EntityPlayer)null, (int)f, pos, Item.getIdFromItem(this));
+      worldIn.playAuxSFXAtEntity((EntityPlayer)null, 1005, pos, Item.getIdFromItem(this));
       stack.stackSize--;
       playerIn.triggerAchievement(StatList.field_181740_X);
       return true;

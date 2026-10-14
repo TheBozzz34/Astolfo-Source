@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 
 public class RecipeFireworks implements IRecipe {
    private ItemStack field_92102_a;
-   private static final long a = 83266674986397L;
 
    @Override
    public boolean matches(InventoryCrafting inv, World worldIn) {

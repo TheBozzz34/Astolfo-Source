@@ -64,7 +64,6 @@ public class GuiCreateWorld extends GuiScreen {
       "LPT8",
       "LPT9"
    };
-   private static final long c = 20679802066885L;
 
    public GuiCreateWorld(GuiScreen guiScreen) {
       this.parentScreen = guiScreen;

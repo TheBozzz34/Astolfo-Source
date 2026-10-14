@@ -13,7 +13,6 @@ public class PathPoint {
    public float distanceToTarget;
    public PathPoint previous;
    public boolean visited;
-   private static final long a = 77667759713957L;
 
    public PathPoint(int x, int y, int z) {
       this.xCoord = x;

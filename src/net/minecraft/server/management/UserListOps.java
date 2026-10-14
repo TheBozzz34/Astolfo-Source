@@ -5,8 +5,6 @@ import com.mojang.authlib.GameProfile;
 import java.io.File;
 
 public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
-   private static final long a = 31159359404612L;
-
    public UserListOps(File saveFile) {
       super(saveFile);
    }

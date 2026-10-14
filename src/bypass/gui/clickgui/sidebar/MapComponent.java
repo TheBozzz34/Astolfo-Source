@@ -15,7 +15,6 @@ public class MapComponent extends SidebarSettingComponent {
    private boolean C;
    private int u = 25;
    private boolean Z;
-   private static final long d = 87039549887153L;
 
    public MapComponent(ModuleButton moduleButton, MapSetting mapSetting, int i, int j, int k, int l) {
       super(moduleButton, mapSetting, i, j, k, l);
@@ -40,8 +39,6 @@ public class MapComponent extends SidebarSettingComponent {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 96923443186883L;
-      long m = l ^ 8972929756414L;
       if (!this.w.isRunning() && (this.G(i, j) || this.G().A() == this)) {
          if (this.Z) {
             this.w.forwards().start();
@@ -69,21 +66,21 @@ public class MapComponent extends SidebarSettingComponent {
          this.G().A() == this ? k : new Color(255, 255, 255, this.X).getRGB()
       );
       Sidebar sidebar = this.G().n().t();
-      int i2 = this.u;
+      int l = this.u;
       if (!this.C && this.G().h() == this && this.G().A() == null
          || this.G().h() == null && this.G().A() == this
          || this.G().h() != this && this.G().A() == this) {
          for (Element element : this.M_ArrayList()) {
             if (element instanceof SidebarSettingComponent) {
                SidebarSettingComponent sidebarSettingComponent = (SidebarSettingComponent)element;
-               sidebarSettingComponent.r(this.M() + 155.0F, sidebar.E_float() + i2);
+               sidebarSettingComponent.r(this.M() + 155.0F, sidebar.E_float() + l);
                sidebarSettingComponent.render(i, j);
                if (!sidebarSettingComponent.B.isRunning()) {
                   sidebarSettingComponent.B.forwards().start();
                }
 
                sidebarSettingComponent.X = (int)sidebarSettingComponent.B.getValue(0.0, 255.0);
-               i2 += 15;
+               l += 15;
             }
          }
       } else {

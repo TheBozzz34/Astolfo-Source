@@ -54,7 +54,6 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
    private double velocityX;
    private double velocityY;
    private double velocityZ;
-   private static final long bb = 122433007979174L;
 
    public EntityMinecart(World worldIn) {
       super(worldIn);
@@ -859,7 +858,6 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
       private static final Map<Integer, EntityMinecart.EnumMinecartType> ID_LOOKUP = Maps.newHashMap();
       private final int networkID;
       private final String name;
-      private static final long a = 102531001790621L;
 
       EnumMinecartType(int networkID, String name) {
          this.networkID = networkID;

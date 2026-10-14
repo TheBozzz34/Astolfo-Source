@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public abstract class BlockWoodSlab extends BlockSlab {
    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class);
-   private static final long i = 6057368121034L;
 
    public BlockWoodSlab() {
       super(Material.wood);

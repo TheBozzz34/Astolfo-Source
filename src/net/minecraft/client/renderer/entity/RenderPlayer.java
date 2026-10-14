@@ -23,7 +23,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
    private boolean smallArms;
-   private static final long d = 27286183765204L;
 
    public RenderPlayer(RenderManager renderManager) {
       this(renderManager, false);
@@ -112,8 +111,8 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
       GlStateManager.scale(f, f, f);
    }
 
-   public void renderOffsetLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String str, float g, double d2) {
-      if (d2 < 100.0) {
+   public void renderOffsetLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String str, float g, double d) {
+      if (d < 100.0) {
          Scoreboard scoreboard = entityIn.getWorldScoreboard();
          ScoreObjective scoreObjective = scoreboard.getObjectiveInDisplaySlot(2);
          if (scoreObjective != null) {
@@ -123,7 +122,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
          }
       }
 
-      super.renderOffsetLivingLabel(entityIn, x, y, z, str, g, d2);
+      super.renderOffsetLivingLabel(entityIn, x, y, z, str, g, d);
    }
 
    public void renderRightArm(AbstractClientPlayer clientPlayer) {

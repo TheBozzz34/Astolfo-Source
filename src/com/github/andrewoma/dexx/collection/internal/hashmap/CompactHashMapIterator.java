@@ -12,7 +12,6 @@ public class CompactHashMapIterator<K, V> implements Iterator<Pair<K, V>> {
    private Iterator<Pair<K, V>> subIterator;
    private CompactHashMapIterator.Pointer current;
    private Pair<K, V> next;
-   private static final long a = 105276426639923L;
 
    public CompactHashMapIterator(Object[] elems, KeyFunction<K, V> keyFunction) {
       this.current = new CompactHashMapIterator.Pointer(elems, 0);

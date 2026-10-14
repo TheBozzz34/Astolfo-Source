@@ -9,7 +9,6 @@ import java.util.List;
 public abstract class ChatComponentStyle implements IChatComponent {
    public List<IChatComponent> siblings = Lists.newArrayList();
    private ChatStyle style;
-   private static final long d = 105157924575597L;
 
    @Override
    public IChatComponent appendSibling(IChatComponent component) {

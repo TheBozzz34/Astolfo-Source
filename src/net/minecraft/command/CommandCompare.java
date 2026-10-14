@@ -10,8 +10,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class CommandCompare extends CommandBase {
-   private static final long b = 97244177443141L;
-
    @Override
    public String getCommandName() {
       return "testforblocks";

@@ -5,7 +5,6 @@ import net.minecraft.client.resources.I18n;
 
 public class GuiButtonEnumShaderOption extends GuiButton {
    private EnumShaderOption enumShaderOption = null;
-   private static final long c = 86725453330020L;
 
    public GuiButtonEnumShaderOption(EnumShaderOption enumShaderOption, int x, int y, int widthIn, int heightIn) {
       super(enumShaderOption.ordinal(), x, y, widthIn, heightIn, getButtonText(enumShaderOption));

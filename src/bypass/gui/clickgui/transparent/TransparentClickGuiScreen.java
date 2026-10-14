@@ -22,7 +22,6 @@ import net.minecraft.util.ResourceLocation;
 public class TransparentClickGuiScreen extends GuiScreen {
    private boolean e = true;
    private boolean d;
-   private static final long a = 134723671816197L;
 
    @Override
    public void initGui() {
@@ -41,8 +40,6 @@ public class TransparentClickGuiScreen extends GuiScreen {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = a ^ 131987001745680L;
-      long m = l ^ 18435155387639L;
       float f = HUD.gui.getSetting("Scale").asFloat();
       mouseX = (int)(mouseX / f);
       mouseY = (int)(mouseY / f);
@@ -55,8 +52,6 @@ public class TransparentClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      long m = a ^ 113285842310132L;
-      long n = m ^ 17346045040147L;
       float f = HUD.gui.getSetting("Scale").asFloat();
       mouseX = (int)(mouseX / f);
       mouseY = (int)(mouseY / f);
@@ -114,8 +109,6 @@ public class TransparentClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-      long l = a ^ 123290820125484L;
-      long m = l ^ 27415769278155L;
       float f = HUD.gui.getSetting("Scale").asFloat();
       mouseX = (int)(mouseX / f);
       mouseY = (int)(mouseY / f);
@@ -147,17 +140,12 @@ public class TransparentClickGuiScreen extends GuiScreen {
 
    @Override
    public void mouseReleased(int mouseX, int mouseY, int state) {
-      long l = a ^ 122205175077828L;
-      long m = l ^ 8709232467491L;
       Astolfo.INSTANCE.getTransparentPanelManager().Q(false);
       super.mouseReleased(mouseX, mouseY, state);
    }
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
-      long l = a ^ 67907618721000L;
-      long m = l ^ 93510628018447L;
-
       for (Element element : Astolfo.INSTANCE.getTransparentPanelManager().getList()) {
          if (element instanceof Component) {
             Component component = (Component)element;
@@ -198,8 +186,6 @@ public class TransparentClickGuiScreen extends GuiScreen {
    }
 
    private void D() {
-      long l = a ^ 92706501178946L;
-      long m = l ^ 28178832864244L;
       if (ScriptCommand.z) {
          ScriptCommand.z = false;
          CategoryPanel categoryPanel = z("Scripts");
@@ -222,9 +208,6 @@ public class TransparentClickGuiScreen extends GuiScreen {
    }
 
    public static CategoryPanel z(String string) {
-      long l = a ^ 94487644044546L;
-      long m = l ^ 67213097482469L;
-
       for (Element element : Astolfo.INSTANCE.getTransparentPanelManager().getList()) {
          if (element instanceof CategoryPanel && element.J().equalsIgnoreCase(string)) {
             return (CategoryPanel)element;

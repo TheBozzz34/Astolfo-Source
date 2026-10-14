@@ -20,7 +20,6 @@ public class GuiCommandBlock extends GuiScreen {
    private GuiButton cancelBtn;
    private GuiButton field_175390_s;
    private boolean field_175389_t;
-   private static final long a = 132828306873478L;
 
    public GuiCommandBlock(CommandBlockLogic commandBlockLogic) {
       this.localCommandBlock = commandBlockLogic;

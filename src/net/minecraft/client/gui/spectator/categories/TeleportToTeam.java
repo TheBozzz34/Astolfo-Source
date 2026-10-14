@@ -22,7 +22,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject {
    private final List<ISpectatorMenuObject> field_178672_a = Lists.newArrayList();
-   private static final long a = 96103519230362L;
 
    public TeleportToTeam() {
       Minecraft minecraft = Minecraft.getMinecraft();
@@ -73,7 +72,6 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
       private final ScorePlayerTeam field_178676_b;
       private final ResourceLocation field_178677_c;
       private final List<NetworkPlayerInfo> field_178675_d;
-      private static final long a = 92331622946709L;
 
       public TeamSelectionObject(ScorePlayerTeam scorePlayerTeam) {
          this.field_178676_b = scorePlayerTeam;

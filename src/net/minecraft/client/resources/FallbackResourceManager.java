@@ -18,7 +18,6 @@ public class FallbackResourceManager implements IResourceManager {
    private static final Logger logger = LogManager.getLogger();
    public final List<IResourcePack> resourcePacks = Lists.newArrayList();
    private final IMetadataSerializer frmMetadataSerializer;
-   private static final long a = 737895431508L;
 
    public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
       this.frmMetadataSerializer = frmMetadataSerializerIn;
@@ -89,7 +88,6 @@ public class FallbackResourceManager implements IResourceManager {
       private final InputStream inputStream;
       private final String message;
       private boolean isClosed = false;
-      private static final long a = 112383255152254L;
 
       public InputStreamLeakedResourceLogger(InputStream inputStream, ResourceLocation location, String resourcePack) {
          this.inputStream = inputStream;

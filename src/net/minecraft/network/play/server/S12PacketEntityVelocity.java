@@ -11,7 +11,6 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
    public int motionX;
    public int motionY;
    public int motionZ;
-   private static final long a = 100064723962836L;
 
    public S12PacketEntityVelocity() {
    }

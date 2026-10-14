@@ -5,8 +5,6 @@ import bypass.module.ModuleInfo;
 import java.util.Collections;
 
 public final class HideCommand extends Command {
-   private static final long d = 59328624056405L;
-
    public HideCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Collections.singletonList("h"));
@@ -14,8 +12,6 @@ public final class HideCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      long l = d ^ 85750412959176L;
-      long m = l ^ 87407226648622L;
       if (strings.length == 2) {
          if (strings[1].equalsIgnoreCase("all")) {
             for (ModuleInfo moduleInfo : client.getModuleManager().getList()) {

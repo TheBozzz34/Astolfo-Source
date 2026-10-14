@@ -7,7 +7,6 @@ public class GuiListButton extends GuiButton {
    private boolean field_175216_o;
    private String localizationStr;
    private final GuiPageButtonList.GuiResponder guiResponder;
-   private static final long c = 123909916403334L;
 
    public GuiListButton(GuiPageButtonList.GuiResponder responder, int i, int j, int k, String string, boolean bl) {
       super(i, j, k, 150, 20, "");

@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.util.List;
 
 public interface TabGuiPanel {
-   long a = 101296837649396L;
-
    List<TabGuiItem> getItems();
 
    default void addItem(TabGuiItem tabGuiItem) {

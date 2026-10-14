@@ -27,7 +27,6 @@ public class RenderEnv {
    private BlockPosM colorizerBlockPosM = null;
    private boolean[] borderFlags = null;
    private static ThreadLocal threadLocalInstance = new ThreadLocal();
-   private static final long a = 54713055753620L;
 
    private RenderEnv(IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos) {
       this.blockAccess = blockAccess;

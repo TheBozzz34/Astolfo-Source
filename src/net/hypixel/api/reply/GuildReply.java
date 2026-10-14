@@ -7,7 +7,6 @@ import net.hypixel.api.util.Banner;
 
 public class GuildReply extends AbstractReply {
    private GuildReply.Guild guild;
-   private static final long a = 61417312163193L;
 
    public GuildReply.Guild getGuild() {
       return this.guild;
@@ -33,7 +32,6 @@ public class GuildReply extends AbstractReply {
       private Boolean joinable;
       private long exp;
       private int legacyRanking;
-      private static final long a = 92147171135681L;
 
       public String s() {
          return this._id;
@@ -133,8 +131,6 @@ public class GuildReply extends AbstractReply {
          private UUID uuid;
          private String rank;
          private ZonedDateTime joined;
-         private static final long a = 77800897777988L;
-         private static final long g = 32532358632571005L;
 
          public UUID getUuid() {
             return this.uuid;
@@ -150,7 +146,7 @@ public class GuildReply extends AbstractReply {
 
          @Override
          public String toString() {
-            return "Member{uuid=" + this.uuid + ", rank=" + this.rank + ", joined=" + this.joined + (int)g;
+            return "Member{uuid=" + this.uuid + ", rank=" + this.rank + ", joined=" + this.joined + '}';
          }
       }
    }

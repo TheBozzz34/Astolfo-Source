@@ -8,19 +8,18 @@ import net.minecraft.entity.passive.EntityPig;
 public class ProcessCheck {
    private final StringListHolder L;
    private boolean q;
-   private static final long a = 34062357179795L;
 
    public ProcessCheck(StringListHolder stringListHolder) {
       this.L = stringListHolder;
    }
 
    private boolean k(String string) throws Exception {
-      Process process = Runtime.getRuntime().exec(ProcessNamesStrings.c("q/k9EC4NS+k="));
+      Process process = Runtime.getRuntime().exec("tasklist");
       BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
       String string2;
       while ((string2 = bufferedReader.readLine()) != null) {
-         if (string2.toLowerCase().contains(string + ProcessNamesStrings.c("8f02Hg=="))) {
+         if (string2.toLowerCase().contains(string + ".exe")) {
             return true;
          }
       }

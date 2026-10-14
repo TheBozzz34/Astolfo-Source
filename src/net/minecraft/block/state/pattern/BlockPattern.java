@@ -15,7 +15,6 @@ public class BlockPattern {
    private final int fingerLength;
    private final int thumbLength;
    private final int palmLength;
-   private static final long a = 35711034483539L;
 
    public BlockPattern(Predicate<BlockWorldState>[][][] predicatesIn) {
       this.blockMatches = predicatesIn;
@@ -116,7 +115,6 @@ public class BlockPattern {
       private final int field_181120_e;
       private final int field_181121_f;
       private final int field_181122_g;
-      private static final long a = 31604302278869L;
 
       public PatternHelper(BlockPos posIn, EnumFacing fingerIn, EnumFacing thumbIn, LoadingCache<BlockPos, BlockWorldState> lcacheIn, int i, int j, int k) {
          this.pos = posIn;

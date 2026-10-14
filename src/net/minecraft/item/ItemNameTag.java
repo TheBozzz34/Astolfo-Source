@@ -6,8 +6,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ItemNameTag extends Item {
-   private static final long a = 28123043722635L;
-
    public ItemNameTag() {
       this.setCreativeTab(CreativeTabs.tabTools);
    }

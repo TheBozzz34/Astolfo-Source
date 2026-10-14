@@ -9,7 +9,6 @@ public enum ProxyType {
 
    private final String N;
    private static final ProxyType[] t = new ProxyType[]{HTTP, SOCKS4, SOCKS5};
-   private static final long a = 75514600320246L;
 
    ProxyType(String string2) {
       this.N = string2;

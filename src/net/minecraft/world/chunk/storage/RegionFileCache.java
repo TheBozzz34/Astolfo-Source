@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class RegionFileCache {
    private static final Map<File, RegionFile> regionsByFilename = Maps.newHashMap();
-   private static final long a = 6363100465421L;
 
    public static synchronized RegionFile createOrLoadRegionFile(File worldDir, int chunkX, int chunkZ) {
       File file = new File(worldDir, "region");

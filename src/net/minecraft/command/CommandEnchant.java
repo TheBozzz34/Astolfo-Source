@@ -9,8 +9,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandEnchant extends CommandBase {
-   private static final long b = 112281889923139L;
-
    @Override
    public String getCommandName() {
       return "enchant";

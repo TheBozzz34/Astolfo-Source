@@ -25,7 +25,6 @@ public class EntityLargeExplodeFX extends EntityFX {
    private int field_70584_aq;
    private TextureManager theRenderEngine;
    private float field_70582_as;
-   private static final long ab = 84790336623627L;
 
    public EntityLargeExplodeFX(TextureManager renderEngine, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);

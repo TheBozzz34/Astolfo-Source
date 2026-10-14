@@ -26,7 +26,6 @@ public class RealmsScreen {
    public int width;
    public int height;
    private GuiScreenRealmsProxy proxy = new GuiScreenRealmsProxy(this);
-   private static final long b = 57024501752846L;
 
    public GuiScreenRealmsProxy getProxy() {
       return this.proxy;

@@ -17,7 +17,6 @@ public class ModuleButton extends Container {
    private final Module p;
    private int d = 0;
    private boolean u;
-   private static final long e = 84103440236050L;
 
    public ModuleButton(CategoryPanel categoryPanel, Module module, int i, int j) {
       super(module.getName(), 0.0F, 0.0F, i, j);

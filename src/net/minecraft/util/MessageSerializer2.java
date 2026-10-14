@@ -6,8 +6,6 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import net.minecraft.network.PacketBuffer;
 
 public class MessageSerializer2 extends MessageToByteEncoder<ByteBuf> {
-   private static final long a = 102392642139813L;
-
    public void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, ByteBuf byteBuf2) throws Exception {
       int i = byteBuf.readableBytes();
       int j = PacketBuffer.getVarIntSize(i);

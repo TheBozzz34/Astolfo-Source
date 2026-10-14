@@ -90,8 +90,6 @@ public final class AntiFall extends Module {
    };
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = d ^ 2368323770163L;
-      long m = l ^ 121686549348941L;
       this.Q = false;
       if (mc.thePlayer.fallDistance > (this.voidOnly.getValue() ? 3.0 : this.height.getValue().intValue())
          && !client.getModuleManager().get(Flight.class).isEnabled()
@@ -115,7 +113,6 @@ public final class AntiFall extends Module {
          }
       }
    };
-   private static final long d = 101141971855565L;
 
    public AntiFall(Category category) {
       super(category);
@@ -123,23 +120,20 @@ public final class AntiFall extends Module {
    }
 
    private boolean h() {
-      long l = d ^ 96169894116253L;
-      long m = l ^ 65955614224099L;
-      double e = mc.thePlayer.posX - mc.thePlayer.prevPosX;
-      double d2 = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
-      double d3 = MathHelper.sqrt_double(e * e + d2 * d2);
-      double d4 = d3 / 0.05F;
+      double d = mc.thePlayer.posX - mc.thePlayer.prevPosX;
+      double e = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
+      double d2 = MathHelper.sqrt_double(d * d + e * e);
+      double d3 = d2 / 0.05F;
 
-      for (double d5 = 0.0; d5 < d4 - 1.0; d5 += 0.2) {
-         double d6 = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
-         double d7 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
-         long n = 7776788986887341479L ^ l;
-         double d8 = mc.thePlayer.movementInput.moveForward * d5 * d6 + mc.thePlayer.movementInput.moveStrafe * d5 * d7;
-         double d9 = mc.thePlayer.movementInput.moveForward * d5 * d7 - mc.thePlayer.movementInput.moveStrafe * d5 * d6;
+      for (double d4 = 0.0; d4 < d3 - 1.0; d4 += 0.2) {
+         double d5 = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
+         double d6 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
+         double d7 = mc.thePlayer.movementInput.moveForward * d4 * d5 + mc.thePlayer.movementInput.moveStrafe * d4 * d6;
+         double d8 = mc.thePlayer.movementInput.moveForward * d4 * d6 - mc.thePlayer.movementInput.moveStrafe * d4 * d5;
 
          for (int i = -7; i < 0; i++) {
-            Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + d8, mc.thePlayer.posY + i, mc.thePlayer.posZ + d9)).getBlock();
-            Block block2 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + d8, mc.thePlayer.posY + i, mc.thePlayer.posZ + d9)).getBlock();
+            Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + d7, mc.thePlayer.posY + i, mc.thePlayer.posZ + d8)).getBlock();
+            Block block2 = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + d7, mc.thePlayer.posY + i, mc.thePlayer.posZ + d8)).getBlock();
             if (block != Blocks.air || block2 != Blocks.air) {
                return false;
             }

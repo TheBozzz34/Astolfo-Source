@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32LogicalDiskToPartition {
-   private static final long a = 134880941676165L;
-
    private Win32LogicalDiskToPartition() {
    }
 

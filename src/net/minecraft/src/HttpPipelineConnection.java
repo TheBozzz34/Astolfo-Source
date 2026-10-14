@@ -31,7 +31,6 @@ public class HttpPipelineConnection {
    public static final int TIMEOUT_CONNECT_MS = 5000;
    public static final int TIMEOUT_READ_MS = 5000;
    private static final Pattern patternFullUrl = Pattern.compile("^[a-zA-Z]+://.*");
-   private static final long a = 119396430619104L;
 
    public HttpPipelineConnection(String host, int port) {
       this(host, port, Proxy.NO_PROXY);
@@ -308,11 +307,5 @@ public class HttpPipelineConnection {
 
    public Proxy getProxy() {
       return this.proxy;
-   }
-
-   static {
-      long l = a ^ 18979438127173L;
-      long m = l ^ 934104904770245707L;
-      m = l ^ 934104904770245707L;
    }
 }

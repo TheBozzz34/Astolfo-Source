@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 public class LayerWolfCollar implements LayerRenderer<EntityWolf> {
    private static final ResourceLocation WOLF_COLLAR = new ResourceLocation("textures/entity/wolf/wolf_collar.png");
    private final RenderWolf wolfRenderer;
-   private static final long a = 46351381018946L;
 
    public LayerWolfCollar(RenderWolf wolfRendererIn) {
       this.wolfRenderer = wolfRendererIn;

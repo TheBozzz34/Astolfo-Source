@@ -15,11 +15,9 @@ import oshi.util.platform.unix.freebsd.BsdSysctlUtil;
 @ThreadSafe
 public final class FreeBsdFileSystem extends AbstractFileSystem {
    private static final List<String> TMP_FS_PATHS = Arrays.asList("/system", "/tmp", "/dev/fd");
-   private static final long a = 81837555799709L;
 
    @Override
    public OSFileStore[] getFileStores(boolean localOnly) {
-      long l = a ^ 71641844292242L;
       HashMap hashMap = new HashMap();
       String string = "";
 
@@ -39,7 +37,6 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
 
       ArrayList arrayList = new ArrayList();
       HashMap hashMap2 = new HashMap();
-      long m = 6849323925694564453L ^ l;
       HashMap hashMap3 = new HashMap();
 
       for (String string3 : ExecutingCommand.runNative("df -i")) {
@@ -70,9 +67,9 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
                }
 
                File file = new File(string6);
-               long n = file.getTotalSpace();
-               long l2 = file.getUsableSpace();
-               long l3 = file.getFreeSpace();
+               long l = file.getTotalSpace();
+               long m = file.getUsableSpace();
+               long n = file.getFreeSpace();
                String string10;
                if (string5.startsWith("/dev") || string6.equals("/")) {
                   string10 = "Local Disk";
@@ -94,9 +91,9 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
                osFileStore.setType(string7);
                osFileStore.setOptions(string8);
                osFileStore.setUUID(string11);
-               osFileStore.setFreeSpace(l3);
-               osFileStore.setUsableSpace(l2);
-               osFileStore.setTotalSpace(n);
+               osFileStore.setFreeSpace(n);
+               osFileStore.setUsableSpace(m);
+               osFileStore.setTotalSpace(l);
                osFileStore.setFreeInodes(hashMap2.containsKey(string6) ? (Long)hashMap2.get(string6) : 0L);
                osFileStore.setTotalInodes(hashMap3.containsKey(string6) ? (Long)hashMap3.get(string6) : 0L);
                arrayList.add(osFileStore);

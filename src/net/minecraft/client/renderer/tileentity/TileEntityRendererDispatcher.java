@@ -42,7 +42,6 @@ public class TileEntityRendererDispatcher {
    public double entityX;
    public double entityY;
    public double entityZ;
-   private static final long a = 105542391263275L;
 
    private TileEntityRendererDispatcher() {
       this.mapSpecialRenderers.put(TileEntitySign.class, new TileEntitySignRenderer());

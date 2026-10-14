@@ -80,7 +80,6 @@ public class EntityFishHook extends Entity {
    private double clientMotionX;
    private double clientMotionY;
    private double clientMotionZ;
-   private static final long ab = 122983775517090L;
 
    public static List<WeightedRandomFishable> func_174855_j() {
       return FISH;

@@ -32,7 +32,6 @@ public class CrashReport {
    private boolean firstCategoryInCrashReport = true;
    private StackTraceElement[] stacktrace = new StackTraceElement[0];
    private boolean reported = false;
-   private static final long a = 62197970293659L;
 
    public CrashReport(String descriptionIn, Throwable causeThrowable) {
       this.description = descriptionIn;
@@ -42,37 +41,27 @@ public class CrashReport {
 
    private void populateEnvironment() {
       this.theReportCategory.addCrashSectionCallable("Minecraft Version", new Callable<String>() {
-         private static final long a = 32713302720581L;
-
          public String call() {
             return "1.8.8";
          }
       });
       this.theReportCategory.addCrashSectionCallable("Operating System", new Callable<String>() {
-         private static final long a = 9808470714706L;
-
          public String call() {
             return System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version");
          }
       });
       this.theReportCategory.addCrashSectionCallable("CPU", new CrashReportCpu());
       this.theReportCategory.addCrashSectionCallable("Java Version", new Callable<String>() {
-         private static final long a = 31594650772762L;
-
          public String call() {
             return System.getProperty("java.version") + ", " + System.getProperty("java.vendor");
          }
       });
       this.theReportCategory.addCrashSectionCallable("Java VM Version", new Callable<String>() {
-         private static final long a = 27672619279378L;
-
          public String call() {
             return System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), " + System.getProperty("java.vm.vendor");
          }
       });
       this.theReportCategory.addCrashSectionCallable("Memory", new Callable<String>() {
-         private static final long a = 138140615711711L;
-
          public String call() {
             Runtime runtime = Runtime.getRuntime();
             long l = runtime.maxMemory();
@@ -85,8 +74,6 @@ public class CrashReport {
          }
       });
       this.theReportCategory.addCrashSectionCallable("JVM Flags", new Callable<String>() {
-         private static final long a = 47523400934197L;
-
          public String call() {
             RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
             List list = runtimeMXBean.getInputArguments();

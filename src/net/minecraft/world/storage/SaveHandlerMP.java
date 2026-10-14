@@ -7,8 +7,6 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 
 public class SaveHandlerMP implements ISaveHandler {
-   private static final long a = 133114943707920L;
-
    @Override
    public WorldInfo loadWorldInfo() {
       return null;

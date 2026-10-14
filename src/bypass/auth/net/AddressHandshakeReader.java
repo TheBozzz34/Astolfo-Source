@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class AddressHandshakeReader {
    private final ByteBuffer w = ByteBuffer.allocateDirect(4);
-   private static final long a = 65707301201899L;
 
    public HandshakeAddresses T(SocketChannel socketChannel) throws IOException {
       boolean bl = socketChannel.isBlocking();

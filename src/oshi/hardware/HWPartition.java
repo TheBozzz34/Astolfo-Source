@@ -13,7 +13,6 @@ public class HWPartition implements Comparable<HWPartition> {
    private int major;
    private int minor;
    private String mountPoint;
-   private static final long a = 50212744401528L;
 
    public HWPartition(String identification, String name, String typeIn, String uuid, long size, int major, int minor, String mountPoint) {
       this.setIdentification(identification);

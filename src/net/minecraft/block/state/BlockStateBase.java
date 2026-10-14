@@ -14,8 +14,6 @@ import net.minecraft.util.ResourceLocation;
 public abstract class BlockStateBase implements IBlockState {
    private static final Joiner COMMA_JOINER = Joiner.on(',');
    private static final Function<Entry<IProperty, Comparable>, String> MAP_ENTRY_TO_STRING = new Function<Entry<IProperty, Comparable>, String>() {
-      private static final long a = 47686318496203L;
-
       public String apply(Entry<IProperty, Comparable> entry) {
          if (entry == null) {
             return "<NULL>";
@@ -29,7 +27,6 @@ public abstract class BlockStateBase implements IBlockState {
    private int blockStateId = -1;
    private int metadata = -1;
    private ResourceLocation blockLocation = null;
-   private static final long b = 94713360854204L;
 
    public int getBlockId() {
       if (this.blockId < 0) {

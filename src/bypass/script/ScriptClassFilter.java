@@ -3,8 +3,6 @@ package bypass.script;
 import jdk.nashorn.api.scripting.ClassFilter;
 
 public class ScriptClassFilter implements ClassFilter {
-   private static final long a = 122030401391772L;
-
    public boolean exposeToScripts(String string) {
       return string.contains("org.lwjgl") && !string.equals("org.lwjgl.Sys")
          || string.equals("java.lang.Math")

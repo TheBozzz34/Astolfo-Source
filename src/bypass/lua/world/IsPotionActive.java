@@ -9,8 +9,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public final class IsPotionActive extends TwoArgFunction {
-   private static final long a = 33455840051243L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint() && !luaValue2.isnil() && luaValue2.isnumber() && luaValue2.isint()) {

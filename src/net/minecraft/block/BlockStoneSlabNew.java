@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 public abstract class BlockStoneSlabNew extends BlockSlab {
    public static final PropertyBool SEAMLESS = PropertyBool.create("seamless");
    public static final PropertyEnum<BlockStoneSlabNew.EnumType> VARIANT = PropertyEnum.create("variant", BlockStoneSlabNew.EnumType.class);
-   private static final long i = 121352704930711L;
 
    public BlockStoneSlabNew() {
       super(Material.rock);
@@ -124,10 +123,9 @@ public abstract class BlockStoneSlabNew extends BlockSlab {
       private final int meta;
       private final String name;
       private final MapColor field_181069_e;
-      private static final long a = 102381625708489L;
 
-      EnumType(int k, String string2, MapColor mapColor) {
-         this.meta = k;
+      EnumType(int j, String string2, MapColor mapColor) {
+         this.meta = j;
          this.name = string2;
          this.field_181069_e = mapColor;
       }

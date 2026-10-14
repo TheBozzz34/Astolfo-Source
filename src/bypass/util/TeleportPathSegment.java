@@ -31,8 +31,6 @@ public class TeleportPathSegment implements ClientAccess {
    private final ArrayList<PathNode> W = new ArrayList<>();
    private final ArrayList<PathNode> j = new ArrayList<>();
    private ArrayList<Vector3> p = new ArrayList<>();
-   private static final long b = 99435034601936L;
-   private static final long c = -3625881858811624472L;
 
    public TeleportPathSegment(Vector3 vector3, Vector3 vector32) {
       this.T = vector3.add(0.0, 0.0, 0.0).floor();
@@ -74,7 +72,7 @@ public class TeleportPathSegment implements ClientAccess {
    }
 
    public void H() {
-      this.i((int)c, 4);
+      this.i(1000, 4);
    }
 
    public void i(int i, int j) {

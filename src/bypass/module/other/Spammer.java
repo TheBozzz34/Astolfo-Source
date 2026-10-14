@@ -82,7 +82,6 @@ public final class Spammer extends Module {
       this.m.reset();
       this.A = false;
    };
-   private static final long c = 285072059933L;
 
    public Spammer(Category category) {
       super(category);

@@ -13,7 +13,6 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockPlanks extends Block {
    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class);
-   private static final long i = 1290922938392L;
 
    public BlockPlanks() {
       super(Material.wood);
@@ -66,14 +65,13 @@ public class BlockPlanks extends Block {
       private final String name;
       private final String unlocalizedName;
       private final MapColor mapColor;
-      private static final long a = 26627998731340L;
 
-      EnumType(int k, String string2, MapColor mapColor) {
-         this(k, string2, string2, mapColor);
+      EnumType(int j, String string2, MapColor mapColor) {
+         this(j, string2, string2, mapColor);
       }
 
-      EnumType(int k, String string2, String string3, MapColor mapColor) {
-         this.meta = k;
+      EnumType(int j, String string2, String string3, MapColor mapColor) {
+         this.meta = j;
          this.name = string2;
          this.unlocalizedName = string3;
          this.mapColor = mapColor;

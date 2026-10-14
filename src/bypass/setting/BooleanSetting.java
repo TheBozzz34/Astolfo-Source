@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class BooleanSetting extends Setting<Boolean> implements Comparable<BooleanSetting> {
-   private static final long c = 1945363167698L;
-
    public BooleanSetting() {
       super("", "", false, SettingType.UNDEFINED);
    }

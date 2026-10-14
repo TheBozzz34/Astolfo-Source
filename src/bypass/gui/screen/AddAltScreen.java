@@ -37,7 +37,6 @@ public class AddAltScreen extends GuiScreen {
    private boolean l;
    private GuiButton f;
    private HttpServer y;
-   private static final long b = 78770520807625L;
 
    public AddAltScreen(GuiScreen guiScreen) {
       this(guiScreen, null);
@@ -67,7 +66,6 @@ public class AddAltScreen extends GuiScreen {
 
    @Override
    public void initGui() {
-      long m = b ^ 118591459494541L;
       Keyboard.enableRepeatEvents(true);
       this.buttonList.add(this.f = new GuiButton(0, this.width / 2 - 125, this.height / 6 + 150, 120, 20, "Save Alt"));
       this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height / 6 + 150, 120, 20, "Cancel"));
@@ -86,7 +84,6 @@ public class AddAltScreen extends GuiScreen {
       this.K.setMaxStringLength(128);
       String string = "Hide password";
       this.d = new Checkbox(string, this.width / 2 - (125 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 6 + 115, true);
-      long l2 = 3834574151802937387L ^ m;
       String string2 = "Microsoft";
       this.V = new Checkbox(string2, this.width / 2 - (-120 + this.fontRendererObj.getStringWidth(string2)) / 2, this.height / 6 + 115, this.l);
    }
@@ -186,9 +183,6 @@ public class AddAltScreen extends GuiScreen {
    }
 
    private void q(String string) {
-      long l = b ^ 57450911605727L;
-      long n = l ^ 81090810350741L;
-
       try {
          if (string == null) {
             throw new NullPointerException("query=null");
@@ -280,8 +274,6 @@ public class AddAltScreen extends GuiScreen {
    }
 
    private void H() {
-      long l = b ^ 109395514741362L;
-      long m = l ^ 34078838783288L;
       List list = Astolfo.INSTANCE.getAltManager().getList();
       int i = list.size();
       if (!this.q()) {

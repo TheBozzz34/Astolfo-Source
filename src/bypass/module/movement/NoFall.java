@@ -110,7 +110,6 @@ public final class NoFall extends Module {
          this.N = mc.thePlayer.fallDistance;
       }
    };
-   private static final long c = 87600643255506L;
 
    public NoFall(Category category) {
       super(category);
@@ -122,8 +121,6 @@ public final class NoFall extends Module {
    }
 
    private boolean D(float f) {
-      long l = c ^ 63802694004856L;
-      long m = l ^ 73516519596313L;
       return mc.thePlayer.fallDistance >= f
          && !mc.thePlayer.isSpectator()
          && !mc.thePlayer.capabilities.isCreativeMode

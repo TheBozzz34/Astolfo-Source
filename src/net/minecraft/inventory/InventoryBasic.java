@@ -14,8 +14,6 @@ public class InventoryBasic implements IInventory {
    private ItemStack[] inventoryContents;
    private List<IInvBasic> changeListeners;
    private boolean hasCustomName;
-   private static final long b = 54028134748460L;
-   private static final long f = -2792295836996861888L;
 
    public InventoryBasic(String title, boolean customName, int slotCount) {
       this.inventoryTitle = title;
@@ -147,7 +145,7 @@ public class InventoryBasic implements IInventory {
 
    @Override
    public int getInventoryStackLimit() {
-      return (int)f;
+      return 64;
    }
 
    @Override

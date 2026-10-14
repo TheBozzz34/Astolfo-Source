@@ -27,7 +27,6 @@ public class TileEntitySign extends TileEntity {
    private boolean isEditable = true;
    private EntityPlayer player;
    private final CommandResultStats stats = new CommandResultStats();
-   private static final long a = 8097414756637L;
 
    @Override
    public void writeToNBT(NBTTagCompound compound) {
@@ -99,8 +98,6 @@ public class TileEntitySign extends TileEntity {
 
    public boolean executeCommand(final EntityPlayer playerIn) {
       ICommandSender iCommandSender = new ICommandSender() {
-         private static final long b = 38315389708230L;
-
          @Override
          public String getName() {
             return playerIn.getName();
@@ -169,8 +166,6 @@ public class TileEntitySign extends TileEntity {
    }
 
    public class aa7 implements ICommandSender {
-      private static final long a = 53345391412476L;
-
       @Override
       public String getName() {
          return "Sign";

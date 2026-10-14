@@ -11,22 +11,18 @@ import net.minecraft.init.Blocks;
 
 public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom> {
    private final RenderMooshroom mooshroomRenderer;
-   private static final long a = 33403370154732L;
 
    public LayerMooshroomMushroom(RenderMooshroom mooshroomRendererIn) {
       this.mooshroomRenderer = mooshroomRendererIn;
    }
 
    public void doRenderLayer(EntityMooshroom entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
-      long l = a ^ 43919433167563L;
       if (!entitylivingbaseIn.isChild() && !entitylivingbaseIn.isInvisible()) {
          BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
          this.mooshroomRenderer.bindTexture(TextureMap.locationBlocksTexture);
-         long m = 616475218097275209L ^ l;
          GlStateManager.enableCull();
          GlStateManager.cullFace(1028);
          GlStateManager.pushMatrix();
-         m = 2057505049910219876L ^ l;
          GlStateManager.scale(1.0F, -1.0F, 1.0F);
          GlStateManager.translate(0.2F, 0.35F, 0.5F);
          GlStateManager.rotate(42.0F, 0.0F, 1.0F, 0.0F);

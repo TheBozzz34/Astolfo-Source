@@ -12,8 +12,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandOp extends CommandBase {
-   private static final long b = 44188091695974L;
-
    @Override
    public String getCommandName() {
       return "op";

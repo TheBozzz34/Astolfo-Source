@@ -14,7 +14,6 @@ import net.minecraft.util.EnumChatFormatting;
 public class PlayerListHud extends Component {
    private final Map<String, String> u = new LinkedHashMap<>();
    private int d = new Color(17, 17, 17, 197).getRGB();
-   private static final long c = 55920566408041L;
 
    public PlayerListHud(float f, float g, int i, int j) {
       super("Player list", f, g, i, j);
@@ -26,11 +25,6 @@ public class PlayerListHud extends Component {
 
    @Override
    public void render(int i, int j) {
-      long l = c ^ 41591446834459L;
-      long m = l ^ 112428014582575L;
-      int k = (int)((l ^ 112428014582575L) >>> 56);
-      int n = (int)((l ^ 112428014582575L) << 8 >>> 32);
-      int i2 = (int)(m << 40 >>> 40);
       float f = this.M();
       float g = this.E_float();
       float h = this.x();
@@ -39,7 +33,7 @@ public class PlayerListHud extends Component {
       RenderUtil.drawRect(f, g, f + h, g + 15.0F, new Color(1, 1, 1, 120).getRGB());
       mc.fontRendererObj.drawStringWithShadow(this.J(), f + 3.0F, g + 3.0F, -1);
       byte b = 15;
-      int i3 = 0;
+      int k = 0;
 
       for (Entry entry : this.u.entrySet()) {
          boolean bl = false;
@@ -54,14 +48,14 @@ public class PlayerListHud extends Component {
             }
          } else {
             bl = true;
-            i3++;
+            k++;
          }
 
-         if (i3 <= 10 || !bl) {
+         if (k <= 10 || !bl) {
             if (bl) {
                mc.fontRendererObj
                   .drawStringWithShadow(
-                     (i3 == 1 && !((String)entry.getKey()).equals(PlayerList.j) ? EnumChatFormatting.YELLOW + "✦" + EnumChatFormatting.RESET + " " : "")
+                     (k == 1 && !((String)entry.getKey()).equals(PlayerList.j) ? EnumChatFormatting.YELLOW + "✦" + EnumChatFormatting.RESET + " " : "")
                         + (
                            client.getRelationManager().U((String)entry.getKey())
                               ? EnumChatFormatting.RED

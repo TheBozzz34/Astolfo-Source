@@ -27,7 +27,6 @@ public class ModuleManager extends Manager<ModuleInfo> implements Loadable {
    public static Module M;
    public static Module J;
    public static Module N;
-   private static final long a = 16331876270956L;
 
    @Override
    public void load() {

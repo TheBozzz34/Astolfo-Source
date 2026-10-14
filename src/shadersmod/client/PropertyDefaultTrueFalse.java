@@ -5,7 +5,6 @@ import net.minecraft.src.Lang;
 public class PropertyDefaultTrueFalse extends Property {
    public static final String[] PROPERTY_VALUES = new String[]{"default", "true", "false"};
    public static final String[] USER_VALUES = new String[]{"Default", "ON", "OFF"};
-   private static final long b = 107112739004810L;
 
    public PropertyDefaultTrueFalse(String propertyName, String userName, int defaultValue) {
       super(propertyName, PROPERTY_VALUES, userName, USER_VALUES, defaultValue);

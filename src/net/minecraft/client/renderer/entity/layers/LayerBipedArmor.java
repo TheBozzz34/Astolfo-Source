@@ -4,8 +4,6 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 
 public class LayerBipedArmor extends LayerArmorBase<ModelBiped> {
-   private static final long c = 98648613696646L;
-
    public LayerBipedArmor(RendererLivingEntity<?> rendererIn) {
       super(rendererIn);
    }

@@ -56,7 +56,6 @@ public class Item {
    private Item containerItem;
    private String potionEffect;
    private String unlocalizedName;
-   private static final long c = 6266581612698L;
 
    public static int getIdFromItem(Item itemIn) {
       return itemIn == null ? 0 : itemRegistry.getIDForObject(itemIn);
@@ -351,8 +350,6 @@ public class Item {
       registerItemBlock(Blocks.leaves, new ItemLeaves(Blocks.leaves).setUnlocalizedName("leaves"));
       registerItemBlock(Blocks.leaves2, new ItemLeaves(Blocks.leaves2).setUnlocalizedName("leaves"));
       registerItemBlock(Blocks.sponge, new ItemMultiTexture(Blocks.sponge, Blocks.sponge, new Function<ItemStack, String>() {
-         private static final long a = 67665556597541L;
-
          public String apply(ItemStack itemStack) {
             return (itemStack.getMetadata() & 1) == 1 ? "wet" : "dry";
          }
@@ -768,7 +765,6 @@ public class Item {
       private final float efficiencyOnProperMaterial;
       private final float damageVsEntity;
       private final int enchantability;
-      private static final long a = 68464138721815L;
 
       ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity, int enchantability) {
          this.harvestLevel = harvestLevel;

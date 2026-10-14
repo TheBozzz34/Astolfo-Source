@@ -9,8 +9,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public final class GetAsync extends TwoArgFunction {
-   private static final long a = 28639608301543L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       if (!ScriptManager.N.t()) {

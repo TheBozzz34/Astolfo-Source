@@ -6,8 +6,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class WorldToScreen extends VarArgFunction {
-   private static final long a = 82273072128268L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       float f = 0.0F;

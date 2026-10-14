@@ -6,8 +6,6 @@ import bypass.render.font.CustomFontRenderer;
 import java.util.Map;
 
 public interface RendererSet {
-   long b = 130721837572061L;
-
    Map<Class<? extends Sized>, ElementRenderer<?>> getRenderers();
 
    default void register(Class<? extends Sized> class2, ElementRenderer<?> elementRenderer) {

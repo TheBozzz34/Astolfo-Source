@@ -20,8 +20,6 @@ public class EntityAITempt extends EntityAIBase {
    private Item temptItem;
    private boolean scaredByPlayerMovement;
    private boolean avoidWater;
-   private static final long a = 37570715784492L;
-   private static final long e = 5379365337588301924L;
 
    public EntityAITempt(EntityCreature temptedEntityIn, double speedIn, Item temptItemIn, boolean scaredByPlayerMovementIn) {
       this.temptedEntity = temptedEntityIn;
@@ -88,7 +86,7 @@ public class EntityAITempt extends EntityAIBase {
    public void resetTask() {
       this.temptingPlayer = null;
       this.temptedEntity.getNavigator().clearPathEntity();
-      this.delayTemptCounter = (int)e;
+      this.delayTemptCounter = 100;
       this.isRunning = false;
       ((PathNavigateGround)this.temptedEntity.getNavigator()).setAvoidsWater(this.avoidWater);
    }

@@ -17,7 +17,6 @@ public class GuiLanguage extends GuiScreen {
    private final LanguageManager languageManager;
    private GuiOptionButton forceUnicodeFontBtn;
    private GuiOptionButton confirmSettingsBtn;
-   private static final long a = 42616695162694L;
 
    public GuiLanguage(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager) {
       this.parentScreen = screen;
@@ -84,7 +83,6 @@ public class GuiLanguage extends GuiScreen {
    public class List extends GuiSlot {
       private final java.util.List<String> langCodeList = Lists.newArrayList();
       private final Map<String, Language> languageMap = Maps.newHashMap();
-      private static final long c = 126436463148379L;
 
       public List(Minecraft mcIn) {
          super(mcIn, GuiLanguage.this.width, GuiLanguage.this.height, 32, GuiLanguage.this.height - 65 + 4, 18);

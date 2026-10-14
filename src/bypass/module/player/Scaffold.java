@@ -140,8 +140,6 @@ public final class Scaffold extends Module {
    private int airTicks;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.NORMAL)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = cb ^ 75440067652333L;
-      long n = l ^ 99502690093115L;
       if (mc.thePlayer.onGround) {
          this.airTicks = 0;
       } else {
@@ -440,7 +438,6 @@ public final class Scaffold extends Module {
       }
    };
    private ItemBlock lastBlock;
-   private static final long cb = 45716836261733L;
 
    public Scaffold(Category category) {
       super(category);

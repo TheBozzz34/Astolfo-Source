@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 public class WorldGenIcePath extends WorldGenerator {
    private Block block = Blocks.packed_ice;
    private int basePathWidth;
-   private static final long b = 30919088960373L;
 
    public WorldGenIcePath(int i) {
       this.basePathWidth = i;

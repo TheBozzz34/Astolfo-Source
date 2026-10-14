@@ -11,8 +11,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandPardonIp extends CommandBase {
-   private static final long b = 91965796577651L;
-
    @Override
    public String getCommandName() {
       return "pardon-ip";

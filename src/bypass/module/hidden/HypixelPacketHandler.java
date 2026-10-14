@@ -46,8 +46,6 @@ public final class HypixelPacketHandler extends HiddenModule {
    private static boolean f;
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = c ^ 111837101702005L;
-      long m = l ^ 129927802570145L;
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
          if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook) {
             TeleportEvent teleportEvent = new TeleportEvent((S08PacketPlayerPosLook)packetEvent.getPacket());
@@ -91,7 +89,7 @@ public final class HypixelPacketHandler extends HiddenModule {
    @EventHandler(TickEvent.class)
    private Listener<TickEvent> onTick = tickEvent -> {
       r++;
-      if (r >= (int)h) {
+      if (r >= 54) {
          r = 0;
       }
    };
@@ -113,8 +111,6 @@ public final class HypixelPacketHandler extends HiddenModule {
       m = 0;
       f = false;
    };
-   private static final long c = 40595861373799L;
-   private static final long h = -1237826179050766282L;
 
    public HypixelPacketHandler() {
       client.getEventBus().subscribe(this);

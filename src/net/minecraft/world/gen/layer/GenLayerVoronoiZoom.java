@@ -1,8 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerVoronoiZoom extends GenLayer {
-   private static final long c = 51371569411676L;
-
    public GenLayerVoronoiZoom(long l, GenLayer genLayer) {
       super(l);
       super.parent = genLayer;

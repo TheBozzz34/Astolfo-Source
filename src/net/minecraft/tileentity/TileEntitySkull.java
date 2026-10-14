@@ -15,7 +15,6 @@ public class TileEntitySkull extends TileEntity {
    private int skullType;
    private int skullRotation;
    private GameProfile playerProfile = null;
-   private static final long a = 21892899097163L;
 
    @Override
    public void writeToNBT(NBTTagCompound compound) {

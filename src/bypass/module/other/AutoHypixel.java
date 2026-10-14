@@ -125,11 +125,6 @@ public final class AutoHypixel extends Module {
    public static double pitSpawnY;
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      long l = f ^ 46024758410688L;
-      long m = l ^ 7074644046134L;
-      int i = (int)((l ^ 7074644046134L) >>> 56);
-      int j = (int)((l ^ 7074644046134L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if (!GameUtil.isOnHypixel()) {
          toasts.B("AutoHypixel disable", "Disabling AutoHypixel due to being in other server");
          this.setEnabled(false);
@@ -177,8 +172,8 @@ public final class AutoHypixel extends Module {
                   String string3 = StringUtils.stripControlCodes(string2.replace("g", ""));
 
                   try {
-                     int n = Integer.parseInt(string3);
-                     if (n >= autoPit.getSetting("Bounty").asInt()) {
+                     int i = Integer.parseInt(string3);
+                     if (i >= autoPit.getSetting("Bounty").asInt()) {
                         bountiedPlayers.add(entityPlayer2);
                         if (autoPit.getSetting("Bounty-Notifier").asBoolean()) {
                            toasts.B("Found bountied player", String.format("%s has %s bounty", entityPlayer2.getName(), string2));
@@ -356,7 +351,6 @@ public final class AutoHypixel extends Module {
          }
       }
    };
-   private static final long f = 104434831927723L;
 
    public AutoHypixel(Category category) {
       super(category);

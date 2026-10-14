@@ -10,7 +10,6 @@ public class AuthEndpoint {
    private final String host;
    private PortChoice port;
    private AuthConnection connection;
-   private static final long a = 91597366608243L;
 
    public AuthEndpoint(String string) {
       this.host = string;

@@ -6,8 +6,6 @@ import java.io.IOException;
 
 public class NBTTagLong extends NBTBase.NBTPrimitive {
    private long data;
-   private static final long a = 44759814816039L;
-   private static final long c = -1578727250981814240L;
 
    public NBTTagLong() {
    }
@@ -54,7 +52,7 @@ public class NBTTagLong extends NBTBase.NBTPrimitive {
 
    @Override
    public int hashCode() {
-      return super.hashCode() ^ (int)(this.data ^ this.data >>> (int)c);
+      return super.hashCode() ^ (int)(this.data ^ this.data >>> 32);
    }
 
    @Override

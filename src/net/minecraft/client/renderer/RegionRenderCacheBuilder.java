@@ -4,7 +4,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 
 public class RegionRenderCacheBuilder {
    private final WorldRenderer[] worldRenderers = new WorldRenderer[EnumWorldBlockLayer.values().length];
-   private static final long a = 136348159867085L;
 
    public RegionRenderCacheBuilder() {
       this.worldRenderers[EnumWorldBlockLayer.SOLID.ordinal()] = new WorldRenderer(2097152);

@@ -20,7 +20,6 @@ public class BiomeGenHills extends BiomeGenBase {
    private int field_150636_aF = 1;
    private int field_150637_aG = 2;
    private int field_150638_aH = this.field_150635_aE;
-   private static final long bb = 36559613349613L;
 
    public BiomeGenHills(int id, boolean bl) {
       super(id);

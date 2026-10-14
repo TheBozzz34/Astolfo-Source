@@ -2,7 +2,6 @@ package net.minecraft.world.chunk;
 
 public class NibbleArray {
    private final byte[] data;
-   private static final long a = 102784561158215L;
 
    public NibbleArray() {
       this.data = new byte[2048];

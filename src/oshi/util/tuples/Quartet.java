@@ -8,10 +8,9 @@ public class Quartet<A, B, C, D> {
    private final B b;
    private final C c;
    private final D d;
-   private static final long a = 14829422886836L;
 
-   public Quartet(A aIn, B b, C c, D d) {
-      this.A = aIn;
+   public Quartet(A a, B b, C c, D d) {
+      this.A = a;
       this.b = b;
       this.c = c;
       this.d = d;

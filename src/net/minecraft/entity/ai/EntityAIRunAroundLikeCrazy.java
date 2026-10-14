@@ -11,7 +11,6 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
    private double targetX;
    private double targetY;
    private double targetZ;
-   private static final long a = 20540665839472L;
 
    public EntityAIRunAroundLikeCrazy(EntityHorse horse, double speedIn) {
       this.horseHost = horse;

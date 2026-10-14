@@ -10,7 +10,6 @@ public class GuiRenameWorld extends GuiScreen {
    private GuiScreen parentScreen;
    private GuiTextField field_146583_f;
    private final String saveName;
-   private static final long a = 27129258599505L;
 
    public GuiRenameWorld(GuiScreen parentScreenIn, String saveNameIn) {
       this.parentScreen = parentScreenIn;

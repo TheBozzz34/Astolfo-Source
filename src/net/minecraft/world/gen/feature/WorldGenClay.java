@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 public class WorldGenClay extends WorldGenerator {
    private Block field_150546_a = Blocks.clay;
    private int numberOfBlocks;
-   private static final long a = 46988927874484L;
 
    public WorldGenClay(int i) {
       this.numberOfBlocks = i;

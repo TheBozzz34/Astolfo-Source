@@ -8,7 +8,6 @@ import net.minecraft.util.MathHelper;
 public class ModelGhast extends ModelBase {
    public ModelRenderer body;
    public ModelRenderer[] tentacles = new ModelRenderer[9];
-   private static final long a = 90206455406969L;
 
    public ModelGhast() {
       byte b = -16;

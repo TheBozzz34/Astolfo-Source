@@ -10,8 +10,6 @@ import oshi.util.platform.windows.WmiUtil;
 
 @Deprecated
 public class WindowsOSVersionInfoEx extends AbstractOSVersionInfoEx {
-   private static final long b = 34204388604567L;
-
    public WindowsOSVersionInfoEx() {
       WmiResult wmiResult = Win32OperatingSystem.queryOsVersion();
       if (wmiResult.getResultCount() < 1) {

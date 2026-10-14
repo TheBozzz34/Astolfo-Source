@@ -16,7 +16,6 @@ public class BlockFaceEvent extends CancellableEvent {
    private double O;
    private BlockPos pos;
    private IBlockAccess blockAccess;
-   private static final long a = 35915437786310L;
 
    public BlockFaceEvent(
       Block block, EnumFacing enumFacing, BlockPos blockPos, IBlockAccess iBlockAccess, double d, double d2, double d3, double d4, double d5, double d6

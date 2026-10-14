@@ -62,8 +62,6 @@ public class PlayerProfileCache {
          return null;
       }
    };
-   private static final long a = 117735158217375L;
-   private static final long b = -5843857787133623320L;
 
    public PlayerProfileCache(MinecraftServer server, File cacheFile) {
       this.mcServer = server;
@@ -195,7 +193,7 @@ public class PlayerProfileCache {
    }
 
    public void save() {
-      String string = this.gson.toJson(this.getEntriesWithLimit((int)b));
+      String string = this.gson.toJson(this.getEntriesWithLimit(1000));
       BufferedWriter bufferedWriter = null;
 
       try {
@@ -242,8 +240,6 @@ public class PlayerProfileCache {
    }
 
    public class Serializer implements JsonDeserializer<PlayerProfileCache.ProfileEntry>, JsonSerializer<PlayerProfileCache.ProfileEntry> {
-      private static final long a = 96927441437414L;
-
       public Serializer() {
       }
 

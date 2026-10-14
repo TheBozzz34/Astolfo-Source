@@ -5,8 +5,6 @@ import oshi.util.platform.unix.freebsd.BsdSysctlUtil;
 
 @Deprecated
 public class FreeBsdOSVersionInfoEx extends AbstractOSVersionInfoEx {
-   private static final long b = 112576163377192L;
-
    public FreeBsdOSVersionInfoEx() {
       this.n(BsdSysctlUtil.sysctl("kern.osrelease", ""));
       String string = BsdSysctlUtil.sysctl("kern.version", "");

@@ -30,7 +30,6 @@ public class EntitySlime extends EntityLiving implements IMob {
    public float squishFactor;
    public float prevSquishFactor;
    private boolean wasOnGround;
-   private static final long bb = 44610304793729L;
 
    public EntitySlime(World worldIn) {
       super(worldIn);
@@ -300,8 +299,6 @@ public class EntitySlime extends EntityLiving implements IMob {
    public static class AISlimeAttack extends EntityAIBase {
       private EntitySlime slime;
       private int field_179465_b;
-      private static final long a = 31859129501063L;
-      private static final long b = 5767236330782196012L;
 
       public AISlimeAttack(EntitySlime slimeIn) {
          this.slime = slimeIn;
@@ -316,7 +313,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 
       @Override
       public void startExecuting() {
-         this.field_179465_b = (int)b;
+         this.field_179465_b = 300;
          super.startExecuting();
       }
 
@@ -343,7 +340,6 @@ public class EntitySlime extends EntityLiving implements IMob {
       private EntitySlime slime;
       private float field_179459_b;
       private int field_179460_c;
-      private static final long a = 26953013393056L;
 
       public AISlimeFaceRandom(EntitySlime slimeIn) {
          this.slime = slimeIn;
@@ -368,7 +364,6 @@ public class EntitySlime extends EntityLiving implements IMob {
 
    public static class AISlimeFloat extends EntityAIBase {
       private EntitySlime slime;
-      private static final long a = 115896661382096L;
 
       public AISlimeFloat(EntitySlime slimeIn) {
          this.slime = slimeIn;
@@ -415,7 +410,6 @@ public class EntitySlime extends EntityLiving implements IMob {
       private int field_179924_h;
       private EntitySlime slime;
       private boolean field_179923_j;
-      private static final long b = 12949991853926L;
 
       public SlimeMoveHelper(EntitySlime slimeIn) {
          super(slimeIn);

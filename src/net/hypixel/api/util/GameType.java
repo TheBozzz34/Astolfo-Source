@@ -33,7 +33,6 @@ public enum GameType {
    private final String name;
    private final String dbName;
    private final int id;
-   private static final long a = 31052646913358L;
 
    GameType(String name, String dbName, int id) {
       this.name = name;

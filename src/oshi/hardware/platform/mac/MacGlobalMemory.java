@@ -22,8 +22,6 @@ public final class MacGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<Long> total = Memoizer.memoize(MacGlobalMemory::queryPhysMem);
    private final Supplier<Long> pageSize = Memoizer.memoize(MacGlobalMemory::queryPageSize);
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(MacGlobalMemory::createVirtualMemory);
-   private static final long a = 31056967371686L;
-   private static final long j = 303024176254419002L;
 
    @Override
    public long d() {
@@ -64,9 +62,9 @@ public final class MacGlobalMemory extends AbstractGlobalMemory {
             }
 
             string = string4.trim();
-            int k = string.lastIndexOf((int)j);
-            if (k > 0) {
-               string = string.substring(0, k - 1);
+            int j = string.lastIndexOf(58);
+            if (j > 0) {
+               string = string.substring(0, j - 1);
             }
          } else if (i > 0) {
             String[] strings = string4.trim().split(":");

@@ -29,7 +29,6 @@ public class GuiShaders extends GuiScreen {
    public static final int EnumOS_OSX = 2;
    public static final int EnumOS_SOLARIS = 3;
    public static final int EnumOS_LINUX = 4;
-   private static final long a = 19177304600223L;
 
    public GuiShaders(GuiScreen par1GuiScreen, GameSettings par2GameSettings) {
       this.parentGui = par1GuiScreen;
@@ -327,19 +326,11 @@ public class GuiShaders extends GuiScreen {
          );
    }
 
-   static {
-      long l = a ^ 56502878983207L;
-      long m = l ^ 9079170252082270759L;
-      m = l ^ 1104758489604619360L;
-      m = l ^ 1227990452596629803L;
-   }
-
    public static class zo extends GuiSlot {
       private ArrayList shaderslist;
       private int selectedIndex;
       private long lastClickedCached = 0L;
       public final GuiShaders shadersGui;
-      private static final long c = 119638189874796L;
 
       public zo(GuiShaders guiShaders, int i, int j, int k, int m, int n) {
          super(guiShaders.getMc(), i, j, k, m, n);

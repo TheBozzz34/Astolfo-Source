@@ -27,7 +27,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree {
    public int heightLimitLimit = 12;
    public int leafDistanceLimit = 4;
    public List<WorldGenBigTree.FoliageCoordinates> field_175948_j;
-   private static final long a = 21528441286757L;
 
    public WorldGenBigTree(boolean bl) {
       super(bl);

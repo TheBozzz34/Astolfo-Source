@@ -9,7 +9,6 @@ public class HashTrieMap<K, V> extends CompactHashMap<K, V> {
    private final int bitmap;
    private final Object[] elems;
    private final int size;
-   private static final long b = 119074530419114L;
 
    public HashTrieMap(int bitmap, Object[] elems, int size) {
       this.bitmap = bitmap;

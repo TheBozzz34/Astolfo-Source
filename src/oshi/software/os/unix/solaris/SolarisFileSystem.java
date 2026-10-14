@@ -16,7 +16,6 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 @ThreadSafe
 public class SolarisFileSystem extends AbstractFileSystem {
    private static final List<String> TMP_FS_PATHS = Arrays.asList("/system", "/tmp", "/dev/fd");
-   private static final long a = 81894969883400L;
 
    @Override
    public OSFileStore[] getFileStores(boolean localOnly) {

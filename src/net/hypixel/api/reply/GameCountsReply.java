@@ -5,7 +5,6 @@ import java.util.Map;
 public class GameCountsReply extends AbstractReply {
    private Map<String, GameCountsReply.GameCount> games;
    private int playerCount;
-   private static final long a = 118809483719862L;
 
    public Map<String, GameCountsReply.GameCount> getGames() {
       return this.games;
@@ -23,8 +22,6 @@ public class GameCountsReply extends AbstractReply {
    public static class GameCount {
       private Map<String, Integer> modes;
       private int players;
-      private static final long a = 41888427875781L;
-      private static final long e = -4307056280318508931L;
 
       public Map<String, Integer> getModes() {
          return this.modes;
@@ -36,7 +33,7 @@ public class GameCountsReply extends AbstractReply {
 
       @Override
       public String toString() {
-         return "GameCount{modes=" + this.modes + ", players=" + this.players + (int)e;
+         return "GameCount{modes=" + this.modes + ", players=" + this.players + '}';
       }
    }
 }

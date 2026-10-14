@@ -23,7 +23,6 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
    private final List<IResourceManagerReloadListener> reloadListeners = Lists.newArrayList();
    private final Set<String> setResourceDomains = Sets.newLinkedHashSet();
    private final IMetadataSerializer rmMetadataSerializer;
-   private static final long a = 73029731538372L;
 
    public SimpleReloadableResourceManager(IMetadataSerializer rmMetadataSerializerIn) {
       this.rmMetadataSerializer = rmMetadataSerializerIn;

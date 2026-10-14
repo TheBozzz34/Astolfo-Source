@@ -4,8 +4,6 @@ import bypass.setting.Parser;
 import java.util.Optional;
 
 public class EnumParser implements Parser<Enum<?>> {
-   private static final long a = 115948171567273L;
-
    @Override
    public Optional<Enum<?>> parse(String string, Class<? extends Enum<?>> class2) {
       for (Enum enum2 : (Enum[])class2.getEnumConstants()) {

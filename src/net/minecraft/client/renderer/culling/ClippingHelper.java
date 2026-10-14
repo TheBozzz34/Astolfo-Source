@@ -5,7 +5,6 @@ public class ClippingHelper {
    public float[] projectionMatrix = new float[16];
    public float[] modelviewMatrix = new float[16];
    public float[] clippingMatrix = new float[16];
-   private static final long a = 118081372493390L;
 
    private float dot(float[] floats, float f, float g, float h) {
       return floats[0] * f + floats[1] * g + floats[2] * h + floats[3];

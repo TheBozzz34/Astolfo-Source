@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 
 public class BlockCommandBlock extends BlockContainer {
    public static final PropertyBool TRIGGERED = PropertyBool.create("triggered");
-   private static final long e = 75590778114536L;
 
    public BlockCommandBlock() {
       super(Material.iron, MapColor.adobeColor);

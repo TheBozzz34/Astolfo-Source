@@ -26,7 +26,6 @@ public enum AltLogin implements ClientAccess {
    public Alt lastLoggedAlt;
    private boolean t;
    private static final AltLogin[] C = new AltLogin[]{AUTH};
-   private static final long b = 35082389018510L;
 
    public String x() {
       return UUID.randomUUID().toString();
@@ -67,16 +66,12 @@ public enum AltLogin implements ClientAccess {
    }
 
    public void login(Alt alt, boolean bl) {
-      long l = b ^ 26176853168693L;
-      long m = l ^ 85801790765280L;
       if (!alt.V_boolean()) {
          if (bl) {
             this.i(alt.o);
          }
       } else if (alt.F) {
          FileUtil.w.execute(() -> {
-            long n = b ^ 138249014319450L;
-            long l2 = n ^ 40111037821839L;
             Notification notification = client.getNotificationManager().i("Microsoft Authentication", "Logging in...", NotificationType.INFO, 10000);
             notification.K();
 
@@ -159,16 +154,11 @@ public enum AltLogin implements ClientAccess {
    }
 
    private void i(String string) {
-      long l = b ^ 69518627364719L;
-      long m = l ^ 113239469618618L;
       mc.session = new Session(string, mc.session.getPlayerID(), mc.session.getToken(), Session.Type.LEGACY.toString());
       client.getNotificationManager().i("Offline login", "Username set to: " + string, NotificationType.INFO, 5000).K();
    }
 
    private boolean p(UserAuthentication userAuthentication, String string, Alt alt) {
-      long l = b ^ 130190865920030L;
-      long m = l ^ 52432475937483L;
-
       try {
          userAuthentication.logIn();
          client.getNotificationManager().i(string, "Logged in to " + userAuthentication.getSelectedProfile().getName(), NotificationType.SUCCESS, 5000).K();

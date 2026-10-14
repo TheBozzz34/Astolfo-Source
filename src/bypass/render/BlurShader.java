@@ -18,7 +18,6 @@ public class BlurShader {
    private static int q;
    private static int S;
    private static ResourceLocation N = new ResourceLocation("shaders/post/blur.json");
-   private static final long a = 14389213620998L;
 
    public static void g() {
       try {
@@ -40,70 +39,61 @@ public class BlurShader {
    }
 
    public static void Y(int i, int j, int k, int l, float f, float g, float h) {
-      long m = a ^ 57838412458280L;
       ScaledResolution scaledResolution = new ScaledResolution(n);
-      int i2 = scaledResolution.getScaleFactor();
-      int i3 = scaledResolution.getScaledWidth();
-      int i4 = scaledResolution.getScaledHeight();
-      if (G != i2 || q != i3 || S != i4 || d == null || e == null) {
+      int m = scaledResolution.getScaleFactor();
+      int i2 = scaledResolution.getScaledWidth();
+      int i3 = scaledResolution.getScaledHeight();
+      if (G != m || q != i2 || S != i3 || d == null || e == null) {
          g();
       }
 
-      G = i2;
-      q = i3;
-      S = i4;
+      G = m;
+      q = i2;
+      S = i3;
       if (OpenGlHelper.isFramebufferEnabled()) {
          d.framebufferClear();
-         GL11.glScissor(i * i2, n.displayHeight - j * i2 - l * i2, k * i2, l * i2);
-         long l2 = 1287124361882384940L ^ m;
+         GL11.glScissor(i * m, n.displayHeight - j * m - l * m, k * m, l * m);
          GL11.glEnable(3089);
          L(f, g, h, 1.0F);
-         l2 = 1287124361882384940L ^ m;
          d.bindFramebuffer(true);
          e.t(n.timer.renderPartialTicks);
          n.getFramebuffer().bindFramebuffer(true);
          GL11.glDisable(3089);
          GlStateManager.enableBlend();
-         l2 = 8940495287954356560L ^ m;
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableBlend();
-         GL11.glScalef(i2, i2, 0.0F);
+         GL11.glScalef(m, m, 0.0F);
       }
    }
 
    public static void w(int i, int j, int k, int l, float f) {
-      long m = a ^ 22400517269975L;
       ScaledResolution scaledResolution = new ScaledResolution(n);
-      int i2 = scaledResolution.getScaleFactor();
-      int i3 = scaledResolution.getScaledWidth();
-      int i4 = scaledResolution.getScaledHeight();
-      if (G != i2 || q != i3 || S != i4 || d == null || e == null) {
+      int m = scaledResolution.getScaleFactor();
+      int i2 = scaledResolution.getScaledWidth();
+      int i3 = scaledResolution.getScaledHeight();
+      if (G != m || q != i2 || S != i3 || d == null || e == null) {
          g();
       }
 
-      G = i2;
-      q = i3;
-      long l2 = 1287158734628895443L ^ m;
-      S = i4;
+      G = m;
+      q = i2;
+      S = i3;
       d.framebufferClear();
-      GL11.glScissor(i * i2, n.displayHeight - j * i2 - l * i2, k * i2, l * i2);
+      GL11.glScissor(i * m, n.displayHeight - j * m - l * m, k * m, l * m);
       GL11.glEnable(3089);
       L(f, 1.0F, 0.0F, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      l2 = 1287158734628895443L ^ m;
       GL11.glDisable(3089);
       GlStateManager.enableBlend();
-      l2 = 4894574615400667843L ^ m;
       GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
       GlStateManager.disableBlend();
-      GL11.glScalef(i2, i2, 0.0F);
+      GL11.glScalef(m, m, 0.0F);
       RenderHelper.enableGUIStandardItemLighting();
    }
 
    public static void A(float f, float g, float h, float f2, float f3, float f4, float f5) {
-      long l = a ^ 61147154447872L;
       ScaledResolution scaledResolution = new ScaledResolution(n);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
@@ -114,7 +104,6 @@ public class BlurShader {
 
       G = i;
       q = j;
-      long m = 1287127686722628868L ^ l;
       S = k;
       GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
@@ -122,12 +111,10 @@ public class BlurShader {
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      m = 1287127686722628868L ^ l;
       GL11.glDisable(3089);
    }
 
    public static void J(float f, float g, float h, float f2, float f3, float f4, float f5, float f6) {
-      long l = a ^ 3062644644846L;
       ScaledResolution scaledResolution = new ScaledResolution(n);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
@@ -138,7 +125,6 @@ public class BlurShader {
 
       G = i;
       q = j;
-      long m = 1287183531941808362L ^ l;
       S = k;
       GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
@@ -146,12 +132,10 @@ public class BlurShader {
       d.bindFramebuffer(true);
       e.o(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      m = 1287183531941808362L ^ l;
       GL11.glDisable(3089);
    }
 
    public static void S(float f, float g, float h, float f2, float f3, float f4, float f5) {
-      long l = a ^ 5792117520143L;
       ScaledResolution scaledResolution = new ScaledResolution(n);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
@@ -162,7 +146,6 @@ public class BlurShader {
 
       G = i;
       q = j;
-      long m = 4267422571065264998L ^ l;
       S = k;
       GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
@@ -170,31 +153,27 @@ public class BlurShader {
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      m = 1287177473802118155L ^ l;
       GL11.glDisable(3089);
    }
 
    public static void F(int i, int j, int k, int l, float f) {
-      long m = a ^ 728747750180L;
       ScaledResolution scaledResolution = new ScaledResolution(n);
-      int i2 = scaledResolution.getScaleFactor();
-      int i3 = scaledResolution.getScaledWidth();
-      int i4 = scaledResolution.getScaledHeight();
-      if (G != i2 || q != i3 || S != i4 || d == null || e == null) {
+      int m = scaledResolution.getScaleFactor();
+      int i2 = scaledResolution.getScaledWidth();
+      int i3 = scaledResolution.getScaledHeight();
+      if (G != m || q != i2 || S != i3 || d == null || e == null) {
          g();
       }
 
-      G = i2;
-      q = i3;
-      long l2 = 1287181746357887008L ^ m;
-      S = i4;
-      GL11.glScissor(i * i2, n.displayHeight - j * i2 - l * i2, k * i2, l * i2);
+      G = m;
+      q = i2;
+      S = i3;
+      GL11.glScissor(i * m, n.displayHeight - j * m - l * m, k * m, l * m);
       GL11.glEnable(3089);
       L(f, 1.0F, 0.0F, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      l2 = 1287181746357887008L ^ m;
       GL11.glDisable(3089);
    }
 

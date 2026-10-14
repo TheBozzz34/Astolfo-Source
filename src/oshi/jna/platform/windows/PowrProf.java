@@ -33,7 +33,6 @@ public interface PowrProf extends com.sun.jna.platform.win32.PowrProf {
       public int DefaultAlert2;
       public int CriticalBias;
       public int CycleCount;
-      private static final long a = 25808545954791L;
    }
 
    @FieldOrder({"Day", "Month", "Year"})
@@ -126,7 +125,6 @@ public interface PowrProf extends com.sun.jna.platform.win32.PowrProf {
       public int estimatedTime;
       public int defaultAlert1;
       public int defaultAlert2;
-      private static final long a = 66897768793141L;
 
       public SystemBatteryState(Pointer p) {
          super(p);

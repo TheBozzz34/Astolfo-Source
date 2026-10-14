@@ -11,8 +11,6 @@ import net.minecraft.util.MathHelper;
 public class EntityAIVillagerInteract extends EntityAIWatchClosest2 {
    private int interactionDelay;
    private EntityVillager villager;
-   private static final long a = 107553884856420L;
-   private static final long d = -8619613692188688374L;
 
    public EntityAIVillagerInteract(EntityVillager villagerIn) {
       super(villagerIn, EntityVillager.class, 3.0F, 0.02F);
@@ -23,7 +21,7 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2 {
    public void startExecuting() {
       super.startExecuting();
       if (this.villager.canAbondonItems() && this.closestEntity instanceof EntityVillager && ((EntityVillager)this.closestEntity).func_175557_cr()) {
-         this.interactionDelay = (int)d;
+         this.interactionDelay = 10;
       } else {
          this.interactionDelay = 0;
       }

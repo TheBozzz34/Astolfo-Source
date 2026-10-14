@@ -19,7 +19,6 @@ public class EntityAIAttackOnCollide extends EntityAIBase {
    private double targetX;
    private double targetY;
    private double targetZ;
-   private static final long b = 92094053540383L;
 
    public EntityAIAttackOnCollide(EntityCreature creature, Class<? extends Entity> targetClass, double speedIn, boolean useLongMemory) {
       this(creature, speedIn, useLongMemory);

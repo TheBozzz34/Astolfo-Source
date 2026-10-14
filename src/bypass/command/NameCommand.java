@@ -3,8 +3,6 @@ package bypass.command;
 import net.minecraft.client.gui.GuiScreen;
 
 public final class NameCommand extends Command {
-   private static final long d = 65129890115941L;
-
    public NameCommand(String string, String string2) {
       super(string, string2);
    }

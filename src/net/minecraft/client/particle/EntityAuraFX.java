@@ -3,8 +3,6 @@ package net.minecraft.client.particle;
 import net.minecraft.world.World;
 
 public class EntityAuraFX extends EntityFX {
-   private static final long ab = 66706792733843L;
-
    public EntityAuraFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double speedIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, speedIn);
       float f = this.rand.nextFloat() * 0.1F + 0.2F;
@@ -45,15 +43,12 @@ public class EntityAuraFX extends EntityFX {
    }
 
    public static class HappyVillagerFactory implements IParticleFactory {
-      private static final long a = 97747470728048L;
-      private static final long b = 1490818423008002130L;
-
       @Override
       public EntityFX getEntityFX(
          int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
       ) {
          EntityAuraFX entityAuraFX = new EntityAuraFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-         entityAuraFX.setParticleTextureIndex((int)b);
+         entityAuraFX.setParticleTextureIndex(82);
          entityAuraFX.setRBGColorF(1.0F, 1.0F, 1.0F);
          return entityAuraFX;
       }

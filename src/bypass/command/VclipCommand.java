@@ -3,8 +3,6 @@ package bypass.command;
 import java.util.Collections;
 
 public final class VclipCommand extends Command {
-   private static final long d = 91260789774393L;
-
    public VclipCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Collections.singletonList("clip"));

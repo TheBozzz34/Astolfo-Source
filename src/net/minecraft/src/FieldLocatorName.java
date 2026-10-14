@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 public class FieldLocatorName implements IFieldLocator {
    private ReflectorClass reflectorClass = null;
    private String targetFieldName = null;
-   private static final long a = 8239406473918L;
 
    public FieldLocatorName(ReflectorClass reflectorClass, String targetFieldName) {
       this.reflectorClass = reflectorClass;

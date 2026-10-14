@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 public final class CaveFinder extends Module {
    @EventHandler(value = SetupTerrainEvent.class, priority = EventPriority.LOWEST)
    private final Listener<SetupTerrainEvent> onSetupTerrain = CancellableEvent::cancel;
-   private static final long c = 9304086497074L;
 
    public CaveFinder(Category category) {
       super(category);

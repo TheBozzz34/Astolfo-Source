@@ -6,8 +6,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Containers {
-   private static final long a = 1563613572023L;
-
    public static final <E> ListContainer<E> g() {
       return new ListContainer<>();
    }

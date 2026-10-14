@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 public class ItemColored extends ItemBlock {
    private final Block coloredBlock;
    private String[] subtypeNames;
-   private static final long a = 11959513315217L;
 
    public ItemColored(Block block, boolean hasSubtypes) {
       super(block);

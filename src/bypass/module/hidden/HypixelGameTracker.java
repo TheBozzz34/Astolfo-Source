@@ -167,7 +167,6 @@ public final class HypixelGameTracker extends HiddenModule {
          }
       }
    };
-   private static final long c = 130295296867022L;
 
    public HypixelGameTracker() {
       client.getEventBus().subscribe(this);

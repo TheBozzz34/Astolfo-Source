@@ -10,7 +10,6 @@ public class EntityParticleEmitter extends EntityFX {
    private int age;
    private int lifetime;
    private EnumParticleTypes particleTypes;
-   private static final long ab = 98676500082485L;
 
    public EntityParticleEmitter(World worldIn, Entity entity, EnumParticleTypes particleTypesIn) {
       super(worldIn, entity.posX, entity.getEntityBoundingBox().minY + entity.height / 2.0F, entity.posZ, entity.motionX, entity.motionY, entity.motionZ);

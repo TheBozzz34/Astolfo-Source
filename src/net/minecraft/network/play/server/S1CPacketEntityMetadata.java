@@ -10,7 +10,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S1CPacketEntityMetadata implements Packet<INetHandlerPlayClient> {
    private int entityId;
    private List<DataWatcher.WatchableObject> field_149378_b;
-   private static final long a = 95593376074073L;
 
    public S1CPacketEntityMetadata() {
    }

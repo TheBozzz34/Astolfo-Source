@@ -25,7 +25,6 @@ public class EntityFX extends Entity {
    public static double interpPosX;
    public static double interpPosY;
    public static double interpPosZ;
-   private static final long bb = 19032685061255L;
 
    public EntityFX(World worldIn, double posXIn, double posYIn, double posZIn) {
       super(worldIn);

@@ -11,7 +11,6 @@ public class DynamicTexture extends AbstractTexture {
    private final int width;
    private final int height;
    private boolean shadersInitialized = false;
-   private static final long a = 24796410072403L;
 
    public DynamicTexture(BufferedImage bufferedImage) {
       this(bufferedImage.getWidth(), bufferedImage.getHeight());

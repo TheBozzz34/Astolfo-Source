@@ -25,7 +25,6 @@ public final class SocketWriter {
    private boolean B;
    private boolean I;
    private byte M;
-   private static final long a = 66296606086539L;
 
    public SocketWriter(SocketChannel socketChannel, Selector selector) {
       this.c = socketChannel;

@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentArrowFire extends Enchantment {
-   private static final long m = 98343978568831L;
-
    public EnchantmentArrowFire(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.BOW);
       this.setName("arrowFire");

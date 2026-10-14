@@ -11,7 +11,6 @@ public class RecipesWeapons {
       {Blocks.planks, Blocks.cobblestone, Items.iron_ingot, Items.diamond, Items.gold_ingot},
       {Items.wooden_sword, Items.stone_sword, Items.iron_sword, Items.diamond_sword, Items.golden_sword}
    };
-   private static final long b = 46100627285384L;
 
    public void addRecipes(CraftingManager craftingManager) {
       for (int i = 0; i < this.recipeItems[0].length; i++) {

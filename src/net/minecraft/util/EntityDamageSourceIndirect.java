@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 
 public class EntityDamageSourceIndirect extends EntityDamageSource {
    private Entity indirectEntity;
-   private static final long h = 3164152674115L;
 
    public EntityDamageSourceIndirect(String damageTypeIn, Entity source, Entity indirectEntityIn) {
       super(damageTypeIn, source);

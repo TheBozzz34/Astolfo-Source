@@ -8,7 +8,6 @@ import oshi.util.tuples.Pair;
 public class LinuxUserGroupInfo {
    private final Map<String, Pair<String, String>> usersIdMap = getUserMap();
    private final Map<String, String> groupsIdMap = getGroupMap();
-   private static final long a = 25708782394808L;
 
    public Pair<String, String> getUser(String userId) {
       return this.usersIdMap.getOrDefault(userId, new Pair<>(userId, "unknown"));

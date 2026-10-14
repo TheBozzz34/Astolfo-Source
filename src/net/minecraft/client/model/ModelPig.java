@@ -1,8 +1,6 @@
 package net.minecraft.client.model;
 
 public class ModelPig extends ModelQuadruped {
-   private static final long b = 40919320002181L;
-
    public ModelPig() {
       this(0.0F);
    }

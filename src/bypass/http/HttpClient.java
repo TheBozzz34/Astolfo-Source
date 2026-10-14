@@ -23,7 +23,6 @@ public final class HttpClient {
    private final TrustManager[] i = new TrustManager[]{new TrustAllManager()};
    private final HostnameVerifier N = new TrustAllHostnameVerifier();
    private boolean n;
-   private static final long a = 88872503942442L;
 
    public HttpClient() throws NoSuchAlgorithmException, KeyManagementException {
       this(true);
@@ -103,10 +102,5 @@ public final class HttpClient {
 
    public static boolean e(URL url) {
       return url.getPort() == 443 || url.getProtocol().trim().equalsIgnoreCase("https");
-   }
-
-   static {
-      long l = a ^ 95083715434574L;
-      long m = l ^ 5749221813930308799L;
    }
 }

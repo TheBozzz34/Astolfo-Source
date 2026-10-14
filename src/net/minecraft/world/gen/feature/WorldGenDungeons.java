@@ -36,7 +36,6 @@ public class WorldGenDungeons extends WorldGenerator {
       new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 5),
       new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)
    );
-   private static final long a = 133072748709056L;
 
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
@@ -138,10 +137,5 @@ public class WorldGenDungeons extends WorldGenerator {
 
    private String pickMobSpawner(Random random2) {
       return SPAWNERTYPES[random2.nextInt(SPAWNERTYPES.length)];
-   }
-
-   static {
-      long l = a ^ 54601469313003L;
-      long m = 872157486398752095L ^ l;
    }
 }

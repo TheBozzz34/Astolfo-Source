@@ -22,7 +22,6 @@ public class ModuleButton extends Container {
    private static final Color T = new Color(255, 255, 255, 170);
    private boolean K;
    private int Y;
-   private static final long d = 71779781047116L;
 
    public ModuleButton(Container container, Module module, int i, int j) {
       super(module.getName(), 0.0F, 0.0F, i, j);
@@ -32,8 +31,6 @@ public class ModuleButton extends Container {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 94864256331070L;
-      long m = l ^ 39308001293406L;
       if (this.G(i, j)) {
          if (this.Y < 120) {
             this.Y += 5;
@@ -125,8 +122,6 @@ public class ModuleButton extends Container {
 
    @Override
    public void l(int i) {
-      long m = d ^ 36655112826250L;
-      long n = m ^ 96109111944053L;
       if (this.L.s_boolean()) {
          if (i == 0) {
             if (this.K) {
@@ -156,8 +151,6 @@ public class ModuleButton extends Container {
 
    @Override
    public void P(char c, int i) {
-      long l = d ^ 78080380800216L;
-      long m = l ^ 70801581277903L;
       if (this.K && ChatAllowedCharacters.isAllowedCharacter(c)) {
          client.getNotificationManager()
             .i(String.format("%s's bind is now %s", this.a().getName(), Character.toUpperCase(c)), "", NotificationType.SUCCESS, 1500)

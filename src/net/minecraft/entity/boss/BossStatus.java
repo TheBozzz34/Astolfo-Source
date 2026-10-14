@@ -5,12 +5,10 @@ public final class BossStatus {
    public static int statusBarTime;
    public static String bossName;
    public static boolean hasColorModifier;
-   private static final long a = 23815293939922L;
-   private static final long b = -4780759592172781468L;
 
    public static void setBossStatus(IBossDisplayData displayData, boolean hasColorModifierIn) {
       healthScale = displayData.getHealth() / displayData.getMaxHealth();
-      statusBarTime = (int)b;
+      statusBarTime = 100;
       bossName = displayData.getDisplayName().getFormattedText();
       hasColorModifier = hasColorModifierIn;
    }

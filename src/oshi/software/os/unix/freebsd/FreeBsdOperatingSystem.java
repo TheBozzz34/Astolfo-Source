@@ -24,7 +24,6 @@ import oshi.util.platform.unix.freebsd.BsdSysctlUtil;
 @ThreadSafe
 public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
    private static final long BOOTTIME = querySystemBootTime();
-   private static final long d = 32426221552950L;
 
    public FreeBsdOperatingSystem() {
       this.version = new FreeBsdOSVersionInfoEx();

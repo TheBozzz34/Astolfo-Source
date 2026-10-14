@@ -18,8 +18,6 @@ public final class LinuxSensors extends AbstractSensors {
    private static final String[] SENSORS = new String[]{"temp", "fan", "in"};
    private static final boolean IS_PI = queryCpuTemperatureFromVcGenCmd() > 0.0;
    private final Map<String, String> sensorsMap = new HashMap<>();
-   private static final long c = 7792427612461L;
-   private static final long k = 4542938151957561350L;
 
    public LinuxSensors() {
       if (!IS_PI) {
@@ -76,7 +74,7 @@ public final class LinuxSensors extends AbstractSensors {
             long m = 0L;
             int i = 0;
 
-            for (int j = 2; j <= (int)k; j++) {
+            for (int j = 2; j <= 6; j++) {
                l = FileUtil.getLongFromFile(String.format("%s%d_input", string, j));
                if (l > 0L) {
                   m += l;

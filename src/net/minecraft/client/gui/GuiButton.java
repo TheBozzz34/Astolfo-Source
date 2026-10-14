@@ -27,7 +27,6 @@ public class GuiButton extends Gui {
    public float f = 0.1F;
    public boolean n;
    public int t;
-   private static final long b = 22795320404817L;
 
    public GuiButton(int buttonId, int x, int y, String buttonText) {
       this(buttonId, x, y, 200, 20, buttonText);
@@ -58,8 +57,6 @@ public class GuiButton extends Gui {
    }
 
    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-      long l = b ^ 78581708617997L;
-      long m = l ^ 113303742019696L;
       if (this.visible) {
          if (!q) {
             int i = ARBShaderObjects.glCreateShaderObjectARB(35632);
@@ -123,7 +120,6 @@ public class GuiButton extends Gui {
 
          p = ARBShaderObjects.glGetUniformLocationARB(B, "color");
          GL11.glBegin(2);
-         long l2 = 1993990222346444441L ^ l;
          GL11.glVertex2d(this.xPosition, this.yPosition);
          GL11.glVertex2d(this.xPosition + this.width, this.yPosition);
          GL11.glVertex2d(this.xPosition + this.width, this.yPosition + this.height);

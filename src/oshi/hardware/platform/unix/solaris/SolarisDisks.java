@@ -15,8 +15,6 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 
 @ThreadSafe
 public final class SolarisDisks {
-   private static final long a = 71676118371293L;
-
    private SolarisDisks() {
    }
 

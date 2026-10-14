@@ -13,7 +13,6 @@ public class EntityAIFleeSun extends EntityAIBase {
    private double shelterZ;
    private double movementSpeed;
    private World theWorld;
-   private static final long a = 106496827003007L;
 
    public EntityAIFleeSun(EntityCreature theCreatureIn, double movementSpeedIn) {
       this.theCreature = theCreatureIn;

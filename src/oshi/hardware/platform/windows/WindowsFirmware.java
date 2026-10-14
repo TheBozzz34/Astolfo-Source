@@ -15,7 +15,6 @@ public final class WindowsFirmware extends AbstractFirmware {
    private final Supplier<Quintet<String, String, String, String, String>> manufNameDescVersRelease = Memoizer.memoize(
       WindowsFirmware::queryManufNameDescVersRelease
    );
-   private static final long b = 89004851525334L;
 
    @Override
    public String R() {

@@ -15,14 +15,12 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
    private float facingX;
    private float facingY;
    private float facingZ;
-   private static final long a = 102971556330639L;
-   private static final long c = -5988537694689427201L;
 
    public C08PacketPlayerBlockPlacement() {
    }
 
    public C08PacketPlayerBlockPlacement(ItemStack stackIn) {
-      this(field_179726_a, (int)c, stackIn, 0.0F, 0.0F, 0.0F);
+      this(field_179726_a, 255, stackIn, 0.0F, 0.0F, 0.0F);
    }
 
    public C08PacketPlayerBlockPlacement(BlockPos positionIn, int placedBlockDirectionIn, ItemStack stackIn, float facingXIn, float facingYIn, float facingZIn) {

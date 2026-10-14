@@ -10,7 +10,6 @@ public class ModelVillager extends ModelBase {
    public ModelRenderer rightVillagerLeg;
    public ModelRenderer leftVillagerLeg;
    public ModelRenderer villagerNose;
-   private static final long a = 44354878281367L;
 
    public ModelVillager(float f) {
       this(f, 0.0F, 64, 64);

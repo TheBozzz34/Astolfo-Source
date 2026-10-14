@@ -24,7 +24,6 @@ import net.minecraft.world.biome.BiomeColorHelper;
 
 public abstract class BlockLiquid extends Block {
    public static final PropertyInteger LEVEL = PropertyInteger.create("level", 0, 15);
-   private static final long i = 109758505320311L;
 
    public BlockLiquid(Material materialIn) {
       super(materialIn);
@@ -161,8 +160,6 @@ public abstract class BlockLiquid extends Block {
 
    @Override
    public Vec3 modifyAcceleration(World worldIn, BlockPos pos, Entity entityIn, Vec3 motion) {
-      long m = i ^ 2509541715126L;
-      long n = m ^ 95574484758130L;
       return Astolfo.INSTANCE.getModuleManager().get(Velocity.class).isEnabled() && Velocity.water.getValue()
          ? motion
          : motion.l(this.getFlowVector(worldIn, pos));

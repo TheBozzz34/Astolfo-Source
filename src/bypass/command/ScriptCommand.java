@@ -9,7 +9,6 @@ import net.minecraft.util.EnumChatFormatting;
 public final class ScriptCommand extends Command {
    public static boolean z = true;
    private boolean p;
-   private static final long d = 66829120883463L;
 
    public ScriptCommand(String string, String string2) {
       super(string, string2);
@@ -18,8 +17,6 @@ public final class ScriptCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      long l = d ^ 75656006880922L;
-      long m = l ^ 8985767458526L;
       if (DisconnectHandler.disconnected) {
          toasts.x("You must reconnect to Astolfo before changing scripts");
       } else {

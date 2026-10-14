@@ -20,7 +20,6 @@ public class RangeSlider extends SettingComponent {
    private int H;
    private int c;
    private static final DecimalFormat G = new DecimalFormat("#.##");
-   private static final long d = 64464004619804L;
 
    public RangeSlider(Category category, Container container, Setting setting, Setting setting2, int i, int j) {
       super(container, setting, i, j);

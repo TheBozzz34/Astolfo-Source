@@ -32,7 +32,6 @@ public class BiomeGenJungle extends BiomeGenBase {
       .getDefaultState()
       .withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK)
       .withProperty(BlockLeaves.CHECK_DECAY, false);
-   private static final long bb = 127646850488105L;
 
    public BiomeGenJungle(int id, boolean bl) {
       super(id);

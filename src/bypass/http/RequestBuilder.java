@@ -9,7 +9,6 @@ public class RequestBuilder {
    private Map<String, String> N;
    private int Z;
    private int a;
-   private static final long b = 67840794985689L;
 
    public RequestBuilder() {
    }

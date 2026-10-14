@@ -8,7 +8,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class GeneratorBushFeature extends WorldGenerator {
    private BlockBush field_175908_a;
-   private static final long a = 22109477986329L;
 
    public GeneratorBushFeature(BlockBush blockBush) {
       this.field_175908_a = blockBush;

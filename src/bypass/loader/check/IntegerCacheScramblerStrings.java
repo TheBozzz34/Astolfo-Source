@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class IntegerCacheScramblerStrings {
    public static String j = "ARCFOUR";
    public static String A = "PtpvDfZKhTXrx8Qi";
-   private static final long a = 5369934497344L;
 
    public static String z(String string) {
       String string2 = "PJc/L4cQHOGvRKrnof+rsQ==";

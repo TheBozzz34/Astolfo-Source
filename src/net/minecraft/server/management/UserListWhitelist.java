@@ -5,8 +5,6 @@ import com.mojang.authlib.GameProfile;
 import java.io.File;
 
 public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEntry> {
-   private static final long a = 32916172508322L;
-
    public UserListWhitelist(File file) {
       super(file);
    }

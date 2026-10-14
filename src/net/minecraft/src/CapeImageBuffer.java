@@ -11,7 +11,6 @@ public class CapeImageBuffer implements IImageBuffer {
    public ImageBufferDownload r;
    public final WeakReference<AbstractClientPlayer> m;
    public final ResourceLocation E;
-   private static final long a = 76521857163960L;
 
    public CapeImageBuffer(AbstractClientPlayer player, ResourceLocation resourceLocation) {
       this.m = new WeakReference<>(player);

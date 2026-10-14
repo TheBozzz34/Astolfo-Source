@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 public class ItemHangingEntity extends Item {
    private final Class<? extends EntityHanging> hangingEntityClass;
-   private static final long a = 74612639432547L;
 
    public ItemHangingEntity(Class<? extends EntityHanging> entityClass) {
       this.hangingEntityClass = entityClass;

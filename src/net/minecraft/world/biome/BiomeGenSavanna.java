@@ -13,7 +13,6 @@ import net.minecraft.world.gen.feature.WorldGenSavannaTree;
 
 public class BiomeGenSavanna extends BiomeGenBase {
    private static final WorldGenSavannaTree field_150627_aC = new WorldGenSavannaTree(false);
-   private static final long bb = 28841972803393L;
 
    public BiomeGenSavanna(int id) {
       super(id);
@@ -52,8 +51,6 @@ public class BiomeGenSavanna extends BiomeGenBase {
    }
 
    public static class Mutated extends BiomeGenMutated {
-      private static final long bb = 123286459604593L;
-
       public Mutated(int i, BiomeGenBase biomeGenBase) {
          super(i, biomeGenBase);
          this.theBiomeDecorator.treesPerChunk = 2;

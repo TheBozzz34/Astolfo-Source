@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 public class RealmsBridge extends RealmsScreen {
    private static final Logger LOGGER = LogManager.getLogger();
    private GuiScreen previousScreen;
-   private static final long a = 107535919443928L;
 
    public void switchToRealms(GuiScreen guiScreen) {
       this.previousScreen = guiScreen;

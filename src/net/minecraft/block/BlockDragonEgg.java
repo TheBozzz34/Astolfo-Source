@@ -14,8 +14,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockDragonEgg extends Block {
-   private static final long e = 132189705297883L;
-
    public BlockDragonEgg() {
       super(Material.dragonEgg, MapColor.blackColor);
       this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 1.0F, 0.9375F);

@@ -185,7 +185,6 @@ import net.minecraft.entity.passive.EntityPig;
 
 public final class ModulesStage extends AbstractLoadStage {
    private final ProcessCheckSetup A = new ProcessCheckSetup();
-   private static final long b = 99265160378360L;
 
    @Override
    public StageAction getAction() {
@@ -234,33 +233,19 @@ public final class ModulesStage extends AbstractLoadStage {
    }
 
    public class azs extends StageAction {
-      private static final long c = 87952406802221L;
-
       public azs(LoadStage loadStage) {
          super(loadStage);
       }
 
       @Override
       public void run() {
-         long l2 = c ^ 88825346189936L;
-         long l3 = l2 ^ 121462363529216L;
-         int i2 = (int)((l2 ^ 121462363529216L) >>> 56);
-         int i3 = (int)((l2 ^ 121462363529216L) << 8 >>> 32);
-         int i4 = (int)(l3 << 40 >>> 40);
-         long l4 = l2 ^ 75876890577L;
-         long l5 = l2 ^ 14836274706623L;
-         long l6 = l2 ^ 44257542633710L;
-         long l7 = l2 ^ 125177937552439L;
-         long l8 = l2 ^ 76450307150939L;
-         long l9 = l2 ^ 122130596410910L;
-         long l10 = l2 ^ 16223469484332L;
          if (ModulesStage.this.getState() == 1) {
             if (ClientAccess.client.getEventBus() == null) {
                ClientAccess.client
                   .setEventBus(EventBus.<Field>p().e(MemberScanner.z()).j(ListenerFilter.W()).v(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION).v());
             }
 
-            ClientAccess.client.register(l7, ClientAccess.client.getRelationManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getRelationManager());
             LuaGlobals.init();
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -461,10 +446,10 @@ public final class ModulesStage extends AbstractLoadStage {
             EntityRenderer.C = Integer.parseInt(strings[5]);
             EntityRenderer.ZE = Integer.parseInt(strings[6]);
 
-            for (int i5 = 0; i5 < strings2.length; i5++) {
-               String string7 = strings2[i5];
-               if (ClientAccess.client.getModuleManager().getList().get(i5) instanceof Module) {
-                  Module module2 = (Module)ClientAccess.client.getModuleManager().getList().get(i5);
+            for (int i2 = 0; i2 < strings2.length; i2++) {
+               String string7 = strings2[i2];
+               if (ClientAccess.client.getModuleManager().getList().get(i2) instanceof Module) {
+                  Module module2 = (Module)ClientAccess.client.getModuleManager().getList().get(i2);
                   if (module2.getName() == null) {
                      module2.setName(string7);
                   }
@@ -635,11 +620,11 @@ public final class ModulesStage extends AbstractLoadStage {
             }
 
             System.gc();
-            ClientAccess.client.register(l7, ClientAccess.client.getModuleManager());
-            ClientAccess.client.register(l7, ClientAccess.client.getCommandManager());
-            ClientAccess.client.register(l7, ClientAccess.client.getTransparentPanelManager());
-            ClientAccess.client.register(l7, ClientAccess.client.getScriptManager());
-            ClientAccess.client.register(l7, ClientAccess.client.getSidebarGui());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getModuleManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getCommandManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getTransparentPanelManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getScriptManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getSidebarGui());
          }
       }
    }

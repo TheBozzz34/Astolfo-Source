@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 public class EntityDamageSource extends DamageSource {
    public Entity damageSourceEntity;
    private boolean isThornsDamage = false;
-   private static final long g = 92196515917146L;
 
    public EntityDamageSource(String damageTypeIn, Entity damageSourceEntityIn) {
       super(damageTypeIn);

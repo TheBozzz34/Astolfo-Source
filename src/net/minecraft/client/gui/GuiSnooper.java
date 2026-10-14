@@ -17,7 +17,6 @@ public class GuiSnooper extends GuiScreen {
    private String[] field_146607_r;
    private GuiSnooper.List field_146606_s;
    private GuiButton field_146605_t;
-   private static final long a = 122429170815509L;
 
    public GuiSnooper(GuiScreen guiScreen, GameSettings gameSettings) {
       this.field_146608_a = guiScreen;
@@ -103,8 +102,6 @@ public class GuiSnooper extends GuiScreen {
    }
 
    public class List extends GuiSlot {
-      private static final long c = 116483877071671L;
-
       public List() {
          super(
             GuiSnooper.this.mc, GuiSnooper.this.width, GuiSnooper.this.height, 80, GuiSnooper.this.height - 40, GuiSnooper.this.fontRendererObj.FONT_HEIGHT + 1

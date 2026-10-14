@@ -74,7 +74,6 @@ public final class Inventory extends Module {
          }
       }
    };
-   private static final long c = 97520652034366L;
 
    public Inventory(Category category) {
       super(category);

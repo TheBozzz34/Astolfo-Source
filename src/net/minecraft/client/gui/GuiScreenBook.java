@@ -51,7 +51,6 @@ public class GuiScreenBook extends GuiScreen {
    private GuiButton buttonSign;
    private GuiButton buttonFinalize;
    private GuiButton buttonCancel;
-   private static final long b = 15684465452249L;
 
    public GuiScreenBook(EntityPlayer player, ItemStack book, boolean isUnsigned) {
       this.editingPlayer = player;
@@ -284,12 +283,11 @@ public class GuiScreenBook extends GuiScreen {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = b ^ 14081054391756L;
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(bookGuiTextures);
       int i = (this.width - this.bookImageWidth) / 2;
-      byte b2 = 2;
-      this.drawTexturedModalRect(i, b2, 0, 0, this.bookImageWidth, this.bookImageHeight);
+      byte b = 2;
+      this.drawTexturedModalRect(i, b, 0, 0, this.bookImageWidth, this.bookImageHeight);
       if (this.bookGettingSigned) {
          String string = this.bookTitle;
          if (this.bookIsUnsigned) {
@@ -302,16 +300,14 @@ public class GuiScreenBook extends GuiScreen {
 
          String string2 = I18n.format("book.editTitle");
          int j = this.fontRendererObj.getStringWidth(string2);
-         long m = 132735952594630839L ^ l;
-         this.fontRendererObj.D(string2, i + 36 + (116 - j) / 2, b2 + 16 + 16, 0);
+         this.fontRendererObj.D(string2, i + 36 + (116 - j) / 2, b + 16 + 16, 0);
          int k = this.fontRendererObj.getStringWidth(string);
-         this.fontRendererObj.D(string, i + 36 + (116 - k) / 2, b2 + 48, 0);
+         this.fontRendererObj.D(string, i + 36 + (116 - k) / 2, b + 48, 0);
          String string3 = I18n.format("book.byAuthor", this.editingPlayer.getName());
-         int n = this.fontRendererObj.getStringWidth((java.lang.String)(string3));
-         m = 5221885836547389812L ^ l;
-         this.fontRendererObj.D(EnumChatFormatting.DARK_GRAY + string3, i + 36 + (116 - n) / 2, b2 + 48 + 10, 0);
+         int l = this.fontRendererObj.getStringWidth((java.lang.String)(string3));
+         this.fontRendererObj.D(EnumChatFormatting.DARK_GRAY + string3, i + 36 + (116 - l) / 2, b + 48 + 10, 0);
          String string4 = I18n.format("book.finalizeWarning");
-         this.fontRendererObj.drawSplitString(string4, i + 36, b2 + 80, 116, 0);
+         this.fontRendererObj.drawSplitString(string4, i + 36, b + 80, 116, 0);
       } else {
          String string5 = I18n.format("book.pageIndicator", this.currPage + 1, this.bookTotalPages);
          String string6 = "";
@@ -343,16 +339,16 @@ public class GuiScreenBook extends GuiScreen {
             this.field_175387_B = this.currPage;
          }
 
-         int i2 = this.fontRendererObj.getStringWidth(string5);
-         this.fontRendererObj.D(string5, i - i2 + this.bookImageWidth - 44, b2 + 16, 0);
+         int m = this.fontRendererObj.getStringWidth(string5);
+         this.fontRendererObj.D(string5, i - m + this.bookImageWidth - 44, b + 16, 0);
          if (this.field_175386_A == null) {
-            this.fontRendererObj.drawSplitString(string6, i + 36, b2 + 16 + 16, 116, 0);
+            this.fontRendererObj.drawSplitString(string6, i + 36, b + 16 + 16, 116, 0);
          } else {
-            int i3 = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.field_175386_A.size());
+            int n = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.field_175386_A.size());
 
-            for (int i4 = 0; i4 < i3; i4++) {
-               IChatComponent iChatComponent2 = this.field_175386_A.get(i4);
-               this.fontRendererObj.D(iChatComponent2.getUnformattedText(), i + 36, b2 + 16 + 16 + i4 * this.fontRendererObj.FONT_HEIGHT, 0);
+            for (int i2 = 0; i2 < n; i2++) {
+               IChatComponent iChatComponent2 = this.field_175386_A.get(i2);
+               this.fontRendererObj.D(iChatComponent2.getUnformattedText(), i + 36, b + 16 + 16 + i2 * this.fontRendererObj.FONT_HEIGHT, 0);
             }
 
             IChatComponent iChatComponent3 = this.func_175385_b(mouseX, mouseY);
@@ -444,7 +440,6 @@ public class GuiScreenBook extends GuiScreen {
 
    public static class NextPageButton extends GuiButton {
       private final boolean field_146151_o;
-      private static final long c = 76067126608523L;
 
       public NextPageButton(int i, int j, int k, boolean bl) {
          super(i, j, k, 23, 13, "");
@@ -453,14 +448,12 @@ public class GuiScreenBook extends GuiScreen {
 
       @Override
       public void drawButton(Minecraft mcIn, int mouseX, int mouseY) {
-         long l = c ^ 25209480794327L;
          if (this.visible) {
             boolean bl = mouseX >= this.xPosition
                && mouseY >= this.yPosition
                && mouseX < this.xPosition + this.width
                && mouseY < this.yPosition + this.height;
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            long m = 4505584382785786102L ^ l;
             mcIn.getTextureManager().bindTexture(GuiScreenBook.bookGuiTextures);
             byte b = 0;
             short s = 192;

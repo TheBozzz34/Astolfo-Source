@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 public class EntityTNTPrimed extends Entity {
    public int fuse;
    private EntityLivingBase tntPlacedBy;
-   private static final long ab = 82581249015974L;
-   private static final long fb = -3476068937056124848L;
 
    public EntityTNTPrimed(World worldIn) {
       super(worldIn);
@@ -25,7 +23,7 @@ public class EntityTNTPrimed extends Entity {
       this.motionX = -((float)Math.sin(f)) * 0.02F;
       this.motionY = 0.2F;
       this.motionZ = -((float)Math.cos(f)) * 0.02F;
-      this.fuse = (int)fb;
+      this.fuse = 80;
       this.prevPosX = x;
       this.prevPosY = y;
       this.prevPosZ = z;

@@ -13,8 +13,6 @@ import org.lwjgl.input.Mouse;
 
 public class StringComponent extends SettingComponent {
    private boolean s;
-   private static final long c = 74464720209322L;
-   private static final long e = 4874718530123071608L;
 
    public StringComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
@@ -27,7 +25,7 @@ public class StringComponent extends SettingComponent {
       }
 
       RenderUtil.drawRect(
-         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, (int)e).getRGB()
+         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
       );
       if (this.s) {
          RenderUtil.c(1.0F, this.M() + 1.0F, this.x() - 1, this.E_float(), this.Y() + 3, client.getColorSetting().getValue().getRGB());
@@ -51,7 +49,7 @@ public class StringComponent extends SettingComponent {
    }
 
    @Override
-   public void P(char c2, int i) {
+   public void P(char c, int i) {
       if (this.s) {
          if (GuiScreen.isKeyComboCtrlV(i)) {
             this.z().setValue(this.z().getValue() + GuiScreen.getClipboardString());
@@ -63,12 +61,12 @@ public class StringComponent extends SettingComponent {
                   }
                   break;
                default:
-                  if (ChatAllowedCharacters.isAllowedCharacter(c2)) {
-                     this.z().setValue(this.z().getValue() + c2);
+                  if (ChatAllowedCharacters.isAllowedCharacter(c)) {
+                     this.z().setValue(this.z().getValue() + c);
                   }
             }
 
-            super.P(c2, i);
+            super.P(c, i);
          }
       }
    }

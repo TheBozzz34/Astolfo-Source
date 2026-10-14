@@ -19,7 +19,6 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
    private int yaw;
    private int type;
    private int field_149020_k;
-   private static final long a = 1925286826434L;
 
    public S0EPacketSpawnObject() {
    }

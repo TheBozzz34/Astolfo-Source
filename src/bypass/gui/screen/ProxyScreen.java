@@ -51,7 +51,6 @@ public class ProxyScreen extends GuiScreen {
    public static final ExecutorService x = Executors.newFixedThreadPool(35);
    private boolean w;
    private static boolean O;
-   private static final long a = 48303834838772L;
 
    @Override
    public void initGui() {
@@ -76,7 +75,6 @@ public class ProxyScreen extends GuiScreen {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = a ^ 45508637356001L;
       this.drawDefaultBackground();
       int i = this.Z();
       if (this.b > i) {
@@ -95,7 +93,6 @@ public class ProxyScreen extends GuiScreen {
                + ((InetSocketAddress)Astolfo.INSTANCE.getProxy().address()).getPort()
       );
       this.mc.fontRendererObj.drawStringWithShadow(string2, this.width - this.mc.fontRendererObj.getStringWidth(string2), 5.0F, -1);
-      long m = 7980724088846442325L ^ l;
       this.mc
          .fontRendererObj
          .drawStringWithShadow(
@@ -108,10 +105,10 @@ public class ProxyScreen extends GuiScreen {
       GL11.glScalef(0.7F, 0.7F, 0.7F);
       GlStateManager.enableBlend();
       int k = 0;
-      int n = 0;
+      int l = 0;
       byte b2 = 10;
-      int i2 = this.height / b2;
-      int i3 = this.width / 2 + 87;
+      int m = this.height / b2;
+      int n = this.width / 2 + 87;
       if (!O) {
          this.checkProxies();
       }
@@ -119,41 +116,41 @@ public class ProxyScreen extends GuiScreen {
       if (O) {
          try {
             for (Entry entry : u.entrySet()) {
-               if (k < i2 * this.b) {
-                  n = ++k;
+               if (k < m * this.b) {
+                  l = ++k;
                } else {
-                  if (k >= i2 * (this.b + 1)) {
+                  if (k >= m * (this.b + 1)) {
                      break;
                   }
 
-                  int i4 = (k - n) * b2 + 30;
-                  RenderUtil.drawRect(i3, i4, i3 + 175, i4 + 10, new Color(1, 1, 1, 50).getRGB());
+                  int i2 = (k - l) * b2 + 30;
+                  RenderUtil.drawRect(n, i2, n + 175, i2 + 10, new Color(1, 1, 1, 50).getRGB());
                   if (p == entry.getValue()) {
-                     RenderUtil.drawRect(i3, i4, i3 + 175, i4 + 10, new Color(37, 37, 37, 255).getRGB());
+                     RenderUtil.drawRect(n, i2, n + 175, i2 + 10, new Color(37, 37, 37, 255).getRGB());
                   }
 
                   ImageTexture imageTexture = L("http://api.hostip.info/flag.php?ip=" + ((HostAndPort)entry.getValue()).getHost());
                   ResourceLocation resourceLocation = imageTexture != null && imageTexture.j != null ? imageTexture.j : null;
                   if (resourceLocation != null) {
                      Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
-                     Gui.drawModalRectWithCustomSizedTexture(i3 - 16, i4 + 1, 0.0F, 0.0F, 16, 8, 16.0F, 8.0F);
+                     Gui.drawModalRectWithCustomSizedTexture(n - 16, i2 + 1, 0.0F, 0.0F, 16, 8, 16.0F, 8.0F);
                   }
 
-                  this.I(i3 + 175, 0, i4, (Integer)entry.getKey());
+                  this.I(n + 175, 0, i2, (Integer)entry.getKey());
                   this.mc
                      .fontRendererObj
                      .drawStringWithShadow(
                         String.format("§f%sms", entry.getKey()),
-                        i3 + 165 - this.mc.fontRendererObj.getStringWidth(String.format("§f%sms", entry.getKey())) - 3,
-                        i4 + 1,
+                        n + 165 - this.mc.fontRendererObj.getStringWidth(String.format("§f%sms", entry.getKey())) - 3,
+                        i2 + 1,
                         -1
                      );
                   this.mc
                      .fontRendererObj
                      .drawStringWithShadow(
                         String.format("%s%s:%s", ((HostAndPort)entry.getValue()).getHost(), EnumChatFormatting.GRAY, ((HostAndPort)entry.getValue()).getPort()),
-                        i3 + 3,
-                        i4 + 1,
+                        n + 3,
+                        i2 + 1,
                         -1
                      );
                   k++;
@@ -371,10 +368,5 @@ public class ProxyScreen extends GuiScreen {
    private int Z() {
       int i = u.size();
       return MathHelper.ceiling_float_int((float)i / (this.height / 10));
-   }
-
-   static {
-      long l = a ^ 57287977161539L;
-      long m = 3796444336627603900L ^ l;
    }
 }

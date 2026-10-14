@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 public class RegistrySimple<K, V> implements IRegistry<K, V> {
    private static final Logger logger = LogManager.getLogger();
    public final Map<K, V> registryObjects = this.createUnderlyingMap();
-   private static final long b = 49199877296291L;
 
    public Map<K, V> createUnderlyingMap() {
       return Maps.newHashMap();

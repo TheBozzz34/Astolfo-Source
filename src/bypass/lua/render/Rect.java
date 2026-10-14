@@ -6,9 +6,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Rect extends VarArgFunction {
-   private static final long a = 126434909090325L;
-   private static final long b = -4796755897219022840L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       double d = 0.0;
@@ -20,7 +17,7 @@ public final class Rect extends VarArgFunction {
       int l = 0;
       int m = 0;
       int n = 1;
-      if (varargs.narg() < (int)b) {
+      if (varargs.narg() < 8) {
          return valueOf(false);
       }
 

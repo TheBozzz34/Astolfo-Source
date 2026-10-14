@@ -13,8 +13,6 @@ public class RecipesArmor {
       {Items.leather_leggings, Items.iron_leggings, Items.diamond_leggings, Items.golden_leggings},
       {Items.leather_boots, Items.iron_boots, Items.diamond_boots, Items.golden_boots}
    };
-   private static final long b = 132361122403266L;
-   private static final long f = 3710999232920944728L;
 
    public void addRecipes(CraftingManager craftManager) {
       for (int i = 0; i < this.recipeItems[0].length; i++) {
@@ -22,7 +20,7 @@ public class RecipesArmor {
 
          for (int j = 0; j < this.recipeItems.length - 1; j++) {
             Item item2 = this.recipeItems[j + 1][i];
-            craftManager.addRecipe(new ItemStack(item2), this.recipePatterns[j], Character.valueOf((char)((int)f)), item);
+            craftManager.addRecipe(new ItemStack(item2), this.recipePatterns[j], 'X', item);
          }
       }
    }

@@ -5,8 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class VersionCheckThread extends Thread {
-   private static final long a = 116778161396671L;
-
    @Override
    public void run() {
       HttpURLConnection httpURLConnection = null;

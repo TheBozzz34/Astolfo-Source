@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 public class EntityDiggingFX extends EntityFX {
    private IBlockState sourceState;
    private BlockPos sourcePos;
-   private static final long ab = 135369271629960L;
 
    public EntityDiggingFX(
       World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, IBlockState state

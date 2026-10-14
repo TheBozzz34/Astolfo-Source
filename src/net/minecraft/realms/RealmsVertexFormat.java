@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.vertex.VertexFormatElement;
 
 public class RealmsVertexFormat {
    private VertexFormat v;
-   private static final long a = 64455630052650L;
 
    public RealmsVertexFormat(VertexFormat vIn) {
       this.v = vIn;

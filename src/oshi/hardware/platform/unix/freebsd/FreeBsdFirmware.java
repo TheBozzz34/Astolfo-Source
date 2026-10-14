@@ -12,7 +12,6 @@ import oshi.util.tuples.Triplet;
 @Immutable
 public final class FreeBsdFirmware extends AbstractFirmware {
    private final Supplier<Triplet<String, String, String>> manufVersRelease = Memoizer.memoize(FreeBsdFirmware::readDmiDecode);
-   private static final long b = 29147138231078L;
 
    @Override
    public String R() {

@@ -11,7 +11,6 @@ public class EntityAIWatchClosest extends EntityAIBase {
    private int lookTime;
    private float chance;
    public Class<? extends Entity> watchedClass;
-   private static final long b = 58930012790027L;
 
    public EntityAIWatchClosest(EntityLiving entitylivingIn, Class<? extends Entity> watchTargetClass, float maxDistance) {
       this.theWatcher = entitylivingIn;

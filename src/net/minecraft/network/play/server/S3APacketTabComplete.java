@@ -7,8 +7,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S3APacketTabComplete implements Packet<INetHandlerPlayClient> {
    private String[] matches;
-   private static final long a = 113482614698713L;
-   private static final long b = -3812014780663693313L;
 
    public S3APacketTabComplete() {
    }
@@ -22,7 +20,7 @@ public class S3APacketTabComplete implements Packet<INetHandlerPlayClient> {
       this.matches = new String[buf.readVarIntFromBuffer()];
 
       for (int i = 0; i < this.matches.length; i++) {
-         this.matches[i] = buf.readStringFromBuffer((int)b);
+         this.matches[i] = buf.readStringFromBuffer(32767);
       }
    }
 

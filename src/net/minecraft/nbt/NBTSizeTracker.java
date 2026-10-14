@@ -8,7 +8,6 @@ public class NBTSizeTracker {
    };
    private final long max;
    private long read;
-   private static final long a = 138927618925568L;
 
    public NBTSizeTracker(long maxIn) {
       this.max = maxIn;

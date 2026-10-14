@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 
 public class RelationManager extends JsonFileManager<Relation, JsonObject> {
    private final HashMap<String, Relation> u = new HashMap<>();
-   private static final long c = 27750111532342L;
 
    public RelationManager(File file) {
       super(file, "relations.json");

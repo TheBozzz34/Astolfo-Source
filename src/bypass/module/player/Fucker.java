@@ -133,7 +133,6 @@ public final class Fucker extends Module {
    };
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
-      long l = c ^ 101615082007119L;
       if (renderEvent.getType() == RenderType.WORLD) {
          if (this.H == null) {
             return;
@@ -153,7 +152,6 @@ public final class Fucker extends Module {
          GL11.glBlendFunc(770, 771);
          GL11.glEnable(2848);
          GL11.glLineWidth(2.0F);
-         long m = 5651812435595044275L ^ l;
          GL11.glDisable(3553);
          GL11.glEnable(2884);
          GL11.glDisable(2929);
@@ -177,7 +175,6 @@ public final class Fucker extends Module {
          GL11.glPopMatrix();
       }
    };
-   private static final long c = 62677715610170L;
 
    public Fucker(Category category) {
       super(category);

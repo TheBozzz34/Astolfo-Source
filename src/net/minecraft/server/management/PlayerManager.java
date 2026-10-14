@@ -29,7 +29,6 @@ public class PlayerManager {
    private int playerViewRadius;
    private long previousTotalWorldTime;
    private final int[][] xzDirectionsConst = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-   private static final long b = 86329544726729L;
 
    public PlayerManager(WorldServer serverWorld) {
       this.theWorldServer = serverWorld;
@@ -254,7 +253,6 @@ public class PlayerManager {
       private int numBlocksToUpdate;
       private int flagsYAreasToUpdate;
       private long previousWorldTime;
-      private static final long a = 113068349012539L;
 
       public PlayerInstance(int chunkX, int chunkZ) {
          this.chunkCoords = new ChunkCoordIntPair(chunkX, chunkZ);

@@ -12,9 +12,6 @@ import oshi.util.platform.linux.ProcPath;
 
 @Immutable
 public final class LinuxSoundCard extends AbstractSoundCard {
-   private static final long c = 2526995184006L;
-   private static final long j = 3439901047521280035L;
-
    public LinuxSoundCard(String kernelVersion, String name, String codec) {
       super(kernelVersion, name, codec);
    }
@@ -52,7 +49,7 @@ public final class LinuxSoundCard extends AbstractSoundCard {
                   if (files2 != null) {
                      for (File file2 : files2) {
                         if (!file2.isDirectory() && file2.getName().contains("#")) {
-                           string = file2.getName().substring(0, file2.getName().indexOf((int)j));
+                           string = file2.getName().substring(0, file2.getName().indexOf(35));
                            break;
                         }
                      }

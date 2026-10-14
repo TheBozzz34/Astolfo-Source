@@ -3,8 +3,6 @@ package net.minecraft.client.shader;
 import org.lwjgl.util.vector.Matrix4f;
 
 public class ShaderDefault extends ShaderUniform {
-   private static final long b = 44875425982033L;
-
    public ShaderDefault() {
       super("dummy", 4, 1, (ShaderManager)null);
    }

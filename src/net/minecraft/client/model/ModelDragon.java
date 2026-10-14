@@ -19,7 +19,6 @@ public class ModelDragon extends ModelBase {
    private ModelRenderer wing;
    private ModelRenderer wingTip;
    private float partialTicks;
-   private static final long c = 22390894328198L;
 
    public ModelDragon(float f) {
       this.textureWidth = 256;

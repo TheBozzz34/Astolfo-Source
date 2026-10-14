@@ -7,8 +7,6 @@ import bypass.auth.packet.ServerCommandType;
 import bypass.module.hidden.TitleAnnouncer;
 
 public class ServerCommandHandler extends PacketHandler<ServerCommand> {
-   private static final long b = 34576327751681L;
-
    public ServerCommandHandler() {
       super(PacketId.SERVER_COMMAND);
    }

@@ -10,8 +10,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 
 public class CommandListBans extends CommandBase {
-   private static final long b = 47782062412035L;
-
    @Override
    public String getCommandName() {
       return "banlist";

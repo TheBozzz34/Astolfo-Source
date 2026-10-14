@@ -12,8 +12,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
 public class MapGenCaves extends MapGenBase {
-   private static final long c = 122376795312720L;
-
    public void func_180703_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3) {
       this.func_180702_a(l, i, j, chunkPrimer, d, d2, d3, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5);
    }

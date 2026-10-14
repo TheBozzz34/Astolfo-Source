@@ -8,8 +8,6 @@ import bypass.command.BansCommand;
 import net.minecraft.util.EnumChatFormatting;
 
 public class BansHandler extends PacketHandler<BansPacket> {
-   private static final long b = 83492121256424L;
-
    public BansHandler() {
       super(PacketId.BANS);
    }

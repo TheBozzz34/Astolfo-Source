@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32BaseBoard {
-   private static final long a = 27573544625235L;
-
    private Win32BaseBoard() {
    }
 

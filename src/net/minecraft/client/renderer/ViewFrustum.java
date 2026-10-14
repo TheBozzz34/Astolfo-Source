@@ -13,7 +13,6 @@ public class ViewFrustum {
    public int countChunksX;
    public int countChunksZ;
    public RenderChunk[] renderChunks;
-   private static final long a = 76452716329873L;
 
    public ViewFrustum(World worldIn, int renderDistanceChunks, RenderGlobal renderGlobal, IRenderChunkFactory renderChunkFactory) {
       this.renderGlobal = renderGlobal;

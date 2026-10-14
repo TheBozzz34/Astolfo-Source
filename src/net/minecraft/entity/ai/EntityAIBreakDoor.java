@@ -8,7 +8,6 @@ import net.minecraft.world.EnumDifficulty;
 public class EntityAIBreakDoor extends EntityAIDoorInteract {
    private int breakingTime;
    private int previousBreakProgress = -1;
-   private static final long a = 123573205414797L;
 
    public EntityAIBreakDoor(EntityLiving entityIn) {
       super(entityIn);

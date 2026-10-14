@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class ListedRenderChunk extends RenderChunk {
    private final int baseDisplayList = GLAllocation.generateDisplayLists(EnumWorldBlockLayer.values().length);
-   private static final long d = 61791682625465L;
 
    public ListedRenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos pos, int indexIn) {
       super(worldIn, renderGlobalIn, pos, indexIn);

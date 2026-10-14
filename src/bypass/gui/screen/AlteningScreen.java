@@ -31,7 +31,6 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
    private Checkbox B;
    private String P;
    private boolean n;
-   private static final long c = 59766492869013L;
 
    public AlteningScreen(GuiScreen guiScreen) {
       this.d = guiScreen;
@@ -96,8 +95,6 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
 
    @Override
    public void updateScreen() {
-      long l = c ^ 57210950613511L;
-      long m = l ^ 62083882695697L;
       if (!this.P.isEmpty()) {
          try {
             Alt alt = new Alt(this.P, "");

@@ -8,8 +8,6 @@ import net.minecraft.command.PlayerSelector;
 import net.minecraft.entity.Entity;
 
 public class ChatComponentProcessor {
-   private static final long a = 69941451953249L;
-
    public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) throws CommandException {
       net.minecraft.util.IChatComponent iChatComponent = null;
       if (component instanceof ChatComponentScore) {

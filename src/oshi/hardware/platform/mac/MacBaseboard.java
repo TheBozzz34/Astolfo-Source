@@ -13,7 +13,6 @@ import oshi.util.tuples.Quartet;
 @Immutable
 public final class MacBaseboard extends AbstractBaseboard {
    private final Supplier<Quartet<String, String, String, String>> manufModelVersSerial = Memoizer.memoize(MacBaseboard::queryPlatform);
-   private static final long b = 22582351758025L;
 
    @Override
    public String p() {

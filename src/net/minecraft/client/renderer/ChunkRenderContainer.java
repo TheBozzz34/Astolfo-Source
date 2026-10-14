@@ -10,14 +10,8 @@ public abstract class ChunkRenderContainer {
    private double viewEntityX;
    private double viewEntityY;
    private double viewEntityZ;
-   public List<RenderChunk> renderChunks;
+   public List<RenderChunk> renderChunks = Lists.newArrayListWithCapacity(17424);
    public boolean initialized;
-   private static final long a = 16741837276567L;
-   private static final long d = 6196764624096871440L;
-
-   public ChunkRenderContainer() {
-      this.renderChunks = Lists.newArrayListWithCapacity((int)d);
-   }
 
    public void initialize(double viewEntityXIn, double viewEntityYIn, double viewEntityZIn) {
       this.initialized = true;

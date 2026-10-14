@@ -4,8 +4,6 @@ import bypass.module.visuals.Waypoints;
 import java.util.Arrays;
 
 public final class WaypointsCommand extends Command {
-   private static final long d = 88386230118112L;
-
    public WaypointsCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Arrays.asList("wp", "waypoint"));

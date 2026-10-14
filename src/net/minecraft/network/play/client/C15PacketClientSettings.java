@@ -12,8 +12,6 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer> {
    private EntityPlayer.EnumChatVisibility chatVisibility;
    private boolean enableColors;
    private int modelPartFlags;
-   private static final long a = 111708736393151L;
-   private static final long b = 5514756218725335047L;
 
    public C15PacketClientSettings() {
    }
@@ -28,7 +26,7 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer> {
 
    @Override
    public void readPacketData(PacketBuffer buf) throws IOException {
-      this.lang = buf.readStringFromBuffer((int)b);
+      this.lang = buf.readStringFromBuffer(7);
       this.view = buf.readByte();
       this.chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility(buf.readByte());
       this.enableColors = buf.readBoolean();

@@ -24,7 +24,6 @@ public final class BlockOverlay extends Module {
    private final ColorSetting color = new ColorSetting("Color", "Color", Color.WHITE);
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
    private final Listener<RenderEvent> onRender = renderEvent -> {
-      long l = c ^ 56129572518329L;
       if (renderEvent.getType() == RenderType.WORLD) {
          MovingObjectPosition movingObjectPosition = mc.objectMouseOver;
          if (movingObjectPosition == null || movingObjectPosition.entityHit != null) {
@@ -46,7 +45,6 @@ public final class BlockOverlay extends Module {
          GL11.glBlendFunc(770, 771);
          GL11.glEnable(2848);
          GL11.glLineWidth(2.0F);
-         long m = 7027492741636162116L ^ l;
          GL11.glDisable(3553);
          GL11.glEnable(2884);
          GL11.glDisable(2929);
@@ -79,7 +77,6 @@ public final class BlockOverlay extends Module {
          GL11.glPopMatrix();
       }
    };
-   private static final long c = 29575927925452L;
 
    public BlockOverlay(Category category) {
       super(category);

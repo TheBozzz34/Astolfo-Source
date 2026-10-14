@@ -8,7 +8,6 @@ import net.hypixel.api.reply.AbstractReply;
 public class BazaarReply extends AbstractReply {
    private long lastUpdated;
    private Map<String, BazaarReply.Product> products;
-   private static final long a = 31573329781358L;
 
    public Map<String, BazaarReply.Product> getProducts() {
       return this.products;
@@ -32,7 +31,6 @@ public class BazaarReply extends AbstractReply {
       private List<BazaarReply.Product.Summary> buySummary;
       @SerializedName("quick_status")
       private BazaarReply.Product.Status quickStatus;
-      private static final long a = 97821213688116L;
 
       public String getProductId() {
          return this.productId;
@@ -73,7 +71,6 @@ public class BazaarReply extends AbstractReply {
          private int buyVolume;
          private int buyMovingWeek;
          private int buyOrders;
-         private static final long a = 130016534844217L;
 
          public String getProductId() {
             return this.productId;
@@ -139,7 +136,6 @@ public class BazaarReply extends AbstractReply {
          private int amount;
          private double pricePerUnit;
          private int orders;
-         private static final long a = 40790511589156L;
 
          public int d() {
             return this.amount;

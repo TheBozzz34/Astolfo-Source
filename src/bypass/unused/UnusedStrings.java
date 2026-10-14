@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class UnusedStrings {
    public static String o = "ARCFOUR";
    public static String j = "o2vtyP4UjkjWWCQc";
-   private static final long a = 776894313864L;
 
    public static String o(String string) {
       String string2 = "VoBvIjDOl3xXzxlUfETSfQ==";

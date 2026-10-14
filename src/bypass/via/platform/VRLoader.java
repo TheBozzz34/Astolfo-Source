@@ -12,8 +12,6 @@ import com.viaversion.viaversion.protocols.protocol1_9to1_8.providers.HandItemPr
 import com.viaversion.viaversion.protocols.protocol1_9to1_8.providers.MovementTransmitterProvider;
 
 public class VRLoader implements ViaPlatformLoader {
-   private static final long a = 71592670953870L;
-
    @Override
    public void load() {
       Via.getManager().getProviders().use(NativeVersionProvider.class, new VRNativeVersionProvider());

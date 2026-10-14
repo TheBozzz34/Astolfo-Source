@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 
 public class CommandTitle extends CommandBase {
    private static final Logger LOGGER = LogManager.getLogger();
-   private static final long b = 15701526045409L;
 
    @Override
    public String getCommandName() {

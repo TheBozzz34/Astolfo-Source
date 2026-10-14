@@ -25,13 +25,10 @@ public class BlockPumpkin extends BlockDirectional {
    private BlockPattern golemBasePattern;
    private BlockPattern golemPattern;
    private static final Predicate<IBlockState> field_181085_Q = new Predicate<IBlockState>() {
-      private static final long a = 136028497038362L;
-
       public boolean apply(IBlockState iBlockState) {
          return iBlockState != null && (iBlockState.getBlock() == Blocks.pumpkin || iBlockState.getBlock() == Blocks.lit_pumpkin);
       }
    };
-   private static final long l = 105740951920552L;
 
    public BlockPumpkin() {
       super(Material.gourd, MapColor.adobeColor);

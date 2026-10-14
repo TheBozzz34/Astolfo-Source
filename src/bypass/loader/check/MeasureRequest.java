@@ -8,7 +8,6 @@ public final class MeasureRequest implements MeasureMarker {
    private final AbstractMeasureTask o;
    private final int c;
    private boolean r;
-   private static final long a = 19715761024017L;
 
    public MeasureRequest(AbstractMeasureTask abstractMeasureTask, int i) {
       this.o = abstractMeasureTask;

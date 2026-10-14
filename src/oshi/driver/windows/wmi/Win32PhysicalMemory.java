@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32PhysicalMemory {
-   private static final long a = 18225988651484L;
-
    private Win32PhysicalMemory() {
    }
 

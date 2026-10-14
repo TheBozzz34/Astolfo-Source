@@ -11,7 +11,6 @@ public class ModelManager implements IResourceManagerReloadListener {
    private final TextureMap texMap;
    private final BlockModelShapes modelProvider;
    private IBakedModel defaultModel;
-   private static final long a = 115215768884007L;
 
    public ModelManager(TextureMap textures) {
       this.texMap = textures;

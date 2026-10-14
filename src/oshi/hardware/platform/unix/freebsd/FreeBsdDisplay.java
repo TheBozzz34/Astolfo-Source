@@ -10,8 +10,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class FreeBsdDisplay extends AbstractDisplay {
-   private static final long a = 74023044303096L;
-
    public FreeBsdDisplay(byte[] edid) {
       super(edid);
    }

@@ -3,8 +3,6 @@ package net.minecraft.command;
 import net.minecraft.server.MinecraftServer;
 
 public class CommandSetPlayerTimeout extends CommandBase {
-   private static final long b = 104174024262782L;
-
    @Override
    public String getCommandName() {
       return "setidletimeout";

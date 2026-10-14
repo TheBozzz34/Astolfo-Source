@@ -19,11 +19,6 @@ public final class FriendProtect extends Module {
    private final BooleanSetting swordOnly = new BooleanSetting("Sword-Only", "Only prevents attack with sword", false);
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = c ^ 105307080271894L;
-      long m = l ^ 136644924826719L;
-      int i = (int)((l ^ 136644924826719L) >>> 56);
-      int j = (int)((l ^ 136644924826719L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C02PacketUseEntity) {
          C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
          if (c02PacketUseEntity.getAction().equals(C02PacketUseEntity.Action.ATTACK)) {
@@ -44,7 +39,6 @@ public final class FriendProtect extends Module {
          }
       }
    };
-   private static final long c = 91048993024276L;
 
    public FriendProtect(Category category) {
       super(category);

@@ -10,8 +10,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemGlassBottle extends Item {
-   private static final long a = 135655707212666L;
-
    public ItemGlassBottle() {
       this.setCreativeTab(CreativeTabs.tabBrewing);
    }

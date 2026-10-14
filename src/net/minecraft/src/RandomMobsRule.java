@@ -13,7 +13,6 @@ public class RandomMobsRule {
    private RangeListInt heights = null;
    public int[] sumWeights = null;
    public int n = 1;
-   private static final long a = 82811361601521L;
 
    public RandomMobsRule(ResourceLocation resourceLocation, int[] ints, int[] ints2, BiomeGenBase[] biomeGenBases, RangeListInt rangeListInt) {
       this.baseResLoc = resourceLocation;

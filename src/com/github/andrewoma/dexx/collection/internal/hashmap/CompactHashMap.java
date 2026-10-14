@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 public class CompactHashMap<K, V> {
    public static final CompactHashMap EMPTY = new CompactHashMap();
-   private static final long a = 66779442934562L;
 
    public Iterator<Pair<K, V>> iterator(KeyFunction<K, V> kf) {
       return Collections.<Pair<K, V>>emptyList().iterator();

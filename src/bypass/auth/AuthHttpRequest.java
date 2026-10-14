@@ -10,7 +10,6 @@ public class AuthHttpRequest {
    public String[] E = new String[0];
    public String[] i = new String[0];
    public String[] n = new String[0];
-   private static final long a = 19429755765316L;
 
    public AuthHttpRequest() {
       this.v("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13");

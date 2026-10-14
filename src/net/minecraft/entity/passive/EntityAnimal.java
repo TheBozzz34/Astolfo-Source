@@ -17,7 +17,6 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
    public Block spawnableBlock = Blocks.grass;
    private int inLove;
    private EntityPlayer playerInLove;
-   private static final long eb = 120772434163378L;
 
    public EntityAnimal(World worldIn) {
       super(worldIn);

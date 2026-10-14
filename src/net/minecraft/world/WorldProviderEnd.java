@@ -9,8 +9,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderEnd;
 
 public class WorldProviderEnd extends WorldProvider {
-   private static final long b = 4099583918379L;
-
    @Override
    public void registerWorldChunkManager() {
       this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F);

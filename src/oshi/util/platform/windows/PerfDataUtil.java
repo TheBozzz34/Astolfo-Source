@@ -18,8 +18,6 @@ public final class PerfDataUtil {
    private static final DWORDByReference PDH_FMT_RAW = new DWORDByReference(new DWORD(16L));
    private static final Pdh PDH = Pdh.INSTANCE;
    private static final boolean IS_VISTA_OR_GREATER = VersionHelpers.IsWindowsVistaOrGreater();
-   private static final long a = 56742325962037L;
-   private static final long b = 2723385511241582549L;
 
    private PerfDataUtil() {
    }
@@ -33,7 +31,7 @@ public final class PerfDataUtil {
       int i = IS_VISTA_OR_GREATER ? PDH.PdhCollectQueryDataWithTime(query.getValue(), longlongByReference) : PDH.PdhCollectQueryData(query.getValue());
 
       for (int j = 0;
-         i == (int)b && j++ < 3;
+         i == -2147481643 && j++ < 3;
          i = IS_VISTA_OR_GREATER ? PDH.PdhCollectQueryDataWithTime(query.getValue(), longlongByReference) : PDH.PdhCollectQueryData(query.getValue())
       ) {
          Util.sleep(1 << j);
@@ -74,7 +72,6 @@ public final class PerfDataUtil {
       private String object;
       private String instance;
       private String counter;
-      private static final long a = 38973254344814L;
 
       public PerfCounter(String objectName, String instanceName, String counterName) {
          this.object = objectName;

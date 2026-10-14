@@ -10,7 +10,6 @@ import oshi.util.ParseUtil;
 @ThreadSafe
 public final class WmiUtil {
    public static final String L = "ROOT\\OpenHardwareMonitor";
-   private static final long a = 86940169811911L;
 
    private WmiUtil() {
    }

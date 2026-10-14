@@ -24,7 +24,6 @@ public class RegionFile {
    private List<Boolean> sectorFree;
    private int sizeDelta;
    private long lastModified;
-   private static final long a = 52816920199235L;
 
    public RegionFile(File fileNameIn) {
       this.fileName = fileNameIn;
@@ -238,11 +237,9 @@ public class RegionFile {
    public class ChunkBuffer extends ByteArrayOutputStream {
       private int chunkX;
       private int chunkZ;
-      private static final long a = 54239380123L;
-      private static final long b = -2308702293496684640L;
 
       public ChunkBuffer(int x, int z) {
-         super((int)b);
+         super(8096);
          this.chunkX = x;
          this.chunkZ = z;
       }

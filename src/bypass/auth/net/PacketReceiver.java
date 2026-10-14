@@ -202,7 +202,6 @@ public final class PacketReceiver implements LoginListener {
    private volatile boolean v;
    private int U = -1;
    private Scrambler x;
-   private static final long a = 29277767573739L;
 
    public PacketReceiver(SocketChannel socketChannel, Map<Short, PacketReader<?>> map, Map<Short, List<PacketListener<?>>> map2) {
       this.W = socketChannel;
@@ -213,11 +212,6 @@ public final class PacketReceiver implements LoginListener {
    }
 
    public ReceiveResult receive() throws IOException {
-      long l2 = a ^ 77293700656772L;
-      long l3 = l2 ^ 86472780526477L;
-      long l4 = l2 ^ 118314917753820L;
-      long l5 = l2 ^ 6992959184745L;
-      long l6 = l2 ^ 84776339714590L;
       boolean bl2 = false;
       ReceiveResult receiveResult = null;
       if (!this.v) {

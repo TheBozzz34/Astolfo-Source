@@ -40,7 +40,6 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
    private int secondaryEffect;
    private ItemStack payment;
    private String customName;
-   private static final long c = 133922871835393L;
 
    @Override
    public void update() {

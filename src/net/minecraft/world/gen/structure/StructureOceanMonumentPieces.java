@@ -17,8 +17,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class StructureOceanMonumentPieces {
-   private static final long a = 112669843685151L;
-
    public static void registerOceanMonumentPieces() {
       MapGenStructureIO.registerStructureComponent(StructureOceanMonumentPieces.MonumentBuilding.class, "OMB");
       MapGenStructureIO.registerStructureComponent(StructureOceanMonumentPieces.MonumentCoreRoom.class, "OMCR");
@@ -34,8 +32,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class DoubleXRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 32845360933793L;
-
       public DoubleXRoom() {
       }
 
@@ -106,8 +102,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class DoubleXYRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 51787979560191L;
-
       public DoubleXYRoom() {
       }
 
@@ -222,8 +216,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class DoubleYRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 96519389516918L;
-
       public DoubleYRoom() {
       }
 
@@ -305,8 +297,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class DoubleYZRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 135100606117628L;
-
       public DoubleYZRoom() {
       }
 
@@ -419,8 +409,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class DoubleZRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 11766339272571L;
-
       public DoubleZRoom() {
       }
 
@@ -510,8 +498,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class EntryRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 91606798059742L;
-
       public EntryRoom() {
       }
 
@@ -563,8 +549,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class FitSimpleRoomTopHelper implements StructureOceanMonumentPieces.MonumentRoomFitHelper {
-      private static final long a = 46671882833911L;
-
       public FitSimpleRoomTopHelper() {
       }
 
@@ -588,7 +572,6 @@ public class StructureOceanMonumentPieces {
       private StructureOceanMonumentPieces.RoomDefinition field_175845_o;
       private StructureOceanMonumentPieces.RoomDefinition field_175844_p;
       private List<StructureOceanMonumentPieces.Piece> field_175843_q = Lists.newArrayList();
-      private static final long b = 92213242309833L;
 
       public MonumentBuilding() {
       }
@@ -1193,8 +1176,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class MonumentCoreRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 128672371331595L;
-
       public MonumentCoreRoom() {
       }
 
@@ -1279,8 +1260,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class Penthouse extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 32554719035458L;
-
       public Penthouse() {
       }
 
@@ -1347,7 +1326,6 @@ public class StructureOceanMonumentPieces {
       public static final int field_175832_i = func_175820_a(0, 1, 0);
       public static final int field_175829_j = func_175820_a(4, 1, 0);
       public StructureOceanMonumentPieces.RoomDefinition field_175830_k;
-      private static final long g = 19626435600854L;
 
       public static final int func_175820_a(int i, int j, int k) {
          return j * 25 + k * 5 + i;
@@ -1480,7 +1458,6 @@ public class StructureOceanMonumentPieces {
       public boolean field_175963_d;
       public boolean field_175964_e;
       public int field_175962_f;
-      private static final long a = 132977840891621L;
 
       public RoomDefinition(int i) {
          this.field_175967_a = i;
@@ -1535,7 +1512,6 @@ public class StructureOceanMonumentPieces {
 
    public static class SimpleRoom extends StructureOceanMonumentPieces.Piece {
       private int field_175833_o;
-      private static final long b = 34223389130760L;
 
       public SimpleRoom() {
       }
@@ -1705,8 +1681,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class SimpleTopRoom extends StructureOceanMonumentPieces.Piece {
-      private static final long b = 4173082555260L;
-
       public SimpleTopRoom() {
       }
 
@@ -1771,7 +1745,6 @@ public class StructureOceanMonumentPieces {
 
    public static class WingRoom extends StructureOceanMonumentPieces.Piece {
       private int field_175834_o;
-      private static final long b = 79906429099015L;
 
       public WingRoom() {
       }
@@ -1783,7 +1756,6 @@ public class StructureOceanMonumentPieces {
 
       @Override
       public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-         long l = b ^ 65776948531496L;
          if (this.field_175834_o == 0) {
             for (int i = 0; i < 4; i++) {
                this.fillWithBlocks(
@@ -1837,37 +1809,36 @@ public class StructureOceanMonumentPieces {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 9, 3, 18, 13, 3, 20, field_175826_b, field_175826_b, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 9, 0, 18, 9, 2, 18, field_175826_b, field_175826_b, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 13, 0, 18, 13, 2, 18, field_175826_b, field_175826_b, false);
-            byte b2 = 9;
-            byte b3 = 20;
-            byte b4 = 5;
+            byte b = 9;
+            byte b2 = 20;
+            byte b3 = 5;
 
             for (int k = 0; k < 2; k++) {
-               this.setBlockState(worldIn, field_175826_b, b2, b4 + 1, b3, structureBoundingBoxIn);
-               this.setBlockState(worldIn, field_175825_e, b2, b4, b3, structureBoundingBoxIn);
-               long m = 1143257020355153389L ^ l;
-               this.setBlockState(worldIn, field_175826_b, b2, b4 - 1, b3, structureBoundingBoxIn);
-               b2 = 13;
+               this.setBlockState(worldIn, field_175826_b, b, b3 + 1, b2, structureBoundingBoxIn);
+               this.setBlockState(worldIn, field_175825_e, b, b3, b2, structureBoundingBoxIn);
+               this.setBlockState(worldIn, field_175826_b, b, b3 - 1, b2, structureBoundingBoxIn);
+               b = 13;
             }
 
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 7, 3, 7, 15, 3, 14, field_175826_b, field_175826_b, false);
-            b2 = 10;
+            b = 10;
 
-            for (int n = 0; n < 2; n++) {
-               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b2, 0, 10, b2, 6, 10, field_175826_b, field_175826_b, false);
-               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b2, 0, 12, b2, 6, 12, field_175826_b, field_175826_b, false);
-               this.setBlockState(worldIn, field_175825_e, b2, 0, 10, structureBoundingBoxIn);
-               this.setBlockState(worldIn, field_175825_e, b2, 0, 12, structureBoundingBoxIn);
-               this.setBlockState(worldIn, field_175825_e, b2, 4, 10, structureBoundingBoxIn);
-               this.setBlockState(worldIn, field_175825_e, b2, 4, 12, structureBoundingBoxIn);
-               b2 = 12;
+            for (int l = 0; l < 2; l++) {
+               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b, 0, 10, b, 6, 10, field_175826_b, field_175826_b, false);
+               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b, 0, 12, b, 6, 12, field_175826_b, field_175826_b, false);
+               this.setBlockState(worldIn, field_175825_e, b, 0, 10, structureBoundingBoxIn);
+               this.setBlockState(worldIn, field_175825_e, b, 0, 12, structureBoundingBoxIn);
+               this.setBlockState(worldIn, field_175825_e, b, 4, 10, structureBoundingBoxIn);
+               this.setBlockState(worldIn, field_175825_e, b, 4, 12, structureBoundingBoxIn);
+               b = 12;
             }
 
-            b2 = 8;
+            b = 8;
 
-            for (int i2 = 0; i2 < 2; i2++) {
-               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b2, 0, 7, b2, 2, 7, field_175826_b, field_175826_b, false);
-               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b2, 0, 14, b2, 2, 14, field_175826_b, field_175826_b, false);
-               b2 = 14;
+            for (int m = 0; m < 2; m++) {
+               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b, 0, 7, b, 2, 7, field_175826_b, field_175826_b, false);
+               this.fillWithBlocks(worldIn, structureBoundingBoxIn, b, 0, 14, b, 2, 14, field_175826_b, field_175826_b, false);
+               b = 14;
             }
 
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 8, 3, 8, 8, 3, 13, field_175827_c, field_175827_c, false);
@@ -1880,8 +1851,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class XDoubleRoomFitHelper implements StructureOceanMonumentPieces.MonumentRoomFitHelper {
-      private static final long a = 73319407361597L;
-
       public XDoubleRoomFitHelper() {
       }
 
@@ -1899,8 +1868,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class XYDoubleRoomFitHelper implements StructureOceanMonumentPieces.MonumentRoomFitHelper {
-      private static final long a = 22242257750520L;
-
       public XYDoubleRoomFitHelper() {
       }
 
@@ -1928,8 +1895,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class YDoubleRoomFitHelper implements StructureOceanMonumentPieces.MonumentRoomFitHelper {
-      private static final long a = 56213066498337L;
-
       public YDoubleRoomFitHelper() {
       }
 
@@ -1947,8 +1912,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class YZDoubleRoomFitHelper implements StructureOceanMonumentPieces.MonumentRoomFitHelper {
-      private static final long a = 87906146264163L;
-
       public YZDoubleRoomFitHelper() {
       }
 
@@ -1976,8 +1939,6 @@ public class StructureOceanMonumentPieces {
    }
 
    public static class ZDoubleRoomFitHelper implements StructureOceanMonumentPieces.MonumentRoomFitHelper {
-      private static final long a = 89915992218853L;
-
       public ZDoubleRoomFitHelper() {
       }
 

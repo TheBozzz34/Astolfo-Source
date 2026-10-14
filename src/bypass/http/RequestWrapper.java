@@ -7,7 +7,6 @@ import java.util.Map;
 public final class RequestWrapper extends AbstractRequest {
    private String B;
    private Request U;
-   private static final long b = 95054725548215L;
 
    public RequestWrapper(Request request) {
       this.U = request;

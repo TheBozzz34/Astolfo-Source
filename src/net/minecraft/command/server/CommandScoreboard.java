@@ -34,8 +34,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 
 public class CommandScoreboard extends CommandBase {
-   private static final long b = 15854723139209L;
-
    @Override
    public String getCommandName() {
       return "scoreboard";

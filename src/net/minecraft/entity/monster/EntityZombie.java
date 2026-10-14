@@ -53,7 +53,6 @@ public class EntityZombie extends EntityMob {
    private boolean isBreakDoorsTaskSet = false;
    private float zombieWidth = -1.0F;
    private float zombieHeight;
-   private static final long gb = 22908641317214L;
 
    public EntityZombie(World worldIn) {
       super(worldIn);

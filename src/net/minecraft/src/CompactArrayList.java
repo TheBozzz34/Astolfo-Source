@@ -7,11 +7,9 @@ public class CompactArrayList {
    private int F = 0;
    private float U = 1.0F;
    private int W = 0;
-   private static final long a = 132765221309218L;
-   private static final long b = -7190864315476344822L;
 
    public CompactArrayList() {
-      this((int)b, 0.75F);
+      this(10, 0.75F);
    }
 
    public CompactArrayList(int initialCapacity) {

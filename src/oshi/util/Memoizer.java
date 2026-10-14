@@ -7,14 +7,12 @@ import oshi.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public final class Memoizer {
    private static final Supplier<Long> defaultExpirationNanos = memoize(Memoizer::queryExpirationConfig, TimeUnit.MINUTES.toNanos(1L));
-   private static final long a = 29827839104500L;
-   private static final long b = -6758284087120625364L;
 
    private Memoizer() {
    }
 
    private static long queryExpirationConfig() {
-      return TimeUnit.MILLISECONDS.toNanos(GlobalConfig.get("d", (int)b));
+      return TimeUnit.MILLISECONDS.toNanos(GlobalConfig.get("d", 300));
    }
 
    public static long defaultExpiration() {
@@ -35,7 +33,6 @@ public final class Memoizer {
       public volatile long m;
       public final Supplier E;
       public final long y;
-      private static final long a = 68859335861244L;
 
       public ExpiringSupplier(Supplier supplier, long l) {
          this.E = supplier;

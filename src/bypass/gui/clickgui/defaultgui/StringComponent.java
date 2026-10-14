@@ -16,7 +16,6 @@ import org.lwjgl.input.Mouse;
 public class StringComponent extends SettingComponent {
    private final Category h;
    private boolean w;
-   private static final long c = 119843223678281L;
 
    public StringComponent(Category category, Container container, Setting<?> setting, int i, int j) {
       super(container, setting, i, j);
@@ -46,7 +45,7 @@ public class StringComponent extends SettingComponent {
    }
 
    @Override
-   public void P(char c2, int i) {
+   public void P(char c, int i) {
       if (this.w) {
          if (GuiScreen.isKeyComboCtrlV(i)) {
             this.r().setValue(this.r().getValue() + GuiScreen.getClipboardString());
@@ -58,12 +57,12 @@ public class StringComponent extends SettingComponent {
                   }
                   break;
                default:
-                  if (ChatAllowedCharacters.isAllowedCharacter(c2)) {
-                     this.r().setValue(this.r().getValue() + c2);
+                  if (ChatAllowedCharacters.isAllowedCharacter(c)) {
+                     this.r().setValue(this.r().getValue() + c);
                   }
             }
 
-            super.P(c2, i);
+            super.P(c, i);
          }
       }
    }

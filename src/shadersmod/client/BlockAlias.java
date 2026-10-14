@@ -5,7 +5,6 @@ import net.minecraft.src.MatchBlock;
 public class BlockAlias {
    private int blockId;
    private MatchBlock[] matchBlocks;
-   private static final long a = 38170275249193L;
 
    public BlockAlias(int blockId, MatchBlock[] matchBlocks) {
       this.blockId = blockId;

@@ -7,12 +7,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class WorldGenReed extends WorldGenerator {
-   private static final long a = 2634143018499L;
-   private static final long b = -8555008265841278956L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
-      for (int i = 0; i < (int)b; i++) {
+      for (int i = 0; i < 20; i++) {
          BlockPos blockPos = position.add(rand.nextInt(4) - rand.nextInt(4), 0, rand.nextInt(4) - rand.nextInt(4));
          if (worldIn.isAirBlock(blockPos)) {
             BlockPos blockPos2 = blockPos.down();

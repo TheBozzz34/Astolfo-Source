@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 public class BlockRedstoneRepeater extends BlockRedstoneDiode {
    public static final PropertyBool LOCKED = PropertyBool.create("locked");
    public static final PropertyInteger DELAY = PropertyInteger.create("delay", 1, 4);
-   private static final long e = 9752542158982L;
 
    public BlockRedstoneRepeater(boolean powered) {
       super(powered);

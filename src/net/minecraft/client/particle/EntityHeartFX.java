@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public class EntityHeartFX extends EntityFX {
    public float particleScaleOverTime;
-   private static final long ab = 110399022462810L;
 
    public EntityHeartFX(World worldIn, double d, double d2, double d3, double d4, double d5, double d6) {
       this(worldIn, d, d2, d3, d4, d5, d6, 2.0F);
@@ -69,15 +68,12 @@ public class EntityHeartFX extends EntityFX {
    }
 
    public static class AngryVillagerFactory implements IParticleFactory {
-      private static final long a = 40052050866679L;
-      private static final long b = 3415622894477115473L;
-
       @Override
       public EntityFX getEntityFX(
          int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
       ) {
          EntityHeartFX entityHeartFX = new EntityHeartFX(worldIn, xCoordIn, yCoordIn + 0.5, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-         entityHeartFX.setParticleTextureIndex((int)b);
+         entityHeartFX.setParticleTextureIndex(81);
          entityHeartFX.setRBGColorF(1.0F, 1.0F, 1.0F);
          return entityHeartFX;
       }

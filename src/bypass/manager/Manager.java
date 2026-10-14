@@ -31,8 +31,6 @@ public abstract class Manager<T> {
    }
 
    public class au1 extends ArrayList<T> {
-      private static final long a = 39446278696327L;
-
       @Override
       public boolean addAll(Collection<? extends T> collection) {
          for (Object object : collection) {

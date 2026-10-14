@@ -9,7 +9,6 @@ public class GuiScreenServerList extends GuiScreen {
    private final GuiScreen field_146303_a;
    private final ServerData field_146301_f;
    private GuiTextField field_146302_g;
-   private static final long a = 137460453320519L;
 
    public GuiScreenServerList(GuiScreen guiScreen, ServerData serverData) {
       this.field_146303_a = guiScreen;

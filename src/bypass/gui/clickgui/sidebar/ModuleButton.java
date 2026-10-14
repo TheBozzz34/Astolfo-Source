@@ -23,7 +23,6 @@ public class ModuleButton extends Container {
    public int A = 25;
    private boolean Q;
    public int P;
-   private static final long e = 110176195880408L;
 
    public ModuleButton(CategoryTab categoryTab, Module module, int i, int j, int k, int l) {
       super(module.getName(), i, j, k, l);
@@ -63,8 +62,6 @@ public class ModuleButton extends Container {
 
    @Override
    public void render(int i, int j) {
-      long l = e ^ 126699976113066L;
-      long m = l ^ 8972929756414L;
       if (!this.Y.isRunning()) {
          if (this.G(i, j)) {
             this.Y.forwards().start();
@@ -86,14 +83,14 @@ public class ModuleButton extends Container {
          client.getCustomFontRenderer().drawString(this.H.getName(), this.M(), this.E_float() - 2.0F, new Color(255, 255, 255, k).getRGB());
       }
 
-      int i2 = this.A;
+      int l = this.A;
       Sidebar sidebar = this.n().t();
       if (!this.f && this.n().S() == this && this.n().D() == null
          || this.n().S() == null && this.n().D() == this
          || this.n().S() != this && this.n().D() == this) {
-         int i3 = Astolfo.INSTANCE.getSidebarGui().U();
-         GuiMainMenu.P.drawString(this.H.getName(), this.M() + 172.5F - GuiMainMenu.P.getStringWidth(this.H.getName()) / 2.0F, sidebar.E_float() + 3.0F, i3);
-         RenderUtil.drawRect(this.M() + 135.0F, sidebar.E_float() + 17.0F, this.M() + 210.0F, sidebar.E_float() + 18.0F, i3);
+         int m = Astolfo.INSTANCE.getSidebarGui().U();
+         GuiMainMenu.P.drawString(this.H.getName(), this.M() + 172.5F - GuiMainMenu.P.getStringWidth(this.H.getName()) / 2.0F, sidebar.E_float() + 3.0F, m);
+         RenderUtil.drawRect(this.M() + 135.0F, sidebar.E_float() + 17.0F, this.M() + 210.0F, sidebar.E_float() + 18.0F, m);
          if (this.A() != null) {
             GuiMainMenu.P
                .drawString(this.A().X().getName(), this.M() + 310.0F - GuiMainMenu.P.getStringWidth(this.A().X().getName()) / 2.0F, sidebar.E_float() + 3.0F, -1);
@@ -105,14 +102,14 @@ public class ModuleButton extends Container {
          for (Element element : this.M_ArrayList()) {
             if (element instanceof SidebarSettingComponent) {
                SidebarSettingComponent sidebarSettingComponent = (SidebarSettingComponent)element;
-               sidebarSettingComponent.r(sidebar.M() + 135.0F, sidebar.E_float() + i2);
+               sidebarSettingComponent.r(sidebar.M() + 135.0F, sidebar.E_float() + l);
                sidebarSettingComponent.render(i, j);
                if (!sidebarSettingComponent.B.isRunning()) {
                   sidebarSettingComponent.B.forwards().start();
                }
 
                sidebarSettingComponent.X = (int)sidebarSettingComponent.B.getValue(0.0, 255.0);
-               i2 += 15;
+               l += 15;
             }
          }
       } else {

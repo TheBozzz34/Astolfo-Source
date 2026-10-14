@@ -13,7 +13,6 @@ public abstract class GenLayer {
    public GenLayer parent;
    private long chunkSeed;
    public long baseSeed;
-   private static final long b = 113030085782939L;
 
    public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType worldType, String string) {
       GenLayerIsland genLayerIsland = new GenLayerIsland(1L);

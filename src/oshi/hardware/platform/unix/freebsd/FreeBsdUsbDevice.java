@@ -13,8 +13,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public class FreeBsdUsbDevice extends AbstractUsbDevice {
-   private static final long c = 20841872819770L;
-
    public FreeBsdUsbDevice(
       String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
    ) {

@@ -20,7 +20,6 @@ public class ChunkProviderDebug implements IChunkProvider {
    private static final int field_177462_b;
    private static final int field_181039_c;
    private final World world;
-   private static final long a = 82529366371374L;
 
    public ChunkProviderDebug(World worldIn) {
       this.world = worldIn;

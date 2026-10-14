@@ -28,8 +28,6 @@ public class SmartLeaves {
    private static IBakedModel modelLeavesDoubleJungle = null;
    private static IBakedModel modelLeavesDoubleOak = null;
    private static IBakedModel modelLeavesDoubleSpruce = null;
-   private static final long a = 81778826221374L;
-   private static final long g = -670197618969673722L;
 
    public static IBakedModel getLeavesModel(IBakedModel model) {
       if (!Config.isTreesSmart()) {
@@ -107,7 +105,7 @@ public class SmartLeaves {
             return iBakedModel;
          }
 
-         if (list.size() != (int)g) {
+         if (list.size() != 6) {
             return null;
          }
 

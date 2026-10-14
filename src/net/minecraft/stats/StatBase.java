@@ -26,8 +26,6 @@ public class StatBase {
    };
    private static DecimalFormat decimalFormat = new DecimalFormat("########0.00");
    public static IStatType timeStatType = new IStatType() {
-      private static final long a = 69958889824939L;
-
       @Override
       public String format(int number) {
          double e = number / 20.0;
@@ -45,8 +43,6 @@ public class StatBase {
       }
    };
    public static IStatType distanceStatType = new IStatType() {
-      private static final long a = 136726769203444L;
-
       @Override
       public String format(int number) {
          double d = number / 100.0;
@@ -60,8 +56,6 @@ public class StatBase {
          return StatBase.decimalFormat.format(number * 0.1);
       }
    };
-   private static final long e = 82460474577747L;
-   private static final long t = 6136178913476345981L;
 
    public StatBase(String statIdIn, IChatComponent statNameIn, IStatType typeIn) {
       this.statId = statIdIn;
@@ -143,7 +137,7 @@ public class StatBase {
          + this.type
          + ", objectiveCriteria="
          + this.objectiveCriteria
-         + (int)t;
+         + '}';
    }
 
    public IScoreObjectiveCriteria getCriteria() {

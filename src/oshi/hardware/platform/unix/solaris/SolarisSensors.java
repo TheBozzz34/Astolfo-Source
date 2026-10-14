@@ -8,8 +8,6 @@ import oshi.util.ParseUtil;
 
 @ThreadSafe
 public final class SolarisSensors extends AbstractSensors {
-   private static final long b = 139468581974510L;
-
    @Override
    public double queryCpuTemperature() {
       double d = 0.0;

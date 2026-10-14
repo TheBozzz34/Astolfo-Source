@@ -5,7 +5,6 @@ public class Language implements Comparable<Language> {
    private final String region;
    private final String name;
    private final boolean bidirectional;
-   private static final long a = 21946613768247L;
 
    public Language(String languageCodeIn, String regionIn, String nameIn, boolean bidirectionalIn) {
       this.languageCode = languageCodeIn;

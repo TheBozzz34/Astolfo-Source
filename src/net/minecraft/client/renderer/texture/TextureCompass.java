@@ -11,7 +11,6 @@ public class TextureCompass extends TextureAtlasSprite {
    public double currentAngle;
    public double angleDelta;
    public static String locationSprite;
-   private static final long d = 23185956586156L;
 
    public TextureCompass(String iconName) {
       super(iconName);
@@ -28,24 +27,24 @@ public class TextureCompass extends TextureAtlasSprite {
       }
    }
 
-   public void updateCompass(World worldIn, double d2, double d3, double d4, boolean bl, boolean bl2) {
+   public void updateCompass(World worldIn, double d, double d2, double d3, boolean bl, boolean bl2) {
       if (!this.framesTextureData.isEmpty()) {
-         double d = 0.0;
+         double e = 0.0;
          if (worldIn != null && !bl) {
             BlockPos blockPos = worldIn.getSpawnPoint();
-            double e = blockPos.getX() - d2;
-            double d5 = blockPos.getZ() - d3;
-            d4 %= 360.0;
-            d = -((d4 - 90.0) * Math.PI / 180.0 - Math.atan2(d5, e));
+            double d4 = blockPos.getX() - d;
+            double d5 = blockPos.getZ() - d2;
+            d3 %= 360.0;
+            e = -((d3 - 90.0) * Math.PI / 180.0 - Math.atan2(d5, d4));
             if (!worldIn.provider.isSurfaceWorld()) {
-               d = Math.random() * Math.PI * 2.0;
+               e = Math.random() * Math.PI * 2.0;
             }
          }
 
          if (bl2) {
-            this.currentAngle = d;
+            this.currentAngle = e;
          } else {
-            double d6 = d - this.currentAngle;
+            double d6 = e - this.currentAngle;
 
             while (d6 < -Math.PI) {
                d6 += Math.PI * 2;

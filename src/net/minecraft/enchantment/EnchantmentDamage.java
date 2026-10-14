@@ -15,7 +15,6 @@ public class EnchantmentDamage extends Enchantment {
    private static final int[] levelEnchantability = new int[]{11, 8, 8};
    private static final int[] thresholdEnchantability = new int[]{20, 20, 20};
    public final int damageType;
-   private static final long m = 120058455614418L;
 
    public EnchantmentDamage(int enchID, ResourceLocation enchName, int enchWeight, int classification) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.WEAPON);

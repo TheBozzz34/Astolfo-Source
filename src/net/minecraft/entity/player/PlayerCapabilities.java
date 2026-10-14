@@ -10,7 +10,6 @@ public class PlayerCapabilities {
    public boolean allowEdit = true;
    private float flySpeed = 0.05F;
    private float walkSpeed = 0.1F;
-   private static final long a = 93822400042065L;
 
    public void writeCapabilitiesToNBT(NBTTagCompound tagCompound) {
       NBTTagCompound nbtTagCompound = new NBTTagCompound();

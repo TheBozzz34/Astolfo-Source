@@ -8,8 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
 public class TeleportPath implements ClientAccess {
-   private static final long b = 66698012576278L;
-
    public static ArrayList<Vector3> P(Vector3 vector3, Vector3 vector32, int i) {
       if (R(new BlockPos(vector3.toVec3()))) {
          vector3 = vector3.add(0.0, 1.0, 0.0);

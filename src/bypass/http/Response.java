@@ -14,8 +14,6 @@ public final class Response {
    private final int G;
    private final String d;
    private final Map<String, List<String>> a;
-   private static final long b = 6451728891889L;
-   private static final long c = -6498816265136635504L;
 
    private Response(int i, String string, Map<String, List<String>> map) {
       this.G = i;
@@ -33,7 +31,7 @@ public final class Response {
    public static String Z(URLConnection urlConnection, boolean bl) throws IOException {
       StringBuilder stringBuilder = new StringBuilder();
       HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
-      InputStream inputStream = httpURLConnection.getResponseCode() < (int)c ? urlConnection.getInputStream() : httpURLConnection.getErrorStream();
+      InputStream inputStream = httpURLConnection.getResponseCode() < 400 ? urlConnection.getInputStream() : httpURLConnection.getErrorStream();
 
       String string;
       try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {

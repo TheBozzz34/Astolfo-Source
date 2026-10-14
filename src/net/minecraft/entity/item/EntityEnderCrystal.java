@@ -12,7 +12,6 @@ import net.minecraft.world.WorldProviderEnd;
 public class EntityEnderCrystal extends Entity {
    public int innerRotation;
    public int health;
-   private static final long ab = 98582297868862L;
 
    public EntityEnderCrystal(World worldIn) {
       super(worldIn);

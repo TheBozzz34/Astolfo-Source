@@ -12,7 +12,6 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockRedSandstone extends Block {
    public static final PropertyEnum<BlockRedSandstone.EnumType> TYPE = PropertyEnum.create("type", BlockRedSandstone.EnumType.class);
-   private static final long e = 108913367181491L;
 
    public BlockRedSandstone() {
       super(Material.rock, BlockSand.EnumType.RED_SAND.getMapColor());
@@ -56,7 +55,6 @@ public class BlockRedSandstone extends Block {
       private final int meta;
       private final String name;
       private final String unlocalizedName;
-      private static final long a = 90948916489431L;
 
       EnumType(int meta, String name, String unlocalizedNameIn) {
          this.meta = meta;

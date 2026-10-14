@@ -28,7 +28,6 @@ public class BlockDoor extends Block {
    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE = PropertyEnum.create("hinge", BlockDoor.EnumHingePosition.class);
    public static final PropertyBool POWERED = PropertyBool.create("powered");
    public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF = PropertyEnum.create("half", BlockDoor.EnumDoorHalf.class);
-   private static final long e = 63161329861729L;
 
    public BlockDoor(Material materialIn) {
       super(materialIn);
@@ -363,8 +362,6 @@ public class BlockDoor extends Block {
       UPPER,
       LOWER;
 
-      private static final long a = 104992981620644L;
-
       @Override
       public String toString() {
          return this.getName();
@@ -379,8 +376,6 @@ public class BlockDoor extends Block {
    public enum EnumHingePosition implements IStringSerializable {
       LEFT,
       RIGHT;
-
-      private static final long a = 100244886919177L;
 
       @Override
       public String toString() {

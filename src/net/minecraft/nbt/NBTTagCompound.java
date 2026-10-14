@@ -14,7 +14,6 @@ import net.minecraft.util.ReportedException;
 
 public class NBTTagCompound extends NBTBase {
    private Map<String, NBTBase> tagMap = Maps.newHashMap();
-   private static final long a = 73900974549985L;
 
    @Override
    public void write(DataOutput output) throws IOException {

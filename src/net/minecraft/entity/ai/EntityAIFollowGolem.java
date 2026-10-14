@@ -9,8 +9,6 @@ public class EntityAIFollowGolem extends EntityAIBase {
    private EntityIronGolem theGolem;
    private int takeGolemRoseTick;
    private boolean tookGolemRose;
-   private static final long a = 42686877352903L;
-   private static final long b = -8382761364099169984L;
 
    public EntityAIFollowGolem(EntityVillager theVillagerIn) {
       this.theVillager = theVillagerIn;
@@ -50,7 +48,7 @@ public class EntityAIFollowGolem extends EntityAIBase {
 
    @Override
    public void startExecuting() {
-      this.takeGolemRoseTick = this.theVillager.getRNG().nextInt((int)b);
+      this.takeGolemRoseTick = this.theVillager.getRNG().nextInt(320);
       this.tookGolemRose = false;
       this.theGolem.getNavigator().clearPathEntity();
    }

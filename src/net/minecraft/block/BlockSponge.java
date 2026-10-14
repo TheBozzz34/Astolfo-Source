@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 
 public class BlockSponge extends Block {
    public static final PropertyBool WET = PropertyBool.create("wet");
-   private static final long e = 89054990352693L;
 
    public BlockSponge() {
       super(Material.sponge);

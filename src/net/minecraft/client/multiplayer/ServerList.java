@@ -14,8 +14,6 @@ public class ServerList {
    private static final Logger logger = LogManager.getLogger();
    private final Minecraft mc;
    private final List<ServerData> servers = Lists.newArrayList();
-   private static final long a = 88542855831940L;
-   private static final long e = 6960290456479465482L;
 
    public ServerList(Minecraft mcIn) {
       this.mc = mcIn;
@@ -30,7 +28,7 @@ public class ServerList {
             return;
          }
 
-         NBTTagList nbtTagList = nbtTagCompound.getTagList("servers", (int)e);
+         NBTTagList nbtTagList = nbtTagCompound.getTagList("servers", 10);
 
          for (int i = 0; i < nbtTagList.tagCount(); i++) {
             this.servers.add(ServerData.getServerDataFromNBTCompound(nbtTagList.getCompoundTagAt(i)));

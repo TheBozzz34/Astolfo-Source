@@ -16,11 +16,6 @@ public final class MiddleClickFriends extends HiddenModule {
    private Stopwatch G = new Stopwatch();
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      long l = c ^ 55071442415884L;
-      long m = l ^ 116541413887354L;
-      int i = (int)((l ^ 116541413887354L) >>> 56);
-      int j = (int)((l ^ 116541413887354L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if (updateEvent.getState() == EventState.PRE
          && Mouse.isButtonDown(2)
          && mc.objectMouseOver.entityHit != null
@@ -46,7 +41,6 @@ public final class MiddleClickFriends extends HiddenModule {
          this.G.reset();
       }
    };
-   private static final long c = 46898116991275L;
 
    public MiddleClickFriends() {
       client.getEventBus().subscribe(this);

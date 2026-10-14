@@ -3,8 +3,6 @@ package net.minecraft.world.gen.layer;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenLayerRiver extends GenLayer {
-   private static final long c = 54214130472264L;
-
    public GenLayerRiver(long l, GenLayer genLayer) {
       super(l);
       super.parent = genLayer;

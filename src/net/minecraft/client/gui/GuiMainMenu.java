@@ -67,7 +67,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
    private final int b = new Color(65, 176, 254, 120).getRGB();
    private final int d = new Color(239, 236, 22, 122).getRGB();
    private final int w = new Color(255, 255, 255, 120).getRGB();
-   private static final long bb = 32299773017083L;
 
    public GuiMainMenu() {
       n.put("Build #latest", Arrays.asList(":D"));
@@ -101,7 +100,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
    }
 
    private void drawPanorama(int j, int k, float g) {
-      long l = bb ^ 98884772780215L;
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.matrixMode(5889);
@@ -131,35 +129,35 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
          GlStateManager.rotate(MathHelper.sin((this.u + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
          GlStateManager.rotate(-(this.u + g) * 0.1F, 0.0F, 1.0F, 0.0F);
 
-         for (int m = 0; m < 6; m++) {
+         for (int l = 0; l < 6; l++) {
             GlStateManager.pushMatrix();
-            if (m == 1) {
+            if (l == 1) {
                GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (m == 2) {
+            if (l == 2) {
                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (m == 3) {
+            if (l == 3) {
                GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (m == 4) {
+            if (l == 4) {
                GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            if (m == 5) {
+            if (l == 5) {
                GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            this.mc.getTextureManager().bindTexture(titlePanoramaPaths[m]);
+            this.mc.getTextureManager().bindTexture(titlePanoramaPaths[l]);
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            int n = 255 / (i + 1);
-            worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, n).endVertex();
-            worldRenderer.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, n).endVertex();
-            worldRenderer.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, n).endVertex();
-            worldRenderer.pos(-1.0, 1.0, 1.0).tex(0.0, 1.0).color(255, 255, 255, n).endVertex();
+            int m = 255 / (i + 1);
+            worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, m).endVertex();
+            worldRenderer.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, m).endVertex();
+            worldRenderer.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, m).endVertex();
+            worldRenderer.pos(-1.0, 1.0, 1.0).tex(0.0, 1.0).color(255, 255, 255, m).endVertex();
             tessellator.draw();
             GlStateManager.popMatrix();
          }
@@ -170,10 +168,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
       worldRenderer.setTranslation(0.0, 0.0, 0.0);
       GlStateManager.colorMask(true, true, true, true);
-      long l2 = 7483274872786576330L ^ l;
       GlStateManager.matrixMode(5889);
       GlStateManager.popMatrix();
-      l2 = 9101244035744828431L ^ l;
       GlStateManager.matrixMode(5888);
       GlStateManager.popMatrix();
       GlStateManager.depthMask(true);
@@ -241,9 +237,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      long l = bb ^ 35103618917102L;
-      long m = (l ^ 7056163135495L) >>> 16;
-      int j = (int)((l ^ 7056163135495L) << 48 >>> 48);
       ScaledResolution scaledResolution = new ScaledResolution(this.mc);
       GlStateManager.disableAlpha();
       this.renderSkybox(mouseX, mouseY, partialTicks);
@@ -253,10 +246,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       float g = 5.0F;
       float f2 = 8.0F;
 
-      for (int k = 0; k < 5; k++) {
+      for (int j = 0; j < 5; j++) {
          String string;
          ResourceLocation resourceLocation;
-         switch (k) {
+         switch (j) {
             case 0:
                string = "";
                resourceLocation = e;
@@ -294,24 +287,24 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       float f6 = scaledResolution.getScaledHeight() / 2 - 90.0F;
       byte b = 76;
       byte b2 = 75;
-      int i2 = this.width / 2 - 38;
-      int i3 = this.height / 2 - this.height / 3;
+      int k = this.width / 2 - 38;
+      int l = this.height / 2 - this.height / 3;
       GL11.glEnable(3553);
       GL11.glBlendFunc(770, 771);
       GL11.glEnable(3042);
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/logo.png"));
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
-      drawModalRectWithCustomSizedTexture(i2, i3, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);
+      drawModalRectWithCustomSizedTexture(k, l, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);
       f5 = scaledResolution.getScaledWidth() / 2 - 65.0F;
       f6 += 110.0F;
       String[] strings = new String[]{"SINGLEPLAYER", "MULTIPLAYER", "ALT MANAGER"};
 
-      for (int i4 = 0; i4 < 3; i4++) {
+      for (int m = 0; m < 3; m++) {
          RenderUtil.drawRect(f5, f6, f5 + 130.0F, f6 + 19.0F, new Color(0, 0, 0, 100).getRGB());
          boolean bl2 = mouseX >= f5 && mouseX <= f5 + 130.0F && mouseY >= f6 && mouseY <= f6 + 19.0F;
          GlStateManager.enableBlend();
-         this.n(R, strings[i4], (int)(f5 + 65.0F), (int)(f6 + 9.5F), bl2 ? -1 : -1442840577, false);
+         this.n(R, strings[m], (int)(f5 + 65.0F), (int)(f6 + 9.5F), bl2 ? -1 : -1442840577, false);
          f6 += 21.0F;
       }
 
@@ -489,8 +482,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      long l = bb ^ 1029827809290L;
-      long m = l ^ 136146140769035L;
       if (mouseButton == 0) {
          ScaledResolution scaledResolution = new ScaledResolution(this.mc);
          float f = 5.0F;

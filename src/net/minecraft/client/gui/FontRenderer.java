@@ -62,7 +62,6 @@ public class FontRenderer implements IResourceManagerReloadListener {
    public boolean Z = true;
    public float offsetBold = 1.0F;
    private int g = new Color(0, 0, 0, 120).getRGB();
-   private static final long b = 120209987115995L;
 
    public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, boolean unicode) {
       this.gameSettings = gameSettingsIn;
@@ -274,8 +273,6 @@ public class FontRenderer implements IResourceManagerReloadListener {
    }
 
    public int drawString(String text, float x, float y, int color, boolean dropShadow) {
-      long l = b ^ 38032282281789L;
-      long m = l ^ 132715678597461L;
       EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
       if (Minecraft.getMinecraft().theWorld != null && entityPlayerSP != null && Astolfo.INSTANCE.getModuleManager() != null && ModuleManager.G.isEnabled()) {
          if (StreamerMode.scrambleNames.getValue()) {

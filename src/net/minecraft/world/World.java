@@ -96,7 +96,6 @@ public abstract class World implements IBlockAccess {
    private boolean processingLoadedTiles;
    private final WorldBorder worldBorder;
    public int[] lightUpdateBlockList = new int[32768];
-   private static final long ab = 123060729954914L;
 
    public World(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn, boolean client) {
       this.saveHandler = saveHandlerIn;
@@ -384,8 +383,6 @@ public abstract class World implements IBlockAccess {
             crashReportCategory.addCrashSectionCallable(
                "Source block type",
                new Callable<String>() {
-                  private static final long a = 49531960915489L;
-
                   public String call() throws Exception {
                      try {
                         return String.format(
@@ -2634,8 +2631,6 @@ public abstract class World implements IBlockAccess {
       CrashReportCategory crashReportCategory = report.makeCategoryDepth("Affected level", 1);
       crashReportCategory.addCrashSection("Level name", this.worldInfo == null ? "????" : this.worldInfo.getWorldName());
       crashReportCategory.addCrashSectionCallable("All players", new Callable<String>() {
-         private static final long a = 71452777359573L;
-
          public String call() {
             return World.this.playerEntities.size() + " total; " + World.this.playerEntities.toString();
          }

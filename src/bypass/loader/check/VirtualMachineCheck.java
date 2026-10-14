@@ -16,33 +16,32 @@ public class VirtualMachineCheck {
    private boolean I = true;
    private boolean z;
    private boolean P;
-   private static final long a = 123813266773985L;
 
    public VirtualMachineCheck(FileListHolder fileListHolder) {
       this.p = fileListHolder;
-      O.put(VirtualMachineCheckStrings.g("5fSmFkE3oW4K2Y0="), VirtualMachineCheckStrings.g("5fSmFkE="));
-      O.put(VirtualMachineCheckStrings.g("zMqSK3JaiFA+"), VirtualMachineCheckStrings.g("zMqS"));
-      O.put(VirtualMachineCheckStrings.g("09+YNGdQl0U0+6vO"), VirtualMachineCheckStrings.g("1tmSNQ=="));
-      O.put(VirtualMachineCheckStrings.g("yvW8EktkrGAHj6D/"), VirtualMachineCheckStrings.g("yvW8EktkrGAHj6DwVxrJdL6gxol9j72eKHzFe2dcj6ojyI6g6kzC"));
-      O.put(VirtualMachineCheckStrings.g("6+6vBVRuqyYF3Q=="), VirtualMachineCheckStrings.g("1/2tAUh7pmoA"));
-      O.put(VirtualMachineCheckStrings.g("0dGoAVZylUsEzprs"), VirtualMachineCheckStrings.g("0dGoAVZy"));
-      O.put(VirtualMachineCheckStrings.g("3/mxNmlam2Md+aXE"), VirtualMachineCheckStrings.g("3/mxQGxBjg=="));
-      O.put(VirtualMachineCheckStrings.g("xt+NLmVUkUgy7LrH"), VirtualMachineCheckStrings.g("1+6wCkF0tyYy7LrH"));
-      O.put(VirtualMachineCheckStrings.g("1tKHMXJagVUi6A=="), VirtualMachineCheckStrings.g("1tKHQGxus2MB2YH6SA0="));
+      O.put("bhyve bhyve", "bhyve");
+      O.put("KVMKVMKVM", "KVM");
+      O.put("TCGTCGTCGTCG", "QEMU");
+      O.put("Microsoft Hv", "Microsoft Hyper-V or Windows Virtual PC");
+      O.put("lrpepyh vr", "Parallels");
+      O.put("VMwareVMware", "VMware");
+      O.put("XenVMMXenVMM", "Xen HVM");
+      O.put("ACRNACRNACRN", "Project ACRN");
+      O.put("QNXQVMBSQG", "QNX Hypervisor");
       j = new String[]{
-         VirtualMachineCheckStrings.g("y/WxFVw3iFA+"),
-         VirtualMachineCheckStrings.g("y/WxFVw3r2EGypv9"),
-         VirtualMachineCheckStrings.g("yOy6DnJN"),
-         VirtualMachineCheckStrings.g("1vmyFQ=="),
-         VirtualMachineCheckStrings.g("yvW8EktkrGAHj77gVQvOOISg+bg="),
-         VirtualMachineCheckStrings.g("0dGIAVZy"),
-         VirtualMachineCheckStrings.g("6/WxFVw6tXUW3Z7sVQ=="),
-         VirtualMachineCheckStrings.g("3/mx"),
-         VirtualMachineCheckStrings.g("we66BWZEhyY5zoHl"),
-         VirtualMachineCheckStrings.g("0fWtFFF2r0Qc1w=="),
-         VirtualMachineCheckStrings.g("1/2tAUh7pmoA"),
-         VirtualMachineCheckStrings.g("y/WxFVw3gGkd24ngSRrJKg=="),
-         VirtualMachineCheckStrings.g("y8Sc")
+         "Linux KVM",
+         "Linux lguest",
+         "OpenVZ",
+         "Qemu",
+         "Microsoft Virtual PC",
+         "VMWare",
+         "linux-vserver",
+         "Xen",
+         "FreeBSD Jail",
+         "VirtualBox",
+         "Parallels",
+         "Linux Containers",
+         "LXC"
       };
    }
 
@@ -80,9 +79,7 @@ public class VirtualMachineCheck {
       }
 
       String string4 = hardwareAbstractionLayer.getComputerSystem().V();
-      return VirtualMachineCheckStrings.g("yvW8EktkrGAHj6vmVQ/UK4n0wJQz").equals(string4) && VirtualMachineCheckStrings.g("0fWtFFF2ryY+zovhThHe").equals(string2)
-         ? VirtualMachineCheckStrings.g("yvW8EktkrGAHj6DwVxrJdL4=")
-         : "";
+      return "Microsoft Corporation".equals(string4) && "Virtual Machine".equals(string2) ? "Microsoft Hyper-V" : "";
    }
 
    public void m(boolean bl) {

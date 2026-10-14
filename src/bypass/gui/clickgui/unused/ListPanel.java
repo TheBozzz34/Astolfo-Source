@@ -9,7 +9,6 @@ public class ListPanel extends Container {
    private static final Color s = new Color(34, 33, 32);
    private static final Color Z = new Color(26, 26, 26);
    private ListItem w;
-   private static final long d = 130556815115692L;
 
    public ListPanel(String string, int i, int j, int k, int l) {
       super(string, i, j, k, l);

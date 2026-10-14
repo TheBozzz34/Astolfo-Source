@@ -19,7 +19,6 @@ public final class WindowsDisplay extends AbstractDisplay {
    private static final SetupApi SU = SetupApi.INSTANCE;
    private static final Advapi32 ADV = Advapi32.INSTANCE;
    private static final GUID GUID_DEVINTERFACE_MONITOR = new GUID("E6F07B5F-EE97-4a90-B076-33F57BF4EAA7");
-   private static final long a = 81778597713438L;
 
    public WindowsDisplay(byte[] edid) {
       super(edid);

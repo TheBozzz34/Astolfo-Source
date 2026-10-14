@@ -20,11 +20,6 @@ public final class NameProtect extends Module {
    private final BooleanSetting switchNames = new BooleanSetting("Switch-Names", "Switches names", false);
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = c ^ 106979336202516L;
-      long l2 = l ^ 58265579090293L;
-      int j = (int)((l ^ 58265579090293L) >>> 56);
-      int k = (int)((l ^ 58265579090293L) << 8 >>> 32);
-      int i2 = (int)(l2 << 40 >>> 40);
       if (mc.theWorld != null) {
          switch (packetEvent.getDirection()) {
             case OUTGOING:
@@ -76,7 +71,6 @@ public final class NameProtect extends Module {
          }
       }
    };
-   private static final long c = 40671121243452L;
 
    public NameProtect(Category category) {
       super(category);
@@ -85,11 +79,6 @@ public final class NameProtect extends Module {
    }
 
    public String v(String string, String string2) {
-      long l = c ^ 47323119762000L;
-      long n = l ^ 139330212323889L;
-      int j = (int)((l ^ 139330212323889L) >>> 56);
-      int k = (int)((l ^ 139330212323889L) << 8 >>> 32);
-      int i2 = (int)(n << 40 >>> 40);
       String string3 = string;
 
       for (Relation relation : client.getRelationManager().getList()) {

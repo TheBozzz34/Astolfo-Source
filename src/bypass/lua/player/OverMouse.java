@@ -6,8 +6,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class OverMouse extends VarArgFunction {
-   private static final long a = 34921107760939L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       if (ClientAccess.mc.objectMouseOver == null) {

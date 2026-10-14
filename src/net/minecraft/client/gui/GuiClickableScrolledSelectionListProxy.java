@@ -7,7 +7,6 @@ import org.lwjgl.input.Mouse;
 
 public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
    private final RealmsClickableScrolledSelectionList field_178046_u;
-   private static final long c = 3139962015141L;
 
    public GuiClickableScrolledSelectionListProxy(RealmsClickableScrolledSelectionList selectionList, int i, int j, int k, int m, int n) {
       super(Minecraft.getMinecraft(), i, j, k, m, n);

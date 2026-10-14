@@ -24,7 +24,6 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
    private final ArrayList<Setting<?>> settings = new ArrayList<>();
    public Animation animation = new TimedAnimation().setDuration(250).setEasing(Easing.INERTIA);
    private final BooleanSetting hide = new BooleanSetting("Hide", "", true);
-   private static final long bb = 63546949332023L;
 
    public Module(String string, Category category) {
       super(string, category);

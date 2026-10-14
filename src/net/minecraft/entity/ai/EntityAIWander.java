@@ -11,7 +11,6 @@ public class EntityAIWander extends EntityAIBase {
    private double speed;
    private int executionChance;
    private boolean mustUpdate;
-   private static final long b = 79137643399842L;
 
    public EntityAIWander(EntityCreature creatureIn, double speedIn) {
       this(creatureIn, speedIn, 120);

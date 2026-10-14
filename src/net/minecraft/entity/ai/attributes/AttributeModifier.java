@@ -11,7 +11,6 @@ public class AttributeModifier {
    private final String name;
    private final UUID id;
    private boolean isSaved = true;
-   private static final long a = 121739643896534L;
 
    public AttributeModifier(String nameIn, double amountIn, int operationIn) {
       this(MathHelper.getRandomUuid(ThreadLocalRandom.current()), nameIn, amountIn, operationIn);

@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class StringReader implements PacketReader<String> {
    private String U;
-   private static final long a = 133611954365423L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

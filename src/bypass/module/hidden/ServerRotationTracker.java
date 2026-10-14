@@ -46,7 +46,6 @@ public final class ServerRotationTracker extends HiddenModule {
          L = System.currentTimeMillis();
       }
    };
-   private static final long c = 68231009307398L;
 
    public ServerRotationTracker() {
       client.getEventBus().subscribe(this);

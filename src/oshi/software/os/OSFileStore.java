@@ -24,7 +24,6 @@ public class OSFileStore {
    private long totalSpace;
    private long freeInodes;
    private long totalInodes;
-   private static final long a = 128296312367546L;
 
    public OSFileStore() {
    }

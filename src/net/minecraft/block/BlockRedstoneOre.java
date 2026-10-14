@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 
 public class BlockRedstoneOre extends Block {
    private final boolean isOn;
-   private static final long e = 33624545015804L;
 
    public BlockRedstoneOre(boolean isOn) {
       super(Material.rock);

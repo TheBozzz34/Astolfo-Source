@@ -15,7 +15,6 @@ public final class LinuxBaseboard extends AbstractBaseboard {
    private final Supplier<String> model = Memoizer.memoize(LinuxBaseboard::H);
    private final Supplier<String> version = Memoizer.memoize(LinuxBaseboard::L);
    private final Supplier<String> serialNumber = Memoizer.memoize(LinuxBaseboard::T);
-   private static final long b = 48583762541910L;
 
    @Override
    public String p() {
@@ -129,7 +128,6 @@ public final class LinuxBaseboard extends AbstractBaseboard {
       private final String model;
       private final String version;
       private final String serialNumber;
-      private static final long a = 9123625676264L;
 
       public ProcCpuStrings(String manufacturerIn, String modelIn, String versionIn, String serialNumberIn) {
          this.manufacturer = Util.isBlank(manufacturerIn) ? "unknown" : manufacturerIn;

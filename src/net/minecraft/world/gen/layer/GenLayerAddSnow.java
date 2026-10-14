@@ -1,9 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerAddSnow extends GenLayer {
-   private static final long c = 54991600650002L;
-   private static final long g = 6746533748088504326L;
-
    public GenLayerAddSnow(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;
@@ -25,7 +22,7 @@ public class GenLayerAddSnow extends GenLayer {
             if (i2 == 0) {
                ints2[n + m * areaWidth] = 0;
             } else {
-               int i3 = this.nextInt((int)g);
+               int i3 = this.nextInt(6);
                byte b;
                if (i3 == 0) {
                   b = 4;

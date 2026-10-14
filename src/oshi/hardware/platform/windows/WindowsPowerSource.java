@@ -30,7 +30,6 @@ public final class WindowsPowerSource extends AbstractPowerSource {
    private static final int f = 2703424;
    private static final int J = 2703436;
    private static final int t = 2703428;
-   private static final long h = 133014970210929L;
 
    public WindowsPowerSource(
       String psName,
@@ -85,7 +84,6 @@ public final class WindowsPowerSource extends AbstractPowerSource {
    }
 
    private static WindowsPowerSource getPowerSource(String name) {
-      long l = h ^ 128484759881403L;
       String string = name;
       String string2 = "unknown";
       double d = 1.0;
@@ -100,16 +98,16 @@ public final class WindowsPowerSource extends AbstractPowerSource {
       PowerSource.CapacityUnits capacityUnits = PowerSource.CapacityUnits.RELATIVE;
       int j = 0;
       int k = 1;
-      int m = 1;
-      int n = -1;
+      int l = 1;
+      int m = -1;
       String string3 = "unknown";
       LocalDate localDate = null;
       String string4 = "unknown";
       String string5 = "unknown";
       double d5 = 0.0;
-      int i2 = new PowrProf.SystemBatteryState().size();
-      Memory memory = new Memory(i2);
-      if (0 == PowrProf.INSTANCE.CallNtPowerInformation(5, null, 0, memory, i2)) {
+      int n = new PowrProf.SystemBatteryState().size();
+      Memory memory = new Memory(n);
+      if (0 == PowrProf.INSTANCE.CallNtPowerInformation(5, null, 0, memory, n)) {
          PowrProf.SystemBatteryState systemBatteryState = new PowrProf.SystemBatteryState(memory);
          if (systemBatteryState.batteryPresent > 0) {
             if (systemBatteryState.acOnLine == 0 && systemBatteryState.charging == 0 && systemBatteryState.discharging > 0) {
@@ -127,13 +125,12 @@ public final class WindowsPowerSource extends AbstractPowerSource {
 
       HANDLE handle = SetupApi.INSTANCE.SetupDiGetClassDevs(GUID_DEVCLASS_BATTERY, null, null, 18);
       if (WinBase.INVALID_HANDLE_VALUE != handle) {
-         for (int i3 = 0; i3 < 100; i3++) {
+         for (int i2 = 0; i2 < 100; i2++) {
             SP_DEVICE_INTERFACE_DATA sP_DEVICE_INTERFACE_DATA = new SP_DEVICE_INTERFACE_DATA();
             sP_DEVICE_INTERFACE_DATA.cbSize = sP_DEVICE_INTERFACE_DATA.size();
-            if (SetupApi.INSTANCE.SetupDiEnumDeviceInterfaces(handle, null, GUID_DEVCLASS_BATTERY, i3, sP_DEVICE_INTERFACE_DATA)) {
+            if (SetupApi.INSTANCE.SetupDiEnumDeviceInterfaces(handle, null, GUID_DEVCLASS_BATTERY, i2, sP_DEVICE_INTERFACE_DATA)) {
                IntByReference intByReference = new IntByReference(0);
                SetupApi.INSTANCE.SetupDiGetDeviceInterfaceDetail(handle, sP_DEVICE_INTERFACE_DATA, null, 0, intByReference, null);
-               long l2 = 3428640691553928165L ^ l;
                if (122 == Kernel32.INSTANCE.GetLastError()) {
                   Memory memory2 = new Memory(intByReference.getValue());
                   memory2.setInt(0L, 4 + (X64 ? 4 : CHAR_WIDTH));
@@ -160,9 +157,9 @@ public final class WindowsPowerSource extends AbstractPowerSource {
                                     }
 
                                     string3 = new String(batterY_INFORMATION.Chemistry, StandardCharsets.US_ASCII);
-                                    m = batterY_INFORMATION.DesignedCapacity;
+                                    l = batterY_INFORMATION.DesignedCapacity;
                                     k = batterY_INFORMATION.FullChargedCapacity;
-                                    n = batterY_INFORMATION.CycleCount;
+                                    m = batterY_INFORMATION.CycleCount;
                                     PowrProf.BATTERY_WAIT_STATUS batterY_WAIT_STATUS = new PowrProf.BATTERY_WAIT_STATUS();
                                     batterY_WAIT_STATUS.BatteryTag = batterY_QUERY_INFORMATION.BatteryTag;
                                     batterY_WAIT_STATUS.write();
@@ -247,7 +244,7 @@ public final class WindowsPowerSource extends AbstractPowerSource {
       }
 
       return new WindowsPowerSource(
-         string, string2, d, e, d2, i, d3, d4, bl, bl2, bl3, capacityUnits, j, k, m, n, string3, localDate, string4, string5, d5
+         string, string2, d, e, d2, i, d3, d4, bl, bl2, bl3, capacityUnits, j, k, l, m, string3, localDate, string4, string5, d5
       );
    }
 
@@ -268,17 +265,5 @@ public final class WindowsPowerSource extends AbstractPowerSource {
       } while (!bl && l < 4096L);
 
       return CHAR_WIDTH > 1 ? memory.getWideString(0L) : memory.getString(0L);
-   }
-
-   static {
-      long l = h ^ 126136256595451L;
-      long m = l ^ 7761713442717934053L;
-      m = l ^ 7838068076569233102L;
-      m = l ^ 6335743634963345783L;
-      m = l ^ 4279477659759214889L;
-      m = l ^ 5420189662427001838L;
-      m = l ^ 1818520588667256052L;
-      m = l ^ 8805963225893806249L;
-      m = l ^ 6237680454327634458L;
    }
 }

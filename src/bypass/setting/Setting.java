@@ -20,7 +20,6 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
    private String name;
    private String description;
    private List<SettingAttribute> attributes;
-   private static final long a = 85974706251154L;
 
    public Setting(String string, String string2, T object, SettingType settingType) {
       this.name = string;

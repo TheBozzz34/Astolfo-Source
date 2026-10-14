@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentArrowKnockback extends Enchantment {
-   private static final long m = 96532536934101L;
-
    public EnchantmentArrowKnockback(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.BOW);
       this.setName("arrowKnockback");

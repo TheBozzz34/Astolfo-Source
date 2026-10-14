@@ -32,8 +32,6 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
    private int field_175339_B = 0;
    private boolean field_175340_C = false;
    private Predicate<String> field_175332_D = new Predicate<String>() {
-      private static final long a = 114244455800986L;
-
       public boolean apply(String string) {
          Float float2 = Floats.tryParse(string);
          return string.length() == 0 || float2 != null && Floats.isFinite(float2) && float2 >= 0.0F;
@@ -42,7 +40,6 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
    private ChunkProviderSettings.Factory field_175334_E = new ChunkProviderSettings.Factory();
    private ChunkProviderSettings.Factory field_175336_F;
    private Random random = new Random();
-   private static final long d = 10851031311944L;
 
    public GuiCustomizeWorldScreen(GuiScreen guiScreen, String string) {
       this.field_175343_i = (GuiCreateWorld)guiScreen;

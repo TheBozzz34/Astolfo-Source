@@ -19,7 +19,6 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
       .getDefaultState()
       .withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.DARK_OAK)
       .withProperty(BlockLeaves.CHECK_DECAY, false);
-   private static final long a = 138812050454871L;
 
    public WorldGenCanopyTree(boolean bl) {
       super(bl);
@@ -173,8 +172,8 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
       }
    }
 
-   private void func_150526_a(World worldIn, int i, int k, int l) {
-      BlockPos blockPos = new BlockPos(i, k, l);
+   private void func_150526_a(World worldIn, int i, int j, int k) {
+      BlockPos blockPos = new BlockPos(i, j, k);
       Block block = worldIn.getBlockState(blockPos).getBlock();
       if (block.getMaterial() == Material.air) {
          this.setBlockAndNotifyAdequately(worldIn, blockPos, field_181641_b);

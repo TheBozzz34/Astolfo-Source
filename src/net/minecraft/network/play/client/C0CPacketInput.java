@@ -10,7 +10,6 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer> {
    private float forwardSpeed;
    private boolean jumping;
    private boolean sneaking;
-   private static final long a = 12547239050296L;
 
    public C0CPacketInput() {
    }

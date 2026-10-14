@@ -11,9 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ReflectorForge {
-   private static final long a = 15325865753558L;
-   private static final long b = 6593999964567764991L;
-
    public static void FMLClientHandler_trackBrokenTexture(ResourceLocation loc, String message) {
       if (!Reflector.FMLClientHandler_trackBrokenTexture.exists()) {
          Object object = Reflector.call(Reflector.FMLClientHandler_instance);
@@ -72,6 +69,6 @@ public class ReflectorForge {
 
    public static boolean armorHasOverlay(ItemArmor itemArmor, ItemStack itemStack) {
       int i = itemArmor.getColor(itemStack);
-      return i != (int)b;
+      return i != 16777215;
    }
 }

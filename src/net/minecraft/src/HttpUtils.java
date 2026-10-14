@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 public class HttpUtils {
    public static final String v = "http://s.optifine.net";
    public static final String I = "http://optifine.net";
-   private static final long a = 136420857371154L;
 
    public static byte[] get(String urlStr) throws IOException {
       HttpURLConnection httpURLConnection = null;

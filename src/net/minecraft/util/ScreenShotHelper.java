@@ -23,7 +23,6 @@ public class ScreenShotHelper {
    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
    private static IntBuffer pixelBuffer;
    private static int[] pixelValues;
-   private static final long a = 137457736366518L;
 
    public static IChatComponent saveScreenshot(File gameDirectory, int width, int height, Framebuffer buffer) {
       return saveScreenshot(gameDirectory, (String)null, width, height, buffer);

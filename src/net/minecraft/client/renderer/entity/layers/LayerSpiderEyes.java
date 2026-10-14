@@ -11,7 +11,6 @@ import shadersmod.client.Shaders;
 public class LayerSpiderEyes implements LayerRenderer<EntitySpider> {
    private static final ResourceLocation SPIDER_EYES = new ResourceLocation("textures/entity/spider_eyes.png");
    private final RenderSpider spiderRenderer;
-   private static final long a = 58136076305710L;
 
    public LayerSpiderEyes(RenderSpider spiderRendererIn) {
       this.spiderRenderer = spiderRendererIn;

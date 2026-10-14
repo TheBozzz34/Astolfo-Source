@@ -5,7 +5,6 @@ public class Vec4b {
    private byte field_176115_b;
    private byte field_176116_c;
    private byte field_176114_d;
-   private static final long a = 102805311912583L;
 
    public Vec4b(byte b, byte b2, byte b3, byte b4) {
       this.field_176117_a = b;

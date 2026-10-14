@@ -27,7 +27,6 @@ public abstract class Render<T extends Entity> {
    public final RenderManager renderManager;
    public float shadowSize;
    public float shadowOpaque = 1.0F;
-   private static final long u = 132541803960720L;
 
    public Render(RenderManager renderManager) {
       this.renderManager = renderManager;
@@ -268,12 +267,10 @@ public abstract class Render<T extends Entity> {
    }
 
    public void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance) {
-      long l = u ^ 60540761083249L;
       double d = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
       if (d <= maxDistance * maxDistance) {
          FontRenderer fontRenderer = this.getFontRendererFromRenderManager();
          float f = 1.6F;
-         long m = 2654402046154640604L ^ l;
          float g = 0.016666668F * f;
          GlStateManager.pushMatrix();
          GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);

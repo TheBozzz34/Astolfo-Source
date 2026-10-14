@@ -35,7 +35,6 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
    private Set<ChunkCoordIntPair> pendingAnvilChunksCoordinates = Collections.newSetFromMap(new ConcurrentHashMap<>());
    private final File chunkSaveLocation;
    private boolean field_183014_e = false;
-   private static final long a = 126365843584747L;
 
    public AnvilChunkLoader(File chunkSaveLocationIn) {
       this.chunkSaveLocation = chunkSaveLocationIn;

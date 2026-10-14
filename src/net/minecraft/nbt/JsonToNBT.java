@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 public class JsonToNBT {
    private static final Logger logger = LogManager.getLogger();
    private static final Pattern field_179273_b = Pattern.compile("\\[[-+\\d|,\\s]+\\]");
-   private static final long a = 134605833724289L;
 
    public static NBTTagCompound getTagFromJson(String jsonString) throws NBTException {
       jsonString = jsonString.trim();
@@ -287,7 +286,6 @@ public class JsonToNBT {
 
    public static class Compound extends JsonToNBT.Any {
       public java.util.List<JsonToNBT.Any> field_150491_b = Lists.newArrayList();
-      private static final long a = 95430018355985L;
 
       public Compound(String string) {
          this.json = string;
@@ -307,7 +305,6 @@ public class JsonToNBT {
 
    public static class List extends JsonToNBT.Any {
       public java.util.List<JsonToNBT.Any> field_150492_b = Lists.newArrayList();
-      private static final long a = 64032946623615L;
 
       public List(String json) {
          this.json = json;
@@ -335,7 +332,6 @@ public class JsonToNBT {
       private static final Pattern DOUBLE_UNTYPED = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+");
       private static final Splitter SPLITTER = Splitter.on(',').omitEmptyStrings();
       public String jsonValue;
-      private static final long a = 100673840525467L;
 
       public Primitive(String string, String string2) {
          this.json = string;
@@ -415,11 +411,6 @@ public class JsonToNBT {
 
             return new NBTTagString(stringBuilder.toString());
          }
-      }
-
-      static {
-         long l = a ^ 10889409421275L;
-         long m = 8068976305530735131L ^ l;
       }
    }
 }

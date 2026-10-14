@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 public class SaveFormatOld implements ISaveFormat {
    private static final Logger logger = LogManager.getLogger();
    public final File savesDirectory;
-   private static final long b = 22921181179171L;
 
    public SaveFormatOld(File savesDirectoryIn) {
       if (!savesDirectoryIn.exists()) {

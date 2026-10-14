@@ -113,7 +113,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
    private double lastPosY;
    private double lastPosZ;
    private boolean hasMoved = true;
-   private static final long a = 82462100243065L;
 
    public NetHandlerPlayServer(MinecraftServer server, NetworkManager networkManagerIn, EntityPlayerMP playerIn) {
       this.serverController = server;

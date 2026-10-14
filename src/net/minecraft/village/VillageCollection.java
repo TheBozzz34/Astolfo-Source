@@ -20,7 +20,6 @@ public class VillageCollection extends WorldSavedData {
    private final List<VillageDoorInfo> newDoors = Lists.newArrayList();
    private final List<Village> villageList = Lists.newArrayList();
    private int tickCounter;
-   private static final long a = 94111019860747L;
 
    public VillageCollection(String name) {
       super(name);

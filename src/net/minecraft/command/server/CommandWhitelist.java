@@ -12,9 +12,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 
 public class CommandWhitelist extends CommandBase {
-   private static final long b = 13732055680716L;
-   private static final long j = 7607369198502674438L;
-
    @Override
    public String getCommandName() {
       return "whitelist";
@@ -86,14 +83,7 @@ public class CommandWhitelist extends CommandBase {
    @Override
    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
       if (args.length == 1) {
-         String[] strings = new String[(int)j];
-         strings[0] = "on";
-         strings[1] = "off";
-         strings[2] = "list";
-         strings[3] = "add";
-         strings[4] = "remove";
-         strings[5] = "reload";
-         return getListOfStringsMatchingLastWord(args, strings);
+         return getListOfStringsMatchingLastWord(args, "on", "off", "list", "add", "remove", "reload");
       }
 
       if (args.length == 2) {

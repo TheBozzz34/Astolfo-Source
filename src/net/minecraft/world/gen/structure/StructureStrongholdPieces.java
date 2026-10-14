@@ -29,16 +29,12 @@ public class StructureStrongholdPieces {
       new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Crossing.class, 5, 4),
       new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.ChestCorridor.class, 5, 4),
       new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Library.class, 10, 2) {
-         private static final long a = 78045452043236L;
-
          @Override
          public boolean canSpawnMoreStructuresOfType(int i) {
             return super.canSpawnMoreStructuresOfType(i) && i > 4;
          }
       },
       new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.PortalRoom.class, 20, 1) {
-         private static final long a = 121246647958689L;
-
          @Override
          public boolean canSpawnMoreStructuresOfType(int i) {
             return super.canSpawnMoreStructuresOfType(i) && i > 5;
@@ -49,7 +45,6 @@ public class StructureStrongholdPieces {
    private static Class<? extends StructureStrongholdPieces.Stronghold> strongComponentType;
    public static int totalWeight;
    private static final StructureStrongholdPieces.Stones strongholdStones = new StructureStrongholdPieces.Stones();
-   private static final long a = 52752509603700L;
 
    public static void registerStrongholdPieces() {
       MapGenStructureIO.registerStructureComponent(StructureStrongholdPieces.ChestCorridor.class, "SHCC");
@@ -219,7 +214,6 @@ public class StructureStrongholdPieces {
          new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)
       );
       private boolean hasMadeChest;
-      private static final long b = 88448600953720L;
 
       public ChestCorridor() {
       }
@@ -299,7 +293,6 @@ public class StructureStrongholdPieces {
 
    public static class Corridor extends StructureStrongholdPieces.Stronghold {
       private int field_74993_a;
-      private static final long b = 94141847458886L;
 
       public Corridor() {
       }
@@ -379,7 +372,6 @@ public class StructureStrongholdPieces {
       private boolean field_74997_c;
       private boolean field_74995_d;
       private boolean field_74999_h;
-      private static final long b = 53678967703418L;
 
       public Crossing() {
       }
@@ -495,8 +487,6 @@ public class StructureStrongholdPieces {
    }
 
    public static class LeftTurn extends StructureStrongholdPieces.Stronghold {
-      private static final long b = 98785213541309L;
-
       public LeftTurn() {
       }
 
@@ -551,7 +541,6 @@ public class StructureStrongholdPieces {
          new WeightedRandomChestContent(Items.compass, 0, 1, 1, 1)
       );
       private boolean isLargeRoom;
-      private static final long b = 40740148265433L;
 
       public Library() {
       }
@@ -741,7 +730,6 @@ public class StructureStrongholdPieces {
       public final int pieceWeight;
       public int instancesSpawned;
       public int instancesLimit;
-      private static final long b = 120027453006196L;
 
       public PieceWeight(Class<? extends StructureStrongholdPieces.Stronghold> class2, int i, int j) {
          this.pieceClass = class2;
@@ -760,7 +748,6 @@ public class StructureStrongholdPieces {
 
    public static class PortalRoom extends StructureStrongholdPieces.Stronghold {
       private boolean hasSpawner;
-      private static final long b = 75669339547891L;
 
       public PortalRoom() {
       }
@@ -985,8 +972,6 @@ public class StructureStrongholdPieces {
    }
 
    public static class Prison extends StructureStrongholdPieces.Stronghold {
-      private static final long b = 97633624903990L;
-
       public Prison() {
       }
 
@@ -1037,8 +1022,6 @@ public class StructureStrongholdPieces {
    }
 
    public static class RightTurn extends StructureStrongholdPieces.LeftTurn {
-      private static final long c = 85362289470711L;
-
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
          if (this.coordBaseMode != EnumFacing.NORTH && this.coordBaseMode != EnumFacing.EAST) {
@@ -1077,7 +1060,6 @@ public class StructureStrongholdPieces {
          new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1)
       );
       public int roomType;
-      private static final long b = 116045137394020L;
 
       public RoomCrossing() {
       }
@@ -1244,7 +1226,6 @@ public class StructureStrongholdPieces {
 
    public static class Stairs extends StructureStrongholdPieces.Stronghold {
       private boolean field_75024_a;
-      private static final long b = 22256484920355L;
 
       public Stairs() {
       }
@@ -1336,7 +1317,6 @@ public class StructureStrongholdPieces {
       public StructureStrongholdPieces.PieceWeight strongholdPieceWeight;
       public StructureStrongholdPieces.PortalRoom strongholdPortalRoom;
       public List<StructureComponent> field_75026_c = Lists.newArrayList();
-      private static final long c = 66282815303087L;
 
       public Stairs2() {
       }
@@ -1352,8 +1332,6 @@ public class StructureStrongholdPieces {
    }
 
    public static class StairsStraight extends StructureStrongholdPieces.Stronghold {
-      private static final long b = 104552364647408L;
-
       public StairsStraight() {
       }
 
@@ -1405,8 +1383,6 @@ public class StructureStrongholdPieces {
    }
 
    public static class Stones extends StructureComponent.BlockSelector {
-      private static final long a = 86426317688353L;
-
       public Stones() {
       }
 
@@ -1432,7 +1408,6 @@ public class StructureStrongholdPieces {
    public static class Straight extends StructureStrongholdPieces.Stronghold {
       private boolean expandsX;
       private boolean expandsZ;
-      private static final long b = 31820415018191L;
 
       public Straight() {
       }
@@ -1508,7 +1483,6 @@ public class StructureStrongholdPieces {
 
    public abstract static class Stronghold extends StructureComponent {
       public StructureStrongholdPieces.Stronghold.Door field_143013_d = StructureStrongholdPieces.Stronghold.Door.OPENING;
-      private static final long d = 139091803513956L;
 
       public Stronghold() {
       }

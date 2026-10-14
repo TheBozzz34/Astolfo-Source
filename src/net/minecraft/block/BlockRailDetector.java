@@ -25,8 +25,6 @@ public class BlockRailDetector extends BlockRailBase {
       "shape",
       BlockRailBase.EnumRailDirection.class,
       new Predicate<BlockRailBase.EnumRailDirection>() {
-         private static final long a = 120744217100629L;
-
          public boolean apply(BlockRailBase.EnumRailDirection enumRailDirection) {
             return enumRailDirection != BlockRailBase.EnumRailDirection.NORTH_EAST
                && enumRailDirection != BlockRailBase.EnumRailDirection.NORTH_WEST
@@ -36,7 +34,6 @@ public class BlockRailDetector extends BlockRailBase {
       }
    );
    public static final PropertyBool POWERED = PropertyBool.create("powered");
-   private static final long i = 32102234342537L;
 
    public BlockRailDetector() {
       super(true);

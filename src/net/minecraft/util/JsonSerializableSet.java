@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class JsonSerializableSet extends ForwardingSet<String> implements IJsonSerializable {
    private final Set<String> underlyingSet = Sets.newHashSet();
-   private static final long a = 97107483040496L;
 
    @Override
    public void fromJson(JsonElement json) {

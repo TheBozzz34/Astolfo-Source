@@ -8,8 +8,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class WorldGenPumpkin extends WorldGenerator {
-   private static final long a = 42916906059415L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
       for (int i = 0; i < 64; i++) {

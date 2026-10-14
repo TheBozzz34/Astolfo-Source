@@ -11,7 +11,6 @@ public class RenderWitherSkull extends Render<EntityWitherSkull> {
    private static final ResourceLocation invulnerableWitherTextures = new ResourceLocation("textures/entity/wither/wither_invulnerable.png");
    private static final ResourceLocation witherTextures = new ResourceLocation("textures/entity/wither/wither.png");
    private final ModelSkeletonHead skeletonHeadModel = new ModelSkeletonHead();
-   private static final long a = 113568273568508L;
 
    public RenderWitherSkull(RenderManager renderManagerIn) {
       super(renderManagerIn);

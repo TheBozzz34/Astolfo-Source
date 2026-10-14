@@ -9,7 +9,6 @@ import net.minecraft.world.IInteractionObject;
 public class LocalBlockIntercommunication implements IInteractionObject {
    private String guiID;
    private IChatComponent displayName;
-   private static final long a = 88185268112468L;
 
    public LocalBlockIntercommunication(String guiIdIn, IChatComponent displayNameIn) {
       this.guiID = guiIdIn;

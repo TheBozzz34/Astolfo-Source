@@ -10,7 +10,6 @@ public class CacheLocal {
    private int[][][] P = (int[][][])null;
    private int[] b = null;
    private int A = 0;
-   private static final long a = 111164382769763L;
 
    public CacheLocal(int maxX, int maxY, int maxZ) {
       this.t = maxX;

@@ -11,7 +11,6 @@ public class MerchantRecipe {
    private int toolUses;
    private int maxTradeUses;
    private boolean rewardsExp;
-   private static final long a = 99716916554346L;
 
    public MerchantRecipe(NBTTagCompound tagCompound) {
       this.readFromTags(tagCompound);

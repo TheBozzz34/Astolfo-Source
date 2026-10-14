@@ -28,7 +28,6 @@ public interface CLibrary extends LibCAPI, Library {
       public CLibrary.SockaddrByReference ai_addr;
       public String ai_canonname;
       public CLibrary.Addrinfo.ByReference ai_next;
-      private static final long a = 106089774336628L;
 
       public Addrinfo() {
       }
@@ -45,13 +44,7 @@ public interface CLibrary extends LibCAPI, Library {
    @FieldOrder({"sa_family", "sa_data"})
    class Sockaddr extends Structure {
       public short k;
-      public byte[] G;
-      private static final long a = 130329629276274L;
-      private static final long b = 3399375424038371342L;
-
-      public Sockaddr() {
-         this.G = new byte[(int)b];
-      }
+      public byte[] G = new byte[14];
    }
 
    class SockaddrByReference extends CLibrary.Sockaddr implements com.sun.jna.Structure.ByReference {

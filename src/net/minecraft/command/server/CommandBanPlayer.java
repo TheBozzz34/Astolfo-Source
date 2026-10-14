@@ -13,8 +13,6 @@ import net.minecraft.server.management.UserListBansEntry;
 import net.minecraft.util.BlockPos;
 
 public class CommandBanPlayer extends CommandBase {
-   private static final long b = 51367927906228L;
-
    @Override
    public String getCommandName() {
       return "ban";

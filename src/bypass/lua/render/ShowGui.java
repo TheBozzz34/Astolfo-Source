@@ -7,8 +7,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class ShowGui extends OneArgFunction {
-   private static final long a = 47917397440172L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       LuaTable luaTable = null;

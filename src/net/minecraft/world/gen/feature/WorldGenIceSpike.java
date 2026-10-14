@@ -9,8 +9,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class WorldGenIceSpike extends WorldGenerator {
-   private static final long a = 104167267980173L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
       while (worldIn.isAirBlock(position) && position.getY() > 2) {

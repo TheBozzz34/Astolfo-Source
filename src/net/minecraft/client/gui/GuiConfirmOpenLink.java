@@ -8,7 +8,6 @@ public class GuiConfirmOpenLink extends GuiYesNo {
    private final String copyLinkButtonText;
    private final String linkText;
    private boolean showSecurityWarning = true;
-   private static final long a = 139450768045781L;
 
    public GuiConfirmOpenLink(GuiYesNoCallback guiYesNoCallback, String linkTextIn, int i, boolean bl) {
       super(guiYesNoCallback, I18n.format(bl ? "chat.link.confirmTrusted" : "chat.link.confirm"), linkTextIn, i);

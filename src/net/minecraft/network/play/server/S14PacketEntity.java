@@ -17,7 +17,6 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
    public boolean C;
    public boolean D;
    public boolean E;
-   private static final long a = 138393640637085L;
 
    public S14PacketEntity() {
    }

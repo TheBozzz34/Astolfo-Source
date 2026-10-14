@@ -16,7 +16,6 @@ public final class LinuxDisks {
    private static final int SECTORSIZE = 512;
    private static final int[] UDEV_STAT_ORDERS = new int[LinuxDisks.UdevStat.values().length];
    private static final int UDEV_STAT_LENGTH;
-   private static final long a = 138698851331683L;
 
    private LinuxDisks() {
    }
@@ -125,9 +124,6 @@ public final class LinuxDisks {
    }
 
    static {
-      long l = a ^ 11268348412566L;
-      long m = l ^ 3924662742454959701L;
-
       for (LinuxDisks.UdevStat udevStat : LinuxDisks.UdevStat.values()) {
          UDEV_STAT_ORDERS[udevStat.ordinal()] = udevStat.getOrder();
       }

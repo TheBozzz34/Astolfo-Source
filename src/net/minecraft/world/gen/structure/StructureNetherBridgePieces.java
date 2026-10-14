@@ -32,7 +32,6 @@ public class StructureNetherBridgePieces {
       new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor4.class, 7, 2),
       new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.NetherStalkRoom.class, 5, 2)
    };
-   private static final long a = 98466606561086L;
 
    public static void registerNetherFortressPieces() {
       MapGenStructureIO.registerStructureComponent(StructureNetherBridgePieces.Crossing3.class, "NeBCr");
@@ -90,7 +89,6 @@ public class StructureNetherBridgePieces {
 
    public static class Corridor extends StructureNetherBridgePieces.Piece {
       private boolean field_111021_b;
-      private static final long b = 100315400286172L;
 
       public Corridor() {
       }
@@ -177,7 +175,6 @@ public class StructureNetherBridgePieces {
 
    public static class Corridor2 extends StructureNetherBridgePieces.Piece {
       private boolean field_111020_b;
-      private static final long b = 101859564458074L;
 
       public Corridor2() {
       }
@@ -263,8 +260,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Corridor3 extends StructureNetherBridgePieces.Piece {
-      private static final long b = 53967410901531L;
-
       public Corridor3() {
       }
 
@@ -386,8 +381,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Corridor4 extends StructureNetherBridgePieces.Piece {
-      private static final long b = 113498567173844L;
-
       public Corridor4() {
       }
 
@@ -482,8 +475,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Corridor5 extends StructureNetherBridgePieces.Piece {
-      private static final long b = 85752406292729L;
-
       public Corridor5() {
       }
 
@@ -546,8 +537,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Crossing extends StructureNetherBridgePieces.Piece {
-      private static final long b = 115379798214850L;
-
       public Crossing() {
       }
 
@@ -639,8 +628,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Crossing2 extends StructureNetherBridgePieces.Piece {
-      private static final long b = 45504942125163L;
-
       public Crossing2() {
       }
 
@@ -699,8 +686,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Crossing3 extends StructureNetherBridgePieces.Piece {
-      private static final long b = 32209930134445L;
-
       public Crossing3() {
       }
 
@@ -819,7 +804,6 @@ public class StructureNetherBridgePieces {
 
    public static class End extends StructureNetherBridgePieces.Piece {
       private int fillSeed;
-      private static final long b = 102965239907231L;
 
       public End() {
       }
@@ -925,8 +909,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Entrance extends StructureNetherBridgePieces.Piece {
-      private static final long b = 81762086707158L;
-
       public Entrance() {
       }
 
@@ -1133,8 +1115,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class NetherStalkRoom extends StructureNetherBridgePieces.Piece {
-      private static final long b = 85951994316203L;
-
       public NetherStalkRoom() {
       }
 
@@ -1435,7 +1415,6 @@ public class StructureNetherBridgePieces {
          new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 3),
          new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 2, 4, 2)
       );
-      private static final long c = 104176380771265L;
 
       public Piece() {
       }
@@ -1713,7 +1692,6 @@ public class StructureNetherBridgePieces {
       public int field_78827_c;
       public int field_78824_d;
       public boolean field_78825_e;
-      private static final long a = 10147361536812L;
 
       public PieceWeight(Class<? extends StructureNetherBridgePieces.Piece> class2, int i, int j, boolean bl) {
          this.weightClass = class2;
@@ -1736,8 +1714,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Stairs extends StructureNetherBridgePieces.Piece {
-      private static final long b = 30302994222424L;
-
       public Stairs() {
       }
 
@@ -1830,7 +1806,6 @@ public class StructureNetherBridgePieces {
       public List<StructureNetherBridgePieces.PieceWeight> primaryWeights;
       public List<StructureNetherBridgePieces.PieceWeight> secondaryWeights;
       public List<StructureComponent> field_74967_d = Lists.newArrayList();
-      private static final long e = 108768386546964L;
 
       public Start() {
       }
@@ -1864,8 +1839,6 @@ public class StructureNetherBridgePieces {
    }
 
    public static class Straight extends StructureNetherBridgePieces.Piece {
-      private static final long b = 21856064500691L;
-
       public Straight() {
       }
 
@@ -1991,7 +1964,6 @@ public class StructureNetherBridgePieces {
 
    public static class Throne extends StructureNetherBridgePieces.Piece {
       private boolean hasSpawner;
-      private static final long b = 39778818122258L;
 
       public Throne() {
       }

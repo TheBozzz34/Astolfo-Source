@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 public class ShapedMapKeySet<K, V> extends AbstractSet<K> {
    private final ShapedMap<K, V> r;
-   private static final long a = 28695063322883L;
 
    public ShapedMapKeySet(ShapedMap<K, V> shapedMap) {
       this.r = shapedMap;

@@ -9,8 +9,6 @@ import oshi.util.platform.linux.ProcPath;
 
 @ThreadSafe
 public final class CpuStat {
-   private static final long a = 9268179708812L;
-
    private CpuStat() {
    }
 

@@ -4,8 +4,6 @@ import java.io.IOException;
 import net.minecraft.client.resources.I18n;
 
 public class GuiMemoryErrorScreen extends GuiScreen {
-   private static final long a = 1503483725394L;
-
    @Override
    public void initGui() {
       this.buttonList.clear();

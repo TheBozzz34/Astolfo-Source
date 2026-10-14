@@ -24,7 +24,6 @@ public class WmiQueryHandler {
    private static final Class<?>[] EMPTY_CLASS_ARRAY;
    private static final Object[] EMPTY_OBJECT_ARRAY;
    private static Class<? extends WmiQueryHandler> customClass;
-   private static final long c = 132665169590587L;
 
    public static synchronized WmiQueryHandler createInstance() {
       if (customClass == null) {

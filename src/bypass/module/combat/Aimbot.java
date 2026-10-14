@@ -56,7 +56,6 @@ public class Aimbot extends Module {
    private EntityLivingBase unusedTarget;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGH)
    private Listener<MotionEvent> onMotion = motionEvent -> this.findTargets();
-   private static final long c = 123357317965043L;
 
    public Aimbot() {
       super("Aimbot", Category.COMBAT);
@@ -64,18 +63,12 @@ public class Aimbot extends Module {
    }
 
    private ArrayList<EntityLivingBase> findTargets() {
-      long l = c ^ 43126422368545L;
-      long m = l ^ 42086716010639L;
-      int i = (int)((l ^ 42086716010639L) >>> 56);
-      int j = (int)((l ^ 42086716010639L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
-      long n = l ^ 54241723553064L;
       ArrayList arrayList = new ArrayList(10);
       List list = mc.theWorld.loadedEntityList;
-      int i2 = 0;
+      int i = 0;
 
-      for (int i3 = list.size(); i2 < i3; i2++) {
-         Entity entity = (Entity)list.get(i2);
+      for (int j = list.size(); i < j; i++) {
+         Entity entity = (Entity)list.get(i);
          if (entity instanceof EntityLivingBase) {
             EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
             if (arrayList.size() > 10) {
@@ -96,8 +89,6 @@ public class Aimbot extends Module {
    }
 
    private boolean isValidTarget(EntityLivingBase entityLivingBase) {
-      long l = c ^ 125985551913258L;
-      long m = l ^ 111021845804323L;
       if (mc.thePlayer == null || mc.theWorld == null || entityLivingBase == mc.thePlayer || GameUtil.isRemoved(entityLivingBase)) {
          return false;
       }

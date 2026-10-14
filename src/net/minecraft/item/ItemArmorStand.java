@@ -15,9 +15,6 @@ import net.minecraft.util.Rotations;
 import net.minecraft.world.World;
 
 public class ItemArmorStand extends Item {
-   private static final long a = 58506812856611L;
-   private static final long f = 8654054442229825546L;
-
    public ItemArmorStand() {
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }
@@ -55,11 +52,11 @@ public class ItemArmorStand extends Item {
          worldIn.setBlockToAir(blockPos);
          worldIn.setBlockToAir(blockPos2);
          EntityArmorStand entityArmorStand = new EntityArmorStand(worldIn, d + 0.5, e, d2 + 0.5);
-         float g = MathHelper.floor_float((MathHelper.wrapAngleTo180_float(playerIn.rotationYaw - 180.0F) + 22.5F) / 45.0F) * 45.0F;
-         entityArmorStand.setLocationAndAngles(d + 0.5, e, d2 + 0.5, g, 0.0F);
+         float f = MathHelper.floor_float((MathHelper.wrapAngleTo180_float(playerIn.rotationYaw - 180.0F) + 22.5F) / 45.0F) * 45.0F;
+         entityArmorStand.setLocationAndAngles(d + 0.5, e, d2 + 0.5, f, 0.0F);
          this.applyRandomRotations(entityArmorStand, worldIn.rand);
          NBTTagCompound nbtTagCompound = stack.getTagCompound();
-         if (nbtTagCompound != null && nbtTagCompound.hasKey("EntityTag", (int)f)) {
+         if (nbtTagCompound != null && nbtTagCompound.hasKey("EntityTag", 10)) {
             NBTTagCompound nbtTagCompound2 = new NBTTagCompound();
             entityArmorStand.writeToNBTOptional(nbtTagCompound2);
             nbtTagCompound2.merge(nbtTagCompound.getCompoundTag("EntityTag"));

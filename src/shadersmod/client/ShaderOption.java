@@ -17,7 +17,6 @@ public abstract class ShaderOption {
    public static final String COLOR_GREEN = "§a";
    public static final String COLOR_RED = "§c";
    public static final String COLOR_BLUE = "§9";
-   private static final long a = 65016977813255L;
 
    public ShaderOption(String name, String description, String value, String[] values, String valueDefault, String path) {
       this.name = name;

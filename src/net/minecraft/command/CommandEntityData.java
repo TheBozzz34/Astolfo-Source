@@ -7,8 +7,6 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class CommandEntityData extends CommandBase {
-   private static final long b = 200737392066L;
-
    @Override
    public String getCommandName() {
       return "entitydata";

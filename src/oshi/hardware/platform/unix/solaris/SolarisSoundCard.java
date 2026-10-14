@@ -10,8 +10,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class SolarisSoundCard extends AbstractSoundCard {
-   private static final long c = 62177792154519L;
-
    public SolarisSoundCard(String kernelVersion, String name, String codec) {
       super(kernelVersion, name, codec);
    }

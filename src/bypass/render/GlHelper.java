@@ -23,7 +23,6 @@ public final class GlHelper {
    private static int P;
    private static int m;
    private static final Random b = new Random();
-   private static final long a = 111294764714019L;
 
    private GlHelper() {
    }

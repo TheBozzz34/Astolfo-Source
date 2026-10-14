@@ -6,8 +6,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Strafe extends VarArgFunction {
-   private static final long a = 124031771196410L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       return ClientAccess.mc.thePlayer == null

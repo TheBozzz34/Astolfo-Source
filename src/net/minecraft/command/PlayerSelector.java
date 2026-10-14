@@ -41,7 +41,6 @@ public class PlayerSelector {
    private static final Pattern intListPattern = Pattern.compile("\\G([-!]?[\\w-]*)(?:$|,)");
    private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?[\\w-]*)(?:$|,)");
    private static final Set<String> WORLD_BINDING_ARGS = Sets.newHashSet("x", "y", "z", "dx", "dy", "dz", "rm", "r");
-   private static final long b = 101900038582892L;
 
    public static EntityPlayerMP matchOnePlayer(ICommandSender sender, String token) {
       return matchOneEntity(sender, token, EntityPlayerMP.class);
@@ -148,8 +147,6 @@ public class PlayerSelector {
       } else {
          final String string3 = string2;
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 30393961879540L;
-
             public boolean apply(Entity entity) {
                return EntityList.isStringEntityName(entity, string3) != bl;
             }
@@ -165,8 +162,6 @@ public class PlayerSelector {
       final int j = parseIntWithDefault(map, "l", -1);
       if (i > -1 || j > -1) {
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 80482689403247L;
-
             public boolean apply(Entity entity) {
                if (!(entity instanceof EntityPlayerMP)) {
                   return false;
@@ -186,8 +181,6 @@ public class PlayerSelector {
       final int i = parseIntWithDefault(map, "m", WorldSettings.GameType.NOT_SET.getID());
       if (i != WorldSettings.GameType.NOT_SET.getID()) {
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 8942488599788L;
-
             public boolean apply(Entity entity) {
                if (!(entity instanceof EntityPlayerMP)) {
                   return false;
@@ -213,8 +206,6 @@ public class PlayerSelector {
       if (string != null) {
          final String string2 = string;
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 84524590951163L;
-
             public boolean apply(Entity entity) {
                if (!(entity instanceof EntityLivingBase)) {
                   return false;
@@ -236,8 +227,6 @@ public class PlayerSelector {
       final Map map2 = func_96560_a(map);
       if (map2 != null && map2.size() > 0) {
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 82118467861120L;
-
             public boolean apply(Entity entity) {
                Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
 
@@ -290,8 +279,6 @@ public class PlayerSelector {
       if (string != null) {
          final String string2 = string;
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 92993521027902L;
-
             public boolean apply(Entity entity) {
                return entity.getName().equals(string2) != bl;
             }
@@ -309,8 +296,6 @@ public class PlayerSelector {
          final int k = i * i;
          final int l = j * j;
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 81470410171329L;
-
             public boolean apply(Entity entity) {
                int m = (int)entity.getDistanceSqToCenter(blockPos);
                return (i < 0 || m >= k) && (j < 0 || m <= l);
@@ -327,8 +312,6 @@ public class PlayerSelector {
          final int i = func_179650_a(parseIntWithDefault(map, "rym", 0));
          final int j = func_179650_a(parseIntWithDefault(map, "ry", 359));
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 39784342842745L;
-
             public boolean apply(Entity entity) {
                int k = PlayerSelector.func_179650_a((int)Math.floor(entity.rotationYaw));
                return i > j ? k >= i || k <= j : k >= i && k <= j;
@@ -340,8 +323,6 @@ public class PlayerSelector {
          final int l = func_179650_a(parseIntWithDefault(map, "rxm", 0));
          final int m = func_179650_a(parseIntWithDefault(map, "rx", 359));
          arrayList.add(new Predicate<Entity>() {
-            private static final long a = 32459302088491L;
-
             public boolean apply(Entity entity) {
                int n = PlayerSelector.func_179650_a((int)Math.floor(entity.rotationPitch));
                return l > m ? n >= l || n <= m : n >= l && n <= m;
@@ -374,8 +355,6 @@ public class PlayerSelector {
             final AxisAlignedBB axisAlignedBB = func_179661_a(position, i, j, k);
             if (bl && bl3 && !bl2) {
                Predicate predicate3 = new Predicate<Entity>() {
-                  private static final long a = 96725179485928L;
-
                   public boolean apply(Entity entity) {
                      return entity.posX >= axisAlignedBB.minX && entity.posY >= axisAlignedBB.minY && entity.posZ >= axisAlignedBB.minZ
                         ? entity.posX < axisAlignedBB.maxX && entity.posY < axisAlignedBB.maxY && entity.posZ < axisAlignedBB.maxZ
@@ -567,10 +546,5 @@ public class PlayerSelector {
       }
 
       return hashMap;
-   }
-
-   static {
-      long l = b ^ 46200216771492L;
-      long m = 1328885066302306108L ^ l;
    }
 }

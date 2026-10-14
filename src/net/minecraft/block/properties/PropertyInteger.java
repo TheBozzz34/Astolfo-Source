@@ -7,8 +7,6 @@ import java.util.HashSet;
 
 public class PropertyInteger extends PropertyHelper<Integer> {
    private final ImmutableSet<Integer> allowedValues;
-   private static final long a = 59174525225973L;
-   private static final long j = 5886005911822008351L;
 
    public PropertyInteger(String name, int minIn, int maxIn) {
       super(name, Integer.class);
@@ -55,7 +53,7 @@ public class PropertyInteger extends PropertyHelper<Integer> {
    @Override
    public int hashCode() {
       int i = super.hashCode();
-      return (int)j * i + this.allowedValues.hashCode();
+      return 31 * i + this.allowedValues.hashCode();
    }
 
    public static PropertyInteger create(String name, int minIn, int maxIn) {

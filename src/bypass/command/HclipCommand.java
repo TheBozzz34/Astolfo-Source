@@ -3,8 +3,6 @@ package bypass.command;
 import java.util.Collections;
 
 public final class HclipCommand extends Command {
-   private static final long d = 48030420445214L;
-
    public HclipCommand(String string, String string2) {
       super(string, string2);
       this.setAliases(Collections.singletonList("hc"));

@@ -42,24 +42,19 @@ public final class Outline extends Module {
    private final ColorSetting color = new ColorSetting("Color", "Color color", ClientColor.PURPLE.getColor());
    @EventHandler(value = RenderModelEvent.class, priority = EventPriority.LOW)
    private Listener<RenderModelEvent> onRenderModel = renderModelEvent -> {
-      long l = c ^ 114449926509162L;
-      long m = l ^ 35537221722439L;
-      int i = (int)((l ^ 35537221722439L) >>> 56);
-      int j = (int)((l ^ 35537221722439L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if (renderModelEvent.getState() == EventState.PRE && this.r(renderModelEvent.getEntity())) {
          GL11.glPushMatrix();
          GlStateManager.depthMask(true);
-         int n = this.color.getValue().getRGB();
+         int i = this.color.getValue().getRGB();
          if (renderModelEvent.getEntity() instanceof EntityPlayer) {
             if (client.getRelationManager().z(renderModelEvent.getEntity())) {
-               n = OutlineColor.BLUE.C().getRGB();
+               i = OutlineColor.BLUE.C().getRGB();
             } else if (client.getRelationManager().D(renderModelEvent.getEntity())) {
-               n = OutlineColor.RED.C().getRGB();
+               i = OutlineColor.RED.C().getRGB();
             }
          }
 
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          renderModelEvent.getRenderer()
             .renderModel(
                renderModelEvent.getEntity(),
@@ -70,7 +65,6 @@ public final class Outline extends Module {
                renderModelEvent.getHeadPitch(),
                renderModelEvent.getScale()
             );
-         long l2 = 4919695800598552673L ^ l;
          P_void();
          GL11.glPushAttrib(1048575);
          GL11.glDisable(3008);
@@ -86,8 +80,7 @@ public final class Outline extends Module {
          GL11.glStencilFunc(512, 1, 15);
          GL11.glStencilOp(7681, 7681, 7681);
          GL11.glPolygonMode(1032, 6913);
-         RenderUtil.setColor(n);
-         l2 = 7527467513157604236L ^ l;
+         RenderUtil.setColor(i);
          renderModelEvent.getRenderer()
             .renderModel(
                renderModelEvent.getEntity(),
@@ -101,8 +94,7 @@ public final class Outline extends Module {
          GL11.glStencilFunc(512, 0, 15);
          GL11.glStencilOp(7681, 7681, 7681);
          GL11.glPolygonMode(1032, 6914);
-         RenderUtil.setColor(n);
-         l2 = 1414541032376484744L ^ l;
+         RenderUtil.setColor(i);
          renderModelEvent.getRenderer()
             .renderModel(
                renderModelEvent.getEntity(),
@@ -113,19 +105,17 @@ public final class Outline extends Module {
                renderModelEvent.getHeadPitch(),
                renderModelEvent.getScale()
             );
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          GL11.glStencilFunc(514, 1, 15);
          GL11.glStencilOp(7680, 7680, 7680);
          GL11.glPolygonMode(1032, 6913);
          RenderUtil.setColor(Color.WHITE.getRGB());
-         l2 = 4195649592761273385L ^ l;
          GL11.glDepthMask(false);
          GL11.glDisable(2929);
          GL11.glEnable(10754);
          GL11.glPolygonOffset(1.0F, -2000000.0F);
-         l2 = 1892666837428165539L ^ l;
          OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-         RenderUtil.setColor(n);
+         RenderUtil.setColor(i);
          renderModelEvent.getRenderer()
             .renderModel(
                renderModelEvent.getEntity(),
@@ -152,7 +142,6 @@ public final class Outline extends Module {
          GL11.glPopMatrix();
       }
    };
-   private static final long c = 62716144703088L;
 
    public Outline(Category category) {
       super(category);

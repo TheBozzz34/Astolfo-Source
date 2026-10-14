@@ -10,7 +10,6 @@ import net.minecraft.util.MathHelper;
 
 public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
    private final RealmsSimpleScrolledSelectionList field_178050_u;
-   private static final long c = 17305418659257L;
 
    public GuiSimpleScrolledSelectionListProxy(
       RealmsSimpleScrolledSelectionList realmsSimpleScrolledSelectionList, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn
@@ -73,7 +72,6 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
 
    @Override
    public void drawScreen(int mouseXIn, int mouseYIn, float f) {
-      long l = c ^ 50800915904283L;
       if (this.field_178041_q) {
          this.mouseX = mouseXIn;
          this.mouseY = mouseYIn;
@@ -86,29 +84,27 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
          int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-         int m = this.top + 4 - (int)this.amountScrolled;
+         int l = this.top + 4 - (int)this.amountScrolled;
          if (this.hasListHeader) {
-            this.drawListHeader(k, m, tessellator);
+            this.drawListHeader(k, l, tessellator);
          }
 
-         this.drawSelectionBox(k, m, mouseXIn, mouseYIn);
+         this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
          GlStateManager.disableDepth();
          this.W(0, this.top, 255, 255);
          this.W(this.bottom, this.height, 255, 255);
          GlStateManager.enableBlend();
-         long n = 76897885860284166L ^ l;
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableAlpha();
-         n = 835214825381328682L ^ l;
          GlStateManager.shadeModel(7425);
          GlStateManager.disableTexture2D();
-         int i2 = this.func_148135_f();
-         if (i2 > 0) {
-            int i3 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
-            i3 = MathHelper.clamp_int(i3, 32, this.bottom - this.top - 8);
-            int i4 = (int)this.amountScrolled * (this.bottom - this.top - i3) / i2 + this.top;
-            if (i4 < this.top) {
-               i4 = this.top;
+         int m = this.func_148135_f();
+         if (m > 0) {
+            int n = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
+            n = MathHelper.clamp_int(n, 32, this.bottom - this.top - 8);
+            int i2 = (int)this.amountScrolled * (this.bottom - this.top - n) / m + this.top;
+            if (i2 < this.top) {
+               i2 = this.top;
             }
 
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -118,22 +114,21 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
             worldRenderer.pos(i, this.top, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
             tessellator.draw();
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            worldRenderer.pos(i, i4 + i3, 0.0).tex(0.0, 1.0).color(128, 128, 128, 255).endVertex();
-            worldRenderer.pos(j, i4 + i3, 0.0).tex(1.0, 1.0).color(128, 128, 128, 255).endVertex();
-            worldRenderer.pos(j, i4, 0.0).tex(1.0, 0.0).color(128, 128, 128, 255).endVertex();
-            worldRenderer.pos(i, i4, 0.0).tex(0.0, 0.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i, i2 + n, 0.0).tex(0.0, 1.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(j, i2 + n, 0.0).tex(1.0, 1.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(j, i2, 0.0).tex(1.0, 0.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i, i2, 0.0).tex(0.0, 0.0).color(128, 128, 128, 255).endVertex();
             tessellator.draw();
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            worldRenderer.pos(i, i4 + i3 - 1, 0.0).tex(0.0, 1.0).color(192, 192, 192, 255).endVertex();
-            worldRenderer.pos(j - 1, i4 + i3 - 1, 0.0).tex(1.0, 1.0).color(192, 192, 192, 255).endVertex();
-            worldRenderer.pos(j - 1, i4, 0.0).tex(1.0, 0.0).color(192, 192, 192, 255).endVertex();
-            worldRenderer.pos(i, i4, 0.0).tex(0.0, 0.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(i, i2 + n - 1, 0.0).tex(0.0, 1.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(j - 1, i2 + n - 1, 0.0).tex(1.0, 1.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(j - 1, i2, 0.0).tex(1.0, 0.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(i, i2, 0.0).tex(0.0, 0.0).color(192, 192, 192, 255).endVertex();
             tessellator.draw();
          }
 
          this.func_148142_b(mouseXIn, mouseYIn);
          GlStateManager.enableTexture2D();
-         n = 7603328013323868741L ^ l;
          GlStateManager.shadeModel(7424);
          GlStateManager.enableAlpha();
          GlStateManager.disableBlend();

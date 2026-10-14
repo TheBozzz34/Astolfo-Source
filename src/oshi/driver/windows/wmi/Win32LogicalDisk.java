@@ -7,9 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32LogicalDisk {
-   private static final long a = 32820938067771L;
-   private static final long e = -2090634369948450782L;
-
    private Win32LogicalDisk() {
    }
 
@@ -22,7 +19,7 @@ public final class Win32LogicalDisk {
       }
 
       if (nameToMatch != null) {
-         stringBuilder.append(bl ? " AND" : " WHERE").append(" Name=\"").append(nameToMatch).append((char)((int)e));
+         stringBuilder.append(bl ? " AND" : " WHERE").append(" Name=\"").append(nameToMatch).append('"');
       }
 
       WmiQuery wmiQuery = new WmiQuery<>(stringBuilder.toString(), Win32LogicalDisk.LogicalDiskProperty.class);

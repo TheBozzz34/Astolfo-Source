@@ -15,7 +15,6 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer {
    private final MinecraftServer server;
    private final NetworkManager networkManager;
    private boolean handled;
-   private static final long a = 134141068945994L;
 
    public NetHandlerStatusServer(MinecraftServer serverIn, NetworkManager netManager) {
       this.server = serverIn;

@@ -7,9 +7,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class HashedFilePaths implements ClientAccess {
-   public static final String N = FileHashCheckStrings.s("LVgbym1RpZ2//6iKi245HII=");
+   public static final String N = "astolfo-agent.jar";
    private final ListContainerOwner<Path> b;
-   private static final long c = 122997398136430L;
 
    public HashedFilePaths() {
       ArrayList arrayList = new ArrayList();

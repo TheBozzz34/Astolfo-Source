@@ -7,7 +7,6 @@ public class ModelEnderCrystal extends ModelBase {
    private ModelRenderer cube;
    private ModelRenderer glass = new ModelRenderer(this, "glass");
    private ModelRenderer base;
-   private static final long a = 27547597386994L;
 
    public ModelEnderCrystal(float f, boolean bl) {
       this.glass.setTextureOffset(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);

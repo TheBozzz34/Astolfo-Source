@@ -17,8 +17,6 @@ import net.minecraft.world.World;
 public class ItemMinecart extends Item {
    private static final IBehaviorDispenseItem dispenserMinecartBehavior = new BehaviorDefaultDispenseItem() {
       private final BehaviorDefaultDispenseItem behaviourDefaultDispenseItem = new BehaviorDefaultDispenseItem();
-      private static final long b = 85268479376584L;
-      private static final long c = -1707401812585217048L;
 
       @Override
       public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -67,11 +65,10 @@ public class ItemMinecart extends Item {
 
       @Override
       public void playDispenseSound(IBlockSource source) {
-         source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
+         source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
       }
    };
    private final EntityMinecart.EnumMinecartType minecartType;
-   private static final long a = 90419106221286L;
 
    public ItemMinecart(EntityMinecart.EnumMinecartType typeIn) {
       this.maxStackSize = 1;

@@ -6,8 +6,6 @@ import bypass.manager.Manager;
 import java.util.Arrays;
 
 public abstract class ComponentManager extends Manager<Element> {
-   private static final long a = 116201125173732L;
-
    public void F(int i, int j) {
       for (Element element : this.getList()) {
          if (element instanceof Component) {

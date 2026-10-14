@@ -16,7 +16,6 @@ public abstract class ModelBase {
    private Map<String, TextureOffset> modelTextureMap = Maps.newHashMap();
    public int textureWidth = 64;
    public int textureHeight = 32;
-   private static final long ab = 87319640737243L;
 
    public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
    }

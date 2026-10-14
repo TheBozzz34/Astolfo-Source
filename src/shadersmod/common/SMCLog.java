@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class SMCLog {
    private static final Logger LOGGER = LogManager.getLogger();
-   private static final long a = 104605001389058L;
 
    public static void severe(String message) {
       LOGGER.error("[Shaders] " + message);

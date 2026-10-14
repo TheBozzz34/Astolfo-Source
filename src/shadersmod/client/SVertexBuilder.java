@@ -25,7 +25,6 @@ public class SVertexBuilder {
    public boolean hasUVCenter;
    public long[] entityData = new long[10];
    public int entityDataIndex = 0;
-   private static final long a = 106842652122376L;
 
    public SVertexBuilder() {
       this.entityData[this.entityDataIndex] = 0L;

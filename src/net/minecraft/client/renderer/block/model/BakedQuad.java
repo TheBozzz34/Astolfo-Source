@@ -14,7 +14,6 @@ public class BakedQuad implements IVertexProducer {
    public final EnumFacing face;
    private TextureAtlasSprite sprite = null;
    private int[] vertexDataSingle = null;
-   private static final long a = 2360413664131L;
 
    public BakedQuad(int[] ints, int i, EnumFacing enumFacing, TextureAtlasSprite textureAtlasSprite) {
       this.u = ints;

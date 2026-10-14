@@ -12,8 +12,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class ItemInformation extends VarArgFunction {
-   private static final long a = 86510234119895L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       if (ClientAccess.mc.thePlayer != null) {

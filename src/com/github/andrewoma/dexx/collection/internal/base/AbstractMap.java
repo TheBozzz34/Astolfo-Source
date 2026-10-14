@@ -7,9 +7,6 @@ import com.github.andrewoma.dexx.collection.Pair;
 import com.github.andrewoma.dexx.collection.internal.adapter.MapAdapter;
 
 public abstract class AbstractMap<K, V> extends AbstractIterable<Pair<K, V>> implements Map<K, V> {
-   private static final long c = 36517016750624L;
-   private static final long m = 3378153866074783775L;
-
    @Override
    public Iterable<K> H() {
       return new MappedIterable<>(this, new AbstractMap.rts());
@@ -61,7 +58,7 @@ public abstract class AbstractMap<K, V> extends AbstractIterable<Pair<K, V>> imp
       int i = 0;
 
       for (Pair pair : this) {
-         i += (int)m * pair.hashCode();
+         i += 31 * pair.hashCode();
       }
 
       return i;

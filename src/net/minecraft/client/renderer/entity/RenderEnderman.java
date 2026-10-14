@@ -12,7 +12,6 @@ public class RenderEnderman extends RenderLiving<EntityEnderman> {
    private static final ResourceLocation endermanTextures = new ResourceLocation("textures/entity/enderman/enderman.png");
    private ModelEnderman endermanModel;
    private Random rnd = new Random();
-   private static final long d = 106878501039735L;
 
    public RenderEnderman(RenderManager renderManagerIn) {
       super(renderManagerIn, new ModelEnderman(0.0F), 0.5F);

@@ -19,7 +19,6 @@ public class Stitcher {
    private final int maxHeight;
    private final boolean forcePowerOf2;
    private final int maxTileDimension;
-   private static final long b = 816403471593L;
 
    public Stitcher(int maxTextureWidth, int maxTextureHeight, boolean bl, int i, int mipmapLevel) {
       this.mipmapLevelStitcher = mipmapLevel;
@@ -179,8 +178,6 @@ public class Stitcher {
       private final int mipmapLevelHolder;
       private boolean rotated;
       private float scaleFactor = 1.0F;
-      private static final long a = 40177243970771L;
-      private static final long g = -5790750834346164099L;
 
       public Holder(TextureAtlasSprite textureAtlasSprite, int i) {
          this.theTexture = textureAtlasSprite;
@@ -222,7 +219,7 @@ public class Stitcher {
 
       @Override
       public String toString() {
-         return "Holder{width=" + this.width + ", height=" + this.height + ", name=" + this.theTexture.getIconName() + (int)g;
+         return "Holder{width=" + this.width + ", height=" + this.height + ", name=" + this.theTexture.getIconName() + '}';
       }
 
       public int compareTo(Stitcher.Holder holder) {
@@ -252,8 +249,6 @@ public class Stitcher {
       private final int height;
       private List<Stitcher.Slot> subSlots;
       private Stitcher.Holder holder;
-      private static final long a = 38365014766716L;
-      private static final long f = 3613827521994293373L;
 
       public Slot(int i, int j, int widthIn, int heightIn) {
          this.originX = i;
@@ -345,7 +340,7 @@ public class Stitcher {
             + this.holder
             + ", subSlots="
             + this.subSlots
-            + (int)f;
+            + '}';
       }
    }
 }

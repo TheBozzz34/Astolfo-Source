@@ -9,7 +9,6 @@ public abstract class AbstractReply {
    public boolean success;
    @SerializedName("cause")
    public String cause;
-   private static final long b = 46608693169853L;
 
    public boolean isThrottle() {
       return this.throttle;

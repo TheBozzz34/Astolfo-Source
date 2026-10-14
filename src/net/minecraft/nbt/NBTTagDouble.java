@@ -7,7 +7,6 @@ import net.minecraft.util.MathHelper;
 
 public class NBTTagDouble extends NBTBase.NBTPrimitive {
    private double data;
-   private static final long a = 71763514063471L;
 
    public NBTTagDouble() {
    }

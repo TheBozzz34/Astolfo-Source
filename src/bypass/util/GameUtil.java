@@ -79,7 +79,6 @@ public final class GameUtil implements ClientAccess {
    );
    private static Pattern Q = Pattern.compile("§(.).*§r");
    public static String N = null;
-   private static final long b = 10198663265794L;
 
    public static boolean isPassive(Entity entity) {
       return entity instanceof EntityPig
@@ -207,8 +206,6 @@ public final class GameUtil implements ClientAccess {
    }
 
    public static boolean N() {
-      long l = b ^ 33165469906170L;
-      long m = l ^ 35290612201291L;
       return !mc.thePlayer.isOnLadder()
          && !mc.thePlayer.isInWater()
          && !mc.thePlayer.isPotionActive(Potion.blindness)

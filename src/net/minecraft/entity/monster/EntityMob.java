@@ -13,8 +13,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public abstract class EntityMob extends EntityCreature implements IMob {
-   private static final long eb = 111634237501245L;
-
    public EntityMob(World worldIn) {
       super(worldIn);
       this.experienceValue = 5;

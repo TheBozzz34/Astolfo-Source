@@ -8,8 +8,6 @@ import oshi.util.tuples.Pair;
 
 @ThreadSafe
 public final class ProcessInformation {
-   private static final long a = 41286998565182L;
-
    private ProcessInformation() {
    }
 

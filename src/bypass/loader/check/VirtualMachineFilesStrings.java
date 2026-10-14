@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class VirtualMachineFilesStrings {
    public static String M = "ARCFOUR";
    public static String B = "sJeGAIiwGPUaKdpb";
-   private static final long a = 6538836198704L;
 
    public static String F(String string) {
       String string2 = "Juxv4gP4PqgDH7lqCMYEDQ==";

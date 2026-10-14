@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 
 public class NumberSettingItem extends TabGuiItem {
    private NumberSetting e;
-   private static final long b = 74022487267985L;
 
    public NumberSettingItem(TabGui.Panel panel, NumberSetting numberSetting) {
       super(panel);

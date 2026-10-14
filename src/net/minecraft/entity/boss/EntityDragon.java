@@ -49,7 +49,6 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
    private Entity target;
    public int deathTicks;
    public EntityEnderCrystal healingEnderCrystal;
-   private static final long ab = 119656833294911L;
 
    public EntityDragon(World worldIn) {
       super(worldIn);

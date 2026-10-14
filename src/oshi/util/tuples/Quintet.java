@@ -9,10 +9,9 @@ public class Quintet<A, B, C, D, E> {
    private final C c;
    private final D d;
    private final E e;
-   private static final long a = 77049214425797L;
 
-   public Quintet(A aIn, B b, C c, D d, E eIn) {
-      this.N = aIn;
+   public Quintet(A a, B b, C c, D d, E eIn) {
+      this.N = a;
       this.b = b;
       this.c = c;
       this.d = d;

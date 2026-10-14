@@ -8,7 +8,6 @@ public class StreamReader {
    private static final StreamReader e = new StreamReader();
    private static final int z = 8192;
    private static final int D = 2147483639;
-   private static final long a = 76113226641445L;
 
    public byte[] M(InputStream inputStream) throws IOException {
       byte[] bytes = new byte[8192];
@@ -39,11 +38,5 @@ public class StreamReader {
 
    public static StreamReader o() {
       return e;
-   }
-
-   static {
-      long l = a ^ 8113273731682L;
-      long m = l ^ 4084096115636478129L;
-      m = l ^ 6931698921408695831L;
    }
 }

@@ -257,7 +257,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
             }
       }
    };
-   private static final long eb = 139823961718593L;
 
    public EntityVillager(World worldIn) {
       this(worldIn, 0);
@@ -862,7 +861,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
    public static class EmeraldForItems implements EntityVillager.ITradeList {
       public Item sellItem;
       public EntityVillager.PriceInfo price;
-      private static final long a = 14188117664471L;
 
       public EmeraldForItems(Item itemIn, EntityVillager.PriceInfo priceIn) {
          this.sellItem = itemIn;
@@ -889,7 +887,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
       public EntityVillager.PriceInfo buyingPriceInfo;
       public ItemStack sellingItemstack;
       public EntityVillager.PriceInfo field_179408_d;
-      private static final long a = 101864719858829L;
 
       public ItemAndEmeraldToItem(Item item, EntityVillager.PriceInfo priceInfo, Item item2, EntityVillager.PriceInfo priceInfo2) {
          this.buyingItemStack = new ItemStack(item);
@@ -921,8 +918,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
    }
 
    public static class ListEnchantedBookForEmeralds implements EntityVillager.ITradeList {
-      private static final long a = 137297919037171L;
-
       @Override
       public void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random randomIn) {
          Enchantment enchantment = Enchantment.enchantmentsBookList[randomIn.nextInt(Enchantment.enchantmentsBookList.length)];
@@ -940,8 +935,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
    public static class ListEnchantedItemForEmeralds implements EntityVillager.ITradeList {
       public ItemStack enchantedItemStack;
       public EntityVillager.PriceInfo priceInfo;
-      private static final long a = 22539798456444L;
-      private static final long b = -638612833201815537L;
 
       public ListEnchantedItemForEmeralds(Item item, EntityVillager.PriceInfo priceInfo) {
          this.enchantedItemStack = new ItemStack(item);
@@ -957,7 +950,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 
          ItemStack itemStack = new ItemStack(Items.emerald, i, 0);
          ItemStack itemStack2 = new ItemStack(this.enchantedItemStack.getItem(), 1, this.enchantedItemStack.getMetadata());
-         itemStack2 = EnchantmentHelper.addRandomEnchantment(randomIn, itemStack2, 5 + randomIn.nextInt((int)b));
+         itemStack2 = EnchantmentHelper.addRandomEnchantment(randomIn, itemStack2, 5 + randomIn.nextInt(15));
          recipeList.add(new MerchantRecipe(itemStack, itemStack2));
       }
    }
@@ -965,7 +958,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
    public static class ListItemForEmeralds implements EntityVillager.ITradeList {
       public ItemStack itemToBuy;
       public EntityVillager.PriceInfo priceInfo;
-      private static final long a = 92499067714708L;
 
       public ListItemForEmeralds(Item par1Item, EntityVillager.PriceInfo priceInfo) {
          this.itemToBuy = new ItemStack(par1Item);
@@ -999,8 +991,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
    }
 
    public static class PriceInfo extends Tuple<Integer, Integer> {
-      private static final long a = 134305501741014L;
-
       public PriceInfo(int i, int j) {
          super(i, j);
       }

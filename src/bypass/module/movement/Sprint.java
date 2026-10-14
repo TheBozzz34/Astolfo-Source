@@ -22,16 +22,12 @@ public final class Sprint extends Module {
    private final NumberSetting<Double> speed = new NumberSetting<>("Speed", "Distance of blocks", 1.0, 1.0, 3.0);
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      long l = d ^ 52934584675659L;
-      long m = l ^ 130582491503218L;
       if (updateEvent.getState() == EventState.PRE && (Speed.mode.getValue() != SpeedMode.WATCHDOG || !client.getModuleManager().get(Speed.class).isEnabled())) {
          mc.thePlayer.setSprinting(this.Z());
       }
    };
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = d ^ 77008104429481L;
-      long m = l ^ 1024495263888L;
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C0BPacketEntityAction) {
          C0BPacketEntityAction c0BPacketEntityAction = (C0BPacketEntityAction)packetEvent.getPacket();
          if ((c0BPacketEntityAction.getAction() == C0BPacketEntityAction.Action.START_SPRINTING || c0BPacketEntityAction.getAction() == C0BPacketEntityAction.Action.STOP_SPRINTING)
@@ -45,8 +41,6 @@ public final class Sprint extends Module {
    };
    @EventHandler(MoveEvent.class)
    private Listener<MoveEvent> onMove = moveEvent -> {
-      long l = d ^ 126499147232298L;
-      long m = l ^ 59286397158163L;
       if (moveEvent.getState() == EventState.PRE
          && mc.thePlayer.isSprinting()
          && !client.getModuleManager().get(Speed.class).isEnabled()
@@ -54,18 +48,14 @@ public final class Sprint extends Module {
          GameUtil.setMoveSpeed(moveEvent, this.speed.getValue(), 90.0F);
       }
    };
-   private static final long d = 124865768180362L;
-   private static final long j = 8147618630572940775L;
 
    public Sprint(Category category) {
       super(category);
-      this.B((int)j);
+      this.B(10984935);
       this.addSettings(this.speed, omnidirectional, this.silent);
    }
 
    private boolean Z() {
-      long l = d ^ 129541700543528L;
-      long m = l ^ 56307408425745L;
       boolean bl = mc.thePlayer.getFoodStats().getFoodLevel() > 6.0F || mc.thePlayer.capabilities.allowFlying;
       boolean bl2 = mc.thePlayer.isUsingItem() && !client.getModuleManager().get(NoSlow.class).isEnabled();
       boolean bl3 = client.getModuleManager().get(Scaffold.class).isEnabled() && !client.getModuleManager().get(Scaffold.class).getKeepSprint().getValue();

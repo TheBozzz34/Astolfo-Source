@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerHopper extends Container {
    private final IInventory hopperInventory;
-   private static final long a = 127444913144368L;
 
    public ContainerHopper(InventoryPlayer playerInventory, IInventory hopperInventoryIn, EntityPlayer player) {
       this.hopperInventory = hopperInventoryIn;

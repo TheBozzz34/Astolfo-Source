@@ -48,7 +48,6 @@ public class UserList<K, V extends UserListEntry<K>> {
          return null;
       }
    };
-   private static final long b = 69898675378643L;
 
    public UserList(File saveFile) {
       this.saveFile = saveFile;
@@ -138,8 +137,6 @@ public class UserList<K, V extends UserListEntry<K>> {
    }
 
    public class Serializer implements JsonDeserializer<UserListEntry<K>>, JsonSerializer<UserListEntry<K>> {
-      private static final long a = 81462614238111L;
-
       public Serializer() {
       }
 

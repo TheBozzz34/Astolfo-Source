@@ -8,9 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class RecipeBookCloning implements IRecipe {
-   private static final long a = 113442542702868L;
-   private static final long c = -6404648853768765431L;
-
    @Override
    public boolean matches(InventoryCrafting inv, World worldIn) {
       int i = 0;
@@ -78,7 +75,7 @@ public class RecipeBookCloning implements IRecipe {
 
    @Override
    public int getRecipeSize() {
-      return (int)c;
+      return 9;
    }
 
    @Override

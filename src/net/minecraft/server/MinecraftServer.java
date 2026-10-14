@@ -2165,7 +2165,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       0.41999998697887,
       0.41999998698006
    };
-   private static final long ab = 80170724599293L;
 
    public MinecraftServer(Proxy proxy, File workDir) {
       this.serverProxy = proxy;
@@ -2205,7 +2204,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
          this.setUserMessage("menu.convertingLevel");
          this.getActiveAnvilConverter().convertMapFormat(worldNameIn, new IProgressUpdate() {
             private long startTime = System.currentTimeMillis();
-            private static final long a = 53163251166513L;
 
             @Override
             public void displaySavingString(String message) {
@@ -2683,8 +2681,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
    public CrashReport addServerInfoToCrashReport(CrashReport report) {
       report.getCategory().addCrashSectionCallable("Profiler Position", new Callable<String>() {
-         private static final long a = 138791413770376L;
-
          public String call() throws Exception {
             return MinecraftServer.this.theProfiler.profilingEnabled ? MinecraftServer.this.theProfiler.getNameOfLastSection() : "N/A (disabled)";
          }
@@ -2694,8 +2690,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
             .addCrashSectionCallable(
                "Player Count",
                new Callable<String>() {
-                  private static final long a = 22288821541531L;
-
                   public String call() {
                      return MinecraftServer.this.serverConfigManager.getCurrentPlayerCount()
                         + " / "
@@ -3159,10 +3153,5 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
    public int getNetworkCompressionTreshold() {
       return 256;
-   }
-
-   static {
-      long l = ab ^ 83860601612622L;
-      long m = 1429724660010094174L ^ l;
    }
 }

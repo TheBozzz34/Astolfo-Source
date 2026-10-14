@@ -13,7 +13,6 @@ public class ContainerWorkbench extends Container {
    public IInventory craftResult = new InventoryCraftResult();
    private World worldObj;
    private BlockPos pos;
-   private static final long a = 25637773429L;
 
    public ContainerWorkbench(InventoryPlayer playerInventory, World worldIn, BlockPos posIn) {
       this.worldObj = worldIn;

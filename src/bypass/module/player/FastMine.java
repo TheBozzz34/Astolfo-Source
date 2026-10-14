@@ -117,7 +117,6 @@ public final class FastMine extends Module {
          }
       }
    };
-   private static final long c = 65962023398508L;
 
    public FastMine(Category category) {
       super(category);

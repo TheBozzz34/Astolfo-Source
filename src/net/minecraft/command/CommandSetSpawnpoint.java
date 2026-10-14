@@ -6,8 +6,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandSetSpawnpoint extends CommandBase {
-   private static final long b = 56433896358896L;
-
    @Override
    public String getCommandName() {
       return "spawnpoint";

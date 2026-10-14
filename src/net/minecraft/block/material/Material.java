@@ -48,8 +48,6 @@ public class Material {
    private boolean requiresNoTool = true;
    private int mobilityFlag;
    private boolean isAdventureModeExempt;
-   private static final long a = 26504449481523L;
-   private static final long c = -4229544477246619646L;
 
    public Material(MapColor color) {
       this.materialMapColor = color;
@@ -117,7 +115,7 @@ public class Material {
    }
 
    public Material a() {
-      this.mobilityFlag = (int)c;
+      this.mobilityFlag = 2;
       return this;
    }
 

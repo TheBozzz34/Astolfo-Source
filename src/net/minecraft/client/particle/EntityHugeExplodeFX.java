@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 public class EntityHugeExplodeFX extends EntityFX {
    private int timeSinceStart;
    private int maximumTime = 8;
-   private static final long ab = 67215327749180L;
 
    public EntityHugeExplodeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);

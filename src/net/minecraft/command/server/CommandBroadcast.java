@@ -11,8 +11,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class CommandBroadcast extends CommandBase {
-   private static final long b = 72447635736398L;
-
    @Override
    public String getCommandName() {
       return "say";

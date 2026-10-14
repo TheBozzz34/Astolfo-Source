@@ -32,8 +32,6 @@ public class ItemInWorldManager {
    private BlockPos field_180241_i = BlockPos.ORIGIN;
    private int initialBlockDamage;
    private int durabilityRemainingOnBlock = -1;
-   private static final long a = 109636540683536L;
-   private static final long j = -6710022656306968623L;
 
    public ItemInWorldManager(World worldIn) {
       this.theWorld = worldIn;
@@ -211,7 +209,7 @@ public class ItemInWorldManager {
          }
       }
 
-      this.theWorld.playAuxSFXAtEntity(this.thisPlayerMP, (int)j, pos, Block.getStateId(iBlockState));
+      this.theWorld.playAuxSFXAtEntity(this.thisPlayerMP, 2001, pos, Block.getStateId(iBlockState));
       boolean bl = this.removeBlock(pos);
       if (this.isCreative()) {
          this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(this.theWorld, pos));

@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class NBTTagByte extends NBTBase.NBTPrimitive {
    private byte data;
-   private static final long a = 63726145863093L;
 
    public NBTTagByte() {
    }

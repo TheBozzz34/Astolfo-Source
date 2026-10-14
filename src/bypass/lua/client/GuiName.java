@@ -11,12 +11,8 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
 public final class GuiName extends ZeroArgFunction {
-   private static final long a = 1408962794151L;
-
    @Override
    public LuaValue call() {
-      long l = a ^ 94187931862085L;
-      long m = l ^ 109496321698641L;
       if (ClientAccess.mc.currentScreen != null) {
          if (ClientAccess.mc.currentScreen instanceof GuiContainer && !(ClientAccess.mc.currentScreen instanceof GuiInventory)) {
             return valueOf("chest");

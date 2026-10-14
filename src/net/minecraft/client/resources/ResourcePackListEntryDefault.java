@@ -15,7 +15,6 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry {
    private static final Logger logger = LogManager.getLogger();
    private final IResourcePack field_148320_d = this.mc.getResourcePackRepository().rprDefaultResourcePack;
    private final ResourceLocation resourcePackIcon;
-   private static final long a = 63455722881498L;
 
    public ResourcePackListEntryDefault(GuiScreenResourcePacks resourcePacksGUIIn) {
       super(resourcePacksGUIIn);

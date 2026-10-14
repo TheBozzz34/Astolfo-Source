@@ -5,8 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 public class LockCode {
    public static final LockCode EMPTY_CODE = new LockCode("");
    private final String lock;
-   private static final long a = 16861613365010L;
-   private static final long e = -3675970501856985080L;
 
    public LockCode(String code) {
       this.lock = code;
@@ -25,7 +23,7 @@ public class LockCode {
    }
 
    public static LockCode fromNBT(NBTTagCompound nbt) {
-      if (nbt.hasKey("Lock", (int)e)) {
+      if (nbt.hasKey("Lock", 8)) {
          String string = nbt.getString("Lock");
          return new LockCode(string);
       } else {

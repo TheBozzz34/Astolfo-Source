@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 
 public class BlockCrops extends BlockBush implements IGrowable {
    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
-   private static final long e = 125088117987560L;
 
    public BlockCrops() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));

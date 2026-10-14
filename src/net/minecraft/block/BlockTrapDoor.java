@@ -24,7 +24,6 @@ public class BlockTrapDoor extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
    public static final PropertyBool OPEN = PropertyBool.create("open");
    public static final PropertyEnum<BlockTrapDoor.DoorHalf> HALF = PropertyEnum.create("half", BlockTrapDoor.DoorHalf.class);
-   private static final long i = 69940603479000L;
 
    public BlockTrapDoor(Material materialIn) {
       super(materialIn);

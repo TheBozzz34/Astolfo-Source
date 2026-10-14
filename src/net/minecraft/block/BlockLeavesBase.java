@@ -11,7 +11,6 @@ import net.minecraft.world.IBlockAccess;
 public class BlockLeavesBase extends Block {
    public boolean fancyGraphics;
    private static Map mapOriginalOpacity = new IdentityHashMap();
-   private static final long bb = 97820776847832L;
 
    public BlockLeavesBase(Material materialIn, boolean fancyGraphics) {
       super(materialIn);

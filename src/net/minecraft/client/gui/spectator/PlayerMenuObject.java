@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 public class PlayerMenuObject implements ISpectatorMenuObject {
    private final GameProfile profile;
    private final ResourceLocation resourceLocation;
-   private static final long a = 54759314241399L;
 
    public PlayerMenuObject(GameProfile profileIn) {
       this.profile = profileIn;

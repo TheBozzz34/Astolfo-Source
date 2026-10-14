@@ -10,8 +10,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityEgg extends EntityThrowable {
-   private static final long ab = 19204106887080L;
-
    public EntityEgg(World worldIn) {
       super(worldIn);
    }

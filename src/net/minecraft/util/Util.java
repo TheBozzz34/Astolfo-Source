@@ -5,8 +5,6 @@ import java.util.concurrent.FutureTask;
 import org.apache.logging.log4j.Logger;
 
 public class Util {
-   private static final long a = 103166176342370L;
-
    public static Util.EnumOS getOSType() {
       String string = System.getProperty("os.name").toLowerCase();
       return string.contains("win")

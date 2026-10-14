@@ -1,9 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerRiverInit extends GenLayer {
-   private static final long c = 125836227461777L;
-   private static final long g = -1210118275577113633L;
-
    public GenLayerRiverInit(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;
@@ -17,7 +14,7 @@ public class GenLayerRiverInit extends GenLayer {
       for (int i = 0; i < areaHeight; i++) {
          for (int j = 0; j < areaWidth; j++) {
             this.initChunkSeed(j + areaX, i + areaY);
-            ints2[j + i * areaWidth] = ints[j + i * areaWidth] > 0 ? this.nextInt((int)g) + 2 : 0;
+            ints2[j + i * areaWidth] = ints[j + i * areaWidth] > 0 ? this.nextInt(299999) + 2 : 0;
          }
       }
 

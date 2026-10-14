@@ -17,7 +17,6 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
    private int mapMaxX;
    private int mapMaxY;
    private byte[] mapDataBytes;
-   private static final long a = 123116853315876L;
 
    public S34PacketMaps() {
    }

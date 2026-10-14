@@ -10,9 +10,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemSnow extends ItemBlock {
-   private static final long a = 109821809611813L;
-   private static final long d = -6940690476303384569L;
-
    public ItemSnow(Block block) {
       super(block);
       this.setMaxDamage(0);
@@ -40,7 +37,7 @@ public class ItemSnow extends ItemBlock {
 
       if (block2 == this.block) {
          int i = iBlockState.getValue(BlockSnow.LAYERS);
-         if (i <= (int)d) {
+         if (i <= 7) {
             IBlockState iBlockState2 = iBlockState.withProperty(BlockSnow.LAYERS, i + 1);
             AxisAlignedBB axisAlignedBB = this.block.getCollisionBoundingBox(worldIn, blockPos, iBlockState2);
             if (axisAlignedBB != null && worldIn.checkNoEntityCollision(axisAlignedBB) && worldIn.setBlockState(blockPos, iBlockState2, 2)) {

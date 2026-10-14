@@ -16,7 +16,6 @@ public abstract class EntityAIDoorInteract extends EntityAIBase {
    public boolean hasStoppedDoorInteraction;
    public float entityPositionX;
    public float entityPositionZ;
-   private static final long b = 104376205134183L;
 
    public EntityAIDoorInteract(EntityLiving entityIn) {
       this.theEntity = entityIn;

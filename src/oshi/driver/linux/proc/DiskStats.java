@@ -10,8 +10,6 @@ import oshi.util.platform.linux.ProcPath;
 
 @ThreadSafe
 public final class DiskStats {
-   private static final long a = 135567122227644L;
-
    private DiskStats() {
    }
 

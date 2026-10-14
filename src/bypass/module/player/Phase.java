@@ -262,7 +262,6 @@ public final class Phase extends Module {
             }
       }
    };
-   private static final long d = 39151312453650L;
 
    public Phase(Category category) {
       super(category);
@@ -317,34 +316,34 @@ public final class Phase extends Module {
       return false;
    }
 
-   public static void moveForward(double d2) {
-      double d = mc.thePlayer.movementInput.moveForward;
-      double e = mc.thePlayer.movementInput.moveStrafe;
+   public static void moveForward(double d) {
+      double e = mc.thePlayer.movementInput.moveForward;
+      double d2 = mc.thePlayer.movementInput.moveStrafe;
       float f = mc.thePlayer.rotationYaw;
-      if (d != 0.0) {
-         if (e > 0.0) {
-            f += d > 0.0 ? -45 : 45;
-         } else if (e < 0.0) {
-            f += d > 0.0 ? 45 : -45;
+      if (e != 0.0) {
+         if (d2 > 0.0) {
+            f += e > 0.0 ? -45 : 45;
+         } else if (d2 < 0.0) {
+            f += e > 0.0 ? 45 : -45;
          }
 
-         e = 0.0;
-         if (d > 0.0) {
-            d = 1.0;
-         } else if (d < 0.0) {
-            d = -1.0;
+         d2 = 0.0;
+         if (e > 0.0) {
+            e = 1.0;
+         } else if (e < 0.0) {
+            e = -1.0;
          }
       }
 
       double d3 = mc.thePlayer.posX;
       double d4 = mc.thePlayer.posY;
       double d5 = mc.thePlayer.posZ;
-      double d6 = d * d2 * Math.cos(Math.toRadians(f + 88.0F)) + e * d2 * Math.sin(Math.toRadians(f + 88.0F));
-      double d7 = d * d2 * Math.sin(Math.toRadians(f + 88.0F)) - e * d2 * Math.cos(Math.toRadians(f + 88.0F));
+      double d6 = e * d * Math.cos(Math.toRadians(f + 88.0F)) + d2 * d * Math.sin(Math.toRadians(f + 88.0F));
+      double d7 = e * d * Math.sin(Math.toRadians(f + 88.0F)) - d2 * d * Math.cos(Math.toRadians(f + 88.0F));
       mc.thePlayer.setPosition(d3 + d6, d4, d5 + d7);
    }
 
-   public static boolean isBlockBelow(double d2) {
-      return !mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -d2, 0.0)).isEmpty();
+   public static boolean isBlockBelow(double d) {
+      return !mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0, -d, 0.0)).isEmpty();
    }
 }

@@ -20,7 +20,6 @@ public class PerfCounterQuery<T extends Enum<T>> {
    public static final String TOTAL_INSTANCES = "*_Total";
    public static final String NOT_TOTAL_INSTANCE = "^_Total";
    public static final String NOT_TOTAL_INSTANCES = "^*_Total";
-   private static final long a = 12682909698198L;
 
    public PerfCounterQuery(Class<T> propertyEnum, String perfObject, String perfWmiClass) {
       this(propertyEnum, perfObject, perfWmiClass, perfObject);

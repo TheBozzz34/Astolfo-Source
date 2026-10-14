@@ -36,7 +36,6 @@ public final class BotDetector extends HiddenModule {
          }
       }
    };
-   private static final long d = 78223321542629L;
 
    public BotDetector() {
       client.getEventBus().subscribe(this);

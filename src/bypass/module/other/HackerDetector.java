@@ -49,12 +49,6 @@ public final class HackerDetector extends Module {
    private final ArrayList<String> l = new ArrayList<>();
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
-      long m = c ^ 4603551041761L;
-      long n = m ^ 100016226425167L;
-      int i = (int)((m ^ 100016226425167L) >>> 56);
-      int j = (int)((m ^ 100016226425167L) << 8 >>> 32);
-      int k = (int)(n << 40 >>> 40);
-      long l2 = m ^ 85645520157928L;
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
          if (packetEvent.getPacket() instanceof S14PacketEntity) {
             S14PacketEntity s14PacketEntity = (S14PacketEntity)packetEvent.getPacket();
@@ -154,7 +148,6 @@ public final class HackerDetector extends Module {
    };
    @EventHandler(WorldLoadEvent.class)
    private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.N.clear();
-   private static final long c = 52323026580723L;
 
    public HackerDetector(Category category) {
       super(category);

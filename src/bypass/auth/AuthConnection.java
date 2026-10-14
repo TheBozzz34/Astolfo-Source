@@ -43,7 +43,6 @@ public class AuthConnection implements ClientAccess {
    private final SocketConnection O;
    private final Connector A;
    private final PacketHandlers R = new PacketHandlers();
-   private static final long b = 113458559165862L;
 
    public AuthConnection() {
       this.g = PacketWriters.U()
@@ -94,9 +93,6 @@ public class AuthConnection implements ClientAccess {
                                                    () -> this.Z(
                                                       () -> this.Z(
                                                          () -> {
-                                                            long m = b ^ 56795120037848L;
-                                                            long n = (m ^ 88444972987244L) >>> 16;
-                                                            int i = (int)((m ^ 88444972987244L) << 48 >>> 48);
                                                             if (DisconnectHandler.disconnected) {
                                                                mc.mouseHelper
                                                                   .Y()

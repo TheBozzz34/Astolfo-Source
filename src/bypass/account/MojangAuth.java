@@ -14,7 +14,6 @@ public class MojangAuth implements Authenticator {
    private UUID C;
    public int Y;
    public long T;
-   private static final long b = 110086881115662L;
 
    public MojangAuth(String string, String string2, UUID uuid, UUID uuid2) {
       this.X = string;

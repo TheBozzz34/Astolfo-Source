@@ -60,7 +60,6 @@ public enum Astolfo implements Loadable {
    private String configName = "default";
    private Proxy proxy = Proxy.NO_PROXY;
    private static final Astolfo[] V = new Astolfo[]{INSTANCE};
-   private static final long b = 49654332244602L;
 
    Astolfo() {
       this.loadables = new ArrayList<>();
@@ -68,10 +67,7 @@ public enum Astolfo implements Loadable {
 
    @Override
    public void load() {
-      long l = b ^ 56709646454107L;
-      long m = l ^ 22030267799943L;
-      long n = l ^ 123509045112395L;
-      this.register(n, this.x());
+      this.register(121968519176554L, this.x());
       ViaFabric.INSTANCE.init();
       this.serverManager = new ServerManager();
       Runtime.getRuntime().addShutdownHook(new Thread(this::a));

@@ -83,7 +83,6 @@ public abstract class ServerConfigurationManager {
    private WorldSettings.GameType gameType;
    private boolean commandsAllowedForAll;
    private int playerPingIndex;
-   private static final long b = 60629317350356L;
 
    public ServerConfigurationManager(MinecraftServer server) {
       this.mcServer = server;
@@ -93,13 +92,11 @@ public abstract class ServerConfigurationManager {
    }
 
    public void initializeConnectionToPlayer(NetworkManager netManager, EntityPlayerMP playerIn) {
-      long l = b ^ 21680138897192L;
       GameProfile gameProfile = playerIn.getGameProfile();
       PlayerProfileCache playerProfileCache = this.mcServer.getPlayerProfileCache();
       GameProfile gameProfile2 = playerProfileCache.getProfileByUUID(gameProfile.getId());
       String string = gameProfile2 == null ? gameProfile.getName() : gameProfile2.getName();
       playerProfileCache.addEntry(gameProfile);
-      long m = 6380641756622188446L ^ l;
       NBTTagCompound nbtTagCompound = this.readPlayerDataFromFile(playerIn);
       playerIn.setWorld(this.mcServer.worldServerForDimension(playerIn.dimension));
       playerIn.theItemInWorldManager.setWorld((WorldServer)playerIn.worldObj);

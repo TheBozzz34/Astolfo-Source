@@ -15,7 +15,6 @@ public class GuiMessage extends GuiScreen {
    private final List listLines2 = Lists.newArrayList();
    public String confirmButtonText;
    private int ticksUntilEnable;
-   private static final long a = 77574471849270L;
 
    public GuiMessage(GuiScreen parentScreen, String line1, String line2) {
       this.parentScreen = parentScreen;

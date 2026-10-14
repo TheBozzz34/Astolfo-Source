@@ -11,7 +11,6 @@ public class ListQuadsOverlay {
    private List<BakedQuad> c = new ArrayList<>();
    private List<IBlockState> o = new ArrayList<>();
    private List<BakedQuad> Y = Arrays.asList();
-   private static final long a = 85620408113011L;
 
    public void P(BakedQuad bakedQuad, IBlockState iBlockState) {
       this.c.add(bakedQuad);

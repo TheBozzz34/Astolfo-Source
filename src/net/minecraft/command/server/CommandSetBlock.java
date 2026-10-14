@@ -18,8 +18,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandSetBlock extends CommandBase {
-   private static final long b = 23165899919848L;
-
    @Override
    public String getCommandName() {
       return "setblock";

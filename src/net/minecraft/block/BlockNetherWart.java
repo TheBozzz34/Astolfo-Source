@@ -16,8 +16,6 @@ import net.minecraft.world.World;
 
 public class BlockNetherWart extends BlockBush {
    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
-   private static final long e = 31405361160669L;
-   private static final long i = 2228811254636478474L;
 
    public BlockNetherWart() {
       super(Material.plants, MapColor.redColor);
@@ -40,9 +38,9 @@ public class BlockNetherWart extends BlockBush {
 
    @Override
    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-      int j = state.getValue(AGE);
-      if (j < 3 && rand.nextInt((int)i) == 0) {
-         state = state.withProperty(AGE, j + 1);
+      int i = state.getValue(AGE);
+      if (i < 3 && rand.nextInt(10) == 0) {
+         state = state.withProperty(AGE, i + 1);
          worldIn.setBlockState(pos, state, 2);
       }
 

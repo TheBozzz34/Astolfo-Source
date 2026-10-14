@@ -17,8 +17,6 @@ import net.minecraft.world.World;
 
 public class BlockCarpet extends Block {
    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
-   private static final long e = 53459387380140L;
-   private static final long i = 2671493276137160720L;
 
    public BlockCarpet() {
       super(Material.carpet);
@@ -96,8 +94,8 @@ public class BlockCarpet extends Block {
 
    @Override
    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-      for (int j = 0; j < (int)i; j++) {
-         list.add(new ItemStack(itemIn, 1, j));
+      for (int i = 0; i < 16; i++) {
+         list.add(new ItemStack(itemIn, 1, i));
       }
    }
 

@@ -8,7 +8,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S03PacketTimeUpdate implements Packet<INetHandlerPlayClient> {
    private long totalWorldTime;
    private long worldTime;
-   private static final long a = 31101214852979L;
 
    public S03PacketTimeUpdate() {
    }

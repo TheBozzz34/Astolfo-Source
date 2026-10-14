@@ -13,7 +13,6 @@ public final class FreeBsdGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<Long> total = Memoizer.memoize(FreeBsdGlobalMemory::queryPhysMem);
    private final Supplier<Long> pageSize = Memoizer.memoize(FreeBsdGlobalMemory::queryPageSize);
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(FreeBsdGlobalMemory::createVirtualMemory);
-   private static final long c = 117430927831713L;
 
    @Override
    public long d() {

@@ -5,7 +5,6 @@ import net.minecraft.util.Vec3;
 public class CustomColorFader {
    private Vec3 color = null;
    private long timeUpdate = System.currentTimeMillis();
-   private static final long a = 11617812161920L;
 
    public Vec3 getColor(double x, double y, double z) {
       if (this.color == null) {

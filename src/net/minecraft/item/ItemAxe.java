@@ -10,7 +10,6 @@ public class ItemAxe extends ItemTool {
    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(
       Blocks.planks, Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest, Blocks.pumpkin, Blocks.lit_pumpkin, Blocks.melon_block, Blocks.ladder
    );
-   private static final long a = 103751333737296L;
 
    public ItemAxe(Item.ToolMaterial material) {
       super(3.0F, material, EFFECTIVE_ON);

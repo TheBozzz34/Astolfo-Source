@@ -6,8 +6,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.ResourcePackListEntry;
 
 public class GuiResourcePackAvailable extends GuiResourcePackList {
-   private static final long c = 21114068759901L;
-
    public GuiResourcePackAvailable(Minecraft mcIn, int i, int j, List<ResourcePackListEntry> list) {
       super(mcIn, i, j, list);
    }

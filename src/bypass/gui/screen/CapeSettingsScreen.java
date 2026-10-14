@@ -15,7 +15,6 @@ import net.minecraft.client.resources.I18n;
 
 public class CapeSettingsScreen extends GuiScreen {
    private GuiScreen m;
-   private static final long a = 53481734187291L;
 
    public CapeSettingsScreen(GuiScreen guiScreen) {
       this.m = guiScreen;

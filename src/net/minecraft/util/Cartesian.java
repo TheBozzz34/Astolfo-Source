@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Cartesian {
-   private static final long a = 118693516936280L;
-
    public static <T> Iterable<T[]> cartesianProduct(Class<T> clazz, Iterable<? extends Iterable<? extends T>> sets) {
       return new Cartesian.Product<>(clazz, toArray(Iterable.class, sets));
    }
@@ -53,7 +51,6 @@ public class Cartesian {
    public static class Product<T> implements Iterable<T[]> {
       private final Class<T> clazz;
       private final Iterable<? extends T>[] iterables;
-      private static final long a = 100083686606487L;
 
       public Product(Class<T> clazz, Iterable<? extends T>[] iterables) {
          this.clazz = clazz;
@@ -72,7 +69,6 @@ public class Cartesian {
          private final Iterable<? extends T>[] iterables;
          private final Iterator<? extends T>[] iterators;
          private final T[] results;
-         private static final long a = 67822640136776L;
 
          public ProductIterator(Class<T> clazzIn, Iterable<? extends T>[] iterablesIn) {
             this.iterables = iterablesIn;

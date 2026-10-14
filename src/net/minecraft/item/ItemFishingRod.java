@@ -7,11 +7,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemFishingRod extends Item {
-   private static final long a = 48710590694917L;
-   private static final long d = 2104916987338555456L;
-
    public ItemFishingRod() {
-      this.setMaxDamage((int)d);
+      this.setMaxDamage(64);
       this.setMaxStackSize(1);
       this.setCreativeTab(CreativeTabs.tabTools);
    }

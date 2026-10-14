@@ -11,7 +11,6 @@ import net.minecraft.util.MathHelper;
 public class SlotFurnaceOutput extends Slot {
    private EntityPlayer thePlayer;
    private int field_75228_b;
-   private static final long a = 128512174167017L;
 
    public SlotFurnaceOutput(EntityPlayer player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
       super(inventoryIn, slotIndex, xPosition, yPosition);

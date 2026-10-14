@@ -108,7 +108,6 @@ public class Pet {
    private int level;
    private int experience;
    private String name;
-   private static final long a = 72919244296480L;
 
    public Pet(Map<String, Object> stats) {
       this.stats = stats;

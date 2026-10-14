@@ -4,8 +4,6 @@ import java.nio.FloatBuffer;
 import java.util.Arrays;
 
 public class SMath {
-   private static final long a = 17649021514479L;
-
    public static void multiplyMat4xMat4(float[] matOut, float[] matA, float[] matB) {
       for (int i = 0; i < 4; i++) {
          for (int j = 0; j < 4; j++) {

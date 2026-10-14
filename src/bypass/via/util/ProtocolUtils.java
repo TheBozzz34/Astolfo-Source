@@ -7,9 +7,6 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ProtocolUtils {
-   private static final long a = 138868623342436L;
-   private static final long b = -3112017149586046928L;
-
    public static boolean isSupported(int i) {
       return isSupported(i, Via.getManager().getProviders().get(NativeVersionProvider.class).getServerProtocolVersion());
    }
@@ -28,7 +25,7 @@ public class ProtocolUtils {
          return true;
       } catch (NumberFormatException numberFormatException) {
          try {
-            Integer.parseInt(string + (int)b);
+            Integer.parseInt(string + '0');
             return true;
          } catch (NumberFormatException numberFormatException2) {
             return ProtocolVersion.getClosest(string) != null

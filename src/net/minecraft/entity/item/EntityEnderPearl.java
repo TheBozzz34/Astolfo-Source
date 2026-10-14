@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 
 public class EntityEnderPearl extends EntityThrowable {
    public EntityLivingBase field_181555_c;
-   private static final long ab = 116284785634040L;
-   private static final long hb = 2154663317195456544L;
 
    public EntityEnderPearl(World worldIn) {
       super(worldIn);
@@ -40,7 +38,7 @@ public class EntityEnderPearl extends EntityThrowable {
          movingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entityLivingBase), 0.0F);
       }
 
-      for (int i = 0; i < (int)hb; i++) {
+      for (int i = 0; i < 32; i++) {
          this.worldObj
             .spawnParticle(
                EnumParticleTypes.PORTAL,

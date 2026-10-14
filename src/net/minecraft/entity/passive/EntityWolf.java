@@ -45,7 +45,6 @@ public class EntityWolf extends EntityTameable {
    private boolean isShaking;
    private float timeWolfIsShaking;
    private float prevTimeWolfIsShaking;
-   private static final long gb = 33326720328400L;
 
    public EntityWolf(World worldIn) {
       super(worldIn);
@@ -65,8 +64,6 @@ public class EntityWolf extends EntityTameable {
       this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
       this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
       this.targetTasks.addTask(4, new EntityAITargetNonTamed<>(this, EntityAnimal.class, false, new Predicate<Entity>() {
-         private static final long a = 13487023545426L;
-
          public boolean apply(Entity entity) {
             return entity instanceof EntitySheep || entity instanceof EntityRabbit;
          }

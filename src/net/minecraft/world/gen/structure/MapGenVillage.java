@@ -15,7 +15,6 @@ public class MapGenVillage extends MapGenStructure {
    private int terrainType;
    private int field_82665_g = 32;
    private int field_82666_h = 8;
-   private static final long c = 92214098246919L;
 
    public MapGenVillage() {
    }
@@ -73,7 +72,6 @@ public class MapGenVillage extends MapGenStructure {
 
    public static class Start extends StructureStart {
       private boolean hasMoreThanTwoComponents;
-      private static final long a = 133109328593550L;
 
       public Start() {
       }

@@ -13,7 +13,6 @@ import oshi.util.tuples.Quartet;
 @Immutable
 public final class WindowsBaseboard extends AbstractBaseboard {
    private final Supplier<Quartet<String, String, String, String>> manufModelVersSerial = Memoizer.memoize(WindowsBaseboard::queryManufModelVersSerial);
-   private static final long b = 45035938544427L;
 
    @Override
    public String p() {

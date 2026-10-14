@@ -26,7 +26,6 @@ public class MapData extends WorldSavedData {
    public List<MapData.MapInfo> playersArrayList = Lists.newArrayList();
    private Map<EntityPlayer, MapData.MapInfo> playersHashMap = Maps.newHashMap();
    public Map<String, Vec4b> mapDecorations = Maps.newLinkedHashMap();
-   private static final long a = 89955657118791L;
 
    public MapData(String mapname) {
       super(mapname);
@@ -208,7 +207,6 @@ public class MapData extends WorldSavedData {
       private int maxY = 127;
       private int field_176109_i;
       public int field_82569_d;
-      private static final long a = 102825963181528L;
 
       public MapInfo(EntityPlayer player) {
          this.entityplayerObj = player;

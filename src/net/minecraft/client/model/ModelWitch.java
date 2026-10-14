@@ -7,7 +7,6 @@ public class ModelWitch extends ModelVillager {
    public boolean field_82900_g;
    private ModelRenderer field_82901_h = new ModelRenderer(this).setTextureSize(64, 128);
    private ModelRenderer witchHat;
-   private static final long b = 39182929443546L;
 
    public ModelWitch(float f) {
       super(f, 0.0F, 64, 128);

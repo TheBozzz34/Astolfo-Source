@@ -5,8 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class ItemRenderer implements ElementRenderer<TabGuiItem> {
-   private static final long a = 44208449283911L;
-
    public void x(TabGuiItem tabGuiItem, ScaledResolution scaledResolution, Minecraft minecraft) {
       float f = (tabGuiItem.s().isSelected(tabGuiItem) ? 8 : 2) - tabGuiItem.k;
       tabGuiItem.k += f / 9.5F;

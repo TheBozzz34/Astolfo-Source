@@ -12,7 +12,6 @@ public class S33PacketUpdateSign implements Packet<INetHandlerPlayClient> {
    private World world;
    private BlockPos blockPos;
    private IChatComponent[] lines;
-   private static final long a = 38356130291117L;
 
    public S33PacketUpdateSign() {
    }

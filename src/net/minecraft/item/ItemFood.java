@@ -16,7 +16,6 @@ public class ItemFood extends Item {
    private int potionDuration;
    private int potionAmplifier;
    private float potionEffectProbability;
-   private static final long d = 60331739898404L;
 
    public ItemFood(int amount, float saturation, boolean isWolfFood) {
       this.healAmount = amount;

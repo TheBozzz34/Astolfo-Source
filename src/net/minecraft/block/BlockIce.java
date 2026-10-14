@@ -16,9 +16,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public class BlockIce extends BlockBreakable {
-   private static final long i = 86443528938772L;
-   private static final long l = -3187943336631599093L;
-
    public BlockIce() {
       super(Material.ice, false);
       this.slipperiness = 0.98F;
@@ -62,7 +59,7 @@ public class BlockIce extends BlockBreakable {
 
    @Override
    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-      if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > (int)l - this.getLightOpacity()) {
+      if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11 - this.getLightOpacity()) {
          if (worldIn.provider.doesWaterVaporize()) {
             worldIn.setBlockToAir(pos);
          } else {

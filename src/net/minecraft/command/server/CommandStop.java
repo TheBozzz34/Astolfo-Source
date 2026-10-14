@@ -6,8 +6,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
 public class CommandStop extends CommandBase {
-   private static final long b = 521582521558L;
-
    @Override
    public String getCommandName() {
       return "stop";

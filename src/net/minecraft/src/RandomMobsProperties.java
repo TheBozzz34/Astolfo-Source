@@ -11,8 +11,6 @@ public class RandomMobsProperties {
    public String basePath = null;
    public ResourceLocation[] resourceLocations = null;
    public RandomMobsRule[] rules = null;
-   private static final long a = 26889798730540L;
-   private static final long e = -7664019069812604672L;
 
    public RandomMobsProperties(String path, ResourceLocation[] variants) {
       ConnectedParser connectedParser = new ConnectedParser("RandomMobs");
@@ -87,7 +85,7 @@ public class RandomMobsProperties {
          }
       }
 
-      int j = (int)e;
+      int j = 256;
       if (string2 != null) {
          j = Config.parseInt(string2, -1);
          if (j < 0) {

@@ -7,8 +7,6 @@ import oshi.util.platform.mac.SysctlUtil;
 @Deprecated
 public class MacOSVersionInfoEx extends AbstractOSVersionInfoEx {
    private int osxVersionNumber = -1;
-   private static final long b = 63069949332887L;
-   private static final long k = 3639299366709100554L;
 
    public MacOSVersionInfoEx() {
       this.n(System.getProperty("os.version"));
@@ -21,7 +19,7 @@ public class MacOSVersionInfoEx extends AbstractOSVersionInfoEx {
    }
 
    private String parseCodeName() {
-      if (ParseUtil.getFirstIntValue(this.getVersion()) == (int)k) {
+      if (ParseUtil.getFirstIntValue(this.getVersion()) == 10) {
          this.osxVersionNumber = ParseUtil.getNthIntValue(this.getVersion(), 2);
          switch (this.osxVersionNumber) {
             case 0:

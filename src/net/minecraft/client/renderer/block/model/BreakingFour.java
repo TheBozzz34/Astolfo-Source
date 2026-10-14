@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 public class BreakingFour extends BakedQuad {
    private final TextureAtlasSprite texture;
-   private static final long b = 3504162992722L;
 
    public BreakingFour(BakedQuad quad, TextureAtlasSprite textureIn) {
       super(Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length), quad.tintIndex, FaceBakery.getFacingFromVertexData(quad.getVertexData()));

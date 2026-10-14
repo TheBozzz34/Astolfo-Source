@@ -66,7 +66,6 @@ public class WindowsOperatingSystem extends AbstractOperatingSystem {
    private static final long x = querySystemBootTime();
    private Supplier<Map<Integer, OSProcess>> processMapFromRegistry = Memoizer.memoize(this::E, Memoizer.defaultExpiration());
    private Supplier<Map<Integer, OSProcess>> processMapFromPerfCounters = Memoizer.memoize(this::N, Memoizer.defaultExpiration());
-   private static final long d = 40454780084428L;
 
    public WindowsOperatingSystem() {
       this.version = new WindowsOSVersionInfoEx();

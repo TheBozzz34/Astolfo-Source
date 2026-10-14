@@ -16,7 +16,6 @@ import net.minecraft.world.IBlockAccess;
 public class BlockFluidRenderer {
    private TextureAtlasSprite[] atlasSpritesLava = new TextureAtlasSprite[2];
    private TextureAtlasSprite[] atlasSpritesWater = new TextureAtlasSprite[2];
-   private static final long a = 30543818363342L;
 
    public BlockFluidRenderer() {
       this.initAtlasSprites();

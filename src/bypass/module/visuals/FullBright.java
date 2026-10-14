@@ -36,7 +36,6 @@ public final class FullBright extends Module {
          }
       }
    };
-   private static final long c = 93275052009544L;
 
    public FullBright(Category category) {
       super(category);

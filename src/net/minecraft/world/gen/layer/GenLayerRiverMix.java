@@ -5,8 +5,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class GenLayerRiverMix extends GenLayer {
    private GenLayer biomePatternGeneratorChain;
    private GenLayer riverPatternGeneratorChain;
-   private static final long c = 120602038762368L;
-   private static final long g = 6570475552497467647L;
 
    public GenLayerRiverMix(long l, GenLayer genLayer, GenLayer genLayer2) {
       super(l);
@@ -34,7 +32,7 @@ public class GenLayerRiverMix extends GenLayer {
             if (ints[i] == BiomeGenBase.icePlains.biomeID) {
                ints3[i] = BiomeGenBase.frozenRiver.biomeID;
             } else if (ints[i] != BiomeGenBase.mushroomIsland.biomeID && ints[i] != BiomeGenBase.mushroomIslandShore.biomeID) {
-               ints3[i] = ints2[i] & (int)g;
+               ints3[i] = ints2[i] & 0xFF;
             } else {
                ints3[i] = BiomeGenBase.mushroomIslandShore.biomeID;
             }

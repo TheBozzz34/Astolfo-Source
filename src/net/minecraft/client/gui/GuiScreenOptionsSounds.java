@@ -16,7 +16,6 @@ public class GuiScreenOptionsSounds extends GuiScreen {
    private final GameSettings game_settings_4;
    public String field_146507_a = "Options";
    private String field_146508_h;
-   private static final long a = 87688598720564L;
 
    public GuiScreenOptionsSounds(GuiScreen guiScreen, GameSettings gameSettings) {
       this.field_146505_f = guiScreen;
@@ -76,7 +75,6 @@ public class GuiScreenOptionsSounds extends GuiScreen {
       private final String field_146152_s;
       public float field_146156_o = 1.0F;
       public boolean field_146155_p;
-      private static final long c = 44835809259567L;
 
       public Button(int i, int j, int k, SoundCategory soundCategory, boolean bl) {
          super(i, j, k, bl ? 310 : 150, 20, "");

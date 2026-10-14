@@ -17,7 +17,6 @@ public final class RotationUtil implements ClientAccess {
    public static double G = j.nextDouble();
    public static double z = j.nextDouble();
    public static double q = j.nextDouble();
-   private static final long b = 54267540324266L;
 
    public static AimRotation E(Vec3 vec3, boolean bl) {
       Vec3 vec32 = new Vec3(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);

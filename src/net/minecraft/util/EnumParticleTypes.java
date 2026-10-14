@@ -55,7 +55,6 @@ public enum EnumParticleTypes {
    private final int argumentCount;
    private static final Map<Integer, EnumParticleTypes> PARTICLES = Maps.newHashMap();
    private static final String[] PARTICLE_NAMES;
-   private static final long a = 4866142632071L;
 
    EnumParticleTypes(String particleNameIn, int particleIDIn, boolean bl, int argumentCountIn) {
       this.particleName = particleNameIn;

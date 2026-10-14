@@ -26,7 +26,6 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
    public float field_145924_q;
    private static Random rand = new Random();
    private String customName;
-   private static final long a = 1091837686886L;
 
    @Override
    public void writeToNBT(NBTTagCompound compound) {

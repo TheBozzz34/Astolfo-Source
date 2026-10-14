@@ -14,7 +14,6 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
    private int chunkZ;
    private S21PacketChunkData.Extracted extractedData;
    private boolean field_149279_g;
-   private static final long a = 109847491003025L;
 
    public S21PacketChunkData() {
    }

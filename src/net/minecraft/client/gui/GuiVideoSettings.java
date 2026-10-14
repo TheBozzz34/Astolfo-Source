@@ -34,7 +34,6 @@ public class GuiVideoSettings extends GuiScreen {
       GameSettings.Options.FOG_START
    };
    private TooltipProviderOptions optionsRowList = new TooltipProviderOptions(this);
-   private static final long a = 101166152679118L;
 
    public GuiVideoSettings(GuiScreen parentScreenIn, GameSettings gameSettingsIn) {
       this.parentGuiScreen = parentScreenIn;

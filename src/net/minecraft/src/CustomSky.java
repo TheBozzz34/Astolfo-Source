@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 
 public class CustomSky {
    private static CustomSkyLayer[][] worldSkyLayers = (CustomSkyLayer[][])null;
-   private static final long a = 13186635971862L;
 
    public static void v() {
       worldSkyLayers = (CustomSkyLayer[][])null;

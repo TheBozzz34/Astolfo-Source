@@ -17,7 +17,6 @@ public enum SettingType {
    private int E;
    private String R;
    private Class<?> q;
-   private static final long a = 129022484490582L;
 
    SettingType(String string2, int j, Class<?> class2) {
       this.E = j;

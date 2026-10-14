@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 public class ItemSlab extends ItemBlock {
    private final BlockSlab singleSlab;
    private final BlockSlab doubleSlab;
-   private static final long a = 94505333926814L;
 
    public ItemSlab(Block block, BlockSlab singleSlab, BlockSlab doubleSlab) {
       super(block);

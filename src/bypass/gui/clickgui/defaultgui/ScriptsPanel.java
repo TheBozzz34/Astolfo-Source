@@ -23,7 +23,6 @@ public class ScriptsPanel extends Container {
    private DefaultClickGuiScreen Q;
    private Stopwatch r = new Stopwatch();
    private SimpleDateFormat K = new SimpleDateFormat("MM/dd/yyyy");
-   private static final long d = 34096501654596L;
 
    public ScriptsPanel(DefaultClickGuiScreen defaultClickGuiScreen) {
       super("scripts", 0.0F, 0.0F, 107, 17);
@@ -128,7 +127,6 @@ public class ScriptsPanel extends Container {
 
    public class ax_ extends Component {
       private File w;
-      private static final long c = 65388371031681L;
 
       public ax_(String string, File file, int i, int j) {
          super(string, 0.0F, 0.0F, i, j);
@@ -137,8 +135,6 @@ public class ScriptsPanel extends Container {
 
       @Override
       public void render(int i, int j) {
-         long l = c ^ 48892510316787L;
-         long n = l ^ 113435321281841L;
          Script script = client.getScriptManager().T(this.J());
          if (script != null && script.t()) {
             RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(128, 128, 128).getRGB());
@@ -149,8 +145,6 @@ public class ScriptsPanel extends Container {
 
       @Override
       public void l(int i) {
-         long m = c ^ 100495993858119L;
-         long n = m ^ 17841708461445L;
          if (i == 0) {
             Script script2 = client.getScriptManager().T(this.J());
             if (script2 != null) {

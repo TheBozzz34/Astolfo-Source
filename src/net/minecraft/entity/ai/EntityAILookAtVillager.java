@@ -7,7 +7,6 @@ public class EntityAILookAtVillager extends EntityAIBase {
    private EntityIronGolem theGolem;
    private EntityVillager theVillager;
    private int lookTime;
-   private static final long b = 129969858968799L;
 
    public EntityAILookAtVillager(EntityIronGolem theGolemIn) {
       this.theGolem = theGolemIn;

@@ -45,7 +45,6 @@ public class WorldRenderer {
    private TextureAtlasSprite quadSprite = null;
    public SVertexBuilder sVertexBuilder;
    public static boolean S;
-   private static final long c = 62659924982104L;
 
    public WorldRenderer(int bufferSizeIn) {
       if (Config.isShaders()) {

@@ -18,8 +18,6 @@ public class ItemModelMesher {
    private final Map<Integer, IBakedModel> simpleShapesCache = Maps.newHashMap();
    private final Map<Item, ItemMeshDefinition> shapers = Maps.newHashMap();
    private final ModelManager modelManager;
-   private static final long a = 56581327128507L;
-   private static final long b = 2576319923299024912L;
 
    public ItemModelMesher(ModelManager modelManager) {
       this.modelManager = modelManager;
@@ -63,7 +61,7 @@ public class ItemModelMesher {
    }
 
    private int getIndex(Item item, int meta) {
-      return Item.getIdFromItem(item) << (int)b | meta;
+      return Item.getIdFromItem(item) << 16 | meta;
    }
 
    public void register(Item item, int meta, ModelResourceLocation location) {

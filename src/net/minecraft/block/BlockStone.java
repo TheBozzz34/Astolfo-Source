@@ -16,7 +16,6 @@ import net.minecraft.util.StatCollector;
 
 public class BlockStone extends Block {
    public static final PropertyEnum<BlockStone.EnumType> VARIANT = PropertyEnum.create("variant", BlockStone.EnumType.class);
-   private static final long e = 101488317713423L;
 
    public BlockStone() {
       super(Material.rock);
@@ -80,7 +79,6 @@ public class BlockStone extends Block {
       private final String name;
       private final String unlocalizedName;
       private final MapColor field_181073_l;
-      private static final long a = 35295044297280L;
 
       EnumType(int j, MapColor mapColor, String string2) {
          this(j, mapColor, string2, string2);

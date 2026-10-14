@@ -7,9 +7,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.pathfinder.SwimNodeProcessor;
 
 public class PathNavigateSwimmer extends PathNavigate {
-   private static final long b = 21694624065353L;
-   private static final long c = -8874399540258537466L;
-
    public PathNavigateSwimmer(EntityLiving entitylivingIn, World worldIn) {
       super(entitylivingIn, worldIn);
    }
@@ -33,18 +30,18 @@ public class PathNavigateSwimmer extends PathNavigate {
    public void pathFollow() {
       Vec3 vec3 = this.getEntityPosition();
       float f = this.theEntity.width * this.theEntity.width;
-      int i = (int)c;
+      byte b = 6;
       if (vec3.squareDistanceTo(this.currentPath.getVectorFromIndex(this.theEntity, this.currentPath.getCurrentPathIndex())) < f) {
          this.currentPath.incrementPathIndex();
       }
 
-      for (int j = Math.min(this.currentPath.getCurrentPathIndex() + i, this.currentPath.getCurrentPathLength() - 1);
-         j > this.currentPath.getCurrentPathIndex();
-         j--
+      for (int i = Math.min(this.currentPath.getCurrentPathIndex() + b, this.currentPath.getCurrentPathLength() - 1);
+         i > this.currentPath.getCurrentPathIndex();
+         i--
       ) {
-         Vec3 vec32 = this.currentPath.getVectorFromIndex(this.theEntity, j);
+         Vec3 vec32 = this.currentPath.getVectorFromIndex(this.theEntity, i);
          if (vec32.squareDistanceTo(vec3) <= 36.0 && this.isDirectPathBetweenPoints(vec3, vec32, 0, 0, 0)) {
-            this.currentPath.setCurrentPathIndex(j);
+            this.currentPath.setCurrentPathIndex(i);
             break;
          }
       }

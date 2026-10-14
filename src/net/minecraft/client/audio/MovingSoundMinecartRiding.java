@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 public class MovingSoundMinecartRiding extends MovingSound {
    private final EntityPlayer player;
    private final EntityMinecart minecart;
-   private static final long a = 42331154141886L;
 
    public MovingSoundMinecartRiding(EntityPlayer playerRiding, EntityMinecart minecart) {
       super(new ResourceLocation("minecraft:minecart.inside"));

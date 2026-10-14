@@ -9,8 +9,6 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderLightningBolt extends Render<EntityLightningBolt> {
-   private static final long a = 19862906130597L;
-
    public RenderLightningBolt(RenderManager renderManagerIn) {
       super(renderManagerIn);
    }

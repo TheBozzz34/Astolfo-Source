@@ -15,7 +15,6 @@ import org.lwjgl.input.Mouse;
 public class NumberSlider extends SettingComponent {
    private final DecimalFormat n = new DecimalFormat("#");
    private static final Color Y = new Color(22, 22, 22);
-   private static final long c = 17220884941168L;
 
    public NumberSlider(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
@@ -23,8 +22,6 @@ public class NumberSlider extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      long l = c ^ 27102496675586L;
-      long m = l ^ 39308001293406L;
       float f = this.o().getMax().floatValue() - this.o().getMin().floatValue();
       int k = this.o().getMax().intValue() - this.o().getMin().intValue();
       float g = Math.round((this.C() - this.o().getMin().floatValue()) / (this.o().valueClass == Integer.class ? k : f) * this.x());

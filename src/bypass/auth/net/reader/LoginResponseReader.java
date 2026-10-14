@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class LoginResponseReader implements PacketReader<LoginResponse> {
    private LoginResponse D;
-   private static final long a = 82877989959479L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

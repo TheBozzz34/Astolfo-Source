@@ -8,9 +8,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityMagmaCube extends EntitySlime {
-   private static final long ab = 36200381593838L;
-   private static final long xb = 4019650104111661296L;
-
    public EntityMagmaCube(World worldIn) {
       super(worldIn);
       this.isImmuneToFire = true;
@@ -41,7 +38,7 @@ public class EntityMagmaCube extends EntitySlime {
 
    @Override
    public int getBrightnessForRender(float partialTicks) {
-      return (int)xb;
+      return 15728880;
    }
 
    @Override

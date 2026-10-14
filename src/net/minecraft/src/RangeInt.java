@@ -3,7 +3,6 @@ package net.minecraft.src;
 public class RangeInt {
    private int min;
    private int max;
-   private static final long a = 131928186265163L;
 
    public RangeInt(int minIn, int maxIn) {
       this.min = Math.min(minIn, maxIn);

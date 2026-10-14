@@ -28,7 +28,6 @@ public class EntityPigZombie extends EntityZombie {
    private int angerLevel;
    private int randomSoundDelay;
    private UUID angerTargetUUID;
-   private static final long ab = 113449227378542L;
 
    public EntityPigZombie(World worldIn) {
       super(worldIn);
@@ -207,8 +206,6 @@ public class EntityPigZombie extends EntityZombie {
    }
 
    public static class AIHurtByAggressor extends EntityAIHurtByTarget {
-      private static final long c = 87469934673729L;
-
       public AIHurtByAggressor(EntityPigZombie entityPigZombie) {
          super(entityPigZombie, true);
       }
@@ -223,8 +220,6 @@ public class EntityPigZombie extends EntityZombie {
    }
 
    public static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer> {
-      private static final long c = 24135392844148L;
-
       public AITargetAggressor(EntityPigZombie entityPigZombie) {
          super(entityPigZombie, EntityPlayer.class, true);
       }

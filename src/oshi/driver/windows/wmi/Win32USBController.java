@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32USBController {
-   private static final long a = 1895703077222L;
-
    private Win32USBController() {
    }
 

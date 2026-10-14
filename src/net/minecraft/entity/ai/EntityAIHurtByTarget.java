@@ -8,7 +8,6 @@ public class EntityAIHurtByTarget extends EntityAITarget {
    private boolean entityCallsForHelp;
    private int revengeTimerOld;
    private final Class[] targetClasses;
-   private static final long a = 51707186993422L;
 
    public EntityAIHurtByTarget(EntityCreature creatureIn, boolean entityCallsForHelpIn, Class... targetClassesIn) {
       super(creatureIn, false);

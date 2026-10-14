@@ -7,8 +7,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandKill extends CommandBase {
-   private static final long b = 124355228998047L;
-
    @Override
    public String getCommandName() {
       return "kill";

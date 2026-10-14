@@ -6,8 +6,6 @@ import java.util.Map.Entry;
 
 public class PetStats {
    private Map<PetType, Pet> petMap = new HashMap<>();
-   private static final long a = 25214044200666L;
-   private static final long e = -4318521008320413571L;
 
    public PetStats(Map<String, Map<String, Object>> petStats) {
       for (Entry entry : petStats.entrySet()) {
@@ -29,6 +27,6 @@ public class PetStats {
 
    @Override
    public String toString() {
-      return "PetStats{petMap=" + this.petMap + (int)e;
+      return "PetStats{petMap=" + this.petMap + '}';
    }
 }

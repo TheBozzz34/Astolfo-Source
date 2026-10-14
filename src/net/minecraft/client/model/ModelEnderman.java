@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 public class ModelEnderman extends ModelBiped {
    public boolean isCarrying;
    public boolean isAttacking;
-   private static final long c = 134602911220999L;
 
    public ModelEnderman(float f) {
       super(0.0F, -14.0F, 64, 32);

@@ -36,7 +36,6 @@ public class PlayerItemParser {
    public static final String w = "sizeAdd";
    public static final String u = "PlayerItem";
    public static final String S = "ModelBox";
-   private static final long a = 20314234190079L;
 
    public static PlayerItemModel parseItemModel(JsonObject obj) {
       String string = Json.getString(obj, "type");

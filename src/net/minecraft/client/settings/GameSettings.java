@@ -260,7 +260,6 @@ public class GameSettings {
    private static final String[] KEYS_DYNAMIC_LIGHTS = new String[]{"options.off", "options.graphics.fast", "options.graphics.fancy"};
    public KeyBinding ofKeyBindZoom;
    private File optionsFileOF;
-   private static final long ab = 110509229549634L;
 
    public GameSettings(Minecraft mcIn, File optionsFileIn) {
       this.keyBindings = ArrayUtils.addAll(
@@ -2677,14 +2676,6 @@ public class GameSettings {
       return -1;
    }
 
-   static {
-      long l = ab ^ 133684629393981L;
-      long m = l ^ 842151850410685375L;
-      m = l ^ 5226438277424441941L;
-      m = l ^ 1849181583116245402L;
-      m = l ^ 842151850410685375L;
-   }
-
    public enum Options {
       INVERT_MOUSE("INVERT_MOUSE", 0, "options.invertMouse", false, true),
       SENSITIVITY("SENSITIVITY", 1, "options.sensitivity", true, false),
@@ -2846,7 +2837,6 @@ public class GameSettings {
          REDUCED_DEBUG_INFO,
          ENTITY_SHADOWS
       };
-      private static final long a = 30845914842030L;
 
       public static GameSettings.Options getEnumOptions(int ordinal) {
          for (GameSettings.Options options : values()) {

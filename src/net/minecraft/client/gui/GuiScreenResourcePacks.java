@@ -25,7 +25,6 @@ public class GuiScreenResourcePacks extends GuiScreen {
    private GuiResourcePackAvailable availableResourcePacksList;
    private GuiResourcePackSelected selectedResourcePacksList;
    private boolean changed = false;
-   private static final long x = 20885604809293L;
 
    public GuiScreenResourcePacks(GuiScreen parentScreenIn) {
       this.parentScreen = parentScreenIn;

@@ -52,7 +52,6 @@ public class ItemRenderer {
    private int equippedItemSlot = -1;
    public static boolean J;
    private float p = 0.0F;
-   private static final long b = 116949165088460L;
 
    public ItemRenderer(Minecraft mcIn) {
       this.mc = mcIn;
@@ -245,8 +244,6 @@ public class ItemRenderer {
    }
 
    private void L(float f, float g) {
-      long l = b ^ 31825681895783L;
-      long m = l ^ 72410545959448L;
       GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
       if (Astolfo.INSTANCE.getModuleManager().get(Camera.class).isEnabled()) {
          GlStateManager.translate(
@@ -315,8 +312,6 @@ public class ItemRenderer {
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public void renderItemInFirstPerson(float partialTicks) {
-      long l = b ^ 51051569062736L;
-      long m = l ^ 126739184074799L;
       float f = 1.0F - (this.I + (this.j - this.I) * partialTicks);
       EntityPlayerSP entityPlayerSP = this.mc.thePlayer;
       float g = entityPlayerSP.getSwingProgress(partialTicks);
@@ -544,12 +539,10 @@ public class ItemRenderer {
    }
 
    private void renderWaterOverlayTexture(float partialTicks) {
-      long l = b ^ 75536758868115L;
       if (!Config.isShaders() || Shaders.isUnderwaterOverlay()) {
          this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-         long m = 4759463353789441697L ^ l;
          float f = this.mc.thePlayer.getBrightness(partialTicks);
          GlStateManager.color(f, f, f, 0.5F);
          GlStateManager.enableBlend();
@@ -570,7 +563,6 @@ public class ItemRenderer {
    }
 
    private void renderFireInFirstPerson(float partialTicks) {
-      long l = b ^ 127489816598533L;
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
@@ -606,7 +598,6 @@ public class ItemRenderer {
 
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.disableBlend();
-      long m = 6639977977637520773L ^ l;
       GlStateManager.depthMask(true);
       GlStateManager.depthFunc(515);
    }

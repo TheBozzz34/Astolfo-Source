@@ -16,7 +16,6 @@ public class RenderModelEvent extends CancellableEvent {
    private float headPitch;
    private float scale;
    private float renderYawOffset;
-   private static final long a = 50280872532823L;
 
    public RenderModelEvent(
       RendererLivingEntity rendererLivingEntity, EntityLivingBase entityLivingBase, float f, float g, float h, float f2, float f3, float f4, float f5

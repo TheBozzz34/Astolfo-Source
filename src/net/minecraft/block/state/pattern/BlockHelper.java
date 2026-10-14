@@ -6,7 +6,6 @@ import net.minecraft.block.state.IBlockState;
 
 public class BlockHelper implements Predicate<IBlockState> {
    private final Block block;
-   private static final long a = 61757961246677L;
 
    private BlockHelper(Block blockType) {
       this.block = blockType;

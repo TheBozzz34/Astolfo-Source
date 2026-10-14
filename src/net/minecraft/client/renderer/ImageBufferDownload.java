@@ -10,7 +10,6 @@ public class ImageBufferDownload implements IImageBuffer {
    private int imageWidth;
    private int imageHeight;
    public boolean p;
-   private static final long a = 120015968607390L;
 
    public ImageBufferDownload() {
    }

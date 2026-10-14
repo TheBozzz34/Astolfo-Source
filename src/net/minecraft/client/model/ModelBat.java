@@ -11,7 +11,6 @@ public class ModelBat extends ModelBase {
    private ModelRenderer batLeftWing;
    private ModelRenderer batOuterRightWing;
    private ModelRenderer batOuterLeftWing;
-   private static final long a = 77453370811290L;
 
    public ModelBat() {
       this.textureWidth = 64;

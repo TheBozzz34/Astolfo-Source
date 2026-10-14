@@ -11,12 +11,8 @@ import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 public final class Option2 extends VarArgFunction {
-   private static final long a = 13531433516044L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
-      long l = a ^ 67178302348528L;
-      long m = l ^ 6736140950863L;
       LuaValue luaValue = varargs.arg1();
       if (!luaValue.isstring()) {
          return NIL;

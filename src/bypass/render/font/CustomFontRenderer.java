@@ -12,7 +12,6 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
    private final GlyphPage p = new GlyphPage();
    private final int[] h = new int[32];
    private final String V = "0123456789abcdefklmnor";
-   private static final long b = 4075160982218L;
 
    public CustomFontRenderer() {
       for (int i = 0; i < 32; i++) {
@@ -60,7 +59,6 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
    }
 
    public float v(String string, float f, float g, int i, boolean bl, boolean bl2) {
-      long l = b ^ 80426383024866L;
       if (string == null) {
          return 0.0F;
       }
@@ -80,7 +78,6 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
       GlyphPage glyphPage = this.v;
       float f2 = (i >> 24 & 0xFF) / 255.0F;
       boolean bl3 = false;
-      long m = 7218836669071253982L ^ l;
       boolean bl4 = false;
       boolean bl5 = false;
       boolean bl6 = false;
@@ -96,11 +93,11 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
       int k = string.length();
       glyphPage.p();
 
-      for (int n = 0; n < k; n++) {
-         char c2 = string.charAt(n);
-         if (c2 == 167 && n < k && n + 1 < k) {
-            int i2 = "0123456789abcdefklmnor".indexOf(string.charAt(n + 1));
-            if (i2 < 16) {
+      for (int l = 0; l < k; l++) {
+         char c2 = string.charAt(l);
+         if (c2 == 167 && l < k && l + 1 < k) {
+            int m = "0123456789abcdefklmnor".indexOf(string.charAt(l + 1));
+            if (m < 16) {
                bl4 = false;
                bl5 = false;
                bl3 = false;
@@ -108,19 +105,19 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
                bl6 = false;
                glyphPage = this.v;
                glyphPage.p();
-               if (i2 < 0 || i2 > 15) {
-                  i2 = 15;
+               if (m < 0 || m > 15) {
+                  m = 15;
                }
 
                if (bl) {
-                  i2 += 16;
+                  m += 16;
                }
 
-               int i3 = this.h[i2];
-               GlStateManager.color((i3 >> 16 & 0xFF) / 255.0F, (i3 >> 8 & 0xFF) / 255.0F, (i3 & 0xFF) / 255.0F, f2);
-            } else if (i2 == 16) {
+               int n = this.h[m];
+               GlStateManager.color((n >> 16 & 0xFF) / 255.0F, (n >> 8 & 0xFF) / 255.0F, (n & 0xFF) / 255.0F, f2);
+            } else if (m == 16) {
                bl3 = true;
-            } else if (i2 == 17) {
+            } else if (m == 17) {
                bl4 = true;
                if (bl5) {
                   glyphPage = this.p;
@@ -129,11 +126,11 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
                   glyphPage = this.X;
                   glyphPage.p();
                }
-            } else if (i2 == 18) {
+            } else if (m == 18) {
                bl6 = true;
-            } else if (i2 == 19) {
+            } else if (m == 19) {
                bl7 = true;
-            } else if (i2 == 20) {
+            } else if (m == 20) {
                bl5 = true;
                if (bl4) {
                   glyphPage = this.p;
@@ -142,7 +139,7 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
                   glyphPage = this.C;
                   glyphPage.p();
                }
-            } else if (i2 == 21) {
+            } else if (m == 21) {
                bl4 = false;
                bl5 = false;
                bl3 = false;
@@ -153,7 +150,7 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
                glyphPage.p();
             }
 
-            n++;
+            l++;
          } else if (glyphPage.x(c2)) {
             if (bl3) {
                char c3 = 0;

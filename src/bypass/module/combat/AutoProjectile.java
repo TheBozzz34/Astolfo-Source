@@ -252,7 +252,6 @@ public class AutoProjectile extends Module {
             this.callScript("on_post_motion");
       }
    };
-   private static final long c = 90934864379768L;
 
    public AutoProjectile(Category category, String string) {
       super(category);

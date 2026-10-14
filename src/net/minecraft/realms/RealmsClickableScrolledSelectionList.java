@@ -4,8 +4,6 @@ import net.minecraft.client.gui.GuiClickableScrolledSelectionListProxy;
 
 public class RealmsClickableScrolledSelectionList {
    private final GuiClickableScrolledSelectionListProxy proxy;
-   private static final long a = 109058521897449L;
-   private static final long b = -1687200670131683204L;
 
    public RealmsClickableScrolledSelectionList(int i, int j, int k, int l, int m) {
       this.proxy = new GuiClickableScrolledSelectionListProxy(this, i, j, k, l, m);
@@ -53,7 +51,7 @@ public class RealmsClickableScrolledSelectionList {
    }
 
    public int g() {
-      return this.proxy.X() / 2 + (int)b;
+      return this.proxy.X() / 2 + 124;
    }
 
    public void mouseEvent() {

@@ -7,9 +7,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemBucketMilk extends Item {
-   private static final long a = 75705823635470L;
-   private static final long b = 7373298750795546656L;
-
    public ItemBucketMilk() {
       this.setMaxStackSize(1);
       this.setCreativeTab(CreativeTabs.tabMisc);
@@ -31,7 +28,7 @@ public class ItemBucketMilk extends Item {
 
    @Override
    public int getMaxItemUseDuration(ItemStack stack) {
-      return (int)b;
+      return 32;
    }
 
    @Override

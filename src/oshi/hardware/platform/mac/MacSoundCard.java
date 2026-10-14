@@ -9,8 +9,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class MacSoundCard extends AbstractSoundCard {
-   private static final long c = 38171679500437L;
-
    public MacSoundCard(String kernelVersion, String name, String codec) {
       super(kernelVersion, name, codec);
    }

@@ -9,8 +9,6 @@ import oshi.util.ParseUtil;
 
 @Immutable
 public final class MacGraphicsCard extends AbstractGraphicsCard {
-   private static final long b = 136736536686928L;
-
    public MacGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
       super(name, deviceId, vendor, versionInfo, vram);
    }

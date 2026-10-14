@@ -9,8 +9,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentThorns extends Enchantment {
-   private static final long m = 22177806924270L;
-
    public EnchantmentThorns(int i, ResourceLocation resourceLocation, int j) {
       super(i, resourceLocation, j, EnumEnchantmentType.ARMOR_TORSO);
       this.setName("thorns");

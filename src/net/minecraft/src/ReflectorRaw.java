@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ReflectorRaw {
-   private static final long a = 139436697422967L;
-
    public static Field getField(Class cls, Class fieldType) {
       try {
          Field[] fields = cls.getDeclaredFields();

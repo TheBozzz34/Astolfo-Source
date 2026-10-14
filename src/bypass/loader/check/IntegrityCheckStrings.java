@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class IntegrityCheckStrings {
    public static String Q = "ARCFOUR";
    public static String J = "vybaTyBAMHXa8byx";
-   private static final long a = 33831282967968L;
 
    public static String W(String string) {
       String string2 = "ExRqUUtvhGVeyDhwm1aPng==";

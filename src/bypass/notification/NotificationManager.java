@@ -71,7 +71,6 @@ public class NotificationManager extends Manager<Notification> implements Client
          }
       }
    };
-   private static final long b = 137825866971641L;
 
    public NotificationManager() {
       Astolfo.INSTANCE.getEventBus().subscribe(this);

@@ -7,16 +7,12 @@ import bypass.notification.NotificationType;
 import java.io.File;
 
 public class LoadConfigButton extends Button {
-   private static final long d = 37056502659067L;
-
    public LoadConfigButton(float f, float g, int i, int j) {
       super("Load config", f, g, i, j);
    }
 
    @Override
    public void G() {
-      long l = d ^ 60922864856076L;
-      long m = l ^ 89011452765868L;
       String string = SidebarGui.config.getValue();
       File file = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), string + ".json");
       if (!file.exists()) {

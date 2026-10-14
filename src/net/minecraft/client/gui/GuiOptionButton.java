@@ -4,7 +4,6 @@ import net.minecraft.client.settings.GameSettings;
 
 public class GuiOptionButton extends GuiButton {
    private final GameSettings.Options enumOptions;
-   private static final long c = 20033184547819L;
 
    public GuiOptionButton(int i, int j, int k, String string) {
       this(i, j, k, (GameSettings.Options)null, string);

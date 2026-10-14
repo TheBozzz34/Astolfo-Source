@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 
 public class LayerDeadmau5Head implements LayerRenderer<AbstractClientPlayer> {
    private final RenderPlayer playerRenderer;
-   private static final long a = 130841865289046L;
 
    public LayerDeadmau5Head(RenderPlayer playerRendererIn) {
       this.playerRenderer = playerRendererIn;

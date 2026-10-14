@@ -7,13 +7,10 @@ import net.minecraft.world.pathfinder.NodeProcessor;
 
 public class PathFinder {
    private Path path = new Path();
-   private PathPoint[] pathOptions;
+   private PathPoint[] pathOptions = new PathPoint[32];
    private NodeProcessor nodeProcessor;
-   private static final long a = 60414542067083L;
-   private static final long b = -5668600070367346656L;
 
    public PathFinder(NodeProcessor nodeProcessorIn) {
-      this.pathOptions = new PathPoint[(int)b];
       this.nodeProcessor = nodeProcessorIn;
    }
 

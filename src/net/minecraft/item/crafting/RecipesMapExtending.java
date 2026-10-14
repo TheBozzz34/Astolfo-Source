@@ -8,8 +8,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 
 public class RecipesMapExtending extends ShapedRecipes {
-   private static final long a = 12279004397162L;
-
    public RecipesMapExtending() {
       super(
          3,

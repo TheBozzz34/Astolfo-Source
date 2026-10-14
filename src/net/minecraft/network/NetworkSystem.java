@@ -46,22 +46,16 @@ import org.apache.logging.log4j.Logger;
 public class NetworkSystem {
    private static final Logger logger = LogManager.getLogger();
    public static final LazyLoadBase<NioEventLoopGroup> eventLoops = new LazyLoadBase<NioEventLoopGroup>() {
-      private static final long a = 76088953134290L;
-
       public NioEventLoopGroup load() {
          return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Server IO #%d").setDaemon(true).build());
       }
    };
    public static final LazyLoadBase<EpollEventLoopGroup> SERVER_EPOLL_EVENTLOOP = new LazyLoadBase<EpollEventLoopGroup>() {
-      private static final long a = 33813493627961L;
-
       public EpollEventLoopGroup load() {
          return new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Server IO #%d").setDaemon(true).build());
       }
    };
    public static final LazyLoadBase<LocalEventLoopGroup> SERVER_LOCAL_EVENTLOOP = new LazyLoadBase<LocalEventLoopGroup>() {
-      private static final long a = 28341276148751L;
-
       public LocalEventLoopGroup load() {
          return new LocalEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
       }
@@ -70,7 +64,6 @@ public class NetworkSystem {
    public volatile boolean isAlive;
    private final List<ChannelFuture> endpoints = Collections.synchronizedList(Lists.newArrayList());
    private final List<NetworkManager> networkManagers = Collections.synchronizedList(Lists.newArrayList());
-   private static final long a = 110037823986427L;
 
    public NetworkSystem(MinecraftServer server) {
       this.mcServer = server;
@@ -97,9 +90,6 @@ public class NetworkSystem {
                   .channel(class2)
                   .childHandler(
                      new ChannelInitializer<Channel>() {
-                        private static final long a = 123987738429221L;
-                        private static final long f = 8343289244554362910L;
-
                         @Override
                         public void initChannel(Channel channel) throws Exception {
                            try {
@@ -108,7 +98,7 @@ public class NetworkSystem {
                            }
 
                            channel.pipeline()
-                              .addLast("timeout", new ReadTimeoutHandler((int)f))
+                              .addLast("timeout", new ReadTimeoutHandler(30))
                               .addLast("legacy_query", new PingResponseHandler(NetworkSystem.this))
                               .addLast("splitter", new MessageDeserializer2())
                               .addLast("decoder", new MessageDeserializer(EnumPacketDirection.SERVERBOUND))
@@ -133,8 +123,6 @@ public class NetworkSystem {
       ChannelFuture channelFuture;
       synchronized (this.endpoints) {
          channelFuture = new ServerBootstrap().channel(LocalServerChannel.class).childHandler(new ChannelInitializer<Channel>() {
-            private static final long a = 106018327987801L;
-
             @Override
             public void initChannel(Channel channel) throws Exception {
                NetworkManager networkManager = new NetworkManager(EnumPacketDirection.SERVERBOUND);

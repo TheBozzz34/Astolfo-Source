@@ -23,7 +23,6 @@ public class MotionEvent extends CancellableEvent {
    private float lastYaw;
    private float lastPitch;
    private int positionUpdateTicks;
-   private static final long b = 25027395791350L;
 
    public MotionEvent(
       NetHandlerPlayClient netHandlerPlayClient,

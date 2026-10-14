@@ -13,7 +13,6 @@ public class ModelQuadruped extends ModelBase {
    public ModelRenderer leg4;
    public float childYOffset = 8.0F;
    public float childZOffset = 4.0F;
-   private static final long e = 35630541843045L;
 
    public ModelQuadruped(int i, float f) {
       this.head.addBox(-4.0F, -4.0F, -8.0F, 8, 8, 8, f);

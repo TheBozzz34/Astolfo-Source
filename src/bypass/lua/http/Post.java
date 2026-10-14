@@ -9,8 +9,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class Post extends OneArgFunction {
-   private static final long a = 136866504753037L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!ScriptManager.N.t()) {

@@ -6,7 +6,6 @@ import net.minecraft.util.MathHelper;
 public class ModelBlaze extends ModelBase {
    private ModelRenderer[] blazeSticks = new ModelRenderer[12];
    private ModelRenderer blazeHead;
-   private static final long b = 109507654920530L;
 
    public ModelBlaze() {
       for (int i = 0; i < this.blazeSticks.length; i++) {

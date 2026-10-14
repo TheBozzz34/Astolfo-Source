@@ -1,8 +1,6 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerAddIsland extends GenLayer {
-   private static final long c = 72198757186040L;
-
    public GenLayerAddIsland(long l, GenLayer genLayer) {
       super(l);
       this.parent = genLayer;

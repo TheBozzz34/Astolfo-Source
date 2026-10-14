@@ -20,8 +20,6 @@ public enum EnumEnchantmentType {
    BREAKABLE,
    BOW;
 
-   private static final long a = 13763999508849L;
-
    public boolean canEnchantItem(Item item) {
       if (this == ALL) {
          return true;

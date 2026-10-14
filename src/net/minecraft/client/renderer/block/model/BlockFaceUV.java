@@ -12,7 +12,6 @@ import net.minecraft.util.JsonUtils;
 public class BlockFaceUV {
    public float[] uvs;
    public final int rotation;
-   private static final long a = 34955891176846L;
 
    public BlockFaceUV(float[] uvsIn, int rotationIn) {
       this.uvs = uvsIn;
@@ -52,8 +51,6 @@ public class BlockFaceUV {
    }
 
    public static class Deserializer implements JsonDeserializer<BlockFaceUV> {
-      private static final long a = 71142802366384L;
-
       public BlockFaceUV deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          float[] floats = this.parseUV(jsonObject);

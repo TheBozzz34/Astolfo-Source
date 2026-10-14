@@ -9,7 +9,6 @@ import net.minecraft.util.IChatComponent;
 public class S02PacketChat implements Packet<INetHandlerPlayClient> {
    private IChatComponent chatComponent;
    private byte type;
-   private static final long a = 138447401970110L;
 
    public S02PacketChat() {
    }

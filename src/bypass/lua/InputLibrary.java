@@ -18,7 +18,6 @@ public class InputLibrary extends TwoArgFunction implements ClientAccess {
    public static final OneArgFunction o = new GetKeyNumber();
    public static final ZeroArgFunction n = new GetScroll();
    public static final OneArgFunction L = new IsMouseDown();
-   private static final long b = 87716276116451L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

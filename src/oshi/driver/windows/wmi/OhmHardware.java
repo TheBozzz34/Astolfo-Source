@@ -7,15 +7,12 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class OhmHardware {
-   private static final long a = 11453541632776L;
-   private static final long e = 2903468514243248162L;
-
    private OhmHardware() {
    }
 
    public static WmiResult<OhmHardware.IdentifierProperty> queryHwIdentifier(String typeToQuery, String typeName) {
       StringBuilder stringBuilder = new StringBuilder("Hardware");
-      stringBuilder.append(" WHERE ").append(typeToQuery).append("Type=\"").append(typeName).append((char)((int)e));
+      stringBuilder.append(" WHERE ").append(typeToQuery).append("Type=\"").append(typeName).append('"');
       WmiQuery wmiQuery = new WmiQuery<>("ROOT\\OpenHardwareMonitor", stringBuilder.toString(), OhmHardware.IdentifierProperty.class);
       return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }

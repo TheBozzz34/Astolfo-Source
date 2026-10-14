@@ -32,7 +32,6 @@ public class ContainerRepair extends Container {
    private int materialCost;
    private String repairedItemName;
    private final EntityPlayer thePlayer;
-   private static final long b = 117670932480661L;
 
    public ContainerRepair(InventoryPlayer playerInventory, World worldIn, EntityPlayer player) {
       this(playerInventory, worldIn, BlockPos.ORIGIN, player);
@@ -46,8 +45,6 @@ public class ContainerRepair extends Container {
       this.addSlotToContainer(new Slot(this.inputSlots, 1, 76, 47));
       this.addSlotToContainer(
          new Slot(this.outputSlot, 2, 134, 47) {
-            private static final long a = 59703903831526L;
-
             @Override
             public boolean isItemValid(ItemStack stack) {
                return false;

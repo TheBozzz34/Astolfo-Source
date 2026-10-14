@@ -5,8 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentDigging extends Enchantment {
-   private static final long m = 128264511979146L;
-
    public EnchantmentDigging(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.DIGGER);
       this.setName("digging");

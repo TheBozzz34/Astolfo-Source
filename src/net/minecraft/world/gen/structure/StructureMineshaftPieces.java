@@ -35,7 +35,6 @@ public class StructureMineshaftPieces {
       new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3),
       new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1)
    );
-   private static final long a = 89220285574454L;
 
    public static void registerStructurePieces() {
       MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Corridor.class, "MSCorridor");
@@ -91,7 +90,6 @@ public class StructureMineshaftPieces {
       private boolean hasSpiders;
       private boolean spawnerPlaced;
       private int sectionCount;
-      private static final long b = 13343761484318L;
 
       public Corridor() {
       }
@@ -477,7 +475,6 @@ public class StructureMineshaftPieces {
    public static class Cross extends StructureComponent {
       private EnumFacing corridorDirection;
       private boolean isMultipleFloors;
-      private static final long b = 56487734882121L;
 
       public Cross() {
       }
@@ -776,7 +773,6 @@ public class StructureMineshaftPieces {
 
    public static class Room extends StructureComponent {
       private List<StructureBoundingBox> roomsLinkedToTheRoom = Lists.newLinkedList();
-      private static final long b = 124954989997125L;
 
       public Room() {
       }
@@ -998,8 +994,6 @@ public class StructureMineshaftPieces {
    }
 
    public static class Stairs extends StructureComponent {
-      private static final long b = 68995988797099L;
-
       public Stairs() {
       }
 

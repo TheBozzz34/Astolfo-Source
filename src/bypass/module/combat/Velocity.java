@@ -103,8 +103,6 @@ public final class Velocity extends Module {
    };
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = e ^ 33839615652072L;
-      long m = l ^ 122344089519344L;
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
          float g = 100 - this.chance.getValue();
          boolean bl = RandomUtils.RANDOM.nextFloat() > (g != 0.0F ? g / 100.0F : -0.1);
@@ -182,7 +180,6 @@ public final class Velocity extends Module {
          }
       }
    };
-   private static final long e = 78015235312043L;
 
    public Velocity(Category category) {
       super(category);
@@ -210,8 +207,6 @@ public final class Velocity extends Module {
    }
 
    private boolean J() {
-      long l = e ^ 8558731286803L;
-      long m = l ^ 130065192545547L;
       return this.hypixelStaff.getSetting("Enable").asBoolean() && !client.getModuleManager().get(LongJump.class).isEnabled();
    }
 

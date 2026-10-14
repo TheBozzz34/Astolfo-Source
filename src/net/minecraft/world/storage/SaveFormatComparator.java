@@ -11,7 +11,6 @@ public class SaveFormatComparator implements Comparable<SaveFormatComparator> {
    private final WorldSettings.GameType theEnumGameType;
    private final boolean hardcore;
    private final boolean cheatsEnabled;
-   private static final long a = 112985511783370L;
 
    public SaveFormatComparator(
       String fileNameIn,

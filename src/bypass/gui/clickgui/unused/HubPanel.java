@@ -9,7 +9,6 @@ import org.lwjgl.input.Mouse;
 
 public class HubPanel extends Container {
    private HubCategory f;
-   private static final long d = 129259732381092L;
 
    public HubPanel(int i, int j, int k, int l) {
       super("Hub", i, j, k, l);

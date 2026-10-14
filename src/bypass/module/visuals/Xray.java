@@ -260,7 +260,6 @@ public final class Xray extends Module {
          GL11.glPopMatrix();
       }
    };
-   private static final long e = 99221782711289L;
 
    public Xray(Category category) {
       super(category);
@@ -268,7 +267,6 @@ public final class Xray extends Module {
    }
 
    public static void drawOre(RenderEvent renderEvent, double d, double d2, double d3, int i, int j, int k, int l) {
-      long m = e ^ 116506298947349L;
       GL11.glPushMatrix();
       GL11.glEnable(3042);
       GL11.glBlendFunc(770, 771);
@@ -295,7 +293,6 @@ public final class Xray extends Module {
       GL11.glEnable(3553);
       GL11.glEnable(2929);
       GL11.glDepthMask(true);
-      long n = 5931225241701262368L ^ m;
       GL11.glDisable(3042);
       GL11.glPopMatrix();
    }

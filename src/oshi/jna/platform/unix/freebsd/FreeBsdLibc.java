@@ -27,6 +27,5 @@ public interface FreeBsdLibc extends CLibrary {
    @FieldOrder("cpu_ticks")
    class CpTime extends Structure {
       public long[] cpu_ticks = new long[5];
-      private static final long a = 38185479421981L;
    }
 }

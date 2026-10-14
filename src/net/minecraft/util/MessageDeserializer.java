@@ -18,7 +18,6 @@ public class MessageDeserializer extends ByteToMessageDecoder {
    private static final Logger logger = LogManager.getLogger();
    private static final Marker RECEIVED_PACKET_MARKER = MarkerManager.getMarker("PACKET_RECEIVED", NetworkManager.logMarkerPackets);
    private final EnumPacketDirection direction;
-   private static final long a = 87833422011271L;
 
    public MessageDeserializer(EnumPacketDirection direction) {
       this.direction = direction;

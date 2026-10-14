@@ -16,22 +16,16 @@ public final class EntitySelectors {
       }
    };
    public static final Predicate<Entity> IS_STANDALONE = new Predicate<Entity>() {
-      private static final long a = 69461571890257L;
-
       public boolean apply(Entity entity) {
          return entity.isEntityAlive() && entity.riddenByEntity == null && entity.ridingEntity == null;
       }
    };
    public static final Predicate<Entity> selectInventories = new Predicate<Entity>() {
-      private static final long a = 8202236515401L;
-
       public boolean apply(Entity entity) {
          return entity instanceof IInventory && entity.isEntityAlive();
       }
    };
    public static final Predicate<Entity> NOT_SPECTATING = new Predicate<Entity>() {
-      private static final long a = 80711639279533L;
-
       public boolean apply(Entity entity) {
          return !(entity instanceof EntityPlayer) || !((EntityPlayer)entity).isSpectator();
       }
@@ -39,7 +33,6 @@ public final class EntitySelectors {
 
    public static class ArmoredMob implements Predicate<Entity> {
       private final ItemStack armor;
-      private static final long a = 33427564747212L;
 
       public ArmoredMob(ItemStack armor) {
          this.armor = armor;

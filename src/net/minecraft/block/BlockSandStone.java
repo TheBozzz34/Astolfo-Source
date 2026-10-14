@@ -13,7 +13,6 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockSandStone extends Block {
    public static final PropertyEnum<BlockSandStone.EnumType> TYPE = PropertyEnum.create("type", BlockSandStone.EnumType.class);
-   private static final long e = 81260112360422L;
 
    public BlockSandStone() {
       super(Material.rock);
@@ -62,7 +61,6 @@ public class BlockSandStone extends Block {
       private final int metadata;
       private final String name;
       private final String unlocalizedName;
-      private static final long a = 113962459613029L;
 
       EnumType(int meta, String name, String unlocalizedNameIn) {
          this.metadata = meta;

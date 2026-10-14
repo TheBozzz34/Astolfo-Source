@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class JvmArgumentsPropertyStrings {
    public static String e = "ARCFOUR";
    public static String f = "drivrdIDy6WHVtuC";
-   private static final long a = 68595473824269L;
 
    public static String J(String string) {
       String string2 = "MtKrtxSGr32WNymM4+xjlw==";

@@ -27,7 +27,6 @@ import net.minecraft.util.IChatComponent;
 
 public class PacketBuffer extends ByteBuf {
    private final ByteBuf buf;
-   private static final long a = 75668662882152L;
 
    public PacketBuffer(ByteBuf wrapped) {
       this.buf = wrapped;

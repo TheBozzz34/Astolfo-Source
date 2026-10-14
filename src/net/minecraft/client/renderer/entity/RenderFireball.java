@@ -13,8 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderFireball extends Render<EntityFireball> {
    private float scale;
-   private static final long a = 117428612093944L;
-   private static final long c = 7684220190791303175L;
 
    public RenderFireball(RenderManager renderManagerIn, float scaleIn) {
       super(renderManagerIn);
@@ -36,7 +34,7 @@ public class RenderFireball extends Render<EntityFireball> {
       float f2 = textureAtlasSprite.getMaxV();
       GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
       GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-      worldRenderer.begin((int)c, DefaultVertexFormats.POSITION_TEX_NORMAL);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
       worldRenderer.pos(-0.5, -0.25, 0.0).tex(f, f2).normal(0.0F, 1.0F, 0.0F).endVertex();
       worldRenderer.pos(0.5, -0.25, 0.0).tex(g, f2).normal(0.0F, 1.0F, 0.0F).endVertex();
       worldRenderer.pos(0.5, 0.75, 0.0).tex(g, h).normal(0.0F, 1.0F, 0.0F).endVertex();

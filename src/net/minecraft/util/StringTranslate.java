@@ -17,7 +17,6 @@ public class StringTranslate {
    private static StringTranslate instance = new StringTranslate();
    private final Map<String, String> languageList = Maps.newHashMap();
    private long lastUpdateTimeInMilliseconds;
-   private static final long a = 22209934659500L;
 
    public StringTranslate() {
       try {

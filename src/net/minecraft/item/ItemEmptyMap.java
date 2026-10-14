@@ -8,8 +8,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 
 public class ItemEmptyMap extends ItemMapBase {
-   private static final long a = 62461965309321L;
-
    public ItemEmptyMap() {
       this.setCreativeTab(CreativeTabs.tabMisc);
    }

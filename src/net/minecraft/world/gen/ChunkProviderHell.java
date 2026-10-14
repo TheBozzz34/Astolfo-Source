@@ -55,7 +55,6 @@ public class ChunkProviderHell implements IChunkProvider {
    public double[] noiseData3;
    public double[] noiseData4;
    public double[] noiseData5;
-   private static final long e = 95312648725581L;
 
    public ChunkProviderHell(World worldIn, boolean bl, long seed) {
       this.worldObj = worldIn;
@@ -136,7 +135,6 @@ public class ChunkProviderHell implements IChunkProvider {
    }
 
    public void func_180516_b(int i, int j, ChunkPrimer chunkPrimer) {
-      long l = e ^ 70110039423045L;
       int k = this.worldObj.getSeaLevel() + 1;
       double d = 0.03125;
       this.slowsandNoise = this.slowsandGravelNoiseGen.generateNoiseOctaves(this.slowsandNoise, i * 16, j * 16, 0, 16, 16, 1, d, d, 1.0);
@@ -144,27 +142,26 @@ public class ChunkProviderHell implements IChunkProvider {
       this.netherrackExclusivityNoise = this.netherrackExculsivityNoiseGen
          .generateNoiseOctaves(this.netherrackExclusivityNoise, i * 16, j * 16, 0, 16, 16, 1, d * 2.0, d * 2.0, d * 2.0);
 
-      for (int m = 0; m < 16; m++) {
-         for (int n = 0; n < 16; n++) {
-            boolean bl = this.slowsandNoise[m + n * 16] + this.hellRNG.nextDouble() * 0.2 > 0.0;
-            boolean bl2 = this.gravelNoise[m + n * 16] + this.hellRNG.nextDouble() * 0.2 > 0.0;
-            int i2 = (int)(this.netherrackExclusivityNoise[m + n * 16] / 3.0 + 3.0 + this.hellRNG.nextDouble() * 0.25);
-            int i3 = -1;
-            long l2 = 4084935087139344066L ^ l;
+      for (int l = 0; l < 16; l++) {
+         for (int m = 0; m < 16; m++) {
+            boolean bl = this.slowsandNoise[l + m * 16] + this.hellRNG.nextDouble() * 0.2 > 0.0;
+            boolean bl2 = this.gravelNoise[l + m * 16] + this.hellRNG.nextDouble() * 0.2 > 0.0;
+            int n = (int)(this.netherrackExclusivityNoise[l + m * 16] / 3.0 + 3.0 + this.hellRNG.nextDouble() * 0.25);
+            int i2 = -1;
             IBlockState iBlockState = Blocks.netherrack.getDefaultState();
             IBlockState iBlockState2 = Blocks.netherrack.getDefaultState();
 
-            for (int i4 = 127; i4 >= 0; i4--) {
-               if (i4 < 127 - this.hellRNG.nextInt(5) && i4 > this.hellRNG.nextInt(5)) {
-                  IBlockState iBlockState3 = chunkPrimer.getBlockState(n, i4, m);
+            for (int i3 = 127; i3 >= 0; i3--) {
+               if (i3 < 127 - this.hellRNG.nextInt(5) && i3 > this.hellRNG.nextInt(5)) {
+                  IBlockState iBlockState3 = chunkPrimer.getBlockState(m, i3, l);
                   if (iBlockState3.getBlock() == null || iBlockState3.getBlock().getMaterial() == Material.air) {
-                     i3 = -1;
+                     i2 = -1;
                   } else if (iBlockState3.getBlock() == Blocks.netherrack) {
-                     if (i3 == -1) {
-                        if (i2 <= 0) {
+                     if (i2 == -1) {
+                        if (n <= 0) {
                            iBlockState = null;
                            iBlockState2 = Blocks.netherrack.getDefaultState();
-                        } else if (i4 >= k - 4 && i4 <= k + 1) {
+                        } else if (i3 >= k - 4 && i3 <= k + 1) {
                            iBlockState = Blocks.netherrack.getDefaultState();
                            iBlockState2 = Blocks.netherrack.getDefaultState();
                            if (bl2) {
@@ -178,23 +175,23 @@ public class ChunkProviderHell implements IChunkProvider {
                            }
                         }
 
-                        if (i4 < k && (iBlockState == null || iBlockState.getBlock().getMaterial() == Material.air)) {
+                        if (i3 < k && (iBlockState == null || iBlockState.getBlock().getMaterial() == Material.air)) {
                            iBlockState = Blocks.lava.getDefaultState();
                         }
 
-                        i3 = i2;
-                        if (i4 >= k - 1) {
-                           chunkPrimer.setBlockState(n, i4, m, iBlockState);
+                        i2 = n;
+                        if (i3 >= k - 1) {
+                           chunkPrimer.setBlockState(m, i3, l, iBlockState);
                         } else {
-                           chunkPrimer.setBlockState(n, i4, m, iBlockState2);
+                           chunkPrimer.setBlockState(m, i3, l, iBlockState2);
                         }
-                     } else if (i3 > 0) {
-                        i3--;
-                        chunkPrimer.setBlockState(n, i4, m, iBlockState2);
+                     } else if (i2 > 0) {
+                        i2--;
+                        chunkPrimer.setBlockState(m, i3, l, iBlockState2);
                      }
                   }
                } else {
-                  chunkPrimer.setBlockState(n, i4, m, Blocks.bedrock.getDefaultState());
+                  chunkPrimer.setBlockState(m, i3, l, Blocks.bedrock.getDefaultState());
                }
             }
          }

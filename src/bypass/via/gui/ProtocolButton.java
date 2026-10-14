@@ -12,7 +12,6 @@ public class ProtocolButton extends GuiButton {
    private float x;
    public boolean K;
    public static float P;
-   private static final long c = 82417675109247L;
 
    public ProtocolButton(int i, int j, int k) {
       super(i, j, k, 100, 20, "");

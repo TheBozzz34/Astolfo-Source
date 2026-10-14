@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32VideoController {
-   private static final long a = 76587885127594L;
-
    private Win32VideoController() {
    }
 

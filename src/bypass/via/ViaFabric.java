@@ -29,7 +29,6 @@ public enum ViaFabric {
    public static final EventLoop EVENT_LOOP;
    public static CompletableFuture<Void> INIT_FUTURE = new CompletableFuture<>();
    private static final ViaFabric[] m = new ViaFabric[]{INSTANCE};
-   private static final long a = 59169997553531L;
 
    public void init() {
       MappingDataLoader.enableMappingsCache();
@@ -61,8 +60,6 @@ public enum ViaFabric {
    }
 
    static {
-      long l = a ^ 74516771677396L;
-      long m = 7312635741812825108L ^ l;
       ThreadFactory threadFactory = new ThreadFactoryBuilder().setDaemon(true).setNameFormat("ViaFabric-%d").build();
       ASYNC_EXECUTOR = Executors.newFixedThreadPool(8, threadFactory);
       EVENT_LOOP = new LocalEventLoopGroup(1, threadFactory).next();

@@ -19,7 +19,6 @@ public class ShaderUniform {
    private final String shaderName;
    private boolean dirty;
    private final ShaderManager shaderManager;
-   private static final long c = 22605898377579L;
 
    public ShaderUniform(String name, int typeIn, int count, ShaderManager manager) {
       this.shaderName = name;

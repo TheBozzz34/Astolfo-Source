@@ -11,8 +11,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class NaturalTextures {
    private static NaturalProperties[] propertiesByIndex = new NaturalProperties[0];
-   private static final long a = 128262247427347L;
-   private static final long e = -3662600461938065152L;
 
    public static void update() {
       propertiesByIndex = new NaturalProperties[0];
@@ -28,7 +26,7 @@ public class NaturalTextures {
 
             boolean bl = Config.isFromDefaultResourcePack(resourceLocation);
             InputStream inputStream = Config.getResourceStream(resourceLocation);
-            ArrayList arrayList = new ArrayList((int)e);
+            ArrayList arrayList = new ArrayList(256);
             String string2 = Config.readInputStream(inputStream);
             inputStream.close();
             String[] strings = Config.tokenize(string2, "\n\r");

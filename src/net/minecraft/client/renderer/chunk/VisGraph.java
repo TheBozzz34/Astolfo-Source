@@ -18,7 +18,6 @@ public class VisGraph {
    private final BitSet field_178612_d = new BitSet(4096);
    private static final int[] field_178613_e = new int[1352];
    private int field_178611_f = 4096;
-   private static final long a = 62532722898767L;
 
    public void func_178606_a(BlockPos pos) {
       SetupTerrainEvent setupTerrainEvent = new SetupTerrainEvent();

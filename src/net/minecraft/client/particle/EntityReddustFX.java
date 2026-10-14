@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public class EntityReddustFX extends EntityFX {
    public float reddustParticleScale;
-   private static final long ab = 47168576080594L;
 
    public EntityReddustFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, float f, float g, float h) {
       this(worldIn, xCoordIn, yCoordIn, zCoordIn, 1.0F, f, g, h);

@@ -16,20 +16,13 @@ public class FileReceiveSession implements Closeable {
    public long i;
    public SocketChannel D;
    public FileChannel w;
-   public ByteBuffer V;
-   public ByteBuffer X;
-   public int L;
-   public int j;
-   public int c;
-   private static final long a = 86318997059059L;
-   private static final long b = 8936182043516076040L;
+   public ByteBuffer V = ByteBuffer.allocateDirect(8);
+   public ByteBuffer X = null;
+   public int L = 0;
+   public int j = 0;
+   public int c = 0;
 
    public FileReceiveSession(Path path, long l) {
-      this.V = ByteBuffer.allocateDirect((int)b);
-      this.X = null;
-      this.L = 0;
-      this.j = 0;
-      this.c = 0;
       this.O = path;
       this.i = l;
    }

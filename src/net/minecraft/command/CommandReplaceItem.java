@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 
 public class CommandReplaceItem extends CommandBase {
    private static final Map<String, Integer> SHORTCUTS = Maps.newHashMap();
-   private static final long b = 99219943723977L;
 
    @Override
    public String getCommandName() {

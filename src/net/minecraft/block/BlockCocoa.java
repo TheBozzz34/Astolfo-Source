@@ -20,8 +20,6 @@ import net.minecraft.world.World;
 
 public class BlockCocoa extends BlockDirectional implements IGrowable {
    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 2);
-   private static final long e = 113884937358325L;
-   private static final long i = 4167424058847133711L;
 
    public BlockCocoa() {
       super(Material.plants);
@@ -164,7 +162,7 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 
    @Override
    public IBlockState getStateFromMeta(int meta) {
-      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(AGE, (meta & (int)i) >> 2);
+      return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(AGE, (meta & 15) >> 2);
    }
 
    @Override

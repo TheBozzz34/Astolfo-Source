@@ -9,9 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class PanelRenderer implements ElementRenderer<TabGui.Panel> {
-   private static final long a = 120718652994391L;
-   private static final long b = -1538887585315684192L;
-
    public void x(TabGui.Panel panel, ScaledResolution scaledResolution, Minecraft minecraft) {
       float f = panel.getSelectedIndex() * panel.getTabGui().p().O().getStringHeight("D");
       float g = f - panel.h;
@@ -36,7 +33,7 @@ public class PanelRenderer implements ElementRenderer<TabGui.Panel> {
          panel.getTabGui().Q(),
          panel.getTabGui().J() + panel.F() + (float)panel.x().getWidth(),
          panel.getTabGui().Q() + (float)panel.x().getHeight(),
-         new Color(0, 0, 0, (int)b).getRGB()
+         new Color(0, 0, 0, 160).getRGB()
       );
       RenderUtil.drawRect(
          panel.getTabGui().J() + panel.F(),

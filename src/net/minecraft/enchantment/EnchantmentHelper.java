@@ -27,7 +27,6 @@ public class EnchantmentHelper {
    private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving();
    private static final EnchantmentHelper.HurtIterator ENCHANTMENT_ITERATOR_HURT = new EnchantmentHelper.HurtIterator();
    private static final EnchantmentHelper.DamageIterator ENCHANTMENT_ITERATOR_DAMAGE = new EnchantmentHelper.DamageIterator();
-   private static final long a = 125056557435934L;
 
    public static int getEnchantmentLevel(int enchID, ItemStack stack) {
       if (stack == null) {

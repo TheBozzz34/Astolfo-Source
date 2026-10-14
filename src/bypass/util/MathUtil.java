@@ -5,7 +5,6 @@ import net.minecraft.util.Vec3;
 
 public final class MathUtil {
    public static final DecimalFormat ONE_DECIMAL = new DecimalFormat("#.#");
-   private static final long a = 110026111294346L;
 
    public static double interpolate(double d, double d2, float f, double d3) {
       return d + (d2 - d) * f - d3;

@@ -8,7 +8,6 @@ import shadersmod.client.ShadersTex;
 public class TextureClock extends TextureAtlasSprite {
    private double currentAngle;
    private double angleDelta;
-   private static final long g = 134292956062522L;
 
    public TextureClock(String iconName) {
       super(iconName);

@@ -18,7 +18,6 @@ public class WorldGenForest extends WorldGenAbstractTree {
       .withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.BIRCH)
       .withProperty(BlockOldLeaf.CHECK_DECAY, false);
    private boolean useExtraRandomHeight;
-   private static final long a = 93949621887721L;
 
    public WorldGenForest(boolean bl, boolean bl2) {
       super(bl);

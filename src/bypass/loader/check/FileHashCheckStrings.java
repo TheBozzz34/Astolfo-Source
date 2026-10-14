@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class FileHashCheckStrings {
    public static String l = "ARCFOUR";
    public static String h = "Aw2OgNgtvup2XlDe";
-   private static final long a = 95438398428852L;
 
    public static String s(String string) {
       String string2 = "yoeWyJ6Pn2HzUCR1QgtbTw==";

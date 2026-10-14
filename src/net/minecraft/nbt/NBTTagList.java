@@ -12,7 +12,6 @@ public class NBTTagList extends NBTBase {
    private static final Logger LOGGER = LogManager.getLogger();
    private List<NBTBase> tagList = Lists.newArrayList();
    private byte tagType = 0;
-   private static final long c = 122194312244805L;
 
    @Override
    public void write(DataOutput output) throws IOException {

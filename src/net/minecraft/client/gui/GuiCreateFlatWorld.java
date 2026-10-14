@@ -26,7 +26,6 @@ public class GuiCreateFlatWorld extends GuiScreen {
    private GuiButton field_146389_t;
    private GuiButton field_146388_u;
    private GuiButton field_146386_v;
-   private static final long a = 13255165786350L;
 
    public GuiCreateFlatWorld(GuiCreateWorld createWorldGuiIn, String string) {
       this.createWorldGui = createWorldGuiIn;
@@ -123,7 +122,6 @@ public class GuiCreateFlatWorld extends GuiScreen {
 
    public class Details extends GuiSlot {
       public int field_148228_k = -1;
-      private static final long c = 89057583998757L;
 
       public Details() {
          super(GuiCreateFlatWorld.this.mc, GuiCreateFlatWorld.this.width, GuiCreateFlatWorld.this.height, 43, GuiCreateFlatWorld.this.height - 60, 24);

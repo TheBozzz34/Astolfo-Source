@@ -12,8 +12,6 @@ import oshi.util.platform.windows.WmiUtil;
 
 @ThreadSafe
 public final class WindowsSensors extends AbstractSensors {
-   private static final long b = 33165506972273L;
-
    @Override
    public double queryCpuTemperature() {
       double d = getTempFromOHM();

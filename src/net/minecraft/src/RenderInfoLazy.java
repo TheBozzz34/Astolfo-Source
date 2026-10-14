@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 public class RenderInfoLazy {
    private RenderChunk renderChunk;
    private RenderGlobal.ContainerLocalRenderInformation renderInfo;
-   private static final long a = 52661278021755L;
 
    public RenderChunk getRenderChunk() {
       return this.renderChunk;

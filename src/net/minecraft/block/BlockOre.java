@@ -14,8 +14,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class BlockOre extends Block {
-   private static final long e = 119115713094367L;
-
    public BlockOre() {
       this(Material.rock.getMaterialMapColor());
    }

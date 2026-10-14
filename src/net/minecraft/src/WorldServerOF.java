@@ -9,7 +9,6 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class WorldServerOF extends WorldServer {
    private MinecraftServer mcServer;
-   private static final long cb = 120610004128889L;
 
    public WorldServerOF(MinecraftServer par1MinecraftServer, ISaveHandler par2iSaveHandler, WorldInfo worldInfo, int par4, Profiler par6Profiler) {
       super(par1MinecraftServer, par2iSaveHandler, worldInfo, par4, par6Profiler);

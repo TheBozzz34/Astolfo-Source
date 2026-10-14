@@ -34,7 +34,6 @@ public abstract class AbstractPowerSource implements PowerSource {
    private String manufacturer;
    private String serialNumber;
    private double temperature;
-   private static final long b = 59213222441595L;
 
    public AbstractPowerSource(
       String name,
@@ -282,7 +281,6 @@ public abstract class AbstractPowerSource implements PowerSource {
    }
 
    private static String formatTimeRemaining(double timeInSeconds) {
-      long l = b ^ 135901085588239L;
       String string;
       if (timeInSeconds < -1.5) {
          string = "Charging";
@@ -291,7 +289,6 @@ public abstract class AbstractPowerSource implements PowerSource {
       } else {
          int i = (int)(timeInSeconds / 3600.0);
          int j = (int)(timeInSeconds % 3600.0 / 60.0);
-         long m = 4148454402148095858L ^ l;
          string = String.format("%d:%02d", i, j);
       }
 

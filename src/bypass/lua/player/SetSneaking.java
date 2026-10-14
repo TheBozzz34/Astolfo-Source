@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 public final class SetSneaking extends OneArgFunction {
-   private static final long a = 133748655312355L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isboolean()) {

@@ -8,8 +8,6 @@ public class VertexBuffer {
    private int glBufferId;
    private final VertexFormat vertexFormat;
    private int count;
-   private static final long a = 111296615867569L;
-   private static final long b = -1927494967832311580L;
 
    public VertexBuffer(VertexFormat vertexFormatIn) {
       this.vertexFormat = vertexFormatIn;
@@ -22,7 +20,7 @@ public class VertexBuffer {
 
    public void bufferData(ByteBuffer byteBuffer) {
       this.bindBuffer();
-      OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, byteBuffer, (int)b);
+      OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, byteBuffer, 35044);
       this.unbindBuffer();
       this.count = byteBuffer.limit() / this.vertexFormat.getNextOffset();
    }

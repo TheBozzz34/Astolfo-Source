@@ -20,7 +20,6 @@ public class WorldBorder {
    private double damageBuffer = 5.0;
    private int warningTime = 15;
    private int warningDistance = 5;
-   private static final long a = 78978247543139L;
 
    public boolean contains(BlockPos pos) {
       return pos.getX() + 1 > this.minX() && pos.getX() < this.maxX() && pos.getZ() + 1 > this.minZ() && pos.getZ() < this.maxZ();

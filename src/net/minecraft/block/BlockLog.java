@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 
 public abstract class BlockLog extends BlockRotatedPillar {
    public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.create("axis", BlockLog.EnumAxis.class);
-   private static final long i = 67573011504003L;
 
    public BlockLog() {
       super(Material.wood);
@@ -48,7 +47,6 @@ public abstract class BlockLog extends BlockRotatedPillar {
       NONE("none");
 
       private final String name;
-      private static final long a = 133766307492122L;
 
       EnumAxis(String name) {
          this.name = name;

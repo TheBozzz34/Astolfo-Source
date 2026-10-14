@@ -11,10 +11,9 @@ import org.lwjgl.input.Mouse;
 
 public class StringComponent extends SidebarSettingComponent {
    private boolean T;
-   private static final long d = 21925982432868L;
 
-   public StringComponent(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
-      super(moduleButton, setting, g, h, i, j);
+   public StringComponent(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
+      super(moduleButton, setting, f, g, i, j);
    }
 
    @Override
@@ -26,8 +25,6 @@ public class StringComponent extends SidebarSettingComponent {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 5492398223382L;
-      long m = l ^ 8972929756414L;
       if (Mouse.isButtonDown(0) && !this.G(i, j)) {
          this.T = false;
       }

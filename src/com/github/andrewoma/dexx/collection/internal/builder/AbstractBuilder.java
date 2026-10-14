@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 public abstract class AbstractBuilder<E, R> implements Builder<E, R> {
    private boolean built = false;
-   private static final long b = 74666353650036L;
 
    @Override
    public Builder<E, R> addAll(Traversable<E> elements) {

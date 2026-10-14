@@ -7,8 +7,6 @@ import java.util.Properties;
 import net.minecraft.util.ResourceLocation;
 
 public class FontUtils {
-   private static final long a = 44993888198802L;
-
    public static Properties readFontProperties(ResourceLocation locationFontTexture) {
       String string = locationFontTexture.getResourcePath();
       Properties properties2 = new Properties();
@@ -37,11 +35,8 @@ public class FontUtils {
    }
 
    public static void readCustomCharWidths(Properties props, float[] charWidth) {
-      long l = a ^ 85193696730783L;
-
       for (Object object : props.keySet()) {
          String string = (String)object;
-         long m = 8008471881356093290L ^ l;
          String string2 = "width.";
          if (string.startsWith(string2)) {
             String string3 = string.substring(string2.length());

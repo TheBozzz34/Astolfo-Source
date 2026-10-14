@@ -70,13 +70,11 @@ public class SimpleBakedModel implements IBakedModel {
 
    public static class Builder {
       private final List<BakedQuad> builderGeneralQuads = Lists.newArrayList();
-      private final List<List<BakedQuad>> builderFaceQuads;
+      private final List<List<BakedQuad>> builderFaceQuads = Lists.newArrayListWithCapacity(6);
       private final boolean builderAmbientOcclusion;
       private TextureAtlasSprite builderTexture;
       private boolean builderGui3d;
       private ItemCameraTransforms builderCameraTransforms;
-      private static final long a = 57892787859419L;
-      private static final long c = -1890038850101706746L;
 
       public Builder(ModelBlock model) {
          this(model.isAmbientOcclusion(), model.isGui3d(), model.getAllTransforms());
@@ -106,8 +104,6 @@ public class SimpleBakedModel implements IBakedModel {
       }
 
       private Builder(boolean ambientOcclusionIn, boolean gui3dIn, ItemCameraTransforms cameraTransformsIn) {
-         this.builderFaceQuads = Lists.newArrayListWithCapacity((int)c);
-
          for (EnumFacing enumFacing : EnumFacing.values()) {
             this.builderFaceQuads.add(Lists.newArrayList());
          }

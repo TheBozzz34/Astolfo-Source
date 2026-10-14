@@ -8,7 +8,6 @@ public class Rotator {
    private float smoothing;
    private Random random;
    private static final double s = 180.0 / Math.PI;
-   private static final long a = 17189128633061L;
 
    public Rotator(boolean bl, float f) {
       this.randomize = bl;

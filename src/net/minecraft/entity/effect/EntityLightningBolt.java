@@ -14,7 +14,6 @@ public class EntityLightningBolt extends EntityWeatherEffect {
    private int lightningState;
    public long boltVertex;
    private int boltLivingTime;
-   private static final long ab = 87380344513601L;
 
    public EntityLightningBolt(World worldIn, double posX, double posY, double posZ) {
       super(worldIn);

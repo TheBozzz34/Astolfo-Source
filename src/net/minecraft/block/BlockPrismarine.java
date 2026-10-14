@@ -17,7 +17,6 @@ public class BlockPrismarine extends Block {
    public static final int ROUGH_META = BlockPrismarine.EnumType.ROUGH.getMetadata();
    public static final int BRICKS_META = BlockPrismarine.EnumType.BRICKS.getMetadata();
    public static final int DARK_META = BlockPrismarine.EnumType.DARK.getMetadata();
-   private static final long i = 88979086226148L;
 
    public BlockPrismarine() {
       super(Material.rock);
@@ -71,7 +70,6 @@ public class BlockPrismarine extends Block {
       private final int meta;
       private final String name;
       private final String unlocalizedName;
-      private static final long b = 29528893950928L;
 
       EnumType(int meta, String name, String unlocalizedNameIn) {
          this.meta = meta;

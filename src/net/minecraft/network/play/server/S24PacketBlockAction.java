@@ -12,7 +12,6 @@ public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
    private int instrument;
    private int pitch;
    private Block block;
-   private static final long a = 61075946041781L;
 
    public S24PacketBlockAction() {
    }

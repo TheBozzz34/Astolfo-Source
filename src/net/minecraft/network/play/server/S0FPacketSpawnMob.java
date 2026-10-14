@@ -24,7 +24,6 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient> {
    private byte headPitch;
    private DataWatcher field_149043_l;
    private List<DataWatcher.WatchableObject> watcher;
-   private static final long a = 75819819801177L;
 
    public S0FPacketSpawnMob() {
    }

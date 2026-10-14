@@ -10,7 +10,6 @@ public class SkyBlockAuctionsReply extends AbstractReply {
    private int totalAuctions;
    private long lastUpdated;
    private JsonElement auctions;
-   private static final long c = 92762293816735L;
 
    public int C() {
       return this.page;

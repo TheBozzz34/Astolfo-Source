@@ -26,8 +26,6 @@ public class ItemArmor extends Item {
       "minecraft:items/empty_armor_slot_boots"
    };
    private static final IBehaviorDispenseItem dispenserBehavior = new BehaviorDefaultDispenseItem() {
-      private static final long b = 34130440522126L;
-
       @Override
       public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
          BlockPos blockPos = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
@@ -59,7 +57,6 @@ public class ItemArmor extends Item {
    public final int damageReduceAmount;
    public final int renderIndex;
    private final ItemArmor.ArmorMaterial material;
-   private static final long a = 29010270412698L;
 
    public ItemArmor(ItemArmor.ArmorMaterial material, int renderIndex, int armorType) {
       this.material = material;
@@ -180,7 +177,6 @@ public class ItemArmor extends Item {
       private final int maxDamageFactor;
       private final int[] damageReductionAmountArray;
       private final int enchantability;
-      private static final long a = 33212273193048L;
 
       ArmorMaterial(String name, int maxDamageIn, int[] reductionAmounts, int enchantability) {
          this.name = name;

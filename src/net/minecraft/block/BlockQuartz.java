@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class BlockQuartz extends Block {
    public static final PropertyEnum<BlockQuartz.EnumType> VARIANT = PropertyEnum.create("variant", BlockQuartz.EnumType.class);
-   private static final long e = 35826569948863L;
 
    public BlockQuartz() {
       super(Material.rock);
@@ -96,7 +95,6 @@ public class BlockQuartz extends Block {
       private final int meta;
       private final String field_176805_h;
       private final String unlocalizedName;
-      private static final long a = 137752925947759L;
 
       EnumType(int meta, String name, String unlocalizedNameIn) {
          this.meta = meta;

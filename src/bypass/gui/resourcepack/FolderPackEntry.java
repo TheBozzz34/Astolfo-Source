@@ -13,7 +13,6 @@ public class FolderPackEntry extends CustomPackEntry {
    public final File w;
    public final String B;
    public final boolean Y;
-   private static final long a = 64260344234225L;
 
    public FolderPackEntry(CustomResourcePacksScreen customResourcePacksScreen, File file) {
       super(customResourcePacksScreen);

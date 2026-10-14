@@ -14,7 +14,6 @@ public class StateMap extends StateMapperBase {
    private final IProperty<?> name;
    private final String suffix;
    private final List<IProperty<?>> ignored;
-   private static final long a = 43122860187579L;
 
    public StateMap(IProperty<?> name, String suffix, List<IProperty<?>> ignored) {
       this.name = name;

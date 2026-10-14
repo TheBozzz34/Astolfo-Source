@@ -13,8 +13,6 @@ import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class ClearWater {
-   private static final long a = 14276141465017L;
-
    public static void updateWaterOpacity(GameSettings settings, World world) {
       if (settings != null) {
          byte b = 3;

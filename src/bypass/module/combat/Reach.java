@@ -24,7 +24,6 @@ public final class Reach extends Module {
    };
    @EventHandler(ReachEvent.class)
    private Listener<ReachEvent> onReach = reachEvent -> reachEvent.setReach(this.s);
-   private static final long c = 17216868200059L;
 
    public Reach(Category category) {
       super(category);

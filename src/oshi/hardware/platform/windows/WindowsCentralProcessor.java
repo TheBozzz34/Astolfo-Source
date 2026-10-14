@@ -34,7 +34,6 @@ import oshi.util.tuples.Pair;
 @ThreadSafe
 public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    private Map<String, Integer> numaNodeProcToLogicalProcMap;
-   private static final long c = 61874349964357L;
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
@@ -98,8 +97,6 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    }
 
    private CentralProcessor.LogicalProcessor[] getLogicalProcessorInformationEx() {
-      long l = c ^ 67023847532962L;
-
       try {
          SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX[] systeM_LOGICAL_PROCESSOR_INFORMATION_EXs = Kernel32Util.getLogicalProcessorInformationEx(65535);
          ArrayList arrayList = new ArrayList();
@@ -121,22 +118,21 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
             }
          }
 
-         arrayList3.sort(Comparator.comparing(cIn -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)cIn).group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)cIn).mask.longValue()));
+         arrayList3.sort(Comparator.comparing(c -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)c).group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY)c).mask.longValue()));
          arrayList.sort(Comparator.comparing(p -> ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY[])p)[0].group * 64L + ((com.sun.jna.platform.win32.WinNT.GROUP_AFFINITY[])p)[0].mask.longValue()));
          ArrayList arrayList4 = new ArrayList();
 
          for (Object object : arrayList3) {
             GROUP_AFFINITY grouP_AFFINITY = (GROUP_AFFINITY)object;
             short s = grouP_AFFINITY.group;
-            long m = 8309171419103477737L ^ l;
-            long n = grouP_AFFINITY.mask.longValue();
-            int j = Long.numberOfTrailingZeros(n);
-            int k = 63 - Long.numberOfLeadingZeros(n);
+            long l = grouP_AFFINITY.mask.longValue();
+            int j = Long.numberOfTrailingZeros(l);
+            int k = 63 - Long.numberOfLeadingZeros(l);
 
-            for (int i2 = j; i2 <= k; i2++) {
-               if ((n & 1L << i2) > 0L) {
+            for (int m = j; m <= k; m++) {
+               if ((l & 1L << m) > 0L) {
                   CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(
-                     i2, getMatchingCore(arrayList3, s, i2), getMatchingPackage(arrayList, s, i2), getMatchingNumaNode(arrayList2, s, i2), s
+                     m, getMatchingCore(arrayList3, s, m), getMatchingPackage(arrayList, s, m), getMatchingNumaNode(arrayList2, s, m), s
                   );
                   arrayList4.add(logicalProcessor);
                }
@@ -144,12 +140,12 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
          }
 
          arrayList4.sort(Comparator.comparing(CentralProcessor.LogicalProcessor::getNumaNode).thenComparing(CentralProcessor.LogicalProcessor::getProcessorNumber));
-         int i3 = 0;
+         int n = 0;
          this.numaNodeProcToLogicalProcMap = new HashMap<>();
 
          for (Object object2 : arrayList4) {
             CentralProcessor.LogicalProcessor logicalProcessor2 = (CentralProcessor.LogicalProcessor)object2;
-            this.numaNodeProcToLogicalProcMap.put(String.format("%d,%d", logicalProcessor2.getNumaNode(), logicalProcessor2.getProcessorNumber()), i3++);
+            this.numaNodeProcToLogicalProcMap.put(String.format("%d,%d", logicalProcessor2.getNumaNode(), logicalProcessor2.getProcessorNumber()), n++);
          }
 
          return (oshi.hardware.CentralProcessor.LogicalProcessor[])(arrayList4.toArray(new CentralProcessor.LogicalProcessor[0]));
@@ -192,7 +188,6 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    }
 
    private CentralProcessor.LogicalProcessor[] getLogicalProcessorInformation() {
-      long l = c ^ 18766654459388L;
       ArrayList arrayList = new ArrayList();
       ArrayList arrayList2 = new ArrayList();
       SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] systeM_LOGICAL_PROCESSOR_INFORMATIONs = Kernel32Util.getLogicalProcessorInformation();
@@ -210,14 +205,13 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
       ArrayList arrayList3 = new ArrayList();
 
       for (int i = 0; i < arrayList2.size(); i++) {
-         long m = (Long)arrayList2.get(i);
-         int j = Long.numberOfTrailingZeros(m);
-         long n = 6218496673654721905L ^ l;
-         int k = 63 - Long.numberOfLeadingZeros(m);
+         long l = (Long)arrayList2.get(i);
+         int j = Long.numberOfTrailingZeros(l);
+         int k = 63 - Long.numberOfLeadingZeros(l);
 
-         for (int i2 = j; i2 <= k; i2++) {
-            if ((m & 1L << i2) > 0L) {
-               CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(i2, i, this.getBitMatchingPackageNumber(arrayList, i2));
+         for (int m = j; m <= k; m++) {
+            if ((l & 1L << m) > 0L) {
+               CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(m, i, this.getBitMatchingPackageNumber(arrayList, m));
                arrayList3.add(logicalProcessor);
             }
          }

@@ -13,8 +13,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public class EmptyChunk extends Chunk {
-   private static final long d = 25027088410370L;
-
    public EmptyChunk(World worldIn, int x, int z) {
       super(worldIn, x, z);
    }

@@ -9,9 +9,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityRainFX extends EntityFX {
-   private static final long ab = 86618652444762L;
-   private static final long hb = 7183974934530490387L;
-
    public EntityRainFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.3F;
@@ -20,7 +17,7 @@ public class EntityRainFX extends EntityFX {
       this.particleRed = 1.0F;
       this.particleGreen = 1.0F;
       this.particleBlue = 1.0F;
-      this.setParticleTextureIndex((int)hb + this.rand.nextInt(4));
+      this.setParticleTextureIndex(19 + this.rand.nextInt(4));
       this.setSize(0.01F, 0.01F);
       this.particleGravity = 0.06F;
       this.particleMaxAge = (int)(8.0 / (Math.random() * 0.8 + 0.2));

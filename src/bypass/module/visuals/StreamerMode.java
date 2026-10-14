@@ -31,7 +31,6 @@ public final class StreamerMode extends Module {
          }
       }
    };
-   private static final long c = 62595111665192L;
 
    public StreamerMode(Category category) {
       super(category);

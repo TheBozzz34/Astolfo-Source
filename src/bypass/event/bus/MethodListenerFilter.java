@@ -5,8 +5,6 @@ import bypass.event.EventHandler;
 import java.lang.reflect.Method;
 
 public class MethodListenerFilter implements ListenerFilter<Method> {
-   private static final long a = 93278108644666L;
-
    public boolean isListener(Method method) {
       Class[] classs = method.getParameterTypes();
       return ListenerFilter.super.isListener(method) && classs.length == 1 && Event.class.isAssignableFrom(classs[0]);

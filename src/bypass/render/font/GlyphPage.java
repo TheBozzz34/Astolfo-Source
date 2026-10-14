@@ -16,7 +16,6 @@ public final class GlyphPage {
    private int F = 0;
    private int c;
    private int D;
-   private static final long a = 85247811898493L;
 
    public GlyphPage X(Font font, boolean bl) {
       return this.S(font, bl, bl, 16, 2);

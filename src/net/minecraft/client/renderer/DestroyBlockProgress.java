@@ -7,7 +7,6 @@ public class DestroyBlockProgress {
    private final BlockPos position;
    private int partialBlockProgress;
    private int createdAtCloudUpdateTick;
-   private static final long a = 62082265650570L;
 
    public DestroyBlockProgress(int miningPlayerEntIdIn, BlockPos positionIn) {
       this.miningPlayerEntId = miningPlayerEntIdIn;

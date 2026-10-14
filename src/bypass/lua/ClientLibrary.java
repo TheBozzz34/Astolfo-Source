@@ -24,7 +24,6 @@ public class ClientLibrary extends TwoArgFunction implements ClientAccess {
    public static final ZeroArgFunction N = new Title();
    public static final ZeroArgFunction T = new Subtitle();
    public static final OneArgFunction f = new Print();
-   private static final long b = 5556459501463L;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {

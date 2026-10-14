@@ -10,7 +10,6 @@ public class CacheLocalByte {
    private byte[][][] k = (byte[][][])null;
    private byte[] j = null;
    private int y = 0;
-   private static final long a = 69421592994260L;
 
    public CacheLocalByte(int maxX, int maxY, int maxZ) {
       this.m = maxX;

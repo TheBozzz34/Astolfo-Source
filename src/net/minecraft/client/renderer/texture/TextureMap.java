@@ -55,7 +55,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
    private int u = 0;
    public int atlasWidth = 0;
    public int atlasHeight = 0;
-   private static final long a = 27945421490205L;
 
    public TextureMap(String string) {
       this(string, (IIconCreator)null);
@@ -113,7 +112,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
    }
 
    public void loadTextureAtlas(IResourceManager resourceManager) {
-      long l = a ^ 85209644597267L;
       Config.dbg("Multitexture: " + Config.isMultiTexture());
       if (Config.isMultiTexture()) {
          for (Object object : this.mapUploadedSprites.values()) {
@@ -125,13 +123,12 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       CustomItems.updateIcons(this);
       int i = Minecraft.getGLMaximumTextureSize();
       Stitcher stitcher = new Stitcher(i, i, true, 0, this.mipmapLevels);
-      long m = 6462237240004000619L ^ l;
       this.mapUploadedSprites.clear();
       this.listAnimatedSprites.clear();
       int j = Integer.MAX_VALUE;
       Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPre, this);
       int k = this.getMinSpriteSize();
-      int n = 1 << this.mipmapLevels;
+      int l = 1 << this.mipmapLevels;
 
       for (Object object2 : this.mapRegisteredSprites.entrySet()) {
          TextureAtlasSprite textureAtlasSprite = (TextureAtlasSprite)((Entry)object2).getValue();
@@ -143,11 +140,11 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                BufferedImage[] bufferedImages = new BufferedImage[1 + this.mipmapLevels];
                bufferedImages[0] = TextureUtil.readBufferedImage(iResource.getInputStream());
                if (this.mipmapLevels > 0 && bufferedImages != null) {
-                  int i2 = bufferedImages[0].getWidth();
+                  int m = bufferedImages[0].getWidth();
                   bufferedImages[0] = TextureUtils.scaleToPowerOfTwo(bufferedImages[0], k);
-                  int i3 = bufferedImages[0].getWidth();
-                  if (!TextureUtils.isPowerOfTwo(i2)) {
-                     Config.log("Scaled non power of 2: " + textureAtlasSprite.getIconName() + ", " + i2 + " -> " + i3);
+                  int n = bufferedImages[0].getWidth();
+                  if (!TextureUtils.isPowerOfTwo(m)) {
+                     Config.log("Scaled non power of 2: " + textureAtlasSprite.getIconName() + ", " + m + " -> " + n);
                   }
                }
 
@@ -155,22 +152,22 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                if (textureMetadataSection != null) {
                   List list = textureMetadataSection.getListMipmaps();
                   if (!list.isEmpty()) {
-                     int i4 = bufferedImages[0].getWidth();
-                     int i5 = bufferedImages[0].getHeight();
-                     if (MathHelper.roundUpToPowerOfTwo(i4) != i4 || MathHelper.roundUpToPowerOfTwo(i5) != i5) {
+                     int i2 = bufferedImages[0].getWidth();
+                     int i3 = bufferedImages[0].getHeight();
+                     if (MathHelper.roundUpToPowerOfTwo(i2) != i2 || MathHelper.roundUpToPowerOfTwo(i3) != i3) {
                         throw new RuntimeException("Unable to load extra miplevels, source-texture is not power of two");
                      }
                   }
 
                   for (Object object3 : list) {
-                     int i6 = (int)object3;
-                     if (i6 > 0 && i6 < bufferedImages.length - 1 && bufferedImages[i6] == null) {
-                        ResourceLocation resourceLocation3 = this.completeResourceLocation(resourceLocation, i6);
+                     int i4 = (int)object3;
+                     if (i4 > 0 && i4 < bufferedImages.length - 1 && bufferedImages[i4] == null) {
+                        ResourceLocation resourceLocation3 = this.completeResourceLocation(resourceLocation, i4);
 
                         try {
-                           bufferedImages[i6] = TextureUtil.readBufferedImage(resourceManager.getResource(resourceLocation3).getInputStream());
+                           bufferedImages[i4] = TextureUtil.readBufferedImage(resourceManager.getResource(resourceLocation3).getInputStream());
                         } catch (IOException ioException) {
-                           logger.error("Unable to load miplevel {} from: {}", i6, resourceLocation3, ioException);
+                           logger.error("Unable to load miplevel {} from: {}", i4, resourceLocation3, ioException);
                         }
                      }
                   }
@@ -187,17 +184,17 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
             }
 
             j = Math.min(j, Math.min(textureAtlasSprite.getIconWidth(), textureAtlasSprite.getIconHeight()));
-            int i7 = Math.min(Integer.lowestOneBit(textureAtlasSprite.getIconWidth()), Integer.lowestOneBit(textureAtlasSprite.getIconHeight()));
-            if (i7 < n) {
+            int i5 = Math.min(Integer.lowestOneBit(textureAtlasSprite.getIconWidth()), Integer.lowestOneBit(textureAtlasSprite.getIconHeight()));
+            if (i5 < l) {
                logger.warn(
                   "Texture {} with size {}x{} limits mip level from {} to {}",
                   resourceLocation2,
                   textureAtlasSprite.getIconWidth(),
                   textureAtlasSprite.getIconHeight(),
-                  MathHelper.calculateLogBaseTwo(n),
-                  MathHelper.calculateLogBaseTwo(i7)
+                  MathHelper.calculateLogBaseTwo(l),
+                  MathHelper.calculateLogBaseTwo(i5)
                );
-               n = i7;
+               l = i5;
             }
 
             stitcher.addSprite(textureAtlasSprite);
@@ -207,15 +204,15 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
          }
       }
 
-      int i8 = Math.min(j, n);
-      int i9 = MathHelper.calculateLogBaseTwo(i8);
-      if (i9 < 0) {
-         i9 = 0;
+      int i6 = Math.min(j, l);
+      int i7 = MathHelper.calculateLogBaseTwo(i6);
+      if (i7 < 0) {
+         i7 = 0;
       }
 
-      if (i9 < this.mipmapLevels) {
-         logger.info("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, this.mipmapLevels, i9, i8);
-         this.mipmapLevels = i9;
+      if (i7 < this.mipmapLevels) {
+         logger.info("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, this.mipmapLevels, i7, i6);
+         this.mipmapLevels = i7;
       }
 
       for (Object object4 : this.mapRegisteredSprites.values()) {
@@ -232,15 +229,11 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                }
             });
             crashReportCategory.addCrashSectionCallable("Sprite size", new Callable<String>() {
-               private static final long a = 88460750642069L;
-
                public String call() throws Exception {
                   return textureAtlasSprite2.getIconWidth() + " x " + textureAtlasSprite2.getIconHeight();
                }
             });
             crashReportCategory.addCrashSectionCallable("Sprite frames", new Callable<String>() {
-               private static final long a = 49279306030653L;
-
                public String call() throws Exception {
                   return textureAtlasSprite2.getFrameCount() + " frames";
                }
@@ -283,18 +276,18 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       }
 
       if (Config.isMultiTexture()) {
-         int i10 = stitcher.f();
-         int i11 = stitcher.Y();
+         int i8 = stitcher.f();
+         int i9 = stitcher.Y();
 
          for (Object object7 : stitcher.getStichSlots()) {
             TextureAtlasSprite textureAtlasSprite4 = (TextureAtlasSprite)object7;
-            textureAtlasSprite4.sheetWidth = i10;
-            textureAtlasSprite4.sheetHeight = i11;
+            textureAtlasSprite4.sheetWidth = i8;
+            textureAtlasSprite4.sheetHeight = i9;
             textureAtlasSprite4.mipmapLevels = this.mipmapLevels;
             TextureAtlasSprite textureAtlasSprite5 = textureAtlasSprite4.spriteSingle;
             if (textureAtlasSprite5 != null) {
-               textureAtlasSprite5.sheetWidth = i10;
-               textureAtlasSprite5.sheetHeight = i11;
+               textureAtlasSprite5.sheetWidth = i8;
+               textureAtlasSprite5.sheetHeight = i9;
                textureAtlasSprite5.mipmapLevels = this.mipmapLevels;
                textureAtlasSprite4.bindSpriteTexture();
                boolean bl = false;

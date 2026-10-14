@@ -4,8 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
 public class ModelZombie extends ModelBiped {
-   private static final long c = 15740149137335L;
-
    public ModelZombie() {
       this(0.0F, false);
    }

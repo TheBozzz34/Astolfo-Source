@@ -15,7 +15,6 @@ public enum ClientChat {
    private final EnumChatFormatting F = EnumChatFormatting.AQUA;
    private final ChatComponentStyle Y = this.D(false, false).i("§8> §f").N().u();
    private static final ClientChat[] C = new ClientChat[]{CHAT};
-   private static final long a = 103264722357314L;
 
    public void I(String string) {
       if (HUD.isPowerBranding()) {

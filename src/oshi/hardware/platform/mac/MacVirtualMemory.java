@@ -16,7 +16,6 @@ import oshi.util.tuples.Pair;
 public final class MacVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Pair<Long, Long>> usedTotal = Memoizer.memoize(MacVirtualMemory::querySwapUsage, Memoizer.defaultExpiration());
    private final Supplier<Pair<Long, Long>> inOut = Memoizer.memoize(MacVirtualMemory::queryVmStat, Memoizer.defaultExpiration());
-   private static final long a = 56391752108704L;
 
    @Override
    public long y() {

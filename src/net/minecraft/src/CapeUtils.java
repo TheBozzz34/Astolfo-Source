@@ -12,8 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FilenameUtils;
 
 public class CapeUtils {
-   private static final long a = 33570160743770L;
-
    public static void downloadCape(AbstractClientPlayer player) {
       String string = player.getNameClear();
       if (string != null && !string.isEmpty()) {

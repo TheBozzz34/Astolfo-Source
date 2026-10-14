@@ -10,8 +10,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemRedstone extends Item {
-   private static final long a = 101699386968330L;
-
    public ItemRedstone() {
       this.setCreativeTab(CreativeTabs.tabRedstone);
    }

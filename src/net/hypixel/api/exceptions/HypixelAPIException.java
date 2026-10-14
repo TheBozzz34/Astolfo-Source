@@ -1,8 +1,6 @@
 package net.hypixel.api.exceptions;
 
 public class HypixelAPIException extends RuntimeException {
-   private static final long b = 7110322635741L;
-
    public HypixelAPIException() {
    }
 

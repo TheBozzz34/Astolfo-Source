@@ -18,7 +18,6 @@ public class EntityMinecartFurnace extends EntityMinecart {
    private int fuel;
    public double pushX;
    public double pushZ;
-   private static final long ab = 118905500189550L;
 
    public EntityMinecartFurnace(World worldIn) {
       super(worldIn);

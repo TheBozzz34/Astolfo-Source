@@ -22,7 +22,6 @@ public class BlockFence extends Block {
    public static final PropertyBool EAST = PropertyBool.create("east");
    public static final PropertyBool SOUTH = PropertyBool.create("south");
    public static final PropertyBool WEST = PropertyBool.create("west");
-   private static final long e = 108758468717065L;
 
    public BlockFence(Material materialIn) {
       this(materialIn, materialIn.getMaterialMapColor());

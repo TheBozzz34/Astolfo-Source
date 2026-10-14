@@ -19,7 +19,6 @@ public class WorldGenSavannaTree extends WorldGenAbstractTree {
       .getDefaultState()
       .withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA)
       .withProperty(BlockLeaves.CHECK_DECAY, false);
-   private static final long a = 68662523949693L;
 
    public WorldGenSavannaTree(boolean bl) {
       super(bl);

@@ -5,8 +5,6 @@ import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 
 public class FontCommand extends Command {
-   private static final long d = 92021516688091L;
-
    public FontCommand(String string, String string2) {
       super(string, string2);
    }

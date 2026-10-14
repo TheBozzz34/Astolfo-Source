@@ -13,7 +13,6 @@ import net.minecraft.world.LockCode;
 public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer {
    private String guiID;
    private Map<Integer, Integer> field_174895_b = Maps.newHashMap();
-   private static final long a = 13462063080658L;
 
    public ContainerLocalMenu(String id, IChatComponent title, int slotCount) {
       super(title, slotCount);

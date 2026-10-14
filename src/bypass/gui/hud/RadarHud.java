@@ -22,7 +22,6 @@ public class RadarHud extends Component {
    private final int e = new Color(15, 176, 245, 255).getRGB();
    private final int X = new Color(200, 200, 200).getRGB();
    private final int f = new Color(200, 60, 71).getRGB();
-   private static final long c = 96681278444354L;
 
    public RadarHud(float f, float g, int i, int j) {
       super("radar", f, g, i, j);
@@ -94,11 +93,6 @@ public class RadarHud extends Component {
    }
 
    private int t(Entity entity) {
-      long l = c ^ 104664927551934L;
-      long m = l ^ 133659505719201L;
-      int i = (int)((l ^ 133659505719201L) >>> 56);
-      int j = (int)((l ^ 133659505719201L) << 8 >>> 32);
-      int k = (int)(m << 40 >>> 40);
       if (client.getRelationManager().D(entity)) {
          return this.f;
       } else if (client.getRelationManager().z(entity)) {

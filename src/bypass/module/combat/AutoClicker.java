@@ -32,7 +32,6 @@ public final class AutoClicker extends Module {
    private final Stopwatch J = new Stopwatch();
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      long l = c ^ 32826558056167L;
       this.p();
       if (this.maxCPS.getValue() < this.minCPS.getValue()) {
          this.maxCPS.setValue(this.minCPS.getValue());
@@ -56,7 +55,6 @@ public final class AutoClicker extends Module {
                if (this.block.getSetting("Enable").asBoolean() && GameUtil.isHoldingSword(mc.thePlayer) && Mouse.isButtonDown(1)) {
                   KeyBinding.onTick(mc.gameSettings.Z7.getKeyCode());
                   mc.gameSettings.Z7.pressed = true;
-                  long m = 4858544727439837639L ^ l;
                   float f = 100 - this.block.getSetting("Chance").asInt();
                   boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
                   if (bl) {
@@ -73,7 +71,6 @@ public final class AutoClicker extends Module {
          }
       }
    };
-   private static final long c = 2072982790672L;
 
    public AutoClicker(Category category) {
       super(category);

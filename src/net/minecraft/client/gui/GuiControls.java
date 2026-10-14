@@ -17,7 +17,6 @@ public class GuiControls extends GuiScreen {
    public long time;
    private GuiKeyBindingList keyBindingList;
    private GuiButton buttonReset;
-   private static final long b = 91663225943679L;
 
    public GuiControls(GuiScreen screen, GameSettings settings) {
       this.parentScreen = screen;

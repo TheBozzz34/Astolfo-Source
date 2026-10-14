@@ -13,7 +13,6 @@ public final class PerfCounterQueryHandler {
    private Map<PerfDataUtil.PerfCounter, HANDLEByReference> counterHandleMap = new ConcurrentHashMap<>();
    private Map<String, HANDLEByReference> queryHandleMap = new ConcurrentHashMap<>();
    private Map<String, List<PerfDataUtil.PerfCounter>> queryCounterMap = new ConcurrentHashMap<>();
-   private static final long a = 138244549769680L;
 
    public PerfCounterQueryHandler() {
       Runtime.getRuntime().addShutdownHook(new Thread() {

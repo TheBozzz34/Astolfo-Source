@@ -6,8 +6,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class WorldGenFire extends WorldGenerator {
-   private static final long a = 17783718171040L;
-
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {
       for (int i = 0; i < 64; i++) {

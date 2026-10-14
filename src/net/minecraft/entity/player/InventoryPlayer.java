@@ -23,7 +23,6 @@ public class InventoryPlayer implements IInventory, Cloneable {
    public EntityPlayer player;
    private ItemStack itemStack;
    public boolean inventoryChanged;
-   private static final long a = 6242534706069L;
 
    public InventoryPlayer(EntityPlayer playerIn) {
       this.player = playerIn;

@@ -17,8 +17,6 @@ import org.apache.commons.lang3.Validate;
 public class AnimationMetadataSectionSerializer
    extends BaseMetadataSectionSerializer<AnimationMetadataSection>
    implements JsonSerializer<AnimationMetadataSection> {
-   private static final long a = 18009762105614L;
-
    public AnimationMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
       ArrayList arrayList = Lists.newArrayList();
       JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "metadata section");

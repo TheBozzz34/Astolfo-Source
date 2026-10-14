@@ -9,7 +9,6 @@ public class EntityAIPanic extends EntityAIBase {
    private double randPosX;
    private double randPosY;
    private double randPosZ;
-   private static final long a = 60329686559242L;
 
    public EntityAIPanic(EntityCreature creature, double speedIn) {
       this.theEntityCreature = creature;

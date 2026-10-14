@@ -11,7 +11,6 @@ import java.util.WeakHashMap;
 
 public final class FieldScanner implements MemberScanner<Field> {
    public final Map<Class<?>, Reference<Field[]>> b = new WeakHashMap<>();
-   private static final long a = 16534970935776L;
 
    @Override
    public void collect(Class<?> class2, List<Field> list) {

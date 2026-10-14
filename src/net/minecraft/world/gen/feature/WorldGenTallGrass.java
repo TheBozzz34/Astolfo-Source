@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 public class WorldGenTallGrass extends WorldGenerator {
    private final IBlockState tallGrassState;
-   private static final long a = 128083234366648L;
 
    public WorldGenTallGrass(BlockTallGrass.EnumType enumType) {
       this.tallGrassState = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, enumType);

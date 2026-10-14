@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentOxygen extends Enchantment {
-   private static final long m = 96090042451538L;
-
    public EnchantmentOxygen(int enchID, ResourceLocation resourceLocation, int i) {
       super(enchID, resourceLocation, i, EnumEnchantmentType.ARMOR_HEAD);
       this.setName("oxygen");

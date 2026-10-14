@@ -17,7 +17,6 @@ public class CloudRenderer {
    private double updatePlayerX = 0.0;
    private double updatePlayerY = 0.0;
    private double updatePlayerZ = 0.0;
-   private static final long a = 133384793235791L;
 
    public CloudRenderer(Minecraft mc) {
       this.mc = mc;

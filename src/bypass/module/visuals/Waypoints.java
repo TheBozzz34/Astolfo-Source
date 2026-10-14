@@ -45,7 +45,6 @@ public final class Waypoints extends Module {
       }
    };
    public static final boolean W = !Waypoints.class.desiredAssertionStatus();
-   private static final long c = 98607734995140L;
 
    public Waypoints(Category category) {
       super(category);
@@ -54,7 +53,6 @@ public final class Waypoints extends Module {
    }
 
    private void o(Minecraft minecraft, Waypoint waypoint, double d, double d2, double d3) {
-      long l = c ^ 94832676877468L;
       double e = minecraft.thePlayer.getDistance(waypoint.c(), waypoint.I(), waypoint.K());
       double d4 = minecraft.gameSettings.renderDistanceChunks * 12.8;
       double d5 = Math.sqrt(d * d + d3 * d3 + d2 * d2);
@@ -84,7 +82,6 @@ public final class Waypoints extends Module {
 
       GlStateManager.scale(-d8, -d8, d8);
       GlStateManager.disableLighting();
-      long m = 9013024031471692415L ^ l;
       GlStateManager.enableDepth();
       GlStateManager.depthMask(false);
       GlStateManager.disableDepth();

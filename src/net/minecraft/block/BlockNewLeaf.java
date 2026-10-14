@@ -18,14 +18,11 @@ import net.minecraft.world.World;
 public class BlockNewLeaf extends BlockLeaves {
    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create(
       "variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
-         private static final long a = 29744617169832L;
-
          public boolean apply(BlockPlanks.EnumType enumType) {
             return enumType.getMetadata() >= 4;
          }
       }
    );
-   private static final long e = 108993192577492L;
 
    public BlockNewLeaf() {
       this.setDefaultState(

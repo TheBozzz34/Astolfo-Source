@@ -119,7 +119,6 @@ public class TextureUtils {
    public static final String SPRITE_PREFIX_BLOCKS = "minecraft:blocks/";
    public static final String SPRITE_PREFIX_ITEMS = "minecraft:items/";
    private static IntBuffer staticBuffer = GLAllocation.createDirectIntBuffer(256);
-   private static final long ab = 84052644820302L;
 
    public static void update() {
       TextureMap textureMap = getTextureMapBlocks();
@@ -314,11 +313,9 @@ public class TextureUtils {
    }
 
    public static void applyAnisotropicLevel() {
-      long l = ab ^ 140355487236456L;
       if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic) {
          float f = GL11.glGetFloat(34047);
          float g = Config.getAnisotropicFilterLevel();
-         long m = 5253308827969494935L ^ l;
          g = Math.min(g, f);
          GL11.glTexParameterf(3553, 34046, g);
       }
@@ -440,7 +437,6 @@ public class TextureUtils {
    }
 
    public static void saveGlTexture(String name, int textureId, int mipmapLevels, int width, int height) {
-      long l = ab ^ 49330444783295L;
       bindTexture(textureId);
       GL11.glPixelStorei(3333, 1);
       GL11.glPixelStorei(3317, 1);
@@ -458,15 +454,14 @@ public class TextureUtils {
       for (int j = 0; j <= mipmapLevels; j++) {
          File file4 = new File(name + "_" + j + ".png");
          int k = width >> j;
-         long m = 2528722534420107649L ^ l;
-         int n = height >> j;
-         int i2 = k * n;
-         IntBuffer intBuffer = BufferUtils.createIntBuffer(i2);
-         int[] ints = new int[i2];
+         int l = height >> j;
+         int m = k * l;
+         IntBuffer intBuffer = BufferUtils.createIntBuffer(m);
+         int[] ints = new int[m];
          GL11.glGetTexImage(3553, j, 32993, 33639, intBuffer);
          intBuffer.get(ints);
-         BufferedImage bufferedImage = new BufferedImage(k, n, 2);
-         bufferedImage.setRGB(0, 0, k, n, ints, 0, k);
+         BufferedImage bufferedImage = new BufferedImage(k, l, 2);
+         bufferedImage.setRGB(0, 0, k, l, ints, 0, k);
 
          try {
             ImageIO.write(bufferedImage, "png", file4);
@@ -479,12 +474,9 @@ public class TextureUtils {
    }
 
    public static int getGLMaximumTextureSize() {
-      long l = ab ^ 129269130181127L;
-
       for (int i = 65536; i > 0; i >>= 1) {
          GL11.glTexImage2D(32868, 0, 6408, i, i, 0, 6408, 5121, (IntBuffer)null);
          int j = GL11.glGetError();
-         long m = 1998288007323378328L ^ l;
          int k = GL11.glGetTexLevelParameteri(32868, 0, 4096);
          if (k != 0) {
             return i;

@@ -9,9 +9,6 @@ import java.awt.Color;
 import net.minecraft.util.EnumChatFormatting;
 
 public class EnumComponent extends SettingComponent {
-   private static final long c = 22446301099627L;
-   private static final long d = -38810986638999432L;
-
    public EnumComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
    }
@@ -19,7 +16,7 @@ public class EnumComponent extends SettingComponent {
    @Override
    public void render(int i, int j) {
       RenderUtil.drawRect(
-         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, (int)d).getRGB()
+         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
       );
       client.getCustomFontRenderer()
          .drawStringWithShadow(

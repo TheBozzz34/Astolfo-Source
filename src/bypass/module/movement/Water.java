@@ -26,7 +26,6 @@ public final class Water extends Module {
          }
       }
    };
-   private static final long c = 93352456244166L;
 
    public Water(Category category) {
       super(category);

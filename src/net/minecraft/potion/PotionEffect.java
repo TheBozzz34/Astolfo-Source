@@ -14,7 +14,6 @@ public class PotionEffect {
    private boolean isAmbient;
    private boolean isPotionDurationMax;
    private boolean showParticles;
-   private static final long a = 124145540083956L;
 
    public PotionEffect(int id, int effectDuration) {
       this(id, effectDuration, 0);

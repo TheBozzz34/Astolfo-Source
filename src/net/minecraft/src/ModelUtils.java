@@ -8,8 +8,6 @@ import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.util.EnumFacing;
 
 public class ModelUtils {
-   private static final long a = 136646981529561L;
-
    public static void dbgModel(IBakedModel model) {
       if (model != null) {
          Config.dbg(

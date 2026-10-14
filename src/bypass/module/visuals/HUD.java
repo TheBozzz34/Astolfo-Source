@@ -165,15 +165,6 @@ public final class HUD extends Module {
    private boolean unusedFlag;
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
-      long m = cb ^ 117444247628891L;
-      long l2 = m ^ 72124163405718L;
-      int j = (int)((m ^ 72124163405718L) >>> 32);
-      int k = (int)((m ^ 72124163405718L) << 32 >>> 48);
-      int i2 = (int)(l2 << 48 >>> 48);
-      long l3 = m ^ 10229601044616L;
-      long l4 = m ^ 12051091349271L;
-      long l5 = (m ^ 63108773452726L) >>> 16;
-      int i3 = (int)((m ^ 63108773452726L) << 48 >>> 48);
       if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.n) {
          HUDWatermarkMode hudWatermarkMode = this.getWatermarkMode();
          float f = hudScale.getValue();
@@ -224,13 +215,13 @@ public final class HUD extends Module {
                         Color color = client.getColorSetting().getValue();
                         float g = 1.0F
                            - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.6F);
-                        int i4 = new Color(
+                        int j = new Color(
                               MathHelper.clamp_int((int)(color.getRed() * g), 0, 255),
                               MathHelper.clamp_int((int)(color.getGreen() * g), 0, 255),
                               MathHelper.clamp_int((int)(color.getBlue() * g), 0, 255)
                            )
                            .getRGB();
-                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, i4);
+                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, j);
                         client.getCustomFontRenderer()
                            .drawStringWithShadow(
                               string.substring(1), 2 + client.getCustomFontRenderer().getStringWidth(string.substring(0, 1)), 1.0F, Color.WHITE.getRGB()
@@ -240,8 +231,8 @@ public final class HUD extends Module {
                         client.getCustomFontRenderer().drawStringWithShadow(string, 1.0F, 1.0F, client.getColorSetting().getValue().getRGB());
                         break;
                      case RAINBOW:
-                        int i5 = Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F);
-                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, i5);
+                        int k = Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F);
+                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, k);
                         client.getCustomFontRenderer()
                            .drawStringWithShadow(
                               string.substring(1), 2 + client.getCustomFontRenderer().getStringWidth(string.substring(0, 1)), 1.0F, Color.WHITE.getRGB()
@@ -250,7 +241,7 @@ public final class HUD extends Module {
                      case RETARD:
                         GL11.glPushMatrix();
                         String string2 = "%s ︳ %s";
-                        int i6 = Math.min(
+                        int m = Math.min(
                            mc.thePlayer.getPlayerInfo() != null && mc.thePlayer.getPlayerInfo().getResponseTime() > 1
                               ? mc.thePlayer.getPlayerInfo().getResponseTime()
                               : (
@@ -260,7 +251,7 @@ public final class HUD extends Module {
                               ),
                            999
                         );
-                        if (i6 > 0) {
+                        if (m > 0) {
                            string2 = string2 + " ︳ ping: %sms";
                         }
 
@@ -272,7 +263,7 @@ public final class HUD extends Module {
                            string2,
                            client.getName() + (isDevelopment ? " [DEVELOPMENT]" : (client.getVersion().contains("BETA") ? " [BETA]" : "")),
                            mc.mouseHelper.Y().getAccount().getUsername(),
-                           i6
+                           m
                         );
                         RenderUtil.drawRect(3.0, 3.0, 10 + client.getFontRenderer().getStringWidth(string2), 18.0, new Color(1, 1, 1, 80).getRGB());
                         RenderUtil.drawRect(3.0, 3.0, 10 + client.getFontRenderer().getStringWidth(string2), 4.0, client.getColorSetting().getValue().getRGB());
@@ -325,9 +316,9 @@ public final class HUD extends Module {
             if (this.compass == null) {
                this.compass = new CompassHud(numberSetting.asFloat(), numberSetting2.asFloat(), 75, 20);
             } else {
-               int i7 = renderEvent.getResolution().getScaledHeight();
-               int i8 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i9 = i7 - Mouse.getY() * i7 / mc.displayHeight - 1;
+               int i2 = renderEvent.getResolution().getScaledHeight();
+               int i3 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i4 = i2 - Mouse.getY() * i2 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting.setValue(this.compass.M());
                   numberSetting2.setValue(this.compass.E_float());
@@ -342,14 +333,14 @@ public final class HUD extends Module {
                }
 
                this.compass.i(renderEvent.getResolution().getScaledWidth());
-               this.compass.render(i8, i9);
+               this.compass.render(i3, i4);
                if (mc.currentScreen instanceof GuiChat && this.compass.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.compass.T(i8, i9);
+                  this.compass.T(i3, i4);
                }
 
                if (Mouse.isButtonDown(0)
-                  && this.compass.u((int)this.compass.M() - 75, (int)this.compass.E_float(), this.compass.x() + 75, this.compass.Y(), i8, i9)) {
-                  this.compass.F(true, i8, i9);
+                  && this.compass.u((int)this.compass.M() - 75, (int)this.compass.E_float(), this.compass.x() + 75, this.compass.Y(), i3, i4)) {
+                  this.compass.F(true, i3, i4);
                } else {
                   this.compass.x(false);
                }
@@ -365,9 +356,9 @@ public final class HUD extends Module {
             if (this.outgoingGraph == null) {
                this.outgoingGraph = new PacketGraphHud(numberSetting3.asFloat(), numberSetting4.asFloat(), 150, 39);
             } else {
-               int i10 = renderEvent.getResolution().getScaledHeight();
-               int i11 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i12 = i10 - Mouse.getY() * i10 / mc.displayHeight - 1;
+               int i5 = renderEvent.getResolution().getScaledHeight();
+               int i6 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i7 = i5 - Mouse.getY() * i5 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting3.setValue(this.outgoingGraph.M());
                   numberSetting4.setValue(this.outgoingGraph.E_float());
@@ -383,13 +374,13 @@ public final class HUD extends Module {
 
                this.outgoingGraph.K(this.packetHistory);
                this.outgoingGraph.N(bl);
-               this.outgoingGraph.render(i11, i12);
+               this.outgoingGraph.render(i6, i7);
                if (mc.currentScreen instanceof GuiChat && this.outgoingGraph.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.outgoingGraph.T(i11, i12);
+                  this.outgoingGraph.T(i6, i7);
                }
 
-               if (Mouse.isButtonDown(0) && this.outgoingGraph.G(i11, i12)) {
-                  this.outgoingGraph.F(true, i11, i12);
+               if (Mouse.isButtonDown(0) && this.outgoingGraph.G(i6, i7)) {
+                  this.outgoingGraph.F(true, i6, i7);
                } else {
                   this.outgoingGraph.x(false);
                }
@@ -404,9 +395,9 @@ public final class HUD extends Module {
             if (this.incomingGraph == null) {
                this.incomingGraph = new PacketGraphHud(numberSetting5.asFloat(), numberSetting6.asFloat(), 150, 39);
             } else {
-               int i13 = renderEvent.getResolution().getScaledHeight();
-               int i14 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i15 = i13 - Mouse.getY() * i13 / mc.displayHeight - 1;
+               int i8 = renderEvent.getResolution().getScaledHeight();
+               int i9 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i10 = i8 - Mouse.getY() * i8 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting5.setValue(this.incomingGraph.M());
                   numberSetting6.setValue(this.incomingGraph.E_float());
@@ -423,13 +414,13 @@ public final class HUD extends Module {
                this.incomingGraph.K(this.packetHistory);
                this.incomingGraph.r(true);
                this.incomingGraph.N(bl);
-               this.incomingGraph.render(i14, i15);
+               this.incomingGraph.render(i9, i10);
                if (mc.currentScreen instanceof GuiChat && this.incomingGraph.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.incomingGraph.T(i14, i15);
+                  this.incomingGraph.T(i9, i10);
                }
 
-               if (Mouse.isButtonDown(0) && this.incomingGraph.G(i14, i15)) {
-                  this.incomingGraph.F(true, i14, i15);
+               if (Mouse.isButtonDown(0) && this.incomingGraph.G(i9, i10)) {
+                  this.incomingGraph.F(true, i9, i10);
                } else {
                   this.incomingGraph.x(false);
                }
@@ -449,9 +440,9 @@ public final class HUD extends Module {
             if (this.statsHud == null) {
                this.statsHud = new StatsHud(numberSetting7.asFloat(), numberSetting8.asFloat(), 300, 100);
             } else {
-               int i16 = renderEvent.getResolution().getScaledHeight();
-               int i17 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i18 = i16 - Mouse.getY() * i16 / mc.displayHeight - 1;
+               int i11 = renderEvent.getResolution().getScaledHeight();
+               int i12 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i13 = i11 - Mouse.getY() * i11 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting7.setValue(this.statsHud.M());
                   numberSetting8.setValue(this.statsHud.E_float());
@@ -475,13 +466,13 @@ public final class HUD extends Module {
 
                this.statsHud.J((AutoHypixelAutoCheckerGameMode)enumSetting.getValue());
                this.statsHud.I((Integer)numberSetting9.getValue());
-               this.statsHud.render(i17, i18);
+               this.statsHud.render(i12, i13);
                if (mc.currentScreen instanceof GuiChat && this.statsHud.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.statsHud.T(i17, i18);
+                  this.statsHud.T(i12, i13);
                }
 
-               if (Mouse.isButtonDown(0) && this.statsHud.G(i17, i18)) {
-                  this.statsHud.F(true, i17, i18);
+               if (Mouse.isButtonDown(0) && this.statsHud.G(i12, i13)) {
+                  this.statsHud.F(true, i12, i13);
                } else {
                   this.statsHud.x(false);
                }
@@ -511,8 +502,6 @@ public final class HUD extends Module {
    };
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = cb ^ 36484945199478L;
-      long m = l ^ 71517977129530L;
       boolean bl = this.isGraphEnabled();
       switch (packetEvent.getDirection()) {
          case OUTGOING:
@@ -548,7 +537,6 @@ public final class HUD extends Module {
    private int logoLetterIndex;
    private final ArrayList<String> leftInfoLines = new ArrayList<>();
    private final ArrayList<String> rightInfoLines = new ArrayList<>();
-   private static final long cb = 96011854057215L;
 
    public HUD(Category category) {
       super(category);
@@ -603,15 +591,13 @@ public final class HUD extends Module {
    }
 
    private void renderArrayList() {
-      long l = cb ^ 42338073567816L;
-      long m = l ^ 77673853882628L;
       int i = 0;
       float f = this.array.getSetting("Position").getValue() == HUDArrayPositionMode.DOWN ? 8.0F : -3.0F;
       float g = RenderUtil.getScaledWidth();
       float h = RenderUtil.getScaledHeight();
-      long n = Minecraft.getSystemTime();
+      long l = Minecraft.getSystemTime();
       if (Util.getOSType() != Util.EnumOS.WINDOWS) {
-         n = System.nanoTime() / 1000000L;
+         l = System.nanoTime() / 1000000L;
       }
 
       HUDArrayAnimationMode hudArrayAnimationMode = (HUDArrayAnimationMode)this.array.getSetting("Animation-").getValue();
@@ -643,14 +629,14 @@ public final class HUD extends Module {
          ModuleInfo moduleInfo6 = this.arrayModules.get(j);
          Module module = (Module)moduleInfo6;
          int k = client.getCustomFontRenderer().getStringWidth(StringUtils.stripControlCodes(moduleInfo6.getDisplayName()));
-         int i2 = (int)(g - (int)(bl ? module.animation.getValue(0.0, k + 1) : k + 1));
+         int m = (int)(g - (int)(bl ? module.animation.getValue(0.0, k + 1) : k + 1));
          if (this.array.getSetting("Bar").getValue() == HUDArrayBarMode.NONE
             || this.array.getSetting("Bar").getValue() == HUDArrayBarMode.LEFT
             || this.array.getSetting("Bar").getValue() == HUDArrayBarMode.FULL) {
-            i2 += 2;
+            m += 2;
          }
 
-         int i3 = (int)(
+         int n = (int)(
             (this.array.getSetting("Position").getValue() == HUDArrayPositionMode.DOWN ? h : 0.0F)
                - (int)(
                   (
@@ -661,52 +647,52 @@ public final class HUD extends Module {
                      + client.getCustomFontRenderer().getStringHeight(module.getName()) / 2
                )
          );
-         int i4 = this.getArrayColor(n, moduleInfo6.getCategory(), i, j);
-         int i5 = 11 - this.array.getSetting("Spacing").asInt();
-         int i6 = this.array.getSetting("Background-").asInt();
-         if (i6 > 0) {
-            RenderUtil.drawRect(i2 - 5.5F, i3 + 2, g, i3 + i5 + 2, new Color(1, 1, 1, i6).getRGB());
+         int i2 = this.getArrayColor(l, moduleInfo6.getCategory(), i, j);
+         int i3 = 11 - this.array.getSetting("Spacing").asInt();
+         int i4 = this.array.getSetting("Background-").asInt();
+         if (i4 > 0) {
+            RenderUtil.drawRect(m - 5.5F, n + 2, g, n + i3 + 2, new Color(1, 1, 1, i4).getRGB());
          }
 
          switch ((HUDArrayBarMode)this.array.getSetting("Bar").getValue()) {
             case RIGHT:
-               RenderUtil.drawRect(g - 1.0F, i3 + 2, g, i3 + i5 + 2, i4);
+               RenderUtil.drawRect(g - 1.0F, n + 2, g, n + i3 + 2, i2);
                break;
             case LEFT:
-               RenderUtil.drawRect(i2 - 5.5F, i3 + 2, i2 - 4.5F, i3 + i5 + 2, i4);
+               RenderUtil.drawRect(m - 5.5F, n + 2, m - 4.5F, n + i3 + 2, i2);
                break;
             case FULL:
-               RenderUtil.drawRect(i2 - 5.5F, i3 + 2, i2 - 4.5F, i3 + i5 + 2, i4);
+               RenderUtil.drawRect(m - 5.5F, n + 2, m - 4.5F, n + i3 + 2, i2);
                if (j < this.arrayModules.size() - 1) {
                   ModuleInfo moduleInfo7 = this.arrayModules.get(j + 1);
                   Module module2 = (Module)moduleInfo7;
                   if (moduleInfo7 != null) {
-                     int i7 = client.getCustomFontRenderer().getStringWidth(StringUtils.stripControlCodes(moduleInfo7.getDisplayName()));
-                     if (i7 > k) {
-                        int i8 = (int)(g - (int)(bl ? module.animation.getValue(0.0, i7 + 1) : i7 + 1));
-                        int i9 = (int)(
+                     int i5 = client.getCustomFontRenderer().getStringWidth(StringUtils.stripControlCodes(moduleInfo7.getDisplayName()));
+                     if (i5 > k) {
+                        int i6 = (int)(g - (int)(bl ? module.animation.getValue(0.0, i5 + 1) : i5 + 1));
+                        int i7 = (int)(
                            (this.array.getSetting("Position").getValue() == HUDArrayPositionMode.DOWN ? h : 0.0F)
                               - (int)(
                                  (this.array.getSetting("Position").getValue() == HUDArrayPositionMode.DOWN ? f : -f - 6.0F)
                                     + client.getCustomFontRenderer().getStringHeight(moduleInfo7.getName()) / 2
                               )
                         );
-                        RenderUtil.drawRect(i8 - 2.5F, i9 + i5 + 2.0F, i8 + Math.abs(k - i7) - 1.5F, i9 + i5 + 3.0F, i4);
+                        RenderUtil.drawRect(i6 - 2.5F, i7 + i3 + 2.0F, i6 + Math.abs(k - i5) - 1.5F, i7 + i3 + 3.0F, i2);
                      } else {
-                        float f2 = k - i7;
-                        RenderUtil.drawRect(i2 - 5.5F, i3 + i5 + 2.0F, i2 + module2.animation.getValue(0.0, f2) - 4.5, i3 + i5 + 3.0F, i4);
+                        float f2 = k - i5;
+                        RenderUtil.drawRect(m - 5.5F, n + i3 + 2.0F, m + module2.animation.getValue(0.0, f2) - 4.5, n + i3 + 3.0F, i2);
                      }
                   }
                } else {
-                  i5 = (int)(i5 + 2.0F);
-                  RenderUtil.drawRect(i2 - 5.5F, i3 + i5, g, i3 + i5 + 1, i4);
+                  i3 = (int)(i3 + 2.0F);
+                  RenderUtil.drawRect(m - 5.5F, n + i3, g, n + i3 + 1, i2);
                }
          }
 
-         client.getCustomFontRenderer().drawStringWithShadow(moduleInfo6.getDisplayName(), i2 - 3, i3 + 1, i4);
+         client.getCustomFontRenderer().drawStringWithShadow(moduleInfo6.getDisplayName(), m - 3, n + 1, i2);
          HUDArrayMode hudArrayMode = (HUDArrayMode)this.array.getSetting("Mode").getValue();
-         n -= hudArrayMode == HUDArrayMode.RAINBOW ? 100L : 280L;
-         f = (float)(f + (bl ? module.animation.getValue() * i5 : i5));
+         l -= hudArrayMode == HUDArrayMode.RAINBOW ? 100L : 280L;
+         f = (float)(f + (bl ? module.animation.getValue() * i3 : i3));
          if (++i >= flagColors.size()) {
             i = 0;
          }
@@ -775,7 +761,6 @@ public final class HUD extends Module {
    }
 
    public void drawAstolfoLogo() {
-      long l = cb ^ 51391696122757L;
       int i = client.getColorSetting().getValue().getRGB();
       int j = client.getColorSetting().getValue().darker().getRGB();
       if (this.logoLetterTimer.hasElapsed(6000.0F)) {
@@ -790,7 +775,6 @@ public final class HUD extends Module {
 
       GL11.glDisable(2884);
       GlStateManager.pushMatrix();
-      long m = 3610461468011116973L ^ l;
       GlStateManager.disableDepth();
       GlStateManager.translate(12.0F, 12.0F, 0.0F);
       GlStateManager.rotate(mc.thePlayer.ticksExisted % 360 * 3, 0.0F, 1.0F, 0.0F);
@@ -798,7 +782,6 @@ public final class HUD extends Module {
       RenderUtil.drawCircle(12.0, 12.0, 10.0, -1728053248);
       String string = String.valueOf("Astolfo".charAt(this.logoLetterIndex)).toUpperCase();
       float f = GuiMainMenu.P.getStringWidth((java.lang.String)(string));
-      m = 568332951577761163L ^ l;
       float g = GuiMainMenu.P.getStringHeight((java.lang.String)(string));
       GuiMainMenu.P.drawString(EnumChatFormatting.BOLD + string, 2.0F + (20.0F - f) / 2.0F - 1.0F, 4.0F + (20.0F - g) / 2.0F - 2.0F, j);
       GlStateManager.pushMatrix();
@@ -879,9 +862,6 @@ public final class HUD extends Module {
    }
 
    private void drawRightInfo(GuiIngame guiIngame) {
-      long m = cb ^ 11129960585938L;
-      long n = (m ^ 98588088069439L) >>> 16;
-      int i = (int)((m ^ 98588088069439L) << 48 >>> 48);
       this.rightInfoLines.clear();
       String string;
       if (isPowerBranding()) {
@@ -907,11 +887,11 @@ public final class HUD extends Module {
          this.rightInfoLines.add(string);
       }
 
-      int j = mc.thePlayer.getPlayerInfo() != null && mc.thePlayer.getPlayerInfo().getResponseTime() > 1
+      int i = mc.thePlayer.getPlayerInfo() != null && mc.thePlayer.getPlayerInfo().getResponseTime() > 1
          ? mc.thePlayer.getPlayerInfo().getResponseTime()
          : (mc.getCurrentServerData() != null && mc.getCurrentServerData().pingToServer > 0L ? (int)mc.getCurrentServerData().pingToServer : 0);
-      if (this.information.getSetting("Ping").asBoolean() && j > 0) {
-         this.rightInfoLines.add(String.format("Ping: §7%sms", Math.min(j, 999)));
+      if (this.information.getSetting("Ping").asBoolean() && i > 0) {
+         this.rightInfoLines.add(String.format("Ping: §7%sms", Math.min(i, 999)));
       }
 
       if (!mc.isSingleplayer() && this.information.getSetting("TPS").asBoolean()) {
@@ -945,21 +925,21 @@ public final class HUD extends Module {
                + (potionEffect.getAmplifier() + 1 == 1 ? "" : potionEffect.getAmplifier() + 1 + " ")
                + "- "
                + Potion.getDurationString(potionEffect);
-            int k = (int)(RenderUtil.getScaledWidth() - client.getCustomFontRenderer().getStringWidth(string3) - 1.0F);
-            int i2 = (int)(
+            int j = (int)(RenderUtil.getScaledWidth() - client.getCustomFontRenderer().getStringWidth(string3) - 1.0F);
+            int k = (int)(
                (this.array.getSetting("Position").getValue() == HUDArrayPositionMode.DOWN ? 11.0F : RenderUtil.getScaledHeight())
                   - client.getCustomFontRenderer().getStringHeight(string3)
                   - b
                   - (mc.currentScreen instanceof GuiChat && this.array.getSetting("Position").getValue() == HUDArrayPositionMode.UP ? 15 : 0)
             );
-            client.getCustomFontRenderer().drawStringWithShadow(string3, k, i2, potion.getLiquidColor());
+            client.getCustomFontRenderer().drawStringWithShadow(string3, j, k, potion.getLiquidColor());
             if (potion.hasStatusIcon()) {
                GL11.glPushMatrix();
                GL11.glScalef(0.5F, 0.5F, 0.5F);
                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                mc.getTextureManager().bindTexture(GuiContainer.inventoryBackground);
-               int i3 = potion.getStatusIconIndex();
-               guiIngame.drawTexturedModalRect((k - 10) * 2, i2 * 2 + 3, 0 + i3 % 8 * 18, 198 + i3 / 8 * 18, 18, 18);
+               int m = potion.getStatusIconIndex();
+               guiIngame.drawTexturedModalRect((j - 10) * 2, k * 2 + 3, 0 + m % 8 * 18, 198 + m / 8 * 18, 18, 18);
                GL11.glPopMatrix();
             }
 

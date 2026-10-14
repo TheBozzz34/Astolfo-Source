@@ -3,8 +3,6 @@ package shadersmod.client;
 import net.minecraft.src.Config;
 
 public class ShaderUtils {
-   private static final long a = 108202153654131L;
-
    public static ShaderOption getShaderOption(String name, ShaderOption[] opts) {
       if (opts == null) {
          return null;

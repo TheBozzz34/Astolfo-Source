@@ -6,7 +6,6 @@ import oshi.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 public final class GlobalConfig {
    private static final Properties CONFIG = FileUtil.readPropertiesFromFilename("");
-   private static final long a = 12727871831450L;
 
    private GlobalConfig() {
    }

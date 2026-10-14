@@ -14,7 +14,6 @@ public class ChunkCompileTaskGenerator {
    private CompiledChunk compiledChunk;
    private ChunkCompileTaskGenerator.Status status = ChunkCompileTaskGenerator.Status.PENDING;
    private boolean finished;
-   private static final long a = 76594464718134L;
 
    public ChunkCompileTaskGenerator(RenderChunk renderChunkIn, ChunkCompileTaskGenerator.Type typeIn) {
       this.renderChunk = renderChunkIn;

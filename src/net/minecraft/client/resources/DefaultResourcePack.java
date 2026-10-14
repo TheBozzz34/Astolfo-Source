@@ -18,7 +18,6 @@ import net.minecraft.util.ResourceLocation;
 public class DefaultResourcePack implements IResourcePack {
    public static final Set<String> defaultResourceDomains = ImmutableSet.of("minecraft", "realms");
    private final Map<String, File> mapAssets;
-   private static final long a = 6589187294271L;
 
    public DefaultResourcePack(Map<String, File> mapAssetsIn) {
       this.mapAssets = mapAssetsIn;

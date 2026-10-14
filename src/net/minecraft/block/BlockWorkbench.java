@@ -17,8 +17,6 @@ import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 
 public class BlockWorkbench extends Block {
-   private static final long e = 113903629716228L;
-
    public BlockWorkbench() {
       super(Material.wood);
       this.setCreativeTab(CreativeTabs.tabDecorations);
@@ -38,7 +36,6 @@ public class BlockWorkbench extends Block {
    public static class InterfaceCraftingTable implements IInteractionObject {
       private final World world;
       private final BlockPos position;
-      private static final long a = 112533289309207L;
 
       public InterfaceCraftingTable(World worldIn, BlockPos pos) {
          this.world = worldIn;

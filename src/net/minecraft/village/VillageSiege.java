@@ -20,7 +20,6 @@ public class VillageSiege {
    private int field_75532_g;
    private int field_75538_h;
    private int field_75539_i;
-   private static final long a = 4700230799732L;
 
    public VillageSiege(World worldIn) {
       this.worldObj = worldIn;

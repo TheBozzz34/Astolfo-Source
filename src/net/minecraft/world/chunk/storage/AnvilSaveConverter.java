@@ -28,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 
 public class AnvilSaveConverter extends SaveFormatOld {
    private static final Logger logger = LogManager.getLogger();
-   private static final long a = 82135059536711L;
 
    public AnvilSaveConverter(File savesDirectoryIn) {
       super(savesDirectoryIn);
@@ -212,8 +211,6 @@ public class AnvilSaveConverter extends SaveFormatOld {
    private void addRegionFilesToCollection(File worldDir, Collection<File> collection) {
       File file2 = new File(worldDir, "region");
       File[] files = file2.listFiles(new FilenameFilter() {
-         private static final long a = 85280828702001L;
-
          @Override
          public boolean accept(File file, String string) {
             return string.endsWith(".mcr");

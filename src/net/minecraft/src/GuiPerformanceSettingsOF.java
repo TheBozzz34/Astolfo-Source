@@ -20,7 +20,6 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
       GameSettings.Options.LAZY_CHUNK_LOADING
    };
    private TooltipProviderOptions Y = new TooltipProviderOptions(this);
-   private static final long a = 122580081996100L;
 
    public GuiPerformanceSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;

@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 public class ItemDoor extends Item {
    private Block block;
-   private static final long a = 114344992133231L;
 
    public ItemDoor(Block block) {
       this.block = block;

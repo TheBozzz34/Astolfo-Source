@@ -34,8 +34,6 @@ public class ThreadDownloadImageData extends SimpleTexture {
    private boolean d;
    public Boolean imageFound = null;
    public boolean pipeline = false;
-   private static final long a = 7070048517755L;
-   private static final long n = 7231164942802485348L;
 
    public ThreadDownloadImageData(File cacheFileIn, String imageUrlIn, ResourceLocation textureResourceLocation, IImageBuffer imageBufferIn) {
       super(textureResourceLocation);
@@ -99,9 +97,6 @@ public class ThreadDownloadImageData extends SimpleTexture {
 
    public void loadTextureFromServer() {
       this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet()) {
-         private static final long a = 101465193557687L;
-         private static final long e = -3634219743247859612L;
-
          @Override
          public void run() {
             HttpURLConnection httpURLConnection = null;
@@ -118,7 +113,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
                   httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0");
                   httpURLConnection.setRequestProperty("Accept", "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
                   httpURLConnection.connect();
-                  if (httpURLConnection.getResponseCode() / (int)e == 2) {
+                  if (httpURLConnection.getResponseCode() / 100 == 2) {
                      BufferedImage bufferedImage;
                      if (ThreadDownloadImageData.this.cacheFile != null) {
                         FileUtils.copyInputStreamToFile(httpURLConnection.getInputStream(), ThreadDownloadImageData.this.cacheFile);
@@ -169,7 +164,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
       try {
          HttpRequest httpRequest = HttpPipeline.makeRequest(this.imageUrl, Minecraft.getMinecraft().getProxy());
          HttpResponse httpResponse = HttpPipeline.executeRequest(httpRequest);
-         if (httpResponse.getStatus() / (int)n == 2) {
+         if (httpResponse.getStatus() / 100 == 2) {
             byte[] bytes = httpResponse.getBody();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             BufferedImage bufferedImage2;

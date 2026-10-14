@@ -10,7 +10,6 @@ public final class VerdictResolution {
    private final List<StageCheck> g;
    private final List<VerdictProcessor> Q;
    public final CachingVerdictResolver t;
-   private static final long a = 67765570146915L;
 
    public VerdictResolution(CachingVerdictResolver cachingVerdictResolver, CheckContext checkContext) {
       this.t = cachingVerdictResolver;

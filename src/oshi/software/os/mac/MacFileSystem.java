@@ -52,7 +52,6 @@ public class MacFileSystem extends AbstractFileSystem {
    private static final int d = 67108864;
    private static final int M = 268435456;
    private static final Map<Integer, String> OPTIONS_MAP = new HashMap<>();
-   private static final long j = 92491963963306L;
 
    @Override
    public OSFileStore[] getFileStores(boolean localOnly) {
@@ -202,28 +201,6 @@ public class MacFileSystem extends AbstractFileSystem {
    }
 
    static {
-      long l = j ^ 8107563618164L;
-      long m = l ^ 6773660303754022199L;
-      m = l ^ 6862932709373756311L;
-      m = l ^ 5712720609604324619L;
-      m = l ^ 2001626407066233910L;
-      m = l ^ 9099338308994518738L;
-      m = l ^ 31139249713393155L;
-      m = l ^ 5986434935583962528L;
-      m = l ^ 3587284759962264400L;
-      m = l ^ 3880283592438777608L;
-      m = l ^ 7351119441171523468L;
-      m = l ^ 7688607387556712199L;
-      m = l ^ 7045822073283355856L;
-      m = l ^ 4334293339206271154L;
-      m = l ^ 5857050442163654540L;
-      m = l ^ 910732893986040306L;
-      m = l ^ 8381276703735974282L;
-      m = l ^ 6009506647858760630L;
-      m = l ^ 1188318127022887495L;
-      m = l ^ 2762389838947541368L;
-      m = l ^ 6155800240456056066L;
-      m = l ^ 6583895418908265928L;
       OPTIONS_MAP.put(2, "synchronous");
       OPTIONS_MAP.put(4, "noexec");
       OPTIONS_MAP.put(8, "nosuid");

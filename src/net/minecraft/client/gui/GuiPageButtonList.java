@@ -16,7 +16,6 @@ public class GuiPageButtonList extends GuiListExtended {
    private int field_178077_y;
    private GuiPageButtonList.GuiResponder field_178076_z;
    private Gui field_178075_A;
-   private static final long c = 133067077315965L;
 
    public GuiPageButtonList(
       Minecraft mcIn,
@@ -232,7 +231,7 @@ public class GuiPageButtonList extends GuiListExtended {
       return guiLabel;
    }
 
-   public void func_178062_a(char c2, int i) {
+   public void func_178062_a(char c, int i) {
       if (this.field_178075_A instanceof GuiTextField) {
          GuiTextField guiTextField = (GuiTextField)this.field_178075_A;
          if (!GuiScreen.isKeyComboCtrlV(i)) {
@@ -262,7 +261,7 @@ public class GuiPageButtonList extends GuiListExtended {
                   this.amountScrolled = l;
                }
             } else {
-               guiTextField.textboxKeyTyped(c2, i);
+               guiTextField.textboxKeyTyped(c, i);
             }
          } else {
             String string = GuiScreen.getClipboardString();
@@ -336,7 +335,6 @@ public class GuiPageButtonList extends GuiListExtended {
       private final Gui field_178029_b;
       private final Gui field_178030_c;
       private Gui field_178028_d;
-      private static final long a = 22572772591413L;
 
       public GuiEntry(Gui gui, Gui gui2) {
          this.field_178029_b = gui;

@@ -6,9 +6,6 @@ import com.github.andrewoma.dexx.collection.Traversable;
 import java.lang.reflect.Array;
 
 public abstract class AbstractTraversable<E> implements Traversable<E> {
-   private static final long e = 30229383558062L;
-   private static final long l = 6162024368806297700L;
-
    @Override
    public int size() {
       final int[] result = new int[]{0};
@@ -33,8 +30,6 @@ public abstract class AbstractTraversable<E> implements Traversable<E> {
 
       try {
          this.forEach(new Function<E, Object>() {
-            private static final long a = 23852266951153L;
-
             @Override
             public Object invoke(E element) {
                int i = ints[0] + 1;
@@ -64,7 +59,7 @@ public abstract class AbstractTraversable<E> implements Traversable<E> {
 
    @Override
    public String toString() {
-      return this.makeString(", ", this.getClass().getSimpleName() + "(", ")", (int)l, "...");
+      return this.makeString(", ", this.getClass().getSimpleName() + "(", ")", 100, "...");
    }
 
    @Override

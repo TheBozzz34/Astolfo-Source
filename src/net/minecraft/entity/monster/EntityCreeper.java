@@ -27,7 +27,6 @@ public class EntityCreeper extends EntityMob {
    private int fuseTime = 30;
    private int explosionRadius = 3;
    private int field_175494_bm = 0;
-   private static final long ab = 137188823183303L;
 
    public EntityCreeper(World worldIn) {
       super(worldIn);

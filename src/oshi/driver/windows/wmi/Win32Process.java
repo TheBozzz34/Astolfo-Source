@@ -9,8 +9,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32Process {
-   private static final long a = 80804208670179L;
-
    private Win32Process() {
    }
 

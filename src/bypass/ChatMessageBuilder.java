@@ -22,7 +22,6 @@ public class ChatMessageBuilder implements ClientAccess {
    private ChatStyle d;
    private ChatComponentStyle q;
    public final ClientChat k;
-   private static final long c = 96288178624678L;
 
    public ChatMessageBuilder(ClientChat clientChat) {
       this.k = clientChat;

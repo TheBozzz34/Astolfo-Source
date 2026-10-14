@@ -23,7 +23,6 @@ public final class LinuxFirmware extends AbstractFirmware {
    private final Supplier<String> name = Memoizer.memoize(this::queryName);
    private final Supplier<LinuxFirmware.VcGenCmdStrings> vcGenCmd = Memoizer.memoize(this::queryVcGenCmd);
    private final Supplier<LinuxFirmware.BiosStrings> bios = Memoizer.memoize(this::queryBios);
-   private static final long b = 13145740860257L;
 
    @Override
    public String R() {

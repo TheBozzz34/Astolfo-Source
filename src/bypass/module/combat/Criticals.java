@@ -41,8 +41,6 @@ public final class Criticals extends Module {
    };
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
-      long l = c ^ 59773817807538L;
-      long m = l ^ 93658388479323L;
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (mc.theWorld == null) {
             return;
@@ -65,7 +63,6 @@ public final class Criticals extends Module {
       }
    };
    private final double[] Y = new double[]{0.06252F + Math.random() / 1.0E7, 1.73E-11, 1.73E-11};
-   private static final long c = 92377835217498L;
 
    public Criticals(Category category) {
       super(category);

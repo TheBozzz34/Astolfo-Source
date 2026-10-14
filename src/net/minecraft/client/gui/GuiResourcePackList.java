@@ -9,7 +9,6 @@ import net.minecraft.util.EnumChatFormatting;
 public abstract class GuiResourcePackList extends GuiListExtended {
    public final Minecraft mc;
    public final List<ResourcePackListEntry> field_148204_l;
-   private static final long d = 42856277547411L;
 
    public GuiResourcePackList(Minecraft mcIn, int i, int j, List<ResourcePackListEntry> list) {
       super(mcIn, i, j, 32, j - 55 + 4, 36);

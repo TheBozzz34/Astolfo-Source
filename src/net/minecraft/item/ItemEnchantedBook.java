@@ -12,8 +12,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class ItemEnchantedBook extends Item {
-   private static final long a = 128689290526587L;
-
    @Override
    public boolean hasEffect(ItemStack stack) {
       return true;

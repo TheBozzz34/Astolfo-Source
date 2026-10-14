@@ -73,7 +73,6 @@ public final class ThunderNotifier extends Module {
          }
       }
    };
-   private static final long c = 67288966726825L;
 
    public ThunderNotifier(Category category) {
       super(category);

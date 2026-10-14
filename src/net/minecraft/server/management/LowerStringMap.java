@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 
 public class LowerStringMap<V> implements Map<String, V> {
    private final Map<String, V> internalMap = Maps.newLinkedHashMap();
-   private static final long a = 134688424296662L;
 
    @Override
    public int size() {

@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class PathNavigateClimber extends PathNavigateGround {
    private BlockPos targetPosition;
-   private static final long b = 132614594248554L;
 
    public PathNavigateClimber(EntityLiving entityLivingIn, World worldIn) {
       super(entityLivingIn, worldIn);

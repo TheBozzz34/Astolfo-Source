@@ -15,7 +15,6 @@ import net.minecraft.util.StringUtils;
 
 public class ScoreboardUtil {
    private static final Minecraft x = Minecraft.getMinecraft();
-   private static final long a = 66278723889102L;
 
    public static List<String> p() {
       ArrayList arrayList = new ArrayList();

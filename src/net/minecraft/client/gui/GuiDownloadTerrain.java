@@ -8,7 +8,6 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 public class GuiDownloadTerrain extends GuiScreen {
    private NetHandlerPlayClient netHandlerPlayClient;
    private int progress;
-   private static final long a = 55460821054387L;
 
    public GuiDownloadTerrain(NetHandlerPlayClient netHandler) {
       this.netHandlerPlayClient = netHandler;

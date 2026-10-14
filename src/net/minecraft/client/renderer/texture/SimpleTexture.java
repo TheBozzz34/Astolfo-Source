@@ -15,7 +15,6 @@ import shadersmod.client.ShadersTex;
 public class SimpleTexture extends AbstractTexture {
    private static final Logger logger = LogManager.getLogger();
    public final ResourceLocation textureLocation;
-   private static final long b = 116934800512870L;
 
    public SimpleTexture(ResourceLocation textureResourceLocation) {
       this.textureLocation = textureResourceLocation;

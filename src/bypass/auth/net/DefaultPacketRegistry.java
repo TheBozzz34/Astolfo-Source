@@ -8,7 +8,6 @@ public class DefaultPacketRegistry implements PacketRegistry {
    private final Map<Short, PacketReader<?>> r = new ShapedMap<>();
    private final Map<String, Short> l = new ShapedMap<>();
    private final Map<Short, Map<String, PacketListener<?>>> c = new ShapedMap<>();
-   private static final long a = 101568012108203L;
 
    @Override
    public void D(short s, String string) {

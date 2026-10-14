@@ -5,8 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public final class ConvertSpeed extends TwoArgFunction {
-   private static final long a = 31235114793141L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       if (luaValue != null && !luaValue.isnil() && luaValue.istable() && luaValue2 != null && !luaValue2.isnil() && luaValue2.isnumber()) {

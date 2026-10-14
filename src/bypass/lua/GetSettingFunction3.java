@@ -9,8 +9,6 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 public final class GetSettingFunction3 extends OneArgFunction {
-   private static final long a = 27615434922326L;
-
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (luaValue.isstring()) {

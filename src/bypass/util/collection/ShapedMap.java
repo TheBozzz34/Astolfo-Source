@@ -12,7 +12,6 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
    public Object w;
    public Object D;
    public Object M;
-   private static final long c = 53316868147433L;
 
    @Override
    public int size() {

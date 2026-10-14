@@ -4,7 +4,6 @@ public class AuthSession {
    private final AuthServerAddress address = new AuthServerAddress();
    private final AuthEndpoint endpoint = new AuthEndpoint(this.address.getHost());
    private AuthAccount account;
-   private static final long b = 32391542402818L;
 
    public AuthAccount getAccount() {
       return this.account;

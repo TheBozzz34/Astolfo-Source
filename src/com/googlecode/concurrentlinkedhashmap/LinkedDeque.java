@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
 public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E> implements Deque<E> {
    public E first;
    public E last;
-   private static final long a = 139428197699582L;
 
    public void D(E linked) {
       Linked linked2 = this.first;
@@ -284,7 +283,6 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    public abstract static class AbstractLinkedIterator implements Iterator<Linked> {
       public Linked N;
       public final LinkedDeque X;
-      private static final long a = 21846915225262L;
 
       public AbstractLinkedIterator(LinkedDeque linkedDeque, Linked startIn) {
          this.X = linkedDeque;

@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 
 public class ModelMinecart extends ModelBase {
    public ModelRenderer[] sideModels = new ModelRenderer[7];
-   private static final long a = 108610084127670L;
 
    public ModelMinecart() {
       this.sideModels[0] = new ModelRenderer(this, 0, 10);

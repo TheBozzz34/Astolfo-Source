@@ -10,7 +10,6 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase {
    private double movePosY;
    private double movePosZ;
    private double movementSpeed;
-   private static final long a = 35204732029101L;
 
    public EntityAIMoveTowardsRestriction(EntityCreature creatureIn, double speedIn) {
       this.theEntity = creatureIn;

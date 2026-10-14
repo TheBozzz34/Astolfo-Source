@@ -8,12 +8,10 @@ import net.minecraft.server.management.ServerConfigurationManager;
 
 public class IntegratedPlayerList extends ServerConfigurationManager {
    private NBTTagCompound hostPlayerData;
-   private static final long a = 91003651894983L;
-   private static final long q = -1594635543558225910L;
 
    public IntegratedPlayerList(IntegratedServer server) {
       super(server);
-      this.setViewDistance((int)q);
+      this.setViewDistance(10);
    }
 
    @Override

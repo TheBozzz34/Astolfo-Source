@@ -7,8 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Angles extends VarArgFunction {
-   private static final long a = 99082535895273L;
-
    @Override
    public Varargs onInvoke(Varargs varargs) {
       LuaValue luaValue = varargs.arg1();

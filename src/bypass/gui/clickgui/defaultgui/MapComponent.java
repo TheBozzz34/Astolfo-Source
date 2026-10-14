@@ -11,8 +11,6 @@ import java.awt.Color;
 import net.minecraft.client.gui.GuiMainMenu;
 
 public class MapComponent extends SettingContainer {
-   private static final long d = 97963436442909L;
-
    public MapComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
    }

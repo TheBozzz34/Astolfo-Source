@@ -10,10 +10,9 @@ import org.lwjgl.input.Mouse;
 
 public class NumberSlider extends SidebarSettingComponent {
    private boolean d;
-   private static final long e = 111044635657820L;
 
-   public NumberSlider(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
-      super(moduleButton, setting, g, h, i, j);
+   public NumberSlider(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
+      super(moduleButton, setting, f, g, i, j);
    }
 
    @Override
@@ -25,8 +24,6 @@ public class NumberSlider extends SidebarSettingComponent {
 
    @Override
    public void render(int i, int j) {
-      long l = e ^ 127480501704750L;
-      long m = l ^ 8972929756414L;
       float g = this.M() + this.x() / 1.7F;
       int k = this.t(i, (int)g, 60);
       String string = String.format("%.1f", Double.valueOf(this.b().asString()));

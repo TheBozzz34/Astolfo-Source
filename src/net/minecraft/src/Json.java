@@ -6,8 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 public class Json {
-   private static final long a = 41659433334232L;
-
    public static float getFloat(JsonObject obj, String field, float def) {
       JsonElement jsonElement = obj.get(field);
       return jsonElement == null ? def : jsonElement.getAsFloat();

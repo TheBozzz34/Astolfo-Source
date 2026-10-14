@@ -21,7 +21,6 @@ public class WorldGenDesertWells extends WorldGenerator {
       .withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
    private final IBlockState field_175912_c = Blocks.sandstone.getDefaultState();
    private final IBlockState field_175910_d = Blocks.flowing_water.getDefaultState();
-   private static final long a = 64668807484802L;
 
    @Override
    public boolean generate(World worldIn, Random rand, BlockPos position) {

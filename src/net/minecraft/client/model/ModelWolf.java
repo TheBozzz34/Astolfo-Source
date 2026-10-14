@@ -15,7 +15,6 @@ public class ModelWolf extends ModelBase {
    public ModelRenderer wolfLeg4;
    public ModelRenderer wolfTail;
    public ModelRenderer wolfMane;
-   private static final long a = 3543733155583L;
 
    public ModelWolf() {
       float f = 0.0F;

@@ -8,7 +8,6 @@ import net.minecraft.util.BlockPos;
 public class WorldChunkManagerHell extends WorldChunkManager {
    private BiomeGenBase biomeGenerator;
    private float rainfall;
-   private static final long b = 120550548390892L;
 
    public WorldChunkManagerHell(BiomeGenBase biomeGenBase, float f) {
       this.biomeGenerator = biomeGenBase;

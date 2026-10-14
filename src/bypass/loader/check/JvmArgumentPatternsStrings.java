@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class JvmArgumentPatternsStrings {
    public static String J = "ARCFOUR";
    public static String D = "JQikA228jUduWzPV";
-   private static final long a = 32555333490176L;
 
    public static String N(String string) {
       String string2 = "v6uAv319MNIj796GBxilAw==";

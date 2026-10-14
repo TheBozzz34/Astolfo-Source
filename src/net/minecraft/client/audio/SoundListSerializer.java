@@ -11,8 +11,6 @@ import net.minecraft.util.JsonUtils;
 import org.apache.commons.lang3.Validate;
 
 public class SoundListSerializer implements JsonDeserializer<SoundList> {
-   private static final long a = 134838759470693L;
-
    public SoundList deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
       JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "entry");
       SoundList soundList = new SoundList();

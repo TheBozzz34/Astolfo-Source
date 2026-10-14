@@ -65,7 +65,6 @@ public interface IScoreObjectiveCriteria {
 
       private static final Map<String, IScoreObjectiveCriteria.EnumRenderType> field_178801_c = Maps.newHashMap();
       private final String field_178798_d;
-      private static final long a = 129641415538286L;
 
       EnumRenderType(String string2) {
          this.field_178798_d = string2;

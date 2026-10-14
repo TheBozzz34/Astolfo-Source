@@ -6,8 +6,6 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ItemSaddle extends Item {
-   private static final long a = 50088521763870L;
-
    public ItemSaddle() {
       this.maxStackSize = 1;
       this.setCreativeTab(CreativeTabs.tabTransport);

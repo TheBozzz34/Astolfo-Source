@@ -33,7 +33,6 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockModelRenderer {
    private static float aoLightValueOpaque = 0.2F;
-   private static final long a = 33855445556129L;
 
    public static void updateAoLightValue() {
       aoLightValueOpaque = 1.0F - Config.getAmbientOcclusionLevel() * 0.8F;
@@ -466,7 +465,6 @@ public class BlockModelRenderer {
    public static class AmbientOcclusionFace {
       private final float[] vertexColorMultiplier = new float[4];
       private final int[] vertexBrightness = new int[4];
-      private static final long a = 69736498544271L;
 
       public AmbientOcclusionFace(BlockModelRenderer blockModelRenderer) {
       }
@@ -967,7 +965,6 @@ public class BlockModelRenderer {
       private static final BlockModelRenderer.Orientation[] j = new BlockModelRenderer.Orientation[]{
          DOWN, UP, NORTH, SOUTH, WEST, EAST, FLIP_DOWN, FLIP_UP, FLIP_NORTH, FLIP_SOUTH, FLIP_WEST, FLIP_EAST
       };
-      private static final long a = 116863443103525L;
 
       Orientation(String string2, int k, EnumFacing enumFacing, boolean bl) {
          this.field_178229_m = enumFacing.getIndex() + (bl ? EnumFacing.values().length : 0);

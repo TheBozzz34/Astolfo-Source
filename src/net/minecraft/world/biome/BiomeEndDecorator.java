@@ -7,7 +7,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class BiomeEndDecorator extends BiomeDecorator {
    public WorldGenerator spikeGen = new WorldGenSpikes(Blocks.end_stone);
-   private static final long f = 101829591125406L;
 
    @Override
    public void genDecorations(BiomeGenBase biomeGenBaseIn) {

@@ -4,7 +4,6 @@ public class MouseFilter {
    private float field_76336_a;
    private float field_76334_b;
    private float field_76335_c;
-   private static final long a = 106579062401451L;
 
    public float smooth(float f, float g) {
       this.field_76336_a += f;

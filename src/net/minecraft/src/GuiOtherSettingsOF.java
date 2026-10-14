@@ -24,7 +24,6 @@ public class GuiOtherSettingsOF extends GuiScreen implements GuiYesNoCallback {
       GameSettings.Options.ANAGLYPH
    };
    private TooltipProviderOptions N = new TooltipProviderOptions(this);
-   private static final long a = 140386729176360L;
 
    public GuiOtherSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;

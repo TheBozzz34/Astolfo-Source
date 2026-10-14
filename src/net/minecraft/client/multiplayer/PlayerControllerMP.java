@@ -50,7 +50,6 @@ public class PlayerControllerMP {
    public boolean isHittingBlock;
    public WorldSettings.GameType currentGameType = WorldSettings.GameType.SURVIVAL;
    public int currentPlayerItem;
-   private static final long a = 130267066837478L;
 
    public PlayerControllerMP(Minecraft mcIn, NetHandlerPlayClient netHandler) {
       this.mc = mcIn;

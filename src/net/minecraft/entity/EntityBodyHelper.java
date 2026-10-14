@@ -6,7 +6,6 @@ public class EntityBodyHelper {
    private EntityLivingBase theLiving;
    private int rotationTickCounter;
    private float prevRenderYawHead;
-   private static final long a = 39642410144149L;
 
    public EntityBodyHelper(EntityLivingBase entityLivingBase) {
       this.theLiving = entityLivingBase;

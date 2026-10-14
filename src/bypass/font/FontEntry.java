@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 public class FontEntry implements JsonSerializable {
    private final String V;
    private final int N;
-   private static final long a = 118831888780078L;
 
    public FontEntry(String string, int i) {
       this.V = string;

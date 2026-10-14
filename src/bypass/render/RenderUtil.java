@@ -11,8 +11,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public final class RenderUtil {
-   private static final long a = 64989882639786L;
-
    public static void drawRect(double d, double d2, double d3, double d4, int i) {
       begin2D();
       setColor(i);

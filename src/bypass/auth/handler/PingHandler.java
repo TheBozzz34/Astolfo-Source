@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 public class PingHandler extends PacketHandler<Integer> {
    public static Integer S;
    public static Integer k;
-   private static final long b = 25317801065252L;
 
    public PingHandler() {
       super(PacketId.PING);

@@ -6,7 +6,6 @@ public abstract class AbstractModule implements ModuleInfo {
    private String name;
    private String displayName;
    private Category category;
-   private static final long ab = 69248643412176L;
 
    public AbstractModule(String string, Category category) {
       this.name = string;

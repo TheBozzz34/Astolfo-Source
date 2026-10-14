@@ -365,7 +365,6 @@ public class InventoryManager extends Module {
          this.drawSlotWarning(renderEvent);
       }
    };
-   private static final long cb = 139904808579327L;
 
    public InventoryManager(Category category) {
       super(category);
@@ -2709,7 +2708,6 @@ public class InventoryManager extends Module {
    public class Delay {
       public long start = System.currentTimeMillis();
       public long delay;
-      private static final long a = 70079219502023L;
 
       public Delay() {
          this.delay = 0L;
@@ -2727,7 +2725,6 @@ public class InventoryManager extends Module {
    public class RankedSlot implements Comparable<InventoryManager.RankedSlot> {
       public int slot;
       public float rank;
-      private static final long a = 71847512793467L;
 
       public RankedSlot(int i, float f) {
          this.slot = i;

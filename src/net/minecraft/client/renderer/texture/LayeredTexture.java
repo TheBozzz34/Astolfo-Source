@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 public class LayeredTexture extends AbstractTexture {
    private static final Logger logger = LogManager.getLogger();
    public final List<String> layeredTextureNames;
-   private static final long a = 64104872767130L;
 
    public LayeredTexture(String... textureNames) {
       this.layeredTextureNames = Lists.newArrayList(textureNames);

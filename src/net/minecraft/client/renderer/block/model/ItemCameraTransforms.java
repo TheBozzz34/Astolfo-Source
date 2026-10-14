@@ -25,7 +25,6 @@ public class ItemCameraTransforms {
    public final ItemTransformVec3f gui;
    public final ItemTransformVec3f ground;
    public final ItemTransformVec3f fixed;
-   private static final long a = 15596198035923L;
 
    private ItemCameraTransforms() {
       this(
@@ -98,8 +97,6 @@ public class ItemCameraTransforms {
    }
 
    public static class Deserializer implements JsonDeserializer<ItemCameraTransforms> {
-      private static final long a = 4675101033706L;
-
       public ItemCameraTransforms deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
          JsonObject jsonObject = jsonElement.getAsJsonObject();
          ItemTransformVec3f itemTransformVec3f = this.func_181683_a(jsonDeserializationContext, jsonObject, "thirdperson");

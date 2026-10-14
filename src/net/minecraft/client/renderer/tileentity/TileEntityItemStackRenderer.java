@@ -22,7 +22,6 @@ public class TileEntityItemStackRenderer {
    private TileEntityEnderChest enderChest = new TileEntityEnderChest();
    private TileEntityBanner banner = new TileEntityBanner();
    private TileEntitySkull skull = new TileEntitySkull();
-   private static final long a = 81243457928505L;
 
    public void renderByItem(ItemStack itemStackIn) {
       if (itemStackIn.getItem() == Items.banner) {

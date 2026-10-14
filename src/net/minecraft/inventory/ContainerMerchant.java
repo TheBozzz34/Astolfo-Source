@@ -10,7 +10,6 @@ public class ContainerMerchant extends Container {
    private IMerchant theMerchant;
    private InventoryMerchant merchantInventory;
    private final World theWorld;
-   private static final long a = 93356823253243L;
 
    public ContainerMerchant(InventoryPlayer playerInventory, IMerchant merchant, World worldIn) {
       this.theMerchant = merchant;

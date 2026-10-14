@@ -20,7 +20,6 @@ public class WalkNodeProcessor extends NodeProcessor {
    private boolean avoidsWater;
    private boolean canSwim;
    private boolean shouldAvoidWater;
-   private static final long b = 40810530841628L;
 
    @Override
    public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {

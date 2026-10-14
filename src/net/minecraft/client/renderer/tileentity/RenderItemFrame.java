@@ -40,7 +40,6 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
    private final ModelResourceLocation itemFrameModel = new ModelResourceLocation("item_frame", "normal");
    private final ModelResourceLocation mapModel = new ModelResourceLocation("item_frame", "map");
    private RenderItem itemRenderer;
-   private static final long c = 137620321673647L;
 
    public RenderItemFrame(RenderManager renderManagerIn, RenderItem itemRendererIn) {
       super(renderManagerIn);
@@ -159,7 +158,6 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
    }
 
    public void renderName(EntityItemFrame entity, double x, double y, double z) {
-      long l = c ^ 128971832605170L;
       if (Minecraft.isGuiEnabled()
          && entity.getDisplayedItem() != null
          && entity.getDisplayedItem().hasDisplayName()
@@ -173,7 +171,6 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
             if (entity.isSneaking()) {
                FontRenderer fontRenderer = this.getFontRendererFromRenderManager();
                GlStateManager.pushMatrix();
-               long m = 6658562332429050768L ^ l;
                GlStateManager.translate((float)x + 0.0F, (float)y + entity.height + 0.5F, (float)z);
                GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);

@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import net.hypixel.api.reply.BoostersReply;
 
 public class BoostersTypeAdapterFactory<T extends BoostersReply.Booster> extends CustomizedTypeAdapterFactory<T> {
-   private static final long a = 69917661911809L;
-
    public BoostersTypeAdapterFactory(Class<T> customizedClass) {
       super(customizedClass);
    }

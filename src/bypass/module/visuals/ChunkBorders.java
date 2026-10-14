@@ -14,12 +14,10 @@ public final class ChunkBorders extends Module {
    private final NumberSetting<Float> width = new NumberSetting<>("Width", "line width", 1.0F, 0.1F, 3.0F);
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
-      long l = d ^ 137511027157851L;
       if (renderEvent.getType() == RenderType.WORLD) {
          int i = (int)Math.floor(mc.thePlayer.posX / 16.0) * 16;
          int j = (int)Math.floor(mc.thePlayer.posZ / 16.0) * 16;
          GL11.glPushMatrix();
-         long m = 3813013019286911635L ^ l;
          GL11.glTranslated(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
          GL11.glDisable(3553);
          GL11.glDisable(2896);
@@ -34,14 +32,14 @@ public final class ChunkBorders extends Module {
             k = (int)Math.floor(mc.getRenderManager().viewerPosY);
          }
 
-         for (int n = -2; n <= 2; n++) {
-            for (int i2 = -2; i2 <= 2; i2++) {
+         for (int l = -2; l <= 2; l++) {
+            for (int m = -2; m <= 2; m++) {
                GL11.glBegin(3);
-               GL11.glVertex3d(i + n * 16, k, j + i2 * 16);
-               GL11.glVertex3d(i + 16 + n * 16, k, j + i2 * 16);
-               GL11.glVertex3d(i + 16 + n * 16, k, j + 16 + i2 * 16);
-               GL11.glVertex3d(i + n * 16, k, j + 16 + i2 * 16);
-               GL11.glVertex3d(i + n * 16, k, j + i2 * 16);
+               GL11.glVertex3d(i + l * 16, k, j + m * 16);
+               GL11.glVertex3d(i + 16 + l * 16, k, j + m * 16);
+               GL11.glVertex3d(i + 16 + l * 16, k, j + 16 + m * 16);
+               GL11.glVertex3d(i + l * 16, k, j + 16 + m * 16);
+               GL11.glVertex3d(i + l * 16, k, j + m * 16);
                GL11.glEnd();
             }
          }
@@ -54,7 +52,6 @@ public final class ChunkBorders extends Module {
          GL11.glPopMatrix();
       }
    };
-   private static final long d = 116990112267910L;
 
    public ChunkBorders(Category category) {
       super(category);

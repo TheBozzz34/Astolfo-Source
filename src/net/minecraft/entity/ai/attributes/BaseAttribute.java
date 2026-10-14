@@ -5,7 +5,6 @@ public abstract class BaseAttribute implements IAttribute {
    private final String unlocalizedName;
    private final double defaultValue;
    private boolean shouldWatch;
-   private static final long a = 56878298955109L;
 
    public BaseAttribute(IAttribute iAttribute, String unlocalizedNameIn, double defaultValueIn) {
       this.field_180373_a = iAttribute;

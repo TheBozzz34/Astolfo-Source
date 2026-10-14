@@ -10,10 +10,9 @@ import java.awt.Color;
 
 public class BooleanComponent extends SidebarSettingComponent {
    public Animation q = new TimedAnimation().setDuration(150).setEasing(Easing.LINEAR);
-   private static final long d = 58015731304030L;
 
-   public BooleanComponent(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
-      super(moduleButton, setting, g, h, i, j);
+   public BooleanComponent(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
+      super(moduleButton, setting, f, g, i, j);
    }
 
    @Override

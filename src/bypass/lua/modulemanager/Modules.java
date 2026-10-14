@@ -9,12 +9,8 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Modules extends VarArgFunction {
-   private static final long a = 117859252108526L;
-
    @Override
    public Varargs invoke() {
-      long l = a ^ 31943914266992L;
-      long m = l ^ 71792402767917L;
       if (ModuleManagerLibrary2.i().isEmpty()) {
          for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getList()) {
             ModuleManagerLibrary2.i().add(valueOf(moduleInfo.getName()));

@@ -7,8 +7,6 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class Win32Fan {
-   private static final long a = 58441812146069L;
-
    private Win32Fan() {
    }
 

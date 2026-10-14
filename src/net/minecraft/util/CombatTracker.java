@@ -18,7 +18,6 @@ public class CombatTracker {
    private boolean field_94552_d;
    private boolean field_94553_e;
    private String field_94551_f;
-   private static final long a = 9715138478196L;
 
    public CombatTracker(EntityLivingBase fighterIn) {
       this.fighter = fighterIn;

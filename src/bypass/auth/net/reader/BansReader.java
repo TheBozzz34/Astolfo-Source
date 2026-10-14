@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 
 public class BansReader implements PacketReader<BansPacket> {
    private BansPacket B;
-   private static final long a = 38919048409795L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

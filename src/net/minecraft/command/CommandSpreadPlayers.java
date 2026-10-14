@@ -20,8 +20,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class CommandSpreadPlayers extends CommandBase {
-   private static final long b = 79985412622763L;
-
    @Override
    public String getCommandName() {
       return "spreadplayers";
@@ -254,8 +252,6 @@ public class CommandSpreadPlayers extends CommandBase {
    public static class Position {
       public double field_111101_a;
       public double field_111100_b;
-      private static final long a = 30187184520590L;
-      private static final long b = 5179335181466599681L;
 
       public Position() {
       }
@@ -317,7 +313,7 @@ public class CommandSpreadPlayers extends CommandBase {
             }
          }
 
-         return (int)b;
+         return 257;
       }
 
       public boolean func_111098_b(World worldIn) {

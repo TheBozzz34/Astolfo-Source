@@ -15,7 +15,6 @@ public abstract class EntityHanging extends Entity {
    private int tickCounter1;
    public BlockPos hangingPosition;
    public EnumFacing facingDirection;
-   private static final long ab = 127655886648514L;
 
    public EntityHanging(World worldIn) {
       super(worldIn);

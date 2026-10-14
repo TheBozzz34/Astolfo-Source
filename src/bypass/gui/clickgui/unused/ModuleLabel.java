@@ -6,7 +6,6 @@ import java.awt.Color;
 
 public class ModuleLabel extends Container {
    private Module f;
-   private static final long d = 59776296588272L;
 
    public ModuleLabel(Module module, int i, int j, int k, int l) {
       super(module.getName(), i, j, k, l);

@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 
 public class BlockPortal extends BlockBreakable {
    public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class, EnumFacing.Axis.X, EnumFacing.Axis.Z);
-   private static final long i = 70570826312331L;
 
    public BlockPortal() {
       super(Material.portal, false);
@@ -273,7 +272,6 @@ public class BlockPortal extends BlockBreakable {
       private BlockPos field_150861_f;
       private int field_150862_g;
       private int field_150868_h;
-      private static final long b = 19547903121215L;
 
       public Size(World worldIn, BlockPos blockPos, EnumFacing.Axis axis) {
          this.world = worldIn;

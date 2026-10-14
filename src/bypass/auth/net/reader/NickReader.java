@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 
 public class NickReader implements PacketReader<NickPacket> {
    private NickPacket r;
-   private static final long a = 75223491193498L;
 
    @Override
    public void read(ByteBuffer byteBuffer) {

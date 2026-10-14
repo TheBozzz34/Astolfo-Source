@@ -12,7 +12,6 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
    private int entityId;
    private C02PacketUseEntity.Action action;
    private Vec3 hitVec;
-   private static final long a = 138214229113330L;
 
    public C02PacketUseEntity() {
    }

@@ -8,8 +8,6 @@ import net.minecraft.util.Vec3;
 
 public class RandomPositionGenerator {
    private static Vec3 staticVector = new Vec3(0.0, 0.0, 0.0);
-   private static final long a = 120342492673288L;
-   private static final long b = 7864873589072199690L;
 
    public static Vec3 findRandomTarget(EntityCreature entitycreatureIn, int xz, int y) {
       return findRandomTargetBlock(entitycreatureIn, xz, y, (Vec3)null);
@@ -47,7 +45,7 @@ public class RandomPositionGenerator {
          bl2 = false;
       }
 
-      for (int l = 0; l < (int)b; l++) {
+      for (int l = 0; l < 10; l++) {
          int m = random.nextInt(2 * xz + 1) - xz;
          int n = random.nextInt(2 * y + 1) - y;
          int i2 = random.nextInt(2 * xz + 1) - xz;

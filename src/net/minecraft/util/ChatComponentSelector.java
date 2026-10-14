@@ -2,7 +2,6 @@ package net.minecraft.util;
 
 public class ChatComponentSelector extends ChatComponentStyle {
    private final String selector;
-   private static final long a = 23917152885201L;
 
    public ChatComponentSelector(String selectorIn) {
       this.selector = selectorIn;

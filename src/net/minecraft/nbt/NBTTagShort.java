@@ -6,8 +6,6 @@ import java.io.IOException;
 
 public class NBTTagShort extends NBTBase.NBTPrimitive {
    private short data;
-   private static final long a = 83460912681668L;
-   private static final long c = -4556152138534747905L;
 
    public NBTTagShort() {
    }
@@ -74,7 +72,7 @@ public class NBTTagShort extends NBTBase.NBTPrimitive {
 
    @Override
    public byte getByte() {
-      return (byte)(this.data & (int)c);
+      return (byte)(this.data & 0xFF);
    }
 
    @Override

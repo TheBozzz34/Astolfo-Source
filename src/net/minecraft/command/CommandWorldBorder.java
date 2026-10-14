@@ -8,9 +8,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.border.WorldBorder;
 
 public class CommandWorldBorder extends CommandBase {
-   private static final long b = 9339809621220L;
-   private static final long j = -542043311049801722L;
-
    @Override
    public String getCommandName() {
       return "worldborder";
@@ -173,26 +170,16 @@ public class CommandWorldBorder extends CommandBase {
 
    @Override
    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-      List list;
-      if (args.length == 1) {
-         String[] strings = new String[(int)j];
-         strings[0] = "set";
-         strings[1] = "center";
-         strings[2] = "damage";
-         strings[3] = "warning";
-         strings[4] = "add";
-         strings[5] = "get";
-         list = getListOfStringsMatchingLastWord(args, strings);
-      } else {
-         list = args.length == 2 && args[0].equals("damage")
-            ? getListOfStringsMatchingLastWord(args, "buffer", "amount")
-            : (
-               args.length >= 2 && args.length <= 3 && args[0].equals("center")
-                  ? func_181043_b(args, 1, pos)
-                  : (args.length == 2 && args[0].equals("warning") ? getListOfStringsMatchingLastWord(args, "time", "distance") : null)
-            );
-      }
-
-      return list;
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, "set", "center", "damage", "warning", "add", "get")
+         : (
+            args.length == 2 && args[0].equals("damage")
+               ? getListOfStringsMatchingLastWord(args, "buffer", "amount")
+               : (
+                  args.length >= 2 && args.length <= 3 && args[0].equals("center")
+                     ? func_181043_b(args, 1, pos)
+                     : (args.length == 2 && args[0].equals("warning") ? getListOfStringsMatchingLastWord(args, "time", "distance") : null)
+               )
+         );
    }
 }

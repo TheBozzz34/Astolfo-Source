@@ -10,7 +10,6 @@ public class ShaderProfile {
    private String name = null;
    private Map<String, String> mapOptionValues = new HashMap<>();
    private Set<String> disabledPrograms = new HashSet<>();
-   private static final long a = 88101129767981L;
 
    public ShaderProfile(String name) {
       this.name = name;

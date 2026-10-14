@@ -23,8 +23,6 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient> {
       .registerTypeAdapterFactory(new EnumTypeAdapterFactory())
       .create();
    private ServerStatusResponse response;
-   private static final long a = 43300393349847L;
-   private static final long b = -5010171757005340673L;
 
    public S00PacketServerInfo() {
    }
@@ -35,7 +33,7 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient> {
 
    @Override
    public void readPacketData(PacketBuffer buf) throws IOException {
-      this.response = GSON.fromJson(buf.readStringFromBuffer((int)b), ServerStatusResponse.class);
+      this.response = GSON.fromJson(buf.readStringFromBuffer(32767), ServerStatusResponse.class);
    }
 
    @Override

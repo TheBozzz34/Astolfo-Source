@@ -14,8 +14,6 @@ import net.minecraft.world.World;
 
 public class EntityMinecartCommandBlock extends EntityMinecart {
    private final CommandBlockLogic commandBlockLogic = new CommandBlockLogic() {
-      private static final long b = 66319594639737L;
-
       @Override
       public void updateCommand() {
          EntityMinecartCommandBlock.this.getDataWatcher().updateObject(23, this.getCommand());
@@ -53,7 +51,6 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
       }
    };
    private int activatorRailCooldown = 0;
-   private static final long ab = 51525937183698L;
 
    public EntityMinecartCommandBlock(World worldIn) {
       super(worldIn);

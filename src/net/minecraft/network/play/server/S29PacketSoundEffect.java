@@ -14,7 +14,6 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
    private int posZ;
    private float soundVolume;
    private int soundPitch;
-   private static final long a = 82740009192734L;
 
    public S29PacketSoundEffect() {
    }

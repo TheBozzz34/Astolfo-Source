@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransparentPanelManager extends ComponentManager implements Loadable {
-   private static final long b = 101563399775410L;
-
    @Override
    public void load() {
    }

@@ -8,8 +8,6 @@ public abstract class AbstractSoundCard implements SoundCard {
    private String kernelVersion;
    private String name;
    private String codec;
-   private static final long b = 26119502668402L;
-   private static final long k = -3874511876285005731L;
 
    public AbstractSoundCard(String kernelVersion, String name, String codec) {
       this.kernelVersion = kernelVersion;
@@ -43,7 +41,7 @@ public abstract class AbstractSoundCard implements SoundCard {
       stringBuilder.append(this.name);
       stringBuilder.append(", codec=");
       stringBuilder.append(this.codec);
-      stringBuilder.append((char)((int)k));
+      stringBuilder.append(']');
       return stringBuilder.toString();
    }
 }

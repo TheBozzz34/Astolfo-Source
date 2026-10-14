@@ -13,7 +13,6 @@ public class EntityLookHelper {
    private double posX;
    private double posY;
    private double posZ;
-   private static final long a = 95548415090289L;
 
    public EntityLookHelper(EntityLiving entitylivingIn) {
       this.entity = entitylivingIn;

@@ -6,8 +6,6 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 
 public class RecipesFood {
-   private static final long a = 22545572077126L;
-
    public void addRecipes(CraftingManager craftingManager) {
       craftingManager.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom, Blocks.red_mushroom, Items.bowl);
       craftingManager.addRecipe(new ItemStack(Items.cookie, 8), "#X#", 'X', new ItemStack(Items.dye, 1, EnumDyeColor.BROWN.getDyeDamage()), '#', Items.wheat);

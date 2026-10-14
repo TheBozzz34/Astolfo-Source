@@ -20,7 +20,6 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
    private final RenderPlayer playerRenderer;
    private static boolean J;
    private static final ResourceLocation K = new ResourceLocation("client/cape.png");
-   private static final long a = 137989076499973L;
 
    public LayerCape(RenderPlayer playerRendererIn) {
       this.playerRenderer = playerRendererIn;

@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class EnumTypeAdapterFactory implements TypeAdapterFactory {
-   private static final long a = 40530997590878L;
-
    @Override
    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
       Class class2 = typeToken.getRawType();
@@ -29,8 +27,6 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
       }
 
       return new TypeAdapter<T>() {
-         private static final long a = 61609283281043L;
-
          @Override
          public void write(JsonWriter jsonWriter, T object) throws IOException {
             if (object == null) {

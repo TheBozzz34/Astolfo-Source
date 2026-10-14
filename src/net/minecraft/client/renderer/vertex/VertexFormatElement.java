@@ -9,7 +9,6 @@ public class VertexFormatElement {
    private final VertexFormatElement.EnumUsage usage;
    private int index;
    private int elementCount;
-   private static final long a = 110602970323374L;
 
    public VertexFormatElement(int indexIn, VertexFormatElement.EnumType typeIn, VertexFormatElement.EnumUsage usageIn, int count) {
       if (!this.func_177372_a(indexIn, usageIn)) {

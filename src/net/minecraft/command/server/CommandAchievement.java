@@ -18,8 +18,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 
 public class CommandAchievement extends CommandBase {
-   private static final long b = 20543841536203L;
-
    @Override
    public String getCommandName() {
       return "achievement";
@@ -89,8 +87,6 @@ public class CommandAchievement extends CommandBase {
                   }
 
                   ArrayList arrayList2 = Lists.newArrayList(Iterators.filter(AchievementList.achievementList.iterator(), new Predicate<Achievement>() {
-                     private static final long a = 83822419777137L;
-
                      public boolean apply(Achievement achievement) {
                         return entityPlayerMP.getStatFile().hasAchievementUnlocked(achievement) && achievement != statBase;
                      }

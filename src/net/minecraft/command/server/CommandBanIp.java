@@ -19,7 +19,6 @@ public class CommandBanIp extends CommandBase {
    public static final Pattern field_147211_a = Pattern.compile(
       "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$"
    );
-   private static final long b = 28722025304256L;
 
    @Override
    public String getCommandName() {

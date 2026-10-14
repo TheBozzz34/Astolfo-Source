@@ -20,8 +20,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityCow extends EntityAnimal {
-   private static final long gb = 27924027695353L;
-
    public EntityCow(World worldIn) {
       super(worldIn);
       this.setSize(0.9F, 1.3F);

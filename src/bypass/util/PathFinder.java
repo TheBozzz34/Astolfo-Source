@@ -8,8 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
 public class PathFinder {
-   private static final long a = 16919220023187L;
-
    public static ArrayList<Vector3> i(Vector3 vector3, Vector3 vector32, double d) {
       if (!k(new BlockPos(vector3.toVec3()))) {
          vector3 = vector3.add(0.0, 1.0, 0.0);

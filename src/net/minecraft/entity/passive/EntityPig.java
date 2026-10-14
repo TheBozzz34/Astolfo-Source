@@ -26,7 +26,6 @@ import net.minecraft.world.World;
 
 public class EntityPig extends EntityAnimal {
    private final EntityAIControlledByPlayer aiControlledByPlayer;
-   private static final long gb = 50086166341701L;
 
    public EntityPig(World worldIn) {
       super(worldIn);

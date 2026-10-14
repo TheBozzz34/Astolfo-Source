@@ -8,7 +8,6 @@ import net.minecraft.util.DamageSource;
 public class EntityDragonPart extends Entity {
    public final IEntityMultiPart entityDragonObj;
    public final String partName;
-   private static final long ab = 46301812791167L;
 
    public EntityDragonPart(IEntityMultiPart parent, String partName, float base, float sizeHeight) {
       super(parent.getWorld());

@@ -4,7 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityComparator extends TileEntity {
    private int outputSignal;
-   private static final long a = 138450800410048L;
 
    @Override
    public void writeToNBT(NBTTagCompound compound) {

@@ -48,7 +48,6 @@ public class TextureAtlasSprite {
    public TextureAtlasSprite spriteNormal = null;
    public TextureAtlasSprite spriteSpecular = null;
    public boolean isShadersSprite = false;
-   private static final long b = 140622711870331L;
 
    private TextureAtlasSprite(TextureAtlasSprite textureAtlasSprite) {
       this.iconName = textureAtlasSprite.iconName;
@@ -330,8 +329,6 @@ public class TextureAtlasSprite {
                CrashReportCategory crashReportCategory = crashReport.makeCategory("Frame being iterated");
                crashReportCategory.addCrashSection("Frame index", i);
                crashReportCategory.addCrashSectionCallable("Frame sizes", new Callable<String>() {
-                  private static final long a = 44797408702111L;
-
                   public String call() throws Exception {
                      StringBuilder stringBuilder = new StringBuilder();
 

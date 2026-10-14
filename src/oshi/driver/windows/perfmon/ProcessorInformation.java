@@ -11,7 +11,6 @@ import oshi.util.tuples.Pair;
 @ThreadSafe
 public final class ProcessorInformation {
    private static final boolean IS_WIN7_OR_GREATER = VersionHelpers.IsWindows7OrGreater();
-   private static final long a = 42424246662570L;
 
    private ProcessorInformation() {
    }

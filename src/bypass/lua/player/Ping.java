@@ -5,9 +5,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
 public final class Ping extends ZeroArgFunction {
-   private static final long a = 122457512081402L;
-   private static final long b = -8005043291340930073L;
-
    @Override
    public LuaValue call() {
       if (ClientAccess.mc.thePlayer == null) {
@@ -21,6 +18,6 @@ public final class Ping extends ZeroArgFunction {
                ? (int)ClientAccess.mc.getCurrentServerData().pingToServer
                : 0
          );
-      return valueOf(Math.min(i, (int)b));
+      return valueOf(Math.min(i, 999));
    }
 }

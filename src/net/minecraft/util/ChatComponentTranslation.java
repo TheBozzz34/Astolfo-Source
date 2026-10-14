@@ -16,7 +16,6 @@ public class ChatComponentTranslation extends ChatComponentStyle {
    private long lastTranslationUpdateTimeInMilliseconds = -1L;
    public List<IChatComponent> children = Lists.newArrayList();
    public static final Pattern stringVariablePattern = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
-   private static final long a = 82059539470389L;
 
    public ChatComponentTranslation(String translationKey, Object... args) {
       this.key = translationKey;

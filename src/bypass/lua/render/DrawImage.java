@@ -9,9 +9,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class DrawImage extends VarArgFunction {
-   private static final long a = 22279957277211L;
-   private static final long b = 5467930788752261126L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       if (!ScriptManager.N.t()) {
@@ -25,7 +22,7 @@ public final class DrawImage extends VarArgFunction {
       int j = 0;
       boolean bl = false;
       int k = 1;
-      if (varargs.narg() < 5 && varargs.narg() > (int)b) {
+      if (varargs.narg() < 5 && varargs.narg() > 6) {
          return valueOf(false);
       }
 

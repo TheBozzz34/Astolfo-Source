@@ -59,7 +59,6 @@ public final class InfiniteReach extends Module {
    };
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
-      long l = c ^ 31923425309270L;
       if (renderEvent.getType() == RenderType.WORLD && this.m != null) {
          GL11.glPushMatrix();
          GL11.glDisable(3553);
@@ -81,7 +80,6 @@ public final class InfiniteReach extends Module {
 
          GL11.glEnd();
          GL11.glDepthMask(true);
-         long n = 8336396032766770604L ^ l;
          GL11.glDisable(2848);
          GL11.glEnable(2929);
          GL11.glEnable(2896);
@@ -90,7 +88,6 @@ public final class InfiniteReach extends Module {
          GL11.glPopMatrix();
       }
    };
-   private static final long c = 108326489742469L;
 
    public InfiniteReach(Category category) {
       super(category);

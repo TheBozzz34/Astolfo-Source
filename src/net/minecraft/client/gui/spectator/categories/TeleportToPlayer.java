@@ -25,7 +25,6 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
       }
    });
    private final List<ISpectatorMenuObject> field_178673_b = Lists.newArrayList();
-   private static final long a = 39221179220470L;
 
    public TeleportToPlayer() {
       this(field_178674_a.sortedCopy(Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()));

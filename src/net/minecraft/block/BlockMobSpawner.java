@@ -11,8 +11,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.World;
 
 public class BlockMobSpawner extends BlockContainer {
-   private static final long e = 119165597101564L;
-
    public BlockMobSpawner() {
       super(Material.rock);
    }

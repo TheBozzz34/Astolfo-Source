@@ -16,7 +16,6 @@ public class ModelBiped extends ModelBase {
    public int heldItemRight;
    public boolean isSneak;
    public boolean aimedBow;
-   private static final long d = 96022216633921L;
 
    public ModelBiped() {
       this(0.0F);

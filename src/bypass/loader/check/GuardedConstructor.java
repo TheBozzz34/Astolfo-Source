@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 public final class GuardedConstructor {
    public static final ShapedMap<Integer, GuardedConstructor> t = new ShapedMap<>();
    private final int W;
-   private static final long a = 88694707155306L;
 
    public GuardedConstructor(int i) {
       this.W = i;

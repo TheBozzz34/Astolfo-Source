@@ -23,7 +23,6 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
    private final File mapDataDir;
    private final long initializationTime = MinecraftServer.getCurrentTimeMillis();
    private final String saveDirectoryName;
-   private static final long b = 81985735423569L;
 
    public SaveHandler(File savesDirectory, String directoryName, boolean playersDirectoryIn) {
       this.worldDirectory = new File(savesDirectory, directoryName);

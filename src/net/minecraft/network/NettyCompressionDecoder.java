@@ -12,7 +12,6 @@ import java.util.zip.Inflater;
 public class NettyCompressionDecoder extends ByteToMessageDecoder {
    private final Inflater inflater;
    private int treshold;
-   private static final long a = 94875971219713L;
 
    public NettyCompressionDecoder(int treshold) {
       this.treshold = treshold;

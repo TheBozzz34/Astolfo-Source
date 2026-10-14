@@ -35,8 +35,6 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
    private final GuiScreen previousGuiScreen;
    private final NetworkManager networkManager;
    private GameProfile gameProfile;
-   private static final long a = 112898916112982L;
-   private static final long b = -2756629822980489200L;
 
    public NetHandlerLoginClient(NetworkManager networkManagerIn, Minecraft mcIn, GuiScreen guiScreen) {
       this.networkManager = networkManagerIn;
@@ -49,7 +47,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
       final SecretKey secretKey = CryptManager.createNewSharedKey();
       String string = packetIn.getServerId();
       PublicKey publicKey = packetIn.getPublicKey();
-      String string2 = new BigInteger(CryptManager.getServerIdHash(string, publicKey, secretKey)).toString((int)b);
+      String string2 = new BigInteger(CryptManager.getServerIdHash(string, publicKey, secretKey)).toString(16);
       if (this.mc.getCurrentServerData() != null && this.mc.getCurrentServerData().isOnLAN()) {
          try {
             this.getSessionService().joinServer(this.mc.getSession().getProfile(), this.mc.getSession().getToken(), string2);

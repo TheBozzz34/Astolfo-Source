@@ -14,7 +14,6 @@ public class EntityFirework$SparkFX extends EntityFX {
    private float fadeColourGreen;
    private float fadeColourBlue;
    private boolean hasFadeColour;
-   private static final long ab = 35166268065867L;
 
    public EntityFirework$SparkFX(World world, double d, double d2, double d3, double d4, double d5, double d6, EffectRenderer effectRenderer) {
       super(world, d, d2, d3);

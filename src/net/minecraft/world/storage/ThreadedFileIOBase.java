@@ -10,7 +10,6 @@ public class ThreadedFileIOBase implements Runnable {
    private volatile long writeQueuedCounter;
    private volatile long savedIOCounter;
    private volatile boolean isThreadWaiting;
-   private static final long a = 22515376679672L;
 
    private ThreadedFileIOBase() {
       Thread thread = new Thread(this, "File IO Thread");

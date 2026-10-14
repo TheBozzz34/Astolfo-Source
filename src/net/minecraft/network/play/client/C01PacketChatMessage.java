@@ -7,7 +7,6 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class C01PacketChatMessage implements Packet<INetHandlerPlayServer> {
    private String message;
-   private static final long a = 111212618613026L;
 
    public C01PacketChatMessage() {
    }

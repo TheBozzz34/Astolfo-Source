@@ -12,7 +12,6 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
    private int fadeInTime;
    private int displayTime;
    private int fadeOutTime;
-   private static final long a = 33734968605721L;
 
    public S45PacketTitle() {
    }
@@ -91,8 +90,6 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
       TIMES,
       CLEAR,
       RESET;
-
-      private static final long a = 105422181686245L;
 
       public static S45PacketTitle.Type byName(String name) {
          for (S45PacketTitle.Type type : values()) {

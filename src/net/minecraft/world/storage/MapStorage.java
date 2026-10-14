@@ -20,7 +20,6 @@ public class MapStorage {
    public Map<String, WorldSavedData> loadedDataMap = Maps.newHashMap();
    private List<WorldSavedData> loadedDataList = Lists.newArrayList();
    private Map<String, Short> idCounts = Maps.newHashMap();
-   private static final long a = 23655112726176L;
 
    public MapStorage(ISaveHandler saveHandlerIn) {
       this.saveHandler = saveHandlerIn;

@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class AddressHandshake {
    private final ByteBuffer c = ByteBuffer.allocateDirect(4);
-   private static final long a = 122727011848368L;
 
    public void g(SocketChannel socketChannel, SocketAddress socketAddress) throws IOException {
       if (socketChannel.isConnected()) {

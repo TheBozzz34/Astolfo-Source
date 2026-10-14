@@ -88,7 +88,6 @@ public final class AutoBackstab extends Module {
          this.z = false;
       }
    };
-   private static final long c = 51983800228055L;
 
    public AutoBackstab(Category category) {
       super(category);

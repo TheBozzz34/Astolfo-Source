@@ -14,7 +14,6 @@ public class ExtendedBlockStorage {
    private char[] data;
    private NibbleArray blocklightArray;
    private NibbleArray skylightArray;
-   private static final long a = 102914880937644L;
 
    public ExtendedBlockStorage(int y, boolean storeSkylight) {
       this.yBase = y;

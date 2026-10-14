@@ -16,7 +16,6 @@ import oshi.util.ParseUtil;
 @ThreadSafe
 public final class LinuxNetworkParams extends AbstractNetworkParams {
    private static final LinuxLibc LIBC = LinuxLibc.INSTANCE;
-   private static final long c = 92836762438379L;
 
    @Override
    public String getDomainName() {

@@ -5,7 +5,6 @@ import net.minecraft.block.state.BlockStateBase;
 public class MatchBlock {
    private int blockId = -1;
    private int[] metadatas = null;
-   private static final long a = 48826095501898L;
 
    public MatchBlock(int blockId) {
       this.blockId = blockId;

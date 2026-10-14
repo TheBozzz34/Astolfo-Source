@@ -17,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class TextureAnimations {
    private static TextureAnimation[] textureAnimations = null;
-   private static final long a = 47223302926947L;
 
    public static void n() {
       textureAnimations = null;

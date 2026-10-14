@@ -12,7 +12,6 @@ public class SubSettingsAttribute extends SettingAttribute {
       int j = string2.length();
       return Integer.compare(i, j);
    });
-   private static final long b = 134679304957640L;
 
    public SubSettingsAttribute(List<Setting<?>> list) {
       super(AttributePriority.NORMAL);

@@ -22,7 +22,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
    private GuiButton e;
    private GuiLockIconButton field_175356_r;
    public String field_146442_a = "Options";
-   private static final long a = 21498478000360L;
 
    public GuiOptions(GuiScreen guiScreen, GameSettings gameSettings) {
       this.field_146441_g = guiScreen;
@@ -76,8 +75,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
       this.buttonList
          .add(
             new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...") {
-               private static final long c = 18288522768106L;
-
                @Override
                public void playPressSound(SoundHandler soundHandlerIn) {
                   SoundEventAccessorComposite soundEventAccessorComposite = soundHandlerIn.getRandomSoundFromCategories(

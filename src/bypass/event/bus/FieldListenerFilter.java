@@ -6,8 +6,6 @@ import bypass.event.Listener;
 import java.lang.reflect.Field;
 
 public class FieldListenerFilter implements ListenerFilter<Field> {
-   private static final long a = 72795227400359L;
-
    public boolean isListener(Field field) {
       return ListenerFilter.super.isListener(field) && Listener.class.isAssignableFrom(field.getType());
    }

@@ -10,7 +10,6 @@ public class S1BPacketEntityAttach implements Packet<INetHandlerPlayClient> {
    private int leash;
    private int entityId;
    private int vehicleEntityId;
-   private static final long a = 115736103622807L;
 
    public S1BPacketEntityAttach() {
    }

@@ -17,7 +17,6 @@ public class BiomeGenForest extends BiomeGenBase {
    public static final WorldGenForest field_150629_aC = new WorldGenForest(false, true);
    public static final WorldGenForest field_150630_aD = new WorldGenForest(false, false);
    public static final WorldGenCanopyTree field_150631_aE = new WorldGenCanopyTree(false);
-   private static final long bb = 99500803454080L;
 
    public BiomeGenForest(int id, int i) {
       super(id);
@@ -152,8 +151,6 @@ public class BiomeGenForest extends BiomeGenBase {
                this.baseBiome.decorate(worldIn, rand, pos);
             }
          } : new BiomeGenMutated(i, this) {
-            private static final long bb = 30336142775135L;
-
             @Override
             public WorldGenAbstractTree genBigTreeChance(Random rand) {
                return rand.nextBoolean() ? BiomeGenForest.field_150629_aC : BiomeGenForest.field_150630_aD;

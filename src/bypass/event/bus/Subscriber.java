@@ -11,7 +11,6 @@ public final class Subscriber<O, E extends Event> implements Subscription<O, E> 
    private final int j;
    private final Class<E> N;
    private Listener<E> e;
-   private static final long a = 5444996386492L;
 
    public Subscriber(O object, AnnotatedElement annotatedElement, EventHandler eventHandler, EventFilters eventFilters, InvocationStrategy invocationStrategy) {
       this(

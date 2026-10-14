@@ -21,7 +21,6 @@ public class Shader {
    private final List<Integer> listAuxWidths = Lists.newArrayList();
    private final List<Integer> listAuxHeights = Lists.newArrayList();
    private Matrix4f projectionMatrix;
-   private static final long a = 38205687845358L;
 
    public Shader(IResourceManager iResourceManager, String string, Framebuffer framebuffer, Framebuffer framebuffer2) throws IOException {
       this.manager = new ShaderManager(iResourceManager, string);

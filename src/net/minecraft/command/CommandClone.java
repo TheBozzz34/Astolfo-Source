@@ -16,8 +16,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class CommandClone extends CommandBase {
-   private static final long b = 115182982364428L;
-
    @Override
    public String getCommandName() {
       return "clone";

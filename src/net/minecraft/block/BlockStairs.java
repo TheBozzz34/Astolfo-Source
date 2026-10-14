@@ -33,7 +33,6 @@ public class BlockStairs extends Block {
    private final IBlockState modelState;
    private boolean hasRaytraced;
    private int rayTracePass;
-   private static final long K = 60437777466443L;
 
    public BlockStairs(IBlockState modelState) {
       super(modelState.getBlock().blockMaterial);
@@ -590,11 +589,6 @@ public class BlockStairs extends Block {
    @Override
    public BlockState createBlockState() {
       return new BlockState(this, FACING, HALF, SHAPE);
-   }
-
-   static {
-      long l = K ^ 110353765561930L;
-      long m = 5591898254320251588L ^ l;
    }
 
    public enum EnumHalf implements IStringSerializable {

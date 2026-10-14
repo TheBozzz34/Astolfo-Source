@@ -11,13 +11,10 @@ public abstract class Component extends Element {
    private boolean b;
    private float m;
    private float k;
-   public Animation F;
-   private static final long cb = 100330973966023L;
-   private static final long db = -2954289139974930332L;
+   public Animation F = new TimedAnimation().setDuration(100).setEasing(Easing.INERTIA);
 
    public Component(String string, float f, float g, int i, int j) {
       super(string, f, g);
-      this.F = new TimedAnimation().setDuration((int)db).setEasing(Easing.INERTIA);
       this.z = i;
       this.v = j;
    }

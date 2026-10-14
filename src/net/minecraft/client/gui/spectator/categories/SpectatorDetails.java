@@ -10,7 +10,6 @@ public class SpectatorDetails {
    private final ISpectatorMenuView field_178684_a;
    private final List<ISpectatorMenuObject> field_178682_b;
    private final int field_178683_c;
-   private static final long a = 112105721223399L;
 
    public SpectatorDetails(ISpectatorMenuView iSpectatorMenuView, List<ISpectatorMenuObject> list, int i) {
       this.field_178684_a = iSpectatorMenuView;

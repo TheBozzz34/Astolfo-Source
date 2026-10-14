@@ -4,8 +4,6 @@ import net.minecraft.client.gui.GuiSimpleScrolledSelectionListProxy;
 
 public class RealmsSimpleScrolledSelectionList {
    private final GuiSimpleScrolledSelectionListProxy proxy;
-   private static final long a = 97714526927995L;
-   private static final long b = 8469952137965600892L;
 
    public RealmsSimpleScrolledSelectionList(int i, int j, int k, int l, int m) {
       this.proxy = new GuiSimpleScrolledSelectionListProxy(this, i, j, k, l, m);
@@ -53,7 +51,7 @@ public class RealmsSimpleScrolledSelectionList {
    }
 
    public int getScrollbarPosition() {
-      return this.proxy.i() / 2 + (int)b;
+      return this.proxy.i() / 2 + 124;
    }
 
    public void L() {

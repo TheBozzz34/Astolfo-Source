@@ -8,7 +8,6 @@ import net.hypixel.api.util.GameType;
 public class BoostersReply extends AbstractReply {
    private List<BoostersReply.Booster> boosters;
    private BoostersReply.BoosterState boosterState;
-   private static final long a = 127013117322428L;
 
    public List<BoostersReply.Booster> getBoosters() {
       return this.boosters;
@@ -32,8 +31,6 @@ public class BoostersReply extends AbstractReply {
       private ZonedDateTime dateActivated;
       private List<UUID> stacked;
       private boolean queuedToStack;
-      private static final long a = 27001429631230L;
-      private static final long e = -1023592596145962883L;
 
       public UUID getPurchaserUuid() {
          return this.purchaserUuid;
@@ -85,14 +82,12 @@ public class BoostersReply extends AbstractReply {
             + this.stacked
             + ", queuedToStack="
             + this.queuedToStack
-            + (int)e;
+            + '}';
       }
    }
 
    public static class BoosterState {
       private boolean decrementing;
-      private static final long a = 33922908383710L;
-      private static final long c = -8970209746552356739L;
 
       public boolean isDecrementing() {
          return this.decrementing;
@@ -100,7 +95,7 @@ public class BoostersReply extends AbstractReply {
 
       @Override
       public String toString() {
-         return "BoosterState{decrementing=" + this.decrementing + (int)c;
+         return "BoosterState{decrementing=" + this.decrementing + '}';
       }
    }
 }

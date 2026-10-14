@@ -10,7 +10,6 @@ public class PlayerPotionEffects {
    public final Map<Integer, PotionEffect> effects = Maps.newHashMap();
    public final EntityPlayer player;
    public int color;
-   private static final long a = 86460945804019L;
 
    public PlayerPotionEffects(EntityPlayer entityPlayer) {
       this.player = entityPlayer;

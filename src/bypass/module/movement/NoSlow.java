@@ -33,8 +33,6 @@ public final class NoSlow extends Module {
    private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = c ^ 14932852432374L;
-      long m = l ^ 73675054456230L;
       boolean bl = client.getModuleManager().get(KillAura.class).isEnabled();
       switch (motionEvent.getState()) {
          case PRE:
@@ -77,7 +75,6 @@ public final class NoSlow extends Module {
             }
       }
    };
-   private static final long c = 134015327092195L;
 
    public NoSlow(Category category) {
       super(category);

@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 public class GuiCustomizeSkin extends GuiScreen {
    private final GuiScreen parentScreen;
    private String title;
-   private static final long a = 82280882754601L;
 
    public GuiCustomizeSkin(GuiScreen parentScreenIn) {
       this.parentScreen = parentScreenIn;

@@ -26,7 +26,6 @@ import net.minecraft.world.IBlockAccess;
 
 public class BetterSnow {
    private static IBakedModel u = null;
-   private static final long a = 98126046977800L;
 
    public static void R() {
       u = Config.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.snow_layer.getDefaultState());

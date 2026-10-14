@@ -10,8 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandSetDefaultSpawnpoint extends CommandBase {
-   private static final long b = 137965535915109L;
-
    @Override
    public String getCommandName() {
       return "setworldspawn";

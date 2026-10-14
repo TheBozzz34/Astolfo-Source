@@ -7,8 +7,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem {
-   private static final long a = 138942525702979L;
-
    @Override
    public final ItemStack dispense(IBlockSource source, ItemStack stack) {
       ItemStack itemStack = this.dispenseStack(source, stack);

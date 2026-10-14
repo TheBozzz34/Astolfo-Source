@@ -24,7 +24,6 @@ public class DataWatcher {
    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
    private boolean objectChanged;
    private ReadWriteLock lock = new ReentrantReadWriteLock();
-   private static final long b = 16941455846499L;
 
    public DataWatcher(Entity owner) {
       this.owner = owner;

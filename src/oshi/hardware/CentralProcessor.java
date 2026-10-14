@@ -118,12 +118,9 @@ public interface CentralProcessor {
       private final String cpuIdentifier;
       private final boolean cpu64bit;
       private final long cpuVendorFreq;
-      private final Supplier<String> microArchictecture;
-      private static final long a = 83851945464550L;
+      private final Supplier<String> microArchictecture = Memoizer.memoize(this::h);
 
       public ProcessorIdentifier(String cpuVendor, String cpuName, String cpuFamily, String cpuModel, String cpuStepping, String processorID, boolean cpu64bit) {
-         long l = a ^ 56485931112025L;
-         this.microArchictecture = Memoizer.memoize(this::h);
          this.cpuVendor = cpuVendor;
          this.cpuName = cpuName;
          this.cpuFamily = cpuFamily;
@@ -142,7 +139,6 @@ public interface CentralProcessor {
          stringBuilder.append(" Model ").append(cpuModel);
          stringBuilder.append(" Stepping ").append(cpuStepping);
          this.cpuIdentifier = stringBuilder.toString();
-         long m = 7486698780836764118L ^ l;
          Pattern pattern = Pattern.compile("@ (.*)$");
          Matcher matcher2 = pattern.matcher(cpuName);
          if (matcher2.find()) {

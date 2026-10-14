@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 public class BlockLever extends Block {
    public static final PropertyEnum<BlockLever.EnumOrientation> FACING = PropertyEnum.create("facing", BlockLever.EnumOrientation.class);
    public static final PropertyBool POWERED = PropertyBool.create("powered");
-   private static final long e = 35052500795515L;
 
    public BlockLever() {
       super(Material.circuits);
@@ -220,7 +219,6 @@ public class BlockLever extends Block {
       private final int meta;
       private final String name;
       private final EnumFacing facing;
-      private static final long a = 136308620155399L;
 
       EnumOrientation(int meta, String name, EnumFacing facing) {
          this.meta = meta;

@@ -7,7 +7,6 @@ import net.minecraft.util.ResourceLocation;
 public class MovingSoundMinecart extends MovingSound {
    private final EntityMinecart minecart;
    private float distance = 0.0F;
-   private static final long a = 78319928822880L;
 
    public MovingSoundMinecart(EntityMinecart minecartIn) {
       super(new ResourceLocation("minecraft:minecart.base"));

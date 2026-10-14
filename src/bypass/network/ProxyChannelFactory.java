@@ -11,15 +11,13 @@ import java.net.SocketImpl;
 
 public class ProxyChannelFactory implements ChannelFactory<OioSocketChannel> {
    private Proxy l;
-   private static final long a = 111967031101865L;
-   private static final long e = 4231176096667672464L;
 
    public ProxyChannelFactory(Proxy proxy) {
       this.l = proxy;
    }
 
    public OioSocketChannel newChannel() {
-      if (this.l.address() != null && ((InetSocketAddress)this.l.address()).getPort() == (int)e) {
+      if (this.l.address() != null && ((InetSocketAddress)this.l.address()).getPort() == 8080) {
          Socket socket = new Socket(this.l);
          return new OioSocketChannel(socket);
       }

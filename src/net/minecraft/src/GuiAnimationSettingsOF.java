@@ -31,7 +31,6 @@ public class GuiAnimationSettingsOF extends GuiScreen {
       GameSettings.Options.FIREWORK_PARTICLES,
       GameSettings.Options.PARTICLES
    };
-   private static final long a = 63046687236957L;
 
    public GuiAnimationSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;

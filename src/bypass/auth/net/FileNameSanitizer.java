@@ -5,7 +5,6 @@ public final class FileNameSanitizer {
    private static final String[] H = new String[]{
       "..", "?", "[", "]", "=", "<", ">", ":", ";", ",", "\"", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}"
    };
-   private static final long a = 16829074934235L;
 
    public static String l(String string) {
       for (String string2 : H) {
@@ -17,10 +16,5 @@ public final class FileNameSanitizer {
       }
 
       return string;
-   }
-
-   static {
-      long l = a ^ 124845994538724L;
-      long m = l ^ 9036654228983386730L;
    }
 }

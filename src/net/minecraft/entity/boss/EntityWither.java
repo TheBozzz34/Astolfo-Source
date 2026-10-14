@@ -48,13 +48,10 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
    private int[] field_82224_i = new int[2];
    private int blockBreakCounter;
    private static final Predicate<Entity> attackEntitySelector = new Predicate<Entity>() {
-      private static final long a = 8453972094853L;
-
       public boolean apply(Entity entity) {
          return entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
       }
    };
-   private static final long ab = 105208707728065L;
 
    public EntityWither(World worldIn) {
       super(worldIn);
@@ -524,8 +521,6 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
    @Override
    public float getCollisionBorderSize() {
-      long l = ab ^ 92179472927554L;
-      long m = l ^ 64932267881520L;
       return Astolfo.INSTANCE.getModuleManager().get(Hitboxes.class).isEnabled() && Hitboxes.wither.getValue() && Hitboxes.G
          ? super.getCollisionBorderSize() + Hitboxes.size.getValue()
          : super.getCollisionBorderSize();

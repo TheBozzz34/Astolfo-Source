@@ -21,7 +21,6 @@ public abstract class EntityAITarget extends EntityAIBase {
    private int targetSearchStatus;
    private int targetSearchDelay;
    private int targetUnseenTicks;
-   private static final long b = 20786316917796L;
 
    public EntityAITarget(EntityCreature creature, boolean checkSight) {
       this(creature, checkSight, false);

@@ -7,8 +7,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
 public final class Biome extends ZeroArgFunction {
-   private static final long a = 2232696263595L;
-
    @Override
    public LuaValue call() {
       try {

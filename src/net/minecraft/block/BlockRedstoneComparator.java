@@ -28,7 +28,6 @@ import net.minecraft.world.World;
 public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITileEntityProvider {
    public static final PropertyBool POWERED = PropertyBool.create("powered");
    public static final PropertyEnum<BlockRedstoneComparator.Mode> MODE = PropertyEnum.create("mode", BlockRedstoneComparator.Mode.class);
-   private static final long e = 87014277362740L;
 
    public BlockRedstoneComparator(boolean powered) {
       super(powered);
@@ -139,8 +138,6 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
          EntityItemFrame.class,
          new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1),
          new Predicate<Entity>() {
-            private static final long a = 69076170298314L;
-
             public boolean apply(Entity entity) {
                return entity != null && entity.getHorizontalFacing() == facing;
             }

@@ -8,7 +8,6 @@ import net.minecraft.util.MathHelper;
 public class ModelWither extends ModelBase {
    private ModelRenderer[] field_82905_a;
    private ModelRenderer[] field_82904_b;
-   private static final long a = 40609872581369L;
 
    public ModelWither(float f) {
       this.textureWidth = 64;

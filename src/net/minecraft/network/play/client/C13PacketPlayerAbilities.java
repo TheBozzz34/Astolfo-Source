@@ -13,7 +13,6 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
    private boolean creativeMode;
    private float flySpeed;
    private float walkSpeed;
-   private static final long a = 136571740783073L;
 
    public C13PacketPlayerAbilities() {
    }

@@ -11,7 +11,6 @@ public class EntityMoveHelper {
    public double posZ;
    public double speed;
    public boolean update;
-   private static final long a = 54006948099728L;
 
    public EntityMoveHelper(EntityLiving entitylivingIn) {
       this.entity = entitylivingIn;

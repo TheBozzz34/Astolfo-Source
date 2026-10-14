@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 
 public class AuthHttp {
    public HttpURLConnection C;
-   private static final long a = 58800123819467L;
 
    public AuthHttp(String string) throws MalformedURLException, IOException {
       this.C = (HttpURLConnection)new URL(string).openConnection();

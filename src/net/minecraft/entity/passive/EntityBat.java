@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 
 public class EntityBat extends EntityAmbientCreature {
    private BlockPos spawnPosition;
-   private static final long ab = 24803502417455L;
 
    public EntityBat(World worldIn) {
       super(worldIn);

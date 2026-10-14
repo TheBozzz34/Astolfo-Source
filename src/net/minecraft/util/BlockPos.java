@@ -15,7 +15,6 @@ public class BlockPos extends Vec3i {
    private static final long X_MASK = (1L << NUM_X_BITS) - 1L;
    private static final long Y_MASK = (1L << NUM_Y_BITS) - 1L;
    private static final long Z_MASK = (1L << NUM_Z_BITS) - 1L;
-   private static final long b = 108386554913412L;
 
    public BlockPos(int x, int y, int z) {
       super(x, y, z);
@@ -146,7 +145,6 @@ public class BlockPos extends Vec3i {
          public Iterator<BlockPos> iterator() {
             return new AbstractIterator<BlockPos>() {
                private BlockPos lastReturned = null;
-               private static final long a = 45254728709738L;
 
                public BlockPos computeNext() {
                   if (this.lastReturned == null) {
@@ -188,7 +186,6 @@ public class BlockPos extends Vec3i {
          public Iterator<BlockPos.MutableBlockPos> iterator() {
             return new AbstractIterator<BlockPos.MutableBlockPos>() {
                private BlockPos.MutableBlockPos theBlockPos = null;
-               private static final long a = 26671989468164L;
 
                public BlockPos.MutableBlockPos computeNext() {
                   if (this.theBlockPos == null) {

@@ -49,7 +49,6 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    private Comparator<ResourcePackListEntry> b;
    private static final int G = new Color(7, 7, 7).getRGB();
    private static final int q = new Color(17, 17, 17).getRGB();
-   private static final long K = 87295963114827L;
 
    public CustomResourcePacksScreen(GuiScreen guiScreen) {
       super(guiScreen);

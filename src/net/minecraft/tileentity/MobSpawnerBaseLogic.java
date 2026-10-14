@@ -32,7 +32,6 @@ public abstract class MobSpawnerBaseLogic {
    private int maxNearbyEntities = 6;
    private int activatingRangeFromPlayer = 16;
    private int spawnRange = 4;
-   private static final long b = 8642003192993L;
 
    private String getEntityNameToSpawn() {
       if (this.getRandomEntity() == null) {
@@ -304,7 +303,6 @@ public abstract class MobSpawnerBaseLogic {
    public class WeightedRandomMinecart extends WeightedRandom.Item {
       private final NBTTagCompound nbtData;
       private final String entityType;
-      private static final long a = 108210089452650L;
 
       public WeightedRandomMinecart(NBTTagCompound tagCompound) {
          this(tagCompound.getCompoundTag("Properties"), tagCompound.getString("Type"), tagCompound.getInteger("Weight"));

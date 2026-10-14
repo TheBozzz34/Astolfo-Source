@@ -21,7 +21,6 @@ public class ChunkProviderClient implements IChunkProvider {
    private LongHashMap<Chunk> chunkMapping = new LongHashMap<>();
    private List<Chunk> chunkListing = Lists.newArrayList();
    private World worldObj;
-   private static final long a = 5634219151539L;
 
    public ChunkProviderClient(World worldIn) {
       this.blankChunk = new EmptyChunk(worldIn, 0, 0);

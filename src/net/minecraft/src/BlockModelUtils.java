@@ -15,8 +15,6 @@ import net.minecraft.util.EnumFacing;
 import org.lwjgl.util.vector.Vector3f;
 
 public class BlockModelUtils {
-   private static final long a = 5133602769716L;
-
    public static IBakedModel G(String string, int i) {
       TextureAtlasSprite textureAtlasSprite = Config.getMinecraft().getTextureMapBlocks().getAtlasSprite(string);
       return Z(textureAtlasSprite, i);

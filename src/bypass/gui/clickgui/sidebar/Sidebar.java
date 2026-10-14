@@ -12,14 +12,12 @@ import java.awt.Color;
 public class Sidebar extends Container {
    private CategoryTab X;
    private CategoryTab O;
-   private Animation B;
+   private Animation B = new TimedAnimation().setDuration(250).setEasing(Easing.LINEAR);
    private int n;
    private String u;
-   private static final long d = 97140108686979L;
 
    public Sidebar(int i, int j, int k, int l) {
       super("astolfo #" + client.getVersion(), i, j, k, l);
-      this.B = new TimedAnimation().setDuration(250).setEasing(Easing.LINEAR);
       this.F(true);
    }
 
@@ -34,45 +32,43 @@ public class Sidebar extends Container {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 87234942265585L;
-      long m = l ^ 8972929756414L;
       int k = client.getSidebarGui().Z();
-      int n = client.getSidebarGui().T();
-      int i2 = client.getSidebarGui().F();
-      int i3 = client.getSidebarGui().M();
+      int l = client.getSidebarGui().T();
+      int m = client.getSidebarGui().F();
+      int n = client.getSidebarGui().M();
       if (this.X != null) {
          if (this.x() < 130) {
-            this.t(this.x() + i3);
+            this.t(this.x() + n);
          } else if (this.X.D() != null) {
             if (this.X.D().A() != null) {
                if (this.x() < 410) {
-                  this.t(this.x() + i3);
+                  this.t(this.x() + n);
                }
             } else {
                if (this.x() > 285) {
-                  this.t(this.x() - i3);
+                  this.t(this.x() - n);
                }
 
                if (this.x() < 285) {
-                  this.t(this.x() + i3);
+                  this.t(this.x() + n);
                }
             }
          } else if (this.x() > 130) {
-            int i4 = this.x() - i3;
-            if (i4 < 130) {
-               i4 = 130;
+            int i2 = this.x() - n;
+            if (i2 < 130) {
+               i2 = 130;
             }
 
-            this.t(i4);
+            this.t(i2);
          }
       } else if (this.x() > 34) {
-         this.t(this.x() - i3);
+         this.t(this.x() - n);
       }
 
       RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), k);
-      int i5 = Math.min(this.x(), 130);
-      RenderUtil.drawRect(this.M() + 34.0F, this.E_float(), this.M() + i5, this.E_float() + this.Y(), n);
-      RenderUtil.drawRect(this.M(), this.E_float() + 30.0F, this.M() + 34.0F, this.E_float() + this.Y(), i2);
+      int i3 = Math.min(this.x(), 130);
+      RenderUtil.drawRect(this.M() + 34.0F, this.E_float(), this.M() + i3, this.E_float() + this.Y(), l);
+      RenderUtil.drawRect(this.M(), this.E_float() + 30.0F, this.M() + 34.0F, this.E_float() + this.Y(), m);
       if (this.x() > 285) {
          RenderUtil.drawRect(
             this.M() + 285.0F, this.E_float() + 20.0F, this.M() + 285.5F, this.E_float() + this.Y() - 20.0F, new Color(136, 141, 157, 120).getRGB()

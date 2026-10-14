@@ -3,8 +3,6 @@ package net.minecraft.enchantment;
 import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentArrowInfinite extends Enchantment {
-   private static final long m = 126381424989758L;
-
    public EnchantmentArrowInfinite(int enchID, ResourceLocation enchName, int enchWeight) {
       super(enchID, enchName, enchWeight, EnumEnchantmentType.BOW);
       this.setName("arrowInfinite");

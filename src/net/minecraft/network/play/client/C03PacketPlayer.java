@@ -14,7 +14,6 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer> {
    public boolean onGround;
    public boolean moving;
    public boolean rotating;
-   private static final long a = 131523766397636L;
 
    public C03PacketPlayer() {
    }

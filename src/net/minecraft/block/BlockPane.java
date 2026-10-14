@@ -23,7 +23,6 @@ public class BlockPane extends Block {
    public static final PropertyBool SOUTH = PropertyBool.create("south");
    public static final PropertyBool WEST = PropertyBool.create("west");
    private final boolean canDrop;
-   private static final long e = 11753762983719L;
 
    public BlockPane(Material materialIn, boolean canDrop) {
       super(materialIn);

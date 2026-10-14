@@ -9,14 +9,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 
 public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT> {
-   private static final long c = 98470757018527L;
-
    public RenderTntMinecart(RenderManager renderManagerIn) {
       super(renderManagerIn);
    }
 
    public void func_180560_a(EntityMinecartTNT minecart, float partialTicks, IBlockState state) {
-      long l = c ^ 55617037861937L;
       int i = minecart.getFuseTicks();
       if (i > -1 && i - partialTicks + 1.0F < 10.0F) {
          float f = 1.0F - (i - partialTicks + 1.0F) / 10.0F;
@@ -31,7 +28,6 @@ public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT> {
       if (i > -1 && i / 5 % 2 == 0) {
          BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
          GlStateManager.disableTexture2D();
-         long m = 6879750879246821350L ^ l;
          GlStateManager.disableLighting();
          GlStateManager.enableBlend();
          GlStateManager.blendFunc(770, 772);

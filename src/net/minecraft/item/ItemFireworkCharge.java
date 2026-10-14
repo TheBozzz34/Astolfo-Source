@@ -8,8 +8,6 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.util.StatCollector;
 
 public class ItemFireworkCharge extends Item {
-   private static final long a = 89404166093962L;
-
    @Override
    public int getColorFromItemStack(ItemStack stack, int renderPass) {
       if (renderPass != 1) {

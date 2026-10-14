@@ -9,8 +9,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntitySmallFireball extends EntityFireball {
-   private static final long bb = 113055726730359L;
-
    public EntitySmallFireball(World worldIn) {
       super(worldIn);
       this.setSize(0.3125F, 0.3125F);

@@ -9,7 +9,6 @@ public class NettyEncryptionTranslator {
    private final Cipher cipher;
    private byte[] field_150505_b = new byte[0];
    private byte[] field_150506_c = new byte[0];
-   private static final long a = 66175168037318L;
 
    public NettyEncryptionTranslator(Cipher cipherIn) {
       this.cipher = cipherIn;

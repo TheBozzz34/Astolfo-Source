@@ -9,10 +9,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.boss.EntityDragon;
 
 public class LayerEnderDragonDeath implements LayerRenderer<EntityDragon> {
-   private static final long a = 48522250044644L;
-
    public void doRenderLayer(EntityDragon entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
-      long l = a ^ 128401481445014L;
       if (entitylivingbaseIn.deathTicks > 0) {
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
@@ -25,10 +22,8 @@ public class LayerEnderDragonDeath implements LayerRenderer<EntityDragon> {
 
          Random random = new Random(432L);
          GlStateManager.disableTexture2D();
-         long m = 1237620780460898848L ^ l;
          GlStateManager.shadeModel(7425);
          GlStateManager.enableBlend();
-         m = 5024837102255047908L ^ l;
          GlStateManager.blendFunc(770, 1);
          GlStateManager.disableAlpha();
          GlStateManager.enableCull();
@@ -56,7 +51,6 @@ public class LayerEnderDragonDeath implements LayerRenderer<EntityDragon> {
 
          GlStateManager.popMatrix();
          GlStateManager.depthMask(true);
-         m = 8224665305279087972L ^ l;
          GlStateManager.disableCull();
          GlStateManager.disableBlend();
          GlStateManager.shadeModel(7424);

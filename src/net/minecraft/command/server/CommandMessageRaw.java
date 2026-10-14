@@ -15,8 +15,6 @@ import net.minecraft.util.IChatComponent;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class CommandMessageRaw extends CommandBase {
-   private static final long b = 11199117283487L;
-
    @Override
    public String getCommandName() {
       return "tellraw";

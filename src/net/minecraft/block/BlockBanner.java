@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 public class BlockBanner extends BlockContainer {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
    public static final PropertyInteger ROTATION = PropertyInteger.create("rotation", 0, 15);
-   private static final long i = 13476397745584L;
 
    public BlockBanner() {
       super(Material.wood);
@@ -121,8 +120,6 @@ public class BlockBanner extends BlockContainer {
    }
 
    public static class BlockBannerHanging extends BlockBanner {
-      private static final long l = 59533678655776L;
-
       public BlockBannerHanging() {
          this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
       }
@@ -185,8 +182,6 @@ public class BlockBanner extends BlockContainer {
    }
 
    public static class BlockBannerStanding extends BlockBanner {
-      private static final long l = 61343192411017L;
-
       public BlockBannerStanding() {
          this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, 0));
       }

@@ -12,7 +12,6 @@ public class EntityAIMoveTowardsTarget extends EntityAIBase {
    private double movePosZ;
    private double speed;
    private float maxTargetDistance;
-   private static final long a = 109585642635975L;
 
    public EntityAIMoveTowardsTarget(EntityCreature creature, double speedIn, float targetMaxDistance) {
       this.theEntity = creature;

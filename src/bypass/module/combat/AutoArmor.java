@@ -34,7 +34,6 @@ public final class AutoArmor extends Module {
    };
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      long l = c ^ 2471658156914L;
       if (motionEvent.getState() == EventState.PRE) {
          if (mc.currentScreen instanceof GuiContainer && !(mc.currentScreen instanceof GuiInventory)) {
             return;
@@ -46,7 +45,6 @@ public final class AutoArmor extends Module {
 
          ArmorSlot armorSlot = null;
          int i = -1;
-         long m = 3949560276703916607L ^ l;
          int j = 0;
 
          for (int k = 9; k <= 44; k++) {
@@ -55,19 +53,19 @@ public final class AutoArmor extends Module {
                ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
                ArmorSlot armorSlot2 = N(itemArmor.armorType);
                if (armorSlot2 != null && itemArmor.armorType == this.f) {
-                  int n = InventoryUtil.getArmorScore(itemStack);
+                  int l = InventoryUtil.getArmorScore(itemStack);
                   Slot slot2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot2.slot);
-                  int i2 = InventoryUtil.getArmorScore(slot2.getStack());
-                  if (n != i2) {
-                     if (n > i2 && n > j) {
+                  int m = InventoryUtil.getArmorScore(slot2.getStack());
+                  if (l != m) {
+                     if (l > m && l > j) {
                         armorSlot = armorSlot2;
                         i = k;
-                        j = n;
+                        j = l;
                      }
                   } else if (itemStack.hasEffect() && !slot2.getStack().hasEffect()) {
                      armorSlot = armorSlot2;
                      i = k;
-                     j = n;
+                     j = l;
                   }
                }
             }
@@ -95,7 +93,6 @@ public final class AutoArmor extends Module {
          }
       }
    };
-   private static final long c = 109552791208972L;
 
    public AutoArmor(Category category) {
       super(category);

@@ -6,7 +6,6 @@ public abstract class Element implements ClientAccess {
    private String g;
    private float D;
    private float J;
-   private static final long ab = 100453377317205L;
 
    public Element(String string, float f, float g) {
       this.g = string;

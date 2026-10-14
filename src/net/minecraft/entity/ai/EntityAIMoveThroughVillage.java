@@ -18,7 +18,6 @@ public class EntityAIMoveThroughVillage extends EntityAIBase {
    private VillageDoorInfo doorInfo;
    private boolean isNocturnal;
    private List<VillageDoorInfo> doorList = Lists.newArrayList();
-   private static final long a = 140718183678574L;
 
    public EntityAIMoveThroughVillage(EntityCreature theEntityIn, double movementSpeedIn, boolean isNocturnalIn) {
       this.theEntity = theEntityIn;

@@ -4,8 +4,6 @@ import bypass.module.exploits.Denicker;
 import net.minecraft.util.EnumChatFormatting;
 
 public final class NicklistCommand extends Command {
-   private static final long d = 107110009519772L;
-
    public NicklistCommand(String string, String string2) {
       super(string, string2);
    }

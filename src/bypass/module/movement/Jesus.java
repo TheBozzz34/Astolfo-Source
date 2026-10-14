@@ -77,9 +77,7 @@ public final class Jesus extends Module {
 
                this.B = GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox()) && P_boolean();
                y = !y;
-               if (!mc.thePlayer.isCollidedVertically
-                  && mc.thePlayer.ticksExisted % (int)j == 0
-                  && GameUtil.getBlockAtPlayer(-1.5) instanceof BlockStaticLiquid) {
+               if (!mc.thePlayer.isCollidedVertically && mc.thePlayer.ticksExisted % 16 == 0 && GameUtil.getBlockAtPlayer(-1.5) instanceof BlockStaticLiquid) {
                   mc.thePlayer.motionX *= 0.55;
                   mc.thePlayer.motionZ *= 0.55;
                }
@@ -200,8 +198,6 @@ public final class Jesus extends Module {
          jumpEvent.cancel();
       }
    };
-   private static final long c = 22086836133154L;
-   private static final long j = 2049007216203137040L;
 
    public Jesus(Category category) {
       super(category);

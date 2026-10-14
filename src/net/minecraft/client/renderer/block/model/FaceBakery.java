@@ -17,7 +17,6 @@ import shadersmod.client.Shaders;
 public class FaceBakery {
    private static final float SCALE_ROTATION_22_5 = 1.0F / (float)Math.cos((float) (Math.PI / 8)) - 1.0F;
    private static final float SCALE_ROTATION_GENERAL = 1.0F / (float)Math.cos(Math.PI / 4) - 1.0F;
-   private static final long a = 84453518255931L;
 
    public BakedQuad makeBakedQuad(
       Vector3f posFrom,

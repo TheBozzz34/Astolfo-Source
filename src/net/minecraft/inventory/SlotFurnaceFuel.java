@@ -5,8 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotFurnaceFuel extends Slot {
-   private static final long a = 61910983744228L;
-
    public SlotFurnaceFuel(IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
       super(inventoryIn, slotIndex, xPosition, yPosition);
    }

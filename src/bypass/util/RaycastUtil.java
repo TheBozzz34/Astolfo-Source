@@ -11,8 +11,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public final class RaycastUtil implements ClientAccess {
-   private static final long b = 73866837190362L;
-
    public static Entity r(double d, EntityFilter entityFilter) {
       return L(d, RotationUtil.A.r(), RotationUtil.A.z(), entityFilter);
    }

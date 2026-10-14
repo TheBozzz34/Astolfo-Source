@@ -12,7 +12,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class AltManager extends JsonFileManager<Alt, JsonObject> {
    public static int o;
-   private static final long c = 1110289341564L;
 
    public AltManager(File file) {
       super(file, "alts.json");

@@ -14,7 +14,6 @@ public class DemoWorldManager extends ItemInWorldManager {
    private boolean demoTimeExpired;
    private int field_73104_e;
    private int field_73102_f;
-   private static final long b = 134309260531170L;
 
    public DemoWorldManager(World worldIn) {
       super(worldIn);

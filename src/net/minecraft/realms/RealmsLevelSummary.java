@@ -4,7 +4,6 @@ import net.minecraft.world.storage.SaveFormatComparator;
 
 public class RealmsLevelSummary implements Comparable<RealmsLevelSummary> {
    private SaveFormatComparator levelSummary;
-   private static final long a = 97886797181605L;
 
    public RealmsLevelSummary(SaveFormatComparator saveFormatComparator) {
       this.levelSummary = saveFormatComparator;

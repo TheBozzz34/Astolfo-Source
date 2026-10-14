@@ -6,8 +6,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
-   private static final long bb = 5602786851673L;
-
    public EntityWaterMob(World worldIn) {
       super(worldIn);
    }

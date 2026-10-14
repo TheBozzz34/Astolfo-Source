@@ -10,8 +10,6 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public final class ExecutingCommand {
-   private static final long a = 8186991338389L;
-
    private ExecutingCommand() {
    }
 

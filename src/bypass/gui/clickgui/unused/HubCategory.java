@@ -10,7 +10,6 @@ import java.awt.Color;
 public class HubCategory extends Container {
    private HubPanel B;
    private Category j;
-   private static final long d = 134147984771524L;
 
    public HubCategory(HubPanel hubPanel, Category category, int i, int j, int k, int l) {
       super(category.getDisplayName(), i, j, k, l);
@@ -20,8 +19,6 @@ public class HubCategory extends Container {
 
    @Override
    public void render(int i, int j) {
-      long l = d ^ 119906979796918L;
-      long m = l ^ 35699865445313L;
       if (this.B.n() != this) {
          if (this.G(i, j)) {
             RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), client.getColorSetting().getValue().getRGB());

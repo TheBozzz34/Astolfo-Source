@@ -25,7 +25,6 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
    private static final Comparator<OSProcess> PID_ASC_SORT = Comparator.comparingInt(OSProcess::getProcessID);
    private static final Comparator<OSProcess> PARENTPID_ASC_SORT = Comparator.comparingInt(OSProcess::getParentProcessID);
    private static final Comparator<OSProcess> NAME_ASC_SORT = Comparator.comparing(OSProcess::getName, String.CASE_INSENSITIVE_ORDER);
-   private static final long b = 114778679966102L;
 
    @Override
    public String getManufacturer() {

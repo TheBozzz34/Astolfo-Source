@@ -7,8 +7,6 @@ public abstract class AbstractCheck implements Check {
    private final String D;
    private final CheckType P;
    public int T;
-   private static final long a = 45984530929003L;
-   private static final long h = -4183889473106345954L;
 
    public AbstractCheck(String string, CheckType checkType) {
       this.D = string;
@@ -45,7 +43,7 @@ public abstract class AbstractCheck implements Check {
 
    @Override
    public int p() {
-      return (int)h;
+      return 30;
    }
 
    public void D_void() {

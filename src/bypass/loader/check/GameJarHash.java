@@ -14,7 +14,6 @@ import javax.xml.bind.DatatypeConverter;
 
 public class GameJarHash {
    private List<String> g;
-   private static final long a = 54642545268419L;
 
    public GameJarHash() {
       try {

@@ -9,8 +9,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.World;
 
 public class BlockSlime extends BlockBreakable {
-   private static final long i = 20896560695336L;
-
    public BlockSlime() {
       super(Material.clay, false, MapColor.grassColor);
       this.setCreativeTab(CreativeTabs.tabDecorations);

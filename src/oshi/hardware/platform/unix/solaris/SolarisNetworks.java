@@ -8,8 +8,6 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 
 @ThreadSafe
 public final class SolarisNetworks extends Networks {
-   private static final long b = 109744082368762L;
-
    public static boolean updateNetworkStats(NetworkIF netIF) {
       try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
          Kstat kstat = kstatChain.lookup("link", -1, netIF.getName());

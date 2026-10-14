@@ -20,13 +20,10 @@ import net.minecraft.world.World;
 
 public class BlockTorch extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>() {
-      private static final long a = 15643699118674L;
-
       public boolean apply(EnumFacing enumFacing) {
          return enumFacing != EnumFacing.DOWN;
       }
    });
-   private static final long l = 134180871794096L;
 
    public BlockTorch() {
       super(Material.circuits);

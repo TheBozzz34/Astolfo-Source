@@ -35,7 +35,6 @@ public class DynamicLights {
    private static final int LIGHT_LEVEL_MAGMA_CUBE_CORE = 13;
    private static final int LIGHT_LEVEL_GLOWSTONE_DUST = 8;
    private static final int LIGHT_LEVEL_PRISMARINE_CRYSTALS = 8;
-   private static final long a = 106608858704114L;
 
    public static void P(Entity entity, RenderGlobal renderGlobal) {
    }
@@ -258,16 +257,5 @@ public class DynamicLights {
 
    public static ItemStack getItemStack(EntityItem entityItem) {
       return entityItem.getDataWatcher().getWatchableObjectItemStack(10);
-   }
-
-   static {
-      long l = a ^ 74668808572200L;
-      long m = l ^ 9189614441925196700L;
-      m = l ^ 889390479442330192L;
-      m = l ^ 5604660363056514199L;
-      m = l ^ 9189614441925196700L;
-      m = l ^ 9189614441925196700L;
-      m = l ^ 6284842428959961993L;
-      m = l ^ 889390479442330192L;
    }
 }

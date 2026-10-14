@@ -19,7 +19,6 @@ public class HttpPipeline {
    public static final String HEADER_VALUE_KEEP_ALIVE = "keep-alive";
    public static final String HEADER_TRANSFER_ENCODING = "Transfer-Encoding";
    public static final String HEADER_VALUE_CHUNKED = "chunked";
-   private static final long c = 97344573252971L;
 
    public static void addRequest(String urlStr, HttpListener listener) throws IOException {
       addRequest(urlStr, listener, Proxy.NO_PROXY);
@@ -106,8 +105,6 @@ public class HttpPipeline {
    public static HttpResponse executeRequest(HttpRequest req) throws IOException {
       final HashMap hashMap = new HashMap();
       HttpListener httpListener = new HttpListener() {
-         private static final long a = 60137406596133L;
-
          @Override
          public void finished(HttpRequest req, HttpResponse resp) {
             synchronized (hashMap) {

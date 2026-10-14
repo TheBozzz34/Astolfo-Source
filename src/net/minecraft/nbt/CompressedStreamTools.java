@@ -19,8 +19,6 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
 
 public class CompressedStreamTools {
-   private static final long a = 67467306098877L;
-
    public static NBTTagCompound readCompressed(InputStream is) throws IOException {
       DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new GZIPInputStream(is)));
 

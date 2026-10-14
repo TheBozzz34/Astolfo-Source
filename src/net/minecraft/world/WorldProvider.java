@@ -25,7 +25,6 @@ public abstract class WorldProvider {
    public final float[] lightBrightnessTable = new float[16];
    public int dimensionId;
    private final float[] colorsSunriseSunset = new float[4];
-   private static final long a = 15963653166596L;
 
    public final void registerWorld(World worldIn) {
       this.worldObj = worldIn;

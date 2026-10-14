@@ -230,7 +230,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
    public int currentServerMaxPlayers = 20;
    private boolean field_147308_k = false;
    private final Random avRandomizer = new Random();
-   private static final long a = 109445161998205L;
 
    public NetHandlerPlayClient(Minecraft mcIn, GuiScreen guiScreen, NetworkManager networkManager, GameProfile gameProfile) {
       this.gameController = mcIn;

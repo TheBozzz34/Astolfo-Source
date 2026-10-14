@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 
 public class EntityMinecartTNT extends EntityMinecart {
    private int minecartTNTFuse = -1;
-   private static final long ab = 31679656379482L;
 
    public EntityMinecartTNT(World worldIn) {
       super(worldIn);

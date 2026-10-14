@@ -7,7 +7,6 @@ import sun.misc.BASE64Decoder;
 public class CrashReportEncryptionStrings {
    public static String i = "ARCFOUR";
    public static String o = "1CnjkruPP9O9OrHt";
-   private static final long a = 119429342183651L;
 
    public static String R(String string) {
       String string2 = "n7bPbNlJA9Pemq0fAIxjjg==";

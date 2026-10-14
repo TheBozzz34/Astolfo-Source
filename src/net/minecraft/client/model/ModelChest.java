@@ -4,7 +4,6 @@ public class ModelChest extends ModelBase {
    public ModelRenderer chestLid = new ModelRenderer(this, 0, 0).setTextureSize(64, 64);
    public ModelRenderer chestBelow;
    public ModelRenderer chestKnob;
-   private static final long a = 113021062813690L;
 
    public ModelChest() {
       this.chestLid.addBox(0.0F, -5.0F, -14.0F, 14, 5, 14, 0.0F);

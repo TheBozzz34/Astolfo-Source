@@ -8,8 +8,6 @@ import net.minecraft.village.Village;
 public class EntityAIDefendVillage extends EntityAITarget {
    public EntityIronGolem irongolem;
    public EntityLivingBase villageAgressorTarget;
-   private static final long a = 16294140577205L;
-   private static final long c = -2646858752476577772L;
 
    public EntityAIDefendVillage(EntityIronGolem ironGolemIn) {
       super(ironGolemIn, false, true);
@@ -30,7 +28,7 @@ public class EntityAIDefendVillage extends EntityAITarget {
       }
 
       if (!this.isSuitableTarget(this.villageAgressorTarget, false)) {
-         if (this.taskOwner.getRNG().nextInt((int)c) == 0) {
+         if (this.taskOwner.getRNG().nextInt(20) == 0) {
             this.villageAgressorTarget = village.getNearestTargetPlayer(this.irongolem);
             return this.isSuitableTarget(this.villageAgressorTarget, false);
          } else {

@@ -11,8 +11,6 @@ public class S01PacketEncryptionRequest implements Packet<INetHandlerLoginClient
    private String hashedServerId;
    private PublicKey publicKey;
    private byte[] verifyToken;
-   private static final long a = 125254373093286L;
-   private static final long b = -1401258119979335660L;
 
    public S01PacketEncryptionRequest() {
    }
@@ -25,7 +23,7 @@ public class S01PacketEncryptionRequest implements Packet<INetHandlerLoginClient
 
    @Override
    public void readPacketData(PacketBuffer buf) throws IOException {
-      this.hashedServerId = buf.readStringFromBuffer((int)b);
+      this.hashedServerId = buf.readStringFromBuffer(20);
       this.publicKey = CryptManager.decodePublicKey(buf.readByteArray());
       this.verifyToken = buf.readByteArray();
    }

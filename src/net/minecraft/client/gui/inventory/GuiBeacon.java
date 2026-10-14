@@ -27,7 +27,6 @@ public class GuiBeacon extends GuiContainer {
    private IInventory tileBeacon;
    private GuiBeacon.ConfirmButton beaconConfirmButton;
    private boolean buttonsNotDrawn;
-   private static final long bb = 94906670433915L;
 
    public GuiBeacon(InventoryPlayer playerInventory, IInventory tileBeaconIn) {
       super(new ContainerBeacon(playerInventory, tileBeaconIn));
@@ -172,7 +171,6 @@ public class GuiBeacon extends GuiContainer {
       private final int field_146144_p;
       private final int field_146143_q;
       private boolean field_146142_r;
-      private static final long c = 98523336813137L;
 
       public Button(int j, int k, int l, ResourceLocation resourceLocation, int m, int n) {
          super(j, k, l, 22, 22, "");
@@ -219,8 +217,6 @@ public class GuiBeacon extends GuiContainer {
    }
 
    public class CancelButton extends GuiBeacon.Button {
-      private static final long d = 101733445542950L;
-
       public CancelButton(int j, int k, int l) {
          super(j, k, l, GuiBeacon.beaconGuiTextures, 112, 220);
       }
@@ -232,8 +228,6 @@ public class GuiBeacon extends GuiContainer {
    }
 
    public class ConfirmButton extends GuiBeacon.Button {
-      private static final long d = 124393627272492L;
-
       public ConfirmButton(int j, int k, int l) {
          super(j, k, l, GuiBeacon.beaconGuiTextures, 90, 220);
       }
@@ -247,7 +241,6 @@ public class GuiBeacon extends GuiContainer {
    public class PowerButton extends GuiBeacon.Button {
       private final int field_146149_p;
       private final int field_146148_q;
-      private static final long d = 101815826522959L;
 
       public PowerButton(int j, int k, int l, int m, int n) {
          super(

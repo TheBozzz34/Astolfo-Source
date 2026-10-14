@@ -8,7 +8,6 @@ public abstract class HudElement extends Component {
    private NumberSetting<Float> posX = new NumberSetting<>("Pos-X", "Pos-X", 0.0F, 0.0F, 10000.0F);
    private NumberSetting<Float> posY = new NumberSetting<>("Pos-Y", "Pos-Y", 0.0F, 0.0F, 10000.0F);
    private final NumberSetting<Float> scale = new NumberSetting<>("Scale", "Scale", 2.0F, 1.0F, 4.0F);
-   private static final long c = 5493745151876L;
 
    public HudElement(String string, float f, float g, int i, int j) {
       super(string, f, g, i, j);

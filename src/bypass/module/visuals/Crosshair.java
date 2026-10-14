@@ -80,7 +80,6 @@ public final class Crosshair extends Module {
          }
       }
    };
-   private static final long c = 127268056824835L;
 
    public Crosshair(Category category) {
       super(category);

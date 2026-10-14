@@ -8,7 +8,6 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 
 public class TeleportEvent extends CancellableEvent implements ClientAccess {
    private final S08PacketPlayerPosLook s08PacketPlayerPosLook;
-   private static final long b = 63973655574476L;
 
    public TeleportEvent(S08PacketPlayerPosLook s08PacketPlayerPosLook) {
       this.s08PacketPlayerPosLook = s08PacketPlayerPosLook;

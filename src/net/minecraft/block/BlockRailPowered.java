@@ -14,8 +14,6 @@ public class BlockRailPowered extends BlockRailBase {
       "shape",
       BlockRailBase.EnumRailDirection.class,
       new Predicate<BlockRailBase.EnumRailDirection>() {
-         private static final long a = 53115744462259L;
-
          public boolean apply(BlockRailBase.EnumRailDirection enumRailDirection) {
             return enumRailDirection != BlockRailBase.EnumRailDirection.NORTH_EAST
                && enumRailDirection != BlockRailBase.EnumRailDirection.NORTH_WEST
@@ -25,19 +23,18 @@ public class BlockRailPowered extends BlockRailBase {
       }
    );
    public static final PropertyBool POWERED = PropertyBool.create("powered");
-   private static final long i = 64738556740391L;
 
    public BlockRailPowered() {
       super(true);
       this.setDefaultState(this.blockState.getBaseState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH).withProperty(POWERED, false));
    }
 
-   public boolean func_176566_a(World worldIn, BlockPos pos, IBlockState state, boolean bl, int j) {
-      if (j >= 8) {
+   public boolean func_176566_a(World worldIn, BlockPos pos, IBlockState state, boolean bl, int i) {
+      if (i >= 8) {
          return false;
       }
 
-      int i = pos.getX();
+      int j = pos.getX();
       int k = pos.getY();
       int l = pos.getZ();
       boolean bl2 = true;
@@ -52,16 +49,16 @@ public class BlockRailPowered extends BlockRailBase {
             break;
          case EAST_WEST:
             if (bl) {
-               i--;
+               j--;
             } else {
-               i++;
+               j++;
             }
             break;
          case ASCENDING_EAST:
             if (bl) {
-               i--;
+               j--;
             } else {
-               i++;
+               j++;
                k++;
                bl2 = false;
             }
@@ -70,11 +67,11 @@ public class BlockRailPowered extends BlockRailBase {
             break;
          case ASCENDING_WEST:
             if (bl) {
-               i--;
+               j--;
                k++;
                bl2 = false;
             } else {
-               i++;
+               j++;
             }
 
             enumRailDirection = BlockRailBase.EnumRailDirection.EAST_WEST;
@@ -102,9 +99,9 @@ public class BlockRailPowered extends BlockRailBase {
             enumRailDirection = BlockRailBase.EnumRailDirection.NORTH_SOUTH;
       }
 
-      return this.func_176567_a(worldIn, new BlockPos(i, k, l), bl, j, enumRailDirection)
+      return this.func_176567_a(worldIn, new BlockPos(j, k, l), bl, i, enumRailDirection)
          ? true
-         : bl2 && this.func_176567_a(worldIn, new BlockPos(i, k - 1, l), bl, j, enumRailDirection);
+         : bl2 && this.func_176567_a(worldIn, new BlockPos(j, k - 1, l), bl, i, enumRailDirection);
    }
 
    public boolean func_176567_a(World worldIn, BlockPos blockPos, boolean bl, int distance, BlockRailBase.EnumRailDirection enumRailDirection) {

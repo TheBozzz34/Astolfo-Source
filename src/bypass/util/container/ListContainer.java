@@ -8,8 +8,6 @@ import java.util.ListIterator;
 import java.util.Optional;
 
 public class ListContainer<E> extends CollectionContainer<E> {
-   private static final long d = 26694049125338L;
-
    public ListContainer() {
       super(new ArrayList<>());
       this.I(this.getValue());

@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 public class ModelSquid extends ModelBase {
    public ModelRenderer squidBody;
    public ModelRenderer[] squidTentacles = new ModelRenderer[8];
-   private static final long a = 56936205590424L;
 
    public ModelSquid() {
       byte b = -16;

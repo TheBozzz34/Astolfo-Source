@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class StrUtils {
-   private static final long a = 100558836188296L;
-   private static final long b = 7411752035378266160L;
-
    public static boolean equalsMask(String str, String mask, char wildChar, char wildCharSingle) {
       if (mask != null && str != null) {
          if (mask.indexOf(wildChar) < 0) {
@@ -224,16 +221,16 @@ public class StrUtils {
       return false;
    }
 
-   public static boolean equalsTrim(String aIn, String bIn) {
-      if (aIn != null) {
-         aIn = aIn.trim();
+   public static boolean equalsTrim(String a, String b) {
+      if (a != null) {
+         a = a.trim();
       }
 
-      if (bIn != null) {
-         bIn = bIn.trim();
+      if (b != null) {
+         b = b.trim();
       }
 
-      return equals(aIn, bIn);
+      return equals(a, b);
    }
 
    public static boolean isEmpty(String string) {
@@ -247,7 +244,7 @@ public class StrUtils {
       }
 
       String string = "" + ++i;
-      return string.length() > str.length() ? "" : fillLeft("" + i, str.length(), (char)((int)b));
+      return string.length() > str.length() ? "" : fillLeft("" + i, str.length(), '0');
    }
 
    public static int parseInt(String s, int defVal) {
@@ -312,8 +309,8 @@ public class StrUtils {
       return stringBuffer.toString();
    }
 
-   public static boolean equals(Object aIn, Object bIn) {
-      return aIn == bIn ? true : (aIn != null && aIn.equals(bIn) ? true : bIn != null && bIn.equals(aIn));
+   public static boolean equals(Object a, Object b) {
+      return a == b ? true : (a != null && a.equals(b) ? true : b != null && b.equals(a));
    }
 
    public static boolean startsWith(String str, String[] prefixes) {

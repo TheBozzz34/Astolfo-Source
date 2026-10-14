@@ -20,7 +20,6 @@ import oshi.hardware.common.AbstractUsbDevice;
 @Immutable
 public class MacUsbDevice extends AbstractUsbDevice {
    private static final CoreFoundation CF = CoreFoundation.INSTANCE;
-   private static final long c = 131638886385539L;
 
    public MacUsbDevice(String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices) {
       super(name, vendor, vendorId, productId, serialNumber, uniqueDeviceId, connectedDevices);

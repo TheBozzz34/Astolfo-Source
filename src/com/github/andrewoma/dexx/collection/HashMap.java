@@ -13,7 +13,6 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
       }
    };
    private final CompactHashMap<K, Pair<K, V>> compactHashMap;
-   private static final long a = 34875112212747L;
 
    public static <K, V> HashMap<K, V> empty() {
       return EMPTY;

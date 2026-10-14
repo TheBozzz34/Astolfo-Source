@@ -52,7 +52,6 @@ public final class DamageParticles extends Module {
    };
    @EventHandler(WorldLoadEvent.class)
    private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.O.clear();
-   private static final long c = 56396412993634L;
 
    public DamageParticles(Category category) {
       super(category);

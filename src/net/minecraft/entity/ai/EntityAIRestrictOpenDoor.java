@@ -9,8 +9,6 @@ import net.minecraft.village.VillageDoorInfo;
 public class EntityAIRestrictOpenDoor extends EntityAIBase {
    private EntityCreature entityObj;
    private VillageDoorInfo frontDoor;
-   private static final long a = 108734573617280L;
-   private static final long c = -8268501786482966512L;
 
    public EntityAIRestrictOpenDoor(EntityCreature creatureIn) {
       this.entityObj = creatureIn;
@@ -26,7 +24,7 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
       }
 
       BlockPos blockPos = new BlockPos(this.entityObj);
-      Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockPos, (int)c);
+      Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockPos, 16);
       if (village == null) {
          return false;
       }

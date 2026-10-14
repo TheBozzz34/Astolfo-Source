@@ -4,7 +4,6 @@ public final class MathExpressionParser {
    public int pos;
    public int ch;
    public final String expression;
-   private static final long a = 11678934009726L;
 
    public MathExpressionParser(String string) {
       this.expression = string;

@@ -48,7 +48,6 @@ public class WorldInfo {
    private int borderWarningDistance = 5;
    private int borderWarningTime = 15;
    private GameRules theGameRules = new GameRules();
-   private static final long c = 30959812080124L;
 
    public WorldInfo() {
    }
@@ -549,8 +548,6 @@ public class WorldInfo {
       category.addCrashSectionCallable(
          "Level generator",
          new Callable<String>() {
-            private static final long a = 124639892676671L;
-
             public String call() throws Exception {
                return String.format(
                   "ID %02d - %s, ver %d. Features enabled: %b",
@@ -573,8 +570,6 @@ public class WorldInfo {
          }
       });
       category.addCrashSectionCallable("Level time", new Callable<String>() {
-         private static final long b = 35600207710026L;
-
          public String call() throws Exception {
             return String.format("%d game time, %d day time", WorldInfo.this.totalTime, WorldInfo.this.worldTime);
          }
@@ -585,8 +580,6 @@ public class WorldInfo {
          }
       });
       category.addCrashSectionCallable("Level storage version", new Callable<String>() {
-         private static final long a = 100768625862358L;
-
          public String call() throws Exception {
             String string = "Unknown?";
 
@@ -607,8 +600,6 @@ public class WorldInfo {
       category.addCrashSectionCallable(
          "Level weather",
          new Callable<String>() {
-            private static final long a = 55988492227961L;
-
             public String call() throws Exception {
                return String.format(
                   "Rain time: %d (now: %b), thunder time: %d (now: %b)",
@@ -623,8 +614,6 @@ public class WorldInfo {
       category.addCrashSectionCallable(
          "Level game mode",
          new Callable<String>() {
-            private static final long a = 136126242360647L;
-
             public String call() throws Exception {
                return String.format(
                   "Game mode: %s (ID %d). Hardcore: %b. Cheats: %b",

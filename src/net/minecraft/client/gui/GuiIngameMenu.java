@@ -16,7 +16,6 @@ public class GuiIngameMenu extends GuiScreen {
    private int field_146444_f;
    private static final Stopwatch i = new Stopwatch();
    private static final int w = 2500;
-   private static final long a = 112426152169406L;
 
    @Override
    public void initGui() {
@@ -145,10 +144,5 @@ public class GuiIngameMenu extends GuiScreen {
       } else {
          customFontRenderer.drawString(string, (int)h, (int)f2, j);
       }
-   }
-
-   static {
-      long l = a ^ 43405373162718L;
-      long m = l ^ 1705155665226939249L;
    }
 }

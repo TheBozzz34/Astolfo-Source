@@ -13,7 +13,6 @@ public class IMetadataSerializer {
    private final IRegistry<String, IMetadataSerializer.Registration<? extends IMetadataSection>> metadataSectionSerializerRegistry = new RegistrySimple<>();
    private final GsonBuilder gsonBuilder = new GsonBuilder();
    private Gson gson;
-   private static final long a = 63489025071718L;
 
    public IMetadataSerializer() {
       this.gsonBuilder.registerTypeHierarchyAdapter(IChatComponent.class, new IChatComponent.Serializer());

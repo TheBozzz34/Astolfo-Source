@@ -3,8 +3,6 @@ package bypass.command;
 import bypass.chat.ChatManager;
 
 public class ChatCommand extends Command {
-   private static final long d = 8332550716453L;
-
    public ChatCommand(String string, String string2) {
       super(string, string2);
    }

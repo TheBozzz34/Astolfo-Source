@@ -11,8 +11,6 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.JsonUtils;
 
 public class PackMetadataSectionSerializer extends BaseMetadataSectionSerializer<PackMetadataSection> implements JsonSerializer<PackMetadataSection> {
-   private static final long a = 79966011278257L;
-
    public PackMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
       JsonObject jsonObject = jsonElement.getAsJsonObject();
       IChatComponent iChatComponent = jsonDeserializationContext.deserialize(jsonObject.get("description"), IChatComponent.class);

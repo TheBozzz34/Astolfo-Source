@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiLockIconButton extends GuiButton {
    private boolean field_175231_o = false;
-   private static final long c = 60781847749777L;
 
    public GuiLockIconButton(int i, int j, int k) {
       super(i, j, k, 20, 20, "");

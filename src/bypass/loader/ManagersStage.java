@@ -33,27 +33,20 @@ public final class ManagersStage extends AbstractLoadStage {
    }
 
    public class az9 extends StageAction {
-      private static final long c = 105110397576383L;
-
       public az9(LoadStage loadStage) {
          super(loadStage);
       }
 
       @Override
       public void run() {
-         long l = c ^ 71123235168738L;
-         long m = l ^ 134646927726923L;
-         long n = l ^ 40764775396062L;
-         long l2 = l ^ 125177937552439L;
-         long l3 = l ^ 132776272997740L;
          if (ManagersStage.this.getState() == 1) {
             if (!Astolfo.INSTANCE.getDirectory().exists()) {
                Astolfo.INSTANCE.getDirectory().mkdir();
             }
 
-            ClientAccess.client.register(l2, ClientAccess.client.getAltManager());
-            ClientAccess.client.register(l2, ClientAccess.client.getAlteningManager());
-            ClientAccess.client.register(l2, ClientAccess.client.getChatManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getAltManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getAlteningManager());
+            ClientAccess.client.register(121968519176554L, ClientAccess.client.getChatManager());
          }
       }
    }

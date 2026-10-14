@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public class EntitySnowShovelFX extends EntityFX {
    public float snowDigParticleScale;
-   private static final long ab = 58874562089360L;
 
    public EntitySnowShovelFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
       this(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, 1.0F);

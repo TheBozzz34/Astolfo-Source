@@ -22,7 +22,6 @@ public class Alt implements JsonSerializable<JsonObject> {
    public boolean Y;
    public boolean F;
    public String Z;
-   private static final long a = 126169934704290L;
 
    public Alt(String string, String string2) {
       this(string, string2, string);

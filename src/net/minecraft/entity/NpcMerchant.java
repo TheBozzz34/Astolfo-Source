@@ -13,7 +13,6 @@ public class NpcMerchant implements IMerchant {
    private EntityPlayer customer;
    private MerchantRecipeList recipeList;
    private IChatComponent field_175548_d;
-   private static final long a = 127329321400188L;
 
    public NpcMerchant(EntityPlayer entityPlayer, IChatComponent iChatComponent) {
       this.customer = entityPlayer;

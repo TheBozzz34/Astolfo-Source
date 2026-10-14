@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class EntityCloudFX extends EntityFX {
    public float field_70569_a;
-   private static final long ab = 115309924083631L;
 
    public EntityCloudFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);

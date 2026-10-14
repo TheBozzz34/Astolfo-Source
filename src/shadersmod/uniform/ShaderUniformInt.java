@@ -5,7 +5,6 @@ import shadersmod.client.Shaders;
 
 public class ShaderUniformInt extends ShaderUniformBase {
    private int value = -1;
-   private static final long b = 94424456419221L;
 
    public ShaderUniformInt(String name) {
       super(name);

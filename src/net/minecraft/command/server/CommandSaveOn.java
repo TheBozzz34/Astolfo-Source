@@ -7,8 +7,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
 public class CommandSaveOn extends CommandBase {
-   private static final long b = 9485189166587L;
-
    @Override
    public String getCommandName() {
       return "save-on";

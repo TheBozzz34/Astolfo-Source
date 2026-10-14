@@ -1,8 +1,6 @@
 package net.minecraft.client.model;
 
 public class ModelCow extends ModelQuadruped {
-   private static final long b = 35108266129891L;
-
    public ModelCow() {
       super(12, 0.0F);
       this.head = new ModelRenderer(this, 0, 0);

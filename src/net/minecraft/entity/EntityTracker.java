@@ -46,7 +46,6 @@ public class EntityTracker {
    private Set<EntityTrackerEntry> trackedEntities = Sets.newHashSet();
    private IntHashMap<EntityTrackerEntry> trackedEntityHashTable = new IntHashMap<>();
    private int maxTrackingDistanceThreshold;
-   private static final long a = 101873760328026L;
 
    public EntityTracker(WorldServer theWorldIn) {
       this.theWorld = theWorldIn;
@@ -139,12 +138,9 @@ public class EntityTracker {
          CrashReportCategory crashReportCategory = crashReport.makeCategory("Entity To Track");
          crashReportCategory.addCrashSection("Tracking range", trackingRange + " blocks");
          crashReportCategory.addCrashSectionCallable("Update interval", new Callable<String>() {
-            private static final long a = 97084932681086L;
-            private static final long e = -7470733788314599425L;
-
             public String call() throws Exception {
                String string = "Once per " + updateFrequency + " ticks";
-               if (updateFrequency == (int)e) {
+               if (updateFrequency == Integer.MAX_VALUE) {
                   string = "Maximum (" + string + ")";
                }
 

@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 public final class StringSetting extends Setting<String> implements Comparable<StringSetting> {
-   private static final long c = 85438779180938L;
-
    public StringSetting() {
       super("", "", "", SettingType.UNDEFINED);
    }

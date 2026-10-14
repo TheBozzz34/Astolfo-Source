@@ -14,8 +14,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
 public class CommandHelp extends CommandBase {
-   private static final long b = 61160041745850L;
-
    @Override
    public String getCommandName() {
       return "help";

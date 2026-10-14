@@ -7,8 +7,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class StringFunction extends VarArgFunction {
-   private static final long a = 300361218307L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       String string = null;

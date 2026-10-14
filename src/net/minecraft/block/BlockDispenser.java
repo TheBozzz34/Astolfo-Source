@@ -32,7 +32,6 @@ public class BlockDispenser extends BlockContainer {
    public static final PropertyBool TRIGGERED = PropertyBool.create("triggered");
    public static final RegistryDefaulted<Item, IBehaviorDispenseItem> dispenseBehaviorRegistry = new RegistryDefaulted<>(new BehaviorDefaultDispenseItem());
    public Random rand = new Random();
-   private static final long e = 89447912875954L;
 
    public BlockDispenser() {
       super(Material.rock);

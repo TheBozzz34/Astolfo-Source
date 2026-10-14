@@ -38,7 +38,6 @@ public class GuiEnchantment extends GuiContainer {
    public float field_147076_A;
    public ItemStack field_147077_B;
    private final IWorldNameable field_175380_I;
-   private static final long bb = 21062339473539L;
 
    public GuiEnchantment(InventoryPlayer inventory, World worldIn, IWorldNameable iWorldNameable) {
       super(new ContainerEnchantment(inventory, worldIn));
@@ -76,7 +75,6 @@ public class GuiEnchantment extends GuiContainer {
 
    @Override
    public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-      long l = bb ^ 140536394508358L;
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_GUI_TEXTURE);
       int i = (this.width - this.xSize) / 2;
@@ -132,12 +130,10 @@ public class GuiEnchantment extends GuiContainer {
 
       GlStateManager.enableRescaleNormal();
       MODEL_BOOK.render((Entity)null, 0.0F, f2, f3, h, 0.0F, 0.0625F);
-      long m = 5778989311847396488L ^ l;
       GlStateManager.disableRescaleNormal();
       RenderHelper.disableStandardItemLighting();
       GlStateManager.matrixMode(5889);
       GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-      m = 5492193014962982679L ^ l;
       GlStateManager.popMatrix();
       GlStateManager.matrixMode(5888);
       GlStateManager.popMatrix();
@@ -146,44 +142,43 @@ public class GuiEnchantment extends GuiContainer {
       EnchantmentNameParts.getInstance().reseedRandomGenerator(this.container.xpSeed);
       int k = this.container.getLapisAmount();
 
-      for (int n = 0; n < 3; n++) {
-         int i2 = i + 60;
-         int i3 = i2 + 20;
+      for (int l = 0; l < 3; l++) {
+         int m = i + 60;
+         int n = m + 20;
          byte b = 86;
          String string = EnchantmentNameParts.getInstance().generateNewRandomName();
          this.zLevel = 0.0F;
          this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_GUI_TEXTURE);
-         int i4 = this.container.enchantLevels[n];
+         int i2 = this.container.enchantLevels[l];
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         if (i4 == 0) {
-            this.drawTexturedModalRect(i2, j + 14 + 19 * n, 0, 185, 108, 19);
+         if (i2 == 0) {
+            this.drawTexturedModalRect(m, j + 14 + 19 * l, 0, 185, 108, 19);
          } else {
-            String string2 = "" + i4;
+            String string2 = "" + i2;
             FontRenderer fontRenderer = this.mc.standardGalacticFontRenderer;
-            m = 2733236796270204104L ^ l;
-            int i5 = 6839882;
-            if ((k < n + 1 || this.mc.thePlayer.experienceLevel < i4) && !this.mc.thePlayer.capabilities.isCreativeMode) {
-               this.drawTexturedModalRect(i2, j + 14 + 19 * n, 0, 185, 108, 19);
-               this.drawTexturedModalRect(i2 + 1, j + 15 + 19 * n, 16 * n, 239, 16, 16);
-               fontRenderer.drawSplitString(string, i3, j + 16 + 19 * n, b, (i5 & 16711422) >> 1);
-               i5 = 4226832;
+            int i3 = 6839882;
+            if ((k < l + 1 || this.mc.thePlayer.experienceLevel < i2) && !this.mc.thePlayer.capabilities.isCreativeMode) {
+               this.drawTexturedModalRect(m, j + 14 + 19 * l, 0, 185, 108, 19);
+               this.drawTexturedModalRect(m + 1, j + 15 + 19 * l, 16 * l, 239, 16, 16);
+               fontRenderer.drawSplitString(string, n, j + 16 + 19 * l, b, (i3 & 16711422) >> 1);
+               i3 = 4226832;
             } else {
-               int i6 = mouseX - (i + 60);
-               int i7 = mouseY - (j + 14 + 19 * n);
-               if (i6 >= 0 && i7 >= 0 && i6 < 108 && i7 < 19) {
-                  this.drawTexturedModalRect(i2, j + 14 + 19 * n, 0, 204, 108, 19);
-                  i5 = 16777088;
+               int i4 = mouseX - (i + 60);
+               int i5 = mouseY - (j + 14 + 19 * l);
+               if (i4 >= 0 && i5 >= 0 && i4 < 108 && i5 < 19) {
+                  this.drawTexturedModalRect(m, j + 14 + 19 * l, 0, 204, 108, 19);
+                  i3 = 16777088;
                } else {
-                  this.drawTexturedModalRect(i2, j + 14 + 19 * n, 0, 166, 108, 19);
+                  this.drawTexturedModalRect(m, j + 14 + 19 * l, 0, 166, 108, 19);
                }
 
-               this.drawTexturedModalRect(i2 + 1, j + 15 + 19 * n, 16 * n, 223, 16, 16);
-               fontRenderer.drawSplitString(string, i3, j + 16 + 19 * n, b, i5);
-               i5 = 8453920;
+               this.drawTexturedModalRect(m + 1, j + 15 + 19 * l, 16 * l, 223, 16, 16);
+               fontRenderer.drawSplitString(string, n, j + 16 + 19 * l, b, i3);
+               i3 = 8453920;
             }
 
             fontRenderer = this.mc.fontRendererObj;
-            fontRenderer.drawStringWithShadow(string2, i3 + 86 - fontRenderer.getStringWidth(string2), j + 16 + 19 * n + 7, i5);
+            fontRenderer.drawStringWithShadow(string2, n + 86 - fontRenderer.getStringWidth(string2), j + 16 + 19 * l + 7, i3);
          }
       }
    }

@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderPainting extends Render<EntityPainting> {
    private static final ResourceLocation KRISTOFFER_PAINTING_TEXTURE = new ResourceLocation("textures/painting/paintings_kristoffer_zetterstrand.png");
-   private static final long a = 51539349536466L;
 
    public RenderPainting(RenderManager renderManagerIn) {
       super(renderManagerIn);

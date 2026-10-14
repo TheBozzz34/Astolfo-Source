@@ -10,7 +10,6 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient> {
    private int windowId;
    private int slot;
    private ItemStack item;
-   private static final long a = 63505874402959L;
 
    public S2FPacketSetSlot() {
    }

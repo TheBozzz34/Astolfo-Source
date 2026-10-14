@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 
 public class LayerHeldItemWitch implements LayerRenderer<EntityWitch> {
    private final RenderWitch witchRenderer;
-   private static final long a = 2620876148614L;
 
    public LayerHeldItemWitch(RenderWitch witchRendererIn) {
       this.witchRenderer = witchRendererIn;

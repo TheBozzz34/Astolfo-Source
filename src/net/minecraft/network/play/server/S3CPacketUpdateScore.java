@@ -12,7 +12,6 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
    private String objective = "";
    private int value;
    private S3CPacketUpdateScore.Action action;
-   private static final long a = 69907642232696L;
 
    public S3CPacketUpdateScore() {
    }

@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 
 public class WorldGenLiquids extends WorldGenerator {
    private Block block;
-   private static final long a = 135598474088620L;
 
    public WorldGenLiquids(Block block) {
       this.block = block;

@@ -6,7 +6,6 @@ import java.awt.Color;
 
 public class ListItem extends Component {
    private ListPanel s;
-   private static final long c = 68493835363936L;
 
    public ListItem(ListPanel listPanel, String string, int i, int j) {
       super(string, 0.0F, 0.0F, i, j);
@@ -20,8 +19,6 @@ public class ListItem extends Component {
 
    @Override
    public void render(int i, int j) {
-      long l = c ^ 45374998640658L;
-      long m = l ^ 39308001293406L;
       if (this.s.Z() == this) {
          RenderUtil.drawRect(this.M() + 2.0F, this.E_float() + 3.0F, this.M() + 3.0F, this.E_float() + this.Y() + 3.0F, client.getColor().getRGB());
       }

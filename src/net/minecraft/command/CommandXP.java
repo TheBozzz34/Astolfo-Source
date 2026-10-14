@@ -6,8 +6,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandXP extends CommandBase {
-   private static final long b = 14028192292040L;
-
    @Override
    public String getCommandName() {
       return "xp";

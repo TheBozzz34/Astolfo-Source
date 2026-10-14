@@ -119,7 +119,6 @@ public abstract class EntityLivingBase extends Entity {
    public int jumpTicks;
    private float absorptionAmount;
    private boolean Ls;
-   private static final long fb = 102761715617941L;
 
    @Override
    public void onKillCommand() {
@@ -948,8 +947,6 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    private int getArmSwingAnimationEnd() {
-      long l = fb ^ 30317504845315L;
-      long m = l ^ 124876313361189L;
       if (this instanceof EntityPlayerSP && Astolfo.INSTANCE.getModuleManager().get(Animations.class).isEnabled()) {
          return Animations.speed.getValue();
       } else {
@@ -1110,8 +1107,6 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public void jump() {
-      long l = fb ^ 107812693659344L;
-      long m = l ^ 8863891448822L;
       this.motionY = this.getJumpUpwardsMotion();
       if (this.isPotionActive(Potion.jump)) {
          this.motionY = this.motionY + (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
@@ -1159,8 +1154,6 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public void moveEntityWithHeading(float strafe, float forward) {
-      long l = fb ^ 62942906234037L;
-      long m = l ^ 91529406716307L;
       if (this.C()) {
          if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying) {
             if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying) {

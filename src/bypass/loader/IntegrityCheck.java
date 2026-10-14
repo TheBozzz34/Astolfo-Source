@@ -2,7 +2,6 @@ package bypass.loader;
 
 import bypass.auth.AuthHttpRequest;
 import bypass.auth.AuthUtil;
-import bypass.loader.check.IntegrityCheckStrings;
 import bypass.loader.check.StringListHolder;
 import bypass.util.Holder;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -17,7 +16,6 @@ public class IntegrityCheck {
    private boolean y;
    private boolean V;
    private boolean O;
-   private static final long a = 17973522484811L;
 
    public IntegrityCheck(StringListHolder stringListHolder) {
       this.E = stringListHolder;
@@ -30,13 +28,13 @@ public class IntegrityCheck {
       this.h(true);
       AuthHttpRequest authHttpRequest = new AuthHttpRequest()
          .r("https://security.astolfo.lgbt/api/md5")
-         .a(IntegrityCheckStrings.W("6aIZQw=="))
+         .a("hash")
          .O(this.E.A().L().m_Iterator().next())
-         .F(IntegrityCheckStrings.W("4LMaR/zOOYwyGyzI3WmVKixANnf3QTPqFf+GKBI2mj9h"))
+         .F("application/x-www-form-urlencoded")
          .v("aa4hu3ib2");
       this.Q(true);
       this.w(!this.O());
-      if (!AuthUtil.k(authHttpRequest).contains(IntegrityCheckStrings.W("16IGQvE=")) && (holder.value = new EntitySkeleton(3298776)) != null) {
+      if (!AuthUtil.k(authHttpRequest).contains("Valid") && (holder.value = new EntitySkeleton(3298776)) != null) {
       }
 
       this.Z(this.f());

@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 public class BlockRedstoneLight extends Block {
    private final boolean isOn;
-   private static final long e = 114509669303708L;
 
    public BlockRedstoneLight(boolean isOn) {
       super(Material.redstoneLight);

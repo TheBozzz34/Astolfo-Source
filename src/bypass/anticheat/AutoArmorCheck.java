@@ -9,7 +9,6 @@ public class AutoArmorCheck extends MovementCheck {
    private double G;
    private float w;
    private Item g;
-   private static final long b = 30966799658483L;
 
    public AutoArmorCheck() {
       super("AutoArmor");

@@ -14,7 +14,6 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
    private int y;
    private int z;
    private int type;
-   private static final long a = 116074574088654L;
 
    public S2CPacketSpawnGlobalEntity() {
    }

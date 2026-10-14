@@ -32,8 +32,6 @@ public class OSProcess {
    private long openFiles;
    private int bitness;
    private double cpuPercent = -1.0;
-   private static final long b = 44551403490183L;
-   private static final long n = -6923444705141194659L;
 
    public OSProcess(OperatingSystem operatingSystem) {
       this.operatingSystem = operatingSystem;
@@ -269,7 +267,7 @@ public class OSProcess {
       StringBuilder stringBuilder = new StringBuilder("OSProcess@");
       stringBuilder.append(Integer.toHexString(this.hashCode()));
       stringBuilder.append("[processID=").append(this.processID);
-      stringBuilder.append(", name=").append(this.name).append((char)((int)n));
+      stringBuilder.append(", name=").append(this.name).append(']');
       return stringBuilder.toString();
    }
 

@@ -9,8 +9,6 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public final class Entities extends VarArgFunction {
-   private static final long a = 82546753084627L;
-
    @Override
    public Varargs invoke(Varargs varargs) {
       if (ClientAccess.mc.theWorld == null) {

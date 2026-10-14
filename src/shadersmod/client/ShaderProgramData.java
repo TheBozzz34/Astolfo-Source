@@ -78,7 +78,6 @@ public class ShaderProgramData {
    public int x5;
    public int W;
    public int u;
-   private static final long ab = 23226401067908L;
 
    public ShaderProgramData(int programID) {
       this.xj = programID;

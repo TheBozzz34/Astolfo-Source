@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 public abstract class AbstractResourcePack implements IResourcePack {
    private static final Logger resourceLog = LogManager.getLogger();
    public final File resourcePackFile;
-   private static final long a = 49127330098165L;
 
    public AbstractResourcePack(File resourcePackFileIn) {
       this.resourcePackFile = resourcePackFileIn;

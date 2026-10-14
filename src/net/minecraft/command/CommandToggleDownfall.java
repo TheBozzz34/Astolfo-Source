@@ -4,8 +4,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.storage.WorldInfo;
 
 public class CommandToggleDownfall extends CommandBase {
-   private static final long b = 44996384990703L;
-
    @Override
    public String getCommandName() {
       return "toggledownfall";

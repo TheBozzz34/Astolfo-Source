@@ -26,7 +26,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
    public static final PropertyEnum<BlockDoublePlant.EnumPlantType> VARIANT = PropertyEnum.create("variant", BlockDoublePlant.EnumPlantType.class);
    public static final PropertyEnum<BlockDoublePlant.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockDoublePlant.EnumBlockHalf.class);
    public static final PropertyEnum<EnumFacing> FACING = BlockDirectional.FACING;
-   private static final long i = 48058388777940L;
 
    public BlockDoublePlant() {
       super(Material.vine);
@@ -262,8 +261,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
       UPPER,
       LOWER;
 
-      private static final long a = 21157859906053L;
-
       @Override
       public String toString() {
          return this.getName();
@@ -287,7 +284,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
       private final int meta;
       private final String name;
       private final String unlocalizedName;
-      private static final long a = 74538867890403L;
 
       EnumPlantType(int meta, String name) {
          this(meta, name, name);

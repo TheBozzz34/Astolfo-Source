@@ -9,12 +9,8 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.ThreeArgFunction;
 
 public final class RegisterBoolean3 extends ThreeArgFunction {
-   private static final long a = 80212799512208L;
-
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
-      long l = a ^ 35511673039155L;
-      long m = l ^ 105312734054928L;
       String string = null;
       String string2 = null;
       boolean bl = false;

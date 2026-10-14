@@ -9,9 +9,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
 public class BlockMelon extends Block {
-   private static final long e = 33447890552446L;
-   private static final long i = -8005927741071294455L;
-
    public BlockMelon() {
       super(Material.gourd, MapColor.limeColor);
       this.setCreativeTab(CreativeTabs.tabBlock);
@@ -29,6 +26,6 @@ public class BlockMelon extends Block {
 
    @Override
    public int quantityDroppedWithBonus(int fortune, Random randomIn) {
-      return Math.min((int)i, this.quantityDropped(randomIn) + randomIn.nextInt(1 + fortune));
+      return Math.min(9, this.quantityDropped(randomIn) + randomIn.nextInt(1 + fortune));
    }
 }

@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public class EntityPotion extends EntityThrowable {
    private ItemStack potionDamage;
-   private static final long ab = 27472290109006L;
 
    public EntityPotion(World worldIn) {
       super(worldIn);

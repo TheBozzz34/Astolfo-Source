@@ -9,7 +9,6 @@ import net.minecraft.client.settings.GameSettings;
 
 public class MovementInputFromOptions extends MovementInput {
    private final GameSettings gameSettings;
-   private static final long a = 1094370570501L;
 
    public MovementInputFromOptions(GameSettings gameSettingsIn) {
       this.gameSettings = gameSettingsIn;
@@ -17,8 +16,6 @@ public class MovementInputFromOptions extends MovementInput {
 
    @Override
    public void updatePlayerMoveState() {
-      long l = a ^ 124518114660840L;
-      long m = l ^ 77750445989214L;
       MovementInputEvent movementInputEvent = new MovementInputEvent(EventState.PRE);
       Astolfo.INSTANCE.getEventBus().post(movementInputEvent);
       this.moveStrafe = 0.0F;

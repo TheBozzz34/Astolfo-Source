@@ -13,8 +13,6 @@ public class VFAddressParser {
    public String m;
    public String p;
    public String M;
-   private static final long a = 73866748604494L;
-   private static final long c = -4307704811790270369L;
 
    public VFAddressParser c(String string) {
       return this.d(string, "viafabric");
@@ -60,7 +58,7 @@ public class VFAddressParser {
       if (string.startsWith("_")) {
          string2 = String.valueOf(string.charAt(1));
       } else {
-         if (string.charAt(1) != (int)c) {
+         if (string.charAt(1) != '_') {
             return false;
          }
 

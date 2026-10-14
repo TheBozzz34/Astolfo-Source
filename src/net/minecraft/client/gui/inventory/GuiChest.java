@@ -11,7 +11,6 @@ public class GuiChest extends GuiContainer {
    private IInventory upperChestInventory;
    public IInventory lowerChestInventory;
    private int inventoryRows;
-   private static final long bb = 70777306455522L;
 
    public GuiChest(IInventory upperInv, IInventory lowerInv) {
       super(new ContainerChest(upperInv, lowerInv, Minecraft.getMinecraft().thePlayer));

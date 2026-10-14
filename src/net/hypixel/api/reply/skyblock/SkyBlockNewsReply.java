@@ -6,7 +6,6 @@ import net.hypixel.api.reply.AbstractReply;
 
 public class SkyBlockNewsReply extends AbstractReply {
    private JsonElement items;
-   private static final long a = 124233703570038L;
 
    public JsonArray getItems() {
       return this.items != null && !this.items.isJsonNull() ? this.items.getAsJsonArray() : null;

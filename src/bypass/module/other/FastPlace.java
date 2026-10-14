@@ -20,8 +20,6 @@ public final class FastPlace extends Module {
          mc.rightClickDelayTimer = this.delay.getValue();
       }
    };
-   private static final long c = 12114046300555L;
-   private static final long j = 7721467113549856772L;
 
    public FastPlace(Category category) {
       super(category);
@@ -31,7 +29,7 @@ public final class FastPlace extends Module {
 
    @Override
    public void onDisable() {
-      mc.rightClickDelayTimer = (int)j;
+      mc.rightClickDelayTimer = 4;
       super.onDisable();
    }
 }

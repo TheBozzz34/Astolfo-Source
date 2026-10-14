@@ -6,8 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class Score {
    public static final Comparator<Score> scoreComparator = new Comparator<Score>() {
-      private static final long a = 33098526354769L;
-
       public int compare(Score score, Score score2) {
          return score.getScorePoints() > score2.getScorePoints()
             ? 1
@@ -20,7 +18,6 @@ public class Score {
    private int scorePoints;
    private boolean locked;
    private boolean forceUpdate;
-   private static final long b = 121153079425935L;
 
    public Score(Scoreboard theScoreboardIn, ScoreObjective theScoreObjectiveIn, String scorePlayerNameIn) {
       this.theScoreboard = theScoreboardIn;

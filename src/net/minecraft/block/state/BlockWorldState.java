@@ -12,7 +12,6 @@ public class BlockWorldState {
    private IBlockState state;
    private TileEntity tileEntity;
    private boolean tileEntityInitialized;
-   private static final long a = 70751544373813L;
 
    public BlockWorldState(World worldIn, BlockPos posIn, boolean bl) {
       this.world = worldIn;
@@ -43,8 +42,6 @@ public class BlockWorldState {
 
    public static Predicate<BlockWorldState> hasState(final Predicate<IBlockState> predicatesIn) {
       return new Predicate<BlockWorldState>() {
-         private static final long a = 97833484951791L;
-
          public boolean apply(BlockWorldState blockWorldState) {
             return blockWorldState != null && predicatesIn.apply(blockWorldState.getBlockState());
          }

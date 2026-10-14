@@ -18,7 +18,6 @@ public class Locale {
    private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
    public Map<String, String> properties = Maps.newHashMap();
    private boolean unicode;
-   private static final long a = 7752813143793L;
 
    public synchronized void loadLocaleDataFiles(IResourceManager resourceManager, List<String> languageList) {
       this.properties.clear();

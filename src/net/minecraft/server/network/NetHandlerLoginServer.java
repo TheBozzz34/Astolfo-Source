@@ -43,8 +43,6 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
    private String serverId = "";
    private SecretKey secretKey;
    private EntityPlayerMP player;
-   private static final long a = 61332921158210L;
-   private static final long g = -2314815045571181992L;
 
    public NetHandlerLoginServer(MinecraftServer serverIn, NetworkManager networkManagerIn) {
       this.server = serverIn;
@@ -65,7 +63,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
          }
       }
 
-      if (this.connectionTimer++ == (int)g) {
+      if (this.connectionTimer++ == 600) {
          this.closeConnection("Took too long to log in");
       }
    }
@@ -147,9 +145,6 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
       this.currentLoginState = NetHandlerLoginServer.LoginState.AUTHENTICATING;
       this.networkManager.enableEncryption(this.secretKey);
       (new Thread("User Authenticator #" + AUTHENTICATOR_THREAD_ID.incrementAndGet()) {
-            private static final long a = 100752301991030L;
-            private static final long e = 553132487111344144L;
-
             @Override
             public void run() {
                GameProfile gameProfile = NetHandlerLoginServer.this.loginGameProfile;
@@ -162,7 +157,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                            NetHandlerLoginServer.this.secretKey
                         )
                      )
-                     .toString((int)e);
+                     .toString(16);
                   NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.server
                      .getMinecraftSessionService()
                      .hasJoinedServer(new GameProfile((UUID)null, gameProfile.getName()), string);

@@ -15,9 +15,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemBoat extends Item {
-   private static final long a = 129840843557085L;
-   private static final long b = -5025391832612208550L;
-
    public ItemBoat() {
       this.maxStackSize = 1;
       this.setCreativeTab(CreativeTabs.tabTransport);
@@ -74,7 +71,7 @@ public class ItemBoat extends Item {
          }
 
          EntityBoat entityBoat = new EntityBoat(worldIn, blockPos.getX() + 0.5F, blockPos.getY() + 1.0F, blockPos.getZ() + 0.5F);
-         entityBoat.rotationYaw = ((MathHelper.floor_double(playerIn.rotationYaw * 4.0F / 360.0F + 0.5) & 3) - 1) * (int)b;
+         entityBoat.rotationYaw = ((MathHelper.floor_double(playerIn.rotationYaw * 4.0F / 360.0F + 0.5) & 3) - 1) * 90;
          if (!worldIn.getCollidingBoundingBoxes(entityBoat, entityBoat.getEntityBoundingBox().expand(-0.1, -0.1, -0.1)).isEmpty()) {
             return itemStackIn;
          }

@@ -21,7 +21,6 @@ public class GuiAchievement extends Gui {
    private long notificationTime;
    private RenderItem renderItem;
    private boolean permanentNotification;
-   private static final long a = 45159820649980L;
 
    public GuiAchievement(Minecraft mc) {
       this.mc = mc;

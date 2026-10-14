@@ -14,7 +14,6 @@ import oshi.util.tuples.Quartet;
 @Immutable
 public final class FreeBsdComputerSystem extends AbstractComputerSystem {
    private final Supplier<Quartet<String, String, String, String>> manufModelSerialVers = Memoizer.memoize(FreeBsdComputerSystem::readDmiDecode);
-   private static final long b = 39155936217617L;
 
    @Override
    public String V() {

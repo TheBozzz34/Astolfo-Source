@@ -5,8 +5,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class Matches {
-   private static final long a = 61400101845240L;
-
    public static boolean block(BlockStateBase blockStateBase, MatchBlock[] matchBlocks) {
       if (matchBlocks == null) {
          return true;

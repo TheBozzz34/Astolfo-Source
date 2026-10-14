@@ -13,9 +13,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public abstract class BlockBasePressurePlate extends Block {
-   private static final long e = 18717455217648L;
-   private static final long L = 8260034292818640916L;
-
    public BlockBasePressurePlate(Material materialIn) {
       this(materialIn, materialIn.getMaterialMapColor());
    }
@@ -42,7 +39,7 @@ public abstract class BlockBasePressurePlate extends Block {
 
    @Override
    public int tickRate(World worldIn) {
-      return (int)L;
+      return 20;
    }
 
    @Override

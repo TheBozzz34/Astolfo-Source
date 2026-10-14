@@ -30,7 +30,6 @@ public class EntityBoat extends Entity {
    private double velocityX;
    private double velocityY;
    private double velocityZ;
-   private static final long ab = 38520532670222L;
 
    public EntityBoat(World worldIn) {
       super(worldIn);

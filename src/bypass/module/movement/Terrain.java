@@ -42,7 +42,6 @@ public final class Terrain extends Module {
          this.f(0.6F);
       }
    };
-   private static final long c = 1534971002335L;
 
    public Terrain(Category category) {
       super(category);

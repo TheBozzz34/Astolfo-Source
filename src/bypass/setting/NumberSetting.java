@@ -10,7 +10,6 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
    private T min;
    private T max;
    private String suffix = "";
-   private static final long c = 61555123256517L;
 
    public NumberSetting() {
       super("", "", null, SettingType.UNDEFINED);

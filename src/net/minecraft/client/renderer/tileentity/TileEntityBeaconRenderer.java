@@ -12,10 +12,8 @@ import org.lwjgl.opengl.GL11;
 
 public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEntityBeacon> {
    private static final ResourceLocation beaconBeam = new ResourceLocation("textures/entity/beacon_beam.png");
-   private static final long a = 47042226319443L;
 
    public void renderTileEntityAt(TileEntityBeacon te, double x, double y, double z, float partialTicks, int destroyStage) {
-      long l = a ^ 139945268181177L;
       float f = te.shouldBeamRender();
       GlStateManager.alphaFunc(516, 0.1F);
       if (f > 0.0F) {
@@ -28,12 +26,10 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEnti
          for (int j = 0; j < list.size(); j++) {
             TileEntityBeacon.BeamSegment beamSegment = (TileEntityBeacon.BeamSegment)list.get(j);
             int k = i + beamSegment.getHeight();
-            long m = 1613919046250444787L ^ l;
             this.bindTexture(beaconBeam);
             GL11.glTexParameterf(3553, 10242, 10497.0F);
             GL11.glTexParameterf(3553, 10243, 10497.0F);
             GlStateManager.disableLighting();
-            m = 1330355875583002902L ^ l;
             GlStateManager.disableCull();
             GlStateManager.disableBlend();
             GlStateManager.depthMask(true);
@@ -58,7 +54,6 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEnti
             double d14 = beamSegment.getHeight() * f * 2.5 + d13;
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
             worldRenderer.pos(x + d3, y + k, z + d4).tex(1.0, d14).color(g, h, f2, 1.0F).endVertex();
-            m = 1453708193736755526L ^ l;
             worldRenderer.pos(x + d3, y + i, z + d4).tex(1.0, d13).color(g, h, f2, 1.0F).endVertex();
             worldRenderer.pos(x + d5, y + i, z + d6).tex(0.0, d13).color(g, h, f2, 1.0F).endVertex();
             worldRenderer.pos(x + d5, y + k, z + d6).tex(0.0, d14).color(g, h, f2, 1.0F).endVertex();

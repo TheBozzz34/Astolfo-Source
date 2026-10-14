@@ -26,7 +26,6 @@ import org.apache.http.annotation.GuardedBy;
 
 public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
    public static final int NCPU = Runtime.getRuntime().availableProcessors();
-   public static final long y = 9223372034707292160L;
    public static final int NUMBER_OF_READ_BUFFERS = ceilingNextPowerOfTwo(NCPU);
    public static final int READ_BUFFERS_MASK = NUMBER_OF_READ_BUFFERS - 1;
    public static final int READ_BUFFER_THRESHOLD = 32;
@@ -58,7 +57,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    public transient Collection<V> values;
    public transient Set<Entry<K, V>> entrySet;
    public static final long serialVersionUID = 1L;
-   private static final long d = 125362754432684L;
 
    public static int ceilingNextPowerOfTwo(int x) {
       return 1 << 32 - Integer.numberOfLeadingZeros(x - 1);
@@ -611,20 +609,10 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       return new ConcurrentLinkedHashMap.SerializationProxy<>(this);
    }
 
-   static {
-      long l = d ^ 26463284218207L;
-      long m = l ^ 5300131460240206170L;
-      m = l ^ 3552745960900727916L;
-      m = l ^ 1116637831333105181L;
-      m = l ^ 4538595175672076505L;
-      m = l ^ 8878058454201498752L;
-   }
-
    public static final class AddTask implements Runnable {
       public final ConcurrentLinkedHashMap.Node D;
       public final int N;
       public final ConcurrentLinkedHashMap O;
-      private static final long a = 22628997384805L;
 
       public AddTask(ConcurrentLinkedHashMap concurrentLinkedHashMap, ConcurrentLinkedHashMap.Node node, int weight) {
          this.O = concurrentLinkedHashMap;
@@ -646,7 +634,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    public static final class BoundedEntryWeigher<K, V> implements EntryWeigher<K, V>, Serializable {
       public static final long serialVersionUID = 1L;
       public final EntryWeigher<? super K, ? super V> weigher;
-      private static final long a = 140235792019413L;
 
       public BoundedEntryWeigher(EntryWeigher<? super K, ? super V> weigherIn) {
          ConcurrentLinkedHashMap.checkNotNull(weigherIn);
@@ -673,7 +660,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       public int concurrencyLevel;
       public int initialCapacity;
       public long capacity = -1L;
-      private static final long b = 75202585502420L;
 
       public Builder() {
          this.weigher = Weighers.entrySingleton();
@@ -722,17 +708,10 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
          ConcurrentLinkedHashMap.checkState(this.capacity >= 0L);
          return new ConcurrentLinkedHashMap<>(this);
       }
-
-      static {
-         long l = b ^ 27376990829648L;
-         long m = l ^ 1367886192841469285L;
-         m = l ^ 1367886192841469285L;
-      }
    }
 
    public final class ClhmEntrySet extends AbstractSet<Entry<K, V>> {
       public final ConcurrentLinkedHashMap<K, V> N = ConcurrentLinkedHashMap.this;
-      private static final long a = 95080245286215L;
 
       @Override
       public int size() {
@@ -777,7 +756,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
 
    public final class ClhmKeySet extends AbstractSet<K> {
       public final ConcurrentLinkedHashMap<K, V> u = ConcurrentLinkedHashMap.this;
-      private static final long a = 122433357233754L;
 
       @Override
       public int size() {
@@ -879,8 +857,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
 
    public enum DrainStatus {
       IDLE {
-         private static final long a = 49481285082805L;
-
          @Override
          public boolean shouldDrainBuffers(boolean delayable) {
             return !delayable;
@@ -909,7 +885,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       public final Iterator I;
       public ConcurrentLinkedHashMap.Node H;
       public final ConcurrentLinkedHashMap B;
-      private static final long a = 97436253875443L;
 
       public EntryIterator(ConcurrentLinkedHashMap concurrentLinkedHashMap) {
          this.B = concurrentLinkedHashMap;
@@ -938,7 +913,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       public final Iterator L;
       public Object S;
       public final ConcurrentLinkedHashMap x;
-      private static final long a = 14737733799715L;
 
       public KeyIterator(ConcurrentLinkedHashMap concurrentLinkedHashMap) {
          this.x = concurrentLinkedHashMap;
@@ -1070,7 +1044,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       public final Iterator k;
       public ConcurrentLinkedHashMap.Node b;
       public final ConcurrentLinkedHashMap M;
-      private static final long a = 33756788131189L;
 
       public ValueIterator(ConcurrentLinkedHashMap concurrentLinkedHashMap) {
          this.M = concurrentLinkedHashMap;
@@ -1099,7 +1072,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    public static final class WeightedValue<V> {
       public final int weight;
       public final V value;
-      private static final long a = 97197698016317L;
 
       public WeightedValue(V value, int weight) {
          this.weight = weight;

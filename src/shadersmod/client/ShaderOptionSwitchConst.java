@@ -6,7 +6,6 @@ import net.minecraft.src.StrUtils;
 
 public class ShaderOptionSwitchConst extends ShaderOptionSwitch {
    private static final Pattern PATTERN_CONST = Pattern.compile("^\\s*const\\s*bool\\s*([A-Za-z0-9_]+)\\s*=\\s*(true|false)\\s*;\\s*(//.*)?$");
-   private static final long d = 84659284011603L;
 
    public ShaderOptionSwitchConst(String name, String description, String value, String path) {
       super(name, description, value, path);

@@ -27,7 +27,6 @@ public class TextureUtil {
    public static final DynamicTexture missingTexture = new DynamicTexture(16, 16);
    public static final int[] missingTextureData = missingTexture.getTextureData();
    private static final int[] mipmapBuffer;
-   private static final long a = 104233910743670L;
 
    public static int glGenTextures() {
       return GlStateManager.generateTexture();
@@ -96,20 +95,18 @@ public class TextureUtil {
    }
 
    private static void uploadTextureSub(int i, int[] ints, int j, int k, int l, int m, boolean bl, boolean bl2, boolean bl3) {
-      long n = a ^ 19012270978996L;
-      int i2 = 4194304 / j;
+      int n = 4194304 / j;
       setTextureBlurMipmap(bl, bl3);
       setTextureClamped(bl2);
-      int i3 = 0;
+      int i2 = 0;
 
-      while (i3 < j * k) {
-         int i4 = i3 / j;
-         int i5 = Math.min(i2, k - i4);
-         long l2 = 2777398024165055802L ^ n;
-         int i6 = j * i5;
-         copyToBufferPos(ints, i3, i6);
-         GL11.glTexSubImage2D(3553, i, l, m + i4, j, i5, 32993, 33639, dataBuffer);
-         i3 += j * i5;
+      while (i2 < j * k) {
+         int i3 = i2 / j;
+         int i4 = Math.min(n, k - i3);
+         int i5 = j * i4;
+         copyToBufferPos(ints, i2, i5);
+         GL11.glTexSubImage2D(3553, i, l, m + i3, j, i4, 32993, 33639, dataBuffer);
+         i2 += j * i4;
       }
    }
 
@@ -152,22 +149,20 @@ public class TextureUtil {
    }
 
    private static void uploadTextureImageSubImpl(BufferedImage bufferedImage, int i, int j, boolean bl, boolean bl2) {
-      long l = a ^ 9968789475596L;
       int k = bufferedImage.getWidth();
-      int m = bufferedImage.getHeight();
-      int n = 4194304 / k;
-      int[] ints = new int[n * k];
+      int l = bufferedImage.getHeight();
+      int m = 4194304 / k;
+      int[] ints = new int[m * k];
       setTextureBlurred(bl);
       setTextureClamped(bl2);
 
-      for (int i2 = 0; i2 < k * m; i2 += k * n) {
-         int i3 = i2 / k;
-         int i4 = Math.min(n, m - i3);
-         long l2 = 2777406581509553026L ^ l;
-         int i5 = k * i4;
-         bufferedImage.getRGB(0, i3, k, i4, ints, 0, k);
-         copyToBuffer(ints, i5);
-         GL11.glTexSubImage2D(3553, 0, i, j + i3, k, i4, 32993, 33639, dataBuffer);
+      for (int n = 0; n < k * l; n += k * m) {
+         int i2 = n / k;
+         int i3 = Math.min(m, l - i2);
+         int i4 = k * i3;
+         bufferedImage.getRGB(0, i2, k, i3, ints, 0, k);
+         copyToBuffer(ints, i4);
+         GL11.glTexSubImage2D(3553, 0, i, j + i2, k, i3, 32993, 33639, dataBuffer);
       }
    }
 
@@ -265,23 +260,21 @@ public class TextureUtil {
    }
 
    public static void saveGlTexture(String string, int i, int j, int k, int l) {
-      long m = a ^ 127131821983565L;
       bindTexture(i);
       GL11.glPixelStorei(3333, 1);
       GL11.glPixelStorei(3317, 1);
 
-      for (int n = 0; n <= j; n++) {
-         File file = new File(string + "_" + n + ".png");
-         int i2 = k >> n;
-         long l2 = 2777364323776097731L ^ m;
-         int i3 = l >> n;
-         int i4 = i2 * i3;
-         IntBuffer intBuffer = BufferUtils.createIntBuffer(i4);
-         int[] ints = new int[i4];
-         GL11.glGetTexImage(3553, n, 32993, 33639, intBuffer);
+      for (int m = 0; m <= j; m++) {
+         File file = new File(string + "_" + m + ".png");
+         int n = k >> m;
+         int i2 = l >> m;
+         int i3 = n * i2;
+         IntBuffer intBuffer = BufferUtils.createIntBuffer(i3);
+         int[] ints = new int[i3];
+         GL11.glGetTexImage(3553, m, 32993, 33639, intBuffer);
          intBuffer.get(ints);
-         BufferedImage bufferedImage = new BufferedImage(i2, i3, 2);
-         bufferedImage.setRGB(0, 0, i2, i3, ints, 0, i2);
+         BufferedImage bufferedImage = new BufferedImage(n, i2, 2);
+         bufferedImage.setRGB(0, 0, n, i2, ints, 0, n);
 
          try {
             ImageIO.write(bufferedImage, "png", file);
@@ -304,8 +297,6 @@ public class TextureUtil {
    }
 
    static {
-      long l = a ^ 122495466120457L;
-      long m = 8718222394202263368L ^ l;
       int[] ints = new int[]{-524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
       int[] ints2 = new int[]{-16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
       int i = ints.length;

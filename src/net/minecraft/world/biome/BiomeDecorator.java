@@ -62,7 +62,6 @@ public class BiomeDecorator {
    public int clayPerChunk = 1;
    public int bigMushroomsPerChunk;
    public boolean generateLakes = true;
-   private static final long c = 88404703069534L;
 
    public void decorate(World worldIn, Random randomIn, BiomeGenBase biome, BlockPos blockPos) {
       if (this.currentWorld != null) {

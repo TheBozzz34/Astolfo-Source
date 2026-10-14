@@ -23,7 +23,6 @@ public abstract class MapGenStructure extends MapGenBase {
    private MapGenStructureData structureData;
    public Map<Long, StructureStart> structureMap = Maps.newHashMap();
    private LongHashMap structureLongMap = new LongHashMap();
-   private static final long d = 110697862744374L;
 
    public abstract String getStructureName();
 
@@ -44,8 +43,6 @@ public abstract class MapGenStructure extends MapGenBase {
             CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Exception preparing structure feature");
             CrashReportCategory crashReportCategory = crashReport.makeCategory("Feature being prepared");
             crashReportCategory.addCrashSectionCallable("Is feature chunk", new Callable<String>() {
-               private static final long a = 40201466015239L;
-
                public String call() throws Exception {
                   return MapGenStructure.this.canSpawnStructureAtCoords(chunkX, chunkZ) ? "True" : "False";
                }

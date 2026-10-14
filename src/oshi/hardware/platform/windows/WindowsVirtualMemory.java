@@ -17,7 +17,6 @@ public final class WindowsVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Long> used = Memoizer.memoize(this::querySwapUsed, Memoizer.defaultExpiration());
    private final Supplier<Long> total = Memoizer.memoize(this::querySwapTotal, Memoizer.defaultExpiration());
    private final Supplier<Pair<Long, Long>> swapInOut = Memoizer.memoize(WindowsVirtualMemory::queryPageSwaps, Memoizer.defaultExpiration());
-   private static final long b = 4675157769119L;
 
    public WindowsVirtualMemory(long pageSize) {
       this.pageSize = pageSize;

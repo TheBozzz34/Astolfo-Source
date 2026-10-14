@@ -5,7 +5,6 @@ import java.util.TimerTask;
 public final class MeasureTimerTask extends TimerTask {
    private volatile MeasureRegistry t;
    private volatile Measure[] V;
-   private static final long a = 15361104143142L;
 
    public MeasureTimerTask(MeasureRegistry measureRegistry) {
       this.t = measureRegistry;

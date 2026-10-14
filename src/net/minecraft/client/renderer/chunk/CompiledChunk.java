@@ -30,7 +30,6 @@ public class CompiledChunk {
    private final List<TileEntity> tileEntities = Lists.newArrayList();
    private SetVisibility setVisibility = new SetVisibility();
    private WorldRenderer.State state;
-   private static final long a = 23825275267390L;
 
    public boolean isEmpty() {
       return this.empty;

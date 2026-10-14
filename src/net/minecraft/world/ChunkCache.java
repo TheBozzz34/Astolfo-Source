@@ -15,7 +15,6 @@ public class ChunkCache implements IBlockAccess {
    public Chunk[][] chunkArray;
    public boolean hasExtendedLevels;
    public World worldObj;
-   private static final long c = 90925683008963L;
 
    public ChunkCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn) {
       this.worldObj = worldIn;
