@@ -32,12 +32,12 @@ public final class ProcPath {
    }
 
    private static String queryProcConfig() {
-      String var2 = GlobalConfig.get("", "/proc");
-      var2 = (int)h + var2.replaceAll("/$|^/", "");
-      if (!new File(var2).exists()) {
+      String string = GlobalConfig.get("", "/proc");
+      string = (int)h + string.replaceAll("/$|^/", "");
+      if (!new File(string).exists()) {
          throw new GlobalConfig.PropertyException("", "The path does not exist");
       } else {
-         return var2;
+         return string;
       }
    }
 }

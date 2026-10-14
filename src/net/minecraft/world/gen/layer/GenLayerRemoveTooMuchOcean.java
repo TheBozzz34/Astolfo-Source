@@ -3,35 +3,35 @@ package net.minecraft.world.gen.layer;
 public class GenLayerRemoveTooMuchOcean extends GenLayer {
    private static final long c = 132708870379351L;
 
-   public GenLayerRemoveTooMuchOcean(long var1, GenLayer var3) {
-      super(var1);
-      this.parent = var3;
+   public GenLayerRemoveTooMuchOcean(long l, GenLayer genLayer) {
+      super(l);
+      this.parent = genLayer;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
-      int var8 = var1 - 1;
-      int var9 = var2 - 1;
-      int var10 = var3 + 2;
-      int var11 = var4 + 2;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int[] var13 = IntCache.getIntCache(var3 * var4);
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+      int i = areaX - 1;
+      int j = areaY - 1;
+      int k = areaWidth + 2;
+      int l = areaHeight + 2;
+      int[] ints = this.parent.getInts(i, j, k, l);
+      int[] ints2 = IntCache.getIntCache(areaWidth * areaHeight);
 
-      for (int var14 = 0; var14 < var4; var14++) {
-         for (int var15 = 0; var15 < var3; var15++) {
-            int var16 = var12[var15 + 1 + (var14 + 1 - 1) * (var3 + 2)];
-            int var17 = var12[var15 + 1 + 1 + (var14 + 1) * (var3 + 2)];
-            int var18 = var12[var15 + 1 - 1 + (var14 + 1) * (var3 + 2)];
-            int var19 = var12[var15 + 1 + (var14 + 1 + 1) * (var3 + 2)];
-            int var20 = var12[var15 + 1 + (var14 + 1) * var10];
-            var13[var15 + var14 * var3] = var20;
-            this.initChunkSeed(var15 + var1, var14 + var2);
-            if (var20 == 0 && var16 == 0 && var17 == 0 && var18 == 0 && var19 == 0 && this.nextInt(2) == 0) {
-               var13[var15 + var14 * var3] = 1;
+      for (int m = 0; m < areaHeight; m++) {
+         for (int n = 0; n < areaWidth; n++) {
+            int i2 = ints[n + 1 + (m + 1 - 1) * (areaWidth + 2)];
+            int i3 = ints[n + 1 + 1 + (m + 1) * (areaWidth + 2)];
+            int i4 = ints[n + 1 - 1 + (m + 1) * (areaWidth + 2)];
+            int i5 = ints[n + 1 + (m + 1 + 1) * (areaWidth + 2)];
+            int i6 = ints[n + 1 + (m + 1) * k];
+            ints2[n + m * areaWidth] = i6;
+            this.initChunkSeed(n + areaX, m + areaY);
+            if (i6 == 0 && i2 == 0 && i3 == 0 && i4 == 0 && i5 == 0 && this.nextInt(2) == 0) {
+               ints2[n + m * areaWidth] = 1;
             }
          }
       }
 
-      return var13;
+      return ints2;
    }
 }

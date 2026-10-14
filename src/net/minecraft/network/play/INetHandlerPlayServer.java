@@ -26,49 +26,49 @@ import net.minecraft.network.play.client.C18PacketSpectate;
 import net.minecraft.network.play.client.C19PacketResourcePackStatus;
 
 public interface INetHandlerPlayServer extends INetHandler {
-   void handleAnimation(C0APacketAnimation var1);
+   void handleAnimation(C0APacketAnimation packetIn);
 
-   void processChatMessage(C01PacketChatMessage var1);
+   void processChatMessage(C01PacketChatMessage packetIn);
 
-   void processTabComplete(C14PacketTabComplete var1);
+   void processTabComplete(C14PacketTabComplete packetIn);
 
-   void processClientStatus(C16PacketClientStatus var1);
+   void processClientStatus(C16PacketClientStatus packetIn);
 
-   void processClientSettings(C15PacketClientSettings var1);
+   void processClientSettings(C15PacketClientSettings packetIn);
 
-   void processConfirmTransaction(C0FPacketConfirmTransaction var1);
+   void processConfirmTransaction(C0FPacketConfirmTransaction packetIn);
 
-   void processEnchantItem(C11PacketEnchantItem var1);
+   void processEnchantItem(C11PacketEnchantItem packetIn);
 
-   void processClickWindow(C0EPacketClickWindow var1);
+   void processClickWindow(C0EPacketClickWindow packetIn);
 
-   void processCloseWindow(C0DPacketCloseWindow var1);
+   void processCloseWindow(C0DPacketCloseWindow packetIn);
 
-   void processVanilla250Packet(C17PacketCustomPayload var1);
+   void processVanilla250Packet(C17PacketCustomPayload packetIn);
 
-   void processUseEntity(C02PacketUseEntity var1);
+   void processUseEntity(C02PacketUseEntity packetIn);
 
-   void processKeepAlive(C00PacketKeepAlive var1);
+   void processKeepAlive(C00PacketKeepAlive packetIn);
 
-   void processPlayer(C03PacketPlayer var1);
+   void processPlayer(C03PacketPlayer packetIn);
 
-   void processPlayerAbilities(C13PacketPlayerAbilities var1);
+   void processPlayerAbilities(C13PacketPlayerAbilities packetIn);
 
-   void processPlayerDigging(C07PacketPlayerDigging var1);
+   void processPlayerDigging(C07PacketPlayerDigging packetIn);
 
-   void processEntityAction(C0BPacketEntityAction var1);
+   void processEntityAction(C0BPacketEntityAction packetIn);
 
-   void processInput(C0CPacketInput var1);
+   void processInput(C0CPacketInput packetIn);
 
-   void processHeldItemChange(C09PacketHeldItemChange var1);
+   void processHeldItemChange(C09PacketHeldItemChange packetIn);
 
-   void processCreativeInventoryAction(C10PacketCreativeInventoryAction var1);
+   void processCreativeInventoryAction(C10PacketCreativeInventoryAction packetIn);
 
-   void processUpdateSign(C12PacketUpdateSign var1);
+   void processUpdateSign(C12PacketUpdateSign packetIn);
 
-   void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement var1);
+   void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement packetIn);
 
-   void handleSpectate(C18PacketSpectate var1);
+   void handleSpectate(C18PacketSpectate packetIn);
 
-   void handleResourcePackStatus(C19PacketResourcePackStatus var1);
+   void handleResourcePackStatus(C19PacketResourcePackStatus packetIn);
 }

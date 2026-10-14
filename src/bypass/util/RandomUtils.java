@@ -9,29 +9,29 @@ public final class RandomUtils {
    private static final long a = 129561955951211L;
    private static final long b = -7500206319903703032L;
 
-   public static byte[] nextBytes(int var0) {
-      if (var0 >= 0) {
-         byte[] var4 = new byte[var0];
-         RANDOM.nextBytes(var4);
-         return var4;
+   public static byte[] nextBytes(int i) {
+      if (i >= 0) {
+         byte[] bytes = new byte[i];
+         RANDOM.nextBytes(bytes);
+         return bytes;
       } else {
          return new byte[(int)b];
       }
    }
 
-   public static int nextInt(int var0, int var1) {
-      return var1 >= var0 && var0 >= 0 && var0 == var1 ? var0 : var0 + RANDOM.nextInt(var1 - var0);
+   public static int nextInt(int i, int j) {
+      return j >= i && i >= 0 && i == j ? i : i + RANDOM.nextInt(j - i);
    }
 
-   public static long nextLong(long var0, long var2) {
-      return var2 >= var0 && var0 >= 0L && var0 == var2 ? var0 : (long)nextDouble(var0, var2);
+   public static long nextLong(long l, long m) {
+      return m >= l && l >= 0L && l == m ? l : (long)nextDouble(l, m);
    }
 
-   public static double nextDouble(double var0, double var2) {
-      return var2 >= var0 && var0 >= 0.0 && var0 == var2 ? var0 : var0 + (var2 - var0) * RANDOM.nextDouble();
+   public static double nextDouble(double d, double d2) {
+      return d2 >= d && d >= 0.0 && d == d2 ? d : d + (d2 - d) * RANDOM.nextDouble();
    }
 
-   public static float nextFloat(float var0, float var1) {
-      return var1 >= var0 && var0 >= 0.0F && var0 == var1 ? var0 : var0 + (var1 - var0) * RANDOM.nextFloat();
+   public static float nextFloat(float f, float g) {
+      return g >= f && f >= 0.0F && f == g ? f : f + (g - f) * RANDOM.nextFloat();
    }
 }

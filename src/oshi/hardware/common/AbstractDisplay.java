@@ -9,8 +9,8 @@ import oshi.util.EdidUtil;
 public abstract class AbstractDisplay implements Display {
    private final byte[] edid;
 
-   public AbstractDisplay(byte[] var1) {
-      this.edid = Arrays.copyOf(var1, var1.length);
+   public AbstractDisplay(byte[] edid) {
+      this.edid = Arrays.copyOf(edid, edid.length);
    }
 
    @Override

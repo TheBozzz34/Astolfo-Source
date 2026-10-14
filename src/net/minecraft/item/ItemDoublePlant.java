@@ -8,15 +8,15 @@ import net.minecraft.world.ColorizerGrass;
 public class ItemDoublePlant extends ItemMultiTexture {
    private static final long a = 82016496683558L;
 
-   public ItemDoublePlant(Block var1, Block var2, Function<ItemStack, String> var3) {
-      super(var1, var2, var3);
+   public ItemDoublePlant(Block block, Block block2, Function<ItemStack, String> nameFunction) {
+      super(block, block2, nameFunction);
    }
 
    @Override
-   public int getColorFromItemStack(ItemStack var1, int var2) {
-      BlockDoublePlant.EnumPlantType var6 = BlockDoublePlant.EnumPlantType.byMetadata(var1.getMetadata());
-      return var6 != BlockDoublePlant.EnumPlantType.GRASS && var6 != BlockDoublePlant.EnumPlantType.FERN
-         ? super.getColorFromItemStack(var1, var2)
+   public int getColorFromItemStack(ItemStack stack, int renderPass) {
+      BlockDoublePlant.EnumPlantType enumPlantType = BlockDoublePlant.EnumPlantType.byMetadata(stack.getMetadata());
+      return enumPlantType != BlockDoublePlant.EnumPlantType.GRASS && enumPlantType != BlockDoublePlant.EnumPlantType.FERN
+         ? super.getColorFromItemStack(stack, renderPass)
          : ColorizerGrass.getGrassColor(0.5, 1.0);
    }
 }

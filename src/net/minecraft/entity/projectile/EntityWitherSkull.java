@@ -16,13 +16,13 @@ import net.minecraft.world.World;
 public class EntityWitherSkull extends EntityFireball {
    private static final long bb = 48499649661598L;
 
-   public EntityWitherSkull(World var1) {
-      super(var1);
+   public EntityWitherSkull(World worldIn) {
+      super(worldIn);
       this.setSize(0.3125F, 0.3125F);
    }
 
-   public EntityWitherSkull(World var1, EntityLivingBase var2, double var3, double var5, double var7) {
-      super(var1, var2, var3, var5, var7);
+   public EntityWitherSkull(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+      super(worldIn, shooter, accelX, accelY, accelZ);
       this.setSize(0.3125F, 0.3125F);
    }
 
@@ -31,8 +31,8 @@ public class EntityWitherSkull extends EntityFireball {
       return this.isInvulnerable() ? 0.73F : super.getMotionFactor();
    }
 
-   public EntityWitherSkull(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, var8, var10, var12);
+   public EntityWitherSkull(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+      super(worldIn, x, y, z, accelX, accelY, accelZ);
       this.setSize(0.3125F, 0.3125F);
    }
 
@@ -42,42 +42,42 @@ public class EntityWitherSkull extends EntityFireball {
    }
 
    @Override
-   public float getExplosionResistance(Explosion var1, World var2, BlockPos var3, IBlockState var4) {
-      float var8 = super.getExplosionResistance(var1, var2, var3, var4);
-      Block var9 = var4.getBlock();
-      if (this.isInvulnerable() && EntityWither.canDestroyBlock(var9)) {
-         var8 = Math.min(0.8F, var8);
+   public float getExplosionResistance(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn) {
+      float f = super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn);
+      Block block = blockStateIn.getBlock();
+      if (this.isInvulnerable() && EntityWither.canDestroyBlock(block)) {
+         f = Math.min(0.8F, f);
       }
 
-      return var8;
+      return f;
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
+   public void onImpact(MovingObjectPosition movingObject) {
       if (!this.worldObj.isRemote) {
-         if (var1.entityHit != null) {
+         if (movingObject.entityHit != null) {
             if (this.shootingEntity != null) {
-               if (var1.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity), 8.0F)) {
-                  if (!var1.entityHit.isEntityAlive()) {
+               if (movingObject.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity), 8.0F)) {
+                  if (!movingObject.entityHit.isEntityAlive()) {
                      this.shootingEntity.heal(5.0F);
                   } else {
-                     this.applyEnchantments(this.shootingEntity, var1.entityHit);
+                     this.applyEnchantments(this.shootingEntity, movingObject.entityHit);
                   }
                }
             } else {
-               var1.entityHit.attackEntityFrom(DamageSource.magic, 5.0F);
+               movingObject.entityHit.attackEntityFrom(DamageSource.magic, 5.0F);
             }
 
-            if (var1.entityHit instanceof EntityLivingBase) {
-               byte var5 = 0;
+            if (movingObject.entityHit instanceof EntityLivingBase) {
+               byte b = 0;
                if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL) {
-                  var5 = 10;
+                  b = 10;
                } else if (this.worldObj.getDifficulty() == EnumDifficulty.HARD) {
-                  var5 = 40;
+                  b = 40;
                }
 
-               if (var5 > 0) {
-                  ((EntityLivingBase)var1.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * var5, 1));
+               if (b > 0) {
+                  ((EntityLivingBase)movingObject.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * b, 1));
                }
             }
          }
@@ -93,7 +93,7 @@ public class EntityWitherSkull extends EntityFireball {
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
       return false;
    }
 
@@ -106,7 +106,7 @@ public class EntityWitherSkull extends EntityFireball {
       return this.dataWatcher.getWatchableObjectByte(10) == 1;
    }
 
-   public void setInvulnerable(boolean var1) {
-      this.dataWatcher.updateObject(10, (byte)(var1 ? 1 : 0));
+   public void setInvulnerable(boolean invulnerable) {
+      this.dataWatcher.updateObject(10, (byte)(invulnerable ? 1 : 0));
    }
 }

@@ -11,13 +11,13 @@ public class LocalBlockIntercommunication implements IInteractionObject {
    private IChatComponent displayName;
    private static final long a = 88185268112468L;
 
-   public LocalBlockIntercommunication(String var1, IChatComponent var2) {
-      this.guiID = var1;
-      this.displayName = var2;
+   public LocalBlockIntercommunication(String guiIdIn, IChatComponent displayNameIn) {
+      this.guiID = guiIdIn;
+      this.displayName = displayNameIn;
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
       throw new UnsupportedOperationException();
    }
 

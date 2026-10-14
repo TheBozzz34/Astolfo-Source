@@ -7,9 +7,9 @@ public class EnumSettingItem extends TabGuiItem {
    private final EnumSetting z;
    private static final long b = 95790679043354L;
 
-   public EnumSettingItem(TabGui.Panel var1, EnumSetting var2) {
-      super(var1);
-      this.z = var2;
+   public EnumSettingItem(TabGui.Panel panel, EnumSetting enumSetting) {
+      super(panel);
+      this.z = enumSetting;
    }
 
    @Override
@@ -19,14 +19,14 @@ public class EnumSettingItem extends TabGuiItem {
 
    @Override
    public void onPress() {
-      Enum[] var5 = (Enum[])this.z.getValue().getClass().getEnumConstants();
-      int var6 = this.O();
-      var6++;
-      if (var6 >= var5.length || var6 < 0) {
-         var6 = 0;
+      Enum[] enums = (Enum[])this.z.getValue().getClass().getEnumConstants();
+      int i = this.O();
+      i++;
+      if (i >= enums.length || i < 0) {
+         i = 0;
       }
 
-      this.z.setValue(var5[var6]);
+      this.z.setValue(enums[i]);
    }
 
    @Override
@@ -35,11 +35,11 @@ public class EnumSettingItem extends TabGuiItem {
    }
 
    private int O() {
-      Enum[] var4 = (Enum[])this.z.getValue().getClass().getEnumConstants();
+      Enum[] enums = (Enum[])this.z.getValue().getClass().getEnumConstants();
 
-      for (int var5 = 0; var5 < var4.length; var5++) {
-         if (var4[var5] == this.z.getValue()) {
-            return var5;
+      for (int i = 0; i < enums.length; i++) {
+         if (enums[i] == this.z.getValue()) {
+            return i;
          }
       }
 

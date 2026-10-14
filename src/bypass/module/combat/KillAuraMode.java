@@ -9,11 +9,11 @@ public enum KillAuraMode {
    private String w;
    private static final KillAuraMode[] K = new KillAuraMode[]{SINGLE, SWITCH, MULTI, TP};
 
-   KillAuraMode(String var3) {
-      this.w = var3;
+   KillAuraMode(String string2) {
+      this.w = string2;
    }
 
-   public static String D(KillAuraMode var0) {
-      return var0.w;
+   public static String D(KillAuraMode killAuraMode) {
+      return killAuraMode.w;
    }
 }

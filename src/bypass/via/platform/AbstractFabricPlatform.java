@@ -27,32 +27,32 @@ public abstract class AbstractFabricPlatform implements ViaPlatform<UUID> {
 
    public abstract EventLoop I();
 
-   public FutureTaskId l(Runnable var1) {
-      return new FutureTaskId(this.I().submit(var1).addListener(this.errorLogger()));
+   public FutureTaskId l(Runnable runnable) {
+      return new FutureTaskId(this.I().submit(runnable).addListener(this.errorLogger()));
    }
 
-   public FutureTaskId runAsync(Runnable var1) {
-      return new FutureTaskId(CompletableFuture.runAsync(var1, this.O()).exceptionally(var0 -> {
-         if (!(var0 instanceof CancellationException)) {
-            var0.printStackTrace();
+   public FutureTaskId runAsync(Runnable runnable) {
+      return new FutureTaskId(CompletableFuture.runAsync(runnable, this.O()).exceptionally(throwable -> {
+         if (!(throwable instanceof CancellationException)) {
+            throwable.printStackTrace();
          }
 
          return null;
       }));
    }
 
-   public FutureTaskId runSync(Runnable var1, long var2) {
-      return new FutureTaskId(this.I().schedule(() -> this.runSync(var1), var2 * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
+   public FutureTaskId runSync(Runnable runnable, long l) {
+      return new FutureTaskId(this.I().schedule(() -> this.runSync(runnable), l * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
    }
 
-   public FutureTaskId runRepeatingSync(Runnable var1, long var2) {
-      return new FutureTaskId(this.I().scheduleAtFixedRate(() -> this.runSync(var1), 0L, var2 * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
+   public FutureTaskId runRepeatingSync(Runnable runnable, long l) {
+      return new FutureTaskId(this.I().scheduleAtFixedRate(() -> this.runSync(runnable), 0L, l * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
    }
 
    public <T extends Future<?>> GenericFutureListener<T> errorLogger() {
-      return var0 -> {
-         if (!var0.isCancelled() && var0.cause() != null) {
-            var0.cause().printStackTrace();
+      return value -> {
+         if (!value.isCancelled() && value.cause() != null) {
+            value.cause().printStackTrace();
          }
       };
    }

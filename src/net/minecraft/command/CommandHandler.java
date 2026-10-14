@@ -22,116 +22,116 @@ public class CommandHandler implements ICommandManager {
    private static final long a = 48821789413626L;
 
    @Override
-   public int executeCommand(ICommandSender var1, String var2) {
-      var2 = var2.trim();
-      if (var2.startsWith("/")) {
-         var2 = var2.substring(1);
+   public int executeCommand(ICommandSender sender, String rawCommand) {
+      rawCommand = rawCommand.trim();
+      if (rawCommand.startsWith("/")) {
+         rawCommand = rawCommand.substring(1);
       }
 
-      String[] var6 = var2.split(" ");
-      String var7 = var6[0];
-      var6 = dropFirstString(var6);
-      ICommand var8 = this.commandMap.get(var7);
-      int var9 = this.getUsernameIndex(var8, var6);
-      int var10 = 0;
-      if (var8 == null) {
-         ChatComponentTranslation var11 = new ChatComponentTranslation("commands.generic.notFound");
-         var11.getChatStyle().setColor(EnumChatFormatting.RED);
-         var1.addChatMessage(var11);
-      } else if (var8.canCommandSenderUseCommand(var1)) {
-         if (var9 > -1) {
-            List var17 = PlayerSelector.matchEntities(var1, var6[var9], Entity.class);
-            String var12 = var6[var9];
-            var1.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, var17.size());
+      String[] strings = rawCommand.split(" ");
+      String string = strings[0];
+      strings = dropFirstString(strings);
+      ICommand iCommand = this.commandMap.get(string);
+      int i = this.getUsernameIndex(iCommand, strings);
+      int j = 0;
+      if (iCommand == null) {
+         ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation("commands.generic.notFound");
+         chatComponentTranslation.getChatStyle().setColor(EnumChatFormatting.RED);
+         sender.addChatMessage(chatComponentTranslation);
+      } else if (iCommand.canCommandSenderUseCommand(sender)) {
+         if (i > -1) {
+            List list = PlayerSelector.matchEntities(sender, strings[i], Entity.class);
+            String string2 = strings[i];
+            sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, list.size());
 
-            for (Object var14$raw : var17) {
-               Entity var14 = (Entity)var14$raw;
-               var6[var9] = var14.getUniqueID().toString();
-               if (this.tryExecute(var1, var6, var8, var2)) {
-                  var10++;
+            for (Object object : list) {
+               Entity entity = (Entity)object;
+               strings[i] = entity.getUniqueID().toString();
+               if (this.tryExecute(sender, strings, iCommand, rawCommand)) {
+                  j++;
                }
             }
 
-            var6[var9] = var12;
+            strings[i] = string2;
          } else {
-            var1.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, 1);
-            if (this.tryExecute(var1, var6, var8, var2)) {
-               var10++;
+            sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, 1);
+            if (this.tryExecute(sender, strings, iCommand, rawCommand)) {
+               j++;
             }
          }
       } else {
-         ChatComponentTranslation var18 = new ChatComponentTranslation("commands.generic.permission");
-         var18.getChatStyle().setColor(EnumChatFormatting.RED);
-         var1.addChatMessage(var18);
+         ChatComponentTranslation chatComponentTranslation2 = new ChatComponentTranslation("commands.generic.permission");
+         chatComponentTranslation2.getChatStyle().setColor(EnumChatFormatting.RED);
+         sender.addChatMessage(chatComponentTranslation2);
       }
 
-      var1.setCommandStat(CommandResultStats.Type.SUCCESS_COUNT, var10);
-      return var10;
+      sender.setCommandStat(CommandResultStats.Type.SUCCESS_COUNT, j);
+      return j;
    }
 
-   public boolean tryExecute(ICommandSender var1, String[] var2, ICommand var3, String var4) {
+   public boolean tryExecute(ICommandSender sender, String[] args, ICommand command, String input) {
       try {
-         var3.processCommand(var1, var2);
+         command.processCommand(sender, args);
          return true;
-      } catch (WrongUsageException var9) {
-         ChatComponentTranslation var13 = new ChatComponentTranslation(
-            "commands.generic.usage", new ChatComponentTranslation(var9.getMessage(), var9.getErrorObjects())
+      } catch (WrongUsageException wrongUsageException) {
+         ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation(
+            "commands.generic.usage", new ChatComponentTranslation(wrongUsageException.getMessage(), wrongUsageException.getErrorObjects())
          );
-         var13.getChatStyle().setColor(EnumChatFormatting.RED);
-         var1.addChatMessage(var13);
-      } catch (CommandException var10) {
-         ChatComponentTranslation var12 = new ChatComponentTranslation(var10.getMessage(), var10.getErrorObjects());
-         var12.getChatStyle().setColor(EnumChatFormatting.RED);
-         var1.addChatMessage(var12);
-      } catch (Throwable var11) {
-         ChatComponentTranslation var8 = new ChatComponentTranslation("commands.generic.exception");
-         var8.getChatStyle().setColor(EnumChatFormatting.RED);
-         var1.addChatMessage(var8);
-         logger.warn("Couldn't process command: '" + var4 + "'");
+         chatComponentTranslation.getChatStyle().setColor(EnumChatFormatting.RED);
+         sender.addChatMessage(chatComponentTranslation);
+      } catch (CommandException commandException) {
+         ChatComponentTranslation chatComponentTranslation2 = new ChatComponentTranslation(commandException.getMessage(), commandException.getErrorObjects());
+         chatComponentTranslation2.getChatStyle().setColor(EnumChatFormatting.RED);
+         sender.addChatMessage(chatComponentTranslation2);
+      } catch (Throwable throwable) {
+         ChatComponentTranslation chatComponentTranslation3 = new ChatComponentTranslation("commands.generic.exception");
+         chatComponentTranslation3.getChatStyle().setColor(EnumChatFormatting.RED);
+         sender.addChatMessage(chatComponentTranslation3);
+         logger.warn("Couldn't process command: '" + input + "'");
       }
 
       return false;
    }
 
-   public ICommand registerCommand(ICommand var1) {
-      this.commandMap.put(var1.getCommandName(), var1);
-      this.commandSet.add(var1);
+   public ICommand registerCommand(ICommand command) {
+      this.commandMap.put(command.getCommandName(), command);
+      this.commandSet.add(command);
 
-      for (String var6 : var1.getCommandAliases()) {
-         ICommand var7 = this.commandMap.get(var6);
-         if (var7 == null || !var7.getCommandName().equals(var6)) {
-            this.commandMap.put(var6, var1);
+      for (String string : command.getCommandAliases()) {
+         ICommand iCommand = this.commandMap.get(string);
+         if (iCommand == null || !iCommand.getCommandName().equals(string)) {
+            this.commandMap.put(string, command);
          }
       }
 
-      return var1;
+      return command;
    }
 
-   private static String[] dropFirstString(String[] var0) {
-      String[] var1 = new String[var0.length - 1];
-      System.arraycopy(var0, 1, var1, 0, var0.length - 1);
-      return var1;
+   private static String[] dropFirstString(String[] input) {
+      String[] strings = new String[input.length - 1];
+      System.arraycopy(input, 1, strings, 0, input.length - 1);
+      return strings;
    }
 
    @Override
-   public List<String> getTabCompletionOptions(ICommandSender var1, String var2, BlockPos var3) {
-      String[] var7 = var2.split(" ", -1);
-      String var8 = var7[0];
-      if (var7.length == 1) {
-         ArrayList var12 = Lists.newArrayList();
+   public List<String> getTabCompletionOptions(ICommandSender sender, String input, BlockPos pos) {
+      String[] strings = input.split(" ", -1);
+      String string = strings[0];
+      if (strings.length == 1) {
+         ArrayList arrayList = Lists.newArrayList();
 
-         for (Entry var11 : this.commandMap.entrySet()) {
-            if (CommandBase.doesStringStartWith(var8, (String)var11.getKey()) && ((ICommand)var11.getValue()).canCommandSenderUseCommand(var1)) {
-               var12.add(var11.getKey());
+         for (Entry entry : this.commandMap.entrySet()) {
+            if (CommandBase.doesStringStartWith(string, (String)entry.getKey()) && ((ICommand)entry.getValue()).canCommandSenderUseCommand(sender)) {
+               arrayList.add(entry.getKey());
             }
          }
 
-         return var12;
+         return arrayList;
       } else {
-         if (var7.length > 1) {
-            ICommand var9 = this.commandMap.get(var8);
-            if (var9 != null && var9.canCommandSenderUseCommand(var1)) {
-               return var9.addTabCompletionOptions(var1, dropFirstString(var7), var3);
+         if (strings.length > 1) {
+            ICommand iCommand = this.commandMap.get(string);
+            if (iCommand != null && iCommand.canCommandSenderUseCommand(sender)) {
+               return iCommand.addTabCompletionOptions(sender, dropFirstString(strings), pos);
             }
          }
 
@@ -140,16 +140,16 @@ public class CommandHandler implements ICommandManager {
    }
 
    @Override
-   public List<ICommand> getPossibleCommands(ICommandSender var1) {
-      ArrayList var5 = Lists.newArrayList();
+   public List<ICommand> getPossibleCommands(ICommandSender sender) {
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (ICommand var7 : this.commandSet) {
-         if (var7.canCommandSenderUseCommand(var1)) {
-            var5.add(var7);
+      for (ICommand iCommand : this.commandSet) {
+         if (iCommand.canCommandSenderUseCommand(sender)) {
+            arrayList.add(iCommand);
          }
       }
 
-      return var5;
+      return arrayList;
    }
 
    @Override
@@ -157,14 +157,14 @@ public class CommandHandler implements ICommandManager {
       return this.commandMap;
    }
 
-   private int getUsernameIndex(ICommand var1, String[] var2) {
-      if (var1 == null) {
+   private int getUsernameIndex(ICommand command, String[] args) {
+      if (command == null) {
          return -1;
       }
 
-      for (int var6 = 0; var6 < var2.length; var6++) {
-         if (var1.isUsernameIndex(var2, var6) && PlayerSelector.matchesMultiplePlayers(var2[var6])) {
-            return var6;
+      for (int i = 0; i < args.length; i++) {
+         if (command.isUsernameIndex(args, i) && PlayerSelector.matchesMultiplePlayers(args[i])) {
+            return i;
          }
       }
 

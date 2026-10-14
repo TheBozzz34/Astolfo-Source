@@ -68,30 +68,30 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    private static final int Z = new Color(17, 17, 17).getRGB();
    private static final long cb = 7985418319024L;
 
-   public void drawScreen(int var1, int var2, float var3) {
-      long var4 = cb ^ 6382636428709L;
-      long var6 = var4 ^ 9065368047539L;
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      long l = cb ^ 6382636428709L;
+      long m = l ^ 9065368047539L;
 
-      for (LoadStage var10 : Astolfo.INSTANCE.x().e().a().L().getValue()) {
-         if (var10 instanceof GuiStage) {
-            GuiStage var11 = (GuiStage)var10;
-            if (var11.C().z().F() && var11.C().z().a()) {
+      for (LoadStage loadStage : Astolfo.INSTANCE.x().e().a().L().getValue()) {
+         if (loadStage instanceof GuiStage) {
+            GuiStage guiStage = (GuiStage)loadStage;
+            if (guiStage.C().z().F() && guiStage.C().z().a()) {
                return;
             }
          }
       }
 
-      for (int var12 = 0; var12 < this.buttonList.size(); var12++) {
-         this.buttonList.get(var12).drawButton(this.mc, var1, var2);
+      for (int i = 0; i < this.buttonList.size(); i++) {
+         this.buttonList.get(i).drawButton(this.mc, mouseX, mouseY);
       }
 
-      for (int var13 = 0; var13 < this.labelList.size(); var13++) {
-         this.labelList.get(var13).drawLabel(this.mc, var1, var2);
+      for (int j = 0; j < this.labelList.size(); j++) {
+         this.labelList.get(j).drawLabel(this.mc, mouseX, mouseY);
       }
    }
 
-   public void keyTyped(char var1, int var2) throws IOException {
-      if (var2 == 1) {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      if (keyCode == 1) {
          this.mc.displayGuiScreen((GuiScreen)null);
          if (this.mc.currentScreen == null) {
             this.mc.setIngameFocus();
@@ -101,99 +101,99 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
    public static String getClipboardString() {
       try {
-         Transferable var3 = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-         if (var3 != null && var3.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-            return (String)var3.getTransferData(DataFlavor.stringFlavor);
+         Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+         if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            return (String)transferable.getTransferData(DataFlavor.stringFlavor);
          }
-      } catch (Exception var4) {
+      } catch (Exception exception) {
       }
 
       return "";
    }
 
-   public static void setClipboardString(String var0) {
-      if (!StringUtils.isEmpty(var0)) {
+   public static void setClipboardString(String copyText) {
+      if (!StringUtils.isEmpty(copyText)) {
          try {
-            StringSelection var3 = new StringSelection(var0);
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(var3, (ClipboardOwner)null);
-         } catch (Exception var4) {
+            StringSelection stringSelection = new StringSelection(copyText);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, (ClipboardOwner)null);
+         } catch (Exception exception) {
          }
       }
    }
 
-   public void renderToolTip(ItemStack var1, int var2, int var3) {
-      List var7 = var1.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+   public void renderToolTip(ItemStack stack, int x, int y) {
+      List list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
 
-      for (int var8 = 0; var8 < var7.size(); var8++) {
-         if (var8 == 0) {
-            var7.set(var8, var1.getRarity().rarityColor + (String)var7.get(var8));
+      for (int i = 0; i < list.size(); i++) {
+         if (i == 0) {
+            list.set(i, stack.getRarity().rarityColor + (String)list.get(i));
          } else {
-            var7.set(var8, EnumChatFormatting.GRAY + (String)var7.get(var8));
+            list.set(i, EnumChatFormatting.GRAY + (String)list.get(i));
          }
       }
 
-      this.drawHoveringText(var7, var2, var3);
+      this.drawHoveringText(list, x, y);
    }
 
-   public void drawCreativeTabHoveringText(String var1, int var2, int var3) {
-      this.drawHoveringText(Arrays.asList(var1), var2, var3);
+   public void drawCreativeTabHoveringText(String tabName, int mouseX, int mouseY) {
+      this.drawHoveringText(Arrays.asList(tabName), mouseX, mouseY);
    }
 
-   public void drawHoveringText(List<String> var1, int var2, int var3) {
-      long var4 = cb ^ 103880243932332L;
-      if (!var1.isEmpty()) {
+   public void drawHoveringText(List<String> textLines, int x, int y) {
+      long l = cb ^ 103880243932332L;
+      if (!textLines.isEmpty()) {
          GlStateManager.disableRescaleNormal();
          RenderHelper.disableStandardItemLighting();
          GlStateManager.disableLighting();
          GlStateManager.disableDepth();
-         int var7 = 0;
+         int i = 0;
 
-         for (String var9 : var1) {
-            int var10 = this.fontRendererObj.getStringWidth(var9);
-            if (var10 > var7) {
-               var7 = var10;
+         for (String string : textLines) {
+            int j = this.fontRendererObj.getStringWidth(string);
+            if (j > i) {
+               i = j;
             }
          }
 
-         int var16 = var2 + 12;
-         int var17 = var3 - 12;
-         int var18 = 8;
-         if (var1.size() > 1) {
-            var18 += 2 + (var1.size() - 1) * 10;
+         int k = x + 12;
+         int m = y - 12;
+         int n = 8;
+         if (textLines.size() > 1) {
+            n += 2 + (textLines.size() - 1) * 10;
          }
 
-         if (var16 + var7 > this.width) {
-            var16 -= 28 + var7;
+         if (k + i > this.width) {
+            k -= 28 + i;
          }
 
-         if (var17 + var18 + 6 > this.height) {
-            var17 = this.height - var18 - 6;
+         if (m + n + 6 > this.height) {
+            m = this.height - n - 6;
          }
 
          this.zLevel = 300.0F;
          this.itemRender.zLevel = 300.0F;
-         int var11 = -15592942;
-         this.drawGradientRect(var16 - 3, var17 - 4, var16 + var7 + 3, var17 - 3, var11, var11);
-         long var10000 = 7569057859365955873L ^ var4;
-         this.drawGradientRect(var16 - 3, var17 + var18 + 3, var16 + var7 + 3, var17 + var18 + 4, var11, var11);
-         this.drawGradientRect(var16 - 3, var17 - 3, var16 + var7 + 3, var17 + var18 + 3, var11, var11);
-         this.drawGradientRect(var16 - 4, var17 - 3, var16 - 3, var17 + var18 + 3, var11, var11);
-         this.drawGradientRect(var16 + var7 + 3, var17 - 3, var16 + var7 + 4, var17 + var18 + 3, var11, var11);
-         int var12 = -14606047;
-         int var13 = -14606047;
-         this.drawGradientRect(var16 - 3, var17 - 3 + 1, var16 - 3 + 1, var17 + var18 + 3 - 1, var12, var13);
-         this.drawGradientRect(var16 + var7 + 2, var17 - 3 + 1, var16 + var7 + 3, var17 + var18 + 3 - 1, var12, var13);
-         this.drawGradientRect(var16 - 3, var17 - 3, var16 + var7 + 3, var17 - 3 + 1, var12, var12);
-         this.drawGradientRect(var16 - 3, var17 + var18 + 2, var16 + var7 + 3, var17 + var18 + 3, var13, var13);
+         int i2 = -15592942;
+         this.drawGradientRect(k - 3, m - 4, k + i + 3, m - 3, i2, i2);
+         long l2 = 7569057859365955873L ^ l;
+         this.drawGradientRect(k - 3, m + n + 3, k + i + 3, m + n + 4, i2, i2);
+         this.drawGradientRect(k - 3, m - 3, k + i + 3, m + n + 3, i2, i2);
+         this.drawGradientRect(k - 4, m - 3, k - 3, m + n + 3, i2, i2);
+         this.drawGradientRect(k + i + 3, m - 3, k + i + 4, m + n + 3, i2, i2);
+         int i3 = -14606047;
+         int i4 = -14606047;
+         this.drawGradientRect(k - 3, m - 3 + 1, k - 3 + 1, m + n + 3 - 1, i3, i4);
+         this.drawGradientRect(k + i + 2, m - 3 + 1, k + i + 3, m + n + 3 - 1, i3, i4);
+         this.drawGradientRect(k - 3, m - 3, k + i + 3, m - 3 + 1, i3, i3);
+         this.drawGradientRect(k - 3, m + n + 2, k + i + 3, m + n + 3, i4, i4);
 
-         for (int var14 = 0; var14 < var1.size(); var14++) {
-            String var15 = (String)var1.get(var14);
-            this.fontRendererObj.drawStringWithShadow(var15, var16, var17, -1);
-            if (var14 == 0) {
-               var17 += 2;
+         for (int i5 = 0; i5 < textLines.size(); i5++) {
+            String string2 = (String)textLines.get(i5);
+            this.fontRendererObj.drawStringWithShadow(string2, k, m, -1);
+            if (i5 == 0) {
+               m += 2;
             }
 
-            var17 += 10;
+            m += 10;
          }
 
          this.zLevel = 0.0F;
@@ -205,73 +205,73 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       }
    }
 
-   public void handleComponentHover(IChatComponent var1, int var2, int var3) {
-      if (var1 != null && var1.getChatStyle().getChatHoverEvent() != null) {
-         HoverEvent var7 = var1.getChatStyle().getChatHoverEvent();
-         if (var7.getAction() == HoverEvent.Action.SHOW_ITEM) {
-            ItemStack var17 = null;
+   public void handleComponentHover(IChatComponent component, int x, int y) {
+      if (component != null && component.getChatStyle().getChatHoverEvent() != null) {
+         HoverEvent hoverEvent = component.getChatStyle().getChatHoverEvent();
+         if (hoverEvent.getAction() == HoverEvent.Action.SHOW_ITEM) {
+            ItemStack itemStack = null;
 
             try {
-               NBTTagCompound var19 = JsonToNBT.getTagFromJson(var7.getValue().getUnformattedText());
-               if (var19 instanceof NBTTagCompound) {
-                  var17 = ItemStack.loadItemStackFromNBT(var19);
+               NBTTagCompound nbtTagCompound = JsonToNBT.getTagFromJson(hoverEvent.getValue().getUnformattedText());
+               if (nbtTagCompound instanceof NBTTagCompound) {
+                  itemStack = ItemStack.loadItemStackFromNBT(nbtTagCompound);
                }
-            } catch (NBTException var14) {
+            } catch (NBTException nbtException) {
             }
 
-            if (var17 != null) {
-               this.renderToolTip(var17, var2, var3);
+            if (itemStack != null) {
+               this.renderToolTip(itemStack, x, y);
             } else {
-               this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", var2, var3);
+               this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", x, y);
             }
-         } else if (var7.getAction() == HoverEvent.Action.SHOW_ENTITY) {
+         } else if (hoverEvent.getAction() == HoverEvent.Action.SHOW_ENTITY) {
             if (this.mc.gameSettings.advancedItemTooltips) {
                try {
-                  NBTTagCompound var16 = JsonToNBT.getTagFromJson(var7.getValue().getUnformattedText());
-                  if (var16 instanceof NBTTagCompound) {
-                     ArrayList var18 = Lists.newArrayList();
-                     NBTTagCompound var20 = var16;
-                     var18.add(var20.getString("name"));
-                     if (var20.hasKey("type", 8)) {
-                        String var21 = var20.getString("type");
-                        var18.add("Type: " + var21 + " (" + EntityList.getIDFromString(var21) + ")");
+                  NBTTagCompound nbtTagCompound2 = JsonToNBT.getTagFromJson(hoverEvent.getValue().getUnformattedText());
+                  if (nbtTagCompound2 instanceof NBTTagCompound) {
+                     ArrayList arrayList = Lists.newArrayList();
+                     NBTTagCompound nbtTagCompound3 = nbtTagCompound2;
+                     arrayList.add(nbtTagCompound3.getString("name"));
+                     if (nbtTagCompound3.hasKey("type", 8)) {
+                        String string = nbtTagCompound3.getString("type");
+                        arrayList.add("Type: " + string + " (" + EntityList.getIDFromString(string) + ")");
                      }
 
-                     var18.add(var20.getString("id"));
-                     this.drawHoveringText(var18, var2, var3);
+                     arrayList.add(nbtTagCompound3.getString("id"));
+                     this.drawHoveringText(arrayList, x, y);
                   } else {
-                     this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", var2, var3);
+                     this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
                   }
-               } catch (NBTException var13) {
-                  this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", var2, var3);
+               } catch (NBTException nbtException2) {
+                  this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
                }
             }
-         } else if (var7.getAction() != HoverEvent.Action.SHOW_TEXT) {
-            if (var7.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT) {
-               StatBase var15 = StatList.getOneShotStat(var7.getValue().getUnformattedText());
-               if (var15 != null) {
-                  IChatComponent var9 = var15.getStatName();
-                  ChatComponentTranslation var10 = new ChatComponentTranslation("stats.tooltip.type." + (var15.isAchievement() ? "achievement" : "statistic"));
-                  var10.getChatStyle().setItalic(true);
-                  String var11 = var15 instanceof Achievement ? ((Achievement)var15).getDescription() : null;
-                  ArrayList var12 = Lists.newArrayList(var9.getFormattedText(), var10.getFormattedText());
-                  if (var11 != null) {
-                     var12.addAll(this.fontRendererObj.listFormattedStringToWidth(var11, 150));
+         } else if (hoverEvent.getAction() != HoverEvent.Action.SHOW_TEXT) {
+            if (hoverEvent.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT) {
+               StatBase statBase = StatList.getOneShotStat(hoverEvent.getValue().getUnformattedText());
+               if (statBase != null) {
+                  IChatComponent iChatComponent = statBase.getStatName();
+                  ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation("stats.tooltip.type." + (statBase.isAchievement() ? "achievement" : "statistic"));
+                  chatComponentTranslation.getChatStyle().setItalic(true);
+                  String string2 = statBase instanceof Achievement ? ((Achievement)statBase).getDescription() : null;
+                  ArrayList arrayList2 = Lists.newArrayList(iChatComponent.getFormattedText(), chatComponentTranslation.getFormattedText());
+                  if (string2 != null) {
+                     arrayList2.addAll(this.fontRendererObj.listFormattedStringToWidth(string2, 150));
                   }
 
-                  this.drawHoveringText(var12, var2, var3);
+                  this.drawHoveringText(arrayList2, x, y);
                } else {
-                  this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", var2, var3);
+                  this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", x, y);
                }
             }
          } else {
-            ClickEvent var8 = var1.getChatStyle().getChatClickEvent();
+            ClickEvent clickEvent = component.getChatStyle().getChatClickEvent();
             this.drawHoveringText(
                NEWLINE_SPLITTER.splitToList(
-                  var7.getValue().getFormattedText() + (var8 != null && !var8.getValue().contains("TP") ? "\n" + var8.getValue() : "")
+                  hoverEvent.getValue().getFormattedText() + (clickEvent != null && !clickEvent.getValue().contains("TP") ? "\n" + clickEvent.getValue() : "")
                ),
-               var2,
-               var3
+               x,
+               y
             );
          }
 
@@ -279,54 +279,54 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       }
    }
 
-   public void setText(String var1, boolean var2) {
+   public void setText(String newChatText, boolean shouldOverwrite) {
    }
 
-   public boolean handleComponentClick(IChatComponent var1) {
-      if (var1 == null) {
+   public boolean handleComponentClick(IChatComponent component) {
+      if (component == null) {
          return false;
       }
 
-      ClickEvent var5 = var1.getChatStyle().getChatClickEvent();
+      ClickEvent clickEvent = component.getChatStyle().getChatClickEvent();
       if (isShiftKeyDown()) {
-         if (var1.getChatStyle().getInsertion() != null) {
-            this.setText(var1.getChatStyle().getInsertion(), false);
+         if (component.getChatStyle().getInsertion() != null) {
+            this.setText(component.getChatStyle().getInsertion(), false);
          }
-      } else if (var5 != null) {
-         if (var5.getAction() == ClickEvent.Action.OPEN_URL) {
+      } else if (clickEvent != null) {
+         if (clickEvent.getAction() == ClickEvent.Action.OPEN_URL) {
             if (!this.mc.gameSettings.chatLinks) {
                return false;
             }
 
             try {
-               URI var6 = new URI(var5.getValue());
-               String var7 = var6.getScheme();
-               if (var7 == null) {
-                  throw new URISyntaxException(var5.getValue(), "Missing protocol");
+               URI uri = new URI(clickEvent.getValue());
+               String string = uri.getScheme();
+               if (string == null) {
+                  throw new URISyntaxException(clickEvent.getValue(), "Missing protocol");
                }
 
-               if (!PROTOCOLS.contains(var7.toLowerCase())) {
-                  throw new URISyntaxException(var5.getValue(), "Unsupported protocol: " + var7.toLowerCase());
+               if (!PROTOCOLS.contains(string.toLowerCase())) {
+                  throw new URISyntaxException(clickEvent.getValue(), "Unsupported protocol: " + string.toLowerCase());
                }
 
                if (this.mc.gameSettings.chatLinksPrompt) {
-                  this.clickedLinkURI = var6;
-                  this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, var5.getValue(), 31102009, false));
+                  this.clickedLinkURI = uri;
+                  this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, clickEvent.getValue(), 31102009, false));
                } else {
-                  this.openWebLink(var6);
+                  this.openWebLink(uri);
                }
-            } catch (URISyntaxException var8) {
-               LOGGER.error("Can't open url for " + var5, var8);
+            } catch (URISyntaxException uriSyntaxException) {
+               LOGGER.error("Can't open url for " + clickEvent, uriSyntaxException);
             }
-         } else if (var5.getAction() == ClickEvent.Action.OPEN_FILE) {
-            URI var9 = new File(var5.getValue()).toURI();
-            this.openWebLink(var9);
-         } else if (var5.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
-            this.setText(var5.getValue(), true);
-         } else if (var5.getAction() == ClickEvent.Action.RUN_COMMAND) {
-            this.sendChatMessage(var5.getValue(), false);
-         } else if (var5.getAction() != ClickEvent.Action.TWITCH_USER_INFO) {
-            LOGGER.error("Don't know how to handle " + var5);
+         } else if (clickEvent.getAction() == ClickEvent.Action.OPEN_FILE) {
+            URI uri2 = new File(clickEvent.getValue()).toURI();
+            this.openWebLink(uri2);
+         } else if (clickEvent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
+            this.setText(clickEvent.getValue(), true);
+         } else if (clickEvent.getAction() == ClickEvent.Action.RUN_COMMAND) {
+            this.sendChatMessage(clickEvent.getValue(), false);
+         } else if (clickEvent.getAction() != ClickEvent.Action.TWITCH_USER_INFO) {
+            LOGGER.error("Don't know how to handle " + clickEvent);
          }
 
          return true;
@@ -335,43 +335,43 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       return false;
    }
 
-   public void sendChatMessage(String var1) {
-      this.sendChatMessage(var1, true);
+   public void sendChatMessage(String msg) {
+      this.sendChatMessage(msg, true);
    }
 
-   public void sendChatMessage(String var1, boolean var2) {
-      if (var2) {
-         this.mc.ingameGUI.getChatGUI().addToSentMessages(var1);
+   public void sendChatMessage(String msg, boolean addToChat) {
+      if (addToChat) {
+         this.mc.ingameGUI.getChatGUI().addToSentMessages(msg);
       }
 
-      this.mc.thePlayer.sendChatMessage(var1);
+      this.mc.thePlayer.sendChatMessage(msg);
    }
 
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      if (var3 == 0) {
-         for (int var7 = 0; var7 < this.buttonList.size(); var7++) {
-            GuiButton var8 = this.buttonList.get(var7);
-            if (var8.mousePressed(this.mc, var1, var2)) {
-               this.selectedButton = var8;
-               var8.playPressSound(this.mc.getSoundHandler());
-               this.actionPerformed(var8);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      if (mouseButton == 0) {
+         for (int i = 0; i < this.buttonList.size(); i++) {
+            GuiButton guiButton = this.buttonList.get(i);
+            if (guiButton.mousePressed(this.mc, mouseX, mouseY)) {
+               this.selectedButton = guiButton;
+               guiButton.playPressSound(this.mc.getSoundHandler());
+               this.actionPerformed(guiButton);
             }
          }
       }
    }
 
-   public void mouseReleased(int var1, int var2, int var3) {
-      if (this.selectedButton != null && var3 == 0) {
-         this.selectedButton.mouseReleased(var1, var2);
+   public void mouseReleased(int mouseX, int mouseY, int state) {
+      if (this.selectedButton != null && state == 0) {
+         this.selectedButton.mouseReleased(mouseX, mouseY);
          this.selectedButton = null;
       }
    }
 
-   public void mouseClickMove(int var1, int var2, int var3, long var4) {
+   public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
    }
 
-   public void actionPerformed(GuiButton var1) throws IOException {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      switch (button.id) {
          case -88888:
             LoginScreen.d = false;
             this.mc
@@ -383,12 +383,12 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       }
    }
 
-   public void setWorldAndResolution(Minecraft var1, int var2, int var3) {
-      this.mc = var1;
-      this.itemRender = var1.getRenderItem();
-      this.fontRendererObj = var1.fontRendererObj;
-      this.width = var2;
-      this.height = var3;
+   public void setWorldAndResolution(Minecraft mc, int width, int height) {
+      this.mc = mc;
+      this.itemRender = mc.getRenderItem();
+      this.fontRendererObj = mc.fontRendererObj;
+      this.width = width;
+      this.height = height;
       this.buttonList.clear();
       this.initGui();
    }
@@ -411,27 +411,27 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    }
 
    public void handleMouseInput() throws IOException {
-      int var4 = Mouse.getEventX() * this.width / this.mc.displayWidth;
-      int var5 = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
-      int var6 = Mouse.getEventButton();
+      int i = Mouse.getEventX() * this.width / this.mc.displayWidth;
+      int j = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+      int k = Mouse.getEventButton();
       if (Mouse.getEventButtonState()) {
          if (this.mc.gameSettings.touchscreen && this.touchValue++ > 0) {
             return;
          }
 
-         this.eventButton = var6;
+         this.eventButton = k;
          this.lastMouseEvent = Minecraft.getSystemTime();
-         this.mouseClicked(var4, var5, this.eventButton);
-      } else if (var6 != -1) {
+         this.mouseClicked(i, j, this.eventButton);
+      } else if (k != -1) {
          if (this.mc.gameSettings.touchscreen && --this.touchValue > 0) {
             return;
          }
 
          this.eventButton = -1;
-         this.mouseReleased(var4, var5, var6);
+         this.mouseReleased(i, j, k);
       } else if (this.eventButton != -1 && this.lastMouseEvent > 0L) {
-         long var7 = Minecraft.getSystemTime() - this.lastMouseEvent;
-         this.mouseClickMove(var4, var5, this.eventButton, var7);
+         long l = Minecraft.getSystemTime() - this.lastMouseEvent;
+         this.mouseClickMove(i, j, this.eventButton, l);
       }
    }
 
@@ -444,7 +444,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
          case OSX:
             try {
                this.j();
-            } catch (Exception var5) {
+            } catch (Exception exception) {
                this.handleKeyboardInput();
             }
       }
@@ -453,28 +453,28 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    }
 
    private void handleKeyboardInput() throws IOException {
-      char var4 = Keyboard.getEventCharacter();
-      int var5 = Keyboard.getEventKey();
-      if (Keyboard.getEventKeyState() || var5 == 0 && Character.isDefined(var4)) {
-         this.keyTyped(var4, var5);
+      char c = Keyboard.getEventCharacter();
+      int i = Keyboard.getEventKey();
+      if (Keyboard.getEventKeyState() || i == 0 && Character.isDefined(c)) {
+         this.keyTyped(c, i);
       }
    }
 
    private void j() throws IOException {
-      char var4 = Keyboard.getEventCharacter();
-      int var5 = Keyboard.getEventKey();
-      if (Keyboard.getEventKeyState() || var5 == 0 && Character.isDefined(var4)) {
-         if (var5 == 88) {
-            char[] var6 = Strings.nullToEmpty(JOptionPane.showInputDialog("")).toCharArray();
+      char c = Keyboard.getEventCharacter();
+      int i = Keyboard.getEventKey();
+      if (Keyboard.getEventKeyState() || i == 0 && Character.isDefined(c)) {
+         if (i == 88) {
+            char[] chars = Strings.nullToEmpty(JOptionPane.showInputDialog("")).toCharArray();
 
-            for (char var10 : var6) {
-               this.keyTyped(var10, 0);
+            for (char c2 : chars) {
+               this.keyTyped(c2, 0);
             }
 
             return;
          }
 
-         this.keyTyped(var4, var5);
+         this.keyTyped(c, i);
       }
    }
 
@@ -488,17 +488,17 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       this.drawWorldBackground(0);
    }
 
-   public void drawWorldBackground(int var1) {
+   public void drawWorldBackground(int tint) {
       if (this.mc.theWorld != null) {
          GlStateManager.disableAlpha();
          GlStateManager.disableBlend();
          this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
       } else {
-         this.drawBackground(var1);
+         this.drawBackground(tint);
       }
    }
 
-   public void drawBackground(int var1) {
+   public void drawBackground(int tint) {
       this.drawGradientRect(0, 0, this.width, this.height, I, Z);
    }
 
@@ -507,9 +507,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    }
 
    @Override
-   public void confirmClicked(boolean var1, int var2) {
-      if (var2 == 31102009) {
-         if (var1) {
+   public void confirmClicked(boolean result, int id) {
+      if (id == 31102009) {
+         if (result) {
             this.openWebLink(this.clickedLinkURI);
          }
 
@@ -518,13 +518,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       }
    }
 
-   private void openWebLink(URI var1) {
+   private void openWebLink(URI url) {
       try {
-         Class var4 = Class.forName("java.awt.Desktop");
-         Object var5 = var4.getMethod("getDesktop").invoke(null);
-         var4.getMethod("browse", URI.class).invoke(var5, var1);
-      } catch (Throwable var6) {
-         LOGGER.error("Couldn't open link", var6);
+         Class class2 = Class.forName("java.awt.Desktop");
+         Object object = class2.getMethod("getDesktop").invoke(null);
+         class2.getMethod("browse", URI.class).invoke(object, url);
+      } catch (Throwable throwable) {
+         LOGGER.error("Couldn't open link", throwable);
       }
    }
 
@@ -540,23 +540,23 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       return Keyboard.isKeyDown(56) || Keyboard.isKeyDown(184);
    }
 
-   public static boolean isKeyComboCtrlX(int var0) {
-      return var0 == 45 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+   public static boolean isKeyComboCtrlX(int keyID) {
+      return keyID == 45 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
    }
 
-   public static boolean isKeyComboCtrlV(int var0) {
-      return var0 == 47 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+   public static boolean isKeyComboCtrlV(int keyID) {
+      return keyID == 47 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
    }
 
-   public static boolean isKeyComboCtrlC(int var0) {
-      return var0 == 46 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+   public static boolean isKeyComboCtrlC(int keyID) {
+      return keyID == 46 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
    }
 
-   public static boolean isKeyComboCtrlA(int var0) {
-      return var0 == 30 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+   public static boolean isKeyComboCtrlA(int keyID) {
+      return keyID == 30 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
    }
 
-   public void onResize(Minecraft var1, int var2, int var3) {
-      this.setWorldAndResolution(var1, var2, var3);
+   public void onResize(Minecraft mcIn, int w, int h) {
+      this.setWorldAndResolution(mcIn, w, h);
    }
 }

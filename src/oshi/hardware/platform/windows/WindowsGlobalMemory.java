@@ -47,38 +47,38 @@ public final class WindowsGlobalMemory extends AbstractGlobalMemory {
 
    @Override
    public PhysicalMemory[] getPhysicalMemory() {
-      PhysicalMemory[] var4;
+      PhysicalMemory[] physicalMemorys;
       if (IS_WINDOWS10_OR_GREATER) {
-         WmiResult var5 = Win32PhysicalMemory.queryphysicalMemory();
-         var4 = new PhysicalMemory[var5.getResultCount()];
+         WmiResult wmiResult = Win32PhysicalMemory.queryphysicalMemory();
+         physicalMemorys = new PhysicalMemory[wmiResult.getResultCount()];
 
-         for (int var6 = 0; var6 < var5.getResultCount(); var6++) {
-            String var7 = WmiUtil.getString(var5, Win32PhysicalMemory.PhysicalMemoryProperty.BANKLABEL, var6);
-            long var8 = WmiUtil.getUint64(var5, Win32PhysicalMemory.PhysicalMemoryProperty.CAPACITY, var6);
-            long var10 = WmiUtil.getUint32(var5, Win32PhysicalMemory.PhysicalMemoryProperty.SPEED, var6) * 1000000L;
-            String var12 = WmiUtil.getString(var5, Win32PhysicalMemory.PhysicalMemoryProperty.MANUFACTURER, var6);
-            String var13 = smBiosMemoryType(WmiUtil.getUint32(var5, Win32PhysicalMemory.PhysicalMemoryProperty.SMBIOSMEMORYTYPE, var6));
-            var4[var6] = new PhysicalMemory(var7, var8, var10, var12, var13);
+         for (int i = 0; i < wmiResult.getResultCount(); i++) {
+            String string = WmiUtil.getString(wmiResult, Win32PhysicalMemory.PhysicalMemoryProperty.BANKLABEL, i);
+            long l = WmiUtil.getUint64(wmiResult, Win32PhysicalMemory.PhysicalMemoryProperty.CAPACITY, i);
+            long m = WmiUtil.getUint32(wmiResult, Win32PhysicalMemory.PhysicalMemoryProperty.SPEED, i) * 1000000L;
+            String string2 = WmiUtil.getString(wmiResult, Win32PhysicalMemory.PhysicalMemoryProperty.MANUFACTURER, i);
+            String string3 = smBiosMemoryType(WmiUtil.getUint32(wmiResult, Win32PhysicalMemory.PhysicalMemoryProperty.SMBIOSMEMORYTYPE, i));
+            physicalMemorys[i] = new PhysicalMemory(string, l, m, string2, string3);
          }
       } else {
-         WmiResult var14 = Win32PhysicalMemory.queryphysicalMemoryWin8();
-         var4 = new PhysicalMemory[var14.getResultCount()];
+         WmiResult wmiResult2 = Win32PhysicalMemory.queryphysicalMemoryWin8();
+         physicalMemorys = new PhysicalMemory[wmiResult2.getResultCount()];
 
-         for (int var15 = 0; var15 < var14.getResultCount(); var15++) {
-            String var16 = WmiUtil.getString(var14, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.BANKLABEL, var15);
-            long var17 = WmiUtil.getUint64(var14, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.CAPACITY, var15);
-            long var18 = WmiUtil.getUint32(var14, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.SPEED, var15) * 1000000L;
-            String var19 = WmiUtil.getString(var14, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.MANUFACTURER, var15);
-            String var20 = memoryType(WmiUtil.getUint16(var14, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.MEMORYTYPE, var15));
-            var4[var15] = new PhysicalMemory(var16, var17, var18, var19, var20);
+         for (int j = 0; j < wmiResult2.getResultCount(); j++) {
+            String string4 = WmiUtil.getString(wmiResult2, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.BANKLABEL, j);
+            long n = WmiUtil.getUint64(wmiResult2, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.CAPACITY, j);
+            long l2 = WmiUtil.getUint32(wmiResult2, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.SPEED, j) * 1000000L;
+            String string5 = WmiUtil.getString(wmiResult2, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.MANUFACTURER, j);
+            String string6 = memoryType(WmiUtil.getUint16(wmiResult2, Win32PhysicalMemory.PhysicalMemoryPropertyWin8.MEMORYTYPE, j));
+            physicalMemorys[j] = new PhysicalMemory(string4, n, l2, string5, string6);
          }
       }
 
-      return var4;
+      return physicalMemorys;
    }
 
-   private static String memoryType(int var0) {
-      switch (var0) {
+   private static String memoryType(int typeIn) {
+      switch (typeIn) {
          case 1:
             return "Other";
          case 2:
@@ -133,8 +133,8 @@ public final class WindowsGlobalMemory extends AbstractGlobalMemory {
       }
    }
 
-   private static String smBiosMemoryType(int var0) {
-      switch (var0) {
+   private static String smBiosMemoryType(int typeIn) {
+      switch (typeIn) {
          case 1:
             return "Other";
          case 2:
@@ -199,14 +199,14 @@ public final class WindowsGlobalMemory extends AbstractGlobalMemory {
    }
 
    private static Triplet<Long, Long, Long> readPerfInfo() {
-      PERFORMANCE_INFORMATION var2 = new PERFORMANCE_INFORMATION();
-      if (!Psapi.INSTANCE.GetPerformanceInfo(var2, var2.size())) {
+      PERFORMANCE_INFORMATION performancE_INFORMATION = new PERFORMANCE_INFORMATION();
+      if (!Psapi.INSTANCE.GetPerformanceInfo(performancE_INFORMATION, performancE_INFORMATION.size())) {
          return new Triplet<>(0L, 0L, 4098L);
       }
 
-      long var3 = var2.PageSize.longValue();
-      long var5 = var3 * var2.PhysicalAvailable.longValue();
-      long var7 = var3 * var2.PhysicalTotal.longValue();
-      return new Triplet<>(var5, var7, var3);
+      long l = performancE_INFORMATION.PageSize.longValue();
+      long m = l * performancE_INFORMATION.PhysicalAvailable.longValue();
+      long n = l * performancE_INFORMATION.PhysicalTotal.longValue();
+      return new Triplet<>(m, n, l);
    }
 }

@@ -9,9 +9,9 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
    public final ObjectIntIdentityMap<V> underlyingIntegerMap = new ObjectIntIdentityMap<>();
    public final Map<V, K> inverseObjectRegistry = ((BiMap)this.registryObjects).inverse();
 
-   public void register(int var1, K var2, V var3) {
-      this.underlyingIntegerMap.put((V)var3, var1);
-      this.putObject((K)var2, (V)var3);
+   public void register(int id, K key, V value) {
+      this.underlyingIntegerMap.put((V)value, id);
+      this.putObject((K)key, (V)value);
    }
 
    @Override
@@ -20,25 +20,25 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
    }
 
    @Override
-   public V getObject(K var1) {
-      return super.getObject((K)var1);
+   public V getObject(K name) {
+      return super.getObject((K)name);
    }
 
-   public K getNameForObject(V var1) {
-      return this.inverseObjectRegistry.get(var1);
+   public K getNameForObject(V value) {
+      return this.inverseObjectRegistry.get(value);
    }
 
    @Override
-   public boolean containsKey(K var1) {
-      return super.containsKey((K)var1);
+   public boolean containsKey(K key) {
+      return super.containsKey((K)key);
    }
 
-   public int getIDForObject(V var1) {
-      return this.underlyingIntegerMap.get((V)var1);
+   public int getIDForObject(V value) {
+      return this.underlyingIntegerMap.get((V)value);
    }
 
-   public V getObjectById(int var1) {
-      return this.underlyingIntegerMap.getByValue(var1);
+   public V getObjectById(int id) {
+      return this.underlyingIntegerMap.getByValue(id);
    }
 
    @Override

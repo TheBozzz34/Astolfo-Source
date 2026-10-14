@@ -16,11 +16,11 @@ public final class HypixelAddressCheck {
    private static final long a = 43525299494244L;
    private static final long f = 2277682708245184511L;
 
-   public static void C(InetAddress var0) {
-      String var3 = var0.getHostAddress();
-      if ((F == null || !var3.equalsIgnoreCase(F.getHostAddress())) && !var3.equalsIgnoreCase("localhost") && !var3.equalsIgnoreCase("127.0.0.1")) {
-         if (!P.contains(var3)) {
-            P.add(var3);
+   public static void C(InetAddress inetAddress) {
+      String string = inetAddress.getHostAddress();
+      if ((F == null || !string.equalsIgnoreCase(F.getHostAddress())) && !string.equalsIgnoreCase("localhost") && !string.equalsIgnoreCase("127.0.0.1")) {
+         if (!P.contains(string)) {
+            P.add(string);
          }
       }
    }
@@ -34,53 +34,53 @@ public final class HypixelAddressCheck {
          return false;
       }
 
-      ServerData var3 = i.getCurrentServerData();
-      if (var3 == null) {
+      ServerData serverData = i.getCurrentServerData();
+      if (serverData == null) {
          return false;
       }
 
-      String var4 = var3.serverIP.toLowerCase();
-      if (X.containsKey(var4) && !X.get(var4)) {
+      String string = serverData.serverIP.toLowerCase();
+      if (X.containsKey(string) && !X.get(string)) {
          return false;
       }
 
-      if (!var4.isEmpty() && var4.contains("hypixel") && (F == null || !var4.contains(F.getHostName()) && !var4.contains(F.getHostAddress()))) {
-         int var6 = var4.length();
-         if (var4.contains(":") && Character.isDigit(var4.charAt(var6 - 1))) {
-            int var7 = var4.lastIndexOf(":") + 1;
-            String var8 = var4.substring(var7);
+      if (!string.isEmpty() && string.contains("hypixel") && (F == null || !string.contains(F.getHostName()) && !string.contains(F.getHostAddress()))) {
+         int j = string.length();
+         if (string.contains(":") && Character.isDigit(string.charAt(j - 1))) {
+            int k = string.lastIndexOf(":") + 1;
+            String string2 = string.substring(k);
 
-            int var9;
+            int l;
             try {
-               var9 = Integer.parseInt(var8);
-            } catch (Exception var12) {
-               var9 = -1;
+               l = Integer.parseInt(string2);
+            } catch (Exception exception) {
+               l = -1;
             }
 
-            if (var9 >= 0 && var9 <= (int)f) {
-               var4 = var4.substring(0, var7 - 1);
+            if (l >= 0 && l <= (int)f) {
+               string = string.substring(0, k - 1);
             }
          }
 
-         String var13 = ".";
-         if (var4.contains(".")) {
-            int var14 = var4.lastIndexOf(".") + 1;
-            String var15 = var4.substring(var14);
-            if (!var15.equalsIgnoreCase("net")) {
-               X.put(var4, false);
+         String string3 = ".";
+         if (string.contains(".")) {
+            int m = string.lastIndexOf(".") + 1;
+            String string4 = string.substring(m);
+            if (!string4.equalsIgnoreCase("net")) {
+               X.put(string, false);
                return false;
             } else {
-               String var10 = var4.substring(0, var14 - 1);
-               boolean var11 = var4.equalsIgnoreCase("hypixel.net") || var10.endsWith(".hypixel") || P.contains(var10);
-               X.put(var4, var11);
-               return var11;
+               String string5 = string.substring(0, m - 1);
+               boolean bl = string.equalsIgnoreCase("hypixel.net") || string5.endsWith(".hypixel") || P.contains(string5);
+               X.put(string, bl);
+               return bl;
             }
          } else {
-            X.put(var4, false);
+            X.put(string, false);
             return false;
          }
       } else {
-         X.put(var4, false);
+         X.put(string, false);
          return false;
       }
    }
@@ -88,21 +88,21 @@ public final class HypixelAddressCheck {
    static {
       try {
          F = InetAddress.getLocalHost();
-      } catch (UnknownHostException var22) {
+      } catch (UnknownHostException unknownHostException) {
       }
 
       try {
          C(InetAddress.getByName("hypixel.net"));
-      } catch (UnknownHostException var21) {
+      } catch (UnknownHostException unknownHostException2) {
       }
 
       try {
-         InetAddress[] var16 = InetAddress.getAllByName("hypixel.net");
+         InetAddress[] inetAddresss = InetAddress.getAllByName("hypixel.net");
 
-         for (InetAddress var20 : var16) {
-            C(var20);
+         for (InetAddress inetAddress : inetAddresss) {
+            C(inetAddress);
          }
-      } catch (UnknownHostException var23) {
+      } catch (UnknownHostException unknownHostException3) {
       }
    }
 }

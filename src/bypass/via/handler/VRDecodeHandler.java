@@ -13,37 +13,37 @@ public class VRDecodeHandler extends MessageToMessageDecoder<ByteBuf> {
    private final UserConnection K;
    private static final long a = 138098345629489L;
 
-   public VRDecodeHandler(UserConnection var1) {
-      this.K = var1;
+   public VRDecodeHandler(UserConnection userConnection) {
+      this.K = userConnection;
    }
 
    public UserConnection I() {
       return this.K;
    }
 
-   public void decode(ChannelHandlerContext var1, ByteBuf var2, List<Object> var3) throws Exception {
+   public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
       if (!this.K.checkIncomingPacket()) {
          throw CancelDecoderException.generate(null);
       }
 
       if (!this.K.shouldTransformPacket()) {
-         var3.add(var2.retain());
+         list.add(byteBuf.retain());
       } else {
-         ByteBuf var7 = var1.alloc().buffer().writeBytes(var2);
+         ByteBuf byteBuf2 = channelHandlerContext.alloc().buffer().writeBytes(byteBuf);
 
          try {
-            this.K.transformIncoming(var7, CancelDecoderException::generate);
-            var3.add(var7.retain());
+            this.K.transformIncoming(byteBuf2, CancelDecoderException::generate);
+            list.add(byteBuf2.retain());
          } finally {
-            var7.release();
+            byteBuf2.release();
          }
       }
    }
 
    @Override
-   public void exceptionCaught(ChannelHandlerContext var1, Throwable var2) throws Exception {
-      if (!PipelineUtil.containsCause(var2, CancelCodecException.class)) {
-         var2.printStackTrace();
+   public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable throwable) throws Exception {
+      if (!PipelineUtil.containsCause(throwable, CancelCodecException.class)) {
+         throwable.printStackTrace();
       }
    }
 }

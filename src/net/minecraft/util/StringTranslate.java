@@ -21,21 +21,21 @@ public class StringTranslate {
 
    public StringTranslate() {
       try {
-         InputStream var3 = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
+         InputStream inputStream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
 
-         for (String var5 : IOUtils.readLines(var3, Charsets.UTF_8)) {
-            if (!var5.isEmpty() && var5.charAt(0) != '#') {
-               String[] var6 = Iterables.toArray(equalSignSplitter.split(var5), String.class);
-               if (var6 != null && var6.length == 2) {
-                  String var7 = var6[0];
-                  String var8 = numericVariablePattern.matcher(var6[1]).replaceAll("%$1s");
-                  this.languageList.put(var7, var8);
+         for (String string : IOUtils.readLines(inputStream, Charsets.UTF_8)) {
+            if (!string.isEmpty() && string.charAt(0) != '#') {
+               String[] strings = Iterables.toArray(equalSignSplitter.split(string), String.class);
+               if (strings != null && strings.length == 2) {
+                  String string2 = strings[0];
+                  String string3 = numericVariablePattern.matcher(strings[1]).replaceAll("%$1s");
+                  this.languageList.put(string2, string3);
                }
             }
          }
 
          this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
-      } catch (IOException var9) {
+      } catch (IOException ioException) {
       }
    }
 
@@ -43,33 +43,33 @@ public class StringTranslate {
       return instance;
    }
 
-   public static synchronized void replaceWith(Map<String, String> var0) {
+   public static synchronized void replaceWith(Map<String, String> map) {
       instance.languageList.clear();
-      instance.languageList.putAll(var0);
+      instance.languageList.putAll(map);
       instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
    }
 
-   public synchronized String translateKey(String var1) {
-      return this.tryTranslateKey(var1);
+   public synchronized String translateKey(String key) {
+      return this.tryTranslateKey(key);
    }
 
-   public synchronized String translateKeyFormat(String var1, Object... var2) {
-      String var5 = this.tryTranslateKey(var1);
+   public synchronized String translateKeyFormat(String key, Object... formatIn) {
+      String string = this.tryTranslateKey(key);
 
       try {
-         return String.format(var5, var2);
-      } catch (IllegalFormatException var7) {
-         return "Format error: " + var5;
+         return String.format(string, formatIn);
+      } catch (IllegalFormatException illegalFormatException) {
+         return "Format error: " + string;
       }
    }
 
-   private String tryTranslateKey(String var1) {
-      String var5 = this.languageList.get(var1);
-      return var5 == null ? var1 : var5;
+   private String tryTranslateKey(String key) {
+      String string = this.languageList.get(key);
+      return string == null ? key : string;
    }
 
-   public synchronized boolean isKeyTranslated(String var1) {
-      return this.languageList.containsKey(var1);
+   public synchronized boolean isKeyTranslated(String key) {
+      return this.languageList.containsKey(key);
    }
 
    public long getLastUpdateTimeInMilliseconds() {

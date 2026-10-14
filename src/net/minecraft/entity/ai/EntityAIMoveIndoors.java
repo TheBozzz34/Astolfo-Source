@@ -13,15 +13,15 @@ public class EntityAIMoveIndoors extends EntityAIBase {
    private int insidePosZ = -1;
    private static final long a = 91877819116121L;
 
-   public EntityAIMoveIndoors(EntityCreature var1) {
-      this.entityObj = var1;
+   public EntityAIMoveIndoors(EntityCreature entityObjIn) {
+      this.entityObj = entityObjIn;
       this.setMutexBits(1);
    }
 
    @Override
    public boolean shouldExecute() {
-      BlockPos var4 = new BlockPos(this.entityObj);
-      if ((!this.entityObj.worldObj.isDaytime() || this.entityObj.worldObj.isRaining() && !this.entityObj.worldObj.getBiomeGenForCoords(var4).canRain())
+      BlockPos blockPos = new BlockPos(this.entityObj);
+      if ((!this.entityObj.worldObj.isDaytime() || this.entityObj.worldObj.isRaining() && !this.entityObj.worldObj.getBiomeGenForCoords(blockPos).canRain())
          && !this.entityObj.worldObj.provider.getHasNoSky()) {
          if (this.entityObj.getRNG().nextInt(50) != 0) {
             return false;
@@ -31,12 +31,12 @@ public class EntityAIMoveIndoors extends EntityAIBase {
             return false;
          }
 
-         Village var5 = this.entityObj.worldObj.getVillageCollection().getNearestVillage(var4, 14);
-         if (var5 == null) {
+         Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockPos, 14);
+         if (village == null) {
             return false;
          }
 
-         this.doorInfo = var5.getDoorInfo(var4);
+         this.doorInfo = village.getDoorInfo(blockPos);
          return this.doorInfo != null;
       } else {
          return false;
@@ -51,17 +51,17 @@ public class EntityAIMoveIndoors extends EntityAIBase {
    @Override
    public void startExecuting() {
       this.insidePosX = -1;
-      BlockPos var4 = this.doorInfo.getInsideBlockPos();
-      int var5 = var4.getX();
-      int var6 = var4.getY();
-      int var7 = var4.getZ();
-      if (this.entityObj.getDistanceSq(var4) > 256.0) {
-         Vec3 var8 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3, new Vec3(var5 + 0.5, var6, var7 + 0.5));
-         if (var8 != null) {
-            this.entityObj.getNavigator().tryMoveToXYZ(var8.xCoord, var8.yCoord, var8.zCoord, 1.0);
+      BlockPos blockPos = this.doorInfo.getInsideBlockPos();
+      int i = blockPos.getX();
+      int j = blockPos.getY();
+      int k = blockPos.getZ();
+      if (this.entityObj.getDistanceSq(blockPos) > 256.0) {
+         Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3, new Vec3(i + 0.5, j, k + 0.5));
+         if (vec3 != null) {
+            this.entityObj.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 1.0);
          }
       } else {
-         this.entityObj.getNavigator().tryMoveToXYZ(var5 + 0.5, var6, var7 + 0.5, 1.0);
+         this.entityObj.getNavigator().tryMoveToXYZ(i + 0.5, j, k + 0.5, 1.0);
       }
    }
 

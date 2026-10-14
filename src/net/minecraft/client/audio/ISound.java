@@ -27,8 +27,8 @@ public interface ISound {
 
       private final int type;
 
-      AttenuationType(int var3) {
-         this.type = var3;
+      AttenuationType(int typeIn) {
+         this.type = typeIn;
       }
 
       public int getTypeInt() {

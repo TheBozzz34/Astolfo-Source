@@ -61,11 +61,11 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
          return 64;
       }
 
-      int var4 = System.getProperty("os.arch").indexOf("64") != -1 ? 64 : 32;
-      return this.queryBitness(var4);
+      int i = System.getProperty("os.arch").indexOf("64") != -1 ? 64 : 32;
+      return this.queryBitness(i);
    }
 
-   public abstract int queryBitness(int var1);
+   public abstract int queryBitness(int i);
 
    @Override
    public boolean isElevated() {
@@ -79,47 +79,47 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
 
    public abstract boolean queryElevated();
 
-   public List<OSProcess> processSort(List<OSProcess> var1, int var2, OperatingSystem.ProcessSort var3) {
-      if (var3 != null) {
-         switch (var3) {
+   public List<OSProcess> processSort(List<OSProcess> processes, int limit, OperatingSystem.ProcessSort sortIn) {
+      if (sortIn != null) {
+         switch (sortIn) {
             case CPU:
-               var1.sort(CPU_DESC_SORT);
+               processes.sort(CPU_DESC_SORT);
                break;
             case MEMORY:
-               var1.sort(RSS_DESC_SORT);
+               processes.sort(RSS_DESC_SORT);
                break;
             case OLDEST:
-               var1.sort(UPTIME_DESC_SORT);
+               processes.sort(UPTIME_DESC_SORT);
                break;
             case NEWEST:
-               var1.sort(UPTIME_ASC_SORT);
+               processes.sort(UPTIME_ASC_SORT);
                break;
             case PID:
-               var1.sort(PID_ASC_SORT);
+               processes.sort(PID_ASC_SORT);
                break;
             case PARENTPID:
-               var1.sort(PARENTPID_ASC_SORT);
+               processes.sort(PARENTPID_ASC_SORT);
                break;
             case NAME:
-               var1.sort(NAME_ASC_SORT);
+               processes.sort(NAME_ASC_SORT);
                break;
             default:
-               throw new IllegalArgumentException("Unimplemented enum type: " + var3.toString());
+               throw new IllegalArgumentException("Unimplemented enum type: " + sortIn.toString());
          }
       }
 
-      int var7 = var1.size();
-      if (var2 > 0 && var7 > var2) {
-         var7 = var2;
-         ArrayList var8 = new ArrayList();
+      int i = processes.size();
+      if (limit > 0 && i > limit) {
+         i = limit;
+         ArrayList arrayList = new ArrayList();
 
-         for (int var9 = 0; var9 < var7; var9++) {
-            var8.add(var1.get(var9));
+         for (int j = 0; j < i; j++) {
+            arrayList.add(processes.get(j));
          }
 
-         return var8;
+         return arrayList;
       } else {
-         return var1;
+         return processes;
       }
    }
 
@@ -129,56 +129,56 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
    }
 
    @Override
-   public OSProcess[] getProcesses(int var1, OperatingSystem.ProcessSort var2) {
-      return this.getProcesses(var1, var2, false);
+   public OSProcess[] getProcesses(int limit, OperatingSystem.ProcessSort sortIn) {
+      return this.getProcesses(limit, sortIn, false);
    }
 
    @Override
-   public List<OSProcess> getProcesses(Collection<Integer> var1) {
-      return this.getProcesses(var1, true);
+   public List<OSProcess> getProcesses(Collection<Integer> pids) {
+      return this.getProcesses(pids, true);
    }
 
    @Override
-   public List<OSProcess> getProcesses(Collection<Integer> var1, boolean var2) {
-      ArrayList var6 = new ArrayList(var1.size());
+   public List<OSProcess> getProcesses(Collection<Integer> pids, boolean slowFields) {
+      ArrayList arrayList = new ArrayList(pids.size());
 
-      for (Integer var8 : var1) {
-         OSProcess var9 = this.getProcess(var8, var2);
-         if (var9 != null) {
-            var6.add(var9);
+      for (Integer integer : pids) {
+         OSProcess osProcess = this.getProcess(integer, slowFields);
+         if (osProcess != null) {
+            arrayList.add(osProcess);
          }
       }
 
-      return var6;
+      return arrayList;
    }
 
    @Override
-   public OSProcess getProcess(int var1) {
-      return this.getProcess(var1, true);
+   public OSProcess getProcess(int pid) {
+      return this.getProcess(pid, true);
    }
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append(this.getManufacturer()).append(' ').append(this.getFamily()).append(' ').append(this.getVersion().toString());
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append(this.getManufacturer()).append(' ').append(this.getFamily()).append(' ').append(this.getVersion().toString());
+      return stringBuilder.toString();
    }
 
    public static final class FamilyVersionInfo {
       private final String family;
       private final OperatingSystem.OSVersionInfo versionInfo;
 
-      public FamilyVersionInfo(String var1, OperatingSystem.OSVersionInfo var2) {
-         this.family = var1;
-         this.versionInfo = var2;
+      public FamilyVersionInfo(String family, OperatingSystem.OSVersionInfo versionInfo) {
+         this.family = family;
+         this.versionInfo = versionInfo;
       }
 
-      public static String X(AbstractOperatingSystem.FamilyVersionInfo var0) {
-         return var0.family;
+      public static String X(AbstractOperatingSystem.FamilyVersionInfo familyVersionInfo2) {
+         return familyVersionInfo2.family;
       }
 
-      public static OperatingSystem.OSVersionInfo T(AbstractOperatingSystem.FamilyVersionInfo var0) {
-         return var0.versionInfo;
+      public static OperatingSystem.OSVersionInfo T(AbstractOperatingSystem.FamilyVersionInfo familyVersionInfo2) {
+         return familyVersionInfo2.versionInfo;
       }
    }
 }

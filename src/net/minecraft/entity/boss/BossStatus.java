@@ -8,10 +8,10 @@ public final class BossStatus {
    private static final long a = 23815293939922L;
    private static final long b = -4780759592172781468L;
 
-   public static void setBossStatus(IBossDisplayData var0, boolean var1) {
-      healthScale = var0.getHealth() / var0.getMaxHealth();
+   public static void setBossStatus(IBossDisplayData displayData, boolean hasColorModifierIn) {
+      healthScale = displayData.getHealth() / displayData.getMaxHealth();
       statusBarTime = (int)b;
-      bossName = var0.getDisplayName().getFormattedText();
-      hasColorModifier = var1;
+      bossName = displayData.getDisplayName().getFormattedText();
+      hasColorModifier = hasColorModifierIn;
    }
 }

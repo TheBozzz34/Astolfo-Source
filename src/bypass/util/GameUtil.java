@@ -81,96 +81,99 @@ public final class GameUtil implements ClientAccess {
    public static String N = null;
    private static final long b = 10198663265794L;
 
-   public static boolean isPassive(Entity var0) {
-      return var0 instanceof EntityPig
-         || var0 instanceof EntityCow
-         || var0 instanceof EntitySheep
-         || var0 instanceof EntityChicken
-         || var0 instanceof EntitySquid
-         || var0 instanceof EntityBat
-         || var0 instanceof EntityVillager
-         || var0 instanceof EntityOcelot
-         || var0 instanceof EntityHorse
-         || var0 instanceof EntityRabbit && isNormalRabbit(var0);
+   public static boolean isPassive(Entity entity) {
+      return entity instanceof EntityPig
+         || entity instanceof EntityCow
+         || entity instanceof EntitySheep
+         || entity instanceof EntityChicken
+         || entity instanceof EntitySquid
+         || entity instanceof EntityBat
+         || entity instanceof EntityVillager
+         || entity instanceof EntityOcelot
+         || entity instanceof EntityHorse
+         || entity instanceof EntityRabbit && isNormalRabbit(entity);
    }
 
-   public static boolean isNeutral(Entity var0) {
-      return var0 instanceof EntityWolf && isCalmWolf(var0)
-         || var0 instanceof EntityIronGolem && isCalmIronGolem(var0)
-         || var0 instanceof EntityEnderman && isCalmEnderman(var0)
-         || var0 instanceof EntityPigZombie && isCalmPigZombie(var0);
+   public static boolean isNeutral(Entity entity) {
+      return entity instanceof EntityWolf && isCalmWolf(entity)
+         || entity instanceof EntityIronGolem && isCalmIronGolem(entity)
+         || entity instanceof EntityEnderman && isCalmEnderman(entity)
+         || entity instanceof EntityPigZombie && isCalmPigZombie(entity);
    }
 
-   public static boolean isHostile(Entity var0) {
-      return var0 instanceof EntityCreeper
-         || var0 instanceof EntitySkeleton
-         || var0 instanceof EntityZombie && !(var0 instanceof EntityPigZombie)
-         || var0 instanceof EntityBlaze
-         || var0 instanceof EntitySpider
-         || var0 instanceof EntityWitch
-         || var0 instanceof EntitySlime
-         || var0 instanceof EntitySilverfish
-         || var0 instanceof EntityGuardian
-         || var0 instanceof EntityEndermite
-         || var0 instanceof EntityGhast
-         || var0 instanceof EntityWolf && !isCalmWolf(var0)
-         || var0 instanceof EntityPigZombie && !isCalmPigZombie(var0)
-         || var0 instanceof EntityEnderman && !isCalmEnderman(var0)
-         || var0 instanceof EntityRabbit && !isNormalRabbit(var0)
-         || var0 instanceof EntityIronGolem && !isCalmIronGolem(var0);
+   public static boolean isHostile(Entity entity) {
+      return entity instanceof EntityCreeper
+         || entity instanceof EntitySkeleton
+         || entity instanceof EntityZombie && !(entity instanceof EntityPigZombie)
+         || entity instanceof EntityBlaze
+         || entity instanceof EntitySpider
+         || entity instanceof EntityWitch
+         || entity instanceof EntitySlime
+         || entity instanceof EntitySilverfish
+         || entity instanceof EntityGuardian
+         || entity instanceof EntityEndermite
+         || entity instanceof EntityGhast
+         || entity instanceof EntityWolf && !isCalmWolf(entity)
+         || entity instanceof EntityPigZombie && !isCalmPigZombie(entity)
+         || entity instanceof EntityEnderman && !isCalmEnderman(entity)
+         || entity instanceof EntityRabbit && !isNormalRabbit(entity)
+         || entity instanceof EntityIronGolem && !isCalmIronGolem(entity);
    }
 
-   public static boolean isBoss(Entity var0) {
-      return var0 instanceof EntityDragon || var0 instanceof EntityWither || var0 instanceof EntityGiantZombie;
+   public static boolean isBoss(Entity entity) {
+      return entity instanceof EntityDragon || entity instanceof EntityWither || entity instanceof EntityGiantZombie;
    }
 
-   public static boolean isVehicle(Entity var0) {
-      return var0 instanceof EntityBoat || var0 instanceof EntityMinecart;
+   public static boolean isVehicle(Entity entity) {
+      return entity instanceof EntityBoat || entity instanceof EntityMinecart;
    }
 
-   public static boolean isObject(Entity var0) {
-      return var0 instanceof EntityEnderCrystal || var0 instanceof EntityFallingBlock || var0 instanceof EntityFireball || var0 instanceof EntityArmorStand;
+   public static boolean isObject(Entity entity) {
+      return entity instanceof EntityEnderCrystal
+         || entity instanceof EntityFallingBlock
+         || entity instanceof EntityFireball
+         || entity instanceof EntityArmorStand;
    }
 
-   public static boolean isCalmWolf(Entity var0) {
-      return var0 instanceof EntityWolf && !((EntityWolf)var0).isAngry();
+   public static boolean isCalmWolf(Entity entity) {
+      return entity instanceof EntityWolf && !((EntityWolf)entity).isAngry();
    }
 
-   public static boolean isCalmPigZombie(Entity var0) {
-      return var0 instanceof EntityPigZombie && var0.rotationPitch == 0.0F && ((EntityPigZombie)var0).getRevengeTimer() <= 0;
+   public static boolean isCalmPigZombie(Entity entity) {
+      return entity instanceof EntityPigZombie && entity.rotationPitch == 0.0F && ((EntityPigZombie)entity).getRevengeTimer() <= 0;
    }
 
-   public static boolean isCalmIronGolem(Entity var0) {
-      return var0 instanceof EntityIronGolem && var0.rotationPitch == 0.0F;
+   public static boolean isCalmIronGolem(Entity entity) {
+      return entity instanceof EntityIronGolem && entity.rotationPitch == 0.0F;
    }
 
-   public static boolean isCalmEnderman(Entity var0) {
-      return var0 instanceof EntityEnderman && !((EntityEnderman)var0).isScreaming();
+   public static boolean isCalmEnderman(Entity entity) {
+      return entity instanceof EntityEnderman && !((EntityEnderman)entity).isScreaming();
    }
 
-   public static boolean isNormalRabbit(Entity var0) {
-      return var0 instanceof EntityRabbit && ((EntityRabbit)var0).getRabbitType() != 99;
+   public static boolean isNormalRabbit(Entity entity) {
+      return entity instanceof EntityRabbit && ((EntityRabbit)entity).getRabbitType() != 99;
    }
 
-   public static boolean isRemoved(Entity var0) {
-      return var0 == null || !mc.theWorld.loadedEntityList.contains(var0);
+   public static boolean isRemoved(Entity entity) {
+      return entity == null || !mc.theWorld.loadedEntityList.contains(entity);
    }
 
-   public static boolean isDead(EntityLivingBase var0) {
-      return var0.getHealth() == 0.0F || var0.deathTime > 0;
+   public static boolean isDead(EntityLivingBase entityLivingBase) {
+      return entityLivingBase.getHealth() == 0.0F || entityLivingBase.deathTime > 0;
    }
 
-   public static boolean canSee(Entity var0) {
-      for (int var4 = -1; var4 < 2; var4++) {
-         for (int var5 = -1; var5 < 2; var5++) {
-            for (int var6 = -1; var6 < 2; var6++) {
-               double var7 = var4 / 1.8;
-               double var9 = var5 / 1.8;
-               double var11 = var6 / 1.8;
+   public static boolean canSee(Entity entity) {
+      for (int i = -1; i < 2; i++) {
+         for (int j = -1; j < 2; j++) {
+            for (int k = -1; k < 2; k++) {
+               double d = i / 1.8;
+               double e = j / 1.8;
+               double d2 = k / 1.8;
                if (mc.theWorld
                      .rayTraceBlocks(
                         new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ),
-                        new Vec3(var0.posX + var7, var0.posY + var9 + var0.getEyeHeight(), var11 + var0.posZ)
+                        new Vec3(entity.posX + d, entity.posY + e + entity.getEyeHeight(), d2 + entity.posZ)
                      )
                   == null) {
                   return true;
@@ -182,23 +185,30 @@ public final class GameUtil implements ClientAccess {
       return false;
    }
 
-   public static boolean isOverLiquid(AxisAlignedBB var0) {
-      AxisAlignedBB var1 = new AxisAlignedBB(var0.minX + 0.305, var0.minY - 0.1, var0.minZ + 0.305, var0.maxX - 0.305, var0.maxY, var0.maxZ - 0.305);
-      Block var2 = mc.theWorld.getBlockState(new BlockPos(var1.minX, var1.minY, var1.minZ)).getBlock();
-      return var2 instanceof BlockLiquid;
+   public static boolean isOverLiquid(AxisAlignedBB axisAlignedBB) {
+      AxisAlignedBB axisAlignedBB2 = new AxisAlignedBB(
+         axisAlignedBB.minX + 0.305,
+         axisAlignedBB.minY - 0.1,
+         axisAlignedBB.minZ + 0.305,
+         axisAlignedBB.maxX - 0.305,
+         axisAlignedBB.maxY,
+         axisAlignedBB.maxZ - 0.305
+      );
+      Block block = mc.theWorld.getBlockState(new BlockPos(axisAlignedBB2.minX, axisAlignedBB2.minY, axisAlignedBB2.minZ)).getBlock();
+      return block instanceof BlockLiquid;
    }
 
-   public static boolean isHoldingSword(EntityPlayer var0) {
-      return var0.getCurrentEquippedItem() != null ? var0.getCurrentEquippedItem().getItem() instanceof ItemSword : false;
+   public static boolean isHoldingSword(EntityPlayer entityPlayer) {
+      return entityPlayer.getCurrentEquippedItem() != null ? entityPlayer.getCurrentEquippedItem().getItem() instanceof ItemSword : false;
    }
 
-   public static int getLatencyAdjustedHurtTime(EntityLivingBase var0) {
-      return var0.hurtTime - MathHelper.ceiling_float_int((float)ServerRotationTracker.U() / 50.0F);
+   public static int getLatencyAdjustedHurtTime(EntityLivingBase entityLivingBase) {
+      return entityLivingBase.hurtTime - MathHelper.ceiling_float_int((float)ServerRotationTracker.U() / 50.0F);
    }
 
    public static boolean N() {
-      long var0 = b ^ 33165469906170L;
-      long var2 = var0 ^ 35290612201291L;
+      long l = b ^ 33165469906170L;
+      long m = l ^ 35290612201291L;
       return !mc.thePlayer.isOnLadder()
          && !mc.thePlayer.isInWater()
          && !mc.thePlayer.isPotionActive(Potion.blindness)
@@ -210,11 +220,11 @@ public final class GameUtil implements ClientAccess {
          && !isOverLiquid(mc.thePlayer.getEntityBoundingBox());
    }
 
-   public static boolean isOnServer(String var0) {
+   public static boolean isOnServer(String string) {
       return mc.isSingleplayer()
          ? false
-         : mc.getCurrentServerData() != null && mc.getCurrentServerData().serverIP.toLowerCase().contains(var0)
-            || mc.thePlayer.getClientBrand() != null && mc.thePlayer.getClientBrand().toLowerCase().contains(var0);
+         : mc.getCurrentServerData() != null && mc.getCurrentServerData().serverIP.toLowerCase().contains(string)
+            || mc.thePlayer.getClientBrand() != null && mc.thePlayer.getClientBrand().toLowerCase().contains(string);
    }
 
    public static boolean isOnHypixel() {
@@ -226,47 +236,47 @@ public final class GameUtil implements ClientAccess {
    }
 
    public static boolean P() {
-      ServerData var3 = mc.getCurrentServerData();
-      return var3 != null && E.matcher(var3.serverIP).find();
+      ServerData serverData = mc.getCurrentServerData();
+      return serverData != null && E.matcher(serverData.serverIP).find();
    }
 
-   public static boolean isMoving(Entity var0) {
-      return var0 == mc.thePlayer
+   public static boolean isMoving(Entity entity) {
+      return entity == mc.thePlayer
          ? mc.gameSettings.keyBindForward.pressed
             || mc.gameSettings.keyBindBack.pressed
             || mc.gameSettings.keyBindRight.pressed
             || mc.gameSettings.keyBindLeft.pressed
-         : var0.posX != var0.lastTickPosX || var0.posY != var0.lastTickPosY || var0.posZ != var0.lastTickPosZ;
+         : entity.posX != entity.lastTickPosX || entity.posY != entity.lastTickPosY || entity.posZ != entity.lastTickPosZ;
    }
 
-   public static boolean S(Entity var0) {
-      if (!(var0 instanceof EntityLivingBase)) {
+   public static boolean S(Entity entity) {
+      if (!(entity instanceof EntityLivingBase)) {
          return false;
       }
 
-      EntityLivingBase var4 = (EntityLivingBase)var0;
-      if (var0 instanceof EntityPlayer) {
-         EntityPlayer var5 = (EntityPlayer)var0;
-         boolean var6 = false;
+      EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+      if (entity instanceof EntityPlayer) {
+         EntityPlayer entityPlayer = (EntityPlayer)entity;
+         boolean bl = false;
 
-         for (ItemStack var10 : var5.inventory.armorInventory) {
-            if (var10 != null) {
-               var6 = true;
+         for (ItemStack itemStack : entityPlayer.inventory.armorInventory) {
+            if (itemStack != null) {
+               bl = true;
             }
          }
 
-         return r_boolean(var4) && !isHoldingItem(var4) && !var6;
+         return r_boolean(entityLivingBase) && !isHoldingItem(entityLivingBase) && !bl;
       } else {
-         return r_boolean(var4) && !isHoldingItem(var4);
+         return r_boolean(entityLivingBase) && !isHoldingItem(entityLivingBase);
       }
    }
 
-   public static boolean isHoldingItem(EntityLivingBase var0) {
-      return var0 != null && var0.getHeldItem() != null;
+   public static boolean isHoldingItem(EntityLivingBase entityLivingBase) {
+      return entityLivingBase != null && entityLivingBase.getHeldItem() != null;
    }
 
-   public static boolean r_boolean(EntityLivingBase var0) {
-      return var0.isInvisibleToPlayer(mc.thePlayer);
+   public static boolean r_boolean(EntityLivingBase entityLivingBase) {
+      return entityLivingBase.isInvisibleToPlayer(mc.thePlayer);
    }
 
    public static String getScoreboardTitle() {
@@ -274,26 +284,26 @@ public final class GameUtil implements ClientAccess {
          return "";
       }
 
-      Scoreboard var3 = mc.theWorld.getScoreboard();
-      if (var3 == null) {
+      Scoreboard scoreboard = mc.theWorld.getScoreboard();
+      if (scoreboard == null) {
          return "";
       }
 
-      ScoreObjective var4 = null;
-      ScorePlayerTeam var5 = var3.getPlayersTeam(mc.thePlayer.getName());
-      if (var5 != null && var5.getChatFormat() != null) {
-         int var6 = var5.getChatFormat().getColorIndex();
-         if (var6 >= 0) {
-            var4 = var3.getObjectiveInDisplaySlot(3 + var6);
+      ScoreObjective scoreObjective = null;
+      ScorePlayerTeam scorePlayerTeam = scoreboard.getPlayersTeam(mc.thePlayer.getName());
+      if (scorePlayerTeam != null && scorePlayerTeam.getChatFormat() != null) {
+         int i = scorePlayerTeam.getChatFormat().getColorIndex();
+         if (i >= 0) {
+            scoreObjective = scoreboard.getObjectiveInDisplaySlot(3 + i);
          }
       }
 
-      ScoreObjective var7 = var4 != null ? var4 : var3.getObjectiveInDisplaySlot(1);
-      return var7 == null ? "" : StringUtils.stripControlCodes(var7.getDisplayName());
+      ScoreObjective scoreObjective2 = scoreObjective != null ? scoreObjective : scoreboard.getObjectiveInDisplaySlot(1);
+      return scoreObjective2 == null ? "" : StringUtils.stripControlCodes(scoreObjective2.getDisplayName());
    }
 
-   public static boolean scoreboardTitleContains(String var0) {
-      return getScoreboardTitle().contains(var0);
+   public static boolean scoreboardTitleContains(String string) {
+      return getScoreboardTitle().contains(string);
    }
 
    private static boolean hasSidebar() {
@@ -301,206 +311,206 @@ public final class GameUtil implements ClientAccess {
          return false;
       }
 
-      Scoreboard var3 = mc.theWorld.getScoreboard();
-      if (var3 == null) {
+      Scoreboard scoreboard = mc.theWorld.getScoreboard();
+      if (scoreboard == null) {
          return false;
       }
 
-      ScoreObjective var4 = null;
-      ScorePlayerTeam var5 = var3.getPlayersTeam(mc.thePlayer.getName());
-      if (var5 != null && var5.getChatFormat() != null) {
-         int var6 = var5.getChatFormat().getColorIndex();
-         if (var6 >= 0) {
-            var4 = var3.getObjectiveInDisplaySlot(3 + var6);
+      ScoreObjective scoreObjective = null;
+      ScorePlayerTeam scorePlayerTeam = scoreboard.getPlayersTeam(mc.thePlayer.getName());
+      if (scorePlayerTeam != null && scorePlayerTeam.getChatFormat() != null) {
+         int i = scorePlayerTeam.getChatFormat().getColorIndex();
+         if (i >= 0) {
+            scoreObjective = scoreboard.getObjectiveInDisplaySlot(3 + i);
          }
       }
 
-      ScoreObjective var7 = var4 != null ? var4 : var3.getObjectiveInDisplaySlot(1);
-      return var7 != null;
+      ScoreObjective scoreObjective2 = scoreObjective != null ? scoreObjective : scoreboard.getObjectiveInDisplaySlot(1);
+      return scoreObjective2 != null;
    }
 
-   public static MovingObjectPosition A(float var0, float var1, double var2) {
-      Entity var7 = null;
-      double var9 = var2;
-      MovingObjectPosition var8;
-      MovingObjectPosition var11 = var8 = rayTraceBlocks(var2, var0, var1);
-      Vec3 var12 = mc.thePlayer.getPositionEyes(1.0F);
-      if (var11 != null) {
-         var9 = var11.hitVec.distanceTo(var12);
+   public static MovingObjectPosition A(float f, float g, double d) {
+      Entity entity = null;
+      double e = d;
+      MovingObjectPosition movingObjectPosition;
+      MovingObjectPosition movingObjectPosition2 = movingObjectPosition = rayTraceBlocks(d, f, g);
+      Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
+      if (movingObjectPosition2 != null) {
+         e = movingObjectPosition2.hitVec.distanceTo(vec3);
       }
 
-      Vec3 var13 = mc.thePlayer.getVectorForRotation(var1, var0);
-      Vec3 var14 = var12.addVector(var13.xCoord * var2, var13.yCoord * var2, var13.zCoord * var2);
-      Vec3 var15 = null;
-      List var16 = mc.theWorld
+      Vec3 vec32 = mc.thePlayer.getVectorForRotation(g, f);
+      Vec3 vec33 = vec3.addVector(vec32.xCoord * d, vec32.yCoord * d, vec32.zCoord * d);
+      Vec3 vec34 = null;
+      List list = mc.theWorld
          .getEntitiesInAABBexcluding(
             mc.thePlayer,
-            mc.thePlayer.getEntityBoundingBox().addCoord(var13.xCoord * var2, var13.yCoord * var2, var13.zCoord * var2).expand(1.0, 1.0, 1.0),
+            mc.thePlayer.getEntityBoundingBox().addCoord(vec32.xCoord * d, vec32.yCoord * d, vec32.zCoord * d).expand(1.0, 1.0, 1.0),
             Predicates.and(EntitySelectors.NOT_SPECTATING)
          );
-      double var17 = var9;
+      double d2 = e;
 
-      for (Object var20$raw : var16) {
-         Entity var20 = (Entity)var20$raw;
-         float var21 = var20.getCollisionBorderSize();
-         AxisAlignedBB var22 = var20.getEntityBoundingBox().expand(var21, var21, var21);
-         MovingObjectPosition var23 = var22.calculateIntercept(var12, var14);
-         if (var22.isVecInside(var12)) {
-            if (var17 >= 0.0) {
-               var7 = var20;
-               var15 = var23 == null ? var12 : var23.hitVec;
-               var17 = 0.0;
+      for (Object object : list) {
+         Entity entity2 = (Entity)object;
+         float h = entity2.getCollisionBorderSize();
+         AxisAlignedBB axisAlignedBB = entity2.getEntityBoundingBox().expand(h, h, h);
+         MovingObjectPosition movingObjectPosition3 = axisAlignedBB.calculateIntercept(vec3, vec33);
+         if (axisAlignedBB.isVecInside(vec3)) {
+            if (d2 >= 0.0) {
+               entity = entity2;
+               vec34 = movingObjectPosition3 == null ? vec3 : movingObjectPosition3.hitVec;
+               d2 = 0.0;
             }
-         } else if (var23 != null) {
-            double var24 = var12.distanceTo(var23.hitVec);
-            if (var24 < var17 || var17 == 0.0) {
-               boolean var26 = false;
+         } else if (movingObjectPosition3 != null) {
+            double d3 = vec3.distanceTo(movingObjectPosition3.hitVec);
+            if (d3 < d2 || d2 == 0.0) {
+               boolean bl = false;
                if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-                  var26 = Reflector.callBoolean(var20, Reflector.ForgeEntity_canRiderInteract);
+                  bl = Reflector.callBoolean(entity2, Reflector.ForgeEntity_canRiderInteract);
                }
 
-               if (var20 != var20.ridingEntity || var26) {
-                  var7 = var20;
-                  var15 = var23.hitVec;
-                  var17 = var24;
-               } else if (var17 == 0.0) {
-                  var7 = var20;
-                  var15 = var23.hitVec;
+               if (entity2 != entity2.ridingEntity || bl) {
+                  entity = entity2;
+                  vec34 = movingObjectPosition3.hitVec;
+                  d2 = d3;
+               } else if (d2 == 0.0) {
+                  entity = entity2;
+                  vec34 = movingObjectPosition3.hitVec;
                }
             }
          }
       }
 
-      if (var7 != null && var12.distanceTo(var15) > var2) {
-         var7 = null;
-         var8 = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, var15, null, new BlockPos(var15));
+      if (entity != null && vec3.distanceTo(vec34) > d) {
+         entity = null;
+         movingObjectPosition = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec34, null, new BlockPos(vec34));
       }
 
-      if ((var7 instanceof EntityLivingBase || var7 instanceof EntityFallingBlock) && (var17 < var9 || var11 == null)) {
-         var8 = new MovingObjectPosition(var7, var15);
+      if ((entity instanceof EntityLivingBase || entity instanceof EntityFallingBlock) && (d2 < e || movingObjectPosition2 == null)) {
+         movingObjectPosition = new MovingObjectPosition(entity, vec34);
       }
 
-      return var8;
+      return movingObjectPosition;
    }
 
-   public static MovingObjectPosition V(float var0, float var1, double var2) {
-      Entity var8 = null;
-      double var10 = mc.playerController.getBlockReachDistance();
-      double var12 = var10;
-      boolean var14 = false;
-      MovingObjectPosition var9;
-      MovingObjectPosition var15 = var9 = rayTraceBlocks(var10, var0, var1);
-      Vec3 var16 = mc.thePlayer.getPositionEyes(1.0F);
+   public static MovingObjectPosition V(float f, float g, double d) {
+      Entity entity = null;
+      double e = mc.playerController.getBlockReachDistance();
+      double d2 = e;
+      boolean bl = false;
+      MovingObjectPosition movingObjectPosition;
+      MovingObjectPosition movingObjectPosition2 = movingObjectPosition = rayTraceBlocks(e, f, g);
+      Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
       if (mc.playerController.L()) {
-         var10 = 6.0;
-         var12 = 6.0;
-      } else if (var10 > 3.0) {
-         var14 = true;
+         e = 6.0;
+         d2 = 6.0;
+      } else if (e > 3.0) {
+         bl = true;
       }
 
-      if (var15 != null) {
-         var12 = var15.hitVec.distanceTo(var16);
+      if (movingObjectPosition2 != null) {
+         d2 = movingObjectPosition2.hitVec.distanceTo(vec3);
       }
 
-      Vec3 var17 = mc.thePlayer.getVectorForRotation(var1, var0);
-      Vec3 var18 = var16.addVector(var17.xCoord * var10, var17.yCoord * var10, var17.zCoord * var10);
-      Vec3 var19 = null;
-      List var20 = mc.theWorld
+      Vec3 vec32 = mc.thePlayer.getVectorForRotation(g, f);
+      Vec3 vec33 = vec3.addVector(vec32.xCoord * e, vec32.yCoord * e, vec32.zCoord * e);
+      Vec3 vec34 = null;
+      List list = mc.theWorld
          .getEntitiesInAABBexcluding(
             mc.thePlayer,
-            mc.thePlayer.getEntityBoundingBox().addCoord(var17.xCoord * var10, var17.yCoord * var10, var17.zCoord * var10).expand(1.0, 1.0, 1.0),
+            mc.thePlayer.getEntityBoundingBox().addCoord(vec32.xCoord * e, vec32.yCoord * e, vec32.zCoord * e).expand(1.0, 1.0, 1.0),
             Predicates.and(EntitySelectors.NOT_SPECTATING)
          );
-      double var21 = var12;
+      double d3 = d2;
 
-      for (Object var24$raw : var20) {
-         Entity var24 = (Entity)var24$raw;
-         float var25 = var24.getCollisionBorderSize();
-         AxisAlignedBB var26 = var24.getEntityBoundingBox().expand(var25, var25, var25);
-         MovingObjectPosition var27 = var26.calculateIntercept(var16, var18);
-         if (var26.isVecInside(var16)) {
-            if (var21 >= 0.0) {
-               var8 = var24;
-               var19 = var27 == null ? var16 : var27.hitVec;
-               var21 = 0.0;
+      for (Object object : list) {
+         Entity entity2 = (Entity)object;
+         float h = entity2.getCollisionBorderSize();
+         AxisAlignedBB axisAlignedBB = entity2.getEntityBoundingBox().expand(h, h, h);
+         MovingObjectPosition movingObjectPosition3 = axisAlignedBB.calculateIntercept(vec3, vec33);
+         if (axisAlignedBB.isVecInside(vec3)) {
+            if (d3 >= 0.0) {
+               entity = entity2;
+               vec34 = movingObjectPosition3 == null ? vec3 : movingObjectPosition3.hitVec;
+               d3 = 0.0;
             }
-         } else if (var27 != null) {
-            double var28 = var16.distanceTo(var27.hitVec);
-            if (var28 < var21 || var21 == 0.0) {
-               boolean var30 = false;
+         } else if (movingObjectPosition3 != null) {
+            double d4 = vec3.distanceTo(movingObjectPosition3.hitVec);
+            if (d4 < d3 || d3 == 0.0) {
+               boolean bl2 = false;
                if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-                  var30 = Reflector.callBoolean(var24, Reflector.ForgeEntity_canRiderInteract);
+                  bl2 = Reflector.callBoolean(entity2, Reflector.ForgeEntity_canRiderInteract);
                }
 
-               if (var24 != var24.ridingEntity || var30) {
-                  var8 = var24;
-                  var19 = var27.hitVec;
-                  var21 = var28;
-               } else if (var21 == 0.0) {
-                  var8 = var24;
-                  var19 = var27.hitVec;
+               if (entity2 != entity2.ridingEntity || bl2) {
+                  entity = entity2;
+                  vec34 = movingObjectPosition3.hitVec;
+                  d3 = d4;
+               } else if (d3 == 0.0) {
+                  entity = entity2;
+                  vec34 = movingObjectPosition3.hitVec;
                }
             }
          }
       }
 
-      if (var8 != null && var14 && var16.distanceTo(var19) > var2) {
-         var8 = null;
-         var9 = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, var19, null, new BlockPos(var19));
+      if (entity != null && bl && vec3.distanceTo(vec34) > d) {
+         entity = null;
+         movingObjectPosition = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec34, null, new BlockPos(vec34));
       }
 
-      if (var8 != null && (var21 < var12 || var15 == null)) {
-         var9 = new MovingObjectPosition(var8, var19);
+      if (entity != null && (d3 < d2 || movingObjectPosition2 == null)) {
+         movingObjectPosition = new MovingObjectPosition(entity, vec34);
       }
 
-      return var9;
+      return movingObjectPosition;
    }
 
-   private static MovingObjectPosition rayTraceBlocks(double var0, float var2, float var3) {
-      Vec3 var4 = mc.thePlayer.getPositionEyes(1.0F);
-      Vec3 var5 = mc.thePlayer.getVectorForRotation(var3, var2);
-      Vec3 var6 = var4.addVector(var5.xCoord * var0, var5.yCoord * var0, var5.zCoord * var0);
-      return mc.theWorld.rayTraceBlocks(var4, var6, false, false, true);
+   private static MovingObjectPosition rayTraceBlocks(double d, float f, float g) {
+      Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
+      Vec3 vec32 = mc.thePlayer.getVectorForRotation(g, f);
+      Vec3 vec33 = vec3.addVector(vec32.xCoord * d, vec32.yCoord * d, vec32.zCoord * d);
+      return mc.theWorld.rayTraceBlocks(vec3, vec33, false, false, true);
    }
 
-   public static void setMoveSpeed(MoveEvent var0, double var1, float var3) {
-      double var7 = mc.thePlayer.movementInput.moveForward;
-      double var9 = mc.thePlayer.movementInput.moveStrafe;
-      float var11 = mc.thePlayer.rotationYaw;
-      if (var7 == 0.0 && var9 == 0.0) {
-         var0.setX(0.0);
-         var0.setZ(0.0);
+   public static void setMoveSpeed(MoveEvent moveEvent, double d, float f) {
+      double e = mc.thePlayer.movementInput.moveForward;
+      double d2 = mc.thePlayer.movementInput.moveStrafe;
+      float g = mc.thePlayer.rotationYaw;
+      if (e == 0.0 && d2 == 0.0) {
+         moveEvent.setX(0.0);
+         moveEvent.setZ(0.0);
       } else {
-         if (var7 != 0.0) {
-            if (var9 > 0.0) {
-               var11 += var7 > 0.0 ? -45 : 45;
-            } else if (var9 < 0.0) {
-               var11 += var7 > 0.0 ? 45 : -45;
+         if (e != 0.0) {
+            if (d2 > 0.0) {
+               g += e > 0.0 ? -45 : 45;
+            } else if (d2 < 0.0) {
+               g += e > 0.0 ? 45 : -45;
             }
 
-            var9 = 0.0;
-            if (var7 > 0.0) {
-               var7 = 1.0;
-            } else if (var7 < 0.0) {
-               var7 = -1.0;
+            d2 = 0.0;
+            if (e > 0.0) {
+               e = 1.0;
+            } else if (e < 0.0) {
+               e = -1.0;
             }
          }
 
-         double var12 = Math.cos(Math.toRadians(var11 + var3));
-         double var14 = Math.sin(Math.toRadians(var11 + var3));
-         var0.setX((var7 * var1 * var12 + var9 * var1 * var14) * 0.99);
-         var0.setZ((var7 * var1 * var14 - var9 * var1 * var12) * 0.99);
+         double d3 = Math.cos(Math.toRadians(g + f));
+         double d4 = Math.sin(Math.toRadians(g + f));
+         moveEvent.setX((e * d * d3 + d2 * d * d4) * 0.99);
+         moveEvent.setZ((e * d * d4 - d2 * d * d3) * 0.99);
       }
    }
 
-   public static int j(ItemStack var0) {
-      if (var0.getItem() instanceof ItemArmor) {
-         ItemArmor var4 = (ItemArmor)var0.getItem();
-         if (var4.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
-            return var4.getColor(var0);
+   public static int j(ItemStack itemStack) {
+      if (itemStack.getItem() instanceof ItemArmor) {
+         ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
+         if (itemArmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
+            return itemArmor.getColor(itemStack);
          }
 
-         switch (var4.getArmorMaterial()) {
+         switch (itemArmor.getArmorMaterial()) {
             case DIAMOND:
                return -7740176;
             case IRON:
@@ -515,63 +525,63 @@ public final class GameUtil implements ClientAccess {
       return -1;
    }
 
-   public static Block getBlock(BlockPos var0) {
-      return mc.theWorld.getBlockState(var0).getBlock();
+   public static Block getBlock(BlockPos blockPos) {
+      return mc.theWorld.getBlockState(blockPos).getBlock();
    }
 
-   public static Block getBlock(double var0, double var2, double var4) {
-      return mc.theWorld.getBlockState(new BlockPos((int)Math.floor(var0), (int)Math.floor(var2), (int)Math.floor(var4))).getBlock();
+   public static Block getBlock(double d, double d2, double d3) {
+      return mc.theWorld.getBlockState(new BlockPos((int)Math.floor(d), (int)Math.floor(d2), (int)Math.floor(d3))).getBlock();
    }
 
    public static Block getBlockAtPlayer() {
       return getBlockAtPlayer(0.0);
    }
 
-   public static Block getBlockAtPlayer(double var0) {
-      return getBlock(mc.thePlayer.posX, mc.thePlayer.posY + var0, mc.thePlayer.posZ);
+   public static Block getBlockAtPlayer(double d) {
+      return getBlock(mc.thePlayer.posX, mc.thePlayer.posY + d, mc.thePlayer.posZ);
    }
 
-   public static int getHealthColorRGB(EntityLivingBase var0) {
-      int var3 = 100 - (int)var0.getHealth() * 100 / (int)var0.getMaxHealth();
-      int var4 = 255 * var3 / 100;
-      int var5 = 255 * (100 - var3) / 100;
-      var4 = MathHelper.clamp_int(var4, 0, 255);
-      var5 = MathHelper.clamp_int(var5, 0, 255);
-      return new Color(var4, var5, 0).getRGB();
+   public static int getHealthColorRGB(EntityLivingBase entityLivingBase) {
+      int i = 100 - (int)entityLivingBase.getHealth() * 100 / (int)entityLivingBase.getMaxHealth();
+      int j = 255 * i / 100;
+      int k = 255 * (100 - i) / 100;
+      j = MathHelper.clamp_int(j, 0, 255);
+      k = MathHelper.clamp_int(k, 0, 255);
+      return new Color(j, k, 0).getRGB();
    }
 
-   public static Color getHealthColor(EntityLivingBase var0) {
-      int var3 = 100 - (int)var0.getHealth() * 100 / (int)var0.getMaxHealth();
-      int var4 = 255 * var3 / 100;
-      int var5 = 255 * (100 - var3) / 100;
-      var4 = MathHelper.clamp_int(var4, 0, 255);
-      var5 = MathHelper.clamp_int(var5, 0, 255);
-      return new Color(var4, var5, 0);
+   public static Color getHealthColor(EntityLivingBase entityLivingBase) {
+      int i = 100 - (int)entityLivingBase.getHealth() * 100 / (int)entityLivingBase.getMaxHealth();
+      int j = 255 * i / 100;
+      int k = 255 * (100 - i) / 100;
+      j = MathHelper.clamp_int(j, 0, 255);
+      k = MathHelper.clamp_int(k, 0, 255);
+      return new Color(j, k, 0);
    }
 
-   private static String getColorCode(EntityPlayer var0) {
-      Matcher var4 = Q.matcher(var0.getDisplayName().getFormattedText());
-      return var4.find() ? var4.group(1) : "f";
+   private static String getColorCode(EntityPlayer entityPlayer) {
+      Matcher matcher2 = Q.matcher(entityPlayer.getDisplayName().getFormattedText());
+      return matcher2.find() ? matcher2.group(1) : "f";
    }
 
-   private static String getColorCode(String var0) {
-      Matcher var4 = Q.matcher(var0);
-      return var4.find() ? var4.group(1) : "f";
+   private static String getColorCode(String string) {
+      Matcher matcher2 = Q.matcher(string);
+      return matcher2.find() ? matcher2.group(1) : "f";
    }
 
-   public static boolean O(EntityPlayer var0, EntityLivingBase var1) {
-      if (var1.getDisplayName() == null) {
+   public static boolean O(EntityPlayer entityPlayer, EntityLivingBase entityLivingBase) {
+      if (entityLivingBase.getDisplayName() == null) {
          return false;
       }
 
       if (N == null || mc.thePlayer.ticksExisted % 214 == 0) {
-         AbstractClientPlayer var5 = (AbstractClientPlayer)var0;
-         if (var5.getPlayerInfo() != null && !Objects.equals(var5.getPlayerInfo().getGameProfile().getName(), mc.thePlayer.getName())) {
-            for (NetworkPlayerInfo var8 : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap())) {
-               if (var8.getGameProfile().getName().equals(var5.getPlayerInfo().getGameProfile().getName())) {
-                  N = var8.getDisplayName() != null
-                     ? var8.getDisplayName().getFormattedText()
-                     : ScorePlayerTeam.formatPlayerName(var8.getPlayerTeam(), var8.getGameProfile().getName());
+         AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entityPlayer;
+         if (abstractClientPlayer.getPlayerInfo() != null && !Objects.equals(abstractClientPlayer.getPlayerInfo().getGameProfile().getName(), mc.thePlayer.getName())) {
+            for (NetworkPlayerInfo networkPlayerInfo : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap())) {
+               if (networkPlayerInfo.getGameProfile().getName().equals(abstractClientPlayer.getPlayerInfo().getGameProfile().getName())) {
+                  N = networkPlayerInfo.getDisplayName() != null
+                     ? networkPlayerInfo.getDisplayName().getFormattedText()
+                     : ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());
                   N = N + "§r";
                   break;
                }
@@ -580,8 +590,8 @@ public final class GameUtil implements ClientAccess {
       }
 
       return N != null
-         ? N.contains("§" + getColorCode(N)) && var1.getDisplayName().getFormattedText().contains("§" + getColorCode(N))
-         : var0.getDisplayName().getFormattedText().contains("§" + getColorCode(var0))
-            && var1.getDisplayName().getFormattedText().contains("§" + getColorCode(var0));
+         ? N.contains("§" + getColorCode(N)) && entityLivingBase.getDisplayName().getFormattedText().contains("§" + getColorCode(N))
+         : entityPlayer.getDisplayName().getFormattedText().contains("§" + getColorCode(entityPlayer))
+            && entityLivingBase.getDisplayName().getFormattedText().contains("§" + getColorCode(entityPlayer));
    }
 }

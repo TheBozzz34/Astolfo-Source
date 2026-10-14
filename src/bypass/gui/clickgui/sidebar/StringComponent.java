@@ -13,22 +13,22 @@ public class StringComponent extends SidebarSettingComponent {
    private boolean T;
    private static final long d = 21925982432868L;
 
-   public StringComponent(ModuleButton var1, Setting var2, float var3, float var4, int var5, int var6) {
-      super(var1, var2, var3, var4, var5, var6);
+   public StringComponent(ModuleButton moduleButton, Setting setting, float g, float h, int i, int j) {
+      super(moduleButton, setting, g, h, i, j);
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 0 && this.y()) {
+   public void l(int i) {
+      if (i == 0 && this.y()) {
          this.T = true;
       }
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = d ^ 5492398223382L;
-      long var5 = var3 ^ 8972929756414L;
-      if (Mouse.isButtonDown(0) && !this.G(var1, var2)) {
+   public void render(int i, int j) {
+      long l = d ^ 5492398223382L;
+      long m = l ^ 8972929756414L;
+      if (Mouse.isButtonDown(0) && !this.G(i, j)) {
          this.T = false;
       }
 
@@ -43,25 +43,25 @@ public class StringComponent extends SidebarSettingComponent {
    }
 
    @Override
-   public void P(char var1, int var2) {
+   public void P(char c, int i) {
       if (this.T) {
-         StringSetting var6 = this.c();
-         if (GuiScreen.isKeyComboCtrlV(var2)) {
-            var6.setValue(var6.getValue() + GuiScreen.getClipboardString());
+         StringSetting stringSetting = this.c();
+         if (GuiScreen.isKeyComboCtrlV(i)) {
+            stringSetting.setValue(stringSetting.getValue() + GuiScreen.getClipboardString());
          } else {
-            switch (var2) {
+            switch (i) {
                case 14:
-                  if (!StringUtils.isNullOrEmpty(var6.getValue())) {
-                     var6.setValue(var6.getValue().substring(0, var6.getValue().length() - 1));
+                  if (!StringUtils.isNullOrEmpty(stringSetting.getValue())) {
+                     stringSetting.setValue(stringSetting.getValue().substring(0, stringSetting.getValue().length() - 1));
                   }
                   break;
                default:
-                  if (ChatAllowedCharacters.isAllowedCharacter(var1)) {
-                     var6.setValue(var6.getValue() + var1);
+                  if (ChatAllowedCharacters.isAllowedCharacter(c)) {
+                     stringSetting.setValue(stringSetting.getValue() + c);
                   }
             }
 
-            super.P(var1, var2);
+            super.P(c, i);
          }
       }
    }

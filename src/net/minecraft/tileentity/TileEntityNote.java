@@ -13,15 +13,15 @@ public class TileEntityNote extends TileEntity {
    private static final long a = 108558324406126L;
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      var1.setByte("note", this.note);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      compound.setByte("note", this.note);
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      this.note = var1.getByte("note");
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      this.note = compound.getByte("note");
       this.note = (byte)MathHelper.clamp_int(this.note, 0, 24);
    }
 
@@ -30,27 +30,27 @@ public class TileEntityNote extends TileEntity {
       this.markDirty();
    }
 
-   public void triggerNote(World var1, BlockPos var2) {
-      if (var1.getBlockState(var2.up()).getBlock().getMaterial() == Material.air) {
-         Material var6 = var1.getBlockState(var2.down()).getBlock().getMaterial();
-         byte var7 = 0;
-         if (var6 == Material.rock) {
-            var7 = 1;
+   public void triggerNote(World worldIn, BlockPos blockPos) {
+      if (worldIn.getBlockState(blockPos.up()).getBlock().getMaterial() == Material.air) {
+         Material material = worldIn.getBlockState(blockPos.down()).getBlock().getMaterial();
+         byte b = 0;
+         if (material == Material.rock) {
+            b = 1;
          }
 
-         if (var6 == Material.sand) {
-            var7 = 2;
+         if (material == Material.sand) {
+            b = 2;
          }
 
-         if (var6 == Material.glass) {
-            var7 = 3;
+         if (material == Material.glass) {
+            b = 3;
          }
 
-         if (var6 == Material.wood) {
-            var7 = 4;
+         if (material == Material.wood) {
+            b = 4;
          }
 
-         var1.addBlockEvent(var2, Blocks.noteblock, var7, this.note);
+         worldIn.addBlockEvent(blockPos, Blocks.noteblock, b, this.note);
       }
    }
 }

@@ -5,9 +5,9 @@ public class IrcMessage {
    public String sender;
    public String message;
 
-   public IrcMessage(IrcMessageType var1, String var2, String var3) {
-      this.type = var1;
-      this.sender = var2;
-      this.message = var3;
+   public IrcMessage(IrcMessageType ircMessageType, String string, String string2) {
+      this.type = ircMessageType;
+      this.sender = string;
+      this.message = string2;
    }
 }

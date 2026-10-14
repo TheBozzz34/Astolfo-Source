@@ -9,37 +9,37 @@ public final class WorldToScreen extends VarArgFunction {
    private static final long a = 82273072128268L;
 
    @Override
-   public Varargs invoke(Varargs var1) {
-      float var5 = 0.0F;
-      float var6 = 0.0F;
-      float var7 = 0.0F;
-      if (var1.narg() < 3) {
+   public Varargs invoke(Varargs varargs) {
+      float f = 0.0F;
+      float g = 0.0F;
+      float h = 0.0F;
+      if (varargs.narg() < 3) {
          return valueOf(false);
       }
 
-      int var8 = 1;
+      int i = 1;
 
-      for (int var9 = var1.narg(); var8 <= var9; var8++) {
-         LuaValue var10 = var1.checkvalue(var8);
-         switch (var8) {
+      for (int j = varargs.narg(); i <= j; i++) {
+         LuaValue luaValue = varargs.checkvalue(i);
+         switch (i) {
             case 1:
-               if (var10.isnumber()) {
-                  var5 = var10.tofloat();
+               if (luaValue.isnumber()) {
+                  f = luaValue.tofloat();
                }
                break;
             case 2:
-               if (var10.isnumber()) {
-                  var6 = var10.tofloat();
+               if (luaValue.isnumber()) {
+                  g = luaValue.tofloat();
                }
                break;
             case 3:
-               if (var10.isnumber()) {
-                  var7 = var10.tofloat();
+               if (luaValue.isnumber()) {
+                  h = luaValue.tofloat();
                }
          }
       }
 
-      float[] var11 = PlayerListTracker.project(var5, var6, var7);
-      return var11 != null ? LuaValue.varargsOf(new LuaValue[]{LuaValue.valueOf(var11[0]), LuaValue.valueOf(var11[1]), LuaValue.valueOf(var11[2])}) : NIL;
+      float[] floats = PlayerListTracker.project(f, g, h);
+      return floats != null ? LuaValue.varargsOf(new LuaValue[]{LuaValue.valueOf(floats[0]), LuaValue.valueOf(floats[1]), LuaValue.valueOf(floats[2])}) : NIL;
    }
 }

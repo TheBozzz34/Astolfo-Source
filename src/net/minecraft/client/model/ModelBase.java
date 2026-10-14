@@ -18,39 +18,41 @@ public abstract class ModelBase {
    public int textureHeight = 32;
    private static final long ab = 87319640737243L;
 
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
    }
 
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
    }
 
-   public void setLivingAnimations(EntityLivingBase var1, float var2, float var3, float var4) {
+   public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTickTime) {
    }
 
-   public ModelRenderer getRandomModelBox(Random var1) {
-      return this.boxList.get(var1.nextInt(this.boxList.size()));
+   public ModelRenderer getRandomModelBox(Random rand) {
+      return this.boxList.get(rand.nextInt(this.boxList.size()));
    }
 
-   public void setTextureOffset(String var1, int var2, int var3) {
-      this.modelTextureMap.put(var1, new TextureOffset(var2, var3));
+   public void setTextureOffset(String partName, int x, int y) {
+      this.modelTextureMap.put(partName, new TextureOffset(x, y));
    }
 
-   public TextureOffset getTextureOffset(String var1) {
-      return this.modelTextureMap.get(var1);
+   public TextureOffset getTextureOffset(String partName) {
+      return this.modelTextureMap.get(partName);
    }
 
-   public static void copyModelAngles(ModelRenderer var0, ModelRenderer var1) {
-      var1.rotateAngleX = var0.rotateAngleX;
-      var1.rotateAngleY = var0.rotateAngleY;
-      var1.rotateAngleZ = var0.rotateAngleZ;
-      var1.rotationPointX = var0.rotationPointX;
-      var1.rotationPointY = var0.rotationPointY;
-      var1.rotationPointZ = var0.rotationPointZ;
+   public static void copyModelAngles(ModelRenderer source, ModelRenderer dest) {
+      dest.rotateAngleX = source.rotateAngleX;
+      dest.rotateAngleY = source.rotateAngleY;
+      dest.rotateAngleZ = source.rotateAngleZ;
+      dest.rotationPointX = source.rotationPointX;
+      dest.rotationPointY = source.rotationPointY;
+      dest.rotationPointZ = source.rotationPointZ;
    }
 
-   public void setModelAttributes(ModelBase var1) {
-      this.swingProgress = var1.swingProgress;
-      this.isRiding = var1.isRiding;
-      this.isChild = var1.isChild;
+   public void setModelAttributes(ModelBase model) {
+      this.swingProgress = model.swingProgress;
+      this.isRiding = model.isRiding;
+      this.isChild = model.isChild;
    }
 }

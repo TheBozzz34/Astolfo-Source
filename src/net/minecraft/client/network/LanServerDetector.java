@@ -23,9 +23,9 @@ public class LanServerDetector {
       private String lanServerIpPort;
       private long timeLastSeen;
 
-      public LanServer(String var1, String var2) {
-         this.lanServerMotd = var1;
-         this.lanServerIpPort = var2;
+      public LanServer(String motd, String address) {
+         this.lanServerMotd = motd;
+         this.lanServerIpPort = address;
          this.timeLastSeen = Minecraft.getSystemTime();
       }
 
@@ -58,23 +58,23 @@ public class LanServerDetector {
          return Collections.unmodifiableList(this.listOfLanServers);
       }
 
-      public synchronized void func_77551_a(String var1, InetAddress var2) {
-         String var3 = ThreadLanServerPing.getMotdFromPingResponse(var1);
-         String var4 = ThreadLanServerPing.getAdFromPingResponse(var1);
-         if (var4 != null) {
-            var4 = var2.getHostAddress() + ":" + var4;
-            boolean var5 = false;
+      public synchronized void func_77551_a(String string, InetAddress inetAddress) {
+         String string2 = ThreadLanServerPing.getMotdFromPingResponse(string);
+         String string3 = ThreadLanServerPing.getAdFromPingResponse(string);
+         if (string3 != null) {
+            string3 = inetAddress.getHostAddress() + ":" + string3;
+            boolean bl = false;
 
-            for (LanServerDetector.LanServer var7 : this.listOfLanServers) {
-               if (var7.getServerIpPort().equals(var4)) {
-                  var7.updateLastSeen();
-                  var5 = true;
+            for (LanServerDetector.LanServer lanServer : this.listOfLanServers) {
+               if (lanServer.getServerIpPort().equals(string3)) {
+                  lanServer.updateLastSeen();
+                  bl = true;
                   break;
                }
             }
 
-            if (!var5) {
-               this.listOfLanServers.add(new LanServerDetector.LanServer(var3, var4));
+            if (!bl) {
+               this.listOfLanServers.add(new LanServerDetector.LanServer(string2, string3));
                this.wasUpdated = true;
             }
          }
@@ -87,9 +87,9 @@ public class LanServerDetector {
       private final MulticastSocket socket;
       private static final long b = 42186149686971L;
 
-      public ThreadLanServerFind(LanServerDetector.LanServerList var1) throws IOException {
+      public ThreadLanServerFind(LanServerDetector.LanServerList lanServerList) throws IOException {
          super("LanServerDetector #" + LanServerDetector.field_148551_a.incrementAndGet());
-         this.localServerList = var1;
+         this.localServerList = lanServerList;
          this.setDaemon(true);
          this.socket = new MulticastSocket(4445);
          this.broadcastAddress = InetAddress.getByName("224.0.2.60");
@@ -99,28 +99,28 @@ public class LanServerDetector {
 
       @Override
       public void run() {
-         byte[] var3 = new byte[1024];
+         byte[] bytes = new byte[1024];
 
          while (!this.isInterrupted()) {
-            DatagramPacket var4 = new DatagramPacket(var3, var3.length);
+            DatagramPacket datagramPacket = new DatagramPacket(bytes, bytes.length);
 
             try {
-               this.socket.receive(var4);
-            } catch (SocketTimeoutException var7) {
+               this.socket.receive(datagramPacket);
+            } catch (SocketTimeoutException socketTimeoutException) {
                continue;
-            } catch (IOException var8) {
-               LanServerDetector.logger.error("Couldn't ping server", var8);
+            } catch (IOException ioException) {
+               LanServerDetector.logger.error("Couldn't ping server", ioException);
                break;
             }
 
-            String var5 = new String(var4.getData(), var4.getOffset(), var4.getLength());
-            LanServerDetector.logger.debug(var4.getAddress() + ": " + var5);
-            this.localServerList.func_77551_a(var5, var4.getAddress());
+            String string = new String(datagramPacket.getData(), datagramPacket.getOffset(), datagramPacket.getLength());
+            LanServerDetector.logger.debug(datagramPacket.getAddress() + ": " + string);
+            this.localServerList.func_77551_a(string, datagramPacket.getAddress());
          }
 
          try {
             this.socket.leaveGroup(this.broadcastAddress);
-         } catch (IOException var6) {
+         } catch (IOException ioException2) {
          }
 
          this.socket.close();

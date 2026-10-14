@@ -17,7 +17,7 @@ public class InventoryCraftResult implements IInventory {
    }
 
    @Override
-   public ItemStack getStackInSlot(int var1) {
+   public ItemStack getStackInSlot(int index) {
       return this.stackResult[0];
    }
 
@@ -37,30 +37,30 @@ public class InventoryCraftResult implements IInventory {
    }
 
    @Override
-   public ItemStack decrStackSize(int var1, int var2) {
+   public ItemStack decrStackSize(int index, int count) {
       if (this.stackResult[0] != null) {
-         ItemStack var6 = this.stackResult[0];
+         ItemStack itemStack = this.stackResult[0];
          this.stackResult[0] = null;
-         return var6;
+         return itemStack;
       } else {
          return null;
       }
    }
 
    @Override
-   public ItemStack removeStackFromSlot(int var1) {
+   public ItemStack removeStackFromSlot(int index) {
       if (this.stackResult[0] != null) {
-         ItemStack var5 = this.stackResult[0];
+         ItemStack itemStack = this.stackResult[0];
          this.stackResult[0] = null;
-         return var5;
+         return itemStack;
       } else {
          return null;
       }
    }
 
    @Override
-   public void setInventorySlotContents(int var1, ItemStack var2) {
-      this.stackResult[0] = var2;
+   public void setInventorySlotContents(int index, ItemStack stack) {
+      this.stackResult[0] = stack;
    }
 
    @Override
@@ -73,30 +73,30 @@ public class InventoryCraftResult implements IInventory {
    }
 
    @Override
-   public boolean isUseableByPlayer(EntityPlayer var1) {
+   public boolean isUseableByPlayer(EntityPlayer player) {
       return true;
    }
 
    @Override
-   public void openInventory(EntityPlayer var1) {
+   public void openInventory(EntityPlayer player) {
    }
 
    @Override
-   public void closeInventory(EntityPlayer var1) {
+   public void closeInventory(EntityPlayer player) {
    }
 
    @Override
-   public boolean isItemValidForSlot(int var1, ItemStack var2) {
+   public boolean isItemValidForSlot(int index, ItemStack stack) {
       return true;
    }
 
    @Override
-   public int getField(int var1) {
+   public int getField(int id) {
       return 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
+   public void setField(int id, int value) {
    }
 
    @Override
@@ -106,8 +106,8 @@ public class InventoryCraftResult implements IInventory {
 
    @Override
    public void clear() {
-      for (int var4 = 0; var4 < this.stackResult.length; var4++) {
-         this.stackResult[var4] = null;
+      for (int i = 0; i < this.stackResult.length; i++) {
+         this.stackResult[i] = null;
       }
    }
 }

@@ -16,84 +16,84 @@ public class PlayerListHud extends Component {
    private int d = new Color(17, 17, 17, 197).getRGB();
    private static final long c = 55920566408041L;
 
-   public PlayerListHud(float var1, float var2, int var3, int var4) {
-      super("Player list", var1, var2, var3, var4);
+   public PlayerListHud(float f, float g, int i, int j) {
+      super("Player list", f, g, i, j);
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = c ^ 41591446834459L;
-      long var10001 = var3 ^ 112428014582575L;
-      int var5 = (int)((var3 ^ 112428014582575L) >>> 56);
-      int var6 = (int)((var3 ^ 112428014582575L) << 8 >>> 32);
-      int var7 = (int)(var10001 << 40 >>> 40);
-      float var9 = this.M();
-      float var10 = this.E_float();
-      float var11 = this.x();
-      float var12 = this.Y();
-      RenderUtil.drawRect(var9, var10, var9 + var11, var10 + var12, new Color(1, 1, 1, 180).getRGB());
-      RenderUtil.drawRect(var9, var10, var9 + var11, var10 + 15.0F, new Color(1, 1, 1, 120).getRGB());
-      mc.fontRendererObj.drawStringWithShadow(this.J(), var9 + 3.0F, var10 + 3.0F, -1);
-      byte var13 = 15;
-      int var14 = 0;
+   public void render(int i, int j) {
+      long l = c ^ 41591446834459L;
+      long m = l ^ 112428014582575L;
+      int k = (int)((l ^ 112428014582575L) >>> 56);
+      int n = (int)((l ^ 112428014582575L) << 8 >>> 32);
+      int i2 = (int)(m << 40 >>> 40);
+      float f = this.M();
+      float g = this.E_float();
+      float h = this.x();
+      float f2 = this.Y();
+      RenderUtil.drawRect(f, g, f + h, g + f2, new Color(1, 1, 1, 180).getRGB());
+      RenderUtil.drawRect(f, g, f + h, g + 15.0F, new Color(1, 1, 1, 120).getRGB());
+      mc.fontRendererObj.drawStringWithShadow(this.J(), f + 3.0F, g + 3.0F, -1);
+      byte b = 15;
+      int i3 = 0;
 
-      for (Entry var16 : this.u.entrySet()) {
-         boolean var17 = false;
-         if (!((String)var16.getValue()).contains("kill")
-            && !((String)var16.getKey()).equals(PlayerList.j)
-            && !((String)var16.getKey()).equals(PlayerList.O)
-            && !((String)var16.getKey()).equals(PlayerList.X)
-            && !((String)var16.getKey()).equals(PlayerList.T)) {
-            EntityPlayer var18 = mc.theWorld.getPlayerEntityByName((String)var16.getKey());
-            if (var18 == null) {
+      for (Entry entry : this.u.entrySet()) {
+         boolean bl = false;
+         if (!((String)entry.getValue()).contains("kill")
+            && !((String)entry.getKey()).equals(PlayerList.j)
+            && !((String)entry.getKey()).equals(PlayerList.O)
+            && !((String)entry.getKey()).equals(PlayerList.X)
+            && !((String)entry.getKey()).equals(PlayerList.T)) {
+            EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName((String)entry.getKey());
+            if (entityPlayer == null) {
                continue;
             }
          } else {
-            var17 = true;
-            var14++;
+            bl = true;
+            i3++;
          }
 
-         if (var14 <= 10 || !var17) {
-            if (var17) {
+         if (i3 <= 10 || !bl) {
+            if (bl) {
                mc.fontRendererObj
                   .drawStringWithShadow(
-                     (var14 == 1 && !((String)var16.getKey()).equals(PlayerList.j) ? EnumChatFormatting.YELLOW + "✦" + EnumChatFormatting.RESET + " " : "")
+                     (i3 == 1 && !((String)entry.getKey()).equals(PlayerList.j) ? EnumChatFormatting.YELLOW + "✦" + EnumChatFormatting.RESET + " " : "")
                         + (
-                           client.getRelationManager().U((String)var16.getKey())
+                           client.getRelationManager().U((String)entry.getKey())
                               ? EnumChatFormatting.RED
-                              : (Denicker.nicks.get(var16.getKey()) != null ? EnumChatFormatting.YELLOW : "")
+                              : (Denicker.nicks.get(entry.getKey()) != null ? EnumChatFormatting.YELLOW : "")
                         )
-                        + (String)var16.getKey(),
-                     var9 + 3.0F,
-                     var10 + 3.0F + var13,
+                        + (String)entry.getKey(),
+                     f + 3.0F,
+                     g + 3.0F + b,
                      -1
                   );
                mc.fontRendererObj
                   .drawStringWithShadow(
-                     (String)var16.getValue(), var9 + var11 - mc.fontRendererObj.getStringWidth((String)var16.getValue()) - 3.0F, var10 + 3.0F + var13, -1
+                     (String)entry.getValue(), f + h - mc.fontRendererObj.getStringWidth((String)entry.getValue()) - 3.0F, g + 3.0F + b, -1
                   );
             } else {
-               String var19 = "";
-               if (((String)var16.getValue()).equals("nicked")) {
-                  var19 = EnumChatFormatting.YELLOW.toString();
+               String string = "";
+               if (((String)entry.getValue()).equals("nicked")) {
+                  string = EnumChatFormatting.YELLOW.toString();
                }
 
-               if (((String)var16.getValue()).equals("enemy")) {
-                  var19 = EnumChatFormatting.RED.toString();
+               if (((String)entry.getValue()).equals("enemy")) {
+                  string = EnumChatFormatting.RED.toString();
                }
 
-               mc.fontRendererObj.drawStringWithShadow(var19 + (String)var16.getKey(), var9 + 3.0F, var10 + 3.0F + var13, -1);
+               mc.fontRendererObj.drawStringWithShadow(string + (String)entry.getKey(), f + 3.0F, g + 3.0F + b, -1);
             }
 
-            var13 += 15;
+            b += 15;
          }
       }
 
-      this.B(var13);
+      this.B(b);
    }
 
    public Map<String, String> j() {

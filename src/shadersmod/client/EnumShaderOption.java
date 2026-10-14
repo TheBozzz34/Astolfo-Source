@@ -24,10 +24,10 @@ public enum EnumShaderOption {
    private String propertyKey = null;
    private String valueDefault = null;
 
-   EnumShaderOption(String var3, String var4, String var5) {
-      this.resourceKey = var3;
-      this.propertyKey = var4;
-      this.valueDefault = var5;
+   EnumShaderOption(String resourceKey, String propertyKey, String valueDefault) {
+      this.resourceKey = resourceKey;
+      this.propertyKey = propertyKey;
+      this.valueDefault = valueDefault;
    }
 
    public String getResourceKey() {

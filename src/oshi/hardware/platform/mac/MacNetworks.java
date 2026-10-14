@@ -24,57 +24,57 @@ public final class MacNetworks extends Networks {
 
    @Override
    public NetworkIF[] getNetworks() {
-      ArrayList var4 = new ArrayList();
-      Map var5 = queryIFdata(-1);
+      ArrayList arrayList = new ArrayList();
+      Map map = queryIFdata(-1);
 
-      for (NetworkInterface var9 : this.getNetworkInterfaces()) {
-         NetworkIF var10 = new NetworkIF();
-         var10.setNetworkInterface(var9);
-         updateNetworkStats(var10, var5);
-         var4.add(var10);
+      for (NetworkInterface networkInterface : this.getNetworkInterfaces()) {
+         NetworkIF networkIF = new NetworkIF();
+         networkIF.setNetworkInterface(networkInterface);
+         updateNetworkStats(networkIF, map);
+         arrayList.add(networkIF);
       }
 
-      return (oshi.hardware.NetworkIF[])(var4.toArray(new NetworkIF[0]));
+      return (oshi.hardware.NetworkIF[])(arrayList.toArray(new NetworkIF[0]));
    }
 
-   private static Map<Integer, MacNetworks.IFdata> queryIFdata(int var0) {
-      HashMap var4 = new HashMap();
-      int[] var5 = new int[]{4, 17, 0, 0, 6, 0};
-      IntByReference var6 = new IntByReference();
-      if (0 != SystemB.INSTANCE.sysctl(var5, 6, null, var6, null, 0)) {
-         return var4;
+   private static Map<Integer, MacNetworks.IFdata> queryIFdata(int index) {
+      HashMap hashMap = new HashMap();
+      int[] ints = new int[]{4, 17, 0, 0, 6, 0};
+      IntByReference intByReference = new IntByReference();
+      if (0 != SystemB.INSTANCE.sysctl(ints, 6, null, intByReference, null, 0)) {
+         return hashMap;
       }
 
-      Memory var7 = new Memory(var6.getValue());
-      if (0 != SystemB.INSTANCE.sysctl(var5, 6, var7, var6, null, 0)) {
-         return var4;
+      Memory memory = new Memory(intByReference.getValue());
+      if (0 != SystemB.INSTANCE.sysctl(ints, 6, memory, intByReference, null, 0)) {
+         return hashMap;
       }
 
-      int var8 = (int)(var7.size() - new IFmsgHdr().size());
-      short var9 = 0;
+      int i = (int)(memory.size() - new IFmsgHdr().size());
+      short s = 0;
 
-      while (var9 < var8) {
-         Pointer var10 = var7.share(var9);
-         IFmsgHdr var11 = new IFmsgHdr(var10);
-         var11.read();
-         var9 += var11.ifm_msglen;
-         if (var11.ifm_type == 18) {
-            IFmsgHdr2 var12 = new IFmsgHdr2(var10);
-            var12.read();
-            if (var0 < 0 || var0 == var12.ifm_index) {
-               var4.put(
-                  Integer.valueOf(var12.ifm_index),
+      while (s < i) {
+         Pointer pointer = memory.share(s);
+         IFmsgHdr iFmsgHdr = new IFmsgHdr(pointer);
+         iFmsgHdr.read();
+         s += iFmsgHdr.ifm_msglen;
+         if (iFmsgHdr.ifm_type == 18) {
+            IFmsgHdr2 iFmsgHdr2 = new IFmsgHdr2(pointer);
+            iFmsgHdr2.read();
+            if (index < 0 || index == iFmsgHdr2.ifm_index) {
+               hashMap.put(
+                  Integer.valueOf(iFmsgHdr2.ifm_index),
                   new MacNetworks.IFdata(
-                     var12.ifm_data.ifi_type,
-                     var12.ifm_data.ifi_opackets,
-                     var12.ifm_data.ifi_ipackets,
-                     var12.ifm_data.ifi_obytes,
-                     var12.ifm_data.ifi_ibytes,
-                     var12.ifm_data.ifi_oerrors,
-                     var12.ifm_data.ifi_ierrors,
-                     var12.ifm_data.ifi_collisions,
-                     var12.ifm_data.ifi_iqdrops,
-                     var12.ifm_data.ifi_baudrate,
+                     iFmsgHdr2.ifm_data.ifi_type,
+                     iFmsgHdr2.ifm_data.ifi_opackets,
+                     iFmsgHdr2.ifm_data.ifi_ipackets,
+                     iFmsgHdr2.ifm_data.ifi_obytes,
+                     iFmsgHdr2.ifm_data.ifi_ibytes,
+                     iFmsgHdr2.ifm_data.ifi_oerrors,
+                     iFmsgHdr2.ifm_data.ifi_ierrors,
+                     iFmsgHdr2.ifm_data.ifi_collisions,
+                     iFmsgHdr2.ifm_data.ifi_iqdrops,
+                     iFmsgHdr2.ifm_data.ifi_baudrate,
                      System.currentTimeMillis()
                   )
                );
@@ -82,29 +82,29 @@ public final class MacNetworks extends Networks {
          }
       }
 
-      return var4;
+      return hashMap;
    }
 
-   public static boolean updateNetworkStats(NetworkIF var0) {
-      int var1 = var0.queryNetworkInterface().getIndex();
-      return updateNetworkStats(var0, queryIFdata(var1));
+   public static boolean updateNetworkStats(NetworkIF netIF) {
+      int index = netIF.queryNetworkInterface().getIndex();
+      return updateNetworkStats(netIF, queryIFdata(index));
    }
 
-   private static boolean updateNetworkStats(NetworkIF var0, Map<Integer, MacNetworks.IFdata> var1) {
-      int var5 = var0.queryNetworkInterface().getIndex();
-      if (var1.containsKey(var5)) {
-         MacNetworks.IFdata var6 = (MacNetworks.IFdata)var1.get(var5);
-         var0.setIfType(MacNetworks.IFdata.Z(var6));
-         var0.setBytesSent(MacNetworks.IFdata.f(var6));
-         var0.setBytesRecv(MacNetworks.IFdata.l(var6));
-         var0.setPacketsSent(MacNetworks.IFdata.w(var6));
-         var0.setPacketsRecv(MacNetworks.IFdata.n(var6));
-         var0.setOutErrors(MacNetworks.IFdata.a(var6));
-         var0.setInErrors(MacNetworks.IFdata.p(var6));
-         var0.setCollisions(MacNetworks.IFdata.P(var6));
-         var0.setInDrops(MacNetworks.IFdata.K(var6));
-         var0.setSpeed(MacNetworks.IFdata.L(var6));
-         var0.setTimeStamp(MacNetworks.IFdata.e(var6));
+   private static boolean updateNetworkStats(NetworkIF netIF, Map<Integer, MacNetworks.IFdata> data) {
+      int i = netIF.queryNetworkInterface().getIndex();
+      if (data.containsKey(i)) {
+         MacNetworks.IFdata iFdata = (MacNetworks.IFdata)data.get(i);
+         netIF.setIfType(MacNetworks.IFdata.Z(iFdata));
+         netIF.setBytesSent(MacNetworks.IFdata.f(iFdata));
+         netIF.setBytesRecv(MacNetworks.IFdata.l(iFdata));
+         netIF.setPacketsSent(MacNetworks.IFdata.w(iFdata));
+         netIF.setPacketsRecv(MacNetworks.IFdata.n(iFdata));
+         netIF.setOutErrors(MacNetworks.IFdata.a(iFdata));
+         netIF.setInErrors(MacNetworks.IFdata.p(iFdata));
+         netIF.setCollisions(MacNetworks.IFdata.P(iFdata));
+         netIF.setInDrops(MacNetworks.IFdata.K(iFdata));
+         netIF.setSpeed(MacNetworks.IFdata.L(iFdata));
+         netIF.setTimeStamp(MacNetworks.IFdata.e(iFdata));
          return true;
       } else {
          return false;
@@ -112,11 +112,11 @@ public final class MacNetworks extends Networks {
    }
 
    static {
-      long var11 = b ^ 74652082511814L;
-      long var10000 = var11 ^ 7851762012635518982L;
-      var10000 = var11 ^ 6730855356239594532L;
-      var10000 = var11 ^ 6375911885522177253L;
-      var10000 = var11 ^ 7471781183167827523L;
+      long l = b ^ 74652082511814L;
+      long m = l ^ 7851762012635518982L;
+      m = l ^ 6730855356239594532L;
+      m = l ^ 6375911885522177253L;
+      m = l ^ 7471781183167827523L;
    }
 
    private static class IFdata {
@@ -132,62 +132,74 @@ public final class MacNetworks extends Networks {
       private long speed;
       private long timeStamp;
 
-      public IFdata(int var1, long var2, long var4, long var6, long var8, long var10, long var12, long var14, long var16, long var18, long var20) {
-         this.ifType = var1;
-         this.oPackets = var2;
-         this.iPackets = var4;
-         this.oBytes = var6;
-         this.iBytes = var8;
-         this.oErrors = var10;
-         this.iErrors = var12;
-         this.collisions = var14;
-         this.iDrops = var16;
-         this.speed = var18;
-         this.timeStamp = var20;
+      public IFdata(
+         int ifType,
+         long oPackets,
+         long iPackets,
+         long oBytes,
+         long iBytes,
+         long oErrors,
+         long iErrors,
+         long collisions,
+         long iDrops,
+         long speed,
+         long timeStamp
+      ) {
+         this.ifType = ifType;
+         this.oPackets = oPackets;
+         this.iPackets = iPackets;
+         this.oBytes = oBytes;
+         this.iBytes = iBytes;
+         this.oErrors = oErrors;
+         this.iErrors = iErrors;
+         this.collisions = collisions;
+         this.iDrops = iDrops;
+         this.speed = speed;
+         this.timeStamp = timeStamp;
       }
 
-      public static int Z(MacNetworks.IFdata var0) {
-         return var0.ifType;
+      public static int Z(MacNetworks.IFdata iFdata) {
+         return iFdata.ifType;
       }
 
-      public static long f(MacNetworks.IFdata var0) {
-         return var0.oBytes;
+      public static long f(MacNetworks.IFdata iFdata) {
+         return iFdata.oBytes;
       }
 
-      public static long l(MacNetworks.IFdata var0) {
-         return var0.iBytes;
+      public static long l(MacNetworks.IFdata iFdata) {
+         return iFdata.iBytes;
       }
 
-      public static long w(MacNetworks.IFdata var0) {
-         return var0.oPackets;
+      public static long w(MacNetworks.IFdata iFdata) {
+         return iFdata.oPackets;
       }
 
-      public static long n(MacNetworks.IFdata var0) {
-         return var0.iPackets;
+      public static long n(MacNetworks.IFdata iFdata) {
+         return iFdata.iPackets;
       }
 
-      public static long a(MacNetworks.IFdata var0) {
-         return var0.oErrors;
+      public static long a(MacNetworks.IFdata iFdata) {
+         return iFdata.oErrors;
       }
 
-      public static long p(MacNetworks.IFdata var0) {
-         return var0.iErrors;
+      public static long p(MacNetworks.IFdata iFdata) {
+         return iFdata.iErrors;
       }
 
-      public static long P(MacNetworks.IFdata var0) {
-         return var0.collisions;
+      public static long P(MacNetworks.IFdata iFdata) {
+         return iFdata.collisions;
       }
 
-      public static long K(MacNetworks.IFdata var0) {
-         return var0.iDrops;
+      public static long K(MacNetworks.IFdata iFdata) {
+         return iFdata.iDrops;
       }
 
-      public static long L(MacNetworks.IFdata var0) {
-         return var0.speed;
+      public static long L(MacNetworks.IFdata iFdata) {
+         return iFdata.speed;
       }
 
-      public static long e(MacNetworks.IFdata var0) {
-         return var0.timeStamp;
+      public static long e(MacNetworks.IFdata iFdata) {
+         return iFdata.timeStamp;
       }
    }
 }

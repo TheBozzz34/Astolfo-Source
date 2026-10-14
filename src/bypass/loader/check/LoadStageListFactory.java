@@ -7,8 +7,8 @@ public class LoadStageListFactory {
    private final ListContainerOwner<LoadStage> q;
 
    public LoadStageListFactory() {
-      LoadStagesList var1 = new LoadStagesList();
-      this.q = new ListContainerOwner<>(var1.p());
+      LoadStagesList loadStagesList = new LoadStagesList();
+      this.q = new ListContainerOwner<>(loadStagesList.p());
    }
 
    public ListContainerOwner<LoadStage> e() {

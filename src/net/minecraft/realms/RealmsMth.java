@@ -5,135 +5,135 @@ import net.minecraft.util.MathHelper;
 import org.apache.commons.lang3.StringUtils;
 
 public class RealmsMth {
-   public static float P(float var0) {
-      return MathHelper.sin(var0);
+   public static float P(float f) {
+      return MathHelper.sin(f);
    }
 
-   public static double nextDouble(Random var0, double var1, double var3) {
-      return MathHelper.getRandomDoubleInRange(var0, var1, var3);
+   public static double nextDouble(Random random2, double d, double d2) {
+      return MathHelper.getRandomDoubleInRange(random2, d, d2);
    }
 
-   public static int N(float var0) {
-      return MathHelper.ceiling_float_int(var0);
+   public static int N(float f) {
+      return MathHelper.ceiling_float_int(f);
    }
 
-   public static int m(double var0) {
-      return MathHelper.floor_double(var0);
+   public static int m(double d) {
+      return MathHelper.floor_double(d);
    }
 
-   public static int k(int var0, int var1) {
-      return MathHelper.bucketInt(var0, var1);
+   public static int k(int i, int j) {
+      return MathHelper.bucketInt(i, j);
    }
 
-   public static float W(float var0) {
-      return MathHelper.abs(var0);
+   public static float W(float f) {
+      return MathHelper.abs(f);
    }
 
-   public static int clamp(int var0, int var1, int var2) {
-      return MathHelper.clamp_int(var0, var1, var2);
+   public static int clamp(int i, int j, int k) {
+      return MathHelper.clamp_int(i, j, k);
    }
 
-   public static double L(double var0, double var2, double var4) {
-      return MathHelper.denormalizeClamp(var0, var2, var4);
+   public static double L(double d, double d2, double d3) {
+      return MathHelper.denormalizeClamp(d, d2, d3);
    }
 
-   public static int O(double var0) {
-      return MathHelper.ceiling_double_int(var0);
+   public static int O(double d) {
+      return MathHelper.ceiling_double_int(d);
    }
 
-   public static boolean isEmpty(String var0) {
-      return StringUtils.isEmpty(var0);
+   public static boolean isEmpty(String string) {
+      return StringUtils.isEmpty(string);
    }
 
-   public static long lfloor(double var0) {
-      return MathHelper.floor_double_long(var0);
+   public static long lfloor(double d) {
+      return MathHelper.floor_double_long(d);
    }
 
-   public static float sqrt(double var0) {
-      return MathHelper.sqrt_double(var0);
+   public static float sqrt(double d) {
+      return MathHelper.sqrt_double(d);
    }
 
-   public static double X(double var0, double var2, double var4) {
-      return MathHelper.clamp_double(var0, var2, var4);
+   public static double X(double d, double d2, double d3) {
+      return MathHelper.clamp_double(d, d2, d3);
    }
 
-   public static int getInt(String var0, int var1) {
-      return MathHelper.parseIntWithDefault(var0, var1);
+   public static int getInt(String string, int i) {
+      return MathHelper.parseIntWithDefault(string, i);
    }
 
-   public static double getDouble(String var0, double var1) {
-      return MathHelper.parseDoubleWithDefault(var0, var1);
+   public static double getDouble(String string, double d) {
+      return MathHelper.parseDoubleWithDefault(string, d);
    }
 
-   public static int c(int var0) {
-      return MathHelper.calculateLogBaseTwo(var0);
+   public static int c(int i) {
+      return MathHelper.calculateLogBaseTwo(i);
    }
 
-   public static int h(double var0) {
-      return MathHelper.func_154353_e(var0);
+   public static int h(double d) {
+      return MathHelper.func_154353_e(d);
    }
 
-   public static int s(int var0) {
-      return MathHelper.roundUpToPowerOfTwo(var0);
+   public static int s(int i) {
+      return MathHelper.roundUpToPowerOfTwo(i);
    }
 
-   public static float H(float var0) {
-      return MathHelper.sqrt_float(var0);
+   public static float H(float f) {
+      return MathHelper.sqrt_float(f);
    }
 
-   public static float K(float var0) {
-      return MathHelper.cos(var0);
+   public static float K(float f) {
+      return MathHelper.cos(f);
    }
 
-   public static int getInt(String var0, int var1, int var2) {
-      return MathHelper.parseIntWithDefaultAndMax(var0, var1, var2);
+   public static int getInt(String string, int i, int j) {
+      return MathHelper.parseIntWithDefaultAndMax(string, i, j);
    }
 
-   public static int L(double var0) {
-      return MathHelper.truncateDoubleToInt(var0);
+   public static int L(double d) {
+      return MathHelper.truncateDoubleToInt(d);
    }
 
-   public static double absMax(double var0, double var2) {
-      return MathHelper.abs_max(var0, var2);
+   public static double absMax(double d, double d2) {
+      return MathHelper.abs_max(d, d2);
    }
 
-   public static float nextFloat(Random var0, float var1, float var2) {
-      return MathHelper.randomFloatClamp(var0, var1, var2);
+   public static float nextFloat(Random random2, float f, float g) {
+      return MathHelper.randomFloatClamp(random2, f, g);
    }
 
-   public static double wrapDegrees(double var0) {
-      return MathHelper.wrapAngleTo180_double(var0);
+   public static double wrapDegrees(double d) {
+      return MathHelper.wrapAngleTo180_double(d);
    }
 
-   public static float G(float var0) {
-      return MathHelper.wrapAngleTo180_float(var0);
+   public static float G(float f) {
+      return MathHelper.wrapAngleTo180_float(f);
    }
 
-   public static float clamp(float var0, float var1, float var2) {
-      return MathHelper.clamp_float(var0, var1, var2);
+   public static float clamp(float f, float g, float h) {
+      return MathHelper.clamp_float(f, g, h);
    }
 
-   public static double getDouble(String var0, double var1, double var3) {
-      return MathHelper.parseDoubleWithDefaultAndMax(var0, var1, var3);
+   public static double getDouble(String string, double d, double d2) {
+      return MathHelper.parseDoubleWithDefaultAndMax(string, d, d2);
    }
 
-   public static int u(int var0, int var1) {
-      return MathHelper.roundUp(var0, var1);
+   public static int u(int i, int j) {
+      return MathHelper.roundUp(i, j);
    }
 
-   public static double average(long[] var0) {
-      return MathHelper.average(var0);
+   public static double average(long[] longs) {
+      return MathHelper.average(longs);
    }
 
-   public static int p(float var0) {
-      return MathHelper.floor_float(var0);
+   public static int p(float f) {
+      return MathHelper.floor_float(f);
    }
 
-   public static int p(int var0) {
-      return MathHelper.abs_int(var0);
+   public static int p(int i) {
+      return MathHelper.abs_int(i);
    }
 
-   public static int nextInt(Random var0, int var1, int var2) {
-      return MathHelper.getRandomIntegerInRange(var0, var1, var2);
+   public static int nextInt(Random random2, int i, int j) {
+      return MathHelper.getRandomIntegerInRange(random2, i, j);
    }
 }

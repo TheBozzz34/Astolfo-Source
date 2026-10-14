@@ -85,148 +85,148 @@ public class EntityList {
    public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.newLinkedHashMap();
    private static final long a = 114656458543706L;
 
-   private static void addMapping(Class<? extends Entity> var0, String var1, int var2) {
-      if (stringToClassMapping.containsKey(var1)) {
-         throw new IllegalArgumentException("ID is already registered: " + var1);
+   private static void addMapping(Class<? extends Entity> entityClass, String entityName, int id) {
+      if (stringToClassMapping.containsKey(entityName)) {
+         throw new IllegalArgumentException("ID is already registered: " + entityName);
       }
 
-      if (idToClassMapping.containsKey(var2)) {
-         throw new IllegalArgumentException("ID is already registered: " + var2);
+      if (idToClassMapping.containsKey(id)) {
+         throw new IllegalArgumentException("ID is already registered: " + id);
       }
 
-      if (var2 == 0) {
-         throw new IllegalArgumentException("Cannot register to reserved id: " + var2);
+      if (id == 0) {
+         throw new IllegalArgumentException("Cannot register to reserved id: " + id);
       }
 
-      if (var0 == null) {
-         throw new IllegalArgumentException("Cannot register null clazz for id: " + var2);
+      if (entityClass == null) {
+         throw new IllegalArgumentException("Cannot register null clazz for id: " + id);
       }
 
-      stringToClassMapping.put(var1, var0);
-      classToStringMapping.put(var0, var1);
-      idToClassMapping.put(var2, var0);
-      classToIDMapping.put(var0, var2);
-      stringToIDMapping.put(var1, var2);
+      stringToClassMapping.put(entityName, entityClass);
+      classToStringMapping.put(entityClass, entityName);
+      idToClassMapping.put(id, entityClass);
+      classToIDMapping.put(entityClass, id);
+      stringToIDMapping.put(entityName, id);
    }
 
-   private static void addMapping(Class<? extends Entity> var0, String var1, int var2, int var3, int var4) {
-      addMapping(var0, var1, var2);
-      entityEggs.put(var2, new EntityList.EntityEggInfo(var2, var3, var4));
+   private static void addMapping(Class<? extends Entity> entityClass, String entityName, int entityID, int baseColor, int spotColor) {
+      addMapping(entityClass, entityName, entityID);
+      entityEggs.put(entityID, new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
    }
 
-   public static Entity createEntityByName(String var0, World var1) {
-      Entity var5 = null;
+   public static Entity createEntityByName(String entityName, World worldIn) {
+      Entity entity = null;
 
       try {
-         Class var6 = stringToClassMapping.get(var0);
-         if (var6 != null) {
-            var5 = (Entity)var6.getConstructor(World.class).newInstance(var1);
+         Class class2 = stringToClassMapping.get(entityName);
+         if (class2 != null) {
+            entity = (Entity)class2.getConstructor(World.class).newInstance(worldIn);
          }
-      } catch (Exception var7) {
-         var7.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      return var5;
+      return entity;
    }
 
-   public static Entity createEntityFromNBT(NBTTagCompound var0, World var1) {
-      Entity var5 = null;
-      if ("Minecart".equals(var0.getString("id"))) {
-         var0.setString("id", EntityMinecart.EnumMinecartType.byNetworkID(var0.getInteger("Type")).getName());
-         var0.removeTag("Type");
+   public static Entity createEntityFromNBT(NBTTagCompound nbt, World worldIn) {
+      Entity entity = null;
+      if ("Minecart".equals(nbt.getString("id"))) {
+         nbt.setString("id", EntityMinecart.EnumMinecartType.byNetworkID(nbt.getInteger("Type")).getName());
+         nbt.removeTag("Type");
       }
 
       try {
-         Class var6 = stringToClassMapping.get(var0.getString("id"));
-         if (var6 != null) {
-            var5 = (Entity)var6.getConstructor(World.class).newInstance(var1);
+         Class class2 = stringToClassMapping.get(nbt.getString("id"));
+         if (class2 != null) {
+            entity = (Entity)class2.getConstructor(World.class).newInstance(worldIn);
          }
-      } catch (Exception var7) {
-         var7.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      if (var5 != null) {
-         var5.readFromNBT(var0);
+      if (entity != null) {
+         entity.readFromNBT(nbt);
       } else {
-         logger.warn("Skipping Entity with id " + var0.getString("id"));
+         logger.warn("Skipping Entity with id " + nbt.getString("id"));
       }
 
-      return var5;
+      return entity;
    }
 
-   public static Entity createEntityByID(int var0, World var1) {
-      Entity var5 = null;
+   public static Entity createEntityByID(int entityID, World worldIn) {
+      Entity entity = null;
 
       try {
-         Class var6 = getClassFromID(var0);
-         if (var6 != null) {
-            var5 = (Entity)var6.getConstructor(World.class).newInstance(var1);
+         Class class2 = getClassFromID(entityID);
+         if (class2 != null) {
+            entity = (Entity)class2.getConstructor(World.class).newInstance(worldIn);
          }
-      } catch (Exception var7) {
-         var7.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      if (var5 == null) {
-         logger.warn("Skipping Entity with id " + var0);
+      if (entity == null) {
+         logger.warn("Skipping Entity with id " + entityID);
       }
 
-      return var5;
+      return entity;
    }
 
-   public static int getEntityID(Entity var0) {
-      Integer var4 = classToIDMapping.get(var0.getClass());
-      return var4 == null ? 0 : var4;
+   public static int getEntityID(Entity entityIn) {
+      Integer integer = classToIDMapping.get(entityIn.getClass());
+      return integer == null ? 0 : integer;
    }
 
-   public static Class<? extends Entity> getClassFromID(int var0) {
-      return idToClassMapping.get(var0);
+   public static Class<? extends Entity> getClassFromID(int entityID) {
+      return idToClassMapping.get(entityID);
    }
 
-   public static String getEntityString(Entity var0) {
-      return classToStringMapping.get(var0.getClass());
+   public static String getEntityString(Entity entityIn) {
+      return classToStringMapping.get(entityIn.getClass());
    }
 
-   public static int getIDFromString(String var0) {
-      Integer var4 = stringToIDMapping.get(var0);
-      return var4 == null ? 90 : var4;
+   public static int getIDFromString(String entityName) {
+      Integer integer = stringToIDMapping.get(entityName);
+      return integer == null ? 90 : integer;
    }
 
-   public static String getStringFromID(int var0) {
-      return classToStringMapping.get(getClassFromID(var0));
+   public static String getStringFromID(int entityID) {
+      return classToStringMapping.get(getClassFromID(entityID));
    }
 
    public static void func_151514_a() {
    }
 
    public static List<String> getEntityNameList() {
-      Set var3 = stringToClassMapping.keySet();
-      ArrayList var4 = Lists.newArrayList();
+      Set set = stringToClassMapping.keySet();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (Object var6$raw : var3) {
-         String var6 = (String)var6$raw;
-         Class var7 = stringToClassMapping.get(var6);
-         if ((var7.getModifiers() & 1024) != 1024) {
-            var4.add(var6);
+      for (Object object : set) {
+         String string = (String)object;
+         Class class2 = stringToClassMapping.get(string);
+         if ((class2.getModifiers() & 1024) != 1024) {
+            arrayList.add(string);
          }
       }
 
-      var4.add("LightningBolt");
-      return var4;
+      arrayList.add("LightningBolt");
+      return arrayList;
    }
 
-   public static boolean isStringEntityName(Entity var0, String var1) {
-      String var5 = getEntityString(var0);
-      if (var5 == null && var0 instanceof EntityPlayer) {
-         var5 = "Player";
-      } else if (var5 == null && var0 instanceof EntityLightningBolt) {
-         var5 = "LightningBolt";
+   public static boolean isStringEntityName(Entity entityIn, String entityName) {
+      String string = getEntityString(entityIn);
+      if (string == null && entityIn instanceof EntityPlayer) {
+         string = "Player";
+      } else if (string == null && entityIn instanceof EntityLightningBolt) {
+         string = "LightningBolt";
       }
 
-      return var1.equals(var5);
+      return entityName.equals(string);
    }
 
-   public static boolean isStringValidEntityName(String var0) {
-      return "Player".equals(var0) || getEntityNameList().contains(var0);
+   public static boolean isStringValidEntityName(String entityName) {
+      return "Player".equals(entityName) || getEntityNameList().contains(entityName);
    }
 
    static {
@@ -301,10 +301,10 @@ public class EntityList {
       public final StatBase field_151512_d;
       public final StatBase field_151513_e;
 
-      public EntityEggInfo(int var1, int var2, int var3) {
-         this.spawnedID = var1;
-         this.primaryColor = var2;
-         this.secondaryColor = var3;
+      public EntityEggInfo(int id, int baseColor, int spotColor) {
+         this.spawnedID = id;
+         this.primaryColor = baseColor;
+         this.secondaryColor = spotColor;
          this.field_151512_d = StatList.getStatKillEntity(this);
          this.field_151513_e = StatList.getStatEntityKilledBy(this);
       }

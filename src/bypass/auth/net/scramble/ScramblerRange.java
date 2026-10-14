@@ -5,9 +5,9 @@ public final class ScramblerRange {
    public final byte X;
    public final Scrambler m;
 
-   public ScramblerRange(byte var1, byte var2, Scrambler var3) {
-      this.r = var1;
-      this.X = var2;
-      this.m = var3;
+   public ScramblerRange(byte b, byte b2, Scrambler scrambler) {
+      this.r = b;
+      this.X = b2;
+      this.m = scrambler;
    }
 }

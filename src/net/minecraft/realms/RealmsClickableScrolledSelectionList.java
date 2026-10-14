@@ -7,12 +7,12 @@ public class RealmsClickableScrolledSelectionList {
    private static final long a = 109058521897449L;
    private static final long b = -1687200670131683204L;
 
-   public RealmsClickableScrolledSelectionList(int var1, int var2, int var3, int var4, int var5) {
-      this.proxy = new GuiClickableScrolledSelectionListProxy(this, var1, var2, var3, var4, var5);
+   public RealmsClickableScrolledSelectionList(int i, int j, int k, int l, int m) {
+      this.proxy = new GuiClickableScrolledSelectionListProxy(this, i, j, k, l, m);
    }
 
-   public void render(int var1, int var2, float var3) {
-      this.proxy.drawScreen(var1, var2, var3);
+   public void render(int i, int j, float f) {
+      this.proxy.drawScreen(i, j, f);
    }
 
    public int b() {
@@ -27,21 +27,21 @@ public class RealmsClickableScrolledSelectionList {
       return this.proxy.v();
    }
 
-   public void renderItem(int var1, int var2, int var3, int var4, Tezzelator var5, int var6, int var7) {
+   public void renderItem(int i, int j, int k, int l, Tezzelator tezzelator, int m, int n) {
    }
 
-   public void renderItem(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.renderItem(var1, var2, var3, var4, Tezzelator.instance, var5, var6);
+   public void renderItem(int i, int j, int k, int l, int m, int n) {
+      this.renderItem(i, j, k, l, Tezzelator.instance, m, n);
    }
 
    public int getItemCount() {
       return 0;
    }
 
-   public void selectItem(int var1, boolean var2, int var3, int var4) {
+   public void selectItem(int i, boolean bl, int j, int k) {
    }
 
-   public boolean isSelectedItem(int var1) {
+   public boolean isSelectedItem(int i) {
       return false;
    }
 
@@ -60,27 +60,27 @@ public class RealmsClickableScrolledSelectionList {
       this.proxy.handleMouseInput();
    }
 
-   public void customMouseEvent(int var1, int var2, int var3, float var4, int var5) {
+   public void customMouseEvent(int i, int j, int k, float f, int l) {
    }
 
-   public void q(int var1) {
-      this.proxy.scrollBy(var1);
+   public void q(int i) {
+      this.proxy.scrollBy(i);
    }
 
    public int j() {
       return this.proxy.Y();
    }
 
-   public void renderList(int var1, int var2, int var3, int var4) {
+   public void renderList(int i, int j, int k, int l) {
    }
 
-   public void itemClicked(int var1, int var2, int var3, int var4, int var5) {
+   public void itemClicked(int i, int j, int k, int l, int m) {
    }
 
-   public void renderSelected(int var1, int var2, int var3, Tezzelator var4) {
+   public void renderSelected(int i, int j, int k, Tezzelator tezzelator) {
    }
 
-   public void T(int var1) {
-      this.proxy.setSlotXBoundsFromLeft(var1);
+   public void T(int i) {
+      this.proxy.setSlotXBoundsFromLeft(i);
    }
 }

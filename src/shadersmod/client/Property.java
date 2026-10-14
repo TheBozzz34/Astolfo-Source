@@ -14,30 +14,30 @@ public class Property {
    private int value = 0;
    private static final long a = 57042648926996L;
 
-   public Property(String var1, String[] var2, String var3, String[] var4, int var5) {
-      this.propertyName = var1;
-      this.propertyValues = var2;
-      this.userName = var3;
-      this.userValues = var4;
-      this.defaultValue = var5;
-      if (var2.length != var4.length) {
-         throw new IllegalArgumentException("Property and user values have different lengths: " + var2.length + " != " + var4.length);
+   public Property(String propertyName, String[] propertyValues, String userName, String[] userValues, int defaultValue) {
+      this.propertyName = propertyName;
+      this.propertyValues = propertyValues;
+      this.userName = userName;
+      this.userValues = userValues;
+      this.defaultValue = defaultValue;
+      if (propertyValues.length != userValues.length) {
+         throw new IllegalArgumentException("Property and user values have different lengths: " + propertyValues.length + " != " + userValues.length);
       }
 
-      if (var5 >= 0 && var5 < var2.length) {
-         this.value = var5;
+      if (defaultValue >= 0 && defaultValue < propertyValues.length) {
+         this.value = defaultValue;
       } else {
-         throw new IllegalArgumentException("Invalid default value: " + var5);
+         throw new IllegalArgumentException("Invalid default value: " + defaultValue);
       }
    }
 
-   public boolean setPropertyValue(String var1) {
-      if (var1 == null) {
+   public boolean setPropertyValue(String propVal) {
+      if (propVal == null) {
          this.value = this.defaultValue;
          return false;
       }
 
-      this.value = ArrayUtils.indexOf(this.propertyValues, var1);
+      this.value = ArrayUtils.indexOf(this.propertyValues, propVal);
       if (this.value >= 0 && this.value < this.propertyValues.length) {
          return true;
       }
@@ -53,8 +53,8 @@ public class Property {
       }
    }
 
-   public void setValue(int var1) {
-      this.value = var1;
+   public void setValue(int val) {
+      this.value = val;
       if (this.value < 0 || this.value >= this.propertyValues.length) {
          this.value = this.defaultValue;
       }
@@ -84,19 +84,19 @@ public class Property {
       this.value = this.defaultValue;
    }
 
-   public boolean loadFrom(Properties var1) {
+   public boolean loadFrom(Properties props) {
       this.resetValue();
-      if (var1 == null) {
+      if (props == null) {
          return false;
       }
 
-      String var5 = var1.getProperty(this.propertyName);
-      return var5 == null ? false : this.setPropertyValue(var5);
+      String string = props.getProperty(this.propertyName);
+      return string == null ? false : this.setPropertyValue(string);
    }
 
-   public void saveTo(Properties var1) {
-      if (var1 != null) {
-         var1.setProperty(this.getPropertyName(), this.getPropertyValue());
+   public void saveTo(Properties props) {
+      if (props != null) {
+         props.setProperty(this.getPropertyName(), this.getPropertyValue());
       }
    }
 

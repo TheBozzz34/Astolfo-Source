@@ -20,142 +20,142 @@ public class VisGraph {
    private int field_178611_f = 4096;
    private static final long a = 62532722898767L;
 
-   public void func_178606_a(BlockPos var1) {
-      SetupTerrainEvent var5 = new SetupTerrainEvent();
-      Astolfo.INSTANCE.getEventBus().post(var5);
-      if (!var5.isCancelled()) {
-         this.field_178612_d.set(getIndex(var1), true);
+   public void func_178606_a(BlockPos pos) {
+      SetupTerrainEvent setupTerrainEvent = new SetupTerrainEvent();
+      Astolfo.INSTANCE.getEventBus().post(setupTerrainEvent);
+      if (!setupTerrainEvent.isCancelled()) {
+         this.field_178612_d.set(getIndex(pos), true);
          this.field_178611_f--;
       }
    }
 
-   private static int getIndex(BlockPos var0) {
-      return getIndex(var0.getX() & 15, var0.getY() & 15, var0.getZ() & 15);
+   private static int getIndex(BlockPos pos) {
+      return getIndex(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
    }
 
-   private static int getIndex(int var0, int var1, int var2) {
-      return var0 << 0 | var1 << 8 | var2 << 4;
+   private static int getIndex(int x, int y, int z) {
+      return x << 0 | y << 8 | z << 4;
    }
 
    public SetVisibility computeVisibility() {
-      SetVisibility var4 = new SetVisibility();
+      SetVisibility setVisibility = new SetVisibility();
       if (4096 - this.field_178611_f < 256 || ModuleManager.s.isEnabled() || ModuleManager.t.isEnabled()) {
-         var4.setAllVisible(true);
+         setVisibility.setAllVisible(true);
       } else if (this.field_178611_f == 0) {
-         var4.setAllVisible(false);
+         setVisibility.setAllVisible(false);
       } else {
-         for (int var8 : field_178613_e) {
-            if (!this.field_178612_d.get(var8)) {
-               var4.setManyVisible(this.func_178604_a(var8));
+         for (int i : field_178613_e) {
+            if (!this.field_178612_d.get(i)) {
+               setVisibility.setManyVisible(this.func_178604_a(i));
             }
          }
       }
 
-      return var4;
+      return setVisibility;
    }
 
-   public Set<EnumFacing> func_178609_b(BlockPos var1) {
-      return this.func_178604_a(getIndex(var1));
+   public Set<EnumFacing> func_178609_b(BlockPos pos) {
+      return this.func_178604_a(getIndex(pos));
    }
 
-   private Set<EnumFacing> func_178604_a(int var1) {
-      EnumSet var5 = EnumSet.noneOf(EnumFacing.class);
-      ArrayDeque var6 = new ArrayDeque(384);
-      var6.add(IntegerCache.getInteger(var1));
-      this.field_178612_d.set(var1, true);
+   private Set<EnumFacing> func_178604_a(int i) {
+      EnumSet enumSet = EnumSet.noneOf(EnumFacing.class);
+      ArrayDeque arrayDeque = new ArrayDeque(384);
+      arrayDeque.add(IntegerCache.getInteger(i));
+      this.field_178612_d.set(i, true);
 
-      while (!var6.isEmpty()) {
-         int var7 = (Integer)var6.poll();
-         this.func_178610_a(var7, var5);
+      while (!arrayDeque.isEmpty()) {
+         int j = (Integer)arrayDeque.poll();
+         this.func_178610_a(j, enumSet);
 
-         for (EnumFacing var11 : EnumFacing.VALUES) {
-            int var12 = this.func_178603_a(var7, var11);
-            if (var12 >= 0 && !this.field_178612_d.get(var12)) {
-               this.field_178612_d.set(var12, true);
-               var6.add(IntegerCache.getInteger(var12));
+         for (EnumFacing enumFacing : EnumFacing.VALUES) {
+            int k = this.func_178603_a(j, enumFacing);
+            if (k >= 0 && !this.field_178612_d.get(k)) {
+               this.field_178612_d.set(k, true);
+               arrayDeque.add(IntegerCache.getInteger(k));
             }
          }
       }
 
-      return var5;
+      return enumSet;
    }
 
-   private void func_178610_a(int var1, Set<EnumFacing> var2) {
-      int var6 = var1 >> 0 & 15;
-      if (var6 == 0) {
-         var2.add(EnumFacing.WEST);
-      } else if (var6 == 15) {
-         var2.add(EnumFacing.EAST);
+   private void func_178610_a(int i, Set<EnumFacing> set) {
+      int j = i >> 0 & 15;
+      if (j == 0) {
+         set.add(EnumFacing.WEST);
+      } else if (j == 15) {
+         set.add(EnumFacing.EAST);
       }
 
-      int var7 = var1 >> 8 & 15;
-      if (var7 == 0) {
-         var2.add(EnumFacing.DOWN);
-      } else if (var7 == 15) {
-         var2.add(EnumFacing.UP);
+      int k = i >> 8 & 15;
+      if (k == 0) {
+         set.add(EnumFacing.DOWN);
+      } else if (k == 15) {
+         set.add(EnumFacing.UP);
       }
 
-      int var8 = var1 >> 4 & 15;
-      if (var8 == 0) {
-         var2.add(EnumFacing.NORTH);
-      } else if (var8 == 15) {
-         var2.add(EnumFacing.SOUTH);
+      int l = i >> 4 & 15;
+      if (l == 0) {
+         set.add(EnumFacing.NORTH);
+      } else if (l == 15) {
+         set.add(EnumFacing.SOUTH);
       }
    }
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   private int func_178603_a(int var1, EnumFacing var2) {
-      switch (var2) {
+   private int func_178603_a(int i, EnumFacing enumFacing) {
+      switch (enumFacing) {
          case DOWN:
-            if ((var1 >> 8 & 15) == 0) {
+            if ((i >> 8 & 15) == 0) {
                return -1;
             }
 
-            return var1 - field_178615_c;
+            return i - field_178615_c;
          case UP:
-            if ((var1 >> 8 & 15) == 15) {
+            if ((i >> 8 & 15) == 15) {
                return -1;
             }
 
-            return var1 + field_178615_c;
+            return i + field_178615_c;
          case NORTH:
-            if ((var1 >> 4 & 15) == 0) {
+            if ((i >> 4 & 15) == 0) {
                return -1;
             }
 
-            return var1 - field_178614_b;
+            return i - field_178614_b;
          case SOUTH:
-            if ((var1 >> 4 & 15) == 15) {
+            if ((i >> 4 & 15) == 15) {
                return -1;
             }
 
-            return var1 + field_178614_b;
+            return i + field_178614_b;
          case WEST:
-            if ((var1 >> 0 & 15) == 0) {
+            if ((i >> 0 & 15) == 0) {
                return -1;
             }
 
-            return var1 - field_178616_a;
+            return i - field_178616_a;
          case EAST:
-            if ((var1 >> 0 & 15) == 15) {
+            if ((i >> 0 & 15) == 15) {
                return -1;
             }
 
-            return var1 + field_178616_a;
+            return i + field_178616_a;
          default:
             return -1;
       }
    }
 
    static {
-      int var15 = 0;
+      int i = 0;
 
-      for (int var16 = 0; var16 < 16; var16++) {
-         for (int var17 = 0; var17 < 16; var17++) {
-            for (int var18 = 0; var18 < 16; var18++) {
-               if (var16 == 0 || var16 == 15 || var17 == 0 || var17 == 15 || var18 == 0 || var18 == 15) {
-                  field_178613_e[var15++] = getIndex(var16, var17, var18);
+      for (int j = 0; j < 16; j++) {
+         for (int k = 0; k < 16; k++) {
+            for (int l = 0; l < 16; l++) {
+               if (j == 0 || j == 15 || k == 0 || k == 15 || l == 0 || l == 15) {
+                  field_178613_e[i++] = getIndex(j, k, l);
                }
             }
          }

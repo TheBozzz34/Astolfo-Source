@@ -12,11 +12,11 @@ public enum WorldTimeMode {
    private long T;
    private static final WorldTimeMode[] d = new WorldTimeMode[]{DAY, NOON, SUNSET, NIGHT, MIDNIGHT, SUNRISE, LOOP};
 
-   WorldTimeMode(int var3) {
-      this.T = var3;
+   WorldTimeMode(int j) {
+      this.T = j;
    }
 
-   public static long W(WorldTimeMode var0) {
-      return var0.T;
+   public static long W(WorldTimeMode worldTimeMode) {
+      return worldTimeMode.T;
    }
 }

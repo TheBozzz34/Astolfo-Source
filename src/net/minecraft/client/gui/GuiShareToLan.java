@@ -15,8 +15,8 @@ public class GuiShareToLan extends GuiScreen {
    private boolean field_146600_i;
    private static final long a = 84056439665236L;
 
-   public GuiShareToLan(GuiScreen var1) {
-      this.field_146598_a = var1;
+   public GuiShareToLan(GuiScreen guiScreen) {
+      this.field_146598_a = guiScreen;
    }
 
    @Override
@@ -40,10 +40,10 @@ public class GuiShareToLan extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 102) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 102) {
          this.mc.displayGuiScreen(this.field_146598_a);
-      } else if (var1.id == 104) {
+      } else if (button.id == 104) {
          if (this.field_146599_h.equals("spectator")) {
             this.field_146599_h = "creative";
          } else if (this.field_146599_h.equals("creative")) {
@@ -55,28 +55,28 @@ public class GuiShareToLan extends GuiScreen {
          }
 
          this.func_146595_g();
-      } else if (var1.id == 103) {
+      } else if (button.id == 103) {
          this.field_146600_i = !this.field_146600_i;
          this.func_146595_g();
-      } else if (var1.id == 101) {
+      } else if (button.id == 101) {
          this.mc.displayGuiScreen((GuiScreen)null);
-         String var5 = this.mc.getIntegratedServer().shareToLAN(WorldSettings.GameType.getByName(this.field_146599_h), this.field_146600_i);
-         ChatComponentStyle var6;
-         if (var5 != null) {
-            var6 = new ChatComponentTranslation("commands.publish.started", var5);
+         String string = this.mc.getIntegratedServer().shareToLAN(WorldSettings.GameType.getByName(this.field_146599_h), this.field_146600_i);
+         ChatComponentStyle chatComponentStyle;
+         if (string != null) {
+            chatComponentStyle = new ChatComponentTranslation("commands.publish.started", string);
          } else {
-            var6 = new ChatComponentText("commands.publish.failed");
+            chatComponentStyle = new ChatComponentText("commands.publish.failed");
          }
 
-         this.mc.ingameGUI.getChatGUI().printChatMessage(var6);
+         this.mc.ingameGUI.getChatGUI().printChatMessage(chatComponentStyle);
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, I18n.format("lanServer.title"), this.width / 2, 50, 16777215);
       this.d(this.fontRendererObj, I18n.format("lanServer.otherPlayers"), this.width / 2, 82, 16777215);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

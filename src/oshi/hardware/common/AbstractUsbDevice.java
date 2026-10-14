@@ -15,14 +15,16 @@ public abstract class AbstractUsbDevice implements UsbDevice {
    public UsbDevice[] connectedDevices;
    private static final long b = 127111578330191L;
 
-   public AbstractUsbDevice(String var1, String var2, String var3, String var4, String var5, String var6, UsbDevice[] var7) {
-      this.name = var1;
-      this.vendor = var2;
-      this.vendorId = var3;
-      this.productId = var4;
-      this.serialNumber = var5;
-      this.uniqueDeviceId = var6;
-      this.connectedDevices = Arrays.copyOf(var7, var7.length);
+   public AbstractUsbDevice(
+      String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
+   ) {
+      this.name = name;
+      this.vendor = vendor;
+      this.vendorId = vendorId;
+      this.productId = productId;
+      this.serialNumber = serialNumber;
+      this.uniqueDeviceId = uniqueDeviceId;
+      this.connectedDevices = Arrays.copyOf(connectedDevices, connectedDevices.length);
    }
 
    @Override
@@ -60,8 +62,8 @@ public abstract class AbstractUsbDevice implements UsbDevice {
       return Arrays.copyOf(this.connectedDevices, this.connectedDevices.length);
    }
 
-   public int compareTo(UsbDevice var1) {
-      return this.getName().compareTo(var1.getName());
+   public int compareTo(UsbDevice usb) {
+      return this.getName().compareTo(usb.getName());
    }
 
    @Override
@@ -69,22 +71,22 @@ public abstract class AbstractUsbDevice implements UsbDevice {
       return indentUsb(this, 1);
    }
 
-   private static String indentUsb(UsbDevice var0, int var1) {
-      String var5 = var1 > 2 ? String.format("%%%ds|-- ", var1 - 4) : String.format("%%%ds", var1);
-      StringBuilder var6 = new StringBuilder(String.format(var5, ""));
-      var6.append(var0.getName());
-      if (var0.getVendor().length() > 0) {
-         var6.append(" (").append(var0.getVendor()).append(')');
+   private static String indentUsb(UsbDevice usbDevice, int indent) {
+      String string = indent > 2 ? String.format("%%%ds|-- ", indent - 4) : String.format("%%%ds", indent);
+      StringBuilder stringBuilder = new StringBuilder(String.format(string, ""));
+      stringBuilder.append(usbDevice.getName());
+      if (usbDevice.getVendor().length() > 0) {
+         stringBuilder.append(" (").append(usbDevice.getVendor()).append(')');
       }
 
-      if (var0.getSerialNumber().length() > 0) {
-         var6.append(" [s/n: ").append(var0.getSerialNumber()).append(']');
+      if (usbDevice.getSerialNumber().length() > 0) {
+         stringBuilder.append(" [s/n: ").append(usbDevice.getSerialNumber()).append(']');
       }
 
-      for (UsbDevice var10 : var0.getConnectedDevices()) {
-         var6.append('\n').append(indentUsb(var10, var1 + 4));
+      for (UsbDevice usbDevice2 : usbDevice.getConnectedDevices()) {
+         stringBuilder.append('\n').append(indentUsb(usbDevice2, indent + 4));
       }
 
-      return var6.toString();
+      return stringBuilder.toString();
    }
 }

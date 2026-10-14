@@ -31,18 +31,18 @@ public class BlockPrismarine extends Block {
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(VARIANT) == BlockPrismarine.EnumType.ROUGH ? MapColor.cyanColor : MapColor.diamondColor;
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(VARIANT) == BlockPrismarine.EnumType.ROUGH ? MapColor.cyanColor : MapColor.diamondColor;
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
@@ -51,15 +51,15 @@ public class BlockPrismarine extends Block {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(VARIANT, BlockPrismarine.EnumType.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(VARIANT, BlockPrismarine.EnumType.byMetadata(meta));
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      var3.add(new ItemStack(var1, 1, ROUGH_META));
-      var3.add(new ItemStack(var1, 1, BRICKS_META));
-      var3.add(new ItemStack(var1, 1, DARK_META));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      list.add(new ItemStack(itemIn, 1, ROUGH_META));
+      list.add(new ItemStack(itemIn, 1, BRICKS_META));
+      list.add(new ItemStack(itemIn, 1, DARK_META));
    }
 
    public enum EnumType implements IStringSerializable {
@@ -73,10 +73,10 @@ public class BlockPrismarine extends Block {
       private final String unlocalizedName;
       private static final long b = 29528893950928L;
 
-      EnumType(int var3, String var4, String var5) {
-         this.meta = var3;
-         this.name = var4;
-         this.unlocalizedName = var5;
+      EnumType(int meta, String name, String unlocalizedNameIn) {
+         this.meta = meta;
+         this.name = name;
+         this.unlocalizedName = unlocalizedNameIn;
       }
 
       public int getMetadata() {
@@ -88,12 +88,12 @@ public class BlockPrismarine extends Block {
          return this.name;
       }
 
-      public static BlockPrismarine.EnumType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= META_LOOKUP.length) {
-            var0 = 0;
+      public static BlockPrismarine.EnumType byMetadata(int meta) {
+         if (meta < 0 || meta >= META_LOOKUP.length) {
+            meta = 0;
          }
 
-         return META_LOOKUP[var0];
+         return META_LOOKUP[meta];
       }
 
       @Override
@@ -106,8 +106,8 @@ public class BlockPrismarine extends Block {
       }
 
       static {
-         for (BlockPrismarine.EnumType var14 : values()) {
-            META_LOOKUP[var14.getMetadata()] = var14;
+         for (BlockPrismarine.EnumType enumType : values()) {
+            META_LOOKUP[enumType.getMetadata()] = enumType;
          }
       }
    }

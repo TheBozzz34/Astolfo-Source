@@ -6,18 +6,18 @@ public class GuiOptionButton extends GuiButton {
    private final GameSettings.Options enumOptions;
    private static final long c = 20033184547819L;
 
-   public GuiOptionButton(int var1, int var2, int var3, String var4) {
-      this(var1, var2, var3, (GameSettings.Options)null, var4);
+   public GuiOptionButton(int i, int j, int k, String string) {
+      this(i, j, k, (GameSettings.Options)null, string);
    }
 
-   public GuiOptionButton(int var1, int var2, int var3, int var4, int var5, String var6) {
-      super(var1, var2, var3, var4, var5, var6);
+   public GuiOptionButton(int i, int j, int k, int l, int m, String string) {
+      super(i, j, k, l, m, string);
       this.enumOptions = null;
    }
 
-   public GuiOptionButton(int var1, int var2, int var3, GameSettings.Options var4, String var5) {
-      super(var1, var2, var3, 150, 20, var5);
-      this.enumOptions = var4;
+   public GuiOptionButton(int i, int j, int k, GameSettings.Options options, String string) {
+      super(i, j, k, 150, 20, string);
+      this.enumOptions = options;
    }
 
    public GameSettings.Options returnEnumOptions() {

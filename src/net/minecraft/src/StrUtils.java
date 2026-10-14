@@ -7,88 +7,88 @@ public class StrUtils {
    private static final long a = 100558836188296L;
    private static final long b = 7411752035378266160L;
 
-   public static boolean equalsMask(String var0, String var1, char var2, char var3) {
-      if (var1 != null && var0 != null) {
-         if (var1.indexOf(var2) < 0) {
-            return var1.indexOf(var3) < 0 ? var1.equals(var0) : equalsMaskSingle(var0, var1, var3);
+   public static boolean equalsMask(String str, String mask, char wildChar, char wildCharSingle) {
+      if (mask != null && str != null) {
+         if (mask.indexOf(wildChar) < 0) {
+            return mask.indexOf(wildCharSingle) < 0 ? mask.equals(str) : equalsMaskSingle(str, mask, wildCharSingle);
          }
 
-         ArrayList var7 = new ArrayList();
-         String var8 = "" + var2;
-         if (var1.startsWith(var8)) {
-            var7.add("");
+         ArrayList arrayList = new ArrayList();
+         String string = "" + wildChar;
+         if (mask.startsWith(string)) {
+            arrayList.add("");
          }
 
-         StringTokenizer var9 = new StringTokenizer(var1, var8);
+         StringTokenizer stringTokenizer = new StringTokenizer(mask, string);
 
-         while (var9.hasMoreElements()) {
-            var7.add(var9.nextToken());
+         while (stringTokenizer.hasMoreElements()) {
+            arrayList.add(stringTokenizer.nextToken());
          }
 
-         if (var1.endsWith(var8)) {
-            var7.add("");
+         if (mask.endsWith(string)) {
+            arrayList.add("");
          }
 
-         String var10 = (String)var7.get(0);
-         if (!startsWithMaskSingle(var0, var10, var3)) {
+         String string2 = (String)arrayList.get(0);
+         if (!startsWithMaskSingle(str, string2, wildCharSingle)) {
             return false;
          }
 
-         String var11 = (String)var7.get(var7.size() - 1);
-         if (!endsWithMaskSingle(var0, var11, var3)) {
+         String string3 = (String)arrayList.get(arrayList.size() - 1);
+         if (!endsWithMaskSingle(str, string3, wildCharSingle)) {
             return false;
          }
 
-         int var12 = 0;
+         int i = 0;
 
-         for (int var13 = 0; var13 < var7.size(); var13++) {
-            String var14 = (String)var7.get(var13);
-            if (var14.length() > 0) {
-               int var15 = indexOfMaskSingle(var0, var14, var12, var3);
-               if (var15 < 0) {
+         for (int j = 0; j < arrayList.size(); j++) {
+            String string4 = (String)arrayList.get(j);
+            if (string4.length() > 0) {
+               int k = indexOfMaskSingle(str, string4, i, wildCharSingle);
+               if (k < 0) {
                   return false;
                }
 
-               var12 = var15 + var14.length();
+               i = k + string4.length();
             }
          }
 
          return true;
       } else {
-         return var1 == var0;
+         return mask == str;
       }
    }
 
-   private static boolean equalsMaskSingle(String var0, String var1, char var2) {
-      if (var0 != null && var1 != null) {
-         if (var0.length() != var1.length()) {
+   private static boolean equalsMaskSingle(String str, String mask, char wildCharSingle) {
+      if (str != null && mask != null) {
+         if (str.length() != mask.length()) {
             return false;
          }
 
-         for (int var6 = 0; var6 < var1.length(); var6++) {
-            char var7 = var1.charAt(var6);
-            if (var7 != var2 && var0.charAt(var6) != var7) {
+         for (int i = 0; i < mask.length(); i++) {
+            char c = mask.charAt(i);
+            if (c != wildCharSingle && str.charAt(i) != c) {
                return false;
             }
          }
 
          return true;
       } else {
-         return var0 == var1;
+         return str == mask;
       }
    }
 
-   private static int indexOfMaskSingle(String var0, String var1, int var2, char var3) {
-      if (var0 != null && var1 != null) {
-         if (var2 >= 0 && var2 <= var0.length()) {
-            if (var0.length() < var2 + var1.length()) {
+   private static int indexOfMaskSingle(String str, String mask, int startPos, char wildCharSingle) {
+      if (str != null && mask != null) {
+         if (startPos >= 0 && startPos <= str.length()) {
+            if (str.length() < startPos + mask.length()) {
                return -1;
             }
 
-            for (int var7 = var2; var7 + var1.length() <= var0.length(); var7++) {
-               String var8 = var0.substring(var7, var7 + var1.length());
-               if (equalsMaskSingle(var8, var1, var3)) {
-                  return var7;
+            for (int i = startPos; i + mask.length() <= str.length(); i++) {
+               String string = str.substring(i, i + mask.length());
+               if (equalsMaskSingle(string, mask, wildCharSingle)) {
+                  return i;
                }
             }
 
@@ -101,36 +101,36 @@ public class StrUtils {
       }
    }
 
-   private static boolean endsWithMaskSingle(String var0, String var1, char var2) {
-      if (var0 != null && var1 != null) {
-         if (var0.length() < var1.length()) {
+   private static boolean endsWithMaskSingle(String str, String mask, char wildCharSingle) {
+      if (str != null && mask != null) {
+         if (str.length() < mask.length()) {
             return false;
          }
 
-         String var6 = var0.substring(var0.length() - var1.length(), var0.length());
-         return equalsMaskSingle(var6, var1, var2);
+         String string = str.substring(str.length() - mask.length(), str.length());
+         return equalsMaskSingle(string, mask, wildCharSingle);
       } else {
-         return var0 == var1;
+         return str == mask;
       }
    }
 
-   private static boolean startsWithMaskSingle(String var0, String var1, char var2) {
-      if (var0 != null && var1 != null) {
-         if (var0.length() < var1.length()) {
+   private static boolean startsWithMaskSingle(String str, String mask, char wildCharSingle) {
+      if (str != null && mask != null) {
+         if (str.length() < mask.length()) {
             return false;
          }
 
-         String var6 = var0.substring(0, var1.length());
-         return equalsMaskSingle(var6, var1, var2);
+         String string = str.substring(0, mask.length());
+         return equalsMaskSingle(string, mask, wildCharSingle);
       } else {
-         return var0 == var1;
+         return str == mask;
       }
    }
 
-   public static boolean equalsMask(String var0, String[] var1, char var2) {
-      for (int var6 = 0; var6 < var1.length; var6++) {
-         String var7 = var1[var6];
-         if (equalsMask(var0, var7, var2)) {
+   public static boolean equalsMask(String str, String[] masks, char wildChar) {
+      for (int i = 0; i < masks.length; i++) {
+         String string = masks[i];
+         if (equalsMask(str, string, wildChar)) {
             return true;
          }
       }
@@ -138,85 +138,85 @@ public class StrUtils {
       return false;
    }
 
-   public static boolean equalsMask(String var0, String var1, char var2) {
-      if (var1 != null && var0 != null) {
-         if (var1.indexOf(var2) < 0) {
-            return var1.equals(var0);
+   public static boolean equalsMask(String str, String mask, char wildChar) {
+      if (mask != null && str != null) {
+         if (mask.indexOf(wildChar) < 0) {
+            return mask.equals(str);
          }
 
-         ArrayList var6 = new ArrayList();
-         String var7 = "" + var2;
-         if (var1.startsWith(var7)) {
-            var6.add("");
+         ArrayList arrayList = new ArrayList();
+         String string = "" + wildChar;
+         if (mask.startsWith(string)) {
+            arrayList.add("");
          }
 
-         StringTokenizer var8 = new StringTokenizer(var1, var7);
+         StringTokenizer stringTokenizer = new StringTokenizer(mask, string);
 
-         while (var8.hasMoreElements()) {
-            var6.add(var8.nextToken());
+         while (stringTokenizer.hasMoreElements()) {
+            arrayList.add(stringTokenizer.nextToken());
          }
 
-         if (var1.endsWith(var7)) {
-            var6.add("");
+         if (mask.endsWith(string)) {
+            arrayList.add("");
          }
 
-         String var9 = (String)var6.get(0);
-         if (!var0.startsWith(var9)) {
+         String string2 = (String)arrayList.get(0);
+         if (!str.startsWith(string2)) {
             return false;
          }
 
-         String var10 = (String)var6.get(var6.size() - 1);
-         if (!var0.endsWith(var10)) {
+         String string3 = (String)arrayList.get(arrayList.size() - 1);
+         if (!str.endsWith(string3)) {
             return false;
          }
 
-         int var11 = 0;
+         int i = 0;
 
-         for (int var12 = 0; var12 < var6.size(); var12++) {
-            String var13 = (String)var6.get(var12);
-            if (var13.length() > 0) {
-               int var14 = var0.indexOf(var13, var11);
-               if (var14 < 0) {
+         for (int j = 0; j < arrayList.size(); j++) {
+            String string4 = (String)arrayList.get(j);
+            if (string4.length() > 0) {
+               int k = str.indexOf(string4, i);
+               if (k < 0) {
                   return false;
                }
 
-               var11 = var14 + var13.length();
+               i = k + string4.length();
             }
          }
 
          return true;
       } else {
-         return var1 == var0;
+         return mask == str;
       }
    }
 
-   public static String[] split(String var0, String var1) {
-      if (var0 != null && var0.length() > 0) {
-         if (var1 == null) {
-            return new String[]{var0};
+   public static String[] split(String str, String separators) {
+      if (str != null && str.length() > 0) {
+         if (separators == null) {
+            return new String[]{str};
          }
 
-         ArrayList var5 = new ArrayList();
-         int var6 = 0;
+         ArrayList arrayList = new ArrayList();
+         int i = 0;
 
-         for (int var7 = 0; var7 < var0.length(); var7++) {
-            char var8 = var0.charAt(var7);
-            if (equals(var8, var1)) {
-               var5.add(var0.substring(var6, var7));
-               var6 = var7 + 1;
+         for (int j = 0; j < str.length(); j++) {
+            char c = str.charAt(j);
+            if (equals(c, separators)) {
+               arrayList.add(str.substring(i, j));
+               i = j + 1;
             }
          }
 
-         var5.add(var0.substring(var6, var0.length()));
-         return (java.lang.String[])(var5.toArray(new String[var5.size()]));
+         arrayList.add(str.substring(i, str.length()));
+         return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
       } else {
          return new String[0];
       }
    }
 
-   private static boolean equals(char var0, String var1) {
-      for (int var5 = 0; var5 < var1.length(); var5++) {
-         if (var1.charAt(var5) == var0) {
+   private static boolean equals(char ch, String matches) {
+      for (int i = 0; i < matches.length(); i++) {
+         if (matches.charAt(i) == ch) {
             return true;
          }
       }
@@ -224,110 +224,110 @@ public class StrUtils {
       return false;
    }
 
-   public static boolean equalsTrim(String var0, String var1) {
-      if (var0 != null) {
-         var0 = var0.trim();
+   public static boolean equalsTrim(String aIn, String bIn) {
+      if (aIn != null) {
+         aIn = aIn.trim();
       }
 
-      if (var1 != null) {
-         var1 = var1.trim();
+      if (bIn != null) {
+         bIn = bIn.trim();
       }
 
-      return equals(var0, var1);
+      return equals(aIn, bIn);
    }
 
-   public static boolean isEmpty(String var0) {
-      return var0 == null ? true : var0.trim().length() <= 0;
+   public static boolean isEmpty(String string) {
+      return string == null ? true : string.trim().length() <= 0;
    }
 
-   public static String stringInc(String var0) {
-      int var4 = parseInt(var0, -1);
-      if (var4 == -1) {
+   public static String stringInc(String str) {
+      int i = parseInt(str, -1);
+      if (i == -1) {
          return "";
       }
 
-      String var5 = "" + ++var4;
-      return var5.length() > var0.length() ? "" : fillLeft("" + var4, var0.length(), (char)((int)b));
+      String string = "" + ++i;
+      return string.length() > str.length() ? "" : fillLeft("" + i, str.length(), (char)((int)b));
    }
 
-   public static int parseInt(String var0, int var1) {
-      if (var0 == null) {
-         return var1;
+   public static int parseInt(String s, int defVal) {
+      if (s == null) {
+         return defVal;
       }
 
       try {
-         return Integer.parseInt(var0);
-      } catch (NumberFormatException var6) {
-         return var1;
+         return Integer.parseInt(s);
+      } catch (NumberFormatException numberFormatException) {
+         return defVal;
       }
    }
 
-   public static boolean isFilled(String var0) {
-      return !isEmpty(var0);
+   public static boolean isFilled(String string) {
+      return !isEmpty(string);
    }
 
-   public static String addIfNotContains(String var0, String var1) {
-      for (int var5 = 0; var5 < var1.length(); var5++) {
-         if (var0.indexOf(var1.charAt(var5)) < 0) {
-            var0 = var0 + var1.charAt(var5);
+   public static String addIfNotContains(String target, String source) {
+      for (int i = 0; i < source.length(); i++) {
+         if (target.indexOf(source.charAt(i)) < 0) {
+            target = target + source.charAt(i);
          }
       }
 
-      return var0;
+      return target;
    }
 
-   public static String fillLeft(String var0, int var1, char var2) {
-      if (var0 == null) {
-         var0 = "";
+   public static String fillLeft(String s, int lenIn, char fillChar) {
+      if (s == null) {
+         s = "";
       }
 
-      if (var0.length() >= var1) {
-         return var0;
+      if (s.length() >= lenIn) {
+         return s;
       }
 
-      StringBuffer var6 = new StringBuffer(var0);
+      StringBuffer stringBuffer = new StringBuffer(s);
 
-      while (var6.length() < var1) {
-         var6.insert(0, var2);
+      while (stringBuffer.length() < lenIn) {
+         stringBuffer.insert(0, fillChar);
       }
 
-      return var6.toString();
+      return stringBuffer.toString();
    }
 
-   public static String fillRight(String var0, int var1, char var2) {
-      if (var0 == null) {
-         var0 = "";
+   public static String fillRight(String s, int lenIn, char fillChar) {
+      if (s == null) {
+         s = "";
       }
 
-      if (var0.length() >= var1) {
-         return var0;
+      if (s.length() >= lenIn) {
+         return s;
       }
 
-      StringBuffer var6 = new StringBuffer(var0);
+      StringBuffer stringBuffer = new StringBuffer(s);
 
-      while (var6.length() < var1) {
-         var6.append(var2);
+      while (stringBuffer.length() < lenIn) {
+         stringBuffer.append(fillChar);
       }
 
-      return var6.toString();
+      return stringBuffer.toString();
    }
 
-   public static boolean equals(Object var0, Object var1) {
-      return var0 == var1 ? true : (var0 != null && var0.equals(var1) ? true : var1 != null && var1.equals(var0));
+   public static boolean equals(Object aIn, Object bIn) {
+      return aIn == bIn ? true : (aIn != null && aIn.equals(bIn) ? true : bIn != null && bIn.equals(aIn));
    }
 
-   public static boolean startsWith(String var0, String[] var1) {
-      if (var0 == null) {
+   public static boolean startsWith(String str, String[] prefixes) {
+      if (str == null) {
          return false;
       }
 
-      if (var1 == null) {
+      if (prefixes == null) {
          return false;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         String var6 = var1[var5];
-         if (var0.startsWith(var6)) {
+      for (int i = 0; i < prefixes.length; i++) {
+         String string = prefixes[i];
+         if (str.startsWith(string)) {
             return true;
          }
       }
@@ -335,18 +335,18 @@ public class StrUtils {
       return false;
    }
 
-   public static boolean endsWith(String var0, String[] var1) {
-      if (var0 == null) {
+   public static boolean endsWith(String str, String[] suffixes) {
+      if (str == null) {
          return false;
       }
 
-      if (var1 == null) {
+      if (suffixes == null) {
          return false;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         String var6 = var1[var5];
-         if (var0.endsWith(var6)) {
+      for (int i = 0; i < suffixes.length; i++) {
+         String string = suffixes[i];
+         if (str.endsWith(string)) {
             return true;
          }
       }
@@ -354,52 +354,52 @@ public class StrUtils {
       return false;
    }
 
-   public static String removePrefix(String var0, String var1) {
-      if (var0 != null && var1 != null) {
-         if (var0.startsWith(var1)) {
-            var0 = var0.substring(var1.length());
+   public static String removePrefix(String str, String prefix) {
+      if (str != null && prefix != null) {
+         if (str.startsWith(prefix)) {
+            str = str.substring(prefix.length());
          }
 
-         return var0;
+         return str;
       } else {
-         return var0;
+         return str;
       }
    }
 
-   public static String removeSuffix(String var0, String var1) {
-      if (var0 != null && var1 != null) {
-         if (var0.endsWith(var1)) {
-            var0 = var0.substring(0, var0.length() - var1.length());
+   public static String removeSuffix(String str, String suffix) {
+      if (str != null && suffix != null) {
+         if (str.endsWith(suffix)) {
+            str = str.substring(0, str.length() - suffix.length());
          }
 
-         return var0;
+         return str;
       } else {
-         return var0;
+         return str;
       }
    }
 
-   public static String replaceSuffix(String var0, String var1, String var2) {
-      if (var0 != null && var1 != null) {
-         if (var2 == null) {
-            var2 = "";
+   public static String replaceSuffix(String str, String suffix, String suffixNew) {
+      if (str != null && suffix != null) {
+         if (suffixNew == null) {
+            suffixNew = "";
          }
 
-         if (var0.endsWith(var1)) {
-            var0 = var0.substring(0, var0.length() - var1.length());
+         if (str.endsWith(suffix)) {
+            str = str.substring(0, str.length() - suffix.length());
          }
 
-         return var0 + var2;
+         return str + suffixNew;
       } else {
-         return var0;
+         return str;
       }
    }
 
-   public static int findPrefix(String[] var0, String var1) {
-      if (var0 != null && var1 != null) {
-         for (int var5 = 0; var5 < var0.length; var5++) {
-            String var6 = var0[var5];
-            if (var6.startsWith(var1)) {
-               return var5;
+   public static int findPrefix(String[] strs, String prefix) {
+      if (strs != null && prefix != null) {
+         for (int i = 0; i < strs.length; i++) {
+            String string = strs[i];
+            if (string.startsWith(prefix)) {
+               return i;
             }
          }
 
@@ -409,12 +409,12 @@ public class StrUtils {
       }
    }
 
-   public static int findSuffix(String[] var0, String var1) {
-      if (var0 != null && var1 != null) {
-         for (int var5 = 0; var5 < var0.length; var5++) {
-            String var6 = var0[var5];
-            if (var6.endsWith(var1)) {
-               return var5;
+   public static int findSuffix(String[] strs, String suffix) {
+      if (strs != null && suffix != null) {
+         for (int i = 0; i < strs.length; i++) {
+            String string = strs[i];
+            if (string.endsWith(suffix)) {
+               return i;
             }
          }
 
@@ -424,85 +424,85 @@ public class StrUtils {
       }
    }
 
-   public static String[] remove(String[] var0, int var1, int var2) {
-      if (var0 == null) {
-         return var0;
+   public static String[] remove(String[] strs, int startIn, int end) {
+      if (strs == null) {
+         return strs;
       }
 
-      if (var2 > 0 && var1 < var0.length) {
-         if (var1 >= var2) {
-            return var0;
+      if (end > 0 && startIn < strs.length) {
+         if (startIn >= end) {
+            return strs;
          }
 
-         ArrayList var6 = new ArrayList(var0.length);
+         ArrayList arrayList = new ArrayList(strs.length);
 
-         for (int var7 = 0; var7 < var0.length; var7++) {
-            String var8 = var0[var7];
-            if (var7 < var1 || var7 >= var2) {
-               var6.add(var8);
+         for (int i = 0; i < strs.length; i++) {
+            String string = strs[i];
+            if (i < startIn || i >= end) {
+               arrayList.add(string);
             }
          }
 
-         return (java.lang.String[])(var6.toArray(new String[var6.size()]));
+         return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
       } else {
-         return var0;
+         return strs;
       }
    }
 
-   public static String removeSuffix(String var0, String[] var1) {
-      if (var0 != null && var1 != null) {
-         int var5 = var0.length();
+   public static String removeSuffix(String str, String[] suffixes) {
+      if (str != null && suffixes != null) {
+         int i = str.length();
 
-         for (int var6 = 0; var6 < var1.length; var6++) {
-            String var7 = var1[var6];
-            var0 = removeSuffix(var0, var7);
-            if (var0.length() != var5) {
+         for (int j = 0; j < suffixes.length; j++) {
+            String string = suffixes[j];
+            str = removeSuffix(str, string);
+            if (str.length() != i) {
                break;
             }
          }
 
-         return var0;
+         return str;
       } else {
-         return var0;
+         return str;
       }
    }
 
-   public static String removePrefix(String var0, String[] var1) {
-      if (var0 != null && var1 != null) {
-         int var5 = var0.length();
+   public static String removePrefix(String str, String[] prefixes) {
+      if (str != null && prefixes != null) {
+         int i = str.length();
 
-         for (int var6 = 0; var6 < var1.length; var6++) {
-            String var7 = var1[var6];
-            var0 = removePrefix(var0, var7);
-            if (var0.length() != var5) {
+         for (int j = 0; j < prefixes.length; j++) {
+            String string = prefixes[j];
+            str = removePrefix(str, string);
+            if (str.length() != i) {
                break;
             }
          }
 
-         return var0;
+         return str;
       } else {
-         return var0;
+         return str;
       }
    }
 
-   public static String removePrefixSuffix(String var0, String[] var1, String[] var2) {
-      var0 = removePrefix(var0, var1);
-      return removeSuffix(var0, var2);
+   public static String removePrefixSuffix(String str, String[] prefixes, String[] suffixes) {
+      str = removePrefix(str, prefixes);
+      return removeSuffix(str, suffixes);
    }
 
-   public static String removePrefixSuffix(String var0, String var1, String var2) {
-      return removePrefixSuffix(var0, new String[]{var1}, new String[]{var2});
+   public static String removePrefixSuffix(String str, String prefix, String suffix) {
+      return removePrefixSuffix(str, new String[]{prefix}, new String[]{suffix});
    }
 
-   public static String getSegment(String var0, String var1, String var2) {
-      if (var0 != null && var1 != null && var2 != null) {
-         int var6 = var0.indexOf(var1);
-         if (var6 < 0) {
+   public static String getSegment(String str, String startIn, String end) {
+      if (str != null && startIn != null && end != null) {
+         int i = str.indexOf(startIn);
+         if (i < 0) {
             return null;
          }
 
-         int var7 = var0.indexOf(var2, var6);
-         return var7 < 0 ? null : var0.substring(var6, var7 + var2.length());
+         int j = str.indexOf(end, i);
+         return j < 0 ? null : str.substring(i, j + end.length());
       } else {
          return null;
       }

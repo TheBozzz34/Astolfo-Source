@@ -9,17 +9,17 @@ public class ChatManager extends JsonFileManager<ChatSettings, JsonObject> {
    private static boolean p = true;
    private static final long c = 113002365647811L;
 
-   public ChatManager(File var1) {
-      super(var1, "chat.json");
+   public ChatManager(File file) {
+      super(file, "chat.json");
    }
 
-   public void t(String var1, JsonObject var2) {
-      if (var2.has("token")) {
-         v = var2.get("token").getAsBoolean();
+   public void t(String string, JsonObject jsonObject) {
+      if (jsonObject.has("token")) {
+         v = jsonObject.get("token").getAsBoolean();
       }
 
-      if (var2.has("pings")) {
-         p = var2.get("pings").getAsBoolean();
+      if (jsonObject.has("pings")) {
+         p = jsonObject.get("pings").getAsBoolean();
       }
    }
 
@@ -33,12 +33,12 @@ public class ChatManager extends JsonFileManager<ChatSettings, JsonObject> {
       super.a();
    }
 
-   public static void D(boolean var0) {
-      v = var0;
+   public static void D(boolean bl) {
+      v = bl;
    }
 
-   public static void x(boolean var0) {
-      p = var0;
+   public static void x(boolean bl) {
+      p = bl;
    }
 
    public static boolean X() {

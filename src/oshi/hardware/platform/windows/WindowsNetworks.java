@@ -15,51 +15,51 @@ public final class WindowsNetworks extends Networks {
    private static final byte CONNECTOR_PRESENT_BIT = 32;
    private static final long b = 18008462853337L;
 
-   public static boolean updateNetworkStats(NetworkIF var0) {
+   public static boolean updateNetworkStats(NetworkIF netIF) {
       if (IS_VISTA_OR_GREATER) {
-         MIB_IF_ROW2 var4 = new MIB_IF_ROW2();
-         var4.InterfaceIndex = var0.queryNetworkInterface().getIndex();
-         if (0 != IPHlpAPI.INSTANCE.GetIfEntry2(var4)) {
+         MIB_IF_ROW2 miB_IF_ROW2 = new MIB_IF_ROW2();
+         miB_IF_ROW2.InterfaceIndex = netIF.queryNetworkInterface().getIndex();
+         if (0 != IPHlpAPI.INSTANCE.GetIfEntry2(miB_IF_ROW2)) {
             return false;
          }
 
-         var0.setIfType(var4.Type);
-         var0.d(var4.PhysicalMediumType);
-         var0.setConnectorPresent((var4.InterfaceAndOperStatusFlags & 32) > 0);
-         var0.setBytesSent(var4.OutOctets);
-         var0.setBytesRecv(var4.InOctets);
-         var0.setPacketsSent(var4.OutUcastPkts);
-         var0.setPacketsRecv(var4.InUcastPkts);
-         var0.setOutErrors(var4.OutErrors);
-         var0.setInErrors(var4.InErrors);
-         var0.setCollisions(var4.OutDiscards);
-         var0.setInDrops(var4.InDiscards);
-         var0.setSpeed(var4.ReceiveLinkSpeed);
+         netIF.setIfType(miB_IF_ROW2.Type);
+         netIF.d(miB_IF_ROW2.PhysicalMediumType);
+         netIF.setConnectorPresent((miB_IF_ROW2.InterfaceAndOperStatusFlags & 32) > 0);
+         netIF.setBytesSent(miB_IF_ROW2.OutOctets);
+         netIF.setBytesRecv(miB_IF_ROW2.InOctets);
+         netIF.setPacketsSent(miB_IF_ROW2.OutUcastPkts);
+         netIF.setPacketsRecv(miB_IF_ROW2.InUcastPkts);
+         netIF.setOutErrors(miB_IF_ROW2.OutErrors);
+         netIF.setInErrors(miB_IF_ROW2.InErrors);
+         netIF.setCollisions(miB_IF_ROW2.OutDiscards);
+         netIF.setInDrops(miB_IF_ROW2.InDiscards);
+         netIF.setSpeed(miB_IF_ROW2.ReceiveLinkSpeed);
       } else {
-         MIB_IFROW var5 = new MIB_IFROW();
-         var5.dwIndex = var0.queryNetworkInterface().getIndex();
-         if (0 != IPHlpAPI.INSTANCE.GetIfEntry(var5)) {
+         MIB_IFROW miB_IFROW = new MIB_IFROW();
+         miB_IFROW.dwIndex = netIF.queryNetworkInterface().getIndex();
+         if (0 != IPHlpAPI.INSTANCE.GetIfEntry(miB_IFROW)) {
             return false;
          }
 
-         var0.setIfType(var5.dwType);
-         var0.setBytesSent(ParseUtil.unsignedIntToLong(var5.dwOutOctets));
-         var0.setBytesRecv(ParseUtil.unsignedIntToLong(var5.dwInOctets));
-         var0.setPacketsSent(ParseUtil.unsignedIntToLong(var5.dwOutUcastPkts));
-         var0.setPacketsRecv(ParseUtil.unsignedIntToLong(var5.dwInUcastPkts));
-         var0.setOutErrors(ParseUtil.unsignedIntToLong(var5.dwOutErrors));
-         var0.setInErrors(ParseUtil.unsignedIntToLong(var5.dwInErrors));
-         var0.setCollisions(ParseUtil.unsignedIntToLong(var5.dwOutDiscards));
-         var0.setInDrops(ParseUtil.unsignedIntToLong(var5.dwInDiscards));
-         var0.setSpeed(ParseUtil.unsignedIntToLong(var5.dwSpeed));
+         netIF.setIfType(miB_IFROW.dwType);
+         netIF.setBytesSent(ParseUtil.unsignedIntToLong(miB_IFROW.dwOutOctets));
+         netIF.setBytesRecv(ParseUtil.unsignedIntToLong(miB_IFROW.dwInOctets));
+         netIF.setPacketsSent(ParseUtil.unsignedIntToLong(miB_IFROW.dwOutUcastPkts));
+         netIF.setPacketsRecv(ParseUtil.unsignedIntToLong(miB_IFROW.dwInUcastPkts));
+         netIF.setOutErrors(ParseUtil.unsignedIntToLong(miB_IFROW.dwOutErrors));
+         netIF.setInErrors(ParseUtil.unsignedIntToLong(miB_IFROW.dwInErrors));
+         netIF.setCollisions(ParseUtil.unsignedIntToLong(miB_IFROW.dwOutDiscards));
+         netIF.setInDrops(ParseUtil.unsignedIntToLong(miB_IFROW.dwInDiscards));
+         netIF.setSpeed(ParseUtil.unsignedIntToLong(miB_IFROW.dwSpeed));
       }
 
-      var0.setTimeStamp(System.currentTimeMillis());
+      netIF.setTimeStamp(System.currentTimeMillis());
       return true;
    }
 
    static {
-      long var0 = b ^ 38941009911255L;
-      long var10000 = var0 ^ 8372325303697592095L;
+      long l = b ^ 38941009911255L;
+      long m = l ^ 8372325303697592095L;
    }
 }

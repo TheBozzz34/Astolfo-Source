@@ -13,9 +13,9 @@ public class BlockLeavesBase extends Block {
    private static Map mapOriginalOpacity = new IdentityHashMap();
    private static final long bb = 97820776847832L;
 
-   public BlockLeavesBase(Material var1, boolean var2) {
-      super(var1);
-      this.fancyGraphics = var2;
+   public BlockLeavesBase(Material materialIn, boolean fancyGraphics) {
+      super(materialIn);
+      this.fancyGraphics = fancyGraphics;
    }
 
    @Override
@@ -24,22 +24,22 @@ public class BlockLeavesBase extends Block {
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return Config.isCullFacesLeaves() && var1.getBlockState(var2).getBlock() == this ? false : super.shouldSideBeRendered(var1, var2, var3);
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      return Config.isCullFacesLeaves() && worldIn.getBlockState(pos).getBlock() == this ? false : super.shouldSideBeRendered(worldIn, pos, side);
    }
 
-   public static void setLightOpacity(Block var0, int var1) {
-      if (!mapOriginalOpacity.containsKey(var0)) {
-         mapOriginalOpacity.put(var0, var0.getLightOpacity());
+   public static void setLightOpacity(Block block, int i) {
+      if (!mapOriginalOpacity.containsKey(block)) {
+         mapOriginalOpacity.put(block, block.getLightOpacity());
       }
 
-      var0.setLightOpacity(var1);
+      block.setLightOpacity(i);
    }
 
-   public static void restoreLightOpacity(Block var0) {
-      if (mapOriginalOpacity.containsKey(var0)) {
-         int var4 = (Integer)mapOriginalOpacity.get(var0);
-         setLightOpacity(var0, var4);
+   public static void restoreLightOpacity(Block block) {
+      if (mapOriginalOpacity.containsKey(block)) {
+         int i = (Integer)mapOriginalOpacity.get(block);
+         setLightOpacity(block, i);
       }
    }
 }

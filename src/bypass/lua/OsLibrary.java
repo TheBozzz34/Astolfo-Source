@@ -34,56 +34,56 @@ public class OsLibrary extends TwoArgFunction {
    private static final long a = 34386368666718L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      this.y = var2.checkglobals();
-      LuaTable var6 = new LuaTable();
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      this.y = luaValue2.checkglobals();
+      LuaTable luaTable = new LuaTable();
 
-      for (int var7 = 0; var7 < n.length; var7++) {
-         var6.set(n[var7], new OsLibrary.pp(var7, n[var7]));
+      for (int i = 0; i < n.length; i++) {
+         luaTable.set(n[i], new OsLibrary.pp(i, n[i]));
       }
 
-      var2.set("os", var6);
-      if (!var2.get("package").isnil()) {
-         var2.get("package").get("loaded").set("os", var6);
+      luaValue2.set("os", luaTable);
+      if (!luaValue2.get("package").isnil()) {
+         luaValue2.get("package").get("loaded").set("os", luaTable);
       }
 
-      return var6;
+      return luaTable;
    }
 
    public double n() {
       return (System.currentTimeMillis() - W) / 1000.0;
    }
 
-   public double k(double var1, double var3) {
-      return var1 - var3;
+   public double k(double d2, double d3) {
+      return d2 - d3;
    }
 
-   public String x(String var1, double var2) {
-      long var4 = a ^ 96443817699932L;
-      Calendar var8 = Calendar.getInstance();
-      var8.setTime(new Date((long)(var2 * 1000.0)));
-      if (var1.startsWith("!")) {
-         var2 -= this.O(var8);
-         var8.setTime(new Date((long)(var2 * 1000.0)));
-         var1 = var1.substring(1);
+   public String x(String string, double d2) {
+      long l = a ^ 96443817699932L;
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(new Date((long)(d2 * 1000.0)));
+      if (string.startsWith("!")) {
+         d2 -= this.O(calendar);
+         calendar.setTime(new Date((long)(d2 * 1000.0)));
+         string = string.substring(1);
       }
 
-      byte[] var9 = var1.getBytes();
-      int var10 = var9.length;
-      Buffer var11 = new Buffer(var10);
-      int var12 = 0;
+      byte[] bytes = string.getBytes();
+      int i = bytes.length;
+      Buffer buffer = new Buffer(i);
+      int j = 0;
 
-      while (var12 < var10) {
-         byte var13;
-         switch (var13 = var9[var12++]) {
+      while (j < i) {
+         byte b2;
+         switch (b2 = bytes[j++]) {
             case 10:
-               var11.append("\n");
+               buffer.append("\n");
                break;
             case 37:
-               if (var12 < var10) {
-                  switch (var13 = var9[var12++]) {
+               if (j < i) {
+                  switch (b2 = bytes[j++]) {
                      case 37:
-                        var11.append((byte)37);
+                        buffer.append((byte)37);
                         break;
                      case 38:
                      case 39:
@@ -150,229 +150,229 @@ public class OsLibrary extends TwoArgFunction {
                      case 117:
                      case 118:
                      default:
-                        LuaValue.argerror(1, "invalid conversion specifier '%" + var13 + "'");
+                        LuaValue.argerror(1, "invalid conversion specifier '%" + b2 + "'");
                         break;
                      case 65:
-                        var11.append(g[var8.get(7) - 1]);
+                        buffer.append(g[calendar.get(7) - 1]);
                         break;
                      case 66:
-                        var11.append(X[var8.get(2)]);
+                        buffer.append(X[calendar.get(2)]);
                         break;
                      case 72:
-                        var11.append(String.valueOf(100 + var8.get(11)).substring(1));
+                        buffer.append(String.valueOf(100 + calendar.get(11)).substring(1));
                         break;
                      case 73:
-                        var11.append(String.valueOf(100 + var8.get(11) % 12).substring(1));
+                        buffer.append(String.valueOf(100 + calendar.get(11) % 12).substring(1));
                         break;
                      case 77:
-                        var11.append(String.valueOf(100 + var8.get(12)).substring(1));
+                        buffer.append(String.valueOf(100 + calendar.get(12)).substring(1));
                         break;
                      case 83:
-                        var11.append(String.valueOf(100 + var8.get(13)).substring(1));
+                        buffer.append(String.valueOf(100 + calendar.get(13)).substring(1));
                         break;
                      case 85:
-                        var11.append(String.valueOf(this.c(var8, 0)));
+                        buffer.append(String.valueOf(this.c(calendar, 0)));
                         break;
                      case 87:
-                        var11.append(String.valueOf(this.c(var8, 1)));
+                        buffer.append(String.valueOf(this.c(calendar, 1)));
                         break;
                      case 88:
-                        var11.append(this.x("%H:%M:%S", var2));
+                        buffer.append(this.x("%H:%M:%S", d2));
                         break;
                      case 89:
-                        var11.append(String.valueOf(var8.get(1)));
+                        buffer.append(String.valueOf(calendar.get(1)));
                         break;
                      case 97:
-                        var11.append(d[var8.get(7) - 1]);
+                        buffer.append(d[calendar.get(7) - 1]);
                         break;
                      case 98:
-                        var11.append(Q[var8.get(2)]);
+                        buffer.append(Q[calendar.get(2)]);
                         break;
                      case 99:
-                        var11.append(this.x("%a %b %d %H:%M:%S %Y", var2));
+                        buffer.append(this.x("%a %b %d %H:%M:%S %Y", d2));
                         break;
                      case 100:
-                        var11.append(String.valueOf(100 + var8.get(5)).substring(1));
+                        buffer.append(String.valueOf(100 + calendar.get(5)).substring(1));
                         break;
                      case 106:
-                        Calendar var15 = this.n(var8);
-                        int var20 = (int)((var8.getTime().getTime() - var15.getTime().getTime()) / 86400000L);
-                        var11.append(String.valueOf(1001 + var20).substring(1));
+                        Calendar calendar2 = this.n(calendar);
+                        int k = (int)((calendar.getTime().getTime() - calendar2.getTime().getTime()) / 86400000L);
+                        buffer.append(String.valueOf(1001 + k).substring(1));
                         break;
                      case 109:
-                        var11.append(String.valueOf(101 + var8.get(2)).substring(1));
+                        buffer.append(String.valueOf(101 + calendar.get(2)).substring(1));
                         break;
                      case 112:
-                        var11.append(var8.get(11) < 12 ? "AM" : "PM");
+                        buffer.append(calendar.get(11) < 12 ? "AM" : "PM");
                         break;
                      case 119:
-                        var11.append(String.valueOf((var8.get(7) + 6) % 7));
+                        buffer.append(String.valueOf((calendar.get(7) + 6) % 7));
                         break;
                      case 120:
-                        var11.append(this.x("%m/%d/%y", var2));
+                        buffer.append(this.x("%m/%d/%y", d2));
                         break;
                      case 121:
-                        var11.append(String.valueOf(var8.get(1)).substring(2));
+                        buffer.append(String.valueOf(calendar.get(1)).substring(2));
                         break;
                      case 122:
-                        int var16 = this.O(var8) / 60;
-                        int var14 = Math.abs(var16);
-                        long var10000 = 7237896015563187422L ^ var4;
-                        String var17 = String.valueOf(100 + var14 / 60).substring(1);
-                        String var18 = String.valueOf(100 + var14 % 60).substring(1);
-                        var11.append((var16 >= 0 ? "+" : "-") + var17 + var18);
+                        int i2 = this.O(calendar) / 60;
+                        int i3 = Math.abs(i2);
+                        long l2 = 7237896015563187422L ^ l;
+                        String string2 = String.valueOf(100 + i3 / 60).substring(1);
+                        String string3 = String.valueOf(100 + i3 % 60).substring(1);
+                        buffer.append((i2 >= 0 ? "+" : "-") + string2 + string3);
                   }
                }
                break;
             default:
-               var11.append(var13);
+               buffer.append(b2);
          }
       }
 
-      return var11.tojstring();
+      return buffer.tojstring();
    }
 
-   private Calendar n(Calendar var1) {
-      Calendar var4 = Calendar.getInstance();
-      var4.setTime(var1.getTime());
-      var4.set(2, 0);
-      var4.set(5, 1);
-      var4.set(11, 0);
-      var4.set(12, 0);
-      var4.set(13, 0);
-      var4.set(14, 0);
-      return var4;
+   private Calendar n(Calendar calendar) {
+      Calendar calendar2 = Calendar.getInstance();
+      calendar2.setTime(calendar.getTime());
+      calendar2.set(2, 0);
+      calendar2.set(5, 1);
+      calendar2.set(11, 0);
+      calendar2.set(12, 0);
+      calendar2.set(13, 0);
+      calendar2.set(14, 0);
+      return calendar2;
    }
 
-   private int c(Calendar var1, int var2) {
-      Calendar var6 = this.n(var1);
-      var6.set(5, 1 + (var2 + 8 - var6.get(7)) % 7);
-      if (var6.after(var1)) {
-         var6.set(1, var6.get(1) - 1);
-         var6.set(5, 1 + (var2 + 8 - var6.get(7)) % 7);
+   private int c(Calendar calendar, int i) {
+      Calendar calendar2 = this.n(calendar);
+      calendar2.set(5, 1 + (i + 8 - calendar2.get(7)) % 7);
+      if (calendar2.after(calendar)) {
+         calendar2.set(1, calendar2.get(1) - 1);
+         calendar2.set(5, 1 + (i + 8 - calendar2.get(7)) % 7);
       }
 
-      long var7 = var1.getTime().getTime() - var6.getTime().getTime();
-      return 1 + (int)(var7 / 604800000L);
+      long l = calendar.getTime().getTime() - calendar2.getTime().getTime();
+      return 1 + (int)(l / 604800000L);
    }
 
-   private int O(Calendar var1) {
-      int var4 = (var1.get(11) * 3600 + var1.get(12) * 60 + var1.get(13)) * 1000;
-      return var1.getTimeZone().getOffset(1, var1.get(1), var1.get(2), var1.get(5), var1.get(7), var4) / 1000;
+   private int O(Calendar calendar) {
+      int i = (calendar.get(11) * 3600 + calendar.get(12) * 60 + calendar.get(13)) * 1000;
+      return calendar.getTimeZone().getOffset(1, calendar.get(1), calendar.get(2), calendar.get(5), calendar.get(7), i) / 1000;
    }
 
-   private boolean S(Calendar var1) {
-      return this.O(var1) != var1.getTimeZone().getRawOffset() / 1000;
+   private boolean S(Calendar calendar) {
+      return this.O(calendar) != calendar.getTimeZone().getRawOffset() / 1000;
    }
 
-   public Varargs q(String var1) {
+   public Varargs q(String string) {
       return varargsOf(new LuaValue[]{NIL});
    }
 
-   public void C(int var1) {
+   public void C(int i) {
    }
 
-   public String j(String var1) {
+   public String j(String string) {
       return "";
    }
 
-   public void k(String var1) throws IOException {
+   public void k(String string) throws IOException {
    }
 
-   public void S(String var1, String var2) throws IOException {
+   public void S(String string, String string2) throws IOException {
    }
 
-   public String G(String var1, String var2) {
+   public String G(String string, String string2) {
       return "C";
    }
 
-   public double D(LuaTable var1) {
-      Date var5;
-      if (var1 == null) {
-         var5 = new Date();
+   public double D(LuaTable luaTable) {
+      Date date;
+      if (luaTable == null) {
+         date = new Date();
       } else {
-         Calendar var6 = Calendar.getInstance();
-         var6.set(1, var1.get("year").checkint());
-         var6.set(2, var1.get("month").checkint() - 1);
-         var6.set(5, var1.get("day").checkint());
-         var6.set(11, var1.get("hour").optint(12));
-         var6.set(12, var1.get("min").optint(0));
-         var6.set(13, var1.get("sec").optint(0));
-         var6.set(14, 0);
-         var5 = var6.getTime();
+         Calendar calendar = Calendar.getInstance();
+         calendar.set(1, luaTable.get("year").checkint());
+         calendar.set(2, luaTable.get("month").checkint() - 1);
+         calendar.set(5, luaTable.get("day").checkint());
+         calendar.set(11, luaTable.get("hour").optint(12));
+         calendar.set(12, luaTable.get("min").optint(0));
+         calendar.set(13, luaTable.get("sec").optint(0));
+         calendar.set(14, 0);
+         date = calendar.getTime();
       }
 
-      return var5.getTime() / 1000.0;
+      return date.getTime() / 1000.0;
    }
 
-   public static boolean k(OsLibrary var0, Calendar var1) {
-      return var0.S(var1);
+   public static boolean k(OsLibrary osLibrary, Calendar calendar) {
+      return osLibrary.S(calendar);
    }
 
    static {
-      long var20 = a ^ 135563115540686L;
-      long var10000 = var20 ^ 591866441202457622L;
-      var10000 = var20 ^ 1838006599845597661L;
-      var10000 = var20 ^ 4865360330267061601L;
-      var10000 = var20 ^ 882013798488608339L;
-      var10000 = var20 ^ 4653127324848495750L;
-      var10000 = var20 ^ 4798389370670225603L;
-      var10000 = var20 ^ 4448353121674533841L;
-      var10000 = var20 ^ 7822790321494020732L;
-      var10000 = var20 ^ 4898208734541847927L;
-      var10000 = 5134378694953252986L ^ var20;
+      long l = a ^ 135563115540686L;
+      long m = l ^ 591866441202457622L;
+      m = l ^ 1838006599845597661L;
+      m = l ^ 4865360330267061601L;
+      m = l ^ 882013798488608339L;
+      m = l ^ 4653127324848495750L;
+      m = l ^ 4798389370670225603L;
+      m = l ^ 4448353121674533841L;
+      m = l ^ 7822790321494020732L;
+      m = l ^ 4898208734541847927L;
+      m = 5134378694953252986L ^ l;
    }
 
    public class pp extends VarArgFunction {
       private static final long a = 80524074988789L;
 
-      public pp(int var2, String var3) {
-         this.opcode = var2;
-         this.name = var3;
+      public pp(int i, String string) {
+         this.opcode = i;
+         this.name = string;
       }
 
       @Override
-      public Varargs invoke(Varargs var1) {
+      public Varargs invoke(Varargs varargs) {
          switch (this.opcode) {
             case 0:
                return valueOf(OsLibrary.this.n());
             case 1:
-               String var11 = var1.optjstring(1, "%c");
-               double var6 = var1.isnumber(2) ? var1.todouble(2) : OsLibrary.this.D((LuaTable)null);
-               if (var11.equals("*t")) {
-                  Calendar var8 = Calendar.getInstance();
-                  var8.setTime(new Date((long)(var6 * 1000.0)));
-                  LuaTable var9 = LuaValue.tableOf();
-                  var9.set("year", LuaValue.valueOf(var8.get(1)));
-                  var9.set("month", LuaValue.valueOf(var8.get(2) + 1));
-                  var9.set("day", LuaValue.valueOf(var8.get(5)));
-                  var9.set("hour", LuaValue.valueOf(var8.get(11)));
-                  var9.set("min", LuaValue.valueOf(var8.get(12)));
-                  var9.set("sec", LuaValue.valueOf(var8.get(13)));
-                  var9.set("wday", LuaValue.valueOf(var8.get(7)));
-                  var9.set("yday", LuaValue.valueOf(var8.get(6)));
-                  var9.set("isdst", LuaValue.valueOf(OsLibrary.k(OsLibrary.this, var8)));
-                  return var9;
+               String string = varargs.optjstring(1, "%c");
+               double d = varargs.isnumber(2) ? varargs.todouble(2) : OsLibrary.this.D((LuaTable)null);
+               if (string.equals("*t")) {
+                  Calendar calendar = Calendar.getInstance();
+                  calendar.setTime(new Date((long)(d * 1000.0)));
+                  LuaTable luaTable = LuaValue.tableOf();
+                  luaTable.set("year", LuaValue.valueOf(calendar.get(1)));
+                  luaTable.set("month", LuaValue.valueOf(calendar.get(2) + 1));
+                  luaTable.set("day", LuaValue.valueOf(calendar.get(5)));
+                  luaTable.set("hour", LuaValue.valueOf(calendar.get(11)));
+                  luaTable.set("min", LuaValue.valueOf(calendar.get(12)));
+                  luaTable.set("sec", LuaValue.valueOf(calendar.get(13)));
+                  luaTable.set("wday", LuaValue.valueOf(calendar.get(7)));
+                  luaTable.set("yday", LuaValue.valueOf(calendar.get(6)));
+                  luaTable.set("isdst", LuaValue.valueOf(OsLibrary.k(OsLibrary.this, calendar)));
+                  return luaTable;
                }
 
-               return valueOf(OsLibrary.this.x(var11, var6 == -1.0 ? OsLibrary.this.D((LuaTable)null) : var6));
+               return valueOf(OsLibrary.this.x(string, d == -1.0 ? OsLibrary.this.D((LuaTable)null) : d));
             case 2:
-               return valueOf(OsLibrary.this.k(var1.checkdouble(1), var1.checkdouble(2)));
+               return valueOf(OsLibrary.this.k(varargs.checkdouble(1), varargs.checkdouble(2)));
             case 3:
             case 4:
                return NONE;
             case 5:
-               String var10 = OsLibrary.this.j(var1.checkjstring(1));
-               return var10 != null ? valueOf(var10) : NIL;
+               String string2 = OsLibrary.this.j(varargs.checkjstring(1));
+               return string2 != null ? valueOf(string2) : NIL;
             case 6:
                return LuaValue.TRUE;
             case 7:
                return LuaValue.TRUE;
             case 8:
-               String var5 = OsLibrary.this.G(var1.optjstring(1, (String)null), var1.optjstring(2, "all"));
-               return var5 != null ? valueOf(var5) : NIL;
+               String string3 = OsLibrary.this.G(varargs.optjstring(1, (String)null), varargs.optjstring(2, "all"));
+               return string3 != null ? valueOf(string3) : NIL;
             case 9:
-               return valueOf(OsLibrary.this.D(var1.opttable(1, (LuaTable)null)));
+               return valueOf(OsLibrary.this.D(varargs.opttable(1, (LuaTable)null)));
             default:
                return NONE;
          }

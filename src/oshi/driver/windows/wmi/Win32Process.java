@@ -14,44 +14,44 @@ public final class Win32Process {
    private Win32Process() {
    }
 
-   public static WmiResult<Win32Process.CommandLineProperty> queryCommandLines(Set<Integer> var0) {
-      StringBuilder var4 = new StringBuilder("Win32_Process");
-      boolean var5 = true;
+   public static WmiResult<Win32Process.CommandLineProperty> queryCommandLines(Set<Integer> pidsToQuery) {
+      StringBuilder stringBuilder = new StringBuilder("Win32_Process");
+      boolean bl = true;
 
-      for (Integer var7 : var0) {
-         if (var5) {
-            var4.append(" WHERE ProcessID=");
-            var5 = false;
+      for (Integer integer : pidsToQuery) {
+         if (bl) {
+            stringBuilder.append(" WHERE ProcessID=");
+            bl = false;
          } else {
-            var4.append(" OR ProcessID=");
+            stringBuilder.append(" OR ProcessID=");
          }
 
-         var4.append(var7);
+         stringBuilder.append(integer);
       }
 
-      WmiQuery var8 = new WmiQuery<>(var4.toString(), Win32Process.CommandLineProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var8);
+      WmiQuery wmiQuery = new WmiQuery<>(stringBuilder.toString(), Win32Process.CommandLineProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
-   public static WmiResult<Win32Process.ProcessXPProperty> queryProcesses(Collection<Integer> var0) {
-      StringBuilder var4 = new StringBuilder("Win32_Process");
-      if (var0 != null) {
-         boolean var5 = true;
+   public static WmiResult<Win32Process.ProcessXPProperty> queryProcesses(Collection<Integer> pids) {
+      StringBuilder stringBuilder = new StringBuilder("Win32_Process");
+      if (pids != null) {
+         boolean bl = true;
 
-         for (Integer var7 : var0) {
-            if (var5) {
-               var4.append(" WHERE ProcessID=");
-               var5 = false;
+         for (Integer integer : pids) {
+            if (bl) {
+               stringBuilder.append(" WHERE ProcessID=");
+               bl = false;
             } else {
-               var4.append(" OR ProcessID=");
+               stringBuilder.append(" OR ProcessID=");
             }
 
-            var4.append(var7);
+            stringBuilder.append(integer);
          }
       }
 
-      WmiQuery var8 = new WmiQuery<>(var4.toString(), Win32Process.ProcessXPProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var8);
+      WmiQuery wmiQuery = new WmiQuery<>(stringBuilder.toString(), Win32Process.ProcessXPProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum CommandLineProperty {

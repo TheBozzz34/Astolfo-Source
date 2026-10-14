@@ -23,28 +23,28 @@ public class CommandDeOp extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.deop.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length == 1 && var2[0].length() > 0) {
-         MinecraftServer var6 = MinecraftServer.getServer();
-         GameProfile var7 = var6.getConfigurationManager().getOppedPlayers().getGameProfileFromName(var2[0]);
-         if (var7 == null) {
-            throw new CommandException("commands.deop.failed", var2[0]);
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length == 1 && args[0].length() > 0) {
+         MinecraftServer minecraftServer = MinecraftServer.getServer();
+         GameProfile gameProfile = minecraftServer.getConfigurationManager().getOppedPlayers().getGameProfileFromName(args[0]);
+         if (gameProfile == null) {
+            throw new CommandException("commands.deop.failed", args[0]);
          }
 
-         var6.getConfigurationManager().C(var7);
-         notifyOperators(var1, this, "commands.deop.success", var2[0]);
+         minecraftServer.getConfigurationManager().C(gameProfile);
+         notifyOperators(sender, this, "commands.deop.success", args[0]);
       } else {
          throw new WrongUsageException("commands.deop.usage");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames()) : null;
    }
 }

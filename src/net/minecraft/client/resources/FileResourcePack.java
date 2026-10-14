@@ -20,8 +20,8 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable 
    private ZipFile resourcePackZipFile;
    private static final long b = 86528188425082L;
 
-   public FileResourcePack(File var1) {
-      super(var1);
+   public FileResourcePack(File resourcePackFileIn) {
+      super(resourcePackFileIn);
    }
 
    private ZipFile getResourcePackZipFile() throws IOException {
@@ -33,54 +33,54 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable 
    }
 
    @Override
-   public InputStream getInputStreamByName(String var1) throws IOException {
-      ZipFile var4 = this.getResourcePackZipFile();
-      ZipEntry var5 = var4.getEntry(var1);
-      if (var5 == null) {
-         throw new ResourcePackFileNotFoundException(this.resourcePackFile, var1);
+   public InputStream getInputStreamByName(String name) throws IOException {
+      ZipFile zipFile = this.getResourcePackZipFile();
+      ZipEntry zipEntry = zipFile.getEntry(name);
+      if (zipEntry == null) {
+         throw new ResourcePackFileNotFoundException(this.resourcePackFile, name);
       } else {
-         return var4.getInputStream(var5);
+         return zipFile.getInputStream(zipEntry);
       }
    }
 
    @Override
-   public boolean hasResourceName(String var1) {
+   public boolean hasResourceName(String name) {
       try {
-         return this.getResourcePackZipFile().getEntry(var1) != null;
-      } catch (IOException var5) {
+         return this.getResourcePackZipFile().getEntry(name) != null;
+      } catch (IOException ioException) {
          return false;
       }
    }
 
    @Override
    public Set<String> getResourceDomains() {
-      ZipFile var4;
+      ZipFile zipFile;
       try {
-         var4 = this.getResourcePackZipFile();
-      } catch (IOException var11) {
+         zipFile = this.getResourcePackZipFile();
+      } catch (IOException ioException) {
          return Collections.emptySet();
       }
 
-      Enumeration var5 = var4.entries();
-      HashSet var6 = Sets.newHashSet();
+      Enumeration enumeration = zipFile.entries();
+      HashSet hashSet = Sets.newHashSet();
 
-      while (var5.hasMoreElements()) {
-         ZipEntry var7 = (ZipEntry)var5.nextElement();
-         String var8 = var7.getName();
-         if (var8.startsWith("assets/")) {
-            ArrayList var9 = Lists.newArrayList(entryNameSplitter.split(var8));
-            if (var9.size() > 1) {
-               String var10 = (String)var9.get(1);
-               if (!var10.equals(var10.toLowerCase())) {
-                  this.logNameNotLowercase(var10);
+      while (enumeration.hasMoreElements()) {
+         ZipEntry zipEntry = (ZipEntry)enumeration.nextElement();
+         String string = zipEntry.getName();
+         if (string.startsWith("assets/")) {
+            ArrayList arrayList = Lists.newArrayList(entryNameSplitter.split(string));
+            if (arrayList.size() > 1) {
+               String string2 = (String)arrayList.get(1);
+               if (!string2.equals(string2.toLowerCase())) {
+                  this.logNameNotLowercase(string2);
                } else {
-                  var6.add(var10);
+                  hashSet.add(string2);
                }
             }
          }
       }
 
-      return var6;
+      return hashSet;
    }
 
    @Override

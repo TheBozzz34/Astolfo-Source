@@ -9,28 +9,28 @@ public class ChunkPrimer {
    private final IBlockState defaultState = Blocks.air.getDefaultState();
    private static final long a = 117925435555281L;
 
-   public IBlockState getBlockState(int var1, int var2, int var3) {
-      int var6 = var1 << 12 | var3 << 8 | var2;
-      return this.getBlockState(var6);
+   public IBlockState getBlockState(int x, int y, int z) {
+      int i = x << 12 | z << 8 | y;
+      return this.getBlockState(i);
    }
 
-   public IBlockState getBlockState(int var1) {
-      if (var1 >= 0 && var1 < this.data.length) {
-         IBlockState var5 = Block.BLOCK_STATE_IDS.getByValue(this.data[var1]);
-         return var5 != null ? var5 : this.defaultState;
+   public IBlockState getBlockState(int index) {
+      if (index >= 0 && index < this.data.length) {
+         IBlockState iBlockState = Block.BLOCK_STATE_IDS.getByValue(this.data[index]);
+         return iBlockState != null ? iBlockState : this.defaultState;
       } else {
          throw new IndexOutOfBoundsException("The coordinate is out of range");
       }
    }
 
-   public void setBlockState(int var1, int var2, int var3, IBlockState var4) {
-      int var7 = var1 << 12 | var3 << 8 | var2;
-      this.setBlockState(var7, var4);
+   public void setBlockState(int x, int y, int z, IBlockState state) {
+      int i = x << 12 | z << 8 | y;
+      this.setBlockState(i, state);
    }
 
-   public void setBlockState(int var1, IBlockState var2) {
-      if (var1 >= 0 && var1 < this.data.length) {
-         this.data[var1] = (short)Block.BLOCK_STATE_IDS.get(var2);
+   public void setBlockState(int index, IBlockState state) {
+      if (index >= 0 && index < this.data.length) {
+         this.data[index] = (short)Block.BLOCK_STATE_IDS.get(state);
       } else {
          throw new IndexOutOfBoundsException("The coordinate is out of range");
       }

@@ -15,7 +15,7 @@ public final class FullBright extends Module {
    private final NumberSetting<Float> bright = new NumberSetting<>("Bright", "Bright level", 1.0F, 0.1F, 1.0F);
    private boolean S;
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var1x -> {
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (mc.theWorld != null) {
          if (this.mode.getValue() == FullBrightMode.WORLD) {
             if (this.S) {
@@ -23,23 +23,23 @@ public final class FullBright extends Module {
                this.S = false;
             }
 
-            for (int var5 = 0; var5 < 16; var5++) {
-               if (mc.theWorld.provider.lightBrightnessTable[var5] != this.bright.getValue()) {
-                  mc.theWorld.provider.lightBrightnessTable[var5] = this.bright.getValue();
+            for (int i = 0; i < 16; i++) {
+               if (mc.theWorld.provider.lightBrightnessTable[i] != this.bright.getValue()) {
+                  mc.theWorld.provider.lightBrightnessTable[i] = this.bright.getValue();
                }
             }
          } else {
-            PotionEffect var6 = new PotionEffect(Potion.nightVision.id, 7000, 1);
-            var6.setPotionDurationMax(true);
-            mc.thePlayer.addPotionEffect(var6);
+            PotionEffect potionEffect = new PotionEffect(Potion.nightVision.id, 7000, 1);
+            potionEffect.setPotionDurationMax(true);
+            mc.thePlayer.addPotionEffect(potionEffect);
             this.S = true;
          }
       }
    };
    private static final long c = 93275052009544L;
 
-   public FullBright(Category var1) {
-      super(var1);
+   public FullBright(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.mode, this.bright);
    }

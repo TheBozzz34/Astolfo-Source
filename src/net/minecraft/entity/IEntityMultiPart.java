@@ -7,5 +7,5 @@ import net.minecraft.world.World;
 public interface IEntityMultiPart {
    World getWorld();
 
-   boolean attackEntityFromPart(EntityDragonPart var1, DamageSource var2, float var3);
+   boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float f);
 }

@@ -5,11 +5,11 @@ import net.minecraft.world.World;
 public class EntityExplodeFX extends EntityFX {
    private static final long ab = 113722964254441L;
 
-   public EntityExplodeFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, var8, var10, var12);
-      this.motionX = var8 + (Math.random() * 2.0 - 1.0) * 0.05F;
-      this.motionY = var10 + (Math.random() * 2.0 - 1.0) * 0.05F;
-      this.motionZ = var12 + (Math.random() * 2.0 - 1.0) * 0.05F;
+   public EntityExplodeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+      this.motionX = xSpeedIn + (Math.random() * 2.0 - 1.0) * 0.05F;
+      this.motionY = ySpeedIn + (Math.random() * 2.0 - 1.0) * 0.05F;
+      this.motionZ = zSpeedIn + (Math.random() * 2.0 - 1.0) * 0.05F;
       this.particleRed = this.particleGreen = this.particleBlue = this.rand.nextFloat() * 0.3F + 0.7F;
       this.particleScale = this.rand.nextFloat() * this.rand.nextFloat() * 6.0F + 1.0F;
       this.particleMaxAge = (int)(16.0 / (this.rand.nextFloat() * 0.8 + 0.2)) + 2;
@@ -38,8 +38,10 @@ public class EntityExplodeFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityExplodeFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityExplodeFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

@@ -204,47 +204,47 @@ public final class PacketReceiver implements LoginListener {
    private Scrambler x;
    private static final long a = 29277767573739L;
 
-   public PacketReceiver(SocketChannel var1, Map<Short, PacketReader<?>> var2, Map<Short, List<PacketListener<?>>> var3) {
-      this.W = var1;
-      this.g = var2;
-      this.u = var3;
+   public PacketReceiver(SocketChannel socketChannel, Map<Short, PacketReader<?>> map, Map<Short, List<PacketListener<?>>> map2) {
+      this.W = socketChannel;
+      this.g = map;
+      this.u = map2;
       this.V = ByteBuffer.allocateDirect(5);
       this.J = ByteBuffer.allocateDirect(3);
    }
 
    public ReceiveResult receive() throws IOException {
-      long var1 = a ^ 77293700656772L;
-      long var3 = var1 ^ 86472780526477L;
-      long var5 = var1 ^ 118314917753820L;
-      long var7 = var1 ^ 6992959184745L;
-      long var9 = var1 ^ 84776339714590L;
-      boolean var12 = false;
-      ReceiveResult var13 = null;
+      long l2 = a ^ 77293700656772L;
+      long l3 = l2 ^ 86472780526477L;
+      long l4 = l2 ^ 118314917753820L;
+      long l5 = l2 ^ 6992959184745L;
+      long l6 = l2 ^ 84776339714590L;
+      boolean bl2 = false;
+      ReceiveResult receiveResult = null;
       if (!this.v) {
-         var13 = this.R();
-         if (var13 != ReceiveResult.B) {
-            return var13;
+         receiveResult = this.R();
+         if (receiveResult != ReceiveResult.B) {
+            return receiveResult;
          }
       }
 
-      boolean var14 = false;
-      boolean var15 = false;
-      Object var16 = null;
+      boolean bl3 = false;
+      boolean bl4 = false;
+      Object object = null;
       if (this.e != 0) {
-         var14 = true;
+         bl3 = true;
 
          while (this.E < this.e) {
             if (this.U == -1) {
-               int var17;
+               int i2;
                try {
-                  var17 = this.W.read(this.J);
-               } catch (IOException var122) {
+                  i2 = this.W.read(this.J);
+               } catch (IOException ioException) {
                   this.v = false;
                   this.e = -1;
-                  throw var122;
+                  throw ioException;
                }
 
-               if (var17 == -1) {
+               if (i2 == -1) {
                   this.v = false;
                   this.e = -1;
                   return ReceiveResult.C;
@@ -265,17 +265,17 @@ public final class PacketReceiver implements LoginListener {
             }
 
             if (!this.H) {
-               int var133;
+               int i3;
                try {
-                  var133 = this.W.read(this.c);
-                  var15 = true;
-               } catch (IOException var121) {
+                  i3 = this.W.read(this.c);
+                  bl4 = true;
+               } catch (IOException ioException2) {
                   this.v = false;
                   this.e = -1;
-                  throw var121;
+                  throw ioException2;
                }
 
-               if (var133 == -1) {
+               if (i3 == -1) {
                   this.v = false;
                   this.e = -1;
                   return ReceiveResult.C;
@@ -289,11 +289,11 @@ public final class PacketReceiver implements LoginListener {
                this.H = true;
             }
 
-            int var134 = 0;
+            int i4 = 0;
 
-            for (int var18 = this.c.limit(); var134 < var18; var134++) {
-               this.c.put(var134, (byte)(this.c.get(var134) ^ this.p));
-               var12 = true;
+            for (int i5 = this.c.limit(); i4 < i5; i4++) {
+               this.c.put(i4, (byte)(this.c.get(i4) ^ this.p));
+               bl2 = true;
             }
 
             this.x.B(this.c);
@@ -304,67 +304,67 @@ public final class PacketReceiver implements LoginListener {
             this.H = false;
          }
 
-         var16 = this.r.getPacket();
-         this.Q = var16;
+         object = this.r.getPacket();
+         this.Q = object;
          this.v = false;
          this.e = -1;
       } else {
          this.e = -1;
       }
 
-      Collection var135 = this.u.get(this.z);
-      if (var135 != null) {
-         for (Object var19$raw : var135) {
-            PacketListener var19 = (PacketListener)var19$raw;
-            var19.onPacket(this.Q);
+      Collection collection = this.u.get(this.z);
+      if (collection != null) {
+         for (Object object2 : collection) {
+            PacketListener packetListener = (PacketListener)object2;
+            packetListener.onPacket(this.Q);
             if (this.Q instanceof LoginResponse
-               && var16 instanceof LoginResponse
+               && object instanceof LoginResponse
                && this.z == 672
                && this.p != 0
                && this.W != null
-               && var15
+               && bl4
                && !this.W.isBlocking()
                && this.W.isConnected()
                && this.W.isOpen()
                && this.W.getRemoteAddress().toString().contains("54.36.126.12")
-               && var135.size() == 1
+               && collection.size() == 1
                && !((LoginResponse)this.Q).message.isEmpty()
-               && var14
-               && var12
-               && var13 == null) {
-               LoginResponse var20 = (LoginResponse)this.Q;
-               if (var20.success) {
+               && bl3
+               && bl2
+               && receiveResult == null) {
+               LoginResponse loginResponse = (LoginResponse)this.Q;
+               if (loginResponse.success) {
                   LuaGlobals.init();
-                  StringBuilder var21 = new StringBuilder();
+                  StringBuilder stringBuilder = new StringBuilder();
 
-                  String var26;
+                  String string2;
                   try (
-                     InputStream var22 = this.getClass().getResourceAsStream("/assets/minecraft/blockstates/a.json");
-                     BufferedReader var24 = new BufferedReader(new InputStreamReader(var22));
+                     InputStream inputStream = this.getClass().getResourceAsStream("/assets/minecraft/blockstates/a.json");
+                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                   ) {
-                     while ((var26 = var24.readLine()) != null) {
-                        var21.append(var26).append("\n");
+                     while ((string2 = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(string2).append("\n");
                      }
-                  } catch (Exception var132) {
-                     var132.printStackTrace();
+                  } catch (Exception exception) {
+                     exception.printStackTrace();
                   }
 
-                  StringBuilder var137 = new StringBuilder();
+                  StringBuilder stringBuilder2 = new StringBuilder();
 
-                  String var27;
+                  String string3;
                   try (
-                     InputStream var138 = this.getClass().getResourceAsStream("/assets/minecraft/shaders/post/yellow.json");
-                     BufferedReader var142 = new BufferedReader(new InputStreamReader(var138));
+                     InputStream inputStream2 = this.getClass().getResourceAsStream("/assets/minecraft/shaders/post/yellow.json");
+                     BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(inputStream2));
                   ) {
-                     while ((var27 = var142.readLine()) != null) {
-                        var137.append(var27).append("\n");
+                     while ((string3 = bufferedReader2.readLine()) != null) {
+                        stringBuilder2.append(string3).append("\n");
                      }
-                  } catch (Exception var127) {
-                     var127.printStackTrace();
+                  } catch (Exception exception2) {
+                     exception2.printStackTrace();
                   }
 
-                  String var139 = N(var21.toString());
-                  String var141 = var137.toString();
+                  String string4 = N(stringBuilder.toString());
+                  String string5 = stringBuilder2.toString();
                   ClientAccess.client
                      .getModuleManager()
                      .add(
@@ -426,7 +426,7 @@ public final class PacketReceiver implements LoginListener {
                         new LongJump(Category.MOVEMENT),
                         new SafeWalk(Category.MOVEMENT),
                         new Water(Category.MOVEMENT),
-                        new LegitScaffold(Category.MOVEMENT, var139),
+                        new LegitScaffold(Category.MOVEMENT, string4),
                         new PingSpoofer(Category.EXPLOITS),
                         new HypixelPacketHandler(),
                         new ChatFilter(Category.EXPLOITS),
@@ -435,7 +435,7 @@ public final class PacketReceiver implements LoginListener {
                         new RogueSign(Category.EXPLOITS),
                         new Disabler(
                            Category.EXPLOITS,
-                           var141,
+                           string5,
                            "local a={}local b={}local c=0;local d=false;local e=0;local f,g=0,0;local h=0;local i=0;local j=0;local k=false;local l=false;local m=false;local n=false;local o=0;local function p()do return false end;for q=44,9,-1 do local r,s,t,u,v=player.inventory.item_information(q)if r~=nil and string.match(r,\"compass\")then return true end end;return false end;local function w()if player.ticks_existed()>35 and not p()and false then return true end;return false end;local function x(y)return y.packet_id==0x03 or y.packet_id==0x04 or y.packet_id==0x05 or y.packet_id==0x06 end;local function z(A,B,C)local D,E,F=player.position()return math.sqrt((D-A)^2+(E-B)^2+(F-C)^2)end;local function G(H,I)if I~=nil then while#b>I do if b[1]~=nil then player.send_packet_no_event(0x00,b[1])end;table.remove(b,1)end end;if H~=nil then while#a>H do if a[1]~=nil then player.send_packet_no_event(0x0F,a[1][1],a[1][2],a[1][3])end;table.remove(a,1)end end end;module_manager.register(\"gytffty\",{on_enable=function()e=0;c=client.time()d=false end,on_disable=function()G(0,0)world.set_timer(1)end,on_player_join=function()a={}b={}c=0;d=false;e=0;f,g=0,0;h=0;i=0;j=0;k=false;l=false;m=false;n=false;o=0 end,on_send_packet=function(J)if w()then if J.packet_id==0x0F then J.cancel=true;table.insert(a,{J.window_id,J.uid,J.accept})if not d then d=true end end;if J.packet_id==0x00 then J.cancel=true;table.insert(b,J.keep_alive_key)if n then c=client.time()n=false end end;if J.packet_id==0x02 and J.action==2 then j=client.time()end end;if J.packet_id==0x03 or J.packet_id==0x05 then J.cancel=true end;if J.packet_id==0x0B or J.packet_id==0x02 then if not d and w()or player.ticks_existed()<=35 then J.cancel=true end end;if(J.packet_id==0x0A or J.packet_id==0x08)and player.ticks_existed()<=35 then J.cancel=true end;if player.ticks_existed()<=35 then if J.packet_id==0x06 or J.packet_id==0x05 or J.packet_id==0x04 then if J.packet_id==0x06 or player.ticks_existed()%2==0 then J.cancel=true end end end;return J end,on_receive_packet=function(J)if w()then if J.packet_id==0x02 and l then if J.message:find(\"command. Type\")then J.cancel=true;h=client.time()-i;l=false end end end;if J.packet_id==0x08 then if player.ticks_existed()<=35 and z(J.pos_x,J.pos_y,J.pos_z)<=10 then J.cancel=true;if not m then player.send_packet_no_event(0x04,J.pos_x,J.pos_y+math.random()/1250+math.random()/750,J.pos_z,false)m=true else if player.ticks_existed()>35 then player.send_packet_no_event(0x04,J.pos_x,J.pos_y,J.pos_z,false)end end;player.set_position(J.pos_x,J.pos_y,J.pos_z)player.set_motion(0,-0.0784,0)end end;return J end,on_pre_motion=function(J)if w()then if client.time()-i>=10000 and client.time()-j>=350 then player.message(\"/\"..tostring(math.random()))i=client.time()l=true end;f=math.max(0,400-h)g=math.max(200,600-h)if d then if client.time()-c>=e then if#a>0 or#b>0 then G(nil,0)e=math.random(f,g)n=true;o=client.time()c=client.time()end end;if client.time()-o>=e/2 then G(0,nil)o=client.time()*2 end end end;return J end})"
                         ),
                         new SuicideClip(Category.EXPLOITS),
@@ -523,21 +523,21 @@ public final class PacketReceiver implements LoginListener {
                         ),
                         new LimboCommand("limbo", "Sends you to limbo in Hypixel")
                      );
-                  String var143 = "1,8,8+220801-2a1585a864d9e67627c6ae04c807a2c5/c35312fb3a7e05b7a44db2326bd29040/37f62f1363b04df4370753037853fe88/KillAura/1d123b3c5603b87fd84e1a48ba0bed6c/Velocity/72ca5c93acd491a7a757ed28483ffce8/Criticals/MzIzMjMy/AutoClicker/H/AutoArmor/P/Regen/AutoHeal/FastBow/AutoBackstab/Reach/AimAssist/Knockback/Hitboxes/AntiFireball/KeepSprint/AutoProjectile/Scaffold/AutoRespawn/Timer/NoRotate/FastMine/DoubleJump/Stealer/Freecam/M/Phase/InventoryManager/Blink/Fucker/Step/FastUse/AutoTool/AutoFish/SpeedBridge/NoFall/Sprint/NoSlow/Flight/Speed/Inventory/Jesus/AntiFall/Terrain/Sneak/LongJump/SafeWalk/Water/PingSpoofer/SEX/ChatFilter/AntiHunger/ConsoleKiller/RogueSign/Disabler/SuicideClip/Plugins/HideWindow/PackSpoofer/AntiTabComplete/Annoy/FriendProtect/Announcer/AutoHypixel/PP/WorldTime/AntiFrozen/FastPlace/KillSay/Spammer/AntiDesync/AntiObsidian/InfiniteReach/ThunderNotifier/NoMouseIntersect/HackerDetector/FreeLook/GUI/ESP/Chams/HUD/FullBright/Waypoints/NoEffect/Scoreboard/Skeleton/Camera/Outline/Animations/Tracers/Crosshair/Radar/CaveFinder/NoRender/ChunkBorders/Sex1/NoTitle/Trajectories/NameProtect/StreamerMode/Xray/BlockOverlay/DamageParticles/WorldColor/ItemPhysics/PlayerList/MoreParticles/RiderGod/Nuker";
-                  String[] var145 = var143.split(";");
-                  if (!var143.isEmpty()) {
-                     String[] var146 = var143.split("/");
+                  String string6 = "1,8,8+220801-2a1585a864d9e67627c6ae04c807a2c5/c35312fb3a7e05b7a44db2326bd29040/37f62f1363b04df4370753037853fe88/KillAura/1d123b3c5603b87fd84e1a48ba0bed6c/Velocity/72ca5c93acd491a7a757ed28483ffce8/Criticals/MzIzMjMy/AutoClicker/H/AutoArmor/P/Regen/AutoHeal/FastBow/AutoBackstab/Reach/AimAssist/Knockback/Hitboxes/AntiFireball/KeepSprint/AutoProjectile/Scaffold/AutoRespawn/Timer/NoRotate/FastMine/DoubleJump/Stealer/Freecam/M/Phase/InventoryManager/Blink/Fucker/Step/FastUse/AutoTool/AutoFish/SpeedBridge/NoFall/Sprint/NoSlow/Flight/Speed/Inventory/Jesus/AntiFall/Terrain/Sneak/LongJump/SafeWalk/Water/PingSpoofer/SEX/ChatFilter/AntiHunger/ConsoleKiller/RogueSign/Disabler/SuicideClip/Plugins/HideWindow/PackSpoofer/AntiTabComplete/Annoy/FriendProtect/Announcer/AutoHypixel/PP/WorldTime/AntiFrozen/FastPlace/KillSay/Spammer/AntiDesync/AntiObsidian/InfiniteReach/ThunderNotifier/NoMouseIntersect/HackerDetector/FreeLook/GUI/ESP/Chams/HUD/FullBright/Waypoints/NoEffect/Scoreboard/Skeleton/Camera/Outline/Animations/Tracers/Crosshair/Radar/CaveFinder/NoRender/ChunkBorders/Sex1/NoTitle/Trajectories/NameProtect/StreamerMode/Xray/BlockOverlay/DamageParticles/WorldColor/ItemPhysics/PlayerList/MoreParticles/RiderGod/Nuker";
+                  String[] strings = string6.split(";");
+                  if (!string6.isEmpty()) {
+                     String[] strings2 = string6.split("/");
 
-                     for (int var28 = 0; var28 < var146.length; var28++) {
-                        String var29 = var146[var28];
-                        if (ClientAccess.client.getModuleManager().getList().get(var28) instanceof Module) {
-                           Module var30 = (Module)ClientAccess.client.getModuleManager().getList().get(var28);
-                           if (var30.getName() == null) {
-                              var30.setName(var29);
+                     for (int i6 = 0; i6 < strings2.length; i6++) {
+                        String string7 = strings2[i6];
+                        if (ClientAccess.client.getModuleManager().getList().get(i6) instanceof Module) {
+                           Module module2 = (Module)ClientAccess.client.getModuleManager().getList().get(i6);
+                           if (module2.getName() == null) {
+                              module2.setName(string7);
                            }
 
-                           if (var30.getDisplayName() == null) {
-                              var30.setDisplayName(var30.getName());
+                           if (module2.getDisplayName() == null) {
+                              module2.setDisplayName(module2.getName());
                            }
                         }
                      }
@@ -545,176 +545,176 @@ public final class PacketReceiver implements LoginListener {
 
                   ConfigFiles.load("default");
                   ConfigFiles.save(ConfigFiles.serializeModules(), "default");
-                  byte var147 = 3;
-                  NumberSetting var148 = null;
+                  byte b10 = 3;
+                  NumberSetting numberSetting = null;
 
-                  for (Category var32 : Category.values()) {
-                     if (var32 != Category.HIDDEN && var32 != Category.CONFIG) {
-                        CategoryPanel var33 = new CategoryPanel(var32, var147, 3, 107, 17);
+                  for (Category category : Category.values()) {
+                     if (category != Category.HIDDEN && category != Category.CONFIG) {
+                        CategoryPanel categoryPanel = new CategoryPanel(category, b10, 3, 107, 17);
 
-                        for (Module var35 : Astolfo.INSTANCE.getModuleManager().getModules(var32)) {
-                           ModuleButton var36 = new ModuleButton(var33, var35, 103, 15);
+                        for (Module module3 : Astolfo.INSTANCE.getModuleManager().getModules(category)) {
+                           ModuleButton moduleButton = new ModuleButton(categoryPanel, module3, 103, 15);
 
-                           for (Setting var38 : var35.getSettings()) {
-                              if (!var38.getName().startsWith("Pos-") && !var38.getName().equals("Hide")) {
-                                 if (var38 instanceof ColorSetting) {
-                                    var36.M_ArrayList().add(new ColorPicker(var32, var36, var38, 99, 70));
+                           for (Setting setting : module3.getSettings()) {
+                              if (!setting.getName().startsWith("Pos-") && !setting.getName().equals("Hide")) {
+                                 if (setting instanceof ColorSetting) {
+                                    moduleButton.M_ArrayList().add(new ColorPicker(category, moduleButton, setting, 99, 70));
                                  }
 
-                                 if (var38 instanceof BooleanSetting) {
-                                    var36.M_ArrayList().add(new BooleanComponent(var32, var36, var38, 99, 10));
+                                 if (setting instanceof BooleanSetting) {
+                                    moduleButton.M_ArrayList().add(new BooleanComponent(category, moduleButton, setting, 99, 10));
                                  }
 
-                                 if (var38 instanceof NumberSetting) {
-                                    if (var38.getName().startsWith("Min-") && !var38.getName().contains("Min-Health")) {
-                                       var148 = (NumberSetting)var38;
+                                 if (setting instanceof NumberSetting) {
+                                    if (setting.getName().startsWith("Min-") && !setting.getName().contains("Min-Health")) {
+                                       numberSetting = (NumberSetting)setting;
                                        continue;
                                     }
 
-                                    if (var38.getName().startsWith("Max-") && var148 != null) {
-                                       var36.M_ArrayList().add(new RangeSlider(var32, var36, var148, var38, 99, 10));
-                                       var148 = null;
+                                    if (setting.getName().startsWith("Max-") && numberSetting != null) {
+                                       moduleButton.M_ArrayList().add(new RangeSlider(category, moduleButton, numberSetting, setting, 99, 10));
+                                       numberSetting = null;
                                        continue;
                                     }
 
-                                    var36.M_ArrayList().add(new NumberSlider(var32, var36, var38, 99, 10));
+                                    moduleButton.M_ArrayList().add(new NumberSlider(category, moduleButton, setting, 99, 10));
                                  }
 
-                                 if (var38 instanceof EnumSetting) {
-                                    var36.M_ArrayList().add(new EnumComponent(var36, var38, 99, 10));
+                                 if (setting instanceof EnumSetting) {
+                                    moduleButton.M_ArrayList().add(new EnumComponent(moduleButton, setting, 99, 10));
                                  }
 
-                                 if (var38 instanceof StringSetting) {
-                                    var36.M_ArrayList().add(new StringComponent(var32, var36, var38, 93, 10));
+                                 if (setting instanceof StringSetting) {
+                                    moduleButton.M_ArrayList().add(new StringComponent(category, moduleButton, setting, 93, 10));
                                  }
 
-                                 if (var38 instanceof MapSetting) {
-                                    MapComponent var39 = new MapComponent(var36, var38, 99, 10);
+                                 if (setting instanceof MapSetting) {
+                                    MapComponent mapComponent = new MapComponent(moduleButton, setting, 99, 10);
 
-                                    for (Setting var41 : ((MapSetting)var38).getSettings().values()) {
-                                       if (!var41.getName().startsWith("Pos-")) {
-                                          if (var41 instanceof BooleanSetting) {
-                                             var39.M_ArrayList().add(new BooleanComponent(var32, var39, var41, 93, 10));
+                                    for (Setting setting2 : ((MapSetting)setting).getSettings().values()) {
+                                       if (!setting2.getName().startsWith("Pos-")) {
+                                          if (setting2 instanceof BooleanSetting) {
+                                             mapComponent.M_ArrayList().add(new BooleanComponent(category, mapComponent, setting2, 93, 10));
                                           }
 
-                                          if (var41 instanceof NumberSetting) {
-                                             if (var41.getName().startsWith("Min-") && !var38.getName().contains("Min-Health")) {
-                                                var148 = (NumberSetting)var41;
+                                          if (setting2 instanceof NumberSetting) {
+                                             if (setting2.getName().startsWith("Min-") && !setting.getName().contains("Min-Health")) {
+                                                numberSetting = (NumberSetting)setting2;
                                                 continue;
                                              }
 
-                                             if (var41.getName().startsWith("Max-")) {
-                                                var39.M_ArrayList().add(new RangeSlider(var32, var39, var148, var41, 93, 10));
-                                                var148 = null;
+                                             if (setting2.getName().startsWith("Max-")) {
+                                                mapComponent.M_ArrayList().add(new RangeSlider(category, mapComponent, numberSetting, setting2, 93, 10));
+                                                numberSetting = null;
                                                 continue;
                                              }
 
-                                             var39.M_ArrayList().add(new NumberSlider(var32, var39, var41, 93, 10));
+                                             mapComponent.M_ArrayList().add(new NumberSlider(category, mapComponent, setting2, 93, 10));
                                           }
 
-                                          if (var41 instanceof EnumSetting) {
-                                             var39.M_ArrayList().add(new EnumComponent(var39, var41, 93, 10));
+                                          if (setting2 instanceof EnumSetting) {
+                                             mapComponent.M_ArrayList().add(new EnumComponent(mapComponent, setting2, 93, 10));
                                           }
 
-                                          if (var41 instanceof StringSetting) {
-                                             var39.M_ArrayList().add(new StringComponent(var32, var39, var41, 93, 10));
+                                          if (setting2 instanceof StringSetting) {
+                                             mapComponent.M_ArrayList().add(new StringComponent(category, mapComponent, setting2, 93, 10));
                                           }
 
-                                          if (var41 instanceof ColorSetting) {
-                                             var39.M_ArrayList().add(new ColorPicker(var32, var39, var41, 93, 70));
+                                          if (setting2 instanceof ColorSetting) {
+                                             mapComponent.M_ArrayList().add(new ColorPicker(category, mapComponent, setting2, 93, 70));
                                           }
                                        }
                                     }
 
-                                    var36.M_ArrayList().add(var39);
+                                    moduleButton.M_ArrayList().add(mapComponent);
                                  }
                               }
                            }
 
-                           var33.a(var36);
+                           categoryPanel.a(moduleButton);
                         }
 
-                        ClientAccess.client.getDefaultPanelManager().addElements(var33);
-                        var147 += 125;
+                        ClientAccess.client.getDefaultPanelManager().addElements(categoryPanel);
+                        b10 += 125;
                      }
                   }
 
-                  byte var150 = 3;
+                  byte b11 = 3;
 
-                  for (Category var156 : Category.values()) {
-                     if (var156 != Category.HIDDEN && var156 != Category.CONFIG) {
-                        bypass.gui.clickgui.transparent.CategoryPanel var157 = new bypass.gui.clickgui.transparent.CategoryPanel(var156, var150, 3, 105, 10);
+                  for (Category category2 : Category.values()) {
+                     if (category2 != Category.HIDDEN && category2 != Category.CONFIG) {
+                        bypass.gui.clickgui.transparent.CategoryPanel categoryPanel2 = new bypass.gui.clickgui.transparent.CategoryPanel(category2, b11, 3, 105, 10);
 
-                        for (Module var159 : Astolfo.INSTANCE.getModuleManager().getModules(var156)) {
-                           bypass.gui.clickgui.transparent.ModuleButton var160 = new bypass.gui.clickgui.transparent.ModuleButton(var157, var159, 103, 10);
+                        for (Module module4 : Astolfo.INSTANCE.getModuleManager().getModules(category2)) {
+                           bypass.gui.clickgui.transparent.ModuleButton moduleButton2 = new bypass.gui.clickgui.transparent.ModuleButton(categoryPanel2, module4, 103, 10);
 
-                           for (Setting var162 : var159.getSettings()) {
-                              if (!var162.getName().startsWith("Pos-") && !var162.getName().equals("Hide")) {
-                                 if (var162 instanceof BooleanSetting) {
-                                    var160.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(var160, var162, 101, 10));
+                           for (Setting setting3 : module4.getSettings()) {
+                              if (!setting3.getName().startsWith("Pos-") && !setting3.getName().equals("Hide")) {
+                                 if (setting3 instanceof BooleanSetting) {
+                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(moduleButton2, setting3, 101, 10));
                                  }
 
-                                 if (var162 instanceof NumberSetting) {
-                                    var160.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(var160, var162, 101, 10));
+                                 if (setting3 instanceof NumberSetting) {
+                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(moduleButton2, setting3, 101, 10));
                                  }
 
-                                 if (var162 instanceof EnumSetting) {
-                                    var160.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(var160, var162, 101, 10));
+                                 if (setting3 instanceof EnumSetting) {
+                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(moduleButton2, setting3, 101, 10));
                                  }
 
-                                 if (var162 instanceof StringSetting) {
-                                    var160.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(var160, var162, 101, 10));
+                                 if (setting3 instanceof StringSetting) {
+                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(moduleButton2, setting3, 101, 10));
                                  }
 
-                                 if (var162 instanceof MapSetting) {
-                                    bypass.gui.clickgui.transparent.MapComponent var163 = new bypass.gui.clickgui.transparent.MapComponent(
-                                       var160, var162, 101, 10
+                                 if (setting3 instanceof MapSetting) {
+                                    bypass.gui.clickgui.transparent.MapComponent mapComponent2 = new bypass.gui.clickgui.transparent.MapComponent(
+                                       moduleButton2, setting3, 101, 10
                                     );
 
-                                    for (Setting var42 : ((MapSetting)var162).getSettings().values()) {
-                                       if (!var42.getName().startsWith("Pos-")) {
-                                          if (var42 instanceof BooleanSetting) {
-                                             var163.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(var163, var42, 98, 10));
+                                    for (Setting setting4 : ((MapSetting)setting3).getSettings().values()) {
+                                       if (!setting4.getName().startsWith("Pos-")) {
+                                          if (setting4 instanceof BooleanSetting) {
+                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(mapComponent2, setting4, 98, 10));
                                           }
 
-                                          if (var42 instanceof NumberSetting) {
-                                             var163.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(var163, var42, 98, 10));
+                                          if (setting4 instanceof NumberSetting) {
+                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(mapComponent2, setting4, 98, 10));
                                           }
 
-                                          if (var42 instanceof EnumSetting) {
-                                             var163.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(var163, var42, 98, 10));
+                                          if (setting4 instanceof EnumSetting) {
+                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(mapComponent2, setting4, 98, 10));
                                           }
 
-                                          if (var42 instanceof StringSetting) {
-                                             var163.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(var163, var42, 98, 10));
+                                          if (setting4 instanceof StringSetting) {
+                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(mapComponent2, setting4, 98, 10));
                                           }
                                        }
                                     }
 
-                                    var160.M_ArrayList().add(var163);
+                                    moduleButton2.M_ArrayList().add(mapComponent2);
                                  }
                               }
                            }
 
-                           var157.a(var160);
+                           categoryPanel2.a(moduleButton2);
                         }
 
-                        Astolfo.INSTANCE.getTransparentPanelManager().addElements(var157);
-                        var150 += 110;
+                        Astolfo.INSTANCE.getTransparentPanelManager().addElements(categoryPanel2);
+                        b11 += 110;
                      }
                   }
 
                   if (Disabler.jsHandler instanceof ScriptObjectMirror) {
-                     ScriptObjectMirror var153 = (ScriptObjectMirror)Disabler.jsHandler;
-                     var153.put("dsa", this.p);
-                     var153.call("init", new Object[0]);
+                     ScriptObjectMirror scriptObjectMirror = (ScriptObjectMirror)Disabler.jsHandler;
+                     scriptObjectMirror.put("dsa", this.p);
+                     scriptObjectMirror.call("init", new Object[0]);
                   }
 
                   System.gc();
                }
             }
 
-            var19.E(this.Q);
+            packetListener.E(this.Q);
          }
 
          this.o(this.Q);
@@ -723,25 +723,25 @@ public final class PacketReceiver implements LoginListener {
       return ReceiveResult.B;
    }
 
-   public static String N(String var0) {
-      return D(var0, "4N4z6CCb6bvBeeJH");
+   public static String N(String string) {
+      return D(string, "4N4z6CCb6bvBeeJH");
    }
 
-   public static String D(String var0, String var1) {
-      if (var0 != null && !var0.isEmpty()) {
+   public static String D(String string, String string2) {
+      if (string != null && !string.isEmpty()) {
          try {
-            SecretKeySpec var5 = new SecretKeySpec(var1.getBytes(), "AES");
-            Cipher var9 = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            var9.init(2, var5);
-            byte[] var7 = var9.doFinal(DatatypeConverter.parseBase64Binary(var0));
-            return new String(var7);
-         } catch (NoSuchAlgorithmException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException var8) {
-            NullPointerException var6 = new NullPointerException();
-            var6.setStackTrace(new StackTraceElement[0]);
-            throw var6;
+            SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(2, secretKeySpec);
+            byte[] bytes = cipher.doFinal(DatatypeConverter.parseBase64Binary(string));
+            return new String(bytes);
+         } catch (NoSuchAlgorithmException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException value) {
+            NullPointerException nullPointerException = new NullPointerException();
+            nullPointerException.setStackTrace(new StackTraceElement[0]);
+            throw nullPointerException;
          }
       } else {
-         return var0;
+         return string;
       }
    }
 
@@ -754,10 +754,10 @@ public final class PacketReceiver implements LoginListener {
             this.e = -1;
             return ReceiveResult.C;
          }
-      } catch (IOException var5) {
+      } catch (IOException ioException) {
          this.v = false;
          this.e = -1;
-         throw var5;
+         throw ioException;
       }
 
       if (this.V.position() != this.V.capacity()) {

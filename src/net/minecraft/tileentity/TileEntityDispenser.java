@@ -22,71 +22,71 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
    }
 
    @Override
-   public ItemStack getStackInSlot(int var1) {
-      return this.stacks[var1];
+   public ItemStack getStackInSlot(int index) {
+      return this.stacks[index];
    }
 
    @Override
-   public ItemStack decrStackSize(int var1, int var2) {
-      if (this.stacks[var1] != null) {
-         if (this.stacks[var1].stackSize <= var2) {
-            ItemStack var7 = this.stacks[var1];
-            this.stacks[var1] = null;
+   public ItemStack decrStackSize(int index, int count) {
+      if (this.stacks[index] != null) {
+         if (this.stacks[index].stackSize <= count) {
+            ItemStack itemStack = this.stacks[index];
+            this.stacks[index] = null;
             this.markDirty();
-            return var7;
+            return itemStack;
          }
 
-         ItemStack var6 = this.stacks[var1].splitStack(var2);
-         if (this.stacks[var1].stackSize == 0) {
-            this.stacks[var1] = null;
+         ItemStack itemStack2 = this.stacks[index].splitStack(count);
+         if (this.stacks[index].stackSize == 0) {
+            this.stacks[index] = null;
          }
 
          this.markDirty();
-         return var6;
+         return itemStack2;
       } else {
          return null;
       }
    }
 
    @Override
-   public ItemStack removeStackFromSlot(int var1) {
-      if (this.stacks[var1] != null) {
-         ItemStack var5 = this.stacks[var1];
-         this.stacks[var1] = null;
-         return var5;
+   public ItemStack removeStackFromSlot(int index) {
+      if (this.stacks[index] != null) {
+         ItemStack itemStack = this.stacks[index];
+         this.stacks[index] = null;
+         return itemStack;
       } else {
          return null;
       }
    }
 
    public int getDispenseSlot() {
-      int var4 = -1;
-      int var5 = 1;
+      int i = -1;
+      int j = 1;
 
-      for (int var6 = 0; var6 < this.stacks.length; var6++) {
-         if (this.stacks[var6] != null && RNG.nextInt(var5++) == 0) {
-            var4 = var6;
+      for (int k = 0; k < this.stacks.length; k++) {
+         if (this.stacks[k] != null && RNG.nextInt(j++) == 0) {
+            i = k;
          }
       }
 
-      return var4;
+      return i;
    }
 
    @Override
-   public void setInventorySlotContents(int var1, ItemStack var2) {
-      this.stacks[var1] = var2;
-      if (var2 != null && var2.stackSize > this.getInventoryStackLimit()) {
-         var2.stackSize = this.getInventoryStackLimit();
+   public void setInventorySlotContents(int index, ItemStack stack) {
+      this.stacks[index] = stack;
+      if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+         stack.stackSize = this.getInventoryStackLimit();
       }
 
       this.markDirty();
    }
 
-   public int addItemStack(ItemStack var1) {
-      for (int var5 = 0; var5 < this.stacks.length; var5++) {
-         if (this.stacks[var5] == null || this.stacks[var5].getItem() == null) {
-            this.setInventorySlotContents(var5, var1);
-            return var5;
+   public int addItemStack(ItemStack stack) {
+      for (int i = 0; i < this.stacks.length; i++) {
+         if (this.stacks[i] == null || this.stacks[i].getItem() == null) {
+            this.setInventorySlotContents(i, stack);
+            return i;
          }
       }
 
@@ -98,8 +98,8 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
       return this.hasCustomName() ? this.customName : "container.dispenser";
    }
 
-   public void setCustomName(String var1) {
-      this.customName = var1;
+   public void setCustomName(String customName) {
+      this.customName = customName;
    }
 
    @Override
@@ -108,41 +108,41 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      NBTTagList var5 = var1.getTagList("Items", 10);
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      NBTTagList nbtTagList = compound.getTagList("Items", 10);
       this.stacks = new ItemStack[this.getSizeInventory()];
 
-      for (int var6 = 0; var6 < var5.tagCount(); var6++) {
-         NBTTagCompound var7 = var5.getCompoundTagAt(var6);
-         int var8 = var7.getByte("Slot") & 255;
-         if (var8 >= 0 && var8 < this.stacks.length) {
-            this.stacks[var8] = ItemStack.loadItemStackFromNBT(var7);
+      for (int i = 0; i < nbtTagList.tagCount(); i++) {
+         NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(i);
+         int j = nbtTagCompound.getByte("Slot") & 255;
+         if (j >= 0 && j < this.stacks.length) {
+            this.stacks[j] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
          }
       }
 
-      if (var1.hasKey("CustomName", 8)) {
-         this.customName = var1.getString("CustomName");
+      if (compound.hasKey("CustomName", 8)) {
+         this.customName = compound.getString("CustomName");
       }
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      NBTTagList var5 = new NBTTagList();
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      NBTTagList nbtTagList = new NBTTagList();
 
-      for (int var6 = 0; var6 < this.stacks.length; var6++) {
-         if (this.stacks[var6] != null) {
-            NBTTagCompound var7 = new NBTTagCompound();
-            var7.setByte("Slot", (byte)var6);
-            this.stacks[var6].writeToNBT(var7);
-            var5.appendTag(var7);
+      for (int i = 0; i < this.stacks.length; i++) {
+         if (this.stacks[i] != null) {
+            NBTTagCompound nbtTagCompound = new NBTTagCompound();
+            nbtTagCompound.setByte("Slot", (byte)i);
+            this.stacks[i].writeToNBT(nbtTagCompound);
+            nbtTagList.appendTag(nbtTagCompound);
          }
       }
 
-      var1.setTag("Items", var5);
+      compound.setTag("Items", nbtTagList);
       if (this.hasCustomName()) {
-         var1.setString("CustomName", this.customName);
+         compound.setString("CustomName", this.customName);
       }
    }
 
@@ -152,22 +152,22 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
    }
 
    @Override
-   public boolean isUseableByPlayer(EntityPlayer var1) {
+   public boolean isUseableByPlayer(EntityPlayer player) {
       return this.worldObj.getTileEntity(this.pos) != this
          ? false
-         : var1.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
+         : player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
    }
 
    @Override
-   public void openInventory(EntityPlayer var1) {
+   public void openInventory(EntityPlayer player) {
    }
 
    @Override
-   public void closeInventory(EntityPlayer var1) {
+   public void closeInventory(EntityPlayer player) {
    }
 
    @Override
-   public boolean isItemValidForSlot(int var1, ItemStack var2) {
+   public boolean isItemValidForSlot(int index, ItemStack stack) {
       return true;
    }
 
@@ -177,17 +177,17 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-      return new ContainerDispenser(var1, this);
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+      return new ContainerDispenser(playerInventory, this);
    }
 
    @Override
-   public int getField(int var1) {
+   public int getField(int id) {
       return 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
+   public void setField(int id, int value) {
    }
 
    @Override
@@ -197,8 +197,8 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 
    @Override
    public void clear() {
-      for (int var4 = 0; var4 < this.stacks.length; var4++) {
-         this.stacks[var4] = null;
+      for (int i = 0; i < this.stacks.length; i++) {
+         this.stacks[i] = null;
       }
    }
 }

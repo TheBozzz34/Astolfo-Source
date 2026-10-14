@@ -13,9 +13,9 @@ public class ShapelessRecipes implements IRecipe {
    private static final long a = 113690852796612L;
    private static final long b = -1911211930769391617L;
 
-   public ShapelessRecipes(ItemStack var1, List<ItemStack> var2) {
-      this.recipeOutput = var1;
-      this.recipeItems = var2;
+   public ShapelessRecipes(ItemStack output, List<ItemStack> inputList) {
+      this.recipeOutput = output;
+      this.recipeItems = inputList;
    }
 
    @Override
@@ -24,50 +24,50 @@ public class ShapelessRecipes implements IRecipe {
    }
 
    @Override
-   public ItemStack[] getRemainingItems(InventoryCrafting var1) {
-      ItemStack[] var5 = new ItemStack[var1.getSizeInventory()];
+   public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+      ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         ItemStack var7 = var1.getStackInSlot(var6);
-         if (var7 != null && var7.getItem().hasContainerItem()) {
-            var5[var6] = new ItemStack(var7.getItem().getContainerItem());
+      for (int i = 0; i < itemStacks.length; i++) {
+         ItemStack itemStack = inv.getStackInSlot(i);
+         if (itemStack != null && itemStack.getItem().hasContainerItem()) {
+            itemStacks[i] = new ItemStack(itemStack.getItem().getContainerItem());
          }
       }
 
-      return var5;
+      return itemStacks;
    }
 
    @Override
-   public boolean matches(InventoryCrafting var1, World var2) {
-      ArrayList var6 = Lists.newArrayList(this.recipeItems);
+   public boolean matches(InventoryCrafting inv, World worldIn) {
+      ArrayList arrayList = Lists.newArrayList(this.recipeItems);
 
-      for (int var7 = 0; var7 < var1.getHeight(); var7++) {
-         for (int var8 = 0; var8 < var1.getWidth(); var8++) {
-            ItemStack var9 = var1.getStackInRowAndColumn(var8, var7);
-            if (var9 != null) {
-               boolean var10 = false;
+      for (int i = 0; i < inv.getHeight(); i++) {
+         for (int j = 0; j < inv.getWidth(); j++) {
+            ItemStack itemStack = inv.getStackInRowAndColumn(j, i);
+            if (itemStack != null) {
+               boolean bl = false;
 
-               for (Object var12$raw : var6) {
-                  ItemStack var12 = (ItemStack)var12$raw;
-                  if (var9.getItem() == var12.getItem() && (var12.getMetadata() == (int)b || var9.getMetadata() == var12.getMetadata())) {
-                     var10 = true;
-                     var6.remove(var12);
+               for (Object object : arrayList) {
+                  ItemStack itemStack2 = (ItemStack)object;
+                  if (itemStack.getItem() == itemStack2.getItem() && (itemStack2.getMetadata() == (int)b || itemStack.getMetadata() == itemStack2.getMetadata())) {
+                     bl = true;
+                     arrayList.remove(itemStack2);
                      break;
                   }
                }
 
-               if (!var10) {
+               if (!bl) {
                   return false;
                }
             }
          }
       }
 
-      return var6.isEmpty();
+      return arrayList.isEmpty();
    }
 
    @Override
-   public ItemStack getCraftingResult(InventoryCrafting var1) {
+   public ItemStack getCraftingResult(InventoryCrafting inv) {
       return this.recipeOutput.copy();
    }
 

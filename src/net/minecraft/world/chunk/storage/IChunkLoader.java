@@ -6,11 +6,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 public interface IChunkLoader {
-   Chunk loadChunk(World var1, int var2, int var3) throws IOException;
+   Chunk loadChunk(World worldIn, int x, int z) throws IOException;
 
-   void saveChunk(World var1, Chunk var2) throws MinecraftException, IOException;
+   void saveChunk(World worldIn, Chunk chunkIn) throws MinecraftException, IOException;
 
-   void saveExtraChunkData(World var1, Chunk var2) throws IOException;
+   void saveExtraChunkData(World worldIn, Chunk chunkIn) throws IOException;
 
    void chunkTick();
 

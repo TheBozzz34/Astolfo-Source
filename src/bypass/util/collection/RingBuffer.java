@@ -12,44 +12,44 @@ public class RingBuffer<T> {
    private int R;
    private static final long a = 21303592652026L;
 
-   public RingBuffer(Class<? extends T> var1, int var2) {
-      this.k = var1;
-      this.s = (T[])((Object[])Array.newInstance(var1, var2));
+   public RingBuffer(Class<? extends T> class2, int i) {
+      this.k = class2;
+      this.s = (T[])((Object[])Array.newInstance(class2, i));
    }
 
-   public T G(T var1) {
+   public T G(T object) {
       this.q.writeLock().lock();
-      this.s[this.R] = (T)var1;
+      this.s[this.R] = (T)object;
       this.R = (this.R + 1) % this.d();
       if (this.Y < this.d()) {
          this.Y++;
       }
 
       this.q.writeLock().unlock();
-      return (T)var1;
+      return (T)object;
    }
 
    public int d() {
       this.q.readLock().lock();
-      int var1 = this.s.length;
+      int i = this.s.length;
       this.q.readLock().unlock();
-      return var1;
+      return i;
    }
 
    public T[] v() {
-      Object[] var4 = (Object[])Array.newInstance(this.k, this.Y);
+      Object[] objects = (Object[])Array.newInstance(this.k, this.Y);
       this.q.readLock().lock();
 
-      for (int var5 = 0; var5 < this.Y; var5++) {
-         int var6 = (this.R - this.Y + var5) % this.d();
-         if (var6 < 0) {
-            var6 += this.d();
+      for (int i = 0; i < this.Y; i++) {
+         int j = (this.R - this.Y + i) % this.d();
+         if (j < 0) {
+            j += this.d();
          }
 
-         var4[var5] = this.s[var6];
+         objects[i] = this.s[j];
       }
 
       this.q.readLock().unlock();
-      return (T[])var4;
+      return (T[])objects;
    }
 }

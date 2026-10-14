@@ -7,8 +7,8 @@ public class PacketSnapshot {
    public List<Packet<?>> outgoing;
    public List<Packet<?>> incoming;
 
-   public PacketSnapshot(List<Packet<?>> var1, List<Packet<?>> var2) {
-      this.outgoing = var1;
-      this.incoming = var2;
+   public PacketSnapshot(List<Packet<?>> list, List<Packet<?>> list2) {
+      this.outgoing = list;
+      this.incoming = list2;
    }
 }

@@ -23,203 +23,203 @@ public final class LinuxCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
-      String var4 = "";
-      String var5 = "";
-      String var6 = "";
-      String var7 = "";
-      String var8 = "";
-      boolean var10 = false;
-      StringBuilder var11 = new StringBuilder();
-      String[] var12 = new String[0];
+      String string = "";
+      String string2 = "";
+      String string3 = "";
+      String string4 = "";
+      String string5 = "";
+      boolean bl = false;
+      StringBuilder stringBuilder = new StringBuilder();
+      String[] strings = new String[0];
 
-      for (String var15 : FileUtil.readFile(ProcPath.CPUINFO)) {
-         String[] var16 = ParseUtil.H.split(var15);
-         if (var16.length >= 2) {
-            switch (var16[0]) {
+      for (String string6 : FileUtil.readFile(ProcPath.CPUINFO)) {
+         String[] strings2 = ParseUtil.H.split(string6);
+         if (strings2.length >= 2) {
+            switch (strings2[0]) {
                case "vendor_id":
                case "CPU implementer":
-                  var4 = var16[1];
+                  string = strings2[1];
                   break;
                case "model name":
-                  var5 = var16[1];
+                  string2 = strings2[1];
                   break;
                case "flags":
-                  var12 = var16[1].toLowerCase().split(" ");
+                  strings = strings2[1].toLowerCase().split(" ");
 
-                  for (String var22 : var12) {
-                     if ("lm".equals(var22)) {
-                        var10 = true;
+                  for (String string7 : strings) {
+                     if ("lm".equals(string7)) {
+                        bl = true;
                         break;
                      }
                   }
                   break;
                case "stepping":
-                  var8 = var16[1];
+                  string5 = strings2[1];
                   break;
                case "CPU variant":
-                  var11.insert(0, "r" + var16[1]);
+                  stringBuilder.insert(0, "r" + strings2[1]);
                   break;
                case "CPU revision":
-                  var11.append('p').append(var16[1]);
+                  stringBuilder.append('p').append(strings2[1]);
                   break;
                case "model":
                case "CPU part":
-                  var7 = var16[1];
+                  string4 = strings2[1];
                   break;
                case "cpu family":
                case "CPU architecture":
-                  var6 = var16[1];
+                  string3 = strings2[1];
             }
          }
       }
 
-      if (var8.isEmpty()) {
-         var8 = var11.toString();
+      if (string5.isEmpty()) {
+         string5 = stringBuilder.toString();
       }
 
-      String var9 = getProcessorID(var4, var8, var7, var6, var12);
-      if (var4.startsWith("0x")) {
-         for (String var25 : ExecutingCommand.runNative("lscpu")) {
-            if (var25.startsWith("Architecture:")) {
-               var4 = var25.replace("Architecture:", "").trim();
+      String string8 = getProcessorID(string, string5, string4, string3, strings);
+      if (string.startsWith("0x")) {
+         for (String string9 : ExecutingCommand.runNative("lscpu")) {
+            if (string9.startsWith("Architecture:")) {
+               string = string9.replace("Architecture:", "").trim();
             }
          }
       }
 
-      return new CentralProcessor.ProcessorIdentifier(var4, var5, var6, var7, var8, var9, var10);
+      return new CentralProcessor.ProcessorIdentifier(string, string2, string3, string4, string5, string8, bl);
    }
 
    @Override
    public CentralProcessor.LogicalProcessor[] initProcessorCounts() {
-      Map var4 = mapNumaNodes();
-      List var5 = FileUtil.readFile(ProcPath.CPUINFO);
-      ArrayList var6 = new ArrayList();
-      int var7 = 0;
-      int var8 = 0;
-      int var9 = 0;
-      boolean var10 = true;
+      Map map = mapNumaNodes();
+      List list = FileUtil.readFile(ProcPath.CPUINFO);
+      ArrayList arrayList = new ArrayList();
+      int i = 0;
+      int j = 0;
+      int k = 0;
+      boolean bl = true;
 
-      for (Object var12$raw : var5) {
-         String var12 = (String)var12$raw;
-         if (var12.startsWith("processor")) {
-            if (!var10) {
-               var6.add(new CentralProcessor.LogicalProcessor(var7, var8, var9, (int)(var4.getOrDefault(var7, 0))));
+      for (Object object : list) {
+         String string = (String)object;
+         if (string.startsWith("processor")) {
+            if (!bl) {
+               arrayList.add(new CentralProcessor.LogicalProcessor(i, j, k, (int)(map.getOrDefault(i, 0))));
             } else {
-               var10 = false;
+               bl = false;
             }
 
-            var7 = ParseUtil.parseLastInt(var12, 0);
-         } else if (var12.startsWith("core id") || var12.startsWith("cpu number")) {
-            var8 = ParseUtil.parseLastInt(var12, 0);
-         } else if (var12.startsWith("physical id")) {
-            var9 = ParseUtil.parseLastInt(var12, 0);
+            i = ParseUtil.parseLastInt(string, 0);
+         } else if (string.startsWith("core id") || string.startsWith("cpu number")) {
+            j = ParseUtil.parseLastInt(string, 0);
+         } else if (string.startsWith("physical id")) {
+            k = ParseUtil.parseLastInt(string, 0);
          }
       }
 
-      var6.add(new CentralProcessor.LogicalProcessor(var7, var8, var9, (int)(var4.getOrDefault(var7, 0))));
-      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(var6.toArray(new CentralProcessor.LogicalProcessor[0]));
+      arrayList.add(new CentralProcessor.LogicalProcessor(i, j, k, (int)(map.getOrDefault(i, 0))));
+      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(arrayList.toArray(new CentralProcessor.LogicalProcessor[0]));
    }
 
    private static Map<Integer, Integer> mapNumaNodes() {
-      HashMap var3 = new HashMap();
+      HashMap hashMap = new HashMap();
 
-      for (String var6 : ExecutingCommand.runNative("lscpu -p=cpu,node")) {
-         if (!var6.startsWith("#")) {
-            String[] var7 = var6.split(",");
-            if (var7.length == 2) {
-               var3.put(ParseUtil.parseIntOrDefault(var7[0], 0), ParseUtil.parseIntOrDefault(var7[1], 0));
+      for (String string : ExecutingCommand.runNative("lscpu -p=cpu,node")) {
+         if (!string.startsWith("#")) {
+            String[] strings = string.split(",");
+            if (strings.length == 2) {
+               hashMap.put(ParseUtil.parseIntOrDefault(strings[0], 0), ParseUtil.parseIntOrDefault(strings[1], 0));
             }
          }
       }
 
-      return var3;
+      return hashMap;
    }
 
    @Override
    public long[] querySystemCpuLoadTicks() {
-      long[] var4 = CpuStat.getSystemCpuLoadTicks();
-      long var5 = LinuxOperatingSystem.H();
+      long[] longs = CpuStat.getSystemCpuLoadTicks();
+      long l = LinuxOperatingSystem.H();
 
-      for (int var7 = 0; var7 < var4.length; var7++) {
-         var4[var7] = var4[var7] * 1000L / var5;
+      for (int i = 0; i < longs.length; i++) {
+         longs[i] = longs[i] * 1000L / l;
       }
 
-      return var4;
+      return longs;
    }
 
    @Override
    public long[] queryCurrentFreq() {
-      String var4 = GlobalConfig.get("oshi.cpu.freq.path", "");
-      long[] var5 = new long[this.getLogicalProcessorCount()];
-      long var6 = 0L;
+      String string = GlobalConfig.get("oshi.cpu.freq.path", "");
+      long[] longs = new long[this.getLogicalProcessorCount()];
+      long l = 0L;
 
-      for (int var8 = 0; var8 < var5.length; var8++) {
-         var5[var8] = FileUtil.getLongFromFile(var4 + var8 + "/cpufreq/scaling_cur_freq");
-         if (var5[var8] == 0L) {
-            var5[var8] = FileUtil.getLongFromFile(var4 + var8 + "/cpufreq/cpuinfo_cur_freq");
+      for (int i = 0; i < longs.length; i++) {
+         longs[i] = FileUtil.getLongFromFile(string + i + "/cpufreq/scaling_cur_freq");
+         if (longs[i] == 0L) {
+            longs[i] = FileUtil.getLongFromFile(string + i + "/cpufreq/cpuinfo_cur_freq");
          }
 
-         if (var6 < var5[var8]) {
-            var6 = var5[var8];
+         if (l < longs[i]) {
+            l = longs[i];
          }
       }
 
-      if (var6 > 0L) {
-         for (int var13 = 0; var13 < var5.length; var13++) {
-            var5[var13] *= 1000L;
+      if (l > 0L) {
+         for (int j = 0; j < longs.length; j++) {
+            longs[j] *= 1000L;
          }
 
-         return var5;
+         return longs;
       } else {
-         Arrays.fill(var5, -1L);
-         List var12 = FileUtil.readFile(ProcPath.CPUINFO);
-         int var9 = 0;
+         Arrays.fill(longs, -1L);
+         List list = FileUtil.readFile(ProcPath.CPUINFO);
+         int k = 0;
 
-         for (Object var11$raw : var12) {
-            String var11 = (String)var11$raw;
-            if (var11.toLowerCase().contains("cpu mhz")) {
-               var5[var9] = (long)(ParseUtil.parseLastDouble(var11, 0.0) * 1000000.0);
-               if (++var9 >= var5.length) {
+         for (Object object : list) {
+            String string2 = (String)object;
+            if (string2.toLowerCase().contains("cpu mhz")) {
+               longs[k] = (long)(ParseUtil.parseLastDouble(string2, 0.0) * 1000000.0);
+               if (++k >= longs.length) {
                   break;
                }
             }
          }
 
-         return var5;
+         return longs;
       }
    }
 
    @Override
    public long queryMaxFreq() {
-      String var4 = GlobalConfig.get("oshi.cpu.freq.path", "");
-      long var5 = 0L;
+      String string = GlobalConfig.get("oshi.cpu.freq.path", "");
+      long l = 0L;
 
-      for (int var7 = 0; var7 < this.getLogicalProcessorCount(); var7++) {
-         long var8 = FileUtil.getLongFromFile(var4 + var7 + "/cpufreq/scaling_max_freq");
-         if (var8 == 0L) {
-            var8 = FileUtil.getLongFromFile(var4 + var7 + "/cpufreq/cpuinfo_max_freq");
+      for (int i = 0; i < this.getLogicalProcessorCount(); i++) {
+         long m = FileUtil.getLongFromFile(string + i + "/cpufreq/scaling_max_freq");
+         if (m == 0L) {
+            m = FileUtil.getLongFromFile(string + i + "/cpufreq/cpuinfo_max_freq");
          }
 
-         if (var5 < var8) {
-            var5 = var8;
+         if (l < m) {
+            l = m;
          }
       }
 
-      return var5 > 0L ? var5 * 1000L : -1L;
+      return l > 0L ? l * 1000L : -1L;
    }
 
    @Override
-   public double[] getSystemLoadAverage(int var1) {
-      if (var1 >= 1 && var1 <= 3) {
-         double[] var5 = new double[var1];
-         int var6 = LinuxLibc.INSTANCE.getloadavg(var5, var1);
-         if (var6 < var1) {
-            for (int var7 = Math.max(var6, 0); var7 < var5.length; var7++) {
-               var5[var7] = -1.0;
+   public double[] getSystemLoadAverage(int nelem) {
+      if (nelem >= 1 && nelem <= 3) {
+         double[] doubles = new double[nelem];
+         int i = LinuxLibc.INSTANCE.getloadavg(doubles, nelem);
+         if (i < nelem) {
+            for (int j = Math.max(i, 0); j < doubles.length; j++) {
+               doubles[j] = -1.0;
             }
          }
 
-         return var5;
+         return doubles;
       } else {
          throw new IllegalArgumentException("Must include from one to three elements.");
       }
@@ -227,65 +227,65 @@ public final class LinuxCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[][] queryProcessorCpuLoadTicks() {
-      long[][] var4 = CpuStat.getProcessorCpuLoadTicks(this.getLogicalProcessorCount());
-      long var5 = LinuxOperatingSystem.H();
+      long[][] longss = CpuStat.getProcessorCpuLoadTicks(this.getLogicalProcessorCount());
+      long l = LinuxOperatingSystem.H();
 
-      for (int var7 = 0; var7 < var4.length; var7++) {
-         for (int var8 = 0; var8 < var4[var7].length; var8++) {
-            var4[var7][var8] = var4[var7][var8] * 1000L / var5;
+      for (int i = 0; i < longss.length; i++) {
+         for (int j = 0; j < longss[i].length; j++) {
+            longss[i][j] = longss[i][j] * 1000L / l;
          }
       }
 
-      return var4;
+      return longss;
    }
 
-   private static String getProcessorID(String var0, String var1, String var2, String var3, String[] var4) {
-      boolean var8 = false;
-      String var9 = "Processor Information";
+   private static String getProcessorID(String vendor, String stepping, String model, String family, String[] flags) {
+      boolean bl = false;
+      String string = "Processor Information";
 
-      for (String var11 : ExecutingCommand.runNative("dmidecode -t 4")) {
-         if (!var8 && var11.contains(var9)) {
-            var9 = "ID:";
-            var8 = true;
-         } else if (var8 && var11.contains(var9)) {
-            return var11.split(var9)[1].trim();
+      for (String string2 : ExecutingCommand.runNative("dmidecode -t 4")) {
+         if (!bl && string2.contains(string)) {
+            string = "ID:";
+            bl = true;
+         } else if (bl && string2.contains(string)) {
+            return string2.split(string)[1].trim();
          }
       }
 
-      var9 = "eax=";
+      string = "eax=";
 
-      for (String var20 : ExecutingCommand.runNative("cpuid -1r")) {
-         if (var20.contains(var9) && var20.trim().startsWith("0x00000001")) {
-            String var12 = "";
-            String var13 = "";
+      for (String string3 : ExecutingCommand.runNative("cpuid -1r")) {
+         if (string3.contains(string) && string3.trim().startsWith("0x00000001")) {
+            String string4 = "";
+            String string5 = "";
 
-            for (String var17 : ParseUtil.Q.split(var20)) {
-               if (var17.startsWith("eax=")) {
-                  var12 = ParseUtil.removeMatchingString(var17, "eax=0x");
-               } else if (var17.startsWith("edx=")) {
-                  var13 = ParseUtil.removeMatchingString(var17, "edx=0x");
+            for (String string6 : ParseUtil.Q.split(string3)) {
+               if (string6.startsWith("eax=")) {
+                  string4 = ParseUtil.removeMatchingString(string6, "eax=0x");
+               } else if (string6.startsWith("edx=")) {
+                  string5 = ParseUtil.removeMatchingString(string6, "edx=0x");
                }
             }
 
-            return var13 + var12;
+            return string5 + string4;
          }
       }
 
-      return var0.startsWith("0x") ? createMIDR(var0, var1, var2, var3) + "00000000" : createProcessorID(var1, var2, var3, var4);
+      return vendor.startsWith("0x") ? createMIDR(vendor, stepping, model, family) + "00000000" : createProcessorID(stepping, model, family, flags);
    }
 
-   private static String createMIDR(String var0, String var1, String var2, String var3) {
-      int var7 = 0;
-      if (var1.startsWith("r") && var1.contains("p")) {
-         String[] var8 = var1.substring(1).split("p");
-         var7 |= ParseUtil.parseLastInt(var8[1], 0);
-         var7 |= ParseUtil.parseLastInt(var8[0], 0) << 20;
+   private static String createMIDR(String vendor, String stepping, String model, String family) {
+      int i = 0;
+      if (stepping.startsWith("r") && stepping.contains("p")) {
+         String[] strings = stepping.substring(1).split("p");
+         i |= ParseUtil.parseLastInt(strings[1], 0);
+         i |= ParseUtil.parseLastInt(strings[0], 0) << 20;
       }
 
-      var7 |= ParseUtil.parseLastInt(var2, 0) << 4;
-      var7 |= ParseUtil.parseLastInt(var3, 0) << 16;
-      var7 |= ParseUtil.parseLastInt(var0, 0) << 24;
-      return String.format("%08X", var7);
+      i |= ParseUtil.parseLastInt(model, 0) << 4;
+      i |= ParseUtil.parseLastInt(family, 0) << 16;
+      i |= ParseUtil.parseLastInt(vendor, 0) << 24;
+      return String.format("%08X", i);
    }
 
    @Override

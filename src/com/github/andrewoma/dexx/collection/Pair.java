@@ -6,9 +6,9 @@ public class Pair<C1, C2> {
    private static final long a = 41325613306087L;
    private static final long c = -2846369909045198817L;
 
-   public Pair(C1 var1, C2 var2) {
-      this.component1 = (C1)var1;
-      this.component2 = (C2)var2;
+   public Pair(C1 component1, C2 component2) {
+      this.component1 = component1;
+      this.component2 = component2;
    }
 
    public C1 component1() {
@@ -25,13 +25,13 @@ public class Pair<C1, C2> {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object o) {
+      if (this == o) {
          return true;
-      } else if (var1 != null && this.getClass() == var1.getClass()) {
-         Pair var5 = (Pair)var1;
-         return (this.component1 != null ? this.component1.equals(var5.component1) : var5.component1 == null)
-            && (this.component2 != null ? this.component2.equals(var5.component2) : var5.component2 == null);
+      } else if (o != null && this.getClass() == o.getClass()) {
+         Pair pair = (Pair)o;
+         return (this.component1 != null ? this.component1.equals(pair.component1) : pair.component1 == null)
+            && (this.component2 != null ? this.component2.equals(pair.component2) : pair.component2 == null);
       } else {
          return false;
       }
@@ -39,7 +39,7 @@ public class Pair<C1, C2> {
 
    @Override
    public int hashCode() {
-      int var5 = this.component1 != null ? this.component1.hashCode() : 0;
-      return (int)c * var5 + (this.component2 != null ? this.component2.hashCode() : 0);
+      int i = this.component1 != null ? this.component1.hashCode() : 0;
+      return (int)c * i + (this.component2 != null ? this.component2.hashCode() : 0);
    }
 }

@@ -13,15 +13,24 @@ public class SaveFormatComparator implements Comparable<SaveFormatComparator> {
    private final boolean cheatsEnabled;
    private static final long a = 112985511783370L;
 
-   public SaveFormatComparator(String var1, String var2, long var3, long var5, WorldSettings.GameType var7, boolean var8, boolean var9, boolean var10) {
-      this.fileName = var1;
-      this.displayName = var2;
-      this.lastTimePlayed = var3;
-      this.sizeOnDisk = var5;
-      this.theEnumGameType = var7;
-      this.requiresConversion = var8;
-      this.hardcore = var9;
-      this.cheatsEnabled = var10;
+   public SaveFormatComparator(
+      String fileNameIn,
+      String displayNameIn,
+      long lastTimePlayedIn,
+      long sizeOnDiskIn,
+      WorldSettings.GameType theEnumGameTypeIn,
+      boolean requiresConversionIn,
+      boolean hardcoreIn,
+      boolean cheatsEnabledIn
+   ) {
+      this.fileName = fileNameIn;
+      this.displayName = displayNameIn;
+      this.lastTimePlayed = lastTimePlayedIn;
+      this.sizeOnDisk = sizeOnDiskIn;
+      this.theEnumGameType = theEnumGameTypeIn;
+      this.requiresConversion = requiresConversionIn;
+      this.hardcore = hardcoreIn;
+      this.cheatsEnabled = cheatsEnabledIn;
    }
 
    public String getFileName() {
@@ -44,8 +53,10 @@ public class SaveFormatComparator implements Comparable<SaveFormatComparator> {
       return this.lastTimePlayed;
    }
 
-   public int compareTo(SaveFormatComparator var1) {
-      return this.lastTimePlayed < var1.lastTimePlayed ? 1 : (this.lastTimePlayed > var1.lastTimePlayed ? -1 : this.fileName.compareTo(var1.fileName));
+   public int compareTo(SaveFormatComparator saveFormatComparator) {
+      return this.lastTimePlayed < saveFormatComparator.lastTimePlayed
+         ? 1
+         : (this.lastTimePlayed > saveFormatComparator.lastTimePlayed ? -1 : this.fileName.compareTo(saveFormatComparator.fileName));
    }
 
    public WorldSettings.GameType getEnumGameType() {

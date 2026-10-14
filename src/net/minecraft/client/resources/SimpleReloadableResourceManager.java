@@ -25,20 +25,20 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
    private final IMetadataSerializer rmMetadataSerializer;
    private static final long a = 73029731538372L;
 
-   public SimpleReloadableResourceManager(IMetadataSerializer var1) {
-      this.rmMetadataSerializer = var1;
+   public SimpleReloadableResourceManager(IMetadataSerializer rmMetadataSerializerIn) {
+      this.rmMetadataSerializer = rmMetadataSerializerIn;
    }
 
-   public void reloadResourcePack(IResourcePack var1) {
-      for (String var6 : var1.getResourceDomains()) {
-         this.setResourceDomains.add(var6);
-         FallbackResourceManager var7 = this.domainResourceManagers.get(var6);
-         if (var7 == null) {
-            var7 = new FallbackResourceManager(this.rmMetadataSerializer);
-            this.domainResourceManagers.put(var6, var7);
+   public void reloadResourcePack(IResourcePack resourcePack) {
+      for (String string : resourcePack.getResourceDomains()) {
+         this.setResourceDomains.add(string);
+         FallbackResourceManager fallbackResourceManager = this.domainResourceManagers.get(string);
+         if (fallbackResourceManager == null) {
+            fallbackResourceManager = new FallbackResourceManager(this.rmMetadataSerializer);
+            this.domainResourceManagers.put(string, fallbackResourceManager);
          }
 
-         var7.addResourcePack(var1);
+         fallbackResourceManager.addResourcePack(resourcePack);
       }
    }
 
@@ -48,22 +48,22 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
    }
 
    @Override
-   public IResource getResource(ResourceLocation var1) throws IOException {
-      IResourceManager var5 = this.domainResourceManagers.get(var1.getResourceDomain());
-      if (var5 != null) {
-         return var5.getResource(var1);
+   public IResource getResource(ResourceLocation location) throws IOException {
+      IResourceManager iResourceManager = this.domainResourceManagers.get(location.getResourceDomain());
+      if (iResourceManager != null) {
+         return iResourceManager.getResource(location);
       } else {
-         throw new FileNotFoundException(var1.toString());
+         throw new FileNotFoundException(location.toString());
       }
    }
 
    @Override
-   public List<IResource> getAllResources(ResourceLocation var1) throws IOException {
-      IResourceManager var5 = this.domainResourceManagers.get(var1.getResourceDomain());
-      if (var5 != null) {
-         return var5.getAllResources(var1);
+   public List<IResource> getAllResources(ResourceLocation location) throws IOException {
+      IResourceManager iResourceManager = this.domainResourceManagers.get(location.getResourceDomain());
+      if (iResourceManager != null) {
+         return iResourceManager.getAllResources(location);
       } else {
-         throw new FileNotFoundException(var1.toString());
+         throw new FileNotFoundException(location.toString());
       }
    }
 
@@ -73,30 +73,30 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
    }
 
    @Override
-   public void reloadResources(List<IResourcePack> var1) {
+   public void reloadResources(List<IResourcePack> resourcesPacksList) {
       this.clearResources();
-      logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(var1, new Function<IResourcePack, String>() {
-         public String apply(IResourcePack var1) {
-            return var1.getPackName();
+      logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(resourcesPacksList, new Function<IResourcePack, String>() {
+         public String apply(IResourcePack iResourcePack) {
+            return iResourcePack.getPackName();
          }
       })));
 
-      for (IResourcePack var6 : var1) {
-         this.reloadResourcePack(var6);
+      for (IResourcePack iResourcePack2 : resourcesPacksList) {
+         this.reloadResourcePack(iResourcePack2);
       }
 
       this.notifyReloadListeners();
    }
 
    @Override
-   public void registerReloadListener(IResourceManagerReloadListener var1) {
-      this.reloadListeners.add(var1);
-      var1.onResourceManagerReload(this);
+   public void registerReloadListener(IResourceManagerReloadListener reloadListener) {
+      this.reloadListeners.add(reloadListener);
+      reloadListener.onResourceManagerReload(this);
    }
 
    private void notifyReloadListeners() {
-      for (IResourceManagerReloadListener var5 : this.reloadListeners) {
-         var5.onResourceManagerReload(this);
+      for (IResourceManagerReloadListener iResourceManagerReloadListener : this.reloadListeners) {
+         iResourceManagerReloadListener.onResourceManagerReload(this);
       }
    }
 }

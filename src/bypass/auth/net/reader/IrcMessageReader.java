@@ -11,13 +11,13 @@ public final class IrcMessageReader implements PacketReader<IrcMessage> {
    private static final long a = 103849567665028L;
 
    @Override
-   public void read(ByteBuffer var1) {
-      byte[] var5 = new byte[var1.getInt()];
-      var1.get(var5);
-      byte[] var6 = new byte[var1.getInt()];
-      var1.get(var6);
-      int var7 = var1.getInt();
-      this.s = new IrcMessage(IrcMessageType.values()[var7], new String(var5, StandardCharsets.UTF_8), new String(var6, StandardCharsets.UTF_8));
+   public void read(ByteBuffer byteBuffer) {
+      byte[] bytes = new byte[byteBuffer.getInt()];
+      byteBuffer.get(bytes);
+      byte[] bytes2 = new byte[byteBuffer.getInt()];
+      byteBuffer.get(bytes2);
+      int i = byteBuffer.getInt();
+      this.s = new IrcMessage(IrcMessageType.values()[i], new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8));
    }
 
    public IrcMessage getPacket() {

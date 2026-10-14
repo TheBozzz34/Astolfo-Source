@@ -12,29 +12,29 @@ public final class GetAsync extends TwoArgFunction {
    private static final long a = 28639608301543L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       if (!ScriptManager.N.t()) {
          return valueOf(false);
       }
 
-      if (!var1.isstring()) {
+      if (!luaValue.isstring()) {
          return valueOf(false);
       }
 
-      if (!var2.istable()) {
+      if (!luaValue2.istable()) {
          return valueOf(false);
       }
 
-      HttpRequest var6 = new HttpRequest().g(var1.checkjstring());
-      var6.W("Astolfo-User");
-      var6.V(AuthUtil.getHwid());
-      var6.T("Astolfo-Client");
-      var6.i("");
-      var6.S("");
+      HttpRequest httpRequest = new HttpRequest().g(luaValue.checkjstring());
+      httpRequest.W("Astolfo-User");
+      httpRequest.V(AuthUtil.getHwid());
+      httpRequest.T("Astolfo-Client");
+      httpRequest.i("");
+      httpRequest.S("");
       HttpLibrary.R.submit(() -> {
-         String var4 = HttpUtil.get(var6);
-         LuaValue var5 = var2.get("run");
-         var5.call(var4);
+         String string = HttpUtil.get(httpRequest);
+         LuaValue luaValue3 = luaValue2.get("run");
+         luaValue3.call(string);
       });
       return FALSE;
    }

@@ -8,8 +8,8 @@ import java.util.Optional;
 public abstract class CollectionContainer<E> extends Container<Collection<E>> {
    private static final long c = 127847277921579L;
 
-   public CollectionContainer(Collection<E> var1) {
-      super(var1);
+   public CollectionContainer(Collection<E> collection) {
+      super(collection);
    }
 
    @Override
@@ -24,20 +24,20 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       return Collections.unmodifiableCollection(this.getValue());
    }
 
-   public Collection<E> a(Collection<E> var1) {
-      return this.setValue(var1);
+   public Collection<E> a(Collection<E> collection) {
+      return this.setValue(collection);
    }
 
-   public boolean addAll(E... var1) {
-      return Collections.addAll(this.getValue(), (E[])var1);
+   public boolean addAll(E... objects) {
+      return Collections.addAll(this.getValue(), (E[])objects);
    }
 
-   public boolean add(E var1) {
-      return this.getValue().add((E)var1);
+   public boolean add(E object) {
+      return this.getValue().add((E)object);
    }
 
-   public boolean k(E var1) {
-      return this.getValue().remove(var1);
+   public boolean k(E object) {
+      return this.getValue().remove(object);
    }
 
    public int j_int() {
@@ -56,41 +56,41 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       this.getValue().clear();
    }
 
-   public Optional<E> y(Class<? extends E> var1) {
-      for (Object var6 : this.getValue()) {
-         if (var6.getClass() == var1) {
-            return Optional.of((E)var6);
+   public Optional<E> y(Class<? extends E> class2) {
+      for (Object object : this.getValue()) {
+         if (object.getClass() == class2) {
+            return Optional.of((E)object);
          }
       }
 
       return Optional.empty();
    }
 
-   public boolean k(Collection<? extends E> var1) {
-      return this.getValue().addAll(var1);
+   public boolean k(Collection<? extends E> collection) {
+      return this.getValue().addAll(collection);
    }
 
-   public boolean R(Collection<?> var1) {
-      return this.getValue().containsAll(var1);
+   public boolean R(Collection<?> collection) {
+      return this.getValue().containsAll(collection);
    }
 
    public Iterator<E> m_Iterator() {
       return this.getValue().iterator();
    }
 
-   public boolean M(Collection<?> var1) {
-      return this.getValue().removeAll(var1);
+   public boolean M(Collection<?> collection) {
+      return this.getValue().removeAll(collection);
    }
 
-   public boolean a_boolean(Collection<?> var1) {
-      return this.getValue().retainAll(var1);
+   public boolean a_boolean(Collection<?> collection) {
+      return this.getValue().retainAll(collection);
    }
 
    public Object[] O() {
       return this.getValue().toArray();
    }
 
-   public <E> E[] o(E[] var1) {
-      return (E[])this.getValue().toArray(var1);
+   public <E> E[] o(E[] objects) {
+      return (E[])this.getValue().toArray(objects);
    }
 }

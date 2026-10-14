@@ -10,22 +10,22 @@ public class WorldGenDoublePlant extends WorldGenerator {
    private BlockDoublePlant.EnumPlantType field_150549_a;
    private static final long a = 89849193133944L;
 
-   public void setPlantType(BlockDoublePlant.EnumPlantType var1) {
-      this.field_150549_a = var1;
+   public void setPlantType(BlockDoublePlant.EnumPlantType enumPlantType) {
+      this.field_150549_a = enumPlantType;
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      boolean var7 = false;
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      boolean bl = false;
 
-      for (int var8 = 0; var8 < 64; var8++) {
-         BlockPos var9 = var3.add(var2.nextInt(8) - var2.nextInt(8), var2.nextInt(4) - var2.nextInt(4), var2.nextInt(8) - var2.nextInt(8));
-         if (var1.isAirBlock(var9) && (!var1.provider.getHasNoSky() || var9.getY() < 254) && Blocks.double_plant.canPlaceBlockAt(var1, var9)) {
-            Blocks.double_plant.placeAt(var1, var9, this.field_150549_a, 2);
-            var7 = true;
+      for (int i = 0; i < 64; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+         if (worldIn.isAirBlock(blockPos) && (!worldIn.provider.getHasNoSky() || blockPos.getY() < 254) && Blocks.double_plant.canPlaceBlockAt(worldIn, blockPos)) {
+            Blocks.double_plant.placeAt(worldIn, blockPos, this.field_150549_a, 2);
+            bl = true;
          }
       }
 
-      return var7;
+      return bl;
    }
 }

@@ -12,12 +12,12 @@ public class RenderOcelot extends RenderLiving<EntityOcelot> {
    private static final ResourceLocation siameseOcelotTextures = new ResourceLocation("textures/entity/cat/siamese.png");
    private static final long d = 9606628568942L;
 
-   public RenderOcelot(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderOcelot(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
    }
 
-   public ResourceLocation getEntityTexture(EntityOcelot var1) {
-      switch (var1.getTameSkin()) {
+   public ResourceLocation getEntityTexture(EntityOcelot entity) {
+      switch (entity.getTameSkin()) {
          case 0:
          default:
             return ocelotTextures;
@@ -30,9 +30,9 @@ public class RenderOcelot extends RenderLiving<EntityOcelot> {
       }
    }
 
-   public void preRenderCallback(EntityOcelot var1, float var2) {
-      super.preRenderCallback(var1, var2);
-      if (var1.isTamed()) {
+   public void preRenderCallback(EntityOcelot entitylivingbaseIn, float partialTickTime) {
+      super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+      if (entitylivingbaseIn.isTamed()) {
          GlStateManager.scale(0.8F, 0.8F, 0.8F);
       }
    }

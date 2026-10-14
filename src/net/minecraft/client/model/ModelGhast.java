@@ -11,40 +11,42 @@ public class ModelGhast extends ModelBase {
    private static final long a = 90206455406969L;
 
    public ModelGhast() {
-      byte var4 = -16;
+      byte b = -16;
       this.body = new ModelRenderer(this, 0, 0);
       this.body.addBox(-8.0F, -8.0F, -8.0F, 16, 16, 16);
-      this.body.rotationPointY += 24 + var4;
-      Random var5 = new Random(1660L);
+      this.body.rotationPointY += 24 + b;
+      Random random = new Random(1660L);
 
-      for (int var6 = 0; var6 < this.tentacles.length; var6++) {
-         this.tentacles[var6] = new ModelRenderer(this, 0, 0);
-         float var7 = ((var6 % 3 - var6 / 3 % 2 * 0.5F + 0.25F) / 2.0F * 2.0F - 1.0F) * 5.0F;
-         float var8 = (var6 / 3 / 2.0F * 2.0F - 1.0F) * 5.0F;
-         int var9 = var5.nextInt(7) + 8;
-         this.tentacles[var6].addBox(-1.0F, 0.0F, -1.0F, 2, var9, 2);
-         this.tentacles[var6].rotationPointX = var7;
-         this.tentacles[var6].rotationPointZ = var8;
-         this.tentacles[var6].rotationPointY = 31 + var4;
+      for (int i = 0; i < this.tentacles.length; i++) {
+         this.tentacles[i] = new ModelRenderer(this, 0, 0);
+         float f = ((i % 3 - i / 3 % 2 * 0.5F + 0.25F) / 2.0F * 2.0F - 1.0F) * 5.0F;
+         float g = (i / 3 / 2.0F * 2.0F - 1.0F) * 5.0F;
+         int j = random.nextInt(7) + 8;
+         this.tentacles[i].addBox(-1.0F, 0.0F, -1.0F, 2, j, 2);
+         this.tentacles[i].rotationPointX = f;
+         this.tentacles[i].rotationPointZ = g;
+         this.tentacles[i].rotationPointY = 31 + b;
       }
    }
 
    @Override
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
-      for (int var11 = 0; var11 < this.tentacles.length; var11++) {
-         this.tentacles[var11].rotateAngleX = 0.2F * MathHelper.sin(var3 * 0.3F + var11) + 0.4F;
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
+      for (int i = 0; i < this.tentacles.length; i++) {
+         this.tentacles[i].rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + i) + 0.4F;
       }
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      this.setRotationAngles(var2, var3, var4, var5, var6, var7, var1);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      this.setRotationAngles(f, g, h, f2, f3, scale, entityIn);
       GlStateManager.pushMatrix();
       GlStateManager.translate(0.0F, 0.6F, 0.0F);
-      this.body.render(var7);
+      this.body.render(scale);
 
-      for (ModelRenderer var14 : this.tentacles) {
-         var14.render(var7);
+      for (ModelRenderer modelRenderer : this.tentacles) {
+         modelRenderer.render(scale);
       }
 
       GlStateManager.popMatrix();

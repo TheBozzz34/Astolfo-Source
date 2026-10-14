@@ -10,52 +10,52 @@ public final class StringShadow extends VarArgFunction {
    private static final long a = 14038003223301L;
 
    @Override
-   public Varargs invoke(Varargs var1) {
-      String var5 = null;
-      int var6 = 0;
-      int var7 = 0;
-      int var8 = 0;
-      int var9 = 0;
-      int var10 = 0;
-      int var11 = 1;
+   public Varargs invoke(Varargs varargs) {
+      String string = null;
+      int i = 0;
+      int j = 0;
+      int k = 0;
+      int l = 0;
+      int m = 0;
+      int n = 1;
 
-      for (int var12 = var1.narg(); var11 <= var12; var11++) {
-         LuaValue var13 = var1.checkvalue(var11);
-         switch (var11) {
+      for (int i2 = varargs.narg(); n <= i2; n++) {
+         LuaValue luaValue = varargs.checkvalue(n);
+         switch (n) {
             case 1:
-               if (var13.isstring()) {
-                  var5 = var13.checkjstring();
+               if (luaValue.isstring()) {
+                  string = luaValue.checkjstring();
                }
                break;
             case 2:
-               if (var13.isnumber()) {
-                  var6 = var13.toint();
+               if (luaValue.isnumber()) {
+                  i = luaValue.toint();
                }
                break;
             case 3:
-               if (var13.isnumber()) {
-                  var7 = var13.toint();
+               if (luaValue.isnumber()) {
+                  j = luaValue.toint();
                }
                break;
             case 4:
-               if (var13.isnumber()) {
-                  var8 = var13.toint();
+               if (luaValue.isnumber()) {
+                  k = luaValue.toint();
                }
                break;
             case 5:
-               if (var13.isnumber()) {
-                  var9 = var13.toint();
+               if (luaValue.isnumber()) {
+                  l = luaValue.toint();
                }
                break;
             case 6:
-               if (var13.isnumber()) {
-                  var10 = var13.toint();
+               if (luaValue.isnumber()) {
+                  m = luaValue.toint();
                }
          }
       }
 
-      if (var5 != null) {
-         ClientAccess.mc.fontRendererObj.drawStringWithShadow(var5, var6, var7, new Color(var8, var9, var10).getRGB());
+      if (string != null) {
+         ClientAccess.mc.fontRendererObj.drawStringWithShadow(string, i, j, new Color(k, l, m).getRGB());
          return valueOf(false);
       } else {
          return valueOf(true);

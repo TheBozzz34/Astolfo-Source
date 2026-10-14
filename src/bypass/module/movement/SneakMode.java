@@ -7,11 +7,11 @@ public enum SneakMode {
    private String U;
    private static final SneakMode[] x = new SneakMode[]{WATCHDOG, ALWAYS};
 
-   SneakMode(String var3) {
-      this.U = var3;
+   SneakMode(String string2) {
+      this.U = string2;
    }
 
-   public static String T(SneakMode var0) {
-      return var0.U;
+   public static String T(SneakMode sneakMode) {
+      return sneakMode.U;
    }
 }

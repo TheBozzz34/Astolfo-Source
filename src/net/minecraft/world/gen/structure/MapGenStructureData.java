@@ -7,26 +7,26 @@ public class MapGenStructureData extends WorldSavedData {
    private NBTTagCompound tagCompound = new NBTTagCompound();
    private static final long a = 96120073789176L;
 
-   public MapGenStructureData(String var1) {
-      super(var1);
+   public MapGenStructureData(String name) {
+      super(name);
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      this.tagCompound = var1.getCompoundTag("Features");
+   public void readFromNBT(NBTTagCompound nbt) {
+      this.tagCompound = nbt.getCompoundTag("Features");
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      var1.setTag("Features", this.tagCompound);
+   public void writeToNBT(NBTTagCompound nbt) {
+      nbt.setTag("Features", this.tagCompound);
    }
 
-   public void writeInstance(NBTTagCompound var1, int var2, int var3) {
-      this.tagCompound.setTag(formatChunkCoords(var2, var3), var1);
+   public void writeInstance(NBTTagCompound tagCompoundIn, int chunkX, int chunkZ) {
+      this.tagCompound.setTag(formatChunkCoords(chunkX, chunkZ), tagCompoundIn);
    }
 
-   public static String formatChunkCoords(int var0, int var1) {
-      return "[" + var0 + "," + var1 + "]";
+   public static String formatChunkCoords(int chunkX, int chunkZ) {
+      return "[" + chunkX + "," + chunkZ + "]";
    }
 
    public NBTTagCompound getTagCompound() {

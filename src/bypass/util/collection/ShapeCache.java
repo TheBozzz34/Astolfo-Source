@@ -25,81 +25,81 @@ public class ShapeCache {
       }
    }
 
-   public static boolean j(Object var0) {
-      return b(var0, O);
+   public static boolean j(Object object) {
+      return b(object, O);
    }
 
-   public static boolean b(Object var0, Object var1) {
+   public static boolean b(Object object, Object object2) {
       Z.lock();
 
       try {
-         Map var5 = m.get(var0);
-         if (var5 == null) {
-            m.put(var0, var5 = new HashMap());
+         Map map = m.get(object);
+         if (map == null) {
+            m.put(object, map = new HashMap());
          }
 
-         if (var5.get(var1) != null) {
+         if (map.get(object2) != null) {
             return false;
          }
 
-         var5.put(var1, new IdentityHashMap());
+         map.put(object2, new IdentityHashMap());
          return true;
       } finally {
          Z.unlock();
       }
    }
 
-   public static <K, V> Map<K, V> v(Map<K, V> var0, K var1, Object var2) {
+   public static <K, V> Map<K, V> v(Map<K, V> map, K object, Object object2) {
       E.lock();
 
-      Map var5;
-      Map var6;
+      Map map2;
+      Map map3;
       try {
-         var5 = m.get(var1);
-         if (var5 == null) {
+         map2 = m.get(object);
+         if (map2 == null) {
             return null;
          }
 
-         var6 = (Map)var5.get(var2);
-         if (var6 == null) {
-            if (var2 != MapShape.REMOVED && var5.get(O) == null) {
+         map3 = (Map)map2.get(object2);
+         if (map3 == null) {
+            if (object2 != MapShape.REMOVED && map2.get(O) == null) {
                return null;
             }
          } else {
-            Map var7 = (Map)var6.get(var0);
-            if (var7 != null) {
-               return var7;
+            Map map4 = (Map)map3.get(map);
+            if (map4 != null) {
+               return map4;
             }
          }
       } finally {
          E.unlock();
       }
 
-      HashMap var17 = new HashMap((int)((var0.size() + 1) / 0.75F));
-      var17.putAll(var0);
-      if (var2 == MapShape.REMOVED) {
-         var17.remove(var1);
+      HashMap hashMap = new HashMap((int)((map.size() + 1) / 0.75F));
+      hashMap.putAll(map);
+      if (object2 == MapShape.REMOVED) {
+         hashMap.remove(object);
       } else {
-         var17.put(var1, var2);
+         hashMap.put(object, object2);
       }
 
       Z.lock();
 
       try {
-         if (var6 == null) {
-            var6 = (Map)var5.get(var2);
-            if (var6 == null) {
-               var5.put(var2, var6 = new IdentityHashMap());
+         if (map3 == null) {
+            map3 = (Map)map2.get(object2);
+            if (map3 == null) {
+               map2.put(object2, map3 = new IdentityHashMap());
             }
          }
 
-         Map var8 = (Map)var6.get(var0);
-         if (var8 != null) {
-            return var8;
+         Map map5 = (Map)map3.get(map);
+         if (map5 != null) {
+            return map5;
          }
 
-         var6.put(var0, var17);
-         return var17;
+         map3.put(map, hashMap);
+         return hashMap;
       } finally {
          Z.unlock();
       }

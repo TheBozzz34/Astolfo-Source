@@ -8,11 +8,11 @@ public final class SetSneaking extends OneArgFunction {
    private static final long a = 133748655312355L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isboolean()) {
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isboolean()) {
          return valueOf(false);
-      } else if (ClientAccess.mc.thePlayer != null && var1.isboolean()) {
-         ClientAccess.mc.gameSettings.keyBindSneak.pressed = var1.checkboolean();
+      } else if (ClientAccess.mc.thePlayer != null && luaValue.isboolean()) {
+         ClientAccess.mc.gameSettings.keyBindSneak.pressed = luaValue.checkboolean();
          return valueOf(true);
       } else {
          return valueOf(false);

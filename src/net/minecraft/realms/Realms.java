@@ -20,13 +20,13 @@ public class Realms {
    }
 
    public static String S() {
-      Session var3 = Minecraft.getMinecraft().getSession();
-      return var3 == null ? null : var3.getSessionID();
+      Session session = Minecraft.getMinecraft().getSession();
+      return session == null ? null : session.getSessionID();
    }
 
    public static String R() {
-      Session var3 = Minecraft.getMinecraft().getSession();
-      return var3 == null ? null : var3.getUsername();
+      Session session = Minecraft.getMinecraft().getSession();
+      return session == null ? null : session.getUsername();
    }
 
    public static long currentTimeMillis() {
@@ -45,15 +45,15 @@ public class Realms {
       return Minecraft.getMinecraft().getSession().getUsername();
    }
 
-   public static String uuidToName(String var0) {
+   public static String uuidToName(String string) {
       return Minecraft.getMinecraft()
          .getSessionService()
-         .fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(var0), (String)null), false)
+         .fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(string), (String)null), false)
          .getName();
    }
 
-   public static void setScreen(RealmsScreen var0) {
-      Minecraft.getMinecraft().displayGuiScreen(var0.getProxy());
+   public static void setScreen(RealmsScreen realmsScreen) {
+      Minecraft.getMinecraft().displayGuiScreen(realmsScreen.getProxy());
    }
 
    public static String getGameDirectoryPath() {
@@ -76,12 +76,12 @@ public class Realms {
       return WorldSettings.GameType.SPECTATOR.getID();
    }
 
-   public static void setConnectedToRealms(boolean var0) {
-      Minecraft.getMinecraft().setConnectedToRealms(var0);
+   public static void setConnectedToRealms(boolean bl) {
+      Minecraft.getMinecraft().setConnectedToRealms(bl);
    }
 
-   public static ListenableFuture<Object> downloadResourcePack(String var0, String var1) {
-      return Minecraft.getMinecraft().getResourcePackRepository().downloadResourcePack(var0, var1);
+   public static ListenableFuture<Object> downloadResourcePack(String string, String string2) {
+      return Minecraft.getMinecraft().getResourcePackRepository().downloadResourcePack(string, string2);
    }
 
    public static void clearResourcePack() {

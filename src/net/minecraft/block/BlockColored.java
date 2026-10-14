@@ -15,37 +15,37 @@ public class BlockColored extends Block {
    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
    private static final long e = 28546238582026L;
 
-   public BlockColored(Material var1) {
-      super(var1);
+   public BlockColored(Material materialIn) {
+      super(materialIn);
       this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(COLOR).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(COLOR).getMetadata();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (EnumDyeColor var10 : EnumDyeColor.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (EnumDyeColor enumDyeColor : EnumDyeColor.values()) {
+         list.add(new ItemStack(itemIn, 1, enumDyeColor.getMetadata()));
       }
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(COLOR).getMapColor();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(COLOR).getMapColor();
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(COLOR).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(COLOR).getMetadata();
    }
 
    @Override

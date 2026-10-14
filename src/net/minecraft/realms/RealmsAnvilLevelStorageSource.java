@@ -12,40 +12,40 @@ public class RealmsAnvilLevelStorageSource {
    private ISaveFormat levelStorageSource;
    private static final long a = 132936317656314L;
 
-   public RealmsAnvilLevelStorageSource(ISaveFormat var1) {
-      this.levelStorageSource = var1;
+   public RealmsAnvilLevelStorageSource(ISaveFormat levelStorageSourceIn) {
+      this.levelStorageSource = levelStorageSourceIn;
    }
 
    public String getName() {
       return this.levelStorageSource.getName();
    }
 
-   public boolean a(String var1) {
-      return this.levelStorageSource.canLoadWorld(var1);
+   public boolean a(String string) {
+      return this.levelStorageSource.canLoadWorld(string);
    }
 
-   public boolean convertLevel(String var1, IProgressUpdate var2) {
-      return this.levelStorageSource.convertMapFormat(var1, var2);
+   public boolean convertLevel(String string, IProgressUpdate iProgressUpdate) {
+      return this.levelStorageSource.convertMapFormat(string, iProgressUpdate);
    }
 
-   public boolean e(String var1) {
-      return this.levelStorageSource.isOldMapFormat(var1);
+   public boolean e(String string) {
+      return this.levelStorageSource.isOldMapFormat(string);
    }
 
-   public boolean G(String var1) {
-      return this.levelStorageSource.isNewLevelIdAcceptable(var1);
+   public boolean G(String string) {
+      return this.levelStorageSource.isNewLevelIdAcceptable(string);
    }
 
-   public boolean H(String var1) {
-      return this.levelStorageSource.deleteWorldDirectory(var1);
+   public boolean H(String string) {
+      return this.levelStorageSource.deleteWorldDirectory(string);
    }
 
-   public boolean n(String var1) {
-      return this.levelStorageSource.isConvertible(var1);
+   public boolean n(String string) {
+      return this.levelStorageSource.isConvertible(string);
    }
 
-   public void renameLevel(String var1, String var2) {
-      this.levelStorageSource.renameWorld(var1, var2);
+   public void renameLevel(String string, String string2) {
+      this.levelStorageSource.renameWorld(string, string2);
    }
 
    public void clearAll() {
@@ -53,12 +53,12 @@ public class RealmsAnvilLevelStorageSource {
    }
 
    public List<RealmsLevelSummary> getLevelList() throws AnvilConverterException {
-      ArrayList var4 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (SaveFormatComparator var6 : this.levelStorageSource.getSaveList()) {
-         var4.add(new RealmsLevelSummary(var6));
+      for (SaveFormatComparator saveFormatComparator : this.levelStorageSource.getSaveList()) {
+         arrayList.add(new RealmsLevelSummary(saveFormatComparator));
       }
 
-      return var4;
+      return arrayList;
    }
 }

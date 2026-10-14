@@ -8,39 +8,41 @@ public class ModelSquid extends ModelBase {
    private static final long a = 56936205590424L;
 
    public ModelSquid() {
-      byte var4 = -16;
+      byte b = -16;
       this.squidBody = new ModelRenderer(this, 0, 0);
       this.squidBody.addBox(-6.0F, -8.0F, -6.0F, 12, 16, 12);
-      this.squidBody.rotationPointY += 24 + var4;
+      this.squidBody.rotationPointY += 24 + b;
 
-      for (int var5 = 0; var5 < this.squidTentacles.length; var5++) {
-         this.squidTentacles[var5] = new ModelRenderer(this, 48, 0);
-         double var6 = var5 * Math.PI * 2.0 / this.squidTentacles.length;
-         float var8 = (float)Math.cos(var6) * 5.0F;
-         float var9 = (float)Math.sin(var6) * 5.0F;
-         this.squidTentacles[var5].addBox(-1.0F, 0.0F, -1.0F, 2, 18, 2);
-         this.squidTentacles[var5].rotationPointX = var8;
-         this.squidTentacles[var5].rotationPointZ = var9;
-         this.squidTentacles[var5].rotationPointY = 31 + var4;
-         var6 = var5 * Math.PI * -2.0 / this.squidTentacles.length + (Math.PI / 2);
-         this.squidTentacles[var5].rotateAngleY = (float)var6;
+      for (int i = 0; i < this.squidTentacles.length; i++) {
+         this.squidTentacles[i] = new ModelRenderer(this, 48, 0);
+         double d = i * Math.PI * 2.0 / this.squidTentacles.length;
+         float f = (float)Math.cos(d) * 5.0F;
+         float g = (float)Math.sin(d) * 5.0F;
+         this.squidTentacles[i].addBox(-1.0F, 0.0F, -1.0F, 2, 18, 2);
+         this.squidTentacles[i].rotationPointX = f;
+         this.squidTentacles[i].rotationPointZ = g;
+         this.squidTentacles[i].rotationPointY = 31 + b;
+         d = i * Math.PI * -2.0 / this.squidTentacles.length + (Math.PI / 2);
+         this.squidTentacles[i].rotateAngleY = (float)d;
       }
    }
 
    @Override
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
-      for (ModelRenderer var14 : this.squidTentacles) {
-         var14.rotateAngleX = var3;
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
+      for (ModelRenderer modelRenderer : this.squidTentacles) {
+         modelRenderer.rotateAngleX = ageInTicks;
       }
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      this.setRotationAngles(var2, var3, var4, var5, var6, var7, var1);
-      this.squidBody.render(var7);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      this.setRotationAngles(f, g, h, f2, f3, scale, entityIn);
+      this.squidBody.render(scale);
 
-      for (int var11 = 0; var11 < this.squidTentacles.length; var11++) {
-         this.squidTentacles[var11].render(var7);
+      for (int i = 0; i < this.squidTentacles.length; i++) {
+         this.squidTentacles[i].render(scale);
       }
    }
 }

@@ -4,11 +4,11 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 
 public interface ICrafting {
-   void updateCraftingInventory(Container var1, List<ItemStack> var2);
+   void updateCraftingInventory(Container containerToSend, List<ItemStack> itemsList);
 
-   void sendSlotContents(Container var1, int var2, ItemStack var3);
+   void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack);
 
-   void sendProgressBarUpdate(Container var1, int var2, int var3);
+   void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue);
 
-   void sendAllWindowProperties(Container var1, IInventory var2);
+   void sendAllWindowProperties(Container container, IInventory iInventory);
 }

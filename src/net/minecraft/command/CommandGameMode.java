@@ -21,44 +21,44 @@ public class CommandGameMode extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.gamemode.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length <= 0) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length <= 0) {
          throw new WrongUsageException("commands.gamemode.usage");
       }
 
-      WorldSettings.GameType var6 = this.getGameModeFromCommand(var1, var2[0]);
-      EntityPlayerMP var7 = var2.length >= 2 ? getPlayer(var1, var2[1]) : getCommandSenderAsPlayer(var1);
-      var7.setGameType(var6);
-      var7.fallDistance = 0.0F;
-      if (var1.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback")) {
-         var7.addChatMessage(new ChatComponentTranslation("gameMode.changed"));
+      WorldSettings.GameType gameType = this.getGameModeFromCommand(sender, args[0]);
+      EntityPlayerMP entityPlayerMP = args.length >= 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
+      entityPlayerMP.setGameType(gameType);
+      entityPlayerMP.fallDistance = 0.0F;
+      if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback")) {
+         entityPlayerMP.addChatMessage(new ChatComponentTranslation("gameMode.changed"));
       }
 
-      ChatComponentTranslation var8 = new ChatComponentTranslation("gameMode." + var6.getName());
-      if (var7 != var1) {
-         notifyOperators(var1, this, 1, "commands.gamemode.success.other", var7.getName(), var8);
+      ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation("gameMode." + gameType.getName());
+      if (entityPlayerMP != sender) {
+         notifyOperators(sender, this, 1, "commands.gamemode.success.other", entityPlayerMP.getName(), chatComponentTranslation);
       } else {
-         notifyOperators(var1, this, 1, "commands.gamemode.success.self", var8);
+         notifyOperators(sender, this, 1, "commands.gamemode.success.self", chatComponentTranslation);
       }
    }
 
-   public WorldSettings.GameType getGameModeFromCommand(ICommandSender var1, String var2) throws CommandException, NumberInvalidException {
-      return var2.equalsIgnoreCase(WorldSettings.GameType.SURVIVAL.getName()) || var2.equalsIgnoreCase("s")
+   public WorldSettings.GameType getGameModeFromCommand(ICommandSender iCommandSender, String string) throws CommandException, NumberInvalidException {
+      return string.equalsIgnoreCase(WorldSettings.GameType.SURVIVAL.getName()) || string.equalsIgnoreCase("s")
          ? WorldSettings.GameType.SURVIVAL
          : (
-            var2.equalsIgnoreCase(WorldSettings.GameType.CREATIVE.getName()) || var2.equalsIgnoreCase("c")
+            string.equalsIgnoreCase(WorldSettings.GameType.CREATIVE.getName()) || string.equalsIgnoreCase("c")
                ? WorldSettings.GameType.CREATIVE
                : (
-                  var2.equalsIgnoreCase(WorldSettings.GameType.ADVENTURE.getName()) || var2.equalsIgnoreCase("a")
+                  string.equalsIgnoreCase(WorldSettings.GameType.ADVENTURE.getName()) || string.equalsIgnoreCase("a")
                      ? WorldSettings.GameType.ADVENTURE
                      : (
-                        !var2.equalsIgnoreCase(WorldSettings.GameType.SPECTATOR.getName()) && !var2.equalsIgnoreCase("sp")
-                           ? WorldSettings.getGameTypeById(parseInt(var2, 0, WorldSettings.GameType.values().length - 2))
+                        !string.equalsIgnoreCase(WorldSettings.GameType.SPECTATOR.getName()) && !string.equalsIgnoreCase("sp")
+                           ? WorldSettings.getGameTypeById(parseInt(string, 0, WorldSettings.GameType.values().length - 2))
                            : WorldSettings.GameType.SPECTATOR
                      )
                )
@@ -66,10 +66,10 @@ public class CommandGameMode extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, "survival", "creative", "adventure", "spectator")
-         : (var2.length == 2 ? getListOfStringsMatchingLastWord(var2, this.getListOfPlayerUsernames()) : null);
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, "survival", "creative", "adventure", "spectator")
+         : (args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayerUsernames()) : null);
    }
 
    public String[] getListOfPlayerUsernames() {
@@ -77,7 +77,7 @@ public class CommandGameMode extends CommandBase {
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 1;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 1;
    }
 }

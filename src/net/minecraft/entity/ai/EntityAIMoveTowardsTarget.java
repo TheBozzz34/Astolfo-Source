@@ -14,10 +14,10 @@ public class EntityAIMoveTowardsTarget extends EntityAIBase {
    private float maxTargetDistance;
    private static final long a = 109585642635975L;
 
-   public EntityAIMoveTowardsTarget(EntityCreature var1, double var2, float var4) {
-      this.theEntity = var1;
-      this.speed = var2;
-      this.maxTargetDistance = var4;
+   public EntityAIMoveTowardsTarget(EntityCreature creature, double speedIn, float targetMaxDistance) {
+      this.theEntity = creature;
+      this.speed = speedIn;
+      this.maxTargetDistance = targetMaxDistance;
       this.setMutexBits(1);
    }
 
@@ -32,16 +32,16 @@ public class EntityAIMoveTowardsTarget extends EntityAIBase {
          return false;
       }
 
-      Vec3 var4 = RandomPositionGenerator.findRandomTargetBlockTowards(
+      Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(
          this.theEntity, 16, 7, new Vec3(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ)
       );
-      if (var4 == null) {
+      if (vec3 == null) {
          return false;
       }
 
-      this.movePosX = var4.xCoord;
-      this.movePosY = var4.yCoord;
-      this.movePosZ = var4.zCoord;
+      this.movePosX = vec3.xCoord;
+      this.movePosY = vec3.yCoord;
+      this.movePosZ = vec3.zCoord;
       return true;
    }
 

@@ -47,56 +47,56 @@ public final class MacGlobalMemory extends AbstractGlobalMemory {
 
    @Override
    public PhysicalMemory[] getPhysicalMemory() {
-      ArrayList var4 = new ArrayList();
-      List var5 = ExecutingCommand.runNative("system_profiler SPMemoryDataType");
-      int var6 = 0;
-      String var7 = "unknown";
-      long var8 = 0L;
-      long var10 = 0L;
-      String var12 = "unknown";
-      String var13 = "unknown";
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative("system_profiler SPMemoryDataType");
+      int i = 0;
+      String string = "unknown";
+      long l = 0L;
+      long m = 0L;
+      String string2 = "unknown";
+      String string3 = "unknown";
 
-      for (Object var15$raw : var5) {
-         String var15 = (String)var15$raw;
-         if (var15.trim().startsWith("BANK")) {
-            if (var6++ > 0) {
-               var4.add(new PhysicalMemory(var7, var8, var10, var12, var13));
+      for (Object object : list) {
+         String string4 = (String)object;
+         if (string4.trim().startsWith("BANK")) {
+            if (i++ > 0) {
+               arrayList.add(new PhysicalMemory(string, l, m, string2, string3));
             }
 
-            var7 = var15.trim();
-            int var16 = var7.lastIndexOf((int)j);
-            if (var16 > 0) {
-               var7 = var7.substring(0, var16 - 1);
+            string = string4.trim();
+            int k = string.lastIndexOf((int)j);
+            if (k > 0) {
+               string = string.substring(0, k - 1);
             }
-         } else if (var6 > 0) {
-            String[] var19 = var15.trim().split(":");
-            if (var19.length == 2) {
-               switch (var19[0]) {
+         } else if (i > 0) {
+            String[] strings = string4.trim().split(":");
+            if (strings.length == 2) {
+               switch (strings[0]) {
                   case "Size":
-                     var8 = ParseUtil.parseDecimalMemorySizeToBinary(var19[1].trim());
+                     l = ParseUtil.parseDecimalMemorySizeToBinary(strings[1].trim());
                      break;
                   case "Type":
-                     var13 = var19[1].trim();
+                     string3 = strings[1].trim();
                      break;
                   case "Speed":
-                     var10 = ParseUtil.parseHertz(var19[1]);
+                     m = ParseUtil.parseHertz(strings[1]);
                      break;
                   case "Manufacturer":
-                     var12 = var19[1].trim();
+                     string2 = strings[1].trim();
                }
             }
          }
       }
 
-      var4.add(new PhysicalMemory(var7, var8, var10, var12, var13));
-      return (oshi.hardware.PhysicalMemory[])(var4.toArray(new PhysicalMemory[0]));
+      arrayList.add(new PhysicalMemory(string, l, m, string2, string3));
+      return (oshi.hardware.PhysicalMemory[])(arrayList.toArray(new PhysicalMemory[0]));
    }
 
    private long queryVmStats() {
-      VMStatistics var4 = new VMStatistics();
-      return 0 != SystemB.INSTANCE.host_statistics(SystemB.INSTANCE.mach_host_self(), 2, var4, new IntByReference(var4.size() / SystemB.INT_SIZE))
+      VMStatistics vmStatistics = new VMStatistics();
+      return 0 != SystemB.INSTANCE.host_statistics(SystemB.INSTANCE.mach_host_self(), 2, vmStatistics, new IntByReference(vmStatistics.size() / SystemB.INT_SIZE))
          ? 0L
-         : (var4.free_count + var4.inactive_count) * this.getPageSize();
+         : (vmStatistics.free_count + vmStatistics.inactive_count) * this.getPageSize();
    }
 
    private static long queryPhysMem() {
@@ -104,8 +104,8 @@ public final class MacGlobalMemory extends AbstractGlobalMemory {
    }
 
    private static long queryPageSize() {
-      LongByReference var2 = new LongByReference();
-      return 0 == SystemB.INSTANCE.host_page_size(SystemB.INSTANCE.mach_host_self(), var2) ? var2.getValue() : 4098L;
+      LongByReference longByReference = new LongByReference();
+      return 0 == SystemB.INSTANCE.host_page_size(SystemB.INSTANCE.mach_host_self(), longByReference) ? longByReference.getValue() : 4098L;
    }
 
    private static VirtualMemory createVirtualMemory() {

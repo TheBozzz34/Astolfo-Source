@@ -12,18 +12,18 @@ public class EventBusBuilder<A extends AnnotatedElement> {
    private ListenerFilter<A> o;
    private InvocationStrategy e;
 
-   public EventBusBuilder<A> e(MemberScanner<A> var1) {
-      this.V = var1;
+   public EventBusBuilder<A> e(MemberScanner<A> memberScanner) {
+      this.V = memberScanner;
       return this;
    }
 
-   public EventBusBuilder<A> j(ListenerFilter<A> var1) {
-      this.o = var1;
+   public EventBusBuilder<A> j(ListenerFilter<A> listenerFilter) {
+      this.o = listenerFilter;
       return this;
    }
 
-   public EventBusBuilder<A> v(InvocationStrategy var1) {
-      this.e = var1;
+   public EventBusBuilder<A> v(InvocationStrategy invocationStrategy) {
+      this.e = invocationStrategy;
       return this;
    }
 

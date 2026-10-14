@@ -21,15 +21,15 @@ public class IteratorAxis implements Iterator<BlockPos> {
    private boolean hasNext = false;
    private static final long b = 23353596639726L;
 
-   public IteratorAxis(BlockPos var1, BlockPos var2, double var3, double var5) {
-      this.yDelta = var3;
-      this.zDelta = var5;
-      this.xStart = var1.getX();
-      this.xEnd = var2.getX();
-      this.yStart = var1.getY();
-      this.yEnd = var2.getY() - 0.5;
-      this.zStart = var1.getZ();
-      this.zEnd = var2.getZ() - 0.5;
+   public IteratorAxis(BlockPos posStart, BlockPos posEnd, double yDelta, double zDelta) {
+      this.yDelta = yDelta;
+      this.zDelta = zDelta;
+      this.xStart = posStart.getX();
+      this.xEnd = posEnd.getX();
+      this.yStart = posStart.getY();
+      this.yEnd = posEnd.getY() - 0.5;
+      this.zStart = posStart.getZ();
+      this.zEnd = posEnd.getZ() - 0.5;
       this.xNext = this.xStart;
       this.yNext = this.yStart;
       this.zNext = this.zStart;
@@ -77,17 +77,17 @@ public class IteratorAxis implements Iterator<BlockPos> {
       throw new RuntimeException("Not implemented");
    }
 
-   public static void main(String[] var0) throws Exception {
-      BlockPos var4 = new BlockPos(-2, 10, 20);
-      BlockPos var5 = new BlockPos(2, 12, 22);
-      double var6 = -0.5;
-      double var8 = 0.5;
-      IteratorAxis var10 = new IteratorAxis(var4, var5, var6, var8);
-      System.out.println("Start: " + var4 + ", end: " + var5 + ", yDelta: " + var6 + ", zDelta: " + var8);
+   public static void main(String[] args) throws Exception {
+      BlockPos blockPos = new BlockPos(-2, 10, 20);
+      BlockPos blockPos2 = new BlockPos(2, 12, 22);
+      double d = -0.5;
+      double e = 0.5;
+      IteratorAxis iteratorAxis = new IteratorAxis(blockPos, blockPos2, d, e);
+      System.out.println("Start: " + blockPos + ", end: " + blockPos2 + ", yDelta: " + d + ", zDelta: " + e);
 
-      while (var10.hasNext()) {
-         BlockPos var11 = var10.next();
-         System.out.println("" + var11);
+      while (iteratorAxis.hasNext()) {
+         BlockPos blockPos3 = iteratorAxis.next();
+         System.out.println("" + blockPos3);
       }
    }
 }

@@ -18,37 +18,37 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
    public S08PacketPlayerPosLook() {
    }
 
-   public S08PacketPlayerPosLook(double var1, double var3, double var5, float var7, float var8, Set<S08PacketPlayerPosLook.EnumFlags> var9) {
-      this.x = var1;
-      this.y = var3;
-      this.z = var5;
-      this.yaw = var7;
-      this.pitch = var8;
-      this.field_179835_f = var9;
+   public S08PacketPlayerPosLook(double xIn, double yIn, double zIn, float yawIn, float pitchIn, Set<S08PacketPlayerPosLook.EnumFlags> set) {
+      this.x = xIn;
+      this.y = yIn;
+      this.z = zIn;
+      this.yaw = yawIn;
+      this.pitch = pitchIn;
+      this.field_179835_f = set;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.x = var1.readDouble();
-      this.y = var1.readDouble();
-      this.z = var1.readDouble();
-      this.yaw = var1.readFloat();
-      this.pitch = var1.readFloat();
-      this.field_179835_f = S08PacketPlayerPosLook.EnumFlags.func_180053_a(var1.readUnsignedByte());
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.x = buf.readDouble();
+      this.y = buf.readDouble();
+      this.z = buf.readDouble();
+      this.yaw = buf.readFloat();
+      this.pitch = buf.readFloat();
+      this.field_179835_f = S08PacketPlayerPosLook.EnumFlags.func_180053_a(buf.readUnsignedByte());
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeDouble(this.x);
-      var1.writeDouble(this.y);
-      var1.writeDouble(this.z);
-      var1.writeFloat(this.yaw);
-      var1.writeFloat(this.pitch);
-      var1.writeByte(S08PacketPlayerPosLook.EnumFlags.func_180056_a(this.field_179835_f));
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeDouble(this.x);
+      buf.writeDouble(this.y);
+      buf.writeDouble(this.z);
+      buf.writeFloat(this.yaw);
+      buf.writeFloat(this.pitch);
+      buf.writeByte(S08PacketPlayerPosLook.EnumFlags.func_180056_a(this.field_179835_f));
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handlePlayerPosLook(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handlePlayerPosLook(this);
    }
 
    public double getX() {
@@ -71,12 +71,12 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
       return this.pitch;
    }
 
-   public void P(float var1) {
-      this.yaw = var1;
+   public void P(float f) {
+      this.yaw = f;
    }
 
-   public void B(float var1) {
-      this.pitch = var1;
+   public void B(float f) {
+      this.pitch = f;
    }
 
    public Set<S08PacketPlayerPosLook.EnumFlags> func_179834_f() {
@@ -93,38 +93,38 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
       private int field_180058_f;
       private static final long a = 82444587340078L;
 
-      EnumFlags(int var3) {
-         this.field_180058_f = var3;
+      EnumFlags(int j) {
+         this.field_180058_f = j;
       }
 
       private int func_180055_a() {
          return 1 << this.field_180058_f;
       }
 
-      private boolean func_180054_b(int var1) {
-         return (var1 & this.func_180055_a()) == this.func_180055_a();
+      private boolean func_180054_b(int i) {
+         return (i & this.func_180055_a()) == this.func_180055_a();
       }
 
-      public static Set<S08PacketPlayerPosLook.EnumFlags> func_180053_a(int var0) {
-         EnumSet var4 = EnumSet.noneOf(S08PacketPlayerPosLook.EnumFlags.class);
+      public static Set<S08PacketPlayerPosLook.EnumFlags> func_180053_a(int i) {
+         EnumSet enumSet = EnumSet.noneOf(S08PacketPlayerPosLook.EnumFlags.class);
 
-         for (S08PacketPlayerPosLook.EnumFlags var8 : values()) {
-            if (var8.func_180054_b(var0)) {
-               var4.add(var8);
+         for (S08PacketPlayerPosLook.EnumFlags enumFlags : values()) {
+            if (enumFlags.func_180054_b(i)) {
+               enumSet.add(enumFlags);
             }
          }
 
-         return var4;
+         return enumSet;
       }
 
-      public static int func_180056_a(Set<S08PacketPlayerPosLook.EnumFlags> var0) {
-         int var4 = 0;
+      public static int func_180056_a(Set<S08PacketPlayerPosLook.EnumFlags> set) {
+         int i = 0;
 
-         for (S08PacketPlayerPosLook.EnumFlags var6 : var0) {
-            var4 |= var6.func_180055_a();
+         for (S08PacketPlayerPosLook.EnumFlags enumFlags : set) {
+            i |= enumFlags.func_180055_a();
          }
 
-         return var4;
+         return i;
       }
    }
 }

@@ -10,13 +10,13 @@ public class DerivedKeyHashMap<K, V> extends AbstractMap<K, V> {
    private final CompactHashMap<K, V> compactHashMap;
    private static final long a = 66016478668345L;
 
-   public static <K, V> BuilderFactory<Pair<K, V>, DerivedKeyHashMap<K, V>> factory(final KeyFunction<K, V> var0) {
+   public static <K, V> BuilderFactory<Pair<K, V>, DerivedKeyHashMap<K, V>> factory(final KeyFunction<K, V> keyFunction) {
       return new BuilderFactory<Pair<K, V>, DerivedKeyHashMap<K, V>>() {
          @Override
          public Builder<Pair<K, V>, DerivedKeyHashMap<K, V>> newBuilder() {
-            return new AbstractSelfBuilder<Pair<K, V>, DerivedKeyHashMap<K, V>>(new DerivedKeyHashMap(var0)) {
-               public Builder<Pair<K, V>, DerivedKeyHashMap<K, V>> add(Pair<K, V> var1) {
-                  this.result = this.result.put((K)var1.component1(), (V)var1.component2());
+            return new AbstractSelfBuilder<Pair<K, V>, DerivedKeyHashMap<K, V>>(new DerivedKeyHashMap<>(keyFunction)) {
+               public Builder<Pair<K, V>, DerivedKeyHashMap<K, V>> add(Pair<K, V> element) {
+                  this.result = this.result.put(element.component1(), element.component2());
                   return this;
                }
             };
@@ -24,32 +24,32 @@ public class DerivedKeyHashMap<K, V> extends AbstractMap<K, V> {
       };
    }
 
-   public DerivedKeyHashMap(KeyFunction<K, V> var1) {
-      this.keyFunction = var1;
+   public DerivedKeyHashMap(KeyFunction<K, V> keyFunction) {
+      this.keyFunction = keyFunction;
       this.compactHashMap = CompactHashMap.empty();
    }
 
-   private DerivedKeyHashMap(KeyFunction<K, V> var1, CompactHashMap<K, V> var2) {
-      this.keyFunction = var1;
-      this.compactHashMap = var2;
+   private DerivedKeyHashMap(KeyFunction<K, V> keyFunction, CompactHashMap<K, V> compactHashMap) {
+      this.keyFunction = keyFunction;
+      this.compactHashMap = compactHashMap;
    }
 
    @Override
-   public boolean containsKey(K var1) {
-      return this.get((K)var1) != null;
+   public boolean containsKey(K key) {
+      return this.get(key) != null;
    }
 
-   public DerivedKeyHashMap<K, V> put(K var1, V var2) {
-      return new DerivedKeyHashMap<>(this.keyFunction, this.compactHashMap.put((K)var1, (V)var2, this.keyFunction));
+   public DerivedKeyHashMap<K, V> put(K key, V value) {
+      return new DerivedKeyHashMap<>(this.keyFunction, this.compactHashMap.put(key, value, this.keyFunction));
    }
 
    @Override
-   public V get(K var1) {
-      return this.compactHashMap.get((K)var1, this.keyFunction);
+   public V get(K key) {
+      return this.compactHashMap.get(key, this.keyFunction);
    }
 
-   public DerivedKeyHashMap<K, V> remove(K var1) {
-      return new DerivedKeyHashMap<>(this.keyFunction, this.compactHashMap.remove((K)var1, this.keyFunction));
+   public DerivedKeyHashMap<K, V> remove(K key) {
+      return new DerivedKeyHashMap<>(this.keyFunction, this.compactHashMap.remove(key, this.keyFunction));
    }
 
    @Override
@@ -58,10 +58,10 @@ public class DerivedKeyHashMap<K, V> extends AbstractMap<K, V> {
    }
 
    @Override
-   public <U> void forEach(final Function<Pair<K, V>, U> var1) {
+   public <U> void forEach(final Function<Pair<K, V>, U> f) {
       this.compactHashMap.forEach(new Function<Pair<K, V>, Object>() {
-         public Object invoke(Pair<K, V> var1x) {
-            var1.invoke(var1x);
+         public Object invoke(Pair<K, V> parameter) {
+            f.invoke(parameter);
             return null;
          }
       }, this.keyFunction);

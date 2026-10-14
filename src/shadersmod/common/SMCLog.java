@@ -7,39 +7,39 @@ public abstract class SMCLog {
    private static final Logger LOGGER = LogManager.getLogger();
    private static final long a = 104605001389058L;
 
-   public static void severe(String var0) {
-      LOGGER.error("[Shaders] " + var0);
+   public static void severe(String message) {
+      LOGGER.error("[Shaders] " + message);
    }
 
-   public static void warning(String var0) {
-      LOGGER.warn("[Shaders] " + var0);
+   public static void warning(String message) {
+      LOGGER.warn("[Shaders] " + message);
    }
 
-   public static void info(String var0) {
-      LOGGER.info("[Shaders] " + var0);
+   public static void info(String message) {
+      LOGGER.info("[Shaders] " + message);
    }
 
-   public static void fine(String var0) {
-      LOGGER.debug("[Shaders] " + var0);
+   public static void fine(String message) {
+      LOGGER.debug("[Shaders] " + message);
    }
 
-   public static void o(String var0, Object... var1) {
-      String var4 = String.format(var0, var1);
-      LOGGER.error("[Shaders] " + var4);
+   public static void o(String string, Object... objects) {
+      String string2 = String.format(string, objects);
+      LOGGER.error("[Shaders] " + string2);
    }
 
-   public static void warning(String var0, Object... var1) {
-      String var4 = String.format(var0, var1);
-      LOGGER.warn("[Shaders] " + var4);
+   public static void warning(String formatIn, Object... args) {
+      String string = String.format(formatIn, args);
+      LOGGER.warn("[Shaders] " + string);
    }
 
-   public static void v(String var0, Object... var1) {
-      String var5 = String.format(var0, var1);
-      LOGGER.info("[Shaders] " + var5);
+   public static void v(String string, Object... objects) {
+      String string2 = String.format(string, objects);
+      LOGGER.info("[Shaders] " + string2);
    }
 
-   public static void T(String var0, Object... var1) {
-      String var6 = String.format(var0, var1);
-      LOGGER.debug("[Shaders] " + var6);
+   public static void T(String string, Object... objects) {
+      String string2 = String.format(string, objects);
+      LOGGER.debug("[Shaders] " + string2);
    }
 }

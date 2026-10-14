@@ -10,51 +10,51 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem {
    private static final long a = 138942525702979L;
 
    @Override
-   public final ItemStack dispense(IBlockSource var1, ItemStack var2) {
-      ItemStack var3 = this.dispenseStack(var1, var2);
-      this.playDispenseSound(var1);
-      this.spawnDispenseParticles(var1, BlockDispenser.getFacing(var1.getBlockMetadata()));
-      return var3;
+   public final ItemStack dispense(IBlockSource source, ItemStack stack) {
+      ItemStack itemStack = this.dispenseStack(source, stack);
+      this.playDispenseSound(source);
+      this.spawnDispenseParticles(source, BlockDispenser.getFacing(source.getBlockMetadata()));
+      return itemStack;
    }
 
-   public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-      EnumFacing var5 = BlockDispenser.getFacing(var1.getBlockMetadata());
-      IPosition var6 = BlockDispenser.getDispensePosition(var1);
-      ItemStack var7 = var2.splitStack(1);
-      doDispense(var1.getWorld(), var7, 6, var5, var6);
-      return var2;
+   public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+      EnumFacing enumFacing = BlockDispenser.getFacing(source.getBlockMetadata());
+      IPosition iPosition = BlockDispenser.getDispensePosition(source);
+      ItemStack itemStack = stack.splitStack(1);
+      doDispense(source.getWorld(), itemStack, 6, enumFacing, iPosition);
+      return stack;
    }
 
-   public static void doDispense(World var0, ItemStack var1, int var2, EnumFacing var3, IPosition var4) {
-      double var9 = var4.getX();
-      double var11 = var4.getY();
-      double var13 = var4.getZ();
-      if (var3.getAxis() == EnumFacing.Axis.Y) {
-         var11 -= 0.125;
+   public static void doDispense(World worldIn, ItemStack stack, int speed, EnumFacing facing, IPosition position) {
+      double d = position.getX();
+      double e = position.getY();
+      double d2 = position.getZ();
+      if (facing.getAxis() == EnumFacing.Axis.Y) {
+         e -= 0.125;
       } else {
-         var11 -= 0.15625;
+         e -= 0.15625;
       }
 
-      EntityItem var15 = new EntityItem(var0, var9, var11, var13, var1);
-      double var16 = var0.rand.nextDouble() * 0.1 + 0.2;
-      var15.motionX = var3.getFrontOffsetX() * var16;
-      var15.motionY = 0.2F;
-      var15.motionZ = var3.getFrontOffsetZ() * var16;
-      var15.motionX = var15.motionX + var0.rand.nextGaussian() * 0.0075F * var2;
-      var15.motionY = var15.motionY + var0.rand.nextGaussian() * 0.0075F * var2;
-      var15.motionZ = var15.motionZ + var0.rand.nextGaussian() * 0.0075F * var2;
-      var0.spawnEntityInWorld(var15);
+      EntityItem entityItem = new EntityItem(worldIn, d, e, d2, stack);
+      double d3 = worldIn.rand.nextDouble() * 0.1 + 0.2;
+      entityItem.motionX = facing.getFrontOffsetX() * d3;
+      entityItem.motionY = 0.2F;
+      entityItem.motionZ = facing.getFrontOffsetZ() * d3;
+      entityItem.motionX = entityItem.motionX + worldIn.rand.nextGaussian() * 0.0075F * speed;
+      entityItem.motionY = entityItem.motionY + worldIn.rand.nextGaussian() * 0.0075F * speed;
+      entityItem.motionZ = entityItem.motionZ + worldIn.rand.nextGaussian() * 0.0075F * speed;
+      worldIn.spawnEntityInWorld(entityItem);
    }
 
-   public void playDispenseSound(IBlockSource var1) {
-      var1.getWorld().playAuxSFX(1000, var1.getBlockPos(), 0);
+   public void playDispenseSound(IBlockSource source) {
+      source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
    }
 
-   public void spawnDispenseParticles(IBlockSource var1, EnumFacing var2) {
-      var1.getWorld().playAuxSFX(2000, var1.getBlockPos(), this.func_82488_a(var2));
+   public void spawnDispenseParticles(IBlockSource source, EnumFacing facingIn) {
+      source.getWorld().playAuxSFX(2000, source.getBlockPos(), this.func_82488_a(facingIn));
    }
 
-   private int func_82488_a(EnumFacing var1) {
-      return var1.getFrontOffsetX() + 1 + (var1.getFrontOffsetZ() + 1) * 3;
+   private int func_82488_a(EnumFacing facingIn) {
+      return facingIn.getFrontOffsetX() + 1 + (facingIn.getFrontOffsetZ() + 1) * 3;
    }
 }

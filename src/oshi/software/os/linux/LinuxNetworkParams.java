@@ -20,81 +20,81 @@ public final class LinuxNetworkParams extends AbstractNetworkParams {
 
    @Override
    public String getDomainName() {
-      CLibrary.Addrinfo var3 = new CLibrary.Addrinfo();
-      var3.ai_flags = 2;
-      String var4 = "";
+      CLibrary.Addrinfo addrinfo = new CLibrary.Addrinfo();
+      addrinfo.ai_flags = 2;
+      String string = "";
 
       try {
-         var4 = InetAddress.getLocalHost().getHostName();
-      } catch (UnknownHostException var9) {
+         string = InetAddress.getLocalHost().getHostName();
+      } catch (UnknownHostException unknownHostException) {
          return "";
       }
 
-      PointerByReference var5 = new PointerByReference();
-      int var6 = LIBC.getaddrinfo(var4, null, var3, var5);
-      if (var6 > 0) {
+      PointerByReference pointerByReference = new PointerByReference();
+      int i = LIBC.getaddrinfo(string, null, addrinfo, pointerByReference);
+      if (i > 0) {
          return "";
       }
 
-      CLibrary.Addrinfo var7 = new CLibrary.Addrinfo(var5.getValue());
-      String var8 = var7.ai_canonname.trim();
-      LIBC.freeaddrinfo(var5.getValue());
-      return var8;
+      CLibrary.Addrinfo addrinfo2 = new CLibrary.Addrinfo(pointerByReference.getValue());
+      String string2 = addrinfo2.ai_canonname.trim();
+      LIBC.freeaddrinfo(pointerByReference.getValue());
+      return string2;
    }
 
    @Override
    public String getHostName() {
-      byte[] var3 = new byte[256];
-      return 0 != LibC.INSTANCE.gethostname(var3, var3.length) ? super.getHostName() : Native.toString(var3);
+      byte[] bytes = new byte[256];
+      return 0 != LibC.INSTANCE.gethostname(bytes, bytes.length) ? super.getHostName() : Native.toString(bytes);
    }
 
    @Override
    public String getIpv4DefaultGateway() {
-      List var4 = ExecutingCommand.runNative("route -A inet -n");
-      if (var4.size() <= 2) {
+      List list = ExecutingCommand.runNative("route -A inet -n");
+      if (list.size() <= 2) {
          return "";
       }
 
-      String var5 = "";
-      int var6 = Integer.MAX_VALUE;
+      String string = "";
+      int i = Integer.MAX_VALUE;
 
-      for (int var7 = 2; var7 < var4.size(); var7++) {
-         String[] var8 = ParseUtil.Q.split((CharSequence)var4.get(var7));
-         if (var8.length > 4 && var8[0].equals("0.0.0.0")) {
-            boolean var9 = var8[3].indexOf(71) != -1;
-            int var10 = ParseUtil.parseIntOrDefault(var8[4], Integer.MAX_VALUE);
-            if (var9 && var10 < var6) {
-               var6 = var10;
-               var5 = var8[1];
+      for (int j = 2; j < list.size(); j++) {
+         String[] strings = ParseUtil.Q.split((CharSequence)list.get(j));
+         if (strings.length > 4 && strings[0].equals("0.0.0.0")) {
+            boolean bl = strings[3].indexOf(71) != -1;
+            int k = ParseUtil.parseIntOrDefault(strings[4], Integer.MAX_VALUE);
+            if (bl && k < i) {
+               i = k;
+               string = strings[1];
             }
          }
       }
 
-      return var5;
+      return string;
    }
 
    @Override
    public String getIpv6DefaultGateway() {
-      List var4 = ExecutingCommand.runNative("route -A inet6 -n");
-      if (var4.size() <= 2) {
+      List list = ExecutingCommand.runNative("route -A inet6 -n");
+      if (list.size() <= 2) {
          return "";
       }
 
-      String var5 = "";
-      int var6 = Integer.MAX_VALUE;
+      String string = "";
+      int i = Integer.MAX_VALUE;
 
-      for (int var7 = 2; var7 < var4.size(); var7++) {
-         String[] var8 = ParseUtil.Q.split((CharSequence)var4.get(var7));
-         if (var8.length > 3 && var8[0].equals("::/0")) {
-            boolean var9 = var8[2].indexOf(71) != -1;
-            int var10 = ParseUtil.parseIntOrDefault(var8[3], Integer.MAX_VALUE);
-            if (var9 && var10 < var6) {
-               var6 = var10;
-               var5 = var8[1];
+      for (int j = 2; j < list.size(); j++) {
+         String[] strings = ParseUtil.Q.split((CharSequence)list.get(j));
+         if (strings.length > 3 && strings[0].equals("::/0")) {
+            boolean bl = strings[2].indexOf(71) != -1;
+            int k = ParseUtil.parseIntOrDefault(strings[3], Integer.MAX_VALUE);
+            if (bl && k < i) {
+               i = k;
+               string = strings[1];
             }
          }
       }
 
-      return var5;
+      return string;
    }
 }

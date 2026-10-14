@@ -12,40 +12,40 @@ import oshi.hardware.common.AbstractSoundCard;
 public final class WindowsSoundCard extends AbstractSoundCard {
    private static final long c = 2514283469435L;
 
-   public WindowsSoundCard(String var1, String var2, String var3) {
-      super(var1, var2, var3);
+   public WindowsSoundCard(String kernelVersion, String name, String codec) {
+      super(kernelVersion, name, codec);
    }
 
    public static List<WindowsSoundCard> getSoundCards() {
-      ArrayList var3 = new ArrayList();
-      String[] var4 = Advapi32Util.registryGetKeys(
+      ArrayList arrayList = new ArrayList();
+      String[] strings = Advapi32Util.registryGetKeys(
          WinReg.HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e96c-e325-11ce-bfc1-08002be10318}\\"
       );
 
-      for (String var8 : var4) {
-         String var9 = "SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e96c-e325-11ce-bfc1-08002be10318}\\" + var8;
+      for (String string : strings) {
+         String string2 = "SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e96c-e325-11ce-bfc1-08002be10318}\\" + string;
 
          try {
-            if (Advapi32Util.registryValueExists(WinReg.HKEY_LOCAL_MACHINE, var9, "Driver")) {
-               var3.add(
+            if (Advapi32Util.registryValueExists(WinReg.HKEY_LOCAL_MACHINE, string2, "Driver")) {
+               arrayList.add(
                   new WindowsSoundCard(
-                     Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var9, "Driver")
+                     Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string2, "Driver")
                         + " "
-                        + Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var9, "DriverVersion"),
-                     Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var9, "ProviderName")
+                        + Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string2, "DriverVersion"),
+                     Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string2, "ProviderName")
                         + " "
-                        + Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var9, "DriverDesc"),
-                     Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, var9, "DriverDesc")
+                        + Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string2, "DriverDesc"),
+                     Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, string2, "DriverDesc")
                   )
                );
             }
-         } catch (Win32Exception var11) {
-            if (var11.getErrorCode() != 5) {
-               throw var11;
+         } catch (Win32Exception win32Exception) {
+            if (win32Exception.getErrorCode() != 5) {
+               throw win32Exception;
             }
          }
       }
 
-      return var3;
+      return arrayList;
    }
 }

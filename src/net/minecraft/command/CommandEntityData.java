@@ -20,45 +20,45 @@ public class CommandEntityData extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.entitydata.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 2) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 2) {
          throw new WrongUsageException("commands.entitydata.usage");
       }
 
-      Entity var6 = getEntity(var1, var2[0]);
-      if (var6 instanceof EntityPlayer) {
-         throw new CommandException("commands.entitydata.noPlayers", var6.getDisplayName());
+      Entity entity = getEntity(sender, args[0]);
+      if (entity instanceof EntityPlayer) {
+         throw new CommandException("commands.entitydata.noPlayers", entity.getDisplayName());
       }
 
-      NBTTagCompound var7 = new NBTTagCompound();
-      var6.writeToNBT(var7);
-      NBTTagCompound var8 = (NBTTagCompound)var7.copy();
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      entity.writeToNBT(nbtTagCompound);
+      NBTTagCompound nbtTagCompound2 = (NBTTagCompound)nbtTagCompound.copy();
 
-      NBTTagCompound var9;
+      NBTTagCompound nbtTagCompound3;
       try {
-         var9 = JsonToNBT.getTagFromJson(getChatComponentFromNthArg(var1, var2, 1).getUnformattedText());
-      } catch (NBTException var11) {
-         throw new CommandException("commands.entitydata.tagError", var11.getMessage());
+         nbtTagCompound3 = JsonToNBT.getTagFromJson(getChatComponentFromNthArg(sender, args, 1).getUnformattedText());
+      } catch (NBTException nbtException) {
+         throw new CommandException("commands.entitydata.tagError", nbtException.getMessage());
       }
 
-      var9.removeTag("UUIDMost");
-      var9.removeTag("UUIDLeast");
-      var7.merge(var9);
-      if (var7.equals(var8)) {
-         throw new CommandException("commands.entitydata.failed", var7.toString());
+      nbtTagCompound3.removeTag("UUIDMost");
+      nbtTagCompound3.removeTag("UUIDLeast");
+      nbtTagCompound.merge(nbtTagCompound3);
+      if (nbtTagCompound.equals(nbtTagCompound2)) {
+         throw new CommandException("commands.entitydata.failed", nbtTagCompound.toString());
       }
 
-      var6.readFromNBT(var7);
-      notifyOperators(var1, this, "commands.entitydata.success", var7.toString());
+      entity.readFromNBT(nbtTagCompound);
+      notifyOperators(sender, this, "commands.entitydata.success", nbtTagCompound.toString());
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 }

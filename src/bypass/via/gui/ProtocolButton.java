@@ -14,27 +14,27 @@ public class ProtocolButton extends GuiButton {
    public static float P;
    private static final long c = 82417675109247L;
 
-   public ProtocolButton(int var1, int var2, int var3) {
-      super(var1, var2, var3, 100, 20, "");
+   public ProtocolButton(int i, int j, int k) {
+      super(i, j, k, 100, 20, "");
       this.x = P;
       this.displayString = "Protocol: " + ViaFabric.INSTANCE.getVersion().getName();
    }
 
    @Override
-   public int getHoverState(boolean var1) {
+   public int getHoverState(boolean mouseOver) {
       return 0;
    }
 
    @Override
-   public void mouseDragged(Minecraft var1, int var2, int var3) {
+   public void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
          if (this.K) {
-            this.x = (float)(var2 - (this.xPosition + 4)) / (this.width - 8);
+            this.x = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
             this.x = MathHelper.clamp_float(this.x, 0.0F, 1.0F);
             this.q(this.x);
          }
 
-         var1.getTextureManager().bindTexture(buttonTextures);
+         mc.getTextureManager().bindTexture(buttonTextures);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.drawTexturedModalRect(this.xPosition + (int)(this.x * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
          this.drawTexturedModalRect(this.xPosition + (int)(this.x * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
@@ -42,9 +42,9 @@ public class ProtocolButton extends GuiButton {
    }
 
    @Override
-   public boolean mousePressed(Minecraft var1, int var2, int var3) {
-      if (super.mousePressed(var1, var2, var3)) {
-         this.x = (float)(var2 - (this.xPosition + 4)) / (this.width - 8);
+   public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+      if (super.mousePressed(mc, mouseX, mouseY)) {
+         this.x = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
          this.x = MathHelper.clamp_float(this.x, 0.0F, 1.0F);
          this.q(this.x);
          this.K = true;
@@ -54,31 +54,31 @@ public class ProtocolButton extends GuiButton {
       }
    }
 
-   private void q(float var1) {
-      ProtocolVersion var4 = GuiMultiplayer.O.get(this.o(var1));
-      ViaFabric.INSTANCE.setVersion(var4);
-      P = var1;
+   private void q(float f) {
+      ProtocolVersion protocolVersion = GuiMultiplayer.O.get(this.o(f));
+      ViaFabric.INSTANCE.setVersion(protocolVersion);
+      P = f;
       this.displayString = "Protocol: " + ViaFabric.INSTANCE.getVersion().getName();
    }
 
    @Override
-   public void mouseReleased(int var1, int var2) {
+   public void mouseReleased(int mouseX, int mouseY) {
       this.K = false;
    }
 
-   public int o(double var1) {
-      if (var1 == 0.0) {
+   public int o(double d) {
+      if (d == 0.0) {
          ViaFabric.enabled = false;
          return 0;
       }
 
-      int var6 = 0;
+      int i = 0;
 
-      for (double var7 = 0.0; var7 <= var1; var7 += 0.033) {
-         var6++;
+      for (double e = 0.0; e <= d; e += 0.033) {
+         i++;
       }
 
       ViaFabric.enabled = true;
-      return var6;
+      return i;
    }
 }

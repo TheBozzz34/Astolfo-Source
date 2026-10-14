@@ -8,11 +8,11 @@ public enum AutoFishMode {
    private String i;
    private static final AutoFishMode[] M = new AutoFishMode[]{SOUND, MOTION, TEXT};
 
-   AutoFishMode(String var3) {
-      this.i = var3;
+   AutoFishMode(String string2) {
+      this.i = string2;
    }
 
-   public static String m(AutoFishMode var0) {
-      return var0.i;
+   public static String m(AutoFishMode autoFishMode) {
+      return autoFishMode.i;
    }
 }

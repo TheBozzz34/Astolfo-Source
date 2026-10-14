@@ -25,13 +25,13 @@ public class BlockWorkbench extends Block {
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var1.isRemote) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      var4.displayGui(new BlockWorkbench.InterfaceCraftingTable(var1, var2));
-      var4.triggerAchievement(StatList.field_181742_Z);
+      playerIn.displayGui(new BlockWorkbench.InterfaceCraftingTable(worldIn, pos));
+      playerIn.triggerAchievement(StatList.field_181742_Z);
       return true;
    }
 
@@ -40,9 +40,9 @@ public class BlockWorkbench extends Block {
       private final BlockPos position;
       private static final long a = 112533289309207L;
 
-      public InterfaceCraftingTable(World var1, BlockPos var2) {
-         this.world = var1;
-         this.position = var2;
+      public InterfaceCraftingTable(World worldIn, BlockPos pos) {
+         this.world = worldIn;
+         this.position = pos;
       }
 
       @Override
@@ -61,8 +61,8 @@ public class BlockWorkbench extends Block {
       }
 
       @Override
-      public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-         return new ContainerWorkbench(var1, this.world, this.position);
+      public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+         return new ContainerWorkbench(playerInventory, this.world, this.position);
       }
 
       @Override

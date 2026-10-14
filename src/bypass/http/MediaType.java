@@ -13,8 +13,8 @@ public enum MediaType {
 
    private String e;
 
-   MediaType(String var3) {
-      this.e = var3;
+   MediaType(String string2) {
+      this.e = string2;
    }
 
    public String e() {

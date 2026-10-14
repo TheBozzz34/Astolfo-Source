@@ -9,17 +9,17 @@ public class MovingObjectTypeSwitch {
    static {
       try {
          $SwitchMap$net$minecraft$util$MovingObjectPosition$MovingObjectType[MovingObjectPosition.MovingObjectType.ENTITY.ordinal()] = 1;
-      } catch (NoSuchFieldError var3) {
+      } catch (NoSuchFieldError noSuchFieldError) {
       }
 
       try {
          $SwitchMap$net$minecraft$util$MovingObjectPosition$MovingObjectType[MovingObjectPosition.MovingObjectType.MISS.ordinal()] = 2;
-      } catch (NoSuchFieldError var2) {
+      } catch (NoSuchFieldError noSuchFieldError2) {
       }
 
       try {
          $SwitchMap$net$minecraft$util$MovingObjectPosition$MovingObjectType[MovingObjectPosition.MovingObjectType.BLOCK.ordinal()] = 3;
-      } catch (NoSuchFieldError var1) {
+      } catch (NoSuchFieldError noSuchFieldError3) {
       }
    }
 }

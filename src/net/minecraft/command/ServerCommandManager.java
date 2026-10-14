@@ -104,39 +104,39 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
    }
 
    @Override
-   public void notifyOperators(ICommandSender var1, ICommand var2, int var3, String var4, Object... var5) {
-      boolean var9 = true;
-      MinecraftServer var10 = MinecraftServer.getServer();
-      if (!var1.sendCommandFeedback()) {
-         var9 = false;
+   public void notifyOperators(ICommandSender sender, ICommand command, int flags, String msgFormat, Object... msgParams) {
+      boolean bl = true;
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      if (!sender.sendCommandFeedback()) {
+         bl = false;
       }
 
-      ChatComponentTranslation var11 = new ChatComponentTranslation("chat.type.admin", var1.getName(), new ChatComponentTranslation(var4, var5));
-      var11.getChatStyle().setColor(EnumChatFormatting.GRAY);
-      var11.getChatStyle().setItalic(true);
-      if (var9) {
-         for (EntityPlayer var13 : var10.getConfigurationManager().getPlayerList()) {
-            if (var13 != var1 && var10.getConfigurationManager().canSendCommands(var13.getGameProfile()) && var2.canCommandSenderUseCommand(var1)) {
-               boolean var14 = var1 instanceof MinecraftServer && MinecraftServer.getServer().shouldBroadcastConsoleToOps();
-               boolean var15 = var1 instanceof RConConsoleSource && MinecraftServer.getServer().shouldBroadcastRconToOps();
-               if (var14 || var15 || !(var1 instanceof RConConsoleSource) && !(var1 instanceof MinecraftServer)) {
-                  var13.addChatMessage(var11);
+      ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation("chat.type.admin", sender.getName(), new ChatComponentTranslation(msgFormat, msgParams));
+      chatComponentTranslation.getChatStyle().setColor(EnumChatFormatting.GRAY);
+      chatComponentTranslation.getChatStyle().setItalic(true);
+      if (bl) {
+         for (EntityPlayer entityPlayer : minecraftServer.getConfigurationManager().getPlayerList()) {
+            if (entityPlayer != sender && minecraftServer.getConfigurationManager().canSendCommands(entityPlayer.getGameProfile()) && command.canCommandSenderUseCommand(sender)) {
+               boolean bl2 = sender instanceof MinecraftServer && MinecraftServer.getServer().shouldBroadcastConsoleToOps();
+               boolean bl3 = sender instanceof RConConsoleSource && MinecraftServer.getServer().shouldBroadcastRconToOps();
+               if (bl2 || bl3 || !(sender instanceof RConConsoleSource) && !(sender instanceof MinecraftServer)) {
+                  entityPlayer.addChatMessage(chatComponentTranslation);
                }
             }
          }
       }
 
-      if (var1 != var10 && var10.worldServers[0].getGameRules().getBoolean("logAdminCommands")) {
-         var10.addChatMessage(var11);
+      if (sender != minecraftServer && minecraftServer.worldServers[0].getGameRules().getBoolean("logAdminCommands")) {
+         minecraftServer.addChatMessage(chatComponentTranslation);
       }
 
-      boolean var16 = var10.worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
-      if (var1 instanceof CommandBlockLogic) {
-         var16 = ((CommandBlockLogic)var1).shouldTrackOutput();
+      boolean bl4 = minecraftServer.worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
+      if (sender instanceof CommandBlockLogic) {
+         bl4 = ((CommandBlockLogic)sender).shouldTrackOutput();
       }
 
-      if ((var3 & 1) != 1 && var16 || var1 instanceof MinecraftServer) {
-         var1.addChatMessage(new ChatComponentTranslation(var4, var5));
+      if ((flags & 1) != 1 && bl4 || sender instanceof MinecraftServer) {
+         sender.addChatMessage(new ChatComponentTranslation(msgFormat, msgParams));
       }
    }
 }

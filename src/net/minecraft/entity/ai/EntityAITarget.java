@@ -23,52 +23,52 @@ public abstract class EntityAITarget extends EntityAIBase {
    private int targetUnseenTicks;
    private static final long b = 20786316917796L;
 
-   public EntityAITarget(EntityCreature var1, boolean var2) {
-      this(var1, var2, false);
+   public EntityAITarget(EntityCreature creature, boolean checkSight) {
+      this(creature, checkSight, false);
    }
 
-   public EntityAITarget(EntityCreature var1, boolean var2, boolean var3) {
-      this.taskOwner = var1;
-      this.shouldCheckSight = var2;
-      this.nearbyOnly = var3;
+   public EntityAITarget(EntityCreature creature, boolean checkSight, boolean onlyNearby) {
+      this.taskOwner = creature;
+      this.shouldCheckSight = checkSight;
+      this.nearbyOnly = onlyNearby;
    }
 
    @Override
    public boolean continueExecuting() {
-      EntityLivingBase var4 = this.taskOwner.getAttackTarget();
-      if (var4 == null) {
+      EntityLivingBase entityLivingBase = this.taskOwner.getAttackTarget();
+      if (entityLivingBase == null) {
          return false;
       }
 
-      if (!var4.isEntityAlive()) {
+      if (!entityLivingBase.isEntityAlive()) {
          return false;
       }
 
-      Team var5 = this.taskOwner.getTeam();
-      Team var6 = var4.getTeam();
-      if (var5 != null && var6 == var5) {
+      Team team = this.taskOwner.getTeam();
+      Team team2 = entityLivingBase.getTeam();
+      if (team != null && team2 == team) {
          return false;
       }
 
-      double var7 = this.getTargetDistance();
-      if (this.taskOwner.getDistanceSqToEntity(var4) > var7 * var7) {
+      double d = this.getTargetDistance();
+      if (this.taskOwner.getDistanceSqToEntity(entityLivingBase) > d * d) {
          return false;
       }
 
       if (this.shouldCheckSight) {
-         if (this.taskOwner.getEntitySenses().canSee(var4)) {
+         if (this.taskOwner.getEntitySenses().canSee(entityLivingBase)) {
             this.targetUnseenTicks = 0;
          } else if (++this.targetUnseenTicks > 60) {
             return false;
          }
       }
 
-      return !(var4 instanceof EntityPlayer) || !((EntityPlayer)var4).capabilities.disableDamage;
+      return !(entityLivingBase instanceof EntityPlayer) || !((EntityPlayer)entityLivingBase).capabilities.disableDamage;
    }
 
    public double getTargetDistance() {
-      IAttributeInstance var4 = this.taskOwner.getEntityAttribute(SharedMonsterAttributes.followRange);
-      return var4 == null ? 16.0 : var4.getAttributeValue();
+      IAttributeInstance iAttributeInstance = this.taskOwner.getEntityAttribute(SharedMonsterAttributes.followRange);
+      return iAttributeInstance == null ? 16.0 : iAttributeInstance.getAttributeValue();
    }
 
    @Override
@@ -83,50 +83,50 @@ public abstract class EntityAITarget extends EntityAIBase {
       this.taskOwner.setAttackTarget((EntityLivingBase)null);
    }
 
-   public static boolean isSuitableTarget(EntityLiving var0, EntityLivingBase var1, boolean var2, boolean var3) {
-      if (var1 == null) {
+   public static boolean isSuitableTarget(EntityLiving attacker, EntityLivingBase target, boolean includeInvincibles, boolean checkSight) {
+      if (target == null) {
          return false;
       }
 
-      if (var1 == var0) {
+      if (target == attacker) {
          return false;
       }
 
-      if (!var1.isEntityAlive()) {
+      if (!target.isEntityAlive()) {
          return false;
       }
 
-      if (!var0.canAttackClass((Class<? extends EntityLivingBase>)var1.getClass())) {
+      if (!attacker.canAttackClass((Class<? extends EntityLivingBase>)target.getClass())) {
          return false;
       }
 
-      Team var7 = var0.getTeam();
-      Team var8 = var1.getTeam();
-      if (var7 != null && var8 == var7) {
+      Team team = attacker.getTeam();
+      Team team2 = target.getTeam();
+      if (team != null && team2 == team) {
          return false;
       }
 
-      if (var0 instanceof IEntityOwnable && StringUtils.isNotEmpty(((IEntityOwnable)var0).getOwnerId())) {
-         if (var1 instanceof IEntityOwnable && ((IEntityOwnable)var0).getOwnerId().equals(((IEntityOwnable)var1).getOwnerId())) {
+      if (attacker instanceof IEntityOwnable && StringUtils.isNotEmpty(((IEntityOwnable)attacker).getOwnerId())) {
+         if (target instanceof IEntityOwnable && ((IEntityOwnable)attacker).getOwnerId().equals(((IEntityOwnable)target).getOwnerId())) {
             return false;
          }
 
-         if (var1 == ((IEntityOwnable)var0).getOwner()) {
+         if (target == ((IEntityOwnable)attacker).getOwner()) {
             return false;
          }
-      } else if (var1 instanceof EntityPlayer && !var2 && ((EntityPlayer)var1).capabilities.disableDamage) {
+      } else if (target instanceof EntityPlayer && !includeInvincibles && ((EntityPlayer)target).capabilities.disableDamage) {
          return false;
       }
 
-      return !var3 || var0.getEntitySenses().canSee(var1);
+      return !checkSight || attacker.getEntitySenses().canSee(target);
    }
 
-   public boolean isSuitableTarget(EntityLivingBase var1, boolean var2) {
-      if (!isSuitableTarget(this.taskOwner, var1, var2, this.shouldCheckSight)) {
+   public boolean isSuitableTarget(EntityLivingBase target, boolean includeInvincibles) {
+      if (!isSuitableTarget(this.taskOwner, target, includeInvincibles, this.shouldCheckSight)) {
          return false;
       }
 
-      if (!this.taskOwner.isWithinHomeDistanceFromPosition(new BlockPos(var1))) {
+      if (!this.taskOwner.isWithinHomeDistanceFromPosition(new BlockPos(target))) {
          return false;
       }
 
@@ -136,7 +136,7 @@ public abstract class EntityAITarget extends EntityAIBase {
          }
 
          if (this.targetSearchStatus == 0) {
-            this.targetSearchStatus = this.canEasilyReach(var1) ? 1 : 2;
+            this.targetSearchStatus = this.canEasilyReach(target) ? 1 : 2;
          }
 
          if (this.targetSearchStatus == 2) {
@@ -147,20 +147,20 @@ public abstract class EntityAITarget extends EntityAIBase {
       return true;
    }
 
-   private boolean canEasilyReach(EntityLivingBase var1) {
+   private boolean canEasilyReach(EntityLivingBase target) {
       this.targetSearchDelay = 10 + this.taskOwner.getRNG().nextInt(5);
-      PathEntity var5 = this.taskOwner.getNavigator().getPathToEntityLiving(var1);
-      if (var5 == null) {
+      PathEntity pathEntity = this.taskOwner.getNavigator().getPathToEntityLiving(target);
+      if (pathEntity == null) {
          return false;
       }
 
-      PathPoint var6 = var5.getFinalPathPoint();
-      if (var6 == null) {
+      PathPoint pathPoint = pathEntity.getFinalPathPoint();
+      if (pathPoint == null) {
          return false;
       }
 
-      int var7 = var6.xCoord - MathHelper.floor_double(var1.posX);
-      int var8 = var6.zCoord - MathHelper.floor_double(var1.posZ);
-      return var7 * var7 + var8 * var8 <= 2.25;
+      int i = pathPoint.xCoord - MathHelper.floor_double(target.posX);
+      int j = pathPoint.zCoord - MathHelper.floor_double(target.posZ);
+      return i * i + j * j <= 2.25;
    }
 }

@@ -6,8 +6,8 @@ import net.minecraft.entity.Entity;
 public class AttackEvent implements Event {
    private Entity entity;
 
-   public AttackEvent(Entity var1) {
-      this.entity = var1;
+   public AttackEvent(Entity entity) {
+      this.entity = entity;
    }
 
    public Entity getEntity() {

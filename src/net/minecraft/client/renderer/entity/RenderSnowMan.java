@@ -8,12 +8,12 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSnowMan extends RenderLiving<EntitySnowman> {
    private static final ResourceLocation snowManTextures = new ResourceLocation("textures/entity/snowman.png");
 
-   public RenderSnowMan(RenderManager var1) {
-      super(var1, new ModelSnowMan(), 0.5F);
+   public RenderSnowMan(RenderManager renderManagerIn) {
+      super(renderManagerIn, new ModelSnowMan(), 0.5F);
       this.addLayer(new LayerSnowmanHead(this));
    }
 
-   public ResourceLocation getEntityTexture(EntitySnowman var1) {
+   public ResourceLocation getEntityTexture(EntitySnowman entity) {
       return snowManTextures;
    }
 

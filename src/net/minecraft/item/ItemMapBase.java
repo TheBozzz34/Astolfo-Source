@@ -10,7 +10,7 @@ public class ItemMapBase extends Item {
       return true;
    }
 
-   public Packet createMapDataPacket(ItemStack var1, World var2, EntityPlayer var3) {
+   public Packet createMapDataPacket(ItemStack stack, World worldIn, EntityPlayer player) {
       return null;
    }
 }

@@ -27,52 +27,52 @@ public class ActiveRenderInfo {
    private static float rotationXY;
    private static final long a = 49062560652069L;
 
-   public static void updateRenderInfo(EntityPlayer var0, boolean var1) {
+   public static void updateRenderInfo(EntityPlayer entityplayerIn, boolean bl) {
       GlStateManager.getFloat(EntityRenderer.ZE, MODELVIEW);
       GlStateManager.getFloat(EntityRenderer.ZE + 1, PROJECTION);
       GL11.glGetInteger(2978, VIEWPORT);
-      float var5 = (VIEWPORT.get(0) + VIEWPORT.get(2)) / 2;
-      float var6 = (VIEWPORT.get(1) + VIEWPORT.get(3)) / 2;
-      GLU.gluUnProject(var5, var6, 0.0F, MODELVIEW, PROJECTION, VIEWPORT, OBJECTCOORDS);
+      float f = (VIEWPORT.get(0) + VIEWPORT.get(2)) / 2;
+      float g = (VIEWPORT.get(1) + VIEWPORT.get(3)) / 2;
+      GLU.gluUnProject(f, g, 0.0F, MODELVIEW, PROJECTION, VIEWPORT, OBJECTCOORDS);
       position = new Vec3(OBJECTCOORDS.get(0), OBJECTCOORDS.get(1), OBJECTCOORDS.get(2));
-      int var7 = var1 ? 1 : 0;
-      float var8 = var0.rotationPitch;
-      float var9 = var0.rotationYaw;
-      rotationX = MathHelper.cos(var9 * (float) Math.PI / 180.0F) * (1 - var7 * 2);
-      rotationZ = MathHelper.sin(var9 * (float) Math.PI / 180.0F) * (1 - var7 * 2);
-      rotationYZ = -rotationZ * MathHelper.sin(var8 * (float) Math.PI / 180.0F) * (1 - var7 * 2);
-      rotationXY = rotationX * MathHelper.sin(var8 * (float) Math.PI / 180.0F) * (1 - var7 * 2);
-      rotationXZ = MathHelper.cos(var8 * (float) Math.PI / 180.0F);
+      int i = bl ? 1 : 0;
+      float h = entityplayerIn.rotationPitch;
+      float f2 = entityplayerIn.rotationYaw;
+      rotationX = MathHelper.cos(f2 * (float) Math.PI / 180.0F) * (1 - i * 2);
+      rotationZ = MathHelper.sin(f2 * (float) Math.PI / 180.0F) * (1 - i * 2);
+      rotationYZ = -rotationZ * MathHelper.sin(h * (float) Math.PI / 180.0F) * (1 - i * 2);
+      rotationXY = rotationX * MathHelper.sin(h * (float) Math.PI / 180.0F) * (1 - i * 2);
+      rotationXZ = MathHelper.cos(h * (float) Math.PI / 180.0F);
    }
 
-   public static Vec3 projectViewFromEntity(Entity var0, double var1) {
-      double var3 = var0.prevPosX + (var0.posX - var0.prevPosX) * var1;
-      double var5 = var0.prevPosY + (var0.posY - var0.prevPosY) * var1;
-      double var7 = var0.prevPosZ + (var0.posZ - var0.prevPosZ) * var1;
-      double var9 = var3 + position.xCoord;
-      double var11 = var5 + position.yCoord;
-      double var13 = var7 + position.zCoord;
-      return new Vec3(var9, var11, var13);
+   public static Vec3 projectViewFromEntity(Entity entity, double d) {
+      double e = entity.prevPosX + (entity.posX - entity.prevPosX) * d;
+      double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * d;
+      double d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * d;
+      double d4 = e + position.xCoord;
+      double d5 = d2 + position.yCoord;
+      double d6 = d3 + position.zCoord;
+      return new Vec3(d4, d5, d6);
    }
 
-   public static Block getBlockAtEntityViewpoint(World var0, Entity var1, float var2) {
-      Vec3 var6 = projectViewFromEntity(var1, var2);
-      BlockPos var7 = new BlockPos(var6);
-      IBlockState var8 = var0.getBlockState(var7);
-      Block var9 = var8.getBlock();
-      if (var9.getMaterial().isLiquid()) {
-         float var10 = 0.0F;
-         if (var8.getBlock() instanceof BlockLiquid) {
-            var10 = BlockLiquid.getLiquidHeightPercent(var8.getValue(BlockLiquid.LEVEL)) - 0.11111111F;
+   public static Block getBlockAtEntityViewpoint(World worldIn, Entity entity, float f) {
+      Vec3 vec3 = projectViewFromEntity(entity, f);
+      BlockPos blockPos = new BlockPos(vec3);
+      IBlockState iBlockState = worldIn.getBlockState(blockPos);
+      Block block = iBlockState.getBlock();
+      if (block.getMaterial().isLiquid()) {
+         float g = 0.0F;
+         if (iBlockState.getBlock() instanceof BlockLiquid) {
+            g = BlockLiquid.getLiquidHeightPercent(iBlockState.getValue(BlockLiquid.LEVEL)) - 0.11111111F;
          }
 
-         float var11 = var7.getY() + 1 - var10;
-         if (var6.yCoord >= var11) {
-            var9 = var0.getBlockState(var7.up()).getBlock();
+         float h = blockPos.getY() + 1 - g;
+         if (vec3.yCoord >= h) {
+            block = worldIn.getBlockState(blockPos.up()).getBlock();
          }
       }
 
-      return var9;
+      return block;
    }
 
    public static Vec3 getPosition() {

@@ -36,7 +36,7 @@ import net.minecraft.world.World;
 public class EntitySheep extends EntityAnimal {
    private final InventoryCrafting inventoryCrafting = new InventoryCrafting(new Container() {
       @Override
-      public boolean canInteractWith(EntityPlayer var1) {
+      public boolean canInteractWith(EntityPlayer playerIn) {
          return false;
       }
    }, 2, 1);
@@ -45,12 +45,12 @@ public class EntitySheep extends EntityAnimal {
    private EntityAIEatGrass entityAIEatGrass = new EntityAIEatGrass(this);
    private static final long gb = 2364259734577L;
 
-   public static float[] getDyeRgb(EnumDyeColor var0) {
-      return DYE_TO_RGB.get(var0);
+   public static float[] getDyeRgb(EnumDyeColor dyeColor) {
+      return DYE_TO_RGB.get(dyeColor);
    }
 
-   public EntitySheep(World var1) {
-      super(var1);
+   public EntitySheep(World worldIn) {
+      super(worldIn);
       this.setSize(0.9F, 1.3F);
       ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
       this.tasks.addTask(0, new EntityAISwimming(this));
@@ -95,14 +95,14 @@ public class EntitySheep extends EntityAnimal {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
       if (!this.getSheared()) {
          this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor().getMetadata()), 0.0F);
       }
 
-      int var6 = this.rand.nextInt(2) + 1 + this.rand.nextInt(1 + var2);
+      int i = this.rand.nextInt(2) + 1 + this.rand.nextInt(1 + lootingModifier);
 
-      for (int var7 = 0; var7 < var6; var7++) {
+      for (int j = 0; j < i; j++) {
          if (this.isBurning()) {
             this.dropItem(Items.cooked_mutton, 1);
          } else {
@@ -117,68 +117,64 @@ public class EntitySheep extends EntityAnimal {
    }
 
    @Override
-   public void handleStatusUpdate(byte var1) {
-      if (var1 == 10) {
+   public void handleStatusUpdate(byte id) {
+      if (id == 10) {
          this.sheepTimer = 40;
       } else {
-         super.handleStatusUpdate(var1);
+         super.handleStatusUpdate(id);
       }
    }
 
-   public float getHeadRotationPointY(float var1) {
+   public float getHeadRotationPointY(float f) {
       return this.sheepTimer <= 0
          ? 0.0F
-         : (
-            this.sheepTimer >= 4 && this.sheepTimer <= 36
-               ? 1.0F
-               : (this.sheepTimer < 4 ? (this.sheepTimer - var1) / 4.0F : -(this.sheepTimer - 40 - var1) / 4.0F)
-         );
+         : (this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : (this.sheepTimer < 4 ? (this.sheepTimer - f) / 4.0F : -(this.sheepTimer - 40 - f) / 4.0F));
    }
 
-   public float getHeadRotationAngleX(float var1) {
+   public float getHeadRotationAngleX(float f) {
       if (this.sheepTimer > 4 && this.sheepTimer <= 36) {
-         float var5 = (this.sheepTimer - 4 - var1) / 32.0F;
-         return (float) (Math.PI / 5) + 0.2199115F * MathHelper.sin(var5 * 28.7F);
+         float g = (this.sheepTimer - 4 - f) / 32.0F;
+         return (float) (Math.PI / 5) + 0.2199115F * MathHelper.sin(g * 28.7F);
       } else {
          return this.sheepTimer > 0 ? (float) (Math.PI / 5) : this.rotationPitch / (180.0F / (float)Math.PI);
       }
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      if (var5 != null && var5.getItem() == Items.shears && !this.getSheared() && !this.isChild()) {
+   public boolean interact(EntityPlayer player) {
+      ItemStack itemStack = player.inventory.getCurrentItem();
+      if (itemStack != null && itemStack.getItem() == Items.shears && !this.getSheared() && !this.isChild()) {
          if (!this.worldObj.isRemote) {
             this.setSheared(true);
-            int var6 = 1 + this.rand.nextInt(3);
+            int i = 1 + this.rand.nextInt(3);
 
-            for (int var7 = 0; var7 < var6; var7++) {
-               EntityItem var8 = this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor().getMetadata()), 1.0F);
-               var8.motionY = var8.motionY + this.rand.nextFloat() * 0.05F;
-               var8.motionX = var8.motionX + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
-               var8.motionZ = var8.motionZ + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
+            for (int j = 0; j < i; j++) {
+               EntityItem entityItem = this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor().getMetadata()), 1.0F);
+               entityItem.motionY = entityItem.motionY + this.rand.nextFloat() * 0.05F;
+               entityItem.motionX = entityItem.motionX + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
+               entityItem.motionZ = entityItem.motionZ + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
             }
          }
 
-         var5.damageItem(1, var1);
+         itemStack.damageItem(1, player);
          this.playSound("mob.sheep.shear", 1.0F, 1.0F);
       }
 
-      return super.interact(var1);
+      return super.interact(player);
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setBoolean("Sheared", this.getSheared());
-      var1.setByte("Color", (byte)this.getFleeceColor().getMetadata());
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setBoolean("Sheared", this.getSheared());
+      tagCompound.setByte("Color", (byte)this.getFleeceColor().getMetadata());
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.setSheared(var1.getBoolean("Sheared"));
-      this.setFleeceColor(EnumDyeColor.byMetadata(var1.getByte("Color")));
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.setSheared(tagCompund.getBoolean("Sheared"));
+      this.setFleeceColor(EnumDyeColor.byMetadata(tagCompund.getByte("Color")));
    }
 
    @Override
@@ -197,7 +193,7 @@ public class EntitySheep extends EntityAnimal {
    }
 
    @Override
-   public void playStepSound(BlockPos var1, Block var2) {
+   public void playStepSound(BlockPos pos, Block blockIn) {
       this.playSound("mob.sheep.step", 0.15F, 1.0F);
    }
 
@@ -205,40 +201,40 @@ public class EntitySheep extends EntityAnimal {
       return EnumDyeColor.byMetadata(this.dataWatcher.getWatchableObjectByte(16) & 15);
    }
 
-   public void setFleeceColor(EnumDyeColor var1) {
-      byte var4 = this.dataWatcher.getWatchableObjectByte(16);
-      this.dataWatcher.updateObject(16, (byte)(var4 & 240 | var1.getMetadata() & 15));
+   public void setFleeceColor(EnumDyeColor color) {
+      byte b = this.dataWatcher.getWatchableObjectByte(16);
+      this.dataWatcher.updateObject(16, (byte)(b & 240 | color.getMetadata() & 15));
    }
 
    public boolean getSheared() {
       return (this.dataWatcher.getWatchableObjectByte(16) & 16) != 0;
    }
 
-   public void setSheared(boolean var1) {
-      byte var5 = this.dataWatcher.getWatchableObjectByte(16);
-      if (var1) {
-         this.dataWatcher.updateObject(16, (byte)(var5 | 16));
+   public void setSheared(boolean sheared) {
+      byte b = this.dataWatcher.getWatchableObjectByte(16);
+      if (sheared) {
+         this.dataWatcher.updateObject(16, (byte)(b | 16));
       } else {
-         this.dataWatcher.updateObject(16, (byte)(var5 & -17));
+         this.dataWatcher.updateObject(16, (byte)(b & -17));
       }
    }
 
-   public static EnumDyeColor getRandomSheepColor(Random var0) {
-      int var4 = var0.nextInt(100);
-      return var4 < 5
+   public static EnumDyeColor getRandomSheepColor(Random randomIn) {
+      int i = randomIn.nextInt(100);
+      return i < 5
          ? EnumDyeColor.BLACK
          : (
-            var4 < 10
+            i < 10
                ? EnumDyeColor.GRAY
-               : (var4 < 15 ? EnumDyeColor.SILVER : (var4 < 18 ? EnumDyeColor.BROWN : (var0.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE)))
+               : (i < 15 ? EnumDyeColor.SILVER : (i < 18 ? EnumDyeColor.BROWN : (randomIn.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE)))
          );
    }
 
-   public EntitySheep createChild(EntityAgeable var1) {
-      EntitySheep var2 = (EntitySheep)var1;
-      EntitySheep var3 = new EntitySheep(this.worldObj);
-      var3.setFleeceColor(this.getDyeColorMixFromParents(this, var2));
-      return var3;
+   public EntitySheep createChild(EntityAgeable ageable) {
+      EntitySheep entitySheep = (EntitySheep)ageable;
+      EntitySheep entitySheep2 = new EntitySheep(this.worldObj);
+      entitySheep2.setFleeceColor(this.getDyeColorMixFromParents(this, entitySheep));
+      return entitySheep2;
    }
 
    @Override
@@ -250,26 +246,26 @@ public class EntitySheep extends EntityAnimal {
    }
 
    @Override
-   public IEntityLivingData onInitialSpawn(DifficultyInstance var1, IEntityLivingData var2) {
-      var2 = super.onInitialSpawn(var1, var2);
+   public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+      livingdata = super.onInitialSpawn(difficulty, livingdata);
       this.setFleeceColor(getRandomSheepColor(this.worldObj.rand));
-      return var2;
+      return livingdata;
    }
 
-   private EnumDyeColor getDyeColorMixFromParents(EntityAnimal var1, EntityAnimal var2) {
-      int var6 = ((EntitySheep)var1).getFleeceColor().getDyeDamage();
-      int var7 = ((EntitySheep)var2).getFleeceColor().getDyeDamage();
-      this.inventoryCrafting.getStackInSlot(0).setItemDamage(var6);
-      this.inventoryCrafting.getStackInSlot(1).setItemDamage(var7);
-      ItemStack var8 = CraftingManager.getInstance().findMatchingRecipe(this.inventoryCrafting, ((EntitySheep)var1).worldObj);
-      int var9;
-      if (var8 != null && var8.getItem() == Items.dye) {
-         var9 = var8.getMetadata();
+   private EnumDyeColor getDyeColorMixFromParents(EntityAnimal father, EntityAnimal mother) {
+      int i = ((EntitySheep)father).getFleeceColor().getDyeDamage();
+      int j = ((EntitySheep)mother).getFleeceColor().getDyeDamage();
+      this.inventoryCrafting.getStackInSlot(0).setItemDamage(i);
+      this.inventoryCrafting.getStackInSlot(1).setItemDamage(j);
+      ItemStack itemStack = CraftingManager.getInstance().findMatchingRecipe(this.inventoryCrafting, ((EntitySheep)father).worldObj);
+      int k;
+      if (itemStack != null && itemStack.getItem() == Items.dye) {
+         k = itemStack.getMetadata();
       } else {
-         var9 = this.worldObj.rand.nextBoolean() ? var6 : var7;
+         k = this.worldObj.rand.nextBoolean() ? i : j;
       }
 
-      return EnumDyeColor.byDyeDamage(var9);
+      return EnumDyeColor.byDyeDamage(k);
    }
 
    @Override

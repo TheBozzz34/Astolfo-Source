@@ -6,9 +6,9 @@ public class Rotation {
    private float yaw;
    private float pitch;
 
-   public Rotation(float var1, float var2) {
-      this.yaw = var1;
-      this.pitch = var2;
+   public Rotation(float f, float g) {
+      this.yaw = f;
+      this.pitch = g;
    }
 
    public Rotation() {
@@ -23,12 +23,12 @@ public class Rotation {
       return this.pitch;
    }
 
-   public void setYaw(float var1) {
-      this.yaw = var1;
+   public void setYaw(float f) {
+      this.yaw = f;
    }
 
-   public void setPitch(float var1) {
-      this.pitch = var1;
+   public void setPitch(float f) {
+      this.pitch = f;
    }
 
    public Rotation wrap() {

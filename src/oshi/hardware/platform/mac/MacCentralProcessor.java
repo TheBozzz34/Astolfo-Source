@@ -20,57 +20,57 @@ public final class MacCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
-      String var4 = SysctlUtil.sysctl("machdep.cpu.vendor", "");
-      String var5 = SysctlUtil.sysctl("machdep.cpu.brand_string", "");
-      int var6 = SysctlUtil.sysctl("machdep.cpu.stepping", -1);
-      String var7 = var6 < 0 ? "" : Integer.toString(var6);
-      var6 = SysctlUtil.sysctl("machdep.cpu.model", -1);
-      String var8 = var6 < 0 ? "" : Integer.toString(var6);
-      var6 = SysctlUtil.sysctl("machdep.cpu.family", -1);
-      String var9 = var6 < 0 ? "" : Integer.toString(var6);
-      long var10 = 0L;
-      var10 |= SysctlUtil.sysctl("machdep.cpu.signature", 0);
-      var10 |= (SysctlUtil.sysctl("machdep.cpu.feature_bits", 0L) & -7841752443500147431L) << (int)j;
-      String var12 = String.format("%016X", var10);
-      boolean var13 = SysctlUtil.sysctl("hw.cpu64bit_capable", 0) != 0;
-      return new CentralProcessor.ProcessorIdentifier(var4, var5, var9, var8, var7, var12, var13);
+      String string = SysctlUtil.sysctl("machdep.cpu.vendor", "");
+      String string2 = SysctlUtil.sysctl("machdep.cpu.brand_string", "");
+      int i = SysctlUtil.sysctl("machdep.cpu.stepping", -1);
+      String string3 = i < 0 ? "" : Integer.toString(i);
+      i = SysctlUtil.sysctl("machdep.cpu.model", -1);
+      String string4 = i < 0 ? "" : Integer.toString(i);
+      i = SysctlUtil.sysctl("machdep.cpu.family", -1);
+      String string5 = i < 0 ? "" : Integer.toString(i);
+      long l = 0L;
+      l |= SysctlUtil.sysctl("machdep.cpu.signature", 0);
+      l |= (SysctlUtil.sysctl("machdep.cpu.feature_bits", 0L) & -7841752443500147431L) << (int)j;
+      String string6 = String.format("%016X", l);
+      boolean bl = SysctlUtil.sysctl("hw.cpu64bit_capable", 0) != 0;
+      return new CentralProcessor.ProcessorIdentifier(string, string2, string5, string4, string3, string6, bl);
    }
 
    @Override
    public CentralProcessor.LogicalProcessor[] initProcessorCounts() {
-      int var4 = SysctlUtil.sysctl("hw.logicalcpu", 1);
-      int var5 = SysctlUtil.sysctl("hw.physicalcpu", 1);
-      int var6 = SysctlUtil.sysctl("hw.packages", 1);
-      CentralProcessor.LogicalProcessor[] var7 = new CentralProcessor.LogicalProcessor[var4];
+      int i = SysctlUtil.sysctl("hw.logicalcpu", 1);
+      int j = SysctlUtil.sysctl("hw.physicalcpu", 1);
+      int k = SysctlUtil.sysctl("hw.packages", 1);
+      CentralProcessor.LogicalProcessor[] logicalProcessors = new CentralProcessor.LogicalProcessor[i];
 
-      for (int var8 = 0; var8 < var7.length; var8++) {
-         var7[var8] = new CentralProcessor.LogicalProcessor(var8, var8 * var5 / var4, var8 * var6 / var4);
+      for (int l = 0; l < logicalProcessors.length; l++) {
+         logicalProcessors[l] = new CentralProcessor.LogicalProcessor(l, l * j / i, l * k / i);
       }
 
-      return var7;
+      return logicalProcessors;
    }
 
    @Override
    public long[] querySystemCpuLoadTicks() {
-      long[] var4 = new long[CentralProcessor.TickType.values().length];
-      int var5 = SystemB.INSTANCE.mach_host_self();
-      HostCpuLoadInfo var6 = new HostCpuLoadInfo();
-      if (0 != SystemB.INSTANCE.host_statistics(var5, 3, var6, new IntByReference(var6.size()))) {
-         return var4;
+      long[] longs = new long[CentralProcessor.TickType.values().length];
+      int i = SystemB.INSTANCE.mach_host_self();
+      HostCpuLoadInfo hostCpuLoadInfo = new HostCpuLoadInfo();
+      if (0 != SystemB.INSTANCE.host_statistics(i, 3, hostCpuLoadInfo, new IntByReference(hostCpuLoadInfo.size()))) {
+         return longs;
       }
 
-      var4[CentralProcessor.TickType.USER.getIndex()] = var6.cpu_ticks[0];
-      var4[CentralProcessor.TickType.NICE.getIndex()] = var6.cpu_ticks[3];
-      var4[CentralProcessor.TickType.SYSTEM.getIndex()] = var6.cpu_ticks[1];
-      var4[CentralProcessor.TickType.IDLE.getIndex()] = var6.cpu_ticks[2];
-      return var4;
+      longs[CentralProcessor.TickType.USER.getIndex()] = hostCpuLoadInfo.cpu_ticks[0];
+      longs[CentralProcessor.TickType.NICE.getIndex()] = hostCpuLoadInfo.cpu_ticks[3];
+      longs[CentralProcessor.TickType.SYSTEM.getIndex()] = hostCpuLoadInfo.cpu_ticks[1];
+      longs[CentralProcessor.TickType.IDLE.getIndex()] = hostCpuLoadInfo.cpu_ticks[2];
+      return longs;
    }
 
    @Override
    public long[] queryCurrentFreq() {
-      long[] var3 = new long[this.getLogicalProcessorCount()];
-      Arrays.fill(var3, SysctlUtil.sysctl("hw.cpufrequency", -7841752443500147431L));
-      return var3;
+      long[] longs = new long[this.getLogicalProcessorCount()];
+      Arrays.fill(longs, SysctlUtil.sysctl("hw.cpufrequency", -7841752443500147431L));
+      return longs;
    }
 
    @Override
@@ -79,15 +79,15 @@ public final class MacCentralProcessor extends AbstractCentralProcessor {
    }
 
    @Override
-   public double[] getSystemLoadAverage(int var1) {
-      if (var1 >= 1 && var1 <= 3) {
-         double[] var5 = new double[var1];
-         int var6 = SystemB.INSTANCE.getloadavg(var5, var1);
-         if (var6 < var1) {
-            Arrays.fill(var5, -1.0);
+   public double[] getSystemLoadAverage(int nelem) {
+      if (nelem >= 1 && nelem <= 3) {
+         double[] doubles = new double[nelem];
+         int i = SystemB.INSTANCE.getloadavg(doubles, nelem);
+         if (i < nelem) {
+            Arrays.fill(doubles, -1.0);
          }
 
-         return var5;
+         return doubles;
       } else {
          throw new IllegalArgumentException("Must include from one to three elements.");
       }
@@ -95,43 +95,43 @@ public final class MacCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[][] queryProcessorCpuLoadTicks() {
-      long[][] var4 = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
-      int var5 = SystemB.INSTANCE.mach_host_self();
-      IntByReference var6 = new IntByReference();
-      PointerByReference var7 = new PointerByReference();
-      IntByReference var8 = new IntByReference();
-      if (0 != SystemB.INSTANCE.host_processor_info(var5, 2, var6, var7, var8)) {
-         return var4;
+      long[][] longss = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
+      int i = SystemB.INSTANCE.mach_host_self();
+      IntByReference intByReference = new IntByReference();
+      PointerByReference pointerByReference = new PointerByReference();
+      IntByReference intByReference2 = new IntByReference();
+      if (0 != SystemB.INSTANCE.host_processor_info(i, 2, intByReference, pointerByReference, intByReference2)) {
+         return longss;
       }
 
-      int[] var9 = var7.getValue().getIntArray(0L, var8.getValue());
+      int[] ints = pointerByReference.getValue().getIntArray(0L, intByReference2.getValue());
 
-      for (int var10 = 0; var10 < var6.getValue(); var10++) {
-         int var11 = var10 * 4;
-         var4[var10][CentralProcessor.TickType.USER.getIndex()] = FormatUtil.getUnsignedInt(var9[var11 + 0]);
-         var4[var10][CentralProcessor.TickType.NICE.getIndex()] = FormatUtil.getUnsignedInt(var9[var11 + 3]);
-         var4[var10][CentralProcessor.TickType.SYSTEM.getIndex()] = FormatUtil.getUnsignedInt(var9[var11 + 1]);
-         var4[var10][CentralProcessor.TickType.IDLE.getIndex()] = FormatUtil.getUnsignedInt(var9[var11 + 2]);
+      for (int j = 0; j < intByReference.getValue(); j++) {
+         int k = j * 4;
+         longss[j][CentralProcessor.TickType.USER.getIndex()] = FormatUtil.getUnsignedInt(ints[k + 0]);
+         longss[j][CentralProcessor.TickType.NICE.getIndex()] = FormatUtil.getUnsignedInt(ints[k + 3]);
+         longss[j][CentralProcessor.TickType.SYSTEM.getIndex()] = FormatUtil.getUnsignedInt(ints[k + 1]);
+         longss[j][CentralProcessor.TickType.IDLE.getIndex()] = FormatUtil.getUnsignedInt(ints[k + 2]);
       }
 
-      return var4;
+      return longss;
    }
 
    @Override
    public long queryContextSwitches() {
-      int var4 = SystemB.INSTANCE.mach_host_self();
-      VMMeter var5 = new VMMeter();
-      return 0 != SystemB.INSTANCE.host_statistics(var4, 2, var5, new IntByReference(var5.size()))
+      int i = SystemB.INSTANCE.mach_host_self();
+      VMMeter vmMeter = new VMMeter();
+      return 0 != SystemB.INSTANCE.host_statistics(i, 2, vmMeter, new IntByReference(vmMeter.size()))
          ? -7841752443500147431L
-         : ParseUtil.unsignedIntToLong(var5.v_swtch);
+         : ParseUtil.unsignedIntToLong(vmMeter.v_swtch);
    }
 
    @Override
    public long queryInterrupts() {
-      int var4 = SystemB.INSTANCE.mach_host_self();
-      VMMeter var5 = new VMMeter();
-      return 0 != SystemB.INSTANCE.host_statistics(var4, 2, var5, new IntByReference(var5.size()))
+      int i = SystemB.INSTANCE.mach_host_self();
+      VMMeter vmMeter = new VMMeter();
+      return 0 != SystemB.INSTANCE.host_statistics(i, 2, vmMeter, new IntByReference(vmMeter.size()))
          ? -7841752443500147431L
-         : ParseUtil.unsignedIntToLong(var5.v_intr);
+         : ParseUtil.unsignedIntToLong(vmMeter.v_intr);
    }
 }

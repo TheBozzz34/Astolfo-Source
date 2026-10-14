@@ -43,180 +43,184 @@ public final class MacDisks {
    }
 
    private static Map<MacDisks.CFKey, CFStringRef> mapCFKeys() {
-      EnumMap var3 = new EnumMap<>(MacDisks.CFKey.class);
+      EnumMap enumMap = new EnumMap<>(MacDisks.CFKey.class);
 
-      for (MacDisks.CFKey var7 : MacDisks.CFKey.values()) {
-         var3.put(var7, CFStringRef.createCFString(var7.getKey()));
+      for (MacDisks.CFKey cfKey : MacDisks.CFKey.values()) {
+         enumMap.put(cfKey, CFStringRef.createCFString(cfKey.getKey()));
       }
 
-      return var3;
+      return enumMap;
    }
 
    private static Map<String, String> queryMountPointMap() {
-      HashMap var3 = new HashMap();
-      int var4 = SystemB.INSTANCE.getfsstat64(null, 0, 0);
-      Statfs[] var5 = new Statfs[var4];
-      SystemB.INSTANCE.getfsstat64(var5, var4 * new Statfs().size(), (int)e);
+      HashMap hashMap = new HashMap();
+      int i = SystemB.INSTANCE.getfsstat64(null, 0, 0);
+      Statfs[] statfss = new Statfs[i];
+      SystemB.INSTANCE.getfsstat64(statfss, i * new Statfs().size(), (int)e);
 
-      for (Statfs var9 : var5) {
-         String var10 = new String(var9.f_mntfromname, StandardCharsets.UTF_8).trim();
-         var3.put(var10.replace("/dev/", ""), new String(var9.f_mntonname, StandardCharsets.UTF_8).trim());
+      for (Statfs statfs : statfss) {
+         String string = new String(statfs.f_mntfromname, StandardCharsets.UTF_8).trim();
+         hashMap.put(string.replace("/dev/", ""), new String(statfs.f_mntonname, StandardCharsets.UTF_8).trim());
       }
 
-      return var3;
+      return hashMap;
    }
 
    private static Map<String, String> queryLogicalVolumeMap() {
-      HashMap var3 = new HashMap();
-      HashSet var4 = new HashSet();
-      boolean var5 = false;
+      HashMap hashMap = new HashMap();
+      HashSet hashSet = new HashSet();
+      boolean bl = false;
 
-      for (String var7 : ExecutingCommand.runNative("diskutil cs list")) {
-         if (var7.contains("Logical Volume Group")) {
-            var4.clear();
-            var5 = false;
-         } else if (var7.contains("Logical Volume Family")) {
-            var5 = true;
-         } else if (var7.contains("Disk:")) {
-            String var8 = ParseUtil.parseLastString(var7);
-            if (!var5) {
-               var4.add(ParseUtil.parseLastString(var7));
+      for (String string : ExecutingCommand.runNative("diskutil cs list")) {
+         if (string.contains("Logical Volume Group")) {
+            hashSet.clear();
+            bl = false;
+         } else if (string.contains("Logical Volume Family")) {
+            bl = true;
+         } else if (string.contains("Disk:")) {
+            String string2 = ParseUtil.parseLastString(string);
+            if (!bl) {
+               hashSet.add(ParseUtil.parseLastString(string));
             } else {
-               for (Object var10$raw : var4) {
-                  String var10 = (String)var10$raw;
-                  var3.put(var10, var8);
+               for (Object object : hashSet) {
+                  String string3 = (String)object;
+                  hashMap.put(string3, string2);
                }
 
-               var4.clear();
+               hashSet.clear();
             }
          }
       }
 
-      return var3;
+      return hashMap;
    }
 
    private static boolean updateDiskStats(
-      HWDiskStore var0, DASessionRef var1, Map<String, String> var2, Map<String, String> var3, Map<MacDisks.CFKey, CFStringRef> var4
+      HWDiskStore diskStore,
+      DASessionRef session,
+      Map<String, String> mountPointMap,
+      Map<String, String> logicalVolumeMap,
+      Map<MacDisks.CFKey, CFStringRef> cfKeyMap
    ) {
-      String var8 = var0.getName();
-      CFMutableDictionaryRef var9 = IOKitUtil.getBSDNameMatchingDict(var8);
-      if (var9 != null) {
-         IOIterator var10 = IOKitUtil.getMatchingServices(var9);
-         if (var10 != null) {
-            IORegistryEntry var11 = var10.next();
-            if (var11 != null) {
-               if (var11.conformsTo("IOMedia")) {
-                  IORegistryEntry var12 = var11.getParentEntry("IOService");
-                  if (var12 != null && var12.conformsTo("IOBlockStorageDriver")) {
-                     CFMutableDictionaryRef var13 = var12.createCFProperties();
-                     Pointer var14 = var13.getValue((PointerType)var4.get(MacDisks.CFKey.STATISTICS));
-                     CFDictionaryRef var15 = new CFDictionaryRef(var14);
-                     var0.setTimeStamp(System.currentTimeMillis());
-                     var14 = var15.getValue((PointerType)var4.get(MacDisks.CFKey.READ_OPS));
-                     CFNumberRef var16 = new CFNumberRef(var14);
-                     var0.setReads(var16.longValue());
-                     var14 = var15.getValue((PointerType)var4.get(MacDisks.CFKey.READ_BYTES));
-                     var16.setPointer(var14);
-                     var0.setReadBytes(var16.longValue());
-                     var14 = var15.getValue((PointerType)var4.get(MacDisks.CFKey.WRITE_OPS));
-                     var16.setPointer(var14);
-                     var0.setWrites(var16.longValue());
-                     var14 = var15.getValue((PointerType)var4.get(MacDisks.CFKey.WRITE_BYTES));
-                     var16.setPointer(var14);
-                     var0.setWriteBytes(var16.longValue());
-                     var14 = var15.getValue((PointerType)var4.get(MacDisks.CFKey.READ_TIME));
-                     var16.setPointer(var14);
-                     long var17 = var16.longValue();
-                     var14 = var15.getValue((PointerType)var4.get(MacDisks.CFKey.WRITE_TIME));
-                     var16.setPointer(var14);
-                     var17 += var16.longValue();
-                     var0.setTransferTime(var17 / 1000000L);
-                     var13.release();
+      String string = diskStore.getName();
+      CFMutableDictionaryRef cfMutableDictionaryRef = IOKitUtil.getBSDNameMatchingDict(string);
+      if (cfMutableDictionaryRef != null) {
+         IOIterator ioIterator = IOKitUtil.getMatchingServices(cfMutableDictionaryRef);
+         if (ioIterator != null) {
+            IORegistryEntry ioRegistryEntry = ioIterator.next();
+            if (ioRegistryEntry != null) {
+               if (ioRegistryEntry.conformsTo("IOMedia")) {
+                  IORegistryEntry ioRegistryEntry2 = ioRegistryEntry.getParentEntry("IOService");
+                  if (ioRegistryEntry2 != null && ioRegistryEntry2.conformsTo("IOBlockStorageDriver")) {
+                     CFMutableDictionaryRef cfMutableDictionaryRef2 = ioRegistryEntry2.createCFProperties();
+                     Pointer pointer = cfMutableDictionaryRef2.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.STATISTICS));
+                     CFDictionaryRef cfDictionaryRef = new CFDictionaryRef(pointer);
+                     diskStore.setTimeStamp(System.currentTimeMillis());
+                     pointer = cfDictionaryRef.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.READ_OPS));
+                     CFNumberRef cfNumberRef = new CFNumberRef(pointer);
+                     diskStore.setReads(cfNumberRef.longValue());
+                     pointer = cfDictionaryRef.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.READ_BYTES));
+                     cfNumberRef.setPointer(pointer);
+                     diskStore.setReadBytes(cfNumberRef.longValue());
+                     pointer = cfDictionaryRef.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.WRITE_OPS));
+                     cfNumberRef.setPointer(pointer);
+                     diskStore.setWrites(cfNumberRef.longValue());
+                     pointer = cfDictionaryRef.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.WRITE_BYTES));
+                     cfNumberRef.setPointer(pointer);
+                     diskStore.setWriteBytes(cfNumberRef.longValue());
+                     pointer = cfDictionaryRef.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.READ_TIME));
+                     cfNumberRef.setPointer(pointer);
+                     long l = cfNumberRef.longValue();
+                     pointer = cfDictionaryRef.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.WRITE_TIME));
+                     cfNumberRef.setPointer(pointer);
+                     l += cfNumberRef.longValue();
+                     diskStore.setTransferTime(l / 1000000L);
+                     cfMutableDictionaryRef2.release();
                   }
 
-                  ArrayList var30 = new ArrayList();
-                  CFMutableDictionaryRef var37 = var11.createCFProperties();
-                  Pointer var38 = var37.getValue((PointerType)var4.get(MacDisks.CFKey.BSD_UNIT));
-                  CFNumberRef var42 = new CFNumberRef(var38);
-                  var38 = var37.getValue((PointerType)var4.get(MacDisks.CFKey.LEAF));
-                  CFBooleanRef var44 = new CFBooleanRef(var38);
-                  CFMutableDictionaryRef var18 = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
-                  var18.setValue((PointerType)var4.get(MacDisks.CFKey.BSD_UNIT), var42);
-                  var18.setValue((PointerType)var4.get(MacDisks.CFKey.WHOLE), var44);
-                  var9 = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
-                  var9.setValue((PointerType)var4.get(MacDisks.CFKey.IO_PROPERTY_MATCH), var18);
-                  IOIterator var19 = IOKitUtil.getMatchingServices(var9);
-                  var37.release();
-                  var18.release();
-                  if (var19 != null) {
-                     for (IORegistryEntry var20 = IOKit.INSTANCE.IOIteratorNext(var19); var20 != null; var20 = IOKit.INSTANCE.IOIteratorNext(var19)) {
-                        String var21 = var20.getStringProperty("BSD Name");
-                        String var22 = var21;
-                        String var23 = "";
-                        DADiskRef var24 = DA.DADiskCreateFromBSDName(CF.CFAllocatorGetDefault(), var1, var21);
-                        if (var24 != null) {
-                           CFDictionaryRef var25 = DA.DADiskCopyDescription(var24);
-                           if (var25 != null) {
-                              var38 = var25.getValue((PointerType)var4.get(MacDisks.CFKey.DA_MEDIA_NAME));
-                              CFStringRef var26 = new CFStringRef(var38);
-                              var23 = var26.stringValue();
-                              if (var23 == null) {
-                                 var23 = "unknown";
+                  ArrayList arrayList = new ArrayList();
+                  CFMutableDictionaryRef cfMutableDictionaryRef3 = ioRegistryEntry.createCFProperties();
+                  Pointer pointer2 = cfMutableDictionaryRef3.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.BSD_UNIT));
+                  CFNumberRef cfNumberRef2 = new CFNumberRef(pointer2);
+                  pointer2 = cfMutableDictionaryRef3.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.LEAF));
+                  CFBooleanRef cfBooleanRef = new CFBooleanRef(pointer2);
+                  CFMutableDictionaryRef cfMutableDictionaryRef4 = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
+                  cfMutableDictionaryRef4.setValue((PointerType)cfKeyMap.get(MacDisks.CFKey.BSD_UNIT), cfNumberRef2);
+                  cfMutableDictionaryRef4.setValue((PointerType)cfKeyMap.get(MacDisks.CFKey.WHOLE), cfBooleanRef);
+                  cfMutableDictionaryRef = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
+                  cfMutableDictionaryRef.setValue((PointerType)cfKeyMap.get(MacDisks.CFKey.IO_PROPERTY_MATCH), cfMutableDictionaryRef4);
+                  IOIterator ioIterator2 = IOKitUtil.getMatchingServices(cfMutableDictionaryRef);
+                  cfMutableDictionaryRef3.release();
+                  cfMutableDictionaryRef4.release();
+                  if (ioIterator2 != null) {
+                     for (IORegistryEntry ioRegistryEntry3 = IOKit.INSTANCE.IOIteratorNext(ioIterator2); ioRegistryEntry3 != null; ioRegistryEntry3 = IOKit.INSTANCE.IOIteratorNext(ioIterator2)) {
+                        String string2 = ioRegistryEntry3.getStringProperty("BSD Name");
+                        String string3 = string2;
+                        String string4 = "";
+                        DADiskRef daDiskRef = DA.DADiskCreateFromBSDName(CF.CFAllocatorGetDefault(), session, string2);
+                        if (daDiskRef != null) {
+                           CFDictionaryRef cfDictionaryRef2 = DA.DADiskCopyDescription(daDiskRef);
+                           if (cfDictionaryRef2 != null) {
+                              pointer2 = cfDictionaryRef2.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.DA_MEDIA_NAME));
+                              CFStringRef cfStringRef = new CFStringRef(pointer2);
+                              string4 = cfStringRef.stringValue();
+                              if (string4 == null) {
+                                 string4 = "unknown";
                               }
 
-                              var38 = var25.getValue((PointerType)var4.get(MacDisks.CFKey.DA_VOLUME_NAME));
-                              if (var38 == null) {
-                                 var22 = var23;
+                              pointer2 = cfDictionaryRef2.getValue((PointerType)cfKeyMap.get(MacDisks.CFKey.DA_VOLUME_NAME));
+                              if (pointer2 == null) {
+                                 string3 = string4;
                               } else {
-                                 var26.setPointer(var38);
-                                 var22 = var26.stringValue();
+                                 cfStringRef.setPointer(pointer2);
+                                 string3 = cfStringRef.stringValue();
                               }
 
-                              var25.release();
+                              cfDictionaryRef2.release();
                            }
 
-                           var24.release();
+                           daDiskRef.release();
                         }
 
-                        String var45;
-                        if (var3.containsKey(var21)) {
-                           var45 = "Logical Volume: " + (String)var3.get(var21);
+                        String string5;
+                        if (logicalVolumeMap.containsKey(string2)) {
+                           string5 = "Logical Volume: " + (String)logicalVolumeMap.get(string2);
                         } else {
-                           var45 = var2.getOrDefault(var21, "");
+                           string5 = mountPointMap.getOrDefault(string2, "");
                         }
 
-                        Long var46 = var20.getLongProperty("Size");
-                        Integer var27 = var20.getIntegerProperty("BSD Major");
-                        Integer var28 = var20.getIntegerProperty("BSD Minor");
-                        var30.add(
+                        Long long2 = ioRegistryEntry3.getLongProperty("Size");
+                        Integer integer = ioRegistryEntry3.getIntegerProperty("BSD Major");
+                        Integer integer2 = ioRegistryEntry3.getIntegerProperty("BSD Minor");
+                        arrayList.add(
                            new HWPartition(
-                              var21,
-                              var22,
-                              var23,
-                              var20.getStringProperty("UUID"),
-                              var46 == null ? 0L : var46,
-                              var27 == null ? 0 : var27,
-                              var28 == null ? 0 : var28,
-                              var45
+                              string2,
+                              string3,
+                              string4,
+                              ioRegistryEntry3.getStringProperty("UUID"),
+                              long2 == null ? 0L : long2,
+                              integer == null ? 0 : integer,
+                              integer2 == null ? 0 : integer2,
+                              string5
                            )
                         );
-                        var20.release();
+                        ioRegistryEntry3.release();
                      }
 
-                     var19.release();
+                     ioIterator2.release();
                   }
 
-                  Collections.sort(var30);
-                  var0.setPartitions((oshi.hardware.HWPartition[])(var30.toArray(new HWPartition[0])));
-                  if (var12 != null) {
-                     var12.release();
+                  Collections.sort(arrayList);
+                  diskStore.setPartitions((oshi.hardware.HWPartition[])(arrayList.toArray(new HWPartition[0])));
+                  if (ioRegistryEntry2 != null) {
+                     ioRegistryEntry2.release();
                   }
                }
 
-               var11.release();
+               ioRegistryEntry.release();
             }
 
-            var10.release();
+            ioIterator.release();
             return true;
          }
       }
@@ -224,123 +228,123 @@ public final class MacDisks {
       return false;
    }
 
-   public static boolean updateDiskStats(HWDiskStore var0) {
-      DASessionRef var4 = DA.DASessionCreate(CF.CFAllocatorGetDefault());
-      if (var4 == null) {
+   public static boolean updateDiskStats(HWDiskStore diskStore) {
+      DASessionRef daSessionRef = DA.DASessionCreate(CF.CFAllocatorGetDefault());
+      if (daSessionRef == null) {
          return false;
       }
 
-      Map var5 = mapCFKeys();
-      boolean var6 = updateDiskStats(var0, var4, queryMountPointMap(), queryLogicalVolumeMap(), var5);
-      var4.release();
+      Map map = mapCFKeys();
+      boolean bl = updateDiskStats(diskStore, daSessionRef, queryMountPointMap(), queryLogicalVolumeMap(), map);
+      daSessionRef.release();
 
-      for (Object var8$raw : var5.values()) {
-         CFTypeRef var8 = (CFTypeRef)var8$raw;
-         var8.release();
+      for (Object object : map.values()) {
+         CFTypeRef cfTypeRef = (CFTypeRef)object;
+         cfTypeRef.release();
       }
 
-      return var6;
+      return bl;
    }
 
    public static HWDiskStore[] getDisks() {
-      Map var3 = queryMountPointMap();
-      Map var4 = queryLogicalVolumeMap();
-      Map var5 = mapCFKeys();
-      ArrayList var6 = new ArrayList();
-      DASessionRef var7 = DA.DASessionCreate(CF.CFAllocatorGetDefault());
-      if (var7 == null) {
+      Map map = queryMountPointMap();
+      Map map2 = queryLogicalVolumeMap();
+      Map map3 = mapCFKeys();
+      ArrayList arrayList = new ArrayList();
+      DASessionRef daSessionRef = DA.DASessionCreate(CF.CFAllocatorGetDefault());
+      if (daSessionRef == null) {
          return new HWDiskStore[0];
       }
 
-      ArrayList var8 = new ArrayList();
-      IOIterator var9 = IOKitUtil.getMatchingServices("IOMedia");
-      if (var9 != null) {
-         for (IORegistryEntry var10 = var9.next(); var10 != null; var10 = var9.next()) {
-            Boolean var11 = var10.getBooleanProperty("Whole");
-            if (var11 != null && var11) {
-               DADiskRef var12 = DA.DADiskCreateFromIOMedia(CF.CFAllocatorGetDefault(), var7, var10);
-               var8.add(DA.DADiskGetBSDName(var12));
-               var12.release();
+      ArrayList arrayList2 = new ArrayList();
+      IOIterator ioIterator = IOKitUtil.getMatchingServices("IOMedia");
+      if (ioIterator != null) {
+         for (IORegistryEntry ioRegistryEntry = ioIterator.next(); ioRegistryEntry != null; ioRegistryEntry = ioIterator.next()) {
+            Boolean boolean2 = ioRegistryEntry.getBooleanProperty("Whole");
+            if (boolean2 != null && boolean2) {
+               DADiskRef daDiskRef = DA.DADiskCreateFromIOMedia(CF.CFAllocatorGetDefault(), daSessionRef, ioRegistryEntry);
+               arrayList2.add(DA.DADiskGetBSDName(daDiskRef));
+               daDiskRef.release();
             }
 
-            var10.release();
+            ioRegistryEntry.release();
          }
 
-         var9.release();
+         ioIterator.release();
       }
 
-      for (Object var29$raw : var8) {
-         String var29 = (String)var29$raw;
-         String var31 = "";
-         String var13 = "";
-         long var14 = 0L;
-         String var16 = "/dev/" + var29;
-         DADiskRef var17 = DA.DADiskCreateFromBSDName(CF.CFAllocatorGetDefault(), var7, var16);
-         if (var17 != null) {
-            CFDictionaryRef var18 = DA.DADiskCopyDescription(var17);
-            if (var18 != null) {
-               Pointer var19 = var18.getValue((PointerType)var5.get(MacDisks.CFKey.DA_DEVICE_MODEL));
-               CFStringRef var20 = new CFStringRef(var19);
-               var31 = var20.stringValue();
-               if (var31 == null) {
-                  var31 = "unknown";
+      for (Object object : arrayList2) {
+         String string = (String)object;
+         String string2 = "";
+         String string3 = "";
+         long l = 0L;
+         String string4 = "/dev/" + string;
+         DADiskRef daDiskRef2 = DA.DADiskCreateFromBSDName(CF.CFAllocatorGetDefault(), daSessionRef, string4);
+         if (daDiskRef2 != null) {
+            CFDictionaryRef cfDictionaryRef = DA.DADiskCopyDescription(daDiskRef2);
+            if (cfDictionaryRef != null) {
+               Pointer pointer = cfDictionaryRef.getValue((PointerType)map3.get(MacDisks.CFKey.DA_DEVICE_MODEL));
+               CFStringRef cfStringRef = new CFStringRef(pointer);
+               string2 = cfStringRef.stringValue();
+               if (string2 == null) {
+                  string2 = "unknown";
                }
 
-               var19 = var18.getValue((PointerType)var5.get(MacDisks.CFKey.DA_MEDIA_SIZE));
-               CFNumberRef var21 = new CFNumberRef(var19);
-               var14 = var21.longValue();
-               var18.release();
-               if (!"Disk Image".equals(var31)) {
-                  CFStringRef var22 = CFStringRef.createCFString(var31);
-                  CFMutableDictionaryRef var23 = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
-                  var23.setValue((PointerType)var5.get(MacDisks.CFKey.MODEL), var22);
-                  CFMutableDictionaryRef var24 = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
-                  var24.setValue((PointerType)var5.get(MacDisks.CFKey.IO_PROPERTY_MATCH), var23);
-                  IOIterator var25 = IOKitUtil.getMatchingServices(var24);
-                  var22.release();
-                  var23.release();
-                  if (var25 != null) {
-                     for (IORegistryEntry var26 = var25.next(); var26 != null; var26 = var25.next()) {
-                        var13 = var26.getStringProperty("Serial Number");
-                        var26.release();
-                        if (var13 != null) {
+               pointer = cfDictionaryRef.getValue((PointerType)map3.get(MacDisks.CFKey.DA_MEDIA_SIZE));
+               CFNumberRef cfNumberRef = new CFNumberRef(pointer);
+               l = cfNumberRef.longValue();
+               cfDictionaryRef.release();
+               if (!"Disk Image".equals(string2)) {
+                  CFStringRef cfStringRef2 = CFStringRef.createCFString(string2);
+                  CFMutableDictionaryRef cfMutableDictionaryRef = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
+                  cfMutableDictionaryRef.setValue((PointerType)map3.get(MacDisks.CFKey.MODEL), cfStringRef2);
+                  CFMutableDictionaryRef cfMutableDictionaryRef2 = CF.CFDictionaryCreateMutable(CF.CFAllocatorGetDefault(), new CFIndex(0L), null, null);
+                  cfMutableDictionaryRef2.setValue((PointerType)map3.get(MacDisks.CFKey.IO_PROPERTY_MATCH), cfMutableDictionaryRef);
+                  IOIterator ioIterator2 = IOKitUtil.getMatchingServices(cfMutableDictionaryRef2);
+                  cfStringRef2.release();
+                  cfMutableDictionaryRef.release();
+                  if (ioIterator2 != null) {
+                     for (IORegistryEntry ioRegistryEntry2 = ioIterator2.next(); ioRegistryEntry2 != null; ioRegistryEntry2 = ioIterator2.next()) {
+                        string3 = ioRegistryEntry2.getStringProperty("Serial Number");
+                        ioRegistryEntry2.release();
+                        if (string3 != null) {
                            break;
                         }
 
-                        var26.release();
+                        ioRegistryEntry2.release();
                      }
 
-                     var25.release();
+                     ioIterator2.release();
                   }
 
-                  if (var13 == null) {
-                     var13 = "";
+                  if (string3 == null) {
+                     string3 = "";
                   }
                }
             }
 
-            var17.release();
-            if (var14 > 0L) {
-               HWDiskStore var33 = new HWDiskStore();
-               var33.setName(var29);
-               var33.setModel(var31.trim());
-               var33.setSerial(var13.trim());
-               var33.setSize(var14);
-               updateDiskStats(var33, var7, var3, var4, var5);
-               var6.add(var33);
+            daDiskRef2.release();
+            if (l > 0L) {
+               HWDiskStore hwDiskStore = new HWDiskStore();
+               hwDiskStore.setName(string);
+               hwDiskStore.setModel(string2.trim());
+               hwDiskStore.setSerial(string3.trim());
+               hwDiskStore.setSize(l);
+               updateDiskStats(hwDiskStore, daSessionRef, map, map2, map3);
+               arrayList.add(hwDiskStore);
             }
          }
       }
 
-      var7.release();
+      daSessionRef.release();
 
-      for (Object var30$raw : var5.values()) {
-         CFTypeRef var30 = (CFTypeRef)var30$raw;
-         var30.release();
+      for (Object object2 : map3.values()) {
+         CFTypeRef cfTypeRef = (CFTypeRef)object2;
+         cfTypeRef.release();
       }
 
-      Collections.sort(var6);
-      return (oshi.hardware.HWDiskStore[])(var6.toArray(new HWDiskStore[0]));
+      Collections.sort(arrayList);
+      return (oshi.hardware.HWDiskStore[])(arrayList.toArray(new HWDiskStore[0]));
    }
 
    private enum CFKey {
@@ -363,8 +367,8 @@ public final class MacDisks {
 
       private final String key;
 
-      CFKey(String var3) {
-         this.key = var3;
+      CFKey(String key) {
+         this.key = key;
       }
 
       public String getKey() {

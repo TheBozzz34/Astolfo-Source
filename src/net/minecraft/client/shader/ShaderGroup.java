@@ -38,125 +38,125 @@ public class ShaderGroup {
    private float field_148037_k;
    private static final long a = 111075183169828L;
 
-   public ShaderGroup(TextureManager var1, IResourceManager var2, Framebuffer var3, ResourceLocation var4) throws JsonException, IOException, JsonSyntaxException {
-      this.resourceManager = var2;
-      this.mainFramebuffer = var3;
+   public ShaderGroup(TextureManager textureManager, IResourceManager iResourceManager, Framebuffer framebuffer, ResourceLocation resourceLocation) throws JsonException, IOException, JsonSyntaxException {
+      this.resourceManager = iResourceManager;
+      this.mainFramebuffer = framebuffer;
       this.field_148036_j = 0.0F;
       this.field_148037_k = 0.0F;
-      this.mainFramebufferWidth = var3.framebufferWidth;
-      this.mainFramebufferHeight = var3.framebufferHeight;
-      this.shaderGroupName = var4.toString();
+      this.mainFramebufferWidth = framebuffer.framebufferWidth;
+      this.mainFramebufferHeight = framebuffer.framebufferHeight;
+      this.shaderGroupName = resourceLocation.toString();
       this.resetProjectionMatrix();
-      this.parseGroup(var1, var4);
+      this.parseGroup(textureManager, resourceLocation);
    }
 
-   public void parseGroup(TextureManager var1, ResourceLocation var2) throws JsonException, IOException, JsonSyntaxException {
-      JsonParser var6 = new JsonParser();
-      InputStream var7 = null;
+   public void parseGroup(TextureManager textureManager, ResourceLocation resourceLocation) throws JsonException, IOException, JsonSyntaxException {
+      JsonParser jsonParser = new JsonParser();
+      InputStream inputStream = null;
 
       try {
-         IResource var8 = this.resourceManager.getResource(var2);
-         var7 = var8.getInputStream();
-         JsonObject var25 = var6.parse(IOUtils.toString(var7, Charsets.UTF_8)).getAsJsonObject();
-         if (JsonUtils.isJsonArray(var25, "targets")) {
-            JsonArray var10 = var25.getAsJsonArray("targets");
-            int var11 = 0;
+         IResource iResource = this.resourceManager.getResource(resourceLocation);
+         inputStream = iResource.getInputStream();
+         JsonObject jsonObject = jsonParser.parse(IOUtils.toString(inputStream, Charsets.UTF_8)).getAsJsonObject();
+         if (JsonUtils.isJsonArray(jsonObject, "targets")) {
+            JsonArray jsonArray = jsonObject.getAsJsonArray("targets");
+            int i = 0;
 
-            for (JsonElement var13 : var10) {
+            for (JsonElement jsonElement : jsonArray) {
                try {
-                  this.initTarget(var13);
-               } catch (Exception var22) {
-                  JsonException var15 = JsonException.func_151379_a(var22);
-                  var15.func_151380_a("targets[" + var11 + "]");
-                  throw var15;
+                  this.initTarget(jsonElement);
+               } catch (Exception exception) {
+                  JsonException jsonException = JsonException.func_151379_a(exception);
+                  jsonException.func_151380_a("targets[" + i + "]");
+                  throw jsonException;
                }
 
-               var11++;
+               i++;
             }
          }
 
-         if (JsonUtils.isJsonArray(var25, "passes")) {
-            JsonArray var26 = var25.getAsJsonArray("passes");
-            int var27 = 0;
+         if (JsonUtils.isJsonArray(jsonObject, "passes")) {
+            JsonArray jsonArray2 = jsonObject.getAsJsonArray("passes");
+            int j = 0;
 
-            for (JsonElement var29 : var26) {
+            for (JsonElement jsonElement2 : jsonArray2) {
                try {
-                  this.parsePass(var1, var29);
-               } catch (Exception var21) {
-                  JsonException var30 = JsonException.func_151379_a(var21);
-                  var30.func_151380_a("passes[" + var27 + "]");
-                  throw var30;
+                  this.parsePass(textureManager, jsonElement2);
+               } catch (Exception exception2) {
+                  JsonException jsonException2 = JsonException.func_151379_a(exception2);
+                  jsonException2.func_151380_a("passes[" + j + "]");
+                  throw jsonException2;
                }
 
-               var27++;
+               j++;
             }
          }
-      } catch (Exception var23) {
-         JsonException var9 = JsonException.func_151379_a(var23);
-         var9.func_151381_b(var2.getResourcePath());
-         throw var9;
+      } catch (Exception exception3) {
+         JsonException jsonException3 = JsonException.func_151379_a(exception3);
+         jsonException3.func_151381_b(resourceLocation.getResourcePath());
+         throw jsonException3;
       } finally {
-         IOUtils.closeQuietly(var7);
+         IOUtils.closeQuietly(inputStream);
       }
    }
 
-   private void initTarget(JsonElement var1) throws JsonException {
-      if (JsonUtils.isString(var1)) {
-         this.addFramebuffer(var1.getAsString(), this.mainFramebufferWidth, this.mainFramebufferHeight);
+   private void initTarget(JsonElement jsonElement) throws JsonException {
+      if (JsonUtils.isString(jsonElement)) {
+         this.addFramebuffer(jsonElement.getAsString(), this.mainFramebufferWidth, this.mainFramebufferHeight);
       } else {
-         JsonObject var5 = JsonUtils.getJsonObject(var1, "target");
-         String var6 = JsonUtils.getString(var5, "name");
-         int var7 = JsonUtils.getInt(var5, "width", this.mainFramebufferWidth);
-         int var8 = JsonUtils.getInt(var5, "height", this.mainFramebufferHeight);
-         if (this.mapFramebuffers.containsKey(var6)) {
-            throw new JsonException(var6 + " is already defined");
+         JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "target");
+         String string = JsonUtils.getString(jsonObject, "name");
+         int i = JsonUtils.getInt(jsonObject, "width", this.mainFramebufferWidth);
+         int j = JsonUtils.getInt(jsonObject, "height", this.mainFramebufferHeight);
+         if (this.mapFramebuffers.containsKey(string)) {
+            throw new JsonException(string + " is already defined");
          }
 
-         this.addFramebuffer(var6, var7, var8);
+         this.addFramebuffer(string, i, j);
       }
    }
 
-   private void parsePass(TextureManager var1, JsonElement var2) throws JsonException, IOException {
-      JsonObject var6 = JsonUtils.getJsonObject(var2, "pass");
-      String var7 = JsonUtils.getString(var6, "name");
-      String var8 = JsonUtils.getString(var6, "intarget");
-      String var9 = JsonUtils.getString(var6, "outtarget");
-      Framebuffer var10 = this.getFramebuffer(var8);
-      Framebuffer var11 = this.getFramebuffer(var9);
-      if (var10 == null) {
-         throw new JsonException("Input target '" + var8 + "' does not exist");
+   private void parsePass(TextureManager textureManager, JsonElement jsonElement) throws JsonException, IOException {
+      JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "pass");
+      String string = JsonUtils.getString(jsonObject, "name");
+      String string2 = JsonUtils.getString(jsonObject, "intarget");
+      String string3 = JsonUtils.getString(jsonObject, "outtarget");
+      Framebuffer framebuffer = this.getFramebuffer(string2);
+      Framebuffer framebuffer2 = this.getFramebuffer(string3);
+      if (framebuffer == null) {
+         throw new JsonException("Input target '" + string2 + "' does not exist");
       }
 
-      if (var11 == null) {
-         throw new JsonException("Output target '" + var9 + "' does not exist");
+      if (framebuffer2 == null) {
+         throw new JsonException("Output target '" + string3 + "' does not exist");
       }
 
-      Shader var12 = this.addShader(var7, var10, var11);
-      JsonArray var13 = JsonUtils.getJsonArray(var6, "auxtargets", (JsonArray)null);
-      if (var13 != null) {
-         int var14 = 0;
+      Shader shader = this.addShader(string, framebuffer, framebuffer2);
+      JsonArray jsonArray = JsonUtils.getJsonArray(jsonObject, "auxtargets", (JsonArray)null);
+      if (jsonArray != null) {
+         int i = 0;
 
-         for (JsonElement var16 : var13) {
+         for (JsonElement jsonElement2 : jsonArray) {
             try {
-               JsonObject var17 = JsonUtils.getJsonObject(var16, "auxtarget");
-               String var33 = JsonUtils.getString(var17, "name");
-               String var19 = JsonUtils.getString(var17, "id");
-               Framebuffer var20 = this.getFramebuffer(var19);
-               if (var20 == null) {
-                  ResourceLocation var21 = new ResourceLocation("textures/effect/" + var19 + ".png");
+               JsonObject jsonObject2 = JsonUtils.getJsonObject(jsonElement2, "auxtarget");
+               String string4 = JsonUtils.getString(jsonObject2, "name");
+               String string5 = JsonUtils.getString(jsonObject2, "id");
+               Framebuffer framebuffer3 = this.getFramebuffer(string5);
+               if (framebuffer3 == null) {
+                  ResourceLocation resourceLocation = new ResourceLocation("textures/effect/" + string5 + ".png");
 
                   try {
-                     this.resourceManager.getResource(var21);
-                  } catch (FileNotFoundException var27) {
-                     throw new JsonException("Render target or texture '" + var19 + "' does not exist");
+                     this.resourceManager.getResource(resourceLocation);
+                  } catch (FileNotFoundException fileNotFoundException) {
+                     throw new JsonException("Render target or texture '" + string5 + "' does not exist");
                   }
 
-                  var1.bindTexture(var21);
-                  ITextureObject var22 = var1.getTexture(var21);
-                  int var23 = JsonUtils.getInt(var17, "width");
-                  int var24 = JsonUtils.getInt(var17, "height");
-                  boolean var25 = JsonUtils.getBoolean(var17, "bilinear");
-                  if (var25) {
+                  textureManager.bindTexture(resourceLocation);
+                  ITextureObject iTextureObject = textureManager.getTexture(resourceLocation);
+                  int j = JsonUtils.getInt(jsonObject2, "width");
+                  int k = JsonUtils.getInt(jsonObject2, "height");
+                  boolean bl = JsonUtils.getBoolean(jsonObject2, "bilinear");
+                  if (bl) {
                      GL11.glTexParameteri(3553, 10241, 9729);
                      GL11.glTexParameteri(3553, 10240, 9729);
                   } else {
@@ -164,108 +164,108 @@ public class ShaderGroup {
                      GL11.glTexParameteri(3553, 10240, 9728);
                   }
 
-                  var12.addAuxFramebuffer(var33, var22.getGlTextureId(), var23, var24);
+                  shader.addAuxFramebuffer(string4, iTextureObject.getGlTextureId(), j, k);
                } else {
-                  var12.addAuxFramebuffer(var33, var20, var20.framebufferTextureWidth, var20.framebufferTextureHeight);
+                  shader.addAuxFramebuffer(string4, framebuffer3, framebuffer3.framebufferTextureWidth, framebuffer3.framebufferTextureHeight);
                }
-            } catch (Exception var28) {
-               JsonException var18 = JsonException.func_151379_a(var28);
-               var18.func_151380_a("auxtargets[" + var14 + "]");
-               throw var18;
+            } catch (Exception exception) {
+               JsonException jsonException = JsonException.func_151379_a(exception);
+               jsonException.func_151380_a("auxtargets[" + i + "]");
+               throw jsonException;
             }
 
-            var14++;
+            i++;
          }
       }
 
-      JsonArray var29 = JsonUtils.getJsonArray(var6, "uniforms", (JsonArray)null);
-      if (var29 != null) {
-         int var30 = 0;
+      JsonArray jsonArray2 = JsonUtils.getJsonArray(jsonObject, "uniforms", (JsonArray)null);
+      if (jsonArray2 != null) {
+         int l = 0;
 
-         for (JsonElement var32 : var29) {
+         for (JsonElement jsonElement3 : jsonArray2) {
             try {
-               this.initUniform(var32);
-            } catch (Exception var26) {
-               JsonException var34 = JsonException.func_151379_a(var26);
-               var34.func_151380_a("uniforms[" + var30 + "]");
-               throw var34;
+               this.initUniform(jsonElement3);
+            } catch (Exception exception2) {
+               JsonException jsonException2 = JsonException.func_151379_a(exception2);
+               jsonException2.func_151380_a("uniforms[" + l + "]");
+               throw jsonException2;
             }
 
-            var30++;
+            l++;
          }
       }
    }
 
-   private void initUniform(JsonElement var1) throws JsonException {
-      JsonObject var5 = JsonUtils.getJsonObject(var1, "uniform");
-      String var6 = JsonUtils.getString(var5, "name");
-      ShaderUniform var7 = this.listShaders.get(this.listShaders.size() - 1).getShaderManager().getShaderUniform(var6);
-      if (var7 == null) {
-         throw new JsonException("Uniform '" + var6 + "' does not exist");
+   private void initUniform(JsonElement jsonElement) throws JsonException {
+      JsonObject jsonObject = JsonUtils.getJsonObject(jsonElement, "uniform");
+      String string = JsonUtils.getString(jsonObject, "name");
+      ShaderUniform shaderUniform = this.listShaders.get(this.listShaders.size() - 1).getShaderManager().getShaderUniform(string);
+      if (shaderUniform == null) {
+         throw new JsonException("Uniform '" + string + "' does not exist");
       }
 
-      float[] var8 = new float[4];
-      int var9 = 0;
+      float[] floats = new float[4];
+      int i = 0;
 
-      for (JsonElement var11 : JsonUtils.getJsonArray(var5, "values")) {
+      for (JsonElement jsonElement2 : JsonUtils.getJsonArray(jsonObject, "values")) {
          try {
-            var8[var9] = JsonUtils.getFloat(var11, "value");
-         } catch (Exception var14) {
-            JsonException var13 = JsonException.func_151379_a(var14);
-            var13.func_151380_a("values[" + var9 + "]");
-            throw var13;
+            floats[i] = JsonUtils.getFloat(jsonElement2, "value");
+         } catch (Exception exception) {
+            JsonException jsonException = JsonException.func_151379_a(exception);
+            jsonException.func_151380_a("values[" + i + "]");
+            throw jsonException;
          }
 
-         var9++;
+         i++;
       }
 
-      switch (var9) {
+      switch (i) {
          case 0:
          default:
             break;
          case 1:
-            var7.set(var8[0]);
+            shaderUniform.set(floats[0]);
             break;
          case 2:
-            var7.set(var8[0], var8[1]);
+            shaderUniform.set(floats[0], floats[1]);
             break;
          case 3:
-            var7.set(var8[0], var8[1], var8[2]);
+            shaderUniform.set(floats[0], floats[1], floats[2]);
             break;
          case 4:
-            var7.set(var8[0], var8[1], var8[2], var8[3]);
+            shaderUniform.set(floats[0], floats[1], floats[2], floats[3]);
       }
    }
 
-   public Framebuffer getFramebufferRaw(String var1) {
-      return this.mapFramebuffers.get(var1);
+   public Framebuffer getFramebufferRaw(String string) {
+      return this.mapFramebuffers.get(string);
    }
 
-   public void addFramebuffer(String var1, int var2, int var3) {
-      Framebuffer var7 = new Framebuffer(var2, var3, true);
-      var7.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
-      this.mapFramebuffers.put(var1, var7);
-      if (var2 == this.mainFramebufferWidth && var3 == this.mainFramebufferHeight) {
-         this.listFramebuffers.add(var7);
+   public void addFramebuffer(String string, int i, int j) {
+      Framebuffer framebuffer = new Framebuffer(i, j, true);
+      framebuffer.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
+      this.mapFramebuffers.put(string, framebuffer);
+      if (i == this.mainFramebufferWidth && j == this.mainFramebufferHeight) {
+         this.listFramebuffers.add(framebuffer);
       }
    }
 
    public void deleteShaderGroup() {
-      for (Framebuffer var5 : this.mapFramebuffers.values()) {
-         var5.deleteFramebuffer();
+      for (Framebuffer framebuffer : this.mapFramebuffers.values()) {
+         framebuffer.deleteFramebuffer();
       }
 
-      for (Shader var7 : this.listShaders) {
-         var7.deleteShader();
+      for (Shader shader : this.listShaders) {
+         shader.deleteShader();
       }
 
       this.listShaders.clear();
    }
 
-   public Shader addShader(String var1, Framebuffer var2, Framebuffer var3) throws JsonException, IOException {
-      Shader var4 = new Shader(this.resourceManager, var1, var2, var3);
-      this.listShaders.add(this.listShaders.size(), var4);
-      return var4;
+   public Shader addShader(String string, Framebuffer framebuffer, Framebuffer framebuffer2) throws JsonException, IOException {
+      Shader shader = new Shader(this.resourceManager, string, framebuffer, framebuffer2);
+      this.listShaders.add(this.listShaders.size(), shader);
+      return shader;
    }
 
    private void resetProjectionMatrix() {
@@ -280,55 +280,55 @@ public class ShaderGroup {
       this.projectionMatrix.m23 = -1.0001999F;
    }
 
-   public void createBindFramebuffers(int var1, int var2) {
+   public void createBindFramebuffers(int width, int height) {
       this.mainFramebufferWidth = this.mainFramebuffer.framebufferTextureWidth;
       this.mainFramebufferHeight = this.mainFramebuffer.framebufferTextureHeight;
       this.resetProjectionMatrix();
 
-      for (Shader var7 : this.listShaders) {
-         var7.setProjectionMatrix(this.projectionMatrix);
+      for (Shader shader : this.listShaders) {
+         shader.setProjectionMatrix(this.projectionMatrix);
       }
 
-      for (Framebuffer var9 : this.listFramebuffers) {
-         var9.createBindFramebuffer(var1, var2);
+      for (Framebuffer framebuffer : this.listFramebuffers) {
+         framebuffer.createBindFramebuffer(width, height);
       }
    }
 
-   public void t(float var1) {
-      if (var1 < this.field_148037_k) {
+   public void t(float f) {
+      if (f < this.field_148037_k) {
          this.field_148036_j = this.field_148036_j + (1.0F - this.field_148037_k);
-         this.field_148036_j += var1;
+         this.field_148036_j += f;
       } else {
-         this.field_148036_j = this.field_148036_j + (var1 - this.field_148037_k);
+         this.field_148036_j = this.field_148036_j + (f - this.field_148037_k);
       }
 
-      this.field_148037_k = var1;
+      this.field_148037_k = f;
 
       while (this.field_148036_j > 20.0F) {
          this.field_148036_j -= 20.0F;
       }
 
-      for (Shader var6 : this.listShaders) {
-         var6.loadShader(this.field_148036_j / 20.0F);
+      for (Shader shader : this.listShaders) {
+         shader.loadShader(this.field_148036_j / 20.0F);
       }
    }
 
-   public void o(float var1) {
-      if (var1 < this.field_148037_k) {
+   public void o(float f) {
+      if (f < this.field_148037_k) {
          this.field_148036_j = this.field_148036_j + (1.0F - this.field_148037_k);
-         this.field_148036_j += var1;
+         this.field_148036_j += f;
       } else {
-         this.field_148036_j = this.field_148036_j + (var1 - this.field_148037_k);
+         this.field_148036_j = this.field_148036_j + (f - this.field_148037_k);
       }
 
-      this.field_148037_k = var1;
+      this.field_148037_k = f;
 
       while (this.field_148036_j > 20.0F) {
          this.field_148036_j -= 20.0F;
       }
 
-      for (Shader var6 : this.listShaders) {
-         var6.Q(this.field_148036_j / 20.0F);
+      for (Shader shader : this.listShaders) {
+         shader.Q(this.field_148036_j / 20.0F);
       }
    }
 
@@ -336,8 +336,8 @@ public class ShaderGroup {
       return this.shaderGroupName;
    }
 
-   private Framebuffer getFramebuffer(String var1) {
-      return var1 == null ? null : (var1.equals("minecraft:main") ? this.mainFramebuffer : this.mapFramebuffers.get(var1));
+   private Framebuffer getFramebuffer(String string) {
+      return string == null ? null : (string.equals("minecraft:main") ? this.mainFramebuffer : this.mapFramebuffers.get(string));
    }
 
    public List<Shader> O() {

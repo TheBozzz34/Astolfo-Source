@@ -29,50 +29,50 @@ public class GuiButton extends Gui {
    public int t;
    private static final long b = 22795320404817L;
 
-   public GuiButton(int var1, int var2, int var3, String var4) {
-      this(var1, var2, var3, 200, 20, var4);
+   public GuiButton(int buttonId, int x, int y, String buttonText) {
+      this(buttonId, x, y, 200, 20, buttonText);
    }
 
-   public GuiButton(int var1, int var2, int var3, int var4, int var5, String var6) {
+   public GuiButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
       this.width = 200;
       this.height = 20;
       this.enabled = true;
       this.visible = true;
-      this.id = var1;
-      this.xPosition = var2;
-      this.yPosition = var3;
-      this.width = var4;
-      this.height = var5;
-      this.displayString = var6;
+      this.id = buttonId;
+      this.xPosition = x;
+      this.yPosition = y;
+      this.width = widthIn;
+      this.height = heightIn;
+      this.displayString = buttonText;
    }
 
-   public int getHoverState(boolean var1) {
-      byte var5 = 1;
+   public int getHoverState(boolean mouseOver) {
+      byte b = 1;
       if (!this.enabled) {
-         var5 = 0;
-      } else if (var1) {
-         var5 = 2;
+         b = 0;
+      } else if (mouseOver) {
+         b = 2;
       }
 
-      return var5;
+      return b;
    }
 
-   public void drawButton(Minecraft var1, int var2, int var3) {
-      long var4 = b ^ 78581708617997L;
-      long var6 = var4 ^ 113303742019696L;
+   public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+      long l = b ^ 78581708617997L;
+      long m = l ^ 113303742019696L;
       if (this.visible) {
          if (!q) {
-            int var9 = ARBShaderObjects.glCreateShaderObjectARB(35632);
-            ARBShaderObjects.glShaderSourceARB(var9, "#version 110\nuniform vec4 color;void main() { gl_FragColor = color;}");
-            ARBShaderObjects.glCompileShaderARB(var9);
-            System.err.println(ARBShaderObjects.glGetInfoLogARB(var9, 200));
-            ARBShaderObjects.glAttachObjectARB(B = ARBShaderObjects.glCreateProgramObjectARB(), var9);
+            int i = ARBShaderObjects.glCreateShaderObjectARB(35632);
+            ARBShaderObjects.glShaderSourceARB(i, "#version 110\nuniform vec4 color;void main() { gl_FragColor = color;}");
+            ARBShaderObjects.glCompileShaderARB(i);
+            System.err.println(ARBShaderObjects.glGetInfoLogARB(i, 200));
+            ARBShaderObjects.glAttachObjectARB(B = ARBShaderObjects.glCreateProgramObjectARB(), i);
             ARBShaderObjects.glLinkProgramARB(B);
             ARBShaderObjects.glValidateProgramARB(B);
             q = true;
          }
 
-         this.hovered = var2 >= this.xPosition && var3 >= this.yPosition && var2 < this.xPosition + this.width && var3 < this.yPosition + this.height;
+         this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
          GL11.glPushMatrix();
          GL11.glDisable(3553);
          drawRect(
@@ -91,11 +91,11 @@ public class GuiButton extends Gui {
          GL11.glEnable(3042);
          GL11.glBlendFunc(770, 771);
          GL11.glEnable(3008);
-         float var15 = var1.theWorld == null ? 0.1F : 0.01F;
+         float g = mc.theWorld == null ? 0.1F : 0.01F;
          if (this.hovered && this.f < 1.0F) {
-            this.f += var15;
+            this.f += g;
          } else if (this.f > 0.5F && !this.hovered) {
-            this.f -= var15;
+            this.f -= g;
          }
 
          if (this.f < 0.5F) {
@@ -107,9 +107,9 @@ public class GuiButton extends Gui {
          GL11.glDisable(2848);
          GL11.glLineWidth(1.0F);
          GL11.glHint(3154, 4352);
-         float var10 = Astolfo.INSTANCE.getColor().getRed() / 255.0F;
-         float var11 = Astolfo.INSTANCE.getColor().getGreen() / 255.0F;
-         float var12 = Astolfo.INSTANCE.getColor().getBlue() / 255.0F;
+         float h = Astolfo.INSTANCE.getColor().getRed() / 255.0F;
+         float f2 = Astolfo.INSTANCE.getColor().getGreen() / 255.0F;
+         float f3 = Astolfo.INSTANCE.getColor().getBlue() / 255.0F;
          ARBShaderObjects.glUseProgramObjectARB(B);
          if ((!this.hovered || !this.enabled) && (this.hovered || !this.enabled || !(this.f > 0.5F))) {
             if (this.enabled) {
@@ -118,12 +118,12 @@ public class GuiButton extends Gui {
                ARBShaderObjects.glUniform4fARB(p, 0.1F, 0.1F, 0.1F, this.f);
             }
          } else {
-            ARBShaderObjects.glUniform4fARB(p, var10, var11, var12, this.f);
+            ARBShaderObjects.glUniform4fARB(p, h, f2, f3, this.f);
          }
 
          p = ARBShaderObjects.glGetUniformLocationARB(B, "color");
          GL11.glBegin(2);
-         long var10000 = 1993990222346444441L ^ var4;
+         long l2 = 1993990222346444441L ^ l;
          GL11.glVertex2d(this.xPosition, this.yPosition);
          GL11.glVertex2d(this.xPosition + this.width, this.yPosition);
          GL11.glVertex2d(this.xPosition + this.width, this.yPosition + this.height);
@@ -133,50 +133,50 @@ public class GuiButton extends Gui {
          GL11.glEnable(3553);
          GL11.glDisable(3042);
          GL11.glPopMatrix();
-         this.mouseDragged(var1, var2, var3);
-         int var13 = this.n ? new Color(224, 224, 224, this.t).getRGB() : -2039584;
+         this.mouseDragged(mc, mouseX, mouseY);
+         int j = this.n ? new Color(224, 224, 224, this.t).getRGB() : -2039584;
          if (!this.enabled) {
-            var13 = -6250336;
+            j = -6250336;
          } else if (this.hovered) {
-            var13 = Astolfo.INSTANCE.getColorSetting().getValue().getRGB();
+            j = Astolfo.INSTANCE.getColorSetting().getValue().getRGB();
          }
 
-         String var14 = this.enabled ? this.displayString : EnumChatFormatting.ITALIC + this.displayString;
-         this.d(var1.fontRendererObj, var14, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, var13);
+         String string = this.enabled ? this.displayString : EnumChatFormatting.ITALIC + this.displayString;
+         this.d(mc.fontRendererObj, string, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
       }
    }
 
-   public void mouseDragged(Minecraft var1, int var2, int var3) {
+   public void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
    }
 
-   public void mouseReleased(int var1, int var2) {
+   public void mouseReleased(int mouseX, int mouseY) {
    }
 
-   public boolean mousePressed(Minecraft var1, int var2, int var3) {
+   public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
       return this.enabled
          && this.visible
-         && var2 >= this.xPosition
-         && var3 >= this.yPosition
-         && var2 < this.xPosition + this.width
-         && var3 < this.yPosition + this.height;
+         && mouseX >= this.xPosition
+         && mouseY >= this.yPosition
+         && mouseX < this.xPosition + this.width
+         && mouseY < this.yPosition + this.height;
    }
 
    public boolean isMouseOver() {
       return this.hovered;
    }
 
-   public void drawButtonForegroundLayer(int var1, int var2) {
+   public void drawButtonForegroundLayer(int mouseX, int mouseY) {
    }
 
-   public void playPressSound(SoundHandler var1) {
-      var1.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
+   public void playPressSound(SoundHandler soundHandlerIn) {
+      soundHandlerIn.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
    }
 
    public int getButtonWidth() {
       return this.width;
    }
 
-   public void setWidth(int var1) {
-      this.width = var1;
+   public void setWidth(int width) {
+      this.width = width;
    }
 }

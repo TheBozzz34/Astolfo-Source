@@ -11,8 +11,8 @@ public final class Timer extends ZeroArgFunction {
 
    @Override
    public LuaValue call() {
-      long var1 = a ^ 89263565533700L;
-      long var3 = var1 ^ 138864123580249L;
+      long l = a ^ 89263565533700L;
+      long m = l ^ 138864123580249L;
       return ClientAccess.client.getModuleManager().get(Scaffold.class).isEnabled()
             && GameUtil.isOnHypixel()
             && Scaffold.keepSprint.getValue()

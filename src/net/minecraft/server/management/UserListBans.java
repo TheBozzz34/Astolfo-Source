@@ -7,39 +7,39 @@ import java.io.File;
 public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
    private static final long a = 120848512167847L;
 
-   public UserListBans(File var1) {
-      super(var1);
+   public UserListBans(File bansFile) {
+      super(bansFile);
    }
 
    @Override
-   public UserListEntry<GameProfile> createEntry(JsonObject var1) {
-      return new UserListBansEntry(var1);
+   public UserListEntry<GameProfile> createEntry(JsonObject entryData) {
+      return new UserListBansEntry(entryData);
    }
 
-   public boolean isBanned(GameProfile var1) {
-      return this.hasEntry(var1);
+   public boolean isBanned(GameProfile profile) {
+      return this.hasEntry(profile);
    }
 
    @Override
    public String[] getKeys() {
-      String[] var4 = new String[this.getValues().size()];
-      int var5 = 0;
+      String[] strings = new String[this.getValues().size()];
+      int i = 0;
 
-      for (UserListBansEntry var7 : this.getValues().values()) {
-         var4[var5++] = var7.getValue().getName();
+      for (UserListBansEntry userListBansEntry : this.getValues().values()) {
+         strings[i++] = userListBansEntry.getValue().getName();
       }
 
-      return var4;
+      return strings;
    }
 
-   public String getObjectKey(GameProfile var1) {
-      return var1.getId().toString();
+   public String getObjectKey(GameProfile obj) {
+      return obj.getId().toString();
    }
 
-   public GameProfile isUsernameBanned(String var1) {
-      for (UserListBansEntry var6 : this.getValues().values()) {
-         if (var1.equalsIgnoreCase(var6.getValue().getName())) {
-            return var6.getValue();
+   public GameProfile isUsernameBanned(String username) {
+      for (UserListBansEntry userListBansEntry : this.getValues().values()) {
+         if (username.equalsIgnoreCase(userListBansEntry.getValue().getName())) {
+            return userListBansEntry.getValue();
          }
       }
 

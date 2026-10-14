@@ -27,56 +27,56 @@ public final class Announcer extends Module {
    private List<NetworkPlayerInfo> B = new CopyOnWriteArrayList<>();
    private int h;
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> {
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       this.h = 0;
       this.B.clear();
    };
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
-         List var5 = GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap());
-         var5.remove(mc.thePlayer.sendQueue.getPlayerInfo(mc.session.getUsername()));
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      if (updateEvent.getState() == EventState.PRE) {
+         List list = GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap());
+         list.remove(mc.thePlayer.sendQueue.getPlayerInfo(mc.session.getUsername()));
 
-         for (Object var7$raw : var5) {
-            NetworkPlayerInfo var7 = (NetworkPlayerInfo)var7$raw;
-            String var8 = this.m(var7);
+         for (Object object : list) {
+            NetworkPlayerInfo networkPlayerInfo = (NetworkPlayerInfo)object;
+            String string = this.m(networkPlayerInfo);
             if (this.h < 150) {
-               if (!this.B.contains(var7)) {
-                  this.B.add(var7);
+               if (!this.B.contains(networkPlayerInfo)) {
+                  this.B.add(networkPlayerInfo);
                }
-            } else if (this.join.getValue() && !this.B.contains(var7)) {
+            } else if (this.join.getValue() && !this.B.contains(networkPlayerInfo)) {
                if (this.f.hasElapsed(1000.0F)) {
-                  String var9 = this.j.get(RandomUtils.RANDOM.nextInt(this.j.size())).replace("{user}", var8);
-                  mc.thePlayer.sendChatMessage(var9);
+                  String string2 = this.j.get(RandomUtils.RANDOM.nextInt(this.j.size())).replace("{user}", string);
+                  mc.thePlayer.sendChatMessage(string2);
                   if (!this.skip.getValue()) {
-                     this.B.add(var7);
+                     this.B.add(networkPlayerInfo);
                   }
 
                   this.f.reset();
                }
 
                if (this.skip.getValue()) {
-                  this.B.add(var7);
+                  this.B.add(networkPlayerInfo);
                }
             }
          }
 
          if (this.leave.getValue()) {
-            for (NetworkPlayerInfo var11 : this.B) {
-               String var12 = this.m(var11);
-               if (!var5.contains(var11) && this.h > 150) {
+            for (NetworkPlayerInfo networkPlayerInfo2 : this.B) {
+               String string3 = this.m(networkPlayerInfo2);
+               if (!list.contains(networkPlayerInfo2) && this.h > 150) {
                   if (this.f.hasElapsed(1000.0F)) {
-                     String var13 = this.O.get(RandomUtils.RANDOM.nextInt(this.j.size())).replace("{user}", var12);
-                     mc.thePlayer.sendChatMessage(var13);
+                     String string4 = this.O.get(RandomUtils.RANDOM.nextInt(this.j.size())).replace("{user}", string3);
+                     mc.thePlayer.sendChatMessage(string4);
                      if (!this.skip.getValue()) {
-                        this.B.remove(var11);
+                        this.B.remove(networkPlayerInfo2);
                      }
 
                      this.f.reset();
                   }
 
                   if (this.skip.getValue()) {
-                     this.B.remove(var11);
+                     this.B.remove(networkPlayerInfo2);
                   }
                }
             }
@@ -87,8 +87,8 @@ public final class Announcer extends Module {
    };
    private static final long d = 85481621302117L;
 
-   public Announcer(Category var1) {
-      super(var1);
+   public Announcer(Category category) {
+      super(category);
       this.addSettings(this.join, this.leave, this.skip);
    }
 
@@ -105,9 +105,9 @@ public final class Announcer extends Module {
       super.onDisable();
    }
 
-   private String m(NetworkPlayerInfo var1) {
-      return var1.getDisplayName() != null
-         ? var1.getDisplayName().getFormattedText()
-         : ScorePlayerTeam.formatPlayerName(var1.getPlayerTeam(), var1.getGameProfile().getName());
+   private String m(NetworkPlayerInfo networkPlayerInfo) {
+      return networkPlayerInfo.getDisplayName() != null
+         ? networkPlayerInfo.getDisplayName().getFormattedText()
+         : ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());
    }
 }

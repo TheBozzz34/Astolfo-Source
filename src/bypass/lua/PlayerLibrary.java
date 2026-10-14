@@ -152,101 +152,101 @@ public class PlayerLibrary extends TwoArgFunction implements ClientAccess {
    private static final long ab = 32773497031164L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var7 = LuaValue.tableOf();
-      LuaTable var8 = LuaValue.tableOf();
-      var8.set("slot", Cd);
-      var8.set("item_information", v);
-      var8.set("get_item_stack", O);
-      var8.set("swap", u);
-      var8.set("click", X);
-      var8.set("drop", Ci);
-      var7.set("inventory", var8);
-      var7.set("jump", CU);
-      var7.set("click_mouse", W);
-      var7.set("right_click_mouse", L);
-      var7.set("message", CR);
-      var7.set("strafe", Y);
-      var7.set("position", K);
-      var7.set("camera_position", f);
-      var7.set("prev_position", t);
-      var7.set("motion", U);
-      var7.set("set_motion", l);
-      var7.set("set_position", m);
-      var7.set("set_sprinting", x);
-      var7.set("distance_to_entity", q);
-      var7.set("distance_to", s);
-      var7.set("send_packet", y);
-      var7.set("send_packet_no_event", H);
-      var7.set("set_angles", g);
-      var7.set("using_item", G);
-      var7.set("ping", Cx);
-      var7.set("set_speed", P);
-      var7.set("get_speed", Cm);
-      var7.set("swing_item", Cl);
-      var7.set("use_item", r);
-      var7.set("id", B);
-      var7.set("health", T);
-      var7.set("fall_distance", CP);
-      var7.set("angles", Z);
-      var7.set("prev_angles", CW);
-      var7.set("max_health", CZ);
-      var7.set("held_item", D);
-      var7.set("name", N);
-      var7.set("base_speed", Ce);
-      var7.set("held_item_slot", A);
-      var7.set("set_held_item_slot", Cu);
-      var7.set("hurt_time", Cw);
-      var7.set("food_stats", k);
-      var7.set("absorption", V);
-      var7.set("eye_height", S);
-      var7.set("facing", C);
-      var7.set("over_mouse", E);
-      var7.set("convert_speed", Cq);
-      var7.set("kill_aura_target", J);
-      var7.set("on_ground", Cf);
-      var7.set("is_in_water", d);
-      var7.set("is_in_lava", Q);
-      var7.set("is_on_edge", R);
-      var7.set("burning", Cb);
-      var7.set("is_sneaking", F);
-      var7.set("set_sneaking", c);
-      var7.set("damage", z);
-      var7.set("is_in_cobweb", w);
-      var7.set("angles_for_cords", h);
-      var7.set("dead", Cv);
-      var7.set("sprinting", Cc);
-      var7.set("riding", p);
-      var7.set("on_ladder", e);
-      var7.set("collided_vertically", n);
-      var7.set("collided_horizontally", CH);
-      var7.set("is_potion_active", o);
-      var7.set("ticks_existed", j);
-      var7.set("ray_cast", CL);
-      var7.set("place_block", C8);
-      var2.set("player", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      LuaTable luaTable2 = LuaValue.tableOf();
+      luaTable2.set("slot", Cd);
+      luaTable2.set("item_information", v);
+      luaTable2.set("get_item_stack", O);
+      luaTable2.set("swap", u);
+      luaTable2.set("click", X);
+      luaTable2.set("drop", Ci);
+      luaTable.set("inventory", luaTable2);
+      luaTable.set("jump", CU);
+      luaTable.set("click_mouse", W);
+      luaTable.set("right_click_mouse", L);
+      luaTable.set("message", CR);
+      luaTable.set("strafe", Y);
+      luaTable.set("position", K);
+      luaTable.set("camera_position", f);
+      luaTable.set("prev_position", t);
+      luaTable.set("motion", U);
+      luaTable.set("set_motion", l);
+      luaTable.set("set_position", m);
+      luaTable.set("set_sprinting", x);
+      luaTable.set("distance_to_entity", q);
+      luaTable.set("distance_to", s);
+      luaTable.set("send_packet", y);
+      luaTable.set("send_packet_no_event", H);
+      luaTable.set("set_angles", g);
+      luaTable.set("using_item", G);
+      luaTable.set("ping", Cx);
+      luaTable.set("set_speed", P);
+      luaTable.set("get_speed", Cm);
+      luaTable.set("swing_item", Cl);
+      luaTable.set("use_item", r);
+      luaTable.set("id", B);
+      luaTable.set("health", T);
+      luaTable.set("fall_distance", CP);
+      luaTable.set("angles", Z);
+      luaTable.set("prev_angles", CW);
+      luaTable.set("max_health", CZ);
+      luaTable.set("held_item", D);
+      luaTable.set("name", N);
+      luaTable.set("base_speed", Ce);
+      luaTable.set("held_item_slot", A);
+      luaTable.set("set_held_item_slot", Cu);
+      luaTable.set("hurt_time", Cw);
+      luaTable.set("food_stats", k);
+      luaTable.set("absorption", V);
+      luaTable.set("eye_height", S);
+      luaTable.set("facing", C);
+      luaTable.set("over_mouse", E);
+      luaTable.set("convert_speed", Cq);
+      luaTable.set("kill_aura_target", J);
+      luaTable.set("on_ground", Cf);
+      luaTable.set("is_in_water", d);
+      luaTable.set("is_in_lava", Q);
+      luaTable.set("is_on_edge", R);
+      luaTable.set("burning", Cb);
+      luaTable.set("is_sneaking", F);
+      luaTable.set("set_sneaking", c);
+      luaTable.set("damage", z);
+      luaTable.set("is_in_cobweb", w);
+      luaTable.set("angles_for_cords", h);
+      luaTable.set("dead", Cv);
+      luaTable.set("sprinting", Cc);
+      luaTable.set("riding", p);
+      luaTable.set("on_ladder", e);
+      luaTable.set("collided_vertically", n);
+      luaTable.set("collided_horizontally", CH);
+      luaTable.set("is_potion_active", o);
+      luaTable.set("ticks_existed", j);
+      luaTable.set("ray_cast", CL);
+      luaTable.set("place_block", C8);
+      luaValue2.set("player", luaTable);
+      return luaTable;
    }
 
-   private static double[] g(double var0) {
-      float var5 = mc.thePlayer.movementInput.moveForward;
-      float var6 = mc.thePlayer.movementInput.moveStrafe;
-      float var7 = mc.thePlayer.rotationYaw;
-      float var8 = var6 * var6 + var5 * var5;
-      if (var8 >= 1.0E-4F) {
-         var8 = MathHelper.sqrt_float(var8);
-         if (var8 < 1.0F) {
-            var8 = 1.0F;
+   private static double[] g(double d2) {
+      float f = mc.thePlayer.movementInput.moveForward;
+      float h = mc.thePlayer.movementInput.moveStrafe;
+      float f2 = mc.thePlayer.rotationYaw;
+      float f3 = h * h + f * f;
+      if (f3 >= 1.0E-4F) {
+         f3 = MathHelper.sqrt_float(f3);
+         if (f3 < 1.0F) {
+            f3 = 1.0F;
          }
 
-         var8 = 1.0F / var8;
-         var6 *= var8;
-         var5 *= var8;
-         float var9 = MathHelper.sin(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-         float var10 = MathHelper.cos(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-         double var11 = var6 * var0 * var10 - var5 * var0 * var9;
-         double var13 = var5 * var0 * var10 + var6 * var0 * var9;
-         return new double[]{var11, var13};
+         f3 = 1.0F / f3;
+         h *= f3;
+         f *= f3;
+         float f4 = MathHelper.sin(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
+         float f5 = MathHelper.cos(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
+         double d = h * d2 * f5 - f * d2 * f4;
+         double e = f * d2 * f5 + h * d2 * f4;
+         return new double[]{d, e};
       } else {
          return null;
       }
@@ -256,7 +256,7 @@ public class PlayerLibrary extends TwoArgFunction implements ClientAccess {
       return b;
    }
 
-   public static double[] U(double var0) {
-      return g(var0);
+   public static double[] U(double d2) {
+      return g(d2);
    }
 }

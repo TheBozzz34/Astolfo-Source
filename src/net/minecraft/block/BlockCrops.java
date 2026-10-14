@@ -20,8 +20,8 @@ public class BlockCrops extends BlockBush implements IGrowable {
    public BlockCrops() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
       this.setTickRandomly(true);
-      float var1 = 0.5F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, 0.25F, 0.5F + var1);
+      float f = 0.5F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
       this.setCreativeTab((CreativeTabs)null);
       this.setHardness(0.0F);
       this.setStepSound(soundTypeGrass);
@@ -29,80 +29,80 @@ public class BlockCrops extends BlockBush implements IGrowable {
    }
 
    @Override
-   public boolean canPlaceBlockOn(Block var1) {
-      return var1 == Blocks.farmland;
+   public boolean canPlaceBlockOn(Block ground) {
+      return ground == Blocks.farmland;
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      super.updateTick(var1, var2, var3, var4);
-      if (var1.getLightFromNeighbors(var2.up()) >= 9) {
-         int var8 = var3.getValue(AGE);
-         if (var8 < 7) {
-            float var9 = getGrowthChance(this, var1, var2);
-            if (var4.nextInt((int)(25.0F / var9) + 1) == 0) {
-               var1.setBlockState(var2, var3.withProperty(AGE, var8 + 1), 2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      super.updateTick(worldIn, pos, state, rand);
+      if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
+         int i = state.getValue(AGE);
+         if (i < 7) {
+            float f = getGrowthChance(this, worldIn, pos);
+            if (rand.nextInt((int)(25.0F / f) + 1) == 0) {
+               worldIn.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
             }
          }
       }
    }
 
-   public void grow(World var1, BlockPos var2, IBlockState var3) {
-      int var7 = var3.getValue(AGE) + MathHelper.getRandomIntegerInRange(var1.rand, 2, 5);
-      if (var7 > 7) {
-         var7 = 7;
+   public void grow(World worldIn, BlockPos pos, IBlockState state) {
+      int i = state.getValue(AGE) + MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
+      if (i > 7) {
+         i = 7;
       }
 
-      var1.setBlockState(var2, var3.withProperty(AGE, var7), 2);
+      worldIn.setBlockState(pos, state.withProperty(AGE, i), 2);
    }
 
-   public static float getGrowthChance(Block var0, World var1, BlockPos var2) {
-      float var6 = 1.0F;
-      BlockPos var7 = var2.down();
+   public static float getGrowthChance(Block blockIn, World worldIn, BlockPos pos) {
+      float f = 1.0F;
+      BlockPos blockPos = pos.down();
 
-      for (int var8 = -1; var8 <= 1; var8++) {
-         for (int var9 = -1; var9 <= 1; var9++) {
-            float var10 = 0.0F;
-            IBlockState var11 = var1.getBlockState(var7.add(var8, 0, var9));
-            if (var11.getBlock() == Blocks.farmland) {
-               var10 = 1.0F;
-               if (var11.getValue(BlockFarmland.MOISTURE) > 0) {
-                  var10 = 3.0F;
+      for (int i = -1; i <= 1; i++) {
+         for (int j = -1; j <= 1; j++) {
+            float g = 0.0F;
+            IBlockState iBlockState = worldIn.getBlockState(blockPos.add(i, 0, j));
+            if (iBlockState.getBlock() == Blocks.farmland) {
+               g = 1.0F;
+               if (iBlockState.getValue(BlockFarmland.MOISTURE) > 0) {
+                  g = 3.0F;
                }
             }
 
-            if (var8 != 0 || var9 != 0) {
-               var10 /= 4.0F;
+            if (i != 0 || j != 0) {
+               g /= 4.0F;
             }
 
-            var6 += var10;
+            f += g;
          }
       }
 
-      BlockPos var15 = var2.north();
-      BlockPos var16 = var2.south();
-      BlockPos var17 = var2.west();
-      BlockPos var18 = var2.east();
-      boolean var12 = var0 == var1.getBlockState(var17).getBlock() || var0 == var1.getBlockState(var18).getBlock();
-      boolean var13 = var0 == var1.getBlockState(var15).getBlock() || var0 == var1.getBlockState(var16).getBlock();
-      if (var12 && var13) {
-         var6 /= 2.0F;
+      BlockPos blockPos2 = pos.north();
+      BlockPos blockPos3 = pos.south();
+      BlockPos blockPos4 = pos.west();
+      BlockPos blockPos5 = pos.east();
+      boolean bl = blockIn == worldIn.getBlockState(blockPos4).getBlock() || blockIn == worldIn.getBlockState(blockPos5).getBlock();
+      boolean bl2 = blockIn == worldIn.getBlockState(blockPos2).getBlock() || blockIn == worldIn.getBlockState(blockPos3).getBlock();
+      if (bl && bl2) {
+         f /= 2.0F;
       } else {
-         boolean var14 = var0 == var1.getBlockState(var17.north()).getBlock()
-            || var0 == var1.getBlockState(var18.north()).getBlock()
-            || var0 == var1.getBlockState(var18.south()).getBlock()
-            || var0 == var1.getBlockState(var17.south()).getBlock();
-         if (var14) {
-            var6 /= 2.0F;
+         boolean bl3 = blockIn == worldIn.getBlockState(blockPos4.north()).getBlock()
+            || blockIn == worldIn.getBlockState(blockPos5.north()).getBlock()
+            || blockIn == worldIn.getBlockState(blockPos5.south()).getBlock()
+            || blockIn == worldIn.getBlockState(blockPos4.south()).getBlock();
+         if (bl3) {
+            f /= 2.0F;
          }
       }
 
-      return var6;
+      return f;
    }
 
    @Override
-   public boolean canBlockStay(World var1, BlockPos var2, IBlockState var3) {
-      return (var1.getLight(var2) >= 8 || var1.canSeeSky(var2)) && this.canPlaceBlockOn(var1.getBlockState(var2.down()).getBlock());
+   public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+      return (worldIn.getLight(pos) >= 8 || worldIn.canSeeSky(pos)) && this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
    }
 
    public Item getSeed() {
@@ -114,16 +114,16 @@ public class BlockCrops extends BlockBush implements IGrowable {
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      super.dropBlockAsItemWithChance(var1, var2, var3, var4, 0);
-      if (!var1.isRemote) {
-         int var9 = var3.getValue(AGE);
-         if (var9 >= 7) {
-            int var10 = 3 + var5;
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
+      if (!worldIn.isRemote) {
+         int i = state.getValue(AGE);
+         if (i >= 7) {
+            int j = 3 + fortune;
 
-            for (int var11 = 0; var11 < var10; var11++) {
-               if (var1.rand.nextInt(15) <= var9) {
-                  spawnAsEntity(var1, var2, new ItemStack(this.getSeed(), 1, 0));
+            for (int k = 0; k < j; k++) {
+               if (worldIn.rand.nextInt(15) <= i) {
+                  spawnAsEntity(worldIn, pos, new ItemStack(this.getSeed(), 1, 0));
                }
             }
          }
@@ -131,38 +131,38 @@ public class BlockCrops extends BlockBush implements IGrowable {
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      return var1.getValue(AGE) == 7 ? this.getCrop() : this.getSeed();
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      return state.getValue(AGE) == 7 ? this.getCrop() : this.getSeed();
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return this.getSeed();
    }
 
    @Override
-   public boolean canGrow(World var1, BlockPos var2, IBlockState var3, boolean var4) {
-      return var3.getValue(AGE) < 7;
+   public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+      return state.getValue(AGE) < 7;
    }
 
    @Override
-   public boolean canUseBonemeal(World var1, Random var2, BlockPos var3, IBlockState var4) {
+   public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
       return true;
    }
 
    @Override
-   public void grow(World var1, Random var2, BlockPos var3, IBlockState var4) {
-      this.grow(var1, var3, var4);
+   public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+      this.grow(worldIn, pos, state);
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(AGE, var1);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(AGE, meta);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(AGE);
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(AGE);
    }
 
    @Override

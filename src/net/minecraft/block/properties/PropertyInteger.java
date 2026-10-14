@@ -10,23 +10,23 @@ public class PropertyInteger extends PropertyHelper<Integer> {
    private static final long a = 59174525225973L;
    private static final long j = 5886005911822008351L;
 
-   public PropertyInteger(String var1, int var2, int var3) {
-      super(var1, Integer.class);
-      if (var2 < 0) {
-         throw new IllegalArgumentException("Min value of " + var1 + " must be 0 or greater");
+   public PropertyInteger(String name, int minIn, int maxIn) {
+      super(name, Integer.class);
+      if (minIn < 0) {
+         throw new IllegalArgumentException("Min value of " + name + " must be 0 or greater");
       }
 
-      if (var3 <= var2) {
-         throw new IllegalArgumentException("Max value of " + var1 + " must be greater than min (" + var2 + ")");
+      if (maxIn <= minIn) {
+         throw new IllegalArgumentException("Max value of " + name + " must be greater than min (" + minIn + ")");
       }
 
-      HashSet var6 = Sets.newHashSet();
+      HashSet hashSet = Sets.newHashSet();
 
-      for (int var7 = var2; var7 <= var3; var7++) {
-         var6.add(var7);
+      for (int i = minIn; i <= maxIn; i++) {
+         hashSet.add(i);
       }
 
-      this.allowedValues = ImmutableSet.copyOf(var6);
+      this.allowedValues = ImmutableSet.copyOf(hashSet);
    }
 
    @Override
@@ -35,34 +35,34 @@ public class PropertyInteger extends PropertyHelper<Integer> {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (var1 == null || this.getClass() != var1.getClass()) {
+      if (object == null || this.getClass() != object.getClass()) {
          return false;
       }
 
-      if (!super.equals(var1)) {
+      if (!super.equals(object)) {
          return false;
       }
 
-      PropertyInteger var5 = (PropertyInteger)var1;
-      return this.allowedValues.equals(var5.allowedValues);
+      PropertyInteger propertyInteger = (PropertyInteger)object;
+      return this.allowedValues.equals(propertyInteger.allowedValues);
    }
 
    @Override
    public int hashCode() {
-      int var4 = super.hashCode();
-      return (int)j * var4 + this.allowedValues.hashCode();
+      int i = super.hashCode();
+      return (int)j * i + this.allowedValues.hashCode();
    }
 
-   public static PropertyInteger create(String var0, int var1, int var2) {
-      return new PropertyInteger(var0, var1, var2);
+   public static PropertyInteger create(String name, int minIn, int maxIn) {
+      return new PropertyInteger(name, minIn, maxIn);
    }
 
-   public String getName(Integer var1) {
-      return var1.toString();
+   public String getName(Integer value) {
+      return value.toString();
    }
 }

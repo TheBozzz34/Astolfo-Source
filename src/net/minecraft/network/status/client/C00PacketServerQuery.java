@@ -7,14 +7,14 @@ import net.minecraft.network.status.INetHandlerStatusServer;
 
 public class C00PacketServerQuery implements Packet<INetHandlerStatusServer> {
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
+   public void readPacketData(PacketBuffer buf) throws IOException {
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
+   public void writePacketData(PacketBuffer buf) throws IOException {
    }
 
-   public void processPacket(INetHandlerStatusServer var1) {
-      var1.processServerQuery(this);
+   public void processPacket(INetHandlerStatusServer handler) {
+      handler.processServerQuery(this);
    }
 }

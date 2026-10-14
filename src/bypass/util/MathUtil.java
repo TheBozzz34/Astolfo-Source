@@ -7,29 +7,29 @@ public final class MathUtil {
    public static final DecimalFormat ONE_DECIMAL = new DecimalFormat("#.#");
    private static final long a = 110026111294346L;
 
-   public static double interpolate(double var0, double var2, float var4, double var5) {
-      return var0 + (var2 - var0) * var4 - var5;
+   public static double interpolate(double d, double d2, float f, double d3) {
+      return d + (d2 - d) * f - d3;
    }
 
-   public static double randomInRange(double var0, double var2) {
-      return Math.random() * (var2 - var0) + var0;
+   public static double randomInRange(double d, double d2) {
+      return Math.random() * (d2 - d) + d;
    }
 
-   public static final Vec3 rotate(Vec3 var0, float var1, float var2) {
-      double var7 = Math.toRadians(-1.0F * (var1 + 90.0F));
-      double var9 = Math.toRadians(-var2);
-      double var11 = Math.cos(var7);
-      double var13 = Math.cos(var9);
-      double var15 = Math.sin(var7);
-      double var17 = Math.sin(var9);
-      double var19 = var0.xCoord;
-      double var21 = var0.yCoord;
-      double var25 = var19 * var13 - var21 * var17;
-      double var27 = var19 * var17 + var21 * var13;
-      double var23 = var0.zCoord;
-      var19 = var25;
-      double var29 = var23 * var11 - var19 * var15;
-      var25 = var23 * var15 + var19 * var11;
-      return new Vec3(var25, var27, var29);
+   public static final Vec3 rotate(Vec3 vec3, float f, float g) {
+      double d = Math.toRadians(-1.0F * (f + 90.0F));
+      double e = Math.toRadians(-g);
+      double d2 = Math.cos(d);
+      double d3 = Math.cos(e);
+      double d4 = Math.sin(d);
+      double d5 = Math.sin(e);
+      double d6 = vec3.xCoord;
+      double d7 = vec3.yCoord;
+      double d8 = d6 * d3 - d7 * d5;
+      double d9 = d6 * d5 + d7 * d3;
+      double d10 = vec3.zCoord;
+      d6 = d8;
+      double d11 = d10 * d2 - d6 * d4;
+      d8 = d10 * d4 + d6 * d2;
+      return new Vec3(d8, d9, d11);
    }
 }

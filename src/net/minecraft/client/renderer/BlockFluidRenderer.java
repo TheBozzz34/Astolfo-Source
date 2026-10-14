@@ -23,241 +23,241 @@ public class BlockFluidRenderer {
    }
 
    public void initAtlasSprites() {
-      TextureMap var3 = Minecraft.getMinecraft().getTextureMapBlocks();
-      this.atlasSpritesLava[0] = var3.getAtlasSprite("minecraft:blocks/lava_still");
-      this.atlasSpritesLava[1] = var3.getAtlasSprite("minecraft:blocks/lava_flow");
-      this.atlasSpritesWater[0] = var3.getAtlasSprite("minecraft:blocks/water_still");
-      this.atlasSpritesWater[1] = var3.getAtlasSprite("minecraft:blocks/water_flow");
+      TextureMap textureMap = Minecraft.getMinecraft().getTextureMapBlocks();
+      this.atlasSpritesLava[0] = textureMap.getAtlasSprite("minecraft:blocks/lava_still");
+      this.atlasSpritesLava[1] = textureMap.getAtlasSprite("minecraft:blocks/lava_flow");
+      this.atlasSpritesWater[0] = textureMap.getAtlasSprite("minecraft:blocks/water_still");
+      this.atlasSpritesWater[1] = textureMap.getAtlasSprite("minecraft:blocks/water_flow");
    }
 
-   public boolean renderFluid(IBlockAccess var1, IBlockState var2, BlockPos var3, WorldRenderer var4) {
-      BlockLiquid var8 = (BlockLiquid)var2.getBlock();
-      var8.setBlockBoundsBasedOnState(var1, var3);
-      TextureAtlasSprite[] var9 = var8.getMaterial() == Material.lava ? this.atlasSpritesLava : this.atlasSpritesWater;
-      RenderEnv var10 = RenderEnv.getInstance(var1, var2, var3);
-      int var11 = CustomColors.getFluidColor(var1, var2, var3, var10);
-      float var12 = (var11 >> 16 & 0xFF) / 255.0F;
-      float var13 = (var11 >> 8 & 0xFF) / 255.0F;
-      float var14 = (var11 & 0xFF) / 255.0F;
-      boolean var15 = var8.shouldSideBeRendered(var1, var3.up(), EnumFacing.UP);
-      boolean var16 = var8.shouldSideBeRendered(var1, var3.down(), EnumFacing.DOWN);
-      boolean[] var17 = var10.getBorderFlags();
-      var17[0] = var8.shouldSideBeRendered(var1, var3.north(), EnumFacing.NORTH);
-      var17[1] = var8.shouldSideBeRendered(var1, var3.south(), EnumFacing.SOUTH);
-      var17[2] = var8.shouldSideBeRendered(var1, var3.west(), EnumFacing.WEST);
-      var17[3] = var8.shouldSideBeRendered(var1, var3.east(), EnumFacing.EAST);
-      float var18 = 1.0F;
-      if (!var15 && !var16 && !var17[0] && !var17[1] && !var17[2] && !var17[3]) {
+   public boolean renderFluid(IBlockAccess blockAccess, IBlockState blockStateIn, BlockPos blockPosIn, WorldRenderer worldRendererIn) {
+      BlockLiquid blockLiquid = (BlockLiquid)blockStateIn.getBlock();
+      blockLiquid.setBlockBoundsBasedOnState(blockAccess, blockPosIn);
+      TextureAtlasSprite[] textureAtlasSprites = blockLiquid.getMaterial() == Material.lava ? this.atlasSpritesLava : this.atlasSpritesWater;
+      RenderEnv renderEnv = RenderEnv.getInstance(blockAccess, blockStateIn, blockPosIn);
+      int i = CustomColors.getFluidColor(blockAccess, blockStateIn, blockPosIn, renderEnv);
+      float f = (i >> 16 & 0xFF) / 255.0F;
+      float g = (i >> 8 & 0xFF) / 255.0F;
+      float h = (i & 0xFF) / 255.0F;
+      boolean bl = blockLiquid.shouldSideBeRendered(blockAccess, blockPosIn.up(), EnumFacing.UP);
+      boolean bl2 = blockLiquid.shouldSideBeRendered(blockAccess, blockPosIn.down(), EnumFacing.DOWN);
+      boolean[] booleans = renderEnv.getBorderFlags();
+      booleans[0] = blockLiquid.shouldSideBeRendered(blockAccess, blockPosIn.north(), EnumFacing.NORTH);
+      booleans[1] = blockLiquid.shouldSideBeRendered(blockAccess, blockPosIn.south(), EnumFacing.SOUTH);
+      booleans[2] = blockLiquid.shouldSideBeRendered(blockAccess, blockPosIn.west(), EnumFacing.WEST);
+      booleans[3] = blockLiquid.shouldSideBeRendered(blockAccess, blockPosIn.east(), EnumFacing.EAST);
+      float f2 = 1.0F;
+      if (!bl && !bl2 && !booleans[0] && !booleans[1] && !booleans[2] && !booleans[3]) {
          return false;
       }
 
-      boolean var19 = false;
-      float var20 = 0.5F;
-      float var21 = 1.0F;
-      float var22 = 0.8F;
-      float var23 = 0.6F;
-      Material var24 = var8.getMaterial();
-      float var25 = this.getFluidHeight(var1, var3, var24);
-      float var26 = this.getFluidHeight(var1, var3.south(), var24);
-      float var27 = this.getFluidHeight(var1, var3.east().south(), var24);
-      float var28 = this.getFluidHeight(var1, var3.east(), var24);
-      double var29 = var3.getX();
-      double var31 = var3.getY();
-      double var33 = var3.getZ();
-      float var35 = 0.001F;
-      if (var15) {
-         var19 = true;
-         TextureAtlasSprite var36 = var9[0];
-         float var37 = (float)BlockLiquid.getFlowDirection(var1, var3, var24);
-         if (var37 > -999.0F) {
-            var36 = var9[1];
+      boolean bl3 = false;
+      float f3 = 0.5F;
+      float f4 = 1.0F;
+      float f5 = 0.8F;
+      float f6 = 0.6F;
+      Material material = blockLiquid.getMaterial();
+      float f7 = this.getFluidHeight(blockAccess, blockPosIn, material);
+      float f8 = this.getFluidHeight(blockAccess, blockPosIn.south(), material);
+      float f9 = this.getFluidHeight(blockAccess, blockPosIn.east().south(), material);
+      float f10 = this.getFluidHeight(blockAccess, blockPosIn.east(), material);
+      double d = blockPosIn.getX();
+      double e = blockPosIn.getY();
+      double d2 = blockPosIn.getZ();
+      float f11 = 0.001F;
+      if (bl) {
+         bl3 = true;
+         TextureAtlasSprite textureAtlasSprite = textureAtlasSprites[0];
+         float f12 = (float)BlockLiquid.getFlowDirection(blockAccess, blockPosIn, material);
+         if (f12 > -999.0F) {
+            textureAtlasSprite = textureAtlasSprites[1];
          }
 
-         var4.setSprite(var36);
-         var25 -= var35;
-         var26 -= var35;
-         var27 -= var35;
-         var28 -= var35;
-         float var38;
-         float var39;
-         float var40;
-         float var41;
-         float var42;
-         float var43;
-         float var44;
-         float var45;
-         if (var37 < -999.0F) {
-            var38 = var36.getInterpolatedU(0.0);
-            var42 = var36.getInterpolatedV(0.0);
-            var39 = var38;
-            var43 = var36.getInterpolatedV(16.0);
-            var40 = var36.getInterpolatedU(16.0);
-            var44 = var43;
-            var41 = var40;
-            var45 = var42;
+         worldRendererIn.setSprite(textureAtlasSprite);
+         f7 -= f11;
+         f8 -= f11;
+         f9 -= f11;
+         f10 -= f11;
+         float f13;
+         float f14;
+         float f15;
+         float f16;
+         float f17;
+         float f18;
+         float f19;
+         float f20;
+         if (f12 < -999.0F) {
+            f13 = textureAtlasSprite.getInterpolatedU(0.0);
+            f17 = textureAtlasSprite.getInterpolatedV(0.0);
+            f14 = f13;
+            f18 = textureAtlasSprite.getInterpolatedV(16.0);
+            f15 = textureAtlasSprite.getInterpolatedU(16.0);
+            f19 = f18;
+            f16 = f15;
+            f20 = f17;
          } else {
-            float var46 = MathHelper.sin(var37) * 0.25F;
-            float var47 = MathHelper.cos(var37) * 0.25F;
-            float var48 = 8.0F;
-            var38 = var36.getInterpolatedU(8.0F + (-var47 - var46) * 16.0F);
-            var42 = var36.getInterpolatedV(8.0F + (-var47 + var46) * 16.0F);
-            var39 = var36.getInterpolatedU(8.0F + (-var47 + var46) * 16.0F);
-            var43 = var36.getInterpolatedV(8.0F + (var47 + var46) * 16.0F);
-            var40 = var36.getInterpolatedU(8.0F + (var47 + var46) * 16.0F);
-            var44 = var36.getInterpolatedV(8.0F + (var47 - var46) * 16.0F);
-            var41 = var36.getInterpolatedU(8.0F + (var47 - var46) * 16.0F);
-            var45 = var36.getInterpolatedV(8.0F + (-var47 - var46) * 16.0F);
+            float f21 = MathHelper.sin(f12) * 0.25F;
+            float f22 = MathHelper.cos(f12) * 0.25F;
+            float f23 = 8.0F;
+            f13 = textureAtlasSprite.getInterpolatedU(8.0F + (-f22 - f21) * 16.0F);
+            f17 = textureAtlasSprite.getInterpolatedV(8.0F + (-f22 + f21) * 16.0F);
+            f14 = textureAtlasSprite.getInterpolatedU(8.0F + (-f22 + f21) * 16.0F);
+            f18 = textureAtlasSprite.getInterpolatedV(8.0F + (f22 + f21) * 16.0F);
+            f15 = textureAtlasSprite.getInterpolatedU(8.0F + (f22 + f21) * 16.0F);
+            f19 = textureAtlasSprite.getInterpolatedV(8.0F + (f22 - f21) * 16.0F);
+            f16 = textureAtlasSprite.getInterpolatedU(8.0F + (f22 - f21) * 16.0F);
+            f20 = textureAtlasSprite.getInterpolatedV(8.0F + (-f22 - f21) * 16.0F);
          }
 
-         int var78 = var8.getMixedBrightnessForBlock(var1, var3);
-         int var80 = var78 >> 16 & 65535;
-         int var82 = var78 & 65535;
-         float var49 = var21 * var12;
-         float var50 = var21 * var13;
-         float var51 = var21 * var14;
-         var4.pos(var29 + 0.0, var31 + var25, var33 + 0.0).color(var49, var50, var51, var18).tex(var38, var42).lightmap(var80, var82).endVertex();
-         var4.pos(var29 + 0.0, var31 + var26, var33 + 1.0).color(var49, var50, var51, var18).tex(var39, var43).lightmap(var80, var82).endVertex();
-         var4.pos(var29 + 1.0, var31 + var27, var33 + 1.0).color(var49, var50, var51, var18).tex(var40, var44).lightmap(var80, var82).endVertex();
-         var4.pos(var29 + 1.0, var31 + var28, var33 + 0.0).color(var49, var50, var51, var18).tex(var41, var45).lightmap(var80, var82).endVertex();
-         if (var8.shouldRenderSides(var1, var3.up())) {
-            var4.pos(var29 + 0.0, var31 + var25, var33 + 0.0).color(var49, var50, var51, var18).tex(var38, var42).lightmap(var80, var82).endVertex();
-            var4.pos(var29 + 1.0, var31 + var28, var33 + 0.0).color(var49, var50, var51, var18).tex(var41, var45).lightmap(var80, var82).endVertex();
-            var4.pos(var29 + 1.0, var31 + var27, var33 + 1.0).color(var49, var50, var51, var18).tex(var40, var44).lightmap(var80, var82).endVertex();
-            var4.pos(var29 + 0.0, var31 + var26, var33 + 1.0).color(var49, var50, var51, var18).tex(var39, var43).lightmap(var80, var82).endVertex();
+         int j = blockLiquid.getMixedBrightnessForBlock(blockAccess, blockPosIn);
+         int k = j >> 16 & 65535;
+         int l = j & 65535;
+         float f24 = f4 * f;
+         float f25 = f4 * g;
+         float f26 = f4 * h;
+         worldRendererIn.pos(d + 0.0, e + f7, d2 + 0.0).color(f24, f25, f26, f2).tex(f13, f17).lightmap(k, l).endVertex();
+         worldRendererIn.pos(d + 0.0, e + f8, d2 + 1.0).color(f24, f25, f26, f2).tex(f14, f18).lightmap(k, l).endVertex();
+         worldRendererIn.pos(d + 1.0, e + f9, d2 + 1.0).color(f24, f25, f26, f2).tex(f15, f19).lightmap(k, l).endVertex();
+         worldRendererIn.pos(d + 1.0, e + f10, d2 + 0.0).color(f24, f25, f26, f2).tex(f16, f20).lightmap(k, l).endVertex();
+         if (blockLiquid.shouldRenderSides(blockAccess, blockPosIn.up())) {
+            worldRendererIn.pos(d + 0.0, e + f7, d2 + 0.0).color(f24, f25, f26, f2).tex(f13, f17).lightmap(k, l).endVertex();
+            worldRendererIn.pos(d + 1.0, e + f10, d2 + 0.0).color(f24, f25, f26, f2).tex(f16, f20).lightmap(k, l).endVertex();
+            worldRendererIn.pos(d + 1.0, e + f9, d2 + 1.0).color(f24, f25, f26, f2).tex(f15, f19).lightmap(k, l).endVertex();
+            worldRendererIn.pos(d + 0.0, e + f8, d2 + 1.0).color(f24, f25, f26, f2).tex(f14, f18).lightmap(k, l).endVertex();
          }
       }
 
-      if (var16) {
-         float var63 = var9[0].getMinU();
-         float var65 = var9[0].getMaxU();
-         float var67 = var9[0].getMinV();
-         float var69 = var9[0].getMaxV();
-         int var71 = var8.getMixedBrightnessForBlock(var1, var3.down());
-         int var73 = var71 >> 16 & 65535;
-         int var75 = var71 & 65535;
-         var4.pos(var29, var31, var33 + 1.0).color(var20, var20, var20, var18).tex(var63, var69).lightmap(var73, var75).endVertex();
-         var4.pos(var29, var31, var33).color(var20, var20, var20, var18).tex(var63, var67).lightmap(var73, var75).endVertex();
-         var4.pos(var29 + 1.0, var31, var33).color(var20, var20, var20, var18).tex(var65, var67).lightmap(var73, var75).endVertex();
-         var4.pos(var29 + 1.0, var31, var33 + 1.0).color(var20, var20, var20, var18).tex(var65, var69).lightmap(var73, var75).endVertex();
-         var19 = true;
+      if (bl2) {
+         float f27 = textureAtlasSprites[0].getMinU();
+         float f28 = textureAtlasSprites[0].getMaxU();
+         float f29 = textureAtlasSprites[0].getMinV();
+         float f30 = textureAtlasSprites[0].getMaxV();
+         int m = blockLiquid.getMixedBrightnessForBlock(blockAccess, blockPosIn.down());
+         int n = m >> 16 & 65535;
+         int i2 = m & 65535;
+         worldRendererIn.pos(d, e, d2 + 1.0).color(f3, f3, f3, f2).tex(f27, f30).lightmap(n, i2).endVertex();
+         worldRendererIn.pos(d, e, d2).color(f3, f3, f3, f2).tex(f27, f29).lightmap(n, i2).endVertex();
+         worldRendererIn.pos(d + 1.0, e, d2).color(f3, f3, f3, f2).tex(f28, f29).lightmap(n, i2).endVertex();
+         worldRendererIn.pos(d + 1.0, e, d2 + 1.0).color(f3, f3, f3, f2).tex(f28, f30).lightmap(n, i2).endVertex();
+         bl3 = true;
       }
 
-      for (int var64 = 0; var64 < 4; var64++) {
-         int var66 = 0;
-         int var68 = 0;
-         if (var64 == 0) {
-            var68--;
+      for (int i3 = 0; i3 < 4; i3++) {
+         int i4 = 0;
+         int i5 = 0;
+         if (i3 == 0) {
+            i5--;
          }
 
-         if (var64 == 1) {
-            var68++;
+         if (i3 == 1) {
+            i5++;
          }
 
-         if (var64 == 2) {
-            var66--;
+         if (i3 == 2) {
+            i4--;
          }
 
-         if (var64 == 3) {
-            var66++;
+         if (i3 == 3) {
+            i4++;
          }
 
-         BlockPos var70 = var3.add(var66, 0, var68);
-         TextureAtlasSprite var72 = var9[1];
-         var4.setSprite(var72);
-         if (var17[var64]) {
-            double var74;
-            double var76;
-            float var77;
-            float var79;
-            double var81;
-            double var83;
-            if (var64 == 0) {
-               var77 = var25;
-               var79 = var28;
-               var81 = var29;
-               var74 = var29 + 1.0;
-               var83 = var33 + var35;
-               var76 = var33 + var35;
-            } else if (var64 == 1) {
-               var77 = var27;
-               var79 = var26;
-               var81 = var29 + 1.0;
-               var74 = var29;
-               var83 = var33 + 1.0 - var35;
-               var76 = var33 + 1.0 - var35;
-            } else if (var64 == 2) {
-               var77 = var26;
-               var79 = var25;
-               var81 = var29 + var35;
-               var74 = var29 + var35;
-               var83 = var33 + 1.0;
-               var76 = var33;
+         BlockPos blockPos = blockPosIn.add(i4, 0, i5);
+         TextureAtlasSprite textureAtlasSprite2 = textureAtlasSprites[1];
+         worldRendererIn.setSprite(textureAtlasSprite2);
+         if (booleans[i3]) {
+            double d3;
+            double d4;
+            float f31;
+            float f32;
+            double d5;
+            double d6;
+            if (i3 == 0) {
+               f31 = f7;
+               f32 = f10;
+               d5 = d;
+               d3 = d + 1.0;
+               d6 = d2 + f11;
+               d4 = d2 + f11;
+            } else if (i3 == 1) {
+               f31 = f9;
+               f32 = f8;
+               d5 = d + 1.0;
+               d3 = d;
+               d6 = d2 + 1.0 - f11;
+               d4 = d2 + 1.0 - f11;
+            } else if (i3 == 2) {
+               f31 = f8;
+               f32 = f7;
+               d5 = d + f11;
+               d3 = d + f11;
+               d6 = d2 + 1.0;
+               d4 = d2;
             } else {
-               var77 = var28;
-               var79 = var27;
-               var81 = var29 + 1.0 - var35;
-               var74 = var29 + 1.0 - var35;
-               var83 = var33;
-               var76 = var33 + 1.0;
+               f31 = f10;
+               f32 = f9;
+               d5 = d + 1.0 - f11;
+               d3 = d + 1.0 - f11;
+               d6 = d2;
+               d4 = d2 + 1.0;
             }
 
-            var19 = true;
-            float var84 = var72.getInterpolatedU(0.0);
-            float var52 = var72.getInterpolatedU(8.0);
-            float var53 = var72.getInterpolatedV((1.0F - var77) * 16.0F * 0.5F);
-            float var54 = var72.getInterpolatedV((1.0F - var79) * 16.0F * 0.5F);
-            float var55 = var72.getInterpolatedV(8.0);
-            int var56 = var8.getMixedBrightnessForBlock(var1, var70);
-            int var57 = var56 >> 16 & 65535;
-            int var58 = var56 & 65535;
-            float var59 = var64 < 2 ? var22 : var23;
-            float var60 = var21 * var59 * var12;
-            float var61 = var21 * var59 * var13;
-            float var62 = var21 * var59 * var14;
-            var4.pos(var81, var31 + var77, var83).color(var60, var61, var62, var18).tex(var84, var53).lightmap(var57, var58).endVertex();
-            var4.pos(var74, var31 + var79, var76).color(var60, var61, var62, var18).tex(var52, var54).lightmap(var57, var58).endVertex();
-            var4.pos(var74, var31 + 0.0, var76).color(var60, var61, var62, var18).tex(var52, var55).lightmap(var57, var58).endVertex();
-            var4.pos(var81, var31 + 0.0, var83).color(var60, var61, var62, var18).tex(var84, var55).lightmap(var57, var58).endVertex();
-            var4.pos(var81, var31 + 0.0, var83).color(var60, var61, var62, var18).tex(var84, var55).lightmap(var57, var58).endVertex();
-            var4.pos(var74, var31 + 0.0, var76).color(var60, var61, var62, var18).tex(var52, var55).lightmap(var57, var58).endVertex();
-            var4.pos(var74, var31 + var79, var76).color(var60, var61, var62, var18).tex(var52, var54).lightmap(var57, var58).endVertex();
-            var4.pos(var81, var31 + var77, var83).color(var60, var61, var62, var18).tex(var84, var53).lightmap(var57, var58).endVertex();
+            bl3 = true;
+            float f33 = textureAtlasSprite2.getInterpolatedU(0.0);
+            float f34 = textureAtlasSprite2.getInterpolatedU(8.0);
+            float f35 = textureAtlasSprite2.getInterpolatedV((1.0F - f31) * 16.0F * 0.5F);
+            float f36 = textureAtlasSprite2.getInterpolatedV((1.0F - f32) * 16.0F * 0.5F);
+            float f37 = textureAtlasSprite2.getInterpolatedV(8.0);
+            int i6 = blockLiquid.getMixedBrightnessForBlock(blockAccess, blockPos);
+            int i7 = i6 >> 16 & 65535;
+            int i8 = i6 & 65535;
+            float f38 = i3 < 2 ? f5 : f6;
+            float f39 = f4 * f38 * f;
+            float f40 = f4 * f38 * g;
+            float f41 = f4 * f38 * h;
+            worldRendererIn.pos(d5, e + f31, d6).color(f39, f40, f41, f2).tex(f33, f35).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d3, e + f32, d4).color(f39, f40, f41, f2).tex(f34, f36).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d3, e + 0.0, d4).color(f39, f40, f41, f2).tex(f34, f37).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d5, e + 0.0, d6).color(f39, f40, f41, f2).tex(f33, f37).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d5, e + 0.0, d6).color(f39, f40, f41, f2).tex(f33, f37).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d3, e + 0.0, d4).color(f39, f40, f41, f2).tex(f34, f37).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d3, e + f32, d4).color(f39, f40, f41, f2).tex(f34, f36).lightmap(i7, i8).endVertex();
+            worldRendererIn.pos(d5, e + f31, d6).color(f39, f40, f41, f2).tex(f33, f35).lightmap(i7, i8).endVertex();
          }
       }
 
-      var4.setSprite((TextureAtlasSprite)null);
-      return var19;
+      worldRendererIn.setSprite((TextureAtlasSprite)null);
+      return bl3;
    }
 
-   private float getFluidHeight(IBlockAccess var1, BlockPos var2, Material var3) {
-      int var7 = 0;
-      float var8 = 0.0F;
+   private float getFluidHeight(IBlockAccess blockAccess, BlockPos blockPosIn, Material blockMaterial) {
+      int i = 0;
+      float f = 0.0F;
 
-      for (int var9 = 0; var9 < 4; var9++) {
-         BlockPos var10 = var2.add(-(var9 & 1), 0, -(var9 >> 1 & 1));
-         if (var1.getBlockState(var10.up()).getBlock().getMaterial() == var3) {
+      for (int j = 0; j < 4; j++) {
+         BlockPos blockPos = blockPosIn.add(-(j & 1), 0, -(j >> 1 & 1));
+         if (blockAccess.getBlockState(blockPos.up()).getBlock().getMaterial() == blockMaterial) {
             return 1.0F;
          }
 
-         IBlockState var11 = var1.getBlockState(var10);
-         Material var12 = var11.getBlock().getMaterial();
-         if (var12 != var3) {
-            if (!var12.isSolid()) {
-               var8++;
-               var7++;
+         IBlockState iBlockState = blockAccess.getBlockState(blockPos);
+         Material material = iBlockState.getBlock().getMaterial();
+         if (material != blockMaterial) {
+            if (!material.isSolid()) {
+               f++;
+               i++;
             }
          } else {
-            int var13 = var11.getValue(BlockLiquid.LEVEL);
-            if (var13 >= 8 || var13 == 0) {
-               var8 += BlockLiquid.getLiquidHeightPercent(var13) * 10.0F;
-               var7 += 10;
+            int k = iBlockState.getValue(BlockLiquid.LEVEL);
+            if (k >= 8 || k == 0) {
+               f += BlockLiquid.getLiquidHeightPercent(k) * 10.0F;
+               i += 10;
             }
 
-            var8 += BlockLiquid.getLiquidHeightPercent(var13);
-            var7++;
+            f += BlockLiquid.getLiquidHeightPercent(k);
+            i++;
          }
       }
 
-      return 1.0F - var8 / var7;
+      return 1.0F - f / i;
    }
 }

@@ -32,132 +32,132 @@ public class CommandReplaceItem extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.replaceitem.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 1) {
          throw new WrongUsageException("commands.replaceitem.usage");
       }
 
-      boolean var6;
-      if (var2[0].equals("entity")) {
-         var6 = false;
+      boolean bl;
+      if (args[0].equals("entity")) {
+         bl = false;
       } else {
-         if (!var2[0].equals("block")) {
+         if (!args[0].equals("block")) {
             throw new WrongUsageException("commands.replaceitem.usage");
          }
 
-         var6 = true;
+         bl = true;
       }
 
-      int var7;
-      if (var6) {
-         if (var2.length < 6) {
+      int i;
+      if (bl) {
+         if (args.length < 6) {
             throw new WrongUsageException("commands.replaceitem.block.usage");
          }
 
-         var7 = 4;
+         i = 4;
       } else {
-         if (var2.length < 4) {
+         if (args.length < 4) {
             throw new WrongUsageException("commands.replaceitem.entity.usage");
          }
 
-         var7 = 2;
+         i = 2;
       }
 
-      int var8 = this.getSlotForShortcut(var2[var7++]);
+      int j = this.getSlotForShortcut(args[i++]);
 
-      Item var9;
+      Item item;
       try {
-         var9 = getItemByText(var1, var2[var7]);
-      } catch (NumberInvalidException var18) {
-         if (Block.getBlockFromName(var2[var7]) != Blocks.air) {
-            throw var18;
+         item = getItemByText(sender, args[i]);
+      } catch (NumberInvalidException numberInvalidException) {
+         if (Block.getBlockFromName(args[i]) != Blocks.air) {
+            throw numberInvalidException;
          }
 
-         var9 = null;
+         item = null;
       }
 
-      var7++;
-      int var10 = var2.length > var7 ? parseInt(var2[var7++], 1, 64) : 1;
-      int var11 = var2.length > var7 ? parseInt(var2[var7++]) : 0;
-      ItemStack var12 = new ItemStack(var9, var10, var11);
-      if (var2.length > var7) {
-         String var13 = getChatComponentFromNthArg(var1, var2, var7).getUnformattedText();
+      i++;
+      int k = args.length > i ? parseInt(args[i++], 1, 64) : 1;
+      int l = args.length > i ? parseInt(args[i++]) : 0;
+      ItemStack itemStack = new ItemStack(item, k, l);
+      if (args.length > i) {
+         String string = getChatComponentFromNthArg(sender, args, i).getUnformattedText();
 
          try {
-            var12.setTagCompound(JsonToNBT.getTagFromJson(var13));
-         } catch (NBTException var17) {
-            throw new CommandException("commands.replaceitem.tagError", var17.getMessage());
+            itemStack.setTagCompound(JsonToNBT.getTagFromJson(string));
+         } catch (NBTException nbtException) {
+            throw new CommandException("commands.replaceitem.tagError", nbtException.getMessage());
          }
       }
 
-      if (var12.getItem() == null) {
-         var12 = null;
+      if (itemStack.getItem() == null) {
+         itemStack = null;
       }
 
-      if (var6) {
-         var1.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
-         BlockPos var21 = parseBlockPos(var1, var2, 1, false);
-         World var14 = var1.getEntityWorld();
-         TileEntity var15 = var14.getTileEntity(var21);
-         if (var15 == null || !(var15 instanceof IInventory)) {
-            throw new CommandException("commands.replaceitem.noContainer", var21.getX(), var21.getY(), var21.getZ());
+      if (bl) {
+         sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
+         BlockPos blockPos = parseBlockPos(sender, args, 1, false);
+         World world = sender.getEntityWorld();
+         TileEntity tileEntity = world.getTileEntity(blockPos);
+         if (tileEntity == null || !(tileEntity instanceof IInventory)) {
+            throw new CommandException("commands.replaceitem.noContainer", blockPos.getX(), blockPos.getY(), blockPos.getZ());
          }
 
-         IInventory var16 = (IInventory)var15;
-         if (var8 >= 0 && var8 < var16.getSizeInventory()) {
-            var16.setInventorySlotContents(var8, var12);
+         IInventory iInventory = (IInventory)tileEntity;
+         if (j >= 0 && j < iInventory.getSizeInventory()) {
+            iInventory.setInventorySlotContents(j, itemStack);
          }
       } else {
-         Entity var22 = getEntity(var1, var2[1]);
-         var1.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
-         if (var22 instanceof EntityPlayer) {
-            ((EntityPlayer)var22).inventoryContainer.detectAndSendChanges();
+         Entity entity2 = getEntity(sender, args[1]);
+         sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
+         if (entity2 instanceof EntityPlayer) {
+            ((EntityPlayer)entity2).inventoryContainer.detectAndSendChanges();
          }
 
-         if (!var22.replaceItemInInventory(var8, var12)) {
-            throw new CommandException("commands.replaceitem.failed", var8, var10, var12 == null ? "Air" : var12.getChatComponent());
+         if (!entity2.replaceItemInInventory(j, itemStack)) {
+            throw new CommandException("commands.replaceitem.failed", j, k, itemStack == null ? "Air" : itemStack.getChatComponent());
          }
 
-         if (var22 instanceof EntityPlayer) {
-            ((EntityPlayer)var22).inventoryContainer.detectAndSendChanges();
+         if (entity2 instanceof EntityPlayer) {
+            ((EntityPlayer)entity2).inventoryContainer.detectAndSendChanges();
          }
       }
 
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, var10);
-      notifyOperators(var1, this, "commands.replaceitem.success", var8, var10, var12 == null ? "Air" : var12.getChatComponent());
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
+      notifyOperators(sender, this, "commands.replaceitem.success", j, k, itemStack == null ? "Air" : itemStack.getChatComponent());
    }
 
-   private int getSlotForShortcut(String var1) throws CommandException {
-      if (!SHORTCUTS.containsKey(var1)) {
-         throw new CommandException("commands.generic.parameter.invalid", var1);
+   private int getSlotForShortcut(String shortcut) throws CommandException {
+      if (!SHORTCUTS.containsKey(shortcut)) {
+         throw new CommandException("commands.generic.parameter.invalid", shortcut);
       } else {
-         return SHORTCUTS.get(var1);
+         return SHORTCUTS.get(shortcut);
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, "entity", "block")
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, "entity", "block")
          : (
-            var2.length == 2 && var2[0].equals("entity")
-               ? getListOfStringsMatchingLastWord(var2, this.getUsernames())
+            args.length == 2 && args[0].equals("entity")
+               ? getListOfStringsMatchingLastWord(args, this.getUsernames())
                : (
-                  var2.length >= 2 && var2.length <= 4 && var2[0].equals("block")
-                     ? func_175771_a(var2, 1, var3)
+                  args.length >= 2 && args.length <= 4 && args[0].equals("block")
+                     ? func_175771_a(args, 1, pos)
                      : (
-                        (var2.length != 3 || !var2[0].equals("entity")) && (var2.length != 5 || !var2[0].equals("block"))
+                        (args.length != 3 || !args[0].equals("entity")) && (args.length != 5 || !args[0].equals("block"))
                            ? (
-                              var2.length == 4 && var2[0].equals("entity") || var2.length == 6 && var2[0].equals("block")
-                                 ? getListOfStringsMatchingLastWord(var2, Item.itemRegistry.getKeys())
+                              args.length == 4 && args[0].equals("entity") || args.length == 6 && args[0].equals("block")
+                                 ? getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys())
                                  : null
                            )
-                           : getListOfStringsMatchingLastWord(var2, SHORTCUTS.keySet())
+                           : getListOfStringsMatchingLastWord(args, SHORTCUTS.keySet())
                      )
                )
          );
@@ -168,33 +168,33 @@ public class CommandReplaceItem extends CommandBase {
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var1.length > 0 && var1[0].equals("entity") && var2 == 1;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return args.length > 0 && args[0].equals("entity") && index == 1;
    }
 
    static {
-      for (int var22 = 0; var22 < 54; var22++) {
-         SHORTCUTS.put("slot.container." + var22, var22);
+      for (int i = 0; i < 54; i++) {
+         SHORTCUTS.put("slot.container." + i, i);
       }
 
-      for (int var23 = 0; var23 < 9; var23++) {
-         SHORTCUTS.put("slot.hotbar." + var23, var23);
+      for (int j = 0; j < 9; j++) {
+         SHORTCUTS.put("slot.hotbar." + j, j);
       }
 
-      for (int var24 = 0; var24 < 27; var24++) {
-         SHORTCUTS.put("slot.inventory." + var24, 9 + var24);
+      for (int k = 0; k < 27; k++) {
+         SHORTCUTS.put("slot.inventory." + k, 9 + k);
       }
 
-      for (int var25 = 0; var25 < 27; var25++) {
-         SHORTCUTS.put("slot.enderchest." + var25, 200 + var25);
+      for (int l = 0; l < 27; l++) {
+         SHORTCUTS.put("slot.enderchest." + l, 200 + l);
       }
 
-      for (int var26 = 0; var26 < 8; var26++) {
-         SHORTCUTS.put("slot.villager." + var26, 300 + var26);
+      for (int m = 0; m < 8; m++) {
+         SHORTCUTS.put("slot.villager." + m, 300 + m);
       }
 
-      for (int var27 = 0; var27 < 15; var27++) {
-         SHORTCUTS.put("slot.horse." + var27, 500 + var27);
+      for (int n = 0; n < 15; n++) {
+         SHORTCUTS.put("slot.horse." + n, 500 + n);
       }
 
       SHORTCUTS.put("slot.weapon", 99);

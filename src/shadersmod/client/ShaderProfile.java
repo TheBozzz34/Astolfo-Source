@@ -12,57 +12,57 @@ public class ShaderProfile {
    private Set<String> disabledPrograms = new HashSet<>();
    private static final long a = 88101129767981L;
 
-   public ShaderProfile(String var1) {
-      this.name = var1;
+   public ShaderProfile(String name) {
+      this.name = name;
    }
 
    public String getName() {
       return this.name;
    }
 
-   public void addOptionValue(String var1, String var2) {
-      this.mapOptionValues.put(var1, var2);
+   public void addOptionValue(String option, String value) {
+      this.mapOptionValues.put(option, value);
    }
 
-   public void addOptionValues(ShaderProfile var1) {
-      if (var1 != null) {
-         this.mapOptionValues.putAll(var1.mapOptionValues);
+   public void addOptionValues(ShaderProfile prof) {
+      if (prof != null) {
+         this.mapOptionValues.putAll(prof.mapOptionValues);
       }
    }
 
-   public void applyOptionValues(ShaderOption[] var1) {
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         ShaderOption var6 = var1[var5];
-         String var7 = var6.getName();
-         String var8 = this.mapOptionValues.get(var7);
-         if (var8 != null) {
-            var6.setValue(var8);
+   public void applyOptionValues(ShaderOption[] options) {
+      for (int i = 0; i < options.length; i++) {
+         ShaderOption shaderOption = options[i];
+         String string = shaderOption.getName();
+         String string2 = this.mapOptionValues.get(string);
+         if (string2 != null) {
+            shaderOption.setValue(string2);
          }
       }
    }
 
    public String[] getOptions() {
-      Set var1 = this.mapOptionValues.keySet();
-      return (java.lang.String[])(var1.toArray(new String[var1.size()]));
+      Set set = this.mapOptionValues.keySet();
+      return (java.lang.String[])(set.toArray(new String[set.size()]));
    }
 
-   public String getValue(String var1) {
-      return this.mapOptionValues.get(var1);
+   public String getValue(String key) {
+      return this.mapOptionValues.get(key);
    }
 
-   public void addDisabledProgram(String var1) {
-      this.disabledPrograms.add(var1);
+   public void addDisabledProgram(String program) {
+      this.disabledPrograms.add(program);
    }
 
    public Collection<String> getDisabledPrograms() {
       return new HashSet<>(this.disabledPrograms);
    }
 
-   public void addDisabledPrograms(Collection<String> var1) {
-      this.disabledPrograms.addAll(var1);
+   public void addDisabledPrograms(Collection<String> programs) {
+      this.disabledPrograms.addAll(programs);
    }
 
-   public boolean isProgramDisabled(String var1) {
-      return this.disabledPrograms.contains(var1);
+   public boolean isProgramDisabled(String program) {
+      return this.disabledPrograms.contains(program);
    }
 }

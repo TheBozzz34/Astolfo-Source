@@ -26,95 +26,95 @@ public class PacketChannelBuilder {
    private static final long a = 137678236868828L;
    private static final long b = 4272540870860865552L;
 
-   public PacketChannelBuilder(String var1) {
+   public PacketChannelBuilder(String string) {
       this.i = ConnectionOptions.M((int)b);
-      this.m = var1;
+      this.m = string;
    }
 
    public PacketChannelBuilder() {
       this(null);
    }
 
-   public PacketChannelBuilder z(ConnectionListener var1) {
-      this.f = var1;
+   public PacketChannelBuilder z(ConnectionListener connectionListener) {
+      this.f = connectionListener;
       return this;
    }
 
-   public PacketChannelBuilder V(short var1, PacketReader<?> var2) {
-      this.o.put(var1, var2);
+   public PacketChannelBuilder V(short s, PacketReader<?> packetReader) {
+      this.o.put(s, packetReader);
       return this;
    }
 
-   public PacketChannelBuilder T(String var1) {
-      this.G = var1;
+   public PacketChannelBuilder T(String string) {
+      this.G = string;
       return this;
    }
 
-   public PacketChannelBuilder J(String var1) {
-      this.W = var1;
+   public PacketChannelBuilder J(String string) {
+      this.W = string;
       return this;
    }
 
-   public PacketChannelBuilder Z(short var1, List<PacketListener<?>> var2) {
-      this.J.put(var1, var2);
+   public PacketChannelBuilder Z(short s, List<PacketListener<?>> list) {
+      this.J.put(s, list);
       return this;
    }
 
-   public PacketChannelBuilder n(short var1) {
-      this.k = var1;
+   public PacketChannelBuilder n(short s) {
+      this.k = s;
       return this;
    }
 
-   public PacketChannelBuilder Q(PacketOutput var1) {
-      this.P = var1;
+   public PacketChannelBuilder Q(PacketOutput packetOutput) {
+      this.P = packetOutput;
       return this;
    }
 
-   public PacketChannelBuilder M(HandshakeAddresses var1) {
+   public PacketChannelBuilder M(HandshakeAddresses handshakeAddresses) {
       if (this.R != null) {
          throw new SecurityException();
       }
 
-      this.R = var1;
+      this.R = handshakeAddresses;
       return this;
    }
 
-   public PacketChannelBuilder a(ConnectionHandlerFactory var1) {
-      this.p = var1;
+   public PacketChannelBuilder a(ConnectionHandlerFactory connectionHandlerFactory) {
+      this.p = connectionHandlerFactory;
       return this;
    }
 
-   public PacketChannelBuilder V(short var1) {
-      this.o.put(var1, null);
+   public PacketChannelBuilder V(short s) {
+      this.o.put(s, null);
       return this;
    }
 
-   public PacketChannelBuilder A(Consumer<IOException> var1) {
-      this.j = var1;
+   public PacketChannelBuilder A(Consumer<IOException> consumer) {
+      this.j = consumer;
       return this;
    }
 
-   public PacketChannelBuilder X(InputStream var1) throws IOException {
-      var1.close();
+   public PacketChannelBuilder X(InputStream inputStream) throws IOException {
+      inputStream.close();
       return this;
    }
 
-   public PacketChannelBuilder e(List<PacketChunk> var1) {
-      this.e = var1;
+   public PacketChannelBuilder e(List<PacketChunk> list) {
+      this.e = list;
       return this;
    }
 
-   public PacketChannelBuilder I(PacketChunk var1) {
+   public PacketChannelBuilder I(PacketChunk packetChunk) {
       if (this.e == null) {
          this.e = new ArrayList<>();
       }
 
-      this.e.add(var1);
+      this.e.add(packetChunk);
       return this;
    }
 
-   public PacketChannelBuilder K(Runnable var1) {
-      this.t = var1;
+   public PacketChannelBuilder K(Runnable runnable) {
+      this.t = runnable;
       return this;
    }
 

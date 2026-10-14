@@ -33,146 +33,146 @@ public class TextureUtil {
       return GlStateManager.generateTexture();
    }
 
-   public static void deleteTexture(int var0) {
-      GlStateManager.deleteTexture(var0);
+   public static void deleteTexture(int textureId) {
+      GlStateManager.deleteTexture(textureId);
    }
 
-   public static int uploadTextureImage(int var0, BufferedImage var1) {
-      return uploadTextureImageAllocate(var0, var1, false, false);
+   public static int uploadTextureImage(int i, BufferedImage bufferedImage) {
+      return uploadTextureImageAllocate(i, bufferedImage, false, false);
    }
 
-   public static void uploadTexture(int var0, int[] var1, int var2, int var3) {
-      bindTexture(var0);
-      uploadTextureSub(0, var1, var2, var3, 0, 0, false, false, false);
+   public static void uploadTexture(int textureId, int[] ints, int i, int j) {
+      bindTexture(textureId);
+      uploadTextureSub(0, ints, i, j, 0, 0, false, false, false);
    }
 
-   public static int[][] generateMipmapData(int var0, int var1, int[][] var2) {
-      int[][] var6 = new int[var0 + 1][];
-      var6[0] = var2[0];
-      if (var0 > 0) {
-         boolean var7 = false;
+   public static int[][] generateMipmapData(int i, int j, int[][] ints) {
+      int[][] intss = new int[i + 1][];
+      intss[0] = ints[0];
+      if (i > 0) {
+         boolean bl = false;
 
-         for (int var8 = 0; var8 < var2.length; var8++) {
-            if (var2[0][var8] >> 24 == 0) {
-               var7 = true;
+         for (int k = 0; k < ints.length; k++) {
+            if (ints[0][k] >> 24 == 0) {
+               bl = true;
                break;
             }
          }
 
-         for (int var17 = 1; var17 <= var0; var17++) {
-            if (var2[var17] != null) {
-               var6[var17] = var2[var17];
+         for (int l = 1; l <= i; l++) {
+            if (ints[l] != null) {
+               intss[l] = ints[l];
             } else {
-               int[] var9 = var6[var17 - 1];
-               int[] var10 = new int[var9.length >> 2];
-               int var11 = var1 >> var17;
-               int var12 = var10.length / var11;
-               int var13 = var11 << 1;
+               int[] ints2 = intss[l - 1];
+               int[] ints3 = new int[ints2.length >> 2];
+               int m = j >> l;
+               int n = ints3.length / m;
+               int i2 = m << 1;
 
-               for (int var14 = 0; var14 < var11; var14++) {
-                  for (int var15 = 0; var15 < var12; var15++) {
-                     int var16 = 2 * (var14 + var15 * var13);
-                     var10[var14 + var15 * var11] = blendColors(var9[var16 + 0], var9[var16 + 1], var9[var16 + 0 + var13], var9[var16 + 1 + var13], var7);
+               for (int i3 = 0; i3 < m; i3++) {
+                  for (int i4 = 0; i4 < n; i4++) {
+                     int i5 = 2 * (i3 + i4 * i2);
+                     ints3[i3 + i4 * m] = blendColors(ints2[i5 + 0], ints2[i5 + 1], ints2[i5 + 0 + i2], ints2[i5 + 1 + i2], bl);
                   }
                }
 
-               var6[var17] = var10;
+               intss[l] = ints3;
             }
          }
       }
 
-      return var6;
+      return intss;
    }
 
-   private static int blendColors(int var0, int var1, int var2, int var3, boolean var4) {
-      return Mipmaps.alphaBlend(var0, var1, var2, var3);
+   private static int blendColors(int i, int j, int k, int l, boolean bl) {
+      return Mipmaps.alphaBlend(i, j, k, l);
    }
 
-   public static void uploadTextureMipmap(int[][] var0, int var1, int var2, int var3, int var4, boolean var5, boolean var6) {
-      for (int var10 = 0; var10 < var0.length; var10++) {
-         int[] var11 = var0[var10];
-         uploadTextureSub(var10, var11, var1 >> var10, var2 >> var10, var3 >> var10, var4 >> var10, var5, var6, var0.length > 1);
+   public static void uploadTextureMipmap(int[][] ints, int i, int j, int k, int l, boolean bl, boolean bl2) {
+      for (int m = 0; m < ints.length; m++) {
+         int[] ints2 = ints[m];
+         uploadTextureSub(m, ints2, i >> m, j >> m, k >> m, l >> m, bl, bl2, ints.length > 1);
       }
    }
 
-   private static void uploadTextureSub(int var0, int[] var1, int var2, int var3, int var4, int var5, boolean var6, boolean var7, boolean var8) {
-      long var9 = a ^ 19012270978996L;
-      int var11 = 4194304 / var2;
-      setTextureBlurMipmap(var6, var8);
-      setTextureClamped(var7);
-      int var13 = 0;
+   private static void uploadTextureSub(int i, int[] ints, int j, int k, int l, int m, boolean bl, boolean bl2, boolean bl3) {
+      long n = a ^ 19012270978996L;
+      int i2 = 4194304 / j;
+      setTextureBlurMipmap(bl, bl3);
+      setTextureClamped(bl2);
+      int i3 = 0;
 
-      while (var13 < var2 * var3) {
-         int var14 = var13 / var2;
-         int var12 = Math.min(var11, var3 - var14);
-         long var10000 = 2777398024165055802L ^ var9;
-         int var15 = var2 * var12;
-         copyToBufferPos(var1, var13, var15);
-         GL11.glTexSubImage2D(3553, var0, var4, var5 + var14, var2, var12, 32993, 33639, dataBuffer);
-         var13 += var2 * var12;
+      while (i3 < j * k) {
+         int i4 = i3 / j;
+         int i5 = Math.min(i2, k - i4);
+         long l2 = 2777398024165055802L ^ n;
+         int i6 = j * i5;
+         copyToBufferPos(ints, i3, i6);
+         GL11.glTexSubImage2D(3553, i, l, m + i4, j, i5, 32993, 33639, dataBuffer);
+         i3 += j * i5;
       }
    }
 
-   public static int uploadTextureImageAllocate(int var0, BufferedImage var1, boolean var2, boolean var3) {
-      allocateTexture(var0, var1.getWidth(), var1.getHeight());
-      return uploadTextureImageSub(var0, var1, 0, 0, var2, var3);
+   public static int uploadTextureImageAllocate(int i, BufferedImage bufferedImage, boolean bl, boolean bl2) {
+      allocateTexture(i, bufferedImage.getWidth(), bufferedImage.getHeight());
+      return uploadTextureImageSub(i, bufferedImage, 0, 0, bl, bl2);
    }
 
-   public static void allocateTexture(int var0, int var1, int var2) {
-      allocateTextureImpl(var0, 0, var1, var2);
+   public static void allocateTexture(int i, int j, int k) {
+      allocateTextureImpl(i, 0, j, k);
    }
 
-   public static void allocateTextureImpl(int var0, int var1, int var2, int var3) {
-      Class<TextureUtil> var6 = TextureUtil.class;
+   public static void allocateTextureImpl(int i, int j, int k, int l) {
+      Class<TextureUtil> class2 = TextureUtil.class;
       if (Reflector.SplashScreen.exists()) {
-         var6 = Reflector.SplashScreen.getTargetClass();
+         class2 = Reflector.SplashScreen.getTargetClass();
       }
 
-      synchronized (var6) {
-         deleteTexture(var0);
-         bindTexture(var0);
+      synchronized (class2) {
+         deleteTexture(i);
+         bindTexture(i);
       }
 
-      if (var1 >= 0) {
-         GL11.glTexParameteri(3553, 33085, var1);
+      if (j >= 0) {
+         GL11.glTexParameteri(3553, 33085, j);
          GL11.glTexParameterf(3553, 33082, 0.0F);
-         GL11.glTexParameterf(3553, 33083, var1);
+         GL11.glTexParameterf(3553, 33083, j);
          GL11.glTexParameterf(3553, 34049, 0.0F);
       }
 
-      for (int var7 = 0; var7 <= var1; var7++) {
-         GL11.glTexImage2D(3553, var7, 6408, var2 >> var7, var3 >> var7, 0, 32993, 33639, (IntBuffer)null);
+      for (int m = 0; m <= j; m++) {
+         GL11.glTexImage2D(3553, m, 6408, k >> m, l >> m, 0, 32993, 33639, (IntBuffer)null);
       }
    }
 
-   public static int uploadTextureImageSub(int var0, BufferedImage var1, int var2, int var3, boolean var4, boolean var5) {
-      bindTexture(var0);
-      uploadTextureImageSubImpl(var1, var2, var3, var4, var5);
-      return var0;
+   public static int uploadTextureImageSub(int textureId, BufferedImage bufferedImage, int i, int j, boolean bl, boolean bl2) {
+      bindTexture(textureId);
+      uploadTextureImageSubImpl(bufferedImage, i, j, bl, bl2);
+      return textureId;
    }
 
-   private static void uploadTextureImageSubImpl(BufferedImage var0, int var1, int var2, boolean var3, boolean var4) {
-      long var5 = a ^ 9968789475596L;
-      int var8 = var0.getWidth();
-      int var9 = var0.getHeight();
-      int var10 = 4194304 / var8;
-      int[] var11 = new int[var10 * var8];
-      setTextureBlurred(var3);
-      setTextureClamped(var4);
+   private static void uploadTextureImageSubImpl(BufferedImage bufferedImage, int i, int j, boolean bl, boolean bl2) {
+      long l = a ^ 9968789475596L;
+      int k = bufferedImage.getWidth();
+      int m = bufferedImage.getHeight();
+      int n = 4194304 / k;
+      int[] ints = new int[n * k];
+      setTextureBlurred(bl);
+      setTextureClamped(bl2);
 
-      for (int var12 = 0; var12 < var8 * var9; var12 += var8 * var10) {
-         int var13 = var12 / var8;
-         int var14 = Math.min(var10, var9 - var13);
-         long var10000 = 2777406581509553026L ^ var5;
-         int var15 = var8 * var14;
-         var0.getRGB(0, var13, var8, var14, var11, 0, var8);
-         copyToBuffer(var11, var15);
-         GL11.glTexSubImage2D(3553, 0, var1, var2 + var13, var8, var14, 32993, 33639, dataBuffer);
+      for (int i2 = 0; i2 < k * m; i2 += k * n) {
+         int i3 = i2 / k;
+         int i4 = Math.min(n, m - i3);
+         long l2 = 2777406581509553026L ^ l;
+         int i5 = k * i4;
+         bufferedImage.getRGB(0, i3, k, i4, ints, 0, k);
+         copyToBuffer(ints, i5);
+         GL11.glTexSubImage2D(3553, 0, i, j + i3, k, i4, 32993, 33639, dataBuffer);
       }
    }
 
-   public static void setTextureClamped(boolean var0) {
-      if (var0) {
+   public static void setTextureClamped(boolean bl) {
+      if (bl) {
          GL11.glTexParameteri(3553, 10242, 33071);
          GL11.glTexParameteri(3553, 10243, 33071);
       } else {
@@ -181,138 +181,138 @@ public class TextureUtil {
       }
    }
 
-   private static void setTextureBlurred(boolean var0) {
-      setTextureBlurMipmap(var0, false);
+   private static void setTextureBlurred(boolean bl) {
+      setTextureBlurMipmap(bl, false);
    }
 
-   public static void setTextureBlurMipmap(boolean var0, boolean var1) {
-      if (var0) {
-         GL11.glTexParameteri(3553, 10241, var1 ? 9987 : 9729);
+   public static void setTextureBlurMipmap(boolean bl, boolean bl2) {
+      if (bl) {
+         GL11.glTexParameteri(3553, 10241, bl2 ? 9987 : 9729);
          GL11.glTexParameteri(3553, 10240, 9729);
       } else {
-         int var4 = Config.getMipmapType();
-         GL11.glTexParameteri(3553, 10241, var1 ? var4 : 9728);
+         int i = Config.getMipmapType();
+         GL11.glTexParameteri(3553, 10241, bl2 ? i : 9728);
          GL11.glTexParameteri(3553, 10240, 9728);
       }
    }
 
-   private static void copyToBuffer(int[] var0, int var1) {
-      copyToBufferPos(var0, 0, var1);
+   private static void copyToBuffer(int[] ints, int i) {
+      copyToBufferPos(ints, 0, i);
    }
 
-   private static void copyToBufferPos(int[] var0, int var1, int var2) {
-      int[] var5 = var0;
+   private static void copyToBufferPos(int[] ints, int i, int j) {
+      int[] ints2 = ints;
       if (Minecraft.getMinecraft().gameSettings.anaglyph) {
-         var5 = updateAnaglyph(var0);
+         ints2 = updateAnaglyph(ints);
       }
 
       ((Buffer)dataBuffer).clear();
-      dataBuffer.put(var5, var1, var2);
-      ((Buffer)dataBuffer).position(0).limit(var2);
+      dataBuffer.put(ints2, i, j);
+      ((Buffer)dataBuffer).position(0).limit(j);
    }
 
-   public static void bindTexture(int var0) {
-      GlStateManager.bindTexture(var0);
+   public static void bindTexture(int i) {
+      GlStateManager.bindTexture(i);
    }
 
-   public static int[] readImageData(IResourceManager var0, ResourceLocation var1) throws IOException {
-      BufferedImage var5 = readBufferedImage(var0.getResource(var1).getInputStream());
-      if (var5 == null) {
+   public static int[] readImageData(IResourceManager resourceManager, ResourceLocation imageLocation) throws IOException {
+      BufferedImage bufferedImage = readBufferedImage(resourceManager.getResource(imageLocation).getInputStream());
+      if (bufferedImage == null) {
          return null;
       }
 
-      int var6 = var5.getWidth();
-      int var7 = var5.getHeight();
-      int[] var8 = new int[var6 * var7];
-      var5.getRGB(0, 0, var6, var7, var8, 0, var6);
-      return var8;
+      int i = bufferedImage.getWidth();
+      int j = bufferedImage.getHeight();
+      int[] ints = new int[i * j];
+      bufferedImage.getRGB(0, 0, i, j, ints, 0, i);
+      return ints;
    }
 
-   public static BufferedImage readBufferedImage(InputStream var0) throws IOException {
-      if (var0 == null) {
+   public static BufferedImage readBufferedImage(InputStream imageStream) throws IOException {
+      if (imageStream == null) {
          return null;
       }
 
-      BufferedImage var4;
+      BufferedImage bufferedImage;
       try {
-         var4 = ImageIO.read(var0);
+         bufferedImage = ImageIO.read(imageStream);
       } finally {
-         IOUtils.closeQuietly(var0);
+         IOUtils.closeQuietly(imageStream);
       }
 
-      return var4;
+      return bufferedImage;
    }
 
-   public static int[] updateAnaglyph(int[] var0) {
-      int[] var3 = new int[var0.length];
+   public static int[] updateAnaglyph(int[] ints) {
+      int[] ints2 = new int[ints.length];
 
-      for (int var4 = 0; var4 < var0.length; var4++) {
-         var3[var4] = anaglyphColor(var0[var4]);
+      for (int i = 0; i < ints.length; i++) {
+         ints2[i] = anaglyphColor(ints[i]);
       }
 
-      return var3;
+      return ints2;
    }
 
-   public static int anaglyphColor(int var0) {
-      int var3 = var0 >> 24 & 0xFF;
-      int var4 = var0 >> 16 & 0xFF;
-      int var5 = var0 >> 8 & 0xFF;
-      int var6 = var0 & 0xFF;
-      int var7 = (var4 * 30 + var5 * 59 + var6 * 11) / 100;
-      int var8 = (var4 * 30 + var5 * 70) / 100;
-      int var9 = (var4 * 30 + var6 * 70) / 100;
-      return var3 << 24 | var7 << 16 | var8 << 8 | var9;
+   public static int anaglyphColor(int i) {
+      int j = i >> 24 & 0xFF;
+      int k = i >> 16 & 0xFF;
+      int l = i >> 8 & 0xFF;
+      int m = i & 0xFF;
+      int n = (k * 30 + l * 59 + m * 11) / 100;
+      int i2 = (k * 30 + l * 70) / 100;
+      int i3 = (k * 30 + m * 70) / 100;
+      return j << 24 | n << 16 | i2 << 8 | i3;
    }
 
-   public static void saveGlTexture(String var0, int var1, int var2, int var3, int var4) {
-      long var5 = a ^ 127131821983565L;
-      bindTexture(var1);
+   public static void saveGlTexture(String string, int i, int j, int k, int l) {
+      long m = a ^ 127131821983565L;
+      bindTexture(i);
       GL11.glPixelStorei(3333, 1);
       GL11.glPixelStorei(3317, 1);
 
-      for (int var8 = 0; var8 <= var2; var8++) {
-         File var9 = new File(var0 + "_" + var8 + ".png");
-         int var10 = var3 >> var8;
-         long var10000 = 2777364323776097731L ^ var5;
-         int var11 = var4 >> var8;
-         int var12 = var10 * var11;
-         IntBuffer var13 = BufferUtils.createIntBuffer(var12);
-         int[] var14 = new int[var12];
-         GL11.glGetTexImage(3553, var8, 32993, 33639, var13);
-         var13.get(var14);
-         BufferedImage var15 = new BufferedImage(var10, var11, 2);
-         var15.setRGB(0, 0, var10, var11, var14, 0, var10);
+      for (int n = 0; n <= j; n++) {
+         File file = new File(string + "_" + n + ".png");
+         int i2 = k >> n;
+         long l2 = 2777364323776097731L ^ m;
+         int i3 = l >> n;
+         int i4 = i2 * i3;
+         IntBuffer intBuffer = BufferUtils.createIntBuffer(i4);
+         int[] ints = new int[i4];
+         GL11.glGetTexImage(3553, n, 32993, 33639, intBuffer);
+         intBuffer.get(ints);
+         BufferedImage bufferedImage = new BufferedImage(i2, i3, 2);
+         bufferedImage.setRGB(0, 0, i2, i3, ints, 0, i2);
 
          try {
-            ImageIO.write(var15, "png", var9);
-            logger.debug("Exported png to: {}", new Object[]{var9.getAbsolutePath()});
-         } catch (Exception var17) {
-            logger.debug("Unable to write: ", var17);
+            ImageIO.write(bufferedImage, "png", file);
+            logger.debug("Exported png to: {}", new Object[]{file.getAbsolutePath()});
+         } catch (Exception exception) {
+            logger.debug("Unable to write: ", exception);
          }
       }
    }
 
-   public static void processPixelValues(int[] var0, int var1, int var2) {
-      int[] var6 = new int[var1];
-      int var7 = var2 / 2;
+   public static void processPixelValues(int[] ints, int i, int j) {
+      int[] ints2 = new int[i];
+      int k = j / 2;
 
-      for (int var8 = 0; var8 < var7; var8++) {
-         System.arraycopy(var0, var8 * var1, var6, 0, var1);
-         System.arraycopy(var0, (var2 - 1 - var8) * var1, var0, var8 * var1, var1);
-         System.arraycopy(var6, 0, var0, (var2 - 1 - var8) * var1, var1);
+      for (int l = 0; l < k; l++) {
+         System.arraycopy(ints, l * i, ints2, 0, i);
+         System.arraycopy(ints, (j - 1 - l) * i, ints, l * i, i);
+         System.arraycopy(ints2, 0, ints, (j - 1 - l) * i, i);
       }
    }
 
    static {
-      long var20 = a ^ 122495466120457L;
-      long var10000 = 8718222394202263368L ^ var20;
-      int[] var24 = new int[]{-524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
-      int[] var25 = new int[]{-16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
-      int var26 = var24.length;
+      long l = a ^ 122495466120457L;
+      long m = 8718222394202263368L ^ l;
+      int[] ints = new int[]{-524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
+      int[] ints2 = new int[]{-16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
+      int i = ints.length;
 
-      for (int var27 = 0; var27 < 16; var27++) {
-         System.arraycopy(var27 < var26 ? var24 : var25, 0, missingTextureData, 16 * var27, var26);
-         System.arraycopy(var27 < var26 ? var25 : var24, 0, missingTextureData, 16 * var27 + var26, var26);
+      for (int j = 0; j < 16; j++) {
+         System.arraycopy(j < i ? ints : ints2, 0, missingTextureData, 16 * j, i);
+         System.arraycopy(j < i ? ints2 : ints, 0, missingTextureData, 16 * j + i, i);
       }
 
       missingTexture.updateDynamicTexture();

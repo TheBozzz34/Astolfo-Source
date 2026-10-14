@@ -16,42 +16,42 @@ public class GuiScreenHorseInventory extends GuiContainer {
    private float mousePosY;
    private static final long bb = 129646921174906L;
 
-   public GuiScreenHorseInventory(IInventory var1, IInventory var2, EntityHorse var3) {
-      super(new ContainerHorseInventory(var1, var2, var3, Minecraft.getMinecraft().thePlayer));
-      this.playerInventory = var1;
-      this.horseInventory = var2;
-      this.horseEntity = var3;
+   public GuiScreenHorseInventory(IInventory playerInv, IInventory horseInv, EntityHorse horse) {
+      super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.getMinecraft().thePlayer));
+      this.playerInventory = playerInv;
+      this.horseInventory = horseInv;
+      this.horseEntity = horse;
       this.allowUserInput = false;
    }
 
    @Override
-   public void drawGuiContainerForegroundLayer(int var1, int var2) {
+   public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       this.fontRendererObj.D(this.horseInventory.getDisplayName().getUnformattedText(), 8.0F, 6.0F, 4210752);
       this.fontRendererObj.D(this.playerInventory.getDisplayName().getUnformattedText(), 8.0F, this.ySize - 96 + 2, 4210752);
    }
 
    @Override
-   public void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+   public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(horseGuiTextures);
-      int var7 = (this.width - this.xSize) / 2;
-      int var8 = (this.height - this.ySize) / 2;
-      this.drawTexturedModalRect(var7, var8, 0, 0, this.xSize, this.ySize);
+      int i = (this.width - this.xSize) / 2;
+      int j = (this.height - this.ySize) / 2;
+      this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
       if (this.horseEntity.isChested()) {
-         this.drawTexturedModalRect(var7 + 79, var8 + 17, 0, this.ySize, 90, 54);
+         this.drawTexturedModalRect(i + 79, j + 17, 0, this.ySize, 90, 54);
       }
 
       if (this.horseEntity.canWearArmor()) {
-         this.drawTexturedModalRect(var7 + 7, var8 + 35, 0, this.ySize + 54, 18, 18);
+         this.drawTexturedModalRect(i + 7, j + 35, 0, this.ySize + 54, 18, 18);
       }
 
-      GuiInventory.drawEntityOnScreen(var7 + 51, var8 + 60, 17, var7 + 51 - this.mousePosx, var8 + 75 - 50 - this.mousePosY, this.horseEntity);
+      GuiInventory.drawEntityOnScreen(i + 51, j + 60, 17, i + 51 - this.mousePosx, j + 75 - 50 - this.mousePosY, this.horseEntity);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      this.mousePosx = var1;
-      this.mousePosY = var2;
-      super.drawScreen(var1, var2, var3);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      this.mousePosx = mouseX;
+      this.mousePosY = mouseY;
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

@@ -72,47 +72,47 @@ public class ChatStyle {
       }
 
       @Override
-      public ChatStyle setColor(EnumChatFormatting var1) {
+      public ChatStyle setColor(EnumChatFormatting colorIn) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setBold(Boolean var1) {
+      public ChatStyle setBold(Boolean boldIn) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setItalic(Boolean var1) {
+      public ChatStyle setItalic(Boolean italicIn) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setStrikethrough(Boolean var1) {
+      public ChatStyle setStrikethrough(Boolean strikethroughIn) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setUnderlined(Boolean var1) {
+      public ChatStyle setUnderlined(Boolean underlinedIn) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setObfuscated(Boolean var1) {
+      public ChatStyle setObfuscated(Boolean obfuscatedIn) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setChatClickEvent(ClickEvent var1) {
+      public ChatStyle setChatClickEvent(ClickEvent event) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setChatHoverEvent(HoverEvent var1) {
+      public ChatStyle setChatHoverEvent(HoverEvent event) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public ChatStyle setParentStyle(ChatStyle var1) {
+      public ChatStyle setParentStyle(ChatStyle parent) {
          throw new UnsupportedOperationException();
       }
 
@@ -185,53 +185,53 @@ public class ChatStyle {
       return this.insertion == null ? this.getParent().getInsertion() : this.insertion;
    }
 
-   public ChatStyle setColor(EnumChatFormatting var1) {
-      this.color = var1;
+   public ChatStyle setColor(EnumChatFormatting color) {
+      this.color = color;
       return this;
    }
 
-   public ChatStyle setBold(Boolean var1) {
-      this.bold = var1;
+   public ChatStyle setBold(Boolean boldIn) {
+      this.bold = boldIn;
       return this;
    }
 
-   public ChatStyle setItalic(Boolean var1) {
-      this.italic = var1;
+   public ChatStyle setItalic(Boolean italic) {
+      this.italic = italic;
       return this;
    }
 
-   public ChatStyle setStrikethrough(Boolean var1) {
-      this.strikethrough = var1;
+   public ChatStyle setStrikethrough(Boolean strikethrough) {
+      this.strikethrough = strikethrough;
       return this;
    }
 
-   public ChatStyle setUnderlined(Boolean var1) {
-      this.underlined = var1;
+   public ChatStyle setUnderlined(Boolean underlined) {
+      this.underlined = underlined;
       return this;
    }
 
-   public ChatStyle setObfuscated(Boolean var1) {
-      this.obfuscated = var1;
+   public ChatStyle setObfuscated(Boolean obfuscated) {
+      this.obfuscated = obfuscated;
       return this;
    }
 
-   public ChatStyle setChatClickEvent(ClickEvent var1) {
-      this.chatClickEvent = var1;
+   public ChatStyle setChatClickEvent(ClickEvent event) {
+      this.chatClickEvent = event;
       return this;
    }
 
-   public ChatStyle setChatHoverEvent(HoverEvent var1) {
-      this.chatHoverEvent = var1;
+   public ChatStyle setChatHoverEvent(HoverEvent event) {
+      this.chatHoverEvent = event;
       return this;
    }
 
-   public ChatStyle setInsertion(String var1) {
-      this.insertion = var1;
+   public ChatStyle setInsertion(String insertion) {
+      this.insertion = insertion;
       return this;
    }
 
-   public ChatStyle setParentStyle(ChatStyle var1) {
-      this.parentStyle = var1;
+   public ChatStyle setParentStyle(ChatStyle parent) {
+      this.parentStyle = parent;
       return this;
    }
 
@@ -240,32 +240,32 @@ public class ChatStyle {
          return this.parentStyle != null ? this.parentStyle.getFormattingCode() : "";
       }
 
-      StringBuilder var3 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
       if (this.getColor() != null) {
-         var3.append(this.getColor());
+         stringBuilder.append(this.getColor());
       }
 
       if (this.getBold()) {
-         var3.append(EnumChatFormatting.BOLD);
+         stringBuilder.append(EnumChatFormatting.BOLD);
       }
 
       if (this.getItalic()) {
-         var3.append(EnumChatFormatting.ITALIC);
+         stringBuilder.append(EnumChatFormatting.ITALIC);
       }
 
       if (this.getUnderlined()) {
-         var3.append(EnumChatFormatting.UNDERLINE);
+         stringBuilder.append(EnumChatFormatting.UNDERLINE);
       }
 
       if (this.getObfuscated()) {
-         var3.append(EnumChatFormatting.OBFUSCATED);
+         stringBuilder.append(EnumChatFormatting.OBFUSCATED);
       }
 
       if (this.getStrikethrough()) {
-         var3.append(EnumChatFormatting.STRIKETHROUGH);
+         stringBuilder.append(EnumChatFormatting.STRIKETHROUGH);
       }
 
-      return var3.toString();
+      return stringBuilder.toString();
    }
 
    private ChatStyle getParent() {
@@ -296,188 +296,188 @@ public class ChatStyle {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ChatStyle)) {
+      if (!(object instanceof ChatStyle)) {
          return false;
       }
 
-      ChatStyle var6 = (ChatStyle)var1;
-      return this.getBold() == var6.getBold()
-         && this.getColor() == var6.getColor()
-         && this.getItalic() == var6.getItalic()
-         && this.getObfuscated() == var6.getObfuscated()
-         && this.getStrikethrough() == var6.getStrikethrough()
-         && this.getUnderlined() == var6.getUnderlined()
-         && (this.getChatClickEvent() != null ? this.getChatClickEvent().equals(var6.getChatClickEvent()) : var6.getChatClickEvent() == null)
-         && (this.getChatHoverEvent() != null ? this.getChatHoverEvent().equals(var6.getChatHoverEvent()) : var6.getChatHoverEvent() == null)
-         && (this.getInsertion() != null ? this.getInsertion().equals(var6.getInsertion()) : var6.getInsertion() == null);
+      ChatStyle chatStyle = (ChatStyle)object;
+      return this.getBold() == chatStyle.getBold()
+         && this.getColor() == chatStyle.getColor()
+         && this.getItalic() == chatStyle.getItalic()
+         && this.getObfuscated() == chatStyle.getObfuscated()
+         && this.getStrikethrough() == chatStyle.getStrikethrough()
+         && this.getUnderlined() == chatStyle.getUnderlined()
+         && (this.getChatClickEvent() != null ? this.getChatClickEvent().equals(chatStyle.getChatClickEvent()) : chatStyle.getChatClickEvent() == null)
+         && (this.getChatHoverEvent() != null ? this.getChatHoverEvent().equals(chatStyle.getChatHoverEvent()) : chatStyle.getChatHoverEvent() == null)
+         && (this.getInsertion() != null ? this.getInsertion().equals(chatStyle.getInsertion()) : chatStyle.getInsertion() == null);
    }
 
    @Override
    public int hashCode() {
-      int var3 = this.color.hashCode();
-      var3 = 31 * var3 + this.bold.hashCode();
-      var3 = 31 * var3 + this.italic.hashCode();
-      var3 = 31 * var3 + this.underlined.hashCode();
-      var3 = 31 * var3 + this.strikethrough.hashCode();
-      var3 = 31 * var3 + this.obfuscated.hashCode();
-      var3 = 31 * var3 + this.chatClickEvent.hashCode();
-      var3 = 31 * var3 + this.chatHoverEvent.hashCode();
-      return 31 * var3 + this.insertion.hashCode();
+      int i = this.color.hashCode();
+      i = 31 * i + this.bold.hashCode();
+      i = 31 * i + this.italic.hashCode();
+      i = 31 * i + this.underlined.hashCode();
+      i = 31 * i + this.strikethrough.hashCode();
+      i = 31 * i + this.obfuscated.hashCode();
+      i = 31 * i + this.chatClickEvent.hashCode();
+      i = 31 * i + this.chatHoverEvent.hashCode();
+      return 31 * i + this.insertion.hashCode();
    }
 
    public ChatStyle createShallowCopy() {
-      ChatStyle var1 = new ChatStyle();
-      var1.bold = this.bold;
-      var1.italic = this.italic;
-      var1.strikethrough = this.strikethrough;
-      var1.underlined = this.underlined;
-      var1.obfuscated = this.obfuscated;
-      var1.color = this.color;
-      var1.chatClickEvent = this.chatClickEvent;
-      var1.chatHoverEvent = this.chatHoverEvent;
-      var1.parentStyle = this.parentStyle;
-      var1.insertion = this.insertion;
-      return var1;
+      ChatStyle chatStyle = new ChatStyle();
+      chatStyle.bold = this.bold;
+      chatStyle.italic = this.italic;
+      chatStyle.strikethrough = this.strikethrough;
+      chatStyle.underlined = this.underlined;
+      chatStyle.obfuscated = this.obfuscated;
+      chatStyle.color = this.color;
+      chatStyle.chatClickEvent = this.chatClickEvent;
+      chatStyle.chatHoverEvent = this.chatHoverEvent;
+      chatStyle.parentStyle = this.parentStyle;
+      chatStyle.insertion = this.insertion;
+      return chatStyle;
    }
 
    public ChatStyle createDeepCopy() {
-      ChatStyle var1 = new ChatStyle();
-      var1.setBold(this.getBold());
-      var1.setItalic(this.getItalic());
-      var1.setStrikethrough(this.getStrikethrough());
-      var1.setUnderlined(this.getUnderlined());
-      var1.setObfuscated(this.getObfuscated());
-      var1.setColor(this.getColor());
-      var1.setChatClickEvent(this.getChatClickEvent());
-      var1.setChatHoverEvent(this.getChatHoverEvent());
-      var1.setInsertion(this.getInsertion());
-      return var1;
+      ChatStyle chatStyle = new ChatStyle();
+      chatStyle.setBold(this.getBold());
+      chatStyle.setItalic(this.getItalic());
+      chatStyle.setStrikethrough(this.getStrikethrough());
+      chatStyle.setUnderlined(this.getUnderlined());
+      chatStyle.setObfuscated(this.getObfuscated());
+      chatStyle.setColor(this.getColor());
+      chatStyle.setChatClickEvent(this.getChatClickEvent());
+      chatStyle.setChatHoverEvent(this.getChatHoverEvent());
+      chatStyle.setInsertion(this.getInsertion());
+      return chatStyle;
    }
 
    public static class Serializer implements JsonDeserializer<ChatStyle>, JsonSerializer<ChatStyle> {
       private static final long a = 98196544772308L;
 
-      public ChatStyle deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-         if (var1.isJsonObject()) {
-            ChatStyle var7 = new ChatStyle();
-            JsonObject var8 = var1.getAsJsonObject();
-            if (var8 == null) {
+      public ChatStyle deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+         if (jsonElement.isJsonObject()) {
+            ChatStyle chatStyle = new ChatStyle();
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            if (jsonObject == null) {
                return null;
             }
 
-            if (var8.has("bold")) {
-               var7.bold = var8.get("bold").getAsBoolean();
+            if (jsonObject.has("bold")) {
+               chatStyle.bold = jsonObject.get("bold").getAsBoolean();
             }
 
-            if (var8.has("italic")) {
-               var7.italic = var8.get("italic").getAsBoolean();
+            if (jsonObject.has("italic")) {
+               chatStyle.italic = jsonObject.get("italic").getAsBoolean();
             }
 
-            if (var8.has("underlined")) {
-               var7.underlined = var8.get("underlined").getAsBoolean();
+            if (jsonObject.has("underlined")) {
+               chatStyle.underlined = jsonObject.get("underlined").getAsBoolean();
             }
 
-            if (var8.has("strikethrough")) {
-               var7.strikethrough = var8.get("strikethrough").getAsBoolean();
+            if (jsonObject.has("strikethrough")) {
+               chatStyle.strikethrough = jsonObject.get("strikethrough").getAsBoolean();
             }
 
-            if (var8.has("obfuscated")) {
-               var7.obfuscated = var8.get("obfuscated").getAsBoolean();
+            if (jsonObject.has("obfuscated")) {
+               chatStyle.obfuscated = jsonObject.get("obfuscated").getAsBoolean();
             }
 
-            if (var8.has("color")) {
-               var7.color = var3.deserialize(var8.get("color"), EnumChatFormatting.class);
+            if (jsonObject.has("color")) {
+               chatStyle.color = jsonDeserializationContext.deserialize(jsonObject.get("color"), EnumChatFormatting.class);
             }
 
-            if (var8.has("insertion")) {
-               var7.insertion = var8.get("insertion").getAsString();
+            if (jsonObject.has("insertion")) {
+               chatStyle.insertion = jsonObject.get("insertion").getAsString();
             }
 
-            if (var8.has("clickEvent")) {
-               JsonObject var9 = var8.getAsJsonObject("clickEvent");
-               if (var9 != null) {
-                  JsonPrimitive var10 = var9.getAsJsonPrimitive("action");
-                  ClickEvent.Action var11 = var10 == null ? null : ClickEvent.Action.getValueByCanonicalName(var10.getAsString());
-                  JsonPrimitive var12 = var9.getAsJsonPrimitive("value");
-                  String var13 = var12 == null ? null : var12.getAsString();
-                  if (var11 != null && var13 != null && var11.shouldAllowInChat()) {
-                     var7.chatClickEvent = new ClickEvent(var11, var13);
+            if (jsonObject.has("clickEvent")) {
+               JsonObject jsonObject2 = jsonObject.getAsJsonObject("clickEvent");
+               if (jsonObject2 != null) {
+                  JsonPrimitive jsonPrimitive = jsonObject2.getAsJsonPrimitive("action");
+                  ClickEvent.Action action2 = jsonPrimitive == null ? null : ClickEvent.Action.getValueByCanonicalName(jsonPrimitive.getAsString());
+                  JsonPrimitive jsonPrimitive2 = jsonObject2.getAsJsonPrimitive("value");
+                  String string = jsonPrimitive2 == null ? null : jsonPrimitive2.getAsString();
+                  if (action2 != null && string != null && action2.shouldAllowInChat()) {
+                     chatStyle.chatClickEvent = new ClickEvent(action2, string);
                   }
                }
             }
 
-            if (var8.has("hoverEvent")) {
-               JsonObject var14 = var8.getAsJsonObject("hoverEvent");
-               if (var14 != null) {
-                  JsonPrimitive var15 = var14.getAsJsonPrimitive("action");
-                  HoverEvent.Action var16 = var15 == null ? null : HoverEvent.Action.getValueByCanonicalName(var15.getAsString());
-                  IChatComponent var17 = var3.deserialize(var14.get("value"), IChatComponent.class);
-                  if (var16 != null && var17 != null && var16.shouldAllowInChat()) {
-                     var7.chatHoverEvent = new HoverEvent(var16, var17);
+            if (jsonObject.has("hoverEvent")) {
+               JsonObject jsonObject3 = jsonObject.getAsJsonObject("hoverEvent");
+               if (jsonObject3 != null) {
+                  JsonPrimitive jsonPrimitive3 = jsonObject3.getAsJsonPrimitive("action");
+                  HoverEvent.Action action3 = jsonPrimitive3 == null ? null : HoverEvent.Action.getValueByCanonicalName(jsonPrimitive3.getAsString());
+                  IChatComponent iChatComponent = jsonDeserializationContext.deserialize(jsonObject3.get("value"), IChatComponent.class);
+                  if (action3 != null && iChatComponent != null && action3.shouldAllowInChat()) {
+                     chatStyle.chatHoverEvent = new HoverEvent(action3, iChatComponent);
                   }
                }
             }
 
-            return var7;
+            return chatStyle;
          } else {
             return null;
          }
       }
 
-      public JsonElement serialize(ChatStyle var1, Type var2, JsonSerializationContext var3) {
-         if (var1.isEmpty()) {
+      public JsonElement serialize(ChatStyle chatStyle, Type type2, JsonSerializationContext jsonSerializationContext) {
+         if (chatStyle.isEmpty()) {
             return null;
          }
 
-         JsonObject var7 = new JsonObject();
-         if (var1.bold != null) {
-            var7.addProperty("bold", var1.bold);
+         JsonObject jsonObject = new JsonObject();
+         if (chatStyle.bold != null) {
+            jsonObject.addProperty("bold", chatStyle.bold);
          }
 
-         if (var1.italic != null) {
-            var7.addProperty("italic", var1.italic);
+         if (chatStyle.italic != null) {
+            jsonObject.addProperty("italic", chatStyle.italic);
          }
 
-         if (var1.underlined != null) {
-            var7.addProperty("underlined", var1.underlined);
+         if (chatStyle.underlined != null) {
+            jsonObject.addProperty("underlined", chatStyle.underlined);
          }
 
-         if (var1.strikethrough != null) {
-            var7.addProperty("strikethrough", var1.strikethrough);
+         if (chatStyle.strikethrough != null) {
+            jsonObject.addProperty("strikethrough", chatStyle.strikethrough);
          }
 
-         if (var1.obfuscated != null) {
-            var7.addProperty("obfuscated", var1.obfuscated);
+         if (chatStyle.obfuscated != null) {
+            jsonObject.addProperty("obfuscated", chatStyle.obfuscated);
          }
 
-         if (var1.color != null) {
-            var7.add("color", var3.serialize(var1.color));
+         if (chatStyle.color != null) {
+            jsonObject.add("color", jsonSerializationContext.serialize(chatStyle.color));
          }
 
-         if (var1.insertion != null) {
-            var7.add("insertion", var3.serialize(var1.insertion));
+         if (chatStyle.insertion != null) {
+            jsonObject.add("insertion", jsonSerializationContext.serialize(chatStyle.insertion));
          }
 
-         if (var1.chatClickEvent != null) {
-            JsonObject var8 = new JsonObject();
-            var8.addProperty("action", var1.chatClickEvent.getAction().getCanonicalName());
-            var8.addProperty("value", var1.chatClickEvent.getValue());
-            var7.add("clickEvent", var8);
+         if (chatStyle.chatClickEvent != null) {
+            JsonObject jsonObject2 = new JsonObject();
+            jsonObject2.addProperty("action", chatStyle.chatClickEvent.getAction().getCanonicalName());
+            jsonObject2.addProperty("value", chatStyle.chatClickEvent.getValue());
+            jsonObject.add("clickEvent", jsonObject2);
          }
 
-         if (var1.chatHoverEvent != null) {
-            JsonObject var9 = new JsonObject();
-            var9.addProperty("action", var1.chatHoverEvent.getAction().getCanonicalName());
-            var9.add("value", var3.serialize(var1.chatHoverEvent.getValue()));
-            var7.add("hoverEvent", var9);
+         if (chatStyle.chatHoverEvent != null) {
+            JsonObject jsonObject3 = new JsonObject();
+            jsonObject3.addProperty("action", chatStyle.chatHoverEvent.getAction().getCanonicalName());
+            jsonObject3.add("value", jsonSerializationContext.serialize(chatStyle.chatHoverEvent.getValue()));
+            jsonObject.add("hoverEvent", jsonObject3);
          }
 
-         return var7;
+         return jsonObject;
       }
    }
 }

@@ -13,22 +13,22 @@ import net.minecraft.util.JsonUtils;
 public class PackMetadataSectionSerializer extends BaseMetadataSectionSerializer<PackMetadataSection> implements JsonSerializer<PackMetadataSection> {
    private static final long a = 79966011278257L;
 
-   public PackMetadataSection deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-      JsonObject var6 = var1.getAsJsonObject();
-      IChatComponent var7 = var3.deserialize(var6.get("description"), IChatComponent.class);
-      if (var7 == null) {
+   public PackMetadataSection deserialize(JsonElement jsonElement, Type type2, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+      JsonObject jsonObject = jsonElement.getAsJsonObject();
+      IChatComponent iChatComponent = jsonDeserializationContext.deserialize(jsonObject.get("description"), IChatComponent.class);
+      if (iChatComponent == null) {
          throw new JsonParseException("Invalid/missing description!");
       }
 
-      int var8 = JsonUtils.getInt(var6, "pack_format");
-      return new PackMetadataSection(var7, var8);
+      int i = JsonUtils.getInt(jsonObject, "pack_format");
+      return new PackMetadataSection(iChatComponent, i);
    }
 
-   public JsonElement serialize(PackMetadataSection var1, Type var2, JsonSerializationContext var3) {
-      JsonObject var6 = new JsonObject();
-      var6.addProperty("pack_format", var1.getPackFormat());
-      var6.add("description", var3.serialize(var1.getPackDescription()));
-      return var6;
+   public JsonElement serialize(PackMetadataSection packMetadataSection, Type type2, JsonSerializationContext jsonSerializationContext) {
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("pack_format", packMetadataSection.getPackFormat());
+      jsonObject.add("description", jsonSerializationContext.serialize(packMetadataSection.getPackDescription()));
+      return jsonObject;
    }
 
    @Override

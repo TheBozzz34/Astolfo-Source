@@ -10,11 +10,11 @@ public class DamageBlockEvent extends CancellableEvent {
    private int hitDelay;
    private double damageMultiplier;
 
-   public DamageBlockEvent(Block var1, BlockPos var2, int var3, double var4) {
-      this.block = var1;
-      this.pos = var2;
-      this.hitDelay = var3;
-      this.damageMultiplier = var4;
+   public DamageBlockEvent(Block block, BlockPos blockPos, int i, double d) {
+      this.block = block;
+      this.pos = blockPos;
+      this.hitDelay = i;
+      this.damageMultiplier = d;
    }
 
    public Block getBlock() {
@@ -29,15 +29,15 @@ public class DamageBlockEvent extends CancellableEvent {
       return this.hitDelay;
    }
 
-   public void setHitDelay(int var1) {
-      this.hitDelay = var1;
+   public void setHitDelay(int i) {
+      this.hitDelay = i;
    }
 
    public double getDamageMultiplier() {
       return this.damageMultiplier;
    }
 
-   public void setDamageMultiplier(double var1) {
-      this.damageMultiplier = var1;
+   public void setDamageMultiplier(double d) {
+      this.damageMultiplier = d;
    }
 }

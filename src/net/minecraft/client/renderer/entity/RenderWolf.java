@@ -12,25 +12,25 @@ public class RenderWolf extends RenderLiving<EntityWolf> {
    private static final ResourceLocation anrgyWolfTextures = new ResourceLocation("textures/entity/wolf/wolf_angry.png");
    private static final long d = 108982349734651L;
 
-   public RenderWolf(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderWolf(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
       this.addLayer(new LayerWolfCollar(this));
    }
 
-   public float handleRotationFloat(EntityWolf var1, float var2) {
-      return var1.getTailRotation();
+   public float handleRotationFloat(EntityWolf livingBase, float partialTicks) {
+      return livingBase.getTailRotation();
    }
 
-   public void doRender(EntityWolf var1, double var2, double var4, double var6, float var8, float var9) {
-      if (var1.isWolfWet()) {
-         float var13 = var1.getBrightness(var9) * var1.getShadingWhileWet(var9);
-         GlStateManager.color(var13, var13, var13);
+   public void doRender(EntityWolf entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      if (entity.isWolfWet()) {
+         float f = entity.getBrightness(partialTicks) * entity.getShadingWhileWet(partialTicks);
+         GlStateManager.color(f, f, f);
       }
 
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityWolf var1) {
-      return var1.isTamed() ? tamedWolfTextures : (var1.isAngry() ? anrgyWolfTextures : wolfTextures);
+   public ResourceLocation getEntityTexture(EntityWolf entity) {
+      return entity.isTamed() ? tamedWolfTextures : (entity.isAngry() ? anrgyWolfTextures : wolfTextures);
    }
 }

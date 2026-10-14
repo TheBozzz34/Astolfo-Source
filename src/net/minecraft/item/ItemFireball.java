@@ -16,25 +16,25 @@ public class ItemFireball extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var3.isRemote) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      var4 = var4.offset(var5);
-      if (!var2.canPlayerEdit(var4, var5, var1)) {
+      pos = pos.offset(side);
+      if (!playerIn.canPlayerEdit(pos, side, stack)) {
          return false;
       }
 
-      if (var3.getBlockState(var4).getBlock().getMaterial() == Material.air) {
-         var3.playSoundEffect(
-            var4.getX() + 0.5, var4.getY() + 0.5, var4.getZ() + 0.5, "item.fireCharge.use", 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F
+      if (worldIn.getBlockState(pos).getBlock().getMaterial() == Material.air) {
+         worldIn.playSoundEffect(
+            pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, "item.fireCharge.use", 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F
          );
-         var3.setBlockState(var4, Blocks.fire.getDefaultState());
+         worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
       }
 
-      if (!var2.capabilities.isCreativeMode) {
-         var1.stackSize--;
+      if (!playerIn.capabilities.isCreativeMode) {
+         stack.stackSize--;
       }
 
       return true;

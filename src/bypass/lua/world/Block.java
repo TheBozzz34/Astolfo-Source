@@ -9,10 +9,13 @@ public final class Block extends ThreeArgFunction {
    private static final long a = 124443886286116L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2, LuaValue var3) {
-      if (var1.isnumber() && var2.isnumber() && var3.isnumber()) {
-         net.minecraft.block.Block var7 = ClientAccess.mc.theWorld.getBlockState(new BlockPos(var1.todouble(), var2.todouble(), var3.todouble())).getBlock();
-         return var7 != null ? valueOf(var7.getUnlocalizedName()) : valueOf("air");
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
+      if (luaValue.isnumber() && luaValue2.isnumber() && luaValue3.isnumber()) {
+         net.minecraft.block.Block block2 = ClientAccess.mc
+            .theWorld
+            .getBlockState(new BlockPos(luaValue.todouble(), luaValue2.todouble(), luaValue3.todouble()))
+            .getBlock();
+         return block2 != null ? valueOf(block2.getUnlocalizedName()) : valueOf("air");
       } else {
          return NIL;
       }

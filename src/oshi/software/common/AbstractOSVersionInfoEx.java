@@ -17,8 +17,8 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    }
 
    @Override
-   public void n(String var1) {
-      this.version = var1;
+   public void n(String string) {
+      this.version = string;
    }
 
    @Override
@@ -27,8 +27,8 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    }
 
    @Override
-   public void I(String var1) {
-      this.codeName = var1;
+   public void I(String string) {
+      this.codeName = string;
    }
 
    @Override
@@ -37,23 +37,23 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    }
 
    @Override
-   public void C(String var1) {
-      this.buildNumber = var1;
+   public void C(String string) {
+      this.buildNumber = string;
    }
 
    @Override
    public String toString() {
       if (this.versionStr == null) {
-         StringBuilder var4 = new StringBuilder(this.getVersion() != null ? this.getVersion() : "Unknown");
+         StringBuilder stringBuilder = new StringBuilder(this.getVersion() != null ? this.getVersion() : "Unknown");
          if (this.getCodeName().length() > 0) {
-            var4.append(" (").append(this.getCodeName()).append((char)((int)j));
+            stringBuilder.append(" (").append(this.getCodeName()).append((char)((int)j));
          }
 
          if (this.getBuildNumber().length() > 0) {
-            var4.append(" build ").append(this.getBuildNumber());
+            stringBuilder.append(" build ").append(this.getBuildNumber());
          }
 
-         this.versionStr = var4.toString();
+         this.versionStr = stringBuilder.toString();
       }
 
       return this.versionStr;

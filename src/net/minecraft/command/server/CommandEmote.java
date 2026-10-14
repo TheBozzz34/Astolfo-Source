@@ -25,22 +25,22 @@ public class CommandEmote extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.me.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length <= 0) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length <= 0) {
          throw new WrongUsageException("commands.me.usage");
       }
 
-      IChatComponent var6 = getChatComponentFromNthArg(var1, var2, 0, !(var1 instanceof EntityPlayer));
-      MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", var1.getDisplayName(), var6));
+      IChatComponent iChatComponent = getChatComponentFromNthArg(sender, args, 0, !(sender instanceof EntityPlayer));
+      MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", sender.getDisplayName(), iChatComponent));
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames());
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
    }
 }

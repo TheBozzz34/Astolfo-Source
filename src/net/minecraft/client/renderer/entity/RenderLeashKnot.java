@@ -9,25 +9,25 @@ public class RenderLeashKnot extends Render<EntityLeashKnot> {
    private static final ResourceLocation leashKnotTextures = new ResourceLocation("textures/entity/lead_knot.png");
    private ModelLeashKnot leashKnotModel = new ModelLeashKnot();
 
-   public RenderLeashKnot(RenderManager var1) {
-      super(var1);
+   public RenderLeashKnot(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
-   public void doRender(EntityLeashKnot var1, double var2, double var4, double var6, float var8, float var9) {
+   public void doRender(EntityLeashKnot entity, double x, double y, double z, float entityYaw, float partialTicks) {
       GlStateManager.pushMatrix();
       GlStateManager.disableCull();
-      GlStateManager.translate((float)var2, (float)var4, (float)var6);
-      float var10 = 0.0625F;
+      GlStateManager.translate((float)x, (float)y, (float)z);
+      float f = 0.0625F;
       GlStateManager.enableRescaleNormal();
       GlStateManager.scale(-1.0F, -1.0F, 1.0F);
       GlStateManager.enableAlpha();
-      this.bindEntityTexture(var1);
-      this.leashKnotModel.render(var1, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, var10);
+      this.bindEntityTexture(entity);
+      this.leashKnotModel.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f);
       GlStateManager.popMatrix();
-      super.doRender(var1, var2, var4, var6, var8, var9);
+      super.doRender(entity, x, y, z, entityYaw, partialTicks);
    }
 
-   public ResourceLocation getEntityTexture(EntityLeashKnot var1) {
+   public ResourceLocation getEntityTexture(EntityLeashKnot entity) {
       return leashKnotTextures;
    }
 }

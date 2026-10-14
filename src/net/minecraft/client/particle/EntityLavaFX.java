@@ -10,8 +10,8 @@ public class EntityLavaFX extends EntityFX {
    private float lavaParticleScale;
    private static final long ab = 121112547858675L;
 
-   public EntityLavaFX(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityLavaFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.8F;
       this.motionY *= 0.8F;
       this.motionZ *= 0.8F;
@@ -25,25 +25,34 @@ public class EntityLavaFX extends EntityFX {
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
-      float var4 = (this.particleAge + var1) / this.particleMaxAge;
-      var4 = MathHelper.clamp_float(var4, 0.0F, 1.0F);
-      int var5 = super.getBrightnessForRender(var1);
-      short var6 = 240;
-      int var7 = var5 >> 16 & 0xFF;
-      return var6 | var7 << 16;
+   public int getBrightnessForRender(float partialTicks) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      int i = super.getBrightnessForRender(partialTicks);
+      short s = 240;
+      int j = i >> 16 & 0xFF;
+      return s | j << 16;
    }
 
    @Override
-   public float getBrightness(float var1) {
+   public float getBrightness(float partialTicks) {
       return 1.0F;
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = (this.particleAge + var3) / this.particleMaxAge;
-      this.particleScale = this.lavaParticleScale * (1.0F - var9 * var9);
-      super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge;
+      this.particleScale = this.lavaParticleScale * (1.0F - f * f);
+      super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
    }
 
    @Override
@@ -55,8 +64,8 @@ public class EntityLavaFX extends EntityFX {
          this.setDead();
       }
 
-      float var4 = (float)this.particleAge / this.particleMaxAge;
-      if (this.rand.nextFloat() > var4) {
+      float f = (float)this.particleAge / this.particleMaxAge;
+      if (this.rand.nextFloat() > f) {
          this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ);
       }
 
@@ -73,8 +82,10 @@ public class EntityLavaFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityLavaFX(var2, var3, var5, var7);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityLavaFX(worldIn, xCoordIn, yCoordIn, zCoordIn);
       }
    }
 }

@@ -21,55 +21,55 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> 
    public S20PacketEntityProperties() {
    }
 
-   public S20PacketEntityProperties(int var1, Collection<IAttributeInstance> var2) {
-      this.entityId = var1;
+   public S20PacketEntityProperties(int entityIdIn, Collection<IAttributeInstance> collection) {
+      this.entityId = entityIdIn;
 
-      for (IAttributeInstance var7 : var2) {
+      for (IAttributeInstance iAttributeInstance : collection) {
          this.field_149444_b
-            .add(new S20PacketEntityProperties.Snapshot(var7.getAttribute().getAttributeUnlocalizedName(), var7.getBaseValue(), var7.func_111122_c()));
+            .add(new S20PacketEntityProperties.Snapshot(iAttributeInstance.getAttribute().getAttributeUnlocalizedName(), iAttributeInstance.getBaseValue(), iAttributeInstance.func_111122_c()));
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      int var5 = var1.readInt();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      int i = buf.readInt();
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         String var7 = var1.readStringFromBuffer((int)c);
-         double var8 = var1.readDouble();
-         ArrayList var10 = Lists.newArrayList();
-         int var11 = var1.readVarIntFromBuffer();
+      for (int j = 0; j < i; j++) {
+         String string = buf.readStringFromBuffer((int)c);
+         double d = buf.readDouble();
+         ArrayList arrayList = Lists.newArrayList();
+         int k = buf.readVarIntFromBuffer();
 
-         for (int var12 = 0; var12 < var11; var12++) {
-            UUID var13 = var1.readUuid();
-            var10.add(new AttributeModifier(var13, "Unknown synced attribute modifier", var1.readDouble(), var1.readByte()));
+         for (int l = 0; l < k; l++) {
+            UUID uuid = buf.readUuid();
+            arrayList.add(new AttributeModifier(uuid, "Unknown synced attribute modifier", buf.readDouble(), buf.readByte()));
          }
 
-         this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(var7, var8, var10));
+         this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(string, d, arrayList));
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeInt(this.field_149444_b.size());
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeInt(this.field_149444_b.size());
 
-      for (S20PacketEntityProperties.Snapshot var6 : this.field_149444_b) {
-         var1.writeString(var6.func_151409_a());
-         var1.writeDouble(var6.func_151410_b());
-         var1.writeVarIntToBuffer(var6.func_151408_c().size());
+      for (S20PacketEntityProperties.Snapshot snapshot : this.field_149444_b) {
+         buf.writeString(snapshot.func_151409_a());
+         buf.writeDouble(snapshot.func_151410_b());
+         buf.writeVarIntToBuffer(snapshot.func_151408_c().size());
 
-         for (AttributeModifier var8 : var6.func_151408_c()) {
-            var1.writeUuid(var8.getID());
-            var1.writeDouble(var8.getAmount());
-            var1.writeByte(var8.getOperation());
+         for (AttributeModifier attributeModifier : snapshot.func_151408_c()) {
+            buf.writeUuid(attributeModifier.getID());
+            buf.writeDouble(attributeModifier.getAmount());
+            buf.writeByte(attributeModifier.getOperation());
          }
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityProperties(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityProperties(this);
    }
 
    public int getEntityId() {
@@ -85,10 +85,10 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> 
       private final double field_151413_c;
       private final Collection<AttributeModifier> field_151411_d;
 
-      public Snapshot(String var2, double var3, Collection<AttributeModifier> var5) {
-         this.field_151412_b = var2;
-         this.field_151413_c = var3;
-         this.field_151411_d = var5;
+      public Snapshot(String string, double d, Collection<AttributeModifier> collection) {
+         this.field_151412_b = string;
+         this.field_151413_c = d;
+         this.field_151411_d = collection;
       }
 
       public String func_151409_a() {

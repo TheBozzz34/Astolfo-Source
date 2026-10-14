@@ -9,12 +9,12 @@ public class RealmsVertexFormat {
    private VertexFormat v;
    private static final long a = 64455630052650L;
 
-   public RealmsVertexFormat(VertexFormat var1) {
-      this.v = var1;
+   public RealmsVertexFormat(VertexFormat vIn) {
+      this.v = vIn;
    }
 
-   public RealmsVertexFormat from(VertexFormat var1) {
-      this.v = var1;
+   public RealmsVertexFormat from(VertexFormat vertexFormat) {
+      this.v = vertexFormat;
       return this;
    }
 
@@ -26,8 +26,8 @@ public class RealmsVertexFormat {
       this.v.clear();
    }
 
-   public int N(int var1) {
-      return this.v.getUvOffsetById(var1);
+   public int N(int i) {
+      return this.v.getUvOffsetById(i);
    }
 
    public int W() {
@@ -38,16 +38,16 @@ public class RealmsVertexFormat {
       return this.v.H();
    }
 
-   public boolean hasUv(int var1) {
-      return this.v.hasUvOffset(var1);
+   public boolean hasUv(int i) {
+      return this.v.hasUvOffset(i);
    }
 
-   public RealmsVertexFormatElement getElement(int var1) {
-      return new RealmsVertexFormatElement(this.v.getElement(var1));
+   public RealmsVertexFormatElement getElement(int i) {
+      return new RealmsVertexFormatElement(this.v.getElement(i));
    }
 
-   public RealmsVertexFormat addElement(RealmsVertexFormatElement var1) {
-      return this.from(this.v.addElement(var1.getVertexFormatElement()));
+   public RealmsVertexFormat addElement(RealmsVertexFormatElement realmsVertexFormatElement) {
+      return this.from(this.v.addElement(realmsVertexFormatElement.getVertexFormatElement()));
    }
 
    public int w() {
@@ -55,13 +55,13 @@ public class RealmsVertexFormat {
    }
 
    public List<RealmsVertexFormatElement> getElements() {
-      ArrayList var4 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (VertexFormatElement var6 : this.v.getElements()) {
-         var4.add(new RealmsVertexFormatElement(var6));
+      for (VertexFormatElement vertexFormatElement : this.v.getElements()) {
+         arrayList.add(new RealmsVertexFormatElement(vertexFormatElement));
       }
 
-      return var4;
+      return arrayList;
    }
 
    public boolean c() {
@@ -72,8 +72,8 @@ public class RealmsVertexFormat {
       return this.v.getNextOffset();
    }
 
-   public int q(int var1) {
-      return this.v.getOffset(var1);
+   public int q(int i) {
+      return this.v.getOffset(i);
    }
 
    public int F() {
@@ -85,8 +85,8 @@ public class RealmsVertexFormat {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return this.v.equals(var1);
+   public boolean equals(Object object) {
+      return this.v.equals(object);
    }
 
    @Override

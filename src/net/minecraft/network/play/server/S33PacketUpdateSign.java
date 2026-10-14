@@ -17,33 +17,33 @@ public class S33PacketUpdateSign implements Packet<INetHandlerPlayClient> {
    public S33PacketUpdateSign() {
    }
 
-   public S33PacketUpdateSign(World var1, BlockPos var2, IChatComponent[] var3) {
-      this.world = var1;
-      this.blockPos = var2;
-      this.lines = new IChatComponent[]{var3[0], var3[1], var3[2], var3[3]};
+   public S33PacketUpdateSign(World worldIn, BlockPos blockPosIn, IChatComponent[] linesIn) {
+      this.world = worldIn;
+      this.blockPos = blockPosIn;
+      this.lines = new IChatComponent[]{linesIn[0], linesIn[1], linesIn[2], linesIn[3]};
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.blockPos = var1.readBlockPos();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.blockPos = buf.readBlockPos();
       this.lines = new IChatComponent[4];
 
-      for (int var5 = 0; var5 < 4; var5++) {
-         this.lines[var5] = var1.readChatComponent();
+      for (int i = 0; i < 4; i++) {
+         this.lines[i] = buf.readChatComponent();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.blockPos);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.blockPos);
 
-      for (int var5 = 0; var5 < 4; var5++) {
-         var1.writeChatComponent(this.lines[var5]);
+      for (int i = 0; i < 4; i++) {
+         buf.writeChatComponent(this.lines[i]);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleUpdateSign(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleUpdateSign(this);
    }
 
    public BlockPos getPos() {

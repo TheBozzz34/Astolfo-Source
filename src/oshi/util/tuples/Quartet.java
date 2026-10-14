@@ -10,11 +10,11 @@ public class Quartet<A, B, C, D> {
    private final D d;
    private static final long a = 14829422886836L;
 
-   public Quartet(A var1, B var2, C var3, D var4) {
-      this.A = (A)var1;
-      this.b = (B)var2;
-      this.c = (C)var3;
-      this.d = (D)var4;
+   public Quartet(A aIn, B b, C c, D d) {
+      this.A = aIn;
+      this.b = b;
+      this.c = c;
+      this.d = d;
    }
 
    public final A getA() {

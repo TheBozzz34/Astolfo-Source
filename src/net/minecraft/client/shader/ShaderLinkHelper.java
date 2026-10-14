@@ -20,35 +20,35 @@ public class ShaderLinkHelper {
       return staticShaderLinkHelper;
    }
 
-   public void deleteShader(ShaderManager var1) {
-      var1.getFragmentShaderLoader().deleteShader(var1);
-      var1.getVertexShaderLoader().deleteShader(var1);
-      OpenGlHelper.glDeleteProgram(var1.getProgram());
+   public void deleteShader(ShaderManager shaderManager) {
+      shaderManager.getFragmentShaderLoader().deleteShader(shaderManager);
+      shaderManager.getVertexShaderLoader().deleteShader(shaderManager);
+      OpenGlHelper.glDeleteProgram(shaderManager.getProgram());
    }
 
    public int createProgram() throws JsonException {
-      int var4 = OpenGlHelper.glCreateProgram();
-      if (var4 <= 0) {
-         throw new JsonException("Could not create shader program (returned program ID " + var4 + ")");
+      int i = OpenGlHelper.glCreateProgram();
+      if (i <= 0) {
+         throw new JsonException("Could not create shader program (returned program ID " + i + ")");
       } else {
-         return var4;
+         return i;
       }
    }
 
-   public void linkProgram(ShaderManager var1) throws IOException {
-      var1.getFragmentShaderLoader().attachShader(var1);
-      var1.getVertexShaderLoader().attachShader(var1);
-      OpenGlHelper.glLinkProgram(var1.getProgram());
-      int var5 = OpenGlHelper.glGetProgrami(var1.getProgram(), OpenGlHelper.GL_LINK_STATUS);
-      if (var5 == 0) {
+   public void linkProgram(ShaderManager manager) throws IOException {
+      manager.getFragmentShaderLoader().attachShader(manager);
+      manager.getVertexShaderLoader().attachShader(manager);
+      OpenGlHelper.glLinkProgram(manager.getProgram());
+      int i = OpenGlHelper.glGetProgrami(manager.getProgram(), OpenGlHelper.GL_LINK_STATUS);
+      if (i == 0) {
          logger.warn(
             "Error encountered when linking program containing VS "
-               + var1.getVertexShaderLoader().getShaderFilename()
+               + manager.getVertexShaderLoader().getShaderFilename()
                + " and FS "
-               + var1.getFragmentShaderLoader().getShaderFilename()
+               + manager.getFragmentShaderLoader().getShaderFilename()
                + ". Log output:"
          );
-         logger.warn(OpenGlHelper.glGetProgramInfoLog(var1.getProgram(), (int)e));
+         logger.warn(OpenGlHelper.glGetProgramInfoLog(manager.getProgram(), (int)e));
       }
    }
 }

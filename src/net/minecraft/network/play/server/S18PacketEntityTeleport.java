@@ -19,50 +19,50 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient> {
    public S18PacketEntityTeleport() {
    }
 
-   public S18PacketEntityTeleport(Entity var1) {
-      this.entityId = var1.getEntityId();
-      this.posX = MathHelper.floor_double(var1.posX * 32.0);
-      this.posY = MathHelper.floor_double(var1.posY * 32.0);
-      this.posZ = MathHelper.floor_double(var1.posZ * 32.0);
-      this.yaw = (byte)(var1.rotationYaw * 256.0F / 360.0F);
-      this.pitch = (byte)(var1.rotationPitch * 256.0F / 360.0F);
-      this.onGround = var1.onGround;
+   public S18PacketEntityTeleport(Entity entityIn) {
+      this.entityId = entityIn.getEntityId();
+      this.posX = MathHelper.floor_double(entityIn.posX * 32.0);
+      this.posY = MathHelper.floor_double(entityIn.posY * 32.0);
+      this.posZ = MathHelper.floor_double(entityIn.posZ * 32.0);
+      this.yaw = (byte)(entityIn.rotationYaw * 256.0F / 360.0F);
+      this.pitch = (byte)(entityIn.rotationPitch * 256.0F / 360.0F);
+      this.onGround = entityIn.onGround;
    }
 
-   public S18PacketEntityTeleport(int var1, int var2, int var3, int var4, byte var5, byte var6, boolean var7) {
-      this.entityId = var1;
-      this.posX = var2;
-      this.posY = var3;
-      this.posZ = var4;
-      this.yaw = var5;
-      this.pitch = var6;
-      this.onGround = var7;
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.posX = var1.readInt();
-      this.posY = var1.readInt();
-      this.posZ = var1.readInt();
-      this.yaw = var1.readByte();
-      this.pitch = var1.readByte();
-      this.onGround = var1.readBoolean();
+   public S18PacketEntityTeleport(int entityIdIn, int posXIn, int posYIn, int posZIn, byte yawIn, byte pitchIn, boolean onGroundIn) {
+      this.entityId = entityIdIn;
+      this.posX = posXIn;
+      this.posY = posYIn;
+      this.posZ = posZIn;
+      this.yaw = yawIn;
+      this.pitch = pitchIn;
+      this.onGround = onGroundIn;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeInt(this.posX);
-      var1.writeInt(this.posY);
-      var1.writeInt(this.posZ);
-      var1.writeByte(this.yaw);
-      var1.writeByte(this.pitch);
-      var1.writeBoolean(this.onGround);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.posX = buf.readInt();
+      this.posY = buf.readInt();
+      this.posZ = buf.readInt();
+      this.yaw = buf.readByte();
+      this.pitch = buf.readByte();
+      this.onGround = buf.readBoolean();
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityTeleport(this);
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeInt(this.posX);
+      buf.writeInt(this.posY);
+      buf.writeInt(this.posZ);
+      buf.writeByte(this.yaw);
+      buf.writeByte(this.pitch);
+      buf.writeBoolean(this.onGround);
+   }
+
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityTeleport(this);
    }
 
    public int getEntityId() {

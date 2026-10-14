@@ -11,8 +11,8 @@ public final class ChestName extends ZeroArgFunction {
    @Override
    public LuaValue call() {
       if (ClientAccess.mc.currentScreen != null && ClientAccess.mc.currentScreen instanceof GuiChest) {
-         GuiChest var4 = (GuiChest)ClientAccess.mc.currentScreen;
-         return valueOf(var4.lowerChestInventory.getDisplayName().getUnformattedText());
+         GuiChest guiChest = (GuiChest)ClientAccess.mc.currentScreen;
+         return valueOf(guiChest.lowerChestInventory.getDisplayName().getUnformattedText());
       } else {
          return valueOf("none");
       }

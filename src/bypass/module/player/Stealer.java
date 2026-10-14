@@ -78,38 +78,38 @@ public final class Stealer extends Module {
    private int windowId;
    private boolean unusedFlag;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = c ^ 128838197311750L;
-      long var4 = var2 ^ 90164795600890L;
-      if (var1x.getDirection() == PacketDirection.OUTGOING) {
-         if (var1x.getPacket() instanceof C0EPacketClickWindow) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = c ^ 128838197311750L;
+      long m = l ^ 90164795600890L;
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         if (packetEvent.getPacket() instanceof C0EPacketClickWindow) {
             this.clickTimer.reset();
          }
 
-         if (var1x.getPacket() instanceof C08PacketPlayerBlockPlacement) {
-            C08PacketPlayerBlockPlacement var7 = (C08PacketPlayerBlockPlacement)var1x.getPacket();
-            if (var7.getPlacedBlockDirection() != 255) {
-               IBlockState var8 = mc.theWorld.getBlockState(var7.getPosition());
-               if (var8 != null && var8.getBlock() instanceof BlockChest) {
+         if (packetEvent.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+            C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packetEvent.getPacket();
+            if (c08PacketPlayerBlockPlacement.getPlacedBlockDirection() != 255) {
+               IBlockState iBlockState = mc.theWorld.getBlockState(c08PacketPlayerBlockPlacement.getPosition());
+               if (iBlockState != null && iBlockState.getBlock() instanceof BlockChest) {
                   this.closeTimer.reset();
                   this.clickTimer.reset();
                }
             }
          }
 
-         if (var1x.getPacket() instanceof C0DPacketCloseWindow) {
+         if (packetEvent.getPacket() instanceof C0DPacketCloseWindow) {
             this.resetSilentChest();
          }
       } else {
-         if (var1x.getPacket() instanceof S2DPacketOpenWindow) {
-            S2DPacketOpenWindow var12 = (S2DPacketOpenWindow)var1x.getPacket();
-            if (var12.getWindowTitle() != null && mc.thePlayer.inventory != null) {
+         if (packetEvent.getPacket() instanceof S2DPacketOpenWindow) {
+            S2DPacketOpenWindow s2DPacketOpenWindow = (S2DPacketOpenWindow)packetEvent.getPacket();
+            if (s2DPacketOpenWindow.getWindowTitle() != null && mc.thePlayer.inventory != null) {
                this.resetSilentChest();
-               this.silentChest = new GuiChest(mc.thePlayer.inventory, new ContainerLocalMenu(var12.getGuiId(), var12.getWindowTitle(), var12.getSlotCount()));
+               this.silentChest = new GuiChest(mc.thePlayer.inventory, new ContainerLocalMenu(s2DPacketOpenWindow.getGuiId(), s2DPacketOpenWindow.getWindowTitle(), s2DPacketOpenWindow.getSlotCount()));
                this.closeTimer.reset();
                if (this.silent.getValue() && this.silentChest.lowerChestInventory != null && this.silentChest.lowerChestInventory.getDisplayName() != null) {
                   if (isChestTitle(this.silentChest.lowerChestInventory.getDisplayName().getUnformattedText())) {
-                     var1x.cancel();
+                     packetEvent.cancel();
                   } else {
                      this.resetSilentChest();
                   }
@@ -117,53 +117,53 @@ public final class Stealer extends Module {
             }
          }
 
-         if (this.silent.getValue() && this.silentChest != null && var1x.getPacket() instanceof S30PacketWindowItems) {
-            S30PacketWindowItems var13 = (S30PacketWindowItems)var1x.getPacket();
-            if (var13.getItemStacks() != null) {
-               short var14 = 0;
+         if (this.silent.getValue() && this.silentChest != null && packetEvent.getPacket() instanceof S30PacketWindowItems) {
+            S30PacketWindowItems s30PacketWindowItems = (S30PacketWindowItems)packetEvent.getPacket();
+            if (s30PacketWindowItems.getItemStacks() != null) {
+               short s = 0;
 
-               for (int var9 = 0; var9 < var13.getItemStacks().length - 36; var9++) {
+               for (int i = 0; i < s30PacketWindowItems.getItemStacks().length - 36; i++) {
                   try {
-                     ItemStack var10 = var13.getItemStacks()[var9];
-                     if (var10 != null
+                     ItemStack itemStack = s30PacketWindowItems.getItemStacks()[i];
+                     if (itemStack != null
                         && this.silentChest.lowerChestInventory != null
                         && this.silentChest.lowerChestInventory.getDisplayName() != null
                         && isChestTitle(this.silentChest.lowerChestInventory.getDisplayName().getUnformattedText())
                         && (
                            client.getModuleManager().get(InventoryManager.class).isEnabled()
-                                 && client.getModuleManager().get(InventoryManager.class).wouldKeep(var10)
+                                 && client.getModuleManager().get(InventoryManager.class).wouldKeep(itemStack)
                               || !client.getModuleManager().get(InventoryManager.class).isEnabled()
                         )) {
-                        this.pendingClicks.offer(new C0EPacketClickWindow(var13.func_148911_c(), var9, 0, 1, var10, var14++));
+                        this.pendingClicks.offer(new C0EPacketClickWindow(s30PacketWindowItems.func_148911_c(), i, 0, 1, itemStack, s++));
                      }
-                  } catch (Exception var11) {
+                  } catch (Exception exception) {
                   }
                }
 
                if (this.silentChest.inventorySlots != null) {
-                  this.silentChest.inventorySlots.putStacksInSlots(var13.getItemStacks());
+                  this.silentChest.inventorySlots.putStacksInSlots(s30PacketWindowItems.getItemStacks());
                }
 
-               this.windowId = var13.func_148911_c();
+               this.windowId = s30PacketWindowItems.func_148911_c();
             }
          }
 
-         if (var1x.getPacket() instanceof S2EPacketCloseWindow) {
+         if (packetEvent.getPacket() instanceof S2EPacketCloseWindow) {
             this.resetSilentChest();
          }
       }
    };
    private boolean stealing;
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      boolean var5 = this.aura.getSetting("Enabled").asBoolean();
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      boolean bl = this.aura.getSetting("Enabled").asBoolean();
       this.stealing = false;
       if (!this.silent.getValue()) {
          if (mc.currentScreen instanceof GuiContainer) {
-            GuiContainer var6 = (GuiContainer)mc.currentScreen;
-            if (var6 instanceof GuiChest) {
-               GuiChest var7 = (GuiChest)mc.currentScreen;
-               if (isChestTitle(var7.lowerChestInventory.getDisplayName().getUnformattedText())) {
+            GuiContainer guiContainer = (GuiContainer)mc.currentScreen;
+            if (guiContainer instanceof GuiChest) {
+               GuiChest guiChest = (GuiChest)mc.currentScreen;
+               if (isChestTitle(guiChest.lowerChestInventory.getDisplayName().getUnformattedText())) {
                   if (this.moveMouse.getValue()) {
                      Mouse.setGrabbed(true);
                      mc.inGameHasFocus = true;
@@ -171,18 +171,18 @@ public final class Stealer extends Module {
 
                   this.stealing = true;
                   if (this.reverse.getValue()) {
-                     int var20 = var7.lowerChestInventory.getSizeInventory();
+                     int i = guiChest.lowerChestInventory.getSizeInventory();
 
-                     while (var20-- > 0) {
-                        this.stealSlot(var6, var7, var20);
+                     while (i-- > 0) {
+                        this.stealSlot(guiContainer, guiChest, i);
                      }
                   } else {
-                     for (int var8 = 0; var8 < var7.lowerChestInventory.getSizeInventory(); var8++) {
-                        this.stealSlot(var6, var7, var8);
+                     for (int j = 0; j < guiChest.lowerChestInventory.getSizeInventory(); j++) {
+                        this.stealSlot(guiContainer, guiChest, j);
                      }
                   }
 
-                  if (this.close.getValue() && this.closeTimer.hasElapsed(this.closeDelay.getValue().intValue()) && !this.hasItemsLeft(var7)) {
+                  if (this.close.getValue() && this.closeTimer.hasElapsed(this.closeDelay.getValue().intValue()) && !this.hasItemsLeft(guiChest)) {
                      mc.thePlayer.closeScreen();
                      this.closeTimer.reset();
                   }
@@ -194,11 +194,11 @@ public final class Stealer extends Module {
             if (this.silentChest != null && this.silentChest.inventorySlots != null) {
                if (!this.pendingClicks.isEmpty()) {
                   if (this.clickTimer.hasElapsed(this.delay.getValue().intValue())) {
-                     C0EPacketClickWindow var16 = this.pendingClicks.poll();
-                     if (var16 != null) {
+                     C0EPacketClickWindow c0EPacketClickWindow = this.pendingClicks.poll();
+                     if (c0EPacketClickWindow != null) {
                         this.stealing = true;
-                        mc.thePlayer.sendQueue.addToSendQueue(var16);
-                        this.silentChest.inventorySlots.slotClick(var16.getSlotId(), var16.getUsedButton(), var16.getMode(), mc.thePlayer);
+                        mc.thePlayer.sendQueue.addToSendQueue(c0EPacketClickWindow);
+                        this.silentChest.inventorySlots.slotClick(c0EPacketClickWindow.getSlotId(), c0EPacketClickWindow.getUsedButton(), c0EPacketClickWindow.getMode(), mc.thePlayer);
                      }
                   }
                } else if (this.closeTimer.hasElapsed(this.closeDelay.getValue().intValue())) {
@@ -206,51 +206,51 @@ public final class Stealer extends Module {
                   this.closeTimer.reset();
                }
             }
-         } catch (Exception var15) {
+         } catch (Exception exception) {
          }
       }
 
-      if (mc.currentScreen instanceof GuiChest || this.silentChest != null || mc.currentScreen instanceof GuiInventory || !var5) {
+      if (mc.currentScreen instanceof GuiChest || this.silentChest != null || mc.currentScreen instanceof GuiInventory || !bl) {
          this.auraTarget = null;
       } else if (this.aura.getSetting("Assist").asBoolean() && !Mouse.isButtonDown(1)) {
          this.auraTarget = null;
       } else {
-         boolean var17 = this.aura.getSetting("Lock-View").asBoolean();
-         switch (var1x.getState()) {
+         boolean bl2 = this.aura.getSetting("Lock-View").asBoolean();
+         switch (motionEvent.getState()) {
             case PRE:
                this.auraTarget = null;
 
-               for (TileEntity var21 : mc.theWorld.loadedTileEntityList) {
-                  if (this.canOpen(var21)) {
-                     this.auraTarget = var21;
-                     Vector3d var9 = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-                     Vector3d var10 = new Vector3d(
+               for (TileEntity tileEntity : mc.theWorld.loadedTileEntityList) {
+                  if (this.canOpen(tileEntity)) {
+                     this.auraTarget = tileEntity;
+                     Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+                     Vector3d vector3d2 = new Vector3d(
                         this.auraTarget.getPos().getX() + 0.5, this.auraTarget.getPos().getY() + 0.5, this.auraTarget.getPos().getZ() + 0.5
                      );
-                     Rotation var11 = this.rotator.rotationTo(var10, var9);
-                     float var12 = var11.getYaw();
-                     float var13 = var11.getPitch();
-                     float var14 = MathHelper.wrapAngleTo180_float(var12 - mc.thePlayer.rotationYaw);
-                     var12 = mc.thePlayer.rotationYaw + var14;
-                     this.lastYaw = var1x.getLastYaw();
-                     this.lastPitch = var1x.getLastPitch();
+                     Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
+                     float f = rotation.getYaw();
+                     float g = rotation.getPitch();
+                     float h = MathHelper.wrapAngleTo180_float(f - mc.thePlayer.rotationYaw);
+                     f = mc.thePlayer.rotationYaw + h;
+                     this.lastYaw = motionEvent.getLastYaw();
+                     this.lastPitch = motionEvent.getLastPitch();
                      if (!GameUtil.isOnHypixel()) {
-                        var1x.setYaw(var17 ? (mc.thePlayer.rotationYaw = var12) : var12);
-                        var1x.setPitch(var17 ? (mc.thePlayer.rotationPitch = var13) : var13);
+                        motionEvent.setYaw(bl2 ? (mc.thePlayer.rotationYaw = f) : f);
+                        motionEvent.setPitch(bl2 ? (mc.thePlayer.rotationPitch = g) : g);
                      }
 
-                     this.auraYaw = var1x.getYaw();
-                     this.auraPitch = var1x.getPitch();
+                     this.auraYaw = motionEvent.getYaw();
+                     this.auraPitch = motionEvent.getPitch();
                   }
                }
                break;
             case POST:
                if (this.auraTarget != null && this.clickTimer.hasElapsed(this.aura.getSetting("Delay").asInt())) {
-                  MovingObjectPosition var18 = GameUtil.A(this.auraYaw, this.auraPitch, mc.playerController.getBlockReachDistance());
-                  if (this.isChestHit(var18)) {
+                  MovingObjectPosition movingObjectPosition = GameUtil.A(this.auraYaw, this.auraPitch, mc.playerController.getBlockReachDistance());
+                  if (this.isChestHit(movingObjectPosition)) {
                      if (mc.playerController
                         .onPlayerRightClick(
-                           mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem(), var18.getBlockPos(), var18.sideHit, var18.hitVec
+                           mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem(), movingObjectPosition.getBlockPos(), movingObjectPosition.sideHit, movingObjectPosition.hitVec
                         )) {
                         this.closeTimer.reset();
                         if (this.silent.getValue()) {
@@ -269,42 +269,42 @@ public final class Stealer extends Module {
       }
    };
    @EventHandler(MoveEvent.class)
-   private Listener<MoveEvent> onMove = var1x -> {
+   private Listener<MoveEvent> onMove = moveEvent -> {
       if (this.stealing && this.autoStop.getValue() && mc.thePlayer.isCollidedVertically && mc.thePlayer.onGround) {
-         var1x.setX(mc.thePlayer.motionX = 0.0);
-         var1x.setY(mc.thePlayer.motionY = 0.0);
-         var1x.setZ(mc.thePlayer.motionZ = 0.0);
+         moveEvent.setX(mc.thePlayer.motionX = 0.0);
+         moveEvent.setY(mc.thePlayer.motionY = 0.0);
+         moveEvent.setZ(mc.thePlayer.motionZ = 0.0);
       }
    };
    @EventHandler(RenderLivingEvent.class)
-   private Listener<RenderLivingEvent> onRenderLiving = var1x -> {
-      if (this.auraTarget != null && var1x.getEntity() == mc.thePlayer) {
+   private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
+      if (this.auraTarget != null && renderLivingEvent.getEntity() == mc.thePlayer) {
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = var1x -> {
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       this.openedChests.clear();
       this.resetSilentChest();
    };
    private static final long c = 17985607461711L;
 
-   public Stealer(Category var1) {
-      super(var1);
+   public Stealer(Category category) {
+      super(category);
       this.addSettings(this.aura, this.delay, this.closeDelay, this.close, this.reverse, titleCheck, this.silent, this.moveMouse, this.autoStop);
    }
 
-   private void stealSlot(GuiContainer var1, GuiChest var2, int var3) {
-      long var4 = c ^ 10525064128907L;
-      long var6 = var4 ^ 51397149228919L;
-      ItemStack var9 = var2.lowerChestInventory.getStackInSlot(var3);
-      if (var9 != null && var9.getItem() != null) {
+   private void stealSlot(GuiContainer guiContainer, GuiChest guiChest, int i) {
+      long l = c ^ 10525064128907L;
+      long m = l ^ 51397149228919L;
+      ItemStack itemStack = guiChest.lowerChestInventory.getStackInSlot(i);
+      if (itemStack != null && itemStack.getItem() != null) {
          if ((
-               client.getModuleManager().get(InventoryManager.class).isEnabled() && client.getModuleManager().get(InventoryManager.class).wouldKeep(var9)
+               client.getModuleManager().get(InventoryManager.class).isEnabled() && client.getModuleManager().get(InventoryManager.class).wouldKeep(itemStack)
                   || !client.getModuleManager().get(InventoryManager.class).isEnabled()
                   || this.silent.getValue()
             )
             && this.clickTimer.hasElapsed(this.delay.getValue().intValue())) {
-            mc.playerController.windowClick(this.silent.getValue() ? this.windowId : var1.inventorySlots.windowId, var3, 0, 1, mc.thePlayer);
+            mc.playerController.windowClick(this.silent.getValue() ? this.windowId : guiContainer.inventorySlots.windowId, i, 0, 1, mc.thePlayer);
             this.closeTimer.reset();
          }
       }
@@ -323,34 +323,35 @@ public final class Stealer extends Module {
       this.pendingClicks.clear();
    }
 
-   private boolean isChestHit(MovingObjectPosition var1) {
-      if (var1 != null && var1.getBlockPos() != null) {
-         BlockPos var5 = var1.getBlockPos();
-         Block var6 = mc.theWorld.getBlockState(var5).getBlock();
-         return (var6.getMaterial() != Material.air || var6.getMaterial() != Material.water || var6.getMaterial() != Material.lava)
-            && var6 instanceof BlockChest;
+   private boolean isChestHit(MovingObjectPosition movingObjectPosition) {
+      if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
+         BlockPos blockPos = movingObjectPosition.getBlockPos();
+         Block block = mc.theWorld.getBlockState(blockPos).getBlock();
+         return (block.getMaterial() != Material.air || block.getMaterial() != Material.water || block.getMaterial() != Material.lava)
+            && block instanceof BlockChest;
       } else {
          return false;
       }
    }
 
-   private boolean canOpen(TileEntity var1) {
-      return !(var1 instanceof TileEntityChest)
+   private boolean canOpen(TileEntity tileEntity) {
+      return !(tileEntity instanceof TileEntityChest)
          ? false
-         : !this.openedChests.contains(var1.getPos())
-            && mc.thePlayer.getDistance(var1.getPos().getX(), var1.getPos().getY(), var1.getPos().getZ()) < mc.playerController.getBlockReachDistance();
+         : !this.openedChests.contains(tileEntity.getPos())
+            && mc.thePlayer.getDistance(tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ())
+               < mc.playerController.getBlockReachDistance();
    }
 
-   private boolean hasItemsLeft(GuiChest var1) {
-      long var2 = c ^ 84239377091547L;
-      long var4 = var2 ^ 118411581644071L;
+   private boolean hasItemsLeft(GuiChest guiChest) {
+      long l = c ^ 84239377091547L;
+      long m = l ^ 118411581644071L;
 
-      for (int var7 = 0; var7 < var1.lowerChestInventory.getSizeInventory(); var7++) {
-         if (isChestTitle(var1.lowerChestInventory.getDisplayName().getFormattedText())
-            && var1.inventorySlots.getSlot(var7).getHasStack()
+      for (int i = 0; i < guiChest.lowerChestInventory.getSizeInventory(); i++) {
+         if (isChestTitle(guiChest.lowerChestInventory.getDisplayName().getFormattedText())
+            && guiChest.inventorySlots.getSlot(i).getHasStack()
             && (
                client.getModuleManager().get(InventoryManager.class).isEnabled()
-                     && client.getModuleManager().get(InventoryManager.class).wouldKeep(var1.inventorySlots.getSlot(var7).getStack())
+                     && client.getModuleManager().get(InventoryManager.class).wouldKeep(guiChest.inventorySlots.getSlot(i).getStack())
                   || !client.getModuleManager().get(InventoryManager.class).isEnabled()
             )) {
             return true;
@@ -360,11 +361,11 @@ public final class Stealer extends Module {
       return false;
    }
 
-   public static boolean isChestTitle(String var0) {
+   public static boolean isChestTitle(String string) {
       if (!titleCheck.getValue()) {
          return true;
       } else {
-         return var0 == null ? true : var0.contains("Chest") || var0.contains("LOW") || StringUtils.stripControlCodes(var0).isEmpty();
+         return string == null ? true : string.contains("Chest") || string.contains("LOW") || StringUtils.stripControlCodes(string).isEmpty();
       }
    }
 }

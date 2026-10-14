@@ -5,8 +5,8 @@ import java.util.Map;
 public final class ImmutableChannelGroup implements ChannelGroup {
    private Map<String, Channel> x;
 
-   public ImmutableChannelGroup(ChannelGroupBuilder var1) {
-      this.x = ChannelGroupBuilder.L(var1);
+   public ImmutableChannelGroup(ChannelGroupBuilder channelGroupBuilder) {
+      this.x = ChannelGroupBuilder.L(channelGroupBuilder);
    }
 
    public static ChannelGroupBuilder g() {
@@ -14,12 +14,12 @@ public final class ImmutableChannelGroup implements ChannelGroup {
    }
 
    @Override
-   public void i(Channel var1) {
+   public void i(Channel channel) {
       throw new IllegalStateException();
    }
 
    @Override
-   public void q(Channel var1) {
+   public void q(Channel channel) {
       throw new IllegalStateException();
    }
 
@@ -29,7 +29,7 @@ public final class ImmutableChannelGroup implements ChannelGroup {
    }
 
    @Override
-   public Channel get(String var1) {
-      return this.x.get(var1);
+   public Channel get(String string) {
+      return this.x.get(string);
    }
 }

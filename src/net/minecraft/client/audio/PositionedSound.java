@@ -13,8 +13,8 @@ public abstract class PositionedSound implements ISound {
    public int repeatDelay = 0;
    public ISound.AttenuationType attenuationType = ISound.AttenuationType.LINEAR;
 
-   public PositionedSound(ResourceLocation var1) {
-      this.positionedSoundLocation = var1;
+   public PositionedSound(ResourceLocation soundResource) {
+      this.positionedSoundLocation = soundResource;
    }
 
    @Override

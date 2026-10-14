@@ -19,291 +19,291 @@ import net.minecraft.network.play.client.C01PacketChatMessage;
 
 public final class ChatCommandHandler extends HiddenModule {
    @EventHandler(ChatEvent.class)
-   private Listener<ChatEvent> onChat = var1 -> {
-      long var2 = c ^ 2250943439137L;
-      long var4 = var2 ^ 82034894370664L;
-      long var6 = var2 ^ 43272982567901L;
-      switch (var1.getDirection()) {
+   private Listener<ChatEvent> onChat = chatEvent -> {
+      long l = c ^ 2250943439137L;
+      long m = l ^ 82034894370664L;
+      long n = l ^ 43272982567901L;
+      switch (chatEvent.getDirection()) {
          case TO_SEND:
-            if (var1.getWords().length == 0) {
+            if (chatEvent.getWords().length == 0) {
                return;
-            } else if (var1.getWords()[0].startsWith(".")) {
-               if (var1.getMessage().startsWith("..")) {
-                  mc.thePlayer.sendQueue.u(new C01PacketChatMessage(var1.getMessage().substring(1)));
-                  var1.cancel();
+            } else if (chatEvent.getWords()[0].startsWith(".")) {
+               if (chatEvent.getMessage().startsWith("..")) {
+                  mc.thePlayer.sendQueue.u(new C01PacketChatMessage(chatEvent.getMessage().substring(1)));
+                  chatEvent.cancel();
                   return;
                } else {
-                  Command var9 = (Command)client.getCommandManager().getCommand(var1.getWords()[0].replace(".", ""));
-                  if (var9 != null) {
-                     if (!var1.isUserTyped() && var9 instanceof ScriptCommand) {
+                  Command command = (Command)client.getCommandManager().getCommand(chatEvent.getWords()[0].replace(".", ""));
+                  if (command != null) {
+                     if (!chatEvent.isUserTyped() && command instanceof ScriptCommand) {
                         chat.P("https://www.youtube.com/watch?v=WSeNSzJ2-Jw");
                         return;
                      }
 
-                     var9.runCommand(var1.getWords());
+                     command.runCommand(chatEvent.getWords());
                   } else {
-                     for (ModuleInfo var11 : client.getModuleManager().getList()) {
-                        if (var11 instanceof Module) {
-                           StringBuilder var12 = new StringBuilder();
-                           String[] var13 = var1.getWords();
-                           if (var13[0].replace(".", "").equalsIgnoreCase(var11.getName())) {
-                              if (var13.length <= 1) {
-                                 ((Module)var11).toggle();
-                                 if (var1.isUserTyped()) {
-                                    chat.I(String.format("§7%s §fhas been toggled", var11.getName()));
+                     for (ModuleInfo moduleInfo : client.getModuleManager().getList()) {
+                        if (moduleInfo instanceof Module) {
+                           StringBuilder stringBuilder = new StringBuilder();
+                           String[] strings = chatEvent.getWords();
+                           if (strings[0].replace(".", "").equalsIgnoreCase(moduleInfo.getName())) {
+                              if (strings.length <= 1) {
+                                 ((Module)moduleInfo).toggle();
+                                 if (chatEvent.isUserTyped()) {
+                                    chat.I(String.format("§7%s §fhas been toggled", moduleInfo.getName()));
                                  }
-                              } else if (var13.length <= 2 && var13[1].equalsIgnoreCase("help")) {
-                                 int var28 = 0;
+                              } else if (strings.length <= 2 && strings[1].equalsIgnoreCase("help")) {
+                                 int i = 0;
 
-                                 for (Setting var34 : ((Module)var11).getSettings()) {
-                                    if (var28 == ((Module)var11).getSettings().size() - 1) {
-                                       var12.append(var34.getName()).append(".");
+                                 for (Setting setting : ((Module)moduleInfo).getSettings()) {
+                                    if (i == ((Module)moduleInfo).getSettings().size() - 1) {
+                                       stringBuilder.append(setting.getName()).append(".");
                                     } else {
-                                       var12.append(var34.getName()).append(", ");
+                                       stringBuilder.append(setting.getName()).append(", ");
                                     }
 
-                                    var28++;
+                                    i++;
                                  }
 
-                                 if (var1.isUserTyped()) {
-                                    chat.I(String.format("%s: §7%s", var11.getName(), var12.toString()));
+                                 if (chatEvent.isUserTyped()) {
+                                    chat.I(String.format("%s: §7%s", moduleInfo.getName(), stringBuilder.toString()));
                                  }
                               } else {
-                                 for (Setting var15 : ((Module)var11).getSettings()) {
-                                    if (var13[1].equalsIgnoreCase(var15.getName())) {
-                                       if (var15 instanceof BooleanSetting) {
-                                          if (var13.length == 3) {
+                                 for (Setting setting2 : ((Module)moduleInfo).getSettings()) {
+                                    if (strings[1].equalsIgnoreCase(setting2.getName())) {
+                                       if (setting2 instanceof BooleanSetting) {
+                                          if (strings.length == 3) {
                                              try {
-                                                BooleanSetting var33 = (BooleanSetting)var15;
-                                                var33.set(Boolean.parseBoolean(var13[2]));
-                                                if (var1.isUserTyped()) {
+                                                BooleanSetting booleanSetting = (BooleanSetting)setting2;
+                                                booleanSetting.set(Boolean.parseBoolean(strings[2]));
+                                                if (chatEvent.isUserTyped()) {
                                                    chat.I(
                                                       String.format(
-                                                         "§7%s§f has been set to: %s%s", var15.getName(), this.booleanColor(var33.getValue()), var33.getValue()
+                                                         "§7%s§f has been set to: %s%s", setting2.getName(), this.booleanColor(booleanSetting.getValue()), booleanSetting.getValue()
                                                       )
                                                    );
                                                 }
-                                             } catch (Exception var27) {
+                                             } catch (Exception exception) {
                                                 chat.I("put boolean state correctly");
                                              }
                                           } else {
-                                             ((BooleanSetting)var15).set(!((BooleanSetting)var15).getValue());
-                                             if (var1.isUserTyped()) {
+                                             ((BooleanSetting)setting2).set(!((BooleanSetting)setting2).getValue());
+                                             if (chatEvent.isUserTyped()) {
                                                 chat.I(
                                                    String.format(
                                                       "§7%s§f has been set to: %s%s",
-                                                      var15.getName(),
-                                                      this.booleanColor(((BooleanSetting)var15).getValue()),
-                                                      ((BooleanSetting)var15).getValue()
+                                                      setting2.getName(),
+                                                      this.booleanColor(((BooleanSetting)setting2).getValue()),
+                                                      ((BooleanSetting)setting2).getValue()
                                                    )
                                                 );
                                              }
                                           }
-                                       } else if (var15 instanceof NumberSetting) {
-                                          if (var13.length >= 3) {
+                                       } else if (setting2 instanceof NumberSetting) {
+                                          if (strings.length >= 3) {
                                              try {
-                                                if (var15.getValueClass() == Integer.class && var13[2].contains(",")) {
-                                                   chat.P(String.format("%s is an Integer, you cant input a decimal on it.", var15.getName()));
-                                                   var1.cancel();
+                                                if (setting2.getValueClass() == Integer.class && strings[2].contains(",")) {
+                                                   chat.P(String.format("%s is an Integer, you cant input a decimal on it.", setting2.getName()));
+                                                   chatEvent.cancel();
                                                    return;
                                                 }
 
-                                                NumberFormat var32 = NumberFormat.getInstance();
-                                                Number var40 = var32.parse(var13[2]);
-                                                if (var15.getValueClass().equals(Float.class)) {
-                                                   var15.setValue(Float.valueOf(var13[2]));
-                                                } else if (var15.getValueClass().equals(Integer.class)) {
-                                                   var15.setValue(Integer.valueOf(var13[2]));
+                                                NumberFormat numberFormat = NumberFormat.getInstance();
+                                                Number number2 = numberFormat.parse(strings[2]);
+                                                if (setting2.getValueClass().equals(Float.class)) {
+                                                   setting2.setValue(Float.valueOf(strings[2]));
+                                                } else if (setting2.getValueClass().equals(Integer.class)) {
+                                                   setting2.setValue(Integer.valueOf(strings[2]));
                                                 } else {
-                                                   var15.setValue(var40);
+                                                   setting2.setValue(number2);
                                                 }
 
-                                                if (var1.isUserTyped()) {
+                                                if (chatEvent.isUserTyped()) {
                                                    chat.I(
                                                       String.format(
-                                                         "%s is now %s (before set to %s)", var15.getName(), var15.getValue(), var15.getPreviousValue()
+                                                         "%s is now %s (before set to %s)", setting2.getName(), setting2.getValue(), setting2.getPreviousValue()
                                                       )
                                                    );
                                                 }
-                                             } catch (NumberFormatException var25) {
+                                             } catch (NumberFormatException numberFormatException) {
                                                 chat.P("wrong number argument");
-                                             } catch (ParseException var26) {
-                                                var26.printStackTrace();
+                                             } catch (ParseException parseException) {
+                                                parseException.printStackTrace();
                                              }
-                                          } else if (var1.isUserTyped()) {
+                                          } else if (chatEvent.isUserTyped()) {
                                              chat.I(
                                                 String.format(
                                                    "%s -> %s: %s (min: %s, max: %s)",
-                                                   var11.getName(),
-                                                   var15.getName(),
-                                                   var15.getDescription(),
-                                                   ((NumberSetting)var15).getMin(),
-                                                   ((NumberSetting)var15).getMax()
+                                                   moduleInfo.getName(),
+                                                   setting2.getName(),
+                                                   setting2.getDescription(),
+                                                   ((NumberSetting)setting2).getMin(),
+                                                   ((NumberSetting)setting2).getMax()
                                                 )
                                              );
                                           }
-                                       } else if (var15 instanceof EnumSetting) {
-                                          if (var13.length > 2) {
-                                             if (var13.length >= 3) {
-                                                var15.parse(var13[2]);
-                                                if (var1.isUserTyped()) {
+                                       } else if (setting2 instanceof EnumSetting) {
+                                          if (strings.length > 2) {
+                                             if (strings.length >= 3) {
+                                                setting2.parse(strings[2]);
+                                                if (chatEvent.isUserTyped()) {
                                                    chat.I(
                                                       String.format(
                                                          "§7%s§f has been set to: §7%s§f (before set to §7%s§f)",
-                                                         var15.getName(),
-                                                         var15.getValue(),
-                                                         var15.getPreviousValue()
+                                                         setting2.getName(),
+                                                         setting2.getValue(),
+                                                         setting2.getPreviousValue()
                                                       )
                                                    );
                                                 }
                                              }
                                           } else {
-                                             StringBuilder var31 = new StringBuilder();
+                                             StringBuilder stringBuilder2 = new StringBuilder();
 
-                                             for (Enum var46 : (Enum[])((Enum)var15.getValue()).getClass().getEnumConstants()) {
-                                                var31.append(var46).append(" ");
+                                             for (Enum enum2 : (Enum[])((Enum)setting2.getValue()).getClass().getEnumConstants()) {
+                                                stringBuilder2.append(enum2).append(" ");
                                              }
 
-                                             if (var1.isUserTyped()) {
+                                             if (chatEvent.isUserTyped()) {
                                                 chat.I(
                                                    String.format(
                                                       "%s -> %s: %s (values: %s)",
-                                                      var11.getName(),
-                                                      var15.getName(),
-                                                      var15.getDescription(),
-                                                      var31.toString().toLowerCase()
+                                                      moduleInfo.getName(),
+                                                      setting2.getName(),
+                                                      setting2.getDescription(),
+                                                      stringBuilder2.toString().toLowerCase()
                                                    )
                                                 );
                                              }
                                           }
-                                       } else if (var15 instanceof MapSetting) {
-                                          if (var13.length == 2) {
-                                             StringBuilder var16 = new StringBuilder();
+                                       } else if (setting2 instanceof MapSetting) {
+                                          if (strings.length == 2) {
+                                             StringBuilder stringBuilder3 = new StringBuilder();
 
-                                             for (Setting var18 : ((MapSetting)var15).getSettings().values()) {
-                                                var16.append(var18.getName()).append(" ");
+                                             for (Setting setting3 : ((MapSetting)setting2).getSettings().values()) {
+                                                stringBuilder3.append(setting3.getName()).append(" ");
                                              }
 
-                                             if (var1.isUserTyped()) {
-                                                chat.I(String.format("Available values: §7%s", var16.toString()));
+                                             if (chatEvent.isUserTyped()) {
+                                                chat.I(String.format("Available values: §7%s", stringBuilder3.toString()));
                                              }
                                           }
 
-                                          if (var13.length >= 3) {
-                                             Setting var30 = ((MapSetting)var15).getSetting(var13[2]);
-                                             if (var13.length == 3) {
-                                                if (var30 instanceof BooleanSetting) {
-                                                   BooleanSetting var35 = (BooleanSetting)var30;
-                                                   var35.set(!var35.getValue());
-                                                   if (var1.isUserTyped()) {
+                                          if (strings.length >= 3) {
+                                             Setting setting4 = ((MapSetting)setting2).getSetting(strings[2]);
+                                             if (strings.length == 3) {
+                                                if (setting4 instanceof BooleanSetting) {
+                                                   BooleanSetting booleanSetting2 = (BooleanSetting)setting4;
+                                                   booleanSetting2.set(!booleanSetting2.getValue());
+                                                   if (chatEvent.isUserTyped()) {
                                                       chat.I(
                                                          String.format(
                                                             "§7%s§f has been set to: %s%s",
-                                                            var15.getName(),
-                                                            this.booleanColor(var35.getValue()),
-                                                            var35.getValue()
+                                                            setting2.getName(),
+                                                            this.booleanColor(booleanSetting2.getValue()),
+                                                            booleanSetting2.getValue()
                                                          )
                                                       );
                                                    }
                                                 }
 
-                                                if (var30 instanceof NumberSetting && var1.isUserTyped()) {
+                                                if (setting4 instanceof NumberSetting && chatEvent.isUserTyped()) {
                                                    chat.I(
                                                       String.format(
                                                          "%s -> %s: %s (min: %s, max: %s)",
-                                                         var11.getName(),
-                                                         var30.getName(),
-                                                         var30.getDescription(),
-                                                         ((NumberSetting)var30).getMin(),
-                                                         ((NumberSetting)var30).getMax()
+                                                         moduleInfo.getName(),
+                                                         setting4.getName(),
+                                                         setting4.getDescription(),
+                                                         ((NumberSetting)setting4).getMin(),
+                                                         ((NumberSetting)setting4).getMax()
                                                       )
                                                    );
                                                 }
 
-                                                if (var30 instanceof EnumSetting) {
-                                                   StringBuilder var36 = new StringBuilder();
+                                                if (setting4 instanceof EnumSetting) {
+                                                   StringBuilder stringBuilder4 = new StringBuilder();
 
-                                                   for (Enum var21 : (Enum[])((Enum)var30.getValue()).getClass().getEnumConstants()) {
-                                                      var36.append(var21).append(" ");
+                                                   for (Enum enum3 : (Enum[])((Enum)setting4.getValue()).getClass().getEnumConstants()) {
+                                                      stringBuilder4.append(enum3).append(" ");
                                                    }
 
-                                                   if (var1.isUserTyped()) {
+                                                   if (chatEvent.isUserTyped()) {
                                                       chat.I(
                                                          String.format(
                                                             "%s -> %s: %s (values: %s)",
-                                                            var11.getName(),
-                                                            var30.getName(),
-                                                            var30.getDescription(),
-                                                            var36.toString().toLowerCase()
+                                                            moduleInfo.getName(),
+                                                            setting4.getName(),
+                                                            setting4.getDescription(),
+                                                            stringBuilder4.toString().toLowerCase()
                                                          )
                                                       );
                                                    }
                                                 }
                                              }
 
-                                             if (var13.length == 4) {
-                                                if (var30 instanceof BooleanSetting) {
+                                             if (strings.length == 4) {
+                                                if (setting4 instanceof BooleanSetting) {
                                                    try {
-                                                      BooleanSetting var37 = (BooleanSetting)var30;
-                                                      var37.set(Boolean.parseBoolean(var13[3]));
-                                                      if (var1.isUserTyped()) {
+                                                      BooleanSetting booleanSetting3 = (BooleanSetting)setting4;
+                                                      booleanSetting3.set(Boolean.parseBoolean(strings[3]));
+                                                      if (chatEvent.isUserTyped()) {
                                                          chat.I(
                                                             String.format(
                                                                "§7%s§f has been set to: %s%s",
-                                                               var15.getName(),
-                                                               this.booleanColor(var37.getValue()),
-                                                               var37.getValue()
+                                                               setting2.getName(),
+                                                               this.booleanColor(booleanSetting3.getValue()),
+                                                               booleanSetting3.getValue()
                                                             )
                                                          );
                                                       }
-                                                   } catch (Exception var24) {
+                                                   } catch (Exception exception2) {
                                                       chat.I("put boolean state correctly");
                                                    }
                                                 }
 
-                                                if (var30 instanceof NumberSetting) {
-                                                   NumberSetting var38 = (NumberSetting)var30;
+                                                if (setting4 instanceof NumberSetting) {
+                                                   NumberSetting numberSetting = (NumberSetting)setting4;
 
                                                    try {
-                                                      if (var15.getValueClass() == Integer.class && var13[3].contains(",")) {
-                                                         chat.P(String.format("%s is an Integer, you cant input a decimal on it.", var30.getName()));
-                                                         var1.cancel();
+                                                      if (setting2.getValueClass() == Integer.class && strings[3].contains(",")) {
+                                                         chat.P(String.format("%s is an Integer, you cant input a decimal on it.", setting4.getName()));
+                                                         chatEvent.cancel();
                                                          return;
                                                       }
 
-                                                      NumberFormat var42 = NumberFormat.getInstance();
-                                                      Number var44 = var42.parse(var13[3]);
-                                                      if (var38.getValueClass().equals(Float.class)) {
-                                                         var38.setValue(Float.valueOf(var13[3]));
-                                                      } else if (var38.getValueClass().equals(Integer.class)) {
-                                                         var38.setValue(Integer.valueOf(var13[3]));
+                                                      NumberFormat numberFormat2 = NumberFormat.getInstance();
+                                                      Number number3 = numberFormat2.parse(strings[3]);
+                                                      if (numberSetting.getValueClass().equals(Float.class)) {
+                                                         numberSetting.setValue(Float.valueOf(strings[3]));
+                                                      } else if (numberSetting.getValueClass().equals(Integer.class)) {
+                                                         numberSetting.setValue(Integer.valueOf(strings[3]));
                                                       } else {
-                                                         var38.setValue(var44);
+                                                         numberSetting.setValue(number3);
                                                       }
 
-                                                      if (var1.isUserTyped()) {
+                                                      if (chatEvent.isUserTyped()) {
                                                          chat.I(
                                                             String.format(
-                                                               "%s is now %s (before set to %s)", var30.getName(), var30.getValue(), var30.getPreviousValue()
+                                                               "%s is now %s (before set to %s)", setting4.getName(), setting4.getValue(), setting4.getPreviousValue()
                                                             )
                                                          );
                                                       }
-                                                   } catch (NumberFormatException var22) {
+                                                   } catch (NumberFormatException numberFormatException2) {
                                                       chat.P("wrong number argument");
-                                                   } catch (ParseException var23) {
-                                                      var23.printStackTrace();
+                                                   } catch (ParseException parseException2) {
+                                                      parseException2.printStackTrace();
                                                    }
                                                 }
 
-                                                if (var30 instanceof EnumSetting) {
-                                                   var30.parse(var13[3]);
-                                                   if (var1.isUserTyped()) {
+                                                if (setting4 instanceof EnumSetting) {
+                                                   setting4.parse(strings[3]);
+                                                   if (chatEvent.isUserTyped()) {
                                                       chat.I(
                                                          String.format(
                                                             "§7%s§f has been set to: §7%s§f (before set to §7%s§f)",
-                                                            var30.getName(),
-                                                            var30.getValue(),
-                                                            var30.getPreviousValue()
+                                                            setting4.getName(),
+                                                            setting4.getValue(),
+                                                            setting4.getPreviousValue()
                                                          )
                                                       );
                                                    }
@@ -315,14 +315,14 @@ public final class ChatCommandHandler extends HiddenModule {
                                  }
                               }
 
-                              var1.cancel();
+                              chatEvent.cancel();
                               return;
                            }
                         }
                      }
                   }
 
-                  var1.cancel();
+                  chatEvent.cancel();
                }
             }
       }
@@ -333,7 +333,7 @@ public final class ChatCommandHandler extends HiddenModule {
       client.getEventBus().subscribe(this);
    }
 
-   private String booleanColor(boolean var1) {
-      return var1 ? "§2" : "§4";
+   private String booleanColor(boolean bl) {
+      return bl ? "§2" : "§4";
    }
 }

@@ -109,30 +109,30 @@ public class Potion {
    private boolean usable;
    private static final long c = 19291917828044L;
 
-   public Potion(int var1, ResourceLocation var2, boolean var3, int var4) {
-      this.id = var1;
-      potionTypes[var1] = this;
-      field_180150_I.put(var2, this);
-      this.isBadEffect = var3;
-      if (var3) {
+   public Potion(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
+      this.id = potionID;
+      potionTypes[potionID] = this;
+      field_180150_I.put(location, this);
+      this.isBadEffect = badEffect;
+      if (badEffect) {
          this.effectiveness = 0.5;
       } else {
          this.effectiveness = 1.0;
       }
 
-      this.liquidColor = var4;
+      this.liquidColor = potionColor;
    }
 
-   public static Potion getPotionFromResourceLocation(String var0) {
-      return field_180150_I.get(new ResourceLocation(var0));
+   public static Potion getPotionFromResourceLocation(String location) {
+      return field_180150_I.get(new ResourceLocation(location));
    }
 
    public static Set<ResourceLocation> getPotionLocations() {
       return field_180150_I.keySet();
    }
 
-   public Potion setIconIndex(int var1, int var2) {
-      this.statusIconIndex = var1 + var2 * 8;
+   public Potion setIconIndex(int i, int j) {
+      this.statusIconIndex = i + j * 8;
       return this;
    }
 
@@ -140,45 +140,45 @@ public class Potion {
       return this.id;
    }
 
-   public void performEffect(EntityLivingBase var1, int var2) {
+   public void performEffect(EntityLivingBase entityLivingBaseIn, int i) {
       if (this.id == regeneration.id) {
-         if (var1.getHealth() < var1.getMaxHealth()) {
-            var1.heal(1.0F);
+         if (entityLivingBaseIn.getHealth() < entityLivingBaseIn.getMaxHealth()) {
+            entityLivingBaseIn.heal(1.0F);
          }
       } else if (this.id == poison.id) {
-         if (var1.getHealth() > 1.0F) {
-            var1.attackEntityFrom(DamageSource.magic, 1.0F);
+         if (entityLivingBaseIn.getHealth() > 1.0F) {
+            entityLivingBaseIn.attackEntityFrom(DamageSource.magic, 1.0F);
          }
       } else if (this.id == wither.id) {
-         var1.attackEntityFrom(DamageSource.wither, 1.0F);
-      } else if (this.id == hunger.id && var1 instanceof EntityPlayer) {
-         ((EntityPlayer)var1).addExhaustion(0.025F * (var2 + 1));
-      } else if (this.id == saturation.id && var1 instanceof EntityPlayer) {
-         if (!var1.worldObj.isRemote) {
-            ((EntityPlayer)var1).getFoodStats().addStats(var2 + 1, 1.0F);
+         entityLivingBaseIn.attackEntityFrom(DamageSource.wither, 1.0F);
+      } else if (this.id == hunger.id && entityLivingBaseIn instanceof EntityPlayer) {
+         ((EntityPlayer)entityLivingBaseIn).addExhaustion(0.025F * (i + 1));
+      } else if (this.id == saturation.id && entityLivingBaseIn instanceof EntityPlayer) {
+         if (!entityLivingBaseIn.worldObj.isRemote) {
+            ((EntityPlayer)entityLivingBaseIn).getFoodStats().addStats(i + 1, 1.0F);
          }
-      } else if ((this.id != heal.id || var1.V()) && (this.id != harm.id || !var1.V())) {
-         if (this.id == harm.id && !var1.V() || this.id == heal.id && var1.V()) {
-            var1.attackEntityFrom(DamageSource.magic, 6 << var2);
+      } else if ((this.id != heal.id || entityLivingBaseIn.V()) && (this.id != harm.id || !entityLivingBaseIn.V())) {
+         if (this.id == harm.id && !entityLivingBaseIn.V() || this.id == heal.id && entityLivingBaseIn.V()) {
+            entityLivingBaseIn.attackEntityFrom(DamageSource.magic, 6 << i);
          }
       } else {
-         var1.heal(Math.max(4 << var2, 0));
+         entityLivingBaseIn.heal(Math.max(4 << i, 0));
       }
    }
 
-   public void affectEntity(Entity var1, Entity var2, EntityLivingBase var3, int var4, double var5) {
-      if ((this.id != heal.id || var3.V()) && (this.id != harm.id || !var3.V())) {
-         if (this.id == harm.id && !var3.V() || this.id == heal.id && var3.V()) {
-            int var11 = (int)(var5 * (6 << var4) + 0.5);
-            if (var1 == null) {
-               var3.attackEntityFrom(DamageSource.magic, var11);
+   public void affectEntity(Entity entity, Entity entity2, EntityLivingBase entityLivingBaseIn, int i, double d) {
+      if ((this.id != heal.id || entityLivingBaseIn.V()) && (this.id != harm.id || !entityLivingBaseIn.V())) {
+         if (this.id == harm.id && !entityLivingBaseIn.V() || this.id == heal.id && entityLivingBaseIn.V()) {
+            int j = (int)(d * (6 << i) + 0.5);
+            if (entity == null) {
+               entityLivingBaseIn.attackEntityFrom(DamageSource.magic, j);
             } else {
-               var3.attackEntityFrom(DamageSource.causeIndirectMagicDamage(var1, var2), var11);
+               entityLivingBaseIn.attackEntityFrom(DamageSource.causeIndirectMagicDamage(entity, entity2), j);
             }
          }
       } else {
-         int var10 = (int)(var5 * (4 << var4) + 0.5);
-         var3.heal(var10);
+         int k = (int)(d * (4 << i) + 0.5);
+         entityLivingBaseIn.heal(k);
       }
    }
 
@@ -186,23 +186,23 @@ public class Potion {
       return false;
    }
 
-   public boolean isReady(int var1, int var2) {
+   public boolean isReady(int i, int j) {
       if (this.id == regeneration.id) {
-         int var8 = 50 >> var2;
-         return var8 > 0 ? var1 % var8 == 0 : true;
+         int k = 50 >> j;
+         return k > 0 ? i % k == 0 : true;
       } else if (this.id == poison.id) {
-         int var7 = 25 >> var2;
-         return var7 > 0 ? var1 % var7 == 0 : true;
+         int l = 25 >> j;
+         return l > 0 ? i % l == 0 : true;
       } else if (this.id == wither.id) {
-         int var6 = 40 >> var2;
-         return var6 > 0 ? var1 % var6 == 0 : true;
+         int m = 40 >> j;
+         return m > 0 ? i % m == 0 : true;
       } else {
          return this.id == hunger.id;
       }
    }
 
-   public Potion setPotionName(String var1) {
-      this.name = var1;
+   public Potion setPotionName(String nameIn) {
+      this.name = nameIn;
       return this;
    }
 
@@ -222,17 +222,17 @@ public class Potion {
       return this.isBadEffect;
    }
 
-   public static String getDurationString(PotionEffect var0) {
-      if (var0.getIsPotionDurationMax()) {
+   public static String getDurationString(PotionEffect effect) {
+      if (effect.getIsPotionDurationMax()) {
          return "**:**";
       }
 
-      int var4 = var0.getDuration();
-      return StringUtils.ticksToElapsedTime(var4);
+      int i = effect.getDuration();
+      return StringUtils.ticksToElapsedTime(i);
    }
 
-   public Potion setEffectiveness(double var1) {
-      this.effectiveness = var1;
+   public Potion setEffectiveness(double effectivenessIn) {
+      this.effectiveness = effectivenessIn;
       return this;
    }
 
@@ -248,9 +248,9 @@ public class Potion {
       return this.liquidColor;
    }
 
-   public Potion registerPotionAttributeModifier(IAttribute var1, String var2, double var3, int var5) {
-      AttributeModifier var6 = new AttributeModifier(UUID.fromString(var2), this.getName(), var3, var5);
-      this.attributeModifierMap.put(var1, var6);
+   public Potion registerPotionAttributeModifier(IAttribute iAttribute, String string, double d, int i) {
+      AttributeModifier attributeModifier = new AttributeModifier(UUID.fromString(string), this.getName(), d, i);
+      this.attributeModifierMap.put(iAttribute, attributeModifier);
       return this;
    }
 
@@ -258,29 +258,29 @@ public class Potion {
       return this.attributeModifierMap;
    }
 
-   public void removeAttributesModifiersFromEntity(EntityLivingBase var1, BaseAttributeMap var2, int var3) {
-      for (Entry var8 : this.attributeModifierMap.entrySet()) {
-         IAttributeInstance var9 = var2.getAttributeInstance((IAttribute)var8.getKey());
-         if (var9 != null) {
-            var9.removeModifier((AttributeModifier)var8.getValue());
+   public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap baseAttributeMap, int amplifier) {
+      for (Entry entry : this.attributeModifierMap.entrySet()) {
+         IAttributeInstance iAttributeInstance = baseAttributeMap.getAttributeInstance((IAttribute)entry.getKey());
+         if (iAttributeInstance != null) {
+            iAttributeInstance.removeModifier((AttributeModifier)entry.getValue());
          }
       }
    }
 
-   public void applyAttributesModifiersToEntity(EntityLivingBase var1, BaseAttributeMap var2, int var3) {
-      for (Entry var8 : this.attributeModifierMap.entrySet()) {
-         IAttributeInstance var9 = var2.getAttributeInstance((IAttribute)var8.getKey());
-         if (var9 != null) {
-            AttributeModifier var10 = (AttributeModifier)var8.getValue();
-            var9.removeModifier(var10);
-            var9.applyModifier(
-               new AttributeModifier(var10.getID(), this.getName() + " " + var3, this.getAttributeModifierAmount(var3, var10), var10.getOperation())
+   public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap baseAttributeMap, int amplifier) {
+      for (Entry entry : this.attributeModifierMap.entrySet()) {
+         IAttributeInstance iAttributeInstance = baseAttributeMap.getAttributeInstance((IAttribute)entry.getKey());
+         if (iAttributeInstance != null) {
+            AttributeModifier attributeModifier = (AttributeModifier)entry.getValue();
+            iAttributeInstance.removeModifier(attributeModifier);
+            iAttributeInstance.applyModifier(
+               new AttributeModifier(attributeModifier.getID(), this.getName() + " " + amplifier, this.getAttributeModifierAmount(amplifier, attributeModifier), attributeModifier.getOperation())
             );
          }
       }
    }
 
-   public double getAttributeModifierAmount(int var1, AttributeModifier var2) {
-      return var2.getAmount() * (var1 + 1);
+   public double getAttributeModifierAmount(int i, AttributeModifier modifier) {
+      return modifier.getAmount() * (i + 1);
    }
 }

@@ -10,28 +10,28 @@ import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 
 public class BlockGlowstone extends Block {
-   public BlockGlowstone(Material var1) {
-      super(var1);
+   public BlockGlowstone(Material materialIn) {
+      super(materialIn);
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public int quantityDroppedWithBonus(int var1, Random var2) {
-      return MathHelper.clamp_int(this.quantityDropped(var2) + var2.nextInt(var1 + 1), 1, 4);
+   public int quantityDroppedWithBonus(int fortune, Random randomIn) {
+      return MathHelper.clamp_int(this.quantityDropped(randomIn) + randomIn.nextInt(fortune + 1), 1, 4);
    }
 
    @Override
-   public int quantityDropped(Random var1) {
-      return 2 + var1.nextInt(3);
+   public int quantityDropped(Random randomIn) {
+      return 2 + randomIn.nextInt(3);
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.glowstone_dust;
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
+   public MapColor getMapColor(IBlockState state) {
       return MapColor.sandColor;
    }
 }

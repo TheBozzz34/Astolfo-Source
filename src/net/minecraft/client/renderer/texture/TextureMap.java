@@ -57,249 +57,249 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
    public int atlasHeight = 0;
    private static final long a = 27945421490205L;
 
-   public TextureMap(String var1) {
-      this(var1, (IIconCreator)null);
+   public TextureMap(String string) {
+      this(string, (IIconCreator)null);
    }
 
-   public TextureMap(String var1, boolean var2) {
-      this(var1, (IIconCreator)null, var2);
+   public TextureMap(String string, boolean bl) {
+      this(string, (IIconCreator)null, bl);
    }
 
-   public TextureMap(String var1, IIconCreator var2) {
-      this(var1, var2, false);
+   public TextureMap(String string, IIconCreator iconCreatorIn) {
+      this(string, iconCreatorIn, false);
    }
 
-   public TextureMap(String var1, IIconCreator var2, boolean var3) {
+   public TextureMap(String string, IIconCreator iIconCreator, boolean bl) {
       this.listAnimatedSprites = Lists.newArrayList();
       this.mapRegisteredSprites = Maps.newHashMap();
       this.mapUploadedSprites = Maps.newHashMap();
       this.missingImage = new TextureAtlasSprite("missingno");
-      this.basePath = var1;
-      this.iconCreator = var2;
-      this.skipFirst = var3 && ENABLE_SKIP;
+      this.basePath = string;
+      this.iconCreator = iIconCreator;
+      this.skipFirst = bl && ENABLE_SKIP;
    }
 
    private void initMissingImage() {
-      int var1 = this.getMinSpriteSize();
-      int[] var2 = this.getMissingImageData(var1);
-      this.missingImage.N(var1);
-      this.missingImage.W(var1);
-      int[][] var3 = new int[this.mipmapLevels + 1][];
-      var3[0] = var2;
-      this.missingImage.setFramesTextureData(Lists.newArrayList(new int[][][]{var3}));
+      int i = this.getMinSpriteSize();
+      int[] ints = this.getMissingImageData(i);
+      this.missingImage.N(i);
+      this.missingImage.W(i);
+      int[][] intss = new int[this.mipmapLevels + 1][];
+      intss[0] = ints;
+      this.missingImage.setFramesTextureData(Lists.newArrayList(new int[][][]{intss}));
       this.missingImage.P(this.u++);
    }
 
    @Override
-   public void loadTexture(IResourceManager var1) throws IOException {
-      ShadersTex.resManager = var1;
+   public void loadTexture(IResourceManager resourceManager) throws IOException {
+      ShadersTex.resManager = resourceManager;
       if (this.iconCreator != null) {
-         this.loadSprites(var1, this.iconCreator);
+         this.loadSprites(resourceManager, this.iconCreator);
       }
    }
 
-   public void loadSprites(IResourceManager var1, IIconCreator var2) {
+   public void loadSprites(IResourceManager resourceManager, IIconCreator iIconCreator) {
       this.mapRegisteredSprites.clear();
       this.u = 0;
-      var2.registerSprites(this);
+      iIconCreator.registerSprites(this);
       if (this.mipmapLevels >= 4) {
-         this.mipmapLevels = this.detectMaxMipmapLevel(this.mapRegisteredSprites, var1);
+         this.mipmapLevels = this.detectMaxMipmapLevel(this.mapRegisteredSprites, resourceManager);
          Config.log("Mipmap levels: " + this.mipmapLevels);
       }
 
       this.initMissingImage();
       this.deleteGlTexture();
-      this.loadTextureAtlas(var1);
+      this.loadTextureAtlas(resourceManager);
    }
 
-   public void loadTextureAtlas(IResourceManager var1) {
-      long var2 = a ^ 85209644597267L;
+   public void loadTextureAtlas(IResourceManager resourceManager) {
+      long l = a ^ 85209644597267L;
       Config.dbg("Multitexture: " + Config.isMultiTexture());
       if (Config.isMultiTexture()) {
-         for (Object var7 : this.mapUploadedSprites.values()) {
-            ((TextureAtlasSprite)var7).e();
+         for (Object object : this.mapUploadedSprites.values()) {
+            ((TextureAtlasSprite)object).e();
          }
       }
 
       ConnectedTextures.updateIcons(this);
       CustomItems.updateIcons(this);
-      int var29 = Minecraft.getGLMaximumTextureSize();
-      Stitcher var30 = new Stitcher(var29, var29, true, 0, this.mipmapLevels);
-      long var10000 = 6462237240004000619L ^ var2;
+      int i = Minecraft.getGLMaximumTextureSize();
+      Stitcher stitcher = new Stitcher(i, i, true, 0, this.mipmapLevels);
+      long m = 6462237240004000619L ^ l;
       this.mapUploadedSprites.clear();
       this.listAnimatedSprites.clear();
-      int var8 = Integer.MAX_VALUE;
+      int j = Integer.MAX_VALUE;
       Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPre, this);
-      int var9 = this.getMinSpriteSize();
-      int var10 = 1 << this.mipmapLevels;
+      int k = this.getMinSpriteSize();
+      int n = 1 << this.mipmapLevels;
 
-      for (Object var12 : this.mapRegisteredSprites.entrySet()) {
-         TextureAtlasSprite var13 = (TextureAtlasSprite)((Entry)var12).getValue();
-         ResourceLocation var14 = new ResourceLocation(var13.getIconName());
-         ResourceLocation var15 = this.completeResourceLocation(var14, 0);
-         if (!var13.hasCustomLoader(var1, var14)) {
+      for (Object object2 : this.mapRegisteredSprites.entrySet()) {
+         TextureAtlasSprite textureAtlasSprite = (TextureAtlasSprite)((Entry)object2).getValue();
+         ResourceLocation resourceLocation = new ResourceLocation(textureAtlasSprite.getIconName());
+         ResourceLocation resourceLocation2 = this.completeResourceLocation(resourceLocation, 0);
+         if (!textureAtlasSprite.hasCustomLoader(resourceManager, resourceLocation)) {
             try {
-               IResource var16 = var1.getResource(var15);
-               BufferedImage[] var17 = new BufferedImage[1 + this.mipmapLevels];
-               var17[0] = TextureUtil.readBufferedImage(var16.getInputStream());
-               if (this.mipmapLevels > 0 && var17 != null) {
-                  int var18 = var17[0].getWidth();
-                  var17[0] = TextureUtils.scaleToPowerOfTwo(var17[0], var9);
-                  int var19 = var17[0].getWidth();
-                  if (!TextureUtils.isPowerOfTwo(var18)) {
-                     Config.log("Scaled non power of 2: " + var13.getIconName() + ", " + var18 + " -> " + var19);
+               IResource iResource = resourceManager.getResource(resourceLocation2);
+               BufferedImage[] bufferedImages = new BufferedImage[1 + this.mipmapLevels];
+               bufferedImages[0] = TextureUtil.readBufferedImage(iResource.getInputStream());
+               if (this.mipmapLevels > 0 && bufferedImages != null) {
+                  int i2 = bufferedImages[0].getWidth();
+                  bufferedImages[0] = TextureUtils.scaleToPowerOfTwo(bufferedImages[0], k);
+                  int i3 = bufferedImages[0].getWidth();
+                  if (!TextureUtils.isPowerOfTwo(i2)) {
+                     Config.log("Scaled non power of 2: " + textureAtlasSprite.getIconName() + ", " + i2 + " -> " + i3);
                   }
                }
 
-               TextureMetadataSection var49 = var16.getMetadata("texture");
-               if (var49 != null) {
-                  List var52 = var49.getListMipmaps();
-                  if (!var52.isEmpty()) {
-                     int var20 = var17[0].getWidth();
-                     int var21 = var17[0].getHeight();
-                     if (MathHelper.roundUpToPowerOfTwo(var20) != var20 || MathHelper.roundUpToPowerOfTwo(var21) != var21) {
+               TextureMetadataSection textureMetadataSection = iResource.getMetadata("texture");
+               if (textureMetadataSection != null) {
+                  List list = textureMetadataSection.getListMipmaps();
+                  if (!list.isEmpty()) {
+                     int i4 = bufferedImages[0].getWidth();
+                     int i5 = bufferedImages[0].getHeight();
+                     if (MathHelper.roundUpToPowerOfTwo(i4) != i4 || MathHelper.roundUpToPowerOfTwo(i5) != i5) {
                         throw new RuntimeException("Unable to load extra miplevels, source-texture is not power of two");
                      }
                   }
 
-                  for (Object var59$raw : var52) {
-                     int var59 = (int)var59$raw;
-                     if (var59 > 0 && var59 < var17.length - 1 && var17[var59] == null) {
-                        ResourceLocation var22 = this.completeResourceLocation(var14, var59);
+                  for (Object object3 : list) {
+                     int i6 = (int)object3;
+                     if (i6 > 0 && i6 < bufferedImages.length - 1 && bufferedImages[i6] == null) {
+                        ResourceLocation resourceLocation3 = this.completeResourceLocation(resourceLocation, i6);
 
                         try {
-                           var17[var59] = TextureUtil.readBufferedImage(var1.getResource(var22).getInputStream());
-                        } catch (IOException var26) {
-                           logger.error("Unable to load miplevel {} from: {}", var59, var22, var26);
+                           bufferedImages[i6] = TextureUtil.readBufferedImage(resourceManager.getResource(resourceLocation3).getInputStream());
+                        } catch (IOException ioException) {
+                           logger.error("Unable to load miplevel {} from: {}", i6, resourceLocation3, ioException);
                         }
                      }
                   }
                }
 
-               AnimationMetadataSection var53 = var16.getMetadata("animation");
-               var13.loadSprite(var17, var53);
-            } catch (RuntimeException var27) {
-               logger.error("Unable to parse metadata from " + var15, var27);
+               AnimationMetadataSection animationMetadataSection = iResource.getMetadata("animation");
+               textureAtlasSprite.loadSprite(bufferedImages, animationMetadataSection);
+            } catch (RuntimeException runtimeException) {
+               logger.error("Unable to parse metadata from " + resourceLocation2, runtimeException);
                continue;
-            } catch (IOException var28) {
-               logger.error("Using missing texture, unable to load " + var15 + ", " + var28.getClass().getName());
+            } catch (IOException ioException2) {
+               logger.error("Using missing texture, unable to load " + resourceLocation2 + ", " + ioException2.getClass().getName());
                continue;
             }
 
-            var8 = Math.min(var8, Math.min(var13.getIconWidth(), var13.getIconHeight()));
-            int var43 = Math.min(Integer.lowestOneBit(var13.getIconWidth()), Integer.lowestOneBit(var13.getIconHeight()));
-            if (var43 < var10) {
+            j = Math.min(j, Math.min(textureAtlasSprite.getIconWidth(), textureAtlasSprite.getIconHeight()));
+            int i7 = Math.min(Integer.lowestOneBit(textureAtlasSprite.getIconWidth()), Integer.lowestOneBit(textureAtlasSprite.getIconHeight()));
+            if (i7 < n) {
                logger.warn(
                   "Texture {} with size {}x{} limits mip level from {} to {}",
-                  var15,
-                  var13.getIconWidth(),
-                  var13.getIconHeight(),
-                  MathHelper.calculateLogBaseTwo(var10),
-                  MathHelper.calculateLogBaseTwo(var43)
+                  resourceLocation2,
+                  textureAtlasSprite.getIconWidth(),
+                  textureAtlasSprite.getIconHeight(),
+                  MathHelper.calculateLogBaseTwo(n),
+                  MathHelper.calculateLogBaseTwo(i7)
                );
-               var10 = var43;
+               n = i7;
             }
 
-            var30.addSprite(var13);
-         } else if (!var13.L(var1, var14)) {
-            var8 = Math.min(var8, Math.min(var13.getIconWidth(), var13.getIconHeight()));
-            var30.addSprite(var13);
+            stitcher.addSprite(textureAtlasSprite);
+         } else if (!textureAtlasSprite.L(resourceManager, resourceLocation)) {
+            j = Math.min(j, Math.min(textureAtlasSprite.getIconWidth(), textureAtlasSprite.getIconHeight()));
+            stitcher.addSprite(textureAtlasSprite);
          }
       }
 
-      int var31 = Math.min(var8, var10);
-      int var32 = MathHelper.calculateLogBaseTwo(var31);
-      if (var32 < 0) {
-         var32 = 0;
+      int i8 = Math.min(j, n);
+      int i9 = MathHelper.calculateLogBaseTwo(i8);
+      if (i9 < 0) {
+         i9 = 0;
       }
 
-      if (var32 < this.mipmapLevels) {
-         logger.info("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, this.mipmapLevels, var32, var31);
-         this.mipmapLevels = var32;
+      if (i9 < this.mipmapLevels) {
+         logger.info("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, this.mipmapLevels, i9, i8);
+         this.mipmapLevels = i9;
       }
 
-      for (Object var35 : this.mapRegisteredSprites.values()) {
-         final TextureAtlasSprite var39 = (TextureAtlasSprite)var35;
+      for (Object object4 : this.mapRegisteredSprites.values()) {
+         final TextureAtlasSprite textureAtlasSprite2 = (TextureAtlasSprite)object4;
 
          try {
-            var39.generateMipmaps(this.mipmapLevels);
-         } catch (Throwable var25) {
-            CrashReport var46 = CrashReport.makeCrashReport(var25, "Applying mipmap");
-            CrashReportCategory var50 = var46.makeCategory("Sprite being mipmapped");
-            var50.addCrashSectionCallable("Sprite name", new Callable<String>() {
+            textureAtlasSprite2.generateMipmaps(this.mipmapLevels);
+         } catch (Throwable throwable) {
+            CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Applying mipmap");
+            CrashReportCategory crashReportCategory = crashReport.makeCategory("Sprite being mipmapped");
+            crashReportCategory.addCrashSectionCallable("Sprite name", new Callable<String>() {
                public String call() throws Exception {
-                  return var39.getIconName();
+                  return textureAtlasSprite2.getIconName();
                }
             });
-            var50.addCrashSectionCallable("Sprite size", new Callable<String>() {
+            crashReportCategory.addCrashSectionCallable("Sprite size", new Callable<String>() {
                private static final long a = 88460750642069L;
 
                public String call() throws Exception {
-                  return var39.getIconWidth() + " x " + var39.getIconHeight();
+                  return textureAtlasSprite2.getIconWidth() + " x " + textureAtlasSprite2.getIconHeight();
                }
             });
-            var50.addCrashSectionCallable("Sprite frames", new Callable<String>() {
+            crashReportCategory.addCrashSectionCallable("Sprite frames", new Callable<String>() {
                private static final long a = 49279306030653L;
 
                public String call() throws Exception {
-                  return var39.getFrameCount() + " frames";
+                  return textureAtlasSprite2.getFrameCount() + " frames";
                }
             });
-            var50.addCrashSection("Mipmap levels", this.mipmapLevels);
-            throw new ReportedException(var46);
+            crashReportCategory.addCrashSection("Mipmap levels", this.mipmapLevels);
+            throw new ReportedException(crashReport);
          }
       }
 
       this.missingImage.generateMipmaps(this.mipmapLevels);
-      var30.addSprite(this.missingImage);
-      var30.doStitch();
-      logger.info("Created: {}x{} {}-atlas", var30.f(), var30.Y(), this.basePath);
-      TextureUtil.allocateTextureImpl(this.getGlTextureId(), this.mipmapLevels, var30.f(), var30.Y());
-      HashMap var34 = Maps.newHashMap(this.mapRegisteredSprites);
+      stitcher.addSprite(this.missingImage);
+      stitcher.doStitch();
+      logger.info("Created: {}x{} {}-atlas", stitcher.f(), stitcher.Y(), this.basePath);
+      TextureUtil.allocateTextureImpl(this.getGlTextureId(), this.mipmapLevels, stitcher.f(), stitcher.Y());
+      HashMap hashMap = Maps.newHashMap(this.mapRegisteredSprites);
 
-      for (Object var40 : var30.getStichSlots()) {
-         TextureAtlasSprite var44 = (TextureAtlasSprite)var40;
-         String var47 = var44.getIconName();
-         var34.remove(var47);
-         this.mapUploadedSprites.put(var47, var44);
+      for (Object object5 : stitcher.getStichSlots()) {
+         TextureAtlasSprite textureAtlasSprite3 = (TextureAtlasSprite)object5;
+         String string = textureAtlasSprite3.getIconName();
+         hashMap.remove(string);
+         this.mapUploadedSprites.put(string, textureAtlasSprite3);
 
          try {
-            TextureUtil.uploadTextureMipmap(var44.getFrameTextureData(0), var44.getIconWidth(), var44.getIconHeight(), var44.d(), var44.D(), false, false);
-         } catch (Throwable var24) {
-            CrashReport var54 = CrashReport.makeCrashReport(var24, "Stitching texture atlas");
-            CrashReportCategory var57 = var54.makeCategory("Texture being stitched together");
-            var57.addCrashSection("Atlas path", this.basePath);
-            var57.addCrashSection("Sprite", var44);
-            throw new ReportedException(var54);
+            TextureUtil.uploadTextureMipmap(textureAtlasSprite3.getFrameTextureData(0), textureAtlasSprite3.getIconWidth(), textureAtlasSprite3.getIconHeight(), textureAtlasSprite3.d(), textureAtlasSprite3.D(), false, false);
+         } catch (Throwable throwable2) {
+            CrashReport crashReport2 = CrashReport.makeCrashReport(throwable2, "Stitching texture atlas");
+            CrashReportCategory crashReportCategory2 = crashReport2.makeCategory("Texture being stitched together");
+            crashReportCategory2.addCrashSection("Atlas path", this.basePath);
+            crashReportCategory2.addCrashSection("Sprite", textureAtlasSprite3);
+            throw new ReportedException(crashReport2);
          }
 
-         if (var44.hasAnimationMetadata()) {
-            this.listAnimatedSprites.add(var44);
+         if (textureAtlasSprite3.hasAnimationMetadata()) {
+            this.listAnimatedSprites.add(textureAtlasSprite3);
          }
       }
 
-      for (Object var41 : var34.values()) {
-         ((TextureAtlasSprite)var41).copyFrom(this.missingImage);
+      for (Object object6 : hashMap.values()) {
+         ((TextureAtlasSprite)object6).copyFrom(this.missingImage);
       }
 
       if (Config.isMultiTexture()) {
-         int var38 = var30.f();
-         int var42 = var30.Y();
+         int i10 = stitcher.f();
+         int i11 = stitcher.Y();
 
-         for (Object var48 : var30.getStichSlots()) {
-            TextureAtlasSprite var51 = (TextureAtlasSprite)var48;
-            var51.sheetWidth = var38;
-            var51.sheetHeight = var42;
-            var51.mipmapLevels = this.mipmapLevels;
-            TextureAtlasSprite var55 = var51.spriteSingle;
-            if (var55 != null) {
-               var55.sheetWidth = var38;
-               var55.sheetHeight = var42;
-               var55.mipmapLevels = this.mipmapLevels;
-               var51.bindSpriteTexture();
-               boolean var58 = false;
-               boolean var60 = true;
-               TextureUtil.uploadTextureMipmap(var55.getFrameTextureData(0), var55.getIconWidth(), var55.getIconHeight(), var55.d(), var55.D(), var58, var60);
+         for (Object object7 : stitcher.getStichSlots()) {
+            TextureAtlasSprite textureAtlasSprite4 = (TextureAtlasSprite)object7;
+            textureAtlasSprite4.sheetWidth = i10;
+            textureAtlasSprite4.sheetHeight = i11;
+            textureAtlasSprite4.mipmapLevels = this.mipmapLevels;
+            TextureAtlasSprite textureAtlasSprite5 = textureAtlasSprite4.spriteSingle;
+            if (textureAtlasSprite5 != null) {
+               textureAtlasSprite5.sheetWidth = i10;
+               textureAtlasSprite5.sheetHeight = i11;
+               textureAtlasSprite5.mipmapLevels = this.mipmapLevels;
+               textureAtlasSprite4.bindSpriteTexture();
+               boolean bl = false;
+               boolean bl2 = true;
+               TextureUtil.uploadTextureMipmap(textureAtlasSprite5.getFrameTextureData(0), textureAtlasSprite5.getIconWidth(), textureAtlasSprite5.getIconHeight(), textureAtlasSprite5.d(), textureAtlasSprite5.D(), bl, bl2);
             }
          }
 
@@ -308,31 +308,31 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
       Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPost, this);
       if (Config.equals(System.getProperty("saveTextureMap"), "true")) {
-         TextureUtil.saveGlTexture(this.basePath.replaceAll("/", "_"), this.getGlTextureId(), this.mipmapLevels, var30.f(), var30.Y());
+         TextureUtil.saveGlTexture(this.basePath.replaceAll("/", "_"), this.getGlTextureId(), this.mipmapLevels, stitcher.f(), stitcher.Y());
       }
    }
 
-   public ResourceLocation completeResourceLocation(ResourceLocation var1, int var2) {
-      return this.isAbsoluteLocation(var1)
+   public ResourceLocation completeResourceLocation(ResourceLocation location, int i) {
+      return this.isAbsoluteLocation(location)
          ? (
-            var2 == 0
-               ? new ResourceLocation(var1.getResourceDomain(), var1.getResourcePath() + ".png")
-               : new ResourceLocation(var1.getResourceDomain(), var1.getResourcePath() + "mipmap" + var2 + ".png")
+            i == 0
+               ? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png")
+               : new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + "mipmap" + i + ".png")
          )
          : (
-            var2 == 0
-               ? new ResourceLocation(var1.getResourceDomain(), String.format("%s/%s%s", this.basePath, var1.getResourcePath(), ".png"))
-               : new ResourceLocation(var1.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", this.basePath, var1.getResourcePath(), var2, ".png"))
+            i == 0
+               ? new ResourceLocation(location.getResourceDomain(), String.format("%s/%s%s", this.basePath, location.getResourcePath(), ".png"))
+               : new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", this.basePath, location.getResourcePath(), i, ".png"))
          );
    }
 
-   public TextureAtlasSprite getAtlasSprite(String var1) {
-      TextureAtlasSprite var5 = this.mapUploadedSprites.get(var1);
-      if (var5 == null) {
-         var5 = this.missingImage;
+   public TextureAtlasSprite getAtlasSprite(String iconName) {
+      TextureAtlasSprite textureAtlasSprite = this.mapUploadedSprites.get(iconName);
+      if (textureAtlasSprite == null) {
+         textureAtlasSprite = this.missingImage;
       }
 
-      return var5;
+      return textureAtlasSprite;
    }
 
    public void updateAnimations() {
@@ -340,36 +340,36 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
          ShadersTex.updatingTex = this.getMultiTexID();
       }
 
-      boolean var4 = false;
-      boolean var5 = false;
+      boolean bl = false;
+      boolean bl2 = false;
       TextureUtil.bindTexture(this.getGlTextureId());
 
-      for (Object var7 : this.listAnimatedSprites) {
-         TextureAtlasSprite var8 = (TextureAtlasSprite)var7;
-         if (this.isTerrainAnimationActive(var8)) {
-            var8.updateAnimation();
-            if (var8.spriteNormal != null) {
-               var4 = true;
+      for (Object object : this.listAnimatedSprites) {
+         TextureAtlasSprite textureAtlasSprite = (TextureAtlasSprite)object;
+         if (this.isTerrainAnimationActive(textureAtlasSprite)) {
+            textureAtlasSprite.updateAnimation();
+            if (textureAtlasSprite.spriteNormal != null) {
+               bl = true;
             }
 
-            if (var8.spriteSpecular != null) {
-               var5 = true;
+            if (textureAtlasSprite.spriteSpecular != null) {
+               bl2 = true;
             }
          }
       }
 
       if (Config.isMultiTexture()) {
-         for (Object var13 : this.listAnimatedSprites) {
-            TextureAtlasSprite var16 = (TextureAtlasSprite)var13;
-            if (this.isTerrainAnimationActive(var16)) {
-               TextureAtlasSprite var9 = var16.spriteSingle;
-               if (var9 != null) {
-                  if (var16 == TextureUtils.iconClock || var16 == TextureUtils.iconCompass) {
-                     var9.frameCounter = var16.frameCounter;
+         for (Object object2 : this.listAnimatedSprites) {
+            TextureAtlasSprite textureAtlasSprite2 = (TextureAtlasSprite)object2;
+            if (this.isTerrainAnimationActive(textureAtlasSprite2)) {
+               TextureAtlasSprite textureAtlasSprite3 = textureAtlasSprite2.spriteSingle;
+               if (textureAtlasSprite3 != null) {
+                  if (textureAtlasSprite2 == TextureUtils.iconClock || textureAtlasSprite2 == TextureUtils.iconCompass) {
+                     textureAtlasSprite3.frameCounter = textureAtlasSprite2.frameCounter;
                   }
 
-                  var16.bindSpriteTexture();
-                  var9.updateAnimation();
+                  textureAtlasSprite2.bindSpriteTexture();
+                  textureAtlasSprite3.updateAnimation();
                }
             }
          }
@@ -378,37 +378,37 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       }
 
       if (Config.isShaders()) {
-         if (var4) {
+         if (bl) {
             TextureUtil.bindTexture(this.getMultiTexID().norm);
 
-            for (Object var14 : this.listAnimatedSprites) {
-               TextureAtlasSprite var17 = (TextureAtlasSprite)var14;
-               if (var17.spriteNormal != null && this.isTerrainAnimationActive(var17)) {
-                  if (var17 == TextureUtils.iconClock || var17 == TextureUtils.iconCompass) {
-                     var17.spriteNormal.frameCounter = var17.frameCounter;
+            for (Object object3 : this.listAnimatedSprites) {
+               TextureAtlasSprite textureAtlasSprite4 = (TextureAtlasSprite)object3;
+               if (textureAtlasSprite4.spriteNormal != null && this.isTerrainAnimationActive(textureAtlasSprite4)) {
+                  if (textureAtlasSprite4 == TextureUtils.iconClock || textureAtlasSprite4 == TextureUtils.iconCompass) {
+                     textureAtlasSprite4.spriteNormal.frameCounter = textureAtlasSprite4.frameCounter;
                   }
 
-                  var17.spriteNormal.updateAnimation();
+                  textureAtlasSprite4.spriteNormal.updateAnimation();
                }
             }
          }
 
-         if (var5) {
+         if (bl2) {
             TextureUtil.bindTexture(this.getMultiTexID().spec);
 
-            for (Object var15 : this.listAnimatedSprites) {
-               TextureAtlasSprite var18 = (TextureAtlasSprite)var15;
-               if (var18.spriteSpecular != null && this.isTerrainAnimationActive(var18)) {
-                  if (var18 == TextureUtils.iconClock || var18 == TextureUtils.iconCompass) {
-                     var18.spriteNormal.frameCounter = var18.frameCounter;
+            for (Object object4 : this.listAnimatedSprites) {
+               TextureAtlasSprite textureAtlasSprite5 = (TextureAtlasSprite)object4;
+               if (textureAtlasSprite5.spriteSpecular != null && this.isTerrainAnimationActive(textureAtlasSprite5)) {
+                  if (textureAtlasSprite5 == TextureUtils.iconClock || textureAtlasSprite5 == TextureUtils.iconCompass) {
+                     textureAtlasSprite5.spriteNormal.frameCounter = textureAtlasSprite5.frameCounter;
                   }
 
-                  var18.spriteSpecular.updateAnimation();
+                  textureAtlasSprite5.spriteSpecular.updateAnimation();
                }
             }
          }
 
-         if (var4 || var5) {
+         if (bl || bl2) {
             TextureUtil.bindTexture(this.getGlTextureId());
          }
       }
@@ -418,21 +418,21 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       }
    }
 
-   public TextureAtlasSprite registerSprite(ResourceLocation var1) {
-      if (var1 == null) {
+   public TextureAtlasSprite registerSprite(ResourceLocation location) {
+      if (location == null) {
          throw new IllegalArgumentException("Location cannot be null!");
       }
 
-      TextureAtlasSprite var5 = this.mapRegisteredSprites.get(var1.toString());
-      if (var5 == null) {
-         var5 = TextureAtlasSprite.makeAtlasSprite(var1);
-         this.mapRegisteredSprites.put(var1.toString(), var5);
-         if (var5.getIndexInMap() < 0) {
-            var5.P(this.u++);
+      TextureAtlasSprite textureAtlasSprite = this.mapRegisteredSprites.get(location.toString());
+      if (textureAtlasSprite == null) {
+         textureAtlasSprite = TextureAtlasSprite.makeAtlasSprite(location);
+         this.mapRegisteredSprites.put(location.toString(), textureAtlasSprite);
+         if (textureAtlasSprite.getIndexInMap() < 0) {
+            textureAtlasSprite.P(this.u++);
          }
       }
 
-      return var5;
+      return textureAtlasSprite;
    }
 
    @Override
@@ -440,24 +440,24 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       this.updateAnimations();
    }
 
-   public void setMipmapLevels(int var1) {
-      this.mipmapLevels = var1;
+   public void setMipmapLevels(int mipmapLevelsIn) {
+      this.mipmapLevels = mipmapLevelsIn;
    }
 
    public TextureAtlasSprite getMissingSprite() {
       return this.missingImage;
    }
 
-   public TextureAtlasSprite c(String var1) {
-      ResourceLocation var2 = new ResourceLocation(var1);
-      return this.mapRegisteredSprites.get(var2.toString());
+   public TextureAtlasSprite c(String string) {
+      ResourceLocation resourceLocation = new ResourceLocation(string);
+      return this.mapRegisteredSprites.get(resourceLocation.toString());
    }
 
-   public boolean setTextureEntry(String var1, TextureAtlasSprite var2) {
-      if (!this.mapRegisteredSprites.containsKey(var1)) {
-         this.mapRegisteredSprites.put(var1, var2);
-         if (var2.getIndexInMap() < 0) {
-            var2.P(this.u++);
+   public boolean setTextureEntry(String string, TextureAtlasSprite textureAtlasSprite) {
+      if (!this.mapRegisteredSprites.containsKey(string)) {
+         this.mapRegisteredSprites.put(string, textureAtlasSprite);
+         if (textureAtlasSprite.getIndexInMap() < 0) {
+            textureAtlasSprite.P(this.u++);
          }
 
          return true;
@@ -466,8 +466,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       }
    }
 
-   public boolean t(TextureAtlasSprite var1) {
-      return this.setTextureEntry(var1.getIconName(), var1);
+   public boolean t(TextureAtlasSprite textureAtlasSprite) {
+      return this.setTextureEntry(textureAtlasSprite.getIconName(), textureAtlasSprite);
    }
 
    public String getBasePath() {
@@ -478,34 +478,34 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       return this.mipmapLevels;
    }
 
-   private boolean isAbsoluteLocation(ResourceLocation var1) {
-      String var2 = var1.getResourcePath();
-      return this.isAbsoluteLocationPath(var2);
+   private boolean isAbsoluteLocation(ResourceLocation resourceLocation) {
+      String string = resourceLocation.getResourcePath();
+      return this.isAbsoluteLocationPath(string);
    }
 
-   private boolean isAbsoluteLocationPath(String var1) {
-      String var5 = var1.toLowerCase();
-      return var5.startsWith("mcpatcher/") || var5.startsWith("optifine/");
+   private boolean isAbsoluteLocationPath(String string) {
+      String string2 = string.toLowerCase();
+      return string2.startsWith("mcpatcher/") || string2.startsWith("optifine/");
    }
 
-   public TextureAtlasSprite getSpriteSafe(String var1) {
-      ResourceLocation var2 = new ResourceLocation(var1);
-      return this.mapRegisteredSprites.get(var2.toString());
+   public TextureAtlasSprite getSpriteSafe(String string) {
+      ResourceLocation resourceLocation = new ResourceLocation(string);
+      return this.mapRegisteredSprites.get(resourceLocation.toString());
    }
 
-   private boolean isTerrainAnimationActive(TextureAtlasSprite var1) {
-      return var1 == TextureUtils.iconWaterStill || var1 == TextureUtils.iconWaterFlow
+   private boolean isTerrainAnimationActive(TextureAtlasSprite textureAtlasSprite) {
+      return textureAtlasSprite == TextureUtils.iconWaterStill || textureAtlasSprite == TextureUtils.iconWaterFlow
          ? Config.W_boolean()
          : (
-            var1 == TextureUtils.iconLavaStill || var1 == TextureUtils.iconLavaFlow
+            textureAtlasSprite == TextureUtils.iconLavaStill || textureAtlasSprite == TextureUtils.iconLavaFlow
                ? Config.pl()
                : (
-                  var1 == TextureUtils.iconFireLayer0 || var1 == TextureUtils.iconFireLayer1
+                  textureAtlasSprite == TextureUtils.iconFireLayer0 || textureAtlasSprite == TextureUtils.iconFireLayer1
                      ? Config.w()
                      : (
-                        var1 == TextureUtils.iconPortal
+                        textureAtlasSprite == TextureUtils.iconPortal
                            ? Config.isAnimatedPortal()
-                           : (var1 != TextureUtils.iconClock && var1 != TextureUtils.iconCompass ? Config.F() : true)
+                           : (textureAtlasSprite != TextureUtils.iconClock && textureAtlasSprite != TextureUtils.iconCompass ? Config.F() : true)
                      )
                )
          );
@@ -515,118 +515,118 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       return this.u;
    }
 
-   private int detectMaxMipmapLevel(Map var1, IResourceManager var2) {
-      int var6 = this.detectMinimumSpriteSize(var1, var2, 20);
-      if (var6 < 16) {
-         var6 = 16;
+   private int detectMaxMipmapLevel(Map map, IResourceManager iResourceManager) {
+      int i = this.detectMinimumSpriteSize(map, iResourceManager, 20);
+      if (i < 16) {
+         i = 16;
       }
 
-      var6 = MathHelper.roundUpToPowerOfTwo(var6);
-      if (var6 > 16) {
-         Config.log("Sprite size: " + var6);
+      i = MathHelper.roundUpToPowerOfTwo(i);
+      if (i > 16) {
+         Config.log("Sprite size: " + i);
       }
 
-      int var7 = MathHelper.calculateLogBaseTwo(var6);
-      if (var7 < 4) {
-         var7 = 4;
+      int j = MathHelper.calculateLogBaseTwo(i);
+      if (j < 4) {
+         j = 4;
       }
 
-      return var7;
+      return j;
    }
 
-   private int detectMinimumSpriteSize(Map var1, IResourceManager var2, int var3) {
-      HashMap var7 = new HashMap();
+   private int detectMinimumSpriteSize(Map map, IResourceManager iResourceManager, int i) {
+      HashMap hashMap = new HashMap();
 
-      for (Object var9 : var1.entrySet()) {
-         TextureAtlasSprite var10 = (TextureAtlasSprite)((Entry)var9).getValue();
-         ResourceLocation var11 = new ResourceLocation(var10.getIconName());
-         ResourceLocation var12 = this.completeResourceLocation(var11, 0);
-         if (!var10.hasCustomLoader(var2, var11)) {
+      for (Object object : map.entrySet()) {
+         TextureAtlasSprite textureAtlasSprite = (TextureAtlasSprite)((Entry)object).getValue();
+         ResourceLocation resourceLocation = new ResourceLocation(textureAtlasSprite.getIconName());
+         ResourceLocation resourceLocation2 = this.completeResourceLocation(resourceLocation, 0);
+         if (!textureAtlasSprite.hasCustomLoader(iResourceManager, resourceLocation)) {
             try {
-               IResource var13 = var2.getResource(var12);
-               if (var13 != null) {
-                  InputStream var14 = var13.getInputStream();
-                  if (var14 != null) {
-                     Dimension var15 = TextureUtils.getImageSize(var14, "png");
-                     if (var15 != null) {
-                        int var16 = var15.width;
-                        int var17 = MathHelper.roundUpToPowerOfTwo(var16);
-                        if (!var7.containsKey(var17)) {
-                           var7.put(var17, 1);
+               IResource iResource = iResourceManager.getResource(resourceLocation2);
+               if (iResource != null) {
+                  InputStream inputStream = iResource.getInputStream();
+                  if (inputStream != null) {
+                     Dimension dimension = TextureUtils.getImageSize(inputStream, "png");
+                     if (dimension != null) {
+                        int j = dimension.width;
+                        int k = MathHelper.roundUpToPowerOfTwo(j);
+                        if (!hashMap.containsKey(k)) {
+                           hashMap.put(k, 1);
                         } else {
-                           int var18 = (Integer)var7.get(var17);
-                           var7.put(var17, var18 + 1);
+                           int l = (Integer)hashMap.get(k);
+                           hashMap.put(k, l + 1);
                         }
                      }
                   }
                }
-            } catch (Exception var19) {
+            } catch (Exception exception) {
             }
          }
       }
 
-      int var20 = 0;
-      Set var21 = var7.keySet();
-      TreeSet var22 = new TreeSet(var21);
+      int m = 0;
+      Set set = hashMap.keySet();
+      TreeSet treeSet = new TreeSet(set);
 
-      for (Object var27$raw : var22) {
-         int var27 = (int)var27$raw;
-         int var23 = (Integer)var7.get(var27);
-         var20 += var23;
+      for (Object object2 : treeSet) {
+         int n = (int)object2;
+         int i2 = (Integer)hashMap.get(n);
+         m += i2;
       }
 
-      int var26 = 16;
-      int var28 = 0;
-      int var24 = var20 * var3 / 100;
+      int i3 = 16;
+      int i4 = 0;
+      int i5 = m * i / 100;
 
-      for (Object var30$raw : var22) {
-         int var30 = (int)var30$raw;
-         int var31 = (Integer)var7.get(var30);
-         var28 += var31;
-         if (var30 > var26) {
-            var26 = var30;
+      for (Object object3 : treeSet) {
+         int i6 = (int)object3;
+         int i7 = (Integer)hashMap.get(i6);
+         i4 += i7;
+         if (i6 > i3) {
+            i3 = i6;
          }
 
-         if (var28 > var24) {
-            return var26;
+         if (i4 > i5) {
+            return i3;
          }
       }
 
-      return var26;
+      return i3;
    }
 
    private int getMinSpriteSize() {
-      int var4 = 1 << this.mipmapLevels;
-      if (var4 < 8) {
-         var4 = 8;
+      int i = 1 << this.mipmapLevels;
+      if (i < 8) {
+         i = 8;
       }
 
-      return var4;
+      return i;
    }
 
-   private int[] getMissingImageData(int var1) {
-      BufferedImage var4 = new BufferedImage(16, 16, 2);
-      var4.setRGB(0, 0, 16, 16, TextureUtil.missingTextureData, 0, 16);
-      BufferedImage var5 = TextureUtils.scaleToPowerOfTwo(var4, var1);
-      int[] var6 = new int[var1 * var1];
-      var5.getRGB(0, 0, var1, var1, var6, 0, var1);
-      return var6;
+   private int[] getMissingImageData(int i) {
+      BufferedImage bufferedImage = new BufferedImage(16, 16, 2);
+      bufferedImage.setRGB(0, 0, 16, 16, TextureUtil.missingTextureData, 0, 16);
+      BufferedImage bufferedImage2 = TextureUtils.scaleToPowerOfTwo(bufferedImage, i);
+      int[] ints = new int[i * i];
+      bufferedImage2.getRGB(0, 0, i, i, ints, 0, i);
+      return ints;
    }
 
    public boolean isTextureBound() {
-      int var4 = GlStateManager.getBoundTexture();
-      int var5 = this.getGlTextureId();
-      return var4 == var5;
+      int i = GlStateManager.getBoundTexture();
+      int j = this.getGlTextureId();
+      return i == j;
    }
 
-   public TextureAtlasSprite getIconByUV(double var1, double var3) {
+   public TextureAtlasSprite getIconByUV(double d, double d2) {
       if (this.iconGrid == null) {
          return null;
       }
 
-      int var8 = (int)(var1 / this.iconGridSizeU);
-      int var9 = (int)(var3 / this.iconGridSizeV);
-      int var10 = var9 * this.iconGridCountX + var8;
-      return var10 >= 0 && var10 <= this.iconGrid.length ? this.iconGrid[var10] : null;
+      int i = (int)(d / this.iconGridSizeU);
+      int j = (int)(d2 / this.iconGridSizeV);
+      int k = j * this.iconGridCountX + i;
+      return k >= 0 && k <= this.iconGrid.length ? this.iconGrid[k] : null;
    }
 }

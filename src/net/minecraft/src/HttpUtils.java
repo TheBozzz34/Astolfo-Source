@@ -15,91 +15,91 @@ public class HttpUtils {
    public static final String I = "http://optifine.net";
    private static final long a = 136420857371154L;
 
-   public static byte[] get(String var0) throws IOException {
-      HttpURLConnection var4 = null;
+   public static byte[] get(String urlStr) throws IOException {
+      HttpURLConnection httpURLConnection = null;
 
-      byte[] var5;
+      byte[] bytes;
       try {
-         URL var6 = new URL(var0);
-         var4 = (HttpURLConnection)var6.openConnection(Minecraft.getMinecraft().getProxy());
-         var4.setDoInput(true);
-         var4.setDoOutput(false);
-         var4.connect();
-         if (var4.getResponseCode() / 100 != 2) {
-            if (var4.getErrorStream() != null) {
-               Config.readAll(var4.getErrorStream());
+         URL url = new URL(urlStr);
+         httpURLConnection = (HttpURLConnection)url.openConnection(Minecraft.getMinecraft().getProxy());
+         httpURLConnection.setDoInput(true);
+         httpURLConnection.setDoOutput(false);
+         httpURLConnection.connect();
+         if (httpURLConnection.getResponseCode() / 100 != 2) {
+            if (httpURLConnection.getErrorStream() != null) {
+               Config.readAll(httpURLConnection.getErrorStream());
             }
 
-            throw new IOException("HTTP response: " + var4.getResponseCode());
+            throw new IOException("HTTP response: " + httpURLConnection.getResponseCode());
          }
 
-         InputStream var7 = var4.getInputStream();
-         byte[] var8 = new byte[var4.getContentLength()];
-         int var9 = 0;
+         InputStream inputStream = httpURLConnection.getInputStream();
+         byte[] bytes2 = new byte[httpURLConnection.getContentLength()];
+         int i = 0;
 
          do {
-            int var10 = var7.read(var8, var9, var8.length - var9);
-            if (var10 < 0) {
-               throw new IOException("Input stream closed: " + var0);
+            int j = inputStream.read(bytes2, i, bytes2.length - i);
+            if (j < 0) {
+               throw new IOException("Input stream closed: " + urlStr);
             }
 
-            var9 += var10;
-         } while (var9 < var8.length);
+            i += j;
+         } while (i < bytes2.length);
 
-         var5 = var8;
+         bytes = bytes2;
       } finally {
-         if (var4 != null) {
-            var4.disconnect();
+         if (httpURLConnection != null) {
+            httpURLConnection.disconnect();
          }
       }
 
-      return var5;
+      return bytes;
    }
 
-   public static String post(String var0, Map var1, byte[] var2) throws IOException {
-      HttpURLConnection var6 = null;
+   public static String post(String urlStr, Map headers, byte[] content) throws IOException {
+      HttpURLConnection httpURLConnection = null;
 
-      String var7;
+      String string;
       try {
-         URL var8 = new URL(var0);
-         var6 = (HttpURLConnection)var8.openConnection(Minecraft.getMinecraft().getProxy());
-         var6.setRequestMethod("POST");
-         if (var1 != null) {
-            for (Object var10 : var1.keySet()) {
-               String var11 = "" + var1.get(var10);
-               var6.setRequestProperty((String)var10, var11);
+         URL url = new URL(urlStr);
+         httpURLConnection = (HttpURLConnection)url.openConnection(Minecraft.getMinecraft().getProxy());
+         httpURLConnection.setRequestMethod("POST");
+         if (headers != null) {
+            for (Object object : headers.keySet()) {
+               String string2 = "" + headers.get(object);
+               httpURLConnection.setRequestProperty((String)object, string2);
             }
          }
 
-         var6.setRequestProperty("Content-Type", "text/plain");
-         var6.setRequestProperty("Content-Length", "" + var2.length);
-         var6.setRequestProperty("Content-Language", "en-US");
-         var6.setUseCaches(false);
-         var6.setDoInput(true);
-         var6.setDoOutput(true);
-         OutputStream var18 = var6.getOutputStream();
-         var18.write(var2);
-         var18.flush();
-         var18.close();
-         InputStream var19 = var6.getInputStream();
-         InputStreamReader var20 = new InputStreamReader(var19, "ASCII");
-         BufferedReader var12 = new BufferedReader(var20);
-         StringBuffer var13 = new StringBuffer();
+         httpURLConnection.setRequestProperty("Content-Type", "text/plain");
+         httpURLConnection.setRequestProperty("Content-Length", "" + content.length);
+         httpURLConnection.setRequestProperty("Content-Language", "en-US");
+         httpURLConnection.setUseCaches(false);
+         httpURLConnection.setDoInput(true);
+         httpURLConnection.setDoOutput(true);
+         OutputStream outputStream = httpURLConnection.getOutputStream();
+         outputStream.write(content);
+         outputStream.flush();
+         outputStream.close();
+         InputStream inputStream = httpURLConnection.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "ASCII");
+         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+         StringBuffer stringBuffer = new StringBuffer();
 
-         String var14;
-         while ((var14 = var12.readLine()) != null) {
-            var13.append(var14);
-            var13.append('\r');
+         String string3;
+         while ((string3 = bufferedReader.readLine()) != null) {
+            stringBuffer.append(string3);
+            stringBuffer.append('\r');
          }
 
-         var12.close();
-         var7 = var13.toString();
+         bufferedReader.close();
+         string = stringBuffer.toString();
       } finally {
-         if (var6 != null) {
-            var6.disconnect();
+         if (httpURLConnection != null) {
+            httpURLConnection.disconnect();
          }
       }
 
-      return var7;
+      return string;
    }
 }

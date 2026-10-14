@@ -20,8 +20,8 @@ public final class DecoyStage1 extends AbstractLoadStage {
    }
 
    @Override
-   public void setState(int var1) {
-      this.state = var1;
+   public void setState(int i) {
+      this.state = i;
    }
 
    @Override
@@ -29,15 +29,15 @@ public final class DecoyStage1 extends AbstractLoadStage {
       return this.state;
    }
 
-   public static VirtualMachineCheckSetup J(DecoyStage1 var0) {
-      return var0.L;
+   public static VirtualMachineCheckSetup J(DecoyStage1 decoyStage1) {
+      return decoyStage1.L;
    }
 
    public class azi extends StageAction {
       private static final long c = 44304318223068L;
 
-      public azi(LoadStage var2) {
-         super(var2);
+      public azi(LoadStage loadStage) {
+         super(loadStage);
       }
 
       @Override
@@ -49,8 +49,8 @@ public final class DecoyStage1 extends AbstractLoadStage {
    }
 
    public class r9i extends StageValue {
-      public r9i(LoadStage var2) {
-         super(var2);
+      public r9i(LoadStage loadStage) {
+         super(loadStage);
       }
 
       public NullPointerException get() {

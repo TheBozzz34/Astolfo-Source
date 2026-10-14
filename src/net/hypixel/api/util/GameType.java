@@ -35,26 +35,26 @@ public enum GameType {
    private final int id;
    private static final long a = 31052646913358L;
 
-   GameType(String var3, String var4, int var5) {
-      this.name = var3;
-      this.dbName = var4;
-      this.id = var5;
+   GameType(String name, String dbName, int id) {
+      this.name = name;
+      this.dbName = dbName;
+      this.id = id;
    }
 
-   public static GameType fromId(int var0) {
-      for (GameType var7 : VALUES) {
-         if (var7.id == var0) {
-            return var7;
+   public static GameType fromId(int id) {
+      for (GameType gameType : VALUES) {
+         if (gameType.id == id) {
+            return gameType;
          }
       }
 
       return null;
    }
 
-   public static GameType fromDatabase(String var0) {
-      for (GameType var7 : VALUES) {
-         if (var7.dbName.equals(var0)) {
-            return var7;
+   public static GameType fromDatabase(String dbName) {
+      for (GameType gameType : VALUES) {
+         if (gameType.dbName.equals(dbName)) {
+            return gameType;
          }
       }
 

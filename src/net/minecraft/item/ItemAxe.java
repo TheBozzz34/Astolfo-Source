@@ -12,14 +12,14 @@ public class ItemAxe extends ItemTool {
    );
    private static final long a = 103751333737296L;
 
-   public ItemAxe(Item.ToolMaterial var1) {
-      super(3.0F, var1, EFFECTIVE_ON);
+   public ItemAxe(Item.ToolMaterial material) {
+      super(3.0F, material, EFFECTIVE_ON);
    }
 
    @Override
-   public float getStrVsBlock(ItemStack var1, Block var2) {
-      return var2.getMaterial() != Material.wood && var2.getMaterial() != Material.plants && var2.getMaterial() != Material.vine
-         ? super.getStrVsBlock(var1, var2)
+   public float getStrVsBlock(ItemStack stack, Block state) {
+      return state.getMaterial() != Material.wood && state.getMaterial() != Material.plants && state.getMaterial() != Material.vine
+         ? super.getStrVsBlock(stack, state)
          : this.efficiencyOnProperMaterial;
    }
 }

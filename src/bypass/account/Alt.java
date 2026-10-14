@@ -24,21 +24,21 @@ public class Alt implements JsonSerializable<JsonObject> {
    public String Z;
    private static final long a = 126169934704290L;
 
-   public Alt(String var1, String var2) {
-      this(var1, var2, var1);
+   public Alt(String string, String string2) {
+      this(string, string2, string);
    }
 
-   public Alt(String var1, String var2, String var3) {
-      this(var1, var2, var3, AltLogin.AUTH.x(), null);
+   public Alt(String string, String string2, String string3) {
+      this(string, string2, string3, AltLogin.AUTH.x(), null);
    }
 
-   public Alt(String var1, String var2, String var3, String var4, String var5) {
-      this.j = var1.trim();
-      this.z = var2;
-      this.T = AltLogin.AUTH.t(var1);
-      this.U = var4;
-      this.o = var3.trim().length() > 1 ? var3 : this.j;
-      this.y = var5;
+   public Alt(String string, String string2, String string3, String string4, String string5) {
+      this.j = string.trim();
+      this.z = string2;
+      this.T = AltLogin.AUTH.t(string);
+      this.U = string4;
+      this.o = string3.trim().length() > 1 ? string3 : this.j;
+      this.y = string5;
    }
 
    public boolean V_boolean() {
@@ -55,24 +55,24 @@ public class Alt implements JsonSerializable<JsonObject> {
    }
 
    public JsonObject V() {
-      JsonObject var4 = new JsonObject();
-      var4.addProperty("password", Base64.getEncoder().encodeToString(this.z.getBytes()));
-      var4.addProperty("display", this.o);
-      var4.addProperty("accessToken", this.y);
-      var4.addProperty("clientToken", this.U);
-      var4.addProperty("banned", this.N);
-      var4.addProperty("failedLogin", this.I);
-      var4.addProperty("favorite", this.Y);
-      var4.addProperty("microsoft", this.F);
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("password", Base64.getEncoder().encodeToString(this.z.getBytes()));
+      jsonObject.addProperty("display", this.o);
+      jsonObject.addProperty("accessToken", this.y);
+      jsonObject.addProperty("clientToken", this.U);
+      jsonObject.addProperty("banned", this.N);
+      jsonObject.addProperty("failedLogin", this.I);
+      jsonObject.addProperty("favorite", this.Y);
+      jsonObject.addProperty("microsoft", this.F);
       if (this.F) {
-         var4.addProperty("refreshToken", this.Z);
+         jsonObject.addProperty("refreshToken", this.Z);
       }
 
       if (this.N) {
-         var4.addProperty("banExpiry", this.m);
+         jsonObject.addProperty("banExpiry", this.m);
       }
 
-      return var4;
+      return jsonObject;
    }
 
    @Override
@@ -81,12 +81,12 @@ public class Alt implements JsonSerializable<JsonObject> {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (var1 == this) {
+   public boolean equals(Object object) {
+      if (object == this) {
          return true;
-      } else if (var1 != null && var1.getClass() == this.getClass()) {
-         Alt var5 = (Alt)var1;
-         return var5.j.equalsIgnoreCase(this.j);
+      } else if (object != null && object.getClass() == this.getClass()) {
+         Alt alt = (Alt)object;
+         return alt.j.equalsIgnoreCase(this.j);
       } else {
          return false;
       }

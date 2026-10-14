@@ -13,15 +13,15 @@ public final class Modules extends VarArgFunction {
 
    @Override
    public Varargs invoke() {
-      long var1 = a ^ 31943914266992L;
-      long var3 = var1 ^ 71792402767917L;
+      long l = a ^ 31943914266992L;
+      long m = l ^ 71792402767917L;
       if (ModuleManagerLibrary2.i().isEmpty()) {
-         for (ModuleInfo var7 : Astolfo.INSTANCE.getModuleManager().getList()) {
-            ModuleManagerLibrary2.i().add(valueOf(var7.getName()));
+         for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getList()) {
+            ModuleManagerLibrary2.i().add(valueOf(moduleInfo.getName()));
          }
       }
 
-      LuaValue[] var8 = (org.luaj.vm2.LuaValue[])(ModuleManagerLibrary2.i().toArray(new LuaValue[0]));
-      return LuaValue.varargsOf(new LuaValue[]{new LuaTable(LuaValue.varargsOf(var8))});
+      LuaValue[] luaValues = (org.luaj.vm2.LuaValue[])(ModuleManagerLibrary2.i().toArray(new LuaValue[0]));
+      return LuaValue.varargsOf(new LuaValue[]{new LuaTable(LuaValue.varargsOf(luaValues))});
    }
 }

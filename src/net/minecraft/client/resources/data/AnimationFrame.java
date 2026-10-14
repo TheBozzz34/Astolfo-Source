@@ -5,13 +5,13 @@ public class AnimationFrame {
    private final int frameTime;
    private static final long a = 73760853614430L;
 
-   public AnimationFrame(int var1) {
-      this(var1, -1);
+   public AnimationFrame(int i) {
+      this(i, -1);
    }
 
-   public AnimationFrame(int var1, int var2) {
-      this.frameIndex = var1;
-      this.frameTime = var2;
+   public AnimationFrame(int i, int j) {
+      this.frameIndex = i;
+      this.frameTime = j;
    }
 
    public boolean hasNoTime() {

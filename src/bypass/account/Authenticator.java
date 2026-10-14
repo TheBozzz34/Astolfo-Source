@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 public interface Authenticator {
    String a();
 
-   void Y(Minecraft var1, Consumer<Throwable> var2);
+   void Y(Minecraft minecraft, Consumer<Throwable> consumer);
 
    boolean u();
 

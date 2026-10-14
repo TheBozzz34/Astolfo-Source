@@ -11,21 +11,23 @@ public class WorldGenFlowers extends WorldGenerator {
    private IBlockState field_175915_b;
    private static final long a = 136945969494405L;
 
-   public WorldGenFlowers(BlockFlower var1, BlockFlower.EnumFlowerType var2) {
-      this.setGeneratedBlock(var1, var2);
+   public WorldGenFlowers(BlockFlower blockFlower, BlockFlower.EnumFlowerType enumFlowerType) {
+      this.setGeneratedBlock(blockFlower, enumFlowerType);
    }
 
-   public void setGeneratedBlock(BlockFlower var1, BlockFlower.EnumFlowerType var2) {
-      this.flower = var1;
-      this.field_175915_b = var1.getDefaultState().withProperty(var1.getTypeProperty(), var2);
+   public void setGeneratedBlock(BlockFlower blockFlower, BlockFlower.EnumFlowerType enumFlowerType) {
+      this.flower = blockFlower;
+      this.field_175915_b = blockFlower.getDefaultState().withProperty(blockFlower.getTypeProperty(), enumFlowerType);
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      for (int var7 = 0; var7 < 64; var7++) {
-         BlockPos var8 = var3.add(var2.nextInt(8) - var2.nextInt(8), var2.nextInt(4) - var2.nextInt(4), var2.nextInt(8) - var2.nextInt(8));
-         if (var1.isAirBlock(var8) && (!var1.provider.getHasNoSky() || var8.getY() < 255) && this.flower.canBlockStay(var1, var8, this.field_175915_b)) {
-            var1.setBlockState(var8, this.field_175915_b, 2);
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      for (int i = 0; i < 64; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+         if (worldIn.isAirBlock(blockPos) && (!worldIn.provider.getHasNoSky() || blockPos.getY() < 255) && this.flower.canBlockStay(worldIn, blockPos, this.field_175915_b)
+            )
+          {
+            worldIn.setBlockState(blockPos, this.field_175915_b, 2);
          }
       }
 

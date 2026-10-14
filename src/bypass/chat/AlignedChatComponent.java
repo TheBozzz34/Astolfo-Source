@@ -13,10 +13,10 @@ public class AlignedChatComponent extends ChatComponentStyle implements ClientAc
    private static final long b = 80347999039298L;
    private static final long c = 5391170609252139040L;
 
-   public AlignedChatComponent(ClientChat var1, TextAlignment var2) {
-      this.O = var1;
+   public AlignedChatComponent(ClientChat clientChat, TextAlignment textAlignment) {
+      this.O = clientChat;
       this.x = 0;
-      this.f = var2;
+      this.f = textAlignment;
    }
 
    @Override

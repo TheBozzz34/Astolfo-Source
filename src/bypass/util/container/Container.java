@@ -7,16 +7,16 @@ public abstract class Container<S> implements SelfTyped<Container<S>> {
    private ContainerSupplier R;
    private static final long a = 124214587787650L;
 
-   public Container(S var1) {
-      this.setValue((S)var1);
+   public Container(S object) {
+      this.setValue((S)object);
    }
 
    public <T extends S> S getValue() {
       return this.q;
    }
 
-   public S setValue(S var1) {
-      this.q = (S)var1;
+   public S setValue(S object) {
+      this.q = (S)object;
       return this.q;
    }
 
@@ -24,8 +24,8 @@ public abstract class Container<S> implements SelfTyped<Container<S>> {
       return this.R;
    }
 
-   public ContainerSupplier G(ContainerSupplier var1) {
-      this.R = var1;
+   public ContainerSupplier G(ContainerSupplier containerSupplier) {
+      this.R = containerSupplier;
       return this.R;
    }
 

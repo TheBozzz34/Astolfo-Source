@@ -15,25 +15,25 @@ public final class FreeBsdNetworkParams extends AbstractNetworkParams {
 
    @Override
    public String getDomainName() {
-      CLibrary.Addrinfo var3 = new CLibrary.Addrinfo();
-      var3.ai_flags = 2;
-      String var4 = this.getHostName();
-      PointerByReference var5 = new PointerByReference();
-      int var6 = LIBC.getaddrinfo(var4, null, var3, var5);
-      if (var6 > 0) {
+      CLibrary.Addrinfo addrinfo = new CLibrary.Addrinfo();
+      addrinfo.ai_flags = 2;
+      String string = this.getHostName();
+      PointerByReference pointerByReference = new PointerByReference();
+      int i = LIBC.getaddrinfo(string, null, addrinfo, pointerByReference);
+      if (i > 0) {
          return "";
       }
 
-      CLibrary.Addrinfo var7 = new CLibrary.Addrinfo(var5.getValue());
-      String var8 = var7.ai_canonname.trim();
-      LIBC.freeaddrinfo(var5.getValue());
-      return var8;
+      CLibrary.Addrinfo addrinfo2 = new CLibrary.Addrinfo(pointerByReference.getValue());
+      String string2 = addrinfo2.ai_canonname.trim();
+      LIBC.freeaddrinfo(pointerByReference.getValue());
+      return string2;
    }
 
    @Override
    public String getHostName() {
-      byte[] var3 = new byte[256];
-      return 0 != LIBC.gethostname(var3, var3.length) ? super.getHostName() : Native.toString(var3);
+      byte[] bytes = new byte[256];
+      return 0 != LIBC.gethostname(bytes, bytes.length) ? super.getHostName() : Native.toString(bytes);
    }
 
    @Override

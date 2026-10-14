@@ -9,11 +9,11 @@ public class EntityFlameFX extends EntityFX {
    private float flameScale;
    private static final long ab = 105404034110430L;
 
-   public EntityFlameFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, var8, var10, var12);
-      this.motionX = this.motionX * 0.01F + var8;
-      this.motionY = this.motionY * 0.01F + var10;
-      this.motionZ = this.motionZ * 0.01F + var12;
+   public EntityFlameFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+      this.motionX = this.motionX * 0.01F + xSpeedIn;
+      this.motionY = this.motionY * 0.01F + ySpeedIn;
+      this.motionZ = this.motionZ * 0.01F + zSpeedIn;
       this.posX = this.posX + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F;
       this.posY = this.posY + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F;
       this.posZ = this.posZ + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F;
@@ -25,33 +25,42 @@ public class EntityFlameFX extends EntityFX {
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = (this.particleAge + var3) / this.particleMaxAge;
-      this.particleScale = this.flameScale * (1.0F - var9 * var9 * 0.5F);
-      super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge;
+      this.particleScale = this.flameScale * (1.0F - f * f * 0.5F);
+      super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
-      float var5 = (this.particleAge + var1) / this.particleMaxAge;
-      var5 = MathHelper.clamp_float(var5, 0.0F, 1.0F);
-      int var6 = super.getBrightnessForRender(var1);
-      int var7 = var6 & 0xFF;
-      int var8 = var6 >> 16 & 0xFF;
-      var7 += (int)(var5 * 15.0F * 16.0F);
-      if (var7 > 240) {
-         var7 = 240;
+   public int getBrightnessForRender(float partialTicks) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      int i = super.getBrightnessForRender(partialTicks);
+      int j = i & 0xFF;
+      int k = i >> 16 & 0xFF;
+      j += (int)(f * 15.0F * 16.0F);
+      if (j > 240) {
+         j = 240;
       }
 
-      return var7 | var8 << 16;
+      return j | k << 16;
    }
 
    @Override
-   public float getBrightness(float var1) {
-      float var2 = (this.particleAge + var1) / this.particleMaxAge;
-      var2 = MathHelper.clamp_float(var2, 0.0F, 1.0F);
-      float var3 = super.getBrightness(var1);
-      return var3 * var2 + (1.0F - var2);
+   public float getBrightness(float partialTicks) {
+      float f = (this.particleAge + partialTicks) / this.particleMaxAge;
+      f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+      float g = super.getBrightness(partialTicks);
+      return g * f + (1.0F - f);
    }
 
    @Override
@@ -75,8 +84,10 @@ public class EntityFlameFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityFlameFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityFlameFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

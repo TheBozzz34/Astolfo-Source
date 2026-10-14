@@ -13,14 +13,14 @@ public class EntityAIWander extends EntityAIBase {
    private boolean mustUpdate;
    private static final long b = 79137643399842L;
 
-   public EntityAIWander(EntityCreature var1, double var2) {
-      this(var1, var2, 120);
+   public EntityAIWander(EntityCreature creatureIn, double speedIn) {
+      this(creatureIn, speedIn, 120);
    }
 
-   public EntityAIWander(EntityCreature var1, double var2, int var4) {
-      this.entity = var1;
-      this.speed = var2;
-      this.executionChance = var4;
+   public EntityAIWander(EntityCreature creatureIn, double speedIn, int chance) {
+      this.entity = creatureIn;
+      this.speed = speedIn;
+      this.executionChance = chance;
       this.setMutexBits(1);
    }
 
@@ -36,14 +36,14 @@ public class EntityAIWander extends EntityAIBase {
          }
       }
 
-      Vec3 var4 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
-      if (var4 == null) {
+      Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
+      if (vec3 == null) {
          return false;
       }
 
-      this.xPosition = var4.xCoord;
-      this.yPosition = var4.yCoord;
-      this.zPosition = var4.zCoord;
+      this.xPosition = vec3.xCoord;
+      this.yPosition = vec3.yCoord;
+      this.zPosition = vec3.zCoord;
       this.mustUpdate = false;
       return true;
    }
@@ -62,7 +62,7 @@ public class EntityAIWander extends EntityAIBase {
       this.mustUpdate = true;
    }
 
-   public void setExecutionChance(int var1) {
-      this.executionChance = var1;
+   public void setExecutionChance(int newchance) {
+      this.executionChance = newchance;
    }
 }

@@ -16,26 +16,26 @@ public class EntityPotion extends EntityThrowable {
    private ItemStack potionDamage;
    private static final long ab = 27472290109006L;
 
-   public EntityPotion(World var1) {
-      super(var1);
+   public EntityPotion(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityPotion(World var1, EntityLivingBase var2, int var3) {
-      this(var1, var2, new ItemStack(Items.potionitem, 1, var3));
+   public EntityPotion(World worldIn, EntityLivingBase throwerIn, int meta) {
+      this(worldIn, throwerIn, new ItemStack(Items.potionitem, 1, meta));
    }
 
-   public EntityPotion(World var1, EntityLivingBase var2, ItemStack var3) {
-      super(var1, var2);
-      this.potionDamage = var3;
+   public EntityPotion(World worldIn, EntityLivingBase throwerIn, ItemStack potionDamageIn) {
+      super(worldIn, throwerIn);
+      this.potionDamage = potionDamageIn;
    }
 
-   public EntityPotion(World var1, double var2, double var4, double var6, int var8) {
-      this(var1, var2, var4, var6, new ItemStack(Items.potionitem, 1, var8));
+   public EntityPotion(World worldIn, double x, double y, double z, int i) {
+      this(worldIn, x, y, z, new ItemStack(Items.potionitem, 1, i));
    }
 
-   public EntityPotion(World var1, double var2, double var4, double var6, ItemStack var8) {
-      super(var1, var2, var4, var6);
-      this.potionDamage = var8;
+   public EntityPotion(World worldIn, double x, double y, double z, ItemStack potionDamageIn) {
+      super(worldIn, x, y, z);
+      this.potionDamage = potionDamageIn;
    }
 
    @Override
@@ -53,12 +53,12 @@ public class EntityPotion extends EntityThrowable {
       return -20.0F;
    }
 
-   public void setPotionDamage(int var1) {
+   public void setPotionDamage(int potionId) {
       if (this.potionDamage == null) {
          this.potionDamage = new ItemStack(Items.potionitem, 1, 0);
       }
 
-      this.potionDamage.setItemDamage(var1);
+      this.potionDamage.setItemDamage(potionId);
    }
 
    public int getPotionDamage() {
@@ -70,31 +70,31 @@ public class EntityPotion extends EntityThrowable {
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
+   public void onImpact(MovingObjectPosition movingObjectPosition) {
       if (!this.worldObj.isRemote) {
-         List var5 = Items.potionitem.getEffects(this.potionDamage);
-         if (var5 != null && !var5.isEmpty()) {
-            AxisAlignedBB var6 = this.getEntityBoundingBox().expand(4.0, 2.0, 4.0);
-            List var7 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, var6);
-            if (!var7.isEmpty()) {
-               for (Object var9$raw : var7) {
-                  EntityLivingBase var9 = (EntityLivingBase)var9$raw;
-                  double var10 = this.getDistanceSqToEntity(var9);
-                  if (var10 < 16.0) {
-                     double var12 = 1.0 - Math.sqrt(var10) / 4.0;
-                     if (var9 == var1.entityHit) {
-                        var12 = 1.0;
+         List list = Items.potionitem.getEffects(this.potionDamage);
+         if (list != null && !list.isEmpty()) {
+            AxisAlignedBB axisAlignedBB = this.getEntityBoundingBox().expand(4.0, 2.0, 4.0);
+            List list2 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axisAlignedBB);
+            if (!list2.isEmpty()) {
+               for (Object object : list2) {
+                  EntityLivingBase entityLivingBase = (EntityLivingBase)object;
+                  double d = this.getDistanceSqToEntity(entityLivingBase);
+                  if (d < 16.0) {
+                     double e = 1.0 - Math.sqrt(d) / 4.0;
+                     if (entityLivingBase == movingObjectPosition.entityHit) {
+                        e = 1.0;
                      }
 
-                     for (Object var15$raw : var5) {
-                        PotionEffect var15 = (PotionEffect)var15$raw;
-                        int var16 = var15.getPotionID();
-                        if (Potion.potionTypes[var16].isInstant()) {
-                           Potion.potionTypes[var16].affectEntity(this, this.getThrower(), var9, var15.getAmplifier(), var12);
+                     for (Object object2 : list) {
+                        PotionEffect potionEffect = (PotionEffect)object2;
+                        int i = potionEffect.getPotionID();
+                        if (Potion.potionTypes[i].isInstant()) {
+                           Potion.potionTypes[i].affectEntity(this, this.getThrower(), entityLivingBase, potionEffect.getAmplifier(), e);
                         } else {
-                           int var17 = (int)(var12 * var15.getDuration() + 0.5);
-                           if (var17 > 20) {
-                              var9.addPotionEffect(new PotionEffect(var16, var17, var15.getAmplifier()));
+                           int j = (int)(e * potionEffect.getDuration() + 0.5);
+                           if (j > 20) {
+                              entityLivingBase.addPotionEffect(new PotionEffect(i, j, potionEffect.getAmplifier()));
                            }
                         }
                      }
@@ -109,12 +109,12 @@ public class EntityPotion extends EntityThrowable {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      if (var1.hasKey("Potion", 10)) {
-         this.potionDamage = ItemStack.loadItemStackFromNBT(var1.getCompoundTag("Potion"));
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      if (tagCompund.hasKey("Potion", 10)) {
+         this.potionDamage = ItemStack.loadItemStackFromNBT(tagCompund.getCompoundTag("Potion"));
       } else {
-         this.setPotionDamage(var1.getInteger("potionValue"));
+         this.setPotionDamage(tagCompund.getInteger("potionValue"));
       }
 
       if (this.potionDamage == null) {
@@ -123,10 +123,10 @@ public class EntityPotion extends EntityThrowable {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
       if (this.potionDamage != null) {
-         var1.setTag("Potion", this.potionDamage.writeToNBT(new NBTTagCompound()));
+         tagCompound.setTag("Potion", this.potionDamage.writeToNBT(new NBTTagCompound()));
       }
    }
 }

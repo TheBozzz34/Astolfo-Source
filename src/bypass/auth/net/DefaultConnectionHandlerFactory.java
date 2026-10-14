@@ -3,12 +3,12 @@ package bypass.auth.net;
 public final class DefaultConnectionHandlerFactory implements ConnectionHandlerFactory {
    private final SelectorRegistrar E;
 
-   public DefaultConnectionHandlerFactory(SelectorRegistrar var1) {
-      this.E = var1;
+   public DefaultConnectionHandlerFactory(SelectorRegistrar selectorRegistrar) {
+      this.E = selectorRegistrar;
    }
 
    @Override
-   public ConnectionHandler y(NioConnection var1) {
-      return new DefaultConnectionHandler(this.E, var1);
+   public ConnectionHandler y(NioConnection nioConnection) {
+      return new DefaultConnectionHandler(this.E, nioConnection);
    }
 }

@@ -13,41 +13,41 @@ public class ItemHangingEntity extends Item {
    private final Class<? extends EntityHanging> hangingEntityClass;
    private static final long a = 74612639432547L;
 
-   public ItemHangingEntity(Class<? extends EntityHanging> var1) {
-      this.hangingEntityClass = var1;
+   public ItemHangingEntity(Class<? extends EntityHanging> entityClass) {
+      this.hangingEntityClass = entityClass;
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var5 == EnumFacing.DOWN) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (side == EnumFacing.DOWN) {
          return false;
       }
 
-      if (var5 == EnumFacing.UP) {
+      if (side == EnumFacing.UP) {
          return false;
       }
 
-      BlockPos var12 = var4.offset(var5);
-      if (!var2.canPlayerEdit(var12, var5, var1)) {
+      BlockPos blockPos = pos.offset(side);
+      if (!playerIn.canPlayerEdit(blockPos, side, stack)) {
          return false;
       }
 
-      EntityHanging var13 = this.createEntity(var3, var12, var5);
-      if (var13 != null && var13.onValidSurface()) {
-         if (!var3.isRemote) {
-            var3.spawnEntityInWorld(var13);
+      EntityHanging entityHanging = this.createEntity(worldIn, blockPos, side);
+      if (entityHanging != null && entityHanging.onValidSurface()) {
+         if (!worldIn.isRemote) {
+            worldIn.spawnEntityInWorld(entityHanging);
          }
 
-         var1.stackSize--;
+         stack.stackSize--;
       }
 
       return true;
    }
 
-   private EntityHanging createEntity(World var1, BlockPos var2, EnumFacing var3) {
+   private EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing clickedSide) {
       return this.hangingEntityClass == EntityPainting.class
-         ? new EntityPainting(var1, var2, var3)
-         : (this.hangingEntityClass == EntityItemFrame.class ? new EntityItemFrame(var1, var2, var3) : null);
+         ? new EntityPainting(worldIn, pos, clickedSide)
+         : (this.hangingEntityClass == EntityItemFrame.class ? new EntityItemFrame(worldIn, pos, clickedSide) : null);
    }
 }

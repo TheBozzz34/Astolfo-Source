@@ -20,51 +20,55 @@ public class PacketConnection extends AbstractNioConnection {
    private static final long a = 34632761044039L;
 
    public PacketConnection(
-      ConnectionListener var1, Map<Short, PacketReader<?>> var2, Map<Short, List<PacketListener<?>>> var3, PacketOutput var4, Runnable var5
+      ConnectionListener connectionListener,
+      Map<Short, PacketReader<?>> map,
+      Map<Short, List<PacketListener<?>>> map2,
+      PacketOutput packetOutput,
+      Runnable runnable
    ) {
-      this.v = var1;
-      this.x = var2;
-      this.I = var3;
-      this.c = var4;
-      this.M = var5;
+      this.v = connectionListener;
+      this.x = map;
+      this.I = map2;
+      this.c = packetOutput;
+      this.M = runnable;
    }
 
    @Override
-   public void g(SocketChannel var1) throws IOException {
-      super.g(var1);
-      this.Z = var1;
-      this.V = new SocketWriter(var1, this.K);
-      this.A = new PacketReceiver(var1, this.x, this.I);
+   public void g(SocketChannel socketChannel) throws IOException {
+      super.g(socketChannel);
+      this.Z = socketChannel;
+      this.V = new SocketWriter(socketChannel, this.K);
+      this.A = new PacketReceiver(socketChannel, this.x, this.I);
       this.c.attach(this.V);
       this.M.run();
 
       while (true) {
          try {
             this.K.select();
-         } catch (IOException | ClosedSelectorException var10) {
-            this.v.onError(this, "sel", var10);
+         } catch (IOException | ClosedSelectorException value) {
+            this.v.onError(this, "sel", value);
             return;
          }
 
-         Iterator var5 = this.K.selectedKeys().iterator();
+         Iterator iterator2 = this.K.selectedKeys().iterator();
 
-         while (var5.hasNext()) {
-            SelectionKey var6 = (SelectionKey)var5.next();
-            var5.remove();
-            if (var6.isValid()) {
-               if (var6.isWritable()) {
+         while (iterator2.hasNext()) {
+            SelectionKey selectionKey = (SelectionKey)iterator2.next();
+            iterator2.remove();
+            if (selectionKey.isValid()) {
+               if (selectionKey.isWritable()) {
                   try {
                      this.V.j();
-                  } catch (IOException var8) {
-                     this.v.onError(this, "write", var8);
+                  } catch (IOException ioException) {
+                     this.v.onError(this, "write", ioException);
                   }
-               } else if (var6.isReadable()) {
+               } else if (selectionKey.isReadable()) {
                   try {
                      if (this.A.receive() == ReceiveResult.C) {
                         this.v.onClose(this, "eof");
                      }
-                  } catch (IOException var9) {
-                     this.v.onError(this, "retrieve", var9);
+                  } catch (IOException ioException2) {
+                     this.v.onError(this, "retrieve", ioException2);
                   }
                }
             }

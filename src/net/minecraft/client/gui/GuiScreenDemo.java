@@ -17,23 +17,23 @@ public class GuiScreenDemo extends GuiScreen {
    @Override
    public void initGui() {
       this.buttonList.clear();
-      byte var3 = -16;
-      this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 + 62 + var3, 114, 20, I18n.format("demo.help.buy")));
-      this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height / 2 + 62 + var3, 114, 20, I18n.format("demo.help.later")));
+      byte b = -16;
+      this.buttonList.add(new GuiButton(1, this.width / 2 - 116, this.height / 2 + 62 + b, 114, 20, I18n.format("demo.help.buy")));
+      this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height / 2 + 62 + b, 114, 20, I18n.format("demo.help.later")));
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      switch (button.id) {
          case 1:
-            var1.enabled = false;
+            button.enabled = false;
 
             try {
-               Class var5 = Class.forName("java.awt.Desktop");
-               Object var6 = var5.getMethod("getDesktop").invoke(null);
-               var5.getMethod("browse", URI.class).invoke(var6, new URI("http://www.minecraft.net/store?source=demo"));
-            } catch (Throwable var7) {
-               logger.error("Couldn't open link", var7);
+               Class class2 = Class.forName("java.awt.Desktop");
+               Object object = class2.getMethod("getDesktop").invoke(null);
+               class2.getMethod("browse", URI.class).invoke(object, new URI("http://www.minecraft.net/store?source=demo"));
+            } catch (Throwable throwable) {
+               logger.error("Couldn't open link", throwable);
             }
             break;
          case 2:
@@ -52,37 +52,37 @@ public class GuiScreenDemo extends GuiScreen {
       super.drawDefaultBackground();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(field_146348_f);
-      int var3 = (this.width - 248) / 2;
-      int var4 = (this.height - 166) / 2;
-      this.drawTexturedModalRect(var3, var4, 0, 0, 248, 166);
+      int i = (this.width - 248) / 2;
+      int j = (this.height - 166) / 2;
+      this.drawTexturedModalRect(i, j, 0, 0, 248, 166);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      int var6 = (this.width - 248) / 2 + 10;
-      int var7 = (this.height - 166) / 2 + 8;
-      this.fontRendererObj.D(I18n.format("demo.help.title"), var6, var7, 2039583);
-      var7 += 12;
-      GameSettings var8 = this.mc.gameSettings;
+      int i = (this.width - 248) / 2 + 10;
+      int j = (this.height - 166) / 2 + 8;
+      this.fontRendererObj.D(I18n.format("demo.help.title"), i, j, 2039583);
+      j += 12;
+      GameSettings gameSettings2 = this.mc.gameSettings;
       this.fontRendererObj
          .D(
             I18n.format(
                "demo.help.movementShort",
-               GameSettings.getKeyDisplayString(var8.keyBindForward.getKeyCode()),
-               GameSettings.getKeyDisplayString(var8.keyBindLeft.getKeyCode()),
-               GameSettings.getKeyDisplayString(var8.keyBindBack.getKeyCode()),
-               GameSettings.getKeyDisplayString(var8.keyBindRight.getKeyCode())
+               GameSettings.getKeyDisplayString(gameSettings2.keyBindForward.getKeyCode()),
+               GameSettings.getKeyDisplayString(gameSettings2.keyBindLeft.getKeyCode()),
+               GameSettings.getKeyDisplayString(gameSettings2.keyBindBack.getKeyCode()),
+               GameSettings.getKeyDisplayString(gameSettings2.keyBindRight.getKeyCode())
             ),
-            var6,
-            var7,
+            i,
+            j,
             5197647
          );
-      this.fontRendererObj.D(I18n.format("demo.help.movementMouse"), var6, var7 + 12, 5197647);
-      this.fontRendererObj.D(I18n.format("demo.help.jump", GameSettings.getKeyDisplayString(var8.keyBindJump.getKeyCode())), var6, var7 + 24, 5197647);
+      this.fontRendererObj.D(I18n.format("demo.help.movementMouse"), i, j + 12, 5197647);
+      this.fontRendererObj.D(I18n.format("demo.help.jump", GameSettings.getKeyDisplayString(gameSettings2.keyBindJump.getKeyCode())), i, j + 24, 5197647);
       this.fontRendererObj
-         .D(I18n.format("demo.help.inventory", GameSettings.getKeyDisplayString(var8.keyBindInventory.getKeyCode())), var6, var7 + 36, 5197647);
-      this.fontRendererObj.drawSplitString(I18n.format("demo.help.fullWrapped"), var6, var7 + 68, 218, 2039583);
-      super.drawScreen(var1, var2, var3);
+         .D(I18n.format("demo.help.inventory", GameSettings.getKeyDisplayString(gameSettings2.keyBindInventory.getKeyCode())), i, j + 36, 5197647);
+      this.fontRendererObj.drawSplitString(I18n.format("demo.help.fullWrapped"), i, j + 68, 218, 2039583);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

@@ -6,15 +6,15 @@ public final class WriteThroughEntry extends SimpleEntry {
    public static final long serialVersionUID = 1L;
    public final ConcurrentLinkedHashMap S;
 
-   public WriteThroughEntry(ConcurrentLinkedHashMap var1, ConcurrentLinkedHashMap.Node var2) {
-      super(var2.key, var2.getValue());
-      this.S = var1;
+   public WriteThroughEntry(ConcurrentLinkedHashMap concurrentLinkedHashMap, ConcurrentLinkedHashMap.Node node) {
+      super(node.key, node.getValue());
+      this.S = concurrentLinkedHashMap;
    }
 
    @Override
-   public Object setValue(Object var1) {
-      this.S.put(this.getKey(), var1);
-      return super.setValue(var1);
+   public Object setValue(Object object) {
+      this.S.put(this.getKey(), object);
+      return super.setValue(object);
    }
 
    public Object writeReplace() {

@@ -9,13 +9,13 @@ public class ChunkUtils {
    private static boolean fieldHasEntitiesMissing = false;
    private static final long a = 97049233684275L;
 
-   public static boolean hasEntities(Chunk var0) {
+   public static boolean hasEntities(Chunk chunk) {
       if (fieldHasEntities == null) {
          if (fieldHasEntitiesMissing) {
             return true;
          }
 
-         fieldHasEntities = findFieldHasEntities(var0);
+         fieldHasEntities = findFieldHasEntities(chunk);
          if (fieldHasEntities == null) {
             fieldHasEntitiesMissing = true;
             return true;
@@ -23,62 +23,62 @@ public class ChunkUtils {
       }
 
       try {
-         return fieldHasEntities.getBoolean(var0);
-      } catch (Exception var5) {
+         return fieldHasEntities.getBoolean(chunk);
+      } catch (Exception exception) {
          Config.warn("Error calling Chunk.hasEntities");
-         Config.warn(var5.getClass().getName() + " " + var5.getMessage());
+         Config.warn(exception.getClass().getName() + " " + exception.getMessage());
          fieldHasEntitiesMissing = true;
          return true;
       }
    }
 
-   private static Field findFieldHasEntities(Chunk var0) {
+   private static Field findFieldHasEntities(Chunk chunk) {
       try {
-         ArrayList var4 = new ArrayList();
-         ArrayList var5 = new ArrayList();
-         Field[] var6 = Chunk.class.getDeclaredFields();
+         ArrayList arrayList = new ArrayList();
+         ArrayList arrayList2 = new ArrayList();
+         Field[] fields = Chunk.class.getDeclaredFields();
 
-         for (int var7 = 0; var7 < var6.length; var7++) {
-            Field var8 = var6[var7];
-            if (var8.getType() == boolean.class) {
-               var8.setAccessible(true);
-               var4.add(var8);
-               var5.add(var8.get(var0));
+         for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            if (field.getType() == boolean.class) {
+               field.setAccessible(true);
+               arrayList.add(field);
+               arrayList2.add(field.get(chunk));
             }
          }
 
-         var0.setHasEntities(false);
-         ArrayList var16 = new ArrayList();
+         chunk.setHasEntities(false);
+         ArrayList arrayList3 = new ArrayList();
 
-         for (Object var9 : var4) {
-            var16.add(((Field)var9).get(var0));
+         for (Object object : arrayList) {
+            arrayList3.add(((Field)object).get(chunk));
          }
 
-         var0.setHasEntities(true);
-         ArrayList var18 = new ArrayList();
+         chunk.setHasEntities(true);
+         ArrayList arrayList4 = new ArrayList();
 
-         for (Object var10 : var4) {
-            var18.add(((Field)var10).get(var0));
+         for (Object object2 : arrayList) {
+            arrayList4.add(((Field)object2).get(chunk));
          }
 
-         ArrayList var20 = new ArrayList();
+         ArrayList arrayList5 = new ArrayList();
 
-         for (int var21 = 0; var21 < var4.size(); var21++) {
-            Field var11 = (Field)var4.get(var21);
-            Boolean var12 = (Boolean)var16.get(var21);
-            Boolean var13 = (Boolean)var18.get(var21);
-            if (!var12 && var13) {
-               var20.add(var11);
-               Boolean var14 = (Boolean)var5.get(var21);
-               var11.set(var0, var14);
+         for (int j = 0; j < arrayList.size(); j++) {
+            Field field2 = (Field)arrayList.get(j);
+            Boolean boolean2 = (Boolean)arrayList3.get(j);
+            Boolean boolean3 = (Boolean)arrayList4.get(j);
+            if (!boolean2 && boolean3) {
+               arrayList5.add(field2);
+               Boolean boolean4 = (Boolean)arrayList2.get(j);
+               field2.set(chunk, boolean4);
             }
          }
 
-         if (var20.size() == 1) {
-            return (Field)var20.get(0);
+         if (arrayList5.size() == 1) {
+            return (Field)arrayList5.get(0);
          }
-      } catch (Exception var15) {
-         Config.warn(var15.getClass().getName() + " " + var15.getMessage());
+      } catch (Exception exception) {
+         Config.warn(exception.getClass().getName() + " " + exception.getMessage());
       }
 
       Config.warn("Error finding Chunk.hasEntities");

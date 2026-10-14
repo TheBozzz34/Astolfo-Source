@@ -9,11 +9,11 @@ public class WorldGenMelon extends WorldGenerator {
    private static final long a = 15799793815060L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      for (int var7 = 0; var7 < 64; var7++) {
-         BlockPos var8 = var3.add(var2.nextInt(8) - var2.nextInt(8), var2.nextInt(4) - var2.nextInt(4), var2.nextInt(8) - var2.nextInt(8));
-         if (Blocks.melon_block.canPlaceBlockAt(var1, var8) && var1.getBlockState(var8.down()).getBlock() == Blocks.grass) {
-            var1.setBlockState(var8, Blocks.melon_block.getDefaultState(), 2);
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      for (int i = 0; i < 64; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+         if (Blocks.melon_block.canPlaceBlockAt(worldIn, blockPos) && worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.grass) {
+            worldIn.setBlockState(blockPos, Blocks.melon_block.getDefaultState(), 2);
          }
       }
 

@@ -27,8 +27,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
    private boolean changed = false;
    private static final long x = 20885604809293L;
 
-   public GuiScreenResourcePacks(GuiScreen var1) {
-      this.parentScreen = var1;
+   public GuiScreenResourcePacks(GuiScreen parentScreenIn) {
+      this.parentScreen = parentScreenIn;
    }
 
    @Override
@@ -38,18 +38,18 @@ public class GuiScreenResourcePacks extends GuiScreen {
       if (!this.changed) {
          this.availableResourcePacks = Lists.newArrayList();
          this.selectedResourcePacks = Lists.newArrayList();
-         ResourcePackRepository var4 = this.mc.getResourcePackRepository();
-         var4.updateRepositoryEntriesAll();
-         ArrayList var5 = Lists.newArrayList(var4.getRepositoryEntriesAll());
-         var5.removeAll(var4.getRepositoryEntries());
+         ResourcePackRepository resourcePackRepository = this.mc.getResourcePackRepository();
+         resourcePackRepository.updateRepositoryEntriesAll();
+         ArrayList arrayList = Lists.newArrayList(resourcePackRepository.getRepositoryEntriesAll());
+         arrayList.removeAll(resourcePackRepository.getRepositoryEntries());
 
-         for (Object var7$raw : var5) {
-            ResourcePackRepository.Entry var7 = (ResourcePackRepository.Entry)var7$raw;
-            this.availableResourcePacks.add(new ResourcePackListEntryFound(this, var7));
+         for (Object object : arrayList) {
+            ResourcePackRepository.Entry entry = (ResourcePackRepository.Entry)object;
+            this.availableResourcePacks.add(new ResourcePackListEntryFound(this, entry));
          }
 
-         for (ResourcePackRepository.Entry var9 : Lists.reverse(var4.getRepositoryEntries())) {
-            this.selectedResourcePacks.add(new ResourcePackListEntryFound(this, var9));
+         for (ResourcePackRepository.Entry entry2 : Lists.reverse(resourcePackRepository.getRepositoryEntries())) {
+            this.selectedResourcePacks.add(new ResourcePackListEntryFound(this, entry2));
          }
 
          this.selectedResourcePacks.add(new ResourcePackListEntryDefault(this));
@@ -70,12 +70,12 @@ public class GuiScreenResourcePacks extends GuiScreen {
       this.availableResourcePacksList.handleMouseInput();
    }
 
-   public boolean hasResourcePackEntry(ResourcePackListEntry var1) {
-      return this.selectedResourcePacks.contains(var1);
+   public boolean hasResourcePackEntry(ResourcePackListEntry resourcePackListEntry) {
+      return this.selectedResourcePacks.contains(resourcePackListEntry);
    }
 
-   public List<ResourcePackListEntry> getListContaining(ResourcePackListEntry var1) {
-      return this.hasResourcePackEntry(var1) ? this.selectedResourcePacks : this.availableResourcePacks;
+   public List<ResourcePackListEntry> getListContaining(ResourcePackListEntry resourcePackListEntry) {
+      return this.hasResourcePackEntry(resourcePackListEntry) ? this.selectedResourcePacks : this.availableResourcePacks;
    }
 
    public List<ResourcePackListEntry> getAvailableResourcePacks() {
@@ -87,65 +87,65 @@ public class GuiScreenResourcePacks extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 2) {
-            File var5 = this.mc.getResourcePackRepository().getDirResourcepacks();
-            String var6 = var5.getAbsolutePath();
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 2) {
+            File file2 = this.mc.getResourcePackRepository().getDirResourcepacks();
+            String string = file2.getAbsolutePath();
             if (Util.getOSType() == Util.EnumOS.OSX) {
                try {
-                  logger.info(var6);
-                  Runtime.getRuntime().exec(new String[]{"/usr/bin/open", var6});
+                  logger.info(string);
+                  Runtime.getRuntime().exec(new String[]{"/usr/bin/open", string});
                   return;
-               } catch (IOException var12) {
-                  logger.error("Couldn't open file", var12);
+               } catch (IOException ioException) {
+                  logger.error("Couldn't open file", ioException);
                }
             } else if (Util.getOSType() == Util.EnumOS.WINDOWS) {
-               String var7 = String.format("cmd.exe /C start \"Open file\" \"%s\"", var6);
+               String string2 = String.format("cmd.exe /C start \"Open file\" \"%s\"", string);
 
                try {
-                  Runtime.getRuntime().exec(var7);
+                  Runtime.getRuntime().exec(string2);
                   return;
-               } catch (IOException var11) {
-                  logger.error("Couldn't open file", var11);
+               } catch (IOException ioException2) {
+                  logger.error("Couldn't open file", ioException2);
                }
             }
 
-            boolean var16 = false;
+            boolean bl = false;
 
             try {
-               Class var8 = Class.forName("java.awt.Desktop");
-               Object var9 = var8.getMethod("getDesktop").invoke(null);
-               var8.getMethod("browse", URI.class).invoke(var9, var5.toURI());
-            } catch (Throwable var10) {
-               logger.error("Couldn't open link", var10);
-               var16 = true;
+               Class class2 = Class.forName("java.awt.Desktop");
+               Object object = class2.getMethod("getDesktop").invoke(null);
+               class2.getMethod("browse", URI.class).invoke(object, file2.toURI());
+            } catch (Throwable throwable) {
+               logger.error("Couldn't open link", throwable);
+               bl = true;
             }
 
-            if (var16) {
+            if (bl) {
                logger.info("Opening via system class!");
-               Sys.openURL("file://" + var6);
+               Sys.openURL("file://" + string);
             }
-         } else if (var1.id == 1) {
+         } else if (button.id == 1) {
             if (this.changed) {
-               ArrayList var13 = Lists.newArrayList();
+               ArrayList arrayList = Lists.newArrayList();
 
-               for (ResourcePackListEntry var17 : this.selectedResourcePacks) {
-                  if (var17 instanceof ResourcePackListEntryFound) {
-                     var13.add(((ResourcePackListEntryFound)var17).func_148318_i());
+               for (ResourcePackListEntry resourcePackListEntry : this.selectedResourcePacks) {
+                  if (resourcePackListEntry instanceof ResourcePackListEntryFound) {
+                     arrayList.add(((ResourcePackListEntryFound)resourcePackListEntry).func_148318_i());
                   }
                }
 
-               Collections.reverse(var13);
-               this.mc.getResourcePackRepository().setRepositories(var13);
+               Collections.reverse(arrayList);
+               this.mc.getResourcePackRepository().setRepositories(arrayList);
                this.mc.gameSettings.resourcePacks.clear();
                this.mc.gameSettings.incompatibleResourcePacks.clear();
 
-               for (Object var18$raw : var13) {
-                  ResourcePackRepository.Entry var18 = (ResourcePackRepository.Entry)var18$raw;
-                  this.mc.gameSettings.resourcePacks.add(var18.getResourcePackName());
-                  if (var18.func_183027_f() != 1) {
-                     this.mc.gameSettings.incompatibleResourcePacks.add(var18.getResourcePackName());
+               for (Object object2 : arrayList) {
+                  ResourcePackRepository.Entry entry = (ResourcePackRepository.Entry)object2;
+                  this.mc.gameSettings.resourcePacks.add(entry.getResourcePackName());
+                  if (entry.func_183027_f() != 1) {
+                     this.mc.gameSettings.incompatibleResourcePacks.add(entry.getResourcePackName());
                   }
                }
 
@@ -159,25 +159,25 @@ public class GuiScreenResourcePacks extends GuiScreen {
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      super.mouseClicked(var1, var2, var3);
-      this.availableResourcePacksList.mouseClicked(var1, var2, var3);
-      this.selectedResourcePacksList.mouseClicked(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      super.mouseClicked(mouseX, mouseY, mouseButton);
+      this.availableResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
+      this.selectedResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3) {
-      super.mouseReleased(var1, var2, var3);
+   public void mouseReleased(int mouseX, int mouseY, int state) {
+      super.mouseReleased(mouseX, mouseY, state);
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawBackground(0);
-      this.availableResourcePacksList.drawScreen(var1, var2, var3);
-      this.selectedResourcePacksList.drawScreen(var1, var2, var3);
+      this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
+      this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2, 16, 16777215);
       this.d(this.fontRendererObj, I18n.format("resourcePack.folderInfo"), this.width / 2 - 77, this.height - 26, 8421504);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    public void markChanged() {

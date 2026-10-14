@@ -7,97 +7,97 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 public class RealmsBufferBuilder {
    private WorldRenderer b;
 
-   public RealmsBufferBuilder(WorldRenderer var1) {
-      this.b = var1;
+   public RealmsBufferBuilder(WorldRenderer worldRenderer) {
+      this.b = worldRenderer;
    }
 
-   public RealmsBufferBuilder from(WorldRenderer var1) {
-      this.b = var1;
+   public RealmsBufferBuilder from(WorldRenderer worldRenderer) {
+      this.b = worldRenderer;
       return this;
    }
 
-   public void H(float var1, float var2, float var3) {
-      this.b.sortVertexData(var1, var2, var3);
+   public void H(float f, float g, float h) {
+      this.b.sortVertexData(f, g, h);
    }
 
-   public void fixupQuadColor(int var1) {
-      this.b.putColor4(var1);
+   public void fixupQuadColor(int i) {
+      this.b.putColor4(i);
    }
 
    public ByteBuffer getBuffer() {
       return this.b.getByteBuffer();
    }
 
-   public void n(float var1, float var2, float var3) {
-      this.b.putNormal(var1, var2, var3);
+   public void n(float f, float g, float h) {
+      this.b.putNormal(f, g, h);
    }
 
    public int h() {
       return this.b.getDrawMode();
    }
 
-   public void h(double var1, double var3, double var5) {
-      this.b.setTranslation(var1, var3, var5);
+   public void h(double d, double d2, double d3) {
+      this.b.setTranslation(d, d2, d3);
    }
 
-   public void restoreState(WorldRenderer.State var1) {
-      this.b.setVertexState(var1);
+   public void restoreState(WorldRenderer.State state) {
+      this.b.setVertexState(state);
    }
 
    public void B() {
       this.b.endVertex();
    }
 
-   public RealmsBufferBuilder normal(float var1, float var2, float var3) {
-      return this.from(this.b.normal(var1, var2, var3));
+   public RealmsBufferBuilder normal(float f, float g, float h) {
+      return this.from(this.b.normal(f, g, h));
    }
 
    public void o() {
       this.b.finishDrawing();
    }
 
-   public void begin(int var1, VertexFormat var2) {
-      this.b.begin(var1, var2);
+   public void begin(int i, VertexFormat vertexFormat) {
+      this.b.begin(i, vertexFormat);
    }
 
-   public RealmsBufferBuilder color(int var1, int var2, int var3, int var4) {
-      return this.from(this.b.color(var1, var2, var3, var4));
+   public RealmsBufferBuilder color(int i, int j, int k, int l) {
+      return this.from(this.b.color(i, j, k, l));
    }
 
-   public void faceTex2(int var1, int var2, int var3, int var4) {
-      this.b.putBrightness4(var1, var2, var3, var4);
+   public void faceTex2(int i, int j, int k, int l) {
+      this.b.putBrightness4(i, j, k, l);
    }
 
-   public void p(double var1, double var3, double var5) {
-      this.b.putPosition(var1, var3, var5);
+   public void p(double d, double d2, double d3) {
+      this.b.putPosition(d, d2, d3);
    }
 
-   public void J(float var1, float var2, float var3, int var4) {
-      this.b.putColorRGB_F(var1, var2, var3, var4);
+   public void J(float f, float g, float h, int i) {
+      this.b.putColorRGB_F(f, g, h, i);
    }
 
-   public RealmsBufferBuilder color(float var1, float var2, float var3, float var4) {
-      return this.from(this.b.color(var1, var2, var3, var4));
+   public RealmsBufferBuilder color(float f, float g, float h, float f2) {
+      return this.from(this.b.color(f, g, h, f2));
    }
 
    public RealmsVertexFormat getVertexFormat() {
       return new RealmsVertexFormat(this.b.getVertexFormat());
    }
 
-   public void r(float var1, float var2, float var3, int var4) {
-      this.b.putColorMultiplier(var1, var2, var3, var4);
+   public void r(float f, float g, float h, int i) {
+      this.b.putColorMultiplier(f, g, h, i);
    }
 
-   public RealmsBufferBuilder tex2(int var1, int var2) {
-      return this.from(this.b.lightmap(var1, var2));
+   public RealmsBufferBuilder tex2(int i, int j) {
+      return this.from(this.b.lightmap(i, j));
    }
 
-   public void putBulkData(int[] var1) {
-      this.b.addVertexData(var1);
+   public void putBulkData(int[] ints) {
+      this.b.addVertexData(ints);
    }
 
-   public RealmsBufferBuilder tex(double var1, double var3) {
-      return this.from(this.b.tex(var1, var3));
+   public RealmsBufferBuilder tex(double d, double d2) {
+      return this.from(this.b.tex(d, d2));
    }
 
    public int c() {
@@ -108,12 +108,12 @@ public class RealmsBufferBuilder {
       this.b.reset();
    }
 
-   public RealmsBufferBuilder vertex(double var1, double var3, double var5) {
-      return this.from(this.b.pos(var1, var3, var5));
+   public RealmsBufferBuilder vertex(double d, double d2, double d3) {
+      return this.from(this.b.pos(d, d2, d3));
    }
 
-   public void E(float var1, float var2, float var3) {
-      this.b.putColorRGB_F4(var1, var2, var3);
+   public void E(float f, float g, float h) {
+      this.b.putColorRGB_F4(f, g, h);
    }
 
    public void E() {

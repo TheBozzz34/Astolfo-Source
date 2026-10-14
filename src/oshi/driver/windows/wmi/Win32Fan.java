@@ -13,8 +13,8 @@ public final class Win32Fan {
    }
 
    public static WmiResult<Win32Fan.SpeedProperty> querySpeed() {
-      WmiQuery var2 = new WmiQuery<>("Win32_Fan", Win32Fan.SpeedProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_Fan", Win32Fan.SpeedProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum SpeedProperty {

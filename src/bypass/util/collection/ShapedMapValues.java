@@ -6,8 +6,8 @@ import java.util.Iterator;
 public class ShapedMapValues<K, V> extends AbstractSet<V> {
    private final ShapedMap<K, V> e;
 
-   public ShapedMapValues(ShapedMap<K, V> var1) {
-      this.e = var1;
+   public ShapedMapValues(ShapedMap<K, V> shapedMap) {
+      this.e = shapedMap;
    }
 
    @Override

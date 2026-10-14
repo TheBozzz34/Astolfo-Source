@@ -15,22 +15,22 @@ public class InventoryLargeChest implements ILockableContainer {
    private ILockableContainer lowerChest;
    private static final long a = 97849797470365L;
 
-   public InventoryLargeChest(String var1, ILockableContainer var2, ILockableContainer var3) {
-      this.name = var1;
-      if (var2 == null) {
-         var2 = var3;
+   public InventoryLargeChest(String nameIn, ILockableContainer upperChestIn, ILockableContainer lowerChestIn) {
+      this.name = nameIn;
+      if (upperChestIn == null) {
+         upperChestIn = lowerChestIn;
       }
 
-      if (var3 == null) {
-         var3 = var2;
+      if (lowerChestIn == null) {
+         lowerChestIn = upperChestIn;
       }
 
-      this.upperChest = var2;
-      this.lowerChest = var3;
-      if (var2.isLocked()) {
-         var3.setLockCode(var2.getLockCode());
-      } else if (var3.isLocked()) {
-         var2.setLockCode(var3.getLockCode());
+      this.upperChest = upperChestIn;
+      this.lowerChest = lowerChestIn;
+      if (upperChestIn.isLocked()) {
+         lowerChestIn.setLockCode(upperChestIn.getLockCode());
+      } else if (lowerChestIn.isLocked()) {
+         upperChestIn.setLockCode(lowerChestIn.getLockCode());
       }
    }
 
@@ -39,8 +39,8 @@ public class InventoryLargeChest implements ILockableContainer {
       return this.upperChest.getSizeInventory() + this.lowerChest.getSizeInventory();
    }
 
-   public boolean isPartOfLargeChest(IInventory var1) {
-      return this.upperChest == var1 || this.lowerChest == var1;
+   public boolean isPartOfLargeChest(IInventory inventoryIn) {
+      return this.upperChest == inventoryIn || this.lowerChest == inventoryIn;
    }
 
    @Override
@@ -59,32 +59,32 @@ public class InventoryLargeChest implements ILockableContainer {
    }
 
    @Override
-   public ItemStack getStackInSlot(int var1) {
-      return var1 >= this.upperChest.getSizeInventory()
-         ? this.lowerChest.getStackInSlot(var1 - this.upperChest.getSizeInventory())
-         : this.upperChest.getStackInSlot(var1);
+   public ItemStack getStackInSlot(int index) {
+      return index >= this.upperChest.getSizeInventory()
+         ? this.lowerChest.getStackInSlot(index - this.upperChest.getSizeInventory())
+         : this.upperChest.getStackInSlot(index);
    }
 
    @Override
-   public ItemStack decrStackSize(int var1, int var2) {
-      return var1 >= this.upperChest.getSizeInventory()
-         ? this.lowerChest.decrStackSize(var1 - this.upperChest.getSizeInventory(), var2)
-         : this.upperChest.decrStackSize(var1, var2);
+   public ItemStack decrStackSize(int index, int count) {
+      return index >= this.upperChest.getSizeInventory()
+         ? this.lowerChest.decrStackSize(index - this.upperChest.getSizeInventory(), count)
+         : this.upperChest.decrStackSize(index, count);
    }
 
    @Override
-   public ItemStack removeStackFromSlot(int var1) {
-      return var1 >= this.upperChest.getSizeInventory()
-         ? this.lowerChest.removeStackFromSlot(var1 - this.upperChest.getSizeInventory())
-         : this.upperChest.removeStackFromSlot(var1);
+   public ItemStack removeStackFromSlot(int index) {
+      return index >= this.upperChest.getSizeInventory()
+         ? this.lowerChest.removeStackFromSlot(index - this.upperChest.getSizeInventory())
+         : this.upperChest.removeStackFromSlot(index);
    }
 
    @Override
-   public void setInventorySlotContents(int var1, ItemStack var2) {
-      if (var1 >= this.upperChest.getSizeInventory()) {
-         this.lowerChest.setInventorySlotContents(var1 - this.upperChest.getSizeInventory(), var2);
+   public void setInventorySlotContents(int index, ItemStack stack) {
+      if (index >= this.upperChest.getSizeInventory()) {
+         this.lowerChest.setInventorySlotContents(index - this.upperChest.getSizeInventory(), stack);
       } else {
-         this.upperChest.setInventorySlotContents(var1, var2);
+         this.upperChest.setInventorySlotContents(index, stack);
       }
    }
 
@@ -100,34 +100,34 @@ public class InventoryLargeChest implements ILockableContainer {
    }
 
    @Override
-   public boolean isUseableByPlayer(EntityPlayer var1) {
-      return this.upperChest.isUseableByPlayer(var1) && this.lowerChest.isUseableByPlayer(var1);
+   public boolean isUseableByPlayer(EntityPlayer player) {
+      return this.upperChest.isUseableByPlayer(player) && this.lowerChest.isUseableByPlayer(player);
    }
 
    @Override
-   public void openInventory(EntityPlayer var1) {
-      this.upperChest.openInventory(var1);
-      this.lowerChest.openInventory(var1);
+   public void openInventory(EntityPlayer player) {
+      this.upperChest.openInventory(player);
+      this.lowerChest.openInventory(player);
    }
 
    @Override
-   public void closeInventory(EntityPlayer var1) {
-      this.upperChest.closeInventory(var1);
-      this.lowerChest.closeInventory(var1);
+   public void closeInventory(EntityPlayer player) {
+      this.upperChest.closeInventory(player);
+      this.lowerChest.closeInventory(player);
    }
 
    @Override
-   public boolean isItemValidForSlot(int var1, ItemStack var2) {
+   public boolean isItemValidForSlot(int index, ItemStack stack) {
       return true;
    }
 
    @Override
-   public int getField(int var1) {
+   public int getField(int id) {
       return 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
+   public void setField(int id, int value) {
    }
 
    @Override
@@ -141,9 +141,9 @@ public class InventoryLargeChest implements ILockableContainer {
    }
 
    @Override
-   public void setLockCode(LockCode var1) {
-      this.upperChest.setLockCode(var1);
-      this.lowerChest.setLockCode(var1);
+   public void setLockCode(LockCode code) {
+      this.upperChest.setLockCode(code);
+      this.lowerChest.setLockCode(code);
    }
 
    @Override
@@ -157,8 +157,8 @@ public class InventoryLargeChest implements ILockableContainer {
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
-      return new ContainerChest(var1, this, var2);
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+      return new ContainerChest(playerInventory, this, playerIn);
    }
 
    @Override

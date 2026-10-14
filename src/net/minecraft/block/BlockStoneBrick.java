@@ -25,25 +25,25 @@ public class BlockStoneBrick extends Block {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (BlockStoneBrick.EnumType var10 : BlockStoneBrick.EnumType.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (BlockStoneBrick.EnumType enumType : BlockStoneBrick.EnumType.values()) {
+         list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(VARIANT, BlockStoneBrick.EnumType.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(VARIANT, BlockStoneBrick.EnumType.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
@@ -63,10 +63,10 @@ public class BlockStoneBrick extends Block {
       private final String unlocalizedName;
       private static final long a = 97475102719642L;
 
-      EnumType(int var3, String var4, String var5) {
-         this.meta = var3;
-         this.name = var4;
-         this.unlocalizedName = var5;
+      EnumType(int meta, String name, String unlocalizedNameIn) {
+         this.meta = meta;
+         this.name = name;
+         this.unlocalizedName = unlocalizedNameIn;
       }
 
       public int getMetadata() {
@@ -78,12 +78,12 @@ public class BlockStoneBrick extends Block {
          return this.name;
       }
 
-      public static BlockStoneBrick.EnumType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= META_LOOKUP.length) {
-            var0 = 0;
+      public static BlockStoneBrick.EnumType byMetadata(int meta) {
+         if (meta < 0 || meta >= META_LOOKUP.length) {
+            meta = 0;
          }
 
-         return META_LOOKUP[var0];
+         return META_LOOKUP[meta];
       }
 
       @Override
@@ -96,8 +96,8 @@ public class BlockStoneBrick extends Block {
       }
 
       static {
-         for (BlockStoneBrick.EnumType var14 : values()) {
-            META_LOOKUP[var14.getMetadata()] = var14;
+         for (BlockStoneBrick.EnumType enumType : values()) {
+            META_LOOKUP[enumType.getMetadata()] = enumType;
          }
       }
    }

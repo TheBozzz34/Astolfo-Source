@@ -9,9 +9,9 @@ public class PendingBreak {
    public EnumFacing e;
    public boolean K;
 
-   public PendingBreak(int var1, BlockPos var2, EnumFacing var3) {
-      this.B = var1;
-      this.f = var2;
-      this.e = var3;
+   public PendingBreak(int i, BlockPos blockPos, EnumFacing enumFacing) {
+      this.B = i;
+      this.f = blockPos;
+      this.e = enumFacing;
    }
 }

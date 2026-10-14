@@ -17,18 +17,18 @@ public class ItemRedstone extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      boolean var12 = var3.getBlockState(var4).getBlock().isReplaceable(var3, var4);
-      BlockPos var13 = var12 ? var4 : var4.offset(var5);
-      if (!var2.canPlayerEdit(var13, var5, var1)) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      boolean bl = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
+      BlockPos blockPos = bl ? pos : pos.offset(side);
+      if (!playerIn.canPlayerEdit(blockPos, side, stack)) {
          return false;
       } else {
-         Block var14 = var3.getBlockState(var13).getBlock();
-         if (!var3.canBlockBePlaced(var14, var13, false, var5, (Entity)null, var1)) {
+         Block block = worldIn.getBlockState(blockPos).getBlock();
+         if (!worldIn.canBlockBePlaced(block, blockPos, false, side, (Entity)null, stack)) {
             return false;
-         } else if (Blocks.redstone_wire.canPlaceBlockAt(var3, var13)) {
-            var1.stackSize--;
-            var3.setBlockState(var13, Blocks.redstone_wire.getDefaultState());
+         } else if (Blocks.redstone_wire.canPlaceBlockAt(worldIn, blockPos)) {
+            stack.stackSize--;
+            worldIn.setBlockState(blockPos, Blocks.redstone_wire.getDefaultState());
             return true;
          } else {
             return false;

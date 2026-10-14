@@ -12,30 +12,30 @@ public class WorldGenSand extends WorldGenerator {
    private int radius;
    private static final long a = 41701229110994L;
 
-   public WorldGenSand(Block var1, int var2) {
-      this.block = var1;
-      this.radius = var2;
+   public WorldGenSand(Block block, int i) {
+      this.block = block;
+      this.radius = i;
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      if (var1.getBlockState(var3).getBlock().getMaterial() != Material.water) {
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      if (worldIn.getBlockState(position).getBlock().getMaterial() != Material.water) {
          return false;
       }
 
-      int var7 = var2.nextInt(this.radius - 2) + 2;
-      byte var8 = 2;
+      int i = rand.nextInt(this.radius - 2) + 2;
+      byte b = 2;
 
-      for (int var9 = var3.getX() - var7; var9 <= var3.getX() + var7; var9++) {
-         for (int var10 = var3.getZ() - var7; var10 <= var3.getZ() + var7; var10++) {
-            int var11 = var9 - var3.getX();
-            int var12 = var10 - var3.getZ();
-            if (var11 * var11 + var12 * var12 <= var7 * var7) {
-               for (int var13 = var3.getY() - var8; var13 <= var3.getY() + var8; var13++) {
-                  BlockPos var14 = new BlockPos(var9, var13, var10);
-                  Block var15 = var1.getBlockState(var14).getBlock();
-                  if (var15 == Blocks.dirt || var15 == Blocks.grass) {
-                     var1.setBlockState(var14, this.block.getDefaultState(), 2);
+      for (int j = position.getX() - i; j <= position.getX() + i; j++) {
+         for (int k = position.getZ() - i; k <= position.getZ() + i; k++) {
+            int l = j - position.getX();
+            int m = k - position.getZ();
+            if (l * l + m * m <= i * i) {
+               for (int n = position.getY() - b; n <= position.getY() + b; n++) {
+                  BlockPos blockPos = new BlockPos(j, n, k);
+                  Block block2 = worldIn.getBlockState(blockPos).getBlock();
+                  if (block2 == Blocks.dirt || block2 == Blocks.grass) {
+                     worldIn.setBlockState(blockPos, this.block.getDefaultState(), 2);
                   }
                }
             }

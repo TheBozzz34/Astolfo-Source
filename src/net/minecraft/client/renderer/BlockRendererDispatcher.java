@@ -31,86 +31,86 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
    private final BlockFluidRenderer fluidRenderer = new BlockFluidRenderer();
    private static final long a = 83134089747619L;
 
-   public BlockRendererDispatcher(BlockModelShapes var1, GameSettings var2) {
-      this.blockModelShapes = var1;
-      this.gameSettings = var2;
+   public BlockRendererDispatcher(BlockModelShapes blockModelShapesIn, GameSettings gameSettingsIn) {
+      this.blockModelShapes = blockModelShapesIn;
+      this.gameSettings = gameSettingsIn;
    }
 
    public BlockModelShapes getBlockModelShapes() {
       return this.blockModelShapes;
    }
 
-   public void renderBlockDamage(IBlockState var1, BlockPos var2, TextureAtlasSprite var3, IBlockAccess var4) {
-      Block var8 = var1.getBlock();
-      int var9 = var8.getRenderType();
-      if (var9 == 3) {
-         var1 = var8.getActualState(var1, var4, var2);
-         IBakedModel var10 = this.blockModelShapes.getModelForState(var1);
-         if (Reflector.ISmartBlockModel.isInstance(var10)) {
-            IBlockState var19 = (IBlockState)Reflector.call(var8, Reflector.ForgeBlock_getExtendedState, var1, var4, var2);
+   public void renderBlockDamage(IBlockState state, BlockPos pos, TextureAtlasSprite texture, IBlockAccess blockAccess) {
+      Block block = state.getBlock();
+      int i = block.getRenderType();
+      if (i == 3) {
+         state = block.getActualState(state, blockAccess, pos);
+         IBakedModel iBakedModel = this.blockModelShapes.getModelForState(state);
+         if (Reflector.ISmartBlockModel.isInstance(iBakedModel)) {
+            IBlockState iBlockState = (IBlockState)Reflector.call(block, Reflector.ForgeBlock_getExtendedState, state, blockAccess, pos);
 
-            for (EnumWorldBlockLayer var15 : EnumWorldBlockLayer.values()) {
-               if (Reflector.callBoolean(var8, Reflector.ForgeBlock_canRenderInLayer, var15)) {
-                  Reflector.callVoid(Reflector.ForgeHooksClient_setRenderLayer, var15);
-                  IBakedModel var16 = (IBakedModel)Reflector.call(var10, Reflector.ISmartBlockModel_handleBlockState, var19);
-                  IBakedModel var17 = new SimpleBakedModel.Builder(var16, var3).makeBakedModel();
-                  this.blockModelRenderer.renderModel(var4, var17, var1, var2, Tessellator.getInstance().getWorldRenderer());
+            for (EnumWorldBlockLayer enumWorldBlockLayer : EnumWorldBlockLayer.values()) {
+               if (Reflector.callBoolean(block, Reflector.ForgeBlock_canRenderInLayer, enumWorldBlockLayer)) {
+                  Reflector.callVoid(Reflector.ForgeHooksClient_setRenderLayer, enumWorldBlockLayer);
+                  IBakedModel iBakedModel2 = (IBakedModel)Reflector.call(iBakedModel, Reflector.ISmartBlockModel_handleBlockState, iBlockState);
+                  IBakedModel iBakedModel3 = new SimpleBakedModel.Builder(iBakedModel2, texture).makeBakedModel();
+                  this.blockModelRenderer.renderModel(blockAccess, iBakedModel3, state, pos, Tessellator.getInstance().getWorldRenderer());
                }
             }
 
             return;
          }
 
-         IBakedModel var11 = new SimpleBakedModel.Builder(var10, var3).makeBakedModel();
-         this.blockModelRenderer.renderModel(var4, var11, var1, var2, Tessellator.getInstance().getWorldRenderer());
+         IBakedModel iBakedModel4 = new SimpleBakedModel.Builder(iBakedModel, texture).makeBakedModel();
+         this.blockModelRenderer.renderModel(blockAccess, iBakedModel4, state, pos, Tessellator.getInstance().getWorldRenderer());
       }
    }
 
-   public boolean renderBlock(IBlockState var1, BlockPos var2, IBlockAccess var3, WorldRenderer var4) {
-      if (ModuleManager.s.isEnabled() && !Xray.isTranslucent() && !Xray.isEnabledOre(var1.getBlock())) {
+   public boolean renderBlock(IBlockState state, BlockPos pos, IBlockAccess blockAccess, WorldRenderer worldRendererIn) {
+      if (ModuleManager.s.isEnabled() && !Xray.isTranslucent() && !Xray.isEnabledOre(state.getBlock())) {
          return false;
       }
 
       try {
-         int var8 = var1.getBlock().getRenderType();
-         if (var8 == -1) {
+         int i = state.getBlock().getRenderType();
+         if (i == -1) {
             return false;
          }
 
-         switch (var8) {
+         switch (i) {
             case 1:
                if (Config.isShaders()) {
-                  SVertexBuilder.pushEntity(var1, var2, var3, var4);
+                  SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
                }
 
-               boolean var13 = this.fluidRenderer.renderFluid(var3, var1, var2, var4);
+               boolean bl = this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
                if (Config.isShaders()) {
-                  SVertexBuilder.s(var4);
+                  SVertexBuilder.s(worldRendererIn);
                }
 
-               return var13;
+               return bl;
             case 2:
                return false;
             case 3:
-               IBakedModel var14 = this.getModelFromBlockState(var1, var3, var2);
+               IBakedModel iBakedModel = this.getModelFromBlockState(state, blockAccess, pos);
                if (Config.isShaders()) {
-                  SVertexBuilder.pushEntity(var1, var2, var3, var4);
+                  SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
                }
 
-               boolean var11 = this.blockModelRenderer.renderModel(var3, var14, var1, var2, var4);
+               boolean bl2 = this.blockModelRenderer.renderModel(blockAccess, iBakedModel, state, pos, worldRendererIn);
                if (Config.isShaders()) {
-                  SVertexBuilder.s(var4);
+                  SVertexBuilder.s(worldRendererIn);
                }
 
-               return var11;
+               return bl2;
             default:
                return false;
          }
-      } catch (Throwable var12) {
-         CrashReport var9 = CrashReport.makeCrashReport(var12, "Tesselating block in world");
-         CrashReportCategory var10 = var9.makeCategory("Block being tesselated");
-         CrashReportCategory.addBlockInfo(var10, var2, var1.getBlock(), var1.getBlock().getMetaFromState(var1));
-         throw new ReportedException(var9);
+      } catch (Throwable throwable) {
+         CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Tesselating block in world");
+         CrashReportCategory crashReportCategory = crashReport.makeCategory("Block being tesselated");
+         CrashReportCategory.addBlockInfo(crashReportCategory, pos, state.getBlock(), state.getBlock().getMetaFromState(state));
+         throw new ReportedException(crashReport);
       }
    }
 
@@ -118,65 +118,65 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
       return this.blockModelRenderer;
    }
 
-   private IBakedModel getBakedModel(IBlockState var1, BlockPos var2) {
-      IBakedModel var6 = this.blockModelShapes.getModelForState(var1);
-      if (var2 != null && this.gameSettings.allowBlockAlternatives && var6 instanceof WeightedBakedModel) {
-         var6 = ((WeightedBakedModel)var6).getAlternativeModel(MathHelper.getPositionRandom(var2));
+   private IBakedModel getBakedModel(IBlockState state, BlockPos pos) {
+      IBakedModel iBakedModel = this.blockModelShapes.getModelForState(state);
+      if (pos != null && this.gameSettings.allowBlockAlternatives && iBakedModel instanceof WeightedBakedModel) {
+         iBakedModel = ((WeightedBakedModel)iBakedModel).getAlternativeModel(MathHelper.getPositionRandom(pos));
       }
 
-      return var6;
+      return iBakedModel;
    }
 
-   public IBakedModel getModelFromBlockState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      Block var7 = var1.getBlock();
-      if (var2.getWorldType() != WorldType.DEBUG_WORLD) {
+   public IBakedModel getModelFromBlockState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      Block block = state.getBlock();
+      if (worldIn.getWorldType() != WorldType.DEBUG_WORLD) {
          try {
-            var1 = var7.getActualState(var1, var2, var3);
-         } catch (Exception var10) {
+            state = block.getActualState(state, worldIn, pos);
+         } catch (Exception exception) {
          }
       }
 
-      IBakedModel var8 = this.blockModelShapes.getModelForState(var1);
-      if (var3 != null && this.gameSettings.allowBlockAlternatives && var8 instanceof WeightedBakedModel) {
-         var8 = ((WeightedBakedModel)var8).getAlternativeModel(MathHelper.getPositionRandom(var3));
+      IBakedModel iBakedModel = this.blockModelShapes.getModelForState(state);
+      if (pos != null && this.gameSettings.allowBlockAlternatives && iBakedModel instanceof WeightedBakedModel) {
+         iBakedModel = ((WeightedBakedModel)iBakedModel).getAlternativeModel(MathHelper.getPositionRandom(pos));
       }
 
-      if (Reflector.ISmartBlockModel.isInstance(var8)) {
-         IBlockState var9 = (IBlockState)Reflector.call(var7, Reflector.ForgeBlock_getExtendedState, var1, var2, var3);
-         var8 = (IBakedModel)Reflector.call(var8, Reflector.ISmartBlockModel_handleBlockState, var9);
+      if (Reflector.ISmartBlockModel.isInstance(iBakedModel)) {
+         IBlockState iBlockState = (IBlockState)Reflector.call(block, Reflector.ForgeBlock_getExtendedState, state, worldIn, pos);
+         iBakedModel = (IBakedModel)Reflector.call(iBakedModel, Reflector.ISmartBlockModel_handleBlockState, iBlockState);
       }
 
-      return var8;
+      return iBakedModel;
    }
 
-   public void renderBlockBrightness(IBlockState var1, float var2) {
-      int var6 = var1.getBlock().getRenderType();
-      if (var6 != -1) {
-         switch (var6) {
+   public void renderBlockBrightness(IBlockState state, float brightness) {
+      int i = state.getBlock().getRenderType();
+      if (i != -1) {
+         switch (i) {
             case 1:
             default:
                break;
             case 2:
-               this.chestRenderer.renderChestBrightness(var1.getBlock(), var2);
+               this.chestRenderer.renderChestBrightness(state.getBlock(), brightness);
                break;
             case 3:
-               IBakedModel var7 = this.getBakedModel(var1, (BlockPos)null);
-               this.blockModelRenderer.renderModelBrightness(var7, var1, var2, true);
+               IBakedModel iBakedModel = this.getBakedModel(state, (BlockPos)null);
+               this.blockModelRenderer.renderModelBrightness(iBakedModel, state, brightness, true);
          }
       }
    }
 
-   public boolean isRenderTypeChest(Block var1, int var2) {
-      if (var1 == null) {
+   public boolean isRenderTypeChest(Block block, int i) {
+      if (block == null) {
          return false;
       }
 
-      int var6 = var1.getRenderType();
-      return var6 == 3 ? false : var6 == 2;
+      int j = block.getRenderType();
+      return j == 3 ? false : j == 2;
    }
 
    @Override
-   public void onResourceManagerReload(IResourceManager var1) {
+   public void onResourceManagerReload(IResourceManager resourceManager) {
       this.fluidRenderer.initAtlasSprites();
    }
 }

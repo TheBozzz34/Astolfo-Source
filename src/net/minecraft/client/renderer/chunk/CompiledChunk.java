@@ -10,17 +10,17 @@ import net.minecraft.util.EnumWorldBlockLayer;
 public class CompiledChunk {
    public static final CompiledChunk DUMMY = new CompiledChunk() {
       @Override
-      public void q(EnumWorldBlockLayer var1) {
+      public void q(EnumWorldBlockLayer enumWorldBlockLayer) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public void G(EnumWorldBlockLayer var1) {
+      public void G(EnumWorldBlockLayer enumWorldBlockLayer) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public boolean isVisible(EnumFacing var1, EnumFacing var2) {
+      public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
          return false;
       }
    };
@@ -36,44 +36,44 @@ public class CompiledChunk {
       return this.empty;
    }
 
-   public void q(EnumWorldBlockLayer var1) {
+   public void q(EnumWorldBlockLayer enumWorldBlockLayer) {
       this.empty = false;
-      this.layersUsed[var1.ordinal()] = true;
+      this.layersUsed[enumWorldBlockLayer.ordinal()] = true;
    }
 
-   public boolean isLayerEmpty(EnumWorldBlockLayer var1) {
-      return !this.layersUsed[var1.ordinal()];
+   public boolean isLayerEmpty(EnumWorldBlockLayer layer) {
+      return !this.layersUsed[layer.ordinal()];
    }
 
-   public void G(EnumWorldBlockLayer var1) {
-      this.layersStarted[var1.ordinal()] = true;
+   public void G(EnumWorldBlockLayer enumWorldBlockLayer) {
+      this.layersStarted[enumWorldBlockLayer.ordinal()] = true;
    }
 
-   public boolean isLayerStarted(EnumWorldBlockLayer var1) {
-      return this.layersStarted[var1.ordinal()];
+   public boolean isLayerStarted(EnumWorldBlockLayer layer) {
+      return this.layersStarted[layer.ordinal()];
    }
 
    public List<TileEntity> getTileEntities() {
       return this.tileEntities;
    }
 
-   public void addTileEntity(TileEntity var1) {
-      this.tileEntities.add(var1);
+   public void addTileEntity(TileEntity tileEntityIn) {
+      this.tileEntities.add(tileEntityIn);
    }
 
-   public boolean isVisible(EnumFacing var1, EnumFacing var2) {
-      return this.setVisibility.isVisible(var1, var2);
+   public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
+      return this.setVisibility.isVisible(facing, facing2);
    }
 
-   public void setVisibility(SetVisibility var1) {
-      this.setVisibility = var1;
+   public void setVisibility(SetVisibility visibility) {
+      this.setVisibility = visibility;
    }
 
    public WorldRenderer.State getState() {
       return this.state;
    }
 
-   public void setState(WorldRenderer.State var1) {
-      this.state = var1;
+   public void setState(WorldRenderer.State stateIn) {
+      this.state = stateIn;
    }
 }

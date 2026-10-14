@@ -6,8 +6,8 @@ public final class VerdictResult implements CheckResult {
    private final Verdict B;
    private static final long a = 119053212514755L;
 
-   private VerdictResult(Verdict var1) {
-      this.B = var1;
+   private VerdictResult(Verdict verdict) {
+      this.B = verdict;
    }
 
    @Override
@@ -20,8 +20,8 @@ public final class VerdictResult implements CheckResult {
       return ResultKind.A;
    }
 
-   public static CheckResult a(Verdict var0) {
-      Objects.requireNonNull(var0, "https://blog.smartekh.com/hubfs/wannacry.png");
-      return new VerdictResult(var0);
+   public static CheckResult a(Verdict verdict) {
+      Objects.requireNonNull(verdict, "https://blog.smartekh.com/hubfs/wannacry.png");
+      return new VerdictResult(verdict);
    }
 }

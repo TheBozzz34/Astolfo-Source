@@ -13,16 +13,16 @@ import java.util.UUID;
 public class UUIDTypeAdapter implements JsonDeserializer<UUID>, JsonSerializer<UUID> {
    private static final long a = 84128820052948L;
 
-   public JsonElement serialize(UUID var1, Type var2, JsonSerializationContext var3) {
-      return new JsonPrimitive(var1.toString());
+   public JsonElement serialize(UUID src, Type typeOfSrc, JsonSerializationContext context) {
+      return new JsonPrimitive(src.toString());
    }
 
-   public UUID deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
-      String var7 = var1.getAsString();
-      return var7.contains("-")
-         ? UUID.fromString(var7)
+   public UUID deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      String string = json.getAsString();
+      return string.contains("-")
+         ? UUID.fromString(string)
          : UUID.fromString(
-            var7.substring(0, 8) + "-" + var7.substring(8, 12) + "-" + var7.substring(12, 16) + "-" + var7.substring(16, 20) + "-" + var7.substring(20, 32)
+            string.substring(0, 8) + "-" + string.substring(8, 12) + "-" + string.substring(12, 16) + "-" + string.substring(16, 20) + "-" + string.substring(20, 32)
          );
    }
 }

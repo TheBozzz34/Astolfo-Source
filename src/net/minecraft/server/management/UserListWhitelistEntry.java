@@ -7,35 +7,35 @@ import java.util.UUID;
 public class UserListWhitelistEntry extends UserListEntry<GameProfile> {
    private static final long a = 94612710633621L;
 
-   public UserListWhitelistEntry(GameProfile var1) {
-      super(var1);
+   public UserListWhitelistEntry(GameProfile profile) {
+      super(profile);
    }
 
-   public UserListWhitelistEntry(JsonObject var1) {
-      super(gameProfileFromJsonObject(var1), var1);
+   public UserListWhitelistEntry(JsonObject json) {
+      super(gameProfileFromJsonObject(json), json);
    }
 
    @Override
-   public void onSerialization(JsonObject var1) {
+   public void onSerialization(JsonObject data) {
       if (this.getValue() != null) {
-         var1.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
-         var1.addProperty("name", this.getValue().getName());
-         super.onSerialization(var1);
+         data.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
+         data.addProperty("name", this.getValue().getName());
+         super.onSerialization(data);
       }
    }
 
-   private static GameProfile gameProfileFromJsonObject(JsonObject var0) {
-      if (var0.has("uuid") && var0.has("name")) {
-         String var4 = var0.get("uuid").getAsString();
+   private static GameProfile gameProfileFromJsonObject(JsonObject json) {
+      if (json.has("uuid") && json.has("name")) {
+         String string = json.get("uuid").getAsString();
 
-         UUID var5;
+         UUID uuid2;
          try {
-            var5 = UUID.fromString(var4);
-         } catch (Throwable var7) {
+            uuid2 = UUID.fromString(string);
+         } catch (Throwable throwable) {
             return null;
          }
 
-         return new GameProfile(var5, var0.get("name").getAsString());
+         return new GameProfile(uuid2, json.get("name").getAsString());
       } else {
          return null;
       }

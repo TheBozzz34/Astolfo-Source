@@ -27,94 +27,94 @@ public class DynamicLight {
    private BlockPos.MutableBlockPos blockPosMutable = new BlockPos.MutableBlockPos();
    private static final long a = 113357607647473L;
 
-   public DynamicLight(Entity var1) {
-      this.entity = var1;
-      this.offsetY = var1.getEyeHeight();
+   public DynamicLight(Entity entity) {
+      this.entity = entity;
+      this.offsetY = entity.getEyeHeight();
    }
 
-   public void update(RenderGlobal var1) {
+   public void update(RenderGlobal renderGlobal) {
       if (Config.isDynamicLightsFast()) {
-         long var5 = System.currentTimeMillis();
-         if (var5 < this.timeCheckMs + 500L) {
+         long l = System.currentTimeMillis();
+         if (l < this.timeCheckMs + 500L) {
             return;
          }
 
-         this.timeCheckMs = var5;
+         this.timeCheckMs = l;
       }
 
-      double var34 = this.entity.posX - 0.5;
-      double var7 = this.entity.posY - 0.5 + this.offsetY;
-      double var9 = this.entity.posZ - 0.5;
-      int var11 = DynamicLights.getLightLevel(this.entity);
-      double var12 = var34 - this.lastPosX;
-      double var14 = var7 - this.lastPosY;
-      double var16 = var9 - this.lastPosZ;
-      double var18 = 0.1;
-      if (Math.abs(var12) > var18 || Math.abs(var14) > var18 || Math.abs(var16) > var18 || this.lastLightLevel != var11) {
-         this.lastPosX = var34;
-         this.lastPosY = var7;
-         this.lastPosZ = var9;
-         this.lastLightLevel = var11;
+      double d = this.entity.posX - 0.5;
+      double e = this.entity.posY - 0.5 + this.offsetY;
+      double d2 = this.entity.posZ - 0.5;
+      int i = DynamicLights.getLightLevel(this.entity);
+      double d3 = d - this.lastPosX;
+      double d4 = e - this.lastPosY;
+      double d5 = d2 - this.lastPosZ;
+      double d6 = 0.1;
+      if (Math.abs(d3) > d6 || Math.abs(d4) > d6 || Math.abs(d5) > d6 || this.lastLightLevel != i) {
+         this.lastPosX = d;
+         this.lastPosY = e;
+         this.lastPosZ = d2;
+         this.lastLightLevel = i;
          this.underwater = false;
-         WorldClient var20 = var1.getWorld();
-         if (var20 != null) {
-            this.blockPosMutable.set(MathHelper.floor_double(var34), MathHelper.floor_double(var7), MathHelper.floor_double(var9));
-            IBlockState var21 = var20.getBlockState(this.blockPosMutable);
-            Block var22 = var21.getBlock();
-            this.underwater = var22 == Blocks.water;
+         WorldClient worldClient = renderGlobal.getWorld();
+         if (worldClient != null) {
+            this.blockPosMutable.set(MathHelper.floor_double(d), MathHelper.floor_double(e), MathHelper.floor_double(d2));
+            IBlockState iBlockState = worldClient.getBlockState(this.blockPosMutable);
+            Block block = iBlockState.getBlock();
+            this.underwater = block == Blocks.water;
          }
 
-         HashSet var35 = new HashSet();
-         if (var11 > 0) {
-            EnumFacing var36 = (MathHelper.floor_double(var34) & 15) >= 8 ? EnumFacing.EAST : EnumFacing.WEST;
-            EnumFacing var23 = (MathHelper.floor_double(var7) & 15) >= 8 ? EnumFacing.UP : EnumFacing.DOWN;
-            EnumFacing var24 = (MathHelper.floor_double(var9) & 15) >= 8 ? EnumFacing.SOUTH : EnumFacing.NORTH;
-            BlockPos var25 = new BlockPos(var34, var7, var9);
-            RenderChunk var26 = var1.getRenderChunk(var25);
-            RenderChunk var27 = var1.getRenderChunk(var26, var36);
-            RenderChunk var28 = var1.getRenderChunk(var26, var24);
-            RenderChunk var29 = var1.getRenderChunk(var27, var24);
-            RenderChunk var30 = var1.getRenderChunk(var26, var23);
-            RenderChunk var31 = var1.getRenderChunk(var30, var36);
-            RenderChunk var32 = var1.getRenderChunk(var30, var24);
-            RenderChunk var33 = var1.getRenderChunk(var31, var24);
-            this.updateChunkLight(var26, this.setLitChunkPos, var35);
-            this.updateChunkLight(var27, this.setLitChunkPos, var35);
-            this.updateChunkLight(var28, this.setLitChunkPos, var35);
-            this.updateChunkLight(var29, this.setLitChunkPos, var35);
-            this.updateChunkLight(var30, this.setLitChunkPos, var35);
-            this.updateChunkLight(var31, this.setLitChunkPos, var35);
-            this.updateChunkLight(var32, this.setLitChunkPos, var35);
-            this.updateChunkLight(var33, this.setLitChunkPos, var35);
+         HashSet hashSet = new HashSet();
+         if (i > 0) {
+            EnumFacing enumFacing = (MathHelper.floor_double(d) & 15) >= 8 ? EnumFacing.EAST : EnumFacing.WEST;
+            EnumFacing enumFacing2 = (MathHelper.floor_double(e) & 15) >= 8 ? EnumFacing.UP : EnumFacing.DOWN;
+            EnumFacing enumFacing3 = (MathHelper.floor_double(d2) & 15) >= 8 ? EnumFacing.SOUTH : EnumFacing.NORTH;
+            BlockPos blockPos = new BlockPos(d, e, d2);
+            RenderChunk renderChunk = renderGlobal.getRenderChunk(blockPos);
+            RenderChunk renderChunk2 = renderGlobal.getRenderChunk(renderChunk, enumFacing);
+            RenderChunk renderChunk3 = renderGlobal.getRenderChunk(renderChunk, enumFacing3);
+            RenderChunk renderChunk4 = renderGlobal.getRenderChunk(renderChunk2, enumFacing3);
+            RenderChunk renderChunk5 = renderGlobal.getRenderChunk(renderChunk, enumFacing2);
+            RenderChunk renderChunk6 = renderGlobal.getRenderChunk(renderChunk5, enumFacing);
+            RenderChunk renderChunk7 = renderGlobal.getRenderChunk(renderChunk5, enumFacing3);
+            RenderChunk renderChunk8 = renderGlobal.getRenderChunk(renderChunk6, enumFacing3);
+            this.updateChunkLight(renderChunk, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk2, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk3, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk4, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk5, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk6, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk7, this.setLitChunkPos, hashSet);
+            this.updateChunkLight(renderChunk8, this.setLitChunkPos, hashSet);
          }
 
-         this.updateLitChunks(var1);
-         this.setLitChunkPos = var35;
+         this.updateLitChunks(renderGlobal);
+         this.setLitChunkPos = hashSet;
       }
    }
 
-   private void updateChunkLight(RenderChunk var1, Set<BlockPos> var2, Set<BlockPos> var3) {
-      if (var1 != null) {
-         CompiledChunk var7 = var1.getCompiledChunk();
-         if (var7 != null && !var7.isEmpty()) {
-            var1.setNeedsUpdate(true);
+   private void updateChunkLight(RenderChunk renderChunk, Set<BlockPos> setPrevPos, Set<BlockPos> setNewPos) {
+      if (renderChunk != null) {
+         CompiledChunk compiledChunk = renderChunk.getCompiledChunk();
+         if (compiledChunk != null && !compiledChunk.isEmpty()) {
+            renderChunk.setNeedsUpdate(true);
          }
 
-         BlockPos var8 = var1.getPosition();
-         if (var2 != null) {
-            var2.remove(var8);
+         BlockPos blockPos = renderChunk.getPosition();
+         if (setPrevPos != null) {
+            setPrevPos.remove(blockPos);
          }
 
-         if (var3 != null) {
-            var3.add(var8);
+         if (setNewPos != null) {
+            setNewPos.add(blockPos);
          }
       }
    }
 
-   public void updateLitChunks(RenderGlobal var1) {
-      for (BlockPos var6 : this.setLitChunkPos) {
-         RenderChunk var7 = var1.getRenderChunk(var6);
-         this.updateChunkLight(var7, (Set<BlockPos>)null, (Set<BlockPos>)null);
+   public void updateLitChunks(RenderGlobal renderGlobal) {
+      for (BlockPos blockPos : this.setLitChunkPos) {
+         RenderChunk renderChunk = renderGlobal.getRenderChunk(blockPos);
+         this.updateChunkLight(renderChunk, (Set<BlockPos>)null, (Set<BlockPos>)null);
       }
    }
 
@@ -122,8 +122,8 @@ public class DynamicLight {
       return this.entity;
    }
 
-   public void I(Entity var1) {
-      this.entity = var1;
+   public void I(Entity entity) {
+      this.entity = entity;
    }
 
    public double B() {

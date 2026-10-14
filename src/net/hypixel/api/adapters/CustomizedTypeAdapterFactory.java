@@ -13,40 +13,40 @@ public abstract class CustomizedTypeAdapterFactory<C> implements TypeAdapterFact
    private final Class<C> customizedClass;
    private static final long b = 80157036539332L;
 
-   public CustomizedTypeAdapterFactory(Class<C> var1) {
-      this.customizedClass = var1;
+   public CustomizedTypeAdapterFactory(Class<C> customizedClass) {
+      this.customizedClass = customizedClass;
    }
 
    @Override
-   public final <T> TypeAdapter<T> create(Gson var1, TypeToken<T> var2) {
-      return (TypeAdapter<T>)(var2.getRawType() == this.customizedClass ? this.customizeMyClassAdapter(var1, (com.google.gson.reflect.TypeToken)(var2)) : null);
+   public final <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeIn) {
+      return (TypeAdapter<T>)(typeIn.getRawType() == this.customizedClass ? this.customizeMyClassAdapter(gson, (TypeToken<C>)typeIn) : null);
    }
 
-   private TypeAdapter<C> customizeMyClassAdapter(Gson var1, TypeToken<C> var2) {
-      final TypeAdapter var3 = var1.getDelegateAdapter(this, var2);
-      final TypeAdapter var4 = var1.getAdapter(JsonElement.class);
+   private TypeAdapter<C> customizeMyClassAdapter(Gson gson, TypeToken<C> typeIn) {
+      final TypeAdapter<C> delegate = gson.getDelegateAdapter(this, typeIn);
+      final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
       return new TypeAdapter<C>() {
          private static final long a = 51159902679273L;
 
          @Override
-         public void write(JsonWriter var1, C var2x) throws IOException {
-            JsonElement var7 = var3.toJsonTree(var2x);
-            CustomizedTypeAdapterFactory.this.beforeWrite(var2x, var7);
-            var4.write(var1, var7);
+         public void write(JsonWriter out, C value) throws IOException {
+            JsonElement jsonElement = delegate.toJsonTree((C)value);
+            CustomizedTypeAdapterFactory.this.beforeWrite(value, jsonElement);
+            elementAdapter.write(out, jsonElement);
          }
 
          @Override
-         public C read(JsonReader var1) throws IOException {
-            JsonElement var5 = (JsonElement)var4.read(var1);
-            CustomizedTypeAdapterFactory.this.afterRead(var5);
-            return (C)var3.fromJsonTree(var5);
+         public C read(JsonReader in) throws IOException {
+            JsonElement jsonElement2 = elementAdapter.read(in);
+            CustomizedTypeAdapterFactory.this.afterRead(jsonElement2);
+            return delegate.fromJsonTree(jsonElement2);
          }
       };
    }
 
-   public void beforeWrite(C var1, JsonElement var2) {
+   public void beforeWrite(C source, JsonElement toSerialize) {
    }
 
-   public void afterRead(JsonElement var1) {
+   public void afterRead(JsonElement deserialized) {
    }
 }

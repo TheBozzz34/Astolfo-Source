@@ -11,17 +11,17 @@ public abstract class AbstractRequest implements Request {
    private static final long a = 72336621491796L;
 
    @Override
-   public Request m(String var1, String var2) throws Exception {
-      String var7 = URLEncoder.encode(var1, e).trim();
-      String var8 = URLEncoder.encode(var2, e).trim();
-      this.m.put(var7, var8);
+   public Request m(String string, String string2) throws Exception {
+      String string3 = URLEncoder.encode(string, e).trim();
+      String string4 = URLEncoder.encode(string2, e).trim();
+      this.m.put(string3, string4);
       return this;
    }
 
    @Override
-   public Request y(String var1) throws Exception {
-      String var5 = URLEncoder.encode(var1, e).trim();
-      this.m.remove(var5);
+   public Request y(String string) throws Exception {
+      String string2 = URLEncoder.encode(string, e).trim();
+      this.m.remove(string2);
       return this;
    }
 
@@ -30,7 +30,7 @@ public abstract class AbstractRequest implements Request {
       return Collections.unmodifiableMap(this.m);
    }
 
-   public abstract URL m(URL var1) throws Exception;
+   public abstract URL m(URL url) throws Exception;
 
    public abstract Map<String, String> U();
 }

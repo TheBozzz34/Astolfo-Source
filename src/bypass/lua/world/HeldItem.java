@@ -11,14 +11,14 @@ public final class HeldItem extends OneArgFunction {
    private static final long a = 94856513588092L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnil() && var1.isnumber() && var1.isint()) {
-         Entity var5 = WorldLibrary.X.get(var1.checkint());
-         if (var5 instanceof EntityLivingBase) {
-            EntityLivingBase var6 = (EntityLivingBase)var5;
-            ItemStack var7 = var6.getHeldItem();
-            if (var7 != null) {
-               return valueOf(var6.getHeldItem().getDisplayName());
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity instanceof EntityLivingBase) {
+            EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+            ItemStack itemStack = entityLivingBase.getHeldItem();
+            if (itemStack != null) {
+               return valueOf(entityLivingBase.getHeldItem().getDisplayName());
             }
 
             return valueOf("hand");

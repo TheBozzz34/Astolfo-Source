@@ -10,62 +10,62 @@ public class RelationManager extends JsonFileManager<Relation, JsonObject> {
    private final HashMap<String, Relation> u = new HashMap<>();
    private static final long c = 27750111532342L;
 
-   public RelationManager(File var1) {
-      super(var1, "relations.json");
+   public RelationManager(File file) {
+      super(file, "relations.json");
    }
 
-   public void t(String var1, JsonObject var2) {
-      this.getList().add(new Relation(var1, var2.get("nickname").getAsString(), var2.get("protected").getAsBoolean()));
+   public void t(String string, JsonObject jsonObject) {
+      this.getList().add(new Relation(string, jsonObject.get("nickname").getAsString(), jsonObject.get("protected").getAsBoolean()));
    }
 
    @Override
    public void I() {
    }
 
-   public boolean z(Entity var1) {
-      if (var1.getCommandSenderEntity() == null) {
+   public boolean z(Entity entity) {
+      if (entity.getCommandSenderEntity() == null) {
          return false;
       }
 
-      if (var1 == mc.thePlayer) {
+      if (entity == mc.thePlayer) {
          return false;
       }
 
-      if (var1.getEntityId() < 0) {
+      if (entity.getEntityId() < 0) {
          return true;
       }
 
-      String var5 = var1.getCommandSenderEntity().getName();
-      return this.u.containsKey(var5) && this.u.get(var5).z();
+      String string = entity.getCommandSenderEntity().getName();
+      return this.u.containsKey(string) && this.u.get(string).z();
    }
 
-   public boolean A(String var1) {
-      return this.u.containsKey(var1) && this.u.get(var1).z();
+   public boolean A(String string) {
+      return this.u.containsKey(string) && this.u.get(string).z();
    }
 
-   public boolean D(Entity var1) {
-      if (var1.getCommandSenderEntity() == null) {
+   public boolean D(Entity entity) {
+      if (entity.getCommandSenderEntity() == null) {
          return false;
       }
 
-      if (var1 == mc.thePlayer) {
+      if (entity == mc.thePlayer) {
          return false;
       }
 
-      if (var1.getEntityId() < 0) {
+      if (entity.getEntityId() < 0) {
          return true;
       }
 
-      String var5 = var1.getCommandSenderEntity().getName();
-      return this.u.containsKey(var5) && !this.u.get(var5).z();
+      String string = entity.getCommandSenderEntity().getName();
+      return this.u.containsKey(string) && !this.u.get(string).z();
    }
 
-   public boolean U(String var1) {
-      return this.u.containsKey(var1) && !this.u.get(var1).z();
+   public boolean U(String string) {
+      return this.u.containsKey(string) && !this.u.get(string).z();
    }
 
-   public boolean canAdd(Relation var1) {
-      this.u.put(var1.i(), var1);
+   public boolean canAdd(Relation relation) {
+      this.u.put(relation.i(), relation);
       return true;
    }
 
@@ -74,8 +74,8 @@ public class RelationManager extends JsonFileManager<Relation, JsonObject> {
    }
 
    @Override
-   public boolean canRemove(Object var1) {
-      return this.u.remove(var1) != null;
+   public boolean canRemove(Object object) {
+      return this.u.remove(object) != null;
    }
 
    public HashMap<String, Relation> n() {

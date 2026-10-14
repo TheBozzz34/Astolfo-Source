@@ -12,22 +12,22 @@ public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient> {
    public S05PacketSpawnPosition() {
    }
 
-   public S05PacketSpawnPosition(BlockPos var1) {
-      this.spawnBlockPos = var1;
+   public S05PacketSpawnPosition(BlockPos spawnBlockPosIn) {
+      this.spawnBlockPos = spawnBlockPosIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.spawnBlockPos = var1.readBlockPos();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.spawnBlockPos = buf.readBlockPos();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.spawnBlockPos);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.spawnBlockPos);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSpawnPosition(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSpawnPosition(this);
    }
 
    public BlockPos getSpawnPos() {

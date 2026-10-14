@@ -6,9 +6,9 @@ public final class HostAndPort {
    private final int port;
    private static final long a = 86513441917687L;
 
-   public HostAndPort(String var1, int var2) {
-      this.host = var1;
-      this.port = var2;
+   public HostAndPort(String string, int i) {
+      this.host = string;
+      this.port = i;
    }
 
    public String getHost() {
@@ -21,23 +21,23 @@ public final class HostAndPort {
 
    @Override
    public int hashCode() {
-      int var4 = 1;
-      var4 = 37 * var4 + this.host.hashCode();
-      return 37 * var4 + this.port;
+      int i = 1;
+      i = 37 * i + this.host.hashCode();
+      return 37 * i + this.port;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (var1.getClass() != HostAndPort.class) {
+      if (object.getClass() != HostAndPort.class) {
          return false;
       }
 
-      HostAndPort var5 = (HostAndPort)var1;
-      return var5.host.equals(this.host) && var5.port == this.port;
+      HostAndPort hostAndPort = (HostAndPort)object;
+      return hostAndPort.host.equals(this.host) && hostAndPort.port == this.port;
    }
 
    @Override

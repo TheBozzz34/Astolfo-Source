@@ -18,12 +18,12 @@ public class SaveFormatOld implements ISaveFormat {
    public final File savesDirectory;
    private static final long b = 22921181179171L;
 
-   public SaveFormatOld(File var1) {
-      if (!var1.exists()) {
-         var1.mkdirs();
+   public SaveFormatOld(File savesDirectoryIn) {
+      if (!savesDirectoryIn.exists()) {
+         savesDirectoryIn.mkdirs();
       }
 
-      this.savesDirectory = var1;
+      this.savesDirectory = savesDirectoryIn;
    }
 
    @Override
@@ -33,21 +33,21 @@ public class SaveFormatOld implements ISaveFormat {
 
    @Override
    public List<SaveFormatComparator> getSaveList() throws AnvilConverterException {
-      ArrayList var4 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (int var5 = 0; var5 < 5; var5++) {
-         String var6 = "World" + (var5 + 1);
-         WorldInfo var7 = this.getWorldInfo(var6);
-         if (var7 != null) {
-            var4.add(
+      for (int i = 0; i < 5; i++) {
+         String string = "World" + (i + 1);
+         WorldInfo worldInfo = this.getWorldInfo(string);
+         if (worldInfo != null) {
+            arrayList.add(
                new SaveFormatComparator(
-                  var6, "", var7.getLastTimePlayed(), var7.getSizeOnDisk(), var7.getGameType(), false, var7.isHardcoreModeEnabled(), var7.areCommandsAllowed()
+                  string, "", worldInfo.getLastTimePlayed(), worldInfo.getSizeOnDisk(), worldInfo.getGameType(), false, worldInfo.isHardcoreModeEnabled(), worldInfo.areCommandsAllowed()
                )
             );
          }
       }
 
-      return var4;
+      return arrayList;
    }
 
    @Override
@@ -55,31 +55,31 @@ public class SaveFormatOld implements ISaveFormat {
    }
 
    @Override
-   public WorldInfo getWorldInfo(String var1) {
-      File var5 = new File(this.savesDirectory, var1);
-      if (!var5.exists()) {
+   public WorldInfo getWorldInfo(String saveName) {
+      File file = new File(this.savesDirectory, saveName);
+      if (!file.exists()) {
          return null;
       }
 
-      File var6 = new File(var5, "level.dat");
-      if (var6.exists()) {
+      File file2 = new File(file, "level.dat");
+      if (file2.exists()) {
          try {
-            NBTTagCompound var12 = CompressedStreamTools.readCompressed(new FileInputStream(var6));
-            NBTTagCompound var13 = var12.getCompoundTag("Data");
-            return new WorldInfo(var13);
-         } catch (Exception var10) {
-            logger.error("Exception reading " + var6, var10);
+            NBTTagCompound nbtTagCompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+            NBTTagCompound nbtTagCompound2 = nbtTagCompound.getCompoundTag("Data");
+            return new WorldInfo(nbtTagCompound2);
+         } catch (Exception exception) {
+            logger.error("Exception reading " + file2, exception);
          }
       }
 
-      var6 = new File(var5, "level.dat_old");
-      if (var6.exists()) {
+      file2 = new File(file, "level.dat_old");
+      if (file2.exists()) {
          try {
-            NBTTagCompound var7 = CompressedStreamTools.readCompressed(new FileInputStream(var6));
-            NBTTagCompound var8 = var7.getCompoundTag("Data");
-            return new WorldInfo(var8);
-         } catch (Exception var9) {
-            logger.error("Exception reading " + var6, var9);
+            NBTTagCompound nbtTagCompound3 = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+            NBTTagCompound nbtTagCompound4 = nbtTagCompound3.getCompoundTag("Data");
+            return new WorldInfo(nbtTagCompound4);
+         } catch (Exception exception2) {
+            logger.error("Exception reading " + file2, exception2);
          }
       }
 
@@ -87,78 +87,78 @@ public class SaveFormatOld implements ISaveFormat {
    }
 
    @Override
-   public void renameWorld(String var1, String var2) {
-      File var6 = new File(this.savesDirectory, var1);
-      if (var6.exists()) {
-         File var7 = new File(var6, "level.dat");
-         if (var7.exists()) {
+   public void renameWorld(String dirName, String newName) {
+      File file = new File(this.savesDirectory, dirName);
+      if (file.exists()) {
+         File file2 = new File(file, "level.dat");
+         if (file2.exists()) {
             try {
-               NBTTagCompound var8 = CompressedStreamTools.readCompressed(new FileInputStream(var7));
-               NBTTagCompound var9 = var8.getCompoundTag("Data");
-               var9.setString("LevelName", var2);
-               CompressedStreamTools.writeCompressed(var8, new FileOutputStream(var7));
-            } catch (Exception var10) {
-               var10.printStackTrace();
+               NBTTagCompound nbtTagCompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+               NBTTagCompound nbtTagCompound2 = nbtTagCompound.getCompoundTag("Data");
+               nbtTagCompound2.setString("LevelName", newName);
+               CompressedStreamTools.writeCompressed(nbtTagCompound, new FileOutputStream(file2));
+            } catch (Exception exception) {
+               exception.printStackTrace();
             }
          }
       }
    }
 
    @Override
-   public boolean isNewLevelIdAcceptable(String var1) {
-      File var5 = new File(this.savesDirectory, var1);
-      if (var5.exists()) {
+   public boolean isNewLevelIdAcceptable(String saveName) {
+      File file = new File(this.savesDirectory, saveName);
+      if (file.exists()) {
          return false;
       }
 
       try {
-         var5.mkdir();
-         var5.delete();
+         file.mkdir();
+         file.delete();
          return true;
-      } catch (Throwable var7) {
-         logger.warn("Couldn't make new level", var7);
+      } catch (Throwable throwable) {
+         logger.warn("Couldn't make new level", throwable);
          return false;
       }
    }
 
    @Override
-   public boolean deleteWorldDirectory(String var1) {
-      File var5 = new File(this.savesDirectory, var1);
-      if (!var5.exists()) {
+   public boolean deleteWorldDirectory(String saveName) {
+      File file = new File(this.savesDirectory, saveName);
+      if (!file.exists()) {
          return true;
       }
 
-      logger.info("Deleting level " + var1);
+      logger.info("Deleting level " + saveName);
 
-      for (int var6 = 1; var6 <= 5; var6++) {
-         logger.info("Attempt " + var6 + "...");
-         if (deleteFiles(var5.listFiles())) {
+      for (int i = 1; i <= 5; i++) {
+         logger.info("Attempt " + i + "...");
+         if (deleteFiles(file.listFiles())) {
             break;
          }
 
          logger.warn("Unsuccessful in deleting contents.");
-         if (var6 < 5) {
+         if (i < 5) {
             try {
                Thread.sleep(500L);
-            } catch (InterruptedException var8) {
+            } catch (InterruptedException interruptedException) {
             }
          }
       }
 
-      return var5.delete();
+      return file.delete();
    }
 
-   public static boolean deleteFiles(File[] var0) {
-      for (int var4 = 0; var4 < var0.length; var4++) {
-         File var5 = var0[var4];
-         logger.debug("Deleting " + var5);
-         if (var5.isDirectory() && !deleteFiles(var5.listFiles())) {
-            logger.warn("Couldn't delete directory " + var5);
+   public static boolean deleteFiles(File[] files) {
+      for (int i = 0; i < files.length; i++) {
+         File file2 = files[i];
+         logger.debug("Deleting " + file2);
+         if (file2.isDirectory() && !deleteFiles(file2.listFiles())) {
+            logger.warn("Couldn't delete directory " + file2);
             return false;
          }
 
-         if (!var5.delete()) {
-            logger.warn("Couldn't delete file " + var5);
+         if (!file2.delete()) {
+            logger.warn("Couldn't delete file " + file2);
             return false;
          }
       }
@@ -167,28 +167,28 @@ public class SaveFormatOld implements ISaveFormat {
    }
 
    @Override
-   public ISaveHandler getSaveLoader(String var1, boolean var2) {
-      return new SaveHandler(this.savesDirectory, var1, var2);
+   public ISaveHandler getSaveLoader(String saveName, boolean storePlayerdata) {
+      return new SaveHandler(this.savesDirectory, saveName, storePlayerdata);
    }
 
    @Override
-   public boolean isConvertible(String var1) {
+   public boolean isConvertible(String saveName) {
       return false;
    }
 
    @Override
-   public boolean isOldMapFormat(String var1) {
+   public boolean isOldMapFormat(String saveName) {
       return false;
    }
 
    @Override
-   public boolean convertMapFormat(String var1, IProgressUpdate var2) {
+   public boolean convertMapFormat(String filename, IProgressUpdate progressCallback) {
       return false;
    }
 
    @Override
-   public boolean canLoadWorld(String var1) {
-      File var2 = new File(this.savesDirectory, var1);
-      return var2.isDirectory();
+   public boolean canLoadWorld(String saveName) {
+      File file = new File(this.savesDirectory, saveName);
+      return file.isDirectory();
    }
 }

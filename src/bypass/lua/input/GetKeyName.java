@@ -8,7 +8,7 @@ public final class GetKeyName extends OneArgFunction {
    private static final long a = 84730923363937L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      return !var1.isnumber() ? valueOf(false) : valueOf(Keyboard.getKeyName(var1.checkint()));
+   public LuaValue call(LuaValue luaValue) {
+      return !luaValue.isnumber() ? valueOf(false) : valueOf(Keyboard.getKeyName(luaValue.checkint()));
    }
 }

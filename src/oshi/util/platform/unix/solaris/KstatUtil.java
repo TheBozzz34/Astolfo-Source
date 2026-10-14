@@ -28,28 +28,28 @@ public final class KstatUtil {
       return new KstatUtil.KstatChain();
    }
 
-   public static String dataLookupString(Kstat var0, String var1) {
-      if (var0.ks_type != 1 && var0.ks_type != 4) {
+   public static String dataLookupString(Kstat ksp, String name) {
+      if (ksp.ks_type != 1 && ksp.ks_type != 4) {
          throw new IllegalArgumentException("Not a kstat_named or kstat_timer kstat.");
       }
 
-      Pointer var5 = KS.kstat_data_lookup(var0, var1);
-      if (var5 == null) {
+      Pointer pointer = KS.kstat_data_lookup(ksp, name);
+      if (pointer == null) {
          return "";
       }
 
-      KstatNamed var6 = new KstatNamed(var5);
-      switch (var6.data_type) {
+      KstatNamed kstatNamed = new KstatNamed(pointer);
+      switch (kstatNamed.data_type) {
          case 0:
-            return new String(var6.value.charc, StandardCharsets.UTF_8).trim();
+            return new String(kstatNamed.value.charc, StandardCharsets.UTF_8).trim();
          case 1:
-            return Integer.toString(var6.value.i32);
+            return Integer.toString(kstatNamed.value.i32);
          case 2:
-            return FormatUtil.toUnsignedString(var6.value.ui32);
+            return FormatUtil.toUnsignedString(kstatNamed.value.ui32);
          case 3:
-            return Long.toString(var6.value.i64);
+            return Long.toString(kstatNamed.value.i64);
          case 4:
-            return FormatUtil.toUnsignedString(var6.value.ui64);
+            return FormatUtil.toUnsignedString(kstatNamed.value.ui64);
          case 5:
          case 6:
          case 7:
@@ -57,30 +57,30 @@ public final class KstatUtil {
          default:
             return "";
          case 9:
-            return var6.value.str.addr.getString(0L);
+            return kstatNamed.value.str.addr.getString(0L);
       }
    }
 
-   public static long dataLookupLong(Kstat var0, String var1) {
-      if (var0.ks_type != 1 && var0.ks_type != 4) {
+   public static long dataLookupLong(Kstat ksp, String name) {
+      if (ksp.ks_type != 1 && ksp.ks_type != 4) {
          throw new IllegalArgumentException("Not a kstat_named or kstat_timer kstat.");
       }
 
-      Pointer var4 = KS.kstat_data_lookup(var0, var1);
-      if (var4 == null) {
+      Pointer pointer = KS.kstat_data_lookup(ksp, name);
+      if (pointer == null) {
          return 0L;
       }
 
-      KstatNamed var5 = new KstatNamed(var4);
-      switch (var5.data_type) {
+      KstatNamed kstatNamed = new KstatNamed(pointer);
+      switch (kstatNamed.data_type) {
          case 1:
-            return var5.value.i32;
+            return kstatNamed.value.i32;
          case 2:
-            return FormatUtil.getUnsignedInt(var5.value.ui32);
+            return FormatUtil.getUnsignedInt(kstatNamed.value.ui32);
          case 3:
-            return var5.value.i64;
+            return kstatNamed.value.i64;
          case 4:
-            return var5.value.ui64;
+            return kstatNamed.value.ui64;
          default:
             return 0L;
       }
@@ -106,36 +106,36 @@ public final class KstatUtil {
          this.update();
       }
 
-      public boolean read(Kstat var1) {
-         int var4 = 0;
+      public boolean read(Kstat ksp) {
+         int i = 0;
 
-         while (0 > KstatUtil.I().kstat_read(KstatUtil.U(), var1, null)) {
-            if (11 != Native.getLastError() || 5 <= ++var4) {
+         while (0 > KstatUtil.I().kstat_read(KstatUtil.U(), ksp, null)) {
+            if (11 != Native.getLastError() || 5 <= ++i) {
                return false;
             }
 
-            Util.sleep(8 << var4);
+            Util.sleep(8 << i);
          }
 
          return true;
       }
 
-      public Kstat lookup(String var1, int var2, String var3) {
-         return KstatUtil.I().kstat_lookup(KstatUtil.U(), var1, var2, var3);
+      public Kstat lookup(String module, int instance, String name) {
+         return KstatUtil.I().kstat_lookup(KstatUtil.U(), module, instance, name);
       }
 
-      public List<Kstat> lookupAll(String var1, int var2, String var3) {
-         ArrayList var8 = new ArrayList();
+      public List<Kstat> lookupAll(String module, int instance, String name) {
+         ArrayList arrayList = new ArrayList();
 
-         for (Kstat var9 = KstatUtil.I().kstat_lookup(KstatUtil.U(), var1, var2, var3); var9 != null; var9 = var9.next()) {
-            if ((var1 == null || var1.equals(new String(var9.ks_module, StandardCharsets.US_ASCII).trim()))
-               && (var2 < 0 || var2 == var9.ks_instance)
-               && (var3 == null || var3.equals(new String(var9.ks_name, StandardCharsets.US_ASCII).trim()))) {
-               var8.add(var9);
+         for (Kstat kstat = KstatUtil.I().kstat_lookup(KstatUtil.U(), module, instance, name); kstat != null; kstat = kstat.next()) {
+            if ((module == null || module.equals(new String(kstat.ks_module, StandardCharsets.US_ASCII).trim()))
+               && (instance < 0 || instance == kstat.ks_instance)
+               && (name == null || name.equals(new String(kstat.ks_name, StandardCharsets.US_ASCII).trim()))) {
+               arrayList.add(kstat);
             }
          }
 
-         return var8;
+         return arrayList;
       }
 
       public int update() {

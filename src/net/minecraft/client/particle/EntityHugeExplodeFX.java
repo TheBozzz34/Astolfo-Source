@@ -10,21 +10,30 @@ public class EntityHugeExplodeFX extends EntityFX {
    private int maximumTime = 8;
    private static final long ab = 67215327749180L;
 
-   public EntityHugeExplodeFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityHugeExplodeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
    }
 
    @Override
    public void onUpdate() {
-      for (int var4 = 0; var4 < 6; var4++) {
-         double var5 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0;
-         double var7 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0;
-         double var9 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0;
-         this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, var5, var7, var9, (float)this.timeSinceStart / this.maximumTime, 0.0, 0.0);
+      for (int i = 0; i < 6; i++) {
+         double d = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0;
+         double e = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0;
+         double d2 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0;
+         this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, d, e, d2, (float)this.timeSinceStart / this.maximumTime, 0.0, 0.0);
       }
 
       this.timeSinceStart++;
@@ -40,8 +49,10 @@ public class EntityHugeExplodeFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityHugeExplodeFX(var2, var3, var5, var7, var9, var11, var13);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityHugeExplodeFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
       }
    }
 }

@@ -21,143 +21,143 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
    public S38PacketPlayerListItem() {
    }
 
-   public S38PacketPlayerListItem(S38PacketPlayerListItem.Action var1, EntityPlayerMP... var2) {
-      this.action = var1;
+   public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, EntityPlayerMP... players) {
+      this.action = actionIn;
 
-      for (EntityPlayerMP var9 : var2) {
+      for (EntityPlayerMP entityPlayerMP : players) {
          this.players
             .add(
                new S38PacketPlayerListItem.AddPlayerData(
-                  var9.getGameProfile(), var9.ping, var9.theItemInWorldManager.getGameType(), var9.getTabListDisplayName()
+                  entityPlayerMP.getGameProfile(), entityPlayerMP.ping, entityPlayerMP.theItemInWorldManager.getGameType(), entityPlayerMP.getTabListDisplayName()
                )
             );
       }
    }
 
-   public S38PacketPlayerListItem(S38PacketPlayerListItem.Action var1, Iterable<EntityPlayerMP> var2) {
-      this.action = var1;
+   public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, Iterable<EntityPlayerMP> players) {
+      this.action = actionIn;
 
-      for (EntityPlayerMP var7 : var2) {
+      for (EntityPlayerMP entityPlayerMP : players) {
          this.players
             .add(
                new S38PacketPlayerListItem.AddPlayerData(
-                  var7.getGameProfile(), var7.ping, var7.theItemInWorldManager.getGameType(), var7.getTabListDisplayName()
+                  entityPlayerMP.getGameProfile(), entityPlayerMP.ping, entityPlayerMP.theItemInWorldManager.getGameType(), entityPlayerMP.getTabListDisplayName()
                )
             );
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.action = var1.readEnumValue(S38PacketPlayerListItem.Action.class);
-      int var5 = var1.readVarIntFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.action = buf.readEnumValue(S38PacketPlayerListItem.Action.class);
+      int i = buf.readVarIntFromBuffer();
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         GameProfile var7 = null;
-         int var8 = 0;
-         WorldSettings.GameType var9 = null;
-         IChatComponent var10 = null;
+      for (int j = 0; j < i; j++) {
+         GameProfile gameProfile = null;
+         int k = 0;
+         WorldSettings.GameType gameType = null;
+         IChatComponent iChatComponent = null;
          switch (this.action) {
             case ADD_PLAYER:
-               var7 = new GameProfile(var1.readUuid(), var1.readStringFromBuffer(16));
-               int var11 = var1.readVarIntFromBuffer();
-               int var12 = 0;
+               gameProfile = new GameProfile(buf.readUuid(), buf.readStringFromBuffer(16));
+               int l = buf.readVarIntFromBuffer();
+               int m = 0;
 
-               for (; var12 < var11; var12++) {
-                  String var13 = var1.readStringFromBuffer(32767);
-                  String var14 = var1.readStringFromBuffer(32767);
-                  if (var1.readBoolean()) {
-                     var7.getProperties().put(var13, new Property(var13, var14, var1.readStringFromBuffer(32767)));
+               for (; m < l; m++) {
+                  String string = buf.readStringFromBuffer(32767);
+                  String string2 = buf.readStringFromBuffer(32767);
+                  if (buf.readBoolean()) {
+                     gameProfile.getProperties().put(string, new Property(string, string2, buf.readStringFromBuffer(32767)));
                   } else {
-                     var7.getProperties().put(var13, new Property(var13, var14));
+                     gameProfile.getProperties().put(string, new Property(string, string2));
                   }
                }
 
-               var9 = WorldSettings.GameType.getByID(var1.readVarIntFromBuffer());
-               var8 = var1.readVarIntFromBuffer();
-               if (var1.readBoolean()) {
-                  var10 = var1.readChatComponent();
+               gameType = WorldSettings.GameType.getByID(buf.readVarIntFromBuffer());
+               k = buf.readVarIntFromBuffer();
+               if (buf.readBoolean()) {
+                  iChatComponent = buf.readChatComponent();
                }
                break;
             case UPDATE_GAME_MODE:
-               var7 = new GameProfile(var1.readUuid(), (String)null);
-               var9 = WorldSettings.GameType.getByID(var1.readVarIntFromBuffer());
+               gameProfile = new GameProfile(buf.readUuid(), (String)null);
+               gameType = WorldSettings.GameType.getByID(buf.readVarIntFromBuffer());
                break;
             case UPDATE_LATENCY:
-               var7 = new GameProfile(var1.readUuid(), (String)null);
-               var8 = var1.readVarIntFromBuffer();
+               gameProfile = new GameProfile(buf.readUuid(), (String)null);
+               k = buf.readVarIntFromBuffer();
                break;
             case UPDATE_DISPLAY_NAME:
-               var7 = new GameProfile(var1.readUuid(), (String)null);
-               if (var1.readBoolean()) {
-                  var10 = var1.readChatComponent();
+               gameProfile = new GameProfile(buf.readUuid(), (String)null);
+               if (buf.readBoolean()) {
+                  iChatComponent = buf.readChatComponent();
                }
                break;
             case REMOVE_PLAYER:
-               var7 = new GameProfile(var1.readUuid(), (String)null);
+               gameProfile = new GameProfile(buf.readUuid(), (String)null);
          }
 
-         this.players.add(new S38PacketPlayerListItem.AddPlayerData(var7, var8, var9, var10));
+         this.players.add(new S38PacketPlayerListItem.AddPlayerData(gameProfile, k, gameType, iChatComponent));
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeEnumValue(this.action);
-      var1.writeVarIntToBuffer(this.players.size());
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeEnumValue(this.action);
+      buf.writeVarIntToBuffer(this.players.size());
 
-      for (S38PacketPlayerListItem.AddPlayerData var6 : this.players) {
+      for (S38PacketPlayerListItem.AddPlayerData addPlayerData : this.players) {
          switch (this.action) {
             case ADD_PLAYER:
-               var1.writeUuid(var6.getProfile().getId());
-               var1.writeString(var6.getProfile().getName());
-               var1.writeVarIntToBuffer(var6.getProfile().getProperties().size());
+               buf.writeUuid(addPlayerData.getProfile().getId());
+               buf.writeString(addPlayerData.getProfile().getName());
+               buf.writeVarIntToBuffer(addPlayerData.getProfile().getProperties().size());
 
-               for (Property var8 : var6.getProfile().getProperties().values()) {
-                  var1.writeString(var8.getName());
-                  var1.writeString(var8.getValue());
-                  if (var8.hasSignature()) {
-                     var1.writeBoolean(true);
-                     var1.writeString(var8.getSignature());
+               for (Property property : addPlayerData.getProfile().getProperties().values()) {
+                  buf.writeString(property.getName());
+                  buf.writeString(property.getValue());
+                  if (property.hasSignature()) {
+                     buf.writeBoolean(true);
+                     buf.writeString(property.getSignature());
                   } else {
-                     var1.writeBoolean(false);
+                     buf.writeBoolean(false);
                   }
                }
 
-               var1.writeVarIntToBuffer(var6.getGameMode().getID());
-               var1.writeVarIntToBuffer(var6.getPing());
-               if (var6.getDisplayName() == null) {
-                  var1.writeBoolean(false);
+               buf.writeVarIntToBuffer(addPlayerData.getGameMode().getID());
+               buf.writeVarIntToBuffer(addPlayerData.getPing());
+               if (addPlayerData.getDisplayName() == null) {
+                  buf.writeBoolean(false);
                } else {
-                  var1.writeBoolean(true);
-                  var1.writeChatComponent(var6.getDisplayName());
+                  buf.writeBoolean(true);
+                  buf.writeChatComponent(addPlayerData.getDisplayName());
                }
                break;
             case UPDATE_GAME_MODE:
-               var1.writeUuid(var6.getProfile().getId());
-               var1.writeVarIntToBuffer(var6.getGameMode().getID());
+               buf.writeUuid(addPlayerData.getProfile().getId());
+               buf.writeVarIntToBuffer(addPlayerData.getGameMode().getID());
                break;
             case UPDATE_LATENCY:
-               var1.writeUuid(var6.getProfile().getId());
-               var1.writeVarIntToBuffer(var6.getPing());
+               buf.writeUuid(addPlayerData.getProfile().getId());
+               buf.writeVarIntToBuffer(addPlayerData.getPing());
                break;
             case UPDATE_DISPLAY_NAME:
-               var1.writeUuid(var6.getProfile().getId());
-               if (var6.getDisplayName() == null) {
-                  var1.writeBoolean(false);
+               buf.writeUuid(addPlayerData.getProfile().getId());
+               if (addPlayerData.getDisplayName() == null) {
+                  buf.writeBoolean(false);
                } else {
-                  var1.writeBoolean(true);
-                  var1.writeChatComponent(var6.getDisplayName());
+                  buf.writeBoolean(true);
+                  buf.writeChatComponent(addPlayerData.getDisplayName());
                }
                break;
             case REMOVE_PLAYER:
-               var1.writeUuid(var6.getProfile().getId());
+               buf.writeUuid(addPlayerData.getProfile().getId());
          }
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handlePlayerListItem(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handlePlayerListItem(this);
    }
 
    public List<S38PacketPlayerListItem.AddPlayerData> getEntries() {
@@ -188,11 +188,11 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
       private final IChatComponent displayName;
       private static final long a = 70903277749821L;
 
-      public AddPlayerData(GameProfile var2, int var3, WorldSettings.GameType var4, IChatComponent var5) {
-         this.profile = var2;
-         this.ping = var3;
-         this.gamemode = var4;
-         this.displayName = var5;
+      public AddPlayerData(GameProfile profile, int pingIn, WorldSettings.GameType gamemodeIn, IChatComponent displayNameIn) {
+         this.profile = profile;
+         this.ping = pingIn;
+         this.gamemode = gamemodeIn;
+         this.displayName = displayNameIn;
       }
 
       public GameProfile getProfile() {

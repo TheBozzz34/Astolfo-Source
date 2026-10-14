@@ -16,31 +16,31 @@ public class EntityEnderPearl extends EntityThrowable {
    private static final long ab = 116284785634040L;
    private static final long hb = 2154663317195456544L;
 
-   public EntityEnderPearl(World var1) {
-      super(var1);
+   public EntityEnderPearl(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityEnderPearl(World var1, EntityLivingBase var2) {
-      super(var1, var2);
-      this.field_181555_c = var2;
+   public EntityEnderPearl(World worldIn, EntityLivingBase entityLivingBase) {
+      super(worldIn, entityLivingBase);
+      this.field_181555_c = entityLivingBase;
    }
 
-   public EntityEnderPearl(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityEnderPearl(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
-      EntityLivingBase var5 = this.getThrower();
-      if (var1.entityHit != null) {
-         if (var1.entityHit == this.field_181555_c) {
+   public void onImpact(MovingObjectPosition movingObjectPosition) {
+      EntityLivingBase entityLivingBase = this.getThrower();
+      if (movingObjectPosition.entityHit != null) {
+         if (movingObjectPosition.entityHit == this.field_181555_c) {
             return;
          }
 
-         var1.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, var5), 0.0F);
+         movingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entityLivingBase), 0.0F);
       }
 
-      for (int var6 = 0; var6 < (int)hb; var6++) {
+      for (int i = 0; i < (int)hb; i++) {
          this.worldObj
             .spawnParticle(
                EnumParticleTypes.PORTAL,
@@ -54,27 +54,27 @@ public class EntityEnderPearl extends EntityThrowable {
       }
 
       if (!this.worldObj.isRemote) {
-         if (var5 instanceof EntityPlayerMP) {
-            EntityPlayerMP var8 = (EntityPlayerMP)var5;
-            if (var8.playerNetServerHandler.getNetworkManager().isChannelOpen() && var8.worldObj == this.worldObj && !var8.isPlayerSleeping()) {
+         if (entityLivingBase instanceof EntityPlayerMP) {
+            EntityPlayerMP entityPlayerMP = (EntityPlayerMP)entityLivingBase;
+            if (entityPlayerMP.playerNetServerHandler.getNetworkManager().isChannelOpen() && entityPlayerMP.worldObj == this.worldObj && !entityPlayerMP.isPlayerSleeping()) {
                if (this.rand.nextFloat() < 0.05F && this.worldObj.getGameRules().getBoolean("doMobSpawning")) {
-                  EntityEndermite var7 = new EntityEndermite(this.worldObj);
-                  var7.setSpawnedByPlayer(true);
-                  var7.setLocationAndAngles(var5.posX, var5.posY, var5.posZ, var5.rotationYaw, var5.rotationPitch);
-                  this.worldObj.spawnEntityInWorld(var7);
+                  EntityEndermite entityEndermite = new EntityEndermite(this.worldObj);
+                  entityEndermite.setSpawnedByPlayer(true);
+                  entityEndermite.setLocationAndAngles(entityLivingBase.posX, entityLivingBase.posY, entityLivingBase.posZ, entityLivingBase.rotationYaw, entityLivingBase.rotationPitch);
+                  this.worldObj.spawnEntityInWorld(entityEndermite);
                }
 
-               if (var5.E()) {
-                  var5.mountEntity((Entity)null);
+               if (entityLivingBase.E()) {
+                  entityLivingBase.mountEntity((Entity)null);
                }
 
-               var5.setPositionAndUpdate(this.posX, this.posY, this.posZ);
-               var5.fallDistance = 0.0F;
-               var5.attackEntityFrom(DamageSource.fall, 5.0F);
+               entityLivingBase.setPositionAndUpdate(this.posX, this.posY, this.posZ);
+               entityLivingBase.fallDistance = 0.0F;
+               entityLivingBase.attackEntityFrom(DamageSource.fall, 5.0F);
             }
-         } else if (var5 != null) {
-            var5.setPositionAndUpdate(this.posX, this.posY, this.posZ);
-            var5.fallDistance = 0.0F;
+         } else if (entityLivingBase != null) {
+            entityLivingBase.setPositionAndUpdate(this.posX, this.posY, this.posZ);
+            entityLivingBase.fallDistance = 0.0F;
          }
 
          this.setDead();
@@ -83,8 +83,8 @@ public class EntityEnderPearl extends EntityThrowable {
 
    @Override
    public void onUpdate() {
-      EntityLivingBase var4 = this.getThrower();
-      if (var4 != null && var4 instanceof EntityPlayer && !var4.isEntityAlive()) {
+      EntityLivingBase entityLivingBase = this.getThrower();
+      if (entityLivingBase != null && entityLivingBase instanceof EntityPlayer && !entityLivingBase.isEntityAlive()) {
          this.setDead();
       } else {
          super.onUpdate();

@@ -9,5 +9,5 @@ public interface IProperty<T extends Comparable<T>> {
 
    Class<T> getValueClass();
 
-   String getName(T var1);
+   String getName(T value);
 }

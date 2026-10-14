@@ -25,210 +25,210 @@ public class BlurShader {
          e = new ShaderGroup(n.getTextureManager(), n.getResourceManager(), n.getFramebuffer(), N);
          e.createBindFramebuffers(n.displayWidth, n.displayHeight);
          d = e.mainFramebuffer;
-      } catch (Exception var1) {
-         var1.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
    }
 
-   private static void L(float var0, float var1, float var2, float var3) {
-      e.O().get(0).getShaderManager().getShaderUniform("Radius").set(var0);
-      e.O().get(1).getShaderManager().getShaderUniform("Radius").set(var0);
-      e.O().get(0).getShaderManager().getShaderUniform("Opacity").set(var3);
-      e.O().get(1).getShaderManager().getShaderUniform("Opacity").set(var3);
-      e.O().get(0).getShaderManager().getShaderUniform("BlurDir").set(var1, var2);
-      e.O().get(1).getShaderManager().getShaderUniform("BlurDir").set(var2, var1);
+   private static void L(float f, float g, float h, float f2) {
+      e.O().get(0).getShaderManager().getShaderUniform("Radius").set(f);
+      e.O().get(1).getShaderManager().getShaderUniform("Radius").set(f);
+      e.O().get(0).getShaderManager().getShaderUniform("Opacity").set(f2);
+      e.O().get(1).getShaderManager().getShaderUniform("Opacity").set(f2);
+      e.O().get(0).getShaderManager().getShaderUniform("BlurDir").set(g, h);
+      e.O().get(1).getShaderManager().getShaderUniform("BlurDir").set(h, g);
    }
 
-   public static void Y(int var0, int var1, int var2, int var3, float var4, float var5, float var6) {
-      long var7 = a ^ 57838412458280L;
-      ScaledResolution var10 = new ScaledResolution(n);
-      int var11 = var10.getScaleFactor();
-      int var12 = var10.getScaledWidth();
-      int var13 = var10.getScaledHeight();
-      if (G != var11 || q != var12 || S != var13 || d == null || e == null) {
+   public static void Y(int i, int j, int k, int l, float f, float g, float h) {
+      long m = a ^ 57838412458280L;
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i2 = scaledResolution.getScaleFactor();
+      int i3 = scaledResolution.getScaledWidth();
+      int i4 = scaledResolution.getScaledHeight();
+      if (G != i2 || q != i3 || S != i4 || d == null || e == null) {
          g();
       }
 
-      G = var11;
-      q = var12;
-      S = var13;
+      G = i2;
+      q = i3;
+      S = i4;
       if (OpenGlHelper.isFramebufferEnabled()) {
          d.framebufferClear();
-         GL11.glScissor(var0 * var11, n.displayHeight - var1 * var11 - var3 * var11, var2 * var11, var3 * var11);
-         long var10000 = 1287124361882384940L ^ var7;
+         GL11.glScissor(i * i2, n.displayHeight - j * i2 - l * i2, k * i2, l * i2);
+         long l2 = 1287124361882384940L ^ m;
          GL11.glEnable(3089);
-         L(var4, var5, var6, 1.0F);
-         var10000 = 1287124361882384940L ^ var7;
+         L(f, g, h, 1.0F);
+         l2 = 1287124361882384940L ^ m;
          d.bindFramebuffer(true);
          e.t(n.timer.renderPartialTicks);
          n.getFramebuffer().bindFramebuffer(true);
          GL11.glDisable(3089);
          GlStateManager.enableBlend();
-         var10000 = 8940495287954356560L ^ var7;
+         l2 = 8940495287954356560L ^ m;
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableBlend();
-         GL11.glScalef(var11, var11, 0.0F);
+         GL11.glScalef(i2, i2, 0.0F);
       }
    }
 
-   public static void w(int var0, int var1, int var2, int var3, float var4) {
-      long var5 = a ^ 22400517269975L;
-      ScaledResolution var8 = new ScaledResolution(n);
-      int var9 = var8.getScaleFactor();
-      int var10 = var8.getScaledWidth();
-      int var11 = var8.getScaledHeight();
-      if (G != var9 || q != var10 || S != var11 || d == null || e == null) {
+   public static void w(int i, int j, int k, int l, float f) {
+      long m = a ^ 22400517269975L;
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i2 = scaledResolution.getScaleFactor();
+      int i3 = scaledResolution.getScaledWidth();
+      int i4 = scaledResolution.getScaledHeight();
+      if (G != i2 || q != i3 || S != i4 || d == null || e == null) {
          g();
       }
 
-      G = var9;
-      q = var10;
-      long var10000 = 1287158734628895443L ^ var5;
-      S = var11;
+      G = i2;
+      q = i3;
+      long l2 = 1287158734628895443L ^ m;
+      S = i4;
       d.framebufferClear();
-      GL11.glScissor(var0 * var9, n.displayHeight - var1 * var9 - var3 * var9, var2 * var9, var3 * var9);
+      GL11.glScissor(i * i2, n.displayHeight - j * i2 - l * i2, k * i2, l * i2);
       GL11.glEnable(3089);
-      L(var4, 1.0F, 0.0F, 1.0F);
+      L(f, 1.0F, 0.0F, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      var10000 = 1287158734628895443L ^ var5;
+      l2 = 1287158734628895443L ^ m;
       GL11.glDisable(3089);
       GlStateManager.enableBlend();
-      var10000 = 4894574615400667843L ^ var5;
+      l2 = 4894574615400667843L ^ m;
       GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
       GlStateManager.disableBlend();
-      GL11.glScalef(var9, var9, 0.0F);
+      GL11.glScalef(i2, i2, 0.0F);
       RenderHelper.enableGUIStandardItemLighting();
    }
 
-   public static void A(float var0, float var1, float var2, float var3, float var4, float var5, float var6) {
-      long var7 = a ^ 61147154447872L;
-      ScaledResolution var10 = new ScaledResolution(n);
-      int var11 = var10.getScaleFactor();
-      int var12 = var10.getScaledWidth();
-      int var13 = var10.getScaledHeight();
-      if (G != var11 || q != var12 || S != var13 || d == null || e == null) {
+   public static void A(float f, float g, float h, float f2, float f3, float f4, float f5) {
+      long l = a ^ 61147154447872L;
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i = scaledResolution.getScaleFactor();
+      int j = scaledResolution.getScaledWidth();
+      int k = scaledResolution.getScaledHeight();
+      if (G != i || q != j || S != k || d == null || e == null) {
          g();
       }
 
-      G = var11;
-      q = var12;
-      long var10000 = 1287127686722628868L ^ var7;
-      S = var13;
-      GL11.glScissor((int)(var0 * var11), (int)(n.displayHeight - var1 * var11 - var3 * var11) + 1, (int)(var2 * var11), (int)(var3 * var11));
+      G = i;
+      q = j;
+      long m = 1287127686722628868L ^ l;
+      S = k;
+      GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
-      L(var4, var5, var6, 1.0F);
+      L(f3, f4, f5, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      var10000 = 1287127686722628868L ^ var7;
+      m = 1287127686722628868L ^ l;
       GL11.glDisable(3089);
    }
 
-   public static void J(float var0, float var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      long var8 = a ^ 3062644644846L;
-      ScaledResolution var11 = new ScaledResolution(n);
-      int var12 = var11.getScaleFactor();
-      int var13 = var11.getScaledWidth();
-      int var14 = var11.getScaledHeight();
-      if (G != var12 || q != var13 || S != var14 || d == null || e == null) {
+   public static void J(float f, float g, float h, float f2, float f3, float f4, float f5, float f6) {
+      long l = a ^ 3062644644846L;
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i = scaledResolution.getScaleFactor();
+      int j = scaledResolution.getScaledWidth();
+      int k = scaledResolution.getScaledHeight();
+      if (G != i || q != j || S != k || d == null || e == null) {
          g();
       }
 
-      G = var12;
-      q = var13;
-      long var10000 = 1287183531941808362L ^ var8;
-      S = var14;
-      GL11.glScissor((int)(var0 * var12), (int)(n.displayHeight - var1 * var12 - var3 * var12) + 1, (int)(var2 * var12), (int)(var3 * var12));
+      G = i;
+      q = j;
+      long m = 1287183531941808362L ^ l;
+      S = k;
+      GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
-      L(var4, var6, var7, var5);
+      L(f3, f5, f6, f4);
       d.bindFramebuffer(true);
       e.o(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      var10000 = 1287183531941808362L ^ var8;
+      m = 1287183531941808362L ^ l;
       GL11.glDisable(3089);
    }
 
-   public static void S(float var0, float var1, float var2, float var3, float var4, float var5, float var6) {
-      long var7 = a ^ 5792117520143L;
-      ScaledResolution var10 = new ScaledResolution(n);
-      int var11 = var10.getScaleFactor();
-      int var12 = var10.getScaledWidth();
-      int var13 = var10.getScaledHeight();
-      if (G != var11 || q != var12 || S != var13 || d == null || e == null) {
+   public static void S(float f, float g, float h, float f2, float f3, float f4, float f5) {
+      long l = a ^ 5792117520143L;
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i = scaledResolution.getScaleFactor();
+      int j = scaledResolution.getScaledWidth();
+      int k = scaledResolution.getScaledHeight();
+      if (G != i || q != j || S != k || d == null || e == null) {
          g();
       }
 
-      G = var11;
-      q = var12;
-      long var10000 = 4267422571065264998L ^ var7;
-      S = var13;
-      GL11.glScissor((int)(var0 * var11), (int)(n.displayHeight - var1 * var11 - var3 * var11) + 1, (int)(var2 * var11), (int)(var3 * var11));
+      G = i;
+      q = j;
+      long m = 4267422571065264998L ^ l;
+      S = k;
+      GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
-      L(var4, var5, var6, 1.0F);
+      L(f3, f4, f5, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      var10000 = 1287177473802118155L ^ var7;
+      m = 1287177473802118155L ^ l;
       GL11.glDisable(3089);
    }
 
-   public static void F(int var0, int var1, int var2, int var3, float var4) {
-      long var5 = a ^ 728747750180L;
-      ScaledResolution var8 = new ScaledResolution(n);
-      int var9 = var8.getScaleFactor();
-      int var10 = var8.getScaledWidth();
-      int var11 = var8.getScaledHeight();
-      if (G != var9 || q != var10 || S != var11 || d == null || e == null) {
+   public static void F(int i, int j, int k, int l, float f) {
+      long m = a ^ 728747750180L;
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i2 = scaledResolution.getScaleFactor();
+      int i3 = scaledResolution.getScaledWidth();
+      int i4 = scaledResolution.getScaledHeight();
+      if (G != i2 || q != i3 || S != i4 || d == null || e == null) {
          g();
       }
 
-      G = var9;
-      q = var10;
-      long var10000 = 1287181746357887008L ^ var5;
-      S = var11;
-      GL11.glScissor(var0 * var9, n.displayHeight - var1 * var9 - var3 * var9, var2 * var9, var3 * var9);
+      G = i2;
+      q = i3;
+      long l2 = 1287181746357887008L ^ m;
+      S = i4;
+      GL11.glScissor(i * i2, n.displayHeight - j * i2 - l * i2, k * i2, l * i2);
       GL11.glEnable(3089);
-      L(var4, 1.0F, 0.0F, 1.0F);
+      L(f, 1.0F, 0.0F, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
-      var10000 = 1287181746357887008L ^ var5;
+      l2 = 1287181746357887008L ^ m;
       GL11.glDisable(3089);
    }
 
-   public static void n(float var0) {
-      ScaledResolution var4 = new ScaledResolution(n);
-      int var5 = var4.getScaleFactor();
-      int var6 = var4.getScaledWidth();
-      int var7 = var4.getScaledHeight();
-      if (G != var5 || q != var6 || S != var7 || d == null || e == null) {
+   public static void n(float f) {
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i = scaledResolution.getScaleFactor();
+      int j = scaledResolution.getScaledWidth();
+      int k = scaledResolution.getScaledHeight();
+      if (G != i || q != j || S != k || d == null || e == null) {
          g();
       }
 
-      G = var5;
-      q = var6;
-      S = var7;
-      L(var0, 0.0F, 1.0F, 1.0F);
+      G = i;
+      q = j;
+      S = k;
+      L(f, 0.0F, 1.0F, 1.0F);
       d.bindFramebuffer(true);
       e.t(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);
    }
 
-   public static void j(float var0, float var1) {
-      ScaledResolution var5 = new ScaledResolution(n);
-      int var6 = var5.getScaleFactor();
-      int var7 = var5.getScaledWidth();
-      int var8 = var5.getScaledHeight();
-      if (G != var6 || q != var7 || S != var8 || d == null || e == null) {
+   public static void j(float f, float g) {
+      ScaledResolution scaledResolution = new ScaledResolution(n);
+      int i = scaledResolution.getScaleFactor();
+      int k = scaledResolution.getScaledWidth();
+      int l = scaledResolution.getScaledHeight();
+      if (G != i || q != k || S != l || d == null || e == null) {
          g();
       }
 
-      G = var6;
-      q = var7;
-      S = var8;
-      L(var0, 0.0F, 1.0F, var1);
+      G = i;
+      q = k;
+      S = l;
+      L(f, 0.0F, 1.0F, g);
       d.bindFramebuffer(true);
       e.o(n.timer.renderPartialTicks);
       n.getFramebuffer().bindFramebuffer(true);

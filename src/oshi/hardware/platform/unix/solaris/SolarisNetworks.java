@@ -10,24 +10,24 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 public final class SolarisNetworks extends Networks {
    private static final long b = 109744082368762L;
 
-   public static boolean updateNetworkStats(NetworkIF var0) {
-      try (KstatUtil.KstatChain var4 = KstatUtil.openChain()) {
-         Kstat var6 = var4.lookup("link", -1, var0.getName());
-         if (var6 == null) {
-            var6 = var4.lookup(null, -1, var0.getName());
+   public static boolean updateNetworkStats(NetworkIF netIF) {
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         Kstat kstat = kstatChain.lookup("link", -1, netIF.getName());
+         if (kstat == null) {
+            kstat = kstatChain.lookup(null, -1, netIF.getName());
          }
 
-         if (var6 != null && var4.read(var6)) {
-            var0.setBytesSent(KstatUtil.dataLookupLong(var6, "obytes64"));
-            var0.setBytesRecv(KstatUtil.dataLookupLong(var6, "rbytes64"));
-            var0.setPacketsSent(KstatUtil.dataLookupLong(var6, "opackets64"));
-            var0.setPacketsRecv(KstatUtil.dataLookupLong(var6, "ipackets64"));
-            var0.setOutErrors(KstatUtil.dataLookupLong(var6, "oerrors"));
-            var0.setInErrors(KstatUtil.dataLookupLong(var6, "ierrors"));
-            var0.setCollisions(KstatUtil.dataLookupLong(var6, "collisions"));
-            var0.setInDrops(KstatUtil.dataLookupLong(var6, "dl_idrops"));
-            var0.setSpeed(KstatUtil.dataLookupLong(var6, "ifspeed"));
-            var0.setTimeStamp(var6.ks_snaptime / 1000000L);
+         if (kstat != null && kstatChain.read(kstat)) {
+            netIF.setBytesSent(KstatUtil.dataLookupLong(kstat, "obytes64"));
+            netIF.setBytesRecv(KstatUtil.dataLookupLong(kstat, "rbytes64"));
+            netIF.setPacketsSent(KstatUtil.dataLookupLong(kstat, "opackets64"));
+            netIF.setPacketsRecv(KstatUtil.dataLookupLong(kstat, "ipackets64"));
+            netIF.setOutErrors(KstatUtil.dataLookupLong(kstat, "oerrors"));
+            netIF.setInErrors(KstatUtil.dataLookupLong(kstat, "ierrors"));
+            netIF.setCollisions(KstatUtil.dataLookupLong(kstat, "collisions"));
+            netIF.setInDrops(KstatUtil.dataLookupLong(kstat, "dl_idrops"));
+            netIF.setSpeed(KstatUtil.dataLookupLong(kstat, "ifspeed"));
+            netIF.setTimeStamp(kstat.ks_snaptime / 1000000L);
             return true;
          }
       }

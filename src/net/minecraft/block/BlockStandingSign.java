@@ -15,23 +15,23 @@ public class BlockStandingSign extends BlockSign {
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (!var1.getBlockState(var2.down()).getBlock().getMaterial().isSolid()) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (!worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid()) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
       }
 
-      super.onNeighborBlockChange(var1, var2, var3, var4);
+      super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(ROTATION, var1);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(ROTATION, meta);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(ROTATION);
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(ROTATION);
    }
 
    @Override

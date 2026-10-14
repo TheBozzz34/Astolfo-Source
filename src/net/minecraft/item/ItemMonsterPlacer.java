@@ -33,62 +33,62 @@ public class ItemMonsterPlacer extends Item {
    }
 
    @Override
-   public String getItemStackDisplayName(ItemStack var1) {
-      String var5 = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-      String var6 = EntityList.getStringFromID(var1.getMetadata());
-      if (var6 != null) {
-         var5 = var5 + " " + StatCollector.translateToLocal("entity." + var6 + ".name");
+   public String getItemStackDisplayName(ItemStack stack) {
+      String string = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+      String string2 = EntityList.getStringFromID(stack.getMetadata());
+      if (string2 != null) {
+         string = string + " " + StatCollector.translateToLocal("entity." + string2 + ".name");
       }
 
-      return var5;
+      return string;
    }
 
    @Override
-   public int getColorFromItemStack(ItemStack var1, int var2) {
-      EntityList.EntityEggInfo var6 = EntityList.entityEggs.get(var1.getMetadata());
-      return var6 != null ? (var2 == 0 ? var6.primaryColor : var6.secondaryColor) : (int)f;
+   public int getColorFromItemStack(ItemStack stack, int renderPass) {
+      EntityList.EntityEggInfo entityEggInfo = EntityList.entityEggs.get(stack.getMetadata());
+      return entityEggInfo != null ? (renderPass == 0 ? entityEggInfo.primaryColor : entityEggInfo.secondaryColor) : (int)f;
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var3.isRemote) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      if (!var2.canPlayerEdit(var4.offset(var5), var5, var1)) {
+      if (!playerIn.canPlayerEdit(pos.offset(side), side, stack)) {
          return false;
       }
 
-      IBlockState var12 = var3.getBlockState(var4);
-      if (var12.getBlock() == Blocks.mob_spawner) {
-         TileEntity var13 = var3.getTileEntity(var4);
-         if (var13 instanceof TileEntityMobSpawner) {
-            MobSpawnerBaseLogic var14 = ((TileEntityMobSpawner)var13).getSpawnerBaseLogic();
-            var14.setEntityName(EntityList.getStringFromID(var1.getMetadata()));
-            var13.markDirty();
-            var3.markBlockForUpdate(var4);
-            if (!var2.capabilities.isCreativeMode) {
-               var1.stackSize--;
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      if (iBlockState.getBlock() == Blocks.mob_spawner) {
+         TileEntity tileEntity = worldIn.getTileEntity(pos);
+         if (tileEntity instanceof TileEntityMobSpawner) {
+            MobSpawnerBaseLogic mobSpawnerBaseLogic = ((TileEntityMobSpawner)tileEntity).getSpawnerBaseLogic();
+            mobSpawnerBaseLogic.setEntityName(EntityList.getStringFromID(stack.getMetadata()));
+            tileEntity.markDirty();
+            worldIn.markBlockForUpdate(pos);
+            if (!playerIn.capabilities.isCreativeMode) {
+               stack.stackSize--;
             }
 
             return true;
          }
       }
 
-      var4 = var4.offset(var5);
-      double var17 = 0.0;
-      if (var5 == EnumFacing.UP && var12 instanceof BlockFence) {
-         var17 = 0.5;
+      pos = pos.offset(side);
+      double d = 0.0;
+      if (side == EnumFacing.UP && iBlockState instanceof BlockFence) {
+         d = 0.5;
       }
 
-      Entity var15 = spawnCreature(var3, var1.getMetadata(), var4.getX() + 0.5, var4.getY() + var17, var4.getZ() + 0.5);
-      if (var15 != null) {
-         if (var15 instanceof EntityLivingBase && var1.hasDisplayName()) {
-            var15.setCustomNameTag(var1.getDisplayName());
+      Entity entity = spawnCreature(worldIn, stack.getMetadata(), pos.getX() + 0.5, pos.getY() + d, pos.getZ() + 0.5);
+      if (entity != null) {
+         if (entity instanceof EntityLivingBase && stack.hasDisplayName()) {
+            entity.setCustomNameTag(stack.getDisplayName());
          }
 
-         if (!var2.capabilities.isCreativeMode) {
-            var1.stackSize--;
+         if (!playerIn.capabilities.isCreativeMode) {
+            stack.stackSize--;
          }
       }
 
@@ -96,72 +96,72 @@ public class ItemMonsterPlacer extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (var2.isRemote) {
-         return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (worldIn.isRemote) {
+         return itemStackIn;
       }
 
-      MovingObjectPosition var7 = this.getMovingObjectPositionFromPlayer(var2, var3, true);
-      if (var7 == null) {
-         return var1;
+      MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+      if (movingObjectPosition == null) {
+         return itemStackIn;
       }
 
-      if (var7.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-         BlockPos var8 = var7.getBlockPos();
-         if (!var2.isBlockModifiable(var3, var8)) {
-            return var1;
+      if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+         BlockPos blockPos = movingObjectPosition.getBlockPos();
+         if (!worldIn.isBlockModifiable(playerIn, blockPos)) {
+            return itemStackIn;
          }
 
-         if (!var3.canPlayerEdit(var8, var7.sideHit, var1)) {
-            return var1;
+         if (!playerIn.canPlayerEdit(blockPos, movingObjectPosition.sideHit, itemStackIn)) {
+            return itemStackIn;
          }
 
-         if (var2.getBlockState(var8).getBlock() instanceof BlockLiquid) {
-            Entity var9 = spawnCreature(var2, var1.getMetadata(), var8.getX() + 0.5, var8.getY() + 0.5, var8.getZ() + 0.5);
-            if (var9 != null) {
-               if (var9 instanceof EntityLivingBase && var1.hasDisplayName()) {
-                  ((EntityLiving)var9).setCustomNameTag(var1.getDisplayName());
+         if (worldIn.getBlockState(blockPos).getBlock() instanceof BlockLiquid) {
+            Entity entity = spawnCreature(worldIn, itemStackIn.getMetadata(), blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+            if (entity != null) {
+               if (entity instanceof EntityLivingBase && itemStackIn.hasDisplayName()) {
+                  ((EntityLiving)entity).setCustomNameTag(itemStackIn.getDisplayName());
                }
 
-               if (!var3.capabilities.isCreativeMode) {
-                  var1.stackSize--;
+               if (!playerIn.capabilities.isCreativeMode) {
+                  itemStackIn.stackSize--;
                }
 
-               var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+               playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
             }
          }
       }
 
-      return var1;
+      return itemStackIn;
    }
 
-   public static Entity spawnCreature(World var0, int var1, double var2, double var4, double var6) {
-      if (!EntityList.entityEggs.containsKey(var1)) {
+   public static Entity spawnCreature(World worldIn, int entityID, double x, double y, double z) {
+      if (!EntityList.entityEggs.containsKey(entityID)) {
          return null;
       }
 
-      Entity var11 = null;
+      Entity entity = null;
 
-      for (int var12 = 0; var12 < 1; var12++) {
-         var11 = EntityList.createEntityByID(var1, var0);
-         if (var11 instanceof EntityLivingBase) {
-            EntityLiving var13 = (EntityLiving)var11;
-            var11.setLocationAndAngles(var2, var4, var6, MathHelper.wrapAngleTo180_float(var0.rand.nextFloat() * 360.0F), 0.0F);
-            var13.rotationYawHead = var13.rotationYaw;
-            var13.renderYawOffset = var13.rotationYaw;
-            var13.onInitialSpawn(var0.getDifficultyForLocation(new BlockPos(var13)), (IEntityLivingData)null);
-            var0.spawnEntityInWorld(var11);
-            var13.playLivingSound();
+      for (int i = 0; i < 1; i++) {
+         entity = EntityList.createEntityByID(entityID, worldIn);
+         if (entity instanceof EntityLivingBase) {
+            EntityLiving entityLiving = (EntityLiving)entity;
+            entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(worldIn.rand.nextFloat() * 360.0F), 0.0F);
+            entityLiving.rotationYawHead = entityLiving.rotationYaw;
+            entityLiving.renderYawOffset = entityLiving.rotationYaw;
+            entityLiving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityLiving)), (IEntityLivingData)null);
+            worldIn.spawnEntityInWorld(entity);
+            entityLiving.playLivingSound();
          }
       }
 
-      return var11;
+      return entity;
    }
 
    @Override
-   public void getSubItems(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (EntityList.EntityEggInfo var8 : EntityList.entityEggs.values()) {
-         var3.add(new ItemStack(var1, 1, var8.spawnedID));
+   public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+      for (EntityList.EntityEggInfo entityEggInfo : EntityList.entityEggs.values()) {
+         subItems.add(new ItemStack(itemIn, 1, entityEggInfo.spawnedID));
       }
    }
 }

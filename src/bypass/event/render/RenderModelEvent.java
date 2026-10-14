@@ -18,17 +18,19 @@ public class RenderModelEvent extends CancellableEvent {
    private float renderYawOffset;
    private static final long a = 50280872532823L;
 
-   public RenderModelEvent(RendererLivingEntity var1, EntityLivingBase var2, float var3, float var4, float var5, float var6, float var7, float var8, float var9) {
+   public RenderModelEvent(
+      RendererLivingEntity rendererLivingEntity, EntityLivingBase entityLivingBase, float f, float g, float h, float f2, float f3, float f4, float f5
+   ) {
       this.state = EventState.PRE;
-      this.renderer = var1;
-      this.entity = var2;
-      this.limbSwing = var3;
-      this.limbSwingAmount = var4;
-      this.ageInTicks = var5;
-      this.netHeadYaw = var6;
-      this.headPitch = var7;
-      this.renderYawOffset = var8;
-      this.scale = var9;
+      this.renderer = rendererLivingEntity;
+      this.entity = entityLivingBase;
+      this.limbSwing = f;
+      this.limbSwingAmount = g;
+      this.ageInTicks = h;
+      this.netHeadYaw = f2;
+      this.headPitch = f3;
+      this.renderYawOffset = f4;
+      this.scale = f5;
    }
 
    public RenderModelEvent() {

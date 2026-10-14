@@ -9,18 +9,18 @@ public final class DefaultPacketSender implements PacketSender, ClientAccess {
    private final Map<Short, PacketWriter<?>> J;
    private final SocketWriter u;
 
-   public DefaultPacketSender(Map<Short, Supplier<?>> var1, Map<Short, PacketWriter<?>> var2, SocketWriter var3) {
-      this.G = var1;
-      this.J = var2;
-      this.u = var3;
+   public DefaultPacketSender(Map<Short, Supplier<?>> map, Map<Short, PacketWriter<?>> map2, SocketWriter socketWriter) {
+      this.G = map;
+      this.J = map2;
+      this.u = socketWriter;
    }
 
    @Override
-   public void f(short var1) {
-      this.send(var1, null);
+   public void f(short s) {
+      this.send(s, null);
    }
 
    @Override
-   public <T> void send(short var1, T var2) {
+   public <T> void send(short s, T object) {
    }
 }

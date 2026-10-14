@@ -9,10 +9,10 @@ public abstract class SettingContainer extends Container {
    private Setting A;
    private Container H;
 
-   public SettingContainer(Container var1, Setting var2, int var3, int var4) {
-      super(var2.getName(), 0.0F, 0.0F, var3, var4);
-      this.H = var1;
-      this.A = var2;
+   public SettingContainer(Container container, Setting setting, int i, int j) {
+      super(setting.getName(), 0.0F, 0.0F, i, j);
+      this.H = container;
+      this.A = setting;
    }
 
    public Setting r() {

@@ -10,10 +10,10 @@ public class LiquidCollisionEvent extends CancellableEvent {
    private AxisAlignedBB boundingBox;
    private BlockPos pos;
 
-   public LiquidCollisionEvent(Block var1, AxisAlignedBB var2, BlockPos var3) {
-      this.block = var1;
-      this.boundingBox = var2;
-      this.pos = var3;
+   public LiquidCollisionEvent(Block block, AxisAlignedBB axisAlignedBB, BlockPos blockPos) {
+      this.block = block;
+      this.boundingBox = axisAlignedBB;
+      this.pos = blockPos;
    }
 
    public BlockPos getPos() {
@@ -28,7 +28,7 @@ public class LiquidCollisionEvent extends CancellableEvent {
       return this.boundingBox;
    }
 
-   public void setBoundingBox(AxisAlignedBB var1) {
-      this.boundingBox = var1;
+   public void setBoundingBox(AxisAlignedBB axisAlignedBB) {
+      this.boundingBox = axisAlignedBB;
    }
 }

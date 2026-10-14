@@ -5,8 +5,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityGiantZombie extends EntityMob {
-   public EntityGiantZombie(World var1) {
-      super(var1);
+   public EntityGiantZombie(World worldIn) {
+      super(worldIn);
       this.setSize(this.width * 6.0F, this.height * 6.0F);
    }
 
@@ -24,7 +24,7 @@ public class EntityGiantZombie extends EntityMob {
    }
 
    @Override
-   public float getBlockPathWeight(BlockPos var1) {
-      return this.worldObj.getLightBrightness(var1) - 0.5F;
+   public float getBlockPathWeight(BlockPos pos) {
+      return this.worldObj.getLightBrightness(pos) - 0.5F;
    }
 }

@@ -12,19 +12,19 @@ public class RenderBiped<T extends EntityLiving> extends RenderLiving<T> {
    public ModelBiped modelBipedMain;
    public float field_77070_b;
 
-   public RenderBiped(RenderManager var1, ModelBiped var2, float var3) {
-      this(var1, var2, var3, 1.0F);
+   public RenderBiped(RenderManager renderManagerIn, ModelBiped modelBipedIn, float shadowSize) {
+      this(renderManagerIn, modelBipedIn, shadowSize, 1.0F);
       this.addLayer(new LayerHeldItem(this));
    }
 
-   public RenderBiped(RenderManager var1, ModelBiped var2, float var3, float var4) {
-      super(var1, var2, var3);
-      this.modelBipedMain = var2;
-      this.field_77070_b = var4;
-      this.addLayer(new LayerCustomHead(var2.bipedHead));
+   public RenderBiped(RenderManager renderManagerIn, ModelBiped modelBipedIn, float shadowSize, float g) {
+      super(renderManagerIn, modelBipedIn, shadowSize);
+      this.modelBipedMain = modelBipedIn;
+      this.field_77070_b = g;
+      this.addLayer(new LayerCustomHead(modelBipedIn.bipedHead));
    }
 
-   public ResourceLocation getEntityTexture(T var1) {
+   public ResourceLocation getEntityTexture(T entity) {
       return DEFAULT_RES_LOC;
    }
 

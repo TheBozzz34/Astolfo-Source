@@ -30,8 +30,8 @@ public class BlockDoor extends Block {
    public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF = PropertyEnum.create("half", BlockDoor.EnumDoorHalf.class);
    private static final long e = 63161329861729L;
 
-   public BlockDoor(Material var1) {
-      super(var1);
+   public BlockDoor(Material materialIn) {
+      super(materialIn);
       this.setDefaultState(
          this.blockState
             .getBaseState()
@@ -54,8 +54,8 @@ public class BlockDoor extends Block {
    }
 
    @Override
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
-      return isOpen(combineMetadata(var1, var2));
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+      return isOpen(combineMetadata(worldIn, pos));
    }
 
    @Override
@@ -64,136 +64,136 @@ public class BlockDoor extends Block {
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getSelectedBoundingBox(var1, var2);
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getSelectedBoundingBox(worldIn, pos);
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getCollisionBoundingBox(var1, var2, var3);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getCollisionBoundingBox(worldIn, pos, state);
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      this.setBoundBasedOnMeta(combineMetadata(var1, var2));
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      this.setBoundBasedOnMeta(combineMetadata(worldIn, pos));
    }
 
-   private void setBoundBasedOnMeta(int var1) {
-      float var5 = 0.1875F;
+   private void setBoundBasedOnMeta(int combinedMeta) {
+      float f = 0.1875F;
       this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
-      EnumFacing var6 = getFacing(var1);
-      boolean var7 = isOpen(var1);
-      boolean var8 = isHingeLeft(var1);
-      if (var7) {
-         if (var6 == EnumFacing.EAST) {
-            if (!var8) {
-               this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var5);
+      EnumFacing enumFacing = getFacing(combinedMeta);
+      boolean bl = isOpen(combinedMeta);
+      boolean bl2 = isHingeLeft(combinedMeta);
+      if (bl) {
+         if (enumFacing == EnumFacing.EAST) {
+            if (!bl2) {
+               this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
             } else {
-               this.setBlockBounds(0.0F, 0.0F, 1.0F - var5, 1.0F, 1.0F, 1.0F);
+               this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
             }
-         } else if (var6 == EnumFacing.SOUTH) {
-            if (!var8) {
-               this.setBlockBounds(1.0F - var5, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+         } else if (enumFacing == EnumFacing.SOUTH) {
+            if (!bl2) {
+               this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             } else {
-               this.setBlockBounds(0.0F, 0.0F, 0.0F, var5, 1.0F, 1.0F);
+               this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
             }
-         } else if (var6 == EnumFacing.WEST) {
-            if (!var8) {
-               this.setBlockBounds(0.0F, 0.0F, 1.0F - var5, 1.0F, 1.0F, 1.0F);
+         } else if (enumFacing == EnumFacing.WEST) {
+            if (!bl2) {
+               this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
             } else {
-               this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var5);
+               this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
             }
-         } else if (var6 == EnumFacing.NORTH) {
-            if (!var8) {
-               this.setBlockBounds(0.0F, 0.0F, 0.0F, var5, 1.0F, 1.0F);
+         } else if (enumFacing == EnumFacing.NORTH) {
+            if (!bl2) {
+               this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
             } else {
-               this.setBlockBounds(1.0F - var5, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+               this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
          }
-      } else if (var6 == EnumFacing.EAST) {
-         this.setBlockBounds(0.0F, 0.0F, 0.0F, var5, 1.0F, 1.0F);
-      } else if (var6 == EnumFacing.SOUTH) {
-         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var5);
-      } else if (var6 == EnumFacing.WEST) {
-         this.setBlockBounds(1.0F - var5, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-      } else if (var6 == EnumFacing.NORTH) {
-         this.setBlockBounds(0.0F, 0.0F, 1.0F - var5, 1.0F, 1.0F, 1.0F);
+      } else if (enumFacing == EnumFacing.EAST) {
+         this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+      } else if (enumFacing == EnumFacing.SOUTH) {
+         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+      } else if (enumFacing == EnumFacing.WEST) {
+         this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+      } else if (enumFacing == EnumFacing.NORTH) {
+         this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
       }
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
       if (this.blockMaterial == Material.iron) {
          return true;
       }
 
-      BlockPos var12 = var3.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? var2 : var2.down();
-      IBlockState var13 = var2.equals(var12) ? var3 : var1.getBlockState(var12);
-      if (var13.getBlock() != this) {
+      BlockPos blockPos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+      IBlockState iBlockState = pos.equals(blockPos) ? state : worldIn.getBlockState(blockPos);
+      if (iBlockState.getBlock() != this) {
          return false;
       }
 
-      var3 = var13.cycleProperty(OPEN);
-      var1.setBlockState(var12, var3, 2);
-      var1.markBlockRangeForRenderUpdate(var12, var2);
-      var1.playAuxSFXAtEntity(var4, var3.getValue(OPEN) ? 1003 : 1006, var2, 0);
+      state = iBlockState.cycleProperty(OPEN);
+      worldIn.setBlockState(blockPos, state, 2);
+      worldIn.markBlockRangeForRenderUpdate(blockPos, pos);
+      worldIn.playAuxSFXAtEntity(playerIn, state.getValue(OPEN) ? 1003 : 1006, pos, 0);
       return true;
    }
 
-   public void toggleDoor(World var1, BlockPos var2, boolean var3) {
-      IBlockState var7 = var1.getBlockState(var2);
-      if (var7.getBlock() == this) {
-         BlockPos var8 = var7.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? var2 : var2.down();
-         IBlockState var9 = var2 == var8 ? var7 : var1.getBlockState(var8);
-         if (var9.getBlock() == this && var9.getValue(OPEN) != var3) {
-            var1.setBlockState(var8, var9.withProperty(OPEN, var3), 2);
-            var1.markBlockRangeForRenderUpdate(var8, var2);
-            var1.playAuxSFXAtEntity((EntityPlayer)null, var3 ? 1003 : 1006, var2, 0);
+   public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      if (iBlockState.getBlock() == this) {
+         BlockPos blockPos = iBlockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+         IBlockState iBlockState2 = pos == blockPos ? iBlockState : worldIn.getBlockState(blockPos);
+         if (iBlockState2.getBlock() == this && iBlockState2.getValue(OPEN) != open) {
+            worldIn.setBlockState(blockPos, iBlockState2.withProperty(OPEN, open), 2);
+            worldIn.markBlockRangeForRenderUpdate(blockPos, pos);
+            worldIn.playAuxSFXAtEntity((EntityPlayer)null, open ? 1003 : 1006, pos, 0);
          }
       }
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (var3.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) {
-         BlockPos var8 = var2.down();
-         IBlockState var9 = var1.getBlockState(var8);
-         if (var9.getBlock() != this) {
-            var1.setBlockToAir(var2);
-         } else if (var4 != this) {
-            this.onNeighborBlockChange(var1, var8, var9, var4);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) {
+         BlockPos blockPos = pos.down();
+         IBlockState iBlockState = worldIn.getBlockState(blockPos);
+         if (iBlockState.getBlock() != this) {
+            worldIn.setBlockToAir(pos);
+         } else if (neighborBlock != this) {
+            this.onNeighborBlockChange(worldIn, blockPos, iBlockState, neighborBlock);
          }
       } else {
-         boolean var12 = false;
-         BlockPos var13 = var2.up();
-         IBlockState var10 = var1.getBlockState(var13);
-         if (var10.getBlock() != this) {
-            var1.setBlockToAir(var2);
-            var12 = true;
+         boolean bl = false;
+         BlockPos blockPos2 = pos.up();
+         IBlockState iBlockState2 = worldIn.getBlockState(blockPos2);
+         if (iBlockState2.getBlock() != this) {
+            worldIn.setBlockToAir(pos);
+            bl = true;
          }
 
-         if (!World.doesBlockHaveSolidTopSurface(var1, var2.down())) {
-            var1.setBlockToAir(var2);
-            var12 = true;
-            if (var10.getBlock() == this) {
-               var1.setBlockToAir(var13);
+         if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down())) {
+            worldIn.setBlockToAir(pos);
+            bl = true;
+            if (iBlockState2.getBlock() == this) {
+               worldIn.setBlockToAir(blockPos2);
             }
          }
 
-         if (var12) {
-            if (!var1.isRemote) {
-               this.dropBlockAsItem(var1, var2, var3, 0);
+         if (bl) {
+            if (!worldIn.isRemote) {
+               this.dropBlockAsItem(worldIn, pos, state, 0);
             }
          } else {
-            boolean var11 = var1.isBlockPowered(var2) || var1.isBlockPowered(var13);
-            if ((var11 || var4.canProvidePower()) && var4 != this && var11 != var10.getValue(POWERED)) {
-               var1.setBlockState(var13, var10.withProperty(POWERED, var11), 2);
-               if (var11 != var3.getValue(OPEN)) {
-                  var1.setBlockState(var2, var3.withProperty(OPEN, var11), 2);
-                  var1.markBlockRangeForRenderUpdate(var2, var2);
-                  var1.playAuxSFXAtEntity((EntityPlayer)null, var11 ? 1003 : 1006, var2, 0);
+            boolean bl2 = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockPos2);
+            if ((bl2 || neighborBlock.canProvidePower()) && neighborBlock != this && bl2 != iBlockState2.getValue(POWERED)) {
+               worldIn.setBlockState(blockPos2, iBlockState2.withProperty(POWERED, bl2), 2);
+               if (bl2 != state.getValue(OPEN)) {
+                  worldIn.setBlockState(pos, state.withProperty(OPEN, bl2), 2);
+                  worldIn.markBlockRangeForRenderUpdate(pos, pos);
+                  worldIn.playAuxSFXAtEntity((EntityPlayer)null, bl2 ? 1003 : 1006, pos, 0);
                }
             }
          }
@@ -201,21 +201,21 @@ public class BlockDoor extends Block {
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      return var1.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? null : this.getItem();
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? null : this.getItem();
    }
 
    @Override
-   public MovingObjectPosition collisionRayTrace(World var1, BlockPos var2, Vec3 var3, Vec3 var4) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.collisionRayTrace(var1, var2, var3, var4);
+   public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 startIn, Vec3 end) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.collisionRayTrace(worldIn, pos, startIn, end);
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return var2.getY() >= 255
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return pos.getY() >= 255
          ? false
-         : World.doesBlockHaveSolidTopSurface(var1, var2.down()) && super.canPlaceBlockAt(var1, var2) && super.canPlaceBlockAt(var1, var2.up());
+         : World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && super.canPlaceBlockAt(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos.up());
    }
 
    @Override
@@ -223,23 +223,23 @@ public class BlockDoor extends Block {
       return 1;
    }
 
-   public static int combineMetadata(IBlockAccess var0, BlockPos var1) {
-      IBlockState var5 = var0.getBlockState(var1);
-      int var6 = var5.getBlock().getMetaFromState(var5);
-      boolean var7 = isTop(var6);
-      IBlockState var8 = var0.getBlockState(var1.down());
-      int var9 = var8.getBlock().getMetaFromState(var8);
-      int var10 = var7 ? var9 : var6;
-      IBlockState var11 = var0.getBlockState(var1.up());
-      int var12 = var11.getBlock().getMetaFromState(var11);
-      int var13 = var7 ? var6 : var12;
-      boolean var14 = (var13 & 1) != 0;
-      boolean var15 = (var13 & 2) != 0;
-      return removeHalfBit(var10) | (var7 ? 8 : 0) | (var14 ? 16 : 0) | (var15 ? 32 : 0);
+   public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      int i = iBlockState.getBlock().getMetaFromState(iBlockState);
+      boolean bl = isTop(i);
+      IBlockState iBlockState2 = worldIn.getBlockState(pos.down());
+      int j = iBlockState2.getBlock().getMetaFromState(iBlockState2);
+      int k = bl ? j : i;
+      IBlockState iBlockState3 = worldIn.getBlockState(pos.up());
+      int l = iBlockState3.getBlock().getMetaFromState(iBlockState3);
+      int m = bl ? i : l;
+      boolean bl2 = (m & 1) != 0;
+      boolean bl3 = (m & 2) != 0;
+      return removeHalfBit(k) | (bl ? 8 : 0) | (bl2 ? 16 : 0) | (bl3 ? 32 : 0);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return this.getItem();
    }
 
@@ -262,10 +262,10 @@ public class BlockDoor extends Block {
    }
 
    @Override
-   public void onBlockHarvested(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4) {
-      BlockPos var8 = var2.down();
-      if (var4.capabilities.isCreativeMode && var3.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER && var1.getBlockState(var8).getBlock() == this) {
-         var1.setBlockToAir(var8);
+   public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+      BlockPos blockPos = pos.down();
+      if (player.capabilities.isCreativeMode && state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER && worldIn.getBlockState(blockPos).getBlock() == this) {
+         worldIn.setBlockToAir(blockPos);
       }
    }
 
@@ -275,83 +275,83 @@ public class BlockDoor extends Block {
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      if (var1.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER) {
-         IBlockState var7 = var2.getBlockState(var3.up());
-         if (var7.getBlock() == this) {
-            var1 = var1.withProperty(HINGE, var7.getValue(HINGE)).withProperty(POWERED, var7.getValue(POWERED));
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER) {
+         IBlockState iBlockState = worldIn.getBlockState(pos.up());
+         if (iBlockState.getBlock() == this) {
+            state = state.withProperty(HINGE, iBlockState.getValue(HINGE)).withProperty(POWERED, iBlockState.getValue(POWERED));
          }
       } else {
-         IBlockState var8 = var2.getBlockState(var3.down());
-         if (var8.getBlock() == this) {
-            var1 = var1.withProperty(FACING, var8.getValue(FACING)).withProperty(OPEN, var8.getValue(OPEN));
+         IBlockState iBlockState2 = worldIn.getBlockState(pos.down());
+         if (iBlockState2.getBlock() == this) {
+            state = state.withProperty(FACING, iBlockState2.getValue(FACING)).withProperty(OPEN, iBlockState2.getValue(OPEN));
          }
       }
 
-      return var1;
+      return state;
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return (var1 & 8) > 0
+   public IBlockState getStateFromMeta(int meta) {
+      return (meta & 8) > 0
          ? this.getDefaultState()
             .withProperty(HALF, BlockDoor.EnumDoorHalf.UPPER)
-            .withProperty(HINGE, (var1 & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT)
-            .withProperty(POWERED, (var1 & 2) > 0)
+            .withProperty(HINGE, (meta & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT)
+            .withProperty(POWERED, (meta & 2) > 0)
          : this.getDefaultState()
             .withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER)
-            .withProperty(FACING, EnumFacing.getHorizontal(var1 & 3).rotateYCCW())
-            .withProperty(OPEN, (var1 & 4) > 0);
+            .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
+            .withProperty(OPEN, (meta & 4) > 0);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      if (var1.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) {
-         var5 |= 8;
-         if (var1.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT) {
-            var5 |= 1;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) {
+         i |= 8;
+         if (state.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT) {
+            i |= 1;
          }
 
-         if (var1.getValue(POWERED)) {
-            var5 |= 2;
+         if (state.getValue(POWERED)) {
+            i |= 2;
          }
       } else {
-         var5 |= var1.getValue(FACING).rotateY().getHorizontalIndex();
-         if (var1.getValue(OPEN)) {
-            var5 |= 4;
+         i |= state.getValue(FACING).rotateY().getHorizontalIndex();
+         if (state.getValue(OPEN)) {
+            i |= 4;
          }
       }
 
-      return var5;
+      return i;
    }
 
-   public static int removeHalfBit(int var0) {
-      return var0 & 7;
+   public static int removeHalfBit(int meta) {
+      return meta & 7;
    }
 
-   public static boolean isOpen(IBlockAccess var0, BlockPos var1) {
-      return isOpen(combineMetadata(var0, var1));
+   public static boolean isOpen(IBlockAccess worldIn, BlockPos pos) {
+      return isOpen(combineMetadata(worldIn, pos));
    }
 
-   public static EnumFacing getFacing(IBlockAccess var0, BlockPos var1) {
-      return getFacing(combineMetadata(var0, var1));
+   public static EnumFacing getFacing(IBlockAccess worldIn, BlockPos pos) {
+      return getFacing(combineMetadata(worldIn, pos));
    }
 
-   public static EnumFacing getFacing(int var0) {
-      return EnumFacing.getHorizontal(var0 & 3).rotateYCCW();
+   public static EnumFacing getFacing(int combinedMeta) {
+      return EnumFacing.getHorizontal(combinedMeta & 3).rotateYCCW();
    }
 
-   public static boolean isOpen(int var0) {
-      return (var0 & 4) != 0;
+   public static boolean isOpen(int combinedMeta) {
+      return (combinedMeta & 4) != 0;
    }
 
-   public static boolean isTop(int var0) {
-      return (var0 & 8) != 0;
+   public static boolean isTop(int meta) {
+      return (meta & 8) != 0;
    }
 
-   public static boolean isHingeLeft(int var0) {
-      return (var0 & 16) != 0;
+   public static boolean isHingeLeft(int combinedMeta) {
+      return (combinedMeta & 16) != 0;
    }
 
    @Override

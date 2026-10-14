@@ -20,27 +20,27 @@ public class LoginResponseHandler extends PacketHandler<LoginResponse> {
       super(PacketId.LOGIN_RESPONSE);
    }
 
-   public void handle(LoginResponse var1, PacketOutput var2) {
-      if (var1.success) {
-         String[] var6 = var1.message.split(";");
-         if (var6.length == 7) {
+   public void handle(LoginResponse loginResponse, PacketOutput packetOutput) {
+      if (loginResponse.success) {
+         String[] strings = loginResponse.message.split(";");
+         if (strings.length == 7) {
             if (client.getEventBus() == null) {
                client.setEventBus(EventBus.<Field>p().e(MemberScanner.z()).j(ListenerFilter.W()).v(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION).v());
             }
 
-            ModuleManager.C(Double.parseDouble(var6[1]));
-            ModuleManager.k(Integer.parseInt(var6[2]));
-            mc.mouseHelper.Y().setAccount(new AuthAccount(var6[3]));
-            EntityRenderer.Z0 = Integer.parseInt(var6[4]);
-            EntityRenderer.C = Integer.parseInt(var6[5]);
-            EntityRenderer.ZE = Integer.parseInt(var6[6]);
+            ModuleManager.C(Double.parseDouble(strings[1]));
+            ModuleManager.k(Integer.parseInt(strings[2]));
+            mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
+            EntityRenderer.Z0 = Integer.parseInt(strings[4]);
+            EntityRenderer.C = Integer.parseInt(strings[5]);
+            EntityRenderer.ZE = Integer.parseInt(strings[6]);
          }
 
          LoginScreen.p = false;
          LoginScreen.V = true;
       } else {
-         LoginScreen.x = var1.message;
-         if (var1.message.equalsIgnoreCase("tokenfail")) {
+         LoginScreen.x = loginResponse.message;
+         if (loginResponse.message.equalsIgnoreCase("tokenfail")) {
             mc.autoLoginToken = "";
          }
 

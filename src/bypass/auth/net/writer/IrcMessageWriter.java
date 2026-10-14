@@ -10,15 +10,15 @@ public final class IrcMessageWriter implements PacketWriter<IrcMessage> {
    private static final long a = 22648129839209L;
    private static final long b = 722578507535745036L;
 
-   public void write(IrcMessage var1, PacketBuffer var2) {
-      byte[] var7 = var1.sender.getBytes(StandardCharsets.UTF_8);
-      byte[] var8 = var1.message.getBytes(StandardCharsets.UTF_8);
-      ByteBuffer var9 = ByteBuffer.allocate(var7.length + var8.length + (int)b);
-      var9.putInt(var7.length);
-      var9.put(var7);
-      var9.putInt(var8.length);
-      var9.put(var8);
-      var9.putInt(var1.type.ordinal());
-      var2.n(var9);
+   public void write(IrcMessage ircMessage, PacketBuffer packetBuffer) {
+      byte[] bytes = ircMessage.sender.getBytes(StandardCharsets.UTF_8);
+      byte[] bytes2 = ircMessage.message.getBytes(StandardCharsets.UTF_8);
+      ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + bytes2.length + (int)b);
+      byteBuffer.putInt(bytes.length);
+      byteBuffer.put(bytes);
+      byteBuffer.putInt(bytes2.length);
+      byteBuffer.put(bytes2);
+      byteBuffer.putInt(ircMessage.type.ordinal());
+      packetBuffer.n(byteBuffer);
    }
 }

@@ -28,41 +28,41 @@ public class BlockDirt extends Block {
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(VARIANT).func_181066_d();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(VARIANT).func_181066_d();
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      if (var1.getValue(VARIANT) == BlockDirt.DirtType.PODZOL) {
-         Block var7 = var2.getBlockState(var3.up()).getBlock();
-         var1 = var1.withProperty(SNOWY, var7 == Blocks.snow || var7 == Blocks.snow_layer);
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      if (state.getValue(VARIANT) == BlockDirt.DirtType.PODZOL) {
+         Block block = worldIn.getBlockState(pos.up()).getBlock();
+         state = state.withProperty(SNOWY, block == Blocks.snow || block == Blocks.snow_layer);
       }
 
-      return var1;
+      return state;
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      var3.add(new ItemStack(this, 1, BlockDirt.DirtType.DIRT.getMetadata()));
-      var3.add(new ItemStack(this, 1, BlockDirt.DirtType.COARSE_DIRT.getMetadata()));
-      var3.add(new ItemStack(this, 1, BlockDirt.DirtType.PODZOL.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      list.add(new ItemStack(this, 1, BlockDirt.DirtType.DIRT.getMetadata()));
+      list.add(new ItemStack(this, 1, BlockDirt.DirtType.COARSE_DIRT.getMetadata()));
+      list.add(new ItemStack(this, 1, BlockDirt.DirtType.PODZOL.getMetadata()));
    }
 
    @Override
-   public int getDamageValue(World var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      return var6.getBlock() != this ? 0 : var6.getValue(VARIANT).getMetadata();
+   public int getDamageValue(World worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      return iBlockState.getBlock() != this ? 0 : iBlockState.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(VARIANT, BlockDirt.DirtType.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(VARIANT, BlockDirt.DirtType.byMetadata(meta));
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
@@ -71,13 +71,13 @@ public class BlockDirt extends Block {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      BlockDirt.DirtType var5 = var1.getValue(VARIANT);
-      if (var5 == BlockDirt.DirtType.PODZOL) {
-         var5 = BlockDirt.DirtType.DIRT;
+   public int damageDropped(IBlockState state) {
+      BlockDirt.DirtType dirtType = state.getValue(VARIANT);
+      if (dirtType == BlockDirt.DirtType.PODZOL) {
+         dirtType = BlockDirt.DirtType.DIRT;
       }
 
-      return var5.getMetadata();
+      return dirtType.getMetadata();
    }
 
    public enum DirtType implements IStringSerializable {
@@ -92,15 +92,15 @@ public class BlockDirt extends Block {
       private final MapColor field_181067_h;
       private static final long a = 1667333255427L;
 
-      DirtType(int var3, String var4, MapColor var5) {
-         this(var3, var4, var4, var5);
+      DirtType(int k, String string2, MapColor mapColor) {
+         this(k, string2, string2, mapColor);
       }
 
-      DirtType(int var3, String var4, String var5, MapColor var6) {
-         this.metadata = var3;
-         this.name = var4;
-         this.unlocalizedName = var5;
-         this.field_181067_h = var6;
+      DirtType(int k, String string2, String string3, MapColor mapColor) {
+         this.metadata = k;
+         this.name = string2;
+         this.unlocalizedName = string3;
+         this.field_181067_h = mapColor;
       }
 
       public int getMetadata() {
@@ -120,12 +120,12 @@ public class BlockDirt extends Block {
          return this.name;
       }
 
-      public static BlockDirt.DirtType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= METADATA_LOOKUP.length) {
-            var0 = 0;
+      public static BlockDirt.DirtType byMetadata(int metadata) {
+         if (metadata < 0 || metadata >= METADATA_LOOKUP.length) {
+            metadata = 0;
          }
 
-         return METADATA_LOOKUP[var0];
+         return METADATA_LOOKUP[metadata];
       }
 
       @Override
@@ -134,8 +134,8 @@ public class BlockDirt extends Block {
       }
 
       static {
-         for (BlockDirt.DirtType var14 : values()) {
-            METADATA_LOOKUP[var14.getMetadata()] = var14;
+         for (BlockDirt.DirtType dirtType : values()) {
+            METADATA_LOOKUP[dirtType.getMetadata()] = dirtType;
          }
       }
    }

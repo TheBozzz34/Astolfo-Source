@@ -34,8 +34,8 @@ public class DefaultClickGuiScreen extends GuiScreen {
 
    @Override
    public void initGui() {
-      long var1 = a ^ 15151420434663L;
-      long var3 = var1 ^ 67661234499125L;
+      long l = a ^ 15151420434663L;
+      long m = l ^ 67661234499125L;
       if (f == null) {
          f = new ConfigsPanel();
       }
@@ -61,111 +61,111 @@ public class DefaultClickGuiScreen extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      long var4 = a ^ 38712368128950L;
-      long var6 = var4 ^ 21420077999460L;
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      long l = a ^ 38712368128950L;
+      long n = l ^ 21420077999460L;
       this.x++;
-      float var10 = HUD.gui.getSetting("Scale").asFloat();
+      float g = HUD.gui.getSetting("Scale").asFloat();
       RenderUtil.drawRect(0.0, 0.0, Display.getWidth(), Display.getHeight(), this.y);
       if (HUD.toolTips.asBoolean() && this.K != null) {
          if (this.K instanceof BooleanComponent) {
-            BooleanComponent var11 = (BooleanComponent)this.K;
-            String var12 = EnumChatFormatting.GRAY + var11.t().getName() + ": " + EnumChatFormatting.RESET + var11.t().getDescription();
-            GuiMainMenu.m.drawString(var12, 3.0F, this.height - 12, -1);
+            BooleanComponent booleanComponent = (BooleanComponent)this.K;
+            String string = EnumChatFormatting.GRAY + booleanComponent.t().getName() + ": " + EnumChatFormatting.RESET + booleanComponent.t().getDescription();
+            GuiMainMenu.m.drawString(string, 3.0F, this.height - 12, -1);
          }
 
          if (this.K instanceof NumberSlider) {
-            NumberSlider var15 = (NumberSlider)this.K;
-            String var16 = EnumChatFormatting.GRAY + var15.t().getName() + ": " + EnumChatFormatting.RESET + var15.t().getDescription();
-            GuiMainMenu.m.drawString(var16, 3.0F, this.height - 12, -1);
+            NumberSlider numberSlider = (NumberSlider)this.K;
+            String string2 = EnumChatFormatting.GRAY + numberSlider.t().getName() + ": " + EnumChatFormatting.RESET + numberSlider.t().getDescription();
+            GuiMainMenu.m.drawString(string2, 3.0F, this.height - 12, -1);
          }
       }
 
-      f.render(var1, var2);
-      h.render(var1, var2);
-      var1 = (int)(var1 / var10);
-      var2 = (int)(var2 / var10);
-      GlStateManager.scale(var10, var10, var10);
-      Astolfo.INSTANCE.getDefaultPanelManager().F(var1, var2);
-      Astolfo.INSTANCE.getDefaultPanelManager().p(var1, var2);
+      f.render(mouseX, mouseY);
+      h.render(mouseX, mouseY);
+      mouseX = (int)(mouseX / g);
+      mouseY = (int)(mouseY / g);
+      GlStateManager.scale(g, g, g);
+      Astolfo.INSTANCE.getDefaultPanelManager().F(mouseX, mouseY);
+      Astolfo.INSTANCE.getDefaultPanelManager().p(mouseX, mouseY);
       GlStateManager.scale(1.0F, 1.0F, 1.0F);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      long var4 = a ^ 66209484263762L;
-      long var6 = var4 ^ 13716852234112L;
-      float var9 = HUD.gui.getSetting("Scale").asFloat();
-      if (h.G(var1, var2)) {
-         h.l(var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      long m = a ^ 66209484263762L;
+      long n = m ^ 13716852234112L;
+      float g = HUD.gui.getSetting("Scale").asFloat();
+      if (h.G(mouseX, mouseY)) {
+         h.l(mouseButton);
       }
 
-      for (Element var11 : h.M_ArrayList()) {
-         if (var11 instanceof Component && ((Component)var11).G(var1, var2) && h.s_boolean()) {
-            ((Component)var11).U(var3, var1, var2);
+      for (Element element : h.M_ArrayList()) {
+         if (element instanceof Component && ((Component)element).G(mouseX, mouseY) && h.s_boolean()) {
+            ((Component)element).U(mouseButton, mouseX, mouseY);
             break;
          }
       }
 
-      if (f.G(var1, var2)) {
-         f.l(var3);
+      if (f.G(mouseX, mouseY)) {
+         f.l(mouseButton);
       }
 
-      for (Element var24 : f.M_ArrayList()) {
-         if (var24 instanceof Component && ((Component)var24).G(var1, var2) && f.s_boolean()) {
-            ((Component)var24).U(var3, var1, var2);
+      for (Element element2 : f.M_ArrayList()) {
+         if (element2 instanceof Component && ((Component)element2).G(mouseX, mouseY) && f.s_boolean()) {
+            ((Component)element2).U(mouseButton, mouseX, mouseY);
             break;
          }
       }
 
-      var1 = (int)(var1 / var9);
-      var2 = (int)(var2 / var9);
+      mouseX = (int)(mouseX / g);
+      mouseY = (int)(mouseY / g);
 
-      for (Element var25 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
-         if (var25 instanceof Component) {
-            Component var12 = (Component)var25;
-            if (var12.G(var1, var2)) {
-               if (var12.c_boolean() && var3 == 0) {
-                  var12.F(true, var1, var2);
+      for (Element element3 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
+         if (element3 instanceof Component) {
+            Component component = (Component)element3;
+            if (component.G(mouseX, mouseY)) {
+               if (component.c_boolean() && mouseButton == 0) {
+                  component.F(true, mouseX, mouseY);
                   break;
                }
 
-               if (var12 instanceof ScriptsPanel || var12 instanceof ConfigsPanel) {
+               if (component instanceof ScriptsPanel || component instanceof ConfigsPanel) {
                   continue;
                }
 
-               var12.l(var3);
+               component.l(mouseButton);
             }
 
-            if (var12 instanceof Container) {
-               Container var13 = (Container)var12;
-               if (!(var13 instanceof ScriptsPanel) && !(var13 instanceof ConfigsPanel)) {
-                  for (Element var15 : var13.M_ArrayList()) {
-                     if (var15 instanceof Component) {
-                        if (((Component)var15).G(var1, var2) && var13.s_boolean()) {
-                           ((Component)var15).U(var3, var1, var2);
-                           this.K = var15;
+            if (component instanceof Container) {
+               Container container = (Container)component;
+               if (!(container instanceof ScriptsPanel) && !(container instanceof ConfigsPanel)) {
+                  for (Element element4 : container.M_ArrayList()) {
+                     if (element4 instanceof Component) {
+                        if (((Component)element4).G(mouseX, mouseY) && container.s_boolean()) {
+                           ((Component)element4).U(mouseButton, mouseX, mouseY);
+                           this.K = element4;
                            break;
                         }
 
-                        if (var15 instanceof Container) {
-                           for (Element var17 : ((Container)var15).M_ArrayList()) {
-                              if (var17 instanceof Component && ((Component)var17).G(var1, var2) && var13.s_boolean() && ((Container)var15).s_boolean()) {
-                                 ((Component)var17).U(var3, var1, var2);
-                                 this.K = var17;
+                        if (element4 instanceof Container) {
+                           for (Element element5 : ((Container)element4).M_ArrayList()) {
+                              if (element5 instanceof Component && ((Component)element5).G(mouseX, mouseY) && container.s_boolean() && ((Container)element4).s_boolean()) {
+                                 ((Component)element5).U(mouseButton, mouseX, mouseY);
+                                 this.K = element5;
                                  break;
                               }
 
-                              if (var17 instanceof Container) {
-                                 for (Element var19 : ((Container)var17).M_ArrayList()) {
-                                    if (var19 instanceof Component
-                                       && ((Component)var19).G(var1, var2)
-                                       && var13.s_boolean()
-                                       && ((Container)var15).s_boolean()
-                                       && ((Container)var17).s_boolean()) {
-                                       ((Component)var19).U(var3, var1, var2);
-                                       this.K = var19;
+                              if (element5 instanceof Container) {
+                                 for (Element element6 : ((Container)element5).M_ArrayList()) {
+                                    if (element6 instanceof Component
+                                       && ((Component)element6).G(mouseX, mouseY)
+                                       && container.s_boolean()
+                                       && ((Container)element4).s_boolean()
+                                       && ((Container)element5).s_boolean()) {
+                                       ((Component)element6).U(mouseButton, mouseX, mouseY);
+                                       this.K = element6;
                                        break;
                                     }
                                  }
@@ -179,30 +179,30 @@ public class DefaultClickGuiScreen extends GuiScreen {
          }
       }
 
-      super.mouseClicked(var1, var2, var3);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void mouseClickMove(int var1, int var2, int var3, long var4) {
-      long var6 = a ^ 47408169902474L;
-      long var8 = var6 ^ 30031484086104L;
-      float var11 = HUD.gui.getSetting("Scale").asFloat();
-      var1 = (int)(var1 / var11);
-      var2 = (int)(var2 / var11);
+   public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+      long l = a ^ 47408169902474L;
+      long m = l ^ 30031484086104L;
+      float f = HUD.gui.getSetting("Scale").asFloat();
+      mouseX = (int)(mouseX / f);
+      mouseY = (int)(mouseY / f);
 
-      for (Element var13 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
-         if (var13 instanceof Component) {
-            Component var14 = (Component)var13;
-            if (var14 instanceof Container) {
-               Container var15 = (Container)var14;
+      for (Element element : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
+         if (element instanceof Component) {
+            Component component = (Component)element;
+            if (component instanceof Container) {
+               Container container = (Container)component;
 
-               for (Element var17 : var15.M_ArrayList()) {
-                  if (var17 instanceof Component && var17 instanceof Container) {
-                     for (Element var19 : ((Container)var17).M_ArrayList()) {
-                        if (var19 instanceof Component && var19 instanceof ColorWheel) {
-                           ColorWheel var20 = (ColorWheel)var19;
-                           if (var20.G(var1, var2)) {
-                              var20.R(var1, var2);
+               for (Element element2 : container.M_ArrayList()) {
+                  if (element2 instanceof Component && element2 instanceof Container) {
+                     for (Element element3 : ((Container)element2).M_ArrayList()) {
+                        if (element3 instanceof Component && element3 instanceof ColorWheel) {
+                           ColorWheel colorWheel = (ColorWheel)element3;
+                           if (colorWheel.G(mouseX, mouseY)) {
+                              colorWheel.R(mouseX, mouseY);
                            }
                         }
                      }
@@ -212,50 +212,50 @@ public class DefaultClickGuiScreen extends GuiScreen {
          }
       }
 
-      super.mouseClickMove(var1, var2, var3, var4);
+      super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3) {
-      long var4 = a ^ 57290277591394L;
-      long var6 = var4 ^ 4762086252464L;
+   public void mouseReleased(int mouseX, int mouseY, int state) {
+      long l = a ^ 57290277591394L;
+      long m = l ^ 4762086252464L;
       Astolfo.INSTANCE.getDefaultPanelManager().Q(false);
-      super.mouseReleased(var1, var2, var3);
+      super.mouseReleased(mouseX, mouseY, state);
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      long var3 = a ^ 113237011205710L;
-      long var5 = var3 ^ 95327453743260L;
-      if (var2 == 54 && this.x > 5) {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      long l = a ^ 113237011205710L;
+      long m = l ^ 95327453743260L;
+      if (keyCode == 54 && this.x > 5) {
          B = !B;
       }
 
-      for (Element var9 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
-         if (var9 instanceof Component) {
-            Component var10 = (Component)var9;
-            if (var10 instanceof Container) {
-               Container var11 = (Container)var10;
+      for (Element element : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
+         if (element instanceof Component) {
+            Component component = (Component)element;
+            if (component instanceof Container) {
+               Container container = (Container)component;
 
-               for (Element var13 : var11.M_ArrayList()) {
-                  if (var13 instanceof Component && var13 instanceof Container) {
-                     ((Container)var13).P(var1, var2);
+               for (Element element2 : container.M_ArrayList()) {
+                  if (element2 instanceof Component && element2 instanceof Container) {
+                     ((Container)element2).P(typedChar, keyCode);
 
-                     for (Element var15 : ((Container)var13).M_ArrayList()) {
-                        if (var15 instanceof StringComponent) {
-                           StringComponent var16 = (StringComponent)var15;
-                           if (var16.E() && var11.s_boolean() && ((Container)var13).s_boolean()) {
-                              var16.P(var1, var2);
+                     for (Element element3 : ((Container)element2).M_ArrayList()) {
+                        if (element3 instanceof StringComponent) {
+                           StringComponent stringComponent = (StringComponent)element3;
+                           if (stringComponent.E() && container.s_boolean() && ((Container)element2).s_boolean()) {
+                              stringComponent.P(typedChar, keyCode);
                               break;
                            }
                         }
 
-                        if (var15 instanceof Container) {
-                           for (Element var17 : ((Container)var15).M_ArrayList()) {
-                              if (var17 instanceof StringComponent) {
-                                 StringComponent var18 = (StringComponent)var17;
-                                 if (var18.E() && var11.s_boolean() && ((Container)var13).s_boolean() && ((Container)var15).s_boolean()) {
-                                    var18.P(var1, var2);
+                        if (element3 instanceof Container) {
+                           for (Element element4 : ((Container)element3).M_ArrayList()) {
+                              if (element4 instanceof StringComponent) {
+                                 StringComponent stringComponent2 = (StringComponent)element4;
+                                 if (stringComponent2.E() && container.s_boolean() && ((Container)element2).s_boolean() && ((Container)element3).s_boolean()) {
+                                    stringComponent2.P(typedChar, keyCode);
                                     break;
                                  }
                               }
@@ -268,35 +268,35 @@ public class DefaultClickGuiScreen extends GuiScreen {
          }
       }
 
-      for (Element var20 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
-         if (var20 instanceof Component) {
-            Component var21 = (Component)var20;
-            if (var21 instanceof Container) {
-               Container var22 = (Container)var21;
-               if (var22.s_boolean()) {
-                  for (Element var24 : var22.M_ArrayList()) {
-                     if (var24 instanceof bypass.gui.clickgui.transparent.ModuleButton) {
-                        ((bypass.gui.clickgui.transparent.ModuleButton)var24).P(var1, var2);
+      for (Element element5 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
+         if (element5 instanceof Component) {
+            Component component2 = (Component)element5;
+            if (component2 instanceof Container) {
+               Container container2 = (Container)component2;
+               if (container2.s_boolean()) {
+                  for (Element element6 : container2.M_ArrayList()) {
+                     if (element6 instanceof bypass.gui.clickgui.transparent.ModuleButton) {
+                        ((bypass.gui.clickgui.transparent.ModuleButton)element6).P(typedChar, keyCode);
                      }
 
-                     if (var24 instanceof Container && ((Container)var24).s_boolean()) {
-                        for (Element var26 : ((Container)var24).M_ArrayList()) {
-                           if (var26 instanceof bypass.gui.clickgui.transparent.StringComponent && ((bypass.gui.clickgui.transparent.StringComponent)var26).k()
+                     if (element6 instanceof Container && ((Container)element6).s_boolean()) {
+                        for (Element element7 : ((Container)element6).M_ArrayList()) {
+                           if (element7 instanceof bypass.gui.clickgui.transparent.StringComponent && ((bypass.gui.clickgui.transparent.StringComponent)element7).k()
                               )
                             {
-                              ((bypass.gui.clickgui.transparent.StringComponent)var26).P(var1, var2);
+                              ((bypass.gui.clickgui.transparent.StringComponent)element7).P(typedChar, keyCode);
                            }
 
-                           if (var26 instanceof bypass.gui.clickgui.transparent.ModuleButton) {
-                              ((bypass.gui.clickgui.transparent.ModuleButton)var26).P(var1, var2);
+                           if (element7 instanceof bypass.gui.clickgui.transparent.ModuleButton) {
+                              ((bypass.gui.clickgui.transparent.ModuleButton)element7).P(typedChar, keyCode);
                            }
 
-                           if (var26 instanceof Container) {
-                              for (Element var29 : ((Container)var26).M_ArrayList()) {
-                                 if (((Container)var26).s_boolean()
-                                    && var29 instanceof bypass.gui.clickgui.transparent.StringComponent
-                                    && ((bypass.gui.clickgui.transparent.StringComponent)var29).k()) {
-                                    ((bypass.gui.clickgui.transparent.StringComponent)var29).P(var1, var2);
+                           if (element7 instanceof Container) {
+                              for (Element element8 : ((Container)element7).M_ArrayList()) {
+                                 if (((Container)element7).s_boolean()
+                                    && element8 instanceof bypass.gui.clickgui.transparent.StringComponent
+                                    && ((bypass.gui.clickgui.transparent.StringComponent)element8).k()) {
+                                    ((bypass.gui.clickgui.transparent.StringComponent)element8).P(typedChar, keyCode);
                                  }
                               }
                            }
@@ -308,48 +308,48 @@ public class DefaultClickGuiScreen extends GuiScreen {
          }
       }
 
-      super.keyTyped(var1, var2);
+      super.keyTyped(typedChar, keyCode);
    }
 
    public void S() {
-      long var1 = a ^ 80818549821563L;
-      long var3 = var1 ^ 104792724428651L;
+      long l = a ^ 80818549821563L;
+      long m = l ^ 104792724428651L;
       if (ScriptCommand.z) {
          ScriptCommand.z = false;
-         CategoryPanel var6 = this.A("Scripts");
-         if (var6 != null) {
-            var6.M_ArrayList().clear();
+         CategoryPanel categoryPanel = this.A("Scripts");
+         if (categoryPanel != null) {
+            categoryPanel.M_ArrayList().clear();
 
-            for (Module var8 : Astolfo.INSTANCE.getModuleManager().getModules(Category.SCRIPTS)) {
-               ModuleButton var9 = new ModuleButton(var6, var8, 103, 15);
+            for (Module module : Astolfo.INSTANCE.getModuleManager().getModules(Category.SCRIPTS)) {
+               ModuleButton moduleButton = new ModuleButton(categoryPanel, module, 103, 15);
 
-               for (Setting var11 : var8.getSettings()) {
-                  if (var11 instanceof BooleanSetting) {
-                     if (var11.getName().startsWith("Pos-") || var11.getName().equals("Hide")) {
+               for (Setting setting : module.getSettings()) {
+                  if (setting instanceof BooleanSetting) {
+                     if (setting.getName().startsWith("Pos-") || setting.getName().equals("Hide")) {
                         continue;
                      }
 
-                     var9.M_ArrayList().add(new BooleanComponent(Category.SCRIPTS, var9, var11, 99, 10));
+                     moduleButton.M_ArrayList().add(new BooleanComponent(Category.SCRIPTS, moduleButton, setting, 99, 10));
                   }
 
-                  if (var11 instanceof NumberSetting && !var11.getName().startsWith("Pos-") && !var11.getName().equals("Hide")) {
-                     var9.M_ArrayList().add(new NumberSlider(Category.SCRIPTS, var9, var11, 99, 10));
+                  if (setting instanceof NumberSetting && !setting.getName().startsWith("Pos-") && !setting.getName().equals("Hide")) {
+                     moduleButton.M_ArrayList().add(new NumberSlider(Category.SCRIPTS, moduleButton, setting, 99, 10));
                   }
                }
 
-               var6.a(var9);
+               categoryPanel.a(moduleButton);
             }
          }
       }
    }
 
-   private CategoryPanel A(String var1) {
-      long var2 = a ^ 119011607330005L;
-      long var4 = var2 ^ 101651679853063L;
+   private CategoryPanel A(String string) {
+      long l = a ^ 119011607330005L;
+      long m = l ^ 101651679853063L;
 
-      for (Element var8 : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
-         if (var8 instanceof CategoryPanel && var8.J().equalsIgnoreCase(var1)) {
-            return (CategoryPanel)var8;
+      for (Element element : Astolfo.INSTANCE.getDefaultPanelManager().getList()) {
+         if (element instanceof CategoryPanel && element.J().equalsIgnoreCase(string)) {
+            return (CategoryPanel)element;
          }
       }
 

@@ -48,15 +48,15 @@ public class BlockTripWire extends Block {
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      return var1.withProperty(NORTH, isConnectedTo(var2, var3, var1, EnumFacing.NORTH))
-         .withProperty(EAST, isConnectedTo(var2, var3, var1, EnumFacing.EAST))
-         .withProperty(SOUTH, isConnectedTo(var2, var3, var1, EnumFacing.SOUTH))
-         .withProperty(WEST, isConnectedTo(var2, var3, var1, EnumFacing.WEST));
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      return state.withProperty(NORTH, isConnectedTo(worldIn, pos, state, EnumFacing.NORTH))
+         .withProperty(EAST, isConnectedTo(worldIn, pos, state, EnumFacing.EAST))
+         .withProperty(SOUTH, isConnectedTo(worldIn, pos, state, EnumFacing.SOUTH))
+         .withProperty(WEST, isConnectedTo(worldIn, pos, state, EnumFacing.WEST));
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
@@ -76,33 +76,33 @@ public class BlockTripWire extends Block {
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.string;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.string;
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      boolean var8 = var3.getValue(SUSPENDED);
-      boolean var9 = !World.doesBlockHaveSolidTopSurface(var1, var2.down());
-      if (var8 != var9) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      boolean bl = state.getValue(SUSPENDED);
+      boolean bl2 = !World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
+      if (bl != bl2) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
       }
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      boolean var7 = var6.getValue(ATTACHED);
-      boolean var8 = var6.getValue(SUSPENDED);
-      if (!var8) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      boolean bl = iBlockState.getValue(ATTACHED);
+      boolean bl2 = iBlockState.getValue(SUSPENDED);
+      if (!bl2) {
          this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.09375F, 1.0F);
-      } else if (!var7) {
+      } else if (!bl) {
          this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
       } else {
          this.setBlockBounds(0.0F, 0.0625F, 0.0F, 1.0F, 0.15625F, 1.0F);
@@ -110,37 +110,37 @@ public class BlockTripWire extends Block {
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      var3 = var3.withProperty(SUSPENDED, !World.doesBlockHaveSolidTopSurface(var1, var2.down()));
-      var1.setBlockState(var2, var3, 3);
-      this.notifyHook(var1, var2, var3);
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      state = state.withProperty(SUSPENDED, !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()));
+      worldIn.setBlockState(pos, state, 3);
+      this.notifyHook(worldIn, pos, state);
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      this.notifyHook(var1, var2, var3.withProperty(POWERED, true));
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      this.notifyHook(worldIn, pos, state.withProperty(POWERED, true));
    }
 
    @Override
-   public void onBlockHarvested(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4) {
-      if (!var1.isRemote && var4.getCurrentEquippedItem() != null && var4.getCurrentEquippedItem().getItem() == Items.shears) {
-         var1.setBlockState(var2, var3.withProperty(DISARMED, true), 4);
+   public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+      if (!worldIn.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
+         worldIn.setBlockState(pos, state.withProperty(DISARMED, true), 4);
       }
    }
 
-   private void notifyHook(World var1, BlockPos var2, IBlockState var3) {
-      for (EnumFacing var10 : new EnumFacing[]{EnumFacing.SOUTH, EnumFacing.WEST}) {
-         for (int var11 = 1; var11 < 42; var11++) {
-            BlockPos var12 = var2.offset(var10, var11);
-            IBlockState var13 = var1.getBlockState(var12);
-            if (var13.getBlock() == Blocks.tripwire_hook) {
-               if (var13.getValue(BlockTripWireHook.FACING) == var10.getOpposite()) {
-                  Blocks.tripwire_hook.func_176260_a(var1, var12, var13, false, true, var11, var3);
+   private void notifyHook(World worldIn, BlockPos pos, IBlockState state) {
+      for (EnumFacing enumFacing : new EnumFacing[]{EnumFacing.SOUTH, EnumFacing.WEST}) {
+         for (int i = 1; i < 42; i++) {
+            BlockPos blockPos = pos.offset(enumFacing, i);
+            IBlockState iBlockState = worldIn.getBlockState(blockPos);
+            if (iBlockState.getBlock() == Blocks.tripwire_hook) {
+               if (iBlockState.getValue(BlockTripWireHook.FACING) == enumFacing.getOpposite()) {
+                  Blocks.tripwire_hook.func_176260_a(worldIn, blockPos, iBlockState, false, true, i, state);
                }
                break;
             }
 
-            if (var13.getBlock() != Blocks.tripwire) {
+            if (iBlockState.getBlock() != Blocks.tripwire) {
                break;
             }
          }
@@ -148,104 +148,99 @@ public class BlockTripWire extends Block {
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      if (!var1.isRemote && !var3.getValue(POWERED)) {
-         this.updateState(var1, var2);
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      if (!worldIn.isRemote && !state.getValue(POWERED)) {
+         this.updateState(worldIn, pos);
       }
    }
 
    @Override
-   public void randomTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
+   public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random randomIn) {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote && var1.getBlockState(var2).getValue(POWERED)) {
-         this.updateState(var1, var2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote && worldIn.getBlockState(pos).getValue(POWERED)) {
+         this.updateState(worldIn, pos);
       }
    }
 
-   private void updateState(World var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      boolean var7 = var6.getValue(POWERED);
-      boolean var8 = false;
-      List var9 = var1.getEntitiesWithinAABBExcludingEntity(
+   private void updateState(World worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      boolean bl = iBlockState.getValue(POWERED);
+      boolean bl2 = false;
+      List list = worldIn.getEntitiesWithinAABBExcludingEntity(
          (Entity)null,
          new AxisAlignedBB(
-            var2.getX() + this.minX,
-            var2.getY() + this.minY,
-            var2.getZ() + this.minZ,
-            var2.getX() + this.maxX,
-            var2.getY() + this.maxY,
-            var2.getZ() + this.maxZ
+            pos.getX() + this.minX, pos.getY() + this.minY, pos.getZ() + this.minZ, pos.getX() + this.maxX, pos.getY() + this.maxY, pos.getZ() + this.maxZ
          )
       );
-      if (!var9.isEmpty()) {
-         for (Object var11$raw : var9) {
-            Entity var11 = (Entity)var11$raw;
-            if (!var11.doesEntityNotTriggerPressurePlate()) {
-               var8 = true;
+      if (!list.isEmpty()) {
+         for (Object object : list) {
+            Entity entity = (Entity)object;
+            if (!entity.doesEntityNotTriggerPressurePlate()) {
+               bl2 = true;
                break;
             }
          }
       }
 
-      if (var8 != var7) {
-         var6 = var6.withProperty(POWERED, var8);
-         var1.setBlockState(var2, var6, 3);
-         this.notifyHook(var1, var2, var6);
+      if (bl2 != bl) {
+         iBlockState = iBlockState.withProperty(POWERED, bl2);
+         worldIn.setBlockState(pos, iBlockState, 3);
+         this.notifyHook(worldIn, pos, iBlockState);
       }
 
-      if (var8) {
-         var1.scheduleUpdate(var2, this, this.tickRate(var1));
+      if (bl2) {
+         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
       }
    }
 
-   public static boolean isConnectedTo(IBlockAccess var0, BlockPos var1, IBlockState var2, EnumFacing var3) {
-      BlockPos var7 = var1.offset(var3);
-      IBlockState var8 = var0.getBlockState(var7);
-      Block var9 = var8.getBlock();
-      if (var9 == Blocks.tripwire_hook) {
-         EnumFacing var12 = var3.getOpposite();
-         return var8.getValue(BlockTripWireHook.FACING) == var12;
-      } else if (var9 == Blocks.tripwire) {
-         boolean var10 = var2.getValue(SUSPENDED);
-         boolean var11 = var8.getValue(SUSPENDED);
-         return var10 == var11;
+   public static boolean isConnectedTo(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing direction) {
+      BlockPos blockPos = pos.offset(direction);
+      IBlockState iBlockState = worldIn.getBlockState(blockPos);
+      Block block = iBlockState.getBlock();
+      if (block == Blocks.tripwire_hook) {
+         EnumFacing enumFacing = direction.getOpposite();
+         return iBlockState.getValue(BlockTripWireHook.FACING) == enumFacing;
+      } else if (block == Blocks.tripwire) {
+         boolean bl = state.getValue(SUSPENDED);
+         boolean bl2 = iBlockState.getValue(SUSPENDED);
+         return bl == bl2;
       } else {
          return false;
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
+   public IBlockState getStateFromMeta(int meta) {
       return this.getDefaultState()
-         .withProperty(POWERED, (var1 & 1) > 0)
-         .withProperty(SUSPENDED, (var1 & 2) > 0)
-         .withProperty(ATTACHED, (var1 & 4) > 0)
-         .withProperty(DISARMED, (var1 & 8) > 0);
+         .withProperty(POWERED, (meta & 1) > 0)
+         .withProperty(SUSPENDED, (meta & 2) > 0)
+         .withProperty(ATTACHED, (meta & 4) > 0)
+         .withProperty(DISARMED, (meta & 8) > 0);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      byte var5 = 0;
-      if (var1.getValue(POWERED)) {
-         var5 |= 1;
+   public int getMetaFromState(IBlockState state) {
+      byte b = 0;
+      if (state.getValue(POWERED)) {
+         b |= 1;
       }
 
-      if (var1.getValue(SUSPENDED)) {
-         var5 |= 2;
+      if (state.getValue(SUSPENDED)) {
+         b |= 2;
       }
 
-      if (var1.getValue(ATTACHED)) {
-         var5 |= 4;
+      if (state.getValue(ATTACHED)) {
+         b |= 4;
       }
 
-      if (var1.getValue(DISARMED)) {
-         var5 |= 8;
+      if (state.getValue(DISARMED)) {
+         b |= 8;
       }
 
-      return var5;
+      return b;
    }
 
    @Override

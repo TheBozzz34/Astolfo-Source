@@ -39,26 +39,26 @@ public final class MacVirtualMemory extends AbstractVirtualMemory {
    }
 
    private static Pair<Long, Long> querySwapUsage() {
-      long var3 = 0L;
-      long var5 = 0L;
-      XswUsage var7 = new XswUsage();
-      if (SysctlUtil.sysctl("vm.swapusage", var7)) {
-         var3 = var7.xsu_used;
-         var5 = var7.xsu_total;
+      long l = 0L;
+      long m = 0L;
+      XswUsage xswUsage = new XswUsage();
+      if (SysctlUtil.sysctl("vm.swapusage", xswUsage)) {
+         l = xswUsage.xsu_used;
+         m = xswUsage.xsu_total;
       }
 
-      return new Pair<>(var3, var5);
+      return new Pair<>(l, m);
    }
 
    private static Pair<Long, Long> queryVmStat() {
-      long var3 = 0L;
-      long var5 = 0L;
-      VMStatistics var7 = new VMStatistics();
-      if (0 == SystemB.INSTANCE.host_statistics(SystemB.INSTANCE.mach_host_self(), 2, var7, new IntByReference(var7.size() / SystemB.INT_SIZE))) {
-         var3 = ParseUtil.unsignedIntToLong(var7.pageins);
-         var5 = ParseUtil.unsignedIntToLong(var7.pageouts);
+      long l = 0L;
+      long m = 0L;
+      VMStatistics vmStatistics = new VMStatistics();
+      if (0 == SystemB.INSTANCE.host_statistics(SystemB.INSTANCE.mach_host_self(), 2, vmStatistics, new IntByReference(vmStatistics.size() / SystemB.INT_SIZE))) {
+         l = ParseUtil.unsignedIntToLong(vmStatistics.pageins);
+         m = ParseUtil.unsignedIntToLong(vmStatistics.pageouts);
       }
 
-      return new Pair<>(var3, var5);
+      return new Pair<>(l, m);
    }
 }

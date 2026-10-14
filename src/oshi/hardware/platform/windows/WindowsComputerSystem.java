@@ -46,29 +46,29 @@ public final class WindowsComputerSystem extends AbstractComputerSystem {
    }
 
    private static Pair<String, String> queryManufacturerModel() {
-      String var3 = null;
-      String var4 = null;
-      WmiResult var5 = Win32ComputerSystem.queryComputerSystem();
-      if (var5.getResultCount() > 0) {
-         var3 = WmiUtil.getString(var5, Win32ComputerSystem.ComputerSystemProperty.MANUFACTURER, 0);
-         var4 = WmiUtil.getString(var5, Win32ComputerSystem.ComputerSystemProperty.MODEL, 0);
+      String string = null;
+      String string2 = null;
+      WmiResult wmiResult = Win32ComputerSystem.queryComputerSystem();
+      if (wmiResult.getResultCount() > 0) {
+         string = WmiUtil.getString(wmiResult, Win32ComputerSystem.ComputerSystemProperty.MANUFACTURER, 0);
+         string2 = WmiUtil.getString(wmiResult, Win32ComputerSystem.ComputerSystemProperty.MODEL, 0);
       }
 
-      return new Pair<>(Util.isBlank(var3) ? "unknown" : var3, Util.isBlank(var4) ? "unknown" : var4);
+      return new Pair<>(Util.isBlank(string) ? "unknown" : string, Util.isBlank(string2) ? "unknown" : string2);
    }
 
    private static String querySystemSerialNumber() {
-      String var3;
-      return ((var3 = querySerialFromBios()) != null || (var3 = querySerialFromCsProduct()) != null) && !Util.isBlank(var3) ? var3 : "unknown";
+      String string;
+      return ((string = querySerialFromBios()) != null || (string = querySerialFromCsProduct()) != null) && !Util.isBlank(string) ? string : "unknown";
    }
 
    private static String querySerialFromBios() {
-      WmiResult var3 = Win32Bios.k();
-      return var3.getResultCount() > 0 ? WmiUtil.getString(var3, Win32Bios.BiosSerialProperty.SERIALNUMBER, 0) : null;
+      WmiResult wmiResult = Win32Bios.k();
+      return wmiResult.getResultCount() > 0 ? WmiUtil.getString(wmiResult, Win32Bios.BiosSerialProperty.SERIALNUMBER, 0) : null;
    }
 
    private static String querySerialFromCsProduct() {
-      WmiResult var3 = Win32ComputerSystemProduct.queryIdentifyingNumber();
-      return var3.getResultCount() > 0 ? WmiUtil.getString(var3, Win32ComputerSystemProduct.ComputerSystemProductProperty.IDENTIFYINGNUMBER, 0) : null;
+      WmiResult wmiResult = Win32ComputerSystemProduct.queryIdentifyingNumber();
+      return wmiResult.getResultCount() > 0 ? WmiUtil.getString(wmiResult, Win32ComputerSystemProduct.ComputerSystemProductProperty.IDENTIFYINGNUMBER, 0) : null;
    }
 }

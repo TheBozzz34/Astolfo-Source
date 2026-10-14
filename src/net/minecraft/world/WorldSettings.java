@@ -13,16 +13,16 @@ public final class WorldSettings {
    private boolean bonusChestEnabled;
    private String worldName = "";
 
-   public WorldSettings(long var1, WorldSettings.GameType var3, boolean var4, boolean var5, WorldType var6) {
-      this.seed = var1;
-      this.theGameType = var3;
-      this.mapFeaturesEnabled = var4;
-      this.hardcoreEnabled = var5;
-      this.terrainType = var6;
+   public WorldSettings(long seedIn, WorldSettings.GameType gameType, boolean enableMapFeatures, boolean hardcoreMode, WorldType worldTypeIn) {
+      this.seed = seedIn;
+      this.theGameType = gameType;
+      this.mapFeaturesEnabled = enableMapFeatures;
+      this.hardcoreEnabled = hardcoreMode;
+      this.terrainType = worldTypeIn;
    }
 
-   public WorldSettings(WorldInfo var1) {
-      this(var1.getSeed(), var1.getGameType(), var1.isMapFeaturesEnabled(), var1.isHardcoreModeEnabled(), var1.getTerrainType());
+   public WorldSettings(WorldInfo info) {
+      this(info.getSeed(), info.getGameType(), info.isMapFeaturesEnabled(), info.isHardcoreModeEnabled(), info.getTerrainType());
    }
 
    public WorldSettings enableBonusChest() {
@@ -35,8 +35,8 @@ public final class WorldSettings {
       return this;
    }
 
-   public WorldSettings setWorldName(String var1) {
-      this.worldName = var1;
+   public WorldSettings setWorldName(String name) {
+      this.worldName = name;
       return this;
    }
 
@@ -68,8 +68,8 @@ public final class WorldSettings {
       return this.commandsAllowed;
    }
 
-   public static WorldSettings.GameType getGameTypeById(int var0) {
-      return WorldSettings.GameType.getByID(var0);
+   public static WorldSettings.GameType getGameTypeById(int id) {
+      return WorldSettings.GameType.getByID(id);
    }
 
    public String getWorldName() {
@@ -87,9 +87,9 @@ public final class WorldSettings {
       public String name;
       private static final long a = 91109890500568L;
 
-      GameType(int var3, String var4) {
-         this.id = var3;
-         this.name = var4;
+      GameType(int typeId, String nameIn) {
+         this.id = typeId;
+         this.name = nameIn;
       }
 
       public int getID() {
@@ -100,24 +100,24 @@ public final class WorldSettings {
          return this.name;
       }
 
-      public void configurePlayerCapabilities(PlayerCapabilities var1) {
+      public void configurePlayerCapabilities(PlayerCapabilities capabilities) {
          if (this == CREATIVE) {
-            var1.allowFlying = true;
-            var1.isCreativeMode = true;
-            var1.disableDamage = true;
+            capabilities.allowFlying = true;
+            capabilities.isCreativeMode = true;
+            capabilities.disableDamage = true;
          } else if (this == SPECTATOR) {
-            var1.allowFlying = true;
-            var1.isCreativeMode = false;
-            var1.disableDamage = true;
-            var1.isFlying = true;
+            capabilities.allowFlying = true;
+            capabilities.isCreativeMode = false;
+            capabilities.disableDamage = true;
+            capabilities.isFlying = true;
          } else {
-            var1.allowFlying = false;
-            var1.isCreativeMode = false;
-            var1.disableDamage = false;
-            var1.isFlying = false;
+            capabilities.allowFlying = false;
+            capabilities.isCreativeMode = false;
+            capabilities.disableDamage = false;
+            capabilities.isFlying = false;
          }
 
-         var1.allowEdit = !this.isAdventure();
+         capabilities.allowEdit = !this.isAdventure();
       }
 
       public boolean isAdventure() {
@@ -132,20 +132,20 @@ public final class WorldSettings {
          return this == SURVIVAL || this == ADVENTURE;
       }
 
-      public static WorldSettings.GameType getByID(int var0) {
-         for (WorldSettings.GameType var7 : values()) {
-            if (var7.id == var0) {
-               return var7;
+      public static WorldSettings.GameType getByID(int idIn) {
+         for (WorldSettings.GameType gameType : values()) {
+            if (gameType.id == idIn) {
+               return gameType;
             }
          }
 
          return SURVIVAL;
       }
 
-      public static WorldSettings.GameType getByName(String var0) {
-         for (WorldSettings.GameType var7 : values()) {
-            if (var7.name.equals(var0)) {
-               return var7;
+      public static WorldSettings.GameType getByName(String gamemodeName) {
+         for (WorldSettings.GameType gameType : values()) {
+            if (gameType.name.equals(gamemodeName)) {
+               return gameType;
             }
          }
 

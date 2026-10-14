@@ -26,12 +26,12 @@ public class BiomeGenTaiga extends BiomeGenBase {
    private int field_150644_aH;
    private static final long bb = 29919747971781L;
 
-   public BiomeGenTaiga(int var1, int var2) {
-      super(var1);
-      this.field_150644_aH = var2;
+   public BiomeGenTaiga(int id, int i) {
+      super(id);
+      this.field_150644_aH = i;
       this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 8, 4, 4));
       this.theBiomeDecorator.treesPerChunk = 10;
-      if (var2 != 1 && var2 != 2) {
+      if (i != 1 && i != 2) {
          this.theBiomeDecorator.grassPerChunk = 1;
          this.theBiomeDecorator.mushroomsPerChunk = 1;
       } else {
@@ -42,66 +42,66 @@ public class BiomeGenTaiga extends BiomeGenBase {
    }
 
    @Override
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
-      return (this.field_150644_aH == 1 || this.field_150644_aH == 2) && var1.nextInt(3) == 0
-         ? (this.field_150644_aH != 2 && var1.nextInt(13) != 0 ? field_150641_aE : field_150642_aF)
-         : (var1.nextInt(3) == 0 ? field_150639_aC : field_150640_aD);
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
+      return (this.field_150644_aH == 1 || this.field_150644_aH == 2) && rand.nextInt(3) == 0
+         ? (this.field_150644_aH != 2 && rand.nextInt(13) != 0 ? field_150641_aE : field_150642_aF)
+         : (rand.nextInt(3) == 0 ? field_150639_aC : field_150640_aD);
    }
 
    @Override
-   public WorldGenerator getRandomWorldGenForGrass(Random var1) {
-      return var1.nextInt(5) > 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
+   public WorldGenerator getRandomWorldGenForGrass(Random rand) {
+      return rand.nextInt(5) > 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
       if (this.field_150644_aH == 1 || this.field_150644_aH == 2) {
-         int var7 = var2.nextInt(3);
+         int i = rand.nextInt(3);
 
-         for (int var8 = 0; var8 < var7; var8++) {
-            int var9 = var2.nextInt(16) + 8;
-            int var10 = var2.nextInt(16) + 8;
-            BlockPos var11 = var1.getHeight(var3.add(var9, 0, var10));
-            field_150643_aG.generate(var1, var2, var11);
+         for (int j = 0; j < i; j++) {
+            int k = rand.nextInt(16) + 8;
+            int l = rand.nextInt(16) + 8;
+            BlockPos blockPos = worldIn.getHeight(pos.add(k, 0, l));
+            field_150643_aG.generate(worldIn, rand, blockPos);
          }
       }
 
       DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.FERN);
 
-      for (int var12 = 0; var12 < 7; var12++) {
-         int var13 = var2.nextInt(16) + 8;
-         int var14 = var2.nextInt(16) + 8;
-         int var15 = var2.nextInt(var1.getHeight(var3.add(var13, 0, var14)).getY() + 32);
-         DOUBLE_PLANT_GENERATOR.generate(var1, var2, var3.add(var13, var15, var14));
+      for (int m = 0; m < 7; m++) {
+         int n = rand.nextInt(16) + 8;
+         int i2 = rand.nextInt(16) + 8;
+         int i3 = rand.nextInt(worldIn.getHeight(pos.add(n, 0, i2)).getY() + 32);
+         DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(n, i3, i2));
       }
 
-      super.decorate(var1, var2, var3);
+      super.decorate(worldIn, rand, pos);
    }
 
    @Override
-   public void genTerrainBlocks(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
+   public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
       if (this.field_150644_aH == 1 || this.field_150644_aH == 2) {
          this.topBlock = Blocks.grass.getDefaultState();
          this.fillerBlock = Blocks.dirt.getDefaultState();
-         if (var6 > 1.75) {
+         if (noiseVal > 1.75) {
             this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
-         } else if (var6 > -0.95) {
+         } else if (noiseVal > -0.95) {
             this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
          }
       }
 
-      this.generateBiomeTerrain(var1, var2, var3, var4, var5, var6);
+      this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
    }
 
    @Override
-   public BiomeGenBase createMutatedBiome(int var1) {
+   public BiomeGenBase createMutatedBiome(int i) {
       return this.biomeID == BiomeGenBase.megaTaiga.biomeID
-         ? new BiomeGenTaiga(var1, 2)
+         ? new BiomeGenTaiga(i, 2)
             .func_150557_a(5858897, true)
             .setBiomeName("Mega Spruce Taiga")
             .setFillerBlockMetadata(5159473)
             .setTemperatureRainfall(0.25F, 0.8F)
             .setHeight(new BiomeGenBase.Height(this.minHeight, this.maxHeight))
-         : super.createMutatedBiome(var1);
+         : super.createMutatedBiome(i);
    }
 }

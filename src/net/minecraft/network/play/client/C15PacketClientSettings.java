@@ -18,34 +18,34 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer> {
    public C15PacketClientSettings() {
    }
 
-   public C15PacketClientSettings(String var1, int var2, EntityPlayer.EnumChatVisibility var3, boolean var4, int var5) {
-      this.lang = var1;
-      this.view = var2;
-      this.chatVisibility = var3;
-      this.enableColors = var4;
-      this.modelPartFlags = var5;
+   public C15PacketClientSettings(String langIn, int viewIn, EntityPlayer.EnumChatVisibility chatVisibilityIn, boolean enableColorsIn, int modelPartFlagsIn) {
+      this.lang = langIn;
+      this.view = viewIn;
+      this.chatVisibility = chatVisibilityIn;
+      this.enableColors = enableColorsIn;
+      this.modelPartFlags = modelPartFlagsIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.lang = var1.readStringFromBuffer((int)b);
-      this.view = var1.readByte();
-      this.chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility(var1.readByte());
-      this.enableColors = var1.readBoolean();
-      this.modelPartFlags = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.lang = buf.readStringFromBuffer((int)b);
+      this.view = buf.readByte();
+      this.chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility(buf.readByte());
+      this.enableColors = buf.readBoolean();
+      this.modelPartFlags = buf.readUnsignedByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.lang);
-      var1.writeByte(this.view);
-      var1.writeByte(this.chatVisibility.getChatVisibility());
-      var1.writeBoolean(this.enableColors);
-      var1.writeByte(this.modelPartFlags);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.lang);
+      buf.writeByte(this.view);
+      buf.writeByte(this.chatVisibility.getChatVisibility());
+      buf.writeBoolean(this.enableColors);
+      buf.writeByte(this.modelPartFlags);
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processClientSettings(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processClientSettings(this);
    }
 
    public String getLang() {

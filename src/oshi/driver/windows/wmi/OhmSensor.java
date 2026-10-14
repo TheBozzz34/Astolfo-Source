@@ -13,12 +13,12 @@ public final class OhmSensor {
    private OhmSensor() {
    }
 
-   public static WmiResult<OhmSensor.ValueProperty> querySensorValue(String var0, String var1) {
-      StringBuilder var6 = new StringBuilder("Sensor");
-      var6.append(" WHERE Parent = \"").append(var0);
-      var6.append("\" AND SensorType=\"").append(var1).append((char)((int)e));
-      WmiQuery var7 = new WmiQuery<>("ROOT\\OpenHardwareMonitor", var6.toString(), OhmSensor.ValueProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var7);
+   public static WmiResult<OhmSensor.ValueProperty> querySensorValue(String identifier, String sensorType) {
+      StringBuilder stringBuilder = new StringBuilder("Sensor");
+      stringBuilder.append(" WHERE Parent = \"").append(identifier);
+      stringBuilder.append("\" AND SensorType=\"").append(sensorType).append((char)((int)e));
+      WmiQuery wmiQuery = new WmiQuery<>("ROOT\\OpenHardwareMonitor", stringBuilder.toString(), OhmSensor.ValueProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum ValueProperty {

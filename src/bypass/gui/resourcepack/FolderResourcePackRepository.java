@@ -19,80 +19,82 @@ public class FolderResourcePackRepository extends ResourcePackRepository {
    private boolean R = true;
    private static final long a = 112939523825849L;
 
-   public static ResourcePackRepository.Entry b(ResourcePackRepository var0, File var1) {
+   public static ResourcePackRepository.Entry b(ResourcePackRepository resourcePackRepository, File file) {
       try {
          if (S == null) {
             S = ResourcePackRepository.Entry.class.getDeclaredConstructor(ResourcePackRepository.class, File.class);
             S.setAccessible(true);
          }
 
-         return S.newInstance(var0, var1);
-      } catch (Throwable var6) {
-         var6.printStackTrace();
+         return S.newInstance(resourcePackRepository, file);
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
          return null;
       }
    }
 
-   public FolderResourcePackRepository(File var1, File var2, IResourcePack var3, IMetadataSerializer var4, GameSettings var5, List<String> var6) {
-      super(var1, var2, var3, var4, var5);
+   public FolderResourcePackRepository(
+      File file, File file2, IResourcePack iResourcePack, IMetadataSerializer iMetadataSerializer, GameSettings gameSettings, List<String> list
+   ) {
+      super(file, file2, iResourcePack, iMetadataSerializer, gameSettings);
       this.updateRepositoryEntriesAll();
 
-      for (String var11 : var6) {
-         for (ResourcePackRepository.Entry var13 : this.W) {
-            if (var13.getResourcePackName().equals(var11)) {
-               this.s.add(var13);
+      for (String string : list) {
+         for (ResourcePackRepository.Entry entry : this.W) {
+            if (entry.getResourcePackName().equals(string)) {
+               this.s.add(entry);
             }
          }
       }
    }
 
-   private final List<File> a(File var1) {
-      if (!var1.isDirectory()) {
+   private final List<File> a(File file) {
+      if (!file.isDirectory()) {
          return Collections.emptyList();
       }
 
-      ArrayList var5 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (File var9 : var1.listFiles()) {
-         if (var9.isDirectory() && !new File(var9, "pack.mcmeta").isFile()) {
-            var5.addAll(this.a(var9));
+      for (File file2 : file.listFiles()) {
+         if (file2.isDirectory() && !new File(file2, "pack.mcmeta").isFile()) {
+            arrayList.addAll(this.a(file2));
          } else {
-            var5.add(var9);
+            arrayList.add(file2);
          }
       }
 
-      return var5;
+      return arrayList;
    }
 
    @Override
    public void updateRepositoryEntriesAll() {
       if (this.R) {
-         ArrayList var4 = Lists.newArrayList();
+         ArrayList arrayList = Lists.newArrayList();
 
-         for (File var6 : this.a(this.getDirResourcepacks())) {
-            ResourcePackRepository.Entry var7 = b(this, var6);
-            if (!this.W.contains(var7)) {
+         for (File file : this.a(this.getDirResourcepacks())) {
+            ResourcePackRepository.Entry entry = b(this, file);
+            if (!this.W.contains(entry)) {
                try {
-                  var7.updateResourcePack();
-                  var4.add(var7);
-               } catch (Exception var9) {
-                  var4.remove(var7);
+                  entry.updateResourcePack();
+                  arrayList.add(entry);
+               } catch (Exception exception) {
+                  arrayList.remove(entry);
                }
             } else {
-               int var8 = this.W.indexOf(var7);
-               if (var8 > -1 && var8 < this.W.size()) {
-                  var4.add(this.W.get(var8));
+               int i = this.W.indexOf(entry);
+               if (i > -1 && i < this.W.size()) {
+                  arrayList.add(this.W.get(i));
                }
             }
          }
 
-         this.W.removeAll(var4);
+         this.W.removeAll(arrayList);
 
-         for (ResourcePackRepository.Entry var11 : this.W) {
-            var11.closeResourcePack();
+         for (ResourcePackRepository.Entry entry2 : this.W) {
+            entry2.closeResourcePack();
          }
 
-         this.W = var4;
+         this.W = arrayList;
       }
    }
 
@@ -107,8 +109,8 @@ public class FolderResourcePackRepository extends ResourcePackRepository {
    }
 
    @Override
-   public void setRepositories(List<ResourcePackRepository.Entry> var1) {
+   public void setRepositories(List<ResourcePackRepository.Entry> repositories) {
       this.s.clear();
-      this.s.addAll(var1);
+      this.s.addAll(repositories);
    }
 }

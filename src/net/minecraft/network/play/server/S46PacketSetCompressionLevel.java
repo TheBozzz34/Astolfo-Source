@@ -9,17 +9,17 @@ public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClien
    private int threshold;
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.threshold = var1.readVarIntFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.threshold = buf.readVarIntFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.threshold);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.threshold);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSetCompressionLevel(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSetCompressionLevel(this);
    }
 
    public int getThreshold() {

@@ -12,19 +12,19 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive {
    public NBTTagDouble() {
    }
 
-   public NBTTagDouble(double var1) {
-      this.data = var1;
+   public NBTTagDouble(double data) {
+      this.data = data;
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
-      var1.writeDouble(this.data);
+   public void write(DataOutput output) throws IOException {
+      output.writeDouble(this.data);
    }
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(128L);
-      this.data = var1.readDouble();
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(128L);
+      this.data = input.readDouble();
    }
 
    @Override
@@ -43,10 +43,10 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (super.equals(var1)) {
-         NBTTagDouble var5 = (NBTTagDouble)var1;
-         return this.data == var5.data;
+   public boolean equals(Object object) {
+      if (super.equals(object)) {
+         NBTTagDouble nbtTagDouble = (NBTTagDouble)object;
+         return this.data == nbtTagDouble.data;
       } else {
          return false;
       }
@@ -54,8 +54,8 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive {
 
    @Override
    public int hashCode() {
-      long var3 = Double.doubleToLongBits(this.data);
-      return super.hashCode() ^ (int)(var3 ^ var3 >>> 32);
+      long l = Double.doubleToLongBits(this.data);
+      return super.hashCode() ^ (int)(l ^ l >>> 32);
    }
 
    @Override

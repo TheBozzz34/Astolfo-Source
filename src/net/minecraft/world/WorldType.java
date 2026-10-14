@@ -17,16 +17,16 @@ public class WorldType {
    private boolean hasNotificationData;
    private static final long b = 106586809277169L;
 
-   private WorldType(int var1, String var2) {
-      this(var1, var2, 0);
+   private WorldType(int id, String name) {
+      this(id, name, 0);
    }
 
-   private WorldType(int var1, String var2, int var3) {
-      this.worldType = var2;
-      this.generatorVersion = var3;
+   private WorldType(int id, String name, int version) {
+      this.worldType = name;
+      this.generatorVersion = version;
       this.canBeCreated = true;
-      this.worldTypeId = var1;
-      worldTypes[var1] = this;
+      this.worldTypeId = id;
+      worldTypes[id] = this;
    }
 
    public String getWorldTypeName() {
@@ -45,12 +45,12 @@ public class WorldType {
       return this.generatorVersion;
    }
 
-   public WorldType getWorldTypeForGeneratorVersion(int var1) {
-      return this == DEFAULT && var1 == 0 ? DEFAULT_1_1 : this;
+   public WorldType getWorldTypeForGeneratorVersion(int version) {
+      return this == DEFAULT && version == 0 ? DEFAULT_1_1 : this;
    }
 
-   private WorldType setCanBeCreated(boolean var1) {
-      this.canBeCreated = var1;
+   private WorldType setCanBeCreated(boolean enable) {
+      this.canBeCreated = enable;
       return this;
    }
 
@@ -67,10 +67,10 @@ public class WorldType {
       return this.isWorldTypeVersioned;
    }
 
-   public static WorldType parseWorldType(String var0) {
-      for (int var4 = 0; var4 < worldTypes.length; var4++) {
-         if (worldTypes[var4] != null && worldTypes[var4].worldType.equalsIgnoreCase(var0)) {
-            return worldTypes[var4];
+   public static WorldType parseWorldType(String typeIn) {
+      for (int i = 0; i < worldTypes.length; i++) {
+         if (worldTypes[i] != null && worldTypes[i].worldType.equalsIgnoreCase(typeIn)) {
+            return worldTypes[i];
          }
       }
 

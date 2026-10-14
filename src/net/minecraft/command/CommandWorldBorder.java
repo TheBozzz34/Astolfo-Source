@@ -22,148 +22,148 @@ public class CommandWorldBorder extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.worldborder.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 1) {
          throw new WrongUsageException("commands.worldborder.usage");
       }
 
-      WorldBorder var6 = this.getWorldBorder();
-      if (var2[0].equals("set")) {
-         if (var2.length != 2 && var2.length != 3) {
+      WorldBorder worldBorder = this.getWorldBorder();
+      if (args[0].equals("set")) {
+         if (args.length != 2 && args.length != 3) {
             throw new WrongUsageException("commands.worldborder.set.usage");
          }
 
-         double var7 = var6.getTargetSize();
-         double var9 = parseDouble(var2[1], 1.0, 6.0E7);
-         long var11 = var2.length > 2 ? parseLong(var2[2], 0L, 9223372036854775L) * 1000L : 0L;
-         if (var11 > 0L) {
-            var6.setTransition(var7, var9, var11);
-            if (var7 > var9) {
+         double d = worldBorder.getTargetSize();
+         double e = parseDouble(args[1], 1.0, 6.0E7);
+         long l = args.length > 2 ? parseLong(args[2], 0L, 9223372036854775L) * 1000L : 0L;
+         if (l > 0L) {
+            worldBorder.setTransition(d, e, l);
+            if (d > e) {
                notifyOperators(
-                  var1,
+                  sender,
                   this,
                   "commands.worldborder.setSlowly.shrink.success",
-                  String.format("%.1f", var9),
-                  String.format("%.1f", var7),
-                  Long.toString(var11 / 1000L)
+                  String.format("%.1f", e),
+                  String.format("%.1f", d),
+                  Long.toString(l / 1000L)
                );
             } else {
                notifyOperators(
-                  var1,
+                  sender,
                   this,
                   "commands.worldborder.setSlowly.grow.success",
-                  String.format("%.1f", var9),
-                  String.format("%.1f", var7),
-                  Long.toString(var11 / 1000L)
+                  String.format("%.1f", e),
+                  String.format("%.1f", d),
+                  Long.toString(l / 1000L)
                );
             }
          } else {
-            var6.setTransition(var9);
-            notifyOperators(var1, this, "commands.worldborder.set.success", String.format("%.1f", var9), String.format("%.1f", var7));
+            worldBorder.setTransition(e);
+            notifyOperators(sender, this, "commands.worldborder.set.success", String.format("%.1f", e), String.format("%.1f", d));
          }
-      } else if (var2[0].equals("add")) {
-         if (var2.length != 2 && var2.length != 3) {
+      } else if (args[0].equals("add")) {
+         if (args.length != 2 && args.length != 3) {
             throw new WrongUsageException("commands.worldborder.add.usage");
          }
 
-         double var13 = var6.getDiameter();
-         double var21 = var13 + parseDouble(var2[1], -var13, 6.0E7 - var13);
-         long var24 = var6.getTimeUntilTarget() + (var2.length > 2 ? parseLong(var2[2], 0L, 9223372036854775L) * 1000L : 0L);
-         if (var24 > 0L) {
-            var6.setTransition(var13, var21, var24);
-            if (var13 > var21) {
+         double d2 = worldBorder.getDiameter();
+         double d3 = d2 + parseDouble(args[1], -d2, 6.0E7 - d2);
+         long m = worldBorder.getTimeUntilTarget() + (args.length > 2 ? parseLong(args[2], 0L, 9223372036854775L) * 1000L : 0L);
+         if (m > 0L) {
+            worldBorder.setTransition(d2, d3, m);
+            if (d2 > d3) {
                notifyOperators(
-                  var1,
+                  sender,
                   this,
                   "commands.worldborder.setSlowly.shrink.success",
-                  String.format("%.1f", var21),
-                  String.format("%.1f", var13),
-                  Long.toString(var24 / 1000L)
+                  String.format("%.1f", d3),
+                  String.format("%.1f", d2),
+                  Long.toString(m / 1000L)
                );
             } else {
                notifyOperators(
-                  var1,
+                  sender,
                   this,
                   "commands.worldborder.setSlowly.grow.success",
-                  String.format("%.1f", var21),
-                  String.format("%.1f", var13),
-                  Long.toString(var24 / 1000L)
+                  String.format("%.1f", d3),
+                  String.format("%.1f", d2),
+                  Long.toString(m / 1000L)
                );
             }
          } else {
-            var6.setTransition(var21);
-            notifyOperators(var1, this, "commands.worldborder.set.success", String.format("%.1f", var21), String.format("%.1f", var13));
+            worldBorder.setTransition(d3);
+            notifyOperators(sender, this, "commands.worldborder.set.success", String.format("%.1f", d3), String.format("%.1f", d2));
          }
-      } else if (var2[0].equals("center")) {
-         if (var2.length != 3) {
+      } else if (args[0].equals("center")) {
+         if (args.length != 3) {
             throw new WrongUsageException("commands.worldborder.center.usage");
          }
 
-         BlockPos var14 = var1.getPosition();
-         double var8 = parseDouble(var14.getX() + 0.5, var2[1], true);
-         double var10 = parseDouble(var14.getZ() + 0.5, var2[2], true);
-         var6.setCenter(var8, var10);
-         notifyOperators(var1, this, "commands.worldborder.center.success", var8, var10);
-      } else if (var2[0].equals("damage")) {
-         if (var2.length < 2) {
+         BlockPos blockPos = sender.getPosition();
+         double d4 = parseDouble(blockPos.getX() + 0.5, args[1], true);
+         double d5 = parseDouble(blockPos.getZ() + 0.5, args[2], true);
+         worldBorder.setCenter(d4, d5);
+         notifyOperators(sender, this, "commands.worldborder.center.success", d4, d5);
+      } else if (args[0].equals("damage")) {
+         if (args.length < 2) {
             throw new WrongUsageException("commands.worldborder.damage.usage");
          }
 
-         if (var2[1].equals("buffer")) {
-            if (var2.length != 3) {
+         if (args[1].equals("buffer")) {
+            if (args.length != 3) {
                throw new WrongUsageException("commands.worldborder.damage.buffer.usage");
             }
 
-            double var15 = parseDouble(var2[2], 0.0);
-            double var22 = var6.getDamageBuffer();
-            var6.setDamageBuffer(var15);
-            notifyOperators(var1, this, "commands.worldborder.damage.buffer.success", String.format("%.1f", var15), String.format("%.1f", var22));
-         } else if (var2[1].equals("amount")) {
-            if (var2.length != 3) {
+            double d6 = parseDouble(args[2], 0.0);
+            double d7 = worldBorder.getDamageBuffer();
+            worldBorder.setDamageBuffer(d6);
+            notifyOperators(sender, this, "commands.worldborder.damage.buffer.success", String.format("%.1f", d6), String.format("%.1f", d7));
+         } else if (args[1].equals("amount")) {
+            if (args.length != 3) {
                throw new WrongUsageException("commands.worldborder.damage.amount.usage");
             }
 
-            double var16 = parseDouble(var2[2], 0.0);
-            double var23 = var6.getDamageAmount();
-            var6.setDamageAmount(var16);
-            notifyOperators(var1, this, "commands.worldborder.damage.amount.success", String.format("%.2f", var16), String.format("%.2f", var23));
+            double d8 = parseDouble(args[2], 0.0);
+            double d9 = worldBorder.getDamageAmount();
+            worldBorder.setDamageAmount(d8);
+            notifyOperators(sender, this, "commands.worldborder.damage.amount.success", String.format("%.2f", d8), String.format("%.2f", d9));
          }
-      } else if (var2[0].equals("warning")) {
-         if (var2.length < 2) {
+      } else if (args[0].equals("warning")) {
+         if (args.length < 2) {
             throw new WrongUsageException("commands.worldborder.warning.usage");
          }
 
-         int var17 = parseInt(var2[2], 0);
-         if (var2[1].equals("time")) {
-            if (var2.length != 3) {
+         int i = parseInt(args[2], 0);
+         if (args[1].equals("time")) {
+            if (args.length != 3) {
                throw new WrongUsageException("commands.worldborder.warning.time.usage");
             }
 
-            int var19 = var6.getWarningTime();
-            var6.setWarningTime(var17);
-            notifyOperators(var1, this, "commands.worldborder.warning.time.success", var17, var19);
-         } else if (var2[1].equals("distance")) {
-            if (var2.length != 3) {
+            int j = worldBorder.getWarningTime();
+            worldBorder.setWarningTime(i);
+            notifyOperators(sender, this, "commands.worldborder.warning.time.success", i, j);
+         } else if (args[1].equals("distance")) {
+            if (args.length != 3) {
                throw new WrongUsageException("commands.worldborder.warning.distance.usage");
             }
 
-            int var20 = var6.getWarningDistance();
-            var6.setWarningDistance(var17);
-            notifyOperators(var1, this, "commands.worldborder.warning.distance.success", var17, var20);
+            int k = worldBorder.getWarningDistance();
+            worldBorder.setWarningDistance(i);
+            notifyOperators(sender, this, "commands.worldborder.warning.distance.success", i, k);
          }
       } else {
-         if (!var2[0].equals("get")) {
+         if (!args[0].equals("get")) {
             throw new WrongUsageException("commands.worldborder.usage");
          }
 
-         double var18 = var6.getDiameter();
-         var1.setCommandStat(CommandResultStats.Type.QUERY_RESULT, MathHelper.floor_double(var18 + 0.5));
-         var1.addChatMessage(new ChatComponentTranslation("commands.worldborder.get.success", String.format("%.0f", var18)));
+         double d10 = worldBorder.getDiameter();
+         sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, MathHelper.floor_double(d10 + 0.5));
+         sender.addChatMessage(new ChatComponentTranslation("commands.worldborder.get.success", String.format("%.0f", d10)));
       }
    }
 
@@ -172,27 +172,27 @@ public class CommandWorldBorder extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      List var10000;
-      if (var2.length == 1) {
-         String[] var10001 = new String[(int)j];
-         var10001[0] = "set";
-         var10001[1] = "center";
-         var10001[2] = "damage";
-         var10001[3] = "warning";
-         var10001[4] = "add";
-         var10001[5] = "get";
-         var10000 = getListOfStringsMatchingLastWord(var2, var10001);
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      List list;
+      if (args.length == 1) {
+         String[] strings = new String[(int)j];
+         strings[0] = "set";
+         strings[1] = "center";
+         strings[2] = "damage";
+         strings[3] = "warning";
+         strings[4] = "add";
+         strings[5] = "get";
+         list = getListOfStringsMatchingLastWord(args, strings);
       } else {
-         var10000 = var2.length == 2 && var2[0].equals("damage")
-            ? getListOfStringsMatchingLastWord(var2, "buffer", "amount")
+         list = args.length == 2 && args[0].equals("damage")
+            ? getListOfStringsMatchingLastWord(args, "buffer", "amount")
             : (
-               var2.length >= 2 && var2.length <= 3 && var2[0].equals("center")
-                  ? func_181043_b(var2, 1, var3)
-                  : (var2.length == 2 && var2[0].equals("warning") ? getListOfStringsMatchingLastWord(var2, "time", "distance") : null)
+               args.length >= 2 && args.length <= 3 && args[0].equals("center")
+                  ? func_181043_b(args, 1, pos)
+                  : (args.length == 2 && args[0].equals("warning") ? getListOfStringsMatchingLastWord(args, "time", "distance") : null)
             );
       }
 
-      return var10000;
+      return list;
    }
 }

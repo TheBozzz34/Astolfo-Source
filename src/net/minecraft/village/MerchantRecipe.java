@@ -13,29 +13,29 @@ public class MerchantRecipe {
    private boolean rewardsExp;
    private static final long a = 99716916554346L;
 
-   public MerchantRecipe(NBTTagCompound var1) {
-      this.readFromTags(var1);
+   public MerchantRecipe(NBTTagCompound tagCompound) {
+      this.readFromTags(tagCompound);
    }
 
-   public MerchantRecipe(ItemStack var1, ItemStack var2, ItemStack var3) {
-      this(var1, var2, var3, 0, 7);
+   public MerchantRecipe(ItemStack buy1, ItemStack buy2, ItemStack sell) {
+      this(buy1, buy2, sell, 0, 7);
    }
 
-   public MerchantRecipe(ItemStack var1, ItemStack var2, ItemStack var3, int var4, int var5) {
-      this.itemToBuy = var1;
-      this.secondItemToBuy = var2;
-      this.itemToSell = var3;
-      this.toolUses = var4;
-      this.maxTradeUses = var5;
+   public MerchantRecipe(ItemStack buy1, ItemStack buy2, ItemStack sell, int toolUsesIn, int maxTradeUsesIn) {
+      this.itemToBuy = buy1;
+      this.secondItemToBuy = buy2;
+      this.itemToSell = sell;
+      this.toolUses = toolUsesIn;
+      this.maxTradeUses = maxTradeUsesIn;
       this.rewardsExp = true;
    }
 
-   public MerchantRecipe(ItemStack var1, ItemStack var2) {
-      this(var1, (ItemStack)null, var2);
+   public MerchantRecipe(ItemStack buy1, ItemStack sell) {
+      this(buy1, (ItemStack)null, sell);
    }
 
-   public MerchantRecipe(ItemStack var1, Item var2) {
-      this(var1, new ItemStack(var2));
+   public MerchantRecipe(ItemStack buy1, Item sellItem) {
+      this(buy1, new ItemStack(sellItem));
    }
 
    public ItemStack getItemToBuy() {
@@ -66,8 +66,8 @@ public class MerchantRecipe {
       this.toolUses++;
    }
 
-   public void increaseMaxTradeUses(int var1) {
-      this.maxTradeUses += var1;
+   public void increaseMaxTradeUses(int increment) {
+      this.maxTradeUses += increment;
    }
 
    public boolean isRecipeDisabled() {
@@ -82,43 +82,43 @@ public class MerchantRecipe {
       return this.rewardsExp;
    }
 
-   public void readFromTags(NBTTagCompound var1) {
-      NBTTagCompound var5 = var1.getCompoundTag("buy");
-      this.itemToBuy = ItemStack.loadItemStackFromNBT(var5);
-      NBTTagCompound var6 = var1.getCompoundTag("sell");
-      this.itemToSell = ItemStack.loadItemStackFromNBT(var6);
-      if (var1.hasKey("buyB", 10)) {
-         this.secondItemToBuy = ItemStack.loadItemStackFromNBT(var1.getCompoundTag("buyB"));
+   public void readFromTags(NBTTagCompound tagCompound) {
+      NBTTagCompound nbtTagCompound = tagCompound.getCompoundTag("buy");
+      this.itemToBuy = ItemStack.loadItemStackFromNBT(nbtTagCompound);
+      NBTTagCompound nbtTagCompound2 = tagCompound.getCompoundTag("sell");
+      this.itemToSell = ItemStack.loadItemStackFromNBT(nbtTagCompound2);
+      if (tagCompound.hasKey("buyB", 10)) {
+         this.secondItemToBuy = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("buyB"));
       }
 
-      if (var1.hasKey("uses", 99)) {
-         this.toolUses = var1.getInteger("uses");
+      if (tagCompound.hasKey("uses", 99)) {
+         this.toolUses = tagCompound.getInteger("uses");
       }
 
-      if (var1.hasKey("maxUses", 99)) {
-         this.maxTradeUses = var1.getInteger("maxUses");
+      if (tagCompound.hasKey("maxUses", 99)) {
+         this.maxTradeUses = tagCompound.getInteger("maxUses");
       } else {
          this.maxTradeUses = 7;
       }
 
-      if (var1.hasKey("rewardExp", 1)) {
-         this.rewardsExp = var1.getBoolean("rewardExp");
+      if (tagCompound.hasKey("rewardExp", 1)) {
+         this.rewardsExp = tagCompound.getBoolean("rewardExp");
       } else {
          this.rewardsExp = true;
       }
    }
 
    public NBTTagCompound writeToTags() {
-      NBTTagCompound var4 = new NBTTagCompound();
-      var4.setTag("buy", this.itemToBuy.writeToNBT(new NBTTagCompound()));
-      var4.setTag("sell", this.itemToSell.writeToNBT(new NBTTagCompound()));
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      nbtTagCompound.setTag("buy", this.itemToBuy.writeToNBT(new NBTTagCompound()));
+      nbtTagCompound.setTag("sell", this.itemToSell.writeToNBT(new NBTTagCompound()));
       if (this.secondItemToBuy != null) {
-         var4.setTag("buyB", this.secondItemToBuy.writeToNBT(new NBTTagCompound()));
+         nbtTagCompound.setTag("buyB", this.secondItemToBuy.writeToNBT(new NBTTagCompound()));
       }
 
-      var4.setInteger("uses", this.toolUses);
-      var4.setInteger("maxUses", this.maxTradeUses);
-      var4.setBoolean("rewardExp", this.rewardsExp);
-      return var4;
+      nbtTagCompound.setInteger("uses", this.toolUses);
+      nbtTagCompound.setInteger("maxUses", this.maxTradeUses);
+      nbtTagCompound.setBoolean("rewardExp", this.rewardsExp);
+      return nbtTagCompound;
    }
 }

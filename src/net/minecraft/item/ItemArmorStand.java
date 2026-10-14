@@ -23,63 +23,65 @@ public class ItemArmorStand extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var5 == EnumFacing.DOWN) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (side == EnumFacing.DOWN) {
          return false;
       }
 
-      boolean var12 = var3.getBlockState(var4).getBlock().isReplaceable(var3, var4);
-      BlockPos var13 = var12 ? var4 : var4.offset(var5);
-      if (!var2.canPlayerEdit(var13, var5, var1)) {
+      boolean bl = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
+      BlockPos blockPos = bl ? pos : pos.offset(side);
+      if (!playerIn.canPlayerEdit(blockPos, side, stack)) {
          return false;
       }
 
-      BlockPos var14 = var13.up();
-      boolean var15 = !var3.isAirBlock(var13) && !var3.getBlockState(var13).getBlock().isReplaceable(var3, var13);
-      var15 |= !var3.isAirBlock(var14) && !var3.getBlockState(var14).getBlock().isReplaceable(var3, var14);
-      if (var15) {
+      BlockPos blockPos2 = blockPos.up();
+      boolean bl2 = !worldIn.isAirBlock(blockPos) && !worldIn.getBlockState(blockPos).getBlock().isReplaceable(worldIn, blockPos);
+      bl2 |= !worldIn.isAirBlock(blockPos2) && !worldIn.getBlockState(blockPos2).getBlock().isReplaceable(worldIn, blockPos2);
+      if (bl2) {
          return false;
       }
 
-      double var16 = var13.getX();
-      double var18 = var13.getY();
-      double var20 = var13.getZ();
-      List var22 = var3.getEntitiesWithinAABBExcludingEntity((Entity)null, AxisAlignedBB.fromBounds(var16, var18, var20, var16 + 1.0, var18 + 2.0, var20 + 1.0));
-      if (var22.size() > 0) {
+      double d = blockPos.getX();
+      double e = blockPos.getY();
+      double d2 = blockPos.getZ();
+      List list = worldIn.getEntitiesWithinAABBExcludingEntity(
+         (Entity)null, AxisAlignedBB.fromBounds(d, e, d2, d + 1.0, e + 2.0, d2 + 1.0)
+      );
+      if (list.size() > 0) {
          return false;
       }
 
-      if (!var3.isRemote) {
-         var3.setBlockToAir(var13);
-         var3.setBlockToAir(var14);
-         EntityArmorStand var23 = new EntityArmorStand(var3, var16 + 0.5, var18, var20 + 0.5);
-         float var24 = MathHelper.floor_float((MathHelper.wrapAngleTo180_float(var2.rotationYaw - 180.0F) + 22.5F) / 45.0F) * 45.0F;
-         var23.setLocationAndAngles(var16 + 0.5, var18, var20 + 0.5, var24, 0.0F);
-         this.applyRandomRotations(var23, var3.rand);
-         NBTTagCompound var25 = var1.getTagCompound();
-         if (var25 != null && var25.hasKey("EntityTag", (int)f)) {
-            NBTTagCompound var26 = new NBTTagCompound();
-            var23.writeToNBTOptional(var26);
-            var26.merge(var25.getCompoundTag("EntityTag"));
-            var23.readFromNBT(var26);
+      if (!worldIn.isRemote) {
+         worldIn.setBlockToAir(blockPos);
+         worldIn.setBlockToAir(blockPos2);
+         EntityArmorStand entityArmorStand = new EntityArmorStand(worldIn, d + 0.5, e, d2 + 0.5);
+         float g = MathHelper.floor_float((MathHelper.wrapAngleTo180_float(playerIn.rotationYaw - 180.0F) + 22.5F) / 45.0F) * 45.0F;
+         entityArmorStand.setLocationAndAngles(d + 0.5, e, d2 + 0.5, g, 0.0F);
+         this.applyRandomRotations(entityArmorStand, worldIn.rand);
+         NBTTagCompound nbtTagCompound = stack.getTagCompound();
+         if (nbtTagCompound != null && nbtTagCompound.hasKey("EntityTag", (int)f)) {
+            NBTTagCompound nbtTagCompound2 = new NBTTagCompound();
+            entityArmorStand.writeToNBTOptional(nbtTagCompound2);
+            nbtTagCompound2.merge(nbtTagCompound.getCompoundTag("EntityTag"));
+            entityArmorStand.readFromNBT(nbtTagCompound2);
          }
 
-         var3.spawnEntityInWorld(var23);
+         worldIn.spawnEntityInWorld(entityArmorStand);
       }
 
-      var1.stackSize--;
+      stack.stackSize--;
       return true;
    }
 
-   private void applyRandomRotations(EntityArmorStand var1, Random var2) {
-      Rotations var3 = var1.getHeadRotation();
-      float var4 = var2.nextFloat() * 5.0F;
-      float var5 = var2.nextFloat() * 20.0F - 10.0F;
-      Rotations var6 = new Rotations(var3.getX() + var4, var3.getY() + var5, var3.getZ());
-      var1.setHeadRotation(var6);
-      var3 = var1.getBodyRotation();
-      var4 = var2.nextFloat() * 10.0F - 5.0F;
-      var6 = new Rotations(var3.getX(), var3.getY() + var4, var3.getZ());
-      var1.setBodyRotation(var6);
+   private void applyRandomRotations(EntityArmorStand armorStand, Random rand) {
+      Rotations rotations = armorStand.getHeadRotation();
+      float f = rand.nextFloat() * 5.0F;
+      float g = rand.nextFloat() * 20.0F - 10.0F;
+      Rotations rotations2 = new Rotations(rotations.getX() + f, rotations.getY() + g, rotations.getZ());
+      armorStand.setHeadRotation(rotations2);
+      rotations = armorStand.getBodyRotation();
+      f = rand.nextFloat() * 10.0F - 5.0F;
+      rotations2 = new Rotations(rotations.getX(), rotations.getY() + f, rotations.getZ());
+      armorStand.setBodyRotation(rotations2);
    }
 }

@@ -7,11 +7,11 @@ public class Language implements Comparable<Language> {
    private final boolean bidirectional;
    private static final long a = 21946613768247L;
 
-   public Language(String var1, String var2, String var3, boolean var4) {
-      this.languageCode = var1;
-      this.region = var2;
-      this.name = var3;
-      this.bidirectional = var4;
+   public Language(String languageCodeIn, String regionIn, String nameIn, boolean bidirectionalIn) {
+      this.languageCode = languageCodeIn;
+      this.region = regionIn;
+      this.name = nameIn;
+      this.bidirectional = bidirectionalIn;
    }
 
    public String getLanguageCode() {
@@ -28,8 +28,8 @@ public class Language implements Comparable<Language> {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return this == var1 ? true : (!(var1 instanceof Language) ? false : this.languageCode.equals(((Language)var1).languageCode));
+   public boolean equals(Object object) {
+      return this == object ? true : (!(object instanceof Language) ? false : this.languageCode.equals(((Language)object).languageCode));
    }
 
    @Override
@@ -37,7 +37,7 @@ public class Language implements Comparable<Language> {
       return this.languageCode.hashCode();
    }
 
-   public int compareTo(Language var1) {
-      return this.languageCode.compareTo(var1.languageCode);
+   public int compareTo(Language language) {
+      return this.languageCode.compareTo(language.languageCode);
    }
 }

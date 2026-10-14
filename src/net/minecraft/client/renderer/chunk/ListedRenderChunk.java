@@ -10,12 +10,12 @@ public class ListedRenderChunk extends RenderChunk {
    private final int baseDisplayList = GLAllocation.generateDisplayLists(EnumWorldBlockLayer.values().length);
    private static final long d = 61791682625465L;
 
-   public ListedRenderChunk(World var1, RenderGlobal var2, BlockPos var3, int var4) {
-      super(var1, var2, var3, var4);
+   public ListedRenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos pos, int indexIn) {
+      super(worldIn, renderGlobalIn, pos, indexIn);
    }
 
-   public int getDisplayList(EnumWorldBlockLayer var1, CompiledChunk var2) {
-      return !var2.isLayerEmpty(var1) ? this.baseDisplayList + var1.ordinal() : -1;
+   public int getDisplayList(EnumWorldBlockLayer layer, CompiledChunk compiledChunk) {
+      return !compiledChunk.isLayerEmpty(layer) ? this.baseDisplayList + layer.ordinal() : -1;
    }
 
    @Override

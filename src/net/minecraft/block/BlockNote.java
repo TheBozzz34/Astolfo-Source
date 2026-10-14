@@ -25,67 +25,67 @@ public class BlockNote extends BlockContainer {
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      boolean var8 = var1.isBlockPowered(var2);
-      TileEntity var9 = var1.getTileEntity(var2);
-      if (var9 instanceof TileEntityNote) {
-         TileEntityNote var10 = (TileEntityNote)var9;
-         if (var10.previousRedstoneState != var8) {
-            if (var8) {
-               var10.triggerNote(var1, var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      boolean bl = worldIn.isBlockPowered(pos);
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityNote) {
+         TileEntityNote tileEntityNote = (TileEntityNote)tileEntity;
+         if (tileEntityNote.previousRedstoneState != bl) {
+            if (bl) {
+               tileEntityNote.triggerNote(worldIn, pos);
             }
 
-            var10.previousRedstoneState = var8;
+            tileEntityNote.previousRedstoneState = bl;
          }
       }
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var1.isRemote) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      TileEntity var12 = var1.getTileEntity(var2);
-      if (var12 instanceof TileEntityNote) {
-         TileEntityNote var13 = (TileEntityNote)var12;
-         var13.changePitch();
-         var13.triggerNote(var1, var2);
-         var4.triggerAchievement(StatList.field_181735_S);
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityNote) {
+         TileEntityNote tileEntityNote = (TileEntityNote)tileEntity;
+         tileEntityNote.changePitch();
+         tileEntityNote.triggerNote(worldIn, pos);
+         playerIn.triggerAchievement(StatList.field_181735_S);
       }
 
       return true;
    }
 
    @Override
-   public void onBlockClicked(World var1, BlockPos var2, EntityPlayer var3) {
-      if (!var1.isRemote) {
-         TileEntity var7 = var1.getTileEntity(var2);
-         if (var7 instanceof TileEntityNote) {
-            ((TileEntityNote)var7).triggerNote(var1, var2);
-            var3.triggerAchievement(StatList.field_181734_R);
+   public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+      if (!worldIn.isRemote) {
+         TileEntity tileEntity = worldIn.getTileEntity(pos);
+         if (tileEntity instanceof TileEntityNote) {
+            ((TileEntityNote)tileEntity).triggerNote(worldIn, pos);
+            playerIn.triggerAchievement(StatList.field_181734_R);
          }
       }
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityNote();
    }
 
-   private String getInstrument(int var1) {
-      if (var1 < 0 || var1 >= INSTRUMENTS.size()) {
-         var1 = 0;
+   private String getInstrument(int id) {
+      if (id < 0 || id >= INSTRUMENTS.size()) {
+         id = 0;
       }
 
-      return INSTRUMENTS.get(var1);
+      return INSTRUMENTS.get(id);
    }
 
    @Override
-   public boolean onBlockEventReceived(World var1, BlockPos var2, IBlockState var3, int var4, int var5) {
-      float var8 = (float)Math.pow(2.0, (var5 - (int)K) / 12.0);
-      var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.5, var2.getZ() + 0.5, "note." + this.getInstrument(var4), 3.0F, var8);
-      var1.spawnParticle(EnumParticleTypes.NOTE, var2.getX() + 0.5, var2.getY() + 1.2, var2.getZ() + 0.5, var5 / 24.0, 0.0, 0.0);
+   public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
+      float f = (float)Math.pow(2.0, (eventParam - (int)K) / 12.0);
+      worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, "note." + this.getInstrument(eventID), 3.0F, f);
+      worldIn.spawnParticle(EnumParticleTypes.NOTE, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, eventParam / 24.0, 0.0, 0.0);
       return true;
    }
 

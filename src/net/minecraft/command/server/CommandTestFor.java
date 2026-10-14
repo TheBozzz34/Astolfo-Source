@@ -27,44 +27,44 @@ public class CommandTestFor extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.testfor.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 1) {
          throw new WrongUsageException("commands.testfor.usage");
       }
 
-      Entity var6 = getEntity(var1, var2[0]);
-      NBTTagCompound var7 = null;
-      if (var2.length >= 2) {
+      Entity entity = getEntity(sender, args[0]);
+      NBTTagCompound nbtTagCompound = null;
+      if (args.length >= 2) {
          try {
-            var7 = JsonToNBT.getTagFromJson(buildString(var2, 1));
-         } catch (NBTException var9) {
-            throw new CommandException("commands.testfor.tagError", var9.getMessage());
+            nbtTagCompound = JsonToNBT.getTagFromJson(buildString(args, 1));
+         } catch (NBTException nbtException) {
+            throw new CommandException("commands.testfor.tagError", nbtException.getMessage());
          }
       }
 
-      if (var7 != null) {
-         NBTTagCompound var8 = new NBTTagCompound();
-         var6.writeToNBT(var8);
-         if (!NBTUtil.func_181123_a(var7, var8, true)) {
-            throw new CommandException("commands.testfor.failure", var6.getName());
+      if (nbtTagCompound != null) {
+         NBTTagCompound nbtTagCompound2 = new NBTTagCompound();
+         entity.writeToNBT(nbtTagCompound2);
+         if (!NBTUtil.func_181123_a(nbtTagCompound, nbtTagCompound2, true)) {
+            throw new CommandException("commands.testfor.failure", entity.getName());
          }
       }
 
-      notifyOperators(var1, this, "commands.testfor.success", var6.getName());
+      notifyOperators(sender, this, "commands.testfor.success", entity.getName());
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 }

@@ -60,383 +60,383 @@ public final class ParseUtil {
    private ParseUtil() {
    }
 
-   public static long parseHertz(String var0) {
-      Matcher var4 = f.matcher(var0.trim());
-      if (var4.find() && var4.groupCount() == 3) {
-         double var5 = Double.valueOf(var4.group(1)) * multipliers.getOrDefault(var4.group(3), -1L).longValue();
-         if (var5 >= 0.0) {
-            return (long)var5;
+   public static long parseHertz(String hertz) {
+      Matcher matcher2 = f.matcher(hertz.trim());
+      if (matcher2.find() && matcher2.groupCount() == 3) {
+         double d = Double.valueOf(matcher2.group(1)) * multipliers.getOrDefault(matcher2.group(3), -1L).longValue();
+         if (d >= 0.0) {
+            return (long)d;
          }
       }
 
       return -1L;
    }
 
-   public static int parseLastInt(String var0, int var1) {
+   public static int parseLastInt(String sIn, int i) {
       try {
-         String var5 = parseLastString(var0);
-         return var5.toLowerCase().startsWith("0x") ? Integer.decode(var5) : Integer.parseInt(var5);
-      } catch (NumberFormatException var6) {
-         return var1;
+         String string = parseLastString(sIn);
+         return string.toLowerCase().startsWith("0x") ? Integer.decode(string) : Integer.parseInt(string);
+      } catch (NumberFormatException numberFormatException) {
+         return i;
       }
    }
 
-   public static long parseLastLong(String var0, long var1) {
+   public static long parseLastLong(String sIn, long li) {
       try {
-         String var6 = parseLastString(var0);
-         return var6.toLowerCase().startsWith("0x") ? Long.decode(var6) : Long.parseLong(var6);
-      } catch (NumberFormatException var7) {
-         return var1;
+         String string = parseLastString(sIn);
+         return string.toLowerCase().startsWith("0x") ? Long.decode(string) : Long.parseLong(string);
+      } catch (NumberFormatException numberFormatException) {
+         return li;
       }
    }
 
-   public static double parseLastDouble(String var0, double var1) {
+   public static double parseLastDouble(String sIn, double dIn) {
       try {
-         return Double.parseDouble(parseLastString(var0));
-      } catch (NumberFormatException var4) {
-         return var1;
+         return Double.parseDouble(parseLastString(sIn));
+      } catch (NumberFormatException numberFormatException) {
+         return dIn;
       }
    }
 
-   public static String parseLastString(String var0) {
-      String[] var4 = Q.split(var0);
-      return var4.length < 1 ? var0 : var4[var4.length - 1];
+   public static String parseLastString(String sIn) {
+      String[] strings = Q.split(sIn);
+      return strings.length < 1 ? sIn : strings[strings.length - 1];
    }
 
-   public static String byteArrayToHexString(byte[] var0) {
-      char[] var4 = new char[var0.length * 2];
+   public static String byteArrayToHexString(byte[] bytes) {
+      char[] chars = new char[bytes.length * 2];
 
-      for (int var5 = 0; var5 < var0.length; var5++) {
-         int var6 = var0[var5] & 255;
-         var4[var5 * 2] = HEX_ARRAY[var6 >>> 4];
-         var4[var5 * 2 + 1] = HEX_ARRAY[var6 & 15];
+      for (int i = 0; i < bytes.length; i++) {
+         int j = bytes[i] & 255;
+         chars[i * 2] = HEX_ARRAY[j >>> 4];
+         chars[i * 2 + 1] = HEX_ARRAY[j & 15];
       }
 
-      return new String(var4);
+      return new String(chars);
    }
 
-   public static byte[] hexStringToByteArray(String var0) {
-      int var4 = var0.length();
-      if (q.matcher(var0).matches() && (var4 & 1) == 0) {
-         byte[] var5 = new byte[var4 / 2];
+   public static byte[] hexStringToByteArray(String digits) {
+      int i = digits.length();
+      if (q.matcher(digits).matches() && (i & 1) == 0) {
+         byte[] bytes = new byte[i / 2];
 
-         for (int var6 = 0; var6 < var4; var6 += 2) {
-            var5[var6 / 2] = (byte)(Character.digit(var0.charAt(var6), 16) << 4 | Character.digit(var0.charAt(var6 + 1), 16));
+         for (int j = 0; j < i; j += 2) {
+            bytes[j / 2] = (byte)(Character.digit(digits.charAt(j), 16) << 4 | Character.digit(digits.charAt(j + 1), 16));
          }
 
-         return var5;
+         return bytes;
       } else {
          return new byte[0];
       }
    }
 
-   public static byte[] asciiStringToByteArray(String var0, int var1) {
-      return Arrays.copyOf(var0.getBytes(StandardCharsets.US_ASCII), var1);
+   public static byte[] asciiStringToByteArray(String text, int length) {
+      return Arrays.copyOf(text.getBytes(StandardCharsets.US_ASCII), length);
    }
 
-   public static byte[] longToByteArray(long var0, int var2, int var3) {
-      long var7 = var0;
-      byte[] var9 = new byte[8];
+   public static byte[] longToByteArray(long value, int valueSize, int length) {
+      long l = value;
+      byte[] bytes = new byte[8];
 
-      for (int var10 = 7; var10 >= 0 && var7 != 0L; var10--) {
-         var9[var10] = (byte)var7;
-         var7 >>>= 8;
+      for (int i = 7; i >= 0 && l != 0L; i--) {
+         bytes[i] = (byte)l;
+         l >>>= 8;
       }
 
-      return Arrays.copyOfRange(var9, 8 - var2, 8 + var3 - var2);
+      return Arrays.copyOfRange(bytes, 8 - valueSize, 8 + length - valueSize);
    }
 
-   public static long strToLong(String var0, int var1) {
-      return byteArrayToLong(var0.getBytes(StandardCharsets.US_ASCII), var1);
+   public static long strToLong(String str, int size) {
+      return byteArrayToLong(str.getBytes(StandardCharsets.US_ASCII), size);
    }
 
-   public static long byteArrayToLong(byte[] var0, int var1) {
-      if (var1 > 8) {
+   public static long byteArrayToLong(byte[] bytes, int size) {
+      if (size > 8) {
          throw new IllegalArgumentException("Can't convert more than 8 bytes.");
       }
 
-      if (var1 > var0.length) {
+      if (size > bytes.length) {
          throw new IllegalArgumentException("Size can't be larger than array length.");
       }
 
-      long var5 = 0L;
+      long l = 0L;
 
-      for (int var7 = 0; var7 < var1; var7++) {
-         var5 = var5 << 8 | var0[var7] & 0xFF;
+      for (int i = 0; i < size; i++) {
+         l = l << 8 | bytes[i] & 0xFF;
       }
 
-      return var5;
+      return l;
    }
 
-   public static float byteArrayToFloat(byte[] var0, int var1, int var2) {
-      return (float)byteArrayToLong(var0, var1) / (1 << var2);
+   public static float byteArrayToFloat(byte[] bytes, int size, int fpBits) {
+      return (float)byteArrayToLong(bytes, size) / (1 << fpBits);
    }
 
-   public static long unsignedIntToLong(int var0) {
-      long var1 = var0;
-      return var1 & 4294967295L;
+   public static long unsignedIntToLong(int unsignedValue) {
+      long longValue = unsignedValue;
+      return longValue & 4294967295L;
    }
 
-   public static long unsignedLongToSignedLong(long var0) {
-      return var0 & Long.MAX_VALUE;
+   public static long unsignedLongToSignedLong(long unsignedValue) {
+      return unsignedValue & Long.MAX_VALUE;
    }
 
-   public static String hexStringToString(String var0) {
-      if (var0.length() % 2 > 0) {
-         return var0;
+   public static String hexStringToString(String hexString) {
+      if (hexString.length() % 2 > 0) {
+         return hexString;
       }
 
-      StringBuilder var5 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
       try {
-         for (int var6 = 0; var6 < var0.length(); var6 += 2) {
-            int var4 = Integer.parseInt(var0.substring(var6, var6 + 2), 16);
-            if (var4 < 32 || var4 > 127) {
-               return var0;
+         for (int i = 0; i < hexString.length(); i += 2) {
+            int j = Integer.parseInt(hexString.substring(i, i + 2), 16);
+            if (j < 32 || j > 127) {
+               return hexString;
             }
 
-            var5.append((char)var4);
+            stringBuilder.append((char)j);
          }
-      } catch (NumberFormatException var7) {
-         return var0;
+      } catch (NumberFormatException numberFormatException) {
+         return hexString;
       }
 
-      return var5.toString();
+      return stringBuilder.toString();
    }
 
-   public static int parseIntOrDefault(String var0, int var1) {
+   public static int parseIntOrDefault(String sIn, int defaultInt) {
       try {
-         return Integer.parseInt(var0);
-      } catch (NumberFormatException var3) {
-         return var1;
+         return Integer.parseInt(sIn);
+      } catch (NumberFormatException numberFormatException) {
+         return defaultInt;
       }
    }
 
-   public static long parseLongOrDefault(String var0, long var1) {
+   public static long parseLongOrDefault(String sIn, long defaultLong) {
       try {
-         return Long.parseLong(var0);
-      } catch (NumberFormatException var4) {
-         return var1;
+         return Long.parseLong(sIn);
+      } catch (NumberFormatException numberFormatException) {
+         return defaultLong;
       }
    }
 
-   public static long parseUnsignedLongOrDefault(String var0, long var1) {
+   public static long parseUnsignedLongOrDefault(String sIn, long defaultLong) {
       try {
-         return new BigInteger(var0).longValue();
-      } catch (NumberFormatException var4) {
-         return var1;
+         return new BigInteger(sIn).longValue();
+      } catch (NumberFormatException numberFormatException) {
+         return defaultLong;
       }
    }
 
-   public static double parseDoubleOrDefault(String var0, double var1) {
+   public static double parseDoubleOrDefault(String sIn, double defaultDouble) {
       try {
-         return Double.parseDouble(var0);
-      } catch (NumberFormatException var4) {
-         return var1;
+         return Double.parseDouble(sIn);
+      } catch (NumberFormatException numberFormatException) {
+         return defaultDouble;
       }
    }
 
-   public static long parseDHMSOrDefault(String var0, long var1) {
-      Matcher var6 = n.matcher(var0);
-      if (var6.matches()) {
-         long var7 = 0L;
-         if (var6.group(1) != null) {
-            var7 += parseLongOrDefault(var6.group(1), 0L) * 86400000L;
-         }
-
-         if (var6.group(2) != null) {
-            var7 += parseLongOrDefault(var6.group(2), 0L) * 3600000L;
+   public static long parseDHMSOrDefault(String sIn, long defaultLong) {
+      Matcher matcher2 = n.matcher(sIn);
+      if (matcher2.matches()) {
+         long l = 0L;
+         if (matcher2.group(1) != null) {
+            l += parseLongOrDefault(matcher2.group(1), 0L) * 86400000L;
          }
 
-         if (var6.group(3) != null) {
-            var7 += parseLongOrDefault(var6.group(3), 0L) * 60000L;
+         if (matcher2.group(2) != null) {
+            l += parseLongOrDefault(matcher2.group(2), 0L) * 3600000L;
          }
 
-         var7 += parseLongOrDefault(var6.group(4), 0L) * 1000L;
-         return var7 + (long)(1000.0 * parseDoubleOrDefault("0." + var6.group(5), 0.0));
+         if (matcher2.group(3) != null) {
+            l += parseLongOrDefault(matcher2.group(3), 0L) * 60000L;
+         }
+
+         l += parseLongOrDefault(matcher2.group(4), 0L) * 1000L;
+         return l + (long)(1000.0 * parseDoubleOrDefault("0." + matcher2.group(5), 0.0));
       } else {
-         return var1;
+         return defaultLong;
       }
    }
 
-   public static String parseUuidOrDefault(String var0, String var1) {
-      Matcher var5 = O.matcher(var0.toLowerCase());
-      return var5.matches() ? var5.group(1) : var1;
+   public static String parseUuidOrDefault(String sIn, String defaultStr) {
+      Matcher matcher2 = O.matcher(sIn.toLowerCase());
+      return matcher2.matches() ? matcher2.group(1) : defaultStr;
    }
 
-   public static String getSingleQuoteStringValue(String var0) {
-      return getStringBetween(var0, '\'');
+   public static String getSingleQuoteStringValue(String line) {
+      return getStringBetween(line, '\'');
    }
 
-   public static String getDoubleQuoteStringValue(String var0) {
-      return getStringBetween(var0, '"');
+   public static String getDoubleQuoteStringValue(String line) {
+      return getStringBetween(line, '"');
    }
 
-   public static String getStringBetween(String var0, char var1) {
-      int var4 = var0.indexOf(var1);
-      return var4 < 0 ? "" : var0.substring(var4 + 1, var0.lastIndexOf(var1)).trim();
+   public static String getStringBetween(String line, char c) {
+      int i = line.indexOf(c);
+      return i < 0 ? "" : line.substring(i + 1, line.lastIndexOf(c)).trim();
    }
 
-   public static int getFirstIntValue(String var0) {
-      return getNthIntValue(var0, 1);
+   public static int getFirstIntValue(String line) {
+      return getNthIntValue(line, 1);
    }
 
-   public static int getNthIntValue(String var0, int var1) {
-      String[] var5 = T.split(L.matcher(var0).replaceFirst(""));
-      return var5.length >= var1 ? parseIntOrDefault(var5[var1 - 1], 0) : 0;
+   public static int getNthIntValue(String line, int nIn) {
+      String[] strings = T.split(L.matcher(line).replaceFirst(""));
+      return strings.length >= nIn ? parseIntOrDefault(strings[nIn - 1], 0) : 0;
    }
 
-   public static String removeMatchingString(String var0, String var1) {
-      if (var0 != null && !var0.isEmpty() && var1 != null && !var1.isEmpty()) {
-         int var5 = var0.indexOf(var1, 0);
-         if (var5 == -1) {
-            return var0;
+   public static String removeMatchingString(String original, String toRemove) {
+      if (original != null && !original.isEmpty() && toRemove != null && !toRemove.isEmpty()) {
+         int i = original.indexOf(toRemove, 0);
+         if (i == -1) {
+            return original;
          }
 
-         StringBuilder var6 = new StringBuilder(var0.length() - var1.length());
-         int var7 = 0;
+         StringBuilder stringBuilder = new StringBuilder(original.length() - toRemove.length());
+         int j = 0;
 
          do {
-            var6.append(var0.substring(var7, var5));
-            var7 = var5 + var1.length();
-            var5 = var0.indexOf(var1, var7);
-         } while (var5 != -1);
+            stringBuilder.append(original.substring(j, i));
+            j = i + toRemove.length();
+            i = original.indexOf(toRemove, j);
+         } while (i != -1);
 
-         var6.append(var0.substring(var7));
-         return var6.toString();
+         stringBuilder.append(original.substring(j));
+         return stringBuilder.toString();
       } else {
-         return var0;
+         return original;
       }
    }
 
-   public static long[] parseStringToLongArray(String var0, int[] var1, int var2, char var3) {
-      long[] var7 = new long[var1.length];
-      int var8 = var0.length();
-      int var9 = var1.length - 1;
-      int var10 = var2 - 1;
-      int var11 = 0;
-      boolean var13 = false;
-      boolean var14 = true;
-      boolean var15 = false;
-      boolean var16 = false;
+   public static long[] parseStringToLongArray(String sIn, int[] indices, int length, char delimiter) {
+      long[] longs = new long[indices.length];
+      int i = sIn.length();
+      int j = indices.length - 1;
+      int k = length - 1;
+      int l = 0;
+      boolean bl = false;
+      boolean bl2 = true;
+      boolean bl3 = false;
+      boolean bl4 = false;
 
-      while (--var8 > 0 && var9 >= 0) {
-         char var12 = var0.charAt(var8);
-         if (var12 == var3) {
-            if (!var15 && var14) {
-               var15 = true;
+      while (--i > 0 && j >= 0) {
+         char c = sIn.charAt(i);
+         if (c == delimiter) {
+            if (!bl3 && bl2) {
+               bl3 = true;
             }
 
-            if (!var13) {
-               if (var15 && var1[var9] == var10--) {
-                  var9--;
+            if (!bl) {
+               if (bl3 && indices[j] == k--) {
+                  j--;
                }
 
-               var13 = true;
-               var11 = 0;
-               var16 = false;
-               var14 = true;
+               bl = true;
+               l = 0;
+               bl4 = false;
+               bl2 = true;
             }
-         } else if (var1[var9] != var10 || var12 == '+' || !var14) {
-            var13 = false;
-         } else if (var12 >= '0' && var12 <= '9' && !var16) {
-            if (var11 <= 18 && (var11 != 17 || var12 != '9' || var7[var9] <= 223372036854775807L)) {
-               var7[var9] += (var12 - '0') * POWERS_OF_TEN[var11++];
+         } else if (indices[j] != k || c == '+' || !bl2) {
+            bl = false;
+         } else if (c >= '0' && c <= '9' && !bl4) {
+            if (l <= 18 && (l != 17 || c != '9' || longs[j] <= 223372036854775807L)) {
+               longs[j] += (c - '0') * POWERS_OF_TEN[l++];
             } else {
-               var7[var9] = Long.MAX_VALUE;
+               longs[j] = Long.MAX_VALUE;
             }
 
-            var13 = false;
-         } else if (var12 == '-') {
-            var7[var9] *= -1L;
-            var13 = false;
-            var16 = true;
+            bl = false;
+         } else if (c == '-') {
+            longs[j] *= -1L;
+            bl = false;
+            bl4 = true;
          } else {
-            if (var15) {
-               return new long[var1.length];
+            if (bl3) {
+               return new long[indices.length];
             }
 
-            var7[var9] = 0L;
-            var14 = false;
+            longs[j] = 0L;
+            bl2 = false;
          }
       }
 
-      return var9 > 0 ? new long[var1.length] : var7;
+      return j > 0 ? new long[indices.length] : longs;
    }
 
-   public static int countStringToLongArray(String var0, char var1) {
-      int var4 = var0.length();
-      int var5 = 0;
-      boolean var7 = false;
-      boolean var8 = true;
-      boolean var9 = false;
+   public static int countStringToLongArray(String sIn, char delimiter) {
+      int i = sIn.length();
+      int j = 0;
+      boolean bl = false;
+      boolean bl2 = true;
+      boolean bl3 = false;
 
-      while (--var4 > 0) {
-         char var6 = var0.charAt(var4);
-         if (var6 == var1) {
-            if (!var7) {
-               if (var8) {
-                  var5++;
+      while (--i > 0) {
+         char c = sIn.charAt(i);
+         if (c == delimiter) {
+            if (!bl) {
+               if (bl2) {
+                  j++;
                }
 
-               var7 = true;
-               var9 = false;
-               var8 = true;
+               bl = true;
+               bl3 = false;
+               bl2 = true;
             }
-         } else if (var6 == '+' || !var8) {
-            var7 = false;
-         } else if (var6 >= '0' && var6 <= '9' && !var9) {
-            var7 = false;
-         } else if (var6 == '-') {
-            var7 = false;
-            var9 = true;
+         } else if (c == '+' || !bl2) {
+            bl = false;
+         } else if (c >= '0' && c <= '9' && !bl3) {
+            bl = false;
+         } else if (c == '-') {
+            bl = false;
+            bl3 = true;
          } else {
-            if (var5 > 0) {
-               return var5;
+            if (j > 0) {
+               return j;
             }
 
-            var8 = false;
+            bl2 = false;
          }
       }
 
-      return var5 + 1;
+      return j + 1;
    }
 
-   public static String getTextBetweenStrings(String var0, String var1, String var2) {
-      String var6 = "";
-      if (var0.indexOf(var1) >= 0 && var0.indexOf(var2) >= 0) {
-         var6 = var0.substring(var0.indexOf(var1) + var1.length(), var0.length());
-         var6 = var6.substring(0, var6.indexOf(var2));
+   public static String getTextBetweenStrings(String text, String before, String after) {
+      String string = "";
+      if (text.indexOf(before) >= 0 && text.indexOf(after) >= 0) {
+         string = text.substring(text.indexOf(before) + before.length(), text.length());
+         string = string.substring(0, string.indexOf(after));
       }
 
-      return var6;
+      return string;
    }
 
-   public static long filetimeToUtcMs(long var0, boolean var2) {
-      return var0 / 10000L - 11644473600000L - (var2 ? TZ_OFFSET : 0L);
+   public static long filetimeToUtcMs(long filetime, boolean local) {
+      return filetime / 10000L - 11644473600000L - (local ? TZ_OFFSET : 0L);
    }
 
-   public static String parseMmDdYyyyToYyyyMmDD(String var0) {
+   public static String parseMmDdYyyyToYyyyMmDD(String dateString) {
       try {
-         return String.format("%s-%s-%s", var0.substring(6, 10), var0.substring(0, 2), var0.substring(3, 5));
-      } catch (StringIndexOutOfBoundsException var4) {
-         return var0;
+         return String.format("%s-%s-%s", dateString.substring(6, 10), dateString.substring(0, 2), dateString.substring(3, 5));
+      } catch (StringIndexOutOfBoundsException stringIndexOutOfBoundsException) {
+         return dateString;
       }
    }
 
-   public static OffsetDateTime parseCimDateTimeToOffset(String var0) {
+   public static OffsetDateTime parseCimDateTimeToOffset(String cimDateTime) {
       try {
-         int var3 = Integer.parseInt(var0.substring(22));
-         LocalTime var4 = LocalTime.MIDNIGHT.plusMinutes(var3);
-         return OffsetDateTime.parse(var0.substring(0, 22) + var4.format(DateTimeFormatter.ISO_LOCAL_TIME), CIM_FORMAT);
-      } catch (IndexOutOfBoundsException | NumberFormatException | DateTimeParseException var5) {
+         int i = Integer.parseInt(cimDateTime.substring(22));
+         LocalTime localTime = LocalTime.MIDNIGHT.plusMinutes(i);
+         return OffsetDateTime.parse(cimDateTime.substring(0, 22) + localTime.format(DateTimeFormatter.ISO_LOCAL_TIME), CIM_FORMAT);
+      } catch (IndexOutOfBoundsException | NumberFormatException | DateTimeParseException value) {
          return Constants.UNIX_EPOCH;
       }
    }
 
-   public static boolean filePathStartsWith(List<String> var0, String var1) {
-      for (String var6 : var0) {
-         if (var1.equals(var6) || var1.startsWith(var6 + "/")) {
+   public static boolean filePathStartsWith(List<String> prefixList, String path) {
+      for (String string : prefixList) {
+         if (path.equals(string) || path.startsWith(string + "/")) {
             return true;
          }
       }
@@ -444,72 +444,72 @@ public final class ParseUtil {
       return false;
    }
 
-   public static long parseDecimalMemorySizeToBinary(String var0) {
-      String[] var4 = Q.split(var0);
-      long var5 = parseLongOrDefault(var4[0], 0L);
-      if (var4.length == 2 && var4[1].length() > 1) {
-         switch (var4[1].charAt(0)) {
+   public static long parseDecimalMemorySizeToBinary(String size) {
+      String[] strings = Q.split(size);
+      long l = parseLongOrDefault(strings[0], 0L);
+      if (strings.length == 2 && strings[1].length() > 1) {
+         switch (strings[1].charAt(0)) {
             case 'G':
-               var5 <<= 30;
+               l <<= 30;
                break;
             case 'K':
             case 'k':
-               var5 <<= 10;
+               l <<= 10;
                break;
             case 'M':
-               var5 <<= 20;
+               l <<= 20;
                break;
             case 'T':
-               var5 <<= 40;
+               l <<= 40;
          }
       }
 
-      return var5;
+      return l;
    }
 
-   public static Pair<String, String> parsePnPDeviceIdToVendorProductId(String var0) {
-      Matcher var3 = d.matcher(var0);
-      if (var3.matches()) {
-         String var4 = "0x" + var3.group(1).toLowerCase();
-         String var5 = "0x" + var3.group(2).toLowerCase();
-         return new Pair<>(var4, var5);
+   public static Pair<String, String> parsePnPDeviceIdToVendorProductId(String pnpDeviceId) {
+      Matcher matcher2 = d.matcher(pnpDeviceId);
+      if (matcher2.matches()) {
+         String string = "0x" + matcher2.group(1).toLowerCase();
+         String string2 = "0x" + matcher2.group(2).toLowerCase();
+         return new Pair<>(string, string2);
       } else {
          return null;
       }
    }
 
-   public static long parseLshwResourceString(String var0) {
-      long var4 = 0L;
-      String[] var6 = Q.split(var0);
+   public static long parseLshwResourceString(String resources) {
+      long l = 0L;
+      String[] strings = Q.split(resources);
 
-      for (String var10 : var6) {
-         if (var10.startsWith("memory:")) {
-            String[] var11 = var10.substring(7).split("-");
-            if (var11.length == 2) {
+      for (String string : strings) {
+         if (string.startsWith("memory:")) {
+            String[] strings2 = string.substring(7).split("-");
+            if (strings2.length == 2) {
                try {
-                  var4 += Long.parseLong(var11[1], 16) - Long.parseLong(var11[0], 16) + 1L;
-               } catch (NumberFormatException var13) {
+                  l += Long.parseLong(strings2[1], 16) - Long.parseLong(strings2[0], 16) + 1L;
+               } catch (NumberFormatException numberFormatException) {
                }
             }
          }
       }
 
-      return var4;
+      return l;
    }
 
-   public static Pair<String, String> parseLspciMachineReadable(String var0) {
-      Matcher var3 = h.matcher(var0);
-      return var3.matches() ? new Pair<>(var3.group(1), var3.group(2)) : null;
+   public static Pair<String, String> parseLspciMachineReadable(String line) {
+      Matcher matcher2 = h.matcher(line);
+      return matcher2.matches() ? new Pair<>(matcher2.group(1), matcher2.group(2)) : null;
    }
 
-   public static long parseLspciMemorySize(String var0) {
-      Matcher var3 = s.matcher(var0);
-      return var3.matches() ? parseDecimalMemorySizeToBinary(var3.group(1) + " " + var3.group(2) + "B") : 0L;
+   public static long parseLspciMemorySize(String line) {
+      Matcher matcher2 = s.matcher(line);
+      return matcher2.matches() ? parseDecimalMemorySizeToBinary(matcher2.group(1) + " " + matcher2.group(2) + "B") : 0L;
    }
 
    static {
-      long var20 = EPOCH_DIFF ^ 121445239247611L;
-      long var10000 = 1324656337635860659L ^ var20;
+      long l = EPOCH_DIFF ^ 121445239247611L;
+      long m = 1324656337635860659L ^ l;
       multipliers.put("Hz", 1L);
       multipliers.put("kHz", 1000L);
       multipliers.put("MHz", 1000000L);

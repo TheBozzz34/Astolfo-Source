@@ -6,9 +6,9 @@ import net.minecraft.realms.RealmsScrolledSelectionList;
 public class GuiSlotRealmsProxy extends GuiSlot {
    private final RealmsScrolledSelectionList selectionList;
 
-   public GuiSlotRealmsProxy(RealmsScrolledSelectionList var1, int var2, int var3, int var4, int var5, int var6) {
-      super(Minecraft.getMinecraft(), var2, var3, var4, var5, var6);
-      this.selectionList = var1;
+   public GuiSlotRealmsProxy(RealmsScrolledSelectionList selectionListIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
+      super(Minecraft.getMinecraft(), widthIn, heightIn, topIn, bottomIn, slotHeightIn);
+      this.selectionList = selectionListIn;
    }
 
    @Override
@@ -17,13 +17,13 @@ public class GuiSlotRealmsProxy extends GuiSlot {
    }
 
    @Override
-   public void elementClicked(int var1, boolean var2, int var3, int var4) {
-      this.selectionList.selectItem(var1, var2, var3, var4);
+   public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+      this.selectionList.selectItem(slotIndex, isDoubleClick, mouseX, mouseY);
    }
 
    @Override
-   public boolean isSelected(int var1) {
-      return this.selectionList.isSelectedItem(var1);
+   public boolean isSelected(int slotIndex) {
+      return this.selectionList.isSelectedItem(slotIndex);
    }
 
    @Override
@@ -32,8 +32,8 @@ public class GuiSlotRealmsProxy extends GuiSlot {
    }
 
    @Override
-   public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-      this.selectionList.renderItem(var1, var2, var3, var4, var5, var6);
+   public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+      this.selectionList.renderItem(entryID, i, j, k, mouseXIn, mouseYIn);
    }
 
    public int J() {

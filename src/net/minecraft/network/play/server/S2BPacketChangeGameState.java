@@ -13,25 +13,25 @@ public class S2BPacketChangeGameState implements Packet<INetHandlerPlayClient> {
    public S2BPacketChangeGameState() {
    }
 
-   public S2BPacketChangeGameState(int var1, float var2) {
-      this.state = var1;
-      this.field_149141_c = var2;
+   public S2BPacketChangeGameState(int stateIn, float f) {
+      this.state = stateIn;
+      this.field_149141_c = f;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.state = var1.readUnsignedByte();
-      this.field_149141_c = var1.readFloat();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.state = buf.readUnsignedByte();
+      this.field_149141_c = buf.readFloat();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.state);
-      var1.writeFloat(this.field_149141_c);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.state);
+      buf.writeFloat(this.field_149141_c);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleChangeGameState(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleChangeGameState(this);
    }
 
    public int getGameState() {

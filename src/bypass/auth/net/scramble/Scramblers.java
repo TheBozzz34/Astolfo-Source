@@ -16,10 +16,10 @@ public enum Scramblers {
       this.e.add(new ScramblerRange((byte)0, (byte)36, new FirstPairSwapScrambler()));
    }
 
-   public Scrambler w(byte var1) {
-      for (ScramblerRange var6 : this.e) {
-         if (var1 >= var6.r && var1 <= var6.X) {
-            return var6.m;
+   public Scrambler w(byte b) {
+      for (ScramblerRange scramblerRange : this.e) {
+         if (b >= scramblerRange.r && b <= scramblerRange.X) {
+            return scramblerRange.m;
          }
       }
 

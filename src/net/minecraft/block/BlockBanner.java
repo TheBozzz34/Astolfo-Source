@@ -27,9 +27,9 @@ public class BlockBanner extends BlockContainer {
 
    public BlockBanner() {
       super(Material.wood);
-      float var1 = 0.25F;
-      float var2 = 1.0F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, var2, 0.5F + var1);
+      float f = 0.25F;
+      float g = 1.0F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, g, 0.5F + f);
    }
 
    @Override
@@ -38,14 +38,14 @@ public class BlockBanner extends BlockContainer {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getSelectedBoundingBox(var1, var2);
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getSelectedBoundingBox(worldIn, pos);
    }
 
    @Override
@@ -54,7 +54,7 @@ public class BlockBanner extends BlockContainer {
    }
 
    @Override
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
       return true;
    }
 
@@ -69,54 +69,54 @@ public class BlockBanner extends BlockContainer {
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityBanner();
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.banner;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.banner;
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
-      TileEntity var9 = var1.getTileEntity(var2);
-      if (var9 instanceof TileEntityBanner) {
-         ItemStack var10 = new ItemStack(Items.banner, 1, ((TileEntityBanner)var9).getBaseColor());
-         NBTTagCompound var11 = new NBTTagCompound();
-         var9.writeToNBT(var11);
-         var11.removeTag("x");
-         var11.removeTag("y");
-         var11.removeTag("z");
-         var11.removeTag("id");
-         var10.setTagInfo("BlockEntityTag", var11);
-         spawnAsEntity(var1, var2, var10);
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityBanner) {
+         ItemStack itemStack = new ItemStack(Items.banner, 1, ((TileEntityBanner)tileEntity).getBaseColor());
+         NBTTagCompound nbtTagCompound = new NBTTagCompound();
+         tileEntity.writeToNBT(nbtTagCompound);
+         nbtTagCompound.removeTag("x");
+         nbtTagCompound.removeTag("y");
+         nbtTagCompound.removeTag("z");
+         nbtTagCompound.removeTag("id");
+         itemStack.setTagInfo("BlockEntityTag", nbtTagCompound);
+         spawnAsEntity(worldIn, pos, itemStack);
       } else {
-         super.dropBlockAsItemWithChance(var1, var2, var3, var4, var5);
+         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
       }
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return !this.hasInvalidNeighbor(var1, var2) && super.canPlaceBlockAt(var1, var2);
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return !this.hasInvalidNeighbor(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos);
    }
 
    @Override
-   public void harvestBlock(World var1, EntityPlayer var2, BlockPos var3, IBlockState var4, TileEntity var5) {
-      if (var5 instanceof TileEntityBanner) {
-         TileEntityBanner var9 = (TileEntityBanner)var5;
-         ItemStack var10 = new ItemStack(Items.banner, 1, ((TileEntityBanner)var5).getBaseColor());
-         NBTTagCompound var11 = new NBTTagCompound();
-         TileEntityBanner.setBaseColorAndPatterns(var11, var9.getBaseColor(), var9.getPatterns());
-         var10.setTagInfo("BlockEntityTag", var11);
-         spawnAsEntity(var1, var3, var10);
+   public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+      if (te instanceof TileEntityBanner) {
+         TileEntityBanner tileEntityBanner = (TileEntityBanner)te;
+         ItemStack itemStack = new ItemStack(Items.banner, 1, ((TileEntityBanner)te).getBaseColor());
+         NBTTagCompound nbtTagCompound = new NBTTagCompound();
+         TileEntityBanner.setBaseColorAndPatterns(nbtTagCompound, tileEntityBanner.getBaseColor(), tileEntityBanner.getPatterns());
+         itemStack.setTagInfo("BlockEntityTag", nbtTagCompound);
+         spawnAsEntity(worldIn, pos, itemStack);
       } else {
-         super.harvestBlock(var1, var2, var3, var4, (TileEntity)null);
+         super.harvestBlock(worldIn, player, pos, state, (TileEntity)null);
       }
    }
 
@@ -128,54 +128,54 @@ public class BlockBanner extends BlockContainer {
       }
 
       @Override
-      public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-         EnumFacing var6 = var1.getBlockState(var2).getValue(FACING);
-         float var7 = 0.0F;
-         float var8 = 0.78125F;
-         float var9 = 0.0F;
-         float var10 = 1.0F;
-         float var11 = 0.125F;
+      public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+         EnumFacing enumFacing = worldIn.getBlockState(pos).getValue(FACING);
+         float f = 0.0F;
+         float g = 0.78125F;
+         float h = 0.0F;
+         float f2 = 1.0F;
+         float f3 = 0.125F;
          this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-         switch (var6) {
+         switch (enumFacing) {
             case NORTH:
             default:
-               this.setBlockBounds(var9, var7, 1.0F - var11, var10, var8, 1.0F);
+               this.setBlockBounds(h, f, 1.0F - f3, f2, g, 1.0F);
                break;
             case SOUTH:
-               this.setBlockBounds(var9, var7, 0.0F, var10, var8, var11);
+               this.setBlockBounds(h, f, 0.0F, f2, g, f3);
                break;
             case WEST:
-               this.setBlockBounds(1.0F - var11, var7, var9, 1.0F, var8, var10);
+               this.setBlockBounds(1.0F - f3, f, h, 1.0F, g, f2);
                break;
             case EAST:
-               this.setBlockBounds(0.0F, var7, var9, var11, var8, var10);
+               this.setBlockBounds(0.0F, f, h, f3, g, f2);
          }
       }
 
       @Override
-      public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-         EnumFacing var8 = var3.getValue(FACING);
-         if (!var1.getBlockState(var2.offset(var8.getOpposite())).getBlock().getMaterial().isSolid()) {
-            this.dropBlockAsItem(var1, var2, var3, 0);
-            var1.setBlockToAir(var2);
+      public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+         EnumFacing enumFacing = state.getValue(FACING);
+         if (!worldIn.getBlockState(pos.offset(enumFacing.getOpposite())).getBlock().getMaterial().isSolid()) {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
          }
 
-         super.onNeighborBlockChange(var1, var2, var3, var4);
+         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
       }
 
       @Override
-      public IBlockState getStateFromMeta(int var1) {
-         EnumFacing var5 = EnumFacing.getFront(var1);
-         if (var5.getAxis() == EnumFacing.Axis.Y) {
-            var5 = EnumFacing.NORTH;
+      public IBlockState getStateFromMeta(int meta) {
+         EnumFacing enumFacing = EnumFacing.getFront(meta);
+         if (enumFacing.getAxis() == EnumFacing.Axis.Y) {
+            enumFacing = EnumFacing.NORTH;
          }
 
-         return this.getDefaultState().withProperty(FACING, var5);
+         return this.getDefaultState().withProperty(FACING, enumFacing);
       }
 
       @Override
-      public int getMetaFromState(IBlockState var1) {
-         return var1.getValue(FACING).getIndex();
+      public int getMetaFromState(IBlockState state) {
+         return state.getValue(FACING).getIndex();
       }
 
       @Override
@@ -192,23 +192,23 @@ public class BlockBanner extends BlockContainer {
       }
 
       @Override
-      public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-         if (!var1.getBlockState(var2.down()).getBlock().getMaterial().isSolid()) {
-            this.dropBlockAsItem(var1, var2, var3, 0);
-            var1.setBlockToAir(var2);
+      public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+         if (!worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid()) {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
          }
 
-         super.onNeighborBlockChange(var1, var2, var3, var4);
+         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
       }
 
       @Override
-      public IBlockState getStateFromMeta(int var1) {
-         return this.getDefaultState().withProperty(ROTATION, var1);
+      public IBlockState getStateFromMeta(int meta) {
+         return this.getDefaultState().withProperty(ROTATION, meta);
       }
 
       @Override
-      public int getMetaFromState(IBlockState var1) {
-         return var1.getValue(ROTATION);
+      public int getMetaFromState(IBlockState state) {
+         return state.getValue(ROTATION);
       }
 
       @Override

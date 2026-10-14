@@ -17,8 +17,8 @@ public final class DecoyStage2 extends AbstractLoadStage {
    }
 
    @Override
-   public void setState(int var1) {
-      this.state = var1;
+   public void setState(int i) {
+      this.state = i;
    }
 
    @Override
@@ -26,13 +26,13 @@ public final class DecoyStage2 extends AbstractLoadStage {
       return this.state;
    }
 
-   public static JvmArgumentsCheckSetup h(DecoyStage2 var0) {
-      return var0.n;
+   public static JvmArgumentsCheckSetup h(DecoyStage2 decoyStage2) {
+      return decoyStage2.n;
    }
 
    public class azg extends StageAction {
-      public azg(LoadStage var2) {
-         super(var2);
+      public azg(LoadStage loadStage) {
+         super(loadStage);
       }
 
       @Override
@@ -41,8 +41,8 @@ public final class DecoyStage2 extends AbstractLoadStage {
    }
 
    public class r9g extends StageValue {
-      public r9g(LoadStage var2) {
-         super(var2);
+      public r9g(LoadStage loadStage) {
+         super(loadStage);
       }
 
       public ItemFishFood get() {

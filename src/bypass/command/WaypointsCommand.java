@@ -6,47 +6,47 @@ import java.util.Arrays;
 public final class WaypointsCommand extends Command {
    private static final long d = 88386230118112L;
 
-   public WaypointsCommand(String var1, String var2) {
-      super(var1, var2);
+   public WaypointsCommand(String string, String string2) {
+      super(string, string2);
       this.setAliases(Arrays.asList("wp", "waypoint"));
    }
 
    @Override
-   public void runCommand(String[] var1) {
+   public void runCommand(String[] strings) {
       try {
-         if (var1.length > 1) {
-            if (var1[1].equalsIgnoreCase("add")) {
-               switch (var1.length) {
+         if (strings.length > 1) {
+            if (strings[1].equalsIgnoreCase("add")) {
+               switch (strings.length) {
                   case 3:
-                     Waypoints.X(var1[2], mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
+                     Waypoints.X(strings[2], mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
                      chat.R(
                         String.format(
-                           "Successfully added %s as waypoint (%s, %s, %s)", var1[2], (int)mc.thePlayer.posX, (int)mc.thePlayer.posY, (int)mc.thePlayer.posZ
+                           "Successfully added %s as waypoint (%s, %s, %s)", strings[2], (int)mc.thePlayer.posX, (int)mc.thePlayer.posY, (int)mc.thePlayer.posZ
                         )
                      );
                      break;
                   case 6:
-                     double var5 = Double.parseDouble(var1[3]);
-                     double var7 = Double.parseDouble(var1[4]);
-                     double var9 = Double.parseDouble(var1[5]);
-                     Waypoints.X(var1[2], var5, var7, var9);
-                     chat.R(String.format("Successfully added %s as waypoint (%s, %s, %s)", var1[2], (int)var5, (int)var7, (int)var9));
+                     double d = Double.parseDouble(strings[3]);
+                     double e = Double.parseDouble(strings[4]);
+                     double d2 = Double.parseDouble(strings[5]);
+                     Waypoints.X(strings[2], d, e, d2);
+                     chat.R(String.format("Successfully added %s as waypoint (%s, %s, %s)", strings[2], (int)d, (int)e, (int)d2));
                }
             }
 
-            if (var1[1].equalsIgnoreCase("remove")) {
-               switch (var1.length) {
+            if (strings[1].equalsIgnoreCase("remove")) {
+               switch (strings.length) {
                   case 3:
-                     chat.R(String.format("Successfully removed %s waypoint", var1[2]));
-                     Waypoints.G(var1[2]);
+                     chat.R(String.format("Successfully removed %s waypoint", strings[2]));
+                     Waypoints.G(strings[2]);
                }
             }
          }
 
-         if (var1.length == 1) {
+         if (strings.length == 1) {
             chat.I(String.format("%s:%s", this.getName(), this.getUsage()));
          }
-      } catch (Exception var11) {
+      } catch (Exception exception) {
          chat.I(String.format("%s:%s", this.getName(), this.getUsage()));
       }
    }

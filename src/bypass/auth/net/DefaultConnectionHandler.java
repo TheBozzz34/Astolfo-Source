@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
 public final class DefaultConnectionHandler extends AbstractConnectionHandler {
-   public DefaultConnectionHandler(SelectorRegistrar var1, NioConnection var2) {
-      super(var1, var2);
+   public DefaultConnectionHandler(SelectorRegistrar selectorRegistrar, NioConnection nioConnection) {
+      super(selectorRegistrar, nioConnection);
    }
 
    @Override
-   public void c(SocketChannel var1) throws IOException {
-      var1.configureBlocking(false);
-      super.c(var1);
+   public void c(SocketChannel socketChannel) throws IOException {
+      socketChannel.configureBlocking(false);
+      super.c(socketChannel);
    }
 }

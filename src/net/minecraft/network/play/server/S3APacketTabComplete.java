@@ -13,30 +13,30 @@ public class S3APacketTabComplete implements Packet<INetHandlerPlayClient> {
    public S3APacketTabComplete() {
    }
 
-   public S3APacketTabComplete(String[] var1) {
-      this.matches = var1;
+   public S3APacketTabComplete(String[] matchesIn) {
+      this.matches = matchesIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.matches = new String[var1.readVarIntFromBuffer()];
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.matches = new String[buf.readVarIntFromBuffer()];
 
-      for (int var5 = 0; var5 < this.matches.length; var5++) {
-         this.matches[var5] = var1.readStringFromBuffer((int)b);
+      for (int i = 0; i < this.matches.length; i++) {
+         this.matches[i] = buf.readStringFromBuffer((int)b);
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.matches.length);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.matches.length);
 
-      for (String var8 : this.matches) {
-         var1.writeString(var8);
+      for (String string : this.matches) {
+         buf.writeString(string);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleTabComplete(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleTabComplete(this);
    }
 
    public String[] func_149630_c() {

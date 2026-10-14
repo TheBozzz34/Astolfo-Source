@@ -26,13 +26,13 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
    private final BooleanSetting hide = new BooleanSetting("Hide", "", true);
    private static final long bb = 63546949332023L;
 
-   public Module(String var1, Category var2) {
-      super(var1, var2);
+   public Module(String string, Category category) {
+      super(string, category);
       this.addSettings(this.hide);
    }
 
-   public Module(Category var1) {
-      super(null, var1);
+   public Module(Category category) {
+      super(null, category);
       this.addSettings(this.hide);
    }
 
@@ -45,24 +45,24 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
       return this.settings;
    }
 
-   public void addSettings(Setting<?>... var1) {
-      this.settings.addAll(Arrays.asList(var1));
+   public void addSettings(Setting<?>... settings) {
+      this.settings.addAll(Arrays.asList(settings));
    }
 
    @Override
-   public void setEnabled(boolean var1) {
-      boolean var5 = this.enabled;
+   public void setEnabled(boolean bl) {
+      boolean bl2 = this.enabled;
       if (DisconnectHandler.disconnected && !(this instanceof GUI)) {
          if (this.enabled) {
             this.enabled = false;
             this.onDisable();
          }
       } else {
-         if (this.enabled = var1) {
-            if (var5 != var1) {
+         if (this.enabled = bl) {
+            if (bl2 != bl) {
                this.onEnable();
             }
-         } else if (var5 != var1) {
+         } else if (bl2 != bl) {
             this.onDisable();
          }
       }
@@ -72,16 +72,16 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
       return this.U;
    }
 
-   public void B(int var1) {
-      this.U = var1;
+   public void B(int i) {
+      this.U = i;
    }
 
    public boolean isHidden() {
       return this.hide.getValue();
    }
 
-   public void setHidden(boolean var1) {
-      this.hide.set(var1);
+   public void setHidden(boolean bl) {
+      this.hide.set(bl);
    }
 
    @Override
@@ -90,8 +90,8 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
    }
 
    @Override
-   public void setKey(int var1) {
-      this.key = var1;
+   public void setKey(int i) {
+      this.key = i;
    }
 
    @Override
@@ -102,15 +102,15 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
    public void p() {
    }
 
-   public LuaValue callScript(String var1, LuaValue var2) {
-      LuaValue var6 = this.script.get(var1);
-      if (!var6.isnil()) {
+   public LuaValue callScript(String string, LuaValue luaValue) {
+      LuaValue luaValue2 = this.script.get(string);
+      if (!luaValue2.isnil()) {
          try {
-            return var6.call(var2);
-         } catch (LuaError var8) {
+            return luaValue2.call(luaValue);
+         } catch (LuaError luaError) {
             if (HUD.isDevelopment) {
-               var8.printStackTrace();
-               chat.f(var8.getMessage());
+               luaError.printStackTrace();
+               chat.f(luaError.getMessage());
             }
          }
       }
@@ -118,15 +118,15 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
       return null;
    }
 
-   public LuaValue callScript(String var1) {
-      LuaValue var5 = this.script.get(var1);
-      if (!var5.isnil()) {
+   public LuaValue callScript(String string) {
+      LuaValue luaValue = this.script.get(string);
+      if (!luaValue.isnil()) {
          try {
-            return var5.call();
-         } catch (LuaError var7) {
+            return luaValue.call();
+         } catch (LuaError luaError) {
             if (HUD.isDevelopment) {
-               var7.printStackTrace();
-               chat.f(var7.getMessage());
+               luaError.printStackTrace();
+               chat.f(luaError.getMessage());
             }
          }
       }

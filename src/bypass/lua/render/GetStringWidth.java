@@ -8,7 +8,7 @@ public final class GetStringWidth extends OneArgFunction {
    private static final long a = 88159425224570L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      return var1.isstring() ? valueOf(ClientAccess.mc.fontRendererObj.getStringWidth(var1.checkjstring())) : valueOf(0);
+   public LuaValue call(LuaValue luaValue) {
+      return luaValue.isstring() ? valueOf(ClientAccess.mc.fontRendererObj.getStringWidth(luaValue.checkjstring())) : valueOf(0);
    }
 }

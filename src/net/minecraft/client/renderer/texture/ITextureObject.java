@@ -5,11 +5,11 @@ import net.minecraft.client.resources.IResourceManager;
 import shadersmod.client.MultiTexID;
 
 public interface ITextureObject {
-   void setBlurMipmap(boolean var1, boolean var2);
+   void setBlurMipmap(boolean bl, boolean bl2);
 
    void restoreLastBlurMipmap();
 
-   void loadTexture(IResourceManager var1) throws IOException;
+   void loadTexture(IResourceManager resourceManager) throws IOException;
 
    int getGlTextureId();
 

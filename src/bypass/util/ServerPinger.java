@@ -21,33 +21,33 @@ public class ServerPinger {
    private final List<NetworkManager> j = Collections.synchronizedList(Lists.newArrayList());
    private static final long a = 75349393174193L;
 
-   public void F(String var1, ServerPingData var2) throws UnknownHostException {
-      if (var1 != null && !var1.startsWith("0.0.0.0") && !var1.isEmpty()) {
-         RealmsServerAddress var6 = RealmsServerAddress.parseString(var1);
-         NetworkManager var7 = NetworkManager.createNetworkManagerAndConnect(InetAddress.getByName(var6.getHost()), var6.getPort(), false);
-         this.j.add(var7);
-         var7.setNetHandler(new ServerPingHandler(this, var2, var7, var1));
+   public void F(String string, ServerPingData serverPingData) throws UnknownHostException {
+      if (string != null && !string.startsWith("0.0.0.0") && !string.isEmpty()) {
+         RealmsServerAddress realmsServerAddress = RealmsServerAddress.parseString(string);
+         NetworkManager networkManager = NetworkManager.createNetworkManagerAndConnect(InetAddress.getByName(realmsServerAddress.getHost()), realmsServerAddress.getPort(), false);
+         this.j.add(networkManager);
+         networkManager.setNetHandler(new ServerPingHandler(this, serverPingData, networkManager, string));
 
          try {
-            var7.sendPacket(new C00Handshake(RealmsSharedConstants.e, var6.getHost(), var6.getPort(), EnumConnectionState.STATUS));
-            var7.sendPacket(new C00PacketServerQuery());
-         } catch (Throwable var9) {
-            X.error(var9);
+            networkManager.sendPacket(new C00Handshake(RealmsSharedConstants.e, realmsServerAddress.getHost(), realmsServerAddress.getPort(), EnumConnectionState.STATUS));
+            networkManager.sendPacket(new C00PacketServerQuery());
+         } catch (Throwable throwable) {
+            X.error(throwable);
          }
       }
    }
 
    public void o() {
       synchronized (this.j) {
-         Iterator var5 = this.j.iterator();
+         Iterator iterator2 = this.j.iterator();
 
-         while (var5.hasNext()) {
-            NetworkManager var6 = (NetworkManager)var5.next();
-            if (var6.isChannelOpen()) {
-               var6.processReceivedPackets();
+         while (iterator2.hasNext()) {
+            NetworkManager networkManager = (NetworkManager)iterator2.next();
+            if (networkManager.isChannelOpen()) {
+               networkManager.processReceivedPackets();
             } else {
-               var5.remove();
-               var6.checkDisconnected();
+               iterator2.remove();
+               networkManager.checkDisconnected();
             }
          }
       }
@@ -55,13 +55,13 @@ public class ServerPinger {
 
    public void x() {
       synchronized (this.j) {
-         Iterator var5 = this.j.iterator();
+         Iterator iterator2 = this.j.iterator();
 
-         while (var5.hasNext()) {
-            NetworkManager var6 = (NetworkManager)var5.next();
-            if (var6.isChannelOpen()) {
-               var5.remove();
-               var6.closeChannel(new ChatComponentText("Cancelled"));
+         while (iterator2.hasNext()) {
+            NetworkManager networkManager = (NetworkManager)iterator2.next();
+            if (networkManager.isChannelOpen()) {
+               iterator2.remove();
+               networkManager.closeChannel(new ChatComponentText("Cancelled"));
             }
          }
       }

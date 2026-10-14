@@ -13,13 +13,13 @@ import net.minecraft.world.World;
 public class EntityLeashKnot extends EntityHanging {
    private static final long bb = 94639768984417L;
 
-   public EntityLeashKnot(World var1) {
-      super(var1);
+   public EntityLeashKnot(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityLeashKnot(World var1, BlockPos var2) {
-      super(var1, var2);
-      this.setPosition(var2.getX() + 0.5, var2.getY() + 0.5, var2.getZ() + 0.5);
+   public EntityLeashKnot(World worldIn, BlockPos hangingPositionIn) {
+      super(worldIn, hangingPositionIn);
+      this.setPosition(hangingPositionIn.getX() + 0.5, hangingPositionIn.getY() + 0.5, hangingPositionIn.getZ() + 0.5);
       this.setEntityBoundingBox(
          new AxisAlignedBB(this.posX - 0.1875, this.posY - 0.25 + 0.125, this.posZ - 0.1875, this.posX + 0.1875, this.posY + 0.25 + 0.125, this.posZ + 0.1875)
       );
@@ -31,7 +31,7 @@ public class EntityLeashKnot extends EntityHanging {
    }
 
    @Override
-   public void updateFacingWithBoundingBox(EnumFacing var1) {
+   public void updateFacingWithBoundingBox(EnumFacing facingDirectionIn) {
    }
 
    @Override
@@ -50,58 +50,58 @@ public class EntityLeashKnot extends EntityHanging {
    }
 
    @Override
-   public boolean isInRangeToRenderDist(double var1) {
-      return var1 < 1024.0;
+   public boolean isInRangeToRenderDist(double distance) {
+      return distance < 1024.0;
    }
 
    @Override
-   public void onBroken(Entity var1) {
+   public void onBroken(Entity brokenEntity) {
    }
 
    @Override
-   public boolean writeToNBTOptional(NBTTagCompound var1) {
+   public boolean writeToNBTOptional(NBTTagCompound tagCompund) {
       return false;
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
    }
 
    @Override
-   public boolean interactFirst(EntityPlayer var1) {
-      ItemStack var5 = var1.getHeldItem();
-      boolean var6 = false;
-      if (var5 != null && var5.getItem() == Items.lead && !this.worldObj.isRemote) {
-         double var7 = 7.0;
+   public boolean interactFirst(EntityPlayer playerIn) {
+      ItemStack itemStack = playerIn.getHeldItem();
+      boolean bl = false;
+      if (itemStack != null && itemStack.getItem() == Items.lead && !this.worldObj.isRemote) {
+         double d = 7.0;
 
-         for (EntityLiving var10 : this.worldObj
+         for (EntityLiving entityLiving : this.worldObj
             .getEntitiesWithinAABB(
                EntityLiving.class,
-               new AxisAlignedBB(this.posX - var7, this.posY - var7, this.posZ - var7, this.posX + var7, this.posY + var7, this.posZ + var7)
+               new AxisAlignedBB(this.posX - d, this.posY - d, this.posZ - d, this.posX + d, this.posY + d, this.posZ + d)
             )) {
-            if (var10.getLeashed() && var10.getLeashedToEntity() == var1) {
-               var10.setLeashedToEntity(this, true);
-               var6 = true;
+            if (entityLiving.getLeashed() && entityLiving.getLeashedToEntity() == playerIn) {
+               entityLiving.setLeashedToEntity(this, true);
+               bl = true;
             }
          }
       }
 
-      if (!this.worldObj.isRemote && !var6) {
+      if (!this.worldObj.isRemote && !bl) {
          this.setDead();
-         if (var1.capabilities.isCreativeMode) {
-            double var11 = 7.0;
+         if (playerIn.capabilities.isCreativeMode) {
+            double e = 7.0;
 
-            for (EntityLiving var13 : this.worldObj
+            for (EntityLiving entityLiving2 : this.worldObj
                .getEntitiesWithinAABB(
                   EntityLiving.class,
-                  new AxisAlignedBB(this.posX - var11, this.posY - var11, this.posZ - var11, this.posX + var11, this.posY + var11, this.posZ + var11)
+                  new AxisAlignedBB(this.posX - e, this.posY - e, this.posZ - e, this.posX + e, this.posY + e, this.posZ + e)
                )) {
-               if (var13.getLeashed() && var13.getLeashedToEntity() == this) {
-                  var13.clearLeashed(true, false);
+               if (entityLiving2.getLeashed() && entityLiving2.getLeashedToEntity() == this) {
+                  entityLiving2.clearLeashed(true, false);
                }
             }
          }
@@ -115,23 +115,23 @@ public class EntityLeashKnot extends EntityHanging {
       return this.worldObj.getBlockState(this.hangingPosition).getBlock() instanceof BlockFence;
    }
 
-   public static EntityLeashKnot createKnot(World var0, BlockPos var1) {
-      EntityLeashKnot var2 = new EntityLeashKnot(var0, var1);
-      var2.forceSpawn = true;
-      var0.spawnEntityInWorld(var2);
-      return var2;
+   public static EntityLeashKnot createKnot(World worldIn, BlockPos fence) {
+      EntityLeashKnot entityLeashKnot = new EntityLeashKnot(worldIn, fence);
+      entityLeashKnot.forceSpawn = true;
+      worldIn.spawnEntityInWorld(entityLeashKnot);
+      return entityLeashKnot;
    }
 
-   public static EntityLeashKnot getKnotForPosition(World var0, BlockPos var1) {
-      int var5 = var1.getX();
-      int var6 = var1.getY();
-      int var7 = var1.getZ();
+   public static EntityLeashKnot getKnotForPosition(World worldIn, BlockPos pos) {
+      int i = pos.getX();
+      int j = pos.getY();
+      int k = pos.getZ();
 
-      for (EntityLeashKnot var9 : var0.getEntitiesWithinAABB(
-         EntityLeashKnot.class, new AxisAlignedBB(var5 - 1.0, var6 - 1.0, var7 - 1.0, var5 + 1.0, var6 + 1.0, var7 + 1.0)
+      for (EntityLeashKnot entityLeashKnot : worldIn.getEntitiesWithinAABB(
+         EntityLeashKnot.class, new AxisAlignedBB(i - 1.0, j - 1.0, k - 1.0, i + 1.0, j + 1.0, k + 1.0)
       )) {
-         if (var9.getHangingPosition().equals(var1)) {
-            return var9;
+         if (entityLeashKnot.getHangingPosition().equals(pos)) {
+            return entityLeashKnot;
          }
       }
 

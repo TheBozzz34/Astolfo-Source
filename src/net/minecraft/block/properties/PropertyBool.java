@@ -6,8 +6,8 @@ import java.util.Collection;
 public class PropertyBool extends PropertyHelper<Boolean> {
    private final ImmutableSet<Boolean> allowedValues = ImmutableSet.of(true, false);
 
-   public PropertyBool(String var1) {
-      super(var1, Boolean.class);
+   public PropertyBool(String name) {
+      super(name, Boolean.class);
    }
 
    @Override
@@ -15,11 +15,11 @@ public class PropertyBool extends PropertyHelper<Boolean> {
       return this.allowedValues;
    }
 
-   public static PropertyBool create(String var0) {
-      return new PropertyBool(var0);
+   public static PropertyBool create(String name) {
+      return new PropertyBool(name);
    }
 
-   public String getName(Boolean var1) {
-      return var1.toString();
+   public String getName(Boolean value) {
+      return value.toString();
    }
 }

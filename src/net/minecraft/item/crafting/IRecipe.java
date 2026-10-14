@@ -5,13 +5,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public interface IRecipe {
-   boolean matches(InventoryCrafting var1, World var2);
+   boolean matches(InventoryCrafting inv, World worldIn);
 
-   ItemStack getCraftingResult(InventoryCrafting var1);
+   ItemStack getCraftingResult(InventoryCrafting inv);
 
    int getRecipeSize();
 
    ItemStack getRecipeOutput();
 
-   ItemStack[] getRemainingItems(InventoryCrafting var1);
+   ItemStack[] getRemainingItems(InventoryCrafting inv);
 }

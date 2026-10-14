@@ -1,5 +1,5 @@
 package net.minecraft.client.renderer.texture;
 
 public interface IIconCreator {
-   void registerSprites(TextureMap var1);
+   void registerSprites(TextureMap iconRegistry);
 }

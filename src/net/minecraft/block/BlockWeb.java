@@ -19,8 +19,8 @@ public class BlockWeb extends Block {
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      var4.setInWeb();
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      entityIn.setInWeb();
    }
 
    @Override
@@ -29,7 +29,7 @@ public class BlockWeb extends Block {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
@@ -39,7 +39,7 @@ public class BlockWeb extends Block {
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.string;
    }
 

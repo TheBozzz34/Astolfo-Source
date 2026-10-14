@@ -22,38 +22,38 @@ public class GuiIngameMenu extends GuiScreen {
    public void initGui() {
       this.field_146445_a = 0;
       this.buttonList.clear();
-      byte var4 = -16;
-      this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + var4, I18n.format("menu.returnToMenu")));
+      byte b = -16;
+      this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + b, I18n.format("menu.returnToMenu")));
       if (!this.mc.isIntegratedServerRunning()) {
          this.buttonList.get(0).displayString = I18n.format("menu.disconnect");
       }
 
-      this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 24 + var4, I18n.format("menu.returnToGame")));
-      this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + var4, 98, 20, I18n.format("menu.options")));
-      GuiButton var6;
-      this.buttonList.add(var6 = new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + var4, 98, 20, I18n.format("menu.shareToLan")));
-      this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + var4, 98, 20, I18n.format("gui.achievements")));
-      this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + var4, 98, 20, I18n.format("gui.stats")));
-      var6.enabled = this.mc.isSingleplayer() && !this.mc.getIntegratedServer().getPublic();
+      this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 24 + b, I18n.format("menu.returnToGame")));
+      this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + b, 98, 20, I18n.format("menu.options")));
+      GuiButton guiButton;
+      this.buttonList.add(guiButton = new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + b, 98, 20, I18n.format("menu.shareToLan")));
+      this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + b, 98, 20, I18n.format("gui.achievements")));
+      this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + b, 98, 20, I18n.format("gui.stats")));
+      guiButton.enabled = this.mc.isSingleplayer() && !this.mc.getIntegratedServer().getPublic();
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      switch (button.id) {
          case 0:
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
             break;
          case 1:
-            boolean var5 = this.mc.isIntegratedServerRunning();
-            boolean var6 = this.mc.isConnectedToRealms();
-            var1.enabled = false;
+            boolean bl = this.mc.isIntegratedServerRunning();
+            boolean bl2 = this.mc.isConnectedToRealms();
+            button.enabled = false;
             this.mc.theWorld.sendQuittingDisconnectingPacket();
             this.mc.loadWorld((WorldClient)null);
-            if (var5) {
+            if (bl) {
                this.mc.displayGuiScreen(new GuiMainMenu());
-            } else if (var6) {
-               RealmsBridge var7 = new RealmsBridge();
-               var7.switchToRealms(new GuiMainMenu());
+            } else if (bl2) {
+               RealmsBridge realmsBridge = new RealmsBridge();
+               realmsBridge.switchToRealms(new GuiMainMenu());
             } else {
                this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
             }
@@ -83,50 +83,50 @@ public class GuiIngameMenu extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      ScaledResolution var7 = new ScaledResolution(this.mc);
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      ScaledResolution scaledResolution = new ScaledResolution(this.mc);
       this.drawDefaultBackground();
-      float var8 = var7.getScaledWidth() - 10.0F;
-      float var9 = 5.0F;
-      float var10 = 8.0F;
+      float f = scaledResolution.getScaledWidth() - 10.0F;
+      float g = 5.0F;
+      float h = 8.0F;
 
-      for (int var11 = 0; var11 < 2; var11++) {
-         if (var11 == 0) {
-            String var12 = "Sense";
-            ResourceLocation var13 = Astolfo.INSTANCE.getSenseSetting().getValue() ? GuiMainMenu.V : GuiMainMenu.K;
-            float var14 = GuiMainMenu.R.getStringWidth(var12);
-            float var15 = var14 + var9 * 2.0F + var10 * 2.0F;
-            if (var1 > var8 - var15 && var1 < var8 && var2 > 7.5F && var2 < 35.0F) {
-               boolean var17 = true;
+      for (int i = 0; i < 2; i++) {
+         if (i == 0) {
+            String string = "Sense";
+            ResourceLocation resourceLocation = Astolfo.INSTANCE.getSenseSetting().getValue() ? GuiMainMenu.V : GuiMainMenu.K;
+            float f2 = GuiMainMenu.R.getStringWidth(string);
+            float f3 = f2 + g * 2.0F + h * 2.0F;
+            if (mouseX > f - f3 && mouseX < f && mouseY > 7.5F && mouseY < 35.0F) {
+               boolean bl = true;
             } else {
-               boolean var10000 = false;
+               boolean bl2 = false;
             }
 
-            var8 -= var15 + 10.0F;
+            f -= f3 + 10.0F;
          }
       }
 
       this.d(this.fontRendererObj, I18n.format("menu.game"), this.width / 2, 40, 16777215);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      super.mouseClicked(var1, var2, var3);
-      if (var3 == 0 && i.hasElapsed(2500.0F)) {
-         ScaledResolution var7 = new ScaledResolution(this.mc);
-         float var8 = 5.0F;
-         float var9 = 9.0F;
-         float var10 = var7.getScaledWidth() - 10.0F;
-         CustomFontRenderer var11 = GuiMainMenu.R;
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      super.mouseClicked(mouseX, mouseY, mouseButton);
+      if (mouseButton == 0 && i.hasElapsed(2500.0F)) {
+         ScaledResolution scaledResolution = new ScaledResolution(this.mc);
+         float f = 5.0F;
+         float g = 9.0F;
+         float h = scaledResolution.getScaledWidth() - 10.0F;
+         CustomFontRenderer customFontRenderer = GuiMainMenu.R;
 
-         for (int var12 = 0; var12 < 2; var12++) {
-            if (var12 == 0) {
-               String var13 = "Sense";
-               float var14 = var11.getStringWidth(var13);
-               float var15 = var14 + var8 * 2.0F + var9 * 2.0F;
-               boolean var16 = var1 > var10 - var15 && var1 < var10 && var2 > 7.5F && var2 < 35.0F;
-               if (var16) {
+         for (int j = 0; j < 2; j++) {
+            if (j == 0) {
+               String string = "Sense";
+               float f2 = customFontRenderer.getStringWidth(string);
+               float f3 = f2 + f * 2.0F + g * 2.0F;
+               boolean bl = mouseX > h - f3 && mouseX < h && mouseY > 7.5F && mouseY < 35.0F;
+               if (bl) {
                   Astolfo.INSTANCE.getSenseSetting().set(!Astolfo.INSTANCE.getSenseSetting().getValue());
                   i.reset();
                }
@@ -135,20 +135,20 @@ public class GuiIngameMenu extends GuiScreen {
       }
    }
 
-   public void H(CustomFontRenderer var1, String var2, float var3, float var4, int var5, boolean var6) {
-      int var10 = var1.getStringWidth(var2);
-      int var11 = var1.getStringHeight(var2);
-      float var12 = var3 - var10 / 2.0F;
-      float var13 = var4 - var11 / 2.0F;
-      if (var6) {
-         var1.drawStringWithShadow(var2, (int)var12, (int)var13, var5);
+   public void H(CustomFontRenderer customFontRenderer, String string, float f, float g, int j, boolean bl) {
+      int i = customFontRenderer.getStringWidth(string);
+      int k = customFontRenderer.getStringHeight(string);
+      float h = f - i / 2.0F;
+      float f2 = g - k / 2.0F;
+      if (bl) {
+         customFontRenderer.drawStringWithShadow(string, (int)h, (int)f2, j);
       } else {
-         var1.drawString(var2, (int)var12, (int)var13, var5);
+         customFontRenderer.drawString(string, (int)h, (int)f2, j);
       }
    }
 
    static {
-      long var11 = a ^ 43405373162718L;
-      long var10000 = var11 ^ 1705155665226939249L;
+      long l = a ^ 43405373162718L;
+      long m = l ^ 1705155665226939249L;
    }
 }

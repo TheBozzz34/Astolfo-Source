@@ -9,13 +9,13 @@ public final class Message extends OneArgFunction {
    private static final long a = 70715108024355L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isstring()) {
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isstring()) {
          return valueOf(false);
       } else if (ClientAccess.mc.thePlayer != null) {
-         LuaString var5 = (LuaString)var1;
-         System.out.println(var5.checkjstring());
-         ClientAccess.mc.thePlayer.sendClientChatMessage(var5.checkjstring());
+         LuaString luaString = (LuaString)luaValue;
+         System.out.println(luaString.checkjstring());
+         ClientAccess.mc.thePlayer.sendClientChatMessage(luaString.checkjstring());
          return valueOf(true);
       } else {
          return valueOf(false);

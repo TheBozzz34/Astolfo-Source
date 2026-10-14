@@ -19,8 +19,8 @@ public final class WindowsVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Pair<Long, Long>> swapInOut = Memoizer.memoize(WindowsVirtualMemory::queryPageSwaps, Memoizer.defaultExpiration());
    private static final long b = 4675157769119L;
 
-   public WindowsVirtualMemory(long var1) {
-      this.pageSize = var1;
+   public WindowsVirtualMemory(long pageSize) {
+      this.pageSize = pageSize;
    }
 
    @Override
@@ -48,15 +48,15 @@ public final class WindowsVirtualMemory extends AbstractVirtualMemory {
    }
 
    private long querySwapTotal() {
-      PERFORMANCE_INFORMATION var3 = new PERFORMANCE_INFORMATION();
-      return !Psapi.INSTANCE.GetPerformanceInfo(var3, var3.size()) ? 0L : this.pageSize * (var3.CommitLimit.longValue() - var3.PhysicalTotal.longValue());
+      PERFORMANCE_INFORMATION performancE_INFORMATION = new PERFORMANCE_INFORMATION();
+      return !Psapi.INSTANCE.GetPerformanceInfo(performancE_INFORMATION, performancE_INFORMATION.size()) ? 0L : this.pageSize * (performancE_INFORMATION.CommitLimit.longValue() - performancE_INFORMATION.PhysicalTotal.longValue());
    }
 
    private static Pair<Long, Long> queryPageSwaps() {
-      Map var0 = MemoryInformation.queryPageSwaps();
+      Map map = MemoryInformation.queryPageSwaps();
       return new Pair(
-         var0.getOrDefault(MemoryInformation.PageSwapProperty.PAGESINPUTPERSEC, 0L),
-         var0.getOrDefault(MemoryInformation.PageSwapProperty.PAGESOUTPUTPERSEC, 0L)
+         map.getOrDefault(MemoryInformation.PageSwapProperty.PAGESINPUTPERSEC, 0L),
+         map.getOrDefault(MemoryInformation.PageSwapProperty.PAGESOUTPUTPERSEC, 0L)
       );
    }
 }

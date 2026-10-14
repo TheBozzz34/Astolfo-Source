@@ -11,9 +11,9 @@ public class ModuleItem extends TabGuiItem {
    private final Module U;
    private static final long b = 49190119730991L;
 
-   public ModuleItem(TabGui.Panel var1, Module var2) {
-      super(var1);
-      this.U = var2;
+   public ModuleItem(TabGui.Panel panel, Module module) {
+      super(panel);
+      this.U = module;
    }
 
    public Module c() {
@@ -32,25 +32,25 @@ public class ModuleItem extends TabGuiItem {
 
    @Override
    public void onExpand() {
-      TabGui.Panel var4 = new TabGui.Panel(this.s().getTabGui());
-      this.U.getSettings().forEach(var1 -> {
-         if (var1 instanceof BooleanSetting) {
-            BooleanSetting var5 = (BooleanSetting)var1;
-            if (!var1.getName().equals("Hide")) {
-               var4.addItem(new BooleanSettingItem(var4, var5));
+      TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
+      this.U.getSettings().forEach(setting -> {
+         if (setting instanceof BooleanSetting) {
+            BooleanSetting booleanSetting = (BooleanSetting)setting;
+            if (!setting.getName().equals("Hide")) {
+               panel.addItem(new BooleanSettingItem(panel, booleanSetting));
             }
-         } else if (var1 instanceof NumberSetting) {
-            NumberSetting var6 = (NumberSetting)var1;
-            var4.addItem(new NumberSettingItem(var4, var6));
-         } else if (var1 instanceof MapSetting) {
-            MapSetting var7 = (MapSetting)var1;
-            var4.addItem(new MapSettingItem(var4, var7));
-         } else if (var1 instanceof EnumSetting) {
-            var4.addItem(new EnumSettingItem(var4, (EnumSetting)var1));
+         } else if (setting instanceof NumberSetting) {
+            NumberSetting numberSetting = (NumberSetting)setting;
+            panel.addItem(new NumberSettingItem(panel, numberSetting));
+         } else if (setting instanceof MapSetting) {
+            MapSetting mapSetting = (MapSetting)setting;
+            panel.addItem(new MapSettingItem(panel, mapSetting));
+         } else if (setting instanceof EnumSetting) {
+            panel.addItem(new EnumSettingItem(panel, (EnumSetting)setting));
          }
       });
-      if (var4.getItems().size() != 0) {
-         var4.getTabGui().s(var4);
+      if (panel.getItems().size() != 0) {
+         panel.getTabGui().s(panel);
       }
    }
 }

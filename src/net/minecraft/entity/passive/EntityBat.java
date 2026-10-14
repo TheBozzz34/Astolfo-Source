@@ -15,8 +15,8 @@ public class EntityBat extends EntityAmbientCreature {
    private BlockPos spawnPosition;
    private static final long ab = 24803502417455L;
 
-   public EntityBat(World var1) {
-      super(var1);
+   public EntityBat(World worldIn) {
+      super(worldIn);
       this.setSize(0.5F, 0.9F);
       this.setIsBatHanging(true);
    }
@@ -58,7 +58,7 @@ public class EntityBat extends EntityAmbientCreature {
    }
 
    @Override
-   public void collideWithEntity(Entity var1) {
+   public void collideWithEntity(Entity entityIn) {
    }
 
    @Override
@@ -75,12 +75,12 @@ public class EntityBat extends EntityAmbientCreature {
       return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
    }
 
-   public void setIsBatHanging(boolean var1) {
-      byte var5 = this.dataWatcher.getWatchableObjectByte(16);
-      if (var1) {
-         this.dataWatcher.updateObject(16, (byte)(var5 | 1));
+   public void setIsBatHanging(boolean isHanging) {
+      byte b = this.dataWatcher.getWatchableObjectByte(16);
+      if (isHanging) {
+         this.dataWatcher.updateObject(16, (byte)(b | 1));
       } else {
-         this.dataWatcher.updateObject(16, (byte)(var5 & -2));
+         this.dataWatcher.updateObject(16, (byte)(b & -2));
       }
    }
 
@@ -98,12 +98,12 @@ public class EntityBat extends EntityAmbientCreature {
    @Override
    public void updateAITasks() {
       super.updateAITasks();
-      BlockPos var4 = new BlockPos(this);
-      BlockPos var5 = var4.up();
+      BlockPos blockPos = new BlockPos(this);
+      BlockPos blockPos2 = blockPos.up();
       if (this.getIsBatHanging()) {
-         if (!this.worldObj.getBlockState(var5).getBlock().isNormalCube()) {
+         if (!this.worldObj.getBlockState(blockPos2).getBlock().isNormalCube()) {
             this.setIsBatHanging(false);
-            this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1015, var4, 0);
+            this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1015, blockPos, 0);
          } else {
             if (this.rand.nextInt(200) == 0) {
                this.rotationYawHead = this.rand.nextInt(360);
@@ -111,7 +111,7 @@ public class EntityBat extends EntityAmbientCreature {
 
             if (this.worldObj.getClosestPlayerToEntity(this, 4.0) != null) {
                this.setIsBatHanging(false);
-               this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1015, var4, 0);
+               this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1015, blockPos, 0);
             }
          }
       } else {
@@ -127,17 +127,17 @@ public class EntityBat extends EntityAmbientCreature {
             );
          }
 
-         double var6 = this.spawnPosition.getX() + 0.5 - this.posX;
-         double var8 = this.spawnPosition.getY() + 0.1 - this.posY;
-         double var10 = this.spawnPosition.getZ() + 0.5 - this.posZ;
-         this.motionX = this.motionX + (Math.signum(var6) * 0.5 - this.motionX) * 0.1F;
-         this.motionY = this.motionY + (Math.signum(var8) * 0.7F - this.motionY) * 0.1F;
-         this.motionZ = this.motionZ + (Math.signum(var10) * 0.5 - this.motionZ) * 0.1F;
-         float var12 = (float)(MathHelper.atan2(this.motionZ, this.motionX) * 180.0 / Math.PI) - 90.0F;
-         float var13 = MathHelper.wrapAngleTo180_float(var12 - this.rotationYaw);
+         double d = this.spawnPosition.getX() + 0.5 - this.posX;
+         double e = this.spawnPosition.getY() + 0.1 - this.posY;
+         double d2 = this.spawnPosition.getZ() + 0.5 - this.posZ;
+         this.motionX = this.motionX + (Math.signum(d) * 0.5 - this.motionX) * 0.1F;
+         this.motionY = this.motionY + (Math.signum(e) * 0.7F - this.motionY) * 0.1F;
+         this.motionZ = this.motionZ + (Math.signum(d2) * 0.5 - this.motionZ) * 0.1F;
+         float f = (float)(MathHelper.atan2(this.motionZ, this.motionX) * 180.0 / Math.PI) - 90.0F;
+         float g = MathHelper.wrapAngleTo180_float(f - this.rotationYaw);
          this.moveForward = 0.5F;
-         this.rotationYaw += var13;
-         if (this.rand.nextInt(100) == 0 && this.worldObj.getBlockState(var5).getBlock().isNormalCube()) {
+         this.rotationYaw += g;
+         if (this.rand.nextInt(100) == 0 && this.worldObj.getBlockState(blockPos2).getBlock().isNormalCube()) {
             this.setIsBatHanging(true);
          }
       }
@@ -149,11 +149,11 @@ public class EntityBat extends EntityAmbientCreature {
    }
 
    @Override
-   public void fall(float var1, float var2) {
+   public void fall(float distance, float damageMultiplier) {
    }
 
    @Override
-   public void updateFallState(double var1, boolean var3, Block var4, BlockPos var5) {
+   public void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {
    }
 
    @Override
@@ -162,8 +162,8 @@ public class EntityBat extends EntityAmbientCreature {
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      if (this.isEntityInvulnerable(var1)) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isEntityInvulnerable(source)) {
          return false;
       }
 
@@ -171,41 +171,41 @@ public class EntityBat extends EntityAmbientCreature {
          this.setIsBatHanging(false);
       }
 
-      return super.attackEntityFrom(var1, var2);
+      return super.attackEntityFrom(source, amount);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.dataWatcher.updateObject(16, var1.getByte("BatFlags"));
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.dataWatcher.updateObject(16, tagCompund.getByte("BatFlags"));
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setByte("BatFlags", this.dataWatcher.getWatchableObjectByte(16));
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setByte("BatFlags", this.dataWatcher.getWatchableObjectByte(16));
    }
 
    @Override
    public boolean getCanSpawnHere() {
-      BlockPos var4 = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-      if (var4.getY() >= this.worldObj.getSeaLevel()) {
+      BlockPos blockPos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+      if (blockPos.getY() >= this.worldObj.getSeaLevel()) {
          return false;
       }
 
-      int var5 = this.worldObj.getLightFromNeighbors(var4);
-      byte var6 = 4;
+      int i = this.worldObj.getLightFromNeighbors(blockPos);
+      byte b = 4;
       if (this.isDateAroundHalloween(this.worldObj.getCurrentDate())) {
-         var6 = 7;
+         b = 7;
       } else if (this.rand.nextBoolean()) {
          return false;
       }
 
-      return var5 > this.rand.nextInt(var6) ? false : super.getCanSpawnHere();
+      return i > this.rand.nextInt(b) ? false : super.getCanSpawnHere();
    }
 
-   private boolean isDateAroundHalloween(Calendar var1) {
-      return var1.get(2) + 1 == 10 && var1.get(5) >= 20 || var1.get(2) + 1 == 11 && var1.get(5) <= 3;
+   private boolean isDateAroundHalloween(Calendar calendar) {
+      return calendar.get(2) + 1 == 10 && calendar.get(5) >= 20 || calendar.get(2) + 1 == 11 && calendar.get(5) <= 3;
    }
 
    @Override

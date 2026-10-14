@@ -8,10 +8,10 @@ public class Score {
    public static final Comparator<Score> scoreComparator = new Comparator<Score>() {
       private static final long a = 33098526354769L;
 
-      public int compare(Score var1, Score var2) {
-         return var1.getScorePoints() > var2.getScorePoints()
+      public int compare(Score score, Score score2) {
+         return score.getScorePoints() > score2.getScorePoints()
             ? 1
-            : (var1.getScorePoints() < var2.getScorePoints() ? -1 : var2.getPlayerName().compareToIgnoreCase(var1.getPlayerName()));
+            : (score.getScorePoints() < score2.getScorePoints() ? -1 : score2.getPlayerName().compareToIgnoreCase(score.getPlayerName()));
       }
    };
    private final Scoreboard theScoreboard;
@@ -22,27 +22,27 @@ public class Score {
    private boolean forceUpdate;
    private static final long b = 121153079425935L;
 
-   public Score(Scoreboard var1, ScoreObjective var2, String var3) {
-      this.theScoreboard = var1;
-      this.theScoreObjective = var2;
-      this.scorePlayerName = var3;
+   public Score(Scoreboard theScoreboardIn, ScoreObjective theScoreObjectiveIn, String scorePlayerNameIn) {
+      this.theScoreboard = theScoreboardIn;
+      this.theScoreObjective = theScoreObjectiveIn;
+      this.scorePlayerName = scorePlayerNameIn;
       this.forceUpdate = true;
    }
 
-   public void increseScore(int var1) {
+   public void increseScore(int amount) {
       if (this.theScoreObjective.getCriteria().isReadOnly()) {
          throw new IllegalStateException("Cannot modify read-only score");
       }
 
-      this.setScorePoints(this.getScorePoints() + var1);
+      this.setScorePoints(this.getScorePoints() + amount);
    }
 
-   public void decreaseScore(int var1) {
+   public void decreaseScore(int amount) {
       if (this.theScoreObjective.getCriteria().isReadOnly()) {
          throw new IllegalStateException("Cannot modify read-only score");
       }
 
-      this.setScorePoints(this.getScorePoints() - var1);
+      this.setScorePoints(this.getScorePoints() - amount);
    }
 
    public void func_96648_a() {
@@ -57,10 +57,10 @@ public class Score {
       return this.scorePoints;
    }
 
-   public void setScorePoints(int var1) {
-      int var5 = this.scorePoints;
-      this.scorePoints = var1;
-      if (var5 != var1 || this.forceUpdate) {
+   public void setScorePoints(int points) {
+      int i = this.scorePoints;
+      this.scorePoints = points;
+      if (i != points || this.forceUpdate) {
          this.forceUpdate = false;
          this.getScoreScoreboard().func_96536_a(this);
       }
@@ -82,11 +82,11 @@ public class Score {
       return this.locked;
    }
 
-   public void setLocked(boolean var1) {
-      this.locked = var1;
+   public void setLocked(boolean locked) {
+      this.locked = locked;
    }
 
-   public void func_96651_a(List<EntityPlayer> var1) {
-      this.setScorePoints(this.theScoreObjective.getCriteria().setScore(var1));
+   public void func_96651_a(List<EntityPlayer> list) {
+      this.setScorePoints(this.theScoreObjective.getCriteria().setScore(list));
    }
 }

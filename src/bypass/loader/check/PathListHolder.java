@@ -6,8 +6,8 @@ import java.nio.file.Path;
 public class PathListHolder {
    private final ListContainerOwner<Path> I;
 
-   public PathListHolder(ListContainerOwner<Path> var1) {
-      this.I = var1;
+   public PathListHolder(ListContainerOwner<Path> listContainerOwner) {
+      this.I = listContainerOwner;
    }
 
    public ListContainerOwner<Path> W() {

@@ -12,9 +12,9 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
    private static final long a = 108734573617280L;
    private static final long c = -8268501786482966512L;
 
-   public EntityAIRestrictOpenDoor(EntityCreature var1) {
-      this.entityObj = var1;
-      if (!(var1.getNavigator() instanceof PathNavigateGround)) {
+   public EntityAIRestrictOpenDoor(EntityCreature creatureIn) {
+      this.entityObj = creatureIn;
+      if (!(creatureIn.getNavigator() instanceof PathNavigateGround)) {
          throw new IllegalArgumentException("Unsupported mob type for RestrictOpenDoorGoal");
       }
    }
@@ -25,14 +25,14 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
          return false;
       }
 
-      BlockPos var4 = new BlockPos(this.entityObj);
-      Village var5 = this.entityObj.worldObj.getVillageCollection().getNearestVillage(var4, (int)c);
-      if (var5 == null) {
+      BlockPos blockPos = new BlockPos(this.entityObj);
+      Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockPos, (int)c);
+      if (village == null) {
          return false;
       }
 
-      this.frontDoor = var5.getNearestDoor(var4);
-      return this.frontDoor == null ? false : this.frontDoor.getDistanceToInsideBlockSq(var4) < 2.25;
+      this.frontDoor = village.getNearestDoor(blockPos);
+      return this.frontDoor == null ? false : this.frontDoor.getDistanceToInsideBlockSq(blockPos) < 2.25;
    }
 
    @Override

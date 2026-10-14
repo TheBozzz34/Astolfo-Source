@@ -35,43 +35,43 @@ public abstract class CommandBlockLogic implements ICommandSender {
       return this.lastOutput;
    }
 
-   public void writeDataToNBT(NBTTagCompound var1) {
-      var1.setString("Command", this.commandStored);
-      var1.setInteger("SuccessCount", this.successCount);
-      var1.setString("CustomName", this.customName);
-      var1.setBoolean("TrackOutput", this.trackOutput);
+   public void writeDataToNBT(NBTTagCompound tagCompound) {
+      tagCompound.setString("Command", this.commandStored);
+      tagCompound.setInteger("SuccessCount", this.successCount);
+      tagCompound.setString("CustomName", this.customName);
+      tagCompound.setBoolean("TrackOutput", this.trackOutput);
       if (this.lastOutput != null && this.trackOutput) {
-         var1.setString("LastOutput", IChatComponent.Serializer.componentToJson(this.lastOutput));
+         tagCompound.setString("LastOutput", IChatComponent.Serializer.componentToJson(this.lastOutput));
       }
 
-      this.resultStats.writeStatsToNBT(var1);
+      this.resultStats.writeStatsToNBT(tagCompound);
    }
 
-   public void readDataFromNBT(NBTTagCompound var1) {
-      this.commandStored = var1.getString("Command");
-      this.successCount = var1.getInteger("SuccessCount");
-      if (var1.hasKey("CustomName", 8)) {
-         this.customName = var1.getString("CustomName");
+   public void readDataFromNBT(NBTTagCompound nbt) {
+      this.commandStored = nbt.getString("Command");
+      this.successCount = nbt.getInteger("SuccessCount");
+      if (nbt.hasKey("CustomName", 8)) {
+         this.customName = nbt.getString("CustomName");
       }
 
-      if (var1.hasKey("TrackOutput", 1)) {
-         this.trackOutput = var1.getBoolean("TrackOutput");
+      if (nbt.hasKey("TrackOutput", 1)) {
+         this.trackOutput = nbt.getBoolean("TrackOutput");
       }
 
-      if (var1.hasKey("LastOutput", 8) && this.trackOutput) {
-         this.lastOutput = IChatComponent.Serializer.jsonToComponent(var1.getString("LastOutput"));
+      if (nbt.hasKey("LastOutput", 8) && this.trackOutput) {
+         this.lastOutput = IChatComponent.Serializer.jsonToComponent(nbt.getString("LastOutput"));
       }
 
-      this.resultStats.readStatsFromNBT(var1);
+      this.resultStats.readStatsFromNBT(nbt);
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(int var1, String var2) {
-      return var1 <= 2;
+   public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+      return permLevel <= 2;
    }
 
-   public void setCommand(String var1) {
-      this.commandStored = var1;
+   public void setCommand(String command) {
+      this.commandStored = command;
       this.successCount = 0;
    }
 
@@ -79,32 +79,32 @@ public abstract class CommandBlockLogic implements ICommandSender {
       return this.commandStored;
    }
 
-   public void trigger(World var1) {
-      if (var1.isRemote) {
+   public void trigger(World worldIn) {
+      if (worldIn.isRemote) {
          this.successCount = 0;
       }
 
-      MinecraftServer var5 = MinecraftServer.getServer();
-      if (var5 != null && var5.isAnvilFileSet() && var5.isCommandBlockEnabled()) {
-         ICommandManager var6 = var5.getCommandManager();
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      if (minecraftServer != null && minecraftServer.isAnvilFileSet() && minecraftServer.isCommandBlockEnabled()) {
+         ICommandManager iCommandManager = minecraftServer.getCommandManager();
 
          try {
             this.lastOutput = null;
-            this.successCount = var6.executeCommand(this, this.commandStored);
-         } catch (Throwable var10) {
-            CrashReport var8 = CrashReport.makeCrashReport(var10, "Executing command block");
-            CrashReportCategory var9 = var8.makeCategory("Command to be executed");
-            var9.addCrashSectionCallable("Command", new Callable<String>() {
+            this.successCount = iCommandManager.executeCommand(this, this.commandStored);
+         } catch (Throwable throwable) {
+            CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Executing command block");
+            CrashReportCategory crashReportCategory = crashReport.makeCategory("Command to be executed");
+            crashReportCategory.addCrashSectionCallable("Command", new Callable<String>() {
                public String call() throws Exception {
                   return CommandBlockLogic.this.getCommand();
                }
             });
-            var9.addCrashSectionCallable("Name", new Callable<String>() {
+            crashReportCategory.addCrashSectionCallable("Name", new Callable<String>() {
                public String call() throws Exception {
                   return CommandBlockLogic.this.getName();
                }
             });
-            throw new ReportedException(var8);
+            throw new ReportedException(crashReport);
          }
       } else {
          this.successCount = 0;
@@ -121,54 +121,54 @@ public abstract class CommandBlockLogic implements ICommandSender {
       return new ChatComponentText(this.getName());
    }
 
-   public void setName(String var1) {
-      this.customName = var1;
+   public void setName(String string) {
+      this.customName = string;
    }
 
    @Override
-   public void addChatMessage(IChatComponent var1) {
+   public void addChatMessage(IChatComponent component) {
       if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isRemote) {
-         this.lastOutput = new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ").appendSibling(var1);
+         this.lastOutput = new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ").appendSibling(component);
          this.updateCommand();
       }
    }
 
    @Override
    public boolean sendCommandFeedback() {
-      MinecraftServer var4 = MinecraftServer.getServer();
-      return var4 == null || !var4.isAnvilFileSet() || var4.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      return minecraftServer == null || !minecraftServer.isAnvilFileSet() || minecraftServer.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
    }
 
    @Override
-   public void setCommandStat(CommandResultStats.Type var1, int var2) {
-      this.resultStats.setCommandStatScore(this, var1, var2);
+   public void setCommandStat(CommandResultStats.Type typeIn, int amount) {
+      this.resultStats.setCommandStatScore(this, typeIn, amount);
    }
 
    public abstract void updateCommand();
 
    public abstract int func_145751_f();
 
-   public abstract void func_145757_a(ByteBuf var1);
+   public abstract void func_145757_a(ByteBuf byteBuf);
 
-   public void setLastOutput(IChatComponent var1) {
-      this.lastOutput = var1;
+   public void setLastOutput(IChatComponent lastOutputMessage) {
+      this.lastOutput = lastOutputMessage;
    }
 
-   public void setTrackOutput(boolean var1) {
-      this.trackOutput = var1;
+   public void setTrackOutput(boolean shouldTrackOutput) {
+      this.trackOutput = shouldTrackOutput;
    }
 
    public boolean shouldTrackOutput() {
       return this.trackOutput;
    }
 
-   public boolean tryOpenEditCommandBlock(EntityPlayer var1) {
-      if (!var1.capabilities.isCreativeMode) {
+   public boolean tryOpenEditCommandBlock(EntityPlayer playerIn) {
+      if (!playerIn.capabilities.isCreativeMode) {
          return false;
       }
 
-      if (var1.getEntityWorld().isRemote) {
-         var1.openEditCommandBlock(this);
+      if (playerIn.getEntityWorld().isRemote) {
+         playerIn.openEditCommandBlock(this);
       }
 
       return true;

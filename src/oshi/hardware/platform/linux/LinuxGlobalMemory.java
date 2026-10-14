@@ -43,51 +43,51 @@ public final class LinuxGlobalMemory extends AbstractGlobalMemory {
    }
 
    private static Pair<Long, Long> readMemInfo() {
-      long var3 = 0L;
-      long var5 = 0L;
-      long var7 = 0L;
-      long var9 = 0L;
-      long var11 = 0L;
+      long l = 0L;
+      long m = 0L;
+      long n = 0L;
+      long l2 = 0L;
+      long l3 = 0L;
 
-      for (String var17 : FileUtil.readFile(ProcPath.MEMINFO)) {
-         String[] var18 = ParseUtil.Q.split(var17);
-         if (var18.length > 1) {
-            switch (var18[0]) {
+      for (String string : FileUtil.readFile(ProcPath.MEMINFO)) {
+         String[] strings = ParseUtil.Q.split(string);
+         if (strings.length > 1) {
+            switch (strings[0]) {
                case "MemTotal:":
-                  var11 = parseMeminfo(var18);
+                  l3 = parseMeminfo(strings);
                   break;
                case "MemAvailable:":
-                  long var13 = parseMeminfo(var18);
-                  return new Pair<>(var13, var11);
+                  long l4 = parseMeminfo(strings);
+                  return new Pair<>(l4, l3);
                case "MemFree:":
-                  var3 = parseMeminfo(var18);
+                  l = parseMeminfo(strings);
                   break;
                case "Active(file):":
-                  var5 = parseMeminfo(var18);
+                  m = parseMeminfo(strings);
                   break;
                case "Inactive(file):":
-                  var7 = parseMeminfo(var18);
+                  n = parseMeminfo(strings);
                   break;
                case "SReclaimable:":
-                  var9 = parseMeminfo(var18);
+                  l2 = parseMeminfo(strings);
             }
          }
       }
 
-      return new Pair<>(var3 + var5 + var7 + var9, var11);
+      return new Pair<>(l + m + n + l2, l3);
    }
 
-   private static long parseMeminfo(String[] var0) {
-      if (var0.length < 2) {
+   private static long parseMeminfo(String[] memorySplit) {
+      if (memorySplit.length < 2) {
          return 0L;
       }
 
-      long var4 = ParseUtil.parseLongOrDefault(var0[1], 0L);
-      if (var0.length > 2 && "kB".equals(var0[2])) {
-         var4 *= 1024L;
+      long l = ParseUtil.parseLongOrDefault(memorySplit[1], 0L);
+      if (memorySplit.length > 2 && "kB".equals(memorySplit[2])) {
+         l *= 1024L;
       }
 
-      return var4;
+      return l;
    }
 
    private static VirtualMemory createVirtualMemory() {

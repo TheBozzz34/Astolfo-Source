@@ -3,23 +3,23 @@ package net.minecraft.util;
 public class Matrix4f extends org.lwjgl.util.vector.Matrix4f {
    private static final long a = 105382357927393L;
 
-   public Matrix4f(float[] var1) {
-      this.m00 = var1[0];
-      this.m01 = var1[1];
-      this.m02 = var1[2];
-      this.m03 = var1[3];
-      this.m10 = var1[4];
-      this.m11 = var1[5];
-      this.m12 = var1[6];
-      this.m13 = var1[7];
-      this.m20 = var1[8];
-      this.m21 = var1[9];
-      this.m22 = var1[10];
-      this.m23 = var1[11];
-      this.m30 = var1[12];
-      this.m31 = var1[13];
-      this.m32 = var1[14];
-      this.m33 = var1[15];
+   public Matrix4f(float[] floats) {
+      this.m00 = floats[0];
+      this.m01 = floats[1];
+      this.m02 = floats[2];
+      this.m03 = floats[3];
+      this.m10 = floats[4];
+      this.m11 = floats[5];
+      this.m12 = floats[6];
+      this.m13 = floats[7];
+      this.m20 = floats[8];
+      this.m21 = floats[9];
+      this.m22 = floats[10];
+      this.m23 = floats[11];
+      this.m30 = floats[12];
+      this.m31 = floats[13];
+      this.m32 = floats[14];
+      this.m33 = floats[15];
    }
 
    public Matrix4f() {

@@ -19,16 +19,16 @@ public class IntegrityCheck {
    private boolean O;
    private static final long a = 17973522484811L;
 
-   public IntegrityCheck(StringListHolder var1) {
-      this.E = var1;
+   public IntegrityCheck(StringListHolder stringListHolder) {
+      this.E = stringListHolder;
    }
 
    public Holder Y() {
       this.w(true);
-      Holder var5 = new Holder();
-      var5.value = new EntitySkeleton(3298775);
+      Holder holder = new Holder();
+      holder.value = new EntitySkeleton(3298775);
       this.h(true);
-      AuthHttpRequest var6 = new AuthHttpRequest()
+      AuthHttpRequest authHttpRequest = new AuthHttpRequest()
          .r("https://security.astolfo.lgbt/api/md5")
          .a(IntegrityCheckStrings.W("6aIZQw=="))
          .O(this.E.A().L().m_Iterator().next())
@@ -36,44 +36,44 @@ public class IntegrityCheck {
          .v("aa4hu3ib2");
       this.Q(true);
       this.w(!this.O());
-      if (!AuthUtil.k(var6).contains(IntegrityCheckStrings.W("16IGQvE=")) && (var5.value = new EntitySkeleton(3298776)) != null) {
+      if (!AuthUtil.k(authHttpRequest).contains(IntegrityCheckStrings.W("16IGQvE=")) && (holder.value = new EntitySkeleton(3298776)) != null) {
       }
 
       this.Z(this.f());
       this.R(true);
-      return var5;
+      return holder;
    }
 
-   public void h(boolean var1) {
-      this.Z = var1;
+   public void h(boolean bl) {
+      this.Z = bl;
    }
 
-   public void Z(boolean var1) {
-      this.K = var1;
+   public void Z(boolean bl) {
+      this.K = bl;
    }
 
-   public void c(boolean var1) {
-      this.D = var1;
+   public void c(boolean bl) {
+      this.D = bl;
    }
 
-   public void Q(boolean var1) {
-      this.k = var1;
+   public void Q(boolean bl) {
+      this.k = bl;
    }
 
-   public void w(boolean var1) {
-      this.j = var1;
+   public void w(boolean bl) {
+      this.j = bl;
    }
 
-   public void R(boolean var1) {
-      this.y = var1;
+   public void R(boolean bl) {
+      this.y = bl;
    }
 
-   public void a(boolean var1) {
-      this.V = var1;
+   public void a(boolean bl) {
+      this.V = bl;
    }
 
-   public void f(boolean var1) {
-      this.O = var1;
+   public void f(boolean bl) {
+      this.O = bl;
    }
 
    public boolean V() {

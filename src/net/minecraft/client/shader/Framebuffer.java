@@ -22,8 +22,8 @@ public class Framebuffer {
    public int framebufferFilter;
    private static final long a = 68170991417652L;
 
-   public Framebuffer(int var1, int var2, boolean var3) {
-      this.useDepth = var3;
+   public Framebuffer(int i, int j, boolean bl) {
+      this.useDepth = bl;
       this.framebufferObject = -1;
       this.framebufferTexture = -1;
       this.depthBuffer = -1;
@@ -32,20 +32,20 @@ public class Framebuffer {
       this.framebufferColor[1] = 1.0F;
       this.framebufferColor[2] = 1.0F;
       this.framebufferColor[3] = 0.0F;
-      this.createBindFramebuffer(var1, var2);
+      this.createBindFramebuffer(i, j);
    }
 
-   public void createBindFramebuffer(int var1, int var2) {
+   public void createBindFramebuffer(int width, int height) {
       if (!OpenGlHelper.isFramebufferEnabled()) {
-         this.framebufferWidth = var1;
-         this.framebufferHeight = var2;
+         this.framebufferWidth = width;
+         this.framebufferHeight = height;
       } else {
          GlStateManager.enableDepth();
          if (this.framebufferObject >= 0) {
             this.deleteFramebuffer();
          }
 
-         this.createFramebuffer(var1, var2);
+         this.createFramebuffer(width, height);
          this.checkFramebufferComplete();
          OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, 0);
       }
@@ -73,12 +73,12 @@ public class Framebuffer {
       }
    }
 
-   public void createFramebuffer(int var1, int var2) {
-      long var3 = a ^ 75151553719345L;
-      this.framebufferWidth = var1;
-      this.framebufferHeight = var2;
-      this.framebufferTextureWidth = var1;
-      this.framebufferTextureHeight = var2;
+   public void createFramebuffer(int width, int height) {
+      long l = a ^ 75151553719345L;
+      this.framebufferWidth = width;
+      this.framebufferHeight = height;
+      this.framebufferTextureWidth = width;
+      this.framebufferTextureHeight = height;
       if (!OpenGlHelper.isFramebufferEnabled()) {
          this.framebufferClear();
       } else {
@@ -90,7 +90,7 @@ public class Framebuffer {
 
          this.setFramebufferFilter(9728);
          GlStateManager.bindTexture(this.framebufferTexture);
-         long var10000 = 5524770439045699323L ^ var3;
+         long m = 5524770439045699323L ^ l;
          GL11.glTexImage2D(3553, 0, 32856, this.framebufferTextureWidth, this.framebufferTextureHeight, 0, 6408, 5121, (ByteBuffer)null);
          OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
          OpenGlHelper.glFramebufferTexture2D(OpenGlHelper.GL_FRAMEBUFFER, OpenGlHelper.GL_COLOR_ATTACHMENT0, 3553, this.framebufferTexture, 0);
@@ -107,14 +107,14 @@ public class Framebuffer {
       }
    }
 
-   public void setFramebufferFilter(int var1) {
-      long var2 = a ^ 103765071115624L;
+   public void setFramebufferFilter(int i) {
+      long l = a ^ 103765071115624L;
       if (OpenGlHelper.isFramebufferEnabled()) {
-         this.framebufferFilter = var1;
+         this.framebufferFilter = i;
          GlStateManager.bindTexture(this.framebufferTexture);
-         long var10000 = 1915925770676843379L ^ var2;
-         GL11.glTexParameterf(3553, 10241, var1);
-         GL11.glTexParameterf(3553, 10240, var1);
+         long m = 1915925770676843379L ^ l;
+         GL11.glTexParameterf(3553, 10241, i);
+         GL11.glTexParameterf(3553, 10240, i);
          GL11.glTexParameterf(3553, 10242, 10496.0F);
          GL11.glTexParameterf(3553, 10243, 10496.0F);
          GlStateManager.bindTexture(0);
@@ -122,18 +122,18 @@ public class Framebuffer {
    }
 
    public void checkFramebufferComplete() {
-      int var4 = OpenGlHelper.glCheckFramebufferStatus(OpenGlHelper.GL_FRAMEBUFFER);
-      if (var4 != OpenGlHelper.GL_FRAMEBUFFER_COMPLETE) {
-         if (var4 == OpenGlHelper.GL_FB_INCOMPLETE_ATTACHMENT) {
+      int i = OpenGlHelper.glCheckFramebufferStatus(OpenGlHelper.GL_FRAMEBUFFER);
+      if (i != OpenGlHelper.GL_FRAMEBUFFER_COMPLETE) {
+         if (i == OpenGlHelper.GL_FB_INCOMPLETE_ATTACHMENT) {
             throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
-         } else if (var4 == OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH) {
+         } else if (i == OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH) {
             throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
-         } else if (var4 == OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER) {
+         } else if (i == OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER) {
             throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
-         } else if (var4 == OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER) {
+         } else if (i == OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER) {
             throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
          } else {
-            throw new RuntimeException("glCheckFramebufferStatus returned unknown status:" + var4);
+            throw new RuntimeException("glCheckFramebufferStatus returned unknown status:" + i);
          }
       }
    }
@@ -150,10 +150,10 @@ public class Framebuffer {
       }
    }
 
-   public void bindFramebuffer(boolean var1) {
+   public void bindFramebuffer(boolean bl) {
       if (OpenGlHelper.isFramebufferEnabled()) {
          OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
-         if (var1) {
+         if (bl) {
             GlStateManager.viewport(0, 0, this.framebufferWidth, this.framebufferHeight);
          }
       }
@@ -165,54 +165,54 @@ public class Framebuffer {
       }
    }
 
-   public void setFramebufferColor(float var1, float var2, float var3, float var4) {
-      this.framebufferColor[0] = var1;
-      this.framebufferColor[1] = var2;
-      this.framebufferColor[2] = var3;
-      this.framebufferColor[3] = var4;
+   public void setFramebufferColor(float f, float g, float h, float f2) {
+      this.framebufferColor[0] = f;
+      this.framebufferColor[1] = g;
+      this.framebufferColor[2] = h;
+      this.framebufferColor[3] = f2;
    }
 
-   public void framebufferRender(int var1, int var2) {
-      this.framebufferRenderExt(var1, var2, true);
+   public void framebufferRender(int i, int j) {
+      this.framebufferRenderExt(i, j, true);
    }
 
-   public void framebufferRenderExt(int var1, int var2, boolean var3) {
-      long var4 = a ^ 89014826740534L;
+   public void framebufferRenderExt(int i, int j, boolean bl) {
+      long l = a ^ 89014826740534L;
       if (OpenGlHelper.isFramebufferEnabled()) {
          GlStateManager.colorMask(true, true, true, false);
          GlStateManager.disableDepth();
-         long var10000 = 8526040424913307669L ^ var4;
+         long m = 8526040424913307669L ^ l;
          GlStateManager.depthMask(false);
          GlStateManager.matrixMode(5889);
          GlStateManager.loadIdentity();
-         var10000 = 802263974487195951L ^ var4;
-         GlStateManager.ortho(0.0, var1, var2, 0.0, 1000.0, 3000.0);
+         m = 802263974487195951L ^ l;
+         GlStateManager.ortho(0.0, i, j, 0.0, 1000.0, 3000.0);
          GlStateManager.matrixMode(5888);
          GlStateManager.loadIdentity();
          GlStateManager.translate(0.0F, 0.0F, -2000.0F);
-         GlStateManager.viewport(0, 0, var1, var2);
+         GlStateManager.viewport(0, 0, i, j);
          GlStateManager.enableTexture2D();
          GlStateManager.disableLighting();
          GlStateManager.disableAlpha();
-         if (var3) {
+         if (bl) {
             GlStateManager.disableBlend();
             GlStateManager.enableColorMaterial();
          }
 
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.bindFramebufferTexture();
-         float var7 = var1;
-         float var8 = var2;
-         float var9 = (float)this.framebufferWidth / this.framebufferTextureWidth;
-         float var10 = (float)this.framebufferHeight / this.framebufferTextureHeight;
-         Tessellator var11 = Tessellator.getInstance();
-         WorldRenderer var12 = var11.getWorldRenderer();
-         var12.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-         var12.pos(0.0, var8, 0.0).tex(0.0, 0.0).color(255, 255, 255, 255).endVertex();
-         var12.pos(var7, var8, 0.0).tex(var9, 0.0).color(255, 255, 255, 255).endVertex();
-         var12.pos(var7, 0.0, 0.0).tex(var9, var10).color(255, 255, 255, 255).endVertex();
-         var12.pos(0.0, 0.0, 0.0).tex(0.0, var10).color(255, 255, 255, 255).endVertex();
-         var11.draw();
+         float f = i;
+         float g = j;
+         float h = (float)this.framebufferWidth / this.framebufferTextureWidth;
+         float f2 = (float)this.framebufferHeight / this.framebufferTextureHeight;
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+         worldRenderer.pos(0.0, g, 0.0).tex(0.0, 0.0).color(255, 255, 255, 255).endVertex();
+         worldRenderer.pos(f, g, 0.0).tex(h, 0.0).color(255, 255, 255, 255).endVertex();
+         worldRenderer.pos(f, 0.0, 0.0).tex(h, f2).color(255, 255, 255, 255).endVertex();
+         worldRenderer.pos(0.0, 0.0, 0.0).tex(0.0, f2).color(255, 255, 255, 255).endVertex();
+         tessellator.draw();
          this.unbindFramebufferTexture();
          GlStateManager.depthMask(true);
          GlStateManager.colorMask(true, true, true, true);
@@ -222,13 +222,13 @@ public class Framebuffer {
    public void framebufferClear() {
       this.bindFramebuffer(true);
       GlStateManager.clearColor(this.framebufferColor[0], this.framebufferColor[1], this.framebufferColor[2], this.framebufferColor[3]);
-      short var4 = 16384;
+      short s = 16384;
       if (this.useDepth) {
          GlStateManager.clearDepth(1.0);
-         var4 |= 256;
+         s |= 256;
       }
 
-      GlStateManager.clear(var4);
+      GlStateManager.clear(s);
       this.unbindFramebuffer();
    }
 }

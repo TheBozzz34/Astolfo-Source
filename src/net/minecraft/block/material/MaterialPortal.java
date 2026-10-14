@@ -1,8 +1,8 @@
 package net.minecraft.block.material;
 
 public class MaterialPortal extends Material {
-   public MaterialPortal(MapColor var1) {
-      super(var1);
+   public MaterialPortal(MapColor color) {
+      super(color);
    }
 
    @Override

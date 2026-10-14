@@ -11,33 +11,33 @@ public class Slot {
    public int yDisplayPosition;
    private static final long b = 64582776330203L;
 
-   public Slot(IInventory var1, int var2, int var3, int var4) {
-      this.inventory = var1;
-      this.slotIndex = var2;
-      this.xDisplayPosition = var3;
-      this.yDisplayPosition = var4;
+   public Slot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+      this.inventory = inventoryIn;
+      this.slotIndex = index;
+      this.xDisplayPosition = xPosition;
+      this.yDisplayPosition = yPosition;
    }
 
-   public void onSlotChange(ItemStack var1, ItemStack var2) {
-      if (var1 != null && var2 != null && var1.getItem() == var2.getItem()) {
-         int var6 = var2.stackSize - var1.stackSize;
-         if (var6 > 0) {
-            this.onCrafting(var1, var6);
+   public void onSlotChange(ItemStack itemStack, ItemStack itemStack2) {
+      if (itemStack != null && itemStack2 != null && itemStack.getItem() == itemStack2.getItem()) {
+         int i = itemStack2.stackSize - itemStack.stackSize;
+         if (i > 0) {
+            this.onCrafting(itemStack, i);
          }
       }
    }
 
-   public void onCrafting(ItemStack var1, int var2) {
+   public void onCrafting(ItemStack stack, int amount) {
    }
 
-   public void onCrafting(ItemStack var1) {
+   public void onCrafting(ItemStack stack) {
    }
 
-   public void onPickupFromSlot(EntityPlayer var1, ItemStack var2) {
+   public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
       this.onSlotChanged();
    }
 
-   public boolean isItemValid(ItemStack var1) {
+   public boolean isItemValid(ItemStack stack) {
       return true;
    }
 
@@ -49,8 +49,8 @@ public class Slot {
       return this.getStack() != null;
    }
 
-   public void putStack(ItemStack var1) {
-      this.inventory.setInventorySlotContents(this.slotIndex, var1);
+   public void putStack(ItemStack stack) {
+      this.inventory.setInventorySlotContents(this.slotIndex, stack);
       this.onSlotChanged();
    }
 
@@ -62,7 +62,7 @@ public class Slot {
       return this.inventory.getInventoryStackLimit();
    }
 
-   public int getItemStackLimit(ItemStack var1) {
+   public int getItemStackLimit(ItemStack stack) {
       return this.getSlotStackLimit();
    }
 
@@ -70,15 +70,15 @@ public class Slot {
       return null;
    }
 
-   public ItemStack decrStackSize(int var1) {
-      return this.inventory.decrStackSize(this.slotIndex, var1);
+   public ItemStack decrStackSize(int amount) {
+      return this.inventory.decrStackSize(this.slotIndex, amount);
    }
 
-   public boolean isHere(IInventory var1, int var2) {
-      return var1 == this.inventory && var2 == this.slotIndex;
+   public boolean isHere(IInventory inv, int slotIn) {
+      return inv == this.inventory && slotIn == this.slotIndex;
    }
 
-   public boolean canTakeStack(EntityPlayer var1) {
+   public boolean canTakeStack(EntityPlayer playerIn) {
       return true;
    }
 

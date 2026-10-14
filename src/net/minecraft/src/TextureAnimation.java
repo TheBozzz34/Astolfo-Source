@@ -24,38 +24,49 @@ public class TextureAnimation {
    private ByteBuffer imageData = null;
    private static final long a = 91556960218487L;
 
-   public TextureAnimation(String var1, byte[] var2, String var3, ResourceLocation var4, int var5, int var6, int var7, int var8, Properties var9, int var10) {
-      this.srcTex = var1;
-      this.dstTex = var3;
-      this.dstTexLoc = var4;
-      this.dstX = var5;
-      this.dstY = var6;
-      this.frameWidth = var7;
-      this.frameHeight = var8;
-      int var14 = var7 * var8 * 4;
-      if (var2.length % var14 != 0) {
-         Config.warn("Invalid animated texture length: " + var2.length + ", frameWidth: " + var7 + ", frameHeight: " + var8);
+   public TextureAnimation(
+      String texFrom,
+      byte[] srcData,
+      String texTo,
+      ResourceLocation locTexTo,
+      int dstX,
+      int dstY,
+      int frameWidth,
+      int frameHeight,
+      Properties props,
+      int durDef
+   ) {
+      this.srcTex = texFrom;
+      this.dstTex = texTo;
+      this.dstTexLoc = locTexTo;
+      this.dstX = dstX;
+      this.dstY = dstY;
+      this.frameWidth = frameWidth;
+      this.frameHeight = frameHeight;
+      int i = frameWidth * frameHeight * 4;
+      if (srcData.length % i != 0) {
+         Config.warn("Invalid animated texture length: " + srcData.length + ", frameWidth: " + frameWidth + ", frameHeight: " + frameHeight);
       }
 
-      this.srcData = var2;
-      int var15 = var2.length / var14;
-      if (var9.get("tile.0") != null) {
-         for (int var16 = 0; var9.get("tile." + var16) != null; var16++) {
-            var15 = var16 + 1;
+      this.srcData = srcData;
+      int j = srcData.length / i;
+      if (props.get("tile.0") != null) {
+         for (int k = 0; props.get("tile." + k) != null; k++) {
+            j = k + 1;
          }
       }
 
-      String var24 = (String)var9.get("duration");
-      int var17 = Config.parseInt(var24, var10);
-      this.frames = new TextureAnimationFrame[var15];
+      String string = (String)props.get("duration");
+      int l = Config.parseInt(string, durDef);
+      this.frames = new TextureAnimationFrame[j];
 
-      for (int var18 = 0; var18 < this.frames.length; var18++) {
-         String var19 = (String)var9.get("tile." + var18);
-         int var20 = Config.parseInt(var19, var18);
-         String var21 = (String)var9.get("duration." + var18);
-         int var22 = Config.parseInt(var21, var17);
-         TextureAnimationFrame var23 = new TextureAnimationFrame(var20, var22);
-         this.frames[var18] = var23;
+      for (int m = 0; m < this.frames.length; m++) {
+         String string2 = (String)props.get("tile." + m);
+         int n = Config.parseInt(string2, m);
+         String string3 = (String)props.get("duration." + m);
+         int i2 = Config.parseInt(string3, l);
+         TextureAnimationFrame textureAnimationFrame = new TextureAnimationFrame(n, i2);
+         this.frames[m] = textureAnimationFrame;
       }
    }
 
@@ -68,13 +79,13 @@ public class TextureAnimation {
          this.activeFrame = 0;
       }
 
-      TextureAnimationFrame var4 = this.frames[this.activeFrame];
-      var4.counter++;
-      if (var4.counter < var4.duration) {
+      TextureAnimationFrame textureAnimationFrame = this.frames[this.activeFrame];
+      textureAnimationFrame.counter++;
+      if (textureAnimationFrame.counter < textureAnimationFrame.duration) {
          return false;
       }
 
-      var4.counter = 0;
+      textureAnimationFrame.counter = 0;
       this.activeFrame++;
       if (this.activeFrame >= this.frames.length) {
          this.activeFrame = 0;
@@ -92,8 +103,8 @@ public class TextureAnimation {
          this.activeFrame = 0;
       }
 
-      TextureAnimationFrame var4 = this.frames[this.activeFrame];
-      return var4.index;
+      TextureAnimationFrame textureAnimationFrame = this.frames[this.activeFrame];
+      return textureAnimationFrame.index;
    }
 
    public int f() {
@@ -101,14 +112,14 @@ public class TextureAnimation {
    }
 
    public boolean updateTexture() {
-      long var1 = a ^ 5986741842575L;
+      long l = a ^ 5986741842575L;
       if (this.dstTextId < 0) {
-         ITextureObject var4 = TextureUtils.getTexture(this.dstTexLoc);
-         if (var4 == null) {
+         ITextureObject iTextureObject = TextureUtils.getTexture(this.dstTexLoc);
+         if (iTextureObject == null) {
             return false;
          }
 
-         this.dstTextId = var4.getGlTextureId();
+         this.dstTextId = iTextureObject.getGlTextureId();
       }
 
       if (this.imageData == null) {
@@ -121,16 +132,16 @@ public class TextureAnimation {
          return false;
       }
 
-      int var7 = this.frameWidth * this.frameHeight * 4;
-      int var5 = this.getActiveFrameIndex();
-      int var6 = var7 * var5;
-      if (var6 + var7 > this.imageData.capacity()) {
+      int i = this.frameWidth * this.frameHeight * 4;
+      int j = this.getActiveFrameIndex();
+      int k = i * j;
+      if (k + i > this.imageData.capacity()) {
          return false;
       }
 
-      ((Buffer)this.imageData).position(var6);
+      ((Buffer)this.imageData).position(k);
       GlStateManager.bindTexture(this.dstTextId);
-      long var10000 = 1455253693910378400L ^ var1;
+      long m = 1455253693910378400L ^ l;
       GL11.glTexSubImage2D(3553, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, 6408, 5121, this.imageData);
       return true;
    }

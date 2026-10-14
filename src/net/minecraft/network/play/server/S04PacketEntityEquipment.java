@@ -15,28 +15,28 @@ public class S04PacketEntityEquipment implements Packet<INetHandlerPlayClient> {
    public S04PacketEntityEquipment() {
    }
 
-   public S04PacketEntityEquipment(int var1, int var2, ItemStack var3) {
-      this.entityID = var1;
-      this.equipmentSlot = var2;
-      this.itemStack = var3 == null ? null : var3.copy();
+   public S04PacketEntityEquipment(int entityIDIn, int i, ItemStack itemStackIn) {
+      this.entityID = entityIDIn;
+      this.equipmentSlot = i;
+      this.itemStack = itemStackIn == null ? null : itemStackIn.copy();
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityID = var1.readVarIntFromBuffer();
-      this.equipmentSlot = var1.readShort();
-      this.itemStack = var1.readItemStackFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityID = buf.readVarIntFromBuffer();
+      this.equipmentSlot = buf.readShort();
+      this.itemStack = buf.readItemStackFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityID);
-      var1.writeShort(this.equipmentSlot);
-      var1.writeItemStackToBuffer(this.itemStack);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityID);
+      buf.writeShort(this.equipmentSlot);
+      buf.writeItemStackToBuffer(this.itemStack);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityEquipment(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityEquipment(this);
    }
 
    public ItemStack getItemStack() {

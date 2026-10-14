@@ -12,9 +12,9 @@ public class EntityAIPlay extends EntityAIBase {
    private int playTime;
    private static final long a = 14407324811403L;
 
-   public EntityAIPlay(EntityVillager var1, double var2) {
-      this.villagerObj = var1;
-      this.speed = var2;
+   public EntityAIPlay(EntityVillager villagerObjIn, double speedIn) {
+      this.villagerObj = villagerObjIn;
+      this.speed = speedIn;
       this.setMutexBits(1);
    }
 
@@ -28,23 +28,23 @@ public class EntityAIPlay extends EntityAIBase {
          return false;
       }
 
-      List var4 = this.villagerObj.worldObj.getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(6.0, 3.0, 6.0));
-      double var5 = Double.MAX_VALUE;
+      List list = this.villagerObj.worldObj.getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(6.0, 3.0, 6.0));
+      double d = Double.MAX_VALUE;
 
-      for (Object var8$raw : var4) {
-         EntityVillager var8 = (EntityVillager)var8$raw;
-         if (var8 != this.villagerObj && !var8.isPlaying() && var8.getGrowingAge() < 0) {
-            double var9 = var8.getDistanceSqToEntity(this.villagerObj);
-            if (var9 <= var5) {
-               var5 = var9;
-               this.targetVillager = var8;
+      for (Object object : list) {
+         EntityVillager entityVillager = (EntityVillager)object;
+         if (entityVillager != this.villagerObj && !entityVillager.isPlaying() && entityVillager.getGrowingAge() < 0) {
+            double e = entityVillager.getDistanceSqToEntity(this.villagerObj);
+            if (e <= d) {
+               d = e;
+               this.targetVillager = entityVillager;
             }
          }
       }
 
       if (this.targetVillager == null) {
-         Vec3 var11 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
-         if (var11 == null) {
+         Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+         if (vec3 == null) {
             return false;
          }
       }
@@ -80,12 +80,12 @@ public class EntityAIPlay extends EntityAIBase {
             this.villagerObj.getNavigator().tryMoveToEntityLiving(this.targetVillager, this.speed);
          }
       } else if (this.villagerObj.getNavigator().noPath()) {
-         Vec3 var4 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
-         if (var4 == null) {
+         Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+         if (vec3 == null) {
             return;
          }
 
-         this.villagerObj.getNavigator().tryMoveToXYZ(var4.xCoord, var4.yCoord, var4.zCoord, this.speed);
+         this.villagerObj.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.speed);
       }
    }
 }

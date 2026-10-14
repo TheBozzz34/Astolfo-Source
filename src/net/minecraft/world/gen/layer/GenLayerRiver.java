@@ -5,39 +5,39 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class GenLayerRiver extends GenLayer {
    private static final long c = 54214130472264L;
 
-   public GenLayerRiver(long var1, GenLayer var3) {
-      super(var1);
-      super.parent = var3;
+   public GenLayerRiver(long l, GenLayer genLayer) {
+      super(l);
+      super.parent = genLayer;
    }
 
    @Override
-   public int[] getInts(int var1, int var2, int var3, int var4) {
-      int var8 = var1 - 1;
-      int var9 = var2 - 1;
-      int var10 = var3 + 2;
-      int var11 = var4 + 2;
-      int[] var12 = this.parent.getInts(var8, var9, var10, var11);
-      int[] var13 = IntCache.getIntCache(var3 * var4);
+   public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+      int i = areaX - 1;
+      int j = areaY - 1;
+      int k = areaWidth + 2;
+      int l = areaHeight + 2;
+      int[] ints = this.parent.getInts(i, j, k, l);
+      int[] ints2 = IntCache.getIntCache(areaWidth * areaHeight);
 
-      for (int var14 = 0; var14 < var4; var14++) {
-         for (int var15 = 0; var15 < var3; var15++) {
-            int var16 = this.func_151630_c(var12[var15 + 0 + (var14 + 1) * var10]);
-            int var17 = this.func_151630_c(var12[var15 + 2 + (var14 + 1) * var10]);
-            int var18 = this.func_151630_c(var12[var15 + 1 + (var14 + 0) * var10]);
-            int var19 = this.func_151630_c(var12[var15 + 1 + (var14 + 2) * var10]);
-            int var20 = this.func_151630_c(var12[var15 + 1 + (var14 + 1) * var10]);
-            if (var20 == var16 && var20 == var18 && var20 == var17 && var20 == var19) {
-               var13[var15 + var14 * var3] = -1;
+      for (int m = 0; m < areaHeight; m++) {
+         for (int n = 0; n < areaWidth; n++) {
+            int i2 = this.func_151630_c(ints[n + 0 + (m + 1) * k]);
+            int i3 = this.func_151630_c(ints[n + 2 + (m + 1) * k]);
+            int i4 = this.func_151630_c(ints[n + 1 + (m + 0) * k]);
+            int i5 = this.func_151630_c(ints[n + 1 + (m + 2) * k]);
+            int i6 = this.func_151630_c(ints[n + 1 + (m + 1) * k]);
+            if (i6 == i2 && i6 == i4 && i6 == i3 && i6 == i5) {
+               ints2[n + m * areaWidth] = -1;
             } else {
-               var13[var15 + var14 * var3] = BiomeGenBase.river.biomeID;
+               ints2[n + m * areaWidth] = BiomeGenBase.river.biomeID;
             }
          }
       }
 
-      return var13;
+      return ints2;
    }
 
-   private int func_151630_c(int var1) {
-      return var1 >= 2 ? 2 + (var1 & 1) : var1;
+   private int func_151630_c(int i) {
+      return i >= 2 ? 2 + (i & 1) : i;
    }
 }

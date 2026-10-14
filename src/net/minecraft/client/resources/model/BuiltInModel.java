@@ -9,12 +9,12 @@ import net.minecraft.util.EnumFacing;
 public class BuiltInModel implements IBakedModel {
    private ItemCameraTransforms cameraTransforms;
 
-   public BuiltInModel(ItemCameraTransforms var1) {
-      this.cameraTransforms = var1;
+   public BuiltInModel(ItemCameraTransforms itemCameraTransforms) {
+      this.cameraTransforms = itemCameraTransforms;
    }
 
    @Override
-   public List<BakedQuad> getFaceQuads(EnumFacing var1) {
+   public List<BakedQuad> getFaceQuads(EnumFacing facing) {
       return null;
    }
 

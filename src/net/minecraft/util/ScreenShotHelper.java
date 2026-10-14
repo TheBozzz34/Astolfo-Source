@@ -25,81 +25,81 @@ public class ScreenShotHelper {
    private static int[] pixelValues;
    private static final long a = 137457736366518L;
 
-   public static IChatComponent saveScreenshot(File var0, int var1, int var2, Framebuffer var3) {
-      return saveScreenshot(var0, (String)null, var1, var2, var3);
+   public static IChatComponent saveScreenshot(File gameDirectory, int width, int height, Framebuffer buffer) {
+      return saveScreenshot(gameDirectory, (String)null, width, height, buffer);
    }
 
-   public static IChatComponent saveScreenshot(File var0, String var1, int var2, int var3, Framebuffer var4) {
+   public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {
       try {
-         File var8 = new File(var0, "screenshots");
-         var8.mkdir();
+         File file = new File(gameDirectory, "screenshots");
+         file.mkdir();
          if (OpenGlHelper.isFramebufferEnabled()) {
-            var2 = var4.framebufferTextureWidth;
-            var3 = var4.framebufferTextureHeight;
+            width = buffer.framebufferTextureWidth;
+            height = buffer.framebufferTextureHeight;
          }
 
-         int var9 = var2 * var3;
-         if (pixelBuffer == null || pixelBuffer.capacity() < var9) {
-            pixelBuffer = BufferUtils.createIntBuffer(var9);
-            pixelValues = new int[var9];
+         int i = width * height;
+         if (pixelBuffer == null || pixelBuffer.capacity() < i) {
+            pixelBuffer = BufferUtils.createIntBuffer(i);
+            pixelValues = new int[i];
          }
 
          GL11.glPixelStorei(3333, 1);
          GL11.glPixelStorei(3317, 1);
          ((Buffer)pixelBuffer).clear();
          if (OpenGlHelper.isFramebufferEnabled()) {
-            GlStateManager.bindTexture(var4.framebufferTexture);
+            GlStateManager.bindTexture(buffer.framebufferTexture);
             GL11.glGetTexImage(3553, 0, 32993, 33639, pixelBuffer);
          } else {
-            GL11.glReadPixels(0, 0, var2, var3, 32993, 33639, pixelBuffer);
+            GL11.glReadPixels(0, 0, width, height, 32993, 33639, pixelBuffer);
          }
 
          pixelBuffer.get(pixelValues);
-         TextureUtil.processPixelValues(pixelValues, var2, var3);
-         BufferedImage var10 = null;
+         TextureUtil.processPixelValues(pixelValues, width, height);
+         BufferedImage bufferedImage = null;
          if (OpenGlHelper.isFramebufferEnabled()) {
-            var10 = new BufferedImage(var4.framebufferWidth, var4.framebufferHeight, 1);
-            int var11 = var4.framebufferTextureHeight - var4.framebufferHeight;
+            bufferedImage = new BufferedImage(buffer.framebufferWidth, buffer.framebufferHeight, 1);
+            int j = buffer.framebufferTextureHeight - buffer.framebufferHeight;
 
-            for (int var12 = var11; var12 < var4.framebufferTextureHeight; var12++) {
-               for (int var13 = 0; var13 < var4.framebufferWidth; var13++) {
-                  var10.setRGB(var13, var12 - var11, pixelValues[var12 * var4.framebufferTextureWidth + var13]);
+            for (int k = j; k < buffer.framebufferTextureHeight; k++) {
+               for (int l = 0; l < buffer.framebufferWidth; l++) {
+                  bufferedImage.setRGB(l, k - j, pixelValues[k * buffer.framebufferTextureWidth + l]);
                }
             }
          } else {
-            var10 = new BufferedImage(var2, var3, 1);
-            var10.setRGB(0, 0, var2, var3, pixelValues, 0, var2);
+            bufferedImage = new BufferedImage(width, height, 1);
+            bufferedImage.setRGB(0, 0, width, height, pixelValues, 0, width);
          }
 
-         File var16;
-         if (var1 == null) {
-            var16 = getTimestampedPNGFileForDirectory(var8);
+         File file2;
+         if (screenshotName == null) {
+            file2 = getTimestampedPNGFileForDirectory(file);
          } else {
-            var16 = new File(var8, var1);
+            file2 = new File(file, screenshotName);
          }
 
-         ImageIO.write(var10, "png", var16);
-         ChatComponentText var17 = new ChatComponentText(var16.getName());
-         var17.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, var16.getAbsolutePath()));
-         var17.getChatStyle().setUnderlined(true);
-         return new ChatComponentTranslation("screenshot.success", var17);
-      } catch (Exception var14) {
-         logger.warn("Couldn't save screenshot", var14);
-         return new ChatComponentTranslation("screenshot.failure", var14.getMessage());
+         ImageIO.write(bufferedImage, "png", file2);
+         ChatComponentText chatComponentText = new ChatComponentText(file2.getName());
+         chatComponentText.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
+         chatComponentText.getChatStyle().setUnderlined(true);
+         return new ChatComponentTranslation("screenshot.success", chatComponentText);
+      } catch (Exception exception) {
+         logger.warn("Couldn't save screenshot", exception);
+         return new ChatComponentTranslation("screenshot.failure", exception.getMessage());
       }
    }
 
-   private static File getTimestampedPNGFileForDirectory(File var0) {
-      String var4 = dateFormat.format(new Date()).toString();
-      int var5 = 1;
+   private static File getTimestampedPNGFileForDirectory(File gameDirectory) {
+      String string = dateFormat.format(new Date()).toString();
+      int i = 1;
 
       while (true) {
-         File var6 = new File(var0, var4 + (var5 == 1 ? "" : "_" + var5) + ".png");
-         if (!var6.exists()) {
-            return var6;
+         File file = new File(gameDirectory, string + (i == 1 ? "" : "_" + i) + ".png");
+         if (!file.exists()) {
+            return file;
          }
 
-         var5++;
+         i++;
       }
    }
 }

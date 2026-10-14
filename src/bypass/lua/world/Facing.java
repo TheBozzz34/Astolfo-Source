@@ -9,11 +9,11 @@ public final class Facing extends OneArgFunction {
    private static final long a = 128396190374813L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnil() && var1.isnumber() && var1.isint()) {
-         Entity var5 = WorldLibrary.X.get(var1.checkint());
-         if (var5 != null) {
-            return valueOf(var5.getHorizontalFacing().ordinal() + 1);
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity != null) {
+            return valueOf(entity.getHorizontalFacing().ordinal() + 1);
          }
       }
 

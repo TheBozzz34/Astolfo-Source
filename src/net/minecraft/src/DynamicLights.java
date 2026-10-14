@@ -37,209 +37,209 @@ public class DynamicLights {
    private static final int LIGHT_LEVEL_PRISMARINE_CRYSTALS = 8;
    private static final long a = 106608858704114L;
 
-   public static void P(Entity var0, RenderGlobal var1) {
+   public static void P(Entity entity, RenderGlobal renderGlobal) {
    }
 
-   public static void z(Entity var0, RenderGlobal var1) {
+   public static void z(Entity entity, RenderGlobal renderGlobal) {
       synchronized (f) {
-         DynamicLight var6 = f.remove(net.minecraft.util.IntegerCache.getInteger(var0.getEntityId()));
-         if (var6 != null) {
-            var6.updateLitChunks(var1);
+         DynamicLight dynamicLight = f.remove(net.minecraft.util.IntegerCache.getInteger(entity.getEntityId()));
+         if (dynamicLight != null) {
+            dynamicLight.updateLitChunks(renderGlobal);
          }
       }
    }
 
-   public static void update(RenderGlobal var0) {
-      long var4 = System.currentTimeMillis();
-      if (var4 >= r + 50L) {
-         r = var4;
+   public static void update(RenderGlobal renderGlobal) {
+      long l = System.currentTimeMillis();
+      if (l >= r + 50L) {
+         r = l;
          synchronized (f) {
-            updateMapDynamicLights(var0);
+            updateMapDynamicLights(renderGlobal);
             if (f.size() > 0) {
-               for (DynamicLight var8 : f.values()) {
-                  var8.update(var0);
+               for (DynamicLight dynamicLight : f.values()) {
+                  dynamicLight.update(renderGlobal);
                }
             }
          }
       }
    }
 
-   private static void updateMapDynamicLights(RenderGlobal var0) {
-      WorldClient var4 = var0.getWorld();
-      if (var4 != null) {
-         for (Entity var6 : var4.getLoadedEntityList()) {
-            int var7 = getLightLevel(var6);
-            if (var7 > 0) {
-               Integer var8 = net.minecraft.util.IntegerCache.getInteger(var6.getEntityId());
-               DynamicLight var9 = f.get(var8);
-               if (var9 == null) {
-                  var9 = new DynamicLight(var6);
-                  f.put(var8, var9);
+   private static void updateMapDynamicLights(RenderGlobal renderGlobal) {
+      WorldClient worldClient = renderGlobal.getWorld();
+      if (worldClient != null) {
+         for (Entity entity : worldClient.getLoadedEntityList()) {
+            int i = getLightLevel(entity);
+            if (i > 0) {
+               Integer integer = net.minecraft.util.IntegerCache.getInteger(entity.getEntityId());
+               DynamicLight dynamicLight = f.get(integer);
+               if (dynamicLight == null) {
+                  dynamicLight = new DynamicLight(entity);
+                  f.put(integer, dynamicLight);
                }
             } else {
-               Integer var10 = net.minecraft.util.IntegerCache.getInteger(var6.getEntityId());
-               DynamicLight var12 = f.remove(var10);
-               if (var12 != null) {
-                  var12.updateLitChunks(var0);
+               Integer integer2 = net.minecraft.util.IntegerCache.getInteger(entity.getEntityId());
+               DynamicLight dynamicLight2 = f.remove(integer2);
+               if (dynamicLight2 != null) {
+                  dynamicLight2.updateLitChunks(renderGlobal);
                }
             }
          }
       }
    }
 
-   public static int getCombinedLight(BlockPos var0, int var1) {
-      double var2 = getLightLevel(var0);
-      return getCombinedLight(var2, var1);
+   public static int getCombinedLight(BlockPos pos, int combinedLight) {
+      double lightPlayer = getLightLevel(pos);
+      return getCombinedLight(lightPlayer, combinedLight);
    }
 
-   public static int getCombinedLight(Entity var0, int var1) {
-      double var2 = getLightLevel(var0);
-      return getCombinedLight(var2, var1);
+   public static int getCombinedLight(Entity entity, int combinedLight) {
+      double lightPlayer = getLightLevel(entity);
+      return getCombinedLight(lightPlayer, combinedLight);
    }
 
-   public static int getCombinedLight(double var0, int var2) {
-      if (var0 > 0.0) {
-         int var6 = (int)(var0 * 16.0);
-         int var7 = var2 & 0xFF;
-         if (var6 > var7) {
-            var2 &= -256;
-            var2 |= var6;
+   public static int getCombinedLight(double lightPlayer, int combinedLight) {
+      if (lightPlayer > 0.0) {
+         int i = (int)(lightPlayer * 16.0);
+         int j = combinedLight & 0xFF;
+         if (i > j) {
+            combinedLight &= -256;
+            combinedLight |= i;
          }
       }
 
-      return var2;
+      return combinedLight;
    }
 
-   public static double getLightLevel(BlockPos var0) {
-      double var4 = 0.0;
+   public static double getLightLevel(BlockPos pos) {
+      double d = 0.0;
       synchronized (f) {
-         for (DynamicLight var8 : f.values()) {
-            int var9 = var8.getLastLightLevel();
-            if (var9 > 0) {
-               double var10 = var8.B();
-               double var12 = var8.r();
-               double var14 = var8.f();
-               double var16 = var0.getX() - var10;
-               double var18 = var0.getY() - var12;
-               double var20 = var0.getZ() - var14;
-               double var22 = var16 * var16 + var18 * var18 + var20 * var20;
-               if (var8.isUnderwater() && !Config.V()) {
-                  var9 = Config.limit(var9 - 2, 0, 15);
-                  var22 *= 2.0;
+         for (DynamicLight dynamicLight : f.values()) {
+            int i = dynamicLight.getLastLightLevel();
+            if (i > 0) {
+               double e = dynamicLight.B();
+               double d2 = dynamicLight.r();
+               double d3 = dynamicLight.f();
+               double d4 = pos.getX() - e;
+               double d5 = pos.getY() - d2;
+               double d6 = pos.getZ() - d3;
+               double d7 = d4 * d4 + d5 * d5 + d6 * d6;
+               if (dynamicLight.isUnderwater() && !Config.V()) {
+                  i = Config.limit(i - 2, 0, 15);
+                  d7 *= 2.0;
                }
 
-               if (var22 <= 56.25) {
-                  double var24 = Math.sqrt(var22);
-                  double var26 = 1.0 - var24 / 7.5;
-                  double var28 = var26 * var9;
-                  if (var28 > var4) {
-                     var4 = var28;
+               if (d7 <= 56.25) {
+                  double d8 = Math.sqrt(d7);
+                  double d9 = 1.0 - d8 / 7.5;
+                  double d10 = d9 * i;
+                  if (d10 > d) {
+                     d = d10;
                   }
                }
             }
          }
       }
 
-      return Config.limit(var4, 0.0, 15.0);
+      return Config.limit(d, 0.0, 15.0);
    }
 
-   public static int getLightLevel(ItemStack var0) {
-      if (var0 == null) {
+   public static int getLightLevel(ItemStack itemStack) {
+      if (itemStack == null) {
          return 0;
       }
 
-      Item var4 = var0.getItem();
-      if (var4 instanceof ItemBlock) {
-         ItemBlock var5 = (ItemBlock)var4;
-         Block var6 = var5.getBlock();
-         if (var6 != null) {
-            return var6.getLightValue();
+      Item item = itemStack.getItem();
+      if (item instanceof ItemBlock) {
+         ItemBlock itemBlock = (ItemBlock)item;
+         Block block = itemBlock.getBlock();
+         if (block != null) {
+            return block.getLightValue();
          }
       }
 
-      return var4 == Items.lava_bucket
+      return item == Items.lava_bucket
          ? Blocks.lava.getLightValue()
          : (
-            var4 == Items.blaze_rod || var4 == Items.blaze_powder
+            item == Items.blaze_rod || item == Items.blaze_powder
                ? 10
                : (
-                  var4 == Items.glowstone_dust
+                  item == Items.glowstone_dust
                      ? 8
                      : (
-                        var4 == Items.prismarine_crystals
+                        item == Items.prismarine_crystals
                            ? 8
-                           : (var4 == Items.magma_cream ? 8 : (var4 == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0))
+                           : (item == Items.magma_cream ? 8 : (item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0))
                      )
                )
          );
    }
 
-   public static int getLightLevel(Entity var0) {
-      if (var0 == Config.getMinecraft().getRenderViewEntity() && !Config.isDynamicHandLight()) {
+   public static int getLightLevel(Entity entity) {
+      if (entity == Config.getMinecraft().getRenderViewEntity() && !Config.isDynamicHandLight()) {
          return 0;
       }
 
-      if (var0 instanceof EntityPlayer) {
-         EntityPlayer var4 = (EntityPlayer)var0;
-         if (var4.isSpectator()) {
+      if (entity instanceof EntityPlayer) {
+         EntityPlayer entityPlayer = (EntityPlayer)entity;
+         if (entityPlayer.isSpectator()) {
             return 0;
          }
       }
 
-      if (var0.isBurning()) {
+      if (entity.isBurning()) {
          return 15;
       }
 
-      if (var0 instanceof EntityFireball) {
+      if (entity instanceof EntityFireball) {
          return 15;
       }
 
-      if (var0 instanceof EntityTNTPrimed) {
+      if (entity instanceof EntityTNTPrimed) {
          return 15;
       }
 
-      if (var0 instanceof EntityBlaze) {
-         EntityBlaze var13 = (EntityBlaze)var0;
-         return var13.func_70845_n() ? 15 : 10;
+      if (entity instanceof EntityBlaze) {
+         EntityBlaze entityBlaze = (EntityBlaze)entity;
+         return entityBlaze.func_70845_n() ? 15 : 10;
       }
 
-      if (var0 instanceof EntityMagmaCube) {
-         EntityMagmaCube var12 = (EntityMagmaCube)var0;
-         return var12.squishFactor > 0.6 ? 13 : 8;
+      if (entity instanceof EntityMagmaCube) {
+         EntityMagmaCube entityMagmaCube = (EntityMagmaCube)entity;
+         return entityMagmaCube.squishFactor > 0.6 ? 13 : 8;
       }
 
-      if (var0 instanceof EntityCreeper) {
-         EntityCreeper var9 = (EntityCreeper)var0;
-         if (var9.getCreeperFlashIntensity(0.0F) > 0.001) {
+      if (entity instanceof EntityCreeper) {
+         EntityCreeper entityCreeper = (EntityCreeper)entity;
+         if (entityCreeper.getCreeperFlashIntensity(0.0F) > 0.001) {
             return 15;
          }
       }
 
-      if (var0 instanceof EntityLivingBase) {
-         EntityLivingBase var11 = (EntityLivingBase)var0;
-         ItemStack var14 = var11.getHeldItem();
-         int var6 = getLightLevel(var14);
-         ItemStack var7 = var11.getEquipmentInSlot(4);
-         int var8 = getLightLevel(var7);
-         return Math.max(var6, var8);
-      } else if (var0 instanceof EntityItem) {
-         EntityItem var10 = (EntityItem)var0;
-         ItemStack var5 = getItemStack(var10);
-         return getLightLevel(var5);
+      if (entity instanceof EntityLivingBase) {
+         EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+         ItemStack itemStack = entityLivingBase.getHeldItem();
+         int i = getLightLevel(itemStack);
+         ItemStack itemStack2 = entityLivingBase.getEquipmentInSlot(4);
+         int j = getLightLevel(itemStack2);
+         return Math.max(i, j);
+      } else if (entity instanceof EntityItem) {
+         EntityItem entityItem = (EntityItem)entity;
+         ItemStack itemStack3 = getItemStack(entityItem);
+         return getLightLevel(itemStack3);
       } else {
          return 0;
       }
    }
 
-   public static void removeLights(RenderGlobal var0) {
+   public static void removeLights(RenderGlobal renderGlobal) {
       synchronized (f) {
-         Collection var5 = f.values();
-         Iterator var6 = var5.iterator();
+         Collection collection = f.values();
+         Iterator iterator2 = collection.iterator();
 
-         while (var6.hasNext()) {
-            DynamicLight var7 = (DynamicLight)var6.next();
-            var6.remove();
-            var7.updateLitChunks(var0);
+         while (iterator2.hasNext()) {
+            DynamicLight dynamicLight = (DynamicLight)iterator2.next();
+            iterator2.remove();
+            dynamicLight.updateLitChunks(renderGlobal);
          }
       }
    }
@@ -256,18 +256,18 @@ public class DynamicLights {
       }
    }
 
-   public static ItemStack getItemStack(EntityItem var0) {
-      return var0.getDataWatcher().getWatchableObjectItemStack(10);
+   public static ItemStack getItemStack(EntityItem entityItem) {
+      return entityItem.getDataWatcher().getWatchableObjectItemStack(10);
    }
 
    static {
-      long var0 = a ^ 74668808572200L;
-      long var10000 = var0 ^ 9189614441925196700L;
-      var10000 = var0 ^ 889390479442330192L;
-      var10000 = var0 ^ 5604660363056514199L;
-      var10000 = var0 ^ 9189614441925196700L;
-      var10000 = var0 ^ 9189614441925196700L;
-      var10000 = var0 ^ 6284842428959961993L;
-      var10000 = var0 ^ 889390479442330192L;
+      long l = a ^ 74668808572200L;
+      long m = l ^ 9189614441925196700L;
+      m = l ^ 889390479442330192L;
+      m = l ^ 5604660363056514199L;
+      m = l ^ 9189614441925196700L;
+      m = l ^ 9189614441925196700L;
+      m = l ^ 6284842428959961993L;
+      m = l ^ 889390479442330192L;
    }
 }

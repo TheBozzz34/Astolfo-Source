@@ -8,12 +8,12 @@ import net.minecraft.util.ResourceLocation;
 public class RenderMooshroom extends RenderLiving<EntityMooshroom> {
    private static final ResourceLocation mooshroomTextures = new ResourceLocation("textures/entity/cow/mooshroom.png");
 
-   public RenderMooshroom(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderMooshroom(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
       this.addLayer(new LayerMooshroomMushroom(this));
    }
 
-   public ResourceLocation getEntityTexture(EntityMooshroom var1) {
+   public ResourceLocation getEntityTexture(EntityMooshroom entity) {
       return mooshroomTextures;
    }
 }

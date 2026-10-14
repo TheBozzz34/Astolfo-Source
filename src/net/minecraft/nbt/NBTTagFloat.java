@@ -12,19 +12,19 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive {
    public NBTTagFloat() {
    }
 
-   public NBTTagFloat(float var1) {
-      this.data = var1;
+   public NBTTagFloat(float data) {
+      this.data = data;
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
-      var1.writeFloat(this.data);
+   public void write(DataOutput output) throws IOException {
+      output.writeFloat(this.data);
    }
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(96L);
-      this.data = var1.readFloat();
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(96L);
+      this.data = input.readFloat();
    }
 
    @Override
@@ -43,10 +43,10 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (super.equals(var1)) {
-         NBTTagFloat var5 = (NBTTagFloat)var1;
-         return this.data == var5.data;
+   public boolean equals(Object object) {
+      if (super.equals(object)) {
+         NBTTagFloat nbtTagFloat = (NBTTagFloat)object;
+         return this.data == nbtTagFloat.data;
       } else {
          return false;
       }

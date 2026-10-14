@@ -10,54 +10,54 @@ public class NumberSettingItem extends TabGuiItem {
    private NumberSetting e;
    private static final long b = 74022487267985L;
 
-   public NumberSettingItem(TabGui.Panel var1, NumberSetting var2) {
-      super(var1);
-      this.e = var2;
+   public NumberSettingItem(TabGui.Panel panel, NumberSetting numberSetting) {
+      super(panel);
+      this.e = numberSetting;
    }
 
    @Override
-   public void z(int var1) {
-      super.z(var1);
-      if (var1 == 78) {
-         DecimalFormat var5 = new DecimalFormat("0.0");
+   public void z(int i) {
+      super.z(i);
+      if (i == 78) {
+         DecimalFormat decimalFormat = new DecimalFormat("0.0");
          if (this.e.valueClass == Integer.class) {
-            int var6 = Integer.parseInt(String.valueOf(this.c() + (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10 : 1)));
-            this.e.setValue(var6);
+            int j = Integer.parseInt(String.valueOf(this.c() + (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10 : 1)));
+            this.e.setValue(j);
          } else if (this.e.valueClass == Double.class) {
-            double var9 = Double.parseDouble(var5.format(this.u() + 0.1 * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0 : 1.0)));
-            this.e.setValue(var9);
+            double d = Double.parseDouble(decimalFormat.format(this.u() + 0.1 * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0 : 1.0)));
+            this.e.setValue(d);
          } else {
-            float var10 = Float.parseFloat(var5.format(this.b() + 0.1F * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0F : 1.0F)));
-            this.e.setValue(var10);
+            float f = Float.parseFloat(decimalFormat.format(this.b() + 0.1F * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0F : 1.0F)));
+            this.e.setValue(f);
          }
-      } else if (var1 == 74) {
-         DecimalFormat var8 = new DecimalFormat("0.0");
+      } else if (i == 74) {
+         DecimalFormat decimalFormat2 = new DecimalFormat("0.0");
          if (this.e.valueClass == Integer.class) {
-            int var11 = Integer.parseInt(String.valueOf(this.c() - (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10 : 1)));
-            this.e.setValue(var11);
+            int k = Integer.parseInt(String.valueOf(this.c() - (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10 : 1)));
+            this.e.setValue(k);
          } else if (this.e.valueClass == Double.class) {
-            double var12 = Double.parseDouble(var8.format(this.u() - 0.1 * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0 : 1.0)));
-            this.e.setValue(var12);
+            double d2 = Double.parseDouble(decimalFormat2.format(this.u() - 0.1 * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0 : 1.0)));
+            this.e.setValue(d2);
          } else {
-            float var13 = Float.parseFloat(var8.format(this.b() - 0.1F * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0F : 1.0F)));
-            this.e.setValue(var13);
+            float g = Float.parseFloat(decimalFormat2.format(this.b() - 0.1F * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0F : 1.0F)));
+            this.e.setValue(g);
          }
       }
    }
 
    public int c() {
-      String var1 = MathUtil.ONE_DECIMAL.format(this.e.getValue()).replace(",", "");
-      return Integer.valueOf(var1);
+      String string = MathUtil.ONE_DECIMAL.format(this.e.getValue()).replace(",", "");
+      return Integer.valueOf(string);
    }
 
    public float b() {
-      String var1 = MathUtil.ONE_DECIMAL.format(this.e.getValue()).replace(",", ".");
-      return Float.parseFloat(var1);
+      String string = MathUtil.ONE_DECIMAL.format(this.e.getValue()).replace(",", ".");
+      return Float.parseFloat(string);
    }
 
    public double u() {
-      String var1 = MathUtil.ONE_DECIMAL.format(this.e.getValue()).replace(",", ".");
-      return Double.parseDouble(var1);
+      String string = MathUtil.ONE_DECIMAL.format(this.e.getValue()).replace(",", ".");
+      return Double.parseDouble(string);
    }
 
    @Override

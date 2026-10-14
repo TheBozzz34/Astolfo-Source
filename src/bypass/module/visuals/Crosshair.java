@@ -24,66 +24,66 @@ public final class Crosshair extends Module {
    private final BooleanSetting dynamic = new BooleanSetting("Dynamic", "with bows n shit u know !!", true);
    private final BooleanSetting dot = new BooleanSetting("Dot", "puts da DOT in da MIDDLE", true);
    @EventHandler(RenderEvent.class)
-   private Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.SCREEN) {
-         int var5 = this.outlineColor.getValue().getRGB();
-         int var6 = var1x.getResolution().getScaledWidth() / 2;
-         int var7 = var1x.getResolution().getScaledHeight() / 2;
-         float var8 = this.gap.getValue();
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN) {
+         int i = this.outlineColor.getValue().getRGB();
+         int j = renderEvent.getResolution().getScaledWidth() / 2;
+         int k = renderEvent.getResolution().getScaledHeight() / 2;
+         float f = this.gap.getValue();
          if (!mc.thePlayer.isSpectator() && this.dynamic.getValue() && mc.thePlayer.getHeldItem() != null) {
-            ItemStack var9 = mc.thePlayer.getHeldItem();
-            int var10 = mc.thePlayer.p();
-            if (var9.getItem() == Items.bow) {
-               float var11 = (var9.getMaxItemUseDuration() - var10) / 20.0F;
-               if (var10 == 0 || var11 > 1.0F) {
-                  var11 = 1.0F;
+            ItemStack itemStack = mc.thePlayer.getHeldItem();
+            int l = mc.thePlayer.p();
+            if (itemStack.getItem() == Items.bow) {
+               float g = (itemStack.getMaxItemUseDuration() - l) / 20.0F;
+               if (l == 0 || g > 1.0F) {
+                  g = 1.0F;
                }
 
-               var8 = this.gap.getValue() + (int)((1.0F - var11) * (this.gap.getValue() + 5.0F) * 2.0F);
+               f = this.gap.getValue() + (int)((1.0F - g) * (this.gap.getValue() + 5.0F) * 2.0F);
             }
          }
 
          RenderUtil.drawThinBorderedRect(
-            var6 - this.width.getValue(),
-            var7 - var8 - this.size.getValue(),
-            var6 + 1.0F + this.width.getValue(),
-            var7 - var8 + 0.2F,
+            j - this.width.getValue(),
+            k - f - this.size.getValue(),
+            j + 1.0F + this.width.getValue(),
+            k - f + 0.2F,
             this.color.getValue().getRGB(),
-            var5
+            i
          );
          RenderUtil.drawThinBorderedRect(
-            var6 - this.width.getValue(),
-            var7 + var8 + 1.0F - 0.2F,
-            var6 + 1.0F + this.width.getValue(),
-            var7 + 1 + var8 + this.size.getValue() - 0.15F,
+            j - this.width.getValue(),
+            k + f + 1.0F - 0.2F,
+            j + 1.0F + this.width.getValue(),
+            k + 1 + f + this.size.getValue() - 0.15F,
             this.color.getValue().getRGB(),
-            var5
+            i
          );
          RenderUtil.drawThinBorderedRect(
-            var6 - var8 - this.size.getValue() + 0.15F,
-            var7 - this.width.getValue(),
-            var6 - var8 + 0.2F,
-            var7 + 1.0F + this.width.getValue(),
+            j - f - this.size.getValue() + 0.15F,
+            k - this.width.getValue(),
+            j - f + 0.2F,
+            k + 1.0F + this.width.getValue(),
             this.color.getValue().getRGB(),
-            var5
+            i
          );
          RenderUtil.drawThinBorderedRect(
-            var6 + 1 + var8 - 0.2F,
-            var7 - this.width.getValue(),
-            var6 + this.size.getValue() + var8 + 1.0F,
-            var7 + 1.0F + this.width.getValue(),
+            j + 1 + f - 0.2F,
+            k - this.width.getValue(),
+            j + this.size.getValue() + f + 1.0F,
+            k + 1.0F + this.width.getValue(),
             this.color.getValue().getRGB(),
-            var5
+            i
          );
          if (this.dot.getValue()) {
-            RenderUtil.drawThinBorderedRect(var6 - 0.7F, var7 - 0.7F, var6 + 1.7F, var7 + 1.7F, this.color.getValue().getRGB(), var5);
+            RenderUtil.drawThinBorderedRect(j - 0.7F, k - 0.7F, j + 1.7F, k + 1.7F, this.color.getValue().getRGB(), i);
          }
       }
    };
    private static final long c = 127268056824835L;
 
-   public Crosshair(Category var1) {
-      super(var1);
+   public Crosshair(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.color, this.outlineColor, this.size, this.gap, this.width, this.dynamic, this.dot);
    }

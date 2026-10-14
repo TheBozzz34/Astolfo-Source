@@ -13,17 +13,17 @@ public class RecipesWeapons {
    };
    private static final long b = 46100627285384L;
 
-   public void addRecipes(CraftingManager var1) {
-      for (int var4 = 0; var4 < this.recipeItems[0].length; var4++) {
-         Object var5 = this.recipeItems[0][var4];
+   public void addRecipes(CraftingManager craftingManager) {
+      for (int i = 0; i < this.recipeItems[0].length; i++) {
+         Object object = this.recipeItems[0][i];
 
-         for (int var6 = 0; var6 < this.recipeItems.length - 1; var6++) {
-            Item var7 = (Item)this.recipeItems[var6 + 1][var4];
-            var1.addRecipe(new ItemStack(var7), this.recipePatterns[var6], '#', Items.stick, 'X', var5);
+         for (int j = 0; j < this.recipeItems.length - 1; j++) {
+            Item item = (Item)this.recipeItems[j + 1][i];
+            craftingManager.addRecipe(new ItemStack(item), this.recipePatterns[j], '#', Items.stick, 'X', object);
          }
       }
 
-      var1.addRecipe(new ItemStack(Items.bow, 1), " #X", "# X", " #X", 'X', Items.string, '#', Items.stick);
-      var1.addRecipe(new ItemStack(Items.arrow, 4), "X", "#", "Y", 'Y', Items.feather, 'X', Items.flint, '#', Items.stick);
+      craftingManager.addRecipe(new ItemStack(Items.bow, 1), " #X", "# X", " #X", 'X', Items.string, '#', Items.stick);
+      craftingManager.addRecipe(new ItemStack(Items.arrow, 4), "X", "#", "Y", 'Y', Items.feather, 'X', Items.flint, '#', Items.stick);
    }
 }

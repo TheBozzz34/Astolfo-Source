@@ -9,14 +9,14 @@ public final class ValidatedFingerprintEntry<T> extends ValueFingerprintEntry<T>
    public List<FingerprintValidator<T>> K;
    private static final long b = 6563750492540L;
 
-   public ValidatedFingerprintEntry(String var1, T var2, FingerprintValidator<T>... var3) {
-      super(var1, (T)var2);
-      this.K = Arrays.asList(var3);
+   public ValidatedFingerprintEntry(String string, T object, FingerprintValidator<T>... fingerprintValidators) {
+      super(string, (T)object);
+      this.K = Arrays.asList(fingerprintValidators);
    }
 
-   public ValidatedFingerprintEntry(String var1, Supplier<T> var2, FingerprintValidator<T>... var3) {
-      super(var1, var2);
-      this.K = Arrays.asList(var3);
+   public ValidatedFingerprintEntry(String string, Supplier<T> supplier, FingerprintValidator<T>... fingerprintValidators) {
+      super(string, supplier);
+      this.K = Arrays.asList(fingerprintValidators);
    }
 
    public List<FingerprintValidator<T>> W() {

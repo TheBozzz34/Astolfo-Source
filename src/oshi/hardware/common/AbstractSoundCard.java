@@ -11,10 +11,10 @@ public abstract class AbstractSoundCard implements SoundCard {
    private static final long b = 26119502668402L;
    private static final long k = -3874511876285005731L;
 
-   public AbstractSoundCard(String var1, String var2, String var3) {
-      this.kernelVersion = var1;
-      this.name = var2;
-      this.codec = var3;
+   public AbstractSoundCard(String kernelVersion, String name, String codec) {
+      this.kernelVersion = kernelVersion;
+      this.name = name;
+      this.codec = codec;
    }
 
    @Override
@@ -34,16 +34,16 @@ public abstract class AbstractSoundCard implements SoundCard {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("SoundCard@");
-      var3.append(Integer.toHexString(this.hashCode()));
-      var3.append(" [kernelVersion=");
-      var3.append(this.kernelVersion);
-      var3.append(", name=");
-      var3.append(this.name);
-      var3.append(", codec=");
-      var3.append(this.codec);
-      var3.append((char)((int)k));
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("SoundCard@");
+      stringBuilder.append(Integer.toHexString(this.hashCode()));
+      stringBuilder.append(" [kernelVersion=");
+      stringBuilder.append(this.kernelVersion);
+      stringBuilder.append(", name=");
+      stringBuilder.append(this.name);
+      stringBuilder.append(", codec=");
+      stringBuilder.append(this.codec);
+      stringBuilder.append((char)((int)k));
+      return stringBuilder.toString();
    }
 }

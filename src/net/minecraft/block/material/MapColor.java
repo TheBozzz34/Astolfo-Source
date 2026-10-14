@@ -42,37 +42,37 @@ public class MapColor {
    public final int colorIndex;
    private static final long o = 78071344005531L;
 
-   private MapColor(int var1, int var2) {
-      if (var1 >= 0 && var1 <= 63) {
-         this.colorIndex = var1;
-         this.colorValue = var2;
-         mapColorArray[var1] = this;
+   private MapColor(int index, int color) {
+      if (index >= 0 && index <= 63) {
+         this.colorIndex = index;
+         this.colorValue = color;
+         mapColorArray[index] = this;
       } else {
          throw new IndexOutOfBoundsException("Map colour ID must be between 0 and 63 (inclusive)");
       }
    }
 
-   public int getMapColor(int var1) {
-      short var6 = 220;
-      if (var1 == 3) {
-         var6 = 135;
+   public int getMapColor(int i) {
+      short s = 220;
+      if (i == 3) {
+         s = 135;
       }
 
-      if (var1 == 2) {
-         var6 = 255;
+      if (i == 2) {
+         s = 255;
       }
 
-      if (var1 == 1) {
-         var6 = 220;
+      if (i == 1) {
+         s = 220;
       }
 
-      if (var1 == 0) {
-         var6 = 180;
+      if (i == 0) {
+         s = 180;
       }
 
-      int var7 = (this.colorValue >> 16 & 0xFF) * var6 / 255;
-      int var8 = (this.colorValue >> 8 & 0xFF) * var6 / 255;
-      int var9 = (this.colorValue & 0xFF) * var6 / 255;
-      return 0xFF000000 | var7 << 16 | var8 << 8 | var9;
+      int j = (this.colorValue >> 16 & 0xFF) * s / 255;
+      int k = (this.colorValue >> 8 & 0xFF) * s / 255;
+      int l = (this.colorValue & 0xFF) * s / 255;
+      return 0xFF000000 | j << 16 | k << 8 | l;
    }
 }

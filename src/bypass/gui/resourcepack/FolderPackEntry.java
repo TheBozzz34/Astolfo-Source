@@ -15,20 +15,20 @@ public class FolderPackEntry extends CustomPackEntry {
    public final boolean Y;
    private static final long a = 64260344234225L;
 
-   public FolderPackEntry(CustomResourcePacksScreen var1, File var2) {
-      super(var1);
-      this.T = var1;
-      this.w = var2;
-      this.B = var2.getName();
+   public FolderPackEntry(CustomResourcePacksScreen customResourcePacksScreen, File file) {
+      super(customResourcePacksScreen);
+      this.T = customResourcePacksScreen;
+      this.w = file;
+      this.B = file.getName();
       this.Y = false;
    }
 
-   public FolderPackEntry(CustomResourcePacksScreen var1, File var2, boolean var3) {
-      super(var1);
-      this.T = var1;
-      this.w = var2;
+   public FolderPackEntry(CustomResourcePacksScreen customResourcePacksScreen, File file, boolean bl) {
+      super(customResourcePacksScreen);
+      this.T = customResourcePacksScreen;
+      this.w = file;
       this.B = "..";
-      this.Y = var3;
+      this.Y = bl;
    }
 
    @Override
@@ -47,39 +47,39 @@ public class FolderPackEntry extends CustomPackEntry {
    }
 
    @Override
-   public boolean mousePressed(int var1, int var2, int var3, int var4, int var5, int var6) {
+   public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
       this.T.S(this.w);
       return true;
    }
 
    @Override
-   public void drawEntry(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8) {
-      this.E(this, var2, var3, var8);
+   public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+      this.E(this, x, y, isSelected);
    }
 
-   public void E(FolderPackEntry var1, int var2, int var3, boolean var4) {
-      var1.func_148313_c();
+   public void E(FolderPackEntry folderPackEntry, int i, int j, boolean bl) {
+      folderPackEntry.func_148313_c();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.enableBlend();
       GlStateManager.blendFunc(770, 771);
-      Gui.drawModalRectWithCustomSizedTexture(var2, var3, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
+      Gui.drawModalRectWithCustomSizedTexture(i, j, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
       GlStateManager.disableBlend();
-      if ((this.mc.gameSettings.touchscreen || var4) && var1.func_148310_d()) {
-         Gui.drawRect(var2, var3, var2 + 32, var3 + 32, -1601138544);
+      if ((this.mc.gameSettings.touchscreen || bl) && folderPackEntry.func_148310_d()) {
+         Gui.drawRect(i, j, i + 32, j + 32, -1601138544);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       }
 
-      String var9 = var1.func_148312_b();
-      int var8 = this.mc.fontRendererObj.getStringWidth(var9);
-      if (var8 > 157) {
-         var9 = this.mc.fontRendererObj.trimStringToWidth(var9, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
+      String string = folderPackEntry.func_148312_b();
+      int k = this.mc.fontRendererObj.getStringWidth(string);
+      if (k > 157) {
+         string = this.mc.fontRendererObj.trimStringToWidth(string, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
       }
 
-      this.mc.fontRendererObj.drawStringWithShadow(var9, var2 + 32 + 2, var3 + 1, 16777215);
-      List var10 = this.mc.fontRendererObj.listFormattedStringToWidth(var1.func_148311_a(), 157);
+      this.mc.fontRendererObj.drawStringWithShadow(string, i + 32 + 2, j + 1, 16777215);
+      List list = this.mc.fontRendererObj.listFormattedStringToWidth(folderPackEntry.func_148311_a(), 157);
 
-      for (int var11 = 0; var11 < 2 && var11 < var10.size(); var11++) {
-         this.mc.fontRendererObj.drawStringWithShadow((String)var10.get(var11), var2 + 32 + 2, var3 + 12 + 10 * var11, 8421504);
+      for (int l = 0; l < 2 && l < list.size(); l++) {
+         this.mc.fontRendererObj.drawStringWithShadow((String)list.get(l), i + 32 + 2, j + 12 + 10 * l, 8421504);
       }
    }
 }

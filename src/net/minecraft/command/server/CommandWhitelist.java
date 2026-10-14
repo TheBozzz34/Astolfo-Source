@@ -26,83 +26,83 @@ public class CommandWhitelist extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.whitelist.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 1) {
          throw new WrongUsageException("commands.whitelist.usage");
       }
 
-      MinecraftServer var6 = MinecraftServer.getServer();
-      if (var2[0].equals("on")) {
-         var6.getConfigurationManager().setWhiteListEnabled(true);
-         notifyOperators(var1, this, "commands.whitelist.enabled");
-      } else if (var2[0].equals("off")) {
-         var6.getConfigurationManager().setWhiteListEnabled(false);
-         notifyOperators(var1, this, "commands.whitelist.disabled");
-      } else if (var2[0].equals("list")) {
-         var1.addChatMessage(
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      if (args[0].equals("on")) {
+         minecraftServer.getConfigurationManager().setWhiteListEnabled(true);
+         notifyOperators(sender, this, "commands.whitelist.enabled");
+      } else if (args[0].equals("off")) {
+         minecraftServer.getConfigurationManager().setWhiteListEnabled(false);
+         notifyOperators(sender, this, "commands.whitelist.disabled");
+      } else if (args[0].equals("list")) {
+         sender.addChatMessage(
             new ChatComponentTranslation(
                "commands.whitelist.list",
-               var6.getConfigurationManager().getWhitelistedPlayerNames().length,
-               var6.getConfigurationManager().getAvailablePlayerDat().length
+               minecraftServer.getConfigurationManager().getWhitelistedPlayerNames().length,
+               minecraftServer.getConfigurationManager().getAvailablePlayerDat().length
             )
          );
-         String[] var7 = var6.getConfigurationManager().getWhitelistedPlayerNames();
-         var1.addChatMessage(new ChatComponentText(joinNiceString(var7)));
-      } else if (var2[0].equals("add")) {
-         if (var2.length < 2) {
+         String[] strings = minecraftServer.getConfigurationManager().getWhitelistedPlayerNames();
+         sender.addChatMessage(new ChatComponentText(joinNiceString(strings)));
+      } else if (args[0].equals("add")) {
+         if (args.length < 2) {
             throw new WrongUsageException("commands.whitelist.add.usage");
          }
 
-         GameProfile var8 = var6.getPlayerProfileCache().getGameProfileForUsername(var2[1]);
-         if (var8 == null) {
-            throw new CommandException("commands.whitelist.add.failed", var2[1]);
+         GameProfile gameProfile = minecraftServer.getPlayerProfileCache().getGameProfileForUsername(args[1]);
+         if (gameProfile == null) {
+            throw new CommandException("commands.whitelist.add.failed", args[1]);
          }
 
-         var6.getConfigurationManager().addWhitelistedPlayer(var8);
-         notifyOperators(var1, this, "commands.whitelist.add.success", var2[1]);
-      } else if (var2[0].equals("remove")) {
-         if (var2.length < 2) {
+         minecraftServer.getConfigurationManager().addWhitelistedPlayer(gameProfile);
+         notifyOperators(sender, this, "commands.whitelist.add.success", args[1]);
+      } else if (args[0].equals("remove")) {
+         if (args.length < 2) {
             throw new WrongUsageException("commands.whitelist.remove.usage");
          }
 
-         GameProfile var9 = var6.getConfigurationManager().getWhitelistedPlayers().getBannedProfile(var2[1]);
-         if (var9 == null) {
-            throw new CommandException("commands.whitelist.remove.failed", var2[1]);
+         GameProfile gameProfile2 = minecraftServer.getConfigurationManager().getWhitelistedPlayers().getBannedProfile(args[1]);
+         if (gameProfile2 == null) {
+            throw new CommandException("commands.whitelist.remove.failed", args[1]);
          }
 
-         var6.getConfigurationManager().removePlayerFromWhitelist(var9);
-         notifyOperators(var1, this, "commands.whitelist.remove.success", var2[1]);
-      } else if (var2[0].equals("reload")) {
-         var6.getConfigurationManager().loadWhiteList();
-         notifyOperators(var1, this, "commands.whitelist.reloaded");
+         minecraftServer.getConfigurationManager().removePlayerFromWhitelist(gameProfile2);
+         notifyOperators(sender, this, "commands.whitelist.remove.success", args[1]);
+      } else if (args[0].equals("reload")) {
+         minecraftServer.getConfigurationManager().loadWhiteList();
+         notifyOperators(sender, this, "commands.whitelist.reloaded");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      if (var2.length == 1) {
-         String[] var10001 = new String[(int)j];
-         var10001[0] = "on";
-         var10001[1] = "off";
-         var10001[2] = "list";
-         var10001[3] = "add";
-         var10001[4] = "remove";
-         var10001[5] = "reload";
-         return getListOfStringsMatchingLastWord(var2, var10001);
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      if (args.length == 1) {
+         String[] strings = new String[(int)j];
+         strings[0] = "on";
+         strings[1] = "off";
+         strings[2] = "list";
+         strings[3] = "add";
+         strings[4] = "remove";
+         strings[5] = "reload";
+         return getListOfStringsMatchingLastWord(args, strings);
       }
 
-      if (var2.length == 2) {
-         if (var2[0].equals("remove")) {
-            return getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getConfigurationManager().getWhitelistedPlayerNames());
+      if (args.length == 2) {
+         if (args[0].equals("remove")) {
+            return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getConfigurationManager().getWhitelistedPlayerNames());
          }
 
-         if (var2[0].equals("add")) {
-            return getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getPlayerProfileCache().getUsernames());
+         if (args[0].equals("add")) {
+            return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getPlayerProfileCache().getUsernames());
          }
       }
 

@@ -19,25 +19,25 @@ public class ModuleButton extends Container {
    private boolean u;
    private static final long e = 84103440236050L;
 
-   public ModuleButton(CategoryPanel var1, Module var2, int var3, int var4) {
-      super(var2.getName(), 0.0F, 0.0F, var3, var4);
-      this.h = var1;
-      this.p = var2;
+   public ModuleButton(CategoryPanel categoryPanel, Module module, int i, int j) {
+      super(module.getName(), 0.0F, 0.0F, i, j);
+      this.h = categoryPanel;
+      this.p = module;
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
       if (this.h.s_boolean()) {
-         if (var1 == 0) {
+         if (i == 0) {
             this.p.setEnabled(!this.p.isEnabled());
          }
 
-         if (var1 == 1 && DefaultClickGuiScreen.B && Keyboard.isKeyDown(42)) {
+         if (i == 1 && DefaultClickGuiScreen.B && Keyboard.isKeyDown(42)) {
             this.u = !this.u;
             return;
          }
 
-         if (var1 == 1 && this.d > 0 && !this.M_ArrayList().isEmpty()) {
+         if (i == 1 && this.d > 0 && !this.M_ArrayList().isEmpty()) {
             this.u(!this.s_boolean());
             if (this.s_boolean()) {
                this.U.backwards().rewind().start();
@@ -49,69 +49,69 @@ public class ModuleButton extends Container {
    }
 
    @Override
-   public void P(char var1, int var2) {
+   public void P(char c, int i) {
       if (DefaultClickGuiScreen.B) {
-         if (this.u && var2 == 1) {
+         if (this.u && i == 1) {
             this.u = false;
          }
 
          if (this.u) {
-            this.p.setKey(var2);
+            this.p.setKey(i);
             this.u = false;
          }
       }
 
-      super.P(var1, var2);
+      super.P(c, i);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      int var6 = this.u();
-      boolean var7 = HUD.gui.getSetting("Left-Align").asBoolean();
-      int var8 = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.h.c().getColor() : client.getColorSetting().getValue().getRGB();
+   public void render(int i, int j) {
+      int k = this.u();
+      boolean bl = HUD.gui.getSetting("Left-Align").asBoolean();
+      int l = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.h.c().getColor() : client.getColorSetting().getValue().getRGB();
       if (this.p.isEnabled()) {
-         if (this.G(var1, var2)) {
-            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(var8).darker().getRGB());
+         if (this.G(i, j)) {
+            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(l).darker().getRGB());
          } else {
-            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), var8);
+            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), l);
          }
-      } else if (this.G(var1, var2 - 1)) {
+      } else if (this.G(i, j - 1)) {
          RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(52, 52, 52).getRGB());
       }
 
       if (this.s_boolean()) {
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + var6, new Color(37, 37, 37).darker().getRGB());
+         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + k, new Color(37, 37, 37).darker().getRGB());
       }
 
       if (DefaultClickGuiScreen.B && (this.p.getKey() != 0 || this.u)) {
          try {
-            String var9 = String.format("[%s]", this.u ? "..." : Keyboard.getKeyName(this.p.getKey()));
+            String string = String.format("[%s]", this.u ? "..." : Keyboard.getKeyName(this.p.getKey()));
             GuiMainMenu.m
                .drawString(
-                  var9, var7 ? this.M() + this.x() - GuiMainMenu.m.getStringWidth(var9) - 2.0F : this.M() + 3.0F, this.E_float() + 2.0F, Color.GRAY.getRGB()
+                  string, bl ? this.M() + this.x() - GuiMainMenu.m.getStringWidth(string) - 2.0F : this.M() + 3.0F, this.E_float() + 2.0F, Color.GRAY.getRGB()
                );
-         } catch (Exception var12) {
+         } catch (Exception exception) {
          }
       }
 
       GuiMainMenu.m
          .drawString(
             this.p.getName().toLowerCase(),
-            var7 ? this.M() + 3.0F : this.M() + this.x() - GuiMainMenu.m.getStringWidth(this.p.getName().toLowerCase(), true) - 3.0F,
+            bl ? this.M() + 3.0F : this.M() + this.x() - GuiMainMenu.m.getStringWidth(this.p.getName().toLowerCase(), true) - 3.0F,
             this.E_float() + 3.0F,
-            this.s_boolean() && this.p.isEnabled() ? var8 : 13421772
+            this.s_boolean() && this.p.isEnabled() ? l : 13421772
          );
       if (this.s_boolean()) {
-         int var13 = 0;
+         int n = 0;
 
-         for (Element var11 : this.M_ArrayList()) {
-            if (var11 instanceof Component) {
-               ((Component)var11).r(this.M() + 2.0F, this.E_float() + var13 + 15.0F);
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof Component) {
+               ((Component)element).r(this.M() + 2.0F, this.E_float() + n + 15.0F);
                if (this.s_boolean()) {
-                  var11.render(var1, var2);
+                  element.render(i, j);
                }
 
-               var13 += ((Component)var11).Y() + (var11 instanceof MapComponent && ((MapComponent)var11).s_boolean() ? ((MapComponent)var11).i() : 0);
+               n += ((Component)element).Y() + (element instanceof MapComponent && ((MapComponent)element).s_boolean() ? ((MapComponent)element).i() : 0);
             }
          }
       }
@@ -124,33 +124,33 @@ public class ModuleButton extends Container {
    }
 
    public int c() {
-      int var4 = 0;
+      int i = 0;
       if (this.s_boolean()) {
-         for (Element var6 : this.M_ArrayList()) {
-            if (var6 instanceof SettingComponent || var6 instanceof SettingContainer) {
-               var4 += ((Component)var6).Y();
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof SettingComponent || element instanceof SettingContainer) {
+               i += ((Component)element).Y();
             }
          }
       }
 
-      return var4 + 18;
+      return i + 18;
    }
 
    public int u() {
-      int var4 = 0;
+      int j = 0;
       if (this.s_boolean()) {
-         for (Element var6 : this.M_ArrayList()) {
-            if (var6 instanceof SettingComponent || var6 instanceof SettingContainer) {
-               var4 += ((Component)var6).Y();
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof SettingComponent || element instanceof SettingContainer) {
+               j += ((Component)element).Y();
             }
 
-            if (var6 instanceof MapComponent) {
-               var4 += ((MapComponent)var6).i();
+            if (element instanceof MapComponent) {
+               j += ((MapComponent)element).i();
             }
          }
       }
 
-      return var4 + 18;
+      return j + 18;
    }
 
    public CategoryPanel O() {

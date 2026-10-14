@@ -7,10 +7,10 @@ import java.util.Objects;
 public interface CheckRequest {
    LoadStage N();
 
-   CheckContext Y(List<StageCheck> var1, List<VerdictProcessor> var2);
+   CheckContext Y(List<StageCheck> list, List<VerdictProcessor> list2);
 
-   static CheckRequest G(LoadStage var0) {
-      Objects.requireNonNull(var0, "");
-      return new StageCheckRequest(var0);
+   static CheckRequest G(LoadStage loadStage) {
+      Objects.requireNonNull(loadStage, "");
+      return new StageCheckRequest(loadStage);
    }
 }

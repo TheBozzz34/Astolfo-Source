@@ -20,299 +20,299 @@ public class ConnectedParser {
    private static final MatchBlock[] C = new MatchBlock[0];
    private static final long a = 11636544326233L;
 
-   public ConnectedParser(String var1) {
-      this.context = var1;
+   public ConnectedParser(String context) {
+      this.context = context;
    }
 
-   public String parseName(String var1) {
-      String var5 = var1;
-      int var6 = var1.lastIndexOf(47);
-      if (var6 >= 0) {
-         var5 = var1.substring(var6 + 1);
+   public String parseName(String path) {
+      String string = path;
+      int i = path.lastIndexOf(47);
+      if (i >= 0) {
+         string = path.substring(i + 1);
       }
 
-      int var7 = var5.lastIndexOf(46);
-      if (var7 >= 0) {
-         var5 = var5.substring(0, var7);
+      int j = string.lastIndexOf(46);
+      if (j >= 0) {
+         string = string.substring(0, j);
       }
 
-      return var5;
+      return string;
    }
 
-   public String parseBasePath(String var1) {
-      int var4 = var1.lastIndexOf(47);
-      return var4 < 0 ? "" : var1.substring(0, var4);
+   public String parseBasePath(String path) {
+      int i = path.lastIndexOf(47);
+      return i < 0 ? "" : path.substring(0, i);
    }
 
-   public MatchBlock[] t(String var1) {
-      if (var1 == null) {
+   public MatchBlock[] t(String string) {
+      if (string == null) {
          return null;
       }
 
-      ArrayList var5 = new ArrayList();
-      String[] var6 = Config.tokenize(var1, " ");
+      ArrayList arrayList = new ArrayList();
+      String[] strings = Config.tokenize(string, " ");
 
-      for (int var7 = 0; var7 < var6.length; var7++) {
-         String var8 = var6[var7];
-         MatchBlock[] var9 = this.g(var8);
-         if (var9 == null) {
+      for (int i = 0; i < strings.length; i++) {
+         String string2 = strings[i];
+         MatchBlock[] matchBlocks = this.g(string2);
+         if (matchBlocks == null) {
             return C;
          }
 
-         var5.addAll(Arrays.asList(var9));
+         arrayList.addAll(Arrays.asList(matchBlocks));
       }
 
-      return (net.minecraft.src.MatchBlock[])(var5.toArray(new MatchBlock[var5.size()]));
+      return (net.minecraft.src.MatchBlock[])(arrayList.toArray(new MatchBlock[arrayList.size()]));
    }
 
-   public MatchBlock[] g(String var1) {
-      if (var1 == null) {
+   public MatchBlock[] g(String string) {
+      if (string == null) {
          return null;
       }
 
-      var1 = var1.trim();
-      if (var1.length() <= 0) {
+      string = string.trim();
+      if (string.length() <= 0) {
          return null;
       }
 
-      String[] var5 = Config.tokenize(var1, ":");
-      String var6 = "minecraft";
-      byte var7 = 0;
-      if (var5.length > 1 && this.isFullBlockName(var5)) {
-         var6 = var5[0];
-         var7 = 1;
+      String[] strings = Config.tokenize(string, ":");
+      String string2 = "minecraft";
+      byte b = 0;
+      if (strings.length > 1 && this.isFullBlockName(strings)) {
+         string2 = strings[0];
+         b = 1;
       } else {
-         var6 = "minecraft";
-         var7 = 0;
+         string2 = "minecraft";
+         b = 0;
       }
 
-      String var8 = var5[var7];
-      String[] var9 = Arrays.copyOfRange(var5, var7 + 1, var5.length);
-      Block[] var10 = this.parseBlockPart(var6, var8);
-      if (var10 == null) {
+      String string3 = strings[b];
+      String[] strings2 = Arrays.copyOfRange(strings, b + 1, strings.length);
+      Block[] blocks = this.parseBlockPart(string2, string3);
+      if (blocks == null) {
          return null;
       }
 
-      MatchBlock[] var11 = new MatchBlock[var10.length];
+      MatchBlock[] matchBlocks = new MatchBlock[blocks.length];
 
-      for (int var12 = 0; var12 < var10.length; var12++) {
-         Block var13 = var10[var12];
-         int var14 = Block.getIdFromBlock(var13);
-         int[] var15 = null;
-         if (var9.length > 0) {
-            var15 = this.parseBlockMetadatas(var13, var9);
-            if (var15 == null) {
+      for (int i = 0; i < blocks.length; i++) {
+         Block block = blocks[i];
+         int j = Block.getIdFromBlock(block);
+         int[] ints = null;
+         if (strings2.length > 0) {
+            ints = this.parseBlockMetadatas(block, strings2);
+            if (ints == null) {
                return null;
             }
          }
 
-         MatchBlock var16 = new MatchBlock(var14, var15);
-         var11[var12] = var16;
+         MatchBlock matchBlock = new MatchBlock(j, ints);
+         matchBlocks[i] = matchBlock;
       }
 
-      return var11;
+      return matchBlocks;
    }
 
-   public boolean isFullBlockName(String[] var1) {
-      if (var1.length < 2) {
+   public boolean isFullBlockName(String[] parts) {
+      if (parts.length < 2) {
          return false;
       }
 
-      String var5 = var1[1];
-      return var5.length() < 1 ? false : (this.startsWithDigit(var5) ? false : !var5.contains("="));
+      String string = parts[1];
+      return string.length() < 1 ? false : (this.startsWithDigit(string) ? false : !string.contains("="));
    }
 
-   public boolean startsWithDigit(String var1) {
-      if (var1 == null) {
+   public boolean startsWithDigit(String str) {
+      if (str == null) {
          return false;
       }
 
-      if (var1.length() < 1) {
+      if (str.length() < 1) {
          return false;
       }
 
-      char var5 = var1.charAt(0);
-      return Character.isDigit(var5);
+      char c = str.charAt(0);
+      return Character.isDigit(c);
    }
 
-   public Block[] parseBlockPart(String var1, String var2) {
-      if (this.startsWithDigit(var2)) {
-         int[] var11 = this.parseIntList(var2);
-         if (var11 == null) {
+   public Block[] parseBlockPart(String domain, String blockPart) {
+      if (this.startsWithDigit(blockPart)) {
+         int[] ints = this.parseIntList(blockPart);
+         if (ints == null) {
             return null;
          }
 
-         Block[] var12 = new Block[var11.length];
+         Block[] blocks = new Block[ints.length];
 
-         for (int var8 = 0; var8 < var11.length; var8++) {
-            int var9 = var11[var8];
-            Block var10 = Block.getBlockById(var9);
-            if (var10 == null) {
-               this.c("Block not found for id: " + var9);
+         for (int i = 0; i < ints.length; i++) {
+            int j = ints[i];
+            Block block = Block.getBlockById(j);
+            if (block == null) {
+               this.c("Block not found for id: " + j);
                return null;
             }
 
-            var12[var8] = var10;
+            blocks[i] = block;
          }
 
-         return var12;
+         return blocks;
       } else {
-         String var6 = var1 + ":" + var2;
-         Block var7 = Block.getBlockFromName(var6);
-         if (var7 == null) {
-            this.c("Block not found for name: " + var6);
+         String string = domain + ":" + blockPart;
+         Block block2 = Block.getBlockFromName(string);
+         if (block2 == null) {
+            this.c("Block not found for name: " + string);
             return null;
          } else {
-            return new Block[]{var7};
+            return new Block[]{block2};
          }
       }
    }
 
-   public int[] parseBlockMetadatas(Block var1, String[] var2) {
-      if (var2.length <= 0) {
+   public int[] parseBlockMetadatas(Block block, String[] params) {
+      if (params.length <= 0) {
          return null;
       }
 
-      String var6 = var2[0];
-      if (this.startsWithDigit(var6)) {
-         return this.parseIntList(var6);
+      String string = params[0];
+      if (this.startsWithDigit(string)) {
+         return this.parseIntList(string);
       }
 
-      IBlockState var7 = var1.getDefaultState();
-      Collection var8 = var7.getPropertyNames();
-      HashMap var9 = new HashMap();
+      IBlockState iBlockState = block.getDefaultState();
+      Collection collection = iBlockState.getPropertyNames();
+      HashMap hashMap = new HashMap();
 
-      for (int var10 = 0; var10 < var2.length; var10++) {
-         String var11 = var2[var10];
-         if (var11.length() > 0) {
-            String[] var12 = Config.tokenize(var11, "=");
-            if (var12.length != 2) {
-               this.c("Invalid block property: " + var11);
+      for (int i = 0; i < params.length; i++) {
+         String string2 = params[i];
+         if (string2.length() > 0) {
+            String[] strings = Config.tokenize(string2, "=");
+            if (strings.length != 2) {
+               this.c("Invalid block property: " + string2);
                return null;
             }
 
-            String var13 = var12[0];
-            String var14 = var12[1];
-            IProperty var15 = ConnectedProperties.getProperty(var13, var8);
-            if (var15 == null) {
-               this.c("Property not found: " + var13 + ", block: " + var1);
+            String string3 = strings[0];
+            String string4 = strings[1];
+            IProperty iProperty = ConnectedProperties.getProperty(string3, collection);
+            if (iProperty == null) {
+               this.c("Property not found: " + string3 + ", block: " + block);
                return null;
             }
 
-            List var16 = (List)var9.get(var13);
-            if (var16 == null) {
-               var16 = new ArrayList();
-               var9.put(var15, var16);
+            List list = (List)hashMap.get(string3);
+            if (list == null) {
+               list = new ArrayList();
+               hashMap.put(iProperty, list);
             }
 
-            String[] var17 = Config.tokenize(var14, ",");
+            String[] strings2 = Config.tokenize(string4, ",");
 
-            for (int var18 = 0; var18 < var17.length; var18++) {
-               String var19 = var17[var18];
-               Comparable var20 = parsePropertyValue(var15, var19);
-               if (var20 == null) {
-                  this.c("Property value not found: " + var19 + ", property: " + var13 + ", block: " + var1);
+            for (int j = 0; j < strings2.length; j++) {
+               String string5 = strings2[j];
+               Comparable comparable = parsePropertyValue(iProperty, string5);
+               if (comparable == null) {
+                  this.c("Property value not found: " + string5 + ", property: " + string3 + ", block: " + block);
                   return null;
                }
 
-               var16.add(var20);
+               list.add(comparable);
             }
          }
       }
 
-      if (var9.isEmpty()) {
+      if (hashMap.isEmpty()) {
          return null;
       }
 
-      ArrayList var22 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (int var23 = 0; var23 < 16; var23++) {
-         int var25 = var23;
+      for (int k = 0; k < 16; k++) {
+         int l = k;
 
          try {
-            IBlockState var27 = this.getStateFromMeta(var1, var25);
-            if (this.matchState(var27, var9)) {
-               var22.add(var25);
+            IBlockState iBlockState2 = this.getStateFromMeta(block, l);
+            if (this.matchState(iBlockState2, hashMap)) {
+               arrayList.add(l);
             }
-         } catch (IllegalArgumentException var21) {
+         } catch (IllegalArgumentException illegalArgumentException) {
          }
       }
 
-      if (var22.size() == 16) {
+      if (arrayList.size() == 16) {
          return null;
       }
 
-      int[] var24 = new int[var22.size()];
+      int[] ints = new int[arrayList.size()];
 
-      for (int var26 = 0; var26 < var24.length; var26++) {
-         var24[var26] = (Integer)var22.get(var26);
+      for (int m = 0; m < ints.length; m++) {
+         ints[m] = (Integer)arrayList.get(m);
       }
 
-      return var24;
+      return ints;
    }
 
-   private IBlockState getStateFromMeta(Block var1, int var2) {
+   private IBlockState getStateFromMeta(Block block, int md) {
       try {
-         IBlockState var5 = var1.getStateFromMeta(var2);
-         if (var1 == Blocks.double_plant && var2 > 7) {
-            IBlockState var6 = var1.getStateFromMeta(var2 & 7);
-            var5 = var5.withProperty(BlockDoublePlant.VARIANT, var6.getValue(BlockDoublePlant.VARIANT));
+         IBlockState iBlockState = block.getStateFromMeta(md);
+         if (block == Blocks.double_plant && md > 7) {
+            IBlockState iBlockState2 = block.getStateFromMeta(md & 7);
+            iBlockState = iBlockState.withProperty(BlockDoublePlant.VARIANT, iBlockState2.getValue(BlockDoublePlant.VARIANT));
          }
 
-         return var5;
-      } catch (IllegalArgumentException var7) {
-         return var1.getDefaultState();
+         return iBlockState;
+      } catch (IllegalArgumentException illegalArgumentException) {
+         return block.getDefaultState();
       }
    }
 
-   public static Comparable parsePropertyValue(IProperty var0, String var1) {
-      Class var5 = var0.getValueClass();
-      Comparable var6 = parseValue(var1, var5);
-      if (var6 == null) {
-         Collection var7 = var0.getAllowedValues();
-         var6 = getPropertyValue(var1, var7);
+   public static Comparable parsePropertyValue(IProperty prop, String valStr) {
+      Class class2 = prop.getValueClass();
+      Comparable comparable = parseValue(valStr, class2);
+      if (comparable == null) {
+         Collection collection = prop.getAllowedValues();
+         comparable = getPropertyValue(valStr, collection);
       }
 
-      return var6;
+      return comparable;
    }
 
-   public static Comparable getPropertyValue(String var0, Collection var1) {
-      for (Object var6 : var1) {
-         if (String.valueOf(var6).equals(var0)) {
-            return (Comparable)var6;
+   public static Comparable getPropertyValue(String value, Collection propertyValues) {
+      for (Object object : propertyValues) {
+         if (String.valueOf(object).equals(value)) {
+            return (Comparable)object;
          }
       }
 
       return null;
    }
 
-   public static Comparable parseValue(String var0, Class var1) {
+   public static Comparable parseValue(String str, Class cls) {
       return (Comparable)(
-         var1 == String.class
-            ? var0
+         cls == String.class
+            ? str
             : (
-               var1 == Boolean.class
-                  ? Boolean.valueOf(var0)
-                  : var1 == Float.class
-                     ? Float.valueOf(var0).floatValue()
+               cls == Boolean.class
+                  ? Boolean.valueOf(str)
+                  : cls == Float.class
+                     ? Float.valueOf(str).floatValue()
                      : (
-                        var1 == Double.class
-                           ? Double.valueOf(var0)
-                           : (var1 == Integer.class ? Integer.valueOf(var0).intValue() : var1 == Long.class ? Long.valueOf(var0) : null)
+                        cls == Double.class
+                           ? Double.valueOf(str)
+                           : (cls == Integer.class ? Integer.valueOf(str).intValue() : cls == Long.class ? Long.valueOf(str) : null)
                      )
             )
       );
    }
 
-   public boolean matchState(IBlockState var1, Map<IProperty, List<Comparable>> var2) {
-      for (IProperty var7 : var2.keySet()) {
-         List var8 = (List)var2.get(var7);
-         Comparable var9 = var1.getValue(var7);
-         if (var9 == null) {
+   public boolean matchState(IBlockState bs, Map<IProperty, List<Comparable>> mapPropValues) {
+      for (IProperty iProperty : mapPropValues.keySet()) {
+         List list = (List)mapPropValues.get(iProperty);
+         Comparable comparable = bs.getValue(iProperty);
+         if (comparable == null) {
             return false;
          }
 
-         if (!var8.contains(var9)) {
+         if (!list.contains(comparable)) {
             return false;
          }
       }
@@ -320,41 +320,41 @@ public class ConnectedParser {
       return true;
    }
 
-   public BiomeGenBase[] y(String var1) {
-      if (var1 == null) {
+   public BiomeGenBase[] y(String string) {
+      if (string == null) {
          return null;
       }
 
-      String[] var5 = Config.tokenize(var1, " ");
-      ArrayList var6 = new ArrayList();
+      String[] strings = Config.tokenize(string, " ");
+      ArrayList arrayList = new ArrayList();
 
-      for (int var7 = 0; var7 < var5.length; var7++) {
-         String var8 = var5[var7];
-         BiomeGenBase var9 = this.I(var8);
-         if (var9 == null) {
-            this.c("Biome not found: " + var8);
+      for (int i = 0; i < strings.length; i++) {
+         String string2 = strings[i];
+         BiomeGenBase biomeGenBase = this.I(string2);
+         if (biomeGenBase == null) {
+            this.c("Biome not found: " + string2);
          } else {
-            var6.add(var9);
+            arrayList.add(biomeGenBase);
          }
       }
 
-      return (net.minecraft.world.biome.BiomeGenBase[])(var6.toArray(new BiomeGenBase[var6.size()]));
+      return (net.minecraft.world.biome.BiomeGenBase[])(arrayList.toArray(new BiomeGenBase[arrayList.size()]));
    }
 
-   public BiomeGenBase I(String var1) {
-      var1 = var1.toLowerCase();
-      if (var1.equals("nether")) {
+   public BiomeGenBase I(String string) {
+      string = string.toLowerCase();
+      if (string.equals("nether")) {
          return BiomeGenBase.hell;
       }
 
-      BiomeGenBase[] var5 = BiomeGenBase.getBiomeGenArray();
+      BiomeGenBase[] biomeGenBases = BiomeGenBase.getBiomeGenArray();
 
-      for (int var6 = 0; var6 < var5.length; var6++) {
-         BiomeGenBase var7 = var5[var6];
-         if (var7 != null) {
-            String var8 = var7.biomeName.replace(" ", "").toLowerCase();
-            if (var8.equals(var1)) {
-               return var7;
+      for (int i = 0; i < biomeGenBases.length; i++) {
+         BiomeGenBase biomeGenBase = biomeGenBases[i];
+         if (biomeGenBase != null) {
+            String string2 = biomeGenBase.biomeName.replace(" ", "").toLowerCase();
+            if (string2.equals(string)) {
+               return biomeGenBase;
             }
          }
       }
@@ -362,220 +362,220 @@ public class ConnectedParser {
       return null;
    }
 
-   public int Y(String var1) {
-      if (var1 == null) {
+   public int Y(String string) {
+      if (string == null) {
          return -1;
       }
 
-      int var5 = Config.parseInt(var1, -1);
-      if (var5 < 0) {
-         this.c("Invalid number: " + var1);
+      int i = Config.parseInt(string, -1);
+      if (i < 0) {
+         this.c("Invalid number: " + string);
       }
 
-      return var5;
+      return i;
    }
 
-   public int O(String var1, int var2) {
-      if (var1 == null) {
-         return var2;
+   public int O(String string, int i) {
+      if (string == null) {
+         return i;
       } else {
-         int var6 = Config.parseInt(var1, -1);
-         if (var6 < 0) {
-            this.c("Invalid number: " + var1);
-            return var2;
+         int j = Config.parseInt(string, -1);
+         if (j < 0) {
+            this.c("Invalid number: " + string);
+            return i;
          } else {
-            return var6;
+            return j;
          }
       }
    }
 
-   public int[] parseIntList(String var1) {
-      if (var1 == null) {
+   public int[] parseIntList(String str) {
+      if (str == null) {
          return null;
       }
 
-      ArrayList var5 = new ArrayList();
-      String[] var6 = Config.tokenize(var1, " ,");
+      ArrayList arrayList = new ArrayList();
+      String[] strings = Config.tokenize(str, " ,");
 
-      for (int var7 = 0; var7 < var6.length; var7++) {
-         String var8 = var6[var7];
-         if (var8.contains("-")) {
-            String[] var15 = Config.tokenize(var8, "-");
-            if (var15.length != 2) {
-               this.c("Invalid interval: " + var8 + ", when parsing: " + var1);
+      for (int i = 0; i < strings.length; i++) {
+         String string = strings[i];
+         if (string.contains("-")) {
+            String[] strings2 = Config.tokenize(string, "-");
+            if (strings2.length != 2) {
+               this.c("Invalid interval: " + string + ", when parsing: " + str);
             } else {
-               int var10 = Config.parseInt(var15[0], -1);
-               int var11 = Config.parseInt(var15[1], -1);
-               if (var10 >= 0 && var11 >= 0 && var10 <= var11) {
-                  for (int var12 = var10; var12 <= var11; var12++) {
-                     var5.add(var12);
+               int j = Config.parseInt(strings2[0], -1);
+               int k = Config.parseInt(strings2[1], -1);
+               if (j >= 0 && k >= 0 && j <= k) {
+                  for (int l = j; l <= k; l++) {
+                     arrayList.add(l);
                   }
                } else {
-                  this.c("Invalid interval: " + var8 + ", when parsing: " + var1);
+                  this.c("Invalid interval: " + string + ", when parsing: " + str);
                }
             }
          } else {
-            int var9 = Config.parseInt(var8, -1);
-            if (var9 < 0) {
-               this.c("Invalid number: " + var8 + ", when parsing: " + var1);
+            int m = Config.parseInt(string, -1);
+            if (m < 0) {
+               this.c("Invalid number: " + string + ", when parsing: " + str);
             } else {
-               var5.add(var9);
+               arrayList.add(m);
             }
          }
       }
 
-      int[] var13 = new int[var5.size()];
+      int[] ints = new int[arrayList.size()];
 
-      for (int var14 = 0; var14 < var13.length; var14++) {
-         var13[var14] = (Integer)var5.get(var14);
+      for (int n = 0; n < ints.length; n++) {
+         ints[n] = (Integer)arrayList.get(n);
       }
 
-      return var13;
+      return ints;
    }
 
-   public boolean[] parseFaces(String var1, boolean[] var2) {
-      if (var1 == null) {
-         return var2;
+   public boolean[] parseFaces(String str, boolean[] defVal) {
+      if (str == null) {
+         return defVal;
       }
 
-      EnumSet var6 = EnumSet.allOf(EnumFacing.class);
-      String[] var7 = Config.tokenize(var1, " ,");
+      EnumSet enumSet = EnumSet.allOf(EnumFacing.class);
+      String[] strings = Config.tokenize(str, " ,");
 
-      for (int var8 = 0; var8 < var7.length; var8++) {
-         String var9 = var7[var8];
-         if (var9.equals("sides")) {
-            var6.add(EnumFacing.NORTH);
-            var6.add(EnumFacing.SOUTH);
-            var6.add(EnumFacing.WEST);
-            var6.add(EnumFacing.EAST);
-         } else if (var9.equals("all")) {
-            var6.addAll(Arrays.asList(EnumFacing.VALUES));
+      for (int i = 0; i < strings.length; i++) {
+         String string = strings[i];
+         if (string.equals("sides")) {
+            enumSet.add(EnumFacing.NORTH);
+            enumSet.add(EnumFacing.SOUTH);
+            enumSet.add(EnumFacing.WEST);
+            enumSet.add(EnumFacing.EAST);
+         } else if (string.equals("all")) {
+            enumSet.addAll(Arrays.asList(EnumFacing.VALUES));
          } else {
-            EnumFacing var10 = this.p(var9);
-            if (var10 != null) {
-               var6.add(var10);
+            EnumFacing enumFacing = this.p(string);
+            if (enumFacing != null) {
+               enumSet.add(enumFacing);
             }
          }
       }
 
-      boolean[] var11 = new boolean[EnumFacing.VALUES.length];
+      boolean[] booleans = new boolean[EnumFacing.VALUES.length];
 
-      for (int var12 = 0; var12 < var11.length; var12++) {
-         var11[var12] = var6.contains(EnumFacing.VALUES[var12]);
+      for (int j = 0; j < booleans.length; j++) {
+         booleans[j] = enumSet.contains(EnumFacing.VALUES[j]);
       }
 
-      return var11;
+      return booleans;
    }
 
-   public EnumFacing p(String var1) {
-      var1 = var1.toLowerCase();
-      if (var1.equals("bottom") || var1.equals("down")) {
+   public EnumFacing p(String string) {
+      string = string.toLowerCase();
+      if (string.equals("bottom") || string.equals("down")) {
          return EnumFacing.DOWN;
       }
 
-      if (var1.equals("top") || var1.equals("up")) {
+      if (string.equals("top") || string.equals("up")) {
          return EnumFacing.UP;
       }
 
-      if (var1.equals("north")) {
+      if (string.equals("north")) {
          return EnumFacing.NORTH;
       }
 
-      if (var1.equals("south")) {
+      if (string.equals("south")) {
          return EnumFacing.SOUTH;
       }
 
-      if (var1.equals("east")) {
+      if (string.equals("east")) {
          return EnumFacing.EAST;
       }
 
-      if (var1.equals("west")) {
+      if (string.equals("west")) {
          return EnumFacing.WEST;
       }
 
-      Config.warn("Unknown face: " + var1);
+      Config.warn("Unknown face: " + string);
       return null;
    }
 
-   public void w_void(String var1) {
-      Config.dbg("" + this.context + ": " + var1);
+   public void w_void(String string) {
+      Config.dbg("" + this.context + ": " + string);
    }
 
-   public void c(String var1) {
-      Config.warn("" + this.context + ": " + var1);
+   public void c(String string) {
+      Config.warn("" + this.context + ": " + string);
    }
 
-   public RangeListInt F(String var1) {
-      if (var1 == null) {
+   public RangeListInt F(String string) {
+      if (string == null) {
          return null;
       }
 
-      RangeListInt var5 = new RangeListInt();
-      String[] var6 = Config.tokenize(var1, " ,");
+      RangeListInt rangeListInt = new RangeListInt();
+      String[] strings = Config.tokenize(string, " ,");
 
-      for (int var7 = 0; var7 < var6.length; var7++) {
-         String var8 = var6[var7];
-         RangeInt var9 = this.w(var8);
-         if (var9 == null) {
+      for (int i = 0; i < strings.length; i++) {
+         String string2 = strings[i];
+         RangeInt rangeInt = this.w(string2);
+         if (rangeInt == null) {
             return null;
          }
 
-         var5.addRange(var9);
+         rangeListInt.addRange(rangeInt);
       }
 
-      return var5;
+      return rangeListInt;
    }
 
-   private RangeInt w(String var1) {
-      if (var1 == null) {
+   private RangeInt w(String string) {
+      if (string == null) {
          return null;
       }
 
-      if (var1.indexOf(45) >= 0) {
-         String[] var8 = Config.tokenize(var1, "-");
-         if (var8.length != 2) {
-            this.c("Invalid range: " + var1);
+      if (string.indexOf(45) >= 0) {
+         String[] strings = Config.tokenize(string, "-");
+         if (strings.length != 2) {
+            this.c("Invalid range: " + string);
             return null;
          }
 
-         int var6 = Config.parseInt(var8[0], -1);
-         int var7 = Config.parseInt(var8[1], -1);
-         if (var6 >= 0 && var7 >= 0) {
-            return new RangeInt(var6, var7);
+         int i = Config.parseInt(strings[0], -1);
+         int j = Config.parseInt(strings[1], -1);
+         if (i >= 0 && j >= 0) {
+            return new RangeInt(i, j);
          }
 
-         this.c("Invalid range: " + var1);
+         this.c("Invalid range: " + string);
          return null;
       } else {
-         int var5 = Config.parseInt(var1, -1);
-         if (var5 < 0) {
-            this.c("Invalid integer: " + var1);
+         int k = Config.parseInt(string, -1);
+         if (k < 0) {
+            this.c("Invalid integer: " + string);
             return null;
          } else {
-            return new RangeInt(var5, var5);
+            return new RangeInt(k, k);
          }
       }
    }
 
-   public static boolean parseBoolean(String var0) {
+   public static boolean parseBoolean(String string) {
       try {
-         return var0 == null ? false : var0.toLowerCase().equals("true");
-      } catch (Exception var5) {
+         return string == null ? false : string.toLowerCase().equals("true");
+      } catch (Exception exception) {
          return false;
       }
    }
 
-   public static int w(String var0, int var1) {
-      if (var0 == null) {
-         return var1;
+   public static int w(String string, int i) {
+      if (string == null) {
+         return i;
       }
 
-      var0 = var0.trim();
+      string = string.trim();
 
       try {
-         return Integer.parseInt(var0, 16) & 16777215;
-      } catch (NumberFormatException var6) {
-         return var1;
+         return Integer.parseInt(string, 16) & 16777215;
+      } catch (NumberFormatException numberFormatException) {
+         return i;
       }
    }
 }

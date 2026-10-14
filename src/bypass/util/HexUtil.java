@@ -4,34 +4,34 @@ public class HexUtil {
    private static final char[] x = "0123456789abcdef".toCharArray();
    private static final long a = 3256426206891L;
 
-   public static String Q(byte... var0) {
-      if (var0 == null) {
+   public static String Q(byte... bytes) {
+      if (bytes == null) {
          return null;
       }
 
-      char[] var4 = new char[var0.length * 2];
-      int var5 = 0;
+      char[] chars = new char[bytes.length * 2];
+      int i = 0;
 
-      for (byte var9 : var0) {
-         var4[var5++] = x[(var9 & 255) >> 4];
-         var4[var5++] = x[var9 & 0xFF & 15];
+      for (byte b : bytes) {
+         chars[i++] = x[(b & 255) >> 4];
+         chars[i++] = x[b & 0xFF & 15];
       }
 
-      return new String(var4);
+      return new String(chars);
    }
 
-   public static byte[] e(String var0) {
-      if (var0 == null) {
+   public static byte[] e(String string) {
+      if (string == null) {
          return null;
       }
 
-      int var4 = var0.length();
-      byte[] var5 = new byte[var4 >> 1];
+      int i = string.length();
+      byte[] bytes = new byte[i >> 1];
 
-      for (int var6 = 0; var6 < var4; var6 += 2) {
-         var5[var6 >> 1] = (byte)((Character.digit((int)var0.charAt(var6), 16) << 4) + Character.digit((int)var0.charAt(var6 + 1), 16));
+      for (int j = 0; j < i; j += 2) {
+         bytes[j >> 1] = (byte)((Character.digit((int)string.charAt(j), 16) << 4) + Character.digit((int)string.charAt(j + 1), 16));
       }
 
-      return var5;
+      return bytes;
    }
 }

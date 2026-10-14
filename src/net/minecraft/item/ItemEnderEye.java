@@ -21,88 +21,88 @@ public class ItemEnderEye extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      long var9 = a ^ 92882501463191L;
-      IBlockState var12 = var3.getBlockState(var4);
-      if (!var2.canPlayerEdit(var4.offset(var5), var5, var1) || var12.getBlock() != Blocks.end_portal_frame || var12.getValue(BlockEndPortalFrame.EYE)) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      long l = a ^ 92882501463191L;
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      if (!playerIn.canPlayerEdit(pos.offset(side), side, stack) || iBlockState.getBlock() != Blocks.end_portal_frame || iBlockState.getValue(BlockEndPortalFrame.EYE)) {
          return false;
       }
 
-      if (var3.isRemote) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      var3.setBlockState(var4, var12.withProperty(BlockEndPortalFrame.EYE, true), 2);
-      var3.updateComparatorOutputLevel(var4, Blocks.end_portal_frame);
-      var1.stackSize--;
+      worldIn.setBlockState(pos, iBlockState.withProperty(BlockEndPortalFrame.EYE, true), 2);
+      worldIn.updateComparatorOutputLevel(pos, Blocks.end_portal_frame);
+      stack.stackSize--;
 
-      for (int var13 = 0; var13 < 16; var13++) {
-         double var14 = var4.getX() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F;
-         double var16 = var4.getY() + 0.8125F;
-         double var18 = var4.getZ() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F;
-         double var20 = 0.0;
-         double var22 = 0.0;
-         double var24 = 0.0;
-         var3.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var14, var16, var18, var20, var22, var24);
+      for (int i = 0; i < 16; i++) {
+         double d = pos.getX() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F;
+         double e = pos.getY() + 0.8125F;
+         double d2 = pos.getZ() + (5.0F + itemRand.nextFloat() * 6.0F) / 16.0F;
+         double d3 = 0.0;
+         double d4 = 0.0;
+         double d5 = 0.0;
+         worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d, e, d2, d3, d4, d5);
       }
 
-      EnumFacing var26 = var12.getValue(BlockEndPortalFrame.FACING);
-      int var27 = 0;
-      long var10000 = 4635024364000137736L ^ var9;
-      int var15 = 0;
-      boolean var28 = false;
-      boolean var17 = true;
-      EnumFacing var29 = var26.rotateY();
+      EnumFacing enumFacing = iBlockState.getValue(BlockEndPortalFrame.FACING);
+      int j = 0;
+      long m = 4635024364000137736L ^ l;
+      int k = 0;
+      boolean bl = false;
+      boolean bl2 = true;
+      EnumFacing enumFacing2 = enumFacing.rotateY();
 
-      for (int var19 = -2; var19 <= 2; var19++) {
-         BlockPos var33 = var4.offset(var29, var19);
-         IBlockState var21 = var3.getBlockState(var33);
-         if (var21.getBlock() == Blocks.end_portal_frame) {
-            if (!var21.getValue(BlockEndPortalFrame.EYE)) {
-               var17 = false;
+      for (int n = -2; n <= 2; n++) {
+         BlockPos blockPos = pos.offset(enumFacing2, n);
+         IBlockState iBlockState2 = worldIn.getBlockState(blockPos);
+         if (iBlockState2.getBlock() == Blocks.end_portal_frame) {
+            if (!iBlockState2.getValue(BlockEndPortalFrame.EYE)) {
+               bl2 = false;
                break;
             }
 
-            var15 = var19;
-            if (!var28) {
-               var27 = var19;
-               var28 = true;
+            k = n;
+            if (!bl) {
+               j = n;
+               bl = true;
             }
          }
       }
 
-      if (var17 && var15 == var27 + 2) {
-         BlockPos var30 = var4.offset(var26, 4);
+      if (bl2 && k == j + 2) {
+         BlockPos blockPos2 = pos.offset(enumFacing, 4);
 
-         for (int var34 = var27; var34 <= var15; var34++) {
-            BlockPos var37 = var30.offset(var29, var34);
-            IBlockState var40 = var3.getBlockState(var37);
-            if (var40.getBlock() != Blocks.end_portal_frame || !var40.getValue(BlockEndPortalFrame.EYE)) {
-               var17 = false;
+         for (int i2 = j; i2 <= k; i2++) {
+            BlockPos blockPos3 = blockPos2.offset(enumFacing2, i2);
+            IBlockState iBlockState3 = worldIn.getBlockState(blockPos3);
+            if (iBlockState3.getBlock() != Blocks.end_portal_frame || !iBlockState3.getValue(BlockEndPortalFrame.EYE)) {
+               bl2 = false;
                break;
             }
          }
 
-         for (int var35 = var27 - 1; var35 <= var15 + 1; var35 += 4) {
-            var30 = var4.offset(var29, var35);
+         for (int i3 = j - 1; i3 <= k + 1; i3 += 4) {
+            blockPos2 = pos.offset(enumFacing2, i3);
 
-            for (int var38 = 1; var38 <= 3; var38++) {
-               BlockPos var41 = var30.offset(var26, var38);
-               IBlockState var23 = var3.getBlockState(var41);
-               if (var23.getBlock() != Blocks.end_portal_frame || !var23.getValue(BlockEndPortalFrame.EYE)) {
-                  var17 = false;
+            for (int i4 = 1; i4 <= 3; i4++) {
+               BlockPos blockPos4 = blockPos2.offset(enumFacing, i4);
+               IBlockState iBlockState4 = worldIn.getBlockState(blockPos4);
+               if (iBlockState4.getBlock() != Blocks.end_portal_frame || !iBlockState4.getValue(BlockEndPortalFrame.EYE)) {
+                  bl2 = false;
                   break;
                }
             }
          }
 
-         if (var17) {
-            for (int var36 = var27; var36 <= var15; var36++) {
-               var30 = var4.offset(var29, var36);
+         if (bl2) {
+            for (int i5 = j; i5 <= k; i5++) {
+               blockPos2 = pos.offset(enumFacing2, i5);
 
-               for (int var39 = 1; var39 <= 3; var39++) {
-                  BlockPos var42 = var30.offset(var26, var39);
-                  var3.setBlockState(var42, Blocks.end_portal.getDefaultState(), 2);
+               for (int i6 = 1; i6 <= 3; i6++) {
+                  BlockPos blockPos5 = blockPos2.offset(enumFacing, i6);
+                  worldIn.setBlockState(blockPos5, Blocks.end_portal.getDefaultState(), 2);
                }
             }
          }
@@ -112,30 +112,30 @@ public class ItemEnderEye extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      MovingObjectPosition var7 = this.getMovingObjectPositionFromPlayer(var2, var3, false);
-      if (var7 != null
-         && var7.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
-         && var2.getBlockState(var7.getBlockPos()).getBlock() == Blocks.end_portal_frame) {
-         return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, false);
+      if (movingObjectPosition != null
+         && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+         && worldIn.getBlockState(movingObjectPosition.getBlockPos()).getBlock() == Blocks.end_portal_frame) {
+         return itemStackIn;
       }
 
-      if (!var2.isRemote) {
-         BlockPos var8 = var2.getStrongholdPos("Stronghold", new BlockPos(var3));
-         if (var8 != null) {
-            EntityEnderEye var9 = new EntityEnderEye(var2, var3.posX, var3.posY, var3.posZ);
-            var9.moveTowards(var8);
-            var2.spawnEntityInWorld(var9);
-            var2.playSoundAtEntity(var3, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            var2.playAuxSFXAtEntity((EntityPlayer)null, 1002, new BlockPos(var3), 0);
-            if (!var3.capabilities.isCreativeMode) {
-               var1.stackSize--;
+      if (!worldIn.isRemote) {
+         BlockPos blockPos = worldIn.getStrongholdPos("Stronghold", new BlockPos(playerIn));
+         if (blockPos != null) {
+            EntityEnderEye entityEnderEye = new EntityEnderEye(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ);
+            entityEnderEye.moveTowards(blockPos);
+            worldIn.spawnEntityInWorld(entityEnderEye);
+            worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            worldIn.playAuxSFXAtEntity((EntityPlayer)null, 1002, new BlockPos(playerIn), 0);
+            if (!playerIn.capabilities.isCreativeMode) {
+               itemStackIn.stackSize--;
             }
 
-            var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
          }
       }
 
-      return var1;
+      return itemStackIn;
    }
 }

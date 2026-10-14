@@ -19,27 +19,27 @@ public class BlockStainedGlass extends BlockBreakable {
    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
    private static final long i = 16542106986510L;
 
-   public BlockStainedGlass(Material var1) {
-      super(var1, false);
+   public BlockStainedGlass(Material materialIn) {
+      super(materialIn, false);
       this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(COLOR).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(COLOR).getMetadata();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (EnumDyeColor var10 : EnumDyeColor.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (EnumDyeColor enumDyeColor : EnumDyeColor.values()) {
+         list.add(new ItemStack(itemIn, 1, enumDyeColor.getMetadata()));
       }
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(COLOR).getMapColor();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(COLOR).getMapColor();
    }
 
    @Override
@@ -48,7 +48,7 @@ public class BlockStainedGlass extends BlockBreakable {
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
@@ -63,27 +63,27 @@ public class BlockStainedGlass extends BlockBreakable {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      if (!var1.isRemote) {
-         BlockBeacon.updateColorAsync(var1, var2);
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      if (!worldIn.isRemote) {
+         BlockBeacon.updateColorAsync(worldIn, pos);
       }
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      if (!var1.isRemote) {
-         BlockBeacon.updateColorAsync(var1, var2);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      if (!worldIn.isRemote) {
+         BlockBeacon.updateColorAsync(worldIn, pos);
       }
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(COLOR).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(COLOR).getMetadata();
    }
 
    @Override

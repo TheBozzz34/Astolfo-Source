@@ -4,8 +4,8 @@ import bypass.gui.screen.CustomResourcePacksScreen;
 import net.minecraft.client.resources.ResourcePackListEntryFound;
 
 public abstract class CustomPackEntry extends ResourcePackListEntryFound {
-   public CustomPackEntry(CustomResourcePacksScreen var1) {
-      super(var1, null);
+   public CustomPackEntry(CustomResourcePacksScreen customResourcePacksScreen) {
+      super(customResourcePacksScreen, null);
    }
 
    @Override

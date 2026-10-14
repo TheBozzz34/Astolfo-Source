@@ -39,35 +39,35 @@ public final class SolarisVirtualMemory extends AbstractVirtualMemory {
    }
 
    private static long queryPagesIn() {
-      long var3 = 0L;
+      long l = 0L;
 
-      for (String var6 : ExecutingCommand.runNative("kstat -p cpu_stat:::pgpgin")) {
-         var3 += ParseUtil.parseLastLong(var6, 0L);
+      for (String string : ExecutingCommand.runNative("kstat -p cpu_stat:::pgpgin")) {
+         l += ParseUtil.parseLastLong(string, 0L);
       }
 
-      return var3;
+      return l;
    }
 
    private static long queryPagesOut() {
-      long var3 = 0L;
+      long l = 0L;
 
-      for (String var6 : ExecutingCommand.runNative("kstat -p cpu_stat:::pgpgout")) {
-         var3 += ParseUtil.parseLastLong(var6, 0L);
+      for (String string : ExecutingCommand.runNative("kstat -p cpu_stat:::pgpgout")) {
+         l += ParseUtil.parseLastLong(string, 0L);
       }
 
-      return var3;
+      return l;
    }
 
    private static Pair<Long, Long> querySwapInfo() {
-      long var3 = 0L;
-      long var5 = 0L;
-      String var7 = ExecutingCommand.getAnswerAt("swap -lk", 1);
-      Matcher var8 = SWAP_INFO.matcher(var7);
-      if (var8.matches()) {
-         var3 = ParseUtil.parseLongOrDefault(var8.group(1), 0L) << 10;
-         var5 = var3 - (ParseUtil.parseLongOrDefault(var8.group(2), 0L) << 10);
+      long l = 0L;
+      long m = 0L;
+      String string = ExecutingCommand.getAnswerAt("swap -lk", 1);
+      Matcher matcher2 = SWAP_INFO.matcher(string);
+      if (matcher2.matches()) {
+         l = ParseUtil.parseLongOrDefault(matcher2.group(1), 0L) << 10;
+         m = l - (ParseUtil.parseLongOrDefault(matcher2.group(2), 0L) << 10);
       }
 
-      return new Pair<>(var5, var3);
+      return new Pair<>(m, l);
    }
 }

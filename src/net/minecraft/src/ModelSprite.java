@@ -25,122 +25,128 @@ public class ModelSprite {
    private float maxV = 0.0F;
    private static final long b = 139037705526000L;
 
-   public ModelSprite(ModelRenderer var1, int var2, int var3, float var4, float var5, float var6, int var7, int var8, int var9, float var10) {
-      this.modelRenderer = var1;
-      this.textureOffsetX = var2;
-      this.textureOffsetY = var3;
-      this.posX = var4;
-      this.posY = var5;
-      this.posZ = var6;
-      this.sizeX = var7;
-      this.sizeY = var8;
-      this.sizeZ = var9;
-      this.sizeAdd = var10;
-      this.minU = var2 / var1.textureWidth;
-      this.minV = var3 / var1.textureHeight;
-      this.maxU = (var2 + var7) / var1.textureWidth;
-      this.maxV = (var3 + var8) / var1.textureHeight;
+   public ModelSprite(
+      ModelRenderer modelRenderer, int textureOffsetX, int textureOffsetY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float sizeAdd
+   ) {
+      this.modelRenderer = modelRenderer;
+      this.textureOffsetX = textureOffsetX;
+      this.textureOffsetY = textureOffsetY;
+      this.posX = posX;
+      this.posY = posY;
+      this.posZ = posZ;
+      this.sizeX = sizeX;
+      this.sizeY = sizeY;
+      this.sizeZ = sizeZ;
+      this.sizeAdd = sizeAdd;
+      this.minU = textureOffsetX / modelRenderer.textureWidth;
+      this.minV = textureOffsetY / modelRenderer.textureHeight;
+      this.maxU = (textureOffsetX + sizeX) / modelRenderer.textureWidth;
+      this.maxV = (textureOffsetY + sizeY) / modelRenderer.textureHeight;
    }
 
-   public void render(Tessellator var1, float var2) {
-      GlStateManager.translate(this.posX * var2, this.posY * var2, this.posZ * var2);
-      float var6 = this.minU;
-      float var7 = this.maxU;
-      float var8 = this.minV;
-      float var9 = this.maxV;
+   public void render(Tessellator tessellator, float scale) {
+      GlStateManager.translate(this.posX * scale, this.posY * scale, this.posZ * scale);
+      float f = this.minU;
+      float g = this.maxU;
+      float h = this.minV;
+      float f2 = this.maxV;
       if (this.modelRenderer.mirror) {
-         var6 = this.maxU;
-         var7 = this.minU;
+         f = this.maxU;
+         g = this.minU;
       }
 
       if (this.modelRenderer.mirrorV) {
-         var8 = this.maxV;
-         var9 = this.minV;
+         h = this.maxV;
+         f2 = this.minV;
       }
 
-      renderItemIn2D(var1, var6, var8, var7, var9, this.sizeX, this.sizeY, var2 * this.sizeZ, this.modelRenderer.textureWidth, this.modelRenderer.textureHeight);
-      GlStateManager.translate(-this.posX * var2, -this.posY * var2, -this.posZ * var2);
+      renderItemIn2D(
+         tessellator, f, h, g, f2, this.sizeX, this.sizeY, scale * this.sizeZ, this.modelRenderer.textureWidth, this.modelRenderer.textureHeight
+      );
+      GlStateManager.translate(-this.posX * scale, -this.posY * scale, -this.posZ * scale);
    }
 
-   public static void renderItemIn2D(Tessellator var0, float var1, float var2, float var3, float var4, int var5, int var6, float var7, float var8, float var9) {
-      if (var7 < 6.25E-4F) {
-         var7 = 6.25E-4F;
+   public static void renderItemIn2D(
+      Tessellator tess, float minU, float minV, float maxU, float maxV, int sizeX, int sizeY, float width, float texWidth, float texHeight
+   ) {
+      if (width < 6.25E-4F) {
+         width = 6.25E-4F;
       }
 
-      float var13 = var3 - var1;
-      float var14 = var4 - var2;
-      double var15 = MathHelper.abs(var13) * (var8 / 16.0F);
-      double var17 = MathHelper.abs(var14) * (var9 / 16.0F);
-      WorldRenderer var19 = var0.getWorldRenderer();
+      float f = maxU - minU;
+      float g = maxV - minV;
+      double d = MathHelper.abs(f) * (texWidth / 16.0F);
+      double e = MathHelper.abs(g) * (texHeight / 16.0F);
+      WorldRenderer worldRenderer = tess.getWorldRenderer();
       GL11.glNormal3f(0.0F, 0.0F, -1.0F);
-      var19.begin(7, DefaultVertexFormats.POSITION_TEX);
-      var19.pos(0.0, var17, 0.0).tex(var1, var4).endVertex();
-      var19.pos(var15, var17, 0.0).tex(var3, var4).endVertex();
-      var19.pos(var15, 0.0, 0.0).tex(var3, var2).endVertex();
-      var19.pos(0.0, 0.0, 0.0).tex(var1, var2).endVertex();
-      var0.draw();
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.pos(0.0, e, 0.0).tex(minU, maxV).endVertex();
+      worldRenderer.pos(d, e, 0.0).tex(maxU, maxV).endVertex();
+      worldRenderer.pos(d, 0.0, 0.0).tex(maxU, minV).endVertex();
+      worldRenderer.pos(0.0, 0.0, 0.0).tex(minU, minV).endVertex();
+      tess.draw();
       GL11.glNormal3f(0.0F, 0.0F, 1.0F);
-      var19.begin(7, DefaultVertexFormats.POSITION_TEX);
-      var19.pos(0.0, 0.0, var7).tex(var1, var2).endVertex();
-      var19.pos(var15, 0.0, var7).tex(var3, var2).endVertex();
-      var19.pos(var15, var17, var7).tex(var3, var4).endVertex();
-      var19.pos(0.0, var17, var7).tex(var1, var4).endVertex();
-      var0.draw();
-      float var20 = 0.5F * var13 / var5;
-      float var21 = 0.5F * var14 / var6;
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.pos(0.0, 0.0, width).tex(minU, minV).endVertex();
+      worldRenderer.pos(d, 0.0, width).tex(maxU, minV).endVertex();
+      worldRenderer.pos(d, e, width).tex(maxU, maxV).endVertex();
+      worldRenderer.pos(0.0, e, width).tex(minU, maxV).endVertex();
+      tess.draw();
+      float h = 0.5F * f / sizeX;
+      float f2 = 0.5F * g / sizeY;
       GL11.glNormal3f(-1.0F, 0.0F, 0.0F);
-      var19.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-      for (int var22 = 0; var22 < var5; var22++) {
-         float var23 = (float)var22 / var5;
-         float var24 = var1 + var13 * var23 + var20;
-         var19.pos(var23 * var15, var17, var7).tex(var24, var4).endVertex();
-         var19.pos(var23 * var15, var17, 0.0).tex(var24, var4).endVertex();
-         var19.pos(var23 * var15, 0.0, 0.0).tex(var24, var2).endVertex();
-         var19.pos(var23 * var15, 0.0, var7).tex(var24, var2).endVertex();
+      for (int i = 0; i < sizeX; i++) {
+         float f3 = (float)i / sizeX;
+         float f4 = minU + f * f3 + h;
+         worldRenderer.pos(f3 * d, e, width).tex(f4, maxV).endVertex();
+         worldRenderer.pos(f3 * d, e, 0.0).tex(f4, maxV).endVertex();
+         worldRenderer.pos(f3 * d, 0.0, 0.0).tex(f4, minV).endVertex();
+         worldRenderer.pos(f3 * d, 0.0, width).tex(f4, minV).endVertex();
       }
 
-      var0.draw();
+      tess.draw();
       GL11.glNormal3f(1.0F, 0.0F, 0.0F);
-      var19.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-      for (int var26 = 0; var26 < var5; var26++) {
-         float var29 = (float)var26 / var5;
-         float var32 = var1 + var13 * var29 + var20;
-         float var25 = var29 + 1.0F / var5;
-         var19.pos(var25 * var15, 0.0, var7).tex(var32, var2).endVertex();
-         var19.pos(var25 * var15, 0.0, 0.0).tex(var32, var2).endVertex();
-         var19.pos(var25 * var15, var17, 0.0).tex(var32, var4).endVertex();
-         var19.pos(var25 * var15, var17, var7).tex(var32, var4).endVertex();
+      for (int j = 0; j < sizeX; j++) {
+         float f5 = (float)j / sizeX;
+         float f6 = minU + f * f5 + h;
+         float f7 = f5 + 1.0F / sizeX;
+         worldRenderer.pos(f7 * d, 0.0, width).tex(f6, minV).endVertex();
+         worldRenderer.pos(f7 * d, 0.0, 0.0).tex(f6, minV).endVertex();
+         worldRenderer.pos(f7 * d, e, 0.0).tex(f6, maxV).endVertex();
+         worldRenderer.pos(f7 * d, e, width).tex(f6, maxV).endVertex();
       }
 
-      var0.draw();
+      tess.draw();
       GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-      var19.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-      for (int var27 = 0; var27 < var6; var27++) {
-         float var30 = (float)var27 / var6;
-         float var33 = var2 + var14 * var30 + var21;
-         float var35 = var30 + 1.0F / var6;
-         var19.pos(0.0, var35 * var17, var7).tex(var1, var33).endVertex();
-         var19.pos(var15, var35 * var17, var7).tex(var3, var33).endVertex();
-         var19.pos(var15, var35 * var17, 0.0).tex(var3, var33).endVertex();
-         var19.pos(0.0, var35 * var17, 0.0).tex(var1, var33).endVertex();
+      for (int k = 0; k < sizeY; k++) {
+         float f8 = (float)k / sizeY;
+         float f9 = minV + g * f8 + f2;
+         float f10 = f8 + 1.0F / sizeY;
+         worldRenderer.pos(0.0, f10 * e, width).tex(minU, f9).endVertex();
+         worldRenderer.pos(d, f10 * e, width).tex(maxU, f9).endVertex();
+         worldRenderer.pos(d, f10 * e, 0.0).tex(maxU, f9).endVertex();
+         worldRenderer.pos(0.0, f10 * e, 0.0).tex(minU, f9).endVertex();
       }
 
-      var0.draw();
+      tess.draw();
       GL11.glNormal3f(0.0F, -1.0F, 0.0F);
-      var19.begin(7, DefaultVertexFormats.POSITION_TEX);
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-      for (int var28 = 0; var28 < var6; var28++) {
-         float var31 = (float)var28 / var6;
-         float var34 = var2 + var14 * var31 + var21;
-         var19.pos(var15, var31 * var17, var7).tex(var3, var34).endVertex();
-         var19.pos(0.0, var31 * var17, var7).tex(var1, var34).endVertex();
-         var19.pos(0.0, var31 * var17, 0.0).tex(var1, var34).endVertex();
-         var19.pos(var15, var31 * var17, 0.0).tex(var3, var34).endVertex();
+      for (int l = 0; l < sizeY; l++) {
+         float f11 = (float)l / sizeY;
+         float f12 = minV + g * f11 + f2;
+         worldRenderer.pos(d, f11 * e, width).tex(maxU, f12).endVertex();
+         worldRenderer.pos(0.0, f11 * e, width).tex(minU, f12).endVertex();
+         worldRenderer.pos(0.0, f11 * e, 0.0).tex(minU, f12).endVertex();
+         worldRenderer.pos(d, f11 * e, 0.0).tex(maxU, f12).endVertex();
       }
 
-      var0.draw();
+      tess.draw();
    }
 }

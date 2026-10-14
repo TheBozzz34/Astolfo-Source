@@ -20,18 +20,18 @@ public final class SolarisDisks {
    private SolarisDisks() {
    }
 
-   public static boolean updateDiskStats(HWDiskStore var0) {
-      try (KstatUtil.KstatChain var4 = KstatUtil.openChain()) {
-         Kstat var6 = var4.lookup(null, 0, var0.getName());
-         if (var6 != null && var4.read(var6)) {
-            KstatIO var7 = new KstatIO(var6.ks_data);
-            var0.setReads(var7.reads);
-            var0.setWrites(var7.writes);
-            var0.setReadBytes(var7.nread);
-            var0.setWriteBytes(var7.nwritten);
-            var0.setCurrentQueueLength((long)var7.wcnt + var7.rcnt);
-            var0.setTransferTime(var7.rtime / 1000000L);
-            var0.setTimeStamp(var6.ks_snaptime / 1000000L);
+   public static boolean updateDiskStats(HWDiskStore diskStore) {
+      try (KstatUtil.KstatChain kstatChain = KstatUtil.openChain()) {
+         Kstat kstat = kstatChain.lookup(null, 0, diskStore.getName());
+         if (kstat != null && kstatChain.read(kstat)) {
+            KstatIO kstatIO = new KstatIO(kstat.ks_data);
+            diskStore.setReads(kstatIO.reads);
+            diskStore.setWrites(kstatIO.writes);
+            diskStore.setReadBytes(kstatIO.nread);
+            diskStore.setWriteBytes(kstatIO.nwritten);
+            diskStore.setCurrentQueueLength((long)kstatIO.wcnt + kstatIO.rcnt);
+            diskStore.setTransferTime(kstatIO.rtime / 1000000L);
+            diskStore.setTimeStamp(kstat.ks_snaptime / 1000000L);
             return true;
          }
       }
@@ -40,164 +40,164 @@ public final class SolarisDisks {
    }
 
    public static HWDiskStore[] getDisks() {
-      HashMap var4 = new HashMap();
-      List var5 = ExecutingCommand.runNative("iostat -er");
-      HashMap var6 = new HashMap();
-      List var7 = ExecutingCommand.runNative("iostat -ern");
+      HashMap hashMap = new HashMap();
+      List list = ExecutingCommand.runNative("iostat -er");
+      HashMap hashMap2 = new HashMap();
+      List list2 = ExecutingCommand.runNative("iostat -ern");
 
-      for (int var9 = 0; var9 < var5.size() && var9 < var7.size(); var9++) {
-         String var8 = (String)var5.get(var9);
-         String[] var10 = var8.split(",");
-         if (var10.length >= 5 && !"device".equals(var10[0])) {
-            HWDiskStore var11 = new HWDiskStore();
-            var11.setName(var10[0]);
-            var4.put(var10[0], var11);
-            String var12 = (String)var7.get(var9);
-            String[] var13 = var12.split(",");
-            if (var13.length >= 5 && !"device".equals(var13[4])) {
-               var6.put(var10[0], var13[4]);
+      for (int i = 0; i < list.size() && i < list2.size(); i++) {
+         String string = (String)list.get(i);
+         String[] strings = string.split(",");
+         if (strings.length >= 5 && !"device".equals(strings[0])) {
+            HWDiskStore hwDiskStore = new HWDiskStore();
+            hwDiskStore.setName(strings[0]);
+            hashMap.put(strings[0], hwDiskStore);
+            String string2 = (String)list2.get(i);
+            String[] strings2 = string2.split(",");
+            if (strings2.length >= 5 && !"device".equals(strings2[4])) {
+               hashMap2.put(strings[0], strings2[4]);
             }
          }
       }
 
-      HashMap var28 = new HashMap();
-      List var29 = ExecutingCommand.runNative("lshal");
-      String var26 = "";
+      HashMap hashMap3 = new HashMap();
+      List list3 = ExecutingCommand.runNative("lshal");
+      String string3 = "";
 
-      for (Object var32$raw : var29) {
-         String var32 = (String)var32$raw;
-         if (var32.startsWith("udi ")) {
-            String var35 = ParseUtil.getSingleQuoteStringValue(var32);
-            var26 = var35.substring(var35.lastIndexOf(47) + 1);
+      for (Object object : list3) {
+         String string4 = (String)object;
+         if (string4.startsWith("udi ")) {
+            String string5 = ParseUtil.getSingleQuoteStringValue(string4);
+            string3 = string5.substring(string5.lastIndexOf(47) + 1);
          } else {
-            var32 = var32.trim();
-            if (var32.startsWith("block.major")) {
-               var28.put(var26, ParseUtil.getFirstIntValue(var32));
+            string4 = string4.trim();
+            if (string4.startsWith("block.major")) {
+               hashMap3.put(string3, ParseUtil.getFirstIntValue(string4));
             }
          }
       }
 
-      var5 = ExecutingCommand.runNative("iostat -Er");
-      var26 = "";
-      String var31 = "";
-      String var34 = "";
-      String var36 = "";
-      String var14 = "";
-      long var15 = 0L;
+      list = ExecutingCommand.runNative("iostat -Er");
+      string3 = "";
+      String string6 = "";
+      String string7 = "";
+      String string8 = "";
+      String string9 = "";
+      long l = 0L;
 
-      for (Object var18$raw : var5) {
-         String var18 = (String)var18$raw;
-         String[] var19 = var18.split(",");
+      for (Object object2 : list) {
+         String string10 = (String)object2;
+         String[] strings3 = string10.split(",");
 
-         for (String var23 : var19) {
-            var23 = var23.trim();
-            if (var4.keySet().contains(var23)) {
-               if (!var26.isEmpty()) {
-                  updateStore((HWDiskStore)var4.get(var26), var31, var34, var36, var14, var15, (String)var6.get(var26), (int)(var28.getOrDefault(var26, 0)));
+         for (String string11 : strings3) {
+            string11 = string11.trim();
+            if (hashMap.keySet().contains(string11)) {
+               if (!string3.isEmpty()) {
+                  updateStore((HWDiskStore)hashMap.get(string3), string6, string7, string8, string9, l, (String)hashMap2.get(string3), (int)(hashMap3.getOrDefault(string3, 0)));
                }
 
-               var26 = var23;
-               var31 = "";
-               var34 = "";
-               var36 = "";
-               var14 = "";
-               var15 = 0L;
-            } else if (var23.startsWith("Model:")) {
-               var31 = var23.replace("Model:", "").trim();
-            } else if (var23.startsWith("Serial No:")) {
-               var14 = var23.replace("Serial No:", "").trim();
-            } else if (var23.startsWith("Vendor:")) {
-               var34 = var23.replace("Vendor:", "").trim();
-            } else if (var23.startsWith("Product:")) {
-               var36 = var23.replace("Product:", "").trim();
-            } else if (var23.startsWith("Size:")) {
-               String[] var24 = var23.split("<");
-               if (var24.length > 1) {
-                  var24 = ParseUtil.Q.split(var24[1]);
-                  var15 = ParseUtil.parseLongOrDefault(var24[0], 0L);
+               string3 = string11;
+               string6 = "";
+               string7 = "";
+               string8 = "";
+               string9 = "";
+               l = 0L;
+            } else if (string11.startsWith("Model:")) {
+               string6 = string11.replace("Model:", "").trim();
+            } else if (string11.startsWith("Serial No:")) {
+               string9 = string11.replace("Serial No:", "").trim();
+            } else if (string11.startsWith("Vendor:")) {
+               string7 = string11.replace("Vendor:", "").trim();
+            } else if (string11.startsWith("Product:")) {
+               string8 = string11.replace("Product:", "").trim();
+            } else if (string11.startsWith("Size:")) {
+               String[] strings4 = string11.split("<");
+               if (strings4.length > 1) {
+                  strings4 = ParseUtil.Q.split(strings4[1]);
+                  l = ParseUtil.parseLongOrDefault(strings4[0], 0L);
                }
             }
          }
 
-         if (!var26.isEmpty()) {
-            updateStore((HWDiskStore)var4.get(var26), var31, var34, var36, var14, var15, (String)var6.get(var26), (int)(var28.getOrDefault(var26, 0)));
+         if (!string3.isEmpty()) {
+            updateStore((HWDiskStore)hashMap.get(string3), string6, string7, string8, string9, l, (String)hashMap2.get(string3), (int)(hashMap3.getOrDefault(string3, 0)));
          }
       }
 
-      HWDiskStore[] var37 = new HWDiskStore[var4.keySet().size()];
-      int var38 = 0;
+      HWDiskStore[] hwDiskStores = new HWDiskStore[hashMap.keySet().size()];
+      int j = 0;
 
-      for (Object var40$raw : var4.entrySet()) {
-         Entry var40 = (Entry)var40$raw;
-         updateDiskStats((HWDiskStore)var40.getValue());
-         var37[var38++] = (HWDiskStore)var40.getValue();
+      for (Object object3 : hashMap.entrySet()) {
+         Entry entry = (Entry)object3;
+         updateDiskStats((HWDiskStore)entry.getValue());
+         hwDiskStores[j++] = (HWDiskStore)entry.getValue();
       }
 
-      return var37;
+      return hwDiskStores;
    }
 
-   private static void updateStore(HWDiskStore var0, String var1, String var2, String var3, String var4, long var5, String var7, int var8) {
-      var0.setModel(var1.isEmpty() ? (var2 + " " + var3).trim() : var1);
-      var0.setSerial(var4);
-      var0.setSize(var5);
-      ArrayList var12 = new ArrayList();
-      List var13 = ExecutingCommand.runNative("prtvtoc /dev/dsk/" + var7);
-      if (var13.size() > 1) {
-         int var14 = 0;
+   private static void updateStore(HWDiskStore store, String model, String vendor, String product, String serial, long size, String mount, int major) {
+      store.setModel(model.isEmpty() ? (vendor + " " + product).trim() : model);
+      store.setSerial(serial);
+      store.setSize(size);
+      ArrayList arrayList = new ArrayList();
+      List list = ExecutingCommand.runNative("prtvtoc /dev/dsk/" + mount);
+      if (list.size() > 1) {
+         int i = 0;
 
-         for (Object var17$raw : var13) {
-            String var17 = (String)var17$raw;
-            if (var17.startsWith("*")) {
-               if (var17.endsWith("bytes/sector")) {
-                  String[] var15 = ParseUtil.Q.split(var17);
-                  if (var15.length > 0) {
-                     var14 = ParseUtil.parseIntOrDefault(var15[1], 0);
+         for (Object object : list) {
+            String string = (String)object;
+            if (string.startsWith("*")) {
+               if (string.endsWith("bytes/sector")) {
+                  String[] strings = ParseUtil.Q.split(string);
+                  if (strings.length > 0) {
+                     i = ParseUtil.parseIntOrDefault(strings[1], 0);
                   }
                }
-            } else if (var14 > 0) {
-               String[] var21 = ParseUtil.Q.split(var17.trim());
-               if (var21.length >= 6 && !"2".equals(var21[0])) {
-                  HWPartition var18 = new HWPartition();
-                  var18.setIdentification(var7 + "s" + var21[0]);
-                  var18.setMajor(var8);
-                  var18.setMinor(ParseUtil.parseIntOrDefault(var21[0], 0));
-                  switch (ParseUtil.parseIntOrDefault(var21[1], 0)) {
+            } else if (i > 0) {
+               String[] strings2 = ParseUtil.Q.split(string.trim());
+               if (strings2.length >= 6 && !"2".equals(strings2[0])) {
+                  HWPartition hwPartition = new HWPartition();
+                  hwPartition.setIdentification(mount + "s" + strings2[0]);
+                  hwPartition.setMajor(major);
+                  hwPartition.setMinor(ParseUtil.parseIntOrDefault(strings2[0], 0));
+                  switch (ParseUtil.parseIntOrDefault(strings2[1], 0)) {
                      case 1:
                      case 24:
-                        var18.setName("boot");
+                        hwPartition.setName("boot");
                         break;
                      case 2:
-                        var18.setName("root");
+                        hwPartition.setName("root");
                         break;
                      case 3:
-                        var18.setName("swap");
+                        hwPartition.setName("swap");
                         break;
                      case 4:
-                        var18.setName("usr");
+                        hwPartition.setName("usr");
                         break;
                      case 5:
-                        var18.setName("backup");
+                        hwPartition.setName("backup");
                         break;
                      case 6:
-                        var18.setName("stand");
+                        hwPartition.setName("stand");
                         break;
                      case 7:
-                        var18.setName("var");
+                        hwPartition.setName("var");
                         break;
                      case 8:
-                        var18.setName("home");
+                        hwPartition.setName("home");
                         break;
                      case 9:
-                        var18.setName("altsctr");
+                        hwPartition.setName("altsctr");
                         break;
                      case 10:
-                        var18.setName("cache");
+                        hwPartition.setName("cache");
                         break;
                      case 11:
-                        var18.setName("reserved");
+                        hwPartition.setName("reserved");
                         break;
                      case 12:
-                        var18.setName("system");
+                        hwPartition.setName("system");
                         break;
                      case 13:
                      case 16:
@@ -209,40 +209,40 @@ public final class SolarisDisks {
                      case 22:
                      case 23:
                      default:
-                        var18.setName("unknown");
+                        hwPartition.setName("unknown");
                         break;
                      case 14:
-                        var18.setName("public region");
+                        hwPartition.setName("public region");
                         break;
                      case 15:
-                        var18.setName("private region");
+                        hwPartition.setName("private region");
                   }
 
-                  switch (var21[2]) {
+                  switch (strings2[2]) {
                      case "00":
-                        var18.setType("wm");
+                        hwPartition.setType("wm");
                         break;
                      case "10":
-                        var18.setType("rm");
+                        hwPartition.setType("rm");
                         break;
                      case "01":
-                        var18.setType("wu");
+                        hwPartition.setType("wu");
                         break;
                      default:
-                        var18.setType("ru");
+                        hwPartition.setType("ru");
                   }
 
-                  var18.setSize(var14 * ParseUtil.parseLongOrDefault(var21[4], 0L));
-                  if (var21.length > 6) {
-                     var18.setMountPoint(var21[6]);
+                  hwPartition.setSize(i * ParseUtil.parseLongOrDefault(strings2[4], 0L));
+                  if (strings2.length > 6) {
+                     hwPartition.setMountPoint(strings2[6]);
                   }
 
-                  var12.add(var18);
+                  arrayList.add(hwPartition);
                }
             }
          }
 
-         var0.setPartitions((oshi.hardware.HWPartition[])(var12.toArray(new HWPartition[0])));
+         store.setPartitions((oshi.hardware.HWPartition[])(arrayList.toArray(new HWPartition[0])));
       }
    }
 }

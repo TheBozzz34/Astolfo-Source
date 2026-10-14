@@ -36,10 +36,10 @@ public enum ValueCheckers implements Initializable {
       private static final long a = 29266979065118L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var2 = ValueCheckFactory.INSTANCE
-            .Z((Block)var1, var0 -> ((Block)var0).getMapColor(null) == MapColor.adobeColor ? -63872 : 0, var0 -> var0 != -63872);
-         return new ValueCheckOutcome(var2.L(), var2.o(), var2.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE
+            .Z((Block)object, block -> ((Block)block).getMapColor(null) == MapColor.adobeColor ? -63872 : 0, integer -> integer != -63872);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 
@@ -47,16 +47,16 @@ public enum ValueCheckers implements Initializable {
       private final ValueCheckerHolder m = new ValueCheckerHolder(new ValueCheckers.e.ahr());
       private static final long a = 93872548270841L;
 
-      public ValueCheckerHolder get(Object var1) {
-         if (var1 == null) {
+      public ValueCheckerHolder get(Object object) {
+         if (object == null) {
             return this.m;
          }
 
-         ValueCheckerHolder var5 = (ValueCheckerHolder)super.get(var1);
-         if (var5 != null) {
-            ValueChecker var6 = var5.O();
-            if (var6 != null) {
-               return var5;
+         ValueCheckerHolder valueCheckerHolder = (ValueCheckerHolder)super.get(object);
+         if (valueCheckerHolder != null) {
+            ValueChecker valueChecker = valueCheckerHolder.O();
+            if (valueChecker != null) {
+               return valueCheckerHolder;
             }
          }
 
@@ -65,7 +65,7 @@ public enum ValueCheckers implements Initializable {
 
       public class ahr implements ValueChecker {
          @Override
-         public ValueCheckOutcome resolveObject(Object var1) {
+         public ValueCheckOutcome resolveObject(Object object) {
             return null;
          }
       }
@@ -73,7 +73,7 @@ public enum ValueCheckers implements Initializable {
 
    public class kw implements ValueChecker {
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
+      public ValueCheckOutcome resolveObject(Object object) {
          return null;
       }
    }
@@ -82,9 +82,9 @@ public enum ValueCheckers implements Initializable {
       private static final long a = 109160864727063L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var2 = ValueCheckFactory.INSTANCE.Z(var1, var0 -> var0 != null ? 1 : 0, var0 -> var0 == 1);
-         return new ValueCheckOutcome(var2.L(), var2.o(), var2.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z(object, object2 -> object2 != null ? 1 : 0, integer -> integer == 1);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 
@@ -93,9 +93,9 @@ public enum ValueCheckers implements Initializable {
       private static final long b = 3473136183062560780L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var2 = ValueCheckFactory.INSTANCE.Z((Pair)var1, var0 -> ((String)((Pair)var0).getA()).length(), var0 -> var0 == (int)b);
-         return new ValueCheckOutcome(var2.L(), var2.o(), var2.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((Pair)object, pair -> ((String)((Pair)pair).getA()).length(), integer -> integer == (int)b);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 
@@ -104,9 +104,9 @@ public enum ValueCheckers implements Initializable {
       private static final long b = -1228725826250207122L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var5 = ValueCheckFactory.INSTANCE.Z((EntityPig)var1, Entity::getEntityId, var0 -> var0 > (int)b);
-         return new ValueCheckOutcome(var5.L(), var5.o(), var5.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((EntityPig)object, Entity::getEntityId, integer -> integer > (int)b);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 
@@ -114,10 +114,10 @@ public enum ValueCheckers implements Initializable {
       private static final long a = 28941834344374L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var2 = ValueCheckFactory.INSTANCE
-            .Z((ItemFishFood)var1, var0 -> ((ItemFishFood)var0).w() ? -5326515 : -362176356, var0 -> var0 < -5326515);
-         return new ValueCheckOutcome(var2.L(), var2.o(), var2.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE
+            .Z((ItemFishFood)object, itemFishFood -> ((ItemFishFood)itemFishFood).w() ? -5326515 : -362176356, integer -> integer < -5326515);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 
@@ -125,9 +125,9 @@ public enum ValueCheckers implements Initializable {
       private static final long a = 110729714950113L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var2 = ValueCheckFactory.INSTANCE.Z((NullPointerException)var1, var0 -> var0.getMessage().length(), var0 -> var0 == 1);
-         return new ValueCheckOutcome(var2.L(), var2.o(), var2.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((NullPointerException)object, nullPointerException -> nullPointerException.getMessage().length(), integer -> integer == 1);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 
@@ -136,9 +136,9 @@ public enum ValueCheckers implements Initializable {
       private static final long b = -1494641119991802408L;
 
       @Override
-      public ValueCheckOutcome resolveObject(Object var1) {
-         AbstractValueCheck var2 = ValueCheckFactory.INSTANCE.Z((EntitySkeleton)var1, Entity::getEntityId, var0 -> var0 < (int)b);
-         return new ValueCheckOutcome(var2.L(), var2.o(), var2.C());
+      public ValueCheckOutcome resolveObject(Object object) {
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((EntitySkeleton)object, Entity::getEntityId, integer -> integer < (int)b);
+         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
       }
    }
 }

@@ -6,11 +6,11 @@ public enum FastBowMode {
    private String z;
    private static final FastBowMode[] s = new FastBowMode[]{VANILLA};
 
-   FastBowMode(String var3) {
-      this.z = var3;
+   FastBowMode(String string2) {
+      this.z = string2;
    }
 
-   public static String T(FastBowMode var0) {
-      return var0.z;
+   public static String T(FastBowMode fastBowMode) {
+      return fastBowMode.z;
    }
 }

@@ -47,169 +47,169 @@ public class WorldRenderer {
    public static boolean S;
    private static final long c = 62659924982104L;
 
-   public WorldRenderer(int var1) {
+   public WorldRenderer(int bufferSizeIn) {
       if (Config.isShaders()) {
-         var1 *= 2;
+         bufferSizeIn *= 2;
       }
 
-      this.byteBuffer = GLAllocation.createDirectByteBuffer(var1 * 4);
+      this.byteBuffer = GLAllocation.createDirectByteBuffer(bufferSizeIn * 4);
       this.rawIntBuffer = this.byteBuffer.asIntBuffer();
       this.rawShortBuffer = this.byteBuffer.asShortBuffer();
       this.rawFloatBuffer = this.byteBuffer.asFloatBuffer();
       SVertexBuilder.initVertexBuilder(this);
    }
 
-   private void growBuffer(int var1) {
+   private void growBuffer(int i) {
       if (Config.isShaders()) {
-         var1 *= 2;
+         i *= 2;
       }
 
-      if (var1 > this.rawIntBuffer.remaining()) {
-         int var5 = this.byteBuffer.capacity();
-         int var6 = var5 % 2097152;
-         int var7 = var6 + (((this.rawIntBuffer.position() + var1) * 4 - var6) / 2097152 + 1) * 2097152;
-         LogManager.getLogger().warn("Needed to grow BufferBuilder buffer: Old size " + var5 + " bytes, new size " + var7 + " bytes.");
-         int var8 = this.rawIntBuffer.position();
-         ByteBuffer var9 = GLAllocation.createDirectByteBuffer(var7);
+      if (i > this.rawIntBuffer.remaining()) {
+         int j = this.byteBuffer.capacity();
+         int k = j % 2097152;
+         int l = k + (((this.rawIntBuffer.position() + i) * 4 - k) / 2097152 + 1) * 2097152;
+         LogManager.getLogger().warn("Needed to grow BufferBuilder buffer: Old size " + j + " bytes, new size " + l + " bytes.");
+         int m = this.rawIntBuffer.position();
+         ByteBuffer byteBuffer2 = GLAllocation.createDirectByteBuffer(l);
          ((Buffer)this.byteBuffer).position(0);
-         var9.put(this.byteBuffer);
-         ((Buffer)var9).rewind();
-         this.byteBuffer = var9;
+         byteBuffer2.put(this.byteBuffer);
+         ((Buffer)byteBuffer2).rewind();
+         this.byteBuffer = byteBuffer2;
          this.rawFloatBuffer = this.byteBuffer.asFloatBuffer();
          this.rawIntBuffer = this.byteBuffer.asIntBuffer();
-         ((Buffer)this.rawIntBuffer).position(var8);
+         ((Buffer)this.rawIntBuffer).position(m);
          this.rawShortBuffer = this.byteBuffer.asShortBuffer();
-         ((Buffer)this.rawShortBuffer).position(var8 << 1);
+         ((Buffer)this.rawShortBuffer).position(m << 1);
          if (this.quadSprites != null) {
-            TextureAtlasSprite[] var10 = this.quadSprites;
-            int var11 = this.getBufferQuadSize();
-            this.quadSprites = new TextureAtlasSprite[var11];
-            System.arraycopy(var10, 0, this.quadSprites, 0, Math.min(var10.length, this.quadSprites.length));
+            TextureAtlasSprite[] textureAtlasSprites = this.quadSprites;
+            int n = this.getBufferQuadSize();
+            this.quadSprites = new TextureAtlasSprite[n];
+            System.arraycopy(textureAtlasSprites, 0, this.quadSprites, 0, Math.min(textureAtlasSprites.length, this.quadSprites.length));
             this.quadSpritesPrev = null;
          }
       }
    }
 
-   public void sortVertexData(float var1, float var2, float var3) {
-      int var7 = this.vertexCount / 4;
-      final float[] var8 = new float[var7];
+   public void sortVertexData(float f, float g, float h) {
+      int i = this.vertexCount / 4;
+      final float[] floats = new float[i];
 
-      for (int var9 = 0; var9 < var7; var9++) {
-         var8[var9] = getDistanceSq(
+      for (int j = 0; j < i; j++) {
+         floats[j] = getDistanceSq(
             this.rawFloatBuffer,
-            (float)(var1 + this.xOffset),
-            (float)(var2 + this.yOffset),
-            (float)(var3 + this.zOffset),
+            (float)(f + this.xOffset),
+            (float)(g + this.yOffset),
+            (float)(h + this.zOffset),
             this.vertexFormat.getIntegerSize(),
-            var9 * this.vertexFormat.getNextOffset()
+            j * this.vertexFormat.getNextOffset()
          );
       }
 
-      Integer[] var18 = new Integer[var7];
+      Integer[] integers = new Integer[i];
 
-      for (int var10 = 0; var10 < var18.length; var10++) {
-         var18[var10] = var10;
+      for (int k = 0; k < integers.length; k++) {
+         integers[k] = k;
       }
 
-      Arrays.sort(var18, new Comparator<Integer>() {
-         public int compare(Integer var1, Integer var2x) {
-            return Floats.compare(var8[var2x], var8[var1]);
+      Arrays.sort(integers, new Comparator<Integer>() {
+         public int compare(Integer integer, Integer integer2) {
+            return Floats.compare(floats[integer2], floats[integer]);
          }
       });
-      BitSet var19 = new BitSet();
-      int var11 = this.vertexFormat.getNextOffset();
-      int[] var12 = new int[var11];
+      BitSet bitSet = new BitSet();
+      int l = this.vertexFormat.getNextOffset();
+      int[] ints = new int[l];
 
-      for (int var20 = 0; (var20 = var19.nextClearBit(var20)) < var18.length; var20++) {
-         int var14 = var18[var20];
-         if (var14 != var20) {
-            ((Buffer)this.rawIntBuffer).limit(var14 * var11 + var11);
-            ((Buffer)this.rawIntBuffer).position(var14 * var11);
-            this.rawIntBuffer.get(var12);
-            int var15 = var14;
+      for (int m = 0; (m = bitSet.nextClearBit(m)) < integers.length; m++) {
+         int n = integers[m];
+         if (n != m) {
+            ((Buffer)this.rawIntBuffer).limit(n * l + l);
+            ((Buffer)this.rawIntBuffer).position(n * l);
+            this.rawIntBuffer.get(ints);
+            int i2 = n;
 
-            for (int var16 = var18[var14]; var15 != var20; var16 = var18[var16]) {
-               ((Buffer)this.rawIntBuffer).limit(var16 * var11 + var11);
-               ((Buffer)this.rawIntBuffer).position(var16 * var11);
-               IntBuffer var17 = this.rawIntBuffer.slice();
-               ((Buffer)this.rawIntBuffer).limit(var15 * var11 + var11);
-               ((Buffer)this.rawIntBuffer).position(var15 * var11);
-               this.rawIntBuffer.put(var17);
-               var19.set(var15);
-               var15 = var16;
+            for (int i3 = integers[n]; i2 != m; i3 = integers[i3]) {
+               ((Buffer)this.rawIntBuffer).limit(i3 * l + l);
+               ((Buffer)this.rawIntBuffer).position(i3 * l);
+               IntBuffer intBuffer = this.rawIntBuffer.slice();
+               ((Buffer)this.rawIntBuffer).limit(i2 * l + l);
+               ((Buffer)this.rawIntBuffer).position(i2 * l);
+               this.rawIntBuffer.put(intBuffer);
+               bitSet.set(i2);
+               i2 = i3;
             }
 
-            ((Buffer)this.rawIntBuffer).limit(var20 * var11 + var11);
-            ((Buffer)this.rawIntBuffer).position(var20 * var11);
-            this.rawIntBuffer.put(var12);
+            ((Buffer)this.rawIntBuffer).limit(m * l + l);
+            ((Buffer)this.rawIntBuffer).position(m * l);
+            this.rawIntBuffer.put(ints);
          }
 
-         var19.set(var20);
+         bitSet.set(m);
       }
 
       ((Buffer)this.rawIntBuffer).limit(this.rawIntBuffer.capacity());
       ((Buffer)this.rawIntBuffer).position(this.getBufferSize());
       if (this.quadSprites != null) {
-         TextureAtlasSprite[] var21 = new TextureAtlasSprite[this.vertexCount / 4];
-         int var22 = this.vertexFormat.getIntegerSize() / 4 * 4;
+         TextureAtlasSprite[] textureAtlasSprites = new TextureAtlasSprite[this.vertexCount / 4];
+         int i4 = this.vertexFormat.getIntegerSize() / 4 * 4;
 
-         for (int var23 = 0; var23 < var18.length; var23++) {
-            int var24 = var18[var23];
-            var21[var23] = this.quadSprites[var24];
+         for (int i5 = 0; i5 < integers.length; i5++) {
+            int i6 = integers[i5];
+            textureAtlasSprites[i5] = this.quadSprites[i6];
          }
 
-         System.arraycopy(var21, 0, this.quadSprites, 0, var21.length);
+         System.arraycopy(textureAtlasSprites, 0, this.quadSprites, 0, textureAtlasSprites.length);
       }
    }
 
    public WorldRenderer.State getVertexState() {
       ((Buffer)this.rawIntBuffer).rewind();
-      int var4 = this.getBufferSize();
-      ((Buffer)this.rawIntBuffer).limit(var4);
-      int[] var5 = new int[var4];
-      this.rawIntBuffer.get(var5);
+      int i = this.getBufferSize();
+      ((Buffer)this.rawIntBuffer).limit(i);
+      int[] ints = new int[i];
+      this.rawIntBuffer.get(ints);
       ((Buffer)this.rawIntBuffer).limit(this.rawIntBuffer.capacity());
-      ((Buffer)this.rawIntBuffer).position(var4);
-      TextureAtlasSprite[] var6 = null;
+      ((Buffer)this.rawIntBuffer).position(i);
+      TextureAtlasSprite[] textureAtlasSprites = null;
       if (this.quadSprites != null) {
-         int var7 = this.vertexCount / 4;
-         var6 = new TextureAtlasSprite[var7];
-         System.arraycopy(this.quadSprites, 0, var6, 0, var7);
+         int j = this.vertexCount / 4;
+         textureAtlasSprites = new TextureAtlasSprite[j];
+         System.arraycopy(this.quadSprites, 0, textureAtlasSprites, 0, j);
       }
 
-      return new WorldRenderer.State(var5, new VertexFormat(this.vertexFormat), var6);
+      return new WorldRenderer.State(ints, new VertexFormat(this.vertexFormat), textureAtlasSprites);
    }
 
    public int getBufferSize() {
       return this.vertexCount * this.vertexFormat.getIntegerSize();
    }
 
-   private static float getDistanceSq(FloatBuffer var0, float var1, float var2, float var3, int var4, int var5) {
-      float var6 = var0.get(var5 + var4 * 0 + 0);
-      float var7 = var0.get(var5 + var4 * 0 + 1);
-      float var8 = var0.get(var5 + var4 * 0 + 2);
-      float var9 = var0.get(var5 + var4 * 1 + 0);
-      float var10 = var0.get(var5 + var4 * 1 + 1);
-      float var11 = var0.get(var5 + var4 * 1 + 2);
-      float var12 = var0.get(var5 + var4 * 2 + 0);
-      float var13 = var0.get(var5 + var4 * 2 + 1);
-      float var14 = var0.get(var5 + var4 * 2 + 2);
-      float var15 = var0.get(var5 + var4 * 3 + 0);
-      float var16 = var0.get(var5 + var4 * 3 + 1);
-      float var17 = var0.get(var5 + var4 * 3 + 2);
-      float var18 = (var6 + var9 + var12 + var15) * 0.25F - var1;
-      float var19 = (var7 + var10 + var13 + var16) * 0.25F - var2;
-      float var20 = (var8 + var11 + var14 + var17) * 0.25F - var3;
-      return var18 * var18 + var19 * var19 + var20 * var20;
+   private static float getDistanceSq(FloatBuffer floatBuffer, float f, float g, float h, int i, int j) {
+      float f2 = floatBuffer.get(j + i * 0 + 0);
+      float f3 = floatBuffer.get(j + i * 0 + 1);
+      float f4 = floatBuffer.get(j + i * 0 + 2);
+      float f5 = floatBuffer.get(j + i * 1 + 0);
+      float f6 = floatBuffer.get(j + i * 1 + 1);
+      float f7 = floatBuffer.get(j + i * 1 + 2);
+      float f8 = floatBuffer.get(j + i * 2 + 0);
+      float f9 = floatBuffer.get(j + i * 2 + 1);
+      float f10 = floatBuffer.get(j + i * 2 + 2);
+      float f11 = floatBuffer.get(j + i * 3 + 0);
+      float f12 = floatBuffer.get(j + i * 3 + 1);
+      float f13 = floatBuffer.get(j + i * 3 + 2);
+      float f14 = (f2 + f5 + f8 + f11) * 0.25F - f;
+      float f15 = (f3 + f6 + f9 + f12) * 0.25F - g;
+      float f16 = (f4 + f7 + f10 + f13) * 0.25F - h;
+      return f14 * f14 + f15 * f15 + f16 * f16;
    }
 
-   public void setVertexState(WorldRenderer.State var1) {
+   public void setVertexState(WorldRenderer.State state) {
       ((Buffer)this.rawIntBuffer).clear();
-      this.growBuffer(var1.getRawBuffer().length);
-      this.rawIntBuffer.put(var1.getRawBuffer());
-      this.vertexCount = var1.getVertexCount();
-      this.vertexFormat = new VertexFormat(var1.getVertexFormat());
-      if (var1.stateQuadSprites != null) {
+      this.growBuffer(state.getRawBuffer().length);
+      this.rawIntBuffer.put(state.getRawBuffer());
+      this.vertexCount = state.getVertexCount();
+      this.vertexFormat = new VertexFormat(state.getVertexFormat());
+      if (state.stateQuadSprites != null) {
          if (this.quadSprites == null) {
             this.quadSprites = this.quadSpritesPrev;
          }
@@ -218,8 +218,8 @@ public class WorldRenderer {
             this.quadSprites = new TextureAtlasSprite[this.getBufferQuadSize()];
          }
 
-         TextureAtlasSprite[] var5 = var1.stateQuadSprites;
-         System.arraycopy(var5, 0, this.quadSprites, 0, var5.length);
+         TextureAtlasSprite[] textureAtlasSprites = state.stateQuadSprites;
+         System.arraycopy(textureAtlasSprites, 0, this.quadSprites, 0, textureAtlasSprites.length);
       } else {
          if (this.quadSprites != null) {
             this.quadSpritesPrev = this.quadSprites;
@@ -236,16 +236,16 @@ public class WorldRenderer {
       this.quadSprite = null;
    }
 
-   public void begin(int var1, VertexFormat var2) {
+   public void begin(int glMode, VertexFormat formatIn) {
       if (this.isDrawing) {
          throw new IllegalStateException("Already building!");
       }
 
       this.isDrawing = true;
       this.reset();
-      this.drawMode = var1;
-      this.vertexFormat = var2;
-      this.vertexFormatElement = var2.getElement(this.vertexFormatIndex);
+      this.drawMode = glMode;
+      this.vertexFormat = formatIn;
+      this.vertexFormatElement = formatIn.getElement(this.vertexFormatIndex);
       this.noColor = false;
       ((Buffer)this.byteBuffer).limit(this.byteBuffer.capacity());
       if (Config.isShaders()) {
@@ -273,33 +273,33 @@ public class WorldRenderer {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public WorldRenderer tex(double var1, double var3) {
+   public WorldRenderer tex(double u, double v) {
       if (this.quadSprite != null && this.quadSprites != null) {
-         var1 = this.quadSprite.toSingleU((float)var1);
-         var3 = this.quadSprite.toSingleV((float)var3);
+         u = this.quadSprite.toSingleU((float)u);
+         v = this.quadSprite.toSingleV((float)v);
          this.quadSprites[this.vertexCount / 4] = this.quadSprite;
       }
 
-      int var8 = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+      int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {
          case FLOAT:
-            this.byteBuffer.putFloat(var8, (float)var1);
-            this.byteBuffer.putFloat(var8 + 4, (float)var3);
+            this.byteBuffer.putFloat(i, (float)u);
+            this.byteBuffer.putFloat(i + 4, (float)v);
             break;
          case UINT:
          case INT:
-            this.byteBuffer.putInt(var8, (int)var1);
-            this.byteBuffer.putInt(var8 + 4, (int)var3);
+            this.byteBuffer.putInt(i, (int)u);
+            this.byteBuffer.putInt(i + 4, (int)v);
             break;
          case USHORT:
          case SHORT:
-            this.byteBuffer.putShort(var8, (short)var3);
-            this.byteBuffer.putShort(var8 + 2, (short)var1);
+            this.byteBuffer.putShort(i, (short)v);
+            this.byteBuffer.putShort(i + 2, (short)u);
             break;
          case UBYTE:
          case BYTE:
-            this.byteBuffer.put(var8, (byte)var3);
-            this.byteBuffer.put(var8 + 1, (byte)var1);
+            this.byteBuffer.put(i, (byte)v);
+            this.byteBuffer.put(i + 1, (byte)u);
       }
 
       this.nextVertexFormatIndex();
@@ -308,109 +308,109 @@ public class WorldRenderer {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public WorldRenderer lightmap(int var1, int var2) {
-      int var6 = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+   public WorldRenderer lightmap(int i, int j) {
+      int k = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {
          case FLOAT:
-            this.byteBuffer.putFloat(var6, var1);
-            this.byteBuffer.putFloat(var6 + 4, var2);
+            this.byteBuffer.putFloat(k, i);
+            this.byteBuffer.putFloat(k + 4, j);
             break;
          case UINT:
          case INT:
-            this.byteBuffer.putInt(var6, var1);
-            this.byteBuffer.putInt(var6 + 4, var2);
+            this.byteBuffer.putInt(k, i);
+            this.byteBuffer.putInt(k + 4, j);
             break;
          case USHORT:
          case SHORT:
-            this.byteBuffer.putShort(var6, (short)var2);
-            this.byteBuffer.putShort(var6 + 2, (short)var1);
+            this.byteBuffer.putShort(k, (short)j);
+            this.byteBuffer.putShort(k + 2, (short)i);
             break;
          case UBYTE:
          case BYTE:
-            this.byteBuffer.put(var6, (byte)var2);
-            this.byteBuffer.put(var6 + 1, (byte)var1);
+            this.byteBuffer.put(k, (byte)j);
+            this.byteBuffer.put(k + 1, (byte)i);
       }
 
       this.nextVertexFormatIndex();
       return this;
    }
 
-   public void putBrightness4(int var1, int var2, int var3, int var4) {
-      int var5 = (this.vertexCount - 4) * this.vertexFormat.getIntegerSize() + this.vertexFormat.getUvOffsetById(1) / 4;
-      int var6 = this.vertexFormat.getNextOffset() >> 2;
-      this.rawIntBuffer.put(var5, var1);
-      this.rawIntBuffer.put(var5 + var6, var2);
-      this.rawIntBuffer.put(var5 + var6 * 2, var3);
-      this.rawIntBuffer.put(var5 + var6 * 3, var4);
+   public void putBrightness4(int i, int j, int k, int l) {
+      int m = (this.vertexCount - 4) * this.vertexFormat.getIntegerSize() + this.vertexFormat.getUvOffsetById(1) / 4;
+      int n = this.vertexFormat.getNextOffset() >> 2;
+      this.rawIntBuffer.put(m, i);
+      this.rawIntBuffer.put(m + n, j);
+      this.rawIntBuffer.put(m + n * 2, k);
+      this.rawIntBuffer.put(m + n * 3, l);
    }
 
-   public void putPosition(double var1, double var3, double var5) {
-      int var10 = this.vertexFormat.getIntegerSize();
-      int var11 = (this.vertexCount - 4) * var10;
+   public void putPosition(double x, double y, double z) {
+      int i = this.vertexFormat.getIntegerSize();
+      int j = (this.vertexCount - 4) * i;
 
-      for (int var12 = 0; var12 < 4; var12++) {
-         int var13 = var11 + var12 * var10;
-         int var14 = var13 + 1;
-         int var15 = var14 + 1;
-         this.rawIntBuffer.put(var13, Float.floatToRawIntBits((float)(var1 + this.xOffset) + Float.intBitsToFloat(this.rawIntBuffer.get(var13))));
-         this.rawIntBuffer.put(var14, Float.floatToRawIntBits((float)(var3 + this.yOffset) + Float.intBitsToFloat(this.rawIntBuffer.get(var14))));
-         this.rawIntBuffer.put(var15, Float.floatToRawIntBits((float)(var5 + this.zOffset) + Float.intBitsToFloat(this.rawIntBuffer.get(var15))));
+      for (int k = 0; k < 4; k++) {
+         int l = j + k * i;
+         int m = l + 1;
+         int n = m + 1;
+         this.rawIntBuffer.put(l, Float.floatToRawIntBits((float)(x + this.xOffset) + Float.intBitsToFloat(this.rawIntBuffer.get(l))));
+         this.rawIntBuffer.put(m, Float.floatToRawIntBits((float)(y + this.yOffset) + Float.intBitsToFloat(this.rawIntBuffer.get(m))));
+         this.rawIntBuffer.put(n, Float.floatToRawIntBits((float)(z + this.zOffset) + Float.intBitsToFloat(this.rawIntBuffer.get(n))));
       }
    }
 
-   public int getColorIndex(int var1) {
-      return ((this.vertexCount - var1) * this.vertexFormat.getNextOffset() + this.vertexFormat.getColorOffset()) / 4;
+   public int getColorIndex(int i) {
+      return ((this.vertexCount - i) * this.vertexFormat.getNextOffset() + this.vertexFormat.getColorOffset()) / 4;
    }
 
-   public void putColorMultiplier(float var1, float var2, float var3, int var4) {
-      int var8 = this.getColorIndex(var4);
-      int var9 = -1;
+   public void putColorMultiplier(float red, float green, float blue, int i) {
+      int j = this.getColorIndex(i);
+      int k = -1;
       if (!this.noColor) {
-         var9 = this.rawIntBuffer.get(var8);
+         k = this.rawIntBuffer.get(j);
          if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
-            int var10 = (int)((var9 & 0xFF) * var1);
-            int var11 = (int)((var9 >> 8 & 0xFF) * var2);
-            int var12 = (int)((var9 >> 16 & 0xFF) * var3);
-            var9 &= -16777216;
-            var9 = var9 | var12 << 16 | var11 << 8 | var10;
+            int l = (int)((k & 0xFF) * red);
+            int m = (int)((k >> 8 & 0xFF) * green);
+            int n = (int)((k >> 16 & 0xFF) * blue);
+            k &= -16777216;
+            k = k | n << 16 | m << 8 | l;
          } else {
-            int var16 = (int)((var9 >> 24 & 0xFF) * var1);
-            int var17 = (int)((var9 >> 16 & 0xFF) * var2);
-            int var18 = (int)((var9 >> 8 & 0xFF) * var3);
-            var9 &= 255;
-            var9 = var9 | var16 << 24 | var17 << 16 | var18 << 8;
+            int i2 = (int)((k >> 24 & 0xFF) * red);
+            int i3 = (int)((k >> 16 & 0xFF) * green);
+            int i4 = (int)((k >> 8 & 0xFF) * blue);
+            k &= 255;
+            k = k | i2 << 24 | i3 << 16 | i4 << 8;
          }
       }
 
       if (ModuleManager.s.isEnabled() && Xray.isTranslucent()) {
-         this.rawIntBuffer.put(var8, MathHelper.floor_float(Xray.opacity.getValue().intValue() * 2.3F) + 25 << 24 | var9 & 16777215);
+         this.rawIntBuffer.put(j, MathHelper.floor_float(Xray.opacity.getValue().intValue() * 2.3F) + 25 << 24 | k & 16777215);
       } else {
-         this.rawIntBuffer.put(var8, var9);
+         this.rawIntBuffer.put(j, k);
       }
    }
 
-   private void putColor(int var1, int var2) {
-      int var5 = this.getColorIndex(var2);
-      int var6 = var1 >> 16 & 0xFF;
-      int var7 = var1 >> 8 & 0xFF;
-      int var8 = var1 & 0xFF;
-      int var9 = var1 >> 24 & 0xFF;
-      this.putColorRGBA(var5, var6, var7, var8, var9);
+   private void putColor(int argb, int i) {
+      int j = this.getColorIndex(i);
+      int k = argb >> 16 & 0xFF;
+      int l = argb >> 8 & 0xFF;
+      int m = argb & 0xFF;
+      int n = argb >> 24 & 0xFF;
+      this.putColorRGBA(j, k, l, m, n);
    }
 
-   public void putColorRGB_F(float var1, float var2, float var3, int var4) {
-      int var7 = this.getColorIndex(var4);
-      int var8 = MathHelper.clamp_int((int)(var1 * 255.0F), 0, 255);
-      int var9 = MathHelper.clamp_int((int)(var2 * 255.0F), 0, 255);
-      int var10 = MathHelper.clamp_int((int)(var3 * 255.0F), 0, 255);
-      this.putColorRGBA(var7, var8, var9, var10, 255);
+   public void putColorRGB_F(float red, float green, float blue, int i) {
+      int j = this.getColorIndex(i);
+      int k = MathHelper.clamp_int((int)(red * 255.0F), 0, 255);
+      int l = MathHelper.clamp_int((int)(green * 255.0F), 0, 255);
+      int m = MathHelper.clamp_int((int)(blue * 255.0F), 0, 255);
+      this.putColorRGBA(j, k, l, m, 255);
    }
 
-   public void putColorRGBA(int var1, int var2, int var3, int var4, int var5) {
+   public void putColorRGBA(int index, int red, int i, int j, int k) {
       if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
-         this.rawIntBuffer.put(var1, var5 << 24 | var4 << 16 | var3 << 8 | var2);
+         this.rawIntBuffer.put(index, k << 24 | j << 16 | i << 8 | red);
       } else {
-         this.rawIntBuffer.put(var1, var2 << 24 | var3 << 16 | var4 << 8 | var5);
+         this.rawIntBuffer.put(index, red << 24 | i << 16 | j << 8 | k);
       }
    }
 
@@ -418,51 +418,51 @@ public class WorldRenderer {
       this.noColor = true;
    }
 
-   public WorldRenderer color(float var1, float var2, float var3, float var4) {
-      return this.color((int)(var1 * 255.0F), (int)(var2 * 255.0F), (int)(var3 * 255.0F), (int)(var4 * 255.0F));
+   public WorldRenderer color(float red, float green, float blue, float alpha) {
+      return this.color((int)(red * 255.0F), (int)(green * 255.0F), (int)(blue * 255.0F), (int)(alpha * 255.0F));
    }
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public WorldRenderer color(int var1, int var2, int var3, int var4) {
+   public WorldRenderer color(int red, int green, int blue, int alpha) {
       if (this.noColor) {
          return this;
       }
 
-      int var8 = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+      int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {
          case FLOAT:
-            this.byteBuffer.putFloat(var8, var1 / 255.0F);
-            this.byteBuffer.putFloat(var8 + 4, var2 / 255.0F);
-            this.byteBuffer.putFloat(var8 + 8, var3 / 255.0F);
-            this.byteBuffer.putFloat(var8 + 12, var4 / 255.0F);
+            this.byteBuffer.putFloat(i, red / 255.0F);
+            this.byteBuffer.putFloat(i + 4, green / 255.0F);
+            this.byteBuffer.putFloat(i + 8, blue / 255.0F);
+            this.byteBuffer.putFloat(i + 12, alpha / 255.0F);
             break;
          case UINT:
          case INT:
-            this.byteBuffer.putFloat(var8, var1);
-            this.byteBuffer.putFloat(var8 + 4, var2);
-            this.byteBuffer.putFloat(var8 + 8, var3);
-            this.byteBuffer.putFloat(var8 + 12, var4);
+            this.byteBuffer.putFloat(i, red);
+            this.byteBuffer.putFloat(i + 4, green);
+            this.byteBuffer.putFloat(i + 8, blue);
+            this.byteBuffer.putFloat(i + 12, alpha);
             break;
          case USHORT:
          case SHORT:
-            this.byteBuffer.putShort(var8, (short)var1);
-            this.byteBuffer.putShort(var8 + 2, (short)var2);
-            this.byteBuffer.putShort(var8 + 4, (short)var3);
-            this.byteBuffer.putShort(var8 + 6, (short)var4);
+            this.byteBuffer.putShort(i, (short)red);
+            this.byteBuffer.putShort(i + 2, (short)green);
+            this.byteBuffer.putShort(i + 4, (short)blue);
+            this.byteBuffer.putShort(i + 6, (short)alpha);
             break;
          case UBYTE:
          case BYTE:
             if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
-               this.byteBuffer.put(var8, (byte)var1);
-               this.byteBuffer.put(var8 + 1, (byte)var2);
-               this.byteBuffer.put(var8 + 2, (byte)var3);
-               this.byteBuffer.put(var8 + 3, (byte)var4);
+               this.byteBuffer.put(i, (byte)red);
+               this.byteBuffer.put(i + 1, (byte)green);
+               this.byteBuffer.put(i + 2, (byte)blue);
+               this.byteBuffer.put(i + 3, (byte)alpha);
             } else {
-               this.byteBuffer.put(var8, (byte)var4);
-               this.byteBuffer.put(var8 + 1, (byte)var3);
-               this.byteBuffer.put(var8 + 2, (byte)var2);
-               this.byteBuffer.put(var8 + 3, (byte)var1);
+               this.byteBuffer.put(i, (byte)alpha);
+               this.byteBuffer.put(i + 1, (byte)blue);
+               this.byteBuffer.put(i + 2, (byte)green);
+               this.byteBuffer.put(i + 3, (byte)red);
             }
       }
 
@@ -470,15 +470,15 @@ public class WorldRenderer {
       return this;
    }
 
-   public void addVertexData(int[] var1) {
+   public void addVertexData(int[] vertexData) {
       if (Config.isShaders()) {
-         SVertexBuilder.beginAddVertexData(this, var1);
+         SVertexBuilder.beginAddVertexData(this, vertexData);
       }
 
-      this.growBuffer(var1.length);
+      this.growBuffer(vertexData.length);
       ((Buffer)this.rawIntBuffer).position(this.getBufferSize());
-      this.rawIntBuffer.put(var1);
-      this.vertexCount = this.vertexCount + var1.length / this.vertexFormat.getIntegerSize();
+      this.rawIntBuffer.put(vertexData);
+      this.vertexCount = this.vertexCount + vertexData.length / this.vertexFormat.getIntegerSize();
       if (Config.isShaders()) {
          SVertexBuilder.endAddVertexData(this);
       }
@@ -494,61 +494,61 @@ public class WorldRenderer {
       }
    }
 
-   public void l(int var1) {
-      int var4 = var1 >> 16 & 0xFF;
-      int var5 = var1 >> 8 & 0xFF;
-      int var6 = var1 & 0xFF;
-      this.putPosition(var4, var5, var6);
+   public void l(int i) {
+      int j = i >> 16 & 0xFF;
+      int k = i >> 8 & 0xFF;
+      int m = i & 0xFF;
+      this.putPosition(j, k, m);
    }
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public WorldRenderer pos(double var1, double var3, double var5) {
+   public WorldRenderer pos(double x, double y, double z) {
       if (Config.isShaders()) {
          SVertexBuilder.beginAddVertex(this);
       }
 
-      int var10 = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+      int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {
          case FLOAT:
-            this.byteBuffer.putFloat(var10, (float)(var1 + this.xOffset));
-            this.byteBuffer.putFloat(var10 + 4, (float)(var3 + this.yOffset));
-            this.byteBuffer.putFloat(var10 + 8, (float)(var5 + this.zOffset));
+            this.byteBuffer.putFloat(i, (float)(x + this.xOffset));
+            this.byteBuffer.putFloat(i + 4, (float)(y + this.yOffset));
+            this.byteBuffer.putFloat(i + 8, (float)(z + this.zOffset));
             break;
          case UINT:
          case INT:
-            this.byteBuffer.putInt(var10, Float.floatToRawIntBits((float)(var1 + this.xOffset)));
-            this.byteBuffer.putInt(var10 + 4, Float.floatToRawIntBits((float)(var3 + this.yOffset)));
-            this.byteBuffer.putInt(var10 + 8, Float.floatToRawIntBits((float)(var5 + this.zOffset)));
+            this.byteBuffer.putInt(i, Float.floatToRawIntBits((float)(x + this.xOffset)));
+            this.byteBuffer.putInt(i + 4, Float.floatToRawIntBits((float)(y + this.yOffset)));
+            this.byteBuffer.putInt(i + 8, Float.floatToRawIntBits((float)(z + this.zOffset)));
             break;
          case USHORT:
          case SHORT:
-            this.byteBuffer.putShort(var10, (short)(var1 + this.xOffset));
-            this.byteBuffer.putShort(var10 + 2, (short)(var3 + this.yOffset));
-            this.byteBuffer.putShort(var10 + 4, (short)(var5 + this.zOffset));
+            this.byteBuffer.putShort(i, (short)(x + this.xOffset));
+            this.byteBuffer.putShort(i + 2, (short)(y + this.yOffset));
+            this.byteBuffer.putShort(i + 4, (short)(z + this.zOffset));
             break;
          case UBYTE:
          case BYTE:
-            this.byteBuffer.put(var10, (byte)(var1 + this.xOffset));
-            this.byteBuffer.put(var10 + 1, (byte)(var3 + this.yOffset));
-            this.byteBuffer.put(var10 + 2, (byte)(var5 + this.zOffset));
+            this.byteBuffer.put(i, (byte)(x + this.xOffset));
+            this.byteBuffer.put(i + 1, (byte)(y + this.yOffset));
+            this.byteBuffer.put(i + 2, (byte)(z + this.zOffset));
       }
 
       this.nextVertexFormatIndex();
       return this;
    }
 
-   public void putNormal(float var1, float var2, float var3) {
-      int var6 = (byte)(var1 * 127.0F) & 255;
-      int var7 = (byte)(var2 * 127.0F) & 255;
-      int var8 = (byte)(var3 * 127.0F) & 255;
-      int var9 = var6 | var7 << 8 | var8 << 16;
-      int var10 = this.vertexFormat.getNextOffset() >> 2;
-      int var11 = (this.vertexCount - 4) * var10 + this.vertexFormat.getNormalOffset() / 4;
-      this.rawIntBuffer.put(var11, var9);
-      this.rawIntBuffer.put(var11 + var10, var9);
-      this.rawIntBuffer.put(var11 + var10 * 2, var9);
-      this.rawIntBuffer.put(var11 + var10 * 3, var9);
+   public void putNormal(float x, float y, float z) {
+      int i = (byte)(x * 127.0F) & 255;
+      int j = (byte)(y * 127.0F) & 255;
+      int k = (byte)(z * 127.0F) & 255;
+      int l = i | j << 8 | k << 16;
+      int m = this.vertexFormat.getNextOffset() >> 2;
+      int n = (this.vertexCount - 4) * m + this.vertexFormat.getNormalOffset() / 4;
+      this.rawIntBuffer.put(n, l);
+      this.rawIntBuffer.put(n + m, l);
+      this.rawIntBuffer.put(n + m * 2, l);
+      this.rawIntBuffer.put(n + m * 3, l);
    }
 
    private void nextVertexFormatIndex() {
@@ -562,41 +562,41 @@ public class WorldRenderer {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public WorldRenderer normal(float var1, float var2, float var3) {
-      int var7 = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+   public WorldRenderer normal(float f, float g, float h) {
+      int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {
          case FLOAT:
-            this.byteBuffer.putFloat(var7, var1);
-            this.byteBuffer.putFloat(var7 + 4, var2);
-            this.byteBuffer.putFloat(var7 + 8, var3);
+            this.byteBuffer.putFloat(i, f);
+            this.byteBuffer.putFloat(i + 4, g);
+            this.byteBuffer.putFloat(i + 8, h);
             break;
          case UINT:
          case INT:
-            this.byteBuffer.putInt(var7, (int)var1);
-            this.byteBuffer.putInt(var7 + 4, (int)var2);
-            this.byteBuffer.putInt(var7 + 8, (int)var3);
+            this.byteBuffer.putInt(i, (int)f);
+            this.byteBuffer.putInt(i + 4, (int)g);
+            this.byteBuffer.putInt(i + 8, (int)h);
             break;
          case USHORT:
          case SHORT:
-            this.byteBuffer.putShort(var7, (short)((int)(var1 * 32767.0F) & 65535));
-            this.byteBuffer.putShort(var7 + 2, (short)((int)(var2 * 32767.0F) & 65535));
-            this.byteBuffer.putShort(var7 + 4, (short)((int)(var3 * 32767.0F) & 65535));
+            this.byteBuffer.putShort(i, (short)((int)(f * 32767.0F) & 65535));
+            this.byteBuffer.putShort(i + 2, (short)((int)(g * 32767.0F) & 65535));
+            this.byteBuffer.putShort(i + 4, (short)((int)(h * 32767.0F) & 65535));
             break;
          case UBYTE:
          case BYTE:
-            this.byteBuffer.put(var7, (byte)((int)(var1 * 127.0F) & 0xFF));
-            this.byteBuffer.put(var7 + 1, (byte)((int)(var2 * 127.0F) & 0xFF));
-            this.byteBuffer.put(var7 + 2, (byte)((int)(var3 * 127.0F) & 0xFF));
+            this.byteBuffer.put(i, (byte)((int)(f * 127.0F) & 0xFF));
+            this.byteBuffer.put(i + 1, (byte)((int)(g * 127.0F) & 0xFF));
+            this.byteBuffer.put(i + 2, (byte)((int)(h * 127.0F) & 0xFF));
       }
 
       this.nextVertexFormatIndex();
       return this;
    }
 
-   public void setTranslation(double var1, double var3, double var5) {
-      this.xOffset = var1;
-      this.yOffset = var3;
-      this.zOffset = var5;
+   public void setTranslation(double x, double y, double z) {
+      this.xOffset = x;
+      this.yOffset = y;
+      this.zOffset = z;
    }
 
    public void finishDrawing() {
@@ -625,28 +625,28 @@ public class WorldRenderer {
       return this.drawMode;
    }
 
-   public void putColor4(int var1) {
-      for (int var5 = 0; var5 < 4; var5++) {
-         this.putColor(var1, var5 + 1);
+   public void putColor4(int argb) {
+      for (int i = 0; i < 4; i++) {
+         this.putColor(argb, i + 1);
       }
    }
 
-   public void putColorRGB_F4(float var1, float var2, float var3) {
-      for (int var7 = 0; var7 < 4; var7++) {
-         this.putColorRGB_F(var1, var2, var3, var7 + 1);
+   public void putColorRGB_F4(float red, float green, float blue) {
+      for (int i = 0; i < 4; i++) {
+         this.putColorRGB_F(red, green, blue, i + 1);
       }
    }
 
-   public void putSprite(TextureAtlasSprite var1) {
+   public void putSprite(TextureAtlasSprite textureAtlasSprite) {
       if (this.quadSprites != null) {
-         int var5 = this.vertexCount / 4;
-         this.quadSprites[var5 - 1] = var1;
+         int i = this.vertexCount / 4;
+         this.quadSprites[i - 1] = textureAtlasSprite;
       }
    }
 
-   public void setSprite(TextureAtlasSprite var1) {
+   public void setSprite(TextureAtlasSprite textureAtlasSprite) {
       if (this.quadSprites != null) {
-         this.quadSprite = var1;
+         this.quadSprite = textureAtlasSprite;
       }
    }
 
@@ -656,94 +656,94 @@ public class WorldRenderer {
 
    public void drawMultiTexture() {
       if (this.quadSprites != null) {
-         int var4 = Config.getMinecraft().getTextureMapBlocks().getCountRegisteredSprites();
-         if (this.drawnIcons.length <= var4) {
-            this.drawnIcons = new boolean[var4 + 1];
+         int i = Config.getMinecraft().getTextureMapBlocks().getCountRegisteredSprites();
+         if (this.drawnIcons.length <= i) {
+            this.drawnIcons = new boolean[i + 1];
          }
 
          Arrays.fill(this.drawnIcons, false);
-         int var5 = 0;
-         int var6 = -1;
-         int var7 = this.vertexCount / 4;
+         int j = 0;
+         int k = -1;
+         int l = this.vertexCount / 4;
 
-         for (int var8 = 0; var8 < var7; var8++) {
-            TextureAtlasSprite var9 = this.quadSprites[var8];
-            if (var9 != null) {
-               int var10 = var9.getIndexInMap();
-               if (!this.drawnIcons[var10]) {
-                  if (var9 == TextureUtils.iconGrassSideOverlay) {
-                     if (var6 < 0) {
-                        var6 = var8;
+         for (int m = 0; m < l; m++) {
+            TextureAtlasSprite textureAtlasSprite = this.quadSprites[m];
+            if (textureAtlasSprite != null) {
+               int n = textureAtlasSprite.getIndexInMap();
+               if (!this.drawnIcons[n]) {
+                  if (textureAtlasSprite == TextureUtils.iconGrassSideOverlay) {
+                     if (k < 0) {
+                        k = m;
                      }
                   } else {
-                     var8 = this.drawForIcon(var9, var8) - 1;
-                     var5++;
+                     m = this.drawForIcon(textureAtlasSprite, m) - 1;
+                     j++;
                      if (this.blockLayer != EnumWorldBlockLayer.TRANSLUCENT) {
-                        this.drawnIcons[var10] = true;
+                        this.drawnIcons[n] = true;
                      }
                   }
                }
             }
          }
 
-         if (var6 >= 0) {
-            this.drawForIcon(TextureUtils.iconGrassSideOverlay, var6);
-            var5++;
+         if (k >= 0) {
+            this.drawForIcon(TextureUtils.iconGrassSideOverlay, k);
+            j++;
          }
 
-         if (var5 > 0) {
+         if (j > 0) {
          }
       }
    }
 
-   private int drawForIcon(TextureAtlasSprite var1, int var2) {
-      GL11.glBindTexture(3553, var1.glSpriteTextureId);
-      int var6 = -1;
-      int var7 = -1;
-      int var8 = this.vertexCount / 4;
+   private int drawForIcon(TextureAtlasSprite textureAtlasSprite, int i) {
+      GL11.glBindTexture(3553, textureAtlasSprite.glSpriteTextureId);
+      int j = -1;
+      int k = -1;
+      int l = this.vertexCount / 4;
 
-      for (int var9 = var2; var9 < var8; var9++) {
-         TextureAtlasSprite var10 = this.quadSprites[var9];
-         if (var10 == var1) {
-            if (var7 < 0) {
-               var7 = var9;
+      for (int m = i; m < l; m++) {
+         TextureAtlasSprite textureAtlasSprite2 = this.quadSprites[m];
+         if (textureAtlasSprite2 == textureAtlasSprite) {
+            if (k < 0) {
+               k = m;
             }
-         } else if (var7 >= 0) {
-            this.draw(var7, var9);
+         } else if (k >= 0) {
+            this.draw(k, m);
             if (this.blockLayer == EnumWorldBlockLayer.TRANSLUCENT) {
-               return var9;
+               return m;
             }
 
-            var7 = -1;
-            if (var6 < 0) {
-               var6 = var9;
+            k = -1;
+            if (j < 0) {
+               j = m;
             }
          }
       }
 
-      if (var7 >= 0) {
-         this.draw(var7, var8);
+      if (k >= 0) {
+         this.draw(k, l);
       }
 
-      if (var6 < 0) {
-         var6 = var8;
+      if (j < 0) {
+         j = l;
       }
 
-      return var6;
+      return j;
    }
 
-   private void draw(int var1, int var2) {
-      int var6 = var2 - var1;
-      if (var6 > 0) {
-         int var7 = var1 * 4;
-         int var8 = var6 * 4;
-         GL11.glDrawArrays(this.drawMode, var7, var8);
+   private void draw(int i, int j) {
+      int k = j - i;
+      if (k > 0) {
+         int l = i * 4;
+         int m = k * 4;
+         GL11.glDrawArrays(this.drawMode, l, m);
       }
    }
 
-   public void setBlockLayer(EnumWorldBlockLayer var1) {
-      this.blockLayer = var1;
-      if (var1 == null) {
+   public void setBlockLayer(EnumWorldBlockLayer enumWorldBlockLayer) {
+      this.blockLayer = enumWorldBlockLayer;
+      if (enumWorldBlockLayer == null) {
          if (this.quadSprites != null) {
             this.quadSpritesPrev = this.quadSprites;
          }
@@ -770,15 +770,15 @@ public class WorldRenderer {
       private final VertexFormat stateVertexFormat;
       private TextureAtlasSprite[] stateQuadSprites;
 
-      public State(int[] var2, VertexFormat var3, TextureAtlasSprite[] var4) {
-         this.stateRawBuffer = var2;
-         this.stateVertexFormat = var3;
-         this.stateQuadSprites = var4;
+      public State(int[] ints, VertexFormat vertexFormat2, TextureAtlasSprite[] textureAtlasSprites) {
+         this.stateRawBuffer = ints;
+         this.stateVertexFormat = vertexFormat2;
+         this.stateQuadSprites = textureAtlasSprites;
       }
 
-      public State(int[] var2, VertexFormat var3) {
-         this.stateRawBuffer = var2;
-         this.stateVertexFormat = var3;
+      public State(int[] buffer, VertexFormat formatIn) {
+         this.stateRawBuffer = buffer;
+         this.stateVertexFormat = formatIn;
       }
 
       public int[] getRawBuffer() {

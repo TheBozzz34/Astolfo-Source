@@ -7,15 +7,15 @@ import net.minecraft.util.ResourceLocation;
 public class PotionHealthBoost extends Potion {
    private static final long j = 3622413585927L;
 
-   public PotionHealthBoost(int var1, ResourceLocation var2, boolean var3, int var4) {
-      super(var1, var2, var3, var4);
+   public PotionHealthBoost(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
+      super(potionID, location, badEffect, potionColor);
    }
 
    @Override
-   public void removeAttributesModifiersFromEntity(EntityLivingBase var1, BaseAttributeMap var2, int var3) {
-      super.removeAttributesModifiersFromEntity(var1, var2, var3);
-      if (var1.getHealth() > var1.getMaxHealth()) {
-         var1.setHealth(var1.getMaxHealth());
+   public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap baseAttributeMap, int amplifier) {
+      super.removeAttributesModifiersFromEntity(entityLivingBaseIn, baseAttributeMap, amplifier);
+      if (entityLivingBaseIn.getHealth() > entityLivingBaseIn.getMaxHealth()) {
+         entityLivingBaseIn.setHealth(entityLivingBaseIn.getMaxHealth());
       }
    }
 }

@@ -20,21 +20,21 @@ public interface OperatingSystem {
 
    OSProcess[] getProcesses();
 
-   OSProcess[] getProcesses(int var1, OperatingSystem.ProcessSort var2);
+   OSProcess[] getProcesses(int i, OperatingSystem.ProcessSort processSort);
 
-   OSProcess[] getProcesses(int var1, OperatingSystem.ProcessSort var2, boolean var3);
+   OSProcess[] getProcesses(int i, OperatingSystem.ProcessSort processSort, boolean bl);
 
-   List<OSProcess> getProcesses(Collection<Integer> var1);
+   List<OSProcess> getProcesses(Collection<Integer> collection);
 
-   List<OSProcess> getProcesses(Collection<Integer> var1, boolean var2);
+   List<OSProcess> getProcesses(Collection<Integer> collection, boolean bl);
 
-   OSProcess getProcess(int var1);
+   OSProcess getProcess(int i);
 
-   OSProcess getProcess(int var1, boolean var2);
+   OSProcess getProcess(int i, boolean bl);
 
-   OSProcess[] getChildProcesses(int var1, int var2, OperatingSystem.ProcessSort var3);
+   OSProcess[] getChildProcesses(int i, int j, OperatingSystem.ProcessSort processSort);
 
-   long getProcessAffinityMask(int var1);
+   long getProcessAffinityMask(int i);
 
    int getProcessId();
 
@@ -62,20 +62,20 @@ public interface OperatingSystem {
       private static final long a = 77598499163485L;
       private static final long g = -3017974897860149207L;
 
-      public OSVersionInfo(String var1, String var2, String var3) {
-         this.version = var1;
-         this.codeName = var2;
-         this.buildNumber = var3;
-         StringBuilder var7 = new StringBuilder(this.getVersion() != null ? this.getVersion() : "unknown");
+      public OSVersionInfo(String version, String codeName, String buildNumber) {
+         this.version = version;
+         this.codeName = codeName;
+         this.buildNumber = buildNumber;
+         StringBuilder stringBuilder = new StringBuilder(this.getVersion() != null ? this.getVersion() : "unknown");
          if (!Util.isBlank(this.getCodeName())) {
-            var7.append(" (").append(this.getCodeName()).append((char)((int)g));
+            stringBuilder.append(" (").append(this.getCodeName()).append((char)((int)g));
          }
 
          if (!Util.isBlank(this.getBuildNumber())) {
-            var7.append(" build ").append(this.getBuildNumber());
+            stringBuilder.append(" build ").append(this.getBuildNumber());
          }
 
-         this.versionStr = var7.toString();
+         this.versionStr = stringBuilder.toString();
       }
 
       public String getVersion() {

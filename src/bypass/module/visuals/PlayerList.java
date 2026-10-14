@@ -37,13 +37,13 @@ public final class PlayerList extends Module {
    public static final String T = EnumChatFormatting.YELLOW + "Yellow";
    public static final String O = EnumChatFormatting.BLUE + "Blue";
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      long var2 = c ^ 29775334135652L;
-      long var10001 = var2 ^ 126807604784795L;
-      int var4 = (int)((var2 ^ 126807604784795L) >>> 56);
-      int var5 = (int)((var2 ^ 126807604784795L) << 8 >>> 32);
-      int var6 = (int)(var10001 << 40 >>> 40);
-      if (var1x.getType() == RenderType.SCREEN && this.W != null) {
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      long l = c ^ 29775334135652L;
+      long m = l ^ 126807604784795L;
+      int k = (int)((l ^ 126807604784795L) >>> 56);
+      int i2 = (int)((l ^ 126807604784795L) << 8 >>> 32);
+      int i3 = (int)(m << 40 >>> 40);
+      if (renderEvent.getType() == RenderType.SCREEN && this.W != null) {
          if (Mouse.isButtonDown(0)) {
             this.posX.setValue(this.W.M());
             this.posY.setValue(this.W.E_float());
@@ -57,9 +57,9 @@ public final class PlayerList extends Module {
             }
          }
 
-         int var8 = var1x.getResolution().getScaledHeight();
-         int var9 = Mouse.getX() * var1x.getResolution().getScaledWidth() / mc.displayWidth;
-         int var10 = var8 - Mouse.getY() * var8 / mc.displayHeight - 1;
+         int i4 = renderEvent.getResolution().getScaledHeight();
+         int i5 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+         int i6 = i4 - Mouse.getY() * i4 / mc.displayHeight - 1;
          this.W.j().clear();
          if (this.killCounter.getValue()) {
             if (ScoreboardTracker.r()) {
@@ -70,69 +70,69 @@ public final class PlayerList extends Module {
                   this.W.j().put(O, String.valueOf(FinalKillTracker.getTeamFinals(3)));
                }
             } else {
-               S.entrySet().stream().sorted(Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(var1xx -> {
-                  String var10000 = this.W.j().putIfAbsent(var1xx.getKey(), var1xx.getValue() + " " + (var1xx.getValue() > 1 ? "kills" : "kill"));
+               S.entrySet().stream().sorted(Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(entry -> {
+                  String string = this.W.j().putIfAbsent(entry.getKey(), entry.getValue() + " " + (entry.getValue() > 1 ? "kills" : "kill"));
                });
             }
          }
 
          try {
-            for (Relation var12 : client.getRelationManager().n().values()) {
-               if (!var12.z()) {
-                  this.W.j().putIfAbsent(var12.i(), "enemy");
+            for (Relation relation : client.getRelationManager().n().values()) {
+               if (!relation.z()) {
+                  this.W.j().putIfAbsent(relation.i(), "enemy");
                }
             }
-         } catch (Exception var13) {
+         } catch (Exception exception) {
          }
 
-         for (String var15 : Denicker.nicks.keySet()) {
-            this.W.j().putIfAbsent(var15, "nicked");
+         for (String string2 : Denicker.nicks.keySet()) {
+            this.W.j().putIfAbsent(string2, "nicked");
          }
 
-         this.W.render(var9, var10);
+         this.W.render(i5, i6);
          if (mc.currentScreen instanceof GuiChat && this.W.u_boolean() && Mouse.isButtonDown(0)) {
-            this.W.T(var9, var10);
+            this.W.T(i5, i6);
          }
 
-         if (Mouse.isButtonDown(0) && this.W.G(var9, var10)) {
-            this.W.F(true, var9, var10);
+         if (Mouse.isButtonDown(0) && this.W.G(i5, i6)) {
+            this.W.F(true, i5, i6);
          } else {
             this.W.x(false);
          }
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.RECEIVED && var1x.getPacket() instanceof S02PacketChat) {
-         S02PacketChat var5 = (S02PacketChat)var1x.getPacket();
-         String var6 = EnumChatFormatting.getTextWithoutFormattingCodes(var5.getChatComponent().getUnformattedText());
-         if (var6 == null) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S02PacketChat) {
+         S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+         String string = EnumChatFormatting.getTextWithoutFormattingCodes(s02PacketChat.getChatComponent().getUnformattedText());
+         if (string == null) {
             return;
          }
 
          if (this.killCounter.getValue()
-            && (var5.getChatComponent().getFormattedText().startsWith("§r") || var5.getChatComponent().getFormattedText().startsWith("§e"))
-            && !var6.startsWith(" ")
-            && var5.getChatComponent().getFormattedText().contains("by ")
-            && var5.getChatComponent().getFormattedText().endsWith("§r")) {
-            String[] var7 = var6.split("by ");
+            && (s02PacketChat.getChatComponent().getFormattedText().startsWith("§r") || s02PacketChat.getChatComponent().getFormattedText().startsWith("§e"))
+            && !string.startsWith(" ")
+            && s02PacketChat.getChatComponent().getFormattedText().contains("by ")
+            && s02PacketChat.getChatComponent().getFormattedText().endsWith("§r")) {
+            String[] strings = string.split("by ");
 
             try {
                synchronized (S) {
-                  String var9 = GuiIngame.V(var7[1].split(" ")[0]);
-                  int var10 = S.containsKey(var9) ? S.get(var9) : 0;
-                  S.put(var9, var10 + 1);
+                  String string2 = GuiIngame.V(strings[1].split(" ")[0]);
+                  int i = S.containsKey(string2) ? S.get(string2) : 0;
+                  S.put(string2, i + 1);
                }
-            } catch (Exception var13) {
-               var13.printStackTrace();
+            } catch (Exception exception) {
+               exception.printStackTrace();
             }
          }
       }
    };
    private static final long c = 27553418976418L;
 
-   public PlayerList(Category var1) {
-      super(var1);
+   public PlayerList(Category category) {
+      super(category);
       this.addSettings(this.posX, this.posY, this.killCounter);
    }
 

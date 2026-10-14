@@ -10,25 +10,25 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
    private static final long a = 26978159644744L;
 
    @Override
-   public void displaySavingString(String var1) {
-      this.resetProgressAndMessage(var1);
+   public void displaySavingString(String message) {
+      this.resetProgressAndMessage(message);
    }
 
    @Override
-   public void resetProgressAndMessage(String var1) {
-      this.field_146591_a = var1;
+   public void resetProgressAndMessage(String message) {
+      this.field_146591_a = message;
       this.displayLoadingString("Working...");
    }
 
    @Override
-   public void displayLoadingString(String var1) {
-      this.field_146589_f = var1;
+   public void displayLoadingString(String message) {
+      this.field_146589_f = message;
       this.setLoadingProgress(0);
    }
 
    @Override
-   public void setLoadingProgress(int var1) {
-      this.progress = var1;
+   public void setLoadingProgress(int progress) {
+      this.progress = progress;
    }
 
    @Override
@@ -37,7 +37,7 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       if (this.doneWorking) {
          if (!this.mc.isConnectedToRealms()) {
             this.mc.displayGuiScreen((GuiScreen)null);
@@ -46,7 +46,7 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
          this.drawDefaultBackground();
          this.d(this.fontRendererObj, this.field_146591_a, this.width / 2, 70, 16777215);
          this.d(this.fontRendererObj, this.field_146589_f + " " + this.progress + "%", this.width / 2, 90, 16777215);
-         super.drawScreen(var1, var2, var3);
+         super.drawScreen(mouseX, mouseY, partialTicks);
       }
    }
 }

@@ -27,46 +27,46 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
    private final OneArgFunction L = new HttpLibrary.z8();
    private static final long b = 123751960180539L;
 
-   public HttpLibrary(Globals var1) {
-      this.Z = var1;
+   public HttpLibrary(Globals globals) {
+      this.Z = globals;
    }
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      this.Z = var2.checkglobals();
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("get", S);
-      var7.set("get_async", B);
-      var7.set("post", w);
-      var7.set("post_async", e);
-      var7.set("load", this.L);
-      var2.set("http", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      this.Z = luaValue2.checkglobals();
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("get", S);
+      luaTable.set("get_async", B);
+      luaTable.set("post", w);
+      luaTable.set("post_async", e);
+      luaTable.set("load", this.L);
+      luaValue2.set("http", luaTable);
+      return luaTable;
    }
 
    public class z8 extends OneArgFunction {
       private static final long a = 56435362779393L;
 
       @Override
-      public LuaValue call(LuaValue var1) {
+      public LuaValue call(LuaValue luaValue) {
          if (!ScriptManager.N.t()) {
             return valueOf(false);
          }
 
-         if (!var1.isstring()) {
+         if (!luaValue.isstring()) {
             return valueOf(false);
          }
 
-         HttpRequest var5 = new HttpRequest().g(var1.checkjstring());
-         var5.W("Astolfo-User");
-         var5.V(AuthUtil.getHwid());
-         var5.T("Astolfo-Client");
-         var5.i("");
-         var5.S("");
-         String var6 = HttpUtil.get(var5);
-         LuaValue var7 = HttpLibrary.this.Z.load(var6, "", HttpLibrary.this.Z);
-         var7.call();
-         return var7;
+         HttpRequest httpRequest = new HttpRequest().g(luaValue.checkjstring());
+         httpRequest.W("Astolfo-User");
+         httpRequest.V(AuthUtil.getHwid());
+         httpRequest.T("Astolfo-Client");
+         httpRequest.i("");
+         httpRequest.S("");
+         String string = HttpUtil.get(httpRequest);
+         LuaValue luaValue2 = HttpLibrary.this.Z.load(string, "", HttpLibrary.this.Z);
+         luaValue2.call();
+         return luaValue2;
       }
    }
 }

@@ -24,83 +24,83 @@ public class S3EPacketTeams implements Packet<INetHandlerPlayClient> {
    public S3EPacketTeams() {
    }
 
-   public S3EPacketTeams(ScorePlayerTeam var1, int var2) {
-      this.name = var1.getRegisteredName();
-      this.action = var2;
-      if (var2 == 0 || var2 == 2) {
-         this.displayName = var1.getTeamName();
-         this.prefix = var1.getColorPrefix();
-         this.suffix = var1.getColorSuffix();
-         this.friendlyFlags = var1.func_98299_i();
-         this.nameTagVisibility = var1.getNameTagVisibility().internalName;
-         this.color = var1.getChatFormat().getColorIndex();
+   public S3EPacketTeams(ScorePlayerTeam teamIn, int actionIn) {
+      this.name = teamIn.getRegisteredName();
+      this.action = actionIn;
+      if (actionIn == 0 || actionIn == 2) {
+         this.displayName = teamIn.getTeamName();
+         this.prefix = teamIn.getColorPrefix();
+         this.suffix = teamIn.getColorSuffix();
+         this.friendlyFlags = teamIn.func_98299_i();
+         this.nameTagVisibility = teamIn.getNameTagVisibility().internalName;
+         this.color = teamIn.getChatFormat().getColorIndex();
       }
 
-      if (var2 == 0) {
-         this.players.addAll(var1.getMembershipCollection());
+      if (actionIn == 0) {
+         this.players.addAll(teamIn.getMembershipCollection());
       }
    }
 
-   public S3EPacketTeams(ScorePlayerTeam var1, Collection<String> var2, int var3) {
-      if (var3 != 3 && var3 != 4) {
+   public S3EPacketTeams(ScorePlayerTeam teamIn, Collection<String> playersIn, int actionIn) {
+      if (actionIn != 3 && actionIn != 4) {
          throw new IllegalArgumentException("Method must be join or leave for player constructor");
       }
 
-      if (var2 != null && !var2.isEmpty()) {
-         this.action = var3;
-         this.name = var1.getRegisteredName();
-         this.players.addAll(var2);
+      if (playersIn != null && !playersIn.isEmpty()) {
+         this.action = actionIn;
+         this.name = teamIn.getRegisteredName();
+         this.players.addAll(playersIn);
       } else {
          throw new IllegalArgumentException("Players cannot be null/empty");
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.name = var1.readStringFromBuffer(16);
-      this.action = var1.readByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.name = buf.readStringFromBuffer(16);
+      this.action = buf.readByte();
       if (this.action == 0 || this.action == 2) {
-         this.displayName = var1.readStringFromBuffer(32);
-         this.prefix = var1.readStringFromBuffer(16);
-         this.suffix = var1.readStringFromBuffer(16);
-         this.friendlyFlags = var1.readByte();
-         this.nameTagVisibility = var1.readStringFromBuffer(32);
-         this.color = var1.readByte();
+         this.displayName = buf.readStringFromBuffer(32);
+         this.prefix = buf.readStringFromBuffer(16);
+         this.suffix = buf.readStringFromBuffer(16);
+         this.friendlyFlags = buf.readByte();
+         this.nameTagVisibility = buf.readStringFromBuffer(32);
+         this.color = buf.readByte();
       }
 
       if (this.action == 0 || this.action == 3 || this.action == 4) {
-         int var5 = var1.readVarIntFromBuffer();
+         int i = buf.readVarIntFromBuffer();
 
-         for (int var6 = 0; var6 < var5; var6++) {
-            this.players.add(var1.readStringFromBuffer(40));
+         for (int j = 0; j < i; j++) {
+            this.players.add(buf.readStringFromBuffer(40));
          }
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.name);
-      var1.writeByte(this.action);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.name);
+      buf.writeByte(this.action);
       if (this.action == 0 || this.action == 2) {
-         var1.writeString(this.displayName);
-         var1.writeString(this.prefix);
-         var1.writeString(this.suffix);
-         var1.writeByte(this.friendlyFlags);
-         var1.writeString(this.nameTagVisibility);
-         var1.writeByte(this.color);
+         buf.writeString(this.displayName);
+         buf.writeString(this.prefix);
+         buf.writeString(this.suffix);
+         buf.writeByte(this.friendlyFlags);
+         buf.writeString(this.nameTagVisibility);
+         buf.writeByte(this.color);
       }
 
       if (this.action == 0 || this.action == 3 || this.action == 4) {
-         var1.writeVarIntToBuffer(this.players.size());
+         buf.writeVarIntToBuffer(this.players.size());
 
-         for (String var6 : this.players) {
-            var1.writeString(var6);
+         for (String string : this.players) {
+            buf.writeString(string);
          }
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleTeams(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleTeams(this);
    }
 
    public String getName() {

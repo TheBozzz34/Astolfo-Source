@@ -39,30 +39,30 @@ public class BlockPistonExtension extends Block {
    }
 
    @Override
-   public void onBlockHarvested(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4) {
-      if (var4.capabilities.isCreativeMode) {
-         EnumFacing var8 = var3.getValue(FACING);
-         if (var8 != null) {
-            BlockPos var9 = var2.offset(var8.getOpposite());
-            Block var10 = var1.getBlockState(var9).getBlock();
-            if (var10 == Blocks.piston || var10 == Blocks.sticky_piston) {
-               var1.setBlockToAir(var9);
+   public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+      if (player.capabilities.isCreativeMode) {
+         EnumFacing enumFacing = state.getValue(FACING);
+         if (enumFacing != null) {
+            BlockPos blockPos = pos.offset(enumFacing.getOpposite());
+            Block block = worldIn.getBlockState(blockPos).getBlock();
+            if (block == Blocks.piston || block == Blocks.sticky_piston) {
+               worldIn.setBlockToAir(blockPos);
             }
          }
       }
 
-      super.onBlockHarvested(var1, var2, var3, var4);
+      super.onBlockHarvested(worldIn, pos, state, player);
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      super.breakBlock(var1, var2, var3);
-      EnumFacing var7 = var3.getValue(FACING).getOpposite();
-      var2 = var2.offset(var7);
-      IBlockState var8 = var1.getBlockState(var2);
-      if ((var8.getBlock() == Blocks.piston || var8.getBlock() == Blocks.sticky_piston) && var8.getValue(BlockPistonBase.EXTENDED)) {
-         var8.getBlock().dropBlockAsItem(var1, var2, var8, 0);
-         var1.setBlockToAir(var2);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      super.breakBlock(worldIn, pos, state);
+      EnumFacing enumFacing = state.getValue(FACING).getOpposite();
+      pos = pos.offset(enumFacing);
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      if ((iBlockState.getBlock() == Blocks.piston || iBlockState.getBlock() == Blocks.sticky_piston) && iBlockState.getValue(BlockPistonBase.EXTENDED)) {
+         iBlockState.getBlock().dropBlockAsItem(worldIn, pos, iBlockState, 0);
+         worldIn.setBlockToAir(pos);
       }
    }
 
@@ -77,31 +77,31 @@ public class BlockPistonExtension extends Block {
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
       return false;
    }
 
    @Override
-   public boolean canPlaceBlockOnSide(World var1, BlockPos var2, EnumFacing var3) {
+   public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
       return false;
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
-      this.applyHeadBounds(var3);
-      super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
-      this.applyCoreBounds(var3);
-      super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+      this.applyHeadBounds(state);
+      super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+      this.applyCoreBounds(state);
+      super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
    }
 
-   private void applyCoreBounds(IBlockState var1) {
-      switch ((EnumFacing)var1.getValue(FACING)) {
+   private void applyCoreBounds(IBlockState state) {
+      switch ((EnumFacing)state.getValue(FACING)) {
          case DOWN:
             this.setBlockBounds(0.375F, 0.25F, 0.375F, 0.625F, 1.0F, 0.625F);
             break;
@@ -123,14 +123,14 @@ public class BlockPistonExtension extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      this.applyHeadBounds(var1.getBlockState(var2));
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      this.applyHeadBounds(worldIn.getBlockState(pos));
    }
 
-   public void applyHeadBounds(IBlockState var1) {
-      EnumFacing var6 = var1.getValue(FACING);
-      if (var6 != null) {
-         switch (var6) {
+   public void applyHeadBounds(IBlockState state) {
+      EnumFacing enumFacing = state.getValue(FACING);
+      if (enumFacing != null) {
+         switch (enumFacing) {
             case DOWN:
                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
                break;
@@ -153,50 +153,50 @@ public class BlockPistonExtension extends Block {
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      EnumFacing var8 = var3.getValue(FACING);
-      BlockPos var9 = var2.offset(var8.getOpposite());
-      IBlockState var10 = var1.getBlockState(var9);
-      if (var10.getBlock() != Blocks.piston && var10.getBlock() != Blocks.sticky_piston) {
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      EnumFacing enumFacing = state.getValue(FACING);
+      BlockPos blockPos = pos.offset(enumFacing.getOpposite());
+      IBlockState iBlockState = worldIn.getBlockState(blockPos);
+      if (iBlockState.getBlock() != Blocks.piston && iBlockState.getBlock() != Blocks.sticky_piston) {
+         worldIn.setBlockToAir(pos);
       } else {
-         var10.getBlock().onNeighborBlockChange(var1, var9, var10, var4);
+         iBlockState.getBlock().onNeighborBlockChange(worldIn, blockPos, iBlockState, neighborBlock);
       }
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
       return true;
    }
 
-   public static EnumFacing getFacing(int var0) {
-      int var4 = var0 & 7;
-      return var4 > 5 ? null : EnumFacing.getFront(var4);
+   public static EnumFacing getFacing(int meta) {
+      int i = meta & 7;
+      return i > 5 ? null : EnumFacing.getFront(i);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
-      return var1.getBlockState(var2).getValue(TYPE) == BlockPistonExtension.EnumPistonType.STICKY
+   public Item getItem(World worldIn, BlockPos pos) {
+      return worldIn.getBlockState(pos).getValue(TYPE) == BlockPistonExtension.EnumPistonType.STICKY
          ? Item.getItemFromBlock(Blocks.sticky_piston)
          : Item.getItemFromBlock(Blocks.piston);
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
+   public IBlockState getStateFromMeta(int meta) {
       return this.getDefaultState()
-         .withProperty(FACING, getFacing(var1))
-         .withProperty(TYPE, (var1 & 8) > 0 ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT);
+         .withProperty(FACING, getFacing(meta))
+         .withProperty(TYPE, (meta & 8) > 0 ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(FACING).getIndex();
-      if (var1.getValue(TYPE) == BlockPistonExtension.EnumPistonType.STICKY) {
-         var5 |= 8;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(FACING).getIndex();
+      if (state.getValue(TYPE) == BlockPistonExtension.EnumPistonType.STICKY) {
+         i |= 8;
       }
 
-      return var5;
+      return i;
    }
 
    @Override
@@ -210,8 +210,8 @@ public class BlockPistonExtension extends Block {
 
       private final String VARIANT;
 
-      EnumPistonType(String var3) {
-         this.VARIANT = var3;
+      EnumPistonType(String name) {
+         this.VARIANT = name;
       }
 
       @Override

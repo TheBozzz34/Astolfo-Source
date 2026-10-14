@@ -9,22 +9,22 @@ public class PlayerItemRenderer {
    private ModelRenderer modelRenderer = null;
    private static final long a = 75541727112086L;
 
-   public PlayerItemRenderer(int var1, float var2, ModelRenderer var3) {
-      this.attachTo = var1;
-      this.q = var2;
-      this.modelRenderer = var3;
+   public PlayerItemRenderer(int i, float f, ModelRenderer modelRenderer) {
+      this.attachTo = i;
+      this.q = f;
+      this.modelRenderer = modelRenderer;
    }
 
    public ModelRenderer getModelRenderer() {
       return this.modelRenderer;
    }
 
-   public void render(ModelBiped var1, float var2) {
-      ModelRenderer var6 = PlayerItemModel.getAttachModel(var1, this.attachTo);
-      if (var6 != null) {
-         var6.postRender(var2);
+   public void render(ModelBiped modelBiped, float scale) {
+      ModelRenderer modelRenderer2 = PlayerItemModel.getAttachModel(modelBiped, this.attachTo);
+      if (modelRenderer2 != null) {
+         modelRenderer2.postRender(scale);
       }
 
-      this.modelRenderer.render(var2 * this.q);
+      this.modelRenderer.render(scale * this.q);
    }
 }

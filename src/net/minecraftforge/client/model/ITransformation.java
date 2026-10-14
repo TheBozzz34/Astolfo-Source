@@ -6,7 +6,7 @@ import net.minecraft.util.EnumFacing;
 public interface ITransformation {
    Matrix4f m();
 
-   EnumFacing E(EnumFacing var1);
+   EnumFacing E(EnumFacing enumFacing);
 
-   int x(EnumFacing var1, int var2);
+   int x(EnumFacing enumFacing, int i);
 }

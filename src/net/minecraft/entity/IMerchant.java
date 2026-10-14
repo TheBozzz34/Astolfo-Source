@@ -7,17 +7,17 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 
 public interface IMerchant {
-   void setCustomer(EntityPlayer var1);
+   void setCustomer(EntityPlayer entityPlayer);
 
    EntityPlayer getCustomer();
 
-   MerchantRecipeList getRecipes(EntityPlayer var1);
+   MerchantRecipeList getRecipes(EntityPlayer entityPlayer);
 
-   void setRecipes(MerchantRecipeList var1);
+   void setRecipes(MerchantRecipeList recipeList);
 
-   void useRecipe(MerchantRecipe var1);
+   void useRecipe(MerchantRecipe recipe);
 
-   void verifySellingItem(ItemStack var1);
+   void verifySellingItem(ItemStack stack);
 
    IChatComponent getDisplayName();
 }

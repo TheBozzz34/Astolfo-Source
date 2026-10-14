@@ -13,24 +13,24 @@ public class WindowsOSSystemInfo {
       this.K();
    }
 
-   public WindowsOSSystemInfo(SYSTEM_INFO var1) {
-      this.z = var1;
+   public WindowsOSSystemInfo(SYSTEM_INFO si) {
+      this.z = si;
    }
 
    private void K() {
-      SYSTEM_INFO var4 = new SYSTEM_INFO();
-      Kernel32.INSTANCE.GetSystemInfo(var4);
+      SYSTEM_INFO systeM_INFO = new SYSTEM_INFO();
+      Kernel32.INSTANCE.GetSystemInfo(systeM_INFO);
 
       try {
-         IntByReference var5 = new IntByReference();
-         HANDLE var6 = Kernel32.INSTANCE.GetCurrentProcess();
-         if (Kernel32.INSTANCE.IsWow64Process(var6, var5) && var5.getValue() > 0) {
-            Kernel32.INSTANCE.GetNativeSystemInfo(var4);
+         IntByReference intByReference = new IntByReference();
+         HANDLE handle = Kernel32.INSTANCE.GetCurrentProcess();
+         if (Kernel32.INSTANCE.IsWow64Process(handle, intByReference) && intByReference.getValue() > 0) {
+            Kernel32.INSTANCE.GetNativeSystemInfo(systeM_INFO);
          }
-      } catch (UnsatisfiedLinkError var7) {
+      } catch (UnsatisfiedLinkError unsatisfiedLinkError) {
       }
 
-      this.z = var4;
+      this.z = systeM_INFO;
    }
 
    public int N() {

@@ -7,31 +7,31 @@ public class ResourceLocation {
    public final String resourcePath;
    private static final long b = 38198896827140L;
 
-   public ResourceLocation(int var1, String... var2) {
-      this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(var2[0]) ? "minecraft" : var2[0].toLowerCase();
-      this.resourcePath = var2[1];
+   public ResourceLocation(int i, String... resourceName) {
+      this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft" : resourceName[0].toLowerCase();
+      this.resourcePath = resourceName[1];
       Validate.notNull(this.resourcePath);
    }
 
-   public ResourceLocation(String var1) {
-      this(0, splitObjectName(var1));
+   public ResourceLocation(String resourceName) {
+      this(0, splitObjectName(resourceName));
    }
 
-   public ResourceLocation(String var1, String var2) {
-      this(0, var1, var2);
+   public ResourceLocation(String resourceDomainIn, String resourcePathIn) {
+      this(0, resourceDomainIn, resourcePathIn);
    }
 
-   public static String[] splitObjectName(String var0) {
-      String[] var3 = new String[]{null, var0};
-      int var4 = var0.indexOf(58);
-      if (var4 >= 0) {
-         var3[1] = var0.substring(var4 + 1, var0.length());
-         if (var4 > 1) {
-            var3[0] = var0.substring(0, var4);
+   public static String[] splitObjectName(String toSplit) {
+      String[] strings = new String[]{null, toSplit};
+      int i = toSplit.indexOf(58);
+      if (i >= 0) {
+         strings[1] = toSplit.substring(i + 1, toSplit.length());
+         if (i > 1) {
+            strings[0] = toSplit.substring(0, i);
          }
       }
 
-      return var3;
+      return strings;
    }
 
    public String getResourcePath() {
@@ -48,17 +48,17 @@ public class ResourceLocation {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ResourceLocation)) {
+      if (!(object instanceof ResourceLocation)) {
          return false;
       }
 
-      ResourceLocation var5 = (ResourceLocation)var1;
-      return this.resourceDomain.equals(var5.resourceDomain) && this.resourcePath.equals(var5.resourcePath);
+      ResourceLocation resourceLocation = (ResourceLocation)object;
+      return this.resourceDomain.equals(resourceLocation.resourceDomain) && this.resourcePath.equals(resourceLocation.resourcePath);
    }
 
    @Override

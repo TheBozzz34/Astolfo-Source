@@ -13,15 +13,15 @@ import net.minecraft.world.World;
 public class RecipesBanners {
    private static final long a = 70204417053631L;
 
-   public void addRecipes(CraftingManager var1) {
-      for (EnumDyeColor var7 : EnumDyeColor.values()) {
-         var1.addRecipe(
-            new ItemStack(Items.banner, 1, var7.getDyeDamage()), "###", "###", " | ", '#', new ItemStack(Blocks.wool, 1, var7.getMetadata()), '|', Items.stick
+   public void addRecipes(CraftingManager craftingManager) {
+      for (EnumDyeColor enumDyeColor : EnumDyeColor.values()) {
+         craftingManager.addRecipe(
+            new ItemStack(Items.banner, 1, enumDyeColor.getDyeDamage()), "###", "###", " | ", '#', new ItemStack(Blocks.wool, 1, enumDyeColor.getMetadata()), '|', Items.stick
          );
       }
 
-      var1.addRecipe(new RecipesBanners.RecipeDuplicatePattern());
-      var1.addRecipe(new RecipesBanners.RecipeAddPattern());
+      craftingManager.addRecipe(new RecipesBanners.RecipeDuplicatePattern());
+      craftingManager.addRecipe(new RecipesBanners.RecipeAddPattern());
    }
 
    public static class RecipeAddPattern implements IRecipe {
@@ -31,68 +31,68 @@ public class RecipesBanners {
       }
 
       @Override
-      public boolean matches(InventoryCrafting var1, World var2) {
-         boolean var6 = false;
+      public boolean matches(InventoryCrafting inv, World worldIn) {
+         boolean bl = false;
 
-         for (int var7 = 0; var7 < var1.getSizeInventory(); var7++) {
-            ItemStack var8 = var1.getStackInSlot(var7);
-            if (var8 != null && var8.getItem() == Items.banner) {
-               if (var6) {
+         for (int i = 0; i < inv.getSizeInventory(); i++) {
+            ItemStack itemStack = inv.getStackInSlot(i);
+            if (itemStack != null && itemStack.getItem() == Items.banner) {
+               if (bl) {
                   return false;
                }
 
-               if (TileEntityBanner.getPatterns(var8) >= 6) {
+               if (TileEntityBanner.getPatterns(itemStack) >= 6) {
                   return false;
                }
 
-               var6 = true;
+               bl = true;
             }
          }
 
-         return !var6 ? false : this.func_179533_c(var1) != null;
+         return !bl ? false : this.func_179533_c(inv) != null;
       }
 
       @Override
-      public ItemStack getCraftingResult(InventoryCrafting var1) {
-         ItemStack var5 = null;
+      public ItemStack getCraftingResult(InventoryCrafting inv) {
+         ItemStack itemStack = null;
 
-         for (int var6 = 0; var6 < var1.getSizeInventory(); var6++) {
-            ItemStack var7 = var1.getStackInSlot(var6);
-            if (var7 != null && var7.getItem() == Items.banner) {
-               var5 = var7.copy();
-               var5.stackSize = 1;
+         for (int i = 0; i < inv.getSizeInventory(); i++) {
+            ItemStack itemStack2 = inv.getStackInSlot(i);
+            if (itemStack2 != null && itemStack2.getItem() == Items.banner) {
+               itemStack = itemStack2.copy();
+               itemStack.stackSize = 1;
                break;
             }
          }
 
-         TileEntityBanner.EnumBannerPattern var11 = this.func_179533_c(var1);
-         if (var11 != null) {
-            int var12 = 0;
+         TileEntityBanner.EnumBannerPattern enumBannerPattern = this.func_179533_c(inv);
+         if (enumBannerPattern != null) {
+            int j = 0;
 
-            for (int var8 = 0; var8 < var1.getSizeInventory(); var8++) {
-               ItemStack var9 = var1.getStackInSlot(var8);
-               if (var9 != null && var9.getItem() == Items.dye) {
-                  var12 = var9.getMetadata();
+            for (int k = 0; k < inv.getSizeInventory(); k++) {
+               ItemStack itemStack3 = inv.getStackInSlot(k);
+               if (itemStack3 != null && itemStack3.getItem() == Items.dye) {
+                  j = itemStack3.getMetadata();
                   break;
                }
             }
 
-            NBTTagCompound var13 = var5.getSubCompound("BlockEntityTag", true);
-            NBTTagList var14 = null;
-            if (var13.hasKey("Patterns", 9)) {
-               var14 = var13.getTagList("Patterns", 10);
+            NBTTagCompound nbtTagCompound = itemStack.getSubCompound("BlockEntityTag", true);
+            NBTTagList nbtTagList = null;
+            if (nbtTagCompound.hasKey("Patterns", 9)) {
+               nbtTagList = nbtTagCompound.getTagList("Patterns", 10);
             } else {
-               var14 = new NBTTagList();
-               var13.setTag("Patterns", var14);
+               nbtTagList = new NBTTagList();
+               nbtTagCompound.setTag("Patterns", nbtTagList);
             }
 
-            NBTTagCompound var10 = new NBTTagCompound();
-            var10.setString("Pattern", var11.getPatternID());
-            var10.setInteger("Color", var12);
-            var14.appendTag(var10);
+            NBTTagCompound nbtTagCompound2 = new NBTTagCompound();
+            nbtTagCompound2.setString("Pattern", enumBannerPattern.getPatternID());
+            nbtTagCompound2.setInteger("Color", j);
+            nbtTagList.appendTag(nbtTagCompound2);
          }
 
-         return var5;
+         return itemStack;
       }
 
       @Override
@@ -106,86 +106,86 @@ public class RecipesBanners {
       }
 
       @Override
-      public ItemStack[] getRemainingItems(InventoryCrafting var1) {
-         ItemStack[] var5 = new ItemStack[var1.getSizeInventory()];
+      public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+         ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-         for (int var6 = 0; var6 < var5.length; var6++) {
-            ItemStack var7 = var1.getStackInSlot(var6);
-            if (var7 != null && var7.getItem().hasContainerItem()) {
-               var5[var6] = new ItemStack(var7.getItem().getContainerItem());
+         for (int i = 0; i < itemStacks.length; i++) {
+            ItemStack itemStack = inv.getStackInSlot(i);
+            if (itemStack != null && itemStack.getItem().hasContainerItem()) {
+               itemStacks[i] = new ItemStack(itemStack.getItem().getContainerItem());
             }
          }
 
-         return var5;
+         return itemStacks;
       }
 
-      private TileEntityBanner.EnumBannerPattern func_179533_c(InventoryCrafting var1) {
-         for (TileEntityBanner.EnumBannerPattern var8 : TileEntityBanner.EnumBannerPattern.values()) {
-            if (var8.m()) {
-               boolean var9 = true;
-               if (var8.o()) {
-                  boolean var10 = false;
-                  boolean var11 = false;
+      private TileEntityBanner.EnumBannerPattern func_179533_c(InventoryCrafting inventoryCrafting) {
+         for (TileEntityBanner.EnumBannerPattern enumBannerPattern : TileEntityBanner.EnumBannerPattern.values()) {
+            if (enumBannerPattern.m()) {
+               boolean bl = true;
+               if (enumBannerPattern.o()) {
+                  boolean bl2 = false;
+                  boolean bl3 = false;
 
-                  for (int var12 = 0; var12 < var1.getSizeInventory() && var9; var12++) {
-                     ItemStack var13 = var1.getStackInSlot(var12);
-                     if (var13 != null && var13.getItem() != Items.banner) {
-                        if (var13.getItem() == Items.dye) {
-                           if (var11) {
-                              var9 = false;
+                  for (int i = 0; i < inventoryCrafting.getSizeInventory() && bl; i++) {
+                     ItemStack itemStack = inventoryCrafting.getStackInSlot(i);
+                     if (itemStack != null && itemStack.getItem() != Items.banner) {
+                        if (itemStack.getItem() == Items.dye) {
+                           if (bl3) {
+                              bl = false;
                               break;
                            }
 
-                           var11 = true;
+                           bl3 = true;
                         } else {
-                           if (var10 || !var13.isItemEqual(var8.getCraftingStack())) {
-                              var9 = false;
+                           if (bl2 || !itemStack.isItemEqual(enumBannerPattern.getCraftingStack())) {
+                              bl = false;
                               break;
                            }
 
-                           var10 = true;
+                           bl2 = true;
                         }
                      }
                   }
 
-                  if (!var10) {
-                     var9 = false;
+                  if (!bl2) {
+                     bl = false;
                   }
-               } else if (var1.getSizeInventory() == var8.getCraftingLayers().length * var8.getCraftingLayers()[0].length()) {
-                  int var15 = -1;
+               } else if (inventoryCrafting.getSizeInventory() == enumBannerPattern.getCraftingLayers().length * enumBannerPattern.getCraftingLayers()[0].length()) {
+                  int j = -1;
 
-                  for (int var16 = 0; var16 < var1.getSizeInventory() && var9; var16++) {
-                     int var17 = var16 / 3;
-                     int var18 = var16 % 3;
-                     ItemStack var14 = var1.getStackInSlot(var16);
-                     if (var14 != null && var14.getItem() != Items.banner) {
-                        if (var14.getItem() != Items.dye) {
-                           var9 = false;
+                  for (int k = 0; k < inventoryCrafting.getSizeInventory() && bl; k++) {
+                     int l = k / 3;
+                     int n = k % 3;
+                     ItemStack itemStack2 = inventoryCrafting.getStackInSlot(k);
+                     if (itemStack2 != null && itemStack2.getItem() != Items.banner) {
+                        if (itemStack2.getItem() != Items.dye) {
+                           bl = false;
                            break;
                         }
 
-                        if (var15 != -1 && var15 != var14.getMetadata()) {
-                           var9 = false;
+                        if (j != -1 && j != itemStack2.getMetadata()) {
+                           bl = false;
                            break;
                         }
 
-                        if (var8.getCraftingLayers()[var17].charAt(var18) == ' ') {
-                           var9 = false;
+                        if (enumBannerPattern.getCraftingLayers()[l].charAt(n) == ' ') {
+                           bl = false;
                            break;
                         }
 
-                        var15 = var14.getMetadata();
-                     } else if (var8.getCraftingLayers()[var17].charAt(var18) != ' ') {
-                        var9 = false;
+                        j = itemStack2.getMetadata();
+                     } else if (enumBannerPattern.getCraftingLayers()[l].charAt(n) != ' ') {
+                        bl = false;
                         break;
                      }
                   }
                } else {
-                  var9 = false;
+                  bl = false;
                }
 
-               if (var9) {
-                  return var8;
+               if (bl) {
+                  return enumBannerPattern;
                }
             }
          }
@@ -201,62 +201,62 @@ public class RecipesBanners {
       }
 
       @Override
-      public boolean matches(InventoryCrafting var1, World var2) {
-         ItemStack var6 = null;
-         ItemStack var7 = null;
+      public boolean matches(InventoryCrafting inv, World worldIn) {
+         ItemStack itemStack = null;
+         ItemStack itemStack2 = null;
 
-         for (int var8 = 0; var8 < var1.getSizeInventory(); var8++) {
-            ItemStack var9 = var1.getStackInSlot(var8);
-            if (var9 != null) {
-               if (var9.getItem() != Items.banner) {
+         for (int i = 0; i < inv.getSizeInventory(); i++) {
+            ItemStack itemStack3 = inv.getStackInSlot(i);
+            if (itemStack3 != null) {
+               if (itemStack3.getItem() != Items.banner) {
                   return false;
                }
 
-               if (var6 != null && var7 != null) {
+               if (itemStack != null && itemStack2 != null) {
                   return false;
                }
 
-               int var10 = TileEntityBanner.getBaseColor(var9);
-               boolean var11 = TileEntityBanner.getPatterns(var9) > 0;
-               if (var6 != null) {
-                  if (var11) {
+               int j = TileEntityBanner.getBaseColor(itemStack3);
+               boolean bl = TileEntityBanner.getPatterns(itemStack3) > 0;
+               if (itemStack != null) {
+                  if (bl) {
                      return false;
                   }
 
-                  if (var10 != TileEntityBanner.getBaseColor(var6)) {
+                  if (j != TileEntityBanner.getBaseColor(itemStack)) {
                      return false;
                   }
 
-                  var7 = var9;
-               } else if (var7 != null) {
-                  if (!var11) {
+                  itemStack2 = itemStack3;
+               } else if (itemStack2 != null) {
+                  if (!bl) {
                      return false;
                   }
 
-                  if (var10 != TileEntityBanner.getBaseColor(var7)) {
+                  if (j != TileEntityBanner.getBaseColor(itemStack2)) {
                      return false;
                   }
 
-                  var6 = var9;
-               } else if (var11) {
-                  var6 = var9;
+                  itemStack = itemStack3;
+               } else if (bl) {
+                  itemStack = itemStack3;
                } else {
-                  var7 = var9;
+                  itemStack2 = itemStack3;
                }
             }
          }
 
-         return var6 != null && var7 != null;
+         return itemStack != null && itemStack2 != null;
       }
 
       @Override
-      public ItemStack getCraftingResult(InventoryCrafting var1) {
-         for (int var5 = 0; var5 < var1.getSizeInventory(); var5++) {
-            ItemStack var6 = var1.getStackInSlot(var5);
-            if (var6 != null && TileEntityBanner.getPatterns(var6) > 0) {
-               ItemStack var7 = var6.copy();
-               var7.stackSize = 1;
-               return var7;
+      public ItemStack getCraftingResult(InventoryCrafting inv) {
+         for (int i = 0; i < inv.getSizeInventory(); i++) {
+            ItemStack itemStack = inv.getStackInSlot(i);
+            if (itemStack != null && TileEntityBanner.getPatterns(itemStack) > 0) {
+               ItemStack itemStack2 = itemStack.copy();
+               itemStack2.stackSize = 1;
+               return itemStack2;
             }
          }
 
@@ -274,22 +274,22 @@ public class RecipesBanners {
       }
 
       @Override
-      public ItemStack[] getRemainingItems(InventoryCrafting var1) {
-         ItemStack[] var5 = new ItemStack[var1.getSizeInventory()];
+      public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+         ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-         for (int var6 = 0; var6 < var5.length; var6++) {
-            ItemStack var7 = var1.getStackInSlot(var6);
-            if (var7 != null) {
-               if (var7.getItem().hasContainerItem()) {
-                  var5[var6] = new ItemStack(var7.getItem().getContainerItem());
-               } else if (var7.hasTagCompound() && TileEntityBanner.getPatterns(var7) > 0) {
-                  var5[var6] = var7.copy();
-                  var5[var6].stackSize = 1;
+         for (int i = 0; i < itemStacks.length; i++) {
+            ItemStack itemStack = inv.getStackInSlot(i);
+            if (itemStack != null) {
+               if (itemStack.getItem().hasContainerItem()) {
+                  itemStacks[i] = new ItemStack(itemStack.getItem().getContainerItem());
+               } else if (itemStack.hasTagCompound() && TileEntityBanner.getPatterns(itemStack) > 0) {
+                  itemStacks[i] = itemStack.copy();
+                  itemStacks[i].stackSize = 1;
                }
             }
          }
 
-         return var5;
+         return itemStacks;
       }
    }
 }

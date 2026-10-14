@@ -33,91 +33,91 @@ public class CommandSummon extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.summon.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 1) {
          throw new WrongUsageException("commands.summon.usage");
       }
 
-      String var6 = var2[0];
-      BlockPos var7 = var1.getPosition();
-      Vec3 var8 = var1.getPositionVector();
-      double var9 = var8.xCoord;
-      double var11 = var8.yCoord;
-      double var13 = var8.zCoord;
-      if (var2.length >= 4) {
-         var9 = parseDouble(var9, var2[1], true);
-         var11 = parseDouble(var11, var2[2], false);
-         var13 = parseDouble(var13, var2[3], true);
-         var7 = new BlockPos(var9, var11, var13);
+      String string = args[0];
+      BlockPos blockPos = sender.getPosition();
+      Vec3 vec3 = sender.getPositionVector();
+      double d = vec3.xCoord;
+      double e = vec3.yCoord;
+      double d2 = vec3.zCoord;
+      if (args.length >= 4) {
+         d = parseDouble(d, args[1], true);
+         e = parseDouble(e, args[2], false);
+         d2 = parseDouble(d2, args[3], true);
+         blockPos = new BlockPos(d, e, d2);
       }
 
-      World var15 = var1.getEntityWorld();
-      if (!var15.isBlockLoaded(var7)) {
+      World world = sender.getEntityWorld();
+      if (!world.isBlockLoaded(blockPos)) {
          throw new CommandException("commands.summon.outOfWorld");
       }
 
-      if ("LightningBolt".equals(var6)) {
-         var15.addWeatherEffect(new EntityLightningBolt(var15, var9, var11, var13));
-         notifyOperators(var1, this, "commands.summon.success");
+      if ("LightningBolt".equals(string)) {
+         world.addWeatherEffect(new EntityLightningBolt(world, d, e, d2));
+         notifyOperators(sender, this, "commands.summon.success");
       } else {
-         NBTTagCompound var16 = new NBTTagCompound();
-         boolean var17 = false;
-         if (var2.length >= 5) {
-            IChatComponent var18 = getChatComponentFromNthArg(var1, var2, 4);
+         NBTTagCompound nbtTagCompound = new NBTTagCompound();
+         boolean bl = false;
+         if (args.length >= 5) {
+            IChatComponent iChatComponent = getChatComponentFromNthArg(sender, args, 4);
 
             try {
-               var16 = JsonToNBT.getTagFromJson(var18.getUnformattedText());
-               var17 = true;
-            } catch (NBTException var23) {
-               throw new CommandException("commands.summon.tagError", var23.getMessage());
+               nbtTagCompound = JsonToNBT.getTagFromJson(iChatComponent.getUnformattedText());
+               bl = true;
+            } catch (NBTException nbtException) {
+               throw new CommandException("commands.summon.tagError", nbtException.getMessage());
             }
          }
 
-         var16.setString("id", var6);
+         nbtTagCompound.setString("id", string);
 
-         Entity var24;
+         Entity entity;
          try {
-            var24 = EntityList.createEntityFromNBT(var16, var15);
-         } catch (RuntimeException var22) {
+            entity = EntityList.createEntityFromNBT(nbtTagCompound, world);
+         } catch (RuntimeException runtimeException) {
             throw new CommandException("commands.summon.failed");
          }
 
-         if (var24 == null) {
+         if (entity == null) {
             throw new CommandException("commands.summon.failed");
          }
 
-         var24.setLocationAndAngles(var9, var11, var13, var24.rotationYaw, var24.rotationPitch);
-         if (!var17 && var24 instanceof EntityLiving) {
-            ((EntityLiving)var24).onInitialSpawn(var15.getDifficultyForLocation(new BlockPos(var24)), (IEntityLivingData)null);
+         entity.setLocationAndAngles(d, e, d2, entity.rotationYaw, entity.rotationPitch);
+         if (!bl && entity instanceof EntityLiving) {
+            ((EntityLiving)entity).onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity)), (IEntityLivingData)null);
          }
 
-         var15.spawnEntityInWorld(var24);
-         Entity var19 = var24;
+         world.spawnEntityInWorld(entity);
+         Entity entity2 = entity;
 
-         for (NBTTagCompound var20 = var16; var19 != null && var20.hasKey("Riding", (int)j); var20 = var20.getCompoundTag("Riding")) {
-            Entity var21 = EntityList.createEntityFromNBT(var20.getCompoundTag("Riding"), var15);
-            if (var21 != null) {
-               var21.setLocationAndAngles(var9, var11, var13, var21.rotationYaw, var21.rotationPitch);
-               var15.spawnEntityInWorld(var21);
-               var19.mountEntity(var21);
+         for (NBTTagCompound nbtTagCompound2 = nbtTagCompound; entity2 != null && nbtTagCompound2.hasKey("Riding", (int)j); nbtTagCompound2 = nbtTagCompound2.getCompoundTag("Riding")) {
+            Entity entity3 = EntityList.createEntityFromNBT(nbtTagCompound2.getCompoundTag("Riding"), world);
+            if (entity3 != null) {
+               entity3.setLocationAndAngles(d, e, d2, entity3.rotationYaw, entity3.rotationPitch);
+               world.spawnEntityInWorld(entity3);
+               entity2.mountEntity(entity3);
             }
 
-            var19 = var21;
+            entity2 = entity3;
          }
 
-         notifyOperators(var1, this, "commands.summon.success");
+         notifyOperators(sender, this, "commands.summon.success");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, EntityList.getEntityNameList())
-         : (var2.length > 1 && var2.length <= 4 ? func_175771_a(var2, 1, var3) : null);
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, EntityList.getEntityNameList())
+         : (args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : null);
    }
 }

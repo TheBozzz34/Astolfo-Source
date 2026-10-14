@@ -10,12 +10,12 @@ public class GuiDownloadTerrain extends GuiScreen {
    private int progress;
    private static final long a = 55460821054387L;
 
-   public GuiDownloadTerrain(NetHandlerPlayClient var1) {
-      this.netHandlerPlayClient = var1;
+   public GuiDownloadTerrain(NetHandlerPlayClient netHandler) {
+      this.netHandlerPlayClient = netHandler;
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
    }
 
    @Override
@@ -32,10 +32,10 @@ public class GuiDownloadTerrain extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawBackground(0);
       this.d(this.fontRendererObj, I18n.format("multiplayer.downloadingTerrain"), this.width / 2, this.height / 2 - 50, 16777215);
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override

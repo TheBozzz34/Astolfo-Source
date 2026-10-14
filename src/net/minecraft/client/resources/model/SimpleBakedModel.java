@@ -17,18 +17,25 @@ public class SimpleBakedModel implements IBakedModel {
    public final TextureAtlasSprite texture;
    public final ItemCameraTransforms cameraTransforms;
 
-   public SimpleBakedModel(List<BakedQuad> var1, List<List<BakedQuad>> var2, boolean var3, boolean var4, TextureAtlasSprite var5, ItemCameraTransforms var6) {
-      this.generalQuads = var1;
-      this.faceQuads = var2;
-      this.ambientOcclusion = var3;
-      this.gui3d = var4;
-      this.texture = var5;
-      this.cameraTransforms = var6;
+   public SimpleBakedModel(
+      List<BakedQuad> generalQuadsIn,
+      List<List<BakedQuad>> faceQuadsIn,
+      boolean ambientOcclusionIn,
+      boolean gui3dIn,
+      TextureAtlasSprite textureIn,
+      ItemCameraTransforms cameraTransformsIn
+   ) {
+      this.generalQuads = generalQuadsIn;
+      this.faceQuads = faceQuadsIn;
+      this.ambientOcclusion = ambientOcclusionIn;
+      this.gui3d = gui3dIn;
+      this.texture = textureIn;
+      this.cameraTransforms = cameraTransformsIn;
    }
 
    @Override
-   public List<BakedQuad> getFaceQuads(EnumFacing var1) {
-      return this.faceQuads.get(var1.ordinal());
+   public List<BakedQuad> getFaceQuads(EnumFacing facing) {
+      return this.faceQuads.get(facing.ordinal());
    }
 
    @Override
@@ -71,57 +78,57 @@ public class SimpleBakedModel implements IBakedModel {
       private static final long a = 57892787859419L;
       private static final long c = -1890038850101706746L;
 
-      public Builder(ModelBlock var1) {
-         this(var1.isAmbientOcclusion(), var1.isGui3d(), var1.getAllTransforms());
+      public Builder(ModelBlock model) {
+         this(model.isAmbientOcclusion(), model.isGui3d(), model.getAllTransforms());
       }
 
-      public Builder(IBakedModel var1, TextureAtlasSprite var2) {
-         this(var1.isAmbientOcclusion(), var1.isGui3d(), var1.getItemCameraTransforms());
-         this.builderTexture = var1.getParticleTexture();
+      public Builder(IBakedModel bakedModel, TextureAtlasSprite textureIn) {
+         this(bakedModel.isAmbientOcclusion(), bakedModel.isGui3d(), bakedModel.getItemCameraTransforms());
+         this.builderTexture = bakedModel.getParticleTexture();
 
-         for (EnumFacing var9 : EnumFacing.values()) {
-            this.addFaceBreakingFours(var1, var2, var9);
+         for (EnumFacing enumFacing : EnumFacing.values()) {
+            this.addFaceBreakingFours(bakedModel, textureIn, enumFacing);
          }
 
-         this.addGeneralBreakingFours(var1, var2);
+         this.addGeneralBreakingFours(bakedModel, textureIn);
       }
 
-      private void addFaceBreakingFours(IBakedModel var1, TextureAtlasSprite var2, EnumFacing var3) {
-         for (BakedQuad var8 : var1.getFaceQuads(var3)) {
-            this.addFaceQuad(var3, new BreakingFour(var8, var2));
-         }
-      }
-
-      private void addGeneralBreakingFours(IBakedModel var1, TextureAtlasSprite var2) {
-         for (BakedQuad var7 : var1.getGeneralQuads()) {
-            this.addGeneralQuad(new BreakingFour(var7, var2));
+      private void addFaceBreakingFours(IBakedModel bakedModel, TextureAtlasSprite textureIn, EnumFacing facing) {
+         for (BakedQuad bakedQuad : bakedModel.getFaceQuads(facing)) {
+            this.addFaceQuad(facing, new BreakingFour(bakedQuad, textureIn));
          }
       }
 
-      private Builder(boolean var1, boolean var2, ItemCameraTransforms var3) {
+      private void addGeneralBreakingFours(IBakedModel iBakedModel, TextureAtlasSprite textureIn) {
+         for (BakedQuad bakedQuad : iBakedModel.getGeneralQuads()) {
+            this.addGeneralQuad(new BreakingFour(bakedQuad, textureIn));
+         }
+      }
+
+      private Builder(boolean ambientOcclusionIn, boolean gui3dIn, ItemCameraTransforms cameraTransformsIn) {
          this.builderFaceQuads = Lists.newArrayListWithCapacity((int)c);
 
-         for (EnumFacing var10 : EnumFacing.values()) {
+         for (EnumFacing enumFacing : EnumFacing.values()) {
             this.builderFaceQuads.add(Lists.newArrayList());
          }
 
-         this.builderAmbientOcclusion = var1;
-         this.builderGui3d = var2;
-         this.builderCameraTransforms = var3;
+         this.builderAmbientOcclusion = ambientOcclusionIn;
+         this.builderGui3d = gui3dIn;
+         this.builderCameraTransforms = cameraTransformsIn;
       }
 
-      public SimpleBakedModel.Builder addFaceQuad(EnumFacing var1, BakedQuad var2) {
-         this.builderFaceQuads.get(var1.ordinal()).add(var2);
+      public SimpleBakedModel.Builder addFaceQuad(EnumFacing facing, BakedQuad quad) {
+         this.builderFaceQuads.get(facing.ordinal()).add(quad);
          return this;
       }
 
-      public SimpleBakedModel.Builder addGeneralQuad(BakedQuad var1) {
-         this.builderGeneralQuads.add(var1);
+      public SimpleBakedModel.Builder addGeneralQuad(BakedQuad quad) {
+         this.builderGeneralQuads.add(quad);
          return this;
       }
 
-      public SimpleBakedModel.Builder setTexture(TextureAtlasSprite var1) {
-         this.builderTexture = var1;
+      public SimpleBakedModel.Builder setTexture(TextureAtlasSprite textureIn) {
+         this.builderTexture = textureIn;
          return this;
       }
 

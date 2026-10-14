@@ -5,9 +5,9 @@ import java.io.InputStream;
 public interface IShaderPack {
    String getName();
 
-   InputStream getResourceAsStream(String var1);
+   InputStream getResourceAsStream(String string);
 
-   boolean hasDirectory(String var1);
+   boolean hasDirectory(String string);
 
    void close();
 }

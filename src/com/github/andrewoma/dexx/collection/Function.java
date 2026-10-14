@@ -1,5 +1,5 @@
 package com.github.andrewoma.dexx.collection;
 
 public interface Function<P, R> {
-   R invoke(P var1);
+   R invoke(P object);
 }

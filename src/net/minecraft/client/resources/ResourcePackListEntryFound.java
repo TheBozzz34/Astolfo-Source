@@ -5,9 +5,9 @@ import net.minecraft.client.gui.GuiScreenResourcePacks;
 public class ResourcePackListEntryFound extends ResourcePackListEntry {
    private final ResourcePackRepository.Entry field_148319_c;
 
-   public ResourcePackListEntryFound(GuiScreenResourcePacks var1, ResourcePackRepository.Entry var2) {
-      super(var1);
-      this.field_148319_c = var2;
+   public ResourcePackListEntryFound(GuiScreenResourcePacks resourcePacksGUIIn, ResourcePackRepository.Entry entry) {
+      super(resourcePacksGUIIn);
+      this.field_148319_c = entry;
    }
 
    @Override

@@ -8,19 +8,19 @@ public interface IAttributeInstance {
 
    double getBaseValue();
 
-   void setBaseValue(double var1);
+   void setBaseValue(double baseValue);
 
-   Collection<AttributeModifier> getModifiersByOperation(int var1);
+   Collection<AttributeModifier> getModifiersByOperation(int operation);
 
    Collection<AttributeModifier> func_111122_c();
 
-   boolean hasModifier(AttributeModifier var1);
+   boolean hasModifier(AttributeModifier modifier);
 
-   AttributeModifier getModifier(UUID var1);
+   AttributeModifier getModifier(UUID uuid);
 
-   void applyModifier(AttributeModifier var1);
+   void applyModifier(AttributeModifier modifier);
 
-   void removeModifier(AttributeModifier var1);
+   void removeModifier(AttributeModifier modifier);
 
    void removeAllModifiers();
 

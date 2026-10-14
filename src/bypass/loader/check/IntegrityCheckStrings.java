@@ -9,25 +9,25 @@ public class IntegrityCheckStrings {
    public static String J = "vybaTyBAMHXa8byx";
    private static final long a = 33831282967968L;
 
-   public static String W(String var0) {
-      String var4 = "ExRqUUtvhGVeyDhwm1aPng==";
+   public static String W(String string) {
+      String string2 = "ExRqUUtvhGVeyDhwm1aPng==";
 
-      String var3;
+      String string3;
       try {
-         Cipher var5 = Cipher.getInstance(Q);
-         SecretKeySpec var6 = new SecretKeySpec(J.getBytes(), Q);
-         var5.init(2, var6);
-         byte[] var7 = new BASE64Decoder().decodeBuffer(var4);
-         byte[] var8 = var5.doFinal(var7);
-         SecretKeySpec var9 = new SecretKeySpec(var8, Q);
-         var5.init(2, var9);
-         byte[] var10 = new BASE64Decoder().decodeBuffer(var0);
-         byte[] var11 = var5.doFinal(var10);
-         var3 = new String(var11);
-      } catch (Exception var12) {
-         var3 = "";
+         Cipher cipher = Cipher.getInstance(Q);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(J.getBytes(), Q);
+         cipher.init(2, secretKeySpec);
+         byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
+         byte[] bytes2 = cipher.doFinal(bytes);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, Q);
+         cipher.init(2, secretKeySpec2);
+         byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
+         byte[] bytes4 = cipher.doFinal(bytes3);
+         string3 = new String(bytes4);
+      } catch (Exception exception) {
+         string3 = "";
       }
 
-      return var3;
+      return string3;
    }
 }

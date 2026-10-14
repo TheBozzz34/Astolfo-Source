@@ -14,19 +14,19 @@ public class BlockStateHelper implements Predicate<IBlockState> {
    private final Map<IProperty, Predicate> propertyPredicates = Maps.newHashMap();
    private static final long a = 16881479317023L;
 
-   private BlockStateHelper(BlockState var1) {
-      this.blockstate = var1;
+   private BlockStateHelper(BlockState blockStateIn) {
+      this.blockstate = blockStateIn;
    }
 
-   public static BlockStateHelper forBlock(Block var0) {
-      return new BlockStateHelper(var0.getBlockState());
+   public static BlockStateHelper forBlock(Block blockIn) {
+      return new BlockStateHelper(blockIn.getBlockState());
    }
 
-   public boolean apply(IBlockState var1) {
-      if (var1 != null && var1.getBlock().equals(this.blockstate.getBlock())) {
-         for (Entry var6 : this.propertyPredicates.entrySet()) {
-            Comparable var7 = var1.getValue((IProperty)var6.getKey());
-            if (!((Predicate)var6.getValue()).apply(var7)) {
+   public boolean apply(IBlockState iBlockState) {
+      if (iBlockState != null && iBlockState.getBlock().equals(this.blockstate.getBlock())) {
+         for (Entry entry : this.propertyPredicates.entrySet()) {
+            Comparable comparable = iBlockState.getValue((IProperty)entry.getKey());
+            if (!((Predicate)entry.getValue()).apply(comparable)) {
                return false;
             }
          }
@@ -37,12 +37,12 @@ public class BlockStateHelper implements Predicate<IBlockState> {
       }
    }
 
-   public <V extends Comparable<V>> BlockStateHelper where(IProperty<V> var1, Predicate<? extends V> var2) {
-      if (!this.blockstate.getProperties().contains(var1)) {
-         throw new IllegalArgumentException(this.blockstate + " cannot support property " + var1);
+   public <V extends Comparable<V>> BlockStateHelper where(IProperty<V> property, Predicate<? extends V> is) {
+      if (!this.blockstate.getProperties().contains(property)) {
+         throw new IllegalArgumentException(this.blockstate + " cannot support property " + property);
       }
 
-      this.propertyPredicates.put(var1, var2);
+      this.propertyPredicates.put(property, is);
       return this;
    }
 }

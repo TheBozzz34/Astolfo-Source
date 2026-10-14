@@ -11,108 +11,108 @@ public class DefaultPacketRegistry implements PacketRegistry {
    private static final long a = 101568012108203L;
 
    @Override
-   public void D(short var1, String var2) {
-      this.l.putIfAbsent(var2, var1);
+   public void D(short s, String string) {
+      this.l.putIfAbsent(string, s);
    }
 
    @Override
-   public Short J(String var1) {
-      return this.l.get(var1);
+   public Short J(String string) {
+      return this.l.get(string);
    }
 
    @Override
-   public void D(String var1, PacketReader<?> var2) {
-      Short var6 = this.l.get(var1);
-      if (var6 == null) {
-         throw new UnknownPacketException(var1);
+   public void D(String string, PacketReader<?> packetReader) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       }
 
-      this.r.put(var6, var2);
+      this.r.put(short2, packetReader);
    }
 
    @Override
-   public PacketReader<?> X(String var1) {
-      Short var5 = this.l.get(var1);
-      if (var5 == null) {
-         throw new UnknownPacketException(var1);
+   public PacketReader<?> X(String string) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       } else {
-         return this.r.get(var5);
+         return this.r.get(short2);
       }
    }
 
    @Override
-   public PacketReader<?> r(short var1) {
-      return this.r.get(var1);
+   public PacketReader<?> r(short s) {
+      return this.r.get(s);
    }
 
    @Override
-   public <T> void addPacketListener(String var1, String var2, PacketListener<T> var3) {
-      Short var7 = this.l.get(var1);
-      if (var7 == null) {
-         throw new UnknownPacketException(var1);
+   public <T> void addPacketListener(String string, String string2, PacketListener<T> packetListener) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       }
 
-      this.c.computeIfAbsent(var7, var0 -> new ShapedMap<>()).putIfAbsent(var2, var3);
+      this.c.computeIfAbsent(short2, short3 -> new ShapedMap<>()).putIfAbsent(string2, packetListener);
    }
 
    @Override
-   public void q(String var1, String var2) {
-      Short var6 = this.l.get(var1);
-      if (var6 == null) {
-         throw new UnknownPacketException(var1);
+   public void q(String string, String string2) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       }
 
-      Map var7 = this.c.get(var6);
-      if (var7 != null) {
-         var7.remove(var2);
+      Map map = this.c.get(short2);
+      if (map != null) {
+         map.remove(string2);
       }
    }
 
    @Override
-   public void S(String var1) {
-      Short var5 = this.l.get(var1);
-      if (var5 == null) {
-         throw new UnknownPacketException(var1);
+   public void S(String string) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       }
 
-      this.c.remove(var5);
+      this.c.remove(short2);
    }
 
    @Override
-   public boolean W(String var1, String var2) {
-      Short var6 = this.l.get(var1);
-      if (var6 == null) {
-         throw new UnknownPacketException(var1);
+   public boolean W(String string, String string2) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       }
 
-      Map var7 = this.c.get(var6);
-      return var7 == null ? false : var7.containsKey(var2);
+      Map map = this.c.get(short2);
+      return map == null ? false : map.containsKey(string2);
    }
 
    @Override
-   public boolean U(String var1) {
-      Short var4 = this.l.get(var1);
-      if (var4 == null) {
-         throw new UnknownPacketException(var1);
+   public boolean U(String string) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       } else {
-         return this.c.containsKey(var4);
+         return this.c.containsKey(short2);
       }
    }
 
    @Override
-   public Collection<PacketListener<?>> Y(String var1) {
-      Short var5 = this.l.get(var1);
-      if (var5 == null) {
-         throw new UnknownPacketException(var1);
+   public Collection<PacketListener<?>> Y(String string) {
+      Short short2 = this.l.get(string);
+      if (short2 == null) {
+         throw new UnknownPacketException(string);
       }
 
-      Map var6 = this.c.get(var5);
-      return var6 == null ? null : var6.values();
+      Map map = this.c.get(short2);
+      return map == null ? null : map.values();
    }
 
    @Override
-   public Collection<PacketListener<?>> y(short var1) {
-      Map var5 = this.c.get(var1);
-      return var5 == null ? null : var5.values();
+   public Collection<PacketListener<?>> y(short s) {
+      Map map = this.c.get(s);
+      return map == null ? null : map.values();
    }
 }

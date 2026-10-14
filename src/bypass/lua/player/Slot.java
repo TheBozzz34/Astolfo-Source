@@ -8,11 +8,11 @@ public final class Slot extends OneArgFunction {
    private static final long a = 82964650317896L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (ClientAccess.mc.thePlayer != null && var1.isnumber()) {
-         net.minecraft.inventory.Slot var5 = ClientAccess.mc.thePlayer.inventoryContainer.getSlot(var1.checkint());
-         if (var5 != null && var5.getHasStack()) {
-            return valueOf(var5.getStack().getDisplayName());
+   public LuaValue call(LuaValue luaValue) {
+      if (ClientAccess.mc.thePlayer != null && luaValue.isnumber()) {
+         net.minecraft.inventory.Slot slot = ClientAccess.mc.thePlayer.inventoryContainer.getSlot(luaValue.checkint());
+         if (slot != null && slot.getHasStack()) {
+            return valueOf(slot.getStack().getDisplayName());
          }
       }
 

@@ -6,45 +6,45 @@ import java.util.Random;
 public class WeightedRandom {
    private static final long a = 103991711636747L;
 
-   public static int getTotalWeight(Collection<? extends WeightedRandom.Item> var0) {
-      int var4 = 0;
+   public static int getTotalWeight(Collection<? extends WeightedRandom.Item> collection) {
+      int i = 0;
 
-      for (WeightedRandom.Item var6 : var0) {
-         var4 += var6.itemWeight;
+      for (WeightedRandom.Item item : collection) {
+         i += item.itemWeight;
       }
 
-      return var4;
+      return i;
    }
 
-   public static <T extends WeightedRandom.Item> T getRandomItem(Random var0, Collection<T> var1, int var2) {
-      if (var2 <= 0) {
+   public static <T extends WeightedRandom.Item> T getRandomItem(Random randomIn, Collection<T> collection, int totalWeight) {
+      if (totalWeight <= 0) {
          throw new IllegalArgumentException();
       }
 
-      int var6 = var0.nextInt(var2);
-      return getRandomItem(var1, var6);
+      int i = randomIn.nextInt(totalWeight);
+      return getRandomItem(collection, i);
    }
 
-   public static <T extends WeightedRandom.Item> T getRandomItem(Collection<T> var0, int var1) {
-      for (WeightedRandom.Item var6 : var0) {
-         var1 -= var6.itemWeight;
-         if (var1 < 0) {
-            return (T)var6;
+   public static <T extends WeightedRandom.Item> T getRandomItem(Collection<T> collection, int weight) {
+      for (WeightedRandom.Item item : collection) {
+         weight -= item.itemWeight;
+         if (weight < 0) {
+            return (T)item;
          }
       }
 
       return null;
    }
 
-   public static <T extends WeightedRandom.Item> T getRandomItem(Random var0, Collection<T> var1) {
-      return getRandomItem(var0, var1, getTotalWeight(var1));
+   public static <T extends WeightedRandom.Item> T getRandomItem(Random randomIn, Collection<T> collection) {
+      return getRandomItem(randomIn, collection, getTotalWeight(collection));
    }
 
    public static class Item {
       public int itemWeight;
 
-      public Item(int var1) {
-         this.itemWeight = var1;
+      public Item(int itemWeightIn) {
+         this.itemWeight = itemWeightIn;
       }
    }
 }

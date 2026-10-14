@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class TransparentPanelListType extends TypeToken<ArrayList<JsonObject>> {
    public final TransparentPanelManager d;
 
-   public TransparentPanelListType(TransparentPanelManager var1) {
-      this.d = var1;
+   public TransparentPanelListType(TransparentPanelManager transparentPanelManager) {
+      this.d = transparentPanelManager;
    }
 }

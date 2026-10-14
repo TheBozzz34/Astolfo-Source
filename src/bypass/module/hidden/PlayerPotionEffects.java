@@ -12,25 +12,25 @@ public class PlayerPotionEffects {
    public int color;
    private static final long a = 86460945804019L;
 
-   public PlayerPotionEffects(EntityPlayer var1) {
-      this.player = var1;
+   public PlayerPotionEffects(EntityPlayer entityPlayer) {
+      this.player = entityPlayer;
    }
 
-   public void add(PotionEffect var1) {
-      this.effects.put(var1.getPotionID(), var1);
+   public void add(PotionEffect potionEffect) {
+      this.effects.put(potionEffect.getPotionID(), potionEffect);
       this.color = HypixelGameTracker.getColor(this.effects.values());
    }
 
-   public void remove(PotionEffect var1) {
-      this.effects.remove(var1.getPotionID());
+   public void remove(PotionEffect potionEffect) {
+      this.effects.remove(potionEffect.getPotionID());
       this.color = HypixelGameTracker.getColor(this.effects.values());
    }
 
-   public void set(List<PotionEffect> var1) {
+   public void set(List<PotionEffect> list) {
       this.effects.clear();
 
-      for (PotionEffect var6 : var1) {
-         this.effects.put(var6.getPotionID(), var6);
+      for (PotionEffect potionEffect : list) {
+         this.effects.put(potionEffect.getPotionID(), potionEffect);
       }
 
       this.color = HypixelGameTracker.getColor(this.effects.values());

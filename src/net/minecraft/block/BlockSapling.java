@@ -30,8 +30,8 @@ public class BlockSapling extends BlockBush implements IGrowable {
 
    public BlockSapling() {
       this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockPlanks.EnumType.OAK).withProperty(STAGE, 0));
-      float var1 = 0.4F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, var1 * 2.0F, 0.5F + var1);
+      float f = 0.4F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }
 
@@ -41,166 +41,166 @@ public class BlockSapling extends BlockBush implements IGrowable {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote) {
-         super.updateTick(var1, var2, var3, var4);
-         if (var1.getLightFromNeighbors(var2.up()) >= 9 && var4.nextInt(7) == 0) {
-            this.grow(var1, var2, var3, var4);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote) {
+         super.updateTick(worldIn, pos, state, rand);
+         if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) {
+            this.grow(worldIn, pos, state, rand);
          }
       }
    }
 
-   public void grow(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (var3.getValue(STAGE) == 0) {
-         var1.setBlockState(var2, var3.cycleProperty(STAGE), 4);
+   public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (state.getValue(STAGE) == 0) {
+         worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
       } else {
-         this.generateTree(var1, var2, var3, var4);
+         this.generateTree(worldIn, pos, state, rand);
       }
    }
 
-   public void generateTree(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      WorldGenAbstractTree var8 = var4.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true);
-      int var9 = 0;
-      int var10 = 0;
-      boolean var11 = false;
-      switch ((BlockPlanks.EnumType)var3.getValue(TYPE)) {
+   public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      WorldGenAbstractTree worldGenAbstractTree = rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true);
+      int i = 0;
+      int j = 0;
+      boolean bl = false;
+      switch ((BlockPlanks.EnumType)state.getValue(TYPE)) {
          case SPRUCE:
             label68:
-            for (var9 = 0; var9 >= -1; var9--) {
-               for (var10 = 0; var10 >= -1; var10--) {
-                  if (this.func_181624_a(var1, var2, var9, var10, BlockPlanks.EnumType.SPRUCE)) {
-                     var8 = new WorldGenMegaPineTree(false, var4.nextBoolean());
-                     var11 = true;
+            for (i = 0; i >= -1; i--) {
+               for (j = 0; j >= -1; j--) {
+                  if (this.func_181624_a(worldIn, pos, i, j, BlockPlanks.EnumType.SPRUCE)) {
+                     worldGenAbstractTree = new WorldGenMegaPineTree(false, rand.nextBoolean());
+                     bl = true;
                      break label68;
                   }
                }
             }
 
-            if (!var11) {
-               var10 = 0;
-               var9 = 0;
-               var8 = new WorldGenTaiga2(true);
+            if (!bl) {
+               j = 0;
+               i = 0;
+               worldGenAbstractTree = new WorldGenTaiga2(true);
             }
             break;
          case BIRCH:
-            var8 = new WorldGenForest(true, false);
+            worldGenAbstractTree = new WorldGenForest(true, false);
             break;
          case JUNGLE:
-            IBlockState var12 = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-            IBlockState var13 = Blocks.leaves
+            IBlockState iBlockState = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+            IBlockState iBlockState2 = Blocks.leaves
                .getDefaultState()
                .withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE)
                .withProperty(BlockLeaves.CHECK_DECAY, false);
 
             label82:
-            for (var9 = 0; var9 >= -1; var9--) {
-               for (var10 = 0; var10 >= -1; var10--) {
-                  if (this.func_181624_a(var1, var2, var9, var10, BlockPlanks.EnumType.JUNGLE)) {
-                     var8 = new WorldGenMegaJungle(true, 10, 20, var12, var13);
-                     var11 = true;
+            for (i = 0; i >= -1; i--) {
+               for (j = 0; j >= -1; j--) {
+                  if (this.func_181624_a(worldIn, pos, i, j, BlockPlanks.EnumType.JUNGLE)) {
+                     worldGenAbstractTree = new WorldGenMegaJungle(true, 10, 20, iBlockState, iBlockState2);
+                     bl = true;
                      break label82;
                   }
                }
             }
 
-            if (!var11) {
-               var10 = 0;
-               var9 = 0;
-               var8 = new WorldGenTrees(true, 4 + var4.nextInt(7), var12, var13, false);
+            if (!bl) {
+               j = 0;
+               i = 0;
+               worldGenAbstractTree = new WorldGenTrees(true, 4 + rand.nextInt(7), iBlockState, iBlockState2, false);
             }
             break;
          case ACACIA:
-            var8 = new WorldGenSavannaTree(true);
+            worldGenAbstractTree = new WorldGenSavannaTree(true);
             break;
          case DARK_OAK:
             label96:
-            for (var9 = 0; var9 >= -1; var9--) {
-               for (var10 = 0; var10 >= -1; var10--) {
-                  if (this.func_181624_a(var1, var2, var9, var10, BlockPlanks.EnumType.DARK_OAK)) {
-                     var8 = new WorldGenCanopyTree(true);
-                     var11 = true;
+            for (i = 0; i >= -1; i--) {
+               for (j = 0; j >= -1; j--) {
+                  if (this.func_181624_a(worldIn, pos, i, j, BlockPlanks.EnumType.DARK_OAK)) {
+                     worldGenAbstractTree = new WorldGenCanopyTree(true);
+                     bl = true;
                      break label96;
                   }
                }
             }
 
-            if (!var11) {
+            if (!bl) {
                return;
             }
          case OAK:
       }
 
-      IBlockState var14 = Blocks.air.getDefaultState();
-      if (var11) {
-         var1.setBlockState(var2.add(var9, 0, var10), var14, 4);
-         var1.setBlockState(var2.add(var9 + 1, 0, var10), var14, 4);
-         var1.setBlockState(var2.add(var9, 0, var10 + 1), var14, 4);
-         var1.setBlockState(var2.add(var9 + 1, 0, var10 + 1), var14, 4);
+      IBlockState iBlockState3 = Blocks.air.getDefaultState();
+      if (bl) {
+         worldIn.setBlockState(pos.add(i, 0, j), iBlockState3, 4);
+         worldIn.setBlockState(pos.add(i + 1, 0, j), iBlockState3, 4);
+         worldIn.setBlockState(pos.add(i, 0, j + 1), iBlockState3, 4);
+         worldIn.setBlockState(pos.add(i + 1, 0, j + 1), iBlockState3, 4);
       } else {
-         var1.setBlockState(var2, var14, 4);
+         worldIn.setBlockState(pos, iBlockState3, 4);
       }
 
-      if (!var8.generate(var1, var4, var2.add(var9, 0, var10))) {
-         if (var11) {
-            var1.setBlockState(var2.add(var9, 0, var10), var3, 4);
-            var1.setBlockState(var2.add(var9 + 1, 0, var10), var3, 4);
-            var1.setBlockState(var2.add(var9, 0, var10 + 1), var3, 4);
-            var1.setBlockState(var2.add(var9 + 1, 0, var10 + 1), var3, 4);
+      if (!worldGenAbstractTree.generate(worldIn, rand, pos.add(i, 0, j))) {
+         if (bl) {
+            worldIn.setBlockState(pos.add(i, 0, j), state, 4);
+            worldIn.setBlockState(pos.add(i + 1, 0, j), state, 4);
+            worldIn.setBlockState(pos.add(i, 0, j + 1), state, 4);
+            worldIn.setBlockState(pos.add(i + 1, 0, j + 1), state, 4);
          } else {
-            var1.setBlockState(var2, var3, 4);
+            worldIn.setBlockState(pos, state, 4);
          }
       }
    }
 
-   private boolean func_181624_a(World var1, BlockPos var2, int var3, int var4, BlockPlanks.EnumType var5) {
-      return this.isTypeAt(var1, var2.add(var3, 0, var4), var5)
-         && this.isTypeAt(var1, var2.add(var3 + 1, 0, var4), var5)
-         && this.isTypeAt(var1, var2.add(var3, 0, var4 + 1), var5)
-         && this.isTypeAt(var1, var2.add(var3 + 1, 0, var4 + 1), var5);
+   private boolean func_181624_a(World world, BlockPos blockPos, int i, int j, BlockPlanks.EnumType enumType) {
+      return this.isTypeAt(world, blockPos.add(i, 0, j), enumType)
+         && this.isTypeAt(world, blockPos.add(i + 1, 0, j), enumType)
+         && this.isTypeAt(world, blockPos.add(i, 0, j + 1), enumType)
+         && this.isTypeAt(world, blockPos.add(i + 1, 0, j + 1), enumType);
    }
 
-   public boolean isTypeAt(World var1, BlockPos var2, BlockPlanks.EnumType var3) {
-      IBlockState var7 = var1.getBlockState(var2);
-      return var7.getBlock() == this && var7.getValue(TYPE) == var3;
-   }
-
-   @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(TYPE).getMetadata();
+   public boolean isTypeAt(World worldIn, BlockPos pos, BlockPlanks.EnumType typeIn) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      return iBlockState.getBlock() == this && iBlockState.getValue(TYPE) == typeIn;
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (BlockPlanks.EnumType var10 : BlockPlanks.EnumType.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public int damageDropped(IBlockState state) {
+      return state.getValue(TYPE).getMetadata();
+   }
+
+   @Override
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (BlockPlanks.EnumType enumType : BlockPlanks.EnumType.values()) {
+         list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
       }
    }
 
    @Override
-   public boolean canGrow(World var1, BlockPos var2, IBlockState var3, boolean var4) {
+   public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
       return true;
    }
 
    @Override
-   public boolean canUseBonemeal(World var1, Random var2, BlockPos var3, IBlockState var4) {
-      return var1.rand.nextFloat() < 0.45;
+   public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+      return worldIn.rand.nextFloat() < 0.45;
    }
 
    @Override
-   public void grow(World var1, Random var2, BlockPos var3, IBlockState var4) {
-      this.grow(var1, var3, var4, var2);
+   public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+      this.grow(worldIn, pos, state, rand);
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(var1 & 7)).withProperty(STAGE, (var1 & 8) >> 3);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(meta & 7)).withProperty(STAGE, (meta & 8) >> 3);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var2 = 0;
-      var2 |= var1.getValue(TYPE).getMetadata();
-      return var2 | var1.getValue(STAGE) << 3;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(TYPE).getMetadata();
+      return i | state.getValue(STAGE) << 3;
    }
 
    @Override

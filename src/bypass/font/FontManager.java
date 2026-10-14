@@ -14,13 +14,13 @@ public class FontManager extends JsonFileManager<FontEntry, JsonObject> {
    public static int o = 18;
    private static final long c = 39696472344200L;
 
-   public FontManager(File var1) {
-      super(var1, "fonts.json");
+   public FontManager(File file) {
+      super(file, "fonts.json");
    }
 
-   public void t(String var1, JsonObject var2) {
-      H = var2.get("name").getAsString();
-      o = var2.get("size").getAsInt();
+   public void t(String string, JsonObject jsonObject) {
+      H = jsonObject.get("name").getAsString();
+      o = jsonObject.get("size").getAsInt();
    }
 
    @Override
@@ -33,19 +33,19 @@ public class FontManager extends JsonFileManager<FontEntry, JsonObject> {
    public void I() {
    }
 
-   public static void U(String var0) {
-      if (!var0.equals("default")) {
-         Font var4 = new Font(var0, 0, o);
+   public static void U(String string) {
+      if (!string.equals("default")) {
+         Font font2 = new Font(string, 0, o);
          client.setCustomFontRenderer(new CustomFontRenderer());
-         client.getCustomFontRenderer().B(var4, true);
-         H = var0;
+         client.getCustomFontRenderer().B(font2, true);
+         H = string;
       } else {
          try {
-            Font var7 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/SF-UI-Display-Regular.ttf")).deriveFont(18.0F);
+            Font font3 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/SF-UI-Display-Regular.ttf")).deriveFont(18.0F);
             client.setCustomFontRenderer(new CustomFontRenderer());
-            client.getCustomFontRenderer().B(var7, true);
-         } catch (FontFormatException | IOException var6) {
-            var6.printStackTrace();
+            client.getCustomFontRenderer().B(font3, true);
+         } catch (FontFormatException | IOException value) {
+            value.printStackTrace();
          }
       }
    }

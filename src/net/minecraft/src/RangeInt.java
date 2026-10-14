@@ -5,13 +5,13 @@ public class RangeInt {
    private int max;
    private static final long a = 131928186265163L;
 
-   public RangeInt(int var1, int var2) {
-      this.min = Math.min(var1, var2);
-      this.max = Math.max(var1, var2);
+   public RangeInt(int minIn, int maxIn) {
+      this.min = Math.min(minIn, maxIn);
+      this.max = Math.max(minIn, maxIn);
    }
 
-   public boolean isInRange(int var1) {
-      return var1 < this.min ? false : var1 <= this.max;
+   public boolean isInRange(int val) {
+      return val < this.min ? false : val <= this.max;
    }
 
    public int getMin() {

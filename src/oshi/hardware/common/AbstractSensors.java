@@ -36,10 +36,10 @@ public abstract class AbstractSensors implements Sensors {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("CPU Temperature=").append(this.getCpuTemperature()).append("°C, ");
-      var3.append("Fan Speeds=").append(Arrays.toString(this.getFanSpeeds())).append(", ");
-      var3.append("CPU Voltage=").append(this.getCpuVoltage());
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("CPU Temperature=").append(this.getCpuTemperature()).append("°C, ");
+      stringBuilder.append("Fan Speeds=").append(Arrays.toString(this.getFanSpeeds())).append(", ");
+      stringBuilder.append("CPU Voltage=").append(this.getCpuVoltage());
+      return stringBuilder.toString();
    }
 }

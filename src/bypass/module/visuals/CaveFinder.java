@@ -14,8 +14,8 @@ public final class CaveFinder extends Module {
    private final Listener<SetupTerrainEvent> onSetupTerrain = CancellableEvent::cancel;
    private static final long c = 9304086497074L;
 
-   public CaveFinder(Category var1) {
-      super(var1);
+   public CaveFinder(Category category) {
+      super(category);
    }
 
    @Override

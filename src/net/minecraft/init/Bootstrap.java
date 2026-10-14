@@ -66,28 +66,28 @@ public class Bootstrap {
    public static void registerDispenserBehaviors() {
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.arrow, new BehaviorProjectileDispense() {
          @Override
-         public IProjectile getProjectileEntity(World var1, IPosition var2) {
-            EntityArrow var3 = new EntityArrow(var1, var2.getX(), var2.getY(), var2.getZ());
-            var3.canBePickedUp = 1;
-            return var3;
+         public IProjectile getProjectileEntity(World worldIn, IPosition position) {
+            EntityArrow entityArrow = new EntityArrow(worldIn, position.getX(), position.getY(), position.getZ());
+            entityArrow.canBePickedUp = 1;
+            return entityArrow;
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.egg, new BehaviorProjectileDispense() {
          @Override
-         public IProjectile getProjectileEntity(World var1, IPosition var2) {
-            return new EntityEgg(var1, var2.getX(), var2.getY(), var2.getZ());
+         public IProjectile getProjectileEntity(World worldIn, IPosition position) {
+            return new EntityEgg(worldIn, position.getX(), position.getY(), position.getZ());
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.snowball, new BehaviorProjectileDispense() {
          @Override
-         public IProjectile getProjectileEntity(World var1, IPosition var2) {
-            return new EntitySnowball(var1, var2.getX(), var2.getY(), var2.getZ());
+         public IProjectile getProjectileEntity(World worldIn, IPosition position) {
+            return new EntitySnowball(worldIn, position.getX(), position.getY(), position.getZ());
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.experience_bottle, new BehaviorProjectileDispense() {
          @Override
-         public IProjectile getProjectileEntity(World var1, IPosition var2) {
-            return new EntityExpBottle(var1, var2.getX(), var2.getY(), var2.getZ());
+         public IProjectile getProjectileEntity(World worldIn, IPosition position) {
+            return new EntityExpBottle(worldIn, position.getX(), position.getY(), position.getZ());
          }
 
          @Override
@@ -105,11 +105,11 @@ public class Bootstrap {
          private static final long a = 70477952389734L;
 
          @Override
-         public ItemStack dispense(IBlockSource var1, final ItemStack var2) {
-            return ItemPotion.isSplash(var2.getMetadata()) ? (new BehaviorProjectileDispense() {
+         public ItemStack dispense(IBlockSource source, final ItemStack stack) {
+            return ItemPotion.isSplash(stack.getMetadata()) ? (new BehaviorProjectileDispense() {
                @Override
-               public IProjectile getProjectileEntity(World var1, IPosition var2x) {
-                  return new EntityPotion(var1, var2x.getX(), var2x.getY(), var2x.getZ(), var2.copy());
+               public IProjectile getProjectileEntity(World worldIn, IPosition position) {
+                  return new EntityPotion(worldIn, position.getX(), position.getY(), position.getZ(), stack.copy());
                }
 
                @Override
@@ -121,25 +121,25 @@ public class Bootstrap {
                public float func_82500_b() {
                   return super.func_82500_b() * 1.25F;
                }
-            }).dispense(var1, var2) : this.field_150843_b.dispense(var1, var2);
+            }).dispense(source, stack) : this.field_150843_b.dispense(source, stack);
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.spawn_egg, new BehaviorDefaultDispenseItem() {
          private static final long b = 78067703884201L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            EnumFacing var6 = BlockDispenser.getFacing(var1.getBlockMetadata());
-            double var7 = var1.getX() + var6.getFrontOffsetX();
-            double var9 = var1.getBlockPos().getY() + 0.2F;
-            double var11 = var1.getZ() + var6.getFrontOffsetZ();
-            Entity var13 = ItemMonsterPlacer.spawnCreature(var1.getWorld(), var2.getMetadata(), var7, var9, var11);
-            if (var13 instanceof EntityLivingBase && var2.hasDisplayName()) {
-               ((EntityLiving)var13).setCustomNameTag(var2.getDisplayName());
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            EnumFacing enumFacing = BlockDispenser.getFacing(source.getBlockMetadata());
+            double d = source.getX() + enumFacing.getFrontOffsetX();
+            double e = source.getBlockPos().getY() + 0.2F;
+            double d2 = source.getZ() + enumFacing.getFrontOffsetZ();
+            Entity entity = ItemMonsterPlacer.spawnCreature(source.getWorld(), stack.getMetadata(), d, e, d2);
+            if (entity instanceof EntityLivingBase && stack.hasDisplayName()) {
+               ((EntityLiving)entity).setCustomNameTag(stack.getDisplayName());
             }
 
-            var2.splitStack(1);
-            return var2;
+            stack.splitStack(1);
+            return stack;
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.fireworks, new BehaviorDefaultDispenseItem() {
@@ -147,20 +147,20 @@ public class Bootstrap {
          private static final long c = 1825254924913476586L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            EnumFacing var3 = BlockDispenser.getFacing(var1.getBlockMetadata());
-            double var4 = var1.getX() + var3.getFrontOffsetX();
-            double var6 = var1.getBlockPos().getY() + 0.2F;
-            double var8 = var1.getZ() + var3.getFrontOffsetZ();
-            EntityFireworkRocket var10 = new EntityFireworkRocket(var1.getWorld(), var4, var6, var8, var2);
-            var1.getWorld().spawnEntityInWorld(var10);
-            var2.splitStack(1);
-            return var2;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            EnumFacing enumFacing2 = BlockDispenser.getFacing(source.getBlockMetadata());
+            double d3 = source.getX() + enumFacing2.getFrontOffsetX();
+            double d4 = source.getBlockPos().getY() + 0.2F;
+            double d5 = source.getZ() + enumFacing2.getFrontOffsetZ();
+            EntityFireworkRocket entityFireworkRocket = new EntityFireworkRocket(source.getWorld(), d3, d4, d5, stack);
+            source.getWorld().spawnEntityInWorld(entityFireworkRocket);
+            stack.splitStack(1);
+            return stack;
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
-            var1.getWorld().playAuxSFX((int)c, var1.getBlockPos(), 0);
+         public void playDispenseSound(IBlockSource source) {
+            source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.fire_charge, new BehaviorDefaultDispenseItem() {
@@ -168,25 +168,25 @@ public class Bootstrap {
          private static final long c = 7390723583439274993L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            EnumFacing var6 = BlockDispenser.getFacing(var1.getBlockMetadata());
-            IPosition var7 = BlockDispenser.getDispensePosition(var1);
-            double var8 = var7.getX() + var6.getFrontOffsetX() * 0.3F;
-            double var10 = var7.getY() + var6.getFrontOffsetY() * 0.3F;
-            double var12 = var7.getZ() + var6.getFrontOffsetZ() * 0.3F;
-            World var14 = var1.getWorld();
-            Random var15 = var14.rand;
-            double var16 = var15.nextGaussian() * 0.05 + var6.getFrontOffsetX();
-            double var18 = var15.nextGaussian() * 0.05 + var6.getFrontOffsetY();
-            double var20 = var15.nextGaussian() * 0.05 + var6.getFrontOffsetZ();
-            var14.spawnEntityInWorld(new EntitySmallFireball(var14, var8, var10, var12, var16, var18, var20));
-            var2.splitStack(1);
-            return var2;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            EnumFacing enumFacing3 = BlockDispenser.getFacing(source.getBlockMetadata());
+            IPosition iPosition = BlockDispenser.getDispensePosition(source);
+            double d6 = iPosition.getX() + enumFacing3.getFrontOffsetX() * 0.3F;
+            double d7 = iPosition.getY() + enumFacing3.getFrontOffsetY() * 0.3F;
+            double d8 = iPosition.getZ() + enumFacing3.getFrontOffsetZ() * 0.3F;
+            World world = source.getWorld();
+            Random random = world.rand;
+            double d9 = random.nextGaussian() * 0.05 + enumFacing3.getFrontOffsetX();
+            double d10 = random.nextGaussian() * 0.05 + enumFacing3.getFrontOffsetY();
+            double d11 = random.nextGaussian() * 0.05 + enumFacing3.getFrontOffsetZ();
+            world.spawnEntityInWorld(new EntitySmallFireball(world, d6, d7, d8, d9, d10, d11));
+            stack.splitStack(1);
+            return stack;
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
-            var1.getWorld().playAuxSFX((int)c, var1.getBlockPos(), 0);
+         public void playDispenseSound(IBlockSource source) {
+            source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.boat, new BehaviorDefaultDispenseItem() {
@@ -195,86 +195,86 @@ public class Bootstrap {
          private static final long c = 7084252489771385832L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            EnumFacing var6 = BlockDispenser.getFacing(var1.getBlockMetadata());
-            World var7 = var1.getWorld();
-            double var8 = var1.getX() + var6.getFrontOffsetX() * 1.125F;
-            double var10 = var1.getY() + var6.getFrontOffsetY() * 1.125F;
-            double var12 = var1.getZ() + var6.getFrontOffsetZ() * 1.125F;
-            BlockPos var14 = var1.getBlockPos().offset(var6);
-            Material var15 = var7.getBlockState(var14).getBlock().getMaterial();
-            double var16;
-            if (Material.water.equals(var15)) {
-               var16 = 1.0;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            EnumFacing enumFacing4 = BlockDispenser.getFacing(source.getBlockMetadata());
+            World world2 = source.getWorld();
+            double d12 = source.getX() + enumFacing4.getFrontOffsetX() * 1.125F;
+            double d13 = source.getY() + enumFacing4.getFrontOffsetY() * 1.125F;
+            double d14 = source.getZ() + enumFacing4.getFrontOffsetZ() * 1.125F;
+            BlockPos blockPos = source.getBlockPos().offset(enumFacing4);
+            Material material = world2.getBlockState(blockPos).getBlock().getMaterial();
+            double d15;
+            if (Material.water.equals(material)) {
+               d15 = 1.0;
             } else {
-               if (!Material.air.equals(var15) || !Material.water.equals(var7.getBlockState(var14.down()).getBlock().getMaterial())) {
-                  return this.field_150842_b.dispense(var1, var2);
+               if (!Material.air.equals(material) || !Material.water.equals(world2.getBlockState(blockPos.down()).getBlock().getMaterial())) {
+                  return this.field_150842_b.dispense(source, stack);
                }
 
-               var16 = 0.0;
+               d15 = 0.0;
             }
 
-            EntityBoat var18 = new EntityBoat(var7, var8, var10 + var16, var12);
-            var7.spawnEntityInWorld(var18);
-            var2.splitStack(1);
-            return var2;
+            EntityBoat entityBoat = new EntityBoat(world2, d12, d13 + d15, d14);
+            world2.spawnEntityInWorld(entityBoat);
+            stack.splitStack(1);
+            return stack;
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
-            var1.getWorld().playAuxSFX((int)c, var1.getBlockPos(), 0);
+         public void playDispenseSound(IBlockSource source) {
+            source.getWorld().playAuxSFX((int)c, source.getBlockPos(), 0);
          }
       });
-      BehaviorDefaultDispenseItem var4 = new BehaviorDefaultDispenseItem() {
+      BehaviorDefaultDispenseItem behaviorDefaultDispenseItem = new BehaviorDefaultDispenseItem() {
          private final BehaviorDefaultDispenseItem field_150841_b = new BehaviorDefaultDispenseItem();
          private static final long b = 49241626613634L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            ItemBucket var6 = (ItemBucket)var2.getItem();
-            BlockPos var7 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-            if (var6.tryPlaceContainedLiquid(var1.getWorld(), var7)) {
-               var2.setItem(Items.bucket);
-               var2.stackSize = 1;
-               return var2;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            ItemBucket itemBucket = (ItemBucket)stack.getItem();
+            BlockPos blockPos2 = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+            if (itemBucket.tryPlaceContainedLiquid(source.getWorld(), blockPos2)) {
+               stack.setItem(Items.bucket);
+               stack.stackSize = 1;
+               return stack;
             } else {
-               return this.field_150841_b.dispense(var1, var2);
+               return this.field_150841_b.dispense(source, stack);
             }
          }
       };
-      BlockDispenser.dispenseBehaviorRegistry.putObject(Items.lava_bucket, var4);
-      BlockDispenser.dispenseBehaviorRegistry.putObject(Items.water_bucket, var4);
+      BlockDispenser.dispenseBehaviorRegistry.putObject(Items.lava_bucket, behaviorDefaultDispenseItem);
+      BlockDispenser.dispenseBehaviorRegistry.putObject(Items.water_bucket, behaviorDefaultDispenseItem);
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.bucket, new BehaviorDefaultDispenseItem() {
          private final BehaviorDefaultDispenseItem field_150840_b = new BehaviorDefaultDispenseItem();
          private static final long b = 4532547767672L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            World var6 = var1.getWorld();
-            BlockPos var7 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-            IBlockState var8 = var6.getBlockState(var7);
-            Block var9 = var8.getBlock();
-            Material var10 = var9.getMaterial();
-            Item var11;
-            if (Material.water.equals(var10) && var9 instanceof BlockLiquid && var8.getValue(BlockLiquid.LEVEL) == 0) {
-               var11 = Items.water_bucket;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            World world3 = source.getWorld();
+            BlockPos blockPos3 = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+            IBlockState iBlockState = world3.getBlockState(blockPos3);
+            Block block = iBlockState.getBlock();
+            Material material2 = block.getMaterial();
+            Item item;
+            if (Material.water.equals(material2) && block instanceof BlockLiquid && iBlockState.getValue(BlockLiquid.LEVEL) == 0) {
+               item = Items.water_bucket;
             } else {
-               if (!Material.lava.equals(var10) || !(var9 instanceof BlockLiquid) || var8.getValue(BlockLiquid.LEVEL) != 0) {
-                  return super.dispenseStack(var1, var2);
+               if (!Material.lava.equals(material2) || !(block instanceof BlockLiquid) || iBlockState.getValue(BlockLiquid.LEVEL) != 0) {
+                  return super.dispenseStack(source, stack);
                }
 
-               var11 = Items.lava_bucket;
+               item = Items.lava_bucket;
             }
 
-            var6.setBlockToAir(var7);
-            if (--var2.stackSize == 0) {
-               var2.setItem(var11);
-               var2.stackSize = 1;
-            } else if (var1.<TileEntityDispenser>getBlockTileEntity().addItemStack(new ItemStack(var11)) < 0) {
-               this.field_150840_b.dispense(var1, new ItemStack(var11));
+            world3.setBlockToAir(blockPos3);
+            if (--stack.stackSize == 0) {
+               stack.setItem(item);
+               stack.stackSize = 1;
+            } else if (source.<TileEntityDispenser>getBlockTileEntity().addItemStack(new ItemStack(item)) < 0) {
+               this.field_150840_b.dispense(source, new ItemStack(item));
             }
 
-            return var2;
+            return stack;
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.flint_and_steel, new BehaviorDefaultDispenseItem() {
@@ -282,30 +282,30 @@ public class Bootstrap {
          private static final long b = 24054458888466L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            World var6 = var1.getWorld();
-            BlockPos var7 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-            if (var6.isAirBlock(var7)) {
-               var6.setBlockState(var7, Blocks.fire.getDefaultState());
-               if (var2.attemptDamageItem(1, var6.rand)) {
-                  var2.stackSize = 0;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            World world4 = source.getWorld();
+            BlockPos blockPos4 = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+            if (world4.isAirBlock(blockPos4)) {
+               world4.setBlockState(blockPos4, Blocks.fire.getDefaultState());
+               if (stack.attemptDamageItem(1, world4.rand)) {
+                  stack.stackSize = 0;
                }
-            } else if (var6.getBlockState(var7).getBlock() == Blocks.tnt) {
-               Blocks.tnt.onBlockDestroyedByPlayer(var6, var7, Blocks.tnt.getDefaultState().withProperty(BlockTNT.EXPLODE, true));
-               var6.setBlockToAir(var7);
+            } else if (world4.getBlockState(blockPos4).getBlock() == Blocks.tnt) {
+               Blocks.tnt.onBlockDestroyedByPlayer(world4, blockPos4, Blocks.tnt.getDefaultState().withProperty(BlockTNT.EXPLODE, true));
+               world4.setBlockToAir(blockPos4);
             } else {
                this.field_150839_b = false;
             }
 
-            return var2;
+            return stack;
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
+         public void playDispenseSound(IBlockSource source) {
             if (this.field_150839_b) {
-               var1.getWorld().playAuxSFX(1000, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
             } else {
-               var1.getWorld().playAuxSFX(1001, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1001, source.getBlockPos(), 0);
             }
          }
       });
@@ -314,30 +314,30 @@ public class Bootstrap {
          private static final long b = 83328342553774L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            if (EnumDyeColor.WHITE == EnumDyeColor.byDyeDamage(var2.getMetadata())) {
-               World var6 = var1.getWorld();
-               BlockPos var7 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-               if (ItemDye.applyBonemeal(var2, var6, var7)) {
-                  if (!var6.isRemote) {
-                     var6.playAuxSFX(2005, var7, 0);
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            if (EnumDyeColor.WHITE == EnumDyeColor.byDyeDamage(stack.getMetadata())) {
+               World world5 = source.getWorld();
+               BlockPos blockPos5 = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+               if (ItemDye.applyBonemeal(stack, world5, blockPos5)) {
+                  if (!world5.isRemote) {
+                     world5.playAuxSFX(2005, blockPos5, 0);
                   }
                } else {
                   this.field_150838_b = false;
                }
 
-               return var2;
+               return stack;
             } else {
-               return super.dispenseStack(var1, var2);
+               return super.dispenseStack(source, stack);
             }
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
+         public void playDispenseSound(IBlockSource source) {
             if (this.field_150838_b) {
-               var1.getWorld().playAuxSFX(1000, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
             } else {
-               var1.getWorld().playAuxSFX(1001, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1001, source.getBlockPos(), 0);
             }
          }
       });
@@ -345,14 +345,14 @@ public class Bootstrap {
          private static final long b = 53035816366307L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            World var5 = var1.getWorld();
-            BlockPos var6 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-            EntityTNTPrimed var7 = new EntityTNTPrimed(var5, var6.getX() + 0.5, var6.getY(), var6.getZ() + 0.5, (EntityLivingBase)null);
-            var5.spawnEntityInWorld(var7);
-            var5.playSoundAtEntity(var7, "game.tnt.primed", 1.0F, 1.0F);
-            var2.stackSize--;
-            return var2;
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            World world6 = source.getWorld();
+            BlockPos blockPos6 = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+            EntityTNTPrimed entityTNTPrimed = new EntityTNTPrimed(world6, blockPos6.getX() + 0.5, blockPos6.getY(), blockPos6.getZ() + 0.5, (EntityLivingBase)null);
+            world6.spawnEntityInWorld(entityTNTPrimed);
+            world6.playSoundAtEntity(entityTNTPrimed, "game.tnt.primed", 1.0F, 1.0F);
+            stack.stackSize--;
+            return stack;
          }
       });
       BlockDispenser.dispenseBehaviorRegistry.putObject(Items.skull, new BehaviorDefaultDispenseItem() {
@@ -360,52 +360,52 @@ public class Bootstrap {
          private static final long b = 131181088363358L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            World var6 = var1.getWorld();
-            EnumFacing var7 = BlockDispenser.getFacing(var1.getBlockMetadata());
-            BlockPos var8 = var1.getBlockPos().offset(var7);
-            BlockSkull var9 = Blocks.skull;
-            if (!var6.isAirBlock(var8) || !var9.canDispenserPlace(var6, var8, var2)) {
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            World world7 = source.getWorld();
+            EnumFacing enumFacing5 = BlockDispenser.getFacing(source.getBlockMetadata());
+            BlockPos blockPos7 = source.getBlockPos().offset(enumFacing5);
+            BlockSkull blockSkull = Blocks.skull;
+            if (!world7.isAirBlock(blockPos7) || !blockSkull.canDispenserPlace(world7, blockPos7, stack)) {
                this.field_179240_b = false;
-            } else if (!var6.isRemote) {
-               var6.setBlockState(var8, var9.getDefaultState().withProperty(BlockSkull.FACING, EnumFacing.UP), 3);
-               TileEntity var10 = var6.getTileEntity(var8);
-               if (var10 instanceof TileEntitySkull) {
-                  if (var2.getMetadata() == 3) {
-                     GameProfile var11 = null;
-                     if (var2.hasTagCompound()) {
-                        NBTTagCompound var12 = var2.getTagCompound();
-                        if (var12.hasKey("SkullOwner", 10)) {
-                           var11 = NBTUtil.readGameProfileFromNBT(var12.getCompoundTag("SkullOwner"));
-                        } else if (var12.hasKey("SkullOwner", 8)) {
-                           String var13 = var12.getString("SkullOwner");
-                           if (!StringUtils.isNullOrEmpty(var13)) {
-                              var11 = new GameProfile((UUID)null, var13);
+            } else if (!world7.isRemote) {
+               world7.setBlockState(blockPos7, blockSkull.getDefaultState().withProperty(BlockSkull.FACING, EnumFacing.UP), 3);
+               TileEntity tileEntity = world7.getTileEntity(blockPos7);
+               if (tileEntity instanceof TileEntitySkull) {
+                  if (stack.getMetadata() == 3) {
+                     GameProfile gameProfile = null;
+                     if (stack.hasTagCompound()) {
+                        NBTTagCompound nbtTagCompound = stack.getTagCompound();
+                        if (nbtTagCompound.hasKey("SkullOwner", 10)) {
+                           gameProfile = NBTUtil.readGameProfileFromNBT(nbtTagCompound.getCompoundTag("SkullOwner"));
+                        } else if (nbtTagCompound.hasKey("SkullOwner", 8)) {
+                           String string = nbtTagCompound.getString("SkullOwner");
+                           if (!StringUtils.isNullOrEmpty(string)) {
+                              gameProfile = new GameProfile((UUID)null, string);
                            }
                         }
                      }
 
-                     ((TileEntitySkull)var10).setPlayerProfile(var11);
+                     ((TileEntitySkull)tileEntity).setPlayerProfile(gameProfile);
                   } else {
-                     ((TileEntitySkull)var10).setType(var2.getMetadata());
+                     ((TileEntitySkull)tileEntity).setType(stack.getMetadata());
                   }
 
-                  ((TileEntitySkull)var10).setSkullRotation(var7.getOpposite().getHorizontalIndex() * 4);
-                  Blocks.skull.checkWitherSpawn(var6, var8, (TileEntitySkull)var10);
+                  ((TileEntitySkull)tileEntity).setSkullRotation(enumFacing5.getOpposite().getHorizontalIndex() * 4);
+                  Blocks.skull.checkWitherSpawn(world7, blockPos7, (TileEntitySkull)tileEntity);
                }
 
-               var2.stackSize--;
+               stack.stackSize--;
             }
 
-            return var2;
+            return stack;
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
+         public void playDispenseSound(IBlockSource source) {
             if (this.field_179240_b) {
-               var1.getWorld().playAuxSFX(1000, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
             } else {
-               var1.getWorld().playAuxSFX(1001, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1001, source.getBlockPos(), 0);
             }
          }
       });
@@ -414,29 +414,29 @@ public class Bootstrap {
          private static final long b = 57079700377394L;
 
          @Override
-         public ItemStack dispenseStack(IBlockSource var1, ItemStack var2) {
-            World var6 = var1.getWorld();
-            BlockPos var7 = var1.getBlockPos().offset(BlockDispenser.getFacing(var1.getBlockMetadata()));
-            BlockPumpkin var8 = (BlockPumpkin)Blocks.pumpkin;
-            if (var6.isAirBlock(var7) && var8.canDispenserPlace(var6, var7)) {
-               if (!var6.isRemote) {
-                  var6.setBlockState(var7, var8.getDefaultState(), 3);
+         public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            World world8 = source.getWorld();
+            BlockPos blockPos8 = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+            BlockPumpkin blockPumpkin = (BlockPumpkin)Blocks.pumpkin;
+            if (world8.isAirBlock(blockPos8) && blockPumpkin.canDispenserPlace(world8, blockPos8)) {
+               if (!world8.isRemote) {
+                  world8.setBlockState(blockPos8, blockPumpkin.getDefaultState(), 3);
                }
 
-               var2.stackSize--;
+               stack.stackSize--;
             } else {
                this.field_179241_b = false;
             }
 
-            return var2;
+            return stack;
          }
 
          @Override
-         public void playDispenseSound(IBlockSource var1) {
+         public void playDispenseSound(IBlockSource source) {
             if (this.field_179241_b) {
-               var1.getWorld().playAuxSFX(1000, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1000, source.getBlockPos(), 0);
             } else {
-               var1.getWorld().playAuxSFX(1001, var1.getBlockPos(), 0);
+               source.getWorld().playAuxSFX(1001, source.getBlockPos(), 0);
             }
          }
       });
@@ -462,9 +462,9 @@ public class Bootstrap {
       System.setOut(new LoggingPrintStream("STDOUT", SYSOUT));
    }
 
-   public static void printToSYSOUT(String var0) {
+   public static void printToSYSOUT(String string) {
       if (HUD.isDevelopment) {
-         SYSOUT.println(var0);
+         SYSOUT.println(string);
       }
    }
 }

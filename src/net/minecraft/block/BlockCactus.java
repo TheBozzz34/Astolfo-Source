@@ -27,39 +27,39 @@ public class BlockCactus extends Block {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      BlockPos var8 = var2.up();
-      if (var1.isAirBlock(var8)) {
-         int var9 = 1;
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      BlockPos blockPos = pos.up();
+      if (worldIn.isAirBlock(blockPos)) {
+         int i = 1;
 
-         while (var1.getBlockState(var2.down(var9)).getBlock() == this) {
-            var9++;
+         while (worldIn.getBlockState(pos.down(i)).getBlock() == this) {
+            i++;
          }
 
-         if (var9 < 3) {
-            int var10 = var3.getValue(AGE);
-            if (var10 == 15) {
-               var1.setBlockState(var8, this.getDefaultState());
-               IBlockState var11 = var3.withProperty(AGE, 0);
-               var1.setBlockState(var2, var11, 4);
-               this.onNeighborBlockChange(var1, var8, var11, this);
+         if (i < 3) {
+            int j = state.getValue(AGE);
+            if (j == 15) {
+               worldIn.setBlockState(blockPos, this.getDefaultState());
+               IBlockState iBlockState = state.withProperty(AGE, 0);
+               worldIn.setBlockState(pos, iBlockState, 4);
+               this.onNeighborBlockChange(worldIn, blockPos, iBlockState, this);
             } else {
-               var1.setBlockState(var2, var3.withProperty(AGE, var10 + 1), 4);
+               worldIn.setBlockState(pos, state.withProperty(AGE, j + 1), 4);
             }
          }
       }
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      float var4 = 0.0625F;
-      return new AxisAlignedBB(var2.getX() + var4, var2.getY(), var2.getZ() + var4, var2.getX() + 1 - var4, var2.getY() + 1 - var4, var2.getZ() + 1 - var4);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      float f = 0.0625F;
+      return new AxisAlignedBB(pos.getX() + f, pos.getY(), pos.getZ() + f, pos.getX() + 1 - f, pos.getY() + 1 - f, pos.getZ() + 1 - f);
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      float var3 = 0.0625F;
-      return new AxisAlignedBB(var2.getX() + var3, var2.getY(), var2.getZ() + var3, var2.getX() + 1 - var3, var2.getY() + 1, var2.getZ() + 1 - var3);
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      float f = 0.0625F;
+      return new AxisAlignedBB(pos.getX() + f, pos.getY(), pos.getZ() + f, pos.getX() + 1 - f, pos.getY() + 1, pos.getZ() + 1 - f);
    }
 
    @Override
@@ -73,31 +73,31 @@ public class BlockCactus extends Block {
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return super.canPlaceBlockAt(var1, var2) ? this.canBlockStay(var1, var2) : false;
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (!this.canBlockStay(var1, var2)) {
-         var1.destroyBlock(var2, true);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (!this.canBlockStay(worldIn, pos)) {
+         worldIn.destroyBlock(pos, true);
       }
    }
 
-   public boolean canBlockStay(World var1, BlockPos var2) {
-      for (Object var7 : EnumFacing.Plane.HORIZONTAL) {
-         if (var1.getBlockState(var2.offset((EnumFacing)var7)).getBlock().getMaterial().isSolid()) {
+   public boolean canBlockStay(World worldIn, BlockPos pos) {
+      for (Object object : EnumFacing.Plane.HORIZONTAL) {
+         if (worldIn.getBlockState(pos.offset((EnumFacing)object)).getBlock().getMaterial().isSolid()) {
             return false;
          }
       }
 
-      Block var8 = var1.getBlockState(var2.down()).getBlock();
-      return var8 == Blocks.cactus || var8 == Blocks.sand;
+      Block block = worldIn.getBlockState(pos.down()).getBlock();
+      return block == Blocks.cactus || block == Blocks.sand;
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      var4.attackEntityFrom(DamageSource.cactus, 1.0F);
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      entityIn.attackEntityFrom(DamageSource.cactus, 1.0F);
    }
 
    @Override
@@ -106,13 +106,13 @@ public class BlockCactus extends Block {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(AGE, var1);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(AGE, meta);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(AGE);
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(AGE);
    }
 
    @Override

@@ -6,8 +6,8 @@ import net.minecraft.client.resources.Language;
 public class LanguageMetadataSection implements IMetadataSection {
    private final Collection<Language> languages;
 
-   public LanguageMetadataSection(Collection<Language> var1) {
-      this.languages = var1;
+   public LanguageMetadataSection(Collection<Language> collection) {
+      this.languages = collection;
    }
 
    public Collection<Language> getLanguages() {

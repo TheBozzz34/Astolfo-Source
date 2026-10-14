@@ -8,10 +8,10 @@ public class OSService {
    private final int processID;
    private final OSService.State state;
 
-   public OSService(String var1, int var2, OSService.State var3) {
-      this.name = var1;
-      this.processID = var2;
-      this.state = var3;
+   public OSService(String name, int processID, OSService.State state) {
+      this.name = name;
+      this.processID = processID;
+      this.state = state;
    }
 
    public String getName() {

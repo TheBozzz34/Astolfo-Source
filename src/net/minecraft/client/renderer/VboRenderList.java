@@ -11,16 +11,16 @@ public class VboRenderList extends ChunkRenderContainer {
    private static final long c = 79065654443946L;
 
    @Override
-   public void renderChunkLayer(EnumWorldBlockLayer var1) {
+   public void renderChunkLayer(EnumWorldBlockLayer layer) {
       if (this.initialized) {
-         for (RenderChunk var6 : this.renderChunks) {
-            VertexBuffer var7 = var6.getVertexBufferByLayer(var1.ordinal());
+         for (RenderChunk renderChunk : this.renderChunks) {
+            VertexBuffer vertexBuffer = renderChunk.getVertexBufferByLayer(layer.ordinal());
             GlStateManager.pushMatrix();
-            this.preRenderChunk(var6);
-            var6.multModelviewMatrix();
-            var7.bindBuffer();
+            this.preRenderChunk(renderChunk);
+            renderChunk.multModelviewMatrix();
+            vertexBuffer.bindBuffer();
             this.setupArrayPointers();
-            var7.drawArrays(7);
+            vertexBuffer.drawArrays(7);
             GlStateManager.popMatrix();
          }
 

@@ -19,27 +19,27 @@ public class RegistrySimple<K, V> implements IRegistry<K, V> {
    }
 
    @Override
-   public V getObject(K var1) {
-      return this.registryObjects.get(var1);
+   public V getObject(K name) {
+      return this.registryObjects.get(name);
    }
 
    @Override
-   public void putObject(K var1, V var2) {
-      Validate.notNull(var1);
-      Validate.notNull(var2);
-      if (this.registryObjects.containsKey(var1)) {
-         logger.debug("Adding duplicate key '" + var1 + "' to registry");
+   public void putObject(K key, V value) {
+      Validate.notNull(key);
+      Validate.notNull(value);
+      if (this.registryObjects.containsKey(key)) {
+         logger.debug("Adding duplicate key '" + key + "' to registry");
       }
 
-      this.registryObjects.put((K)var1, (V)var2);
+      this.registryObjects.put((K)key, (V)value);
    }
 
    public Set<K> getKeys() {
       return Collections.unmodifiableSet(this.registryObjects.keySet());
    }
 
-   public boolean containsKey(K var1) {
-      return this.registryObjects.containsKey(var1);
+   public boolean containsKey(K key) {
+      return this.registryObjects.containsKey(key);
    }
 
    @Override

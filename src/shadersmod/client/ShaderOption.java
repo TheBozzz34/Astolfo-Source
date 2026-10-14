@@ -19,14 +19,14 @@ public abstract class ShaderOption {
    public static final String COLOR_BLUE = "§9";
    private static final long a = 65016977813255L;
 
-   public ShaderOption(String var1, String var2, String var3, String[] var4, String var5, String var6) {
-      this.name = var1;
-      this.description = var2;
-      this.value = var3;
-      this.values = var4;
-      this.valueDefault = var5;
-      if (var6 != null) {
-         this.paths = new String[]{var6};
+   public ShaderOption(String name, String description, String value, String[] values, String valueDefault, String path) {
+      this.name = name;
+      this.description = description;
+      this.value = value;
+      this.values = values;
+      this.valueDefault = valueDefault;
+      if (path != null) {
+         this.paths = new String[]{path};
       }
    }
 
@@ -39,26 +39,26 @@ public abstract class ShaderOption {
    }
 
    public String getDescriptionText() {
-      String var3 = Config.normalize(this.description);
-      var3 = StrUtils.removePrefix(var3, "//");
-      return Shaders.translate("option." + this.getName() + ".comment", var3);
+      String string = Config.normalize(this.description);
+      string = StrUtils.removePrefix(string, "//");
+      return Shaders.translate("option." + this.getName() + ".comment", string);
    }
 
-   public void setDescription(String var1) {
-      this.description = var1;
+   public void setDescription(String description) {
+      this.description = description;
    }
 
    public String getValue() {
       return this.value;
    }
 
-   public boolean setValue(String var1) {
-      int var5 = getIndex(var1, this.values);
-      if (var5 < 0) {
+   public boolean setValue(String value) {
+      int i = getIndex(value, this.values);
+      if (i < 0) {
          return false;
       }
 
-      this.value = var1;
+      this.value = value;
       return true;
    }
 
@@ -71,26 +71,26 @@ public abstract class ShaderOption {
    }
 
    public void nextValue() {
-      int var4 = getIndex(this.value, this.values);
-      if (var4 >= 0) {
-         var4 = (var4 + 1) % this.values.length;
-         this.value = this.values[var4];
+      int i = getIndex(this.value, this.values);
+      if (i >= 0) {
+         i = (i + 1) % this.values.length;
+         this.value = this.values[i];
       }
    }
 
    public void B() {
-      int var4 = getIndex(this.value, this.values);
-      if (var4 >= 0) {
-         var4 = (var4 - 1 + this.values.length) % this.values.length;
-         this.value = this.values[var4];
+      int i = getIndex(this.value, this.values);
+      if (i >= 0) {
+         i = (i - 1 + this.values.length) % this.values.length;
+         this.value = this.values[i];
       }
    }
 
-   private static int getIndex(String var0, String[] var1) {
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         String var6 = var1[var5];
-         if (var6.equals(var0)) {
-            return var5;
+   private static int getIndex(String str, String[] strs) {
+      for (int i = 0; i < strs.length; i++) {
+         String string = strs[i];
+         if (string.equals(str)) {
+            return i;
          }
       }
 
@@ -101,13 +101,13 @@ public abstract class ShaderOption {
       return this.paths;
    }
 
-   public void addPaths(String[] var1) {
-      List var5 = Arrays.asList(this.paths);
+   public void addPaths(String[] newPaths) {
+      List list = Arrays.asList(this.paths);
 
-      for (int var6 = 0; var6 < var1.length; var6++) {
-         String var7 = var1[var6];
-         if (!var5.contains(var7)) {
-            this.paths = (String[])Config.addObjectToArray(this.paths, var7);
+      for (int i = 0; i < newPaths.length; i++) {
+         String string = newPaths[i];
+         if (!list.contains(string)) {
+            this.paths = (String[])Config.addObjectToArray(this.paths, string);
          }
       }
    }
@@ -116,8 +116,8 @@ public abstract class ShaderOption {
       return this.enabled;
    }
 
-   public void setEnabled(boolean var1) {
-      this.enabled = var1;
+   public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
    }
 
    public boolean isChanged() {
@@ -128,27 +128,27 @@ public abstract class ShaderOption {
       return this.visible;
    }
 
-   public void setVisible(boolean var1) {
-      this.visible = var1;
+   public void setVisible(boolean visible) {
+      this.visible = visible;
    }
 
-   public boolean Y(String var1) {
-      return getIndex(var1, this.values) >= 0;
+   public boolean Y(String string) {
+      return getIndex(string, this.values) >= 0;
    }
 
    public String getNameText() {
       return Shaders.translate("option." + this.name, this.name);
    }
 
-   public String getValueText(String var1) {
-      return Shaders.translate("value." + this.name + "." + var1, var1);
+   public String getValueText(String val) {
+      return Shaders.translate("value." + this.name + "." + val, val);
    }
 
-   public String getValueColor(String var1) {
+   public String getValueColor(String val) {
       return "";
    }
 
-   public boolean matchesLine(String var1) {
+   public boolean matchesLine(String line) {
       return false;
    }
 
@@ -156,7 +156,7 @@ public abstract class ShaderOption {
       return false;
    }
 
-   public boolean isUsedInLine(String var1) {
+   public boolean isUsedInLine(String line) {
       return false;
    }
 

@@ -15,29 +15,29 @@ public class S3DPacketDisplayScoreboard implements Packet<INetHandlerPlayClient>
    public S3DPacketDisplayScoreboard() {
    }
 
-   public S3DPacketDisplayScoreboard(int var1, ScoreObjective var2) {
-      this.position = var1;
-      if (var2 == null) {
+   public S3DPacketDisplayScoreboard(int positionIn, ScoreObjective scoreIn) {
+      this.position = positionIn;
+      if (scoreIn == null) {
          this.scoreName = "";
       } else {
-         this.scoreName = var2.getName();
+         this.scoreName = scoreIn.getName();
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.position = var1.readByte();
-      this.scoreName = var1.readStringFromBuffer((int)b);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.position = buf.readByte();
+      this.scoreName = buf.readStringFromBuffer((int)b);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.position);
-      var1.writeString(this.scoreName);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.position);
+      buf.writeString(this.scoreName);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleDisplayScoreboard(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleDisplayScoreboard(this);
    }
 
    public int func_149371_c() {

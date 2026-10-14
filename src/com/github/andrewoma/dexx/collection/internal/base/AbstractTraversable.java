@@ -11,55 +11,55 @@ public abstract class AbstractTraversable<E> implements Traversable<E> {
 
    @Override
    public int size() {
-      final int[] var1 = new int[]{0};
+      final int[] result = new int[]{0};
       this.forEach(new Function<E, Object>() {
          @Override
-         public Object invoke(E var1x) {
-            return var1[0]++;
+         public Object invoke(E parameter) {
+            return result[0]++;
          }
       });
-      return var1[0];
+      return result[0];
    }
 
    @Override
-   public String makeString(String var1) {
-      return this.makeString(var1, "", "", -1, "");
+   public String makeString(String separator) {
+      return this.makeString(separator, "", "", -1, "");
    }
 
    @Override
-   public String makeString(final String var1, String var2, String var3, final int var4, String var5) {
-      final StringBuilder var9 = new StringBuilder(var2);
-      final int[] var10 = new int[]{0};
+   public String makeString(final String separator, String prefix, String postfix, final int limit, String truncated) {
+      final StringBuilder stringBuilder = new StringBuilder(prefix);
+      final int[] ints = new int[]{0};
 
       try {
          this.forEach(new Function<E, Object>() {
             private static final long a = 23852266951153L;
 
             @Override
-            public Object invoke(E var1x) {
-               int var6 = var10[0] + 1;
-               var10[0] = var6;
-               if (var6 > 1) {
-                  var9.append(var1);
+            public Object invoke(E element) {
+               int i = ints[0] + 1;
+               ints[0] = i;
+               if (i > 1) {
+                  stringBuilder.append(separator);
                }
 
-               if (var4 >= 0 && var6 > var4) {
+               if (limit >= 0 && i > limit) {
                   throw new RuntimeException();
                }
 
-               var9.append(var1x == null ? "null" : var1x.toString());
+               stringBuilder.append(element == null ? "null" : element.toString());
                return null;
             }
          });
-      } catch (Exception var12) {
+      } catch (Exception exception) {
       }
 
-      if (var4 >= 0 && var10[0] > var4) {
-         var9.append(var5);
+      if (limit >= 0 && ints[0] > limit) {
+         stringBuilder.append(truncated);
       }
 
-      var9.append(var3);
-      return var9.toString();
+      stringBuilder.append(postfix);
+      return stringBuilder.toString();
    }
 
    @Override
@@ -68,8 +68,8 @@ public abstract class AbstractTraversable<E> implements Traversable<E> {
    }
 
    @Override
-   public <R extends Traversable<E>> R to(Builder<E, R> var1) {
-      return var1.addAll(this).build();
+   public <R extends Traversable<E>> R to(Builder<E, R> builder) {
+      return builder.addAll(this).build();
    }
 
    @Override
@@ -77,44 +77,44 @@ public abstract class AbstractTraversable<E> implements Traversable<E> {
       try {
          this.forEach(new Function<E, Object>() {
             @Override
-            public Object invoke(E var1) {
+            public Object invoke(E parameter) {
                throw new RuntimeException();
             }
          });
          return true;
-      } catch (Exception var2) {
+      } catch (Exception eIn) {
          return false;
       }
    }
 
    @Override
    public Object[] toArray() {
-      final Object[] var1 = new Object[this.size()];
-      final int[] var2 = new int[]{0};
+      final Object[] result = new Object[this.size()];
+      final int[] count = new int[]{0};
       this.forEach(new Function<E, Object>() {
          @Override
-         public Object invoke(E var1x) {
-            var1[var2[0]] = var1x;
-            var2[0]++;
+         public Object invoke(E parameter) {
+            result[count[0]] = parameter;
+            count[0]++;
             return null;
          }
       });
-      return var1;
+      return result;
    }
 
    @Override
-   public E[] toArray(E[] var1) {
-      int var5 = this.size();
-      final Object[] var6 = var1.length >= var5 ? var1 : (Object[])Array.newInstance(var1.getClass().getComponentType(), var5);
-      final int[] var7 = new int[]{0};
+   public E[] toArray(E[] array) {
+      int i = this.size();
+      final Object[] objects = array.length >= i ? array : (Object[])Array.newInstance(array.getClass().getComponentType(), i);
+      final int[] ints = new int[]{0};
       this.forEach(new Function<E, Object>() {
          @Override
-         public Object invoke(E var1) {
-            var6[var7[0]] = var1;
-            var7[0]++;
+         public Object invoke(E parameter) {
+            objects[ints[0]] = parameter;
+            ints[0]++;
             return null;
          }
       });
-      return (E[])var6;
+      return (E[])objects;
    }
 }

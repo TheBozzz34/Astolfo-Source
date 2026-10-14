@@ -4,14 +4,14 @@ public class RangeListInt {
    private RangeInt[] ranges = new RangeInt[0];
    private static final long a = 114269750763004L;
 
-   public void addRange(RangeInt var1) {
-      this.ranges = (RangeInt[])Config.addObjectToArray(this.ranges, var1);
+   public void addRange(RangeInt ri) {
+      this.ranges = (RangeInt[])Config.addObjectToArray(this.ranges, ri);
    }
 
-   public boolean isInRange(int var1) {
-      for (int var5 = 0; var5 < this.ranges.length; var5++) {
-         RangeInt var6 = this.ranges[var5];
-         if (var6.isInRange(var1)) {
+   public boolean isInRange(int val) {
+      for (int i = 0; i < this.ranges.length; i++) {
+         RangeInt rangeInt = this.ranges[i];
+         if (rangeInt.isInRange(val)) {
             return true;
          }
       }
@@ -23,25 +23,25 @@ public class RangeListInt {
       return this.ranges.length;
    }
 
-   public RangeInt getRange(int var1) {
-      return this.ranges[var1];
+   public RangeInt getRange(int i) {
+      return this.ranges[i];
    }
 
    @Override
    public String toString() {
-      StringBuffer var4 = new StringBuffer();
-      var4.append("[");
+      StringBuffer stringBuffer = new StringBuffer();
+      stringBuffer.append("[");
 
-      for (int var5 = 0; var5 < this.ranges.length; var5++) {
-         RangeInt var6 = this.ranges[var5];
-         if (var5 > 0) {
-            var4.append(", ");
+      for (int i = 0; i < this.ranges.length; i++) {
+         RangeInt rangeInt = this.ranges[i];
+         if (i > 0) {
+            stringBuffer.append(", ");
          }
 
-         var4.append(var6.toString());
+         stringBuffer.append(rangeInt.toString());
       }
 
-      var4.append("]");
-      return var4.toString();
+      stringBuffer.append("]");
+      return stringBuffer.toString();
    }
 }

@@ -23,35 +23,35 @@ public class CommandPardonPlayer extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.unban.usage";
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(ICommandSender var1) {
-      return MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().isLanServer() && super.canCommandSenderUseCommand(var1);
+   public boolean canCommandSenderUseCommand(ICommandSender sender) {
+      return MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().isLanServer() && super.canCommandSenderUseCommand(sender);
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length == 1 && var2[0].length() > 0) {
-         MinecraftServer var6 = MinecraftServer.getServer();
-         GameProfile var7 = var6.getConfigurationManager().getBannedPlayers().isUsernameBanned(var2[0]);
-         if (var7 == null) {
-            throw new CommandException("commands.unban.failed", var2[0]);
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length == 1 && args[0].length() > 0) {
+         MinecraftServer minecraftServer = MinecraftServer.getServer();
+         GameProfile gameProfile = minecraftServer.getConfigurationManager().getBannedPlayers().isUsernameBanned(args[0]);
+         if (gameProfile == null) {
+            throw new CommandException("commands.unban.failed", args[0]);
          }
 
-         var6.getConfigurationManager().getBannedPlayers().removeEntry(var7);
-         notifyOperators(var1, this, "commands.unban.success", var2[0]);
+         minecraftServer.getConfigurationManager().getBannedPlayers().removeEntry(gameProfile);
+         notifyOperators(sender, this, "commands.unban.success", args[0]);
       } else {
          throw new WrongUsageException("commands.unban.usage");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys())
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys())
          : null;
    }
 }

@@ -27,21 +27,21 @@ public class ItemCarrotOnAStick extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (var3.E() && var3.ridingEntity instanceof EntityPig) {
-         EntityPig var7 = (EntityPig)var3.ridingEntity;
-         if (var7.getAIControlledByPlayer().isControlledByPlayer() && var1.getMaxDamage() - var1.getMetadata() >= 7) {
-            var7.getAIControlledByPlayer().boostSpeed();
-            var1.damageItem(7, var3);
-            if (var1.stackSize == 0) {
-               ItemStack var8 = new ItemStack(Items.fishing_rod);
-               var8.setTagCompound(var1.getTagCompound());
-               return var8;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (playerIn.E() && playerIn.ridingEntity instanceof EntityPig) {
+         EntityPig entityPig = (EntityPig)playerIn.ridingEntity;
+         if (entityPig.getAIControlledByPlayer().isControlledByPlayer() && itemStackIn.getMaxDamage() - itemStackIn.getMetadata() >= 7) {
+            entityPig.getAIControlledByPlayer().boostSpeed();
+            itemStackIn.damageItem(7, playerIn);
+            if (itemStackIn.stackSize == 0) {
+               ItemStack itemStack = new ItemStack(Items.fishing_rod);
+               itemStack.setTagCompound(itemStackIn.getTagCompound());
+               return itemStack;
             }
          }
       }
 
-      var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-      return var1;
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      return itemStackIn;
    }
 }

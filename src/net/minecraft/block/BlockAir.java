@@ -17,7 +17,7 @@ public class BlockAir extends Block {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
@@ -27,16 +27,16 @@ public class BlockAir extends Block {
    }
 
    @Override
-   public boolean canCollideCheck(IBlockState var1, boolean var2) {
+   public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
       return false;
    }
 
    @Override
-   public void dropBlockAsItemWithChance(World var1, BlockPos var2, IBlockState var3, float var4, int var5) {
+   public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
    }
 
    @Override
-   public boolean isReplaceable(World var1, BlockPos var2) {
+   public boolean isReplaceable(World worldIn, BlockPos pos) {
       return true;
    }
 }

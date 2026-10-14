@@ -27,27 +27,27 @@ public class ItemFishingRod extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (var3.fishEntity != null) {
-         int var7 = var3.fishEntity.handleHookRetraction();
-         var1.damageItem(var7, var3);
-         var3.swingItem();
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (playerIn.fishEntity != null) {
+         int i = playerIn.fishEntity.handleHookRetraction();
+         itemStackIn.damageItem(i, playerIn);
+         playerIn.swingItem();
       } else {
-         var2.playSoundAtEntity(var3, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-         if (!var2.isRemote) {
-            var2.spawnEntityInWorld(new EntityFishHook(var2, var3));
+         worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+         if (!worldIn.isRemote) {
+            worldIn.spawnEntityInWorld(new EntityFishHook(worldIn, playerIn));
          }
 
-         var3.swingItem();
-         var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+         playerIn.swingItem();
+         playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
       }
 
-      return var1;
+      return itemStackIn;
    }
 
    @Override
-   public boolean isItemTool(ItemStack var1) {
-      return super.isItemTool(var1);
+   public boolean isItemTool(ItemStack stack) {
+      return super.isItemTool(stack);
    }
 
    @Override

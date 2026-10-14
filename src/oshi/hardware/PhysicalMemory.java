@@ -12,12 +12,12 @@ public class PhysicalMemory {
    private final String memoryType;
    private static final long a = 59422294488775L;
 
-   public PhysicalMemory(String var1, long var2, long var4, String var6, String var7) {
-      this.bankLabel = var1;
-      this.capacity = var2;
-      this.clockSpeed = var4;
-      this.manufacturer = var6;
-      this.memoryType = var7;
+   public PhysicalMemory(String bankLabel, long capacity, long clockSpeed, String manufacturer, String memoryType) {
+      this.bankLabel = bankLabel;
+      this.capacity = capacity;
+      this.clockSpeed = clockSpeed;
+      this.manufacturer = manufacturer;
+      this.memoryType = memoryType;
    }
 
    public String getBankLabel() {
@@ -42,12 +42,12 @@ public class PhysicalMemory {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("Bank label: " + this.getBankLabel());
-      var3.append(", Capacity: " + FormatUtil.formatBytes(this.getCapacity()));
-      var3.append(", Clock speed: " + FormatUtil.formatHertz(this.getClockSpeed()));
-      var3.append(", Manufacturer: " + this.getManufacturer());
-      var3.append(", Memory type: " + this.getMemoryType());
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("Bank label: " + this.getBankLabel());
+      stringBuilder.append(", Capacity: " + FormatUtil.formatBytes(this.getCapacity()));
+      stringBuilder.append(", Clock speed: " + FormatUtil.formatHertz(this.getClockSpeed()));
+      stringBuilder.append(", Manufacturer: " + this.getManufacturer());
+      stringBuilder.append(", Memory type: " + this.getMemoryType());
+      return stringBuilder.toString();
    }
 }

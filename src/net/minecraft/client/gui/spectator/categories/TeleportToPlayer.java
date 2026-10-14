@@ -20,8 +20,8 @@ import net.minecraft.world.WorldSettings;
 
 public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObject {
    private static final Ordering<NetworkPlayerInfo> field_178674_a = Ordering.from(new Comparator<NetworkPlayerInfo>() {
-      public int compare(NetworkPlayerInfo var1, NetworkPlayerInfo var2) {
-         return ComparisonChain.start().compare(var1.getGameProfile().getId(), var2.getGameProfile().getId()).result();
+      public int compare(NetworkPlayerInfo networkPlayerInfo, NetworkPlayerInfo networkPlayerInfo2) {
+         return ComparisonChain.start().compare(networkPlayerInfo.getGameProfile().getId(), networkPlayerInfo2.getGameProfile().getId()).result();
       }
    });
    private final List<ISpectatorMenuObject> field_178673_b = Lists.newArrayList();
@@ -31,10 +31,10 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
       this(field_178674_a.sortedCopy(Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()));
    }
 
-   public TeleportToPlayer(Collection<NetworkPlayerInfo> var1) {
-      for (NetworkPlayerInfo var6 : field_178674_a.sortedCopy(var1)) {
-         if (var6.getGameType() != WorldSettings.GameType.SPECTATOR) {
-            this.field_178673_b.add(new PlayerMenuObject(var6.getGameProfile()));
+   public TeleportToPlayer(Collection<NetworkPlayerInfo> collection) {
+      for (NetworkPlayerInfo networkPlayerInfo : field_178674_a.sortedCopy(collection)) {
+         if (networkPlayerInfo.getGameType() != WorldSettings.GameType.SPECTATOR) {
+            this.field_178673_b.add(new PlayerMenuObject(networkPlayerInfo.getGameProfile()));
          }
       }
    }
@@ -50,8 +50,8 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
    }
 
    @Override
-   public void func_178661_a(SpectatorMenu var1) {
-      var1.func_178647_a(this);
+   public void func_178661_a(SpectatorMenu menu) {
+      menu.func_178647_a(this);
    }
 
    @Override
@@ -60,7 +60,7 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
    }
 
    @Override
-   public void func_178663_a(float var1, int var2) {
+   public void func_178663_a(float f, int alpha) {
       Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
       Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0F, 0.0F, 16, 16, 256.0F, 256.0F);
    }

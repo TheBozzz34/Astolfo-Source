@@ -19,33 +19,33 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
       }
 
       this.prevLidAngle = this.lidAngle;
-      int var4 = this.pos.getX();
-      int var5 = this.pos.getY();
-      int var6 = this.pos.getZ();
-      float var7 = 0.1F;
+      int i = this.pos.getX();
+      int j = this.pos.getY();
+      int k = this.pos.getZ();
+      float f = 0.1F;
       if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-         double var8 = var4 + 0.5;
-         double var10 = var6 + 0.5;
-         this.worldObj.playSoundEffect(var8, var5 + 0.5, var10, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+         double d = i + 0.5;
+         double e = k + 0.5;
+         this.worldObj.playSoundEffect(d, j + 0.5, e, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
       }
 
       if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-         float var14 = this.lidAngle;
+         float h = this.lidAngle;
          if (this.numPlayersUsing > 0) {
-            this.lidAngle += var7;
+            this.lidAngle += f;
          } else {
-            this.lidAngle -= var7;
+            this.lidAngle -= f;
          }
 
          if (this.lidAngle > 1.0F) {
             this.lidAngle = 1.0F;
          }
 
-         float var9 = 0.5F;
-         if (this.lidAngle < var9 && var14 >= var9) {
-            double var15 = var4 + 0.5;
-            double var12 = var6 + 0.5;
-            this.worldObj.playSoundEffect(var15, var5 + 0.5, var12, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+         float f2 = 0.5F;
+         if (this.lidAngle < f2 && h >= f2) {
+            double d2 = i + 0.5;
+            double d3 = k + 0.5;
+            this.worldObj.playSoundEffect(d2, j + 0.5, d3, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
          }
 
          if (this.lidAngle < 0.0F) {
@@ -55,12 +55,12 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
    }
 
    @Override
-   public boolean receiveClientEvent(int var1, int var2) {
-      if (var1 == 1) {
-         this.numPlayersUsing = var2;
+   public boolean receiveClientEvent(int id, int typeIn) {
+      if (id == 1) {
+         this.numPlayersUsing = typeIn;
          return true;
       } else {
-         return super.receiveClientEvent(var1, var2);
+         return super.receiveClientEvent(id, typeIn);
       }
    }
 
@@ -80,9 +80,9 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
       this.worldObj.addBlockEvent(this.pos, Blocks.ender_chest, 1, this.numPlayersUsing);
    }
 
-   public boolean canBeUsed(EntityPlayer var1) {
+   public boolean canBeUsed(EntityPlayer entityPlayer) {
       return this.worldObj.getTileEntity(this.pos) != this
          ? false
-         : var1.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
+         : entityPlayer.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
    }
 }

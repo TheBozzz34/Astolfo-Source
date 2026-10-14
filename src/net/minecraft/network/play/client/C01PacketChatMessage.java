@@ -12,33 +12,33 @@ public class C01PacketChatMessage implements Packet<INetHandlerPlayServer> {
    public C01PacketChatMessage() {
    }
 
-   public C01PacketChatMessage(String var1) {
-      if (var1.length() > 100) {
-         var1 = var1.substring(0, 100);
+   public C01PacketChatMessage(String messageIn) {
+      if (messageIn.length() > 100) {
+         messageIn = messageIn.substring(0, 100);
       }
 
-      this.message = var1;
+      this.message = messageIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.message = var1.readStringFromBuffer(100);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.message = buf.readStringFromBuffer(100);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.message);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.message);
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processChatMessage(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processChatMessage(this);
    }
 
    public String getMessage() {
       return this.message;
    }
 
-   public void b(String var1) {
-      this.message = var1;
+   public void b(String string) {
+      this.message = string;
    }
 }

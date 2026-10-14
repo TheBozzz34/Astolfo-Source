@@ -9,8 +9,8 @@ import bypass.module.Module;
 
 public final class PacketDebug extends Module {
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.OUTGOING) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
       }
    };
    private static final long c = 7624118149723L;

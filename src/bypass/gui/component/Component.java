@@ -15,76 +15,76 @@ public abstract class Component extends Element {
    private static final long cb = 100330973966023L;
    private static final long db = -2954289139974930332L;
 
-   public Component(String var1, float var2, float var3, int var4, int var5) {
-      super(var1, var2, var3);
+   public Component(String string, float f, float g, int i, int j) {
+      super(string, f, g);
       this.F = new TimedAnimation().setDuration((int)db).setEasing(Easing.INERTIA);
-      this.z = var4;
-      this.v = var5;
+      this.z = i;
+      this.v = j;
    }
 
-   public void T(int var1, int var2) {
-      this.r(var1 - this.m, var2 - this.k);
+   public void T(int i, int j) {
+      this.r(i - this.m, j - this.k);
    }
 
-   public void U(int var1, int var2, int var3) {
-      this.l(var1);
+   public void U(int i, int j, int k) {
+      this.l(i);
    }
 
-   public abstract void l(int var1);
+   public abstract void l(int i);
 
-   public void P(char var1, int var2) {
+   public void P(char c, int i) {
    }
 
-   public void W(int var1, int var2, int var3) {
+   public void W(int i, int j, int k) {
    }
 
-   public boolean G(int var1, int var2) {
-      return var1 >= this.M() && var1 <= this.M() + this.x() && var2 >= this.E_float() && var2 <= this.E_float() + this.Y();
+   public boolean G(int i, int j) {
+      return i >= this.M() && i <= this.M() + this.x() && j >= this.E_float() && j <= this.E_float() + this.Y();
    }
 
-   public boolean u(int var1, int var2, int var3, int var4, int var5, int var6) {
-      return var5 >= var1 && var5 <= var1 + var3 && var6 >= var2 && var6 <= var2 + var4;
+   public boolean u(int i, int j, int k, int l, int m, int n) {
+      return m >= i && m <= i + k && n >= j && n <= j + l;
    }
 
-   public void f(int var1, int var2) {
-      this.o(var1);
-      this.q(var2);
+   public void f(int i, int j) {
+      this.o(i);
+      this.q(j);
    }
 
-   public void r(float var1, float var2) {
-      this.o(var1);
-      this.q(var2);
+   public void r(float f, float g) {
+      this.o(f);
+      this.q(g);
    }
 
    public int x() {
       return this.z;
    }
 
-   public void t(int var1) {
-      this.z = var1;
+   public void t(int i) {
+      this.z = i;
    }
 
    public int Y() {
       return this.v;
    }
 
-   public void B(int var1) {
-      this.v = var1;
+   public void B(int i) {
+      this.v = i;
    }
 
-   public void F(boolean var1, int var2, int var3) {
-      if (var1) {
-         this.m = var2 - this.M();
-         this.k = var3 - this.E_float();
+   public void F(boolean bl, int i, int j) {
+      if (bl) {
+         this.m = i - this.M();
+         this.k = j - this.E_float();
       }
 
-      this.b = var1;
+      this.b = bl;
    }
 
-   public void x(boolean var1) {
+   public void x(boolean bl) {
       this.m = 0.0F;
       this.k = 0.0F;
-      this.b = var1;
+      this.b = bl;
    }
 
    public boolean u_boolean() {
@@ -95,7 +95,7 @@ public abstract class Component extends Element {
       return this.y;
    }
 
-   public void F(boolean var1) {
-      this.y = var1;
+   public void F(boolean bl) {
+      this.y = bl;
    }
 }

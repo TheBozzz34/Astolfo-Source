@@ -24,12 +24,12 @@ public class BlockFence extends Block {
    public static final PropertyBool WEST = PropertyBool.create("west");
    private static final long e = 108758468717065L;
 
-   public BlockFence(Material var1) {
-      this(var1, var1.getMaterialMapColor());
+   public BlockFence(Material materialIn) {
+      this(materialIn, materialIn.getMaterialMapColor());
    }
 
-   public BlockFence(Material var1, MapColor var2) {
-      super(var1, var2);
+   public BlockFence(Material material, MapColor mapColor) {
+      super(material, mapColor);
       this.setDefaultState(
          this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false)
       );
@@ -37,81 +37,81 @@ public class BlockFence extends Block {
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
-      boolean var10 = this.canConnectTo(var1, var2.north());
-      boolean var11 = this.canConnectTo(var1, var2.south());
-      boolean var12 = this.canConnectTo(var1, var2.west());
-      boolean var13 = this.canConnectTo(var1, var2.east());
-      float var14 = 0.375F;
-      float var15 = 0.625F;
-      float var16 = 0.375F;
-      float var17 = 0.625F;
-      if (var10) {
-         var16 = 0.0F;
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+      boolean bl = this.canConnectTo(worldIn, pos.north());
+      boolean bl2 = this.canConnectTo(worldIn, pos.south());
+      boolean bl3 = this.canConnectTo(worldIn, pos.west());
+      boolean bl4 = this.canConnectTo(worldIn, pos.east());
+      float f = 0.375F;
+      float g = 0.625F;
+      float h = 0.375F;
+      float f2 = 0.625F;
+      if (bl) {
+         h = 0.0F;
       }
 
-      if (var11) {
-         var17 = 1.0F;
+      if (bl2) {
+         f2 = 1.0F;
       }
 
-      if (var10 || var11) {
-         this.setBlockBounds(var14, 0.0F, var16, var15, 1.5F, var17);
-         super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+      if (bl || bl2) {
+         this.setBlockBounds(f, 0.0F, h, g, 1.5F, f2);
+         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       }
 
-      var16 = 0.375F;
-      var17 = 0.625F;
-      if (var12) {
-         var14 = 0.0F;
+      h = 0.375F;
+      f2 = 0.625F;
+      if (bl3) {
+         f = 0.0F;
       }
 
-      if (var13) {
-         var15 = 1.0F;
+      if (bl4) {
+         g = 1.0F;
       }
 
-      if (var12 || var13 || !var10 && !var11) {
-         this.setBlockBounds(var14, 0.0F, var16, var15, 1.5F, var17);
-         super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+      if (bl3 || bl4 || !bl && !bl2) {
+         this.setBlockBounds(f, 0.0F, h, g, 1.5F, f2);
+         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       }
 
-      if (var10) {
-         var16 = 0.0F;
+      if (bl) {
+         h = 0.0F;
       }
 
-      if (var11) {
-         var17 = 1.0F;
+      if (bl2) {
+         f2 = 1.0F;
       }
 
-      this.setBlockBounds(var14, 0.0F, var16, var15, 1.0F, var17);
+      this.setBlockBounds(f, 0.0F, h, g, 1.0F, f2);
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      boolean var6 = this.canConnectTo(var1, var2.north());
-      boolean var7 = this.canConnectTo(var1, var2.south());
-      boolean var8 = this.canConnectTo(var1, var2.west());
-      boolean var9 = this.canConnectTo(var1, var2.east());
-      float var10 = 0.375F;
-      float var11 = 0.625F;
-      float var12 = 0.375F;
-      float var13 = 0.625F;
-      if (var6) {
-         var12 = 0.0F;
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      boolean bl = this.canConnectTo(worldIn, pos.north());
+      boolean bl2 = this.canConnectTo(worldIn, pos.south());
+      boolean bl3 = this.canConnectTo(worldIn, pos.west());
+      boolean bl4 = this.canConnectTo(worldIn, pos.east());
+      float f = 0.375F;
+      float g = 0.625F;
+      float h = 0.375F;
+      float f2 = 0.625F;
+      if (bl) {
+         h = 0.0F;
       }
 
-      if (var7) {
-         var13 = 1.0F;
+      if (bl2) {
+         f2 = 1.0F;
       }
 
-      if (var8) {
-         var10 = 0.0F;
+      if (bl3) {
+         f = 0.0F;
       }
 
-      if (var9) {
-         var11 = 1.0F;
+      if (bl4) {
+         g = 1.0F;
       }
 
-      this.setBlockBounds(var10, 0.0F, var12, var11, 1.0F, var13);
+      this.setBlockBounds(f, 0.0F, h, g, 1.0F, f2);
    }
 
    @Override
@@ -125,42 +125,42 @@ public class BlockFence extends Block {
    }
 
    @Override
-   public boolean isPassable(IBlockAccess var1, BlockPos var2) {
+   public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
       return false;
    }
 
-   public boolean canConnectTo(IBlockAccess var1, BlockPos var2) {
-      Block var6 = var1.getBlockState(var2).getBlock();
-      return var6 == Blocks.barrier
+   public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos).getBlock();
+      return block == Blocks.barrier
          ? false
          : (
-            (!(var6 instanceof BlockFence) || var6.blockMaterial != this.blockMaterial) && !(var6 instanceof BlockFenceGate)
-               ? (var6.blockMaterial.isOpaque() && var6.isFullCube() ? var6.blockMaterial != Material.gourd : false)
+            (!(block instanceof BlockFence) || block.blockMaterial != this.blockMaterial) && !(block instanceof BlockFenceGate)
+               ? (block.blockMaterial.isOpaque() && block.isFullCube() ? block.blockMaterial != Material.gourd : false)
                : true
          );
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
       return true;
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      return var1.isRemote ? true : ItemLead.attachToFence(var4, var1, var2);
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      return worldIn.isRemote ? true : ItemLead.attachToFence(playerIn, worldIn, pos);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
+   public int getMetaFromState(IBlockState state) {
       return 0;
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      return var1.withProperty(NORTH, this.canConnectTo(var2, var3.north()))
-         .withProperty(EAST, this.canConnectTo(var2, var3.east()))
-         .withProperty(SOUTH, this.canConnectTo(var2, var3.south()))
-         .withProperty(WEST, this.canConnectTo(var2, var3.west()));
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      return state.withProperty(NORTH, this.canConnectTo(worldIn, pos.north()))
+         .withProperty(EAST, this.canConnectTo(worldIn, pos.east()))
+         .withProperty(SOUTH, this.canConnectTo(worldIn, pos.south()))
+         .withProperty(WEST, this.canConnectTo(worldIn, pos.west()));
    }
 
    @Override

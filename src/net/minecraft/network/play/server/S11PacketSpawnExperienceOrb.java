@@ -17,34 +17,34 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
    public S11PacketSpawnExperienceOrb() {
    }
 
-   public S11PacketSpawnExperienceOrb(EntityXPOrb var1) {
-      this.entityID = var1.getEntityId();
-      this.posX = MathHelper.floor_double(var1.posX * 32.0);
-      this.posY = MathHelper.floor_double(var1.posY * 32.0);
-      this.posZ = MathHelper.floor_double(var1.posZ * 32.0);
-      this.xpValue = var1.getXpValue();
+   public S11PacketSpawnExperienceOrb(EntityXPOrb xpOrb) {
+      this.entityID = xpOrb.getEntityId();
+      this.posX = MathHelper.floor_double(xpOrb.posX * 32.0);
+      this.posY = MathHelper.floor_double(xpOrb.posY * 32.0);
+      this.posZ = MathHelper.floor_double(xpOrb.posZ * 32.0);
+      this.xpValue = xpOrb.getXpValue();
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityID = var1.readVarIntFromBuffer();
-      this.posX = var1.readInt();
-      this.posY = var1.readInt();
-      this.posZ = var1.readInt();
-      this.xpValue = var1.readShort();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityID = buf.readVarIntFromBuffer();
+      this.posX = buf.readInt();
+      this.posY = buf.readInt();
+      this.posZ = buf.readInt();
+      this.xpValue = buf.readShort();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityID);
-      var1.writeInt(this.posX);
-      var1.writeInt(this.posY);
-      var1.writeInt(this.posZ);
-      var1.writeShort(this.xpValue);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityID);
+      buf.writeInt(this.posX);
+      buf.writeInt(this.posY);
+      buf.writeInt(this.posZ);
+      buf.writeShort(this.xpValue);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSpawnExperienceOrb(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSpawnExperienceOrb(this);
    }
 
    public int getEntityID() {

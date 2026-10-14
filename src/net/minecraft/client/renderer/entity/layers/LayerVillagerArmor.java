@@ -4,8 +4,8 @@ import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 
 public class LayerVillagerArmor extends LayerBipedArmor {
-   public LayerVillagerArmor(RendererLivingEntity<?> var1) {
-      super(var1);
+   public LayerVillagerArmor(RendererLivingEntity<?> rendererIn) {
+      super(rendererIn);
    }
 
    @Override

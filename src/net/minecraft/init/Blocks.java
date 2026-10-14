@@ -234,8 +234,8 @@ public class Blocks {
    public static final BlockSlab double_stone_slab2;
    public static final BlockSlab stone_slab2;
 
-   private static Block getRegisteredBlock(String var0) {
-      return Block.blockRegistry.getObject(new ResourceLocation(var0));
+   private static Block getRegisteredBlock(String blockName) {
+      return Block.blockRegistry.getObject(new ResourceLocation(blockName));
    }
 
    static {

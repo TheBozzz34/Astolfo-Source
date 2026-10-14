@@ -22,8 +22,8 @@ public class EntityEndermite extends EntityMob {
    private boolean playerSpawned = false;
    private static final long ab = 72954554601060L;
 
-   public EntityEndermite(World var1) {
-      super(var1);
+   public EntityEndermite(World worldIn) {
+      super(worldIn);
       this.experienceValue = 3;
       this.setSize(0.4F, 0.3F);
       this.tasks.addTask(1, new EntityAISwimming(this));
@@ -69,7 +69,7 @@ public class EntityEndermite extends EntityMob {
    }
 
    @Override
-   public void playStepSound(BlockPos var1, Block var2) {
+   public void playStepSound(BlockPos pos, Block blockIn) {
       this.playSound("mob.silverfish.step", 0.15F, 1.0F);
    }
 
@@ -79,17 +79,17 @@ public class EntityEndermite extends EntityMob {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.lifetime = var1.getInteger("Lifetime");
-      this.playerSpawned = var1.getBoolean("PlayerSpawned");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.lifetime = tagCompund.getInteger("Lifetime");
+      this.playerSpawned = tagCompund.getBoolean("PlayerSpawned");
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setInteger("Lifetime", this.lifetime);
-      var1.setBoolean("PlayerSpawned", this.playerSpawned);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setInteger("Lifetime", this.lifetime);
+      tagCompound.setBoolean("PlayerSpawned", this.playerSpawned);
    }
 
    @Override
@@ -102,15 +102,15 @@ public class EntityEndermite extends EntityMob {
       return this.playerSpawned;
    }
 
-   public void setSpawnedByPlayer(boolean var1) {
-      this.playerSpawned = var1;
+   public void setSpawnedByPlayer(boolean spawnedByPlayer) {
+      this.playerSpawned = spawnedByPlayer;
    }
 
    @Override
    public void onLivingUpdate() {
       super.onLivingUpdate();
       if (this.worldObj.isRemote) {
-         for (int var4 = 0; var4 < 2; var4++) {
+         for (int i = 0; i < 2; i++) {
             this.worldObj
                .spawnParticle(
                   EnumParticleTypes.PORTAL,
@@ -141,8 +141,8 @@ public class EntityEndermite extends EntityMob {
    @Override
    public boolean getCanSpawnHere() {
       if (super.getCanSpawnHere()) {
-         EntityPlayer var4 = this.worldObj.getClosestPlayerToEntity(this, 5.0);
-         return var4 == null;
+         EntityPlayer entityPlayer = this.worldObj.getClosestPlayerToEntity(this, 5.0);
+         return entityPlayer == null;
       } else {
          return false;
       }

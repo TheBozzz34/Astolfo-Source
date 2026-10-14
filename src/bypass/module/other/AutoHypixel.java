@@ -112,7 +112,7 @@ public final class AutoHypixel extends Module {
    private boolean apiKeyRequested;
    private boolean apiKeyReceived;
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> {
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       bountiedPlayers.clear();
       this.actionTimer.reset();
       pitSpawnY = 0.0;
@@ -121,20 +121,20 @@ public final class AutoHypixel extends Module {
    };
    private String apiKeyPlayer = "";
    @EventHandler(DeathEvent.class)
-   private Listener<DeathEvent> onDeath = var0 -> {};
+   private Listener<DeathEvent> onDeath = deathEvent -> {};
    public static double pitSpawnY;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
-      long var2 = f ^ 46024758410688L;
-      long var10001 = var2 ^ 7074644046134L;
-      int var4 = (int)((var2 ^ 7074644046134L) >>> 56);
-      int var5 = (int)((var2 ^ 7074644046134L) << 8 >>> 32);
-      int var6 = (int)(var10001 << 40 >>> 40);
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
+      long l = f ^ 46024758410688L;
+      long m = l ^ 7074644046134L;
+      int i = (int)((l ^ 7074644046134L) >>> 56);
+      int j = (int)((l ^ 7074644046134L) << 8 >>> 32);
+      int k = (int)(m << 40 >>> 40);
       if (!GameUtil.isOnHypixel()) {
          toasts.B("AutoHypixel disable", "Disabling AutoHypixel due to being in other server");
          this.setEnabled(false);
       } else {
-         if (var1x.getState() == EventState.PRE && cooldownTicks > 0) {
+         if (updateEvent.getState() == EventState.PRE && cooldownTicks > 0) {
             cooldownTicks--;
          }
 
@@ -154,37 +154,37 @@ public final class AutoHypixel extends Module {
 
          if (GameUtil.scoreboardTitleContains("PIT") && this.bountyScanTimer.hasElapsed(1500.0F)) {
             if (pitSpawnY == 0.0) {
-               for (Entity var16 : mc.theWorld.loadedEntityList) {
-                  if (var16 instanceof EntityArmorStand && var16.getDisplayName().getUnformattedText().contains("PRESTIGE")) {
-                     pitSpawnY = var16.posY - 5.0;
+               for (Entity entity : mc.theWorld.loadedEntityList) {
+                  if (entity instanceof EntityArmorStand && entity.getDisplayName().getUnformattedText().contains("PRESTIGE")) {
+                     pitSpawnY = entity.posY - 5.0;
                   }
                }
 
                return;
             }
 
-            bountiedPlayers.removeIf(var0 -> var0.posY > pitSpawnY || var0.getDisplayName().getUnformattedText().split(" ").length <= 2);
+            bountiedPlayers.removeIf(entityPlayer -> entityPlayer.posY > pitSpawnY || entityPlayer.getDisplayName().getUnformattedText().split(" ").length <= 2);
 
-            for (EntityPlayer var9 : mc.theWorld.playerEntities) {
-               String var10 = StringUtils.stripControlCodes(var9.getDisplayName().getUnformattedText()).replaceAll("[ ](?=[ ])|[^-_,A-Za-z0-9 ]+", "");
-               String var11 = var10.substring(var10.lastIndexOf(" ") + 1);
-               if (var11.endsWith("g")
-                  && !var11.equals(var9.getName())
-                  && var9.posY < pitSpawnY
-                  && !bountiedPlayers.contains(var9)
-                  && !client.getRelationManager().z(var9)
-                  && var9 != mc.thePlayer) {
-                  String var12 = StringUtils.stripControlCodes(var11.replace("g", ""));
+            for (EntityPlayer entityPlayer2 : mc.theWorld.playerEntities) {
+               String string = StringUtils.stripControlCodes(entityPlayer2.getDisplayName().getUnformattedText()).replaceAll("[ ](?=[ ])|[^-_,A-Za-z0-9 ]+", "");
+               String string2 = string.substring(string.lastIndexOf(" ") + 1);
+               if (string2.endsWith("g")
+                  && !string2.equals(entityPlayer2.getName())
+                  && entityPlayer2.posY < pitSpawnY
+                  && !bountiedPlayers.contains(entityPlayer2)
+                  && !client.getRelationManager().z(entityPlayer2)
+                  && entityPlayer2 != mc.thePlayer) {
+                  String string3 = StringUtils.stripControlCodes(string2.replace("g", ""));
 
                   try {
-                     int var13 = Integer.parseInt(var12);
-                     if (var13 >= autoPit.getSetting("Bounty").asInt()) {
-                        bountiedPlayers.add(var9);
+                     int n = Integer.parseInt(string3);
+                     if (n >= autoPit.getSetting("Bounty").asInt()) {
+                        bountiedPlayers.add(entityPlayer2);
                         if (autoPit.getSetting("Bounty-Notifier").asBoolean()) {
-                           toasts.B("Found bountied player", String.format("%s has %s bounty", var9.getName(), var11));
+                           toasts.B("Found bountied player", String.format("%s has %s bounty", entityPlayer2.getName(), string2));
                         }
                      }
-                  } catch (NumberFormatException var14) {
+                  } catch (NumberFormatException numberFormatException) {
                   }
                }
             }
@@ -202,44 +202,44 @@ public final class AutoHypixel extends Module {
    private final Stopwatch unusedTimer = new Stopwatch();
    private final Stopwatch unusedTimer2 = new Stopwatch();
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() != PacketDirection.RECEIVED) {
-         if (var1x.getPacket() instanceof C01PacketChatMessage && !((C01PacketChatMessage)var1x.getPacket()).getMessage().startsWith("/")) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() != PacketDirection.RECEIVED) {
+         if (packetEvent.getPacket() instanceof C01PacketChatMessage && !((C01PacketChatMessage)packetEvent.getPacket()).getMessage().startsWith("/")) {
             this.actionTimer.reset();
          }
       } else {
-         if (var1x.getPacket() instanceof S02PacketChat) {
-            S02PacketChat var5 = (S02PacketChat)var1x.getPacket();
-            String var6 = EnumChatFormatting.getTextWithoutFormattingCodes(var5.getChatComponent().getUnformattedText());
-            if (var6 == null) {
+         if (packetEvent.getPacket() instanceof S02PacketChat) {
+            S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+            String string = EnumChatFormatting.getTextWithoutFormattingCodes(s02PacketChat.getChatComponent().getUnformattedText());
+            if (string == null) {
                return;
             }
 
             if (this.autoGG.getSetting("Enabled").asBoolean()
                && this.actionTimer.hasElapsed(this.delay.getValue().intValue())
-               && this.winMessages.stream().anyMatch(var6::contains)
-               && var6.startsWith(" ")) {
+               && this.winMessages.stream().anyMatch(string::contains)
+               && string.startsWith(" ")) {
                mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(this.autoGG.getSetting("Text").asString()));
             }
 
-            if (autoChecker.getSetting("Auto-API-Key").asBoolean() && var5.getChatComponent().getUnformattedText().contains("Your new API key is ")) {
-               String[] var7 = var5.getChatComponent().getUnformattedText().split("Your new API key is ");
-               ((StringSetting)autoChecker.getSetting("API-Key")).setValue(var7[1]);
+            if (autoChecker.getSetting("Auto-API-Key").asBoolean() && s02PacketChat.getChatComponent().getUnformattedText().contains("Your new API key is ")) {
+               String[] strings = s02PacketChat.getChatComponent().getUnformattedText().split("Your new API key is ");
+               ((StringSetting)autoChecker.getSetting("API-Key")).setValue(strings[1]);
                toasts.g("Auto-Stats", "Gathered new API key");
-               var1x.cancel();
+               packetEvent.cancel();
                this.apiKeyReceived = true;
                this.apiKeyRequested = false;
             }
 
-            if (this.bannedLookup.getValue() && var6.equals("A player has been removed from your game.")) {
+            if (this.bannedLookup.getValue() && string.equals("A player has been removed from your game.")) {
                PlayerListTracker.printRecentDisconnects();
             }
 
             if (this.autoPlay.getValue()) {
-               for (IChatComponent var8 : var5.getChatComponent()) {
-                  ClickEvent var9 = var8.getChatStyle().getChatClickEvent();
-                  if (var9 != null && var9.getAction() == ClickEvent.Action.RUN_COMMAND && var9.getValue().contains("/play")) {
-                     this.pendingPlayCommand = var9.getValue();
+               for (IChatComponent iChatComponent : s02PacketChat.getChatComponent()) {
+                  ClickEvent clickEvent = iChatComponent.getChatStyle().getChatClickEvent();
+                  if (clickEvent != null && clickEvent.getAction() == ClickEvent.Action.RUN_COMMAND && clickEvent.getValue().contains("/play")) {
+                     this.pendingPlayCommand = clickEvent.getValue();
                      toasts.G("Joining game", "Joining game in " + this.delay.getValue() / 1000 + " seconds", this.delay.getValue());
                      this.playTimer.reset();
                   }
@@ -247,26 +247,26 @@ public final class AutoHypixel extends Module {
             }
 
             if (this.autoCraft.getSetting("Enabled").asBoolean()) {
-               for (IChatComponent var19 : var5.getChatComponent()) {
-                  ClickEvent var22 = var19.getChatStyle().getChatClickEvent();
-                  if (var22 != null && var22.getAction() == ClickEvent.Action.RUN_COMMAND && var22.getValue() != null && !AutoArmor.c()) {
-                     if (var22.getValue().contains("item IRON_INGOTS") && this.autoCraft.getSetting("Iron-Pack").asBoolean()) {
-                        mc.thePlayer.sendChatMessage(var22.getValue());
+               for (IChatComponent iChatComponent2 : s02PacketChat.getChatComponent()) {
+                  ClickEvent clickEvent2 = iChatComponent2.getChatStyle().getChatClickEvent();
+                  if (clickEvent2 != null && clickEvent2.getAction() == ClickEvent.Action.RUN_COMMAND && clickEvent2.getValue() != null && !AutoArmor.c()) {
+                     if (clickEvent2.getValue().contains("item IRON_INGOTS") && this.autoCraft.getSetting("Iron-Pack").asBoolean()) {
+                        mc.thePlayer.sendChatMessage(clickEvent2.getValue());
                         this.actionTimer.reset();
                      }
 
-                     if (var22.getValue().contains("item GOLDEN_HEAD") && this.autoCraft.getSetting("Golden-Head").asBoolean()) {
-                        mc.thePlayer.sendChatMessage(var22.getValue());
+                     if (clickEvent2.getValue().contains("item GOLDEN_HEAD") && this.autoCraft.getSetting("Golden-Head").asBoolean()) {
+                        mc.thePlayer.sendChatMessage(clickEvent2.getValue());
                         this.actionTimer.reset();
                      }
 
-                     if (var22.getValue().contains("item GOLD_PACK") && this.autoCraft.getSetting("Gold-Pack").asBoolean()) {
-                        mc.thePlayer.sendChatMessage(var22.getValue());
+                     if (clickEvent2.getValue().contains("item GOLD_PACK") && this.autoCraft.getSetting("Gold-Pack").asBoolean()) {
+                        mc.thePlayer.sendChatMessage(clickEvent2.getValue());
                         this.actionTimer.reset();
                      }
 
-                     if (var22.getValue().contains("item EFFICIENCY_PICKAXE") && this.autoCraft.getSetting("Quick-Pick").asBoolean()) {
-                        mc.thePlayer.sendChatMessage(var22.getValue());
+                     if (clickEvent2.getValue().contains("item EFFICIENCY_PICKAXE") && this.autoCraft.getSetting("Quick-Pick").asBoolean()) {
+                        mc.thePlayer.sendChatMessage(clickEvent2.getValue());
                         this.actionTimer.reset();
                      }
                   }
@@ -275,17 +275,17 @@ public final class AutoHypixel extends Module {
 
             if (this.autoTip.getValue()
                && this.actionTimer.hasElapsed(this.delay.getValue().intValue())
-               && var6.contains("Gain XP and coins by » CLICKING HERE! «")) {
+               && string.contains("Gain XP and coins by » CLICKING HERE! «")) {
                mc.thePlayer.sendChatMessage("/tip all");
-               var1x.cancel();
+               packetEvent.cancel();
             }
 
             if (this.autoBack.getValue()
                && mc.thePlayer != null
                && mc.theWorld != null
                && (
-                  var5.getChatComponent().getFormattedText().contains("§cA kick occurred in your connection")
-                     || var5.getChatComponent().getFormattedText().startsWith("§c") && var5.getChatComponent().getFormattedText().contains("so you were put")
+                  s02PacketChat.getChatComponent().getFormattedText().contains("§cA kick occurred in your connection")
+                     || s02PacketChat.getChatComponent().getFormattedText().startsWith("§c") && s02PacketChat.getChatComponent().getFormattedText().contains("so you were put")
                )) {
                mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/back"));
             }
@@ -294,63 +294,63 @@ public final class AutoHypixel extends Module {
                && mc.thePlayer != null
                && mc.theWorld != null
                && GameUtil.scoreboardTitleContains("PIT")
-               && var5.getChatComponent().getFormattedText().contains("§r§d§lQUICK MATHS! §r§7Solve")) {
-               String[] var16 = var6.split("Solve: ");
-               if (var16.length == 2) {
+               && s02PacketChat.getChatComponent().getFormattedText().contains("§r§d§lQUICK MATHS! §r§7Solve")) {
+               String[] strings2 = string.split("Solve: ");
+               if (strings2.length == 2) {
                   try {
-                     mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/ac " + (int)evaluate(var16[1].replace("x", "*"))));
-                  } catch (RuntimeException var10) {
+                     mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/ac " + (int)evaluate(strings2[1].replace("x", "*"))));
+                  } catch (RuntimeException runtimeException) {
                   }
                }
             }
 
             if (this.cleanChat.getValue()) {
-               for (String var20 : this.spamMessages) {
-                  if (var6.contains(var20)) {
-                     var1x.cancel();
+               for (String string2 : this.spamMessages) {
+                  if (string.contains(string2)) {
+                     packetEvent.cancel();
                   }
                }
             }
 
-            if (var6.contains("Please don't spam the command!")
-               || var6.contains("You already tipped everyone")
-               || var6.contains("You already tipped everyone that has boosters active")) {
-               var1x.cancel();
+            if (string.contains("Please don't spam the command!")
+               || string.contains("You already tipped everyone")
+               || string.contains("You already tipped everyone that has boosters active")) {
+               packetEvent.cancel();
             }
          }
 
-         if (var1x.getPacket() instanceof S2DPacketOpenWindow) {
-            S2DPacketOpenWindow var11 = (S2DPacketOpenWindow)var1x.getPacket();
+         if (packetEvent.getPacket() instanceof S2DPacketOpenWindow) {
+            S2DPacketOpenWindow s2DPacketOpenWindow = (S2DPacketOpenWindow)packetEvent.getPacket();
             if (this.autoCraft.getSetting("Enabled").asBoolean()
-               && var11.getGuiId() != null
-               && var11.getGuiId().equals("minecraft:chest")
-               && var11.getWindowTitle().getUnformattedText().equals("Crafting Table")
+               && s2DPacketOpenWindow.getGuiId() != null
+               && s2DPacketOpenWindow.getGuiId().equals("minecraft:chest")
+               && s2DPacketOpenWindow.getWindowTitle().getUnformattedText().equals("Crafting Table")
                && !this.actionTimer.hasElapsed(500.0F)) {
-               mc.playerController.windowClick(var11.getWindowId(), 24, 0, 1, mc.thePlayer);
-               mc.thePlayer.sendQueue.addToSendQueue(new C0DPacketCloseWindow(var11.getWindowId()));
-               var1x.cancel();
+               mc.playerController.windowClick(s2DPacketOpenWindow.getWindowId(), 24, 0, 1, mc.thePlayer);
+               mc.thePlayer.sendQueue.addToSendQueue(new C0DPacketCloseWindow(s2DPacketOpenWindow.getWindowId()));
+               packetEvent.cancel();
             }
          }
 
-         if (var1x.getPacket() instanceof S08PacketPlayerPosLook) {
-            S08PacketPlayerPosLook var12 = (S08PacketPlayerPosLook)var1x.getPacket();
+         if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook) {
+            S08PacketPlayerPosLook s08PacketPlayerPosLook = (S08PacketPlayerPosLook)packetEvent.getPacket();
             if (autoPit.getSetting("Death-TP").asBoolean()
                && mc.thePlayer != null
                && mc.theWorld != null
                && GameUtil.scoreboardTitleContains("PIT")
-               && Math.abs(pitSpawnY - var12.getY()) < 4.0
+               && Math.abs(pitSpawnY - s08PacketPlayerPosLook.getY()) < 4.0
                && this.actionTimer.hasElapsed(1000.0F)) {
                mc.thePlayer
                   .sendQueue
-                  .u(new C03PacketPlayer.C06PacketPlayerPosLook(var12.getX(), var12.getY(), var12.getZ(), var12.getYaw(), var12.getPitch(), false));
+                  .u(new C03PacketPlayer.C06PacketPlayerPosLook(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ(), s08PacketPlayerPosLook.getYaw(), s08PacketPlayerPosLook.getPitch(), false));
 
-               for (Vector3 var21 : PathFinder.i(
-                  new Vector3(var12.getX(), var12.getY(), var12.getZ()), new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), 8.9
+               for (Vector3 vector3 : PathFinder.i(
+                  new Vector3(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ()), new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), 8.9
                )) {
-                  mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(var21.getX(), var21.getY(), var21.getZ(), false));
+                  mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));
                }
 
-               var1x.cancel();
+               packetEvent.cancel();
                this.actionTimer.reset();
             }
          }
@@ -358,8 +358,8 @@ public final class AutoHypixel extends Module {
    };
    private static final long f = 104434831927723L;
 
-   public AutoHypixel(Category var1) {
-      super(var1);
+   public AutoHypixel(Category category) {
+      super(category);
       this.addSettings(
          autoPit, autoChecker, this.autoGG, this.autoCraft, this.autoTip, this.delay, this.autoPlay, this.autoBack, this.cleanChat, this.bannedLookup
       );
@@ -371,7 +371,7 @@ public final class AutoHypixel extends Module {
       super.onDisable();
    }
 
-   public static double evaluate(String var0) {
-      return new MathExpressionParser(var0).parse();
+   public static double evaluate(String string) {
+      return new MathExpressionParser(string).parse();
    }
 }

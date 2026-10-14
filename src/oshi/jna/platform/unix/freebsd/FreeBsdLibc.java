@@ -18,11 +18,11 @@ public interface FreeBsdLibc extends CLibrary {
    int CP_INTR = 3;
    int CP_IDLE = 4;
 
-   int sysctl(int[] var1, int var2, Pointer var3, IntByReference var4, Pointer var5, int var6);
+   int sysctl(int[] ints, int i, Pointer pointer, IntByReference intByReference, Pointer pointer2, int j);
 
-   int sysctlbyname(String var1, Pointer var2, IntByReference var3, Pointer var4, int var5);
+   int sysctlbyname(String string, Pointer pointer, IntByReference intByReference, Pointer pointer2, int i);
 
-   int sysctlnametomib(String var1, Pointer var2, IntByReference var3);
+   int sysctlnametomib(String string, Pointer pointer, IntByReference intByReference);
 
    @FieldOrder("cpu_ticks")
    class CpTime extends Structure {

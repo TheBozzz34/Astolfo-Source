@@ -23,70 +23,70 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient> {
    public S27PacketExplosion() {
    }
 
-   public S27PacketExplosion(double var1, double var3, double var5, float var7, List<BlockPos> var8, Vec3 var9) {
-      this.posX = var1;
-      this.posY = var3;
-      this.posZ = var5;
-      this.strength = var7;
-      this.affectedBlockPositions = Lists.newArrayList(var8);
-      if (var9 != null) {
-         this.field_149152_f = (float)var9.xCoord;
-         this.field_149153_g = (float)var9.yCoord;
-         this.field_149159_h = (float)var9.zCoord;
+   public S27PacketExplosion(double d, double y, double z, float strengthIn, List<BlockPos> affectedBlocksIn, Vec3 vec3) {
+      this.posX = d;
+      this.posY = y;
+      this.posZ = z;
+      this.strength = strengthIn;
+      this.affectedBlockPositions = Lists.newArrayList(affectedBlocksIn);
+      if (vec3 != null) {
+         this.field_149152_f = (float)vec3.xCoord;
+         this.field_149153_g = (float)vec3.yCoord;
+         this.field_149159_h = (float)vec3.zCoord;
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.posX = var1.readFloat();
-      this.posY = var1.readFloat();
-      this.posZ = var1.readFloat();
-      this.strength = var1.readFloat();
-      int var5 = var1.readInt();
-      this.affectedBlockPositions = Lists.newArrayListWithCapacity(var5);
-      int var6 = (int)this.posX;
-      int var7 = (int)this.posY;
-      int var8 = (int)this.posZ;
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.posX = buf.readFloat();
+      this.posY = buf.readFloat();
+      this.posZ = buf.readFloat();
+      this.strength = buf.readFloat();
+      int i = buf.readInt();
+      this.affectedBlockPositions = Lists.newArrayListWithCapacity(i);
+      int j = (int)this.posX;
+      int k = (int)this.posY;
+      int l = (int)this.posZ;
 
-      for (int var9 = 0; var9 < var5; var9++) {
-         int var10 = var1.readByte() + var6;
-         int var11 = var1.readByte() + var7;
-         int var12 = var1.readByte() + var8;
-         this.affectedBlockPositions.add(new BlockPos(var10, var11, var12));
+      for (int m = 0; m < i; m++) {
+         int n = buf.readByte() + j;
+         int i2 = buf.readByte() + k;
+         int i3 = buf.readByte() + l;
+         this.affectedBlockPositions.add(new BlockPos(n, i2, i3));
       }
 
-      this.field_149152_f = var1.readFloat();
-      this.field_149153_g = var1.readFloat();
-      this.field_149159_h = var1.readFloat();
+      this.field_149152_f = buf.readFloat();
+      this.field_149153_g = buf.readFloat();
+      this.field_149159_h = buf.readFloat();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeFloat((float)this.posX);
-      var1.writeFloat((float)this.posY);
-      var1.writeFloat((float)this.posZ);
-      var1.writeFloat(this.strength);
-      var1.writeInt(this.affectedBlockPositions.size());
-      int var5 = (int)this.posX;
-      int var6 = (int)this.posY;
-      int var7 = (int)this.posZ;
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeFloat((float)this.posX);
+      buf.writeFloat((float)this.posY);
+      buf.writeFloat((float)this.posZ);
+      buf.writeFloat(this.strength);
+      buf.writeInt(this.affectedBlockPositions.size());
+      int i = (int)this.posX;
+      int j = (int)this.posY;
+      int k = (int)this.posZ;
 
-      for (BlockPos var9 : this.affectedBlockPositions) {
-         int var10 = var9.getX() - var5;
-         int var11 = var9.getY() - var6;
-         int var12 = var9.getZ() - var7;
-         var1.writeByte(var10);
-         var1.writeByte(var11);
-         var1.writeByte(var12);
+      for (BlockPos blockPos : this.affectedBlockPositions) {
+         int l = blockPos.getX() - i;
+         int m = blockPos.getY() - j;
+         int n = blockPos.getZ() - k;
+         buf.writeByte(l);
+         buf.writeByte(m);
+         buf.writeByte(n);
       }
 
-      var1.writeFloat(this.field_149152_f);
-      var1.writeFloat(this.field_149153_g);
-      var1.writeFloat(this.field_149159_h);
+      buf.writeFloat(this.field_149152_f);
+      buf.writeFloat(this.field_149153_g);
+      buf.writeFloat(this.field_149159_h);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleExplosion(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleExplosion(this);
    }
 
    public float func_149149_c() {

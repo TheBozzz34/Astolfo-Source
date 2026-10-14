@@ -36,10 +36,10 @@ public final class FreeBsdGlobalMemory extends AbstractGlobalMemory {
    }
 
    private long queryVmStats() {
-      long var3 = BsdSysctlUtil.sysctl("vm.stats.vm.v_inactive_count", 0L);
-      long var5 = BsdSysctlUtil.sysctl("vm.stats.vm.v_cache_count", 0L);
-      long var7 = BsdSysctlUtil.sysctl("vm.stats.vm.v_free_count", 0L);
-      return (var3 + var5 + var7) * this.getPageSize();
+      long l = BsdSysctlUtil.sysctl("vm.stats.vm.v_inactive_count", 0L);
+      long m = BsdSysctlUtil.sysctl("vm.stats.vm.v_cache_count", 0L);
+      long n = BsdSysctlUtil.sysctl("vm.stats.vm.v_free_count", 0L);
+      return (l + m + n) * this.getPageSize();
    }
 
    private static long queryPhysMem() {

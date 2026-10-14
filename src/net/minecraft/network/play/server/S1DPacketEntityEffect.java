@@ -17,43 +17,43 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
    public S1DPacketEntityEffect() {
    }
 
-   public S1DPacketEntityEffect(int var1, PotionEffect var2) {
-      this.entityId = var1;
-      this.effectId = (byte)(var2.getPotionID() & 0xFF);
-      this.amplifier = (byte)(var2.getAmplifier() & 0xFF);
-      if (var2.getDuration() > 32767) {
+   public S1DPacketEntityEffect(int entityIdIn, PotionEffect effect) {
+      this.entityId = entityIdIn;
+      this.effectId = (byte)(effect.getPotionID() & 0xFF);
+      this.amplifier = (byte)(effect.getAmplifier() & 0xFF);
+      if (effect.getDuration() > 32767) {
          this.duration = 32767;
       } else {
-         this.duration = var2.getDuration();
+         this.duration = effect.getDuration();
       }
 
-      this.hideParticles = (byte)(var2.getIsShowParticles() ? 1 : 0);
+      this.hideParticles = (byte)(effect.getIsShowParticles() ? 1 : 0);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.effectId = var1.readByte();
-      this.amplifier = var1.readByte();
-      this.duration = var1.readVarIntFromBuffer();
-      this.hideParticles = var1.readByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.effectId = buf.readByte();
+      this.amplifier = buf.readByte();
+      this.duration = buf.readVarIntFromBuffer();
+      this.hideParticles = buf.readByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeByte(this.effectId);
-      var1.writeByte(this.amplifier);
-      var1.writeVarIntToBuffer(this.duration);
-      var1.writeByte(this.hideParticles);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeByte(this.effectId);
+      buf.writeByte(this.amplifier);
+      buf.writeVarIntToBuffer(this.duration);
+      buf.writeByte(this.hideParticles);
    }
 
    public boolean func_149429_c() {
       return this.duration == 32767;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityEffect(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityEffect(this);
    }
 
    public int getEntityId() {

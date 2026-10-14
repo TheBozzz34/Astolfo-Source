@@ -98,29 +98,29 @@ public class Config {
    }
 
    public static String getVersionDebug() {
-      StringBuffer var3 = new StringBuffer(32);
+      StringBuffer stringBuffer = new StringBuffer(32);
       if (isDynamicLights()) {
-         var3.append("DL: ");
-         var3.append(String.valueOf(DynamicLights.getCount()));
-         var3.append(", ");
+         stringBuffer.append("DL: ");
+         stringBuffer.append(String.valueOf(DynamicLights.getCount()));
+         stringBuffer.append(", ");
       }
 
-      var3.append("OptiFine_1.8.8_HD_U_H8");
-      String var4 = Shaders.getShaderPackName();
-      if (var4 != null) {
-         var3.append(", ");
-         var3.append(var4);
+      stringBuffer.append("OptiFine_1.8.8_HD_U_H8");
+      String string = Shaders.getShaderPackName();
+      if (string != null) {
+         stringBuffer.append(", ");
+         stringBuffer.append(string);
       }
 
-      return var3.toString();
+      return stringBuffer.toString();
    }
 
-   public static void initGameSettings(GameSettings var0) {
-      long var1 = b ^ 23453252208835L;
+   public static void initGameSettings(GameSettings settings) {
+      long l = b ^ 23453252208835L;
       if (gameSettings == null) {
-         gameSettings = var0;
+         gameSettings = settings;
          desktopDisplayMode = Display.getDesktopDisplayMode();
-         long var10000 = 8436825895959655514L ^ var1;
+         long m = 8436825895959655514L ^ l;
          updateAvailableProcessors();
          ReflectorForge.putLaunchBlackboard("optifine.ForgeSplashCompatible", Boolean.TRUE);
       }
@@ -170,16 +170,16 @@ public class Config {
          log("OpenGL Occlussion culling: Not available (GL_ARB_occlusion_query)");
       }
 
-      int var3 = TextureUtils.getGLMaximumTextureSize();
-      dbg("Maximum texture size: " + var3 + "x" + var3);
+      int i = TextureUtils.getGLMaximumTextureSize();
+      dbg("Maximum texture size: " + i + "x" + i);
    }
 
    private static String getBuild() {
       try {
-         InputStream var3 = Config.class.getResourceAsStream("/buildof.txt");
-         return var3 == null ? null : readLines(var3)[0];
-      } catch (Exception var5) {
-         warn("" + var5.getClass().getName() + ": " + var5.getMessage());
+         InputStream inputStream = Config.class.getResourceAsStream("/buildof.txt");
+         return inputStream == null ? null : readLines(inputStream)[0];
+      } catch (Exception exception) {
+         warn("" + exception.getClass().getName() + ": " + exception.getMessage());
          return null;
       }
    }
@@ -194,29 +194,29 @@ public class Config {
 
    public static int getMinecraftVersionInt() {
       if (minecraftVersionInt < 0) {
-         String[] var3 = tokenize("1.8.8", ".");
-         int var4 = 0;
-         if (var3.length > 0) {
-            var4 += 10000 * parseInt(var3[0], 0);
+         String[] strings = tokenize("1.8.8", ".");
+         int i = 0;
+         if (strings.length > 0) {
+            i += 10000 * parseInt(strings[0], 0);
          }
 
-         if (var3.length > 1) {
-            var4 += 100 * parseInt(var3[1], 0);
+         if (strings.length > 1) {
+            i += 100 * parseInt(strings[1], 0);
          }
 
-         if (var3.length > 2) {
-            var4 += 1 * parseInt(var3[2], 0);
+         if (strings.length > 2) {
+            i += 1 * parseInt(strings[2], 0);
          }
 
-         minecraftVersionInt = var4;
+         minecraftVersionInt = i;
       }
 
       return minecraftVersionInt;
    }
 
    public static String getOpenGlVersionString() {
-      GlVersion var0 = getGlVersion();
-      return "" + var0.getMajor() + "." + var0.getMinor() + "." + var0.getRelease();
+      GlVersion ver = getGlVersion();
+      return "" + ver.getMajor() + "." + ver.getMinor() + "." + ver.getRelease();
    }
 
    private static GlVersion getGlVersionLwjgl() {
@@ -287,8 +287,8 @@ public class Config {
 
    public static GlVersion getGlVersion() {
       if (glVersion == null) {
-         String var3 = GL11.glGetString(7938);
-         glVersion = parseGlVersion(var3, (GlVersion)null);
+         String string = GL11.glGetString(7938);
+         glVersion = parseGlVersion(string, (GlVersion)null);
          if (glVersion == null) {
             glVersion = getGlVersionLwjgl();
          }
@@ -303,8 +303,8 @@ public class Config {
 
    public static GlVersion getGlslVersion() {
       if (glslVersion == null) {
-         String var3 = GL11.glGetString(35724);
-         glslVersion = parseGlVersion(var3, (GlVersion)null);
+         String string = GL11.glGetString(35724);
+         glslVersion = parseGlVersion(string, (GlVersion)null);
          if (glslVersion == null) {
             glslVersion = new GlVersion(1, 10);
          }
@@ -313,26 +313,26 @@ public class Config {
       return glslVersion;
    }
 
-   public static GlVersion parseGlVersion(String var0, GlVersion var1) {
+   public static GlVersion parseGlVersion(String versionString, GlVersion def) {
       try {
-         if (var0 == null) {
-            return var1;
+         if (versionString == null) {
+            return def;
          }
 
-         Pattern var5 = Pattern.compile("([0-9]+)\\.([0-9]+)(\\.([0-9]+))?(.+)?");
-         Matcher var6 = var5.matcher(var0);
-         if (!var6.matches()) {
-            return var1;
+         Pattern pattern = Pattern.compile("([0-9]+)\\.([0-9]+)(\\.([0-9]+))?(.+)?");
+         Matcher matcher2 = pattern.matcher(versionString);
+         if (!matcher2.matches()) {
+            return def;
          }
 
-         int var7 = Integer.parseInt(var6.group(1));
-         int var8 = Integer.parseInt(var6.group(2));
-         int var9 = var6.group(4) != null ? Integer.parseInt(var6.group(4)) : 0;
-         String var10 = var6.group(5);
-         return new GlVersion(var7, var8, var9, var10);
-      } catch (Exception var11) {
-         var11.printStackTrace();
-         return var1;
+         int i = Integer.parseInt(matcher2.group(1));
+         int j = Integer.parseInt(matcher2.group(2));
+         int k = matcher2.group(4) != null ? Integer.parseInt(matcher2.group(4)) : 0;
+         String string = matcher2.group(5);
+         return new GlVersion(i, j, k, string);
+      } catch (Exception exception) {
+         exception.printStackTrace();
+         return def;
       }
    }
 
@@ -346,28 +346,28 @@ public class Config {
 
    private static String[] detectOpenGlExtensions() {
       try {
-         GlVersion var3 = getGlVersion();
-         if (var3.getMajor() >= 3) {
-            int var4 = GL11.glGetInteger(33309);
-            if (var4 > 0) {
-               String[] var5 = new String[var4];
+         GlVersion glVersion = getGlVersion();
+         if (glVersion.getMajor() >= 3) {
+            int i = GL11.glGetInteger(33309);
+            if (i > 0) {
+               String[] strings = new String[i];
 
-               for (int var6 = 0; var6 < var4; var6++) {
-                  var5[var6] = GL30.glGetStringi(7939, var6);
+               for (int j = 0; j < i; j++) {
+                  strings[j] = GL30.glGetStringi(7939, j);
                }
 
-               return var5;
+               return strings;
             }
          }
-      } catch (Exception var8) {
-         var8.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
       try {
-         String var9 = GL11.glGetString(7939);
-         return var9.split(" ");
-      } catch (Exception var7) {
-         var7.printStackTrace();
+         String string = GL11.glGetString(7939);
+         return string.split(" ");
+      } catch (Exception exception2) {
+         exception2.printStackTrace();
          return new String[0];
       }
    }
@@ -388,25 +388,25 @@ public class Config {
       }
    }
 
-   private static void setThreadPriority(String var0, int var1) {
+   private static void setThreadPriority(String prefix, int priority) {
       try {
-         ThreadGroup var5 = Thread.currentThread().getThreadGroup();
-         if (var5 == null) {
+         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+         if (threadGroup == null) {
             return;
          }
 
-         int var6 = (var5.activeCount() + 10) * 2;
-         Thread[] var7 = new Thread[var6];
-         var5.enumerate(var7, false);
+         int i = (threadGroup.activeCount() + 10) * 2;
+         Thread[] threads = new Thread[i];
+         threadGroup.enumerate(threads, false);
 
-         for (int var8 = 0; var8 < var7.length; var8++) {
-            Thread var9 = var7[var8];
-            if (var9 != null && var9.getName().startsWith(var0)) {
-               var9.setPriority(var1);
+         for (int j = 0; j < threads.length; j++) {
+            Thread thread = threads[j];
+            if (thread != null && thread.getName().startsWith(prefix)) {
+               thread.setPriority(priority);
             }
          }
-      } catch (Throwable var10) {
-         warn(var10.getClass().getName() + ": " + var10.getMessage());
+      } catch (Throwable throwable) {
+         warn(throwable.getClass().getName() + ": " + throwable.getMessage());
       }
    }
 
@@ -446,8 +446,8 @@ public class Config {
    }
 
    public static boolean isUseAlphaFunc() {
-      float var3 = getAlphaFuncLevel();
-      return var3 > DEF_ALPHA_FUNC_LEVEL + 1.0E-5F;
+      float f = getAlphaFuncLevel();
+      return f > DEF_ALPHA_FUNC_LEVEL + 1.0E-5F;
    }
 
    public static float getAlphaFuncLevel() {
@@ -470,20 +470,20 @@ public class Config {
       return gameSettings.ofFogStart;
    }
 
-   public static void dbg(String var0) {
-      LOGGER.info("[OptiFine] " + var0);
+   public static void dbg(String s) {
+      LOGGER.info("[OptiFine] " + s);
    }
 
-   public static void warn(String var0) {
-      LOGGER.warn("[OptiFine] " + var0);
+   public static void warn(String s) {
+      LOGGER.warn("[OptiFine] " + s);
    }
 
-   public static void error(String var0) {
-      LOGGER.error("[OptiFine] " + var0);
+   public static void error(String s) {
+      LOGGER.error("[OptiFine] " + s);
    }
 
-   public static void log(String var0) {
-      dbg(var0);
+   public static void log(String s) {
+      dbg(s);
    }
 
    public static int B() {
@@ -520,36 +520,36 @@ public class Config {
 
    public static void updateTexturePackClouds() {
       texturePackClouds = 0;
-      IResourceManager var3 = getResourceManager();
-      if (var3 != null) {
+      IResourceManager iResourceManager = getResourceManager();
+      if (iResourceManager != null) {
          try {
-            InputStream var4 = var3.getResource(new ResourceLocation("mcpatcher/color.properties")).getInputStream();
-            if (var4 == null) {
+            InputStream inputStream = iResourceManager.getResource(new ResourceLocation("mcpatcher/color.properties")).getInputStream();
+            if (inputStream == null) {
                return;
             }
 
-            Properties var5 = new Properties();
-            var5.load(var4);
-            var4.close();
-            String var6 = var5.getProperty("clouds");
-            if (var6 == null) {
+            Properties properties2 = new Properties();
+            properties2.load(inputStream);
+            inputStream.close();
+            String string = properties2.getProperty("clouds");
+            if (string == null) {
                return;
             }
 
-            dbg("Texture pack clouds: " + var6);
-            var6 = var6.toLowerCase();
-            if (var6.equals("fast")) {
+            dbg("Texture pack clouds: " + string);
+            string = string.toLowerCase();
+            if (string.equals("fast")) {
                texturePackClouds = 1;
             }
 
-            if (var6.equals("fancy")) {
+            if (string.equals("fancy")) {
                texturePackClouds = 2;
             }
 
-            if (var6.equals("off")) {
+            if (string.equals("off")) {
                texturePackClouds = 3;
             }
-         } catch (Exception var7) {
+         } catch (Exception exception) {
          }
       }
    }
@@ -574,20 +574,20 @@ public class Config {
       return gameSettings.ofDroppedItems == 0 ? gameSettings.fancyGraphics : gameSettings.ofDroppedItems == 2;
    }
 
-   public static int limit(int var0, int var1, int var2) {
-      return var0 < var1 ? var1 : (var0 > var2 ? var2 : var0);
+   public static int limit(int val, int minIn, int maxIn) {
+      return val < minIn ? minIn : (val > maxIn ? maxIn : val);
    }
 
-   public static float limit(float var0, float var1, float var2) {
-      return var0 < var1 ? var1 : (var0 > var2 ? var2 : var0);
+   public static float limit(float val, float minIn, float maxIn) {
+      return val < minIn ? minIn : (val > maxIn ? maxIn : val);
    }
 
-   public static double limit(double var0, double var2, double var4) {
-      return var0 < var2 ? var2 : (var0 > var4 ? var4 : var0);
+   public static double limit(double val, double minIn, double maxIn) {
+      return val < minIn ? minIn : (val > maxIn ? maxIn : val);
    }
 
-   public static float limitTo1(float var0) {
-      return var0 < 0.0F ? 0.0F : (var0 > 1.0F ? 1.0F : var0);
+   public static float limitTo1(float val) {
+      return val < 0.0F ? 0.0F : (val > 1.0F ? 1.0F : val);
    }
 
    public static boolean W_boolean() {
@@ -658,42 +658,42 @@ public class Config {
       return isShaders() && Shaders.aoLevel >= 0.0F ? Shaders.aoLevel : gameSettings.ofAoLevel;
    }
 
-   public static String arrayToString(Object[] var0) {
-      if (var0 == null) {
+   public static String arrayToString(Object[] arr) {
+      if (arr == null) {
          return "";
       }
 
-      StringBuffer var3 = new StringBuffer(var0.length * 5);
+      StringBuffer stringBuffer = new StringBuffer(arr.length * 5);
 
-      for (int var4 = 0; var4 < var0.length; var4++) {
-         Object var5 = var0[var4];
-         if (var4 > 0) {
-            var3.append(", ");
+      for (int i = 0; i < arr.length; i++) {
+         Object object = arr[i];
+         if (i > 0) {
+            stringBuffer.append(", ");
          }
 
-         var3.append(String.valueOf(var5));
+         stringBuffer.append(String.valueOf(object));
       }
 
-      return var3.toString();
+      return stringBuffer.toString();
    }
 
-   public static String arrayToString(int[] var0) {
-      if (var0 == null) {
+   public static String arrayToString(int[] arr) {
+      if (arr == null) {
          return "";
       }
 
-      StringBuffer var4 = new StringBuffer(var0.length * 5);
+      StringBuffer stringBuffer = new StringBuffer(arr.length * 5);
 
-      for (int var5 = 0; var5 < var0.length; var5++) {
-         int var6 = var0[var5];
-         if (var5 > 0) {
-            var4.append(", ");
+      for (int i = 0; i < arr.length; i++) {
+         int j = arr[i];
+         if (i > 0) {
+            stringBuffer.append(", ");
          }
 
-         var4.append(String.valueOf(var6));
+         stringBuffer.append(String.valueOf(j));
       }
 
-      return var4.toString();
+      return stringBuffer.toString();
    }
 
    public static Minecraft getMinecraft() {
@@ -708,47 +708,47 @@ public class Config {
       return minecraft.getResourceManager();
    }
 
-   public static InputStream getResourceStream(ResourceLocation var0) throws IOException {
-      return getResourceStream(minecraft.getResourceManager(), var0);
+   public static InputStream getResourceStream(ResourceLocation location) throws IOException {
+      return getResourceStream(minecraft.getResourceManager(), location);
    }
 
-   public static InputStream getResourceStream(IResourceManager var0, ResourceLocation var1) throws IOException {
-      IResource var4 = var0.getResource(var1);
-      return var4 == null ? null : var4.getInputStream();
+   public static InputStream getResourceStream(IResourceManager resourceManager, ResourceLocation location) throws IOException {
+      IResource iResource = resourceManager.getResource(location);
+      return iResource == null ? null : iResource.getInputStream();
    }
 
-   public static IResource getResource(ResourceLocation var0) throws IOException {
-      return minecraft.getResourceManager().getResource(var0);
+   public static IResource getResource(ResourceLocation location) throws IOException {
+      return minecraft.getResourceManager().getResource(location);
    }
 
-   public static boolean hasResource(ResourceLocation var0) {
-      IResourcePack var3 = getDefiningResourcePack(var0);
-      return var3 != null;
+   public static boolean hasResource(ResourceLocation location) {
+      IResourcePack iResourcePack = getDefiningResourcePack(location);
+      return iResourcePack != null;
    }
 
-   public static boolean hasResource(IResourceManager var0, ResourceLocation var1) {
+   public static boolean hasResource(IResourceManager resourceManager, ResourceLocation location) {
       try {
-         IResource var4 = var0.getResource(var1);
-         return var4 != null;
-      } catch (IOException var5) {
+         IResource iResource = resourceManager.getResource(location);
+         return iResource != null;
+      } catch (IOException ioException) {
          return false;
       }
    }
 
    public static IResourcePack[] getResourcePacks() {
-      ResourcePackRepository var3 = minecraft.getResourcePackRepository();
-      List var4 = var3.getRepositoryEntries();
-      ArrayList var5 = new ArrayList();
+      ResourcePackRepository resourcePackRepository = minecraft.getResourcePackRepository();
+      List list = resourcePackRepository.getRepositoryEntries();
+      ArrayList arrayList = new ArrayList();
 
-      for (Object var7 : var4) {
-         var5.add(((ResourcePackRepository.Entry)var7).getResourcePack());
+      for (Object object : list) {
+         arrayList.add(((ResourcePackRepository.Entry)object).getResourcePack());
       }
 
-      if (var3.getResourcePackInstance() != null) {
-         var5.add(var3.getResourcePackInstance());
+      if (resourcePackRepository.getResourcePackInstance() != null) {
+         arrayList.add(resourcePackRepository.getResourcePackInstance());
       }
 
-      return (net.minecraft.client.resources.IResourcePack[])(var5.toArray(new IResourcePack[var5.size()]));
+      return (net.minecraft.client.resources.IResourcePack[])(arrayList.toArray(new IResourcePack[arrayList.size()]));
    }
 
    public static String getResourcePackNames() {
@@ -756,28 +756,28 @@ public class Config {
          return "";
       }
 
-      IResourcePack[] var3 = getResourcePacks();
-      if (var3.length <= 0) {
+      IResourcePack[] iResourcePacks = getResourcePacks();
+      if (iResourcePacks.length <= 0) {
          return getDefaultResourcePack().getPackName();
       }
 
-      String[] var4 = new String[var3.length];
+      String[] strings = new String[iResourcePacks.length];
 
-      for (int var5 = 0; var5 < var3.length; var5++) {
-         var4[var5] = var3[var5].getPackName();
+      for (int i = 0; i < iResourcePacks.length; i++) {
+         strings[i] = iResourcePacks[i].getPackName();
       }
 
-      return arrayToString(var4);
+      return arrayToString(strings);
    }
 
    public static DefaultResourcePack getDefaultResourcePack() {
       if (defaultResourcePackLazy == null) {
-         Minecraft var3 = Minecraft.getMinecraft();
-         defaultResourcePackLazy = (DefaultResourcePack)Reflector.getFieldValue(var3, Reflector.Minecraft_defaultResourcePack);
+         Minecraft minecraft = Minecraft.getMinecraft();
+         defaultResourcePackLazy = (DefaultResourcePack)Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
          if (defaultResourcePackLazy == null) {
-            ResourcePackRepository var4 = var3.getResourcePackRepository();
-            if (var4 != null) {
-               defaultResourcePackLazy = (DefaultResourcePack)var4.rprDefaultResourcePack;
+            ResourcePackRepository resourcePackRepository = minecraft.getResourcePackRepository();
+            if (resourcePackRepository != null) {
+               defaultResourcePackLazy = (DefaultResourcePack)resourcePackRepository.rprDefaultResourcePack;
             }
          }
       }
@@ -785,30 +785,30 @@ public class Config {
       return defaultResourcePackLazy;
    }
 
-   public static boolean isFromDefaultResourcePack(ResourceLocation var0) {
-      IResourcePack var3 = getDefiningResourcePack(var0);
-      return var3 == getDefaultResourcePack();
+   public static boolean isFromDefaultResourcePack(ResourceLocation loc) {
+      IResourcePack iResourcePack = getDefiningResourcePack(loc);
+      return iResourcePack == getDefaultResourcePack();
    }
 
-   public static IResourcePack getDefiningResourcePack(ResourceLocation var0) {
-      ResourcePackRepository var4 = minecraft.getResourcePackRepository();
-      IResourcePack var5 = var4.getResourcePackInstance();
-      if (var5 != null && var5.resourceExists(var0)) {
-         return var5;
+   public static IResourcePack getDefiningResourcePack(ResourceLocation location) {
+      ResourcePackRepository resourcePackRepository = minecraft.getResourcePackRepository();
+      IResourcePack iResourcePack = resourcePackRepository.getResourcePackInstance();
+      if (iResourcePack != null && iResourcePack.resourceExists(location)) {
+         return iResourcePack;
       }
 
-      List var6 = (List)Reflector.getFieldValue(var4, Reflector.ResourcePackRepository_repositoryEntries);
-      if (var6 != null) {
-         for (int var7 = var6.size() - 1; var7 >= 0; var7--) {
-            ResourcePackRepository.Entry var8 = (ResourcePackRepository.Entry)var6.get(var7);
-            IResourcePack var9 = var8.getResourcePack();
-            if (var9.resourceExists(var0)) {
-               return var9;
+      List list = (List)Reflector.getFieldValue(resourcePackRepository, Reflector.ResourcePackRepository_repositoryEntries);
+      if (list != null) {
+         for (int i = list.size() - 1; i >= 0; i--) {
+            ResourcePackRepository.Entry entry = (ResourcePackRepository.Entry)list.get(i);
+            IResourcePack iResourcePack2 = entry.getResourcePack();
+            if (iResourcePack2.resourceExists(location)) {
+               return iResourcePack2;
             }
          }
       }
 
-      return getDefaultResourcePack().resourceExists(var0) ? getDefaultResourcePack() : null;
+      return getDefaultResourcePack().resourceExists(location) ? getDefaultResourcePack() : null;
    }
 
    public static RenderGlobal getRenderGlobal() {
@@ -851,11 +851,11 @@ public class Config {
       return gameSettings.lW;
    }
 
-   public static void sleep(long var0) {
+   public static void sleep(long ms) {
       try {
-         Thread.sleep(var0);
-      } catch (InterruptedException var3) {
-         var3.printStackTrace();
+         Thread.sleep(ms);
+      } catch (InterruptedException eIn) {
+         eIn.printStackTrace();
       }
    }
 
@@ -899,8 +899,8 @@ public class Config {
       return getAnisotropicFilterLevel() > 1 ? true : getAntialiasingLevel() > 0;
    }
 
-   public static boolean between(int var0, int var1, int var2) {
-      return var0 >= var1 && var0 <= var2;
+   public static boolean between(int val, int minIn, int maxIn) {
+      return val >= minIn && val <= maxIn;
    }
 
    public static boolean isDrippingWaterLava() {
@@ -920,66 +920,66 @@ public class Config {
          return new Dimension(desktopDisplayMode.getWidth(), desktopDisplayMode.getHeight());
       }
 
-      String var3 = gameSettings.ofFullscreenMode;
-      if (var3.equals("Default")) {
+      String string = gameSettings.ofFullscreenMode;
+      if (string.equals("Default")) {
          return new Dimension(desktopDisplayMode.getWidth(), desktopDisplayMode.getHeight());
       }
 
-      String[] var4 = tokenize(var3, " x");
-      return var4.length < 2
+      String[] strings = tokenize(string, " x");
+      return strings.length < 2
          ? new Dimension(desktopDisplayMode.getWidth(), desktopDisplayMode.getHeight())
-         : new Dimension(parseInt(var4[0], -1), parseInt(var4[1], -1));
+         : new Dimension(parseInt(strings[0], -1), parseInt(strings[1], -1));
    }
 
-   public static int parseInt(String var0, int var1) {
+   public static int parseInt(String str, int defVal) {
       try {
-         if (var0 == null) {
-            return var1;
+         if (str == null) {
+            return defVal;
          }
 
-         var0 = var0.trim();
-         return Integer.parseInt(var0);
-      } catch (NumberFormatException var6) {
-         return var1;
+         str = str.trim();
+         return Integer.parseInt(str);
+      } catch (NumberFormatException numberFormatException) {
+         return defVal;
       }
    }
 
-   public static float parseFloat(String var0, float var1) {
+   public static float parseFloat(String str, float defVal) {
       try {
-         if (var0 == null) {
-            return var1;
+         if (str == null) {
+            return defVal;
          }
 
-         var0 = var0.trim();
-         return Float.parseFloat(var0);
-      } catch (NumberFormatException var6) {
-         return var1;
+         str = str.trim();
+         return Float.parseFloat(str);
+      } catch (NumberFormatException numberFormatException) {
+         return defVal;
       }
    }
 
-   public static boolean parseBoolean(String var0, boolean var1) {
+   public static boolean parseBoolean(String str, boolean defVal) {
       try {
-         if (var0 == null) {
-            return var1;
+         if (str == null) {
+            return defVal;
          }
 
-         var0 = var0.trim();
-         return Boolean.parseBoolean(var0);
-      } catch (NumberFormatException var6) {
-         return var1;
+         str = str.trim();
+         return Boolean.parseBoolean(str);
+      } catch (NumberFormatException numberFormatException) {
+         return defVal;
       }
    }
 
-   public static String[] tokenize(String var0, String var1) {
-      StringTokenizer var5 = new StringTokenizer(var0, var1);
-      ArrayList var6 = new ArrayList();
+   public static String[] tokenize(String str, String delim) {
+      StringTokenizer stringTokenizer = new StringTokenizer(str, delim);
+      ArrayList arrayList = new ArrayList();
 
-      while (var5.hasMoreTokens()) {
-         String var7 = var5.nextToken();
-         var6.add(var7);
+      while (stringTokenizer.hasMoreTokens()) {
+         String string = stringTokenizer.nextToken();
+         arrayList.add(string);
       }
 
-      return (java.lang.String[])(var6.toArray(new String[var6.size()]));
+      return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
    }
 
    public static DisplayMode getDesktopDisplayMode() {
@@ -989,24 +989,24 @@ public class Config {
    public static DisplayMode[] getDisplayModes() {
       if (displayModes == null) {
          try {
-            DisplayMode[] var3 = Display.getAvailableDisplayModes();
-            Set var4 = getDisplayModeDimensions(var3);
-            ArrayList var5 = new ArrayList();
+            DisplayMode[] displayModes2 = Display.getAvailableDisplayModes();
+            Set set = getDisplayModeDimensions(displayModes2);
+            ArrayList arrayList = new ArrayList();
 
-            for (Object var7$raw : var4) {
-               Dimension var7 = (Dimension)var7$raw;
-               DisplayMode[] var8 = getDisplayModes(var3, var7);
-               DisplayMode var9 = getDisplayMode(var8, desktopDisplayMode);
-               if (var9 != null) {
-                  var5.add(var9);
+            for (Object object : set) {
+               Dimension dimension = (Dimension)object;
+               DisplayMode[] displayModes3 = getDisplayModes(displayModes2, dimension);
+               DisplayMode displayMode = getDisplayMode(displayModes3, desktopDisplayMode);
+               if (displayMode != null) {
+                  arrayList.add(displayMode);
                }
             }
 
-            DisplayMode[] var11 = (org.lwjgl.opengl.DisplayMode[])(var5.toArray(new DisplayMode[var5.size()]));
-            Arrays.sort(var11, new DisplayModeComparator());
-            return var11;
-         } catch (Exception var10) {
-            var10.printStackTrace();
+            DisplayMode[] displayModes4 = (org.lwjgl.opengl.DisplayMode[])(arrayList.toArray(new DisplayMode[arrayList.size()]));
+            Arrays.sort(displayModes4, new DisplayModeComparator());
+            return displayModes4;
+         } catch (Exception exception) {
+            exception.printStackTrace();
             displayModes = new DisplayMode[]{desktopDisplayMode};
          }
       }
@@ -1015,80 +1015,80 @@ public class Config {
    }
 
    public static DisplayMode getLargestDisplayMode() {
-      DisplayMode[] var3 = getDisplayModes();
-      if (var3 != null && var3.length >= 1) {
-         DisplayMode var4 = var3[var3.length - 1];
-         return desktopDisplayMode.getWidth() > var4.getWidth()
+      DisplayMode[] displayModes = getDisplayModes();
+      if (displayModes != null && displayModes.length >= 1) {
+         DisplayMode displayMode = displayModes[displayModes.length - 1];
+         return desktopDisplayMode.getWidth() > displayMode.getWidth()
             ? desktopDisplayMode
-            : (desktopDisplayMode.getWidth() == var4.getWidth() && desktopDisplayMode.getHeight() > var4.getHeight() ? desktopDisplayMode : var4);
+            : (desktopDisplayMode.getWidth() == displayMode.getWidth() && desktopDisplayMode.getHeight() > displayMode.getHeight() ? desktopDisplayMode : displayMode);
       } else {
          return desktopDisplayMode;
       }
    }
 
-   private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] var0) {
-      HashSet var4 = new HashSet();
+   private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] modes) {
+      HashSet hashSet = new HashSet();
 
-      for (int var5 = 0; var5 < var0.length; var5++) {
-         DisplayMode var6 = var0[var5];
-         Dimension var7 = new Dimension(var6.getWidth(), var6.getHeight());
-         var4.add(var7);
+      for (int i = 0; i < modes.length; i++) {
+         DisplayMode displayMode = modes[i];
+         Dimension dimension = new Dimension(displayMode.getWidth(), displayMode.getHeight());
+         hashSet.add(dimension);
       }
 
-      return var4;
+      return hashSet;
    }
 
-   private static DisplayMode[] getDisplayModes(DisplayMode[] var0, Dimension var1) {
-      ArrayList var5 = new ArrayList();
+   private static DisplayMode[] getDisplayModes(DisplayMode[] modes, Dimension dim) {
+      ArrayList arrayList = new ArrayList();
 
-      for (int var6 = 0; var6 < var0.length; var6++) {
-         DisplayMode var7 = var0[var6];
-         if (var7.getWidth() == var1.getWidth() && var7.getHeight() == var1.getHeight()) {
-            var5.add(var7);
+      for (int i = 0; i < modes.length; i++) {
+         DisplayMode displayMode = modes[i];
+         if (displayMode.getWidth() == dim.getWidth() && displayMode.getHeight() == dim.getHeight()) {
+            arrayList.add(displayMode);
          }
       }
 
-      return (org.lwjgl.opengl.DisplayMode[])(var5.toArray(new DisplayMode[var5.size()]));
+      return (org.lwjgl.opengl.DisplayMode[])(arrayList.toArray(new DisplayMode[arrayList.size()]));
    }
 
-   private static DisplayMode getDisplayMode(DisplayMode[] var0, DisplayMode var1) {
-      if (var1 != null) {
-         for (int var5 = 0; var5 < var0.length; var5++) {
-            DisplayMode var6 = var0[var5];
-            if (var6.getBitsPerPixel() == var1.getBitsPerPixel() && var6.getFrequency() == var1.getFrequency()) {
-               return var6;
+   private static DisplayMode getDisplayMode(DisplayMode[] modes, DisplayMode desktopMode) {
+      if (desktopMode != null) {
+         for (int i = 0; i < modes.length; i++) {
+            DisplayMode displayMode = modes[i];
+            if (displayMode.getBitsPerPixel() == desktopMode.getBitsPerPixel() && displayMode.getFrequency() == desktopMode.getFrequency()) {
+               return displayMode;
             }
          }
       }
 
-      if (var0.length <= 0) {
+      if (modes.length <= 0) {
          return null;
       }
 
-      Arrays.sort(var0, new DisplayModeComparator());
-      return var0[var0.length - 1];
+      Arrays.sort(modes, new DisplayModeComparator());
+      return modes[modes.length - 1];
    }
 
    public static String[] getDisplayModeNames() {
-      DisplayMode[] var3 = getDisplayModes();
-      String[] var4 = new String[var3.length];
+      DisplayMode[] displayModes = getDisplayModes();
+      String[] strings = new String[displayModes.length];
 
-      for (int var5 = 0; var5 < var3.length; var5++) {
-         DisplayMode var6 = var3[var5];
-         String var7 = "" + var6.getWidth() + "x" + var6.getHeight();
-         var4[var5] = var7;
+      for (int i = 0; i < displayModes.length; i++) {
+         DisplayMode displayMode = displayModes[i];
+         String string = "" + displayMode.getWidth() + "x" + displayMode.getHeight();
+         strings[i] = string;
       }
 
-      return var4;
+      return strings;
    }
 
-   public static DisplayMode getDisplayMode(Dimension var0) throws LWJGLException {
-      DisplayMode[] var4 = getDisplayModes();
+   public static DisplayMode getDisplayMode(Dimension dim) throws LWJGLException {
+      DisplayMode[] displayModes = getDisplayModes();
 
-      for (int var5 = 0; var5 < var4.length; var5++) {
-         DisplayMode var6 = var4[var5];
-         if (var6.getWidth() == var0.width && var6.getHeight() == var0.height) {
-            return var6;
+      for (int i = 0; i < displayModes.length; i++) {
+         DisplayMode displayMode = displayModes[i];
+         if (displayMode.getWidth() == dim.width && displayMode.getHeight() == dim.height) {
+            return displayMode;
          }
       }
 
@@ -1111,11 +1111,11 @@ public class Config {
       return gameSettings.Zb;
    }
 
-   public static void checkGlError(String var0) {
-      int var4 = GL11.glGetError();
-      if (var4 != 0) {
-         String var5 = GLU.gluErrorString(var4);
-         error("OpenGlError: " + var4 + " (" + var5 + "), at: " + var0);
+   public static void checkGlError(String loc) {
+      int i = GL11.glGetError();
+      if (i != 0) {
+         String string = GLU.gluErrorString(i);
+         error("OpenGlError: " + i + " (" + string + "), at: " + loc);
       }
    }
 
@@ -1163,63 +1163,63 @@ public class Config {
       return Shaders.shaderPackLoaded;
    }
 
-   public static String[] readLines(File var0) throws IOException {
-      FileInputStream var1 = new FileInputStream(var0);
-      return readLines(var1);
+   public static String[] readLines(File file) throws IOException {
+      FileInputStream fis = new FileInputStream(file);
+      return readLines(fis);
    }
 
-   public static String[] readLines(InputStream var0) throws IOException {
-      ArrayList var4 = new ArrayList();
-      InputStreamReader var5 = new InputStreamReader(var0, "ASCII");
-      BufferedReader var6 = new BufferedReader(var5);
+   public static String[] readLines(InputStream is) throws IOException {
+      ArrayList arrayList = new ArrayList();
+      InputStreamReader inputStreamReader = new InputStreamReader(is, "ASCII");
+      BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
       while (true) {
-         String var7 = var6.readLine();
-         if (var7 == null) {
-            return (java.lang.String[])(var4.toArray(new String[var4.size()]));
+         String string = bufferedReader.readLine();
+         if (string == null) {
+            return (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
          }
 
-         var4.add(var7);
+         arrayList.add(string);
       }
    }
 
-   public static String readFile(File var0) throws IOException {
-      FileInputStream var3 = new FileInputStream(var0);
-      return readInputStream(var3, "ASCII");
+   public static String readFile(File file) throws IOException {
+      FileInputStream fileInputStream = new FileInputStream(file);
+      return readInputStream(fileInputStream, "ASCII");
    }
 
-   public static String readInputStream(InputStream var0) throws IOException {
-      return readInputStream(var0, "ASCII");
+   public static String readInputStream(InputStream in) throws IOException {
+      return readInputStream(in, "ASCII");
    }
 
-   public static String readInputStream(InputStream var0, String var1) throws IOException {
-      InputStreamReader var5 = new InputStreamReader(var0, var1);
-      BufferedReader var6 = new BufferedReader(var5);
-      StringBuffer var7 = new StringBuffer();
+   public static String readInputStream(InputStream in, String encoding) throws IOException {
+      InputStreamReader inputStreamReader = new InputStreamReader(in, encoding);
+      BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+      StringBuffer stringBuffer = new StringBuffer();
 
       while (true) {
-         String var8 = var6.readLine();
-         if (var8 == null) {
-            return var7.toString();
+         String string = bufferedReader.readLine();
+         if (string == null) {
+            return stringBuffer.toString();
          }
 
-         var7.append(var8);
-         var7.append("\n");
+         stringBuffer.append(string);
+         stringBuffer.append("\n");
       }
    }
 
-   public static byte[] readAll(InputStream var0) throws IOException {
-      ByteArrayOutputStream var4 = new ByteArrayOutputStream();
-      byte[] var5 = new byte[1024];
+   public static byte[] readAll(InputStream is) throws IOException {
+      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      byte[] bytes = new byte[1024];
 
       while (true) {
-         int var6 = var0.read(var5);
-         if (var6 < 0) {
-            var0.close();
-            return var4.toByteArray();
+         int i = is.read(bytes);
+         if (i < 0) {
+            is.close();
+            return byteArrayOutputStream.toByteArray();
          }
 
-         var4.write(var5, 0, var6);
+         byteArrayOutputStream.write(bytes, 0, i);
       }
    }
 
@@ -1231,75 +1231,75 @@ public class Config {
       return newRelease;
    }
 
-   public static void G(String var0) {
-      newRelease = var0;
+   public static void G(String string) {
+      newRelease = string;
    }
 
-   public static int compareRelease(String var0, String var1) {
-      String[] var5 = splitRelease(var0);
-      String[] var6 = splitRelease(var1);
-      String var7 = var5[0];
-      String var8 = var6[0];
-      if (!var7.equals(var8)) {
-         return var7.compareTo(var8);
+   public static int compareRelease(String rel1, String rel2) {
+      String[] strings = splitRelease(rel1);
+      String[] strings2 = splitRelease(rel2);
+      String string = strings[0];
+      String string2 = strings2[0];
+      if (!string.equals(string2)) {
+         return string.compareTo(string2);
       }
 
-      int var9 = parseInt(var5[1], -1);
-      int var10 = parseInt(var6[1], -1);
-      if (var9 != var10) {
-         return var9 - var10;
+      int i = parseInt(strings[1], -1);
+      int j = parseInt(strings2[1], -1);
+      if (i != j) {
+         return i - j;
       }
 
-      String var11 = var5[2];
-      String var12 = var6[2];
-      if (!var11.equals(var12)) {
-         if (var11.isEmpty()) {
+      String string3 = strings[2];
+      String string4 = strings2[2];
+      if (!string3.equals(string4)) {
+         if (string3.isEmpty()) {
             return 1;
          }
 
-         if (var12.isEmpty()) {
+         if (string4.isEmpty()) {
             return -1;
          }
       }
 
-      return var11.compareTo(var12);
+      return string3.compareTo(string4);
    }
 
-   private static String[] splitRelease(String var0) {
-      if (var0 != null && var0.length() > 0) {
-         Pattern var4 = Pattern.compile("([A-Z])([0-9]+)(.*)");
-         Matcher var5 = var4.matcher(var0);
-         if (!var5.matches()) {
+   private static String[] splitRelease(String relStr) {
+      if (relStr != null && relStr.length() > 0) {
+         Pattern pattern = Pattern.compile("([A-Z])([0-9]+)(.*)");
+         Matcher matcher2 = pattern.matcher(relStr);
+         if (!matcher2.matches()) {
             return new String[]{"", "", ""};
          }
 
-         String var6 = normalize(var5.group(1));
-         String var7 = normalize(var5.group(2));
-         String var8 = normalize(var5.group(3));
-         return new String[]{var6, var7, var8};
+         String string = normalize(matcher2.group(1));
+         String string2 = normalize(matcher2.group(2));
+         String string3 = normalize(matcher2.group(3));
+         return new String[]{string, string2, string3};
       } else {
          return new String[]{"", "", ""};
       }
    }
 
-   public static int intHash(int var0) {
-      var0 = var0 ^ 61 ^ var0 >> 16;
-      var0 += var0 << 3;
-      var0 ^= var0 >> 4;
-      var0 *= 668265261;
-      return var0 ^ var0 >> 15;
+   public static int intHash(int x) {
+      x = x ^ 61 ^ x >> 16;
+      x += x << 3;
+      x ^= x >> 4;
+      x *= 668265261;
+      return x ^ x >> 15;
    }
 
-   public static int getRandom(BlockPos var0, int var1) {
-      int var4 = intHash(var1 + 37);
-      var4 = intHash(var4 + var0.getX());
-      var4 = intHash(var4 + var0.getZ());
-      return intHash(var4 + var0.getY());
+   public static int getRandom(BlockPos blockPos, int face) {
+      int i = intHash(face + 37);
+      i = intHash(i + blockPos.getX());
+      i = intHash(i + blockPos.getZ());
+      return intHash(i + blockPos.getY());
    }
 
    public static WorldServer getWorldServer() {
-      WorldClient var3 = minecraft.theWorld;
-      if (var3 == null) {
+      WorldClient worldClient = minecraft.theWorld;
+      if (worldClient == null) {
          return null;
       }
 
@@ -1307,21 +1307,21 @@ public class Config {
          return null;
       }
 
-      IntegratedServer var4 = minecraft.getIntegratedServer();
-      if (var4 == null) {
+      IntegratedServer integratedServer = minecraft.getIntegratedServer();
+      if (integratedServer == null) {
          return null;
       }
 
-      WorldProvider var5 = var3.provider;
-      if (var5 == null) {
+      WorldProvider worldProvider = worldClient.provider;
+      if (worldProvider == null) {
          return null;
       }
 
-      int var6 = var5.getDimensionId();
+      int i = worldProvider.getDimensionId();
 
       try {
-         return var4.worldServerForDimension(var6);
-      } catch (NullPointerException var8) {
+         return integratedServer.worldServerForDimension(i);
+      } catch (NullPointerException nullPointerException) {
          return null;
       }
    }
@@ -1358,18 +1358,18 @@ public class Config {
       return gameSettings == null ? 10 : gameSettings.renderDistanceChunks;
    }
 
-   public static boolean equals(Object var0, Object var1) {
-      return var0 == var1 ? true : (var0 == null ? false : var0.equals(var1));
+   public static boolean equals(Object o1, Object o2) {
+      return o1 == o2 ? true : (o1 == null ? false : o1.equals(o2));
    }
 
-   public static boolean X(Object var0, Object[] var1) {
-      if (var1 == null) {
+   public static boolean X(Object object, Object[] objects) {
+      if (objects == null) {
          return false;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         Object var6 = var1[var5];
-         if (equals(var0, var6)) {
+      for (int i = 0; i < objects.length; i++) {
+         Object object2 = objects[i];
+         if (equals(object, object2)) {
             return true;
          }
       }
@@ -1377,14 +1377,14 @@ public class Config {
       return false;
    }
 
-   public static boolean K(Object var0, Object[] var1) {
-      if (var1 == null) {
+   public static boolean K(Object object, Object[] objects) {
+      if (objects == null) {
          return false;
       }
 
-      for (int var5 = 0; var5 < var1.length; var5++) {
-         Object var6 = var1[var5];
-         if (var0 == var6) {
+      for (int i = 0; i < objects.length; i++) {
+         Object object2 = objects[i];
+         if (object == object2) {
             return true;
          }
       }
@@ -1392,76 +1392,76 @@ public class Config {
       return false;
    }
 
-   public static String normalize(String var0) {
-      return var0 == null ? "" : var0;
+   public static String normalize(String s) {
+      return s == null ? "" : s;
    }
 
    public static void checkDisplaySettings() {
-      int var3 = getAntialiasingLevel();
-      if (var3 > 0) {
-         DisplayMode var4 = Display.getDisplayMode();
-         dbg("FSAA Samples: " + var3);
+      int i = getAntialiasingLevel();
+      if (i > 0) {
+         DisplayMode displayMode = Display.getDisplayMode();
+         dbg("FSAA Samples: " + i);
 
          try {
             Display.destroy();
-            Display.setDisplayMode(var4);
-            Display.create(new PixelFormat().withDepthBits(24).withSamples(var3));
+            Display.setDisplayMode(displayMode);
+            Display.create(new PixelFormat().withDepthBits(24).withSamples(i));
             Display.setResizable(false);
             Display.setResizable(true);
-         } catch (LWJGLException var18) {
-            warn("Error setting FSAA: " + var3 + "x");
-            var18.printStackTrace();
+         } catch (LWJGLException lwjglException) {
+            warn("Error setting FSAA: " + i + "x");
+            lwjglException.printStackTrace();
 
             try {
-               Display.setDisplayMode(var4);
+               Display.setDisplayMode(displayMode);
                Display.create(new PixelFormat().withDepthBits(24));
                Display.setResizable(false);
                Display.setResizable(true);
-            } catch (LWJGLException var17) {
-               var17.printStackTrace();
+            } catch (LWJGLException lwjglException2) {
+               lwjglException2.printStackTrace();
 
                try {
-                  Display.setDisplayMode(var4);
+                  Display.setDisplayMode(displayMode);
                   Display.create();
                   Display.setResizable(false);
                   Display.setResizable(true);
-               } catch (LWJGLException var16) {
-                  var16.printStackTrace();
+               } catch (LWJGLException lwjglException3) {
+                  lwjglException3.printStackTrace();
                }
             }
          }
 
          if (!Minecraft.isRunningOnMac && getDefaultResourcePack() != null) {
-            InputStream var5 = null;
-            InputStream var6 = null;
+            InputStream inputStream = null;
+            InputStream inputStream2 = null;
 
             try {
-               var5 = getDefaultResourcePack().getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
-               var6 = getDefaultResourcePack().getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
-               if (var5 != null && var6 != null) {
-                  Display.setIcon(new ByteBuffer[]{readIconImage(var5), readIconImage(var6)});
+               inputStream = getDefaultResourcePack().getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
+               inputStream2 = getDefaultResourcePack().getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
+               if (inputStream != null && inputStream2 != null) {
+                  Display.setIcon(new ByteBuffer[]{readIconImage(inputStream), readIconImage(inputStream2)});
                }
-            } catch (IOException var14) {
-               warn("Error setting window icon: " + var14.getClass().getName() + ": " + var14.getMessage());
+            } catch (IOException ioException) {
+               warn("Error setting window icon: " + ioException.getClass().getName() + ": " + ioException.getMessage());
             } finally {
-               IOUtils.closeQuietly(var5);
-               IOUtils.closeQuietly(var6);
+               IOUtils.closeQuietly(inputStream);
+               IOUtils.closeQuietly(inputStream2);
             }
          }
       }
    }
 
-   private static ByteBuffer readIconImage(InputStream var0) throws IOException {
-      BufferedImage var4 = ImageIO.read(var0);
-      int[] var5 = var4.getRGB(0, 0, var4.getWidth(), var4.getHeight(), (int[])null, 0, var4.getWidth());
-      ByteBuffer var6 = ByteBuffer.allocate(4 * var5.length);
+   private static ByteBuffer readIconImage(InputStream is) throws IOException {
+      BufferedImage bufferedImage = ImageIO.read(is);
+      int[] ints = bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), (int[])null, 0, bufferedImage.getWidth());
+      ByteBuffer byteBuffer = ByteBuffer.allocate(4 * ints.length);
 
-      for (int var10 : var5) {
-         var6.putInt(var10 << 8 | var10 >> 24 & 0xFF);
+      for (int i : ints) {
+         byteBuffer.putInt(i << 8 | i >> 24 & 0xFF);
       }
 
-      ((Buffer)var6).flip();
-      return var6;
+      ((Buffer)byteBuffer).flip();
+      return byteBuffer;
    }
 
    public static void checkDisplayMode() {
@@ -1473,22 +1473,22 @@ public class Config {
 
             fullscreenModeChecked = true;
             desktopModeChecked = false;
-            DisplayMode var3 = Display.getDisplayMode();
-            Dimension var4 = getFullscreenDimension();
-            if (var4 == null) {
+            DisplayMode displayMode = Display.getDisplayMode();
+            Dimension dimension = getFullscreenDimension();
+            if (dimension == null) {
                return;
             }
 
-            if (var3.getWidth() == var4.width && var3.getHeight() == var4.height) {
+            if (displayMode.getWidth() == dimension.width && displayMode.getHeight() == dimension.height) {
                return;
             }
 
-            DisplayMode var5 = getDisplayMode(var4);
-            if (var5 == null) {
+            DisplayMode displayMode2 = getDisplayMode(dimension);
+            if (displayMode2 == null) {
                return;
             }
 
-            Display.setDisplayMode(var5);
+            Display.setDisplayMode(displayMode2);
             minecraft.displayWidth = Display.getDisplayMode().getWidth();
             minecraft.displayHeight = Display.getDisplayMode().getHeight();
             if (minecraft.displayWidth <= 0) {
@@ -1500,10 +1500,10 @@ public class Config {
             }
 
             if (minecraft.currentScreen != null) {
-               ScaledResolution var6 = new ScaledResolution(minecraft);
-               int var7 = var6.getScaledWidth();
-               int var8 = var6.getScaledHeight();
-               minecraft.currentScreen.setWorldAndResolution(minecraft, var7, var8);
+               ScaledResolution scaledResolution = new ScaledResolution(minecraft);
+               int i = scaledResolution.getScaledWidth();
+               int j = scaledResolution.getScaledHeight();
+               minecraft.currentScreen.setWorldAndResolution(minecraft, i, j);
             }
 
             minecraft.loadingScreen = new LoadingScreenRenderer(minecraft);
@@ -1524,8 +1524,8 @@ public class Config {
             Display.setResizable(false);
             Display.setResizable(true);
          }
-      } catch (Exception var9) {
-         var9.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
          gameSettings.ofFullscreenMode = "Default";
          gameSettings.saveOfOptions();
       }
@@ -1538,41 +1538,41 @@ public class Config {
       }
    }
 
-   public static Object[] addObjectToArray(Object[] var0, Object var1) {
-      if (var0 == null) {
+   public static Object[] addObjectToArray(Object[] arr, Object obj) {
+      if (arr == null) {
          throw new NullPointerException("The given array is NULL");
       }
 
-      int var5 = var0.length;
-      int var6 = var5 + 1;
-      Object[] var7 = (Object[])Array.newInstance(var0.getClass().getComponentType(), var6);
-      System.arraycopy(var0, 0, var7, 0, var5);
-      var7[var5] = var1;
-      return var7;
+      int i = arr.length;
+      int j = i + 1;
+      Object[] objects = (Object[])Array.newInstance(arr.getClass().getComponentType(), j);
+      System.arraycopy(arr, 0, objects, 0, i);
+      objects[i] = obj;
+      return objects;
    }
 
-   public static Object[] addObjectToArray(Object[] var0, Object var1, int var2) {
-      ArrayList var3 = new ArrayList<>(Arrays.asList(var0));
-      var3.add(var2, var1);
-      Object[] var4 = (Object[])Array.newInstance(var0.getClass().getComponentType(), var3.size());
-      return var3.toArray(var4);
+   public static Object[] addObjectToArray(Object[] arr, Object obj, int index) {
+      ArrayList arrayList = new ArrayList<>(Arrays.asList(arr));
+      arrayList.add(index, obj);
+      Object[] objects = (Object[])Array.newInstance(arr.getClass().getComponentType(), arrayList.size());
+      return arrayList.toArray(objects);
    }
 
-   public static Object[] addObjectsToArray(Object[] var0, Object[] var1) {
-      if (var0 == null) {
+   public static Object[] addObjectsToArray(Object[] arr, Object[] objs) {
+      if (arr == null) {
          throw new NullPointerException("The given array is NULL");
       }
 
-      if (var1.length == 0) {
-         return var0;
+      if (objs.length == 0) {
+         return arr;
       }
 
-      int var5 = var0.length;
-      int var6 = var5 + var1.length;
-      Object[] var7 = (Object[])Array.newInstance(var0.getClass().getComponentType(), var6);
-      System.arraycopy(var0, 0, var7, 0, var5);
-      System.arraycopy(var1, 0, var7, var5, var1.length);
-      return var7;
+      int i = arr.length;
+      int j = i + objs.length;
+      Object[] objects = (Object[])Array.newInstance(arr.getClass().getComponentType(), j);
+      System.arraycopy(arr, 0, objects, 0, i);
+      System.arraycopy(objs, 0, objects, i, objs.length);
+      return objects;
    }
 
    public static boolean isCustomItems() {
@@ -1580,37 +1580,37 @@ public class Config {
    }
 
    public static void drawFps() {
-      int var2 = Minecraft.B();
-      String var3 = getUpdates(minecraft.xQ);
-      int var4 = minecraft.renderGlobal.getCountActiveRenderers();
-      int var5 = minecraft.renderGlobal.P();
-      int var6 = minecraft.renderGlobal.Z();
-      String var7 = "" + var2 + " fps, C: " + var4 + ", E: " + var5 + "+" + var6 + ", U: " + var3;
-      minecraft.fontRendererObj.D(var7, 2.0F, 2.0F, -2039584);
+      int i = Minecraft.B();
+      String string = getUpdates(minecraft.xQ);
+      int j = minecraft.renderGlobal.getCountActiveRenderers();
+      int k = minecraft.renderGlobal.P();
+      int l = minecraft.renderGlobal.Z();
+      String string2 = "" + i + " fps, C: " + j + ", E: " + k + "+" + l + ", U: " + string;
+      minecraft.fontRendererObj.D(string2, 2.0F, 2.0F, -2039584);
    }
 
-   private static String getUpdates(String var0) {
-      int var4 = var0.indexOf(40);
-      if (var4 < 0) {
+   private static String getUpdates(String str) {
+      int i = str.indexOf(40);
+      if (i < 0) {
          return "";
       }
 
-      int var5 = var0.indexOf(32, var4);
-      return var5 < 0 ? "" : var0.substring(var4 + 1, var5);
+      int j = str.indexOf(32, i);
+      return j < 0 ? "" : str.substring(i + 1, j);
    }
 
    public static int getBitsOs() {
-      String var2 = System.getenv("ProgramFiles(X86)");
-      return var2 != null ? 64 : 32;
+      String string = System.getenv("ProgramFiles(X86)");
+      return string != null ? 64 : 32;
    }
 
    public static int getBitsJre() {
-      String[] var3 = new String[]{"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
+      String[] strings = new String[]{"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
 
-      for (int var4 = 0; var4 < var3.length; var4++) {
-         String var5 = var3[var4];
-         String var6 = System.getProperty(var5);
-         if (var6 != null && var6.contains("64")) {
+      for (int i = 0; i < strings.length; i++) {
+         String string = strings[i];
+         String string2 = System.getProperty(string);
+         if (string2 != null && string2.contains("64")) {
             return 64;
          }
       }
@@ -1622,57 +1622,57 @@ public class Config {
       return notify64BitJava;
    }
 
-   public static void setNotify64BitJava(boolean var0) {
-      notify64BitJava = var0;
+   public static void setNotify64BitJava(boolean flag) {
+      notify64BitJava = flag;
    }
 
-   public static void showGuiMessage(String var0, String var1) {
-      GuiMessage var2 = new GuiMessage(minecraft.currentScreen, var0, var1);
-      minecraft.displayGuiScreen(var2);
+   public static void showGuiMessage(String line1, String line2) {
+      GuiMessage gui = new GuiMessage(minecraft.currentScreen, line1, line2);
+      minecraft.displayGuiScreen(gui);
    }
 
-   public static int[] addIntToArray(int[] var0, int var1) {
-      return addIntsToArray(var0, new int[]{var1});
+   public static int[] addIntToArray(int[] intArray, int intValue) {
+      return addIntsToArray(intArray, new int[]{intValue});
    }
 
-   public static int[] addIntsToArray(int[] var0, int[] var1) {
-      if (var0 != null && var1 != null) {
-         int var5 = var0.length;
-         int var6 = var5 + var1.length;
-         int[] var7 = new int[var6];
-         System.arraycopy(var0, 0, var7, 0, var5);
+   public static int[] addIntsToArray(int[] intArray, int[] copyFrom) {
+      if (intArray != null && copyFrom != null) {
+         int i = intArray.length;
+         int j = i + copyFrom.length;
+         int[] ints = new int[j];
+         System.arraycopy(intArray, 0, ints, 0, i);
 
-         for (int var8 = 0; var8 < var1.length; var8++) {
-            var7[var8 + var5] = var1[var8];
+         for (int k = 0; k < copyFrom.length; k++) {
+            ints[k + i] = copyFrom[k];
          }
 
-         return var7;
+         return ints;
       } else {
          throw new NullPointerException("The given array is NULL");
       }
    }
 
-   public static DynamicTexture getMojangLogoTexture(DynamicTexture var0) {
+   public static DynamicTexture getMojangLogoTexture(DynamicTexture texDefault) {
       try {
-         ResourceLocation var3 = new ResourceLocation("textures/gui/title/mojang.png");
-         InputStream var4 = getResourceStream(var3);
-         if (var4 == null) {
-            return var0;
+         ResourceLocation resourceLocation = new ResourceLocation("textures/gui/title/mojang.png");
+         InputStream inputStream = getResourceStream(resourceLocation);
+         if (inputStream == null) {
+            return texDefault;
          }
 
-         BufferedImage var5 = ImageIO.read(var4);
-         return var5 == null ? var0 : new DynamicTexture(var5);
-      } catch (Exception var7) {
-         warn(var7.getClass().getName() + ": " + var7.getMessage());
-         return var0;
+         BufferedImage bufferedImage = ImageIO.read(inputStream);
+         return bufferedImage == null ? texDefault : new DynamicTexture(bufferedImage);
+      } catch (Exception exception) {
+         warn(exception.getClass().getName() + ": " + exception.getMessage());
+         return texDefault;
       }
    }
 
-   public static void writeFile(File var0, String var1) throws IOException {
-      FileOutputStream var4 = new FileOutputStream(var0);
-      byte[] var5 = var1.getBytes("ASCII");
-      var4.write(var5);
-      var4.close();
+   public static void writeFile(File file, String str) throws IOException {
+      FileOutputStream fileOutputStream = new FileOutputStream(file);
+      byte[] bytes = str.getBytes("ASCII");
+      fileOutputStream.write(bytes);
+      fileOutputStream.close();
    }
 
    public static TextureMap getTextureMap() {

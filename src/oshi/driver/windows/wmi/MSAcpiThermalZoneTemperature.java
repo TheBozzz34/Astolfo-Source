@@ -14,8 +14,8 @@ public final class MSAcpiThermalZoneTemperature {
    }
 
    public static WmiResult<MSAcpiThermalZoneTemperature.TemperatureProperty> queryCurrentTemperature() {
-      WmiQuery var2 = new WmiQuery<>("ROOT\\WMI", "MSAcpi_ThermalZoneTemperature", MSAcpiThermalZoneTemperature.TemperatureProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var2);
+      WmiQuery wmiQuery = new WmiQuery<>("ROOT\\WMI", "MSAcpi_ThermalZoneTemperature", MSAcpiThermalZoneTemperature.TemperatureProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum TemperatureProperty {

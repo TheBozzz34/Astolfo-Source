@@ -11,9 +11,9 @@ public class EntityAIPanic extends EntityAIBase {
    private double randPosZ;
    private static final long a = 60329686559242L;
 
-   public EntityAIPanic(EntityCreature var1, double var2) {
-      this.theEntityCreature = var1;
-      this.speed = var2;
+   public EntityAIPanic(EntityCreature creature, double speedIn) {
+      this.theEntityCreature = creature;
+      this.speed = speedIn;
       this.setMutexBits(1);
    }
 
@@ -23,14 +23,14 @@ public class EntityAIPanic extends EntityAIBase {
          return false;
       }
 
-      Vec3 var4 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
-      if (var4 == null) {
+      Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
+      if (vec3 == null) {
          return false;
       }
 
-      this.randPosX = var4.xCoord;
-      this.randPosY = var4.yCoord;
-      this.randPosZ = var4.zCoord;
+      this.randPosX = vec3.xCoord;
+      this.randPosY = vec3.yCoord;
+      this.randPosZ = vec3.zCoord;
       return true;
    }
 

@@ -9,8 +9,8 @@ public final class RequestWrapper extends AbstractRequest {
    private Request U;
    private static final long b = 95054725548215L;
 
-   public RequestWrapper(Request var1) {
-      this.U = var1;
+   public RequestWrapper(Request request) {
+      this.U = request;
    }
 
    @Override
@@ -19,9 +19,9 @@ public final class RequestWrapper extends AbstractRequest {
          return this.B;
       }
 
-      String var4 = this.U.D();
-      this.B = var4;
-      return var4;
+      String string = this.U.D();
+      this.B = string;
+      return string;
    }
 
    @Override
@@ -42,16 +42,16 @@ public final class RequestWrapper extends AbstractRequest {
 
       try {
          this.B = this.D();
-      } catch (Exception var5) {
-         var5.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
       return this.B.length();
    }
 
    @Override
-   public URL m(URL var1) throws Exception {
-      return this.U instanceof AbstractRequest ? ((AbstractRequest)this.U).m(var1) : var1;
+   public URL m(URL url) throws Exception {
+      return this.U instanceof AbstractRequest ? ((AbstractRequest)this.U).m(url) : url;
    }
 
    @Override

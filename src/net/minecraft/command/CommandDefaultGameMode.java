@@ -14,28 +14,28 @@ public class CommandDefaultGameMode extends CommandGameMode {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.defaultgamemode.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length <= 0) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length <= 0) {
          throw new WrongUsageException("commands.defaultgamemode.usage");
       }
 
-      WorldSettings.GameType var5 = this.getGameModeFromCommand(var1, var2[0]);
-      this.setGameType(var5);
-      notifyOperators(var1, this, "commands.defaultgamemode.success", new ChatComponentTranslation("gameMode." + var5.getName()));
+      WorldSettings.GameType gameType = this.getGameModeFromCommand(sender, args[0]);
+      this.setGameType(gameType);
+      notifyOperators(sender, this, "commands.defaultgamemode.success", new ChatComponentTranslation("gameMode." + gameType.getName()));
    }
 
-   public void setGameType(WorldSettings.GameType var1) {
-      MinecraftServer var5 = MinecraftServer.getServer();
-      var5.setGameType(var1);
-      if (var5.getForceGamemode()) {
-         for (EntityPlayerMP var7 : MinecraftServer.getServer().getConfigurationManager().getPlayerList()) {
-            var7.setGameType(var1);
-            var7.fallDistance = 0.0F;
+   public void setGameType(WorldSettings.GameType gameMode) {
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      minecraftServer.setGameType(gameMode);
+      if (minecraftServer.getForceGamemode()) {
+         for (EntityPlayerMP entityPlayerMP : MinecraftServer.getServer().getConfigurationManager().getPlayerList()) {
+            entityPlayerMP.setGameType(gameMode);
+            entityPlayerMP.fallDistance = 0.0F;
          }
       }
    }

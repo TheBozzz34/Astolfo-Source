@@ -18,7 +18,7 @@ public abstract class AbstractNetworkParams implements NetworkParams {
    public String getDomainName() {
       try {
          return InetAddress.getLocalHost().getCanonicalHostName();
-      } catch (UnknownHostException var2) {
+      } catch (UnknownHostException unknownHostException) {
          return "";
       }
    }
@@ -26,45 +26,45 @@ public abstract class AbstractNetworkParams implements NetworkParams {
    @Override
    public String getHostName() {
       try {
-         String var3 = InetAddress.getLocalHost().getHostName();
-         int var4 = var3.indexOf(46);
-         return var4 == -1 ? var3 : var3.substring(0, var4);
-      } catch (UnknownHostException var5) {
+         String string = InetAddress.getLocalHost().getHostName();
+         int i = string.indexOf(46);
+         return i == -1 ? string : string.substring(0, i);
+      } catch (UnknownHostException unknownHostException) {
          return "";
       }
    }
 
    @Override
    public String[] getDnsServers() {
-      List var4 = FileUtil.readFile("/etc/resolv.conf");
-      String var5 = "nameserver";
-      byte var6 = 3;
-      ArrayList var7 = new ArrayList();
+      List list = FileUtil.readFile("/etc/resolv.conf");
+      String string = "nameserver";
+      byte b = 3;
+      ArrayList arrayList = new ArrayList();
 
-      for (int var8 = 0; var8 < var4.size() && var7.size() < var6; var8++) {
-         String var9 = (String)var4.get(var8);
-         if (var9.startsWith(var5)) {
-            String var10 = var9.substring(var5.length()).replaceFirst("^[ \t]+", "");
-            if (var10.length() != 0 && var10.charAt(0) != '#' && var10.charAt(0) != ';') {
-               String var11 = var10.split("[ \t#;]", 2)[0];
-               var7.add(var11);
+      for (int i = 0; i < list.size() && arrayList.size() < b; i++) {
+         String string2 = (String)list.get(i);
+         if (string2.startsWith(string)) {
+            String string3 = string2.substring(string.length()).replaceFirst("^[ \t]+", "");
+            if (string3.length() != 0 && string3.charAt(0) != '#' && string3.charAt(0) != ';') {
+               String string4 = string3.split("[ \t#;]", 2)[0];
+               arrayList.add(string4);
             }
          }
       }
 
-      return (java.lang.String[])(var7.toArray(new String[0]));
+      return (java.lang.String[])(arrayList.toArray(new String[0]));
    }
 
-   public static String searchGateway(List<String> var0) {
-      for (String var5 : var0) {
-         String var6 = var5.replaceFirst("^\\s+", "");
-         if (var6.startsWith("gateway:")) {
-            String[] var7 = ParseUtil.Q.split(var6);
-            if (var7.length < 2) {
+   public static String searchGateway(List<String> lines) {
+      for (String string : lines) {
+         String string2 = string.replaceFirst("^\\s+", "");
+         if (string2.startsWith("gateway:")) {
+            String[] strings = ParseUtil.Q.split(string2);
+            if (strings.length < 2) {
                return "";
             }
 
-            return var7[1].split("%")[0];
+            return strings[1].split("%")[0];
          }
       }
 

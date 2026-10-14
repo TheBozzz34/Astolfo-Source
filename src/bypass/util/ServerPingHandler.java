@@ -20,41 +20,41 @@ public class ServerPingHandler implements INetHandlerStatusClient {
    public final ServerPinger Q;
    private static final long a = 54730631041341L;
 
-   public ServerPingHandler(ServerPinger var1, ServerPingData var2, NetworkManager var3, String var4) {
-      this.Q = var1;
-      this.U = var2;
-      this.x = var3;
-      this.u = var4;
+   public ServerPingHandler(ServerPinger serverPinger, ServerPingData serverPingData, NetworkManager networkManager, String string) {
+      this.Q = serverPinger;
+      this.U = serverPingData;
+      this.x = networkManager;
+      this.u = string;
       this.z = false;
    }
 
    @Override
-   public void handleServerInfo(S00PacketServerInfo var1) {
-      ServerStatusResponse var5 = var1.getResponse();
-      if (var5.getPlayerCountData() != null) {
-         this.U.N = String.valueOf(var5.getPlayerCountData().getOnlinePlayerCount());
-         if (ArrayUtils.isNotEmpty(var5.getPlayerCountData().getPlayers())) {
-            StringBuilder var6 = new StringBuilder();
+   public void handleServerInfo(S00PacketServerInfo packetIn) {
+      ServerStatusResponse serverStatusResponse = packetIn.getResponse();
+      if (serverStatusResponse.getPlayerCountData() != null) {
+         this.U.N = String.valueOf(serverStatusResponse.getPlayerCountData().getOnlinePlayerCount());
+         if (ArrayUtils.isNotEmpty(serverStatusResponse.getPlayerCountData().getPlayers())) {
+            StringBuilder stringBuilder = new StringBuilder();
 
-            for (GameProfile var10 : var5.getPlayerCountData().getPlayers()) {
-               if (var6.length() > 0) {
-                  var6.append("\n");
+            for (GameProfile gameProfile : serverStatusResponse.getPlayerCountData().getPlayers()) {
+               if (stringBuilder.length() > 0) {
+                  stringBuilder.append("\n");
                }
 
-               var6.append(var10.getName());
+               stringBuilder.append(gameProfile.getName());
             }
 
-            if (var5.getPlayerCountData().getPlayers().length < var5.getPlayerCountData().getOnlinePlayerCount()) {
-               if (var6.length() > 0) {
-                  var6.append("\n");
+            if (serverStatusResponse.getPlayerCountData().getPlayers().length < serverStatusResponse.getPlayerCountData().getOnlinePlayerCount()) {
+               if (stringBuilder.length() > 0) {
+                  stringBuilder.append("\n");
                }
 
-               var6.append("... and ")
-                  .append(var5.getPlayerCountData().getOnlinePlayerCount() - var5.getPlayerCountData().getPlayers().length)
+               stringBuilder.append("... and ")
+                  .append(serverStatusResponse.getPlayerCountData().getOnlinePlayerCount() - serverStatusResponse.getPlayerCountData().getPlayers().length)
                   .append(" more ...");
             }
 
-            this.U.u = var6.toString();
+            this.U.u = stringBuilder.toString();
          }
       } else {
          this.U.u = "";
@@ -65,14 +65,14 @@ public class ServerPingHandler implements INetHandlerStatusClient {
    }
 
    @Override
-   public void handlePong(S01PacketPong var1) {
+   public void handlePong(S01PacketPong packetIn) {
       this.x.closeChannel(new ChatComponentText("Finished"));
    }
 
    @Override
-   public void onDisconnect(IChatComponent var1) {
+   public void onDisconnect(IChatComponent reason) {
       if (!this.z) {
-         ServerPinger.P().error("Can't ping " + this.u + ": " + var1.getUnformattedText());
+         ServerPinger.P().error("Can't ping " + this.u + ": " + reason.getUnformattedText());
       }
    }
 }

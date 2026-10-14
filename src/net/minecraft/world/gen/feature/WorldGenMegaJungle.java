@@ -12,74 +12,74 @@ import net.minecraft.world.World;
 public class WorldGenMegaJungle extends WorldGenHugeTrees {
    private static final long a = 51016080922317L;
 
-   public WorldGenMegaJungle(boolean var1, int var2, int var3, IBlockState var4, IBlockState var5) {
-      super(var1, var2, var3, var4, var5);
+   public WorldGenMegaJungle(boolean bl, int i, int k, IBlockState iBlockState, IBlockState iBlockState2) {
+      super(bl, i, k, iBlockState, iBlockState2);
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      int var7 = this.func_150533_a(var2);
-      if (!this.func_175929_a(var1, var2, var3, var7)) {
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      int i = this.func_150533_a(rand);
+      if (!this.func_175929_a(worldIn, rand, position, i)) {
          return false;
       }
 
-      this.func_175930_c(var1, var3.up(var7), 2);
+      this.func_175930_c(worldIn, position.up(i), 2);
 
-      for (int var8 = var3.getY() + var7 - 2 - var2.nextInt(4); var8 > var3.getY() + var7 / 2; var8 -= 2 + var2.nextInt(4)) {
-         float var9 = var2.nextFloat() * (float) Math.PI * 2.0F;
-         int var10 = var3.getX() + (int)(0.5F + MathHelper.cos(var9) * 4.0F);
-         int var11 = var3.getZ() + (int)(0.5F + MathHelper.sin(var9) * 4.0F);
+      for (int j = position.getY() + i - 2 - rand.nextInt(4); j > position.getY() + i / 2; j -= 2 + rand.nextInt(4)) {
+         float f = rand.nextFloat() * (float) Math.PI * 2.0F;
+         int k = position.getX() + (int)(0.5F + MathHelper.cos(f) * 4.0F);
+         int l = position.getZ() + (int)(0.5F + MathHelper.sin(f) * 4.0F);
 
-         for (int var12 = 0; var12 < 5; var12++) {
-            var10 = var3.getX() + (int)(1.5F + MathHelper.cos(var9) * var12);
-            var11 = var3.getZ() + (int)(1.5F + MathHelper.sin(var9) * var12);
-            this.setBlockAndNotifyAdequately(var1, new BlockPos(var10, var8 - 3 + var12 / 2, var11), this.woodMetadata);
+         for (int m = 0; m < 5; m++) {
+            k = position.getX() + (int)(1.5F + MathHelper.cos(f) * m);
+            l = position.getZ() + (int)(1.5F + MathHelper.sin(f) * m);
+            this.setBlockAndNotifyAdequately(worldIn, new BlockPos(k, j - 3 + m / 2, l), this.woodMetadata);
          }
 
-         int var20 = 1 + var2.nextInt(2);
-         int var13 = var8;
+         int n = 1 + rand.nextInt(2);
+         int i2 = j;
 
-         for (int var14 = var8 - var20; var14 <= var13; var14++) {
-            int var15 = var14 - var13;
-            this.e(var1, new BlockPos(var10, var14, var11), 1 - var15);
+         for (int i3 = j - n; i3 <= i2; i3++) {
+            int i4 = i3 - i2;
+            this.e(worldIn, new BlockPos(k, i3, l), 1 - i4);
          }
       }
 
-      for (int var16 = 0; var16 < var7; var16++) {
-         BlockPos var17 = var3.up(var16);
-         if (this.func_150523_a(var1.getBlockState(var17).getBlock())) {
-            this.setBlockAndNotifyAdequately(var1, var17, this.woodMetadata);
-            if (var16 > 0) {
-               this.func_181632_a(var1, var2, var17.west(), BlockVine.EAST);
-               this.func_181632_a(var1, var2, var17.north(), BlockVine.SOUTH);
+      for (int i5 = 0; i5 < i; i5++) {
+         BlockPos blockPos = position.up(i5);
+         if (this.func_150523_a(worldIn.getBlockState(blockPos).getBlock())) {
+            this.setBlockAndNotifyAdequately(worldIn, blockPos, this.woodMetadata);
+            if (i5 > 0) {
+               this.func_181632_a(worldIn, rand, blockPos.west(), BlockVine.EAST);
+               this.func_181632_a(worldIn, rand, blockPos.north(), BlockVine.SOUTH);
             }
          }
 
-         if (var16 < var7 - 1) {
-            BlockPos var18 = var17.east();
-            if (this.func_150523_a(var1.getBlockState(var18).getBlock())) {
-               this.setBlockAndNotifyAdequately(var1, var18, this.woodMetadata);
-               if (var16 > 0) {
-                  this.func_181632_a(var1, var2, var18.east(), BlockVine.WEST);
-                  this.func_181632_a(var1, var2, var18.north(), BlockVine.SOUTH);
+         if (i5 < i - 1) {
+            BlockPos blockPos2 = blockPos.east();
+            if (this.func_150523_a(worldIn.getBlockState(blockPos2).getBlock())) {
+               this.setBlockAndNotifyAdequately(worldIn, blockPos2, this.woodMetadata);
+               if (i5 > 0) {
+                  this.func_181632_a(worldIn, rand, blockPos2.east(), BlockVine.WEST);
+                  this.func_181632_a(worldIn, rand, blockPos2.north(), BlockVine.SOUTH);
                }
             }
 
-            BlockPos var19 = var17.south().east();
-            if (this.func_150523_a(var1.getBlockState(var19).getBlock())) {
-               this.setBlockAndNotifyAdequately(var1, var19, this.woodMetadata);
-               if (var16 > 0) {
-                  this.func_181632_a(var1, var2, var19.east(), BlockVine.WEST);
-                  this.func_181632_a(var1, var2, var19.south(), BlockVine.NORTH);
+            BlockPos blockPos3 = blockPos.south().east();
+            if (this.func_150523_a(worldIn.getBlockState(blockPos3).getBlock())) {
+               this.setBlockAndNotifyAdequately(worldIn, blockPos3, this.woodMetadata);
+               if (i5 > 0) {
+                  this.func_181632_a(worldIn, rand, blockPos3.east(), BlockVine.WEST);
+                  this.func_181632_a(worldIn, rand, blockPos3.south(), BlockVine.NORTH);
                }
             }
 
-            BlockPos var21 = var17.south();
-            if (this.func_150523_a(var1.getBlockState(var21).getBlock())) {
-               this.setBlockAndNotifyAdequately(var1, var21, this.woodMetadata);
-               if (var16 > 0) {
-                  this.func_181632_a(var1, var2, var21.west(), BlockVine.EAST);
-                  this.func_181632_a(var1, var2, var21.south(), BlockVine.NORTH);
+            BlockPos blockPos4 = blockPos.south();
+            if (this.func_150523_a(worldIn.getBlockState(blockPos4).getBlock())) {
+               this.setBlockAndNotifyAdequately(worldIn, blockPos4, this.woodMetadata);
+               if (i5 > 0) {
+                  this.func_181632_a(worldIn, rand, blockPos4.west(), BlockVine.EAST);
+                  this.func_181632_a(worldIn, rand, blockPos4.south(), BlockVine.NORTH);
                }
             }
          }
@@ -88,17 +88,17 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
       return true;
    }
 
-   private void func_181632_a(World var1, Random var2, BlockPos var3, PropertyBool var4) {
-      if (var2.nextInt(3) > 0 && var1.isAirBlock(var3)) {
-         this.setBlockAndNotifyAdequately(var1, var3, Blocks.vine.getDefaultState().withProperty(var4, true));
+   private void func_181632_a(World world, Random random2, BlockPos blockPos, PropertyBool propertyBool) {
+      if (random2.nextInt(3) > 0 && world.isAirBlock(blockPos)) {
+         this.setBlockAndNotifyAdequately(world, blockPos, Blocks.vine.getDefaultState().withProperty(propertyBool, true));
       }
    }
 
-   private void func_175930_c(World var1, BlockPos var2, int var3) {
-      byte var7 = 2;
+   private void func_175930_c(World worldIn, BlockPos blockPos, int i) {
+      byte b = 2;
 
-      for (int var8 = -var7; var8 <= 0; var8++) {
-         this.j(var1, var2.up(var8), var3 + 1 - var8);
+      for (int k = -b; k <= 0; k++) {
+         this.j(worldIn, blockPos.up(k), i + 1 - k);
       }
    }
 }

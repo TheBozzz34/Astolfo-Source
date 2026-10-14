@@ -27,77 +27,77 @@ public class CommandTitle extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.title.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 2) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 2) {
          throw new WrongUsageException("commands.title.usage");
       }
 
-      if (var2.length < 3) {
-         if ("title".equals(var2[1]) || "subtitle".equals(var2[1])) {
+      if (args.length < 3) {
+         if ("title".equals(args[1]) || "subtitle".equals(args[1])) {
             throw new WrongUsageException("commands.title.usage.title");
          }
 
-         if ("times".equals(var2[1])) {
+         if ("times".equals(args[1])) {
             throw new WrongUsageException("commands.title.usage.times");
          }
       }
 
-      EntityPlayerMP var6 = getPlayer(var1, var2[0]);
-      S45PacketTitle.Type var7 = S45PacketTitle.Type.byName(var2[1]);
-      if (var7 == S45PacketTitle.Type.CLEAR || var7 == S45PacketTitle.Type.RESET) {
-         if (var2.length != 2) {
+      EntityPlayerMP entityPlayerMP = getPlayer(sender, args[0]);
+      S45PacketTitle.Type type = S45PacketTitle.Type.byName(args[1]);
+      if (type == S45PacketTitle.Type.CLEAR || type == S45PacketTitle.Type.RESET) {
+         if (args.length != 2) {
             throw new WrongUsageException("commands.title.usage");
          }
 
-         S45PacketTitle var14 = new S45PacketTitle(var7, (IChatComponent)null);
-         var6.playerNetServerHandler.sendPacket(var14);
-         notifyOperators(var1, this, "commands.title.success");
-      } else if (var7 == S45PacketTitle.Type.TIMES) {
-         if (var2.length != 5) {
+         S45PacketTitle s45PacketTitle = new S45PacketTitle(type, (IChatComponent)null);
+         entityPlayerMP.playerNetServerHandler.sendPacket(s45PacketTitle);
+         notifyOperators(sender, this, "commands.title.success");
+      } else if (type == S45PacketTitle.Type.TIMES) {
+         if (args.length != 5) {
             throw new WrongUsageException("commands.title.usage");
          }
 
-         int var8 = parseInt(var2[2]);
-         int var9 = parseInt(var2[3]);
-         int var10 = parseInt(var2[4]);
-         S45PacketTitle var11 = new S45PacketTitle(var8, var9, var10);
-         var6.playerNetServerHandler.sendPacket(var11);
-         notifyOperators(var1, this, "commands.title.success");
+         int i = parseInt(args[2]);
+         int j = parseInt(args[3]);
+         int k = parseInt(args[4]);
+         S45PacketTitle s45PacketTitle2 = new S45PacketTitle(i, j, k);
+         entityPlayerMP.playerNetServerHandler.sendPacket(s45PacketTitle2);
+         notifyOperators(sender, this, "commands.title.success");
       } else {
-         if (var2.length < 3) {
+         if (args.length < 3) {
             throw new WrongUsageException("commands.title.usage");
          }
 
-         String var13 = buildString(var2, 2);
+         String string = buildString(args, 2);
 
-         IChatComponent var15;
+         IChatComponent iChatComponent;
          try {
-            var15 = IChatComponent.Serializer.jsonToComponent(var13);
-         } catch (JsonParseException var12) {
-            Throwable var17 = ExceptionUtils.getRootCause(var12);
-            throw new SyntaxErrorException("commands.tellraw.jsonException", var17 == null ? "" : var17.getMessage());
+            iChatComponent = IChatComponent.Serializer.jsonToComponent(string);
+         } catch (JsonParseException jsonParseException) {
+            Throwable throwable = ExceptionUtils.getRootCause(jsonParseException);
+            throw new SyntaxErrorException("commands.tellraw.jsonException", throwable == null ? "" : throwable.getMessage());
          }
 
-         S45PacketTitle var16 = new S45PacketTitle(var7, ChatComponentProcessor.processComponent(var1, var15, var6));
-         var6.playerNetServerHandler.sendPacket(var16);
-         notifyOperators(var1, this, "commands.title.success");
+         S45PacketTitle s45PacketTitle3 = new S45PacketTitle(type, ChatComponentProcessor.processComponent(sender, iChatComponent, entityPlayerMP));
+         entityPlayerMP.playerNetServerHandler.sendPacket(s45PacketTitle3);
+         notifyOperators(sender, this, "commands.title.success");
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames())
-         : (var2.length == 2 ? getListOfStringsMatchingLastWord(var2, S45PacketTitle.Type.getNames()) : null);
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames())
+         : (args.length == 2 ? getListOfStringsMatchingLastWord(args, S45PacketTitle.Type.getNames()) : null);
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 }

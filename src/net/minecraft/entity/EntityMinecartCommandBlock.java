@@ -28,8 +28,8 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
       }
 
       @Override
-      public void func_145757_a(ByteBuf var1) {
-         var1.writeInt(EntityMinecartCommandBlock.this.getEntityId());
+      public void func_145757_a(ByteBuf byteBuf) {
+         byteBuf.writeInt(EntityMinecartCommandBlock.this.getEntityId());
       }
 
       @Override
@@ -55,12 +55,12 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
    private int activatorRailCooldown = 0;
    private static final long ab = 51525937183698L;
 
-   public EntityMinecartCommandBlock(World var1) {
-      super(var1);
+   public EntityMinecartCommandBlock(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityMinecartCommandBlock(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6);
+   public EntityMinecartCommandBlock(World worldIn, double x, double y, double z) {
+      super(worldIn, x, y, z);
    }
 
    @Override
@@ -71,17 +71,17 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.commandBlockLogic.readDataFromNBT(var1);
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.commandBlockLogic.readDataFromNBT(tagCompund);
       this.getDataWatcher().updateObject(23, this.getCommandBlockLogic().getCommand());
       this.getDataWatcher().updateObject(24, IChatComponent.Serializer.componentToJson(this.getCommandBlockLogic().getLastOutput()));
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      this.commandBlockLogic.writeDataToNBT(var1);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      this.commandBlockLogic.writeDataToNBT(tagCompound);
    }
 
    @Override
@@ -99,28 +99,28 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
    }
 
    @Override
-   public void onActivatorRailPass(int var1, int var2, int var3, boolean var4) {
-      if (var4 && this.ticksExisted - this.activatorRailCooldown >= 4) {
+   public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
+      if (receivingPower && this.ticksExisted - this.activatorRailCooldown >= 4) {
          this.getCommandBlockLogic().trigger(this.worldObj);
          this.activatorRailCooldown = this.ticksExisted;
       }
    }
 
    @Override
-   public boolean interactFirst(EntityPlayer var1) {
-      this.commandBlockLogic.tryOpenEditCommandBlock(var1);
+   public boolean interactFirst(EntityPlayer playerIn) {
+      this.commandBlockLogic.tryOpenEditCommandBlock(playerIn);
       return false;
    }
 
    @Override
-   public void onDataWatcherUpdate(int var1) {
-      super.onDataWatcherUpdate(var1);
-      if (var1 == 24) {
+   public void onDataWatcherUpdate(int dataID) {
+      super.onDataWatcherUpdate(dataID);
+      if (dataID == 24) {
          try {
             this.commandBlockLogic.setLastOutput(IChatComponent.Serializer.jsonToComponent(this.getDataWatcher().getWatchableObjectString(24)));
-         } catch (Throwable var6) {
+         } catch (Throwable throwable) {
          }
-      } else if (var1 == 23) {
+      } else if (dataID == 23) {
          this.commandBlockLogic.setCommand(this.getDataWatcher().getWatchableObjectString(23));
       }
    }

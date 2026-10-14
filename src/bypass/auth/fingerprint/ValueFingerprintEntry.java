@@ -9,14 +9,14 @@ public class ValueFingerprintEntry<T> implements FingerprintEntry<T> {
    public T l;
    private static final long a = 101741983376718L;
 
-   public ValueFingerprintEntry(String var1, T var2) {
-      this.E = var1;
-      this.l = (T)var2;
+   public ValueFingerprintEntry(String string, T object) {
+      this.E = string;
+      this.l = (T)object;
    }
 
-   public ValueFingerprintEntry(String var1, Supplier<T> var2) {
-      this(var1, (T)var2.get());
-      this.H = var2;
+   public ValueFingerprintEntry(String string, Supplier<T> supplier) {
+      this(string, (T)supplier.get());
+      this.H = supplier;
    }
 
    @Override

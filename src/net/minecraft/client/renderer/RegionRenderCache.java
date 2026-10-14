@@ -23,64 +23,64 @@ public class RegionRenderCache extends ChunkCache {
    private static int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
    private static final long b = 52916503166768L;
 
-   public RegionRenderCache(World var1, BlockPos var2, BlockPos var3, int var4) {
-      super(var1, var2, var3, var4);
-      this.position = var2.subtract(new Vec3i(var4, var4, var4));
+   public RegionRenderCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn) {
+      super(worldIn, posFromIn, posToIn, subIn);
+      this.position = posFromIn.subtract(new Vec3i(subIn, subIn, subIn));
       this.combinedLights = allocateLights(8000);
       Arrays.fill(this.combinedLights, -1);
       this.blockStates = allocateStates(8000);
    }
 
    @Override
-   public TileEntity getTileEntity(BlockPos var1) {
-      int var2 = (var1.getX() >> 4) - this.chunkX;
-      int var3 = (var1.getZ() >> 4) - this.chunkZ;
-      return this.chunkArray[var2][var3].getTileEntity(var1, Chunk.EnumCreateEntityType.QUEUED);
+   public TileEntity getTileEntity(BlockPos pos) {
+      int i = (pos.getX() >> 4) - this.chunkX;
+      int j = (pos.getZ() >> 4) - this.chunkZ;
+      return this.chunkArray[i][j].getTileEntity(pos, Chunk.EnumCreateEntityType.QUEUED);
    }
 
    @Override
-   public int getCombinedLight(BlockPos var1, int var2) {
-      int var6 = this.getPositionIndex(var1);
-      int var7 = this.combinedLights[var6];
-      if (var7 == -1) {
-         var7 = super.getCombinedLight(var1, var2);
-         if (Config.isDynamicLights() && !this.getBlockState(var1).getBlock().isOpaqueCube()) {
-            var7 = DynamicLights.getCombinedLight(var1, var7);
+   public int getCombinedLight(BlockPos pos, int lightValue) {
+      int i = this.getPositionIndex(pos);
+      int j = this.combinedLights[i];
+      if (j == -1) {
+         j = super.getCombinedLight(pos, lightValue);
+         if (Config.isDynamicLights() && !this.getBlockState(pos).getBlock().isOpaqueCube()) {
+            j = DynamicLights.getCombinedLight(pos, j);
          }
 
-         this.combinedLights[var6] = var7;
+         this.combinedLights[i] = j;
       }
 
-      return var7;
+      return j;
    }
 
    @Override
-   public IBlockState getBlockState(BlockPos var1) {
-      int var5 = this.getPositionIndex(var1);
-      IBlockState var6 = this.blockStates[var5];
-      if (var6 == null) {
-         var6 = this.getBlockStateRaw(var1);
-         this.blockStates[var5] = var6;
+   public IBlockState getBlockState(BlockPos pos) {
+      int i = this.getPositionIndex(pos);
+      IBlockState iBlockState = this.blockStates[i];
+      if (iBlockState == null) {
+         iBlockState = this.getBlockStateRaw(pos);
+         this.blockStates[i] = iBlockState;
       }
 
-      return var6;
+      return iBlockState;
    }
 
-   private IBlockState getBlockStateRaw(BlockPos var1) {
-      if (var1.getY() >= 0 && var1.getY() < 256) {
-         int var5 = (var1.getX() >> 4) - this.chunkX;
-         int var6 = (var1.getZ() >> 4) - this.chunkZ;
-         return this.chunkArray[var5][var6].getBlockState(var1);
+   private IBlockState getBlockStateRaw(BlockPos pos) {
+      if (pos.getY() >= 0 && pos.getY() < 256) {
+         int i = (pos.getX() >> 4) - this.chunkX;
+         int j = (pos.getZ() >> 4) - this.chunkZ;
+         return this.chunkArray[i][j].getBlockState(pos);
       } else {
          return DEFAULT_STATE;
       }
    }
 
-   private int getPositionIndex(BlockPos var1) {
-      int var4 = var1.getX() - this.position.getX();
-      int var5 = var1.getY() - this.position.getY();
-      int var6 = var1.getZ() - this.position.getZ();
-      return var4 * 400 + var6 * 20 + var5;
+   private int getPositionIndex(BlockPos blockPos) {
+      int i = blockPos.getX() - this.position.getX();
+      int j = blockPos.getY() - this.position.getY();
+      int k = blockPos.getZ() - this.position.getZ();
+      return i * 400 + k * 20 + j;
    }
 
    public void freeBuffers() {
@@ -88,42 +88,42 @@ public class RegionRenderCache extends ChunkCache {
       freeStates(this.blockStates);
    }
 
-   private static int[] allocateLights(int var0) {
+   private static int[] allocateLights(int i) {
       synchronized (cacheLights) {
-         int[] var5 = cacheLights.pollLast();
-         if (var5 == null || var5.length < var0) {
-            var5 = new int[var0];
+         int[] ints = cacheLights.pollLast();
+         if (ints == null || ints.length < i) {
+            ints = new int[i];
          }
 
-         return var5;
+         return ints;
       }
    }
 
-   public static void freeLights(int[] var0) {
+   public static void freeLights(int[] ints) {
       synchronized (cacheLights) {
          if (cacheLights.size() < maxCacheSize) {
-            cacheLights.add(var0);
+            cacheLights.add(ints);
          }
       }
    }
 
-   private static IBlockState[] allocateStates(int var0) {
+   private static IBlockState[] allocateStates(int i) {
       synchronized (cacheStates) {
-         IBlockState[] var5 = cacheStates.pollLast();
-         if (var5 != null && var5.length >= var0) {
-            Arrays.fill(var5, null);
+         IBlockState[] iBlockStates = cacheStates.pollLast();
+         if (iBlockStates != null && iBlockStates.length >= i) {
+            Arrays.fill(iBlockStates, null);
          } else {
-            var5 = new IBlockState[var0];
+            iBlockStates = new IBlockState[i];
          }
 
-         return var5;
+         return iBlockStates;
       }
    }
 
-   public static void freeStates(IBlockState[] var0) {
+   public static void freeStates(IBlockState[] iBlockStates) {
       synchronized (cacheStates) {
          if (cacheStates.size() < maxCacheSize) {
-            cacheStates.add(var0);
+            cacheStates.add(iBlockStates);
          }
       }
    }

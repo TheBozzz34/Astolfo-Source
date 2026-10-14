@@ -20,7 +20,7 @@ public interface HardwareAbstractionLayer {
 
    Sensors getSensors();
 
-   UsbDevice[] getUsbDevices(boolean var1);
+   UsbDevice[] getUsbDevices(boolean bl);
 
    SoundCard[] getSoundCards();
 

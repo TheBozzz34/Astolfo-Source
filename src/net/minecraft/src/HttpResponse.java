@@ -9,11 +9,11 @@ public class HttpResponse {
    private Map<String, String> headers = new LinkedHashMap<>();
    private byte[] body = null;
 
-   public HttpResponse(int var1, String var2, Map var3, byte[] var4) {
-      this.status = var1;
-      this.statusLine = var2;
-      this.headers = var3;
-      this.body = var4;
+   public HttpResponse(int statusIn, String statusLine, Map headers, byte[] body) {
+      this.status = statusIn;
+      this.statusLine = statusLine;
+      this.headers = headers;
+      this.body = body;
    }
 
    public int getStatus() {
@@ -28,8 +28,8 @@ public class HttpResponse {
       return this.headers;
    }
 
-   public String getHeader(String var1) {
-      return this.headers.get(var1);
+   public String getHeader(String key) {
+      return this.headers.get(key);
    }
 
    public byte[] getBody() {

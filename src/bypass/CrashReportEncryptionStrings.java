@@ -9,25 +9,25 @@ public class CrashReportEncryptionStrings {
    public static String o = "1CnjkruPP9O9OrHt";
    private static final long a = 119429342183651L;
 
-   public static String R(String var0) {
-      String var4 = "n7bPbNlJA9Pemq0fAIxjjg==";
+   public static String R(String string) {
+      String string2 = "n7bPbNlJA9Pemq0fAIxjjg==";
 
-      String var3;
+      String string3;
       try {
-         Cipher var5 = Cipher.getInstance(i);
-         SecretKeySpec var6 = new SecretKeySpec(o.getBytes(), i);
-         var5.init(2, var6);
-         byte[] var7 = new BASE64Decoder().decodeBuffer(var4);
-         byte[] var8 = var5.doFinal(var7);
-         SecretKeySpec var9 = new SecretKeySpec(var8, i);
-         var5.init(2, var9);
-         byte[] var10 = new BASE64Decoder().decodeBuffer(var0);
-         byte[] var11 = var5.doFinal(var10);
-         var3 = new String(var11);
-      } catch (Exception var12) {
-         var3 = "";
+         Cipher cipher = Cipher.getInstance(i);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(o.getBytes(), i);
+         cipher.init(2, secretKeySpec);
+         byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
+         byte[] bytes2 = cipher.doFinal(bytes);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, i);
+         cipher.init(2, secretKeySpec2);
+         byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
+         byte[] bytes4 = cipher.doFinal(bytes3);
+         string3 = new String(bytes4);
+      } catch (Exception exception) {
+         string3 = "";
       }
 
-      return var3;
+      return string3;
    }
 }

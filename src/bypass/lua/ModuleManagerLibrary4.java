@@ -32,84 +32,84 @@ public class ModuleManagerLibrary4 extends TwoArgFunction implements ClientAcces
    public static final VarArgFunction T = new RegisterNumber();
    private static final long c = 99828213274077L;
 
-   public ModuleManagerLibrary4(Module var1) {
-      this.u = var1;
+   public ModuleManagerLibrary4(Module module) {
+      this.u = module;
    }
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var5 = LuaValue.tableOf();
-      var5.set("register", this.w);
-      var5.set("register_boolean", b);
-      var5.set("register_number", T);
-      var5.set("option", H);
-      var5.set("set_option", q);
-      var5.set("is_module_on", Q);
-      var2.set("module_manager", var5);
-      return var5;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("register", this.w);
+      luaTable.set("register_boolean", b);
+      luaTable.set("register_number", T);
+      luaTable.set("option", H);
+      luaTable.set("set_option", q);
+      luaTable.set("is_module_on", Q);
+      luaValue2.set("module_manager", luaTable);
+      return luaTable;
    }
 
-   private static void c(LuaValue var0, Setting<?> var1) {
-      if (var0.isnumber()) {
-         if (var1.getType() == SettingType.NUMBER) {
-            NumberSetting var5 = (NumberSetting)var1;
-            if (var5.valueClass == Integer.class) {
-               var5.setValue(var0.toint());
+   private static void c(LuaValue luaValue, Setting<?> setting) {
+      if (luaValue.isnumber()) {
+         if (setting.getType() == SettingType.NUMBER) {
+            NumberSetting numberSetting = (NumberSetting)setting;
+            if (numberSetting.valueClass == Integer.class) {
+               numberSetting.setValue(luaValue.toint());
             } else {
-               var5.setValue(var0.tofloat());
+               numberSetting.setValue(luaValue.tofloat());
             }
-         } else if (var1.getType() == SettingType.ENUM) {
-            EnumSetting var9 = (EnumSetting)var1;
-            Enum[] var6 = (Enum[])var9.getValue().getClass().getEnumConstants();
+         } else if (setting.getType() == SettingType.ENUM) {
+            EnumSetting enumSetting = (EnumSetting)setting;
+            Enum[] enums = (Enum[])enumSetting.getValue().getClass().getEnumConstants();
 
             try {
-               var9.setValue(var6[var0.toint() + 1]);
-            } catch (Exception var8) {
-               var9.setValue(var6[0]);
+               enumSetting.setValue(enums[luaValue.toint() + 1]);
+            } catch (Exception exception) {
+               enumSetting.setValue(enums[0]);
             }
          }
-      } else if (var0.isboolean()) {
-         if (var1.getType() == SettingType.BOOLEAN) {
-            BooleanSetting var10 = (BooleanSetting)var1;
-            var10.set(var0.checkboolean());
+      } else if (luaValue.isboolean()) {
+         if (setting.getType() == SettingType.BOOLEAN) {
+            BooleanSetting booleanSetting = (BooleanSetting)setting;
+            booleanSetting.set(luaValue.checkboolean());
          }
-      } else if (var0.isstring() && var1.getType() == SettingType.STRING) {
-         StringSetting var11 = (StringSetting)var1;
-         var11.setValue(var0.checkjstring());
+      } else if (luaValue.isstring() && setting.getType() == SettingType.STRING) {
+         StringSetting stringSetting = (StringSetting)setting;
+         stringSetting.setValue(luaValue.checkjstring());
       }
    }
 
-   public static Module d(ModuleManagerLibrary4 var0) {
-      return var0.u;
+   public static Module d(ModuleManagerLibrary4 moduleManagerLibrary4) {
+      return moduleManagerLibrary4.u;
    }
 
-   public static void h(LuaValue var0, Setting var1) {
-      c(var0, var1);
+   public static void h(LuaValue luaValue, Setting setting) {
+      c(luaValue, setting);
    }
 
    public class r4e extends TwoArgFunction {
       private static final long a = 130125136064414L;
 
       @Override
-      public LuaValue call(LuaValue var1, LuaValue var2) {
-         String var6 = null;
-         LuaTable var7 = null;
-         if (var1.isstring()) {
-            LuaString var8 = (LuaString)var1;
-            var6 = var8.checkjstring();
+      public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+         String string = null;
+         LuaTable luaTable = null;
+         if (luaValue.isstring()) {
+            LuaString luaString = (LuaString)luaValue;
+            string = luaString.checkjstring();
          }
 
-         if (var2.isfunction()) {
-            LuaValue var9 = var2.call();
-            if (var9.istable()) {
-               var7 = (LuaTable)var9.call();
+         if (luaValue2.isfunction()) {
+            LuaValue luaValue3 = luaValue2.call();
+            if (luaValue3.istable()) {
+               luaTable = (LuaTable)luaValue3.call();
             }
-         } else if (var2.istable()) {
-            var7 = (LuaTable)var2;
+         } else if (luaValue2.istable()) {
+            luaTable = (LuaTable)luaValue2;
          }
 
-         if (var6 != null && var7 != null) {
-            ModuleManagerLibrary4.d(ModuleManagerLibrary4.this).script = var7;
+         if (string != null && luaTable != null) {
+            ModuleManagerLibrary4.d(ModuleManagerLibrary4.this).script = luaTable;
             return valueOf(true);
          } else {
             return valueOf(false);

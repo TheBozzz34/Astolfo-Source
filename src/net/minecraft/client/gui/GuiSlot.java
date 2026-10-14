@@ -37,43 +37,43 @@ public abstract class GuiSlot {
    private static final int l = new Color(17, 17, 17).getRGB();
    private static final long t = 96971305979210L;
 
-   public GuiSlot(Minecraft var1, int var2, int var3, int var4, int var5, int var6) {
-      this.mc = var1;
-      this.width = var2;
-      this.height = var3;
-      this.top = var4;
-      this.bottom = var5;
-      this.slotHeight = var6;
+   public GuiSlot(Minecraft mcIn, int width, int height, int topIn, int bottomIn, int slotHeightIn) {
+      this.mc = mcIn;
+      this.width = width;
+      this.height = height;
+      this.top = topIn;
+      this.bottom = bottomIn;
+      this.slotHeight = slotHeightIn;
       this.left = 0;
-      this.right = var2;
+      this.right = width;
    }
 
-   public void m(int var1, int var2, int var3, int var4) {
-      this.width = var1;
-      this.height = var2;
-      this.top = var3;
-      this.bottom = var4;
+   public void m(int i, int j, int k, int m) {
+      this.width = i;
+      this.height = j;
+      this.top = k;
+      this.bottom = m;
       this.left = 0;
-      this.right = var1;
+      this.right = i;
    }
 
-   public void C(boolean var1) {
-      this.showSelectionBox = var1;
+   public void C(boolean bl) {
+      this.showSelectionBox = bl;
    }
 
-   public void setHasListHeader(boolean var1, int var2) {
-      this.hasListHeader = var1;
-      this.headerPadding = var2;
-      if (!var1) {
+   public void setHasListHeader(boolean hasListHeaderIn, int headerPaddingIn) {
+      this.hasListHeader = hasListHeaderIn;
+      this.headerPadding = headerPaddingIn;
+      if (!hasListHeaderIn) {
          this.headerPadding = 0;
       }
    }
 
    public abstract int getSize();
 
-   public abstract void elementClicked(int var1, boolean var2, int var3, int var4);
+   public abstract void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY);
 
-   public abstract boolean isSelected(int var1);
+   public abstract boolean isSelected(int slotIndex);
 
    public int getContentHeight() {
       return this.getSize() * this.slotHeight + this.headerPadding;
@@ -81,31 +81,31 @@ public abstract class GuiSlot {
 
    public abstract void drawBackground();
 
-   public void func_178040_a(int var1, int var2, int var3) {
+   public void func_178040_a(int i, int j, int k) {
    }
 
-   public abstract void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6);
+   public abstract void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn);
 
-   public void drawListHeader(int var1, int var2, Tessellator var3) {
+   public void drawListHeader(int i, int j, Tessellator tessellator) {
    }
 
-   public void func_148132_a(int var1, int var2) {
+   public void func_148132_a(int i, int j) {
    }
 
-   public void func_148142_b(int var1, int var2) {
+   public void func_148142_b(int i, int j) {
    }
 
-   public int getSlotIndexFromScreenCoords(int var1, int var2) {
-      int var6 = this.left + this.width / 2 - this.getListWidth() / 2;
-      int var7 = this.left + this.width / 2 + this.getListWidth() / 2;
-      int var8 = var2 - this.top - this.headerPadding + (int)this.amountScrolled - 4;
-      int var9 = var8 / this.slotHeight;
-      return var1 < this.getScrollBarX() && var1 >= var6 && var1 <= var7 && var9 >= 0 && var8 >= 0 && var9 < this.getSize() ? var9 : -1;
+   public int getSlotIndexFromScreenCoords(int i, int j) {
+      int k = this.left + this.width / 2 - this.getListWidth() / 2;
+      int l = this.left + this.width / 2 + this.getListWidth() / 2;
+      int m = j - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+      int n = m / this.slotHeight;
+      return i < this.getScrollBarX() && i >= k && i <= l && n >= 0 && m >= 0 && n < this.getSize() ? n : -1;
    }
 
-   public void U(int var1, int var2) {
-      this.scrollUpButtonID = var1;
-      this.scrollDownButtonID = var2;
+   public void U(int i, int j) {
+      this.scrollUpButtonID = i;
+      this.scrollDownButtonID = j;
    }
 
    public void bindAmountScrolled() {
@@ -120,23 +120,23 @@ public abstract class GuiSlot {
       return (int)this.amountScrolled;
    }
 
-   public boolean isMouseYWithinSlotBounds(int var1) {
-      return var1 >= this.top && var1 <= this.bottom && this.mouseX >= this.left && this.mouseX <= this.right;
+   public boolean isMouseYWithinSlotBounds(int i) {
+      return i >= this.top && i <= this.bottom && this.mouseX >= this.left && this.mouseX <= this.right;
    }
 
-   public void scrollBy(int var1) {
-      this.amountScrolled += var1;
+   public void scrollBy(int amount) {
+      this.amountScrolled += amount;
       this.bindAmountScrolled();
       this.initialClickY = -2;
    }
 
-   public void actionPerformed(GuiButton var1) {
-      if (var1.enabled) {
-         if (var1.id == this.scrollUpButtonID) {
+   public void actionPerformed(GuiButton button) {
+      if (button.enabled) {
+         if (button.id == this.scrollUpButtonID) {
             this.amountScrolled = this.amountScrolled - this.slotHeight * 2 / 3;
             this.initialClickY = -2;
             this.bindAmountScrolled();
-         } else if (var1.id == this.scrollDownButtonID) {
+         } else if (button.id == this.scrollDownButtonID) {
             this.amountScrolled = this.amountScrolled + this.slotHeight * 2 / 3;
             this.initialClickY = -2;
             this.bindAmountScrolled();
@@ -144,81 +144,81 @@ public abstract class GuiSlot {
       }
    }
 
-   public void drawScreen(int var1, int var2, float var3) {
-      long var4 = t ^ 133834903392232L;
+   public void drawScreen(int mouseXIn, int mouseYIn, float f) {
+      long l = t ^ 133834903392232L;
       if (this.field_178041_q) {
-         this.mouseX = var1;
-         this.mouseY = var2;
+         this.mouseX = mouseXIn;
+         this.mouseY = mouseYIn;
          this.drawBackground();
-         int var7 = this.getScrollBarX();
-         int var8 = var7 + 6;
+         int i = this.getScrollBarX();
+         int j = i + 6;
          this.bindAmountScrolled();
          GlStateManager.disableLighting();
          GlStateManager.disableFog();
-         Tessellator var9 = Tessellator.getInstance();
-         WorldRenderer var10 = var9.getWorldRenderer();
-         int var11 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-         int var12 = this.top + 4 - (int)this.amountScrolled;
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+         int m = this.top + 4 - (int)this.amountScrolled;
          if (this.hasListHeader) {
-            this.drawListHeader(var11, var12, var9);
+            this.drawListHeader(k, m, tessellator);
          }
 
-         this.drawSelectionBox(var11, var12, var1, var2);
+         this.drawSelectionBox(k, m, mouseXIn, mouseYIn);
          GlStateManager.disableDepth();
-         byte var13 = 4;
+         byte b = 4;
          this.W(0, this.top, 255, 255);
          this.W(this.bottom, this.height, 255, 255);
          GlStateManager.enableBlend();
-         long var10000 = 516448980915009537L ^ var4;
+         long n = 516448980915009537L ^ l;
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableAlpha();
-         var10000 = 1330979450984952668L ^ var4;
+         n = 1330979450984952668L ^ l;
          GlStateManager.shadeModel(7425);
          GlStateManager.disableTexture2D();
-         var10.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-         var10.pos(this.left, this.top + var13, 0.0).tex(0.0, 1.0).color(0, 0, 0, 0).endVertex();
-         var10.pos(this.right, this.top + var13, 0.0).tex(1.0, 1.0).color(0, 0, 0, 0).endVertex();
-         var10.pos(this.right, this.top, 0.0).tex(1.0, 0.0).color(0, 0, 0, 255).endVertex();
-         var10.pos(this.left, this.top, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
-         var9.draw();
-         var10.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-         var10.pos(this.left, this.bottom, 0.0).tex(0.0, 1.0).color(0, 0, 0, 255).endVertex();
-         var10.pos(this.right, this.bottom, 0.0).tex(1.0, 1.0).color(0, 0, 0, 255).endVertex();
-         var10.pos(this.right, this.bottom - var13, 0.0).tex(1.0, 0.0).color(0, 0, 0, 0).endVertex();
-         var10.pos(this.left, this.bottom - var13, 0.0).tex(0.0, 0.0).color(0, 0, 0, 0).endVertex();
-         var9.draw();
-         int var14 = this.func_148135_f();
-         if (var14 > 0) {
-            int var15 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
-            var15 = MathHelper.clamp_int(var15, 32, this.bottom - this.top - 8);
-            int var16 = (int)this.amountScrolled * (this.bottom - this.top - var15) / var14 + this.top;
-            if (var16 < this.top) {
-               var16 = this.top;
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+         worldRenderer.pos(this.left, this.top + b, 0.0).tex(0.0, 1.0).color(0, 0, 0, 0).endVertex();
+         worldRenderer.pos(this.right, this.top + b, 0.0).tex(1.0, 1.0).color(0, 0, 0, 0).endVertex();
+         worldRenderer.pos(this.right, this.top, 0.0).tex(1.0, 0.0).color(0, 0, 0, 255).endVertex();
+         worldRenderer.pos(this.left, this.top, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
+         tessellator.draw();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+         worldRenderer.pos(this.left, this.bottom, 0.0).tex(0.0, 1.0).color(0, 0, 0, 255).endVertex();
+         worldRenderer.pos(this.right, this.bottom, 0.0).tex(1.0, 1.0).color(0, 0, 0, 255).endVertex();
+         worldRenderer.pos(this.right, this.bottom - b, 0.0).tex(1.0, 0.0).color(0, 0, 0, 0).endVertex();
+         worldRenderer.pos(this.left, this.bottom - b, 0.0).tex(0.0, 0.0).color(0, 0, 0, 0).endVertex();
+         tessellator.draw();
+         int i2 = this.func_148135_f();
+         if (i2 > 0) {
+            int i3 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
+            i3 = MathHelper.clamp_int(i3, 32, this.bottom - this.top - 8);
+            int i4 = (int)this.amountScrolled * (this.bottom - this.top - i3) / i2 + this.top;
+            if (i4 < this.top) {
+               i4 = this.top;
             }
 
-            var10.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            var10.pos(var7, this.bottom, 0.0).tex(0.0, 1.0).color(0, 0, 0, 255).endVertex();
-            var10.pos(var8, this.bottom, 0.0).tex(1.0, 1.0).color(0, 0, 0, 255).endVertex();
-            var10.pos(var8, this.top, 0.0).tex(1.0, 0.0).color(0, 0, 0, 255).endVertex();
-            var10.pos(var7, this.top, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
-            var9.draw();
-            var10.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            var10.pos(var7, var16 + var15, 0.0).tex(0.0, 1.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var8, var16 + var15, 0.0).tex(1.0, 1.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var8, var16, 0.0).tex(1.0, 0.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var7, var16, 0.0).tex(0.0, 0.0).color(128, 128, 128, 255).endVertex();
-            var9.draw();
-            var10.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            var10.pos(var7, var16 + var15 - 1, 0.0).tex(0.0, 1.0).color(192, 192, 192, 255).endVertex();
-            var10.pos(var8 - 1, var16 + var15 - 1, 0.0).tex(1.0, 1.0).color(192, 192, 192, 255).endVertex();
-            var10.pos(var8 - 1, var16, 0.0).tex(1.0, 0.0).color(192, 192, 192, 255).endVertex();
-            var10.pos(var7, var16, 0.0).tex(0.0, 0.0).color(192, 192, 192, 255).endVertex();
-            var9.draw();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            worldRenderer.pos(i, this.bottom, 0.0).tex(0.0, 1.0).color(0, 0, 0, 255).endVertex();
+            worldRenderer.pos(j, this.bottom, 0.0).tex(1.0, 1.0).color(0, 0, 0, 255).endVertex();
+            worldRenderer.pos(j, this.top, 0.0).tex(1.0, 0.0).color(0, 0, 0, 255).endVertex();
+            worldRenderer.pos(i, this.top, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
+            tessellator.draw();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            worldRenderer.pos(i, i4 + i3, 0.0).tex(0.0, 1.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(j, i4 + i3, 0.0).tex(1.0, 1.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(j, i4, 0.0).tex(1.0, 0.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i, i4, 0.0).tex(0.0, 0.0).color(128, 128, 128, 255).endVertex();
+            tessellator.draw();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            worldRenderer.pos(i, i4 + i3 - 1, 0.0).tex(0.0, 1.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(j - 1, i4 + i3 - 1, 0.0).tex(1.0, 1.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(j - 1, i4, 0.0).tex(1.0, 0.0).color(192, 192, 192, 255).endVertex();
+            worldRenderer.pos(i, i4, 0.0).tex(0.0, 0.0).color(192, 192, 192, 255).endVertex();
+            tessellator.draw();
          }
 
-         this.func_148142_b(var1, var2);
+         this.func_148142_b(mouseXIn, mouseYIn);
          GlStateManager.enableTexture2D();
-         var10000 = 913416673253702768L ^ var4;
+         n = 913416673253702768L ^ l;
          GlStateManager.shadeModel(7424);
          GlStateManager.enableAlpha();
          GlStateManager.disableBlend();
@@ -228,54 +228,54 @@ public abstract class GuiSlot {
    public void handleMouseInput() {
       if (this.isMouseYWithinSlotBounds(this.mouseY)) {
          if (Mouse.getEventButton() == 0 && Mouse.getEventButtonState() && this.mouseY >= this.top && this.mouseY <= this.bottom) {
-            int var4 = (this.width - this.getListWidth()) / 2;
-            int var5 = (this.width + this.getListWidth()) / 2;
-            int var6 = this.mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
-            int var7 = var6 / this.slotHeight;
-            if (var7 < this.getSize() && this.mouseX >= var4 && this.mouseX <= var5 && var7 >= 0 && var6 >= 0) {
-               this.elementClicked(var7, false, this.mouseX, this.mouseY);
-               this.selectedElement = var7;
-            } else if (this.mouseX >= var4 && this.mouseX <= var5 && var6 < 0) {
-               this.func_148132_a(this.mouseX - var4, this.mouseY - this.top + (int)this.amountScrolled - 4);
+            int i = (this.width - this.getListWidth()) / 2;
+            int j = (this.width + this.getListWidth()) / 2;
+            int k = this.mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+            int l = k / this.slotHeight;
+            if (l < this.getSize() && this.mouseX >= i && this.mouseX <= j && l >= 0 && k >= 0) {
+               this.elementClicked(l, false, this.mouseX, this.mouseY);
+               this.selectedElement = l;
+            } else if (this.mouseX >= i && this.mouseX <= j && k < 0) {
+               this.func_148132_a(this.mouseX - i, this.mouseY - this.top + (int)this.amountScrolled - 4);
             }
          }
 
          if (!Mouse.isButtonDown(0) || !this.getEnabled()) {
             this.initialClickY = -1;
          } else if (this.initialClickY == -1) {
-            boolean var13 = true;
+            boolean bl = true;
             if (this.mouseY >= this.top && this.mouseY <= this.bottom) {
-               int var15 = (this.width - this.getListWidth()) / 2;
-               int var16 = (this.width + this.getListWidth()) / 2;
-               int var17 = this.mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
-               int var8 = var17 / this.slotHeight;
-               if (var8 < this.getSize() && this.mouseX >= var15 && this.mouseX <= var16 && var8 >= 0 && var17 >= 0) {
-                  boolean var9 = var8 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
-                  this.elementClicked(var8, var9, this.mouseX, this.mouseY);
-                  this.selectedElement = var8;
+               int m = (this.width - this.getListWidth()) / 2;
+               int n = (this.width + this.getListWidth()) / 2;
+               int i2 = this.mouseY - this.top - this.headerPadding + (int)this.amountScrolled - 4;
+               int i3 = i2 / this.slotHeight;
+               if (i3 < this.getSize() && this.mouseX >= m && this.mouseX <= n && i3 >= 0 && i2 >= 0) {
+                  boolean bl2 = i3 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
+                  this.elementClicked(i3, bl2, this.mouseX, this.mouseY);
+                  this.selectedElement = i3;
                   this.lastClicked = Minecraft.getSystemTime();
-               } else if (this.mouseX >= var15 && this.mouseX <= var16 && var17 < 0) {
-                  this.func_148132_a(this.mouseX - var15, this.mouseY - this.top + (int)this.amountScrolled - 4);
-                  var13 = false;
+               } else if (this.mouseX >= m && this.mouseX <= n && i2 < 0) {
+                  this.func_148132_a(this.mouseX - m, this.mouseY - this.top + (int)this.amountScrolled - 4);
+                  bl = false;
                }
 
-               int var18 = this.getScrollBarX();
-               int var10 = var18 + 6;
-               if (this.mouseX >= var18 && this.mouseX <= var10) {
+               int i4 = this.getScrollBarX();
+               int i5 = i4 + 6;
+               if (this.mouseX >= i4 && this.mouseX <= i5) {
                   this.scrollMultiplier = -1.0F;
-                  int var11 = this.func_148135_f();
-                  if (var11 < 1) {
-                     var11 = 1;
+                  int i6 = this.func_148135_f();
+                  if (i6 < 1) {
+                     i6 = 1;
                   }
 
-                  int var12 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / this.getContentHeight());
-                  var12 = MathHelper.clamp_int(var12, 32, this.bottom - this.top - 8);
-                  this.scrollMultiplier = this.scrollMultiplier / ((float)(this.bottom - this.top - var12) / var11);
+                  int i7 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / this.getContentHeight());
+                  i7 = MathHelper.clamp_int(i7, 32, this.bottom - this.top - 8);
+                  this.scrollMultiplier = this.scrollMultiplier / ((float)(this.bottom - this.top - i7) / i6);
                } else {
                   this.scrollMultiplier = 1.0F;
                }
 
-               if (var13) {
+               if (bl) {
                   this.initialClickY = this.mouseY;
                } else {
                   this.initialClickY = -2;
@@ -288,21 +288,21 @@ public abstract class GuiSlot {
             this.initialClickY = this.mouseY;
          }
 
-         int var14 = Mouse.getEventDWheel();
-         if (var14 != 0) {
-            if (var14 > 0) {
-               var14 = -1;
-            } else if (var14 < 0) {
-               var14 = 1;
+         int i8 = Mouse.getEventDWheel();
+         if (i8 != 0) {
+            if (i8 > 0) {
+               i8 = -1;
+            } else if (i8 < 0) {
+               i8 = 1;
             }
 
-            this.amountScrolled = this.amountScrolled + var14 * this.slotHeight / 2;
+            this.amountScrolled = this.amountScrolled + i8 * this.slotHeight / 2;
          }
       }
    }
 
-   public void a(boolean var1) {
-      this.enabled = var1;
+   public void a(boolean bl) {
+      this.enabled = bl;
    }
 
    public boolean getEnabled() {
@@ -313,37 +313,37 @@ public abstract class GuiSlot {
       return 220;
    }
 
-   public void drawSelectionBox(int var1, int var2, int var3, int var4) {
-      int var8 = this.getSize();
-      Tessellator var9 = Tessellator.getInstance();
-      WorldRenderer var10 = var9.getWorldRenderer();
+   public void drawSelectionBox(int i, int j, int mouseXIn, int mouseYIn) {
+      int k = this.getSize();
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 
-      for (int var11 = 0; var11 < var8; var11++) {
-         int var12 = var2 + var11 * this.slotHeight + this.headerPadding;
-         int var13 = this.slotHeight - 4;
-         if (var12 > this.bottom || var12 + var13 < this.top) {
-            this.func_178040_a(var11, var1, var12);
+      for (int l = 0; l < k; l++) {
+         int m = j + l * this.slotHeight + this.headerPadding;
+         int n = this.slotHeight - 4;
+         if (m > this.bottom || m + n < this.top) {
+            this.func_178040_a(l, i, m);
          }
 
-         if (this.showSelectionBox && this.isSelected(var11)) {
-            int var14 = this.left + (this.width / 2 - this.getListWidth() / 2);
-            int var15 = this.left + this.width / 2 + this.getListWidth() / 2;
+         if (this.showSelectionBox && this.isSelected(l)) {
+            int i2 = this.left + (this.width / 2 - this.getListWidth() / 2);
+            int i3 = this.left + this.width / 2 + this.getListWidth() / 2;
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableTexture2D();
-            var10.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            var10.pos(var14, var12 + var13 + 2, 0.0).tex(0.0, 1.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var15, var12 + var13 + 2, 0.0).tex(1.0, 1.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var15, var12 - 2, 0.0).tex(1.0, 0.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var14, var12 - 2, 0.0).tex(0.0, 0.0).color(128, 128, 128, 255).endVertex();
-            var10.pos(var14 + 1, var12 + var13 + 1, 0.0).tex(0.0, 1.0).color(0, 0, 0, 255).endVertex();
-            var10.pos(var15 - 1, var12 + var13 + 1, 0.0).tex(1.0, 1.0).color(0, 0, 0, 255).endVertex();
-            var10.pos(var15 - 1, var12 - 1, 0.0).tex(1.0, 0.0).color(0, 0, 0, 255).endVertex();
-            var10.pos(var14 + 1, var12 - 1, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
-            var9.draw();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            worldRenderer.pos(i2, m + n + 2, 0.0).tex(0.0, 1.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i3, m + n + 2, 0.0).tex(1.0, 1.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i3, m - 2, 0.0).tex(1.0, 0.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i2, m - 2, 0.0).tex(0.0, 0.0).color(128, 128, 128, 255).endVertex();
+            worldRenderer.pos(i2 + 1, m + n + 1, 0.0).tex(0.0, 1.0).color(0, 0, 0, 255).endVertex();
+            worldRenderer.pos(i3 - 1, m + n + 1, 0.0).tex(1.0, 1.0).color(0, 0, 0, 255).endVertex();
+            worldRenderer.pos(i3 - 1, m - 1, 0.0).tex(1.0, 0.0).color(0, 0, 0, 255).endVertex();
+            worldRenderer.pos(i2 + 1, m - 1, 0.0).tex(0.0, 0.0).color(0, 0, 0, 255).endVertex();
+            tessellator.draw();
             GlStateManager.enableTexture2D();
          }
 
-         this.drawSlot(var11, var1, var12, var13, var3, var4);
+         this.drawSlot(l, i, m, n, mouseXIn, mouseYIn);
       }
    }
 
@@ -351,41 +351,41 @@ public abstract class GuiSlot {
       return this.width / 2 + 124;
    }
 
-   public void W(int var1, int var2, int var3, int var4) {
-      this.W(0, var1, this.width, var2, v, l);
+   public void W(int i, int j, int k, int m) {
+      this.W(0, i, this.width, j, v, l);
    }
 
-   public void W(int var1, int var2, int var3, int var4, int var5, int var6) {
-      float var9 = (var5 >> 24 & 0xFF) / 255.0F;
-      float var10 = (var5 >> 16 & 0xFF) / 255.0F;
-      float var11 = (var5 >> 8 & 0xFF) / 255.0F;
-      float var12 = (var5 & 0xFF) / 255.0F;
-      float var13 = (var6 >> 24 & 0xFF) / 255.0F;
-      float var14 = (var6 >> 16 & 0xFF) / 255.0F;
-      float var15 = (var6 >> 8 & 0xFF) / 255.0F;
-      float var16 = (var6 & 0xFF) / 255.0F;
+   public void W(int i, int j, int k, int m, int n, int i2) {
+      float f = (n >> 24 & 0xFF) / 255.0F;
+      float g = (n >> 16 & 0xFF) / 255.0F;
+      float h = (n >> 8 & 0xFF) / 255.0F;
+      float f2 = (n & 0xFF) / 255.0F;
+      float f3 = (i2 >> 24 & 0xFF) / 255.0F;
+      float f4 = (i2 >> 16 & 0xFF) / 255.0F;
+      float f5 = (i2 >> 8 & 0xFF) / 255.0F;
+      float f6 = (i2 & 0xFF) / 255.0F;
       GlStateManager.disableTexture2D();
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.shadeModel(7425);
-      Tessellator var17 = Tessellator.getInstance();
-      WorldRenderer var18 = var17.getWorldRenderer();
-      var18.begin(7, DefaultVertexFormats.POSITION_COLOR);
-      var18.pos(var3, var2, 0.0).color(var10, var11, var12, var9).endVertex();
-      var18.pos(var1, var2, 0.0).color(var10, var11, var12, var9).endVertex();
-      var18.pos(var1, var4, 0.0).color(var14, var15, var16, var13).endVertex();
-      var18.pos(var3, var4, 0.0).color(var14, var15, var16, var13).endVertex();
-      var17.draw();
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+      worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+      worldRenderer.pos(k, j, 0.0).color(g, h, f2, f).endVertex();
+      worldRenderer.pos(i, j, 0.0).color(g, h, f2, f).endVertex();
+      worldRenderer.pos(i, m, 0.0).color(f4, f5, f6, f3).endVertex();
+      worldRenderer.pos(k, m, 0.0).color(f4, f5, f6, f3).endVertex();
+      tessellator.draw();
       GlStateManager.shadeModel(7424);
       GlStateManager.disableBlend();
       GlStateManager.enableAlpha();
       GlStateManager.enableTexture2D();
    }
 
-   public void setSlotXBoundsFromLeft(int var1) {
-      this.left = var1;
-      this.right = var1 + this.width;
+   public void setSlotXBoundsFromLeft(int leftIn) {
+      this.left = leftIn;
+      this.right = leftIn + this.width;
    }
 
    public int l() {

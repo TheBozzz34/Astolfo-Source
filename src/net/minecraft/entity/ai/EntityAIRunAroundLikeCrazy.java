@@ -13,23 +13,23 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
    private double targetZ;
    private static final long a = 20540665839472L;
 
-   public EntityAIRunAroundLikeCrazy(EntityHorse var1, double var2) {
-      this.horseHost = var1;
-      this.speed = var2;
+   public EntityAIRunAroundLikeCrazy(EntityHorse horse, double speedIn) {
+      this.horseHost = horse;
+      this.speed = speedIn;
       this.setMutexBits(1);
    }
 
    @Override
    public boolean shouldExecute() {
       if (!this.horseHost.isTame() && this.horseHost.riddenByEntity != null) {
-         Vec3 var4 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
-         if (var4 == null) {
+         Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
+         if (vec3 == null) {
             return false;
          }
 
-         this.targetX = var4.xCoord;
-         this.targetY = var4.yCoord;
-         this.targetZ = var4.zCoord;
+         this.targetX = vec3.xCoord;
+         this.targetY = vec3.yCoord;
+         this.targetZ = vec3.zCoord;
          return true;
       } else {
          return false;
@@ -50,9 +50,9 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
    public void updateTask() {
       if (this.horseHost.getRNG().nextInt(50) == 0) {
          if (this.horseHost.riddenByEntity instanceof EntityPlayer) {
-            int var4 = this.horseHost.getTemper();
-            int var5 = this.horseHost.getMaxTemper();
-            if (var5 > 0 && this.horseHost.getRNG().nextInt(var5) < var4) {
+            int i = this.horseHost.getTemper();
+            int j = this.horseHost.getMaxTemper();
+            if (j > 0 && this.horseHost.getRNG().nextInt(j) < i) {
                this.horseHost.setTamedBy((EntityPlayer)this.horseHost.riddenByEntity);
                this.horseHost.worldObj.setEntityState(this.horseHost, (byte)7);
                return;

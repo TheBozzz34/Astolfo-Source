@@ -7,14 +7,14 @@ public class GuiButtonRealmsProxy extends GuiButton {
    private RealmsButton realmsButton;
    private static final long c = 7416776915197L;
 
-   public GuiButtonRealmsProxy(RealmsButton var1, int var2, int var3, int var4, String var5) {
-      super(var2, var3, var4, var5);
-      this.realmsButton = var1;
+   public GuiButtonRealmsProxy(RealmsButton realmsButtonIn, int buttonId, int x, int y, String text) {
+      super(buttonId, x, y, text);
+      this.realmsButton = realmsButtonIn;
    }
 
-   public GuiButtonRealmsProxy(RealmsButton var1, int var2, int var3, int var4, String var5, int var6, int var7) {
-      super(var2, var3, var4, var6, var7, var5);
-      this.realmsButton = var1;
+   public GuiButtonRealmsProxy(RealmsButton realmsButtonIn, int buttonId, int x, int y, String text, int widthIn, int heightIn) {
+      super(buttonId, x, y, widthIn, heightIn, text);
+      this.realmsButton = realmsButtonIn;
    }
 
    public int getId() {
@@ -25,12 +25,12 @@ public class GuiButtonRealmsProxy extends GuiButton {
       return super.enabled;
    }
 
-   public void setEnabled(boolean var1) {
-      super.enabled = var1;
+   public void setEnabled(boolean isEnabled) {
+      super.enabled = isEnabled;
    }
 
-   public void setText(String var1) {
-      super.displayString = var1;
+   public void setText(String text) {
+      super.displayString = text;
    }
 
    @Override
@@ -43,22 +43,22 @@ public class GuiButtonRealmsProxy extends GuiButton {
    }
 
    @Override
-   public boolean mousePressed(Minecraft var1, int var2, int var3) {
-      if (super.mousePressed(var1, var2, var3)) {
-         this.realmsButton.clicked(var2, var3);
+   public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+      if (super.mousePressed(mc, mouseX, mouseY)) {
+         this.realmsButton.clicked(mouseX, mouseY);
       }
 
-      return super.mousePressed(var1, var2, var3);
+      return super.mousePressed(mc, mouseX, mouseY);
    }
 
    @Override
-   public void mouseReleased(int var1, int var2) {
-      this.realmsButton.released(var1, var2);
+   public void mouseReleased(int mouseX, int mouseY) {
+      this.realmsButton.released(mouseX, mouseY);
    }
 
    @Override
-   public void mouseDragged(Minecraft var1, int var2, int var3) {
-      this.realmsButton.renderBg(var2, var3);
+   public void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+      this.realmsButton.renderBg(mouseX, mouseY);
    }
 
    public RealmsButton getRealmsButton() {
@@ -66,12 +66,12 @@ public class GuiButtonRealmsProxy extends GuiButton {
    }
 
    @Override
-   public int getHoverState(boolean var1) {
-      return this.realmsButton.getYImage(var1);
+   public int getHoverState(boolean mouseOver) {
+      return this.realmsButton.getYImage(mouseOver);
    }
 
-   public int func_154312_c(boolean var1) {
-      return super.getHoverState(var1);
+   public int func_154312_c(boolean bl) {
+      return super.getHoverState(bl);
    }
 
    public int g() {

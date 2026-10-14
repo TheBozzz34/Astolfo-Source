@@ -8,20 +8,20 @@ public class PasswordField extends GuiTextField {
    private boolean V = false;
    private static final long c = 135172913195417L;
 
-   public PasswordField(int var1, int var2, int var3, int var4, int var5) {
-      super(var1, Minecraft.getMinecraft().fontRendererObj, var2, var3, var4, var5);
+   public PasswordField(int i, int j, int k, int l, int m) {
+      super(i, Minecraft.getMinecraft().fontRendererObj, j, k, l, m);
    }
 
-   public void Z(boolean var1) {
-      this.P = var1;
+   public void Z(boolean bl) {
+      this.P = bl;
    }
 
-   public void L(boolean var1) {
+   public void L(boolean bl) {
       if (!this.P) {
          this.V = true;
       }
 
-      this.V = var1;
+      this.V = bl;
    }
 
    public boolean R() {
@@ -34,22 +34,22 @@ public class PasswordField extends GuiTextField {
 
    @Override
    public void drawTextBox() {
-      boolean var5 = this.P && !this.V;
-      String var6 = "";
-      if (var5) {
-         var6 = this.getText();
-         String var7 = "";
+      boolean bl = this.P && !this.V;
+      String string = "";
+      if (bl) {
+         string = this.getText();
+         String string2 = "";
 
-         for (int var8 = 0; var8 < this.getText().length(); var8++) {
-            var7 = var7 + "*";
+         for (int i = 0; i < this.getText().length(); i++) {
+            string2 = string2 + "*";
          }
 
-         this.setText(var7);
+         this.setText(string2);
       }
 
       super.drawTextBox();
-      if (var5) {
-         this.setText(var6);
+      if (bl) {
+         this.setText(string);
       }
    }
 }

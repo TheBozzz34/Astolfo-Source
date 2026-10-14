@@ -36,21 +36,21 @@ public final class HypixelGameTracker extends HiddenModule {
    private boolean unusedFlag2;
    public static int game;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGHEST)
-   private Listener<MotionEvent> onMotion = var0 -> {
-      if (var0.getState() == EventState.PRE) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE) {
          if (GameUtil.isInHypixelGame()) {
-            String var4 = GameUtil.getScoreboardTitle();
-            if (var4.contains("PIT")) {
+            String string = GameUtil.getScoreboardTitle();
+            if (string.contains("PIT")) {
                game = 5;
-            } else if (var4.contains("BED WARS")) {
+            } else if (string.contains("BED WARS")) {
                game = 2;
-            } else if (var4.contains("SKYWARS")) {
+            } else if (string.contains("SKYWARS")) {
                game = 1;
-            } else if (var4.contains("UHC CHAMPIONS") || var4.contains("HYPIXEL UHC")) {
+            } else if (string.contains("UHC CHAMPIONS") || string.contains("HYPIXEL UHC")) {
                game = 3;
-            } else if (var4.contains("MEGA WALLS")) {
+            } else if (string.contains("MEGA WALLS")) {
                game = 4;
-            } else if (!var4.contains("HYPIXEL")) {
+            } else if (!string.contains("HYPIXEL")) {
                game = 0;
             }
          } else {
@@ -87,10 +87,10 @@ public final class HypixelGameTracker extends HiddenModule {
    );
    private static final List<PotionEffect> unusedEffects = Arrays.asList(new PotionEffect(11, 0, 1), new PotionEffect(Potion.potionTypes[12]));
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = var0 -> playerEffects.clear();
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> playerEffects.clear();
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1 -> {
-      if (var1.getDirection() == PacketDirection.RECEIVED) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
          if (mc.theWorld == null) {
             return;
          }
@@ -99,52 +99,52 @@ public final class HypixelGameTracker extends HiddenModule {
             return;
          }
 
-         if (var1.getPacket() instanceof S1CPacketEntityMetadata) {
-            S1CPacketEntityMetadata var5 = (S1CPacketEntityMetadata)var1.getPacket();
-            if (var5.func_149376_c() == null) {
+         if (packetEvent.getPacket() instanceof S1CPacketEntityMetadata) {
+            S1CPacketEntityMetadata s1CPacketEntityMetadata = (S1CPacketEntityMetadata)packetEvent.getPacket();
+            if (s1CPacketEntityMetadata.func_149376_c() == null) {
                return;
             }
 
-            for (DataWatcher.WatchableObject var7 : var5.func_149376_c()) {
-               if (var7 != null) {
-                  Entity var8 = mc.theWorld.getEntityByID(var5.getEntityId());
-                  if (var7.getDataValueId() == 7 && var8 instanceof EntityOtherPlayerMP) {
-                     EntityOtherPlayerMP var9 = (EntityOtherPlayerMP)var8;
-                     int var10 = Integer.parseInt(var7.getObject().toString());
-                     PlayerPotionEffects var11 = playerEffects.computeIfAbsent(var9, var1x -> new PlayerPotionEffects(var9));
-                     if (var10 == 0) {
-                        var11.clear();
-                     } else if (var11.color == 0 && var11.effects.isEmpty()) {
-                        var11.color = var10;
-                        if (matchesColor(var10, GOLDEN_APPLE_EFFECTS)) {
-                           var11.set(GOLDEN_APPLE_EFFECTS);
-                        } else if (matchesColor(var10, NOTCH_APPLE_EFFECTS)) {
-                           var11.set(NOTCH_APPLE_EFFECTS);
+            for (DataWatcher.WatchableObject watchableObject : s1CPacketEntityMetadata.func_149376_c()) {
+               if (watchableObject != null) {
+                  Entity entity = mc.theWorld.getEntityByID(s1CPacketEntityMetadata.getEntityId());
+                  if (watchableObject.getDataValueId() == 7 && entity instanceof EntityOtherPlayerMP) {
+                     EntityOtherPlayerMP entityOtherPlayerMP = (EntityOtherPlayerMP)entity;
+                     int i = Integer.parseInt(watchableObject.getObject().toString());
+                     PlayerPotionEffects playerPotionEffects = playerEffects.computeIfAbsent(entityOtherPlayerMP, entityPlayer -> new PlayerPotionEffects(entityOtherPlayerMP));
+                     if (i == 0) {
+                        playerPotionEffects.clear();
+                     } else if (playerPotionEffects.color == 0 && playerPotionEffects.effects.isEmpty()) {
+                        playerPotionEffects.color = i;
+                        if (matchesColor(i, GOLDEN_APPLE_EFFECTS)) {
+                           playerPotionEffects.set(GOLDEN_APPLE_EFFECTS);
+                        } else if (matchesColor(i, NOTCH_APPLE_EFFECTS)) {
+                           playerPotionEffects.set(NOTCH_APPLE_EFFECTS);
                         } else {
-                           int[] var21 = new int[]{0, 1, -1, 5, -5, 16, -16, 256, -256, 65536, -65536};
+                           int[] ints = new int[]{0, 1, -1, 5, -5, 16, -16, 256, -256, 65536, -65536};
 
-                           for (int var16 : var21) {
-                              if (POTIONS_BY_COLOR.containsKey(var10 + var16)) {
-                                 var11.add(POTIONS_BY_COLOR.get(var10 + var16));
+                           for (int j : ints) {
+                              if (POTIONS_BY_COLOR.containsKey(i + j)) {
+                                 playerPotionEffects.add(POTIONS_BY_COLOR.get(i + j));
                               }
                            }
                         }
                      } else {
-                        Optional var14 = this.findRemovedEffect(playerEffects.get(var9).effects.values(), var10);
-                        if (var14.isPresent() && !this.findAddedEffects(playerEffects.get(var9).effects.values(), var10, false).isPresent()) {
-                           playerEffects.get(var9).remove((PotionEffect)var14.get());
-                        } else if (matchesColor(var10, GOLDEN_APPLE_EFFECTS)) {
-                           var11.set(GOLDEN_APPLE_EFFECTS);
-                        } else if (matchesColor(var10, NOTCH_APPLE_EFFECTS)) {
-                           var11.set(NOTCH_APPLE_EFFECTS);
+                        Optional optional = this.findRemovedEffect(playerEffects.get(entityOtherPlayerMP).effects.values(), i);
+                        if (optional.isPresent() && !this.findAddedEffects(playerEffects.get(entityOtherPlayerMP).effects.values(), i, false).isPresent()) {
+                           playerEffects.get(entityOtherPlayerMP).remove((PotionEffect)optional.get());
+                        } else if (matchesColor(i, GOLDEN_APPLE_EFFECTS)) {
+                           playerPotionEffects.set(GOLDEN_APPLE_EFFECTS);
+                        } else if (matchesColor(i, NOTCH_APPLE_EFFECTS)) {
+                           playerPotionEffects.set(NOTCH_APPLE_EFFECTS);
                         } else {
-                           Optional var12;
-                           if (!var14.isPresent() && (var12 = this.findAddedEffects(playerEffects.get(var9).effects.values(), var10, false)).isPresent()) {
-                              playerEffects.get(var9).set((List<PotionEffect>)var12.get());
+                           Optional optional2;
+                           if (!optional.isPresent() && (optional2 = this.findAddedEffects(playerEffects.get(entityOtherPlayerMP).effects.values(), i, false)).isPresent()) {
+                              playerEffects.get(entityOtherPlayerMP).set((List<PotionEffect>)optional2.get());
                            } else {
-                              Optional var13;
-                              if ((var13 = this.findAddedEffects(playerEffects.get(var9).effects.values(), var10, true)).isPresent()) {
-                                 playerEffects.get(var9).set((List<PotionEffect>)var13.get());
+                              Optional optional3;
+                              if ((optional3 = this.findAddedEffects(playerEffects.get(entityOtherPlayerMP).effects.values(), i, true)).isPresent()) {
+                                 playerEffects.get(entityOtherPlayerMP).set((List<PotionEffect>)optional3.get());
                               }
                            }
                         }
@@ -152,17 +152,17 @@ public final class HypixelGameTracker extends HiddenModule {
                   }
                }
             }
-         } else if (var1.getPacket() instanceof S1DPacketEntityEffect) {
+         } else if (packetEvent.getPacket() instanceof S1DPacketEntityEffect) {
             if (mc.theWorld == null) {
                return;
             }
 
-            S1DPacketEntityEffect var17 = (S1DPacketEntityEffect)var1.getPacket();
-            Entity var18 = mc.theWorld.getEntityByID(var17.getEntityId());
-            if (var18 instanceof EntityOtherPlayerMP) {
-               EntityOtherPlayerMP var19 = (EntityOtherPlayerMP)var18;
-               PotionEffect var20 = new PotionEffect(var17.getEffectId(), var17.getDuration(), var17.getAmplifier());
-               playerEffects.computeIfAbsent(var19, var1x -> new PlayerPotionEffects(var19)).add(var20);
+            S1DPacketEntityEffect s1DPacketEntityEffect = (S1DPacketEntityEffect)packetEvent.getPacket();
+            Entity entity2 = mc.theWorld.getEntityByID(s1DPacketEntityEffect.getEntityId());
+            if (entity2 instanceof EntityOtherPlayerMP) {
+               EntityOtherPlayerMP entityOtherPlayerMP2 = (EntityOtherPlayerMP)entity2;
+               PotionEffect potionEffect = new PotionEffect(s1DPacketEntityEffect.getEffectId(), s1DPacketEntityEffect.getDuration(), s1DPacketEntityEffect.getAmplifier());
+               playerEffects.computeIfAbsent(entityOtherPlayerMP2, entityPlayer2 -> new PlayerPotionEffects(entityOtherPlayerMP2)).add(potionEffect);
             }
          }
       }
@@ -173,91 +173,91 @@ public final class HypixelGameTracker extends HiddenModule {
       client.getEventBus().subscribe(this);
    }
 
-   public static List<PotionEffect> getEffects(EntityPlayer var0) {
+   public static List<PotionEffect> getEffects(EntityPlayer entityPlayer) {
       try {
-         return playerEffects.containsKey(var0) ? new ArrayList<>(playerEffects.get(var0).effects.values()) : Collections.emptyList();
-      } catch (Exception var4) {
+         return playerEffects.containsKey(entityPlayer) ? new ArrayList<>(playerEffects.get(entityPlayer).effects.values()) : Collections.emptyList();
+      } catch (Exception exception) {
          return Collections.emptyList();
       }
    }
 
-   private Optional<List<PotionEffect>> findAddedEffects(Collection<PotionEffect> var1, int var2, boolean var3) {
-      ArrayList var7 = new ArrayList(var1);
+   private Optional<List<PotionEffect>> findAddedEffects(Collection<PotionEffect> collection, int i, boolean bl) {
+      ArrayList arrayList = new ArrayList(collection);
 
-      for (int var8 = 0; var8 < (var3 ? 4 : 1); var8++) {
-         for (PotionEffect var10 : POTIONS_BY_COLOR.values()) {
-            PotionEffect var11 = new PotionEffect(var10.getPotionID(), 0, var8);
-            if (!var7.contains(var11)) {
-               var7.add(var11);
-               if (matchesColor(var2, var7) || Math.abs(mixColor(var7) - var2) == 65792 && var2 == 9017966) {
-                  return Optional.of(var7);
+      for (int j = 0; j < (bl ? 4 : 1); j++) {
+         for (PotionEffect potionEffect : POTIONS_BY_COLOR.values()) {
+            PotionEffect potionEffect2 = new PotionEffect(potionEffect.getPotionID(), 0, j);
+            if (!arrayList.contains(potionEffect2)) {
+               arrayList.add(potionEffect2);
+               if (matchesColor(i, arrayList) || Math.abs(mixColor(arrayList) - i) == 65792 && i == 9017966) {
+                  return Optional.of(arrayList);
                }
 
-               var7.remove(var11);
+               arrayList.remove(potionEffect2);
             }
          }
       }
 
-      ArrayList var16 = new ArrayList();
-      var16.add(GOLDEN_APPLE_EFFECTS);
-      var16.add(NOTCH_APPLE_EFFECTS);
-      ArrayList var17 = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
+      arrayList2.add(GOLDEN_APPLE_EFFECTS);
+      arrayList2.add(NOTCH_APPLE_EFFECTS);
+      ArrayList arrayList3 = new ArrayList();
 
-      for (Object var20$raw : var16) {
-         List var20 = (List)var20$raw;
-         var17.addAll(var7);
-         var17.removeAll(GOLDEN_APPLE_EFFECTS);
-         var17.removeAll(NOTCH_APPLE_EFFECTS);
-         var17.addAll(var20);
-         if (matchesColor(var2, var17)) {
-            return Optional.of(var17);
+      for (Object object : arrayList2) {
+         List list = (List)object;
+         arrayList3.addAll(arrayList);
+         arrayList3.removeAll(GOLDEN_APPLE_EFFECTS);
+         arrayList3.removeAll(NOTCH_APPLE_EFFECTS);
+         arrayList3.addAll(list);
+         if (matchesColor(i, arrayList3)) {
+            return Optional.of(arrayList3);
          }
 
-         var17.clear();
+         arrayList3.clear();
       }
 
-      if (var3) {
-         ArrayList var19 = new ArrayList();
+      if (bl) {
+         ArrayList arrayList4 = new ArrayList();
 
-         for (int var21 = 1; var21 < 4; var21++) {
-            var19.clear();
+         for (int k = 1; k < 4; k++) {
+            arrayList4.clear();
 
-            for (Object var13$raw : var7) {
-               PotionEffect var13 = (PotionEffect)var13$raw;
-               var19.add(new PotionEffect(var13.getPotionID(), 0, var21));
+            for (Object object2 : arrayList) {
+               PotionEffect potionEffect3 = (PotionEffect)object2;
+               arrayList4.add(new PotionEffect(potionEffect3.getPotionID(), 0, k));
             }
 
-            for (int var23 = 0; var23 < 4; var23++) {
-               for (PotionEffect var14 : POTIONS_BY_COLOR.values()) {
-                  PotionEffect var15 = new PotionEffect(var14.getPotionID(), 0, var23);
-                  if (!var19.contains(var15)) {
-                     var19.add(var15);
-                     if (matchesColor(var2, var19)) {
-                        return Optional.of(var19);
+            for (int l = 0; l < 4; l++) {
+               for (PotionEffect potionEffect4 : POTIONS_BY_COLOR.values()) {
+                  PotionEffect potionEffect5 = new PotionEffect(potionEffect4.getPotionID(), 0, l);
+                  if (!arrayList4.contains(potionEffect5)) {
+                     arrayList4.add(potionEffect5);
+                     if (matchesColor(i, arrayList4)) {
+                        return Optional.of(arrayList4);
                      }
 
-                     var19.remove(var15);
+                     arrayList4.remove(potionEffect5);
                   }
                }
             }
          }
 
-         for (int var22 = 1; var22 < 4; var22++) {
-            var17.clear();
+         for (int m = 1; m < 4; m++) {
+            arrayList3.clear();
 
-            for (Object var27$raw : var7) {
-               PotionEffect var27 = (PotionEffect)var27$raw;
-               var17.add(new PotionEffect(var27.getPotionID(), 0, var22));
+            for (Object object3 : arrayList) {
+               PotionEffect potionEffect6 = (PotionEffect)object3;
+               arrayList3.add(new PotionEffect(potionEffect6.getPotionID(), 0, m));
             }
 
-            for (Object var28$raw : var16) {
-               List var28 = (List)var28$raw;
-               var17.addAll(var28);
-               if (matchesColor(var2, var17)) {
-                  return Optional.of(var17);
+            for (Object object4 : arrayList2) {
+               List list2 = (List)object4;
+               arrayList3.addAll(list2);
+               if (matchesColor(i, arrayList3)) {
+                  return Optional.of(arrayList3);
                }
 
-               var17.removeAll(var28);
+               arrayList3.removeAll(list2);
             }
          }
       }
@@ -265,49 +265,49 @@ public final class HypixelGameTracker extends HiddenModule {
       return Optional.empty();
    }
 
-   private Optional<PotionEffect> findRemovedEffect(Collection<PotionEffect> var1, int var2) {
-      ArrayList var6 = new ArrayList(var1);
+   private Optional<PotionEffect> findRemovedEffect(Collection<PotionEffect> collection, int i) {
+      ArrayList arrayList = new ArrayList(collection);
 
-      for (PotionEffect var8 : var1) {
-         var6.remove(var8);
-         if (matchesColor(var2, var6)) {
-            return Optional.of(var8);
+      for (PotionEffect potionEffect : collection) {
+         arrayList.remove(potionEffect);
+         if (matchesColor(i, arrayList)) {
+            return Optional.of(potionEffect);
          }
 
-         var6.add(var8);
+         arrayList.add(potionEffect);
       }
 
       return Optional.empty();
    }
 
-   private static boolean matchesColor(int var0, Collection<PotionEffect> var1) {
-      int[] var4 = new int[]{0, 1, 5, 16, 256, 65536};
-      int var5 = Math.abs(mixColor(var1) - var0);
-      return ArrayUtils.contains(var4, var5);
+   private static boolean matchesColor(int i, Collection<PotionEffect> collection) {
+      int[] ints = new int[]{0, 1, 5, 16, 256, 65536};
+      int j = Math.abs(mixColor(collection) - i);
+      return ArrayUtils.contains(ints, j);
    }
 
-   private static int mixColor(Collection<PotionEffect> var0) {
-      int var4 = 0;
-      int var5 = 0;
-      int var6 = 0;
-      int var7 = 0;
+   private static int mixColor(Collection<PotionEffect> collection) {
+      int i = 0;
+      int j = 0;
+      int k = 0;
+      int l = 0;
 
-      for (PotionEffect var9 : var0) {
-         Potion var10 = Potion.potionTypes[var9.getPotionID()];
-         int var11 = var10.getLiquidColor();
-         int var12 = var9.getAmplifier() + 1;
-         var4 += var12 * (var11 >> 16 & 0xFF);
-         var5 += var12 * (var11 >> 8 & 0xFF);
-         var6 += var12 * (var11 & 0xFF);
-         var7 += var12;
+      for (PotionEffect potionEffect : collection) {
+         Potion potion = Potion.potionTypes[potionEffect.getPotionID()];
+         int m = potion.getLiquidColor();
+         int n = potionEffect.getAmplifier() + 1;
+         i += n * (m >> 16 & 0xFF);
+         j += n * (m >> 8 & 0xFF);
+         k += n * (m & 0xFF);
+         l += n;
       }
 
-      return MathHelper.floor_double((double)var4 / var7) << 16
-         | MathHelper.floor_double((double)var5 / var7) << 8
-         | MathHelper.floor_double((double)var6 / var7);
+      return MathHelper.floor_double((double)i / l) << 16
+         | MathHelper.floor_double((double)j / l) << 8
+         | MathHelper.floor_double((double)k / l);
    }
 
-   public static int getColor(Collection var0) {
-      return mixColor(var0);
+   public static int getColor(Collection collection) {
+      return mixColor(collection);
    }
 }

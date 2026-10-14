@@ -16,11 +16,11 @@ public enum SpeedMode {
    private final String d;
    private static final SpeedMode[] y = new SpeedMode[]{BHOP, WATCHDOG, VANILLA_BHOP, AAC_3_BHOP, GWEN, SENTINEL, HIGH_JUMP, TELEPORT, SQUADS, NCP, YPORT};
 
-   SpeedMode(String var3) {
-      this.d = var3;
+   SpeedMode(String string2) {
+      this.d = string2;
    }
 
-   public static String K(SpeedMode var0) {
-      return var0.d;
+   public static String K(SpeedMode speedMode) {
+      return speedMode.d;
    }
 }

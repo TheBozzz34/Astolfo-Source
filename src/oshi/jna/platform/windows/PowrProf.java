@@ -88,8 +88,8 @@ public interface PowrProf extends com.sun.jna.platform.win32.PowrProf {
       public int maxIdleState;
       public int currentIdleState;
 
-      public ProcessorPowerInformation(Pointer var1) {
-         super(var1);
+      public ProcessorPowerInformation(Pointer p) {
+         super(p);
          this.read();
       }
 
@@ -128,8 +128,8 @@ public interface PowrProf extends com.sun.jna.platform.win32.PowrProf {
       public int defaultAlert2;
       private static final long a = 66897768793141L;
 
-      public SystemBatteryState(Pointer var1) {
-         super(var1);
+      public SystemBatteryState(Pointer p) {
+         super(p);
          this.read();
       }
 

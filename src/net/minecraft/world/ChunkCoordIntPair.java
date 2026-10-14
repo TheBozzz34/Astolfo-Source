@@ -8,38 +8,38 @@ public class ChunkCoordIntPair {
    private int cachedHashCode = 0;
    private static final long a = 58429754905576L;
 
-   public ChunkCoordIntPair(int var1, int var2) {
-      this.chunkXPos = var1;
-      this.chunkZPos = var2;
+   public ChunkCoordIntPair(int x, int z) {
+      this.chunkXPos = x;
+      this.chunkZPos = z;
    }
 
-   public static long chunkXZ2Int(int var0, int var1) {
-      return var0 & 4294967295L | (var1 & 4294967295L) << 32;
+   public static long chunkXZ2Int(int x, int z) {
+      return x & 4294967295L | (z & 4294967295L) << 32;
    }
 
    @Override
    public int hashCode() {
       if (this.cachedHashCode == 0) {
-         int var4 = 1664525 * this.chunkXPos + 1013904223;
-         int var5 = 1664525 * (this.chunkZPos ^ -559038737) + 1013904223;
-         this.cachedHashCode = var4 ^ var5;
+         int i = 1664525 * this.chunkXPos + 1013904223;
+         int j = 1664525 * (this.chunkZPos ^ -559038737) + 1013904223;
+         this.cachedHashCode = i ^ j;
       }
 
       return this.cachedHashCode;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ChunkCoordIntPair)) {
+      if (!(object instanceof ChunkCoordIntPair)) {
          return false;
       }
 
-      ChunkCoordIntPair var5 = (ChunkCoordIntPair)var1;
-      return this.chunkXPos == var5.chunkXPos && this.chunkZPos == var5.chunkZPos;
+      ChunkCoordIntPair chunkCoordIntPair = (ChunkCoordIntPair)object;
+      return this.chunkXPos == chunkCoordIntPair.chunkXPos && this.chunkZPos == chunkCoordIntPair.chunkZPos;
    }
 
    public int getCenterXPos() {
@@ -66,12 +66,12 @@ public class ChunkCoordIntPair {
       return (this.chunkZPos << 4) + 15;
    }
 
-   public BlockPos getBlock(int var1, int var2, int var3) {
-      return new BlockPos((this.chunkXPos << 4) + var1, var2, (this.chunkZPos << 4) + var3);
+   public BlockPos getBlock(int x, int y, int z) {
+      return new BlockPos((this.chunkXPos << 4) + x, y, (this.chunkZPos << 4) + z);
    }
 
-   public BlockPos getCenterBlock(int var1) {
-      return new BlockPos(this.getCenterXPos(), var1, this.getCenterZPosition());
+   public BlockPos getCenterBlock(int y) {
+      return new BlockPos(this.getCenterXPos(), y, this.getCenterZPosition());
    }
 
    @Override

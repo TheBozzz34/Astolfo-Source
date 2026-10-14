@@ -37,9 +37,9 @@ public final class KillSay extends Module {
    private final Stopwatch B = new Stopwatch();
    private int C;
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> this.d.clear();
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.d.clear();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (this.reload.getValue()) {
          this.T();
          this.reload.set(false);
@@ -47,8 +47,8 @@ public final class KillSay extends Module {
       }
 
       if (this.B.hasElapsed(this.delay.getValue().intValue())) {
-         String var5x = this.d.poll();
-         if (var5x != null && !var5x.isEmpty()) {
+         String string = this.d.poll();
+         if (string != null && !string.isEmpty()) {
             if (this.C >= this.s.size()) {
                this.C = 0;
             }
@@ -58,7 +58,7 @@ public final class KillSay extends Module {
                .addToSendQueue(
                   new C01PacketChatMessage(
                      (this.shout.getValue() ? "/shout " : "")
-                        + (this.random.getValue() ? this.s.get(RandomUtils.RANDOM.nextInt(this.s.size())) : this.s.get(this.C)).replace("{user}", var5x)
+                        + (this.random.getValue() ? this.s.get(RandomUtils.RANDOM.nextInt(this.s.size())) : this.s.get(this.C)).replace("{user}", string)
                   )
                );
             this.C++;
@@ -66,32 +66,32 @@ public final class KillSay extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      switch (var1x.getDirection()) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      switch (packetEvent.getDirection()) {
          case RECEIVED:
-            if (var1x.getPacket() instanceof S02PacketChat) {
-               S02PacketChat var5x = (S02PacketChat)var1x.getPacket();
-               String var6x = EnumChatFormatting.getTextWithoutFormattingCodes(var5x.getChatComponent().getUnformattedText());
-               if (!var5x.isChat() && var6x.contains(String.format("by %s", mc.session.getUsername()))) {
-                  String var7 = var6x.split(" ")[0];
-                  if (var7.equals("BED")) {
+            if (packetEvent.getPacket() instanceof S02PacketChat) {
+               S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+               String string = EnumChatFormatting.getTextWithoutFormattingCodes(s02PacketChat.getChatComponent().getUnformattedText());
+               if (!s02PacketChat.isChat() && string.contains(String.format("by %s", mc.session.getUsername()))) {
+                  String string2 = string.split(" ")[0];
+                  if (string2.equals("BED")) {
                      return;
                   }
 
-                  this.d.add(var7);
+                  this.d.add(string2);
                }
             }
             break;
          case OUTGOING:
-            if (var1x.getPacket() instanceof C01PacketChatMessage) {
+            if (packetEvent.getPacket() instanceof C01PacketChatMessage) {
                this.B.reset();
             }
       }
    };
    private static final long c = 116111440784837L;
 
-   public KillSay(Category var1) {
-      super(var1);
+   public KillSay(Category category) {
+      super(category);
       this.addSettings(this.delay, this.reload, this.shout, this.random);
       this.setHidden(false);
       this.s
@@ -105,20 +105,20 @@ public final class KillSay extends Module {
                "*fortnite dances on {user}*"
             )
          );
-      Path var5 = client.getDirectory().getAbsoluteFile().toPath().resolve("killsay.txt");
-      if (!Files.exists(var5)) {
+      Path path = client.getDirectory().getAbsoluteFile().toPath().resolve("killsay.txt");
+      if (!Files.exists(path)) {
          try {
-            Files.createFile(var5);
-            FileWriter var6 = new FileWriter(var5.toFile());
+            Files.createFile(path);
+            FileWriter fileWriter = new FileWriter(path.toFile());
 
-            for (String var8 : this.s) {
-               var6.write(var8);
-               var6.write("\n");
+            for (String string : this.s) {
+               fileWriter.write(string);
+               fileWriter.write("\n");
             }
 
-            var6.close();
-         } catch (IOException var9) {
-            var9.printStackTrace();
+            fileWriter.close();
+         } catch (IOException ioException) {
+            ioException.printStackTrace();
          }
       } else {
          this.T();
@@ -126,20 +126,20 @@ public final class KillSay extends Module {
    }
 
    private void T() {
-      Path var4 = client.getDirectory().getAbsoluteFile().toPath().resolve("killsay.txt");
+      Path path = client.getDirectory().getAbsoluteFile().toPath().resolve("killsay.txt");
       this.s.clear();
 
       try {
-         BufferedReader var5 = new BufferedReader(new FileReader(var4.toFile()));
+         BufferedReader bufferedReader = new BufferedReader(new FileReader(path.toFile()));
 
-         String var6;
-         while ((var6 = var5.readLine()) != null) {
-            this.s.add(var6);
+         String string;
+         while ((string = bufferedReader.readLine()) != null) {
+            this.s.add(string);
          }
 
-         var5.close();
-      } catch (IOException var7) {
-         var7.printStackTrace();
+         bufferedReader.close();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 }

@@ -15,40 +15,40 @@ import net.minecraft.world.World;
 public class PlayerControllerOF extends PlayerControllerMP {
    private boolean acting = false;
 
-   public PlayerControllerOF(Minecraft var1, NetHandlerPlayClient var2) {
-      super(var1, var2);
+   public PlayerControllerOF(Minecraft mcIn, NetHandlerPlayClient netHandler) {
+      super(mcIn, netHandler);
    }
 
    @Override
-   public boolean clickBlock(BlockPos var1, EnumFacing var2) {
+   public boolean clickBlock(BlockPos loc, EnumFacing face) {
       this.acting = true;
-      boolean var3 = super.clickBlock(var1, var2);
+      boolean bl = super.clickBlock(loc, face);
       this.acting = false;
-      return var3;
+      return bl;
    }
 
    @Override
-   public boolean onPlayerDamageBlock(BlockPos var1, EnumFacing var2) {
+   public boolean onPlayerDamageBlock(BlockPos posBlock, EnumFacing directionFacing) {
       this.acting = true;
-      boolean var3 = super.onPlayerDamageBlock(var1, var2);
+      boolean bl = super.onPlayerDamageBlock(posBlock, directionFacing);
       this.acting = false;
-      return var3;
+      return bl;
    }
 
    @Override
-   public boolean sendUseItem(EntityPlayer var1, World var2, ItemStack var3) {
+   public boolean sendUseItem(EntityPlayer playerIn, World worldIn, ItemStack itemStackIn) {
       this.acting = true;
-      boolean var4 = super.sendUseItem(var1, var2, var3);
+      boolean bl = super.sendUseItem(playerIn, worldIn, itemStackIn);
       this.acting = false;
-      return var4;
+      return bl;
    }
 
    @Override
-   public boolean onPlayerRightClick(EntityPlayerSP var1, WorldClient var2, ItemStack var3, BlockPos var4, EnumFacing var5, Vec3 var6) {
+   public boolean onPlayerRightClick(EntityPlayerSP player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
       this.acting = true;
-      boolean var7 = super.onPlayerRightClick(var1, var2, var3, var4, var5, var6);
+      boolean bl = super.onPlayerRightClick(player, worldIn, heldStack, hitPos, side, hitVec);
       this.acting = false;
-      return var7;
+      return bl;
    }
 
    public boolean isActing() {

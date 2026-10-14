@@ -38,101 +38,103 @@ public final class SmcUtil {
    }
 
    public static IOConnect smcOpen() {
-      IOService var2 = IOKitUtil.getMatchingService("AppleSMC");
-      if (var2 != null) {
-         PointerByReference var3 = new PointerByReference();
-         int var4 = IO.IOServiceOpen(var2, SystemB.INSTANCE.mach_task_self(), 0, var3);
-         var2.release();
-         if (var4 == 0) {
-            return new IOConnect(var3.getValue());
+      IOService ioService = IOKitUtil.getMatchingService("AppleSMC");
+      if (ioService != null) {
+         PointerByReference pointerByReference = new PointerByReference();
+         int i = IO.IOServiceOpen(ioService, SystemB.INSTANCE.mach_task_self(), 0, pointerByReference);
+         ioService.release();
+         if (i == 0) {
+            return new IOConnect(pointerByReference.getValue());
          }
       }
 
       return null;
    }
 
-   public static int smcClose(IOConnect var0) {
-      return IO.IOServiceClose(var0);
+   public static int smcClose(IOConnect conn) {
+      return IO.IOServiceClose(conn);
    }
 
-   public static double smcGetFloat(IOConnect var0, String var1) {
-      SmcUtil.SMCVal var5 = new SmcUtil.SMCVal();
-      int var6 = smcReadKey(var0, var1, var5);
-      if (var6 == 0 && var5.dataSize > 0) {
-         if (Arrays.equals(var5.dataType, DATATYPE_SP78) && var5.dataSize == 2) {
-            return var5.bytes[0] + var5.bytes[1] / 256.0;
+   public static double smcGetFloat(IOConnect conn, String key) {
+      SmcUtil.SMCVal smcVal = new SmcUtil.SMCVal();
+      int i = smcReadKey(conn, key, smcVal);
+      if (i == 0 && smcVal.dataSize > 0) {
+         if (Arrays.equals(smcVal.dataType, DATATYPE_SP78) && smcVal.dataSize == 2) {
+            return smcVal.bytes[0] + smcVal.bytes[1] / 256.0;
          }
 
-         if (Arrays.equals(var5.dataType, DATATYPE_FPE2) && var5.dataSize == 2) {
-            return ParseUtil.byteArrayToFloat(var5.bytes, var5.dataSize, 2);
+         if (Arrays.equals(smcVal.dataType, DATATYPE_FPE2) && smcVal.dataSize == 2) {
+            return ParseUtil.byteArrayToFloat(smcVal.bytes, smcVal.dataSize, 2);
          }
 
-         if (Arrays.equals(var5.dataType, DATATYPE_FLT) && var5.dataSize == 4) {
-            return ByteBuffer.wrap(var5.bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+         if (Arrays.equals(smcVal.dataType, DATATYPE_FLT) && smcVal.dataSize == 4) {
+            return ByteBuffer.wrap(smcVal.bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
          }
       }
 
       return 0.0;
    }
 
-   public static long smcGetLong(IOConnect var0, String var1) {
-      SmcUtil.SMCVal var4 = new SmcUtil.SMCVal();
-      int var5 = smcReadKey(var0, var1, var4);
-      return var5 == 0 ? ParseUtil.byteArrayToLong(var4.bytes, var4.dataSize) : 0L;
+   public static long smcGetLong(IOConnect conn, String key) {
+      SmcUtil.SMCVal smcVal = new SmcUtil.SMCVal();
+      int i = smcReadKey(conn, key, smcVal);
+      return i == 0 ? ParseUtil.byteArrayToLong(smcVal.bytes, smcVal.dataSize) : 0L;
    }
 
-   public static int smcGetKeyInfo(IOConnect var0, SmcUtil.SMCKeyData var1, SmcUtil.SMCKeyData var2) {
-      if (keyInfoCache.containsKey(var1.key)) {
-         SmcUtil.SMCKeyDataKeyInfo var6 = keyInfoCache.get(var1.key);
-         var2.keyInfo.dataSize = var6.dataSize;
-         var2.keyInfo.dataType = var6.dataType;
-         var2.keyInfo.dataAttributes = var6.dataAttributes;
+   public static int smcGetKeyInfo(IOConnect conn, SmcUtil.SMCKeyData inputStructure, SmcUtil.SMCKeyData outputStructure) {
+      if (keyInfoCache.containsKey(inputStructure.key)) {
+         SmcUtil.SMCKeyDataKeyInfo smcKeyDataKeyInfo = keyInfoCache.get(inputStructure.key);
+         outputStructure.keyInfo.dataSize = smcKeyDataKeyInfo.dataSize;
+         outputStructure.keyInfo.dataType = smcKeyDataKeyInfo.dataType;
+         outputStructure.keyInfo.dataAttributes = smcKeyDataKeyInfo.dataAttributes;
       } else {
-         var1.data8 = 9;
-         int var8 = smcCall(var0, 2, var1, var2);
-         if (var8 != 0) {
-            return var8;
+         inputStructure.data8 = 9;
+         int i = smcCall(conn, 2, inputStructure, outputStructure);
+         if (i != 0) {
+            return i;
          }
 
-         SmcUtil.SMCKeyDataKeyInfo var7 = new SmcUtil.SMCKeyDataKeyInfo();
-         var7.dataSize = var2.keyInfo.dataSize;
-         var7.dataType = var2.keyInfo.dataType;
-         var7.dataAttributes = var2.keyInfo.dataAttributes;
-         keyInfoCache.put(var1.key, var7);
+         SmcUtil.SMCKeyDataKeyInfo smcKeyDataKeyInfo2 = new SmcUtil.SMCKeyDataKeyInfo();
+         smcKeyDataKeyInfo2.dataSize = outputStructure.keyInfo.dataSize;
+         smcKeyDataKeyInfo2.dataType = outputStructure.keyInfo.dataType;
+         smcKeyDataKeyInfo2.dataAttributes = outputStructure.keyInfo.dataAttributes;
+         keyInfoCache.put(inputStructure.key, smcKeyDataKeyInfo2);
       }
 
       return 0;
    }
 
-   public static int smcReadKey(IOConnect var0, String var1, SmcUtil.SMCVal var2) {
-      SmcUtil.SMCKeyData var7 = new SmcUtil.SMCKeyData();
-      SmcUtil.SMCKeyData var8 = new SmcUtil.SMCKeyData();
-      var7.key = (int)ParseUtil.strToLong(var1, 4);
-      int var9 = smcGetKeyInfo(var0, var7, var8);
-      if (var9 == 0) {
-         var2.dataSize = var8.keyInfo.dataSize;
-         var2.dataType = ParseUtil.longToByteArray(var8.keyInfo.dataType, 4, 5);
-         var7.keyInfo.dataSize = var2.dataSize;
-         var7.data8 = 5;
-         var9 = smcCall(var0, 2, var7, var8);
-         if (var9 == 0) {
-            System.arraycopy(var8.bytes, 0, var2.bytes, 0, var2.bytes.length);
+   public static int smcReadKey(IOConnect conn, String key, SmcUtil.SMCVal val) {
+      SmcUtil.SMCKeyData smcKeyData = new SmcUtil.SMCKeyData();
+      SmcUtil.SMCKeyData smcKeyData2 = new SmcUtil.SMCKeyData();
+      smcKeyData.key = (int)ParseUtil.strToLong(key, 4);
+      int i = smcGetKeyInfo(conn, smcKeyData, smcKeyData2);
+      if (i == 0) {
+         val.dataSize = smcKeyData2.keyInfo.dataSize;
+         val.dataType = ParseUtil.longToByteArray(smcKeyData2.keyInfo.dataType, 4, 5);
+         smcKeyData.keyInfo.dataSize = val.dataSize;
+         smcKeyData.data8 = 5;
+         i = smcCall(conn, 2, smcKeyData, smcKeyData2);
+         if (i == 0) {
+            System.arraycopy(smcKeyData2.bytes, 0, val.bytes, 0, val.bytes.length);
             return 0;
          }
       }
 
-      return var9;
+      return i;
    }
 
-   public static int smcCall(IOConnect var0, int var1, SmcUtil.SMCKeyData var2, SmcUtil.SMCKeyData var3) {
-      return IO.IOConnectCallStructMethod(var0, var1, var2, new NativeLong(var2.size()), var3, new NativeLongByReference(new NativeLong(var3.size())));
+   public static int smcCall(IOConnect conn, int index, SmcUtil.SMCKeyData inputStructure, SmcUtil.SMCKeyData outputStructure) {
+      return IO.IOConnectCallStructMethod(
+         conn, index, inputStructure, new NativeLong(inputStructure.size()), outputStructure, new NativeLongByReference(new NativeLong(outputStructure.size()))
+      );
    }
 
    static {
-      long var20 = b ^ 115926065461821L;
-      long var10000 = var20 ^ 2610946401399286723L;
-      var10000 = var20 ^ 4768613574004857308L;
-      var10000 = var20 ^ 6708171798858456207L;
+      long l = b ^ 115926065461821L;
+      long m = l ^ 2610946401399286723L;
+      m = l ^ 4768613574004857308L;
+      m = l ^ 6708171798858456207L;
    }
 
    @FieldOrder({"key", "vers", "pLimitData", "keyInfo", "result", "status", "data8", "data32", "bytes"})

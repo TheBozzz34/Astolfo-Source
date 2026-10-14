@@ -13,7 +13,7 @@ public final class TitleAnnouncer extends HiddenModule {
    public static final Stopwatch d = new Stopwatch();
    public static String D;
    @EventHandler(RenderAfterScreenEvent.class)
-   private Listener<RenderAfterScreenEvent> onRenderAfterScreen = var1 -> {
+   private Listener<RenderAfterScreenEvent> onRenderAfterScreen = renderAfterScreenEvent -> {
       if (!d.hasElapsed(5000.0F) && !StringUtils.isEmpty(D) && mc.ingameGUI != null) {
          mc.ingameGUI.displayedSubTitle = "";
          mc.ingameGUI.setDefaultTitlesTimes();

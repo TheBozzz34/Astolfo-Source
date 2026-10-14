@@ -12,11 +12,11 @@ public interface CLibrary extends LibCAPI, Library {
 
    int getpid();
 
-   int getaddrinfo(String var1, String var2, CLibrary.Addrinfo var3, PointerByReference var4);
+   int getaddrinfo(String string, String string2, CLibrary.Addrinfo addrinfo, PointerByReference pointerByReference);
 
-   void freeaddrinfo(Pointer var1);
+   void freeaddrinfo(Pointer pointer);
 
-   String gai_strerror(int var1);
+   String gai_strerror(int i);
 
    @FieldOrder({"ai_flags", "ai_family", "ai_socktype", "ai_protocol", "ai_addrlen", "ai_addr", "ai_canonname", "ai_next"})
    class Addrinfo extends Structure {
@@ -33,8 +33,8 @@ public interface CLibrary extends LibCAPI, Library {
       public Addrinfo() {
       }
 
-      public Addrinfo(Pointer var1) {
-         super(var1);
+      public Addrinfo(Pointer p) {
+         super(p);
          this.read();
       }
 

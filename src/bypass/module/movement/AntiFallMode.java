@@ -8,11 +8,11 @@ public enum AntiFallMode {
    private String J;
    private static final AntiFallMode[] P = new AntiFallMode[]{SET_BACK, PACKET, LAG};
 
-   AntiFallMode(String var3) {
-      this.J = var3;
+   AntiFallMode(String string2) {
+      this.J = string2;
    }
 
-   public static String M(AntiFallMode var0) {
-      return var0.J;
+   public static String M(AntiFallMode antiFallMode) {
+      return antiFallMode.J;
    }
 }

@@ -1,5 +1,5 @@
 package com.googlecode.concurrentlinkedhashmap;
 
 public interface Weigher<V> {
-   int weightOf(V var1);
+   int weightOf(V object);
 }

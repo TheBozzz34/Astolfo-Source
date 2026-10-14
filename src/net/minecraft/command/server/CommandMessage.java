@@ -34,37 +34,37 @@ public class CommandMessage extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.message.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 2) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 2) {
          throw new WrongUsageException("commands.message.usage");
       }
 
-      EntityPlayerMP var6 = getPlayer(var1, var2[0]);
-      if (var6 == var1) {
+      EntityPlayerMP entityPlayerMP = getPlayer(sender, args[0]);
+      if (entityPlayerMP == sender) {
          throw new PlayerNotFoundException("commands.message.sameTarget");
       }
 
-      IChatComponent var7 = getChatComponentFromNthArg(var1, var2, 1, !(var1 instanceof EntityPlayer));
-      ChatComponentTranslation var8 = new ChatComponentTranslation("commands.message.display.incoming", var1.getDisplayName(), var7.createCopy());
-      ChatComponentTranslation var9 = new ChatComponentTranslation("commands.message.display.outgoing", var6.getDisplayName(), var7.createCopy());
-      var8.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(true);
-      var9.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(true);
-      var6.addChatMessage(var8);
-      var1.addChatMessage(var9);
+      IChatComponent iChatComponent = getChatComponentFromNthArg(sender, args, 1, !(sender instanceof EntityPlayer));
+      ChatComponentTranslation chatComponentTranslation = new ChatComponentTranslation("commands.message.display.incoming", sender.getDisplayName(), iChatComponent.createCopy());
+      ChatComponentTranslation chatComponentTranslation2 = new ChatComponentTranslation("commands.message.display.outgoing", entityPlayerMP.getDisplayName(), iChatComponent.createCopy());
+      chatComponentTranslation.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(true);
+      chatComponentTranslation2.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(true);
+      entityPlayerMP.addChatMessage(chatComponentTranslation);
+      sender.addChatMessage(chatComponentTranslation2);
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames());
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 }

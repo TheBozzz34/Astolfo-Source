@@ -20,15 +20,15 @@ public class RecipesIngots {
    };
    private static final long a = 102935300485656L;
 
-   public void addRecipes(CraftingManager var1) {
-      for (int var4 = 0; var4 < this.recipeItems.length; var4++) {
-         Block var5 = (Block)this.recipeItems[var4][0];
-         ItemStack var6 = (ItemStack)this.recipeItems[var4][1];
-         var1.addRecipe(new ItemStack(var5), "###", "###", "###", '#', var6);
-         var1.addRecipe(var6, "#", '#', var5);
+   public void addRecipes(CraftingManager craftingManager) {
+      for (int i = 0; i < this.recipeItems.length; i++) {
+         Block block = (Block)this.recipeItems[i][0];
+         ItemStack itemStack = (ItemStack)this.recipeItems[i][1];
+         craftingManager.addRecipe(new ItemStack(block), "###", "###", "###", '#', itemStack);
+         craftingManager.addRecipe(itemStack, "#", '#', block);
       }
 
-      var1.addRecipe(new ItemStack(Items.gold_ingot), "###", "###", "###", '#', Items.gold_nugget);
-      var1.addRecipe(new ItemStack(Items.gold_nugget, 9), "#", '#', Items.gold_ingot);
+      craftingManager.addRecipe(new ItemStack(Items.gold_ingot), "###", "###", "###", '#', Items.gold_nugget);
+      craftingManager.addRecipe(new ItemStack(Items.gold_nugget, 9), "#", '#', Items.gold_ingot);
    }
 }

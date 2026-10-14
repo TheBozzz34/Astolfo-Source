@@ -11,8 +11,8 @@ public class ShaderOptionSwitch extends ShaderOption {
    private static final Pattern PATTERN_IFDEF = Pattern.compile("^\\s*#if(n)?def\\s+([A-Za-z0-9_]+)(\\s*)?$");
    private static final long b = 78472606726798L;
 
-   public ShaderOptionSwitch(String var1, String var2, String var3, String var4) {
-      super(var1, var2, var3, new String[]{"true", "false"}, var3, var4);
+   public ShaderOptionSwitch(String name, String description, String value, String path) {
+      super(name, description, value, new String[]{"true", "false"}, value, path);
    }
 
    @Override
@@ -21,28 +21,28 @@ public class ShaderOptionSwitch extends ShaderOption {
    }
 
    @Override
-   public String getValueText(String var1) {
-      return isTrue(var1) ? Lang.getOn() : Lang.getOff();
+   public String getValueText(String val) {
+      return isTrue(val) ? Lang.getOn() : Lang.getOff();
    }
 
    @Override
-   public String getValueColor(String var1) {
-      return isTrue(var1) ? "§a" : "§c";
+   public String getValueColor(String val) {
+      return isTrue(val) ? "§a" : "§c";
    }
 
-   public static ShaderOption parseOption_ShaderOption(String var0, String var1) {
-      Matcher var5 = PATTERN_DEFINE.matcher(var0);
-      if (!var5.matches()) {
+   public static ShaderOption parseOption_ShaderOption(String string, String string2) {
+      Matcher matcher2 = PATTERN_DEFINE.matcher(string);
+      if (!matcher2.matches()) {
          return null;
       } else {
-         String var6 = var5.group(1);
-         String var7 = var5.group(2);
-         String var8 = var5.group(3);
-         if (var7 != null && var7.length() > 0) {
-            boolean var9 = Config.equals(var6, "//");
-            boolean var10 = !var9;
-            var1 = StrUtils.removePrefix(var1, "/shaders/");
-            return new ShaderOptionSwitch(var7, var8, String.valueOf(var10), var1);
+         String string3 = matcher2.group(1);
+         String string4 = matcher2.group(2);
+         String string5 = matcher2.group(3);
+         if (string4 != null && string4.length() > 0) {
+            boolean bl = Config.equals(string3, "//");
+            boolean bl2 = !bl;
+            string2 = StrUtils.removePrefix(string2, "/shaders/");
+            return new ShaderOptionSwitch(string4, string5, String.valueOf(bl2), string2);
          } else {
             return null;
          }
@@ -50,14 +50,14 @@ public class ShaderOptionSwitch extends ShaderOption {
    }
 
    @Override
-   public boolean matchesLine(String var1) {
-      Matcher var5 = PATTERN_DEFINE.matcher(var1);
-      if (!var5.matches()) {
+   public boolean matchesLine(String line) {
+      Matcher matcher2 = PATTERN_DEFINE.matcher(line);
+      if (!matcher2.matches()) {
          return false;
       }
 
-      String var6 = var5.group(2);
-      return var6.matches(this.getName());
+      String string = matcher2.group(2);
+      return string.matches(this.getName());
    }
 
    @Override
@@ -66,11 +66,11 @@ public class ShaderOptionSwitch extends ShaderOption {
    }
 
    @Override
-   public boolean isUsedInLine(String var1) {
-      Matcher var5 = PATTERN_IFDEF.matcher(var1);
-      if (var5.matches()) {
-         String var6 = var5.group(2);
-         if (var6.equals(this.getName())) {
+   public boolean isUsedInLine(String line) {
+      Matcher matcher2 = PATTERN_IFDEF.matcher(line);
+      if (matcher2.matches()) {
+         String string = matcher2.group(2);
+         if (string.equals(this.getName())) {
             return true;
          }
       }
@@ -78,7 +78,7 @@ public class ShaderOptionSwitch extends ShaderOption {
       return false;
    }
 
-   public static boolean isTrue(String var0) {
-      return Boolean.valueOf(var0);
+   public static boolean isTrue(String val) {
+      return Boolean.valueOf(val);
    }
 }

@@ -18,68 +18,66 @@ public final class GlyphPage {
    private int D;
    private static final long a = 85247811898493L;
 
-   public GlyphPage X(Font var1, boolean var2) {
-      return this.S(var1, var2, var2, 16, 2);
+   public GlyphPage X(Font font, boolean bl) {
+      return this.S(font, bl, bl, 16, 2);
    }
 
-   private GlyphPage S(Font var1, boolean var2, boolean var3, int var4, int var5) {
+   private GlyphPage S(Font font, boolean bl, boolean bl2, int i, int j) {
       if (this.U == -1) {
          this.U = GlHelper.T();
       }
 
-      FontMetrics var8 = new Canvas().getFontMetrics(var1);
-      int var9 = 0;
-      int var10 = 0;
-      int var11 = 0;
+      FontMetrics fontMetrics = new Canvas().getFontMetrics(font);
+      int l = 0;
+      int m = 0;
+      int n = 0;
 
-      for (int var12 = 0; var12 < this.k.length; var12++) {
-         char var13 = (char)var12;
-         int var14 = var8.getHeight();
-         int var15 = var8.charWidth(var13);
-         if (var12 != 0 && var12 % var4 == 0) {
-            var10 = var5;
-            var11 += var9 + var5;
-            var9 = 0;
+      for (int i2 = 0; i2 < this.k.length; i2++) {
+         char c2 = (char)i2;
+         int i3 = fontMetrics.getHeight();
+         int i4 = fontMetrics.charWidth(c2);
+         if (i2 != 0 && i2 % i == 0) {
+            m = j;
+            n += l + j;
+            l = 0;
          }
 
-         if (var14 > var9) {
-            var9 = var14;
-            if (var9 > this.F) {
-               this.F = var9;
+         if (i3 > l) {
+            l = i3;
+            if (l > this.F) {
+               this.F = l;
             }
          }
 
-         this.k[var12] = new GlyphPage.aun(var10, var11, var15, var14);
-         var10 += var15 + var5;
-         if (var10 + var15 + var5 > this.c) {
-            this.c = var10 + var15 + var5;
+         this.k[i2] = new GlyphPage.aun(m, n, i4, i3);
+         m += i4 + j;
+         if (m + i4 + j > this.c) {
+            this.c = m + i4 + j;
          }
 
-         if (var11 + var14 + var5 > this.D) {
-            this.D = var11 + var14 + var5;
+         if (n + i3 + j > this.D) {
+            this.D = n + i3 + j;
          }
       }
 
-      BufferedImage var17 = new BufferedImage(this.c, this.D, 2);
-      Graphics2D var18 = (Graphics2D)var17.getGraphics();
-      var18.setFont(var1);
-      var8 = var18.getFontMetrics(var1);
-      var18.setColor(new Color(255, 255, 255, 0));
-      var18.fillRect(0, 0, this.c, this.D);
-      var18.setColor(Color.WHITE);
-      var18.setRenderingHint(
-         RenderingHints.KEY_FRACTIONALMETRICS, var3 ? RenderingHints.VALUE_FRACTIONALMETRICS_ON : RenderingHints.VALUE_FRACTIONALMETRICS_OFF
-      );
-      var18.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, var2 ? RenderingHints.VALUE_TEXT_ANTIALIAS_GASP : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-      var18.setRenderingHint(
-         RenderingHints.KEY_ALPHA_INTERPOLATION, var2 ? RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY : RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED
+      BufferedImage bufferedImage = new BufferedImage(this.c, this.D, 2);
+      Graphics2D graphics2D = (Graphics2D)bufferedImage.getGraphics();
+      graphics2D.setFont(font);
+      fontMetrics = graphics2D.getFontMetrics(font);
+      graphics2D.setColor(new Color(255, 255, 255, 0));
+      graphics2D.fillRect(0, 0, this.c, this.D);
+      graphics2D.setColor(Color.WHITE);
+      graphics2D.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, bl2 ? RenderingHints.VALUE_FRACTIONALMETRICS_ON : RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+      graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, bl ? RenderingHints.VALUE_TEXT_ANTIALIAS_GASP : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+      graphics2D.setRenderingHint(
+         RenderingHints.KEY_ALPHA_INTERPOLATION, bl ? RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY : RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED
       );
 
-      for (int var19 = 0; var19 < this.k.length; var19++) {
-         var18.drawString(String.valueOf((char)var19), this.k[var19].p, this.k[var19].s + var8.getAscent());
+      for (int i5 = 0; i5 < this.k.length; i5++) {
+         graphics2D.drawString(String.valueOf((char)i5), this.k[i5].p, this.k[i5].s + fontMetrics.getAscent());
       }
 
-      GlHelper.X(this.U, var17, var2 ? 9729 : 9728, 10497);
+      GlHelper.X(this.U, bufferedImage, bl ? 9729 : 9728, 10497);
       return this;
    }
 
@@ -87,22 +85,22 @@ public final class GlyphPage {
       GlStateManager.bindTexture(this.U);
    }
 
-   public GlyphPage.aun c(char var1) {
-      return this.k[var1];
+   public GlyphPage.aun c(char c) {
+      return this.k[c];
    }
 
-   public int q(String var1) {
-      int var5 = 0;
+   public int q(String string) {
+      int i = 0;
 
-      for (char var9 : var1.toCharArray()) {
-         var5 += this.k[var9].F;
+      for (char c : string.toCharArray()) {
+         i += this.k[c].F;
       }
 
-      return var5;
+      return i;
    }
 
-   public boolean x(char var1) {
-      return var1 >= 0 && var1 < 256;
+   public boolean x(char c) {
+      return c >= 0 && c < 256;
    }
 
    public boolean s() {
@@ -127,11 +125,11 @@ public final class GlyphPage {
       public final int F;
       public final int j;
 
-      public aun(int var2, int var3, int var4, int var5) {
-         this.p = var2;
-         this.s = var3;
-         this.F = var4;
-         this.j = var5;
+      public aun(int i, int j, int l, int m) {
+         this.p = i;
+         this.s = j;
+         this.F = l;
+         this.j = m;
       }
    }
 }

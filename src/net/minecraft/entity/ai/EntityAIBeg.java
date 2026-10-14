@@ -14,10 +14,10 @@ public class EntityAIBeg extends EntityAIBase {
    private int timeoutCounter;
    private static final long a = 104579596509084L;
 
-   public EntityAIBeg(EntityWolf var1, float var2) {
-      this.theWolf = var1;
-      this.worldObject = var1.worldObj;
-      this.minPlayerDistance = var2;
+   public EntityAIBeg(EntityWolf wolf, float minDistance) {
+      this.theWolf = wolf;
+      this.worldObject = wolf.worldObj;
+      this.minPlayerDistance = minDistance;
       this.setMutexBits(2);
    }
 
@@ -60,8 +60,8 @@ public class EntityAIBeg extends EntityAIBase {
       this.timeoutCounter--;
    }
 
-   private boolean hasPlayerGotBoneInHand(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      return var5 == null ? false : (!this.theWolf.isTamed() && var5.getItem() == Items.bone ? true : this.theWolf.isBreedingItem(var5));
+   private boolean hasPlayerGotBoneInHand(EntityPlayer player) {
+      ItemStack itemStack = player.inventory.getCurrentItem();
+      return itemStack == null ? false : (!this.theWolf.isTamed() && itemStack.getItem() == Items.bone ? true : this.theWolf.isBreedingItem(itemStack));
    }
 }

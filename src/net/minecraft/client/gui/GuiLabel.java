@@ -24,25 +24,25 @@ public class GuiLabel extends Gui {
    private int field_146163_s;
    private static final long b = 26853328968459L;
 
-   public GuiLabel(FontRenderer var1, int var2, int var3, int var4, int var5, int var6, int var7) {
-      this.fontRenderer = var1;
-      this.field_175204_i = var2;
-      this.field_146162_g = var3;
-      this.field_146174_h = var4;
-      this.field_146167_a = var5;
-      this.field_146161_f = var6;
+   public GuiLabel(FontRenderer fontRendererObj, int i, int j, int k, int l, int m, int n) {
+      this.fontRenderer = fontRendererObj;
+      this.field_175204_i = i;
+      this.field_146162_g = j;
+      this.field_146174_h = k;
+      this.field_146167_a = l;
+      this.field_146161_f = m;
       this.field_146173_k = Lists.newArrayList();
       this.centered = false;
       this.labelBgEnabled = false;
-      this.field_146168_n = var7;
+      this.field_146168_n = n;
       this.field_146169_o = -1;
       this.field_146166_p = -1;
       this.field_146165_q = -1;
       this.field_146163_s = 0;
    }
 
-   public void func_175202_a(String var1) {
-      this.field_146173_k.add(I18n.format(var1));
+   public void func_175202_a(String string) {
+      this.field_146173_k.add(I18n.format(string));
    }
 
    public GuiLabel setCentered() {
@@ -50,35 +50,35 @@ public class GuiLabel extends Gui {
       return this;
    }
 
-   public void drawLabel(Minecraft var1, int var2, int var3) {
+   public void drawLabel(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-         this.drawLabelBackground(var1, var2, var3);
-         int var7 = this.field_146174_h + this.field_146161_f / 2 + this.field_146163_s / 2;
-         int var8 = var7 - this.field_146173_k.size() * 10 / 2;
+         this.drawLabelBackground(mc, mouseX, mouseY);
+         int i = this.field_146174_h + this.field_146161_f / 2 + this.field_146163_s / 2;
+         int j = i - this.field_146173_k.size() * 10 / 2;
 
-         for (int var9 = 0; var9 < this.field_146173_k.size(); var9++) {
+         for (int k = 0; k < this.field_146173_k.size(); k++) {
             if (this.centered) {
-               this.d(this.fontRenderer, this.field_146173_k.get(var9), this.field_146162_g + this.field_146167_a / 2, var8 + var9 * 10, this.field_146168_n);
+               this.d(this.fontRenderer, this.field_146173_k.get(k), this.field_146162_g + this.field_146167_a / 2, j + k * 10, this.field_146168_n);
             } else {
-               this.I(this.fontRenderer, this.field_146173_k.get(var9), this.field_146162_g, var8 + var9 * 10, this.field_146168_n);
+               this.I(this.fontRenderer, this.field_146173_k.get(k), this.field_146162_g, j + k * 10, this.field_146168_n);
             }
          }
       }
    }
 
-   public void drawLabelBackground(Minecraft var1, int var2, int var3) {
+   public void drawLabelBackground(Minecraft mcIn, int i, int j) {
       if (this.labelBgEnabled) {
-         int var7 = this.field_146167_a + this.field_146163_s * 2;
-         int var8 = this.field_146161_f + this.field_146163_s * 2;
-         int var9 = this.field_146162_g - this.field_146163_s;
-         int var10 = this.field_146174_h - this.field_146163_s;
-         drawRect(var9, var10, var9 + var7, var10 + var8, this.field_146169_o);
-         S(var9, var9 + var7, var10, this.field_146166_p);
-         S(var9, var9 + var7, var10 + var8, this.field_146165_q);
-         J(var9, var10, var10 + var8, this.field_146166_p);
-         J(var9 + var7, var10, var10 + var8, this.field_146165_q);
+         int k = this.field_146167_a + this.field_146163_s * 2;
+         int l = this.field_146161_f + this.field_146163_s * 2;
+         int m = this.field_146162_g - this.field_146163_s;
+         int n = this.field_146174_h - this.field_146163_s;
+         drawRect(m, n, m + k, n + l, this.field_146169_o);
+         S(m, m + k, n, this.field_146166_p);
+         S(m, m + k, n + l, this.field_146165_q);
+         J(m, n, n + l, this.field_146166_p);
+         J(m + k, n, n + l, this.field_146165_q);
       }
    }
 }

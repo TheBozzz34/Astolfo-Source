@@ -21,14 +21,14 @@ public class InputLibrary extends TwoArgFunction implements ClientAccess {
    private static final long b = 87716276116451L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      LuaTable var7 = LuaValue.tableOf();
-      var7.set("is_key_down", c);
-      var7.set("is_mouse_down", L);
-      var7.set("get_key_name", w);
-      var7.set("get_key_number", o);
-      var7.set("get_scroll", n);
-      var2.set("input", var7);
-      return var7;
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      LuaTable luaTable = LuaValue.tableOf();
+      luaTable.set("is_key_down", c);
+      luaTable.set("is_mouse_down", L);
+      luaTable.set("get_key_name", w);
+      luaTable.set("get_key_number", o);
+      luaTable.set("get_scroll", n);
+      luaValue2.set("input", luaTable);
+      return luaTable;
    }
 }

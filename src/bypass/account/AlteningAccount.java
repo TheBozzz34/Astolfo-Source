@@ -10,9 +10,9 @@ public class AlteningAccount implements JsonSerializable {
    private final boolean g;
    private static final long a = 137268381768746L;
 
-   public AlteningAccount(String var1, boolean var2) {
-      this.f = var1;
-      this.g = var2;
+   public AlteningAccount(String string, boolean bl) {
+      this.f = string;
+      this.g = bl;
    }
 
    @Override
@@ -22,9 +22,9 @@ public class AlteningAccount implements JsonSerializable {
 
    @Override
    public JsonElement V() {
-      JsonObject var5 = new JsonObject();
-      var5.addProperty("token", Base64.getEncoder().encodeToString(this.f.getBytes()));
-      var5.addProperty("addAccount", this.g);
-      return var5;
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("token", Base64.getEncoder().encodeToString(this.f.getBytes()));
+      jsonObject.addProperty("addAccount", this.g);
+      return jsonObject;
    }
 }

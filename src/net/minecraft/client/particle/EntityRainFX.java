@@ -12,8 +12,8 @@ public class EntityRainFX extends EntityFX {
    private static final long ab = 86618652444762L;
    private static final long hb = 7183974934530490387L;
 
-   public EntityRainFX(World var1, double var2, double var4, double var6) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
+   public EntityRainFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.3F;
       this.motionY = Math.random() * 0.2F + 0.1F;
       this.motionZ *= 0.3F;
@@ -49,21 +49,21 @@ public class EntityRainFX extends EntityFX {
          this.motionZ *= 0.7F;
       }
 
-      BlockPos var4 = new BlockPos(this);
-      IBlockState var5 = this.worldObj.getBlockState(var4);
-      Block var6 = var5.getBlock();
-      var6.setBlockBoundsBasedOnState(this.worldObj, var4);
-      Material var7 = var5.getBlock().getMaterial();
-      if (var7.isLiquid() || var7.isSolid()) {
-         double var8 = 0.0;
-         if (var5.getBlock() instanceof BlockLiquid) {
-            var8 = 1.0F - BlockLiquid.getLiquidHeightPercent(var5.getValue(BlockLiquid.LEVEL));
+      BlockPos blockPos = new BlockPos(this);
+      IBlockState iBlockState = this.worldObj.getBlockState(blockPos);
+      Block block = iBlockState.getBlock();
+      block.setBlockBoundsBasedOnState(this.worldObj, blockPos);
+      Material material = iBlockState.getBlock().getMaterial();
+      if (material.isLiquid() || material.isSolid()) {
+         double d = 0.0;
+         if (iBlockState.getBlock() instanceof BlockLiquid) {
+            d = 1.0F - BlockLiquid.getLiquidHeightPercent(iBlockState.getValue(BlockLiquid.LEVEL));
          } else {
-            var8 = var6.getBlockBoundsMaxY();
+            d = block.getBlockBoundsMaxY();
          }
 
-         double var10 = MathHelper.floor_double(this.posY) + var8;
-         if (this.posY < var10) {
+         double e = MathHelper.floor_double(this.posY) + d;
+         if (this.posY < e) {
             this.setDead();
          }
       }
@@ -71,8 +71,10 @@ public class EntityRainFX extends EntityFX {
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new EntityRainFX(var2, var3, var5, var7);
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new EntityRainFX(worldIn, xCoordIn, yCoordIn, zCoordIn);
       }
    }
 }

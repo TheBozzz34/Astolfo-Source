@@ -12,78 +12,78 @@ public class GuiUtilRenderComponents {
    private static final long a = 38412556497011L;
    private static final long b = -978970188042993654L;
 
-   public static String func_178909_a(String var0, boolean var1) {
-      return !var1 && !Minecraft.getMinecraft().gameSettings.chatColours ? EnumChatFormatting.getTextWithoutFormattingCodes(var0) : var0;
+   public static String func_178909_a(String string, boolean bl) {
+      return !bl && !Minecraft.getMinecraft().gameSettings.chatColours ? EnumChatFormatting.getTextWithoutFormattingCodes(string) : string;
    }
 
-   public static List<IChatComponent> splitText(IChatComponent var0, int var1, FontRenderer var2, boolean var3, boolean var4) {
-      int var7 = 0;
-      ChatComponentText var8 = new ChatComponentText("");
-      ArrayList var9 = Lists.newArrayList();
-      ArrayList var10 = Lists.newArrayList(var0);
+   public static List<IChatComponent> splitText(IChatComponent iChatComponent, int i, FontRenderer fontRenderer, boolean bl, boolean bl2) {
+      int j = 0;
+      ChatComponentText chatComponentText = new ChatComponentText("");
+      ArrayList arrayList = Lists.newArrayList();
+      ArrayList arrayList2 = Lists.newArrayList(iChatComponent);
 
-      for (int var11 = 0; var11 < var10.size(); var11++) {
-         IChatComponent var12 = (IChatComponent)var10.get(var11);
-         String var13 = var12.getUnformattedTextForChat();
-         boolean var14 = false;
-         if (var13.contains("\n")) {
-            int var15 = var13.indexOf((int)b);
-            String var16 = var13.substring(var15 + 1);
-            var13 = var13.substring(0, var15 + 1);
-            ChatComponentText var17 = new ChatComponentText(var16);
-            var17.setChatStyle(var12.getChatStyle().createShallowCopy());
-            var10.add(var11 + 1, var17);
-            var14 = true;
+      for (int k = 0; k < arrayList2.size(); k++) {
+         IChatComponent iChatComponent2 = (IChatComponent)arrayList2.get(k);
+         String string = iChatComponent2.getUnformattedTextForChat();
+         boolean bl3 = false;
+         if (string.contains("\n")) {
+            int l = string.indexOf((int)b);
+            String string2 = string.substring(l + 1);
+            string = string.substring(0, l + 1);
+            ChatComponentText chatComponentText2 = new ChatComponentText(string2);
+            chatComponentText2.setChatStyle(iChatComponent2.getChatStyle().createShallowCopy());
+            arrayList2.add(k + 1, chatComponentText2);
+            bl3 = true;
          }
 
-         String var23 = func_178909_a(var12.getChatStyle().getFormattingCode() + var13, var4);
-         String var24 = var23.endsWith("\n") ? var23.substring(0, var23.length() - 1) : var23;
-         int var25 = var2.getStringWidth(var24);
-         ChatComponentText var18 = new ChatComponentText(var24);
-         var18.setChatStyle(var12.getChatStyle().createShallowCopy());
-         if (var7 + var25 > var1) {
-            String var19 = var2.trimStringToWidth(var23, var1 - var7, false);
-            String var20 = var19.length() < var23.length() ? var23.substring(var19.length()) : null;
-            if (var20 != null && var20.length() > 0) {
-               int var21 = var19.lastIndexOf(" ");
-               if (var21 >= 0 && var2.getStringWidth(var23.substring(0, var21)) > 0) {
-                  var19 = var23.substring(0, var21);
-                  if (var3) {
-                     var21++;
+         String string3 = func_178909_a(iChatComponent2.getChatStyle().getFormattingCode() + string, bl2);
+         String string4 = string3.endsWith("\n") ? string3.substring(0, string3.length() - 1) : string3;
+         int m = fontRenderer.getStringWidth(string4);
+         ChatComponentText chatComponentText3 = new ChatComponentText(string4);
+         chatComponentText3.setChatStyle(iChatComponent2.getChatStyle().createShallowCopy());
+         if (j + m > i) {
+            String string5 = fontRenderer.trimStringToWidth(string3, i - j, false);
+            String string6 = string5.length() < string3.length() ? string3.substring(string5.length()) : null;
+            if (string6 != null && string6.length() > 0) {
+               int i2 = string5.lastIndexOf(" ");
+               if (i2 >= 0 && fontRenderer.getStringWidth(string3.substring(0, i2)) > 0) {
+                  string5 = string3.substring(0, i2);
+                  if (bl) {
+                     i2++;
                   }
 
-                  var20 = var23.substring(var21);
-               } else if (var7 > 0 && !var23.contains(" ")) {
-                  var19 = "";
-                  var20 = var23;
+                  string6 = string3.substring(i2);
+               } else if (j > 0 && !string3.contains(" ")) {
+                  string5 = "";
+                  string6 = string3;
                }
 
-               ChatComponentText var22 = new ChatComponentText(var20);
-               var22.setChatStyle(var12.getChatStyle().createShallowCopy());
-               var10.add(var11 + 1, var22);
+               ChatComponentText chatComponentText4 = new ChatComponentText(string6);
+               chatComponentText4.setChatStyle(iChatComponent2.getChatStyle().createShallowCopy());
+               arrayList2.add(k + 1, chatComponentText4);
             }
 
-            var25 = var2.getStringWidth(var19);
-            var18 = new ChatComponentText(var19);
-            var18.setChatStyle(var12.getChatStyle().createShallowCopy());
-            var14 = true;
+            m = fontRenderer.getStringWidth(string5);
+            chatComponentText3 = new ChatComponentText(string5);
+            chatComponentText3.setChatStyle(iChatComponent2.getChatStyle().createShallowCopy());
+            bl3 = true;
          }
 
-         if (var7 + var25 <= var1) {
-            var7 += var25;
-            var8.appendSibling(var18);
+         if (j + m <= i) {
+            j += m;
+            chatComponentText.appendSibling(chatComponentText3);
          } else {
-            var14 = true;
+            bl3 = true;
          }
 
-         if (var14) {
-            var9.add(var8);
-            var7 = 0;
-            var8 = new ChatComponentText("");
+         if (bl3) {
+            arrayList.add(chatComponentText);
+            j = 0;
+            chatComponentText = new ChatComponentText("");
          }
       }
 
-      var9.add(var8);
-      return var9;
+      arrayList.add(chatComponentText);
+      return arrayList;
    }
 }

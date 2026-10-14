@@ -8,11 +8,11 @@ public class ResourceReply extends AbstractReply {
    private JsonObject response;
    private static final long a = 112206433772806L;
 
-   public ResourceReply(JsonObject var1) {
-      this.response = var1;
-      this.success = var1.has("success") && var1.get("success").getAsBoolean();
-      this.cause = var1.has("cause") ? var1.get("cause").getAsString() : null;
-      this.lastUpdated = var1.has("lastUpdated") ? var1.get("lastUpdated").getAsLong() : -1L;
+   public ResourceReply(JsonObject response) {
+      this.response = response;
+      this.success = response.has("success") && response.get("success").getAsBoolean();
+      this.cause = response.has("cause") ? response.get("cause").getAsString() : null;
+      this.lastUpdated = response.has("lastUpdated") ? response.get("lastUpdated").getAsLong() : -1L;
    }
 
    public JsonObject getResponse() {

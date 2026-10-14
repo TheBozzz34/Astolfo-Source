@@ -7,8 +7,8 @@ public class ShaderUniformInt extends ShaderUniformBase {
    private int value = -1;
    private static final long b = 94424456419221L;
 
-   public ShaderUniformInt(String var1) {
-      super(var1);
+   public ShaderUniformInt(String name) {
+      super(name);
    }
 
    @Override
@@ -16,11 +16,11 @@ public class ShaderUniformInt extends ShaderUniformBase {
       this.value = -1;
    }
 
-   public void setValue(int var1) {
-      if (this.e() >= 0 && this.value != var1) {
-         ARBShaderObjects.glUniform1iARB(this.e(), var1);
+   public void setValue(int value) {
+      if (this.e() >= 0 && this.value != value) {
+         ARBShaderObjects.glUniform1iARB(this.e(), value);
          Shaders.checkGLError(this.getName());
-         this.value = var1;
+         this.value = value;
       }
    }
 

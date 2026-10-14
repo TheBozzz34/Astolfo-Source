@@ -57,15 +57,15 @@ public enum EnumParticleTypes {
    private static final String[] PARTICLE_NAMES;
    private static final long a = 4866142632071L;
 
-   EnumParticleTypes(String var3, int var4, boolean var5, int var6) {
-      this.particleName = var3;
-      this.particleID = var4;
-      this.shouldIgnoreRange = var5;
-      this.argumentCount = var6;
+   EnumParticleTypes(String particleNameIn, int particleIDIn, boolean bl, int argumentCountIn) {
+      this.particleName = particleNameIn;
+      this.particleID = particleIDIn;
+      this.shouldIgnoreRange = bl;
+      this.argumentCount = argumentCountIn;
    }
 
-   EnumParticleTypes(String var3, int var4, boolean var5) {
-      this(var3, var4, var5, 0);
+   EnumParticleTypes(String particleNameIn, int particleIDIn, boolean bl) {
+      this(particleNameIn, particleIDIn, bl, 0);
    }
 
    public static String[] getParticleNames() {
@@ -92,20 +92,20 @@ public enum EnumParticleTypes {
       return this.argumentCount > 0;
    }
 
-   public static EnumParticleTypes getParticleFromId(int var0) {
-      return PARTICLES.get(var0);
+   public static EnumParticleTypes getParticleFromId(int particleId) {
+      return PARTICLES.get(particleId);
    }
 
    static {
-      ArrayList var22 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (EnumParticleTypes var26 : values()) {
-         PARTICLES.put(var26.getParticleID(), var26);
-         if (!var26.getParticleName().endsWith("_")) {
-            var22.add(var26.getParticleName());
+      for (EnumParticleTypes enumParticleTypes : values()) {
+         PARTICLES.put(enumParticleTypes.getParticleID(), enumParticleTypes);
+         if (!enumParticleTypes.getParticleName().endsWith("_")) {
+            arrayList.add(enumParticleTypes.getParticleName());
          }
       }
 
-      PARTICLE_NAMES = (java.lang.String[])(var22.toArray(new String[var22.size()]));
+      PARTICLE_NAMES = (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
    }
 }

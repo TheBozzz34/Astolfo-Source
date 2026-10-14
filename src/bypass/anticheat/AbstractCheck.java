@@ -10,27 +10,27 @@ public abstract class AbstractCheck implements Check {
    private static final long a = 45984530929003L;
    private static final long h = -4183889473106345954L;
 
-   public AbstractCheck(String var1, CheckType var2) {
-      this.D = var1;
-      this.P = var2;
+   public AbstractCheck(String string, CheckType checkType) {
+      this.D = string;
+      this.P = checkType;
    }
 
-   public void w(int var1) {
-      this.T -= var1;
+   public void w(int i) {
+      this.T -= i;
       if (this.T <= 0) {
          this.T = 0;
       }
    }
 
-   public void c(String var1, int var2) {
-      this.T += var2;
+   public void c(String string, int i) {
+      this.T += i;
       if (HackerDetector.debug.getValue()) {
-         ClientChat.CHAT.I(String.format("%s has flagged %s (vl: %s)", var1, this.D, this.T));
+         ClientChat.CHAT.I(String.format("%s has flagged %s (vl: %s)", string, this.D, this.T));
       }
    }
 
-   public void x(String var1) {
-      this.c(var1, 1);
+   public void x(String string) {
+      this.c(string, 1);
    }
 
    @Override

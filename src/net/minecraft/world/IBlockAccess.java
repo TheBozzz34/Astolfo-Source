@@ -7,19 +7,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public interface IBlockAccess {
-   TileEntity getTileEntity(BlockPos var1);
+   TileEntity getTileEntity(BlockPos pos);
 
-   int getCombinedLight(BlockPos var1, int var2);
+   int getCombinedLight(BlockPos pos, int lightValue);
 
-   IBlockState getBlockState(BlockPos var1);
+   IBlockState getBlockState(BlockPos pos);
 
-   boolean isAirBlock(BlockPos var1);
+   boolean isAirBlock(BlockPos pos);
 
-   BiomeGenBase getBiomeGenForCoords(BlockPos var1);
+   BiomeGenBase getBiomeGenForCoords(BlockPos pos);
 
    boolean extendedLevelsInChunkCache();
 
-   int getStrongPower(BlockPos var1, EnumFacing var2);
+   int getStrongPower(BlockPos pos, EnumFacing direction);
 
    WorldType getWorldType();
 }

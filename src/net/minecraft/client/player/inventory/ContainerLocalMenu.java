@@ -15,19 +15,19 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
    private Map<Integer, Integer> field_174895_b = Maps.newHashMap();
    private static final long a = 13462063080658L;
 
-   public ContainerLocalMenu(String var1, IChatComponent var2, int var3) {
-      super(var2, var3);
-      this.guiID = var1;
+   public ContainerLocalMenu(String id, IChatComponent title, int slotCount) {
+      super(title, slotCount);
+      this.guiID = id;
    }
 
    @Override
-   public int getField(int var1) {
-      return this.field_174895_b.containsKey(var1) ? this.field_174895_b.get(var1) : 0;
+   public int getField(int id) {
+      return this.field_174895_b.containsKey(id) ? this.field_174895_b.get(id) : 0;
    }
 
    @Override
-   public void setField(int var1, int var2) {
-      this.field_174895_b.put(var1, var2);
+   public void setField(int id, int value) {
+      this.field_174895_b.put(id, value);
    }
 
    @Override
@@ -41,7 +41,7 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
    }
 
    @Override
-   public void setLockCode(LockCode var1) {
+   public void setLockCode(LockCode code) {
    }
 
    @Override
@@ -55,7 +55,7 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
    }
 
    @Override
-   public Container createContainer(InventoryPlayer var1, EntityPlayer var2) {
+   public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
       throw new UnsupportedOperationException();
    }
 }

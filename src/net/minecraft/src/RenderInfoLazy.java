@@ -13,8 +13,8 @@ public class RenderInfoLazy {
       return this.renderChunk;
    }
 
-   public void setRenderChunk(RenderChunk var1) {
-      this.renderChunk = var1;
+   public void setRenderChunk(RenderChunk renderChunk) {
+      this.renderChunk = renderChunk;
       this.renderInfo = null;
    }
 

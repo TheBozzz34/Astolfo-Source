@@ -16,41 +16,41 @@ public class VehicleMovePacket implements Packet<INetHandlerPlayServer> {
    public VehicleMovePacket() {
    }
 
-   public VehicleMovePacket(Entity var1) {
-      this.M = var1.posX;
-      this.J = var1.posY;
-      this.l = var1.posZ;
-      this.a = var1.rotationYaw;
-      this.R = var1.rotationPitch;
+   public VehicleMovePacket(Entity entity) {
+      this.M = entity.posX;
+      this.J = entity.posY;
+      this.l = entity.posZ;
+      this.a = entity.rotationYaw;
+      this.R = entity.rotationPitch;
    }
 
-   public VehicleMovePacket(double var1, double var3, double var5, float var7, float var8) {
-      this.M = var1;
-      this.J = var3;
-      this.l = var5;
-      this.a = var7;
-      this.R = var8;
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.M = var1.readDouble();
-      this.J = var1.readDouble();
-      this.l = var1.readDouble();
-      this.a = var1.readFloat();
-      this.R = var1.readFloat();
+   public VehicleMovePacket(double d, double d2, double d3, float f, float g) {
+      this.M = d;
+      this.J = d2;
+      this.l = d3;
+      this.a = f;
+      this.R = g;
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeDouble(this.M);
-      var1.writeDouble(this.J);
-      var1.writeDouble(this.l);
-      var1.writeFloat(this.a);
-      var1.writeFloat(this.R);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.M = buf.readDouble();
+      this.J = buf.readDouble();
+      this.l = buf.readDouble();
+      this.a = buf.readFloat();
+      this.R = buf.readFloat();
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeDouble(this.M);
+      buf.writeDouble(this.J);
+      buf.writeDouble(this.l);
+      buf.writeFloat(this.a);
+      buf.writeFloat(this.R);
+   }
+
+   public void processPacket(INetHandlerPlayServer iNetHandlerPlayServer) {
    }
 
    public double l() {

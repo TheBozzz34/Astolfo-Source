@@ -31,26 +31,26 @@ public final class Hitboxes extends Module {
       .build();
    public static boolean G = false;
    @EventHandler(HitboxEvent.class)
-   private final Listener<HitboxEvent> onHitbox = var1x -> {
-      if (var1x.entity instanceof EntityPlayer && (!G || !wither.getValue())) {
-         if (GameUtil.O(mc.thePlayer, (EntityPlayer)var1x.entity) && this.checks.getSetting("Teams").asBoolean()) {
+   private final Listener<HitboxEvent> onHitbox = hitboxEvent -> {
+      if (hitboxEvent.entity instanceof EntityPlayer && (!G || !wither.getValue())) {
+         if (GameUtil.O(mc.thePlayer, (EntityPlayer)hitboxEvent.entity) && this.checks.getSetting("Teams").asBoolean()) {
             return;
          }
 
-         if ((!GameUtil.S(var1x.entity) || this.checks.getSetting("Invisible").asBoolean()) && !BotDetector.w.contains((EntityPlayer)var1x.entity)) {
-            var1x.borderSize = size.getValue();
+         if ((!GameUtil.S(hitboxEvent.entity) || this.checks.getSetting("Invisible").asBoolean()) && !BotDetector.w.contains((EntityPlayer)hitboxEvent.entity)) {
+            hitboxEvent.borderSize = size.getValue();
          }
       }
    };
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var0 -> {
-      if (var0.getState() == EventState.PRE && wither.getValue()) {
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> {
+      if (updateEvent.getState() == EventState.PRE && wither.getValue()) {
          G = false;
 
-         for (Entity var5 : mc.theWorld.loadedEntityList) {
-            if (var5 instanceof EntityWither
-               && mc.thePlayer.getDistanceToEntity(var5) < 3.0
-               && (!GameUtil.isBoss(var5) || !GameUtil.O(mc.thePlayer, (EntityLivingBase)var5))) {
+         for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityWither
+               && mc.thePlayer.getDistanceToEntity(entity) < 3.0
+               && (!GameUtil.isBoss(entity) || !GameUtil.O(mc.thePlayer, (EntityLivingBase)entity))) {
                G = true;
                break;
             }
@@ -59,8 +59,8 @@ public final class Hitboxes extends Module {
    };
    private static final long c = 73694703082346L;
 
-   public Hitboxes(Category var1) {
-      super(var1);
+   public Hitboxes(Category category) {
+      super(category);
       this.addSettings(size, this.checks, wither);
    }
 }

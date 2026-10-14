@@ -15,10 +15,10 @@ public class EntityAIFleeSun extends EntityAIBase {
    private World theWorld;
    private static final long a = 106496827003007L;
 
-   public EntityAIFleeSun(EntityCreature var1, double var2) {
-      this.theCreature = var1;
-      this.movementSpeed = var2;
-      this.theWorld = var1.worldObj;
+   public EntityAIFleeSun(EntityCreature theCreatureIn, double movementSpeedIn) {
+      this.theCreature = theCreatureIn;
+      this.movementSpeed = movementSpeedIn;
+      this.theWorld = theCreatureIn.worldObj;
       this.setMutexBits(1);
    }
 
@@ -36,14 +36,14 @@ public class EntityAIFleeSun extends EntityAIBase {
          return false;
       }
 
-      Vec3 var4 = this.findPossibleShelter();
-      if (var4 == null) {
+      Vec3 vec3 = this.findPossibleShelter();
+      if (vec3 == null) {
          return false;
       }
 
-      this.shelterX = var4.xCoord;
-      this.shelterY = var4.yCoord;
-      this.shelterZ = var4.zCoord;
+      this.shelterX = vec3.xCoord;
+      this.shelterY = vec3.yCoord;
+      this.shelterZ = vec3.zCoord;
       return true;
    }
 
@@ -58,13 +58,13 @@ public class EntityAIFleeSun extends EntityAIBase {
    }
 
    private Vec3 findPossibleShelter() {
-      Random var4 = this.theCreature.getRNG();
-      BlockPos var5 = new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ);
+      Random random = this.theCreature.getRNG();
+      BlockPos blockPos = new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ);
 
-      for (int var6 = 0; var6 < 10; var6++) {
-         BlockPos var7 = var5.add(var4.nextInt(20) - 10, var4.nextInt(6) - 3, var4.nextInt(20) - 10);
-         if (!this.theWorld.canSeeSky(var7) && this.theCreature.getBlockPathWeight(var7) < 0.0F) {
-            return new Vec3(var7.getX(), var7.getY(), var7.getZ());
+      for (int i = 0; i < 10; i++) {
+         BlockPos blockPos2 = blockPos.add(random.nextInt(20) - 10, random.nextInt(6) - 3, random.nextInt(20) - 10);
+         if (!this.theWorld.canSeeSky(blockPos2) && this.theCreature.getBlockPathWeight(blockPos2) < 0.0F) {
+            return new Vec3(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ());
          }
       }
 

@@ -12,12 +12,12 @@ public class RenderTileEntityEvent extends CancellableEvent {
    private float partialTicks;
    private int destroyStage;
 
-   public RenderTileEntityEvent(TileEntityRendererDispatcher var1, TileEntity var2, float var3, int var4, EventState var5) {
-      this.dispatcher = var1;
-      this.tileEntity = var2;
-      this.partialTicks = var3;
-      this.destroyStage = var4;
-      this.state = var5;
+   public RenderTileEntityEvent(TileEntityRendererDispatcher tileEntityRendererDispatcher, TileEntity tileEntity, float f, int i, EventState eventState) {
+      this.dispatcher = tileEntityRendererDispatcher;
+      this.tileEntity = tileEntity;
+      this.partialTicks = f;
+      this.destroyStage = i;
+      this.state = eventState;
    }
 
    public EventState getState() {

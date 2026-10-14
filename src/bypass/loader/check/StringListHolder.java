@@ -5,8 +5,8 @@ import bypass.util.container.ListContainerOwner;
 public class StringListHolder {
    private final ListContainerOwner<String> f;
 
-   public StringListHolder(ListContainerOwner<String> var1) {
-      this.f = var1;
+   public StringListHolder(ListContainerOwner<String> listContainerOwner) {
+      this.f = listContainerOwner;
    }
 
    public ListContainerOwner<String> A() {

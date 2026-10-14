@@ -37,14 +37,14 @@ public class ChunkRenderDispatcher {
    private static final long c = 87872219545781L;
 
    public ChunkRenderDispatcher() {
-      for (int var4 = 0; var4 < 2; var4++) {
-         ChunkRenderWorker var5 = new ChunkRenderWorker(this);
-         Thread var6 = threadFactory.newThread(var5);
-         var6.start();
-         this.listThreadedWorkers.add(var5);
+      for (int i = 0; i < 2; i++) {
+         ChunkRenderWorker chunkRenderWorker = new ChunkRenderWorker(this);
+         Thread thread = threadFactory.newThread(chunkRenderWorker);
+         thread.start();
+         this.listThreadedWorkers.add(chunkRenderWorker);
       }
 
-      for (int var7 = 0; var7 < 5; var7++) {
+      for (int j = 0; j < 5; j++) {
          this.queueFreeRenderBuilders.add(new RegionRenderCacheBuilder());
       }
 
@@ -55,68 +55,68 @@ public class ChunkRenderDispatcher {
       return String.format("pC: %03d, pU: %1d, aB: %1d", this.queueChunkUpdates.size(), this.queueChunkUploads.size(), this.queueFreeRenderBuilders.size());
    }
 
-   public boolean runChunkUploads(long var1) {
-      boolean var6 = false;
+   public boolean runChunkUploads(long l) {
+      boolean bl = false;
 
-      long var11;
+      long m;
       do {
-         boolean var7 = false;
+         boolean bl2 = false;
          synchronized (this.queueChunkUploads) {
             if (!this.queueChunkUploads.isEmpty()) {
                this.queueChunkUploads.poll().run();
-               var7 = true;
-               var6 = true;
+               bl2 = true;
+               bl = true;
             }
          }
 
-         if (var1 == 0L || !var7) {
+         if (l == 0L || !bl2) {
             break;
          }
 
-         var11 = var1 - System.nanoTime();
-      } while (var11 >= 0L);
+         m = l - System.nanoTime();
+      } while (m >= 0L);
 
-      return var6;
+      return bl;
    }
 
-   public boolean N(RenderChunk var1) {
-      var1.getLockCompileTask().lock();
+   public boolean N(RenderChunk renderChunk) {
+      renderChunk.getLockCompileTask().lock();
 
-      boolean var5;
+      boolean bl;
       try {
-         ChunkCompileTaskGenerator var6 = var1.makeCompileTaskChunk();
-         var6.addFinishRunnable(new ChunkRenderDispatcher.RemoveChunkTask(this, var6));
-         boolean var7 = this.queueChunkUpdates.offer(var6);
-         if (!var7) {
-            var6.finish();
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = renderChunk.makeCompileTaskChunk();
+         chunkCompileTaskGenerator.addFinishRunnable(new ChunkRenderDispatcher.RemoveChunkTask(this, chunkCompileTaskGenerator));
+         boolean bl2 = this.queueChunkUpdates.offer(chunkCompileTaskGenerator);
+         if (!bl2) {
+            chunkCompileTaskGenerator.finish();
          }
 
-         var5 = var7;
+         bl = bl2;
       } finally {
-         var1.getLockCompileTask().unlock();
+         renderChunk.getLockCompileTask().unlock();
       }
 
-      return var5;
+      return bl;
    }
 
-   public boolean updateChunkNow(RenderChunk var1) {
-      var1.getLockCompileTask().lock();
+   public boolean updateChunkNow(RenderChunk chunkRenderer) {
+      chunkRenderer.getLockCompileTask().lock();
 
-      boolean var2;
+      boolean bl;
       try {
-         ChunkCompileTaskGenerator var3 = var1.makeCompileTaskChunk();
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = chunkRenderer.makeCompileTaskChunk();
 
          try {
-            this.renderWorker.processTask(var3);
-         } catch (InterruptedException var8) {
+            this.renderWorker.processTask(chunkCompileTaskGenerator);
+         } catch (InterruptedException interruptedException) {
          }
 
-         var2 = true;
+         bl = true;
       } finally {
-         var1.getLockCompileTask().unlock();
+         chunkRenderer.getLockCompileTask().unlock();
       }
 
-      return var2;
+      return bl;
    }
 
    public void stopChunkUpdates() {
@@ -125,20 +125,20 @@ public class ChunkRenderDispatcher {
       while (this.runChunkUploads(0L)) {
       }
 
-      ArrayList var4 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      while (var4.size() != 5) {
+      while (arrayList.size() != 5) {
          try {
-            var4.add(this.allocateRenderBuilder());
-         } catch (InterruptedException var6) {
+            arrayList.add(this.allocateRenderBuilder());
+         } catch (InterruptedException interruptedException) {
          }
       }
 
-      this.queueFreeRenderBuilders.addAll(var4);
+      this.queueFreeRenderBuilders.addAll(arrayList);
    }
 
-   public void freeRenderBuilder(RegionRenderCacheBuilder var1) {
-      this.queueFreeRenderBuilders.add(var1);
+   public void freeRenderBuilder(RegionRenderCacheBuilder regionRenderCacheBuilder) {
+      this.queueFreeRenderBuilders.add(regionRenderCacheBuilder);
    }
 
    public RegionRenderCacheBuilder allocateRenderBuilder() throws InterruptedException {
@@ -149,83 +149,85 @@ public class ChunkRenderDispatcher {
       return this.queueChunkUpdates.take();
    }
 
-   public boolean p(RenderChunk var1) {
-      var1.getLockCompileTask().lock();
+   public boolean p(RenderChunk renderChunk) {
+      renderChunk.getLockCompileTask().lock();
 
-      boolean var5;
+      boolean bl;
       try {
-         ChunkCompileTaskGenerator var6 = var1.makeCompileTaskTransparency();
-         if (var6 == null) {
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = renderChunk.makeCompileTaskTransparency();
+         if (chunkCompileTaskGenerator == null) {
             return true;
          }
 
-         var6.addFinishRunnable(new ChunkRenderDispatcher.RemoveTransparencyTask(this, var6));
-         var5 = this.queueChunkUpdates.offer(var6);
+         chunkCompileTaskGenerator.addFinishRunnable(new ChunkRenderDispatcher.RemoveTransparencyTask(this, chunkCompileTaskGenerator));
+         bl = this.queueChunkUpdates.offer(chunkCompileTaskGenerator);
       } finally {
-         var1.getLockCompileTask().unlock();
+         renderChunk.getLockCompileTask().unlock();
       }
 
-      return var5;
+      return bl;
    }
 
-   public ListenableFuture<Object> uploadChunk(final EnumWorldBlockLayer var1, final WorldRenderer var2, final RenderChunk var3, final CompiledChunk var4) {
+   public ListenableFuture<Object> uploadChunk(
+      final EnumWorldBlockLayer player, final WorldRenderer worldRenderer, final RenderChunk chunkRenderer, final CompiledChunk compiledChunkIn
+   ) {
       if (Minecraft.getMinecraft().isCallingFromMinecraftThread()) {
          if (OpenGlHelper.useVbo()) {
-            this.uploadVertexBuffer(var2, var3.getVertexBufferByLayer(var1.ordinal()));
+            this.uploadVertexBuffer(worldRenderer, chunkRenderer.getVertexBufferByLayer(player.ordinal()));
          } else {
-            this.uploadDisplayList(var2, ((ListedRenderChunk)var3).getDisplayList(var1, var4), var3);
+            this.uploadDisplayList(worldRenderer, ((ListedRenderChunk)chunkRenderer).getDisplayList(player, compiledChunkIn), chunkRenderer);
          }
 
-         var2.setTranslation(0.0, 0.0, 0.0);
+         worldRenderer.setTranslation(0.0, 0.0, 0.0);
          return Futures.immediateFuture(null);
       } else {
-         ListenableFutureTask var8 = ListenableFutureTask.create(new Runnable() {
+         ListenableFutureTask listenableFutureTask = ListenableFutureTask.create(new Runnable() {
             @Override
             public void run() {
-               ChunkRenderDispatcher.this.uploadChunk(var1, var2, var3, var4);
+               ChunkRenderDispatcher.this.uploadChunk(player, worldRenderer, chunkRenderer, compiledChunkIn);
             }
          }, null);
          synchronized (this.queueChunkUploads) {
-            this.queueChunkUploads.add(var8);
-            return var8;
+            this.queueChunkUploads.add(listenableFutureTask);
+            return listenableFutureTask;
          }
       }
    }
 
-   private void uploadDisplayList(WorldRenderer var1, int var2, RenderChunk var3) {
-      GL11.glNewList(var2, 4864);
+   private void uploadDisplayList(WorldRenderer worldRenderer, int i, RenderChunk chunkRenderer) {
+      GL11.glNewList(i, 4864);
       GlStateManager.pushMatrix();
-      var3.multModelviewMatrix();
-      this.worldVertexUploader.draw(var1);
+      chunkRenderer.multModelviewMatrix();
+      this.worldVertexUploader.draw(worldRenderer);
       GlStateManager.popMatrix();
       GL11.glEndList();
    }
 
-   private void uploadVertexBuffer(WorldRenderer var1, VertexBuffer var2) {
-      this.vertexUploader.setVertexBuffer(var2);
-      this.vertexUploader.draw(var1);
+   private void uploadVertexBuffer(WorldRenderer worldRenderer, VertexBuffer vertexBufferIn) {
+      this.vertexUploader.setVertexBuffer(vertexBufferIn);
+      this.vertexUploader.draw(worldRenderer);
    }
 
    public void clearChunkUpdates() {
       while (!this.queueChunkUpdates.isEmpty()) {
-         ChunkCompileTaskGenerator var4 = this.queueChunkUpdates.poll();
-         if (var4 != null) {
-            var4.finish();
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = this.queueChunkUpdates.poll();
+         if (chunkCompileTaskGenerator != null) {
+            chunkCompileTaskGenerator.finish();
          }
       }
    }
 
-   public static BlockingQueue access$000(ChunkRenderDispatcher var0) {
-      return var0.queueChunkUpdates;
+   public static BlockingQueue access$000(ChunkRenderDispatcher chunkRenderDispatcher) {
+      return chunkRenderDispatcher.queueChunkUpdates;
    }
 
    public static class RemoveChunkTask implements Runnable {
       public final ChunkCompileTaskGenerator m;
       public final ChunkRenderDispatcher h;
 
-      public RemoveChunkTask(ChunkRenderDispatcher var1, ChunkCompileTaskGenerator var2) {
-         this.h = var1;
-         this.m = var2;
+      public RemoveChunkTask(ChunkRenderDispatcher chunkRenderDispatcher, ChunkCompileTaskGenerator chunkCompileTaskGenerator) {
+         this.h = chunkRenderDispatcher;
+         this.m = chunkCompileTaskGenerator;
       }
 
       @Override
@@ -238,9 +240,9 @@ public class ChunkRenderDispatcher {
       public final ChunkCompileTaskGenerator a;
       public final ChunkRenderDispatcher T;
 
-      public RemoveTransparencyTask(ChunkRenderDispatcher var1, ChunkCompileTaskGenerator var2) {
-         this.T = var1;
-         this.a = var2;
+      public RemoveTransparencyTask(ChunkRenderDispatcher chunkRenderDispatcher, ChunkCompileTaskGenerator chunkCompileTaskGenerator) {
+         this.T = chunkRenderDispatcher;
+         this.a = chunkCompileTaskGenerator;
       }
 
       @Override

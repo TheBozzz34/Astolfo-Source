@@ -12,40 +12,40 @@ import oshi.util.ParseUtil;
 public final class SolarisSoundCard extends AbstractSoundCard {
    private static final long c = 62177792154519L;
 
-   public SolarisSoundCard(String var1, String var2, String var3) {
-      super(var1, var2, var3);
+   public SolarisSoundCard(String kernelVersion, String name, String codec) {
+      super(kernelVersion, name, codec);
    }
 
    public static List<SolarisSoundCard> getSoundCards() {
-      HashMap var3 = new HashMap();
-      HashMap var4 = new HashMap();
-      ArrayList var5 = new ArrayList();
-      String var6 = "";
+      HashMap hashMap = new HashMap();
+      HashMap hashMap2 = new HashMap();
+      ArrayList arrayList = new ArrayList();
+      String string = "";
 
-      for (String var8 : ExecutingCommand.runNative("lshal")) {
-         var8 = var8.trim();
-         if (var8.startsWith("udi =")) {
-            var6 = ParseUtil.getSingleQuoteStringValue(var8);
-         } else if (!var6.isEmpty() && !var8.isEmpty()) {
-            if (var8.contains("info.solaris.driver =") && "audio810".equals(ParseUtil.getSingleQuoteStringValue(var8))) {
-               var5.add(var6);
-            } else if (var8.contains("info.product")) {
-               var4.put(var6, ParseUtil.getStringBetween(var8, '\''));
-            } else if (var8.contains("info.vendor")) {
-               var3.put(var6, ParseUtil.getStringBetween(var8, '\''));
+      for (String string2 : ExecutingCommand.runNative("lshal")) {
+         string2 = string2.trim();
+         if (string2.startsWith("udi =")) {
+            string = ParseUtil.getSingleQuoteStringValue(string2);
+         } else if (!string.isEmpty() && !string2.isEmpty()) {
+            if (string2.contains("info.solaris.driver =") && "audio810".equals(ParseUtil.getSingleQuoteStringValue(string2))) {
+               arrayList.add(string);
+            } else if (string2.contains("info.product")) {
+               hashMap2.put(string, ParseUtil.getStringBetween(string2, '\''));
+            } else if (string2.contains("info.vendor")) {
+               hashMap.put(string, ParseUtil.getStringBetween(string2, '\''));
             }
          }
       }
 
-      ArrayList var10 = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
 
-      for (Object var9$raw : var5) {
-         String var9 = (String)var9$raw;
-         var10.add(
-            new SolarisSoundCard((String)var4.get(var9) + " " + "audio810", (String)var3.get(var9) + " " + (String)var4.get(var9), (String)var4.get(var9))
+      for (Object object : arrayList) {
+         String string3 = (String)object;
+         arrayList2.add(
+            new SolarisSoundCard((String)hashMap2.get(string3) + " " + "audio810", (String)hashMap.get(string3) + " " + (String)hashMap2.get(string3), (String)hashMap2.get(string3))
          );
       }
 
-      return var10;
+      return arrayList2;
    }
 }

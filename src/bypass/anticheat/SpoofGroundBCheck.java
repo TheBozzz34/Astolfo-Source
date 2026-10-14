@@ -15,15 +15,18 @@ public class SpoofGroundBCheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      boolean var14 = var3 % 0.0625 == 0.0 || var3 % 0.25 == 0.0 || var3 % 0.5 == 0.0;
-      if (var9 && var14) {
+   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      boolean bl2 = d2 % 0.0625 == 0.0 || d2 % 0.25 == 0.0 || d2 % 0.5 == 0.0;
+      if (bl && bl2) {
          this.D_void();
-         this.o = var3;
+         this.o = d2;
       } else if (this.o != 0.0) {
-         double var15 = var3 - this.o;
-         if (var15 == 0.0 && !(Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(var10.posX, var10.posY - 0.05, var10.posZ)) instanceof BlockAir)) {
-            this.x(var10.getName());
+         double e = d2 - this.o;
+         if (e == 0.0
+            && !(
+               Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(entityPlayer.posX, entityPlayer.posY - 0.05, entityPlayer.posZ)) instanceof BlockAir
+            )) {
+            this.x(entityPlayer.getName());
          }
       }
 

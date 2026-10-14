@@ -9,18 +9,18 @@ public class PetStats {
    private static final long a = 25214044200666L;
    private static final long e = -4318521008320413571L;
 
-   public PetStats(Map<String, Map<String, Object>> var1) {
-      for (Entry var6 : var1.entrySet()) {
+   public PetStats(Map<String, Map<String, Object>> petStats) {
+      for (Entry entry : petStats.entrySet()) {
          try {
-            this.petMap.put(PetType.valueOf((String)var6.getKey()), new Pet((Map<String, Object>)var6.getValue()));
-         } catch (IllegalArgumentException var8) {
-            System.out.println("Invalid pet! " + (String)var6.getKey());
+            this.petMap.put(PetType.valueOf((String)entry.getKey()), new Pet((Map<String, Object>)entry.getValue()));
+         } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println("Invalid pet! " + (String)entry.getKey());
          }
       }
    }
 
-   public Pet getPet(PetType var1) {
-      return this.petMap.get(var1);
+   public Pet getPet(PetType typeIn) {
+      return this.petMap.get(typeIn);
    }
 
    public Map<PetType, Pet> getAllPets() {

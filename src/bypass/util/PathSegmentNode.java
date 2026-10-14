@@ -11,93 +11,93 @@ public class PathSegmentNode {
    private double n;
    public final PathSegment N;
 
-   public PathSegmentNode(PathSegment var1, Vector3 var2, PathSegmentNode var3, ArrayList var4, double var5, double var7, double var9) {
-      this.N = var1;
-      this.l = var2;
-      this.u = var3;
-      this.C = var4;
-      this.T = var5;
-      this.o = var7;
-      this.n = var9;
+   public PathSegmentNode(PathSegment pathSegment, Vector3 vector3, PathSegmentNode pathSegmentNode, ArrayList arrayList, double d, double d2, double d3) {
+      this.N = pathSegment;
+      this.l = vector3;
+      this.u = pathSegmentNode;
+      this.C = arrayList;
+      this.T = d;
+      this.o = d2;
+      this.n = d3;
    }
 
    private Vector3 D() {
       return this.l;
    }
 
-   private void D(Vector3 var1) {
-      this.l = var1;
+   private void D(Vector3 vector3) {
+      this.l = vector3;
    }
 
    public PathSegmentNode M_rtx() {
       return this.u;
    }
 
-   public void l(PathSegmentNode var1) {
-      this.u = var1;
+   public void l(PathSegmentNode pathSegmentNode) {
+      this.u = pathSegmentNode;
    }
 
    public ArrayList<Vector3> K() {
       return this.C;
    }
 
-   public void P(ArrayList<Vector3> var1) {
-      this.C = var1;
+   public void P(ArrayList<Vector3> arrayList) {
+      this.C = arrayList;
    }
 
    private double f() {
       return this.T;
    }
 
-   private void L(double var1) {
-      this.T = var1;
+   private void L(double d) {
+      this.T = d;
    }
 
    private double M() {
       return this.o;
    }
 
-   private void s(double var1) {
-      this.o = var1;
+   private void s(double d) {
+      this.o = d;
    }
 
    private double j() {
       return this.n;
    }
 
-   private void X(double var1) {
-      this.n = var1;
+   private void X(double d) {
+      this.n = d;
    }
 
-   public static Vector3 i(PathSegmentNode var0) {
-      return var0.D();
+   public static Vector3 i(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.D();
    }
 
-   public static double X(PathSegmentNode var0) {
-      return var0.j();
+   public static double X(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.j();
    }
 
-   public static double T(PathSegmentNode var0) {
-      return var0.M();
+   public static double T(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.M();
    }
 
-   public static void R(PathSegmentNode var0, Vector3 var1) {
-      var0.D(var1);
+   public static void R(PathSegmentNode pathSegmentNode, Vector3 vector3) {
+      pathSegmentNode.D(vector3);
    }
 
-   public static void z(PathSegmentNode var0, double var1) {
-      var0.L(var1);
+   public static void z(PathSegmentNode pathSegmentNode, double d) {
+      pathSegmentNode.L(d);
    }
 
-   public static void s(PathSegmentNode var0, double var1) {
-      var0.s(var1);
+   public static void s(PathSegmentNode pathSegmentNode, double d) {
+      pathSegmentNode.s(d);
    }
 
-   public static void K(PathSegmentNode var0, double var1) {
-      var0.X(var1);
+   public static void K(PathSegmentNode pathSegmentNode, double d) {
+      pathSegmentNode.X(d);
    }
 
-   public static double z(PathSegmentNode var0) {
-      return var0.f();
+   public static double z(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.f();
    }
 }

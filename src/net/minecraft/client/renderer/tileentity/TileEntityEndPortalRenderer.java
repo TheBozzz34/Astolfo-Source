@@ -20,46 +20,46 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
    public FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
    private static final long a = 107406912118175L;
 
-   public void renderTileEntityAt(TileEntityEndPortal var1, double var2, double var4, double var6, float var8, int var9) {
-      long var10 = a ^ 49161711138997L;
-      float var13 = (float)this.rendererDispatcher.entityX;
-      float var14 = (float)this.rendererDispatcher.entityY;
-      float var15 = (float)this.rendererDispatcher.entityZ;
+   public void renderTileEntityAt(TileEntityEndPortal te, double x, double y, double z, float partialTicks, int destroyStage) {
+      long l = a ^ 49161711138997L;
+      float f = (float)this.rendererDispatcher.entityX;
+      float g = (float)this.rendererDispatcher.entityY;
+      float h = (float)this.rendererDispatcher.entityZ;
       GlStateManager.disableLighting();
       field_147527_e.setSeed(31100L);
-      float var16 = 0.75F;
+      float f2 = 0.75F;
 
-      for (int var17 = 0; var17 < 16; var17++) {
+      for (int i = 0; i < 16; i++) {
          GlStateManager.pushMatrix();
-         float var18 = 16 - var17;
-         float var19 = 0.0625F;
-         float var20 = 1.0F / (var18 + 1.0F);
-         if (var17 == 0) {
+         float f3 = 16 - i;
+         float f4 = 0.0625F;
+         float f5 = 1.0F / (f3 + 1.0F);
+         if (i == 0) {
             this.bindTexture(END_SKY_TEXTURE);
-            var20 = 0.1F;
-            long var10000 = 1286629455563104611L ^ var10;
-            var18 = 65.0F;
-            var19 = 0.125F;
+            f5 = 0.1F;
+            long m = 1286629455563104611L ^ l;
+            f3 = 65.0F;
+            f4 = 0.125F;
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
          }
 
-         if (var17 >= 1) {
+         if (i >= 1) {
             this.bindTexture(END_PORTAL_TEXTURE);
          }
 
-         if (var17 == 1) {
+         if (i == 1) {
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(1, 1);
-            var19 = 0.5F;
+            f4 = 0.5F;
          }
 
-         float var21 = (float)(-(var4 + var16));
-         float var22 = var21 + (float)ActiveRenderInfo.getPosition().yCoord;
-         float var23 = var21 + var18 + (float)ActiveRenderInfo.getPosition().yCoord;
-         float var24 = var22 / var23;
-         var24 = (float)(var4 + var16) + var24;
-         GlStateManager.translate(var13, var24, var15);
+         float f6 = (float)(-(y + f2));
+         float f7 = f6 + (float)ActiveRenderInfo.getPosition().yCoord;
+         float f8 = f6 + f3 + (float)ActiveRenderInfo.getPosition().yCoord;
+         float f9 = f7 / f8;
+         f9 = (float)(y + f2) + f9;
+         GlStateManager.translate(f, f9, h);
          GlStateManager.texGen(GlStateManager.TexGen.S, 9217);
          GlStateManager.texGen(GlStateManager.TexGen.T, 9217);
          GlStateManager.texGen(GlStateManager.TexGen.R, 9217);
@@ -69,7 +69,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
          GlStateManager.texGen(GlStateManager.TexGen.R, 9473, this.func_147525_a(0.0F, 0.0F, 0.0F, 1.0F));
          GlStateManager.texGen(GlStateManager.TexGen.Q, 9474, this.func_147525_a(0.0F, 1.0F, 0.0F, 0.0F));
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.S);
-         long var32 = 5038568056052339966L ^ var10;
+         long n = 5038568056052339966L ^ l;
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.T);
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.R);
          GlStateManager.enableTexGenCoord(GlStateManager.TexGen.Q);
@@ -78,31 +78,31 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
          GlStateManager.pushMatrix();
          GlStateManager.loadIdentity();
          GlStateManager.translate(0.0F, (float)(Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
-         GlStateManager.scale(var19, var19, var19);
+         GlStateManager.scale(f4, f4, f4);
          GlStateManager.translate(0.5F, 0.5F, 0.0F);
-         GlStateManager.rotate((var17 * var17 * 4321 + var17 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+         GlStateManager.rotate((i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
          GlStateManager.translate(-0.5F, -0.5F, 0.0F);
-         GlStateManager.translate(-var13, -var15, -var14);
-         var22 = var21 + (float)ActiveRenderInfo.getPosition().yCoord;
+         GlStateManager.translate(-f, -h, -g);
+         f7 = f6 + (float)ActiveRenderInfo.getPosition().yCoord;
          GlStateManager.translate(
-            (float)ActiveRenderInfo.getPosition().xCoord * var18 / var22, (float)ActiveRenderInfo.getPosition().zCoord * var18 / var22, -var14
+            (float)ActiveRenderInfo.getPosition().xCoord * f3 / f7, (float)ActiveRenderInfo.getPosition().zCoord * f3 / f7, -g
          );
-         Tessellator var25 = Tessellator.getInstance();
-         WorldRenderer var26 = var25.getWorldRenderer();
-         var26.begin(7, DefaultVertexFormats.POSITION_COLOR);
-         float var27 = (field_147527_e.nextFloat() * 0.5F + 0.1F) * var20;
-         float var28 = (field_147527_e.nextFloat() * 0.5F + 0.4F) * var20;
-         float var29 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * var20;
-         if (var17 == 0) {
-            var27 = var28 = var29 = 1.0F * var20;
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+         float f10 = (field_147527_e.nextFloat() * 0.5F + 0.1F) * f5;
+         float f11 = (field_147527_e.nextFloat() * 0.5F + 0.4F) * f5;
+         float f12 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * f5;
+         if (i == 0) {
+            f10 = f11 = f12 = 1.0F * f5;
          }
 
-         var26.pos(var2, var4 + var16, var6).color(var27, var28, var29, 1.0F).endVertex();
-         var26.pos(var2, var4 + var16, var6 + 1.0).color(var27, var28, var29, 1.0F).endVertex();
-         var32 = 8401031176255678822L ^ var10;
-         var26.pos(var2 + 1.0, var4 + var16, var6 + 1.0).color(var27, var28, var29, 1.0F).endVertex();
-         var26.pos(var2 + 1.0, var4 + var16, var6).color(var27, var28, var29, 1.0F).endVertex();
-         var25.draw();
+         worldRenderer.pos(x, y + f2, z).color(f10, f11, f12, 1.0F).endVertex();
+         worldRenderer.pos(x, y + f2, z + 1.0).color(f10, f11, f12, 1.0F).endVertex();
+         n = 8401031176255678822L ^ l;
+         worldRenderer.pos(x + 1.0, y + f2, z + 1.0).color(f10, f11, f12, 1.0F).endVertex();
+         worldRenderer.pos(x + 1.0, y + f2, z).color(f10, f11, f12, 1.0F).endVertex();
+         tessellator.draw();
          GlStateManager.popMatrix();
          GlStateManager.matrixMode(5888);
          this.bindTexture(END_SKY_TEXTURE);
@@ -116,9 +116,9 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
       GlStateManager.enableLighting();
    }
 
-   private FloatBuffer func_147525_a(float var1, float var2, float var3, float var4) {
+   private FloatBuffer func_147525_a(float f, float g, float h, float f2) {
       ((Buffer)this.field_147528_b).clear();
-      this.field_147528_b.put(var1).put(var2).put(var3).put(var4);
+      this.field_147528_b.put(f).put(g).put(h).put(f2);
       ((Buffer)this.field_147528_b).flip();
       return this.field_147528_b;
    }

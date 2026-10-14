@@ -12,37 +12,37 @@ public class PanelRenderer implements ElementRenderer<TabGui.Panel> {
    private static final long a = 120718652994391L;
    private static final long b = -1538887585315684192L;
 
-   public void x(TabGui.Panel var1, ScaledResolution var2, Minecraft var3) {
-      float var7 = var1.getSelectedIndex() * var1.getTabGui().p().O().getStringHeight("D");
-      float var8 = var7 - var1.h;
-      var1.h += var8 / 6.5F;
-      if (var1.getState() == PanelState.CLOSING) {
-         var1.q(var1.j() - var1.F() / 18.0F);
-         if ((int)var1.j() <= 0) {
-            var1.getTabGui().L().remove(var1);
+   public void x(TabGui.Panel panel, ScaledResolution scaledResolution, Minecraft minecraft) {
+      float f = panel.getSelectedIndex() * panel.getTabGui().p().O().getStringHeight("D");
+      float g = f - panel.h;
+      panel.h += g / 6.5F;
+      if (panel.getState() == PanelState.CLOSING) {
+         panel.q(panel.j() - panel.F() / 18.0F);
+         if ((int)panel.j() <= 0) {
+            panel.getTabGui().L().remove(panel);
          }
-      } else if (var1.getState() == PanelState.OPENING) {
-         float var9 = var1.F() + (float)var1.x().getWidth();
-         var1.q(var1.j() + var9 / 18.0F);
-         if ((int)var1.j() == (int)var1.F() + var1.x().getWidth()) {
-            var1.setState(PanelState.NORMAL);
+      } else if (panel.getState() == PanelState.OPENING) {
+         float f2 = panel.F() + (float)panel.x().getWidth();
+         panel.q(panel.j() + f2 / 18.0F);
+         if ((int)panel.j() == (int)panel.F() + panel.x().getWidth()) {
+            panel.setState(PanelState.NORMAL);
          }
       }
    }
 
-   public void a(TabGui.Panel var1, ScaledResolution var2, Minecraft var3) {
+   public void a(TabGui.Panel panel, ScaledResolution scaledResolution, Minecraft minecraft) {
       RenderUtil.drawRect(
-         var1.getTabGui().J() + var1.F(),
-         var1.getTabGui().Q(),
-         var1.getTabGui().J() + var1.F() + (float)var1.x().getWidth(),
-         var1.getTabGui().Q() + (float)var1.x().getHeight(),
+         panel.getTabGui().J() + panel.F(),
+         panel.getTabGui().Q(),
+         panel.getTabGui().J() + panel.F() + (float)panel.x().getWidth(),
+         panel.getTabGui().Q() + (float)panel.x().getHeight(),
          new Color(0, 0, 0, (int)b).getRGB()
       );
       RenderUtil.drawRect(
-         var1.getTabGui().J() + var1.F(),
-         var1.getTabGui().Q() + var1.h,
-         var1.getTabGui().J() + var1.F() + (float)var1.x().getWidth(),
-         var1.getTabGui().Q() + var1.h + var1.getTabGui().p().O().getStringHeight("D"),
+         panel.getTabGui().J() + panel.F(),
+         panel.getTabGui().Q() + panel.h,
+         panel.getTabGui().J() + panel.F() + (float)panel.x().getWidth(),
+         panel.getTabGui().Q() + panel.h + panel.getTabGui().p().O().getStringHeight("D"),
          Astolfo.INSTANCE.getColorSetting().getValue().getRGB()
       );
    }

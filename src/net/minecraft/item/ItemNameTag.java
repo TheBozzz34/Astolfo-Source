@@ -13,17 +13,17 @@ public class ItemNameTag extends Item {
    }
 
    @Override
-   public boolean itemInteractionForEntity(ItemStack var1, EntityPlayer var2, EntityLivingBase var3) {
-      if (!var1.hasDisplayName()) {
+   public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+      if (!stack.hasDisplayName()) {
          return false;
-      } else if (var3 instanceof EntityLiving) {
-         EntityLiving var7 = (EntityLiving)var3;
-         var7.setCustomNameTag(var1.getDisplayName());
-         var7.enablePersistence();
-         var1.stackSize--;
+      } else if (target instanceof EntityLiving) {
+         EntityLiving entityLiving = (EntityLiving)target;
+         entityLiving.setCustomNameTag(stack.getDisplayName());
+         entityLiving.enablePersistence();
+         stack.stackSize--;
          return true;
       } else {
-         return super.itemInteractionForEntity(var1, var2, var3);
+         return super.itemInteractionForEntity(stack, playerIn, target);
       }
    }
 }

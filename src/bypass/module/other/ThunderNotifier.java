@@ -12,14 +12,14 @@ import net.minecraft.util.EnumChatFormatting;
 
 public final class ThunderNotifier extends Module {
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.RECEIVED && var0.getPacket() instanceof S2CPacketSpawnGlobalEntity) {
-         S2CPacketSpawnGlobalEntity var4 = (S2CPacketSpawnGlobalEntity)var0.getPacket();
-         if (var4.func_149053_g() == 1) {
-            double var5 = var4.func_149051_d() / 32.0;
-            double var7 = var4.func_149050_e() / 32.0;
-            double var9 = var4.func_149049_f() / 32.0;
-            double var11 = mc.thePlayer.getDistance(var5, var7, var9);
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S2CPacketSpawnGlobalEntity) {
+         S2CPacketSpawnGlobalEntity s2CPacketSpawnGlobalEntity = (S2CPacketSpawnGlobalEntity)packetEvent.getPacket();
+         if (s2CPacketSpawnGlobalEntity.func_149053_g() == 1) {
+            double d = s2CPacketSpawnGlobalEntity.func_149051_d() / 32.0;
+            double e = s2CPacketSpawnGlobalEntity.func_149050_e() / 32.0;
+            double d2 = s2CPacketSpawnGlobalEntity.func_149049_f() / 32.0;
+            double d3 = mc.thePlayer.getDistance(d, e, d2);
             if (HUD.isPowerBranding()) {
                chat.D(false, false)
                   .i("[")
@@ -30,7 +30,7 @@ public final class ThunderNotifier extends Module {
                   .M(EnumChatFormatting.DARK_GRAY)
                   .i(" 距离 ")
                   .M(EnumChatFormatting.GREEN)
-                  .i((int)var11 + "米")
+                  .i((int)d3 + "米")
                   .M(EnumChatFormatting.RED)
                   .i(" 检测到雷击! ")
                   .M(EnumChatFormatting.AQUA)
@@ -38,22 +38,22 @@ public final class ThunderNotifier extends Module {
                   .M(EnumChatFormatting.GREEN)
                   .i("X: ")
                   .M(EnumChatFormatting.AQUA)
-                  .i(String.valueOf((int)var5))
+                  .i(String.valueOf((int)d))
                   .M(EnumChatFormatting.WHITE)
                   .i(" Y: ")
                   .M(EnumChatFormatting.AQUA)
-                  .i(String.valueOf((int)var7))
+                  .i(String.valueOf((int)e))
                   .M(EnumChatFormatting.WHITE)
                   .i(" Z: ")
                   .M(EnumChatFormatting.AQUA)
-                  .i(String.valueOf((int)var9))
+                  .i(String.valueOf((int)d2))
                   .M(EnumChatFormatting.WHITE)
                   .i(" [")
                   .M(EnumChatFormatting.BLUE)
                   .i("ClickHereTP")
                   .M()
                   .M(EnumChatFormatting.YELLOW)
-                  .V(".tp " + var5 + " 128 " + var9)
+                  .V(".tp " + d + " 128 " + d2)
                   .y(EnumChatFormatting.GREEN + "Click to TP~")
                   .i("]")
                   .M(EnumChatFormatting.BLUE)
@@ -63,9 +63,9 @@ public final class ThunderNotifier extends Module {
                chat.D(false, false)
                   .i("> ")
                   .M(EnumChatFormatting.GRAY)
-                  .i(String.format("Detected thunder at %s %s %s (%s blocks away)", (int)var5, (int)var7, (int)var9, (int)var11))
+                  .i(String.format("Detected thunder at %s %s %s (%s blocks away)", (int)d, (int)e, (int)d2, (int)d3))
                   .M(EnumChatFormatting.WHITE)
-                  .V(".tp " + var5 + " 128 " + var9)
+                  .V(".tp " + d + " 128 " + d2)
                   .y("Click for TP")
                   .N()
                   .b();
@@ -75,8 +75,8 @@ public final class ThunderNotifier extends Module {
    };
    private static final long c = 67288966726825L;
 
-   public ThunderNotifier(Category var1) {
-      super(var1);
+   public ThunderNotifier(Category category) {
+      super(category);
       this.setHidden(false);
    }
 }

@@ -28,31 +28,31 @@ public class CommandDebug extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.debug.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 1) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 1) {
          throw new WrongUsageException("commands.debug.usage");
       }
 
-      if (var2[0].equals("start")) {
-         if (var2.length != 1) {
+      if (args[0].equals("start")) {
+         if (args.length != 1) {
             throw new WrongUsageException("commands.debug.usage");
          }
 
-         notifyOperators(var1, this, "commands.debug.start");
+         notifyOperators(sender, this, "commands.debug.start");
          MinecraftServer.getServer().x();
          this.profileStartTime = MinecraftServer.getCurrentTimeMillis();
          this.profileStartTick = MinecraftServer.getServer().getTickCounter();
       } else {
-         if (!var2[0].equals("stop")) {
+         if (!args[0].equals("stop")) {
             throw new WrongUsageException("commands.debug.usage");
          }
 
-         if (var2.length != 1) {
+         if (args.length != 1) {
             throw new WrongUsageException("commands.debug.usage");
          }
 
@@ -60,72 +60,72 @@ public class CommandDebug extends CommandBase {
             throw new CommandException("commands.debug.notStarted");
          }
 
-         long var6 = MinecraftServer.getCurrentTimeMillis();
-         int var8 = MinecraftServer.getServer().getTickCounter();
-         long var9 = var6 - this.profileStartTime;
-         int var11 = var8 - this.profileStartTick;
-         this.saveProfileResults(var9, var11);
+         long l = MinecraftServer.getCurrentTimeMillis();
+         int i = MinecraftServer.getServer().getTickCounter();
+         long m = l - this.profileStartTime;
+         int j = i - this.profileStartTick;
+         this.saveProfileResults(m, j);
          MinecraftServer.getServer().theProfiler.profilingEnabled = false;
-         notifyOperators(var1, this, "commands.debug.stop", (float)var9 / 1000.0F, var11);
+         notifyOperators(sender, this, "commands.debug.stop", (float)m / 1000.0F, j);
       }
    }
 
-   private void saveProfileResults(long var1, int var3) {
-      File var6 = new File(
+   private void saveProfileResults(long timeSpan, int tickSpan) {
+      File file = new File(
          MinecraftServer.getServer().getFile("debug"), "profile-results-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".txt"
       );
-      var6.getParentFile().mkdirs();
+      file.getParentFile().mkdirs();
 
       try {
-         FileWriter var7 = new FileWriter(var6);
-         var7.write(this.getProfileResults(var1, var3));
-         var7.close();
-      } catch (Throwable var8) {
-         logger.error("Could not save profiler results to " + var6, var8);
+         FileWriter fileWriter = new FileWriter(file);
+         fileWriter.write(this.getProfileResults(timeSpan, tickSpan));
+         fileWriter.close();
+      } catch (Throwable throwable) {
+         logger.error("Could not save profiler results to " + file, throwable);
       }
    }
 
-   private String getProfileResults(long var1, int var3) {
-      StringBuilder var6 = new StringBuilder();
-      var6.append("---- Minecraft Profiler Results ----\n");
-      var6.append("// ");
-      var6.append(getWittyComment());
-      var6.append("\n\n");
-      var6.append("Time span: ").append(var1).append(" ms\n");
-      var6.append("Tick span: ").append(var3).append(" ticks\n");
-      var6.append("// This is approximately ")
-         .append(String.format("%.2f", var3 / ((float)var1 / 1000.0F)))
+   private String getProfileResults(long timeSpan, int tickSpan) {
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("---- Minecraft Profiler Results ----\n");
+      stringBuilder.append("// ");
+      stringBuilder.append(getWittyComment());
+      stringBuilder.append("\n\n");
+      stringBuilder.append("Time span: ").append(timeSpan).append(" ms\n");
+      stringBuilder.append("Tick span: ").append(tickSpan).append(" ticks\n");
+      stringBuilder.append("// This is approximately ")
+         .append(String.format("%.2f", tickSpan / ((float)timeSpan / 1000.0F)))
          .append(" ticks per second. It should be ")
          .append(20)
          .append(" ticks per second\n\n");
-      var6.append("--- BEGIN PROFILE DUMP ---\n\n");
-      this.func_147202_a(0, "root", var6);
-      var6.append("--- END PROFILE DUMP ---\n\n");
-      return var6.toString();
+      stringBuilder.append("--- BEGIN PROFILE DUMP ---\n\n");
+      this.func_147202_a(0, "root", stringBuilder);
+      stringBuilder.append("--- END PROFILE DUMP ---\n\n");
+      return stringBuilder.toString();
    }
 
-   private void func_147202_a(int var1, String var2, StringBuilder var3) {
-      List var7 = MinecraftServer.getServer().theProfiler.getProfilingData(var2);
-      if (var7 != null && var7.size() >= 3) {
-         for (int var8 = 1; var8 < var7.size(); var8++) {
-            Profiler.Result var9 = (Profiler.Result)var7.get(var8);
-            var3.append(String.format("[%02d] ", var1));
+   private void func_147202_a(int i, String string, StringBuilder stringBuilder) {
+      List list = MinecraftServer.getServer().theProfiler.getProfilingData(string);
+      if (list != null && list.size() >= 3) {
+         for (int j = 1; j < list.size(); j++) {
+            Profiler.Result result = (Profiler.Result)list.get(j);
+            stringBuilder.append(String.format("[%02d] ", i));
 
-            for (int var10 = 0; var10 < var1; var10++) {
-               var3.append(" ");
+            for (int k = 0; k < i; k++) {
+               stringBuilder.append(" ");
             }
 
-            var3.append(var9.field_76331_c)
+            stringBuilder.append(result.field_76331_c)
                .append(" - ")
-               .append(String.format("%.2f", var9.field_76332_a))
+               .append(String.format("%.2f", result.field_76332_a))
                .append("%/")
-               .append(String.format("%.2f", var9.field_76330_b))
+               .append(String.format("%.2f", result.field_76330_b))
                .append("%\n");
-            if (!var9.field_76331_c.equals("unspecified")) {
+            if (!result.field_76331_c.equals("unspecified")) {
                try {
-                  this.func_147202_a(var1 + 1, var2 + "." + var9.field_76331_c, var3);
-               } catch (Exception var11) {
-                  var3.append("[[ EXCEPTION ").append(var11).append(" ]]");
+                  this.func_147202_a(i + 1, string + "." + result.field_76331_c, stringBuilder);
+               } catch (Exception exception) {
+                  stringBuilder.append("[[ EXCEPTION ").append(exception).append(" ]]");
                }
             }
          }
@@ -133,7 +133,7 @@ public class CommandDebug extends CommandBase {
    }
 
    private static String getWittyComment() {
-      String[] var2 = new String[]{
+      String[] strings = new String[]{
          "Shiny numbers!",
          "Am I not running fast enough? :(",
          "I'm working as hard as I can!",
@@ -151,14 +151,14 @@ public class CommandDebug extends CommandBase {
       };
 
       try {
-         return var2[(int)(System.nanoTime() % var2.length)];
-      } catch (Throwable var4) {
+         return strings[(int)(System.nanoTime() % strings.length)];
+      } catch (Throwable throwable) {
          return "Witty comment unavailable :(";
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, "start", "stop") : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, "start", "stop") : null;
    }
 }

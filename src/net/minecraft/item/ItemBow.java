@@ -20,76 +20,76 @@ public class ItemBow extends Item {
    }
 
    @Override
-   public void onPlayerStoppedUsing(ItemStack var1, World var2, EntityPlayer var3, int var4) {
-      boolean var8 = var3.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, var1) > 0;
-      if (var8 || var3.inventory.hasItem(Items.arrow)) {
-         int var9 = this.getMaxItemUseDuration(var1) - var4;
-         float var10 = var9 / 20.0F;
-         var10 = (var10 * var10 + var10 * 2.0F) / 3.0F;
-         if (var10 < 0.1) {
+   public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) {
+      boolean bl = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+      if (bl || playerIn.inventory.hasItem(Items.arrow)) {
+         int i = this.getMaxItemUseDuration(stack) - timeLeft;
+         float f = i / 20.0F;
+         f = (f * f + f * 2.0F) / 3.0F;
+         if (f < 0.1) {
             return;
          }
 
-         if (var10 > 1.0F) {
-            var10 = 1.0F;
+         if (f > 1.0F) {
+            f = 1.0F;
          }
 
-         EntityArrow var11 = new EntityArrow(var2, var3, var10 * 2.0F);
-         if (var10 == 1.0F) {
-            var11.setIsCritical(true);
+         EntityArrow entityArrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
+         if (f == 1.0F) {
+            entityArrow.setIsCritical(true);
          }
 
-         int var12 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, var1);
-         if (var12 > 0) {
-            var11.setDamage(var11.getDamage() + var12 * 0.5 + 0.5);
+         int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack);
+         if (j > 0) {
+            entityArrow.setDamage(entityArrow.getDamage() + j * 0.5 + 0.5);
          }
 
-         int var13 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, var1);
-         if (var13 > 0) {
-            var11.setKnockbackStrength(var13);
+         int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack);
+         if (k > 0) {
+            entityArrow.setKnockbackStrength(k);
          }
 
-         if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, var1) > 0) {
-            var11.setFire(100);
+         if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, stack) > 0) {
+            entityArrow.setFire(100);
          }
 
-         var1.damageItem(1, var3);
-         var2.playSoundAtEntity(var3, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + var10 * 0.5F);
-         if (var8) {
-            var11.canBePickedUp = 2;
+         stack.damageItem(1, playerIn);
+         worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+         if (bl) {
+            entityArrow.canBePickedUp = 2;
          } else {
-            var3.inventory.consumeInventoryItem(Items.arrow);
+            playerIn.inventory.consumeInventoryItem(Items.arrow);
          }
 
-         var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-         if (!var2.isRemote) {
-            var2.spawnEntityInWorld(var11);
+         playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+         if (!worldIn.isRemote) {
+            worldIn.spawnEntityInWorld(entityArrow);
          }
       }
    }
 
    @Override
-   public ItemStack onItemUseFinish(ItemStack var1, World var2, EntityPlayer var3) {
-      return var1;
+   public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+      return stack;
    }
 
    @Override
-   public int getMaxItemUseDuration(ItemStack var1) {
+   public int getMaxItemUseDuration(ItemStack stack) {
       return 72000;
    }
 
    @Override
-   public EnumAction getItemUseAction(ItemStack var1) {
+   public EnumAction getItemUseAction(ItemStack stack) {
       return EnumAction.BOW;
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (var3.capabilities.isCreativeMode || var3.inventory.hasItem(Items.arrow)) {
-         var3.setItemInUse(var1, this.getMaxItemUseDuration(var1));
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow)) {
+         playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
       }
 
-      return var1;
+      return itemStackIn;
    }
 
    @Override

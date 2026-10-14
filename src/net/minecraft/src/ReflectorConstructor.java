@@ -9,10 +9,10 @@ public class ReflectorConstructor {
    private Constructor targetConstructor = null;
    private static final long a = 105776566625076L;
 
-   public ReflectorConstructor(ReflectorClass var1, Class[] var2) {
-      this.reflectorClass = var1;
-      this.parameterTypes = var2;
-      Constructor var3 = this.getTargetConstructor();
+   public ReflectorConstructor(ReflectorClass reflectorClass, Class[] parameterTypes) {
+      this.reflectorClass = reflectorClass;
+      this.parameterTypes = parameterTypes;
+      Constructor c = this.getTargetConstructor();
    }
 
    public Constructor getTargetConstructor() {
@@ -21,35 +21,35 @@ public class ReflectorConstructor {
       }
 
       this.checked = true;
-      Class var3 = this.reflectorClass.getTargetClass();
-      if (var3 == null) {
+      Class class2 = this.reflectorClass.getTargetClass();
+      if (class2 == null) {
          return null;
       }
 
       try {
-         this.targetConstructor = findConstructor(var3, this.parameterTypes);
+         this.targetConstructor = findConstructor(class2, this.parameterTypes);
          if (this.targetConstructor == null) {
-            Config.dbg("(Reflector) Constructor not present: " + var3.getName() + ", params: " + Config.arrayToString(this.parameterTypes));
+            Config.dbg("(Reflector) Constructor not present: " + class2.getName() + ", params: " + Config.arrayToString(this.parameterTypes));
          }
 
          if (this.targetConstructor != null) {
             this.targetConstructor.setAccessible(true);
          }
-      } catch (Throwable var5) {
-         var5.printStackTrace();
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
       }
 
       return this.targetConstructor;
    }
 
-   private static Constructor findConstructor(Class var0, Class[] var1) {
-      Constructor[] var4 = var0.getDeclaredConstructors();
+   private static Constructor findConstructor(Class cls, Class[] paramTypes) {
+      Constructor[] constructors = cls.getDeclaredConstructors();
 
-      for (int var5 = 0; var5 < var4.length; var5++) {
-         Constructor var6 = var4[var5];
-         Class[] var7 = var6.getParameterTypes();
-         if (Reflector.matchesTypes(var1, var7)) {
-            return var6;
+      for (int i = 0; i < constructors.length; i++) {
+         Constructor constructor = constructors[i];
+         Class[] classs = constructor.getParameterTypes();
+         if (Reflector.matchesTypes(paramTypes, classs)) {
+            return constructor;
          }
       }
 

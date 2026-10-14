@@ -8,16 +8,16 @@ public abstract class AbstractModule implements ModuleInfo {
    private Category category;
    private static final long ab = 69248643412176L;
 
-   public AbstractModule(String var1, Category var2) {
-      this.name = var1;
-      this.displayName = var1;
-      this.category = var2;
+   public AbstractModule(String string, Category category) {
+      this.name = string;
+      this.displayName = string;
+      this.category = category;
    }
 
-   public AbstractModule(String var1, String var2, Category var3) {
-      this.name = var1;
-      this.displayName = var2;
-      this.category = var3;
+   public AbstractModule(String string, String string2, Category category) {
+      this.name = string;
+      this.displayName = string2;
+      this.category = category;
    }
 
    public AbstractModule() {
@@ -31,8 +31,8 @@ public abstract class AbstractModule implements ModuleInfo {
       return this.name;
    }
 
-   public void setName(String var1) {
-      this.name = var1;
+   public void setName(String string) {
+      this.name = string;
    }
 
    @Override
@@ -42,8 +42,8 @@ public abstract class AbstractModule implements ModuleInfo {
          : this.displayName;
    }
 
-   public void setDisplayName(String var1) {
-      this.displayName = var1;
+   public void setDisplayName(String string) {
+      this.displayName = string;
    }
 
    @Override

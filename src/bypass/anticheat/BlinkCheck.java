@@ -19,17 +19,17 @@ public class BlinkCheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      double var15 = Math.hypot(var1 - this.J, var5 - this.M);
-      double var17 = Math.abs(this.R - var3);
-      if (var15 <= 0.4) {
+   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      double e = Math.hypot(d - this.J, d3 - this.M);
+      double d4 = Math.abs(this.R - d2);
+      if (e <= 0.4) {
          this.W.reset();
          this.V.clear();
       } else {
-         double var19 = this.A(this.V);
-         if (this.W.hasElapsed((float)(var19 + 500.0)) && var10.isSprinting() && ServerRotationTracker.g() < 1000L) {
-            if (var15 > 5.0 && var15 < 50.0 && var17 < 5.0) {
-               this.c(var10.getName(), (int)(var15 / 5.0));
+         double d5 = this.A(this.V);
+         if (this.W.hasElapsed((float)(d5 + 500.0)) && entityPlayer.isSprinting() && ServerRotationTracker.g() < 1000L) {
+            if (e > 5.0 && e < 50.0 && d4 < 5.0) {
+               this.c(entityPlayer.getName(), (int)(e / 5.0));
                this.W.reset();
             }
 
@@ -40,23 +40,23 @@ public class BlinkCheck extends MovementCheck {
       }
 
       this.W.reset();
-      this.J = var1;
-      this.M = var5;
-      this.R = var3;
+      this.J = d;
+      this.M = d3;
+      this.R = d2;
       return this.T;
    }
 
-   private double A(List<Integer> var1) {
-      Integer var5 = 0;
-      if (var1.isEmpty()) {
-         return var5.intValue();
+   private double A(List<Integer> list) {
+      Integer integer = 0;
+      if (list.isEmpty()) {
+         return integer.intValue();
       }
 
-      for (Integer var7 : var1) {
-         var5 = var5 + var7;
+      for (Integer integer2 : list) {
+         integer = integer + integer2;
       }
 
-      return var5.doubleValue() / var1.size();
+      return integer.doubleValue() / list.size();
    }
 
    @Override

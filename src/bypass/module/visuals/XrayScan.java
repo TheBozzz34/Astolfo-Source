@@ -7,32 +7,32 @@ public class XrayScan {
    private double total;
    public final Xray xray;
 
-   public XrayScan(Xray var1, Runnable var2) {
-      this.xray = var1;
-      this.task = var2;
+   public XrayScan(Xray xray, Runnable runnable) {
+      this.xray = xray;
+      this.task = runnable;
    }
 
-   public static boolean isDone(XrayScan var0) {
-      return var0.done;
+   public static boolean isDone(XrayScan xrayScan) {
+      return xrayScan.done;
    }
 
-   public static int getScanned(XrayScan var0) {
-      return var0.scanned;
+   public static int getScanned(XrayScan xrayScan) {
+      return xrayScan.scanned;
    }
 
-   public static double getTotal(XrayScan var0) {
-      return var0.total;
+   public static double getTotal(XrayScan xrayScan) {
+      return xrayScan.total;
    }
 
-   public static double setTotal(XrayScan var0, double var1) {
-      return var0.total = var1;
+   public static double setTotal(XrayScan xrayScan, double d) {
+      return xrayScan.total = d;
    }
 
-   public static int incrementScanned(XrayScan var0) {
-      return var0.scanned++;
+   public static int incrementScanned(XrayScan xrayScan) {
+      return xrayScan.scanned++;
    }
 
-   public static boolean setDone(XrayScan var0, boolean var1) {
-      return var0.done = var1;
+   public static boolean setDone(XrayScan xrayScan, boolean bl) {
+      return xrayScan.done = bl;
    }
 }

@@ -6,34 +6,34 @@ public class IntArray {
    private int r = 0;
    private static final long a = 78834527743730L;
 
-   public IntArray(int var1) {
-      this.c = new int[var1];
+   public IntArray(int size) {
+      this.c = new int[size];
    }
 
-   public void W(int var1) {
-      this.c[this.M] = var1;
+   public void W(int i) {
+      this.c[this.M] = i;
       this.M++;
       if (this.r < this.M) {
          this.r = this.M;
       }
    }
 
-   public void m(int var1, int var2) {
-      this.c[var1] = var2;
-      if (this.r < var1) {
-         this.r = var1;
+   public void m(int i, int j) {
+      this.c[i] = j;
+      if (this.r < i) {
+         this.r = i;
       }
    }
 
-   public void J(int var1) {
-      this.M = var1;
+   public void J(int i) {
+      this.M = i;
    }
 
-   public void s(int[] var1) {
-      int var5 = var1.length;
+   public void s(int[] ints) {
+      int i = ints.length;
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         this.c[this.M] = var1[var6];
+      for (int j = 0; j < i; j++) {
+         this.c[this.M] = ints[j];
          this.M++;
       }
 
@@ -42,8 +42,8 @@ public class IntArray {
       }
    }
 
-   public int D(int var1) {
-      return this.c[var1];
+   public int D(int i) {
+      return this.c[i];
    }
 
    public int[] J() {

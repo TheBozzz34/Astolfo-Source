@@ -19,45 +19,45 @@ import java.util.Map.Entry;
 public final class ListenerSuspender extends HiddenModule {
    public static HashMap<Class<? extends Event>, List<Subscription<?, ?>>> j = new HashMap<>();
    @EventHandler(TickEvent.class)
-   private Listener<TickEvent> onTick = var1 -> {
-      AnnotatedEventBus var5 = (AnnotatedEventBus)client.getEventBus();
-      HashMap var6 = (HashMap)var5.N;
+   private Listener<TickEvent> onTick = tickEvent -> {
+      AnnotatedEventBus annotatedEventBus = (AnnotatedEventBus)client.getEventBus();
+      HashMap hashMap = (HashMap)annotatedEventBus.N;
       if (DisconnectHandler.disconnected) {
-         ArrayList var7 = new ArrayList();
+         ArrayList arrayList = new ArrayList();
 
          label79:
-         for (Object var9$raw : var6.entrySet()) {
-            Entry var9 = (Entry)var9$raw;
-            for (Object var11$raw : (List)var9.getValue()) {
-               Subscription var11 = (Subscription)var11$raw;
-               if (var11.t().getClass() == this.getClass()
-                  || var11.t().getClass() == HUD.class
-                  || var11.t().getClass() == KeybindHandler.class
-                  || var11.t().getClass() == ChatCommandHandler.class
-                  || var11.t().getClass() == BotDetector.class
-                  || var11.t().getClass() == HypixelPacketHandler.class
-                  || var11.t().getClass() == PlayerListTracker.class
-                  || var11.t().getClass() == InventoryPacketHandler.class
-                  || var11.t().getClass() == MiddleClickFriends.class
-                  || var11.t().getClass() == NotificationManager.class
-                  || var11.t().getClass() == GUI.class) {
+         for (Object object : hashMap.entrySet()) {
+            Entry entry = (Entry)object;
+            for (Object object2 : (List)entry.getValue()) {
+               Subscription subscription = (Subscription)object2;
+               if (subscription.t().getClass() == this.getClass()
+                  || subscription.t().getClass() == HUD.class
+                  || subscription.t().getClass() == KeybindHandler.class
+                  || subscription.t().getClass() == ChatCommandHandler.class
+                  || subscription.t().getClass() == BotDetector.class
+                  || subscription.t().getClass() == HypixelPacketHandler.class
+                  || subscription.t().getClass() == PlayerListTracker.class
+                  || subscription.t().getClass() == InventoryPacketHandler.class
+                  || subscription.t().getClass() == MiddleClickFriends.class
+                  || subscription.t().getClass() == NotificationManager.class
+                  || subscription.t().getClass() == GUI.class) {
                   continue label79;
                }
             }
 
-            var7.add(var9.getKey());
-            j.put((Class<? extends Event>)var9.getKey(), (List<Subscription<?, ?>>)var9.getValue());
+            arrayList.add(entry.getKey());
+            j.put((Class<? extends Event>)entry.getKey(), (List<Subscription<?, ?>>)entry.getValue());
          }
 
-         for (Object var15$raw : var7) {
-            Class var15 = (Class)var15$raw;
-            if (!var15.equals(RenderAfterScreenEvent.class)) {
-               var6.remove(var15);
+         for (Object object3 : arrayList) {
+            Class class2 = (Class)object3;
+            if (!class2.equals(RenderAfterScreenEvent.class)) {
+               hashMap.remove(class2);
             }
          }
       } else if (!j.isEmpty()) {
-         for (Entry var14 : j.entrySet()) {
-            var6.put(var14.getKey(), var14.getValue());
+         for (Entry entry2 : j.entrySet()) {
+            hashMap.put(entry2.getKey(), entry2.getValue());
          }
 
          j.clear();

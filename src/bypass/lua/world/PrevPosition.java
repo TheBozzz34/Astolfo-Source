@@ -10,13 +10,13 @@ public final class PrevPosition extends VarArgFunction {
    private static final long a = 66802772767264L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
-      LuaValue var5 = var1.arg1();
-      if (var5 != null && !var5.isnil() && var5.isnumber()) {
-         Entity var6 = WorldLibrary.X.get(var5.checkint());
-         if (var6 != null) {
+   public Varargs onInvoke(Varargs varargs) {
+      LuaValue luaValue = varargs.arg1();
+      if (luaValue != null && !luaValue.isnil() && luaValue.isnumber()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity != null) {
             return LuaValue.varargsOf(
-               new LuaValue[]{LuaValue.valueOf(var6.lastTickPosX), LuaValue.valueOf(var6.lastTickPosY), LuaValue.valueOf(var6.lastTickPosZ)}
+               new LuaValue[]{LuaValue.valueOf(entity.lastTickPosX), LuaValue.valueOf(entity.lastTickPosY), LuaValue.valueOf(entity.lastTickPosZ)}
             );
          }
       }

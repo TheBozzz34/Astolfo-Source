@@ -25,10 +25,10 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
    private static final long a = 96103519230362L;
 
    public TeleportToTeam() {
-      Minecraft var4 = Minecraft.getMinecraft();
+      Minecraft minecraft = Minecraft.getMinecraft();
 
-      for (ScorePlayerTeam var6 : var4.theWorld.getScoreboard().getTeams()) {
-         this.field_178672_a.add(new TeleportToTeam.TeamSelectionObject(var6));
+      for (ScorePlayerTeam scorePlayerTeam : minecraft.theWorld.getScoreboard().getTeams()) {
+         this.field_178672_a.add(new TeleportToTeam.TeamSelectionObject(scorePlayerTeam));
       }
    }
 
@@ -43,8 +43,8 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
    }
 
    @Override
-   public void func_178661_a(SpectatorMenu var1) {
-      var1.func_178647_a(this);
+   public void func_178661_a(SpectatorMenu menu) {
+      menu.func_178647_a(this);
    }
 
    @Override
@@ -53,15 +53,15 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
    }
 
    @Override
-   public void func_178663_a(float var1, int var2) {
+   public void func_178663_a(float f, int alpha) {
       Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
       Gui.drawModalRectWithCustomSizedTexture(0, 0, 16.0F, 0.0F, 16, 16, 256.0F, 256.0F);
    }
 
    @Override
    public boolean func_178662_A_() {
-      for (ISpectatorMenuObject var5 : this.field_178672_a) {
-         if (var5.func_178662_A_()) {
+      for (ISpectatorMenuObject iSpectatorMenuObject : this.field_178672_a) {
+         if (iSpectatorMenuObject.func_178662_A_()) {
             return true;
          }
       }
@@ -75,29 +75,29 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
       private final List<NetworkPlayerInfo> field_178675_d;
       private static final long a = 92331622946709L;
 
-      public TeamSelectionObject(ScorePlayerTeam var2) {
-         this.field_178676_b = var2;
+      public TeamSelectionObject(ScorePlayerTeam scorePlayerTeam) {
+         this.field_178676_b = scorePlayerTeam;
          this.field_178675_d = Lists.newArrayList();
 
-         for (String var7 : var2.getMembershipCollection()) {
-            NetworkPlayerInfo var8 = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(var7);
-            if (var8 != null) {
-               this.field_178675_d.add(var8);
+         for (String string : scorePlayerTeam.getMembershipCollection()) {
+            NetworkPlayerInfo networkPlayerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(string);
+            if (networkPlayerInfo != null) {
+               this.field_178675_d.add(networkPlayerInfo);
             }
          }
 
          if (!this.field_178675_d.isEmpty()) {
-            String var9 = this.field_178675_d.get(new Random().nextInt(this.field_178675_d.size())).getGameProfile().getName();
-            this.field_178677_c = AbstractClientPlayer.getLocationSkin(var9);
-            AbstractClientPlayer.getDownloadImageSkin(this.field_178677_c, var9);
+            String string2 = this.field_178675_d.get(new Random().nextInt(this.field_178675_d.size())).getGameProfile().getName();
+            this.field_178677_c = AbstractClientPlayer.getLocationSkin(string2);
+            AbstractClientPlayer.getDownloadImageSkin(this.field_178677_c, string2);
          } else {
             this.field_178677_c = DefaultPlayerSkin.getDefaultSkinLegacy();
          }
       }
 
       @Override
-      public void func_178661_a(SpectatorMenu var1) {
-         var1.func_178647_a(new TeleportToPlayer(this.field_178675_d));
+      public void func_178661_a(SpectatorMenu menu) {
+         menu.func_178647_a(new TeleportToPlayer(this.field_178675_d));
       }
 
       @Override
@@ -106,22 +106,22 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
       }
 
       @Override
-      public void func_178663_a(float var1, int var2) {
-         int var7 = -1;
-         String var8 = FontRenderer.getFormatFromString(this.field_178676_b.getColorPrefix());
-         if (var8.length() >= 2) {
-            var7 = Minecraft.getMinecraft().fontRendererObj.getColorCode(var8.charAt(1));
+      public void func_178663_a(float f, int alpha) {
+         int i = -1;
+         String string = FontRenderer.getFormatFromString(this.field_178676_b.getColorPrefix());
+         if (string.length() >= 2) {
+            i = Minecraft.getMinecraft().fontRendererObj.getColorCode(string.charAt(1));
          }
 
-         if (var7 >= 0) {
-            float var9 = (var7 >> 16 & 0xFF) / 255.0F;
-            float var10 = (var7 >> 8 & 0xFF) / 255.0F;
-            float var11 = (var7 & 0xFF) / 255.0F;
-            Gui.drawRect(1, 1, 15, 15, MathHelper.func_180183_b(var9 * var1, var10 * var1, var11 * var1) | var2 << 24);
+         if (i >= 0) {
+            float g = (i >> 16 & 0xFF) / 255.0F;
+            float h = (i >> 8 & 0xFF) / 255.0F;
+            float f2 = (i & 0xFF) / 255.0F;
+            Gui.drawRect(1, 1, 15, 15, MathHelper.func_180183_b(g * f, h * f, f2 * f) | alpha << 24);
          }
 
          Minecraft.getMinecraft().getTextureManager().bindTexture(this.field_178677_c);
-         GlStateManager.color(var1, var1, var1, var2 / 255.0F);
+         GlStateManager.color(f, f, f, alpha / 255.0F);
          Gui.drawScaledCustomSizeModalRect(2, 2, 8.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
          Gui.drawScaledCustomSizeModalRect(2, 2, 40.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
       }

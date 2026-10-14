@@ -19,47 +19,47 @@ import org.lwjgl.input.Mouse;
 public class HUD2 extends Module {
    private final ArrayList<HudElement> z = new ArrayList<>();
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1 -> {
-      if (var1.getType() == RenderType.SCREEN && !mc.gameSettings.n) {
-         for (HudElement var6 : this.z) {
-            if (var6.N()) {
-               float var7 = var6.getScale().asFloat();
-               double var8 = var1.getResolution().getScaleFactor() / Math.pow(var1.getResolution().getScaleFactor(), 2.0);
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.n) {
+         for (HudElement hudElement : this.z) {
+            if (hudElement.N()) {
+               float f = hudElement.getScale().asFloat();
+               double d = renderEvent.getResolution().getScaleFactor() / Math.pow(renderEvent.getResolution().getScaleFactor(), 2.0);
                GlStateManager.pushMatrix();
-               GlStateManager.scale(var8 * var7, var8 * var7, var8 * var7);
-               NumberSetting var10 = var6.getPosX();
-               NumberSetting var11 = var6.getPosY();
-               if (var10.asFloat() > var1.getResolution().getScaledWidth() / 2.0F) {
+               GlStateManager.scale(d * f, d * f, d * f);
+               NumberSetting numberSetting = hudElement.getPosX();
+               NumberSetting numberSetting2 = hudElement.getPosY();
+               if (numberSetting.asFloat() > renderEvent.getResolution().getScaledWidth() / 2.0F) {
                }
 
-               int var12 = var1.getResolution().getScaledHeight();
-               int var13 = Mouse.getX() * var1.getResolution().getScaledWidth() / mc.displayWidth;
-               int var14 = var12 - Mouse.getY() * var12 / mc.displayHeight - 1;
+               int i = renderEvent.getResolution().getScaledHeight();
+               int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int k = i - Mouse.getY() * i / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
-                  var10.setValue(var6.M());
-                  var11.setValue(var6.E_float());
-               } else if ((Float)var10.getValue() != var6.M() || (Float)var11.getValue() != var6.E_float()) {
-                  if (var6.M() != (Float)var10.getValue()) {
-                     var6.o((Float)var10.getValue());
+                  numberSetting.setValue(hudElement.M());
+                  numberSetting2.setValue(hudElement.E_float());
+               } else if ((Float)numberSetting.getValue() != hudElement.M() || (Float)numberSetting2.getValue() != hudElement.E_float()) {
+                  if (hudElement.M() != (Float)numberSetting.getValue()) {
+                     hudElement.o((Float)numberSetting.getValue());
                   }
 
-                  if (var6.E_float() != (Float)var11.getValue()) {
-                     var6.q((Float)var11.getValue());
+                  if (hudElement.E_float() != (Float)numberSetting2.getValue()) {
+                     hudElement.q((Float)numberSetting2.getValue());
                   }
                }
 
-               var6.render(var13, var14);
+               hudElement.render(j, k);
                if (mc.currentScreen instanceof GuiChat) {
-                  RenderUtil.drawRect(var6.M(), var6.E_float(), var6.M() + var6.x(), var6.E_float() + var6.Y(), new Color(0, 0, 0, (int)e).getRGB());
-                  if (var6.u_boolean() && Mouse.isButtonDown(0)) {
-                     var6.T(var13, var14);
+                  RenderUtil.drawRect(hudElement.M(), hudElement.E_float(), hudElement.M() + hudElement.x(), hudElement.E_float() + hudElement.Y(), new Color(0, 0, 0, (int)e).getRGB());
+                  if (hudElement.u_boolean() && Mouse.isButtonDown(0)) {
+                     hudElement.T(j, k);
                   }
                }
 
-               if (Mouse.isButtonDown(0) && var6.G(var13, var14)) {
-                  var6.F(true, var13, var14);
+               if (Mouse.isButtonDown(0) && hudElement.G(j, k)) {
+                  hudElement.F(true, j, k);
                } else {
-                  var6.x(false);
+                  hudElement.x(false);
                }
 
                GlStateManager.popMatrix();

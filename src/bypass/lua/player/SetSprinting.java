@@ -8,9 +8,9 @@ public final class SetSprinting extends OneArgFunction {
    private static final long a = 90859375867728L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (ClientAccess.mc.thePlayer != null && var1.isboolean()) {
-         ClientAccess.mc.thePlayer.setSprinting(var1.checkboolean());
+   public LuaValue call(LuaValue luaValue) {
+      if (ClientAccess.mc.thePlayer != null && luaValue.isboolean()) {
+         ClientAccess.mc.thePlayer.setSprinting(luaValue.checkboolean());
       }
 
       return valueOf(false);

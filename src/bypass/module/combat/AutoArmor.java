@@ -27,15 +27,15 @@ public final class AutoArmor extends Module {
    private final BooleanSetting drop = new BooleanSetting("Drop", "Drops old armor", true);
    private final BooleanSetting inventory = new BooleanSetting("Inventory", "Only changes armour if in inventory", false);
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING && var1x.getPacket() instanceof C0EPacketClickWindow) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C0EPacketClickWindow) {
          this.z.reset();
       }
    };
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      long var2 = c ^ 2471658156914L;
-      if (var1x.getState() == EventState.PRE) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      long l = c ^ 2471658156914L;
+      if (motionEvent.getState() == EventState.PRE) {
          if (mc.currentScreen instanceof GuiContainer && !(mc.currentScreen instanceof GuiInventory)) {
             return;
          }
@@ -44,46 +44,46 @@ public final class AutoArmor extends Module {
             return;
          }
 
-         ArmorSlot var5 = null;
-         int var6 = -1;
-         long var10000 = 3949560276703916607L ^ var2;
-         int var7 = 0;
+         ArmorSlot armorSlot = null;
+         int i = -1;
+         long m = 3949560276703916607L ^ l;
+         int j = 0;
 
-         for (int var8 = 9; var8 <= 44; var8++) {
-            ItemStack var9 = mc.thePlayer.inventoryContainer.getSlot(var8).getStack();
-            if (var9 != null && var9.getItem() instanceof ItemArmor) {
-               ItemArmor var10 = (ItemArmor)var9.getItem();
-               ArmorSlot var11 = N(var10.armorType);
-               if (var11 != null && var10.armorType == this.f) {
-                  int var12 = InventoryUtil.getArmorScore(var9);
-                  Slot var13 = mc.thePlayer.inventoryContainer.getSlot(var11.slot);
-                  int var14 = InventoryUtil.getArmorScore(var13.getStack());
-                  if (var12 != var14) {
-                     if (var12 > var14 && var12 > var7) {
-                        var5 = var11;
-                        var6 = var8;
-                        var7 = var12;
+         for (int k = 9; k <= 44; k++) {
+            ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(k).getStack();
+            if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {
+               ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
+               ArmorSlot armorSlot2 = N(itemArmor.armorType);
+               if (armorSlot2 != null && itemArmor.armorType == this.f) {
+                  int n = InventoryUtil.getArmorScore(itemStack);
+                  Slot slot2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot2.slot);
+                  int i2 = InventoryUtil.getArmorScore(slot2.getStack());
+                  if (n != i2) {
+                     if (n > i2 && n > j) {
+                        armorSlot = armorSlot2;
+                        i = k;
+                        j = n;
                      }
-                  } else if (var9.hasEffect() && !var13.getStack().hasEffect()) {
-                     var5 = var11;
-                     var6 = var8;
-                     var7 = var12;
+                  } else if (itemStack.hasEffect() && !slot2.getStack().hasEffect()) {
+                     armorSlot = armorSlot2;
+                     i = k;
+                     j = n;
                   }
                }
             }
          }
 
-         if (var6 >= 0 && this.z.hasElapsed(this.delay.getValue().intValue())) {
-            ItemStack var15 = mc.thePlayer.inventoryContainer.getSlot(var5.slot).getStack();
-            if (var15 == null) {
-               mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, var6, 0, 1, mc.thePlayer);
+         if (i >= 0 && this.z.hasElapsed(this.delay.getValue().intValue())) {
+            ItemStack itemStack2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot.slot).getStack();
+            if (itemStack2 == null) {
+               mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 1, mc.thePlayer);
             } else if (KillAura.target == null) {
                if (this.drop.getValue()) {
-                  InventoryUtil.dropSlot(var5.slot, 0);
+                  InventoryUtil.dropSlot(armorSlot.slot, 0);
                } else if (!c()) {
-                  mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, var5.slot, 0, 1, mc.thePlayer);
+                  mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, armorSlot.slot, 0, 1, mc.thePlayer);
                } else {
-                  mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, var5.slot, 0, 4, mc.thePlayer);
+                  mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, armorSlot.slot, 0, 4, mc.thePlayer);
                }
             }
          }
@@ -97,8 +97,8 @@ public final class AutoArmor extends Module {
    };
    private static final long c = 109552791208972L;
 
-   public AutoArmor(Category var1) {
-      super(var1);
+   public AutoArmor(Category category) {
+      super(category);
       this.addSettings(this.delay, this.drop, this.inventory);
    }
 
@@ -115,21 +115,21 @@ public final class AutoArmor extends Module {
    }
 
    public static boolean c() {
-      boolean var3 = true;
+      boolean bl = true;
 
-      for (int var4 = 0; var4 < 35; var4++) {
-         if (mc.thePlayer.inventory.getStackInSlot(var4) == null) {
-            var3 = false;
+      for (int i = 0; i < 35; i++) {
+         if (mc.thePlayer.inventory.getStackInSlot(i) == null) {
+            bl = false;
          }
       }
 
-      return var3;
+      return bl;
    }
 
-   public static ArmorSlot N(int var0) {
-      for (ArmorSlot var7 : ArmorSlot.values()) {
-         if (ArmorSlot.z(var7) == var0) {
-            return var7;
+   public static ArmorSlot N(int i) {
+      for (ArmorSlot armorSlot : ArmorSlot.values()) {
+         if (ArmorSlot.z(armorSlot) == i) {
+            return armorSlot;
          }
       }
 

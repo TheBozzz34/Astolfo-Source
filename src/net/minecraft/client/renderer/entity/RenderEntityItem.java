@@ -25,206 +25,206 @@ public class RenderEntityItem extends Render<EntityItem> {
    public static double e;
    private static final long a = 110307147055816L;
 
-   public RenderEntityItem(RenderManager var1, RenderItem var2) {
-      super(var1);
-      this.itemRenderer = var2;
+   public RenderEntityItem(RenderManager renderManagerIn, RenderItem renderItem) {
+      super(renderManagerIn);
+      this.itemRenderer = renderItem;
       this.shadowSize = 0.15F;
       this.shadowOpaque = 0.75F;
    }
 
-   private int func_177077_a(EntityItem var1, double var2, double var4, double var6, float var8, IBakedModel var9) {
-      ItemStack var13 = var1.getEntityItem();
-      Item var14 = var13.getItem();
-      if (var14 == null) {
+   private int func_177077_a(EntityItem itemIn, double d, double d2, double d3, float f, IBakedModel iBakedModel) {
+      ItemStack itemStack = itemIn.getEntityItem();
+      Item item = itemStack.getItem();
+      if (item == null) {
          return 0;
       }
 
-      boolean var15 = var9.isGui3d();
-      int var16 = this.func_177078_a(var13);
-      float var18 = MathHelper.sin((var1.getAge() + var8) / 10.0F + var1.hoverStart) * 0.1F + 0.1F;
-      float var19 = var9.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
-      GlStateManager.translate((float)var2, (float)var4 + var18 + 0.25F * var19, (float)var6);
-      if (var15 || this.renderManager.options != null) {
-         float var20 = ((var1.getAge() + var8) / 20.0F + var1.hoverStart) * (180.0F / (float)Math.PI);
-         GlStateManager.rotate(var20, 0.0F, 1.0F, 0.0F);
+      boolean bl = iBakedModel.isGui3d();
+      int i = this.func_177078_a(itemStack);
+      float g = MathHelper.sin((itemIn.getAge() + f) / 10.0F + itemIn.hoverStart) * 0.1F + 0.1F;
+      float h = iBakedModel.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
+      GlStateManager.translate((float)d, (float)d2 + g + 0.25F * h, (float)d3);
+      if (bl || this.renderManager.options != null) {
+         float f2 = ((itemIn.getAge() + f) / 20.0F + itemIn.hoverStart) * (180.0F / (float)Math.PI);
+         GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
       }
 
-      if (!var15) {
-         float var23 = -0.0F * (var16 - 1) * 0.5F;
-         float var21 = -0.0F * (var16 - 1) * 0.5F;
-         float var22 = -0.046875F * (var16 - 1) * 0.5F;
-         GlStateManager.translate(var23, var21, var22);
+      if (!bl) {
+         float f3 = -0.0F * (i - 1) * 0.5F;
+         float f4 = -0.0F * (i - 1) * 0.5F;
+         float f5 = -0.046875F * (i - 1) * 0.5F;
+         GlStateManager.translate(f3, f4, f5);
       }
 
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-      return var16;
+      return i;
    }
 
-   private int func_177078_a(ItemStack var1) {
-      byte var5 = 1;
-      if (var1.stackSize > 48) {
-         var5 = 5;
-      } else if (var1.stackSize > 32) {
-         var5 = 4;
-      } else if (var1.stackSize > 16) {
-         var5 = 3;
-      } else if (var1.stackSize > 1) {
-         var5 = 2;
+   private int func_177078_a(ItemStack stack) {
+      byte b = 1;
+      if (stack.stackSize > 48) {
+         b = 5;
+      } else if (stack.stackSize > 32) {
+         b = 4;
+      } else if (stack.stackSize > 16) {
+         b = 3;
+      } else if (stack.stackSize > 1) {
+         b = 2;
       }
 
-      return var5;
+      return b;
    }
 
-   public void doRender(EntityItem var1, double var2, double var4, double var6, float var8, float var9) {
-      long var10 = a ^ 135795353723672L;
+   public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      long l = a ^ 135795353723672L;
       if (ModuleManager.J.isEnabled()) {
-         this.b(var1, var2, var4, var6, var8, var9);
+         this.b(entity, x, y, z, entityYaw, partialTicks);
       } else {
-         ItemStack var13 = var1.getEntityItem();
+         ItemStack itemStack = entity.getEntityItem();
          this.field_177079_e.setSeed(187L);
-         boolean var14 = false;
-         if (this.bindEntityTexture(var1)) {
-            this.renderManager.renderEngine.getTexture(this.getEntityTexture(var1)).setBlurMipmap(false, false);
-            var14 = true;
+         boolean bl = false;
+         if (this.bindEntityTexture(entity)) {
+            this.renderManager.renderEngine.getTexture(this.getEntityTexture(entity)).setBlurMipmap(false, false);
+            bl = true;
          }
 
          GlStateManager.enableRescaleNormal();
          GlStateManager.alphaFunc(516, 0.1F);
          GlStateManager.enableBlend();
-         long var10000 = 2573219428719095706L ^ var10;
+         long m = 2573219428719095706L ^ l;
          GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
          GlStateManager.pushMatrix();
-         IBakedModel var15 = this.itemRenderer.getItemModelMesher().getItemModel(var13);
-         int var16 = this.func_177077_a(var1, var2, var4, var6, var9, var15);
+         IBakedModel iBakedModel = this.itemRenderer.getItemModelMesher().getItemModel(itemStack);
+         int i = this.func_177077_a(entity, x, y, z, partialTicks, iBakedModel);
 
-         for (int var17 = 0; var17 < var16; var17++) {
-            if (var15.isGui3d()) {
+         for (int j = 0; j < i; j++) {
+            if (iBakedModel.isGui3d()) {
                GlStateManager.pushMatrix();
-               if (var17 > 0) {
-                  float var18 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                  float var19 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                  float var20 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                  GlStateManager.translate(var18, var19, var20);
+               if (j > 0) {
+                  float f = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                  float g = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                  float h = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                  GlStateManager.translate(f, g, h);
                }
 
                GlStateManager.scale(0.5F, 0.5F, 0.5F);
-               var15.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
-               this.itemRenderer.renderItem(var13, var15);
+               iBakedModel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
+               this.itemRenderer.renderItem(itemStack, iBakedModel);
                GlStateManager.popMatrix();
             } else {
                GlStateManager.pushMatrix();
-               var15.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
-               this.itemRenderer.renderItem(var13, var15);
+               iBakedModel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
+               this.itemRenderer.renderItem(itemStack, iBakedModel);
                GlStateManager.popMatrix();
-               float var21 = var15.getItemCameraTransforms().ground.scale.x;
-               float var22 = var15.getItemCameraTransforms().ground.scale.y;
-               float var23 = var15.getItemCameraTransforms().ground.scale.z;
-               GlStateManager.translate(0.0F * var21, 0.0F * var22, 0.046875F * var23);
+               float f2 = iBakedModel.getItemCameraTransforms().ground.scale.x;
+               float f3 = iBakedModel.getItemCameraTransforms().ground.scale.y;
+               float f4 = iBakedModel.getItemCameraTransforms().ground.scale.z;
+               GlStateManager.translate(0.0F * f2, 0.0F * f3, 0.046875F * f4);
             }
          }
 
          GlStateManager.popMatrix();
          GlStateManager.disableRescaleNormal();
          GlStateManager.disableBlend();
-         this.bindEntityTexture(var1);
-         if (var14) {
-            this.renderManager.renderEngine.getTexture(this.getEntityTexture(var1)).restoreLastBlurMipmap();
+         this.bindEntityTexture(entity);
+         if (bl) {
+            this.renderManager.renderEngine.getTexture(this.getEntityTexture(entity)).restoreLastBlurMipmap();
          }
 
-         super.doRender(var1, var2, var4, var6, var8, var9);
+         super.doRender(entity, x, y, z, entityYaw, partialTicks);
       }
    }
 
-   private void b(EntityItem var1, double var2, double var4, double var6, float var8, float var9) {
-      long var10 = a ^ 11501802016012L;
+   private void b(EntityItem entityItem, double d, double d2, double d3, float f, float g) {
+      long l = a ^ 11501802016012L;
       e = (System.nanoTime() - w) / 2500000.0;
       if (!Minecraft.getMinecraft().inGameHasFocus) {
          e = 0.0;
       }
 
-      ResourceLocation var13 = this.getEntityTexture(var1);
-      ItemStack var14 = var1.getEntityItem();
-      int var15;
-      if (var14 != null && var14.getItem() != null) {
-         var15 = Item.getIdFromItem(var14.getItem()) + var14.getMetadata();
+      ResourceLocation resourceLocation = this.getEntityTexture(entityItem);
+      ItemStack itemStack = entityItem.getEntityItem();
+      int i;
+      if (itemStack != null && itemStack.getItem() != null) {
+         i = Item.getIdFromItem(itemStack.getItem()) + itemStack.getMetadata();
       } else {
-         var15 = 187;
+         i = 187;
       }
 
-      this.field_177079_e.setSeed(var15);
-      boolean var16 = true;
-      long var10000 = 7921707800919149373L ^ var10;
-      this.bindTexture(var13);
-      this.getRenderManager().renderEngine.getTexture(var13).setBlurMipmap(false, false);
+      this.field_177079_e.setSeed(i);
+      boolean bl = true;
+      long n = 7921707800919149373L ^ l;
+      this.bindTexture(resourceLocation);
+      this.getRenderManager().renderEngine.getTexture(resourceLocation).setBlurMipmap(false, false);
       GlStateManager.enableRescaleNormal();
       GlStateManager.alphaFunc(516, 0.1F);
       GlStateManager.enableBlend();
-      var10000 = 473045858043443992L ^ var10;
+      n = 473045858043443992L ^ l;
       RenderHelper.enableStandardItemLighting();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.pushMatrix();
-      IBakedModel var17 = this.itemRenderer.getItemModelMesher().getItemModel(var14);
-      boolean var18 = var17.isGui3d();
-      boolean var19 = var17.isGui3d();
-      int var20 = this.func_177078_a(var14);
-      float var21 = var17.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
-      GlStateManager.translate((float)var2, (float)var4, (float)var6);
-      if (var17.isGui3d()) {
+      IBakedModel iBakedModel = this.itemRenderer.getItemModelMesher().getItemModel(itemStack);
+      boolean bl2 = iBakedModel.isGui3d();
+      boolean bl3 = iBakedModel.isGui3d();
+      int j = this.func_177078_a(itemStack);
+      float h = iBakedModel.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
+      GlStateManager.translate((float)d, (float)d2, (float)d3);
+      if (iBakedModel.isGui3d()) {
          GlStateManager.scale(0.5F, 0.5F, 0.5F);
       }
 
       GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-      GL11.glRotatef(var1.rotationYaw, 0.0F, 0.0F, 1.0F);
-      if (var19) {
+      GL11.glRotatef(entityItem.rotationYaw, 0.0F, 0.0F, 1.0F);
+      if (bl3) {
          GlStateManager.translate(0.0, 0.0, -0.08);
       } else {
          GlStateManager.translate(0.0, 0.0, -0.04);
       }
 
-      if (var19 || this.getRenderManager().options != null) {
-         if (var19) {
-            if (!var1.onGround) {
-               double var22 = e * 2.0;
-               float var24 = m(var1);
-               if (var24 != -1.0F) {
-                  var22 /= var24 / 1000.0F * 10.0F;
+      if (bl3 || this.getRenderManager().options != null) {
+         if (bl3) {
+            if (!entityItem.onGround) {
+               double d4 = e * 2.0;
+               float f2 = m(entityItem);
+               if (f2 != -1.0F) {
+                  d4 /= f2 / 1000.0F * 10.0F;
                }
 
-               var1.rotationPitch = (float)(var1.rotationPitch + var22);
+               entityItem.rotationPitch = (float)(entityItem.rotationPitch + d4);
             }
-         } else if (!Double.isNaN(var1.posX) && !Double.isNaN(var1.posY) && !Double.isNaN(var1.posZ) && var1.worldObj != null) {
-            if (var1.onGround) {
-               var1.rotationPitch = 0.0F;
+         } else if (!Double.isNaN(entityItem.posX) && !Double.isNaN(entityItem.posY) && !Double.isNaN(entityItem.posZ) && entityItem.worldObj != null) {
+            if (entityItem.onGround) {
+               entityItem.rotationPitch = 0.0F;
             } else {
-               double var25 = e * 2.0;
-               float var27 = m(var1);
-               if (var27 != -1.0F) {
-                  var25 /= var27 / 1000.0F * 10.0F;
+               double d5 = e * 2.0;
+               float f3 = m(entityItem);
+               if (f3 != -1.0F) {
+                  d5 /= f3 / 1000.0F * 10.0F;
                }
 
-               var1.rotationPitch = (float)(var1.rotationPitch + var25);
+               entityItem.rotationPitch = (float)(entityItem.rotationPitch + d5);
             }
          }
 
-         GlStateManager.rotate(var1.rotationPitch, 1.0F, 0.0F, 0.0F);
+         GlStateManager.rotate(entityItem.rotationPitch, 1.0F, 0.0F, 0.0F);
       }
 
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-      for (int var26 = 0; var26 < var20; var26++) {
+      for (int k = 0; k < j; k++) {
          GlStateManager.pushMatrix();
-         if (var18) {
-            if (var26 > 0) {
-               float var23 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
-               GlStateManager.translate(0.0F, 0.0F, var23);
+         if (bl2) {
+            if (k > 0) {
+               float f4 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
+               GlStateManager.translate(0.0F, 0.0F, f4);
             }
 
-            var17.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
-            this.itemRenderer.renderItem(var14, var17);
+            iBakedModel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
+            this.itemRenderer.renderItem(itemStack, iBakedModel);
             GlStateManager.popMatrix();
          } else {
-            var17.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
-            this.itemRenderer.renderItem(var14, var17);
+            iBakedModel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
+            this.itemRenderer.renderItem(itemStack, iBakedModel);
             GlStateManager.popMatrix();
             GlStateManager.translate(0.0F, 0.0F, 0.05375F);
          }
@@ -233,55 +233,55 @@ public class RenderEntityItem extends Render<EntityItem> {
       GlStateManager.popMatrix();
       GlStateManager.disableRescaleNormal();
       GlStateManager.disableBlend();
-      this.bindTexture(var13);
-      if (var16) {
-         this.getRenderManager().renderEngine.getTexture(var13).restoreLastBlurMipmap();
+      this.bindTexture(resourceLocation);
+      if (bl) {
+         this.getRenderManager().renderEngine.getTexture(resourceLocation).restoreLastBlurMipmap();
       }
    }
 
-   public static float m(EntityItem var0) {
-      return G(var0, false);
+   public static float m(EntityItem entityItem) {
+      return G(entityItem, false);
    }
 
-   public static float G(EntityItem var0, boolean var1) {
-      double var5 = var0.posY + var0.getEyeHeight();
-      int var7 = MathHelper.floor_double(var0.posX);
-      int var8 = MathHelper.floor_float(MathHelper.floor_double(var5));
-      if (var1) {
-         var8--;
+   public static float G(EntityItem entityItem, boolean bl) {
+      double d = entityItem.posY + entityItem.getEyeHeight();
+      int i = MathHelper.floor_double(entityItem.posX);
+      int j = MathHelper.floor_float(MathHelper.floor_double(d));
+      if (bl) {
+         j--;
       }
 
-      int var9 = MathHelper.floor_double(var0.posZ);
-      BlockPos var10 = new BlockPos(var7, var8, var9);
-      Block var11 = var0.worldObj.getBlockState(var10).getBlock();
-      float var12 = -1.0F;
-      if (var11 instanceof BlockLiquid) {
-         BlockLiquid var13 = (BlockLiquid)var11;
-         var12 = var13.getEffectiveFlowDecay(var0.worldObj, var10);
+      int k = MathHelper.floor_double(entityItem.posZ);
+      BlockPos blockPos = new BlockPos(i, j, k);
+      Block block = entityItem.worldObj.getBlockState(blockPos).getBlock();
+      float f = -1.0F;
+      if (block instanceof BlockLiquid) {
+         BlockLiquid blockLiquid = (BlockLiquid)block;
+         f = blockLiquid.getEffectiveFlowDecay(entityItem.worldObj, blockPos);
       }
 
-      if (var1) {
-         return var12;
+      if (bl) {
+         return f;
       }
 
-      double var15 = 1.0;
-      if (var11 instanceof BlockLiquid) {
-         var15 = ((BlockLiquid)var11).getLevel(var0.worldObj, var10);
+      double e = 1.0;
+      if (block instanceof BlockLiquid) {
+         e = ((BlockLiquid)block).getLevel(entityItem.worldObj, blockPos);
       }
 
-      if (var15 < 0.0) {
-         var15 *= -1.0;
-         if (var5 > var8 + (1.0 - var15)) {
-            return var12;
+      if (e < 0.0) {
+         e *= -1.0;
+         if (d > j + (1.0 - e)) {
+            return f;
          }
-      } else if (var5 < var8 + var15) {
-         return var12;
+      } else if (d < j + e) {
+         return f;
       }
 
       return -1.0F;
    }
 
-   public ResourceLocation getEntityTexture(EntityItem var1) {
+   public ResourceLocation getEntityTexture(EntityItem entity) {
       return TextureMap.locationBlocksTexture;
    }
 }

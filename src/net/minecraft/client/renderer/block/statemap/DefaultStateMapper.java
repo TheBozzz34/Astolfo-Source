@@ -6,7 +6,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public class DefaultStateMapper extends StateMapperBase {
    @Override
-   public ModelResourceLocation getModelResourceLocation(IBlockState var1) {
-      return new ModelResourceLocation(Block.blockRegistry.getNameForObject(var1.getBlock()), this.getPropertyString(var1.getProperties()));
+   public ModelResourceLocation getModelResourceLocation(IBlockState state) {
+      return new ModelResourceLocation(Block.blockRegistry.getNameForObject(state.getBlock()), this.getPropertyString(state.getProperties()));
    }
 }

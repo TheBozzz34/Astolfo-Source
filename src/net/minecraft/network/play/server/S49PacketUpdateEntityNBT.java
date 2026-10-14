@@ -15,32 +15,32 @@ public class S49PacketUpdateEntityNBT implements Packet<INetHandlerPlayClient> {
    public S49PacketUpdateEntityNBT() {
    }
 
-   public S49PacketUpdateEntityNBT(int var1, NBTTagCompound var2) {
-      this.entityId = var1;
-      this.tagCompound = var2;
+   public S49PacketUpdateEntityNBT(int entityIdIn, NBTTagCompound tagCompoundIn) {
+      this.entityId = entityIdIn;
+      this.tagCompound = tagCompoundIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
-      this.tagCompound = var1.readNBTTagCompoundFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
+      this.tagCompound = buf.readNBTTagCompoundFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
-      var1.writeNBTTagCompoundToBuffer(this.tagCompound);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
+      buf.writeNBTTagCompoundToBuffer(this.tagCompound);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityNBT(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityNBT(this);
    }
 
    public NBTTagCompound getTagCompound() {
       return this.tagCompound;
    }
 
-   public Entity getEntity(World var1) {
-      return var1.getEntityByID(this.entityId);
+   public Entity getEntity(World worldIn) {
+      return worldIn.getEntityByID(this.entityId);
    }
 }

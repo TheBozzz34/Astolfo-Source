@@ -16,31 +16,31 @@ public class StateMap extends StateMapperBase {
    private final List<IProperty<?>> ignored;
    private static final long a = 43122860187579L;
 
-   public StateMap(IProperty<?> var1, String var2, List<IProperty<?>> var3) {
-      this.name = var1;
-      this.suffix = var2;
-      this.ignored = var3;
+   public StateMap(IProperty<?> name, String suffix, List<IProperty<?>> ignored) {
+      this.name = name;
+      this.suffix = suffix;
+      this.ignored = ignored;
    }
 
    @Override
-   public ModelResourceLocation getModelResourceLocation(IBlockState var1) {
-      LinkedHashMap var6 = Maps.newLinkedHashMap(var1.getProperties());
-      String var7;
+   public ModelResourceLocation getModelResourceLocation(IBlockState state) {
+      LinkedHashMap linkedHashMap = Maps.newLinkedHashMap(state.getProperties());
+      String string;
       if (this.name == null) {
-         var7 = Block.blockRegistry.getNameForObject(var1.getBlock()).toString();
+         string = Block.blockRegistry.getNameForObject(state.getBlock()).toString();
       } else {
-         var7 = ((IProperty)this.name).getName((Comparable)var6.remove(this.name));
+         string = ((IProperty)this.name).getName((Comparable)linkedHashMap.remove(this.name));
       }
 
       if (this.suffix != null) {
-         var7 = var7 + this.suffix;
+         string = string + this.suffix;
       }
 
-      for (IProperty var9 : this.ignored) {
-         var6.remove(var9);
+      for (IProperty iProperty : this.ignored) {
+         linkedHashMap.remove(iProperty);
       }
 
-      return new ModelResourceLocation(var7, this.getPropertyString(var6));
+      return new ModelResourceLocation(string, this.getPropertyString(linkedHashMap));
    }
 
    public static class Builder {
@@ -48,18 +48,18 @@ public class StateMap extends StateMapperBase {
       private String suffix;
       private final List<IProperty<?>> ignored = Lists.newArrayList();
 
-      public StateMap.Builder withName(IProperty<?> var1) {
-         this.name = var1;
+      public StateMap.Builder withName(IProperty<?> builderPropertyIn) {
+         this.name = builderPropertyIn;
          return this;
       }
 
-      public StateMap.Builder withSuffix(String var1) {
-         this.suffix = var1;
+      public StateMap.Builder withSuffix(String builderSuffixIn) {
+         this.suffix = builderSuffixIn;
          return this;
       }
 
-      public StateMap.Builder ignore(IProperty<?>... var1) {
-         Collections.addAll(this.ignored, var1);
+      public StateMap.Builder ignore(IProperty<?>... iPropertys) {
+         Collections.addAll(this.ignored, iPropertys);
          return this;
       }
 

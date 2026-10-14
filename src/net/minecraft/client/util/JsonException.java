@@ -11,23 +11,23 @@ public class JsonException extends IOException {
    private final String exceptionMessage;
    private static final long a = 17609647062526L;
 
-   public JsonException(String var1) {
+   public JsonException(String message) {
       this.field_151383_a.add(new JsonException.Entry());
-      this.exceptionMessage = var1;
+      this.exceptionMessage = message;
    }
 
-   public JsonException(String var1, Throwable var2) {
-      super(var2);
+   public JsonException(String message, Throwable cause) {
+      super(cause);
       this.field_151383_a.add(new JsonException.Entry());
-      this.exceptionMessage = var1;
+      this.exceptionMessage = message;
    }
 
-   public void func_151380_a(String var1) {
-      this.field_151383_a.get(0).func_151373_a(var1);
+   public void func_151380_a(String string) {
+      this.field_151383_a.get(0).func_151373_a(string);
    }
 
-   public void func_151381_b(String var1) {
-      this.field_151383_a.get(0).field_151376_a = var1;
+   public void func_151381_b(String string) {
+      this.field_151383_a.get(0).field_151376_a = string;
       this.field_151383_a.add(0, new JsonException.Entry());
    }
 
@@ -36,17 +36,17 @@ public class JsonException extends IOException {
       return "Invalid " + this.field_151383_a.get(this.field_151383_a.size() - 1).toString() + ": " + this.exceptionMessage;
    }
 
-   public static JsonException func_151379_a(Exception var0) {
-      if (var0 instanceof JsonException) {
-         return (JsonException)var0;
+   public static JsonException func_151379_a(Exception exception) {
+      if (exception instanceof JsonException) {
+         return (JsonException)exception;
       }
 
-      String var4 = var0.getMessage();
-      if (var0 instanceof FileNotFoundException) {
-         var4 = "File not found";
+      String string = exception.getMessage();
+      if (exception instanceof FileNotFoundException) {
+         string = "File not found";
       }
 
-      return new JsonException(var4, var0);
+      return new JsonException(string, exception);
    }
 
    public static class Entry {
@@ -57,8 +57,8 @@ public class JsonException extends IOException {
       public Entry() {
       }
 
-      private void func_151373_a(String var1) {
-         this.field_151375_b.add(0, var1);
+      private void func_151373_a(String string) {
+         this.field_151375_b.add(0, string);
       }
 
       public String func_151372_b() {

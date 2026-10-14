@@ -14,95 +14,103 @@ public class WorldManager implements IWorldAccess {
    private WorldServer theWorldServer;
    private static final long a = 47432873660145L;
 
-   public WorldManager(MinecraftServer var1, WorldServer var2) {
-      this.mcServer = var1;
-      this.theWorldServer = var2;
+   public WorldManager(MinecraftServer mcServerIn, WorldServer worldServerIn) {
+      this.mcServer = mcServerIn;
+      this.theWorldServer = worldServerIn;
    }
 
    @Override
-   public void spawnParticle(int var1, boolean var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
+   public void spawnParticle(
+      int particleID, boolean ignoreRange, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters
+   ) {
    }
 
    @Override
-   public void onEntityAdded(Entity var1) {
-      this.theWorldServer.getEntityTracker().trackEntity(var1);
+   public void onEntityAdded(Entity entityIn) {
+      this.theWorldServer.getEntityTracker().trackEntity(entityIn);
    }
 
    @Override
-   public void onEntityRemoved(Entity var1) {
-      this.theWorldServer.getEntityTracker().untrackEntity(var1);
-      this.theWorldServer.getScoreboard().func_181140_a(var1);
+   public void onEntityRemoved(Entity entityIn) {
+      this.theWorldServer.getEntityTracker().untrackEntity(entityIn);
+      this.theWorldServer.getScoreboard().func_181140_a(entityIn);
    }
 
    @Override
-   public void playSound(String var1, double var2, double var4, double var6, float var8, float var9) {
+   public void playSound(String soundName, double x, double y, double z, float volume, float pitch) {
       this.mcServer
          .getConfigurationManager()
          .sendToAllNear(
-            var2,
-            var4,
-            var6,
-            var8 > 1.0F ? 16.0F * var8 : 16.0,
+            x,
+            y,
+            z,
+            volume > 1.0F ? 16.0F * volume : 16.0,
             this.theWorldServer.provider.getDimensionId(),
-            new S29PacketSoundEffect(var1, var2, var4, var6, var8, var9)
+            new S29PacketSoundEffect(soundName, x, y, z, volume, pitch)
          );
    }
 
    @Override
-   public void playSoundToNearExcept(EntityPlayer var1, String var2, double var3, double var5, double var7, float var9, float var10) {
+   public void playSoundToNearExcept(EntityPlayer except, String soundName, double x, double y, double z, float volume, float pitch) {
       this.mcServer
          .getConfigurationManager()
          .sendToAllNearExcept(
-            var1,
-            var3,
-            var5,
-            var7,
-            var9 > 1.0F ? 16.0F * var9 : 16.0,
+            except,
+            x,
+            y,
+            z,
+            volume > 1.0F ? 16.0F * volume : 16.0,
             this.theWorldServer.provider.getDimensionId(),
-            new S29PacketSoundEffect(var2, var3, var5, var7, var9, var10)
+            new S29PacketSoundEffect(soundName, x, y, z, volume, pitch)
          );
    }
 
    @Override
-   public void markBlockRangeForRenderUpdate(int var1, int var2, int var3, int var4, int var5, int var6) {
+   public void markBlockRangeForRenderUpdate(int x1, int y1, int z1, int x2, int y2, int z2) {
    }
 
    @Override
-   public void markBlockForUpdate(BlockPos var1) {
-      this.theWorldServer.getPlayerManager().markBlockForUpdate(var1);
+   public void markBlockForUpdate(BlockPos pos) {
+      this.theWorldServer.getPlayerManager().markBlockForUpdate(pos);
    }
 
    @Override
-   public void notifyLightSet(BlockPos var1) {
+   public void notifyLightSet(BlockPos pos) {
    }
 
    @Override
-   public void playRecord(String var1, BlockPos var2) {
+   public void playRecord(String recordName, BlockPos blockPosIn) {
    }
 
    @Override
-   public void playAuxSFX(EntityPlayer var1, int var2, BlockPos var3, int var4) {
+   public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int data) {
       this.mcServer
          .getConfigurationManager()
          .sendToAllNearExcept(
-            var1, var3.getX(), var3.getY(), var3.getZ(), 64.0, this.theWorldServer.provider.getDimensionId(), new S28PacketEffect(var2, var3, var4, false)
+            player,
+            blockPosIn.getX(),
+            blockPosIn.getY(),
+            blockPosIn.getZ(),
+            64.0,
+            this.theWorldServer.provider.getDimensionId(),
+            new S28PacketEffect(sfxType, blockPosIn, data, false)
          );
    }
 
    @Override
-   public void broadcastSound(int var1, BlockPos var2, int var3) {
-      this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S28PacketEffect(var1, var2, var3, true));
+   public void broadcastSound(int soundID, BlockPos pos, int data) {
+      this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S28PacketEffect(soundID, pos, data, true));
    }
 
    @Override
-   public void sendBlockBreakProgress(int var1, BlockPos var2, int var3) {
-      for (EntityPlayerMP var8 : this.mcServer.getConfigurationManager().getPlayerList()) {
-         if (var8 != null && var8.worldObj == this.theWorldServer && var8.getEntityId() != var1) {
-            double var9 = var2.getX() - var8.posX;
-            double var11 = var2.getY() - var8.posY;
-            double var13 = var2.getZ() - var8.posZ;
-            if (var9 * var9 + var11 * var11 + var13 * var13 < 1024.0) {
-               var8.playerNetServerHandler.sendPacket(new S25PacketBlockBreakAnim(var1, var2, var3));
+   public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
+      for (EntityPlayerMP entityPlayerMP : this.mcServer.getConfigurationManager().getPlayerList()) {
+         if (entityPlayerMP != null && entityPlayerMP.worldObj == this.theWorldServer && entityPlayerMP.getEntityId() != breakerId) {
+            double d = pos.getX() - entityPlayerMP.posX;
+            double e = pos.getY() - entityPlayerMP.posY;
+            double d2 = pos.getZ() - entityPlayerMP.posZ;
+            if (d * d + e * e + d2 * d2 < 1024.0) {
+               entityPlayerMP.playerNetServerHandler.sendPacket(new S25PacketBlockBreakAnim(breakerId, pos, progress));
             }
          }
       }

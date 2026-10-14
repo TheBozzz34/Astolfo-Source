@@ -44,217 +44,217 @@ public class PlayerStatsChecker {
    );
    private static final long a = 8583257840339L;
 
-   public PlayerStatsChecker(HypixelAPI var1) {
-      this.w = var1;
+   public PlayerStatsChecker(HypixelAPI hypixelAPI) {
+      this.w = hypixelAPI;
       this.l[0] = 0;
    }
 
-   public void initialize(UUID var1, String var2, NetworkPlayerInfo var3, boolean var4) {
-      this.w.getPlayerByUuid(var1).whenComplete((var4x, var5) -> {
-         if (PlayerListTracker.checkedPlayers.contains(var2)) {
+   public void initialize(UUID uuid, String string, NetworkPlayerInfo networkPlayerInfo, boolean bl) {
+      this.w.getPlayerByUuid(uuid).whenComplete((playerReply, throwable) -> {
+         if (PlayerListTracker.checkedPlayers.contains(string)) {
             this.l[0] = -2;
-         } else if (var5 != null) {
+         } else if (throwable != null) {
             PlayerListTracker.checkTimer.reset();
-            var5.printStackTrace();
+            throwable.printStackTrace();
             this.l[0] = -2;
          } else {
-            this.v[0] = var4x.getPlayer();
-            if (this.v[0] == null && !var4) {
-               System.err.println("That player was not found on hypixel. " + var2);
+            this.v[0] = playerReply.getPlayer();
+            if (this.v[0] == null && !bl) {
+               System.err.println("That player was not found on hypixel. " + string);
                if (!AutoHypixel.autoChecker.getSetting("Denick").asBoolean()) {
-                  Denicker.nicks.put(var2, "???");
+                  Denicker.nicks.put(string, "???");
                } else {
-                  AtomicBoolean var9 = new AtomicBoolean(false);
+                  AtomicBoolean atomicBoolean = new AtomicBoolean(false);
                   if (HypixelGameTracker.game != 4) {
-                     Collection var10 = var3.getGameProfile().getProperties().get("textures");
-                     String var11 = "";
+                     Collection collection = networkPlayerInfo.getGameProfile().getProperties().get("textures");
+                     String string2 = "";
 
-                     for (Object var13$raw : var10) {
-                        Property var13 = (Property)var13$raw;
-                        if (var13.getName().equals("textures")) {
-                           var11 = var13.getValue();
+                     for (Object object : collection) {
+                        Property property = (Property)object;
+                        if (property.getName().equals("textures")) {
+                           string2 = property.getValue();
                         }
                      }
 
-                     if (!var11.isEmpty()) {
-                        String var16 = new String(Base64.getDecoder().decode(var11.getBytes(StandardCharsets.UTF_8)));
+                     if (!string2.isEmpty()) {
+                        String string3 = new String(Base64.getDecoder().decode(string2.getBytes(StandardCharsets.UTF_8)));
 
                         try {
-                           SkinTexturesPayload var17 = ConfigFiles.V.fromJson(var16, SkinTexturesPayload.class);
-                           if (this.z.contains(var17.g())) {
-                              var9.set(true);
+                           SkinTexturesPayload skinTexturesPayload = ConfigFiles.V.fromJson(string3, SkinTexturesPayload.class);
+                           if (this.z.contains(skinTexturesPayload.g())) {
+                              atomicBoolean.set(true);
                            } else {
-                              Denicker.nicks.put(var2, var17.g());
-                              PlayerStatsEntry var14 = new PlayerStatsEntry(var17.g(), var3, this);
-                              var14.E = var17.g();
-                              var14.Q = var2;
-                              PlayerListTracker.playerStats.add(var14);
+                              Denicker.nicks.put(string, skinTexturesPayload.g());
+                              PlayerStatsEntry playerStatsEntry = new PlayerStatsEntry(skinTexturesPayload.g(), networkPlayerInfo, this);
+                              playerStatsEntry.E = skinTexturesPayload.g();
+                              playerStatsEntry.Q = string;
+                              PlayerListTracker.playerStats.add(playerStatsEntry);
                            }
-                        } catch (Exception var15) {
-                           var9.set(true);
-                           var15.printStackTrace();
+                        } catch (Exception exception) {
+                           atomicBoolean.set(true);
+                           exception.printStackTrace();
                         }
                      } else {
-                        var9.set(true);
+                        atomicBoolean.set(true);
                      }
                   }
 
-                  if (var9.get() || HypixelGameTracker.game == 4) {
-                     Denicker.nicks.put(var2, "???");
-                     V.put(var2, new PlayerStatsChecker.r95(var3, this));
+                  if (atomicBoolean.get() || HypixelGameTracker.game == 4) {
+                     Denicker.nicks.put(string, "???");
+                     V.put(string, new PlayerStatsChecker.r95(networkPlayerInfo, this));
                   }
                }
 
                this.l[0] = -1;
             } else {
-               System.out.println("Added " + var2 + " to stats checking");
+               System.out.println("Added " + string + " to stats checking");
                this.l[0] = 1;
-               PlayerListTracker.playerStats.add(new PlayerStatsEntry(var2, var3, this));
+               PlayerListTracker.playerStats.add(new PlayerStatsEntry(string, networkPlayerInfo, this));
             }
 
-            PlayerListTracker.checkedPlayers.add(var2);
+            PlayerListTracker.checkedPlayers.add(string);
          }
       });
    }
 
-   public void h(UUID var1, String var2, NetworkPlayerInfo var3) {
-      this.initialize(var1, var2, var3, false);
+   public void h(UUID uuid, String string, NetworkPlayerInfo networkPlayerInfo) {
+      this.initialize(uuid, string, networkPlayerInfo, false);
    }
 
    public double r() {
-      String var4 = this.N("networkExp");
-      if (var4.equals("Err")) {
+      String string = this.N("networkExp");
+      if (string.equals("Err")) {
          return -2.0;
       }
 
-      if (var4.equals("NA")) {
+      if (string.equals("NA")) {
          return -1.0;
       }
 
-      double var5 = Double.parseDouble(var4);
-      return Math.sqrt(2.0 * var5 + 30625.0) / 50.0 - 2.5;
+      double d = Double.parseDouble(string);
+      return Math.sqrt(2.0 * d + 30625.0) / 50.0 - 2.5;
    }
 
    public boolean M_boolean() {
-      String var4 = this.N("lastLogin");
-      String var5 = this.N("lastLogout");
-      if (var4.equals("Err") || var5.equals("Err")) {
+      String string = this.N("lastLogin");
+      String string2 = this.N("lastLogout");
+      if (string.equals("Err") || string2.equals("Err")) {
          return false;
-      } else if (!var4.equals("NA") && !var5.equals("NA")) {
-         long var6 = Long.parseLong(var4);
-         long var8 = Long.parseLong(var5);
-         return var6 >= 0L && var8 >= 0L ? var6 > var8 : false;
+      } else if (!string.equals("NA") && !string2.equals("NA")) {
+         long l = Long.parseLong(string);
+         long m = Long.parseLong(string2);
+         return l >= 0L && m >= 0L ? l > m : false;
       } else {
          return false;
       }
    }
 
    public String v() {
-      String var4 = this.N("knownAliases");
-      if (var4.equals("Err")) {
+      String string = this.N("knownAliases");
+      if (string.equals("Err")) {
          return "Err";
       } else {
-         return var4.equals("NA") ? "NA" : var4;
+         return string.equals("NA") ? "NA" : string;
       }
    }
 
    public String E_String() {
-      String var4 = this.N("guildKickReason");
-      if (var4.equals("Err")) {
+      String string = this.N("guildKickReason");
+      if (string.equals("Err")) {
          return "Err";
       } else {
-         return var4.equals("NA") ? "NA" : var4;
+         return string.equals("NA") ? "NA" : string;
       }
    }
 
    public String r_String() {
-      String var4 = this.N("mostRecentGameType");
-      if (var4.equals("Err")) {
+      String string = this.N("mostRecentGameType");
+      if (string.equals("Err")) {
          return "Err";
       } else {
-         return var4.equals("NA") ? "NA" : var4;
+         return string.equals("NA") ? "NA" : string;
       }
    }
 
    public String U_String() {
-      String var4 = this.N("userLanguage");
-      if (var4.equals("Err")) {
+      String string = this.N("userLanguage");
+      if (string.equals("Err")) {
          return "Err";
       } else {
-         return var4.equals("NA") ? "NA" : var4;
+         return string.equals("NA") ? "NA" : string;
       }
    }
 
    public String G_String() {
-      String var4 = this.N("lastLogin");
-      if (var4.equals("Err")) {
+      String string = this.N("lastLogin");
+      if (string.equals("Err")) {
          return "Err";
       }
 
-      if (var4.equals("NA")) {
+      if (string.equals("NA")) {
          return "NA";
       }
 
-      long var5 = Long.parseLong(var4);
-      long var7 = System.currentTimeMillis();
-      long var9 = var7 - var5;
-      long var11 = 86400000L;
-      long var13 = 3600000L;
-      long var15 = 60000L;
-      long var17 = 1000L;
+      long l = Long.parseLong(string);
+      long n = System.currentTimeMillis();
+      long l2 = n - l;
+      long l3 = 86400000L;
+      long l4 = 3600000L;
+      long l5 = 60000L;
+      long l6 = 1000L;
 
-      int var19;
-      for (var19 = 0; var9 - var11 >= 0L; var19++) {
-         var9 -= var11;
+      int i;
+      for (i = 0; l2 - l3 >= 0L; i++) {
+         l2 -= l3;
       }
 
-      int var20;
-      for (var20 = 0; var9 - var13 >= 0L; var20++) {
-         var9 -= var13;
+      int j;
+      for (j = 0; l2 - l4 >= 0L; j++) {
+         l2 -= l4;
       }
 
-      int var21;
-      for (var21 = 0; var9 - var15 >= 0L; var21++) {
-         var9 -= var15;
+      int k;
+      for (k = 0; l2 - l5 >= 0L; k++) {
+         l2 -= l5;
       }
 
-      int var22;
-      for (var22 = 0; var9 - var17 >= 0L; var22++) {
-         var9 -= var17;
+      int i2;
+      for (i2 = 0; l2 - l6 >= 0L; i2++) {
+         l2 -= l6;
       }
 
-      return var19 + "d, " + var20 + "h, " + var21 + "m, " + var22 + "s ago";
+      return i + "d, " + j + "h, " + k + "m, " + i2 + "s ago";
    }
 
    public int n() {
       return (int)this.W(this.D("stats", "Bedwars", "Experience"));
    }
 
-   private double W(double var1) {
-      int var6 = 100 * (int)(var1 / 487000.0);
-      var1 %= 487000.0;
-      if (var1 < 500.0) {
-         return var6 + var1 / 500.0;
+   private double W(double d) {
+      int i = 100 * (int)(d / 487000.0);
+      d %= 487000.0;
+      if (d < 500.0) {
+         return i + d / 500.0;
       }
 
-      var6++;
-      if (var1 < 1500.0) {
-         return var6 + (var1 - 500.0) / 1000.0;
+      i++;
+      if (d < 1500.0) {
+         return i + (d - 500.0) / 1000.0;
       }
 
-      var6++;
-      if (var1 < 3500.0) {
-         return var6 + (var1 - 1500.0) / 2000.0;
+      i++;
+      if (d < 3500.0) {
+         return i + (d - 1500.0) / 2000.0;
       }
 
-      var6++;
-      if (var1 < 7000.0) {
-         return var6 + (var1 - 3500.0) / 3500.0;
+      i++;
+      if (d < 7000.0) {
+         return i + (d - 3500.0) / 3500.0;
       }
 
-      var6++;
-      var1 -= 7000.0;
-      return var6 + var1 / 5000.0;
+      i++;
+      d -= 7000.0;
+      return i + d / 5000.0;
    }
 
    public int B() {
@@ -326,35 +326,35 @@ public class PlayerStatsChecker {
    }
 
    public int K_int() {
-      int var4 = this.D("stats", "UHC", "score");
-      if (var4 < 10) {
+      int i = this.D("stats", "UHC", "score");
+      if (i < 10) {
          return 1;
-      } else if (var4 < 60) {
+      } else if (i < 60) {
          return 2;
-      } else if (var4 < 210) {
+      } else if (i < 210) {
          return 3;
-      } else if (var4 < 460) {
+      } else if (i < 460) {
          return 4;
-      } else if (var4 < 960) {
+      } else if (i < 960) {
          return 5;
-      } else if (var4 < 1710) {
+      } else if (i < 1710) {
          return 6;
-      } else if (var4 < 2710) {
+      } else if (i < 2710) {
          return 7;
-      } else if (var4 < 5210) {
+      } else if (i < 5210) {
          return 8;
-      } else if (var4 < 10210) {
+      } else if (i < 10210) {
          return 9;
-      } else if (var4 < 13210) {
+      } else if (i < 13210) {
          return 10;
-      } else if (var4 < 16210) {
+      } else if (i < 16210) {
          return 11;
-      } else if (var4 < 19210) {
+      } else if (i < 19210) {
          return 12;
-      } else if (var4 < 22210) {
+      } else if (i < 22210) {
          return 13;
       } else {
-         return var4 < 25210 ? 14 : 15;
+         return i < 25210 ? 14 : 15;
       }
    }
 
@@ -535,58 +535,58 @@ public class PlayerStatsChecker {
          while (this.l[0] == 0) {
             Thread.sleep(100L);
          }
-      } catch (InterruptedException var5) {
+      } catch (InterruptedException interruptedException) {
          System.out.println("This only happens if you try to wait a negative time.");
       }
    }
 
-   private float K(int var1, int var2) {
-      float var6 = var1;
-      float var7 = var2;
-      if (var6 < 0.0F || var7 < 0.0F) {
-         return Math.min(var6, var7);
+   private float K(int i, int j) {
+      float f = i;
+      float g = j;
+      if (f < 0.0F || g < 0.0F) {
+         return Math.min(f, g);
       } else {
-         return var7 == 0.0F ? var6 : var6 / var7;
+         return g == 0.0F ? f : f / g;
       }
    }
 
-   private int I(int var1, int var2) {
-      return var1 >= 0 && var2 >= 0 ? var1 + var2 : Math.min(var1, var2);
+   private int I(int i, int j) {
+      return i >= 0 && j >= 0 ? i + j : Math.min(i, j);
    }
 
-   public int D(String... var1) {
+   public int D(String... strings) {
       this.S_void();
       if (this.l[0] != 1) {
          return this.l[0];
       }
 
       try {
-         JsonObject[] var5 = new JsonObject[var1.length];
-         var5[0] = this.v[0];
+         JsonObject[] jsonObjects = new JsonObject[strings.length];
+         jsonObjects[0] = this.v[0];
 
-         for (int var6 = 0; var6 < var5.length - 1; var6++) {
-            if (var5[var6] == null) {
+         for (int i = 0; i < jsonObjects.length - 1; i++) {
+            if (jsonObjects[i] == null) {
                return -1;
             }
 
-            var5[var6 + 1] = var5[var6].getAsJsonObject(var1[var6]);
+            jsonObjects[i + 1] = jsonObjects[i].getAsJsonObject(strings[i]);
          }
 
-         if (var5[var5.length - 1] == null) {
+         if (jsonObjects[jsonObjects.length - 1] == null) {
             return 0;
          }
 
-         JsonElement var8 = var5[var5.length - 1].get(var1[var1.length - 1]);
-         return var8 == null ? 0 : (int)Float.parseFloat(var8.toString());
-      } catch (NullPointerException var7) {
+         JsonElement jsonElement = jsonObjects[jsonObjects.length - 1].get(strings[strings.length - 1]);
+         return jsonElement == null ? 0 : (int)Float.parseFloat(jsonElement.toString());
+      } catch (NullPointerException nullPointerException) {
          return -2;
       }
    }
 
    public String x_String() {
-      String var4 = this.s_String();
-      String var5 = this.Z_String();
-      return var4.equals("") ? var5 : var4 + " " + var5;
+      String string = this.s_String();
+      String string2 = this.Z_String();
+      return string.equals("") ? string2 : string + " " + string2;
    }
 
    public String Z_String() {
@@ -594,59 +594,59 @@ public class PlayerStatsChecker {
    }
 
    public String s_String() {
-      String var4 = this.N("prefix");
-      if (!var4.equals("Err") && !var4.equals("NA")) {
-         return var4;
+      String string = this.N("prefix");
+      if (!string.equals("Err") && !string.equals("NA")) {
+         return string;
       }
 
-      String var5 = this.N("rank");
-      if (!var5.equals("Err") && !var5.equals("NA")) {
-         return var5;
+      String string2 = this.N("rank");
+      if (!string2.equals("Err") && !string2.equals("NA")) {
+         return string2;
       }
 
-      String var6 = this.N("monthlyPackageRank");
-      if (!var6.equals("Err") && !var6.equals("NA") && !var6.contains("NONE")) {
+      String string3 = this.N("monthlyPackageRank");
+      if (!string3.equals("Err") && !string3.equals("NA") && !string3.contains("NONE")) {
          return "MVP++";
       }
 
-      String var7 = this.N("newPackageRank");
-      if (!var7.equals("Err") && !var7.equals("NA") && !var7.equals("NONE")) {
-         return var7.replaceAll("_PLUS", "+");
+      String string4 = this.N("newPackageRank");
+      if (!string4.equals("Err") && !string4.equals("NA") && !string4.equals("NONE")) {
+         return string4.replaceAll("_PLUS", "+");
       }
 
-      String var8 = this.N("packageRank");
-      return !var8.equals("Err") && !var8.equals("NA") && !var8.equals("NONE") ? var8.replaceAll("_PLUS", "+") : "";
+      String string5 = this.N("packageRank");
+      return !string5.equals("Err") && !string5.equals("NA") && !string5.equals("NONE") ? string5.replaceAll("_PLUS", "+") : "";
    }
 
-   public float R(String... var1) {
+   public float R(String... strings) {
       if (this.l[0] != 1) {
          return this.l[0];
       }
 
       try {
-         JsonObject[] var5 = new JsonObject[var1.length];
-         var5[0] = this.v[0];
+         JsonObject[] jsonObjects = new JsonObject[strings.length];
+         jsonObjects[0] = this.v[0];
 
-         for (int var6 = 0; var6 < var5.length - 1; var6++) {
-            if (var5[var6] == null) {
+         for (int i = 0; i < jsonObjects.length - 1; i++) {
+            if (jsonObjects[i] == null) {
                return -1.0F;
             }
 
-            var5[var6 + 1] = var5[var6].getAsJsonObject(var1[var6]);
+            jsonObjects[i + 1] = jsonObjects[i].getAsJsonObject(strings[i]);
          }
 
-         if (var5[var5.length - 1] == null) {
+         if (jsonObjects[jsonObjects.length - 1] == null) {
             return 0.0F;
          }
 
-         JsonElement var8 = var5[var5.length - 1].get(var1[var1.length - 1]);
-         return var8 == null ? 0.0F : Float.parseFloat(var8.toString());
-      } catch (NullPointerException var7) {
+         JsonElement jsonElement = jsonObjects[jsonObjects.length - 1].get(strings[strings.length - 1]);
+         return jsonElement == null ? 0.0F : Float.parseFloat(jsonElement.toString());
+      } catch (NullPointerException nullPointerException) {
          return -2.0F;
       }
    }
 
-   public String N(String... var1) {
+   public String N(String... strings) {
       this.S_void();
       if (this.l[0] == -2) {
          return "Err";
@@ -657,24 +657,24 @@ public class PlayerStatsChecker {
       }
 
       try {
-         JsonObject[] var5 = new JsonObject[var1.length];
-         var5[0] = this.v[0];
+         JsonObject[] jsonObjects = new JsonObject[strings.length];
+         jsonObjects[0] = this.v[0];
 
-         for (int var6 = 0; var6 < var5.length - 1; var6++) {
-            if (var5[var6] == null) {
+         for (int i = 0; i < jsonObjects.length - 1; i++) {
+            if (jsonObjects[i] == null) {
                return "NA";
             }
 
-            var5[var6 + 1] = var5[var6].getAsJsonObject(var1[var6]);
+            jsonObjects[i + 1] = jsonObjects[i].getAsJsonObject(strings[i]);
          }
 
-         if (var5[var5.length - 1] == null) {
+         if (jsonObjects[jsonObjects.length - 1] == null) {
             return "NA";
          }
 
-         JsonElement var8 = var5[var5.length - 1].get(var1[var1.length - 1]);
-         return var8 == null ? "NA" : var8.toString();
-      } catch (NullPointerException var7) {
+         JsonElement jsonElement = jsonObjects[jsonObjects.length - 1].get(strings[strings.length - 1]);
+         return jsonElement == null ? "NA" : jsonElement.toString();
+      } catch (NullPointerException nullPointerException) {
          return "Err";
       }
    }
@@ -683,9 +683,9 @@ public class PlayerStatsChecker {
       public NetworkPlayerInfo F;
       public PlayerStatsChecker w;
 
-      public r95(NetworkPlayerInfo var2, PlayerStatsChecker var3) {
-         this.F = var2;
-         this.w = var3;
+      public r95(NetworkPlayerInfo networkPlayerInfo, PlayerStatsChecker playerStatsChecker2) {
+         this.F = networkPlayerInfo;
+         this.w = playerStatsChecker2;
       }
    }
 }

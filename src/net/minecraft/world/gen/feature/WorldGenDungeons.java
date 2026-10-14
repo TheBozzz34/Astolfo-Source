@@ -39,81 +39,82 @@ public class WorldGenDungeons extends WorldGenerator {
    private static final long a = 133072748709056L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      int var8 = var2.nextInt(2) + 2;
-      int var9 = -var8 - 1;
-      int var10 = var8 + 1;
-      int var13 = var2.nextInt(2) + 2;
-      int var14 = -var13 - 1;
-      int var15 = var13 + 1;
-      int var16 = 0;
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      int i = rand.nextInt(2) + 2;
+      int j = -i - 1;
+      int k = i + 1;
+      int l = rand.nextInt(2) + 2;
+      int m = -l - 1;
+      int n = l + 1;
+      int i2 = 0;
 
-      for (int var17 = var9; var17 <= var10; var17++) {
-         for (int var18 = -1; var18 <= 4; var18++) {
-            for (int var19 = var14; var19 <= var15; var19++) {
-               BlockPos var20 = var3.add(var17, var18, var19);
-               Material var21 = var1.getBlockState(var20).getBlock().getMaterial();
-               boolean var22 = var21.isSolid();
-               if (var18 == -1 && !var22) {
+      for (int i3 = j; i3 <= k; i3++) {
+         for (int i4 = -1; i4 <= 4; i4++) {
+            for (int i5 = m; i5 <= n; i5++) {
+               BlockPos blockPos = position.add(i3, i4, i5);
+               Material material = worldIn.getBlockState(blockPos).getBlock().getMaterial();
+               boolean bl = material.isSolid();
+               if (i4 == -1 && !bl) {
                   return false;
                }
 
-               if (var18 == 4 && !var22) {
+               if (i4 == 4 && !bl) {
                   return false;
                }
 
-               if ((var17 == var9 || var17 == var10 || var19 == var14 || var19 == var15) && var18 == 0 && var1.isAirBlock(var20) && var1.isAirBlock(var20.up())
-                  )
-                {
-                  var16++;
+               if ((i3 == j || i3 == k || i5 == m || i5 == n)
+                  && i4 == 0
+                  && worldIn.isAirBlock(blockPos)
+                  && worldIn.isAirBlock(blockPos.up())) {
+                  i2++;
                }
             }
          }
       }
 
-      if (var16 >= 1 && var16 <= 5) {
-         for (int var26 = var9; var26 <= var10; var26++) {
-            for (int var29 = 3; var29 >= -1; var29--) {
-               for (int var31 = var14; var31 <= var15; var31++) {
-                  BlockPos var33 = var3.add(var26, var29, var31);
-                  if (var26 != var9 && var29 != -1 && var31 != var14 && var26 != var10 && var29 != 4 && var31 != var15) {
-                     if (var1.getBlockState(var33).getBlock() != Blocks.chest) {
-                        var1.setBlockToAir(var33);
+      if (i2 >= 1 && i2 <= 5) {
+         for (int i6 = j; i6 <= k; i6++) {
+            for (int i7 = 3; i7 >= -1; i7--) {
+               for (int i8 = m; i8 <= n; i8++) {
+                  BlockPos blockPos2 = position.add(i6, i7, i8);
+                  if (i6 != j && i7 != -1 && i8 != m && i6 != k && i7 != 4 && i8 != n) {
+                     if (worldIn.getBlockState(blockPos2).getBlock() != Blocks.chest) {
+                        worldIn.setBlockToAir(blockPos2);
                      }
-                  } else if (var33.getY() >= 0 && !var1.getBlockState(var33.down()).getBlock().getMaterial().isSolid()) {
-                     var1.setBlockToAir(var33);
-                  } else if (var1.getBlockState(var33).getBlock().getMaterial().isSolid() && var1.getBlockState(var33).getBlock() != Blocks.chest) {
-                     if (var29 == -1 && var2.nextInt(4) != 0) {
-                        var1.setBlockState(var33, Blocks.mossy_cobblestone.getDefaultState(), 2);
+                  } else if (blockPos2.getY() >= 0 && !worldIn.getBlockState(blockPos2.down()).getBlock().getMaterial().isSolid()) {
+                     worldIn.setBlockToAir(blockPos2);
+                  } else if (worldIn.getBlockState(blockPos2).getBlock().getMaterial().isSolid() && worldIn.getBlockState(blockPos2).getBlock() != Blocks.chest) {
+                     if (i7 == -1 && rand.nextInt(4) != 0) {
+                        worldIn.setBlockState(blockPos2, Blocks.mossy_cobblestone.getDefaultState(), 2);
                      } else {
-                        var1.setBlockState(var33, Blocks.cobblestone.getDefaultState(), 2);
+                        worldIn.setBlockState(blockPos2, Blocks.cobblestone.getDefaultState(), 2);
                      }
                   }
                }
             }
          }
 
-         for (int var27 = 0; var27 < 2; var27++) {
-            for (int var30 = 0; var30 < 3; var30++) {
-               int var32 = var3.getX() + var2.nextInt(var8 * 2 + 1) - var8;
-               int var34 = var3.getY();
-               int var35 = var3.getZ() + var2.nextInt(var13 * 2 + 1) - var13;
-               BlockPos var36 = new BlockPos(var32, var34, var35);
-               if (var1.isAirBlock(var36)) {
-                  int var23 = 0;
+         for (int i9 = 0; i9 < 2; i9++) {
+            for (int i10 = 0; i10 < 3; i10++) {
+               int i11 = position.getX() + rand.nextInt(i * 2 + 1) - i;
+               int i12 = position.getY();
+               int i13 = position.getZ() + rand.nextInt(l * 2 + 1) - l;
+               BlockPos blockPos3 = new BlockPos(i11, i12, i13);
+               if (worldIn.isAirBlock(blockPos3)) {
+                  int i14 = 0;
 
-                  for (Object var25 : EnumFacing.Plane.HORIZONTAL) {
-                     if (var1.getBlockState(var36.offset((EnumFacing)var25)).getBlock().getMaterial().isSolid()) {
-                        var23++;
+                  for (Object object : EnumFacing.Plane.HORIZONTAL) {
+                     if (worldIn.getBlockState(blockPos3.offset((EnumFacing)object)).getBlock().getMaterial().isSolid()) {
+                        i14++;
                      }
                   }
 
-                  if (var23 == 1) {
-                     var1.setBlockState(var36, Blocks.chest.correctFacing(var1, var36, Blocks.chest.getDefaultState()), 2);
-                     List var37 = WeightedRandomChestContent.func_177629_a(CHESTCONTENT, Items.enchanted_book.getRandom(var2));
-                     TileEntity var38 = var1.getTileEntity(var36);
-                     if (var38 instanceof TileEntityChest) {
-                        WeightedRandomChestContent.generateChestContents(var2, var37, (TileEntityChest)var38, 8);
+                  if (i14 == 1) {
+                     worldIn.setBlockState(blockPos3, Blocks.chest.correctFacing(worldIn, blockPos3, Blocks.chest.getDefaultState()), 2);
+                     List list = WeightedRandomChestContent.func_177629_a(CHESTCONTENT, Items.enchanted_book.getRandom(rand));
+                     TileEntity tileEntity = worldIn.getTileEntity(blockPos3);
+                     if (tileEntity instanceof TileEntityChest) {
+                        WeightedRandomChestContent.generateChestContents(rand, list, (TileEntityChest)tileEntity, 8);
                      }
                      break;
                   }
@@ -121,12 +122,12 @@ public class WorldGenDungeons extends WorldGenerator {
             }
          }
 
-         var1.setBlockState(var3, Blocks.mob_spawner.getDefaultState(), 2);
-         TileEntity var28 = var1.getTileEntity(var3);
-         if (var28 instanceof TileEntityMobSpawner) {
-            ((TileEntityMobSpawner)var28).getSpawnerBaseLogic().setEntityName(this.pickMobSpawner(var2));
+         worldIn.setBlockState(position, Blocks.mob_spawner.getDefaultState(), 2);
+         TileEntity tileEntity2 = worldIn.getTileEntity(position);
+         if (tileEntity2 instanceof TileEntityMobSpawner) {
+            ((TileEntityMobSpawner)tileEntity2).getSpawnerBaseLogic().setEntityName(this.pickMobSpawner(rand));
          } else {
-            field_175918_a.error("Failed to fetch mob spawner entity at (" + var3.getX() + ", " + var3.getY() + ", " + var3.getZ() + ")");
+            field_175918_a.error("Failed to fetch mob spawner entity at (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")");
          }
 
          return true;
@@ -135,12 +136,12 @@ public class WorldGenDungeons extends WorldGenerator {
       }
    }
 
-   private String pickMobSpawner(Random var1) {
-      return SPAWNERTYPES[var1.nextInt(SPAWNERTYPES.length)];
+   private String pickMobSpawner(Random random2) {
+      return SPAWNERTYPES[random2.nextInt(SPAWNERTYPES.length)];
    }
 
    static {
-      long var20 = a ^ 54601469313003L;
-      long var10000 = 872157486398752095L ^ var20;
+      long l = a ^ 54601469313003L;
+      long m = 872157486398752095L ^ l;
    }
 }

@@ -8,9 +8,9 @@ public final class Scale extends OneArgFunction {
    private static final long a = 85170327832780L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (var1.isnumber()) {
-         GL11.glScalef(var1.tofloat(), var1.tofloat(), var1.tofloat());
+   public LuaValue call(LuaValue luaValue) {
+      if (luaValue.isnumber()) {
+         GL11.glScalef(luaValue.tofloat(), luaValue.tofloat(), luaValue.tofloat());
          return valueOf(true);
       } else {
          return valueOf(0);

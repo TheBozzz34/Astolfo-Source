@@ -14,39 +14,39 @@ public final class Inventory extends VarArgFunction {
    private static final long a = 74251697092318L;
 
    @Override
-   public Varargs invoke(Varargs var1) {
-      if (var1.arg1() != null && !var1.arg1().isnil() && var1.arg1().isnumber()) {
-         Entity var5 = WorldLibrary.X.get(var1.arg1().checkint());
-         if (var5 != null && var5 instanceof EntityLivingBase) {
-            EntityLivingBase var6 = (EntityLivingBase)var5;
-            LuaTable var7 = new LuaTable();
-            ItemStack var8 = var6.getHeldItem();
-            var7.set("hand", var8 == null ? "none" : var8.getUnlocalizedName());
-            ItemStack[] var9 = var6.getInventory();
-            if (var9 != null) {
-               int var10 = 0;
+   public Varargs invoke(Varargs varargs) {
+      if (varargs.arg1() != null && !varargs.arg1().isnil() && varargs.arg1().isnumber()) {
+         Entity entity = WorldLibrary.X.get(varargs.arg1().checkint());
+         if (entity != null && entity instanceof EntityLivingBase) {
+            EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+            LuaTable luaTable = new LuaTable();
+            ItemStack itemStack = entityLivingBase.getHeldItem();
+            luaTable.set("hand", itemStack == null ? "none" : itemStack.getUnlocalizedName());
+            ItemStack[] itemStacks = entityLivingBase.getInventory();
+            if (itemStacks != null) {
+               int i = 0;
 
-               for (int var11 = var9.length; var10 < var11; var10++) {
-                  ItemStack var12 = var9[var10];
-                  if (var12 != null) {
-                     int var13 = EntityLiving.getArmorPosition(var12);
-                     switch (var13) {
+               for (int j = itemStacks.length; i < j; i++) {
+                  ItemStack itemStack2 = itemStacks[i];
+                  if (itemStack2 != null) {
+                     int k = EntityLiving.getArmorPosition(itemStack2);
+                     switch (k) {
                         case 1:
-                           var7.set("boots", var12.getUnlocalizedName());
+                           luaTable.set("boots", itemStack2.getUnlocalizedName());
                            break;
                         case 2:
-                           var7.set("leggings", var12.getUnlocalizedName());
+                           luaTable.set("leggings", itemStack2.getUnlocalizedName());
                            break;
                         case 3:
-                           var7.set("chestplate", var12.getUnlocalizedName());
+                           luaTable.set("chestplate", itemStack2.getUnlocalizedName());
                            break;
                         case 4:
-                           var7.set("helmet", var12.getUnlocalizedName());
+                           luaTable.set("helmet", itemStack2.getUnlocalizedName());
                      }
                   }
                }
 
-               return LuaValue.varargsOf(new LuaValue[]{var7});
+               return LuaValue.varargsOf(new LuaValue[]{luaTable});
             }
          }
       }

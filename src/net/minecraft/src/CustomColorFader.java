@@ -7,32 +7,32 @@ public class CustomColorFader {
    private long timeUpdate = System.currentTimeMillis();
    private static final long a = 11617812161920L;
 
-   public Vec3 getColor(double var1, double var3, double var5) {
+   public Vec3 getColor(double x, double y, double z) {
       if (this.color == null) {
-         this.color = new Vec3(var1, var3, var5);
+         this.color = new Vec3(x, y, z);
          return this.color;
       }
 
-      long var10 = System.currentTimeMillis();
-      long var12 = var10 - this.timeUpdate;
-      if (var12 == 0L) {
+      long l = System.currentTimeMillis();
+      long m = l - this.timeUpdate;
+      if (m == 0L) {
          return this.color;
       }
 
-      this.timeUpdate = var10;
-      if (Math.abs(var1 - this.color.xCoord) < 0.004 && Math.abs(var3 - this.color.yCoord) < 0.004 && Math.abs(var5 - this.color.zCoord) < 0.004) {
+      this.timeUpdate = l;
+      if (Math.abs(x - this.color.xCoord) < 0.004 && Math.abs(y - this.color.yCoord) < 0.004 && Math.abs(z - this.color.zCoord) < 0.004) {
          return this.color;
       }
 
-      double var14 = var12 * 0.001;
-      var14 = Config.limit(var14, 0.0, 1.0);
-      double var16 = var1 - this.color.xCoord;
-      double var18 = var3 - this.color.yCoord;
-      double var20 = var5 - this.color.zCoord;
-      double var22 = this.color.xCoord + var16 * var14;
-      double var24 = this.color.yCoord + var18 * var14;
-      double var26 = this.color.zCoord + var20 * var14;
-      this.color = new Vec3(var22, var24, var26);
+      double d = m * 0.001;
+      d = Config.limit(d, 0.0, 1.0);
+      double e = x - this.color.xCoord;
+      double d2 = y - this.color.yCoord;
+      double d3 = z - this.color.zCoord;
+      double d4 = this.color.xCoord + e * d;
+      double d5 = this.color.yCoord + d2 * d;
+      double d6 = this.color.zCoord + d3 * d;
+      this.color = new Vec3(d4, d5, d6);
       return this.color;
    }
 }

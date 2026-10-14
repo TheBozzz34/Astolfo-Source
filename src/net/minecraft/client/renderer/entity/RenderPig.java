@@ -8,12 +8,12 @@ import net.minecraft.util.ResourceLocation;
 public class RenderPig extends RenderLiving<EntityPig> {
    private static final ResourceLocation pigTextures = new ResourceLocation("textures/entity/pig/pig.png");
 
-   public RenderPig(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderPig(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
       this.addLayer(new LayerSaddle(this));
    }
 
-   public ResourceLocation getEntityTexture(EntityPig var1) {
+   public ResourceLocation getEntityTexture(EntityPig entity) {
       return pigTextures;
    }
 }

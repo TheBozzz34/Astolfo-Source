@@ -8,10 +8,10 @@ public class CustomTexture {
    private ITextureObject texture = null;
    private static final long a = 103216565112644L;
 
-   public CustomTexture(int var1, String var2, ITextureObject var3) {
-      this.textureUnit = var1;
-      this.path = var2;
-      this.texture = var3;
+   public CustomTexture(int textureUnit, String path, ITextureObject texture) {
+      this.textureUnit = textureUnit;
+      this.path = path;
+      this.texture = texture;
    }
 
    public int getTextureUnit() {

@@ -38,9 +38,9 @@ public final class FreeBsdVirtualMemory extends AbstractVirtualMemory {
    }
 
    private static long querySwapUsed() {
-      String var3 = ExecutingCommand.getAnswerAt("swapinfo -k", 1);
-      String[] var4 = ParseUtil.Q.split(var3);
-      return var4.length < 5 ? 0L : ParseUtil.parseLongOrDefault(var4[2], 0L) << (int)g;
+      String string = ExecutingCommand.getAnswerAt("swapinfo -k", 1);
+      String[] strings = ParseUtil.Q.split(string);
+      return strings.length < 5 ? 0L : ParseUtil.parseLongOrDefault(strings[2], 0L) << (int)g;
    }
 
    private static long querySwapTotal() {

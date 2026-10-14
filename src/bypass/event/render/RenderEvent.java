@@ -13,19 +13,19 @@ public class RenderEvent implements Event {
    private double viewZ;
    private GuiIngame guiIngame;
 
-   public RenderEvent(RenderType var1, float var2, ScaledResolution var3, GuiIngame var4) {
-      this.type = var1;
-      this.partialTicks = var2;
-      this.resolution = var3;
-      this.guiIngame = var4;
+   public RenderEvent(RenderType renderType, float f, ScaledResolution scaledResolution, GuiIngame guiIngame) {
+      this.type = renderType;
+      this.partialTicks = f;
+      this.resolution = scaledResolution;
+      this.guiIngame = guiIngame;
    }
 
-   public RenderEvent(RenderType var1, float var2, double var3, double var5, double var7) {
-      this.type = var1;
-      this.partialTicks = var2;
-      this.viewX = var3;
-      this.viewY = var5;
-      this.viewZ = var7;
+   public RenderEvent(RenderType renderType, float f, double d, double d2, double d3) {
+      this.type = renderType;
+      this.partialTicks = f;
+      this.viewX = d;
+      this.viewY = d2;
+      this.viewZ = d3;
    }
 
    public double getViewX() {

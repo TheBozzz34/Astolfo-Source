@@ -19,52 +19,52 @@ public class CommandXP extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.xp.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length <= 0) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length <= 0) {
          throw new WrongUsageException("commands.xp.usage");
       }
 
-      String var6 = var2[0];
-      boolean var7 = var6.endsWith("l") || var6.endsWith("L");
-      if (var7 && var6.length() > 1) {
-         var6 = var6.substring(0, var6.length() - 1);
+      String string = args[0];
+      boolean bl = string.endsWith("l") || string.endsWith("L");
+      if (bl && string.length() > 1) {
+         string = string.substring(0, string.length() - 1);
       }
 
-      int var8 = parseInt(var6);
-      boolean var9 = var8 < 0;
-      if (var9) {
-         var8 *= -1;
+      int i = parseInt(string);
+      boolean bl2 = i < 0;
+      if (bl2) {
+         i *= -1;
       }
 
-      EntityPlayerMP var10 = var2.length > 1 ? getPlayer(var1, var2[1]) : getCommandSenderAsPlayer(var1);
-      if (var7) {
-         var1.setCommandStat(CommandResultStats.Type.QUERY_RESULT, var10.experienceLevel);
-         if (var9) {
-            var10.addExperienceLevel(-var8);
-            notifyOperators(var1, this, "commands.xp.success.negative.levels", var8, var10.getName());
+      EntityPlayerMP entityPlayerMP = args.length > 1 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
+      if (bl) {
+         sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, entityPlayerMP.experienceLevel);
+         if (bl2) {
+            entityPlayerMP.addExperienceLevel(-i);
+            notifyOperators(sender, this, "commands.xp.success.negative.levels", i, entityPlayerMP.getName());
          } else {
-            var10.addExperienceLevel(var8);
-            notifyOperators(var1, this, "commands.xp.success.levels", var8, var10.getName());
+            entityPlayerMP.addExperienceLevel(i);
+            notifyOperators(sender, this, "commands.xp.success.levels", i, entityPlayerMP.getName());
          }
       } else {
-         var1.setCommandStat(CommandResultStats.Type.QUERY_RESULT, var10.experienceTotal);
-         if (var9) {
+         sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, entityPlayerMP.experienceTotal);
+         if (bl2) {
             throw new CommandException("commands.xp.failure.widthdrawXp");
          }
 
-         var10.addExperience(var8);
-         notifyOperators(var1, this, "commands.xp.success", var8, var10.getName());
+         entityPlayerMP.addExperience(i);
+         notifyOperators(sender, this, "commands.xp.success", i, entityPlayerMP.getName());
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 2 ? getListOfStringsMatchingLastWord(var2, this.getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames()) : null;
    }
 
    public String[] getAllUsernames() {
@@ -72,7 +72,7 @@ public class CommandXP extends CommandBase {
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 1;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 1;
    }
 }

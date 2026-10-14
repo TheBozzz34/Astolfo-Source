@@ -16,7 +16,7 @@ public class VRViaConfig implements ViaVersionConfig {
    }
 
    @Override
-   public void setCheckForUpdates(boolean var1) {
+   public void setCheckForUpdates(boolean bl) {
    }
 
    @Override
@@ -306,7 +306,7 @@ public class VRViaConfig implements ViaVersionConfig {
 
    public class lah implements BlockedProtocolVersions {
       @Override
-      public boolean contains(int var1) {
+      public boolean contains(int i) {
          return false;
       }
 

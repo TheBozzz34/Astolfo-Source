@@ -126,8 +126,8 @@ public abstract class EntityLivingBase extends Entity {
       this.attackEntityFrom(DamageSource.outOfWorld, Float.MAX_VALUE);
    }
 
-   public EntityLivingBase(World var1) {
-      super(var1);
+   public EntityLivingBase(World worldIn) {
+      super(worldIn);
       this.applyEntityAttributes();
       this.setHealth(this.getMaxHealth());
       this.preventEntitySpawning = true;
@@ -154,28 +154,28 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public void updateFallState(double var1, boolean var3, Block var4, BlockPos var5) {
+   public void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {
       if (!this.isInWater()) {
          this.handleWaterMovement();
       }
 
-      if (!this.worldObj.isRemote && this.fallDistance > 3.0F && var3) {
-         IBlockState var9 = this.worldObj.getBlockState(var5);
-         Block var10 = var9.getBlock();
-         float var11 = MathHelper.ceiling_float_int(this.fallDistance - 3.0F);
-         if (var10.getMaterial() != Material.air) {
-            double var12 = Math.min(0.2F + var11 / 15.0F, 10.0F);
-            if (var12 > 2.5) {
-               var12 = 2.5;
+      if (!this.worldObj.isRemote && this.fallDistance > 3.0F && onGroundIn) {
+         IBlockState iBlockState = this.worldObj.getBlockState(pos);
+         Block block = iBlockState.getBlock();
+         float f = MathHelper.ceiling_float_int(this.fallDistance - 3.0F);
+         if (block.getMaterial() != Material.air) {
+            double d = Math.min(0.2F + f / 15.0F, 10.0F);
+            if (d > 2.5) {
+               d = 2.5;
             }
 
-            int var14 = (int)(150.0 * var12);
+            int i = (int)(150.0 * d);
             ((WorldServer)this.worldObj)
-               .spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY, this.posZ, var14, 0.0, 0.0, 0.0, 0.15F, Block.getStateId(var9));
+               .spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY, this.posZ, i, 0.0, 0.0, 0.0, 0.15F, Block.getStateId(iBlockState));
          }
       }
 
-      super.updateFallState(var1, var3, var4, var5);
+      super.updateFallState(y, onGroundIn, blockIn, pos);
    }
 
    public boolean canBreatheUnderwater() {
@@ -187,14 +187,14 @@ public abstract class EntityLivingBase extends Entity {
       this.prevSwingProgress = this.swingProgress;
       super.onEntityUpdate();
       this.worldObj.theProfiler.startSection("livingEntityBaseTick");
-      boolean var4 = this instanceof EntityPlayer;
+      boolean bl = this instanceof EntityPlayer;
       if (this.isEntityAlive()) {
          if (this.isEntityInsideOpaqueBlock()) {
             this.attackEntityFrom(DamageSource.inWall, 1.0F);
-         } else if (var4 && !this.worldObj.getWorldBorder().contains(this.getEntityBoundingBox())) {
-            double var5 = this.worldObj.getWorldBorder().getClosestDistance(this) + this.worldObj.getWorldBorder().getDamageBuffer();
-            if (var5 < 0.0) {
-               this.attackEntityFrom(DamageSource.inWall, Math.max(1, MathHelper.floor_double(-var5 * this.worldObj.getWorldBorder().getDamageAmount())));
+         } else if (bl && !this.worldObj.getWorldBorder().contains(this.getEntityBoundingBox())) {
+            double d = this.worldObj.getWorldBorder().getClosestDistance(this) + this.worldObj.getWorldBorder().getDamageBuffer();
+            if (d < 0.0) {
+               this.attackEntityFrom(DamageSource.inWall, Math.max(1, MathHelper.floor_double(-d * this.worldObj.getWorldBorder().getDamageAmount())));
             }
          }
       }
@@ -203,21 +203,21 @@ public abstract class EntityLivingBase extends Entity {
          this.extinguish();
       }
 
-      boolean var10 = var4 && ((EntityPlayer)this).capabilities.disableDamage;
+      boolean bl2 = bl && ((EntityPlayer)this).capabilities.disableDamage;
       if (this.isEntityAlive()) {
          if (this.isInsideOfMaterial(Material.water)) {
-            if (!this.canBreatheUnderwater() && !this.isPotionActive(Potion.waterBreathing.id) && !var10) {
+            if (!this.canBreatheUnderwater() && !this.isPotionActive(Potion.waterBreathing.id) && !bl2) {
                this.setAir(this.decreaseAirSupply(this.getAir()));
                if (this.getAir() == -20) {
                   this.setAir(0);
 
-                  for (int var6 = 0; var6 < 8; var6++) {
-                     float var7 = this.rand.nextFloat() - this.rand.nextFloat();
-                     float var8 = this.rand.nextFloat() - this.rand.nextFloat();
-                     float var9 = this.rand.nextFloat() - this.rand.nextFloat();
+                  for (int i = 0; i < 8; i++) {
+                     float f = this.rand.nextFloat() - this.rand.nextFloat();
+                     float g = this.rand.nextFloat() - this.rand.nextFloat();
+                     float h = this.rand.nextFloat() - this.rand.nextFloat();
                      this.worldObj
                         .spawnParticle(
-                           EnumParticleTypes.WATER_BUBBLE, this.posX + var7, this.posY + var8, this.posZ + var9, this.motionX, this.motionY, this.motionZ
+                           EnumParticleTypes.WATER_BUBBLE, this.posX + f, this.posY + g, this.posZ + h, this.motionX, this.motionY, this.motionZ
                         );
                   }
 
@@ -287,30 +287,30 @@ public abstract class EntityLivingBase extends Entity {
          if (!this.worldObj.isRemote && (this.recentlyHit > 0 || this.isPlayer()) && this.canDropLoot() && this.worldObj.getGameRules().getBoolean("doMobLoot")
             )
           {
-            int var4 = this.getExperiencePoints(this.attackingPlayer);
+            int i = this.getExperiencePoints(this.attackingPlayer);
 
-            while (var4 > 0) {
-               int var5 = EntityXPOrb.getXPSplit(var4);
-               var4 -= var5;
-               this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, var5));
+            while (i > 0) {
+               int j = EntityXPOrb.getXPSplit(i);
+               i -= j;
+               this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, j));
             }
          }
 
          this.setDead();
 
-         for (int var11 = 0; var11 < 20; var11++) {
-            double var12 = this.rand.nextGaussian() * 0.02;
-            double var7 = this.rand.nextGaussian() * 0.02;
-            double var9 = this.rand.nextGaussian() * 0.02;
+         for (int k = 0; k < 20; k++) {
+            double d = this.rand.nextGaussian() * 0.02;
+            double e = this.rand.nextGaussian() * 0.02;
+            double d2 = this.rand.nextGaussian() * 0.02;
             this.worldObj
                .spawnParticle(
                   EnumParticleTypes.EXPLOSION_NORMAL,
                   this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
                   this.posY + this.rand.nextFloat() * this.height,
                   this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width,
-                  var12,
-                  var7,
-                  var9
+                  d,
+                  e,
+                  d2
                );
          }
       }
@@ -320,12 +320,12 @@ public abstract class EntityLivingBase extends Entity {
       return !this.isChild();
    }
 
-   public int decreaseAirSupply(int var1) {
-      int var5 = EnchantmentHelper.getRespiration(this);
-      return var5 > 0 && this.rand.nextInt(var5 + 1) > 0 ? var1 : var1 - 1;
+   public int decreaseAirSupply(int i) {
+      int j = EnchantmentHelper.getRespiration(this);
+      return j > 0 && this.rand.nextInt(j + 1) > 0 ? i : i - 1;
    }
 
-   public int getExperiencePoints(EntityPlayer var1) {
+   public int getExperiencePoints(EntityPlayer player) {
       return 0;
    }
 
@@ -345,8 +345,8 @@ public abstract class EntityLivingBase extends Entity {
       return this.revengeTimer;
    }
 
-   public void setRevengeTarget(EntityLivingBase var1) {
-      this.entityLivingToAttack = var1;
+   public void setRevengeTarget(EntityLivingBase livingBase) {
+      this.entityLivingToAttack = livingBase;
       this.revengeTimer = this.ticksExisted;
    }
 
@@ -358,9 +358,9 @@ public abstract class EntityLivingBase extends Entity {
       return this.lastAttackerTime;
    }
 
-   public void setLastAttacker(Entity var1) {
-      if (var1 instanceof EntityLivingBase) {
-         this.lastAttacker = (EntityLivingBase)var1;
+   public void setLastAttacker(Entity entityIn) {
+      if (entityIn instanceof EntityLivingBase) {
+         this.lastAttacker = (EntityLivingBase)entityIn;
       } else {
          this.lastAttacker = null;
       }
@@ -373,89 +373,89 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      var1.setFloat("HealF", this.getHealth());
-      var1.setShort("Health", (short)Math.ceil(this.getHealth()));
-      var1.setShort("HurtTime", (short)this.hurtTime);
-      var1.setInteger("HurtByTimestamp", this.revengeTimer);
-      var1.setShort("DeathTime", (short)this.deathTime);
-      var1.setFloat("AbsorptionAmount", this.getAbsorptionAmount());
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      tagCompound.setFloat("HealF", this.getHealth());
+      tagCompound.setShort("Health", (short)Math.ceil(this.getHealth()));
+      tagCompound.setShort("HurtTime", (short)this.hurtTime);
+      tagCompound.setInteger("HurtByTimestamp", this.revengeTimer);
+      tagCompound.setShort("DeathTime", (short)this.deathTime);
+      tagCompound.setFloat("AbsorptionAmount", this.getAbsorptionAmount());
 
-      for (ItemStack var8 : this.getInventory()) {
-         if (var8 != null) {
-            this.attributeMap.removeAttributeModifiers(var8.getAttributeModifiers());
+      for (ItemStack itemStack : this.getInventory()) {
+         if (itemStack != null) {
+            this.attributeMap.removeAttributeModifiers(itemStack.getAttributeModifiers());
          }
       }
 
-      var1.setTag("Attributes", SharedMonsterAttributes.writeBaseAttributeMapToNBT(this.getAttributeMap()));
+      tagCompound.setTag("Attributes", SharedMonsterAttributes.writeBaseAttributeMapToNBT(this.getAttributeMap()));
 
-      for (ItemStack var15 : this.getInventory()) {
-         if (var15 != null) {
-            this.attributeMap.applyAttributeModifiers(var15.getAttributeModifiers());
+      for (ItemStack itemStack2 : this.getInventory()) {
+         if (itemStack2 != null) {
+            this.attributeMap.applyAttributeModifiers(itemStack2.getAttributeModifiers());
          }
       }
 
       if (!this.activePotionsMap.isEmpty()) {
-         NBTTagList var10 = new NBTTagList();
+         NBTTagList nbtTagList = new NBTTagList();
 
-         for (PotionEffect var14 : this.activePotionsMap.values()) {
-            var10.appendTag(var14.writeCustomPotionEffectToNBT(new NBTTagCompound()));
+         for (PotionEffect potionEffect : this.activePotionsMap.values()) {
+            nbtTagList.appendTag(potionEffect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
          }
 
-         var1.setTag("ActiveEffects", var10);
+         tagCompound.setTag("ActiveEffects", nbtTagList);
       }
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      this.setAbsorptionAmount(var1.getFloat("AbsorptionAmount"));
-      if (var1.hasKey("Attributes", 9) && this.worldObj != null && !this.worldObj.isRemote) {
-         SharedMonsterAttributes.setAttributeModifiers(this.getAttributeMap(), var1.getTagList("Attributes", 10));
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      this.setAbsorptionAmount(tagCompund.getFloat("AbsorptionAmount"));
+      if (tagCompund.hasKey("Attributes", 9) && this.worldObj != null && !this.worldObj.isRemote) {
+         SharedMonsterAttributes.setAttributeModifiers(this.getAttributeMap(), tagCompund.getTagList("Attributes", 10));
       }
 
-      if (var1.hasKey("ActiveEffects", 9)) {
-         NBTTagList var5 = var1.getTagList("ActiveEffects", 10);
+      if (tagCompund.hasKey("ActiveEffects", 9)) {
+         NBTTagList nbtTagList = tagCompund.getTagList("ActiveEffects", 10);
 
-         for (int var6 = 0; var6 < var5.tagCount(); var6++) {
-            NBTTagCompound var7 = var5.getCompoundTagAt(var6);
-            PotionEffect var8 = PotionEffect.readCustomPotionEffectFromNBT(var7);
-            if (var8 != null) {
-               this.activePotionsMap.put(var8.getPotionID(), var8);
+         for (int i = 0; i < nbtTagList.tagCount(); i++) {
+            NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(i);
+            PotionEffect potionEffect = PotionEffect.readCustomPotionEffectFromNBT(nbtTagCompound);
+            if (potionEffect != null) {
+               this.activePotionsMap.put(potionEffect.getPotionID(), potionEffect);
             }
          }
       }
 
-      if (var1.hasKey("HealF", 99)) {
-         this.setHealth(var1.getFloat("HealF"));
+      if (tagCompund.hasKey("HealF", 99)) {
+         this.setHealth(tagCompund.getFloat("HealF"));
       } else {
-         NBTBase var9 = var1.getTag("Health");
-         if (var9 == null) {
+         NBTBase nbtBase = tagCompund.getTag("Health");
+         if (nbtBase == null) {
             this.setHealth(this.getMaxHealth());
-         } else if (var9.getId() == 5) {
-            this.setHealth(((NBTTagFloat)var9).getFloat());
-         } else if (var9.getId() == 2) {
-            this.setHealth(((NBTTagShort)var9).getShort());
+         } else if (nbtBase.getId() == 5) {
+            this.setHealth(((NBTTagFloat)nbtBase).getFloat());
+         } else if (nbtBase.getId() == 2) {
+            this.setHealth(((NBTTagShort)nbtBase).getShort());
          }
       }
 
-      this.hurtTime = var1.getShort("HurtTime");
-      this.deathTime = var1.getShort("DeathTime");
-      this.revengeTimer = var1.getInteger("HurtByTimestamp");
+      this.hurtTime = tagCompund.getShort("HurtTime");
+      this.deathTime = tagCompund.getShort("DeathTime");
+      this.revengeTimer = tagCompund.getInteger("HurtByTimestamp");
    }
 
    public void updatePotionEffects() {
-      Iterator var4 = this.activePotionsMap.keySet().iterator();
+      Iterator iterator2 = this.activePotionsMap.keySet().iterator();
 
-      while (var4.hasNext()) {
-         Integer var5 = (Integer)var4.next();
-         PotionEffect var6 = this.activePotionsMap.get(var5);
-         if (!var6.onUpdate(this)) {
+      while (iterator2.hasNext()) {
+         Integer integer = (Integer)iterator2.next();
+         PotionEffect potionEffect = this.activePotionsMap.get(integer);
+         if (!potionEffect.onUpdate(this)) {
             if (!this.worldObj.isRemote) {
-               var4.remove();
-               this.onFinishedPotionEffect(var6);
+               iterator2.remove();
+               this.onFinishedPotionEffect(potionEffect);
             }
-         } else if (var6.getDuration() % 600 == 0) {
-            this.onChangedPotionEffect(var6, false);
+         } else if (potionEffect.getDuration() % 600 == 0) {
+            this.onChangedPotionEffect(potionEffect, false);
          }
       }
 
@@ -467,33 +467,33 @@ public abstract class EntityLivingBase extends Entity {
          this.potionsNeedUpdate = false;
       }
 
-      int var14 = this.dataWatcher.getWatchableObjectInt(7);
-      boolean var15 = this.dataWatcher.getWatchableObjectByte(8) > 0;
-      if (var14 > 0) {
-         boolean var7 = false;
+      int i = this.dataWatcher.getWatchableObjectInt(7);
+      boolean bl = this.dataWatcher.getWatchableObjectByte(8) > 0;
+      if (i > 0) {
+         boolean bl2 = false;
          if (!this.isInvisible()) {
-            var7 = this.rand.nextBoolean();
+            bl2 = this.rand.nextBoolean();
          } else {
-            var7 = this.rand.nextInt(15) == 0;
+            bl2 = this.rand.nextInt(15) == 0;
          }
 
-         if (var15) {
-            var7 &= this.rand.nextInt(5) == 0;
+         if (bl) {
+            bl2 &= this.rand.nextInt(5) == 0;
          }
 
-         if (var7 && var14 > 0) {
-            double var8 = (var14 >> 16 & 0xFF) / 255.0;
-            double var10 = (var14 >> 8 & 0xFF) / 255.0;
-            double var12 = (var14 >> 0 & 0xFF) / 255.0;
+         if (bl2 && i > 0) {
+            double d = (i >> 16 & 0xFF) / 255.0;
+            double e = (i >> 8 & 0xFF) / 255.0;
+            double d2 = (i >> 0 & 0xFF) / 255.0;
             this.worldObj
                .spawnParticle(
-                  var15 ? EnumParticleTypes.SPELL_MOB_AMBIENT : EnumParticleTypes.SPELL_MOB,
+                  bl ? EnumParticleTypes.SPELL_MOB_AMBIENT : EnumParticleTypes.SPELL_MOB,
                   this.posX + (this.rand.nextDouble() - 0.5) * this.width,
                   this.posY + this.rand.nextDouble() * this.height,
                   this.posZ + (this.rand.nextDouble() - 0.5) * this.width,
-                  var8,
-                  var10,
-                  var12
+                  d,
+                  e,
+                  d2
                );
          }
       }
@@ -504,9 +504,9 @@ public abstract class EntityLivingBase extends Entity {
          this.resetPotionEffectMetadata();
          this.setInvisible(false);
       } else {
-         int var4 = PotionHelper.calcPotionLiquidColor(this.activePotionsMap.values());
+         int i = PotionHelper.calcPotionLiquidColor(this.activePotionsMap.values());
          this.dataWatcher.updateObject(8, (byte)(PotionHelper.getAreAmbient(this.activePotionsMap.values()) ? 1 : 0));
-         this.dataWatcher.updateObject(7, var4);
+         this.dataWatcher.updateObject(7, i);
          this.setInvisible(this.isPotionActive(Potion.invisibility.id));
       }
    }
@@ -517,14 +517,14 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public void clearActivePotions() {
-      Iterator var4 = this.activePotionsMap.keySet().iterator();
+      Iterator iterator2 = this.activePotionsMap.keySet().iterator();
 
-      while (var4.hasNext()) {
-         Integer var5 = (Integer)var4.next();
-         PotionEffect var6 = this.activePotionsMap.get(var5);
+      while (iterator2.hasNext()) {
+         Integer integer = (Integer)iterator2.next();
+         PotionEffect potionEffect = this.activePotionsMap.get(integer);
          if (!this.worldObj.isRemote) {
-            var4.remove();
-            this.onFinishedPotionEffect(var6);
+            iterator2.remove();
+            this.onFinishedPotionEffect(potionEffect);
          }
       }
    }
@@ -533,34 +533,34 @@ public abstract class EntityLivingBase extends Entity {
       return this.activePotionsMap.values();
    }
 
-   public boolean isPotionActive(int var1) {
-      return this.activePotionsMap.containsKey(var1);
+   public boolean isPotionActive(int potionId) {
+      return this.activePotionsMap.containsKey(potionId);
    }
 
-   public boolean isPotionActive(Potion var1) {
-      return this.activePotionsMap.containsKey(var1.id);
+   public boolean isPotionActive(Potion potionIn) {
+      return this.activePotionsMap.containsKey(potionIn.id);
    }
 
-   public PotionEffect getActivePotionEffect(Potion var1) {
-      return this.activePotionsMap.get(var1.id);
+   public PotionEffect getActivePotionEffect(Potion potionIn) {
+      return this.activePotionsMap.get(potionIn.id);
    }
 
-   public void addPotionEffect(PotionEffect var1) {
-      if (this.isPotionApplicable(var1)) {
-         if (this.activePotionsMap.containsKey(var1.getPotionID())) {
-            this.activePotionsMap.get(var1.getPotionID()).combine(var1);
-            this.onChangedPotionEffect(this.activePotionsMap.get(var1.getPotionID()), true);
+   public void addPotionEffect(PotionEffect potioneffectIn) {
+      if (this.isPotionApplicable(potioneffectIn)) {
+         if (this.activePotionsMap.containsKey(potioneffectIn.getPotionID())) {
+            this.activePotionsMap.get(potioneffectIn.getPotionID()).combine(potioneffectIn);
+            this.onChangedPotionEffect(this.activePotionsMap.get(potioneffectIn.getPotionID()), true);
          } else {
-            this.activePotionsMap.put(var1.getPotionID(), var1);
-            this.onNewPotionEffect(var1);
+            this.activePotionsMap.put(potioneffectIn.getPotionID(), potioneffectIn);
+            this.onNewPotionEffect(potioneffectIn);
          }
       }
    }
 
-   public boolean isPotionApplicable(PotionEffect var1) {
+   public boolean isPotionApplicable(PotionEffect potioneffectIn) {
       if (this.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
-         int var5 = var1.getPotionID();
-         if (var5 == Potion.regeneration.id || var5 == Potion.poison.id) {
+         int i = potioneffectIn.getPotionID();
+         if (i == Potion.regeneration.id || i == Potion.poison.id) {
             return false;
          }
       }
@@ -572,43 +572,43 @@ public abstract class EntityLivingBase extends Entity {
       return this.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD;
    }
 
-   public void removePotionEffectClient(int var1) {
-      this.activePotionsMap.remove(var1);
+   public void removePotionEffectClient(int potionId) {
+      this.activePotionsMap.remove(potionId);
    }
 
-   public void removePotionEffect(int var1) {
-      PotionEffect var4 = this.activePotionsMap.remove(var1);
-      if (var4 != null) {
-         this.onFinishedPotionEffect(var4);
+   public void removePotionEffect(int potionId) {
+      PotionEffect potionEffect = this.activePotionsMap.remove(potionId);
+      if (potionEffect != null) {
+         this.onFinishedPotionEffect(potionEffect);
       }
    }
 
-   public void onNewPotionEffect(PotionEffect var1) {
+   public void onNewPotionEffect(PotionEffect id) {
       this.potionsNeedUpdate = true;
       if (!this.worldObj.isRemote) {
-         Potion.potionTypes[var1.getPotionID()].applyAttributesModifiersToEntity(this, this.getAttributeMap(), var1.getAmplifier());
+         Potion.potionTypes[id.getPotionID()].applyAttributesModifiersToEntity(this, this.getAttributeMap(), id.getAmplifier());
       }
    }
 
-   public void onChangedPotionEffect(PotionEffect var1, boolean var2) {
+   public void onChangedPotionEffect(PotionEffect id, boolean bl) {
       this.potionsNeedUpdate = true;
-      if (var2 && !this.worldObj.isRemote) {
-         Potion.potionTypes[var1.getPotionID()].removeAttributesModifiersFromEntity(this, this.getAttributeMap(), var1.getAmplifier());
-         Potion.potionTypes[var1.getPotionID()].applyAttributesModifiersToEntity(this, this.getAttributeMap(), var1.getAmplifier());
+      if (bl && !this.worldObj.isRemote) {
+         Potion.potionTypes[id.getPotionID()].removeAttributesModifiersFromEntity(this, this.getAttributeMap(), id.getAmplifier());
+         Potion.potionTypes[id.getPotionID()].applyAttributesModifiersToEntity(this, this.getAttributeMap(), id.getAmplifier());
       }
    }
 
-   public void onFinishedPotionEffect(PotionEffect var1) {
+   public void onFinishedPotionEffect(PotionEffect effect) {
       this.potionsNeedUpdate = true;
       if (!this.worldObj.isRemote) {
-         Potion.potionTypes[var1.getPotionID()].removeAttributesModifiersFromEntity(this, this.getAttributeMap(), var1.getAmplifier());
+         Potion.potionTypes[effect.getPotionID()].removeAttributesModifiersFromEntity(this, this.getAttributeMap(), effect.getAmplifier());
       }
    }
 
-   public void heal(float var1) {
-      float var4 = this.getHealth();
-      if (var4 > 0.0F) {
-         this.setHealth(var4 + var1);
+   public void heal(float healAmount) {
+      float f = this.getHealth();
+      if (f > 0.0F) {
+         this.setHealth(f + healAmount);
       }
    }
 
@@ -616,13 +616,13 @@ public abstract class EntityLivingBase extends Entity {
       return this.dataWatcher.getWatchableObjectFloat(6);
    }
 
-   public void setHealth(float var1) {
-      this.dataWatcher.updateObject(6, MathHelper.clamp_float(var1, 0.0F, this.getMaxHealth()));
+   public void setHealth(float health) {
+      this.dataWatcher.updateObject(6, MathHelper.clamp_float(health, 0.0F, this.getMaxHealth()));
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      if (this.isEntityInvulnerable(var1)) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isEntityInvulnerable(source)) {
          return false;
       }
 
@@ -635,138 +635,138 @@ public abstract class EntityLivingBase extends Entity {
          return false;
       }
 
-      if (var1.isFireDamage() && this.isPotionActive(Potion.fireResistance)) {
+      if (source.isFireDamage() && this.isPotionActive(Potion.fireResistance)) {
          return false;
       }
 
-      if ((var1 == DamageSource.anvil || var1 == DamageSource.fallingBlock) && this.getEquipmentInSlot(4) != null) {
-         this.getEquipmentInSlot(4).damageItem((int)(var2 * 4.0F + this.rand.nextFloat() * var2 * 2.0F), this);
-         var2 *= 0.75F;
+      if ((source == DamageSource.anvil || source == DamageSource.fallingBlock) && this.getEquipmentInSlot(4) != null) {
+         this.getEquipmentInSlot(4).damageItem((int)(amount * 4.0F + this.rand.nextFloat() * amount * 2.0F), this);
+         amount *= 0.75F;
       }
 
       this.limbSwingAmount = 1.5F;
-      boolean var6 = true;
+      boolean bl = true;
       if (this.hurtResistantTime > this.maxHurtResistantTime / 2.0F) {
-         if (var2 <= this.lastDamage) {
+         if (amount <= this.lastDamage) {
             return false;
          }
 
-         this.damageEntity(var1, var2 - this.lastDamage);
-         this.lastDamage = var2;
-         var6 = false;
+         this.damageEntity(source, amount - this.lastDamage);
+         this.lastDamage = amount;
+         bl = false;
       } else {
-         this.lastDamage = var2;
+         this.lastDamage = amount;
          this.hurtResistantTime = this.maxHurtResistantTime;
-         this.damageEntity(var1, var2);
+         this.damageEntity(source, amount);
          this.hurtTime = this.maxHurtTime = 10;
       }
 
       this.attackedAtYaw = 0.0F;
-      Entity var7 = var1.getEntity();
-      if (var7 != null) {
-         if (var7 instanceof EntityLivingBase) {
-            this.setRevengeTarget((EntityLivingBase)var7);
+      Entity entity = source.getEntity();
+      if (entity != null) {
+         if (entity instanceof EntityLivingBase) {
+            this.setRevengeTarget((EntityLivingBase)entity);
          }
 
-         if (var7 instanceof EntityPlayer) {
+         if (entity instanceof EntityPlayer) {
             this.recentlyHit = 100;
-            this.attackingPlayer = (EntityPlayer)var7;
-         } else if (var7 instanceof EntityWolf) {
-            EntityWolf var8 = (EntityWolf)var7;
-            if (var8.isTamed()) {
+            this.attackingPlayer = (EntityPlayer)entity;
+         } else if (entity instanceof EntityWolf) {
+            EntityWolf entityWolf = (EntityWolf)entity;
+            if (entityWolf.isTamed()) {
                this.recentlyHit = 100;
                this.attackingPlayer = null;
             }
          }
       }
 
-      if (var6) {
+      if (bl) {
          this.worldObj.setEntityState(this, (byte)2);
-         if (var1 != DamageSource.drown) {
+         if (source != DamageSource.drown) {
             this.setBeenAttacked();
          }
 
-         if (var7 != null) {
-            double var12 = var7.posX - this.posX;
+         if (entity != null) {
+            double d = entity.posX - this.posX;
 
-            double var10;
-            for (var10 = var7.posZ - this.posZ; var12 * var12 + var10 * var10 < 1.0E-4; var10 = (Math.random() - Math.random()) * 0.01) {
-               var12 = (Math.random() - Math.random()) * 0.01;
+            double e;
+            for (e = entity.posZ - this.posZ; d * d + e * e < 1.0E-4; e = (Math.random() - Math.random()) * 0.01) {
+               d = (Math.random() - Math.random()) * 0.01;
             }
 
-            this.attackedAtYaw = (float)(MathHelper.atan2(var10, var12) * 180.0 / Math.PI - this.rotationYaw);
-            this.knockBack(var7, var2, var12, var10);
+            this.attackedAtYaw = (float)(MathHelper.atan2(e, d) * 180.0 / Math.PI - this.rotationYaw);
+            this.knockBack(entity, amount, d, e);
          } else {
             this.attackedAtYaw = (int)(Math.random() * 2.0) * 180;
          }
       }
 
       if (this.getHealth() <= 0.0F) {
-         String var13 = this.getDeathSound();
-         if (var6 && var13 != null) {
-            this.playSound(var13, this.getSoundVolume(), this.getSoundPitch());
+         String string = this.getDeathSound();
+         if (bl && string != null) {
+            this.playSound(string, this.getSoundVolume(), this.getSoundPitch());
          }
 
-         this.onDeath(var1);
+         this.onDeath(source);
       } else {
-         String var14 = this.getHurtSound();
-         if (var6 && var14 != null) {
-            this.playSound(var14, this.getSoundVolume(), this.getSoundPitch());
+         String string2 = this.getHurtSound();
+         if (bl && string2 != null) {
+            this.playSound(string2, this.getSoundVolume(), this.getSoundPitch());
          }
       }
 
       return true;
    }
 
-   public void renderBrokenItemStack(ItemStack var1) {
+   public void renderBrokenItemStack(ItemStack stack) {
       this.playSound("random.break", 0.8F, 0.8F + this.worldObj.rand.nextFloat() * 0.4F);
 
-      for (int var5 = 0; var5 < 5; var5++) {
-         Vec3 var6 = new Vec3((this.rand.nextFloat() - 0.5) * 0.1, Math.random() * 0.1 + 0.1, 0.0);
-         var6 = var6.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
-         var6 = var6.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
-         double var7 = -this.rand.nextFloat() * 0.6 - 0.3;
-         Vec3 var9 = new Vec3((this.rand.nextFloat() - 0.5) * 0.3, var7, 0.6);
-         var9 = var9.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
-         var9 = var9.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
-         var9 = var9.addVector(this.posX, this.posY + this.getEyeHeight(), this.posZ);
+      for (int i = 0; i < 5; i++) {
+         Vec3 vec3 = new Vec3((this.rand.nextFloat() - 0.5) * 0.1, Math.random() * 0.1 + 0.1, 0.0);
+         vec3 = vec3.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
+         vec3 = vec3.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
+         double d = -this.rand.nextFloat() * 0.6 - 0.3;
+         Vec3 vec32 = new Vec3((this.rand.nextFloat() - 0.5) * 0.3, d, 0.6);
+         vec32 = vec32.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
+         vec32 = vec32.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
+         vec32 = vec32.addVector(this.posX, this.posY + this.getEyeHeight(), this.posZ);
          this.worldObj
             .spawnParticle(
                EnumParticleTypes.ITEM_CRACK,
-               var9.xCoord,
-               var9.yCoord,
-               var9.zCoord,
-               var6.xCoord,
-               var6.yCoord + 0.05,
-               var6.zCoord,
-               Item.getIdFromItem(var1.getItem())
+               vec32.xCoord,
+               vec32.yCoord,
+               vec32.zCoord,
+               vec3.xCoord,
+               vec3.yCoord + 0.05,
+               vec3.zCoord,
+               Item.getIdFromItem(stack.getItem())
             );
       }
    }
 
-   public void onDeath(DamageSource var1) {
-      Entity var5 = var1.getEntity();
-      EntityLivingBase var6 = this.getAttackingEntity();
-      if (this.scoreValue >= 0 && var6 != null) {
-         var6.addToPlayerScore(this, this.scoreValue);
+   public void onDeath(DamageSource cause) {
+      Entity entity = cause.getEntity();
+      EntityLivingBase entityLivingBase = this.getAttackingEntity();
+      if (this.scoreValue >= 0 && entityLivingBase != null) {
+         entityLivingBase.addToPlayerScore(this, this.scoreValue);
       }
 
-      if (var5 != null) {
-         var5.onKillEntity(this);
+      if (entity != null) {
+         entity.onKillEntity(this);
       }
 
       this.dead = true;
       this.getCombatTracker().reset();
       if (!this.worldObj.isRemote) {
-         int var7 = 0;
-         if (var5 instanceof EntityPlayer) {
-            var7 = EnchantmentHelper.getLootingModifier((EntityLivingBase)var5);
+         int i = 0;
+         if (entity instanceof EntityPlayer) {
+            i = EnchantmentHelper.getLootingModifier((EntityLivingBase)entity);
          }
 
          if (this.canDropLoot() && this.worldObj.getGameRules().getBoolean("doMobLoot")) {
-            this.dropFewItems(this.recentlyHit > 0, var7);
-            this.dropEquipment(this.recentlyHit > 0, var7);
-            if (this.recentlyHit > 0 && this.rand.nextFloat() < 0.025F + var7 * 0.01F) {
+            this.dropFewItems(this.recentlyHit > 0, i);
+            this.dropEquipment(this.recentlyHit > 0, i);
+            if (this.recentlyHit > 0 && this.rand.nextFloat() < 0.025F + i * 0.01F) {
                this.addRandomDrop();
             }
          }
@@ -775,20 +775,20 @@ public abstract class EntityLivingBase extends Entity {
       this.worldObj.setEntityState(this, (byte)3);
    }
 
-   public void dropEquipment(boolean var1, int var2) {
+   public void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
    }
 
-   public void knockBack(Entity var1, float var2, double var3, double var5) {
+   public void knockBack(Entity entityIn, float f, double d, double d2) {
       if (this.rand.nextDouble() >= this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue()) {
          this.isAirBorne = true;
-         float var10 = MathHelper.sqrt_double(var3 * var3 + var5 * var5);
-         float var11 = 0.4F;
+         float g = MathHelper.sqrt_double(d * d + d2 * d2);
+         float h = 0.4F;
          this.motionX /= 2.0;
          this.motionY /= 2.0;
          this.motionZ /= 2.0;
-         this.motionX -= var3 / var10 * var11;
-         this.motionY += var11;
-         this.motionZ -= var5 / var10 * var11;
+         this.motionX -= d / g * h;
+         this.motionY += h;
+         this.motionZ -= d2 / g * h;
          if (this.motionY > 0.4F) {
             this.motionY = 0.4F;
          }
@@ -806,15 +806,15 @@ public abstract class EntityLivingBase extends Entity {
    public void addRandomDrop() {
    }
 
-   public void dropFewItems(boolean var1, int var2) {
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
    }
 
    public boolean isOnLadder() {
-      int var4 = MathHelper.floor_double(this.posX);
-      int var5 = MathHelper.floor_double(this.getEntityBoundingBox().minY);
-      int var6 = MathHelper.floor_double(this.posZ);
-      Block var7 = this.worldObj.getBlockState(new BlockPos(var4, var5, var6)).getBlock();
-      return (var7 == Blocks.ladder || var7 == Blocks.vine) && (!(this instanceof EntityPlayer) || !((EntityPlayer)this).isSpectator());
+      int i = MathHelper.floor_double(this.posX);
+      int j = MathHelper.floor_double(this.getEntityBoundingBox().minY);
+      int k = MathHelper.floor_double(this.posZ);
+      Block block = this.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
+      return (block == Blocks.ladder || block == Blocks.vine) && (!(this instanceof EntityPlayer) || !((EntityPlayer)this).isSpectator());
    }
 
    @Override
@@ -823,27 +823,27 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public void fall(float var1, float var2) {
-      super.fall(var1, var2);
-      PotionEffect var6 = this.getActivePotionEffect(Potion.jump);
-      float var7 = var6 != null ? var6.getAmplifier() + 1 : 0.0F;
-      int var8 = MathHelper.ceiling_float_int((var1 - 3.0F - var7) * var2);
-      if (var8 > 0) {
-         this.playSound(this.getFallSoundString(var8), 1.0F, 1.0F);
-         this.attackEntityFrom(DamageSource.fall, var8);
-         int var9 = MathHelper.floor_double(this.posX);
-         int var10 = MathHelper.floor_double(this.posY - 0.2F);
-         int var11 = MathHelper.floor_double(this.posZ);
-         Block var12 = this.worldObj.getBlockState(new BlockPos(var9, var10, var11)).getBlock();
-         if (var12.getMaterial() != Material.air) {
-            Block.SoundType var13 = var12.stepSound;
-            this.playSound(var13.getStepSound(), var13.getVolume() * 0.5F, var13.getFrequency() * 0.75F);
+   public void fall(float distance, float damageMultiplier) {
+      super.fall(distance, damageMultiplier);
+      PotionEffect potionEffect = this.getActivePotionEffect(Potion.jump);
+      float f = potionEffect != null ? potionEffect.getAmplifier() + 1 : 0.0F;
+      int i = MathHelper.ceiling_float_int((distance - 3.0F - f) * damageMultiplier);
+      if (i > 0) {
+         this.playSound(this.getFallSoundString(i), 1.0F, 1.0F);
+         this.attackEntityFrom(DamageSource.fall, i);
+         int j = MathHelper.floor_double(this.posX);
+         int k = MathHelper.floor_double(this.posY - 0.2F);
+         int l = MathHelper.floor_double(this.posZ);
+         Block block = this.worldObj.getBlockState(new BlockPos(j, k, l)).getBlock();
+         if (block.getMaterial() != Material.air) {
+            Block.SoundType soundType = block.stepSound;
+            this.playSound(soundType.getStepSound(), soundType.getVolume() * 0.5F, soundType.getFrequency() * 0.75F);
          }
       }
    }
 
-   public String getFallSoundString(int var1) {
-      return var1 > 4 ? "game.neutral.hurt.fall.big" : "game.neutral.hurt.fall.small";
+   public String getFallSoundString(int damageValue) {
+      return damageValue > 4 ? "game.neutral.hurt.fall.big" : "game.neutral.hurt.fall.small";
    }
 
    @Override
@@ -853,74 +853,74 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public int getTotalArmorValue() {
-      int var4 = 0;
+      int i = 0;
 
-      for (ItemStack var8 : this.getInventory()) {
-         if (var8 != null && var8.getItem() instanceof ItemArmor) {
-            int var9 = ((ItemArmor)var8.getItem()).damageReduceAmount;
-            var4 += var9;
+      for (ItemStack itemStack : this.getInventory()) {
+         if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {
+            int j = ((ItemArmor)itemStack.getItem()).damageReduceAmount;
+            i += j;
          }
       }
 
-      return var4;
+      return i;
    }
 
-   public void damageArmor(float var1) {
+   public void damageArmor(float f) {
    }
 
-   public float applyArmorCalculations(DamageSource var1, float var2) {
-      if (!var1.isUnblockable()) {
-         int var6 = 25 - this.getTotalArmorValue();
-         float var7 = var2 * var6;
-         this.damageArmor(var2);
-         var2 = var7 / 25.0F;
+   public float applyArmorCalculations(DamageSource source, float damage) {
+      if (!source.isUnblockable()) {
+         int i = 25 - this.getTotalArmorValue();
+         float f = damage * i;
+         this.damageArmor(damage);
+         damage = f / 25.0F;
       }
 
-      return var2;
+      return damage;
    }
 
-   public float applyPotionDamageCalculations(DamageSource var1, float var2) {
-      if (var1.isDamageAbsolute()) {
-         return var2;
+   public float applyPotionDamageCalculations(DamageSource source, float damage) {
+      if (source.isDamageAbsolute()) {
+         return damage;
       }
 
-      if (this.isPotionActive(Potion.resistance) && var1 != DamageSource.outOfWorld) {
-         int var6 = (this.getActivePotionEffect(Potion.resistance).getAmplifier() + 1) * 5;
-         int var7 = 25 - var6;
-         float var8 = var2 * var7;
-         var2 = var8 / 25.0F;
+      if (this.isPotionActive(Potion.resistance) && source != DamageSource.outOfWorld) {
+         int i = (this.getActivePotionEffect(Potion.resistance).getAmplifier() + 1) * 5;
+         int j = 25 - i;
+         float f = damage * j;
+         damage = f / 25.0F;
       }
 
-      if (var2 <= 0.0F) {
+      if (damage <= 0.0F) {
          return 0.0F;
       }
 
-      int var9 = EnchantmentHelper.getEnchantmentModifierDamage(this.getInventory(), var1);
-      if (var9 > 20) {
-         var9 = 20;
+      int k = EnchantmentHelper.getEnchantmentModifierDamage(this.getInventory(), source);
+      if (k > 20) {
+         k = 20;
       }
 
-      if (var9 > 0 && var9 <= 20) {
-         int var10 = 25 - var9;
-         float var11 = var2 * var10;
-         var2 = var11 / 25.0F;
+      if (k > 0 && k <= 20) {
+         int l = 25 - k;
+         float g = damage * l;
+         damage = g / 25.0F;
       }
 
-      return var2;
+      return damage;
    }
 
-   public void damageEntity(DamageSource var1, float var2) {
-      if (!this.isEntityInvulnerable(var1)) {
-         var2 = this.applyArmorCalculations(var1, var2);
-         var2 = this.applyPotionDamageCalculations(var1, var2);
-         float var6 = var2;
-         var2 = Math.max(var2 - this.getAbsorptionAmount(), 0.0F);
-         this.setAbsorptionAmount(this.getAbsorptionAmount() - (var6 - var2));
-         if (var2 != 0.0F) {
-            float var7 = this.getHealth();
-            this.setHealth(var7 - var2);
-            this.getCombatTracker().trackDamage(var1, var7, var2);
-            this.setAbsorptionAmount(this.getAbsorptionAmount() - var2);
+   public void damageEntity(DamageSource damageSrc, float damageAmount) {
+      if (!this.isEntityInvulnerable(damageSrc)) {
+         damageAmount = this.applyArmorCalculations(damageSrc, damageAmount);
+         damageAmount = this.applyPotionDamageCalculations(damageSrc, damageAmount);
+         float f = damageAmount;
+         damageAmount = Math.max(damageAmount - this.getAbsorptionAmount(), 0.0F);
+         this.setAbsorptionAmount(this.getAbsorptionAmount() - (f - damageAmount));
+         if (damageAmount != 0.0F) {
+            float g = this.getHealth();
+            this.setHealth(g - damageAmount);
+            this.getCombatTracker().trackDamage(damageSrc, g, damageAmount);
+            this.setAbsorptionAmount(this.getAbsorptionAmount() - damageAmount);
          }
       }
    }
@@ -943,13 +943,13 @@ public abstract class EntityLivingBase extends Entity {
       return this.dataWatcher.getWatchableObjectByte(9);
    }
 
-   public final void setArrowCountInEntity(int var1) {
-      this.dataWatcher.updateObject(9, (byte)var1);
+   public final void setArrowCountInEntity(int count) {
+      this.dataWatcher.updateObject(9, (byte)count);
    }
 
    private int getArmSwingAnimationEnd() {
-      long var1 = fb ^ 30317504845315L;
-      long var3 = var1 ^ 124876313361189L;
+      long l = fb ^ 30317504845315L;
+      long m = l ^ 124876313361189L;
       if (this instanceof EntityPlayerSP && Astolfo.INSTANCE.getModuleManager().get(Animations.class).isEnabled()) {
          return Animations.speed.getValue();
       } else {
@@ -970,28 +970,28 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public void handleStatusUpdate(byte var1) {
-      if (var1 == 2) {
+   public void handleStatusUpdate(byte id) {
+      if (id == 2) {
          this.limbSwingAmount = 1.5F;
          this.hurtResistantTime = this.maxHurtResistantTime;
          this.hurtTime = this.maxHurtTime = 10;
          this.attackedAtYaw = 0.0F;
-         String var5 = this.getHurtSound();
-         if (var5 != null) {
+         String string = this.getHurtSound();
+         if (string != null) {
             this.playSound(this.getHurtSound(), this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
          }
 
          this.attackEntityFrom(DamageSource.generic, 0.0F);
-      } else if (var1 == 3) {
-         String var6 = this.getDeathSound();
-         if (var6 != null) {
+      } else if (id == 3) {
+         String string2 = this.getDeathSound();
+         if (string2 != null) {
             this.playSound(this.getDeathSound(), this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
          }
 
          this.setHealth(0.0F);
          this.onDeath(DamageSource.generic);
       } else {
-         super.handleStatusUpdate(var1);
+         super.handleStatusUpdate(id);
       }
    }
 
@@ -1001,10 +1001,10 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public void L() {
-      int var4 = this.getArmSwingAnimationEnd();
+      int i = this.getArmSwingAnimationEnd();
       if (this.Lp) {
          this.swingProgressInt++;
-         if (this.swingProgressInt >= var4) {
+         if (this.swingProgressInt >= i) {
             this.swingProgressInt = 0;
             this.Lp = false;
          }
@@ -1012,11 +1012,11 @@ public abstract class EntityLivingBase extends Entity {
          this.swingProgressInt = 0;
       }
 
-      this.swingProgress = (float)this.swingProgressInt / var4;
+      this.swingProgress = (float)this.swingProgressInt / i;
    }
 
-   public IAttributeInstance getEntityAttribute(IAttribute var1) {
-      return this.getAttributeMap().getAttributeInstance(var1);
+   public IAttributeInstance getEntityAttribute(IAttribute attribute) {
+      return this.getAttributeMap().getAttributeInstance(attribute);
    }
 
    public BaseAttributeMap getAttributeMap() {
@@ -1033,23 +1033,23 @@ public abstract class EntityLivingBase extends Entity {
 
    public abstract ItemStack getHeldItem();
 
-   public abstract ItemStack getEquipmentInSlot(int var1);
+   public abstract ItemStack getEquipmentInSlot(int slotIn);
 
-   public abstract ItemStack getCurrentArmor(int var1);
-
-   @Override
-   public abstract void setCurrentItemOrArmor(int var1, ItemStack var2);
+   public abstract ItemStack getCurrentArmor(int slotIn);
 
    @Override
-   public void setSprinting(boolean var1) {
-      super.setSprinting(var1);
-      IAttributeInstance var5 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-      if (var5.getModifier(sprintingSpeedBoostModifierUUID) != null) {
-         var5.removeModifier(sprintingSpeedBoostModifier);
+   public abstract void setCurrentItemOrArmor(int slotIn, ItemStack stack);
+
+   @Override
+   public void setSprinting(boolean sprinting) {
+      super.setSprinting(sprinting);
+      IAttributeInstance iAttributeInstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+      if (iAttributeInstance.getModifier(sprintingSpeedBoostModifierUUID) != null) {
+         iAttributeInstance.removeModifier(sprintingSpeedBoostModifier);
       }
 
-      if (var1) {
-         var5.applyModifier(sprintingSpeedBoostModifier);
+      if (sprinting) {
+         iAttributeInstance.applyModifier(sprintingSpeedBoostModifier);
       }
    }
 
@@ -1068,36 +1068,36 @@ public abstract class EntityLivingBase extends Entity {
       return this.getHealth() <= 0.0F;
    }
 
-   public void dismountEntity(Entity var1) {
-      double var5 = var1.posX;
-      double var7 = var1.getEntityBoundingBox().minY + var1.height;
-      double var9 = var1.posZ;
-      byte var11 = 1;
+   public void dismountEntity(Entity entityIn) {
+      double d = entityIn.posX;
+      double e = entityIn.getEntityBoundingBox().minY + entityIn.height;
+      double d2 = entityIn.posZ;
+      byte b = 1;
 
-      for (int var12 = -var11; var12 <= var11; var12++) {
-         for (int var13 = -var11; var13 < var11; var13++) {
-            if (var12 != 0 || var13 != 0) {
-               int var14 = (int)(this.posX + var12);
-               int var15 = (int)(this.posZ + var13);
-               AxisAlignedBB var16 = this.getEntityBoundingBox().offset(var12, 1.0, var13);
-               if (this.worldObj.getCollisionBoxes(var16).isEmpty()) {
-                  if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(var14, (int)this.posY, var15))) {
-                     this.setPositionAndUpdate(this.posX + var12, this.posY + 1.0, this.posZ + var13);
+      for (int i = -b; i <= b; i++) {
+         for (int j = -b; j < b; j++) {
+            if (i != 0 || j != 0) {
+               int k = (int)(this.posX + i);
+               int l = (int)(this.posZ + j);
+               AxisAlignedBB axisAlignedBB = this.getEntityBoundingBox().offset(i, 1.0, j);
+               if (this.worldObj.getCollisionBoxes(axisAlignedBB).isEmpty()) {
+                  if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(k, (int)this.posY, l))) {
+                     this.setPositionAndUpdate(this.posX + i, this.posY + 1.0, this.posZ + j);
                      return;
                   }
 
-                  if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(var14, (int)this.posY - 1, var15))
-                     || this.worldObj.getBlockState(new BlockPos(var14, (int)this.posY - 1, var15)).getBlock().getMaterial() == Material.water) {
-                     var5 = this.posX + var12;
-                     var7 = this.posY + 1.0;
-                     var9 = this.posZ + var13;
+                  if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(k, (int)this.posY - 1, l))
+                     || this.worldObj.getBlockState(new BlockPos(k, (int)this.posY - 1, l)).getBlock().getMaterial() == Material.water) {
+                     d = this.posX + i;
+                     e = this.posY + 1.0;
+                     d2 = this.posZ + j;
                   }
                }
             }
          }
       }
 
-      this.setPositionAndUpdate(var5, var7, var9);
+      this.setPositionAndUpdate(d, e, d2);
    }
 
    @Override
@@ -1110,42 +1110,42 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public void jump() {
-      long var1 = fb ^ 107812693659344L;
-      long var3 = var1 ^ 8863891448822L;
+      long l = fb ^ 107812693659344L;
+      long m = l ^ 8863891448822L;
       this.motionY = this.getJumpUpwardsMotion();
       if (this.isPotionActive(Potion.jump)) {
          this.motionY = this.motionY + (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
       }
 
       if (this.isSprinting()) {
-         float var6 = this.rotationYaw * (float) (Math.PI / 180.0);
-         this.motionX = this.motionX - MathHelper.sin(var6) * 0.2F;
-         this.motionZ = this.motionZ + MathHelper.cos(var6) * 0.2F;
+         float f = this.rotationYaw * (float) (Math.PI / 180.0);
+         this.motionX = this.motionX - MathHelper.sin(f) * 0.2F;
+         this.motionZ = this.motionZ + MathHelper.cos(f) * 0.2F;
       }
 
       this.isAirBorne = true;
       if (this.isSprinting()) {
-         float var9 = (float)Math.toRadians(this.rotationYaw);
-         boolean var7 = Astolfo.INSTANCE.getModuleManager().get(Sprint.class).isEnabled();
-         if (var7 && Sprint.omnidirectional.getValue()) {
-            this.motionX = this.motionX + MathHelper.sin(var9) * 0.2F;
-            this.motionZ = this.motionZ - MathHelper.cos(var9) * 0.2F;
-            float var8 = this.rotationYaw;
+         float g = (float)Math.toRadians(this.rotationYaw);
+         boolean bl = Astolfo.INSTANCE.getModuleManager().get(Sprint.class).isEnabled();
+         if (bl && Sprint.omnidirectional.getValue()) {
+            this.motionX = this.motionX + MathHelper.sin(g) * 0.2F;
+            this.motionZ = this.motionZ - MathHelper.cos(g) * 0.2F;
+            float h = this.rotationYaw;
             if (this.moveForward < 0.0F) {
-               var8 += 180.0F;
+               h += 180.0F;
             }
 
             if (this.moveStrafing > 0.0F) {
-               var8 -= 90.0F * (this.moveForward > 0.0F ? 0.5F : (this.moveForward < 0.0F ? -0.5F : 1.0F));
+               h -= 90.0F * (this.moveForward > 0.0F ? 0.5F : (this.moveForward < 0.0F ? -0.5F : 1.0F));
             }
 
             if (this.moveStrafing < 0.0F) {
-               var8 += 90.0F * (this.moveForward > 0.0F ? 0.5F : (this.moveForward < 0.0F ? -0.5F : 1.0F));
+               h += 90.0F * (this.moveForward > 0.0F ? 0.5F : (this.moveForward < 0.0F ? -0.5F : 1.0F));
             }
 
-            var9 = (float)Math.toRadians(var8);
-            this.motionX = this.motionX - MathHelper.sin(var9) * 0.2F;
-            this.motionZ = this.motionZ + MathHelper.cos(var9) * 0.2F;
+            g = (float)Math.toRadians(h);
+            this.motionX = this.motionX - MathHelper.sin(g) * 0.2F;
+            this.motionZ = this.motionZ + MathHelper.cos(g) * 0.2F;
          }
       }
    }
@@ -1158,15 +1158,15 @@ public abstract class EntityLivingBase extends Entity {
       this.motionY += 0.04F;
    }
 
-   public void moveEntityWithHeading(float var1, float var2) {
-      long var3 = fb ^ 62942906234037L;
-      long var5 = var3 ^ 91529406716307L;
+   public void moveEntityWithHeading(float strafe, float forward) {
+      long l = fb ^ 62942906234037L;
+      long m = l ^ 91529406716307L;
       if (this.C()) {
          if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying) {
             if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer)this).capabilities.isFlying) {
-               float var14 = 0.91F;
+               float f = 0.91F;
                if (this.onGround) {
-                  var14 = this.worldObj
+                  f = this.worldObj
                         .getBlockState(
                            new BlockPos(
                               MathHelper.floor_double(this.posX),
@@ -1179,18 +1179,18 @@ public abstract class EntityLivingBase extends Entity {
                      * 0.91F;
                }
 
-               float var9 = 0.16277136F / (var14 * var14 * var14);
-               float var17;
+               float g = 0.16277136F / (f * f * f);
+               float h;
                if (this.onGround) {
-                  var17 = this.getAIMoveSpeed() * var9;
+                  h = this.getAIMoveSpeed() * g;
                } else {
-                  var17 = this.jumpMovementFactor;
+                  h = this.jumpMovementFactor;
                }
 
-               this.moveFlying(var1, var2, var17);
-               var14 = 0.91F;
+               this.moveFlying(strafe, forward, h);
+               f = 0.91F;
                if (this.onGround) {
-                  var14 = this.worldObj
+                  f = this.worldObj
                         .getBlockState(
                            new BlockPos(
                               MathHelper.floor_double(this.posX),
@@ -1204,10 +1204,10 @@ public abstract class EntityLivingBase extends Entity {
                }
 
                if (this.isOnLadder()) {
-                  float var19 = 0.15F;
+                  float f2 = 0.15F;
                   if (!Astolfo.INSTANCE.getModuleManager().get(NoSlow.class).isEnabled() || !NoSlow.ladderFix.getValue()) {
-                     this.motionX = MathHelper.clamp_double(this.motionX, -var19, var19);
-                     this.motionZ = MathHelper.clamp_double(this.motionZ, -var19, var19);
+                     this.motionX = MathHelper.clamp_double(this.motionX, -f2, f2);
+                     this.motionZ = MathHelper.clamp_double(this.motionZ, -f2, f2);
                   }
 
                   this.fallDistance = 0.0F;
@@ -1215,8 +1215,8 @@ public abstract class EntityLivingBase extends Entity {
                      this.motionY = -0.15;
                   }
 
-                  boolean var20 = this.isSneaking() && this instanceof EntityPlayer;
-                  if (var20 && this.motionY < 0.0) {
+                  boolean bl = this.isSneaking() && this instanceof EntityPlayer;
+                  if (bl && this.motionY < 0.0) {
                      this.motionY = 0.0;
                   }
                }
@@ -1241,59 +1241,59 @@ public abstract class EntityLivingBase extends Entity {
                }
 
                this.motionY *= 0.98F;
-               this.motionX *= var14;
-               this.motionZ *= var14;
+               this.motionX *= f;
+               this.motionZ *= f;
             } else {
-               double var13 = this.posY;
-               this.moveFlying(var1, var2, 0.02F);
+               double d = this.posY;
+               this.moveFlying(strafe, forward, 0.02F);
                this.moveEntity(this.motionX, this.motionY, this.motionZ);
                this.motionX *= 0.5;
                this.motionY *= 0.5;
                this.motionZ *= 0.5;
                this.motionY -= 0.02;
-               if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6F - this.posY + var13, this.motionZ)) {
+               if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6F - this.posY + d, this.motionZ)) {
                   this.motionY = 0.3F;
                }
             }
          } else {
-            double var8 = this.posY;
-            float var10 = 0.8F;
-            float var11 = 0.02F;
-            float var12 = EnchantmentHelper.getDepthStriderModifier(this);
-            if (var12 > 3.0F) {
-               var12 = 3.0F;
+            double e = this.posY;
+            float f3 = 0.8F;
+            float f4 = 0.02F;
+            float f5 = EnchantmentHelper.getDepthStriderModifier(this);
+            if (f5 > 3.0F) {
+               f5 = 3.0F;
             }
 
             if (!this.onGround) {
-               var12 *= 0.5F;
+               f5 *= 0.5F;
             }
 
-            if (var12 > 0.0F) {
-               var10 += (0.54600006F - var10) * var12 / 3.0F;
-               var11 += (this.getAIMoveSpeed() * 1.0F - var11) * var12 / 3.0F;
+            if (f5 > 0.0F) {
+               f3 += (0.54600006F - f3) * f5 / 3.0F;
+               f4 += (this.getAIMoveSpeed() * 1.0F - f4) * f5 / 3.0F;
             }
 
-            this.moveFlying(var1, var2, var11);
+            this.moveFlying(strafe, forward, f4);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= var10;
+            this.motionX *= f3;
             this.motionY *= 0.8F;
-            this.motionZ *= var10;
+            this.motionZ *= f3;
             this.motionY -= 0.02;
-            if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6F - this.posY + var8, this.motionZ)) {
+            if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6F - this.posY + e, this.motionZ)) {
                this.motionY = 0.3F;
             }
          }
       }
 
       this.prevLimbSwingAmount = this.limbSwingAmount;
-      double var16 = this.posX - this.prevPosX;
-      double var18 = this.posZ - this.prevPosZ;
-      float var21 = MathHelper.sqrt_double(var16 * var16 + var18 * var18) * 4.0F;
-      if (var21 > 1.0F) {
-         var21 = 1.0F;
+      double d2 = this.posX - this.prevPosX;
+      double d3 = this.posZ - this.prevPosZ;
+      float f6 = MathHelper.sqrt_double(d2 * d2 + d3 * d3) * 4.0F;
+      if (f6 > 1.0F) {
+         f6 = 1.0F;
       }
 
-      this.limbSwingAmount = this.limbSwingAmount + (var21 - this.limbSwingAmount) * 0.4F;
+      this.limbSwingAmount = this.limbSwingAmount + (f6 - this.limbSwingAmount) * 0.4F;
       this.limbSwing = this.limbSwing + this.limbSwingAmount;
    }
 
@@ -1301,12 +1301,12 @@ public abstract class EntityLivingBase extends Entity {
       return this.landMovementFactor;
    }
 
-   public void setAIMoveSpeed(float var1) {
-      this.landMovementFactor = var1;
+   public void setAIMoveSpeed(float speedIn) {
+      this.landMovementFactor = speedIn;
    }
 
-   public boolean attackEntityAsMob(Entity var1) {
-      this.setLastAttacker(var1);
+   public boolean attackEntityAsMob(Entity entityIn) {
+      this.setLastAttacker(entityIn);
       return false;
    }
 
@@ -1318,32 +1318,32 @@ public abstract class EntityLivingBase extends Entity {
    public void onUpdate() {
       super.onUpdate();
       if (!this.worldObj.isRemote) {
-         int var4 = this.getArrowCountInEntity();
-         if (var4 > 0) {
+         int i = this.getArrowCountInEntity();
+         if (i > 0) {
             if (this.arrowHitTimer <= 0) {
-               this.arrowHitTimer = 20 * (30 - var4);
+               this.arrowHitTimer = 20 * (30 - i);
             }
 
             this.arrowHitTimer--;
             if (this.arrowHitTimer <= 0) {
-               this.setArrowCountInEntity(var4 - 1);
+               this.setArrowCountInEntity(i - 1);
             }
          }
 
-         for (int var5 = 0; var5 < 5; var5++) {
-            ItemStack var6 = this.previousEquipment[var5];
-            ItemStack var7 = this.getEquipmentInSlot(var5);
-            if (!ItemStack.areItemStacksEqual(var7, var6)) {
-               ((WorldServer)this.worldObj).getEntityTracker().sendToAllTrackingEntity(this, new S04PacketEntityEquipment(this.getEntityId(), var5, var7));
-               if (var6 != null) {
-                  this.attributeMap.removeAttributeModifiers(var6.getAttributeModifiers());
+         for (int j = 0; j < 5; j++) {
+            ItemStack itemStack = this.previousEquipment[j];
+            ItemStack itemStack2 = this.getEquipmentInSlot(j);
+            if (!ItemStack.areItemStacksEqual(itemStack2, itemStack)) {
+               ((WorldServer)this.worldObj).getEntityTracker().sendToAllTrackingEntity(this, new S04PacketEntityEquipment(this.getEntityId(), j, itemStack2));
+               if (itemStack != null) {
+                  this.attributeMap.removeAttributeModifiers(itemStack.getAttributeModifiers());
                }
 
-               if (var7 != null) {
-                  this.attributeMap.applyAttributeModifiers(var7.getAttributeModifiers());
+               if (itemStack2 != null) {
+                  this.attributeMap.applyAttributeModifiers(itemStack2.getAttributeModifiers());
                }
 
-               this.previousEquipment[var5] = var7 == null ? null : var7.copy();
+               this.previousEquipment[j] = itemStack2 == null ? null : itemStack2.copy();
             }
          }
 
@@ -1353,30 +1353,30 @@ public abstract class EntityLivingBase extends Entity {
       }
 
       this.onLivingUpdate();
-      double var12 = this.posX - this.prevPosX;
-      double var13 = this.posZ - this.prevPosZ;
-      float var8 = (float)(var12 * var12 + var13 * var13);
-      float var9 = this.renderYawOffset;
-      float var10 = 0.0F;
+      double d = this.posX - this.prevPosX;
+      double e = this.posZ - this.prevPosZ;
+      float f = (float)(d * d + e * e);
+      float g = this.renderYawOffset;
+      float h = 0.0F;
       this.prevOnGroundSpeedFactor = this.onGroundSpeedFactor;
-      float var11 = 0.0F;
-      if (var8 > 0.0025000002F) {
-         var11 = 1.0F;
-         var10 = (float)Math.sqrt(var8) * 3.0F;
-         var9 = (float)MathHelper.atan2(var13, var12) * 180.0F / (float) Math.PI - 90.0F;
+      float f2 = 0.0F;
+      if (f > 0.0025000002F) {
+         f2 = 1.0F;
+         h = (float)Math.sqrt(f) * 3.0F;
+         g = (float)MathHelper.atan2(e, d) * 180.0F / (float) Math.PI - 90.0F;
       }
 
       if (this.swingProgress > 0.0F) {
-         var9 = this.rotationYaw;
+         g = this.rotationYaw;
       }
 
       if (!this.onGround) {
-         var11 = 0.0F;
+         f2 = 0.0F;
       }
 
-      this.onGroundSpeedFactor = this.onGroundSpeedFactor + (var11 - this.onGroundSpeedFactor) * 0.3F;
+      this.onGroundSpeedFactor = this.onGroundSpeedFactor + (f2 - this.onGroundSpeedFactor) * 0.3F;
       this.worldObj.theProfiler.startSection("headTurn");
-      var10 = this.updateDistance(var9, var10);
+      h = this.updateDistance(g, h);
       this.worldObj.theProfiler.endSection();
       this.worldObj.theProfiler.startSection("rangeChecks");
 
@@ -1413,39 +1413,39 @@ public abstract class EntityLivingBase extends Entity {
       }
 
       this.worldObj.theProfiler.endSection();
-      this.movedDistance += var10;
+      this.movedDistance += h;
    }
 
-   public float updateDistance(float var1, float var2) {
-      float var6 = MathHelper.wrapAngleTo180_float(var1 - this.renderYawOffset);
-      this.renderYawOffset += var6 * 0.3F;
-      float var7 = this.rotationYaw;
+   public float updateDistance(float f, float g) {
+      float h = MathHelper.wrapAngleTo180_float(f - this.renderYawOffset);
+      this.renderYawOffset += h * 0.3F;
+      float f2 = this.rotationYaw;
       if (this instanceof EntityPlayerSP) {
-         RotationYawEvent var8 = new RotationYawEvent(var7);
-         Astolfo.INSTANCE.getEventBus().post(var8);
-         var7 = var8.getYaw();
+         RotationYawEvent rotationYawEvent = new RotationYawEvent(f2);
+         Astolfo.INSTANCE.getEventBus().post(rotationYawEvent);
+         f2 = rotationYawEvent.getYaw();
       }
 
-      float var10 = MathHelper.wrapAngleTo180_float(var7 - this.renderYawOffset);
-      boolean var9 = var10 < -90.0F || var10 >= 90.0F;
-      if (var10 < -75.0F) {
-         var10 = -75.0F;
+      float f3 = MathHelper.wrapAngleTo180_float(f2 - this.renderYawOffset);
+      boolean bl = f3 < -90.0F || f3 >= 90.0F;
+      if (f3 < -75.0F) {
+         f3 = -75.0F;
       }
 
-      if (var10 >= 75.0F) {
-         var10 = 75.0F;
+      if (f3 >= 75.0F) {
+         f3 = 75.0F;
       }
 
-      this.renderYawOffset = var7 - var10;
-      if (var10 * var10 > 2500.0F) {
-         this.renderYawOffset += var10 * 0.2F;
+      this.renderYawOffset = f2 - f3;
+      if (f3 * f3 > 2500.0F) {
+         this.renderYawOffset += f3 * 0.2F;
       }
 
-      if (var9) {
-         var2 *= -1.0F;
+      if (bl) {
+         g *= -1.0F;
       }
 
-      return var2;
+      return g;
    }
 
    public void onLivingUpdate() {
@@ -1454,14 +1454,14 @@ public abstract class EntityLivingBase extends Entity {
       }
 
       if (this.newPosRotationIncrements > 0) {
-         double var4 = this.posX + (this.newPosX - this.posX) / this.newPosRotationIncrements;
-         double var6 = this.posY + (this.newPosY - this.posY) / this.newPosRotationIncrements;
-         double var8 = this.posZ + (this.newPosZ - this.posZ) / this.newPosRotationIncrements;
-         double var10 = MathHelper.wrapAngleTo180_double(this.newRotationYaw - this.rotationYaw);
-         this.rotationYaw = (float)(this.rotationYaw + var10 / this.newPosRotationIncrements);
+         double d = this.posX + (this.newPosX - this.posX) / this.newPosRotationIncrements;
+         double e = this.posY + (this.newPosY - this.posY) / this.newPosRotationIncrements;
+         double d2 = this.posZ + (this.newPosZ - this.posZ) / this.newPosRotationIncrements;
+         double d3 = MathHelper.wrapAngleTo180_double(this.newRotationYaw - this.rotationYaw);
+         this.rotationYaw = (float)(this.rotationYaw + d3 / this.newPosRotationIncrements);
          this.rotationPitch = (float)(this.rotationPitch + (this.newRotationPitch - this.rotationPitch) / this.newPosRotationIncrements);
          this.newPosRotationIncrements--;
-         this.setPosition(var4, var6, var8);
+         this.setPosition(d, e, d2);
          this.setRotation(this.rotationYaw, this.rotationPitch);
       } else if (!this.C()) {
          this.motionX *= 0.98;
@@ -1514,8 +1514,8 @@ public abstract class EntityLivingBase extends Entity {
       this.moveForward *= 0.98F;
       this.randomYawVelocity *= 0.9F;
       if (RiderGod.S() && this instanceof EntityPlayerSP && this.ridingEntity != null && this.ridingEntity instanceof EntityHorse) {
-         EntityHorse var12 = (EntityHorse)this.ridingEntity;
-         var12.O(this.moveStrafing, this.moveForward, this.randomYawVelocity);
+         EntityHorse entityHorse = (EntityHorse)this.ridingEntity;
+         entityHorse.O(this.moveStrafing, this.moveForward, this.randomYawVelocity);
       } else {
          this.moveEntityWithHeading(this.moveStrafing, this.moveForward);
       }
@@ -1533,29 +1533,29 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    public void collideWithNearbyEntities() {
-      List var4 = this.worldObj
+      List list = this.worldObj
          .getEntitiesInAABBexcluding(
             this, this.getEntityBoundingBox().expand(0.2F, 0.0, 0.2F), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
-               public boolean apply(Entity var1) {
-                  return var1.canBePushed();
+               public boolean apply(Entity entity) {
+                  return entity.canBePushed();
                }
             })
          );
-      if (!var4.isEmpty()) {
-         for (int var5 = 0; var5 < var4.size(); var5++) {
-            Entity var6 = (Entity)var4.get(var5);
-            this.collideWithEntity(var6);
+      if (!list.isEmpty()) {
+         for (int i = 0; i < list.size(); i++) {
+            Entity entity2 = (Entity)list.get(i);
+            this.collideWithEntity(entity2);
          }
       }
    }
 
-   public void collideWithEntity(Entity var1) {
-      var1.applyEntityCollision(this);
+   public void collideWithEntity(Entity entityIn) {
+      entityIn.applyEntityCollision(this);
    }
 
    @Override
-   public void mountEntity(Entity var1) {
-      if (this.ridingEntity != null && var1 == null) {
+   public void mountEntity(Entity entityIn) {
+      if (this.ridingEntity != null && entityIn == null) {
          if (!this.worldObj.isRemote) {
             this.dismountEntity(this.ridingEntity);
          }
@@ -1566,7 +1566,7 @@ public abstract class EntityLivingBase extends Entity {
 
          this.ridingEntity = null;
       } else {
-         super.mountEntity(var1);
+         super.mountEntity(entityIn);
       }
    }
 
@@ -1579,39 +1579,41 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public void setPositionAndRotation2(double var1, double var3, double var5, float var7, float var8, int var9, boolean var10) {
-      this.newPosX = var1;
-      this.newPosY = var3;
-      this.newPosZ = var5;
-      this.newRotationYaw = var7;
-      this.newRotationPitch = var8;
-      this.newPosRotationIncrements = var9;
+   public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean bl) {
+      this.newPosX = x;
+      this.newPosY = y;
+      this.newPosZ = z;
+      this.newRotationYaw = yaw;
+      this.newRotationPitch = pitch;
+      this.newPosRotationIncrements = posRotationIncrements;
    }
 
-   public void j(boolean var1) {
-      this.Lr = var1;
+   public void j(boolean bl) {
+      this.Lr = bl;
    }
 
-   public void onItemPickup(Entity var1, int var2) {
-      if (!var1.isDead && !this.worldObj.isRemote) {
-         EntityTracker var6 = ((WorldServer)this.worldObj).getEntityTracker();
-         if (var1 instanceof EntityItem) {
-            var6.sendToAllTrackingEntity(var1, new S0DPacketCollectItem(var1.getEntityId(), this.getEntityId()));
+   public void onItemPickup(Entity entity, int i) {
+      if (!entity.isDead && !this.worldObj.isRemote) {
+         EntityTracker entityTracker = ((WorldServer)this.worldObj).getEntityTracker();
+         if (entity instanceof EntityItem) {
+            entityTracker.sendToAllTrackingEntity(entity, new S0DPacketCollectItem(entity.getEntityId(), this.getEntityId()));
          }
 
-         if (var1 instanceof EntityArrow) {
-            var6.sendToAllTrackingEntity(var1, new S0DPacketCollectItem(var1.getEntityId(), this.getEntityId()));
+         if (entity instanceof EntityArrow) {
+            entityTracker.sendToAllTrackingEntity(entity, new S0DPacketCollectItem(entity.getEntityId(), this.getEntityId()));
          }
 
-         if (var1 instanceof EntityXPOrb) {
-            var6.sendToAllTrackingEntity(var1, new S0DPacketCollectItem(var1.getEntityId(), this.getEntityId()));
+         if (entity instanceof EntityXPOrb) {
+            entityTracker.sendToAllTrackingEntity(entity, new S0DPacketCollectItem(entity.getEntityId(), this.getEntityId()));
          }
       }
    }
 
-   public boolean C(Entity var1) {
+   public boolean C(Entity entity) {
       return this.worldObj
-            .rayTraceBlocks(new Vec3(this.posX, this.posY + this.getEyeHeight(), this.posZ), new Vec3(var1.posX, var1.posY + var1.getEyeHeight(), var1.posZ))
+            .rayTraceBlocks(
+               new Vec3(this.posX, this.posY + this.getEyeHeight(), this.posZ), new Vec3(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ)
+            )
          == null;
    }
 
@@ -1621,27 +1623,27 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public Vec3 getLook(float var1) {
+   public Vec3 getLook(float partialTicks) {
       if (this instanceof EntityPlayerSP) {
-         return super.getLook(var1);
+         return super.getLook(partialTicks);
       }
 
-      if (var1 == 1.0F) {
+      if (partialTicks == 1.0F) {
          return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
       }
 
-      float var5 = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * var1;
-      float var6 = this.prevRotationYawHead + (this.rotationYawHead - this.prevRotationYawHead) * var1;
-      return this.getVectorForRotation(var5, var6);
+      float f = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
+      float g = this.prevRotationYawHead + (this.rotationYawHead - this.prevRotationYawHead) * partialTicks;
+      return this.getVectorForRotation(f, g);
    }
 
-   public float getSwingProgress(float var1) {
-      float var5 = this.swingProgress - this.prevSwingProgress;
-      if (var5 < 0.0F) {
-         var5++;
+   public float getSwingProgress(float partialTickTime) {
+      float f = this.swingProgress - this.prevSwingProgress;
+      if (f < 0.0F) {
+         f++;
       }
 
-      return this.prevSwingProgress + var5 * var1;
+      return this.prevSwingProgress + f * partialTickTime;
    }
 
    public boolean C() {
@@ -1669,37 +1671,37 @@ public abstract class EntityLivingBase extends Entity {
    }
 
    @Override
-   public void setRotationYawHead(float var1) {
-      this.rotationYawHead = var1;
+   public void setRotationYawHead(float rotation) {
+      this.rotationYawHead = rotation;
    }
 
    @Override
-   public void setRenderYawOffset(float var1) {
-      this.renderYawOffset = var1;
+   public void setRenderYawOffset(float offset) {
+      this.renderYawOffset = offset;
    }
 
    public float getAbsorptionAmount() {
       return this.absorptionAmount;
    }
 
-   public void setAbsorptionAmount(float var1) {
-      if (var1 < 0.0F) {
-         var1 = 0.0F;
+   public void setAbsorptionAmount(float amount) {
+      if (amount < 0.0F) {
+         amount = 0.0F;
       }
 
-      this.absorptionAmount = var1;
+      this.absorptionAmount = amount;
    }
 
    public Team getTeam() {
       return this.worldObj.getScoreboard().getPlayersTeam(this.getUniqueID().toString());
    }
 
-   public boolean isOnSameTeam(EntityLivingBase var1) {
-      return this.isOnTeam(var1.getTeam());
+   public boolean isOnSameTeam(EntityLivingBase otherEntity) {
+      return this.isOnTeam(otherEntity.getTeam());
    }
 
-   public boolean isOnTeam(Team var1) {
-      return this.getTeam() != null ? this.getTeam().isSameTeam(var1) : false;
+   public boolean isOnTeam(Team teamIn) {
+      return this.getTeam() != null ? this.getTeam().isSameTeam(teamIn) : false;
    }
 
    public void sendEnterCombat() {

@@ -32,42 +32,42 @@ public class BlockIce extends BlockBreakable {
    }
 
    @Override
-   public void harvestBlock(World var1, EntityPlayer var2, BlockPos var3, IBlockState var4, TileEntity var5) {
-      var2.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-      var2.addExhaustion(0.025F);
-      if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(var2)) {
-         ItemStack var11 = this.createStackedBlock(var4);
-         if (var11 != null) {
-            spawnAsEntity(var1, var3, var11);
+   public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+      player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
+      player.addExhaustion(0.025F);
+      if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player)) {
+         ItemStack itemStack = this.createStackedBlock(state);
+         if (itemStack != null) {
+            spawnAsEntity(worldIn, pos, itemStack);
          }
       } else {
-         if (var1.provider.doesWaterVaporize()) {
-            var1.setBlockToAir(var3);
+         if (worldIn.provider.doesWaterVaporize()) {
+            worldIn.setBlockToAir(pos);
             return;
          }
 
-         int var9 = EnchantmentHelper.getFortuneModifier(var2);
-         this.dropBlockAsItem(var1, var3, var4, var9);
-         Material var10 = var1.getBlockState(var3.down()).getBlock().getMaterial();
-         if (var10.blocksMovement() || var10.isLiquid()) {
-            var1.setBlockState(var3, Blocks.flowing_water.getDefaultState());
+         int i = EnchantmentHelper.getFortuneModifier(player);
+         this.dropBlockAsItem(worldIn, pos, state, i);
+         Material material = worldIn.getBlockState(pos.down()).getBlock().getMaterial();
+         if (material.blocksMovement() || material.isLiquid()) {
+            worldIn.setBlockState(pos, Blocks.flowing_water.getDefaultState());
          }
       }
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (var1.getLightFor(EnumSkyBlock.BLOCK, var2) > (int)l - this.getLightOpacity()) {
-         if (var1.provider.doesWaterVaporize()) {
-            var1.setBlockToAir(var2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > (int)l - this.getLightOpacity()) {
+         if (worldIn.provider.doesWaterVaporize()) {
+            worldIn.setBlockToAir(pos);
          } else {
-            this.dropBlockAsItem(var1, var2, var1.getBlockState(var2), 0);
-            var1.setBlockState(var2, Blocks.water.getDefaultState());
+            this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
+            worldIn.setBlockState(pos, Blocks.water.getDefaultState());
          }
       }
    }

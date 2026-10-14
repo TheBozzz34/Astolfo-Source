@@ -14,30 +14,30 @@ public class ItemWritableBook extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      var3.displayGUIBook(var1);
-      var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-      return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      playerIn.displayGUIBook(itemStackIn);
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      return itemStackIn;
    }
 
-   public static boolean isNBTValid(NBTTagCompound var0) {
-      if (var0 == null) {
+   public static boolean isNBTValid(NBTTagCompound nbt) {
+      if (nbt == null) {
          return false;
       }
 
-      if (!var0.hasKey("pages", 9)) {
+      if (!nbt.hasKey("pages", 9)) {
          return false;
       }
 
-      NBTTagList var4 = var0.getTagList("pages", 8);
+      NBTTagList nbtTagList = nbt.getTagList("pages", 8);
 
-      for (int var5 = 0; var5 < var4.tagCount(); var5++) {
-         String var6 = var4.getStringTagAt(var5);
-         if (var6 == null) {
+      for (int i = 0; i < nbtTagList.tagCount(); i++) {
+         String string = nbtTagList.getStringTagAt(i);
+         if (string == null) {
             return false;
          }
 
-         if (var6.length() > 32767) {
+         if (string.length() > 32767) {
             return false;
          }
       }

@@ -10,16 +10,16 @@ public final class CachingVerdictResolver extends AbstractVerdictResolver {
    private final Map<Class<? extends LoadStage>, List<StageCheck>> f = new ConcurrentHashMap<>();
 
    @Override
-   public Verdict v(CheckContext var1) {
-      return VerdictResolution.M(new VerdictResolution(this, var1));
+   public Verdict v(CheckContext checkContext) {
+      return VerdictResolution.M(new VerdictResolution(this, checkContext));
    }
 
-   private List<StageCheck> findCachedResolvers(LoadStage var1, List<StageCheck> var2) {
-      Class var3 = var1.getClass();
-      return this.f.computeIfAbsent(var3, var1x -> new ArrayList<>(var2));
+   private List<StageCheck> findCachedResolvers(LoadStage loadStage, List<StageCheck> list) {
+      Class class2 = loadStage.getClass();
+      return this.f.computeIfAbsent(class2, class3 -> new ArrayList<>(list));
    }
 
-   public static List s(CachingVerdictResolver var0, LoadStage var1, List var2) {
-      return var0.findCachedResolvers(var1, var2);
+   public static List s(CachingVerdictResolver cachingVerdictResolver, LoadStage loadStage, List list) {
+      return cachingVerdictResolver.findCachedResolvers(loadStage, list);
    }
 }

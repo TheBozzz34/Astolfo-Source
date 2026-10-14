@@ -19,8 +19,8 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
    private EntityPlayer playerInLove;
    private static final long eb = 120772434163378L;
 
-   public EntityAnimal(World var1) {
-      super(var1);
+   public EntityAnimal(World worldIn) {
+      super(worldIn);
    }
 
    @Override
@@ -42,57 +42,57 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
       if (this.inLove > 0) {
          this.inLove--;
          if (this.inLove % 10 == 0) {
-            double var4 = this.rand.nextGaussian() * 0.02;
-            double var6 = this.rand.nextGaussian() * 0.02;
-            double var8 = this.rand.nextGaussian() * 0.02;
+            double d = this.rand.nextGaussian() * 0.02;
+            double e = this.rand.nextGaussian() * 0.02;
+            double d2 = this.rand.nextGaussian() * 0.02;
             this.worldObj
                .spawnParticle(
                   EnumParticleTypes.HEART,
                   this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
                   this.posY + 0.5 + this.rand.nextFloat() * this.height,
                   this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width,
-                  var4,
-                  var6,
-                  var8
+                  d,
+                  e,
+                  d2
                );
          }
       }
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      if (this.isEntityInvulnerable(var1)) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isEntityInvulnerable(source)) {
          return false;
       }
 
       this.inLove = 0;
-      return super.attackEntityFrom(var1, var2);
+      return super.attackEntityFrom(source, amount);
    }
 
    @Override
-   public float getBlockPathWeight(BlockPos var1) {
-      return this.worldObj.getBlockState(var1.down()).getBlock() == Blocks.grass ? 10.0F : this.worldObj.getLightBrightness(var1) - 0.5F;
+   public float getBlockPathWeight(BlockPos pos) {
+      return this.worldObj.getBlockState(pos.down()).getBlock() == Blocks.grass ? 10.0F : this.worldObj.getLightBrightness(pos) - 0.5F;
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setInteger("InLove", this.inLove);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setInteger("InLove", this.inLove);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.inLove = var1.getInteger("InLove");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.inLove = tagCompund.getInteger("InLove");
    }
 
    @Override
    public boolean getCanSpawnHere() {
-      int var4 = MathHelper.floor_double(this.posX);
-      int var5 = MathHelper.floor_double(this.getEntityBoundingBox().minY);
-      int var6 = MathHelper.floor_double(this.posZ);
-      BlockPos var7 = new BlockPos(var4, var5, var6);
-      return this.worldObj.getBlockState(var7.down()).getBlock() == this.spawnableBlock && this.worldObj.getLight(var7) > 8 && super.getCanSpawnHere();
+      int i = MathHelper.floor_double(this.posX);
+      int j = MathHelper.floor_double(this.getEntityBoundingBox().minY);
+      int k = MathHelper.floor_double(this.posZ);
+      BlockPos blockPos = new BlockPos(i, j, k);
+      return this.worldObj.getBlockState(blockPos.down()).getBlock() == this.spawnableBlock && this.worldObj.getLight(blockPos) > 8 && super.getCanSpawnHere();
    }
 
    @Override
@@ -106,46 +106,46 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
    }
 
    @Override
-   public int getExperiencePoints(EntityPlayer var1) {
+   public int getExperiencePoints(EntityPlayer player) {
       return 1 + this.worldObj.rand.nextInt(3);
    }
 
-   public boolean isBreedingItem(ItemStack var1) {
-      return var1 == null ? false : var1.getItem() == Items.wheat;
+   public boolean isBreedingItem(ItemStack stack) {
+      return stack == null ? false : stack.getItem() == Items.wheat;
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      if (var5 != null) {
-         if (this.isBreedingItem(var5) && this.getGrowingAge() == 0 && this.inLove <= 0) {
-            this.consumeItemFromStack(var1, var5);
-            this.setInLove(var1);
+   public boolean interact(EntityPlayer player) {
+      ItemStack itemStack = player.inventory.getCurrentItem();
+      if (itemStack != null) {
+         if (this.isBreedingItem(itemStack) && this.getGrowingAge() == 0 && this.inLove <= 0) {
+            this.consumeItemFromStack(player, itemStack);
+            this.setInLove(player);
             return true;
          }
 
-         if (this.isChild() && this.isBreedingItem(var5)) {
-            this.consumeItemFromStack(var1, var5);
+         if (this.isChild() && this.isBreedingItem(itemStack)) {
+            this.consumeItemFromStack(player, itemStack);
             this.func_175501_a((int)(-this.getGrowingAge() / 20 * 0.1F), true);
             return true;
          }
       }
 
-      return super.interact(var1);
+      return super.interact(player);
    }
 
-   public void consumeItemFromStack(EntityPlayer var1, ItemStack var2) {
-      if (!var1.capabilities.isCreativeMode) {
-         var2.stackSize--;
-         if (var2.stackSize <= 0) {
-            var1.inventory.setInventorySlotContents(var1.inventory.currentItem, (ItemStack)null);
+   public void consumeItemFromStack(EntityPlayer player, ItemStack stack) {
+      if (!player.capabilities.isCreativeMode) {
+         stack.stackSize--;
+         if (stack.stackSize <= 0) {
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
          }
       }
    }
 
-   public void setInLove(EntityPlayer var1) {
+   public void setInLove(EntityPlayer player) {
       this.inLove = 600;
-      this.playerInLove = var1;
+      this.playerInLove = player;
       this.worldObj.setEntityState(this, (byte)18);
    }
 
@@ -161,30 +161,30 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
       this.inLove = 0;
    }
 
-   public boolean canMateWith(EntityAnimal var1) {
-      return var1 == this ? false : (var1.getClass() != this.getClass() ? false : this.isInLove() && var1.isInLove());
+   public boolean canMateWith(EntityAnimal otherAnimal) {
+      return otherAnimal == this ? false : (otherAnimal.getClass() != this.getClass() ? false : this.isInLove() && otherAnimal.isInLove());
    }
 
    @Override
-   public void handleStatusUpdate(byte var1) {
-      if (var1 == 18) {
-         for (int var5 = 0; var5 < 7; var5++) {
-            double var6 = this.rand.nextGaussian() * 0.02;
-            double var8 = this.rand.nextGaussian() * 0.02;
-            double var10 = this.rand.nextGaussian() * 0.02;
+   public void handleStatusUpdate(byte id) {
+      if (id == 18) {
+         for (int i = 0; i < 7; i++) {
+            double d = this.rand.nextGaussian() * 0.02;
+            double e = this.rand.nextGaussian() * 0.02;
+            double d2 = this.rand.nextGaussian() * 0.02;
             this.worldObj
                .spawnParticle(
                   EnumParticleTypes.HEART,
                   this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
                   this.posY + 0.5 + this.rand.nextFloat() * this.height,
                   this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width,
-                  var6,
-                  var8,
-                  var10
+                  d,
+                  e,
+                  d2
                );
          }
       } else {
-         super.handleStatusUpdate(var1);
+         super.handleStatusUpdate(id);
       }
    }
 }

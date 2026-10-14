@@ -18,51 +18,51 @@ public class BlockBush extends Block {
       this(Material.plants);
    }
 
-   public BlockBush(Material var1) {
-      this(var1, var1.getMaterialMapColor());
+   public BlockBush(Material materialIn) {
+      this(materialIn, materialIn.getMaterialMapColor());
    }
 
-   public BlockBush(Material var1, MapColor var2) {
-      super(var1, var2);
+   public BlockBush(Material material, MapColor mapColor) {
+      super(material, mapColor);
       this.setTickRandomly(true);
-      float var3 = 0.2F;
-      this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 3.0F, 0.5F + var3);
+      float f = 0.2F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return super.canPlaceBlockAt(var1, var2) && this.canPlaceBlockOn(var1.getBlockState(var2.down()).getBlock());
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return super.canPlaceBlockAt(worldIn, pos) && this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
    }
 
-   public boolean canPlaceBlockOn(Block var1) {
-      return var1 == Blocks.grass || var1 == Blocks.dirt || var1 == Blocks.farmland;
-   }
-
-   @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      super.onNeighborBlockChange(var1, var2, var3, var4);
-      this.checkAndDropBlock(var1, var2, var3);
+   public boolean canPlaceBlockOn(Block ground) {
+      return ground == Blocks.grass || ground == Blocks.dirt || ground == Blocks.farmland;
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      this.checkAndDropBlock(var1, var2, var3);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+      this.checkAndDropBlock(worldIn, pos, state);
    }
 
-   public void checkAndDropBlock(World var1, BlockPos var2, IBlockState var3) {
-      if (!this.canBlockStay(var1, var2, var3)) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockState(var2, Blocks.air.getDefaultState(), 3);
+   @Override
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      this.checkAndDropBlock(worldIn, pos, state);
+   }
+
+   public void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state) {
+      if (!this.canBlockStay(worldIn, pos, state)) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
       }
    }
 
-   public boolean canBlockStay(World var1, BlockPos var2, IBlockState var3) {
-      return this.canPlaceBlockOn(var1.getBlockState(var2.down()).getBlock());
+   public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+      return this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 

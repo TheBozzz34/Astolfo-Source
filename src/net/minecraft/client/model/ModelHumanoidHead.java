@@ -13,14 +13,16 @@ public class ModelHumanoidHead extends ModelSkeletonHead {
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      super.render(var1, var2, var3, var4, var5, var6, var7);
-      this.head.render(var7);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      super.render(entityIn, f, g, h, f2, f3, scale);
+      this.head.render(scale);
    }
 
    @Override
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
-      super.setRotationAngles(var1, var2, var3, var4, var5, var6, var7);
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
+      super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
       this.head.rotateAngleY = this.skeletonHead.rotateAngleY;
       this.head.rotateAngleX = this.skeletonHead.rotateAngleX;
    }

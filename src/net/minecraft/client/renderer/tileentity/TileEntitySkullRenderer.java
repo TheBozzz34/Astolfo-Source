@@ -26,30 +26,30 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
    private final ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
    private static final long a = 38092187634674L;
 
-   public void renderTileEntityAt(TileEntitySkull var1, double var2, double var4, double var6, float var8, int var9) {
-      EnumFacing var12 = EnumFacing.getFront(var1.getBlockMetadata() & 7);
-      this.renderSkull((float)var2, (float)var4, (float)var6, var12, var1.getSkullRotation() * 360 / 16.0F, var1.getSkullType(), var1.getPlayerProfile(), var9);
+   public void renderTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks, int destroyStage) {
+      EnumFacing enumFacing = EnumFacing.getFront(te.getBlockMetadata() & 7);
+      this.renderSkull((float)x, (float)y, (float)z, enumFacing, te.getSkullRotation() * 360 / 16.0F, te.getSkullType(), te.getPlayerProfile(), destroyStage);
    }
 
    @Override
-   public void setRendererDispatcher(TileEntityRendererDispatcher var1) {
-      super.setRendererDispatcher(var1);
+   public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcherIn) {
+      super.setRendererDispatcher(rendererDispatcherIn);
       instance = this;
    }
 
-   public void renderSkull(float var1, float var2, float var3, EnumFacing var4, float var5, int var6, GameProfile var7, int var8) {
-      long var9 = a ^ 106583929973648L;
-      ModelSkeletonHead var12 = this.skeletonHead;
-      if (var8 >= 0) {
-         this.bindTexture(DESTROY_STAGES[var8]);
+   public void renderSkull(float f, float g, float h, EnumFacing enumFacing, float f2, int i, GameProfile gameProfile, int j) {
+      long l = a ^ 106583929973648L;
+      ModelSkeletonHead modelSkeletonHead = this.skeletonHead;
+      if (j >= 0) {
+         this.bindTexture(DESTROY_STAGES[j]);
          GlStateManager.matrixMode(5890);
          GlStateManager.pushMatrix();
-         long var10000 = 691122399483883479L ^ var9;
+         long m = 691122399483883479L ^ l;
          GlStateManager.scale(4.0F, 2.0F, 1.0F);
          GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
          GlStateManager.matrixMode(5888);
       } else {
-         switch (var6) {
+         switch (i) {
             case 0:
             default:
                this.bindTexture(SKELETON_TEXTURES);
@@ -59,28 +59,28 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
                break;
             case 2:
                this.bindTexture(ZOMBIE_TEXTURES);
-               var12 = this.humanoidHead;
+               modelSkeletonHead = this.humanoidHead;
                break;
             case 3:
-               var12 = this.humanoidHead;
-               ResourceLocation var13 = DefaultPlayerSkin.getDefaultSkinLegacy();
-               if (var7 != null) {
-                  if (var7.getName() != null && var7.getName().equalsIgnoreCase("Epic Gamer Skull")) {
-                     this.bindTexture(var13);
+               modelSkeletonHead = this.humanoidHead;
+               ResourceLocation resourceLocation = DefaultPlayerSkin.getDefaultSkinLegacy();
+               if (gameProfile != null) {
+                  if (gameProfile.getName() != null && gameProfile.getName().equalsIgnoreCase("Epic Gamer Skull")) {
+                     this.bindTexture(resourceLocation);
                      return;
                   }
 
-                  Minecraft var14 = Minecraft.getMinecraft();
-                  Map var15 = var14.getSkinManager().loadSkinFromCache(var7);
-                  if (var15.containsKey(Type.SKIN)) {
-                     var13 = var14.getSkinManager().loadSkin((MinecraftProfileTexture)var15.get(Type.SKIN), Type.SKIN);
+                  Minecraft minecraft = Minecraft.getMinecraft();
+                  Map map = minecraft.getSkinManager().loadSkinFromCache(gameProfile);
+                  if (map.containsKey(Type.SKIN)) {
+                     resourceLocation = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture)map.get(Type.SKIN), Type.SKIN);
                   } else {
-                     UUID var16 = EntityPlayer.getUUID(var7);
-                     var13 = DefaultPlayerSkin.getDefaultSkin(var16);
+                     UUID uuid = EntityPlayer.getUUID(gameProfile);
+                     resourceLocation = DefaultPlayerSkin.getDefaultSkin(uuid);
                   }
                }
 
-               this.bindTexture(var13);
+               this.bindTexture(resourceLocation);
                break;
             case 4:
                this.bindTexture(CREEPER_TEXTURES);
@@ -89,38 +89,38 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
 
       GlStateManager.pushMatrix();
       GlStateManager.disableCull();
-      if (var4 != EnumFacing.UP) {
-         switch (var4) {
+      if (enumFacing != EnumFacing.UP) {
+         switch (enumFacing) {
             case NORTH:
-               GlStateManager.translate(var1 + 0.5F, var2 + 0.25F, var3 + 0.74F);
+               GlStateManager.translate(f + 0.5F, g + 0.25F, h + 0.74F);
                break;
             case SOUTH:
-               GlStateManager.translate(var1 + 0.5F, var2 + 0.25F, var3 + 0.26F);
-               var5 = 180.0F;
+               GlStateManager.translate(f + 0.5F, g + 0.25F, h + 0.26F);
+               f2 = 180.0F;
                break;
             case WEST:
-               GlStateManager.translate(var1 + 0.74F, var2 + 0.25F, var3 + 0.5F);
-               var5 = 270.0F;
+               GlStateManager.translate(f + 0.74F, g + 0.25F, h + 0.5F);
+               f2 = 270.0F;
                break;
             case EAST:
             default:
-               GlStateManager.translate(var1 + 0.26F, var2 + 0.25F, var3 + 0.5F);
-               var5 = 90.0F;
+               GlStateManager.translate(f + 0.26F, g + 0.25F, h + 0.5F);
+               f2 = 90.0F;
          }
       } else {
-         GlStateManager.translate(var1 + 0.5F, var2, var3 + 0.5F);
+         GlStateManager.translate(f + 0.5F, g, h + 0.5F);
       }
 
-      float var17 = 0.0625F;
+      float f3 = 0.0625F;
       GlStateManager.enableRescaleNormal();
       GlStateManager.scale(-1.0F, -1.0F, 1.0F);
       GlStateManager.enableAlpha();
-      var12.render((Entity)null, 0.0F, 0.0F, 0.0F, var5, 0.0F, var17);
+      modelSkeletonHead.render((Entity)null, 0.0F, 0.0F, 0.0F, f2, 0.0F, f3);
       GlStateManager.popMatrix();
-      if (var8 >= 0) {
+      if (j >= 0) {
          GlStateManager.matrixMode(5890);
          GlStateManager.popMatrix();
-         long var18 = 7892806324261564880L ^ var9;
+         long n = 7892806324261564880L ^ l;
          GlStateManager.matrixMode(5888);
       }
    }

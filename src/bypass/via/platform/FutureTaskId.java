@@ -6,8 +6,8 @@ import java.util.concurrent.Future;
 public class FutureTaskId implements PlatformTask<Future<?>> {
    private final Future<?> D;
 
-   public FutureTaskId(Future<?> var1) {
-      this.D = var1;
+   public FutureTaskId(Future<?> future) {
+      this.D = future;
    }
 
    public Future<?> getObject() {

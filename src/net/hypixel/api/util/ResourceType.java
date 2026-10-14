@@ -11,8 +11,8 @@ public enum ResourceType {
 
    private String path;
 
-   ResourceType(String var3) {
-      this.path = var3;
+   ResourceType(String path) {
+      this.path = path;
    }
 
    public String getPath() {

@@ -18,49 +18,49 @@ public class CommandSaveAll extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.save.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      MinecraftServer var6 = MinecraftServer.getServer();
-      var1.addChatMessage(new ChatComponentTranslation("commands.save.start"));
-      if (var6.getConfigurationManager() != null) {
-         var6.getConfigurationManager().saveAllPlayerData();
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      sender.addChatMessage(new ChatComponentTranslation("commands.save.start"));
+      if (minecraftServer.getConfigurationManager() != null) {
+         minecraftServer.getConfigurationManager().saveAllPlayerData();
       }
 
       try {
-         for (int var7 = 0; var7 < var6.worldServers.length; var7++) {
-            if (var6.worldServers[var7] != null) {
-               WorldServer var8 = var6.worldServers[var7];
-               boolean var9 = var8.disableLevelSaving;
-               var8.disableLevelSaving = false;
-               var8.saveAllChunks(true, (IProgressUpdate)null);
-               var8.disableLevelSaving = var9;
+         for (int i = 0; i < minecraftServer.worldServers.length; i++) {
+            if (minecraftServer.worldServers[i] != null) {
+               WorldServer worldServer = minecraftServer.worldServers[i];
+               boolean bl = worldServer.disableLevelSaving;
+               worldServer.disableLevelSaving = false;
+               worldServer.saveAllChunks(true, (IProgressUpdate)null);
+               worldServer.disableLevelSaving = bl;
             }
          }
 
-         if (var2.length > 0 && "flush".equals(var2[0])) {
-            var1.addChatMessage(new ChatComponentTranslation("commands.save.flushStart"));
+         if (args.length > 0 && "flush".equals(args[0])) {
+            sender.addChatMessage(new ChatComponentTranslation("commands.save.flushStart"));
 
-            for (int var11 = 0; var11 < var6.worldServers.length; var11++) {
-               if (var6.worldServers[var11] != null) {
-                  WorldServer var12 = var6.worldServers[var11];
-                  boolean var13 = var12.disableLevelSaving;
-                  var12.disableLevelSaving = false;
-                  var12.saveChunkData();
-                  var12.disableLevelSaving = var13;
+            for (int j = 0; j < minecraftServer.worldServers.length; j++) {
+               if (minecraftServer.worldServers[j] != null) {
+                  WorldServer worldServer2 = minecraftServer.worldServers[j];
+                  boolean bl2 = worldServer2.disableLevelSaving;
+                  worldServer2.disableLevelSaving = false;
+                  worldServer2.saveChunkData();
+                  worldServer2.disableLevelSaving = bl2;
                }
             }
 
-            var1.addChatMessage(new ChatComponentTranslation("commands.save.flushEnd"));
+            sender.addChatMessage(new ChatComponentTranslation("commands.save.flushEnd"));
          }
-      } catch (MinecraftException var10) {
-         notifyOperators(var1, this, "commands.save.failed", var10.getMessage());
+      } catch (MinecraftException minecraftException) {
+         notifyOperators(sender, this, "commands.save.failed", minecraftException.getMessage());
          return;
       }
 
-      notifyOperators(var1, this, "commands.save.success");
+      notifyOperators(sender, this, "commands.save.success");
    }
 }

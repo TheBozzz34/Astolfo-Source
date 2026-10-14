@@ -9,9 +9,9 @@ public class MovingSoundMinecart extends MovingSound {
    private float distance = 0.0F;
    private static final long a = 78319928822880L;
 
-   public MovingSoundMinecart(EntityMinecart var1) {
+   public MovingSoundMinecart(EntityMinecart minecartIn) {
       super(new ResourceLocation("minecraft:minecart.base"));
-      this.minecart = var1;
+      this.minecart = minecartIn;
       this.repeat = true;
       this.repeatDelay = 0;
    }
@@ -24,10 +24,10 @@ public class MovingSoundMinecart extends MovingSound {
          this.xPosF = (float)this.minecart.posX;
          this.yPosF = (float)this.minecart.posY;
          this.zPosF = (float)this.minecart.posZ;
-         float var4 = MathHelper.sqrt_double(this.minecart.motionX * this.minecart.motionX + this.minecart.motionZ * this.minecart.motionZ);
-         if (var4 >= 0.01) {
+         float f = MathHelper.sqrt_double(this.minecart.motionX * this.minecart.motionX + this.minecart.motionZ * this.minecart.motionZ);
+         if (f >= 0.01) {
             this.distance = MathHelper.clamp_float(this.distance + 0.0025F, 0.0F, 1.0F);
-            this.volume = 0.0F + MathHelper.clamp_float(var4, 0.0F, 0.5F) * 0.7F;
+            this.volume = 0.0F + MathHelper.clamp_float(f, 0.0F, 0.5F) * 0.7F;
          } else {
             this.distance = 0.0F;
             this.volume = 0.0F;

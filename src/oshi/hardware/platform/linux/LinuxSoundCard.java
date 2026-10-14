@@ -15,44 +15,44 @@ public final class LinuxSoundCard extends AbstractSoundCard {
    private static final long c = 2526995184006L;
    private static final long j = 3439901047521280035L;
 
-   public LinuxSoundCard(String var1, String var2, String var3) {
-      super(var1, var2, var3);
+   public LinuxSoundCard(String kernelVersion, String name, String codec) {
+      super(kernelVersion, name, codec);
    }
 
    private static List<File> getCardFolders() {
-      File var3 = new File(ProcPath.ASOUND);
-      ArrayList var4 = new ArrayList();
-      File[] var5 = var3.listFiles();
-      if (var5 != null) {
-         for (File var9 : var5) {
-            if (var9.getName().startsWith("card") && var9.isDirectory()) {
-               var4.add(var9);
+      File file = new File(ProcPath.ASOUND);
+      ArrayList arrayList = new ArrayList();
+      File[] files = file.listFiles();
+      if (files != null) {
+         for (File file2 : files) {
+            if (file2.getName().startsWith("card") && file2.isDirectory()) {
+               arrayList.add(file2);
             }
          }
       }
 
-      return var4;
+      return arrayList;
    }
 
    private static String getSoundCardVersion() {
-      String var3 = FileUtil.getStringFromFile(ProcPath.ASOUND + "version");
-      return var3.isEmpty() ? "not available" : var3;
+      String string = FileUtil.getStringFromFile(ProcPath.ASOUND + "version");
+      return string.isEmpty() ? "not available" : string;
    }
 
-   private static String getCardCodec(File var0) {
-      String var4 = "";
-      File[] var5 = var0.listFiles();
-      if (var5 != null) {
-         for (File var9 : var5) {
-            if (var9.getName().startsWith("codec")) {
-               if (!var9.isDirectory()) {
-                  var4 = FileUtil.getKeyValueMapFromFile(var9.getPath(), ":").get("Codec");
+   private static String getCardCodec(File cardDir) {
+      String string = "";
+      File[] files = cardDir.listFiles();
+      if (files != null) {
+         for (File file : files) {
+            if (file.getName().startsWith("codec")) {
+               if (!file.isDirectory()) {
+                  string = FileUtil.getKeyValueMapFromFile(file.getPath(), ":").get("Codec");
                } else {
-                  File[] var10 = var9.listFiles();
-                  if (var10 != null) {
-                     for (File var14 : var10) {
-                        if (!var14.isDirectory() && var14.getName().contains("#")) {
-                           var4 = var14.getName().substring(0, var14.getName().indexOf((int)j));
+                  File[] files2 = file.listFiles();
+                  if (files2 != null) {
+                     for (File file2 : files2) {
+                        if (!file2.isDirectory() && file2.getName().contains("#")) {
+                           string = file2.getName().substring(0, file2.getName().indexOf((int)j));
                            break;
                         }
                      }
@@ -62,31 +62,31 @@ public final class LinuxSoundCard extends AbstractSoundCard {
          }
       }
 
-      return var4;
+      return string;
    }
 
-   private static String getCardName(File var0) {
-      String var4 = "Not Found..";
-      Map var5 = FileUtil.getKeyValueMapFromFile(ProcPath.ASOUND + "/" + "cards", ":");
-      String var6 = FileUtil.getStringFromFile(var0.getPath() + "/" + "id");
+   private static String getCardName(File file) {
+      String string = "Not Found..";
+      Map map = FileUtil.getKeyValueMapFromFile(ProcPath.ASOUND + "/" + "cards", ":");
+      String string2 = FileUtil.getStringFromFile(file.getPath() + "/" + "id");
 
-      for (Object var8$raw : var5.entrySet()) {
-         Entry var8 = (Entry)var8$raw;
-         if (((String)var8.getKey()).contains(var6)) {
-            return (String)var8.getValue();
+      for (Object object : map.entrySet()) {
+         Entry entry = (Entry)object;
+         if (((String)entry.getKey()).contains(string2)) {
+            return (String)entry.getValue();
          }
       }
 
-      return var4;
+      return string;
    }
 
    public static List<LinuxSoundCard> getSoundCards() {
-      ArrayList var3 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (File var5 : getCardFolders()) {
-         var3.add(new LinuxSoundCard(getSoundCardVersion(), getCardName(var5), getCardCodec(var5)));
+      for (File file : getCardFolders()) {
+         arrayList.add(new LinuxSoundCard(getSoundCardVersion(), getCardName(file), getCardCodec(file)));
       }
 
-      return var3;
+      return arrayList;
    }
 }

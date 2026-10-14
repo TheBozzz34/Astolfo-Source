@@ -15,10 +15,10 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
    private int searchLength;
    private static final long c = 101872267221811L;
 
-   public EntityAIMoveToBlock(EntityCreature var1, double var2, int var4) {
-      this.theEntity = var1;
-      this.movementSpeed = var2;
-      this.searchLength = var4;
+   public EntityAIMoveToBlock(EntityCreature creature, double speedIn, int length) {
+      this.theEntity = creature;
+      this.movementSpeed = speedIn;
+      this.searchLength = length;
       this.setMutexBits(5);
    }
 
@@ -72,16 +72,16 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
    }
 
    private boolean searchForDestination() {
-      int var4 = this.searchLength;
-      BlockPos var6 = new BlockPos(this.theEntity);
+      int i = this.searchLength;
+      BlockPos blockPos = new BlockPos(this.theEntity);
 
-      for (int var7 = 0; var7 <= 1; var7 = (byte)(var7 > 0 ? -var7 : 1 - var7)) {
-         for (int var8 = 0; var8 < var4; var8++) {
-            for (int var9 = 0; var9 <= var8; var9 = (byte)(var9 > 0 ? -var9 : 1 - var9)) {
-               for (int var10 = (byte)(var9 < var8 && var9 > -var8 ? var8 : 0); var10 <= var8; var10 = (byte)(var10 > 0 ? -var10 : 1 - var10)) {
-                  BlockPos var11 = var6.add(var9, var7 - 1, var10);
-                  if (this.theEntity.isWithinHomeDistanceFromPosition(var11) && this.shouldMoveTo(this.theEntity.worldObj, var11)) {
-                     this.destinationBlock = var11;
+      for (int j = 0; j <= 1; j = (byte)(j > 0 ? -j : 1 - j)) {
+         for (int k = 0; k < i; k++) {
+            for (int l = 0; l <= k; l = (byte)(l > 0 ? -l : 1 - l)) {
+               for (int m = (byte)(l < k && l > -k ? k : 0); m <= k; m = (byte)(m > 0 ? -m : 1 - m)) {
+                  BlockPos blockPos2 = blockPos.add(l, j - 1, m);
+                  if (this.theEntity.isWithinHomeDistanceFromPosition(blockPos2) && this.shouldMoveTo(this.theEntity.worldObj, blockPos2)) {
+                     this.destinationBlock = blockPos2;
                      return true;
                   }
                }
@@ -92,5 +92,5 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
       return false;
    }
 
-   public abstract boolean shouldMoveTo(World var1, BlockPos var2);
+   public abstract boolean shouldMoveTo(World worldIn, BlockPos pos);
 }

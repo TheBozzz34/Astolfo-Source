@@ -19,32 +19,32 @@ public final class MacNetworkParams extends AbstractNetworkParams {
 
    @Override
    public String getDomainName() {
-      CLibrary.Addrinfo var3 = new CLibrary.Addrinfo();
-      var3.ai_flags = 2;
-      String var4 = "";
+      CLibrary.Addrinfo addrinfo = new CLibrary.Addrinfo();
+      addrinfo.ai_flags = 2;
+      String string = "";
 
       try {
-         var4 = InetAddress.getLocalHost().getHostName();
-      } catch (UnknownHostException var9) {
+         string = InetAddress.getLocalHost().getHostName();
+      } catch (UnknownHostException unknownHostException) {
          return "";
       }
 
-      PointerByReference var5 = new PointerByReference();
-      int var6 = SYS.getaddrinfo(var4, null, var3, var5);
-      if (var6 > 0) {
+      PointerByReference pointerByReference = new PointerByReference();
+      int i = SYS.getaddrinfo(string, null, addrinfo, pointerByReference);
+      if (i > 0) {
          return "";
       }
 
-      CLibrary.Addrinfo var7 = new CLibrary.Addrinfo(var5.getValue());
-      String var8 = var7.ai_canonname.trim();
-      SYS.freeaddrinfo(var5.getValue());
-      return var8;
+      CLibrary.Addrinfo addrinfo2 = new CLibrary.Addrinfo(pointerByReference.getValue());
+      String string2 = addrinfo2.ai_canonname.trim();
+      SYS.freeaddrinfo(pointerByReference.getValue());
+      return string2;
    }
 
    @Override
    public String getHostName() {
-      byte[] var3 = new byte[256];
-      return 0 != SYS.gethostname(var3, var3.length) ? super.getHostName() : Native.toString(var3);
+      byte[] bytes = new byte[256];
+      return 0 != SYS.gethostname(bytes, bytes.length) ? super.getHostName() : Native.toString(bytes);
    }
 
    @Override
@@ -54,18 +54,18 @@ public final class MacNetworkParams extends AbstractNetworkParams {
 
    @Override
    public String getIpv6DefaultGateway() {
-      List var4 = ExecutingCommand.runNative("netstat -nr");
-      boolean var5 = false;
+      List list = ExecutingCommand.runNative("netstat -nr");
+      boolean bl = false;
 
-      for (Object var7$raw : var4) {
-         String var7 = (String)var7$raw;
-         if (var5 && var7.startsWith("default")) {
-            String[] var8 = ParseUtil.Q.split(var7);
-            if (var8.length > 2 && var8[2].contains("G")) {
-               return var8[1].split("%")[0];
+      for (Object object : list) {
+         String string = (String)object;
+         if (bl && string.startsWith("default")) {
+            String[] strings = ParseUtil.Q.split(string);
+            if (strings.length > 2 && strings[2].contains("G")) {
+               return strings[1].split("%")[0];
             }
-         } else if (var7.startsWith("Internet6:")) {
-            var5 = true;
+         } else if (string.startsWith("Internet6:")) {
+            bl = true;
          }
       }
 

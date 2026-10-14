@@ -9,8 +9,8 @@ public class Tessellator {
       return instance;
    }
 
-   public Tessellator(int var1) {
-      this.worldRenderer = new WorldRenderer(var1);
+   public Tessellator(int bufferSize) {
+      this.worldRenderer = new WorldRenderer(bufferSize);
    }
 
    public void draw() {

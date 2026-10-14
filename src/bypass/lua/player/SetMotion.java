@@ -8,12 +8,12 @@ public final class SetMotion extends ThreeArgFunction {
    private static final long a = 42601729641317L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2, LuaValue var3) {
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2, LuaValue luaValue3) {
       if (ClientAccess.mc.thePlayer != null) {
-         if (var1.isnumber() && var2.isnumber() && var3.isnumber()) {
-            ClientAccess.mc.thePlayer.motionX = var1.todouble();
-            ClientAccess.mc.thePlayer.motionY = var2.todouble();
-            ClientAccess.mc.thePlayer.motionZ = var3.todouble();
+         if (luaValue.isnumber() && luaValue2.isnumber() && luaValue3.isnumber()) {
+            ClientAccess.mc.thePlayer.motionX = luaValue.todouble();
+            ClientAccess.mc.thePlayer.motionY = luaValue2.todouble();
+            ClientAccess.mc.thePlayer.motionZ = luaValue3.todouble();
             return valueOf(true);
          } else {
             return valueOf(false);

@@ -8,39 +8,39 @@ import java.util.UUID;
 public class UserListBansEntry extends BanEntry<GameProfile> {
    private static final long b = 16197147225991L;
 
-   public UserListBansEntry(GameProfile var1) {
-      this(var1, (Date)null, (String)null, (Date)null, (String)null);
+   public UserListBansEntry(GameProfile profile) {
+      this(profile, (Date)null, (String)null, (Date)null, (String)null);
    }
 
-   public UserListBansEntry(GameProfile var1, Date var2, String var3, Date var4, String var5) {
-      super(var1, var4, var3, var4, var5);
+   public UserListBansEntry(GameProfile profile, Date startDate, String banner, Date endDate, String banReason) {
+      super(profile, endDate, banner, endDate, banReason);
    }
 
-   public UserListBansEntry(JsonObject var1) {
-      super(toGameProfile(var1), var1);
+   public UserListBansEntry(JsonObject json) {
+      super(toGameProfile(json), json);
    }
 
    @Override
-   public void onSerialization(JsonObject var1) {
+   public void onSerialization(JsonObject data) {
       if (this.getValue() != null) {
-         var1.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
-         var1.addProperty("name", this.getValue().getName());
-         super.onSerialization(var1);
+         data.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
+         data.addProperty("name", this.getValue().getName());
+         super.onSerialization(data);
       }
    }
 
-   private static GameProfile toGameProfile(JsonObject var0) {
-      if (var0.has("uuid") && var0.has("name")) {
-         String var4 = var0.get("uuid").getAsString();
+   private static GameProfile toGameProfile(JsonObject json) {
+      if (json.has("uuid") && json.has("name")) {
+         String string = json.get("uuid").getAsString();
 
-         UUID var5;
+         UUID uuid2;
          try {
-            var5 = UUID.fromString(var4);
-         } catch (Throwable var7) {
+            uuid2 = UUID.fromString(string);
+         } catch (Throwable throwable) {
             return null;
          }
 
-         return new GameProfile(var5, var0.get("name").getAsString());
+         return new GameProfile(uuid2, json.get("name").getAsString());
       } else {
          return null;
       }

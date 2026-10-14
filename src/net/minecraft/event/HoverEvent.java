@@ -9,9 +9,9 @@ public class HoverEvent {
    private final IChatComponent value;
    private static final long a = 125928444258670L;
 
-   public HoverEvent(HoverEvent.Action var1, IChatComponent var2) {
-      this.action = var1;
-      this.value = var2;
+   public HoverEvent(HoverEvent.Action actionIn, IChatComponent valueIn) {
+      this.action = actionIn;
+      this.value = valueIn;
    }
 
    public HoverEvent.Action getAction() {
@@ -23,22 +23,22 @@ public class HoverEvent {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (var1 != null && this.getClass() == var1.getClass()) {
-         HoverEvent var5 = (HoverEvent)var1;
-         if (this.action != var5.action) {
+      if (object != null && this.getClass() == object.getClass()) {
+         HoverEvent hoverEvent = (HoverEvent)object;
+         if (this.action != hoverEvent.action) {
             return false;
          }
 
          if (this.value != null) {
-            if (!this.value.equals(var5.value)) {
+            if (!this.value.equals(hoverEvent.value)) {
                return false;
             }
-         } else if (var5.value != null) {
+         } else if (hoverEvent.value != null) {
             return false;
          }
 
@@ -55,8 +55,8 @@ public class HoverEvent {
 
    @Override
    public int hashCode() {
-      int var4 = this.action.hashCode();
-      return 31 * var4 + (this.value != null ? this.value.hashCode() : 0);
+      int i = this.action.hashCode();
+      return 31 * i + (this.value != null ? this.value.hashCode() : 0);
    }
 
    public enum Action {
@@ -69,9 +69,9 @@ public class HoverEvent {
       private final boolean allowedInChat;
       private final String canonicalName;
 
-      Action(String var3, boolean var4) {
-         this.canonicalName = var3;
-         this.allowedInChat = var4;
+      Action(String canonicalNameIn, boolean allowedInChatIn) {
+         this.canonicalName = canonicalNameIn;
+         this.allowedInChat = allowedInChatIn;
       }
 
       public boolean shouldAllowInChat() {
@@ -82,13 +82,13 @@ public class HoverEvent {
          return this.canonicalName;
       }
 
-      public static HoverEvent.Action getValueByCanonicalName(String var0) {
-         return nameMapping.get(var0);
+      public static HoverEvent.Action getValueByCanonicalName(String canonicalNameIn) {
+         return nameMapping.get(canonicalNameIn);
       }
 
       static {
-         for (HoverEvent.Action var14 : values()) {
-            nameMapping.put(var14.getCanonicalName(), var14);
+         for (HoverEvent.Action action : values()) {
+            nameMapping.put(action.getCanonicalName(), action);
          }
       }
    }

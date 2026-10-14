@@ -201,8 +201,8 @@ public class Items {
    public static final Item prismarine_crystals;
    public static final Item banner;
 
-   private static Item getRegisteredItem(String var0) {
-      return Item.itemRegistry.getObject(new ResourceLocation(var0));
+   private static Item getRegisteredItem(String name) {
+      return Item.itemRegistry.getObject(new ResourceLocation(name));
    }
 
    static {

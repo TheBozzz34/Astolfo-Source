@@ -19,96 +19,96 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
    public S21PacketChunkData() {
    }
 
-   public S21PacketChunkData(Chunk var1, boolean var2, int var3) {
-      this.chunkX = var1.xPosition;
-      this.chunkZ = var1.zPosition;
-      this.field_149279_g = var2;
-      this.extractedData = getExtractedData(var1, var2, !var1.getWorld().provider.getHasNoSky(), var3);
+   public S21PacketChunkData(Chunk chunkIn, boolean bl, int i) {
+      this.chunkX = chunkIn.xPosition;
+      this.chunkZ = chunkIn.zPosition;
+      this.field_149279_g = bl;
+      this.extractedData = getExtractedData(chunkIn, bl, !chunkIn.getWorld().provider.getHasNoSky(), i);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.chunkX = var1.readInt();
-      this.chunkZ = var1.readInt();
-      this.field_149279_g = var1.readBoolean();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.chunkX = buf.readInt();
+      this.chunkZ = buf.readInt();
+      this.field_149279_g = buf.readBoolean();
       this.extractedData = new S21PacketChunkData.Extracted();
-      this.extractedData.dataSize = var1.readShort();
-      this.extractedData.data = var1.readByteArray();
+      this.extractedData.dataSize = buf.readShort();
+      this.extractedData.data = buf.readByteArray();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeInt(this.chunkX);
-      var1.writeInt(this.chunkZ);
-      var1.writeBoolean(this.field_149279_g);
-      var1.writeShort((short)(this.extractedData.dataSize & 65535));
-      var1.writeByteArray(this.extractedData.data);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeInt(this.chunkX);
+      buf.writeInt(this.chunkZ);
+      buf.writeBoolean(this.field_149279_g);
+      buf.writeShort((short)(this.extractedData.dataSize & 65535));
+      buf.writeByteArray(this.extractedData.data);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleChunkData(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleChunkData(this);
    }
 
    public byte[] getExtractedDataBytes() {
       return this.extractedData.data;
    }
 
-   public static int func_180737_a(int var0, boolean var1, boolean var2) {
-      int var6 = var0 * 2 * 16 * 16 * 16;
-      int var7 = var0 * 16 * 16 * 16 / 2;
-      int var8 = var1 ? var0 * 16 * 16 * 16 / 2 : 0;
-      int var9 = var2 ? 256 : 0;
-      return var6 + var7 + var8 + var9;
+   public static int func_180737_a(int i, boolean bl, boolean bl2) {
+      int j = i * 2 * 16 * 16 * 16;
+      int k = i * 16 * 16 * 16 / 2;
+      int l = bl ? i * 16 * 16 * 16 / 2 : 0;
+      int m = bl2 ? 256 : 0;
+      return j + k + l + m;
    }
 
-   public static S21PacketChunkData.Extracted getExtractedData(Chunk var0, boolean var1, boolean var2, int var3) {
-      ExtendedBlockStorage[] var7 = var0.getBlockStorageArray();
-      S21PacketChunkData.Extracted var8 = new S21PacketChunkData.Extracted();
-      ArrayList var9 = Lists.newArrayList();
+   public static S21PacketChunkData.Extracted getExtractedData(Chunk chunk, boolean bl, boolean bl2, int i) {
+      ExtendedBlockStorage[] extendedBlockStorages = chunk.getBlockStorageArray();
+      S21PacketChunkData.Extracted extracted = new S21PacketChunkData.Extracted();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (int var10 = 0; var10 < var7.length; var10++) {
-         ExtendedBlockStorage var11 = var7[var10];
-         if (var11 != null && (!var1 || !var11.isEmpty()) && (var3 & 1 << var10) != 0) {
-            var8.dataSize |= 1 << var10;
-            var9.add(var11);
+      for (int j = 0; j < extendedBlockStorages.length; j++) {
+         ExtendedBlockStorage extendedBlockStorage = extendedBlockStorages[j];
+         if (extendedBlockStorage != null && (!bl || !extendedBlockStorage.isEmpty()) && (i & 1 << j) != 0) {
+            extracted.dataSize |= 1 << j;
+            arrayList.add(extendedBlockStorage);
          }
       }
 
-      var8.data = new byte[func_180737_a(Integer.bitCount(var8.dataSize), var2, var1)];
-      int var18 = 0;
+      extracted.data = new byte[func_180737_a(Integer.bitCount(extracted.dataSize), bl2, bl)];
+      int k = 0;
 
-      for (Object var12$raw : var9) {
-         ExtendedBlockStorage var12 = (ExtendedBlockStorage)var12$raw;
-         char[] var13 = var12.getData();
+      for (Object object : arrayList) {
+         ExtendedBlockStorage extendedBlockStorage2 = (ExtendedBlockStorage)object;
+         char[] chars = extendedBlockStorage2.getData();
 
-         for (char var17 : var13) {
-            var8.data[var18++] = (byte)(var17 & 0xFF);
-            var8.data[var18++] = (byte)(var17 >> '\b' & 0xFF);
+         for (char c : chars) {
+            extracted.data[k++] = (byte)(c & 0xFF);
+            extracted.data[k++] = (byte)(c >> '\b' & 0xFF);
          }
       }
 
-      for (Object var23$raw : var9) {
-         ExtendedBlockStorage var23 = (ExtendedBlockStorage)var23$raw;
-         var18 = func_179757_a(var23.getBlocklightArray().getData(), var8.data, var18);
+      for (Object object2 : arrayList) {
+         ExtendedBlockStorage extendedBlockStorage3 = (ExtendedBlockStorage)object2;
+         k = func_179757_a(extendedBlockStorage3.getBlocklightArray().getData(), extracted.data, k);
       }
 
-      if (var2) {
-         for (Object var24$raw : var9) {
-            ExtendedBlockStorage var24 = (ExtendedBlockStorage)var24$raw;
-            var18 = func_179757_a(var24.getSkylightArray().getData(), var8.data, var18);
+      if (bl2) {
+         for (Object object3 : arrayList) {
+            ExtendedBlockStorage extendedBlockStorage4 = (ExtendedBlockStorage)object3;
+            k = func_179757_a(extendedBlockStorage4.getSkylightArray().getData(), extracted.data, k);
          }
       }
 
-      if (var1) {
-         func_179757_a(var0.getBiomeArray(), var8.data, var18);
+      if (bl) {
+         func_179757_a(chunk.getBiomeArray(), extracted.data, k);
       }
 
-      return var8;
+      return extracted;
    }
 
-   private static int func_179757_a(byte[] var0, byte[] var1, int var2) {
-      System.arraycopy(var0, 0, var1, var2, var0.length);
-      return var2 + var0.length;
+   private static int func_179757_a(byte[] bytes, byte[] bytes2, int i) {
+      System.arraycopy(bytes, 0, bytes2, i, bytes.length);
+      return i + bytes.length;
    }
 
    public int getChunkX() {

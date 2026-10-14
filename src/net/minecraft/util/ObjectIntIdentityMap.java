@@ -18,23 +18,23 @@ public class ObjectIntIdentityMap<T> implements IObjectIntIterable<T> {
       this.objectList = Lists.newArrayList();
    }
 
-   public void put(T var1, int var2) {
-      this.identityMap.put((T)var1, var2);
+   public void put(T key, int value) {
+      this.identityMap.put((T)key, value);
 
-      while (this.objectList.size() <= var2) {
+      while (this.objectList.size() <= value) {
          this.objectList.add(null);
       }
 
-      this.objectList.set(var2, (T)var1);
+      this.objectList.set(value, (T)key);
    }
 
-   public int get(T var1) {
-      Integer var4 = this.identityMap.get(var1);
-      return var4 == null ? -1 : var4;
+   public int get(T key) {
+      Integer integer = this.identityMap.get(key);
+      return integer == null ? -1 : integer;
    }
 
-   public final T getByValue(int var1) {
-      return var1 >= 0 && var1 < this.objectList.size() ? this.objectList.get(var1) : null;
+   public final T getByValue(int value) {
+      return value >= 0 && value < this.objectList.size() ? this.objectList.get(value) : null;
    }
 
    @Override

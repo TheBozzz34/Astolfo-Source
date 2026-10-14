@@ -16,41 +16,41 @@ public class BlockPressurePlate extends BlockBasePressurePlate {
    private final BlockPressurePlate.Sensitivity sensitivity;
    private static final long i = 38913928655762L;
 
-   public BlockPressurePlate(Material var1, BlockPressurePlate.Sensitivity var2) {
-      super(var1);
+   public BlockPressurePlate(Material materialIn, BlockPressurePlate.Sensitivity sensitivityIn) {
+      super(materialIn);
       this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, false));
-      this.sensitivity = var2;
+      this.sensitivity = sensitivityIn;
    }
 
    @Override
-   public int getRedstoneStrength(IBlockState var1) {
-      return var1.getValue(POWERED) ? 15 : 0;
+   public int getRedstoneStrength(IBlockState state) {
+      return state.getValue(POWERED) ? 15 : 0;
    }
 
    @Override
-   public IBlockState setRedstoneStrength(IBlockState var1, int var2) {
-      return var1.withProperty(POWERED, var2 > 0);
+   public IBlockState setRedstoneStrength(IBlockState state, int strength) {
+      return state.withProperty(POWERED, strength > 0);
    }
 
    @Override
-   public int computeRedstoneStrength(World var1, BlockPos var2) {
-      AxisAlignedBB var6 = this.getSensitiveAABB(var2);
-      List var7;
+   public int computeRedstoneStrength(World worldIn, BlockPos pos) {
+      AxisAlignedBB axisAlignedBB = this.getSensitiveAABB(pos);
+      List list;
       switch (this.sensitivity) {
          case EVERYTHING:
-            var7 = var1.getEntitiesWithinAABBExcludingEntity((Entity)null, var6);
+            list = worldIn.getEntitiesWithinAABBExcludingEntity((Entity)null, axisAlignedBB);
             break;
          case MOBS:
-            var7 = var1.getEntitiesWithinAABB(EntityLivingBase.class, var6);
+            list = worldIn.getEntitiesWithinAABB(EntityLivingBase.class, axisAlignedBB);
             break;
          default:
             return 0;
       }
 
-      if (!var7.isEmpty()) {
-         for (Object var9$raw : var7) {
-            Entity var9 = (Entity)var9$raw;
-            if (!var9.doesEntityNotTriggerPressurePlate()) {
+      if (!list.isEmpty()) {
+         for (Object object : list) {
+            Entity entity = (Entity)object;
+            if (!entity.doesEntityNotTriggerPressurePlate()) {
                return 15;
             }
          }
@@ -60,13 +60,13 @@ public class BlockPressurePlate extends BlockBasePressurePlate {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(POWERED, var1 == 1);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(POWERED, meta == 1);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(POWERED) ? 1 : 0;
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(POWERED) ? 1 : 0;
    }
 
    @Override

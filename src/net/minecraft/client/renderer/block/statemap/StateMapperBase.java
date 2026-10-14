@@ -12,36 +12,36 @@ public abstract class StateMapperBase implements IStateMapper {
    public Map<IBlockState, ModelResourceLocation> mapStateModelLocations = Maps.newLinkedHashMap();
    private static final long b = 103132157401295L;
 
-   public String getPropertyString(Map<IProperty, Comparable> var1) {
-      StringBuilder var5 = new StringBuilder();
+   public String getPropertyString(Map<IProperty, Comparable> map) {
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (Entry var7 : var1.entrySet()) {
-         if (var5.length() != 0) {
-            var5.append(",");
+      for (Entry entry : map.entrySet()) {
+         if (stringBuilder.length() != 0) {
+            stringBuilder.append(",");
          }
 
-         IProperty var8 = (IProperty)var7.getKey();
-         Comparable var9 = (Comparable)var7.getValue();
-         var5.append(var8.getName());
-         var5.append("=");
-         var5.append(var8.getName(var9));
+         IProperty iProperty = (IProperty)entry.getKey();
+         Comparable comparable = (Comparable)entry.getValue();
+         stringBuilder.append(iProperty.getName());
+         stringBuilder.append("=");
+         stringBuilder.append(iProperty.getName(comparable));
       }
 
-      if (var5.length() == 0) {
-         var5.append("normal");
+      if (stringBuilder.length() == 0) {
+         stringBuilder.append("normal");
       }
 
-      return var5.toString();
+      return stringBuilder.toString();
    }
 
    @Override
-   public Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block var1) {
-      for (IBlockState var6 : var1.getBlockState().getValidStates()) {
-         this.mapStateModelLocations.put(var6, this.getModelResourceLocation(var6));
+   public Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block blockIn) {
+      for (IBlockState iBlockState : blockIn.getBlockState().getValidStates()) {
+         this.mapStateModelLocations.put(iBlockState, this.getModelResourceLocation(iBlockState));
       }
 
       return this.mapStateModelLocations;
    }
 
-   public abstract ModelResourceLocation getModelResourceLocation(IBlockState var1);
+   public abstract ModelResourceLocation getModelResourceLocation(IBlockState state);
 }

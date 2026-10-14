@@ -8,13 +8,13 @@ public abstract class Element implements ClientAccess {
    private float J;
    private static final long ab = 100453377317205L;
 
-   public Element(String var1, float var2, float var3) {
-      this.g = var1;
-      this.D = var2;
-      this.J = var3;
+   public Element(String string, float f, float g) {
+      this.g = string;
+      this.D = f;
+      this.J = g;
    }
 
-   public abstract void render(int var1, int var2);
+   public abstract void render(int i, int j);
 
    public String J() {
       return this.g;
@@ -24,15 +24,15 @@ public abstract class Element implements ClientAccess {
       return this.D;
    }
 
-   public void o(float var1) {
-      this.D = var1;
+   public void o(float f) {
+      this.D = f;
    }
 
    public float E_float() {
       return this.J;
    }
 
-   public void q(float var1) {
-      this.J = var1;
+   public void q(float f) {
+      this.J = f;
    }
 }

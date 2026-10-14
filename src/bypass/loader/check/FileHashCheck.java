@@ -17,40 +17,40 @@ public class FileHashCheck {
    private boolean Y;
    private static final long a = 15409493064781L;
 
-   public FileHashCheck(PathListHolder var1) {
-      this.Q = var1;
+   public FileHashCheck(PathListHolder pathListHolder) {
+      this.Q = pathListHolder;
    }
 
    public Holder T() {
-      Holder var4 = new Holder();
-      var4.value = new Block(Material.anvil, MapColor.blackColor);
+      Holder holder = new Holder();
+      holder.value = new Block(Material.anvil, MapColor.blackColor);
 
       try {
          if (!this.N(this.Q.W().L().m_Iterator().next()).equals(FileHashCheckStrings.s("fxkMwDcH+9W6oKiGynQxT5Gq6WuHyz5d2rjsWDde4ns="))
-            && (var4.value = new Block(Material.anvil, MapColor.adobeColor)) != null) {
+            && (holder.value = new Block(Material.anvil, MapColor.adobeColor)) != null) {
             this.Q(true);
          }
 
          this.O(true);
-         return var4;
-      } catch (IOException | NoSuchAlgorithmException var6) {
-         var4.value = new Block(Material.anvil, MapColor.adobeColor);
-         return var4;
+         return holder;
+      } catch (IOException | NoSuchAlgorithmException value2) {
+         holder.value = new Block(Material.anvil, MapColor.adobeColor);
+         return holder;
       }
    }
 
-   private String N(Path var1) throws IOException, NoSuchAlgorithmException {
-      byte[] var4 = Files.readAllBytes(var1);
-      byte[] var5 = MessageDigest.getInstance(FileHashCheckStrings.s("AW9a")).digest(var4);
-      return DatatypeConverter.printHexBinary(var5).toLowerCase();
+   private String N(Path path) throws IOException, NoSuchAlgorithmException {
+      byte[] bytes = Files.readAllBytes(path);
+      byte[] bytes2 = MessageDigest.getInstance(FileHashCheckStrings.s("AW9a")).digest(bytes);
+      return DatatypeConverter.printHexBinary(bytes2).toLowerCase();
    }
 
-   public void O(boolean var1) {
-      this.y = var1;
+   public void O(boolean bl) {
+      this.y = bl;
    }
 
-   public void Q(boolean var1) {
-      this.Y = var1;
+   public void Q(boolean bl) {
+      this.Y = bl;
    }
 
    public boolean c() {

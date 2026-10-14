@@ -17,31 +17,31 @@ public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
    public S24PacketBlockAction() {
    }
 
-   public S24PacketBlockAction(BlockPos var1, Block var2, int var3, int var4) {
-      this.blockPosition = var1;
-      this.instrument = var3;
-      this.pitch = var4;
-      this.block = var2;
+   public S24PacketBlockAction(BlockPos blockPositionIn, Block blockIn, int instrumentIn, int pitchIn) {
+      this.blockPosition = blockPositionIn;
+      this.instrument = instrumentIn;
+      this.pitch = pitchIn;
+      this.block = blockIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.blockPosition = var1.readBlockPos();
-      this.instrument = var1.readUnsignedByte();
-      this.pitch = var1.readUnsignedByte();
-      this.block = Block.getBlockById(var1.readVarIntFromBuffer() & 4095);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.blockPosition = buf.readBlockPos();
+      this.instrument = buf.readUnsignedByte();
+      this.pitch = buf.readUnsignedByte();
+      this.block = Block.getBlockById(buf.readVarIntFromBuffer() & 4095);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.blockPosition);
-      var1.writeByte(this.instrument);
-      var1.writeByte(this.pitch);
-      var1.writeVarIntToBuffer(Block.getIdFromBlock(this.block) & 4095);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.blockPosition);
+      buf.writeByte(this.instrument);
+      buf.writeByte(this.pitch);
+      buf.writeVarIntToBuffer(Block.getIdFromBlock(this.block) & 4095);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleBlockAction(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleBlockAction(this);
    }
 
    public BlockPos getBlockPosition() {

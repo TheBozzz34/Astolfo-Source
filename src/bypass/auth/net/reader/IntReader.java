@@ -7,8 +7,8 @@ public class IntReader implements PacketReader<Integer> {
    private Integer g;
 
    @Override
-   public void read(ByteBuffer var1) {
-      this.g = var1.getInt();
+   public void read(ByteBuffer byteBuffer) {
+      this.g = byteBuffer.getInt();
    }
 
    public Integer getPacket() {

@@ -35,39 +35,39 @@ public class DamageSource {
    public String damageType;
    private static final long b = 98355004242524L;
 
-   public static DamageSource causeMobDamage(EntityLivingBase var0) {
-      return new EntityDamageSource("mob", var0);
+   public static DamageSource causeMobDamage(EntityLivingBase mob) {
+      return new EntityDamageSource("mob", mob);
    }
 
-   public static DamageSource causePlayerDamage(EntityPlayer var0) {
-      return new EntityDamageSource("player", var0);
+   public static DamageSource causePlayerDamage(EntityPlayer player) {
+      return new EntityDamageSource("player", player);
    }
 
-   public static DamageSource causeArrowDamage(EntityArrow var0, Entity var1) {
-      return new EntityDamageSourceIndirect("arrow", var0, var1).setProjectile();
+   public static DamageSource causeArrowDamage(EntityArrow arrow, Entity indirectEntityIn) {
+      return new EntityDamageSourceIndirect("arrow", arrow, indirectEntityIn).setProjectile();
    }
 
-   public static DamageSource causeFireballDamage(EntityFireball var0, Entity var1) {
-      return var1 == null
-         ? new EntityDamageSourceIndirect("onFire", var0, var0).K().setProjectile()
-         : new EntityDamageSourceIndirect("fireball", var0, var1).K().setProjectile();
+   public static DamageSource causeFireballDamage(EntityFireball fireball, Entity indirectEntityIn) {
+      return indirectEntityIn == null
+         ? new EntityDamageSourceIndirect("onFire", fireball, fireball).K().setProjectile()
+         : new EntityDamageSourceIndirect("fireball", fireball, indirectEntityIn).K().setProjectile();
    }
 
-   public static DamageSource causeThrownDamage(Entity var0, Entity var1) {
-      return new EntityDamageSourceIndirect("thrown", var0, var1).setProjectile();
+   public static DamageSource causeThrownDamage(Entity source, Entity indirectEntityIn) {
+      return new EntityDamageSourceIndirect("thrown", source, indirectEntityIn).setProjectile();
    }
 
-   public static DamageSource causeIndirectMagicDamage(Entity var0, Entity var1) {
-      return new EntityDamageSourceIndirect("indirectMagic", var0, var1).j().setMagicDamage();
+   public static DamageSource causeIndirectMagicDamage(Entity source, Entity indirectEntityIn) {
+      return new EntityDamageSourceIndirect("indirectMagic", source, indirectEntityIn).j().setMagicDamage();
    }
 
-   public static DamageSource causeThornsDamage(Entity var0) {
-      return new EntityDamageSource("thorns", var0).setIsThornsDamage().setMagicDamage();
+   public static DamageSource causeThornsDamage(Entity source) {
+      return new EntityDamageSource("thorns", source).setIsThornsDamage().setMagicDamage();
    }
 
-   public static DamageSource setExplosionSource(Explosion var0) {
-      return var0 != null && var0.getExplosivePlacedBy() != null
-         ? new EntityDamageSource("explosion.player", var0.getExplosivePlacedBy()).setDifficultyScaled().setExplosion()
+   public static DamageSource setExplosionSource(Explosion explosionIn) {
+      return explosionIn != null && explosionIn.getExplosivePlacedBy() != null
+         ? new EntityDamageSource("explosion.player", explosionIn.getExplosivePlacedBy()).setDifficultyScaled().setExplosion()
          : new DamageSource("explosion").setDifficultyScaled().setExplosion();
    }
 
@@ -105,8 +105,8 @@ public class DamageSource {
       return this.damageIsAbsolute;
    }
 
-   public DamageSource(String var1) {
-      this.damageType = var1;
+   public DamageSource(String damageTypeIn) {
+      this.damageType = damageTypeIn;
    }
 
    public Entity getSourceOfDamage() {
@@ -139,13 +139,13 @@ public class DamageSource {
       return this;
    }
 
-   public IChatComponent getDeathMessage(EntityLivingBase var1) {
-      EntityLivingBase var4 = var1.getAttackingEntity();
-      String var5 = "death.attack." + this.damageType;
-      String var6 = var5 + ".player";
-      return var4 != null && StatCollector.canTranslate(var6)
-         ? new ChatComponentTranslation(var6, var1.getDisplayName(), var4.getDisplayName())
-         : new ChatComponentTranslation(var5, var1.getDisplayName());
+   public IChatComponent getDeathMessage(EntityLivingBase entityLivingBaseIn) {
+      EntityLivingBase entityLivingBase = entityLivingBaseIn.getAttackingEntity();
+      String string = "death.attack." + this.damageType;
+      String string2 = string + ".player";
+      return entityLivingBase != null && StatCollector.canTranslate(string2)
+         ? new ChatComponentTranslation(string2, entityLivingBaseIn.getDisplayName(), entityLivingBase.getDisplayName())
+         : new ChatComponentTranslation(string, entityLivingBaseIn.getDisplayName());
    }
 
    public boolean isFireDamage() {
@@ -175,7 +175,7 @@ public class DamageSource {
    }
 
    public boolean isCreativePlayer() {
-      Entity var4 = this.getEntity();
-      return var4 instanceof EntityPlayer && ((EntityPlayer)var4).capabilities.isCreativeMode;
+      Entity entity = this.getEntity();
+      return entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode;
    }
 }

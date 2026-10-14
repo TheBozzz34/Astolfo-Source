@@ -11,8 +11,8 @@ public abstract class AbstractMeasureTask implements MeasureTask {
    public abstract void A();
 
    @Override
-   public void J(MeasureResult var1) {
-      this.C = var1;
+   public void J(MeasureResult measureResult) {
+      this.C = measureResult;
    }
 
    @Override

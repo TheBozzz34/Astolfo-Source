@@ -11,95 +11,95 @@ import net.minecraft.util.ResourceLocation;
 public class RenderLightningBolt extends Render<EntityLightningBolt> {
    private static final long a = 19862906130597L;
 
-   public RenderLightningBolt(RenderManager var1) {
-      super(var1);
+   public RenderLightningBolt(RenderManager renderManagerIn) {
+      super(renderManagerIn);
    }
 
-   public void doRender(EntityLightningBolt var1, double var2, double var4, double var6, float var8, float var9) {
-      Tessellator var13 = Tessellator.getInstance();
-      WorldRenderer var14 = var13.getWorldRenderer();
+   public void doRender(EntityLightningBolt entity, double x, double y, double z, float entityYaw, float partialTicks) {
+      Tessellator tessellator = Tessellator.getInstance();
+      WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.disableTexture2D();
       GlStateManager.disableLighting();
       GlStateManager.enableBlend();
       GlStateManager.blendFunc(770, 1);
-      double[] var15 = new double[8];
-      double[] var16 = new double[8];
-      double var17 = 0.0;
-      double var19 = 0.0;
-      Random var21 = new Random(var1.boltVertex);
+      double[] doubles = new double[8];
+      double[] doubles2 = new double[8];
+      double d = 0.0;
+      double e = 0.0;
+      Random random = new Random(entity.boltVertex);
 
-      for (int var22 = 7; var22 >= 0; var22--) {
-         var15[var22] = var17;
-         var16[var22] = var19;
-         var17 += var21.nextInt(11) - 5;
-         var19 += var21.nextInt(11) - 5;
+      for (int i = 7; i >= 0; i--) {
+         doubles[i] = d;
+         doubles2[i] = e;
+         d += random.nextInt(11) - 5;
+         e += random.nextInt(11) - 5;
       }
 
-      for (int var53 = 0; var53 < 4; var53++) {
-         Random var23 = new Random(var1.boltVertex);
+      for (int j = 0; j < 4; j++) {
+         Random random2 = new Random(entity.boltVertex);
 
-         for (int var24 = 0; var24 < 3; var24++) {
-            int var25 = 7;
-            int var26 = 0;
-            if (var24 > 0) {
-               var25 = 7 - var24;
+         for (int k = 0; k < 3; k++) {
+            int l = 7;
+            int m = 0;
+            if (k > 0) {
+               l = 7 - k;
             }
 
-            if (var24 > 0) {
-               var26 = var25 - 2;
+            if (k > 0) {
+               m = l - 2;
             }
 
-            double var27 = var15[var25] - var17;
-            double var29 = var16[var25] - var19;
+            double d2 = doubles[l] - d;
+            double d3 = doubles2[l] - e;
 
-            for (int var31 = var25; var31 >= var26; var31--) {
-               double var32 = var27;
-               double var34 = var29;
-               if (var24 == 0) {
-                  var27 += var23.nextInt(11) - 5;
-                  var29 += var23.nextInt(11) - 5;
+            for (int n = l; n >= m; n--) {
+               double d4 = d2;
+               double d5 = d3;
+               if (k == 0) {
+                  d2 += random2.nextInt(11) - 5;
+                  d3 += random2.nextInt(11) - 5;
                } else {
-                  var27 += var23.nextInt(31) - 15;
-                  var29 += var23.nextInt(31) - 15;
+                  d2 += random2.nextInt(31) - 15;
+                  d3 += random2.nextInt(31) - 15;
                }
 
-               var14.begin(5, DefaultVertexFormats.POSITION_COLOR);
-               double var40 = 0.1 + var53 * 0.2;
-               if (var24 == 0) {
-                  var40 *= var31 * 0.1 + 1.0;
+               worldRenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
+               double d6 = 0.1 + j * 0.2;
+               if (k == 0) {
+                  d6 *= n * 0.1 + 1.0;
                }
 
-               double var42 = 0.1 + var53 * 0.2;
-               if (var24 == 0) {
-                  var42 *= (var31 - 1) * 0.1 + 1.0;
+               double d7 = 0.1 + j * 0.2;
+               if (k == 0) {
+                  d7 *= (n - 1) * 0.1 + 1.0;
                }
 
-               for (int var44 = 0; var44 < 5; var44++) {
-                  double var45 = var2 + 0.5 - var40;
-                  double var47 = var6 + 0.5 - var40;
-                  if (var44 == 1 || var44 == 2) {
-                     var45 += var40 * 2.0;
+               for (int i2 = 0; i2 < 5; i2++) {
+                  double d8 = x + 0.5 - d6;
+                  double d9 = z + 0.5 - d6;
+                  if (i2 == 1 || i2 == 2) {
+                     d8 += d6 * 2.0;
                   }
 
-                  if (var44 == 2 || var44 == 3) {
-                     var47 += var40 * 2.0;
+                  if (i2 == 2 || i2 == 3) {
+                     d9 += d6 * 2.0;
                   }
 
-                  double var49 = var2 + 0.5 - var42;
-                  double var51 = var6 + 0.5 - var42;
-                  if (var44 == 1 || var44 == 2) {
-                     var49 += var42 * 2.0;
+                  double d10 = x + 0.5 - d7;
+                  double d11 = z + 0.5 - d7;
+                  if (i2 == 1 || i2 == 2) {
+                     d10 += d7 * 2.0;
                   }
 
-                  if (var44 == 2 || var44 == 3) {
-                     var51 += var42 * 2.0;
+                  if (i2 == 2 || i2 == 3) {
+                     d11 += d7 * 2.0;
                   }
 
-                  var14.pos(var49 + var27, var4 + var31 * 16, var51 + var29).color(0.45F, 0.45F, 0.5F, 0.3F).endVertex();
-                  var14.pos(var45 + var32, var4 + (var31 + 1) * 16, var47 + var34).color(0.45F, 0.45F, 0.5F, 0.3F).endVertex();
+                  worldRenderer.pos(d10 + d2, y + n * 16, d11 + d3).color(0.45F, 0.45F, 0.5F, 0.3F).endVertex();
+                  worldRenderer.pos(d8 + d4, y + (n + 1) * 16, d9 + d5).color(0.45F, 0.45F, 0.5F, 0.3F).endVertex();
                }
 
-               var13.draw();
+               tessellator.draw();
             }
          }
       }
@@ -109,7 +109,7 @@ public class RenderLightningBolt extends Render<EntityLightningBolt> {
       GlStateManager.enableTexture2D();
    }
 
-   public ResourceLocation getEntityTexture(EntityLightningBolt var1) {
+   public ResourceLocation getEntityTexture(EntityLightningBolt entity) {
       return null;
    }
 }

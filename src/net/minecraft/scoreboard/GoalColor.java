@@ -7,8 +7,8 @@ import net.minecraft.util.EnumChatFormatting;
 public class GoalColor implements IScoreObjectiveCriteria {
    private final String goalName;
 
-   public GoalColor(String var1, EnumChatFormatting var2) {
-      this.goalName = var1 + var2.getFriendlyName();
+   public GoalColor(String string, EnumChatFormatting enumChatFormatting) {
+      this.goalName = string + enumChatFormatting.getFriendlyName();
       IScoreObjectiveCriteria.INSTANCES.put(this.goalName, this);
    }
 
@@ -18,7 +18,7 @@ public class GoalColor implements IScoreObjectiveCriteria {
    }
 
    @Override
-   public int setScore(List<EntityPlayer> var1) {
+   public int setScore(List<EntityPlayer> list) {
       return 0;
    }
 

@@ -14,17 +14,17 @@ public class EntityEnderCrystal extends Entity {
    public int health;
    private static final long ab = 98582297868862L;
 
-   public EntityEnderCrystal(World var1) {
-      super(var1);
+   public EntityEnderCrystal(World worldIn) {
+      super(worldIn);
       this.preventEntitySpawning = true;
       this.setSize(2.0F, 2.0F);
       this.health = 5;
       this.innerRotation = this.rand.nextInt(100000);
    }
 
-   public EntityEnderCrystal(World var1, double var2, double var4, double var6) {
-      this(var1);
-      this.setPosition(var2, var4, var6);
+   public EntityEnderCrystal(World worldIn, double x, double y, double z) {
+      this(worldIn);
+      this.setPosition(x, y, z);
    }
 
    @Override
@@ -44,20 +44,20 @@ public class EntityEnderCrystal extends Entity {
       this.prevPosZ = this.posZ;
       this.innerRotation++;
       this.dataWatcher.updateObject(8, this.health);
-      int var4 = MathHelper.floor_double(this.posX);
-      int var5 = MathHelper.floor_double(this.posY);
-      int var6 = MathHelper.floor_double(this.posZ);
-      if (this.worldObj.provider instanceof WorldProviderEnd && this.worldObj.getBlockState(new BlockPos(var4, var5, var6)).getBlock() != Blocks.fire) {
-         this.worldObj.setBlockState(new BlockPos(var4, var5, var6), Blocks.fire.getDefaultState());
+      int i = MathHelper.floor_double(this.posX);
+      int j = MathHelper.floor_double(this.posY);
+      int k = MathHelper.floor_double(this.posZ);
+      if (this.worldObj.provider instanceof WorldProviderEnd && this.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock() != Blocks.fire) {
+         this.worldObj.setBlockState(new BlockPos(i, j, k), Blocks.fire.getDefaultState());
       }
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
    }
 
    @Override
@@ -66,8 +66,8 @@ public class EntityEnderCrystal extends Entity {
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
-      if (this.isEntityInvulnerable(var1)) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isEntityInvulnerable(source)) {
          return false;
       }
 

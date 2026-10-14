@@ -10,19 +10,19 @@ public class ModelMagmaCube extends ModelBase {
    private static final long a = 59114420738080L;
 
    public ModelMagmaCube() {
-      for (int var4 = 0; var4 < this.segments.length; var4++) {
-         byte var5 = 0;
-         int var6 = var4;
-         if (var4 == 2) {
-            var5 = 24;
-            var6 = 10;
-         } else if (var4 == 3) {
-            var5 = 24;
-            var6 = 19;
+      for (int i = 0; i < this.segments.length; i++) {
+         byte b = 0;
+         int j = i;
+         if (i == 2) {
+            b = 24;
+            j = 10;
+         } else if (i == 3) {
+            b = 24;
+            j = 19;
          }
 
-         this.segments[var4] = new ModelRenderer(this, var5, var6);
-         this.segments[var4].addBox(-4.0F, 16 + var4, -4.0F, 8, 1, 8);
+         this.segments[i] = new ModelRenderer(this, b, j);
+         this.segments[i].addBox(-4.0F, 16 + i, -4.0F, 8, 1, 8);
       }
 
       this.core = new ModelRenderer(this, 0, 16);
@@ -30,25 +30,25 @@ public class ModelMagmaCube extends ModelBase {
    }
 
    @Override
-   public void setLivingAnimations(EntityLivingBase var1, float var2, float var3, float var4) {
-      EntityMagmaCube var8 = (EntityMagmaCube)var1;
-      float var9 = var8.prevSquishFactor + (var8.squishFactor - var8.prevSquishFactor) * var4;
-      if (var9 < 0.0F) {
-         var9 = 0.0F;
+   public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTickTime) {
+      EntityMagmaCube entityMagmaCube = (EntityMagmaCube)entitylivingbaseIn;
+      float h = entityMagmaCube.prevSquishFactor + (entityMagmaCube.squishFactor - entityMagmaCube.prevSquishFactor) * partialTickTime;
+      if (h < 0.0F) {
+         h = 0.0F;
       }
 
-      for (int var10 = 0; var10 < this.segments.length; var10++) {
-         this.segments[var10].rotationPointY = -(4 - var10) * var9 * 1.7F;
+      for (int i = 0; i < this.segments.length; i++) {
+         this.segments[i].rotationPointY = -(4 - i) * h * 1.7F;
       }
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      this.setRotationAngles(var2, var3, var4, var5, var6, var7, var1);
-      this.core.render(var7);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      this.setRotationAngles(f, g, h, f2, f3, scale, entityIn);
+      this.core.render(scale);
 
-      for (int var11 = 0; var11 < this.segments.length; var11++) {
-         this.segments[var11].render(var7);
+      for (int i = 0; i < this.segments.length; i++) {
+         this.segments[i].render(scale);
       }
    }
 }

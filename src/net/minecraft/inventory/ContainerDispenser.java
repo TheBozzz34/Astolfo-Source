@@ -7,59 +7,59 @@ public class ContainerDispenser extends Container {
    private IInventory dispenserInventory;
    private static final long a = 58627766223273L;
 
-   public ContainerDispenser(IInventory var1, IInventory var2) {
-      this.dispenserInventory = var2;
+   public ContainerDispenser(IInventory playerInventory, IInventory dispenserInventoryIn) {
+      this.dispenserInventory = dispenserInventoryIn;
 
-      for (int var6 = 0; var6 < 3; var6++) {
-         for (int var7 = 0; var7 < 3; var7++) {
-            this.addSlotToContainer(new Slot(var2, var7 + var6 * 3, 62 + var7 * 18, 17 + var6 * 18));
+      for (int i = 0; i < 3; i++) {
+         for (int j = 0; j < 3; j++) {
+            this.addSlotToContainer(new Slot(dispenserInventoryIn, j + i * 3, 62 + j * 18, 17 + i * 18));
          }
       }
 
-      for (int var8 = 0; var8 < 3; var8++) {
-         for (int var10 = 0; var10 < 9; var10++) {
-            this.addSlotToContainer(new Slot(var1, var10 + var8 * 9 + 9, 8 + var10 * 18, 84 + var8 * 18));
+      for (int k = 0; k < 3; k++) {
+         for (int l = 0; l < 9; l++) {
+            this.addSlotToContainer(new Slot(playerInventory, l + k * 9 + 9, 8 + l * 18, 84 + k * 18));
          }
       }
 
-      for (int var9 = 0; var9 < 9; var9++) {
-         this.addSlotToContainer(new Slot(var1, var9, 8 + var9 * 18, 142));
+      for (int m = 0; m < 9; m++) {
+         this.addSlotToContainer(new Slot(playerInventory, m, 8 + m * 18, 142));
       }
    }
 
    @Override
-   public boolean canInteractWith(EntityPlayer var1) {
-      return this.dispenserInventory.isUseableByPlayer(var1);
+   public boolean canInteractWith(EntityPlayer playerIn) {
+      return this.dispenserInventory.isUseableByPlayer(playerIn);
    }
 
    @Override
-   public ItemStack transferStackInSlot(EntityPlayer var1, int var2) {
-      ItemStack var6 = null;
-      Slot var7 = this.inventorySlots.get(var2);
-      if (var7 != null && var7.getHasStack()) {
-         ItemStack var8 = var7.getStack();
-         var6 = var8.copy();
-         if (var2 < 9) {
-            if (!this.mergeItemStack(var8, 9, 45, true)) {
+   public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+      ItemStack itemStack = null;
+      Slot slot = this.inventorySlots.get(index);
+      if (slot != null && slot.getHasStack()) {
+         ItemStack itemStack2 = slot.getStack();
+         itemStack = itemStack2.copy();
+         if (index < 9) {
+            if (!this.mergeItemStack(itemStack2, 9, 45, true)) {
                return null;
             }
-         } else if (!this.mergeItemStack(var8, 0, 9, false)) {
+         } else if (!this.mergeItemStack(itemStack2, 0, 9, false)) {
             return null;
          }
 
-         if (var8.stackSize == 0) {
-            var7.putStack((ItemStack)null);
+         if (itemStack2.stackSize == 0) {
+            slot.putStack((ItemStack)null);
          } else {
-            var7.onSlotChanged();
+            slot.onSlotChanged();
          }
 
-         if (var8.stackSize == var6.stackSize) {
+         if (itemStack2.stackSize == itemStack.stackSize) {
             return null;
          }
 
-         var7.onPickupFromSlot(var1, var8);
+         slot.onPickupFromSlot(playerIn, itemStack2);
       }
 
-      return var6;
+      return itemStack;
    }
 }

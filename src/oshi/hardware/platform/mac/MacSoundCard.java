@@ -11,28 +11,28 @@ import oshi.util.ParseUtil;
 public final class MacSoundCard extends AbstractSoundCard {
    private static final long c = 38171679500437L;
 
-   public MacSoundCard(String var1, String var2, String var3) {
-      super(var1, var2, var3);
+   public MacSoundCard(String kernelVersion, String name, String codec) {
+      super(kernelVersion, name, codec);
    }
 
    public static List<MacSoundCard> getSoundCards() {
-      ArrayList var3 = new ArrayList();
-      String var4 = "Apple Inc.";
-      String var5 = "AppleHDAController";
-      String var6 = "AppleHDACodec";
-      boolean var7 = false;
-      String var8 = "<key>com.apple.driver.AppleHDAController</key>";
+      ArrayList arrayList = new ArrayList();
+      String string2 = "Apple Inc.";
+      String string3 = "AppleHDAController";
+      String string4 = "AppleHDACodec";
+      boolean bl = false;
+      String string5 = "<key>com.apple.driver.AppleHDAController</key>";
 
-      for (String var10 : FileUtil.readFile("/System/Library/Extensions/AppleHDA.kext/Contents/Info.plist")) {
-         if (var10.contains(var8)) {
-            var7 = true;
-         } else if (var7) {
-            var5 = "AppleHDAController " + ParseUtil.getTextBetweenStrings(var10, "<string>", "</string>");
-            var7 = false;
+      for (String string6 : FileUtil.readFile("/System/Library/Extensions/AppleHDA.kext/Contents/Info.plist")) {
+         if (string6.contains(string5)) {
+            bl = true;
+         } else if (bl) {
+            string3 = "AppleHDAController " + ParseUtil.getTextBetweenStrings(string6, "<string>", "</string>");
+            bl = false;
          }
       }
 
-      var3.add(new MacSoundCard(var5, var4, var6));
-      return var3;
+      arrayList.add(new MacSoundCard(string3, string2, string4));
+      return arrayList;
    }
 }

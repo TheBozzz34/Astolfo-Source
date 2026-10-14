@@ -14,13 +14,13 @@ public class SpoofGroundACheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      boolean var14 = var3 % 0.0625 == 0.0 || var3 % 0.25 == 0.0 || var3 % 0.5 == 0.0;
-      if (var9
-         && !var14
-         && Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(var1, Math.floor(var3), var5)).getBlock() instanceof BlockAir
-         && Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(var1, var3 - 1.0, var5)).getBlock() instanceof BlockAir) {
-         this.x(var10.getName());
+   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      boolean bl2 = d2 % 0.0625 == 0.0 || d2 % 0.25 == 0.0 || d2 % 0.5 == 0.0;
+      if (bl
+         && !bl2
+         && Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(d, Math.floor(d2), d3)).getBlock() instanceof BlockAir
+         && Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(d, d2 - 1.0, d3)).getBlock() instanceof BlockAir) {
+         this.x(entityPlayer.getName());
       }
 
       return this.T;

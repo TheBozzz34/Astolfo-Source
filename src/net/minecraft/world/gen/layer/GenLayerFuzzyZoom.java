@@ -1,12 +1,12 @@
 package net.minecraft.world.gen.layer;
 
 public class GenLayerFuzzyZoom extends GenLayerZoom {
-   public GenLayerFuzzyZoom(long var1, GenLayer var3) {
-      super(var1, var3);
+   public GenLayerFuzzyZoom(long l, GenLayer genLayer) {
+      super(l, genLayer);
    }
 
    @Override
-   public int selectModeOrRandom(int var1, int var2, int var3, int var4) {
-      return this.selectRandom(var1, var2, var3, var4);
+   public int selectModeOrRandom(int i, int j, int k, int l) {
+      return this.selectRandom(i, j, k, l);
    }
 }

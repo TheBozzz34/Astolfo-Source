@@ -12,34 +12,34 @@ public final class MacSensors extends AbstractSensors {
 
    @Override
    public double queryCpuTemperature() {
-      IOConnect var4 = SmcUtil.smcOpen();
-      double var5 = SmcUtil.smcGetFloat(var4, "TC0P");
-      SmcUtil.smcClose(var4);
-      return var5 > 0.0 ? var5 : 0.0;
+      IOConnect ioConnect = SmcUtil.smcOpen();
+      double d = SmcUtil.smcGetFloat(ioConnect, "TC0P");
+      SmcUtil.smcClose(ioConnect);
+      return d > 0.0 ? d : 0.0;
    }
 
    @Override
    public int[] queryFanSpeeds() {
-      IOConnect var4 = SmcUtil.smcOpen();
+      IOConnect ioConnect = SmcUtil.smcOpen();
       if (this.numFans == 0) {
-         this.numFans = (int)SmcUtil.smcGetLong(var4, "FNum");
+         this.numFans = (int)SmcUtil.smcGetLong(ioConnect, "FNum");
       }
 
-      int[] var5 = new int[this.numFans];
+      int[] ints = new int[this.numFans];
 
-      for (int var6 = 0; var6 < this.numFans; var6++) {
-         var5[var6] = (int)SmcUtil.smcGetFloat(var4, String.format("F%dAc", var6));
+      for (int i = 0; i < this.numFans; i++) {
+         ints[i] = (int)SmcUtil.smcGetFloat(ioConnect, String.format("F%dAc", i));
       }
 
-      SmcUtil.smcClose(var4);
-      return var5;
+      SmcUtil.smcClose(ioConnect);
+      return ints;
    }
 
    @Override
    public double queryCpuVoltage() {
-      IOConnect var3 = SmcUtil.smcOpen();
-      double var4 = SmcUtil.smcGetFloat(var3, "VC0C") / 1000.0;
-      SmcUtil.smcClose(var3);
-      return var4;
+      IOConnect ioConnect = SmcUtil.smcOpen();
+      double d = SmcUtil.smcGetFloat(ioConnect, "VC0C") / 1000.0;
+      SmcUtil.smcClose(ioConnect);
+      return d;
    }
 }

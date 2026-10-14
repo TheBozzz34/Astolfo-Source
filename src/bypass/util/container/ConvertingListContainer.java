@@ -11,59 +11,59 @@ public class ConvertingListContainer<A, B> extends ListContainer<B> implements C
    private Function<B, A> U;
    private static final long b = 63959488470954L;
 
-   public ConvertingListContainer(ListContainer<B> var1, Function<A, B> var2, Function<B, A> var3) {
-      super(var1.getValue());
-      this.N = var1;
-      this.Z = var2;
-      this.U = var3;
+   public ConvertingListContainer(ListContainer<B> listContainer, Function<A, B> function, Function<B, A> function2) {
+      super(listContainer.getValue());
+      this.N = listContainer;
+      this.Z = function;
+      this.U = function2;
    }
 
-   public void Y(A... var1) {
-      for (Object var8 : var1) {
-         super.add(this.T((A)var8));
+   public void Y(A... objects) {
+      for (Object object : objects) {
+         super.add(this.T((A)object));
       }
    }
 
-   public boolean b(A var1) {
-      return this.add(this.T((A)var1));
+   public boolean b(A object) {
+      return this.add(this.T((A)object));
    }
 
-   public void Y(int var1, A var2) {
-      super.b(var1, this.T((A)var2));
+   public void Y(int i, A object) {
+      super.b(i, this.T((A)object));
    }
 
-   public boolean convertAndAddAll(Collection<? extends A> var1) {
-      ArrayList var2 = new ArrayList();
-      var1.stream().forEach(var2x -> var2.add(this.T((A)var2x)));
-      return super.k(var2);
+   public boolean convertAndAddAll(Collection<? extends A> collection) {
+      ArrayList arrayList = new ArrayList();
+      collection.stream().forEach(value -> arrayList.add(this.T((A)value)));
+      return super.k(arrayList);
    }
 
-   public boolean convertAndAddAll(int var1, Collection<? extends A> var2) {
-      ArrayList var6 = new ArrayList();
-      var2.stream().forEach(var2x -> var6.add(this.T((A)var2x)));
-      return super.Z(var1, var6);
+   public boolean convertAndAddAll(int i, Collection<? extends A> collection) {
+      ArrayList arrayList = new ArrayList();
+      collection.stream().forEach(value -> arrayList.add(this.T((A)value)));
+      return super.Z(i, arrayList);
    }
 
-   private B T(A var1) {
+   private B T(A object) {
       if (this.Z == null) {
          throw new NullPointerException("The function that converts given element into another can't be null.");
       } else {
-         return this.Z.apply((A)var1);
+         return this.Z.apply((A)object);
       }
    }
 
-   private A v(B var1) {
+   private A v(B object) {
       if (this.U == null) {
          throw new NullPointerException("The function that converts given element into another can't be null.");
       } else {
-         return this.U.apply((B)var1);
+         return this.U.apply((B)object);
       }
    }
 
    public List<A> createUnconvertedList() {
-      ArrayList var1 = new ArrayList();
-      this.getValue().stream().forEach(var2 -> var1.add(this.v((B)var2)));
-      return var1;
+      ArrayList arrayList = new ArrayList();
+      this.getValue().stream().forEach(value -> arrayList.add(this.v((B)value)));
+      return arrayList;
    }
 
    public Function<A, B> l() {

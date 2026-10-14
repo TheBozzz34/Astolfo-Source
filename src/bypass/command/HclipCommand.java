@@ -5,27 +5,27 @@ import java.util.Collections;
 public final class HclipCommand extends Command {
    private static final long d = 48030420445214L;
 
-   public HclipCommand(String var1, String var2) {
-      super(var1, var2);
+   public HclipCommand(String string, String string2) {
+      super(string, string2);
       this.setAliases(Collections.singletonList("hc"));
    }
 
    @Override
-   public void runCommand(String[] var1) {
-      if (var1.length > 1) {
-         double var5;
+   public void runCommand(String[] strings) {
+      if (strings.length > 1) {
+         double d;
          try {
-            var5 = Double.parseDouble(var1[1]);
-         } catch (NumberFormatException var15) {
-            chat.P("\"" + var1[1] + "\" is not a number.");
+            d = Double.parseDouble(strings[1]);
+         } catch (NumberFormatException numberFormatException) {
+            chat.P("\"" + strings[1] + "\" is not a number.");
             return;
          }
 
-         double var7 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
-         double var9 = Math.sin(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
-         double var11 = 1.0 * var5 * var7 + 0.0 * var5 * var9;
-         double var13 = 1.0 * var5 * var9 - 0.0 * var5 * var7;
-         mc.thePlayer.setPosition(mc.thePlayer.posX + var11, mc.thePlayer.posY, mc.thePlayer.posZ + var13);
+         double e = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
+         double d2 = Math.sin(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
+         double d3 = 1.0 * d * e + 0.0 * d * d2;
+         double d4 = 1.0 * d * d2 - 0.0 * d * e;
+         mc.thePlayer.setPosition(mc.thePlayer.posX + d3, mc.thePlayer.posY, mc.thePlayer.posZ + d4);
       } else {
          chat.I("Hclip: " + this.getUsage());
       }

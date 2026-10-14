@@ -11,14 +11,14 @@ public class ListPanel extends Container {
    private ListItem w;
    private static final long d = 130556815115692L;
 
-   public ListPanel(String var1, int var2, int var3, int var4, int var5) {
-      super(var1, var2, var3, var4, var5);
+   public ListPanel(String string, int i, int j, int k, int l) {
+      super(string, i, j, k, l);
       this.F(true);
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 1) {
+   public void l(int i) {
+      if (i == 1) {
          this.u(!this.s_boolean());
          if (this.s_boolean()) {
             this.U.backwards().rewind().start();
@@ -29,46 +29,46 @@ public class ListPanel extends Container {
    }
 
    @Override
-   public void render(int var1, int var2) {
-      int var6 = this.W() + 4;
-      RenderUtil.drawRect(this.M() - 1.5F, this.E_float(), this.M() + this.x() + 1.5F, this.E_float() + this.Y() + var6 + 3.5F, Z.getRGB());
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + var6 + 2.0F, s.getRGB());
+   public void render(int i, int j) {
+      int k = this.W() + 4;
+      RenderUtil.drawRect(this.M() - 1.5F, this.E_float(), this.M() + this.x() + 1.5F, this.E_float() + this.Y() + k + 3.5F, Z.getRGB());
+      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + k + 2.0F, s.getRGB());
       RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + 6.0F, Z.getRGB());
       client.getCustomFontRenderer().drawStringWithShadow("Config", this.M() + 3.0F, this.E_float() + 2.0F, Color.WHITE.getRGB());
       if (this.s_boolean() || this.U.isRunning()) {
-         int var7 = 0;
+         int l = 0;
 
-         for (Element var9 : this.M_ArrayList()) {
-            if (var9 instanceof ListItem) {
-               ListItem var10 = (ListItem)var9;
-               var10.r(this.M(), this.E_float() + var7 + 15.0F);
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof ListItem) {
+               ListItem listItem = (ListItem)element;
+               listItem.r(this.M(), this.E_float() + l + 15.0F);
                if (this.s_boolean()) {
-                  var10.render(var1, var2);
+                  listItem.render(i, j);
                }
 
-               var7 += 15;
-               var7 = (int)(var7 - this.U.getValue(0.0, var7));
+               l += 15;
+               l = (int)(l - this.U.getValue(0.0, l));
             }
          }
       }
    }
 
    private int W() {
-      byte var4 = 0;
+      byte b = 0;
       if (this.s_boolean()) {
-         for (Element var6 : this.M_ArrayList()) {
-            var4 += 15;
+         for (Element element : this.M_ArrayList()) {
+            b += 15;
          }
       }
 
-      return var4;
+      return b;
    }
 
    public ListItem Z() {
       return this.w;
    }
 
-   public void c(ListItem var1) {
-      this.w = var1;
+   public void c(ListItem listItem) {
+      this.w = listItem;
    }
 }

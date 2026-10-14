@@ -48,24 +48,24 @@ public abstract class Enchantment {
    public String name;
    private static final long h = 119829043380840L;
 
-   public static Enchantment getEnchantmentById(int var0) {
-      return var0 >= 0 && var0 < enchantmentsList.length ? enchantmentsList[var0] : null;
+   public static Enchantment getEnchantmentById(int enchID) {
+      return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;
    }
 
-   public Enchantment(int var1, ResourceLocation var2, int var3, EnumEnchantmentType var4) {
-      this.effectId = var1;
-      this.weight = var3;
-      this.type = var4;
-      if (enchantmentsList[var1] != null) {
+   public Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType) {
+      this.effectId = enchID;
+      this.weight = enchWeight;
+      this.type = enchType;
+      if (enchantmentsList[enchID] != null) {
          throw new IllegalArgumentException("Duplicate enchantment id!");
       }
 
-      enchantmentsList[var1] = this;
-      locationEnchantments.put(var2, this);
+      enchantmentsList[enchID] = this;
+      locationEnchantments.put(enchName, this);
    }
 
-   public static Enchantment getEnchantmentByLocation(String var0) {
-      return locationEnchantments.get(new ResourceLocation(var0));
+   public static Enchantment getEnchantmentByLocation(String location) {
+      return locationEnchantments.get(new ResourceLocation(location));
    }
 
    public static Set<ResourceLocation> func_181077_c() {
@@ -84,28 +84,28 @@ public abstract class Enchantment {
       return 1;
    }
 
-   public int getMinEnchantability(int var1) {
-      return 1 + var1 * 10;
+   public int getMinEnchantability(int enchantmentLevel) {
+      return 1 + enchantmentLevel * 10;
    }
 
-   public int getMaxEnchantability(int var1) {
-      return this.getMinEnchantability(var1) + 5;
+   public int getMaxEnchantability(int enchantmentLevel) {
+      return this.getMinEnchantability(enchantmentLevel) + 5;
    }
 
-   public int calcModifierDamage(int var1, DamageSource var2) {
+   public int calcModifierDamage(int level, DamageSource source) {
       return 0;
    }
 
-   public float calcDamageByCreature(int var1, EnumCreatureAttribute var2) {
+   public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
       return 0.0F;
    }
 
-   public boolean canApplyTogether(Enchantment var1) {
-      return this != var1;
+   public boolean canApplyTogether(Enchantment ench) {
+      return this != ench;
    }
 
-   public Enchantment setName(String var1) {
-      this.name = var1;
+   public Enchantment setName(String enchName) {
+      this.name = enchName;
       return this;
    }
 
@@ -113,30 +113,30 @@ public abstract class Enchantment {
       return "enchantment." + this.name;
    }
 
-   public String getTranslatedName(int var1) {
-      String var4 = StatCollector.translateToLocal(this.getName());
-      return var4 + " " + StatCollector.translateToLocal("enchantment.level." + var1);
+   public String getTranslatedName(int level) {
+      String string = StatCollector.translateToLocal(this.getName());
+      return string + " " + StatCollector.translateToLocal("enchantment.level." + level);
    }
 
-   public boolean canApply(ItemStack var1) {
-      return this.type.canEnchantItem(var1.getItem());
+   public boolean canApply(ItemStack stack) {
+      return this.type.canEnchantItem(stack.getItem());
    }
 
-   public void onEntityDamaged(EntityLivingBase var1, Entity var2, int var3) {
+   public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
    }
 
-   public void onUserHurt(EntityLivingBase var1, Entity var2, int var3) {
+   public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
    }
 
    static {
-      ArrayList var22 = Lists.newArrayList();
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (Enchantment var26 : enchantmentsList) {
-         if (var26 != null) {
-            var22.add(var26);
+      for (Enchantment enchantment2 : enchantmentsList) {
+         if (enchantment2 != null) {
+            arrayList.add(enchantment2);
          }
       }
 
-      enchantmentsBookList = (net.minecraft.enchantment.Enchantment[])(var22.toArray(new Enchantment[var22.size()]));
+      enchantmentsBookList = (net.minecraft.enchantment.Enchantment[])(arrayList.toArray(new Enchantment[arrayList.size()]));
    }
 }

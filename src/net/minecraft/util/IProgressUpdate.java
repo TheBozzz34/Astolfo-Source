@@ -1,13 +1,13 @@
 package net.minecraft.util;
 
 public interface IProgressUpdate {
-   void displaySavingString(String var1);
+   void displaySavingString(String message);
 
-   void resetProgressAndMessage(String var1);
+   void resetProgressAndMessage(String message);
 
-   void displayLoadingString(String var1);
+   void displayLoadingString(String message);
 
-   void setLoadingProgress(int var1);
+   void setLoadingProgress(int progress);
 
    void setDoneWorking();
 }

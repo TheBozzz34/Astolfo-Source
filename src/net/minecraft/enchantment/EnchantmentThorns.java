@@ -11,19 +11,19 @@ import net.minecraft.util.ResourceLocation;
 public class EnchantmentThorns extends Enchantment {
    private static final long m = 22177806924270L;
 
-   public EnchantmentThorns(int var1, ResourceLocation var2, int var3) {
-      super(var1, var2, var3, EnumEnchantmentType.ARMOR_TORSO);
+   public EnchantmentThorns(int i, ResourceLocation resourceLocation, int j) {
+      super(i, resourceLocation, j, EnumEnchantmentType.ARMOR_TORSO);
       this.setName("thorns");
    }
 
    @Override
-   public int getMinEnchantability(int var1) {
-      return 10 + 20 * (var1 - 1);
+   public int getMinEnchantability(int enchantmentLevel) {
+      return 10 + 20 * (enchantmentLevel - 1);
    }
 
    @Override
-   public int getMaxEnchantability(int var1) {
-      return super.getMinEnchantability(var1) + 50;
+   public int getMaxEnchantability(int enchantmentLevel) {
+      return super.getMinEnchantability(enchantmentLevel) + 50;
    }
 
    @Override
@@ -32,33 +32,33 @@ public class EnchantmentThorns extends Enchantment {
    }
 
    @Override
-   public boolean canApply(ItemStack var1) {
-      return var1.getItem() instanceof ItemArmor ? true : super.canApply(var1);
+   public boolean canApply(ItemStack stack) {
+      return stack.getItem() instanceof ItemArmor ? true : super.canApply(stack);
    }
 
    @Override
-   public void onUserHurt(EntityLivingBase var1, Entity var2, int var3) {
-      Random var7 = var1.getRNG();
-      ItemStack var8 = EnchantmentHelper.getEnchantedItem(Enchantment.thorns, var1);
-      if (func_92094_a(var3, var7)) {
-         if (var2 != null) {
-            var2.attackEntityFrom(DamageSource.causeThornsDamage(var1), func_92095_b(var3, var7));
-            var2.playSound("damage.thorns", 0.5F, 1.0F);
+   public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
+      Random random = user.getRNG();
+      ItemStack itemStack = EnchantmentHelper.getEnchantedItem(Enchantment.thorns, user);
+      if (func_92094_a(level, random)) {
+         if (attacker != null) {
+            attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), func_92095_b(level, random));
+            attacker.playSound("damage.thorns", 0.5F, 1.0F);
          }
 
-         if (var8 != null) {
-            var8.damageItem(3, var1);
+         if (itemStack != null) {
+            itemStack.damageItem(3, user);
          }
-      } else if (var8 != null) {
-         var8.damageItem(1, var1);
+      } else if (itemStack != null) {
+         itemStack.damageItem(1, user);
       }
    }
 
-   public static boolean func_92094_a(int var0, Random var1) {
-      return var0 <= 0 ? false : var1.nextFloat() < 0.15F * var0;
+   public static boolean func_92094_a(int i, Random random2) {
+      return i <= 0 ? false : random2.nextFloat() < 0.15F * i;
    }
 
-   public static int func_92095_b(int var0, Random var1) {
-      return var0 > 10 ? var0 - 10 : 1 + var1.nextInt(4);
+   public static int func_92095_b(int i, Random random2) {
+      return i > 10 ? i - 10 : 1 + random2.nextInt(4);
    }
 }

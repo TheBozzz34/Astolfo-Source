@@ -13,8 +13,8 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
       private static final long c = 28445267118455L;
 
       @Override
-      public void func_98267_a(int var1) {
-         TileEntityMobSpawner.this.worldObj.addBlockEvent(TileEntityMobSpawner.this.pos, Blocks.mob_spawner, var1, 0);
+      public void func_98267_a(int id) {
+         TileEntityMobSpawner.this.worldObj.addBlockEvent(TileEntityMobSpawner.this.pos, Blocks.mob_spawner, id, 0);
       }
 
       @Override
@@ -28,8 +28,8 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
       }
 
       @Override
-      public void setRandomEntity(MobSpawnerBaseLogic.WeightedRandomMinecart var1) {
-         super.setRandomEntity(var1);
+      public void setRandomEntity(MobSpawnerBaseLogic.WeightedRandomMinecart weightedRandomMinecart) {
+         super.setRandomEntity(weightedRandomMinecart);
          if (this.getSpawnerWorld() != null) {
             this.getSpawnerWorld().markBlockForUpdate(TileEntityMobSpawner.this.pos);
          }
@@ -38,15 +38,15 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
    private static final long a = 101494246377218L;
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      super.readFromNBT(var1);
-      this.spawnerLogic.readFromNBT(var1);
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      this.spawnerLogic.readFromNBT(compound);
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      super.writeToNBT(var1);
-      this.spawnerLogic.writeToNBT(var1);
+   public void writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      this.spawnerLogic.writeToNBT(compound);
    }
 
    @Override
@@ -56,15 +56,15 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
 
    @Override
    public Packet getDescriptionPacket() {
-      NBTTagCompound var3 = new NBTTagCompound();
-      this.writeToNBT(var3);
-      var3.removeTag("SpawnPotentials");
-      return new S35PacketUpdateTileEntity(this.pos, 1, var3);
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
+      this.writeToNBT(nbtTagCompound);
+      nbtTagCompound.removeTag("SpawnPotentials");
+      return new S35PacketUpdateTileEntity(this.pos, 1, nbtTagCompound);
    }
 
    @Override
-   public boolean receiveClientEvent(int var1, int var2) {
-      return this.spawnerLogic.setDelayToMin(var1) ? true : super.receiveClientEvent(var1, var2);
+   public boolean receiveClientEvent(int id, int typeIn) {
+      return this.spawnerLogic.setDelayToMin(id) ? true : super.receiveClientEvent(id, typeIn);
    }
 
    @Override

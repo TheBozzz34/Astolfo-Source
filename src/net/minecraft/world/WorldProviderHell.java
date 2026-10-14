@@ -20,17 +20,17 @@ public class WorldProviderHell extends WorldProvider {
    }
 
    @Override
-   public Vec3 getFogColor(float var1, float var2) {
+   public Vec3 getFogColor(float f, float g) {
       return new Vec3(0.2F, 0.03F, 0.03F);
    }
 
    @Override
    public void generateLightBrightnessTable() {
-      float var4 = 0.1F;
+      float f = 0.1F;
 
-      for (int var5 = 0; var5 <= (int)k; var5++) {
-         float var6 = 1.0F - var5 / 15.0F;
-         this.lightBrightnessTable[var5] = (1.0F - var6) / (var6 * 3.0F + 1.0F) * (1.0F - var4) + var4;
+      for (int i = 0; i <= (int)k; i++) {
+         float g = 1.0F - i / 15.0F;
+         this.lightBrightnessTable[i] = (1.0F - g) / (g * 3.0F + 1.0F) * (1.0F - f) + f;
       }
    }
 
@@ -45,12 +45,12 @@ public class WorldProviderHell extends WorldProvider {
    }
 
    @Override
-   public boolean canCoordinateBeSpawn(int var1, int var2) {
+   public boolean canCoordinateBeSpawn(int x, int z) {
       return false;
    }
 
    @Override
-   public float calculateCelestialAngle(long var1, float var3) {
+   public float calculateCelestialAngle(long worldTime, float partialTicks) {
       return 0.5F;
    }
 
@@ -60,7 +60,7 @@ public class WorldProviderHell extends WorldProvider {
    }
 
    @Override
-   public boolean doesXZShowFog(int var1, int var2) {
+   public boolean doesXZShowFog(int x, int z) {
       return true;
    }
 

@@ -13,28 +13,28 @@ public class S1FPacketSetExperience implements Packet<INetHandlerPlayClient> {
    public S1FPacketSetExperience() {
    }
 
-   public S1FPacketSetExperience(float var1, int var2, int var3) {
-      this.field_149401_a = var1;
-      this.totalExperience = var2;
-      this.level = var3;
+   public S1FPacketSetExperience(float f, int totalExperienceIn, int levelIn) {
+      this.field_149401_a = f;
+      this.totalExperience = totalExperienceIn;
+      this.level = levelIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.field_149401_a = var1.readFloat();
-      this.level = var1.readVarIntFromBuffer();
-      this.totalExperience = var1.readVarIntFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.field_149401_a = buf.readFloat();
+      this.level = buf.readVarIntFromBuffer();
+      this.totalExperience = buf.readVarIntFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeFloat(this.field_149401_a);
-      var1.writeVarIntToBuffer(this.level);
-      var1.writeVarIntToBuffer(this.totalExperience);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeFloat(this.field_149401_a);
+      buf.writeVarIntToBuffer(this.level);
+      buf.writeVarIntToBuffer(this.totalExperience);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSetExperience(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSetExperience(this);
    }
 
    public float func_149397_c() {

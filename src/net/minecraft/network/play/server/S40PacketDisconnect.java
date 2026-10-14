@@ -12,22 +12,22 @@ public class S40PacketDisconnect implements Packet<INetHandlerPlayClient> {
    public S40PacketDisconnect() {
    }
 
-   public S40PacketDisconnect(IChatComponent var1) {
-      this.reason = var1;
+   public S40PacketDisconnect(IChatComponent reasonIn) {
+      this.reason = reasonIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.reason = var1.readChatComponent();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.reason = buf.readChatComponent();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeChatComponent(this.reason);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeChatComponent(this.reason);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleDisconnect(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleDisconnect(this);
    }
 
    public IChatComponent getReason() {

@@ -54,7 +54,7 @@ public class BlockBrewingStand extends BlockContainer {
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityBrewingStand();
    }
 
@@ -64,11 +64,11 @@ public class BlockBrewingStand extends BlockContainer {
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
       this.setBlockBounds(0.4375F, 0.0F, 0.4375F, 0.5625F, 0.875F, 0.5625F);
-      super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+      super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       this.setBlockBoundsForItemRender();
-      super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+      super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
    }
 
    @Override
@@ -77,55 +77,55 @@ public class BlockBrewingStand extends BlockContainer {
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var1.isRemote) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      TileEntity var12 = var1.getTileEntity(var2);
-      if (var12 instanceof TileEntityBrewingStand) {
-         var4.displayGUIChest((TileEntityBrewingStand)var12);
-         var4.triggerAchievement(StatList.field_181729_M);
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityBrewingStand) {
+         playerIn.displayGUIChest((TileEntityBrewingStand)tileEntity);
+         playerIn.triggerAchievement(StatList.field_181729_M);
       }
 
       return true;
    }
 
    @Override
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
-      if (var5.hasDisplayName()) {
-         TileEntity var9 = var1.getTileEntity(var2);
-         if (var9 instanceof TileEntityBrewingStand) {
-            ((TileEntityBrewingStand)var9).setName(var5.getDisplayName());
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+      if (stack.hasDisplayName()) {
+         TileEntity tileEntity = worldIn.getTileEntity(pos);
+         if (tileEntity instanceof TileEntityBrewingStand) {
+            ((TileEntityBrewingStand)tileEntity).setName(stack.getDisplayName());
          }
       }
    }
 
    @Override
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      double var5 = var2.getX() + 0.4F + var4.nextFloat() * 0.2F;
-      double var7 = var2.getY() + 0.7F + var4.nextFloat() * 0.3F;
-      double var9 = var2.getZ() + 0.4F + var4.nextFloat() * 0.2F;
-      var1.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var5, var7, var9, 0.0, 0.0, 0.0);
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      double d = pos.getX() + 0.4F + rand.nextFloat() * 0.2F;
+      double e = pos.getY() + 0.7F + rand.nextFloat() * 0.3F;
+      double d2 = pos.getZ() + 0.4F + rand.nextFloat() * 0.2F;
+      worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d, e, d2, 0.0, 0.0, 0.0);
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      TileEntity var7 = var1.getTileEntity(var2);
-      if (var7 instanceof TileEntityBrewingStand) {
-         InventoryHelper.dropInventoryItems(var1, var2, (TileEntityBrewingStand)var7);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityBrewingStand) {
+         InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityBrewingStand)tileEntity);
       }
 
-      super.breakBlock(var1, var2, var3);
+      super.breakBlock(worldIn, pos, state);
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return Items.brewing_stand;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.brewing_stand;
    }
 
@@ -135,8 +135,8 @@ public class BlockBrewingStand extends BlockContainer {
    }
 
    @Override
-   public int getComparatorInputOverride(World var1, BlockPos var2) {
-      return Container.calcRedstone(var1.getTileEntity(var2));
+   public int getComparatorInputOverride(World worldIn, BlockPos pos) {
+      return Container.calcRedstone(worldIn.getTileEntity(pos));
    }
 
    @Override
@@ -145,27 +145,27 @@ public class BlockBrewingStand extends BlockContainer {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      IBlockState var5 = this.getDefaultState();
+   public IBlockState getStateFromMeta(int meta) {
+      IBlockState iBlockState = this.getDefaultState();
 
-      for (int var6 = 0; var6 < 3; var6++) {
-         var5 = var5.withProperty(HAS_BOTTLE[var6], (var1 & 1 << var6) > 0);
+      for (int i = 0; i < 3; i++) {
+         iBlockState = iBlockState.withProperty(HAS_BOTTLE[i], (meta & 1 << i) > 0);
       }
 
-      return var5;
+      return iBlockState;
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
 
-      for (int var6 = 0; var6 < 3; var6++) {
-         if (var1.getValue(HAS_BOTTLE[var6])) {
-            var5 |= 1 << var6;
+      for (int j = 0; j < 3; j++) {
+         if (state.getValue(HAS_BOTTLE[j])) {
+            i |= 1 << j;
          }
       }
 
-      return var5;
+      return i;
    }
 
    @Override

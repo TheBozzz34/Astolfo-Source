@@ -32,12 +32,12 @@ public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
       }
 
       public class a1w extends ValueTransformer<String, String> {
-         public a1w(Type var2) {
-            super(var2);
+         public a1w(Type type2) {
+            super(type2);
          }
 
-         public String transform(PacketWrapper var1, String var2) {
-            return new VFAddressParser().c(var2).p;
+         public String transform(PacketWrapper packetWrapper, String string) {
+            return new VFAddressParser().c(string).p;
          }
       }
    }

@@ -55,122 +55,122 @@ public class MacFileSystem extends AbstractFileSystem {
    private static final long j = 92491963963306L;
 
    @Override
-   public OSFileStore[] getFileStores(boolean var1) {
-      List var2 = getFileStoreMatching(null, var1);
-      return (oshi.software.os.OSFileStore[])(var2.toArray(new OSFileStore[0]));
+   public OSFileStore[] getFileStores(boolean localOnly) {
+      List<OSFileStore> fsList = getFileStoreMatching(null, localOnly);
+      return fsList.toArray(new OSFileStore[0]);
    }
 
-   private static List<OSFileStore> getFileStoreMatching(String var0) {
-      return getFileStoreMatching(var0, false);
+   private static List<OSFileStore> getFileStoreMatching(String nameToMatch) {
+      return getFileStoreMatching(nameToMatch, false);
    }
 
-   private static List<OSFileStore> getFileStoreMatching(String var0, boolean var1) {
-      ArrayList var5 = new ArrayList();
-      int var6 = SystemB.INSTANCE.getfsstat64(null, 0, 0);
-      if (var6 > 0) {
-         DASessionRef var7 = DiskArbitration.INSTANCE.DASessionCreate(CoreFoundation.INSTANCE.CFAllocatorGetDefault());
-         if (var7 != null) {
-            CFStringRef var8 = CFStringRef.createCFString("DAVolumeName");
-            Statfs[] var9 = new Statfs[var6];
-            var6 = SystemB.INSTANCE.getfsstat64(var9, var6 * new Statfs().size(), 16);
+   private static List<OSFileStore> getFileStoreMatching(String nameToMatch, boolean localOnly) {
+      ArrayList arrayList = new ArrayList();
+      int i = SystemB.INSTANCE.getfsstat64(null, 0, 0);
+      if (i > 0) {
+         DASessionRef daSessionRef = DiskArbitration.INSTANCE.DASessionCreate(CoreFoundation.INSTANCE.CFAllocatorGetDefault());
+         if (daSessionRef != null) {
+            CFStringRef cfStringRef = CFStringRef.createCFString("DAVolumeName");
+            Statfs[] statfss = new Statfs[i];
+            i = SystemB.INSTANCE.getfsstat64(statfss, i * new Statfs().size(), 16);
 
-            for (int var10 = 0; var10 < var6; var10++) {
-               String var11 = new String(var9[var10].f_mntfromname, StandardCharsets.UTF_8).trim();
-               int var12 = var9[var10].f_flags;
-               if ((!var1 || (var12 & 4096) != 0) && !var11.equals("devfs") && !var11.startsWith("map ")) {
-                  String var13 = new String(var9[var10].f_fstypename, StandardCharsets.UTF_8).trim();
-                  String var14 = "Volume";
-                  if (LOCAL_DISK.matcher(var11).matches()) {
-                     var14 = "Local Disk";
-                  } else if (var11.startsWith("localhost:") || var11.startsWith("//") || var11.startsWith("smb://") || NETWORK_FS_TYPES.contains(var13)) {
-                     var14 = "Network Drive";
+            for (int j = 0; j < i; j++) {
+               String string = new String(statfss[j].f_mntfromname, StandardCharsets.UTF_8).trim();
+               int k = statfss[j].f_flags;
+               if ((!localOnly || (k & 4096) != 0) && !string.equals("devfs") && !string.startsWith("map ")) {
+                  String string2 = new String(statfss[j].f_fstypename, StandardCharsets.UTF_8).trim();
+                  String string3 = "Volume";
+                  if (LOCAL_DISK.matcher(string).matches()) {
+                     string3 = "Local Disk";
+                  } else if (string.startsWith("localhost:") || string.startsWith("//") || string.startsWith("smb://") || NETWORK_FS_TYPES.contains(string2)) {
+                     string3 = "Network Drive";
                   }
 
-                  String var15 = new String(var9[var10].f_mntonname, StandardCharsets.UTF_8).trim();
-                  String var16 = "";
-                  File var17 = new File(var15);
-                  if (var16.isEmpty()) {
-                     var16 = var17.getName();
-                     if (var16.isEmpty()) {
-                        var16 = var17.getPath();
+                  String string4 = new String(statfss[j].f_mntonname, StandardCharsets.UTF_8).trim();
+                  String string5 = "";
+                  File file = new File(string4);
+                  if (string5.isEmpty()) {
+                     string5 = file.getName();
+                     if (string5.isEmpty()) {
+                        string5 = file.getPath();
                      }
                   }
 
-                  if (var0 == null || var0.equals(var16)) {
-                     StringBuilder var18 = new StringBuilder((1 & var12) == 0 ? "rw" : "ro");
-                     String var19 = OPTIONS_MAP.entrySet()
+                  if (nameToMatch == null || nameToMatch.equals(string5)) {
+                     StringBuilder stringBuilder = new StringBuilder((1 & k) == 0 ? "rw" : "ro");
+                     String string6 = OPTIONS_MAP.entrySet()
                         .stream()
-                        .filter(var1x -> (var1x.getKey() & var12) > 0)
+                        .filter(eIn -> (eIn.getKey() & k) > 0)
                         .map(Entry::getValue)
                         .collect(Collectors.joining(","));
-                     if (!var19.isEmpty()) {
-                        var18.append(',').append(var19);
+                     if (!string6.isEmpty()) {
+                        stringBuilder.append(',').append(string6);
                      }
 
-                     String var20 = "";
-                     String var21 = var11.replace("/dev/disk", "disk");
-                     if (var21.startsWith("disk")) {
-                        DADiskRef var22 = DiskArbitration.INSTANCE.DADiskCreateFromBSDName(CoreFoundation.INSTANCE.CFAllocatorGetDefault(), var7, var11);
-                        if (var22 != null) {
-                           CFDictionaryRef var23 = DiskArbitration.INSTANCE.DADiskCopyDescription(var22);
-                           if (var23 != null) {
-                              Pointer var24 = var23.getValue(var8);
-                              CFStringRef var25 = new CFStringRef(var24);
-                              var16 = var25.stringValue();
-                              if (var16 == null) {
-                                 var16 = "unknown";
+                     String string7 = "";
+                     String string8 = string.replace("/dev/disk", "disk");
+                     if (string8.startsWith("disk")) {
+                        DADiskRef daDiskRef = DiskArbitration.INSTANCE.DADiskCreateFromBSDName(CoreFoundation.INSTANCE.CFAllocatorGetDefault(), daSessionRef, string);
+                        if (daDiskRef != null) {
+                           CFDictionaryRef cfDictionaryRef = DiskArbitration.INSTANCE.DADiskCopyDescription(daDiskRef);
+                           if (cfDictionaryRef != null) {
+                              Pointer pointer = cfDictionaryRef.getValue(cfStringRef);
+                              CFStringRef cfStringRef2 = new CFStringRef(pointer);
+                              string5 = cfStringRef2.stringValue();
+                              if (string5 == null) {
+                                 string5 = "unknown";
                               }
 
-                              var23.release();
+                              cfDictionaryRef.release();
                            }
 
-                           var22.release();
+                           daDiskRef.release();
                         }
 
-                        CFMutableDictionaryRef var28 = IOKitUtil.getBSDNameMatchingDict(var21);
-                        if (var28 != null) {
-                           IOIterator var29 = IOKitUtil.getMatchingServices(var28);
-                           if (var29 != null) {
-                              IORegistryEntry var30 = var29.next();
-                              if (var30 != null && var30.conformsTo("IOMedia")) {
-                                 var20 = var30.getStringProperty("UUID");
-                                 if (var20 != null) {
-                                    var20 = var20.toLowerCase();
+                        CFMutableDictionaryRef cfMutableDictionaryRef = IOKitUtil.getBSDNameMatchingDict(string8);
+                        if (cfMutableDictionaryRef != null) {
+                           IOIterator ioIterator = IOKitUtil.getMatchingServices(cfMutableDictionaryRef);
+                           if (ioIterator != null) {
+                              IORegistryEntry ioRegistryEntry = ioIterator.next();
+                              if (ioRegistryEntry != null && ioRegistryEntry.conformsTo("IOMedia")) {
+                                 string7 = ioRegistryEntry.getStringProperty("UUID");
+                                 if (string7 != null) {
+                                    string7 = string7.toLowerCase();
                                  }
 
-                                 var30.release();
+                                 ioRegistryEntry.release();
                               }
 
-                              var29.release();
+                              ioIterator.release();
                            }
                         }
                      }
 
-                     OSFileStore var27 = new OSFileStore();
-                     var27.setName(var16);
-                     var27.setVolume(var11);
-                     var27.setLabel(var16);
-                     var27.setMount(var15);
-                     var27.setDescription(var14);
-                     var27.setType(var13);
-                     var27.setOptions(var18.toString());
-                     var27.setUUID(var20 == null ? "" : var20);
-                     var27.setFreeSpace(var17.getFreeSpace());
-                     var27.setUsableSpace(var17.getUsableSpace());
-                     var27.setTotalSpace(var17.getTotalSpace());
-                     var27.setFreeInodes(var9[var10].f_ffree);
-                     var27.setTotalInodes(var9[var10].f_files);
-                     var5.add(var27);
+                     OSFileStore osFileStore = new OSFileStore();
+                     osFileStore.setName(string5);
+                     osFileStore.setVolume(string);
+                     osFileStore.setLabel(string5);
+                     osFileStore.setMount(string4);
+                     osFileStore.setDescription(string3);
+                     osFileStore.setType(string2);
+                     osFileStore.setOptions(stringBuilder.toString());
+                     osFileStore.setUUID(string7 == null ? "" : string7);
+                     osFileStore.setFreeSpace(file.getFreeSpace());
+                     osFileStore.setUsableSpace(file.getUsableSpace());
+                     osFileStore.setTotalSpace(file.getTotalSpace());
+                     osFileStore.setFreeInodes(statfss[j].f_ffree);
+                     osFileStore.setTotalInodes(statfss[j].f_files);
+                     arrayList.add(osFileStore);
                   }
                }
             }
 
-            var8.release();
-            var7.release();
+            cfStringRef.release();
+            daSessionRef.release();
          }
       }
 
-      return var5;
+      return arrayList;
    }
 
    @Override
@@ -183,17 +183,17 @@ public class MacFileSystem extends AbstractFileSystem {
       return SysctlUtil.sysctl("kern.maxfiles", 0);
    }
 
-   public static boolean updateFileStoreStats(OSFileStore var0) {
-      for (OSFileStore var5 : getFileStoreMatching(var0.getName())) {
-         if (var0.getVolume().equals(var5.getVolume()) && var0.getMount().equals(var5.getMount())) {
-            var0.setLogicalVolume(var5.getLogicalVolume());
-            var0.setDescription(var5.getDescription());
-            var0.setType(var5.getType());
-            var0.setFreeSpace(var5.getFreeSpace());
-            var0.setUsableSpace(var5.getUsableSpace());
-            var0.setTotalSpace(var5.getTotalSpace());
-            var0.setFreeInodes(var5.getFreeInodes());
-            var0.setTotalInodes(var5.getTotalInodes());
+   public static boolean updateFileStoreStats(OSFileStore osFileStore) {
+      for (OSFileStore osFileStore2 : getFileStoreMatching(osFileStore.getName())) {
+         if (osFileStore.getVolume().equals(osFileStore2.getVolume()) && osFileStore.getMount().equals(osFileStore2.getMount())) {
+            osFileStore.setLogicalVolume(osFileStore2.getLogicalVolume());
+            osFileStore.setDescription(osFileStore2.getDescription());
+            osFileStore.setType(osFileStore2.getType());
+            osFileStore.setFreeSpace(osFileStore2.getFreeSpace());
+            osFileStore.setUsableSpace(osFileStore2.getUsableSpace());
+            osFileStore.setTotalSpace(osFileStore2.getTotalSpace());
+            osFileStore.setFreeInodes(osFileStore2.getFreeInodes());
+            osFileStore.setTotalInodes(osFileStore2.getTotalInodes());
             return true;
          }
       }
@@ -202,28 +202,28 @@ public class MacFileSystem extends AbstractFileSystem {
    }
 
    static {
-      long var20 = j ^ 8107563618164L;
-      long var10000 = var20 ^ 6773660303754022199L;
-      var10000 = var20 ^ 6862932709373756311L;
-      var10000 = var20 ^ 5712720609604324619L;
-      var10000 = var20 ^ 2001626407066233910L;
-      var10000 = var20 ^ 9099338308994518738L;
-      var10000 = var20 ^ 31139249713393155L;
-      var10000 = var20 ^ 5986434935583962528L;
-      var10000 = var20 ^ 3587284759962264400L;
-      var10000 = var20 ^ 3880283592438777608L;
-      var10000 = var20 ^ 7351119441171523468L;
-      var10000 = var20 ^ 7688607387556712199L;
-      var10000 = var20 ^ 7045822073283355856L;
-      var10000 = var20 ^ 4334293339206271154L;
-      var10000 = var20 ^ 5857050442163654540L;
-      var10000 = var20 ^ 910732893986040306L;
-      var10000 = var20 ^ 8381276703735974282L;
-      var10000 = var20 ^ 6009506647858760630L;
-      var10000 = var20 ^ 1188318127022887495L;
-      var10000 = var20 ^ 2762389838947541368L;
-      var10000 = var20 ^ 6155800240456056066L;
-      var10000 = var20 ^ 6583895418908265928L;
+      long l = j ^ 8107563618164L;
+      long m = l ^ 6773660303754022199L;
+      m = l ^ 6862932709373756311L;
+      m = l ^ 5712720609604324619L;
+      m = l ^ 2001626407066233910L;
+      m = l ^ 9099338308994518738L;
+      m = l ^ 31139249713393155L;
+      m = l ^ 5986434935583962528L;
+      m = l ^ 3587284759962264400L;
+      m = l ^ 3880283592438777608L;
+      m = l ^ 7351119441171523468L;
+      m = l ^ 7688607387556712199L;
+      m = l ^ 7045822073283355856L;
+      m = l ^ 4334293339206271154L;
+      m = l ^ 5857050442163654540L;
+      m = l ^ 910732893986040306L;
+      m = l ^ 8381276703735974282L;
+      m = l ^ 6009506647858760630L;
+      m = l ^ 1188318127022887495L;
+      m = l ^ 2762389838947541368L;
+      m = l ^ 6155800240456056066L;
+      m = l ^ 6583895418908265928L;
       OPTIONS_MAP.put(2, "synchronous");
       OPTIONS_MAP.put(4, "noexec");
       OPTIONS_MAP.put(8, "nosuid");

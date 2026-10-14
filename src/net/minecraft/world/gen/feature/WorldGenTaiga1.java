@@ -25,69 +25,69 @@ public class WorldGenTaiga1 extends WorldGenAbstractTree {
    }
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      int var7 = var2.nextInt(5) + 7;
-      int var8 = var7 - var2.nextInt(2) - 3;
-      int var9 = var7 - var8;
-      int var10 = 1 + var2.nextInt(var9 + 1);
-      boolean var11 = true;
-      if (var3.getY() >= 1 && var3.getY() + var7 + 1 <= 256) {
-         for (int var12 = var3.getY(); var12 <= var3.getY() + 1 + var7 && var11; var12++) {
-            int var13 = 1;
-            if (var12 - var3.getY() < var8) {
-               var13 = 0;
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      int i = rand.nextInt(5) + 7;
+      int j = i - rand.nextInt(2) - 3;
+      int k = i - j;
+      int l = 1 + rand.nextInt(k + 1);
+      boolean bl = true;
+      if (position.getY() >= 1 && position.getY() + i + 1 <= 256) {
+         for (int m = position.getY(); m <= position.getY() + 1 + i && bl; m++) {
+            int n = 1;
+            if (m - position.getY() < j) {
+               n = 0;
             } else {
-               var13 = var10;
+               n = l;
             }
 
-            BlockPos.MutableBlockPos var14 = new BlockPos.MutableBlockPos();
+            BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-            for (int var15 = var3.getX() - var13; var15 <= var3.getX() + var13 && var11; var15++) {
-               for (int var16 = var3.getZ() - var13; var16 <= var3.getZ() + var13 && var11; var16++) {
-                  if (var12 < 0 || var12 >= 256) {
-                     var11 = false;
-                  } else if (!this.func_150523_a(var1.getBlockState(var14.set(var15, var12, var16)).getBlock())) {
-                     var11 = false;
+            for (int i2 = position.getX() - n; i2 <= position.getX() + n && bl; i2++) {
+               for (int i3 = position.getZ() - n; i3 <= position.getZ() + n && bl; i3++) {
+                  if (m < 0 || m >= 256) {
+                     bl = false;
+                  } else if (!this.func_150523_a(worldIn.getBlockState(mutableBlockPos.set(i2, m, i3)).getBlock())) {
+                     bl = false;
                   }
                }
             }
          }
 
-         if (!var11) {
+         if (!bl) {
             return false;
          }
 
-         Block var20 = var1.getBlockState(var3.down()).getBlock();
-         if ((var20 == Blocks.grass || var20 == Blocks.dirt) && var3.getY() < 256 - var7 - 1) {
-            this.func_175921_a(var1, var3.down());
-            int var22 = 0;
+         Block block = worldIn.getBlockState(position.down()).getBlock();
+         if ((block == Blocks.grass || block == Blocks.dirt) && position.getY() < 256 - i - 1) {
+            this.func_175921_a(worldIn, position.down());
+            int i4 = 0;
 
-            for (int var23 = var3.getY() + var7; var23 >= var3.getY() + var8; var23--) {
-               for (int var25 = var3.getX() - var22; var25 <= var3.getX() + var22; var25++) {
-                  int var27 = var25 - var3.getX();
+            for (int i5 = position.getY() + i; i5 >= position.getY() + j; i5--) {
+               for (int i6 = position.getX() - i4; i6 <= position.getX() + i4; i6++) {
+                  int i7 = i6 - position.getX();
 
-                  for (int var17 = var3.getZ() - var22; var17 <= var3.getZ() + var22; var17++) {
-                     int var18 = var17 - var3.getZ();
-                     if (Math.abs(var27) != var22 || Math.abs(var18) != var22 || var22 <= 0) {
-                        BlockPos var19 = new BlockPos(var25, var23, var17);
-                        if (!var1.getBlockState(var19).getBlock().isFullBlock()) {
-                           this.setBlockAndNotifyAdequately(var1, var19, field_181637_b);
+                  for (int i8 = position.getZ() - i4; i8 <= position.getZ() + i4; i8++) {
+                     int i9 = i8 - position.getZ();
+                     if (Math.abs(i7) != i4 || Math.abs(i9) != i4 || i4 <= 0) {
+                        BlockPos blockPos = new BlockPos(i6, i5, i8);
+                        if (!worldIn.getBlockState(blockPos).getBlock().isFullBlock()) {
+                           this.setBlockAndNotifyAdequately(worldIn, blockPos, field_181637_b);
                         }
                      }
                   }
                }
 
-               if (var22 >= 1 && var23 == var3.getY() + var8 + 1) {
-                  var22--;
-               } else if (var22 < var10) {
-                  var22++;
+               if (i4 >= 1 && i5 == position.getY() + j + 1) {
+                  i4--;
+               } else if (i4 < l) {
+                  i4++;
                }
             }
 
-            for (int var24 = 0; var24 < var7 - 1; var24++) {
-               Block var26 = var1.getBlockState(var3.up(var24)).getBlock();
-               if (var26.getMaterial() == Material.air || var26.getMaterial() == Material.leaves) {
-                  this.setBlockAndNotifyAdequately(var1, var3.up(var24), field_181636_a);
+            for (int i10 = 0; i10 < i - 1; i10++) {
+               Block block2 = worldIn.getBlockState(position.up(i10)).getBlock();
+               if (block2.getMaterial() == Material.air || block2.getMaterial() == Material.leaves) {
+                  this.setBlockAndNotifyAdequately(worldIn, position.up(i10), field_181636_a);
                }
             }
 

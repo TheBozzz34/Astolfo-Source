@@ -19,50 +19,50 @@ public class ItemBlock extends Item {
    private static final long b = 116273878565036L;
    private static final long r = -8540948488534360054L;
 
-   public ItemBlock(Block var1) {
-      this.block = var1;
+   public ItemBlock(Block block) {
+      this.block = block;
    }
 
-   public ItemBlock setUnlocalizedName(String var1) {
-      super.setUnlocalizedName(var1);
+   public ItemBlock setUnlocalizedName(String unlocalizedName) {
+      super.setUnlocalizedName(unlocalizedName);
       return this;
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      IBlockState var12 = var3.getBlockState(var4);
-      Block var13 = var12.getBlock();
-      if (!var13.isReplaceable(var3, var4)) {
-         var4 = var4.offset(var5);
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      Block block2 = iBlockState.getBlock();
+      if (!block2.isReplaceable(worldIn, pos)) {
+         pos = pos.offset(side);
       }
 
-      if (var1.stackSize == 0) {
+      if (stack.stackSize == 0) {
          return false;
       }
 
-      if (!var2.canPlayerEdit(var4, var5, var1)) {
+      if (!playerIn.canPlayerEdit(pos, side, stack)) {
          return false;
       }
 
-      if (var3.canBlockBePlaced(this.block, var4, false, var5, (Entity)null, var1)) {
-         int var14 = this.getMetadata(var1.getMetadata());
-         IBlockState var15 = this.block.onBlockPlaced(var3, var4, var5, var6, var7, var8, var14, var2);
-         if (var3.setBlockState(var4, var15, 3)) {
-            var15 = var3.getBlockState(var4);
-            if (var15.getBlock() == this.block) {
-               setTileEntityNBT(var3, var2, var4, var1);
-               this.block.onBlockPlacedBy(var3, var4, var15, var2, var1);
+      if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack)) {
+         int i = this.getMetadata(stack.getMetadata());
+         IBlockState iBlockState2 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
+         if (worldIn.setBlockState(pos, iBlockState2, 3)) {
+            iBlockState2 = worldIn.getBlockState(pos);
+            if (iBlockState2.getBlock() == this.block) {
+               setTileEntityNBT(worldIn, playerIn, pos, stack);
+               this.block.onBlockPlacedBy(worldIn, pos, iBlockState2, playerIn, stack);
             }
 
-            var3.playSoundEffect(
-               var4.getX() + 0.5F,
-               var4.getY() + 0.5F,
-               var4.getZ() + 0.5F,
+            worldIn.playSoundEffect(
+               pos.getX() + 0.5F,
+               pos.getY() + 0.5F,
+               pos.getZ() + 0.5F,
                this.block.stepSound.getPlaceSound(),
                (this.block.stepSound.getVolume() + 1.0F) / 2.0F,
                this.block.stepSound.getFrequency() * 0.8F
             );
-            var1.stackSize--;
+            stack.stackSize--;
          }
 
          return true;
@@ -71,30 +71,30 @@ public class ItemBlock extends Item {
       }
    }
 
-   public static boolean setTileEntityNBT(World var0, EntityPlayer var1, BlockPos var2, ItemStack var3) {
-      MinecraftServer var7 = MinecraftServer.getServer();
-      if (var7 == null) {
+   public static boolean setTileEntityNBT(World worldIn, EntityPlayer pos, BlockPos stack, ItemStack itemStack) {
+      MinecraftServer minecraftServer = MinecraftServer.getServer();
+      if (minecraftServer == null) {
          return false;
       }
 
-      if (var3.hasTagCompound() && var3.getTagCompound().hasKey("BlockEntityTag", (int)r)) {
-         TileEntity var8 = var0.getTileEntity(var2);
-         if (var8 != null) {
-            if (!var0.isRemote && var8.func_183000_F() && !var7.getConfigurationManager().canSendCommands(var1.getGameProfile())) {
+      if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("BlockEntityTag", (int)r)) {
+         TileEntity tileEntity = worldIn.getTileEntity(stack);
+         if (tileEntity != null) {
+            if (!worldIn.isRemote && tileEntity.func_183000_F() && !minecraftServer.getConfigurationManager().canSendCommands(pos.getGameProfile())) {
                return false;
             }
 
-            NBTTagCompound var9 = new NBTTagCompound();
-            NBTTagCompound var10 = (NBTTagCompound)var9.copy();
-            var8.writeToNBT(var9);
-            NBTTagCompound var11 = (NBTTagCompound)var3.getTagCompound().getTag("BlockEntityTag");
-            var9.merge(var11);
-            var9.setInteger("x", var2.getX());
-            var9.setInteger("y", var2.getY());
-            var9.setInteger("z", var2.getZ());
-            if (!var9.equals(var10)) {
-               var8.readFromNBT(var9);
-               var8.markDirty();
+            NBTTagCompound nbtTagCompound = new NBTTagCompound();
+            NBTTagCompound nbtTagCompound2 = (NBTTagCompound)nbtTagCompound.copy();
+            tileEntity.writeToNBT(nbtTagCompound);
+            NBTTagCompound nbtTagCompound3 = (NBTTagCompound)itemStack.getTagCompound().getTag("BlockEntityTag");
+            nbtTagCompound.merge(nbtTagCompound3);
+            nbtTagCompound.setInteger("x", stack.getX());
+            nbtTagCompound.setInteger("y", stack.getY());
+            nbtTagCompound.setInteger("z", stack.getZ());
+            if (!nbtTagCompound.equals(nbtTagCompound2)) {
+               tileEntity.readFromNBT(nbtTagCompound);
+               tileEntity.markDirty();
                return true;
             }
          }
@@ -103,19 +103,19 @@ public class ItemBlock extends Item {
       return false;
    }
 
-   public boolean canPlaceBlockOnSide(World var1, BlockPos var2, EnumFacing var3, EntityPlayer var4, ItemStack var5) {
-      Block var9 = var1.getBlockState(var2).getBlock();
-      if (var9 == Blocks.snow_layer) {
-         var3 = EnumFacing.UP;
-      } else if (!var9.isReplaceable(var1, var2)) {
-         var2 = var2.offset(var3);
+   public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
+      Block block2 = worldIn.getBlockState(pos).getBlock();
+      if (block2 == Blocks.snow_layer) {
+         side = EnumFacing.UP;
+      } else if (!block2.isReplaceable(worldIn, pos)) {
+         pos = pos.offset(side);
       }
 
-      return var1.canBlockBePlaced(this.block, var2, false, var3, (Entity)null, var5);
+      return worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack);
    }
 
    @Override
-   public String getUnlocalizedName(ItemStack var1) {
+   public String getUnlocalizedName(ItemStack stack) {
       return this.block.getUnlocalizedName();
    }
 
@@ -130,8 +130,8 @@ public class ItemBlock extends Item {
    }
 
    @Override
-   public void getSubItems(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      this.block.getSubBlocks(var1, var2, var3);
+   public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+      this.block.getSubBlocks(itemIn, tab, subItems);
    }
 
    public Block getBlock() {

@@ -11,9 +11,9 @@ public class WorldServerOF extends WorldServer {
    private MinecraftServer mcServer;
    private static final long cb = 120610004128889L;
 
-   public WorldServerOF(MinecraftServer var1, ISaveHandler var2, WorldInfo var3, int var4, Profiler var5) {
-      super(var1, var2, var3, var4, var5);
-      this.mcServer = var1;
+   public WorldServerOF(MinecraftServer par1MinecraftServer, ISaveHandler par2iSaveHandler, WorldInfo worldInfo, int par4, Profiler par6Profiler) {
+      super(par1MinecraftServer, par2iSaveHandler, worldInfo, par4, par6Profiler);
+      this.mcServer = par1MinecraftServer;
    }
 
    @Override
@@ -54,25 +54,25 @@ public class WorldServerOF extends WorldServer {
 
    private void fixWorldTime() {
       if (this.worldInfo.getGameType().getID() == 1) {
-         long var4 = this.getWorldTime();
-         long var6 = var4 % 24000L;
+         long l = this.getWorldTime();
+         long m = l % 24000L;
          if (Config.isTimeDayOnly()) {
-            if (var6 <= 1000L) {
-               this.setWorldTime(var4 - var6 + 1001L);
+            if (m <= 1000L) {
+               this.setWorldTime(l - m + 1001L);
             }
 
-            if (var6 >= 11000L) {
-               this.setWorldTime(var4 - var6 + 24001L);
+            if (m >= 11000L) {
+               this.setWorldTime(l - m + 24001L);
             }
          }
 
          if (Config.isTimeNightOnly()) {
-            if (var6 <= 14000L) {
-               this.setWorldTime(var4 - var6 + 14001L);
+            if (m <= 14000L) {
+               this.setWorldTime(l - m + 14001L);
             }
 
-            if (var6 >= 22000L) {
-               this.setWorldTime(var4 - var6 + 24000L + 14001L);
+            if (m >= 22000L) {
+               this.setWorldTime(l - m + 24000L + 14001L);
             }
          }
       }

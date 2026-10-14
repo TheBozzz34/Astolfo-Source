@@ -16,37 +16,37 @@ public class VRVersionProvider extends BaseVersionProvider {
    private static final long a = 43674454758878L;
 
    @Override
-   public int getClosestServerProtocol(UserConnection var1) throws Exception {
-      if (!var1.isClientSide()) {
-         NativeVersionProvider var10 = Via.getManager().getProviders().get(NativeVersionProvider.class);
-         return var10 != null ? ProtocolVersion.getProtocol(var10.getServerProtocolVersion()).getVersion() : super.getClosestServerProtocol(var1);
+   public int getClosestServerProtocol(UserConnection userConnection) throws Exception {
+      if (!userConnection.isClientSide()) {
+         NativeVersionProvider nativeVersionProvider = Via.getManager().getProviders().get(NativeVersionProvider.class);
+         return nativeVersionProvider != null ? ProtocolVersion.getProtocol(nativeVersionProvider.getServerProtocolVersion()).getVersion() : super.getClosestServerProtocol(userConnection);
       }
 
-      ProtocolInfo var5 = Objects.requireNonNull(var1.getProtocolInfo());
+      ProtocolInfo protocolInfo = Objects.requireNonNull(userConnection.getProtocolInfo());
       if (!ViaFabric.enabled) {
-         return var5.getProtocolVersion();
+         return protocolInfo.getProtocolVersion();
       }
 
-      int var6 = ViaFabric.INSTANCE.getVersion().getVersion();
-      SocketAddress var7 = var1.getChannel().remoteAddress();
-      if (var7 instanceof InetSocketAddress) {
-         VFAddressParser var8 = new VFAddressParser();
-         Integer var9 = var8.c(((InetSocketAddress)var7).getHostName()).l;
-         if (var9 != null) {
-            var6 = var9;
+      int i = ViaFabric.INSTANCE.getVersion().getVersion();
+      SocketAddress socketAddress = userConnection.getChannel().remoteAddress();
+      if (socketAddress instanceof InetSocketAddress) {
+         VFAddressParser vfAddressParser = new VFAddressParser();
+         Integer integer = vfAddressParser.c(((InetSocketAddress)socketAddress).getHostName()).l;
+         if (integer != null) {
+            i = integer;
          }
       }
 
-      boolean var11 = this.v(var7);
-      boolean var12 = ProtocolUtils.isSupported(var6, var5.getProtocolVersion());
-      if (var11 || !var12) {
-         var6 = var5.getProtocolVersion();
+      boolean bl = this.v(socketAddress);
+      boolean bl2 = ProtocolUtils.isSupported(i, protocolInfo.getProtocolVersion());
+      if (bl || !bl2) {
+         i = protocolInfo.getProtocolVersion();
       }
 
-      return var6;
+      return i;
    }
 
-   private boolean v(SocketAddress var1) {
+   private boolean v(SocketAddress socketAddress) {
       return false;
    }
 }

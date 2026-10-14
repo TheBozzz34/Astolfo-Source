@@ -6,8 +6,8 @@ public class GameJarHashList {
    private final ListContainerOwner<String> l;
 
    public GameJarHashList() {
-      GameJarHash var1 = new GameJarHash();
-      this.l = new ListContainerOwner<>(var1.H());
+      GameJarHash gameJarHash = new GameJarHash();
+      this.l = new ListContainerOwner<>(gameJarHash.H());
    }
 
    public ListContainerOwner<String> E() {

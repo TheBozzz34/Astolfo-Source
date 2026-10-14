@@ -85,11 +85,11 @@ public class OpenGlHelper {
    private static final long ab = 1411109385654L;
 
    public static void initializeTextures() {
-      long var0 = ab ^ 78976155573854L;
+      long l = ab ^ 78976155573854L;
       Config.initDisplay();
-      ContextCapabilities var3 = GLContext.getCapabilities();
-      arbMultitexture = var3.GL_ARB_multitexture && !var3.OpenGL13;
-      arbTextureEnvCombine = var3.GL_ARB_texture_env_combine && !var3.OpenGL13;
+      ContextCapabilities contextCapabilities = GLContext.getCapabilities();
+      arbMultitexture = contextCapabilities.GL_ARB_multitexture && !contextCapabilities.OpenGL13;
+      arbTextureEnvCombine = contextCapabilities.GL_ARB_texture_env_combine && !contextCapabilities.OpenGL13;
       if (arbMultitexture) {
          logText = logText + "Using ARB_multitexture.\n";
          defaultTexUnit = 33984;
@@ -146,15 +146,15 @@ public class OpenGlHelper {
          GL_OPERAND2_ALPHA = 34202;
       }
 
-      extBlendFuncSeparate = var3.GL_EXT_blend_func_separate && !var3.OpenGL14;
-      openGL14 = var3.OpenGL14 || var3.GL_EXT_blend_func_separate;
-      framebufferSupported = openGL14 && (var3.GL_ARB_framebuffer_object || var3.GL_EXT_framebuffer_object || var3.OpenGL30);
+      extBlendFuncSeparate = contextCapabilities.GL_EXT_blend_func_separate && !contextCapabilities.OpenGL14;
+      openGL14 = contextCapabilities.OpenGL14 || contextCapabilities.GL_EXT_blend_func_separate;
+      framebufferSupported = openGL14 && (contextCapabilities.GL_ARB_framebuffer_object || contextCapabilities.GL_EXT_framebuffer_object || contextCapabilities.OpenGL30);
       if (framebufferSupported) {
          logText = logText + "Using framebuffer objects because ";
-         if (var3.OpenGL30) {
+         if (contextCapabilities.OpenGL30) {
             logText = logText + "OpenGL 3.0 is supported and separate blending is supported.\n";
             framebufferType = 0;
-            long var10000 = 1162498087954298384L ^ var0;
+            long m = 1162498087954298384L ^ l;
             GL_FRAMEBUFFER = 36160;
             GL_RENDERBUFFER = 36161;
             GL_COLOR_ATTACHMENT0 = 36064;
@@ -164,10 +164,10 @@ public class OpenGlHelper {
             GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
             GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
             GL_FB_INCOMPLETE_READ_BUFFER = 36060;
-         } else if (var3.GL_ARB_framebuffer_object) {
+         } else if (contextCapabilities.GL_ARB_framebuffer_object) {
             logText = logText + "ARB_framebuffer_object is supported and separate blending is supported.\n";
             framebufferType = 1;
-            long var9 = 8184655150981709739L ^ var0;
+            long l2 = 8184655150981709739L ^ l;
             GL_FRAMEBUFFER = 36160;
             GL_RENDERBUFFER = 36161;
             GL_COLOR_ATTACHMENT0 = 36064;
@@ -177,7 +177,7 @@ public class OpenGlHelper {
             GL_FB_INCOMPLETE_ATTACHMENT = 36054;
             GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
             GL_FB_INCOMPLETE_READ_BUFFER = 36060;
-         } else if (var3.GL_EXT_framebuffer_object) {
+         } else if (contextCapabilities.GL_EXT_framebuffer_object) {
             logText = logText + "EXT_framebuffer_object is supported.\n";
             framebufferType = 2;
             GL_FRAMEBUFFER = 36160;
@@ -192,21 +192,21 @@ public class OpenGlHelper {
          }
       } else {
          logText = logText + "Not using framebuffer objects because ";
-         logText = logText + "OpenGL 1.4 is " + (var3.OpenGL14 ? "" : "not ") + "supported, ";
-         logText = logText + "EXT_blend_func_separate is " + (var3.GL_EXT_blend_func_separate ? "" : "not ") + "supported, ";
-         logText = logText + "OpenGL 3.0 is " + (var3.OpenGL30 ? "" : "not ") + "supported, ";
-         logText = logText + "ARB_framebuffer_object is " + (var3.GL_ARB_framebuffer_object ? "" : "not ") + "supported, and ";
-         logText = logText + "EXT_framebuffer_object is " + (var3.GL_EXT_framebuffer_object ? "" : "not ") + "supported.\n";
+         logText = logText + "OpenGL 1.4 is " + (contextCapabilities.OpenGL14 ? "" : "not ") + "supported, ";
+         logText = logText + "EXT_blend_func_separate is " + (contextCapabilities.GL_EXT_blend_func_separate ? "" : "not ") + "supported, ";
+         logText = logText + "OpenGL 3.0 is " + (contextCapabilities.OpenGL30 ? "" : "not ") + "supported, ";
+         logText = logText + "ARB_framebuffer_object is " + (contextCapabilities.GL_ARB_framebuffer_object ? "" : "not ") + "supported, and ";
+         logText = logText + "EXT_framebuffer_object is " + (contextCapabilities.GL_EXT_framebuffer_object ? "" : "not ") + "supported.\n";
       }
 
-      openGL21 = var3.OpenGL21;
-      shadersAvailable = openGL21 || var3.GL_ARB_vertex_shader && var3.GL_ARB_fragment_shader && var3.GL_ARB_shader_objects;
+      openGL21 = contextCapabilities.OpenGL21;
+      shadersAvailable = openGL21 || contextCapabilities.GL_ARB_vertex_shader && contextCapabilities.GL_ARB_fragment_shader && contextCapabilities.GL_ARB_shader_objects;
       logText = logText + "Shaders are " + (shadersAvailable ? "" : "not ") + "available because ";
       if (shadersAvailable) {
-         if (var3.OpenGL21) {
+         if (contextCapabilities.OpenGL21) {
             logText = logText + "OpenGL 2.1 is supported.\n";
             arbShaders = false;
-            long var10 = 1786701935467216207L ^ var0;
+            long l3 = 1786701935467216207L ^ l;
             GL_LINK_STATUS = 35714;
             GL_COMPILE_STATUS = 35713;
             GL_VERTEX_SHADER = 35633;
@@ -214,24 +214,24 @@ public class OpenGlHelper {
          } else {
             logText = logText + "ARB_shader_objects, ARB_vertex_shader, and ARB_fragment_shader are supported.\n";
             arbShaders = true;
-            long var11 = 8198595248411425666L ^ var0;
+            long l4 = 8198595248411425666L ^ l;
             GL_LINK_STATUS = 35714;
             GL_COMPILE_STATUS = 35713;
             GL_VERTEX_SHADER = 35633;
             GL_FRAGMENT_SHADER = 35632;
          }
       } else {
-         logText = logText + "OpenGL 2.1 is " + (var3.OpenGL21 ? "" : "not ") + "supported, ";
-         logText = logText + "ARB_shader_objects is " + (var3.GL_ARB_shader_objects ? "" : "not ") + "supported, ";
-         logText = logText + "ARB_vertex_shader is " + (var3.GL_ARB_vertex_shader ? "" : "not ") + "supported, and ";
-         logText = logText + "ARB_fragment_shader is " + (var3.GL_ARB_fragment_shader ? "" : "not ") + "supported.\n";
+         logText = logText + "OpenGL 2.1 is " + (contextCapabilities.OpenGL21 ? "" : "not ") + "supported, ";
+         logText = logText + "ARB_shader_objects is " + (contextCapabilities.GL_ARB_shader_objects ? "" : "not ") + "supported, ";
+         logText = logText + "ARB_vertex_shader is " + (contextCapabilities.GL_ARB_vertex_shader ? "" : "not ") + "supported, and ";
+         logText = logText + "ARB_fragment_shader is " + (contextCapabilities.GL_ARB_fragment_shader ? "" : "not ") + "supported.\n";
       }
 
       shadersSupported = framebufferSupported && shadersAvailable;
-      String var4 = GL11.glGetString(7936).toLowerCase();
-      nvidia = var4.contains("nvidia");
-      arbVbo = !var3.OpenGL15 && var3.GL_ARB_vertex_buffer_object;
-      vboSupported = var3.OpenGL15 || arbVbo;
+      String string = GL11.glGetString(7936).toLowerCase();
+      nvidia = string.contains("nvidia");
+      arbVbo = !contextCapabilities.OpenGL15 && contextCapabilities.GL_ARB_vertex_buffer_object;
+      vboSupported = contextCapabilities.OpenGL15 || arbVbo;
       logText = logText + "VBOs are " + (vboSupported ? "" : "not ") + "available because ";
       if (vboSupported) {
          if (arbVbo) {
@@ -245,7 +245,7 @@ public class OpenGlHelper {
          }
       }
 
-      ati = var4.contains("ati");
+      ati = string.contains("ati");
       if (ati) {
          if (vboSupported) {
             vboSupportedAti = true;
@@ -255,10 +255,10 @@ public class OpenGlHelper {
       }
 
       try {
-         SystemInfo var5 = new SystemInfo();
-         HardwareAbstractionLayer var6 = var5.getHardware();
-         CentralProcessor var7 = var6.getProcessor();
-      } catch (Throwable var8) {
+         SystemInfo systemInfo = new SystemInfo();
+         HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
+         CentralProcessor centralProcessor = hardwareAbstractionLayer.getProcessor();
+      } catch (Throwable throwable) {
       }
    }
 
@@ -270,63 +270,63 @@ public class OpenGlHelper {
       return logText;
    }
 
-   public static int glGetProgrami(int var0, int var1) {
-      return arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(var0, var1) : GL20.glGetProgrami(var0, var1);
+   public static int glGetProgrami(int program, int pname) {
+      return arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(program, pname) : GL20.glGetProgrami(program, pname);
    }
 
-   public static void glAttachShader(int var0, int var1) {
+   public static void glAttachShader(int program, int shaderIn) {
       if (arbShaders) {
-         ARBShaderObjects.glAttachObjectARB(var0, var1);
+         ARBShaderObjects.glAttachObjectARB(program, shaderIn);
       } else {
-         GL20.glAttachShader(var0, var1);
+         GL20.glAttachShader(program, shaderIn);
       }
    }
 
-   public static void glDeleteShader(int var0) {
+   public static void glDeleteShader(int i) {
       if (arbShaders) {
-         ARBShaderObjects.glDeleteObjectARB(var0);
+         ARBShaderObjects.glDeleteObjectARB(i);
       } else {
-         GL20.glDeleteShader(var0);
+         GL20.glDeleteShader(i);
       }
    }
 
-   public static int glCreateShader(int var0) {
-      return arbShaders ? ARBShaderObjects.glCreateShaderObjectARB(var0) : GL20.glCreateShader(var0);
+   public static int glCreateShader(int typeIn) {
+      return arbShaders ? ARBShaderObjects.glCreateShaderObjectARB(typeIn) : GL20.glCreateShader(typeIn);
    }
 
-   public static void glShaderSource(int var0, ByteBuffer var1) {
+   public static void glShaderSource(int shaderIn, ByteBuffer string) {
       if (arbShaders) {
-         ARBShaderObjects.glShaderSourceARB(var0, var1);
+         ARBShaderObjects.glShaderSourceARB(shaderIn, string);
       } else {
-         GL20.glShaderSource(var0, var1);
+         GL20.glShaderSource(shaderIn, string);
       }
    }
 
-   public static void glCompileShader(int var0) {
+   public static void glCompileShader(int shaderIn) {
       if (arbShaders) {
-         ARBShaderObjects.glCompileShaderARB(var0);
+         ARBShaderObjects.glCompileShaderARB(shaderIn);
       } else {
-         GL20.glCompileShader(var0);
+         GL20.glCompileShader(shaderIn);
       }
    }
 
-   public static int glGetShaderi(int var0, int var1) {
-      return arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(var0, var1) : GL20.glGetShaderi(var0, var1);
+   public static int glGetShaderi(int shaderIn, int pname) {
+      return arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(shaderIn, pname) : GL20.glGetShaderi(shaderIn, pname);
    }
 
-   public static String glGetShaderInfoLog(int var0, int var1) {
-      return arbShaders ? ARBShaderObjects.glGetInfoLogARB(var0, var1) : GL20.glGetShaderInfoLog(var0, var1);
+   public static String glGetShaderInfoLog(int shaderIn, int maxLength) {
+      return arbShaders ? ARBShaderObjects.glGetInfoLogARB(shaderIn, maxLength) : GL20.glGetShaderInfoLog(shaderIn, maxLength);
    }
 
-   public static String glGetProgramInfoLog(int var0, int var1) {
-      return arbShaders ? ARBShaderObjects.glGetInfoLogARB(var0, var1) : GL20.glGetProgramInfoLog(var0, var1);
+   public static String glGetProgramInfoLog(int program, int maxLength) {
+      return arbShaders ? ARBShaderObjects.glGetInfoLogARB(program, maxLength) : GL20.glGetProgramInfoLog(program, maxLength);
    }
 
-   public static void glUseProgram(int var0) {
+   public static void glUseProgram(int program) {
       if (arbShaders) {
-         ARBShaderObjects.glUseProgramObjectARB(var0);
+         ARBShaderObjects.glUseProgramObjectARB(program);
       } else {
-         GL20.glUseProgram(var0);
+         GL20.glUseProgram(program);
       }
    }
 
@@ -334,151 +334,151 @@ public class OpenGlHelper {
       return arbShaders ? ARBShaderObjects.glCreateProgramObjectARB() : GL20.glCreateProgram();
    }
 
-   public static void glDeleteProgram(int var0) {
+   public static void glDeleteProgram(int program) {
       if (arbShaders) {
-         ARBShaderObjects.glDeleteObjectARB(var0);
+         ARBShaderObjects.glDeleteObjectARB(program);
       } else {
-         GL20.glDeleteProgram(var0);
+         GL20.glDeleteProgram(program);
       }
    }
 
-   public static void glLinkProgram(int var0) {
+   public static void glLinkProgram(int program) {
       if (arbShaders) {
-         ARBShaderObjects.glLinkProgramARB(var0);
+         ARBShaderObjects.glLinkProgramARB(program);
       } else {
-         GL20.glLinkProgram(var0);
+         GL20.glLinkProgram(program);
       }
    }
 
-   public static int glGetUniformLocation(int var0, CharSequence var1) {
-      return arbShaders ? ARBShaderObjects.glGetUniformLocationARB(var0, var1) : GL20.glGetUniformLocation(var0, var1);
+   public static int glGetUniformLocation(int programObj, CharSequence name) {
+      return arbShaders ? ARBShaderObjects.glGetUniformLocationARB(programObj, name) : GL20.glGetUniformLocation(programObj, name);
    }
 
-   public static void glUniform1(int var0, IntBuffer var1) {
+   public static void glUniform1(int location, IntBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform1ARB(var0, var1);
+         ARBShaderObjects.glUniform1ARB(location, values);
       } else {
-         GL20.glUniform1(var0, var1);
+         GL20.glUniform1(location, values);
       }
    }
 
-   public static void glUniform1i(int var0, int var1) {
+   public static void glUniform1i(int location, int v0) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform1iARB(var0, var1);
+         ARBShaderObjects.glUniform1iARB(location, v0);
       } else {
-         GL20.glUniform1i(var0, var1);
+         GL20.glUniform1i(location, v0);
       }
    }
 
-   public static void glUniform1(int var0, FloatBuffer var1) {
+   public static void glUniform1(int location, FloatBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform1ARB(var0, var1);
+         ARBShaderObjects.glUniform1ARB(location, values);
       } else {
-         GL20.glUniform1(var0, var1);
+         GL20.glUniform1(location, values);
       }
    }
 
-   public static void glUniform2(int var0, IntBuffer var1) {
+   public static void glUniform2(int location, IntBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform2ARB(var0, var1);
+         ARBShaderObjects.glUniform2ARB(location, values);
       } else {
-         GL20.glUniform2(var0, var1);
+         GL20.glUniform2(location, values);
       }
    }
 
-   public static void glUniform2(int var0, FloatBuffer var1) {
+   public static void glUniform2(int location, FloatBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform2ARB(var0, var1);
+         ARBShaderObjects.glUniform2ARB(location, values);
       } else {
-         GL20.glUniform2(var0, var1);
+         GL20.glUniform2(location, values);
       }
    }
 
-   public static void glUniform3(int var0, IntBuffer var1) {
+   public static void glUniform3(int location, IntBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform3ARB(var0, var1);
+         ARBShaderObjects.glUniform3ARB(location, values);
       } else {
-         GL20.glUniform3(var0, var1);
+         GL20.glUniform3(location, values);
       }
    }
 
-   public static void glUniform3(int var0, FloatBuffer var1) {
+   public static void glUniform3(int location, FloatBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform3ARB(var0, var1);
+         ARBShaderObjects.glUniform3ARB(location, values);
       } else {
-         GL20.glUniform3(var0, var1);
+         GL20.glUniform3(location, values);
       }
    }
 
-   public static void glUniform4(int var0, IntBuffer var1) {
+   public static void glUniform4(int location, IntBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform4ARB(var0, var1);
+         ARBShaderObjects.glUniform4ARB(location, values);
       } else {
-         GL20.glUniform4(var0, var1);
+         GL20.glUniform4(location, values);
       }
    }
 
-   public static void glUniform4(int var0, FloatBuffer var1) {
+   public static void glUniform4(int location, FloatBuffer values) {
       if (arbShaders) {
-         ARBShaderObjects.glUniform4ARB(var0, var1);
+         ARBShaderObjects.glUniform4ARB(location, values);
       } else {
-         GL20.glUniform4(var0, var1);
+         GL20.glUniform4(location, values);
       }
    }
 
-   public static void glUniformMatrix2(int var0, boolean var1, FloatBuffer var2) {
+   public static void glUniformMatrix2(int location, boolean transpose, FloatBuffer matrices) {
       if (arbShaders) {
-         ARBShaderObjects.glUniformMatrix2ARB(var0, var1, var2);
+         ARBShaderObjects.glUniformMatrix2ARB(location, transpose, matrices);
       } else {
-         GL20.glUniformMatrix2(var0, var1, var2);
+         GL20.glUniformMatrix2(location, transpose, matrices);
       }
    }
 
-   public static void glUniformMatrix3(int var0, boolean var1, FloatBuffer var2) {
+   public static void glUniformMatrix3(int location, boolean transpose, FloatBuffer matrices) {
       if (arbShaders) {
-         ARBShaderObjects.glUniformMatrix3ARB(var0, var1, var2);
+         ARBShaderObjects.glUniformMatrix3ARB(location, transpose, matrices);
       } else {
-         GL20.glUniformMatrix3(var0, var1, var2);
+         GL20.glUniformMatrix3(location, transpose, matrices);
       }
    }
 
-   public static void glUniformMatrix4(int var0, boolean var1, FloatBuffer var2) {
+   public static void glUniformMatrix4(int location, boolean transpose, FloatBuffer matrices) {
       if (arbShaders) {
-         ARBShaderObjects.glUniformMatrix4ARB(var0, var1, var2);
+         ARBShaderObjects.glUniformMatrix4ARB(location, transpose, matrices);
       } else {
-         GL20.glUniformMatrix4(var0, var1, var2);
+         GL20.glUniformMatrix4(location, transpose, matrices);
       }
    }
 
-   public static int glGetAttribLocation(int var0, CharSequence var1) {
-      return arbShaders ? ARBVertexShader.glGetAttribLocationARB(var0, var1) : GL20.glGetAttribLocation(var0, var1);
+   public static int glGetAttribLocation(int i, CharSequence charSequence) {
+      return arbShaders ? ARBVertexShader.glGetAttribLocationARB(i, charSequence) : GL20.glGetAttribLocation(i, charSequence);
    }
 
    public static int glGenBuffers() {
       return arbVbo ? ARBVertexBufferObject.glGenBuffersARB() : GL15.glGenBuffers();
    }
 
-   public static void glBindBuffer(int var0, int var1) {
+   public static void glBindBuffer(int target, int buffer) {
       if (arbVbo) {
-         ARBVertexBufferObject.glBindBufferARB(var0, var1);
+         ARBVertexBufferObject.glBindBufferARB(target, buffer);
       } else {
-         GL15.glBindBuffer(var0, var1);
+         GL15.glBindBuffer(target, buffer);
       }
    }
 
-   public static void glBufferData(int var0, ByteBuffer var1, int var2) {
+   public static void glBufferData(int target, ByteBuffer data, int usage) {
       if (arbVbo) {
-         ARBVertexBufferObject.glBufferDataARB(var0, var1, var2);
+         ARBVertexBufferObject.glBufferDataARB(target, data, usage);
       } else {
-         GL15.glBufferData(var0, var1, var2);
+         GL15.glBufferData(target, data, usage);
       }
    }
 
-   public static void glDeleteBuffers(int var0) {
+   public static void glDeleteBuffers(int buffer) {
       if (arbVbo) {
-         ARBVertexBufferObject.glDeleteBuffersARB(var0);
+         ARBVertexBufferObject.glDeleteBuffersARB(buffer);
       } else {
-         GL15.glDeleteBuffers(var0);
+         GL15.glDeleteBuffers(buffer);
       }
    }
 
@@ -486,62 +486,62 @@ public class OpenGlHelper {
       return Config.isMultiTexture() ? false : vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
    }
 
-   public static void glBindFramebuffer(int var0, int var1) {
+   public static void glBindFramebuffer(int target, int framebufferIn) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glBindFramebuffer(var0, var1);
+               GL30.glBindFramebuffer(target, framebufferIn);
                break;
             case 1:
-               ARBFramebufferObject.glBindFramebuffer(var0, var1);
+               ARBFramebufferObject.glBindFramebuffer(target, framebufferIn);
                break;
             case 2:
-               EXTFramebufferObject.glBindFramebufferEXT(var0, var1);
+               EXTFramebufferObject.glBindFramebufferEXT(target, framebufferIn);
          }
       }
    }
 
-   public static void glBindRenderbuffer(int var0, int var1) {
+   public static void glBindRenderbuffer(int target, int renderbuffer) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glBindRenderbuffer(var0, var1);
+               GL30.glBindRenderbuffer(target, renderbuffer);
                break;
             case 1:
-               ARBFramebufferObject.glBindRenderbuffer(var0, var1);
+               ARBFramebufferObject.glBindRenderbuffer(target, renderbuffer);
                break;
             case 2:
-               EXTFramebufferObject.glBindRenderbufferEXT(var0, var1);
+               EXTFramebufferObject.glBindRenderbufferEXT(target, renderbuffer);
          }
       }
    }
 
-   public static void glDeleteRenderbuffers(int var0) {
+   public static void glDeleteRenderbuffers(int renderbuffer) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glDeleteRenderbuffers(var0);
+               GL30.glDeleteRenderbuffers(renderbuffer);
                break;
             case 1:
-               ARBFramebufferObject.glDeleteRenderbuffers(var0);
+               ARBFramebufferObject.glDeleteRenderbuffers(renderbuffer);
                break;
             case 2:
-               EXTFramebufferObject.glDeleteRenderbuffersEXT(var0);
+               EXTFramebufferObject.glDeleteRenderbuffersEXT(renderbuffer);
          }
       }
    }
 
-   public static void glDeleteFramebuffers(int var0) {
+   public static void glDeleteFramebuffers(int framebufferIn) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glDeleteFramebuffers(var0);
+               GL30.glDeleteFramebuffers(framebufferIn);
                break;
             case 1:
-               ARBFramebufferObject.glDeleteFramebuffers(var0);
+               ARBFramebufferObject.glDeleteFramebuffers(framebufferIn);
                break;
             case 2:
-               EXTFramebufferObject.glDeleteFramebuffersEXT(var0);
+               EXTFramebufferObject.glDeleteFramebuffersEXT(framebufferIn);
          }
       }
    }
@@ -580,106 +580,106 @@ public class OpenGlHelper {
       }
    }
 
-   public static void glRenderbufferStorage(int var0, int var1, int var2, int var3) {
+   public static void glRenderbufferStorage(int target, int internalFormat, int width, int height) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glRenderbufferStorage(var0, var1, var2, var3);
+               GL30.glRenderbufferStorage(target, internalFormat, width, height);
                break;
             case 1:
-               ARBFramebufferObject.glRenderbufferStorage(var0, var1, var2, var3);
+               ARBFramebufferObject.glRenderbufferStorage(target, internalFormat, width, height);
                break;
             case 2:
-               EXTFramebufferObject.glRenderbufferStorageEXT(var0, var1, var2, var3);
+               EXTFramebufferObject.glRenderbufferStorageEXT(target, internalFormat, width, height);
          }
       }
    }
 
-   public static void glFramebufferRenderbuffer(int var0, int var1, int var2, int var3) {
+   public static void glFramebufferRenderbuffer(int target, int attachment, int renderBufferTarget, int renderBuffer) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glFramebufferRenderbuffer(var0, var1, var2, var3);
+               GL30.glFramebufferRenderbuffer(target, attachment, renderBufferTarget, renderBuffer);
                break;
             case 1:
-               ARBFramebufferObject.glFramebufferRenderbuffer(var0, var1, var2, var3);
+               ARBFramebufferObject.glFramebufferRenderbuffer(target, attachment, renderBufferTarget, renderBuffer);
                break;
             case 2:
-               EXTFramebufferObject.glFramebufferRenderbufferEXT(var0, var1, var2, var3);
+               EXTFramebufferObject.glFramebufferRenderbufferEXT(target, attachment, renderBufferTarget, renderBuffer);
          }
       }
    }
 
-   public static int glCheckFramebufferStatus(int var0) {
+   public static int glCheckFramebufferStatus(int target) {
       if (!framebufferSupported) {
          return -1;
       }
 
       switch (framebufferType) {
          case 0:
-            return GL30.glCheckFramebufferStatus(var0);
+            return GL30.glCheckFramebufferStatus(target);
          case 1:
-            return ARBFramebufferObject.glCheckFramebufferStatus(var0);
+            return ARBFramebufferObject.glCheckFramebufferStatus(target);
          case 2:
-            return EXTFramebufferObject.glCheckFramebufferStatusEXT(var0);
+            return EXTFramebufferObject.glCheckFramebufferStatusEXT(target);
          default:
             return -1;
       }
    }
 
-   public static void glFramebufferTexture2D(int var0, int var1, int var2, int var3, int var4) {
+   public static void glFramebufferTexture2D(int target, int attachment, int textarget, int texture, int level) {
       if (framebufferSupported) {
          switch (framebufferType) {
             case 0:
-               GL30.glFramebufferTexture2D(var0, var1, var2, var3, var4);
+               GL30.glFramebufferTexture2D(target, attachment, textarget, texture, level);
                break;
             case 1:
-               ARBFramebufferObject.glFramebufferTexture2D(var0, var1, var2, var3, var4);
+               ARBFramebufferObject.glFramebufferTexture2D(target, attachment, textarget, texture, level);
                break;
             case 2:
-               EXTFramebufferObject.glFramebufferTexture2DEXT(var0, var1, var2, var3, var4);
+               EXTFramebufferObject.glFramebufferTexture2DEXT(target, attachment, textarget, texture, level);
          }
       }
    }
 
-   public static void setActiveTexture(int var0) {
+   public static void setActiveTexture(int texture) {
       if (arbMultitexture) {
-         ARBMultitexture.glActiveTextureARB(var0);
+         ARBMultitexture.glActiveTextureARB(texture);
       } else {
-         GL13.glActiveTexture(var0);
+         GL13.glActiveTexture(texture);
       }
    }
 
-   public static void setClientActiveTexture(int var0) {
+   public static void setClientActiveTexture(int texture) {
       if (arbMultitexture) {
-         ARBMultitexture.glClientActiveTextureARB(var0);
+         ARBMultitexture.glClientActiveTextureARB(texture);
       } else {
-         GL13.glClientActiveTexture(var0);
+         GL13.glClientActiveTexture(texture);
       }
    }
 
-   public static void setLightmapTextureCoords(int var0, float var1, float var2) {
+   public static void setLightmapTextureCoords(int target, float f, float g) {
       if (arbMultitexture) {
-         ARBMultitexture.glMultiTexCoord2fARB(var0, var1, var2);
+         ARBMultitexture.glMultiTexCoord2fARB(target, f, g);
       } else {
-         GL13.glMultiTexCoord2f(var0, var1, var2);
+         GL13.glMultiTexCoord2f(target, f, g);
       }
 
-      if (var0 == lightmapTexUnit) {
-         lastBrightnessX = var1;
-         lastBrightnessY = var2;
+      if (target == lightmapTexUnit) {
+         lastBrightnessX = f;
+         lastBrightnessY = g;
       }
    }
 
-   public static void glBlendFunc(int var0, int var1, int var2, int var3) {
+   public static void glBlendFunc(int sFactorRGB, int dFactorRGB, int sfactorAlpha, int dfactorAlpha) {
       if (openGL14) {
          if (extBlendFuncSeparate) {
-            EXTBlendFuncSeparate.glBlendFuncSeparateEXT(var0, var1, var2, var3);
+            EXTBlendFuncSeparate.glBlendFuncSeparateEXT(sFactorRGB, dFactorRGB, sfactorAlpha, dfactorAlpha);
          } else {
-            GL14.glBlendFuncSeparate(var0, var1, var2, var3);
+            GL14.glBlendFuncSeparate(sFactorRGB, dFactorRGB, sfactorAlpha, dfactorAlpha);
          }
       } else {
-         GL11.glBlendFunc(var0, var1);
+         GL11.glBlendFunc(sFactorRGB, dFactorRGB);
       }
    }
 

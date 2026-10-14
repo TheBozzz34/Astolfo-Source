@@ -18,44 +18,44 @@ public final class ScoreboardTracker extends HiddenModule {
    public static ScoreboardInfo N = new ScoreboardInfo(null);
    private String Q = null;
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
-   private final Listener<RenderEvent> onRender = var1 -> {
-      if (var1.getType() == RenderType.SCREEN) {
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN) {
          N = new ScoreboardInfo(null);
          if (mc.theWorld == null || !GameUtil.isInHypixelGame()) {
             return;
          }
 
-         Scoreboard var5 = mc.theWorld.getScoreboard();
-         if (var5 == null) {
+         Scoreboard scoreboard = mc.theWorld.getScoreboard();
+         if (scoreboard == null) {
             return;
          }
 
-         N = new ScoreboardInfo(var5);
-         String var6 = N.s();
-         if (var6 != null && !var6.equals(this.Q)) {
-            String var7 = N.s();
-            if (var7 != null) {
-               FinalKillTracker.setGame(var7);
+         N = new ScoreboardInfo(scoreboard);
+         String string = N.s();
+         if (string != null && !string.equals(this.Q)) {
+            String string2 = N.s();
+            if (string2 != null) {
+               FinalKillTracker.setGame(string2);
             }
 
             FinalKillTracker.K();
          }
 
-         this.Q = var6;
+         this.Q = string;
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      if (var0.getDirection() == PacketDirection.RECEIVED && var0.getPacket() instanceof S02PacketChat) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S02PacketChat) {
          if (!r()) {
             return;
          }
 
-         S02PacketChat var4 = (S02PacketChat)var0.getPacket();
-         String var5 = EnumChatFormatting.getTextWithoutFormattingCodes(var4.getChatComponent().getUnformattedText());
-         String var6 = var4.getChatComponent().getFormattedText();
-         if (FinalKillTracker.onChatMessage(var6, var5)) {
-            var0.setCancelled(true);
+         S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
+         String string = EnumChatFormatting.getTextWithoutFormattingCodes(s02PacketChat.getChatComponent().getUnformattedText());
+         String string2 = s02PacketChat.getChatComponent().getFormattedText();
+         if (FinalKillTracker.onChatMessage(string2, string)) {
+            packetEvent.setCancelled(true);
          }
       }
    };

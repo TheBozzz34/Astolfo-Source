@@ -8,12 +8,12 @@ public class NBTTagEnd extends NBTBase {
    private static final long a = 103789956510460L;
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(64L);
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(64L);
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
+   public void write(DataOutput output) throws IOException {
    }
 
    @Override

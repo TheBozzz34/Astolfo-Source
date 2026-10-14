@@ -28,35 +28,35 @@ public class CommandMessageRaw extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.tellraw.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 2) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 2) {
          throw new WrongUsageException("commands.tellraw.usage");
       }
 
-      EntityPlayerMP var5 = getPlayer(var1, var2[0]);
-      String var6 = buildString(var2, 1);
+      EntityPlayerMP entityPlayerMP = getPlayer(sender, args[0]);
+      String string = buildString(args, 1);
 
       try {
-         IChatComponent var7 = IChatComponent.Serializer.jsonToComponent(var6);
-         var5.addChatMessage(ChatComponentProcessor.processComponent(var1, var7, var5));
-      } catch (JsonParseException var9) {
-         Throwable var8 = ExceptionUtils.getRootCause(var9);
-         throw new SyntaxErrorException("commands.tellraw.jsonException", var8 == null ? "" : var8.getMessage());
+         IChatComponent iChatComponent = IChatComponent.Serializer.jsonToComponent(string);
+         entityPlayerMP.addChatMessage(ChatComponentProcessor.processComponent(sender, iChatComponent, entityPlayerMP));
+      } catch (JsonParseException jsonParseException) {
+         Throwable throwable = ExceptionUtils.getRootCause(jsonParseException);
+         throw new SyntaxErrorException("commands.tellraw.jsonException", throwable == null ? "" : throwable.getMessage());
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 }

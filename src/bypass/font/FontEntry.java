@@ -9,9 +9,9 @@ public class FontEntry implements JsonSerializable {
    private final int N;
    private static final long a = 118831888780078L;
 
-   public FontEntry(String var1, int var2) {
-      this.V = var1;
-      this.N = var2;
+   public FontEntry(String string, int i) {
+      this.V = string;
+      this.N = i;
    }
 
    @Override
@@ -21,9 +21,9 @@ public class FontEntry implements JsonSerializable {
 
    @Override
    public JsonElement V() {
-      JsonObject var5 = new JsonObject();
-      var5.addProperty("name", this.V);
-      var5.addProperty("size", this.N);
-      return var5;
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("name", this.V);
+      jsonObject.addProperty("size", this.N);
+      return jsonObject;
    }
 }

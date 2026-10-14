@@ -22,84 +22,84 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
    public S34PacketMaps() {
    }
 
-   public S34PacketMaps(int var1, byte var2, Collection<Vec4b> var3, byte[] var4, int var5, int var6, int var7, int var8) {
-      this.mapId = var1;
-      this.mapScale = var2;
-      this.mapVisiblePlayersVec4b = var3.toArray(new Vec4b[var3.size()]);
-      this.mapMinX = var5;
-      this.mapMinY = var6;
-      this.mapMaxX = var7;
-      this.mapMaxY = var8;
-      this.mapDataBytes = new byte[var7 * var8];
+   public S34PacketMaps(int mapIdIn, byte scale, Collection<Vec4b> visiblePlayers, byte[] colors, int minX, int minY, int maxX, int maxY) {
+      this.mapId = mapIdIn;
+      this.mapScale = scale;
+      this.mapVisiblePlayersVec4b = visiblePlayers.toArray(new Vec4b[visiblePlayers.size()]);
+      this.mapMinX = minX;
+      this.mapMinY = minY;
+      this.mapMaxX = maxX;
+      this.mapMaxY = maxY;
+      this.mapDataBytes = new byte[maxX * maxY];
 
-      for (int var12 = 0; var12 < var7; var12++) {
-         for (int var13 = 0; var13 < var8; var13++) {
-            this.mapDataBytes[var12 + var13 * var7] = var4[var5 + var12 + (var6 + var13) * 128];
+      for (int i = 0; i < maxX; i++) {
+         for (int j = 0; j < maxY; j++) {
+            this.mapDataBytes[i + j * maxX] = colors[minX + i + (minY + j) * 128];
          }
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.mapId = var1.readVarIntFromBuffer();
-      this.mapScale = var1.readByte();
-      this.mapVisiblePlayersVec4b = new Vec4b[var1.readVarIntFromBuffer()];
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.mapId = buf.readVarIntFromBuffer();
+      this.mapScale = buf.readByte();
+      this.mapVisiblePlayersVec4b = new Vec4b[buf.readVarIntFromBuffer()];
 
-      for (int var5 = 0; var5 < this.mapVisiblePlayersVec4b.length; var5++) {
-         short var6 = var1.readByte();
-         this.mapVisiblePlayersVec4b[var5] = new Vec4b((byte)(var6 >> 4 & 15), var1.readByte(), var1.readByte(), (byte)(var6 & 15));
+      for (int i = 0; i < this.mapVisiblePlayersVec4b.length; i++) {
+         short s = buf.readByte();
+         this.mapVisiblePlayersVec4b[i] = new Vec4b((byte)(s >> 4 & 15), buf.readByte(), buf.readByte(), (byte)(s & 15));
       }
 
-      this.mapMaxX = var1.readUnsignedByte();
+      this.mapMaxX = buf.readUnsignedByte();
       if (this.mapMaxX > 0) {
-         this.mapMaxY = var1.readUnsignedByte();
-         this.mapMinX = var1.readUnsignedByte();
-         this.mapMinY = var1.readUnsignedByte();
-         this.mapDataBytes = var1.readByteArray();
+         this.mapMaxY = buf.readUnsignedByte();
+         this.mapMinX = buf.readUnsignedByte();
+         this.mapMinY = buf.readUnsignedByte();
+         this.mapDataBytes = buf.readByteArray();
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.mapId);
-      var1.writeByte(this.mapScale);
-      var1.writeVarIntToBuffer(this.mapVisiblePlayersVec4b.length);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.mapId);
+      buf.writeByte(this.mapScale);
+      buf.writeVarIntToBuffer(this.mapVisiblePlayersVec4b.length);
 
-      for (Vec4b var8 : this.mapVisiblePlayersVec4b) {
-         var1.writeByte((var8.func_176110_a() & 15) << 4 | var8.func_176111_d() & 15);
-         var1.writeByte(var8.func_176112_b());
-         var1.writeByte(var8.func_176113_c());
+      for (Vec4b vec4b : this.mapVisiblePlayersVec4b) {
+         buf.writeByte((vec4b.func_176110_a() & 15) << 4 | vec4b.func_176111_d() & 15);
+         buf.writeByte(vec4b.func_176112_b());
+         buf.writeByte(vec4b.func_176113_c());
       }
 
-      var1.writeByte(this.mapMaxX);
+      buf.writeByte(this.mapMaxX);
       if (this.mapMaxX > 0) {
-         var1.writeByte(this.mapMaxY);
-         var1.writeByte(this.mapMinX);
-         var1.writeByte(this.mapMinY);
-         var1.writeByteArray(this.mapDataBytes);
+         buf.writeByte(this.mapMaxY);
+         buf.writeByte(this.mapMinX);
+         buf.writeByte(this.mapMinY);
+         buf.writeByteArray(this.mapDataBytes);
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleMaps(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleMaps(this);
    }
 
    public int getMapId() {
       return this.mapId;
    }
 
-   public void setMapdataTo(MapData var1) {
-      var1.scale = this.mapScale;
-      var1.mapDecorations.clear();
+   public void setMapdataTo(MapData mapdataIn) {
+      mapdataIn.scale = this.mapScale;
+      mapdataIn.mapDecorations.clear();
 
-      for (int var5 = 0; var5 < this.mapVisiblePlayersVec4b.length; var5++) {
-         Vec4b var6 = this.mapVisiblePlayersVec4b[var5];
-         var1.mapDecorations.put("icon-" + var5, var6);
+      for (int i = 0; i < this.mapVisiblePlayersVec4b.length; i++) {
+         Vec4b vec4b = this.mapVisiblePlayersVec4b[i];
+         mapdataIn.mapDecorations.put("icon-" + i, vec4b);
       }
 
-      for (int var7 = 0; var7 < this.mapMaxX; var7++) {
-         for (int var8 = 0; var8 < this.mapMaxY; var8++) {
-            var1.colors[this.mapMinX + var7 + (this.mapMinY + var8) * 128] = this.mapDataBytes[var7 + var8 * this.mapMaxX];
+      for (int j = 0; j < this.mapMaxX; j++) {
+         for (int k = 0; k < this.mapMaxY; k++) {
+            mapdataIn.colors[this.mapMinX + j + (this.mapMinY + k) * 128] = this.mapDataBytes[j + k * this.mapMaxX];
          }
       }
    }

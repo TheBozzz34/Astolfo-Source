@@ -5,10 +5,10 @@ public class PositionImpl implements IPosition {
    public final double y;
    public final double z;
 
-   public PositionImpl(double var1, double var3, double var5) {
-      this.x = var1;
-      this.y = var3;
-      this.z = var5;
+   public PositionImpl(double xCoord, double yCoord, double zCoord) {
+      this.x = xCoord;
+      this.y = yCoord;
+      this.z = zCoord;
    }
 
    @Override

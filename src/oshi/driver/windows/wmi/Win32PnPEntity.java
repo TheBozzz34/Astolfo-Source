@@ -12,9 +12,9 @@ public final class Win32PnPEntity {
    private Win32PnPEntity() {
    }
 
-   public static WmiResult<Win32PnPEntity.PnPEntityProperty> queryDeviceId(String var0) {
-      WmiQuery var3 = new WmiQuery<>("Win32_PnPEntity" + var0, Win32PnPEntity.PnPEntityProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var3);
+   public static WmiResult<Win32PnPEntity.PnPEntityProperty> queryDeviceId(String whereClause) {
+      WmiQuery wmiQuery = new WmiQuery<>("Win32_PnPEntity" + whereClause, Win32PnPEntity.PnPEntityProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum PnPEntityProperty {

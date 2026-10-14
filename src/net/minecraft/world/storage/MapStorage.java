@@ -22,79 +22,79 @@ public class MapStorage {
    private Map<String, Short> idCounts = Maps.newHashMap();
    private static final long a = 23655112726176L;
 
-   public MapStorage(ISaveHandler var1) {
-      this.saveHandler = var1;
+   public MapStorage(ISaveHandler saveHandlerIn) {
+      this.saveHandler = saveHandlerIn;
       this.loadIdCounts();
    }
 
-   public WorldSavedData loadData(Class<? extends WorldSavedData> var1, String var2) {
-      WorldSavedData var6 = this.loadedDataMap.get(var2);
-      if (var6 != null) {
-         return var6;
+   public WorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataIdentifier) {
+      WorldSavedData worldSavedData = this.loadedDataMap.get(dataIdentifier);
+      if (worldSavedData != null) {
+         return worldSavedData;
       }
 
       if (this.saveHandler != null) {
          try {
-            File var7 = this.saveHandler.getMapFileFromName(var2);
-            if (var7 != null && var7.exists()) {
+            File file = this.saveHandler.getMapFileFromName(dataIdentifier);
+            if (file != null && file.exists()) {
                try {
-                  var6 = (WorldSavedData)var1.getConstructor(String.class).newInstance(var2);
-               } catch (Exception var10) {
-                  throw new RuntimeException("Failed to instantiate " + var1.toString(), var10);
+                  worldSavedData = (WorldSavedData)clazz.getConstructor(String.class).newInstance(dataIdentifier);
+               } catch (Exception exception) {
+                  throw new RuntimeException("Failed to instantiate " + clazz.toString(), exception);
                }
 
-               FileInputStream var8 = new FileInputStream(var7);
-               NBTTagCompound var9 = CompressedStreamTools.readCompressed(var8);
-               var8.close();
-               var6.readFromNBT(var9.getCompoundTag("data"));
+               FileInputStream fileInputStream = new FileInputStream(file);
+               NBTTagCompound nbtTagCompound = CompressedStreamTools.readCompressed(fileInputStream);
+               fileInputStream.close();
+               worldSavedData.readFromNBT(nbtTagCompound.getCompoundTag("data"));
             }
-         } catch (Exception var11) {
-            var11.printStackTrace();
+         } catch (Exception exception2) {
+            exception2.printStackTrace();
          }
       }
 
-      if (var6 != null) {
-         this.loadedDataMap.put(var2, var6);
-         this.loadedDataList.add(var6);
+      if (worldSavedData != null) {
+         this.loadedDataMap.put(dataIdentifier, worldSavedData);
+         this.loadedDataList.add(worldSavedData);
       }
 
-      return var6;
+      return worldSavedData;
    }
 
-   public void setData(String var1, WorldSavedData var2) {
-      if (this.loadedDataMap.containsKey(var1)) {
-         this.loadedDataList.remove(this.loadedDataMap.remove(var1));
+   public void setData(String dataIdentifier, WorldSavedData data) {
+      if (this.loadedDataMap.containsKey(dataIdentifier)) {
+         this.loadedDataList.remove(this.loadedDataMap.remove(dataIdentifier));
       }
 
-      this.loadedDataMap.put(var1, var2);
-      this.loadedDataList.add(var2);
+      this.loadedDataMap.put(dataIdentifier, data);
+      this.loadedDataList.add(data);
    }
 
    public void saveAllData() {
-      for (int var4 = 0; var4 < this.loadedDataList.size(); var4++) {
-         WorldSavedData var5 = this.loadedDataList.get(var4);
-         if (var5.isDirty()) {
-            this.saveData(var5);
-            var5.setDirty(false);
+      for (int i = 0; i < this.loadedDataList.size(); i++) {
+         WorldSavedData worldSavedData = this.loadedDataList.get(i);
+         if (worldSavedData.isDirty()) {
+            this.saveData(worldSavedData);
+            worldSavedData.setDirty(false);
          }
       }
    }
 
-   private void saveData(WorldSavedData var1) {
+   private void saveData(WorldSavedData worldSavedData) {
       if (this.saveHandler != null) {
          try {
-            File var5 = this.saveHandler.getMapFileFromName(var1.mapName);
-            if (var5 != null) {
-               NBTTagCompound var6 = new NBTTagCompound();
-               var1.writeToNBT(var6);
-               NBTTagCompound var7 = new NBTTagCompound();
-               var7.setTag("data", var6);
-               FileOutputStream var8 = new FileOutputStream(var5);
-               CompressedStreamTools.writeCompressed(var7, var8);
-               var8.close();
+            File file = this.saveHandler.getMapFileFromName(worldSavedData.mapName);
+            if (file != null) {
+               NBTTagCompound nbtTagCompound = new NBTTagCompound();
+               worldSavedData.writeToNBT(nbtTagCompound);
+               NBTTagCompound nbtTagCompound2 = new NBTTagCompound();
+               nbtTagCompound2.setTag("data", nbtTagCompound);
+               FileOutputStream fileOutputStream = new FileOutputStream(file);
+               CompressedStreamTools.writeCompressed(nbtTagCompound2, fileOutputStream);
+               fileOutputStream.close();
             }
-         } catch (Exception var9) {
-            var9.printStackTrace();
+         } catch (Exception exception) {
+            exception.printStackTrace();
          }
       }
    }
@@ -106,57 +106,57 @@ public class MapStorage {
             return;
          }
 
-         File var4 = this.saveHandler.getMapFileFromName("idcounts");
-         if (var4 != null && var4.exists()) {
-            DataInputStream var5 = new DataInputStream(new FileInputStream(var4));
-            NBTTagCompound var6 = CompressedStreamTools.read(var5);
-            var5.close();
+         File file = this.saveHandler.getMapFileFromName("idcounts");
+         if (file != null && file.exists()) {
+            DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file));
+            NBTTagCompound nbtTagCompound = CompressedStreamTools.read(dataInputStream);
+            dataInputStream.close();
 
-            for (String var8 : var6.getKeySet()) {
-               NBTBase var9 = var6.getTag(var8);
-               if (var9 instanceof NBTTagShort) {
-                  NBTTagShort var10 = (NBTTagShort)var9;
-                  short var11 = var10.getShort();
-                  this.idCounts.put(var8, var11);
+            for (String string : nbtTagCompound.getKeySet()) {
+               NBTBase nbtBase = nbtTagCompound.getTag(string);
+               if (nbtBase instanceof NBTTagShort) {
+                  NBTTagShort nbtTagShort = (NBTTagShort)nbtBase;
+                  short s = nbtTagShort.getShort();
+                  this.idCounts.put(string, s);
                }
             }
          }
-      } catch (Exception var12) {
-         var12.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
    }
 
-   public int getUniqueDataId(String var1) {
-      Short var5 = this.idCounts.get(var1);
-      if (var5 == null) {
-         var5 = (short)0;
+   public int getUniqueDataId(String key) {
+      Short short2 = this.idCounts.get(key);
+      if (short2 == null) {
+         short2 = (short)0;
       } else {
-         var5 = (short)(var5 + 1);
+         short2 = (short)(short2 + 1);
       }
 
-      this.idCounts.put(var1, var5);
+      this.idCounts.put(key, short2);
       if (this.saveHandler == null) {
-         return var5;
+         return short2;
       }
 
       try {
-         File var6 = this.saveHandler.getMapFileFromName("idcounts");
-         if (var6 != null) {
-            NBTTagCompound var7 = new NBTTagCompound();
+         File file = this.saveHandler.getMapFileFromName("idcounts");
+         if (file != null) {
+            NBTTagCompound nbtTagCompound = new NBTTagCompound();
 
-            for (String var9 : this.idCounts.keySet()) {
-               short var10 = this.idCounts.get(var9);
-               var7.setShort(var9, var10);
+            for (String string : this.idCounts.keySet()) {
+               short s = this.idCounts.get(string);
+               nbtTagCompound.setShort(string, s);
             }
 
-            DataOutputStream var13 = new DataOutputStream(new FileOutputStream(var6));
-            CompressedStreamTools.write(var7, var13);
-            var13.close();
+            DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file));
+            CompressedStreamTools.write(nbtTagCompound, dataOutputStream);
+            dataOutputStream.close();
          }
-      } catch (Exception var11) {
-         var11.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      return var5;
+      return short2;
    }
 }

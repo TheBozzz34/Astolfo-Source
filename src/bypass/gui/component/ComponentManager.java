@@ -8,37 +8,37 @@ import java.util.Arrays;
 public abstract class ComponentManager extends Manager<Element> {
    private static final long a = 116201125173732L;
 
-   public void F(int var1, int var2) {
-      for (Element var7 : this.getList()) {
-         if (var7 instanceof Component) {
-            Component var8 = (Component)var7;
-            if (var8.u_boolean()) {
-               var8.T(var1, var2);
+   public void F(int i, int j) {
+      for (Element element : this.getList()) {
+         if (element instanceof Component) {
+            Component component = (Component)element;
+            if (component.u_boolean()) {
+               component.T(i, j);
             }
          }
       }
    }
 
-   public void p(int var1, int var2) {
-      for (Element var7 : this.getList()) {
-         if (!(var7 instanceof ConfigsPanel) && !(var7 instanceof ScriptsPanel)) {
-            var7.render(var1, var2);
+   public void p(int i, int j) {
+      for (Element element : this.getList()) {
+         if (!(element instanceof ConfigsPanel) && !(element instanceof ScriptsPanel)) {
+            element.render(i, j);
          }
       }
    }
 
-   public void Q(boolean var1) {
-      for (Element var7 : this.getList()) {
-         if (var7 instanceof Component) {
-            Component var8 = (Component)var7;
-            if (var8.c_boolean()) {
-               var8.x(var1);
+   public void Q(boolean bl) {
+      for (Element element : this.getList()) {
+         if (element instanceof Component) {
+            Component component = (Component)element;
+            if (component.c_boolean()) {
+               component.x(bl);
             }
          }
       }
    }
 
-   public void addElements(Element... var1) {
-      this.getList().addAll(Arrays.asList(var1));
+   public void addElements(Element... elements) {
+      this.getList().addAll(Arrays.asList(elements));
    }
 }

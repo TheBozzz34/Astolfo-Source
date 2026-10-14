@@ -31,84 +31,84 @@ public class GuiMerchant extends GuiContainer {
    private IChatComponent chatComponent;
    private static final long bb = 75551353706711L;
 
-   public GuiMerchant(InventoryPlayer var1, IMerchant var2, World var3) {
-      super(new ContainerMerchant(var1, var2, var3));
-      this.merchant = var2;
-      this.chatComponent = var2.getDisplayName();
+   public GuiMerchant(InventoryPlayer inventoryPlayer, IMerchant iMerchant, World worldIn) {
+      super(new ContainerMerchant(inventoryPlayer, iMerchant, worldIn));
+      this.merchant = iMerchant;
+      this.chatComponent = iMerchant.getDisplayName();
    }
 
    @Override
    public void initGui() {
       super.initGui();
-      int var3 = (this.width - this.xSize) / 2;
-      int var4 = (this.height - this.ySize) / 2;
-      this.buttonList.add(this.nextButton = new GuiMerchant.MerchantButton(1, var3 + 120 + 27, var4 + 24 - 1, true));
-      this.buttonList.add(this.previousButton = new GuiMerchant.MerchantButton(2, var3 + 36 - 19, var4 + 24 - 1, false));
+      int i = (this.width - this.xSize) / 2;
+      int j = (this.height - this.ySize) / 2;
+      this.buttonList.add(this.nextButton = new GuiMerchant.MerchantButton(1, i + 120 + 27, j + 24 - 1, true));
+      this.buttonList.add(this.previousButton = new GuiMerchant.MerchantButton(2, i + 36 - 19, j + 24 - 1, false));
       this.nextButton.enabled = false;
       this.previousButton.enabled = false;
    }
 
    @Override
-   public void drawGuiContainerForegroundLayer(int var1, int var2) {
-      String var5 = this.chatComponent.getUnformattedText();
-      this.fontRendererObj.D(var5, this.xSize / 2 - this.fontRendererObj.getStringWidth(var5) / 2, 6.0F, 4210752);
+   public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+      String string = this.chatComponent.getUnformattedText();
+      this.fontRendererObj.D(string, this.xSize / 2 - this.fontRendererObj.getStringWidth(string) / 2, 6.0F, 4210752);
       this.fontRendererObj.D(I18n.format("container.inventory"), 8.0F, this.ySize - 96 + 2, 4210752);
    }
 
    @Override
    public void updateScreen() {
       super.updateScreen();
-      MerchantRecipeList var4 = this.merchant.getRecipes(this.mc.thePlayer);
-      if (var4 != null) {
-         this.nextButton.enabled = this.selectedMerchantRecipe < var4.size() - 1;
+      MerchantRecipeList merchantRecipeList = this.merchant.getRecipes(this.mc.thePlayer);
+      if (merchantRecipeList != null) {
+         this.nextButton.enabled = this.selectedMerchantRecipe < merchantRecipeList.size() - 1;
          this.previousButton.enabled = this.selectedMerchantRecipe > 0;
       }
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      boolean var5 = false;
-      if (var1 == this.nextButton) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      boolean bl = false;
+      if (button == this.nextButton) {
          this.selectedMerchantRecipe++;
-         MerchantRecipeList var6 = this.merchant.getRecipes(this.mc.thePlayer);
-         if (var6 != null && this.selectedMerchantRecipe >= var6.size()) {
-            this.selectedMerchantRecipe = var6.size() - 1;
+         MerchantRecipeList merchantRecipeList = this.merchant.getRecipes(this.mc.thePlayer);
+         if (merchantRecipeList != null && this.selectedMerchantRecipe >= merchantRecipeList.size()) {
+            this.selectedMerchantRecipe = merchantRecipeList.size() - 1;
          }
 
-         var5 = true;
-      } else if (var1 == this.previousButton) {
+         bl = true;
+      } else if (button == this.previousButton) {
          this.selectedMerchantRecipe--;
          if (this.selectedMerchantRecipe < 0) {
             this.selectedMerchantRecipe = 0;
          }
 
-         var5 = true;
+         bl = true;
       }
 
-      if (var5) {
+      if (bl) {
          ((ContainerMerchant)this.inventorySlots).setCurrentRecipeIndex(this.selectedMerchantRecipe);
-         PacketBuffer var7 = new PacketBuffer(Unpooled.buffer());
-         var7.writeInt(this.selectedMerchantRecipe);
-         this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("MC|TrSel", var7));
+         PacketBuffer packetBuffer = new PacketBuffer(Unpooled.buffer());
+         packetBuffer.writeInt(this.selectedMerchantRecipe);
+         this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("MC|TrSel", packetBuffer));
       }
    }
 
    @Override
-   public void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+   public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(MERCHANT_GUI_TEXTURE);
-      int var7 = (this.width - this.xSize) / 2;
-      int var8 = (this.height - this.ySize) / 2;
-      this.drawTexturedModalRect(var7, var8, 0, 0, this.xSize, this.ySize);
-      MerchantRecipeList var9 = this.merchant.getRecipes(this.mc.thePlayer);
-      if (var9 != null && !var9.isEmpty()) {
-         int var10 = this.selectedMerchantRecipe;
-         if (var10 < 0 || var10 >= var9.size()) {
+      int i = (this.width - this.xSize) / 2;
+      int j = (this.height - this.ySize) / 2;
+      this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+      MerchantRecipeList merchantRecipeList = this.merchant.getRecipes(this.mc.thePlayer);
+      if (merchantRecipeList != null && !merchantRecipeList.isEmpty()) {
+         int k = this.selectedMerchantRecipe;
+         if (k < 0 || k >= merchantRecipeList.size()) {
             return;
          }
 
-         MerchantRecipe var11 = var9.get(var10);
-         if (var11.isRecipeDisabled()) {
+         MerchantRecipe merchantRecipe = merchantRecipeList.get(k);
+         if (merchantRecipe.isRecipeDisabled()) {
             this.mc.getTextureManager().bindTexture(MERCHANT_GUI_TEXTURE);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableLighting();
@@ -119,17 +119,17 @@ public class GuiMerchant extends GuiContainer {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
-      super.drawScreen(var1, var2, var3);
-      MerchantRecipeList var7 = this.merchant.getRecipes(this.mc.thePlayer);
-      if (var7 != null && !var7.isEmpty()) {
-         int var8 = (this.width - this.xSize) / 2;
-         int var9 = (this.height - this.ySize) / 2;
-         int var10 = this.selectedMerchantRecipe;
-         MerchantRecipe var11 = var7.get(var10);
-         ItemStack var12 = var11.getItemToBuy();
-         ItemStack var13 = var11.getSecondItemToBuy();
-         ItemStack var14 = var11.getItemToSell();
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      MerchantRecipeList merchantRecipeList = this.merchant.getRecipes(this.mc.thePlayer);
+      if (merchantRecipeList != null && !merchantRecipeList.isEmpty()) {
+         int i = (this.width - this.xSize) / 2;
+         int j = (this.height - this.ySize) / 2;
+         int k = this.selectedMerchantRecipe;
+         MerchantRecipe merchantRecipe = merchantRecipeList.get(k);
+         ItemStack itemStack = merchantRecipe.getItemToBuy();
+         ItemStack itemStack2 = merchantRecipe.getSecondItemToBuy();
+         ItemStack itemStack3 = merchantRecipe.getItemToSell();
          GlStateManager.pushMatrix();
          RenderHelper.enableGUIStandardItemLighting();
          GlStateManager.disableLighting();
@@ -137,25 +137,25 @@ public class GuiMerchant extends GuiContainer {
          GlStateManager.enableColorMaterial();
          GlStateManager.enableLighting();
          this.itemRender.zLevel = 100.0F;
-         this.itemRender.renderItemAndEffectIntoGUI(var12, var8 + 36, var9 + 24);
-         this.itemRender.renderItemOverlays(this.fontRendererObj, var12, var8 + 36, var9 + 24);
-         if (var13 != null) {
-            this.itemRender.renderItemAndEffectIntoGUI(var13, var8 + 62, var9 + 24);
-            this.itemRender.renderItemOverlays(this.fontRendererObj, var13, var8 + 62, var9 + 24);
+         this.itemRender.renderItemAndEffectIntoGUI(itemStack, i + 36, j + 24);
+         this.itemRender.renderItemOverlays(this.fontRendererObj, itemStack, i + 36, j + 24);
+         if (itemStack2 != null) {
+            this.itemRender.renderItemAndEffectIntoGUI(itemStack2, i + 62, j + 24);
+            this.itemRender.renderItemOverlays(this.fontRendererObj, itemStack2, i + 62, j + 24);
          }
 
-         this.itemRender.renderItemAndEffectIntoGUI(var14, var8 + 120, var9 + 24);
-         this.itemRender.renderItemOverlays(this.fontRendererObj, var14, var8 + 120, var9 + 24);
+         this.itemRender.renderItemAndEffectIntoGUI(itemStack3, i + 120, j + 24);
+         this.itemRender.renderItemOverlays(this.fontRendererObj, itemStack3, i + 120, j + 24);
          this.itemRender.zLevel = 0.0F;
          GlStateManager.disableLighting();
-         if (this.isPointInRegion(36, 24, 16, 16, var1, var2) && var12 != null) {
-            this.renderToolTip(var12, var1, var2);
-         } else if (var13 != null && this.isPointInRegion(62, 24, 16, 16, var1, var2) && var13 != null) {
-            this.renderToolTip(var13, var1, var2);
-         } else if (var14 != null && this.isPointInRegion(120, 24, 16, 16, var1, var2) && var14 != null) {
-            this.renderToolTip(var14, var1, var2);
-         } else if (var11.isRecipeDisabled() && (this.isPointInRegion(83, 21, 28, 21, var1, var2) || this.isPointInRegion(83, 51, 28, 21, var1, var2))) {
-            this.drawCreativeTabHoveringText(I18n.format("merchant.deprecated"), var1, var2);
+         if (this.isPointInRegion(36, 24, 16, 16, mouseX, mouseY) && itemStack != null) {
+            this.renderToolTip(itemStack, mouseX, mouseY);
+         } else if (itemStack2 != null && this.isPointInRegion(62, 24, 16, 16, mouseX, mouseY) && itemStack2 != null) {
+            this.renderToolTip(itemStack2, mouseX, mouseY);
+         } else if (itemStack3 != null && this.isPointInRegion(120, 24, 16, 16, mouseX, mouseY) && itemStack3 != null) {
+            this.renderToolTip(itemStack3, mouseX, mouseY);
+         } else if (merchantRecipe.isRecipeDisabled() && (this.isPointInRegion(83, 21, 28, 21, mouseX, mouseY) || this.isPointInRegion(83, 51, 28, 21, mouseX, mouseY))) {
+            this.drawCreativeTabHoveringText(I18n.format("merchant.deprecated"), mouseX, mouseY);
          }
 
          GlStateManager.popMatrix();
@@ -173,32 +173,35 @@ public class GuiMerchant extends GuiContainer {
       private final boolean field_146157_o;
       private static final long c = 123763091282544L;
 
-      public MerchantButton(int var1, int var2, int var3, boolean var4) {
-         super(var1, var2, var3, 12, 19, "");
-         this.field_146157_o = var4;
+      public MerchantButton(int buttonID, int x, int y, boolean bl) {
+         super(buttonID, x, y, 12, 19, "");
+         this.field_146157_o = bl;
       }
 
       @Override
-      public void drawButton(Minecraft var1, int var2, int var3) {
-         long var4 = c ^ 38811996112940L;
+      public void drawButton(Minecraft mcIn, int mouseX, int mouseY) {
+         long l = c ^ 38811996112940L;
          if (this.visible) {
-            var1.getTextureManager().bindTexture(GuiMerchant.MERCHANT_GUI_TEXTURE);
+            mcIn.getTextureManager().bindTexture(GuiMerchant.MERCHANT_GUI_TEXTURE);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean var7 = var2 >= this.xPosition && var3 >= this.yPosition && var2 < this.xPosition + this.width && var3 < this.yPosition + this.height;
-            int var8 = 0;
-            long var10000 = 3973695186554498735L ^ var4;
-            int var9 = 176;
+            boolean bl = mouseX >= this.xPosition
+               && mouseY >= this.yPosition
+               && mouseX < this.xPosition + this.width
+               && mouseY < this.yPosition + this.height;
+            int i = 0;
+            long m = 3973695186554498735L ^ l;
+            int j = 176;
             if (!this.enabled) {
-               var9 += this.width * 2;
-            } else if (var7) {
-               var9 += this.width;
+               j += this.width * 2;
+            } else if (bl) {
+               j += this.width;
             }
 
             if (!this.field_146157_o) {
-               var8 += this.height;
+               i += this.height;
             }
 
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, var9, var8, this.width, this.height);
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, j, i, this.width, this.height);
          }
       }
    }

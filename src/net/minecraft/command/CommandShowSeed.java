@@ -9,8 +9,8 @@ public class CommandShowSeed extends CommandBase {
    private static final long b = 123473374347705L;
 
    @Override
-   public boolean canCommandSenderUseCommand(ICommandSender var1) {
-      return MinecraftServer.getServer().isSinglePlayer() || super.canCommandSenderUseCommand(var1);
+   public boolean canCommandSenderUseCommand(ICommandSender sender) {
+      return MinecraftServer.getServer().isSinglePlayer() || super.canCommandSenderUseCommand(sender);
    }
 
    @Override
@@ -24,13 +24,13 @@ public class CommandShowSeed extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.seed.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      World var6 = var1 instanceof EntityPlayer ? ((EntityPlayer)var1).worldObj : MinecraftServer.getServer().worldServerForDimension(0);
-      var1.addChatMessage(new ChatComponentTranslation("commands.seed.success", var6.getSeed()));
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      World world = sender instanceof EntityPlayer ? ((EntityPlayer)sender).worldObj : MinecraftServer.getServer().worldServerForDimension(0);
+      sender.addChatMessage(new ChatComponentTranslation("commands.seed.success", world.getSeed()));
    }
 }

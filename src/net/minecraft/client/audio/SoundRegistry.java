@@ -14,8 +14,8 @@ public class SoundRegistry extends RegistrySimple<ResourceLocation, SoundEventAc
       return this.soundRegistry;
    }
 
-   public void registerSound(SoundEventAccessorComposite var1) {
-      this.putObject(var1.getSoundEventLocation(), var1);
+   public void registerSound(SoundEventAccessorComposite soundEventAccessorComposite) {
+      this.putObject(soundEventAccessorComposite.getSoundEventLocation(), soundEventAccessorComposite);
    }
 
    public void clearMap() {

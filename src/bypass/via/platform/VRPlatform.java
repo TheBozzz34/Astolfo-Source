@@ -25,18 +25,18 @@ public class VRPlatform extends AbstractFabricPlatform {
    }
 
    @Override
-   public FutureTaskId runAsync(Runnable var1) {
-      return new FutureTaskId(CompletableFuture.runAsync(var1, ViaFabric.ASYNC_EXECUTOR).exceptionally(var0 -> {
-         if (!(var0 instanceof CancellationException)) {
-            var0.printStackTrace();
+   public FutureTaskId runAsync(Runnable runnable) {
+      return new FutureTaskId(CompletableFuture.runAsync(runnable, ViaFabric.ASYNC_EXECUTOR).exceptionally(throwable -> {
+         if (!(throwable instanceof CancellationException)) {
+            throwable.printStackTrace();
          }
 
          return null;
       }));
    }
 
-   public FutureTaskId runSync(Runnable var1) {
-      return this.l(var1);
+   public FutureTaskId runSync(Runnable runnable) {
+      return this.l(runnable);
    }
 
    @Override
@@ -45,11 +45,11 @@ public class VRPlatform extends AbstractFabricPlatform {
    }
 
    @Override
-   public void sendMessage(UUID var1, String var2) {
+   public void sendMessage(UUID uuid, String string) {
    }
 
    @Override
-   public boolean kickPlayer(UUID var1, String var2) {
+   public boolean kickPlayer(UUID uuid, String string) {
       return false;
    }
 
@@ -60,7 +60,7 @@ public class VRPlatform extends AbstractFabricPlatform {
 
    public class y3 implements ConfigurationProvider {
       @Override
-      public void set(String var1, Object var2) {
+      public void set(String string, Object object) {
       }
 
       @Override

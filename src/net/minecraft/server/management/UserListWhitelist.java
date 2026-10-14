@@ -7,35 +7,35 @@ import java.io.File;
 public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEntry> {
    private static final long a = 32916172508322L;
 
-   public UserListWhitelist(File var1) {
-      super(var1);
+   public UserListWhitelist(File file) {
+      super(file);
    }
 
    @Override
-   public UserListEntry<GameProfile> createEntry(JsonObject var1) {
-      return new UserListWhitelistEntry(var1);
+   public UserListEntry<GameProfile> createEntry(JsonObject entryData) {
+      return new UserListWhitelistEntry(entryData);
    }
 
    @Override
    public String[] getKeys() {
-      String[] var4 = new String[this.getValues().size()];
-      int var5 = 0;
+      String[] strings = new String[this.getValues().size()];
+      int i = 0;
 
-      for (UserListWhitelistEntry var7 : this.getValues().values()) {
-         var4[var5++] = var7.getValue().getName();
+      for (UserListWhitelistEntry userListWhitelistEntry : this.getValues().values()) {
+         strings[i++] = userListWhitelistEntry.getValue().getName();
       }
 
-      return var4;
+      return strings;
    }
 
-   public String getObjectKey(GameProfile var1) {
-      return var1.getId().toString();
+   public String getObjectKey(GameProfile obj) {
+      return obj.getId().toString();
    }
 
-   public GameProfile getBannedProfile(String var1) {
-      for (UserListWhitelistEntry var6 : this.getValues().values()) {
-         if (var1.equalsIgnoreCase(var6.getValue().getName())) {
-            return var6.getValue();
+   public GameProfile getBannedProfile(String name) {
+      for (UserListWhitelistEntry userListWhitelistEntry : this.getValues().values()) {
+         if (name.equalsIgnoreCase(userListWhitelistEntry.getValue().getName())) {
+            return userListWhitelistEntry.getValue();
          }
       }
 

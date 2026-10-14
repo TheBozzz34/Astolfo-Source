@@ -11,22 +11,22 @@ public class S09PacketHeldItemChange implements Packet<INetHandlerPlayClient> {
    public S09PacketHeldItemChange() {
    }
 
-   public S09PacketHeldItemChange(int var1) {
-      this.heldItemHotbarIndex = var1;
+   public S09PacketHeldItemChange(int hotbarIndexIn) {
+      this.heldItemHotbarIndex = hotbarIndexIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.heldItemHotbarIndex = var1.readByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.heldItemHotbarIndex = buf.readByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.heldItemHotbarIndex);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.heldItemHotbarIndex);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleHeldItemChange(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleHeldItemChange(this);
    }
 
    public int getHeldItemHotbarIndex() {

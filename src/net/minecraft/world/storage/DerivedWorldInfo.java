@@ -10,8 +10,8 @@ import net.minecraft.world.WorldType;
 public class DerivedWorldInfo extends WorldInfo {
    private final WorldInfo theWorldInfo;
 
-   public DerivedWorldInfo(WorldInfo var1) {
-      this.theWorldInfo = var1;
+   public DerivedWorldInfo(WorldInfo worldInfo) {
+      this.theWorldInfo = worldInfo;
    }
 
    @Override
@@ -20,8 +20,8 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public NBTTagCompound cloneNBTCompound(NBTTagCompound var1) {
-      return this.theWorldInfo.cloneNBTCompound(var1);
+   public NBTTagCompound cloneNBTCompound(NBTTagCompound nbt) {
+      return this.theWorldInfo.cloneNBTCompound(nbt);
    }
 
    @Override
@@ -105,51 +105,51 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public void setSpawnX(int var1) {
+   public void setSpawnX(int x) {
    }
 
    @Override
-   public void setSpawnY(int var1) {
+   public void setSpawnY(int y) {
    }
 
    @Override
-   public void setSpawnZ(int var1) {
+   public void setSpawnZ(int z) {
    }
 
    @Override
-   public void setWorldTotalTime(long var1) {
+   public void setWorldTotalTime(long time) {
    }
 
    @Override
-   public void setWorldTime(long var1) {
+   public void setWorldTime(long time) {
    }
 
    @Override
-   public void setSpawn(BlockPos var1) {
+   public void setSpawn(BlockPos spawnPoint) {
    }
 
    @Override
-   public void setWorldName(String var1) {
+   public void setWorldName(String worldName) {
    }
 
    @Override
-   public void setSaveVersion(int var1) {
+   public void setSaveVersion(int version) {
    }
 
    @Override
-   public void setThundering(boolean var1) {
+   public void setThundering(boolean thunderingIn) {
    }
 
    @Override
-   public void setThunderTime(int var1) {
+   public void setThunderTime(int time) {
    }
 
    @Override
-   public void setRaining(boolean var1) {
+   public void setRaining(boolean isRaining) {
    }
 
    @Override
-   public void setRainTime(int var1) {
+   public void setRainTime(int time) {
    }
 
    @Override
@@ -168,7 +168,7 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public void setTerrainType(WorldType var1) {
+   public void setTerrainType(WorldType typeIn) {
    }
 
    @Override
@@ -177,7 +177,7 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public void setAllowCommands(boolean var1) {
+   public void setAllowCommands(boolean allow) {
    }
 
    @Override
@@ -186,7 +186,7 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public void setServerInitialized(boolean var1) {
+   public void setServerInitialized(boolean initializedIn) {
    }
 
    @Override
@@ -200,7 +200,7 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public void setDifficulty(EnumDifficulty var1) {
+   public void setDifficulty(EnumDifficulty newDifficulty) {
    }
 
    @Override
@@ -209,6 +209,6 @@ public class DerivedWorldInfo extends WorldInfo {
    }
 
    @Override
-   public void setDifficultyLocked(boolean var1) {
+   public void setDifficultyLocked(boolean locked) {
    }
 }

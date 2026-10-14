@@ -33,8 +33,8 @@ public class GuiChat extends GuiScreen {
    public GuiChat() {
    }
 
-   public GuiChat(String var1) {
-      this.defaultInputFieldText = var1;
+   public GuiChat(String defaultText) {
+      this.defaultInputFieldText = defaultText;
    }
 
    @Override
@@ -61,76 +61,76 @@ public class GuiChat extends GuiScreen {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
       this.waitingOnAutocomplete = false;
-      if (var2 == 15) {
+      if (keyCode == 15) {
          this.autocompletePlayerNames();
       } else {
          this.playerNamesFound = false;
       }
 
-      if (var2 == 1) {
+      if (keyCode == 1) {
          this.mc.displayGuiScreen((GuiScreen)null);
-      } else if (var2 == 28 || var2 == 156) {
-         String var6 = this.inputField.getText().trim();
-         if (var6.length() > 0) {
-            this.sendChatMessage(var6);
+      } else if (keyCode == 28 || keyCode == 156) {
+         String string = this.inputField.getText().trim();
+         if (string.length() > 0) {
+            this.sendChatMessage(string);
          }
 
          this.mc.displayGuiScreen((GuiScreen)null);
-      } else if (var2 == 200) {
+      } else if (keyCode == 200) {
          this.getSentHistory(-1);
-      } else if (var2 == 208) {
+      } else if (keyCode == 208) {
          this.getSentHistory(1);
-      } else if (var2 == 201) {
+      } else if (keyCode == 201) {
          this.mc.ingameGUI.getChatGUI().scroll(this.mc.ingameGUI.getChatGUI().getLineCount() - 1);
-      } else if (var2 == 209) {
+      } else if (keyCode == 209) {
          this.mc.ingameGUI.getChatGUI().scroll(-this.mc.ingameGUI.getChatGUI().getLineCount() + 1);
       } else {
-         this.inputField.textboxKeyTyped(var1, var2);
+         this.inputField.textboxKeyTyped(typedChar, keyCode);
       }
    }
 
    @Override
    public void handleMouseInput() throws IOException {
       super.handleMouseInput();
-      int var4 = Mouse.getEventDWheel();
-      if (var4 != 0) {
-         if (var4 > 1) {
-            var4 = 1;
+      int i = Mouse.getEventDWheel();
+      if (i != 0) {
+         if (i > 1) {
+            i = 1;
          }
 
-         if (var4 < -1) {
-            var4 = -1;
+         if (i < -1) {
+            i = -1;
          }
 
          if (!isShiftKeyDown()) {
-            var4 *= 7;
+            i *= 7;
          }
 
-         this.mc.ingameGUI.getChatGUI().scroll(var4);
+         this.mc.ingameGUI.getChatGUI().scroll(i);
       }
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      if (var3 == 0) {
-         IChatComponent var7 = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
-         if (this.handleComponentClick(var7)) {
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      if (mouseButton == 0) {
+         IChatComponent iChatComponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
+         if (this.handleComponentClick(iChatComponent)) {
             return;
          }
       }
 
-      this.inputField.mouseClicked(var1, var2, var3);
-      super.mouseClicked(var1, var2, var3);
+      this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
+      super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
-   public void setText(String var1, boolean var2) {
-      if (var2) {
-         this.inputField.setText(var1);
+   public void setText(String newChatText, boolean shouldOverwrite) {
+      if (shouldOverwrite) {
+         this.inputField.setText(newChatText);
       } else {
-         this.inputField.writeText(var1);
+         this.inputField.writeText(newChatText);
       }
    }
 
@@ -141,70 +141,70 @@ public class GuiChat extends GuiScreen {
             this.autocompleteIndex = 0;
          }
       } else {
-         int var4 = this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false);
+         int i = this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false);
          this.foundPlayerNames.clear();
          this.autocompleteIndex = 0;
-         String var5 = this.inputField.getText().substring(var4).toLowerCase();
-         String var6 = this.inputField.getText().substring(0, this.inputField.getCursorPosition());
-         this.sendAutocompleteRequest(var6, var5);
+         String string = this.inputField.getText().substring(i).toLowerCase();
+         String string2 = this.inputField.getText().substring(0, this.inputField.getCursorPosition());
+         this.sendAutocompleteRequest(string2, string);
          if (this.foundPlayerNames.isEmpty()) {
             return;
          }
 
          this.playerNamesFound = true;
-         this.inputField.deleteFromCursor(var4 - this.inputField.getCursorPosition());
+         this.inputField.deleteFromCursor(i - this.inputField.getCursorPosition());
       }
 
       if (this.foundPlayerNames.size() > 1) {
-         StringBuilder var7 = new StringBuilder();
+         StringBuilder stringBuilder = new StringBuilder();
 
-         for (String var9 : this.foundPlayerNames) {
-            if (var7.length() > 0) {
-               var7.append(", ");
+         for (String string3 : this.foundPlayerNames) {
+            if (stringBuilder.length() > 0) {
+               stringBuilder.append(", ");
             }
 
-            var7.append(var9);
+            stringBuilder.append(string3);
          }
 
-         this.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new ChatComponentText(var7.toString()), 1);
+         this.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new ChatComponentText(stringBuilder.toString()), 1);
       }
 
       this.inputField.writeText(this.foundPlayerNames.get(this.autocompleteIndex++));
    }
 
-   private void sendAutocompleteRequest(String var1, String var2) {
-      if (var1.length() >= 1) {
-         BlockPos var6 = null;
+   private void sendAutocompleteRequest(String string, String string2) {
+      if (string.length() >= 1) {
+         BlockPos blockPos = null;
          if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-            var6 = this.mc.objectMouseOver.getBlockPos();
+            blockPos = this.mc.objectMouseOver.getBlockPos();
          }
 
-         this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(var1, var6));
+         this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(string, blockPos));
          this.waitingOnAutocomplete = true;
       }
    }
 
-   public void getSentHistory(int var1) {
-      int var5 = this.sentHistoryCursor + var1;
-      int var6 = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
-      var5 = MathHelper.clamp_int(var5, 0, var6);
-      if (var5 != this.sentHistoryCursor) {
-         if (var5 == var6) {
-            this.sentHistoryCursor = var6;
+   public void getSentHistory(int msgPos) {
+      int i = this.sentHistoryCursor + msgPos;
+      int j = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
+      i = MathHelper.clamp_int(i, 0, j);
+      if (i != this.sentHistoryCursor) {
+         if (i == j) {
+            this.sentHistoryCursor = j;
             this.inputField.setText(this.historyBuffer);
          } else {
-            if (this.sentHistoryCursor == var6) {
+            if (this.sentHistoryCursor == j) {
                this.historyBuffer = this.inputField.getText();
             }
 
-            this.inputField.setText(this.mc.ingameGUI.getChatGUI().getSentMessages().get(var5));
-            this.sentHistoryCursor = var5;
+            this.inputField.setText(this.mc.ingameGUI.getChatGUI().getSentMessages().get(i));
+            this.sentHistoryCursor = i;
          }
       }
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       if (this.inputField.getText().startsWith("-")) {
          GlStateManager.enableBlend();
          drawRect(
@@ -225,31 +225,31 @@ public class GuiChat extends GuiScreen {
 
       drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
       this.inputField.drawTextBox();
-      IChatComponent var7 = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
-      if (var7 != null && var7.getChatStyle().getChatHoverEvent() != null) {
-         this.handleComponentHover(var7, var1, var2);
+      IChatComponent iChatComponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
+      if (iChatComponent != null && iChatComponent.getChatStyle().getChatHoverEvent() != null) {
+         this.handleComponentHover(iChatComponent, mouseX, mouseY);
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public void onAutocompleteResponse(String[] var1) {
+   public void onAutocompleteResponse(String[] strings) {
       if (this.waitingOnAutocomplete) {
          this.playerNamesFound = false;
          this.foundPlayerNames.clear();
 
-         for (String var8 : var1) {
-            if (var8.length() > 0) {
-               this.foundPlayerNames.add(var8);
+         for (String string : strings) {
+            if (string.length() > 0) {
+               this.foundPlayerNames.add(string);
             }
          }
 
-         String var9 = this.inputField.getText().substring(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false));
-         String var10 = StringUtils.getCommonPrefix(var1);
-         if (var10.length() > 0 && !var9.equalsIgnoreCase(var10)) {
+         String string2 = this.inputField.getText().substring(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false));
+         String string3 = StringUtils.getCommonPrefix(strings);
+         if (string3.length() > 0 && !string2.equalsIgnoreCase(string3)) {
             this.inputField
                .deleteFromCursor(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());
-            this.inputField.writeText(var10);
+            this.inputField.writeText(string3);
          } else if (this.foundPlayerNames.size() > 0) {
             this.playerNamesFound = true;
             this.autocompletePlayerNames();

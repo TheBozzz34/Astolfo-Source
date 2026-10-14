@@ -13,30 +13,30 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer> {
    public C17PacketCustomPayload() {
    }
 
-   public C17PacketCustomPayload(String var1, PacketBuffer var2) {
-      this.channel = var1;
-      this.data = var2;
+   public C17PacketCustomPayload(String channelIn, PacketBuffer dataIn) {
+      this.channel = channelIn;
+      this.data = dataIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.channel = var1.readStringFromBuffer(20);
-      int var5 = var1.readableBytes();
-      if (var5 >= 0 && var5 <= 32767) {
-         this.data = new PacketBuffer(var1.readBytes(var5));
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.channel = buf.readStringFromBuffer(20);
+      int i = buf.readableBytes();
+      if (i >= 0 && i <= 32767) {
+         this.data = new PacketBuffer(buf.readBytes(i));
       } else {
          throw new IOException("Payload may not be larger than 32767 bytes");
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.channel);
-      var1.writeBytes(this.data);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.channel);
+      buf.writeBytes(this.data);
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processVanilla250Packet(this);
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processVanilla250Packet(this);
    }
 
    public String getChannelName() {

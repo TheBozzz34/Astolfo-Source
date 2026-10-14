@@ -28,42 +28,42 @@ public class MapData extends WorldSavedData {
    public Map<String, Vec4b> mapDecorations = Maps.newLinkedHashMap();
    private static final long a = 89955657118791L;
 
-   public MapData(String var1) {
-      super(var1);
+   public MapData(String mapname) {
+      super(mapname);
    }
 
-   public void calculateMapCenter(double var1, double var3, int var5) {
-      int var8 = 128 * (1 << var5);
-      int var9 = MathHelper.floor_double((var1 + 64.0) / var8);
-      int var10 = MathHelper.floor_double((var3 + 64.0) / var8);
-      this.xCenter = var9 * var8 + var8 / 2 - 64;
-      this.zCenter = var10 * var8 + var8 / 2 - 64;
+   public void calculateMapCenter(double x, double z, int mapScale) {
+      int i = 128 * (1 << mapScale);
+      int j = MathHelper.floor_double((x + 64.0) / i);
+      int k = MathHelper.floor_double((z + 64.0) / i);
+      this.xCenter = j * i + i / 2 - 64;
+      this.zCenter = k * i + i / 2 - 64;
    }
 
    @Override
-   public void readFromNBT(NBTTagCompound var1) {
-      this.dimension = var1.getByte("dimension");
-      this.xCenter = var1.getInteger("xCenter");
-      this.zCenter = var1.getInteger("zCenter");
-      this.scale = var1.getByte("scale");
+   public void readFromNBT(NBTTagCompound nbt) {
+      this.dimension = nbt.getByte("dimension");
+      this.xCenter = nbt.getInteger("xCenter");
+      this.zCenter = nbt.getInteger("zCenter");
+      this.scale = nbt.getByte("scale");
       this.scale = (byte)MathHelper.clamp_int(this.scale, 0, 4);
-      short var5 = var1.getShort("width");
-      short var6 = var1.getShort("height");
-      if (var5 == 128 && var6 == 128) {
-         this.colors = var1.getByteArray("colors");
+      short s = nbt.getShort("width");
+      short s2 = nbt.getShort("height");
+      if (s == 128 && s2 == 128) {
+         this.colors = nbt.getByteArray("colors");
       } else {
-         byte[] var7 = var1.getByteArray("colors");
+         byte[] bytes = nbt.getByteArray("colors");
          this.colors = new byte[16384];
-         int var8 = (128 - var5) / 2;
-         int var9 = (128 - var6) / 2;
+         int i = (128 - s) / 2;
+         int j = (128 - s2) / 2;
 
-         for (int var10 = 0; var10 < var6; var10++) {
-            int var11 = var10 + var9;
-            if (var11 >= 0 || var11 < 128) {
-               for (int var12 = 0; var12 < var5; var12++) {
-                  int var13 = var12 + var8;
-                  if (var13 >= 0 || var13 < 128) {
-                     this.colors[var13 + var11 * 128] = var7[var12 + var10 * var5];
+         for (int k = 0; k < s2; k++) {
+            int l = k + j;
+            if (l >= 0 || l < 128) {
+               for (int m = 0; m < s; m++) {
+                  int n = m + i;
+                  if (n >= 0 || n < 128) {
+                     this.colors[n + l * 128] = bytes[m + k * s];
                   }
                }
             }
@@ -72,131 +72,131 @@ public class MapData extends WorldSavedData {
    }
 
    @Override
-   public void writeToNBT(NBTTagCompound var1) {
-      var1.setByte("dimension", this.dimension);
-      var1.setInteger("xCenter", this.xCenter);
-      var1.setInteger("zCenter", this.zCenter);
-      var1.setByte("scale", this.scale);
-      var1.setShort("width", (short)128);
-      var1.setShort("height", (short)128);
-      var1.setByteArray("colors", this.colors);
+   public void writeToNBT(NBTTagCompound nbt) {
+      nbt.setByte("dimension", this.dimension);
+      nbt.setInteger("xCenter", this.xCenter);
+      nbt.setInteger("zCenter", this.zCenter);
+      nbt.setByte("scale", this.scale);
+      nbt.setShort("width", (short)128);
+      nbt.setShort("height", (short)128);
+      nbt.setByteArray("colors", this.colors);
    }
 
-   public void updateVisiblePlayers(EntityPlayer var1, ItemStack var2) {
-      if (!this.playersHashMap.containsKey(var1)) {
-         MapData.MapInfo var6 = new MapData.MapInfo(var1);
-         this.playersHashMap.put(var1, var6);
-         this.playersArrayList.add(var6);
+   public void updateVisiblePlayers(EntityPlayer player, ItemStack mapStack) {
+      if (!this.playersHashMap.containsKey(player)) {
+         MapData.MapInfo mapInfo = new MapData.MapInfo(player);
+         this.playersHashMap.put(player, mapInfo);
+         this.playersArrayList.add(mapInfo);
       }
 
-      if (!var1.inventory.hasItemStack(var2)) {
-         this.mapDecorations.remove(var1.getName());
+      if (!player.inventory.hasItemStack(mapStack)) {
+         this.mapDecorations.remove(player.getName());
       }
 
-      for (int var9 = 0; var9 < this.playersArrayList.size(); var9++) {
-         MapData.MapInfo var7 = this.playersArrayList.get(var9);
-         if (!var7.entityplayerObj.isDead && (var7.entityplayerObj.inventory.hasItemStack(var2) || var2.isOnItemFrame())) {
-            if (!var2.isOnItemFrame() && var7.entityplayerObj.dimension == this.dimension) {
+      for (int i = 0; i < this.playersArrayList.size(); i++) {
+         MapData.MapInfo mapInfo2 = this.playersArrayList.get(i);
+         if (!mapInfo2.entityplayerObj.isDead && (mapInfo2.entityplayerObj.inventory.hasItemStack(mapStack) || mapStack.isOnItemFrame())) {
+            if (!mapStack.isOnItemFrame() && mapInfo2.entityplayerObj.dimension == this.dimension) {
                this.updateDecorations(
                   0,
-                  var7.entityplayerObj.worldObj,
-                  var7.entityplayerObj.getName(),
-                  var7.entityplayerObj.posX,
-                  var7.entityplayerObj.posZ,
-                  var7.entityplayerObj.rotationYaw
+                  mapInfo2.entityplayerObj.worldObj,
+                  mapInfo2.entityplayerObj.getName(),
+                  mapInfo2.entityplayerObj.posX,
+                  mapInfo2.entityplayerObj.posZ,
+                  mapInfo2.entityplayerObj.rotationYaw
                );
             }
          } else {
-            this.playersHashMap.remove(var7.entityplayerObj);
-            this.playersArrayList.remove(var7);
+            this.playersHashMap.remove(mapInfo2.entityplayerObj);
+            this.playersArrayList.remove(mapInfo2);
          }
       }
 
-      if (var2.isOnItemFrame()) {
-         EntityItemFrame var10 = var2.getItemFrame();
-         BlockPos var12 = var10.getHangingPosition();
-         this.updateDecorations(1, var1.worldObj, "frame-" + var10.getEntityId(), var12.getX(), var12.getZ(), var10.facingDirection.getHorizontalIndex() * 90);
+      if (mapStack.isOnItemFrame()) {
+         EntityItemFrame entityItemFrame = mapStack.getItemFrame();
+         BlockPos blockPos = entityItemFrame.getHangingPosition();
+         this.updateDecorations(1, player.worldObj, "frame-" + entityItemFrame.getEntityId(), blockPos.getX(), blockPos.getZ(), entityItemFrame.facingDirection.getHorizontalIndex() * 90);
       }
 
-      if (var2.hasTagCompound() && var2.getTagCompound().hasKey("Decorations", 9)) {
-         NBTTagList var11 = var2.getTagCompound().getTagList("Decorations", 10);
+      if (mapStack.hasTagCompound() && mapStack.getTagCompound().hasKey("Decorations", 9)) {
+         NBTTagList nbtTagList = mapStack.getTagCompound().getTagList("Decorations", 10);
 
-         for (int var13 = 0; var13 < var11.tagCount(); var13++) {
-            NBTTagCompound var8 = var11.getCompoundTagAt(var13);
-            if (!this.mapDecorations.containsKey(var8.getString("id"))) {
+         for (int j = 0; j < nbtTagList.tagCount(); j++) {
+            NBTTagCompound nbtTagCompound = nbtTagList.getCompoundTagAt(j);
+            if (!this.mapDecorations.containsKey(nbtTagCompound.getString("id"))) {
                this.updateDecorations(
-                  var8.getByte("type"), var1.worldObj, var8.getString("id"), var8.getDouble("x"), var8.getDouble("z"), var8.getDouble("rot")
+                  nbtTagCompound.getByte("type"), player.worldObj, nbtTagCompound.getString("id"), nbtTagCompound.getDouble("x"), nbtTagCompound.getDouble("z"), nbtTagCompound.getDouble("rot")
                );
             }
          }
       }
    }
 
-   private void updateDecorations(int var1, World var2, String var3, double var4, double var6, double var8) {
-      int var13 = 1 << this.scale;
-      float var14 = (float)(var4 - this.xCenter) / var13;
-      float var15 = (float)(var6 - this.zCenter) / var13;
-      byte var16 = (byte)(var14 * 2.0F + 0.5);
-      byte var17 = (byte)(var15 * 2.0F + 0.5);
-      byte var18 = 63;
-      byte var19;
-      if (var14 >= -var18 && var15 >= -var18 && var14 <= var18 && var15 <= var18) {
-         var8 += var8 < 0.0 ? -8.0 : 8.0;
-         var19 = (byte)(var8 * 16.0 / 360.0);
+   private void updateDecorations(int typeIn, World worldIn, String entityIdentifier, double worldX, double worldZ, double rotation) {
+      int i = 1 << this.scale;
+      float f = (float)(worldX - this.xCenter) / i;
+      float g = (float)(worldZ - this.zCenter) / i;
+      byte b = (byte)(f * 2.0F + 0.5);
+      byte b2 = (byte)(g * 2.0F + 0.5);
+      byte b3 = 63;
+      byte b4;
+      if (f >= -b3 && g >= -b3 && f <= b3 && g <= b3) {
+         rotation += rotation < 0.0 ? -8.0 : 8.0;
+         b4 = (byte)(rotation * 16.0 / 360.0);
          if (this.dimension < 0) {
-            int var20 = (int)(var2.getWorldInfo().getWorldTime() / 10L);
-            var19 = (byte)(var20 * var20 * 34187121 + var20 * 121 >> 15 & 15);
+            int j = (int)(worldIn.getWorldInfo().getWorldTime() / 10L);
+            b4 = (byte)(j * j * 34187121 + j * 121 >> 15 & 15);
          }
       } else {
-         if (Math.abs(var14) >= 320.0F || Math.abs(var15) >= 320.0F) {
-            this.mapDecorations.remove(var3);
+         if (Math.abs(f) >= 320.0F || Math.abs(g) >= 320.0F) {
+            this.mapDecorations.remove(entityIdentifier);
             return;
          }
 
-         var1 = 6;
-         var19 = 0;
-         if (var14 <= -var18) {
-            var16 = (byte)(var18 * 2 + 2.5);
+         typeIn = 6;
+         b4 = 0;
+         if (f <= -b3) {
+            b = (byte)(b3 * 2 + 2.5);
          }
 
-         if (var15 <= -var18) {
-            var17 = (byte)(var18 * 2 + 2.5);
+         if (g <= -b3) {
+            b2 = (byte)(b3 * 2 + 2.5);
          }
 
-         if (var14 >= var18) {
-            var16 = (byte)(var18 * 2 + 1);
+         if (f >= b3) {
+            b = (byte)(b3 * 2 + 1);
          }
 
-         if (var15 >= var18) {
-            var17 = (byte)(var18 * 2 + 1);
+         if (g >= b3) {
+            b2 = (byte)(b3 * 2 + 1);
          }
       }
 
-      this.mapDecorations.put(var3, new Vec4b((byte)var1, var16, var17, var19));
+      this.mapDecorations.put(entityIdentifier, new Vec4b((byte)typeIn, b, b2, b4));
    }
 
-   public Packet getMapPacket(ItemStack var1, World var2, EntityPlayer var3) {
-      MapData.MapInfo var7 = this.playersHashMap.get(var3);
-      return var7 == null ? null : var7.getPacket(var1);
+   public Packet getMapPacket(ItemStack mapStack, World worldIn, EntityPlayer player) {
+      MapData.MapInfo mapInfo = this.playersHashMap.get(player);
+      return mapInfo == null ? null : mapInfo.getPacket(mapStack);
    }
 
-   public void updateMapData(int var1, int var2) {
+   public void updateMapData(int x, int y) {
       super.markDirty();
 
-      for (MapData.MapInfo var7 : this.playersArrayList) {
-         var7.update(var1, var2);
+      for (MapData.MapInfo mapInfo : this.playersArrayList) {
+         mapInfo.update(x, y);
       }
    }
 
-   public MapData.MapInfo getMapInfo(EntityPlayer var1) {
-      MapData.MapInfo var5 = this.playersHashMap.get(var1);
-      if (var5 == null) {
-         var5 = new MapData.MapInfo(var1);
-         this.playersHashMap.put(var1, var5);
-         this.playersArrayList.add(var5);
+   public MapData.MapInfo getMapInfo(EntityPlayer player) {
+      MapData.MapInfo mapInfo = this.playersHashMap.get(player);
+      if (mapInfo == null) {
+         mapInfo = new MapData.MapInfo(player);
+         this.playersHashMap.put(player, mapInfo);
+         this.playersArrayList.add(mapInfo);
       }
 
-      return var5;
+      return mapInfo;
    }
 
    public class MapInfo {
@@ -210,15 +210,15 @@ public class MapData extends WorldSavedData {
       public int field_82569_d;
       private static final long a = 102825963181528L;
 
-      public MapInfo(EntityPlayer var2) {
-         this.entityplayerObj = var2;
+      public MapInfo(EntityPlayer player) {
+         this.entityplayerObj = player;
       }
 
-      public Packet getPacket(ItemStack var1) {
+      public Packet getPacket(ItemStack stack) {
          if (this.field_176105_d) {
             this.field_176105_d = false;
             return new S34PacketMaps(
-               var1.getMetadata(),
+               stack.getMetadata(),
                MapData.this.scale,
                MapData.this.mapDecorations.values(),
                MapData.this.colors,
@@ -229,23 +229,23 @@ public class MapData extends WorldSavedData {
             );
          } else {
             return this.field_176109_i++ % 5 == 0
-               ? new S34PacketMaps(var1.getMetadata(), MapData.this.scale, MapData.this.mapDecorations.values(), MapData.this.colors, 0, 0, 0, 0)
+               ? new S34PacketMaps(stack.getMetadata(), MapData.this.scale, MapData.this.mapDecorations.values(), MapData.this.colors, 0, 0, 0, 0)
                : null;
          }
       }
 
-      public void update(int var1, int var2) {
+      public void update(int x, int y) {
          if (this.field_176105_d) {
-            this.minX = Math.min(this.minX, var1);
-            this.minY = Math.min(this.minY, var2);
-            this.maxX = Math.max(this.maxX, var1);
-            this.maxY = Math.max(this.maxY, var2);
+            this.minX = Math.min(this.minX, x);
+            this.minY = Math.min(this.minY, y);
+            this.maxX = Math.max(this.maxX, x);
+            this.maxY = Math.max(this.maxY, y);
          } else {
             this.field_176105_d = true;
-            this.minX = var1;
-            this.minY = var2;
-            this.maxX = var1;
-            this.maxY = var2;
+            this.minX = x;
+            this.minY = y;
+            this.maxX = x;
+            this.maxY = y;
          }
       }
    }

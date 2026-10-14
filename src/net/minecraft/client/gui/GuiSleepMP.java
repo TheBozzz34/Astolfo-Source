@@ -15,15 +15,15 @@ public class GuiSleepMP extends GuiChat {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      if (var2 == 1) {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      if (keyCode == 1) {
          this.wakeFromSleep();
-      } else if (var2 != 28 && var2 != 156) {
-         super.keyTyped(var1, var2);
+      } else if (keyCode != 28 && keyCode != 156) {
+         super.keyTyped(typedChar, keyCode);
       } else {
-         String var6 = this.inputField.getText().trim();
-         if (!var6.isEmpty()) {
-            this.mc.thePlayer.sendChatMessage(var6);
+         String string = this.inputField.getText().trim();
+         if (!string.isEmpty()) {
+            this.mc.thePlayer.sendChatMessage(string);
          }
 
          this.inputField.setText("");
@@ -32,16 +32,16 @@ public class GuiSleepMP extends GuiChat {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 1) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 1) {
          this.wakeFromSleep();
       } else {
-         super.actionPerformed(var1);
+         super.actionPerformed(button);
       }
    }
 
    private void wakeFromSleep() {
-      NetHandlerPlayClient var1 = this.mc.thePlayer.sendQueue;
-      var1.addToSendQueue(new C0BPacketEntityAction(this.mc.thePlayer, C0BPacketEntityAction.Action.STOP_SLEEPING));
+      NetHandlerPlayClient netHandlerPlayClient = this.mc.thePlayer.sendQueue;
+      netHandlerPlayClient.addToSendQueue(new C0BPacketEntityAction(this.mc.thePlayer, C0BPacketEntityAction.Action.STOP_SLEEPING));
    }
 }

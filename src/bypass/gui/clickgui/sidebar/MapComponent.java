@@ -17,15 +17,15 @@ public class MapComponent extends SidebarSettingComponent {
    private boolean Z;
    private static final long d = 87039549887153L;
 
-   public MapComponent(ModuleButton var1, MapSetting var2, int var3, int var4, int var5, int var6) {
-      super(var1, var2, var3, var4, var5, var6);
-      this.f(var1);
-      this.K = var2;
+   public MapComponent(ModuleButton moduleButton, MapSetting mapSetting, int i, int j, int k, int l) {
+      super(moduleButton, mapSetting, i, j, k, l);
+      this.f(moduleButton);
+      this.K = mapSetting;
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 0 && this.y()) {
+   public void l(int i) {
+      if (i == 0 && this.y()) {
          if (this.G().A() != null) {
             if (this.G().A() != this) {
                this.G().D(this);
@@ -39,10 +39,10 @@ public class MapComponent extends SidebarSettingComponent {
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = d ^ 96923443186883L;
-      long var5 = var3 ^ 8972929756414L;
-      if (!this.w.isRunning() && (this.G(var1, var2) || this.G().A() == this)) {
+   public void render(int i, int j) {
+      long l = d ^ 96923443186883L;
+      long m = l ^ 8972929756414L;
+      if (!this.w.isRunning() && (this.G(i, j) || this.G().A() == this)) {
          if (this.Z) {
             this.w.forwards().start();
          } else {
@@ -52,7 +52,7 @@ public class MapComponent extends SidebarSettingComponent {
          this.Z = !this.Z;
       }
 
-      if (!this.G(var1, var2) && this.G().A() != this) {
+      if (!this.G(i, j) && this.G().A() != this) {
          this.w.forwards();
       }
 
@@ -60,41 +60,41 @@ public class MapComponent extends SidebarSettingComponent {
          client.getCustomFontRenderer().drawString(this.K.getName(), this.M(), this.E_float() - 2.0F, new Color(255, 255, 255, this.X).getRGB());
       }
 
-      int var8 = Astolfo.INSTANCE.getSidebarGui().U();
+      int k = Astolfo.INSTANCE.getSidebarGui().U();
       RenderUtil.drawArrow(
          this.M() + this.x() - 8.0F + this.w.getValue(-8.0, 0.0),
          this.E_float(),
          5.0,
          true,
-         this.G().A() == this ? var8 : new Color(255, 255, 255, this.X).getRGB()
+         this.G().A() == this ? k : new Color(255, 255, 255, this.X).getRGB()
       );
-      Sidebar var9 = this.G().n().t();
-      int var10 = this.u;
+      Sidebar sidebar = this.G().n().t();
+      int i2 = this.u;
       if (!this.C && this.G().h() == this && this.G().A() == null
          || this.G().h() == null && this.G().A() == this
          || this.G().h() != this && this.G().A() == this) {
-         for (Element var15 : this.M_ArrayList()) {
-            if (var15 instanceof SidebarSettingComponent) {
-               SidebarSettingComponent var16 = (SidebarSettingComponent)var15;
-               var16.r(this.M() + 155.0F, var9.E_float() + var10);
-               var16.render(var1, var2);
-               if (!var16.B.isRunning()) {
-                  var16.B.forwards().start();
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof SidebarSettingComponent) {
+               SidebarSettingComponent sidebarSettingComponent = (SidebarSettingComponent)element;
+               sidebarSettingComponent.r(this.M() + 155.0F, sidebar.E_float() + i2);
+               sidebarSettingComponent.render(i, j);
+               if (!sidebarSettingComponent.B.isRunning()) {
+                  sidebarSettingComponent.B.forwards().start();
                }
 
-               var16.X = (int)var16.B.getValue(0.0, 255.0);
-               var10 += 15;
+               sidebarSettingComponent.X = (int)sidebarSettingComponent.B.getValue(0.0, 255.0);
+               i2 += 15;
             }
          }
       } else {
-         for (Element var12 : this.M_ArrayList()) {
-            if (var12 instanceof SidebarSettingComponent) {
-               SidebarSettingComponent var13 = (SidebarSettingComponent)var12;
-               if (!var13.B.isRunning()) {
-                  var13.B.backwards().start();
+         for (Element element2 : this.M_ArrayList()) {
+            if (element2 instanceof SidebarSettingComponent) {
+               SidebarSettingComponent sidebarSettingComponent2 = (SidebarSettingComponent)element2;
+               if (!sidebarSettingComponent2.B.isRunning()) {
+                  sidebarSettingComponent2.B.backwards().start();
                }
 
-               var13.X = (int)var13.B.getValue(0.0, 255.0);
+               sidebarSettingComponent2.X = (int)sidebarSettingComponent2.B.getValue(0.0, 255.0);
             }
          }
       }

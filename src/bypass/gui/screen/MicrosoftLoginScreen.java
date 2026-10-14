@@ -40,55 +40,55 @@ public class MicrosoftLoginScreen extends GuiScreen {
    private int f;
    private static final long a = 9475853737830L;
 
-   public MicrosoftLoginScreen(GuiScreen var1) {
-      this.q = var1;
-      String var4 = "<html><body><h1>no</h1></body></html>";
+   public MicrosoftLoginScreen(GuiScreen guiScreen) {
+      this.q = guiScreen;
+      String string = "<html><body><h1>no</h1></body></html>";
       new Thread(
             () -> {
                try {
                   this.i = HttpServer.create(new InetSocketAddress(59125), 0);
-                  this.i.createContext("/", var1xx -> {
+                  this.i.createContext("/", httpExchange -> {
                      try {
-                        var1xx.getResponseHeaders().add("Location", "http://localhost:59125/end");
-                        var1xx.sendResponseHeaders(302, -1L);
-                        new Thread(() -> this.w(var1xx.getRequestURI().getQuery()), "IAS MS Auth Thread").start();
-                     } catch (Throwable var8x) {
+                        httpExchange.getResponseHeaders().add("Location", "http://localhost:59125/end");
+                        httpExchange.sendResponseHeaders(302, -1L);
+                        new Thread(() -> this.w(httpExchange.getRequestURI().getQuery()), "IAS MS Auth Thread").start();
+                     } catch (Throwable throwable) {
                         System.out.println("Unable to process request 'auth' on MS auth server");
 
                         try {
                            if (this.i != null) {
                               this.i.stop(0);
                            }
-                        } catch (Throwable var7x) {
+                        } catch (Throwable throwable2) {
                            System.out.println("Unable to stop fail-requested MS auth server");
                         }
                      }
                   });
-                  this.i.createContext("/end", var2 -> {
+                  this.i.createContext("/end", httpExchange2 -> {
                      try {
-                        byte[] var6 = var4.getBytes(StandardCharsets.UTF_8);
-                        var2.getResponseHeaders().put("Content-Type", Collections.singletonList("text/html; charset=UTF-8"));
-                        var2.sendResponseHeaders(200, var6.length);
-                        OutputStream var7x = var2.getResponseBody();
-                        var7x.write(var6);
-                        var7x.flush();
-                        var7x.close();
+                        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+                        httpExchange2.getResponseHeaders().put("Content-Type", Collections.singletonList("text/html; charset=UTF-8"));
+                        httpExchange2.sendResponseHeaders(200, bytes.length);
+                        OutputStream outputStream = httpExchange2.getResponseBody();
+                        outputStream.write(bytes);
+                        outputStream.flush();
+                        outputStream.close();
 
                         try {
                            if (this.i != null) {
                               this.i.stop(0);
                            }
-                        } catch (Throwable var10) {
+                        } catch (Throwable throwable3) {
                            System.out.println("Unable to stop MS auth server");
                         }
-                     } catch (Throwable var11) {
+                     } catch (Throwable throwable4) {
                         System.out.println("Unable to process request 'end' on MS auth server");
 
                         try {
                            if (this.i != null) {
                               this.i.stop(0);
                            }
-                        } catch (Throwable var9) {
+                        } catch (Throwable throwable5) {
                            System.out.println("Unable to stop fail-requested MS auth server");
                         }
                      }
@@ -100,14 +100,14 @@ public class MicrosoftLoginScreen extends GuiScreen {
                            "https://login.live.com/oauth20_authorize.srf?client_id=54fd49e4-2103-4044-9603-2b028c814ec3&response_type=code&scope=XboxLive.signin%20XboxLive.offline_access&redirect_uri=http://localhost:59125&prompt=consent"
                         )
                      );
-               } catch (Throwable var8) {
+               } catch (Throwable throwable6) {
                   System.out.println("Unable to start MS auth server");
 
                   try {
                      if (this.i != null) {
                         this.i.stop(0);
                      }
-                  } catch (Throwable var7) {
+                  } catch (Throwable throwable7) {
                      System.out.println("Unable to stop fail-started MS auth server");
                   }
                }
@@ -117,30 +117,30 @@ public class MicrosoftLoginScreen extends GuiScreen {
          .start();
    }
 
-   private void w(String var1) {
+   private void w(String string) {
       try {
-         if (var1 == null) {
+         if (string == null) {
             throw new NullPointerException("query=null");
          }
 
-         if (var1.equals("error=access_denied&error_description=The user has denied access to the scope requested by the client application.")) {
+         if (string.equals("error=access_denied&error_description=The user has denied access to the scope requested by the client application.")) {
             throw new AuthException("ias.msauth.error.revoked");
          }
 
-         if (!var1.startsWith("code=")) {
-            throw new IllegalStateException("query=" + var1);
+         if (!string.startsWith("code=")) {
+            throw new IllegalStateException("query=" + string);
          }
 
-         Pair var5 = MicrosoftAuth.X(var1.replace("code=", ""));
-         String var6 = (String)var5.getRight();
-         String var7 = MicrosoftAuth.x((String)var5.getLeft());
-         Pair var8 = MicrosoftAuth.Q(var7);
-         String var9 = MicrosoftAuth.P((String)var8.getRight(), (String)var8.getLeft());
-         MicrosoftAuth.I_void(var9);
-         Pair var10 = MicrosoftAuth.m(var9);
-         System.out.printf("%s %s %s %s", var10.getRight(), var9, var6, var10.getLeft());
-      } catch (Throwable var11) {
-         var11.printStackTrace();
+         Pair pair = MicrosoftAuth.X(string.replace("code=", ""));
+         String string2 = (String)pair.getRight();
+         String string3 = MicrosoftAuth.x((String)pair.getLeft());
+         Pair pair2 = MicrosoftAuth.Q(string3);
+         String string4 = MicrosoftAuth.P((String)pair2.getRight(), (String)pair2.getLeft());
+         MicrosoftAuth.I_void(string4);
+         Pair pair3 = MicrosoftAuth.m(string4);
+         System.out.printf("%s %s %s %s", pair3.getRight(), string4, string2, pair3.getLeft());
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
          System.out.println("Unable");
       }
    }

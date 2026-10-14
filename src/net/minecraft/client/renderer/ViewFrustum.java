@@ -15,61 +15,61 @@ public class ViewFrustum {
    public RenderChunk[] renderChunks;
    private static final long a = 76452716329873L;
 
-   public ViewFrustum(World var1, int var2, RenderGlobal var3, IRenderChunkFactory var4) {
-      this.renderGlobal = var3;
-      this.world = var1;
-      this.setCountChunksXYZ(var2);
-      this.createRenderChunks(var4);
+   public ViewFrustum(World worldIn, int renderDistanceChunks, RenderGlobal renderGlobal, IRenderChunkFactory renderChunkFactory) {
+      this.renderGlobal = renderGlobal;
+      this.world = worldIn;
+      this.setCountChunksXYZ(renderDistanceChunks);
+      this.createRenderChunks(renderChunkFactory);
    }
 
-   public void createRenderChunks(IRenderChunkFactory var1) {
-      int var5 = this.countChunksX * this.countChunksY * this.countChunksZ;
-      this.renderChunks = new RenderChunk[var5];
-      int var6 = 0;
+   public void createRenderChunks(IRenderChunkFactory renderChunkFactory) {
+      int i = this.countChunksX * this.countChunksY * this.countChunksZ;
+      this.renderChunks = new RenderChunk[i];
+      int j = 0;
 
-      for (int var7 = 0; var7 < this.countChunksX; var7++) {
-         for (int var8 = 0; var8 < this.countChunksY; var8++) {
-            for (int var9 = 0; var9 < this.countChunksZ; var9++) {
-               int var10 = (var9 * this.countChunksY + var8) * this.countChunksX + var7;
-               BlockPos var11 = new BlockPos(var7 * 16, var8 * 16, var9 * 16);
-               this.renderChunks[var10] = var1.makeRenderChunk(this.world, this.renderGlobal, var11, var6++);
+      for (int k = 0; k < this.countChunksX; k++) {
+         for (int l = 0; l < this.countChunksY; l++) {
+            for (int m = 0; m < this.countChunksZ; m++) {
+               int n = (m * this.countChunksY + l) * this.countChunksX + k;
+               BlockPos blockPos = new BlockPos(k * 16, l * 16, m * 16);
+               this.renderChunks[n] = renderChunkFactory.makeRenderChunk(this.world, this.renderGlobal, blockPos, j++);
             }
          }
       }
    }
 
    public void deleteGlResources() {
-      for (RenderChunk var7 : this.renderChunks) {
-         var7.deleteGlResources();
+      for (RenderChunk renderChunk : this.renderChunks) {
+         renderChunk.deleteGlResources();
       }
    }
 
-   public void setCountChunksXYZ(int var1) {
-      int var4 = var1 * 2 + 1;
-      this.countChunksX = var4;
+   public void setCountChunksXYZ(int renderDistanceChunks) {
+      int i = renderDistanceChunks * 2 + 1;
+      this.countChunksX = i;
       this.countChunksY = 16;
-      this.countChunksZ = var4;
+      this.countChunksZ = i;
    }
 
-   public void updateChunkPositions(double var1, double var3) {
-      int var8 = MathHelper.floor_double(var1) - 8;
-      int var9 = MathHelper.floor_double(var3) - 8;
-      int var10 = this.countChunksX * 16;
+   public void updateChunkPositions(double viewEntityX, double viewEntityZ) {
+      int i = MathHelper.floor_double(viewEntityX) - 8;
+      int j = MathHelper.floor_double(viewEntityZ) - 8;
+      int k = this.countChunksX * 16;
 
-      for (int var11 = 0; var11 < this.countChunksX; var11++) {
-         int var12 = this.func_178157_a(var8, var10, var11);
+      for (int l = 0; l < this.countChunksX; l++) {
+         int m = this.func_178157_a(i, k, l);
 
-         for (int var13 = 0; var13 < this.countChunksZ; var13++) {
-            int var14 = this.func_178157_a(var9, var10, var13);
+         for (int n = 0; n < this.countChunksZ; n++) {
+            int i2 = this.func_178157_a(j, k, n);
 
-            for (int var15 = 0; var15 < this.countChunksY; var15++) {
-               int var16 = var15 * 16;
-               RenderChunk var17 = this.renderChunks[(var13 * this.countChunksY + var15) * this.countChunksX + var11];
-               BlockPos var18 = var17.getPosition();
-               if (var18.getX() != var12 || var18.getY() != var16 || var18.getZ() != var14) {
-                  BlockPos var19 = new BlockPos(var12, var16, var14);
-                  if (!var19.equals(var17.getPosition())) {
-                     var17.setPosition(var19);
+            for (int i3 = 0; i3 < this.countChunksY; i3++) {
+               int i4 = i3 * 16;
+               RenderChunk renderChunk = this.renderChunks[(n * this.countChunksY + i3) * this.countChunksX + l];
+               BlockPos blockPos = renderChunk.getPosition();
+               if (blockPos.getX() != m || blockPos.getY() != i4 || blockPos.getZ() != i2) {
+                  BlockPos blockPos2 = new BlockPos(m, i4, i2);
+                  if (!blockPos2.equals(renderChunk.getPosition())) {
+                     renderChunk.setPosition(blockPos2);
                   }
                }
             }
@@ -77,67 +77,67 @@ public class ViewFrustum {
       }
    }
 
-   private int func_178157_a(int var1, int var2, int var3) {
-      int var7 = var3 * 16;
-      int var8 = var7 - var1 + var2 / 2;
-      if (var8 < 0) {
-         var8 -= var2 - 1;
+   private int func_178157_a(int i, int j, int k) {
+      int l = k * 16;
+      int m = l - i + j / 2;
+      if (m < 0) {
+         m -= j - 1;
       }
 
-      return var7 - var8 / var2 * var2;
+      return l - m / j * j;
    }
 
-   public void markBlocksForUpdate(int var1, int var2, int var3, int var4, int var5, int var6) {
-      int var10 = MathHelper.bucketInt(var1, 16);
-      int var11 = MathHelper.bucketInt(var2, 16);
-      int var12 = MathHelper.bucketInt(var3, 16);
-      int var13 = MathHelper.bucketInt(var4, 16);
-      int var14 = MathHelper.bucketInt(var5, 16);
-      int var15 = MathHelper.bucketInt(var6, 16);
+   public void markBlocksForUpdate(int fromX, int fromY, int fromZ, int toX, int toY, int toZ) {
+      int i = MathHelper.bucketInt(fromX, 16);
+      int j = MathHelper.bucketInt(fromY, 16);
+      int k = MathHelper.bucketInt(fromZ, 16);
+      int l = MathHelper.bucketInt(toX, 16);
+      int m = MathHelper.bucketInt(toY, 16);
+      int n = MathHelper.bucketInt(toZ, 16);
 
-      for (int var16 = var10; var16 <= var13; var16++) {
-         int var17 = var16 % this.countChunksX;
-         if (var17 < 0) {
-            var17 += this.countChunksX;
+      for (int i2 = i; i2 <= l; i2++) {
+         int i3 = i2 % this.countChunksX;
+         if (i3 < 0) {
+            i3 += this.countChunksX;
          }
 
-         for (int var18 = var11; var18 <= var14; var18++) {
-            int var19 = var18 % this.countChunksY;
-            if (var19 < 0) {
-               var19 += this.countChunksY;
+         for (int i4 = j; i4 <= m; i4++) {
+            int i5 = i4 % this.countChunksY;
+            if (i5 < 0) {
+               i5 += this.countChunksY;
             }
 
-            for (int var20 = var12; var20 <= var15; var20++) {
-               int var21 = var20 % this.countChunksZ;
-               if (var21 < 0) {
-                  var21 += this.countChunksZ;
+            for (int i6 = k; i6 <= n; i6++) {
+               int i7 = i6 % this.countChunksZ;
+               if (i7 < 0) {
+                  i7 += this.countChunksZ;
                }
 
-               int var22 = (var21 * this.countChunksY + var19) * this.countChunksX + var17;
-               RenderChunk var23 = this.renderChunks[var22];
-               var23.setNeedsUpdate(true);
+               int i8 = (i7 * this.countChunksY + i5) * this.countChunksX + i3;
+               RenderChunk renderChunk = this.renderChunks[i8];
+               renderChunk.setNeedsUpdate(true);
             }
          }
       }
    }
 
-   public RenderChunk getRenderChunk(BlockPos var1) {
-      int var5 = var1.getX() >> 4;
-      int var6 = var1.getY() >> 4;
-      int var7 = var1.getZ() >> 4;
-      if (var6 >= 0 && var6 < this.countChunksY) {
-         var5 %= this.countChunksX;
-         if (var5 < 0) {
-            var5 += this.countChunksX;
+   public RenderChunk getRenderChunk(BlockPos pos) {
+      int i = pos.getX() >> 4;
+      int j = pos.getY() >> 4;
+      int k = pos.getZ() >> 4;
+      if (j >= 0 && j < this.countChunksY) {
+         i %= this.countChunksX;
+         if (i < 0) {
+            i += this.countChunksX;
          }
 
-         var7 %= this.countChunksZ;
-         if (var7 < 0) {
-            var7 += this.countChunksZ;
+         k %= this.countChunksZ;
+         if (k < 0) {
+            k += this.countChunksZ;
          }
 
-         int var8 = (var7 * this.countChunksY + var6) * this.countChunksX + var5;
-         return this.renderChunks[var8];
+         int l = (k * this.countChunksY + j) * this.countChunksX + i;
+         return this.renderChunks[l];
       } else {
          return null;
       }

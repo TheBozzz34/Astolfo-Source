@@ -22,9 +22,9 @@ public class EntityAIControlledByPlayer extends EntityAIBase {
    private int maxSpeedBoostTime;
    private static final long b = 139447762787264L;
 
-   public EntityAIControlledByPlayer(EntityLiving var1, float var2) {
-      this.thisEntity = var1;
-      this.maxSpeed = var2;
+   public EntityAIControlledByPlayer(EntityLiving entitylivingIn, float maxspeed) {
+      this.thisEntity = entitylivingIn;
+      this.maxSpeed = maxspeed;
       this.setMutexBits(7);
    }
 
@@ -49,18 +49,18 @@ public class EntityAIControlledByPlayer extends EntityAIBase {
 
    @Override
    public void updateTask() {
-      EntityPlayer var5 = (EntityPlayer)this.thisEntity.riddenByEntity;
-      EntityCreature var6 = (EntityCreature)this.thisEntity;
-      float var7 = MathHelper.wrapAngleTo180_float(var5.rotationYaw - this.thisEntity.rotationYaw) * 0.5F;
-      if (var7 > 5.0F) {
-         var7 = 5.0F;
+      EntityPlayer entityPlayer = (EntityPlayer)this.thisEntity.riddenByEntity;
+      EntityCreature entityCreature = (EntityCreature)this.thisEntity;
+      float f = MathHelper.wrapAngleTo180_float(entityPlayer.rotationYaw - this.thisEntity.rotationYaw) * 0.5F;
+      if (f > 5.0F) {
+         f = 5.0F;
       }
 
-      if (var7 < -5.0F) {
-         var7 = -5.0F;
+      if (f < -5.0F) {
+         f = -5.0F;
       }
 
-      this.thisEntity.rotationYaw = MathHelper.wrapAngleTo180_float(this.thisEntity.rotationYaw + var7);
+      this.thisEntity.rotationYaw = MathHelper.wrapAngleTo180_float(this.thisEntity.rotationYaw + f);
       if (this.currentSpeed < this.maxSpeed) {
          this.currentSpeed = this.currentSpeed + (this.maxSpeed - this.currentSpeed) * 0.01F;
       }
@@ -69,99 +69,99 @@ public class EntityAIControlledByPlayer extends EntityAIBase {
          this.currentSpeed = this.maxSpeed;
       }
 
-      int var8 = MathHelper.floor_double(this.thisEntity.posX);
-      int var9 = MathHelper.floor_double(this.thisEntity.posY);
-      int var10 = MathHelper.floor_double(this.thisEntity.posZ);
-      float var11 = this.currentSpeed;
+      int i = MathHelper.floor_double(this.thisEntity.posX);
+      int j = MathHelper.floor_double(this.thisEntity.posY);
+      int k = MathHelper.floor_double(this.thisEntity.posZ);
+      float g = this.currentSpeed;
       if (this.speedBoosted) {
          if (this.speedBoostTime++ > this.maxSpeedBoostTime) {
             this.speedBoosted = false;
          }
 
-         var11 += var11 * 1.15F * MathHelper.sin((float)this.speedBoostTime / this.maxSpeedBoostTime * (float) Math.PI);
+         g += g * 1.15F * MathHelper.sin((float)this.speedBoostTime / this.maxSpeedBoostTime * (float) Math.PI);
       }
 
-      float var12 = 0.91F;
+      float h = 0.91F;
       if (this.thisEntity.onGround) {
-         var12 = this.thisEntity
+         h = this.thisEntity
                .worldObj
-               .getBlockState(new BlockPos(MathHelper.floor_float(var8), MathHelper.floor_float(var9) - 1, MathHelper.floor_float(var10)))
+               .getBlockState(new BlockPos(MathHelper.floor_float(i), MathHelper.floor_float(j) - 1, MathHelper.floor_float(k)))
                .getBlock()
                .slipperiness
             * 0.91F;
       }
 
-      float var13 = 0.16277136F / (var12 * var12 * var12);
-      float var14 = MathHelper.sin(var6.rotationYaw * (float) Math.PI / 180.0F);
-      float var15 = MathHelper.cos(var6.rotationYaw * (float) Math.PI / 180.0F);
-      float var16 = var6.getAIMoveSpeed() * var13;
-      float var17 = Math.max(var11, 1.0F);
-      var17 = var16 / var17;
-      float var18 = var11 * var17;
-      float var19 = -(var18 * var14);
-      float var20 = var18 * var15;
-      if (MathHelper.abs(var19) > MathHelper.abs(var20)) {
-         if (var19 < 0.0F) {
-            var19 -= this.thisEntity.width / 2.0F;
+      float f2 = 0.16277136F / (h * h * h);
+      float f3 = MathHelper.sin(entityCreature.rotationYaw * (float) Math.PI / 180.0F);
+      float f4 = MathHelper.cos(entityCreature.rotationYaw * (float) Math.PI / 180.0F);
+      float f5 = entityCreature.getAIMoveSpeed() * f2;
+      float f6 = Math.max(g, 1.0F);
+      f6 = f5 / f6;
+      float f7 = g * f6;
+      float f8 = -(f7 * f3);
+      float f9 = f7 * f4;
+      if (MathHelper.abs(f8) > MathHelper.abs(f9)) {
+         if (f8 < 0.0F) {
+            f8 -= this.thisEntity.width / 2.0F;
          }
 
-         if (var19 > 0.0F) {
-            var19 += this.thisEntity.width / 2.0F;
+         if (f8 > 0.0F) {
+            f8 += this.thisEntity.width / 2.0F;
          }
 
-         var20 = 0.0F;
+         f9 = 0.0F;
       } else {
-         var19 = 0.0F;
-         if (var20 < 0.0F) {
-            var20 -= this.thisEntity.width / 2.0F;
+         f8 = 0.0F;
+         if (f9 < 0.0F) {
+            f9 -= this.thisEntity.width / 2.0F;
          }
 
-         if (var20 > 0.0F) {
-            var20 += this.thisEntity.width / 2.0F;
+         if (f9 > 0.0F) {
+            f9 += this.thisEntity.width / 2.0F;
          }
       }
 
-      int var21 = MathHelper.floor_double(this.thisEntity.posX + var19);
-      int var22 = MathHelper.floor_double(this.thisEntity.posZ + var20);
-      int var23 = MathHelper.floor_float(this.thisEntity.width + 1.0F);
-      int var24 = MathHelper.floor_float(this.thisEntity.height + var5.height + 1.0F);
-      int var25 = MathHelper.floor_float(this.thisEntity.width + 1.0F);
-      if (var8 != var21 || var10 != var22) {
-         Block var26 = this.thisEntity.worldObj.getBlockState(new BlockPos(var8, var9, var10)).getBlock();
-         boolean var27 = !this.isStairOrSlab(var26)
+      int l = MathHelper.floor_double(this.thisEntity.posX + f8);
+      int m = MathHelper.floor_double(this.thisEntity.posZ + f9);
+      int n = MathHelper.floor_float(this.thisEntity.width + 1.0F);
+      int i2 = MathHelper.floor_float(this.thisEntity.height + entityPlayer.height + 1.0F);
+      int i3 = MathHelper.floor_float(this.thisEntity.width + 1.0F);
+      if (i != l || k != m) {
+         Block block = this.thisEntity.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
+         boolean bl = !this.isStairOrSlab(block)
             && (
-               var26.getMaterial() != Material.air
-                  || !this.isStairOrSlab(this.thisEntity.worldObj.getBlockState(new BlockPos(var8, var9 - 1, var10)).getBlock())
+               block.getMaterial() != Material.air
+                  || !this.isStairOrSlab(this.thisEntity.worldObj.getBlockState(new BlockPos(i, j - 1, k)).getBlock())
             );
-         if (var27
-            && 0 == WalkNodeProcessor.func_176170_a(this.thisEntity.worldObj, this.thisEntity, var21, var9, var22, var23, var24, var25, false, false, true)
-            && 1 == WalkNodeProcessor.func_176170_a(this.thisEntity.worldObj, this.thisEntity, var8, var9 + 1, var10, var23, var24, var25, false, false, true)
-            && 1 == WalkNodeProcessor.func_176170_a(this.thisEntity.worldObj, this.thisEntity, var21, var9 + 1, var22, var23, var24, var25, false, false, true)
+         if (bl
+            && 0 == WalkNodeProcessor.func_176170_a(this.thisEntity.worldObj, this.thisEntity, l, j, m, n, i2, i3, false, false, true)
+            && 1 == WalkNodeProcessor.func_176170_a(this.thisEntity.worldObj, this.thisEntity, i, j + 1, k, n, i2, i3, false, false, true)
+            && 1 == WalkNodeProcessor.func_176170_a(this.thisEntity.worldObj, this.thisEntity, l, j + 1, m, n, i2, i3, false, false, true)
             )
           {
-            var6.getJumpHelper().setJumping();
+            entityCreature.getJumpHelper().setJumping();
          }
       }
 
-      if (!var5.capabilities.isCreativeMode && this.currentSpeed >= this.maxSpeed * 0.5F && this.thisEntity.getRNG().nextFloat() < 0.006F && !this.speedBoosted
+      if (!entityPlayer.capabilities.isCreativeMode && this.currentSpeed >= this.maxSpeed * 0.5F && this.thisEntity.getRNG().nextFloat() < 0.006F && !this.speedBoosted
          )
        {
-         ItemStack var29 = var5.getHeldItem();
-         if (var29 != null && var29.getItem() == Items.carrot_on_a_stick) {
-            var29.damageItem(1, var5);
-            if (var29.stackSize == 0) {
-               ItemStack var30 = new ItemStack(Items.fishing_rod);
-               var30.setTagCompound(var29.getTagCompound());
-               var5.inventory.mainInventory[var5.inventory.currentItem] = var30;
+         ItemStack itemStack = entityPlayer.getHeldItem();
+         if (itemStack != null && itemStack.getItem() == Items.carrot_on_a_stick) {
+            itemStack.damageItem(1, entityPlayer);
+            if (itemStack.stackSize == 0) {
+               ItemStack itemStack2 = new ItemStack(Items.fishing_rod);
+               itemStack2.setTagCompound(itemStack.getTagCompound());
+               entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = itemStack2;
             }
          }
       }
 
-      this.thisEntity.moveEntityWithHeading(0.0F, var11);
+      this.thisEntity.moveEntityWithHeading(0.0F, g);
    }
 
-   private boolean isStairOrSlab(Block var1) {
-      return var1 instanceof BlockStairs || var1 instanceof BlockSlab;
+   private boolean isStairOrSlab(Block blockIn) {
+      return blockIn instanceof BlockStairs || blockIn instanceof BlockSlab;
    }
 
    public boolean isSpeedBoosted() {

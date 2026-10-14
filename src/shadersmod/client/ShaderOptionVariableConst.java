@@ -9,9 +9,9 @@ public class ShaderOptionVariableConst extends ShaderOptionVariable {
    private static final Pattern PATTERN_CONST = Pattern.compile("^\\s*const\\s*(float|int)\\s*([A-Za-z0-9_]+)\\s*=\\s*(-?[0-9\\.]+f?F?)\\s*;\\s*(//.*)?$");
    private static final long f = 36180113447175L;
 
-   public ShaderOptionVariableConst(String var1, String var2, String var3, String var4, String[] var5, String var6) {
-      super(var1, var3, var4, var5, var6);
-      this.type = var2;
+   public ShaderOptionVariableConst(String name, String typeIn, String description, String value, String[] values, String path) {
+      super(name, description, value, values, path);
+      this.type = typeIn;
    }
 
    @Override
@@ -20,35 +20,35 @@ public class ShaderOptionVariableConst extends ShaderOptionVariable {
    }
 
    @Override
-   public boolean matchesLine(String var1) {
-      Matcher var5 = PATTERN_CONST.matcher(var1);
-      if (!var5.matches()) {
+   public boolean matchesLine(String line) {
+      Matcher matcher2 = PATTERN_CONST.matcher(line);
+      if (!matcher2.matches()) {
          return false;
       }
 
-      String var6 = var5.group(2);
-      return var6.matches(this.getName());
+      String string = matcher2.group(2);
+      return string.matches(this.getName());
    }
 
-   public static ShaderOption f(String var0, String var1) {
-      Matcher var5 = PATTERN_CONST.matcher(var0);
-      if (!var5.matches()) {
+   public static ShaderOption f(String string, String string2) {
+      Matcher matcher2 = PATTERN_CONST.matcher(string);
+      if (!matcher2.matches()) {
          return null;
       }
 
-      String var6 = var5.group(1);
-      String var7 = var5.group(2);
-      String var8 = var5.group(3);
-      String var9 = var5.group(4);
-      String var10 = StrUtils.getSegment(var9, "[", "]");
-      if (var10 != null && var10.length() > 0) {
-         var9 = var9.replace(var10, "").trim();
+      String string3 = matcher2.group(1);
+      String string4 = matcher2.group(2);
+      String string5 = matcher2.group(3);
+      String string6 = matcher2.group(4);
+      String string7 = StrUtils.getSegment(string6, "[", "]");
+      if (string7 != null && string7.length() > 0) {
+         string6 = string6.replace(string7, "").trim();
       }
 
-      String[] var11 = parseValues(var8, var10);
-      if (var7 != null && var7.length() > 0) {
-         var1 = StrUtils.removePrefix(var1, "/shaders/");
-         return new ShaderOptionVariableConst(var7, var6, var9, var8, var11, var1);
+      String[] strings = parseValues(string5, string7);
+      if (string4 != null && string4.length() > 0) {
+         string2 = StrUtils.removePrefix(string2, "/shaders/");
+         return new ShaderOptionVariableConst(string4, string3, string6, string5, strings, string2);
       } else {
          return null;
       }

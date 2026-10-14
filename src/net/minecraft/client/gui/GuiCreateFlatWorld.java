@@ -28,17 +28,17 @@ public class GuiCreateFlatWorld extends GuiScreen {
    private GuiButton field_146386_v;
    private static final long a = 13255165786350L;
 
-   public GuiCreateFlatWorld(GuiCreateWorld var1, String var2) {
-      this.createWorldGui = var1;
-      this.func_146383_a(var2);
+   public GuiCreateFlatWorld(GuiCreateWorld createWorldGuiIn, String string) {
+      this.createWorldGui = createWorldGuiIn;
+      this.func_146383_a(string);
    }
 
    public String func_146384_e() {
       return this.theFlatGeneratorInfo.toString();
    }
 
-   public void func_146383_a(String var1) {
-      this.theFlatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(var1);
+   public void func_146383_a(String string) {
+      this.theFlatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(string);
    }
 
    @Override
@@ -77,17 +77,17 @@ public class GuiCreateFlatWorld extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      int var5 = this.theFlatGeneratorInfo.getFlatLayers().size() - this.createFlatWorldListSlotGui.field_148228_k - 1;
-      if (var1.id == 1) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      int i = this.theFlatGeneratorInfo.getFlatLayers().size() - this.createFlatWorldListSlotGui.field_148228_k - 1;
+      if (button.id == 1) {
          this.mc.displayGuiScreen(this.createWorldGui);
-      } else if (var1.id == 0) {
+      } else if (button.id == 0) {
          this.createWorldGui.chunkProviderSettingsJson = this.func_146384_e();
          this.mc.displayGuiScreen(this.createWorldGui);
-      } else if (var1.id == 5) {
+      } else if (button.id == 5) {
          this.mc.displayGuiScreen(new GuiFlatPresets(this));
-      } else if (var1.id == 4 && this.func_146382_i()) {
-         this.theFlatGeneratorInfo.getFlatLayers().remove(var5);
+      } else if (button.id == 4 && this.func_146382_i()) {
+         this.theFlatGeneratorInfo.getFlatLayers().remove(i);
          this.createFlatWorldListSlotGui.field_148228_k = Math.min(
             this.createFlatWorldListSlotGui.field_148228_k, this.theFlatGeneratorInfo.getFlatLayers().size() - 1
          );
@@ -98,9 +98,9 @@ public class GuiCreateFlatWorld extends GuiScreen {
    }
 
    public void func_146375_g() {
-      boolean var1 = this.func_146382_i();
-      this.field_146386_v.enabled = var1;
-      this.field_146388_u.enabled = var1;
+      boolean bl = this.func_146382_i();
+      this.field_146386_v.enabled = bl;
+      this.field_146388_u.enabled = bl;
       this.field_146388_u.enabled = false;
       this.field_146389_t.enabled = false;
    }
@@ -111,14 +111,14 @@ public class GuiCreateFlatWorld extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.createFlatWorldListSlotGui.drawScreen(var1, var2, var3);
+      this.createFlatWorldListSlotGui.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, this.flatWorldTitle, this.width / 2, 8, 16777215);
-      int var6 = this.width / 2 - 92 - 16;
-      this.I(this.fontRendererObj, this.field_146394_i, var6, 32, 16777215);
-      this.I(this.fontRendererObj, this.field_146391_r, var6 + 2 + 213 - this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
-      super.drawScreen(var1, var2, var3);
+      int i = this.width / 2 - 92 - 16;
+      this.I(this.fontRendererObj, this.field_146394_i, i, 32, 16777215);
+      this.I(this.fontRendererObj, this.field_146391_r, i + 2 + 213 - this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    public class Details extends GuiSlot {
@@ -129,33 +129,33 @@ public class GuiCreateFlatWorld extends GuiScreen {
          super(GuiCreateFlatWorld.this.mc, GuiCreateFlatWorld.this.width, GuiCreateFlatWorld.this.height, 43, GuiCreateFlatWorld.this.height - 60, 24);
       }
 
-      private void func_148225_a(int var1, int var2, ItemStack var3) {
-         this.func_148226_e(var1 + 1, var2 + 1);
+      private void func_148225_a(int i, int j, ItemStack itemStack) {
+         this.func_148226_e(i + 1, j + 1);
          GlStateManager.enableRescaleNormal();
-         if (var3 != null && var3.getItem() != null) {
+         if (itemStack != null && itemStack.getItem() != null) {
             RenderHelper.enableGUIStandardItemLighting();
-            GuiCreateFlatWorld.this.itemRender.renderItemIntoGUI(var3, var1 + 2, var2 + 2);
+            GuiCreateFlatWorld.this.itemRender.renderItemIntoGUI(itemStack, i + 2, j + 2);
             RenderHelper.disableStandardItemLighting();
          }
 
          GlStateManager.disableRescaleNormal();
       }
 
-      private void func_148226_e(int var1, int var2) {
-         this.func_148224_c(var1, var2, 0, 0);
+      private void func_148226_e(int i, int j) {
+         this.func_148224_c(i, j, 0, 0);
       }
 
-      private void func_148224_c(int var1, int var2, int var3, int var4) {
+      private void func_148224_c(int i, int j, int k, int m) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(Gui.statIcons);
-         Tessellator var11 = Tessellator.getInstance();
-         WorldRenderer var12 = var11.getWorldRenderer();
-         var12.begin(7, DefaultVertexFormats.POSITION_TEX);
-         var12.pos(var1 + 0, var2 + 18, GuiCreateFlatWorld.this.zLevel).tex((var3 + 0) * 0.0078125F, (var4 + 18) * 0.0078125F).endVertex();
-         var12.pos(var1 + 18, var2 + 18, GuiCreateFlatWorld.this.zLevel).tex((var3 + 18) * 0.0078125F, (var4 + 18) * 0.0078125F).endVertex();
-         var12.pos(var1 + 18, var2 + 0, GuiCreateFlatWorld.this.zLevel).tex((var3 + 18) * 0.0078125F, (var4 + 0) * 0.0078125F).endVertex();
-         var12.pos(var1 + 0, var2 + 0, GuiCreateFlatWorld.this.zLevel).tex((var3 + 0) * 0.0078125F, (var4 + 0) * 0.0078125F).endVertex();
-         var11.draw();
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+         worldRenderer.pos(i + 0, j + 18, GuiCreateFlatWorld.this.zLevel).tex((k + 0) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 18, GuiCreateFlatWorld.this.zLevel).tex((k + 18) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 0, GuiCreateFlatWorld.this.zLevel).tex((k + 18) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 0, j + 0, GuiCreateFlatWorld.this.zLevel).tex((k + 0) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
+         tessellator.draw();
       }
 
       @Override
@@ -164,14 +164,14 @@ public class GuiCreateFlatWorld extends GuiScreen {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
-         this.field_148228_k = var1;
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+         this.field_148228_k = slotIndex;
          GuiCreateFlatWorld.this.func_146375_g();
       }
 
       @Override
-      public boolean isSelected(int var1) {
-         return var1 == this.field_148228_k;
+      public boolean isSelected(int slotIndex) {
+         return slotIndex == this.field_148228_k;
       }
 
       @Override
@@ -179,40 +179,40 @@ public class GuiCreateFlatWorld extends GuiScreen {
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-         FlatLayerInfo var10 = GuiCreateFlatWorld.this.theFlatGeneratorInfo
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+         FlatLayerInfo flatLayerInfo = GuiCreateFlatWorld.this.theFlatGeneratorInfo
             .getFlatLayers()
-            .get(GuiCreateFlatWorld.this.theFlatGeneratorInfo.getFlatLayers().size() - var1 - 1);
-         IBlockState var11 = var10.getLayerMaterial();
-         Block var12 = var11.getBlock();
-         Item var13 = Item.getItemFromBlock(var12);
-         ItemStack var14 = var12 != Blocks.air && var13 != null ? new ItemStack(var13, 1, var12.getMetaFromState(var11)) : null;
-         String var15 = var14 == null ? "Air" : var13.getItemStackDisplayName(var14);
-         if (var13 == null) {
-            if (var12 == Blocks.water || var12 == Blocks.flowing_water) {
-               var13 = Items.water_bucket;
-            } else if (var12 == Blocks.lava || var12 == Blocks.flowing_lava) {
-               var13 = Items.lava_bucket;
+            .get(GuiCreateFlatWorld.this.theFlatGeneratorInfo.getFlatLayers().size() - entryID - 1);
+         IBlockState iBlockState = flatLayerInfo.getLayerMaterial();
+         Block block = iBlockState.getBlock();
+         Item item = Item.getItemFromBlock(block);
+         ItemStack itemStack = block != Blocks.air && item != null ? new ItemStack(item, 1, block.getMetaFromState(iBlockState)) : null;
+         String string = itemStack == null ? "Air" : item.getItemStackDisplayName(itemStack);
+         if (item == null) {
+            if (block == Blocks.water || block == Blocks.flowing_water) {
+               item = Items.water_bucket;
+            } else if (block == Blocks.lava || block == Blocks.flowing_lava) {
+               item = Items.lava_bucket;
             }
 
-            if (var13 != null) {
-               var14 = new ItemStack(var13, 1, var12.getMetaFromState(var11));
-               var15 = var12.getLocalizedName();
+            if (item != null) {
+               itemStack = new ItemStack(item, 1, block.getMetaFromState(iBlockState));
+               string = block.getLocalizedName();
             }
          }
 
-         this.func_148225_a(var2, var3, var14);
-         GuiCreateFlatWorld.this.fontRendererObj.D(var15, var2 + 18 + 5, var3 + 3, 16777215);
-         String var16;
-         if (var1 == 0) {
-            var16 = I18n.format("createWorld.customize.flat.layer.top", var10.getLayerCount());
-         } else if (var1 == GuiCreateFlatWorld.this.theFlatGeneratorInfo.getFlatLayers().size() - 1) {
-            var16 = I18n.format("createWorld.customize.flat.layer.bottom", var10.getLayerCount());
+         this.func_148225_a(i, j, itemStack);
+         GuiCreateFlatWorld.this.fontRendererObj.D(string, i + 18 + 5, j + 3, 16777215);
+         String string2;
+         if (entryID == 0) {
+            string2 = I18n.format("createWorld.customize.flat.layer.top", flatLayerInfo.getLayerCount());
+         } else if (entryID == GuiCreateFlatWorld.this.theFlatGeneratorInfo.getFlatLayers().size() - 1) {
+            string2 = I18n.format("createWorld.customize.flat.layer.bottom", flatLayerInfo.getLayerCount());
          } else {
-            var16 = I18n.format("createWorld.customize.flat.layer", var10.getLayerCount());
+            string2 = I18n.format("createWorld.customize.flat.layer", flatLayerInfo.getLayerCount());
          }
 
-         GuiCreateFlatWorld.this.fontRendererObj.D(var16, var2 + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(var16), var3 + 3, 16777215);
+         GuiCreateFlatWorld.this.fontRendererObj.D(string2, i + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(string2), j + 3, 16777215);
       }
 
       @Override

@@ -19,18 +19,18 @@ public class ItemFlintAndSteel extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      var4 = var4.offset(var5);
-      if (!var2.canPlayerEdit(var4, var5, var1)) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      pos = pos.offset(side);
+      if (!playerIn.canPlayerEdit(pos, side, stack)) {
          return false;
       }
 
-      if (var3.getBlockState(var4).getBlock().getMaterial() == Material.air) {
-         var3.playSoundEffect(var4.getX() + 0.5, var4.getY() + 0.5, var4.getZ() + 0.5, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-         var3.setBlockState(var4, Blocks.fire.getDefaultState());
+      if (worldIn.getBlockState(pos).getBlock().getMaterial() == Material.air) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+         worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
       }
 
-      var1.damageItem(1, var2);
+      stack.damageItem(1, playerIn);
       return true;
    }
 }

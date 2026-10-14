@@ -105,40 +105,40 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    private boolean el;
    private static final long bb = 84607402890430L;
 
-   public EntityPlayerSP(Minecraft var1, World var2, NetHandlerPlayClient var3, StatFileWriter var4) {
-      super(var2, var3.getGameProfile());
-      this.sendQueue = var3;
-      this.statWriter = var4;
-      this.mc = var1;
+   public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
+      super(worldIn, netHandler.getGameProfile());
+      this.sendQueue = netHandler;
+      this.statWriter = statFile;
+      this.mc = mcIn;
       this.dimension = 0;
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
       return false;
    }
 
    @Override
-   public void heal(float var1) {
+   public void heal(float healAmount) {
    }
 
    @Override
-   public void mountEntity(Entity var1) {
-      super.mountEntity(var1);
-      if (var1 instanceof EntityMinecart) {
-         this.mc.getSoundHandler().playSound(new MovingSoundMinecartRiding(this, (EntityMinecart)var1));
+   public void mountEntity(Entity entityIn) {
+      super.mountEntity(entityIn);
+      if (entityIn instanceof EntityMinecart) {
+         this.mc.getSoundHandler().playSound(new MovingSoundMinecartRiding(this, (EntityMinecart)entityIn));
       }
    }
 
    @Override
    public void onUpdate() {
-      long var1 = bb ^ 91624362374408L;
-      long var3 = var1 ^ 44873893469189L;
+      long l = bb ^ 91624362374408L;
+      long m = l ^ 44873893469189L;
       if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0, this.posZ))) {
          Astolfo.INSTANCE.getEventBus().post(new UpdateEvent(EventState.PRE));
          super.onUpdate();
          Astolfo.INSTANCE.getEventBus().post(new UpdateEvent(EventState.POST));
-         boolean var6 = Astolfo.INSTANCE.getModuleManager().get(RiderGod.class).isEnabled();
+         boolean bl = Astolfo.INSTANCE.getModuleManager().get(RiderGod.class).isEnabled();
          if (this.E()) {
             this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
             this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
@@ -153,7 +153,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
    public void i() {
       if (!(this.mc.disablerTimer.timerSpeed > 1.0F) || this.mc.timer.timerSpeed != 1.0F) {
-         MotionEvent var4 = new MotionEvent(
+         MotionEvent motionEvent = new MotionEvent(
             this.sendQueue,
             this.getEntityBoundingBox(),
             this.onGround,
@@ -170,79 +170,79 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             this.eR,
             EventState.PRE
          );
-         Astolfo.INSTANCE.getEventBus().post(var4);
-         if (var4.isCancelled()) {
+         Astolfo.INSTANCE.getEventBus().post(motionEvent);
+         if (motionEvent.isCancelled()) {
             Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
          } else {
-            boolean var5 = this.isSprinting();
-            if (var5 != this.ej) {
-               if (var5) {
+            boolean bl = this.isSprinting();
+            if (bl != this.ej) {
+               if (bl) {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SPRINTING));
                } else {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SPRINTING));
                }
 
-               this.ej = var5;
+               this.ej = bl;
             }
 
-            boolean var6 = this.isSneaking();
-            if (var6 != this.eF) {
-               if (var6) {
+            boolean bl2 = this.isSneaking();
+            if (bl2 != this.eF) {
+               if (bl2) {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SNEAKING));
                } else {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SNEAKING));
                }
 
-               this.eF = var6;
+               this.eF = bl2;
             }
 
             if (this.Y_()) {
-               double var7 = var4.getX();
-               double var9 = var4.getMinY();
-               double var11 = var4.getZ();
-               float var13 = var4.getYaw();
-               float var14 = var4.getPitch();
-               double var15 = var7 - this.lastReportedPosX;
-               double var17 = var9 - this.lastReportedPosY;
-               double var19 = var11 - this.lastReportedPosZ;
-               double var21 = var13 - this.lastReportedYaw;
-               double var23 = var14 - this.lastReportedPitch;
-               boolean var25 = var15 * var15 + var17 * var17 + var19 * var19 > 9.0E-4 || this.eR >= 20;
-               boolean var26 = var21 != 0.0 || var23 != 0.0;
-               boolean var27 = var4.isOnGround();
+               double d = motionEvent.getX();
+               double e = motionEvent.getMinY();
+               double d2 = motionEvent.getZ();
+               float f = motionEvent.getYaw();
+               float g = motionEvent.getPitch();
+               double d3 = d - this.lastReportedPosX;
+               double d4 = e - this.lastReportedPosY;
+               double d5 = d2 - this.lastReportedPosZ;
+               double d6 = f - this.lastReportedYaw;
+               double d7 = g - this.lastReportedPitch;
+               boolean bl3 = d3 * d3 + d4 * d4 + d5 * d5 > 9.0E-4 || this.eR >= 20;
+               boolean bl4 = d6 != 0.0 || d7 != 0.0;
+               boolean bl5 = motionEvent.isOnGround();
                if (this.ridingEntity == null) {
-                  if (var25 && var26) {
-                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(var7, var9, var11, var13, var14, var27));
-                  } else if (var25) {
-                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(var7, var9, var11, var27));
-                  } else if (var26) {
-                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(var13, var14, var27));
+                  if (bl3 && bl4) {
+                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(d, e, d2, f, g, bl5));
+                  } else if (bl3) {
+                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(d, e, d2, bl5));
+                  } else if (bl4) {
+                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(f, g, bl5));
                   } else if (RiderGod.r()) {
-                     if (this.el != var27) {
-                        this.sendQueue.addToSendQueue(new C03PacketPlayer(var27));
+                     if (this.el != bl5) {
+                        this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                      }
                   } else {
-                     this.sendQueue.addToSendQueue(new C03PacketPlayer(var27));
+                     this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                   }
                } else {
-                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0, this.motionZ, var13, var14, var27));
-                  var25 = false;
+                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0, this.motionZ, f, g, bl5));
+                  bl3 = false;
                }
 
                this.eR++;
-               if (var25) {
-                  this.lastReportedPosX = var7;
-                  this.lastReportedPosY = var9;
-                  this.lastReportedPosZ = var11;
+               if (bl3) {
+                  this.lastReportedPosX = d;
+                  this.lastReportedPosY = e;
+                  this.lastReportedPosZ = d2;
                   this.eR = 0;
                }
 
-               if (var26) {
-                  this.lastReportedYaw = var13;
-                  this.lastReportedPitch = var14;
+               if (bl4) {
+                  this.lastReportedYaw = f;
+                  this.lastReportedPitch = g;
                }
 
-               this.el = var27;
+               this.el = bl5;
             }
 
             Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
@@ -251,7 +251,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    public void k() {
-      MotionEvent var4 = new MotionEvent(
+      MotionEvent motionEvent = new MotionEvent(
          this.sendQueue,
          this.getEntityBoundingBox(),
          this.onGround,
@@ -268,79 +268,79 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          this.eR,
          EventState.PRE
       );
-      Astolfo.INSTANCE.getEventBus().post(var4);
-      if (var4.isCancelled()) {
+      Astolfo.INSTANCE.getEventBus().post(motionEvent);
+      if (motionEvent.isCancelled()) {
          Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
       } else {
-         boolean var5 = this.isSprinting();
-         if (var5 != this.ej) {
-            if (var5) {
+         boolean bl = this.isSprinting();
+         if (bl != this.ej) {
+            if (bl) {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SPRINTING));
             } else {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SPRINTING));
             }
 
-            this.ej = var5;
+            this.ej = bl;
          }
 
-         boolean var6 = this.isSneaking();
-         if (var6 != this.eF) {
-            if (var6) {
+         boolean bl2 = this.isSneaking();
+         if (bl2 != this.eF) {
+            if (bl2) {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SNEAKING));
             } else {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SNEAKING));
             }
 
-            this.eF = var6;
+            this.eF = bl2;
          }
 
          if (this.Y_()) {
-            double var7 = var4.getX();
-            double var9 = var4.getMinY();
-            double var11 = var4.getZ();
-            float var13 = var4.getYaw();
-            float var14 = var4.getPitch();
-            double var15 = var7 - this.lastReportedPosX;
-            double var17 = var9 - this.lastReportedPosY;
-            double var19 = var11 - this.lastReportedPosZ;
-            double var21 = var13 - this.lastReportedYaw;
-            double var23 = var14 - this.lastReportedPitch;
-            boolean var25 = var15 * var15 + var17 * var17 + var19 * var19 > 9.0E-4 || this.eR >= 20;
-            boolean var26 = var21 != 0.0 || var23 != 0.0;
-            boolean var27 = var4.isOnGround();
+            double d = motionEvent.getX();
+            double e = motionEvent.getMinY();
+            double d2 = motionEvent.getZ();
+            float f = motionEvent.getYaw();
+            float g = motionEvent.getPitch();
+            double d3 = d - this.lastReportedPosX;
+            double d4 = e - this.lastReportedPosY;
+            double d5 = d2 - this.lastReportedPosZ;
+            double d6 = f - this.lastReportedYaw;
+            double d7 = g - this.lastReportedPitch;
+            boolean bl3 = d3 * d3 + d4 * d4 + d5 * d5 > 9.0E-4 || this.eR >= 20;
+            boolean bl4 = d6 != 0.0 || d7 != 0.0;
+            boolean bl5 = motionEvent.isOnGround();
             if (this.ridingEntity == null) {
-               if (var25 && var26) {
-                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(var7, var9, var11, var13, var14, var27));
-               } else if (var25) {
-                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(var7, var9, var11, var27));
-               } else if (var26) {
-                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(var13, var14, var27));
+               if (bl3 && bl4) {
+                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(d, e, d2, f, g, bl5));
+               } else if (bl3) {
+                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(d, e, d2, bl5));
+               } else if (bl4) {
+                  this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(f, g, bl5));
                } else if (RiderGod.r()) {
-                  if (this.el != var27) {
-                     this.sendQueue.addToSendQueue(new C03PacketPlayer(var27));
+                  if (this.el != bl5) {
+                     this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                   }
                } else {
-                  this.sendQueue.addToSendQueue(new C03PacketPlayer(var27));
+                  this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                }
             } else {
-               this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0, this.motionZ, var13, var14, var27));
-               var25 = false;
+               this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0, this.motionZ, f, g, bl5));
+               bl3 = false;
             }
 
             this.eR++;
-            if (var25) {
-               this.lastReportedPosX = var7;
-               this.lastReportedPosY = var9;
-               this.lastReportedPosZ = var11;
+            if (bl3) {
+               this.lastReportedPosX = d;
+               this.lastReportedPosY = e;
+               this.lastReportedPosZ = d2;
                this.eR = 0;
             }
 
-            if (var26) {
-               this.lastReportedYaw = var13;
-               this.lastReportedPitch = var14;
+            if (bl4) {
+               this.lastReportedYaw = f;
+               this.lastReportedPitch = g;
             }
 
-            this.el = var27;
+            this.el = bl5;
          }
 
          Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
@@ -348,30 +348,30 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public EntityItem dropOneItem(boolean var1) {
-      C07PacketPlayerDigging.Action var4 = var1 ? C07PacketPlayerDigging.Action.DROP_ALL_ITEMS : C07PacketPlayerDigging.Action.DROP_ITEM;
-      this.sendQueue.addToSendQueue(new C07PacketPlayerDigging(var4, BlockPos.ORIGIN, EnumFacing.DOWN));
+   public EntityItem dropOneItem(boolean dropAll) {
+      C07PacketPlayerDigging.Action action = dropAll ? C07PacketPlayerDigging.Action.DROP_ALL_ITEMS : C07PacketPlayerDigging.Action.DROP_ITEM;
+      this.sendQueue.addToSendQueue(new C07PacketPlayerDigging(action, BlockPos.ORIGIN, EnumFacing.DOWN));
       return null;
    }
 
    @Override
-   public void joinEntityItemWithWorld(EntityItem var1) {
+   public void joinEntityItemWithWorld(EntityItem itemIn) {
    }
 
-   public void sendChatMessage(String var1) {
-      ChatEvent var4 = new ChatEvent(ChatDirection.TO_SEND, var1);
-      Astolfo.INSTANCE.getEventBus().post(var4);
-      if (!var4.isCancelled()) {
-         this.sendQueue.addToSendQueue(new C01PacketChatMessage(var4.getMessage()));
+   public void sendChatMessage(String message) {
+      ChatEvent chatEvent = new ChatEvent(ChatDirection.TO_SEND, message);
+      Astolfo.INSTANCE.getEventBus().post(chatEvent);
+      if (!chatEvent.isCancelled()) {
+         this.sendQueue.addToSendQueue(new C01PacketChatMessage(chatEvent.getMessage()));
       }
    }
 
-   public void sendClientChatMessage(String var1) {
-      ChatEvent var4 = new ChatEvent(ChatDirection.TO_SEND, var1);
-      var4.setUserTyped(false);
-      Astolfo.INSTANCE.getEventBus().post(var4);
-      if (!var4.isCancelled()) {
-         this.sendQueue.addToSendQueue(new C01PacketChatMessage(var4.getMessage()));
+   public void sendClientChatMessage(String string) {
+      ChatEvent chatEvent = new ChatEvent(ChatDirection.TO_SEND, string);
+      chatEvent.setUserTyped(false);
+      Astolfo.INSTANCE.getEventBus().post(chatEvent);
+      if (!chatEvent.isCancelled()) {
+         this.sendQueue.addToSendQueue(new C01PacketChatMessage(chatEvent.getMessage()));
       }
    }
 
@@ -387,16 +387,16 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public void damageEntity(DamageSource var1, float var2) {
-      if (!this.isEntityInvulnerable(var1)) {
-         this.setHealth(this.getHealth() - var2);
+   public void damageEntity(DamageSource damageSrc, float damageAmount) {
+      if (!this.isEntityInvulnerable(damageSrc)) {
+         this.setHealth(this.getHealth() - damageAmount);
       }
    }
 
    @Override
    public void closeScreen() {
-      long var1 = bb ^ 80964073963857L;
-      long var3 = var1 ^ 55139246729308L;
+      long l = bb ^ 80964073963857L;
+      long m = l ^ 55139246729308L;
       if (!Astolfo.INSTANCE.getModuleManager().get(HideWindow.class).isEnabled()) {
          this.sendQueue.addToSendQueue(new C0DPacketCloseWindow(this.openContainer.windowId));
       } else if (this.mc.currentScreen instanceof GuiChest) {
@@ -413,31 +413,31 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       this.mc.displayGuiScreen((GuiScreen)null);
    }
 
-   public void setPlayerSPHealth(float var1) {
+   public void setPlayerSPHealth(float health) {
       if (this.hasValidHealth) {
-         float var5 = this.getHealth() - var1;
-         if (var5 <= 0.0F) {
-            this.setHealth(var1);
-            if (var5 < 0.0F) {
+         float f = this.getHealth() - health;
+         if (f <= 0.0F) {
+            this.setHealth(health);
+            if (f < 0.0F) {
                this.hurtResistantTime = this.maxHurtResistantTime / 2;
             }
          } else {
-            this.lastDamage = var5;
+            this.lastDamage = f;
             this.setHealth(this.getHealth());
             this.hurtResistantTime = this.maxHurtResistantTime;
-            this.damageEntity(DamageSource.generic, var5);
+            this.damageEntity(DamageSource.generic, f);
             this.hurtTime = this.maxHurtTime = 10;
          }
       } else {
-         this.setHealth(var1);
+         this.setHealth(health);
          this.hasValidHealth = true;
       }
    }
 
    @Override
-   public void addStat(StatBase var1, int var2) {
-      if (var1 != null && var1.isIndependent) {
-         super.addStat(var1, var2);
+   public void addStat(StatBase stat, int amount) {
+      if (stat != null && stat.isIndependent) {
+         super.addStat(stat, amount);
       }
    }
 
@@ -459,8 +459,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.OPEN_INVENTORY));
    }
 
-   public void setClientBrand(String var1) {
-      this.clientBrand = var1;
+   public void setClientBrand(String brand) {
+      this.clientBrand = brand;
    }
 
    public String getClientBrand() {
@@ -472,15 +472,15 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public void addChatComponentMessage(IChatComponent var1) {
-      this.mc.ingameGUI.getChatGUI().printChatMessage(var1);
+   public void addChatComponentMessage(IChatComponent chatComponent) {
+      this.mc.ingameGUI.getChatGUI().printChatMessage(chatComponent);
    }
 
    @Override
-   public boolean pushOutOfBlocks(double var1, double var3, double var5) {
-      PushOutOfBlocksEvent var10 = new PushOutOfBlocksEvent();
-      Astolfo.INSTANCE.getEventBus().post(var10);
-      if (var10.isCancelled()) {
+   public boolean pushOutOfBlocks(double x, double y, double z) {
+      PushOutOfBlocksEvent pushOutOfBlocksEvent = new PushOutOfBlocksEvent();
+      Astolfo.INSTANCE.getEventBus().post(pushOutOfBlocksEvent);
+      if (pushOutOfBlocksEvent.isCancelled()) {
          return false;
       }
 
@@ -488,77 +488,77 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          return false;
       }
 
-      BlockPos var11 = new BlockPos(var1, var3, var5);
-      double var12 = var1 - var11.getX();
-      double var14 = var5 - var11.getZ();
-      if (!this.isOpenBlockSpace(var11)) {
-         byte var16 = -1;
-         double var17 = 9999.0;
-         if (this.isOpenBlockSpace(var11.west()) && var12 < var17) {
-            var17 = var12;
-            var16 = 0;
+      BlockPos blockPos = new BlockPos(x, y, z);
+      double d = x - blockPos.getX();
+      double e = z - blockPos.getZ();
+      if (!this.isOpenBlockSpace(blockPos)) {
+         byte b = -1;
+         double d2 = 9999.0;
+         if (this.isOpenBlockSpace(blockPos.west()) && d < d2) {
+            d2 = d;
+            b = 0;
          }
 
-         if (this.isOpenBlockSpace(var11.east()) && 1.0 - var12 < var17) {
-            var17 = 1.0 - var12;
-            var16 = 1;
+         if (this.isOpenBlockSpace(blockPos.east()) && 1.0 - d < d2) {
+            d2 = 1.0 - d;
+            b = 1;
          }
 
-         if (this.isOpenBlockSpace(var11.north()) && var14 < var17) {
-            var17 = var14;
-            var16 = 4;
+         if (this.isOpenBlockSpace(blockPos.north()) && e < d2) {
+            d2 = e;
+            b = 4;
          }
 
-         if (this.isOpenBlockSpace(var11.south()) && 1.0 - var14 < var17) {
-            var17 = 1.0 - var14;
-            var16 = 5;
+         if (this.isOpenBlockSpace(blockPos.south()) && 1.0 - e < d2) {
+            d2 = 1.0 - e;
+            b = 5;
          }
 
-         float var19 = 0.1F;
-         if (var16 == 0) {
-            this.motionX = -var19;
+         float f = 0.1F;
+         if (b == 0) {
+            this.motionX = -f;
          }
 
-         if (var16 == 1) {
-            this.motionX = var19;
+         if (b == 1) {
+            this.motionX = f;
          }
 
-         if (var16 == 4) {
-            this.motionZ = -var19;
+         if (b == 4) {
+            this.motionZ = -f;
          }
 
-         if (var16 == 5) {
-            this.motionZ = var19;
+         if (b == 5) {
+            this.motionZ = f;
          }
       }
 
       return false;
    }
 
-   private boolean isOpenBlockSpace(BlockPos var1) {
-      return !this.worldObj.getBlockState(var1).getBlock().isNormalCube() && !this.worldObj.getBlockState(var1.up()).getBlock().isNormalCube();
+   private boolean isOpenBlockSpace(BlockPos pos) {
+      return !this.worldObj.getBlockState(pos).getBlock().isNormalCube() && !this.worldObj.getBlockState(pos.up()).getBlock().isNormalCube();
    }
 
    @Override
-   public void setSprinting(boolean var1) {
-      super.setSprinting(var1);
-      this.sprintingTicksLeft = var1 ? 600 : 0;
+   public void setSprinting(boolean sprinting) {
+      super.setSprinting(sprinting);
+      this.sprintingTicksLeft = sprinting ? 600 : 0;
    }
 
-   public void setXPStats(float var1, int var2, int var3) {
-      this.experience = var1;
-      this.experienceTotal = var2;
-      this.experienceLevel = var3;
-   }
-
-   @Override
-   public void addChatMessage(IChatComponent var1) {
-      this.mc.ingameGUI.getChatGUI().printChatMessage(var1);
+   public void setXPStats(float currentXP, int maxXP, int level) {
+      this.experience = currentXP;
+      this.experienceTotal = maxXP;
+      this.experienceLevel = level;
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(int var1, String var2) {
-      return var1 <= 0;
+   public void addChatMessage(IChatComponent component) {
+      this.mc.ingameGUI.getChatGUI().printChatMessage(component);
+   }
+
+   @Override
+   public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+      return permLevel <= 0;
    }
 
    @Override
@@ -567,8 +567,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public void playSound(String var1, float var2, float var3) {
-      this.worldObj.playSound(this.posX, this.posY, this.posZ, var1, var2, var3, false);
+   public void playSound(String name, float volume, float pitch) {
+      this.worldObj.playSound(this.posX, this.posY, this.posZ, name, volume, pitch, false);
    }
 
    @Override
@@ -585,89 +585,89 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public void openEditSign(TileEntitySign var1) {
-      this.mc.displayGuiScreen(new GuiEditSign(var1));
+   public void openEditSign(TileEntitySign signTile) {
+      this.mc.displayGuiScreen(new GuiEditSign(signTile));
    }
 
    @Override
-   public void openEditCommandBlock(CommandBlockLogic var1) {
-      this.mc.displayGuiScreen(new GuiCommandBlock(var1));
+   public void openEditCommandBlock(CommandBlockLogic cmdBlockLogic) {
+      this.mc.displayGuiScreen(new GuiCommandBlock(cmdBlockLogic));
    }
 
    @Override
-   public void displayGUIBook(ItemStack var1) {
-      Item var4 = var1.getItem();
-      if (var4 == Items.writable_book) {
-         this.mc.displayGuiScreen(new GuiScreenBook(this, var1, true));
+   public void displayGUIBook(ItemStack bookStack) {
+      Item item = bookStack.getItem();
+      if (item == Items.writable_book) {
+         this.mc.displayGuiScreen(new GuiScreenBook(this, bookStack, true));
       }
    }
 
    @Override
-   public void displayGUIChest(IInventory var1) {
-      String var5 = var1 instanceof IInteractionObject ? ((IInteractionObject)var1).getGuiID() : "minecraft:container";
-      if ("minecraft:chest".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiChest(this.inventory, var1));
-      } else if ("minecraft:hopper".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiHopper(this.inventory, var1));
-      } else if ("minecraft:furnace".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiFurnace(this.inventory, var1));
-      } else if ("minecraft:brewing_stand".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiBrewingStand(this.inventory, var1));
-      } else if ("minecraft:beacon".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiBeacon(this.inventory, var1));
-      } else if (!"minecraft:dispenser".equals(var5) && !"minecraft:dropper".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiChest(this.inventory, var1));
+   public void displayGUIChest(IInventory chestInventory) {
+      String string = chestInventory instanceof IInteractionObject ? ((IInteractionObject)chestInventory).getGuiID() : "minecraft:container";
+      if ("minecraft:chest".equals(string)) {
+         this.mc.displayGuiScreen(new GuiChest(this.inventory, chestInventory));
+      } else if ("minecraft:hopper".equals(string)) {
+         this.mc.displayGuiScreen(new GuiHopper(this.inventory, chestInventory));
+      } else if ("minecraft:furnace".equals(string)) {
+         this.mc.displayGuiScreen(new GuiFurnace(this.inventory, chestInventory));
+      } else if ("minecraft:brewing_stand".equals(string)) {
+         this.mc.displayGuiScreen(new GuiBrewingStand(this.inventory, chestInventory));
+      } else if ("minecraft:beacon".equals(string)) {
+         this.mc.displayGuiScreen(new GuiBeacon(this.inventory, chestInventory));
+      } else if (!"minecraft:dispenser".equals(string) && !"minecraft:dropper".equals(string)) {
+         this.mc.displayGuiScreen(new GuiChest(this.inventory, chestInventory));
       } else {
-         this.mc.displayGuiScreen(new GuiDispenser(this.inventory, var1));
+         this.mc.displayGuiScreen(new GuiDispenser(this.inventory, chestInventory));
       }
    }
 
    @Override
-   public void displayGUIHorse(EntityHorse var1, IInventory var2) {
-      this.mc.displayGuiScreen(new GuiScreenHorseInventory(this.inventory, var2, var1));
+   public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
+      this.mc.displayGuiScreen(new GuiScreenHorseInventory(this.inventory, horseInventory, horse));
    }
 
    @Override
-   public void displayGui(IInteractionObject var1) {
-      String var5 = var1.getGuiID();
-      if ("minecraft:crafting_table".equals(var5)) {
+   public void displayGui(IInteractionObject guiOwner) {
+      String string = guiOwner.getGuiID();
+      if ("minecraft:crafting_table".equals(string)) {
          this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj));
-      } else if ("minecraft:enchanting_table".equals(var5)) {
-         this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.worldObj, var1));
-      } else if ("minecraft:anvil".equals(var5)) {
+      } else if ("minecraft:enchanting_table".equals(string)) {
+         this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.worldObj, guiOwner));
+      } else if ("minecraft:anvil".equals(string)) {
          this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj));
       }
    }
 
    @Override
-   public void displayVillagerTradeGui(IMerchant var1) {
-      this.mc.displayGuiScreen(new GuiMerchant(this.inventory, var1, this.worldObj));
+   public void displayVillagerTradeGui(IMerchant villager) {
+      this.mc.displayGuiScreen(new GuiMerchant(this.inventory, villager, this.worldObj));
    }
 
    @Override
-   public void L(Entity var1) {
-      this.mc.effectRenderer.emitParticleAtEntity(var1, EnumParticleTypes.CRIT);
+   public void L(Entity entity) {
+      this.mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
    }
 
    @Override
-   public void x(Entity var1) {
-      this.mc.effectRenderer.emitParticleAtEntity(var1, EnumParticleTypes.CRIT_MAGIC);
+   public void x(Entity entity) {
+      this.mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
    }
 
    @Override
    public boolean isSneaking() {
-      boolean var4 = this.movementInput != null ? this.movementInput.sneak : false;
-      return var4 && !this.sleeping;
+      boolean bl = this.movementInput != null ? this.movementInput.sneak : false;
+      return bl && !this.sleeping;
    }
 
    @Override
    public void updateEntityActionState() {
-      float var4 = this.rotationYaw;
-      RotationYawEvent var5 = new RotationYawEvent(this.rotationYaw);
-      Astolfo.INSTANCE.getEventBus().post(var5);
-      this.rotationYaw = var5.getYaw();
+      float f = this.rotationYaw;
+      RotationYawEvent rotationYawEvent = new RotationYawEvent(this.rotationYaw);
+      Astolfo.INSTANCE.getEventBus().post(rotationYawEvent);
+      this.rotationYaw = rotationYawEvent.getYaw();
       super.updateEntityActionState();
-      this.rotationYaw = var4;
+      this.rotationYaw = f;
       if (this.Y_()) {
          this.moveStrafing = this.movementInput.moveStrafe;
          this.moveForward = this.movementInput.moveForward;
@@ -685,8 +685,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
    @Override
    public void onLivingUpdate() {
-      long var1 = bb ^ 135587691026694L;
-      long var3 = var1 ^ 910696673291L;
+      long l = bb ^ 135587691026694L;
+      long m = l ^ 910696673291L;
       if (this.sprintingTicksLeft > 0) {
          this.sprintingTicksLeft--;
          if (this.sprintingTicksLeft == 0) {
@@ -733,10 +733,10 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          this.timeUntilPortal--;
       }
 
-      boolean var7 = this.movementInput.jump;
-      boolean var8 = this.movementInput.sneak;
-      float var9 = 0.8F;
-      boolean var10 = this.movementInput.moveForward >= var9;
+      boolean bl = this.movementInput.jump;
+      boolean bl2 = this.movementInput.sneak;
+      float f = 0.8F;
+      boolean bl3 = this.movementInput.moveForward >= f;
       this.movementInput.updatePlayerMoveState();
       if (this.isUsingItem() && !this.E() && !ModuleManager.D.isEnabled()) {
          this.movementInput.moveStrafe *= 0.2F;
@@ -748,13 +748,13 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       this.pushOutOfBlocks(this.posX - this.width * 0.35, this.getEntityBoundingBox().minY + 0.5, this.posZ - this.width * 0.35);
       this.pushOutOfBlocks(this.posX + this.width * 0.35, this.getEntityBoundingBox().minY + 0.5, this.posZ - this.width * 0.35);
       this.pushOutOfBlocks(this.posX + this.width * 0.35, this.getEntityBoundingBox().minY + 0.5, this.posZ + this.width * 0.35);
-      boolean var11 = this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
+      boolean bl4 = this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
       if (this.onGround
-         && !var8
-         && !var10
-         && this.movementInput.moveForward >= var9
+         && !bl2
+         && !bl3
+         && this.movementInput.moveForward >= f
          && !this.isSprinting()
-         && var11
+         && bl4
          && !this.isUsingItem()
          && !this.isPotionActive(Potion.blindness)) {
          if (this.eD <= 0 && !this.mc.gameSettings.Ze.isKeyDown()) {
@@ -765,17 +765,17 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
 
       if (!this.isSprinting()
-         && this.movementInput.moveForward >= var9
-         && var11
+         && this.movementInput.moveForward >= f
+         && bl4
          && !this.isUsingItem()
          && !this.isPotionActive(Potion.blindness)
          && this.mc.gameSettings.Ze.isKeyDown()) {
          this.setSprinting(true);
       }
 
-      if (this.isSprinting() && (this.movementInput.moveForward < var9 || this.isCollidedHorizontally || !var11)) {
-         boolean var12 = Astolfo.INSTANCE.getModuleManager().get(Sprint.class).isEnabled();
-         if ((!var12 || !Sprint.omnidirectional.getValue())
+      if (this.isSprinting() && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !bl4)) {
+         boolean bl5 = Astolfo.INSTANCE.getModuleManager().get(Sprint.class).isEnabled();
+         if ((!bl5 || !Sprint.omnidirectional.getValue())
             && (Speed.mode.getValue() != SpeedMode.WATCHDOG || !Astolfo.INSTANCE.getModuleManager().get(Speed.class).isEnabled())) {
             this.setSprinting(false);
          }
@@ -787,7 +787,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                this.capabilities.isFlying = true;
                this.sendPlayerAbilities();
             }
-         } else if (!var7 && this.movementInput.jump) {
+         } else if (!bl && this.movementInput.jump) {
             if (this.flyToggleTimer == 0) {
                this.flyToggleTimer = 7;
             } else {
@@ -816,13 +816,13 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             }
          }
 
-         if (var7 && !this.movementInput.jump) {
+         if (bl && !this.movementInput.jump) {
             this.eU = -10;
             this.sendHorseJump();
-         } else if (!var7 && this.movementInput.jump) {
+         } else if (!bl && this.movementInput.jump) {
             this.eU = 0;
             this.horseJumpPower = 0.0F;
-         } else if (var7) {
+         } else if (bl) {
             this.eU++;
             if (this.eU < 10) {
                this.horseJumpPower = this.eU * 0.1F;
@@ -842,41 +842,41 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public void moveEntity(double var1, double var3, double var5) {
-      MoveEvent var9 = new MoveEvent(var1, var3, var5);
-      Astolfo.INSTANCE.getEventBus().post(var9);
-      super.moveEntity(var9.getX(), var9.getY(), var9.getZ());
+   public void moveEntity(double x, double y, double z) {
+      MoveEvent moveEvent = new MoveEvent(x, y, z);
+      Astolfo.INSTANCE.getEventBus().post(moveEvent);
+      super.moveEntity(moveEvent.getX(), moveEvent.getY(), moveEvent.getZ());
       Astolfo.INSTANCE.getEventBus().post(new MoveEvent());
    }
 
    @Override
-   public void moveEntityWithHeading(float var1, float var2) {
-      MoveWithHeadingEvent var6 = new MoveWithHeadingEvent(EventState.PRE, var1, var2);
-      Astolfo.INSTANCE.getEventBus().post(var6);
-      if (!var6.isCancelled()) {
-         super.moveEntityWithHeading(var6.getStrafe(), var6.getForward());
+   public void moveEntityWithHeading(float strafe, float forward) {
+      MoveWithHeadingEvent moveWithHeadingEvent = new MoveWithHeadingEvent(EventState.PRE, strafe, forward);
+      Astolfo.INSTANCE.getEventBus().post(moveWithHeadingEvent);
+      if (!moveWithHeadingEvent.isCancelled()) {
+         super.moveEntityWithHeading(moveWithHeadingEvent.getStrafe(), moveWithHeadingEvent.getForward());
          Astolfo.INSTANCE.getEventBus().post(new MoveWithHeadingEvent(EventState.POST));
       }
    }
 
-   public boolean m(double var1) {
-      return !this.mc.theWorld.getCollidingBoundingBoxes(this, this.getEntityBoundingBox().offset(0.0, -var1, 0.0)).isEmpty();
+   public boolean m(double d) {
+      return !this.mc.theWorld.getCollidingBoundingBoxes(this, this.getEntityBoundingBox().offset(0.0, -d, 0.0)).isEmpty();
    }
 
    public double B() {
       return Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
    }
 
-   public void r(double var1) {
-      this.motionX = -(Math.sin(this.q()) * var1);
-      this.motionZ = Math.cos(this.q()) * var1;
+   public void r(double d) {
+      this.motionX = -(Math.sin(this.q()) * d);
+      this.motionZ = Math.cos(this.q()) * d;
    }
 
-   public void G(double var1) {
-      float var6 = this.q();
+   public void G(double d) {
+      float f = this.q();
       if (GameUtil.isMoving(this)) {
-         this.motionX = -MathHelper.sin(var6) * var1;
-         this.motionZ = MathHelper.cos(var6) * var1;
+         this.motionX = -MathHelper.sin(f) * d;
+         this.motionZ = MathHelper.cos(f) * d;
       } else {
          this.motionX = 0.0;
          this.motionZ = 0.0;
@@ -884,59 +884,59 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    public float q() {
-      float var4 = this.rotationYaw;
+      float f = this.rotationYaw;
       if (this.moveForward < 0.0F) {
-         var4 += 180.0F;
+         f += 180.0F;
       }
 
-      float var5 = 1.0F;
+      float g = 1.0F;
       if (this.moveForward < 0.0F) {
-         var5 = -0.5F;
+         g = -0.5F;
       } else if (this.moveForward > 0.0F) {
-         var5 = 0.5F;
+         g = 0.5F;
       }
 
       if (this.moveStrafing > 0.0F) {
-         var4 -= 90.0F * var5;
+         f -= 90.0F * g;
       } else if (this.moveStrafing < 0.0F) {
-         var4 += 90.0F * var5;
+         f += 90.0F * g;
       }
 
-      return var4 * (float) (Math.PI / 180.0);
+      return f * (float) (Math.PI / 180.0);
    }
 
-   public double T(Entity var1) {
-      Vec3 var2 = this.getPositionEyes(1.0F);
-      Vec3 var3 = this.d(var2, var1.getEntityBoundingBox());
-      double var4 = Math.abs(var3.xCoord - var2.xCoord);
-      double var6 = Math.abs(var3.yCoord - var2.yCoord);
-      double var8 = Math.abs(var3.zCoord - var2.zCoord);
-      return Math.sqrt(Math.pow(var4, 2.0) + Math.pow(var6, 2.0) + Math.pow(var8, 2.0));
+   public double T(Entity entity) {
+      Vec3 vec3 = this.getPositionEyes(1.0F);
+      Vec3 vec32 = this.d(vec3, entity.getEntityBoundingBox());
+      double e = Math.abs(vec32.xCoord - vec3.xCoord);
+      double d2 = Math.abs(vec32.yCoord - vec3.yCoord);
+      double d3 = Math.abs(vec32.zCoord - vec3.zCoord);
+      return Math.sqrt(Math.pow(e, 2.0) + Math.pow(d2, 2.0) + Math.pow(d3, 2.0));
    }
 
-   public Vec3 d(Vec3 var1, AxisAlignedBB var2) {
-      double[] var6 = new double[]{var1.xCoord, var1.yCoord, var1.zCoord};
-      double[] var7 = new double[]{var2.minX, var2.minY, var2.minZ};
-      double[] var8 = new double[]{var2.maxX, var2.maxY, var2.maxZ};
+   public Vec3 d(Vec3 vec3, AxisAlignedBB axisAlignedBB) {
+      double[] doubles = new double[]{vec3.xCoord, vec3.yCoord, vec3.zCoord};
+      double[] doubles2 = new double[]{axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.minZ};
+      double[] doubles3 = new double[]{axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.maxZ};
 
-      for (int var9 = 0; var9 < 2; var9++) {
-         if (var6[var9] > var8[var9]) {
-            var6[var9] = var8[var9];
-         } else if (var6[var9] < var7[var9]) {
-            var6[var9] = var7[var9];
+      for (int i = 0; i < 2; i++) {
+         if (doubles[i] > doubles3[i]) {
+            doubles[i] = doubles3[i];
+         } else if (doubles[i] < doubles2[i]) {
+            doubles[i] = doubles2[i];
          }
       }
 
-      return new Vec3(var6[0], var6[1], var6[2]);
+      return new Vec3(doubles[0], doubles[1], doubles[2]);
    }
 
    public boolean T() {
-      double var4 = this.posY - 0.03;
+      double d = this.posY - 0.03;
 
-      for (int var6 = MathHelper.floor_double(this.posX); var6 < MathHelper.ceiling_double_int(this.posX); var6++) {
-         for (int var7 = MathHelper.floor_double(this.posZ); var7 < MathHelper.ceiling_double_int(this.posZ); var7++) {
-            BlockPos var8 = new BlockPos(var6, MathHelper.floor_double(var4), var7);
-            if (Minecraft.getMinecraft().theWorld.getBlockState(var8).getBlock() instanceof BlockLiquid) {
+      for (int i = MathHelper.floor_double(this.posX); i < MathHelper.ceiling_double_int(this.posX); i++) {
+         for (int j = MathHelper.floor_double(this.posZ); j < MathHelper.ceiling_double_int(this.posZ); j++) {
+            BlockPos blockPos = new BlockPos(i, MathHelper.floor_double(d), j);
+            if (Minecraft.getMinecraft().theWorld.getBlockState(blockPos).getBlock() instanceof BlockLiquid) {
                return true;
             }
          }
@@ -946,12 +946,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    public boolean Yv() {
-      double var4 = this.posY + 0.01;
+      double d = this.posY + 0.01;
 
-      for (int var6 = MathHelper.floor_double(this.posX); var6 < MathHelper.ceiling_double_int(this.posX); var6++) {
-         for (int var7 = MathHelper.floor_double(this.posZ); var7 < MathHelper.ceiling_double_int(this.posZ); var7++) {
-            BlockPos var8 = new BlockPos(var6, (int)var4, var7);
-            if (Minecraft.getMinecraft().theWorld.getBlockState(var8).getBlock() instanceof BlockLiquid) {
+      for (int i = MathHelper.floor_double(this.posX); i < MathHelper.ceiling_double_int(this.posX); i++) {
+         for (int j = MathHelper.floor_double(this.posZ); j < MathHelper.ceiling_double_int(this.posZ); j++) {
+            BlockPos blockPos = new BlockPos(i, (int)d, j);
+            if (Minecraft.getMinecraft().theWorld.getBlockState(blockPos).getBlock() instanceof BlockLiquid) {
                return true;
             }
          }

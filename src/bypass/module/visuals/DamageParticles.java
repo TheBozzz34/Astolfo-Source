@@ -31,50 +31,50 @@ public final class DamageParticles extends Module {
    private final ColorSetting healColor = new ColorSetting("Heal-Color", "Heal-Color", Color.GREEN);
    private final ColorSetting damageColor = new ColorSetting("Damage-Color", "Damage-Color", Color.RED);
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.WORLD) {
-         for (Entity var6 : mc.theWorld.loadedEntityList) {
-            if (var6 instanceof EntityLivingBase && !(var6 instanceof EntityPlayerSP)) {
-               EntityLivingBase var7 = (EntityLivingBase)var6;
-               if (!Double.isNaN(var7.getHealth())) {
-                  int var8 = (int)Math.ceil(var7.getHealth());
-                  Float var9 = this.O.get(var7.getEntityId());
-                  if (var9 != null) {
-                     int var10 = (int)Math.ceil(var9.floatValue());
-                     this.g(var6, var10 - var8);
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.WORLD) {
+         for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayerSP)) {
+               EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+               if (!Double.isNaN(entityLivingBase.getHealth())) {
+                  int i = (int)Math.ceil(entityLivingBase.getHealth());
+                  Float float2 = this.O.get(entityLivingBase.getEntityId());
+                  if (float2 != null) {
+                     int j = (int)Math.ceil(float2.floatValue());
+                     this.g(entity, j - i);
                   }
 
-                  this.O.put(var6.getEntityId(), var7.getHealth());
+                  this.O.put(entity.getEntityId(), entityLivingBase.getHealth());
                }
             }
          }
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = var1x -> this.O.clear();
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.O.clear();
    private static final long c = 56396412993634L;
 
-   public DamageParticles(Category var1) {
-      super(var1);
+   public DamageParticles(Category category) {
+      super(category);
       this.addSettings(this.healColor, this.damageColor, this.duration, this.gravity, this.size, this.grow, this.random, this.staticSetting, this.hearts);
       this.setHidden(false);
    }
 
-   private void g(Entity var1, int var2) {
-      if (var2 != 0) {
-         World var5 = var1.worldObj;
-         double var6 = this.random.getValue() ? var5.rand.nextGaussian() * 0.02 : 0.0;
-         double var8 = 0.5;
-         double var10 = this.random.getValue() ? var5.rand.nextGaussian() * 0.02 : 0.0;
-         DamageParticle var12 = new DamageParticle(
-            var2,
-            var5,
-            var1.posX,
-            var1.posY + var1.height,
-            var1.posZ,
-            var6,
-            var8,
-            var10,
+   private void g(Entity entity, int i) {
+      if (i != 0) {
+         World world = entity.worldObj;
+         double d = this.random.getValue() ? world.rand.nextGaussian() * 0.02 : 0.0;
+         double e = 0.5;
+         double d2 = this.random.getValue() ? world.rand.nextGaussian() * 0.02 : 0.0;
+         DamageParticle damageParticle = new DamageParticle(
+            i,
+            world,
+            entity.posX,
+            entity.posY + entity.height,
+            entity.posZ,
+            d,
+            e,
+            d2,
             this.gravity.getValue(),
             this.size.getValue(),
             this.duration.getValue(),
@@ -84,7 +84,7 @@ public final class DamageParticles extends Module {
             this.healColor.getValue(),
             this.damageColor.getValue()
          );
-         mc.effectRenderer.addEffect(var12);
+         mc.effectRenderer.addEffect(damageParticle);
       }
    }
 }

@@ -1,5 +1,5 @@
 package net.minecraft.src;
 
 public interface IParserInt {
-   int E(String var1, int var2);
+   int E(String string, int i);
 }

@@ -14,199 +14,154 @@ import net.minecraft.world.chunk.ChunkPrimer;
 public class MapGenCaves extends MapGenBase {
    private static final long c = 122376795312720L;
 
-   public void func_180703_a(long var1, int var3, int var4, ChunkPrimer var5, double var6, double var8, double var10) {
-      this.func_180702_a(var1, var3, var4, var5, var6, var8, var10, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5);
+   public void func_180703_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3) {
+      this.func_180702_a(l, i, j, chunkPrimer, d, d2, d3, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5);
    }
 
-   public void func_180702_a(
-      long var1,
-      int var3,
-      int var4,
-      ChunkPrimer var5,
-      double var6,
-      double var8,
-      double var10,
-      float var12,
-      float var13,
-      float var14,
-      int var15,
-      int var16,
-      double var17
-   ) {
-      double var22 = var3 * 16 + 8;
-      double var24 = var4 * 16 + 8;
-      float var26 = 0.0F;
-      float var27 = 0.0F;
-      Random var28 = new Random(var1);
-      if (var16 <= 0) {
-         int var29 = this.range * 16 - 16;
-         var16 = var29 - var28.nextInt(var29 / 4);
+   public void func_180702_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3, float f, float g, float h, int k, int m, double d4) {
+      double e = i * 16 + 8;
+      double d5 = j * 16 + 8;
+      float f2 = 0.0F;
+      float f3 = 0.0F;
+      Random random = new Random(l);
+      if (m <= 0) {
+         int n = this.range * 16 - 16;
+         m = n - random.nextInt(n / 4);
       }
 
-      boolean var69 = false;
-      if (var15 == -1) {
-         var15 = var16 / 2;
-         var69 = true;
+      boolean bl = false;
+      if (k == -1) {
+         k = m / 2;
+         bl = true;
       }
 
-      int var30 = var28.nextInt(var16 / 2) + var16 / 4;
-      boolean var31 = var28.nextInt(6) == 0;
+      int i2 = random.nextInt(m / 2) + m / 4;
+      boolean bl2 = random.nextInt(6) == 0;
 
-      while (var15 < var16) {
-         double var32 = 1.5 + MathHelper.sin(var15 * (float) Math.PI / var16) * var12 * 1.0F;
-         double var34 = var32 * var17;
-         float var36 = MathHelper.cos(var14);
-         float var37 = MathHelper.sin(var14);
-         var6 += MathHelper.cos(var13) * var36;
-         var8 += var37;
-         var10 += MathHelper.sin(var13) * var36;
-         if (var31) {
-            var14 *= 0.92F;
+      while (k < m) {
+         double d6 = 1.5 + MathHelper.sin(k * (float) Math.PI / m) * f * 1.0F;
+         double d7 = d6 * d4;
+         float f4 = MathHelper.cos(h);
+         float f5 = MathHelper.sin(h);
+         d += MathHelper.cos(g) * f4;
+         d2 += f5;
+         d3 += MathHelper.sin(g) * f4;
+         if (bl2) {
+            h *= 0.92F;
          } else {
-            var14 *= 0.7F;
+            h *= 0.7F;
          }
 
-         var14 += var27 * 0.1F;
-         var13 += var26 * 0.1F;
-         var27 *= 0.9F;
-         var26 *= 0.75F;
-         var27 += (var28.nextFloat() - var28.nextFloat()) * var28.nextFloat() * 2.0F;
-         var26 += (var28.nextFloat() - var28.nextFloat()) * var28.nextFloat() * 4.0F;
-         if (!var69 && var15 == var30 && var12 > 1.0F && var16 > 0) {
-            this.func_180702_a(
-               var28.nextLong(),
-               var3,
-               var4,
-               var5,
-               var6,
-               var8,
-               var10,
-               var28.nextFloat() * 0.5F + 0.5F,
-               var13 - (float) (Math.PI / 2),
-               var14 / 3.0F,
-               var15,
-               var16,
-               1.0
-            );
-            this.func_180702_a(
-               var28.nextLong(),
-               var3,
-               var4,
-               var5,
-               var6,
-               var8,
-               var10,
-               var28.nextFloat() * 0.5F + 0.5F,
-               var13 + (float) (Math.PI / 2),
-               var14 / 3.0F,
-               var15,
-               var16,
-               1.0
-            );
+         h += f3 * 0.1F;
+         g += f2 * 0.1F;
+         f3 *= 0.9F;
+         f2 *= 0.75F;
+         f3 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
+         f2 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
+         if (!bl && k == i2 && f > 1.0F && m > 0) {
+            this.func_180702_a(random.nextLong(), i, j, chunkPrimer, d, d2, d3, random.nextFloat() * 0.5F + 0.5F, g - (float) (Math.PI / 2), h / 3.0F, k, m, 1.0);
+            this.func_180702_a(random.nextLong(), i, j, chunkPrimer, d, d2, d3, random.nextFloat() * 0.5F + 0.5F, g + (float) (Math.PI / 2), h / 3.0F, k, m, 1.0);
             return;
          }
 
-         if (var69 || var28.nextInt(4) != 0) {
-            double var38 = var6 - var22;
-            double var40 = var10 - var24;
-            double var42 = var16 - var15;
-            double var44 = var12 + 2.0F + 16.0F;
-            if (var38 * var38 + var40 * var40 - var42 * var42 > var44 * var44) {
+         if (bl || random.nextInt(4) != 0) {
+            double d8 = d - e;
+            double d9 = d3 - d5;
+            double d10 = m - k;
+            double d11 = f + 2.0F + 16.0F;
+            if (d8 * d8 + d9 * d9 - d10 * d10 > d11 * d11) {
                return;
             }
 
-            if (var6 >= var22 - 16.0 - var32 * 2.0
-               && var10 >= var24 - 16.0 - var32 * 2.0
-               && var6 <= var22 + 16.0 + var32 * 2.0
-               && var10 <= var24 + 16.0 + var32 * 2.0) {
-               int var46 = MathHelper.floor_double(var6 - var32) - var3 * 16 - 1;
-               int var47 = MathHelper.floor_double(var6 + var32) - var3 * 16 + 1;
-               int var48 = MathHelper.floor_double(var8 - var34) - 1;
-               int var49 = MathHelper.floor_double(var8 + var34) + 1;
-               int var50 = MathHelper.floor_double(var10 - var32) - var4 * 16 - 1;
-               int var51 = MathHelper.floor_double(var10 + var32) - var4 * 16 + 1;
-               if (var46 < 0) {
-                  var46 = 0;
+            if (d >= e - 16.0 - d6 * 2.0 && d3 >= d5 - 16.0 - d6 * 2.0 && d <= e + 16.0 + d6 * 2.0 && d3 <= d5 + 16.0 + d6 * 2.0) {
+               int i3 = MathHelper.floor_double(d - d6) - i * 16 - 1;
+               int i4 = MathHelper.floor_double(d + d6) - i * 16 + 1;
+               int i5 = MathHelper.floor_double(d2 - d7) - 1;
+               int i6 = MathHelper.floor_double(d2 + d7) + 1;
+               int i7 = MathHelper.floor_double(d3 - d6) - j * 16 - 1;
+               int i8 = MathHelper.floor_double(d3 + d6) - j * 16 + 1;
+               if (i3 < 0) {
+                  i3 = 0;
                }
 
-               if (var47 > 16) {
-                  var47 = 16;
+               if (i4 > 16) {
+                  i4 = 16;
                }
 
-               if (var48 < 1) {
-                  var48 = 1;
+               if (i5 < 1) {
+                  i5 = 1;
                }
 
-               if (var49 > 248) {
-                  var49 = 248;
+               if (i6 > 248) {
+                  i6 = 248;
                }
 
-               if (var50 < 0) {
-                  var50 = 0;
+               if (i7 < 0) {
+                  i7 = 0;
                }
 
-               if (var51 > 16) {
-                  var51 = 16;
+               if (i8 > 16) {
+                  i8 = 16;
                }
 
-               boolean var52 = false;
+               boolean bl3 = false;
 
-               for (int var53 = var46; !var52 && var53 < var47; var53++) {
-                  for (int var54 = var50; !var52 && var54 < var51; var54++) {
-                     for (int var55 = var49 + 1; !var52 && var55 >= var48 - 1; var55--) {
-                        if (var55 >= 0 && var55 < 256) {
-                           IBlockState var56 = var5.getBlockState(var53, var55, var54);
-                           if (var56.getBlock() == Blocks.flowing_water || var56.getBlock() == Blocks.water) {
-                              var52 = true;
+               for (int i9 = i3; !bl3 && i9 < i4; i9++) {
+                  for (int i10 = i7; !bl3 && i10 < i8; i10++) {
+                     for (int i11 = i6 + 1; !bl3 && i11 >= i5 - 1; i11--) {
+                        if (i11 >= 0 && i11 < 256) {
+                           IBlockState iBlockState = chunkPrimer.getBlockState(i9, i11, i10);
+                           if (iBlockState.getBlock() == Blocks.flowing_water || iBlockState.getBlock() == Blocks.water) {
+                              bl3 = true;
                            }
 
-                           if (var55 != var48 - 1 && var53 != var46 && var53 != var47 - 1 && var54 != var50 && var54 != var51 - 1) {
-                              var55 = var48;
+                           if (i11 != i5 - 1 && i9 != i3 && i9 != i4 - 1 && i10 != i7 && i10 != i8 - 1) {
+                              i11 = i5;
                            }
                         }
                      }
                   }
                }
 
-               if (!var52) {
-                  BlockPos.MutableBlockPos var70 = new BlockPos.MutableBlockPos();
+               if (!bl3) {
+                  BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-                  for (int var71 = var46; var71 < var47; var71++) {
-                     double var72 = (var71 + var3 * 16 + 0.5 - var6) / var32;
+                  for (int i12 = i3; i12 < i4; i12++) {
+                     double d12 = (i12 + i * 16 + 0.5 - d) / d6;
 
-                     for (int var57 = var50; var57 < var51; var57++) {
-                        double var58 = (var57 + var4 * 16 + 0.5 - var10) / var32;
-                        boolean var60 = false;
-                        if (var72 * var72 + var58 * var58 < 1.0) {
-                           for (int var61 = var49; var61 > var48; var61--) {
-                              double var62 = (var61 - 1 + 0.5 - var8) / var34;
-                              if (var62 > -0.7 && var72 * var72 + var62 * var62 + var58 * var58 < 1.0) {
-                                 IBlockState var64 = var5.getBlockState(var71, var61, var57);
-                                 IBlockState var65 = Objects.firstNonNull(var5.getBlockState(var71, var61 + 1, var57), Blocks.air.getDefaultState());
-                                 if (var64.getBlock() == Blocks.grass || var64.getBlock() == Blocks.mycelium) {
-                                    var60 = true;
+                     for (int i13 = i7; i13 < i8; i13++) {
+                        double d13 = (i13 + j * 16 + 0.5 - d3) / d6;
+                        boolean bl4 = false;
+                        if (d12 * d12 + d13 * d13 < 1.0) {
+                           for (int i14 = i6; i14 > i5; i14--) {
+                              double d14 = (i14 - 1 + 0.5 - d2) / d7;
+                              if (d14 > -0.7 && d12 * d12 + d14 * d14 + d13 * d13 < 1.0) {
+                                 IBlockState iBlockState2 = chunkPrimer.getBlockState(i12, i14, i13);
+                                 IBlockState iBlockState3 = Objects.firstNonNull(chunkPrimer.getBlockState(i12, i14 + 1, i13), Blocks.air.getDefaultState());
+                                 if (iBlockState2.getBlock() == Blocks.grass || iBlockState2.getBlock() == Blocks.mycelium) {
+                                    bl4 = true;
                                  }
 
-                                 if (this.func_175793_a(var64, var65)) {
-                                    if (var61 - 1 < 10) {
-                                       var5.setBlockState(var71, var61, var57, Blocks.lava.getDefaultState());
+                                 if (this.func_175793_a(iBlockState2, iBlockState3)) {
+                                    if (i14 - 1 < 10) {
+                                       chunkPrimer.setBlockState(i12, i14, i13, Blocks.lava.getDefaultState());
                                     } else {
-                                       var5.setBlockState(var71, var61, var57, Blocks.air.getDefaultState());
-                                       if (var65.getBlock() == Blocks.sand) {
-                                          var5.setBlockState(
-                                             var71,
-                                             var61 + 1,
-                                             var57,
-                                             var65.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND
+                                       chunkPrimer.setBlockState(i12, i14, i13, Blocks.air.getDefaultState());
+                                       if (iBlockState3.getBlock() == Blocks.sand) {
+                                          chunkPrimer.setBlockState(
+                                             i12,
+                                             i14 + 1,
+                                             i13,
+                                             iBlockState3.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND
                                                 ? Blocks.red_sandstone.getDefaultState()
                                                 : Blocks.sandstone.getDefaultState()
                                           );
                                        }
 
-                                       if (var60 && var5.getBlockState(var71, var61 - 1, var57).getBlock() == Blocks.dirt) {
-                                          var70.set(var71 + var3 * 16, 0, var57 + var4 * 16);
-                                          var5.setBlockState(
-                                             var71, var61 - 1, var57, this.worldObj.getBiomeGenForCoords(var70).topBlock.getBlock().getDefaultState()
+                                       if (bl4 && chunkPrimer.getBlockState(i12, i14 - 1, i13).getBlock() == Blocks.dirt) {
+                                          mutableBlockPos.set(i12 + i * 16, 0, i13 + j * 16);
+                                          chunkPrimer.setBlockState(
+                                             i12, i14 - 1, i13, this.worldObj.getBiomeGenForCoords(mutableBlockPos).topBlock.getBlock().getDefaultState()
                                           );
                                        }
                                     }
@@ -217,46 +172,46 @@ public class MapGenCaves extends MapGenBase {
                      }
                   }
 
-                  if (var69) {
+                  if (bl) {
                      break;
                   }
                }
             }
          }
 
-         var15++;
+         k++;
       }
    }
 
-   public boolean func_175793_a(IBlockState var1, IBlockState var2) {
-      return var1.getBlock() == Blocks.stone
+   public boolean func_175793_a(IBlockState iBlockState, IBlockState iBlockState2) {
+      return iBlockState.getBlock() == Blocks.stone
          ? true
          : (
-            var1.getBlock() == Blocks.dirt
+            iBlockState.getBlock() == Blocks.dirt
                ? true
                : (
-                  var1.getBlock() == Blocks.grass
+                  iBlockState.getBlock() == Blocks.grass
                      ? true
                      : (
-                        var1.getBlock() == Blocks.hardened_clay
+                        iBlockState.getBlock() == Blocks.hardened_clay
                            ? true
                            : (
-                              var1.getBlock() == Blocks.stained_hardened_clay
+                              iBlockState.getBlock() == Blocks.stained_hardened_clay
                                  ? true
                                  : (
-                                    var1.getBlock() == Blocks.sandstone
+                                    iBlockState.getBlock() == Blocks.sandstone
                                        ? true
                                        : (
-                                          var1.getBlock() == Blocks.red_sandstone
+                                          iBlockState.getBlock() == Blocks.red_sandstone
                                              ? true
                                              : (
-                                                var1.getBlock() == Blocks.mycelium
+                                                iBlockState.getBlock() == Blocks.mycelium
                                                    ? true
                                                    : (
-                                                      var1.getBlock() == Blocks.snow_layer
+                                                      iBlockState.getBlock() == Blocks.snow_layer
                                                          ? true
-                                                         : (var1.getBlock() == Blocks.sand || var1.getBlock() == Blocks.gravel)
-                                                            && var2.getBlock().getMaterial() != Material.water
+                                                         : (iBlockState.getBlock() == Blocks.sand || iBlockState.getBlock() == Blocks.gravel)
+                                                            && iBlockState2.getBlock().getMaterial() != Material.water
                                                    )
                                              )
                                        )
@@ -268,31 +223,31 @@ public class MapGenCaves extends MapGenBase {
    }
 
    @Override
-   public void recursiveGenerate(World var1, int var2, int var3, int var4, int var5, ChunkPrimer var6) {
-      int var10 = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
+   public void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int i, int j, ChunkPrimer chunkPrimerIn) {
+      int k = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
       if (this.rand.nextInt(7) != 0) {
-         var10 = 0;
+         k = 0;
       }
 
-      for (int var11 = 0; var11 < var10; var11++) {
-         double var12 = var2 * 16 + this.rand.nextInt(16);
-         double var14 = this.rand.nextInt(this.rand.nextInt(120) + 8);
-         double var16 = var3 * 16 + this.rand.nextInt(16);
-         int var18 = 1;
+      for (int l = 0; l < k; l++) {
+         double d = chunkX * 16 + this.rand.nextInt(16);
+         double e = this.rand.nextInt(this.rand.nextInt(120) + 8);
+         double d2 = chunkZ * 16 + this.rand.nextInt(16);
+         int m = 1;
          if (this.rand.nextInt(4) == 0) {
-            this.func_180703_a(this.rand.nextLong(), var4, var5, var6, var12, var14, var16);
-            var18 += this.rand.nextInt(4);
+            this.func_180703_a(this.rand.nextLong(), i, j, chunkPrimerIn, d, e, d2);
+            m += this.rand.nextInt(4);
          }
 
-         for (int var19 = 0; var19 < var18; var19++) {
-            float var20 = this.rand.nextFloat() * (float) Math.PI * 2.0F;
-            float var21 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
-            float var22 = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
+         for (int n = 0; n < m; n++) {
+            float f = this.rand.nextFloat() * (float) Math.PI * 2.0F;
+            float g = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
+            float h = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
             if (this.rand.nextInt(10) == 0) {
-               var22 *= this.rand.nextFloat() * this.rand.nextFloat() * 3.0F + 1.0F;
+               h *= this.rand.nextFloat() * this.rand.nextFloat() * 3.0F + 1.0F;
             }
 
-            this.func_180702_a(this.rand.nextLong(), var4, var5, var6, var12, var14, var16, var22, var20, var21, 0, 0, 1.0);
+            this.func_180702_a(this.rand.nextLong(), i, j, chunkPrimerIn, d, e, d2, h, f, g, 0, 0, 1.0);
          }
       }
    }

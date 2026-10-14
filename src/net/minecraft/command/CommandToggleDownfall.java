@@ -17,18 +17,18 @@ public class CommandToggleDownfall extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.downfall.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
       this.toggleDownfall();
-      notifyOperators(var1, this, "commands.downfall.success");
+      notifyOperators(sender, this, "commands.downfall.success");
    }
 
    public void toggleDownfall() {
-      WorldInfo var4 = MinecraftServer.getServer().worldServers[0].getWorldInfo();
-      var4.setRaining(!var4.isRaining());
+      WorldInfo worldInfo = MinecraftServer.getServer().worldServers[0].getWorldInfo();
+      worldInfo.setRaining(!worldInfo.isRaining());
    }
 }

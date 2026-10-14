@@ -11,12 +11,12 @@ public class ItemSpade extends ItemTool {
    );
    private static final long a = 105412916980203L;
 
-   public ItemSpade(Item.ToolMaterial var1) {
-      super(1.0F, var1, EFFECTIVE_ON);
+   public ItemSpade(Item.ToolMaterial material) {
+      super(1.0F, material, EFFECTIVE_ON);
    }
 
    @Override
-   public boolean canHarvestBlock(Block var1) {
-      return var1 == Blocks.snow_layer ? true : var1 == Blocks.snow;
+   public boolean canHarvestBlock(Block blockIn) {
+      return blockIn == Blocks.snow_layer ? true : blockIn == Blocks.snow;
    }
 }

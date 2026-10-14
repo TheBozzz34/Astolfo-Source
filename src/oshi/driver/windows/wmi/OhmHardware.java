@@ -13,11 +13,11 @@ public final class OhmHardware {
    private OhmHardware() {
    }
 
-   public static WmiResult<OhmHardware.IdentifierProperty> queryHwIdentifier(String var0, String var1) {
-      StringBuilder var5 = new StringBuilder("Hardware");
-      var5.append(" WHERE ").append(var0).append("Type=\"").append(var1).append((char)((int)e));
-      WmiQuery var6 = new WmiQuery<>("ROOT\\OpenHardwareMonitor", var5.toString(), OhmHardware.IdentifierProperty.class);
-      return WmiQueryHandler.createInstance().queryWMI(var6);
+   public static WmiResult<OhmHardware.IdentifierProperty> queryHwIdentifier(String typeToQuery, String typeName) {
+      StringBuilder stringBuilder = new StringBuilder("Hardware");
+      stringBuilder.append(" WHERE ").append(typeToQuery).append("Type=\"").append(typeName).append((char)((int)e));
+      WmiQuery wmiQuery = new WmiQuery<>("ROOT\\OpenHardwareMonitor", stringBuilder.toString(), OhmHardware.IdentifierProperty.class);
+      return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }
 
    public enum IdentifierProperty {

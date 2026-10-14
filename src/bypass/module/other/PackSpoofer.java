@@ -14,17 +14,17 @@ import net.minecraft.network.play.server.S48PacketResourcePackSend;
 
 public final class PackSpoofer extends Module {
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var0 -> {
-      long var1x = c ^ 118589060737201L;
-      long var3 = var1x ^ 133442491471647L;
-      if (var0.getDirection() == PacketDirection.RECEIVED && var0.getPacket() instanceof S48PacketResourcePackSend && mc.thePlayer != null) {
-         S48PacketResourcePackSend var6 = (S48PacketResourcePackSend)var0.getPacket();
-         mc.thePlayer.sendQueue.addToSendQueue(new C19PacketResourcePackStatus(var6.r() == null ? "" : var6.r(), C19PacketResourcePackStatus.Action.ACCEPTED));
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = c ^ 118589060737201L;
+      long m = l ^ 133442491471647L;
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S48PacketResourcePackSend && mc.thePlayer != null) {
+         S48PacketResourcePackSend s48PacketResourcePackSend = (S48PacketResourcePackSend)packetEvent.getPacket();
+         mc.thePlayer.sendQueue.addToSendQueue(new C19PacketResourcePackStatus(s48PacketResourcePackSend.r() == null ? "" : s48PacketResourcePackSend.r(), C19PacketResourcePackStatus.Action.ACCEPTED));
          mc.thePlayer
             .sendQueue
-            .addToSendQueue(new C19PacketResourcePackStatus(var6.r() == null ? "" : var6.r(), C19PacketResourcePackStatus.Action.SUCCESSFULLY_LOADED));
-         client.getNotificationManager().i("Pack spoofed", String.format("Pack spoofed (%s - %s)", var6.R(), var6.r()), NotificationType.SUCCESS, (int)h).K();
-         var0.cancel();
+            .addToSendQueue(new C19PacketResourcePackStatus(s48PacketResourcePackSend.r() == null ? "" : s48PacketResourcePackSend.r(), C19PacketResourcePackStatus.Action.SUCCESSFULLY_LOADED));
+         client.getNotificationManager().i("Pack spoofed", String.format("Pack spoofed (%s - %s)", s48PacketResourcePackSend.R(), s48PacketResourcePackSend.r()), NotificationType.SUCCESS, (int)h).K();
+         packetEvent.cancel();
       }
    };
    @EventHandler(ResourcePackEvent.class)
@@ -32,8 +32,8 @@ public final class PackSpoofer extends Module {
    private static final long c = 93086512628469L;
    private static final long h = 6783079568975596972L;
 
-   public PackSpoofer(Category var1) {
-      super(var1);
+   public PackSpoofer(Category category) {
+      super(category);
       this.setHidden(false);
    }
 }

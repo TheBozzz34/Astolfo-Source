@@ -10,21 +10,21 @@ public final class Util {
    private Util() {
    }
 
-   public static void sleep(long var0) {
+   public static void sleep(long ms) {
       try {
-         Thread.sleep(var0);
-      } catch (InterruptedException var3) {
+         Thread.sleep(ms);
+      } catch (InterruptedException interruptedException) {
          Thread.currentThread().interrupt();
       }
    }
 
-   public static boolean wildcardMatch(String var0, String var1) {
-      return var1.length() > 0 && var1.charAt(0) == (int)e
-         ? !wildcardMatch(var0, var1.substring(1))
-         : var0.matches(var1.replace("?", ".?").replace("*", ".*?"));
+   public static boolean wildcardMatch(String text, String pattern) {
+      return pattern.length() > 0 && pattern.charAt(0) == (int)e
+         ? !wildcardMatch(text, pattern.substring(1))
+         : text.matches(pattern.replace("?", ".?").replace("*", ".*?"));
    }
 
-   public static boolean isBlank(String var0) {
-      return var0 == null || var0.isEmpty();
+   public static boolean isBlank(String s) {
+      return s == null || s.isEmpty();
    }
 }

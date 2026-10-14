@@ -9,10 +9,10 @@ public class Relation implements JsonSerializable<JsonObject> {
    private final boolean X;
    private static final long a = 53383391599147L;
 
-   public Relation(String var1, String var2, boolean var3) {
-      this.u = var1;
-      this.P = var2.trim().equals("") ? var1 : var2;
-      this.X = var3;
+   public Relation(String string, String string2, boolean bl) {
+      this.u = string;
+      this.P = string2.trim().equals("") ? string : string2;
+      this.X = bl;
    }
 
    public String i() {
@@ -33,9 +33,9 @@ public class Relation implements JsonSerializable<JsonObject> {
    }
 
    public JsonObject V() {
-      JsonObject var4 = new JsonObject();
-      var4.addProperty("nickname", this.m());
-      var4.addProperty("protected", this.z());
-      return var4;
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("nickname", this.m());
+      jsonObject.addProperty("protected", this.z());
+      return jsonObject;
    }
 }

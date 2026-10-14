@@ -5,27 +5,29 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 public interface IWorldAccess {
-   void markBlockForUpdate(BlockPos var1);
+   void markBlockForUpdate(BlockPos pos);
 
-   void notifyLightSet(BlockPos var1);
+   void notifyLightSet(BlockPos pos);
 
-   void markBlockRangeForRenderUpdate(int var1, int var2, int var3, int var4, int var5, int var6);
+   void markBlockRangeForRenderUpdate(int x1, int y1, int z1, int x2, int y2, int z2);
 
-   void playSound(String var1, double var2, double var4, double var6, float var8, float var9);
+   void playSound(String soundName, double x, double y, double z, float volume, float pitch);
 
-   void playSoundToNearExcept(EntityPlayer var1, String var2, double var3, double var5, double var7, float var9, float var10);
+   void playSoundToNearExcept(EntityPlayer except, String soundName, double x, double y, double z, float volume, float pitch);
 
-   void spawnParticle(int var1, boolean var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15);
+   void spawnParticle(
+      int particleID, boolean ignoreRange, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters
+   );
 
-   void onEntityAdded(Entity var1);
+   void onEntityAdded(Entity entityIn);
 
-   void onEntityRemoved(Entity var1);
+   void onEntityRemoved(Entity entityIn);
 
-   void playRecord(String var1, BlockPos var2);
+   void playRecord(String recordName, BlockPos blockPosIn);
 
-   void broadcastSound(int var1, BlockPos var2, int var3);
+   void broadcastSound(int soundID, BlockPos pos, int data);
 
-   void playAuxSFX(EntityPlayer var1, int var2, BlockPos var3, int var4);
+   void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int data);
 
-   void sendBlockBreakProgress(int var1, BlockPos var2, int var3);
+   void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress);
 }

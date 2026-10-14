@@ -17,8 +17,8 @@ public final class DecoyStage3 extends AbstractLoadStage {
    }
 
    @Override
-   public void setState(int var1) {
-      this.state = var1;
+   public void setState(int i) {
+      this.state = i;
    }
 
    @Override
@@ -26,13 +26,13 @@ public final class DecoyStage3 extends AbstractLoadStage {
       return this.state;
    }
 
-   public static FileHashCheckSetup N(DecoyStage3 var0) {
-      return var0.Q;
+   public static FileHashCheckSetup N(DecoyStage3 decoyStage3) {
+      return decoyStage3.Q;
    }
 
    public class azx extends StageAction {
-      public azx(LoadStage var2) {
-         super(var2);
+      public azx(LoadStage loadStage) {
+         super(loadStage);
       }
 
       @Override
@@ -41,8 +41,8 @@ public final class DecoyStage3 extends AbstractLoadStage {
    }
 
    public class r9x extends StageValue {
-      public r9x(LoadStage var2) {
-         super(var2);
+      public r9x(LoadStage loadStage) {
+         super(loadStage);
       }
 
       public Block get() {

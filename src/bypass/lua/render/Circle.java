@@ -11,72 +11,72 @@ public final class Circle extends VarArgFunction {
    private static final long b = 3972618498512781320L;
 
    @Override
-   public Varargs invoke(Varargs var1) {
-      double var5 = 0.0;
-      double var7 = 0.0;
-      int var9 = 0;
-      int var10 = 0;
-      double var11 = 0.0;
-      int var13 = 0;
-      int var14 = 0;
-      int var15 = 0;
-      int var16 = 0;
-      int var17 = 1;
-      if (var1.narg() < (int)b) {
+   public Varargs invoke(Varargs varargs) {
+      double d = 0.0;
+      double e = 0.0;
+      int i = 0;
+      int j = 0;
+      double d2 = 0.0;
+      int k = 0;
+      int l = 0;
+      int m = 0;
+      int n = 0;
+      int i2 = 1;
+      if (varargs.narg() < (int)b) {
          return valueOf(false);
       }
 
-      for (int var18 = var1.narg(); var17 <= var18; var17++) {
-         LuaValue var19 = var1.checkvalue(var17);
-         switch (var17) {
+      for (int i3 = varargs.narg(); i2 <= i3; i2++) {
+         LuaValue luaValue = varargs.checkvalue(i2);
+         switch (i2) {
             case 1:
-               if (var19.isnumber()) {
-                  var5 = var19.checkdouble();
+               if (luaValue.isnumber()) {
+                  d = luaValue.checkdouble();
                }
                break;
             case 2:
-               if (var19.isnumber()) {
-                  var7 = var19.checkdouble();
+               if (luaValue.isnumber()) {
+                  e = luaValue.checkdouble();
                }
                break;
             case 3:
-               if (var19.isnumber()) {
-                  var9 = var19.toint();
+               if (luaValue.isnumber()) {
+                  i = luaValue.toint();
                }
                break;
             case 4:
-               if (var19.isnumber()) {
-                  var10 = var19.toint();
+               if (luaValue.isnumber()) {
+                  j = luaValue.toint();
                }
                break;
             case 5:
-               if (var19.isnumber()) {
-                  var11 = var19.checkdouble();
+               if (luaValue.isnumber()) {
+                  d2 = luaValue.checkdouble();
                }
                break;
             case 6:
-               if (var19.isnumber()) {
-                  var13 = var19.toint();
+               if (luaValue.isnumber()) {
+                  k = luaValue.toint();
                }
                break;
             case 7:
-               if (var19.isnumber()) {
-                  var14 = var19.toint();
+               if (luaValue.isnumber()) {
+                  l = luaValue.toint();
                }
                break;
             case 8:
-               if (var19.isnumber()) {
-                  var15 = var19.toint();
+               if (luaValue.isnumber()) {
+                  m = luaValue.toint();
                }
                break;
             case 9:
-               if (var19.isnumber()) {
-                  var16 = var19.toint();
+               if (luaValue.isnumber()) {
+                  n = luaValue.toint();
                }
          }
       }
 
-      RenderUtil.drawArc(var5, var7, var9, var10, var11, new Color(var13, var14, var15, var16).getRGB());
+      RenderUtil.drawArc(d, e, i, j, d2, new Color(k, l, m, n).getRGB());
       return valueOf(true);
    }
 }

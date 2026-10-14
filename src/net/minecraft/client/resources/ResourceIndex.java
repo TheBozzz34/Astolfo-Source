@@ -21,33 +21,33 @@ public class ResourceIndex {
    private final Map<String, File> resourceMap = Maps.newHashMap();
    private static final long a = 109626545375961L;
 
-   public ResourceIndex(File var1, String var2) {
-      if (var2 != null) {
-         File var6 = new File(var1, "objects");
-         File var7 = new File(var1, "indexes/" + var2 + ".json");
-         BufferedReader var8 = null;
+   public ResourceIndex(File file, String string) {
+      if (string != null) {
+         File file2 = new File(file, "objects");
+         File file3 = new File(file, "indexes/" + string + ".json");
+         BufferedReader bufferedReader = null;
 
          try {
-            var8 = Files.newReader(var7, Charsets.UTF_8);
-            JsonObject var9 = new JsonParser().parse(var8).getAsJsonObject();
-            JsonObject var10 = JsonUtils.getJsonObject(var9, "objects", (JsonObject)null);
-            if (var10 != null) {
-               for (Entry var12 : var10.entrySet()) {
-                  JsonObject var13 = (JsonObject)var12.getValue();
-                  String var14 = (String)var12.getKey();
-                  String[] var15 = var14.split("/", 2);
-                  String var16 = var15.length == 1 ? var15[0] : var15[0] + ":" + var15[1];
-                  String var17 = JsonUtils.getString(var13, "hash");
-                  File var18 = new File(var6, var17.substring(0, 2) + "/" + var17);
-                  this.resourceMap.put(var16, var18);
+            bufferedReader = Files.newReader(file3, Charsets.UTF_8);
+            JsonObject jsonObject = new JsonParser().parse(bufferedReader).getAsJsonObject();
+            JsonObject jsonObject2 = JsonUtils.getJsonObject(jsonObject, "objects", (JsonObject)null);
+            if (jsonObject2 != null) {
+               for (Entry entry : jsonObject2.entrySet()) {
+                  JsonObject jsonObject3 = (JsonObject)entry.getValue();
+                  String string2 = (String)entry.getKey();
+                  String[] strings = string2.split("/", 2);
+                  String string3 = strings.length == 1 ? strings[0] : strings[0] + ":" + strings[1];
+                  String string4 = JsonUtils.getString(jsonObject3, "hash");
+                  File file4 = new File(file2, string4.substring(0, 2) + "/" + string4);
+                  this.resourceMap.put(string3, file4);
                }
             }
-         } catch (JsonParseException var23) {
-            logger.error("Unable to parse resource index file: " + var7);
-         } catch (FileNotFoundException var24) {
-            logger.error("Can't find the resource index file: " + var7);
+         } catch (JsonParseException jsonParseException) {
+            logger.error("Unable to parse resource index file: " + file3);
+         } catch (FileNotFoundException fileNotFoundException) {
+            logger.error("Can't find the resource index file: " + file3);
          } finally {
-            IOUtils.closeQuietly(var8);
+            IOUtils.closeQuietly(bufferedReader);
          }
       }
    }

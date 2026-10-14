@@ -26,64 +26,64 @@ public class GameRules {
       this.addGameRule("reducedDebugInfo", "false", GameRules.ValueType.BOOLEAN_VALUE);
    }
 
-   public void addGameRule(String var1, String var2, GameRules.ValueType var3) {
-      this.theGameRules.put(var1, new GameRules.Value(var2, var3));
+   public void addGameRule(String key, String value, GameRules.ValueType typeIn) {
+      this.theGameRules.put(key, new GameRules.Value(value, typeIn));
    }
 
-   public void setOrCreateGameRule(String var1, String var2) {
-      GameRules.Value var6 = this.theGameRules.get(var1);
-      if (var6 != null) {
-         var6.setValue(var2);
+   public void setOrCreateGameRule(String key, String ruleValue) {
+      GameRules.Value value = this.theGameRules.get(key);
+      if (value != null) {
+         value.setValue(ruleValue);
       } else {
-         this.addGameRule(var1, var2, GameRules.ValueType.ANY_VALUE);
+         this.addGameRule(key, ruleValue, GameRules.ValueType.ANY_VALUE);
       }
    }
 
-   public String getString(String var1) {
-      GameRules.Value var5 = this.theGameRules.get(var1);
-      return var5 != null ? var5.getString() : "";
+   public String getString(String name) {
+      GameRules.Value value = this.theGameRules.get(name);
+      return value != null ? value.getString() : "";
    }
 
-   public boolean getBoolean(String var1) {
-      GameRules.Value var5 = this.theGameRules.get(var1);
-      return var5 != null ? var5.getBoolean() : false;
+   public boolean getBoolean(String name) {
+      GameRules.Value value = this.theGameRules.get(name);
+      return value != null ? value.getBoolean() : false;
    }
 
-   public int getInt(String var1) {
-      GameRules.Value var5 = this.theGameRules.get(var1);
-      return var5 != null ? var5.getInt() : 0;
+   public int getInt(String name) {
+      GameRules.Value value = this.theGameRules.get(name);
+      return value != null ? value.getInt() : 0;
    }
 
    public NBTTagCompound writeToNBT() {
-      NBTTagCompound var4 = new NBTTagCompound();
+      NBTTagCompound nbtTagCompound = new NBTTagCompound();
 
-      for (Object var6 : this.theGameRules.keySet()) {
-         GameRules.Value var7 = this.theGameRules.get(var6);
-         var4.setString((String)var6, var7.getString());
+      for (Object object : this.theGameRules.keySet()) {
+         GameRules.Value value = this.theGameRules.get(object);
+         nbtTagCompound.setString((String)object, value.getString());
       }
 
-      return var4;
+      return nbtTagCompound;
    }
 
-   public void readFromNBT(NBTTagCompound var1) {
-      for (String var6 : var1.getKeySet()) {
-         String var7 = var1.getString(var6);
-         this.setOrCreateGameRule(var6, var7);
+   public void readFromNBT(NBTTagCompound nbt) {
+      for (String string : nbt.getKeySet()) {
+         String string2 = nbt.getString(string);
+         this.setOrCreateGameRule(string, string2);
       }
    }
 
    public String[] getRules() {
-      Set var1 = this.theGameRules.keySet();
-      return (java.lang.String[])(var1.toArray(new String[var1.size()]));
+      Set set = this.theGameRules.keySet();
+      return (java.lang.String[])(set.toArray(new String[set.size()]));
    }
 
-   public boolean hasRule(String var1) {
-      return this.theGameRules.containsKey(var1);
+   public boolean hasRule(String name) {
+      return this.theGameRules.containsKey(name);
    }
 
-   public boolean areSameType(String var1, GameRules.ValueType var2) {
-      GameRules.Value var6 = this.theGameRules.get(var1);
-      return var6 != null && (var6.getType() == var2 || var2 == GameRules.ValueType.ANY_VALUE);
+   public boolean areSameType(String key, GameRules.ValueType otherValue) {
+      GameRules.Value value = this.theGameRules.get(key);
+      return value != null && (value.getType() == otherValue || otherValue == GameRules.ValueType.ANY_VALUE);
    }
 
    public static class Value {
@@ -94,36 +94,36 @@ public class GameRules {
       private final GameRules.ValueType type;
       private static final long a = 43036533007356L;
 
-      public Value(String var1, GameRules.ValueType var2) {
-         this.type = var2;
-         this.setValue(var1);
+      public Value(String value, GameRules.ValueType typeIn) {
+         this.type = typeIn;
+         this.setValue(value);
       }
 
-      public void setValue(String var1) {
-         this.valueString = var1;
-         if (var1 != null) {
-            if (var1.equals("false")) {
+      public void setValue(String value) {
+         this.valueString = value;
+         if (value != null) {
+            if (value.equals("false")) {
                this.valueBoolean = false;
                return;
             }
 
-            if (var1.equals("true")) {
+            if (value.equals("true")) {
                this.valueBoolean = true;
                return;
             }
          }
 
-         this.valueBoolean = Boolean.parseBoolean(var1);
+         this.valueBoolean = Boolean.parseBoolean(value);
          this.valueInteger = this.valueBoolean ? 1 : 0;
 
          try {
-            this.valueInteger = Integer.parseInt(var1);
-         } catch (NumberFormatException var7) {
+            this.valueInteger = Integer.parseInt(value);
+         } catch (NumberFormatException numberFormatException) {
          }
 
          try {
-            this.valueDouble = Double.parseDouble(var1);
-         } catch (NumberFormatException var6) {
+            this.valueDouble = Double.parseDouble(value);
+         } catch (NumberFormatException numberFormatException2) {
          }
       }
 
@@ -151,7 +151,7 @@ public class GameRules {
 
       private static final GameRules.ValueType[] p = new GameRules.ValueType[]{ANY_VALUE, BOOLEAN_VALUE, NUMERICAL_VALUE};
 
-      ValueType(String var3, int var4) {
+      ValueType(String string2, int j) {
       }
    }
 }

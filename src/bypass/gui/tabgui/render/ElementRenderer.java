@@ -6,24 +6,24 @@ import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.Display;
 
 public interface ElementRenderer<T extends Sized> {
-   default void P(Sized var1, ScaledResolution var2, Minecraft var3) {
-      this.a((T)var1, var2, var3);
+   default void P(Sized sized, ScaledResolution scaledResolution, Minecraft minecraft) {
+      this.a((T)sized, scaledResolution, minecraft);
    }
 
-   void a(T var1, ScaledResolution var2, Minecraft var3);
+   void a(T sized, ScaledResolution scaledResolution, Minecraft minecraft);
 
-   default void v(Sized var1, ScaledResolution var2, Minecraft var3) {
-      this.x((T)var1, var2, var3);
+   default void v(Sized sized, ScaledResolution scaledResolution, Minecraft minecraft) {
+      this.x((T)sized, scaledResolution, minecraft);
    }
 
-   default void x(T var1, ScaledResolution var2, Minecraft var3) {
+   default void x(T sized, ScaledResolution scaledResolution, Minecraft minecraft) {
    }
 
-   default float[] p(Sized var1) {
-      return this.H((T)var1);
+   default float[] p(Sized sized) {
+      return this.H((T)sized);
    }
 
-   default float[] H(T var1) {
+   default float[] H(T sized) {
       return new float[]{0.0F, 0.0F};
    }
 

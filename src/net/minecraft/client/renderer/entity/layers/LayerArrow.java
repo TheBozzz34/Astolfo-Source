@@ -14,43 +14,43 @@ public class LayerArrow implements LayerRenderer<EntityLivingBase> {
    private final RendererLivingEntity field_177168_a;
    private static final long a = 109437198992812L;
 
-   public LayerArrow(RendererLivingEntity var1) {
-      this.field_177168_a = var1;
+   public LayerArrow(RendererLivingEntity rendererLivingEntity) {
+      this.field_177168_a = rendererLivingEntity;
    }
 
    @Override
-   public void doRenderLayer(EntityLivingBase var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      int var12 = var1.getArrowCountInEntity();
-      if (var12 > 0) {
-         EntityArrow var13 = new EntityArrow(var1.worldObj, var1.posX, var1.posY, var1.posZ);
-         Random var14 = new Random(var1.getEntityId());
+   public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      int i = entitylivingbaseIn.getArrowCountInEntity();
+      if (i > 0) {
+         EntityArrow entityArrow = new EntityArrow(entitylivingbaseIn.worldObj, entitylivingbaseIn.posX, entitylivingbaseIn.posY, entitylivingbaseIn.posZ);
+         Random random = new Random(entitylivingbaseIn.getEntityId());
          RenderHelper.disableStandardItemLighting();
 
-         for (int var15 = 0; var15 < var12; var15++) {
+         for (int j = 0; j < i; j++) {
             GlStateManager.pushMatrix();
-            ModelRenderer var16 = this.field_177168_a.getMainModel().getRandomModelBox(var14);
-            ModelBox var17 = var16.cubeList.get(var14.nextInt(var16.cubeList.size()));
-            var16.postRender(0.0625F);
-            float var18 = var14.nextFloat();
-            float var19 = var14.nextFloat();
-            float var20 = var14.nextFloat();
-            float var21 = (var17.posX1 + (var17.posX2 - var17.posX1) * var18) / 16.0F;
-            float var22 = (var17.posY1 + (var17.posY2 - var17.posY1) * var19) / 16.0F;
-            float var23 = (var17.posZ1 + (var17.posZ2 - var17.posZ1) * var20) / 16.0F;
-            GlStateManager.translate(var21, var22, var23);
-            var18 = var18 * 2.0F - 1.0F;
-            var19 = var19 * 2.0F - 1.0F;
-            var20 = var20 * 2.0F - 1.0F;
-            var18 *= -1.0F;
-            var19 *= -1.0F;
-            var20 *= -1.0F;
-            float var24 = MathHelper.sqrt_float(var18 * var18 + var20 * var20);
-            var13.prevRotationYaw = var13.rotationYaw = (float)(Math.atan2(var18, var20) * 180.0 / Math.PI);
-            var13.prevRotationPitch = var13.rotationPitch = (float)(Math.atan2(var19, var24) * 180.0 / Math.PI);
-            double var25 = 0.0;
-            double var27 = 0.0;
-            double var29 = 0.0;
-            this.field_177168_a.getRenderManager().renderEntityWithPosYaw(var13, var25, var27, var29, 0.0F, var4);
+            ModelRenderer modelRenderer = this.field_177168_a.getMainModel().getRandomModelBox(random);
+            ModelBox modelBox = modelRenderer.cubeList.get(random.nextInt(modelRenderer.cubeList.size()));
+            modelRenderer.postRender(0.0625F);
+            float f4 = random.nextFloat();
+            float f5 = random.nextFloat();
+            float f6 = random.nextFloat();
+            float f7 = (modelBox.posX1 + (modelBox.posX2 - modelBox.posX1) * f4) / 16.0F;
+            float f8 = (modelBox.posY1 + (modelBox.posY2 - modelBox.posY1) * f5) / 16.0F;
+            float f9 = (modelBox.posZ1 + (modelBox.posZ2 - modelBox.posZ1) * f6) / 16.0F;
+            GlStateManager.translate(f7, f8, f9);
+            f4 = f4 * 2.0F - 1.0F;
+            f5 = f5 * 2.0F - 1.0F;
+            f6 = f6 * 2.0F - 1.0F;
+            f4 *= -1.0F;
+            f5 *= -1.0F;
+            f6 *= -1.0F;
+            float f10 = MathHelper.sqrt_float(f4 * f4 + f6 * f6);
+            entityArrow.prevRotationYaw = entityArrow.rotationYaw = (float)(Math.atan2(f4, f6) * 180.0 / Math.PI);
+            entityArrow.prevRotationPitch = entityArrow.rotationPitch = (float)(Math.atan2(f5, f10) * 180.0 / Math.PI);
+            double d = 0.0;
+            double e = 0.0;
+            double d2 = 0.0;
+            this.field_177168_a.getRenderManager().renderEntityWithPosYaw(entityArrow, d, e, d2, 0.0F, partialTicks);
             GlStateManager.popMatrix();
          }
 

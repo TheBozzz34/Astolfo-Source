@@ -17,11 +17,11 @@ public final class ItemshopCommand extends Command {
    }
 
    @Override
-   public void runCommand(String[] var1) {
+   public void runCommand(String[] strings) {
       if (GameUtil.isOnHypixel()) {
-         for (Entity var6 : mc.theWorld.loadedEntityList) {
-            if (var6 instanceof EntityArmorStand && var6.getDisplayName().getFormattedText().contains("SHOP")) {
-               mc.thePlayer.sendQueue.u(new C02PacketUseEntity(var6, P));
+         for (Entity entity2 : mc.theWorld.loadedEntityList) {
+            if (entity2 instanceof EntityArmorStand && entity2.getDisplayName().getFormattedText().contains("SHOP")) {
+               mc.thePlayer.sendQueue.u(new C02PacketUseEntity(entity2, P));
                return;
             }
          }

@@ -9,11 +9,11 @@ public class MoveEvent implements Event {
    private double z;
    private EventState state;
 
-   public MoveEvent(double var1, double var3, double var5) {
+   public MoveEvent(double d, double d2, double d3) {
       this.state = EventState.PRE;
-      this.x = var1;
-      this.y = var3;
-      this.z = var5;
+      this.x = d;
+      this.y = d2;
+      this.z = d3;
    }
 
    public MoveEvent() {
@@ -36,15 +36,15 @@ public class MoveEvent implements Event {
       return this.z;
    }
 
-   public void setX(double var1) {
-      this.x = var1;
+   public void setX(double d) {
+      this.x = d;
    }
 
-   public void setY(double var1) {
-      this.y = var1;
+   public void setY(double d) {
+      this.y = d;
    }
 
-   public void setZ(double var1) {
-      this.z = var1;
+   public void setZ(double d) {
+      this.z = d;
    }
 }

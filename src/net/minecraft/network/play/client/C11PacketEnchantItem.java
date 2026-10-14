@@ -12,25 +12,25 @@ public class C11PacketEnchantItem implements Packet<INetHandlerPlayServer> {
    public C11PacketEnchantItem() {
    }
 
-   public C11PacketEnchantItem(int var1, int var2) {
-      this.windowId = var1;
-      this.button = var2;
+   public C11PacketEnchantItem(int windowId, int button) {
+      this.windowId = windowId;
+      this.button = button;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processEnchantItem(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readByte();
-      this.button = var1.readByte();
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processEnchantItem(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeByte(this.button);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readByte();
+      this.button = buf.readByte();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeByte(this.button);
    }
 
    public int getWindowId() {

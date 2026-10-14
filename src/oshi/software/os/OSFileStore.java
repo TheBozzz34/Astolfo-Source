@@ -29,133 +29,133 @@ public class OSFileStore {
    public OSFileStore() {
    }
 
-   public OSFileStore(OSFileStore var1) {
-      this.setName(var1.getName());
-      this.setVolume(var1.getVolume());
-      this.setLabel(var1.getLabel());
-      this.setLogicalVolume(var1.getLogicalVolume());
-      this.setMount(var1.getMount());
-      this.setDescription(var1.getDescription());
-      this.setType(var1.getType());
-      this.setType(var1.getOptions());
-      this.setUUID(var1.getUUID());
-      this.setFreeSpace(var1.getFreeSpace());
-      this.setUsableSpace(var1.getUsableSpace());
-      this.setTotalSpace(var1.getTotalSpace());
-      this.setFreeInodes(var1.getFreeInodes());
-      this.setTotalInodes(var1.getTotalInodes());
+   public OSFileStore(OSFileStore fileStore) {
+      this.setName(fileStore.getName());
+      this.setVolume(fileStore.getVolume());
+      this.setLabel(fileStore.getLabel());
+      this.setLogicalVolume(fileStore.getLogicalVolume());
+      this.setMount(fileStore.getMount());
+      this.setDescription(fileStore.getDescription());
+      this.setType(fileStore.getType());
+      this.setType(fileStore.getOptions());
+      this.setUUID(fileStore.getUUID());
+      this.setFreeSpace(fileStore.getFreeSpace());
+      this.setUsableSpace(fileStore.getUsableSpace());
+      this.setTotalSpace(fileStore.getTotalSpace());
+      this.setFreeInodes(fileStore.getFreeInodes());
+      this.setTotalInodes(fileStore.getTotalInodes());
    }
 
    public String getName() {
       return this.name;
    }
 
-   public void setName(String var1) {
-      this.name = var1;
+   public void setName(String value) {
+      this.name = value;
    }
 
    public String getVolume() {
       return this.volume;
    }
 
-   public void setVolume(String var1) {
-      this.volume = var1;
+   public void setVolume(String value) {
+      this.volume = value;
    }
 
    public String getLabel() {
       return this.label;
    }
 
-   public void setLabel(String var1) {
-      this.label = var1;
+   public void setLabel(String value) {
+      this.label = value;
    }
 
    public String getLogicalVolume() {
       return this.logicalVolume;
    }
 
-   public void setLogicalVolume(String var1) {
-      this.logicalVolume = var1;
+   public void setLogicalVolume(String value) {
+      this.logicalVolume = value;
    }
 
    public String getMount() {
       return this.mount;
    }
 
-   public void setMount(String var1) {
-      this.mount = var1;
+   public void setMount(String value) {
+      this.mount = value;
    }
 
    public String getDescription() {
       return this.description;
    }
 
-   public void setDescription(String var1) {
-      this.description = var1;
+   public void setDescription(String value) {
+      this.description = value;
    }
 
    public String getType() {
       return this.fsType;
    }
 
-   public void setType(String var1) {
-      this.fsType = var1;
+   public void setType(String value) {
+      this.fsType = value;
    }
 
    public String getOptions() {
       return this.options;
    }
 
-   public void setOptions(String var1) {
-      this.options = var1;
+   public void setOptions(String value) {
+      this.options = value;
    }
 
    public String getUUID() {
       return this.uuid;
    }
 
-   public void setUUID(String var1) {
-      this.uuid = var1;
+   public void setUUID(String value) {
+      this.uuid = value;
    }
 
    public long getFreeSpace() {
       return this.freeSpace;
    }
 
-   public void setFreeSpace(long var1) {
-      this.freeSpace = var1;
+   public void setFreeSpace(long value) {
+      this.freeSpace = value;
    }
 
    public long getUsableSpace() {
       return this.usableSpace;
    }
 
-   public void setUsableSpace(long var1) {
-      this.usableSpace = var1;
+   public void setUsableSpace(long value) {
+      this.usableSpace = value;
    }
 
    public long getTotalSpace() {
       return this.totalSpace;
    }
 
-   public void setTotalSpace(long var1) {
-      this.totalSpace = var1;
+   public void setTotalSpace(long value) {
+      this.totalSpace = value;
    }
 
    public long getFreeInodes() {
       return this.freeInodes;
    }
 
-   public void setFreeInodes(long var1) {
-      this.freeInodes = var1;
+   public void setFreeInodes(long value) {
+      this.freeInodes = value;
    }
 
    public long getTotalInodes() {
       return this.totalInodes;
    }
 
-   public void setTotalInodes(long var1) {
-      this.totalInodes = var1;
+   public void setTotalInodes(long value) {
+      this.totalInodes = value;
    }
 
    public boolean updateAtrributes() {

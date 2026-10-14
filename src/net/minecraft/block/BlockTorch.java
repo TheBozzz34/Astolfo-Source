@@ -22,8 +22,8 @@ public class BlockTorch extends Block {
    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>() {
       private static final long a = 15643699118674L;
 
-      public boolean apply(EnumFacing var1) {
-         return var1 != EnumFacing.DOWN;
+      public boolean apply(EnumFacing enumFacing) {
+         return enumFacing != EnumFacing.DOWN;
       }
    });
    private static final long l = 134180871794096L;
@@ -36,7 +36,7 @@ public class BlockTorch extends Block {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
@@ -50,19 +50,19 @@ public class BlockTorch extends Block {
       return false;
    }
 
-   private boolean canPlaceOn(World var1, BlockPos var2) {
-      if (World.doesBlockHaveSolidTopSurface(var1, var2)) {
+   private boolean canPlaceOn(World worldIn, BlockPos pos) {
+      if (World.doesBlockHaveSolidTopSurface(worldIn, pos)) {
          return true;
       }
 
-      Block var6 = var1.getBlockState(var2).getBlock();
-      return var6 instanceof BlockFence || var6 == Blocks.glass || var6 == Blocks.cobblestone_wall || var6 == Blocks.stained_glass;
+      Block block = worldIn.getBlockState(pos).getBlock();
+      return block instanceof BlockFence || block == Blocks.glass || block == Blocks.cobblestone_wall || block == Blocks.stained_glass;
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      for (EnumFacing var7 : FACING.getAllowedValues()) {
-         if (this.canPlaceAt(var1, var2, var7)) {
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      for (EnumFacing enumFacing : FACING.getAllowedValues()) {
+         if (this.canPlaceAt(worldIn, pos, enumFacing)) {
             return true;
          }
       }
@@ -70,21 +70,21 @@ public class BlockTorch extends Block {
       return false;
    }
 
-   private boolean canPlaceAt(World var1, BlockPos var2, EnumFacing var3) {
-      BlockPos var7 = var2.offset(var3.getOpposite());
-      boolean var8 = var3.getAxis().isHorizontal();
-      return var8 && var1.isBlockNormalCube(var7, true) || var3.equals(EnumFacing.UP) && this.canPlaceOn(var1, var7);
+   private boolean canPlaceAt(World worldIn, BlockPos pos, EnumFacing facing) {
+      BlockPos blockPos = pos.offset(facing.getOpposite());
+      boolean bl = facing.getAxis().isHorizontal();
+      return bl && worldIn.isBlockNormalCube(blockPos, true) || facing.equals(EnumFacing.UP) && this.canPlaceOn(worldIn, blockPos);
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      if (this.canPlaceAt(var1, var2, var3)) {
-         return this.getDefaultState().withProperty(FACING, var3);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      if (this.canPlaceAt(worldIn, pos, facing)) {
+         return this.getDefaultState().withProperty(FACING, facing);
       }
 
-      for (Object var13 : EnumFacing.Plane.HORIZONTAL) {
-         if (var1.isBlockNormalCube(var2.offset(((EnumFacing)var13).getOpposite()), true)) {
-            return this.getDefaultState().withProperty(FACING, (EnumFacing)var13);
+      for (Object object : EnumFacing.Plane.HORIZONTAL) {
+         if (worldIn.isBlockNormalCube(pos.offset(((EnumFacing)object).getOpposite()), true)) {
+            return this.getDefaultState().withProperty(FACING, (EnumFacing)object);
          }
       }
 
@@ -92,91 +92,91 @@ public class BlockTorch extends Block {
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      this.checkForDrop(var1, var2, var3);
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      this.checkForDrop(worldIn, pos, state);
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      this.onNeighborChangeInternal(var1, var2, var3);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      this.onNeighborChangeInternal(worldIn, pos, state);
    }
 
-   public boolean onNeighborChangeInternal(World var1, BlockPos var2, IBlockState var3) {
-      if (!this.checkForDrop(var1, var2, var3)) {
+   public boolean onNeighborChangeInternal(World worldIn, BlockPos pos, IBlockState state) {
+      if (!this.checkForDrop(worldIn, pos, state)) {
          return true;
       }
 
-      EnumFacing var7 = var3.getValue(FACING);
-      EnumFacing.Axis var8 = var7.getAxis();
-      EnumFacing var9 = var7.getOpposite();
-      boolean var10 = false;
-      if (var8.isHorizontal() && !var1.isBlockNormalCube(var2.offset(var9), true)) {
-         var10 = true;
-      } else if (var8.isVertical() && !this.canPlaceOn(var1, var2.offset(var9))) {
-         var10 = true;
+      EnumFacing enumFacing = state.getValue(FACING);
+      EnumFacing.Axis axis = enumFacing.getAxis();
+      EnumFacing enumFacing2 = enumFacing.getOpposite();
+      boolean bl = false;
+      if (axis.isHorizontal() && !worldIn.isBlockNormalCube(pos.offset(enumFacing2), true)) {
+         bl = true;
+      } else if (axis.isVertical() && !this.canPlaceOn(worldIn, pos.offset(enumFacing2))) {
+         bl = true;
       }
 
-      if (var10) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+      if (bl) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
          return true;
       } else {
          return false;
       }
    }
 
-   public boolean checkForDrop(World var1, BlockPos var2, IBlockState var3) {
-      if (var3.getBlock() == this && this.canPlaceAt(var1, var2, var3.getValue(FACING))) {
+   public boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
+      if (state.getBlock() == this && this.canPlaceAt(worldIn, pos, state.getValue(FACING))) {
          return true;
       }
 
-      if (var1.getBlockState(var2).getBlock() == this) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+      if (worldIn.getBlockState(pos).getBlock() == this) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
       }
 
       return false;
    }
 
    @Override
-   public MovingObjectPosition collisionRayTrace(World var1, BlockPos var2, Vec3 var3, Vec3 var4) {
-      EnumFacing var8 = var1.getBlockState(var2).getValue(FACING);
-      float var9 = 0.15F;
-      if (var8 == EnumFacing.EAST) {
-         this.setBlockBounds(0.0F, 0.2F, 0.5F - var9, var9 * 2.0F, 0.8F, 0.5F + var9);
-      } else if (var8 == EnumFacing.WEST) {
-         this.setBlockBounds(1.0F - var9 * 2.0F, 0.2F, 0.5F - var9, 1.0F, 0.8F, 0.5F + var9);
-      } else if (var8 == EnumFacing.SOUTH) {
-         this.setBlockBounds(0.5F - var9, 0.2F, 0.0F, 0.5F + var9, 0.8F, var9 * 2.0F);
-      } else if (var8 == EnumFacing.NORTH) {
-         this.setBlockBounds(0.5F - var9, 0.2F, 1.0F - var9 * 2.0F, 0.5F + var9, 0.8F, 1.0F);
+   public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 startIn, Vec3 end) {
+      EnumFacing enumFacing = worldIn.getBlockState(pos).getValue(FACING);
+      float f = 0.15F;
+      if (enumFacing == EnumFacing.EAST) {
+         this.setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
+      } else if (enumFacing == EnumFacing.WEST) {
+         this.setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
+      } else if (enumFacing == EnumFacing.SOUTH) {
+         this.setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
+      } else if (enumFacing == EnumFacing.NORTH) {
+         this.setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
       } else {
-         var9 = 0.1F;
-         this.setBlockBounds(0.5F - var9, 0.0F, 0.5F - var9, 0.5F + var9, 0.6F, 0.5F + var9);
+         f = 0.1F;
+         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
       }
 
-      return super.collisionRayTrace(var1, var2, var3, var4);
+      return super.collisionRayTrace(worldIn, pos, startIn, end);
    }
 
    @Override
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      EnumFacing var8 = var3.getValue(FACING);
-      double var9 = var2.getX() + 0.5;
-      double var11 = var2.getY() + 0.7;
-      double var13 = var2.getZ() + 0.5;
-      double var15 = 0.22;
-      double var17 = 0.27;
-      if (var8.getAxis().isHorizontal()) {
-         EnumFacing var19 = var8.getOpposite();
-         var1.spawnParticle(
-            EnumParticleTypes.SMOKE_NORMAL, var9 + var17 * var19.getFrontOffsetX(), var11 + var15, var13 + var17 * var19.getFrontOffsetZ(), 0.0, 0.0, 0.0
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      EnumFacing enumFacing = state.getValue(FACING);
+      double d = pos.getX() + 0.5;
+      double e = pos.getY() + 0.7;
+      double d2 = pos.getZ() + 0.5;
+      double d3 = 0.22;
+      double d4 = 0.27;
+      if (enumFacing.getAxis().isHorizontal()) {
+         EnumFacing enumFacing2 = enumFacing.getOpposite();
+         worldIn.spawnParticle(
+            EnumParticleTypes.SMOKE_NORMAL, d + d4 * enumFacing2.getFrontOffsetX(), e + d3, d2 + d4 * enumFacing2.getFrontOffsetZ(), 0.0, 0.0, 0.0
          );
-         var1.spawnParticle(
-            EnumParticleTypes.FLAME, var9 + var17 * var19.getFrontOffsetX(), var11 + var15, var13 + var17 * var19.getFrontOffsetZ(), 0.0, 0.0, 0.0
+         worldIn.spawnParticle(
+            EnumParticleTypes.FLAME, d + d4 * enumFacing2.getFrontOffsetX(), e + d3, d2 + d4 * enumFacing2.getFrontOffsetZ(), 0.0, 0.0, 0.0
          );
       } else {
-         var1.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var9, var11, var13, 0.0, 0.0, 0.0);
-         var1.spawnParticle(EnumParticleTypes.FLAME, var9, var11, var13, 0.0, 0.0, 0.0);
+         worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d, e, d2, 0.0, 0.0, 0.0);
+         worldIn.spawnParticle(EnumParticleTypes.FLAME, d, e, d2, 0.0, 0.0, 0.0);
       }
    }
 
@@ -186,52 +186,52 @@ public class BlockTorch extends Block {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      IBlockState var5 = this.getDefaultState();
-      switch (var1) {
+   public IBlockState getStateFromMeta(int meta) {
+      IBlockState iBlockState = this.getDefaultState();
+      switch (meta) {
          case 1:
-            var5 = var5.withProperty(FACING, EnumFacing.EAST);
+            iBlockState = iBlockState.withProperty(FACING, EnumFacing.EAST);
             break;
          case 2:
-            var5 = var5.withProperty(FACING, EnumFacing.WEST);
+            iBlockState = iBlockState.withProperty(FACING, EnumFacing.WEST);
             break;
          case 3:
-            var5 = var5.withProperty(FACING, EnumFacing.SOUTH);
+            iBlockState = iBlockState.withProperty(FACING, EnumFacing.SOUTH);
             break;
          case 4:
-            var5 = var5.withProperty(FACING, EnumFacing.NORTH);
+            iBlockState = iBlockState.withProperty(FACING, EnumFacing.NORTH);
             break;
          case 5:
          default:
-            var5 = var5.withProperty(FACING, EnumFacing.UP);
+            iBlockState = iBlockState.withProperty(FACING, EnumFacing.UP);
       }
 
-      return var5;
+      return iBlockState;
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      switch ((EnumFacing)var1.getValue(FACING)) {
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      switch ((EnumFacing)state.getValue(FACING)) {
          case EAST:
-            var5 |= 1;
+            i |= 1;
             break;
          case WEST:
-            var5 |= 2;
+            i |= 2;
             break;
          case SOUTH:
-            var5 |= 3;
+            i |= 3;
             break;
          case NORTH:
-            var5 |= 4;
+            i |= 4;
             break;
          case DOWN:
          case UP:
          default:
-            var5 |= 5;
+            i |= 5;
       }
 
-      return var5;
+      return i;
    }
 
    @Override

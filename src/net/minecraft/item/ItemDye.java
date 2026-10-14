@@ -29,44 +29,44 @@ public class ItemDye extends Item {
    }
 
    @Override
-   public String getUnlocalizedName(ItemStack var1) {
-      int var2 = var1.getMetadata();
-      return super.getUnlocalizedName() + "." + EnumDyeColor.byDyeDamage(var2).getUnlocalizedName();
+   public String getUnlocalizedName(ItemStack stack) {
+      int i = stack.getMetadata();
+      return super.getUnlocalizedName() + "." + EnumDyeColor.byDyeDamage(i).getUnlocalizedName();
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (!var2.canPlayerEdit(var4.offset(var5), var5, var1)) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (!playerIn.canPlayerEdit(pos.offset(side), side, stack)) {
          return false;
       }
 
-      EnumDyeColor var12 = EnumDyeColor.byDyeDamage(var1.getMetadata());
-      if (var12 == EnumDyeColor.WHITE) {
-         if (applyBonemeal(var1, var3, var4)) {
-            if (!var3.isRemote) {
-               var3.playAuxSFX(2005, var4, 0);
+      EnumDyeColor enumDyeColor = EnumDyeColor.byDyeDamage(stack.getMetadata());
+      if (enumDyeColor == EnumDyeColor.WHITE) {
+         if (applyBonemeal(stack, worldIn, pos)) {
+            if (!worldIn.isRemote) {
+               worldIn.playAuxSFX(2005, pos, 0);
             }
 
             return true;
          }
-      } else if (var12 == EnumDyeColor.BROWN) {
-         IBlockState var13 = var3.getBlockState(var4);
-         Block var14 = var13.getBlock();
-         if (var14 == Blocks.log && var13.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE) {
-            if (var5 == EnumFacing.DOWN) {
+      } else if (enumDyeColor == EnumDyeColor.BROWN) {
+         IBlockState iBlockState = worldIn.getBlockState(pos);
+         Block block = iBlockState.getBlock();
+         if (block == Blocks.log && iBlockState.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE) {
+            if (side == EnumFacing.DOWN) {
                return false;
             }
 
-            if (var5 == EnumFacing.UP) {
+            if (side == EnumFacing.UP) {
                return false;
             }
 
-            var4 = var4.offset(var5);
-            if (var3.isAirBlock(var4)) {
-               IBlockState var15 = Blocks.cocoa.onBlockPlaced(var3, var4, var5, var6, var7, var8, 0, var2);
-               var3.setBlockState(var4, var15, 2);
-               if (!var2.capabilities.isCreativeMode) {
-                  var1.stackSize--;
+            pos = pos.offset(side);
+            if (worldIn.isAirBlock(pos)) {
+               IBlockState iBlockState2 = Blocks.cocoa.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
+               worldIn.setBlockState(pos, iBlockState2, 2);
+               if (!playerIn.capabilities.isCreativeMode) {
+                  stack.stackSize--;
                }
             }
 
@@ -77,17 +77,17 @@ public class ItemDye extends Item {
       return false;
    }
 
-   public static boolean applyBonemeal(ItemStack var0, World var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      if (var6.getBlock() instanceof IGrowable) {
-         IGrowable var7 = (IGrowable)var6.getBlock();
-         if (var7.canGrow(var1, var2, var6, var1.isRemote)) {
-            if (!var1.isRemote) {
-               if (var7.canUseBonemeal(var1, var1.rand, var2, var6)) {
-                  var7.grow(var1, var1.rand, var2, var6);
+   public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos target) {
+      IBlockState iBlockState = worldIn.getBlockState(target);
+      if (iBlockState.getBlock() instanceof IGrowable) {
+         IGrowable iGrowable = (IGrowable)iBlockState.getBlock();
+         if (iGrowable.canGrow(worldIn, target, iBlockState, worldIn.isRemote)) {
+            if (!worldIn.isRemote) {
+               if (iGrowable.canUseBonemeal(worldIn, worldIn.rand, target, iBlockState)) {
+                  iGrowable.grow(worldIn, worldIn.rand, target, iBlockState);
                }
 
-               var0.stackSize--;
+               stack.stackSize--;
             }
 
             return true;
@@ -97,40 +97,40 @@ public class ItemDye extends Item {
       return false;
    }
 
-   public static void spawnBonemealParticles(World var0, BlockPos var1, int var2) {
-      if (var2 == 0) {
-         var2 = 15;
+   public static void spawnBonemealParticles(World worldIn, BlockPos pos, int amount) {
+      if (amount == 0) {
+         amount = 15;
       }
 
-      Block var6 = var0.getBlockState(var1).getBlock();
-      if (var6.getMaterial() != Material.air) {
-         var6.setBlockBoundsBasedOnState(var0, var1);
+      Block block = worldIn.getBlockState(pos).getBlock();
+      if (block.getMaterial() != Material.air) {
+         block.setBlockBoundsBasedOnState(worldIn, pos);
 
-         for (int var7 = 0; var7 < var2; var7++) {
-            double var8 = itemRand.nextGaussian() * 0.02;
-            double var10 = itemRand.nextGaussian() * 0.02;
-            double var12 = itemRand.nextGaussian() * 0.02;
-            var0.spawnParticle(
+         for (int i = 0; i < amount; i++) {
+            double d = itemRand.nextGaussian() * 0.02;
+            double e = itemRand.nextGaussian() * 0.02;
+            double d2 = itemRand.nextGaussian() * 0.02;
+            worldIn.spawnParticle(
                EnumParticleTypes.VILLAGER_HAPPY,
-               var1.getX() + itemRand.nextFloat(),
-               var1.getY() + itemRand.nextFloat() * var6.getBlockBoundsMaxY(),
-               var1.getZ() + itemRand.nextFloat(),
-               var8,
-               var10,
-               var12
+               pos.getX() + itemRand.nextFloat(),
+               pos.getY() + itemRand.nextFloat() * block.getBlockBoundsMaxY(),
+               pos.getZ() + itemRand.nextFloat(),
+               d,
+               e,
+               d2
             );
          }
       }
    }
 
    @Override
-   public boolean itemInteractionForEntity(ItemStack var1, EntityPlayer var2, EntityLivingBase var3) {
-      if (var3 instanceof EntitySheep) {
-         EntitySheep var7 = (EntitySheep)var3;
-         EnumDyeColor var8 = EnumDyeColor.byDyeDamage(var1.getMetadata());
-         if (!var7.getSheared() && var7.getFleeceColor() != var8) {
-            var7.setFleeceColor(var8);
-            var1.stackSize--;
+   public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+      if (target instanceof EntitySheep) {
+         EntitySheep entitySheep = (EntitySheep)target;
+         EnumDyeColor enumDyeColor = EnumDyeColor.byDyeDamage(stack.getMetadata());
+         if (!entitySheep.getSheared() && entitySheep.getFleeceColor() != enumDyeColor) {
+            entitySheep.setFleeceColor(enumDyeColor);
+            stack.stackSize--;
          }
 
          return true;
@@ -140,9 +140,9 @@ public class ItemDye extends Item {
    }
 
    @Override
-   public void getSubItems(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (int var7 = 0; var7 < 16; var7++) {
-         var3.add(new ItemStack(var1, 1, var7));
+   public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+      for (int i = 0; i < 16; i++) {
+         subItems.add(new ItemStack(itemIn, 1, i));
       }
    }
 }

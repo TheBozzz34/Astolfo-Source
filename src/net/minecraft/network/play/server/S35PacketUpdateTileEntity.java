@@ -15,28 +15,28 @@ public class S35PacketUpdateTileEntity implements Packet<INetHandlerPlayClient> 
    public S35PacketUpdateTileEntity() {
    }
 
-   public S35PacketUpdateTileEntity(BlockPos var1, int var2, NBTTagCompound var3) {
-      this.blockPos = var1;
-      this.metadata = var2;
-      this.nbt = var3;
+   public S35PacketUpdateTileEntity(BlockPos blockPosIn, int metadataIn, NBTTagCompound nbtIn) {
+      this.blockPos = blockPosIn;
+      this.metadata = metadataIn;
+      this.nbt = nbtIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.blockPos = var1.readBlockPos();
-      this.metadata = var1.readUnsignedByte();
-      this.nbt = var1.readNBTTagCompoundFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.blockPos = buf.readBlockPos();
+      this.metadata = buf.readUnsignedByte();
+      this.nbt = buf.readNBTTagCompoundFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.blockPos);
-      var1.writeByte((byte)this.metadata);
-      var1.writeNBTTagCompoundToBuffer(this.nbt);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.blockPos);
+      buf.writeByte((byte)this.metadata);
+      buf.writeNBTTagCompoundToBuffer(this.nbt);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleUpdateTileEntity(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleUpdateTileEntity(this);
    }
 
    public BlockPos getPos() {

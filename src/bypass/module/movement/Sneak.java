@@ -23,32 +23,32 @@ public final class Sneak extends Module {
    public static final BooleanSetting hold = new BooleanSetting("Hold", "Only works when pressing sneak key", false);
    private boolean V;
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = var1x -> this.V = false;
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.V = false;
    @EventHandler(PlayerModelVisibilityEvent.class)
-   private Listener<PlayerModelVisibilityEvent> onPlayerModelVisibility = var1x -> {
-      if (var1x.getEntity() == mc.thePlayer && this.V) {
-         var1x.cancel();
+   private Listener<PlayerModelVisibilityEvent> onPlayerModelVisibility = playerModelVisibilityEvent -> {
+      if (playerModelVisibilityEvent.getEntity() == mc.thePlayer && this.V) {
+         playerModelVisibilityEvent.cancel();
       }
    };
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = this::S;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING && var1x.getPacket() instanceof C0BPacketEntityAction) {
-         C0BPacketEntityAction var5 = (C0BPacketEntityAction)var1x.getPacket();
-         if (var5.getAction() == C0BPacketEntityAction.Action.START_SNEAKING) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C0BPacketEntityAction) {
+         C0BPacketEntityAction c0BPacketEntityAction = (C0BPacketEntityAction)packetEvent.getPacket();
+         if (c0BPacketEntityAction.getAction() == C0BPacketEntityAction.Action.START_SNEAKING) {
             if (this.V) {
-               var1x.cancel();
+               packetEvent.cancel();
             }
 
             this.V = true;
          }
 
-         if (var5.getAction() == C0BPacketEntityAction.Action.STOP_SNEAKING) {
+         if (c0BPacketEntityAction.getAction() == C0BPacketEntityAction.Action.STOP_SNEAKING) {
             if (!this.V) {
-               var1x.cancel();
+               packetEvent.cancel();
             }
 
             this.V = false;
@@ -57,8 +57,8 @@ public final class Sneak extends Module {
    };
    private static final long c = 13967002925836L;
 
-   public Sneak(Category var1) {
-      super(var1);
+   public Sneak(Category category) {
+      super(category);
       this.addSettings(this.mode, hold);
    }
 
@@ -77,17 +77,17 @@ public final class Sneak extends Module {
       super.onDisable();
    }
 
-   private void S(MotionEvent var1) {
-      long var2 = c ^ 84868902129426L;
-      long var4 = var2 ^ 130790967314861L;
-      boolean var7 = GameUtil.isMoving(mc.thePlayer);
+   private void S(MotionEvent motionEvent) {
+      long l = c ^ 84868902129426L;
+      long m = l ^ 130790967314861L;
+      boolean bl = GameUtil.isMoving(mc.thePlayer);
       switch ((SneakMode)this.mode.getValue()) {
          case WATCHDOG:
             if (GameUtil.isInHypixelGame()) {
                if (!hold.getValue() || mc.gameSettings.keyBindSneak.pressed) {
-                  switch (var1.getState()) {
+                  switch (motionEvent.getState()) {
                      case PRE:
-                        if (!var7) {
+                        if (!bl) {
                            if (!this.V) {
                               mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
                            }
@@ -96,7 +96,7 @@ public final class Sneak extends Module {
                         }
                         break;
                      case POST:
-                        if (var7 && !this.V) {
+                        if (bl && !this.V) {
                            mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
                         }
                   }
@@ -106,7 +106,7 @@ public final class Sneak extends Module {
             }
             break;
          case ALWAYS:
-            if (var1.getState() == EventState.POST && !client.getModuleManager().get(Freecam.class).isEnabled()) {
+            if (motionEvent.getState() == EventState.POST && !client.getModuleManager().get(Freecam.class).isEnabled()) {
                mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
             }
       }

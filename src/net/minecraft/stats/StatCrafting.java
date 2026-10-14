@@ -8,12 +8,12 @@ public class StatCrafting extends StatBase {
    private final Item field_150960_a;
    private static final long a = 115065965581626L;
 
-   public StatCrafting(String var1, String var2, IChatComponent var3, Item var4) {
-      super(var1 + var2, var3);
-      this.field_150960_a = var4;
-      int var7 = Item.getIdFromItem(var4);
-      if (var7 != 0) {
-         IScoreObjectiveCriteria.INSTANCES.put(var1 + var7, this.getCriteria());
+   public StatCrafting(String string, String string2, IChatComponent statNameIn, Item item) {
+      super(string + string2, statNameIn);
+      this.field_150960_a = item;
+      int i = Item.getIdFromItem(item);
+      if (i != 0) {
+         IScoreObjectiveCriteria.INSTANCES.put(string + i, this.getCriteria());
       }
    }
 

@@ -13,62 +13,62 @@ public final class AlteningApi {
    private final String T = "http://api.thealtening.com/v1/";
    private final Gson D = new GsonBuilder().setPrettyPrinting().create();
 
-   public AlteningApi(String var1) {
-      this.d = var1;
+   public AlteningApi(String string) {
+      this.d = string;
    }
 
    public AlteningLicense t() throws IOException {
-      URLConnection var1 = new URL(this.t("http://api.thealtening.com/v1/" + "license")).openConnection();
-      String var2 = new String(StreamReader.o().M(var1.getInputStream()));
-      return this.D.fromJson(var2, AlteningLicense.class);
+      URLConnection urlConnection = new URL(this.t("http://api.thealtening.com/v1/" + "license")).openConnection();
+      String string = new String(StreamReader.o().M(urlConnection.getInputStream()));
+      return this.D.fromJson(string, AlteningLicense.class);
    }
 
-   public AlteningAccountData i(AlteningLicense var1) throws IOException {
-      HttpURLConnection var2 = (HttpURLConnection)new URL(this.t("http://api.thealtening.com/v1/" + "generate")).openConnection();
-      InputStream var3 = var2.getInputStream();
-      String var4 = new String(StreamReader.o().M(var3));
-      if (var1.f()) {
-         var3.close();
-         var2.disconnect();
-         return this.D.fromJson(var4, AlteningAccountData.class);
+   public AlteningAccountData i(AlteningLicense alteningLicense) throws IOException {
+      HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(this.t("http://api.thealtening.com/v1/" + "generate")).openConnection();
+      InputStream inputStream = httpURLConnection.getInputStream();
+      String string = new String(StreamReader.o().M(inputStream));
+      if (alteningLicense.f()) {
+         inputStream.close();
+         httpURLConnection.disconnect();
+         return this.D.fromJson(string, AlteningAccountData.class);
       }
 
-      if (var3 != null) {
-         var3.close();
+      if (inputStream != null) {
+         inputStream.close();
       }
 
-      if (var2 != null) {
-         var2.disconnect();
+      if (httpURLConnection != null) {
+         httpURLConnection.disconnect();
       }
 
       return null;
    }
 
-   public boolean C(AlteningAccountData var1) throws IOException {
-      URLConnection var2 = new URL(this.r("http://api.thealtening.com/v1/" + "favorite", var1)).openConnection();
-      String var3 = new String(StreamReader.o().M(var2.getInputStream()));
-      return var3.isEmpty();
+   public boolean C(AlteningAccountData alteningAccountData) throws IOException {
+      URLConnection urlConnection = new URL(this.r("http://api.thealtening.com/v1/" + "favorite", alteningAccountData)).openConnection();
+      String string = new String(StreamReader.o().M(urlConnection.getInputStream()));
+      return string.isEmpty();
    }
 
-   public boolean L(AlteningAccountData var1) throws IOException {
-      URLConnection var2 = new URL(this.r("http://api.thealtening.com/v1/" + "private", var1)).openConnection();
-      String var3 = new String(StreamReader.o().M(var2.getInputStream()));
-      return var3.isEmpty();
+   public boolean L(AlteningAccountData alteningAccountData) throws IOException {
+      URLConnection urlConnection = new URL(this.r("http://api.thealtening.com/v1/" + "private", alteningAccountData)).openConnection();
+      String string = new String(StreamReader.o().M(urlConnection.getInputStream()));
+      return string.isEmpty();
    }
 
-   private String t(String var1) {
-      return var1 + "?token=" + this.d;
+   private String t(String string) {
+      return string + "?token=" + this.d;
    }
 
-   private String r(String var1, AlteningAccountData var2) {
-      return var1 + "?token=" + this.d + "&acctoken=" + var2.f();
+   private String r(String string, AlteningAccountData alteningAccountData) {
+      return string + "?token=" + this.d + "&acctoken=" + alteningAccountData.f();
    }
 
    public String O() {
       return this.d;
    }
 
-   public void d(String var1) {
-      this.d = var1;
+   public void d(String string) {
+      this.d = string;
    }
 }

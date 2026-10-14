@@ -10,9 +10,9 @@ public final class MeasureRequest implements MeasureMarker {
    private boolean r;
    private static final long a = 19715761024017L;
 
-   public MeasureRequest(AbstractMeasureTask var1, int var2) {
-      this.o = var1;
-      this.c = var2;
+   public MeasureRequest(AbstractMeasureTask abstractMeasureTask, int i) {
+      this.o = abstractMeasureTask;
+      this.c = i;
    }
 
    public AbstractMeasureTask h() {
@@ -27,7 +27,7 @@ public final class MeasureRequest implements MeasureMarker {
       return this.r;
    }
 
-   public void L(boolean var1) {
-      this.r = var1;
+   public void L(boolean bl) {
+      this.r = bl;
    }
 }

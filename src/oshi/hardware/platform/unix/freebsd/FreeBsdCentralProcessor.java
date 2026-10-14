@@ -23,106 +23,106 @@ public final class FreeBsdCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public CentralProcessor.ProcessorIdentifier queryProcessorId() {
-      Pattern var4 = Pattern.compile("Origin=\"([^\"]*)\".*Id=(\\S+).*Family=(\\S+).*Model=(\\S+).*Stepping=(\\S+).*");
-      Pattern var5 = Pattern.compile("Features=(\\S+)<.*");
-      String var6 = "";
-      String var7 = BsdSysctlUtil.sysctl("hw.model", "");
-      String var8 = "";
-      String var9 = "";
-      String var10 = "";
-      long var13 = 0L;
+      Pattern pattern = Pattern.compile("Origin=\"([^\"]*)\".*Id=(\\S+).*Family=(\\S+).*Model=(\\S+).*Stepping=(\\S+).*");
+      Pattern pattern2 = Pattern.compile("Features=(\\S+)<.*");
+      String string = "";
+      String string2 = BsdSysctlUtil.sysctl("hw.model", "");
+      String string3 = "";
+      String string4 = "";
+      String string5 = "";
+      long l = 0L;
 
-      for (String var17 : FileUtil.readFile("/var/run/dmesg.boot")) {
-         var17 = var17.trim();
-         if (var17.startsWith("CPU:") && var7.isEmpty()) {
-            var7 = var17.replace("CPU:", "").trim();
-         } else if (var17.startsWith("Origin=")) {
-            Matcher var20 = var4.matcher(var17);
-            if (var20.matches()) {
-               var6 = var20.group(1);
-               var13 |= Long.decode(var20.group(2));
-               var8 = Integer.decode(var20.group(3)).toString();
-               var9 = Integer.decode(var20.group(4)).toString();
-               var10 = Integer.decode(var20.group(5)).toString();
+      for (String string6 : FileUtil.readFile("/var/run/dmesg.boot")) {
+         string6 = string6.trim();
+         if (string6.startsWith("CPU:") && string2.isEmpty()) {
+            string2 = string6.replace("CPU:", "").trim();
+         } else if (string6.startsWith("Origin=")) {
+            Matcher matcher2 = pattern.matcher(string6);
+            if (matcher2.matches()) {
+               string = matcher2.group(1);
+               l |= Long.decode(matcher2.group(2));
+               string3 = Integer.decode(matcher2.group(3)).toString();
+               string4 = Integer.decode(matcher2.group(4)).toString();
+               string5 = Integer.decode(matcher2.group(5)).toString();
             }
-         } else if (var17.startsWith("Features=")) {
-            Matcher var18 = var5.matcher(var17);
-            if (var18.matches()) {
-               var13 |= Long.decode(var18.group(1)) << 32;
+         } else if (string6.startsWith("Features=")) {
+            Matcher matcher3 = pattern2.matcher(string6);
+            if (matcher3.matches()) {
+               l |= Long.decode(matcher3.group(1)) << 32;
             }
             break;
          }
       }
 
-      boolean var12 = ExecutingCommand.getFirstAnswer("uname -m").trim().contains("64");
-      String var11 = this.getProcessorIDfromDmiDecode(var13);
-      return new CentralProcessor.ProcessorIdentifier(var6, var7, var8, var9, var10, var11, var12);
+      boolean bl = ExecutingCommand.getFirstAnswer("uname -m").trim().contains("64");
+      String string7 = this.getProcessorIDfromDmiDecode(l);
+      return new CentralProcessor.ProcessorIdentifier(string, string2, string3, string4, string5, string7, bl);
    }
 
    @Override
    public CentralProcessor.LogicalProcessor[] initProcessorCounts() {
-      List var4 = parseTopology();
-      if (var4.isEmpty()) {
-         var4.add(new CentralProcessor.LogicalProcessor(0, 0, 0));
+      List list = parseTopology();
+      if (list.isEmpty()) {
+         list.add(new CentralProcessor.LogicalProcessor(0, 0, 0));
       }
 
-      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(var4.toArray(new CentralProcessor.LogicalProcessor[0]));
+      return (oshi.hardware.CentralProcessor.LogicalProcessor[])(list.toArray(new CentralProcessor.LogicalProcessor[0]));
    }
 
    private static List<CentralProcessor.LogicalProcessor> parseTopology() {
-      String[] var3 = BsdSysctlUtil.sysctl("kern.sched.topology_spec", "").split("\\n|\\r");
-      long var4 = 1L;
-      ArrayList var6 = new ArrayList();
-      ArrayList var7 = new ArrayList();
-      int var8 = 0;
+      String[] strings = BsdSysctlUtil.sysctl("kern.sched.topology_spec", "").split("\\n|\\r");
+      long l = 1L;
+      ArrayList arrayList = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
+      int i = 0;
 
-      for (String var12 : var3) {
-         if (var12.contains("<group level=")) {
-            var8++;
-         } else if (var12.contains("</group>")) {
-            var8--;
-         } else if (var12.contains("<cpu")) {
-            Matcher var13 = CPUMASK.matcher(var12);
-            if (var13.matches()) {
-               switch (var8) {
+      for (String string : strings) {
+         if (string.contains("<group level=")) {
+            i++;
+         } else if (string.contains("</group>")) {
+            i--;
+         } else if (string.contains("<cpu")) {
+            Matcher matcher2 = CPUMASK.matcher(string);
+            if (matcher2.matches()) {
+               switch (i) {
                   case 1:
-                     var4 = Long.parseLong(var13.group(1), 16);
+                     l = Long.parseLong(matcher2.group(1), 16);
                      break;
                   case 2:
-                     var6.add(Long.parseLong(var13.group(1), 16));
+                     arrayList.add(Long.parseLong(matcher2.group(1), 16));
                      break;
                   case 3:
-                     var7.add(Long.parseLong(var13.group(1), 16));
+                     arrayList2.add(Long.parseLong(matcher2.group(1), 16));
                }
             }
          }
       }
 
-      return matchBitmasks(var4, var6, var7);
+      return matchBitmasks(l, arrayList, arrayList2);
    }
 
-   private static List<CentralProcessor.LogicalProcessor> matchBitmasks(long var0, List<Long> var2, List<Long> var3) {
-      ArrayList var7 = new ArrayList();
-      int var8 = Long.numberOfTrailingZeros(var0);
-      int var9 = 63 - Long.numberOfLeadingZeros(var0);
+   private static List<CentralProcessor.LogicalProcessor> matchBitmasks(long group1, List<Long> group2, List<Long> group3) {
+      ArrayList arrayList = new ArrayList();
+      int i = Long.numberOfTrailingZeros(group1);
+      int j = 63 - Long.numberOfLeadingZeros(group1);
 
-      for (int var10 = var8; var10 <= var9; var10++) {
-         if ((var0 & 1L << var10) > 0L) {
-            byte var11 = 0;
-            CentralProcessor.LogicalProcessor var12 = new CentralProcessor.LogicalProcessor(
-               var10, getMatchingBitmask(var3, var10), getMatchingBitmask(var2, var10), var11
+      for (int k = i; k <= j; k++) {
+         if ((group1 & 1L << k) > 0L) {
+            byte b = 0;
+            CentralProcessor.LogicalProcessor logicalProcessor = new CentralProcessor.LogicalProcessor(
+               k, getMatchingBitmask(group3, k), getMatchingBitmask(group2, k), b
             );
-            var7.add(var12);
+            arrayList.add(logicalProcessor);
          }
       }
 
-      return var7;
+      return arrayList;
    }
 
-   private static int getMatchingBitmask(List<Long> var0, int var1) {
-      for (int var5 = 0; var5 < var0.size(); var5++) {
-         if (((Long)var0.get(var5) & 1L << var1) > 0L) {
-            return var5;
+   private static int getMatchingBitmask(List<Long> bitmasks, int lp) {
+      for (int i = 0; i < bitmasks.size(); i++) {
+         if (((Long)bitmasks.get(i) & 1L << lp) > 0L) {
+            return i;
          }
       }
 
@@ -131,64 +131,64 @@ public final class FreeBsdCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[] querySystemCpuLoadTicks() {
-      long[] var3 = new long[CentralProcessor.TickType.values().length];
-      FreeBsdLibc.CpTime var4 = new FreeBsdLibc.CpTime();
-      BsdSysctlUtil.sysctl("kern.cp_time", var4);
-      var3[CentralProcessor.TickType.USER.getIndex()] = var4.cpu_ticks[0];
-      var3[CentralProcessor.TickType.NICE.getIndex()] = var4.cpu_ticks[1];
-      var3[CentralProcessor.TickType.SYSTEM.getIndex()] = var4.cpu_ticks[2];
-      var3[CentralProcessor.TickType.IRQ.getIndex()] = var4.cpu_ticks[3];
-      var3[CentralProcessor.TickType.IDLE.getIndex()] = var4.cpu_ticks[4];
-      return var3;
+      long[] longs = new long[CentralProcessor.TickType.values().length];
+      FreeBsdLibc.CpTime cpTime = new FreeBsdLibc.CpTime();
+      BsdSysctlUtil.sysctl("kern.cp_time", cpTime);
+      longs[CentralProcessor.TickType.USER.getIndex()] = cpTime.cpu_ticks[0];
+      longs[CentralProcessor.TickType.NICE.getIndex()] = cpTime.cpu_ticks[1];
+      longs[CentralProcessor.TickType.SYSTEM.getIndex()] = cpTime.cpu_ticks[2];
+      longs[CentralProcessor.TickType.IRQ.getIndex()] = cpTime.cpu_ticks[3];
+      longs[CentralProcessor.TickType.IDLE.getIndex()] = cpTime.cpu_ticks[4];
+      return longs;
    }
 
    @Override
    public long[] queryCurrentFreq() {
-      long var4 = BsdSysctlUtil.sysctl("dev.cpu.0.freq", -1L);
-      if (var4 > 0L) {
-         var4 *= 1000000L;
+      long l = BsdSysctlUtil.sysctl("dev.cpu.0.freq", -1L);
+      if (l > 0L) {
+         l *= 1000000L;
       } else {
-         var4 = BsdSysctlUtil.sysctl("machdep.tsc_freq", -1L);
+         l = BsdSysctlUtil.sysctl("machdep.tsc_freq", -1L);
       }
 
-      long[] var6 = new long[this.getLogicalProcessorCount()];
-      Arrays.fill(var6, var4);
-      return var6;
+      long[] longs = new long[this.getLogicalProcessorCount()];
+      Arrays.fill(longs, l);
+      return longs;
    }
 
    @Override
    public long queryMaxFreq() {
-      long var4 = -1L;
-      String var6 = BsdSysctlUtil.sysctl("dev.cpu.0.freq_levels", "");
+      long l = -1L;
+      String string = BsdSysctlUtil.sysctl("dev.cpu.0.freq_levels", "");
 
-      for (String var10 : ParseUtil.Q.split(var6)) {
-         long var11 = ParseUtil.parseLongOrDefault(var10.split("/")[0], -1L);
-         if (var4 < var11) {
-            var4 = var11;
+      for (String string2 : ParseUtil.Q.split(string)) {
+         long m = ParseUtil.parseLongOrDefault(string2.split("/")[0], -1L);
+         if (l < m) {
+            l = m;
          }
       }
 
-      if (var4 > 0L) {
-         var4 *= 1000000L;
+      if (l > 0L) {
+         l *= 1000000L;
       } else {
-         var4 = BsdSysctlUtil.sysctl("machdep.tsc_freq", -1L);
+         l = BsdSysctlUtil.sysctl("machdep.tsc_freq", -1L);
       }
 
-      return var4;
+      return l;
    }
 
    @Override
-   public double[] getSystemLoadAverage(int var1) {
-      if (var1 >= 1 && var1 <= 3) {
-         double[] var5 = new double[var1];
-         int var6 = FreeBsdLibc.INSTANCE.getloadavg(var5, var1);
-         if (var6 < var1) {
-            for (int var7 = Math.max(var6, 0); var7 < var5.length; var7++) {
-               var5[var7] = -1.0;
+   public double[] getSystemLoadAverage(int nelem) {
+      if (nelem >= 1 && nelem <= 3) {
+         double[] doubles = new double[nelem];
+         int i = FreeBsdLibc.INSTANCE.getloadavg(doubles, nelem);
+         if (i < nelem) {
+            for (int j = Math.max(i, 0); j < doubles.length; j++) {
+               doubles[j] = -1.0;
             }
          }
 
-         return var5;
+         return doubles;
       } else {
          throw new IllegalArgumentException("Must include from one to three elements.");
       }
@@ -196,55 +196,55 @@ public final class FreeBsdCentralProcessor extends AbstractCentralProcessor {
 
    @Override
    public long[][] queryProcessorCpuLoadTicks() {
-      long[][] var4 = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
-      long var5 = new FreeBsdLibc.CpTime().size();
-      long var7 = var5 * this.getLogicalProcessorCount();
-      Memory var9 = new Memory(var7);
-      String var10 = "kern.cp_times";
-      if (0 != FreeBsdLibc.INSTANCE.sysctlbyname(var10, var9, new IntByReference((int)var7), null, 0)) {
-         return var4;
+      long[][] longss = new long[this.getLogicalProcessorCount()][CentralProcessor.TickType.values().length];
+      long l = new FreeBsdLibc.CpTime().size();
+      long m = l * this.getLogicalProcessorCount();
+      Memory memory = new Memory(m);
+      String string = "kern.cp_times";
+      if (0 != FreeBsdLibc.INSTANCE.sysctlbyname(string, memory, new IntByReference((int)m), null, 0)) {
+         return longss;
       }
 
-      for (int var11 = 0; var11 < this.getLogicalProcessorCount(); var11++) {
-         var4[var11][CentralProcessor.TickType.USER.getIndex()] = var9.getLong(var5 * var11 + 0 * FreeBsdLibc.UINT64_SIZE);
-         var4[var11][CentralProcessor.TickType.NICE.getIndex()] = var9.getLong(var5 * var11 + 1 * FreeBsdLibc.UINT64_SIZE);
-         var4[var11][CentralProcessor.TickType.SYSTEM.getIndex()] = var9.getLong(var5 * var11 + 2 * FreeBsdLibc.UINT64_SIZE);
-         var4[var11][CentralProcessor.TickType.IRQ.getIndex()] = var9.getLong(var5 * var11 + 3 * FreeBsdLibc.UINT64_SIZE);
-         var4[var11][CentralProcessor.TickType.IDLE.getIndex()] = var9.getLong(var5 * var11 + 4 * FreeBsdLibc.UINT64_SIZE);
+      for (int i = 0; i < this.getLogicalProcessorCount(); i++) {
+         longss[i][CentralProcessor.TickType.USER.getIndex()] = memory.getLong(l * i + 0 * FreeBsdLibc.UINT64_SIZE);
+         longss[i][CentralProcessor.TickType.NICE.getIndex()] = memory.getLong(l * i + 1 * FreeBsdLibc.UINT64_SIZE);
+         longss[i][CentralProcessor.TickType.SYSTEM.getIndex()] = memory.getLong(l * i + 2 * FreeBsdLibc.UINT64_SIZE);
+         longss[i][CentralProcessor.TickType.IRQ.getIndex()] = memory.getLong(l * i + 3 * FreeBsdLibc.UINT64_SIZE);
+         longss[i][CentralProcessor.TickType.IDLE.getIndex()] = memory.getLong(l * i + 4 * FreeBsdLibc.UINT64_SIZE);
       }
 
-      return var4;
+      return longss;
    }
 
-   private String getProcessorIDfromDmiDecode(long var1) {
-      boolean var6 = false;
-      String var7 = "Processor Information";
+   private String getProcessorIDfromDmiDecode(long processorID) {
+      boolean bl = false;
+      String string = "Processor Information";
 
-      for (String var9 : ExecutingCommand.runNative("dmidecode -t system")) {
-         if (!var6 && var9.contains(var7)) {
-            var7 = "ID:";
-            var6 = true;
-         } else if (var6 && var9.contains(var7)) {
-            return var9.split(var7)[1].trim();
+      for (String string2 : ExecutingCommand.runNative("dmidecode -t system")) {
+         if (!bl && string2.contains(string)) {
+            string = "ID:";
+            bl = true;
+         } else if (bl && string2.contains(string)) {
+            return string2.split(string)[1].trim();
          }
       }
 
-      return String.format("%016X", var1);
+      return String.format("%016X", processorID);
    }
 
    @Override
    public long queryContextSwitches() {
-      String var4 = "vm.stats.sys.v_swtch";
-      IntByReference var5 = new IntByReference(FreeBsdLibc.INT_SIZE);
-      Memory var6 = new Memory(var5.getValue());
-      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(var4, var6, var5, null, 0) ? -1L : ParseUtil.unsignedIntToLong(var6.getInt(0L));
+      String string = "vm.stats.sys.v_swtch";
+      IntByReference intByReference = new IntByReference(FreeBsdLibc.INT_SIZE);
+      Memory memory = new Memory(intByReference.getValue());
+      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(string, memory, intByReference, null, 0) ? -1L : ParseUtil.unsignedIntToLong(memory.getInt(0L));
    }
 
    @Override
    public long queryInterrupts() {
-      String var4 = "vm.stats.sys.v_intr";
-      IntByReference var5 = new IntByReference(FreeBsdLibc.INT_SIZE);
-      Memory var6 = new Memory(var5.getValue());
-      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(var4, var6, var5, null, 0) ? -1L : ParseUtil.unsignedIntToLong(var6.getInt(0L));
+      String string = "vm.stats.sys.v_intr";
+      IntByReference intByReference = new IntByReference(FreeBsdLibc.INT_SIZE);
+      Memory memory = new Memory(intByReference.getValue());
+      return 0 != FreeBsdLibc.INSTANCE.sysctlbyname(string, memory, intByReference, null, 0) ? -1L : ParseUtil.unsignedIntToLong(memory.getInt(0L));
    }
 }

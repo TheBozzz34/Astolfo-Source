@@ -38,51 +38,51 @@ public class ModuleManager extends Manager<ModuleInfo> implements Loadable {
       ConfigFiles.save(ConfigFiles.serializeModules(), Astolfo.INSTANCE.getConfigName());
    }
 
-   public ModuleInfo getByName(String var1) {
-      for (ModuleInfo var6 : this.C) {
-         if (var6.getName().equalsIgnoreCase(var1)) {
-            return var6;
+   public ModuleInfo getByName(String string) {
+      for (ModuleInfo moduleInfo : this.C) {
+         if (moduleInfo.getName().equalsIgnoreCase(string)) {
+            return moduleInfo;
          }
       }
 
       return null;
    }
 
-   public Module getModule(String var1) {
-      return (Module)this.getByName(var1);
+   public Module getModule(String string) {
+      return (Module)this.getByName(string);
    }
 
-   public ArrayList<Module> getModules(Category var1) {
-      ArrayList var6 = new ArrayList();
+   public ArrayList<Module> getModules(Category category) {
+      ArrayList arrayList = new ArrayList();
 
-      for (ModuleInfo var8 : this.C) {
-         if (var8 instanceof Module && var8.getCategory() == var1) {
-            var6.add((Module)var8);
+      for (ModuleInfo moduleInfo : this.C) {
+         if (moduleInfo instanceof Module && moduleInfo.getCategory() == category) {
+            arrayList.add((Module)moduleInfo);
          }
       }
 
-      return var6;
+      return arrayList;
    }
 
-   public static void C(double var0) {
-      v = var0;
+   public static void C(double d) {
+      v = d;
    }
 
-   public static void k(int var0) {
-      e = var0;
+   public static void k(int j) {
+      e = j;
    }
 
-   public <T extends ModuleInfo> T get(Class<T> var1) {
-      return (T)var1.cast(this.byClass.get(var1));
+   public <T extends ModuleInfo> T get(Class<T> class2) {
+      return (T)class2.cast(this.byClass.get(class2));
    }
 
-   public boolean canAdd(ModuleInfo var1) {
-      this.byClass.put((Class<? extends ModuleInfo>)var1.getClass(), var1);
+   public boolean canAdd(ModuleInfo moduleInfo) {
+      this.byClass.put((Class<? extends ModuleInfo>)moduleInfo.getClass(), moduleInfo);
       return true;
    }
 
    @Override
-   public boolean canRemove(Object var1) {
-      return this.byClass.remove(var1) != null;
+   public boolean canRemove(Object object) {
+      return this.byClass.remove(object) != null;
    }
 }

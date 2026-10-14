@@ -38,16 +38,16 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
    private long field_148298_f;
    private static final long a = 122445519407707L;
 
-   public ServerListEntryNormal(GuiMultiplayer var1, ServerData var2) {
-      this.owner = var1;
-      this.server = var2;
+   public ServerListEntryNormal(GuiMultiplayer guiMultiplayer, ServerData serverIn) {
+      this.owner = guiMultiplayer;
+      this.server = serverIn;
       this.mc = Minecraft.getMinecraft();
-      this.serverIcon = new ResourceLocation("servers/" + var2.serverIP + "/icon");
+      this.serverIcon = new ResourceLocation("servers/" + serverIn.serverIP + "/icon");
       this.field_148305_h = (DynamicTexture)this.mc.getTextureManager().getTexture(this.serverIcon);
    }
 
    @Override
-   public void drawEntry(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8) {
+   public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
       if (!this.server.field_78841_f) {
          this.server.field_78841_f = true;
          this.server.pingToServer = -2L;
@@ -60,10 +60,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
             public void run() {
                try {
                   ServerListEntryNormal.this.owner.getOldServerPinger().ping(ServerListEntryNormal.this.server);
-               } catch (UnknownHostException var4x) {
+               } catch (UnknownHostException unknownHostException) {
                   ServerListEntryNormal.this.server.pingToServer = -1L;
                   ServerListEntryNormal.this.server.serverMOTD = EnumChatFormatting.DARK_RED + "Can't resolve hostname";
-               } catch (Exception var5x) {
+               } catch (Exception exception) {
                   ServerListEntryNormal.this.server.pingToServer = -1L;
                   ServerListEntryNormal.this.server.serverMOTD = EnumChatFormatting.DARK_RED + "Can't connect to server.";
                }
@@ -71,61 +71,61 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
          });
       }
 
-      boolean var12 = this.server.version > 47;
-      boolean var13 = this.server.version < 47;
-      boolean var14 = var12 || var13;
-      this.mc.fontRendererObj.D(this.server.serverName, var2 + 32 + 3, var3 + 1, 16777215);
-      List var15 = this.mc.fontRendererObj.listFormattedStringToWidth(this.server.serverMOTD, var4 - 32 - 2);
+      boolean bl = this.server.version > 47;
+      boolean bl2 = this.server.version < 47;
+      boolean bl3 = bl || bl2;
+      this.mc.fontRendererObj.D(this.server.serverName, x + 32 + 3, y + 1, 16777215);
+      List list = this.mc.fontRendererObj.listFormattedStringToWidth(this.server.serverMOTD, listWidth - 32 - 2);
 
-      for (int var16 = 0; var16 < Math.min(var15.size(), 2); var16++) {
-         this.mc.fontRendererObj.D((String)var15.get(var16), var2 + 32 + 3, var3 + 12 + this.mc.fontRendererObj.FONT_HEIGHT * var16, 8421504);
+      for (int i = 0; i < Math.min(list.size(), 2); i++) {
+         this.mc.fontRendererObj.D((String)list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.FONT_HEIGHT * i, 8421504);
       }
 
-      String var26 = var14 ? EnumChatFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo;
-      int var17 = this.mc.fontRendererObj.getStringWidth(var26);
-      this.mc.fontRendererObj.D(var26, var2 + var4 - var17 - 15 - 2, var3 + 1, 8421504);
-      byte var18 = 0;
-      String var19 = null;
-      int var20;
-      String var21;
-      if (var14) {
-         var20 = 5;
-         var21 = var12 ? "Client out of date!" : "Server out of date!";
-         var19 = this.server.playerList;
+      String string = bl3 ? EnumChatFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo;
+      int j = this.mc.fontRendererObj.getStringWidth(string);
+      this.mc.fontRendererObj.D(string, x + listWidth - j - 15 - 2, y + 1, 8421504);
+      byte b = 0;
+      String string2 = null;
+      int k;
+      String string3;
+      if (bl3) {
+         k = 5;
+         string3 = bl ? "Client out of date!" : "Server out of date!";
+         string2 = this.server.playerList;
       } else if (this.server.field_78841_f && this.server.pingToServer != -2L) {
          if (this.server.pingToServer < 0L) {
-            var20 = 5;
+            k = 5;
          } else if (this.server.pingToServer < 150L) {
-            var20 = 0;
+            k = 0;
          } else if (this.server.pingToServer < 300L) {
-            var20 = 1;
+            k = 1;
          } else if (this.server.pingToServer < 600L) {
-            var20 = 2;
+            k = 2;
          } else if (this.server.pingToServer < 1000L) {
-            var20 = 3;
+            k = 3;
          } else {
-            var20 = 4;
+            k = 4;
          }
 
          if (this.server.pingToServer < 0L) {
-            var21 = "(no connection)";
+            string3 = "(no connection)";
          } else {
-            var21 = this.server.pingToServer + "ms";
-            var19 = this.server.playerList;
+            string3 = this.server.pingToServer + "ms";
+            string2 = this.server.playerList;
          }
       } else {
-         var18 = 1;
-         var20 = (int)(Minecraft.getSystemTime() / 100L + var1 * 2 & 7L);
-         if (var20 > 4) {
-            var20 = 8 - var20;
+         b = 1;
+         k = (int)(Minecraft.getSystemTime() / 100L + slotIndex * 2 & 7L);
+         if (k > 4) {
+            k = 8 - k;
          }
 
-         var21 = "Pinging...";
+         string3 = "Pinging...";
       }
 
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       this.mc.getTextureManager().bindTexture(Gui.icons);
-      Gui.drawModalRectWithCustomSizedTexture(var2 + var4 - 15, var3, var18 * 10, 176 + var20 * 8, 10, 8, 256.0F, 256.0F);
+      Gui.drawModalRectWithCustomSizedTexture(x + listWidth - 15, y, b * 10, 176 + k * 8, 10, 8, 256.0F, 256.0F);
       if (this.server.getBase64EncodedIconData() != null && !this.server.getBase64EncodedIconData().equals(this.field_148299_g)) {
          this.field_148299_g = this.server.getBase64EncodedIconData();
          this.prepareServerIcon();
@@ -133,55 +133,55 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
       }
 
       if (this.field_148305_h != null) {
-         this.drawTextureAt(var2, var3, this.serverIcon);
+         this.drawTextureAt(x, y, this.serverIcon);
       } else {
-         this.drawTextureAt(var2, var3, UNKNOWN_SERVER);
+         this.drawTextureAt(x, y, UNKNOWN_SERVER);
       }
 
-      int var22 = var6 - var2;
-      int var23 = var7 - var3;
-      if (var22 >= var4 - 15 && var22 <= var4 - 5 && var23 >= 0 && var23 <= 8) {
-         this.owner.setHoveringText(var21);
-      } else if (var22 >= var4 - var17 - 15 - 2 && var22 <= var4 - 15 - 2 && var23 >= 0 && var23 <= 8) {
-         this.owner.setHoveringText(var19);
+      int l = mouseX - x;
+      int m = mouseY - y;
+      if (l >= listWidth - 15 && l <= listWidth - 5 && m >= 0 && m <= 8) {
+         this.owner.setHoveringText(string3);
+      } else if (l >= listWidth - j - 15 - 2 && l <= listWidth - 15 - 2 && m >= 0 && m <= 8) {
+         this.owner.setHoveringText(string2);
       }
 
-      if (this.mc.gameSettings.touchscreen || var8) {
+      if (this.mc.gameSettings.touchscreen || isSelected) {
          this.mc.getTextureManager().bindTexture(SERVER_SELECTION_BUTTONS);
-         Gui.drawRect(var2, var3, var2 + 32, var3 + 32, -1601138544);
+         Gui.drawRect(x, y, x + 32, y + 32, -1601138544);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         int var24 = var6 - var2;
-         int var25 = var7 - var3;
+         int n = mouseX - x;
+         int i2 = mouseY - y;
          if (this.func_178013_b()) {
-            if (var24 < 32 && var24 > 16) {
-               Gui.drawModalRectWithCustomSizedTexture(var2, var3, 0.0F, 32.0F, 32, 32, 256.0F, 256.0F);
+            if (n < 32 && n > 16) {
+               Gui.drawModalRectWithCustomSizedTexture(x, y, 0.0F, 32.0F, 32, 32, 256.0F, 256.0F);
             } else {
-               Gui.drawModalRectWithCustomSizedTexture(var2, var3, 0.0F, 0.0F, 32, 32, 256.0F, 256.0F);
+               Gui.drawModalRectWithCustomSizedTexture(x, y, 0.0F, 0.0F, 32, 32, 256.0F, 256.0F);
             }
          }
 
-         if (this.owner.func_175392_a(this, var1)) {
-            if (var24 < 16 && var25 < 16) {
-               Gui.drawModalRectWithCustomSizedTexture(var2, var3, 96.0F, 32.0F, 32, 32, 256.0F, 256.0F);
+         if (this.owner.func_175392_a(this, slotIndex)) {
+            if (n < 16 && i2 < 16) {
+               Gui.drawModalRectWithCustomSizedTexture(x, y, 96.0F, 32.0F, 32, 32, 256.0F, 256.0F);
             } else {
-               Gui.drawModalRectWithCustomSizedTexture(var2, var3, 96.0F, 0.0F, 32, 32, 256.0F, 256.0F);
+               Gui.drawModalRectWithCustomSizedTexture(x, y, 96.0F, 0.0F, 32, 32, 256.0F, 256.0F);
             }
          }
 
-         if (this.owner.func_175394_b(this, var1)) {
-            if (var24 < 16 && var25 > 16) {
-               Gui.drawModalRectWithCustomSizedTexture(var2, var3, 64.0F, 32.0F, 32, 32, 256.0F, 256.0F);
+         if (this.owner.func_175394_b(this, slotIndex)) {
+            if (n < 16 && i2 > 16) {
+               Gui.drawModalRectWithCustomSizedTexture(x, y, 64.0F, 32.0F, 32, 32, 256.0F, 256.0F);
             } else {
-               Gui.drawModalRectWithCustomSizedTexture(var2, var3, 64.0F, 0.0F, 32, 32, 256.0F, 256.0F);
+               Gui.drawModalRectWithCustomSizedTexture(x, y, 64.0F, 0.0F, 32, 32, 256.0F, 256.0F);
             }
          }
       }
    }
 
-   public void drawTextureAt(int var1, int var2, ResourceLocation var3) {
-      this.mc.getTextureManager().bindTexture(var3);
+   public void drawTextureAt(int i, int j, ResourceLocation resourceLocation) {
+      this.mc.getTextureManager().bindTexture(resourceLocation);
       GlStateManager.enableBlend();
-      Gui.drawModalRectWithCustomSizedTexture(var1, var2, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
+      Gui.drawModalRectWithCustomSizedTexture(i, j, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
       GlStateManager.disableBlend();
    }
 
@@ -194,58 +194,58 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
          this.mc.getTextureManager().deleteTexture(this.serverIcon);
          this.field_148305_h = null;
       } else {
-         ByteBuf var4 = Unpooled.copiedBuffer(this.server.getBase64EncodedIconData(), Charsets.UTF_8);
-         ByteBuf var5 = Base64.decode(var4);
+         ByteBuf byteBuf = Unpooled.copiedBuffer(this.server.getBase64EncodedIconData(), Charsets.UTF_8);
+         ByteBuf byteBuf2 = Base64.decode(byteBuf);
 
-         BufferedImage var6;
+         BufferedImage bufferedImage;
          label63: {
             try {
-               var6 = TextureUtil.readBufferedImage(new ByteBufInputStream(var5));
-               Validate.validState(var6.getWidth() == 64, "Must be 64 pixels wide");
-               Validate.validState(var6.getHeight() == 64, "Must be 64 pixels high");
+               bufferedImage = TextureUtil.readBufferedImage(new ByteBufInputStream(byteBuf2));
+               Validate.validState(bufferedImage.getWidth() == 64, "Must be 64 pixels wide");
+               Validate.validState(bufferedImage.getHeight() == 64, "Must be 64 pixels high");
                break label63;
-            } catch (Throwable var11) {
-               logger.error("Invalid icon for server " + this.server.serverName + " (" + this.server.serverIP + ")", var11);
+            } catch (Throwable throwable) {
+               logger.error("Invalid icon for server " + this.server.serverName + " (" + this.server.serverIP + ")", throwable);
                this.server.setBase64EncodedIconData((String)null);
             } finally {
-               var4.release();
-               var5.release();
+               byteBuf.release();
+               byteBuf2.release();
             }
 
             return;
          }
 
          if (this.field_148305_h == null) {
-            this.field_148305_h = new DynamicTexture(var6.getWidth(), var6.getHeight());
+            this.field_148305_h = new DynamicTexture(bufferedImage.getWidth(), bufferedImage.getHeight());
             this.mc.getTextureManager().loadTexture(this.serverIcon, this.field_148305_h);
          }
 
-         var6.getRGB(0, 0, var6.getWidth(), var6.getHeight(), this.field_148305_h.getTextureData(), 0, var6.getWidth());
+         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), this.field_148305_h.getTextureData(), 0, bufferedImage.getWidth());
          this.field_148305_h.updateDynamicTexture();
       }
    }
 
    @Override
-   public boolean mousePressed(int var1, int var2, int var3, int var4, int var5, int var6) {
-      if (var5 <= 32) {
-         if (var5 < 32 && var5 > 16 && this.func_178013_b()) {
-            this.owner.selectServer(var1);
+   public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
+      if (l <= 32) {
+         if (l < 32 && l > 16 && this.func_178013_b()) {
+            this.owner.selectServer(slotIndex);
             this.owner.connectToSelected();
             return true;
          }
 
-         if (var5 < 16 && var6 < 16 && this.owner.func_175392_a(this, var1)) {
-            this.owner.func_175391_a(this, var1, GuiScreen.isShiftKeyDown());
+         if (l < 16 && m < 16 && this.owner.func_175392_a(this, slotIndex)) {
+            this.owner.func_175391_a(this, slotIndex, GuiScreen.isShiftKeyDown());
             return true;
          }
 
-         if (var5 < 16 && var6 > 16 && this.owner.func_175394_b(this, var1)) {
-            this.owner.func_175393_b(this, var1, GuiScreen.isShiftKeyDown());
+         if (l < 16 && m > 16 && this.owner.func_175394_b(this, slotIndex)) {
+            this.owner.func_175393_b(this, slotIndex, GuiScreen.isShiftKeyDown());
             return true;
          }
       }
 
-      this.owner.selectServer(var1);
+      this.owner.selectServer(slotIndex);
       if (Minecraft.getSystemTime() - this.field_148298_f < 250L) {
          this.owner.connectToSelected();
       }
@@ -255,11 +255,11 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
    }
 
    @Override
-   public void setSelected(int var1, int var2, int var3) {
+   public void setSelected(int i, int j, int k) {
    }
 
    @Override
-   public void mouseReleased(int var1, int var2, int var3, int var4, int var5, int var6) {
+   public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
    }
 
    public ServerData getServerData() {

@@ -46,9 +46,9 @@ public class FurnaceRecipes {
       this.addSmeltingRecipeForBlock(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.1F);
       this.addSmeltingRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.15F);
 
-      for (ItemFishFood.FishType var6 : ItemFishFood.FishType.values()) {
-         if (var6.canCook()) {
-            this.addSmeltingRecipe(new ItemStack(Items.fish, 1, var6.getMetadata()), new ItemStack(Items.cooked_fish, 1, var6.getMetadata()), 0.35F);
+      for (ItemFishFood.FishType fishType : ItemFishFood.FishType.values()) {
+         if (fishType.canCook()) {
+            this.addSmeltingRecipe(new ItemStack(Items.fish, 1, fishType.getMetadata()), new ItemStack(Items.cooked_fish, 1, fishType.getMetadata()), 0.35F);
          }
       }
 
@@ -58,41 +58,41 @@ public class FurnaceRecipes {
       this.addSmeltingRecipeForBlock(Blocks.quartz_ore, new ItemStack(Items.quartz), 0.2F);
    }
 
-   public void addSmeltingRecipeForBlock(Block var1, ItemStack var2, float var3) {
-      this.addSmelting(Item.getItemFromBlock(var1), var2, var3);
+   public void addSmeltingRecipeForBlock(Block input, ItemStack stack, float experience) {
+      this.addSmelting(Item.getItemFromBlock(input), stack, experience);
    }
 
-   public void addSmelting(Item var1, ItemStack var2, float var3) {
-      this.addSmeltingRecipe(new ItemStack(var1, 1, 32767), var2, var3);
+   public void addSmelting(Item input, ItemStack stack, float experience) {
+      this.addSmeltingRecipe(new ItemStack(input, 1, 32767), stack, experience);
    }
 
-   public void addSmeltingRecipe(ItemStack var1, ItemStack var2, float var3) {
-      this.smeltingList.put(var1, var2);
-      this.experienceList.put(var2, var3);
+   public void addSmeltingRecipe(ItemStack input, ItemStack stack, float experience) {
+      this.smeltingList.put(input, stack);
+      this.experienceList.put(stack, experience);
    }
 
-   public ItemStack getSmeltingResult(ItemStack var1) {
-      for (Entry var6 : this.smeltingList.entrySet()) {
-         if (this.compareItemStacks(var1, (ItemStack)var6.getKey())) {
-            return (ItemStack)var6.getValue();
+   public ItemStack getSmeltingResult(ItemStack stack) {
+      for (Entry entry : this.smeltingList.entrySet()) {
+         if (this.compareItemStacks(stack, (ItemStack)entry.getKey())) {
+            return (ItemStack)entry.getValue();
          }
       }
 
       return null;
    }
 
-   private boolean compareItemStacks(ItemStack var1, ItemStack var2) {
-      return var2.getItem() == var1.getItem() && (var2.getMetadata() == 32767 || var2.getMetadata() == var1.getMetadata());
+   private boolean compareItemStacks(ItemStack stack1, ItemStack stack2) {
+      return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
    }
 
    public Map<ItemStack, ItemStack> getSmeltingList() {
       return this.smeltingList;
    }
 
-   public float getSmeltingExperience(ItemStack var1) {
-      for (Entry var6 : this.experienceList.entrySet()) {
-         if (this.compareItemStacks(var1, (ItemStack)var6.getKey())) {
-            return (Float)var6.getValue();
+   public float getSmeltingExperience(ItemStack stack) {
+      for (Entry entry : this.experienceList.entrySet()) {
+         if (this.compareItemStacks(stack, (ItemStack)entry.getKey())) {
+            return (Float)entry.getValue();
          }
       }
 

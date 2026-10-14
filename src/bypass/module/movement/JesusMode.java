@@ -8,11 +8,11 @@ public enum JesusMode {
    private String g;
    private static final JesusMode[] C = new JesusMode[]{SOLID, FLOAT, DOLPHIN};
 
-   JesusMode(String var3) {
-      this.g = var3;
+   JesusMode(String string2) {
+      this.g = string2;
    }
 
-   public static String R(JesusMode var0) {
-      return var0.g;
+   public static String R(JesusMode jesusMode) {
+      return jesusMode.g;
    }
 }

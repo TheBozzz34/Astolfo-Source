@@ -19,31 +19,31 @@ public class MapItemRenderer {
    private final Map<String, MapItemRenderer.Instance> loadedMaps = Maps.newHashMap();
    private static final long a = 102715040440845L;
 
-   public MapItemRenderer(TextureManager var1) {
-      this.textureManager = var1;
+   public MapItemRenderer(TextureManager textureManagerIn) {
+      this.textureManager = textureManagerIn;
    }
 
-   public void updateMapTexture(MapData var1) {
-      this.getMapRendererInstance(var1).updateMapTexture();
+   public void updateMapTexture(MapData mapdataIn) {
+      this.getMapRendererInstance(mapdataIn).updateMapTexture();
    }
 
-   public void renderMap(MapData var1, boolean var2) {
-      this.getMapRendererInstance(var1).render(var2);
+   public void renderMap(MapData mapdataIn, boolean bl) {
+      this.getMapRendererInstance(mapdataIn).render(bl);
    }
 
-   private MapItemRenderer.Instance getMapRendererInstance(MapData var1) {
-      MapItemRenderer.Instance var5 = this.loadedMaps.get(var1.mapName);
-      if (var5 == null) {
-         var5 = new MapItemRenderer.Instance(var1);
-         this.loadedMaps.put(var1.mapName, var5);
+   private MapItemRenderer.Instance getMapRendererInstance(MapData mapdataIn) {
+      MapItemRenderer.Instance instance = this.loadedMaps.get(mapdataIn.mapName);
+      if (instance == null) {
+         instance = new MapItemRenderer.Instance(mapdataIn);
+         this.loadedMaps.put(mapdataIn.mapName, instance);
       }
 
-      return var5;
+      return instance;
    }
 
    public void clearLoadedMaps() {
-      for (MapItemRenderer.Instance var5 : this.loadedMaps.values()) {
-         this.textureManager.deleteTexture(var5.location);
+      for (MapItemRenderer.Instance instance : this.loadedMaps.values()) {
+         this.textureManager.deleteTexture(instance.location);
       }
 
       this.loadedMaps.clear();
@@ -56,71 +56,71 @@ public class MapItemRenderer {
       private final int[] mapTextureData;
       private static final long a = 62848190280753L;
 
-      public Instance(MapData var2) {
-         this.mapData = var2;
+      public Instance(MapData mapdataIn) {
+         this.mapData = mapdataIn;
          this.mapTexture = new DynamicTexture(128, 128);
          this.mapTextureData = this.mapTexture.getTextureData();
-         this.location = MapItemRenderer.this.textureManager.getDynamicTextureLocation("map/" + var2.mapName, this.mapTexture);
+         this.location = MapItemRenderer.this.textureManager.getDynamicTextureLocation("map/" + mapdataIn.mapName, this.mapTexture);
 
-         for (int var6 = 0; var6 < this.mapTextureData.length; var6++) {
-            this.mapTextureData[var6] = 0;
+         for (int i = 0; i < this.mapTextureData.length; i++) {
+            this.mapTextureData[i] = 0;
          }
       }
 
       private void updateMapTexture() {
-         for (int var4 = 0; var4 < 16384; var4++) {
-            int var5 = this.mapData.colors[var4] & 255;
-            if (var5 / 4 == 0) {
-               this.mapTextureData[var4] = (var4 + var4 / 128 & 1) * 8 + 16 << 24;
+         for (int i = 0; i < 16384; i++) {
+            int j = this.mapData.colors[i] & 255;
+            if (j / 4 == 0) {
+               this.mapTextureData[i] = (i + i / 128 & 1) * 8 + 16 << 24;
             } else {
-               this.mapTextureData[var4] = MapColor.mapColorArray[var5 / 4].getMapColor(var5 & 3);
+               this.mapTextureData[i] = MapColor.mapColorArray[j / 4].getMapColor(j & 3);
             }
          }
 
          this.mapTexture.updateDynamicTexture();
       }
 
-      private void render(boolean var1) {
-         byte var5 = 0;
-         byte var6 = 0;
-         Tessellator var7 = Tessellator.getInstance();
-         WorldRenderer var8 = var7.getWorldRenderer();
-         float var9 = 0.0F;
+      private void render(boolean noOverlayRendering) {
+         byte b = 0;
+         byte b2 = 0;
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+         float f = 0.0F;
          MapItemRenderer.this.textureManager.bindTexture(this.location);
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(1, 771, 0, 1);
          GlStateManager.disableAlpha();
-         var8.begin(7, DefaultVertexFormats.POSITION_TEX);
-         var8.pos(var5 + 0 + var9, var6 + 128 - var9, -0.01F).tex(0.0, 1.0).endVertex();
-         var8.pos(var5 + 128 - var9, var6 + 128 - var9, -0.01F).tex(1.0, 1.0).endVertex();
-         var8.pos(var5 + 128 - var9, var6 + 0 + var9, -0.01F).tex(1.0, 0.0).endVertex();
-         var8.pos(var5 + 0 + var9, var6 + 0 + var9, -0.01F).tex(0.0, 0.0).endVertex();
-         var7.draw();
+         worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+         worldRenderer.pos(b + 0 + f, b2 + 128 - f, -0.01F).tex(0.0, 1.0).endVertex();
+         worldRenderer.pos(b + 128 - f, b2 + 128 - f, -0.01F).tex(1.0, 1.0).endVertex();
+         worldRenderer.pos(b + 128 - f, b2 + 0 + f, -0.01F).tex(1.0, 0.0).endVertex();
+         worldRenderer.pos(b + 0 + f, b2 + 0 + f, -0.01F).tex(0.0, 0.0).endVertex();
+         tessellator.draw();
          GlStateManager.enableAlpha();
          GlStateManager.disableBlend();
          MapItemRenderer.this.textureManager.bindTexture(MapItemRenderer.mapIcons);
-         int var10 = 0;
+         int i = 0;
 
-         for (Vec4b var12 : this.mapData.mapDecorations.values()) {
-            if (!var1 || var12.func_176110_a() == 1) {
+         for (Vec4b vec4b : this.mapData.mapDecorations.values()) {
+            if (!noOverlayRendering || vec4b.func_176110_a() == 1) {
                GlStateManager.pushMatrix();
-               GlStateManager.translate(var5 + var12.func_176112_b() / 2.0F + 64.0F, var6 + var12.func_176113_c() / 2.0F + 64.0F, -0.02F);
-               GlStateManager.rotate(var12.func_176111_d() * 360 / 16.0F, 0.0F, 0.0F, 1.0F);
+               GlStateManager.translate(b + vec4b.func_176112_b() / 2.0F + 64.0F, b2 + vec4b.func_176113_c() / 2.0F + 64.0F, -0.02F);
+               GlStateManager.rotate(vec4b.func_176111_d() * 360 / 16.0F, 0.0F, 0.0F, 1.0F);
                GlStateManager.scale(4.0F, 4.0F, 3.0F);
                GlStateManager.translate(-0.125F, 0.125F, 0.0F);
-               byte var13 = var12.func_176110_a();
-               float var14 = (var13 % 4 + 0) / 4.0F;
-               float var15 = (var13 / 4 + 0) / 4.0F;
-               float var16 = (var13 % 4 + 1) / 4.0F;
-               float var17 = (var13 / 4 + 1) / 4.0F;
-               var8.begin(7, DefaultVertexFormats.POSITION_TEX);
-               var8.pos(-1.0, 1.0, var10 * -0.001F).tex(var14, var15).endVertex();
-               var8.pos(1.0, 1.0, var10 * -0.001F).tex(var16, var15).endVertex();
-               var8.pos(1.0, -1.0, var10 * -0.001F).tex(var16, var17).endVertex();
-               var8.pos(-1.0, -1.0, var10 * -0.001F).tex(var14, var17).endVertex();
-               var7.draw();
+               byte b3 = vec4b.func_176110_a();
+               float g = (b3 % 4 + 0) / 4.0F;
+               float h = (b3 / 4 + 0) / 4.0F;
+               float f2 = (b3 % 4 + 1) / 4.0F;
+               float f3 = (b3 / 4 + 1) / 4.0F;
+               worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+               worldRenderer.pos(-1.0, 1.0, i * -0.001F).tex(g, h).endVertex();
+               worldRenderer.pos(1.0, 1.0, i * -0.001F).tex(f2, h).endVertex();
+               worldRenderer.pos(1.0, -1.0, i * -0.001F).tex(f2, f3).endVertex();
+               worldRenderer.pos(-1.0, -1.0, i * -0.001F).tex(g, f3).endVertex();
+               tessellator.draw();
                GlStateManager.popMatrix();
-               var10++;
+               i++;
             }
          }
 

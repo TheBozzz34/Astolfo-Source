@@ -16,12 +16,12 @@ public enum ClientColor {
    private Color H;
    private static final long a = 123711877201736L;
 
-   ClientColor(Color var3) {
-      this.H = var3;
+   ClientColor(Color color) {
+      this.H = color;
    }
 
-   public void setColor(Color var1) {
-      this.H = var1;
+   public void setColor(Color color) {
+      this.H = color;
    }
 
    public Color getColor() {

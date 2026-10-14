@@ -10,14 +10,14 @@ public final class IsModuleOn2 extends OneArgFunction {
    private static final long a = 129472386065276L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      long var2 = a ^ 106876814656876L;
-      long var4 = var2 ^ 39044790590371L;
-      if (var1.isstring()) {
-         LuaString var7 = (LuaString)var1;
-         Module var8 = ClientAccess.client.getModuleManager().getModule(var7.checkjstring());
-         if (var8 != null) {
-            return valueOf(var8.isEnabled());
+   public LuaValue call(LuaValue luaValue) {
+      long l = a ^ 106876814656876L;
+      long m = l ^ 39044790590371L;
+      if (luaValue.isstring()) {
+         LuaString luaString = (LuaString)luaValue;
+         Module module = ClientAccess.client.getModuleManager().getModule(luaString.checkjstring());
+         if (module != null) {
+            return valueOf(module.isEnabled());
          }
       }
 

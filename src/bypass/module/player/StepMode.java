@@ -8,11 +8,11 @@ public enum StepMode {
    private String O;
    private static final StepMode[] b = new StepMode[]{VANILLA, NCP, MOTION};
 
-   StepMode(String var3) {
-      this.O = var3;
+   StepMode(String string2) {
+      this.O = string2;
    }
 
-   public static String l(StepMode var0) {
-      return var0.O;
+   public static String l(StepMode stepMode) {
+      return stepMode.O;
    }
 }

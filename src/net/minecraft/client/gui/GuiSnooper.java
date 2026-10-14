@@ -19,22 +19,22 @@ public class GuiSnooper extends GuiScreen {
    private GuiButton field_146605_t;
    private static final long a = 122429170815509L;
 
-   public GuiSnooper(GuiScreen var1, GameSettings var2) {
-      this.field_146608_a = var1;
-      this.game_settings_2 = var2;
+   public GuiSnooper(GuiScreen guiScreen, GameSettings gameSettings) {
+      this.field_146608_a = guiScreen;
+      this.game_settings_2 = gameSettings;
    }
 
    @Override
    public void initGui() {
       this.field_146610_i = I18n.format("options.snooper.title");
-      String var4 = I18n.format("options.snooper.desc");
-      ArrayList var5 = Lists.newArrayList();
+      String string = I18n.format("options.snooper.desc");
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (Object var7 : this.fontRendererObj.listFormattedStringToWidth(var4, this.width - 30)) {
-         var5.add((String)var7);
+      for (Object object : this.fontRendererObj.listFormattedStringToWidth(string, this.width - 30)) {
+         arrayList.add((String)object);
       }
 
-      this.field_146607_r = (java.lang.String[])(var5.toArray(new String[var5.size()]));
+      this.field_146607_r = (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
       this.field_146604_g.clear();
       this.field_146609_h.clear();
       this.buttonList
@@ -44,17 +44,17 @@ public class GuiSnooper extends GuiScreen {
             )
          );
       this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height - 30, 150, 20, I18n.format("gui.done")));
-      boolean var9 = this.mc.getIntegratedServer() != null && this.mc.getIntegratedServer().getPlayerUsageSnooper() != null;
+      boolean bl = this.mc.getIntegratedServer() != null && this.mc.getIntegratedServer().getPlayerUsageSnooper() != null;
 
-      for (Entry var8 : new TreeMap<>(this.mc.getPlayerUsageSnooper().getCurrentStats()).entrySet()) {
-         this.field_146604_g.add((var9 ? "C " : "") + (String)var8.getKey());
-         this.field_146609_h.add(this.fontRendererObj.trimStringToWidth((String)var8.getValue(), this.width - 220));
+      for (Entry entry : new TreeMap<>(this.mc.getPlayerUsageSnooper().getCurrentStats()).entrySet()) {
+         this.field_146604_g.add((bl ? "C " : "") + (String)entry.getKey());
+         this.field_146609_h.add(this.fontRendererObj.trimStringToWidth((String)entry.getValue(), this.width - 220));
       }
 
-      if (var9) {
-         for (Entry var12 : new TreeMap<>(this.mc.getIntegratedServer().getPlayerUsageSnooper().getCurrentStats()).entrySet()) {
-            this.field_146604_g.add("S " + (String)var12.getKey());
-            this.field_146609_h.add(this.fontRendererObj.trimStringToWidth((String)var12.getValue(), this.width - 220));
+      if (bl) {
+         for (Entry entry2 : new TreeMap<>(this.mc.getIntegratedServer().getPlayerUsageSnooper().getCurrentStats()).entrySet()) {
+            this.field_146604_g.add("S " + (String)entry2.getKey());
+            this.field_146609_h.add(this.fontRendererObj.trimStringToWidth((String)entry2.getValue(), this.width - 220));
          }
       }
 
@@ -68,15 +68,15 @@ public class GuiSnooper extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.enabled) {
-         if (var1.id == 2) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.enabled) {
+         if (button.id == 2) {
             this.game_settings_2.saveOptions();
             this.game_settings_2.saveOptions();
             this.mc.displayGuiScreen(this.field_146608_a);
          }
 
-         if (var1.id == 1) {
+         if (button.id == 1) {
             this.game_settings_2.setOptionValue(GameSettings.Options.SNOOPER_ENABLED, 1);
             this.field_146605_t.displayString = this.game_settings_2.getKeyBinding(GameSettings.Options.SNOOPER_ENABLED);
          }
@@ -84,22 +84,22 @@ public class GuiSnooper extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.field_146606_s.drawScreen(var1, var2, var3);
+      this.field_146606_s.drawScreen(mouseX, mouseY, partialTicks);
       this.d(this.fontRendererObj, this.field_146610_i, this.width / 2, 8, 16777215);
-      int var7 = 22;
+      int i = 22;
 
-      for (String var11 : this.field_146607_r) {
-         this.d(this.fontRendererObj, var11, this.width / 2, var7, 8421504);
-         var7 += this.fontRendererObj.FONT_HEIGHT;
+      for (String string : this.field_146607_r) {
+         this.d(this.fontRendererObj, string, this.width / 2, i, 8421504);
+         i += this.fontRendererObj.FONT_HEIGHT;
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static java.util.List i(GuiSnooper var0) {
-      return var0.field_146609_h;
+   public static java.util.List i(GuiSnooper guiSnooper) {
+      return guiSnooper.field_146609_h;
    }
 
    public class List extends GuiSlot {
@@ -117,11 +117,11 @@ public class GuiSnooper extends GuiScreen {
       }
 
       @Override
-      public void elementClicked(int var1, boolean var2, int var3, int var4) {
+      public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
       }
 
       @Override
-      public boolean isSelected(int var1) {
+      public boolean isSelected(int slotIndex) {
          return false;
       }
 
@@ -130,9 +130,9 @@ public class GuiSnooper extends GuiScreen {
       }
 
       @Override
-      public void drawSlot(int var1, int var2, int var3, int var4, int var5, int var6) {
-         GuiSnooper.this.fontRendererObj.D(GuiSnooper.this.field_146604_g.get(var1), 10.0F, var3, 16777215);
-         GuiSnooper.this.fontRendererObj.D((String)GuiSnooper.i(GuiSnooper.this).get(var1), 230.0F, var3, 16777215);
+      public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
+         GuiSnooper.this.fontRendererObj.D(GuiSnooper.this.field_146604_g.get(entryID), 10.0F, j, 16777215);
+         GuiSnooper.this.fontRendererObj.D((String)GuiSnooper.i(GuiSnooper.this).get(entryID), 230.0F, j, 16777215);
       }
 
       @Override

@@ -56,76 +56,78 @@ public class TileEntityRendererDispatcher {
       this.mapSpecialRenderers.put(TileEntitySkull.class, new TileEntitySkullRenderer());
       this.mapSpecialRenderers.put(TileEntityBanner.class, new TileEntityBannerRenderer());
 
-      for (TileEntitySpecialRenderer var4 : this.mapSpecialRenderers.values()) {
-         var4.setRendererDispatcher(this);
+      for (TileEntitySpecialRenderer tileEntitySpecialRenderer : this.mapSpecialRenderers.values()) {
+         tileEntitySpecialRenderer.setRendererDispatcher(this);
       }
    }
 
-   public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class<? extends TileEntity> var1) {
-      TileEntitySpecialRenderer var5 = this.mapSpecialRenderers.get(var1);
-      if (var5 == null && var1 != TileEntity.class) {
-         var5 = this.getSpecialRendererByClass((java.lang.Class)(var1.getSuperclass()));
-         this.mapSpecialRenderers.put(var1, var5);
+   public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class<? extends TileEntity> teClass) {
+      TileEntitySpecialRenderer tileEntitySpecialRenderer = this.mapSpecialRenderers.get(teClass);
+      if (tileEntitySpecialRenderer == null && teClass != TileEntity.class) {
+         tileEntitySpecialRenderer = this.getSpecialRendererByClass((java.lang.Class)(teClass.getSuperclass()));
+         this.mapSpecialRenderers.put(teClass, tileEntitySpecialRenderer);
       }
 
-      return var5;
+      return tileEntitySpecialRenderer;
    }
 
-   public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRenderer(TileEntity var1) {
-      return var1 == null ? null : this.getSpecialRendererByClass((Class<? extends TileEntity>)var1.getClass());
+   public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRenderer(TileEntity tileEntityIn) {
+      return tileEntityIn == null ? null : this.getSpecialRendererByClass((Class<? extends TileEntity>)tileEntityIn.getClass());
    }
 
-   public void cacheActiveRenderInfo(World var1, TextureManager var2, FontRenderer var3, Entity var4, float var5) {
-      if (this.worldObj != var1) {
-         this.setWorld(var1);
+   public void cacheActiveRenderInfo(World worldIn, TextureManager textureManagerIn, FontRenderer fontrendererIn, Entity entityIn, float partialTicks) {
+      if (this.worldObj != worldIn) {
+         this.setWorld(worldIn);
       }
 
-      this.renderEngine = var2;
-      this.entity = var4;
-      this.fontRenderer = var3;
-      this.entityYaw = var4.prevRotationYaw + (var4.rotationYaw - var4.prevRotationYaw) * var5;
-      this.entityPitch = var4.prevRotationPitch + (var4.rotationPitch - var4.prevRotationPitch) * var5;
-      this.entityX = var4.lastTickPosX + (var4.posX - var4.lastTickPosX) * var5;
-      this.entityY = var4.lastTickPosY + (var4.posY - var4.lastTickPosY) * var5;
-      this.entityZ = var4.lastTickPosZ + (var4.posZ - var4.lastTickPosZ) * var5;
+      this.renderEngine = textureManagerIn;
+      this.entity = entityIn;
+      this.fontRenderer = fontrendererIn;
+      this.entityYaw = entityIn.prevRotationYaw + (entityIn.rotationYaw - entityIn.prevRotationYaw) * partialTicks;
+      this.entityPitch = entityIn.prevRotationPitch + (entityIn.rotationPitch - entityIn.prevRotationPitch) * partialTicks;
+      this.entityX = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * partialTicks;
+      this.entityY = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * partialTicks;
+      this.entityZ = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * partialTicks;
    }
 
-   public void renderTileEntity(TileEntity var1, float var2, int var3) {
-      if (var1.getDistanceSq(this.entityX, this.entityY, this.entityZ) < var1.getMaxRenderDistanceSquared()) {
-         int var7 = this.worldObj.getCombinedLight(var1.getPos(), 0);
-         int var8 = var7 % 65536;
-         int var9 = var7 / 65536;
-         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var8 / 1.0F, var9 / 1.0F);
+   public void renderTileEntity(TileEntity tileentityIn, float partialTicks, int destroyStage) {
+      if (tileentityIn.getDistanceSq(this.entityX, this.entityY, this.entityZ) < tileentityIn.getMaxRenderDistanceSquared()) {
+         int i = this.worldObj.getCombinedLight(tileentityIn.getPos(), 0);
+         int j = i % 65536;
+         int k = i / 65536;
+         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j / 1.0F, k / 1.0F);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         BlockPos var10 = var1.getPos();
-         RenderTileEntityEvent var11 = new RenderTileEntityEvent(this, var1, var2, var3, EventState.PRE);
-         Astolfo.INSTANCE.getEventBus().post(var11);
-         if (!var11.isCancelled()) {
-            this.renderTileEntityAt(var1, var10.getX() - staticPlayerX, var10.getY() - staticPlayerY, var10.getZ() - staticPlayerZ, var2, var3);
+         BlockPos blockPos = tileentityIn.getPos();
+         RenderTileEntityEvent renderTileEntityEvent = new RenderTileEntityEvent(this, tileentityIn, partialTicks, destroyStage, EventState.PRE);
+         Astolfo.INSTANCE.getEventBus().post(renderTileEntityEvent);
+         if (!renderTileEntityEvent.isCancelled()) {
+            this.renderTileEntityAt(
+               tileentityIn, blockPos.getX() - staticPlayerX, blockPos.getY() - staticPlayerY, blockPos.getZ() - staticPlayerZ, partialTicks, destroyStage
+            );
          }
       }
    }
 
-   public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8) {
-      this.renderTileEntityAt(var1, var2, var4, var6, var8, -1);
+   public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks) {
+      this.renderTileEntityAt(tileEntityIn, x, y, z, partialTicks, -1);
    }
 
-   public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8, int var9) {
-      TileEntitySpecialRenderer var13 = this.getSpecialRenderer(var1);
-      if (var13 != null) {
+   public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
+      TileEntitySpecialRenderer tileEntitySpecialRenderer = this.getSpecialRenderer(tileEntityIn);
+      if (tileEntitySpecialRenderer != null) {
          try {
-            var13.renderTileEntityAt(var1, var2, var4, var6, var8, var9);
-         } catch (Throwable var17) {
-            CrashReport var15 = CrashReport.makeCrashReport(var17, "Rendering Block Entity");
-            CrashReportCategory var16 = var15.makeCategory("Block Entity Details");
-            var1.addInfoToCrashReport(var16);
-            throw new ReportedException(var15);
+            tileEntitySpecialRenderer.renderTileEntityAt(tileEntityIn, x, y, z, partialTicks, destroyStage);
+         } catch (Throwable throwable) {
+            CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Rendering Block Entity");
+            CrashReportCategory crashReportCategory = crashReport.makeCategory("Block Entity Details");
+            tileEntityIn.addInfoToCrashReport(crashReportCategory);
+            throw new ReportedException(crashReport);
          }
       }
    }
 
-   public void setWorld(World var1) {
-      this.worldObj = var1;
+   public void setWorld(World worldIn) {
+      this.worldObj = worldIn;
    }
 
    public FontRenderer getFontRenderer() {

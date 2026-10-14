@@ -14,17 +14,17 @@ public final class ProcessInformation {
    }
 
    public static Pair<List<String>, Map<ProcessInformation.ProcessPerformanceProperty, List<Long>>> queryProcessCounters() {
-      PerfCounterWildcardQuery var2 = new PerfCounterWildcardQuery<>(
+      PerfCounterWildcardQuery perfCounterWildcardQuery = new PerfCounterWildcardQuery<>(
          ProcessInformation.ProcessPerformanceProperty.class, "Process", "Win32_Process WHERE NOT Name LIKE\"%_Total\"", "Process Information"
       );
-      Map var3 = var2.queryValuesWildcard();
-      List var4 = var2.getInstancesFromLastQuery();
-      return new Pair<>(var4, var3);
+      Map map = perfCounterWildcardQuery.queryValuesWildcard();
+      List list = perfCounterWildcardQuery.getInstancesFromLastQuery();
+      return new Pair<>(list, map);
    }
 
    public static Map<ProcessInformation.HandleCountProperty, List<Long>> queryHandles() {
-      PerfCounterWildcardQuery var2 = new PerfCounterWildcardQuery<>(ProcessInformation.HandleCountProperty.class, "Process", "Win32_Process");
-      return var2.queryValuesWildcard();
+      PerfCounterWildcardQuery perfCounterWildcardQuery = new PerfCounterWildcardQuery<>(ProcessInformation.HandleCountProperty.class, "Process", "Win32_Process");
+      return perfCounterWildcardQuery.queryValuesWildcard();
    }
 
    public enum HandleCountProperty implements PerfCounterWildcardQuery.PdhCounterWildcardProperty {
@@ -34,8 +34,8 @@ public final class ProcessInformation {
       private final String counter;
       private static final ProcessInformation.HandleCountProperty[] H = new ProcessInformation.HandleCountProperty[]{NAME, HANDLECOUNT};
 
-      HandleCountProperty(String var3) {
-         this.counter = var3;
+      HandleCountProperty(String counter) {
+         this.counter = counter;
       }
 
       @Override
@@ -59,8 +59,8 @@ public final class ProcessInformation {
          NAME, PRIORITY, CREATIONDATE, PROCESSID, PARENTPROCESSID, READTRANSFERCOUNT, WRITETRANSFERCOUNT, PRIVATEPAGECOUNT
       };
 
-      ProcessPerformanceProperty(String var3) {
-         this.counter = var3;
+      ProcessPerformanceProperty(String counter) {
+         this.counter = counter;
       }
 
       @Override

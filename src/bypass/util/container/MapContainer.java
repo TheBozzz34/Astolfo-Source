@@ -15,8 +15,8 @@ public class MapContainer<K, V> extends Container<Map<K, V>> {
       this(new HashMap<>());
    }
 
-   public MapContainer(Map<K, V> var1) {
-      super(var1);
+   public MapContainer(Map<K, V> map) {
+      super(map);
    }
 
    @Override
@@ -41,13 +41,13 @@ public class MapContainer<K, V> extends Container<Map<K, V>> {
       this.setValue(null);
    }
 
-   public V D(K var1, V var2) {
-      return this.getValue().put((K)var1, (V)var2);
+   public V D(K object, V object2) {
+      return this.getValue().put((K)object, (V)object2);
    }
 
-   public void z(Function<V, K> var1, V... var2) {
-      for (Object var9 : var2) {
-         this.D((K)var1.apply((V)(var9)), (V)var9);
+   public void z(Function<V, K> function, V... objects) {
+      for (Object object : objects) {
+         this.D((K)function.apply((V)(object)), (V)object);
       }
    }
 
@@ -55,8 +55,8 @@ public class MapContainer<K, V> extends Container<Map<K, V>> {
       return this.getValue() == null;
    }
 
-   public void p(Map<? extends K, ? extends V> var1) {
-      this.getValue().putAll(var1);
+   public void p(Map<? extends K, ? extends V> map) {
+      this.getValue().putAll(map);
    }
 
    public Set<K> Z() {
@@ -67,38 +67,38 @@ public class MapContainer<K, V> extends Container<Map<K, V>> {
       return Collections.unmodifiableCollection(this.getValue().values());
    }
 
-   public V e(K var1) {
-      return this.getValue().get(var1);
+   public V e(K object) {
+      return this.getValue().get(object);
    }
 
-   public Optional<V> Z(K var1) {
-      return Optional.ofNullable(this.getValue().get(var1));
+   public Optional<V> Z(K object) {
+      return Optional.ofNullable(this.getValue().get(object));
    }
 
-   public <T extends V> Optional<T> A(Class<T> var1) {
-      for (Object var6 : this.d()) {
-         if (var6.getClass() == var1) {
-            return Optional.of((T)var6);
+   public <T extends V> Optional<T> A(Class<T> class2) {
+      for (Object object : this.d()) {
+         if (object.getClass() == class2) {
+            return Optional.of((T)object);
          }
       }
 
       return Optional.empty();
    }
 
-   public V E(K var1) {
-      return this.getValue().remove(var1);
+   public V E(K object) {
+      return this.getValue().remove(object);
    }
 
-   public boolean v(K var1, V var2) {
-      return this.getValue().remove(var1, var2);
+   public boolean v(K object, V object2) {
+      return this.getValue().remove(object, object2);
    }
 
-   public boolean c(K var1) {
-      return this.getValue().containsKey(var1);
+   public boolean c(K object) {
+      return this.getValue().containsKey(object);
    }
 
-   public boolean j(V var1) {
-      return this.getValue().containsValue(var1);
+   public boolean j(V object) {
+      return this.getValue().containsValue(object);
    }
 
    public void H() {

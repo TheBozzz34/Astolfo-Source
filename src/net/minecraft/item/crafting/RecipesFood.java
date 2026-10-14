@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 public class RecipesFood {
    private static final long a = 22545572077126L;
 
-   public void addRecipes(CraftingManager var1) {
-      var1.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom, Blocks.red_mushroom, Items.bowl);
-      var1.addRecipe(new ItemStack(Items.cookie, 8), "#X#", 'X', new ItemStack(Items.dye, 1, EnumDyeColor.BROWN.getDyeDamage()), '#', Items.wheat);
-      var1.addRecipe(
+   public void addRecipes(CraftingManager craftingManager) {
+      craftingManager.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom, Blocks.red_mushroom, Items.bowl);
+      craftingManager.addRecipe(new ItemStack(Items.cookie, 8), "#X#", 'X', new ItemStack(Items.dye, 1, EnumDyeColor.BROWN.getDyeDamage()), '#', Items.wheat);
+      craftingManager.addRecipe(
          new ItemStack(Items.rabbit_stew),
          " R ",
          "CPM",
@@ -27,7 +27,7 @@ public class RecipesFood {
          'B',
          Items.bowl
       );
-      var1.addRecipe(
+      craftingManager.addRecipe(
          new ItemStack(Items.rabbit_stew),
          " R ",
          "CPD",
@@ -43,12 +43,12 @@ public class RecipesFood {
          'B',
          Items.bowl
       );
-      var1.addRecipe(new ItemStack(Blocks.melon_block), "MMM", "MMM", "MMM", 'M', Items.melon);
-      var1.addRecipe(new ItemStack(Items.melon_seeds), "M", 'M', Items.melon);
-      var1.addRecipe(new ItemStack(Items.pumpkin_seeds, 4), "M", 'M', Blocks.pumpkin);
-      var1.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Blocks.pumpkin, Items.sugar, Items.egg);
-      var1.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye, Blocks.brown_mushroom, Items.sugar);
-      var1.addShapelessRecipe(new ItemStack(Items.blaze_powder, 2), Items.blaze_rod);
-      var1.addShapelessRecipe(new ItemStack(Items.magma_cream), Items.blaze_powder, Items.slime_ball);
+      craftingManager.addRecipe(new ItemStack(Blocks.melon_block), "MMM", "MMM", "MMM", 'M', Items.melon);
+      craftingManager.addRecipe(new ItemStack(Items.melon_seeds), "M", 'M', Items.melon);
+      craftingManager.addRecipe(new ItemStack(Items.pumpkin_seeds, 4), "M", 'M', Blocks.pumpkin);
+      craftingManager.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Blocks.pumpkin, Items.sugar, Items.egg);
+      craftingManager.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye, Blocks.brown_mushroom, Items.sugar);
+      craftingManager.addShapelessRecipe(new ItemStack(Items.blaze_powder, 2), Items.blaze_rod);
+      craftingManager.addShapelessRecipe(new ItemStack(Items.magma_cream), Items.blaze_powder, Items.slime_ball);
    }
 }

@@ -255,9 +255,9 @@ public abstract class BiomeGenBase {
    public WorldGenSwamp worldGeneratorSwamp = new WorldGenSwamp();
    private static final long ab = 131356532790921L;
 
-   public BiomeGenBase(int var1) {
-      this.biomeID = var1;
-      biomeList[var1] = this;
+   public BiomeGenBase(int id) {
+      this.biomeID = id;
+      biomeList[id] = this;
       this.theBiomeDecorator = this.createBiomeDecorator();
       this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntitySheep.class, 12, 4, 4));
       this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityRabbit.class, 10, 3, 3));
@@ -279,19 +279,19 @@ public abstract class BiomeGenBase {
       return new BiomeDecorator();
    }
 
-   public BiomeGenBase setTemperatureRainfall(float var1, float var2) {
-      if (var1 > 0.1F && var1 < 0.2F) {
+   public BiomeGenBase setTemperatureRainfall(float temperatureIn, float rainfallIn) {
+      if (temperatureIn > 0.1F && temperatureIn < 0.2F) {
          throw new IllegalArgumentException("Please avoid temperatures in the range 0.1 - 0.2 because of snow");
       }
 
-      this.temperature = var1;
-      this.rainfall = var2;
+      this.temperature = temperatureIn;
+      this.rainfall = rainfallIn;
       return this;
    }
 
-   public final BiomeGenBase setHeight(BiomeGenBase.Height var1) {
-      this.minHeight = var1.rootHeight;
-      this.maxHeight = var1.variation;
+   public final BiomeGenBase setHeight(BiomeGenBase.Height heights) {
+      this.minHeight = heights.rootHeight;
+      this.maxHeight = heights.variation;
       return this;
    }
 
@@ -300,16 +300,16 @@ public abstract class BiomeGenBase {
       return this;
    }
 
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
-      return var1.nextInt(10) == 0 ? this.worldGeneratorBigTree : this.worldGeneratorTrees;
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
+      return rand.nextInt(10) == 0 ? this.worldGeneratorBigTree : this.worldGeneratorTrees;
    }
 
-   public WorldGenerator getRandomWorldGenForGrass(Random var1) {
+   public WorldGenerator getRandomWorldGenForGrass(Random rand) {
       return new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
    }
 
-   public BlockFlower.EnumFlowerType pickRandomFlower(Random var1, BlockPos var2) {
-      return var1.nextInt(3) > 0 ? BlockFlower.EnumFlowerType.DANDELION : BlockFlower.EnumFlowerType.POPPY;
+   public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
+      return rand.nextInt(3) > 0 ? BlockFlower.EnumFlowerType.DANDELION : BlockFlower.EnumFlowerType.POPPY;
    }
 
    public BiomeGenBase setEnableSnow() {
@@ -317,45 +317,45 @@ public abstract class BiomeGenBase {
       return this;
    }
 
-   public BiomeGenBase setBiomeName(String var1) {
-      this.biomeName = var1;
+   public BiomeGenBase setBiomeName(String name) {
+      this.biomeName = name;
       return this;
    }
 
-   public BiomeGenBase setFillerBlockMetadata(int var1) {
-      this.fillerBlockMetadata = var1;
+   public BiomeGenBase setFillerBlockMetadata(int meta) {
+      this.fillerBlockMetadata = meta;
       return this;
    }
 
-   public BiomeGenBase e(int var1) {
-      this.func_150557_a(var1, false);
+   public BiomeGenBase e(int i) {
+      this.func_150557_a(i, false);
       return this;
    }
 
-   public BiomeGenBase F(int var1) {
-      this.field_150609_ah = var1;
+   public BiomeGenBase F(int i) {
+      this.field_150609_ah = i;
       return this;
    }
 
-   public BiomeGenBase func_150557_a(int var1, boolean var2) {
-      this.color = var1;
-      if (var2) {
-         this.field_150609_ah = (var1 & 16711422) >> 1;
+   public BiomeGenBase func_150557_a(int colorIn, boolean bl) {
+      this.color = colorIn;
+      if (bl) {
+         this.field_150609_ah = (colorIn & 16711422) >> 1;
       } else {
-         this.field_150609_ah = var1;
+         this.field_150609_ah = colorIn;
       }
 
       return this;
    }
 
-   public int getSkyColorByTemp(float var1) {
-      var1 /= 3.0F;
-      var1 = MathHelper.clamp_float(var1, -1.0F, 1.0F);
-      return MathHelper.hsvToRGB(0.62222224F - var1 * 0.05F, 0.5F + var1 * 0.1F, 1.0F);
+   public int getSkyColorByTemp(float f) {
+      f /= 3.0F;
+      f = MathHelper.clamp_float(f, -1.0F, 1.0F);
+      return MathHelper.hsvToRGB(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
    }
 
-   public List<BiomeGenBase.SpawnListEntry> getSpawnableList(EnumCreatureType var1) {
-      switch (var1) {
+   public List<BiomeGenBase.SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) {
+      switch (creatureType) {
          case MONSTER:
             return this.spawnableMonsterList;
          case CREATURE:
@@ -393,90 +393,90 @@ public abstract class BiomeGenBase {
       return this.rainfall;
    }
 
-   public final float getFloatTemperature(BlockPos var1) {
-      if (var1.getY() > 64) {
-         float var4 = (float)(temperatureNoise.func_151601_a(var1.getX() * 1.0 / 8.0, var1.getZ() * 1.0 / 8.0) * 4.0);
-         return this.temperature - (var4 + var1.getY() - 64.0F) * 0.05F / 30.0F;
+   public final float getFloatTemperature(BlockPos pos) {
+      if (pos.getY() > 64) {
+         float f = (float)(temperatureNoise.func_151601_a(pos.getX() * 1.0 / 8.0, pos.getZ() * 1.0 / 8.0) * 4.0);
+         return this.temperature - (f + pos.getY() - 64.0F) * 0.05F / 30.0F;
       } else {
          return this.temperature;
       }
    }
 
-   public void decorate(World var1, Random var2, BlockPos var3) {
-      this.theBiomeDecorator.decorate(var1, var2, this, var3);
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
+      this.theBiomeDecorator.decorate(worldIn, rand, this, pos);
    }
 
-   public int getGrassColorAtPos(BlockPos var1) {
-      double var2 = MathHelper.clamp_float(this.getFloatTemperature(var1), 0.0F, 1.0F);
-      double var4 = MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
-      return ColorizerGrass.getGrassColor(var2, var4);
+   public int getGrassColorAtPos(BlockPos pos) {
+      double d = MathHelper.clamp_float(this.getFloatTemperature(pos), 0.0F, 1.0F);
+      double e = MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
+      return ColorizerGrass.getGrassColor(d, e);
    }
 
-   public int getFoliageColorAtPos(BlockPos var1) {
-      double var2 = MathHelper.clamp_float(this.getFloatTemperature(var1), 0.0F, 1.0F);
-      double var4 = MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
-      return ColorizerFoliage.getFoliageColor(var2, var4);
+   public int getFoliageColorAtPos(BlockPos pos) {
+      double d = MathHelper.clamp_float(this.getFloatTemperature(pos), 0.0F, 1.0F);
+      double e = MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
+      return ColorizerFoliage.getFoliageColor(d, e);
    }
 
    public boolean isSnowyBiome() {
       return this.enableSnow;
    }
 
-   public void genTerrainBlocks(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
-      this.generateBiomeTerrain(var1, var2, var3, var4, var5, var6);
+   public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
+      this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
    }
 
-   public final void generateBiomeTerrain(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
-      int var11 = var1.getSeaLevel();
-      IBlockState var12 = this.topBlock;
-      IBlockState var13 = this.fillerBlock;
-      int var14 = -1;
-      int var15 = (int)(var6 / 3.0 + 3.0 + var2.nextDouble() * 0.25);
-      int var16 = var4 & 15;
-      int var17 = var5 & 15;
-      BlockPos.MutableBlockPos var18 = new BlockPos.MutableBlockPos();
+   public final void generateBiomeTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
+      int i = worldIn.getSeaLevel();
+      IBlockState iBlockState = this.topBlock;
+      IBlockState iBlockState2 = this.fillerBlock;
+      int j = -1;
+      int k = (int)(noiseVal / 3.0 + 3.0 + rand.nextDouble() * 0.25);
+      int l = x & 15;
+      int m = z & 15;
+      BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-      for (int var19 = 255; var19 >= 0; var19--) {
-         if (var19 <= var2.nextInt(5)) {
-            var3.setBlockState(var17, var19, var16, Blocks.bedrock.getDefaultState());
+      for (int n = 255; n >= 0; n--) {
+         if (n <= rand.nextInt(5)) {
+            chunkPrimerIn.setBlockState(m, n, l, Blocks.bedrock.getDefaultState());
          } else {
-            IBlockState var20 = var3.getBlockState(var17, var19, var16);
-            if (var20.getBlock().getMaterial() == Material.air) {
-               var14 = -1;
-            } else if (var20.getBlock() == Blocks.stone) {
-               if (var14 == -1) {
-                  if (var15 <= 0) {
-                     var12 = null;
-                     var13 = Blocks.stone.getDefaultState();
-                  } else if (var19 >= var11 - 4 && var19 <= var11 + 1) {
-                     var12 = this.topBlock;
-                     var13 = this.fillerBlock;
+            IBlockState iBlockState3 = chunkPrimerIn.getBlockState(m, n, l);
+            if (iBlockState3.getBlock().getMaterial() == Material.air) {
+               j = -1;
+            } else if (iBlockState3.getBlock() == Blocks.stone) {
+               if (j == -1) {
+                  if (k <= 0) {
+                     iBlockState = null;
+                     iBlockState2 = Blocks.stone.getDefaultState();
+                  } else if (n >= i - 4 && n <= i + 1) {
+                     iBlockState = this.topBlock;
+                     iBlockState2 = this.fillerBlock;
                   }
 
-                  if (var19 < var11 && (var12 == null || var12.getBlock().getMaterial() == Material.air)) {
-                     if (this.getFloatTemperature(var18.set(var4, var19, var5)) < 0.15F) {
-                        var12 = Blocks.ice.getDefaultState();
+                  if (n < i && (iBlockState == null || iBlockState.getBlock().getMaterial() == Material.air)) {
+                     if (this.getFloatTemperature(mutableBlockPos.set(x, n, z)) < 0.15F) {
+                        iBlockState = Blocks.ice.getDefaultState();
                      } else {
-                        var12 = Blocks.water.getDefaultState();
+                        iBlockState = Blocks.water.getDefaultState();
                      }
                   }
 
-                  var14 = var15;
-                  if (var19 >= var11 - 1) {
-                     var3.setBlockState(var17, var19, var16, var12);
-                  } else if (var19 < var11 - 7 - var15) {
-                     var12 = null;
-                     var13 = Blocks.stone.getDefaultState();
-                     var3.setBlockState(var17, var19, var16, Blocks.gravel.getDefaultState());
+                  j = k;
+                  if (n >= i - 1) {
+                     chunkPrimerIn.setBlockState(m, n, l, iBlockState);
+                  } else if (n < i - 7 - k) {
+                     iBlockState = null;
+                     iBlockState2 = Blocks.stone.getDefaultState();
+                     chunkPrimerIn.setBlockState(m, n, l, Blocks.gravel.getDefaultState());
                   } else {
-                     var3.setBlockState(var17, var19, var16, var13);
+                     chunkPrimerIn.setBlockState(m, n, l, iBlockState2);
                   }
-               } else if (var14 > 0) {
-                  var14--;
-                  var3.setBlockState(var17, var19, var16, var13);
-                  if (var14 == 0 && var13.getBlock() == Blocks.sand) {
-                     var14 = var2.nextInt(4) + Math.max(0, var19 - 63);
-                     var13 = var13.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND
+               } else if (j > 0) {
+                  j--;
+                  chunkPrimerIn.setBlockState(m, n, l, iBlockState2);
+                  if (j == 0 && iBlockState2.getBlock() == Blocks.sand) {
+                     j = rand.nextInt(4) + Math.max(0, n - 63);
+                     iBlockState2 = iBlockState2.getValue(BlockSand.VARIANT) == BlockSand.EnumType.RED_SAND
                         ? Blocks.red_sandstone.getDefaultState()
                         : Blocks.sandstone.getDefaultState();
                   }
@@ -490,16 +490,16 @@ public abstract class BiomeGenBase {
       return this.createMutatedBiome(this.biomeID + 128);
    }
 
-   public BiomeGenBase createMutatedBiome(int var1) {
-      return new BiomeGenMutated(var1, this);
+   public BiomeGenBase createMutatedBiome(int i) {
+      return new BiomeGenMutated(i, this);
    }
 
    public Class<? extends BiomeGenBase> getBiomeClass() {
       return (Class<? extends BiomeGenBase>)this.getClass();
    }
 
-   public boolean isEqualTo(BiomeGenBase var1) {
-      return var1 == this ? true : (var1 == null ? false : this.getBiomeClass() == var1.getBiomeClass());
+   public boolean isEqualTo(BiomeGenBase biome) {
+      return biome == this ? true : (biome == null ? false : this.getBiomeClass() == biome.getBiomeClass());
    }
 
    public BiomeGenBase.TempCategory getTempCategory() {
@@ -512,23 +512,23 @@ public abstract class BiomeGenBase {
       return biomeList;
    }
 
-   public static BiomeGenBase getBiome(int var0) {
-      return getBiomeFromBiomeList(var0, (BiomeGenBase)null);
+   public static BiomeGenBase getBiome(int id) {
+      return getBiomeFromBiomeList(id, (BiomeGenBase)null);
    }
 
-   public static BiomeGenBase getBiomeFromBiomeList(int var0, BiomeGenBase var1) {
-      if (var0 >= 0 && var0 <= biomeList.length) {
-         BiomeGenBase var5 = biomeList[var0];
-         return var5 == null ? var1 : var5;
+   public static BiomeGenBase getBiomeFromBiomeList(int biomeId, BiomeGenBase biome) {
+      if (biomeId >= 0 && biomeId <= biomeList.length) {
+         BiomeGenBase biomeGenBase = biomeList[biomeId];
+         return biomeGenBase == null ? biome : biomeGenBase;
       } else {
-         logger.warn("Biome ID is out of bounds: " + var0 + ", defaulting to 0 (Ocean)");
+         logger.warn("Biome ID is out of bounds: " + biomeId + ", defaulting to 0 (Ocean)");
          return ocean;
       }
    }
 
    static {
-      long var20 = ab ^ 23982143559762L;
-      long var10000 = 3474986416736007602L ^ var20;
+      long l = ab ^ 23982143559762L;
+      long m = 3474986416736007602L ^ l;
       plains.createMutation();
       desert.createMutation();
       forest.createMutation();
@@ -551,15 +551,15 @@ public abstract class BiomeGenBase {
       extremeHillsPlus.createMutation();
       megaTaiga.createMutatedBiome(megaTaigaHills.biomeID + 128).setBiomeName("Redwood Taiga Hills M");
 
-      for (BiomeGenBase var25 : biomeList) {
-         if (var25 != null) {
-            if (BIOME_ID_MAP.containsKey(var25.biomeName)) {
-               throw new Error("Biome \"" + var25.biomeName + "\" is defined as both ID " + BIOME_ID_MAP.get(var25.biomeName).biomeID + " and " + var25.biomeID);
+      for (BiomeGenBase biomeGenBase : biomeList) {
+         if (biomeGenBase != null) {
+            if (BIOME_ID_MAP.containsKey(biomeGenBase.biomeName)) {
+               throw new Error("Biome \"" + biomeGenBase.biomeName + "\" is defined as both ID " + BIOME_ID_MAP.get(biomeGenBase.biomeName).biomeID + " and " + biomeGenBase.biomeID);
             }
 
-            BIOME_ID_MAP.put(var25.biomeName, var25);
-            if (var25.biomeID < 128) {
-               explorationBiomesList.add(var25);
+            BIOME_ID_MAP.put(biomeGenBase.biomeName, biomeGenBase);
+            if (biomeGenBase.biomeID < 128) {
+               explorationBiomesList.add(biomeGenBase);
             }
          }
       }
@@ -577,9 +577,9 @@ public abstract class BiomeGenBase {
       public float rootHeight;
       public float variation;
 
-      public Height(float var1, float var2) {
-         this.rootHeight = var1;
-         this.variation = var2;
+      public Height(float rootHeightIn, float variationIn) {
+         this.rootHeight = rootHeightIn;
+         this.variation = variationIn;
       }
 
       public BiomeGenBase.Height attenuate() {
@@ -593,11 +593,11 @@ public abstract class BiomeGenBase {
       public int maxGroupCount;
       private static final long a = 122887977560301L;
 
-      public SpawnListEntry(Class<? extends EntityLiving> var1, int var2, int var3, int var4) {
-         super(var2);
-         this.entityClass = var1;
-         this.minGroupCount = var3;
-         this.maxGroupCount = var4;
+      public SpawnListEntry(Class<? extends EntityLiving> entityclassIn, int weight, int groupCountMin, int groupCountMax) {
+         super(weight);
+         this.entityClass = entityclassIn;
+         this.minGroupCount = groupCountMin;
+         this.maxGroupCount = groupCountMax;
       }
 
       @Override

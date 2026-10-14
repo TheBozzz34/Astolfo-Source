@@ -50,98 +50,98 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
    private final IResourceManager mcResourceManager;
    private static final long a = 104700702354303L;
 
-   public SoundHandler(IResourceManager var1, GameSettings var2) {
-      this.mcResourceManager = var1;
-      this.sndManager = new SoundManager(this, var2);
+   public SoundHandler(IResourceManager manager, GameSettings gameSettingsIn) {
+      this.mcResourceManager = manager;
+      this.sndManager = new SoundManager(this, gameSettingsIn);
    }
 
    @Override
-   public void onResourceManagerReload(IResourceManager var1) {
+   public void onResourceManagerReload(IResourceManager resourceManager) {
       this.sndManager.reloadSoundSystem();
       this.sndRegistry.clearMap();
 
-      for (String var6 : var1.getResourceDomains()) {
+      for (String string : resourceManager.getResourceDomains()) {
          try {
-            for (IResource var8 : var1.getAllResources(new ResourceLocation(var6, "sounds.json"))) {
+            for (IResource iResource : resourceManager.getAllResources(new ResourceLocation(string, "sounds.json"))) {
                try {
-                  Map var9 = this.getSoundMap(var8.getInputStream());
+                  Map map = this.getSoundMap(iResource.getInputStream());
 
-                  for (Object var11$raw : var9.entrySet()) {
-                     Entry var11 = (Entry)var11$raw;
-                     this.loadSoundResource(new ResourceLocation(var6, (String)var11.getKey()), (SoundList)var11.getValue());
+                  for (Object object : map.entrySet()) {
+                     Entry entry = (Entry)object;
+                     this.loadSoundResource(new ResourceLocation(string, (String)entry.getKey()), (SoundList)entry.getValue());
                   }
-               } catch (RuntimeException var12) {
-                  logger.warn("Invalid sounds.json", var12);
+               } catch (RuntimeException runtimeException) {
+                  logger.warn("Invalid sounds.json", runtimeException);
                }
             }
-         } catch (IOException var13) {
+         } catch (IOException ioException) {
          }
       }
    }
 
-   public Map<String, SoundList> getSoundMap(InputStream var1) {
-      Map var2;
+   public Map<String, SoundList> getSoundMap(InputStream stream) {
+      Map map;
       try {
-         var2 = GSON.fromJson(new InputStreamReader(var1), TYPE);
+         map = GSON.fromJson(new InputStreamReader(stream), TYPE);
       } finally {
-         IOUtils.closeQuietly(var1);
+         IOUtils.closeQuietly(stream);
       }
 
-      return var2;
+      return map;
    }
 
-   private void loadSoundResource(ResourceLocation var1, SoundList var2) {
-      boolean var6 = !this.sndRegistry.containsKey(var1);
-      SoundEventAccessorComposite var7;
-      if (!var6 && !var2.canReplaceExisting()) {
-         var7 = this.sndRegistry.getObject(var1);
+   private void loadSoundResource(ResourceLocation location, SoundList sounds) {
+      boolean bl = !this.sndRegistry.containsKey(location);
+      SoundEventAccessorComposite soundEventAccessorComposite;
+      if (!bl && !sounds.canReplaceExisting()) {
+         soundEventAccessorComposite = this.sndRegistry.getObject(location);
       } else {
-         if (!var6) {
-            logger.debug("Replaced sound event location {}", new Object[]{var1});
+         if (!bl) {
+            logger.debug("Replaced sound event location {}", new Object[]{location});
          }
 
-         var7 = new SoundEventAccessorComposite(var1, 1.0, 1.0, var2.getSoundCategory());
-         this.sndRegistry.registerSound(var7);
+         soundEventAccessorComposite = new SoundEventAccessorComposite(location, 1.0, 1.0, sounds.getSoundCategory());
+         this.sndRegistry.registerSound(soundEventAccessorComposite);
       }
 
-      for (final SoundList.SoundEntry var9 : var2.getSoundList()) {
-         String var10 = var9.getSoundEntryName();
-         ResourceLocation var11 = new ResourceLocation(var10);
-         final String var12 = var10.contains(":") ? var11.getResourceDomain() : var1.getResourceDomain();
-         ISoundEventAccessor var13;
-         switch (var9.getSoundEntryType()) {
+      for (final SoundList.SoundEntry soundEntry : sounds.getSoundList()) {
+         String string = soundEntry.getSoundEntryName();
+         ResourceLocation resourceLocation = new ResourceLocation(string);
+         final String string2 = string.contains(":") ? resourceLocation.getResourceDomain() : location.getResourceDomain();
+         ISoundEventAccessor iSoundEventAccessor;
+         switch (soundEntry.getSoundEntryType()) {
             case FILE:
-               ResourceLocation var14 = new ResourceLocation(var12, "sounds/" + var11.getResourcePath() + ".ogg");
-               InputStream var15 = null;
+               ResourceLocation resourceLocation2 = new ResourceLocation(string2, "sounds/" + resourceLocation.getResourcePath() + ".ogg");
+               InputStream inputStream = null;
 
                try {
-                  var15 = this.mcResourceManager.getResource(var14).getInputStream();
-               } catch (FileNotFoundException var21) {
-                  logger.warn("File {} does not exist, cannot add it to event {}", var14, var1);
+                  inputStream = this.mcResourceManager.getResource(resourceLocation2).getInputStream();
+               } catch (FileNotFoundException fileNotFoundException) {
+                  logger.warn("File {} does not exist, cannot add it to event {}", resourceLocation2, location);
                   continue;
-               } catch (IOException var22) {
-                  logger.warn("Could not load sound file " + var14 + ", cannot add it to event " + var1, var22);
+               } catch (IOException ioException) {
+                  logger.warn("Could not load sound file " + resourceLocation2 + ", cannot add it to event " + location, ioException);
                   continue;
                } finally {
-                  IOUtils.closeQuietly(var15);
+                  IOUtils.closeQuietly(inputStream);
                }
 
-               var13 = new SoundEventAccessor(new SoundPoolEntry(var14, var9.y(), var9.q(), var9.isStreaming()), var9.getSoundEntryWeight());
+               iSoundEventAccessor = new SoundEventAccessor(new SoundPoolEntry(resourceLocation2, soundEntry.y(), soundEntry.q(), soundEntry.isStreaming()), soundEntry.getSoundEntryWeight());
                break;
             case SOUND_EVENT:
-               var13 = new ISoundEventAccessor<SoundPoolEntry>() {
-                  public final ResourceLocation field_148726_a = new ResourceLocation(var12, var9.getSoundEntryName());
+               iSoundEventAccessor = new ISoundEventAccessor<SoundPoolEntry>() {
+                  public final ResourceLocation field_148726_a = new ResourceLocation(string2, soundEntry.getSoundEntryName());
                   private static final long a = 122117350247287L;
 
                   @Override
                   public int getWeight() {
-                     SoundEventAccessorComposite var4 = SoundHandler.this.sndRegistry.getObject(this.field_148726_a);
-                     return var4 == null ? 0 : var4.getWeight();
+                     SoundEventAccessorComposite soundEventAccessorComposite2 = SoundHandler.this.sndRegistry.getObject(this.field_148726_a);
+                     return soundEventAccessorComposite2 == null ? 0 : soundEventAccessorComposite2.getWeight();
                   }
 
                   public SoundPoolEntry cloneEntry() {
-                     SoundEventAccessorComposite var4 = SoundHandler.this.sndRegistry.getObject(this.field_148726_a);
-                     return var4 == null ? SoundHandler.missing_sound : var4.cloneEntry();
+                     SoundEventAccessorComposite soundEventAccessorComposite3 = SoundHandler.this.sndRegistry.getObject(this.field_148726_a);
+                     return soundEventAccessorComposite3 == null ? SoundHandler.missing_sound : soundEventAccessorComposite3.cloneEntry();
                   }
                };
                break;
@@ -149,24 +149,24 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
                throw new IllegalStateException("IN YOU FACE");
          }
 
-         var7.addSoundToEventPool(var13);
+         soundEventAccessorComposite.addSoundToEventPool(iSoundEventAccessor);
       }
    }
 
-   public SoundEventAccessorComposite getSound(ResourceLocation var1) {
-      return this.sndRegistry.getObject(var1);
+   public SoundEventAccessorComposite getSound(ResourceLocation location) {
+      return this.sndRegistry.getObject(location);
    }
 
-   public void playSound(ISound var1) {
-      this.sndManager.playSound(var1);
+   public void playSound(ISound sound) {
+      this.sndManager.playSound(sound);
    }
 
-   public void playDelayedSound(ISound var1, int var2) {
-      this.sndManager.playDelayedSound(var1, var2);
+   public void playDelayedSound(ISound sound, int delay) {
+      this.sndManager.playDelayedSound(sound, delay);
    }
 
-   public void setListener(EntityPlayer var1, float var2) {
-      this.sndManager.setListener(var1, var2);
+   public void setListener(EntityPlayer player, float f) {
+      this.sndManager.setListener(player, f);
    }
 
    public void L() {
@@ -190,32 +190,32 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
       this.sndManager.resumeAllSounds();
    }
 
-   public void setSoundLevel(SoundCategory var1, float var2) {
-      if (var1 == SoundCategory.MASTER && var2 <= 0.0F) {
+   public void setSoundLevel(SoundCategory category, float volume) {
+      if (category == SoundCategory.MASTER && volume <= 0.0F) {
          this.stopSounds();
       }
 
-      this.sndManager.setSoundCategoryVolume(var1, var2);
+      this.sndManager.setSoundCategoryVolume(category, volume);
    }
 
-   public void stopSound(ISound var1) {
-      this.sndManager.stopSound(var1);
+   public void stopSound(ISound iSound) {
+      this.sndManager.stopSound(iSound);
    }
 
-   public SoundEventAccessorComposite getRandomSoundFromCategories(SoundCategory... var1) {
-      ArrayList var5 = Lists.newArrayList();
+   public SoundEventAccessorComposite getRandomSoundFromCategories(SoundCategory... categories) {
+      ArrayList arrayList = Lists.newArrayList();
 
-      for (ResourceLocation var7 : this.sndRegistry.getKeys()) {
-         SoundEventAccessorComposite var8 = this.sndRegistry.getObject(var7);
-         if (ArrayUtils.contains(var1, var8.getSoundCategory())) {
-            var5.add(var8);
+      for (ResourceLocation resourceLocation : this.sndRegistry.getKeys()) {
+         SoundEventAccessorComposite soundEventAccessorComposite = this.sndRegistry.getObject(resourceLocation);
+         if (ArrayUtils.contains(categories, soundEventAccessorComposite.getSoundCategory())) {
+            arrayList.add(soundEventAccessorComposite);
          }
       }
 
-      return var5.isEmpty() ? null : (SoundEventAccessorComposite)var5.get(new Random().nextInt(var5.size()));
+      return arrayList.isEmpty() ? null : (SoundEventAccessorComposite)arrayList.get(new Random().nextInt(arrayList.size()));
    }
 
-   public boolean isSoundPlaying(ISound var1) {
-      return this.sndManager.isSoundPlaying(var1);
+   public boolean isSoundPlaying(ISound sound) {
+      return this.sndManager.isSoundPlaying(sound);
    }
 }

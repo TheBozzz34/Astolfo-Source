@@ -26,22 +26,22 @@ public class RegionFile {
    private long lastModified;
    private static final long a = 52816920199235L;
 
-   public RegionFile(File var1) {
-      this.fileName = var1;
+   public RegionFile(File fileNameIn) {
+      this.fileName = fileNameIn;
       this.sizeDelta = 0;
 
       try {
-         if (var1.exists()) {
-            this.lastModified = var1.lastModified();
+         if (fileNameIn.exists()) {
+            this.lastModified = fileNameIn.lastModified();
          }
 
-         this.dataFile = new RandomAccessFile(var1, "rw");
+         this.dataFile = new RandomAccessFile(fileNameIn, "rw");
          if (this.dataFile.length() < 4096L) {
-            for (int var5 = 0; var5 < 1024; var5++) {
+            for (int i = 0; i < 1024; i++) {
                this.dataFile.writeInt(0);
             }
 
-            for (int var10 = 0; var10 < 1024; var10++) {
+            for (int j = 0; j < 1024; j++) {
                this.dataFile.writeInt(0);
             }
 
@@ -49,15 +49,15 @@ public class RegionFile {
          }
 
          if ((this.dataFile.length() & 4095L) != 0L) {
-            for (int var11 = 0; var11 < (this.dataFile.length() & 4095L); var11++) {
+            for (int k = 0; k < (this.dataFile.length() & 4095L); k++) {
                this.dataFile.write(0);
             }
          }
 
-         int var12 = (int)this.dataFile.length() / 4096;
-         this.sectorFree = Lists.newArrayListWithCapacity(var12);
+         int l = (int)this.dataFile.length() / 4096;
+         this.sectorFree = Lists.newArrayListWithCapacity(l);
 
-         for (int var6 = 0; var6 < var12; var6++) {
+         for (int m = 0; m < l; m++) {
             this.sectorFree.add(true);
          }
 
@@ -65,168 +65,168 @@ public class RegionFile {
          this.sectorFree.set(1, false);
          this.dataFile.seek(0L);
 
-         for (int var13 = 0; var13 < 1024; var13++) {
-            int var7 = this.dataFile.readInt();
-            this.offsets[var13] = var7;
-            if (var7 != 0 && (var7 >> 8) + (var7 & 0xFF) <= this.sectorFree.size()) {
-               for (int var8 = 0; var8 < (var7 & 0xFF); var8++) {
-                  this.sectorFree.set((var7 >> 8) + var8, false);
+         for (int n = 0; n < 1024; n++) {
+            int i2 = this.dataFile.readInt();
+            this.offsets[n] = i2;
+            if (i2 != 0 && (i2 >> 8) + (i2 & 0xFF) <= this.sectorFree.size()) {
+               for (int i3 = 0; i3 < (i2 & 0xFF); i3++) {
+                  this.sectorFree.set((i2 >> 8) + i3, false);
                }
             }
          }
 
-         for (int var14 = 0; var14 < 1024; var14++) {
-            int var15 = this.dataFile.readInt();
-            this.chunkTimestamps[var14] = var15;
+         for (int i4 = 0; i4 < 1024; i4++) {
+            int i5 = this.dataFile.readInt();
+            this.chunkTimestamps[i4] = i5;
          }
-      } catch (IOException var9) {
-         var9.printStackTrace();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
-   public synchronized DataInputStream getChunkDataInputStream(int var1, int var2) {
-      if (this.outOfBounds(var1, var2)) {
+   public synchronized DataInputStream getChunkDataInputStream(int x, int z) {
+      if (this.outOfBounds(x, z)) {
          return null;
       }
 
       try {
-         int var6 = this.getOffset(var1, var2);
-         if (var6 == 0) {
+         int i = this.getOffset(x, z);
+         if (i == 0) {
             return null;
          } else {
-            int var7 = var6 >> 8;
-            int var8 = var6 & 0xFF;
-            if (var7 + var8 > this.sectorFree.size()) {
+            int j = i >> 8;
+            int k = i & 0xFF;
+            if (j + k > this.sectorFree.size()) {
                return null;
             } else {
-               this.dataFile.seek(var7 * 4096);
-               int var9 = this.dataFile.readInt();
-               if (var9 > 4096 * var8) {
+               this.dataFile.seek(j * 4096);
+               int l = this.dataFile.readInt();
+               if (l > 4096 * k) {
                   return null;
-               } else if (var9 <= 0) {
+               } else if (l <= 0) {
                   return null;
                } else {
-                  byte var10 = this.dataFile.readByte();
-                  if (var10 == 1) {
-                     byte[] var13 = new byte[var9 - 1];
-                     this.dataFile.read(var13);
-                     return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(var13))));
-                  } else if (var10 == 2) {
-                     byte[] var11 = new byte[var9 - 1];
-                     this.dataFile.read(var11);
-                     return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(var11))));
+                  byte b = this.dataFile.readByte();
+                  if (b == 1) {
+                     byte[] bytes = new byte[l - 1];
+                     this.dataFile.read(bytes);
+                     return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
+                  } else if (b == 2) {
+                     byte[] bytes2 = new byte[l - 1];
+                     this.dataFile.read(bytes2);
+                     return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(bytes2))));
                   } else {
                      return null;
                   }
                }
             }
          }
-      } catch (IOException var12) {
+      } catch (IOException ioException) {
          return null;
       }
    }
 
-   public DataOutputStream getChunkDataOutputStream(int var1, int var2) {
-      return this.outOfBounds(var1, var2) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFile.ChunkBuffer(var1, var2)));
+   public DataOutputStream getChunkDataOutputStream(int x, int z) {
+      return this.outOfBounds(x, z) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFile.ChunkBuffer(x, z)));
    }
 
-   public synchronized void write(int var1, int var2, byte[] var3, int var4) {
+   public synchronized void write(int x, int z, byte[] data, int length) {
       try {
-         int var8 = this.getOffset(var1, var2);
-         int var9 = var8 >> 8;
-         int var10 = var8 & 0xFF;
-         int var11 = (var4 + 5) / 4096 + 1;
-         if (var11 >= 256) {
+         int i = this.getOffset(x, z);
+         int j = i >> 8;
+         int k = i & 0xFF;
+         int l = (length + 5) / 4096 + 1;
+         if (l >= 256) {
             return;
          }
 
-         if (var9 != 0 && var10 == var11) {
-            this.write(var9, var3, var4);
+         if (j != 0 && k == l) {
+            this.write(j, data, length);
          } else {
-            for (int var12 = 0; var12 < var10; var12++) {
-               this.sectorFree.set(var9 + var12, true);
+            for (int m = 0; m < k; m++) {
+               this.sectorFree.set(j + m, true);
             }
 
-            int var18 = this.sectorFree.indexOf(true);
-            int var13 = 0;
-            if (var18 != -1) {
-               for (int var14 = var18; var14 < this.sectorFree.size(); var14++) {
-                  if (var13 != 0) {
-                     if (this.sectorFree.get(var14)) {
-                        var13++;
+            int n = this.sectorFree.indexOf(true);
+            int i2 = 0;
+            if (n != -1) {
+               for (int i3 = n; i3 < this.sectorFree.size(); i3++) {
+                  if (i2 != 0) {
+                     if (this.sectorFree.get(i3)) {
+                        i2++;
                      } else {
-                        var13 = 0;
+                        i2 = 0;
                      }
-                  } else if (this.sectorFree.get(var14)) {
-                     var18 = var14;
-                     var13 = 1;
+                  } else if (this.sectorFree.get(i3)) {
+                     n = i3;
+                     i2 = 1;
                   }
 
-                  if (var13 >= var11) {
+                  if (i2 >= l) {
                      break;
                   }
                }
             }
 
-            if (var13 >= var11) {
-               var9 = var18;
-               this.setOffset(var1, var2, var18 << 8 | var11);
+            if (i2 >= l) {
+               j = n;
+               this.setOffset(x, z, n << 8 | l);
 
-               for (int var20 = 0; var20 < var11; var20++) {
-                  this.sectorFree.set(var9 + var20, false);
+               for (int i4 = 0; i4 < l; i4++) {
+                  this.sectorFree.set(j + i4, false);
                }
 
-               this.write(var9, var3, var4);
+               this.write(j, data, length);
             } else {
                this.dataFile.seek(this.dataFile.length());
-               var9 = this.sectorFree.size();
+               j = this.sectorFree.size();
 
-               for (int var19 = 0; var19 < var11; var19++) {
+               for (int i5 = 0; i5 < l; i5++) {
                   this.dataFile.write(emptySector);
                   this.sectorFree.add(false);
                }
 
-               this.sizeDelta += 4096 * var11;
-               this.write(var9, var3, var4);
-               this.setOffset(var1, var2, var9 << 8 | var11);
+               this.sizeDelta += 4096 * l;
+               this.write(j, data, length);
+               this.setOffset(x, z, j << 8 | l);
             }
          }
 
-         this.setChunkTimestamp(var1, var2, (int)(MinecraftServer.getCurrentTimeMillis() / 1000L));
-      } catch (IOException var15) {
-         var15.printStackTrace();
+         this.setChunkTimestamp(x, z, (int)(MinecraftServer.getCurrentTimeMillis() / 1000L));
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
-   private void write(int var1, byte[] var2, int var3) throws IOException {
-      this.dataFile.seek(var1 * 4096);
-      this.dataFile.writeInt(var3 + 1);
+   private void write(int sectorNumber, byte[] data, int length) throws IOException {
+      this.dataFile.seek(sectorNumber * 4096);
+      this.dataFile.writeInt(length + 1);
       this.dataFile.writeByte(2);
-      this.dataFile.write(var2, 0, var3);
+      this.dataFile.write(data, 0, length);
    }
 
-   private boolean outOfBounds(int var1, int var2) {
-      return var1 < 0 || var1 >= 32 || var2 < 0 || var2 >= 32;
+   private boolean outOfBounds(int x, int z) {
+      return x < 0 || x >= 32 || z < 0 || z >= 32;
    }
 
-   private int getOffset(int var1, int var2) {
-      return this.offsets[var1 + var2 * 32];
+   private int getOffset(int x, int z) {
+      return this.offsets[x + z * 32];
    }
 
-   public boolean isChunkSaved(int var1, int var2) {
-      return this.getOffset(var1, var2) != 0;
+   public boolean isChunkSaved(int x, int z) {
+      return this.getOffset(x, z) != 0;
    }
 
-   private void setOffset(int var1, int var2, int var3) throws IOException {
-      this.offsets[var1 + var2 * 32] = var3;
-      this.dataFile.seek((var1 + var2 * 32) * 4);
-      this.dataFile.writeInt(var3);
+   private void setOffset(int x, int z, int offset) throws IOException {
+      this.offsets[x + z * 32] = offset;
+      this.dataFile.seek((x + z * 32) * 4);
+      this.dataFile.writeInt(offset);
    }
 
-   private void setChunkTimestamp(int var1, int var2, int var3) throws IOException {
-      this.chunkTimestamps[var1 + var2 * 32] = var3;
-      this.dataFile.seek(4096 + (var1 + var2 * 32) * 4);
-      this.dataFile.writeInt(var3);
+   private void setChunkTimestamp(int x, int z, int timestamp) throws IOException {
+      this.chunkTimestamps[x + z * 32] = timestamp;
+      this.dataFile.seek(4096 + (x + z * 32) * 4);
+      this.dataFile.writeInt(timestamp);
    }
 
    public void close() throws IOException {
@@ -241,10 +241,10 @@ public class RegionFile {
       private static final long a = 54239380123L;
       private static final long b = -2308702293496684640L;
 
-      public ChunkBuffer(int var2, int var3) {
+      public ChunkBuffer(int x, int z) {
          super((int)b);
-         this.chunkX = var2;
-         this.chunkZ = var3;
+         this.chunkX = x;
+         this.chunkZ = z;
       }
 
       @Override

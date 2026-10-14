@@ -10,54 +10,54 @@ public class ProtocolUtils {
    private static final long a = 138868623342436L;
    private static final long b = -3112017149586046928L;
 
-   public static boolean isSupported(int var0) {
-      return isSupported(var0, Via.getManager().getProviders().get(NativeVersionProvider.class).getServerProtocolVersion());
+   public static boolean isSupported(int i) {
+      return isSupported(i, Via.getManager().getProviders().get(NativeVersionProvider.class).getServerProtocolVersion());
    }
 
-   public static boolean isSupported(int var0, int var1) {
-      return var0 == var1 || Via.getManager().getProtocolManager().getProtocolPath(var1, var0) != null;
+   public static boolean isSupported(int i, int j) {
+      return i == j || Via.getManager().getProtocolManager().getProtocolPath(j, i) != null;
    }
 
-   public static String getProtocolName(int var0) {
-      return !ProtocolVersion.isRegistered(var0) ? Integer.toString(var0) : ProtocolVersion.getProtocol(var0).getName();
+   public static String getProtocolName(int i) {
+      return !ProtocolVersion.isRegistered(i) ? Integer.toString(i) : ProtocolVersion.getProtocol(i).getName();
    }
 
-   public static boolean isStartOfProtocolText(String var0) {
+   public static boolean isStartOfProtocolText(String string) {
       try {
-         Integer.parseInt(var0);
+         Integer.parseInt(string);
          return true;
-      } catch (NumberFormatException var6) {
+      } catch (NumberFormatException numberFormatException) {
          try {
-            Integer.parseInt(var0 + (int)b);
+            Integer.parseInt(string + (int)b);
             return true;
-         } catch (NumberFormatException var5) {
-            return ProtocolVersion.getClosest(var0) != null
+         } catch (NumberFormatException numberFormatException2) {
+            return ProtocolVersion.getClosest(string) != null
                ? true
                : ProtocolVersion.getProtocols()
                   .stream()
                   .map(ProtocolVersion::getName)
-                  .flatMap(var0x -> Stream.concat(Arrays.stream(var0x.split("-")), Arrays.stream(new String[]{var0x})))
-                  .anyMatch(var1 -> var1.startsWith(var0));
+                  .flatMap(string2 -> Stream.concat(Arrays.stream(string2.split("-")), Arrays.stream(new String[]{string2})))
+                  .anyMatch(string3 -> string3.startsWith(string));
          }
       }
    }
 
-   public static Integer parseProtocolId(String var0) {
+   public static Integer parseProtocolId(String string) {
       try {
-         return Integer.parseInt(var0);
-      } catch (NumberFormatException var6) {
-         ProtocolVersion var5 = ProtocolVersion.getClosest(var0);
-         return var5 == null ? null : var5.getVersion();
+         return Integer.parseInt(string);
+      } catch (NumberFormatException numberFormatException) {
+         ProtocolVersion protocolVersion = ProtocolVersion.getClosest(string);
+         return protocolVersion == null ? null : protocolVersion.getVersion();
       }
    }
 
-   public static String[] getProtocolSuggestions(String var0) {
+   public static String[] getProtocolSuggestions(String string) {
       return ProtocolVersion.getProtocols()
          .stream()
          .map(ProtocolVersion::getName)
-         .flatMap(var0x -> Stream.concat(Arrays.stream(var0x.split("-")), Arrays.stream(new String[]{var0x})))
+         .flatMap(string2 -> Stream.concat(Arrays.stream(string2.split("-")), Arrays.stream(new String[]{string2})))
          .distinct()
-         .filter(var1 -> var1.startsWith(var0))
+         .filter(string3 -> string3.startsWith(string))
          .toArray(String[]::new);
    }
 }

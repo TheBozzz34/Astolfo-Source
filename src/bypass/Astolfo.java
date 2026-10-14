@@ -68,10 +68,10 @@ public enum Astolfo implements Loadable {
 
    @Override
    public void load() {
-      long var1 = b ^ 56709646454107L;
-      long var3 = var1 ^ 22030267799943L;
-      long var5 = var1 ^ 123509045112395L;
-      this.register(var5, this.x());
+      long l = b ^ 56709646454107L;
+      long m = l ^ 22030267799943L;
+      long n = l ^ 123509045112395L;
+      this.register(n, this.x());
       ViaFabric.INSTANCE.init();
       this.serverManager = new ServerManager();
       Runtime.getRuntime().addShutdownHook(new Thread(this::a));
@@ -82,10 +82,10 @@ public enum Astolfo implements Loadable {
       this.loadables.forEach(Loadable::a);
    }
 
-   public void register(long var1, Loadable var3) {
-      if (!this.loadables.contains(var3)) {
-         this.loadables.add(var3);
-         var3.load();
+   public void register(long l, Loadable loadable) {
+      if (!this.loadables.contains(loadable)) {
+         this.loadables.add(loadable);
+         loadable.load();
       }
    }
 
@@ -219,49 +219,49 @@ public enum Astolfo implements Loadable {
       return this.serverManager;
    }
 
-   public LoaderGuard W(LoaderGuard var1) {
-      this.B = var1;
-      return var1;
+   public LoaderGuard W(LoaderGuard loaderGuard) {
+      this.B = loaderGuard;
+      return loaderGuard;
    }
 
    public Proxy getProxy() {
       return this.proxy;
    }
 
-   public void setProxy(Proxy var1) {
-      this.proxy = var1;
+   public void setProxy(Proxy proxy) {
+      this.proxy = proxy;
    }
 
    public File getDirectory() {
       return this.directory;
    }
 
-   public void setDirectory(File var1) {
-      this.directory = var1;
+   public void setDirectory(File file) {
+      this.directory = file;
    }
 
    public EventBus getEventBus() {
       return this.eventBus;
    }
 
-   public void setEventBus(EventBus var1) {
-      this.eventBus = var1;
+   public void setEventBus(EventBus eventBus) {
+      this.eventBus = eventBus;
    }
 
    public CustomFontRenderer getCustomFontRenderer() {
       return this.customFontRenderer;
    }
 
-   public void setCustomFontRenderer(CustomFontRenderer var1) {
-      this.customFontRenderer = var1;
+   public void setCustomFontRenderer(CustomFontRenderer customFontRenderer) {
+      this.customFontRenderer = customFontRenderer;
    }
 
    public FontRenderer getFontRenderer() {
       return this.fontRenderer;
    }
 
-   public void setFontRenderer(FontRenderer var1) {
-      this.fontRenderer = var1;
+   public void setFontRenderer(FontRenderer fontRenderer) {
+      this.fontRenderer = fontRenderer;
    }
 
    public Color getColor() {
@@ -280,15 +280,15 @@ public enum Astolfo implements Loadable {
       return this.color;
    }
 
-   public void J(boolean var1) {
-      this.J = var1;
+   public void J(boolean bl) {
+      this.J = bl;
    }
 
    public String getConfigName() {
       return this.configName;
    }
 
-   public void setConfigName(String var1) {
-      this.configName = var1;
+   public void setConfigName(String string) {
+      this.configName = string;
    }
 }

@@ -7,24 +7,24 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class SubSettingsAttribute extends SettingAttribute {
-   public Map<String, Setting<?>> settings = new TreeMap<>((var0, var1x) -> {
-      int var2 = var0.length();
-      int var3 = var1x.length();
-      return Integer.compare(var2, var3);
+   public Map<String, Setting<?>> settings = new TreeMap<>((string, string2) -> {
+      int i = string.length();
+      int j = string2.length();
+      return Integer.compare(i, j);
    });
    private static final long b = 134679304957640L;
 
-   public SubSettingsAttribute(List<Setting<?>> var1) {
+   public SubSettingsAttribute(List<Setting<?>> list) {
       super(AttributePriority.NORMAL);
-      if (var1 != null) {
-         for (Setting var7 : var1) {
-            this.settings.put(var7.getName().replaceAll(" ", "").toLowerCase(), var7);
+      if (list != null) {
+         for (Setting setting : list) {
+            this.settings.put(setting.getName().replaceAll(" ", "").toLowerCase(), setting);
          }
       }
    }
 
-   public SubSettingsAttribute(Setting<?>... var1) {
-      this(Arrays.asList(var1));
+   public SubSettingsAttribute(Setting<?>... settings) {
+      this(Arrays.asList(settings));
    }
 
    public Map<String, Setting<?>> getSettings() {

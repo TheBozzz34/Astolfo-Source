@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.vertex.VertexFormatElement;
 public class RealmsVertexFormatElement {
    private VertexFormatElement v;
 
-   public RealmsVertexFormatElement(VertexFormatElement var1) {
-      this.v = var1;
+   public RealmsVertexFormatElement(VertexFormatElement vIn) {
+      this.v = vIn;
    }
 
    public VertexFormatElement getVertexFormatElement() {
@@ -35,8 +35,8 @@ public class RealmsVertexFormatElement {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return this.v.equals(var1);
+   public boolean equals(Object object) {
+      return this.v.equals(object);
    }
 
    @Override

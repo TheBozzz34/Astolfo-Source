@@ -15,40 +15,40 @@ public class SprintACheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      if (var7 == 0.0F && var8 == 0.0F) {
+   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      if (f == 0.0F && g == 0.0F) {
          return 0;
       }
 
-      double var14 = var1 - this.S;
-      double var16 = var5 - this.y;
-      if (var10.isSprinting() && (this.S != 0.0 || this.y != 0.0)) {
-         EnumFacing var18 = this.Z(var7);
-         EnumFacing var19;
-         if (var14 > 0.0) {
-            var19 = EnumFacing.EAST;
-            if (var16 < 0.0) {
-               var19 = EnumFacing.NORTH;
+      double e = d - this.S;
+      double d4 = d3 - this.y;
+      if (entityPlayer.isSprinting() && (this.S != 0.0 || this.y != 0.0)) {
+         EnumFacing enumFacing = this.Z(f);
+         EnumFacing enumFacing2;
+         if (e > 0.0) {
+            enumFacing2 = EnumFacing.EAST;
+            if (d4 < 0.0) {
+               enumFacing2 = EnumFacing.NORTH;
             }
          } else {
-            var19 = EnumFacing.WEST;
-            if (var16 > 0.0) {
-               var19 = EnumFacing.SOUTH;
+            enumFacing2 = EnumFacing.WEST;
+            if (d4 > 0.0) {
+               enumFacing2 = EnumFacing.SOUTH;
             }
          }
 
-         if (var18.getOpposite() == var19) {
+         if (enumFacing.getOpposite() == enumFacing2) {
             this.T++;
          }
       }
 
-      this.S = var1;
-      this.y = var5;
+      this.S = d;
+      this.y = d3;
       return this.T;
    }
 
-   private EnumFacing Z(float var1) {
-      return EnumFacing.getHorizontal(MathHelper.floor_double(var1 * 4.0F / 360.0F + 0.5) & 3);
+   private EnumFacing Z(float f) {
+      return EnumFacing.getHorizontal(MathHelper.floor_double(f * 4.0F / 360.0F + 0.5) & 3);
    }
 
    @Override

@@ -16,83 +16,83 @@ public class TooltipProviderOptions {
    private long c = 0L;
    private static final long a = 65311671946324L;
 
-   public TooltipProviderOptions(GuiScreen var1) {
-      this.t = var1;
+   public TooltipProviderOptions(GuiScreen guiScreen) {
+      this.t = guiScreen;
    }
 
-   public void U(int var1, int var2, List var3) {
-      if (Math.abs(var1 - this.Q) <= 5 && Math.abs(var2 - this.r) <= 5) {
-         short var7 = 700;
-         if (System.currentTimeMillis() >= this.c + var7) {
-            int var8 = this.t.width / 2 - 150;
-            int var9 = this.t.height / 6 - 7;
-            if (var2 <= var9 + 98) {
-               var9 += 105;
+   public void U(int i, int j, List list) {
+      if (Math.abs(i - this.Q) <= 5 && Math.abs(j - this.r) <= 5) {
+         short s = 700;
+         if (System.currentTimeMillis() >= this.c + s) {
+            int k = this.t.width / 2 - 150;
+            int l = this.t.height / 6 - 7;
+            if (j <= l + 98) {
+               l += 105;
             }
 
-            int var10 = var8 + 150 + 150;
-            int var11 = var9 + 84 + 10;
-            GuiButton var12 = this.w(var1, var2, var3);
-            if (var12 instanceof IOptionControl) {
-               IOptionControl var13 = (IOptionControl)var12;
-               GameSettings.Options var14 = var13.getOption();
-               String[] var15 = i(var14);
-               if (var15 == null) {
+            int m = k + 150 + 150;
+            int n = l + 84 + 10;
+            GuiButton guiButton = this.w(i, j, list);
+            if (guiButton instanceof IOptionControl) {
+               IOptionControl iOptionControl = (IOptionControl)guiButton;
+               GameSettings.Options options = iOptionControl.getOption();
+               String[] strings = i(options);
+               if (strings == null) {
                   return;
                }
 
-               GuiVideoSettings.drawGradientRect(this.t, var8, var9, var10, var11, -536870912, -536870912);
+               GuiVideoSettings.drawGradientRect(this.t, k, l, m, n, -536870912, -536870912);
 
-               for (int var16 = 0; var16 < var15.length; var16++) {
-                  String var17 = var15[var16];
-                  int var18 = 14540253;
-                  if (var17.endsWith("!")) {
-                     var18 = 16719904;
+               for (int i2 = 0; i2 < strings.length; i2++) {
+                  String string = strings[i2];
+                  int i3 = 14540253;
+                  if (string.endsWith("!")) {
+                     i3 = 16719904;
                   }
 
-                  FontRenderer var19 = Minecraft.getMinecraft().fontRendererObj;
-                  var19.drawStringWithShadow(var17, var8 + 5, var9 + 5 + var16 * 11, var18);
+                  FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+                  fontRenderer.drawStringWithShadow(string, k + 5, l + 5 + i2 * 11, i3);
                }
             }
          }
       } else {
-         this.Q = var1;
-         this.r = var2;
+         this.Q = i;
+         this.r = j;
          this.c = System.currentTimeMillis();
       }
    }
 
-   private GuiButton w(int var1, int var2, List var3) {
-      for (int var7 = 0; var7 < var3.size(); var7++) {
-         GuiButton var8 = (GuiButton)var3.get(var7);
-         int var9 = GuiVideoSettings.j(var8);
-         int var10 = GuiVideoSettings.V(var8);
-         boolean var11 = var1 >= var8.xPosition && var2 >= var8.yPosition && var1 < var8.xPosition + var9 && var2 < var8.yPosition + var10;
-         if (var11) {
-            return var8;
+   private GuiButton w(int i, int j, List list) {
+      for (int k = 0; k < list.size(); k++) {
+         GuiButton guiButton = (GuiButton)list.get(k);
+         int l = GuiVideoSettings.j(guiButton);
+         int m = GuiVideoSettings.V(guiButton);
+         boolean bl = i >= guiButton.xPosition && j >= guiButton.yPosition && i < guiButton.xPosition + l && j < guiButton.yPosition + m;
+         if (bl) {
+            return guiButton;
          }
       }
 
       return null;
    }
 
-   private static String[] i(GameSettings.Options var0) {
-      return getTooltipLines(var0.getEnumString());
+   private static String[] i(GameSettings.Options options) {
+      return getTooltipLines(options.getEnumString());
    }
 
-   private static String[] getTooltipLines(String var0) {
-      ArrayList var4 = new ArrayList();
+   private static String[] getTooltipLines(String key) {
+      ArrayList arrayList = new ArrayList();
 
-      for (int var5 = 0; var5 < 10; var5++) {
-         String var6 = var0 + ".tooltip." + (var5 + 1);
-         String var7 = Lang.get(var6, (String)null);
-         if (var7 == null) {
+      for (int i = 0; i < 10; i++) {
+         String string = key + ".tooltip." + (i + 1);
+         String string2 = Lang.get(string, (String)null);
+         if (string2 == null) {
             break;
          }
 
-         var4.add(var7);
+         arrayList.add(string2);
       }
 
-      return var4.size() <= 0 ? null : (java.lang.String[])(var4.toArray(new String[var4.size()]));
+      return arrayList.size() <= 0 ? null : (java.lang.String[])(arrayList.toArray(new String[arrayList.size()]));
    }
 }

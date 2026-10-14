@@ -17,32 +17,32 @@ public class C01PacketEncryptionResponse implements Packet<INetHandlerLoginServe
    public C01PacketEncryptionResponse() {
    }
 
-   public C01PacketEncryptionResponse(SecretKey var1, PublicKey var2, byte[] var3) {
-      this.secretKeyEncrypted = CryptManager.encryptData(var2, var1.getEncoded());
-      this.verifyTokenEncrypted = CryptManager.encryptData(var2, var3);
+   public C01PacketEncryptionResponse(SecretKey secretKey, PublicKey publicKey, byte[] verifyToken) {
+      this.secretKeyEncrypted = CryptManager.encryptData(publicKey, secretKey.getEncoded());
+      this.verifyTokenEncrypted = CryptManager.encryptData(publicKey, verifyToken);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.secretKeyEncrypted = var1.readByteArray();
-      this.verifyTokenEncrypted = var1.readByteArray();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.secretKeyEncrypted = buf.readByteArray();
+      this.verifyTokenEncrypted = buf.readByteArray();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByteArray(this.secretKeyEncrypted);
-      var1.writeByteArray(this.verifyTokenEncrypted);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByteArray(this.secretKeyEncrypted);
+      buf.writeByteArray(this.verifyTokenEncrypted);
    }
 
-   public void processPacket(INetHandlerLoginServer var1) {
-      var1.processEncryptionResponse(this);
+   public void processPacket(INetHandlerLoginServer handler) {
+      handler.processEncryptionResponse(this);
    }
 
-   public SecretKey getSecretKey(PrivateKey var1) {
-      return CryptManager.decryptSharedKey(var1, this.secretKeyEncrypted);
+   public SecretKey getSecretKey(PrivateKey key) {
+      return CryptManager.decryptSharedKey(key, this.secretKeyEncrypted);
    }
 
-   public byte[] getVerifyToken(PrivateKey var1) {
-      return var1 == null ? this.verifyTokenEncrypted : CryptManager.decryptData(var1, this.verifyTokenEncrypted);
+   public byte[] getVerifyToken(PrivateKey key) {
+      return key == null ? this.verifyTokenEncrypted : CryptManager.decryptData(key, this.verifyTokenEncrypted);
    }
 }

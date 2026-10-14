@@ -13,28 +13,28 @@ public class S31PacketWindowProperty implements Packet<INetHandlerPlayClient> {
    public S31PacketWindowProperty() {
    }
 
-   public S31PacketWindowProperty(int var1, int var2, int var3) {
-      this.windowId = var1;
-      this.varIndex = var2;
-      this.varValue = var3;
+   public S31PacketWindowProperty(int windowIdIn, int varIndexIn, int varValueIn) {
+      this.windowId = windowIdIn;
+      this.varIndex = varIndexIn;
+      this.varValue = varValueIn;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleWindowProperty(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.windowId = var1.readUnsignedByte();
-      this.varIndex = var1.readShort();
-      this.varValue = var1.readShort();
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleWindowProperty(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeByte(this.windowId);
-      var1.writeShort(this.varIndex);
-      var1.writeShort(this.varValue);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.windowId = buf.readUnsignedByte();
+      this.varIndex = buf.readShort();
+      this.varValue = buf.readShort();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeByte(this.windowId);
+      buf.writeShort(this.varIndex);
+      buf.writeShort(this.varValue);
    }
 
    public int getWindowId() {

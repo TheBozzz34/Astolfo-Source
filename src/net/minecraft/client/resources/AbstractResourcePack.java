@@ -23,55 +23,55 @@ public abstract class AbstractResourcePack implements IResourcePack {
    public final File resourcePackFile;
    private static final long a = 49127330098165L;
 
-   public AbstractResourcePack(File var1) {
-      this.resourcePackFile = var1;
+   public AbstractResourcePack(File resourcePackFileIn) {
+      this.resourcePackFile = resourcePackFileIn;
    }
 
-   private static String locationToName(ResourceLocation var0) {
-      return String.format("%s/%s/%s", "assets", var0.getResourceDomain(), var0.getResourcePath());
+   private static String locationToName(ResourceLocation location) {
+      return String.format("%s/%s/%s", "assets", location.getResourceDomain(), location.getResourcePath());
    }
 
-   public static String getRelativeName(File var0, File var1) {
-      return var0.toURI().relativize(var1.toURI()).getPath();
-   }
-
-   @Override
-   public InputStream getInputStream(ResourceLocation var1) throws IOException {
-      return this.getInputStreamByName(locationToName(var1));
+   public static String getRelativeName(File file, File file2) {
+      return file.toURI().relativize(file2.toURI()).getPath();
    }
 
    @Override
-   public boolean resourceExists(ResourceLocation var1) {
-      return this.hasResourceName(locationToName(var1));
-   }
-
-   public abstract InputStream getInputStreamByName(String var1) throws IOException;
-
-   public abstract boolean hasResourceName(String var1);
-
-   public void logNameNotLowercase(String var1) {
-      resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}", var1, this.resourcePackFile);
+   public InputStream getInputStream(ResourceLocation location) throws IOException {
+      return this.getInputStreamByName(locationToName(location));
    }
 
    @Override
-   public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer var1, String var2) throws IOException {
-      return readMetadata(var1, this.getInputStreamByName("pack.mcmeta"), var2);
+   public boolean resourceExists(ResourceLocation location) {
+      return this.hasResourceName(locationToName(location));
    }
 
-   public static <T extends IMetadataSection> T readMetadata(IMetadataSerializer var0, InputStream var1, String var2) {
-      JsonObject var3 = null;
-      BufferedReader var4 = null;
+   public abstract InputStream getInputStreamByName(String name) throws IOException;
+
+   public abstract boolean hasResourceName(String name);
+
+   public void logNameNotLowercase(String name) {
+      resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}", name, this.resourcePackFile);
+   }
+
+   @Override
+   public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer metadataSerializer, String metadataSectionName) throws IOException {
+      return readMetadata(metadataSerializer, this.getInputStreamByName("pack.mcmeta"), metadataSectionName);
+   }
+
+   public static <T extends IMetadataSection> T readMetadata(IMetadataSerializer iMetadataSerializer, InputStream inputStream, String string) {
+      JsonObject jsonObject = null;
+      BufferedReader bufferedReader = null;
 
       try {
-         var4 = new BufferedReader(new InputStreamReader(var1, Charsets.UTF_8));
-         var3 = new JsonParser().parse(var4).getAsJsonObject();
-      } catch (RuntimeException var9) {
-         throw new JsonParseException(var9);
+         bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charsets.UTF_8));
+         jsonObject = new JsonParser().parse(bufferedReader).getAsJsonObject();
+      } catch (RuntimeException runtimeException) {
+         throw new JsonParseException(runtimeException);
       } finally {
-         IOUtils.closeQuietly(var4);
+         IOUtils.closeQuietly(bufferedReader);
       }
 
-      return var0.parseMetadataSection(var2, var3);
+      return iMetadataSerializer.parseMetadataSection(string, jsonObject);
    }
 
    @Override

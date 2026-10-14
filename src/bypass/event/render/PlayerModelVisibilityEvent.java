@@ -6,8 +6,8 @@ import net.minecraft.entity.Entity;
 public class PlayerModelVisibilityEvent extends CancellableEvent {
    private Entity entity;
 
-   public PlayerModelVisibilityEvent(Entity var1) {
-      this.entity = var1;
+   public PlayerModelVisibilityEvent(Entity entity) {
+      this.entity = entity;
    }
 
    public Entity getEntity() {

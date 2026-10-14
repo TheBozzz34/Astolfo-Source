@@ -13,76 +13,76 @@ public final class PlaceBlock extends VarArgFunction {
    private static final long b = 3340367993640058888L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
-      if (var1.narg() < (int)b) {
+   public Varargs onInvoke(Varargs varargs) {
+      if (varargs.narg() < (int)b) {
          return LuaValue.varargsOf(new LuaValue[]{NIL});
       }
 
-      int var5 = 0;
-      int var6 = 0;
-      double var7 = 0.0;
-      double var9 = 0.0;
-      double var11 = 0.0;
-      double var13 = 0.0;
-      double var15 = 0.0;
-      double var17 = 0.0;
-      int var19 = 1;
+      int i = 0;
+      int j = 0;
+      double d = 0.0;
+      double e = 0.0;
+      double d2 = 0.0;
+      double d3 = 0.0;
+      double d4 = 0.0;
+      double d5 = 0.0;
+      int k = 1;
 
-      for (int var20 = var1.narg(); var19 <= var20; var19++) {
-         LuaValue var21 = var1.checkvalue(var19);
-         switch (var19) {
+      for (int l = varargs.narg(); k <= l; k++) {
+         LuaValue luaValue = varargs.checkvalue(k);
+         switch (k) {
             case 1:
-               if (var21.isnumber()) {
-                  var5 = var21.checkint();
+               if (luaValue.isnumber()) {
+                  i = luaValue.checkint();
                }
                break;
             case 2:
-               if (var21.isnumber()) {
-                  var7 = var21.checkdouble();
+               if (luaValue.isnumber()) {
+                  d = luaValue.checkdouble();
                }
                break;
             case 3:
-               if (var21.isnumber()) {
-                  var9 = var21.checkdouble();
+               if (luaValue.isnumber()) {
+                  e = luaValue.checkdouble();
                }
                break;
             case 4:
-               if (var21.isnumber()) {
-                  var11 = var21.checkdouble();
+               if (luaValue.isnumber()) {
+                  d2 = luaValue.checkdouble();
                }
                break;
             case 5:
-               if (var21.isnumber()) {
-                  var6 = var21.checkint();
+               if (luaValue.isnumber()) {
+                  j = luaValue.checkint();
                }
                break;
             case 6:
-               if (var21.isnumber()) {
-                  var13 = var21.checkint();
+               if (luaValue.isnumber()) {
+                  d3 = luaValue.checkint();
                }
                break;
             case 7:
-               if (var21.isnumber()) {
-                  var15 = var21.checkint();
+               if (luaValue.isnumber()) {
+                  d4 = luaValue.checkint();
                }
                break;
             case 8:
-               if (var21.isnumber()) {
-                  var17 = var21.checkint();
+               if (luaValue.isnumber()) {
+                  d5 = luaValue.checkint();
                }
          }
       }
 
-      boolean var22 = ClientAccess.mc
+      boolean bl = ClientAccess.mc
          .playerController
          .onPlayerRightClick(
             ClientAccess.mc.thePlayer,
             ClientAccess.mc.theWorld,
-            ClientAccess.mc.thePlayer.inventory.getStackInSlot(var5 - 1),
-            new BlockPos(var7, var9, var11),
-            EnumFacing.values()[var6 - 1],
-            new Vec3(var13, var15, var17)
+            ClientAccess.mc.thePlayer.inventory.getStackInSlot(i - 1),
+            new BlockPos(d, e, d2),
+            EnumFacing.values()[j - 1],
+            new Vec3(d3, d4, d5)
          );
-      return valueOf(var22);
+      return valueOf(bl);
    }
 }

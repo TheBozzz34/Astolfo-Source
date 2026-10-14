@@ -22,88 +22,88 @@ public class CommandEffect extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.effect.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 2) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 2) {
          throw new WrongUsageException("commands.effect.usage");
       }
 
-      EntityLivingBase var6 = getEntity(var1, var2[0], EntityLivingBase.class);
-      if (var2[1].equals("clear")) {
-         if (var6.getActivePotionEffects().isEmpty()) {
-            throw new CommandException("commands.effect.failure.notActive.all", var6.getName());
+      EntityLivingBase entityLivingBase = getEntity(sender, args[0], EntityLivingBase.class);
+      if (args[1].equals("clear")) {
+         if (entityLivingBase.getActivePotionEffects().isEmpty()) {
+            throw new CommandException("commands.effect.failure.notActive.all", entityLivingBase.getName());
          }
 
-         var6.clearActivePotions();
-         notifyOperators(var1, this, "commands.effect.success.removed.all", var6.getName());
+         entityLivingBase.clearActivePotions();
+         notifyOperators(sender, this, "commands.effect.success.removed.all", entityLivingBase.getName());
       } else {
-         int var7;
+         int i;
          try {
-            var7 = parseInt(var2[1], 1);
-         } catch (NumberInvalidException var14) {
-            Potion var9 = Potion.getPotionFromResourceLocation(var2[1]);
-            if (var9 == null) {
-               throw var14;
+            i = parseInt(args[1], 1);
+         } catch (NumberInvalidException numberInvalidException) {
+            Potion potion = Potion.getPotionFromResourceLocation(args[1]);
+            if (potion == null) {
+               throw numberInvalidException;
             }
 
-            var7 = var9.id;
+            i = potion.id;
          }
 
-         int var8 = 600;
-         int var15 = 30;
-         int var10 = 0;
-         if (var7 < 0 || var7 >= Potion.potionTypes.length || Potion.potionTypes[var7] == null) {
-            throw new NumberInvalidException("commands.effect.notFound", var7);
+         int j = 600;
+         int k = 30;
+         int l = 0;
+         if (i < 0 || i >= Potion.potionTypes.length || Potion.potionTypes[i] == null) {
+            throw new NumberInvalidException("commands.effect.notFound", i);
          }
 
-         Potion var11 = Potion.potionTypes[var7];
-         if (var2.length >= 3) {
-            var15 = parseInt(var2[2], 0, 1000000);
-            if (var11.isInstant()) {
-               var8 = var15;
+         Potion potion2 = Potion.potionTypes[i];
+         if (args.length >= 3) {
+            k = parseInt(args[2], 0, 1000000);
+            if (potion2.isInstant()) {
+               j = k;
             } else {
-               var8 = var15 * 20;
+               j = k * 20;
             }
-         } else if (var11.isInstant()) {
-            var8 = 1;
+         } else if (potion2.isInstant()) {
+            j = 1;
          }
 
-         if (var2.length >= 4) {
-            var10 = parseInt(var2[3], 0, 255);
+         if (args.length >= 4) {
+            l = parseInt(args[3], 0, 255);
          }
 
-         boolean var12 = true;
-         if (var2.length >= 5 && "true".equalsIgnoreCase(var2[4])) {
-            var12 = false;
+         boolean bl = true;
+         if (args.length >= 5 && "true".equalsIgnoreCase(args[4])) {
+            bl = false;
          }
 
-         if (var15 > 0) {
-            PotionEffect var13 = new PotionEffect(var7, var8, var10, false, var12);
-            var6.addPotionEffect(var13);
-            notifyOperators(var1, this, "commands.effect.success", new ChatComponentTranslation(var13.getEffectName()), var7, var10, var6.getName(), var15);
+         if (k > 0) {
+            PotionEffect potionEffect = new PotionEffect(i, j, l, false, bl);
+            entityLivingBase.addPotionEffect(potionEffect);
+            notifyOperators(sender, this, "commands.effect.success", new ChatComponentTranslation(potionEffect.getEffectName()), i, l, entityLivingBase.getName(), k);
          } else {
-            if (!var6.isPotionActive(var7)) {
-               throw new CommandException("commands.effect.failure.notActive", new ChatComponentTranslation(var11.getName()), var6.getName());
+            if (!entityLivingBase.isPotionActive(i)) {
+               throw new CommandException("commands.effect.failure.notActive", new ChatComponentTranslation(potion2.getName()), entityLivingBase.getName());
             }
 
-            var6.removePotionEffect(var7);
-            notifyOperators(var1, this, "commands.effect.success.removed", new ChatComponentTranslation(var11.getName()), var6.getName());
+            entityLivingBase.removePotionEffect(i);
+            notifyOperators(sender, this, "commands.effect.success.removed", new ChatComponentTranslation(potion2.getName()), entityLivingBase.getName());
          }
       }
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1
-         ? getListOfStringsMatchingLastWord(var2, this.getAllUsernames())
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1
+         ? getListOfStringsMatchingLastWord(args, this.getAllUsernames())
          : (
-            var2.length == 2
-               ? getListOfStringsMatchingLastWord(var2, Potion.getPotionLocations())
-               : (var2.length == 5 ? getListOfStringsMatchingLastWord(var2, "true", "false") : null)
+            args.length == 2
+               ? getListOfStringsMatchingLastWord(args, Potion.getPotionLocations())
+               : (args.length == 5 ? getListOfStringsMatchingLastWord(args, "true", "false") : null)
          );
    }
 
@@ -112,7 +112,7 @@ public class CommandEffect extends CommandBase {
    }
 
    @Override
-   public boolean isUsernameIndex(String[] var1, int var2) {
-      return var2 == 0;
+   public boolean isUsernameIndex(String[] args, int index) {
+      return index == 0;
    }
 }

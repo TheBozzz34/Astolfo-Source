@@ -17,35 +17,35 @@ public final class Response {
    private static final long b = 6451728891889L;
    private static final long c = -6498816265136635504L;
 
-   private Response(int var1, String var2, Map<String, List<String>> var3) {
-      this.G = var1;
-      this.d = var2;
-      this.a = var3;
+   private Response(int i, String string, Map<String, List<String>> map) {
+      this.G = i;
+      this.d = string;
+      this.a = map;
    }
 
-   public static final Response g(HttpURLConnection var0, boolean var1) throws IOException {
-      String var2 = Z(var0, var1);
-      int var3 = var0.getResponseCode();
-      var0.disconnect();
-      return new Response(var3, var2, var0.getHeaderFields());
+   public static final Response g(HttpURLConnection httpURLConnection, boolean bl) throws IOException {
+      String string = Z(httpURLConnection, bl);
+      int i = httpURLConnection.getResponseCode();
+      httpURLConnection.disconnect();
+      return new Response(i, string, httpURLConnection.getHeaderFields());
    }
 
-   public static String Z(URLConnection var0, boolean var1) throws IOException {
-      StringBuilder var5 = new StringBuilder();
-      HttpURLConnection var6 = (HttpURLConnection)var0;
-      InputStream var7 = var6.getResponseCode() < (int)c ? var0.getInputStream() : var6.getErrorStream();
+   public static String Z(URLConnection urlConnection, boolean bl) throws IOException {
+      StringBuilder stringBuilder = new StringBuilder();
+      HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
+      InputStream inputStream = httpURLConnection.getResponseCode() < (int)c ? urlConnection.getInputStream() : httpURLConnection.getErrorStream();
 
-      String var10;
-      try (BufferedReader var8 = new BufferedReader(new InputStreamReader(var7))) {
-         while ((var10 = var8.readLine()) != null) {
-            var5.append(var10);
-            if (var1) {
-               var5.append(R);
+      String string;
+      try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+         while ((string = bufferedReader.readLine()) != null) {
+            stringBuilder.append(string);
+            if (bl) {
+               stringBuilder.append(R);
             }
          }
       }
 
-      return var5.toString();
+      return stringBuilder.toString();
    }
 
    public int P() {

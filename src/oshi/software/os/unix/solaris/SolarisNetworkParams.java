@@ -14,8 +14,8 @@ public final class SolarisNetworkParams extends AbstractNetworkParams {
 
    @Override
    public String getHostName() {
-      byte[] var3 = new byte[(int)i];
-      return 0 != LIBC.gethostname(var3, var3.length) ? super.getHostName() : Native.toString(var3);
+      byte[] bytes = new byte[(int)i];
+      return 0 != LIBC.gethostname(bytes, bytes.length) ? super.getHostName() : Native.toString(bytes);
    }
 
    @Override

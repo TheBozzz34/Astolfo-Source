@@ -18,35 +18,35 @@ public class S37PacketStatistics implements Packet<INetHandlerPlayClient> {
    public S37PacketStatistics() {
    }
 
-   public S37PacketStatistics(Map<StatBase, Integer> var1) {
-      this.field_148976_a = var1;
+   public S37PacketStatistics(Map<StatBase, Integer> map) {
+      this.field_148976_a = map;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleStatistics(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleStatistics(this);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      int var5 = var1.readVarIntFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      int i = buf.readVarIntFromBuffer();
       this.field_148976_a = Maps.newHashMap();
 
-      for (int var6 = 0; var6 < var5; var6++) {
-         StatBase var7 = StatList.getOneShotStat(var1.readStringFromBuffer((int)c));
-         int var8 = var1.readVarIntFromBuffer();
-         if (var7 != null) {
-            this.field_148976_a.put(var7, var8);
+      for (int j = 0; j < i; j++) {
+         StatBase statBase = StatList.getOneShotStat(buf.readStringFromBuffer((int)c));
+         int k = buf.readVarIntFromBuffer();
+         if (statBase != null) {
+            this.field_148976_a.put(statBase, k);
          }
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.field_148976_a.size());
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.field_148976_a.size());
 
-      for (Entry var6 : this.field_148976_a.entrySet()) {
-         var1.writeString(((StatBase)var6.getKey()).statId);
-         var1.writeVarIntToBuffer((Integer)var6.getValue());
+      for (Entry entry : this.field_148976_a.entrySet()) {
+         buf.writeString(((StatBase)entry.getKey()).statId);
+         buf.writeVarIntToBuffer((Integer)entry.getValue());
       }
    }
 

@@ -8,11 +8,11 @@ public class FileUploadThread extends Thread {
    private byte[] content;
    private IFileUploadListener listener;
 
-   public FileUploadThread(String var1, Map var2, byte[] var3, IFileUploadListener var4) {
-      this.urlString = var1;
-      this.headers = var2;
-      this.content = var3;
-      this.listener = var4;
+   public FileUploadThread(String urlString, Map headers, byte[] content, IFileUploadListener listener) {
+      this.urlString = urlString;
+      this.headers = headers;
+      this.content = content;
+      this.listener = listener;
    }
 
    @Override
@@ -20,8 +20,8 @@ public class FileUploadThread extends Thread {
       try {
          HttpUtils.post(this.urlString, this.headers, this.content);
          this.listener.fileUploadFinished(this.urlString, this.content, (Throwable)null);
-      } catch (Exception var2) {
-         this.listener.fileUploadFinished(this.urlString, this.content, var2);
+      } catch (Exception exception) {
+         this.listener.fileUploadFinished(this.urlString, this.content, exception);
       }
    }
 

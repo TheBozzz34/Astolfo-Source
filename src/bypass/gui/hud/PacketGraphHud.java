@@ -16,158 +16,158 @@ public class PacketGraphHud extends Component {
    private boolean G;
    private static final long c = 37151489776439L;
 
-   public PacketGraphHud(float var1, float var2, int var3, int var4) {
-      super("Graph", var1, var2, var3, var4);
+   public PacketGraphHud(float f, float g, int i, int j) {
+      super("Graph", f, g, i, j);
       this.F(true);
    }
 
    @Override
-   public void render(int var1, int var2) {
+   public void render(int i, int j) {
       try {
-         int var6 = this.G ? this.S() : this.t();
-         int var7 = this.G ? this.b() : this.y();
-         double var8 = (this.x() - 2.0) / (this.q.size() - 1);
-         double var10 = (this.Y() - 2.0) / (var6 - var7);
-         ArrayList var12 = new ArrayList();
-         int var13 = 0;
-         int var14 = 0;
+         int k = this.G ? this.S() : this.t();
+         int l = this.G ? this.b() : this.y();
+         double d = (this.x() - 2.0) / (this.q.size() - 1);
+         double e = (this.Y() - 2.0) / (k - l);
+         ArrayList arrayList = new ArrayList();
+         int m = 0;
+         int n = 0;
 
-         for (PacketSnapshot var16 : this.q) {
-            int var17 = this.G ? var16.incoming.size() : var16.outgoing.size();
-            int var18 = (int)(var13 * var8);
-            int var19 = (int)((var6 - var17) * var10);
-            var12.add(new Vector2f(var18, var19));
-            var13++;
-            var14 += var17;
+         for (PacketSnapshot packetSnapshot : this.q) {
+            int i2 = this.G ? packetSnapshot.incoming.size() : packetSnapshot.outgoing.size();
+            int i3 = (int)(m * d);
+            int i4 = (int)((k - i2) * e);
+            arrayList.add(new Vector2f(i3, i4));
+            m++;
+            n += i2;
          }
 
-         int var27 = var14 / this.q.size();
+         int i5 = n / this.q.size();
          GL11.glPushMatrix();
          GL11.glScalef(0.5F, 0.5F, 0.5F);
          mc.fontRendererObj.drawStringWithShadow(this.G ? "Incoming packets" : "Outgoing packets", this.M() * 2.0F, (this.E_float() - 7.0F) * 2.0F, -1);
-         String var28 = Math.round((float)var14 / this.q.size() * 20.0F) + " packets/sec";
+         String string = Math.round((float)n / this.q.size() * 20.0F) + " packets/sec";
          mc.fontRendererObj
-            .drawStringWithShadow(var28, (this.M() + this.x() - mc.fontRendererObj.getStringWidth(var28) / 2.0F) * 2.0F, (this.E_float() - 7.0F) * 2.0F, -1);
+            .drawStringWithShadow(string, (this.M() + this.x() - mc.fontRendererObj.getStringWidth(string) / 2.0F) * 2.0F, (this.E_float() - 7.0F) * 2.0F, -1);
          GL11.glPopMatrix();
-         int var29 = ((ColorSetting)HUD.graphs.getSetting("Background")).getValue().getRGB();
-         int var30 = ((ColorSetting)HUD.graphs.getSetting("Line")).getValue().getRGB();
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), var29);
-         byte var31 = 3;
+         int i6 = ((ColorSetting)HUD.graphs.getSetting("Background")).getValue().getRGB();
+         int i7 = ((ColorSetting)HUD.graphs.getSetting("Line")).getValue().getRGB();
+         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), i6);
+         byte b2 = 3;
 
-         for (int var20 = 0; var20 < var31 + 1; var20++) {
-            int var21 = (int)this.M();
-            int var22 = var21 + this.x();
-            int var23 = (int)(this.E_float() + this.Y() - var20 * this.Y() / var31);
+         for (int i8 = 0; i8 < b2 + 1; i8++) {
+            int i9 = (int)this.M();
+            int i10 = i9 + this.x();
+            int i11 = (int)(this.E_float() + this.Y() - i8 * this.Y() / b2);
             if (this.q.size() > 0) {
-               String var24 = Math.round((int)((var7 + (var6 - var7) * (var20 * 1.0 / var31)) * 100.0) / 100.0) + "";
-               int var25 = mc.fontRendererObj.getStringWidth(var24) / 2;
+               String string2 = Math.round((int)((l + (k - l) * (i8 * 1.0 / b2)) * 100.0) / 100.0) + "";
+               int i12 = mc.fontRendererObj.getStringWidth(string2) / 2;
                GL11.glPushMatrix();
                GL11.glScalef(0.5F, 0.5F, 0.5F);
-               if (var20 == 3) {
-                  var23 = (int)this.E_float() + 2;
+               if (i8 == 3) {
+                  i11 = (int)this.E_float() + 2;
                }
 
-               if (var20 == 0) {
-                  var23 = (int)this.E_float() + this.Y() - 3;
+               if (i8 == 0) {
+                  i11 = (int)this.E_float() + this.Y() - 3;
                }
 
-               mc.fontRendererObj.drawStringWithShadow(var24, (var21 - var25 - 3) * 2, (var23 + mc.fontRendererObj.FONT_HEIGHT / 2.0F - 6.0F) * 2.0F, -1);
+               mc.fontRendererObj.drawStringWithShadow(string2, (i9 - i12 - 3) * 2, (i11 + mc.fontRendererObj.FONT_HEIGHT / 2.0F - 6.0F) * 2.0F, -1);
                GL11.glPopMatrix();
             }
 
-            RenderUtil.drawLine(1.0F, var21, var23, var22, var23, var29);
+            RenderUtil.drawLine(1.0F, i9, i11, i10, i11, i6);
          }
 
-         for (int var32 = 0; var32 < this.q.size(); var32 += 2) {
+         for (int i13 = 0; i13 < this.q.size(); i13 += 2) {
             if (this.q.size() > 1) {
-               int var35 = (int)(this.M() + var32 * this.x() / (this.q.size() - 1));
-               int var37 = (int)this.E_float();
-               int var39 = var37 + this.Y();
-               RenderUtil.drawLine(1.0F, var35, var37, var35, var39, var29);
+               int i14 = (int)(this.M() + i13 * this.x() / (this.q.size() - 1));
+               int i15 = (int)this.E_float();
+               int i16 = i15 + this.Y();
+               RenderUtil.drawLine(1.0F, i14, i15, i14, i16, i6);
             }
          }
 
-         for (int var33 = 0; var33 < var12.size() - 1; var33++) {
-            float var36 = ((Vector2f)var12.get(var33)).x;
-            float var38 = ((Vector2f)var12.get(var33)).y;
-            float var40 = ((Vector2f)var12.get(var33 + 1)).x;
-            float var41 = ((Vector2f)var12.get(var33 + 1)).y;
-            RenderUtil.drawLine(1.0F, this.M() + var36, this.E_float() + var38, this.M() + var40, this.E_float() + var41, var30);
+         for (int i17 = 0; i17 < arrayList.size() - 1; i17++) {
+            float f = ((Vector2f)arrayList.get(i17)).x;
+            float g = ((Vector2f)arrayList.get(i17)).y;
+            float f2 = ((Vector2f)arrayList.get(i17 + 1)).x;
+            float f3 = ((Vector2f)arrayList.get(i17 + 1)).y;
+            RenderUtil.drawLine(1.0F, this.M() + f, this.E_float() + g, this.M() + f2, this.E_float() + f3, i7);
          }
 
          if (this.h) {
-            int var34 = (int)(this.E_float() + (int)((var6 - var27) * var10));
+            int i18 = (int)(this.E_float() + (int)((k - i5) * e));
             GL11.glPushMatrix();
             GL11.glScalef(0.5F, 0.5F, 0.5F);
-            mc.fontRendererObj.drawStringWithShadow("avg: " + var27, (this.M() + this.x() + 3.0F) * 2.0F, (var34 - 2) * 2, -1);
+            mc.fontRendererObj.drawStringWithShadow("avg: " + i5, (this.M() + this.x() + 3.0F) * 2.0F, (i18 - 2) * 2, -1);
             GL11.glPopMatrix();
-            RenderUtil.drawLine(1.0F, this.M(), var34, this.M() + this.x(), var34, Color.GREEN.getRGB());
+            RenderUtil.drawLine(1.0F, this.M(), i18, this.M() + this.x(), i18, Color.GREEN.getRGB());
          }
-      } catch (ArithmeticException var26) {
+      } catch (ArithmeticException arithmeticException) {
       }
    }
 
    private int t() {
-      int var4 = 0;
+      int i = 0;
 
-      for (PacketSnapshot var6 : this.q) {
-         if (var4 < var6.outgoing.size()) {
-            var4 = var6.outgoing.size();
+      for (PacketSnapshot packetSnapshot : this.q) {
+         if (i < packetSnapshot.outgoing.size()) {
+            i = packetSnapshot.outgoing.size();
          }
       }
 
-      return var4;
+      return i;
    }
 
    private int y() {
-      int var4 = 999999;
+      int i = 999999;
 
-      for (PacketSnapshot var6 : this.q) {
-         if (var4 > var6.outgoing.size()) {
-            var4 = var6.outgoing.size();
+      for (PacketSnapshot packetSnapshot : this.q) {
+         if (i > packetSnapshot.outgoing.size()) {
+            i = packetSnapshot.outgoing.size();
          }
       }
 
-      return var4;
+      return i;
    }
 
    private int S() {
-      int var4 = 0;
+      int i = 0;
 
-      for (PacketSnapshot var6 : this.q) {
-         if (var4 < var6.incoming.size()) {
-            var4 = var6.incoming.size();
+      for (PacketSnapshot packetSnapshot : this.q) {
+         if (i < packetSnapshot.incoming.size()) {
+            i = packetSnapshot.incoming.size();
          }
       }
 
-      return var4;
+      return i;
    }
 
    private int b() {
-      int var4 = 999999;
+      int i = 999999;
 
-      for (PacketSnapshot var6 : this.q) {
-         if (var4 > var6.incoming.size()) {
-            var4 = var6.incoming.size();
+      for (PacketSnapshot packetSnapshot : this.q) {
+         if (i > packetSnapshot.incoming.size()) {
+            i = packetSnapshot.incoming.size();
          }
       }
 
-      return var4;
+      return i;
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
    }
 
-   public void N(boolean var1) {
-      this.h = var1;
+   public void N(boolean bl) {
+      this.h = bl;
    }
 
-   public void r(boolean var1) {
-      this.G = var1;
+   public void r(boolean bl) {
+      this.G = bl;
    }
 
-   public void K(ArrayBlockingQueue<PacketSnapshot> var1) {
-      this.q = var1;
+   public void K(ArrayBlockingQueue<PacketSnapshot> arrayBlockingQueue) {
+      this.q = arrayBlockingQueue;
    }
 }

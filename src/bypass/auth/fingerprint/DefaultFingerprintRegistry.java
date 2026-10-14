@@ -14,86 +14,86 @@ public final class DefaultFingerprintRegistry implements FingerprintRegistry {
 
    @Override
    public int l() {
-      byte var4 = 0;
+      byte b = 0;
 
-      for (FingerprintEntry var6 : k.values()) {
-         var4 += var6 instanceof ValidatedFingerprintEntry ? 1 : 0;
+      for (FingerprintEntry fingerprintEntry : k.values()) {
+         b += fingerprintEntry instanceof ValidatedFingerprintEntry ? 1 : 0;
       }
 
-      return var4;
+      return b;
    }
 
    @Override
-   public int o(String var1) {
-      return k.containsKey(var1) ? k.get(var1).o() : -1;
+   public int o(String string) {
+      return k.containsKey(string) ? k.get(string).o() : -1;
    }
 
    @Override
    public int C() {
-      int var4 = 0;
+      int i = 0;
 
-      for (FingerprintEntry var6 : k.values()) {
-         var4 += var6.o();
+      for (FingerprintEntry fingerprintEntry : k.values()) {
+         i += fingerprintEntry.o();
       }
 
-      return var4;
+      return i;
    }
 
    @Override
-   public void Q(String var1, FingerprintEntry<?> var2) {
-      if (!k.containsKey(var1)) {
-         k.put(var1, var2);
-      }
-   }
-
-   @Override
-   public void s(String var1, FingerprintEntrySupplier var2) {
-      if (!k.containsKey(var1)) {
-         k.put(var1, var2.get());
+   public void Q(String string, FingerprintEntry<?> fingerprintEntry) {
+      if (!k.containsKey(string)) {
+         k.put(string, fingerprintEntry);
       }
    }
 
    @Override
-   public int F(String var1) {
-      FingerprintEntry var5 = k.get(var1);
-      if (!(var5 instanceof ValidatedFingerprintEntry)) {
+   public void s(String string, FingerprintEntrySupplier fingerprintEntrySupplier) {
+      if (!k.containsKey(string)) {
+         k.put(string, fingerprintEntrySupplier.get());
+      }
+   }
+
+   @Override
+   public int F(String string) {
+      FingerprintEntry fingerprintEntry = k.get(string);
+      if (!(fingerprintEntry instanceof ValidatedFingerprintEntry)) {
          return 0;
       }
 
-      ValidatedFingerprintEntry var6 = (ValidatedFingerprintEntry)var5;
-      List var7 = var6.W();
-      boolean var8 = false;
-      if (!var7.isEmpty()) {
-         for (Object var10$raw : var7) {
-            FingerprintValidator var10 = (FingerprintValidator)var10$raw;
-            var8 = var10.test(var5);
-            if (!var8) {
+      ValidatedFingerprintEntry validatedFingerprintEntry = (ValidatedFingerprintEntry)fingerprintEntry;
+      List list = validatedFingerprintEntry.W();
+      boolean bl = false;
+      if (!list.isEmpty()) {
+         for (Object object : list) {
+            FingerprintValidator fingerprintValidator = (FingerprintValidator)object;
+            bl = fingerprintValidator.test(fingerprintEntry);
+            if (!bl) {
                break;
             }
          }
       }
 
-      return var8 ? 1 : -1;
+      return bl ? 1 : -1;
    }
 
    @Override
    public int B() {
-      int var5 = 0;
+      int i = 0;
 
-      for (String var7 : k.keySet()) {
-         var5 += this.F(var7);
+      for (String string : k.keySet()) {
+         i += this.F(string);
       }
 
-      return var5;
+      return i;
    }
 
    @Override
-   public boolean f(String var1) {
-      return k.containsKey(var1) ? k.remove(var1) != null : false;
+   public boolean f(String string) {
+      return k.containsKey(string) ? k.remove(string) != null : false;
    }
 
    @Override
    public void invalidateAll() {
-      k.replaceAll((var0, var1) -> new EmptyFingerprintEntry());
+      k.replaceAll((string, fingerprintEntry) -> new EmptyFingerprintEntry());
    }
 }

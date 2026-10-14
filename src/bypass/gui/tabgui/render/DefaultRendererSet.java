@@ -28,15 +28,15 @@ public class DefaultRendererSet implements RendererSet {
    }
 
    public DefaultRendererSet() {
-      ItemRenderer var5 = new ItemRenderer();
+      ItemRenderer itemRenderer = new ItemRenderer();
       this.R = new Builder<Class<? extends Sized>, ElementRenderer<?>>()
          .put(TabGui.Panel.class, new PanelRenderer())
-         .put(CategoryItem.class, var5)
-         .put(ModuleItem.class, var5)
-         .put(BooleanSettingItem.class, var5)
-         .put(NumberSettingItem.class, var5)
-         .put(MapSettingItem.class, var5)
-         .put(EnumSettingItem.class, var5)
+         .put(CategoryItem.class, itemRenderer)
+         .put(ModuleItem.class, itemRenderer)
+         .put(BooleanSettingItem.class, itemRenderer)
+         .put(NumberSettingItem.class, itemRenderer)
+         .put(MapSettingItem.class, itemRenderer)
+         .put(EnumSettingItem.class, itemRenderer)
          .build();
    }
 }

@@ -7,7 +7,7 @@ import org.luaj.vm2.lib.VarArgFunction;
 
 public final class PrevAngles extends VarArgFunction {
    @Override
-   public Varargs onInvoke(Varargs var1) {
+   public Varargs onInvoke(Varargs varargs) {
       return LuaValue.varargsOf(
          new LuaValue[]{LuaValue.valueOf(ClientAccess.mc.thePlayer.prevRotationYaw), LuaValue.valueOf(ClientAccess.mc.thePlayer.prevRotationPitch)}
       );

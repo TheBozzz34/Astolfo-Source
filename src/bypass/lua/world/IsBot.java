@@ -11,11 +11,11 @@ public final class IsBot extends OneArgFunction {
    private static final long a = 35785352051806L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnil() && var1.isnumber() && var1.isint()) {
-         Entity var5 = WorldLibrary.X.get(var1.checkint());
-         if (var5 instanceof EntityLivingBase) {
-            return valueOf(BotDetector.w.contains(var5));
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity instanceof EntityLivingBase) {
+            return valueOf(BotDetector.w.contains(entity));
          }
       }
 

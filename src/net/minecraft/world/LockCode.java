@@ -8,8 +8,8 @@ public class LockCode {
    private static final long a = 16861613365010L;
    private static final long e = -3675970501856985080L;
 
-   public LockCode(String var1) {
-      this.lock = var1;
+   public LockCode(String code) {
+      this.lock = code;
    }
 
    public boolean isEmpty() {
@@ -20,14 +20,14 @@ public class LockCode {
       return this.lock;
    }
 
-   public void toNBT(NBTTagCompound var1) {
-      var1.setString("Lock", this.lock);
+   public void toNBT(NBTTagCompound nbt) {
+      nbt.setString("Lock", this.lock);
    }
 
-   public static LockCode fromNBT(NBTTagCompound var0) {
-      if (var0.hasKey("Lock", (int)e)) {
-         String var4 = var0.getString("Lock");
-         return new LockCode(var4);
+   public static LockCode fromNBT(NBTTagCompound nbt) {
+      if (nbt.hasKey("Lock", (int)e)) {
+         String string = nbt.getString("Lock");
+         return new LockCode(string);
       } else {
          return EMPTY_CODE;
       }

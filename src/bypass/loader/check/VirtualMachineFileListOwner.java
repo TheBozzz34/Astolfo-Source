@@ -7,8 +7,8 @@ public class VirtualMachineFileListOwner {
    private final ListContainerOwner<File> w;
 
    public VirtualMachineFileListOwner() {
-      VirtualMachineFiles var1 = new VirtualMachineFiles();
-      this.w = new ListContainerOwner<>(var1.i());
+      VirtualMachineFiles virtualMachineFiles = new VirtualMachineFiles();
+      this.w = new ListContainerOwner<>(virtualMachineFiles.i());
    }
 
    public ListContainerOwner<File> A() {

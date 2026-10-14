@@ -12,37 +12,37 @@ import oshi.util.ParseUtil;
 public final class FreeBsdDisplay extends AbstractDisplay {
    private static final long a = 74023044303096L;
 
-   public FreeBsdDisplay(byte[] var1) {
-      super(var1);
+   public FreeBsdDisplay(byte[] edid) {
+      super(edid);
    }
 
    public static Display[] getDisplays() {
-      List var3 = ExecutingCommand.runNative("xrandr --verbose");
-      if (var3.isEmpty()) {
+      List list = ExecutingCommand.runNative("xrandr --verbose");
+      if (list.isEmpty()) {
          return new Display[0];
       }
 
-      ArrayList var4 = new ArrayList();
-      StringBuilder var5 = null;
+      ArrayList arrayList = new ArrayList();
+      StringBuilder stringBuilder = null;
 
-      for (Object var7$raw : var3) {
-         String var7 = (String)var7$raw;
-         if (var7.contains("EDID")) {
-            var5 = new StringBuilder();
-         } else if (var5 != null) {
-            var5.append(var7.trim());
-            if (var5.length() >= 256) {
-               String var8 = var5.toString();
-               byte[] var9 = ParseUtil.hexStringToByteArray(var8);
-               if (var9.length >= 128) {
-                  var4.add(new FreeBsdDisplay(var9));
+      for (Object object : list) {
+         String string = (String)object;
+         if (string.contains("EDID")) {
+            stringBuilder = new StringBuilder();
+         } else if (stringBuilder != null) {
+            stringBuilder.append(string.trim());
+            if (stringBuilder.length() >= 256) {
+               String string2 = stringBuilder.toString();
+               byte[] bytes = ParseUtil.hexStringToByteArray(string2);
+               if (bytes.length >= 128) {
+                  arrayList.add(new FreeBsdDisplay(bytes));
                }
 
-               var5 = null;
+               stringBuilder = null;
             }
          }
       }
 
-      return (oshi.hardware.Display[])(var4.toArray(new Display[0]));
+      return (oshi.hardware.Display[])(arrayList.toArray(new Display[0]));
    }
 }

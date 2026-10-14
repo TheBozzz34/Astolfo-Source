@@ -19,17 +19,17 @@ public class UnnaturalMovementACheck extends MovementCheck {
    }
 
    @Override
-   public int D(double var1, double var3, double var5, float var7, float var8, boolean var9, EntityPlayer var10) {
-      double var14 = Math.hypot(var1 - this.q, var5 - this.k);
-      double var16 = Math.abs(var14) - Math.abs(this.l);
-      if (var16 != 0.0 && var16 > Math.abs(this.l) * 2.0) {
+   public int D(double d, double d2, double d3, float f, float f2, boolean bl, EntityPlayer entityPlayer) {
+      double e = Math.hypot(d - this.q, d3 - this.k);
+      double d4 = Math.abs(e) - Math.abs(this.l);
+      if (d4 != 0.0 && d4 > Math.abs(this.l) * 2.0) {
          ClientChat.CHAT.I("lol detect");
          this.T++;
       }
 
-      this.q = var1;
-      this.k = var5;
-      this.l = var14;
+      this.q = d;
+      this.k = d3;
+      this.l = e;
       return this.T;
    }
 

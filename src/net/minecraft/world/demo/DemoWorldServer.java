@@ -14,8 +14,8 @@ public class DemoWorldServer extends WorldServer {
       .enableBonusChest();
    private static final long cb = 96984561978053L;
 
-   public DemoWorldServer(MinecraftServer var1, ISaveHandler var2, WorldInfo var3, int var4, Profiler var5) {
-      super(var1, var2, var3, var4, var5);
+   public DemoWorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo worldInfoIn, int dimensionId, Profiler profilerIn) {
+      super(server, saveHandlerIn, worldInfoIn, dimensionId, profilerIn);
       this.worldInfo.populateFromWorldSettings(demoWorldSettings);
    }
 }

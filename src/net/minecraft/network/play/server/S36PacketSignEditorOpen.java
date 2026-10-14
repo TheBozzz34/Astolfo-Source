@@ -12,22 +12,22 @@ public class S36PacketSignEditorOpen implements Packet<INetHandlerPlayClient> {
    public S36PacketSignEditorOpen() {
    }
 
-   public S36PacketSignEditorOpen(BlockPos var1) {
-      this.signPosition = var1;
+   public S36PacketSignEditorOpen(BlockPos signPositionIn) {
+      this.signPosition = signPositionIn;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSignEditorOpen(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.signPosition = var1.readBlockPos();
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSignEditorOpen(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeBlockPos(this.signPosition);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.signPosition = buf.readBlockPos();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeBlockPos(this.signPosition);
    }
 
    public BlockPos getSignPosition() {

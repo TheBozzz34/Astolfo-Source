@@ -15,71 +15,71 @@ public class WorldVertexBufferUploader {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   public void draw(WorldRenderer var1) {
-      long var2 = b ^ 95818232398051L;
-      if (var1.getVertexCount() > 0) {
-         VertexFormat var5 = var1.getVertexFormat();
-         int var6 = var5.getNextOffset();
-         ByteBuffer var7 = var1.getByteBuffer();
-         List var8 = var5.getElements();
-         boolean var9 = Reflector.ForgeVertexFormatElementEnumUseage_preDraw.exists();
-         boolean var10 = Reflector.ForgeVertexFormatElementEnumUseage_postDraw.exists();
+   public void draw(WorldRenderer worldRenderer) {
+      long l = b ^ 95818232398051L;
+      if (worldRenderer.getVertexCount() > 0) {
+         VertexFormat vertexFormat = worldRenderer.getVertexFormat();
+         int i = vertexFormat.getNextOffset();
+         ByteBuffer byteBuffer = worldRenderer.getByteBuffer();
+         List list = vertexFormat.getElements();
+         boolean bl = Reflector.ForgeVertexFormatElementEnumUseage_preDraw.exists();
+         boolean bl2 = Reflector.ForgeVertexFormatElementEnumUseage_postDraw.exists();
 
-         for (int var11 = 0; var11 < var8.size(); var11++) {
-            VertexFormatElement var12 = (VertexFormatElement)var8.get(var11);
-            VertexFormatElement.EnumUsage var13 = var12.getUsage();
-            if (var9) {
-               Reflector.callVoid(var13, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, var5, var11, var6, var7);
+         for (int j = 0; j < list.size(); j++) {
+            VertexFormatElement vertexFormatElement = (VertexFormatElement)list.get(j);
+            VertexFormatElement.EnumUsage enumUsage = vertexFormatElement.getUsage();
+            if (bl) {
+               Reflector.callVoid(enumUsage, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, vertexFormat, j, i, byteBuffer);
             } else {
-               int var14 = var12.getType().getGlConstant();
-               int var15 = var12.getIndex();
-               ((Buffer)var7).position(var5.getOffset(var11));
-               switch (var13) {
+               int k = vertexFormatElement.getType().getGlConstant();
+               int m = vertexFormatElement.getIndex();
+               ((Buffer)byteBuffer).position(vertexFormat.getOffset(j));
+               switch (enumUsage) {
                   case POSITION:
-                     GL11.glVertexPointer(var12.getElementCount(), var14, var6, var7);
+                     GL11.glVertexPointer(vertexFormatElement.getElementCount(), k, i, byteBuffer);
                      GL11.glEnableClientState(32884);
                      break;
                   case UV:
-                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + var15);
-                     GL11.glTexCoordPointer(var12.getElementCount(), var14, var6, var7);
-                     long var10000 = 8353501295803406929L ^ var2;
+                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + m);
+                     GL11.glTexCoordPointer(vertexFormatElement.getElementCount(), k, i, byteBuffer);
+                     long n = 8353501295803406929L ^ l;
                      GL11.glEnableClientState(32888);
                      OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
                      break;
                   case COLOR:
-                     GL11.glColorPointer(var12.getElementCount(), var14, var6, var7);
+                     GL11.glColorPointer(vertexFormatElement.getElementCount(), k, i, byteBuffer);
                      GL11.glEnableClientState(32886);
                      break;
                   case NORMAL:
-                     GL11.glNormalPointer(var14, var6, var7);
+                     GL11.glNormalPointer(k, i, byteBuffer);
                      GL11.glEnableClientState(32885);
                }
             }
          }
 
-         if (var1.isMultiTexture()) {
-            var1.drawMultiTexture();
+         if (worldRenderer.isMultiTexture()) {
+            worldRenderer.drawMultiTexture();
          } else if (Config.isShaders()) {
-            SVertexBuilder.drawArrays(var1.getDrawMode(), 0, var1.getVertexCount(), var1);
+            SVertexBuilder.drawArrays(worldRenderer.getDrawMode(), 0, worldRenderer.getVertexCount(), worldRenderer);
          } else {
-            GL11.glDrawArrays(var1.getDrawMode(), 0, var1.getVertexCount());
+            GL11.glDrawArrays(worldRenderer.getDrawMode(), 0, worldRenderer.getVertexCount());
          }
 
-         int var16 = 0;
+         int i2 = 0;
 
-         for (int var17 = var8.size(); var16 < var17; var16++) {
-            VertexFormatElement var18 = (VertexFormatElement)var8.get(var16);
-            VertexFormatElement.EnumUsage var19 = var18.getUsage();
-            if (var10) {
-               Reflector.callVoid(var19, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, var5, var16, var6, var7);
+         for (int i3 = list.size(); i2 < i3; i2++) {
+            VertexFormatElement vertexFormatElement2 = (VertexFormatElement)list.get(i2);
+            VertexFormatElement.EnumUsage enumUsage2 = vertexFormatElement2.getUsage();
+            if (bl2) {
+               Reflector.callVoid(enumUsage2, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, vertexFormat, i2, i, byteBuffer);
             } else {
-               int var20 = var18.getIndex();
-               switch (var19) {
+               int i4 = vertexFormatElement2.getIndex();
+               switch (enumUsage2) {
                   case POSITION:
                      GL11.glDisableClientState(32884);
                      break;
                   case UV:
-                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + var20);
+                     OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + i4);
                      GL11.glDisableClientState(32888);
                      OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
                      break;
@@ -94,6 +94,6 @@ public class WorldVertexBufferUploader {
          }
       }
 
-      var1.reset();
+      worldRenderer.reset();
    }
 }

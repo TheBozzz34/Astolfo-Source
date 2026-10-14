@@ -40,12 +40,12 @@ public class BlockTripWireHook extends Block {
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      return var1.withProperty(SUSPENDED, !World.doesBlockHaveSolidTopSurface(var2, var3.down()));
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      return state.withProperty(SUSPENDED, !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()));
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return null;
    }
 
@@ -60,14 +60,14 @@ public class BlockTripWireHook extends Block {
    }
 
    @Override
-   public boolean canPlaceBlockOnSide(World var1, BlockPos var2, EnumFacing var3) {
-      return var3.getAxis().isHorizontal() && var1.getBlockState(var2.offset(var3.getOpposite())).getBlock().isNormalCube();
+   public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+      return side.getAxis().isHorizontal() && worldIn.getBlockState(pos.offset(side.getOpposite())).getBlock().isNormalCube();
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      for (Object var7 : EnumFacing.Plane.HORIZONTAL) {
-         if (var1.getBlockState(var2.offset((EnumFacing)var7)).getBlock().isNormalCube()) {
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      for (Object object : EnumFacing.Plane.HORIZONTAL) {
+         if (worldIn.getBlockState(pos.offset((EnumFacing)object)).getBlock().isNormalCube()) {
             return true;
          }
       }
@@ -76,134 +76,134 @@ public class BlockTripWireHook extends Block {
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      IBlockState var11 = this.getDefaultState().withProperty(POWERED, false).withProperty(ATTACHED, false).withProperty(SUSPENDED, false);
-      if (var3.getAxis().isHorizontal()) {
-         var11 = var11.withProperty(FACING, var3);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      IBlockState iBlockState = this.getDefaultState().withProperty(POWERED, false).withProperty(ATTACHED, false).withProperty(SUSPENDED, false);
+      if (facing.getAxis().isHorizontal()) {
+         iBlockState = iBlockState.withProperty(FACING, facing);
       }
 
-      return var11;
+      return iBlockState;
    }
 
    @Override
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
-      this.func_176260_a(var1, var2, var3, false, false, -1, (IBlockState)null);
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+      this.func_176260_a(worldIn, pos, state, false, false, -1, (IBlockState)null);
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (var4 != this && this.checkForDrop(var1, var2, var3)) {
-         EnumFacing var8 = var3.getValue(FACING);
-         if (!var1.getBlockState(var2.offset(var8.getOpposite())).getBlock().isNormalCube()) {
-            this.dropBlockAsItem(var1, var2, var3, 0);
-            var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (neighborBlock != this && this.checkForDrop(worldIn, pos, state)) {
+         EnumFacing enumFacing = state.getValue(FACING);
+         if (!worldIn.getBlockState(pos.offset(enumFacing.getOpposite())).getBlock().isNormalCube()) {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
          }
       }
    }
 
-   public void func_176260_a(World var1, BlockPos var2, IBlockState var3, boolean var4, boolean var5, int var6, IBlockState var7) {
-      long var8 = e ^ 61214910721470L;
-      EnumFacing var11 = var3.getValue(FACING);
-      boolean var12 = var3.getValue(ATTACHED);
-      boolean var13 = var3.getValue(POWERED);
-      boolean var14 = !World.doesBlockHaveSolidTopSurface(var1, var2.down());
-      boolean var15 = !var4;
-      boolean var16 = false;
-      long var10000 = 8503730770967623031L ^ var8;
-      int var17 = 0;
-      IBlockState[] var18 = new IBlockState[42];
+   public void func_176260_a(World worldIn, BlockPos pos, IBlockState hookState, boolean bl, boolean bl2, int i, IBlockState iBlockState) {
+      long l = e ^ 61214910721470L;
+      EnumFacing enumFacing = hookState.getValue(FACING);
+      boolean bl3 = hookState.getValue(ATTACHED);
+      boolean bl4 = hookState.getValue(POWERED);
+      boolean bl5 = !World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
+      boolean bl6 = !bl;
+      boolean bl7 = false;
+      long m = 8503730770967623031L ^ l;
+      int j = 0;
+      IBlockState[] iBlockStates = new IBlockState[42];
 
-      for (int var19 = 1; var19 < 42; var19++) {
-         BlockPos var20 = var2.offset(var11, var19);
-         IBlockState var21 = var1.getBlockState(var20);
-         if (var21.getBlock() == Blocks.tripwire_hook) {
-            if (var21.getValue(FACING) == var11.getOpposite()) {
-               var17 = var19;
+      for (int k = 1; k < 42; k++) {
+         BlockPos blockPos = pos.offset(enumFacing, k);
+         IBlockState iBlockState2 = worldIn.getBlockState(blockPos);
+         if (iBlockState2.getBlock() == Blocks.tripwire_hook) {
+            if (iBlockState2.getValue(FACING) == enumFacing.getOpposite()) {
+               j = k;
             }
             break;
          }
 
-         if (var21.getBlock() != Blocks.tripwire && var19 != var6) {
-            var18[var19] = null;
-            var15 = false;
+         if (iBlockState2.getBlock() != Blocks.tripwire && k != i) {
+            iBlockStates[k] = null;
+            bl6 = false;
          } else {
-            if (var19 == var6) {
-               var21 = Objects.firstNonNull(var7, var21);
+            if (k == i) {
+               iBlockState2 = Objects.firstNonNull(iBlockState, iBlockState2);
             }
 
-            boolean var22 = !var21.getValue(BlockTripWire.DISARMED);
-            boolean var23 = var21.getValue(BlockTripWire.POWERED);
-            boolean var24 = var21.getValue(BlockTripWire.SUSPENDED);
-            var15 &= var24 == var14;
-            var16 |= var22 && var23;
-            var18[var19] = var21;
-            if (var19 == var6) {
-               var1.scheduleUpdate(var2, this, this.tickRate(var1));
-               var15 &= var22;
+            boolean bl8 = !iBlockState2.getValue(BlockTripWire.DISARMED);
+            boolean bl9 = iBlockState2.getValue(BlockTripWire.POWERED);
+            boolean bl10 = iBlockState2.getValue(BlockTripWire.SUSPENDED);
+            bl6 &= bl10 == bl5;
+            bl7 |= bl8 && bl9;
+            iBlockStates[k] = iBlockState2;
+            if (k == i) {
+               worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+               bl6 &= bl8;
             }
          }
       }
 
-      var15 &= var17 > 1;
-      var16 &= var15;
-      IBlockState var27 = this.getDefaultState().withProperty(ATTACHED, var15).withProperty(POWERED, var16);
-      if (var17 > 0) {
-         BlockPos var28 = var2.offset(var11, var17);
-         EnumFacing var30 = var11.getOpposite();
-         var1.setBlockState(var28, var27.withProperty(FACING, var30), 3);
-         this.func_176262_b(var1, var28, var30);
-         this.func_180694_a(var1, var28, var15, var16, var12, var13);
+      bl6 &= j > 1;
+      bl7 &= bl6;
+      IBlockState iBlockState3 = this.getDefaultState().withProperty(ATTACHED, bl6).withProperty(POWERED, bl7);
+      if (j > 0) {
+         BlockPos blockPos2 = pos.offset(enumFacing, j);
+         EnumFacing enumFacing2 = enumFacing.getOpposite();
+         worldIn.setBlockState(blockPos2, iBlockState3.withProperty(FACING, enumFacing2), 3);
+         this.func_176262_b(worldIn, blockPos2, enumFacing2);
+         this.func_180694_a(worldIn, blockPos2, bl6, bl7, bl3, bl4);
       }
 
-      this.func_180694_a(var1, var2, var15, var16, var12, var13);
-      if (!var4) {
-         var1.setBlockState(var2, var27.withProperty(FACING, var11), 3);
-         if (var5) {
-            this.func_176262_b(var1, var2, var11);
+      this.func_180694_a(worldIn, pos, bl6, bl7, bl3, bl4);
+      if (!bl) {
+         worldIn.setBlockState(pos, iBlockState3.withProperty(FACING, enumFacing), 3);
+         if (bl2) {
+            this.func_176262_b(worldIn, pos, enumFacing);
          }
       }
 
-      if (var12 != var15) {
-         for (int var29 = 1; var29 < var17; var29++) {
-            BlockPos var31 = var2.offset(var11, var29);
-            IBlockState var32 = var18[var29];
-            if (var32 != null && var1.getBlockState(var31).getBlock() != Blocks.air) {
-               var1.setBlockState(var31, var32.withProperty(ATTACHED, var15), 3);
+      if (bl3 != bl6) {
+         for (int n = 1; n < j; n++) {
+            BlockPos blockPos3 = pos.offset(enumFacing, n);
+            IBlockState iBlockState4 = iBlockStates[n];
+            if (iBlockState4 != null && worldIn.getBlockState(blockPos3).getBlock() != Blocks.air) {
+               worldIn.setBlockState(blockPos3, iBlockState4.withProperty(ATTACHED, bl6), 3);
             }
          }
       }
    }
 
    @Override
-   public void randomTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
+   public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random randomIn) {
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      this.func_176260_a(var1, var2, var3, false, true, -1, (IBlockState)null);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      this.func_176260_a(worldIn, pos, state, false, true, -1, (IBlockState)null);
    }
 
-   private void func_180694_a(World var1, BlockPos var2, boolean var3, boolean var4, boolean var5, boolean var6) {
-      if (var4 && !var6) {
-         var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.1, var2.getZ() + 0.5, "random.click", 0.4F, 0.6F);
-      } else if (!var4 && var6) {
-         var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.1, var2.getZ() + 0.5, "random.click", 0.4F, 0.5F);
-      } else if (var3 && !var5) {
-         var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.1, var2.getZ() + 0.5, "random.click", 0.4F, 0.7F);
-      } else if (!var3 && var5) {
-         var1.playSoundEffect(var2.getX() + 0.5, var2.getY() + 0.1, var2.getZ() + 0.5, "random.bowhit", 0.4F, 1.2F / (var1.rand.nextFloat() * 0.2F + 0.9F));
+   private void func_180694_a(World worldIn, BlockPos pos, boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+      if (bl2 && !bl4) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, "random.click", 0.4F, 0.6F);
+      } else if (!bl2 && bl4) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, "random.click", 0.4F, 0.5F);
+      } else if (bl && !bl3) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, "random.click", 0.4F, 0.7F);
+      } else if (!bl && bl3) {
+         worldIn.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, "random.bowhit", 0.4F, 1.2F / (worldIn.rand.nextFloat() * 0.2F + 0.9F));
       }
    }
 
-   private void func_176262_b(World var1, BlockPos var2, EnumFacing var3) {
-      var1.notifyNeighborsOfStateChange(var2, this);
-      var1.notifyNeighborsOfStateChange(var2.offset(var3.getOpposite()), this);
+   private void func_176262_b(World worldIn, BlockPos blockPos, EnumFacing enumFacing) {
+      worldIn.notifyNeighborsOfStateChange(blockPos, this);
+      worldIn.notifyNeighborsOfStateChange(blockPos.offset(enumFacing.getOpposite()), this);
    }
 
-   private boolean checkForDrop(World var1, BlockPos var2, IBlockState var3) {
-      if (!this.canPlaceBlockAt(var1, var2)) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+   private boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
+      if (!this.canPlaceBlockAt(worldIn, pos)) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
          return false;
       } else {
          return true;
@@ -211,47 +211,47 @@ public class BlockTripWireHook extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      float var6 = 0.1875F;
-      switch ((EnumFacing)var1.getBlockState(var2).getValue(FACING)) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      float f = 0.1875F;
+      switch ((EnumFacing)worldIn.getBlockState(pos).getValue(FACING)) {
          case EAST:
-            this.setBlockBounds(0.0F, 0.2F, 0.5F - var6, var6 * 2.0F, 0.8F, 0.5F + var6);
+            this.setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
             break;
          case WEST:
-            this.setBlockBounds(1.0F - var6 * 2.0F, 0.2F, 0.5F - var6, 1.0F, 0.8F, 0.5F + var6);
+            this.setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
             break;
          case SOUTH:
-            this.setBlockBounds(0.5F - var6, 0.2F, 0.0F, 0.5F + var6, 0.8F, var6 * 2.0F);
+            this.setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
             break;
          case NORTH:
-            this.setBlockBounds(0.5F - var6, 0.2F, 1.0F - var6 * 2.0F, 0.5F + var6, 0.8F, 1.0F);
+            this.setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
       }
    }
 
    @Override
-   public void breakBlock(World var1, BlockPos var2, IBlockState var3) {
-      boolean var7 = var3.getValue(ATTACHED);
-      boolean var8 = var3.getValue(POWERED);
-      if (var7 || var8) {
-         this.func_176260_a(var1, var2, var3, true, false, -1, (IBlockState)null);
+   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+      boolean bl = state.getValue(ATTACHED);
+      boolean bl2 = state.getValue(POWERED);
+      if (bl || bl2) {
+         this.func_176260_a(worldIn, pos, state, true, false, -1, (IBlockState)null);
       }
 
-      if (var8) {
-         var1.notifyNeighborsOfStateChange(var2, this);
-         var1.notifyNeighborsOfStateChange(var2.offset(var3.getValue(FACING).getOpposite()), this);
+      if (bl2) {
+         worldIn.notifyNeighborsOfStateChange(pos, this);
+         worldIn.notifyNeighborsOfStateChange(pos.offset(state.getValue(FACING).getOpposite()), this);
       }
 
-      super.breakBlock(var1, var2, var3);
+      super.breakBlock(worldIn, pos, state);
    }
 
    @Override
-   public int getWeakPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
-      return var3.getValue(POWERED) ? 15 : 0;
+   public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
+      return state.getValue(POWERED) ? 15 : 0;
    }
 
    @Override
-   public int getStrongPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
-      return !var3.getValue(POWERED) ? 0 : (var3.getValue(FACING) == var4 ? 15 : 0);
+   public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
+      return !state.getValue(POWERED) ? 0 : (state.getValue(FACING) == side ? 15 : 0);
    }
 
    @Override
@@ -265,26 +265,26 @@ public class BlockTripWireHook extends Block {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
+   public IBlockState getStateFromMeta(int meta) {
       return this.getDefaultState()
-         .withProperty(FACING, EnumFacing.getHorizontal(var1 & 3))
-         .withProperty(POWERED, (var1 & 8) > 0)
-         .withProperty(ATTACHED, (var1 & 4) > 0);
+         .withProperty(FACING, EnumFacing.getHorizontal(meta & 3))
+         .withProperty(POWERED, (meta & 8) > 0)
+         .withProperty(ATTACHED, (meta & 4) > 0);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(FACING).getHorizontalIndex();
-      if (var1.getValue(POWERED)) {
-         var5 |= 8;
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(FACING).getHorizontalIndex();
+      if (state.getValue(POWERED)) {
+         i |= 8;
       }
 
-      if (var1.getValue(ATTACHED)) {
-         var5 |= 4;
+      if (state.getValue(ATTACHED)) {
+         i |= 4;
       }
 
-      return var5;
+      return i;
    }
 
    @Override

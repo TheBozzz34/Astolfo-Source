@@ -24,48 +24,48 @@ public final class AntiObsidian extends Module {
    private final BooleanSetting antiSuffocate = new BooleanSetting("Anti-Suffocate", "Prevents blocks from suffocating you", true);
    public static Block j;
    @EventHandler(value = UpdateEvent.class, priority = EventPriority.HIGHEST)
-   private Listener<UpdateEvent> onUpdate = var0 -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       j = i();
       if (j instanceof BlockObsidian) {
-         BlockPos var4 = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
-         IBlockState var5 = mc.theWorld.getBlockState(var4);
-         if (mc.playerController.onPlayerDamageBlock(var4, EnumFacing.UP) && var5.getBlock() != Blocks.bedrock && var5.getBlock() != Blocks.obsidian) {
+         BlockPos blockPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
+         IBlockState iBlockState = mc.theWorld.getBlockState(blockPos);
+         if (mc.playerController.onPlayerDamageBlock(blockPos, EnumFacing.UP) && iBlockState.getBlock() != Blocks.bedrock && iBlockState.getBlock() != Blocks.obsidian) {
             mc.thePlayer.swingItem();
          }
       }
    };
    public static boolean s;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING && var1x.getPacket() instanceof C03PacketPlayer) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C03PacketPlayer) {
          if (this.antiSuffocate.getValue() && (j instanceof BlockObsidian || j instanceof BlockWorkbench || j instanceof BlockFalling) && this.j()) {
             s = true;
-            var1x.cancel();
+            packetEvent.cancel();
          } else {
             s = false;
          }
       }
    };
    @EventHandler(BlockOpaqueEvent.class)
-   private final Listener<BlockOpaqueEvent> onBlockOpaque = var0 -> var0.setCancelled(false);
+   private final Listener<BlockOpaqueEvent> onBlockOpaque = blockOpaqueEvent -> blockOpaqueEvent.setCancelled(false);
    private static final long c = 120376125722640L;
 
-   public AntiObsidian(Category var1) {
-      super(var1);
+   public AntiObsidian(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.antiSuffocate);
    }
 
    private boolean j() {
-      boolean var4 = mc.thePlayer.isUsingItem();
-      boolean var5 = mc.thePlayer.motionX != 0.0 || !mc.thePlayer.isCollidedVertically || mc.gameSettings.keyBindJump.pressed || mc.thePlayer.motionZ != 0.0;
-      return !var4 && !var5;
+      boolean bl = mc.thePlayer.isUsingItem();
+      boolean bl2 = mc.thePlayer.motionX != 0.0 || !mc.thePlayer.isCollidedVertically || mc.gameSettings.keyBindJump.pressed || mc.thePlayer.motionZ != 0.0;
+      return !bl && !bl2;
    }
 
    public static Block i() {
       if (mc.thePlayer != null && mc.theWorld != null) {
-         BlockPos var3 = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-         return mc.theWorld.getBlockState(var3).getBlock();
+         BlockPos blockPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
+         return mc.theWorld.getBlockState(blockPos).getBlock();
       } else {
          return null;
       }

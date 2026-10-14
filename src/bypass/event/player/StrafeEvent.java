@@ -7,9 +7,9 @@ public class StrafeEvent extends CancellableEvent {
    public float forward;
    public float friction;
 
-   public StrafeEvent(float var1, float var2, float var3) {
-      this.strafe = var1;
-      this.forward = var2;
-      this.friction = var3;
+   public StrafeEvent(float f, float g, float h) {
+      this.strafe = f;
+      this.forward = g;
+      this.friction = h;
    }
 }

@@ -19,19 +19,19 @@ public class CloudRenderer {
    private double updatePlayerZ = 0.0;
    private static final long a = 133384793235791L;
 
-   public CloudRenderer(Minecraft var1) {
-      this.mc = var1;
+   public CloudRenderer(Minecraft mc) {
+      this.mc = mc;
       this.updateCloudTickCounter = GLAllocation.generateDisplayLists(1);
    }
 
-   public void u(boolean var1, int var2, float var3) {
-      if (this.K != var1) {
+   public void u(boolean bl, int i, float f) {
+      if (this.K != bl) {
          this.updated = false;
       }
 
-      this.K = var1;
-      this.cloudTickCounter = var2;
-      this.partialTicks = var3;
+      this.K = bl;
+      this.cloudTickCounter = i;
+      this.partialTicks = f;
    }
 
    public boolean shouldUpdateGlList() {
@@ -43,10 +43,10 @@ public class CloudRenderer {
          return true;
       }
 
-      Entity var4 = this.mc.getRenderViewEntity();
-      boolean var5 = this.updatePlayerY + var4.getEyeHeight() < 128.0 + this.mc.gameSettings.ofCloudsHeight * 128.0F;
-      boolean var6 = var4.prevPosY + var4.getEyeHeight() < 128.0 + this.mc.gameSettings.ofCloudsHeight * 128.0F;
-      return var6 != var5;
+      Entity entity = this.mc.getRenderViewEntity();
+      boolean bl = this.updatePlayerY + entity.getEyeHeight() < 128.0 + this.mc.gameSettings.ofCloudsHeight * 128.0F;
+      boolean bl2 = entity.prevPosY + entity.getEyeHeight() < 128.0 + this.mc.gameSettings.ofCloudsHeight * 128.0F;
+      return bl2 != bl;
    }
 
    public void startUpdateGlList() {
@@ -64,19 +64,19 @@ public class CloudRenderer {
    }
 
    public void renderGlList() {
-      Entity var4 = this.mc.getRenderViewEntity();
-      double var5 = var4.prevPosX + (var4.posX - var4.prevPosX) * this.partialTicks;
-      double var7 = var4.prevPosY + (var4.posY - var4.prevPosY) * this.partialTicks;
-      double var9 = var4.prevPosZ + (var4.posZ - var4.prevPosZ) * this.partialTicks;
-      double var11 = this.cloudTickCounter - this.glListClouds + this.partialTicks;
-      float var13 = (float)(var5 - this.updatePlayerX + var11 * 0.03);
-      float var14 = (float)(var7 - this.updatePlayerY);
-      float var15 = (float)(var9 - this.updatePlayerZ);
+      Entity entity = this.mc.getRenderViewEntity();
+      double d = entity.prevPosX + (entity.posX - entity.prevPosX) * this.partialTicks;
+      double e = entity.prevPosY + (entity.posY - entity.prevPosY) * this.partialTicks;
+      double d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * this.partialTicks;
+      double d3 = this.cloudTickCounter - this.glListClouds + this.partialTicks;
+      float f = (float)(d - this.updatePlayerX + d3 * 0.03);
+      float g = (float)(e - this.updatePlayerY);
+      float h = (float)(d2 - this.updatePlayerZ);
       GlStateManager.pushMatrix();
       if (this.K) {
-         GlStateManager.translate(-var13 / 12.0F, -var14, -var15 / 12.0F);
+         GlStateManager.translate(-f / 12.0F, -g, -h / 12.0F);
       } else {
-         GlStateManager.translate(-var13, -var14, -var15);
+         GlStateManager.translate(-f, -g, -h);
       }
 
       GlStateManager.callList(this.updateCloudTickCounter);

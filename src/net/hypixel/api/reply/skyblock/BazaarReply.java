@@ -14,8 +14,8 @@ public class BazaarReply extends AbstractReply {
       return this.products;
    }
 
-   public BazaarReply.Product getProduct(String var1) {
-      return this.products.get(var1);
+   public BazaarReply.Product getProduct(String productId) {
+      return this.products.get(productId);
    }
 
    @Override

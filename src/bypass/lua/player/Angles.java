@@ -9,7 +9,7 @@ public final class Angles extends VarArgFunction {
    private static final long a = 39980338846521L;
 
    @Override
-   public Varargs onInvoke(Varargs var1) {
+   public Varargs onInvoke(Varargs varargs) {
       return LuaValue.varargsOf(
          new LuaValue[]{LuaValue.valueOf(ClientAccess.mc.thePlayer.rotationYaw), LuaValue.valueOf(ClientAccess.mc.thePlayer.rotationPitch)}
       );

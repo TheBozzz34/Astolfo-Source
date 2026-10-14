@@ -7,30 +7,30 @@ public class FieldLocatorName implements IFieldLocator {
    private String targetFieldName = null;
    private static final long a = 8239406473918L;
 
-   public FieldLocatorName(ReflectorClass var1, String var2) {
-      this.reflectorClass = var1;
-      this.targetFieldName = var2;
+   public FieldLocatorName(ReflectorClass reflectorClass, String targetFieldName) {
+      this.reflectorClass = reflectorClass;
+      this.targetFieldName = targetFieldName;
    }
 
    @Override
    public Field getField() {
-      Class var4 = this.reflectorClass.getTargetClass();
-      if (var4 == null) {
+      Class class2 = this.reflectorClass.getTargetClass();
+      if (class2 == null) {
          return null;
       }
 
       try {
-         Field var5 = var4.getDeclaredField(this.targetFieldName);
-         var5.setAccessible(true);
-         return var5;
-      } catch (NoSuchFieldException var6) {
-         Config.log("(Reflector) Field not present: " + var4.getName() + "." + this.targetFieldName);
+         Field field = class2.getDeclaredField(this.targetFieldName);
+         field.setAccessible(true);
+         return field;
+      } catch (NoSuchFieldException noSuchFieldException) {
+         Config.log("(Reflector) Field not present: " + class2.getName() + "." + this.targetFieldName);
          return null;
-      } catch (SecurityException var7) {
-         var7.printStackTrace();
+      } catch (SecurityException securityException) {
+         securityException.printStackTrace();
          return null;
-      } catch (Throwable var8) {
-         var8.printStackTrace();
+      } catch (Throwable throwable) {
+         throwable.printStackTrace();
          return null;
       }
    }

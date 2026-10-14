@@ -190,146 +190,146 @@ public class ModelHorse extends ModelBase {
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      EntityHorse var11 = (EntityHorse)var1;
-      int var12 = var11.getHorseType();
-      float var13 = var11.getGrassEatingAmount(0.0F);
-      boolean var14 = var11.isAdultHorse();
-      boolean var15 = var14 && var11.isHorseSaddled();
-      boolean var16 = var14 && var11.isChested();
-      boolean var17 = var12 == 1 || var12 == 2;
-      float var18 = var11.getHorseSize();
-      boolean var19 = var11.riddenByEntity != null;
-      if (var15) {
-         this.horseFaceRopes.render(var7);
-         this.horseSaddleBottom.render(var7);
-         this.horseSaddleFront.render(var7);
-         this.horseSaddleBack.render(var7);
-         this.horseLeftSaddleRope.render(var7);
-         this.horseLeftSaddleMetal.render(var7);
-         this.horseRightSaddleRope.render(var7);
-         this.horseRightSaddleMetal.render(var7);
-         this.horseLeftFaceMetal.render(var7);
-         this.horseRightFaceMetal.render(var7);
-         if (var19) {
-            this.horseLeftRein.render(var7);
-            this.horseRightRein.render(var7);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      EntityHorse entityHorse = (EntityHorse)entityIn;
+      int i = entityHorse.getHorseType();
+      float f4 = entityHorse.getGrassEatingAmount(0.0F);
+      boolean bl = entityHorse.isAdultHorse();
+      boolean bl2 = bl && entityHorse.isHorseSaddled();
+      boolean bl3 = bl && entityHorse.isChested();
+      boolean bl4 = i == 1 || i == 2;
+      float f5 = entityHorse.getHorseSize();
+      boolean bl5 = entityHorse.riddenByEntity != null;
+      if (bl2) {
+         this.horseFaceRopes.render(scale);
+         this.horseSaddleBottom.render(scale);
+         this.horseSaddleFront.render(scale);
+         this.horseSaddleBack.render(scale);
+         this.horseLeftSaddleRope.render(scale);
+         this.horseLeftSaddleMetal.render(scale);
+         this.horseRightSaddleRope.render(scale);
+         this.horseRightSaddleMetal.render(scale);
+         this.horseLeftFaceMetal.render(scale);
+         this.horseRightFaceMetal.render(scale);
+         if (bl5) {
+            this.horseLeftRein.render(scale);
+            this.horseRightRein.render(scale);
          }
       }
 
-      if (!var14) {
+      if (!bl) {
          GlStateManager.pushMatrix();
-         GlStateManager.scale(var18, 0.5F + var18 * 0.5F, var18);
-         GlStateManager.translate(0.0F, 0.95F * (1.0F - var18), 0.0F);
+         GlStateManager.scale(f5, 0.5F + f5 * 0.5F, f5);
+         GlStateManager.translate(0.0F, 0.95F * (1.0F - f5), 0.0F);
       }
 
-      this.backLeftLeg.render(var7);
-      this.backLeftShin.render(var7);
-      this.backLeftHoof.render(var7);
-      this.backRightLeg.render(var7);
-      this.backRightShin.render(var7);
-      this.backRightHoof.render(var7);
-      this.frontLeftLeg.render(var7);
-      this.frontLeftShin.render(var7);
-      this.frontLeftHoof.render(var7);
-      this.frontRightLeg.render(var7);
-      this.frontRightShin.render(var7);
-      this.frontRightHoof.render(var7);
-      if (!var14) {
+      this.backLeftLeg.render(scale);
+      this.backLeftShin.render(scale);
+      this.backLeftHoof.render(scale);
+      this.backRightLeg.render(scale);
+      this.backRightShin.render(scale);
+      this.backRightHoof.render(scale);
+      this.frontLeftLeg.render(scale);
+      this.frontLeftShin.render(scale);
+      this.frontLeftHoof.render(scale);
+      this.frontRightLeg.render(scale);
+      this.frontRightShin.render(scale);
+      this.frontRightHoof.render(scale);
+      if (!bl) {
          GlStateManager.popMatrix();
          GlStateManager.pushMatrix();
-         GlStateManager.scale(var18, var18, var18);
-         GlStateManager.translate(0.0F, 1.35F * (1.0F - var18), 0.0F);
+         GlStateManager.scale(f5, f5, f5);
+         GlStateManager.translate(0.0F, 1.35F * (1.0F - f5), 0.0F);
       }
 
-      this.body.render(var7);
-      this.tailBase.render(var7);
-      this.tailMiddle.render(var7);
-      this.tailTip.render(var7);
-      this.neck.render(var7);
-      this.mane.render(var7);
-      if (!var14) {
+      this.body.render(scale);
+      this.tailBase.render(scale);
+      this.tailMiddle.render(scale);
+      this.tailTip.render(scale);
+      this.neck.render(scale);
+      this.mane.render(scale);
+      if (!bl) {
          GlStateManager.popMatrix();
          GlStateManager.pushMatrix();
-         float var20 = 0.5F + var18 * var18 * 0.5F;
-         GlStateManager.scale(var20, var20, var20);
-         if (var13 <= 0.0F) {
-            GlStateManager.translate(0.0F, 1.35F * (1.0F - var18), 0.0F);
+         float f6 = 0.5F + f5 * f5 * 0.5F;
+         GlStateManager.scale(f6, f6, f6);
+         if (f4 <= 0.0F) {
+            GlStateManager.translate(0.0F, 1.35F * (1.0F - f5), 0.0F);
          } else {
-            GlStateManager.translate(0.0F, 0.9F * (1.0F - var18) * var13 + 1.35F * (1.0F - var18) * (1.0F - var13), 0.15F * (1.0F - var18) * var13);
+            GlStateManager.translate(0.0F, 0.9F * (1.0F - f5) * f4 + 1.35F * (1.0F - f5) * (1.0F - f4), 0.15F * (1.0F - f5) * f4);
          }
       }
 
-      if (var17) {
-         this.muleLeftEar.render(var7);
-         this.muleRightEar.render(var7);
+      if (bl4) {
+         this.muleLeftEar.render(scale);
+         this.muleRightEar.render(scale);
       } else {
-         this.horseLeftEar.render(var7);
-         this.horseRightEar.render(var7);
+         this.horseLeftEar.render(scale);
+         this.horseRightEar.render(scale);
       }
 
-      this.head.render(var7);
-      if (!var14) {
+      this.head.render(scale);
+      if (!bl) {
          GlStateManager.popMatrix();
       }
 
-      if (var16) {
-         this.muleLeftChest.render(var7);
-         this.muleRightChest.render(var7);
+      if (bl3) {
+         this.muleLeftChest.render(scale);
+         this.muleRightChest.render(scale);
       }
    }
 
-   private void setBoxRotation(ModelRenderer var1, float var2, float var3, float var4) {
-      var1.rotateAngleX = var2;
-      var1.rotateAngleY = var3;
-      var1.rotateAngleZ = var4;
+   private void setBoxRotation(ModelRenderer modelRenderer, float f, float g, float h) {
+      modelRenderer.rotateAngleX = f;
+      modelRenderer.rotateAngleY = g;
+      modelRenderer.rotateAngleZ = h;
    }
 
-   private float updateHorseRotation(float var1, float var2, float var3) {
-      float var7 = var2 - var1;
+   private float updateHorseRotation(float f, float g, float h) {
+      float f2 = g - f;
 
-      while (var7 < -180.0F) {
-         var7 += 360.0F;
+      while (f2 < -180.0F) {
+         f2 += 360.0F;
       }
 
-      while (var7 >= 180.0F) {
-         var7 -= 360.0F;
+      while (f2 >= 180.0F) {
+         f2 -= 360.0F;
       }
 
-      return var1 + var3 * var7;
+      return f + h * f2;
    }
 
    @Override
-   public void setLivingAnimations(EntityLivingBase var1, float var2, float var3, float var4) {
-      super.setLivingAnimations(var1, var2, var3, var4);
-      float var8 = this.updateHorseRotation(var1.prevRenderYawOffset, var1.renderYawOffset, var4);
-      float var9 = this.updateHorseRotation(var1.prevRotationYawHead, var1.rotationYawHead, var4);
-      float var10 = var1.prevRotationPitch + (var1.rotationPitch - var1.prevRotationPitch) * var4;
-      float var11 = var9 - var8;
-      float var12 = var10 / (180.0F / (float)Math.PI);
-      if (var11 > 20.0F) {
-         var11 = 20.0F;
+   public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTickTime) {
+      super.setLivingAnimations(entitylivingbaseIn, f, g, partialTickTime);
+      float h = this.updateHorseRotation(entitylivingbaseIn.prevRenderYawOffset, entitylivingbaseIn.renderYawOffset, partialTickTime);
+      float f2 = this.updateHorseRotation(entitylivingbaseIn.prevRotationYawHead, entitylivingbaseIn.rotationYawHead, partialTickTime);
+      float f3 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;
+      float f4 = f2 - h;
+      float f5 = f3 / (180.0F / (float)Math.PI);
+      if (f4 > 20.0F) {
+         f4 = 20.0F;
       }
 
-      if (var11 < -20.0F) {
-         var11 = -20.0F;
+      if (f4 < -20.0F) {
+         f4 = -20.0F;
       }
 
-      if (var3 > 0.2F) {
-         var12 += MathHelper.cos(var2 * 0.4F) * 0.15F * var3;
+      if (g > 0.2F) {
+         f5 += MathHelper.cos(f * 0.4F) * 0.15F * g;
       }
 
-      EntityHorse var13 = (EntityHorse)var1;
-      float var14 = var13.getGrassEatingAmount(var4);
-      float var15 = var13.getRearingAmount(var4);
-      float var16 = 1.0F - var15;
-      float var17 = var13.getMouthOpennessAngle(var4);
-      boolean var18 = var13.field_110278_bp != 0;
-      boolean var19 = var13.isHorseSaddled();
-      boolean var20 = var13.riddenByEntity != null;
-      float var21 = var1.ticksExisted + var4;
-      float var22 = MathHelper.cos(var2 * 0.6662F + (float) Math.PI);
-      float var23 = var22 * 0.8F * var3;
+      EntityHorse entityHorse = (EntityHorse)entitylivingbaseIn;
+      float f6 = entityHorse.getGrassEatingAmount(partialTickTime);
+      float f7 = entityHorse.getRearingAmount(partialTickTime);
+      float f8 = 1.0F - f7;
+      float f9 = entityHorse.getMouthOpennessAngle(partialTickTime);
+      boolean bl = entityHorse.field_110278_bp != 0;
+      boolean bl2 = entityHorse.isHorseSaddled();
+      boolean bl3 = entityHorse.riddenByEntity != null;
+      float f10 = entitylivingbaseIn.ticksExisted + partialTickTime;
+      float f11 = MathHelper.cos(f * 0.6662F + (float) Math.PI);
+      float f12 = f11 * 0.8F * g;
       this.head.rotationPointY = 4.0F;
       this.head.rotationPointZ = -10.0F;
       this.tailBase.rotationPointY = 3.0F;
@@ -337,17 +337,17 @@ public class ModelHorse extends ModelBase {
       this.muleRightChest.rotationPointY = 3.0F;
       this.muleRightChest.rotationPointZ = 10.0F;
       this.body.rotateAngleX = 0.0F;
-      this.head.rotateAngleX = (float) (Math.PI / 6) + var12;
-      this.head.rotateAngleY = var11 / (180.0F / (float)Math.PI);
-      this.head.rotateAngleX = var15 * ((float) (Math.PI / 12) + var12) + var14 * 2.18166F + (1.0F - Math.max(var15, var14)) * this.head.rotateAngleX;
-      this.head.rotateAngleY = var15 * var11 / (180.0F / (float)Math.PI) + (1.0F - Math.max(var15, var14)) * this.head.rotateAngleY;
-      this.head.rotationPointY = var15 * -6.0F + var14 * 11.0F + (1.0F - Math.max(var15, var14)) * this.head.rotationPointY;
-      this.head.rotationPointZ = var15 * -1.0F + var14 * -10.0F + (1.0F - Math.max(var15, var14)) * this.head.rotationPointZ;
-      this.tailBase.rotationPointY = var15 * 9.0F + var16 * this.tailBase.rotationPointY;
-      this.tailMiddle.rotationPointZ = var15 * 18.0F + var16 * this.tailMiddle.rotationPointZ;
-      this.muleRightChest.rotationPointY = var15 * 5.5F + var16 * this.muleRightChest.rotationPointY;
-      this.muleRightChest.rotationPointZ = var15 * 15.0F + var16 * this.muleRightChest.rotationPointZ;
-      this.body.rotateAngleX = var15 * -45.0F / (180.0F / (float)Math.PI) + var16 * this.body.rotateAngleX;
+      this.head.rotateAngleX = (float) (Math.PI / 6) + f5;
+      this.head.rotateAngleY = f4 / (180.0F / (float)Math.PI);
+      this.head.rotateAngleX = f7 * ((float) (Math.PI / 12) + f5) + f6 * 2.18166F + (1.0F - Math.max(f7, f6)) * this.head.rotateAngleX;
+      this.head.rotateAngleY = f7 * f4 / (180.0F / (float)Math.PI) + (1.0F - Math.max(f7, f6)) * this.head.rotateAngleY;
+      this.head.rotationPointY = f7 * -6.0F + f6 * 11.0F + (1.0F - Math.max(f7, f6)) * this.head.rotationPointY;
+      this.head.rotationPointZ = f7 * -1.0F + f6 * -10.0F + (1.0F - Math.max(f7, f6)) * this.head.rotationPointZ;
+      this.tailBase.rotationPointY = f7 * 9.0F + f8 * this.tailBase.rotationPointY;
+      this.tailMiddle.rotationPointZ = f7 * 18.0F + f8 * this.tailMiddle.rotationPointZ;
+      this.muleRightChest.rotationPointY = f7 * 5.5F + f8 * this.muleRightChest.rotationPointY;
+      this.muleRightChest.rotationPointZ = f7 * 15.0F + f8 * this.muleRightChest.rotationPointZ;
+      this.body.rotateAngleX = f7 * -45.0F / (180.0F / (float)Math.PI) + f8 * this.body.rotateAngleX;
       this.horseLeftEar.rotationPointY = this.head.rotationPointY;
       this.horseRightEar.rotationPointY = this.head.rotationPointY;
       this.muleLeftEar.rotationPointY = this.head.rotationPointY;
@@ -361,16 +361,16 @@ public class ModelHorse extends ModelBase {
       this.muleLeftEar.rotationPointZ = this.head.rotationPointZ;
       this.muleRightEar.rotationPointZ = this.head.rotationPointZ;
       this.neck.rotationPointZ = this.head.rotationPointZ;
-      this.field_178711_b.rotationPointZ = 0.02F - var17 * 1.0F;
-      this.field_178712_c.rotationPointZ = 0.0F + var17 * 1.0F;
+      this.field_178711_b.rotationPointZ = 0.02F - f9 * 1.0F;
+      this.field_178712_c.rotationPointZ = 0.0F + f9 * 1.0F;
       this.mane.rotationPointZ = this.head.rotationPointZ;
       this.horseLeftEar.rotateAngleX = this.head.rotateAngleX;
       this.horseRightEar.rotateAngleX = this.head.rotateAngleX;
       this.muleLeftEar.rotateAngleX = this.head.rotateAngleX;
       this.muleRightEar.rotateAngleX = this.head.rotateAngleX;
       this.neck.rotateAngleX = this.head.rotateAngleX;
-      this.field_178711_b.rotateAngleX = 0.0F - 0.09424778F * var17;
-      this.field_178712_c.rotateAngleX = 0.0F + (float) (Math.PI / 20) * var17;
+      this.field_178711_b.rotateAngleX = 0.0F - 0.09424778F * f9;
+      this.field_178712_c.rotateAngleX = 0.0F + (float) (Math.PI / 20) * f9;
       this.mane.rotateAngleX = this.head.rotateAngleX;
       this.horseLeftEar.rotateAngleY = this.head.rotateAngleY;
       this.horseRightEar.rotateAngleY = this.head.rotateAngleY;
@@ -380,40 +380,40 @@ public class ModelHorse extends ModelBase {
       this.field_178711_b.rotateAngleY = 0.0F;
       this.field_178712_c.rotateAngleY = 0.0F;
       this.mane.rotateAngleY = this.head.rotateAngleY;
-      this.muleLeftChest.rotateAngleX = var23 / 5.0F;
-      this.muleRightChest.rotateAngleX = -var23 / 5.0F;
-      float var24 = (float) (Math.PI / 2);
-      float var27 = (float) (Math.PI / 12) * var15;
-      float var28 = MathHelper.cos(var21 * 0.6F + (float) Math.PI);
-      this.frontLeftLeg.rotationPointY = -2.0F * var15 + 9.0F * var16;
-      this.frontLeftLeg.rotationPointZ = -2.0F * var15 + -8.0F * var16;
+      this.muleLeftChest.rotateAngleX = f12 / 5.0F;
+      this.muleRightChest.rotateAngleX = -f12 / 5.0F;
+      float f13 = (float) (Math.PI / 2);
+      float f14 = (float) (Math.PI / 12) * f7;
+      float f15 = MathHelper.cos(f10 * 0.6F + (float) Math.PI);
+      this.frontLeftLeg.rotationPointY = -2.0F * f7 + 9.0F * f8;
+      this.frontLeftLeg.rotationPointZ = -2.0F * f7 + -8.0F * f8;
       this.frontRightLeg.rotationPointY = this.frontLeftLeg.rotationPointY;
       this.frontRightLeg.rotationPointZ = this.frontLeftLeg.rotationPointZ;
-      this.backLeftShin.rotationPointY = this.backLeftLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + var27 + var16 * -var22 * 0.5F * var3) * 7.0F;
+      this.backLeftShin.rotationPointY = this.backLeftLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + f14 + f8 * -f11 * 0.5F * g) * 7.0F;
       this.backLeftShin.rotationPointZ = this.backLeftLeg.rotationPointZ
-         + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + var27 + var16 * -var22 * 0.5F * var3) * 7.0F;
-      this.backRightShin.rotationPointY = this.backRightLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + var27 + var16 * var22 * 0.5F * var3) * 7.0F;
+         + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + f14 + f8 * -f11 * 0.5F * g) * 7.0F;
+      this.backRightShin.rotationPointY = this.backRightLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + f14 + f8 * f11 * 0.5F * g) * 7.0F;
       this.backRightShin.rotationPointZ = this.backRightLeg.rotationPointZ
-         + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + var27 + var16 * var22 * 0.5F * var3) * 7.0F;
-      float var29 = ((float) (-Math.PI / 3) + var28) * var15 + var23 * var16;
-      float var30 = ((float) (-Math.PI / 3) + -var28) * var15 + -var23 * var16;
-      this.frontLeftShin.rotationPointY = this.frontLeftLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + var29) * 7.0F;
-      this.frontLeftShin.rotationPointZ = this.frontLeftLeg.rotationPointZ + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + var29) * 7.0F;
-      this.frontRightShin.rotationPointY = this.frontRightLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + var30) * 7.0F;
-      this.frontRightShin.rotationPointZ = this.frontRightLeg.rotationPointZ + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + var30) * 7.0F;
-      this.backLeftLeg.rotateAngleX = var27 + -var22 * 0.5F * var3 * var16;
-      this.backLeftShin.rotateAngleX = -0.08726646F * var15 + (-var22 * 0.5F * var3 - Math.max(0.0F, var22 * 0.5F * var3)) * var16;
+         + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + f14 + f8 * f11 * 0.5F * g) * 7.0F;
+      float f16 = ((float) (-Math.PI / 3) + f15) * f7 + f12 * f8;
+      float f17 = ((float) (-Math.PI / 3) + -f15) * f7 + -f12 * f8;
+      this.frontLeftShin.rotationPointY = this.frontLeftLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + f16) * 7.0F;
+      this.frontLeftShin.rotationPointZ = this.frontLeftLeg.rotationPointZ + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + f16) * 7.0F;
+      this.frontRightShin.rotationPointY = this.frontRightLeg.rotationPointY + MathHelper.sin((float) (Math.PI / 2) + f17) * 7.0F;
+      this.frontRightShin.rotationPointZ = this.frontRightLeg.rotationPointZ + MathHelper.cos((float) (Math.PI * 3.0 / 2.0) + f17) * 7.0F;
+      this.backLeftLeg.rotateAngleX = f14 + -f11 * 0.5F * g * f8;
+      this.backLeftShin.rotateAngleX = -0.08726646F * f7 + (-f11 * 0.5F * g - Math.max(0.0F, f11 * 0.5F * g)) * f8;
       this.backLeftHoof.rotateAngleX = this.backLeftShin.rotateAngleX;
-      this.backRightLeg.rotateAngleX = var27 + var22 * 0.5F * var3 * var16;
-      this.backRightShin.rotateAngleX = -0.08726646F * var15 + (var22 * 0.5F * var3 - Math.max(0.0F, -var22 * 0.5F * var3)) * var16;
+      this.backRightLeg.rotateAngleX = f14 + f11 * 0.5F * g * f8;
+      this.backRightShin.rotateAngleX = -0.08726646F * f7 + (f11 * 0.5F * g - Math.max(0.0F, -f11 * 0.5F * g)) * f8;
       this.backRightHoof.rotateAngleX = this.backRightShin.rotateAngleX;
-      this.frontLeftLeg.rotateAngleX = var29;
-      this.frontLeftShin.rotateAngleX = (this.frontLeftLeg.rotateAngleX + (float) Math.PI * Math.max(0.0F, 0.2F + var28 * 0.2F)) * var15
-         + (var23 + Math.max(0.0F, var22 * 0.5F * var3)) * var16;
+      this.frontLeftLeg.rotateAngleX = f16;
+      this.frontLeftShin.rotateAngleX = (this.frontLeftLeg.rotateAngleX + (float) Math.PI * Math.max(0.0F, 0.2F + f15 * 0.2F)) * f7
+         + (f12 + Math.max(0.0F, f11 * 0.5F * g)) * f8;
       this.frontLeftHoof.rotateAngleX = this.frontLeftShin.rotateAngleX;
-      this.frontRightLeg.rotateAngleX = var30;
-      this.frontRightShin.rotateAngleX = (this.frontRightLeg.rotateAngleX + (float) Math.PI * Math.max(0.0F, 0.2F - var28 * 0.2F)) * var15
-         + (-var23 + Math.max(0.0F, -var22 * 0.5F * var3)) * var16;
+      this.frontRightLeg.rotateAngleX = f17;
+      this.frontRightShin.rotateAngleX = (this.frontRightLeg.rotateAngleX + (float) Math.PI * Math.max(0.0F, 0.2F - f15 * 0.2F)) * f7
+         + (-f12 + Math.max(0.0F, -f11 * 0.5F * g)) * f8;
       this.frontRightHoof.rotateAngleX = this.frontRightShin.rotateAngleX;
       this.backLeftHoof.rotationPointY = this.backLeftShin.rotationPointY;
       this.backLeftHoof.rotationPointZ = this.backLeftShin.rotationPointZ;
@@ -423,9 +423,9 @@ public class ModelHorse extends ModelBase {
       this.frontLeftHoof.rotationPointZ = this.frontLeftShin.rotationPointZ;
       this.frontRightHoof.rotationPointY = this.frontRightShin.rotationPointY;
       this.frontRightHoof.rotationPointZ = this.frontRightShin.rotationPointZ;
-      if (var19) {
-         this.horseSaddleBottom.rotationPointY = var15 * 0.5F + var16 * 2.0F;
-         this.horseSaddleBottom.rotationPointZ = var15 * 11.0F + var16 * 2.0F;
+      if (bl2) {
+         this.horseSaddleBottom.rotationPointY = f7 * 0.5F + f8 * 2.0F;
+         this.horseSaddleBottom.rotationPointZ = f7 * 11.0F + f8 * 2.0F;
          this.horseSaddleFront.rotationPointY = this.horseSaddleBottom.rotationPointY;
          this.horseSaddleBack.rotationPointY = this.horseSaddleBottom.rotationPointY;
          this.horseLeftSaddleRope.rotationPointY = this.horseSaddleBottom.rotationPointY;
@@ -453,8 +453,8 @@ public class ModelHorse extends ModelBase {
          this.horseFaceRopes.rotationPointZ = this.head.rotationPointZ;
          this.horseLeftFaceMetal.rotationPointZ = this.head.rotationPointZ;
          this.horseRightFaceMetal.rotationPointZ = this.head.rotationPointZ;
-         this.horseLeftRein.rotateAngleX = var12;
-         this.horseRightRein.rotateAngleX = var12;
+         this.horseLeftRein.rotateAngleX = f5;
+         this.horseRightRein.rotateAngleX = f5;
          this.horseFaceRopes.rotateAngleX = this.head.rotateAngleX;
          this.horseLeftFaceMetal.rotateAngleX = this.head.rotateAngleX;
          this.horseRightFaceMetal.rotateAngleX = this.head.rotateAngleX;
@@ -463,7 +463,7 @@ public class ModelHorse extends ModelBase {
          this.horseLeftRein.rotateAngleY = this.head.rotateAngleY;
          this.horseRightFaceMetal.rotateAngleY = this.head.rotateAngleY;
          this.horseRightRein.rotateAngleY = this.head.rotateAngleY;
-         if (var20) {
+         if (bl3) {
             this.horseLeftSaddleRope.rotateAngleX = (float) (-Math.PI / 3);
             this.horseLeftSaddleMetal.rotateAngleX = (float) (-Math.PI / 3);
             this.horseRightSaddleRope.rotateAngleX = (float) (-Math.PI / 3);
@@ -473,25 +473,25 @@ public class ModelHorse extends ModelBase {
             this.horseRightSaddleRope.rotateAngleZ = 0.0F;
             this.horseRightSaddleMetal.rotateAngleZ = 0.0F;
          } else {
-            this.horseLeftSaddleRope.rotateAngleX = var23 / 3.0F;
-            this.horseLeftSaddleMetal.rotateAngleX = var23 / 3.0F;
-            this.horseRightSaddleRope.rotateAngleX = var23 / 3.0F;
-            this.horseRightSaddleMetal.rotateAngleX = var23 / 3.0F;
-            this.horseLeftSaddleRope.rotateAngleZ = var23 / 5.0F;
-            this.horseLeftSaddleMetal.rotateAngleZ = var23 / 5.0F;
-            this.horseRightSaddleRope.rotateAngleZ = -var23 / 5.0F;
-            this.horseRightSaddleMetal.rotateAngleZ = -var23 / 5.0F;
+            this.horseLeftSaddleRope.rotateAngleX = f12 / 3.0F;
+            this.horseLeftSaddleMetal.rotateAngleX = f12 / 3.0F;
+            this.horseRightSaddleRope.rotateAngleX = f12 / 3.0F;
+            this.horseRightSaddleMetal.rotateAngleX = f12 / 3.0F;
+            this.horseLeftSaddleRope.rotateAngleZ = f12 / 5.0F;
+            this.horseLeftSaddleMetal.rotateAngleZ = f12 / 5.0F;
+            this.horseRightSaddleRope.rotateAngleZ = -f12 / 5.0F;
+            this.horseRightSaddleMetal.rotateAngleZ = -f12 / 5.0F;
          }
       }
 
-      var24 = -1.3089F + var3 * 1.5F;
-      if (var24 > 0.0F) {
-         var24 = 0.0F;
+      f13 = -1.3089F + g * 1.5F;
+      if (f13 > 0.0F) {
+         f13 = 0.0F;
       }
 
-      if (var18) {
-         this.tailBase.rotateAngleY = MathHelper.cos(var21 * 0.7F);
-         var24 = 0.0F;
+      if (bl) {
+         this.tailBase.rotateAngleY = MathHelper.cos(f10 * 0.7F);
+         f13 = 0.0F;
       } else {
          this.tailBase.rotateAngleY = 0.0F;
       }
@@ -502,8 +502,8 @@ public class ModelHorse extends ModelBase {
       this.tailTip.rotationPointY = this.tailBase.rotationPointY;
       this.tailMiddle.rotationPointZ = this.tailBase.rotationPointZ;
       this.tailTip.rotationPointZ = this.tailBase.rotationPointZ;
-      this.tailBase.rotateAngleX = var24;
-      this.tailMiddle.rotateAngleX = var24;
-      this.tailTip.rotateAngleX = -0.2618F + var24;
+      this.tailBase.rotateAngleX = f13;
+      this.tailMiddle.rotateAngleX = f13;
+      this.tailTip.rotateAngleX = -0.2618F + f13;
    }
 }

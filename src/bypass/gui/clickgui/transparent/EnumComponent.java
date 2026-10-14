@@ -12,12 +12,12 @@ public class EnumComponent extends SettingComponent {
    private static final long c = 22446301099627L;
    private static final long d = -38810986638999432L;
 
-   public EnumComponent(Container var1, Setting var2, int var3, int var4) {
-      super(var1, var2, var3, var4);
+   public EnumComponent(Container container, Setting setting, int i, int j) {
+      super(container, setting, i, j);
    }
 
    @Override
-   public void render(int var1, int var2) {
+   public void render(int i, int j) {
       RenderUtil.drawRect(
          this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, (int)d).getRGB()
       );
@@ -31,16 +31,16 @@ public class EnumComponent extends SettingComponent {
    }
 
    @Override
-   public void l(int var1) {
+   public void l(int i) {
       if (this.I().s_boolean()) {
-         Enum[] var5 = (Enum[])this.j().getValue().getClass().getEnumConstants();
-         int var6 = this.w();
-         var6 += var1 == 0 ? 1 : -1;
-         if (var6 >= var5.length || var6 < 0) {
-            var6 = 0;
+         Enum[] enums = (Enum[])this.j().getValue().getClass().getEnumConstants();
+         int k = this.w();
+         k += i == 0 ? 1 : -1;
+         if (k >= enums.length || k < 0) {
+            k = 0;
          }
 
-         this.j().setValue(var5[var6]);
+         this.j().setValue(enums[k]);
       }
    }
 
@@ -49,11 +49,11 @@ public class EnumComponent extends SettingComponent {
    }
 
    private int w() {
-      Enum[] var4 = (Enum[])this.j().getValue().getClass().getEnumConstants();
+      Enum[] enums = (Enum[])this.j().getValue().getClass().getEnumConstants();
 
-      for (int var5 = 0; var5 < var4.length; var5++) {
-         if (var4[var5] == this.j().getValue()) {
-            return var5;
+      for (int i = 0; i < enums.length; i++) {
+         if (enums[i] == this.j().getValue()) {
+            return i;
          }
       }
 

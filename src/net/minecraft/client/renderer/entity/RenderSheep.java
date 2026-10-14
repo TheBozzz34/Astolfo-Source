@@ -8,12 +8,12 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSheep extends RenderLiving<EntitySheep> {
    private static final ResourceLocation shearedSheepTextures = new ResourceLocation("textures/entity/sheep/sheep.png");
 
-   public RenderSheep(RenderManager var1, ModelBase var2, float var3) {
-      super(var1, var2, var3);
+   public RenderSheep(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+      super(renderManagerIn, modelBaseIn, shadowSizeIn);
       this.addLayer(new LayerSheepWool(this));
    }
 
-   public ResourceLocation getEntityTexture(EntitySheep var1) {
+   public ResourceLocation getEntityTexture(EntitySheep entity) {
       return shearedSheepTextures;
    }
 }

@@ -15,14 +15,14 @@ public final class SimpleRequest extends AbstractRequest {
          return "";
       }
 
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (Entry var6 : this.m.entrySet()) {
-         var4.append((String)var6.getKey()).append("=").append((String)var6.getValue()).append("&");
+      for (Entry entry : this.m.entrySet()) {
+         stringBuilder.append((String)entry.getKey()).append("=").append((String)entry.getValue()).append("&");
       }
 
-      var4.substring(0, var4.lastIndexOf("&"));
-      return var4.toString();
+      stringBuilder.substring(0, stringBuilder.lastIndexOf("&"));
+      return stringBuilder.toString();
    }
 
    @Override
@@ -39,21 +39,21 @@ public final class SimpleRequest extends AbstractRequest {
    public int d() {
       try {
          return this.D().length();
-      } catch (Exception var2) {
-         var2.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
          return -1;
       }
    }
 
    @Override
-   public URL m(URL var1) throws Exception {
-      String var5 = var1.toString();
-      if (!var5.endsWith("?")) {
-         var5 = var5.concat("?");
+   public URL m(URL url) throws Exception {
+      String string = url.toString();
+      if (!string.endsWith("?")) {
+         string = string.concat("?");
       }
 
-      var5 = var5.concat(this.D());
-      return new URL(var5);
+      string = string.concat(this.D());
+      return new URL(string);
    }
 
    @Override

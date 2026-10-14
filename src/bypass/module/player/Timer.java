@@ -16,7 +16,7 @@ public final class Timer extends Module {
    private final BooleanSetting tick = new BooleanSetting("Tick", "Dynamic timer", false);
    private final BooleanSetting onlyMoving = new BooleanSetting("Only-Moving", "Only when moving", true);
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
       if (this.onlyMoving.getValue() && !GameUtil.isMoving(mc.thePlayer)) {
          mc.timer.timerSpeed = 1.0F;
@@ -32,8 +32,8 @@ public final class Timer extends Module {
    };
    private static final long c = 43346108680049L;
 
-   public Timer(Category var1) {
-      super(var1);
+   public Timer(Category category) {
+      super(category);
       this.addSettings(this.tick, this.speed, this.onlyMoving);
    }
 

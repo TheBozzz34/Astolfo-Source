@@ -10,12 +10,12 @@ public final class Sprinting extends OneArgFunction {
    private static final long a = 6781278460007L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnil() && var1.isnumber() && var1.isint()) {
-         Entity var5 = WorldLibrary.X.get(var1.checkint());
-         if (var5 instanceof EntityLivingBase) {
-            EntityLivingBase var6 = (EntityLivingBase)var5;
-            return valueOf(var6.isSprinting());
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity instanceof EntityLivingBase) {
+            EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
+            return valueOf(entityLivingBase.isSprinting());
          }
       }
 

@@ -16,37 +16,37 @@ public class EntityFirework$SparkFX extends EntityFX {
    private boolean hasFadeColour;
    private static final long ab = 35166268065867L;
 
-   public EntityFirework$SparkFX(World var1, double var2, double var4, double var6, double var8, double var10, double var12, EffectRenderer var14) {
-      super(var1, var2, var4, var6);
-      this.motionX = var8;
-      this.motionY = var10;
-      this.motionZ = var12;
-      this.field_92047_az = var14;
+   public EntityFirework$SparkFX(World world, double d, double d2, double d3, double d4, double d5, double d6, EffectRenderer effectRenderer) {
+      super(world, d, d2, d3);
+      this.motionX = d4;
+      this.motionY = d5;
+      this.motionZ = d6;
+      this.field_92047_az = effectRenderer;
       this.particleScale *= 0.75F;
       this.particleMaxAge = 48 + this.rand.nextInt(12);
       this.noClip = false;
    }
 
-   public void setTrail(boolean var1) {
-      this.trail = var1;
+   public void setTrail(boolean trailIn) {
+      this.trail = trailIn;
    }
 
-   public void setTwinkle(boolean var1) {
-      this.twinkle = var1;
+   public void setTwinkle(boolean twinkleIn) {
+      this.twinkle = twinkleIn;
    }
 
-   public void setColour(int var1) {
-      float var4 = ((var1 & 0xFF0000) >> 16) / 255.0F;
-      float var5 = ((var1 & 0xFF00) >> 8) / 255.0F;
-      float var6 = ((var1 & 0xFF) >> 0) / 255.0F;
-      float var7 = 1.0F;
-      this.setRBGColorF(var4 * var7, var5 * var7, var6 * var7);
+   public void setColour(int colour) {
+      float f = ((colour & 0xFF0000) >> 16) / 255.0F;
+      float g = ((colour & 0xFF00) >> 8) / 255.0F;
+      float h = ((colour & 0xFF) >> 0) / 255.0F;
+      float f2 = 1.0F;
+      this.setRBGColorF(f * f2, g * f2, h * f2);
    }
 
-   public void setFadeColour(int var1) {
-      this.fadeColourRed = ((var1 & 0xFF0000) >> 16) / 255.0F;
-      this.fadeColourGreen = ((var1 & 0xFF00) >> 8) / 255.0F;
-      this.fadeColourBlue = ((var1 & 0xFF) >> 0) / 255.0F;
+   public void setFadeColour(int faceColour) {
+      this.fadeColourRed = ((faceColour & 0xFF0000) >> 16) / 255.0F;
+      this.fadeColourGreen = ((faceColour & 0xFF00) >> 8) / 255.0F;
+      this.fadeColourBlue = ((faceColour & 0xFF) >> 0) / 255.0F;
       this.hasFadeColour = true;
    }
 
@@ -61,9 +61,18 @@ public class EntityFirework$SparkFX extends EntityFX {
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
       if (!this.twinkle || this.particleAge < this.particleMaxAge / 3 || (this.particleAge + this.particleMaxAge) / 3 % 2 == 0) {
-         super.renderParticle(var1, var2, var3, var4, var5, var6, var7, var8);
+         super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
       }
    }
 
@@ -97,29 +106,29 @@ public class EntityFirework$SparkFX extends EntityFX {
       }
 
       if (this.trail && this.particleAge < this.particleMaxAge / 2 && (this.particleAge + this.particleMaxAge) % 2 == 0) {
-         EntityFirework$SparkFX var4 = new EntityFirework$SparkFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0, this.field_92047_az);
-         var4.setAlphaF(0.99F);
-         var4.setRBGColorF(this.particleRed, this.particleGreen, this.particleBlue);
-         var4.particleAge = var4.particleMaxAge / 2;
+         EntityFirework$SparkFX entityFirework$SparkFX = new EntityFirework$SparkFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0, this.field_92047_az);
+         entityFirework$SparkFX.setAlphaF(0.99F);
+         entityFirework$SparkFX.setRBGColorF(this.particleRed, this.particleGreen, this.particleBlue);
+         entityFirework$SparkFX.particleAge = entityFirework$SparkFX.particleMaxAge / 2;
          if (this.hasFadeColour) {
-            var4.hasFadeColour = true;
-            var4.fadeColourRed = this.fadeColourRed;
-            var4.fadeColourGreen = this.fadeColourGreen;
-            var4.fadeColourBlue = this.fadeColourBlue;
+            entityFirework$SparkFX.hasFadeColour = true;
+            entityFirework$SparkFX.fadeColourRed = this.fadeColourRed;
+            entityFirework$SparkFX.fadeColourGreen = this.fadeColourGreen;
+            entityFirework$SparkFX.fadeColourBlue = this.fadeColourBlue;
          }
 
-         var4.twinkle = this.twinkle;
-         this.field_92047_az.addEffect(var4);
+         entityFirework$SparkFX.twinkle = this.twinkle;
+         this.field_92047_az.addEffect(entityFirework$SparkFX);
       }
    }
 
    @Override
-   public int getBrightnessForRender(float var1) {
+   public int getBrightnessForRender(float partialTicks) {
       return 15728880;
    }
 
    @Override
-   public float getBrightness(float var1) {
+   public float getBrightness(float partialTicks) {
       return 1.0F;
    }
 }

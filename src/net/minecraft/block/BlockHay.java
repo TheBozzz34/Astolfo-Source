@@ -22,29 +22,29 @@ public class BlockHay extends BlockRotatedPillar {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      EnumFacing.Axis var5 = EnumFacing.Axis.Y;
-      int var6 = var1 & 12;
-      if (var6 == 4) {
-         var5 = EnumFacing.Axis.X;
-      } else if (var6 == 8) {
-         var5 = EnumFacing.Axis.Z;
+   public IBlockState getStateFromMeta(int meta) {
+      EnumFacing.Axis axis = EnumFacing.Axis.Y;
+      int i = meta & 12;
+      if (i == 4) {
+         axis = EnumFacing.Axis.X;
+      } else if (i == 8) {
+         axis = EnumFacing.Axis.Z;
       }
 
-      return this.getDefaultState().withProperty(AXIS, var5);
+      return this.getDefaultState().withProperty(AXIS, axis);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      byte var5 = 0;
-      EnumFacing.Axis var6 = var1.getValue(AXIS);
-      if (var6 == EnumFacing.Axis.X) {
-         var5 |= 4;
-      } else if (var6 == EnumFacing.Axis.Z) {
-         var5 |= 8;
+   public int getMetaFromState(IBlockState state) {
+      byte b = 0;
+      EnumFacing.Axis axis = state.getValue(AXIS);
+      if (axis == EnumFacing.Axis.X) {
+         b |= 4;
+      } else if (axis == EnumFacing.Axis.Z) {
+         b |= 8;
       }
 
-      return var5;
+      return b;
    }
 
    @Override
@@ -53,12 +53,12 @@ public class BlockHay extends BlockRotatedPillar {
    }
 
    @Override
-   public ItemStack createStackedBlock(IBlockState var1) {
+   public ItemStack createStackedBlock(IBlockState state) {
       return new ItemStack(Item.getItemFromBlock(this), 1, 0);
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      return super.onBlockPlaced(var1, var2, var3, var4, var5, var6, var7, var8).withProperty(AXIS, var3.getAxis());
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(AXIS, facing.getAxis());
    }
 }

@@ -13,7 +13,7 @@ public final class FastPlace extends Module {
    private final NumberSetting<Integer> delay = new NumberSetting<>("Delay", "Placing delay", 0, 0, 3, " ticks");
    private final BooleanSetting onlyBlocks = new BooleanSetting("Only-Blocks", "Only works with blocks", false);
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var1x -> {
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (mc.rightClickDelayTimer != this.delay.getValue()
          && mc.rightClickDelayTimer > this.delay.getValue()
          && (!this.onlyBlocks.getValue() || mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemBlock)) {
@@ -23,8 +23,8 @@ public final class FastPlace extends Module {
    private static final long c = 12114046300555L;
    private static final long j = 7721467113549856772L;
 
-   public FastPlace(Category var1) {
-      super(var1);
+   public FastPlace(Category category) {
+      super(category);
       this.addSettings(this.delay, this.onlyBlocks);
       this.setHidden(false);
    }

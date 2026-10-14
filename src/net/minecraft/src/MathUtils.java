@@ -3,18 +3,18 @@ package net.minecraft.src;
 public class MathUtils {
    private static final long a = 4076898180838L;
 
-   public static int o(int[] var0) {
-      if (var0.length <= 0) {
+   public static int o(int[] ints) {
+      if (ints.length <= 0) {
          return 0;
       }
 
-      int var4 = 0;
+      int i = 0;
 
-      for (int var5 = 0; var5 < var0.length; var5++) {
-         int var6 = var0[var5];
-         var4 += var6;
+      for (int j = 0; j < ints.length; j++) {
+         int k = ints[j];
+         i += k;
       }
 
-      return var4 / var0.length;
+      return i / ints.length;
    }
 }

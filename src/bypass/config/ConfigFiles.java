@@ -29,165 +29,165 @@ public final class ConfigFiles implements ClientAccess {
    public static final Gson G = new GsonBuilder().setPrettyPrinting().create();
    private static final long b = 49891827257663L;
 
-   private static JsonObject toJson(Setting<?> var0, String var1) {
-      JsonObject var5 = new JsonObject();
-      JsonArray var6 = new JsonArray();
-      var5.addProperty("option_id", var1);
-      if (var0 instanceof MapSetting) {
-         MapSetting var7 = (MapSetting)var0;
-         Map var8 = var7.getSettings();
-         if (var8 != null && !var8.isEmpty()) {
-            JsonArray var9 = new JsonArray();
+   private static JsonObject toJson(Setting<?> setting, String string) {
+      JsonObject jsonObject = new JsonObject();
+      JsonArray jsonArray = new JsonArray();
+      jsonObject.addProperty("option_id", string);
+      if (setting instanceof MapSetting) {
+         MapSetting mapSetting = (MapSetting)setting;
+         Map map = mapSetting.getSettings();
+         if (map != null && !map.isEmpty()) {
+            JsonArray jsonArray2 = new JsonArray();
 
-            for (Object var11$raw : var8.keySet()) {
-               String var11 = (String)var11$raw;
-               Setting var12 = (Setting)var8.get(var11);
-               JsonObject var13 = toJson(var12, var11);
-               var9.add(var13);
+            for (Object object : map.keySet()) {
+               String string2 = (String)object;
+               Setting setting2 = (Setting)map.get(string2);
+               JsonObject jsonObject2 = toJson(setting2, string2);
+               jsonArray2.add(jsonObject2);
             }
 
-            var5.add("option_map", var9);
+            jsonObject.add("option_map", jsonArray2);
          }
-      } else if (var0 instanceof ListSetting) {
-         ListSetting var14 = (ListSetting)var0;
-         List var16 = var14.getSettings();
-         if (var16 != null && !var16.isEmpty()) {
-            JsonArray var18 = new JsonArray();
+      } else if (setting instanceof ListSetting) {
+         ListSetting listSetting = (ListSetting)setting;
+         List list = listSetting.getSettings();
+         if (list != null && !list.isEmpty()) {
+            JsonArray jsonArray3 = new JsonArray();
 
-            for (int var20 = 0; var20 < var16.size(); var20++) {
-               Setting var22 = (Setting)var16.get(var20);
-               JsonObject var24 = toJson(var22, String.valueOf(var20));
-               var18.add(var24);
+            for (int i = 0; i < list.size(); i++) {
+               Setting setting3 = (Setting)list.get(i);
+               JsonObject jsonObject3 = toJson(setting3, String.valueOf(i));
+               jsonArray3.add(jsonObject3);
             }
 
-            var5.add("option_list", var18);
+            jsonObject.add("option_list", jsonArray3);
          }
       } else {
-         var5.addProperty("option_value", var0.asString());
+         jsonObject.addProperty("option_value", setting.asString());
       }
 
-      Map var15 = SettingFinder.getSubOptions(var0);
-      if (var15 != null) {
-         for (Object var19$raw : var15.keySet()) {
-            String var19 = (String)var19$raw;
-            Setting var21 = (Setting)var15.get(var19);
-            JsonObject var23 = toJson(var21, var19);
-            var23.addProperty("sub_option_of", var0.getName());
-            var6.add(var23);
+      Map map2 = SettingFinder.getSubOptions(setting);
+      if (map2 != null) {
+         for (Object object2 : map2.keySet()) {
+            String string3 = (String)object2;
+            Setting setting4 = (Setting)map2.get(string3);
+            JsonObject jsonObject4 = toJson(setting4, string3);
+            jsonObject4.addProperty("sub_option_of", setting.getName());
+            jsonArray.add(jsonObject4);
          }
 
-         var5.add("sub_options", var6);
+         jsonObject.add("sub_options", jsonArray);
       }
 
-      return var5;
+      return jsonObject;
    }
 
    public static List<JsonObject> serializeModules() {
-      long var0 = b ^ 34046360829469L;
-      long var2 = var0 ^ 5362573070993L;
-      ArrayList var6 = new ArrayList();
-      JsonObject var7 = new JsonObject();
+      long l = b ^ 34046360829469L;
+      long m = l ^ 5362573070993L;
+      ArrayList arrayList = new ArrayList();
+      JsonObject jsonObject = new JsonObject();
 
-      for (ModuleInfo var9 : Astolfo.INSTANCE.getModuleManager().getList()) {
-         if (var9 instanceof Module) {
-            JsonArray var10 = new JsonArray();
-            Module var11 = (Module)var9;
+      for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getList()) {
+         if (moduleInfo instanceof Module) {
+            JsonArray jsonArray = new JsonArray();
+            Module module = (Module)moduleInfo;
 
-            for (Setting var13 : var11.getSettings()) {
-               var10.add(toJson(var13, var13.getName()));
+            for (Setting setting : module.getSettings()) {
+               jsonArray.add(toJson(setting, setting.getName()));
             }
 
-            JsonObject var14 = new JsonObject();
-            var14.addProperty("id", var9.getName());
-            var14.addProperty("key", var11.getKey());
-            var14.addProperty("enabled", var11.isEnabled());
-            var14.add("options", var10);
-            var7.add(var9.getName(), var14);
+            JsonObject jsonObject2 = new JsonObject();
+            jsonObject2.addProperty("id", moduleInfo.getName());
+            jsonObject2.addProperty("key", module.getKey());
+            jsonObject2.addProperty("enabled", module.isEnabled());
+            jsonObject2.add("options", jsonArray);
+            jsonObject.add(moduleInfo.getName(), jsonObject2);
          }
       }
 
-      var6.add(var7);
-      return var6;
+      arrayList.add(jsonObject);
+      return arrayList;
    }
 
-   public static void save(List<JsonObject> var0, String var1) {
-      File var4 = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), var1 + ".json");
-      FileWriter var5 = null;
+   public static void save(List<JsonObject> list, String string) {
+      File file = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), string + ".json");
+      FileWriter fileWriter = null;
 
       try {
-         var5 = new FileWriter(var4);
-         V.toJson(var0, var5);
-         var5.close();
-      } catch (IOException var7) {
-         var7.printStackTrace();
+         fileWriter = new FileWriter(file);
+         V.toJson(list, fileWriter);
+         fileWriter.close();
+      } catch (IOException ioException) {
+         ioException.printStackTrace();
       }
    }
 
-   public static void load(String var0) {
-      long var1 = b ^ 29066464234499L;
-      long var3 = var1 ^ 515584549007L;
+   public static void load(String string) {
+      long l = b ^ 29066464234499L;
+      long n = l ^ 515584549007L;
 
       try {
-         File var6 = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), var0 + ".json");
-         if (!var6.exists()) {
+         File file = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), string + ".json");
+         if (!file.exists()) {
             return;
          }
 
-         JsonReader var7 = null;
+         JsonReader jsonReader = null;
 
          try {
-            var7 = new JsonReader(new FileReader(var6.getAbsolutePath()));
-         } catch (FileNotFoundException var27) {
-            var27.printStackTrace();
+            jsonReader = new JsonReader(new FileReader(file.getAbsolutePath()));
+         } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
          }
 
-         Type var8 = new JsonObjectListType().getType();
-         List var9 = V.fromJson(var7, var8);
+         Type type = new JsonObjectListType().getType();
+         List list = V.fromJson(jsonReader, type);
 
-         for (ModuleInfo var11 : Astolfo.INSTANCE.getModuleManager().getList()) {
-            if (var11 instanceof Module) {
-               Module var12 = (Module)var11;
+         for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getList()) {
+            if (moduleInfo instanceof Module) {
+               Module module = (Module)moduleInfo;
 
-               for (Object var14$raw : var9) {
-                  JsonObject var14 = (JsonObject)var14$raw;
-                  if (var14.has(var11.getName())) {
-                     JsonObject var15 = var14.getAsJsonObject(var12.getName());
-                     if (var15.has("id") && var15.get("id").getAsString().equals(var11.getName())) {
-                        if (var15.has("key")) {
-                           var12.setKey(var15.get("key").getAsInt());
+               for (Object object : list) {
+                  JsonObject jsonObject = (JsonObject)object;
+                  if (jsonObject.has(moduleInfo.getName())) {
+                     JsonObject jsonObject2 = jsonObject.getAsJsonObject(module.getName());
+                     if (jsonObject2.has("id") && jsonObject2.get("id").getAsString().equals(moduleInfo.getName())) {
+                        if (jsonObject2.has("key")) {
+                           module.setKey(jsonObject2.get("key").getAsInt());
                         }
 
-                        if (var15.has("enabled")) {
-                           var12.setEnabled(var15.get("enabled").getAsBoolean());
+                        if (jsonObject2.has("enabled")) {
+                           module.setEnabled(jsonObject2.get("enabled").getAsBoolean());
                         }
                      }
 
-                     JsonArray var16 = var15.getAsJsonArray("options");
+                     JsonArray jsonArray = jsonObject2.getAsJsonArray("options");
 
-                     for (int var17 = 0; var17 < var16.size(); var17++) {
-                        JsonObject var18 = var16.get(var17).getAsJsonObject();
-                        if (var18.has("option_id")) {
-                           String var19 = var18.get("option_id").getAsString();
+                     for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject jsonObject3 = jsonArray.get(i).getAsJsonObject();
+                        if (jsonObject3.has("option_id")) {
+                           String string2 = jsonObject3.get("option_id").getAsString();
 
-                           for (Setting var21 : var12.getSettings()) {
-                              if (var21.getName().equals(var19)) {
-                                 if (var21 instanceof MapSetting) {
-                                    MapSetting var22 = (MapSetting)var21;
-                                    if (var18.has("option_map")) {
-                                       JsonArray var23 = var18.getAsJsonArray("option_map");
+                           for (Setting setting : module.getSettings()) {
+                              if (setting.getName().equals(string2)) {
+                                 if (setting instanceof MapSetting) {
+                                    MapSetting mapSetting = (MapSetting)setting;
+                                    if (jsonObject3.has("option_map")) {
+                                       JsonArray jsonArray2 = jsonObject3.getAsJsonArray("option_map");
 
-                                       for (int var24 = 0; var24 < var23.size(); var24++) {
-                                          JsonObject var25 = var23.get(var24).getAsJsonObject();
-                                          if (var25.has("option_id")) {
-                                             Setting var26 = var22.getSetting(var25.get("option_id").getAsString());
-                                             if (var25.has("option_value") && var26 != null) {
-                                                var26.parse(var25.get("option_value").getAsString());
+                                       for (int j = 0; j < jsonArray2.size(); j++) {
+                                          JsonObject jsonObject4 = jsonArray2.get(j).getAsJsonObject();
+                                          if (jsonObject4.has("option_id")) {
+                                             Setting setting2 = mapSetting.getSetting(jsonObject4.get("option_id").getAsString());
+                                             if (jsonObject4.has("option_value") && setting2 != null) {
+                                                setting2.parse(jsonObject4.get("option_value").getAsString());
                                              }
                                           }
                                        }
                                     }
                                  } else {
-                                    var21.parse(var18.get("option_value").getAsString());
+                                    setting.parse(jsonObject3.get("option_value").getAsString());
                                  }
                               }
                            }
@@ -197,8 +197,8 @@ public final class ConfigFiles implements ClientAccess {
                }
             }
          }
-      } catch (Exception var28) {
-         var28.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
          toasts.m("Failed to load config");
       }
    }

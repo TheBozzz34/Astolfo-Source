@@ -16,20 +16,20 @@ public class BlockPosM extends BlockPos {
    private static final long a = 138849673806756L;
    private static final long q = 840837197920731142L;
 
-   public BlockPosM(int var1, int var2, int var3) {
-      this(var1, var2, var3, 0);
+   public BlockPosM(int x, int y, int z) {
+      this(x, y, z, 0);
    }
 
-   public BlockPosM(double var1, double var3, double var5) {
-      this(MathHelper.floor_double(var1), MathHelper.floor_double(var3), MathHelper.floor_double(var5));
+   public BlockPosM(double xIn, double yIn, double zIn) {
+      this(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
    }
 
-   public BlockPosM(int var1, int var2, int var3, int var4) {
+   public BlockPosM(int x, int y, int z, int level) {
       super(0, 0, 0);
-      this.mx = var1;
-      this.my = var2;
-      this.mz = var3;
-      this.level = var4;
+      this.mx = x;
+      this.my = y;
+      this.mz = z;
+      this.level = level;
    }
 
    @Override
@@ -47,21 +47,21 @@ public class BlockPosM extends BlockPos {
       return this.mz;
    }
 
-   public void setXyz(int var1, int var2, int var3) {
-      this.mx = var1;
-      this.my = var2;
-      this.mz = var3;
+   public void setXyz(int x, int y, int z) {
+      this.mx = x;
+      this.my = y;
+      this.mz = z;
       this.needsUpdate = true;
    }
 
-   public void setXyz(double var1, double var3, double var5) {
-      this.setXyz(MathHelper.floor_double(var1), MathHelper.floor_double(var3), MathHelper.floor_double(var5));
+   public void setXyz(double xIn, double yIn, double zIn) {
+      this.setXyz(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
    }
 
    @Override
-   public BlockPos offset(EnumFacing var1) {
+   public BlockPos offset(EnumFacing facing) {
       if (this.level <= 0) {
-         return super.offset(var1, 1);
+         return super.offset(facing, 1);
       }
 
       if (this.facings == null) {
@@ -72,43 +72,47 @@ public class BlockPosM extends BlockPos {
          this.update();
       }
 
-      int var5 = var1.getIndex();
-      BlockPosM var6 = this.facings[var5];
-      if (var6 == null) {
-         int var7 = this.mx + var1.getFrontOffsetX();
-         int var8 = this.my + var1.getFrontOffsetY();
-         int var9 = this.mz + var1.getFrontOffsetZ();
-         var6 = new BlockPosM(var7, var8, var9, this.level - 1);
-         this.facings[var5] = var6;
+      int i = facing.getIndex();
+      BlockPosM blockPosM = this.facings[i];
+      if (blockPosM == null) {
+         int j = this.mx + facing.getFrontOffsetX();
+         int k = this.my + facing.getFrontOffsetY();
+         int l = this.mz + facing.getFrontOffsetZ();
+         blockPosM = new BlockPosM(j, k, l, this.level - 1);
+         this.facings[i] = blockPosM;
       }
 
-      return var6;
+      return blockPosM;
    }
 
    @Override
-   public BlockPos offset(EnumFacing var1, int var2) {
-      return var2 == 1 ? this.offset(var1) : super.offset(var1, var2);
+   public BlockPos offset(EnumFacing facing, int n) {
+      return n == 1 ? this.offset(facing) : super.offset(facing, n);
    }
 
    private void update() {
-      for (int var4 = 0; var4 < (int)q; var4++) {
-         BlockPosM var5 = this.facings[var4];
-         if (var5 != null) {
-            EnumFacing var6 = EnumFacing.VALUES[var4];
-            int var7 = this.mx + var6.getFrontOffsetX();
-            int var8 = this.my + var6.getFrontOffsetY();
-            int var9 = this.mz + var6.getFrontOffsetZ();
-            var5.setXyz(var7, var8, var9);
+      for (int i = 0; i < (int)q; i++) {
+         BlockPosM blockPosM = this.facings[i];
+         if (blockPosM != null) {
+            EnumFacing enumFacing = EnumFacing.VALUES[i];
+            int j = this.mx + enumFacing.getFrontOffsetX();
+            int k = this.my + enumFacing.getFrontOffsetY();
+            int l = this.mz + enumFacing.getFrontOffsetZ();
+            blockPosM.setXyz(j, k, l);
          }
       }
 
       this.needsUpdate = false;
    }
 
-   public static Iterable m(BlockPos var0, BlockPos var1) {
-      BlockPos var2 = new BlockPos(Math.min(var0.getX(), var1.getX()), Math.min(var0.getY(), var1.getY()), Math.min(var0.getZ(), var1.getZ()));
-      BlockPos var3 = new BlockPos(Math.max(var0.getX(), var1.getX()), Math.max(var0.getY(), var1.getY()), Math.max(var0.getZ(), var1.getZ()));
-      return new BlockPosM.AllInBoxIterable(var2, var3);
+   public static Iterable m(BlockPos blockPos, BlockPos blockPos2) {
+      BlockPos blockPos3 = new BlockPos(
+         Math.min(blockPos.getX(), blockPos2.getX()), Math.min(blockPos.getY(), blockPos2.getY()), Math.min(blockPos.getZ(), blockPos2.getZ())
+      );
+      BlockPos blockPos4 = new BlockPos(
+         Math.max(blockPos.getX(), blockPos2.getX()), Math.max(blockPos.getY(), blockPos2.getY()), Math.max(blockPos.getZ(), blockPos2.getZ())
+      );
+      return new BlockPosM.AllInBoxIterable(blockPos3, blockPos4);
    }
 
    public BlockPos getImmutable() {
@@ -119,9 +123,9 @@ public class BlockPosM extends BlockPos {
       public final BlockPos G;
       public final BlockPos z;
 
-      public AllInBoxIterable(BlockPos var1, BlockPos var2) {
-         this.G = var1;
-         this.z = var2;
+      public AllInBoxIterable(BlockPos blockPos, BlockPos blockPos2) {
+         this.G = blockPos;
+         this.z = blockPos2;
       }
 
       @Override
@@ -143,21 +147,21 @@ public class BlockPosM extends BlockPos {
                return (BlockPosM)this.endOfData();
             }
 
-            int var4 = this.M.getX();
-            int var5 = this.M.getY();
-            int var6 = this.M.getZ();
-            if (var4 < AllInBoxIterable.this.z.getX()) {
-               var4++;
-            } else if (var5 < AllInBoxIterable.this.z.getY()) {
-               var4 = AllInBoxIterable.this.G.getX();
-               var5++;
-            } else if (var6 < AllInBoxIterable.this.z.getZ()) {
-               var4 = AllInBoxIterable.this.G.getX();
-               var5 = AllInBoxIterable.this.G.getY();
-               var6++;
+            int i = this.M.getX();
+            int j = this.M.getY();
+            int k = this.M.getZ();
+            if (i < AllInBoxIterable.this.z.getX()) {
+               i++;
+            } else if (j < AllInBoxIterable.this.z.getY()) {
+               i = AllInBoxIterable.this.G.getX();
+               j++;
+            } else if (k < AllInBoxIterable.this.z.getZ()) {
+               i = AllInBoxIterable.this.G.getX();
+               j = AllInBoxIterable.this.G.getY();
+               k++;
             }
 
-            this.M.setXyz(var4, var5, var6);
+            this.M.setXyz(i, j, k);
             return this.M;
          }
 

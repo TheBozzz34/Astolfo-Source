@@ -28,18 +28,18 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
          }
       }
 
-      for (GuiButton var5 : this.buttonList) {
-         var5.enabled = false;
+      for (GuiButton guiButton : this.buttonList) {
+         guiButton.enabled = false;
       }
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      switch (var1.id) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      switch (button.id) {
          case 0:
             this.mc.thePlayer.respawnPlayer();
             this.mc.displayGuiScreen((GuiScreen)null);
@@ -48,18 +48,18 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
             if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
                this.mc.displayGuiScreen(new GuiMainMenu());
             } else {
-               GuiYesNo var5 = new GuiYesNo(
+               GuiYesNo guiYesNo = new GuiYesNo(
                   this, I18n.format("deathScreen.quit.confirm"), "", I18n.format("deathScreen.titleScreen"), I18n.format("deathScreen.respawn"), 0
                );
-               this.mc.displayGuiScreen(var5);
-               var5.setButtonDelay(20);
+               this.mc.displayGuiScreen(guiYesNo);
+               guiYesNo.setButtonDelay(20);
             }
       }
    }
 
    @Override
-   public void confirmClicked(boolean var1, int var2) {
-      if (var1) {
+   public void confirmClicked(boolean result, int id) {
+      if (result) {
          this.mc.theWorld.sendQuittingDisconnectingPacket();
          this.mc.loadWorld((WorldClient)null);
          this.mc.displayGuiScreen(new GuiMainMenu());
@@ -70,15 +70,15 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawGradientRect(0, 0, this.width, this.height, 1615855616, -1602211792);
       GlStateManager.pushMatrix();
       GlStateManager.scale(2.0F, 2.0F, 2.0F);
-      boolean var7 = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
-      String var8 = var7 ? I18n.format("deathScreen.title.hardcore") : I18n.format("deathScreen.title");
-      this.d(this.fontRendererObj, var8, this.width / 2 / 2, 30, 16777215);
+      boolean bl = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
+      String string = bl ? I18n.format("deathScreen.title.hardcore") : I18n.format("deathScreen.title");
+      this.d(this.fontRendererObj, string, this.width / 2 / 2, 30, 16777215);
       GlStateManager.popMatrix();
-      if (var7) {
+      if (bl) {
          this.d(this.fontRendererObj, I18n.format("deathScreen.hardcoreInfo"), this.width / 2, 144, 16777215);
       }
 
@@ -89,7 +89,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
          100,
          16777215
       );
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
@@ -102,8 +102,8 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
       super.updateScreen();
       this.enableButtonsTimer++;
       if (this.enableButtonsTimer > 20) {
-         for (GuiButton var5 : this.buttonList) {
-            var5.enabled = true;
+         for (GuiButton guiButton : this.buttonList) {
+            guiButton.enabled = true;
          }
       }
    }

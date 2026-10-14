@@ -1,8 +1,8 @@
 package net.minecraft.block.material;
 
 public class MaterialTransparent extends Material {
-   public MaterialTransparent(MapColor var1) {
-      super(var1);
+   public MaterialTransparent(MapColor color) {
+      super(color);
       this.X();
    }
 

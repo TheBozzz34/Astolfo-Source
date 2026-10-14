@@ -19,30 +19,30 @@ public class CommandServerKick extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.kick.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length > 0 && var2[0].length() > 1) {
-         EntityPlayerMP var6 = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(var2[0]);
-         String var7 = "Kicked by an operator.";
-         boolean var8 = false;
-         if (var6 == null) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length > 0 && args[0].length() > 1) {
+         EntityPlayerMP entityPlayerMP = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
+         String string = "Kicked by an operator.";
+         boolean bl = false;
+         if (entityPlayerMP == null) {
             throw new PlayerNotFoundException();
          }
 
-         if (var2.length >= 2) {
-            var7 = getChatComponentFromNthArg(var1, var2, 1).getUnformattedText();
-            var8 = true;
+         if (args.length >= 2) {
+            string = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
+            bl = true;
          }
 
-         var6.playerNetServerHandler.kickPlayerFromServer(var7);
-         if (var8) {
-            notifyOperators(var1, this, "commands.kick.success.reason", var6.getName(), var7);
+         entityPlayerMP.playerNetServerHandler.kickPlayerFromServer(string);
+         if (bl) {
+            notifyOperators(sender, this, "commands.kick.success.reason", entityPlayerMP.getName(), string);
          } else {
-            notifyOperators(var1, this, "commands.kick.success", var6.getName());
+            notifyOperators(sender, this, "commands.kick.success", entityPlayerMP.getName());
          }
       } else {
          throw new WrongUsageException("commands.kick.usage");
@@ -50,7 +50,7 @@ public class CommandServerKick extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length >= 1 ? getListOfStringsMatchingLastWord(var2, MinecraftServer.getServer().getAllUsernames()) : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length >= 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
    }
 }

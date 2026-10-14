@@ -23,13 +23,13 @@ public class EntityAITempt extends EntityAIBase {
    private static final long a = 37570715784492L;
    private static final long e = 5379365337588301924L;
 
-   public EntityAITempt(EntityCreature var1, double var2, Item var4, boolean var5) {
-      this.temptedEntity = var1;
-      this.speed = var2;
-      this.temptItem = var4;
-      this.scaredByPlayerMovement = var5;
+   public EntityAITempt(EntityCreature temptedEntityIn, double speedIn, Item temptItemIn, boolean scaredByPlayerMovementIn) {
+      this.temptedEntity = temptedEntityIn;
+      this.speed = speedIn;
+      this.temptItem = temptItemIn;
+      this.scaredByPlayerMovement = scaredByPlayerMovementIn;
       this.setMutexBits(3);
-      if (!(var1.getNavigator() instanceof PathNavigateGround)) {
+      if (!(temptedEntityIn.getNavigator() instanceof PathNavigateGround)) {
          throw new IllegalArgumentException("Unsupported mob type for TemptGoal");
       }
    }
@@ -46,8 +46,8 @@ public class EntityAITempt extends EntityAIBase {
          return false;
       }
 
-      ItemStack var4 = this.temptingPlayer.getCurrentEquippedItem();
-      return var4 == null ? false : var4.getItem() == this.temptItem;
+      ItemStack itemStack = this.temptingPlayer.getCurrentEquippedItem();
+      return itemStack == null ? false : itemStack.getItem() == this.temptItem;
    }
 
    @Override

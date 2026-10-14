@@ -14,133 +14,133 @@ public class HttpPipelineReceiver extends Thread {
    private static final char LF = '\n';
    private static final long a = 29908504001806L;
 
-   public HttpPipelineReceiver(HttpPipelineConnection var1) {
+   public HttpPipelineReceiver(HttpPipelineConnection httpPipelineConnection) {
       super("HttpPipelineReceiver");
-      this.httpPipelineConnection = var1;
+      this.httpPipelineConnection = httpPipelineConnection;
    }
 
    @Override
    public void run() {
       while (!Thread.interrupted()) {
-         HttpPipelineRequest var4 = null;
+         HttpPipelineRequest httpPipelineRequest = null;
 
          try {
-            var4 = this.httpPipelineConnection.getNextRequestReceive();
-            InputStream var5 = this.httpPipelineConnection.getInputStream();
-            HttpResponse var6 = this.readResponse(var5);
-            this.httpPipelineConnection.onResponseReceived(var4, var6);
-         } catch (InterruptedException var7) {
+            httpPipelineRequest = this.httpPipelineConnection.getNextRequestReceive();
+            InputStream inputStream = this.httpPipelineConnection.getInputStream();
+            HttpResponse httpResponse = this.readResponse(inputStream);
+            this.httpPipelineConnection.onResponseReceived(httpPipelineRequest, httpResponse);
+         } catch (InterruptedException interruptedException) {
             return;
-         } catch (Exception var8) {
-            this.httpPipelineConnection.onExceptionReceive(var4, var8);
+         } catch (Exception exception) {
+            this.httpPipelineConnection.onExceptionReceive(httpPipelineRequest, exception);
          }
       }
    }
 
-   private HttpResponse readResponse(InputStream var1) throws IOException {
-      String var5 = this.readLine(var1);
-      String[] var6 = Config.tokenize(var5, " ");
-      if (var6.length < 3) {
-         throw new IOException("Invalid status line: " + var5);
+   private HttpResponse readResponse(InputStream in) throws IOException {
+      String string = this.readLine(in);
+      String[] strings = Config.tokenize(string, " ");
+      if (strings.length < 3) {
+         throw new IOException("Invalid status line: " + string);
       }
 
-      String var7 = var6[0];
-      int var8 = Config.parseInt(var6[1], 0);
-      String var9 = var6[2];
-      LinkedHashMap var10 = new LinkedHashMap();
+      String string2 = strings[0];
+      int i = Config.parseInt(strings[1], 0);
+      String string3 = strings[2];
+      LinkedHashMap linkedHashMap = new LinkedHashMap();
 
       while (true) {
-         String var11 = this.readLine(var1);
-         if (var11.length() <= 0) {
-            byte[] var15 = null;
-            String var16 = (String)var10.get("Content-Length");
-            if (var16 != null) {
-               int var17 = Config.parseInt(var16, -1);
-               if (var17 > 0) {
-                  var15 = new byte[var17];
-                  this.readFull(var15, var1);
+         String string4 = this.readLine(in);
+         if (string4.length() <= 0) {
+            byte[] bytes = null;
+            String string5 = (String)linkedHashMap.get("Content-Length");
+            if (string5 != null) {
+               int j = Config.parseInt(string5, -1);
+               if (j > 0) {
+                  bytes = new byte[j];
+                  this.readFull(bytes, in);
                }
             } else {
-               String var18 = (String)var10.get("Transfer-Encoding");
-               if (Config.equals(var18, "chunked")) {
-                  var15 = this.readContentChunked(var1);
+               String string6 = (String)linkedHashMap.get("Transfer-Encoding");
+               if (Config.equals(string6, "chunked")) {
+                  bytes = this.readContentChunked(in);
                }
             }
 
-            return new HttpResponse(var8, var5, var10, var15);
+            return new HttpResponse(i, string, linkedHashMap, bytes);
          }
 
-         int var12 = var11.indexOf(":");
-         if (var12 > 0) {
-            String var13 = var11.substring(0, var12).trim();
-            String var14 = var11.substring(var12 + 1).trim();
-            var10.put(var13, var14);
+         int k = string4.indexOf(":");
+         if (k > 0) {
+            String string7 = string4.substring(0, k).trim();
+            String string8 = string4.substring(k + 1).trim();
+            linkedHashMap.put(string7, string8);
          }
       }
    }
 
-   private byte[] readContentChunked(InputStream var1) throws IOException {
-      ByteArrayOutputStream var5 = new ByteArrayOutputStream();
+   private byte[] readContentChunked(InputStream in) throws IOException {
+      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-      int var8;
+      int i;
       do {
-         String var6 = this.readLine(var1);
-         String[] var7 = Config.tokenize(var6, "; ");
-         var8 = Integer.parseInt(var7[0], 16);
-         byte[] var9 = new byte[var8];
-         this.readFull(var9, var1);
-         var5.write(var9);
-         this.readLine(var1);
-      } while (var8 != 0);
+         String string = this.readLine(in);
+         String[] strings = Config.tokenize(string, "; ");
+         i = Integer.parseInt(strings[0], 16);
+         byte[] bytes = new byte[i];
+         this.readFull(bytes, in);
+         byteArrayOutputStream.write(bytes);
+         this.readLine(in);
+      } while (i != 0);
 
-      return var5.toByteArray();
+      return byteArrayOutputStream.toByteArray();
    }
 
-   private void readFull(byte[] var1, InputStream var2) throws IOException {
-      int var7 = 0;
+   private void readFull(byte[] buf, InputStream in) throws IOException {
+      int i = 0;
 
-      while (var7 < var1.length) {
-         int var6 = var2.read(var1, var7, var1.length - var7);
-         if (var6 < 0) {
+      while (i < buf.length) {
+         int j = in.read(buf, i, buf.length - i);
+         if (j < 0) {
             throw new EOFException();
          }
 
-         var7 += var6;
+         i += j;
       }
    }
 
-   private String readLine(InputStream var1) throws IOException {
-      ByteArrayOutputStream var5 = new ByteArrayOutputStream();
-      int var6 = -1;
-      boolean var7 = false;
+   private String readLine(InputStream in) throws IOException {
+      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      int i = -1;
+      boolean bl = false;
 
       while (true) {
-         int var8 = var1.read();
-         if (var8 < 0) {
+         int j = in.read();
+         if (j < 0) {
             break;
          }
 
-         var5.write(var8);
-         if (var6 == 13 && var8 == 10) {
-            var7 = true;
+         byteArrayOutputStream.write(j);
+         if (i == 13 && j == 10) {
+            bl = true;
             break;
          }
 
-         var6 = var8;
+         i = j;
       }
 
-      byte[] var10 = var5.toByteArray();
-      String var9 = new String(var10, ASCII);
-      if (var7) {
-         var9 = var9.substring(0, var9.length() - 2);
+      byte[] bytes = byteArrayOutputStream.toByteArray();
+      String string = new String(bytes, ASCII);
+      if (bl) {
+         string = string.substring(0, string.length() - 2);
       }
 
-      return var9;
+      return string;
    }
 
    static {
-      long var20 = a ^ 7637533993369L;
-      long var10000 = var20 ^ 5120024432034644375L;
-      var10000 = var20 ^ 1460243355857750299L;
+      long l = a ^ 7637533993369L;
+      long m = l ^ 5120024432034644375L;
+      m = l ^ 1460243355857750299L;
    }
 }

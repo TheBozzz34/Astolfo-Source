@@ -21,7 +21,7 @@ public class Parsers {
       this.B.put(String.class, new StringParser());
    }
 
-   public Parser<?> get(Class<?> var1) {
-      return this.B.get(var1);
+   public Parser<?> get(Class<?> class2) {
+      return this.B.get(class2);
    }
 }

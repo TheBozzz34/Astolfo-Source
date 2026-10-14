@@ -33,8 +33,8 @@ public final class Radar extends Module {
    private RadarHud W;
    private int P;
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.SCREEN) {
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN) {
          if (this.P != this.size.asInt()) {
             this.L();
          }
@@ -54,18 +54,18 @@ public final class Radar extends Module {
                }
             }
 
-            int var5 = var1x.getResolution().getScaledHeight();
-            int var6 = Mouse.getX() * var1x.getResolution().getScaledWidth() / mc.displayWidth;
-            int var7 = var5 - Mouse.getY() * var5 / mc.displayHeight - 1;
+            int i = renderEvent.getResolution().getScaledHeight();
+            int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+            int k = i - Mouse.getY() * i / mc.displayHeight - 1;
             this.W.E(this.entities);
             this.W.Z(this.spacing.getValue());
-            this.W.render(var6, var7);
+            this.W.render(j, k);
             if (mc.currentScreen instanceof GuiChat && this.W.u_boolean() && Mouse.isButtonDown(0)) {
-               this.W.T(var6, var7);
+               this.W.T(j, k);
             }
 
-            if (Mouse.isButtonDown(0) && this.W.G(var6, var7)) {
-               this.W.F(true, var6, var7);
+            if (Mouse.isButtonDown(0) && this.W.G(j, k)) {
+               this.W.F(true, j, k);
             } else {
                this.W.x(false);
             }
@@ -74,8 +74,8 @@ public final class Radar extends Module {
    };
    private static final long c = 5243243149857L;
 
-   public Radar(Category var1) {
-      super(var1);
+   public Radar(Category category) {
+      super(category);
       this.addSettings(this.entities, this.posX, this.posY, this.spacing, this.size);
       this.setHidden(false);
    }

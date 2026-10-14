@@ -7,20 +7,20 @@ public final class FileNameSanitizer {
    };
    private static final long a = 16829074934235L;
 
-   public static String l(String var0) {
-      for (String var7 : H) {
-         var0 = var0.replace(var7, "-");
+   public static String l(String string) {
+      for (String string2 : H) {
+         string = string.replace(string2, "-");
       }
 
-      if (var0.length() > 128) {
-         var0 = var0.substring(0, 128);
+      if (string.length() > 128) {
+         string = string.substring(0, 128);
       }
 
-      return var0;
+      return string;
    }
 
    static {
-      long var15 = a ^ 124845994538724L;
-      long var10000 = var15 ^ 9036654228983386730L;
+      long l = a ^ 124845994538724L;
+      long m = l ^ 9036654228983386730L;
    }
 }

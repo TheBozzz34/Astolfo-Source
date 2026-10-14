@@ -14,44 +14,44 @@ import net.minecraft.world.World;
 public class ItemLilyPad extends ItemColored {
    private static final long d = 78110912262362L;
 
-   public ItemLilyPad(Block var1) {
-      super(var1, false);
+   public ItemLilyPad(Block block) {
+      super(block, false);
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      MovingObjectPosition var7 = this.getMovingObjectPositionFromPlayer(var2, var3, true);
-      if (var7 == null) {
-         return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+      if (movingObjectPosition == null) {
+         return itemStackIn;
       }
 
-      if (var7.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-         BlockPos var8 = var7.getBlockPos();
-         if (!var2.isBlockModifiable(var3, var8)) {
-            return var1;
+      if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+         BlockPos blockPos = movingObjectPosition.getBlockPos();
+         if (!worldIn.isBlockModifiable(playerIn, blockPos)) {
+            return itemStackIn;
          }
 
-         if (!var3.canPlayerEdit(var8.offset(var7.sideHit), var7.sideHit, var1)) {
-            return var1;
+         if (!playerIn.canPlayerEdit(blockPos.offset(movingObjectPosition.sideHit), movingObjectPosition.sideHit, itemStackIn)) {
+            return itemStackIn;
          }
 
-         BlockPos var9 = var8.up();
-         IBlockState var10 = var2.getBlockState(var8);
-         if (var10.getBlock().getMaterial() == Material.water && var10.getValue(BlockLiquid.LEVEL) == 0 && var2.isAirBlock(var9)) {
-            var2.setBlockState(var9, Blocks.waterlily.getDefaultState());
-            if (!var3.capabilities.isCreativeMode) {
-               var1.stackSize--;
+         BlockPos blockPos2 = blockPos.up();
+         IBlockState iBlockState = worldIn.getBlockState(blockPos);
+         if (iBlockState.getBlock().getMaterial() == Material.water && iBlockState.getValue(BlockLiquid.LEVEL) == 0 && worldIn.isAirBlock(blockPos2)) {
+            worldIn.setBlockState(blockPos2, Blocks.waterlily.getDefaultState());
+            if (!playerIn.capabilities.isCreativeMode) {
+               itemStackIn.stackSize--;
             }
 
-            var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
          }
       }
 
-      return var1;
+      return itemStackIn;
    }
 
    @Override
-   public int getColorFromItemStack(ItemStack var1, int var2) {
-      return Blocks.waterlily.getRenderColor(Blocks.waterlily.getStateFromMeta(var1.getMetadata()));
+   public int getColorFromItemStack(ItemStack stack, int renderPass) {
+      return Blocks.waterlily.getRenderColor(Blocks.waterlily.getStateFromMeta(stack.getMetadata()));
    }
 }

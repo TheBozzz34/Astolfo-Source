@@ -12,8 +12,8 @@ public enum Verdict {
    private static final Verdict[] D = new Verdict[]{K, H, N};
    private static final long a = 138916839629188L;
 
-   public static Optional<Verdict> from(String var0) throws NullPointerException {
-      Objects.requireNonNull(var0, "input");
-      return Arrays.stream(values()).filter(var1 -> var1.name().equalsIgnoreCase(var0)).findAny();
+   public static Optional<Verdict> from(String string) throws NullPointerException {
+      Objects.requireNonNull(string, "input");
+      return Arrays.stream(values()).filter(verdict -> verdict.name().equalsIgnoreCase(string)).findAny();
    }
 }

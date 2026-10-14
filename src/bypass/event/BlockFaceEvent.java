@@ -19,18 +19,18 @@ public class BlockFaceEvent extends CancellableEvent {
    private static final long a = 35915437786310L;
 
    public BlockFaceEvent(
-      Block var1, EnumFacing var2, BlockPos var3, IBlockAccess var4, double var5, double var7, double var9, double var11, double var13, double var15
+      Block block, EnumFacing enumFacing, BlockPos blockPos, IBlockAccess iBlockAccess, double d, double d2, double d3, double d4, double d5, double d6
    ) {
-      this.block = var1;
-      this.facing = var2;
-      this.pos = var3;
-      this.blockAccess = var4;
-      this.U = var13;
-      this.e = var15;
-      this.A = var5;
-      this.n = var7;
-      this.q = var9;
-      this.O = var11;
+      this.block = block;
+      this.facing = enumFacing;
+      this.pos = blockPos;
+      this.blockAccess = iBlockAccess;
+      this.U = d5;
+      this.e = d6;
+      this.A = d;
+      this.n = d2;
+      this.q = d3;
+      this.O = d4;
    }
 
    public Block getBlock() {

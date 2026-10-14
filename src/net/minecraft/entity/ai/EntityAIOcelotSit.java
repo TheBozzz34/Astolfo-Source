@@ -15,9 +15,9 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock {
    private static final long a = 32406947746096L;
    private static final long d = 7792198756694229000L;
 
-   public EntityAIOcelotSit(EntityOcelot var1, double var2) {
-      super(var1, var2, (int)d);
-      this.ocelot = var1;
+   public EntityAIOcelotSit(EntityOcelot ocelotIn, double d2) {
+      super(ocelotIn, d2, (int)d);
+      this.ocelot = ocelotIn;
    }
 
    @Override
@@ -54,24 +54,24 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock {
    }
 
    @Override
-   public boolean shouldMoveTo(World var1, BlockPos var2) {
-      if (!var1.isAirBlock(var2.up())) {
+   public boolean shouldMoveTo(World worldIn, BlockPos pos) {
+      if (!worldIn.isAirBlock(pos.up())) {
          return false;
       }
 
-      IBlockState var6 = var1.getBlockState(var2);
-      Block var7 = var6.getBlock();
-      if (var7 == Blocks.chest) {
-         TileEntity var8 = var1.getTileEntity(var2);
-         if (var8 instanceof TileEntityChest && ((TileEntityChest)var8).numPlayersUsing < 1) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      Block block = iBlockState.getBlock();
+      if (block == Blocks.chest) {
+         TileEntity tileEntity = worldIn.getTileEntity(pos);
+         if (tileEntity instanceof TileEntityChest && ((TileEntityChest)tileEntity).numPlayersUsing < 1) {
             return true;
          }
       } else {
-         if (var7 == Blocks.lit_furnace) {
+         if (block == Blocks.lit_furnace) {
             return true;
          }
 
-         if (var7 == Blocks.bed && var6.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD) {
+         if (block == Blocks.bed && iBlockState.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD) {
             return true;
          }
       }

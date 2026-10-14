@@ -19,8 +19,8 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
    private double otherPlayerMPPitch;
    private static final long bb = 116492934793263L;
 
-   public EntityOtherPlayerMP(World var1, GameProfile var2) {
-      super(var1, var2);
+   public EntityOtherPlayerMP(World worldIn, GameProfile gameProfileIn) {
+      super(worldIn, gameProfileIn);
       this.stepHeight = 0.0F;
       this.noClip = true;
       this.renderOffsetY = 0.25F;
@@ -28,18 +28,18 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
    }
 
    @Override
-   public boolean attackEntityFrom(DamageSource var1, float var2) {
+   public boolean attackEntityFrom(DamageSource source, float amount) {
       return true;
    }
 
    @Override
-   public void setPositionAndRotation2(double var1, double var3, double var5, float var7, float var8, int var9, boolean var10) {
-      this.otherPlayerMPX = var1;
-      this.otherPlayerMPY = var3;
-      this.otherPlayerMPZ = var5;
-      this.otherPlayerMPYaw = var7;
-      this.otherPlayerMPPitch = var8;
-      this.otherPlayerMPPosRotationIncrements = var9;
+   public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean bl) {
+      this.otherPlayerMPX = x;
+      this.otherPlayerMPY = y;
+      this.otherPlayerMPZ = z;
+      this.otherPlayerMPYaw = yaw;
+      this.otherPlayerMPPitch = pitch;
+      this.otherPlayerMPPosRotationIncrements = posRotationIncrements;
    }
 
    @Override
@@ -47,18 +47,18 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
       this.renderOffsetY = 0.0F;
       super.onUpdate();
       this.prevLimbSwingAmount = this.limbSwingAmount;
-      double var4 = this.posX - this.prevPosX;
-      double var6 = this.posZ - this.prevPosZ;
-      float var8 = MathHelper.sqrt_double(var4 * var4 + var6 * var6) * 4.0F;
-      if (var8 > 1.0F) {
-         var8 = 1.0F;
+      double d = this.posX - this.prevPosX;
+      double e = this.posZ - this.prevPosZ;
+      float f = MathHelper.sqrt_double(d * d + e * e) * 4.0F;
+      if (f > 1.0F) {
+         f = 1.0F;
       }
 
-      this.limbSwingAmount = this.limbSwingAmount + (var8 - this.limbSwingAmount) * 0.4F;
+      this.limbSwingAmount = this.limbSwingAmount + (f - this.limbSwingAmount) * 0.4F;
       this.limbSwing = this.limbSwing + this.limbSwingAmount;
       if (!this.isItemInUse && this.m() && this.inventory.mainInventory[this.inventory.currentItem] != null) {
-         ItemStack var9 = this.inventory.mainInventory[this.inventory.currentItem];
-         this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], var9.getItem().getMaxItemUseDuration(var9));
+         ItemStack itemStack = this.inventory.mainInventory[this.inventory.currentItem];
+         this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], itemStack.getItem().getMaxItemUseDuration(itemStack));
          this.isItemInUse = true;
       } else if (this.isItemInUse && !this.m()) {
          this.clearItemInUse();
@@ -69,62 +69,62 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
    @Override
    public void onLivingUpdate() {
       if (this.otherPlayerMPPosRotationIncrements > 0) {
-         double var4 = this.posX + (this.otherPlayerMPX - this.posX) / this.otherPlayerMPPosRotationIncrements;
-         double var6 = this.posY + (this.otherPlayerMPY - this.posY) / this.otherPlayerMPPosRotationIncrements;
-         double var8 = this.posZ + (this.otherPlayerMPZ - this.posZ) / this.otherPlayerMPPosRotationIncrements;
-         double var10 = this.otherPlayerMPYaw - this.rotationYaw;
+         double d = this.posX + (this.otherPlayerMPX - this.posX) / this.otherPlayerMPPosRotationIncrements;
+         double e = this.posY + (this.otherPlayerMPY - this.posY) / this.otherPlayerMPPosRotationIncrements;
+         double d2 = this.posZ + (this.otherPlayerMPZ - this.posZ) / this.otherPlayerMPPosRotationIncrements;
+         double d3 = this.otherPlayerMPYaw - this.rotationYaw;
 
-         while (var10 < -180.0) {
-            var10 += 360.0;
+         while (d3 < -180.0) {
+            d3 += 360.0;
          }
 
-         while (var10 >= 180.0) {
-            var10 -= 360.0;
+         while (d3 >= 180.0) {
+            d3 -= 360.0;
          }
 
-         this.rotationYaw = (float)(this.rotationYaw + var10 / this.otherPlayerMPPosRotationIncrements);
+         this.rotationYaw = (float)(this.rotationYaw + d3 / this.otherPlayerMPPosRotationIncrements);
          this.rotationPitch = (float)(this.rotationPitch + (this.otherPlayerMPPitch - this.rotationPitch) / this.otherPlayerMPPosRotationIncrements);
          this.otherPlayerMPPosRotationIncrements--;
-         this.setPosition(var4, var6, var8);
+         this.setPosition(d, e, d2);
          this.setRotation(this.rotationYaw, this.rotationPitch);
       }
 
       this.prevCameraYaw = this.cameraYaw;
       this.L();
-      float var12 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-      float var5 = (float)Math.atan(-this.motionY * 0.2F) * 15.0F;
-      if (var12 > 0.1F) {
-         var12 = 0.1F;
+      float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+      float g = (float)Math.atan(-this.motionY * 0.2F) * 15.0F;
+      if (f > 0.1F) {
+         f = 0.1F;
       }
 
       if (!this.onGround || this.getHealth() <= 0.0F) {
-         var12 = 0.0F;
+         f = 0.0F;
       }
 
       if (this.onGround || this.getHealth() <= 0.0F) {
-         var5 = 0.0F;
+         g = 0.0F;
       }
 
-      this.cameraYaw = this.cameraYaw + (var12 - this.cameraYaw) * 0.4F;
-      this.cameraPitch = this.cameraPitch + (var5 - this.cameraPitch) * 0.8F;
+      this.cameraYaw = this.cameraYaw + (f - this.cameraYaw) * 0.4F;
+      this.cameraPitch = this.cameraPitch + (g - this.cameraPitch) * 0.8F;
    }
 
    @Override
-   public void setCurrentItemOrArmor(int var1, ItemStack var2) {
-      if (var1 == 0) {
-         this.inventory.mainInventory[this.inventory.currentItem] = var2;
+   public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
+      if (slotIn == 0) {
+         this.inventory.mainInventory[this.inventory.currentItem] = stack;
       } else {
-         this.inventory.armorInventory[var1 - 1] = var2;
+         this.inventory.armorInventory[slotIn - 1] = stack;
       }
    }
 
    @Override
-   public void addChatMessage(IChatComponent var1) {
-      Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(var1);
+   public void addChatMessage(IChatComponent component) {
+      Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
    }
 
    @Override
-   public boolean canCommandSenderUseCommand(int var1, String var2) {
+   public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
       return false;
    }
 

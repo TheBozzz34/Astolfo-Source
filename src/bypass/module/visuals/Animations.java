@@ -19,8 +19,8 @@ public final class Animations extends Module {
       .add("Z", new NumberSetting<>("Z", "Z coordinate", 0.0F, -2.0F, 2.0F))
       .build();
 
-   public Animations(Category var1) {
-      super(var1);
+   public Animations(Category category) {
+      super(category);
       this.addSettings(position, mode, spin, speed);
       this.setHidden(false);
    }

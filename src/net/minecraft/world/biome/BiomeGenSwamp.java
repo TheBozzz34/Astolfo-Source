@@ -13,8 +13,8 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 public class BiomeGenSwamp extends BiomeGenBase {
    private static final long bb = 50904527362148L;
 
-   public BiomeGenSwamp(int var1) {
-      super(var1);
+   public BiomeGenSwamp(int id) {
+      super(id);
       this.theBiomeDecorator.treesPerChunk = 2;
       this.theBiomeDecorator.flowersPerChunk = 1;
       this.theBiomeDecorator.deadBushPerChunk = 1;
@@ -30,39 +30,39 @@ public class BiomeGenSwamp extends BiomeGenBase {
    }
 
    @Override
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
       return this.worldGeneratorSwamp;
    }
 
    @Override
-   public int getGrassColorAtPos(BlockPos var1) {
-      double var5 = GRASS_COLOR_NOISE.func_151601_a(var1.getX() * 0.0225, var1.getZ() * 0.0225);
-      return var5 < -0.1 ? 5011004 : 6975545;
+   public int getGrassColorAtPos(BlockPos pos) {
+      double d = GRASS_COLOR_NOISE.func_151601_a(pos.getX() * 0.0225, pos.getZ() * 0.0225);
+      return d < -0.1 ? 5011004 : 6975545;
    }
 
    @Override
-   public int getFoliageColorAtPos(BlockPos var1) {
+   public int getFoliageColorAtPos(BlockPos pos) {
       return 6975545;
    }
 
    @Override
-   public BlockFlower.EnumFlowerType pickRandomFlower(Random var1, BlockPos var2) {
+   public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
       return BlockFlower.EnumFlowerType.BLUE_ORCHID;
    }
 
    @Override
-   public void genTerrainBlocks(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
-      double var11 = GRASS_COLOR_NOISE.func_151601_a(var4 * 0.25, var5 * 0.25);
-      if (var11 > 0.0) {
-         int var13 = var4 & 15;
-         int var14 = var5 & 15;
+   public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
+      double d = GRASS_COLOR_NOISE.func_151601_a(x * 0.25, z * 0.25);
+      if (d > 0.0) {
+         int i = x & 15;
+         int j = z & 15;
 
-         for (int var15 = 255; var15 >= 0; var15--) {
-            if (var3.getBlockState(var14, var15, var13).getBlock().getMaterial() != Material.air) {
-               if (var15 == 62 && var3.getBlockState(var14, var15, var13).getBlock() != Blocks.water) {
-                  var3.setBlockState(var14, var15, var13, Blocks.water.getDefaultState());
-                  if (var11 < 0.12) {
-                     var3.setBlockState(var14, var15 + 1, var13, Blocks.waterlily.getDefaultState());
+         for (int k = 255; k >= 0; k--) {
+            if (chunkPrimerIn.getBlockState(j, k, i).getBlock().getMaterial() != Material.air) {
+               if (k == 62 && chunkPrimerIn.getBlockState(j, k, i).getBlock() != Blocks.water) {
+                  chunkPrimerIn.setBlockState(j, k, i, Blocks.water.getDefaultState());
+                  if (d < 0.12) {
+                     chunkPrimerIn.setBlockState(j, k + 1, i, Blocks.waterlily.getDefaultState());
                   }
                }
                break;
@@ -70,6 +70,6 @@ public class BiomeGenSwamp extends BiomeGenBase {
          }
       }
 
-      this.generateBiomeTerrain(var1, var2, var3, var4, var5, var6);
+      this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
    }
 }

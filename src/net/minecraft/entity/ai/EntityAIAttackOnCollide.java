@@ -21,47 +21,47 @@ public class EntityAIAttackOnCollide extends EntityAIBase {
    private double targetZ;
    private static final long b = 92094053540383L;
 
-   public EntityAIAttackOnCollide(EntityCreature var1, Class<? extends Entity> var2, double var3, boolean var5) {
-      this(var1, var3, var5);
-      this.classTarget = var2;
+   public EntityAIAttackOnCollide(EntityCreature creature, Class<? extends Entity> targetClass, double speedIn, boolean useLongMemory) {
+      this(creature, speedIn, useLongMemory);
+      this.classTarget = targetClass;
    }
 
-   public EntityAIAttackOnCollide(EntityCreature var1, double var2, boolean var4) {
-      this.attacker = var1;
-      this.worldObj = var1.worldObj;
-      this.speedTowardsTarget = var2;
-      this.longMemory = var4;
+   public EntityAIAttackOnCollide(EntityCreature creature, double speedIn, boolean useLongMemory) {
+      this.attacker = creature;
+      this.worldObj = creature.worldObj;
+      this.speedTowardsTarget = speedIn;
+      this.longMemory = useLongMemory;
       this.setMutexBits(3);
    }
 
    @Override
    public boolean shouldExecute() {
-      EntityLivingBase var4 = this.attacker.getAttackTarget();
-      if (var4 == null) {
+      EntityLivingBase entityLivingBase = this.attacker.getAttackTarget();
+      if (entityLivingBase == null) {
          return false;
       }
 
-      if (!var4.isEntityAlive()) {
+      if (!entityLivingBase.isEntityAlive()) {
          return false;
       }
 
-      if (this.classTarget != null && !this.classTarget.isAssignableFrom(var4.getClass())) {
+      if (this.classTarget != null && !this.classTarget.isAssignableFrom(entityLivingBase.getClass())) {
          return false;
       }
 
-      this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(var4);
+      this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(entityLivingBase);
       return this.entityPathEntity != null;
    }
 
    @Override
    public boolean continueExecuting() {
-      EntityLivingBase var4 = this.attacker.getAttackTarget();
-      return var4 == null
+      EntityLivingBase entityLivingBase = this.attacker.getAttackTarget();
+      return entityLivingBase == null
          ? false
          : (
-            !var4.isEntityAlive()
+            !entityLivingBase.isEntityAlive()
                ? false
-               : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(var4)))
+               : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(entityLivingBase)))
          );
    }
 
@@ -78,45 +78,45 @@ public class EntityAIAttackOnCollide extends EntityAIBase {
 
    @Override
    public void updateTask() {
-      EntityLivingBase var4 = this.attacker.getAttackTarget();
-      this.attacker.getLookHelper().setLookPositionWithEntity(var4, 30.0F, 30.0F);
-      double var5 = this.attacker.getDistanceSq(var4.posX, var4.getEntityBoundingBox().minY, var4.posZ);
-      double var7 = this.func_179512_a(var4);
+      EntityLivingBase entityLivingBase = this.attacker.getAttackTarget();
+      this.attacker.getLookHelper().setLookPositionWithEntity(entityLivingBase, 30.0F, 30.0F);
+      double d = this.attacker.getDistanceSq(entityLivingBase.posX, entityLivingBase.getEntityBoundingBox().minY, entityLivingBase.posZ);
+      double e = this.func_179512_a(entityLivingBase);
       this.delayCounter--;
-      if ((this.longMemory || this.attacker.getEntitySenses().canSee(var4))
+      if ((this.longMemory || this.attacker.getEntitySenses().canSee(entityLivingBase))
          && this.delayCounter <= 0
          && (
             this.targetX == 0.0 && this.targetY == 0.0 && this.targetZ == 0.0
-               || var4.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0
+               || entityLivingBase.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0
                || this.attacker.getRNG().nextFloat() < 0.05F
          )) {
-         this.targetX = var4.posX;
-         this.targetY = var4.getEntityBoundingBox().minY;
-         this.targetZ = var4.posZ;
+         this.targetX = entityLivingBase.posX;
+         this.targetY = entityLivingBase.getEntityBoundingBox().minY;
+         this.targetZ = entityLivingBase.posZ;
          this.delayCounter = 4 + this.attacker.getRNG().nextInt(7);
-         if (var5 > 1024.0) {
+         if (d > 1024.0) {
             this.delayCounter += 10;
-         } else if (var5 > 256.0) {
+         } else if (d > 256.0) {
             this.delayCounter += 5;
          }
 
-         if (!this.attacker.getNavigator().tryMoveToEntityLiving(var4, this.speedTowardsTarget)) {
+         if (!this.attacker.getNavigator().tryMoveToEntityLiving(entityLivingBase, this.speedTowardsTarget)) {
             this.delayCounter += 15;
          }
       }
 
       this.attackTick = Math.max(this.attackTick - 1, 0);
-      if (var5 <= var7 && this.attackTick <= 0) {
+      if (d <= e && this.attackTick <= 0) {
          this.attackTick = 20;
          if (this.attacker.getHeldItem() != null) {
             this.attacker.swingItem();
          }
 
-         this.attacker.attackEntityAsMob(var4);
+         this.attacker.attackEntityAsMob(entityLivingBase);
       }
    }
 
-   public double func_179512_a(EntityLivingBase var1) {
-      return this.attacker.width * 2.0F * this.attacker.width * 2.0F + var1.width;
+   public double func_179512_a(EntityLivingBase attackTarget) {
+      return this.attacker.width * 2.0F * this.attacker.width * 2.0F + attackTarget.width;
    }
 }

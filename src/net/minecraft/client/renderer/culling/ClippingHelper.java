@@ -7,28 +7,28 @@ public class ClippingHelper {
    public float[] clippingMatrix = new float[16];
    private static final long a = 118081372493390L;
 
-   private float dot(float[] var1, float var2, float var3, float var4) {
-      return var1[0] * var2 + var1[1] * var3 + var1[2] * var4 + var1[3];
+   private float dot(float[] floats, float f, float g, float h) {
+      return floats[0] * f + floats[1] * g + floats[2] * h + floats[3];
    }
 
-   public boolean isBoxInFrustum(double var1, double var3, double var5, double var7, double var9, double var11) {
-      float var16 = (float)var1;
-      float var17 = (float)var3;
-      float var18 = (float)var5;
-      float var19 = (float)var7;
-      float var20 = (float)var9;
-      float var21 = (float)var11;
+   public boolean isBoxInFrustum(double d, double d2, double d3, double d4, double d5, double d6) {
+      float f = (float)d;
+      float g = (float)d2;
+      float h = (float)d3;
+      float f2 = (float)d4;
+      float f3 = (float)d5;
+      float f4 = (float)d6;
 
-      for (int var22 = 0; var22 < 6; var22++) {
-         float[] var23 = this.frustum[var22];
-         if (this.dot(var23, var16, var17, var18) <= 0.0F
-            && this.dot(var23, var19, var17, var18) <= 0.0F
-            && this.dot(var23, var16, var20, var18) <= 0.0F
-            && this.dot(var23, var19, var20, var18) <= 0.0F
-            && this.dot(var23, var16, var17, var21) <= 0.0F
-            && this.dot(var23, var19, var17, var21) <= 0.0F
-            && this.dot(var23, var16, var20, var21) <= 0.0F
-            && this.dot(var23, var19, var20, var21) <= 0.0F) {
+      for (int i = 0; i < 6; i++) {
+         float[] floats = this.frustum[i];
+         if (this.dot(floats, f, g, h) <= 0.0F
+            && this.dot(floats, f2, g, h) <= 0.0F
+            && this.dot(floats, f, f3, h) <= 0.0F
+            && this.dot(floats, f2, f3, h) <= 0.0F
+            && this.dot(floats, f, g, f4) <= 0.0F
+            && this.dot(floats, f2, g, f4) <= 0.0F
+            && this.dot(floats, f, f3, f4) <= 0.0F
+            && this.dot(floats, f2, f3, f4) <= 0.0F) {
             return false;
          }
       }

@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 public class ScoreDummyCriteria implements IScoreObjectiveCriteria {
    private final String dummyName;
 
-   public ScoreDummyCriteria(String var1) {
-      this.dummyName = var1;
-      IScoreObjectiveCriteria.INSTANCES.put(var1, this);
+   public ScoreDummyCriteria(String name) {
+      this.dummyName = name;
+      IScoreObjectiveCriteria.INSTANCES.put(name, this);
    }
 
    @Override
@@ -17,7 +17,7 @@ public class ScoreDummyCriteria implements IScoreObjectiveCriteria {
    }
 
    @Override
-   public int setScore(List<EntityPlayer> var1) {
+   public int setScore(List<EntityPlayer> list) {
       return 0;
    }
 

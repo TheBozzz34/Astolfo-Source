@@ -15,8 +15,8 @@ public class BiomeGenSavanna extends BiomeGenBase {
    private static final WorldGenSavannaTree field_150627_aC = new WorldGenSavannaTree(false);
    private static final long bb = 28841972803393L;
 
-   public BiomeGenSavanna(int var1) {
-      super(var1);
+   public BiomeGenSavanna(int id) {
+      super(id);
       this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 1, 2, 6));
       this.theBiomeDecorator.treesPerChunk = 1;
       this.theBiomeDecorator.flowersPerChunk = 4;
@@ -24,60 +24,60 @@ public class BiomeGenSavanna extends BiomeGenBase {
    }
 
    @Override
-   public WorldGenAbstractTree genBigTreeChance(Random var1) {
-      return var1.nextInt(5) > 0 ? field_150627_aC : this.worldGeneratorTrees;
+   public WorldGenAbstractTree genBigTreeChance(Random rand) {
+      return rand.nextInt(5) > 0 ? field_150627_aC : this.worldGeneratorTrees;
    }
 
    @Override
-   public BiomeGenBase createMutatedBiome(int var1) {
-      BiomeGenSavanna.Mutated var2 = new BiomeGenSavanna.Mutated(var1, this);
-      var2.temperature = (this.temperature + 1.0F) * 0.5F;
-      var2.minHeight = this.minHeight * 0.5F + 0.3F;
-      var2.maxHeight = this.maxHeight * 0.5F + 1.2F;
-      return var2;
+   public BiomeGenBase createMutatedBiome(int i) {
+      BiomeGenSavanna.Mutated mutated = new BiomeGenSavanna.Mutated(i, this);
+      mutated.temperature = (this.temperature + 1.0F) * 0.5F;
+      mutated.minHeight = this.minHeight * 0.5F + 0.3F;
+      mutated.maxHeight = this.maxHeight * 0.5F + 1.2F;
+      return mutated;
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
       DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
 
-      for (int var7 = 0; var7 < 7; var7++) {
-         int var8 = var2.nextInt(16) + 8;
-         int var9 = var2.nextInt(16) + 8;
-         int var10 = var2.nextInt(var1.getHeight(var3.add(var8, 0, var9)).getY() + 32);
-         DOUBLE_PLANT_GENERATOR.generate(var1, var2, var3.add(var8, var10, var9));
+      for (int i = 0; i < 7; i++) {
+         int j = rand.nextInt(16) + 8;
+         int k = rand.nextInt(16) + 8;
+         int l = rand.nextInt(worldIn.getHeight(pos.add(j, 0, k)).getY() + 32);
+         DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
       }
 
-      super.decorate(var1, var2, var3);
+      super.decorate(worldIn, rand, pos);
    }
 
    public static class Mutated extends BiomeGenMutated {
       private static final long bb = 123286459604593L;
 
-      public Mutated(int var1, BiomeGenBase var2) {
-         super(var1, var2);
+      public Mutated(int i, BiomeGenBase biomeGenBase) {
+         super(i, biomeGenBase);
          this.theBiomeDecorator.treesPerChunk = 2;
          this.theBiomeDecorator.flowersPerChunk = 2;
          this.theBiomeDecorator.grassPerChunk = 5;
       }
 
       @Override
-      public void genTerrainBlocks(World var1, Random var2, ChunkPrimer var3, int var4, int var5, double var6) {
+      public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
          this.topBlock = Blocks.grass.getDefaultState();
          this.fillerBlock = Blocks.dirt.getDefaultState();
-         if (var6 > 1.75) {
+         if (noiseVal > 1.75) {
             this.topBlock = Blocks.stone.getDefaultState();
             this.fillerBlock = Blocks.stone.getDefaultState();
-         } else if (var6 > -0.5) {
+         } else if (noiseVal > -0.5) {
             this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
          }
 
-         this.generateBiomeTerrain(var1, var2, var3, var4, var5, var6);
+         this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
       }
 
       @Override
-      public void decorate(World var1, Random var2, BlockPos var3) {
-         this.theBiomeDecorator.decorate(var1, var2, this, var3);
+      public void decorate(World worldIn, Random rand, BlockPos pos) {
+         this.theBiomeDecorator.decorate(worldIn, rand, this, pos);
       }
    }
 }

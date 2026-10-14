@@ -12,23 +12,23 @@ public class NBTTagString extends NBTBase {
       this.data = "";
    }
 
-   public NBTTagString(String var1) {
-      this.data = var1;
-      if (var1 == null) {
+   public NBTTagString(String data) {
+      this.data = data;
+      if (data == null) {
          throw new IllegalArgumentException("Empty string not allowed");
       }
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
-      var1.writeUTF(this.data);
+   public void write(DataOutput output) throws IOException {
+      output.writeUTF(this.data);
    }
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(288L);
-      this.data = var1.readUTF();
-      var3.read(16 * this.data.length());
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(288L);
+      this.data = input.readUTF();
+      sizeTracker.read(16 * this.data.length());
    }
 
    @Override
@@ -52,13 +52,13 @@ public class NBTTagString extends NBTBase {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!super.equals(var1)) {
+   public boolean equals(Object object) {
+      if (!super.equals(object)) {
          return false;
       }
 
-      NBTTagString var5 = (NBTTagString)var1;
-      return this.data == null && var5.data == null || this.data != null && this.data.equals(var5.data);
+      NBTTagString nbtTagString = (NBTTagString)object;
+      return this.data == null && nbtTagString.data == null || this.data != null && this.data.equals(nbtTagString.data);
    }
 
    @Override

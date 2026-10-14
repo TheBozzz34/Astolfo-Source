@@ -6,18 +6,18 @@ public class StringUtils {
    private static final Pattern patternControlCode = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
    private static final long a = 44658011149839L;
 
-   public static String ticksToElapsedTime(int var0) {
-      int var3 = var0 / 20;
-      int var4 = var3 / 60;
-      var3 %= 60;
-      return var3 < 10 ? var4 + ":0" + var3 : var4 + ":" + var3;
+   public static String ticksToElapsedTime(int ticks) {
+      int i = ticks / 20;
+      int j = i / 60;
+      i %= 60;
+      return i < 10 ? j + ":0" + i : j + ":" + i;
    }
 
-   public static String stripControlCodes(String var0) {
-      return patternControlCode.matcher(var0).replaceAll("");
+   public static String stripControlCodes(String text) {
+      return patternControlCode.matcher(text).replaceAll("");
    }
 
-   public static boolean isNullOrEmpty(String var0) {
-      return org.apache.commons.lang3.StringUtils.isEmpty(var0);
+   public static boolean isNullOrEmpty(String string) {
+      return org.apache.commons.lang3.StringUtils.isEmpty(string);
    }
 }

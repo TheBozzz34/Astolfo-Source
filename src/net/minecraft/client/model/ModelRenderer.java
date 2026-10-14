@@ -39,72 +39,72 @@ public class ModelRenderer {
    private static final long b = 53198452871995L;
    private static final long c = 636454045199897344L;
 
-   public ModelRenderer(ModelBase var1, String var2) {
+   public ModelRenderer(ModelBase model, String boxNameIn) {
       this.textureWidth = 64.0F;
       this.textureHeight = 32.0F;
       this.showModel = true;
       this.cubeList = Lists.newArrayList();
-      this.baseModel = var1;
-      var1.boxList.add(this);
-      this.boxName = var2;
-      this.setTextureSize(var1.textureWidth, var1.textureHeight);
+      this.baseModel = model;
+      model.boxList.add(this);
+      this.boxName = boxNameIn;
+      this.setTextureSize(model.textureWidth, model.textureHeight);
    }
 
-   public ModelRenderer(ModelBase var1) {
-      this(var1, (String)null);
+   public ModelRenderer(ModelBase model) {
+      this(model, (String)null);
    }
 
-   public ModelRenderer(ModelBase var1, int var2, int var3) {
-      this(var1);
-      this.setTextureOffset(var2, var3);
+   public ModelRenderer(ModelBase model, int texOffX, int texOffY) {
+      this(model);
+      this.setTextureOffset(texOffX, texOffY);
    }
 
-   public void addChild(ModelRenderer var1) {
+   public void addChild(ModelRenderer renderer) {
       if (this.childModels == null) {
          this.childModels = Lists.newArrayList();
       }
 
-      this.childModels.add(var1);
+      this.childModels.add(renderer);
    }
 
-   public ModelRenderer setTextureOffset(int var1, int var2) {
-      this.textureOffsetX = var1;
-      this.textureOffsetY = var2;
+   public ModelRenderer setTextureOffset(int x, int y) {
+      this.textureOffsetX = x;
+      this.textureOffsetY = y;
       return this;
    }
 
-   public ModelRenderer addBox(String var1, float var2, float var3, float var4, int var5, int var6, int var7) {
-      var1 = this.boxName + "." + var1;
-      TextureOffset var8 = this.baseModel.getTextureOffset(var1);
-      this.setTextureOffset(var8.textureOffsetX, var8.textureOffsetY);
-      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, var2, var3, var4, var5, var6, var7, 0.0F).setBoxName(var1));
+   public ModelRenderer addBox(String partName, float offX, float offY, float offZ, int width, int height, int depth) {
+      partName = this.boxName + "." + partName;
+      TextureOffset textureOffset = this.baseModel.getTextureOffset(partName);
+      this.setTextureOffset(textureOffset.textureOffsetX, textureOffset.textureOffsetY);
+      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, offX, offY, offZ, width, height, depth, 0.0F).setBoxName(partName));
       return this;
    }
 
-   public ModelRenderer addBox(float var1, float var2, float var3, int var4, int var5, int var6) {
-      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, var1, var2, var3, var4, var5, var6, 0.0F));
+   public ModelRenderer addBox(float offX, float offY, float offZ, int width, int height, int depth) {
+      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, offX, offY, offZ, width, height, depth, 0.0F));
       return this;
    }
 
-   public ModelRenderer addBox(float var1, float var2, float var3, int var4, int var5, int var6, boolean var7) {
-      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, var1, var2, var3, var4, var5, var6, 0.0F, var7));
+   public ModelRenderer addBox(float f, float g, float h, int i, int j, int k, boolean bl) {
+      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, f, g, h, i, j, k, 0.0F, bl));
       return this;
    }
 
-   public void addBox(float var1, float var2, float var3, int var4, int var5, int var6, float var7) {
-      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, var1, var2, var3, var4, var5, var6, var7));
+   public void addBox(float f, float g, float h, int width, int height, int depth, float scaleFactor) {
+      this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, f, g, h, width, height, depth, scaleFactor));
    }
 
-   public void setRotationPoint(float var1, float var2, float var3) {
-      this.rotationPointX = var1;
-      this.rotationPointY = var2;
-      this.rotationPointZ = var3;
+   public void setRotationPoint(float rotationPointXIn, float rotationPointYIn, float rotationPointZIn) {
+      this.rotationPointX = rotationPointXIn;
+      this.rotationPointY = rotationPointYIn;
+      this.rotationPointZ = rotationPointZIn;
    }
 
-   public void render(float var1) {
+   public void render(float f) {
       if (!this.K && this.showModel) {
          if (!this.U) {
-            this.compileDisplayList(var1);
+            this.compileDisplayList(f);
          }
 
          GlStateManager.translate(this.offsetX, this.offsetY, this.offsetZ);
@@ -112,24 +112,24 @@ public class ModelRenderer {
             if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F) {
                GlStateManager.callList(this.displayList);
                if (this.childModels != null) {
-                  for (int var7 = 0; var7 < this.childModels.size(); var7++) {
-                     this.childModels.get(var7).render(var1);
+                  for (int i = 0; i < this.childModels.size(); i++) {
+                     this.childModels.get(i).render(f);
                   }
                }
             } else {
-               GlStateManager.translate(this.rotationPointX * var1, this.rotationPointY * var1, this.rotationPointZ * var1);
+               GlStateManager.translate(this.rotationPointX * f, this.rotationPointY * f, this.rotationPointZ * f);
                GlStateManager.callList(this.displayList);
                if (this.childModels != null) {
-                  for (int var6 = 0; var6 < this.childModels.size(); var6++) {
-                     this.childModels.get(var6).render(var1);
+                  for (int j = 0; j < this.childModels.size(); j++) {
+                     this.childModels.get(j).render(f);
                   }
                }
 
-               GlStateManager.translate(-this.rotationPointX * var1, -this.rotationPointY * var1, -this.rotationPointZ * var1);
+               GlStateManager.translate(-this.rotationPointX * f, -this.rotationPointY * f, -this.rotationPointZ * f);
             }
          } else {
             GlStateManager.pushMatrix();
-            GlStateManager.translate(this.rotationPointX * var1, this.rotationPointY * var1, this.rotationPointZ * var1);
+            GlStateManager.translate(this.rotationPointX * f, this.rotationPointY * f, this.rotationPointZ * f);
             if (this.rotateAngleZ != 0.0F) {
                GlStateManager.rotate(this.rotateAngleZ * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
             }
@@ -144,8 +144,8 @@ public class ModelRenderer {
 
             GlStateManager.callList(this.displayList);
             if (this.childModels != null) {
-               for (int var5 = 0; var5 < this.childModels.size(); var5++) {
-                  this.childModels.get(var5).render(var1);
+               for (int k = 0; k < this.childModels.size(); k++) {
+                  this.childModels.get(k).render(f);
                }
             }
 
@@ -156,14 +156,14 @@ public class ModelRenderer {
       }
    }
 
-   public void renderWithRotation(float var1) {
+   public void renderWithRotation(float f) {
       if (!this.K && this.showModel) {
          if (!this.U) {
-            this.compileDisplayList(var1);
+            this.compileDisplayList(f);
          }
 
          GlStateManager.pushMatrix();
-         GlStateManager.translate(this.rotationPointX * var1, this.rotationPointY * var1, this.rotationPointZ * var1);
+         GlStateManager.translate(this.rotationPointX * f, this.rotationPointY * f, this.rotationPointZ * f);
          if (this.rotateAngleY != 0.0F) {
             GlStateManager.rotate(this.rotateAngleY * (180.0F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
          }
@@ -181,14 +181,14 @@ public class ModelRenderer {
       }
    }
 
-   public void postRender(float var1) {
+   public void postRender(float scale) {
       if (!this.K && this.showModel) {
          if (!this.U) {
-            this.compileDisplayList(var1);
+            this.compileDisplayList(scale);
          }
 
          if (this.rotateAngleX != 0.0F || this.rotateAngleY != 0.0F || this.rotateAngleZ != 0.0F) {
-            GlStateManager.translate(this.rotationPointX * var1, this.rotationPointY * var1, this.rotationPointZ * var1);
+            GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
             if (this.rotateAngleZ != 0.0F) {
                GlStateManager.rotate(this.rotateAngleZ * (180.0F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
             }
@@ -201,41 +201,41 @@ public class ModelRenderer {
                GlStateManager.rotate(this.rotateAngleX * (180.0F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
             }
          } else if (this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F) {
-            GlStateManager.translate(this.rotationPointX * var1, this.rotationPointY * var1, this.rotationPointZ * var1);
+            GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
          }
       }
    }
 
-   private void compileDisplayList(float var1) {
+   private void compileDisplayList(float scale) {
       if (this.displayList == 0) {
-         this.savedScale = var1;
+         this.savedScale = scale;
          this.displayList = GLAllocation.generateDisplayLists(1);
       }
 
       GL11.glNewList(this.displayList, (int)c);
-      WorldRenderer var5 = Tessellator.getInstance().getWorldRenderer();
+      WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
 
-      for (int var6 = 0; var6 < this.cubeList.size(); var6++) {
-         this.cubeList.get(var6).render(var5, var1);
+      for (int i = 0; i < this.cubeList.size(); i++) {
+         this.cubeList.get(i).render(worldRenderer, scale);
       }
 
-      for (int var8 = 0; var8 < this.spriteList.size(); var8++) {
-         ModelSprite var7 = (ModelSprite)this.spriteList.get(var8);
-         var7.render(Tessellator.getInstance(), var1);
+      for (int j = 0; j < this.spriteList.size(); j++) {
+         ModelSprite modelSprite = (ModelSprite)this.spriteList.get(j);
+         modelSprite.render(Tessellator.getInstance(), scale);
       }
 
       GL11.glEndList();
       this.U = true;
    }
 
-   public ModelRenderer setTextureSize(int var1, int var2) {
-      this.textureWidth = var1;
-      this.textureHeight = var2;
+   public ModelRenderer setTextureSize(int textureWidthIn, int textureHeightIn) {
+      this.textureWidth = textureWidthIn;
+      this.textureHeight = textureHeightIn;
       return this;
    }
 
-   public void addSprite(float var1, float var2, float var3, int var4, int var5, int var6, float var7) {
-      this.spriteList.add(new ModelSprite(this, this.textureOffsetX, this.textureOffsetY, var1, var2, var3, var4, var5, var6, var7));
+   public void addSprite(float f, float g, float h, int i, int j, int k, float f2) {
+      this.spriteList.add(new ModelSprite(this, this.textureOffsetX, this.textureOffsetY, f, g, h, i, j, k, f2));
    }
 
    public boolean getCompiled() {

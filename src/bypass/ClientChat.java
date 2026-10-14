@@ -17,63 +17,63 @@ public enum ClientChat {
    private static final ClientChat[] C = new ClientChat[]{CHAT};
    private static final long a = 103264722357314L;
 
-   public void I(String var1) {
+   public void I(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(var1);
+         UnusedTeleportCommand.f(string);
       } else {
-         this.y(var1).N().b();
+         this.y(string).N().b();
       }
    }
 
-   public void R(String var1) {
+   public void R(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(var1);
+         UnusedTeleportCommand.f(string);
       } else {
-         this.y(var1).M(EnumChatFormatting.GREEN).N().b();
+         this.y(string).M(EnumChatFormatting.GREEN).N().b();
       }
    }
 
-   public void P(String var1) {
+   public void P(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(var1);
+         UnusedTeleportCommand.f(string);
       } else {
-         this.y(var1).M(EnumChatFormatting.YELLOW).N().b();
+         this.y(string).M(EnumChatFormatting.YELLOW).N().b();
       }
    }
 
-   public void f(String var1) {
+   public void f(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(var1);
+         UnusedTeleportCommand.f(string);
       } else {
-         this.y(var1).M(EnumChatFormatting.RED).N().b();
+         this.y(string).M(EnumChatFormatting.RED).N().b();
       }
    }
 
-   public String h(String var1) {
-      return Character.toUpperCase(var1.charAt(0)) + var1.substring(1);
+   public String h(String string) {
+      return Character.toUpperCase(string.charAt(0)) + string.substring(1);
    }
 
    public ChatMessageBuilder U() {
-      ChatMessageBuilder var1 = new ChatMessageBuilder(this);
-      ChatMessageBuilder.Y(var1).appendSibling(this.Y);
-      return var1;
+      ChatMessageBuilder chatMessageBuilder = new ChatMessageBuilder(this);
+      ChatMessageBuilder.Y(chatMessageBuilder).appendSibling(this.Y);
+      return chatMessageBuilder;
    }
 
-   public ChatMessageBuilder D(boolean var1, boolean var2) {
-      ChatMessageBuilder var5 = var1 ? this.U() : new ChatMessageBuilder(this);
-      ChatMessageBuilder.m(var5, var2);
-      return var5;
+   public ChatMessageBuilder D(boolean bl, boolean bl2) {
+      ChatMessageBuilder chatMessageBuilder = bl ? this.U() : new ChatMessageBuilder(this);
+      ChatMessageBuilder.m(chatMessageBuilder, bl2);
+      return chatMessageBuilder;
    }
 
-   public ChatMessageBuilder y(String var1) {
-      return this.U().i(var1);
+   public ChatMessageBuilder y(String string) {
+      return this.U().i(string);
    }
 
    public static Pattern N() {
       return M;
    }
 
-   public static EnumChatFormatting K(ClientChat var0) {
-      return var0.F;
+   public static EnumChatFormatting K(ClientChat clientChat) {
+      return clientChat.F;
    }
 }

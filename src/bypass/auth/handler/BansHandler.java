@@ -14,32 +14,32 @@ public class BansHandler extends PacketHandler<BansPacket> {
       super(PacketId.BANS);
    }
 
-   public void handle(BansPacket var1, PacketOutput var2) {
-      if (var1.type == BansPacketType.B) {
+   public void handle(BansPacket bansPacket, PacketOutput packetOutput) {
+      if (bansPacket.type == BansPacketType.B) {
          try {
-            int var6 = Integer.parseInt(var1.bans);
+            int j = Integer.parseInt(bansPacket.bans);
             chat.D(false, false)
                .S()
                .i("[BANS] ")
                .M()
                .M(EnumChatFormatting.RED)
                .i(
-                  Z(var1.mode)
+                  Z(bansPacket.mode)
                      + " has "
-                     + var6
-                     + (var6 <= 1 && var6 != 0 ? " ban" : " bans")
+                     + j
+                     + (j <= 1 && j != 0 ? " ban" : " bans")
                      + " in the last "
                      + (BansCommand.p == 1 ? "hour" : BansCommand.p + " hours")
                )
                .N()
                .b();
-         } catch (NumberFormatException var7) {
+         } catch (NumberFormatException numberFormatException) {
          }
       }
    }
 
-   public static String Z(int var0) {
-      switch (var0) {
+   public static String Z(int i) {
+      switch (i) {
          case 1:
             return "Skywars";
          case 2:

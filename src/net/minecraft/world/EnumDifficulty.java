@@ -10,17 +10,17 @@ public enum EnumDifficulty {
    private final int difficultyId;
    private final String difficultyResourceKey;
 
-   EnumDifficulty(int var3, String var4) {
-      this.difficultyId = var3;
-      this.difficultyResourceKey = var4;
+   EnumDifficulty(int difficultyIdIn, String difficultyResourceKeyIn) {
+      this.difficultyId = difficultyIdIn;
+      this.difficultyResourceKey = difficultyResourceKeyIn;
    }
 
    public int getDifficultyId() {
       return this.difficultyId;
    }
 
-   public static EnumDifficulty getDifficultyEnum(int var0) {
-      return difficultyEnums[var0 % difficultyEnums.length];
+   public static EnumDifficulty getDifficultyEnum(int i) {
+      return difficultyEnums[i % difficultyEnums.length];
    }
 
    public String getDifficultyResourceKey() {
@@ -28,8 +28,8 @@ public enum EnumDifficulty {
    }
 
    static {
-      for (EnumDifficulty var14 : values()) {
-         difficultyEnums[var14.difficultyId] = var14;
+      for (EnumDifficulty enumDifficulty : values()) {
+         difficultyEnums[enumDifficulty.difficultyId] = enumDifficulty;
       }
    }
 }

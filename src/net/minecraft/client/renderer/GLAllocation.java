@@ -10,38 +10,38 @@ import org.lwjgl.util.glu.GLU;
 public class GLAllocation {
    private static final long a = 32393589474752L;
 
-   public static synchronized int generateDisplayLists(int var0) {
-      int var4 = GL11.glGenLists(var0);
-      if (var4 == 0) {
-         int var5 = GL11.glGetError();
-         String var6 = "No error code reported";
-         if (var5 != 0) {
-            var6 = GLU.gluErrorString(var5);
+   public static synchronized int generateDisplayLists(int range) {
+      int i = GL11.glGenLists(range);
+      if (i == 0) {
+         int j = GL11.glGetError();
+         String string = "No error code reported";
+         if (j != 0) {
+            string = GLU.gluErrorString(j);
          }
 
-         throw new IllegalStateException("glGenLists returned an ID of 0 for a count of " + var0 + ", GL error (" + var5 + "): " + var6);
+         throw new IllegalStateException("glGenLists returned an ID of 0 for a count of " + range + ", GL error (" + j + "): " + string);
       } else {
-         return var4;
+         return i;
       }
    }
 
-   public static synchronized void deleteDisplayLists(int var0, int var1) {
-      GL11.glDeleteLists(var0, var1);
+   public static synchronized void deleteDisplayLists(int list, int range) {
+      GL11.glDeleteLists(list, range);
    }
 
-   public static synchronized void deleteDisplayLists(int var0) {
-      GL11.glDeleteLists(var0, 1);
+   public static synchronized void deleteDisplayLists(int list) {
+      GL11.glDeleteLists(list, 1);
    }
 
-   public static synchronized ByteBuffer createDirectByteBuffer(int var0) {
-      return ByteBuffer.allocateDirect(var0).order(ByteOrder.nativeOrder());
+   public static synchronized ByteBuffer createDirectByteBuffer(int capacity) {
+      return ByteBuffer.allocateDirect(capacity).order(ByteOrder.nativeOrder());
    }
 
-   public static IntBuffer createDirectIntBuffer(int var0) {
-      return createDirectByteBuffer(var0 << 2).asIntBuffer();
+   public static IntBuffer createDirectIntBuffer(int capacity) {
+      return createDirectByteBuffer(capacity << 2).asIntBuffer();
    }
 
-   public static FloatBuffer createDirectFloatBuffer(int var0) {
-      return createDirectByteBuffer(var0 << 2).asFloatBuffer();
+   public static FloatBuffer createDirectFloatBuffer(int capacity) {
+      return createDirectByteBuffer(capacity << 2).asFloatBuffer();
    }
 }

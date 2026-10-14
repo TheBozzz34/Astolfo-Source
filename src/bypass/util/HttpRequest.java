@@ -18,48 +18,48 @@ public class HttpRequest {
       this.S("application/json");
    }
 
-   public HttpRequest g(String var1) {
-      this.o = var1;
+   public HttpRequest g(String string) {
+      this.o = string;
       return this;
    }
 
-   public HttpRequest T(String var1) {
-      this.X = var1;
+   public HttpRequest T(String string) {
+      this.X = string;
       return this;
    }
 
-   public HttpRequest i(String var1) {
-      this.I = var1;
+   public HttpRequest i(String string) {
+      this.I = string;
       return this;
    }
 
-   public HttpRequest S(String var1) {
-      this.M = var1;
+   public HttpRequest S(String string) {
+      this.M = string;
       return this;
    }
 
-   public HttpRequest x(String... var1) {
-      this.G = var1;
+   public HttpRequest x(String... strings) {
+      this.G = strings;
       return this;
    }
 
-   public HttpRequest B(String... var1) {
-      this.w = var1;
+   public HttpRequest B(String... strings) {
+      this.w = strings;
       return this;
    }
 
-   public HttpRequest n(String var1) {
-      this.s = var1;
+   public HttpRequest n(String string) {
+      this.s = string;
       return this;
    }
 
-   public HttpRequest W(String... var1) {
-      this.H = var1;
+   public HttpRequest W(String... strings) {
+      this.H = strings;
       return this;
    }
 
-   public HttpRequest V(String... var1) {
-      this.J = var1;
+   public HttpRequest V(String... strings) {
+      this.J = strings;
       return this;
    }
 
@@ -68,12 +68,12 @@ public class HttpRequest {
          return this.s;
       }
 
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (int var5 = 0; var5 < this.G.length; var5++) {
-         var4.append(this.G[var5]).append("=").append(this.w[var5]);
+      for (int i = 0; i < this.G.length; i++) {
+         stringBuilder.append(this.G[i]).append("=").append(this.w[i]);
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 }

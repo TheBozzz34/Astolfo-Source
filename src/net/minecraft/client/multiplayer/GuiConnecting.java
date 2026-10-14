@@ -28,75 +28,75 @@ public class GuiConnecting extends GuiScreen {
    private final GuiScreen previousGuiScreen;
    private static final long a = 42915385894606L;
 
-   public GuiConnecting(GuiScreen var1, Minecraft var2, ServerData var3) {
-      this.mc = var2;
-      this.previousGuiScreen = var1;
-      ServerAddress var4 = ServerAddress.fromString(var3.serverIP);
-      var2.loadWorld((WorldClient)null);
-      var2.setServerData(var3);
-      this.connect(var4.getIP(), var4.getPort());
+   public GuiConnecting(GuiScreen guiScreen, Minecraft mcIn, ServerData serverData) {
+      this.mc = mcIn;
+      this.previousGuiScreen = guiScreen;
+      ServerAddress serverAddress = ServerAddress.fromString(serverData.serverIP);
+      mcIn.loadWorld((WorldClient)null);
+      mcIn.setServerData(serverData);
+      this.connect(serverAddress.getIP(), serverAddress.getPort());
    }
 
-   public GuiConnecting(GuiScreen var1, Minecraft var2, String var3, int var4) {
-      this.mc = var2;
-      this.previousGuiScreen = var1;
-      var2.loadWorld((WorldClient)null);
-      this.connect(var3, var4);
+   public GuiConnecting(GuiScreen guiScreen, Minecraft mcIn, String hostName, int port) {
+      this.mc = mcIn;
+      this.previousGuiScreen = guiScreen;
+      mcIn.loadWorld((WorldClient)null);
+      this.connect(hostName, port);
    }
 
-   private void connect(final String var1, final int var2) {
-      logger.info("Connecting to " + var1 + ", " + var2);
+   private void connect(final String ip, final int port) {
+      logger.info("Connecting to " + ip + ", " + port);
       (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
             private static final long a = 47869118792322L;
             private static final long f = 1724232281884721199L;
 
             @Override
             public void run() {
-               InetAddress var4 = null;
+               InetAddress inetAddress = null;
 
                try {
                   if (GuiConnecting.this.cancel) {
                      return;
                   }
 
-                  var4 = GuiConnecting.w(GuiConnecting.this, var1);
+                  inetAddress = GuiConnecting.w(GuiConnecting.this, ip);
                   GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(
-                     var4, var2, GuiConnecting.T(GuiConnecting.this).gameSettings.isUsingNativeTransport()
+                     inetAddress, port, GuiConnecting.T(GuiConnecting.this).gameSettings.isUsingNativeTransport()
                   );
                   GuiConnecting.this.networkManager
                      .setNetHandler(
                         new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.Z(GuiConnecting.this), GuiConnecting.this.previousGuiScreen)
                      );
-                  GuiConnecting.this.networkManager.sendPacket(new C00Handshake((int)f, var1, var2, EnumConnectionState.LOGIN));
+                  GuiConnecting.this.networkManager.sendPacket(new C00Handshake((int)f, ip, port, EnumConnectionState.LOGIN));
                   GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.F(GuiConnecting.this).getSession().getProfile()));
-               } catch (UnknownHostException var8) {
+               } catch (UnknownHostException unknownHostException) {
                   if (GuiConnecting.this.cancel) {
                      return;
                   }
 
-                  GuiConnecting.logger.error("Couldn't connect to server", var8);
+                  GuiConnecting.logger.error("Couldn't connect to server", unknownHostException);
                   GuiConnecting.i(GuiConnecting.this)
                      .displayGuiScreen(
                         new GuiDisconnected(
                            GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", "Unknown host")
                         )
                      );
-               } catch (Exception var9) {
+               } catch (Exception exception) {
                   if (GuiConnecting.this.cancel) {
                      return;
                   }
 
-                  GuiConnecting.logger.error("Couldn't connect to server", var9);
-                  String var6 = var9.toString();
-                  if (var4 != null) {
-                     String var7 = var4.toString() + ":" + var2;
-                     var6 = var6.replaceAll(var7, "");
+                  GuiConnecting.logger.error("Couldn't connect to server", exception);
+                  String string = exception.toString();
+                  if (inetAddress != null) {
+                     String string2 = inetAddress.toString() + ":" + port;
+                     string = string.replaceAll(string2, "");
                   }
 
                   GuiConnecting.U(GuiConnecting.this)
                      .displayGuiScreen(
                         new GuiDisconnected(
-                           GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", var6)
+                           GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", string)
                         )
                      );
                }
@@ -105,14 +105,14 @@ public class GuiConnecting extends GuiScreen {
          .start();
    }
 
-   private InetAddress a(String var1) throws UnknownHostException {
-      VFAddressParser var5 = new VFAddressParser().c(var1);
-      if (var5.m == null) {
-         return InetAddress.getByName(var1);
+   private InetAddress a(String string) throws UnknownHostException {
+      VFAddressParser vfAddressParser = new VFAddressParser().c(string);
+      if (vfAddressParser.m == null) {
+         return InetAddress.getByName(string);
       }
 
-      InetAddress var6 = InetAddress.getByName(var5.p);
-      return InetAddress.getByAddress(var6.getHostName() + "." + var5.m, var6.getAddress());
+      InetAddress inetAddress = InetAddress.getByName(vfAddressParser.p);
+      return InetAddress.getByAddress(inetAddress.getHostName() + "." + vfAddressParser.m, inetAddress.getAddress());
    }
 
    @Override
@@ -127,7 +127,7 @@ public class GuiConnecting extends GuiScreen {
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
    }
 
    @Override
@@ -137,8 +137,8 @@ public class GuiConnecting extends GuiScreen {
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) throws IOException {
-      if (var1.id == 0) {
+   public void actionPerformed(GuiButton button) throws IOException {
+      if (button.id == 0) {
          this.cancel = true;
          if (this.networkManager != null) {
             this.networkManager.closeChannel(new ChatComponentText("Aborted"));
@@ -149,7 +149,7 @@ public class GuiConnecting extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       if (this.networkManager == null) {
          this.d(this.fontRendererObj, I18n.format("connect.connecting"), this.width / 2, this.height / 2 - 50, 16777215);
@@ -157,30 +157,30 @@ public class GuiConnecting extends GuiScreen {
          this.d(this.fontRendererObj, I18n.format("connect.authorizing"), this.width / 2, this.height / 2 - 50, 16777215);
       }
 
-      super.drawScreen(var1, var2, var3);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static InetAddress w(GuiConnecting var0, String var1) throws UnknownHostException {
-      return var0.a(var1);
+   public static InetAddress w(GuiConnecting guiConnecting, String string) throws UnknownHostException {
+      return guiConnecting.a(string);
    }
 
-   public static Minecraft T(GuiConnecting var0) {
-      return var0.mc;
+   public static Minecraft T(GuiConnecting guiConnecting) {
+      return guiConnecting.mc;
    }
 
-   public static Minecraft Z(GuiConnecting var0) {
-      return var0.mc;
+   public static Minecraft Z(GuiConnecting guiConnecting) {
+      return guiConnecting.mc;
    }
 
-   public static Minecraft F(GuiConnecting var0) {
-      return var0.mc;
+   public static Minecraft F(GuiConnecting guiConnecting) {
+      return guiConnecting.mc;
    }
 
-   public static Minecraft i(GuiConnecting var0) {
-      return var0.mc;
+   public static Minecraft i(GuiConnecting guiConnecting) {
+      return guiConnecting.mc;
    }
 
-   public static Minecraft U(GuiConnecting var0) {
-      return var0.mc;
+   public static Minecraft U(GuiConnecting guiConnecting) {
+      return guiConnecting.mc;
    }
 }

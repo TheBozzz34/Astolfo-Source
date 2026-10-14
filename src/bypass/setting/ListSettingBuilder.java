@@ -9,12 +9,12 @@ public class ListSettingBuilder implements SettingBuilder<ListSetting> {
    private List<Setting<?>> R;
    private static final long a = 13104492072384L;
 
-   public ListSettingBuilder(String var1) {
-      this.k = var1;
+   public ListSettingBuilder(String string) {
+      this.k = string;
    }
 
-   public ListSettingBuilder X(String var1) {
-      this.Y = var1;
+   public ListSettingBuilder X(String string) {
+      this.Y = string;
       return this;
    }
 
@@ -23,13 +23,13 @@ public class ListSettingBuilder implements SettingBuilder<ListSetting> {
       return this;
    }
 
-   public ListSettingBuilder n(List<Setting<?>> var1) {
-      this.R = var1;
+   public ListSettingBuilder n(List<Setting<?>> list) {
+      this.R = list;
       return this;
    }
 
-   public ListSettingBuilder p(Setting<?> var1) {
-      this.R.add(var1);
+   public ListSettingBuilder p(Setting<?> setting) {
+      this.R.add(setting);
       return this;
    }
 

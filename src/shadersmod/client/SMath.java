@@ -6,134 +6,54 @@ import java.util.Arrays;
 public class SMath {
    private static final long a = 17649021514479L;
 
-   public static void multiplyMat4xMat4(float[] var0, float[] var1, float[] var2) {
-      for (int var6 = 0; var6 < 4; var6++) {
-         for (int var7 = 0; var7 < 4; var7++) {
-            var0[4 * var6 + var7] = var1[4 * var6 + 0] * var2[0 + var7]
-               + var1[4 * var6 + 1] * var2[4 + var7]
-               + var1[4 * var6 + 2] * var2[8 + var7]
-               + var1[4 * var6 + 3] * var2[12 + var7];
+   public static void multiplyMat4xMat4(float[] matOut, float[] matA, float[] matB) {
+      for (int i = 0; i < 4; i++) {
+         for (int j = 0; j < 4; j++) {
+            matOut[4 * i + j] = matA[4 * i + 0] * matB[0 + j]
+               + matA[4 * i + 1] * matB[4 + j]
+               + matA[4 * i + 2] * matB[8 + j]
+               + matA[4 * i + 3] * matB[12 + j];
          }
       }
    }
 
-   public static void multiplyMat4xVec4(float[] var0, float[] var1, float[] var2) {
-      var0[0] = var1[0] * var2[0] + var1[4] * var2[1] + var1[8] * var2[2] + var1[12] * var2[3];
-      var0[1] = var1[1] * var2[0] + var1[5] * var2[1] + var1[9] * var2[2] + var1[13] * var2[3];
-      var0[2] = var1[2] * var2[0] + var1[6] * var2[1] + var1[10] * var2[2] + var1[14] * var2[3];
-      var0[3] = var1[3] * var2[0] + var1[7] * var2[1] + var1[11] * var2[2] + var1[15] * var2[3];
+   public static void multiplyMat4xVec4(float[] vecOut, float[] matA, float[] vecB) {
+      vecOut[0] = matA[0] * vecB[0] + matA[4] * vecB[1] + matA[8] * vecB[2] + matA[12] * vecB[3];
+      vecOut[1] = matA[1] * vecB[0] + matA[5] * vecB[1] + matA[9] * vecB[2] + matA[13] * vecB[3];
+      vecOut[2] = matA[2] * vecB[0] + matA[6] * vecB[1] + matA[10] * vecB[2] + matA[14] * vecB[3];
+      vecOut[3] = matA[3] * vecB[0] + matA[7] * vecB[1] + matA[11] * vecB[2] + matA[15] * vecB[3];
    }
 
-   public static void invertMat4(float[] var0, float[] var1) {
-      var0[0] = var1[5] * var1[10] * var1[15]
-         - var1[5] * var1[11] * var1[14]
-         - var1[9] * var1[6] * var1[15]
-         + var1[9] * var1[7] * var1[14]
-         + var1[13] * var1[6] * var1[11]
-         - var1[13] * var1[7] * var1[10];
-      var0[1] = -var1[1] * var1[10] * var1[15]
-         + var1[1] * var1[11] * var1[14]
-         + var1[9] * var1[2] * var1[15]
-         - var1[9] * var1[3] * var1[14]
-         - var1[13] * var1[2] * var1[11]
-         + var1[13] * var1[3] * var1[10];
-      var0[2] = var1[1] * var1[6] * var1[15]
-         - var1[1] * var1[7] * var1[14]
-         - var1[5] * var1[2] * var1[15]
-         + var1[5] * var1[3] * var1[14]
-         + var1[13] * var1[2] * var1[7]
-         - var1[13] * var1[3] * var1[6];
-      var0[3] = -var1[1] * var1[6] * var1[11]
-         + var1[1] * var1[7] * var1[10]
-         + var1[5] * var1[2] * var1[11]
-         - var1[5] * var1[3] * var1[10]
-         - var1[9] * var1[2] * var1[7]
-         + var1[9] * var1[3] * var1[6];
-      var0[4] = -var1[4] * var1[10] * var1[15]
-         + var1[4] * var1[11] * var1[14]
-         + var1[8] * var1[6] * var1[15]
-         - var1[8] * var1[7] * var1[14]
-         - var1[12] * var1[6] * var1[11]
-         + var1[12] * var1[7] * var1[10];
-      var0[5] = var1[0] * var1[10] * var1[15]
-         - var1[0] * var1[11] * var1[14]
-         - var1[8] * var1[2] * var1[15]
-         + var1[8] * var1[3] * var1[14]
-         + var1[12] * var1[2] * var1[11]
-         - var1[12] * var1[3] * var1[10];
-      var0[6] = -var1[0] * var1[6] * var1[15]
-         + var1[0] * var1[7] * var1[14]
-         + var1[4] * var1[2] * var1[15]
-         - var1[4] * var1[3] * var1[14]
-         - var1[12] * var1[2] * var1[7]
-         + var1[12] * var1[3] * var1[6];
-      var0[7] = var1[0] * var1[6] * var1[11]
-         - var1[0] * var1[7] * var1[10]
-         - var1[4] * var1[2] * var1[11]
-         + var1[4] * var1[3] * var1[10]
-         + var1[8] * var1[2] * var1[7]
-         - var1[8] * var1[3] * var1[6];
-      var0[8] = var1[4] * var1[9] * var1[15]
-         - var1[4] * var1[11] * var1[13]
-         - var1[8] * var1[5] * var1[15]
-         + var1[8] * var1[7] * var1[13]
-         + var1[12] * var1[5] * var1[11]
-         - var1[12] * var1[7] * var1[9];
-      var0[9] = -var1[0] * var1[9] * var1[15]
-         + var1[0] * var1[11] * var1[13]
-         + var1[8] * var1[1] * var1[15]
-         - var1[8] * var1[3] * var1[13]
-         - var1[12] * var1[1] * var1[11]
-         + var1[12] * var1[3] * var1[9];
-      var0[10] = var1[0] * var1[5] * var1[15]
-         - var1[0] * var1[7] * var1[13]
-         - var1[4] * var1[1] * var1[15]
-         + var1[4] * var1[3] * var1[13]
-         + var1[12] * var1[1] * var1[7]
-         - var1[12] * var1[3] * var1[5];
-      var0[11] = -var1[0] * var1[5] * var1[11]
-         + var1[0] * var1[7] * var1[9]
-         + var1[4] * var1[1] * var1[11]
-         - var1[4] * var1[3] * var1[9]
-         - var1[8] * var1[1] * var1[7]
-         + var1[8] * var1[3] * var1[5];
-      var0[12] = -var1[4] * var1[9] * var1[14]
-         + var1[4] * var1[10] * var1[13]
-         + var1[8] * var1[5] * var1[14]
-         - var1[8] * var1[6] * var1[13]
-         - var1[12] * var1[5] * var1[10]
-         + var1[12] * var1[6] * var1[9];
-      var0[13] = var1[0] * var1[9] * var1[14]
-         - var1[0] * var1[10] * var1[13]
-         - var1[8] * var1[1] * var1[14]
-         + var1[8] * var1[2] * var1[13]
-         + var1[12] * var1[1] * var1[10]
-         - var1[12] * var1[2] * var1[9];
-      var0[14] = -var1[0] * var1[5] * var1[14]
-         + var1[0] * var1[6] * var1[13]
-         + var1[4] * var1[1] * var1[14]
-         - var1[4] * var1[2] * var1[13]
-         - var1[12] * var1[1] * var1[6]
-         + var1[12] * var1[2] * var1[5];
-      var0[15] = var1[0] * var1[5] * var1[10]
-         - var1[0] * var1[6] * var1[9]
-         - var1[4] * var1[1] * var1[10]
-         + var1[4] * var1[2] * var1[9]
-         + var1[8] * var1[1] * var1[6]
-         - var1[8] * var1[2] * var1[5];
-      float var6 = var1[0] * var0[0] + var1[1] * var0[4] + var1[2] * var0[8] + var1[3] * var0[12];
-      if (var6 != 0.0) {
-         for (int var7 = 0; var7 < 16; var7++) {
-            var0[var7] /= var6;
+   public static void invertMat4(float[] matOut, float[] m) {
+      matOut[0] = m[5] * m[10] * m[15] - m[5] * m[11] * m[14] - m[9] * m[6] * m[15] + m[9] * m[7] * m[14] + m[13] * m[6] * m[11] - m[13] * m[7] * m[10];
+      matOut[1] = -m[1] * m[10] * m[15] + m[1] * m[11] * m[14] + m[9] * m[2] * m[15] - m[9] * m[3] * m[14] - m[13] * m[2] * m[11] + m[13] * m[3] * m[10];
+      matOut[2] = m[1] * m[6] * m[15] - m[1] * m[7] * m[14] - m[5] * m[2] * m[15] + m[5] * m[3] * m[14] + m[13] * m[2] * m[7] - m[13] * m[3] * m[6];
+      matOut[3] = -m[1] * m[6] * m[11] + m[1] * m[7] * m[10] + m[5] * m[2] * m[11] - m[5] * m[3] * m[10] - m[9] * m[2] * m[7] + m[9] * m[3] * m[6];
+      matOut[4] = -m[4] * m[10] * m[15] + m[4] * m[11] * m[14] + m[8] * m[6] * m[15] - m[8] * m[7] * m[14] - m[12] * m[6] * m[11] + m[12] * m[7] * m[10];
+      matOut[5] = m[0] * m[10] * m[15] - m[0] * m[11] * m[14] - m[8] * m[2] * m[15] + m[8] * m[3] * m[14] + m[12] * m[2] * m[11] - m[12] * m[3] * m[10];
+      matOut[6] = -m[0] * m[6] * m[15] + m[0] * m[7] * m[14] + m[4] * m[2] * m[15] - m[4] * m[3] * m[14] - m[12] * m[2] * m[7] + m[12] * m[3] * m[6];
+      matOut[7] = m[0] * m[6] * m[11] - m[0] * m[7] * m[10] - m[4] * m[2] * m[11] + m[4] * m[3] * m[10] + m[8] * m[2] * m[7] - m[8] * m[3] * m[6];
+      matOut[8] = m[4] * m[9] * m[15] - m[4] * m[11] * m[13] - m[8] * m[5] * m[15] + m[8] * m[7] * m[13] + m[12] * m[5] * m[11] - m[12] * m[7] * m[9];
+      matOut[9] = -m[0] * m[9] * m[15] + m[0] * m[11] * m[13] + m[8] * m[1] * m[15] - m[8] * m[3] * m[13] - m[12] * m[1] * m[11] + m[12] * m[3] * m[9];
+      matOut[10] = m[0] * m[5] * m[15] - m[0] * m[7] * m[13] - m[4] * m[1] * m[15] + m[4] * m[3] * m[13] + m[12] * m[1] * m[7] - m[12] * m[3] * m[5];
+      matOut[11] = -m[0] * m[5] * m[11] + m[0] * m[7] * m[9] + m[4] * m[1] * m[11] - m[4] * m[3] * m[9] - m[8] * m[1] * m[7] + m[8] * m[3] * m[5];
+      matOut[12] = -m[4] * m[9] * m[14] + m[4] * m[10] * m[13] + m[8] * m[5] * m[14] - m[8] * m[6] * m[13] - m[12] * m[5] * m[10] + m[12] * m[6] * m[9];
+      matOut[13] = m[0] * m[9] * m[14] - m[0] * m[10] * m[13] - m[8] * m[1] * m[14] + m[8] * m[2] * m[13] + m[12] * m[1] * m[10] - m[12] * m[2] * m[9];
+      matOut[14] = -m[0] * m[5] * m[14] + m[0] * m[6] * m[13] + m[4] * m[1] * m[14] - m[4] * m[2] * m[13] - m[12] * m[1] * m[6] + m[12] * m[2] * m[5];
+      matOut[15] = m[0] * m[5] * m[10] - m[0] * m[6] * m[9] - m[4] * m[1] * m[10] + m[4] * m[2] * m[9] + m[8] * m[1] * m[6] - m[8] * m[2] * m[5];
+      float f = m[0] * matOut[0] + m[1] * matOut[4] + m[2] * matOut[8] + m[3] * matOut[12];
+      if (f != 0.0) {
+         for (int i = 0; i < 16; i++) {
+            matOut[i] /= f;
          }
       } else {
-         Arrays.fill(var0, 0.0F);
+         Arrays.fill(matOut, 0.0F);
       }
    }
 
-   public static void invertMat4FBFA(FloatBuffer var0, FloatBuffer var1, float[] var2, float[] var3) {
-      var1.get(var3);
-      invertMat4(var2, var3);
-      var0.put(var2);
+   public static void invertMat4FBFA(FloatBuffer fbInvOut, FloatBuffer fbMatIn, float[] faInv, float[] faMat) {
+      fbMatIn.get(faMat);
+      invertMat4(faInv, faMat);
+      fbInvOut.put(faInv);
    }
 }

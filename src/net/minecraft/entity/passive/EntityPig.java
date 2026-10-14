@@ -28,8 +28,8 @@ public class EntityPig extends EntityAnimal {
    private final EntityAIControlledByPlayer aiControlledByPlayer;
    private static final long gb = 50086166341701L;
 
-   public EntityPig(World var1) {
-      super(var1);
+   public EntityPig(World worldIn) {
+      super(worldIn);
       this.setSize(0.9F, 0.9F);
       ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
       this.tasks.addTask(0, new EntityAISwimming(this));
@@ -51,16 +51,16 @@ public class EntityPig extends EntityAnimal {
       this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25);
    }
 
-   public EntityPig(int var1) {
+   public EntityPig(int i) {
       super(null);
-      this.setEntityId(var1);
+      this.setEntityId(i);
       this.aiControlledByPlayer = null;
    }
 
    @Override
    public boolean canBeSteered() {
-      ItemStack var4 = ((EntityPlayer)this.riddenByEntity).getHeldItem();
-      return var4 != null && var4.getItem() == Items.carrot_on_a_stick;
+      ItemStack itemStack = ((EntityPlayer)this.riddenByEntity).getHeldItem();
+      return itemStack != null && itemStack.getItem() == Items.carrot_on_a_stick;
    }
 
    @Override
@@ -70,15 +70,15 @@ public class EntityPig extends EntityAnimal {
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setBoolean("Saddle", this.getSaddled());
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setBoolean("Saddle", this.getSaddled());
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.setSaddled(var1.getBoolean("Saddle"));
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.setSaddled(tagCompund.getBoolean("Saddle"));
    }
 
    @Override
@@ -97,16 +97,16 @@ public class EntityPig extends EntityAnimal {
    }
 
    @Override
-   public void playStepSound(BlockPos var1, Block var2) {
+   public void playStepSound(BlockPos pos, Block blockIn) {
       this.playSound("mob.pig.step", 0.15F, 1.0F);
    }
 
    @Override
-   public boolean interact(EntityPlayer var1) {
-      if (super.interact(var1)) {
+   public boolean interact(EntityPlayer player) {
+      if (super.interact(player)) {
          return true;
-      } else if (this.getSaddled() && !this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == var1)) {
-         var1.mountEntity(this);
+      } else if (this.getSaddled() && !this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == player)) {
+         player.mountEntity(this);
          return true;
       } else {
          return false;
@@ -119,10 +119,10 @@ public class EntityPig extends EntityAnimal {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      int var6 = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + var2);
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      int i = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + lootingModifier);
 
-      for (int var7 = 0; var7 < var6; var7++) {
+      for (int j = 0; j < i; j++) {
          if (this.isBurning()) {
             this.dropItem(Items.cooked_porkchop, 1);
          } else {
@@ -139,8 +139,8 @@ public class EntityPig extends EntityAnimal {
       return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
    }
 
-   public void setSaddled(boolean var1) {
-      if (var1) {
+   public void setSaddled(boolean saddled) {
+      if (saddled) {
          this.dataWatcher.updateObject(16, (byte)1);
       } else {
          this.dataWatcher.updateObject(16, (byte)0);
@@ -148,37 +148,37 @@ public class EntityPig extends EntityAnimal {
    }
 
    @Override
-   public void onStruckByLightning(EntityLightningBolt var1) {
+   public void onStruckByLightning(EntityLightningBolt lightningBolt) {
       if (!this.worldObj.isRemote && !this.isDead) {
-         EntityPigZombie var5 = new EntityPigZombie(this.worldObj);
-         var5.setCurrentItemOrArmor(0, new ItemStack(Items.golden_sword));
-         var5.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-         var5.setNoAI(this.isAIDisabled());
+         EntityPigZombie entityPigZombie = new EntityPigZombie(this.worldObj);
+         entityPigZombie.setCurrentItemOrArmor(0, new ItemStack(Items.golden_sword));
+         entityPigZombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+         entityPigZombie.setNoAI(this.isAIDisabled());
          if (this.hasCustomName()) {
-            var5.setCustomNameTag(this.getCustomNameTag());
-            var5.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
+            entityPigZombie.setCustomNameTag(this.getCustomNameTag());
+            entityPigZombie.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
          }
 
-         this.worldObj.spawnEntityInWorld(var5);
+         this.worldObj.spawnEntityInWorld(entityPigZombie);
          this.setDead();
       }
    }
 
    @Override
-   public void fall(float var1, float var2) {
-      super.fall(var1, var2);
-      if (var1 > 5.0F && this.riddenByEntity instanceof EntityPlayer) {
+   public void fall(float distance, float damageMultiplier) {
+      super.fall(distance, damageMultiplier);
+      if (distance > 5.0F && this.riddenByEntity instanceof EntityPlayer) {
          ((EntityPlayer)this.riddenByEntity).triggerAchievement(AchievementList.flyPig);
       }
    }
 
-   public EntityPig createChild(EntityAgeable var1) {
+   public EntityPig createChild(EntityAgeable ageable) {
       return new EntityPig(this.worldObj);
    }
 
    @Override
-   public boolean isBreedingItem(ItemStack var1) {
-      return var1 != null && var1.getItem() == Items.carrot;
+   public boolean isBreedingItem(ItemStack stack) {
+      return stack != null && stack.getItem() == Items.carrot;
    }
 
    public EntityAIControlledByPlayer getAIControlledByPlayer() {

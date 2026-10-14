@@ -13,13 +13,13 @@ public class ItemCoal extends Item {
    }
 
    @Override
-   public String getUnlocalizedName(ItemStack var1) {
-      return var1.getMetadata() == 1 ? "item.charcoal" : "item.coal";
+   public String getUnlocalizedName(ItemStack stack) {
+      return stack.getMetadata() == 1 ? "item.charcoal" : "item.coal";
    }
 
    @Override
-   public void getSubItems(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      var3.add(new ItemStack(var1, 1, 0));
-      var3.add(new ItemStack(var1, 1, 1));
+   public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+      subItems.add(new ItemStack(itemIn, 1, 0));
+      subItems.add(new ItemStack(itemIn, 1, 1));
    }
 }

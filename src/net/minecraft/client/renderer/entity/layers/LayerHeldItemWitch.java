@@ -16,55 +16,55 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch> {
    private final RenderWitch witchRenderer;
    private static final long a = 2620876148614L;
 
-   public LayerHeldItemWitch(RenderWitch var1) {
-      this.witchRenderer = var1;
+   public LayerHeldItemWitch(RenderWitch witchRendererIn) {
+      this.witchRenderer = witchRendererIn;
    }
 
-   public void doRenderLayer(EntityWitch var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      ItemStack var12 = var1.getHeldItem();
-      if (var12 != null) {
+   public void doRenderLayer(EntityWitch entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      ItemStack itemStack = entitylivingbaseIn.getHeldItem();
+      if (itemStack != null) {
          GlStateManager.color(1.0F, 1.0F, 1.0F);
          GlStateManager.pushMatrix();
          if (this.witchRenderer.getMainModel().isChild) {
             GlStateManager.translate(0.0F, 0.625F, 0.0F);
             GlStateManager.rotate(-20.0F, -1.0F, 0.0F, 0.0F);
-            float var13 = 0.5F;
-            GlStateManager.scale(var13, var13, var13);
+            float f4 = 0.5F;
+            GlStateManager.scale(f4, f4, f4);
          }
 
          ((ModelWitch)this.witchRenderer.getMainModel()).villagerNose.postRender(0.0625F);
          GlStateManager.translate(-0.0625F, 0.53125F, 0.21875F);
-         Item var16 = var12.getItem();
-         Minecraft var14 = Minecraft.getMinecraft();
-         if (var16 instanceof ItemBlock && var14.getBlockRendererDispatcher().isRenderTypeChest(Block.getBlockFromItem(var16), var12.getMetadata())) {
+         Item item = itemStack.getItem();
+         Minecraft minecraft = Minecraft.getMinecraft();
+         if (item instanceof ItemBlock && minecraft.getBlockRendererDispatcher().isRenderTypeChest(Block.getBlockFromItem(item), itemStack.getMetadata())) {
             GlStateManager.translate(0.0F, 0.0625F, -0.25F);
             GlStateManager.rotate(30.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(-5.0F, 0.0F, 1.0F, 0.0F);
-            float var19 = 0.375F;
-            GlStateManager.scale(var19, -var19, var19);
-         } else if (var16 == Items.bow) {
+            float f5 = 0.375F;
+            GlStateManager.scale(f5, -f5, f5);
+         } else if (item == Items.bow) {
             GlStateManager.translate(0.0F, 0.125F, -0.125F);
             GlStateManager.rotate(-45.0F, 0.0F, 1.0F, 0.0F);
-            float var15 = 0.625F;
-            GlStateManager.scale(var15, -var15, var15);
+            float f6 = 0.625F;
+            GlStateManager.scale(f6, -f6, f6);
             GlStateManager.rotate(-100.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(-20.0F, 0.0F, 1.0F, 0.0F);
-         } else if (var16.isFull3D()) {
-            if (var16.shouldRotateAroundWhenRendering()) {
+         } else if (item.isFull3D()) {
+            if (item.shouldRotateAroundWhenRendering()) {
                GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
                GlStateManager.translate(0.0F, -0.0625F, 0.0F);
             }
 
             this.witchRenderer.transformHeldFull3DItemLayer();
             GlStateManager.translate(0.0625F, -0.125F, 0.0F);
-            float var17 = 0.625F;
-            GlStateManager.scale(var17, -var17, var17);
+            float f7 = 0.625F;
+            GlStateManager.scale(f7, -f7, f7);
             GlStateManager.rotate(0.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(0.0F, 0.0F, 1.0F, 0.0F);
          } else {
             GlStateManager.translate(0.1875F, 0.1875F, 0.0F);
-            float var18 = 0.875F;
-            GlStateManager.scale(var18, var18, var18);
+            float f8 = 0.875F;
+            GlStateManager.scale(f8, f8, f8);
             GlStateManager.rotate(-20.0F, 0.0F, 0.0F, 1.0F);
             GlStateManager.rotate(-60.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(-30.0F, 0.0F, 0.0F, 1.0F);
@@ -72,7 +72,7 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch> {
 
          GlStateManager.rotate(-15.0F, 1.0F, 0.0F, 0.0F);
          GlStateManager.rotate(40.0F, 0.0F, 0.0F, 1.0F);
-         var14.getItemRenderer().renderItem(var1, var12, ItemCameraTransforms.TransformType.THIRD_PERSON);
+         minecraft.getItemRenderer().renderItem(entitylivingbaseIn, itemStack, ItemCameraTransforms.TransformType.THIRD_PERSON);
          GlStateManager.popMatrix();
       }
    }

@@ -12,28 +12,28 @@ public class NBTTagIntArray extends NBTBase {
    public NBTTagIntArray() {
    }
 
-   public NBTTagIntArray(int[] var1) {
-      this.intArray = var1;
+   public NBTTagIntArray(int[] ints) {
+      this.intArray = ints;
    }
 
    @Override
-   public void write(DataOutput var1) throws IOException {
-      var1.writeInt(this.intArray.length);
+   public void write(DataOutput output) throws IOException {
+      output.writeInt(this.intArray.length);
 
-      for (int var5 = 0; var5 < this.intArray.length; var5++) {
-         var1.writeInt(this.intArray[var5]);
+      for (int i = 0; i < this.intArray.length; i++) {
+         output.writeInt(this.intArray[i]);
       }
    }
 
    @Override
-   public void read(DataInput var1, int var2, NBTSizeTracker var3) throws IOException {
-      var3.read(192L);
-      int var7 = var1.readInt();
-      var3.read(32 * var7);
-      this.intArray = new int[var7];
+   public void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+      sizeTracker.read(192L);
+      int i = input.readInt();
+      sizeTracker.read(32 * i);
+      this.intArray = new int[i];
 
-      for (int var8 = 0; var8 < var7; var8++) {
-         this.intArray[var8] = var1.readInt();
+      for (int j = 0; j < i; j++) {
+         this.intArray[j] = input.readInt();
       }
    }
 
@@ -44,25 +44,25 @@ public class NBTTagIntArray extends NBTBase {
 
    @Override
    public String toString() {
-      String var4 = "[";
+      String string = "[";
 
-      for (int var8 : this.intArray) {
-         var4 = var4 + var8 + ",";
+      for (int i : this.intArray) {
+         string = string + i + ",";
       }
 
-      return var4 + "]";
+      return string + "]";
    }
 
    @Override
    public NBTBase copy() {
-      int[] var1 = new int[this.intArray.length];
-      System.arraycopy(this.intArray, 0, var1, 0, this.intArray.length);
-      return new NBTTagIntArray(var1);
+      int[] ints = new int[this.intArray.length];
+      System.arraycopy(this.intArray, 0, ints, 0, this.intArray.length);
+      return new NBTTagIntArray(ints);
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return super.equals(var1) ? Arrays.equals(this.intArray, ((NBTTagIntArray)var1).intArray) : false;
+   public boolean equals(Object object) {
+      return super.equals(object) ? Arrays.equals(this.intArray, ((NBTTagIntArray)object).intArray) : false;
    }
 
    @Override

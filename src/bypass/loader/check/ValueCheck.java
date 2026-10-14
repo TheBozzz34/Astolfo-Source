@@ -11,12 +11,12 @@ public class ValueCheck extends AbstractValueCheck {
    public final ValueCheckFactory D;
    private static final long a = 60285585691743L;
 
-   public ValueCheck(ValueCheckFactory var1, Object var2, Function var3, Object var4, Predicate var5) {
-      super(var2);
-      this.D = var1;
-      this.t = var3;
-      this.w = var4;
-      this.M = var5;
+   public ValueCheck(ValueCheckFactory valueCheckFactory, Object object, Function function, Object object2, Predicate predicate) {
+      super(object);
+      this.D = valueCheckFactory;
+      this.t = function;
+      this.w = object2;
+      this.M = predicate;
    }
 
    @Override
@@ -31,15 +31,15 @@ public class ValueCheck extends AbstractValueCheck {
 
    @Override
    public CheckResult L() {
-      int var5 = this.C();
+      int i = this.C();
       return new Double(
                   Integer.compare(
                      Arrays.asList(
-                           Boolean.valueOf(String.format("%s", String.valueOf(this.M.test(var5) ? this.M.test(var5) : this.M.test(var5))))
+                           Boolean.valueOf(String.format("%s", String.valueOf(this.M.test(i) ? this.M.test(i) : this.M.test(i))))
                               ? Integer.parseInt("1")
                               : Integer.parseInt("0")
                         )
-                        .toArray(new Integer[0])[(int)(!this.M.test(var5) ? 0.0 : Math.floor(0.0))],
+                        .toArray(new Integer[0])[(int)(!this.M.test(i) ? 0.0 : Math.floor(0.0))],
                      1
                   )
                )

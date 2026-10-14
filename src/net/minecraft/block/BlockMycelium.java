@@ -26,26 +26,26 @@ public class BlockMycelium extends Block {
    }
 
    @Override
-   public IBlockState getActualState(IBlockState var1, IBlockAccess var2, BlockPos var3) {
-      Block var7 = var2.getBlockState(var3.up()).getBlock();
-      return var1.withProperty(SNOWY, var7 == Blocks.snow || var7 == Blocks.snow_layer);
+   public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos.up()).getBlock();
+      return state.withProperty(SNOWY, block == Blocks.snow || block == Blocks.snow_layer);
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote) {
-         if (var1.getLightFromNeighbors(var2.up()) < 4 && var1.getBlockState(var2.up()).getBlock().getLightOpacity() > 2) {
-            var1.setBlockState(var2, Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
-         } else if (var1.getLightFromNeighbors(var2.up()) >= 9) {
-            for (int var8 = 0; var8 < 4; var8++) {
-               BlockPos var9 = var2.add(var4.nextInt(3) - 1, var4.nextInt(5) - 3, var4.nextInt(3) - 1);
-               IBlockState var10 = var1.getBlockState(var9);
-               Block var11 = var1.getBlockState(var9.up()).getBlock();
-               if (var10.getBlock() == Blocks.dirt
-                  && var10.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT
-                  && var1.getLightFromNeighbors(var9.up()) >= 4
-                  && var11.getLightOpacity() <= 2) {
-                  var1.setBlockState(var9, this.getDefaultState());
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote) {
+         if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getBlock().getLightOpacity() > 2) {
+            worldIn.setBlockState(pos, Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
+         } else if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
+            for (int i = 0; i < 4; i++) {
+               BlockPos blockPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
+               IBlockState iBlockState = worldIn.getBlockState(blockPos);
+               Block block = worldIn.getBlockState(blockPos.up()).getBlock();
+               if (iBlockState.getBlock() == Blocks.dirt
+                  && iBlockState.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT
+                  && worldIn.getLightFromNeighbors(blockPos.up()) >= 4
+                  && block.getLightOpacity() <= 2) {
+                  worldIn.setBlockState(blockPos, this.getDefaultState());
                }
             }
          }
@@ -53,20 +53,20 @@ public class BlockMycelium extends Block {
    }
 
    @Override
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      super.randomDisplayTick(var1, var2, var3, var4);
-      if (var4.nextInt(10) == 0) {
-         var1.spawnParticle(EnumParticleTypes.TOWN_AURA, var2.getX() + var4.nextFloat(), var2.getY() + 1.1F, var2.getZ() + var4.nextFloat(), 0.0, 0.0, 0.0);
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      super.randomDisplayTick(worldIn, pos, state, rand);
+      if (rand.nextInt(10) == 0) {
+         worldIn.spawnParticle(EnumParticleTypes.TOWN_AURA, pos.getX() + rand.nextFloat(), pos.getY() + 1.1F, pos.getZ() + rand.nextFloat(), 0.0, 0.0, 0.0);
       }
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
-      return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), var2, var3);
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+      return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
+   public int getMetaFromState(IBlockState state) {
       return 0;
    }
 

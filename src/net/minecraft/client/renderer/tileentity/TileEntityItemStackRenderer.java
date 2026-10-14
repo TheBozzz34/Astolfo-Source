@@ -24,21 +24,21 @@ public class TileEntityItemStackRenderer {
    private TileEntitySkull skull = new TileEntitySkull();
    private static final long a = 81243457928505L;
 
-   public void renderByItem(ItemStack var1) {
-      if (var1.getItem() == Items.banner) {
-         this.banner.setItemValues(var1);
+   public void renderByItem(ItemStack itemStackIn) {
+      if (itemStackIn.getItem() == Items.banner) {
+         this.banner.setItemValues(itemStackIn);
          TileEntityRendererDispatcher.instance.renderTileEntityAt(this.banner, 0.0, 0.0, 0.0, 0.0F);
-      } else if (var1.getItem() == Items.skull) {
-         GameProfile var5 = null;
-         if (var1.hasTagCompound()) {
-            NBTTagCompound var6 = var1.getTagCompound();
-            if (var6.hasKey("SkullOwner", 10)) {
-               var5 = NBTUtil.readGameProfileFromNBT(var6.getCompoundTag("SkullOwner"));
-            } else if (var6.hasKey("SkullOwner", 8) && var6.getString("SkullOwner").length() > 0) {
-               GameProfile var7 = new GameProfile((UUID)null, var6.getString("SkullOwner"));
-               var5 = TileEntitySkull.updateGameprofile(var7);
-               var6.removeTag("SkullOwner");
-               var6.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), var5));
+      } else if (itemStackIn.getItem() == Items.skull) {
+         GameProfile gameProfile = null;
+         if (itemStackIn.hasTagCompound()) {
+            NBTTagCompound nbtTagCompound = itemStackIn.getTagCompound();
+            if (nbtTagCompound.hasKey("SkullOwner", 10)) {
+               gameProfile = NBTUtil.readGameProfileFromNBT(nbtTagCompound.getCompoundTag("SkullOwner"));
+            } else if (nbtTagCompound.hasKey("SkullOwner", 8) && nbtTagCompound.getString("SkullOwner").length() > 0) {
+               GameProfile gameProfile2 = new GameProfile((UUID)null, nbtTagCompound.getString("SkullOwner"));
+               gameProfile = TileEntitySkull.updateGameprofile(gameProfile2);
+               nbtTagCompound.removeTag("SkullOwner");
+               nbtTagCompound.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameProfile));
             }
          }
 
@@ -47,15 +47,15 @@ public class TileEntityItemStackRenderer {
             GlStateManager.translate(-0.5F, 0.0F, -0.5F);
             GlStateManager.scale(2.0F, 2.0F, 2.0F);
             GlStateManager.disableCull();
-            TileEntitySkullRenderer.instance.renderSkull(0.0F, 0.0F, 0.0F, EnumFacing.UP, 0.0F, var1.getMetadata(), var5, -1);
+            TileEntitySkullRenderer.instance.renderSkull(0.0F, 0.0F, 0.0F, EnumFacing.UP, 0.0F, itemStackIn.getMetadata(), gameProfile, -1);
             GlStateManager.enableCull();
             GlStateManager.popMatrix();
          }
       } else {
-         Block var8 = Block.getBlockFromItem(var1.getItem());
-         if (var8 == Blocks.ender_chest) {
+         Block block = Block.getBlockFromItem(itemStackIn.getItem());
+         if (block == Blocks.ender_chest) {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.enderChest, 0.0, 0.0, 0.0, 0.0F);
-         } else if (var8 == Blocks.trapped_chest) {
+         } else if (block == Blocks.trapped_chest) {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.field_147718_c, 0.0, 0.0, 0.0, 0.0F);
          } else {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.field_147717_b, 0.0, 0.0, 0.0, 0.0F);

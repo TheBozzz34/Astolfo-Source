@@ -9,11 +9,11 @@ public class BlockEventData {
    private int eventParameter;
    private static final long a = 67859383971692L;
 
-   public BlockEventData(BlockPos var1, Block var2, int var3, int var4) {
-      this.position = var1;
-      this.eventID = var3;
-      this.eventParameter = var4;
-      this.blockType = var2;
+   public BlockEventData(BlockPos pos, Block blockType, int eventId, int i) {
+      this.position = pos;
+      this.eventID = eventId;
+      this.eventParameter = i;
+      this.blockType = blockType;
    }
 
    public BlockPos getPosition() {
@@ -33,16 +33,16 @@ public class BlockEventData {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (!(var1 instanceof BlockEventData)) {
+   public boolean equals(Object object) {
+      if (!(object instanceof BlockEventData)) {
          return false;
       }
 
-      BlockEventData var5 = (BlockEventData)var1;
-      return this.position.equals(var5.position)
-         && this.eventID == var5.eventID
-         && this.eventParameter == var5.eventParameter
-         && this.blockType == var5.blockType;
+      BlockEventData blockEventData = (BlockEventData)object;
+      return this.position.equals(blockEventData.position)
+         && this.eventID == blockEventData.eventID
+         && this.eventParameter == blockEventData.eventParameter
+         && this.blockType == blockEventData.blockType;
    }
 
    @Override

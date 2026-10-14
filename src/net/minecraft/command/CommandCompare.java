@@ -23,74 +23,74 @@ public class CommandCompare extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.compare.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length < 9) {
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length < 9) {
          throw new WrongUsageException("commands.compare.usage");
       }
 
-      var1.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
-      BlockPos var6 = parseBlockPos(var1, var2, 0, false);
-      BlockPos var7 = parseBlockPos(var1, var2, 3, false);
-      BlockPos var8 = parseBlockPos(var1, var2, 6, false);
-      StructureBoundingBox var9 = new StructureBoundingBox(var6, var7);
-      StructureBoundingBox var10 = new StructureBoundingBox(var8, var8.add(var9.func_175896_b()));
-      int var11 = var9.G() * var9.getYSize() * var9.S();
-      if (var11 > 524288) {
-         throw new CommandException("commands.compare.tooManyBlocks", var11, 524288);
+      sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
+      BlockPos blockPos = parseBlockPos(sender, args, 0, false);
+      BlockPos blockPos2 = parseBlockPos(sender, args, 3, false);
+      BlockPos blockPos3 = parseBlockPos(sender, args, 6, false);
+      StructureBoundingBox structureBoundingBox = new StructureBoundingBox(blockPos, blockPos2);
+      StructureBoundingBox structureBoundingBox2 = new StructureBoundingBox(blockPos3, blockPos3.add(structureBoundingBox.func_175896_b()));
+      int i = structureBoundingBox.G() * structureBoundingBox.getYSize() * structureBoundingBox.S();
+      if (i > 524288) {
+         throw new CommandException("commands.compare.tooManyBlocks", i, 524288);
       }
 
-      if (var9.minY >= 0 && var9.maxY < 256 && var10.minY >= 0 && var10.maxY < 256) {
-         World var12 = var1.getEntityWorld();
-         if (var12.isAreaLoaded(var9) && var12.isAreaLoaded(var10)) {
-            boolean var13 = false;
-            if (var2.length > 9 && var2[9].equals("masked")) {
-               var13 = true;
+      if (structureBoundingBox.minY >= 0 && structureBoundingBox.maxY < 256 && structureBoundingBox2.minY >= 0 && structureBoundingBox2.maxY < 256) {
+         World world = sender.getEntityWorld();
+         if (world.isAreaLoaded(structureBoundingBox) && world.isAreaLoaded(structureBoundingBox2)) {
+            boolean bl = false;
+            if (args.length > 9 && args[9].equals("masked")) {
+               bl = true;
             }
 
-            var11 = 0;
-            BlockPos var14 = new BlockPos(var10.minX - var9.minX, var10.minY - var9.minY, var10.minZ - var9.minZ);
-            BlockPos.MutableBlockPos var15 = new BlockPos.MutableBlockPos();
-            BlockPos.MutableBlockPos var16 = new BlockPos.MutableBlockPos();
+            i = 0;
+            BlockPos blockPos4 = new BlockPos(structureBoundingBox2.minX - structureBoundingBox.minX, structureBoundingBox2.minY - structureBoundingBox.minY, structureBoundingBox2.minZ - structureBoundingBox.minZ);
+            BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+            BlockPos.MutableBlockPos mutableBlockPos2 = new BlockPos.MutableBlockPos();
 
-            for (int var17 = var9.minZ; var17 <= var9.maxZ; var17++) {
-               for (int var18 = var9.minY; var18 <= var9.maxY; var18++) {
-                  for (int var19 = var9.minX; var19 <= var9.maxX; var19++) {
-                     var15.set(var19, var18, var17);
-                     var16.set(var19 + var14.getX(), var18 + var14.getY(), var17 + var14.getZ());
-                     boolean var20 = false;
-                     IBlockState var21 = var12.getBlockState(var15);
-                     if (!var13 || var21.getBlock() != Blocks.air) {
-                        if (var21 == var12.getBlockState(var16)) {
-                           TileEntity var22 = var12.getTileEntity(var15);
-                           TileEntity var23 = var12.getTileEntity(var16);
-                           if (var22 != null && var23 != null) {
-                              NBTTagCompound var24 = new NBTTagCompound();
-                              var22.writeToNBT(var24);
-                              var24.removeTag("x");
-                              var24.removeTag("y");
-                              var24.removeTag("z");
-                              NBTTagCompound var25 = new NBTTagCompound();
-                              var23.writeToNBT(var25);
-                              var25.removeTag("x");
-                              var25.removeTag("y");
-                              var25.removeTag("z");
-                              if (!var24.equals(var25)) {
-                                 var20 = true;
+            for (int j = structureBoundingBox.minZ; j <= structureBoundingBox.maxZ; j++) {
+               for (int k = structureBoundingBox.minY; k <= structureBoundingBox.maxY; k++) {
+                  for (int l = structureBoundingBox.minX; l <= structureBoundingBox.maxX; l++) {
+                     mutableBlockPos.set(l, k, j);
+                     mutableBlockPos2.set(l + blockPos4.getX(), k + blockPos4.getY(), j + blockPos4.getZ());
+                     boolean bl2 = false;
+                     IBlockState iBlockState = world.getBlockState(mutableBlockPos);
+                     if (!bl || iBlockState.getBlock() != Blocks.air) {
+                        if (iBlockState == world.getBlockState(mutableBlockPos2)) {
+                           TileEntity tileEntity = world.getTileEntity(mutableBlockPos);
+                           TileEntity tileEntity2 = world.getTileEntity(mutableBlockPos2);
+                           if (tileEntity != null && tileEntity2 != null) {
+                              NBTTagCompound nbtTagCompound = new NBTTagCompound();
+                              tileEntity.writeToNBT(nbtTagCompound);
+                              nbtTagCompound.removeTag("x");
+                              nbtTagCompound.removeTag("y");
+                              nbtTagCompound.removeTag("z");
+                              NBTTagCompound nbtTagCompound2 = new NBTTagCompound();
+                              tileEntity2.writeToNBT(nbtTagCompound2);
+                              nbtTagCompound2.removeTag("x");
+                              nbtTagCompound2.removeTag("y");
+                              nbtTagCompound2.removeTag("z");
+                              if (!nbtTagCompound.equals(nbtTagCompound2)) {
+                                 bl2 = true;
                               }
-                           } else if (var22 != null) {
-                              var20 = true;
+                           } else if (tileEntity != null) {
+                              bl2 = true;
                            }
                         } else {
-                           var20 = true;
+                           bl2 = true;
                         }
 
-                        var11++;
-                        if (var20) {
+                        i++;
+                        if (bl2) {
                            throw new CommandException("commands.compare.failed");
                         }
                      }
@@ -98,8 +98,8 @@ public class CommandCompare extends CommandBase {
                }
             }
 
-            var1.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, var11);
-            notifyOperators(var1, this, "commands.compare.success", var11);
+            sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, i);
+            notifyOperators(sender, this, "commands.compare.success", i);
          } else {
             throw new CommandException("commands.compare.outOfWorld");
          }
@@ -109,16 +109,16 @@ public class CommandCompare extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length > 0 && var2.length <= 3
-         ? func_175771_a(var2, 0, var3)
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length > 0 && args.length <= 3
+         ? func_175771_a(args, 0, pos)
          : (
-            var2.length > 3 && var2.length <= 6
-               ? func_175771_a(var2, 3, var3)
+            args.length > 3 && args.length <= 6
+               ? func_175771_a(args, 3, pos)
                : (
-                  var2.length > 6 && var2.length <= 9
-                     ? func_175771_a(var2, 6, var3)
-                     : (var2.length == 10 ? getListOfStringsMatchingLastWord(var2, "masked", "all") : null)
+                  args.length > 6 && args.length <= 9
+                     ? func_175771_a(args, 6, pos)
+                     : (args.length == 10 ? getListOfStringsMatchingLastWord(args, "masked", "all") : null)
                )
          );
    }

@@ -15,17 +15,17 @@ public class CommandPublishLocalServer extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.publish.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      String var6 = MinecraftServer.getServer().shareToLAN(WorldSettings.GameType.SURVIVAL, false);
-      if (var6 != null) {
-         notifyOperators(var1, this, "commands.publish.started", var6);
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      String string = MinecraftServer.getServer().shareToLAN(WorldSettings.GameType.SURVIVAL, false);
+      if (string != null) {
+         notifyOperators(sender, this, "commands.publish.started", string);
       } else {
-         notifyOperators(var1, this, "commands.publish.failed");
+         notifyOperators(sender, this, "commands.publish.failed");
       }
    }
 }

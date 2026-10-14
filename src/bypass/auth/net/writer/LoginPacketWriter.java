@@ -10,24 +10,24 @@ public final class LoginPacketWriter implements PacketWriter<LoginPacket> {
    private static final long a = 89930680398976L;
    private static final long b = 714501026966667284L;
 
-   public void write(LoginPacket var1, PacketBuffer var2) {
-      byte[] var7 = var1.username.getBytes(StandardCharsets.UTF_8);
-      byte[] var8 = var1.password.getBytes(StandardCharsets.UTF_8);
-      byte[] var9 = var1.version.getBytes(StandardCharsets.UTF_8);
-      byte[] var10 = var1.hwid.getBytes(StandardCharsets.UTF_8);
-      byte[] var11 = var1.token.getBytes(StandardCharsets.UTF_8);
-      ByteBuffer var12 = ByteBuffer.allocate(var7.length + var8.length + var9.length + var10.length + var11.length + (int)b);
-      var12.putInt(var7.length);
-      var12.put(var7);
-      var12.putInt(var8.length);
-      var12.put(var8);
-      var12.putInt(var9.length);
-      var12.put(var9);
-      var12.putInt(var10.length);
-      var12.put(var10);
-      var12.putInt(var11.length);
-      var12.put(var11);
-      var2.n(var12);
-      PacketWriter.super.write(var1, var2);
+   public void write(LoginPacket loginPacket, PacketBuffer packetBuffer) {
+      byte[] bytes = loginPacket.username.getBytes(StandardCharsets.UTF_8);
+      byte[] bytes2 = loginPacket.password.getBytes(StandardCharsets.UTF_8);
+      byte[] bytes3 = loginPacket.version.getBytes(StandardCharsets.UTF_8);
+      byte[] bytes4 = loginPacket.hwid.getBytes(StandardCharsets.UTF_8);
+      byte[] bytes5 = loginPacket.token.getBytes(StandardCharsets.UTF_8);
+      ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + bytes2.length + bytes3.length + bytes4.length + bytes5.length + (int)b);
+      byteBuffer.putInt(bytes.length);
+      byteBuffer.put(bytes);
+      byteBuffer.putInt(bytes2.length);
+      byteBuffer.put(bytes2);
+      byteBuffer.putInt(bytes3.length);
+      byteBuffer.put(bytes3);
+      byteBuffer.putInt(bytes4.length);
+      byteBuffer.put(bytes4);
+      byteBuffer.putInt(bytes5.length);
+      byteBuffer.put(bytes5);
+      packetBuffer.n(byteBuffer);
+      PacketWriter.super.write(loginPacket, packetBuffer);
    }
 }

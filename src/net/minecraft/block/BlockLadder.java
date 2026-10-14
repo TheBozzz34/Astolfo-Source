@@ -24,35 +24,35 @@ public class BlockLadder extends Block {
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getCollisionBoundingBox(var1, var2, var3);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getCollisionBoundingBox(worldIn, pos, state);
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      this.setBlockBoundsBasedOnState(var1, var2);
-      return super.getSelectedBoundingBox(var1, var2);
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      this.setBlockBoundsBasedOnState(worldIn, pos);
+      return super.getSelectedBoundingBox(worldIn, pos);
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      IBlockState var6 = var1.getBlockState(var2);
-      if (var6.getBlock() == this) {
-         float var7 = 0.125F;
-         switch ((EnumFacing)var6.getValue(FACING)) {
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      IBlockState iBlockState = worldIn.getBlockState(pos);
+      if (iBlockState.getBlock() == this) {
+         float f = 0.125F;
+         switch ((EnumFacing)iBlockState.getValue(FACING)) {
             case NORTH:
-               this.setBlockBounds(0.0F, 0.0F, 1.0F - var7, 1.0F, 1.0F, 1.0F);
+               this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
                break;
             case SOUTH:
-               this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var7);
+               this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
                break;
             case WEST:
-               this.setBlockBounds(1.0F - var7, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+               this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                break;
             case EAST:
             default:
-               this.setBlockBounds(0.0F, 0.0F, 0.0F, var7, 1.0F, 1.0F);
+               this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
          }
       }
    }
@@ -68,25 +68,25 @@ public class BlockLadder extends Block {
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return var1.getBlockState(var2.west()).getBlock().isNormalCube()
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return worldIn.getBlockState(pos.west()).getBlock().isNormalCube()
          ? true
          : (
-            var1.getBlockState(var2.east()).getBlock().isNormalCube()
+            worldIn.getBlockState(pos.east()).getBlock().isNormalCube()
                ? true
-               : (var1.getBlockState(var2.north()).getBlock().isNormalCube() ? true : var1.getBlockState(var2.south()).getBlock().isNormalCube())
+               : (worldIn.getBlockState(pos.north()).getBlock().isNormalCube() ? true : worldIn.getBlockState(pos.south()).getBlock().isNormalCube())
          );
    }
 
    @Override
-   public IBlockState onBlockPlaced(World var1, BlockPos var2, EnumFacing var3, float var4, float var5, float var6, int var7, EntityLivingBase var8) {
-      if (var3.getAxis().isHorizontal() && this.canBlockStay(var1, var2, var3)) {
-         return this.getDefaultState().withProperty(FACING, var3);
+   public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+      if (facing.getAxis().isHorizontal() && this.canBlockStay(worldIn, pos, facing)) {
+         return this.getDefaultState().withProperty(FACING, facing);
       }
 
-      for (Object var13 : EnumFacing.Plane.HORIZONTAL) {
-         if (this.canBlockStay(var1, var2, (EnumFacing)var13)) {
-            return this.getDefaultState().withProperty(FACING, (EnumFacing)var13);
+      for (Object object : EnumFacing.Plane.HORIZONTAL) {
+         if (this.canBlockStay(worldIn, pos, (EnumFacing)object)) {
+            return this.getDefaultState().withProperty(FACING, (EnumFacing)object);
          }
       }
 
@@ -94,18 +94,18 @@ public class BlockLadder extends Block {
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      EnumFacing var8 = var3.getValue(FACING);
-      if (!this.canBlockStay(var1, var2, var8)) {
-         this.dropBlockAsItem(var1, var2, var3, 0);
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      EnumFacing enumFacing = state.getValue(FACING);
+      if (!this.canBlockStay(worldIn, pos, enumFacing)) {
+         this.dropBlockAsItem(worldIn, pos, state, 0);
+         worldIn.setBlockToAir(pos);
       }
 
-      super.onNeighborBlockChange(var1, var2, var3, var4);
+      super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
    }
 
-   public boolean canBlockStay(World var1, BlockPos var2, EnumFacing var3) {
-      return var1.getBlockState(var2.offset(var3.getOpposite())).getBlock().isNormalCube();
+   public boolean canBlockStay(World worldIn, BlockPos pos, EnumFacing facing) {
+      return worldIn.getBlockState(pos.offset(facing.getOpposite())).getBlock().isNormalCube();
    }
 
    @Override
@@ -114,18 +114,18 @@ public class BlockLadder extends Block {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      EnumFacing var5 = EnumFacing.getFront(var1);
-      if (var5.getAxis() == EnumFacing.Axis.Y) {
-         var5 = EnumFacing.NORTH;
+   public IBlockState getStateFromMeta(int meta) {
+      EnumFacing enumFacing = EnumFacing.getFront(meta);
+      if (enumFacing.getAxis() == EnumFacing.Axis.Y) {
+         enumFacing = EnumFacing.NORTH;
       }
 
-      return this.getDefaultState().withProperty(FACING, var5);
+      return this.getDefaultState().withProperty(FACING, enumFacing);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(FACING).getIndex();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(FACING).getIndex();
    }
 
    @Override

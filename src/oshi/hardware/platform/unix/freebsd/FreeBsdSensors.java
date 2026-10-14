@@ -16,18 +16,18 @@ public final class FreeBsdSensors extends AbstractSensors {
    }
 
    private static double queryKldloadCoretemp() {
-      String var3 = "dev.cpu.%d.temperature";
-      IntByReference var4 = new IntByReference(FreeBsdLibc.INT_SIZE);
-      Memory var5 = new Memory(var4.getValue());
-      int var6 = 0;
-      double var7 = 0.0;
+      String string = "dev.cpu.%d.temperature";
+      IntByReference intByReference = new IntByReference(FreeBsdLibc.INT_SIZE);
+      Memory memory = new Memory(intByReference.getValue());
+      int i = 0;
+      double e = 0.0;
 
-      while (0 == FreeBsdLibc.INSTANCE.sysctlbyname(String.format(var3, var6), var5, var4, null, 0)) {
-         var7 += var5.getInt(0L) / 10.0 - 273.15;
-         var6++;
+      while (0 == FreeBsdLibc.INSTANCE.sysctlbyname(String.format(string, i), memory, intByReference, null, 0)) {
+         e += memory.getInt(0L) / 10.0 - 273.15;
+         i++;
       }
 
-      return var6 > 0 ? var7 / var6 : Double.NaN;
+      return i > 0 ? e / i : Double.NaN;
    }
 
    @Override

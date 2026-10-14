@@ -13,9 +13,9 @@ public class ThreadedFileIOBase implements Runnable {
    private static final long a = 22515376679672L;
 
    private ThreadedFileIOBase() {
-      Thread var3 = new Thread(this, "File IO Thread");
-      var3.setPriority(1);
-      var3.start();
+      Thread thread = new Thread(this, "File IO Thread");
+      thread.setPriority(1);
+      thread.start();
    }
 
    public static ThreadedFileIOBase getThreadedIOInstance() {
@@ -30,34 +30,34 @@ public class ThreadedFileIOBase implements Runnable {
    }
 
    private void processQueue() {
-      for (int var4 = 0; var4 < this.threadedIOQueue.size(); var4++) {
-         IThreadedFileIO var5 = this.threadedIOQueue.get(var4);
-         boolean var6 = var5.writeNextIO();
-         if (!var6) {
-            this.threadedIOQueue.remove(var4--);
+      for (int i = 0; i < this.threadedIOQueue.size(); i++) {
+         IThreadedFileIO iThreadedFileIO = this.threadedIOQueue.get(i);
+         boolean bl = iThreadedFileIO.writeNextIO();
+         if (!bl) {
+            this.threadedIOQueue.remove(i--);
             this.savedIOCounter++;
          }
 
          try {
             Thread.sleep(this.isThreadWaiting ? 0L : 10L);
-         } catch (InterruptedException var9) {
-            var9.printStackTrace();
+         } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
          }
       }
 
       if (this.threadedIOQueue.isEmpty()) {
          try {
             Thread.sleep(25L);
-         } catch (InterruptedException var8) {
-            var8.printStackTrace();
+         } catch (InterruptedException interruptedException2) {
+            interruptedException2.printStackTrace();
          }
       }
    }
 
-   public void queueIO(IThreadedFileIO var1) {
-      if (!this.threadedIOQueue.contains(var1)) {
+   public void queueIO(IThreadedFileIO iThreadedFileIO) {
+      if (!this.threadedIOQueue.contains(iThreadedFileIO)) {
          this.writeQueuedCounter++;
-         this.threadedIOQueue.add(var1);
+         this.threadedIOQueue.add(iThreadedFileIO);
       }
    }
 

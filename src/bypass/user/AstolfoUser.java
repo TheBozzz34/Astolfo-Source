@@ -6,9 +6,9 @@ public class AstolfoUser {
    public AstolfoUserStatus K;
    private static final long a = 128941045255775L;
 
-   public AstolfoUser(String var1, String var2, AstolfoUserStatus var3) {
-      this.s = var1;
-      this.N = var2;
-      this.K = var3;
+   public AstolfoUser(String string, String string2, AstolfoUserStatus astolfoUserStatus) {
+      this.s = string;
+      this.N = string2;
+      this.K = astolfoUserStatus;
    }
 }

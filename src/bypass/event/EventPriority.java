@@ -9,8 +9,8 @@ public enum EventPriority {
 
    public int level;
 
-   EventPriority(int var3) {
-      this.level = var3;
+   EventPriority(int j) {
+      this.level = j;
    }
 
    public int J() {

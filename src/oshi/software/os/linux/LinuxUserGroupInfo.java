@@ -10,41 +10,41 @@ public class LinuxUserGroupInfo {
    private final Map<String, String> groupsIdMap = getGroupMap();
    private static final long a = 25708782394808L;
 
-   public Pair<String, String> getUser(String var1) {
-      return this.usersIdMap.getOrDefault(var1, new Pair<>(var1, "unknown"));
+   public Pair<String, String> getUser(String userId) {
+      return this.usersIdMap.getOrDefault(userId, new Pair<>(userId, "unknown"));
    }
 
-   public String getGroupName(String var1) {
-      return this.groupsIdMap.getOrDefault(var1, "unknown");
+   public String getGroupName(String groupId) {
+      return this.groupsIdMap.getOrDefault(groupId, "unknown");
    }
 
    private static Map<String, Pair<String, String>> getUserMap() {
-      HashMap var3 = new HashMap();
+      HashMap hashMap = new HashMap();
 
-      for (String var6 : ExecutingCommand.runNative("getent passwd")) {
-         String[] var7 = var6.split(":");
-         if (var7.length >= 3) {
-            String var8 = var7[0];
-            String var9 = var7[2];
-            var3.putIfAbsent(var9, new Pair<>(var9, var8));
+      for (String string : ExecutingCommand.runNative("getent passwd")) {
+         String[] strings = string.split(":");
+         if (strings.length >= 3) {
+            String string2 = strings[0];
+            String string3 = strings[2];
+            hashMap.putIfAbsent(string3, new Pair<>(string3, string2));
          }
       }
 
-      return var3;
+      return hashMap;
    }
 
    private static Map<String, String> getGroupMap() {
-      HashMap var3 = new HashMap();
+      HashMap hashMap = new HashMap();
 
-      for (String var6 : ExecutingCommand.runNative("getent group")) {
-         String[] var7 = var6.split(":");
-         if (var7.length > 2) {
-            String var8 = var7[0];
-            String var9 = var7[2];
-            var3.putIfAbsent(var9, var8);
+      for (String string : ExecutingCommand.runNative("getent group")) {
+         String[] strings = string.split(":");
+         if (strings.length > 2) {
+            String string2 = strings[0];
+            String string3 = strings[2];
+            hashMap.putIfAbsent(string3, string2);
          }
       }
 
-      return var3;
+      return hashMap;
    }
 }

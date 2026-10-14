@@ -13,12 +13,12 @@ public final class UpTime {
    }
 
    public static double getSystemUptimeSeconds() {
-      String var2 = FileUtil.getStringFromFile(ProcPath.UPTIME);
-      int var3 = var2.indexOf((int)b);
+      String string = FileUtil.getStringFromFile(ProcPath.UPTIME);
+      int i = string.indexOf((int)b);
 
       try {
-         return var3 < 0 ? 0.0 : Double.parseDouble(var2.substring(0, var3));
-      } catch (NumberFormatException var5) {
+         return i < 0 ? 0.0 : Double.parseDouble(string.substring(0, i));
+      } catch (NumberFormatException numberFormatException) {
          return 0.0;
       }
    }

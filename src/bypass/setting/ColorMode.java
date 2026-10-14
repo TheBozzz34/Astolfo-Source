@@ -8,7 +8,7 @@ public enum ColorMode {
    public final int index;
    private static final ColorMode[] I = new ColorMode[]{NONE, RAINBOW, PULSATE};
 
-   ColorMode(int var3) {
-      this.index = var3;
+   ColorMode(int j) {
+      this.index = j;
    }
 }

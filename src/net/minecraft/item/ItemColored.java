@@ -7,37 +7,37 @@ public class ItemColored extends ItemBlock {
    private String[] subtypeNames;
    private static final long a = 11959513315217L;
 
-   public ItemColored(Block var1, boolean var2) {
-      super(var1);
-      this.coloredBlock = var1;
-      if (var2) {
+   public ItemColored(Block block, boolean hasSubtypes) {
+      super(block);
+      this.coloredBlock = block;
+      if (hasSubtypes) {
          this.setMaxDamage(0);
          this.setHasSubtypes(true);
       }
    }
 
    @Override
-   public int getColorFromItemStack(ItemStack var1, int var2) {
-      return this.coloredBlock.getRenderColor(this.coloredBlock.getStateFromMeta(var1.getMetadata()));
+   public int getColorFromItemStack(ItemStack stack, int renderPass) {
+      return this.coloredBlock.getRenderColor(this.coloredBlock.getStateFromMeta(stack.getMetadata()));
    }
 
    @Override
-   public int getMetadata(int var1) {
-      return var1;
+   public int getMetadata(int damage) {
+      return damage;
    }
 
-   public ItemColored setSubtypeNames(String[] var1) {
-      this.subtypeNames = var1;
+   public ItemColored setSubtypeNames(String[] names) {
+      this.subtypeNames = names;
       return this;
    }
 
    @Override
-   public String getUnlocalizedName(ItemStack var1) {
+   public String getUnlocalizedName(ItemStack stack) {
       if (this.subtypeNames == null) {
-         return super.getUnlocalizedName(var1);
+         return super.getUnlocalizedName(stack);
       }
 
-      int var5 = var1.getMetadata();
-      return var5 >= 0 && var5 < this.subtypeNames.length ? super.getUnlocalizedName(var1) + "." + this.subtypeNames[var5] : super.getUnlocalizedName(var1);
+      int i = stack.getMetadata();
+      return i >= 0 && i < this.subtypeNames.length ? super.getUnlocalizedName(stack) + "." + this.subtypeNames[i] : super.getUnlocalizedName(stack);
    }
 }

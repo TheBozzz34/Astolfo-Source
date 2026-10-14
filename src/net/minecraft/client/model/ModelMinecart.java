@@ -13,22 +13,22 @@ public class ModelMinecart extends ModelBase {
       this.sideModels[3] = new ModelRenderer(this, 0, 0);
       this.sideModels[4] = new ModelRenderer(this, 0, 0);
       this.sideModels[5] = new ModelRenderer(this, 44, 10);
-      byte var3 = 20;
-      byte var4 = 8;
-      byte var5 = 16;
-      byte var6 = 4;
-      this.sideModels[0].addBox(-var3 / 2, -var5 / 2, -1.0F, var3, var5, 2, 0.0F);
-      this.sideModels[0].setRotationPoint(0.0F, var6, 0.0F);
-      this.sideModels[5].addBox(-var3 / 2 + 1, -var5 / 2 + 1, -1.0F, var3 - 2, var5 - 2, 1, 0.0F);
-      this.sideModels[5].setRotationPoint(0.0F, var6, 0.0F);
-      this.sideModels[1].addBox(-var3 / 2 + 2, -var4 - 1, -1.0F, var3 - 4, var4, 2, 0.0F);
-      this.sideModels[1].setRotationPoint(-var3 / 2 + 1, var6, 0.0F);
-      this.sideModels[2].addBox(-var3 / 2 + 2, -var4 - 1, -1.0F, var3 - 4, var4, 2, 0.0F);
-      this.sideModels[2].setRotationPoint(var3 / 2 - 1, var6, 0.0F);
-      this.sideModels[3].addBox(-var3 / 2 + 2, -var4 - 1, -1.0F, var3 - 4, var4, 2, 0.0F);
-      this.sideModels[3].setRotationPoint(0.0F, var6, -var5 / 2 + 1);
-      this.sideModels[4].addBox(-var3 / 2 + 2, -var4 - 1, -1.0F, var3 - 4, var4, 2, 0.0F);
-      this.sideModels[4].setRotationPoint(0.0F, var6, var5 / 2 - 1);
+      byte b = 20;
+      byte b2 = 8;
+      byte b3 = 16;
+      byte b4 = 4;
+      this.sideModels[0].addBox(-b / 2, -b3 / 2, -1.0F, b, b3, 2, 0.0F);
+      this.sideModels[0].setRotationPoint(0.0F, b4, 0.0F);
+      this.sideModels[5].addBox(-b / 2 + 1, -b3 / 2 + 1, -1.0F, b - 2, b3 - 2, 1, 0.0F);
+      this.sideModels[5].setRotationPoint(0.0F, b4, 0.0F);
+      this.sideModels[1].addBox(-b / 2 + 2, -b2 - 1, -1.0F, b - 4, b2, 2, 0.0F);
+      this.sideModels[1].setRotationPoint(-b / 2 + 1, b4, 0.0F);
+      this.sideModels[2].addBox(-b / 2 + 2, -b2 - 1, -1.0F, b - 4, b2, 2, 0.0F);
+      this.sideModels[2].setRotationPoint(b / 2 - 1, b4, 0.0F);
+      this.sideModels[3].addBox(-b / 2 + 2, -b2 - 1, -1.0F, b - 4, b2, 2, 0.0F);
+      this.sideModels[3].setRotationPoint(0.0F, b4, -b3 / 2 + 1);
+      this.sideModels[4].addBox(-b / 2 + 2, -b2 - 1, -1.0F, b - 4, b2, 2, 0.0F);
+      this.sideModels[4].setRotationPoint(0.0F, b4, b3 / 2 - 1);
       this.sideModels[0].rotateAngleX = (float) (Math.PI / 2);
       this.sideModels[1].rotateAngleY = (float) (Math.PI * 3.0 / 2.0);
       this.sideModels[2].rotateAngleY = (float) (Math.PI / 2);
@@ -37,11 +37,11 @@ public class ModelMinecart extends ModelBase {
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      this.sideModels[5].rotationPointY = 4.0F - var4;
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      this.sideModels[5].rotationPointY = 4.0F - h;
 
-      for (int var11 = 0; var11 < 6; var11++) {
-         this.sideModels[var11].render(var7);
+      for (int i = 0; i < 6; i++) {
+         this.sideModels[i].render(scale);
       }
    }
 }

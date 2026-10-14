@@ -10,11 +10,11 @@ public final class Remove extends OneArgFunction {
    private static final long a = 101475076665625L;
 
    @Override
-   public LuaValue call(LuaValue var1) {
-      if (!var1.isnil() && var1.isnumber() && var1.isint()) {
-         Entity var5 = WorldLibrary.X.get(var1.checkint());
-         if (var5 != null) {
-            ClientAccess.mc.theWorld.removeEntity(var5);
+   public LuaValue call(LuaValue luaValue) {
+      if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
+         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         if (entity != null) {
+            ClientAccess.mc.theWorld.removeEntity(entity);
             return valueOf(true);
          }
       }

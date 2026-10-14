@@ -11,8 +11,8 @@ public class BlockCompressedPowered extends Block {
    private static final long e = 81423072695778L;
    private static final long i = 1552916705146044431L;
 
-   public BlockCompressedPowered(Material var1, MapColor var2) {
-      super(var1, var2);
+   public BlockCompressedPowered(Material material, MapColor mapColor) {
+      super(material, mapColor);
    }
 
    @Override
@@ -21,7 +21,7 @@ public class BlockCompressedPowered extends Block {
    }
 
    @Override
-   public int getWeakPower(IBlockAccess var1, BlockPos var2, IBlockState var3, EnumFacing var4) {
+   public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
       return (int)i;
    }
 }

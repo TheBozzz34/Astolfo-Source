@@ -13,26 +13,26 @@ public class WorldGenVines extends WorldGenerator {
    private static final long b = -2057056964168384384L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      while (var3.getY() < (int)b) {
-         if (var1.isAirBlock(var3)) {
-            for (EnumFacing var10 : EnumFacing.Plane.HORIZONTAL.facings()) {
-               if (Blocks.vine.canPlaceBlockOnSide(var1, var3, var10)) {
-                  IBlockState var11 = Blocks.vine
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      while (position.getY() < (int)b) {
+         if (worldIn.isAirBlock(position)) {
+            for (EnumFacing enumFacing : EnumFacing.Plane.HORIZONTAL.facings()) {
+               if (Blocks.vine.canPlaceBlockOnSide(worldIn, position, enumFacing)) {
+                  IBlockState iBlockState = Blocks.vine
                      .getDefaultState()
-                     .withProperty(BlockVine.NORTH, var10 == EnumFacing.NORTH)
-                     .withProperty(BlockVine.EAST, var10 == EnumFacing.EAST)
-                     .withProperty(BlockVine.SOUTH, var10 == EnumFacing.SOUTH)
-                     .withProperty(BlockVine.WEST, var10 == EnumFacing.WEST);
-                  var1.setBlockState(var3, var11, 2);
+                     .withProperty(BlockVine.NORTH, enumFacing == EnumFacing.NORTH)
+                     .withProperty(BlockVine.EAST, enumFacing == EnumFacing.EAST)
+                     .withProperty(BlockVine.SOUTH, enumFacing == EnumFacing.SOUTH)
+                     .withProperty(BlockVine.WEST, enumFacing == EnumFacing.WEST);
+                  worldIn.setBlockState(position, iBlockState, 2);
                   break;
                }
             }
          } else {
-            var3 = var3.add(var2.nextInt(4) - var2.nextInt(4), 0, var2.nextInt(4) - var2.nextInt(4));
+            position = position.add(rand.nextInt(4) - rand.nextInt(4), 0, rand.nextInt(4) - rand.nextInt(4));
          }
 
-         var3 = var3.up();
+         position = position.up();
       }
 
       return true;

@@ -9,37 +9,37 @@ public final class XorMasks {
    private static final byte B = 33;
    private static final long a = 114941214252859L;
 
-   public static byte m(byte var0) {
-      return (byte)(var0 ^ 72);
+   public static byte m(byte b) {
+      return (byte)(b ^ 72);
    }
 
-   public static byte e(byte var0) {
-      return (byte)(var0 ^ 45);
+   public static byte e(byte b) {
+      return (byte)(b ^ 45);
    }
 
-   public static byte W(byte var0) {
-      return (byte)(var0 ^ 22);
+   public static byte W(byte b) {
+      return (byte)(b ^ 22);
    }
 
-   public static byte L(byte var0) {
-      return (byte)(var0 ^ 14);
+   public static byte L(byte b) {
+      return (byte)(b ^ 14);
    }
 
-   public static byte Z(byte var0) {
-      return (byte)(var0 ^ 99);
+   public static byte Z(byte b) {
+      return (byte)(b ^ 99);
    }
 
-   public static byte C(byte var0) {
-      return (byte)(var0 ^ 33);
+   public static byte C(byte b) {
+      return (byte)(b ^ 33);
    }
 
    static {
-      long var0 = a ^ 21331223225858L;
-      long var10000 = var0 ^ 8514064284078194092L;
-      var10000 = var0 ^ 2460136048495960219L;
-      var10000 = var0 ^ 5911462281177442192L;
-      var10000 = var0 ^ 3742263885249019097L;
-      var10000 = var0 ^ 1892368278199275216L;
-      var10000 = var0 ^ 4861844347580305118L;
+      long l = a ^ 21331223225858L;
+      long m = l ^ 8514064284078194092L;
+      m = l ^ 2460136048495960219L;
+      m = l ^ 5911462281177442192L;
+      m = l ^ 3742263885249019097L;
+      m = l ^ 1892368278199275216L;
+      m = l ^ 4861844347580305118L;
    }
 }

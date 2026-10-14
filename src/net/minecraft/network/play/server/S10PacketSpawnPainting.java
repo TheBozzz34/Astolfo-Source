@@ -17,31 +17,31 @@ public class S10PacketSpawnPainting implements Packet<INetHandlerPlayClient> {
    public S10PacketSpawnPainting() {
    }
 
-   public S10PacketSpawnPainting(EntityPainting var1) {
-      this.entityID = var1.getEntityId();
-      this.position = var1.getHangingPosition();
-      this.facing = var1.facingDirection;
-      this.title = var1.art.title;
+   public S10PacketSpawnPainting(EntityPainting painting) {
+      this.entityID = painting.getEntityId();
+      this.position = painting.getHangingPosition();
+      this.facing = painting.facingDirection;
+      this.title = painting.art.title;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityID = var1.readVarIntFromBuffer();
-      this.title = var1.readStringFromBuffer(EntityPainting.EnumArt.field_180001_A);
-      this.position = var1.readBlockPos();
-      this.facing = EnumFacing.getHorizontal(var1.readUnsignedByte());
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityID = buf.readVarIntFromBuffer();
+      this.title = buf.readStringFromBuffer(EntityPainting.EnumArt.field_180001_A);
+      this.position = buf.readBlockPos();
+      this.facing = EnumFacing.getHorizontal(buf.readUnsignedByte());
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityID);
-      var1.writeString(this.title);
-      var1.writeBlockPos(this.position);
-      var1.writeByte(this.facing.getHorizontalIndex());
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityID);
+      buf.writeString(this.title);
+      buf.writeBlockPos(this.position);
+      buf.writeByte(this.facing.getHorizontalIndex());
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSpawnPainting(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSpawnPainting(this);
    }
 
    public int getEntityID() {

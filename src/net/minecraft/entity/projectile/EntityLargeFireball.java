@@ -12,43 +12,43 @@ public class EntityLargeFireball extends EntityFireball {
    private static final long bb = 77616454307903L;
    private static final long pb = 3414640450772926563L;
 
-   public EntityLargeFireball(World var1) {
-      super(var1);
+   public EntityLargeFireball(World worldIn) {
+      super(worldIn);
    }
 
-   public EntityLargeFireball(World var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-      super(var1, var2, var4, var6, var8, var10, var12);
+   public EntityLargeFireball(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+      super(worldIn, x, y, z, accelX, accelY, accelZ);
    }
 
-   public EntityLargeFireball(World var1, EntityLivingBase var2, double var3, double var5, double var7) {
-      super(var1, var2, var3, var5, var7);
+   public EntityLargeFireball(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+      super(worldIn, shooter, accelX, accelY, accelZ);
    }
 
    @Override
-   public void onImpact(MovingObjectPosition var1) {
+   public void onImpact(MovingObjectPosition movingObject) {
       if (!this.worldObj.isRemote) {
-         if (var1.entityHit != null) {
-            var1.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 6.0F);
-            this.applyEnchantments(this.shootingEntity, var1.entityHit);
+         if (movingObject.entityHit != null) {
+            movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 6.0F);
+            this.applyEnchantments(this.shootingEntity, movingObject.entityHit);
          }
 
-         boolean var5 = this.worldObj.getGameRules().getBoolean("mobGriefing");
-         this.worldObj.newExplosion((Entity)null, this.posX, this.posY, this.posZ, this.explosionPower, var5, var5);
+         boolean bl = this.worldObj.getGameRules().getBoolean("mobGriefing");
+         this.worldObj.newExplosion((Entity)null, this.posX, this.posY, this.posZ, this.explosionPower, bl, bl);
          this.setDead();
       }
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setInteger("ExplosionPower", this.explosionPower);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setInteger("ExplosionPower", this.explosionPower);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      if (var1.hasKey("ExplosionPower", (int)pb)) {
-         this.explosionPower = var1.getInteger("ExplosionPower");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      if (tagCompund.hasKey("ExplosionPower", (int)pb)) {
+         this.explosionPower = tagCompund.getInteger("ExplosionPower");
       }
    }
 }

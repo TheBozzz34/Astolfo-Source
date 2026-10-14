@@ -29,20 +29,20 @@ public class BlockBeacon extends BlockContainer {
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityBeacon();
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var1.isRemote) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      TileEntity var12 = var1.getTileEntity(var2);
-      if (var12 instanceof TileEntityBeacon) {
-         var4.displayGUIChest((TileEntityBeacon)var12);
-         var4.triggerAchievement(StatList.field_181730_N);
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityBeacon) {
+         playerIn.displayGUIChest((TileEntityBeacon)tileEntity);
+         playerIn.triggerAchievement(StatList.field_181730_N);
       }
 
       return true;
@@ -64,22 +64,22 @@ public class BlockBeacon extends BlockContainer {
    }
 
    @Override
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
-      super.onBlockPlacedBy(var1, var2, var3, var4, var5);
-      if (var5.hasDisplayName()) {
-         TileEntity var9 = var1.getTileEntity(var2);
-         if (var9 instanceof TileEntityBeacon) {
-            ((TileEntityBeacon)var9).setName(var5.getDisplayName());
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+      super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+      if (stack.hasDisplayName()) {
+         TileEntity tileEntity = worldIn.getTileEntity(pos);
+         if (tileEntity instanceof TileEntityBeacon) {
+            ((TileEntityBeacon)tileEntity).setName(stack.getDisplayName());
          }
       }
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      TileEntity var8 = var1.getTileEntity(var2);
-      if (var8 instanceof TileEntityBeacon) {
-         ((TileEntityBeacon)var8).updateBeacon();
-         var1.addBlockEvent(var2, this, 1, 0);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityBeacon) {
+         ((TileEntityBeacon)tileEntity).updateBeacon();
+         worldIn.addBlockEvent(pos, this, 1, 0);
       }
    }
 
@@ -88,31 +88,31 @@ public class BlockBeacon extends BlockContainer {
       return EnumWorldBlockLayer.CUTOUT;
    }
 
-   public static void updateColorAsync(final World var0, final BlockPos var1) {
+   public static void updateColorAsync(final World worldIn, final BlockPos glassPos) {
       HttpUtil.field_180193_a.submit(new Runnable() {
          private static final long a = 108848111984645L;
 
          @Override
          public void run() {
-            Chunk var4 = var0.getChunkFromBlockCoords(var1);
+            Chunk chunk = worldIn.getChunkFromBlockCoords(glassPos);
 
-            for (int var5 = var1.getY() - 1; var5 >= 0; var5--) {
-               final BlockPos var6 = new BlockPos(var1.getX(), var5, var1.getZ());
-               if (!var4.canSeeSky(var6)) {
+            for (int i = glassPos.getY() - 1; i >= 0; i--) {
+               final BlockPos blockPos = new BlockPos(glassPos.getX(), i, glassPos.getZ());
+               if (!chunk.canSeeSky(blockPos)) {
                   break;
                }
 
-               IBlockState var7 = var0.getBlockState(var6);
-               if (var7.getBlock() == Blocks.beacon) {
-                  ((WorldServer)var0).addScheduledTask(new Runnable() {
+               IBlockState iBlockState = worldIn.getBlockState(blockPos);
+               if (iBlockState.getBlock() == Blocks.beacon) {
+                  ((WorldServer)worldIn).addScheduledTask(new Runnable() {
                      private static final long a = 14211617065518L;
 
                      @Override
                      public void run() {
-                        TileEntity var4 = var0.getTileEntity(var6);
-                        if (var4 instanceof TileEntityBeacon) {
-                           ((TileEntityBeacon)var4).updateBeacon();
-                           var0.addBlockEvent(var6, Blocks.beacon, 1, 0);
+                        TileEntity tileEntity = worldIn.getTileEntity(blockPos);
+                        if (tileEntity instanceof TileEntityBeacon) {
+                           ((TileEntityBeacon)tileEntity).updateBeacon();
+                           worldIn.addBlockEvent(blockPos, Blocks.beacon, 1, 0);
                         }
                      }
                   });

@@ -7,9 +7,9 @@ public class FileSendRequest {
    public final Path q;
    public final long g;
 
-   public FileSendRequest(String var1, Path var2, long var3) {
-      this.X = var1;
-      this.q = var2;
-      this.g = var3;
+   public FileSendRequest(String string, Path path, long l) {
+      this.X = string;
+      this.q = path;
+      this.g = l;
    }
 }

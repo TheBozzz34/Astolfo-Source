@@ -10,10 +10,10 @@ public abstract class SettingComponent extends Component {
    private Setting C;
    private Container f;
 
-   public SettingComponent(Container var1, Setting var2, int var3, int var4) {
-      super(var2.getName(), 0.0F, 0.0F, var3, var4);
-      this.f = var1;
-      this.C = var2;
+   public SettingComponent(Container container, Setting setting, int i, int j) {
+      super(setting.getName(), 0.0F, 0.0F, i, j);
+      this.f = container;
+      this.C = setting;
    }
 
    public boolean B() {

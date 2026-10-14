@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 public class Barrier extends EntityFX {
    private static final long ab = 54475275198557L;
 
-   public Barrier(World var1, double var2, double var4, double var6, Item var8) {
-      super(var1, var2, var4, var6, 0.0, 0.0, 0.0);
-      this.setParticleIcon(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(var8));
+   public Barrier(World worldIn, double d, double d2, double d3, Item item) {
+      super(worldIn, d, d2, d3, 0.0, 0.0, 0.0);
+      this.setParticleIcon(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(item));
       this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
       this.motionX = this.motionY = this.motionZ = 0.0;
       this.particleGravity = 0.0F;
@@ -25,43 +25,54 @@ public class Barrier extends EntityFX {
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      float var11 = this.particleIcon.getMinU();
-      float var12 = this.particleIcon.getMaxU();
-      float var13 = this.particleIcon.getMinV();
-      float var14 = this.particleIcon.getMaxV();
-      float var16 = (float)(this.prevPosX + (this.posX - this.prevPosX) * var3 - interpPosX);
-      float var17 = (float)(this.prevPosY + (this.posY - this.prevPosY) * var3 - interpPosY);
-      float var18 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * var3 - interpPosZ);
-      int var19 = this.getBrightnessForRender(var3);
-      int var20 = var19 >> 16 & 65535;
-      int var21 = var19 & 65535;
-      var1.pos(var16 - var4 * 0.5F - var7 * 0.5F, var17 - var5 * 0.5F, var18 - var6 * 0.5F - var8 * 0.5F)
-         .tex(var12, var14)
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      float f = this.particleIcon.getMinU();
+      float g = this.particleIcon.getMaxU();
+      float h = this.particleIcon.getMinV();
+      float f2 = this.particleIcon.getMaxV();
+      float f3 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
+      float f4 = (float)(this.prevPosY + (this.posY - this.prevPosY) * partialTicks - interpPosY);
+      float f5 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * partialTicks - interpPosZ);
+      int i = this.getBrightnessForRender(partialTicks);
+      int j = i >> 16 & 65535;
+      int k = i & 65535;
+      worldRendererIn.pos(f3 - rotationX * 0.5F - rotationXY * 0.5F, f4 - rotationZ * 0.5F, f5 - rotationYZ * 0.5F - rotationXZ * 0.5F)
+         .tex(g, f2)
          .color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F)
-         .lightmap(var20, var21)
+         .lightmap(j, k)
          .endVertex();
-      var1.pos(var16 - var4 * 0.5F + var7 * 0.5F, var17 + var5 * 0.5F, var18 - var6 * 0.5F + var8 * 0.5F)
-         .tex(var12, var13)
+      worldRendererIn.pos(f3 - rotationX * 0.5F + rotationXY * 0.5F, f4 + rotationZ * 0.5F, f5 - rotationYZ * 0.5F + rotationXZ * 0.5F)
+         .tex(g, h)
          .color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F)
-         .lightmap(var20, var21)
+         .lightmap(j, k)
          .endVertex();
-      var1.pos(var16 + var4 * 0.5F + var7 * 0.5F, var17 + var5 * 0.5F, var18 + var6 * 0.5F + var8 * 0.5F)
-         .tex(var11, var13)
+      worldRendererIn.pos(f3 + rotationX * 0.5F + rotationXY * 0.5F, f4 + rotationZ * 0.5F, f5 + rotationYZ * 0.5F + rotationXZ * 0.5F)
+         .tex(f, h)
          .color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F)
-         .lightmap(var20, var21)
+         .lightmap(j, k)
          .endVertex();
-      var1.pos(var16 + var4 * 0.5F - var7 * 0.5F, var17 - var5 * 0.5F, var18 + var6 * 0.5F - var8 * 0.5F)
-         .tex(var11, var14)
+      worldRendererIn.pos(f3 + rotationX * 0.5F - rotationXY * 0.5F, f4 - rotationZ * 0.5F, f5 + rotationYZ * 0.5F - rotationXZ * 0.5F)
+         .tex(f, f2)
          .color(this.particleRed, this.particleGreen, this.particleBlue, 1.0F)
-         .lightmap(var20, var21)
+         .lightmap(j, k)
          .endVertex();
    }
 
    public static class Factory implements IParticleFactory {
       @Override
-      public EntityFX getEntityFX(int var1, World var2, double var3, double var5, double var7, double var9, double var11, double var13, int... var15) {
-         return new Barrier(var2, var3, var5, var7, Item.getItemFromBlock(Blocks.barrier));
+      public EntityFX getEntityFX(
+         int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... ints
+      ) {
+         return new Barrier(worldIn, xCoordIn, yCoordIn, zCoordIn, Item.getItemFromBlock(Blocks.barrier));
       }
    }
 }

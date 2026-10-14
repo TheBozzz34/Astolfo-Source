@@ -21,50 +21,50 @@ public abstract class AbstractMap<K, V> extends AbstractIterable<Pair<K, V>> imp
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (var1 == this) {
+   public boolean equals(Object o) {
+      if (o == this) {
          return true;
       }
 
-      if (!(var1 instanceof Map)) {
+      if (!(o instanceof Map)) {
          return false;
       }
 
-      Map var5 = (Map)var1;
-      if (var5.size() != this.size()) {
+      Map map = (Map)o;
+      if (map.size() != this.size()) {
          return false;
       }
 
       try {
-         for (Pair var7 : this) {
-            Object var8 = var7.component1();
-            Object var9 = var7.component2();
-            if (var9 == null) {
-               if (var5.get(var8) != null || !var5.containsKey(var8)) {
+         for (Pair pair : this) {
+            Object object = pair.component1();
+            Object object2 = pair.component2();
+            if (object2 == null) {
+               if (map.get(object) != null || !map.containsKey(object)) {
                   return false;
                }
-            } else if (!var9.equals(var5.get(var8))) {
+            } else if (!object2.equals(map.get(object))) {
                return false;
             }
          }
 
          return true;
-      } catch (ClassCastException var10) {
+      } catch (ClassCastException classCastException) {
          return false;
-      } catch (NullPointerException var11) {
+      } catch (NullPointerException nullPointerException) {
          return false;
       }
    }
 
    @Override
    public int hashCode() {
-      int var4 = 0;
+      int i = 0;
 
-      for (Pair var6 : this) {
-         var4 += (int)m * var6.hashCode();
+      for (Pair pair : this) {
+         i += (int)m * pair.hashCode();
       }
 
-      return var4;
+      return i;
    }
 
    @Override
@@ -73,14 +73,14 @@ public abstract class AbstractMap<K, V> extends AbstractIterable<Pair<K, V>> imp
    }
 
    public class rts implements Function<Pair<K, V>, K> {
-      public K invoke(Pair<K, V> var1) {
-         return (K)var1.component1();
+      public K invoke(Pair<K, V> pair) {
+         return (K)pair.component1();
       }
    }
 
    public class u2 implements Function<Pair<K, V>, V> {
-      public V invoke(Pair<K, V> var1) {
-         return (V)var1.component2();
+      public V invoke(Pair<K, V> pair) {
+         return (V)pair.component2();
       }
    }
 }

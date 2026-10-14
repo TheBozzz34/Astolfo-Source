@@ -14,21 +14,21 @@ public class EnchantmentNameParts {
    }
 
    public String generateNewRandomName() {
-      int var4 = this.rand.nextInt(2) + 3;
-      String var5 = "";
+      int i = this.rand.nextInt(2) + 3;
+      String string = "";
 
-      for (int var6 = 0; var6 < var4; var6++) {
-         if (var6 > 0) {
-            var5 = var5 + " ";
+      for (int j = 0; j < i; j++) {
+         if (j > 0) {
+            string = string + " ";
          }
 
-         var5 = var5 + this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)];
+         string = string + this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)];
       }
 
-      return var5;
+      return string;
    }
 
-   public void reseedRandomGenerator(long var1) {
-      this.rand.setSeed(var1);
+   public void reseedRandomGenerator(long seed) {
+      this.rand.setSeed(seed);
    }
 }

@@ -36,48 +36,48 @@ public class Script implements ClientAccess, JsonSerializable {
    public boolean n;
    public String Q;
 
-   public Script(String var1, String var2) {
-      this.P = var1;
-      this.C = var2;
+   public Script(String string, String string2) {
+      this.P = string;
+      this.C = string2;
       this.l = new Globals();
       w(this.l);
       this.l.load(new ModuleManagerLibrary2());
    }
 
-   public static void w(Globals var0) {
-      LuaC.install(var0);
-      LoadState.install(var0);
-      var0.load(new JseBaseLib());
-      var0.load(new CoroutineLib());
-      var0.load(new OsLibrary());
-      var0.load(new Bit32Lib());
-      var0.load(new TableLib());
-      var0.load(new StringLib());
-      var0.load(new JseMathLib());
-      var0.load(new PlayerLibrary());
-      var0.load(new HttpLibrary(var0));
-      var0.load(new WorldLibrary());
-      var0.load(new ClientLibrary());
-      var0.load(new RenderLibrary());
-      var0.load(new InputLibrary());
-      var0.set("dofile", LuaValue.NIL);
-      var0.set("load", LuaValue.NIL);
-      var0.set("loadfile", LuaValue.NIL);
-      var0.set("print", LuaValue.NIL);
-      var0.set("_VERSION", LuaValue.NIL);
-      var0.set("debug", LuaValue.NIL);
+   public static void w(Globals globals) {
+      LuaC.install(globals);
+      LoadState.install(globals);
+      globals.load(new JseBaseLib());
+      globals.load(new CoroutineLib());
+      globals.load(new OsLibrary());
+      globals.load(new Bit32Lib());
+      globals.load(new TableLib());
+      globals.load(new StringLib());
+      globals.load(new JseMathLib());
+      globals.load(new PlayerLibrary());
+      globals.load(new HttpLibrary(globals));
+      globals.load(new WorldLibrary());
+      globals.load(new ClientLibrary());
+      globals.load(new RenderLibrary());
+      globals.load(new InputLibrary());
+      globals.set("dofile", LuaValue.NIL);
+      globals.set("load", LuaValue.NIL);
+      globals.set("loadfile", LuaValue.NIL);
+      globals.set("print", LuaValue.NIL);
+      globals.set("_VERSION", LuaValue.NIL);
+      globals.set("debug", LuaValue.NIL);
    }
 
    public boolean o() {
-      boolean var1 = this.r();
-      if (var1) {
+      boolean bl = this.r();
+      if (bl) {
          this.n = true;
          System.out.println("Ran " + this.P);
       } else {
          toasts.k("Script error", this.Q);
       }
 
-      return var1;
+      return bl;
    }
 
    public boolean A() {
@@ -100,32 +100,32 @@ public class Script implements ClientAccess, JsonSerializable {
       return true;
    }
 
-   public void j(boolean var1) {
-      this.J = var1;
+   public void j(boolean bl) {
+      this.J = bl;
    }
 
    public boolean r() {
       try {
-         String var1 = FileUtils.readFileToString(new File(this.P));
-         LuaValue var2 = LuaGlobals.globals.load(var1, this.P, this.l);
-         var2.call();
+         String string = FileUtils.readFileToString(new File(this.P));
+         LuaValue luaValue = LuaGlobals.globals.load(string, this.P, this.l);
+         luaValue.call();
          return true;
-      } catch (LuaError var3) {
-         this.Q = var3.getMessage();
-         var3.printStackTrace();
+      } catch (LuaError luaError) {
+         this.Q = luaError.getMessage();
+         luaError.printStackTrace();
          return false;
-      } catch (IOException var4) {
+      } catch (IOException ioException) {
          return false;
       }
    }
 
-   public void F(String var1) {
+   public void F(String string) {
       if (this.l == null) {
-         System.out.println("Error calling lua func " + var1);
+         System.out.println("Error calling lua func " + string);
       } else {
-         LuaValue var2 = this.l.get(var1);
-         if (!var2.isnil()) {
-            var2.call();
+         LuaValue luaValue = this.l.get(string);
+         if (!luaValue.isnil()) {
+            luaValue.call();
          }
       }
    }
@@ -149,8 +149,8 @@ public class Script implements ClientAccess, JsonSerializable {
 
    @Override
    public JsonElement V() {
-      JsonObject var1 = new JsonObject();
-      var1.addProperty("state", this.J);
-      return var1;
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("state", this.J);
+      return jsonObject;
    }
 }

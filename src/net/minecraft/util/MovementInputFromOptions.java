@@ -11,19 +11,19 @@ public class MovementInputFromOptions extends MovementInput {
    private final GameSettings gameSettings;
    private static final long a = 1094370570501L;
 
-   public MovementInputFromOptions(GameSettings var1) {
-      this.gameSettings = var1;
+   public MovementInputFromOptions(GameSettings gameSettingsIn) {
+      this.gameSettings = gameSettingsIn;
    }
 
    @Override
    public void updatePlayerMoveState() {
-      long var1 = a ^ 124518114660840L;
-      long var3 = var1 ^ 77750445989214L;
-      MovementInputEvent var6 = new MovementInputEvent(EventState.PRE);
-      Astolfo.INSTANCE.getEventBus().post(var6);
+      long l = a ^ 124518114660840L;
+      long m = l ^ 77750445989214L;
+      MovementInputEvent movementInputEvent = new MovementInputEvent(EventState.PRE);
+      Astolfo.INSTANCE.getEventBus().post(movementInputEvent);
       this.moveStrafe = 0.0F;
       this.moveForward = 0.0F;
-      if (!var6.isCancelled()) {
+      if (!movementInputEvent.isCancelled()) {
          if (this.gameSettings.keyBindForward.isKeyDown()) {
             this.moveForward++;
          }

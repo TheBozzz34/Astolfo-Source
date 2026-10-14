@@ -8,24 +8,24 @@ public class ReflectorField {
    private Field targetField = null;
    private static final long a = 105370625710687L;
 
-   public ReflectorField(ReflectorClass var1, String var2) {
-      this(new FieldLocatorName(var1, var2));
+   public ReflectorField(ReflectorClass reflectorClass, String targetFieldName) {
+      this(new FieldLocatorName(reflectorClass, targetFieldName));
    }
 
-   public ReflectorField(ReflectorClass var1, Class var2) {
-      this(var1, var2, 0);
+   public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType) {
+      this(reflectorClass, targetFieldType, 0);
    }
 
-   public ReflectorField(ReflectorClass var1, Class var2, int var3) {
-      this(new FieldLocatorType(var1, var2, var3));
+   public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType, int targetFieldIndex) {
+      this(new FieldLocatorType(reflectorClass, targetFieldType, targetFieldIndex));
    }
 
-   public ReflectorField(Field var1) {
-      this(new FieldLocatorFixed(var1));
+   public ReflectorField(Field field) {
+      this(new FieldLocatorFixed(field));
    }
 
-   public ReflectorField(IFieldLocator var1) {
-      this.fieldLocator = var1;
+   public ReflectorField(IFieldLocator fieldLocator) {
+      this.fieldLocator = fieldLocator;
       this.getTargetField();
    }
 
@@ -47,12 +47,12 @@ public class ReflectorField {
       return Reflector.getFieldValue(null, this);
    }
 
-   public void setValue(Object var1) {
-      Reflector.setFieldValue(null, this, var1);
+   public void setValue(Object value) {
+      Reflector.setFieldValue(null, this, value);
    }
 
-   public void setValue(Object var1, Object var2) {
-      Reflector.setFieldValue(var1, this, var2);
+   public void setValue(Object obj, Object value) {
+      Reflector.setFieldValue(obj, this, value);
    }
 
    public boolean exists() {

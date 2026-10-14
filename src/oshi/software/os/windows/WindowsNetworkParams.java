@@ -21,39 +21,39 @@ public final class WindowsNetworkParams extends AbstractNetworkParams {
 
    @Override
    public String getDomainName() {
-      char[] var3 = new char[256];
-      IntByReference var4 = new IntByReference(var3.length);
-      return !Kernel32.INSTANCE.GetComputerNameEx(3, var3, var4) ? "" : new String(var3).trim();
+      char[] chars = new char[256];
+      IntByReference intByReference = new IntByReference(chars.length);
+      return !Kernel32.INSTANCE.GetComputerNameEx(3, chars, intByReference) ? "" : new String(chars).trim();
    }
 
    @Override
    public String[] getDnsServers() {
-      IntByReference var4 = new IntByReference();
-      int var5 = IPHlpAPI.INSTANCE.GetNetworkParams(null, var4);
-      if (var5 != 111) {
+      IntByReference intByReference = new IntByReference();
+      int i = IPHlpAPI.INSTANCE.GetNetworkParams(null, intByReference);
+      if (i != 111) {
          return new String[0];
       }
 
-      Memory var6 = new Memory(var4.getValue());
-      var5 = IPHlpAPI.INSTANCE.GetNetworkParams(var6, var4);
-      if (var5 != 0) {
+      Memory memory = new Memory(intByReference.getValue());
+      i = IPHlpAPI.INSTANCE.GetNetworkParams(memory, intByReference);
+      if (i != 0) {
          return new String[0];
       }
 
-      FIXED_INFO var7 = new FIXED_INFO(var6);
-      ArrayList var8 = new ArrayList();
+      FIXED_INFO fixeD_INFO = new FIXED_INFO(memory);
+      ArrayList arrayList = new ArrayList();
 
-      for (IP_ADDR_STRING var9 = var7.DnsServerList; var9 != null; var9 = var9.Next) {
-         String var10 = new String(var9.IpAddress.String, StandardCharsets.US_ASCII);
-         int var11 = var10.indexOf(0);
-         if (var11 != -1) {
-            var10 = var10.substring(0, var11);
+      for (IP_ADDR_STRING iP_ADDR_STRING = fixeD_INFO.DnsServerList; iP_ADDR_STRING != null; iP_ADDR_STRING = iP_ADDR_STRING.Next) {
+         String string = new String(iP_ADDR_STRING.IpAddress.String, StandardCharsets.US_ASCII);
+         int j = string.indexOf(0);
+         if (j != -1) {
+            string = string.substring(0, j);
          }
 
-         var8.add(var10);
+         arrayList.add(string);
       }
 
-      return (java.lang.String[])(var8.toArray(new String[0]));
+      return (java.lang.String[])(arrayList.toArray(new String[0]));
    }
 
    @Override
@@ -72,10 +72,10 @@ public final class WindowsNetworkParams extends AbstractNetworkParams {
    }
 
    private String parseIpv4Route() {
-      for (String var6 : ExecutingCommand.runNative("route print -4 0.0.0.0")) {
-         String[] var7 = ParseUtil.Q.split(var6.trim());
-         if (var7.length > 2 && "0.0.0.0".equals(var7[0])) {
-            return var7[2];
+      for (String string : ExecutingCommand.runNative("route print -4 0.0.0.0")) {
+         String[] strings = ParseUtil.Q.split(string.trim());
+         if (strings.length > 2 && "0.0.0.0".equals(strings[0])) {
+            return strings[2];
          }
       }
 
@@ -83,10 +83,10 @@ public final class WindowsNetworkParams extends AbstractNetworkParams {
    }
 
    private String parseIpv6Route() {
-      for (String var6 : ExecutingCommand.runNative("route print -6 ::/0")) {
-         String[] var7 = ParseUtil.Q.split(var6.trim());
-         if (var7.length > 3 && "::/0".equals(var7[2])) {
-            return var7[3];
+      for (String string : ExecutingCommand.runNative("route print -6 ::/0")) {
+         String[] strings = ParseUtil.Q.split(string.trim());
+         if (strings.length > 3 && "::/0".equals(strings[2])) {
+            return strings[3];
          }
       }
 
@@ -94,7 +94,7 @@ public final class WindowsNetworkParams extends AbstractNetworkParams {
    }
 
    static {
-      long var11 = b ^ 28044446615679L;
-      long var10000 = var11 ^ 8144244101046452795L;
+      long l = b ^ 28044446615679L;
+      long m = l ^ 8144244101046452795L;
    }
 }

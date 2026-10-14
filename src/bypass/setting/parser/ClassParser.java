@@ -5,15 +5,15 @@ import java.util.Optional;
 
 public class ClassParser implements Parser<Class> {
    @Override
-   public Optional<Class> parse(String var1, Class<? extends Class> var2) {
-      Class var3;
+   public Optional<Class> parse(String string, Class<? extends Class> class2) {
+      Class class3;
       try {
-         var3 = Class.forName(var1);
-      } catch (ClassNotFoundException var5) {
-         var5.printStackTrace();
+         class3 = Class.forName(string);
+      } catch (ClassNotFoundException classNotFoundException) {
+         classNotFoundException.printStackTrace();
          return Optional.empty();
       }
 
-      return Optional.ofNullable(var3);
+      return Optional.ofNullable(class3);
    }
 }

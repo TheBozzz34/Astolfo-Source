@@ -10,12 +10,12 @@ public interface RendererSet {
 
    Map<Class<? extends Sized>, ElementRenderer<?>> getRenderers();
 
-   default void register(Class<? extends Sized> var1, ElementRenderer<?> var2) {
-      this.getRenderers().put(var1, var2);
+   default void register(Class<? extends Sized> class2, ElementRenderer<?> elementRenderer) {
+      this.getRenderers().put(class2, elementRenderer);
    }
 
-   default ElementRenderer<?> get(Class<? extends Sized> var1) {
-      return this.getRenderers().get(var1);
+   default ElementRenderer<?> get(Class<? extends Sized> class2) {
+      return this.getRenderers().get(class2);
    }
 
    default CustomFontRenderer O() {

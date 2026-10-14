@@ -9,27 +9,27 @@ public final class ConnectionOptions {
    private String V;
    private int g;
 
-   public ConnectionOptions(int var1, String var2, String var3, String var4) {
-      this.I = var1;
-      this.r = var2;
-      this.Q = var3;
-      this.V = var4;
+   public ConnectionOptions(int i, String string, String string2, String string3) {
+      this.I = i;
+      this.r = string;
+      this.Q = string2;
+      this.V = string3;
    }
 
-   public void T(int var1) {
-      this.I = var1;
+   public void T(int i) {
+      this.I = i;
    }
 
-   public void V(String var1) {
-      this.r = var1;
+   public void V(String string) {
+      this.r = string;
    }
 
-   public void j(String var1) {
-      this.Q = var1;
+   public void j(String string) {
+      this.Q = string;
    }
 
-   public void U(String var1) {
-      this.V = var1;
+   public void U(String string) {
+      this.V = string;
    }
 
    public int O() {
@@ -52,16 +52,16 @@ public final class ConnectionOptions {
       return this.g;
    }
 
-   public Object N(Class<?> var1, Object... var2) {
-      return GuardedConstructor.B(var1, var2);
+   public Object N(Class<?> class2, Object... objects) {
+      return GuardedConstructor.B(class2, objects);
    }
 
-   public static ConnectionOptions M(int var0) {
-      return new ConnectionOptions(var0, null, null, null);
+   public static ConnectionOptions M(int i) {
+      return new ConnectionOptions(i, null, null, null);
    }
 
-   public static ConnectionOptions w(int var0, String var1) {
-      return new ConnectionOptions(var0, var1, null, null);
+   public static ConnectionOptions w(int i, String string) {
+      return new ConnectionOptions(i, string, null, null);
    }
 
    public static ConnectionOptions m() {

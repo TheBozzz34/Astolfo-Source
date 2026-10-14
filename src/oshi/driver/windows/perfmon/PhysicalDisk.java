@@ -14,12 +14,12 @@ public final class PhysicalDisk {
    }
 
    public static Pair<List<String>, Map<PhysicalDisk.PhysicalDiskProperty, List<Long>>> queryDiskCounters() {
-      PerfCounterWildcardQuery var2 = new PerfCounterWildcardQuery<>(
+      PerfCounterWildcardQuery perfCounterWildcardQuery = new PerfCounterWildcardQuery<>(
          PhysicalDisk.PhysicalDiskProperty.class, "PhysicalDisk", "Win32_PerfRawData_PerfDisk_PhysicalDisk WHERE NOT Name=\"_Total\""
       );
-      Map var3 = var2.queryValuesWildcard();
-      List var4 = var2.getInstancesFromLastQuery();
-      return new Pair<>(var4, var3);
+      Map map = perfCounterWildcardQuery.queryValuesWildcard();
+      List list = perfCounterWildcardQuery.getInstancesFromLastQuery();
+      return new Pair<>(list, map);
    }
 
    public enum PhysicalDiskProperty implements PerfCounterWildcardQuery.PdhCounterWildcardProperty {
@@ -33,8 +33,8 @@ public final class PhysicalDisk {
 
       private final String counter;
 
-      PhysicalDiskProperty(String var3) {
-         this.counter = var3;
+      PhysicalDiskProperty(String counter) {
+         this.counter = counter;
       }
 
       @Override

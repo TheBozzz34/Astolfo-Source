@@ -16,101 +16,101 @@ public class PingResponseHandler extends ChannelInboundHandlerAdapter {
    private NetworkSystem networkSystem;
    private static final long a = 65324118855572L;
 
-   public PingResponseHandler(NetworkSystem var1) {
-      this.networkSystem = var1;
+   public PingResponseHandler(NetworkSystem networkSystemIn) {
+      this.networkSystem = networkSystemIn;
    }
 
    @Override
-   public void channelRead(ChannelHandlerContext var1, Object var2) throws Exception {
-      ByteBuf var6 = (ByteBuf)var2;
-      var6.markReaderIndex();
-      boolean var7 = true;
+   public void channelRead(ChannelHandlerContext channelHandlerContext, Object object) throws Exception {
+      ByteBuf byteBuf = (ByteBuf)object;
+      byteBuf.markReaderIndex();
+      boolean bl = true;
 
       try {
-         if (var6.readUnsignedByte() == 254) {
-            InetSocketAddress var8 = (InetSocketAddress)var1.channel().remoteAddress();
-            MinecraftServer var9 = this.networkSystem.getServer();
-            int var10 = var6.readableBytes();
-            switch (var10) {
+         if (byteBuf.readUnsignedByte() == 254) {
+            InetSocketAddress inetSocketAddress = (InetSocketAddress)channelHandlerContext.channel().remoteAddress();
+            MinecraftServer minecraftServer = this.networkSystem.getServer();
+            int i = byteBuf.readableBytes();
+            switch (i) {
                case 0:
-                  logger.debug("Ping: (<1.3.x) from {}:{}", var8.getAddress(), var8.getPort());
-                  String var11 = String.format("%s§%d§%d", var9.getMOTD(), var9.getCurrentPlayerCount(), var9.getMaxPlayers());
-                  this.writeAndFlush(var1, this.getStringBuffer(var11));
+                  logger.debug("Ping: (<1.3.x) from {}:{}", inetSocketAddress.getAddress(), inetSocketAddress.getPort());
+                  String string = String.format("%s§%d§%d", minecraftServer.getMOTD(), minecraftServer.getCurrentPlayerCount(), minecraftServer.getMaxPlayers());
+                  this.writeAndFlush(channelHandlerContext, this.getStringBuffer(string));
                   break;
                case 1:
-                  if (var6.readUnsignedByte() != 1) {
+                  if (byteBuf.readUnsignedByte() != 1) {
                      return;
                   }
 
-                  logger.debug("Ping: (1.4-1.5.x) from {}:{}", var8.getAddress(), var8.getPort());
-                  String var12 = String.format(
+                  logger.debug("Ping: (1.4-1.5.x) from {}:{}", inetSocketAddress.getAddress(), inetSocketAddress.getPort());
+                  String string2 = String.format(
                      "§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d",
                      127,
-                     var9.getMinecraftVersion(),
-                     var9.getMOTD(),
-                     var9.getCurrentPlayerCount(),
-                     var9.getMaxPlayers()
+                     minecraftServer.getMinecraftVersion(),
+                     minecraftServer.getMOTD(),
+                     minecraftServer.getCurrentPlayerCount(),
+                     minecraftServer.getMaxPlayers()
                   );
-                  this.writeAndFlush(var1, this.getStringBuffer(var12));
+                  this.writeAndFlush(channelHandlerContext, this.getStringBuffer(string2));
                   break;
                default:
-                  boolean var13 = var6.readUnsignedByte() == 1;
-                  var13 &= var6.readUnsignedByte() == 250;
-                  var13 &= "MC|PingHost".equals(new String(var6.readBytes(var6.readShort() * 2).array(), Charsets.UTF_16BE));
-                  int var14 = var6.readUnsignedShort();
-                  var13 &= var6.readUnsignedByte() >= 73;
-                  var13 &= 3 + var6.readBytes(var6.readShort() * 2).array().length + 4 == var14;
-                  var13 &= var6.readInt() <= 65535;
-                  var13 &= var6.readableBytes() == 0;
-                  if (!var13) {
+                  boolean bl2 = byteBuf.readUnsignedByte() == 1;
+                  bl2 &= byteBuf.readUnsignedByte() == 250;
+                  bl2 &= "MC|PingHost".equals(new String(byteBuf.readBytes(byteBuf.readShort() * 2).array(), Charsets.UTF_16BE));
+                  int j = byteBuf.readUnsignedShort();
+                  bl2 &= byteBuf.readUnsignedByte() >= 73;
+                  bl2 &= 3 + byteBuf.readBytes(byteBuf.readShort() * 2).array().length + 4 == j;
+                  bl2 &= byteBuf.readInt() <= 65535;
+                  bl2 &= byteBuf.readableBytes() == 0;
+                  if (!bl2) {
                      return;
                   }
 
-                  logger.debug("Ping: (1.6) from {}:{}", var8.getAddress(), var8.getPort());
-                  String var15 = String.format(
+                  logger.debug("Ping: (1.6) from {}:{}", inetSocketAddress.getAddress(), inetSocketAddress.getPort());
+                  String string3 = String.format(
                      "§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d",
                      127,
-                     var9.getMinecraftVersion(),
-                     var9.getMOTD(),
-                     var9.getCurrentPlayerCount(),
-                     var9.getMaxPlayers()
+                     minecraftServer.getMinecraftVersion(),
+                     minecraftServer.getMOTD(),
+                     minecraftServer.getCurrentPlayerCount(),
+                     minecraftServer.getMaxPlayers()
                   );
-                  ByteBuf var16 = this.getStringBuffer(var15);
+                  ByteBuf byteBuf2 = this.getStringBuffer(string3);
 
                   try {
-                     this.writeAndFlush(var1, var16);
+                     this.writeAndFlush(channelHandlerContext, byteBuf2);
                   } finally {
-                     var16.release();
+                     byteBuf2.release();
                   }
             }
 
-            var6.release();
-            var7 = false;
+            byteBuf.release();
+            bl = false;
          }
-      } catch (RuntimeException var26) {
+      } catch (RuntimeException runtimeException) {
       } finally {
-         if (var7) {
-            var6.resetReaderIndex();
-            var1.channel().pipeline().remove("legacy_query");
-            var1.fireChannelRead(var2);
+         if (bl) {
+            byteBuf.resetReaderIndex();
+            channelHandlerContext.channel().pipeline().remove("legacy_query");
+            channelHandlerContext.fireChannelRead(object);
          }
       }
    }
 
-   private void writeAndFlush(ChannelHandlerContext var1, ByteBuf var2) {
-      var1.pipeline().firstContext().writeAndFlush(var2).addListener(ChannelFutureListener.CLOSE);
+   private void writeAndFlush(ChannelHandlerContext ctx, ByteBuf data) {
+      ctx.pipeline().firstContext().writeAndFlush(data).addListener(ChannelFutureListener.CLOSE);
    }
 
-   private ByteBuf getStringBuffer(String var1) {
-      ByteBuf var5 = Unpooled.buffer();
-      var5.writeByte(255);
-      char[] var6 = var1.toCharArray();
-      var5.writeShort(var6.length);
+   private ByteBuf getStringBuffer(String string) {
+      ByteBuf byteBuf = Unpooled.buffer();
+      byteBuf.writeByte(255);
+      char[] chars = string.toCharArray();
+      byteBuf.writeShort(chars.length);
 
-      for (char var10 : var6) {
-         var5.writeChar(var10);
+      for (char c : chars) {
+         byteBuf.writeChar(c);
       }
 
-      return var5;
+      return byteBuf;
    }
 }

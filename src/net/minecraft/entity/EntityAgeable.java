@@ -16,32 +16,32 @@ public abstract class EntityAgeable extends EntityCreature {
    private float ageHeight;
    private static final long ab = 140034969748022L;
 
-   public EntityAgeable(World var1) {
-      super(var1);
+   public EntityAgeable(World worldIn) {
+      super(worldIn);
    }
 
-   public abstract EntityAgeable createChild(EntityAgeable var1);
+   public abstract EntityAgeable createChild(EntityAgeable ageable);
 
    @Override
-   public boolean interact(EntityPlayer var1) {
-      ItemStack var5 = var1.inventory.getCurrentItem();
-      if (var5 != null && var5.getItem() == Items.spawn_egg) {
+   public boolean interact(EntityPlayer player) {
+      ItemStack itemStack = player.inventory.getCurrentItem();
+      if (itemStack != null && itemStack.getItem() == Items.spawn_egg) {
          if (!this.worldObj.isRemote) {
-            Class var6 = EntityList.getClassFromID(var5.getMetadata());
-            if (var6 != null && this.getClass() == var6) {
-               EntityAgeable var7 = this.createChild(this);
-               if (var7 != null) {
-                  var7.setGrowingAge(-24000);
-                  var7.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
-                  this.worldObj.spawnEntityInWorld(var7);
-                  if (var5.hasDisplayName()) {
-                     var7.setCustomNameTag(var5.getDisplayName());
+            Class class2 = EntityList.getClassFromID(itemStack.getMetadata());
+            if (class2 != null && this.getClass() == class2) {
+               EntityAgeable entityAgeable = this.createChild(this);
+               if (entityAgeable != null) {
+                  entityAgeable.setGrowingAge(-24000);
+                  entityAgeable.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
+                  this.worldObj.spawnEntityInWorld(entityAgeable);
+                  if (itemStack.hasDisplayName()) {
+                     entityAgeable.setCustomNameTag(itemStack.getDisplayName());
                   }
 
-                  if (!var1.capabilities.isCreativeMode) {
-                     var5.stackSize--;
-                     if (var5.stackSize <= 0) {
-                        var1.inventory.setInventorySlotContents(var1.inventory.currentItem, (ItemStack)null);
+                  if (!player.capabilities.isCreativeMode) {
+                     itemStack.stackSize--;
+                     if (itemStack.stackSize <= 0) {
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
                      }
                   }
                }
@@ -64,21 +64,21 @@ public abstract class EntityAgeable extends EntityCreature {
       return this.worldObj.isRemote ? this.dataWatcher.getWatchableObjectByte(12) : this.growingAge;
    }
 
-   public void func_175501_a(int var1, boolean var2) {
-      int var6 = this.getGrowingAge();
-      int var7 = var6;
-      var6 += var1 * 20;
-      if (var6 > 0) {
-         var6 = 0;
-         if (var7 < 0) {
+   public void func_175501_a(int i, boolean bl) {
+      int j = this.getGrowingAge();
+      int k = j;
+      j += i * 20;
+      if (j > 0) {
+         j = 0;
+         if (k < 0) {
             this.onGrowingAdult();
          }
       }
 
-      int var8 = var6 - var7;
-      this.setGrowingAge(var6);
-      if (var2) {
-         this.field_175502_b += var8;
+      int l = j - k;
+      this.setGrowingAge(j);
+      if (bl) {
+         this.field_175502_b += l;
          if (this.field_175503_c == 0) {
             this.field_175503_c = 40;
          }
@@ -89,28 +89,28 @@ public abstract class EntityAgeable extends EntityCreature {
       }
    }
 
-   public void addGrowth(int var1) {
-      this.func_175501_a(var1, false);
+   public void addGrowth(int growth) {
+      this.func_175501_a(growth, false);
    }
 
-   public void setGrowingAge(int var1) {
-      this.dataWatcher.updateObject(12, (byte)MathHelper.clamp_int(var1, -1, 1));
-      this.growingAge = var1;
+   public void setGrowingAge(int age) {
+      this.dataWatcher.updateObject(12, (byte)MathHelper.clamp_int(age, -1, 1));
+      this.growingAge = age;
       this.setScaleForAge(this.isChild());
    }
 
    @Override
-   public void writeEntityToNBT(NBTTagCompound var1) {
-      super.writeEntityToNBT(var1);
-      var1.setInteger("Age", this.getGrowingAge());
-      var1.setInteger("ForcedAge", this.field_175502_b);
+   public void writeEntityToNBT(NBTTagCompound tagCompound) {
+      super.writeEntityToNBT(tagCompound);
+      tagCompound.setInteger("Age", this.getGrowingAge());
+      tagCompound.setInteger("ForcedAge", this.field_175502_b);
    }
 
    @Override
-   public void readEntityFromNBT(NBTTagCompound var1) {
-      super.readEntityFromNBT(var1);
-      this.setGrowingAge(var1.getInteger("Age"));
-      this.field_175502_b = var1.getInteger("ForcedAge");
+   public void readEntityFromNBT(NBTTagCompound tagCompund) {
+      super.readEntityFromNBT(tagCompund);
+      this.setGrowingAge(tagCompund.getInteger("Age"));
+      this.field_175502_b = tagCompund.getInteger("ForcedAge");
    }
 
    @Override
@@ -136,14 +136,14 @@ public abstract class EntityAgeable extends EntityCreature {
 
          this.setScaleForAge(this.isChild());
       } else {
-         int var4 = this.getGrowingAge();
-         if (var4 < 0) {
-            this.setGrowingAge(++var4);
-            if (var4 == 0) {
+         int i = this.getGrowingAge();
+         if (i < 0) {
+            this.setGrowingAge(++i);
+            if (i == 0) {
                this.onGrowingAdult();
             }
-         } else if (var4 > 0) {
-            this.setGrowingAge(--var4);
+         } else if (i > 0) {
+            this.setGrowingAge(--i);
          }
       }
    }
@@ -156,21 +156,21 @@ public abstract class EntityAgeable extends EntityCreature {
       return this.getGrowingAge() < 0;
    }
 
-   public void setScaleForAge(boolean var1) {
-      this.setScale(var1 ? 0.5F : 1.0F);
+   public void setScaleForAge(boolean bl) {
+      this.setScale(bl ? 0.5F : 1.0F);
    }
 
    @Override
-   public final void setSize(float var1, float var2) {
-      boolean var6 = this.ageWidth > 0.0F;
-      this.ageWidth = var1;
-      this.ageHeight = var2;
-      if (!var6) {
+   public final void setSize(float width, float height) {
+      boolean bl = this.ageWidth > 0.0F;
+      this.ageWidth = width;
+      this.ageHeight = height;
+      if (!bl) {
          this.setScale(1.0F);
       }
    }
 
-   public final void setScale(float var1) {
-      super.setSize(this.ageWidth * var1, this.ageHeight * var1);
+   public final void setScale(float scale) {
+      super.setSize(this.ageWidth * scale, this.ageHeight * scale);
    }
 }

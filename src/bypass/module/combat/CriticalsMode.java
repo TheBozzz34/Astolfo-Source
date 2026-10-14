@@ -9,11 +9,11 @@ public enum CriticalsMode {
    private String e;
    private static final CriticalsMode[] y = new CriticalsMode[]{PACKET, EDIT, INCREMENTAL, WATCHDOG};
 
-   CriticalsMode(String var3) {
-      this.e = var3;
+   CriticalsMode(String string2) {
+      this.e = string2;
    }
 
-   public static String p(CriticalsMode var0) {
-      return var0.e;
+   public static String p(CriticalsMode criticalsMode) {
+      return criticalsMode.e;
    }
 }

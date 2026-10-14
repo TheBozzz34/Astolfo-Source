@@ -34,14 +34,14 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
    private RendererSet N;
    private final Dimension e = new Dimension(0, 0);
    @EventHandler(KeyPressEvent.class)
-   private Listener<KeyPressEvent> onKeyPress = var1 -> {
+   private Listener<KeyPressEvent> onKeyPress = keyPressEvent -> {
       if (HUD.tabGui.getValue()) {
          if (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) {
-            int var5x = this.L().size();
+            int i = this.L().size();
 
-            for (int var6 = 0; var6 < var5x; var6++) {
-               TabGui.Panel var7 = this.L().get(var6);
-               var7.onKeyPressed(var1.getKey());
+            for (int j = 0; j < i; j++) {
+               TabGui.Panel panel = this.L().get(j);
+               panel.onKeyPressed(keyPressEvent.getKey());
             }
          }
       }
@@ -50,70 +50,70 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
 
    public TabGui() {
       this.N = new DefaultRendererSet();
-      TabGui.Panel var5 = new TabGui.Panel(this);
+      TabGui.Panel panel = new TabGui.Panel(this);
 
-      for (Category var9 : Category.values()) {
-         if (!var9.equals(Category.HIDDEN) && !var9.equals(Category.CONFIG) && !var9.equals(Category.SCRIPTS)) {
-            var5.addItem(new CategoryItem(var5, var9));
+      for (Category category : Category.values()) {
+         if (!category.equals(Category.HIDDEN) && !category.equals(Category.CONFIG) && !category.equals(Category.SCRIPTS)) {
+            panel.addItem(new CategoryItem(panel, category));
          }
       }
 
       this.z = 0.0F;
       this.r = 2.0F;
-      this.s(var5);
+      this.s(panel);
       Astolfo.INSTANCE.getEventBus().subscribe(this);
    }
 
-   public void render(ScaledResolution var1, Minecraft var2) {
-      boolean var6 = this.Y.hasElapsed(16.0F);
-      if (var6) {
+   public void render(ScaledResolution scaledResolution, Minecraft minecraft) {
+      boolean bl = this.Y.hasElapsed(16.0F);
+      if (bl) {
          this.Y.reset();
       }
 
-      TabGui.Panel var7 = null;
-      int var8 = this.C.size();
+      TabGui.Panel panel = null;
+      int i = this.C.size();
 
-      for (int var9 = 0; var9 < var8; var9++) {
+      for (int k = 0; k < i; k++) {
          try {
-            var7 = this.C.get(var9);
-         } catch (IndexOutOfBoundsException var11) {
+            panel = this.C.get(k);
+         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
          }
 
          GL11.glEnable(3089);
-         if (var7.getState() == PanelState.CLOSING) {
-            A(this.J() + var7.F(), this.Q(), (int)this.J() + var7.F() + (int)var7.j(), this.Q() + (float)var7.x().getHeight());
-         } else if (var7.getState() == PanelState.OPENING) {
-            A(this.J() + var7.F(), this.Q(), this.J() + var7.F() + var7.j(), this.Q() + (float)var7.x().getHeight());
-         } else if (var7.getState() == PanelState.NORMAL) {
-            A(this.J() + var7.F(), this.Q(), this.J() + var7.F() + (float)var7.x().getWidth(), this.Q() + (float)var7.x().getHeight());
+         if (panel.getState() == PanelState.CLOSING) {
+            A(this.J() + panel.F(), this.Q(), (int)this.J() + panel.F() + (int)panel.j(), this.Q() + (float)panel.x().getHeight());
+         } else if (panel.getState() == PanelState.OPENING) {
+            A(this.J() + panel.F(), this.Q(), this.J() + panel.F() + panel.j(), this.Q() + (float)panel.x().getHeight());
+         } else if (panel.getState() == PanelState.NORMAL) {
+            A(this.J() + panel.F(), this.Q(), this.J() + panel.F() + (float)panel.x().getWidth(), this.Q() + (float)panel.x().getHeight());
          }
 
-         this.N.get((Class<? extends Sized>)var7.getClass()).P(var7, var1, var2);
-         if (var6) {
-            this.N.get((Class<? extends Sized>)var7.getClass()).v(var7, var1, var2);
+         this.N.get((Class<? extends Sized>)panel.getClass()).P(panel, scaledResolution, minecraft);
+         if (bl) {
+            this.N.get((Class<? extends Sized>)panel.getClass()).v(panel, scaledResolution, minecraft);
          }
 
-         var7.getItems().forEach(var4 -> {
-            this.N.get((Class<? extends Sized>)var4.getClass()).P(var4, var1, var2);
-            if (var6) {
-               this.N.get((Class<? extends Sized>)var4.getClass()).v(var4, var1, var2);
+         panel.getItems().forEach(tabGuiItem -> {
+            this.N.get((Class<? extends Sized>)tabGuiItem.getClass()).P(tabGuiItem, scaledResolution, minecraft);
+            if (bl) {
+               this.N.get((Class<? extends Sized>)tabGuiItem.getClass()).v(tabGuiItem, scaledResolution, minecraft);
             }
          });
          GL11.glDisable(3089);
       }
    }
 
-   public static void A(float var0, float var1, float var2, float var3) {
-      float var7 = HUD.hudScale.getValue();
-      GL11.glScissor((int)(var0 * var7), (int)((Display.getHeight() / var7 - var3) * var7), (int)((var2 - var0) * var7), (int)((var3 - var1) * var7));
+   public static void A(float f, float g, float h, float f2) {
+      float f3 = HUD.hudScale.getValue();
+      GL11.glScissor((int)(f * f3), (int)((Display.getHeight() / f3 - f2) * f3), (int)((h - f) * f3), (int)((f2 - g) * f3));
    }
 
    public List<TabGui.Panel> L() {
       return this.C;
    }
 
-   public void Z(RendererSet var1) {
-      this.N = var1;
+   public void Z(RendererSet rendererSet) {
+      this.N = rendererSet;
    }
 
    public RendererSet p() {
@@ -124,9 +124,9 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
       return this.w();
    }
 
-   public void s(TabGui.Panel var1) {
-      this.L().add(var1);
-      var1.refreshSize();
+   public void s(TabGui.Panel panel) {
+      this.L().add(panel);
+      panel.refreshSize();
    }
 
    @Override
@@ -142,12 +142,12 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
       return this.r;
    }
 
-   public void C(float var1) {
-      this.z = var1;
+   public void C(float f) {
+      this.z = f;
    }
 
-   public void P(float var1) {
-      this.r = var1;
+   public void P(float f) {
+      this.r = f;
    }
 
    public static class Panel implements Sized, TabGuiPanel {
@@ -168,18 +168,18 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
       }
 
       @Override
-      public void setState(PanelState var1) {
-         this.n = var1;
+      public void setState(PanelState panelState) {
+         this.n = panelState;
       }
 
-      public Panel(TabGui var1, TabGuiItem... var2) {
-         this.J = var1;
-         this.A = Lists.newArrayList(var2);
+      public Panel(TabGui tabGui, TabGuiItem... tabGuiItems) {
+         this.J = tabGui;
+         this.A = Lists.newArrayList(tabGuiItems);
          this.D = 0.0F;
-         int var7 = var1.L().size();
+         int i = tabGui.L().size();
 
-         for (int var8 = 0; var8 < var7; var8++) {
-            this.D = (float)(this.D + var1.L().get(var8).x().getWidth());
+         for (int j = 0; j < i; j++) {
+            this.D = (float)(this.D + tabGui.L().get(j).x().getWidth());
             this.D += 3.0F;
          }
 
@@ -187,9 +187,9 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
          this.n = PanelState.OPENING;
       }
 
-      public Panel(TabGui var1, Collection<TabGuiItem> var2) {
-         this.J = var1;
-         this.A = new ArrayList<>(var2);
+      public Panel(TabGui tabGui, Collection<TabGuiItem> collection) {
+         this.J = tabGui;
+         this.A = new ArrayList<>(collection);
       }
 
       @Override
@@ -203,8 +203,8 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
       }
 
       @Override
-      public void setSelectedIndex(int var1) {
-         this.b = var1;
+      public void setSelectedIndex(int i) {
+         this.b = i;
       }
 
       @Override
@@ -232,8 +232,8 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
       }
 
       @Override
-      public void q(float var1) {
-         this.x = var1;
+      public void q(float f) {
+         this.x = f;
       }
    }
 }

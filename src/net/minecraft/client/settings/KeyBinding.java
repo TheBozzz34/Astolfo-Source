@@ -19,35 +19,35 @@ public class KeyBinding implements Comparable<KeyBinding> {
    private int pressTime;
    private static final long a = 62620788192000L;
 
-   public static void onTick(int var0) {
-      if (var0 != 0) {
-         KeyBinding var4 = hash.lookup(var0);
-         if (var4 != null) {
-            var4.pressTime++;
+   public static void onTick(int keyCode) {
+      if (keyCode != 0) {
+         KeyBinding keyBinding = hash.lookup(keyCode);
+         if (keyBinding != null) {
+            keyBinding.pressTime++;
          }
       }
    }
 
-   public static void setKeyBindState(int var0, boolean var1) {
-      if (var0 != 0) {
-         KeyBinding var5 = hash.lookup(var0);
-         if (var5 != null) {
-            var5.pressed = var1;
+   public static void setKeyBindState(int keyCode, boolean pressed) {
+      if (keyCode != 0) {
+         KeyBinding keyBinding = hash.lookup(keyCode);
+         if (keyBinding != null) {
+            keyBinding.pressed = pressed;
          }
       }
    }
 
    public static void unPressAllKeys() {
-      for (KeyBinding var4 : keybindArray) {
-         var4.unpressKey();
+      for (KeyBinding keyBinding : keybindArray) {
+         keyBinding.unpressKey();
       }
    }
 
    public static void resetKeyBindingArrayAndHash() {
       hash.clearMap();
 
-      for (KeyBinding var4 : keybindArray) {
-         hash.addKey(var4.keyCode, var4);
+      for (KeyBinding keyBinding : keybindArray) {
+         hash.addKey(keyBinding.keyCode, keyBinding);
       }
    }
 
@@ -55,14 +55,14 @@ public class KeyBinding implements Comparable<KeyBinding> {
       return keybindSet;
    }
 
-   public KeyBinding(String var1, int var2, String var3) {
-      this.keyDescription = var1;
-      this.keyCode = var2;
-      this.keyCodeDefault = var2;
-      this.keyCategory = var3;
+   public KeyBinding(String description, int keyCode, String category) {
+      this.keyDescription = description;
+      this.keyCode = keyCode;
+      this.keyCodeDefault = keyCode;
+      this.keyCategory = category;
       keybindArray.add(this);
-      hash.addKey(var2, this);
-      keybindSet.add(var3);
+      hash.addKey(keyCode, this);
+      keybindSet.add(category);
    }
 
    public boolean isKeyDown() {
@@ -99,16 +99,16 @@ public class KeyBinding implements Comparable<KeyBinding> {
       return this.keyCode;
    }
 
-   public void setKeyCode(int var1) {
-      this.keyCode = var1;
+   public void setKeyCode(int keyCode) {
+      this.keyCode = keyCode;
    }
 
-   public int compareTo(KeyBinding var1) {
-      int var5 = I18n.format(this.keyCategory).compareTo(I18n.format(var1.keyCategory));
-      if (var5 == 0) {
-         var5 = I18n.format(this.keyDescription).compareTo(I18n.format(var1.keyDescription));
+   public int compareTo(KeyBinding keyBinding) {
+      int i = I18n.format(this.keyCategory).compareTo(I18n.format(keyBinding.keyCategory));
+      if (i == 0) {
+         i = I18n.format(this.keyDescription).compareTo(I18n.format(keyBinding.keyDescription));
       }
 
-      return var5;
+      return i;
    }
 }

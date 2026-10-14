@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
 public interface IBakedModel {
-   List<BakedQuad> getFaceQuads(EnumFacing var1);
+   List<BakedQuad> getFaceQuads(EnumFacing facing);
 
    List<BakedQuad> getGeneralQuads();
 

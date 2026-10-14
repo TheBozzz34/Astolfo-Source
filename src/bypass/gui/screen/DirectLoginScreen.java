@@ -18,8 +18,8 @@ public class DirectLoginScreen extends GuiScreen {
    private Checkbox n;
    private static final long a = 46869750114722L;
 
-   public DirectLoginScreen(GuiScreen var1) {
-      this.N = var1;
+   public DirectLoginScreen(GuiScreen guiScreen) {
+      this.N = guiScreen;
    }
 
    @Override
@@ -44,50 +44,50 @@ public class DirectLoginScreen extends GuiScreen {
       this.u.setMaxStringLength(128);
       this.c = new PasswordField(4, this.width / 2 - 100, this.height / 6 + 80, 200, 20);
       this.c.setMaxStringLength(128);
-      String var3 = "Hide password";
-      this.n = new Checkbox(var3, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(var3)) / 2, this.height / 6 + 115, true);
+      String string = "Hide password";
+      this.n = new Checkbox(string, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 6 + 115, true);
    }
 
    @Override
-   public void actionPerformed(GuiButton var1) {
-      if (var1.id == 0) {
+   public void actionPerformed(GuiButton button) {
+      if (button.id == 0) {
          this.a();
          this.mc.displayGuiScreen(this.N);
-      } else if (var1.id == 1) {
+      } else if (button.id == 1) {
          this.mc.displayGuiScreen(this.N);
       }
    }
 
    @Override
-   public void keyTyped(char var1, int var2) throws IOException {
-      if (var1 == '\t') {
+   public void keyTyped(char typedChar, int keyCode) throws IOException {
+      if (typedChar == '\t') {
          this.u.setFocused(this.c.isFocused());
          this.c.setFocused(!this.u.isFocused());
-      } else if (var1 == '\r') {
+      } else if (typedChar == '\r') {
          this.a();
          this.mc.displayGuiScreen(this.N);
       }
 
-      this.u.textboxKeyTyped(var1, var2);
-      this.c.textboxKeyTyped(var1, var2);
+      this.u.textboxKeyTyped(typedChar, keyCode);
+      this.c.textboxKeyTyped(typedChar, keyCode);
    }
 
    @Override
-   public void mouseClicked(int var1, int var2, int var3) throws IOException {
-      super.mouseClicked(var1, var2, var3);
-      this.u.mouseClicked(var1, var2, var3);
-      this.c.mouseClicked(var1, var2, var3);
-      this.n.b(var1, var2, var3);
+   public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+      super.mouseClicked(mouseX, mouseY, mouseButton);
+      this.u.mouseClicked(mouseX, mouseY, mouseButton);
+      this.c.mouseClicked(mouseX, mouseY, mouseButton);
+      this.n.b(mouseX, mouseY, mouseButton);
    }
 
    private void a() {
       if (this.c.getText().contains("key:")) {
-         String[] var4 = this.c.getText().replaceAll("key:", "").split(":");
-         this.mc.session = new Session(this.u.getText(), var4[1], var4[0], "mojang");
+         String[] strings = this.c.getText().replaceAll("key:", "").split(":");
+         this.mc.session = new Session(this.u.getText(), strings[1], strings[0], "mojang");
       } else if (this.u.getText().contains(":")) {
-         String[] var5 = this.u.getText().split(":");
-         if (var5.length == 2) {
-            AltLogin.AUTH.A(new Alt(var5[0], var5[1]));
+         String[] strings2 = this.u.getText().split(":");
+         if (strings2.length == 2) {
+            AltLogin.AUTH.A(new Alt(strings2[0], strings2[1]));
          }
       } else {
          AltLogin.AUTH.A(new Alt(this.u.getText(), this.c.getText()));
@@ -95,19 +95,19 @@ public class DirectLoginScreen extends GuiScreen {
    }
 
    @Override
-   public void drawScreen(int var1, int var2, float var3) {
+   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.d(this.fontRendererObj, "Direct Login", this.width / 2, 30, 65531);
-      String var7 = "Username or email:";
+      String string = "Username or email:";
       this.c.setVisible(true);
       if (this.u.getText().contains("@")) {
-         var7 = "Email:";
+         string = "Email:";
          if (this.u.getText().contains(":")) {
-            var7 = "Email and password:";
+            string = "Email and password:";
             this.c.setVisible(false);
          }
       } else if (this.u.getText().contains(":")) {
-         var7 = "Username and password:";
+         string = "Username and password:";
          this.c.setVisible(false);
       }
 
@@ -121,11 +121,11 @@ public class DirectLoginScreen extends GuiScreen {
          );
       }
 
-      this.I(this.fontRendererObj, var7, this.width / 2 - 100, this.height / 6 + 23, 16777215);
+      this.I(this.fontRendererObj, string, this.width / 2 - 100, this.height / 6 + 23, 16777215);
       this.c.Z(this.n.a());
       this.u.drawTextBox();
       this.c.drawTextBox();
-      this.n.E(var1, var2);
-      super.drawScreen(var1, var2, var3);
+      this.n.E(mouseX, mouseY);
+      super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

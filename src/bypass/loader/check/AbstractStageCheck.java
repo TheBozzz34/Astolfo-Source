@@ -6,11 +6,11 @@ public abstract class AbstractStageCheck implements StageCheck {
    private static final Comparator<StageCheck> A = Comparator.comparing(StageCheck::o);
 
    @Override
-   public final int compareTo(StageCheck var1) {
-      return A.compare(this, var1);
+   public final int compareTo(StageCheck stageCheck) {
+      return A.compare(this, stageCheck);
    }
 
    static {
-      int[] var10000 = new int[3];
+      int[] ints = new int[3];
    }
 }

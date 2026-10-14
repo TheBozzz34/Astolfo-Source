@@ -21,45 +21,45 @@ public class CommandWeather extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.weather.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      if (var2.length >= 1 && var2.length <= 2) {
-         int var6 = (300 + new Random().nextInt(600)) * 20;
-         if (var2.length >= 2) {
-            var6 = parseInt(var2[1], 1, 1000000) * 20;
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      if (args.length >= 1 && args.length <= 2) {
+         int i = (300 + new Random().nextInt(600)) * 20;
+         if (args.length >= 2) {
+            i = parseInt(args[1], 1, 1000000) * 20;
          }
 
-         WorldServer var7 = MinecraftServer.getServer().worldServers[0];
-         WorldInfo var8 = var7.getWorldInfo();
-         if ("clear".equalsIgnoreCase(var2[0])) {
-            var8.setCleanWeatherTime(var6);
-            var8.setRainTime(0);
-            var8.setThunderTime(0);
-            var8.setRaining(false);
-            var8.setThundering(false);
-            notifyOperators(var1, this, "commands.weather.clear");
-         } else if ("rain".equalsIgnoreCase(var2[0])) {
-            var8.setCleanWeatherTime(0);
-            var8.setRainTime(var6);
-            var8.setThunderTime(var6);
-            var8.setRaining(true);
-            var8.setThundering(false);
-            notifyOperators(var1, this, "commands.weather.rain");
+         WorldServer worldServer = MinecraftServer.getServer().worldServers[0];
+         WorldInfo worldInfo = worldServer.getWorldInfo();
+         if ("clear".equalsIgnoreCase(args[0])) {
+            worldInfo.setCleanWeatherTime(i);
+            worldInfo.setRainTime(0);
+            worldInfo.setThunderTime(0);
+            worldInfo.setRaining(false);
+            worldInfo.setThundering(false);
+            notifyOperators(sender, this, "commands.weather.clear");
+         } else if ("rain".equalsIgnoreCase(args[0])) {
+            worldInfo.setCleanWeatherTime(0);
+            worldInfo.setRainTime(i);
+            worldInfo.setThunderTime(i);
+            worldInfo.setRaining(true);
+            worldInfo.setThundering(false);
+            notifyOperators(sender, this, "commands.weather.rain");
          } else {
-            if (!"thunder".equalsIgnoreCase(var2[0])) {
+            if (!"thunder".equalsIgnoreCase(args[0])) {
                throw new WrongUsageException("commands.weather.usage");
             }
 
-            var8.setCleanWeatherTime(0);
-            var8.setRainTime(var6);
-            var8.setThunderTime(var6);
-            var8.setRaining(true);
-            var8.setThundering(true);
-            notifyOperators(var1, this, "commands.weather.thunder");
+            worldInfo.setCleanWeatherTime(0);
+            worldInfo.setRainTime(i);
+            worldInfo.setThunderTime(i);
+            worldInfo.setRaining(true);
+            worldInfo.setThundering(true);
+            notifyOperators(sender, this, "commands.weather.thunder");
          }
       } else {
          throw new WrongUsageException("commands.weather.usage");
@@ -67,7 +67,7 @@ public class CommandWeather extends CommandBase {
    }
 
    @Override
-   public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos var3) {
-      return var2.length == 1 ? getListOfStringsMatchingLastWord(var2, "clear", "rain", "thunder") : null;
+   public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+      return args.length == 1 ? getListOfStringsMatchingLastWord(args, "clear", "rain", "thunder") : null;
    }
 }

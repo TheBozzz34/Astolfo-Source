@@ -16,32 +16,32 @@ public class LayeredTexture extends AbstractTexture {
    public final List<String> layeredTextureNames;
    private static final long a = 64104872767130L;
 
-   public LayeredTexture(String... var1) {
-      this.layeredTextureNames = Lists.newArrayList(var1);
+   public LayeredTexture(String... textureNames) {
+      this.layeredTextureNames = Lists.newArrayList(textureNames);
    }
 
    @Override
-   public void loadTexture(IResourceManager var1) throws IOException {
+   public void loadTexture(IResourceManager resourceManager) throws IOException {
       this.deleteGlTexture();
-      BufferedImage var5 = null;
+      BufferedImage bufferedImage = null;
 
       try {
-         for (String var7 : this.layeredTextureNames) {
-            if (var7 != null) {
-               InputStream var8 = var1.getResource(new ResourceLocation(var7)).getInputStream();
-               BufferedImage var9 = TextureUtil.readBufferedImage(var8);
-               if (var5 == null) {
-                  var5 = new BufferedImage(var9.getWidth(), var9.getHeight(), 2);
+         for (String string : this.layeredTextureNames) {
+            if (string != null) {
+               InputStream inputStream = resourceManager.getResource(new ResourceLocation(string)).getInputStream();
+               BufferedImage bufferedImage2 = TextureUtil.readBufferedImage(inputStream);
+               if (bufferedImage == null) {
+                  bufferedImage = new BufferedImage(bufferedImage2.getWidth(), bufferedImage2.getHeight(), 2);
                }
 
-               var5.getGraphics().drawImage(var9, 0, 0, (ImageObserver)null);
+               bufferedImage.getGraphics().drawImage(bufferedImage2, 0, 0, (ImageObserver)null);
             }
          }
-      } catch (IOException var10) {
-         logger.error("Couldn't load layered image", var10);
+      } catch (IOException ioException) {
+         logger.error("Couldn't load layered image", ioException);
          return;
       }
 
-      TextureUtil.uploadTextureImage(this.getGlTextureId(), var5);
+      TextureUtil.uploadTextureImage(this.getGlTextureId(), bufferedImage);
    }
 }

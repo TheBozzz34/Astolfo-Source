@@ -69,14 +69,14 @@ public class AuthConnection implements ClientAccess {
                .V((short)373, new StringReader())
                .V((short)892, new BansReader())
                .V((short)864, new NickReader())
-               .Z((short)723, Collections.singletonList(var1 -> this.R.handle((short)723, var1, this.g)))
-               .Z((short)732, Collections.singletonList(var1 -> this.R.handle((short)732, var1, this.g)))
-               .Z((short)672, Collections.singletonList(var1 -> this.R.handle((short)672, var1, this.g)))
-               .Z((short)623, Collections.singletonList(var1 -> this.R.handle((short)623, var1, this.g)))
-               .Z((short)864, Collections.singletonList(var1 -> this.R.handle((short)864, var1, this.g)))
-               .Z((short)831, Collections.singletonList(var1 -> this.R.handle((short)831, var1, this.g)))
-               .Z((short)373, Collections.singletonList(var1 -> this.R.handle((short)373, var1, this.g)))
-               .Z((short)892, Collections.singletonList(var1 -> this.R.handle((short)892, var1, this.g)))
+               .Z((short)723, Collections.singletonList(object -> this.R.handle((short)723, object, this.g)))
+               .Z((short)732, Collections.singletonList(object2 -> this.R.handle((short)732, object2, this.g)))
+               .Z((short)672, Collections.singletonList(object3 -> this.R.handle((short)672, object3, this.g)))
+               .Z((short)623, Collections.singletonList(object4 -> this.R.handle((short)623, object4, this.g)))
+               .Z((short)864, Collections.singletonList(object5 -> this.R.handle((short)864, object5, this.g)))
+               .Z((short)831, Collections.singletonList(object6 -> this.R.handle((short)831, object6, this.g)))
+               .Z((short)373, Collections.singletonList(object7 -> this.R.handle((short)373, object7, this.g)))
+               .Z((short)892, Collections.singletonList(object8 -> this.R.handle((short)892, object8, this.g)))
                .Q(this.g)
                .a(new DefaultConnectionHandlerFactory(new DefaultSelectorRegistrar()))
                .K(
@@ -94,9 +94,9 @@ public class AuthConnection implements ClientAccess {
                                                    () -> this.Z(
                                                       () -> this.Z(
                                                          () -> {
-                                                            long var0 = b ^ 56795120037848L;
-                                                            long var2 = (var0 ^ 88444972987244L) >>> 16;
-                                                            int var4 = (int)((var0 ^ 88444972987244L) << 48 >>> 48);
+                                                            long m = b ^ 56795120037848L;
+                                                            long n = (m ^ 88444972987244L) >>> 16;
+                                                            int i = (int)((m ^ 88444972987244L) << 48 >>> 48);
                                                             if (DisconnectHandler.disconnected) {
                                                                mc.mouseHelper
                                                                   .Y()
@@ -158,15 +158,15 @@ public class AuthConnection implements ClientAccess {
       this.A = HandshakeConnector.l().d();
    }
 
-   public void Z(Task var1) {
-      var1.c();
+   public void Z(Task task) {
+      task.c();
    }
 
-   public void J(String var1, int var2) {
+   public void J(String string, int i) {
       new Thread(() -> {
          try {
-            this.A.K(this.O, SocketChannelOpener.INSTANCE, new InetSocketAddress(var1, var2));
-         } catch (IOException var4) {
+            this.A.K(this.O, SocketChannelOpener.INSTANCE, new InetSocketAddress(string, i));
+         } catch (IOException ioException) {
          }
       }).start();
    }

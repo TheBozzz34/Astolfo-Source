@@ -20,15 +20,15 @@ public class HttpRequest {
    public static final String HTTP_1_0 = "HTTP/1.0";
    public static final String HTTP_1_1 = "HTTP/1.1";
 
-   public HttpRequest(String var1, int var2, Proxy var3, String var4, String var5, String var6, Map<String, String> var7, byte[] var8) {
-      this.host = var1;
-      this.port = var2;
-      this.proxy = var3;
-      this.method = var4;
-      this.file = var5;
-      this.http = var6;
-      this.headers = var7;
-      this.body = var8;
+   public HttpRequest(String host, int port, Proxy proxy, String method, String file, String http, Map<String, String> headers, byte[] body) {
+      this.host = host;
+      this.port = port;
+      this.proxy = proxy;
+      this.method = method;
+      this.file = file;
+      this.http = http;
+      this.headers = headers;
+      this.body = body;
    }
 
    public String getHost() {
@@ -63,8 +63,8 @@ public class HttpRequest {
       return this.redirects;
    }
 
-   public void setRedirects(int var1) {
-      this.redirects = var1;
+   public void setRedirects(int redirects) {
+      this.redirects = redirects;
    }
 
    public Proxy getProxy() {

@@ -10,8 +10,8 @@ public class ShaderPackFolder implements IShaderPack {
    public File packFile;
    private static final long a = 16428691872007L;
 
-   public ShaderPackFolder(String var1, File var2) {
-      this.packFile = var2;
+   public ShaderPackFolder(String name, File file) {
+      this.packFile = file;
    }
 
    @Override
@@ -19,20 +19,20 @@ public class ShaderPackFolder implements IShaderPack {
    }
 
    @Override
-   public InputStream getResourceAsStream(String var1) {
+   public InputStream getResourceAsStream(String resName) {
       try {
-         String var4 = StrUtils.removePrefixSuffix(var1, "/", "/");
-         File var5 = new File(this.packFile, var4);
-         return !var5.exists() ? null : new BufferedInputStream(new FileInputStream(var5));
-      } catch (Exception var6) {
+         String string = StrUtils.removePrefixSuffix(resName, "/", "/");
+         File file = new File(this.packFile, string);
+         return !file.exists() ? null : new BufferedInputStream(new FileInputStream(file));
+      } catch (Exception exception) {
          return null;
       }
    }
 
    @Override
-   public boolean hasDirectory(String var1) {
-      File var5 = new File(this.packFile, var1.substring(1));
-      return !var5.exists() ? false : var5.isDirectory();
+   public boolean hasDirectory(String name) {
+      File file = new File(this.packFile, name.substring(1));
+      return !file.exists() ? false : file.isDirectory();
    }
 
    @Override

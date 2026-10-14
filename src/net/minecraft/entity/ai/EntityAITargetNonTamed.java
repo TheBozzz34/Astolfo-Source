@@ -9,9 +9,9 @@ public class EntityAITargetNonTamed<T extends EntityLivingBase> extends EntityAI
    private static final long c = 99550501839445L;
    private static final long e = 3816365406440914954L;
 
-   public EntityAITargetNonTamed(EntityTameable var1, Class<T> var2, boolean var3, Predicate<? super T> var4) {
-      super(var1, var2, (int)e, var3, false, var4);
-      this.theTameable = var1;
+   public EntityAITargetNonTamed(EntityTameable entityIn, Class<T> classTarget, boolean checkSight, Predicate<? super T> targetSelector) {
+      super(entityIn, classTarget, (int)e, checkSight, false, targetSelector);
+      this.theTameable = entityIn;
    }
 
    @Override

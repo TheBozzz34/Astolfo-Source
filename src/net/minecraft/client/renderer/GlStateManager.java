@@ -46,11 +46,11 @@ public class GlStateManager {
       alphaState.alphaTest.setEnabled();
    }
 
-   public static void alphaFunc(int var0, float var1) {
-      if (var0 != alphaState.func || var1 != alphaState.ref) {
-         alphaState.func = var0;
-         alphaState.ref = var1;
-         GL11.glAlphaFunc(var0, var1);
+   public static void alphaFunc(int func, float ref) {
+      if (func != alphaState.func || ref != alphaState.ref) {
+         alphaState.func = func;
+         alphaState.ref = ref;
+         GL11.glAlphaFunc(func, ref);
       }
    }
 
@@ -62,12 +62,12 @@ public class GlStateManager {
       lightingState.setDisabled();
    }
 
-   public static void enableLight(int var0) {
-      lightState[var0].setEnabled();
+   public static void enableLight(int light) {
+      lightState[light].setEnabled();
    }
 
-   public static void disableLight(int var0) {
-      lightState[var0].setDisabled();
+   public static void disableLight(int light) {
+      lightState[light].setDisabled();
    }
 
    public static void enableColorMaterial() {
@@ -78,11 +78,11 @@ public class GlStateManager {
       colorMaterialState.colorMaterial.setDisabled();
    }
 
-   public static void colorMaterial(int var0, int var1) {
-      if (var0 != colorMaterialState.face || var1 != colorMaterialState.mode) {
-         colorMaterialState.face = var0;
-         colorMaterialState.mode = var1;
-         GL11.glColorMaterial(var0, var1);
+   public static void colorMaterial(int face, int mode) {
+      if (face != colorMaterialState.face || mode != colorMaterialState.mode) {
+         colorMaterialState.face = face;
+         colorMaterialState.mode = mode;
+         GL11.glColorMaterial(face, mode);
       }
    }
 
@@ -94,17 +94,17 @@ public class GlStateManager {
       depthState.depthTest.setEnabled();
    }
 
-   public static void depthFunc(int var0) {
-      if (var0 != depthState.depthFunc) {
-         depthState.depthFunc = var0;
-         GL11.glDepthFunc(var0);
+   public static void depthFunc(int depthFunc) {
+      if (depthFunc != depthState.depthFunc) {
+         depthState.depthFunc = depthFunc;
+         GL11.glDepthFunc(depthFunc);
       }
    }
 
-   public static void depthMask(boolean var0) {
-      if (var0 != depthState.maskEnabled) {
-         depthState.maskEnabled = var0;
-         GL11.glDepthMask(var0);
+   public static void depthMask(boolean flagIn) {
+      if (flagIn != depthState.maskEnabled) {
+         depthState.maskEnabled = flagIn;
+         GL11.glDepthMask(flagIn);
       }
    }
 
@@ -116,21 +116,24 @@ public class GlStateManager {
       blendState.blend.setEnabled();
    }
 
-   public static void blendFunc(int var0, int var1) {
-      if (var0 != blendState.srcFactor || var1 != blendState.dstFactor) {
-         blendState.srcFactor = var0;
-         blendState.dstFactor = var1;
-         GL11.glBlendFunc(var0, var1);
+   public static void blendFunc(int srcFactor, int dstFactor) {
+      if (srcFactor != blendState.srcFactor || dstFactor != blendState.dstFactor) {
+         blendState.srcFactor = srcFactor;
+         blendState.dstFactor = dstFactor;
+         GL11.glBlendFunc(srcFactor, dstFactor);
       }
    }
 
-   public static void tryBlendFuncSeparate(int var0, int var1, int var2, int var3) {
-      if (var0 != blendState.srcFactor || var1 != blendState.dstFactor || var2 != blendState.srcFactorAlpha || var3 != blendState.dstFactorAlpha) {
-         blendState.srcFactor = var0;
-         blendState.dstFactor = var1;
-         blendState.srcFactorAlpha = var2;
-         blendState.dstFactorAlpha = var3;
-         OpenGlHelper.glBlendFunc(var0, var1, var2, var3);
+   public static void tryBlendFuncSeparate(int srcFactor, int dstFactor, int srcFactorAlpha, int dstFactorAlpha) {
+      if (srcFactor != blendState.srcFactor
+         || dstFactor != blendState.dstFactor
+         || srcFactorAlpha != blendState.srcFactorAlpha
+         || dstFactorAlpha != blendState.dstFactorAlpha) {
+         blendState.srcFactor = srcFactor;
+         blendState.dstFactor = dstFactor;
+         blendState.srcFactorAlpha = srcFactorAlpha;
+         blendState.dstFactorAlpha = dstFactorAlpha;
+         OpenGlHelper.glBlendFunc(srcFactor, dstFactor, srcFactorAlpha, dstFactorAlpha);
       }
    }
 
@@ -142,31 +145,31 @@ public class GlStateManager {
       fogState.fog.setDisabled();
    }
 
-   public static void setFog(int var0) {
-      if (var0 != fogState.mode) {
-         fogState.mode = var0;
-         GL11.glFogi(2917, var0);
+   public static void setFog(int param) {
+      if (param != fogState.mode) {
+         fogState.mode = param;
+         GL11.glFogi(2917, param);
       }
    }
 
-   public static void setFogDensity(float var0) {
-      if (var0 != fogState.density) {
-         fogState.density = var0;
-         GL11.glFogf(2914, var0);
+   public static void setFogDensity(float param) {
+      if (param != fogState.density) {
+         fogState.density = param;
+         GL11.glFogf(2914, param);
       }
    }
 
-   public static void setFogStart(float var0) {
-      if (var0 != fogState.start) {
-         fogState.start = var0;
-         GL11.glFogf(2915, var0);
+   public static void setFogStart(float param) {
+      if (param != fogState.start) {
+         fogState.start = param;
+         GL11.glFogf(2915, param);
       }
    }
 
-   public static void setFogEnd(float var0) {
-      if (var0 != fogState.end) {
-         fogState.end = var0;
-         GL11.glFogf(2916, var0);
+   public static void setFogEnd(float param) {
+      if (param != fogState.end) {
+         fogState.end = param;
+         GL11.glFogf(2916, param);
       }
    }
 
@@ -178,10 +181,10 @@ public class GlStateManager {
       cullState.cullFace.setDisabled();
    }
 
-   public static void cullFace(int var0) {
-      if (var0 != cullState.mode) {
-         cullState.mode = var0;
-         GL11.glCullFace(var0);
+   public static void cullFace(int mode) {
+      if (mode != cullState.mode) {
+         cullState.mode = mode;
+         GL11.glCullFace(mode);
       }
    }
 
@@ -193,11 +196,11 @@ public class GlStateManager {
       polygonOffsetState.polygonOffsetFill.setDisabled();
    }
 
-   public static void doPolygonOffset(float var0, float var1) {
-      if (var0 != polygonOffsetState.factor || var1 != polygonOffsetState.units) {
-         polygonOffsetState.factor = var0;
-         polygonOffsetState.units = var1;
-         GL11.glPolygonOffset(var0, var1);
+   public static void doPolygonOffset(float factor, float units) {
+      if (factor != polygonOffsetState.factor || units != polygonOffsetState.units) {
+         polygonOffsetState.factor = factor;
+         polygonOffsetState.units = units;
+         GL11.glPolygonOffset(factor, units);
       }
    }
 
@@ -209,37 +212,37 @@ public class GlStateManager {
       colorLogicState.colorLogicOp.setDisabled();
    }
 
-   public static void colorLogicOp(int var0) {
-      if (var0 != colorLogicState.opcode) {
-         colorLogicState.opcode = var0;
-         GL11.glLogicOp(var0);
+   public static void colorLogicOp(int opcode) {
+      if (opcode != colorLogicState.opcode) {
+         colorLogicState.opcode = opcode;
+         GL11.glLogicOp(opcode);
       }
    }
 
-   public static void enableTexGenCoord(GlStateManager.TexGen var0) {
-      texGenCoord(var0).textureGen.setEnabled();
+   public static void enableTexGenCoord(GlStateManager.TexGen texGen) {
+      texGenCoord(texGen).textureGen.setEnabled();
    }
 
-   public static void disableTexGenCoord(GlStateManager.TexGen var0) {
-      texGenCoord(var0).textureGen.setDisabled();
+   public static void disableTexGenCoord(GlStateManager.TexGen texGen) {
+      texGenCoord(texGen).textureGen.setDisabled();
    }
 
-   public static void texGen(GlStateManager.TexGen var0, int var1) {
-      GlStateManager.TexGenCoord var5 = texGenCoord(var0);
-      if (var1 != var5.param) {
-         var5.param = var1;
-         GL11.glTexGeni(var5.coord, 9472, var1);
+   public static void texGen(GlStateManager.TexGen texGen, int param) {
+      GlStateManager.TexGenCoord texGenCoord2 = texGenCoord(texGen);
+      if (param != texGenCoord2.param) {
+         texGenCoord2.param = param;
+         GL11.glTexGeni(texGenCoord2.coord, 9472, param);
       }
    }
 
-   public static void texGen(GlStateManager.TexGen var0, int var1, FloatBuffer var2) {
-      GL11.glTexGen(texGenCoord(var0).coord, var1, var2);
+   public static void texGen(GlStateManager.TexGen texGen, int pname, FloatBuffer params) {
+      GL11.glTexGen(texGenCoord(texGen).coord, pname, params);
    }
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   private static GlStateManager.TexGenCoord texGenCoord(GlStateManager.TexGen var0) {
-      switch (var0) {
+   private static GlStateManager.TexGenCoord texGenCoord(GlStateManager.TexGen texGen) {
+      switch (texGen) {
          case S:
             return texGenState.s;
          case T:
@@ -253,10 +256,10 @@ public class GlStateManager {
       }
    }
 
-   public static void setActiveTexture(int var0) {
-      if (activeTextureUnit != var0 - OpenGlHelper.defaultTexUnit) {
-         activeTextureUnit = var0 - OpenGlHelper.defaultTexUnit;
-         OpenGlHelper.setActiveTexture(var0);
+   public static void setActiveTexture(int texture) {
+      if (activeTextureUnit != texture - OpenGlHelper.defaultTexUnit) {
+         activeTextureUnit = texture - OpenGlHelper.defaultTexUnit;
+         OpenGlHelper.setActiveTexture(texture);
       }
    }
 
@@ -272,22 +275,22 @@ public class GlStateManager {
       return GL11.glGenTextures();
    }
 
-   public static void deleteTexture(int var0) {
-      if (var0 != 0) {
-         GL11.glDeleteTextures(var0);
+   public static void deleteTexture(int texture) {
+      if (texture != 0) {
+         GL11.glDeleteTextures(texture);
 
-         for (GlStateManager.TextureState var6 : textureState) {
-            if (var6.textureName == var0) {
-               var6.textureName = 0;
+         for (GlStateManager.TextureState textureState2 : textureState) {
+            if (textureState2.textureName == texture) {
+               textureState2.textureName = 0;
             }
          }
       }
    }
 
-   public static void bindTexture(int var0) {
-      if (var0 != textureState[activeTextureUnit].textureName) {
-         textureState[activeTextureUnit].textureName = var0;
-         GL11.glBindTexture(3553, var0);
+   public static void bindTexture(int texture) {
+      if (texture != textureState[activeTextureUnit].textureName) {
+         textureState[activeTextureUnit].textureName = texture;
+         GL11.glBindTexture(3553, texture);
       }
    }
 
@@ -303,10 +306,10 @@ public class GlStateManager {
       normalizeState.setDisabled();
    }
 
-   public static void shadeModel(int var0) {
-      if (var0 != activeShadeModel) {
-         activeShadeModel = var0;
-         GL11.glShadeModel(var0);
+   public static void shadeModel(int mode) {
+      if (mode != activeShadeModel) {
+         activeShadeModel = mode;
+         GL11.glShadeModel(mode);
       }
    }
 
@@ -318,45 +321,45 @@ public class GlStateManager {
       rescaleNormalState.setDisabled();
    }
 
-   public static void viewport(int var0, int var1, int var2, int var3) {
-      GL11.glViewport(var0, var1, var2, var3);
+   public static void viewport(int x, int y, int width, int height) {
+      GL11.glViewport(x, y, width, height);
    }
 
-   public static void colorMask(boolean var0, boolean var1, boolean var2, boolean var3) {
-      if (var0 != colorMaskState.red || var1 != colorMaskState.green || var2 != colorMaskState.blue || var3 != colorMaskState.alpha) {
-         colorMaskState.red = var0;
-         colorMaskState.green = var1;
-         colorMaskState.blue = var2;
-         colorMaskState.alpha = var3;
-         GL11.glColorMask(var0, var1, var2, var3);
+   public static void colorMask(boolean red, boolean green, boolean blue, boolean alpha) {
+      if (red != colorMaskState.red || green != colorMaskState.green || blue != colorMaskState.blue || alpha != colorMaskState.alpha) {
+         colorMaskState.red = red;
+         colorMaskState.green = green;
+         colorMaskState.blue = blue;
+         colorMaskState.alpha = alpha;
+         GL11.glColorMask(red, green, blue, alpha);
       }
    }
 
-   public static void clearDepth(double var0) {
-      if (var0 != clearState.depth) {
-         clearState.depth = var0;
-         GL11.glClearDepth(var0);
+   public static void clearDepth(double depth) {
+      if (depth != clearState.depth) {
+         clearState.depth = depth;
+         GL11.glClearDepth(depth);
       }
    }
 
-   public static void clearColor(float var0, float var1, float var2, float var3) {
-      if (var0 != clearState.color.red || var1 != clearState.color.green || var2 != clearState.color.blue || var3 != clearState.color.alpha) {
-         clearState.color.red = var0;
-         clearState.color.green = var1;
-         clearState.color.blue = var2;
-         clearState.color.alpha = var3;
-         GL11.glClearColor(var0, var1, var2, var3);
+   public static void clearColor(float red, float green, float blue, float alpha) {
+      if (red != clearState.color.red || green != clearState.color.green || blue != clearState.color.blue || alpha != clearState.color.alpha) {
+         clearState.color.red = red;
+         clearState.color.green = green;
+         clearState.color.blue = blue;
+         clearState.color.alpha = alpha;
+         GL11.glClearColor(red, green, blue, alpha);
       }
    }
 
-   public static void clear(int var0) {
+   public static void clear(int mask) {
       if (clearEnabled) {
-         GL11.glClear(var0);
+         GL11.glClear(mask);
       }
    }
 
-   public static void matrixMode(int var0) {
-      GL11.glMatrixMode(var0);
+   public static void matrixMode(int mode) {
+      GL11.glMatrixMode(mode);
    }
 
    public static void loadIdentity() {
@@ -371,58 +374,58 @@ public class GlStateManager {
       GL11.glPopMatrix();
    }
 
-   public static void getFloat(int var0, FloatBuffer var1) {
-      GL11.glGetFloat(var0, var1);
+   public static void getFloat(int pname, FloatBuffer params) {
+      GL11.glGetFloat(pname, params);
    }
 
-   public static void ortho(double var0, double var2, double var4, double var6, double var8, double var10) {
-      GL11.glOrtho(var0, var2, var4, var6, var8, var10);
+   public static void ortho(double left, double right, double bottom, double top, double zNear, double zFar) {
+      GL11.glOrtho(left, right, bottom, top, zNear, zFar);
    }
 
-   public static void rotate(float var0, float var1, float var2, float var3) {
-      GL11.glRotatef(var0, var1, var2, var3);
+   public static void rotate(float angle, float x, float y, float z) {
+      GL11.glRotatef(angle, x, y, z);
    }
 
-   public static void scale(float var0, float var1, float var2) {
-      GL11.glScalef(var0, var1, var2);
+   public static void scale(float x, float y, float z) {
+      GL11.glScalef(x, y, z);
    }
 
-   public static void scale(double var0, double var2, double var4) {
-      GL11.glScaled(var0, var2, var4);
+   public static void scale(double x, double y, double z) {
+      GL11.glScaled(x, y, z);
    }
 
-   public static void translate(float var0, float var1, float var2) {
-      GL11.glTranslatef(var0, var1, var2);
+   public static void translate(float x, float y, float z) {
+      GL11.glTranslatef(x, y, z);
    }
 
-   public static void translate(double var0, double var2, double var4) {
-      GL11.glTranslated(var0, var2, var4);
+   public static void translate(double x, double y, double z) {
+      GL11.glTranslated(x, y, z);
    }
 
-   public static void multMatrix(FloatBuffer var0) {
-      GL11.glMultMatrix(var0);
+   public static void multMatrix(FloatBuffer matrix) {
+      GL11.glMultMatrix(matrix);
    }
 
-   public static void color(float var0, float var1, float var2, float var3) {
-      if (var0 != colorState.red || var1 != colorState.green || var2 != colorState.blue || var3 != colorState.alpha) {
-         colorState.red = var0;
-         colorState.green = var1;
-         colorState.blue = var2;
-         colorState.alpha = var3;
-         GL11.glColor4f(var0, var1, var2, var3);
+   public static void color(float colorRed, float colorGreen, float colorBlue, float colorAlpha) {
+      if (colorRed != colorState.red || colorGreen != colorState.green || colorBlue != colorState.blue || colorAlpha != colorState.alpha) {
+         colorState.red = colorRed;
+         colorState.green = colorGreen;
+         colorState.blue = colorBlue;
+         colorState.alpha = colorAlpha;
+         GL11.glColor4f(colorRed, colorGreen, colorBlue, colorAlpha);
       }
    }
 
-   public static void color(float var0, float var1, float var2) {
-      color(var0, var1, var2, 1.0F);
+   public static void color(float colorRed, float colorGreen, float colorBlue) {
+      color(colorRed, colorGreen, colorBlue, 1.0F);
    }
 
    public static void resetColor() {
       colorState.red = colorState.green = colorState.blue = colorState.alpha = -1.0F;
    }
 
-   public static void callList(int var0) {
-      GL11.glCallList(var0);
+   public static void callList(int list) {
+      GL11.glCallList(list);
    }
 
    public static int getActiveTextureUnit() {
@@ -435,37 +438,37 @@ public class GlStateManager {
 
    public static void checkBoundTexture() {
       if (Config.isMinecraftThread()) {
-         int var3 = GL11.glGetInteger(34016);
-         int var4 = GL11.glGetInteger(32873);
-         int var5 = getActiveTextureUnit();
-         int var6 = getBoundTexture();
-         if (var6 > 0 && (var3 != var5 || var4 != var6)) {
-            Config.dbg("checkTexture: act: " + var5 + ", glAct: " + var3 + ", tex: " + var6 + ", glTex: " + var4);
+         int i = GL11.glGetInteger(34016);
+         int j = GL11.glGetInteger(32873);
+         int k = getActiveTextureUnit();
+         int l = getBoundTexture();
+         if (l > 0 && (i != k || j != l)) {
+            Config.dbg("checkTexture: act: " + k + ", glAct: " + i + ", tex: " + l + ", glTex: " + j);
          }
       }
    }
 
-   public static void deleteTextures(IntBuffer var0) {
-      ((Buffer)var0).rewind();
+   public static void deleteTextures(IntBuffer intBuffer) {
+      ((Buffer)intBuffer).rewind();
 
-      while (var0.position() < var0.limit()) {
-         int var4 = var0.get();
-         deleteTexture(var4);
+      while (intBuffer.position() < intBuffer.limit()) {
+         int i = intBuffer.get();
+         deleteTexture(i);
       }
 
-      ((Buffer)var0).rewind();
+      ((Buffer)intBuffer).rewind();
    }
 
    static {
-      long var20 = a ^ 51511123938719L;
-      long var10000 = 4358810586919158650L ^ var20;
+      long l = a ^ 51511123938719L;
+      long m = 4358810586919158650L ^ l;
 
-      for (int var22 = 0; var22 < 8; var22++) {
-         lightState[var22] = new GlStateManager.BooleanState(16384 + var22);
+      for (int i = 0; i < 8; i++) {
+         lightState[i] = new GlStateManager.BooleanState(16384 + i);
       }
 
-      for (int var23 = 0; var23 < textureState.length; var23++) {
-         textureState[var23] = new GlStateManager.TextureState();
+      for (int j = 0; j < textureState.length; j++) {
+         textureState[j] = new GlStateManager.TextureState();
       }
    }
 
@@ -502,8 +505,8 @@ public class GlStateManager {
       private boolean currentState = false;
       private static final long b = 26755856524633L;
 
-      public BooleanState(int var1) {
-         this.capability = var1;
+      public BooleanState(int capabilityIn) {
+         this.capability = capabilityIn;
       }
 
       public void setDisabled() {
@@ -514,10 +517,10 @@ public class GlStateManager {
          this.setState(true);
       }
 
-      public void setState(boolean var1) {
-         if (var1 != this.currentState) {
-            this.currentState = var1;
-            if (var1) {
+      public void setState(boolean state) {
+         if (state != this.currentState) {
+            this.currentState = state;
+            if (state) {
                GL11.glEnable(this.capability);
             } else {
                GL11.glDisable(this.capability);
@@ -544,11 +547,11 @@ public class GlStateManager {
       public Color() {
       }
 
-      public Color(float var1, float var2, float var3, float var4) {
-         this.red = var1;
-         this.green = var2;
-         this.blue = var3;
-         this.alpha = var4;
+      public Color(float redIn, float greenIn, float blueIn, float alphaIn) {
+         this.red = redIn;
+         this.green = greenIn;
+         this.blue = blueIn;
+         this.alpha = alphaIn;
       }
    }
 
@@ -657,7 +660,7 @@ public class GlStateManager {
 
       private static final GlStateManager.TexGen[] H = new GlStateManager.TexGen[]{S, T, R, Q};
 
-      TexGen(String var3, int var4) {
+      TexGen(String string2, int j) {
       }
    }
 
@@ -666,9 +669,9 @@ public class GlStateManager {
       public int coord;
       public int param = -1;
 
-      public TexGenCoord(int var1, int var2) {
-         this.coord = var1;
-         this.textureGen = new GlStateManager.BooleanState(var2);
+      public TexGenCoord(int i, int j) {
+         this.coord = i;
+         this.textureGen = new GlStateManager.BooleanState(j);
       }
    }
 

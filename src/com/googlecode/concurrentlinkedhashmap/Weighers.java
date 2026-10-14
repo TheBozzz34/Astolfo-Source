@@ -14,8 +14,8 @@ public final class Weighers {
       throw new AssertionError();
    }
 
-   public static <K, V> EntryWeigher<K, V> asEntryWeigher(Weigher<? super V> var0) {
-      return var0 == singleton() ? entrySingleton() : new Weighers.EntryWeigherView<>(var0);
+   public static <K, V> EntryWeigher<K, V> asEntryWeigher(Weigher<? super V> weigher) {
+      return weigher == singleton() ? entrySingleton() : new Weighers.EntryWeigherView<>(weigher);
    }
 
    public static <K, V> EntryWeigher<K, V> entrySingleton() {
@@ -53,16 +53,16 @@ public final class Weighers {
    public enum ByteArrayWeigher implements Weigher<byte[]> {
       INSTANCE;
 
-      public int weightOf(byte[] var1) {
-         return var1.length;
+      public int weightOf(byte[] value) {
+         return value.length;
       }
    }
 
    public enum CollectionWeigher implements Weigher<Collection<?>> {
       INSTANCE;
 
-      public int weightOf(Collection<?> var1) {
-         return var1.size();
+      public int weightOf(Collection<?> values) {
+         return values.size();
       }
    }
 
@@ -71,13 +71,13 @@ public final class Weighers {
       public final Weigher<? super V> weigher;
       private static final long a = 119771151034914L;
 
-      public EntryWeigherView(Weigher<? super V> var1) {
-         this.weigher = var1;
+      public EntryWeigherView(Weigher<? super V> weigher) {
+         this.weigher = weigher;
       }
 
       @Override
-      public int weightOf(K var1, V var2) {
-         return this.weigher.weightOf((V)var2);
+      public int weightOf(K key, V value) {
+         return this.weigher.weightOf(value);
       }
    }
 
@@ -86,42 +86,42 @@ public final class Weighers {
 
       private static final long a = 25803324189206L;
 
-      public int weightOf(Iterable<?> var1) {
-         if (var1 instanceof Collection) {
-            return ((Collection)var1).size();
+      public int weightOf(Iterable<?> values) {
+         if (values instanceof Collection) {
+            return ((Collection)values).size();
          }
 
-         int var5 = 0;
+         int i = 0;
 
-         for (Iterator var6 = var1.iterator(); var6.hasNext(); var5++) {
-            var6.next();
+         for (Iterator iterator2 = values.iterator(); iterator2.hasNext(); i++) {
+            iterator2.next();
          }
 
-         return var5;
+         return i;
       }
    }
 
    public enum ListWeigher implements Weigher<List<?>> {
       INSTANCE;
 
-      public int weightOf(List<?> var1) {
-         return var1.size();
+      public int weightOf(List<?> values) {
+         return values.size();
       }
    }
 
    public enum MapWeigher implements Weigher<Map<?, ?>> {
       INSTANCE;
 
-      public int weightOf(Map<?, ?> var1) {
-         return var1.size();
+      public int weightOf(Map<?, ?> values) {
+         return values.size();
       }
    }
 
    public enum SetWeigher implements Weigher<Set<?>> {
       INSTANCE;
 
-      public int weightOf(Set<?> var1) {
-         return var1.size();
+      public int weightOf(Set<?> values) {
+         return values.size();
       }
    }
 
@@ -129,7 +129,7 @@ public final class Weighers {
       INSTANCE;
 
       @Override
-      public int weightOf(Object var1, Object var2) {
+      public int weightOf(Object key, Object value) {
          return 1;
       }
    }
@@ -138,7 +138,7 @@ public final class Weighers {
       INSTANCE;
 
       @Override
-      public int weightOf(Object var1) {
+      public int weightOf(Object value) {
          return 1;
       }
    }

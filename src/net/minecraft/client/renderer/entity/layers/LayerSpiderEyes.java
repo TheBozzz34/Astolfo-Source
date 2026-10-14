@@ -13,36 +13,36 @@ public class LayerSpiderEyes implements LayerRenderer<EntitySpider> {
    private final RenderSpider spiderRenderer;
    private static final long a = 58136076305710L;
 
-   public LayerSpiderEyes(RenderSpider var1) {
-      this.spiderRenderer = var1;
+   public LayerSpiderEyes(RenderSpider spiderRendererIn) {
+      this.spiderRenderer = spiderRendererIn;
    }
 
-   public void doRenderLayer(EntitySpider var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
+   public void doRenderLayer(EntitySpider entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
       this.spiderRenderer.bindTexture(SPIDER_EYES);
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
       GlStateManager.blendFunc(1, 1);
-      if (var1.isInvisible()) {
+      if (entitylivingbaseIn.isInvisible()) {
          GlStateManager.depthMask(false);
       } else {
          GlStateManager.depthMask(true);
       }
 
-      char var13 = '\uf0f0';
-      int var14 = var13 % 65536;
-      int var15 = var13 / 65536;
-      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var14 / 1.0F, var15 / 1.0F);
+      char c = '\uf0f0';
+      int i = c % 65536;
+      int j = c / 65536;
+      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, i / 1.0F, j / 1.0F);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       if (Config.isShaders()) {
          Shaders.s();
       }
 
-      this.spiderRenderer.getMainModel().render(var1, var2, var3, var5, var6, var7, var8);
-      int var16 = var1.getBrightnessForRender(var4);
-      var14 = var16 % 65536;
-      var15 = var16 / 65536;
-      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var14 / 1.0F, var15 / 1.0F);
-      this.spiderRenderer.setLightmap(var1, var4);
+      this.spiderRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);
+      int k = entitylivingbaseIn.getBrightnessForRender(partialTicks);
+      i = k % 65536;
+      j = k / 65536;
+      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, i / 1.0F, j / 1.0F);
+      this.spiderRenderer.setLightmap(entitylivingbaseIn, partialTicks);
       GlStateManager.disableBlend();
       GlStateManager.enableAlpha();
    }

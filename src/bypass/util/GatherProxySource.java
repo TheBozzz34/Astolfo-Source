@@ -47,7 +47,7 @@ public class GatherProxySource implements ProxySource {
    }
 
    @Override
-   public Set<HostAndPort> scrap(EnumSet<ProxyType> var1) {
+   public Set<HostAndPort> scrap(EnumSet<ProxyType> enumSet) {
       return new HashSet<>();
    }
 

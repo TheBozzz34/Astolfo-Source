@@ -4,8 +4,8 @@ public class ChatComponentText extends ChatComponentStyle {
    private final String text;
    private static final long a = 114867671507196L;
 
-   public ChatComponentText(String var1) {
-      this.text = var1;
+   public ChatComponentText(String msg) {
+      this.text = msg;
    }
 
    public String getChatComponentText_TextValue() {
@@ -18,28 +18,28 @@ public class ChatComponentText extends ChatComponentStyle {
    }
 
    public ChatComponentText createCopy() {
-      ChatComponentText var4 = new ChatComponentText(this.text);
-      var4.setChatStyle(this.getChatStyle().createShallowCopy());
+      ChatComponentText chatComponentText = new ChatComponentText(this.text);
+      chatComponentText.setChatStyle(this.getChatStyle().createShallowCopy());
 
-      for (IChatComponent var6 : this.getSiblings()) {
-         var4.appendSibling(var6.createCopy());
+      for (IChatComponent iChatComponent : this.getSiblings()) {
+         chatComponentText.appendSibling(iChatComponent.createCopy());
       }
 
-      return var4;
+      return chatComponentText;
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof ChatComponentText)) {
+      if (!(object instanceof ChatComponentText)) {
          return false;
       }
 
-      ChatComponentText var5 = (ChatComponentText)var1;
-      return this.text.equals(var5.getChatComponentText_TextValue()) && super.equals(var1);
+      ChatComponentText chatComponentText = (ChatComponentText)object;
+      return this.text.equals(chatComponentText.getChatComponentText_TextValue()) && super.equals(object);
    }
 
    @Override

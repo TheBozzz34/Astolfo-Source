@@ -7,25 +7,25 @@ public class PlayerConfigurationReceiver implements IFileDownloadListener {
    private String player = null;
    private static final long a = 133311146099872L;
 
-   public PlayerConfigurationReceiver(String var1) {
-      this.player = var1;
+   public PlayerConfigurationReceiver(String player) {
+      this.player = player;
    }
 
    @Override
-   public void fileDownloadFinished(String var1, byte[] var2, Throwable var3) {
-      if (var2 != null) {
+   public void fileDownloadFinished(String url, byte[] bytes, Throwable exception) {
+      if (bytes != null) {
          try {
-            String var7 = new String(var2, "ASCII");
-            JsonParser var8 = new JsonParser();
-            JsonElement var9 = var8.parse(var7);
-            PlayerConfigurationParser var10 = new PlayerConfigurationParser(this.player);
-            PlayerConfiguration var11 = var10.parsePlayerConfiguration(var9);
-            if (var11 != null) {
-               var11.setInitialized(true);
-               PlayerConfigurations.setPlayerConfiguration(this.player, var11);
+            String string = new String(bytes, "ASCII");
+            JsonParser jsonParser = new JsonParser();
+            JsonElement jsonElement = jsonParser.parse(string);
+            PlayerConfigurationParser playerConfigurationParser = new PlayerConfigurationParser(this.player);
+            PlayerConfiguration playerConfiguration = playerConfigurationParser.parsePlayerConfiguration(jsonElement);
+            if (playerConfiguration != null) {
+               playerConfiguration.setInitialized(true);
+               PlayerConfigurations.setPlayerConfiguration(this.player, playerConfiguration);
             }
-         } catch (Exception var12) {
-            Config.dbg("Error parsing configuration: " + var1 + ", " + var12.getClass().getName() + ": " + var12.getMessage());
+         } catch (Exception exception2) {
+            Config.dbg("Error parsing configuration: " + url + ", " + exception2.getClass().getName() + ": " + exception2.getMessage());
          }
       }
    }

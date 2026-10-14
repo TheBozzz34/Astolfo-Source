@@ -10,13 +10,13 @@ public class AuthServerAddress {
    private static final long a = 46431573615470L;
 
    public String getHost() {
-      StringBuilder var4 = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
 
-      for (AddressPart var6 : this.parts.d().L().getValue()) {
-         var4.append(var6.getPart());
+      for (AddressPart addressPart : this.parts.d().L().getValue()) {
+         stringBuilder.append(addressPart.getPart());
       }
 
-      return var4.toString();
+      return stringBuilder.toString();
    }
 
    public AddressParts getParts() {

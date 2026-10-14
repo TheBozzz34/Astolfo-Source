@@ -25,173 +25,175 @@ import oshi.util.tuples.Pair;
 public class WindowsUsbDevice extends AbstractUsbDevice {
    private static final long c = 33233266106493L;
 
-   public WindowsUsbDevice(String var1, String var2, String var3, String var4, String var5, String var6, UsbDevice[] var7) {
-      super(var1, var2, var3, var4, var5, var6, var7);
+   public WindowsUsbDevice(
+      String name, String vendor, String vendorId, String productId, String serialNumber, String uniqueDeviceId, UsbDevice[] connectedDevices
+   ) {
+      super(name, vendor, vendorId, productId, serialNumber, uniqueDeviceId, connectedDevices);
    }
 
-   public static UsbDevice[] getUsbDevices(boolean var0) {
-      UsbDevice[] var4 = getUsbDevices();
-      if (var0) {
-         return var4;
+   public static UsbDevice[] getUsbDevices(boolean tree) {
+      UsbDevice[] usbDevices = getUsbDevices();
+      if (tree) {
+         return usbDevices;
       }
 
-      ArrayList var5 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (UsbDevice var9 : var4) {
-         addDevicesToList(var5, var9.getConnectedDevices());
+      for (UsbDevice usbDevice : usbDevices) {
+         addDevicesToList(arrayList, usbDevice.getConnectedDevices());
       }
 
-      return (oshi.hardware.UsbDevice[])(var5.toArray(new UsbDevice[0]));
+      return (oshi.hardware.UsbDevice[])(arrayList.toArray(new UsbDevice[0]));
    }
 
    private static UsbDevice[] getUsbDevices() {
-      HashMap var3 = new HashMap();
-      HashSet var4 = new HashSet();
-      ArrayList var5 = new ArrayList();
-      List var6 = getControllerDeviceIdList();
+      HashMap hashMap = new HashMap();
+      HashSet hashSet = new HashSet();
+      ArrayList arrayList = new ArrayList();
+      List list = getControllerDeviceIdList();
 
-      for (Object var8$raw : var6) {
-         String var8 = (String)var8$raw;
-         putChildrenInDeviceTree(var8, 0, var3, var4);
+      for (Object object : list) {
+         String string = (String)object;
+         putChildrenInDeviceTree(string, 0, hashMap, hashSet);
       }
 
-      Map var11 = populateDeviceCache(var4);
+      Map map = populateDeviceCache(hashSet);
 
-      for (Object var9$raw : var6) {
-         String var9 = (String)var9$raw;
-         WindowsUsbDevice var10 = getDeviceAndChildren(var9, "0000", "0000", var3, var11);
-         if (var10 != null) {
-            var5.add(var10);
+      for (Object object2 : list) {
+         String string2 = (String)object2;
+         WindowsUsbDevice windowsUsbDevice = getDeviceAndChildren(string2, "0000", "0000", hashMap, map);
+         if (windowsUsbDevice != null) {
+            arrayList.add(windowsUsbDevice);
          }
       }
 
-      return (oshi.hardware.UsbDevice[])(var5.toArray(new WindowsUsbDevice[0]));
+      return (oshi.hardware.UsbDevice[])(arrayList.toArray(new WindowsUsbDevice[0]));
    }
 
-   private static void addDevicesToList(List<UsbDevice> var0, UsbDevice[] var1) {
-      for (UsbDevice var8 : var1) {
-         var0.add(
+   private static void addDevicesToList(List<UsbDevice> deviceList, UsbDevice[] connectedDevices) {
+      for (UsbDevice usbDevice : connectedDevices) {
+         deviceList.add(
             new WindowsUsbDevice(
-               var8.getName(), var8.getVendor(), var8.getVendorId(), var8.getProductId(), var8.getSerialNumber(), var8.getUniqueDeviceId(), new UsbDevice[0]
+               usbDevice.getName(), usbDevice.getVendor(), usbDevice.getVendorId(), usbDevice.getProductId(), usbDevice.getSerialNumber(), usbDevice.getUniqueDeviceId(), new UsbDevice[0]
             )
          );
-         addDevicesToList(var0, var8.getConnectedDevices());
+         addDevicesToList(deviceList, usbDevice.getConnectedDevices());
       }
    }
 
-   private static Map<String, WindowsUsbDevice> populateDeviceCache(Set<String> var0) {
-      HashMap var4 = new HashMap();
-      if (!var0.isEmpty()) {
-         StringBuilder var5 = new StringBuilder();
-         boolean var6 = true;
+   private static Map<String, WindowsUsbDevice> populateDeviceCache(Set<String> devicesToAdd) {
+      HashMap hashMap = new HashMap();
+      if (!devicesToAdd.isEmpty()) {
+         StringBuilder stringBuilder = new StringBuilder();
+         boolean bl = true;
 
-         for (String var8 : var0) {
-            if (var6) {
-               var5.append(" WHERE (PnPDeviceID=\"");
-               var6 = false;
+         for (String string : devicesToAdd) {
+            if (bl) {
+               stringBuilder.append(" WHERE (PnPDeviceID=\"");
+               bl = false;
             } else {
-               var5.append(" OR (PnPDeviceID=\"");
+               stringBuilder.append(" OR (PnPDeviceID=\"");
             }
 
-            var5.append(var8).append("\")");
+            stringBuilder.append(string).append("\")");
          }
 
-         String var14 = var5.toString();
-         WmiResult var15 = Win32PnPEntity.queryDeviceId(var14);
+         String string2 = stringBuilder.toString();
+         WmiResult wmiResult = Win32PnPEntity.queryDeviceId(string2);
 
-         for (int var9 = 0; var9 < var15.getResultCount(); var9++) {
-            String var10 = WmiUtil.getString(var15, Win32PnPEntity.PnPEntityProperty.PNPDEVICEID, var9);
-            String var11 = WmiUtil.getString(var15, Win32PnPEntity.PnPEntityProperty.NAME, var9);
-            String var12 = WmiUtil.getString(var15, Win32PnPEntity.PnPEntityProperty.MANUFACTURER, var9);
-            WindowsUsbDevice var13 = new WindowsUsbDevice(var11, var12, null, null, "", var10, new WindowsUsbDevice[0]);
-            var4.put(var10, var13);
+         for (int i = 0; i < wmiResult.getResultCount(); i++) {
+            String string3 = WmiUtil.getString(wmiResult, Win32PnPEntity.PnPEntityProperty.PNPDEVICEID, i);
+            String string4 = WmiUtil.getString(wmiResult, Win32PnPEntity.PnPEntityProperty.NAME, i);
+            String string5 = WmiUtil.getString(wmiResult, Win32PnPEntity.PnPEntityProperty.MANUFACTURER, i);
+            WindowsUsbDevice windowsUsbDevice = new WindowsUsbDevice(string4, string5, null, null, "", string3, new WindowsUsbDevice[0]);
+            hashMap.put(string3, windowsUsbDevice);
          }
 
-         WmiResult var16 = Win32DiskDrive.queryDiskDriveId(var14);
+         WmiResult wmiResult2 = Win32DiskDrive.queryDiskDriveId(string2);
 
-         for (int var17 = 0; var17 < var16.getResultCount(); var17++) {
-            String var18 = WmiUtil.getString(var16, Win32DiskDrive.DeviceIdProperty.PNPDEVICEID, var17);
-            if (var4.containsKey(var18)) {
-               WindowsUsbDevice var19 = (WindowsUsbDevice)var4.get(var18);
-               var19.serialNumber = ParseUtil.hexStringToString(WmiUtil.getString(var16, Win32DiskDrive.DeviceIdProperty.SERIALNUMBER, var17));
+         for (int j = 0; j < wmiResult2.getResultCount(); j++) {
+            String string6 = WmiUtil.getString(wmiResult2, Win32DiskDrive.DeviceIdProperty.PNPDEVICEID, j);
+            if (hashMap.containsKey(string6)) {
+               WindowsUsbDevice windowsUsbDevice2 = (WindowsUsbDevice)hashMap.get(string6);
+               windowsUsbDevice2.serialNumber = ParseUtil.hexStringToString(WmiUtil.getString(wmiResult2, Win32DiskDrive.DeviceIdProperty.SERIALNUMBER, j));
             }
          }
       }
 
-      return var4;
+      return hashMap;
    }
 
-   private static void putChildrenInDeviceTree(String var0, int var1, Map<String, List<String>> var2, Set<String> var3) {
-      var3.add(var0);
-      int var7 = var1;
-      if (var7 == 0) {
-         IntByReference var8 = new IntByReference();
-         Cfgmgr32.INSTANCE.CM_Locate_DevNode(var8, var0, 0);
-         var7 = var8.getValue();
+   private static void putChildrenInDeviceTree(String deviceId, int deviceInstance, Map<String, List<String>> deviceTreeMap, Set<String> devicesSeen) {
+      devicesSeen.add(deviceId);
+      int i = deviceInstance;
+      if (i == 0) {
+         IntByReference intByReference = new IntByReference();
+         Cfgmgr32.INSTANCE.CM_Locate_DevNode(intByReference, deviceId, 0);
+         i = intByReference.getValue();
       }
 
-      IntByReference var13 = new IntByReference();
-      if (0 == Cfgmgr32.INSTANCE.CM_Get_Child(var13, var7, 0)) {
-         ArrayList var9 = new ArrayList();
-         String var10 = Cfgmgr32Util.CM_Get_Device_ID(var13.getValue());
-         var9.add(var10);
-         var2.put(var0, var9);
-         putChildrenInDeviceTree(var10, var13.getValue(), var2, var3);
+      IntByReference intByReference2 = new IntByReference();
+      if (0 == Cfgmgr32.INSTANCE.CM_Get_Child(intByReference2, i, 0)) {
+         ArrayList arrayList = new ArrayList();
+         String string = Cfgmgr32Util.CM_Get_Device_ID(intByReference2.getValue());
+         arrayList.add(string);
+         deviceTreeMap.put(deviceId, arrayList);
+         putChildrenInDeviceTree(string, intByReference2.getValue(), deviceTreeMap, devicesSeen);
 
-         for (IntByReference var11 = new IntByReference(); 0 == Cfgmgr32.INSTANCE.CM_Get_Sibling(var11, var13.getValue(), 0); var13 = var11) {
-            String var12 = Cfgmgr32Util.CM_Get_Device_ID(var11.getValue());
-            ((List)var2.get(var0)).add(var12);
-            putChildrenInDeviceTree(var12, var11.getValue(), var2, var3);
+         for (IntByReference intByReference3 = new IntByReference(); 0 == Cfgmgr32.INSTANCE.CM_Get_Sibling(intByReference3, intByReference2.getValue(), 0); intByReference2 = intByReference3) {
+            String string2 = Cfgmgr32Util.CM_Get_Device_ID(intByReference3.getValue());
+            ((List)deviceTreeMap.get(deviceId)).add(string2);
+            putChildrenInDeviceTree(string2, intByReference3.getValue(), deviceTreeMap, devicesSeen);
          }
       }
    }
 
    private static WindowsUsbDevice getDeviceAndChildren(
-      String var0, String var1, String var2, Map<String, List<String>> var3, Map<String, WindowsUsbDevice> var4
+      String hubDeviceId, String vid, String pid, Map<String, List<String>> deviceTreeMap, Map<String, WindowsUsbDevice> usbDeviceCache
    ) {
-      String var8 = var1;
-      String var9 = var2;
-      Pair var10 = ParseUtil.parsePnPDeviceIdToVendorProductId(var0);
-      if (var10 != null) {
-         var8 = (String)var10.getA();
-         var9 = (String)var10.getB();
+      String string = vid;
+      String string2 = pid;
+      Pair pair = ParseUtil.parsePnPDeviceIdToVendorProductId(hubDeviceId);
+      if (pair != null) {
+         string = (String)pair.getA();
+         string2 = (String)pair.getB();
       }
 
-      List var11 = var3.getOrDefault(var0, new ArrayList());
-      ArrayList var12 = new ArrayList();
+      List list = deviceTreeMap.getOrDefault(hubDeviceId, new ArrayList());
+      ArrayList arrayList = new ArrayList();
 
-      for (Object var14$raw : var11) {
-         String var14 = (String)var14$raw;
-         WindowsUsbDevice var15 = getDeviceAndChildren(var14, var8, var9, var3, var4);
-         if (var15 != null) {
-            var12.add(var15);
+      for (Object object : list) {
+         String string3 = (String)object;
+         WindowsUsbDevice windowsUsbDevice = getDeviceAndChildren(string3, string, string2, deviceTreeMap, usbDeviceCache);
+         if (windowsUsbDevice != null) {
+            arrayList.add(windowsUsbDevice);
          }
       }
 
-      Collections.sort(var12);
-      if (var4.containsKey(var0)) {
-         WindowsUsbDevice var16 = (WindowsUsbDevice)var4.get(var0);
-         if (var16.name.isEmpty()) {
-            var16.name = var8 + ":" + var9;
+      Collections.sort(arrayList);
+      if (usbDeviceCache.containsKey(hubDeviceId)) {
+         WindowsUsbDevice windowsUsbDevice2 = (WindowsUsbDevice)usbDeviceCache.get(hubDeviceId);
+         if (windowsUsbDevice2.name.isEmpty()) {
+            windowsUsbDevice2.name = string + ":" + string2;
          }
 
-         var16.vendorId = var8;
-         var16.productId = var9;
-         var16.connectedDevices = (oshi.hardware.UsbDevice[])(var12.toArray(new WindowsUsbDevice[0]));
-         return var16;
+         windowsUsbDevice2.vendorId = string;
+         windowsUsbDevice2.productId = string2;
+         windowsUsbDevice2.connectedDevices = (oshi.hardware.UsbDevice[])(arrayList.toArray(new WindowsUsbDevice[0]));
+         return windowsUsbDevice2;
       } else {
          return null;
       }
    }
 
    private static List<String> getControllerDeviceIdList() {
-      ArrayList var3 = new ArrayList();
-      WmiResult var4 = Win32USBController.queryUSBControllers();
+      ArrayList arrayList = new ArrayList();
+      WmiResult wmiResult = Win32USBController.queryUSBControllers();
 
-      for (int var5 = 0; var5 < var4.getResultCount(); var5++) {
-         var3.add(WmiUtil.getString(var4, Win32USBController.USBControllerProperty.PNPDEVICEID, var5));
+      for (int i = 0; i < wmiResult.getResultCount(); i++) {
+         arrayList.add(WmiUtil.getString(wmiResult, Win32USBController.USBControllerProperty.PNPDEVICEID, i));
       }
 
-      return var3;
+      return arrayList;
    }
 }

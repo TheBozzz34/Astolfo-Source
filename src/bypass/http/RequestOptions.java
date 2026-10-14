@@ -8,11 +8,11 @@ public final class RequestOptions {
    private int u;
    private int T;
 
-   public RequestOptions(AbstractRequest var1, Map<String, String> var2, int var3, int var4) {
-      this.M = var1;
-      this.q = var2;
-      this.u = var3;
-      this.T = var4;
+   public RequestOptions(AbstractRequest abstractRequest, Map<String, String> map, int i, int j) {
+      this.M = abstractRequest;
+      this.q = map;
+      this.u = i;
+      this.T = j;
    }
 
    public int e() {

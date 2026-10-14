@@ -30,8 +30,8 @@ import net.minecraft.world.World;
 public class EntitySpider extends EntityMob {
    private static final long gb = 29997369721194L;
 
-   public EntitySpider(World var1) {
-      super(var1);
+   public EntitySpider(World worldIn) {
+      super(worldIn);
       this.setSize(1.4F, 0.9F);
       this.tasks.addTask(1, new EntityAISwimming(this));
       this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
@@ -51,8 +51,8 @@ public class EntitySpider extends EntityMob {
    }
 
    @Override
-   public PathNavigate getNewNavigator(World var1) {
-      return new PathNavigateClimber(this, var1);
+   public PathNavigate getNewNavigator(World worldIn) {
+      return new PathNavigateClimber(this, worldIn);
    }
 
    @Override
@@ -92,7 +92,7 @@ public class EntitySpider extends EntityMob {
    }
 
    @Override
-   public void playStepSound(BlockPos var1, Block var2) {
+   public void playStepSound(BlockPos pos, Block blockIn) {
       this.playSound("mob.spider.step", 0.15F, 1.0F);
    }
 
@@ -102,9 +102,9 @@ public class EntitySpider extends EntityMob {
    }
 
    @Override
-   public void dropFewItems(boolean var1, int var2) {
-      super.dropFewItems(var1, var2);
-      if (var1 && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + var2) > 0)) {
+   public void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+      super.dropFewItems(wasRecentlyHit, lootingModifier);
+      if (wasRecentlyHit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + lootingModifier) > 0)) {
          this.dropItem(Items.spider_eye, 1);
       }
    }
@@ -124,51 +124,51 @@ public class EntitySpider extends EntityMob {
    }
 
    @Override
-   public boolean isPotionApplicable(PotionEffect var1) {
-      return var1.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(var1);
+   public boolean isPotionApplicable(PotionEffect potioneffectIn) {
+      return potioneffectIn.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(potioneffectIn);
    }
 
    public boolean isBesideClimbableBlock() {
       return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
    }
 
-   public void setBesideClimbableBlock(boolean var1) {
-      byte var5 = this.dataWatcher.getWatchableObjectByte(16);
-      if (var1) {
-         var5 = (byte)(var5 | 1);
+   public void setBesideClimbableBlock(boolean bl) {
+      byte b = this.dataWatcher.getWatchableObjectByte(16);
+      if (bl) {
+         b = (byte)(b | 1);
       } else {
-         var5 = (byte)(var5 & -2);
+         b = (byte)(b & -2);
       }
 
-      this.dataWatcher.updateObject(16, var5);
+      this.dataWatcher.updateObject(16, b);
    }
 
    @Override
-   public IEntityLivingData onInitialSpawn(DifficultyInstance var1, IEntityLivingData var2) {
-      var2 = super.onInitialSpawn(var1, var2);
+   public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+      livingdata = super.onInitialSpawn(difficulty, livingdata);
       if (this.worldObj.rand.nextInt(100) == 0) {
-         EntitySkeleton var6 = new EntitySkeleton(this.worldObj);
-         var6.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-         var6.onInitialSpawn(var1, (IEntityLivingData)null);
-         this.worldObj.spawnEntityInWorld(var6);
-         var6.mountEntity(this);
+         EntitySkeleton entitySkeleton = new EntitySkeleton(this.worldObj);
+         entitySkeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+         entitySkeleton.onInitialSpawn(difficulty, (IEntityLivingData)null);
+         this.worldObj.spawnEntityInWorld(entitySkeleton);
+         entitySkeleton.mountEntity(this);
       }
 
-      if (var2 == null) {
-         var2 = new EntitySpider.GroupData();
-         if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * var1.getClampedAdditionalDifficulty()) {
-            ((EntitySpider.GroupData)var2).func_111104_a(this.worldObj.rand);
+      if (livingdata == null) {
+         livingdata = new EntitySpider.GroupData();
+         if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * difficulty.getClampedAdditionalDifficulty()) {
+            ((EntitySpider.GroupData)livingdata).func_111104_a(this.worldObj.rand);
          }
       }
 
-      if (var2 instanceof EntitySpider.GroupData) {
-         int var8 = ((EntitySpider.GroupData)var2).potionEffectId;
-         if (var8 > 0 && Potion.potionTypes[var8] != null) {
-            this.addPotionEffect(new PotionEffect(var8, Integer.MAX_VALUE));
+      if (livingdata instanceof EntitySpider.GroupData) {
+         int i = ((EntitySpider.GroupData)livingdata).potionEffectId;
+         if (i > 0 && Potion.potionTypes[i] != null) {
+            this.addPotionEffect(new PotionEffect(i, Integer.MAX_VALUE));
          }
       }
 
-      return var2;
+      return livingdata;
    }
 
    @Override
@@ -180,14 +180,14 @@ public class EntitySpider extends EntityMob {
       private static final long c = 93754183958447L;
       private static final long h = 1339786868706771044L;
 
-      public AISpiderAttack(EntitySpider var1, Class<? extends Entity> var2) {
-         super(var1, var2, 1.0, true);
+      public AISpiderAttack(EntitySpider spider, Class<? extends Entity> targetClass) {
+         super(spider, targetClass, 1.0, true);
       }
 
       @Override
       public boolean continueExecuting() {
-         float var4 = this.attacker.getBrightness(1.0F);
-         if (var4 >= 0.5F && this.attacker.getRNG().nextInt((int)h) == 0) {
+         float f = this.attacker.getBrightness(1.0F);
+         if (f >= 0.5F && this.attacker.getRNG().nextInt((int)h) == 0) {
             this.attacker.setAttackTarget((EntityLivingBase)null);
             return false;
          } else {
@@ -196,22 +196,22 @@ public class EntitySpider extends EntityMob {
       }
 
       @Override
-      public double func_179512_a(EntityLivingBase var1) {
-         return 4.0F + var1.width;
+      public double func_179512_a(EntityLivingBase attackTargetIn) {
+         return 4.0F + attackTargetIn.width;
       }
    }
 
    public static class AISpiderTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget {
       private static final long c = 71243420373749L;
 
-      public AISpiderTarget(EntitySpider var1, Class<T> var2) {
-         super(var1, var2, true);
+      public AISpiderTarget(EntitySpider spider, Class<T> classTarget) {
+         super(spider, classTarget, true);
       }
 
       @Override
       public boolean shouldExecute() {
-         float var4 = this.taskOwner.getBrightness(1.0F);
-         return var4 >= 0.5F ? false : super.shouldExecute();
+         float f = this.taskOwner.getBrightness(1.0F);
+         return f >= 0.5F ? false : super.shouldExecute();
       }
    }
 
@@ -219,15 +219,15 @@ public class EntitySpider extends EntityMob {
       public int potionEffectId;
       private static final long a = 19328430659062L;
 
-      public void func_111104_a(Random var1) {
-         int var5 = var1.nextInt(5);
-         if (var5 <= 1) {
+      public void func_111104_a(Random randIn) {
+         int i = randIn.nextInt(5);
+         if (i <= 1) {
             this.potionEffectId = Potion.moveSpeed.id;
-         } else if (var5 <= 2) {
+         } else if (i <= 2) {
             this.potionEffectId = Potion.damageBoost.id;
-         } else if (var5 <= 3) {
+         } else if (i <= 3) {
             this.potionEffectId = Potion.regeneration.id;
-         } else if (var5 <= 4) {
+         } else if (i <= 4) {
             this.potionEffectId = Potion.invisibility.id;
          }
       }

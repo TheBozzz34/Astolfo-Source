@@ -6,9 +6,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public interface IGrowable {
-   boolean canGrow(World var1, BlockPos var2, IBlockState var3, boolean var4);
+   boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient);
 
-   boolean canUseBonemeal(World var1, Random var2, BlockPos var3, IBlockState var4);
+   boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state);
 
-   void grow(World var1, Random var2, BlockPos var3, IBlockState var4);
+   void grow(World worldIn, Random rand, BlockPos pos, IBlockState state);
 }

@@ -12,43 +12,43 @@ public class WorldServerMulti extends WorldServer {
    private WorldServer delegate;
    private static final long cb = 38136372876532L;
 
-   public WorldServerMulti(MinecraftServer var1, ISaveHandler var2, int var3, WorldServer var4, Profiler var5) {
-      super(var1, var2, new DerivedWorldInfo(var4.getWorldInfo()), var3, var5);
-      this.delegate = var4;
-      var4.getWorldBorder().addListener(new IBorderListener() {
+   public WorldServerMulti(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, WorldServer delegate, Profiler profilerIn) {
+      super(server, saveHandlerIn, new DerivedWorldInfo(delegate.getWorldInfo()), dimensionId, profilerIn);
+      this.delegate = delegate;
+      delegate.getWorldBorder().addListener(new IBorderListener() {
          @Override
-         public void onSizeChanged(WorldBorder var1, double var2x) {
-            WorldServerMulti.this.getWorldBorder().setTransition(var2x);
+         public void onSizeChanged(WorldBorder border, double newSize) {
+            WorldServerMulti.this.getWorldBorder().setTransition(newSize);
          }
 
          @Override
-         public void onTransitionStarted(WorldBorder var1, double var2x, double var4x, long var6) {
-            WorldServerMulti.this.getWorldBorder().setTransition(var2x, var4x, var6);
+         public void onTransitionStarted(WorldBorder border, double oldSize, double newSize, long time) {
+            WorldServerMulti.this.getWorldBorder().setTransition(oldSize, newSize, time);
          }
 
          @Override
-         public void onCenterChanged(WorldBorder var1, double var2x, double var4x) {
-            WorldServerMulti.this.getWorldBorder().setCenter(var2x, var4x);
+         public void onCenterChanged(WorldBorder border, double x, double z) {
+            WorldServerMulti.this.getWorldBorder().setCenter(x, z);
          }
 
          @Override
-         public void onWarningTimeChanged(WorldBorder var1, int var2x) {
-            WorldServerMulti.this.getWorldBorder().setWarningTime(var2x);
+         public void onWarningTimeChanged(WorldBorder border, int newTime) {
+            WorldServerMulti.this.getWorldBorder().setWarningTime(newTime);
          }
 
          @Override
-         public void onWarningDistanceChanged(WorldBorder var1, int var2x) {
-            WorldServerMulti.this.getWorldBorder().setWarningDistance(var2x);
+         public void onWarningDistanceChanged(WorldBorder border, int newDistance) {
+            WorldServerMulti.this.getWorldBorder().setWarningDistance(newDistance);
          }
 
          @Override
-         public void onDamageAmountChanged(WorldBorder var1, double var2x) {
-            WorldServerMulti.this.getWorldBorder().setDamageAmount(var2x);
+         public void onDamageAmountChanged(WorldBorder border, double newAmount) {
+            WorldServerMulti.this.getWorldBorder().setDamageAmount(newAmount);
          }
 
          @Override
-         public void onDamageBufferChanged(WorldBorder var1, double var2x) {
-            WorldServerMulti.this.getWorldBorder().setDamageBuffer(var2x);
+         public void onDamageBufferChanged(WorldBorder border, double newSize) {
+            WorldServerMulti.this.getWorldBorder().setDamageBuffer(newSize);
          }
       });
    }
@@ -61,13 +61,13 @@ public class WorldServerMulti extends WorldServer {
    public World init() {
       this.mapStorage = this.delegate.getMapStorage();
       this.worldScoreboard = this.delegate.getScoreboard();
-      String var4 = VillageCollection.fileNameForProvider(this.provider);
-      VillageCollection var5 = (VillageCollection)this.mapStorage.loadData(VillageCollection.class, var4);
-      if (var5 == null) {
+      String string = VillageCollection.fileNameForProvider(this.provider);
+      VillageCollection villageCollection = (VillageCollection)this.mapStorage.loadData(VillageCollection.class, string);
+      if (villageCollection == null) {
          this.villageCollectionObj = new VillageCollection(this);
-         this.mapStorage.setData(var4, this.villageCollectionObj);
+         this.mapStorage.setData(string, this.villageCollectionObj);
       } else {
-         this.villageCollectionObj = var5;
+         this.villageCollectionObj = villageCollection;
          this.villageCollectionObj.setWorldsForAll(this);
       }
 

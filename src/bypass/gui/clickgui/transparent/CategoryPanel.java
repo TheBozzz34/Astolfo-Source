@@ -15,17 +15,17 @@ public class CategoryPanel extends Container {
    private static final Color W = new Color(26, 26, 26);
    private static final long d = 72037623796746L;
 
-   public CategoryPanel(Category var1, int var2, int var3, int var4, int var5) {
-      super(var1.getDisplayName(), var2, var3, var4, var5);
-      this.u = var1;
+   public CategoryPanel(Category category, int i, int j, int k, int l) {
+      super(category.getDisplayName(), i, j, k, l);
+      this.u = category;
       this.F(true);
    }
 
    @Override
-   public void render(int var1, int var2) {
-      long var3 = d ^ 95156458949240L;
-      long var5 = var3 ^ 39308001293406L;
-      int var8 = this.Q() + 4;
+   public void render(int i, int j) {
+      long l = d ^ 95156458949240L;
+      long m = l ^ 39308001293406L;
+      int k = this.Q() + 4;
       RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + 6.0F, client.getColor().getRGB());
       client.getCustomFontRenderer().drawStringWithShadow(this.u.getDisplayName(), this.M() + 2.0F, this.E_float() + 2.0F, Color.WHITE.getRGB());
       RenderUtil.setColor(this.s_boolean() ? client.getColor().brighter().getRGB() : new Color(55, 55, 55).getRGB());
@@ -34,26 +34,26 @@ public class CategoryPanel extends Container {
          .bindTexture(new ResourceLocation(String.format("client/categories/%s.png", this.u.getDisplayName().toLowerCase())));
       Gui.drawModalRectWithCustomSizedTexture((int)(this.M() + this.x() - 10.0F), (int)this.E_float() + 4, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       if (this.s_boolean() || this.U.isRunning()) {
-         int var9 = 0;
+         int n = 0;
 
-         for (Element var11 : this.M_ArrayList()) {
-            if (var11 instanceof ModuleButton) {
-               ModuleButton var12 = (ModuleButton)var11;
-               var12.r(this.M(), this.E_float() + var9 + 17.0F);
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof ModuleButton) {
+               ModuleButton moduleButton = (ModuleButton)element;
+               moduleButton.r(this.M(), this.E_float() + n + 17.0F);
                if (this.s_boolean()) {
-                  var12.render(var1, var2);
+                  moduleButton.render(i, j);
                }
 
-               var9 += !var12.s_boolean() ? 15 : var12.d() + (this.h((ModuleButton)var11) ? this.N((ModuleButton)var11) : 0);
-               var9 = (int)(var9 - this.U.getValue(0.0, var9));
+               n += !moduleButton.s_boolean() ? 15 : moduleButton.d() + (this.h((ModuleButton)element) ? this.N((ModuleButton)element) : 0);
+               n = (int)(n - this.U.getValue(0.0, n));
             }
          }
       }
    }
 
    @Override
-   public void l(int var1) {
-      if (var1 == 1) {
+   public void l(int i) {
+      if (i == 1) {
          this.u(!this.s_boolean());
          if (this.s_boolean()) {
             this.U.backwards().rewind().start();
@@ -64,26 +64,26 @@ public class CategoryPanel extends Container {
    }
 
    private int Q() {
-      int var4 = 0;
+      int i = 0;
       if (this.s_boolean()) {
-         for (Element var6 : this.M_ArrayList()) {
-            if (var6 instanceof ModuleButton) {
-               if (((ModuleButton)var6).s_boolean()) {
-                  var4 += ((ModuleButton)var6).d() + (this.h((ModuleButton)var6) ? this.N((ModuleButton)var6) : 0);
+         for (Element element : this.M_ArrayList()) {
+            if (element instanceof ModuleButton) {
+               if (((ModuleButton)element).s_boolean()) {
+                  i += ((ModuleButton)element).d() + (this.h((ModuleButton)element) ? this.N((ModuleButton)element) : 0);
                } else {
-                  var4 += 15;
+                  i += 15;
                }
             }
          }
       }
 
-      return var4;
+      return i;
    }
 
-   private boolean h(ModuleButton var1) {
-      if (!var1.M_ArrayList().isEmpty()) {
-         for (Element var6 : var1.M_ArrayList()) {
-            if (var6 instanceof MapComponent && ((MapComponent)var6).s_boolean()) {
+   private boolean h(ModuleButton moduleButton) {
+      if (!moduleButton.M_ArrayList().isEmpty()) {
+         for (Element element : moduleButton.M_ArrayList()) {
+            if (element instanceof MapComponent && ((MapComponent)element).s_boolean()) {
                return true;
             }
          }
@@ -92,17 +92,17 @@ public class CategoryPanel extends Container {
       return false;
    }
 
-   private int N(ModuleButton var1) {
-      int var5 = 0;
-      if (!var1.M_ArrayList().isEmpty()) {
-         for (Element var7 : var1.M_ArrayList()) {
-            if (var7 instanceof MapComponent) {
-               var5 += ((MapComponent)var7).d();
+   private int N(ModuleButton moduleButton) {
+      int i = 0;
+      if (!moduleButton.M_ArrayList().isEmpty()) {
+         for (Element element : moduleButton.M_ArrayList()) {
+            if (element instanceof MapComponent) {
+               i += ((MapComponent)element).d();
             }
          }
       }
 
-      return var5;
+      return i;
    }
 
    public Category p() {

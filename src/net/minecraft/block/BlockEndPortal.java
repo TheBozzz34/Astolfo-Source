@@ -19,29 +19,29 @@ import net.minecraft.world.World;
 public class BlockEndPortal extends BlockContainer {
    private static final long e = 27093562908766L;
 
-   public BlockEndPortal(Material var1) {
-      super(var1);
+   public BlockEndPortal(Material materialIn) {
+      super(materialIn);
       this.setLightLevel(1.0F);
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityEndPortal();
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      float var3 = 0.0625F;
-      this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var3, 1.0F);
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      float f = 0.0625F;
+      this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
    }
 
    @Override
-   public boolean shouldSideBeRendered(IBlockAccess var1, BlockPos var2, EnumFacing var3) {
-      return var3 == EnumFacing.DOWN ? super.shouldSideBeRendered(var1, var2, var3) : false;
+   public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+      return side == EnumFacing.DOWN ? super.shouldSideBeRendered(worldIn, pos, side) : false;
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
    }
 
    @Override
@@ -55,35 +55,35 @@ public class BlockEndPortal extends BlockContainer {
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
    @Override
-   public void onEntityCollidedWithBlock(World var1, BlockPos var2, IBlockState var3, Entity var4) {
-      if (var4.ridingEntity == null && var4.riddenByEntity == null && !var1.isRemote) {
-         var4.travelToDimension(1);
+   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+      if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null && !worldIn.isRemote) {
+         entityIn.travelToDimension(1);
       }
    }
 
    @Override
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      double var5 = var2.getX() + var4.nextFloat();
-      double var7 = var2.getY() + 0.8F;
-      double var9 = var2.getZ() + var4.nextFloat();
-      double var11 = 0.0;
-      double var13 = 0.0;
-      double var15 = 0.0;
-      var1.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var5, var7, var9, var11, var13, var15);
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      double d = pos.getX() + rand.nextFloat();
+      double e = pos.getY() + 0.8F;
+      double d2 = pos.getZ() + rand.nextFloat();
+      double d3 = 0.0;
+      double d4 = 0.0;
+      double d5 = 0.0;
+      worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d, e, d2, d3, d4, d5);
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return null;
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
+   public MapColor getMapColor(IBlockState state) {
       return MapColor.blackColor;
    }
 }

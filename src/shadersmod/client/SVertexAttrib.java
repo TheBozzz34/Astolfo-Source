@@ -8,9 +8,9 @@ public class SVertexAttrib {
    public VertexFormatElement.EnumType H;
    public int w;
 
-   public SVertexAttrib(int var1, int var2, VertexFormatElement.EnumType var3) {
-      this.x = var1;
-      this.C = var2;
-      this.H = var3;
+   public SVertexAttrib(int index, int count, VertexFormatElement.EnumType typeIn) {
+      this.x = index;
+      this.C = count;
+      this.H = typeIn;
    }
 }

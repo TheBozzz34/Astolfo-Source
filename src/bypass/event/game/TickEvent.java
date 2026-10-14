@@ -6,8 +6,8 @@ import bypass.event.EventState;
 public class TickEvent implements Event {
    private EventState state;
 
-   public TickEvent(EventState var1) {
-      this.state = var1;
+   public TickEvent(EventState eventState) {
+      this.state = eventState;
    }
 
    public EventState getState() {

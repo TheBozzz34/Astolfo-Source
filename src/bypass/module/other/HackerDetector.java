@@ -48,87 +48,87 @@ public final class HackerDetector extends Module {
    private final BooleanSetting autoReport = new BooleanSetting("Auto-Report", "Auto reports cheaters", false);
    private final ArrayList<String> l = new ArrayList<>();
    @EventHandler(PacketEvent.class)
-   private final Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = c ^ 4603551041761L;
-      long var10001 = var2 ^ 100016226425167L;
-      int var4 = (int)((var2 ^ 100016226425167L) >>> 56);
-      int var5 = (int)((var2 ^ 100016226425167L) << 8 >>> 32);
-      int var6 = (int)(var10001 << 40 >>> 40);
-      long var7 = var2 ^ 85645520157928L;
-      if (var1x.getDirection() == PacketDirection.RECEIVED) {
-         if (var1x.getPacket() instanceof S14PacketEntity) {
-            S14PacketEntity var10 = (S14PacketEntity)var1x.getPacket();
-            if (var10.func_149062_c() == 0 && var10.func_149061_d() == 0 && var10.func_149064_e() == 0 || mc.theWorld == null) {
+   private final Listener<PacketEvent> onPacket = packetEvent -> {
+      long m = c ^ 4603551041761L;
+      long n = m ^ 100016226425167L;
+      int i = (int)((m ^ 100016226425167L) >>> 56);
+      int j = (int)((m ^ 100016226425167L) << 8 >>> 32);
+      int k = (int)(n << 40 >>> 40);
+      long l2 = m ^ 85645520157928L;
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
+         if (packetEvent.getPacket() instanceof S14PacketEntity) {
+            S14PacketEntity s14PacketEntity = (S14PacketEntity)packetEvent.getPacket();
+            if (s14PacketEntity.func_149062_c() == 0 && s14PacketEntity.func_149061_d() == 0 && s14PacketEntity.func_149064_e() == 0 || mc.theWorld == null) {
                return;
             }
 
-            Entity var11 = var10.getEntity(mc.theWorld);
-            if (var11 instanceof EntityPlayer) {
-               EntityPlayer var12 = (EntityPlayer)var11;
-               if (var12.ticksExisted < 15
-                  || GameUtil.isDead(var12)
-                  || client.getUserManager().g(var11.getName()) != null
-                  || var11.E()
-                  || var12.capabilities != null && var12.capabilities.allowFlying
-                  || BotDetector.w.contains(var12)
-                  || client.getRelationManager().z(var11)
-                  || client.getRelationManager().D(var11)
-                  || this.l.contains(var12.getName())) {
-                  this.N.remove(var11.getEntityId());
+            Entity entity = s14PacketEntity.getEntity(mc.theWorld);
+            if (entity instanceof EntityPlayer) {
+               EntityPlayer entityPlayer = (EntityPlayer)entity;
+               if (entityPlayer.ticksExisted < 15
+                  || GameUtil.isDead(entityPlayer)
+                  || client.getUserManager().g(entity.getName()) != null
+                  || entity.E()
+                  || entityPlayer.capabilities != null && entityPlayer.capabilities.allowFlying
+                  || BotDetector.w.contains(entityPlayer)
+                  || client.getRelationManager().z(entity)
+                  || client.getRelationManager().D(entity)
+                  || this.l.contains(entityPlayer.getName())) {
+                  this.N.remove(entity.getEntityId());
                   return;
                }
 
-               PlayerChecks var13 = this.N.get(var11.getEntityId());
-               this.N.computeIfAbsent(var11.getEntityId(), var1xx -> {
-                  PlayerChecks var5x = new PlayerChecks();
+               PlayerChecks playerChecks = this.N.get(entity.getEntityId());
+               this.N.computeIfAbsent(entity.getEntityId(), integer -> {
+                  PlayerChecks playerChecks2 = new PlayerChecks();
                   if (this.checks.getSetting("No-Slow").asBoolean()) {
-                     PlayerChecks.p(var5x, new NoSlowdownCheck());
+                     PlayerChecks.p(playerChecks2, new NoSlowdownCheck());
                   }
 
                   if (this.checks.getSetting("Spoof-Ground").asBoolean()) {
-                     PlayerChecks.p(var5x, new SpoofGroundACheck());
-                     PlayerChecks.p(var5x, new SpoofGroundBCheck());
+                     PlayerChecks.p(playerChecks2, new SpoofGroundACheck());
+                     PlayerChecks.p(playerChecks2, new SpoofGroundBCheck());
                   }
 
                   if (this.checks.getSetting("Auto-Armor").asBoolean()) {
-                     PlayerChecks.p(var5x, new AutoArmorCheck());
+                     PlayerChecks.p(playerChecks2, new AutoArmorCheck());
                   }
 
                   if (this.checks.getSetting("Illegal-Angles").asBoolean()) {
-                     PlayerChecks.p(var5x, new IllegalAnglesCheck());
+                     PlayerChecks.p(playerChecks2, new IllegalAnglesCheck());
                   }
 
                   if (this.checks.getSetting("Blink").asBoolean()) {
-                     PlayerChecks.p(var5x, new BlinkCheck());
+                     PlayerChecks.p(playerChecks2, new BlinkCheck());
                   }
 
-                  return var5x;
+                  return playerChecks2;
                });
-               if (var13 != null) {
-                  for (Object var15$raw : PlayerChecks.P(var13)) {
-                     Check var15 = (Check)var15$raw;
-                     if (var15.D() == CheckType.MOVEMENT) {
-                        MovementCheck var16 = (MovementCheck)var15;
-                        double var17 = var11.serverPosX + var10.func_149062_c();
-                        double var19 = var11.serverPosY + var10.func_149061_d();
-                        double var21 = var11.serverPosZ + var10.func_149064_e();
-                        double var23 = var17 / 32.0;
-                        double var25 = var19 / 32.0;
-                        double var27 = var21 / 32.0;
-                        float var29 = var10.func_149066_f() * 360 / 256.0F;
-                        float var30 = var10.func_149063_g() * 360 / 256.0F;
-                        if (var16.D(var23, var25, var27, var29, var30, var10.getOnGround(), var12) >= var16.p()) {
-                           toasts.X("Hacker Detector", var11.getName() + " has been detected for " + var16.A());
+               if (playerChecks != null) {
+                  for (Object object : PlayerChecks.P(playerChecks)) {
+                     Check check = (Check)object;
+                     if (check.D() == CheckType.MOVEMENT) {
+                        MovementCheck movementCheck = (MovementCheck)check;
+                        double d = entity.serverPosX + s14PacketEntity.func_149062_c();
+                        double e = entity.serverPosY + s14PacketEntity.func_149061_d();
+                        double d2 = entity.serverPosZ + s14PacketEntity.func_149064_e();
+                        double d3 = d / 32.0;
+                        double d4 = e / 32.0;
+                        double d5 = d2 / 32.0;
+                        float f = s14PacketEntity.func_149066_f() * 360 / 256.0F;
+                        float h = s14PacketEntity.func_149063_g() * 360 / 256.0F;
+                        if (movementCheck.D(d3, d4, d5, f, h, s14PacketEntity.getOnGround(), entityPlayer) >= movementCheck.p()) {
+                           toasts.X("Hacker Detector", entity.getName() + " has been detected for " + movementCheck.A());
                            if (this.autoEnemy.getValue()) {
-                              client.getRelationManager().add(new Relation(var12.getName(), var12.getName(), false));
+                              client.getRelationManager().add(new Relation(entityPlayer.getName(), entityPlayer.getName(), false));
                            }
 
                            if (this.autoReport.getValue()) {
-                              mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/wdr " + var11.getName() + " ka fly nokb ac speed"));
+                              mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/wdr " + entity.getName() + " ka fly nokb ac speed"));
                            }
 
-                           this.l.add(var12.getName());
-                           var16.D_void();
+                           this.l.add(entityPlayer.getName());
+                           movementCheck.D_void();
                            break;
                         }
                      }
@@ -137,14 +137,14 @@ public final class HackerDetector extends Module {
             }
          }
 
-         if (var1x.getPacket() instanceof S1CPacketEntityMetadata) {
-            S1CPacketEntityMetadata var31 = (S1CPacketEntityMetadata)var1x.getPacket();
-            if (var31.func_149376_c() != null) {
-               for (DataWatcher.WatchableObject var33 : var31.func_149376_c()) {
-                  if (var33.getDataValueId() == 6 && var33.getObject() instanceof Number) {
-                     Number var34 = (Number)var33.getObject();
-                     if (var34.floatValue() <= 0.0F) {
-                        this.N.remove(var31.getEntityId());
+         if (packetEvent.getPacket() instanceof S1CPacketEntityMetadata) {
+            S1CPacketEntityMetadata s1CPacketEntityMetadata = (S1CPacketEntityMetadata)packetEvent.getPacket();
+            if (s1CPacketEntityMetadata.func_149376_c() != null) {
+               for (DataWatcher.WatchableObject watchableObject : s1CPacketEntityMetadata.func_149376_c()) {
+                  if (watchableObject.getDataValueId() == 6 && watchableObject.getObject() instanceof Number) {
+                     Number number = (Number)watchableObject.getObject();
+                     if (number.floatValue() <= 0.0F) {
+                        this.N.remove(s1CPacketEntityMetadata.getEntityId());
                      }
                   }
                }
@@ -153,11 +153,11 @@ public final class HackerDetector extends Module {
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = var1x -> this.N.clear();
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.N.clear();
    private static final long c = 52323026580723L;
 
-   public HackerDetector(Category var1) {
-      super(var1);
+   public HackerDetector(Category category) {
+      super(category);
       this.addSettings(this.checks, this.autoEnemy, this.autoReport);
    }
 }

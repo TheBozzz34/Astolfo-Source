@@ -11,8 +11,8 @@ public class BiomeGenPlains extends BiomeGenBase {
    public boolean field_150628_aC;
    private static final long bb = 5327718498573L;
 
-   public BiomeGenPlains(int var1) {
-      super(var1);
+   public BiomeGenPlains(int id) {
+      super(id);
       this.setTemperatureRainfall(0.8F, 0.4F);
       this.setHeight(height_LowPlains);
       this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 5, 2, 6));
@@ -22,11 +22,11 @@ public class BiomeGenPlains extends BiomeGenBase {
    }
 
    @Override
-   public BlockFlower.EnumFlowerType pickRandomFlower(Random var1, BlockPos var2) {
-      double var6 = GRASS_COLOR_NOISE.func_151601_a(var2.getX() / 200.0, var2.getZ() / 200.0);
-      if (var6 < -0.8) {
-         int var9 = var1.nextInt(4);
-         switch (var9) {
+   public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
+      double d = GRASS_COLOR_NOISE.func_151601_a(pos.getX() / 200.0, pos.getZ() / 200.0);
+      if (d < -0.8) {
+         int i = rand.nextInt(4);
+         switch (i) {
             case 0:
                return BlockFlower.EnumFlowerType.ORANGE_TULIP;
             case 1:
@@ -37,18 +37,18 @@ public class BiomeGenPlains extends BiomeGenBase {
             default:
                return BlockFlower.EnumFlowerType.WHITE_TULIP;
          }
-      } else if (var1.nextInt(3) > 0) {
-         int var8 = var1.nextInt(3);
-         return var8 == 0 ? BlockFlower.EnumFlowerType.POPPY : (var8 == 1 ? BlockFlower.EnumFlowerType.HOUSTONIA : BlockFlower.EnumFlowerType.OXEYE_DAISY);
+      } else if (rand.nextInt(3) > 0) {
+         int j = rand.nextInt(3);
+         return j == 0 ? BlockFlower.EnumFlowerType.POPPY : (j == 1 ? BlockFlower.EnumFlowerType.HOUSTONIA : BlockFlower.EnumFlowerType.OXEYE_DAISY);
       } else {
          return BlockFlower.EnumFlowerType.DANDELION;
       }
    }
 
    @Override
-   public void decorate(World var1, Random var2, BlockPos var3) {
-      double var7 = GRASS_COLOR_NOISE.func_151601_a((var3.getX() + 8) / 200.0, (var3.getZ() + 8) / 200.0);
-      if (var7 < -0.8) {
+   public void decorate(World worldIn, Random rand, BlockPos pos) {
+      double d = GRASS_COLOR_NOISE.func_151601_a((pos.getX() + 8) / 200.0, (pos.getZ() + 8) / 200.0);
+      if (d < -0.8) {
          this.theBiomeDecorator.flowersPerChunk = 15;
          this.theBiomeDecorator.grassPerChunk = 5;
       } else {
@@ -56,35 +56,35 @@ public class BiomeGenPlains extends BiomeGenBase {
          this.theBiomeDecorator.grassPerChunk = 10;
          DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
 
-         for (int var9 = 0; var9 < 7; var9++) {
-            int var10 = var2.nextInt(16) + 8;
-            int var11 = var2.nextInt(16) + 8;
-            int var12 = var2.nextInt(var1.getHeight(var3.add(var10, 0, var11)).getY() + 32);
-            DOUBLE_PLANT_GENERATOR.generate(var1, var2, var3.add(var10, var12, var11));
+         for (int i = 0; i < 7; i++) {
+            int j = rand.nextInt(16) + 8;
+            int k = rand.nextInt(16) + 8;
+            int l = rand.nextInt(worldIn.getHeight(pos.add(j, 0, k)).getY() + 32);
+            DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
          }
       }
 
       if (this.field_150628_aC) {
          DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.SUNFLOWER);
 
-         for (int var13 = 0; var13 < 10; var13++) {
-            int var14 = var2.nextInt(16) + 8;
-            int var15 = var2.nextInt(16) + 8;
-            int var16 = var2.nextInt(var1.getHeight(var3.add(var14, 0, var15)).getY() + 32);
-            DOUBLE_PLANT_GENERATOR.generate(var1, var2, var3.add(var14, var16, var15));
+         for (int m = 0; m < 10; m++) {
+            int n = rand.nextInt(16) + 8;
+            int i2 = rand.nextInt(16) + 8;
+            int i3 = rand.nextInt(worldIn.getHeight(pos.add(n, 0, i2)).getY() + 32);
+            DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(n, i3, i2));
          }
       }
 
-      super.decorate(var1, var2, var3);
+      super.decorate(worldIn, rand, pos);
    }
 
    @Override
-   public BiomeGenBase createMutatedBiome(int var1) {
-      BiomeGenPlains var4 = new BiomeGenPlains(var1);
-      var4.setBiomeName("Sunflower Plains");
-      var4.field_150628_aC = true;
-      var4.e(9286496);
-      var4.field_150609_ah = 14273354;
-      return var4;
+   public BiomeGenBase createMutatedBiome(int i) {
+      BiomeGenPlains biomeGenPlains = new BiomeGenPlains(i);
+      biomeGenPlains.setBiomeName("Sunflower Plains");
+      biomeGenPlains.field_150628_aC = true;
+      biomeGenPlains.e(9286496);
+      biomeGenPlains.field_150609_ah = 14273354;
+      return biomeGenPlains;
    }
 }

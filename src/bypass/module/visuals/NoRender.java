@@ -20,27 +20,27 @@ public final class NoRender extends Module {
    public static final BooleanSetting visGraph = new BooleanSetting("Vis-Graph", "", true);
    public static final BooleanSetting culling = new BooleanSetting("Culling", "disables culling", true);
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
-   private Listener<RenderEvent> onRender = var1x -> {
-      if (this.tnt.getValue() && var1x.getType() == RenderType.WORLD) {
-         for (Entity var6 : mc.theWorld.loadedEntityList) {
-            if (var6 instanceof EntityTNTPrimed) {
-               mc.theWorld.removeEntity(var6);
+   private Listener<RenderEvent> onRender = renderEvent -> {
+      if (this.tnt.getValue() && renderEvent.getType() == RenderType.WORLD) {
+         for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityTNTPrimed) {
+               mc.theWorld.removeEntity(entity);
             }
          }
       }
    };
    @EventHandler(SetupTerrainEvent.class)
-   private Listener<SetupTerrainEvent> onSetupTerrain = var0 -> {
+   private Listener<SetupTerrainEvent> onSetupTerrain = setupTerrainEvent -> {
       if (culling.getValue()) {
-         var0.cancel();
+         setupTerrainEvent.cancel();
       }
    };
    @EventHandler(PushOutOfBlocksEvent.class)
    private Listener<PushOutOfBlocksEvent> onPushOutOfBlocks = CancellableEvent::cancel;
    private static final long c = 50777526781569L;
 
-   public NoRender(Category var1) {
-      super(var1);
+   public NoRender(Category category) {
+      super(category);
       this.addSettings(smart, visGraph, this.tnt, culling);
       this.setHidden(false);
    }

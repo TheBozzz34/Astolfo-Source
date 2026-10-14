@@ -21,39 +21,39 @@ public class ItemSign extends Item {
    }
 
    @Override
-   public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, BlockPos var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var5 == EnumFacing.DOWN) {
+   public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (side == EnumFacing.DOWN) {
          return false;
       }
 
-      if (!var3.getBlockState(var4).getBlock().getMaterial().isSolid()) {
+      if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid()) {
          return false;
       }
 
-      var4 = var4.offset(var5);
-      if (!var2.canPlayerEdit(var4, var5, var1)) {
+      pos = pos.offset(side);
+      if (!playerIn.canPlayerEdit(pos, side, stack)) {
          return false;
       }
 
-      if (!Blocks.standing_sign.canPlaceBlockAt(var3, var4)) {
+      if (!Blocks.standing_sign.canPlaceBlockAt(worldIn, pos)) {
          return false;
       }
 
-      if (var3.isRemote) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      if (var5 == EnumFacing.UP) {
-         int var12 = MathHelper.floor_double((var2.rotationYaw + 180.0F) * 16.0F / 360.0F + 0.5) & 15;
-         var3.setBlockState(var4, Blocks.standing_sign.getDefaultState().withProperty(BlockStandingSign.ROTATION, var12), 3);
+      if (side == EnumFacing.UP) {
+         int i = MathHelper.floor_double((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F + 0.5) & 15;
+         worldIn.setBlockState(pos, Blocks.standing_sign.getDefaultState().withProperty(BlockStandingSign.ROTATION, i), 3);
       } else {
-         var3.setBlockState(var4, Blocks.wall_sign.getDefaultState().withProperty(BlockWallSign.FACING, var5), 3);
+         worldIn.setBlockState(pos, Blocks.wall_sign.getDefaultState().withProperty(BlockWallSign.FACING, side), 3);
       }
 
-      var1.stackSize--;
-      TileEntity var14 = var3.getTileEntity(var4);
-      if (var14 instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(var3, var2, var4, var1)) {
-         var2.openEditSign((TileEntitySign)var14);
+      stack.stackSize--;
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack)) {
+         playerIn.openEditSign((TileEntitySign)tileEntity);
       }
 
       return true;

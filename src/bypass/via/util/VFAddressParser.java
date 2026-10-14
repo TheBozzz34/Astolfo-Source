@@ -16,71 +16,71 @@ public class VFAddressParser {
    private static final long a = 73866748604494L;
    private static final long c = -4307704811790270369L;
 
-   public VFAddressParser c(String var1) {
-      return this.d(var1, "viafabric");
+   public VFAddressParser c(String string) {
+      return this.d(string, "viafabric");
    }
 
    public String v() {
       return this.M != null && !this.M.isEmpty() ? this.M + "." + this.m : this.m;
    }
 
-   public VFAddressParser d(String var1, String var2) {
-      var1 = StringUtils.removeEnd(var1, ".");
-      String var6 = StringUtils.removeEnd(var1, "." + var2);
-      if (var6.equals(var1)) {
-         this.p = var1;
+   public VFAddressParser d(String string, String string2) {
+      string = StringUtils.removeEnd(string, ".");
+      String string3 = StringUtils.removeEnd(string, "." + string2);
+      if (string3.equals(string)) {
+         this.p = string;
          return this;
       }
 
-      boolean var7 = false;
-      ArrayList var8 = new ArrayList();
-      ArrayList var9 = new ArrayList();
+      boolean bl = false;
+      ArrayList arrayList = new ArrayList();
+      ArrayList arrayList2 = new ArrayList();
 
-      for (String var11 : Lists.reverse(Arrays.asList(var6.split(Pattern.quote("."))))) {
-         if (!var7 && this.n(var11)) {
-            var8.add(var11);
+      for (String string4 : Lists.reverse(Arrays.asList(string3.split(Pattern.quote("."))))) {
+         if (!bl && this.n(string4)) {
+            arrayList.add(string4);
          } else {
-            var7 = true;
-            var9.add(var11);
+            bl = true;
+            arrayList2.add(string4);
          }
       }
 
-      this.p = String.join(".", Lists.reverse(var9));
-      this.M = String.join(".", Lists.reverse(var8));
-      this.m = var2;
+      this.p = String.join(".", Lists.reverse(arrayList2));
+      this.M = String.join(".", Lists.reverse(arrayList));
+      this.m = string2;
       return this;
    }
 
-   public boolean n(String var1) {
-      if (var1.length() < 2) {
+   public boolean n(String string) {
+      if (string.length() < 2) {
          return false;
       }
 
-      String var5;
-      if (var1.startsWith("_")) {
-         var5 = String.valueOf(var1.charAt(1));
+      String string2;
+      if (string.startsWith("_")) {
+         string2 = String.valueOf(string.charAt(1));
       } else {
-         if (var1.charAt(1) != (int)c) {
+         if (string.charAt(1) != (int)c) {
             return false;
          }
 
-         var5 = String.valueOf(var1.charAt(0));
+         string2 = String.valueOf(string.charAt(0));
       }
 
-      String var6 = var1.substring(2);
-      if ("v".equals(var5)) {
-         this.M(var6);
+      String string3 = string.substring(2);
+      if ("v".equals(string2)) {
+         this.M(string3);
       }
 
       return true;
    }
 
-   public void M(String var1) {
-      this.l = Ints.tryParse(var1);
+   public void M(String string) {
+      this.l = Ints.tryParse(string);
       if (this.l == null) {
-         ProtocolVersion var4 = ProtocolVersion.getClosest(var1.replace("_", "."));
-         if (var4 != null) {
-            this.l = var4.getVersion();
+         ProtocolVersion protocolVersion = ProtocolVersion.getClosest(string.replace("_", "."));
+         if (protocolVersion != null) {
+            this.l = protocolVersion.getVersion();
          }
       }
    }

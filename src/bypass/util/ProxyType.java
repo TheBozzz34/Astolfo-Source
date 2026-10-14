@@ -11,18 +11,18 @@ public enum ProxyType {
    private static final ProxyType[] t = new ProxyType[]{HTTP, SOCKS4, SOCKS5};
    private static final long a = 75514600320246L;
 
-   ProxyType(String var3) {
-      this.N = var3;
+   ProxyType(String string2) {
+      this.N = string2;
    }
 
    public String R() {
       return this.N;
    }
 
-   public static Optional<ProxyType> a(String var0) {
-      for (ProxyType var7 : values()) {
-         if (var7.name().equalsIgnoreCase(var0)) {
-            return Optional.of(var7);
+   public static Optional<ProxyType> a(String string) {
+      for (ProxyType proxyType : values()) {
+         if (proxyType.name().equalsIgnoreCase(string)) {
+            return Optional.of(proxyType);
          }
       }
 

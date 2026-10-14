@@ -22,30 +22,30 @@ public class BlockPlanks extends Block {
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      for (BlockPlanks.EnumType var10 : BlockPlanks.EnumType.values()) {
-         var3.add(new ItemStack(var1, 1, var10.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      for (BlockPlanks.EnumType enumType : BlockPlanks.EnumType.values()) {
+         list.add(new ItemStack(itemIn, 1, enumType.getMetadata()));
       }
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata(var1));
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata(meta));
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      return var1.getValue(VARIANT).getMapColor();
+   public MapColor getMapColor(IBlockState state) {
+      return state.getValue(VARIANT).getMapColor();
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 
    @Override
@@ -68,15 +68,15 @@ public class BlockPlanks extends Block {
       private final MapColor mapColor;
       private static final long a = 26627998731340L;
 
-      EnumType(int var3, String var4, MapColor var5) {
-         this(var3, var4, var4, var5);
+      EnumType(int k, String string2, MapColor mapColor) {
+         this(k, string2, string2, mapColor);
       }
 
-      EnumType(int var3, String var4, String var5, MapColor var6) {
-         this.meta = var3;
-         this.name = var4;
-         this.unlocalizedName = var5;
-         this.mapColor = var6;
+      EnumType(int k, String string2, String string3, MapColor mapColor) {
+         this.meta = k;
+         this.name = string2;
+         this.unlocalizedName = string3;
+         this.mapColor = mapColor;
       }
 
       public int getMetadata() {
@@ -92,12 +92,12 @@ public class BlockPlanks extends Block {
          return this.name;
       }
 
-      public static BlockPlanks.EnumType byMetadata(int var0) {
-         if (var0 < 0 || var0 >= META_LOOKUP.length) {
-            var0 = 0;
+      public static BlockPlanks.EnumType byMetadata(int meta) {
+         if (meta < 0 || meta >= META_LOOKUP.length) {
+            meta = 0;
          }
 
-         return META_LOOKUP[var0];
+         return META_LOOKUP[meta];
       }
 
       @Override
@@ -110,8 +110,8 @@ public class BlockPlanks extends Block {
       }
 
       static {
-         for (BlockPlanks.EnumType var20 : values()) {
-            META_LOOKUP[var20.getMetadata()] = var20;
+         for (BlockPlanks.EnumType enumType : values()) {
+            META_LOOKUP[enumType.getMetadata()] = enumType;
          }
       }
    }

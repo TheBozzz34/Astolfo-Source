@@ -7,23 +7,23 @@ import net.minecraft.util.MathHelper;
 public class ScoreHealthCriteria extends ScoreDummyCriteria {
    private static final long a = 136004039803262L;
 
-   public ScoreHealthCriteria(String var1) {
-      super(var1);
+   public ScoreHealthCriteria(String name) {
+      super(name);
    }
 
    @Override
-   public int setScore(List<EntityPlayer> var1) {
-      float var5 = 0.0F;
+   public int setScore(List<EntityPlayer> list) {
+      float f = 0.0F;
 
-      for (EntityPlayer var7 : var1) {
-         var5 += var7.getHealth() + var7.getAbsorptionAmount();
+      for (EntityPlayer entityPlayer : list) {
+         f += entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount();
       }
 
-      if (var1.size() > 0) {
-         var5 /= var1.size();
+      if (list.size() > 0) {
+         f /= list.size();
       }
 
-      return MathHelper.ceiling_float_int(var5);
+      return MathHelper.ceiling_float_int(f);
    }
 
    @Override

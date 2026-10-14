@@ -8,10 +8,10 @@ public class AimTarget {
    private final Rotation U;
    private final float i;
 
-   public AimTarget(EntityPlayer var1, Rotation var2, float var3) {
-      this.y = var1;
-      this.U = var2;
-      this.i = var3;
+   public AimTarget(EntityPlayer entityPlayer, Rotation rotation, float f) {
+      this.y = entityPlayer;
+      this.U = rotation;
+      this.i = f;
    }
 
    public Rotation d() {
@@ -26,11 +26,11 @@ public class AimTarget {
       return this.i;
    }
 
-   public static float R(AimTarget var0) {
-      return var0.i;
+   public static float R(AimTarget aimTarget) {
+      return aimTarget.i;
    }
 
-   public static Rotation h(AimTarget var0) {
-      return var0.U;
+   public static Rotation h(AimTarget aimTarget) {
+      return aimTarget.U;
    }
 }

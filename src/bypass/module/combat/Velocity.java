@@ -58,13 +58,13 @@ public final class Velocity extends Module {
    private Entity h;
    private int y;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      if (var1x.getState() == EventState.PRE) {
+      if (updateEvent.getState() == EventState.PRE) {
          if (this.J()) {
-            Entity var5 = this.r();
-            if (var5 != null) {
-               this.h = var5;
+            Entity entity = this.r();
+            if (entity != null) {
+               this.h = entity;
                this.y = 20;
             } else if (this.y-- <= 0) {
                this.h = null;
@@ -89,9 +89,9 @@ public final class Velocity extends Module {
             }
 
             if (mc.thePlayer.hurtResistantTime >= 19) {
-               double var7 = this.push.getSetting("Push").asFloat();
-               mc.thePlayer.motionX /= var7;
-               mc.thePlayer.motionZ /= var7;
+               double d = this.push.getSetting("Push").asFloat();
+               mc.thePlayer.motionX /= d;
+               mc.thePlayer.motionZ /= d;
             }
          }
 
@@ -102,13 +102,13 @@ public final class Velocity extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = e ^ 33839615652072L;
-      long var4 = var2 ^ 122344089519344L;
-      if (var1x.getDirection() == PacketDirection.RECEIVED) {
-         float var7 = 100 - this.chance.getValue();
-         boolean var8 = RandomUtils.RANDOM.nextFloat() > (var7 != 0.0F ? var7 / 100.0F : -0.1);
-         if (var8) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = e ^ 33839615652072L;
+      long m = l ^ 122344089519344L;
+      if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
+         float g = 100 - this.chance.getValue();
+         boolean bl = RandomUtils.RANDOM.nextFloat() > (g != 0.0F ? g / 100.0F : -0.1);
+         if (bl) {
             if (mc.thePlayer != null && mc.theWorld != null && GameUtil.isOnHypixel() && this.J()) {
                if (GameUtil.scoreboardTitleContains("PIT") && !GuiIngame.E) {
                   if (Math.abs(AutoHypixel.pitSpawnY - mc.thePlayer.posY) < 4.0) {
@@ -125,28 +125,28 @@ public final class Velocity extends Module {
                }
             }
 
-            if (var1x.getPacket() instanceof S12PacketEntityVelocity) {
-               S12PacketEntityVelocity var9 = (S12PacketEntityVelocity)var1x.getPacket();
-               if (mc.thePlayer != null && var9.getEntityID() == mc.thePlayer.getEntityId()) {
+            if (packetEvent.getPacket() instanceof S12PacketEntityVelocity) {
+               S12PacketEntityVelocity s12PacketEntityVelocity = (S12PacketEntityVelocity)packetEvent.getPacket();
+               if (mc.thePlayer != null && s12PacketEntityVelocity.getEntityID() == mc.thePlayer.getEntityId()) {
                   this.f = System.currentTimeMillis();
                   switch ((VelocityMode)this.mode.getValue()) {
                      case PACKET:
                         if (!(Math.abs(this.horizontal.getValue()) > 0.0F) && !(Math.abs(this.vertical.getValue()) > 0.0F)) {
-                           var1x.cancel();
+                           packetEvent.cancel();
                         } else {
-                           var9.motionX = (int)(var9.motionX * (this.horizontal.getValue() / 100.0F));
-                           var9.motionY = (int)(var9.motionY * (this.vertical.getValue() / 100.0F));
-                           var9.motionZ = (int)(var9.motionZ * (this.horizontal.getValue() / 100.0F));
+                           s12PacketEntityVelocity.motionX = (int)(s12PacketEntityVelocity.motionX * (this.horizontal.getValue() / 100.0F));
+                           s12PacketEntityVelocity.motionY = (int)(s12PacketEntityVelocity.motionY * (this.vertical.getValue() / 100.0F));
+                           s12PacketEntityVelocity.motionZ = (int)(s12PacketEntityVelocity.motionZ * (this.horizontal.getValue() / 100.0F));
                         }
                      case PULL:
                   }
                }
             }
 
-            if (var1x.getPacket() instanceof S27PacketExplosion) {
-               S27PacketExplosion var10 = (S27PacketExplosion)var1x.getPacket();
+            if (packetEvent.getPacket() instanceof S27PacketExplosion) {
+               S27PacketExplosion s27PacketExplosion = (S27PacketExplosion)packetEvent.getPacket();
                if (this.J()
-                  && var10.field_149153_g > 0.2
+                  && s27PacketExplosion.field_149153_g > 0.2
                   && mc.thePlayer.hurtTime == 0
                   && mc.thePlayer.hurtResistantTime == 0
                   && this.h == null
@@ -159,11 +159,11 @@ public final class Velocity extends Module {
 
                if (this.mode.getValue() == VelocityMode.PACKET) {
                   if (!(Math.abs(this.horizontal.getValue()) > 0.0F) && !(Math.abs(this.vertical.getValue()) > 0.0F)) {
-                     var1x.cancel();
+                     packetEvent.cancel();
                   } else {
-                     var10.field_149152_f = var10.field_149152_f * (this.horizontal.getValue() / 100.0F);
-                     var10.field_149153_g = var10.field_149153_g * (this.vertical.getValue() / 100.0F);
-                     var10.field_149159_h = var10.field_149159_h * (this.horizontal.getValue() / 100.0F);
+                     s27PacketExplosion.field_149152_f = s27PacketExplosion.field_149152_f * (this.horizontal.getValue() / 100.0F);
+                     s27PacketExplosion.field_149153_g = s27PacketExplosion.field_149153_g * (this.vertical.getValue() / 100.0F);
+                     s27PacketExplosion.field_149159_h = s27PacketExplosion.field_149159_h * (this.horizontal.getValue() / 100.0F);
                   }
                }
             }
@@ -171,21 +171,21 @@ public final class Velocity extends Module {
       }
    };
    @EventHandler(JumpEvent.class)
-   private Listener<JumpEvent> onJump = var1x -> {
+   private Listener<JumpEvent> onJump = jumpEvent -> {
       if (this.mode.getValue() == VelocityMode.PULL) {
          if (mc.thePlayer == null || mc.thePlayer.isInWater()) {
             return;
          }
 
          if (mc.thePlayer.hurtTime > 0) {
-            var1x.cancel();
+            jumpEvent.cancel();
          }
       }
    };
    private static final long e = 78015235312043L;
 
-   public Velocity(Category var1) {
-      super(var1);
+   public Velocity(Category category) {
+      super(category);
       this.B(-11111286);
       this.addSettings(this.mode, this.hypixelStaff, this.push, this.horizontal, this.vertical, this.chance, water);
    }
@@ -210,27 +210,27 @@ public final class Velocity extends Module {
    }
 
    private boolean J() {
-      long var1 = e ^ 8558731286803L;
-      long var3 = var1 ^ 130065192545547L;
+      long l = e ^ 8558731286803L;
+      long m = l ^ 130065192545547L;
       return this.hypixelStaff.getSetting("Enable").asBoolean() && !client.getModuleManager().get(LongJump.class).isEnabled();
    }
 
    private Entity r() {
-      float var4 = 10.0F;
-      Entity var5 = null;
+      float f = 10.0F;
+      Entity entity = null;
 
-      for (Entity var7 : mc.theWorld.loadedEntityList) {
-         if (var7 != mc.thePlayer
-            && (var7 instanceof EntityPlayer || var7 instanceof IProjectile || GameUtil.isHostile(var7) || GameUtil.isBoss(var7))
-            && (!(var7 instanceof EntityPlayer) || !BotDetector.w.contains(var7))) {
-            float var8 = mc.thePlayer.getDistanceToEntity(var7);
-            if (var8 < var4) {
-               var5 = var7;
-               var4 = var8;
+      for (Entity entity2 : mc.theWorld.loadedEntityList) {
+         if (entity2 != mc.thePlayer
+            && (entity2 instanceof EntityPlayer || entity2 instanceof IProjectile || GameUtil.isHostile(entity2) || GameUtil.isBoss(entity2))
+            && (!(entity2 instanceof EntityPlayer) || !BotDetector.w.contains(entity2))) {
+            float g = mc.thePlayer.getDistanceToEntity(entity2);
+            if (g < f) {
+               entity = entity2;
+               f = g;
             }
          }
       }
 
-      return mc.thePlayer.hurtTime <= 0 && !mc.thePlayer.isBurning() ? var5 : mc.thePlayer;
+      return mc.thePlayer.hurtTime <= 0 && !mc.thePlayer.isBurning() ? entity : mc.thePlayer;
    }
 }

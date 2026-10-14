@@ -27,31 +27,31 @@ public class BlockCake extends Block {
    }
 
    @Override
-   public void setBlockBoundsBasedOnState(IBlockAccess var1, BlockPos var2) {
-      float var3 = 0.0625F;
-      float var4 = (1 + var1.getBlockState(var2).getValue(BITES) * 2) / 16.0F;
-      float var5 = 0.5F;
-      this.setBlockBounds(var4, 0.0F, var3, 1.0F - var3, var5, 1.0F - var3);
+   public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+      float f = 0.0625F;
+      float g = (1 + worldIn.getBlockState(pos).getValue(BITES) * 2) / 16.0F;
+      float h = 0.5F;
+      this.setBlockBounds(g, 0.0F, f, 1.0F - f, h, 1.0F - f);
    }
 
    @Override
    public void setBlockBoundsForItemRender() {
-      float var1 = 0.0625F;
-      float var2 = 0.5F;
-      this.setBlockBounds(var1, 0.0F, var1, 1.0F - var1, var2, 1.0F - var1);
+      float f = 0.0625F;
+      float g = 0.5F;
+      this.setBlockBounds(f, 0.0F, f, 1.0F - f, g, 1.0F - f);
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
-      float var4 = 0.0625F;
-      float var5 = (1 + var3.getValue(BITES) * 2) / 16.0F;
-      float var6 = 0.5F;
-      return new AxisAlignedBB(var2.getX() + var5, var2.getY(), var2.getZ() + var4, var2.getX() + 1 - var4, var2.getY() + var6, var2.getZ() + 1 - var4);
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+      float f = 0.0625F;
+      float g = (1 + state.getValue(BITES) * 2) / 16.0F;
+      float h = 0.5F;
+      return new AxisAlignedBB(pos.getX() + g, pos.getY(), pos.getZ() + f, pos.getX() + 1 - f, pos.getY() + h, pos.getZ() + 1 - f);
    }
 
    @Override
-   public AxisAlignedBB getSelectedBoundingBox(World var1, BlockPos var2) {
-      return this.getCollisionBoundingBox(var1, var2, var1.getBlockState(var2));
+   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+      return this.getCollisionBoundingBox(worldIn, pos, worldIn.getBlockState(pos));
    }
 
    @Override
@@ -65,57 +65,57 @@ public class BlockCake extends Block {
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      this.eatCake(var1, var2, var3, var4);
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      this.eatCake(worldIn, pos, state, playerIn);
       return true;
    }
 
    @Override
-   public void onBlockClicked(World var1, BlockPos var2, EntityPlayer var3) {
-      this.eatCake(var1, var2, var1.getBlockState(var2), var3);
+   public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+      this.eatCake(worldIn, pos, worldIn.getBlockState(pos), playerIn);
    }
 
-   private void eatCake(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4) {
-      if (var4.canEat(false)) {
-         var4.triggerAchievement(StatList.field_181724_H);
-         var4.getFoodStats().addStats(2, 0.1F);
-         int var8 = var3.getValue(BITES);
-         if (var8 < 6) {
-            var1.setBlockState(var2, var3.withProperty(BITES, var8 + 1), 3);
+   private void eatCake(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+      if (player.canEat(false)) {
+         player.triggerAchievement(StatList.field_181724_H);
+         player.getFoodStats().addStats(2, 0.1F);
+         int i = state.getValue(BITES);
+         if (i < 6) {
+            worldIn.setBlockState(pos, state.withProperty(BITES, i + 1), 3);
          } else {
-            var1.setBlockToAir(var2);
+            worldIn.setBlockToAir(pos);
          }
       }
    }
 
    @Override
-   public boolean canPlaceBlockAt(World var1, BlockPos var2) {
-      return super.canPlaceBlockAt(var1, var2) ? this.canBlockStay(var1, var2) : false;
+   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+      return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      if (!this.canBlockStay(var1, var2)) {
-         var1.setBlockToAir(var2);
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      if (!this.canBlockStay(worldIn, pos)) {
+         worldIn.setBlockToAir(pos);
       }
    }
 
-   private boolean canBlockStay(World var1, BlockPos var2) {
-      return var1.getBlockState(var2.down()).getBlock().getMaterial().isSolid();
+   private boolean canBlockStay(World worldIn, BlockPos pos) {
+      return worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid();
    }
 
    @Override
-   public int quantityDropped(Random var1) {
+   public int quantityDropped(Random randomIn) {
       return 0;
    }
 
    @Override
-   public Item getItemDropped(IBlockState var1, Random var2, int var3) {
+   public Item getItemDropped(IBlockState state, Random rand, int fortune) {
       return null;
    }
 
    @Override
-   public Item getItem(World var1, BlockPos var2) {
+   public Item getItem(World worldIn, BlockPos pos) {
       return Items.cake;
    }
 
@@ -125,13 +125,13 @@ public class BlockCake extends Block {
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      return this.getDefaultState().withProperty(BITES, var1);
+   public IBlockState getStateFromMeta(int meta) {
+      return this.getDefaultState().withProperty(BITES, meta);
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      return var1.getValue(BITES);
+   public int getMetaFromState(IBlockState state) {
+      return state.getValue(BITES);
    }
 
    @Override
@@ -140,8 +140,8 @@ public class BlockCake extends Block {
    }
 
    @Override
-   public int getComparatorInputOverride(World var1, BlockPos var2) {
-      return (7 - var1.getBlockState(var2).getValue(BITES)) * 2;
+   public int getComparatorInputOverride(World worldIn, BlockPos pos) {
+      return (7 - worldIn.getBlockState(pos).getValue(BITES)) * 2;
    }
 
    @Override

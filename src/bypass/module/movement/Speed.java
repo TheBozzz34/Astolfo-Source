@@ -84,9 +84,9 @@ public final class Speed extends Module {
    private boolean jumped;
    private boolean timerReset;
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = var1x -> {
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      if (var1x.getState() == EventState.PRE && this.unusedCooldown > 0) {
+      if (updateEvent.getState() == EventState.PRE && this.unusedCooldown > 0) {
          this.unusedCooldown--;
       }
    };
@@ -96,26 +96,26 @@ public final class Speed extends Module {
    private float lastStrafe;
    private float lastForward;
    @EventHandler(MoveEvent.class)
-   private Listener<MoveEvent> onMove = var1x -> {
-      long var2 = cb ^ 11481398063088L;
-      long var4 = var2 ^ 24814441719509L;
+   private Listener<MoveEvent> onMove = moveEvent -> {
+      long l = cb ^ 11481398063088L;
+      long m = l ^ 24814441719509L;
 
       try {
          if (mc.thePlayer == null || mc.theWorld == null) {
             return;
          }
 
-         double var7 = getBaseSpeed(1.0 + this.iceBooster.getValue(), true);
-         boolean var9 = GameUtil.isMoving(mc.thePlayer);
-         float var10 = mc.thePlayer.movementInput.moveForward;
-         float var11 = mc.thePlayer.movementInput.moveStrafe;
-         float var12 = mc.thePlayer.rotationYaw;
-         double var13 = 0.4015F;
+         double d = getBaseSpeed(1.0 + this.iceBooster.getValue(), true);
+         boolean bl = GameUtil.isMoving(mc.thePlayer);
+         float f = mc.thePlayer.movementInput.moveForward;
+         float g = mc.thePlayer.movementInput.moveStrafe;
+         float h = mc.thePlayer.rotationYaw;
+         double e = 0.4015F;
          if (this.timedOut) {
             return;
          }
 
-         switch (var1x.getState()) {
+         switch (moveEvent.getState()) {
             case PRE:
                switch ((SpeedMode)mode.getValue()) {
                   case BHOP:
@@ -127,18 +127,18 @@ public final class Speed extends Module {
                         switch (this.bhopStage) {
                            case 1:
                               if (mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F) {
-                                 this.moveSpeed = 1.35 * var7 - 0.01;
+                                 this.moveSpeed = 1.35 * d - 0.01;
                               }
                               break label355;
                            case 2:
                               if (mc.thePlayer.isCollidedVertically && (mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F)) {
-                                 var1x.setY(mc.thePlayer.motionY = var13);
-                                 this.moveSpeed = var7 * 2.149;
+                                 moveEvent.setY(mc.thePlayer.motionY = e);
+                                 this.moveSpeed = d * 2.149;
                               }
                               break label355;
                            case 3:
-                              double var23 = 0.66 * (this.lastDistance - var7);
-                              this.moveSpeed = this.lastDistance - var23;
+                              double d2 = 0.66 * (this.lastDistance - d);
+                              this.moveSpeed = this.lastDistance - d2;
                               break label355;
                         }
 
@@ -153,9 +153,9 @@ public final class Speed extends Module {
                      }
 
                      this.bhopStage++;
-                     this.moveSpeed = Math.max(this.moveSpeed, var7);
+                     this.moveSpeed = Math.max(this.moveSpeed, d);
                      if (this.unusedStage == 0) {
-                        setMotion(var1x, var11, var10, 1.0F, this.moveSpeed * 0.985);
+                        setMotion(moveEvent, g, f, 1.0F, this.moveSpeed * 0.985);
                      }
 
                      mc.thePlayer.stepHeight = 0.6F;
@@ -171,22 +171,22 @@ public final class Speed extends Module {
 
                      if (GameUtil.isMoving(mc.thePlayer)) {
                         if (mc.thePlayer.onGround) {
-                           var1x.setY(mc.thePlayer.motionY = 0.36);
-                           GameUtil.setMoveSpeed(var1x, 0.0, 90.0F);
+                           moveEvent.setY(mc.thePlayer.motionY = 0.36);
+                           GameUtil.setMoveSpeed(moveEvent, 0.0, 90.0F);
                            mc.timer.timerSpeed = 6.0F;
-                           this.boostSpeed = var7 * (this.boostTimer.hasElapsed(500.0F) ? 2.4 : 1.5);
+                           this.boostSpeed = d * (this.boostTimer.hasElapsed(500.0F) ? 2.4 : 1.5);
                         } else {
                            mc.timer.timerSpeed = 1.0F;
                            this.boostSpeed = Math.max(this.boostSpeed -= 0.008, 0.0);
-                           GameUtil.setMoveSpeed(var1x, this.boostSpeed, 90.0F);
+                           GameUtil.setMoveSpeed(moveEvent, this.boostSpeed, 90.0F);
                         }
 
-                        var1x.setY(mc.thePlayer.motionY += 0.025);
+                        moveEvent.setY(mc.thePlayer.motionY += 0.025);
                      }
                      break;
                   case VANILLA_BHOP:
-                     if (mc.theWorld == null || !var9 || mc.thePlayer.isInWater() && Jesus.A() || mc.thePlayer.isInLava()) {
-                        this.boostSpeed = var7;
+                     if (mc.theWorld == null || !bl || mc.thePlayer.isInWater() && Jesus.A() || mc.thePlayer.isInLava()) {
+                        this.boostSpeed = d;
                         return;
                      }
 
@@ -194,13 +194,13 @@ public final class Speed extends Module {
                         switch (this.stage) {
                            case 2:
                               if ((mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F) && mc.thePlayer.onGround) {
-                                 var1x.setY(mc.thePlayer.motionY = mc.thePlayer.isPotionActive(Potion.jump) ? 0.80625F : var13);
+                                 moveEvent.setY(mc.thePlayer.motionY = mc.thePlayer.isPotionActive(Potion.jump) ? 0.80625F : e);
                                  mc.thePlayer.triggerAchievement(StatList.jumpStat);
-                                 this.moveSpeed = var7 * 1.8;
+                                 this.moveSpeed = d * 1.8;
                               }
                               break label360;
                            case 3:
-                              this.moveSpeed = this.lastDistance - 0.6965610249494268 * (this.lastDistance - var7);
+                              this.moveSpeed = this.lastDistance - 0.6965610249494268 * (this.lastDistance - d);
                               break label360;
                         }
 
@@ -218,25 +218,25 @@ public final class Speed extends Module {
                         this.moveSpeed = this.lastDistance - this.lastDistance / 157.5;
                      }
 
-                     this.moveSpeed = Math.max(this.moveSpeed, var7);
-                     if (var10 == 0.0F && var11 == 0.0F) {
-                        var1x.setX(0.0);
-                        var1x.setZ(0.0);
+                     this.moveSpeed = Math.max(this.moveSpeed, d);
+                     if (f == 0.0F && g == 0.0F) {
+                        moveEvent.setX(0.0);
+                        moveEvent.setZ(0.0);
                      }
 
-                     setMotion(var1x, var11, var10, 1.0F, this.moveSpeed, 1.0);
+                     setMotion(moveEvent, g, f, 1.0F, this.moveSpeed, 1.0);
                      if (mode.getValue() == SpeedMode.VANILLA_BHOP && GameUtil.isMoving(mc.thePlayer)) {
-                        GameUtil.setMoveSpeed(var1x, 1.0, 88.3883F);
+                        GameUtil.setMoveSpeed(moveEvent, 1.0, 88.3883F);
                      }
 
-                     if (var10 != 0.0F || var11 != 0.0F) {
+                     if (f != 0.0F || g != 0.0F) {
                         this.stage++;
                      }
                      break;
                   case WATCHDOG:
-                     if (mc.theWorld != null && var9) {
+                     if (mc.theWorld != null && bl) {
                         if (GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox()) && client.getModuleManager().get(Jesus.class).isEnabled()) {
-                           this.moveSpeed = var7;
+                           this.moveSpeed = d;
                            return;
                         }
 
@@ -245,21 +245,21 @@ public final class Speed extends Module {
                            switch (this.stage) {
                               case 2:
                                  if ((mc.thePlayer.moveForward != 0.0F || mc.thePlayer.moveStrafing != 0.0F) && mc.thePlayer.onGround) {
-                                    float var15 = 0.4011F;
+                                    float f2 = 0.4011F;
                                     if (mc.thePlayer.isPotionActive(Potion.jump)) {
-                                       var15 = (float)((double)var15 + (mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
+                                       f2 = (float)((double)f2 + (mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
                                     }
 
-                                    var1x.setY(mc.thePlayer.motionY = var15);
+                                    moveEvent.setY(mc.thePlayer.motionY = f2);
                                     this.jumped = true;
                                     mc.thePlayer.triggerAchievement(StatList.jumpStat);
-                                    this.moveSpeed = var7 * 2.0356;
+                                    this.moveSpeed = d * 2.0356;
                                  }
                                  break label357;
                               case 3:
                                  this.moveSpeed = this.lastDistance
                                     - (this.damageBooster.asDouble() > 0.1 && mc.thePlayer.hurtTime > 0 ? 1.0 - this.damageBooster.asDouble() : 0.73)
-                                       * (this.lastDistance - var7);
+                                       * (this.lastDistance - d);
                                  break label357;
                            }
 
@@ -284,35 +284,35 @@ public final class Speed extends Module {
 
                         if (this.moveSpeed > 1.1
                            && (GameUtil.getBlockAtPlayer(-0.001) instanceof BlockStairs || GameUtil.getBlockAtPlayer(-0.001) instanceof BlockSlab)) {
-                           this.moveSpeed = var7;
+                           this.moveSpeed = d;
                         }
 
-                        this.moveSpeed = Math.max(this.moveSpeed, var7);
-                        if (var10 == 0.0F && var11 == 0.0F) {
-                           var1x.setX(0.0);
-                           var1x.setZ(0.0);
+                        this.moveSpeed = Math.max(this.moveSpeed, d);
+                        if (f == 0.0F && g == 0.0F) {
+                           moveEvent.setX(0.0);
+                           moveEvent.setZ(0.0);
                         }
 
-                        int var22 = this.watchdog.getSetting("Multiply-Ticks").asInt();
-                        float var16 = this.watchdog.getSetting("Multiply-Factor").asFloat();
+                        int i = this.watchdog.getSetting("Multiply-Ticks").asInt();
+                        float f3 = this.watchdog.getSetting("Multiply-Factor").asFloat();
                         if (!mc.thePlayer.isCollidedVertically && this.stage != 2) {
                            this.jumped = false;
                         }
 
                         if (this.jumped) {
-                           this.tickCounter = var22;
+                           this.tickCounter = i;
                         }
 
                         if (this.tickCounter > 0) {
                            this.timerReset = false;
                            if (this.watchdog.getSetting("Multiply-Tick").asBoolean()) {
                               if (mc.thePlayer.ticksExisted % 2 == 0) {
-                                 mc.timer.timerSpeed = var16;
+                                 mc.timer.timerSpeed = f3;
                               } else {
                                  mc.timer.timerSpeed = 1.0F;
                               }
                            } else {
-                              mc.timer.timerSpeed = var16;
+                              mc.timer.timerSpeed = f3;
                            }
 
                            this.tickCounter--;
@@ -321,10 +321,10 @@ public final class Speed extends Module {
                            this.timerReset = true;
                         }
 
-                        this.strafeTowards(var1x, this.moveSpeed, this.watchdog.getSetting("Strafe-Amount").asFloat());
+                        this.strafeTowards(moveEvent, this.moveSpeed, this.watchdog.getSetting("Strafe-Amount").asFloat());
                         this.lastForward = mc.thePlayer.moveForward;
                         this.lastStrafe = mc.thePlayer.moveStrafing;
-                        if (var10 != 0.0F || var11 != 0.0F) {
+                        if (f != 0.0F || g != 0.0F) {
                            this.stage++;
                         }
 
@@ -335,59 +335,59 @@ public final class Speed extends Module {
                      }
 
                      mc.timer.timerSpeed = 1.0F;
-                     this.moveSpeed = var7;
+                     this.moveSpeed = d;
                      return;
                   case SENTINEL:
-                     if (var9 && mc.thePlayer.onGround && this.boostTimer.hasElapsed(250.0F)) {
-                        float var17 = mc.thePlayer.rotationYaw;
+                     if (bl && mc.thePlayer.onGround && this.boostTimer.hasElapsed(250.0F)) {
+                        float f4 = mc.thePlayer.rotationYaw;
                         if (mc.thePlayer.moveForward < 0.0F) {
-                           var17 += 180.0F;
+                           f4 += 180.0F;
                         }
 
-                        float var18 = 1.0F;
+                        float f5 = 1.0F;
                         if (mc.thePlayer.moveForward < 0.0F) {
-                           var18 = -0.5F;
+                           f5 = -0.5F;
                         } else if (mc.thePlayer.moveForward > 0.0F) {
-                           var18 = 0.5F;
+                           f5 = 0.5F;
                         }
 
                         if (mc.thePlayer.moveStrafing > 0.0F) {
-                           var17 -= 90.0F * var18;
+                           f4 -= 90.0F * f5;
                         }
 
                         if (mc.thePlayer.moveStrafing < 0.0F) {
-                           var17 += 90.0F * var18;
+                           f4 += 90.0F * f5;
                         }
 
-                        double var19 = Math.toRadians(var17);
-                        var1x.setX(-Math.sin(var19) * 2.0);
-                        var1x.setZ(Math.cos(var19) * 2.0);
+                        double d3 = Math.toRadians(f4);
+                        moveEvent.setX(-Math.sin(d3) * 2.0);
+                        moveEvent.setZ(Math.cos(d3) * 2.0);
                         this.boostTimer.reset();
                      }
                      break;
                   case SQUADS:
                      mc.timer.timerSpeed = 1.0F;
-                     if (mc.thePlayer.onGround && var9) {
-                        var1x.setY(mc.thePlayer.motionY = 0.4056);
+                     if (mc.thePlayer.onGround && bl) {
+                        moveEvent.setY(mc.thePlayer.motionY = 0.4056);
                         mc.timer.timerSpeed = (float)(mc.timer.timerSpeed * 4.0);
-                        this.moveSpeed = var7 * 0.9331;
+                        this.moveSpeed = d * 0.9331;
                      }
 
-                     GameUtil.setMoveSpeed(var1x, this.moveSpeed * 1.7F, 90.0F);
+                     GameUtil.setMoveSpeed(moveEvent, this.moveSpeed * 1.7F, 90.0F);
                }
          }
-      } catch (Exception var21) {
-         var21.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
    };
    private int unusedInt;
    private boolean knockedBack;
    @EventHandler(MotionEvent.class)
-   private Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
+   private Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE) {
          this.lastDistance = Math.hypot(mc.thePlayer.posX - mc.thePlayer.prevPosX, mc.thePlayer.posZ - mc.thePlayer.prevPosZ);
-         float var5 = mc.thePlayer.movementInput.moveForward;
-         float var6 = mc.thePlayer.movementInput.moveStrafe;
+         float f = mc.thePlayer.movementInput.moveForward;
+         float g = mc.thePlayer.movementInput.moveStrafe;
          if (this.timedOut) {
             return;
          }
@@ -447,7 +447,7 @@ public final class Speed extends Module {
          }
 
          if (mode.getValue() == SpeedMode.NCP && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.onGround && GameUtil.isMoving(mc.thePlayer)) {
-            var1x.setMinY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? this.freeHeightUpTo(0.40325F) : 1.625E-12));
+            motionEvent.setMinY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? this.freeHeightUpTo(0.40325F) : 1.625E-12));
             mc.thePlayer.r(mc.thePlayer.ticksExisted % 2 == 0 ? 0.16 : 0.34);
             mc.timer.timerSpeed = mc.thePlayer.ticksExisted % 4 == 0 ? 1.4F : 1.0F;
          }
@@ -471,9 +471,9 @@ public final class Speed extends Module {
                this.knockedBack = false;
             } else if (!mc.thePlayer.isCollidedHorizontally && !this.knockedBack) {
                mc.thePlayer.jumpMovementFactor = 0.027F;
-               float var7 = mc.thePlayer.motionY <= 0.0 ? RandomUtils.nextFloat(1.002F, 1.0023F) : RandomUtils.nextFloat(1.0059F, 1.0061F);
-               mc.thePlayer.motionX *= var7;
-               mc.thePlayer.motionZ *= var7;
+               float h = mc.thePlayer.motionY <= 0.0 ? RandomUtils.nextFloat(1.002F, 1.0023F) : RandomUtils.nextFloat(1.0059F, 1.0061F);
+               mc.thePlayer.motionX *= h;
+               mc.thePlayer.motionZ *= h;
                moveForward(0.0019);
                mc.thePlayer.motionY -= 0.0149F;
             }
@@ -481,9 +481,9 @@ public final class Speed extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING) {
-         if (var1x.getPacket() instanceof C03PacketPlayer
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
+         if (packetEvent.getPacket() instanceof C03PacketPlayer
             && mode.getValue() == SpeedMode.YPORT
             && mc.thePlayer.onGround
             && mc.thePlayer.isCollidedVertically
@@ -492,31 +492,31 @@ public final class Speed extends Module {
             && this.tickCounter > 5) {
             this.yPortGround = !this.yPortGround;
             if (this.yPortGround) {
-               var1x.setPacket(
+               packetEvent.setPacket(
                   new C03PacketPlayer.C06PacketPlayerPosLook(
                      mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true
                   )
                );
             } else {
-               var1x.setPacket(
+               packetEvent.setPacket(
                   new C03PacketPlayer.C06PacketPlayerPosLook(
                      mc.thePlayer.posX, mc.thePlayer.posY + 0.425000023, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false
                   )
                );
             }
          }
-      } else if (var1x.getPacket() instanceof C0BPacketEntityAction) {
-         C0BPacketEntityAction var5 = (C0BPacketEntityAction)var1x.getPacket();
+      } else if (packetEvent.getPacket() instanceof C0BPacketEntityAction) {
+         C0BPacketEntityAction c0BPacketEntityAction = (C0BPacketEntityAction)packetEvent.getPacket();
          if (mode.getValue() == SpeedMode.WATCHDOG
             && GameUtil.isMoving(mc.thePlayer)
-            && (var5.getAction() == C0BPacketEntityAction.Action.START_SPRINTING || var5.getAction() == C0BPacketEntityAction.Action.STOP_SPRINTING)) {
-            var1x.cancel();
+            && (c0BPacketEntityAction.getAction() == C0BPacketEntityAction.Action.START_SPRINTING || c0BPacketEntityAction.getAction() == C0BPacketEntityAction.Action.STOP_SPRINTING)) {
+            packetEvent.cancel();
          }
       }
    };
    @EventHandler(TeleportEvent.class)
-   private final Listener<TeleportEvent> onTeleport = var1x -> {
-      if (var1x.y()) {
+   private final Listener<TeleportEvent> onTeleport = teleportEvent -> {
+      if (teleportEvent.y()) {
          switch ((SpeedTimeOutMode)this.timeOut.getSetting("Mode").getValue()) {
             case WAIT:
                this.timedOut = true;
@@ -533,65 +533,65 @@ public final class Speed extends Module {
       }
    };
    @EventHandler(RenderEvent.class)
-   private final Listener<RenderEvent> onRender = var1x -> {
-      if (var1x.getType() == RenderType.SCREEN && this.timedOut) {
+   private final Listener<RenderEvent> onRender = renderEvent -> {
+      if (renderEvent.getType() == RenderType.SCREEN && this.timedOut) {
          if (this.timeOutTimer.hasElapsed(this.timeOut.getSetting("Delay").asInt())) {
             this.timedOut = false;
             return;
          }
 
-         String var5 = String.format(
+         String string = String.format(
             "Speed will be re-enabled in: %ss",
             MathUtil.ONE_DECIMAL.format((this.timeOut.getSetting("Delay").asInt() - this.timeOutTimer.getElapsed()) / 1000.0)
          );
-         float var6 = var1x.getResolution().getScaledWidth() / 2.0F;
-         float var7 = var6 - mc.fontRendererObj.getStringWidth(var5) / 2.0F;
-         float var8 = var6 - 80.0F;
-         float var9 = var6 + 80.0F;
-         int var10 = (int)(var9 + (var8 - var9) * ((float)this.timeOutTimer.getElapsed() / this.timeOut.getSetting("Delay").asFloat() * 100.0F * 0.01F));
+         float f = renderEvent.getResolution().getScaledWidth() / 2.0F;
+         float g = f - mc.fontRendererObj.getStringWidth(string) / 2.0F;
+         float h = f - 80.0F;
+         float f2 = f + 80.0F;
+         int i = (int)(f2 + (h - f2) * ((float)this.timeOutTimer.getElapsed() / this.timeOut.getSetting("Delay").asFloat() * 100.0F * 0.01F));
          RenderUtil.drawRect(
-            var8 - 3.0F,
-            var1x.getResolution().getScaledHeight() - 93,
-            var9 + 3.0F,
-            var1x.getResolution().getScaledHeight() - 74,
+            h - 3.0F,
+            renderEvent.getResolution().getScaledHeight() - 93,
+            f2 + 3.0F,
+            renderEvent.getResolution().getScaledHeight() - 74,
             new Color(1, 1, 1, 120).getRGB()
          );
          RenderUtil.drawRect(
-            var10,
-            var1x.getResolution().getScaledHeight() - 77,
-            var8,
-            var1x.getResolution().getScaledHeight() - 80,
+            i,
+            renderEvent.getResolution().getScaledHeight() - 77,
+            h,
+            renderEvent.getResolution().getScaledHeight() - 80,
             client.getColorSetting().getValue().darker().getRGB()
          );
          RenderUtil.drawRect(
-            var10,
-            var1x.getResolution().getScaledHeight() - 78.5F,
-            var8,
-            var1x.getResolution().getScaledHeight() - 80,
+            i,
+            renderEvent.getResolution().getScaledHeight() - 78.5F,
+            h,
+            renderEvent.getResolution().getScaledHeight() - 80,
             client.getColorSetting().getValue().getRGB()
          );
-         mc.fontRendererObj.drawStringWithShadow(var5, var7, var1x.getResolution().getScaledHeight() - 90, client.getColorSetting().getValue().getRGB());
+         mc.fontRendererObj.drawStringWithShadow(string, g, renderEvent.getResolution().getScaledHeight() - 90, client.getColorSetting().getValue().getRGB());
       }
    };
    private static final long cb = 47929494975638L;
 
-   public Speed(Category var1) {
-      super(var1);
+   public Speed(Category category) {
+      super(category);
       this.B(-1551059);
       this.addSettings(this.timeOut, this.watchdog, mode, this.damageBooster, this.iceBooster);
    }
 
-   public double angleBetween(double var1, double var3, double var5, double var7) {
-      double var12 = Math.PI * 2;
-      double var14 = 180.0 / Math.PI;
-      if (var1 == var5 && var3 == var7) {
+   public double angleBetween(double d, double d2, double d3, double d4) {
+      double e = Math.PI * 2;
+      double d5 = 180.0 / Math.PI;
+      if (d == d3 && d2 == d4) {
          return -1.0;
       }
 
-      double var16 = Math.atan2(var5 - var1, var3 - var7);
-      var16 += var12 / 2.0;
-      var16 = var16 < 0.0 ? var16 + var12 : var16;
-      return var14 * var16;
+      double d6 = Math.atan2(d3 - d, d2 - d4);
+      d6 += e / 2.0;
+      d6 = d6 < 0.0 ? d6 + e : d6;
+      return d5 * d6;
    }
 
    public double getMovedAngle() {
@@ -599,217 +599,217 @@ public final class Speed extends Module {
    }
 
    public float getMoveYaw() {
-      float var4 = MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw);
-      MovementInput var5 = mc.thePlayer.movementInput;
-      float var6 = var5.moveStrafe;
-      float var7 = var5.moveForward;
-      if (var7 != 0.0F) {
-         if (var6 < 0.0F) {
-            var4 += var7 < 0.0F ? 135.0F : 45.0F;
-         } else if (var6 > 0.0F) {
-            var4 -= var7 < 0.0F ? 135.0F : 45.0F;
-         } else if (var7 < 0.0F) {
-            var4 -= 180.0F;
+      float f = MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw);
+      MovementInput movementInput2 = mc.thePlayer.movementInput;
+      float g = movementInput2.moveStrafe;
+      float h = movementInput2.moveForward;
+      if (h != 0.0F) {
+         if (g < 0.0F) {
+            f += h < 0.0F ? 135.0F : 45.0F;
+         } else if (g > 0.0F) {
+            f -= h < 0.0F ? 135.0F : 45.0F;
+         } else if (h < 0.0F) {
+            f -= 180.0F;
          }
-      } else if (var6 < 0.0F) {
-         var4 += 90.0F;
-      } else if (var6 > 0.0F) {
-         var4 -= 90.0F;
+      } else if (g < 0.0F) {
+         f += 90.0F;
+      } else if (g > 0.0F) {
+         f -= 90.0F;
       }
 
-      return MathHelper.wrapAngleTo180_float(var4);
+      return MathHelper.wrapAngleTo180_float(f);
    }
 
    public double getMoveYaw360() {
-      double var4 = this.getMoveYaw();
+      double d = this.getMoveYaw();
 
-      while (var4 < 0.0) {
-         var4 += 360.0;
+      while (d < 0.0) {
+         d += 360.0;
       }
 
-      return var4;
+      return d;
    }
 
    public double getMovedDistance() {
       return Math.sqrt(Math.pow(mc.thePlayer.posX - this.lastX, 2.0) + Math.pow(mc.thePlayer.posZ - this.lastZ, 2.0));
    }
 
-   public double[] toVector(double var1, double var3) {
-      double var5 = var3 * Math.cos(Math.toRadians(var1 + 90.0));
-      double var7 = var3 * Math.sin(Math.toRadians(var1 + 90.0));
-      return new double[]{var5, var7};
+   public double[] toVector(double d, double d2) {
+      double e = d2 * Math.cos(Math.toRadians(d + 90.0));
+      double d3 = d2 * Math.sin(Math.toRadians(d + 90.0));
+      return new double[]{e, d3};
    }
 
-   public double dot(double[] var1, double[] var2) {
-      return var1[0] * var2[0] + var1[1] * var2[1];
+   public double dot(double[] doubles, double[] doubles2) {
+      return doubles[0] * doubles2[0] + doubles[1] * doubles2[1];
    }
 
-   public double[] scale(double[] var1, double var2) {
-      return new double[]{var1[0] * var2, var1[1] * var2};
+   public double[] scale(double[] doubles, double d) {
+      return new double[]{doubles[0] * d, doubles[1] * d};
    }
 
-   public double[] divide(double[] var1, double var2) {
-      return new double[]{var1[0] / var2, var1[1] / var2};
+   public double[] divide(double[] doubles, double d) {
+      return new double[]{doubles[0] / d, doubles[1] / d};
    }
 
-   public double[] projectOnto(double[] var1, double[] var2) {
-      return this.scale(var2, this.dot(var1, var2) / this.dot(var2, var2));
+   public double[] projectOnto(double[] doubles, double[] doubles2) {
+      return this.scale(doubles2, this.dot(doubles, doubles2) / this.dot(doubles2, doubles2));
    }
 
-   public double length(double[] var1) {
-      return Math.sqrt(Math.pow(var1[0], 2.0) + Math.pow(var1[1], 2.0));
+   public double length(double[] doubles) {
+      return Math.sqrt(Math.pow(doubles[0], 2.0) + Math.pow(doubles[1], 2.0));
    }
 
-   public double[] subtract(double[] var1, double[] var2) {
-      return new double[]{var1[0] - var2[0], var1[1] - var2[1]};
+   public double[] subtract(double[] doubles, double[] doubles2) {
+      return new double[]{doubles[0] - doubles2[0], doubles[1] - doubles2[1]};
    }
 
-   public double[] add(double[] var1, double[] var2) {
-      return new double[]{var1[0] + var2[0], var1[1] + var2[1]};
+   public double[] add(double[] doubles, double[] doubles2) {
+      return new double[]{doubles[0] + doubles2[0], doubles[1] + doubles2[1]};
    }
 
-   public double[] normalize(double[] var1) {
-      return this.divide(var1, this.length(var1));
+   public double[] normalize(double[] doubles) {
+      return this.divide(doubles, this.length(doubles));
    }
 
-   public double[] withLength(double[] var1, double var2) {
-      return this.scale(this.normalize(var1), var2);
+   public double[] withLength(double[] doubles, double d) {
+      return this.scale(this.normalize(doubles), d);
    }
 
-   public void strafeTowards(MoveEvent var1, double var2, double var4) {
-      double[] var9 = this.toVector(this.getMovedAngle(), this.getMovedDistance());
-      double[] var10 = this.toVector(this.getMoveYaw360(), var2);
-      double[] var11;
-      if (this.length(this.subtract(var9, var10)) > var4) {
-         var11 = this.add(var9, this.toVector(this.getMoveYaw360(), var4));
+   public void strafeTowards(MoveEvent moveEvent, double d, double d2) {
+      double[] doubles = this.toVector(this.getMovedAngle(), this.getMovedDistance());
+      double[] doubles2 = this.toVector(this.getMoveYaw360(), d);
+      double[] doubles3;
+      if (this.length(this.subtract(doubles, doubles2)) > d2) {
+         doubles3 = this.add(doubles, this.toVector(this.getMoveYaw360(), d2));
       } else {
-         var11 = var10;
+         doubles3 = doubles2;
       }
 
-      if (this.length(var11) > var2) {
-         var11 = this.withLength(var11, var2);
+      if (this.length(doubles3) > d) {
+         doubles3 = this.withLength(doubles3, d);
       }
 
-      var1.setX(mc.thePlayer.motionX = var11[0]);
-      var1.setZ(mc.thePlayer.motionZ = var11[1]);
+      moveEvent.setX(mc.thePlayer.motionX = doubles3[0]);
+      moveEvent.setZ(mc.thePlayer.motionZ = doubles3[1]);
    }
 
-   public static void setMotion(MoveEvent var0, float var1, float var2, float var3, double var4) {
-      setMotion(var0, var1, var2, var3, var4, 1.0);
+   public static void setMotion(MoveEvent moveEvent, float f, float g, float h, double d) {
+      setMotion(moveEvent, f, g, h, d, 1.0);
    }
 
-   public static void setMotion(MoveEvent var0, float var1, float var2, float var3, double var4, double var6) {
-      float var11 = var1 * var1 + var2 * var2;
-      if (var11 >= 1.0E-4F) {
-         var11 = MathHelper.sqrt_float(var11);
-         if (var11 < 1.0F) {
-            var11 = 1.0F;
+   public static void setMotion(MoveEvent moveEvent, float f, float g, float h, double d, double d2) {
+      float f2 = f * f + g * g;
+      if (f2 >= 1.0E-4F) {
+         f2 = MathHelper.sqrt_float(f2);
+         if (f2 < 1.0F) {
+            f2 = 1.0F;
          }
 
-         var11 = var3 / var11;
-         var1 *= var11;
-         var2 *= var11;
-         float var12 = MathHelper.sin(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-         float var13 = MathHelper.cos(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-         double var14 = var1 * var4 * var13 - var2 * var4 * var12;
-         double var16 = var2 * var4 * var13 + var1 * var4 * var12;
-         var0.setX(var14 * var6);
-         var0.setZ(var16 * var6);
+         f2 = h / f2;
+         f *= f2;
+         g *= f2;
+         float f3 = MathHelper.sin(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
+         float f4 = MathHelper.cos(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
+         double e = f * d * f4 - g * d * f3;
+         double d3 = g * d * f4 + f * d * f3;
+         moveEvent.setX(e * d2);
+         moveEvent.setZ(d3 * d2);
       }
    }
 
    public double[] unusedBoostValues() {
-      double var4 = getBaseSpeed(1.0, true);
-      if (var4 >= 0.28 && var4 < 0.3) {
+      double d = getBaseSpeed(1.0, true);
+      if (d >= 0.28 && d < 0.3) {
          return new double[]{1.36, this.speedOffset, 1.6, 1.85};
-      } else if (var4 >= 0.3 && var4 < 0.4) {
+      } else if (d >= 0.3 && d < 0.4) {
          return new double[]{1.249, 70.0 + this.speedOffset, 1.1, 1.45};
       } else {
-         return var4 >= 0.4 ? new double[]{1.252, 75.0 + this.speedOffset, 1.25, 1.4} : new double[]{1.0, 1.0, 1.0, 1.0};
+         return d >= 0.4 ? new double[]{1.252, 75.0 + this.speedOffset, 1.25, 1.4} : new double[]{1.0, 1.0, 1.0, 1.0};
       }
    }
 
-   public double unusedSpeedSteps(double var1) {
-      double var3 = getBaseSpeed(1.0, true);
-      return Math.floor(var3 * 30.0 * var1);
+   public double unusedSpeedSteps(double d) {
+      double e = getBaseSpeed(1.0, true);
+      return Math.floor(e * 30.0 * d);
    }
 
-   public double unusedRatio(double var1, double var3) {
-      double var5 = getBaseSpeed(1.0, true);
-      double var7 = var5 * 10.0 * 2.0;
-      double var9 = this.speedOffset * var5 * 1.5;
-      return var1 / (var7 + var9 + var3);
+   public double unusedRatio(double d, double d2) {
+      double e = getBaseSpeed(1.0, true);
+      double d3 = e * 10.0 * 2.0;
+      double d4 = this.speedOffset * e * 1.5;
+      return d / (d3 + d4 + d2);
    }
 
-   public double unusedRatio2(double var1, double var3, double var5) {
-      double var7 = getBaseSpeed(1.0, true);
-      double var9 = var7 * 10.0 * 2.0;
-      double var11 = this.speedOffset / var3 * var7 * 1.5;
-      return var1 / ((var9 + var11) * (var7 * (var5 * 1.4)));
+   public double unusedRatio2(double d, double d2, double d3) {
+      double e = getBaseSpeed(1.0, true);
+      double d4 = e * 10.0 * 2.0;
+      double d5 = this.speedOffset / d2 * e * 1.5;
+      return d / ((d4 + d5) * (e * (d3 * 1.4)));
    }
 
    public static double getNcpBaseSpeed() {
-      double var3 = 0.2873;
+      double d = 0.2873;
       if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-         int var5 = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
-         var3 *= 1.0 + 0.2 * (var5 + 1);
+         int i = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+         d *= 1.0 + 0.2 * (i + 1);
       }
 
-      return var3;
+      return d;
    }
 
    public static int getSpeedAmplifier() {
       return mc.thePlayer.isPotionActive(Potion.moveSpeed) ? mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1 : 0;
    }
 
-   public static void setSpeed(double var0) {
-      double var5 = mc.thePlayer.movementInput.moveForward;
-      double var7 = mc.thePlayer.movementInput.moveStrafe;
-      float var9 = mc.thePlayer.rotationYaw;
-      if (var5 == 0.0 && var7 == 0.0) {
+   public static void setSpeed(double d) {
+      double e = mc.thePlayer.movementInput.moveForward;
+      double d2 = mc.thePlayer.movementInput.moveStrafe;
+      float f = mc.thePlayer.rotationYaw;
+      if (e == 0.0 && d2 == 0.0) {
          mc.thePlayer.motionX = 0.0;
          mc.thePlayer.motionZ = 0.0;
       } else {
-         if (var5 != 0.0) {
-            if (var7 > 0.0) {
-               var9 += var5 > 0.0 ? -45 : 45;
-            } else if (var7 < 0.0) {
-               var9 += var5 > 0.0 ? 45 : -45;
+         if (e != 0.0) {
+            if (d2 > 0.0) {
+               f += e > 0.0 ? -45 : 45;
+            } else if (d2 < 0.0) {
+               f += e > 0.0 ? 45 : -45;
             }
 
-            var7 = 0.0;
-            if (var5 > 0.0) {
-               var5 = 1.0;
-            } else if (var5 < 0.0) {
-               var5 = -1.0;
+            d2 = 0.0;
+            if (e > 0.0) {
+               e = 1.0;
+            } else if (e < 0.0) {
+               e = -1.0;
             }
          }
 
-         mc.thePlayer.motionX = var5 * var0 * Math.cos(Math.toRadians(var9 + 90.0F)) + var7 * var0 * Math.sin(Math.toRadians(var9 + 90.0F));
-         mc.thePlayer.motionZ = var5 * var0 * Math.sin(Math.toRadians(var9 + 90.0F)) - var7 * var0 * Math.cos(Math.toRadians(var9 + 90.0F));
+         mc.thePlayer.motionX = e * d * Math.cos(Math.toRadians(f + 90.0F)) + d2 * d * Math.sin(Math.toRadians(f + 90.0F));
+         mc.thePlayer.motionZ = e * d * Math.sin(Math.toRadians(f + 90.0F)) - d2 * d * Math.cos(Math.toRadians(f + 90.0F));
       }
    }
 
-   public double freeHeightUpTo(double var1) {
-      for (double var6 = 0.0; var6 < var1; var6 += 0.01) {
-         for (int var11 : new int[]{-2, -1, 0, 1, 2}) {
+   public double freeHeightUpTo(double d) {
+      for (double e = 0.0; e < d; e += 0.01) {
+         for (int i : new int[]{-2, -1, 0, 1, 2}) {
             if (mc.theWorld
                   .getCollidingBoundingBoxes(
-                     mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(mc.thePlayer.motionX * var11, var6, mc.thePlayer.motionZ * var11)
+                     mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(mc.thePlayer.motionX * i, e, mc.thePlayer.motionZ * i)
                   )
                   .size()
                > 0) {
-               return var6 - 0.01;
+               return e - 0.01;
             }
          }
       }
 
-      return var1;
+      return d;
    }
 
-   public static void moveForward(double var0) {
-      double var2 = Math.toRadians(mc.thePlayer.rotationYaw);
-      mc.thePlayer.setPosition(mc.thePlayer.posX + -Math.sin(var2) * var0, mc.thePlayer.posY, mc.thePlayer.posZ + Math.cos(var2) * var0);
+   public static void moveForward(double d) {
+      double e = Math.toRadians(mc.thePlayer.rotationYaw);
+      mc.thePlayer.setPosition(mc.thePlayer.posX + -Math.sin(e) * d, mc.thePlayer.posY, mc.thePlayer.posZ + Math.cos(e) * d);
    }
 
    @Override
@@ -857,12 +857,12 @@ public final class Speed extends Module {
    }
 
    public double freeHeight() {
-      for (double var4 = 0.0; var4 < 0.4; var4 += 0.01) {
-         for (int var9 : new int[]{-2, -1, 0, 1, 2}) {
-            double var10 = mc.thePlayer.motionX;
-            double var12 = mc.thePlayer.motionZ;
-            if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(var10 * var9, var4, var12 * var9)).size() > 0) {
-               return var4 - 0.01;
+      for (double d = 0.0; d < 0.4; d += 0.01) {
+         for (int i : new int[]{-2, -1, 0, 1, 2}) {
+            double e = mc.thePlayer.motionX;
+            double d2 = mc.thePlayer.motionZ;
+            if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(e * i, d, d2 * i)).size() > 0) {
+               return d - 0.01;
             }
          }
       }
@@ -872,50 +872,50 @@ public final class Speed extends Module {
 
    public static double getJumpBoostMultiplier() {
       if (mc.thePlayer.isPotionActive(Potion.jump)) {
-         int var3 = mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier();
-         return 1.0 + 0.2 * (var3 + 1);
+         int i = mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier();
+         return 1.0 + 0.2 * (i + 1);
       } else {
          return 1.0;
       }
    }
 
-   public static double getBaseSpeed(double var0, boolean var2) {
+   public static double getBaseSpeed(double d, boolean bl) {
       if (mc.thePlayer == null) {
          return 0.0;
       }
 
-      PotionEffect var6 = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
-      BlockPos var7 = new BlockPos(
+      PotionEffect potionEffect = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
+      BlockPos blockPos = new BlockPos(
          MathHelper.floor_double(mc.thePlayer.posX),
          MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minY) - 1,
          MathHelper.floor_double(mc.thePlayer.posZ)
       );
-      double var8 = 0.221;
+      double e = 0.221;
       if (mc.thePlayer.isInWeb) {
-         var8 *= 0.4751131221719457;
+         e *= 0.4751131221719457;
       }
 
       if (mc.thePlayer.isInWater()) {
-         var8 *= 0.5203619909502263;
+         e *= 0.5203619909502263;
       }
 
       if (mc.thePlayer.isSneaking()) {
-         var8 *= 0.5882352941176471;
+         e *= 0.5882352941176471;
       }
 
       if (mc.thePlayer.isSprinting()) {
-         var8 *= 1.3;
+         e *= 1.3;
       }
 
-      if (var6 != null && var2) {
-         var8 *= 1.0 + 0.2 * (var6.getAmplifier() + 1);
+      if (potionEffect != null && bl) {
+         e *= 1.0 + 0.2 * (potionEffect.getAmplifier() + 1);
       }
 
-      if (mc.theWorld.getBlockState(var7).getBlock() instanceof BlockIce || mc.theWorld.getBlockState(var7).getBlock() instanceof BlockPackedIce) {
-         var8 *= var0;
+      if (mc.theWorld.getBlockState(blockPos).getBlock() instanceof BlockIce || mc.theWorld.getBlockState(blockPos).getBlock() instanceof BlockPackedIce) {
+         e *= d;
       }
 
-      return var8;
+      return e;
    }
 
    public static double getBaseSpeed() {

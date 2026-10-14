@@ -12,23 +12,23 @@ public class JsonSerializableSet extends ForwardingSet<String> implements IJsonS
    private static final long a = 97107483040496L;
 
    @Override
-   public void fromJson(JsonElement var1) {
-      if (var1.isJsonArray()) {
-         for (JsonElement var6 : var1.getAsJsonArray()) {
-            this.add(var6.getAsString());
+   public void fromJson(JsonElement json) {
+      if (json.isJsonArray()) {
+         for (JsonElement jsonElement : json.getAsJsonArray()) {
+            this.add(jsonElement.getAsString());
          }
       }
    }
 
    @Override
    public JsonElement getSerializableElement() {
-      JsonArray var4 = new JsonArray();
+      JsonArray jsonArray = new JsonArray();
 
-      for (String var6 : this) {
-         var4.add(new JsonPrimitive(var6));
+      for (String string : this) {
+         jsonArray.add(new JsonPrimitive(string));
       }
 
-      return var4;
+      return jsonArray;
    }
 
    @Override

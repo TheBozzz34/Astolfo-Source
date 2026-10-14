@@ -7,36 +7,36 @@ public class ItemMultiTexture extends ItemBlock {
    public final Block theBlock;
    public final Function<ItemStack, String> nameFunction;
 
-   public ItemMultiTexture(Block var1, Block var2, Function<ItemStack, String> var3) {
-      super(var1);
-      this.theBlock = var2;
-      this.nameFunction = var3;
+   public ItemMultiTexture(Block block, Block block2, Function<ItemStack, String> nameFunction) {
+      super(block);
+      this.theBlock = block2;
+      this.nameFunction = nameFunction;
       this.setMaxDamage(0);
       this.setHasSubtypes(true);
    }
 
-   public ItemMultiTexture(Block var1, Block var2, final String[] var3) {
-      this(var1, var2, new Function<ItemStack, String>() {
+   public ItemMultiTexture(Block block, Block block2, final String[] namesByMeta) {
+      this(block, block2, new Function<ItemStack, String>() {
          private static final long a = 2504113483611L;
 
-         public String apply(ItemStack var1) {
-            int var5 = var1.getMetadata();
-            if (var5 < 0 || var5 >= var3.length) {
-               var5 = 0;
+         public String apply(ItemStack itemStack) {
+            int i = itemStack.getMetadata();
+            if (i < 0 || i >= namesByMeta.length) {
+               i = 0;
             }
 
-            return var3[var5];
+            return namesByMeta[i];
          }
       });
    }
 
    @Override
-   public int getMetadata(int var1) {
-      return var1;
+   public int getMetadata(int damage) {
+      return damage;
    }
 
    @Override
-   public String getUnlocalizedName(ItemStack var1) {
-      return super.getUnlocalizedName() + "." + this.nameFunction.apply(var1);
+   public String getUnlocalizedName(ItemStack stack) {
+      return super.getUnlocalizedName() + "." + this.nameFunction.apply(stack);
    }
 }

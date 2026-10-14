@@ -23,18 +23,18 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    private static final long a = 40000205445972L;
 
    public AbstractCentralProcessor() {
-      HashSet var4 = new HashSet();
-      HashSet var5 = new HashSet();
+      HashSet hashSet = new HashSet();
+      HashSet hashSet2 = new HashSet();
 
-      for (CentralProcessor.LogicalProcessor var9 : this.logicalProcessors) {
-         int var10 = var9.getPhysicalPackageNumber();
-         var4.add(var9.getPhysicalProcessorNumber() + ":" + var10);
-         var5.add(var10);
+      for (CentralProcessor.LogicalProcessor logicalProcessor : this.logicalProcessors) {
+         int i = logicalProcessor.getPhysicalPackageNumber();
+         hashSet.add(logicalProcessor.getPhysicalProcessorNumber() + ":" + i);
+         hashSet2.add(i);
       }
 
       this.logicalProcessorCount = this.logicalProcessors.length;
-      this.physicalProcessorCount = var4.size();
-      this.physicalPackageCount = var5.size();
+      this.physicalProcessorCount = hashSet.size();
+      this.physicalPackageCount = hashSet2.size();
    }
 
    public abstract CentralProcessor.LogicalProcessor[] initProcessorCounts();
@@ -139,50 +139,50 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    public abstract long[][] queryProcessorCpuLoadTicks();
 
    @Override
-   public double getSystemCpuLoadBetweenTicks(long[] var1) {
-      if (var1.length != CentralProcessor.TickType.values().length) {
-         throw new IllegalArgumentException("Tick array " + var1.length + " should have " + CentralProcessor.TickType.values().length + " elements");
+   public double getSystemCpuLoadBetweenTicks(long[] oldTicks) {
+      if (oldTicks.length != CentralProcessor.TickType.values().length) {
+         throw new IllegalArgumentException("Tick array " + oldTicks.length + " should have " + CentralProcessor.TickType.values().length + " elements");
       }
 
-      long[] var5 = this.getSystemCpuLoadTicks();
-      long var6 = 0L;
+      long[] longs = this.getSystemCpuLoadTicks();
+      long l = 0L;
 
-      for (int var8 = 0; var8 < var5.length; var8++) {
-         var6 += var5[var8] - var1[var8];
+      for (int i = 0; i < longs.length; i++) {
+         l += longs[i] - oldTicks[i];
       }
 
-      long var10 = var5[CentralProcessor.TickType.IDLE.getIndex()]
-         + var5[CentralProcessor.TickType.IOWAIT.getIndex()]
-         - var1[CentralProcessor.TickType.IDLE.getIndex()]
-         - var1[CentralProcessor.TickType.IOWAIT.getIndex()];
-      return var6 > 0L && var10 >= 0L ? (double)(var6 - var10) / var6 : 0.0;
+      long m = longs[CentralProcessor.TickType.IDLE.getIndex()]
+         + longs[CentralProcessor.TickType.IOWAIT.getIndex()]
+         - oldTicks[CentralProcessor.TickType.IDLE.getIndex()]
+         - oldTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
+      return l > 0L && m >= 0L ? (double)(l - m) / l : 0.0;
    }
 
    @Override
-   public double[] getProcessorCpuLoadBetweenTicks(long[][] var1) {
-      if (var1.length == this.logicalProcessorCount && var1[0].length == CentralProcessor.TickType.values().length) {
-         long[][] var5 = this.getProcessorCpuLoadTicks();
-         double[] var6 = new double[this.logicalProcessorCount];
+   public double[] getProcessorCpuLoadBetweenTicks(long[][] oldTicks) {
+      if (oldTicks.length == this.logicalProcessorCount && oldTicks[0].length == CentralProcessor.TickType.values().length) {
+         long[][] longss = this.getProcessorCpuLoadTicks();
+         double[] doubles = new double[this.logicalProcessorCount];
 
-         for (int var7 = 0; var7 < this.logicalProcessorCount; var7++) {
-            long var8 = 0L;
+         for (int i = 0; i < this.logicalProcessorCount; i++) {
+            long l = 0L;
 
-            for (int var10 = 0; var10 < var5[var7].length; var10++) {
-               var8 += var5[var7][var10] - var1[var7][var10];
+            for (int j = 0; j < longss[i].length; j++) {
+               l += longss[i][j] - oldTicks[i][j];
             }
 
-            long var12 = var5[var7][CentralProcessor.TickType.IDLE.getIndex()]
-               + var5[var7][CentralProcessor.TickType.IOWAIT.getIndex()]
-               - var1[var7][CentralProcessor.TickType.IDLE.getIndex()]
-               - var1[var7][CentralProcessor.TickType.IOWAIT.getIndex()];
-            var6[var7] = var8 > 0L && var12 >= 0L ? (double)(var8 - var12) / var8 : 0.0;
+            long m = longss[i][CentralProcessor.TickType.IDLE.getIndex()]
+               + longss[i][CentralProcessor.TickType.IOWAIT.getIndex()]
+               - oldTicks[i][CentralProcessor.TickType.IDLE.getIndex()]
+               - oldTicks[i][CentralProcessor.TickType.IOWAIT.getIndex()];
+            doubles[i] = l > 0L && m >= 0L ? (double)(l - m) / l : 0.0;
          }
 
-         return var6;
+         return doubles;
       } else {
          throw new IllegalArgumentException(
             "Tick array "
-               + var1.length
+               + oldTicks.length
                + " should have "
                + this.logicalProcessorCount
                + " arrays, each of which has "
@@ -207,123 +207,123 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
       return this.physicalPackageCount;
    }
 
-   public static String createProcessorID(String var0, String var1, String var2, String[] var3) {
-      long var7 = 0L;
-      long var9 = ParseUtil.parseLongOrDefault(var0, 0L);
-      long var11 = ParseUtil.parseLongOrDefault(var1, 0L);
-      long var13 = ParseUtil.parseLongOrDefault(var2, 0L);
-      var7 |= var9 & 15L;
-      var7 |= (var11 & 15L) << 4;
-      var7 |= (var11 & 240L) << 16;
-      var7 |= (var13 & 15L) << 8;
-      var7 |= (var13 & 240L) << 20;
+   public static String createProcessorID(String stepping, String model, String family, String[] flags) {
+      long l = 0L;
+      long m = ParseUtil.parseLongOrDefault(stepping, 0L);
+      long n = ParseUtil.parseLongOrDefault(model, 0L);
+      long l2 = ParseUtil.parseLongOrDefault(family, 0L);
+      l |= m & 15L;
+      l |= (n & 15L) << 4;
+      l |= (n & 240L) << 16;
+      l |= (l2 & 15L) << 8;
+      l |= (l2 & 240L) << 20;
 
-      for (String var18 : var3) {
-         switch (var18) {
+      for (String string : flags) {
+         switch (string) {
             case "fpu":
-               var7 |= 4294967296L;
+               l |= 4294967296L;
                break;
             case "vme":
-               var7 |= 8589934592L;
+               l |= 8589934592L;
                break;
             case "de":
-               var7 |= 17179869184L;
+               l |= 17179869184L;
                break;
             case "pse":
-               var7 |= 34359738368L;
+               l |= 34359738368L;
                break;
             case "tsc":
-               var7 |= 68719476736L;
+               l |= 68719476736L;
                break;
             case "msr":
-               var7 |= 137438953472L;
+               l |= 137438953472L;
                break;
             case "pae":
-               var7 |= 274877906944L;
+               l |= 274877906944L;
                break;
             case "mce":
-               var7 |= 549755813888L;
+               l |= 549755813888L;
                break;
             case "cx8":
-               var7 |= 1099511627776L;
+               l |= 1099511627776L;
                break;
             case "apic":
-               var7 |= 2199023255552L;
+               l |= 2199023255552L;
                break;
             case "sep":
-               var7 |= 8796093022208L;
+               l |= 8796093022208L;
                break;
             case "mtrr":
-               var7 |= 17592186044416L;
+               l |= 17592186044416L;
                break;
             case "pge":
-               var7 |= 35184372088832L;
+               l |= 35184372088832L;
                break;
             case "mca":
-               var7 |= 70368744177664L;
+               l |= 70368744177664L;
                break;
             case "cmov":
-               var7 |= 140737488355328L;
+               l |= 140737488355328L;
                break;
             case "pat":
-               var7 |= 281474976710656L;
+               l |= 281474976710656L;
                break;
             case "pse-36":
-               var7 |= 562949953421312L;
+               l |= 562949953421312L;
                break;
             case "psn":
-               var7 |= 1125899906842624L;
+               l |= 1125899906842624L;
                break;
             case "clfsh":
-               var7 |= 2251799813685248L;
+               l |= 2251799813685248L;
                break;
             case "ds":
-               var7 |= 9007199254740992L;
+               l |= 9007199254740992L;
                break;
             case "acpi":
-               var7 |= 18014398509481984L;
+               l |= 18014398509481984L;
                break;
             case "mmx":
-               var7 |= 36028797018963968L;
+               l |= 36028797018963968L;
                break;
             case "fxsr":
-               var7 |= 72057594037927936L;
+               l |= 72057594037927936L;
                break;
             case "sse":
-               var7 |= 144115188075855872L;
+               l |= 144115188075855872L;
                break;
             case "sse2":
-               var7 |= 288230376151711744L;
+               l |= 288230376151711744L;
                break;
             case "ss":
-               var7 |= 576460752303423488L;
+               l |= 576460752303423488L;
                break;
             case "htt":
-               var7 |= 1152921504606846976L;
+               l |= 1152921504606846976L;
                break;
             case "tm":
-               var7 |= 2305843009213693952L;
+               l |= 2305843009213693952L;
                break;
             case "ia64":
-               var7 |= 4611686018427387904L;
+               l |= 4611686018427387904L;
                break;
             case "pbe":
-               var7 |= Long.MIN_VALUE;
+               l |= Long.MIN_VALUE;
          }
       }
 
-      return String.format("%016X", var7);
+      return String.format("%016X", l);
    }
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder(this.getName());
-      var3.append("\n ").append(this.getPhysicalPackageCount()).append(" physical CPU package(s)");
-      var3.append("\n ").append(this.getPhysicalProcessorCount()).append(" physical CPU core(s)");
-      var3.append("\n ").append(this.getLogicalProcessorCount()).append(" logical CPU(s)");
-      var3.append('\n').append("Identifier: ").append(this.getProcessorIdentifier().getIdentifier());
-      var3.append('\n').append("ProcessorID: ").append(this.getProcessorIdentifier().getProcessorID());
-      var3.append('\n').append("Microarchitecture: ").append(this.getProcessorIdentifier().getMicroarchitecture());
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder(this.getName());
+      stringBuilder.append("\n ").append(this.getPhysicalPackageCount()).append(" physical CPU package(s)");
+      stringBuilder.append("\n ").append(this.getPhysicalProcessorCount()).append(" physical CPU core(s)");
+      stringBuilder.append("\n ").append(this.getLogicalProcessorCount()).append(" logical CPU(s)");
+      stringBuilder.append('\n').append("Identifier: ").append(this.getProcessorIdentifier().getIdentifier());
+      stringBuilder.append('\n').append("ProcessorID: ").append(this.getProcessorIdentifier().getProcessorID());
+      stringBuilder.append('\n').append("Microarchitecture: ").append(this.getProcessorIdentifier().getMicroarchitecture());
+      return stringBuilder.toString();
    }
 }

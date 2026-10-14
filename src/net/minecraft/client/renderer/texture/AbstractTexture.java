@@ -14,29 +14,29 @@ public abstract class AbstractTexture implements ITextureObject {
    public MultiTexID multiTex;
    private static final long g = 61562381103383L;
 
-   public void setBlurMipmapDirect(boolean var1, boolean var2) {
-      this.blur = var1;
-      this.mipmap = var2;
-      int var8;
-      short var9;
-      if (var1) {
-         var8 = var2 ? 9987 : 9729;
-         var9 = 9729;
+   public void setBlurMipmapDirect(boolean bl, boolean bl2) {
+      this.blur = bl;
+      this.mipmap = bl2;
+      int i;
+      short s;
+      if (bl) {
+         i = bl2 ? 9987 : 9729;
+         s = 9729;
       } else {
-         var8 = var2 ? 9986 : 9728;
-         var9 = 9728;
+         i = bl2 ? 9986 : 9728;
+         s = 9728;
       }
 
       GlStateManager.bindTexture(this.getGlTextureId());
-      GL11.glTexParameteri(3553, 10241, var8);
-      GL11.glTexParameteri(3553, 10240, var9);
+      GL11.glTexParameteri(3553, 10241, i);
+      GL11.glTexParameteri(3553, 10240, s);
    }
 
    @Override
-   public void setBlurMipmap(boolean var1, boolean var2) {
+   public void setBlurMipmap(boolean bl, boolean bl2) {
       this.blurLast = this.blur;
       this.mipmapLast = this.mipmap;
-      this.setBlurMipmapDirect(var1, var2);
+      this.setBlurMipmapDirect(bl, bl2);
    }
 
    @Override

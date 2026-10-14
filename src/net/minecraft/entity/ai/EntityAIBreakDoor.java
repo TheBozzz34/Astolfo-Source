@@ -10,8 +10,8 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract {
    private int previousBreakProgress = -1;
    private static final long a = 123573205414797L;
 
-   public EntityAIBreakDoor(EntityLiving var1) {
-      super(var1);
+   public EntityAIBreakDoor(EntityLiving entityIn) {
+      super(entityIn);
    }
 
    @Override
@@ -24,7 +24,7 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract {
          return false;
       }
 
-      BlockDoor var4 = this.doorBlock;
+      BlockDoor blockDoor = this.doorBlock;
       return !BlockDoor.isOpen(this.theEntity.worldObj, this.doorPosition);
    }
 
@@ -36,10 +36,10 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract {
 
    @Override
    public boolean continueExecuting() {
-      double var4 = this.theEntity.getDistanceSq(this.doorPosition);
+      double d = this.theEntity.getDistanceSq(this.doorPosition);
       if (this.breakingTime <= 240) {
-         BlockDoor var7 = this.doorBlock;
-         if (!BlockDoor.isOpen(this.theEntity.worldObj, this.doorPosition) && var4 < 4.0) {
+         BlockDoor blockDoor = this.doorBlock;
+         if (!BlockDoor.isOpen(this.theEntity.worldObj, this.doorPosition) && d < 4.0) {
             return true;
          }
       }
@@ -61,10 +61,10 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract {
       }
 
       this.breakingTime++;
-      int var4 = (int)(this.breakingTime / 240.0F * 10.0F);
-      if (var4 != this.previousBreakProgress) {
-         this.theEntity.worldObj.sendBlockBreakProgress(this.theEntity.getEntityId(), this.doorPosition, var4);
-         this.previousBreakProgress = var4;
+      int i = (int)(this.breakingTime / 240.0F * 10.0F);
+      if (i != this.previousBreakProgress) {
+         this.theEntity.worldObj.sendBlockBreakProgress(this.theEntity.getEntityId(), this.doorPosition, i);
+         this.previousBreakProgress = i;
       }
 
       if (this.breakingTime == 240 && this.theEntity.worldObj.getDifficulty() == EnumDifficulty.HARD) {

@@ -16,32 +16,32 @@ public class ItemBucketMilk extends Item {
    }
 
    @Override
-   public ItemStack onItemUseFinish(ItemStack var1, World var2, EntityPlayer var3) {
-      if (!var3.capabilities.isCreativeMode) {
-         var1.stackSize--;
+   public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+      if (!playerIn.capabilities.isCreativeMode) {
+         stack.stackSize--;
       }
 
-      if (!var2.isRemote) {
-         var3.clearActivePotions();
+      if (!worldIn.isRemote) {
+         playerIn.clearActivePotions();
       }
 
-      var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-      return var1.stackSize <= 0 ? new ItemStack(Items.bucket) : var1;
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      return stack.stackSize <= 0 ? new ItemStack(Items.bucket) : stack;
    }
 
    @Override
-   public int getMaxItemUseDuration(ItemStack var1) {
+   public int getMaxItemUseDuration(ItemStack stack) {
       return (int)b;
    }
 
    @Override
-   public EnumAction getItemUseAction(ItemStack var1) {
+   public EnumAction getItemUseAction(ItemStack stack) {
       return EnumAction.DRINK;
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      var3.setItemInUse(var1, this.getMaxItemUseDuration(var1));
-      return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+      return itemStackIn;
    }
 }

@@ -22,22 +22,22 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
    public S14PacketEntity() {
    }
 
-   public S14PacketEntity(int var1) {
-      this.entityId = var1;
+   public S14PacketEntity(int entityIdIn) {
+      this.entityId = entityIdIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.entityId = var1.readVarIntFromBuffer();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.entityId = buf.readVarIntFromBuffer();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.entityId);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.entityId);
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleEntityMovement(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleEntityMovement(this);
    }
 
    @Override
@@ -45,8 +45,8 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
       return "Entity_" + super.toString();
    }
 
-   public Entity getEntity(World var1) {
-      return var1.getEntityByID(this.entityId);
+   public Entity getEntity(World worldIn) {
+      return worldIn.getEntityByID(this.entityId);
    }
 
    public byte func_149062_c() {
@@ -85,31 +85,31 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
       public S15PacketEntityRelMove() {
       }
 
-      public S15PacketEntityRelMove(int var1, byte var2, byte var3, byte var4, boolean var5) {
-         super(var1);
-         this.posX = var2;
-         this.posY = var3;
-         this.posZ = var4;
-         this.C = var5;
+      public S15PacketEntityRelMove(int entityIdIn, byte x, byte y, byte z, boolean onGroundIn) {
+         super(entityIdIn);
+         this.posX = x;
+         this.posY = y;
+         this.posZ = z;
+         this.C = onGroundIn;
          this.E = true;
       }
 
       @Override
-      public void readPacketData(PacketBuffer var1) throws IOException {
-         super.readPacketData(var1);
-         this.posX = var1.readByte();
-         this.posY = var1.readByte();
-         this.posZ = var1.readByte();
-         this.C = var1.readBoolean();
+      public void readPacketData(PacketBuffer buf) throws IOException {
+         super.readPacketData(buf);
+         this.posX = buf.readByte();
+         this.posY = buf.readByte();
+         this.posZ = buf.readByte();
+         this.C = buf.readBoolean();
       }
 
       @Override
-      public void writePacketData(PacketBuffer var1) throws IOException {
-         super.writePacketData(var1);
-         var1.writeByte(this.posX);
-         var1.writeByte(this.posY);
-         var1.writeByte(this.posZ);
-         var1.writeBoolean(this.C);
+      public void writePacketData(PacketBuffer buf) throws IOException {
+         super.writePacketData(buf);
+         buf.writeByte(this.posX);
+         buf.writeByte(this.posY);
+         buf.writeByte(this.posZ);
+         buf.writeBoolean(this.C);
       }
    }
 
@@ -118,28 +118,28 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.D = true;
       }
 
-      public S16PacketEntityLook(int var1, byte var2, byte var3, boolean var4) {
-         super(var1);
-         this.yaw = var2;
-         this.pitch = var3;
+      public S16PacketEntityLook(int entityIdIn, byte yawIn, byte pitchIn, boolean onGroundIn) {
+         super(entityIdIn);
+         this.yaw = yawIn;
+         this.pitch = pitchIn;
          this.D = true;
-         this.C = var4;
+         this.C = onGroundIn;
       }
 
       @Override
-      public void readPacketData(PacketBuffer var1) throws IOException {
-         super.readPacketData(var1);
-         this.yaw = var1.readByte();
-         this.pitch = var1.readByte();
-         this.C = var1.readBoolean();
+      public void readPacketData(PacketBuffer buf) throws IOException {
+         super.readPacketData(buf);
+         this.yaw = buf.readByte();
+         this.pitch = buf.readByte();
+         this.C = buf.readBoolean();
       }
 
       @Override
-      public void writePacketData(PacketBuffer var1) throws IOException {
-         super.writePacketData(var1);
-         var1.writeByte(this.yaw);
-         var1.writeByte(this.pitch);
-         var1.writeBoolean(this.C);
+      public void writePacketData(PacketBuffer buf) throws IOException {
+         super.writePacketData(buf);
+         buf.writeByte(this.yaw);
+         buf.writeByte(this.pitch);
+         buf.writeBoolean(this.C);
       }
    }
 
@@ -148,38 +148,38 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.D = true;
       }
 
-      public S17PacketEntityLookMove(int var1, byte var2, byte var3, byte var4, byte var5, byte var6, boolean var7) {
-         super(var1);
-         this.posX = var2;
-         this.posY = var3;
-         this.posZ = var4;
-         this.yaw = var5;
-         this.pitch = var6;
-         this.C = var7;
+      public S17PacketEntityLookMove(int i, byte b, byte b2, byte b3, byte b4, byte b5, boolean bl) {
+         super(i);
+         this.posX = b;
+         this.posY = b2;
+         this.posZ = b3;
+         this.yaw = b4;
+         this.pitch = b5;
+         this.C = bl;
          this.D = true;
          this.E = true;
       }
 
       @Override
-      public void readPacketData(PacketBuffer var1) throws IOException {
-         super.readPacketData(var1);
-         this.posX = var1.readByte();
-         this.posY = var1.readByte();
-         this.posZ = var1.readByte();
-         this.yaw = var1.readByte();
-         this.pitch = var1.readByte();
-         this.C = var1.readBoolean();
+      public void readPacketData(PacketBuffer buf) throws IOException {
+         super.readPacketData(buf);
+         this.posX = buf.readByte();
+         this.posY = buf.readByte();
+         this.posZ = buf.readByte();
+         this.yaw = buf.readByte();
+         this.pitch = buf.readByte();
+         this.C = buf.readBoolean();
       }
 
       @Override
-      public void writePacketData(PacketBuffer var1) throws IOException {
-         super.writePacketData(var1);
-         var1.writeByte(this.posX);
-         var1.writeByte(this.posY);
-         var1.writeByte(this.posZ);
-         var1.writeByte(this.yaw);
-         var1.writeByte(this.pitch);
-         var1.writeBoolean(this.C);
+      public void writePacketData(PacketBuffer buf) throws IOException {
+         super.writePacketData(buf);
+         buf.writeByte(this.posX);
+         buf.writeByte(this.posY);
+         buf.writeByte(this.posZ);
+         buf.writeByte(this.yaw);
+         buf.writeByte(this.pitch);
+         buf.writeBoolean(this.C);
       }
    }
 }

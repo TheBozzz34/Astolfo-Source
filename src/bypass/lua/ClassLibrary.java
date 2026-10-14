@@ -11,16 +11,16 @@ public class ClassLibrary extends TwoArgFunction implements ClientAccess {
    private static final long b = 25971575124369L;
 
    @Override
-   public LuaValue call(LuaValue var1, LuaValue var2) {
-      this.R = var2.checkglobals();
-      LuaTable var5 = new LuaTable();
+   public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
+      this.R = luaValue2.checkglobals();
+      LuaTable luaTable = new LuaTable();
 
       try {
          this.R.loadfile("/assets/minecraft/client/class.lua");
-      } catch (Exception var7) {
-         var7.printStackTrace();
+      } catch (Exception exception) {
+         exception.printStackTrace();
       }
 
-      return var5;
+      return luaTable;
    }
 }

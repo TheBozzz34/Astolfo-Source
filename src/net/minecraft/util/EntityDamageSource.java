@@ -10,9 +10,9 @@ public class EntityDamageSource extends DamageSource {
    private boolean isThornsDamage = false;
    private static final long g = 92196515917146L;
 
-   public EntityDamageSource(String var1, Entity var2) {
-      super(var1);
-      this.damageSourceEntity = var2;
+   public EntityDamageSource(String damageTypeIn, Entity damageSourceEntityIn) {
+      super(damageTypeIn);
+      this.damageSourceEntity = damageSourceEntityIn;
    }
 
    public EntityDamageSource setIsThornsDamage() {
@@ -30,13 +30,13 @@ public class EntityDamageSource extends DamageSource {
    }
 
    @Override
-   public IChatComponent getDeathMessage(EntityLivingBase var1) {
-      ItemStack var5 = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItem() : null;
-      String var6 = "death.attack." + this.damageType;
-      String var7 = var6 + ".item";
-      return var5 != null && var5.hasDisplayName() && StatCollector.canTranslate(var7)
-         ? new ChatComponentTranslation(var7, var1.getDisplayName(), this.damageSourceEntity.getDisplayName(), var5.getChatComponent())
-         : new ChatComponentTranslation(var6, var1.getDisplayName(), this.damageSourceEntity.getDisplayName());
+   public IChatComponent getDeathMessage(EntityLivingBase entityLivingBaseIn) {
+      ItemStack itemStack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItem() : null;
+      String string = "death.attack." + this.damageType;
+      String string2 = string + ".item";
+      return itemStack != null && itemStack.hasDisplayName() && StatCollector.canTranslate(string2)
+         ? new ChatComponentTranslation(string2, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(), itemStack.getChatComponent())
+         : new ChatComponentTranslation(string, entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName());
    }
 
    @Override

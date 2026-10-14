@@ -11,20 +11,20 @@ public class WorldGenReed extends WorldGenerator {
    private static final long b = -8555008265841278956L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      for (int var7 = 0; var7 < (int)b; var7++) {
-         BlockPos var8 = var3.add(var2.nextInt(4) - var2.nextInt(4), 0, var2.nextInt(4) - var2.nextInt(4));
-         if (var1.isAirBlock(var8)) {
-            BlockPos var9 = var8.down();
-            if (var1.getBlockState(var9.west()).getBlock().getMaterial() == Material.water
-               || var1.getBlockState(var9.east()).getBlock().getMaterial() == Material.water
-               || var1.getBlockState(var9.north()).getBlock().getMaterial() == Material.water
-               || var1.getBlockState(var9.south()).getBlock().getMaterial() == Material.water) {
-               int var10 = 2 + var2.nextInt(var2.nextInt(3) + 1);
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      for (int i = 0; i < (int)b; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(4) - rand.nextInt(4), 0, rand.nextInt(4) - rand.nextInt(4));
+         if (worldIn.isAirBlock(blockPos)) {
+            BlockPos blockPos2 = blockPos.down();
+            if (worldIn.getBlockState(blockPos2.west()).getBlock().getMaterial() == Material.water
+               || worldIn.getBlockState(blockPos2.east()).getBlock().getMaterial() == Material.water
+               || worldIn.getBlockState(blockPos2.north()).getBlock().getMaterial() == Material.water
+               || worldIn.getBlockState(blockPos2.south()).getBlock().getMaterial() == Material.water) {
+               int j = 2 + rand.nextInt(rand.nextInt(3) + 1);
 
-               for (int var11 = 0; var11 < var10; var11++) {
-                  if (Blocks.reeds.canBlockStay(var1, var8)) {
-                     var1.setBlockState(var8.up(var11), Blocks.reeds.getDefaultState(), 2);
+               for (int k = 0; k < j; k++) {
+                  if (Blocks.reeds.canBlockStay(worldIn, blockPos)) {
+                     worldIn.setBlockState(blockPos.up(k), Blocks.reeds.getDefaultState(), 2);
                   }
                }
             }

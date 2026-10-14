@@ -6,8 +6,8 @@ public final class MathExpressionParser {
    public final String expression;
    private static final long a = 11678934009726L;
 
-   public MathExpressionParser(String var1) {
-      this.expression = var1;
+   public MathExpressionParser(String string) {
+      this.expression = string;
       this.pos = -1;
    }
 
@@ -15,12 +15,12 @@ public final class MathExpressionParser {
       this.ch = ++this.pos < this.expression.length() ? this.expression.charAt(this.pos) : -1;
    }
 
-   public boolean eat(int var1) {
+   public boolean eat(int i) {
       while (this.ch == 32) {
          this.nextChar();
       }
 
-      if (this.ch == var1) {
+      if (this.ch == i) {
          this.nextChar();
          return true;
       } else {
@@ -30,43 +30,43 @@ public final class MathExpressionParser {
 
    public double parse() {
       this.nextChar();
-      double var3 = this.parseExpression();
+      double d = this.parseExpression();
       if (this.pos < this.expression.length()) {
          throw new RuntimeException("Unexpected: " + (char)this.ch);
       } else {
-         return var3;
+         return d;
       }
    }
 
    public double parseExpression() {
-      double var4 = this.parseTerm();
+      double d = this.parseTerm();
 
       while (true) {
          while (!this.eat(43)) {
             if (!this.eat(45)) {
-               return var4;
+               return d;
             }
 
-            var4 -= this.parseTerm();
+            d -= this.parseTerm();
          }
 
-         var4 += this.parseTerm();
+         d += this.parseTerm();
       }
    }
 
    public double parseTerm() {
-      double var4 = this.parseFactor();
+      double d = this.parseFactor();
 
       while (true) {
          while (!this.eat(42)) {
             if (!this.eat(47)) {
-               return var4;
+               return d;
             }
 
-            var4 /= this.parseFactor();
+            d /= this.parseFactor();
          }
 
-         var4 *= this.parseFactor();
+         d *= this.parseFactor();
       }
    }
 
@@ -79,10 +79,10 @@ public final class MathExpressionParser {
          return -this.parseFactor();
       }
 
-      int var6 = this.pos;
-      double var4;
+      int i = this.pos;
+      double d;
       if (this.eat(40)) {
-         var4 = this.parseExpression();
+         d = this.parseExpression();
          this.eat(41);
       } else if ((this.ch < 48 || this.ch > 57) && this.ch != 46) {
          if (this.ch < 97 || this.ch > 122) {
@@ -93,36 +93,36 @@ public final class MathExpressionParser {
             this.nextChar();
          }
 
-         String var7 = this.expression.substring(var6, this.pos);
-         var4 = this.parseFactor();
-         switch (var7) {
+         String string = this.expression.substring(i, this.pos);
+         d = this.parseFactor();
+         switch (string) {
             case "sqrt":
-               var4 = Math.sqrt(var4);
+               d = Math.sqrt(d);
                break;
             case "sin":
-               var4 = Math.sin(Math.toRadians(var4));
+               d = Math.sin(Math.toRadians(d));
                break;
             case "cos":
-               var4 = Math.cos(Math.toRadians(var4));
+               d = Math.cos(Math.toRadians(d));
                break;
             case "tan":
-               var4 = Math.tan(Math.toRadians(var4));
+               d = Math.tan(Math.toRadians(d));
                break;
             default:
-               throw new RuntimeException("Unknown function: " + var7);
+               throw new RuntimeException("Unknown function: " + string);
          }
       } else {
          while (this.ch >= 48 && this.ch <= 57 || this.ch == 46) {
             this.nextChar();
          }
 
-         var4 = Double.parseDouble(this.expression.substring(var6, this.pos));
+         d = Double.parseDouble(this.expression.substring(i, this.pos));
       }
 
       if (this.eat(94)) {
-         var4 = Math.pow(var4, this.parseFactor());
+         d = Math.pow(d, this.parseFactor());
       }
 
-      return var4;
+      return d;
    }
 }

@@ -16,23 +16,23 @@ public class BlockLilyPad extends BlockBush {
    private static final long e = 71516616995897L;
 
    public BlockLilyPad() {
-      float var1 = 0.5F;
-      float var2 = 0.015625F;
-      this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, var2, 0.5F + var1);
+      float f = 0.5F;
+      float g = 0.015625F;
+      this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, g, 0.5F + f);
       this.setCreativeTab(CreativeTabs.tabDecorations);
    }
 
    @Override
-   public void addCollisionBoxesToList(World var1, BlockPos var2, IBlockState var3, AxisAlignedBB var4, List<AxisAlignedBB> var5, Entity var6) {
-      if (var6 == null || !(var6 instanceof EntityBoat)) {
-         super.addCollisionBoxesToList(var1, var2, var3, var4, var5, var6);
+   public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+      if (collidingEntity == null || !(collidingEntity instanceof EntityBoat)) {
+         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
       }
    }
 
    @Override
-   public AxisAlignedBB getCollisionBoundingBox(World var1, BlockPos var2, IBlockState var3) {
+   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
       return new AxisAlignedBB(
-         var2.getX() + this.minX, var2.getY() + this.minY, var2.getZ() + this.minZ, var2.getX() + this.maxX, var2.getY() + this.maxY, var2.getZ() + this.maxZ
+         pos.getX() + this.minX, pos.getY() + this.minY, pos.getZ() + this.minZ, pos.getX() + this.maxX, pos.getY() + this.maxY, pos.getZ() + this.maxZ
       );
    }
 
@@ -42,32 +42,32 @@ public class BlockLilyPad extends BlockBush {
    }
 
    @Override
-   public int getRenderColor(IBlockState var1) {
+   public int getRenderColor(IBlockState state) {
       return 7455580;
    }
 
    @Override
-   public int colorMultiplier(IBlockAccess var1, BlockPos var2, int var3) {
+   public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
       return 2129968;
    }
 
    @Override
-   public boolean canPlaceBlockOn(Block var1) {
-      return var1 == Blocks.water;
+   public boolean canPlaceBlockOn(Block ground) {
+      return ground == Blocks.water;
    }
 
    @Override
-   public boolean canBlockStay(World var1, BlockPos var2, IBlockState var3) {
-      if (var2.getY() >= 0 && var2.getY() < 256) {
-         IBlockState var7 = var1.getBlockState(var2.down());
-         return var7.getBlock().getMaterial() == Material.water && var7.getValue(BlockLiquid.LEVEL) == 0;
+   public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+      if (pos.getY() >= 0 && pos.getY() < 256) {
+         IBlockState iBlockState = worldIn.getBlockState(pos.down());
+         return iBlockState.getBlock().getMaterial() == Material.water && iBlockState.getValue(BlockLiquid.LEVEL) == 0;
       } else {
          return false;
       }
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
+   public int getMetaFromState(IBlockState state) {
       return 0;
    }
 }

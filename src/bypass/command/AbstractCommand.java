@@ -8,15 +8,15 @@ public abstract class AbstractCommand implements CommandInfo {
    private List<String> aliases;
    private static final long c = 77846584001266L;
 
-   public AbstractCommand(String var1, String var2) {
-      this.name = var1;
-      this.usage = var2;
+   public AbstractCommand(String string, String string2) {
+      this.name = string;
+      this.usage = string2;
    }
 
-   public abstract void runCommand(String[] var1);
+   public abstract void runCommand(String[] strings);
 
-   public void setAliases(List<String> var1) {
-      this.aliases = var1;
+   public void setAliases(List<String> list) {
+      this.aliases = list;
    }
 
    public List<String> getAliases() {

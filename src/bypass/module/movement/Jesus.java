@@ -34,9 +34,9 @@ public final class Jesus extends Module {
    private int x = 0;
    private boolean G = false;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
-      if (var1x.getState() == EventState.PRE) {
+      if (updateEvent.getState() == EventState.PRE) {
          switch ((JesusMode)this.mode.getValue()) {
             case DOLPHIN:
                if (GameUtil.getBlockAtPlayer(1.5) instanceof BlockLiquid) {
@@ -48,8 +48,8 @@ public final class Jesus extends Module {
                }
                break;
             case SOLID:
-               Block var5 = GameUtil.getBlockAtPlayer();
-               if (var5.equals(Blocks.lava)
+               Block block = GameUtil.getBlockAtPlayer();
+               if (block.equals(Blocks.lava)
                   && (
                      mc.gameSettings.keyBindForward.isKeyDown()
                         || mc.gameSettings.keyBindBack.isKeyDown()
@@ -92,25 +92,25 @@ public final class Jesus extends Module {
       }
    };
    @EventHandler(MoveEvent.class)
-   private Listener<MoveEvent> onMove = var1x -> {
+   private Listener<MoveEvent> onMove = moveEvent -> {
       if (mc.thePlayer.handleWaterMovement()) {
          switch ((JesusMode)this.mode.getValue()) {
             case DOLPHIN:
                if (!(GameUtil.getBlockAtPlayer(1.0) instanceof BlockLiquid)) {
-                  float var5 = 4.0F;
+                  float f = 4.0F;
                   if (GameUtil.isInHypixelGame()) {
-                     var5 = 3.0F;
+                     f = 3.0F;
                   }
 
-                  var1x.setX(var1x.getX() * var5);
-                  var1x.setZ(var1x.getZ() * var5);
+                  moveEvent.setX(moveEvent.getX() * f);
+                  moveEvent.setZ(moveEvent.getZ() * f);
                }
          }
       }
    };
    @EventHandler(MotionEvent.class)
-   private final Listener<MotionEvent> onMotion = var1x -> {
-      if (var1x.getState() == EventState.PRE) {
+   private final Listener<MotionEvent> onMotion = motionEvent -> {
+      if (motionEvent.getState() == EventState.PRE) {
          if (this.B && !mc.thePlayer.handleWaterMovement()) {
             if (GameUtil.isOnHypixel()) {
                if (mc.thePlayer.fallDistance != 0.0F) {
@@ -119,28 +119,28 @@ public final class Jesus extends Module {
 
                this.P++;
                if (this.P == 1) {
-                  var1x.setMinY(var1x.getMinY() - ThreadLocalRandom.current().nextDouble(0.0155249999999, 0.015625));
+                  motionEvent.setMinY(motionEvent.getMinY() - ThreadLocalRandom.current().nextDouble(0.0155249999999, 0.015625));
                }
 
                if (this.P == 2) {
-                  var1x.setMinY(var1x.getMinY() + ThreadLocalRandom.current().nextDouble(0.0148999999999, 0.015));
+                  motionEvent.setMinY(motionEvent.getMinY() + ThreadLocalRandom.current().nextDouble(0.0148999999999, 0.015));
                }
 
                if (this.P == 3) {
-                  var1x.setMinY(var1x.getMinY() + ThreadLocalRandom.current().nextDouble(0.0198999999999, 0.02));
+                  motionEvent.setMinY(motionEvent.getMinY() + ThreadLocalRandom.current().nextDouble(0.0198999999999, 0.02));
                }
 
                if (this.P >= 4) {
-                  var1x.setMinY(var1x.getMinY() + 0.015625);
+                  motionEvent.setMinY(motionEvent.getMinY() + 0.015625);
                   this.P = 0;
                }
 
                if (this.P % 2 == 0) {
-                  var1x.setMinY(var1x.getMinY() - 1.0E-13);
+                  motionEvent.setMinY(motionEvent.getMinY() - 1.0E-13);
                }
 
-               var1x.setMinY(var1x.getMinY() + 1.0E-13);
-               var1x.setOnGround(var1x.getMinY() % 1.0 == 0.015625 || var1x.getMinY() % 1.0 == 0.0625 || var1x.getMinY() % 0.125 == 0.0);
+               motionEvent.setMinY(motionEvent.getMinY() + 1.0E-13);
+               motionEvent.setOnGround(motionEvent.getMinY() % 1.0 == 0.015625 || motionEvent.getMinY() % 1.0 == 0.0625 || motionEvent.getMinY() % 0.125 == 0.0);
                return;
             }
          } else {
@@ -149,7 +149,7 @@ public final class Jesus extends Module {
       }
    };
    @EventHandler(LiquidCollisionEvent.class)
-   private Listener<LiquidCollisionEvent> onLiquidCollision = var1x -> {
+   private Listener<LiquidCollisionEvent> onLiquidCollision = liquidCollisionEvent -> {
       if (mc.theWorld != null
          && mc.thePlayer != null
          && mc.thePlayer.getEntityBoundingBox() != null
@@ -159,28 +159,28 @@ public final class Jesus extends Module {
          && !mc.thePlayer.isInWater()
          && !mc.thePlayer.isInLava()
          && this.mode.getValue() == JesusMode.SOLID) {
-         var1x.setBoundingBox(
+         liquidCollisionEvent.setBoundingBox(
             new AxisAlignedBB(
-               var1x.getPos().getX() + 0.3,
-               var1x.getPos().getY(),
-               var1x.getPos().getZ() + 0.3,
-               var1x.getPos().getX() + 0.7,
-               var1x.getPos().getY() + 0.99999,
-               var1x.getPos().getZ() + 0.7
+               liquidCollisionEvent.getPos().getX() + 0.3,
+               liquidCollisionEvent.getPos().getY(),
+               liquidCollisionEvent.getPos().getZ() + 0.3,
+               liquidCollisionEvent.getPos().getX() + 0.7,
+               liquidCollisionEvent.getPos().getY() + 0.99999,
+               liquidCollisionEvent.getPos().getZ() + 0.7
             )
          );
       }
    };
    private int P;
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      if (var1x.getDirection() == PacketDirection.OUTGOING
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING
          && this.B
          && this.mode.getValue() == JesusMode.SOLID
-         && var1x.getPacket() instanceof C03PacketPlayer
+         && packetEvent.getPacket() instanceof C03PacketPlayer
          && !GameUtil.isOnHypixel()) {
          if (mc.thePlayer.fallDistance <= mc.thePlayer.getMaxFallHeight()) {
-            var1x.setPacket(
+            packetEvent.setPacket(
                new C03PacketPlayer.C06PacketPlayerPosLook(
                   mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true
                )
@@ -188,33 +188,33 @@ public final class Jesus extends Module {
          }
 
          if (y && !GameUtil.isOnHypixel()) {
-            var1x.setPacket(
+            packetEvent.setPacket(
                new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 1.0E-5 + Math.random() * 1.0E-5, mc.thePlayer.posZ, false)
             );
          }
       }
    };
    @EventHandler(JumpEvent.class)
-   private Listener<JumpEvent> onJump = var1x -> {
+   private Listener<JumpEvent> onJump = jumpEvent -> {
       if ((this.B || GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox())) && !y) {
-         var1x.cancel();
+         jumpEvent.cancel();
       }
    };
    private static final long c = 22086836133154L;
    private static final long j = 2049007216203137040L;
 
-   public Jesus(Category var1) {
-      super(var1);
+   public Jesus(Category category) {
+      super(category);
       this.addSettings(this.mode);
    }
 
-   private boolean W(double var1, double var3, double var5) {
+   private boolean W(double d, double d2, double d3) {
       try {
-         IBlockState var10 = mc.theWorld.getBlockState(new BlockPos(var1, var3, var5));
-         if (var10 instanceof BlockLiquid) {
-            return (Integer)var10.getProperties().get(BlockLiquid.LEVEL) < 4;
+         IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(d, d2, d3));
+         if (iBlockState instanceof BlockLiquid) {
+            return (Integer)iBlockState.getProperties().get(BlockLiquid.LEVEL) < 4;
          }
-      } catch (Exception var11) {
+      } catch (Exception exception) {
       }
 
       return false;
@@ -234,18 +234,18 @@ public final class Jesus extends Module {
    }
 
    public static boolean P_boolean() {
-      double var3 = mc.thePlayer.posX;
-      double var5 = mc.thePlayer.getEntityBoundingBox().minY;
-      double var7 = mc.thePlayer.posZ;
-      IBlockState var9 = mc.theWorld.getBlockState(new BlockPos(var3, var5, var7));
-      return var9.getBlock().getMetaFromState(var9) < 5;
+      double d = mc.thePlayer.posX;
+      double e = mc.thePlayer.getEntityBoundingBox().minY;
+      double d2 = mc.thePlayer.posZ;
+      IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(d, e, d2));
+      return iBlockState.getBlock().getMetaFromState(iBlockState) < 5;
    }
 
    public static boolean A() {
-      double var3 = mc.thePlayer.posX;
-      double var5 = mc.thePlayer.getEntityBoundingBox().minY;
-      double var7 = mc.thePlayer.posZ;
-      IBlockState var9 = mc.theWorld.getBlockState(new BlockPos(var3, var5, var7));
-      return var9.getBlock().getMetaFromState(var9) < 1;
+      double d = mc.thePlayer.posX;
+      double e = mc.thePlayer.getEntityBoundingBox().minY;
+      double d2 = mc.thePlayer.posZ;
+      IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(d, e, d2));
+      return iBlockState.getBlock().getMetaFromState(iBlockState) < 1;
    }
 }

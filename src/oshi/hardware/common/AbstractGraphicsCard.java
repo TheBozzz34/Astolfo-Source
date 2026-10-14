@@ -12,12 +12,12 @@ public abstract class AbstractGraphicsCard implements GraphicsCard {
    private long vram;
    private static final long a = 82002803959390L;
 
-   public AbstractGraphicsCard(String var1, String var2, String var3, String var4, long var5) {
-      this.name = var1;
-      this.deviceId = var2;
-      this.vendor = var3;
-      this.versionInfo = var4;
-      this.vram = var5;
+   public AbstractGraphicsCard(String name, String deviceId, String vendor, String versionInfo, long vram) {
+      this.name = name;
+      this.deviceId = deviceId;
+      this.vendor = vendor;
+      this.versionInfo = versionInfo;
+      this.vram = vram;
    }
 
    @Override
@@ -47,20 +47,20 @@ public abstract class AbstractGraphicsCard implements GraphicsCard {
 
    @Override
    public String toString() {
-      StringBuilder var3 = new StringBuilder();
-      var3.append("GraphicsCard@");
-      var3.append(Integer.toHexString(this.hashCode()));
-      var3.append(" [name=");
-      var3.append(this.name);
-      var3.append(", deviceId=");
-      var3.append(this.deviceId);
-      var3.append(", vendor=");
-      var3.append(this.vendor);
-      var3.append(", vRam=");
-      var3.append(this.vram);
-      var3.append(", versionInfo=[");
-      var3.append(this.versionInfo);
-      var3.append("]]");
-      return var3.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("GraphicsCard@");
+      stringBuilder.append(Integer.toHexString(this.hashCode()));
+      stringBuilder.append(" [name=");
+      stringBuilder.append(this.name);
+      stringBuilder.append(", deviceId=");
+      stringBuilder.append(this.deviceId);
+      stringBuilder.append(", vendor=");
+      stringBuilder.append(this.vendor);
+      stringBuilder.append(", vRam=");
+      stringBuilder.append(this.vram);
+      stringBuilder.append(", versionInfo=[");
+      stringBuilder.append(this.versionInfo);
+      stringBuilder.append("]]");
+      return stringBuilder.toString();
    }
 }

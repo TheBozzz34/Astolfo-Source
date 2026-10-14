@@ -12,15 +12,15 @@ public class SpectatorDetails {
    private final int field_178683_c;
    private static final long a = 112105721223399L;
 
-   public SpectatorDetails(ISpectatorMenuView var1, List<ISpectatorMenuObject> var2, int var3) {
-      this.field_178684_a = var1;
-      this.field_178682_b = var2;
-      this.field_178683_c = var3;
+   public SpectatorDetails(ISpectatorMenuView iSpectatorMenuView, List<ISpectatorMenuObject> list, int i) {
+      this.field_178684_a = iSpectatorMenuView;
+      this.field_178682_b = list;
+      this.field_178683_c = i;
    }
 
-   public ISpectatorMenuObject func_178680_a(int var1) {
-      return var1 >= 0 && var1 < this.field_178682_b.size()
-         ? Objects.firstNonNull(this.field_178682_b.get(var1), SpectatorMenu.field_178657_a)
+   public ISpectatorMenuObject func_178680_a(int i) {
+      return i >= 0 && i < this.field_178682_b.size()
+         ? Objects.firstNonNull(this.field_178682_b.get(i), SpectatorMenu.field_178657_a)
          : SpectatorMenu.field_178657_a;
    }
 

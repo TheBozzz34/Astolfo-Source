@@ -11,29 +11,29 @@ public class MovingObjectPosition {
    private static final long a = 101721252498636L;
    private static final long f = 9024847228115615869L;
 
-   public MovingObjectPosition(Vec3 var1, EnumFacing var2, BlockPos var3) {
-      this(MovingObjectPosition.MovingObjectType.BLOCK, var1, var2, var3);
+   public MovingObjectPosition(Vec3 hitVecIn, EnumFacing facing, BlockPos blockPosIn) {
+      this(MovingObjectPosition.MovingObjectType.BLOCK, hitVecIn, facing, blockPosIn);
    }
 
-   public MovingObjectPosition(Vec3 var1, EnumFacing var2) {
-      this(MovingObjectPosition.MovingObjectType.BLOCK, var1, var2, BlockPos.ORIGIN);
+   public MovingObjectPosition(Vec3 vec3, EnumFacing facing) {
+      this(MovingObjectPosition.MovingObjectType.BLOCK, vec3, facing, BlockPos.ORIGIN);
    }
 
-   public MovingObjectPosition(Entity var1) {
-      this(var1, new Vec3(var1.posX, var1.posY, var1.posZ));
+   public MovingObjectPosition(Entity entityIn) {
+      this(entityIn, new Vec3(entityIn.posX, entityIn.posY, entityIn.posZ));
    }
 
-   public MovingObjectPosition(MovingObjectPosition.MovingObjectType var1, Vec3 var2, EnumFacing var3, BlockPos var4) {
-      this.typeOfHit = var1;
-      this.blockPos = var4;
-      this.sideHit = var3;
-      this.hitVec = new Vec3(var2.xCoord, var2.yCoord, var2.zCoord);
+   public MovingObjectPosition(MovingObjectPosition.MovingObjectType typeOfHitIn, Vec3 hitVecIn, EnumFacing sideHitIn, BlockPos blockPosIn) {
+      this.typeOfHit = typeOfHitIn;
+      this.blockPos = blockPosIn;
+      this.sideHit = sideHitIn;
+      this.hitVec = new Vec3(hitVecIn.xCoord, hitVecIn.yCoord, hitVecIn.zCoord);
    }
 
-   public MovingObjectPosition(Entity var1, Vec3 var2) {
+   public MovingObjectPosition(Entity entityHitIn, Vec3 hitVecIn) {
       this.typeOfHit = MovingObjectPosition.MovingObjectType.ENTITY;
-      this.entityHit = var1;
-      this.hitVec = var2;
+      this.entityHit = entityHitIn;
+      this.hitVec = hitVecIn;
    }
 
    public BlockPos getBlockPos() {

@@ -14,21 +14,21 @@ public class LayerWolfCollar implements LayerRenderer<EntityWolf> {
    private final RenderWolf wolfRenderer;
    private static final long a = 46351381018946L;
 
-   public LayerWolfCollar(RenderWolf var1) {
-      this.wolfRenderer = var1;
+   public LayerWolfCollar(RenderWolf wolfRendererIn) {
+      this.wolfRenderer = wolfRendererIn;
    }
 
-   public void doRenderLayer(EntityWolf var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      if (var1.isTamed() && !var1.isInvisible()) {
+   public void doRenderLayer(EntityWolf entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
+      if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible()) {
          this.wolfRenderer.bindTexture(WOLF_COLLAR);
-         EnumDyeColor var12 = EnumDyeColor.byMetadata(var1.getCollarColor().getMetadata());
-         float[] var13 = EntitySheep.getDyeRgb(var12);
+         EnumDyeColor enumDyeColor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
+         float[] floats = EntitySheep.getDyeRgb(enumDyeColor);
          if (Config.isCustomColors()) {
-            var13 = CustomColors.getWolfCollarColors(var12, var13);
+            floats = CustomColors.getWolfCollarColors(enumDyeColor, floats);
          }
 
-         GlStateManager.color(var13[0], var13[1], var13[2]);
-         this.wolfRenderer.getMainModel().render(var1, var2, var3, var5, var6, var7, var8);
+         GlStateManager.color(floats[0], floats[1], floats[2]);
+         this.wolfRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);
       }
    }
 

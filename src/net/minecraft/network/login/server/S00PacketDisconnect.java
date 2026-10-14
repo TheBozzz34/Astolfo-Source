@@ -12,22 +12,22 @@ public class S00PacketDisconnect implements Packet<INetHandlerLoginClient> {
    public S00PacketDisconnect() {
    }
 
-   public S00PacketDisconnect(IChatComponent var1) {
-      this.reason = var1;
+   public S00PacketDisconnect(IChatComponent reasonIn) {
+      this.reason = reasonIn;
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.reason = var1.readChatComponent();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.reason = buf.readChatComponent();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeChatComponent(this.reason);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeChatComponent(this.reason);
    }
 
-   public void processPacket(INetHandlerLoginClient var1) {
-      var1.handleDisconnect(this);
+   public void processPacket(INetHandlerLoginClient handler) {
+      handler.handleDisconnect(this);
    }
 
    public IChatComponent func_149603_c() {

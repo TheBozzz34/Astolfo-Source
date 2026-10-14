@@ -11,29 +11,29 @@ public class C00PacketKeepAlive implements Packet<INetHandlerPlayServer> {
    public C00PacketKeepAlive() {
    }
 
-   public C00PacketKeepAlive(int var1) {
-      this.key = var1;
+   public C00PacketKeepAlive(int key) {
+      this.key = key;
    }
 
-   public void processPacket(INetHandlerPlayServer var1) {
-      var1.processKeepAlive(this);
-   }
-
-   @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.key = var1.readVarIntFromBuffer();
+   public void processPacket(INetHandlerPlayServer handler) {
+      handler.processKeepAlive(this);
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeVarIntToBuffer(this.key);
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.key = buf.readVarIntFromBuffer();
+   }
+
+   @Override
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeVarIntToBuffer(this.key);
    }
 
    public int getKey() {
       return this.key;
    }
 
-   public void A(int var1) {
-      this.key = var1;
+   public void A(int i) {
+      this.key = i;
    }
 }

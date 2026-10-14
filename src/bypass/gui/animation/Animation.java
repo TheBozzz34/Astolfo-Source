@@ -45,18 +45,18 @@ public class Animation {
       return this;
    }
 
-   public Animation setEasing(Easing var1) {
-      this.i = var1;
+   public Animation setEasing(Easing easing) {
+      this.i = easing;
       return this;
    }
 
-   public Animation setDuration(int var1) {
-      this.O = var1;
+   public Animation setDuration(int i) {
+      this.O = i;
       return this;
    }
 
-   public Animation setProgress(double var1) {
-      this.U = var1;
+   public Animation setProgress(double d) {
+      this.U = d;
       return this;
    }
 
@@ -69,17 +69,17 @@ public class Animation {
       return this.ease(this.U);
    }
 
-   public double getValue(double var1, double var3) {
-      return (var3 - var1) * this.getValue() + var1;
+   public double getValue(double d, double d2) {
+      return (d2 - d) * this.getValue() + d;
    }
 
-   public void step(int var1) {
+   public void step(int i) {
       if (this.r) {
          if (!this.z) {
-            var1 *= -1;
+            i *= -1;
          }
 
-         this.U = this.U + (double)var1 / this.O;
+         this.U = this.U + (double)i / this.O;
          if (this.U > 1.0) {
             this.U = 1.0;
             this.r = false;
@@ -90,8 +90,8 @@ public class Animation {
       }
    }
 
-   public double ease(double var1) {
-      this.i.r(var1);
-      return Math.min(Math.max(var1, 0.0), 1.0);
+   public double ease(double d) {
+      this.i.r(d);
+      return Math.min(Math.max(d, 0.0), 1.0);
    }
 }

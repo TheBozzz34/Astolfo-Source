@@ -15,10 +15,10 @@ public class NpcMerchant implements IMerchant {
    private IChatComponent field_175548_d;
    private static final long a = 127329321400188L;
 
-   public NpcMerchant(EntityPlayer var1, IChatComponent var2) {
-      this.customer = var1;
-      this.field_175548_d = var2;
-      this.theMerchantInventory = new InventoryMerchant(var1, this);
+   public NpcMerchant(EntityPlayer entityPlayer, IChatComponent iChatComponent) {
+      this.customer = entityPlayer;
+      this.field_175548_d = iChatComponent;
+      this.theMerchantInventory = new InventoryMerchant(entityPlayer, this);
    }
 
    @Override
@@ -27,26 +27,26 @@ public class NpcMerchant implements IMerchant {
    }
 
    @Override
-   public void setCustomer(EntityPlayer var1) {
+   public void setCustomer(EntityPlayer entityPlayer) {
    }
 
    @Override
-   public MerchantRecipeList getRecipes(EntityPlayer var1) {
+   public MerchantRecipeList getRecipes(EntityPlayer entityPlayer) {
       return this.recipeList;
    }
 
    @Override
-   public void setRecipes(MerchantRecipeList var1) {
-      this.recipeList = var1;
+   public void setRecipes(MerchantRecipeList recipeList) {
+      this.recipeList = recipeList;
    }
 
    @Override
-   public void useRecipe(MerchantRecipe var1) {
-      var1.incrementToolUses();
+   public void useRecipe(MerchantRecipe recipe) {
+      recipe.incrementToolUses();
    }
 
    @Override
-   public void verifySellingItem(ItemStack var1) {
+   public void verifySellingItem(ItemStack stack) {
    }
 
    @Override

@@ -7,28 +7,28 @@ public class CharacterParser implements Parser<Character> {
    private static final long a = 111415329009674L;
 
    @Override
-   public Optional<Character> parse(String var1, Class<? extends Character> var2) {
-      if (var1.length() > 1) {
+   public Optional<Character> parse(String string, Class<? extends Character> class2) {
+      if (string.length() > 1) {
          try {
             throw new Exception("Can't parse a value which is larger than I expected");
-         } catch (Exception var7) {
-            var7.printStackTrace();
+         } catch (Exception exception) {
+            exception.printStackTrace();
             return Optional.empty();
          }
       } else {
-         Character var6 = var1.charAt(0);
-         return Optional.ofNullable(var6);
+         Character character = string.charAt(0);
+         return Optional.ofNullable(character);
       }
    }
 
-   public Optional<Character[]> W(String var1, Class<? extends Character> var2) {
-      int var7 = var1.length();
-      Character[] var8 = new Character[var7];
+   public Optional<Character[]> W(String string, Class<? extends Character> class2) {
+      int i = string.length();
+      Character[] characters = new Character[i];
 
-      for (int var9 = 0; var9 < var7; var9++) {
-         var8[var9] = new Character(var1.charAt(var9));
+      for (int j = 0; j < i; j++) {
+         characters[j] = new Character(string.charAt(j));
       }
 
-      return Optional.ofNullable(var8);
+      return Optional.ofNullable(characters);
    }
 }

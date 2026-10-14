@@ -17,13 +17,13 @@ public final class NoEffect extends Module {
    private final BooleanSetting potions = new BooleanSetting("Potions", "Disables blindness", true);
    public static final BooleanSetting noFog = new BooleanSetting("No-Fog", "Disables fog", true);
    @EventHandler(HurtCameraEvent.class)
-   private Listener<HurtCameraEvent> onHurtCamera = var1x -> {
+   private Listener<HurtCameraEvent> onHurtCamera = hurtCameraEvent -> {
       if (this.hurtCam.getValue()) {
-         var1x.cancel();
+         hurtCameraEvent.cancel();
       }
    };
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (mc.theWorld != null && this.weather.getValue()) {
          mc.theWorld.V(0.0F);
       }
@@ -33,15 +33,15 @@ public final class NoEffect extends Module {
       }
    };
    @EventHandler(RenderOverlaysEvent.class)
-   private Listener<RenderOverlaysEvent> onRenderOverlays = var1x -> {
+   private Listener<RenderOverlaysEvent> onRenderOverlays = renderOverlaysEvent -> {
       if (this.overlay.getValue()) {
-         var1x.cancel();
+         renderOverlaysEvent.cancel();
       }
    };
    private static final long d = 48021696634082L;
 
-   public NoEffect(Category var1) {
-      super(var1);
+   public NoEffect(Category category) {
+      super(category);
       this.setHidden(false);
       this.addSettings(this.hurtCam, this.overlay, this.weather, this.potions, noFog);
    }

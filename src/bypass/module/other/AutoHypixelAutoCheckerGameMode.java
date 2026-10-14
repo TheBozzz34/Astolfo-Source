@@ -10,8 +10,8 @@ public enum AutoHypixelAutoCheckerGameMode {
    public String name = "";
    private static final AutoHypixelAutoCheckerGameMode[] W = new AutoHypixelAutoCheckerGameMode[]{SW, BW, UHC, MW};
 
-   AutoHypixelAutoCheckerGameMode(String var3, int var4) {
-      this.name = var3;
-      this.columnAmount = var4;
+   AutoHypixelAutoCheckerGameMode(String string2, int j) {
+      this.name = string2;
+      this.columnAmount = j;
    }
 }

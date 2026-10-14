@@ -7,29 +7,29 @@ import net.minecraft.world.IWorldNameable;
 public interface IInventory extends IWorldNameable {
    int getSizeInventory();
 
-   ItemStack getStackInSlot(int var1);
+   ItemStack getStackInSlot(int index);
 
-   ItemStack decrStackSize(int var1, int var2);
+   ItemStack decrStackSize(int index, int count);
 
-   ItemStack removeStackFromSlot(int var1);
+   ItemStack removeStackFromSlot(int index);
 
-   void setInventorySlotContents(int var1, ItemStack var2);
+   void setInventorySlotContents(int index, ItemStack stack);
 
    int getInventoryStackLimit();
 
    void markDirty();
 
-   boolean isUseableByPlayer(EntityPlayer var1);
+   boolean isUseableByPlayer(EntityPlayer player);
 
-   void openInventory(EntityPlayer var1);
+   void openInventory(EntityPlayer player);
 
-   void closeInventory(EntityPlayer var1);
+   void closeInventory(EntityPlayer player);
 
-   boolean isItemValidForSlot(int var1, ItemStack var2);
+   boolean isItemValidForSlot(int index, ItemStack stack);
 
-   int getField(int var1);
+   int getField(int id);
 
-   void setField(int var1, int var2);
+   void setField(int id, int value);
 
    int getFieldCount();
 

@@ -52,42 +52,42 @@ public class PlayerControllerMP {
    public int currentPlayerItem;
    private static final long a = 130267066837478L;
 
-   public PlayerControllerMP(Minecraft var1, NetHandlerPlayClient var2) {
-      this.mc = var1;
-      this.netClientHandler = var2;
+   public PlayerControllerMP(Minecraft mcIn, NetHandlerPlayClient netHandler) {
+      this.mc = mcIn;
+      this.netClientHandler = netHandler;
    }
 
-   public static void clickBlockCreative(Minecraft var0, PlayerControllerMP var1, BlockPos var2, EnumFacing var3) {
-      if (!var0.theWorld.extinguishFire(var0.thePlayer, var2, var3)) {
-         var1.onPlayerDestroyBlock(var2, var3);
+   public static void clickBlockCreative(Minecraft mcIn, PlayerControllerMP playerController, BlockPos pos, EnumFacing facing) {
+      if (!mcIn.theWorld.extinguishFire(mcIn.thePlayer, pos, facing)) {
+         playerController.onPlayerDestroyBlock(pos, facing);
       }
    }
 
-   public void setPlayerCapabilities(EntityPlayer var1) {
-      this.currentGameType.configurePlayerCapabilities(var1.capabilities);
+   public void setPlayerCapabilities(EntityPlayer player) {
+      this.currentGameType.configurePlayerCapabilities(player.capabilities);
    }
 
    public boolean W() {
       return this.currentGameType == WorldSettings.GameType.SPECTATOR;
    }
 
-   public void setGameType(WorldSettings.GameType var1) {
-      this.currentGameType = var1;
+   public void setGameType(WorldSettings.GameType typeIn) {
+      this.currentGameType = typeIn;
       this.currentGameType.configurePlayerCapabilities(this.mc.thePlayer.capabilities);
    }
 
-   public void flipPlayer(EntityPlayer var1) {
-      var1.rotationYaw = -180.0F;
+   public void flipPlayer(EntityPlayer playerIn) {
+      playerIn.rotationYaw = -180.0F;
    }
 
    public boolean shouldDrawHUD() {
       return this.currentGameType.isSurvivalOrAdventure();
    }
 
-   public boolean onPlayerDestroyBlock(BlockPos var1, EnumFacing var2) {
-      DestroyBlockEvent var6 = new DestroyBlockEvent();
-      Astolfo.INSTANCE.getEventBus().post(var6);
-      if (var6.isCancelled()) {
+   public boolean onPlayerDestroyBlock(BlockPos pos, EnumFacing side) {
+      DestroyBlockEvent destroyBlockEvent = new DestroyBlockEvent();
+      Astolfo.INSTANCE.getEventBus().post(destroyBlockEvent);
+      if (destroyBlockEvent.isCancelled()) {
          return false;
       }
 
@@ -97,13 +97,13 @@ public class PlayerControllerMP {
          }
 
          if (!this.mc.thePlayer.isAllowEdit()) {
-            Block var7 = this.mc.theWorld.getBlockState(var1).getBlock();
-            ItemStack var8 = this.mc.thePlayer.getCurrentEquippedItem();
-            if (var8 == null) {
+            Block block = this.mc.theWorld.getBlockState(pos).getBlock();
+            ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
+            if (itemStack == null) {
                return false;
             }
 
-            if (!var8.canDestroy(var7)) {
+            if (!itemStack.canDestroy(block)) {
                return false;
             }
          }
@@ -113,77 +113,77 @@ public class PlayerControllerMP {
          return false;
       }
 
-      WorldClient var12 = this.mc.theWorld;
-      IBlockState var13 = var12.getBlockState(var1);
-      Block var9 = var13.getBlock();
-      if (var9.getMaterial() == Material.air) {
+      WorldClient worldClient = this.mc.theWorld;
+      IBlockState iBlockState = worldClient.getBlockState(pos);
+      Block block2 = iBlockState.getBlock();
+      if (block2.getMaterial() == Material.air) {
          return false;
       }
 
-      var12.playAuxSFX(2001, var1, Block.getStateId(var13));
-      boolean var10 = var12.setBlockToAir(var1);
-      if (var10) {
-         var9.onBlockDestroyedByPlayer(var12, var1, var13);
+      worldClient.playAuxSFX(2001, pos, Block.getStateId(iBlockState));
+      boolean bl = worldClient.setBlockToAir(pos);
+      if (bl) {
+         block2.onBlockDestroyedByPlayer(worldClient, pos, iBlockState);
       }
 
       this.currentBlock = new BlockPos(this.currentBlock.getX(), -1, this.currentBlock.getZ());
       if (!this.currentGameType.isCreative()) {
-         ItemStack var11 = this.mc.thePlayer.getCurrentEquippedItem();
-         if (var11 != null) {
-            var11.onBlockDestroyed(var12, var9, var1, this.mc.thePlayer);
-            if (var11.stackSize == 0) {
+         ItemStack itemStack2 = this.mc.thePlayer.getCurrentEquippedItem();
+         if (itemStack2 != null) {
+            itemStack2.onBlockDestroyed(worldClient, block2, pos, this.mc.thePlayer);
+            if (itemStack2.stackSize == 0) {
                this.mc.thePlayer.destroyCurrentEquippedItem();
             }
          }
       }
 
-      return var10;
+      return bl;
    }
 
-   public boolean clickBlock(BlockPos var1, EnumFacing var2) {
+   public boolean clickBlock(BlockPos loc, EnumFacing face) {
       if (this.currentGameType.isAdventure()) {
          if (this.currentGameType == WorldSettings.GameType.SPECTATOR) {
             return false;
          }
 
          if (!this.mc.thePlayer.isAllowEdit()) {
-            Block var6 = this.mc.theWorld.getBlockState(var1).getBlock();
-            ItemStack var7 = this.mc.thePlayer.getCurrentEquippedItem();
-            if (var7 == null) {
+            Block block = this.mc.theWorld.getBlockState(loc).getBlock();
+            ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
+            if (itemStack == null) {
                return false;
             }
 
-            if (!var7.canDestroy(var6)) {
+            if (!itemStack.canDestroy(block)) {
                return false;
             }
          }
       }
 
-      if (!this.mc.theWorld.getWorldBorder().contains(var1)) {
+      if (!this.mc.theWorld.getWorldBorder().contains(loc)) {
          return false;
       }
 
       if (this.currentGameType.isCreative()) {
-         this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, var1, var2));
-         clickBlockCreative(this.mc, this, var1, var2);
+         this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, loc, face));
+         clickBlockCreative(this.mc, this, loc, face);
          this.blockHitDelay = 5;
-      } else if (!this.isHittingBlock || !this.isHittingPosition(var1)) {
+      } else if (!this.isHittingBlock || !this.isHittingPosition(loc)) {
          if (this.isHittingBlock) {
-            this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.currentBlock, var2));
+            this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.currentBlock, face));
          }
 
-         this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, var1, var2));
-         Block var8 = this.mc.theWorld.getBlockState(var1).getBlock();
-         boolean var9 = var8.getMaterial() != Material.air;
-         if (var9 && this.curBlockDamageMP == 0.0F) {
-            var8.onBlockClicked(this.mc.theWorld, var1, this.mc.thePlayer);
+         this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, loc, face));
+         Block block2 = this.mc.theWorld.getBlockState(loc).getBlock();
+         boolean bl = block2.getMaterial() != Material.air;
+         if (bl && this.curBlockDamageMP == 0.0F) {
+            block2.onBlockClicked(this.mc.theWorld, loc, this.mc.thePlayer);
          }
 
-         if (var9 && var8.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, var1) >= 1.0F) {
-            this.onPlayerDestroyBlock(var1, var2);
+         if (bl && block2.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, loc) >= 1.0F) {
+            this.onPlayerDestroyBlock(loc, face);
          } else {
             this.isHittingBlock = true;
-            this.currentBlock = var1;
+            this.currentBlock = loc;
             this.currentItemHittingBlock = this.mc.thePlayer.getHeldItem();
             this.curBlockDamageMP = 0.0F;
             this.stepSoundTickCounter = 0.0F;
@@ -195,9 +195,9 @@ public class PlayerControllerMP {
    }
 
    public void g() {
-      AbortBreakingEvent var4 = new AbortBreakingEvent(!this.isHittingBlock);
-      Astolfo.INSTANCE.getEventBus().post(var4);
-      if (!var4.isCancelled()) {
+      AbortBreakingEvent abortBreakingEvent = new AbortBreakingEvent(!this.isHittingBlock);
+      Astolfo.INSTANCE.getEventBus().post(abortBreakingEvent);
+      if (!abortBreakingEvent.isCancelled()) {
          this.netClientHandler
             .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.currentBlock, EnumFacing.DOWN));
          this.isHittingBlock = false;
@@ -206,10 +206,10 @@ public class PlayerControllerMP {
       }
    }
 
-   public boolean onPlayerDamageBlock(BlockPos var1, EnumFacing var2) {
-      DamageBlockEvent var6 = new DamageBlockEvent(this.mc.theWorld.getBlockState(var1).getBlock(), var1, 4, 1.0);
-      Astolfo.INSTANCE.getEventBus().post(var6);
-      if (var6.isCancelled()) {
+   public boolean onPlayerDamageBlock(BlockPos posBlock, EnumFacing directionFacing) {
+      DamageBlockEvent damageBlockEvent = new DamageBlockEvent(this.mc.theWorld.getBlockState(posBlock).getBlock(), posBlock, 4, 1.0);
+      Astolfo.INSTANCE.getEventBus().post(damageBlockEvent);
+      if (damageBlockEvent.isCancelled()) {
          return false;
       }
 
@@ -219,53 +219,53 @@ public class PlayerControllerMP {
          return true;
       }
 
-      if (this.currentGameType.isCreative() && this.mc.theWorld.getWorldBorder().contains(var1)) {
-         this.blockHitDelay = var6.getHitDelay();
-         this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, var1, var2));
-         clickBlockCreative(this.mc, this, var1, var2);
+      if (this.currentGameType.isCreative() && this.mc.theWorld.getWorldBorder().contains(posBlock)) {
+         this.blockHitDelay = damageBlockEvent.getHitDelay();
+         this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, posBlock, directionFacing));
+         clickBlockCreative(this.mc, this, posBlock, directionFacing);
          return true;
       }
 
-      if (this.isHittingPosition(var1)) {
-         Block var7 = this.mc.theWorld.getBlockState(var1).getBlock();
-         if (var7.getMaterial() == Material.air) {
+      if (this.isHittingPosition(posBlock)) {
+         Block block = this.mc.theWorld.getBlockState(posBlock).getBlock();
+         if (block.getMaterial() == Material.air) {
             this.isHittingBlock = false;
             return false;
          }
 
          this.curBlockDamageMP = (float)(
-            this.curBlockDamageMP + var7.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, var1) * var6.getDamageMultiplier()
+            this.curBlockDamageMP + block.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, posBlock) * damageBlockEvent.getDamageMultiplier()
          );
          if (this.stepSoundTickCounter % 4.0F == 0.0F) {
             this.mc
                .getSoundHandler()
                .playSound(
                   new PositionedSoundRecord(
-                     new ResourceLocation(var7.stepSound.getStepSound()),
-                     (var7.stepSound.getVolume() + 1.0F) / 8.0F,
-                     var7.stepSound.getFrequency() * 0.5F,
-                     var1.getX() + 0.5F,
-                     var1.getY() + 0.5F,
-                     var1.getZ() + 0.5F
+                     new ResourceLocation(block.stepSound.getStepSound()),
+                     (block.stepSound.getVolume() + 1.0F) / 8.0F,
+                     block.stepSound.getFrequency() * 0.5F,
+                     posBlock.getX() + 0.5F,
+                     posBlock.getY() + 0.5F,
+                     posBlock.getZ() + 0.5F
                   )
                );
          }
 
          this.stepSoundTickCounter++;
          if (this.curBlockDamageMP >= 1.0F) {
-            Astolfo.INSTANCE.getEventBus().post(new BlockBrokenEvent(var7, var2, var1));
+            Astolfo.INSTANCE.getEventBus().post(new BlockBrokenEvent(block, directionFacing, posBlock));
             this.isHittingBlock = false;
-            this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, var1, var2));
-            this.onPlayerDestroyBlock(var1, var2);
+            this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, posBlock, directionFacing));
+            this.onPlayerDestroyBlock(posBlock, directionFacing);
             this.curBlockDamageMP = 0.0F;
             this.stepSoundTickCounter = 0.0F;
-            this.blockHitDelay = var6.getHitDelay();
+            this.blockHitDelay = damageBlockEvent.getHitDelay();
          }
 
          this.mc.theWorld.sendBlockBreakProgress(this.mc.thePlayer.getEntityId(), this.currentBlock, (int)(this.curBlockDamageMP * 10.0F) - 1);
          return true;
       } else {
-         return this.clickBlock(var1, var2);
+         return this.clickBlock(posBlock, directionFacing);
       }
    }
 
@@ -286,125 +286,129 @@ public class PlayerControllerMP {
       }
    }
 
-   private boolean isHittingPosition(BlockPos var1) {
-      ItemStack var5 = this.mc.thePlayer.getHeldItem();
-      boolean var6 = this.currentItemHittingBlock == null && var5 == null;
-      if (this.currentItemHittingBlock != null && var5 != null) {
-         var6 = var5.getItem() == this.currentItemHittingBlock.getItem()
-            && ItemStack.areItemStackTagsEqual(var5, this.currentItemHittingBlock)
-            && (var5.isItemStackDamageable() || var5.getMetadata() == this.currentItemHittingBlock.getMetadata());
+   private boolean isHittingPosition(BlockPos pos) {
+      ItemStack itemStack = this.mc.thePlayer.getHeldItem();
+      boolean bl = this.currentItemHittingBlock == null && itemStack == null;
+      if (this.currentItemHittingBlock != null && itemStack != null) {
+         bl = itemStack.getItem() == this.currentItemHittingBlock.getItem()
+            && ItemStack.areItemStackTagsEqual(itemStack, this.currentItemHittingBlock)
+            && (itemStack.isItemStackDamageable() || itemStack.getMetadata() == this.currentItemHittingBlock.getMetadata());
       }
 
-      return var1.equals(this.currentBlock) && var6;
+      return pos.equals(this.currentBlock) && bl;
    }
 
    private void syncCurrentPlayItem() {
-      int var4 = this.mc.thePlayer.inventory.currentItem;
-      if (var4 != this.currentPlayerItem) {
-         this.currentPlayerItem = var4;
+      int i = this.mc.thePlayer.inventory.currentItem;
+      if (i != this.currentPlayerItem) {
+         this.currentPlayerItem = i;
          this.netClientHandler.addToSendQueue(new C09PacketHeldItemChange(this.currentPlayerItem));
       }
    }
 
-   public boolean onPlayerRightClick(EntityPlayerSP var1, WorldClient var2, ItemStack var3, BlockPos var4, EnumFacing var5, Vec3 var6) {
+   public boolean onPlayerRightClick(EntityPlayerSP player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
       this.syncCurrentPlayItem();
-      float var10 = (float)(var6.xCoord - var4.getX());
-      float var11 = (float)(var6.yCoord - var4.getY());
-      float var12 = (float)(var6.zCoord - var4.getZ());
-      boolean var13 = false;
-      if (!this.mc.theWorld.getWorldBorder().contains(var4)) {
+      float f = (float)(hitVec.xCoord - hitPos.getX());
+      float g = (float)(hitVec.yCoord - hitPos.getY());
+      float h = (float)(hitVec.zCoord - hitPos.getZ());
+      boolean bl = false;
+      if (!this.mc.theWorld.getWorldBorder().contains(hitPos)) {
          return false;
       }
 
       if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
-         IBlockState var14 = var2.getBlockState(var4);
-         if ((!var1.isSneaking() || var1.getHeldItem() == null) && var14.getBlock().onBlockActivated(var2, var4, var14, var1, var5, var10, var11, var12)) {
-            var13 = true;
+         IBlockState iBlockState = worldIn.getBlockState(hitPos);
+         if ((!player.isSneaking() || player.getHeldItem() == null)
+            && iBlockState.getBlock().onBlockActivated(worldIn, hitPos, iBlockState, player, side, f, g, h)) {
+            bl = true;
          }
 
-         if (!var13 && var3 != null && var3.getItem() instanceof ItemBlock) {
-            ItemBlock var15 = (ItemBlock)var3.getItem();
-            if (!var15.canPlaceBlockOnSide(var2, var4, var5, var1, var3)) {
+         if (!bl && heldStack != null && heldStack.getItem() instanceof ItemBlock) {
+            ItemBlock itemBlock = (ItemBlock)heldStack.getItem();
+            if (!itemBlock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
                return false;
             }
          }
       }
 
-      this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(var4, var5.getIndex(), var3, var10, var11, var12));
-      if (var13 || this.currentGameType == WorldSettings.GameType.SPECTATOR) {
+      this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), heldStack, f, g, h));
+      if (bl || this.currentGameType == WorldSettings.GameType.SPECTATOR) {
          return true;
-      } else if (var3 == null) {
+      } else if (heldStack == null) {
          return false;
       } else if (this.currentGameType.isCreative()) {
-         int var18 = var3.getMetadata();
-         int var19 = var3.stackSize;
-         boolean var16 = var3.onItemUse(var1, var2, var4, var5, var10, var11, var12);
-         var3.setItemDamage(var18);
-         var3.stackSize = var19;
-         return var16;
+         int i = heldStack.getMetadata();
+         int j = heldStack.stackSize;
+         boolean bl2 = heldStack.onItemUse(player, worldIn, hitPos, side, f, g, h);
+         heldStack.setItemDamage(i);
+         heldStack.stackSize = j;
+         return bl2;
       } else {
-         RightClickBlockEvent var17 = new RightClickBlockEvent(EventState.PRE);
-         Astolfo.INSTANCE.getEventBus().post(var17);
-         return var17.isCancelled() ? false : var3.onItemUse(var1, var2, var4, var5, var10, var11, var12);
+         RightClickBlockEvent rightClickBlockEvent = new RightClickBlockEvent(EventState.PRE);
+         Astolfo.INSTANCE.getEventBus().post(rightClickBlockEvent);
+         return rightClickBlockEvent.isCancelled() ? false : heldStack.onItemUse(player, worldIn, hitPos, side, f, g, h);
       }
    }
 
-   public boolean K(EntityPlayerSP var1, WorldClient var2, ItemStack var3, BlockPos var4, EnumFacing var5, Vec3 var6, boolean var7) {
+   public boolean K(
+      EntityPlayerSP entityPlayerSP, WorldClient worldClient, ItemStack itemStack, BlockPos blockPos, EnumFacing enumFacing, Vec3 vec3, boolean bl
+   ) {
       this.syncCurrentPlayItem();
-      float var11 = (float)(var6.xCoord - var4.getX());
-      float var12 = (float)(var6.yCoord - var4.getY());
-      float var13 = (float)(var6.zCoord - var4.getZ());
-      boolean var14 = false;
-      if (!this.mc.theWorld.getWorldBorder().contains(var4)) {
+      float f = (float)(vec3.xCoord - blockPos.getX());
+      float g = (float)(vec3.yCoord - blockPos.getY());
+      float h = (float)(vec3.zCoord - blockPos.getZ());
+      boolean bl2 = false;
+      if (!this.mc.theWorld.getWorldBorder().contains(blockPos)) {
          return false;
       }
 
       if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
-         IBlockState var15 = var2.getBlockState(var4);
-         if ((!var1.isSneaking() || var1.getHeldItem() == null) && var15.getBlock().onBlockActivated(var2, var4, var15, var1, var5, var11, var12, var13)) {
-            var14 = true;
+         IBlockState iBlockState = worldClient.getBlockState(blockPos);
+         if ((!entityPlayerSP.isSneaking() || entityPlayerSP.getHeldItem() == null)
+            && iBlockState.getBlock().onBlockActivated(worldClient, blockPos, iBlockState, entityPlayerSP, enumFacing, f, g, h)) {
+            bl2 = true;
          }
 
-         if (!var14 && var3 != null && var3.getItem() instanceof ItemBlock) {
-            ItemBlock var16 = (ItemBlock)var3.getItem();
-            if (!var16.canPlaceBlockOnSide(var2, var4, var5, var1, var3)) {
+         if (!bl2 && itemStack != null && itemStack.getItem() instanceof ItemBlock) {
+            ItemBlock itemBlock = (ItemBlock)itemStack.getItem();
+            if (!itemBlock.canPlaceBlockOnSide(worldClient, blockPos, enumFacing, entityPlayerSP, itemStack)) {
                return false;
             }
          }
       }
 
-      this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(var4, var5.getIndex(), var7 ? null : var3, var11, var12, var13));
-      if (var14 || this.currentGameType == WorldSettings.GameType.SPECTATOR) {
+      this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(blockPos, enumFacing.getIndex(), bl ? null : itemStack, f, g, h));
+      if (bl2 || this.currentGameType == WorldSettings.GameType.SPECTATOR) {
          return true;
-      } else if (var3 == null) {
+      } else if (itemStack == null) {
          return false;
       } else if (this.currentGameType.isCreative()) {
-         int var19 = var3.getMetadata();
-         int var20 = var3.stackSize;
-         boolean var17 = var3.onItemUse(var1, var2, var4, var5, var11, var12, var13);
-         var3.setItemDamage(var19);
-         var3.stackSize = var20;
-         return var17;
+         int i = itemStack.getMetadata();
+         int j = itemStack.stackSize;
+         boolean bl3 = itemStack.onItemUse(entityPlayerSP, worldClient, blockPos, enumFacing, f, g, h);
+         itemStack.setItemDamage(i);
+         itemStack.stackSize = j;
+         return bl3;
       } else {
-         RightClickBlockEvent var18 = new RightClickBlockEvent(EventState.PRE);
-         Astolfo.INSTANCE.getEventBus().post(var18);
-         return var18.isCancelled() ? false : var3.onItemUse(var1, var2, var4, var5, var11, var12, var13);
+         RightClickBlockEvent rightClickBlockEvent = new RightClickBlockEvent(EventState.PRE);
+         Astolfo.INSTANCE.getEventBus().post(rightClickBlockEvent);
+         return rightClickBlockEvent.isCancelled() ? false : itemStack.onItemUse(entityPlayerSP, worldClient, blockPos, enumFacing, f, g, h);
       }
    }
 
-   public boolean sendUseItem(EntityPlayer var1, World var2, ItemStack var3) {
+   public boolean sendUseItem(EntityPlayer playerIn, World worldIn, ItemStack itemStackIn) {
       if (this.currentGameType == WorldSettings.GameType.SPECTATOR) {
          return false;
       }
 
       this.syncCurrentPlayItem();
-      this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(var1.inventory.getCurrentItem()));
-      int var7 = var3.stackSize;
-      ItemStack var8 = var3.useItemRightClick(var2, var1);
-      if (var8 != var3 || var8 != null && var8.stackSize != var7) {
-         var1.inventory.mainInventory[var1.inventory.currentItem] = var8;
-         if (var8.stackSize == 0) {
-            var1.inventory.mainInventory[var1.inventory.currentItem] = null;
+      this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(playerIn.inventory.getCurrentItem()));
+      int i = itemStackIn.stackSize;
+      ItemStack itemStack = itemStackIn.useItemRightClick(worldIn, playerIn);
+      if (itemStack != itemStackIn || itemStack != null && itemStack.stackSize != i) {
+         playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = itemStack;
+         if (itemStack.stackSize == 0) {
+            playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = null;
          }
 
          return true;
@@ -413,66 +417,66 @@ public class PlayerControllerMP {
       }
    }
 
-   public EntityPlayerSP func_178892_a(World var1, StatFileWriter var2) {
-      return new EntityPlayerSP(this.mc, var1, this.netClientHandler, var2);
+   public EntityPlayerSP func_178892_a(World worldIn, StatFileWriter statWriter) {
+      return new EntityPlayerSP(this.mc, worldIn, this.netClientHandler, statWriter);
    }
 
-   public void attackEntity(EntityPlayer var1, Entity var2) {
+   public void attackEntity(EntityPlayer playerIn, Entity targetEntity) {
       this.syncCurrentPlayItem();
-      Astolfo.INSTANCE.getEventBus().post(new AttackEvent(var2));
-      this.netClientHandler.addToSendQueue(new C02PacketUseEntity(var2, C02PacketUseEntity.Action.ATTACK));
+      Astolfo.INSTANCE.getEventBus().post(new AttackEvent(targetEntity));
+      this.netClientHandler.addToSendQueue(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.ATTACK));
       if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
-         var1.attackTargetEntityWithCurrentItem(var2);
+         playerIn.attackTargetEntityWithCurrentItem(targetEntity);
       }
    }
 
-   public boolean interactWithEntitySendPacket(EntityPlayer var1, Entity var2) {
+   public boolean interactWithEntitySendPacket(EntityPlayer playerIn, Entity targetEntity) {
       this.syncCurrentPlayItem();
-      this.netClientHandler.addToSendQueue(new C02PacketUseEntity(var2, C02PacketUseEntity.Action.INTERACT));
-      return this.currentGameType != WorldSettings.GameType.SPECTATOR && var1.interactWith(var2);
+      this.netClientHandler.addToSendQueue(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
+      return this.currentGameType != WorldSettings.GameType.SPECTATOR && playerIn.interactWith(targetEntity);
    }
 
-   public boolean isPlayerRightClickingOnEntity(EntityPlayer var1, Entity var2, MovingObjectPosition var3) {
+   public boolean isPlayerRightClickingOnEntity(EntityPlayer player, Entity entityIn, MovingObjectPosition movingObject) {
       this.syncCurrentPlayItem();
-      Vec3 var7 = new Vec3(var3.hitVec.xCoord - var2.posX, var3.hitVec.yCoord - var2.posY, var3.hitVec.zCoord - var2.posZ);
-      this.netClientHandler.addToSendQueue(new C02PacketUseEntity(var2, var7));
-      return this.currentGameType != WorldSettings.GameType.SPECTATOR && var2.interactAt(var1, var7);
+      Vec3 vec3 = new Vec3(movingObject.hitVec.xCoord - entityIn.posX, movingObject.hitVec.yCoord - entityIn.posY, movingObject.hitVec.zCoord - entityIn.posZ);
+      this.netClientHandler.addToSendQueue(new C02PacketUseEntity(entityIn, vec3));
+      return this.currentGameType != WorldSettings.GameType.SPECTATOR && entityIn.interactAt(player, vec3);
    }
 
-   public ItemStack windowClick(int var1, int var2, int var3, int var4, EntityPlayer var5) {
-      short var6 = var5.openContainer.getNextTransactionID(var5.inventory);
-      ItemStack var7 = var5.openContainer.slotClick(var2, var3, var4, var5);
-      this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(var1, var2, var3, var4, var7, var6));
-      return var7;
+   public ItemStack windowClick(int windowId, int slotId, int mouseButtonClicked, int mode, EntityPlayer playerIn) {
+      short s = playerIn.openContainer.getNextTransactionID(playerIn.inventory);
+      ItemStack itemStack = playerIn.openContainer.slotClick(slotId, mouseButtonClicked, mode, playerIn);
+      this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(windowId, slotId, mouseButtonClicked, mode, itemStack, s));
+      return itemStack;
    }
 
-   public ItemStack Z(int var1, int var2, int var3, int var4, EntityPlayer var5) {
-      short var6 = var5.openContainer.getNextTransactionID(var5.inventory);
-      ItemStack var7 = var5.openContainer.slotClick(var2, var3, var4, var5);
-      this.netClientHandler.u(new C0EPacketClickWindow(var1, var2, var3, var4, var7, var6));
-      return var7;
+   public ItemStack Z(int i, int j, int k, int l, EntityPlayer entityPlayer) {
+      short s = entityPlayer.openContainer.getNextTransactionID(entityPlayer.inventory);
+      ItemStack itemStack = entityPlayer.openContainer.slotClick(j, k, l, entityPlayer);
+      this.netClientHandler.u(new C0EPacketClickWindow(i, j, k, l, itemStack, s));
+      return itemStack;
    }
 
-   public void sendEnchantPacket(int var1, int var2) {
-      this.netClientHandler.addToSendQueue(new C11PacketEnchantItem(var1, var2));
+   public void sendEnchantPacket(int windowID, int button) {
+      this.netClientHandler.addToSendQueue(new C11PacketEnchantItem(windowID, button));
    }
 
-   public void sendSlotPacket(ItemStack var1, int var2) {
+   public void sendSlotPacket(ItemStack itemStackIn, int slotId) {
       if (this.currentGameType.isCreative()) {
-         this.netClientHandler.addToSendQueue(new C10PacketCreativeInventoryAction(var2, var1));
+         this.netClientHandler.addToSendQueue(new C10PacketCreativeInventoryAction(slotId, itemStackIn));
       }
    }
 
-   public void sendPacketDropItem(ItemStack var1) {
-      if (this.currentGameType.isCreative() && var1 != null) {
-         this.netClientHandler.addToSendQueue(new C10PacketCreativeInventoryAction(-1, var1));
+   public void sendPacketDropItem(ItemStack itemStackIn) {
+      if (this.currentGameType.isCreative() && itemStackIn != null) {
+         this.netClientHandler.addToSendQueue(new C10PacketCreativeInventoryAction(-1, itemStackIn));
       }
    }
 
-   public void onStoppedUsingItem(EntityPlayer var1) {
+   public void onStoppedUsingItem(EntityPlayer playerIn) {
       this.syncCurrentPlayItem();
       this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-      var1.stopUsingItem();
+      playerIn.stopUsingItem();
    }
 
    public boolean D() {

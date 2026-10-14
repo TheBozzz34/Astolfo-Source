@@ -26,46 +26,55 @@ public class DamageParticle extends EntityFX {
    private static final long ab = 99500009999976L;
 
    public DamageParticle(
-      int var1,
-      World var2,
-      double var3,
-      double var5,
-      double var7,
-      double var9,
-      double var11,
-      double var13,
-      float var15,
-      float var16,
-      int var17,
-      boolean var18,
-      boolean var19,
-      boolean var20,
-      Color var21,
-      Color var22
+      int i,
+      World world,
+      double d,
+      double d2,
+      double d3,
+      double d4,
+      double d5,
+      double d6,
+      float f,
+      float g,
+      int j,
+      boolean bl,
+      boolean bl2,
+      boolean bl3,
+      Color color,
+      Color color2
    ) {
-      super(var2, var3, var5, var7, var9, var11, var13);
+      super(world, d, d2, d3, d4, d5, d6);
       this.particleTextureJitterX = 0.0F;
       this.particleTextureJitterY = 0.0F;
-      this.particleGravity = var15;
-      this.particleScale = var16;
-      this.oH = var16;
-      this.o4 = var18;
-      this.particleMaxAge = var17;
-      this.oW = var19;
-      this.oM = var21;
-      this.oF = var22;
-      this.oC = var20 ? var1 / 2.0F : var1;
+      this.particleGravity = f;
+      this.particleScale = g;
+      this.oH = g;
+      this.o4 = bl;
+      this.particleMaxAge = j;
+      this.oW = bl2;
+      this.oM = color;
+      this.oF = color2;
+      this.oC = bl3 ? i / 2.0F : i;
       this.oU = MathUtil.ONE_DECIMAL.format(Math.abs(this.oC));
    }
 
    @Override
-   public void renderParticle(WorldRenderer var1, Entity var2, float var3, float var4, float var5, float var6, float var7, float var8) {
-      long var9 = ab ^ 894808457906L;
-      float var13 = -Minecraft.getMinecraft().thePlayer.rotationYaw;
-      float var14 = Minecraft.getMinecraft().thePlayer.rotationPitch;
-      float var15 = (float)(this.prevPosX + (this.posX - this.prevPosX) * var3 - interpPosX);
-      float var16 = (float)(this.prevPosY + (this.posY - this.prevPosY) * var4 - interpPosY);
-      float var17 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * var5 - interpPosZ);
+   public void renderParticle(
+      WorldRenderer worldRendererIn,
+      Entity entityIn,
+      float partialTicks,
+      float rotationX,
+      float rotationZ,
+      float rotationYZ,
+      float rotationXY,
+      float rotationXZ
+   ) {
+      long l = ab ^ 894808457906L;
+      float f = -Minecraft.getMinecraft().thePlayer.rotationYaw;
+      float g = Minecraft.getMinecraft().thePlayer.rotationPitch;
+      float h = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
+      float f2 = (float)(this.prevPosY + (this.posY - this.prevPosY) * rotationX - interpPosY);
+      float f3 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * rotationZ - interpPosZ);
       GL11.glPushMatrix();
       if (this.op) {
          GL11.glDepthFunc(519);
@@ -73,10 +82,10 @@ public class DamageParticle extends EntityFX {
          GL11.glDepthFunc(515);
       }
 
-      GL11.glTranslatef(var15, var16, var17);
-      GL11.glRotatef(var13, 0.0F, 1.0F, 0.0F);
-      long var10000 = 7893993772087282653L ^ var9;
-      GL11.glRotatef(var14, 1.0F, 0.0F, 0.0F);
+      GL11.glTranslatef(h, f2, f3);
+      GL11.glRotatef(f, 0.0F, 1.0F, 0.0F);
+      long m = 7893993772087282653L ^ l;
+      GL11.glRotatef(g, 1.0F, 0.0F, 0.0F);
       GL11.glScalef(-1.0F, -1.0F, 1.0F);
       GL11.glScaled(this.particleScale * 0.008, this.particleScale * 0.008, this.particleScale * 0.008);
       GL11.glScaled(this.oo, this.oo, this.oo);
@@ -84,7 +93,7 @@ public class DamageParticle extends EntityFX {
       GL11.glEnable(3553);
       GL11.glDisable(3042);
       GL11.glDepthMask(true);
-      var10000 = 3742998667494746246L ^ var9;
+      m = 3742998667494746246L ^ l;
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       GL11.glEnable(3553);
       GL11.glEnable(2929);
@@ -93,17 +102,17 @@ public class DamageParticle extends EntityFX {
       GL11.glEnable(3042);
       GL11.glEnable(3008);
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      int var18 = this.oF.getRGB();
+      int i = this.oF.getRGB();
       if (this.oC < 0.0F) {
-         var18 = this.oM.getRGB();
+         i = this.oM.getRGB();
       }
 
-      FontRenderer var19 = Minecraft.getMinecraft().fontRendererObj;
-      var19.drawStringWithShadow(
-         this.oU, -MathHelper.floor_float(var19.getStringWidth(this.oU) / 2.0F) + 1, -MathHelper.floor_float(var19.FONT_HEIGHT / 2.0F) + 1, var18
+      FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+      fontRenderer.drawStringWithShadow(
+         this.oU, -MathHelper.floor_float(fontRenderer.getStringWidth(this.oU) / 2.0F) + 1, -MathHelper.floor_float(fontRenderer.FONT_HEIGHT / 2.0F) + 1, i
       );
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      var10000 = 320336853644347103L ^ var9;
+      m = 320336853644347103L ^ l;
       GL11.glDepthFunc(515);
       GL11.glPopMatrix();
       if (this.o4) {

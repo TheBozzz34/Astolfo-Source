@@ -90,68 +90,70 @@ public class ModelRabbit extends ModelBase {
       this.setRotationOffset(this.rabbitNose, 0.0F, 0.0F, 0.0F);
    }
 
-   private void setRotationOffset(ModelRenderer var1, float var2, float var3, float var4) {
-      var1.rotateAngleX = var2;
-      var1.rotateAngleY = var3;
-      var1.rotateAngleZ = var4;
+   private void setRotationOffset(ModelRenderer modelRenderer, float f, float g, float h) {
+      modelRenderer.rotateAngleX = f;
+      modelRenderer.rotateAngleY = g;
+      modelRenderer.rotateAngleZ = h;
    }
 
    @Override
-   public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      this.setRotationAngles(var2, var3, var4, var5, var6, var7, var1);
+   public void render(Entity entityIn, float f, float g, float h, float f2, float f3, float scale) {
+      this.setRotationAngles(f, g, h, f2, f3, scale, entityIn);
       if (this.isChild) {
-         float var11 = 2.0F;
+         float f4 = 2.0F;
          GlStateManager.pushMatrix();
-         GlStateManager.translate(0.0F, 5.0F * var7, 2.0F * var7);
-         this.rabbitHead.render(var7);
-         this.rabbitLeftEar.render(var7);
-         this.rabbitRightEar.render(var7);
-         this.rabbitNose.render(var7);
+         GlStateManager.translate(0.0F, 5.0F * scale, 2.0F * scale);
+         this.rabbitHead.render(scale);
+         this.rabbitLeftEar.render(scale);
+         this.rabbitRightEar.render(scale);
+         this.rabbitNose.render(scale);
          GlStateManager.popMatrix();
          GlStateManager.pushMatrix();
-         GlStateManager.scale(1.0F / var11, 1.0F / var11, 1.0F / var11);
-         GlStateManager.translate(0.0F, 24.0F * var7, 0.0F);
-         this.rabbitLeftFoot.render(var7);
-         this.rabbitRightFoot.render(var7);
-         this.rabbitLeftThigh.render(var7);
-         this.rabbitRightThigh.render(var7);
-         this.rabbitBody.render(var7);
-         this.rabbitLeftArm.render(var7);
-         this.rabbitRightArm.render(var7);
-         this.rabbitTail.render(var7);
+         GlStateManager.scale(1.0F / f4, 1.0F / f4, 1.0F / f4);
+         GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
+         this.rabbitLeftFoot.render(scale);
+         this.rabbitRightFoot.render(scale);
+         this.rabbitLeftThigh.render(scale);
+         this.rabbitRightThigh.render(scale);
+         this.rabbitBody.render(scale);
+         this.rabbitLeftArm.render(scale);
+         this.rabbitRightArm.render(scale);
+         this.rabbitTail.render(scale);
          GlStateManager.popMatrix();
       } else {
-         this.rabbitLeftFoot.render(var7);
-         this.rabbitRightFoot.render(var7);
-         this.rabbitLeftThigh.render(var7);
-         this.rabbitRightThigh.render(var7);
-         this.rabbitBody.render(var7);
-         this.rabbitLeftArm.render(var7);
-         this.rabbitRightArm.render(var7);
-         this.rabbitHead.render(var7);
-         this.rabbitRightEar.render(var7);
-         this.rabbitLeftEar.render(var7);
-         this.rabbitTail.render(var7);
-         this.rabbitNose.render(var7);
+         this.rabbitLeftFoot.render(scale);
+         this.rabbitRightFoot.render(scale);
+         this.rabbitLeftThigh.render(scale);
+         this.rabbitRightThigh.render(scale);
+         this.rabbitBody.render(scale);
+         this.rabbitLeftArm.render(scale);
+         this.rabbitRightArm.render(scale);
+         this.rabbitHead.render(scale);
+         this.rabbitRightEar.render(scale);
+         this.rabbitLeftEar.render(scale);
+         this.rabbitTail.render(scale);
+         this.rabbitNose.render(scale);
       }
    }
 
    @Override
-   public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6, Entity var7) {
-      float var8 = var3 - var7.ticksExisted;
-      EntityRabbit var9 = (EntityRabbit)var7;
-      this.rabbitNose.rotateAngleX = this.rabbitHead.rotateAngleX = this.rabbitRightEar.rotateAngleX = this.rabbitLeftEar.rotateAngleX = var5
+   public void setRotationAngles(
+      float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn
+   ) {
+      float f = ageInTicks - entityIn.ticksExisted;
+      EntityRabbit entityRabbit = (EntityRabbit)entityIn;
+      this.rabbitNose.rotateAngleX = this.rabbitHead.rotateAngleX = this.rabbitRightEar.rotateAngleX = this.rabbitLeftEar.rotateAngleX = headPitch
          * (float) (Math.PI / 180.0);
-      this.rabbitNose.rotateAngleY = this.rabbitHead.rotateAngleY = var4 * (float) (Math.PI / 180.0);
+      this.rabbitNose.rotateAngleY = this.rabbitHead.rotateAngleY = netHeadYaw * (float) (Math.PI / 180.0);
       this.rabbitRightEar.rotateAngleY = this.rabbitNose.rotateAngleY - (float) (Math.PI / 12);
       this.rabbitLeftEar.rotateAngleY = this.rabbitNose.rotateAngleY + (float) (Math.PI / 12);
-      this.field_178701_m = MathHelper.sin(var9.func_175521_o(var8) * (float) Math.PI);
+      this.field_178701_m = MathHelper.sin(entityRabbit.func_175521_o(f) * (float) Math.PI);
       this.rabbitLeftThigh.rotateAngleX = this.rabbitRightThigh.rotateAngleX = (this.field_178701_m * 50.0F - 21.0F) * (float) (Math.PI / 180.0);
       this.rabbitLeftFoot.rotateAngleX = this.rabbitRightFoot.rotateAngleX = this.field_178701_m * 50.0F * (float) (Math.PI / 180.0);
       this.rabbitLeftArm.rotateAngleX = this.rabbitRightArm.rotateAngleX = (this.field_178701_m * -40.0F - 11.0F) * (float) (Math.PI / 180.0);
    }
 
    @Override
-   public void setLivingAnimations(EntityLivingBase var1, float var2, float var3, float var4) {
+   public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTickTime) {
    }
 }

@@ -9,9 +9,9 @@ public class FreeBsdOSVersionInfoEx extends AbstractOSVersionInfoEx {
 
    public FreeBsdOSVersionInfoEx() {
       this.n(BsdSysctlUtil.sysctl("kern.osrelease", ""));
-      String var3 = BsdSysctlUtil.sysctl("kern.version", "");
-      String var4 = BsdSysctlUtil.sysctl("kern.ostype", "FreeBSD");
-      this.C(var3.split(":")[0].replace(var4, "").replace(this.getVersion(), "").trim());
+      String string = BsdSysctlUtil.sysctl("kern.version", "");
+      String string2 = BsdSysctlUtil.sysctl("kern.ostype", "FreeBSD");
+      this.C(string.split(":")[0].replace(string2, "").replace(this.getVersion(), "").trim());
       this.I("");
    }
 }

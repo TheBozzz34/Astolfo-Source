@@ -24,12 +24,12 @@ import org.lwjgl.opengl.GL30;
 public class ShadersRender {
    private static final long a = 29902270934658L;
 
-   public static void setFrustrumPosition(Frustum var0, double var1, double var3, double var5) {
-      var0.setPosition(var1, var3, var5);
+   public static void setFrustrumPosition(Frustum frustrum, double x, double y, double z) {
+      frustrum.setPosition(x, y, z);
    }
 
-   public static void setupTerrain(RenderGlobal var0, Entity var1, double var2, ICamera var4, int var5, boolean var6) {
-      var0.setupTerrain(var1, var2, var4, var5, var6);
+   public static void setupTerrain(RenderGlobal renderGlobal, Entity viewEntity, double partialTicks, ICamera camera, int frameCount, boolean playerSpectator) {
+      renderGlobal.setupTerrain(viewEntity, partialTicks, camera, frameCount, playerSpectator);
    }
 
    public static void o() {
@@ -58,13 +58,13 @@ public class ShadersRender {
    }
 
    public static void beginTranslucent() {
-      long var0 = a ^ 38347340608345L;
+      long l = a ^ 38347340608345L;
       if (Shaders.isRenderingWorld) {
          if (Shaders.ew >= 2) {
             GlStateManager.setActiveTexture(33995);
             Shaders.checkGLError("pre copy depth");
             GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, Shaders.renderWidth, Shaders.renderHeight);
-            long var10000 = 6245932639845834108L ^ var0;
+            long m = 6245932639845834108L ^ l;
             Shaders.checkGLError("copy depth");
             GlStateManager.setActiveTexture(33984);
          }
@@ -79,55 +79,55 @@ public class ShadersRender {
       }
    }
 
-   public static void B(EntityRenderer var0, float var1, int var2) {
+   public static void B(EntityRenderer entityRenderer, float f, int i) {
       if (!Shaders.isShadowPass) {
-         boolean var6 = Shaders.B();
-         if (!var6) {
+         boolean bl = Shaders.B();
+         if (!bl) {
             Shaders.readCenterDepth();
             Shaders.t();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            var0.renderHand(var1, var2, true, false, false);
+            entityRenderer.renderHand(f, i, true, false, false);
             Shaders.endHand();
             Shaders.i(true);
          }
       }
    }
 
-   public static void l(EntityRenderer var0, float var1, int var2) {
+   public static void l(EntityRenderer entityRenderer, float f, int i) {
       if (!Shaders.isShadowPass && !Shaders.e_boolean()) {
          Shaders.readCenterDepth();
          GlStateManager.enableBlend();
          Shaders.t();
          GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-         var0.renderHand(var1, var2, true, false, true);
+         entityRenderer.renderHand(f, i, true, false, true);
          Shaders.endHand();
          Shaders.i(true);
       }
    }
 
-   public static void renderItemFP(ItemRenderer var0, float var1, boolean var2) {
+   public static void renderItemFP(ItemRenderer itemRenderer, float par1, boolean renderTranslucent) {
       GlStateManager.depthMask(true);
-      if (var2) {
+      if (renderTranslucent) {
          GlStateManager.depthFunc(519);
          GL11.glPushMatrix();
-         IntBuffer var6 = Shaders.activeDrawBuffers;
+         IntBuffer intBuffer = Shaders.activeDrawBuffers;
          Shaders.setDrawBuffers(Shaders.drawBuffersNone);
          Shaders.renderItemKeepDepthMask = true;
-         var0.renderItemInFirstPerson(var1);
+         itemRenderer.renderItemInFirstPerson(par1);
          Shaders.renderItemKeepDepthMask = false;
-         Shaders.setDrawBuffers(var6);
+         Shaders.setDrawBuffers(intBuffer);
          GL11.glPopMatrix();
       }
 
       GlStateManager.depthFunc(515);
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      var0.renderItemInFirstPerson(var1);
+      itemRenderer.renderItemInFirstPerson(par1);
    }
 
-   public static void t(EntityRenderer var0, float var1, int var2) {
+   public static void t(EntityRenderer entityRenderer, float f, int i) {
       if (!Shaders.isShadowPass) {
          Shaders.b();
-         var0.renderHand(var1, var2, false, true, false);
+         entityRenderer.renderHand(f, i, false, true, false);
          Shaders.D();
       }
    }
@@ -149,40 +149,40 @@ public class ShadersRender {
       }
    }
 
-   public static void renderShadowMap(EntityRenderer var0, int var1, float var2, long var3) {
-      long var5 = a ^ 60762455785721L;
+   public static void renderShadowMap(EntityRenderer entityRenderer, int pass, float partialTicks, long finishTimeNano) {
+      long l = a ^ 60762455785721L;
       if (Shaders.OF > 0 && --Shaders.uU <= 0) {
-         Minecraft var8 = Minecraft.getMinecraft();
-         var8.mcProfiler.endStartSection("shadow pass");
-         RenderGlobal var9 = var8.renderGlobal;
+         Minecraft minecraft = Minecraft.getMinecraft();
+         minecraft.mcProfiler.endStartSection("shadow pass");
+         RenderGlobal renderGlobal2 = minecraft.renderGlobal;
          Shaders.isShadowPass = true;
          Shaders.uU = Shaders.OO;
-         long var10000 = 4957220021731333637L ^ var5;
-         Shaders.er = var8.gameSettings.thirdPersonView;
-         var8.gameSettings.thirdPersonView = 1;
+         long m = 4957220021731333637L ^ l;
+         Shaders.er = minecraft.gameSettings.thirdPersonView;
+         minecraft.gameSettings.thirdPersonView = 1;
          Shaders.checkGLError("pre shadow");
-         var10000 = 713584400688289600L ^ var5;
+         m = 713584400688289600L ^ l;
          GL11.glMatrixMode(5889);
          GL11.glPushMatrix();
-         var10000 = 2609992289330517189L ^ var5;
+         m = 2609992289330517189L ^ l;
          GL11.glMatrixMode(5888);
          GL11.glPushMatrix();
-         var8.mcProfiler.endStartSection("shadow clear");
+         minecraft.mcProfiler.endStartSection("shadow clear");
          EXTFramebufferObject.glBindFramebufferEXT(36160, Shaders.n);
-         var10000 = 3032225369751746146L ^ var5;
+         m = 3032225369751746146L ^ l;
          Shaders.checkGLError("shadow bind sfb");
          Shaders.useProgram(30);
-         var8.mcProfiler.endStartSection("shadow camera");
-         var0.setupCameraTransform(var2, 2);
-         Shaders.setCameraShadow(var2);
-         ActiveRenderInfo.updateRenderInfo(var8.thePlayer, var8.gameSettings.thirdPersonView == 2);
+         minecraft.mcProfiler.endStartSection("shadow camera");
+         entityRenderer.setupCameraTransform(partialTicks, 2);
+         Shaders.setCameraShadow(partialTicks);
+         ActiveRenderInfo.updateRenderInfo(minecraft.thePlayer, minecraft.gameSettings.thirdPersonView == 2);
          Shaders.checkGLError("shadow camera");
-         var10000 = 3593416244862018056L ^ var5;
+         m = 3593416244862018056L ^ l;
          GL20.glDrawBuffers(Shaders.sfbDrawBuffers);
-         long var10001 = 5142470906953957167L ^ var5;
+         long l2 = 5142470906953957167L ^ l;
          Shaders.checkGLError("shadow drawbuffers");
          GL11.glReadBuffer(0);
-         var10001 = 3874332234316794071L ^ var5;
+         l2 = 3874332234316794071L ^ l;
          Shaders.checkGLError("shadow readbuffer");
          EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36096, 3553, Shaders.sfbDepthTextures.get(0), 0);
          if (Shaders.uQ != 0) {
@@ -193,63 +193,63 @@ public class ShadersRender {
          GL11.glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
          GL11.glClear(Shaders.uQ != 0 ? 16640 : 256);
          Shaders.checkGLError("shadow clear");
-         var10000 = 149632112055759080L ^ var5;
-         var8.mcProfiler.endStartSection("shadow frustum");
-         ClippingHelper var10 = ClippingHelperShadow.getInstance();
-         var8.mcProfiler.endStartSection("shadow culling");
-         Frustum var11 = new Frustum(var10);
-         Entity var12 = var8.getRenderViewEntity();
-         double var13 = var12.lastTickPosX + (var12.posX - var12.lastTickPosX) * var2;
-         double var15 = var12.lastTickPosY + (var12.posY - var12.lastTickPosY) * var2;
-         double var17 = var12.lastTickPosZ + (var12.posZ - var12.lastTickPosZ) * var2;
-         var11.setPosition(var13, var15, var17);
+         m = 149632112055759080L ^ l;
+         minecraft.mcProfiler.endStartSection("shadow frustum");
+         ClippingHelper clippingHelper = ClippingHelperShadow.getInstance();
+         minecraft.mcProfiler.endStartSection("shadow culling");
+         Frustum frustum2 = new Frustum(clippingHelper);
+         Entity entity = minecraft.getRenderViewEntity();
+         double d = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks;
+         double e = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks;
+         double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks;
+         frustum2.setPosition(d, e, d2);
          GlStateManager.shadeModel(7425);
          GlStateManager.enableDepth();
-         var10000 = 1432206434286879248L ^ var5;
+         m = 1432206434286879248L ^ l;
          GlStateManager.depthFunc(515);
          GlStateManager.depthMask(true);
          GlStateManager.colorMask(true, true, true, true);
          GlStateManager.disableCull();
-         var8.mcProfiler.endStartSection("shadow prepareterrain");
-         var8.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-         var8.mcProfiler.endStartSection("shadow setupterrain");
-         int var19 = 0;
-         var19 = var0.R++;
-         var9.setupTerrain(var12, var2, var11, var19, var8.thePlayer.isSpectator());
-         var8.mcProfiler.endStartSection("shadow updatechunks");
-         var8.mcProfiler.endStartSection("shadow terrain");
+         minecraft.mcProfiler.endStartSection("shadow prepareterrain");
+         minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+         minecraft.mcProfiler.endStartSection("shadow setupterrain");
+         int i = 0;
+         i = entityRenderer.R++;
+         renderGlobal2.setupTerrain(entity, partialTicks, frustum2, i, minecraft.thePlayer.isSpectator());
+         minecraft.mcProfiler.endStartSection("shadow updatechunks");
+         minecraft.mcProfiler.endStartSection("shadow terrain");
          GlStateManager.matrixMode(5888);
-         var10000 = 183324432622635883L ^ var5;
+         m = 183324432622635883L ^ l;
          GlStateManager.pushMatrix();
          GlStateManager.disableAlpha();
-         var9.renderBlockLayer(EnumWorldBlockLayer.SOLID, var2, 2, var12);
+         renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.SOLID, partialTicks, 2, entity);
          Shaders.checkGLError("shadow terrain solid");
          GlStateManager.enableAlpha();
-         var10000 = 8500757531783953346L ^ var5;
-         var9.renderBlockLayer(EnumWorldBlockLayer.CUTOUT_MIPPED, var2, 2, var12);
+         m = 8500757531783953346L ^ l;
+         renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.CUTOUT_MIPPED, partialTicks, 2, entity);
          Shaders.checkGLError("shadow terrain cutoutmipped");
-         var10000 = 8811481516282464480L ^ var5;
-         var8.getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-         var10001 = 7899367782786995254L ^ var5;
-         var9.renderBlockLayer(EnumWorldBlockLayer.CUTOUT, var2, 2, var12);
+         m = 8811481516282464480L ^ l;
+         minecraft.getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
+         l2 = 7899367782786995254L ^ l;
+         renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.CUTOUT, partialTicks, 2, entity);
          Shaders.checkGLError("shadow terrain cutout");
-         var8.getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
+         minecraft.getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
          GlStateManager.shadeModel(7424);
          GlStateManager.alphaFunc(516, 0.1F);
          GlStateManager.matrixMode(5888);
          GlStateManager.popMatrix();
          GlStateManager.pushMatrix();
-         var8.mcProfiler.endStartSection("shadow entities");
+         minecraft.mcProfiler.endStartSection("shadow entities");
          if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
             Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, 0);
          }
 
-         var9.renderEntities(var12, var11, var2);
+         renderGlobal2.renderEntities(entity, frustum2, partialTicks);
          Shaders.checkGLError("shadow entities");
-         var10000 = 6505990617124593230L ^ var5;
+         m = 6505990617124593230L ^ l;
          GlStateManager.matrixMode(5888);
          GlStateManager.popMatrix();
-         var10000 = 1194866909457584513L ^ var5;
+         m = 1194866909457584513L ^ l;
          GlStateManager.depthMask(true);
          GlStateManager.disableBlend();
          GlStateManager.enableCull();
@@ -259,33 +259,33 @@ public class ShadersRender {
             GlStateManager.setActiveTexture(33989);
             Shaders.checkGLError("pre copy shadow depth");
             GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, Shaders.Ow, Shaders.e5);
-            var10000 = 3922292682356405331L ^ var5;
+            m = 3922292682356405331L ^ l;
             Shaders.checkGLError("copy shadow depth");
             GlStateManager.setActiveTexture(33984);
          }
 
          GlStateManager.disableBlend();
          GlStateManager.depthMask(true);
-         var10000 = 1135697088738864897L ^ var5;
-         var8.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+         m = 1135697088738864897L ^ l;
+         minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
          GlStateManager.shadeModel(7425);
          Shaders.checkGLError("shadow pre-translucent");
          GL20.glDrawBuffers(Shaders.sfbDrawBuffers);
-         var10000 = 5977225982888854849L ^ var5;
+         m = 5977225982888854849L ^ l;
          Shaders.checkGLError("shadow drawbuffers pre-translucent");
          Shaders.checkFramebufferStatus("shadow pre-translucent");
          if (Shaders.isRenderShadowTranslucent()) {
-            var8.mcProfiler.endStartSection("shadow translucent");
-            var9.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, var2, 2, var12);
-            var10000 = 7735530390833142956L ^ var5;
+            minecraft.mcProfiler.endStartSection("shadow translucent");
+            renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, partialTicks, 2, entity);
+            m = 7735530390833142956L ^ l;
             Shaders.checkGLError("shadow translucent");
          }
 
          if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
             RenderHelper.enableStandardItemLighting();
             Reflector.call(Reflector.ForgeHooksClient_setRenderPass, 1);
-            var10000 = 5426547092510258830L ^ var5;
-            var9.renderEntities(var12, var11, var2);
+            m = 5426547092510258830L ^ l;
+            renderGlobal2.renderEntities(entity, frustum2, partialTicks);
             Reflector.call(Reflector.ForgeHooksClient_setRenderPass, -1);
             RenderHelper.disableStandardItemLighting();
             Shaders.checkGLError("shadow entities 1");
@@ -293,20 +293,20 @@ public class ShadersRender {
 
          GlStateManager.shadeModel(7424);
          GlStateManager.depthMask(true);
-         var10000 = 5597102099851875792L ^ var5;
+         m = 5597102099851875792L ^ l;
          GlStateManager.enableCull();
          GlStateManager.disableBlend();
          GL11.glFlush();
          Shaders.checkGLError("shadow flush");
          Shaders.isShadowPass = false;
-         var8.gameSettings.thirdPersonView = Shaders.er;
-         var8.mcProfiler.endStartSection("shadow postprocess");
+         minecraft.gameSettings.thirdPersonView = Shaders.er;
+         minecraft.mcProfiler.endStartSection("shadow postprocess");
          if (Shaders.hasGlGenMipmap) {
             if (Shaders.OF >= 1) {
                if (Shaders.shadowMipmapEnabled[0]) {
                   GlStateManager.setActiveTexture(33988);
                   GlStateManager.bindTexture(Shaders.sfbDepthTextures.get(0));
-                  var10000 = 8673419638326628698L ^ var5;
+                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowFilterNearest[0] ? 9984 : 9987);
                }
@@ -314,7 +314,7 @@ public class ShadersRender {
                if (Shaders.OF >= 2 && Shaders.shadowMipmapEnabled[1]) {
                   GlStateManager.setActiveTexture(33989);
                   GlStateManager.bindTexture(Shaders.sfbDepthTextures.get(1));
-                  var10000 = 8673419638326628698L ^ var5;
+                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowFilterNearest[1] ? 9984 : 9987);
                }
@@ -326,7 +326,7 @@ public class ShadersRender {
                if (Shaders.shadowColorMipmapEnabled[0]) {
                   GlStateManager.setActiveTexture(33997);
                   GlStateManager.bindTexture(Shaders.sfbColorTextures.get(0));
-                  var10000 = 8673419638326628698L ^ var5;
+                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowColorFilterNearest[0] ? 9984 : 9987);
                }
@@ -334,7 +334,7 @@ public class ShadersRender {
                if (Shaders.uQ >= 2 && Shaders.shadowColorMipmapEnabled[1]) {
                   GlStateManager.setActiveTexture(33998);
                   GlStateManager.bindTexture(Shaders.sfbColorTextures.get(1));
-                  var10000 = 8673419638326628698L ^ var5;
+                  m = 8673419638326628698L ^ l;
                   GL30.glGenerateMipmap(3553);
                   GL11.glTexParameteri(3553, 10241, Shaders.shadowColorFilterNearest[1] ? 9984 : 9987);
                }
@@ -347,8 +347,8 @@ public class ShadersRender {
          EXTFramebufferObject.glBindFramebufferEXT(36160, Shaders.OU);
          GL11.glViewport(0, 0, Shaders.renderWidth, Shaders.renderHeight);
          Shaders.activeDrawBuffers = null;
-         var10000 = 2427063737592814041L ^ var5;
-         var8.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+         m = 2427063737592814041L ^ l;
+         minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
          Shaders.useProgram(7);
          GL11.glMatrixMode(5888);
          GL11.glPopMatrix();
@@ -359,8 +359,8 @@ public class ShadersRender {
       }
    }
 
-   public static void preRenderChunkLayer(EnumWorldBlockLayer var0) {
-      if (Shaders.isRenderBackFace(var0)) {
+   public static void preRenderChunkLayer(EnumWorldBlockLayer blockLayerIn) {
+      if (Shaders.isRenderBackFace(blockLayerIn)) {
          GlStateManager.disableCull();
       }
 
@@ -372,7 +372,7 @@ public class ShadersRender {
       }
    }
 
-   public static void postRenderChunkLayer(EnumWorldBlockLayer var0) {
+   public static void postRenderChunkLayer(EnumWorldBlockLayer blockLayerIn) {
       if (OpenGlHelper.useVbo()) {
          GL11.glDisableClientState(32885);
          GL20.glDisableVertexAttribArray(Shaders.midTexCoordAttrib);
@@ -380,7 +380,7 @@ public class ShadersRender {
          GL20.glDisableVertexAttribArray(Shaders.entityAttrib);
       }
 
-      if (Shaders.isRenderBackFace(var0)) {
+      if (Shaders.isRenderBackFace(blockLayerIn)) {
          GlStateManager.enableCull();
       }
    }

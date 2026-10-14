@@ -11,9 +11,9 @@ public final class HeldItem extends ZeroArgFunction {
    @Override
    public LuaValue call() {
       if (ClientAccess.mc.thePlayer != null) {
-         ItemStack var4 = ClientAccess.mc.thePlayer.getCurrentEquippedItem();
-         if (var4 != null) {
-            return valueOf(var4.getDisplayName());
+         ItemStack itemStack = ClientAccess.mc.thePlayer.getCurrentEquippedItem();
+         if (itemStack != null) {
+            return valueOf(itemStack.getDisplayName());
          }
       }
 

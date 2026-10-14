@@ -6,8 +6,8 @@ public class ConnectorFactoryBuilder {
    public boolean l;
    private static final long a = 42385277103549L;
 
-   public ConnectorFactoryBuilder(boolean var1) {
-      this.F = var1;
+   public ConnectorFactoryBuilder(boolean bl) {
+      this.F = bl;
    }
 
    public ConnectorFactoryBuilder() {
@@ -15,9 +15,9 @@ public class ConnectorFactoryBuilder {
    }
 
    public ConnectorFactory Z() {
-      ConnectionOptions var4 = n;
+      ConnectionOptions connectionOptions = n;
       if (this.F && this.l) {
-         var4 = ConnectionOptions.M(16);
+         connectionOptions = ConnectionOptions.M(16);
       }
 
       return new ConnectorFactory();

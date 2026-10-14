@@ -7,11 +7,11 @@ public abstract class BaseAttribute implements IAttribute {
    private boolean shouldWatch;
    private static final long a = 56878298955109L;
 
-   public BaseAttribute(IAttribute var1, String var2, double var3) {
-      this.field_180373_a = var1;
-      this.unlocalizedName = var2;
-      this.defaultValue = var3;
-      if (var2 == null) {
+   public BaseAttribute(IAttribute iAttribute, String unlocalizedNameIn, double defaultValueIn) {
+      this.field_180373_a = iAttribute;
+      this.unlocalizedName = unlocalizedNameIn;
+      this.defaultValue = defaultValueIn;
+      if (unlocalizedNameIn == null) {
          throw new IllegalArgumentException("Name cannot be null!");
       }
    }
@@ -31,8 +31,8 @@ public abstract class BaseAttribute implements IAttribute {
       return this.shouldWatch;
    }
 
-   public BaseAttribute setShouldWatch(boolean var1) {
-      this.shouldWatch = var1;
+   public BaseAttribute setShouldWatch(boolean shouldWatchIn) {
+      this.shouldWatch = shouldWatchIn;
       return this;
    }
 
@@ -47,7 +47,7 @@ public abstract class BaseAttribute implements IAttribute {
    }
 
    @Override
-   public boolean equals(Object var1) {
-      return var1 instanceof IAttribute && this.unlocalizedName.equals(((IAttribute)var1).getAttributeUnlocalizedName());
+   public boolean equals(Object object) {
+      return object instanceof IAttribute && this.unlocalizedName.equals(((IAttribute)object).getAttributeUnlocalizedName());
    }
 }

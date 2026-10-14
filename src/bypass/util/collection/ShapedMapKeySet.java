@@ -7,8 +7,8 @@ public class ShapedMapKeySet<K, V> extends AbstractSet<K> {
    private final ShapedMap<K, V> r;
    private static final long a = 28695063322883L;
 
-   public ShapedMapKeySet(ShapedMap<K, V> var1) {
-      this.r = var1;
+   public ShapedMapKeySet(ShapedMap<K, V> shapedMap) {
+      this.r = shapedMap;
    }
 
    @Override
@@ -17,13 +17,13 @@ public class ShapedMapKeySet<K, V> extends AbstractSet<K> {
    }
 
    @Override
-   public boolean contains(Object var1) {
-      return this.r.containsKey(var1);
+   public boolean contains(Object object) {
+      return this.r.containsKey(object);
    }
 
    @Override
-   public boolean remove(Object var1) {
-      return this.r.remove(var1) != null;
+   public boolean remove(Object object) {
+      return this.r.remove(object) != null;
    }
 
    @Override

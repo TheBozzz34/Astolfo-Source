@@ -12,40 +12,40 @@ public class Networks {
    private static final long a = 71406743786277L;
 
    public NetworkIF[] getNetworks() {
-      ArrayList var4 = new ArrayList();
+      ArrayList arrayList = new ArrayList();
 
-      for (NetworkInterface var8 : this.getNetworkInterfaces()) {
-         NetworkIF var9 = new NetworkIF();
-         var9.setNetworkInterface(var8);
-         var9.updateAttributes();
-         var4.add(var9);
+      for (NetworkInterface networkInterface : this.getNetworkInterfaces()) {
+         NetworkIF networkIF = new NetworkIF();
+         networkIF.setNetworkInterface(networkInterface);
+         networkIF.updateAttributes();
+         arrayList.add(networkIF);
       }
 
-      return (oshi.hardware.NetworkIF[])(var4.toArray(new NetworkIF[0]));
+      return (oshi.hardware.NetworkIF[])(arrayList.toArray(new NetworkIF[0]));
    }
 
    public NetworkInterface[] getNetworkInterfaces() {
-      ArrayList var4 = new ArrayList();
-      Enumeration var5 = null;
+      ArrayList arrayList = new ArrayList();
+      Enumeration enumeration = null;
 
       try {
-         var5 = NetworkInterface.getNetworkInterfaces();
-      } catch (SocketException var9) {
+         enumeration = NetworkInterface.getNetworkInterfaces();
+      } catch (SocketException socketException) {
       }
 
-      if (var5 != null) {
-         while (var5.hasMoreElements()) {
-            NetworkInterface var6 = (NetworkInterface)var5.nextElement();
+      if (enumeration != null) {
+         while (enumeration.hasMoreElements()) {
+            NetworkInterface networkInterface = (NetworkInterface)enumeration.nextElement();
 
             try {
-               if (!var6.isLoopback() && var6.getHardwareAddress() != null) {
-                  var4.add(var6);
+               if (!networkInterface.isLoopback() && networkInterface.getHardwareAddress() != null) {
+                  arrayList.add(networkInterface);
                }
-            } catch (SocketException var8) {
+            } catch (SocketException socketException2) {
             }
          }
       }
 
-      return (java.net.NetworkInterface[])(var4.toArray(new NetworkInterface[0]));
+      return (java.net.NetworkInterface[])(arrayList.toArray(new NetworkInterface[0]));
    }
 }

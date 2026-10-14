@@ -15,8 +15,8 @@ public class BlockOldLog extends BlockLog {
       "variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
          private static final long a = 125603524136036L;
 
-         public boolean apply(BlockPlanks.EnumType var1) {
-            return var1.getMetadata() < 4;
+         public boolean apply(BlockPlanks.EnumType enumType) {
+            return enumType.getMetadata() < 4;
          }
       }
    );
@@ -27,14 +27,14 @@ public class BlockOldLog extends BlockLog {
    }
 
    @Override
-   public MapColor getMapColor(IBlockState var1) {
-      BlockPlanks.EnumType var5 = var1.getValue(VARIANT);
-      switch ((BlockLog.EnumAxis)var1.getValue(LOG_AXIS)) {
+   public MapColor getMapColor(IBlockState state) {
+      BlockPlanks.EnumType enumType = state.getValue(VARIANT);
+      switch ((BlockLog.EnumAxis)state.getValue(LOG_AXIS)) {
          case X:
          case Z:
          case NONE:
          default:
-            switch (var5) {
+            switch (enumType) {
                case OAK:
                default:
                   return BlockPlanks.EnumType.SPRUCE.getMapColor();
@@ -46,54 +46,54 @@ public class BlockOldLog extends BlockLog {
                   return BlockPlanks.EnumType.SPRUCE.getMapColor();
             }
          case Y:
-            return var5.getMapColor();
+            return enumType.getMapColor();
       }
    }
 
    @Override
-   public void getSubBlocks(Item var1, CreativeTabs var2, List<ItemStack> var3) {
-      var3.add(new ItemStack(var1, 1, BlockPlanks.EnumType.OAK.getMetadata()));
-      var3.add(new ItemStack(var1, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
-      var3.add(new ItemStack(var1, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
-      var3.add(new ItemStack(var1, 1, BlockPlanks.EnumType.JUNGLE.getMetadata()));
+   public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+      list.add(new ItemStack(itemIn, 1, BlockPlanks.EnumType.OAK.getMetadata()));
+      list.add(new ItemStack(itemIn, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
+      list.add(new ItemStack(itemIn, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
+      list.add(new ItemStack(itemIn, 1, BlockPlanks.EnumType.JUNGLE.getMetadata()));
    }
 
    @Override
-   public IBlockState getStateFromMeta(int var1) {
-      IBlockState var5 = this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata((var1 & 3) % 4));
-      switch (var1 & 12) {
+   public IBlockState getStateFromMeta(int meta) {
+      IBlockState iBlockState = this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata((meta & 3) % 4));
+      switch (meta & 12) {
          case 0:
-            var5 = var5.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
+            iBlockState = iBlockState.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
             break;
          case 4:
-            var5 = var5.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+            iBlockState = iBlockState.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
             break;
          case 8:
-            var5 = var5.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+            iBlockState = iBlockState.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
             break;
          default:
-            var5 = var5.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+            iBlockState = iBlockState.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
       }
 
-      return var5;
+      return iBlockState;
    }
 
    @Override
-   public int getMetaFromState(IBlockState var1) {
-      int var5 = 0;
-      var5 |= var1.getValue(VARIANT).getMetadata();
-      switch ((BlockLog.EnumAxis)var1.getValue(LOG_AXIS)) {
+   public int getMetaFromState(IBlockState state) {
+      int i = 0;
+      i |= state.getValue(VARIANT).getMetadata();
+      switch ((BlockLog.EnumAxis)state.getValue(LOG_AXIS)) {
          case X:
-            var5 |= 4;
+            i |= 4;
             break;
          case Z:
-            var5 |= 8;
+            i |= 8;
             break;
          case NONE:
-            var5 |= 12;
+            i |= 12;
       }
 
-      return var5;
+      return i;
    }
 
    @Override
@@ -102,12 +102,12 @@ public class BlockOldLog extends BlockLog {
    }
 
    @Override
-   public ItemStack createStackedBlock(IBlockState var1) {
-      return new ItemStack(Item.getItemFromBlock(this), 1, var1.getValue(VARIANT).getMetadata());
+   public ItemStack createStackedBlock(IBlockState state) {
+      return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).getMetadata());
    }
 
    @Override
-   public int damageDropped(IBlockState var1) {
-      return var1.getValue(VARIANT).getMetadata();
+   public int damageDropped(IBlockState state) {
+      return state.getValue(VARIANT).getMetadata();
    }
 }

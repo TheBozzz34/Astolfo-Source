@@ -8,9 +8,9 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
    private static final long c = 133247674161653L;
    private static final long i = -7933460149455290337L;
 
-   public PropertyHelper(String var1, Class<T> var2) {
-      this.valueClass = var2;
-      this.name = var1;
+   public PropertyHelper(String name, Class<T> valueClass) {
+      this.valueClass = valueClass;
+      this.name = name;
    }
 
    @Override
@@ -29,12 +29,12 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
-      } else if (var1 != null && this.getClass() == var1.getClass()) {
-         PropertyHelper var5 = (PropertyHelper)var1;
-         return this.valueClass.equals(var5.valueClass) && this.name.equals(var5.name);
+      } else if (object != null && this.getClass() == object.getClass()) {
+         PropertyHelper propertyHelper = (PropertyHelper)object;
+         return this.valueClass.equals(propertyHelper.valueClass) && this.name.equals(propertyHelper.name);
       } else {
          return false;
       }

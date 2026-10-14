@@ -18,41 +18,39 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient> 
    public S22PacketMultiBlockChange() {
    }
 
-   public S22PacketMultiBlockChange(int var1, short[] var2, Chunk var3) {
-      this.chunkPosCoord = new ChunkCoordIntPair(var3.xPosition, var3.zPosition);
-      this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[var1];
+   public S22PacketMultiBlockChange(int i, short[] crammedPositionsIn, Chunk chunkIn) {
+      this.chunkPosCoord = new ChunkCoordIntPair(chunkIn.xPosition, chunkIn.zPosition);
+      this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[i];
 
-      for (int var7 = 0; var7 < this.changedBlocks.length; var7++) {
-         this.changedBlocks[var7] = new S22PacketMultiBlockChange.BlockUpdateData(var2[var7], var3);
+      for (int j = 0; j < this.changedBlocks.length; j++) {
+         this.changedBlocks[j] = new S22PacketMultiBlockChange.BlockUpdateData(crammedPositionsIn[j], chunkIn);
       }
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.chunkPosCoord = new ChunkCoordIntPair(var1.readInt(), var1.readInt());
-      this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[var1.readVarIntFromBuffer()];
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.chunkPosCoord = new ChunkCoordIntPair(buf.readInt(), buf.readInt());
+      this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[buf.readVarIntFromBuffer()];
 
-      for (int var5 = 0; var5 < this.changedBlocks.length; var5++) {
-         this.changedBlocks[var5] = new S22PacketMultiBlockChange.BlockUpdateData(
-            var1.readShort(), Block.BLOCK_STATE_IDS.getByValue(var1.readVarIntFromBuffer())
-         );
+      for (int i = 0; i < this.changedBlocks.length; i++) {
+         this.changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(buf.readShort(), Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer()));
       }
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeInt(this.chunkPosCoord.chunkXPos);
-      var1.writeInt(this.chunkPosCoord.chunkZPos);
-      var1.writeVarIntToBuffer(this.changedBlocks.length);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeInt(this.chunkPosCoord.chunkXPos);
+      buf.writeInt(this.chunkPosCoord.chunkZPos);
+      buf.writeVarIntToBuffer(this.changedBlocks.length);
 
-      for (S22PacketMultiBlockChange.BlockUpdateData var8 : this.changedBlocks) {
-         var1.writeShort(var8.func_180089_b());
-         var1.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(var8.getBlockState()));
+      for (S22PacketMultiBlockChange.BlockUpdateData blockUpdateData : this.changedBlocks) {
+         buf.writeShort(blockUpdateData.func_180089_b());
+         buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(blockUpdateData.getBlockState()));
       }
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleMultiBlockChange(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleMultiBlockChange(this);
    }
 
    public S22PacketMultiBlockChange.BlockUpdateData[] getChangedBlocks() {
@@ -64,14 +62,14 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient> 
       private final IBlockState blockState;
       private static final long a = 83522924034995L;
 
-      public BlockUpdateData(short var2, IBlockState var3) {
-         this.chunkPosCrammed = var2;
-         this.blockState = var3;
+      public BlockUpdateData(short s, IBlockState state) {
+         this.chunkPosCrammed = s;
+         this.blockState = state;
       }
 
-      public BlockUpdateData(short var2, Chunk var3) {
-         this.chunkPosCrammed = var2;
-         this.blockState = var3.getBlockState(this.getPos());
+      public BlockUpdateData(short s, Chunk chunkIn) {
+         this.chunkPosCrammed = s;
+         this.blockState = chunkIn.getBlockState(this.getPos());
       }
 
       public BlockPos getPos() {

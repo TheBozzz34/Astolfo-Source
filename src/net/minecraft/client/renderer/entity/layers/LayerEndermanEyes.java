@@ -13,29 +13,29 @@ public class LayerEndermanEyes implements LayerRenderer<EntityEnderman> {
    private final RenderEnderman endermanRenderer;
    private static final long a = 21112279589448L;
 
-   public LayerEndermanEyes(RenderEnderman var1) {
-      this.endermanRenderer = var1;
+   public LayerEndermanEyes(RenderEnderman endermanRendererIn) {
+      this.endermanRenderer = endermanRendererIn;
    }
 
-   public void doRenderLayer(EntityEnderman var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
+   public void doRenderLayer(EntityEnderman entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale) {
       this.endermanRenderer.bindTexture(RES_ENDERMAN_EYES);
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
       GlStateManager.blendFunc(1, 1);
       GlStateManager.disableLighting();
-      GlStateManager.depthMask(!var1.isInvisible());
-      char var12 = '\uf0f0';
-      int var13 = var12 % 65536;
-      int var14 = var12 / 65536;
-      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var13 / 1.0F, var14 / 1.0F);
+      GlStateManager.depthMask(!entitylivingbaseIn.isInvisible());
+      char c = '\uf0f0';
+      int i = c % 65536;
+      int j = c / 65536;
+      OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, i / 1.0F, j / 1.0F);
       GlStateManager.enableLighting();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       if (Config.isShaders()) {
          Shaders.s();
       }
 
-      this.endermanRenderer.getMainModel().render(var1, var2, var3, var5, var6, var7, var8);
-      this.endermanRenderer.setLightmap(var1, var4);
+      this.endermanRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);
+      this.endermanRenderer.setLightmap(entitylivingbaseIn, partialTicks);
       GlStateManager.depthMask(true);
       GlStateManager.disableBlend();
       GlStateManager.enableAlpha();

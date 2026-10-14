@@ -19,35 +19,35 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
    public S29PacketSoundEffect() {
    }
 
-   public S29PacketSoundEffect(String var1, double var2, double var4, double var6, float var8, float var9) {
-      Validate.notNull(var1, "name");
-      this.soundName = var1;
-      this.posX = (int)(var2 * 8.0);
-      this.posY = (int)(var4 * 8.0);
-      this.posZ = (int)(var6 * 8.0);
-      this.soundVolume = var8;
-      this.soundPitch = (int)(var9 * 63.0F);
-      var9 = MathHelper.clamp_float(var9, 0.0F, 255.0F);
+   public S29PacketSoundEffect(String soundNameIn, double soundX, double soundY, double soundZ, float volume, float pitch) {
+      Validate.notNull(soundNameIn, "name");
+      this.soundName = soundNameIn;
+      this.posX = (int)(soundX * 8.0);
+      this.posY = (int)(soundY * 8.0);
+      this.posZ = (int)(soundZ * 8.0);
+      this.soundVolume = volume;
+      this.soundPitch = (int)(pitch * 63.0F);
+      pitch = MathHelper.clamp_float(pitch, 0.0F, 255.0F);
    }
 
    @Override
-   public void readPacketData(PacketBuffer var1) throws IOException {
-      this.soundName = var1.readStringFromBuffer(256);
-      this.posX = var1.readInt();
-      this.posY = var1.readInt();
-      this.posZ = var1.readInt();
-      this.soundVolume = var1.readFloat();
-      this.soundPitch = var1.readUnsignedByte();
+   public void readPacketData(PacketBuffer buf) throws IOException {
+      this.soundName = buf.readStringFromBuffer(256);
+      this.posX = buf.readInt();
+      this.posY = buf.readInt();
+      this.posZ = buf.readInt();
+      this.soundVolume = buf.readFloat();
+      this.soundPitch = buf.readUnsignedByte();
    }
 
    @Override
-   public void writePacketData(PacketBuffer var1) throws IOException {
-      var1.writeString(this.soundName);
-      var1.writeInt(this.posX);
-      var1.writeInt(this.posY);
-      var1.writeInt(this.posZ);
-      var1.writeFloat(this.soundVolume);
-      var1.writeByte(this.soundPitch);
+   public void writePacketData(PacketBuffer buf) throws IOException {
+      buf.writeString(this.soundName);
+      buf.writeInt(this.posX);
+      buf.writeInt(this.posY);
+      buf.writeInt(this.posZ);
+      buf.writeFloat(this.soundVolume);
+      buf.writeByte(this.soundPitch);
    }
 
    public String getSoundName() {
@@ -74,7 +74,7 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
       return this.soundPitch / 63.0F;
    }
 
-   public void processPacket(INetHandlerPlayClient var1) {
-      var1.handleSoundEffect(this);
+   public void processPacket(INetHandlerPlayClient handler) {
+      handler.handleSoundEffect(this);
    }
 }

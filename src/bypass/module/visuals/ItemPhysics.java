@@ -4,8 +4,8 @@ import bypass.module.Category;
 import bypass.module.Module;
 
 public class ItemPhysics extends Module {
-   public ItemPhysics(Category var1) {
-      super(var1);
+   public ItemPhysics(Category category) {
+      super(category);
       this.setHidden(false);
    }
 }

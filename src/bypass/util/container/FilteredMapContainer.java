@@ -13,45 +13,45 @@ public final class FilteredMapContainer<K, V> extends MapContainer<K, V> impleme
    private Map<K, V> u;
    private static final long b = 35275775015591L;
 
-   public FilteredMapContainer(MapContainer<K, V> var1, Predicate<? super K> var2, Predicate<? super V> var3, boolean var4) {
-      super(var1.getValue());
-      this.j = var1;
-      this.E = var2;
-      this.D = var3;
-      if (var4) {
+   public FilteredMapContainer(MapContainer<K, V> mapContainer, Predicate<? super K> predicate, Predicate<? super V> predicate2, boolean bl) {
+      super(mapContainer.getValue());
+      this.j = mapContainer;
+      this.E = predicate;
+      this.D = predicate2;
+      if (bl) {
          this.X = new HashMap<>();
          this.u = new HashMap<>();
       }
    }
 
    @Override
-   public V D(K var1, V var2) {
-      return !this.S((K)var1, (V)var2) ? null : super.D((K)var1, (V)var2);
+   public V D(K object, V object2) {
+      return !this.S((K)object, (V)object2) ? null : super.D((K)object, (V)object2);
    }
 
    @Override
-   public void p(Map<? extends K, ? extends V> var1) {
-      for (Entry var6 : var1.entrySet()) {
-         if (!this.S((K)var6.getKey(), (V)var6.getValue())) {
+   public void p(Map<? extends K, ? extends V> map) {
+      for (Entry entry : map.entrySet()) {
+         if (!this.S((K)entry.getKey(), (V)entry.getValue())) {
             return;
          }
       }
 
-      super.p(var1);
+      super.p(map);
    }
 
-   private boolean S(K var1, V var2) {
-      boolean var6 = this.D != null ? this.D.test((V)var2) : true;
-      boolean var7 = this.E != null ? this.E.test((K)var1) : true;
-      if (var7 && var6) {
+   private boolean S(K object, V object2) {
+      boolean bl = this.D != null ? this.D.test((V)object2) : true;
+      boolean bl2 = this.E != null ? this.E.test((K)object) : true;
+      if (bl2 && bl) {
          if (this.X != null) {
-            this.X.put((K)var1, (V)var2);
+            this.X.put((K)object, (V)object2);
          }
 
          return true;
       } else {
          if (this.u != null) {
-            this.u.put((K)var1, (V)var2);
+            this.u.put((K)object, (V)object2);
          }
 
          return false;

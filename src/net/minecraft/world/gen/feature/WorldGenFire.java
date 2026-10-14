@@ -9,11 +9,11 @@ public class WorldGenFire extends WorldGenerator {
    private static final long a = 17783718171040L;
 
    @Override
-   public boolean generate(World var1, Random var2, BlockPos var3) {
-      for (int var7 = 0; var7 < 64; var7++) {
-         BlockPos var8 = var3.add(var2.nextInt(8) - var2.nextInt(8), var2.nextInt(4) - var2.nextInt(4), var2.nextInt(8) - var2.nextInt(8));
-         if (var1.isAirBlock(var8) && var1.getBlockState(var8.down()).getBlock() == Blocks.netherrack) {
-            var1.setBlockState(var8, Blocks.fire.getDefaultState(), 2);
+   public boolean generate(World worldIn, Random rand, BlockPos position) {
+      for (int i = 0; i < 64; i++) {
+         BlockPos blockPos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
+         if (worldIn.isAirBlock(blockPos) && worldIn.getBlockState(blockPos.down()).getBlock() == Blocks.netherrack) {
+            worldIn.setBlockState(blockPos, Blocks.fire.getDefaultState(), 2);
          }
       }
 

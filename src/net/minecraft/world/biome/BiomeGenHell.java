@@ -5,8 +5,8 @@ import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntityPigZombie;
 
 public class BiomeGenHell extends BiomeGenBase {
-   public BiomeGenHell(int var1) {
-      super(var1);
+   public BiomeGenHell(int id) {
+      super(id);
       this.spawnableMonsterList.clear();
       this.spawnableCreatureList.clear();
       this.spawnableWaterCreatureList.clear();
@@ -17,6 +17,6 @@ public class BiomeGenHell extends BiomeGenBase {
    }
 
    static {
-      long var10000 = 128331585458057L;
+      long l = 128331585458057L;
    }
 }

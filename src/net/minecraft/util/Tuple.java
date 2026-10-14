@@ -4,9 +4,9 @@ public class Tuple<A, B> {
    private A a;
    private B b;
 
-   public Tuple(A var1, B var2) {
-      this.a = (A)var1;
-      this.b = (B)var2;
+   public Tuple(A aIn, B bIn) {
+      this.a = (A)aIn;
+      this.b = (B)bIn;
    }
 
    public A getFirst() {

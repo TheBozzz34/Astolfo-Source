@@ -22,17 +22,17 @@ public class CommandListPlayers extends CommandBase {
    }
 
    @Override
-   public String getCommandUsage(ICommandSender var1) {
+   public String getCommandUsage(ICommandSender sender) {
       return "commands.players.usage";
    }
 
    @Override
-   public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-      int var5 = MinecraftServer.getServer().getCurrentPlayerCount();
-      var1.addChatMessage(new ChatComponentTranslation("commands.players.list", var5, MinecraftServer.getServer().getMaxPlayers()));
-      var1.addChatMessage(
-         new ChatComponentText(MinecraftServer.getServer().getConfigurationManager().func_181058_b(var2.length > 0 && "uuids".equalsIgnoreCase(var2[0])))
+   public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+      int i = MinecraftServer.getServer().getCurrentPlayerCount();
+      sender.addChatMessage(new ChatComponentTranslation("commands.players.list", i, MinecraftServer.getServer().getMaxPlayers()));
+      sender.addChatMessage(
+         new ChatComponentText(MinecraftServer.getServer().getConfigurationManager().func_181058_b(args.length > 0 && "uuids".equalsIgnoreCase(args[0])))
       );
-      var1.setCommandStat(CommandResultStats.Type.QUERY_RESULT, var5);
+      sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
    }
 }

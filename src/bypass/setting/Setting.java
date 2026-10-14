@@ -22,30 +22,30 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
    private List<SettingAttribute> attributes;
    private static final long a = 85974706251154L;
 
-   public Setting(String var1, String var2, T var3, SettingType var4) {
-      this.name = var1;
-      this.description = var2;
-      this.value = (T)var3;
-      this.valueClass = var3.getClass();
-      this.type = var4;
-      Parsers var5 = new Parsers();
-      this.parser = var5.get(this.getType().x());
-      this.previousValue = (T)var3;
+   public Setting(String string, String string2, T object, SettingType settingType) {
+      this.name = string;
+      this.description = string2;
+      this.value = (T)object;
+      this.valueClass = object.getClass();
+      this.type = settingType;
+      Parsers parsers = new Parsers();
+      this.parser = parsers.get(this.getType().x());
+      this.previousValue = (T)object;
       this.attributes = new ArrayList<>();
    }
 
-   public Setting(String var1, String var2, T var3, SettingType var4, List<SettingAttribute> var5) {
-      this(var1, var2, (T)var3, var4);
-      this.attributes = var5 != null ? var5 : new ArrayList<>();
-      this.attributes.sort((var0, var1x) -> {
-         int var2x = var0.getPriority().h();
-         int var3x = var1x.getPriority().h();
-         return Integer.compare(var2x, var3x);
+   public Setting(String string, String string2, T object, SettingType settingType, List<SettingAttribute> list) {
+      this(string, string2, (T)object, settingType);
+      this.attributes = list != null ? list : new ArrayList<>();
+      this.attributes.sort((settingAttribute, settingAttribute2) -> {
+         int i = settingAttribute.getPriority().h();
+         int j = settingAttribute2.getPriority().h();
+         return Integer.compare(i, j);
       });
    }
 
-   public Setting(String var1, String var2, T var3, SettingType var4, SettingAttribute[] var5) {
-      this(var1, var2, (T)var3, var4, Arrays.asList(var5));
+   public Setting(String string, String string2, T object, SettingType settingType, SettingAttribute[] settingAttributes) {
+      this(string, string2, (T)object, settingType, Arrays.asList(settingAttributes));
    }
 
    public Optional<Setting<T>> c_Optional() {
@@ -66,23 +66,23 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
    }
 
    @Override
-   public void setValue(T var1) {
-      for (SettingAttribute var6 : this.getAttributes()) {
-         if (var6 instanceof ReadOnlyAttribute) {
-            ReadOnlyAttribute var7 = (ReadOnlyAttribute)var6;
-            if (!var7.isCancelled()) {
+   public void setValue(T object) {
+      for (SettingAttribute settingAttribute : this.getAttributes()) {
+         if (settingAttribute instanceof ReadOnlyAttribute) {
+            ReadOnlyAttribute readOnlyAttribute = (ReadOnlyAttribute)settingAttribute;
+            if (!readOnlyAttribute.isCancelled()) {
                return;
             }
-         } else if (var6 instanceof ChangeListenerAttribute) {
-            ChangeListenerAttribute var8 = (ChangeListenerAttribute)var6;
-            if (!var8.isCancelled()) {
-               var8.onChange(SettingPart.VALUE);
+         } else if (settingAttribute instanceof ChangeListenerAttribute) {
+            ChangeListenerAttribute changeListenerAttribute = (ChangeListenerAttribute)settingAttribute;
+            if (!changeListenerAttribute.isCancelled()) {
+               changeListenerAttribute.onChange(SettingPart.VALUE);
             }
          }
       }
 
       this.previousValue = this.value;
-      this.value = (T)var1;
+      this.value = (T)object;
    }
 
    public Class<?> getValueClass() {
@@ -94,10 +94,10 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
    }
 
    @Override
-   public void parse(String var1) {
+   public void parse(String string) {
       if (this.parser != null) {
-         Optional var5 = this.parser.parse(var1, this.getValueClass());
-         var5.ifPresent((java.util.function.Consumer<T>)this::setValue);
+         Optional optional = this.parser.parse(string, this.getValueClass());
+         optional.ifPresent((java.util.function.Consumer<T>)this::setValue);
       } else {
          throw new UnsupportedOperationException("There is not parser for " + this.type.l() + " options");
       }
@@ -146,23 +146,23 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
    }
 
    @Override
-   public void setName(String var1) {
-      for (SettingAttribute var6 : this.getAttributes()) {
-         if (var6 instanceof ReadOnlyAttribute) {
-            ReadOnlyAttribute var7 = (ReadOnlyAttribute)var6;
-            if (!var7.isCancelled()) {
+   public void setName(String string) {
+      for (SettingAttribute settingAttribute : this.getAttributes()) {
+         if (settingAttribute instanceof ReadOnlyAttribute) {
+            ReadOnlyAttribute readOnlyAttribute = (ReadOnlyAttribute)settingAttribute;
+            if (!readOnlyAttribute.isCancelled()) {
                return;
             }
-         } else if (var6 instanceof ChangeListenerAttribute) {
-            ChangeListenerAttribute var8 = (ChangeListenerAttribute)var6;
-            if (!var8.isCancelled()) {
-               var8.onChange(SettingPart.LABEL);
+         } else if (settingAttribute instanceof ChangeListenerAttribute) {
+            ChangeListenerAttribute changeListenerAttribute = (ChangeListenerAttribute)settingAttribute;
+            if (!changeListenerAttribute.isCancelled()) {
+               changeListenerAttribute.onChange(SettingPart.LABEL);
             }
          }
       }
 
-      if (var1 != null && var1 != "") {
-         this.name = var1;
+      if (string != null && string != "") {
+         this.name = string;
       }
    }
 
@@ -171,46 +171,46 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
       return this.description != null ? this.description : "";
    }
 
-   public void setDescription(String var1) {
-      for (SettingAttribute var6 : this.getAttributes()) {
-         if (var6 instanceof ReadOnlyAttribute) {
-            ReadOnlyAttribute var7 = (ReadOnlyAttribute)var6;
-            if (!var7.isCancelled()) {
+   public void setDescription(String string) {
+      for (SettingAttribute settingAttribute : this.getAttributes()) {
+         if (settingAttribute instanceof ReadOnlyAttribute) {
+            ReadOnlyAttribute readOnlyAttribute = (ReadOnlyAttribute)settingAttribute;
+            if (!readOnlyAttribute.isCancelled()) {
                return;
             }
-         } else if (var6 instanceof ChangeListenerAttribute) {
-            ChangeListenerAttribute var8 = (ChangeListenerAttribute)var6;
-            if (!var8.isCancelled()) {
-               var8.onChange(SettingPart.DESCRIPTION);
+         } else if (settingAttribute instanceof ChangeListenerAttribute) {
+            ChangeListenerAttribute changeListenerAttribute = (ChangeListenerAttribute)settingAttribute;
+            if (!changeListenerAttribute.isCancelled()) {
+               changeListenerAttribute.onChange(SettingPart.DESCRIPTION);
             }
          }
       }
 
-      if (var1 != null) {
-         this.description = var1;
+      if (string != null) {
+         this.description = string;
       }
    }
 
    @Override
    public int hashCode() {
-      int var6 = 3;
-      var6 = 14 * var6 + this.name.hashCode();
-      var6 = 7 * var6 + this.type.hashCode();
-      return 14 * var6 + this.attributes.hashCode();
+      int i = 3;
+      i = 14 * i + this.name.hashCode();
+      i = 7 * i + this.type.hashCode();
+      return 14 * i + this.attributes.hashCode();
    }
 
    @Override
-   public boolean equals(Object var1) {
-      if (this == var1) {
+   public boolean equals(Object object) {
+      if (this == object) {
          return true;
       }
 
-      if (!(var1 instanceof Setting)) {
+      if (!(object instanceof Setting)) {
          return false;
       }
 
-      Setting var5 = (Setting)var1;
-      return this.name == var5.name && this.value == var5.value && this.type == var5.type && this.attributes == var5.attributes;
+      Setting setting = (Setting)object;
+      return this.name == setting.name && this.value == setting.value && this.type == setting.type && this.attributes == setting.attributes;
    }
 
    public Setting<T> clone() {

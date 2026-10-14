@@ -19,63 +19,63 @@ public class BlockFalling extends Block {
       this.setCreativeTab(CreativeTabs.tabBlock);
    }
 
-   public BlockFalling(Material var1) {
-      super(var1);
+   public BlockFalling(Material materialIn) {
+      super(materialIn);
    }
 
    @Override
-   public void onBlockAdded(World var1, BlockPos var2, IBlockState var3) {
-      var1.scheduleUpdate(var2, this, this.tickRate(var1));
+   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+      worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
    }
 
    @Override
-   public void onNeighborBlockChange(World var1, BlockPos var2, IBlockState var3, Block var4) {
-      var1.scheduleUpdate(var2, this, this.tickRate(var1));
+   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+      worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
    }
 
    @Override
-   public void updateTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      if (!var1.isRemote) {
-         this.checkFallable(var1, var2);
+   public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      if (!worldIn.isRemote) {
+         this.checkFallable(worldIn, pos);
       }
    }
 
-   private void checkFallable(World var1, BlockPos var2) {
-      if (canFallInto(var1, var2.down()) && var2.getY() >= 0) {
-         int var6 = (int)m;
-         if (fallInstantly || !var1.isAreaLoaded(var2.add(-var6, -var6, -var6), var2.add(var6, var6, var6))) {
-            var1.setBlockToAir(var2);
-            BlockPos var8 = var2.down();
+   private void checkFallable(World worldIn, BlockPos pos) {
+      if (canFallInto(worldIn, pos.down()) && pos.getY() >= 0) {
+         int i = (int)m;
+         if (fallInstantly || !worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
+            worldIn.setBlockToAir(pos);
+            BlockPos blockPos = pos.down();
 
-            while (canFallInto(var1, var8) && var8.getY() > 0) {
-               var8 = var8.down();
+            while (canFallInto(worldIn, blockPos) && blockPos.getY() > 0) {
+               blockPos = blockPos.down();
             }
 
-            if (var8.getY() > 0) {
-               var1.setBlockState(var8.up(), this.getDefaultState());
+            if (blockPos.getY() > 0) {
+               worldIn.setBlockState(blockPos.up(), this.getDefaultState());
             }
-         } else if (!var1.isRemote) {
-            EntityFallingBlock var7 = new EntityFallingBlock(var1, var2.getX() + 0.5, var2.getY(), var2.getZ() + 0.5, var1.getBlockState(var2));
-            this.onStartFalling(var7);
-            var1.spawnEntityInWorld(var7);
+         } else if (!worldIn.isRemote) {
+            EntityFallingBlock entityFallingBlock = new EntityFallingBlock(worldIn, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, worldIn.getBlockState(pos));
+            this.onStartFalling(entityFallingBlock);
+            worldIn.spawnEntityInWorld(entityFallingBlock);
          }
       }
    }
 
-   public void onStartFalling(EntityFallingBlock var1) {
+   public void onStartFalling(EntityFallingBlock fallingEntity) {
    }
 
    @Override
-   public int tickRate(World var1) {
+   public int tickRate(World worldIn) {
       return 2;
    }
 
-   public static boolean canFallInto(World var0, BlockPos var1) {
-      Block var5 = var0.getBlockState(var1).getBlock();
-      Material var6 = var5.blockMaterial;
-      return var5 == Blocks.fire || var6 == Material.air || var6 == Material.water || var6 == Material.lava;
+   public static boolean canFallInto(World worldIn, BlockPos pos) {
+      Block block = worldIn.getBlockState(pos).getBlock();
+      Material material = block.blockMaterial;
+      return block == Blocks.fire || material == Material.air || material == Material.water || material == Material.lava;
    }
 
-   public void onEndFalling(World var1, BlockPos var2) {
+   public void onEndFalling(World worldIn, BlockPos pos) {
    }
 }

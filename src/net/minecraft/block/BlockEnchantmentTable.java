@@ -32,31 +32,31 @@ public class BlockEnchantmentTable extends BlockContainer {
    }
 
    @Override
-   public void randomDisplayTick(World var1, BlockPos var2, IBlockState var3, Random var4) {
-      super.randomDisplayTick(var1, var2, var3, var4);
+   public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+      super.randomDisplayTick(worldIn, pos, state, rand);
 
-      for (int var8 = -2; var8 <= 2; var8++) {
-         for (int var9 = -2; var9 <= 2; var9++) {
-            if (var8 > -2 && var8 < 2 && var9 == -1) {
-               var9 = 2;
+      for (int i = -2; i <= 2; i++) {
+         for (int j = -2; j <= 2; j++) {
+            if (i > -2 && i < 2 && j == -1) {
+               j = 2;
             }
 
-            if (var4.nextInt(16) == 0) {
-               for (int var10 = 0; var10 <= 1; var10++) {
-                  BlockPos var11 = var2.add(var8, var10, var9);
-                  if (var1.getBlockState(var11).getBlock() == Blocks.bookshelf) {
-                     if (!var1.isAirBlock(var2.add(var8 / 2, 0, var9 / 2))) {
+            if (rand.nextInt(16) == 0) {
+               for (int k = 0; k <= 1; k++) {
+                  BlockPos blockPos = pos.add(i, k, j);
+                  if (worldIn.getBlockState(blockPos).getBlock() == Blocks.bookshelf) {
+                     if (!worldIn.isAirBlock(pos.add(i / 2, 0, j / 2))) {
                         break;
                      }
 
-                     var1.spawnParticle(
+                     worldIn.spawnParticle(
                         EnumParticleTypes.ENCHANTMENT_TABLE,
-                        var2.getX() + 0.5,
-                        var2.getY() + 2.0,
-                        var2.getZ() + 0.5,
-                        var8 + var4.nextFloat() - 0.5,
-                        var10 - var4.nextFloat() - 1.0F,
-                        var9 + var4.nextFloat() - 0.5
+                        pos.getX() + 0.5,
+                        pos.getY() + 2.0,
+                        pos.getZ() + 0.5,
+                        i + rand.nextFloat() - 0.5,
+                        k - rand.nextFloat() - 1.0F,
+                        j + rand.nextFloat() - 0.5
                      );
                   }
                }
@@ -76,31 +76,31 @@ public class BlockEnchantmentTable extends BlockContainer {
    }
 
    @Override
-   public TileEntity createNewTileEntity(World var1, int var2) {
+   public TileEntity createNewTileEntity(World worldIn, int meta) {
       return new TileEntityEnchantmentTable();
    }
 
    @Override
-   public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumFacing var5, float var6, float var7, float var8) {
-      if (var1.isRemote) {
+   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+      if (worldIn.isRemote) {
          return true;
       }
 
-      TileEntity var12 = var1.getTileEntity(var2);
-      if (var12 instanceof TileEntityEnchantmentTable) {
-         var4.displayGui((TileEntityEnchantmentTable)var12);
+      TileEntity tileEntity = worldIn.getTileEntity(pos);
+      if (tileEntity instanceof TileEntityEnchantmentTable) {
+         playerIn.displayGui((TileEntityEnchantmentTable)tileEntity);
       }
 
       return true;
    }
 
    @Override
-   public void onBlockPlacedBy(World var1, BlockPos var2, IBlockState var3, EntityLivingBase var4, ItemStack var5) {
-      super.onBlockPlacedBy(var1, var2, var3, var4, var5);
-      if (var5.hasDisplayName()) {
-         TileEntity var9 = var1.getTileEntity(var2);
-         if (var9 instanceof TileEntityEnchantmentTable) {
-            ((TileEntityEnchantmentTable)var9).setCustomName(var5.getDisplayName());
+   public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+      super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+      if (stack.hasDisplayName()) {
+         TileEntity tileEntity = worldIn.getTileEntity(pos);
+         if (tileEntity instanceof TileEntityEnchantmentTable) {
+            ((TileEntityEnchantmentTable)tileEntity).setCustomName(stack.getDisplayName());
          }
       }
    }

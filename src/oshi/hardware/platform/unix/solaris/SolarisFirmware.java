@@ -9,10 +9,10 @@ public final class SolarisFirmware extends AbstractFirmware {
    private final String version;
    private final String releaseDate;
 
-   public SolarisFirmware(String var1, String var2, String var3) {
-      this.manufacturer = var1;
-      this.version = var2;
-      this.releaseDate = var3;
+   public SolarisFirmware(String manufacturer, String version, String releaseDate) {
+      this.manufacturer = manufacturer;
+      this.version = version;
+      this.releaseDate = releaseDate;
    }
 
    @Override

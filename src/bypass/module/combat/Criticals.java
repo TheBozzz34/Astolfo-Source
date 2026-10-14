@@ -27,7 +27,7 @@ public final class Criticals extends Module {
    public static boolean j;
    private int J;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = var1x -> {
+   private Listener<UpdateEvent> onUpdate = updateEvent -> {
       this.p();
       if (!GameUtil.N()) {
          j = false;
@@ -40,10 +40,10 @@ public final class Criticals extends Module {
       }
    };
    @EventHandler(PacketEvent.class)
-   private Listener<PacketEvent> onPacket = var1x -> {
-      long var2 = c ^ 59773817807538L;
-      long var4 = var2 ^ 93658388479323L;
-      if (var1x.getDirection() == PacketDirection.OUTGOING) {
+   private Listener<PacketEvent> onPacket = packetEvent -> {
+      long l = c ^ 59773817807538L;
+      long m = l ^ 93658388479323L;
+      if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (mc.theWorld == null) {
             return;
          }
@@ -52,14 +52,14 @@ public final class Criticals extends Module {
             return;
          }
 
-         if (var1x.getPacket() instanceof C02PacketUseEntity) {
-            C02PacketUseEntity var7 = (C02PacketUseEntity)var1x.getPacket();
-            if (var7.getAction().equals(C02PacketUseEntity.Action.ATTACK)
+         if (packetEvent.getPacket() instanceof C02PacketUseEntity) {
+            C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
+            if (c02PacketUseEntity.getAction().equals(C02PacketUseEntity.Action.ATTACK)
                && GameUtil.N()
                && mode.getValue() != CriticalsMode.WATCHDOG
-               && var7.getEntityFromWorld(mc.theWorld) instanceof EntityLivingBase
-               && (j || this.safe.getValue() && this.B.hasElapsed(350.0F) && ((EntityLivingBase)var7.getEntityFromWorld(mc.theWorld)).hurtTime == 0)) {
-               this.v((EntityLivingBase)var7.getEntityFromWorld(mc.theWorld));
+               && c02PacketUseEntity.getEntityFromWorld(mc.theWorld) instanceof EntityLivingBase
+               && (j || this.safe.getValue() && this.B.hasElapsed(350.0F) && ((EntityLivingBase)c02PacketUseEntity.getEntityFromWorld(mc.theWorld)).hurtTime == 0)) {
+               this.v((EntityLivingBase)c02PacketUseEntity.getEntityFromWorld(mc.theWorld));
             }
          }
       }
@@ -67,12 +67,12 @@ public final class Criticals extends Module {
    private final double[] Y = new double[]{0.06252F + Math.random() / 1.0E7, 1.73E-11, 1.73E-11};
    private static final long c = 92377835217498L;
 
-   public Criticals(Category var1) {
-      super(var1);
+   public Criticals(Category category) {
+      super(category);
       this.addSettings(mode, offset, ticks, this.safe);
    }
 
-   private void v(EntityLivingBase var1) {
+   private void v(EntityLivingBase entityLivingBase) {
       switch ((CriticalsMode)mode.getValue()) {
          case PACKET:
             mc.thePlayer

@@ -16,18 +16,18 @@ public class ItemEnderPearl extends Item {
    }
 
    @Override
-   public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3) {
-      if (var3.capabilities.isCreativeMode) {
-         return var1;
+   public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+      if (playerIn.capabilities.isCreativeMode) {
+         return itemStackIn;
       }
 
-      var1.stackSize--;
-      var2.playSoundAtEntity(var3, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-      if (!var2.isRemote) {
-         var2.spawnEntityInWorld(new EntityEnderPearl(var2, var3));
+      itemStackIn.stackSize--;
+      worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+      if (!worldIn.isRemote) {
+         worldIn.spawnEntityInWorld(new EntityEnderPearl(worldIn, playerIn));
       }
 
-      var3.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-      return var1;
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      return itemStackIn;
    }
 }
