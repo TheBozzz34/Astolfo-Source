@@ -96,24 +96,24 @@ public enum ContentType {
    WMV(MediaType.VIDEO, "x-ms-wmv"),
    FLV(MediaType.VIDEO, "x-flv");
 
-   private final String u;
-   private final String a;
-   private final MediaType p;
+   private final String subtype;
+   private final String mimeType;
+   private final MediaType mediaType;
 
    ContentType(MediaType mediaType, String string2) {
-      this.u = string2;
-      this.p = mediaType;
-      this.a = this.T().e().concat(!string2.isEmpty() ? "/" : "").concat(string2);
+      this.subtype = string2;
+      this.mediaType = mediaType;
+      this.mimeType = this.getMediaType().getTypeName().concat(!string2.isEmpty() ? "/" : "").concat(string2);
    }
 
-   public static ContentType d(String string) {
+   public static ContentType fromString(String string) {
       String string2 = string.replace(";", "");
       if (string.contains(":")) {
          string2 = string.substring(string.indexOf(58));
       }
 
       for (ContentType contentType : values()) {
-         if (contentType.S().trim().equalsIgnoreCase(string.trim()) || contentType.S().trim().equalsIgnoreCase(string2.trim())) {
+         if (contentType.getMimeType().trim().equalsIgnoreCase(string.trim()) || contentType.getMimeType().trim().equalsIgnoreCase(string2.trim())) {
             return contentType;
          }
       }
@@ -121,20 +121,20 @@ public enum ContentType {
       return null;
    }
 
-   public MediaType T() {
-      return this.p;
+   public MediaType getMediaType() {
+      return this.mediaType;
    }
 
-   public String N() {
-      return this.u;
+   public String getSubtype() {
+      return this.subtype;
    }
 
-   public String S() {
-      return this.a;
+   public String getMimeType() {
+      return this.mimeType;
    }
 
    @Override
    public String toString() {
-      return this.S();
+      return this.getMimeType();
    }
 }

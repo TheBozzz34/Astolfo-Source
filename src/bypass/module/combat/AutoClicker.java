@@ -28,11 +28,11 @@ public final class AutoClicker extends Module {
       .add("Enable", new BooleanSetting("Enable", "Enable block hitting", true))
       .add("Chance", new NumberSetting<>("Chance", "Push back amount", 0, 1, 100))
       .build();
-   private int S;
-   private final Stopwatch J = new Stopwatch();
+   private int clickDelay;
+   private final Stopwatch clickTimer = new Stopwatch();
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (this.maxCPS.getValue() < this.minCPS.getValue()) {
          this.maxCPS.setValue(this.minCPS.getValue());
       }
@@ -48,8 +48,8 @@ public final class AutoClicker extends Module {
                return;
             }
 
-            if (this.J.hasElapsed(this.S)) {
-               this.J.reset();
+            if (this.clickTimer.hasElapsed(this.clickDelay)) {
+               this.clickTimer.reset();
                KeyBinding.onTick(mc.gameSettings.lu.getKeyCode());
                mc.gameSettings.lu.pressed = false;
                if (this.block.getSetting("Enable").asBoolean() && GameUtil.isHoldingSword(mc.thePlayer) && Mouse.isButtonDown(1)) {
@@ -66,7 +66,7 @@ public final class AutoClicker extends Module {
                double d = this.minCPS.getValue().intValue();
                double e = this.maxCPS.getValue() - this.minCPS.getValue();
                double d2 = 1.0 / (d + Math.random() * e);
-               this.S = (int)Math.floor(d2 * 1000.0);
+               this.clickDelay = (int)Math.floor(d2 * 1000.0);
             }
          }
       }
@@ -78,8 +78,8 @@ public final class AutoClicker extends Module {
    }
 
    @Override
-   public void p() {
+   public void updateDisplayName() {
       this.setDisplayName("Auto Clicker " + EnumChatFormatting.GRAY + this.minCPS.getValue() + "-" + this.maxCPS.getValue());
-      super.p();
+      super.updateDisplayName();
    }
 }

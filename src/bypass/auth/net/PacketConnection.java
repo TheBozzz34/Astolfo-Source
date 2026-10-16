@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 public class PacketConnection extends AbstractNioConnection {
-   private final ConnectionListener v;
-   private final Map<Short, PacketReader<?>> x;
-   private final Map<Short, List<PacketListener<?>>> I;
-   private final PacketOutput c;
-   private final Runnable M;
-   private SocketWriter V;
-   private PacketReceiver A;
-   private SocketChannel Z;
+   private final ConnectionListener connectionListener;
+   private final Map<Short, PacketReader<?>> readers;
+   private final Map<Short, List<PacketListener<?>>> listeners;
+   private final PacketOutput packetOutput;
+   private final Runnable onOpen;
+   private SocketWriter socketWriter;
+   private PacketReceiver receiver;
+   private SocketChannel socketChannel;
 
    public PacketConnection(
       ConnectionListener connectionListener,
@@ -25,31 +25,31 @@ public class PacketConnection extends AbstractNioConnection {
       PacketOutput packetOutput,
       Runnable runnable
    ) {
-      this.v = connectionListener;
-      this.x = map;
-      this.I = map2;
-      this.c = packetOutput;
-      this.M = runnable;
+      this.connectionListener = connectionListener;
+      this.readers = map;
+      this.listeners = map2;
+      this.packetOutput = packetOutput;
+      this.onOpen = runnable;
    }
 
    @Override
-   public void g(SocketChannel socketChannel) throws IOException {
-      super.g(socketChannel);
-      this.Z = socketChannel;
-      this.V = new SocketWriter(socketChannel, this.K);
-      this.A = new PacketReceiver(socketChannel, this.x, this.I);
-      this.c.attach(this.V);
-      this.M.run();
+   public void start(SocketChannel socketChannel) throws IOException {
+      super.start(socketChannel);
+      this.socketChannel = socketChannel;
+      this.socketWriter = new SocketWriter(socketChannel, this.selector);
+      this.receiver = new PacketReceiver(socketChannel, this.readers, this.listeners);
+      this.packetOutput.attach(this.socketWriter);
+      this.onOpen.run();
 
       while (true) {
          try {
-            this.K.select();
+            this.selector.select();
          } catch (IOException | ClosedSelectorException value) {
-            this.v.onError(this, "sel", value);
+            this.connectionListener.onError(this, "sel", value);
             return;
          }
 
-         Iterator iterator2 = this.K.selectedKeys().iterator();
+         Iterator iterator2 = this.selector.selectedKeys().iterator();
 
          while (iterator2.hasNext()) {
             SelectionKey selectionKey = (SelectionKey)iterator2.next();
@@ -57,17 +57,17 @@ public class PacketConnection extends AbstractNioConnection {
             if (selectionKey.isValid()) {
                if (selectionKey.isWritable()) {
                   try {
-                     this.V.j();
+                     this.socketWriter.flush();
                   } catch (IOException ioException) {
-                     this.v.onError(this, "write", ioException);
+                     this.connectionListener.onError(this, "write", ioException);
                   }
                } else if (selectionKey.isReadable()) {
                   try {
-                     if (this.A.receive() == ReceiveResult.C) {
-                        this.v.onClose(this, "eof");
+                     if (this.receiver.receive() == ReceiveResult.C) {
+                        this.connectionListener.onClose(this, "eof");
                      }
                   } catch (IOException ioException2) {
-                     this.v.onError(this, "retrieve", ioException2);
+                     this.connectionListener.onError(this, "retrieve", ioException2);
                   }
                }
             }
@@ -78,9 +78,9 @@ public class PacketConnection extends AbstractNioConnection {
    @Override
    public void close() throws IOException {
       try {
-         this.K.close();
+         this.selector.close();
       } finally {
-         this.Z.close();
+         this.socketChannel.close();
       }
    }
 }

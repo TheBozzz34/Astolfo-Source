@@ -4,33 +4,33 @@ import com.google.gson.annotations.SerializedName;
 
 public class AlteningAccountData {
    @SerializedName("token")
-   private String D;
+   private String token;
    @SerializedName("username")
-   private String w;
+   private String username;
    @SerializedName("expires")
-   private String a;
+   private String expires;
    @SerializedName("limit")
-   private boolean r;
+   private boolean limit;
    @SerializedName("skin")
-   private String b;
+   private String skin;
 
-   public String f() {
-      return this.D;
+   public String getToken() {
+      return this.token;
    }
 
-   public String G() {
-      return this.w;
+   public String getUsername() {
+      return this.username;
    }
 
-   public String Q() {
-      return this.a;
+   public String getExpires() {
+      return this.expires;
    }
 
-   public boolean g() {
-      return this.r;
+   public boolean isLimited() {
+      return this.limit;
    }
 
-   public String u() {
-      return this.b;
+   public String getSkin() {
+      return this.skin;
    }
 }

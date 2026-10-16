@@ -8,18 +8,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
 public class TeleportPath implements ClientAccess {
-   public static ArrayList<Vector3> P(Vector3 vector3, Vector3 vector32, int i) {
-      if (R(new BlockPos(vector3.toVec3()))) {
+   public static ArrayList<Vector3> findPathCopy(Vector3 vector3, Vector3 vector32, int i) {
+      if (isObstructed(new BlockPos(vector3.toVec3()))) {
          vector3 = vector3.add(0.0, 1.0, 0.0);
       }
 
       TeleportPathSegment teleportPathSegment = new TeleportPathSegment(vector3, vector32);
-      teleportPathSegment.H();
+      teleportPathSegment.findPathDefault();
       int j = 0;
       Vector3 vector33 = null;
       Vector3 vector34 = null;
       ArrayList arrayList = new ArrayList();
-      ArrayList arrayList2 = teleportPathSegment.c();
+      ArrayList arrayList2 = teleportPathSegment.getPath();
 
       for (Object object : arrayList2) {
          Vector3 vector35 = (Vector3)object;
@@ -39,7 +39,7 @@ public class TeleportPath implements ClientAccess {
                for (int k = (int)d; k <= d3; k++) {
                   for (int l = (int)e; l <= d4; l++) {
                      for (int m = (int)d2; m <= d5; m++) {
-                        if (!TeleportPathSegment.D(new Vector3(k, l, m))) {
+                        if (!TeleportPathSegment.isWalkable(new Vector3(k, l, m))) {
                            bl = false;
                            break label54;
                         }
@@ -68,18 +68,18 @@ public class TeleportPath implements ClientAccess {
       return arrayList;
    }
 
-   public static ArrayList<Vector3> U(Vector3 vector3, Vector3 vector32, int i) {
-      if (R(new BlockPos(vector3.toVec3()))) {
+   public static ArrayList<Vector3> findPath(Vector3 vector3, Vector3 vector32, int i) {
+      if (isObstructed(new BlockPos(vector3.toVec3()))) {
          vector3 = vector3.add(0.0, 1.0, 0.0);
       }
 
       TeleportPathSegment teleportPathSegment = new TeleportPathSegment(vector3, vector32);
-      teleportPathSegment.H();
+      teleportPathSegment.findPathDefault();
       int j = 0;
       Vector3 vector33 = null;
       Vector3 vector34 = null;
       ArrayList arrayList = new ArrayList();
-      ArrayList arrayList2 = teleportPathSegment.c();
+      ArrayList arrayList2 = teleportPathSegment.getPath();
 
       for (Object object : arrayList2) {
          Vector3 vector35 = (Vector3)object;
@@ -99,7 +99,7 @@ public class TeleportPath implements ClientAccess {
                for (int k = (int)d; k <= d3; k++) {
                   for (int l = (int)e; l <= d4; l++) {
                      for (int m = (int)d2; m <= d5; m++) {
-                        if (!TeleportPathSegment.D(new Vector3(k, l, m))) {
+                        if (!TeleportPathSegment.isWalkable(new Vector3(k, l, m))) {
                            bl = false;
                            break label54;
                         }
@@ -128,7 +128,7 @@ public class TeleportPath implements ClientAccess {
       return arrayList;
    }
 
-   private static boolean R(BlockPos blockPos) {
+   private static boolean isObstructed(BlockPos blockPos) {
       Block block = mc.theWorld.getBlockState(blockPos).getBlock();
       return block.getMaterial() != Material.air
          && block.getMaterial() != Material.plants

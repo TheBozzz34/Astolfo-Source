@@ -15,7 +15,7 @@ public final class HclipCommand extends Command {
          try {
             d = Double.parseDouble(strings[1]);
          } catch (NumberFormatException numberFormatException) {
-            chat.P("\"" + strings[1] + "\" is not a number.");
+            chat.printWarning("\"" + strings[1] + "\" is not a number.");
             return;
          }
 
@@ -25,7 +25,7 @@ public final class HclipCommand extends Command {
          double d4 = 1.0 * d * d2 - 0.0 * d * e;
          mc.thePlayer.setPosition(mc.thePlayer.posX + d3, mc.thePlayer.posY, mc.thePlayer.posZ + d4);
       } else {
-         chat.I("Hclip: " + this.getUsage());
+         chat.print("Hclip: " + this.getUsage());
       }
    }
 }

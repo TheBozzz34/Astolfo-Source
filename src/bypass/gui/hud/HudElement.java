@@ -4,7 +4,7 @@ import bypass.gui.component.Component;
 import bypass.setting.NumberSetting;
 
 public abstract class HudElement extends Component {
-   private boolean j;
+   private boolean visible;
    private NumberSetting<Float> posX = new NumberSetting<>("Pos-X", "Pos-X", 0.0F, 0.0F, 10000.0F);
    private NumberSetting<Float> posY = new NumberSetting<>("Pos-Y", "Pos-Y", 0.0F, 0.0F, 10000.0F);
    private final NumberSetting<Float> scale = new NumberSetting<>("Scale", "Scale", 2.0F, 1.0F, 4.0F);
@@ -13,12 +13,12 @@ public abstract class HudElement extends Component {
       super(string, f, g, i, j);
    }
 
-   public boolean N() {
-      return this.j;
+   public boolean isVisible() {
+      return this.visible;
    }
 
-   public void f(boolean bl) {
-      this.j = bl;
+   public void setVisible(boolean bl) {
+      this.visible = bl;
    }
 
    public NumberSetting<Float> getPosX() {

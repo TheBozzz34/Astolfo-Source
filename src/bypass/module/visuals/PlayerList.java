@@ -27,72 +27,72 @@ import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Mouse;
 
 public final class PlayerList extends Module {
-   private PlayerListHud W;
+   private PlayerListHud hud;
    private final NumberSetting<Float> posX = new NumberSetting<>("Pos-X", "Pos", 150.0F, 1.0F, 50000.0F);
    private final NumberSetting<Float> posY = new NumberSetting<>("Pos-Y", "Pos", 150.0F, 1.0F, 50000.0F);
    private final BooleanSetting killCounter = new BooleanSetting("Kill-Counter", "Counts kills", true);
-   public static final Map<String, Integer> S = Collections.synchronizedMap(new LinkedHashMap<>());
-   public static final String j = EnumChatFormatting.RED + "Red";
-   public static final String X = EnumChatFormatting.GREEN + "Green";
-   public static final String T = EnumChatFormatting.YELLOW + "Yellow";
-   public static final String O = EnumChatFormatting.BLUE + "Blue";
+   public static final Map<String, Integer> killCounts = Collections.synchronizedMap(new LinkedHashMap<>());
+   public static final String RED_TEAM = EnumChatFormatting.RED + "Red";
+   public static final String GREEN_TEAM = EnumChatFormatting.GREEN + "Green";
+   public static final String YELLOW_TEAM = EnumChatFormatting.YELLOW + "Yellow";
+   public static final String BLUE_TEAM = EnumChatFormatting.BLUE + "Blue";
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
-      if (renderEvent.getType() == RenderType.SCREEN && this.W != null) {
+      if (renderEvent.getType() == RenderType.SCREEN && this.hud != null) {
          if (Mouse.isButtonDown(0)) {
-            this.posX.setValue(this.W.M());
-            this.posY.setValue(this.W.E_float());
-         } else if (this.posX.getValue() != this.W.M() || this.posY.getValue() != this.W.E_float()) {
-            if (this.W.M() != this.posX.getValue()) {
-               this.W.o(this.posX.getValue());
+            this.posX.setValue(this.hud.getX());
+            this.posY.setValue(this.hud.getYPos());
+         } else if (this.posX.getValue() != this.hud.getX() || this.posY.getValue() != this.hud.getYPos()) {
+            if (this.hud.getX() != this.posX.getValue()) {
+               this.hud.setX(this.posX.getValue());
             }
 
-            if (this.W.E_float() != this.posY.getValue()) {
-               this.W.q(this.posY.getValue());
+            if (this.hud.getYPos() != this.posY.getValue()) {
+               this.hud.setY(this.posY.getValue());
             }
          }
 
-         int k = renderEvent.getResolution().getScaledHeight();
-         int l = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-         int m = k - Mouse.getY() * k / mc.displayHeight - 1;
-         this.W.j().clear();
+         int i = renderEvent.getResolution().getScaledHeight();
+         int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+         int k = i - Mouse.getY() * i / mc.displayHeight - 1;
+         this.hud.getPlayerTags().clear();
          if (this.killCounter.getValue()) {
-            if (ScoreboardTracker.r()) {
-               if (!ScoreboardTracker.N.K() && !ScoreboardTracker.N.G()) {
-                  this.W.j().put(j, String.valueOf(FinalKillTracker.getTeamFinals(0)));
-                  this.W.j().put(X, String.valueOf(FinalKillTracker.getTeamFinals(1)));
-                  this.W.j().put(T, String.valueOf(FinalKillTracker.getTeamFinals(2)));
-                  this.W.j().put(O, String.valueOf(FinalKillTracker.getTeamFinals(3)));
+            if (ScoreboardTracker.isInGame()) {
+               if (!ScoreboardTracker.current.areWallsUp() && !ScoreboardTracker.current.areAllWithersAlive()) {
+                  this.hud.getPlayerTags().put(RED_TEAM, String.valueOf(FinalKillTracker.getTeamFinals(0)));
+                  this.hud.getPlayerTags().put(GREEN_TEAM, String.valueOf(FinalKillTracker.getTeamFinals(1)));
+                  this.hud.getPlayerTags().put(YELLOW_TEAM, String.valueOf(FinalKillTracker.getTeamFinals(2)));
+                  this.hud.getPlayerTags().put(BLUE_TEAM, String.valueOf(FinalKillTracker.getTeamFinals(3)));
                }
             } else {
-               S.entrySet().stream().sorted(Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(entry -> {
-                  String string = this.W.j().putIfAbsent(entry.getKey(), entry.getValue() + " " + (entry.getValue() > 1 ? "kills" : "kill"));
+               killCounts.entrySet().stream().sorted(Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(entry -> {
+                  String string = this.hud.getPlayerTags().putIfAbsent(entry.getKey(), entry.getValue() + " " + (entry.getValue() > 1 ? "kills" : "kill"));
                });
             }
          }
 
          try {
-            for (Relation relation : client.getRelationManager().n().values()) {
-               if (!relation.z()) {
-                  this.W.j().putIfAbsent(relation.i(), "enemy");
+            for (Relation relation : client.getRelationManager().getRelations().values()) {
+               if (!relation.isFriend()) {
+                  this.hud.getPlayerTags().putIfAbsent(relation.getName(), "enemy");
                }
             }
          } catch (Exception exception) {
          }
 
          for (String string2 : Denicker.nicks.keySet()) {
-            this.W.j().putIfAbsent(string2, "nicked");
+            this.hud.getPlayerTags().putIfAbsent(string2, "nicked");
          }
 
-         this.W.render(l, m);
-         if (mc.currentScreen instanceof GuiChat && this.W.u_boolean() && Mouse.isButtonDown(0)) {
-            this.W.T(l, m);
+         this.hud.render(j, k);
+         if (mc.currentScreen instanceof GuiChat && this.hud.isDragging() && Mouse.isButtonDown(0)) {
+            this.hud.updateDragPosition(j, k);
          }
 
-         if (Mouse.isButtonDown(0) && this.W.G(l, m)) {
-            this.W.F(true, l, m);
+         if (Mouse.isButtonDown(0) && this.hud.isHovered(j, k)) {
+            this.hud.setDragging(true, j, k);
          } else {
-            this.W.x(false);
+            this.hud.setDraggingNoOffset(false);
          }
       }
    };
@@ -113,10 +113,10 @@ public final class PlayerList extends Module {
             String[] strings = string.split("by ");
 
             try {
-               synchronized (S) {
+               synchronized (killCounts) {
                   String string2 = GuiIngame.V(strings[1].split(" ")[0]);
-                  int i = S.containsKey(string2) ? S.get(string2) : 0;
-                  S.put(string2, i + 1);
+                  int i = killCounts.containsKey(string2) ? killCounts.get(string2) : 0;
+                  killCounts.put(string2, i + 1);
                }
             } catch (Exception exception) {
                exception.printStackTrace();
@@ -132,13 +132,13 @@ public final class PlayerList extends Module {
 
    @Override
    public void onEnable() {
-      this.W = new PlayerListHud(this.posX.asFloat(), this.posY.asFloat(), 150, 15);
+      this.hud = new PlayerListHud(this.posX.asFloat(), this.posY.asFloat(), 150, 15);
       super.onEnable();
    }
 
    @Override
    public void onDisable() {
-      this.W = null;
+      this.hud = null;
       super.onDisable();
    }
 }

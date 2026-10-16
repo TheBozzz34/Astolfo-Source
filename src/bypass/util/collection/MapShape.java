@@ -20,11 +20,11 @@ public abstract class MapShape<K, V> {
       this.slots = map;
    }
 
-   private K d(K object) {
+   private K maskNull(K object) {
       return (K)(object == null ? NULL_KEY : object);
    }
 
-   private K Q(K object) {
+   private K unmaskNull(K object) {
       return (K)(object == NULL_KEY ? null : object);
    }
 
@@ -34,39 +34,39 @@ public abstract class MapShape<K, V> {
 
    public abstract KeyShape<K, V> getKeyShape();
 
-   public V k(ShapedMap<K, V> shapedMap, K object) {
-      Object object2 = this.w(shapedMap, object);
+   public V getValue(ShapedMap<K, V> shapedMap, K object) {
+      Object object2 = this.lookupRaw(shapedMap, object);
       return (V)(object2 != REMOVED ? object2 : null);
    }
 
-   private Object w(ShapedMap<K, V> shapedMap, Object object) {
-      Object object2 = this.d((K)object);
+   private Object lookupRaw(ShapedMap<K, V> shapedMap, Object object) {
+      Object object2 = this.maskNull((K)object);
       Integer integer = this.slots.get((K)object2);
-      return integer == null ? this.getDefaults().get(object2) : Y(shapedMap, integer);
+      return integer == null ? this.getDefaults().get(object2) : getSlotValue(shapedMap, integer);
    }
 
-   public static Object Y(ShapedMap shapedMap, int i) {
+   public static Object getSlotValue(ShapedMap shapedMap, int i) {
       switch (i) {
          case -3:
-            return shapedMap.M;
+            return shapedMap.firstValue;
          case -2:
-            return shapedMap.D;
+            return shapedMap.secondValue;
          case -1:
-            return shapedMap.w;
+            return shapedMap.slotValues;
          default:
-            return ((Object[])shapedMap.w)[i];
+            return ((Object[])shapedMap.slotValues)[i];
       }
    }
 
-   public V n(ShapedMap<K, V> shapedMap, K object, Object object2) {
-      Object object3 = this.d((K)object);
+   public V putValue(ShapedMap<K, V> shapedMap, K object, Object object2) {
+      Object object3 = this.maskNull((K)object);
       Integer integer = this.slots.get((K)object3);
       Object object4 = REMOVED;
       if (integer == null) {
          object4 = this.getDefaults().get(object3);
-         java.util.Map map = ShapeCache.v(this.getDefaults(), (K)object3, object2);
+         java.util.Map map = ShapeCache.getDerivedMap(this.getDefaults(), (K)object3, object2);
          if (map != null) {
-            shapedMap.shape = this.getKeyShape().V(map);
+            shapedMap.shape = this.getKeyShape().withDefaults(map);
             return (V)object4;
          }
 
@@ -74,33 +74,33 @@ public abstract class MapShape<K, V> {
             return (V)object4;
          }
 
-         integer = this.W(shapedMap, (K)object3);
+         integer = this.addSlot(shapedMap, (K)object3);
       }
 
       switch (integer) {
          case -3:
             if (object4 == REMOVED) {
-               object4 = shapedMap.M;
+               object4 = shapedMap.firstValue;
             }
 
-            shapedMap.M = object2;
+            shapedMap.firstValue = object2;
             break;
          case -2:
             if (object4 == REMOVED) {
-               object4 = shapedMap.D;
+               object4 = shapedMap.secondValue;
             }
 
-            shapedMap.D = object2;
+            shapedMap.secondValue = object2;
             break;
          case -1:
             if (object4 == REMOVED) {
-               object4 = shapedMap.w;
+               object4 = shapedMap.slotValues;
             }
 
-            shapedMap.w = object2;
+            shapedMap.slotValues = object2;
             break;
          default:
-            Object[] objects = (Object[])shapedMap.w;
+            Object[] objects = (Object[])shapedMap.slotValues;
             if (object4 == REMOVED) {
                object4 = objects[integer];
             }
@@ -111,33 +111,33 @@ public abstract class MapShape<K, V> {
       return (V)object4;
    }
 
-   private Integer W(ShapedMap<K, V> shapedMap, K object) {
-      MapShape mapShape = this.getKeyShape().O((K)object, this.getDefaults());
+   private Integer addSlot(ShapedMap<K, V> shapedMap, K object) {
+      MapShape mapShape = this.getKeyShape().withKey((K)object, this.getDefaults());
       shapedMap.shape = mapShape;
       int i = this.slots.size();
       if (i == 3) {
          Object[] objects = new Object[4];
-         objects[0] = shapedMap.w;
-         shapedMap.w = objects;
+         objects[0] = shapedMap.slotValues;
+         shapedMap.slotValues = objects;
       } else if (i > 3) {
-         Object[] objects2 = (Object[])shapedMap.w;
+         Object[] objects2 = (Object[])shapedMap.slotValues;
          if (objects2.length < i - 1) {
             int j = objects2.length * 3 / 2;
             j += j & 1;
             Object[] objects3 = new Object[j];
             System.arraycopy(objects2, 0, objects3, 0, objects2.length);
-            shapedMap.w = objects3;
+            shapedMap.slotValues = objects3;
          }
       }
 
       return (java.lang.Integer)(mapShape.slots.get((K)object));
    }
 
-   public int P(ShapedMap<K, V> shapedMap) {
-      return this.slots.size() + this.getDefaults().size() - this.O(shapedMap);
+   public int getSize(ShapedMap<K, V> shapedMap) {
+      return this.slots.size() + this.getDefaults().size() - this.countRemoved(shapedMap);
    }
 
-   private int O(ShapedMap<K, V> shapedMap) {
+   private int countRemoved(ShapedMap<K, V> shapedMap) {
       int i;
       label34: {
          i = 0;
@@ -149,55 +149,55 @@ public abstract class MapShape<K, V> {
             case 2:
                break;
             default:
-               for (Object object : (Object[])shapedMap.w) {
+               for (Object object : (Object[])shapedMap.slotValues) {
                   if (object == REMOVED) {
                      i++;
                   }
                }
             case 3:
-               if (shapedMap.w == REMOVED) {
+               if (shapedMap.slotValues == REMOVED) {
                   i++;
                }
          }
 
-         if (shapedMap.D == REMOVED) {
+         if (shapedMap.secondValue == REMOVED) {
             i++;
          }
       }
 
-      if (shapedMap.M == REMOVED) {
+      if (shapedMap.firstValue == REMOVED) {
          i++;
       }
 
       return i;
    }
 
-   public boolean O(ShapedMap<K, V> shapedMap, Object object) {
-      Object object2 = this.d((K)object);
+   public boolean hasKey(ShapedMap<K, V> shapedMap, Object object) {
+      Object object2 = this.maskNull((K)object);
       Integer integer = this.slots.get((K)object2);
-      return integer == null ? this.getDefaults().containsKey(object2) : Y(shapedMap, integer) != REMOVED;
+      return integer == null ? this.getDefaults().containsKey(object2) : getSlotValue(shapedMap, integer) != REMOVED;
    }
 
-   public Set<K> J(ShapedMap<K, V> shapedMap) {
+   public Set<K> createKeySet(ShapedMap<K, V> shapedMap) {
       return new ShapedMapKeySet<>(shapedMap);
    }
 
-   public Set<V> i(ShapedMap<K, V> shapedMap) {
+   public Set<V> createValues(ShapedMap<K, V> shapedMap) {
       return new ShapedMapValues<>(shapedMap);
    }
 
-   public Set<Entry<K, V>> f(ShapedMap<K, V> shapedMap) {
+   public Set<Entry<K, V>> createEntrySet(ShapedMap<K, V> shapedMap) {
       return new ShapedMapEntrySet<>(shapedMap);
    }
 
-   public void A(ShapedMap<K, V> shapedMap, ObjectOutputStream objectOutputStream) throws IOException {
-      int i = this.slots.size() - this.O(shapedMap);
+   public void serialize(ShapedMap<K, V> shapedMap, ObjectOutputStream objectOutputStream) throws IOException {
+      int i = this.slots.size() - this.countRemoved(shapedMap);
       objectOutputStream.writeInt(i);
       if (i > 0) {
          for (Pair pair : this.slots) {
-            Object object = Y(shapedMap, (Integer)pair.component2());
+            Object object = getSlotValue(shapedMap, (Integer)pair.component2());
             if (object != REMOVED) {
-               objectOutputStream.writeObject(this.Q((K)pair.component1()));
+               objectOutputStream.writeObject(this.unmaskNull((K)pair.component1()));
                objectOutputStream.writeObject(object);
             }
          }
@@ -206,11 +206,11 @@ public abstract class MapShape<K, V> {
       objectOutputStream.writeObject(this.getDefaults());
    }
 
-   public static <K, V> void i(ShapedMap<K, V> shapedMap, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
-      int j = objectInputStream.readInt();
+   public static <K, V> void deserialize(ShapedMap<K, V> shapedMap, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+      int i = objectInputStream.readInt();
       shapedMap.shape = EMPTY;
 
-      for (int k = 0; k < j; k++) {
+      for (int j = 0; j < i; j++) {
          Object object = objectInputStream.readObject();
          Object object2 = objectInputStream.readObject();
          shapedMap.put((K)(object), (V)(object2));
@@ -224,8 +224,8 @@ public abstract class MapShape<K, V> {
       }
    }
 
-   public static Object f(MapShape mapShape, Object object) {
-      return mapShape.Q(object);
+   public static Object unmaskNullStatic(MapShape mapShape, Object object) {
+      return mapShape.unmaskNull(object);
    }
 
    public static Object getNULL_KEY() {

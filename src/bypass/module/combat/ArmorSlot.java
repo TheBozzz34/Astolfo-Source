@@ -7,15 +7,15 @@ public enum ArmorSlot {
    BOOTS(8, 3);
 
    public int slot;
-   private int K;
-   private static final ArmorSlot[] l = new ArmorSlot[]{HELMET, CHEST_PLATE, LEGGINGS, BOOTS};
+   private int armorType;
+   private static final ArmorSlot[] VALUES = new ArmorSlot[]{HELMET, CHEST_PLATE, LEGGINGS, BOOTS};
 
    ArmorSlot(int j, int k) {
       this.slot = j;
-      this.K = k;
+      this.armorType = k;
    }
 
-   public static int z(ArmorSlot armorSlot) {
-      return armorSlot.K;
+   public static int armorTypeOf(ArmorSlot armorSlot) {
+      return armorSlot.armorType;
    }
 }

@@ -13,42 +13,42 @@ import net.minecraft.client.gui.GuiMainMenu;
 import org.lwjgl.input.Mouse;
 
 public class RangeSlider extends SettingComponent {
-   private final Category V;
-   private Setting l;
-   private boolean T;
-   private boolean B;
-   private int H;
-   private int c;
-   private static final DecimalFormat G = new DecimalFormat("#.##");
+   private final Category category;
+   private Setting maxSetting;
+   private boolean draggingMin;
+   private boolean draggingMax;
+   private int lastMouseX;
+   private int lastMouseY;
+   private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
    public RangeSlider(Category category, Container container, Setting setting, Setting setting2, int i, int j) {
       super(container, setting, i, j);
-      this.V = category;
-      this.l = setting2;
+      this.category = category;
+      this.maxSetting = setting2;
    }
 
    @Override
-   public void l(int i) {
-      if (i == 0 && this.I().s_boolean()) {
-         int j = this.s(this.H, (int)this.M(), this.x(), this.t());
-         int k = this.s(this.H, (int)this.M(), this.x(), this.l);
-         if (this.u((int)(this.M() + j - 5.0F), (int)this.E_float(), 7, this.Y(), this.H, this.c)) {
-            this.T = true;
-         } else if (this.u((int)(this.M() + k - 5.0F), (int)this.E_float(), 7, this.Y(), this.H, this.c)) {
-            this.B = true;
+   public void onClick(int i) {
+      if (i == 0 && this.getParentContainer().isExpanded()) {
+         int j = this.updateAndGetHandlePos(this.lastMouseX, (int)this.getX(), this.getWidth(), this.getSetting());
+         int k = this.updateAndGetHandlePos(this.lastMouseX, (int)this.getX(), this.getWidth(), this.maxSetting);
+         if (this.isMouseInRect((int)(this.getX() + j - 5.0F), (int)this.getYPos(), 7, this.getHeight(), this.lastMouseX, this.lastMouseY)) {
+            this.draggingMin = true;
+         } else if (this.isMouseInRect((int)(this.getX() + k - 5.0F), (int)this.getYPos(), 7, this.getHeight(), this.lastMouseX, this.lastMouseY)) {
+            this.draggingMax = true;
          }
       }
    }
 
    @Override
    public void render(int i, int j) {
-      int k = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.V.getColor() : client.getColorSetting().getValue().getRGB();
-      NumberSetting numberSetting = (NumberSetting)this.l;
-      int n = this.s(i, (int)this.M(), this.x(), this.t());
-      int i2 = this.s(i, (int)this.M(), this.x(), this.l);
+      int k = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.category.getColor() : client.getColorSetting().getValue().getRGB();
+      NumberSetting numberSetting = (NumberSetting)this.maxSetting;
+      int l = this.updateAndGetHandlePos(i, (int)this.getX(), this.getWidth(), this.getSetting());
+      int n = this.updateAndGetHandlePos(i, (int)this.getX(), this.getWidth(), this.maxSetting);
       if (numberSetting.valueClass == Integer.class) {
          NumberSetting numberSetting2 = numberSetting;
-         NumberSetting numberSetting3 = this.c();
+         NumberSetting numberSetting3 = this.getMinSetting();
          if (numberSetting2.asInt() < numberSetting3.asInt()) {
             numberSetting2.setValue(numberSetting3.asInt());
          }
@@ -58,7 +58,7 @@ public class RangeSlider extends SettingComponent {
          }
       } else if (numberSetting.valueClass == Double.class) {
          NumberSetting numberSetting4 = numberSetting;
-         NumberSetting numberSetting5 = this.c();
+         NumberSetting numberSetting5 = this.getMinSetting();
          boolean bl = false;
          boolean bl2 = false;
          if (numberSetting4.asDouble() < numberSetting5.asDouble()) {
@@ -78,7 +78,7 @@ public class RangeSlider extends SettingComponent {
          }
       } else {
          NumberSetting numberSetting6 = numberSetting;
-         NumberSetting numberSetting7 = this.c();
+         NumberSetting numberSetting7 = this.getMinSetting();
          if (numberSetting6.asFloat() < numberSetting7.asFloat()) {
             numberSetting6.setValue((Number)numberSetting7.getValue());
          }
@@ -88,60 +88,62 @@ public class RangeSlider extends SettingComponent {
          }
       }
 
-      String string = G.format(this.c().getValue()) + "-" + G.format(this.l.getValue());
-      string = string + this.c().getSuffix();
-      RenderUtil.drawRect(this.M() + n - 3.0F, this.E_float(), this.M() + n, this.E_float() + this.Y(), new Color(k).darker().getRGB());
-      RenderUtil.drawRect(this.M() + n, this.E_float(), this.M() + i2, this.E_float() + this.Y(), k);
-      if (i2 > n) {
-         RenderUtil.drawRect(this.M() + i2 - 3.0F, this.E_float(), this.M() + i2, this.E_float() + this.Y(), new Color(k).darker().getRGB());
+      String string = decimalFormat.format(this.getMinSetting().getValue()) + "-" + decimalFormat.format(this.maxSetting.getValue());
+      string = string + this.getMinSetting().getSuffix();
+      RenderUtil.drawRect(this.getX() + l - 3.0F, this.getYPos(), this.getX() + l, this.getYPos() + this.getHeight(), new Color(k).darker().getRGB());
+      RenderUtil.drawRect(this.getX() + l, this.getYPos(), this.getX() + n, this.getYPos() + this.getHeight(), k);
+      if (n > l) {
+         RenderUtil.drawRect(
+            this.getX() + n - 3.0F, this.getYPos(), this.getX() + n, this.getYPos() + this.getHeight(), new Color(k).darker().getRGB()
+         );
       }
 
-      GuiMainMenu.m.drawString(this.c().getName().replace("Min-", ""), this.M() + 3.0F, this.E_float(), -1);
-      GuiMainMenu.m.drawString(string, this.M() + this.x() - GuiMainMenu.m.getStringWidth(string, true), this.E_float() + 1.0F, 13421772);
-      this.H = i;
-      this.c = j;
+      GuiMainMenu.m.drawString(this.getMinSetting().getName().replace("Min-", ""), this.getX() + 3.0F, this.getYPos(), -1);
+      GuiMainMenu.m.drawString(string, this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string, true), this.getYPos() + 1.0F, 13421772);
+      this.lastMouseX = i;
+      this.lastMouseY = j;
    }
 
-   public int s(int i, int j, int k, Setting setting) {
-      int m = Math.max(Math.min(i - j, k), 0);
+   public int updateAndGetHandlePos(int i, int j, int k, Setting setting) {
+      int l = Math.max(Math.min(i - j, k), 0);
       NumberSetting numberSetting = (NumberSetting)setting;
-      if (this.T && setting == this.c()) {
-         this.T = Mouse.isButtonDown(0);
+      if (this.draggingMin && setting == this.getMinSetting()) {
+         this.draggingMin = Mouse.isButtonDown(0);
          if (numberSetting.valueClass == Integer.class) {
             NumberSetting numberSetting2 = numberSetting;
             numberSetting2.setValue(
                (int)(
                   ((Integer)numberSetting2.getMin()).intValue()
                      + 0.1F
-                     + m * ((((Integer)numberSetting2.getMax()).intValue() + 0.1F - ((Integer)numberSetting2.getMin()).intValue() + 0.1F) / k)
+                     + l * ((((Integer)numberSetting2.getMax()).intValue() + 0.1F - ((Integer)numberSetting2.getMin()).intValue() + 0.1F) / k)
                )
             );
          } else if (numberSetting.valueClass == Double.class) {
             NumberSetting numberSetting3 = numberSetting;
-            numberSetting3.setValue((Double)numberSetting3.getMin() + m * (((Double)numberSetting3.getMax() - (Double)numberSetting3.getMin()) / k));
+            numberSetting3.setValue((Double)numberSetting3.getMin() + l * (((Double)numberSetting3.getMax() - (Double)numberSetting3.getMin()) / k));
          } else {
             NumberSetting numberSetting4 = numberSetting;
-            numberSetting4.setValue((Float)numberSetting4.getMin() + m * (((Float)numberSetting4.getMax() - (Float)numberSetting4.getMin()) / k));
+            numberSetting4.setValue((Float)numberSetting4.getMin() + l * (((Float)numberSetting4.getMax() - (Float)numberSetting4.getMin()) / k));
          }
       }
 
-      if (this.B && setting == this.l) {
-         this.B = Mouse.isButtonDown(0);
+      if (this.draggingMax && setting == this.maxSetting) {
+         this.draggingMax = Mouse.isButtonDown(0);
          if (numberSetting.valueClass == Integer.class) {
             NumberSetting numberSetting5 = numberSetting;
             numberSetting5.setValue(
                (int)(
                   ((Integer)numberSetting5.getMin()).intValue()
                      + 0.1F
-                     + m * ((((Integer)numberSetting5.getMax()).intValue() + 0.1F - ((Integer)numberSetting5.getMin()).intValue() + 0.1F) / k)
+                     + l * ((((Integer)numberSetting5.getMax()).intValue() + 0.1F - ((Integer)numberSetting5.getMin()).intValue() + 0.1F) / k)
                )
             );
          } else if (numberSetting.valueClass == Double.class) {
             NumberSetting numberSetting6 = numberSetting;
-            numberSetting6.setValue((Double)numberSetting6.getMin() + m * (((Double)numberSetting6.getMax() - (Double)numberSetting6.getMin()) / k));
+            numberSetting6.setValue((Double)numberSetting6.getMin() + l * (((Double)numberSetting6.getMax() - (Double)numberSetting6.getMin()) / k));
          } else {
             NumberSetting numberSetting7 = numberSetting;
-            numberSetting7.setValue((Float)numberSetting7.getMin() + m * (((Float)numberSetting7.getMax() - (Float)numberSetting7.getMin()) / k));
+            numberSetting7.setValue((Float)numberSetting7.getMin() + l * (((Float)numberSetting7.getMax() - (Float)numberSetting7.getMin()) / k));
          }
       }
 
@@ -161,7 +163,7 @@ public class RangeSlider extends SettingComponent {
       }
    }
 
-   public NumberSetting c() {
-      return (NumberSetting)this.t();
+   public NumberSetting getMinSetting() {
+      return (NumberSetting)this.getSetting();
    }
 }

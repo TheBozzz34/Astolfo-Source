@@ -5,20 +5,20 @@ import bypass.Astolfo;
 public class UserListPacket {
    public UserListType type;
    public String users;
-   public String s;
-   public boolean H;
+   public String extra;
+   public boolean sense;
 
    public UserListPacket(UserListType userListType, String string, String string2) {
       this.type = userListType;
       this.users = string;
-      this.s = string2;
-      this.H = Astolfo.INSTANCE.getSenseSetting().getValue();
+      this.extra = string2;
+      this.sense = Astolfo.INSTANCE.getSenseSetting().getValue();
    }
 
    public UserListPacket(UserListType userListType, String string, String string2, boolean bl) {
       this.type = userListType;
       this.users = string;
-      this.s = string2;
-      this.H = bl;
+      this.extra = string2;
+      this.sense = bl;
    }
 }

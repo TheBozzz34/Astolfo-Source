@@ -5,61 +5,61 @@ import bypass.render.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GlyphFontRenderer implements TextRenderer {
-   public int N = 0;
-   public final GlyphPage v = new GlyphPage();
+   public int charSpacing = 0;
+   public final GlyphPage glyphPage = new GlyphPage();
 
    @Override
-   public float B(GlyphPage glyphPage, String string, float f, float g, int i) {
-      if (!glyphPage.s()) {
+   public float drawStringWithPage(GlyphPage glyphPage, String string, float f, float g, int i) {
+      if (!glyphPage.isGenerated()) {
          return 0.0F;
       }
 
       GlStateManager.enableBlend();
-      glyphPage.p();
-      GlHelper.R(i);
+      glyphPage.bindTexture();
+      GlHelper.setColorHex(i);
       int j = string.length();
 
       for (int k = 0; k < j; k++) {
          char c = string.charAt(k);
-         if (glyphPage.x(c)) {
-            GlyphPage.aun aun2 = O(glyphPage, f, g, c);
-            f += aun2.F + this.N;
+         if (glyphPage.hasGlyph(c)) {
+            GlyphPage.aun aun2 = drawGlyph(glyphPage, f, g, c);
+            f += aun2.width + this.charSpacing;
          }
       }
 
       return f;
    }
 
-   public static GlyphPage.aun O(GlyphPage glyphPage, float f, float g, char c) {
-      GlyphPage.aun aun2 = glyphPage.c(c);
+   public static GlyphPage.aun drawGlyph(GlyphPage glyphPage, float f, float g, char c) {
+      GlyphPage.aun aun2 = glyphPage.getGlyph(c);
       RenderUtil.drawTexturedRect(
          f,
          g,
-         aun2.F,
-         aun2.j,
-         (float)aun2.p / glyphPage.r(),
-         (float)aun2.s / glyphPage.c(),
-         (float)(aun2.p + aun2.F) / glyphPage.r(),
-         (float)(aun2.s + aun2.j) / glyphPage.c()
+         aun2.width,
+         aun2.height,
+         (float)aun2.x / glyphPage.getTextureWidth(),
+         (float)aun2.y / glyphPage.getTextureHeight(),
+         (float)(aun2.x + aun2.width) / glyphPage.getTextureWidth(),
+         (float)(aun2.y + aun2.height) / glyphPage.getTextureHeight()
       );
       return aun2;
    }
 
    @Override
    public float drawString(String string, float f, float g, int i) {
-      return this.B(this.v, string, f, g, i);
+      return this.drawStringWithPage(this.glyphPage, string, f, g, i);
    }
 
-   public int J() {
-      return this.N;
+   public int getCharSpacing() {
+      return this.charSpacing;
    }
 
-   public void b(int i) {
-      this.N = i;
+   public void setCharSpacing(int i) {
+      this.charSpacing = i;
    }
 
    @Override
-   public GlyphPage X() {
-      return this.v;
+   public GlyphPage getGlyphPage() {
+      return this.glyphPage;
    }
 }

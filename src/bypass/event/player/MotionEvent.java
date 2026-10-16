@@ -16,7 +16,7 @@ public class MotionEvent extends CancellableEvent {
    public double minY;
    public float yaw;
    public float pitch;
-   private boolean s;
+   private boolean extraFlag;
    private double lastX;
    private double lastY;
    private double lastZ;
@@ -132,12 +132,12 @@ public class MotionEvent extends CancellableEvent {
       this.pitch = f;
    }
 
-   public boolean J_boolean() {
-      return this.s;
+   public boolean isExtraFlag() {
+      return this.extraFlag;
    }
 
-   public void A(boolean bl) {
-      this.s = bl;
+   public void setExtraFlag(boolean bl) {
+      this.extraFlag = bl;
    }
 
    public double getLastX() {

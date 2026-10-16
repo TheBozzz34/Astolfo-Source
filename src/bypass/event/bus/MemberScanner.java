@@ -10,11 +10,11 @@ public interface MemberScanner<E extends AnnotatedElement> {
 
    boolean hides(E annotatedElement, E annotatedElement2);
 
-   static FieldScanner z() {
+   static FieldScanner forFields() {
       return new FieldScanner();
    }
 
-   static MethodScanner I() {
+   static MethodScanner forMethods() {
       return new MethodScanner();
    }
 }

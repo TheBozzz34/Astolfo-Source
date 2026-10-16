@@ -26,13 +26,13 @@ public final class SetOption2 extends VarArgFunction {
          case 3:
             if (luaValue2.isstring()) {
                String string = luaValue.checkjstring() + luaValue2.checkjstring();
-               Setting setting = LuaApi.f.get(string);
+               Setting setting = LuaApi.settingsByName.get(string);
                if (setting == null) {
                   Module module = ClientAccess.client.getModuleManager().getModule(luaValue.checkjstring());
                   if (module != null) {
                      for (Setting setting2 : module.getSettings()) {
                         if (setting2.getName().equals(luaValue2.checkjstring())) {
-                           LuaApi.f.put(string, setting2);
+                           LuaApi.settingsByName.put(string, setting2);
                            setting = setting2;
                         }
                      }
@@ -40,14 +40,14 @@ public final class SetOption2 extends VarArgFunction {
                }
 
                if (setting != null) {
-                  ModuleManagerLibrary.c(luaValue3, setting);
+                  ModuleManagerLibrary.applyLuaValueToSetting(luaValue3, setting);
                }
             }
             break;
          case 4:
             if (luaValue2.isstring() && luaValue3.isstring()) {
                String string2 = luaValue.checkjstring() + luaValue2.checkjstring() + luaValue3.checkjstring();
-               Setting setting3 = LuaApi.f.get(string2);
+               Setting setting3 = LuaApi.settingsByName.get(string2);
                if (setting3 == null) {
                   Module module2 = ClientAccess.client.getModuleManager().getModule(luaValue.checkjstring());
                   if (module2 != null) {
@@ -56,7 +56,7 @@ public final class SetOption2 extends VarArgFunction {
                            MapSetting mapSetting = (MapSetting)setting4;
                            Setting setting5 = mapSetting.getSettings().get(luaValue3.checkjstring());
                            if (setting5 != null) {
-                              LuaApi.f.put(string2, setting5);
+                              LuaApi.settingsByName.put(string2, setting5);
                               setting3 = setting5;
                            }
                         }
@@ -65,7 +65,7 @@ public final class SetOption2 extends VarArgFunction {
                }
 
                if (setting3 != null) {
-                  ModuleManagerLibrary.c(luaValue4, setting3);
+                  ModuleManagerLibrary.applyLuaValueToSetting(luaValue4, setting3);
                }
             }
       }

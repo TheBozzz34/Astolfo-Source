@@ -5,24 +5,24 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ChatSettings implements JsonSerializable {
-   private final boolean c;
-   private final boolean R;
+   private final boolean enabled;
+   private final boolean pings;
 
    public ChatSettings(boolean bl, boolean bl2) {
-      this.c = bl;
-      this.R = bl2;
+      this.enabled = bl;
+      this.pings = bl2;
    }
 
    @Override
-   public String c() {
+   public String getKey() {
       return "astolfo chat";
    }
 
    @Override
-   public JsonElement V() {
+   public JsonElement toJson() {
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("enabled", this.c);
-      jsonObject.addProperty("pings", this.R);
+      jsonObject.addProperty("enabled", this.enabled);
+      jsonObject.addProperty("pings", this.pings);
       return jsonObject;
    }
 }

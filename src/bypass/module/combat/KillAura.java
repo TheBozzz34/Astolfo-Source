@@ -183,7 +183,7 @@ public final class KillAura extends Module {
    private long attackDelay = 0L;
    private TargetHud targetHud;
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> this.updateDisplayName();
    private float savedYaw;
    private float savedPitch;
    private float strafeYaw;
@@ -369,9 +369,9 @@ public final class KillAura extends Module {
    };
    @EventHandler(TeleportEvent.class)
    private final Listener<TeleportEvent> onTeleport = teleportEvent -> {
-      if (!teleportEvent.y()) {
+      if (!teleportEvent.isLagback()) {
          if (this.autoDisable.getValue()) {
-            teleportEvent.i(this);
+            teleportEvent.disableModule(this);
          }
       } else {
          this.teleportTimer.reset();
@@ -469,7 +469,7 @@ public final class KillAura extends Module {
                   this.getAdequatedSort();
 
                   for (EntityLivingBase entityLivingBase : this.targets) {
-                     if (entityLivingBase instanceof EntityWither && ScoreboardTracker.r()) {
+                     if (entityLivingBase instanceof EntityWither && ScoreboardTracker.isInGame()) {
                         target = entityLivingBase;
                         break;
                      }
@@ -479,7 +479,7 @@ public final class KillAura extends Module {
                            break;
                         }
 
-                        if (client.getRelationManager().D(entityLivingBase) || AutoHypixel.bountiedPlayers.contains(entityLivingBase)) {
+                        if (client.getRelationManager().isEnemy(entityLivingBase) || AutoHypixel.bountiedPlayers.contains(entityLivingBase)) {
                            target = entityLivingBase;
                            break;
                         }
@@ -554,9 +554,11 @@ public final class KillAura extends Module {
                         }
                      }
 
-                     if (client.getModuleManager().get(Criticals.class).isEnabled() && GameUtil.N() && this.stepCooldown < 3 && !mc.thePlayer.Lr && Criticals.j
-                        )
-                      {
+                     if (client.getModuleManager().get(Criticals.class).isEnabled()
+                        && GameUtil.canCriticalHit()
+                        && this.stepCooldown < 3
+                        && !mc.thePlayer.Lr
+                        && Criticals.canCrit) {
                         switch ((CriticalsMode)Criticals.mode.getValue()) {
                            case EDIT:
                               this.editCriticals(motionEvent);
@@ -619,15 +621,15 @@ public final class KillAura extends Module {
                   NumberSetting numberSetting = (NumberSetting)this.render.getSetting("Pos-X");
                   NumberSetting numberSetting2 = (NumberSetting)this.render.getSetting("Pos-Y");
                   if (Mouse.isButtonDown(0)) {
-                     numberSetting.setValue(this.targetHud.M());
-                     numberSetting2.setValue(this.targetHud.E_float());
-                  } else if ((Float)numberSetting.getValue() != this.targetHud.M() || (Float)numberSetting2.getValue() != this.targetHud.E_float()) {
-                     if (this.targetHud.M() != (Float)numberSetting.getValue()) {
-                        this.targetHud.o((Float)numberSetting.getValue());
+                     numberSetting.setValue(this.targetHud.getX());
+                     numberSetting2.setValue(this.targetHud.getYPos());
+                  } else if ((Float)numberSetting.getValue() != this.targetHud.getX() || (Float)numberSetting2.getValue() != this.targetHud.getYPos()) {
+                     if (this.targetHud.getX() != (Float)numberSetting.getValue()) {
+                        this.targetHud.setX((Float)numberSetting.getValue());
                      }
 
-                     if (this.targetHud.E_float() != (Float)numberSetting2.getValue()) {
-                        this.targetHud.q((Float)numberSetting2.getValue());
+                     if (this.targetHud.getYPos() != (Float)numberSetting2.getValue()) {
+                        this.targetHud.setY((Float)numberSetting2.getValue());
                      }
                   }
 
@@ -643,27 +645,27 @@ public final class KillAura extends Module {
                   int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
                   int k = i - Mouse.getY() * i / mc.displayHeight - 1;
                   if (target instanceof EntityLivingBase) {
-                     this.targetHud.z((EntityLivingBase)target);
-                     this.targetHud.y(renderEvent.getResolution().getScaledWidth() / 2.0F);
+                     this.targetHud.setTarget((EntityLivingBase)target);
+                     this.targetHud.setScreenCenterX(renderEvent.getResolution().getScaledWidth() / 2.0F);
                      this.targetHud.render(j, k);
                   }
 
                   if (mc.currentScreen instanceof GuiChat) {
                      if (target == null && mc.thePlayer != null) {
-                        this.targetHud.z(mc.thePlayer);
-                        this.targetHud.y(renderEvent.getResolution().getScaledWidth() / 2.0F);
+                        this.targetHud.setTarget(mc.thePlayer);
+                        this.targetHud.setScreenCenterX(renderEvent.getResolution().getScaledWidth() / 2.0F);
                         this.targetHud.render(j, k);
                      }
 
-                     if (this.targetHud.u_boolean() && Mouse.isButtonDown(0)) {
-                        this.targetHud.T(j, k);
+                     if (this.targetHud.isDragging() && Mouse.isButtonDown(0)) {
+                        this.targetHud.updateDragPosition(j, k);
                      }
                   }
 
-                  if (Mouse.isButtonDown(0) && this.targetHud.G(j, k)) {
-                     this.targetHud.F(true, j, k);
+                  if (Mouse.isButtonDown(0) && this.targetHud.isHovered(j, k)) {
+                     this.targetHud.setDragging(true, j, k);
                   } else {
-                     this.targetHud.x(false);
+                     this.targetHud.setDraggingNoOffset(false);
                   }
                }
                break;
@@ -770,7 +772,7 @@ public final class KillAura extends Module {
 
    public KillAura(Category category) {
       super(category);
-      this.B(-7733248);
+      this.setModuleColor(-7733248);
       this.addSettings(
          mode,
          this.entities,
@@ -933,9 +935,9 @@ public final class KillAura extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName("Kill Aura " + EnumChatFormatting.GRAY + KillAuraMode.D(mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName("Kill Aura " + EnumChatFormatting.GRAY + KillAuraMode.displayNameOf(mode.getValue()));
+      super.updateDisplayName();
    }
 
    private void editCriticals(MotionEvent motionEvent) {
@@ -1048,9 +1050,9 @@ public final class KillAura extends Module {
                break;
             }
 
-            if (!BotDetector.w.contains(entityLivingBase) && (!client.getRelationManager().z(entity) || this.entities.getSetting("Friends").asBoolean())) {
-               AstolfoUser astolfoUser = client.getUserManager().g(entity.getName());
-               if ((astolfoUser == null || astolfoUser.K != AstolfoUserStatus.C) && this.isValidTarget(entityLivingBase)) {
+            if (!BotDetector.bots.contains(entityLivingBase) && (!client.getRelationManager().isFriend(entity) || this.entities.getSetting("Friends").asBoolean())) {
+               AstolfoUser astolfoUser = client.getUserManager().getUser(entity.getName());
+               if ((astolfoUser == null || astolfoUser.status != AstolfoUserStatus.C) && this.isValidTarget(entityLivingBase)) {
                   arrayList.add(entityLivingBase);
                }
             }
@@ -1127,17 +1129,17 @@ public final class KillAura extends Module {
    private void attack(Entity entity) {
       float f = this.getMissChance();
       boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
-      int j = this.getMinAps();
+      int i = this.getMinAps();
       if (mode.getValue() == KillAuraMode.MULTI && this.targets.size() > 1) {
-         j = this.getMinAps() / this.targets.size();
+         i = this.getMinAps() / this.targets.size();
       }
 
-      int k = this.getMinAps();
-      int l = this.getMaxAps();
-      double d = l - k;
-      double e = 1.0 / (k + Math.random() * d);
+      int j = this.getMinAps();
+      int k = this.getMaxAps();
+      double d = k - j;
+      double e = 1.0 / (j + Math.random() * d);
       if (d == 0.0) {
-         this.attackDelay = 1000 / j;
+         this.attackDelay = 1000 / i;
       } else {
          this.attackDelay = (int)Math.floor(e * 1000.0);
       }
@@ -1151,7 +1153,9 @@ public final class KillAura extends Module {
          boolean bl3 = client.getModuleManager().get(RiderGod.class).isEnabled();
          ArrayList arrayList = null;
          if (mode.getValue() == KillAuraMode.TP && !bl3) {
-            arrayList = PathFinder.i(new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(entity.posX, entity.posY, entity.posZ), 3.3);
+            arrayList = PathFinder.findPath(
+               new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(entity.posX, entity.posY, entity.posZ), 3.3
+            );
 
             for (Object object : arrayList) {
                Vector3 vector3 = (Vector3)object;
@@ -1185,7 +1189,7 @@ public final class KillAura extends Module {
                && !mc.thePlayer.isPotionActive(Potion.blindness)
                && mc.thePlayer.ridingEntity == null;
             boolean bl5 = this.stepCooldown < 3 && !mc.thePlayer.Lr;
-            if (GameUtil.N()
+            if (GameUtil.canCriticalHit()
                   && client.getModuleManager().get(Criticals.class).isEnabled()
                   && (
                      Criticals.mode.getValue() == CriticalsMode.EDIT && bl5
@@ -1272,7 +1276,7 @@ public final class KillAura extends Module {
          double d = this.eyeDistance(mc.thePlayer, entityLivingBase);
          if ((this.eyeDistance(mc.thePlayer, entityLivingBase) <= this.range.asDouble() || mode.getValue() == KillAuraMode.TP)
             && (!GameUtil.isDead(entityLivingBase) || Double.isNaN(entityLivingBase.getHealth()))
-            && (!GameUtil.S(entityLivingBase) || this.entities.getSetting("Invisibles").asBoolean())
+            && (!GameUtil.isFullyInvisible(entityLivingBase) || this.entities.getSetting("Invisibles").asBoolean())
             && (
                !GameUtil.canSee(entityLivingBase) && mc.thePlayer.getDistanceToEntity(entityLivingBase) < this.wallRange.asDouble()
                   || GameUtil.canSee(entityLivingBase)
@@ -1283,8 +1287,8 @@ public final class KillAura extends Module {
                Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
                Vector3d vector3d2 = new Vector3d(entityLivingBase.posX, entityLivingBase.posY + entityLivingBase.height * 0.5 / 1.0, entityLivingBase.posZ);
                Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
-               float h = (float)yawDistance(rotation);
-               if (h > f) {
+               float g = (float)yawDistance(rotation);
+               if (g > f) {
                   return false;
                }
             }
@@ -1295,7 +1299,7 @@ public final class KillAura extends Module {
                   return false;
                }
 
-               if (GameUtil.O(mc.thePlayer, entityPlayer) && this.entities.getSetting("Teams").asBoolean()) {
+               if (GameUtil.isOnSameTeam(mc.thePlayer, entityPlayer) && this.entities.getSetting("Teams").asBoolean()) {
                   return false;
                }
 
@@ -1304,14 +1308,14 @@ public final class KillAura extends Module {
                   return false;
                }
 
-               if (!this.entities.getSetting("Astolfo-Users").asBoolean() && client.getUserManager().g(entityLivingBase.getName()) != null) {
+               if (!this.entities.getSetting("Astolfo-Users").asBoolean() && client.getUserManager().getUser(entityLivingBase.getName()) != null) {
                   return false;
                }
 
                return !entityPlayer.isPlayerSleeping() && entityPlayer.getEntityId() < 1000000000 && entityPlayer.getEntityId() > -1;
             }
 
-            if (GameUtil.isBoss(entityLivingBase) && GameUtil.O(mc.thePlayer, entityLivingBase) && this.entities.getSetting("Teams").asBoolean()) {
+            if (GameUtil.isBoss(entityLivingBase) && GameUtil.isOnSameTeam(mc.thePlayer, entityLivingBase) && this.entities.getSetting("Teams").asBoolean()) {
                return false;
             }
 
@@ -1394,7 +1398,7 @@ public final class KillAura extends Module {
          return false;
       }
 
-      MovingObjectPosition movingObjectPosition = GameUtil.A(serverYaw, serverPitch, d);
+      MovingObjectPosition movingObjectPosition = GameUtil.rayTrace(serverYaw, serverPitch, d);
       return this.getSmoothing() > 0
             && (
                movingObjectPosition != null && (movingObjectPosition.entityHit != null || movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) && this.isHitboxCheck()
@@ -1409,9 +1413,9 @@ public final class KillAura extends Module {
 
       for (EntityPlayer entityPlayer2 : mc.theWorld.playerEntities) {
          if (entityPlayer2 != mc.thePlayer
-            && !BotDetector.w.contains(entityPlayer2)
-            && (!GameUtil.O(mc.thePlayer, entityPlayer2) || !this.entities.getSetting("Teams").asBoolean())
-            && (!client.getRelationManager().z(entityPlayer2) || this.entities.getSetting("Friends").asBoolean())) {
+            && !BotDetector.bots.contains(entityPlayer2)
+            && (!GameUtil.isOnSameTeam(mc.thePlayer, entityPlayer2) || !this.entities.getSetting("Teams").asBoolean())
+            && (!client.getRelationManager().isFriend(entityPlayer2) || this.entities.getSetting("Friends").asBoolean())) {
             float f = mc.thePlayer.getDistanceToEntity(entityPlayer2);
             if (f < d) {
                entityPlayer = entityPlayer2;

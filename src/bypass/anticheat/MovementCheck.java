@@ -7,5 +7,5 @@ public abstract class MovementCheck extends AbstractCheck {
       super(string, CheckType.MOVEMENT);
    }
 
-   public abstract int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer);
+   public abstract int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer);
 }

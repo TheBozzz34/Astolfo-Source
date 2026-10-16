@@ -26,18 +26,18 @@ import net.minecraft.util.Vec3;
 public final class AutoBackstab extends Module {
    private final NumberSetting<Integer> slot = new NumberSetting<>("Slot", "Slots where the golden sword will be on hotbar", 9, 1, 9);
    private final BooleanSetting teleport = new BooleanSetting("Teleport", "Teleports behind player", true);
-   private boolean z;
-   private int D;
-   private final Stopwatch O = new Stopwatch();
+   private boolean swappedToSword;
+   private int previousSlot;
+   private final Stopwatch switchTimer = new Stopwatch();
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      if (this.a() <= 0) {
+      if (this.countGoldSwordsInHotbar() <= 0) {
          int i = this.X_int();
          if (i != -1) {
             mc.playerController.windowClick(0, i, this.slot.getValue() - 1, 2, mc.thePlayer);
-         } else if (this.z) {
-            mc.thePlayer.inventory.currentItem = this.D;
-            this.z = false;
+         } else if (this.swappedToSword) {
+            mc.thePlayer.inventory.currentItem = this.previousSlot;
+            this.swappedToSword = false;
          }
       }
    };
@@ -53,7 +53,7 @@ public final class AutoBackstab extends Module {
                   float f = entityLivingBase.rotationYaw + 90.0F + 180.0F;
                   double d = entityLivingBase.posX + Math.cos(Math.toRadians(f));
                   double e = entityLivingBase.posZ + Math.sin(Math.toRadians(f));
-                  int i = this.A((int)d, (int)entityLivingBase.posY, (int)e);
+                  int i = this.findGroundY((int)d, (int)entityLivingBase.posY, (int)e);
                   if (i != -1) {
                      mc.thePlayer.setPosition(d, i, e);
                   }
@@ -69,12 +69,12 @@ public final class AutoBackstab extends Module {
                );
                double d2 = vec33.dotProduct(vec34);
                if (d2 > 0.4) {
-                  int j = this.m(-1);
+                  int j = this.findGoldSwordSlot(-1);
                   if (j != -1) {
-                     this.D = mc.thePlayer.inventory.currentItem;
+                     this.previousSlot = mc.thePlayer.inventory.currentItem;
                      mc.thePlayer.inventory.currentItem = j;
-                     this.z = true;
-                     this.O.reset();
+                     this.swappedToSword = true;
+                     this.switchTimer.reset();
                   }
                }
             }
@@ -83,9 +83,9 @@ public final class AutoBackstab extends Module {
    };
    @EventHandler(value = MotionEvent.class, priority = EventPriority.LOWEST)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      if (motionEvent.getState() == EventState.POST && this.z && this.O.hasElapsed(500.0F)) {
-         mc.thePlayer.inventory.currentItem = this.D;
-         this.z = false;
+      if (motionEvent.getState() == EventState.POST && this.swappedToSword && this.switchTimer.hasElapsed(500.0F)) {
+         mc.thePlayer.inventory.currentItem = this.previousSlot;
+         this.swappedToSword = false;
       }
    };
 
@@ -94,7 +94,7 @@ public final class AutoBackstab extends Module {
       this.addSettings(this.slot, this.teleport);
    }
 
-   private int A(int i, int j, int k) {
+   private int findGroundY(int i, int j, int k) {
       for (int l = j + 2; l > j - 2; l--) {
          if (mc.theWorld.getBlockState(new BlockPos(i, l, k)).getBlock().getMaterial() != Material.air) {
             return l + 1;
@@ -108,7 +108,7 @@ public final class AutoBackstab extends Module {
       for (int i = 9; i <= 35; i++) {
          if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
             ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-            if (this.l(itemStack)) {
+            if (this.isGoldSword(itemStack)) {
                return i;
             }
          }
@@ -117,12 +117,12 @@ public final class AutoBackstab extends Module {
       return -1;
    }
 
-   private int a() {
+   private int countGoldSwordsInHotbar() {
       int i = 0;
 
       for (int j = 0; j < 9; j++) {
          ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(j);
-         if (itemStack != null && this.l(itemStack)) {
+         if (itemStack != null && this.isGoldSword(itemStack)) {
             i += itemStack.stackSize;
          }
       }
@@ -130,11 +130,11 @@ public final class AutoBackstab extends Module {
       return i;
    }
 
-   private int m(int i) {
+   private int findGoldSwordSlot(int i) {
       for (int j = 0; j < 9; j++) {
          if (j != i) {
             ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(j);
-            if (itemStack != null && this.l(itemStack)) {
+            if (itemStack != null && this.isGoldSword(itemStack)) {
                return j;
             }
          }
@@ -143,7 +143,7 @@ public final class AutoBackstab extends Module {
       return -1;
    }
 
-   private boolean l(ItemStack itemStack) {
+   private boolean isGoldSword(ItemStack itemStack) {
       if (itemStack == null) {
          return false;
       } else if (itemStack.getItem() instanceof ItemSword) {

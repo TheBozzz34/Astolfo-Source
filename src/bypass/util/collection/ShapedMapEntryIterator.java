@@ -8,6 +8,6 @@ public class ShapedMapEntryIterator<K, V> extends ShapedMapIterator<K, V, Entry<
    }
 
    public Entry<K, V> next() {
-      return this.D();
+      return this.nextEntry();
    }
 }

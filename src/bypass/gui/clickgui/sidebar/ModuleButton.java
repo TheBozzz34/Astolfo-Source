@@ -14,152 +14,161 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class ModuleButton extends Container {
-   public Animation j = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
-   private Animation Y = new TimedAnimation().setDuration(100).setEasing(Easing.LINEAR);
-   private Module H;
-   private MapComponent d;
-   private MapComponent C;
-   public boolean f;
-   public int A = 25;
-   private boolean Q;
-   public int P;
+   public Animation fadeAnimation = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
+   private Animation hoverAnimation = new TimedAnimation().setDuration(100).setEasing(Easing.LINEAR);
+   private Module module;
+   private MapComponent selectedMap;
+   private MapComponent previousMap;
+   public boolean settingsPanelClosed;
+   public int settingsScrollOffset = 25;
+   private boolean listeningForBind;
+   public int fadeAlpha;
 
    public ModuleButton(CategoryTab categoryTab, Module module, int i, int j, int k, int l) {
       super(module.getName(), i, j, k, l);
-      this.f(categoryTab);
-      this.H = module;
+      this.setParent(categoryTab);
+      this.module = module;
    }
 
    @Override
-   public void l(int i) {
-      CategoryTab categoryTab = this.n();
-      int k = categoryTab.O;
-      int m = categoryTab.t().Y() - categoryTab.x(this);
-      boolean bl = m >= k - 10 && categoryTab.O().E_float() - 10.0F < this.E_float();
+   public void onClick(int i) {
+      CategoryTab categoryTab = this.getCategoryTab();
+      int j = categoryTab.moduleScrollOffset;
+      int k = categoryTab.getSidebar().getHeight() - categoryTab.getModuleButtonY(this);
+      boolean bl = k >= j - 10 && categoryTab.getParent().getYPos() - 10.0F < this.getYPos();
       if (bl) {
          switch (i) {
             case 0:
-               this.H.toggle();
+               this.module.toggle();
                break;
             case 1:
-               if (this.n().D() != null) {
-                  if (this.n().D() != this) {
-                     if (!this.H.getSettings().isEmpty()) {
-                        this.n().j(this);
+               if (this.getCategoryTab().getSelectedModule() != null) {
+                  if (this.getCategoryTab().getSelectedModule() != this) {
+                     if (!this.module.getSettings().isEmpty()) {
+                        this.getCategoryTab().setSelectedModule(this);
                      }
                   } else {
-                     this.n().j(null);
+                     this.getCategoryTab().setSelectedModule(null);
                   }
-               } else if (!this.H.getSettings().isEmpty()) {
-                  this.n().j(this);
+               } else if (!this.module.getSettings().isEmpty()) {
+                  this.getCategoryTab().setSelectedModule(this);
                }
                break;
             case 2:
-               this.Q = true;
+               this.listeningForBind = true;
          }
       }
    }
 
    @Override
    public void render(int i, int j) {
-      if (!this.Y.isRunning()) {
-         if (this.G(i, j)) {
-            this.Y.forwards().start();
+      if (!this.hoverAnimation.isRunning()) {
+         if (this.isHovered(i, j)) {
+            this.hoverAnimation.forwards().start();
          } else {
-            this.Y.backwards().start();
+            this.hoverAnimation.backwards().start();
          }
       }
 
-      int k = (int)this.Y.getValue(0.0, 255.0);
-      if (this.H.isEnabled() && this.P > 40) {
-         RenderUtil.drawRect(this.M() - 6.0F, this.E_float() - 2.0F, this.M() - 5.0F, this.E_float() + 9.0F, new Color(255, 255, 255, this.P).getRGB());
+      int k = (int)this.hoverAnimation.getValue(0.0, 255.0);
+      if (this.module.isEnabled() && this.fadeAlpha > 40) {
+         RenderUtil.drawRect(
+            this.getX() - 6.0F, this.getYPos() - 2.0F, this.getX() - 5.0F, this.getYPos() + 9.0F, new Color(255, 255, 255, this.fadeAlpha).getRGB()
+         );
       }
 
-      if (this.P > 40) {
-         client.getCustomFontRenderer().drawString(this.H.getName(), this.M(), this.E_float() - 2.0F, new Color(136, 141, 157, this.P).getRGB());
+      if (this.fadeAlpha > 40) {
+         client.getCustomFontRenderer()
+            .drawString(this.module.getName(), this.getX(), this.getYPos() - 2.0F, new Color(136, 141, 157, this.fadeAlpha).getRGB());
       }
 
       if (k > 40) {
-         client.getCustomFontRenderer().drawString(this.H.getName(), this.M(), this.E_float() - 2.0F, new Color(255, 255, 255, k).getRGB());
+         client.getCustomFontRenderer().drawString(this.module.getName(), this.getX(), this.getYPos() - 2.0F, new Color(255, 255, 255, k).getRGB());
       }
 
-      int l = this.A;
-      Sidebar sidebar = this.n().t();
-      if (!this.f && this.n().S() == this && this.n().D() == null
-         || this.n().S() == null && this.n().D() == this
-         || this.n().S() != this && this.n().D() == this) {
-         int m = Astolfo.INSTANCE.getSidebarGui().U();
-         GuiMainMenu.P.drawString(this.H.getName(), this.M() + 172.5F - GuiMainMenu.P.getStringWidth(this.H.getName()) / 2.0F, sidebar.E_float() + 3.0F, m);
-         RenderUtil.drawRect(this.M() + 135.0F, sidebar.E_float() + 17.0F, this.M() + 210.0F, sidebar.E_float() + 18.0F, m);
-         if (this.A() != null) {
+      int l = this.settingsScrollOffset;
+      Sidebar sidebar = this.getCategoryTab().getSidebar();
+      if (!this.settingsPanelClosed && this.getCategoryTab().getPreviousModule() == this && this.getCategoryTab().getSelectedModule() == null
+         || this.getCategoryTab().getPreviousModule() == null && this.getCategoryTab().getSelectedModule() == this
+         || this.getCategoryTab().getPreviousModule() != this && this.getCategoryTab().getSelectedModule() == this) {
+         int m = Astolfo.INSTANCE.getSidebarGui().getPulseColor();
+         GuiMainMenu.P
+            .drawString(this.module.getName(), this.getX() + 172.5F - GuiMainMenu.P.getStringWidth(this.module.getName()) / 2.0F, sidebar.getYPos() + 3.0F, m);
+         RenderUtil.drawRect(this.getX() + 135.0F, sidebar.getYPos() + 17.0F, this.getX() + 210.0F, sidebar.getYPos() + 18.0F, m);
+         if (this.getSelectedMap() != null) {
             GuiMainMenu.P
-               .drawString(this.A().X().getName(), this.M() + 310.0F - GuiMainMenu.P.getStringWidth(this.A().X().getName()) / 2.0F, sidebar.E_float() + 3.0F, -1);
+               .drawString(
+                  this.getSelectedMap().getMapSetting().getName(),
+                  this.getX() + 310.0F - GuiMainMenu.P.getStringWidth(this.getSelectedMap().getMapSetting().getName()) / 2.0F,
+                  sidebar.getYPos() + 3.0F,
+                  -1
+               );
          }
 
          GL11.glEnable(3089);
-         SidebarGui.c(sidebar.M(), sidebar.E_float() + 20.0F, sidebar.M() + sidebar.x(), sidebar.E_float() + sidebar.Y());
+         SidebarGui.scissor(sidebar.getX(), sidebar.getYPos() + 20.0F, sidebar.getX() + sidebar.getWidth(), sidebar.getYPos() + sidebar.getHeight());
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof SidebarSettingComponent) {
                SidebarSettingComponent sidebarSettingComponent = (SidebarSettingComponent)element;
-               sidebarSettingComponent.r(sidebar.M() + 135.0F, sidebar.E_float() + l);
+               sidebarSettingComponent.setPosition(sidebar.getX() + 135.0F, sidebar.getYPos() + l);
                sidebarSettingComponent.render(i, j);
-               if (!sidebarSettingComponent.B.isRunning()) {
-                  sidebarSettingComponent.B.forwards().start();
+               if (!sidebarSettingComponent.fadeAnimation.isRunning()) {
+                  sidebarSettingComponent.fadeAnimation.forwards().start();
                }
 
-               sidebarSettingComponent.X = (int)sidebarSettingComponent.B.getValue(0.0, 255.0);
+               sidebarSettingComponent.fadeAlpha = (int)sidebarSettingComponent.fadeAnimation.getValue(0.0, 255.0);
                l += 15;
             }
          }
       } else {
-         for (Element element2 : this.M_ArrayList()) {
+         for (Element element2 : this.getChildren()) {
             if (element2 instanceof SidebarSettingComponent) {
                SidebarSettingComponent sidebarSettingComponent2 = (SidebarSettingComponent)element2;
-               if (!sidebarSettingComponent2.B.isRunning()) {
-                  sidebarSettingComponent2.B.backwards().start();
+               if (!sidebarSettingComponent2.fadeAnimation.isRunning()) {
+                  sidebarSettingComponent2.fadeAnimation.backwards().start();
                }
 
-               sidebarSettingComponent2.X = (int)sidebarSettingComponent2.B.getValue(0.0, 255.0);
+               sidebarSettingComponent2.fadeAlpha = (int)sidebarSettingComponent2.fadeAnimation.getValue(0.0, 255.0);
             }
          }
       }
 
-      this.f = this.n().t().x() == 115;
+      this.settingsPanelClosed = this.getCategoryTab().getSidebar().getWidth() == 115;
    }
 
    @Override
-   public void W(int i, int j, int k) {
-      CategoryTab categoryTab = this.n();
-      int l = categoryTab.O + k;
-      int m = categoryTab.t().Y() - categoryTab.g();
+   public void onMouseScroll(int i, int j, int k) {
+      CategoryTab categoryTab = this.getCategoryTab();
+      int l = categoryTab.moduleScrollOffset + k;
+      int m = categoryTab.getSidebar().getHeight() - categoryTab.getModuleListHeight();
       if (l > 12) {
-         categoryTab.O = 12;
+         categoryTab.moduleScrollOffset = 12;
       } else if (l >= m) {
-         categoryTab.O += k;
+         categoryTab.moduleScrollOffset += k;
       }
    }
 
    @Override
-   public void P(char c, int i) {
-      if (this.Q) {
+   public void onKeyTyped(char c, int i) {
+      if (this.listeningForBind) {
          if (i == 1) {
-            this.Q = false;
+            this.listeningForBind = false;
             return;
          }
 
-         toasts.B("Bind", String.format("%s has been binded to %s", this.H.getName(), Keyboard.getKeyName(i)));
-         this.H.setKey(i);
-         this.Q = false;
+         toasts.infoMessage("Bind", String.format("%s has been binded to %s", this.module.getName(), Keyboard.getKeyName(i)));
+         this.module.setKey(i);
+         this.listeningForBind = false;
       }
 
-      super.P(c, i);
+      super.onKeyTyped(c, i);
    }
 
-   public int v() {
+   public int getSettingsListHeight() {
       byte b = 5;
 
-      for (Element element : this.M_ArrayList()) {
+      for (Element element : this.getChildren()) {
          if (element instanceof SidebarSettingComponent) {
             b += 15;
          }
@@ -168,10 +177,10 @@ public class ModuleButton extends Container {
       return b;
    }
 
-   public int F(SidebarSettingComponent sidebarSettingComponent) {
+   public int getSettingOffset(SidebarSettingComponent sidebarSettingComponent) {
       byte b = 5;
 
-      for (Element element : this.M_ArrayList()) {
+      for (Element element : this.getChildren()) {
          if (element instanceof SidebarSettingComponent) {
             if (sidebarSettingComponent == element) {
                return b;
@@ -184,25 +193,25 @@ public class ModuleButton extends Container {
       return b;
    }
 
-   public CategoryTab n() {
-      return (CategoryTab)this.O();
+   public CategoryTab getCategoryTab() {
+      return (CategoryTab)this.getParent();
    }
 
-   public void D(MapComponent mapComponent) {
-      MapComponent mapComponent2 = this.d;
-      this.d = mapComponent;
-      this.C = mapComponent2;
+   public void setSelectedMap(MapComponent mapComponent) {
+      MapComponent mapComponent2 = this.selectedMap;
+      this.selectedMap = mapComponent;
+      this.previousMap = mapComponent2;
    }
 
-   public MapComponent A() {
-      return this.d;
+   public MapComponent getSelectedMap() {
+      return this.selectedMap;
    }
 
-   public MapComponent h() {
-      return this.C;
+   public MapComponent getPreviousMap() {
+      return this.previousMap;
    }
 
-   public boolean O_boolean() {
-      return this.Q;
+   public boolean isListeningForBind() {
+      return this.listeningForBind;
    }
 }

@@ -15,30 +15,30 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public final class GetProxyListSource implements ProxySource {
-   private static final int t = 20;
-   private final String Y;
-   private final ExecutorService D;
-   private final int P;
-   private final int J;
-   private int h;
+   private static final int DEFAULT_MAX_RETRIES = 20;
+   private final String apiKey;
+   private final ExecutorService executor;
+   private final int maxRetries;
+   private final int requestCount;
+   private int retryCount;
 
    public GetProxyListSource(String string, int i, int j) {
-      this.Y = string;
-      this.D = Executors.newFixedThreadPool(i);
-      this.P = 20;
-      this.J = j;
+      this.apiKey = string;
+      this.executor = Executors.newFixedThreadPool(i);
+      this.maxRetries = 20;
+      this.requestCount = j;
    }
 
    @Override
    public Set<HostAndPort> scrap(EnumSet<ProxyType> enumSet) {
-      String string = "https://api.getproxylist.com/proxy?apiKey=" + this.Y + i(enumSet) + "&maxConnectTime=1&maxSecondsToFirstByte=1";
+      String string = "https://api.getproxylist.com/proxy?apiKey=" + this.apiKey + buildProtocolParams(enumSet) + "&maxConnectTime=1&maxSecondsToFirstByte=1";
       HashSet hashSet = new HashSet();
       ArrayList arrayList = new ArrayList();
 
-      for (int j = 0; j < this.J; j++) {
-         Future future = this.D.submit(() -> {
+      for (int i = 0; i < this.requestCount; i++) {
+         Future future = this.executor.submit(() -> {
             try {
-               return this.r(string);
+               return this.fetchProxy(string);
             } catch (IOException ioException) {
                ioException.printStackTrace();
                return null;
@@ -63,11 +63,11 @@ public final class GetProxyListSource implements ProxySource {
    }
 
    @Override
-   public void z() {
-      this.D.shutdownNow();
+   public void shutdown() {
+      this.executor.shutdownNow();
    }
 
-   private static String i(EnumSet<ProxyType> enumSet) {
+   private static String buildProtocolParams(EnumSet<ProxyType> enumSet) {
       if (enumSet.size() == ProxyType.values().length) {
          return "";
       }
@@ -76,13 +76,13 @@ public final class GetProxyListSource implements ProxySource {
 
       for (ProxyType proxyType : enumSet) {
          stringBuilder.append("&protocol[]=");
-         stringBuilder.append(proxyType.R());
+         stringBuilder.append(proxyType.getProtocolName());
       }
 
       return stringBuilder.toString();
    }
 
-   private HostAndPort r(String string) throws IOException {
+   private HostAndPort fetchProxy(String string) throws IOException {
       URL url = new URL(string);
       URLConnection urlConnection = url.openConnection();
       BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -92,33 +92,33 @@ public final class GetProxyListSource implements ProxySource {
       String string3;
       while ((string3 = bufferedReader.readLine()) != null) {
          if (string3.contains("ip")) {
-            string2 = T(string3, "ip");
+            string2 = extractJsonValue(string3, "ip");
             string2 = string2.substring(1, string2.length() - 1);
          } else if (string3.contains("port")) {
-            i = Integer.parseInt(T(string3, "port"));
+            i = Integer.parseInt(extractJsonValue(string3, "port"));
          }
       }
 
       if (string2 == null || i == -1) {
-         if (this.h >= this.P) {
+         if (this.retryCount >= this.maxRetries) {
             System.out.println("Couldn't parse proxy.");
-            this.h = 0;
+            this.retryCount = 0;
             return null;
          }
 
-         this.h++;
-         this.r(string);
+         this.retryCount++;
+         this.fetchProxy(string);
       }
 
       return new HostAndPort(string2, i);
    }
 
-   private static String T(String string, String string2) {
+   private static String extractJsonValue(String string, String string2) {
       string2 = '"' + string2 + "\": ";
-      return A(string, string2, ',');
+      return extractBetween(string, string2, ',');
    }
 
-   private static String A(String string, String string2, char c) {
+   private static String extractBetween(String string, String string2, char c) {
       int i = string.indexOf(string2);
       if (i != -1) {
          int j = string.indexOf(c, i + string2.length());

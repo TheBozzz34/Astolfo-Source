@@ -15,28 +15,28 @@ public class BansHandler extends PacketHandler<BansPacket> {
    public void handle(BansPacket bansPacket, PacketOutput packetOutput) {
       if (bansPacket.type == BansPacketType.B) {
          try {
-            int j = Integer.parseInt(bansPacket.bans);
-            chat.D(false, false)
-               .S()
-               .i("[BANS] ")
-               .M()
-               .M(EnumChatFormatting.RED)
-               .i(
-                  Z(bansPacket.mode)
+            int i = Integer.parseInt(bansPacket.bans);
+            chat.createBuilder(false, false)
+               .enableLinkDetection()
+               .append("[BANS] ")
+               .bold()
+               .color(EnumChatFormatting.RED)
+               .append(
+                  getModeName(bansPacket.mode)
                      + " has "
-                     + j
-                     + (j <= 1 && j != 0 ? " ban" : " bans")
+                     + i
+                     + (i <= 1 && i != 0 ? " ban" : " bans")
                      + " in the last "
-                     + (BansCommand.p == 1 ? "hour" : BansCommand.p + " hours")
+                     + (BansCommand.hours == 1 ? "hour" : BansCommand.hours + " hours")
                )
-               .N()
-               .b();
+               .build()
+               .send();
          } catch (NumberFormatException numberFormatException) {
          }
       }
    }
 
-   public static String Z(int i) {
+   public static String getModeName(int i) {
       switch (i) {
          case 1:
             return "Skywars";

@@ -6,7 +6,7 @@ import bypass.auth.packet.LoginResponse;
 public interface PacketListener<T> {
    void onPacket(T object);
 
-   default void E(T object) {
+   default void registerManagersOnLogin(T object) {
       if (object instanceof LoginResponse) {
          LoginResponse loginResponse = (LoginResponse)object;
          if (loginResponse.success) {

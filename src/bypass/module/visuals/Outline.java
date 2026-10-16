@@ -42,15 +42,15 @@ public final class Outline extends Module {
    private final ColorSetting color = new ColorSetting("Color", "Color color", ClientColor.PURPLE.getColor());
    @EventHandler(value = RenderModelEvent.class, priority = EventPriority.LOW)
    private Listener<RenderModelEvent> onRenderModel = renderModelEvent -> {
-      if (renderModelEvent.getState() == EventState.PRE && this.r(renderModelEvent.getEntity())) {
+      if (renderModelEvent.getState() == EventState.PRE && this.shouldOutline(renderModelEvent.getEntity())) {
          GL11.glPushMatrix();
          GlStateManager.depthMask(true);
          int i = this.color.getValue().getRGB();
          if (renderModelEvent.getEntity() instanceof EntityPlayer) {
-            if (client.getRelationManager().z(renderModelEvent.getEntity())) {
-               i = OutlineColor.BLUE.C().getRGB();
-            } else if (client.getRelationManager().D(renderModelEvent.getEntity())) {
-               i = OutlineColor.RED.C().getRGB();
+            if (client.getRelationManager().isFriend(renderModelEvent.getEntity())) {
+               i = OutlineColor.BLUE.getColor().getRGB();
+            } else if (client.getRelationManager().isEnemy(renderModelEvent.getEntity())) {
+               i = OutlineColor.RED.getColor().getRGB();
             }
          }
 
@@ -152,12 +152,12 @@ public final class Outline extends Module {
    public static void P_void() {
       Framebuffer framebuffer = mc.getFramebuffer();
       if (framebuffer != null && framebuffer.depthBuffer > -1) {
-         f(framebuffer);
+         setupStencilBuffer(framebuffer);
          framebuffer.depthBuffer = -1;
       }
    }
 
-   public static void f(Framebuffer framebuffer) {
+   public static void setupStencilBuffer(Framebuffer framebuffer) {
       EXTFramebufferObject.glDeleteRenderbuffersEXT(framebuffer.depthBuffer);
       int i = EXTFramebufferObject.glGenRenderbuffersEXT();
       EXTFramebufferObject.glBindRenderbufferEXT(36161, i);
@@ -166,7 +166,7 @@ public final class Outline extends Module {
       EXTFramebufferObject.glFramebufferRenderbufferEXT(36160, 36096, 36161, i);
    }
 
-   private boolean r(Entity entity) {
+   private boolean shouldOutline(Entity entity) {
       if (entity == null) {
          return false;
       } else if (!(entity instanceof EntityLivingBase)) {

@@ -3,18 +3,18 @@ package bypass.loader.check;
 import java.util.Collections;
 
 public class StageVerification {
-   private final DefaultCheckRegistry A = new DefaultCheckRegistry(Collections.singleton(new StageValueCheck()), new CachingVerdictResolver());
-   private final StageVerifier I;
+   private final DefaultCheckRegistry registry = new DefaultCheckRegistry(Collections.singleton(new StageValueCheck()), new CachingVerdictResolver());
+   private final StageVerifier verifier;
 
    public StageVerification(LoadStageList loadStageList) {
-      this.I = new StageVerifier(loadStageList, this.A);
+      this.verifier = new StageVerifier(loadStageList, this.registry);
    }
 
-   public DefaultCheckRegistry j() {
-      return this.A;
+   public DefaultCheckRegistry getRegistry() {
+      return this.registry;
    }
 
-   public StageVerifier J() {
-      return this.I;
+   public StageVerifier getVerifier() {
+      return this.verifier;
    }
 }

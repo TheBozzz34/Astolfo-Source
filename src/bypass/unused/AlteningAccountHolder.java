@@ -3,9 +3,9 @@ package bypass.unused;
 import bypass.account.AlteningAccountData;
 
 public class AlteningAccountHolder {
-   private final AlteningAccountData d;
+   private final AlteningAccountData accountData;
 
    public AlteningAccountHolder(AlteningAccountData alteningAccountData) {
-      this.d = alteningAccountData;
+      this.accountData = alteningAccountData;
    }
 }

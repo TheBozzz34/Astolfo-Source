@@ -8,7 +8,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 
 public final class ProxyListWriter {
-   public static void k(Path path, Collection<HostAndPort> collection, String string) throws IOException {
+   public static void writeProxiesWithSeparator(Path path, Collection<HostAndPort> collection, String string) throws IOException {
       if (Files.notExists(path)) {
          Files.createFile(path);
       }
@@ -23,7 +23,7 @@ public final class ProxyListWriter {
       }
    }
 
-   public static void y(Path path, Collection<HostAndPort> collection) throws IOException {
-      k(path, collection, ":");
+   public static void writeProxies(Path path, Collection<HostAndPort> collection) throws IOException {
+      writeProxiesWithSeparator(path, collection, ":");
    }
 }

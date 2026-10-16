@@ -13,14 +13,14 @@ public enum SpeedMode {
    NCP("NCP"),
    YPORT("Y Port");
 
-   private final String d;
-   private static final SpeedMode[] y = new SpeedMode[]{BHOP, WATCHDOG, VANILLA_BHOP, AAC_3_BHOP, GWEN, SENTINEL, HIGH_JUMP, TELEPORT, SQUADS, NCP, YPORT};
+   private final String displayName;
+   private static final SpeedMode[] VALUES = new SpeedMode[]{BHOP, WATCHDOG, VANILLA_BHOP, AAC_3_BHOP, GWEN, SENTINEL, HIGH_JUMP, TELEPORT, SQUADS, NCP, YPORT};
 
    SpeedMode(String string2) {
-      this.d = string2;
+      this.displayName = string2;
    }
 
-   public static String K(SpeedMode speedMode) {
-      return speedMode.d;
+   public static String displayNameOf(SpeedMode speedMode) {
+      return speedMode.displayName;
    }
 }

@@ -31,7 +31,7 @@ public final class RegisterBoolean4 extends ThreeArgFunction {
 
       if (string != null && string2 != null) {
          BooleanSetting booleanSetting = new BooleanSetting(string2, "script option", bl);
-         LuaApi.f.put(string2, booleanSetting);
+         LuaApi.settingsByName.put(string2, booleanSetting);
          ClientAccess.client.getModuleManager().getModule(string).addSettings(booleanSetting);
          return valueOf(true);
       } else {

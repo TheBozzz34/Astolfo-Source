@@ -33,26 +33,26 @@ import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 
 public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
-   private final GuiScreen V;
-   private GuiTextField l;
-   private GuiResourcePackAvailable f;
-   private GuiResourcePackSelected n;
-   private List<ResourcePackListEntry> m;
-   private List<ResourcePackListEntry> w;
-   private List<ResourcePackListEntry> c;
-   private List<ResourcePackListEntry> B;
-   private PackSearch y;
-   private File O;
-   private GuiButton N;
-   private boolean i;
-   private boolean a;
-   private Comparator<ResourcePackListEntry> b;
-   private static final int G = new Color(7, 7, 7).getRGB();
-   private static final int q = new Color(17, 17, 17).getRGB();
+   private final GuiScreen parentGui;
+   private GuiTextField searchField;
+   private GuiResourcePackAvailable availablePackList;
+   private GuiResourcePackSelected selectedPackList;
+   private List<ResourcePackListEntry> allAvailableEntries;
+   private List<ResourcePackListEntry> filteredAvailableEntries;
+   private List<ResourcePackListEntry> availableEntriesSink;
+   private List<ResourcePackListEntry> selectedEntries;
+   private PackSearch packSearch;
+   private File currentDirectory;
+   private GuiButton pressedButton;
+   private boolean needsRefresh;
+   private boolean packsChanged;
+   private Comparator<ResourcePackListEntry> sortComparator;
+   private static final int GRADIENT_TOP_COLOR = new Color(7, 7, 7).getRGB();
+   private static final int GRADIENT_BOTTOM_COLOR = new Color(17, 17, 17).getRGB();
 
    public CustomResourcePacksScreen(GuiScreen guiScreen) {
       super(guiScreen);
-      this.V = guiScreen;
+      this.parentGui = guiScreen;
    }
 
    @Override
@@ -63,50 +63,50 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
       this.buttonList.add(new GuiOptionButton(10, this.width / 2 - 204, this.height - 26, 40, 20, "A-Z"));
       this.buttonList.add(new GuiOptionButton(11, this.width / 2 - 204 + 44, this.height - 26, 40, 20, "Z-A"));
       this.buttonList.add(new GuiOptionButton(20, this.width / 2 - 74, this.height - 26, 70, 20, "Refresh"));
-      String string = this.l == null ? "" : this.l.getText();
-      this.l = new GuiTextField(30, this.fontRendererObj, this.width / 2 - 203, this.height - 46, 198, 16);
-      this.l.setText(string);
-      if (!this.a) {
-         this.m = Lists.newArrayListWithCapacity(8);
-         this.w = Lists.newArrayListWithCapacity(8);
-         this.c = Lists.newArrayListWithCapacity(1);
-         this.B = Lists.newArrayListWithCapacity(8);
+      String string = this.searchField == null ? "" : this.searchField.getText();
+      this.searchField = new GuiTextField(30, this.fontRendererObj, this.width / 2 - 203, this.height - 46, 198, 16);
+      this.searchField.setText(string);
+      if (!this.packsChanged) {
+         this.allAvailableEntries = Lists.newArrayListWithCapacity(8);
+         this.filteredAvailableEntries = Lists.newArrayListWithCapacity(8);
+         this.availableEntriesSink = Lists.newArrayListWithCapacity(1);
+         this.selectedEntries = Lists.newArrayListWithCapacity(8);
          ResourcePackRepository resourcePackRepository = this.mc.getResourcePackRepository();
          resourcePackRepository.updateRepositoryEntriesAll();
-         this.O = resourcePackRepository.getDirResourcepacks();
-         this.m.addAll(this.createAvailablePackList(resourcePackRepository));
+         this.currentDirectory = resourcePackRepository.getDirResourcepacks();
+         this.allAvailableEntries.addAll(this.createAvailablePackList(resourcePackRepository));
 
          for (ResourcePackRepository.Entry entry : Lists.reverse(resourcePackRepository.getRepositoryEntries())) {
-            this.B.add(new ResourcePackListEntryFound(this, entry));
+            this.selectedEntries.add(new ResourcePackListEntryFound(this, entry));
          }
 
-         this.B.add(new ResourcePackListEntryDefault(this));
+         this.selectedEntries.add(new ResourcePackListEntryDefault(this));
       }
 
-      this.f = new GuiResourcePackAvailable(this.mc, 200, this.height, this.w);
-      this.f.setSlotXBoundsFromLeft(this.width / 2 - 4 - 200);
-      this.f.U(7, 8);
-      this.n = new GuiResourcePackSelected(this.mc, 200, this.height, this.B);
-      this.n.setSlotXBoundsFromLeft(this.width / 2 + 4);
-      this.n.U(7, 8);
-      this.y = new PackSearch(this.m, this.w);
-      this.y.E(this.b == null ? (this.b = PackSearch.b) : this.b);
-      this.y.R(this.l.getText().trim());
+      this.availablePackList = new GuiResourcePackAvailable(this.mc, 200, this.height, this.filteredAvailableEntries);
+      this.availablePackList.setSlotXBoundsFromLeft(this.width / 2 - 4 - 200);
+      this.availablePackList.U(7, 8);
+      this.selectedPackList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedEntries);
+      this.selectedPackList.setSlotXBoundsFromLeft(this.width / 2 + 4);
+      this.selectedPackList.U(7, 8);
+      this.packSearch = new PackSearch(this.allAvailableEntries, this.filteredAvailableEntries);
+      this.packSearch.setComparator(this.sortComparator == null ? (this.sortComparator = PackSearch.NAME_ASCENDING) : this.sortComparator);
+      this.packSearch.setSearchQuery(this.searchField.getText().trim());
    }
 
    @Override
    public void actionPerformed(GuiButton button) {
       if (button.id == 20) {
-         this.b();
+         this.refreshAvailablePacks();
       } else if (button.id == 11) {
-         this.y.E(this.b = PackSearch.A);
+         this.packSearch.setComparator(this.sortComparator = PackSearch.NAME_DESCENDING);
       } else if (button.id == 10) {
-         this.y.E(this.b = PackSearch.b);
+         this.packSearch.setComparator(this.sortComparator = PackSearch.NAME_ASCENDING);
       } else if (button.id == 2) {
-         X(this.mc.getResourcePackRepository().getDirResourcepacks());
+         openInFileExplorer(this.mc.getResourcePackRepository().getDirResourcepacks());
       } else if (button.id == 1) {
-         if (this.a) {
-            List list = this.t();
+         if (this.packsChanged) {
+            List list = this.applySelectedPacks();
             this.mc.gameSettings.resourcePacks.clear();
 
             for (Object object : list) {
@@ -119,7 +119,7 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
             System.gc();
          }
 
-         this.mc.displayGuiScreen(this.V);
+         this.mc.displayGuiScreen(this.parentGui);
       }
    }
 
@@ -128,17 +128,17 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
       if (mouseButton == 0) {
          for (GuiButton guiButton : this.buttonList) {
             if (guiButton.mousePressed(this.mc, mouseX, mouseY)) {
-               this.N = guiButton;
+               this.pressedButton = guiButton;
                guiButton.playPressSound(this.mc.getSoundHandler());
                this.actionPerformed(guiButton);
             }
          }
       }
 
-      this.f.mouseClicked(mouseX, mouseY, mouseButton);
-      this.n.mouseClicked(mouseX, mouseY, mouseButton);
-      this.l.mouseClicked(mouseX, mouseY, mouseButton);
-      this.y.f();
+      this.availablePackList.mouseClicked(mouseX, mouseY, mouseButton);
+      this.selectedPackList.mouseClicked(mouseX, mouseY, mouseButton);
+      this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
+      this.packSearch.updateFilter();
    }
 
    @Override
@@ -148,24 +148,24 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
       } catch (NullPointerException nullPointerException) {
       }
 
-      this.f.handleMouseInput();
-      this.n.handleMouseInput();
+      this.availablePackList.handleMouseInput();
+      this.selectedPackList.handleMouseInput();
    }
 
    @Override
    public void mouseReleased(int mouseX, int mouseY, int state) {
-      if (state == 0 && this.N != null) {
-         this.N.mouseReleased(mouseX, mouseY);
-         this.N = null;
+      if (state == 0 && this.pressedButton != null) {
+         this.pressedButton.mouseReleased(mouseX, mouseY);
+         this.pressedButton = null;
       }
    }
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
       super.keyTyped(typedChar, keyCode);
-      if (this.l.isFocused()) {
-         this.l.textboxKeyTyped(typedChar, keyCode);
-         this.y.R(this.l.getText().trim());
+      if (this.searchField.isFocused()) {
+         this.searchField.textboxKeyTyped(typedChar, keyCode);
+         this.packSearch.setSearchQuery(this.searchField.getText().trim());
       }
    }
 
@@ -173,39 +173,39 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    public void onGuiClosed() {
       Keyboard.enableRepeatEvents(false);
       System.out.println("call");
-      this.m.clear();
-      this.w.clear();
-      this.c.clear();
-      this.B.clear();
+      this.allAvailableEntries.clear();
+      this.filteredAvailableEntries.clear();
+      this.availableEntriesSink.clear();
+      this.selectedEntries.clear();
       System.gc();
    }
 
    @Override
    public void updateScreen() {
-      this.l.updateCursorCounter();
-      if (this.i) {
-         this.i = false;
-         this.t();
-         this.b();
+      this.searchField.updateCursorCounter();
+      if (this.needsRefresh) {
+         this.needsRefresh = false;
+         this.applySelectedPacks();
+         this.refreshAvailablePacks();
       }
    }
 
-   public void S(File file) {
-      this.O = file;
-      this.t();
-      this.b();
+   public void openDirectory(File file) {
+      this.currentDirectory = file;
+      this.applySelectedPacks();
+      this.refreshAvailablePacks();
    }
 
-   public void b() {
-      this.m.clear();
-      this.m.addAll(this.createAvailablePackList(this.mc.getResourcePackRepository()));
-      this.y.f();
+   public void refreshAvailablePacks() {
+      this.allAvailableEntries.clear();
+      this.allAvailableEntries.addAll(this.createAvailablePackList(this.mc.getResourcePackRepository()));
+      this.packSearch.updateFilter();
    }
 
-   public List<ResourcePackRepository.Entry> t() {
-      ArrayList arrayList = Lists.newArrayListWithCapacity(this.B.size());
+   public List<ResourcePackRepository.Entry> applySelectedPacks() {
+      ArrayList arrayList = Lists.newArrayListWithCapacity(this.selectedEntries.size());
 
-      for (ResourcePackListEntry resourcePackListEntry : this.B) {
+      for (ResourcePackListEntry resourcePackListEntry : this.selectedEntries) {
          if (resourcePackListEntry instanceof ResourcePackListEntryFound) {
             ResourcePackListEntryFound resourcePackListEntryFound = (ResourcePackListEntryFound)resourcePackListEntry;
             if (resourcePackListEntryFound.func_148318_i() != null) {
@@ -219,7 +219,7 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
       return arrayList;
    }
 
-   public static void X(File file) {
+   public static void openInFileExplorer(File file) {
       String string = file.getAbsolutePath();
       if (Util.getOSType() == Util.EnumOS.OSX) {
          try {
@@ -249,19 +249,19 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawBackground(0);
-      this.f.drawScreen(mouseX, mouseY, partialTicks);
-      this.n.drawScreen(mouseX, mouseY, partialTicks);
-      this.v(0, 32, 255, 255);
-      this.v(this.height - 52, this.height, 255, 255);
-      this.l.drawTextBox();
+      this.availablePackList.drawScreen(mouseX, mouseY, partialTicks);
+      this.selectedPackList.drawScreen(mouseX, mouseY, partialTicks);
+      this.drawOverlayGradient(0, 32, 255, 255);
+      this.drawOverlayGradient(this.height - 52, this.height, 255, 255);
+      this.searchField.drawTextBox();
 
       for (GuiButton guiButton : this.buttonList) {
          guiButton.drawButton(this.mc, mouseX, mouseY);
       }
    }
 
-   public void v(int i, int j, int k, int l) {
-      this.drawGradientRect(0, i, this.width, j, G, q);
+   public void drawOverlayGradient(int i, int j, int k, int l) {
+      this.drawGradientRect(0, i, this.width, j, GRADIENT_TOP_COLOR, GRADIENT_BOTTOM_COLOR);
    }
 
    @Override
@@ -295,17 +295,17 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
 
    private List<ResourcePackListEntryFound> createAvailablePackList(ResourcePackRepository resourcePackRepository) {
       ArrayList arrayList = Lists.newArrayList();
-      if (!resourcePackRepository.getDirResourcepacks().equals(this.O)) {
-         arrayList.add(new FolderPackEntry(this, this.O.getParentFile(), true));
+      if (!resourcePackRepository.getDirResourcepacks().equals(this.currentDirectory)) {
+         arrayList.add(new FolderPackEntry(this, this.currentDirectory.getParentFile(), true));
       }
 
-      File[] files = this.O.listFiles();
+      File[] files = this.currentDirectory.listFiles();
       if (files != null) {
          for (File file : files) {
             if (file.isDirectory() && !new File(file, "pack.mcmeta").isFile()) {
                arrayList.add(new FolderPackEntry(this, file));
             } else {
-               ResourcePackRepository.Entry entry = FolderResourcePackRepository.b(resourcePackRepository, file);
+               ResourcePackRepository.Entry entry = FolderResourcePackRepository.createEntry(resourcePackRepository, file);
                if (entry != null) {
                   try {
                      entry.updateResourcePack();
@@ -324,29 +324,29 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
 
    @Override
    public boolean hasResourcePackEntry(ResourcePackListEntry resourcePackListEntry) {
-      return this.B.contains(resourcePackListEntry);
+      return this.selectedEntries.contains(resourcePackListEntry);
    }
 
    @Override
    public List getListContaining(ResourcePackListEntry resourcePackListEntry) {
-      return this.hasResourcePackEntry(resourcePackListEntry) ? this.B : this.m;
+      return this.hasResourcePackEntry(resourcePackListEntry) ? this.selectedEntries : this.allAvailableEntries;
    }
 
    @Override
    public List<ResourcePackListEntry> getAvailableResourcePacks() {
-      this.i = true;
-      this.c.clear();
-      return this.c;
+      this.needsRefresh = true;
+      this.availableEntriesSink.clear();
+      return this.availableEntriesSink;
    }
 
    @Override
    public List<ResourcePackListEntry> getSelectedResourcePacks() {
-      this.i = true;
-      return this.B;
+      this.needsRefresh = true;
+      return this.selectedEntries;
    }
 
    @Override
    public void markChanged() {
-      this.a = true;
+      this.packsChanged = true;
    }
 }

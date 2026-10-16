@@ -10,10 +10,10 @@ public class SaveConfigButton extends Button {
    }
 
    @Override
-   public void G() {
+   public void onPress() {
       String string = SidebarGui.config.getValue();
       ConfigFiles.save(ConfigFiles.serializeModules(), string);
       client.setConfigName(string);
-      client.getNotificationManager().i("Config manager", String.format("Saved %s config", string), NotificationType.SUCCESS, 2500).K();
+      client.getNotificationManager().createNotification("Config manager", String.format("Saved %s config", string), NotificationType.SUCCESS, 2500).show();
    }
 }

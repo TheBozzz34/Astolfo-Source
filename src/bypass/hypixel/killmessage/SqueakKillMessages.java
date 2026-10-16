@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class SqueakKillMessages {
    public SqueakKillMessages() {
-      FinalKillTracker.c
+      FinalKillTracker.killMessagePatterns
          .addAll(
             Arrays.asList(
                "(\\w{1,16}) was squeaked from a distance by (\\w{1,16}).*",

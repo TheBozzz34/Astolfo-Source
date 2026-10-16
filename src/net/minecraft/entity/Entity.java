@@ -1179,7 +1179,7 @@ public abstract class Entity implements ICommandSender {
       double e = this.posY - y;
       double d2 = this.posZ - z;
       double d3 = d * d + e * e + d2 * d2;
-      if (ModuleManager.I.isEnabled()) {
+      if (ModuleManager.noRender.isEnabled()) {
          return !Minecraft.getMinecraft().thePlayer.C(this) && NoRender.visGraph.getValue() && !(this instanceof EntityPlayer)
             ? false
             : !NoRender.smart.getValue() || this.isInRangeToRenderDist(d3 * 10.0);

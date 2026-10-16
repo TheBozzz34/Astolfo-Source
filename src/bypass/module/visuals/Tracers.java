@@ -56,19 +56,19 @@ public final class Tracers extends Module {
             GL11.glEnable(3042);
 
             for (Entity entity : mc.theWorld.loadedEntityList) {
-               if (this.W(entity)) {
+               if (this.shouldTrace(entity)) {
                   double d = mc.thePlayer.getDistanceToEntity(entity);
                   GL11.glDisable(3553);
                   mc.entityRenderer.disableLightmap();
                   GL11.glEnable(2848);
                   GL11.glLineWidth(1.0F);
                   GL11.glEnable(2848);
-                  float h = (float)this.Z(entity.posX, entity.lastTickPosX, renderEvent.getPartialTicks()) - (float)mc.getRenderManager().viewerPosX;
-                  float f2 = (float)this.Z(entity.posY, entity.lastTickPosY, renderEvent.getPartialTicks()) - (float)mc.getRenderManager().viewerPosY;
-                  float f3 = (float)this.Z(entity.posZ, entity.lastTickPosZ, renderEvent.getPartialTicks()) - (float)mc.getRenderManager().viewerPosZ;
-                  if (client.getRelationManager().z(entity)) {
-                     RenderUtil.setColor(BaseColor.BLUE.z().getRGB());
-                  } else if (client.getRelationManager().D(entity)) {
+                  float h = (float)this.interpolate(entity.posX, entity.lastTickPosX, renderEvent.getPartialTicks()) - (float)mc.getRenderManager().viewerPosX;
+                  float f2 = (float)this.interpolate(entity.posY, entity.lastTickPosY, renderEvent.getPartialTicks()) - (float)mc.getRenderManager().viewerPosY;
+                  float f3 = (float)this.interpolate(entity.posZ, entity.lastTickPosZ, renderEvent.getPartialTicks()) - (float)mc.getRenderManager().viewerPosZ;
+                  if (client.getRelationManager().isFriend(entity)) {
+                     RenderUtil.setColor(BaseColor.BLUE.getColor().getRGB());
+                  } else if (client.getRelationManager().isEnemy(entity)) {
                      RenderUtil.setColor(ClientColor.RED.getColor().getRGB());
                   } else if (AutoHypixel.bountiedPlayers.contains(entity)) {
                      RenderUtil.setColor(Color.YELLOW.getRGB());
@@ -111,11 +111,11 @@ public final class Tracers extends Module {
       this.addSettings(this.entities, this.highlight, this.width);
    }
 
-   private double Z(double d, double d2, double d3) {
+   private double interpolate(double d, double d2, double d3) {
       return d2 + (d - d2) * d3;
    }
 
-   private boolean W(Entity entity) {
+   private boolean shouldTrace(Entity entity) {
       if ((!(entity instanceof EntityPlayer) || entity == mc.thePlayer)
          && (entity != mc.thePlayer || mc.gameSettings.thirdPersonView <= 0 || !this.entities.getSetting("Local").asBoolean())) {
          return entity instanceof EntityMob && this.entities.getSetting("Monsters").asBoolean()
@@ -123,17 +123,17 @@ public final class Tracers extends Module {
             || entity instanceof EntityTameable && this.entities.getSetting("Passives").asBoolean()
             || entity instanceof EntityItem && this.entities.getSetting("Items").asBoolean()
             || entity instanceof EntityAgeable && this.entities.getSetting("Passives").asBoolean();
-      } else if (GameUtil.S((EntityLivingBase)entity) && !this.entities.getSetting("Invisibles").asBoolean()) {
+      } else if (GameUtil.isFullyInvisible((EntityLivingBase)entity) && !this.entities.getSetting("Invisibles").asBoolean()) {
          return false;
       } else if (GameUtil.isOnHypixel() && GameUtil.scoreboardTitleContains("PIT")) {
          return AutoHypixel.pitSpawnY != 0.0 && entity.posY > AutoHypixel.pitSpawnY
             ? false
-            : AutoHypixel.bountiedPlayers.contains(entity) || client.getRelationManager().D(entity) || client.getRelationManager().z(entity);
+            : AutoHypixel.bountiedPlayers.contains(entity) || client.getRelationManager().isEnemy(entity) || client.getRelationManager().isFriend(entity);
       } else {
          return !this.highlight.getValue()
             ? this.entities.getSetting("Players").asBoolean()
             : this.entities.getSetting("Players").asBoolean()
-               && (client.getRelationManager().z(entity) || client.getRelationManager().D(entity) || AutoHypixel.bountiedPlayers.contains(entity));
+               && (client.getRelationManager().isFriend(entity) || client.getRelationManager().isEnemy(entity) || AutoHypixel.bountiedPlayers.contains(entity));
       }
    }
 }

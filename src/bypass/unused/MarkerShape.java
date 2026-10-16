@@ -6,5 +6,5 @@ public enum MarkerShape {
    DEFAULT,
    CROSS;
 
-   private static final MarkerShape[] A = new MarkerShape[]{CIRCLE, SQUARE, DEFAULT, CROSS};
+   private static final MarkerShape[] VALUES = new MarkerShape[]{CIRCLE, SQUARE, DEFAULT, CROSS};
 }

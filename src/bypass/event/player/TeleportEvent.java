@@ -13,25 +13,25 @@ public class TeleportEvent extends CancellableEvent implements ClientAccess {
       this.s08PacketPlayerPosLook = s08PacketPlayerPosLook;
    }
 
-   public boolean y() {
+   public boolean isLagback() {
       return mc.thePlayer == null
          ? false
-         : !this.V()
+         : !this.isTerrainLoading()
             && mc.thePlayer.getDistance(this.s08PacketPlayerPosLook.getX(), this.s08PacketPlayerPosLook.getY(), this.s08PacketPlayerPosLook.getZ()) < 50.0
             && this.s08PacketPlayerPosLook.getPitch() != 0.0F
             && this.s08PacketPlayerPosLook.getYaw() % 90.0F != 0.0F;
    }
 
-   public boolean V() {
+   public boolean isTerrainLoading() {
       return !mc.getNetHandler().doneLoadingTerrain;
    }
 
-   public void i(Module module) {
+   public void disableModule(Module module) {
       module.setEnabled(false);
-      toasts.X("Server spawn", module.getName() + " was disabled");
+      toasts.warningMessage("Server spawn", module.getName() + " was disabled");
    }
 
-   public void b(Entity entity) {
+   public void applyToEntity(Entity entity) {
       entity.setPositionAndRotation(
          this.s08PacketPlayerPosLook.getX(),
          this.s08PacketPlayerPosLook.getY(),

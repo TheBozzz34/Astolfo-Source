@@ -11,7 +11,7 @@ import org.luaj.vm2.lib.OneArgFunction;
 public final class Post extends OneArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue) {
-      if (!ScriptManager.N.t()) {
+      if (!ScriptManager.unsafeFunctions.isEnabled()) {
          return valueOf(false);
       }
 
@@ -20,12 +20,12 @@ public final class Post extends OneArgFunction {
       }
 
       String string = luaValue.checkjstring();
-      HttpRequest httpRequest = new HttpRequest().g(string);
-      httpRequest.W("Astolfo-User");
-      httpRequest.V(AuthUtil.getHwid());
-      httpRequest.T("Astolfo-Client");
-      httpRequest.i("");
-      httpRequest.S("");
+      HttpRequest httpRequest = new HttpRequest().setUrl(string);
+      httpRequest.setHeaderKeys("Astolfo-User");
+      httpRequest.setHeaderValues(AuthUtil.getHwid());
+      httpRequest.setUserAgent("Astolfo-Client");
+      httpRequest.setAccept("");
+      httpRequest.setContentType("");
       ArrayList arrayList = new ArrayList();
       ArrayList arrayList2 = new ArrayList();
       String[] strings = string.split("\\?");
@@ -45,8 +45,8 @@ public final class Post extends OneArgFunction {
       String[] strings5 = new String[arrayList2.size()];
       arrayList.toArray(strings4);
       arrayList2.toArray(strings5);
-      httpRequest.x(strings4);
-      httpRequest.B(strings5);
+      httpRequest.setParamKeys(strings4);
+      httpRequest.setParamValues(strings5);
       String string3 = HttpUtil.post(httpRequest);
       return valueOf(string3);
    }

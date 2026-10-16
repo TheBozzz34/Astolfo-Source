@@ -9,7 +9,7 @@ import com.viaversion.viaversion.api.protocol.remapper.ValueTransformer;
 import com.viaversion.viaversion.api.type.Type;
 
 public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
-   public static final ViaFabricHostnameProtocol i = new ViaFabricHostnameProtocol();
+   public static final ViaFabricHostnameProtocol instance = new ViaFabricHostnameProtocol();
 
    @Override
    public void registerPackets() {
@@ -34,7 +34,7 @@ public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
          }
 
          public String transform(PacketWrapper packetWrapper, String string) {
-            return new VFAddressParser().c(string).p;
+            return new VFAddressParser().parse(string).serverAddress;
          }
       }
    }

@@ -8,7 +8,7 @@ public final class ConvertSpeed extends TwoArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       if (luaValue != null && !luaValue.isnil() && luaValue.istable() && luaValue2 != null && !luaValue2.isnil() && luaValue2.isnumber()) {
-         double[] doubles = PlayerLibrary.U(luaValue2.tofloat());
+         double[] doubles = PlayerLibrary.convertSpeed(luaValue2.tofloat());
          if (doubles != null) {
             LuaValue luaValue3 = luaValue.get("x");
             if (!luaValue3.isnil() && luaValue3.isnumber()) {

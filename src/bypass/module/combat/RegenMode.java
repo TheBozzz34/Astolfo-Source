@@ -5,14 +5,14 @@ public enum RegenMode {
    POTION("Potion"),
    WAIT("Wait");
 
-   private String w;
-   private static final RegenMode[] m = new RegenMode[]{VANILLA, POTION, WAIT};
+   private String displayName;
+   private static final RegenMode[] VALUES = new RegenMode[]{VANILLA, POTION, WAIT};
 
    RegenMode(String string2) {
-      this.w = string2;
+      this.displayName = string2;
    }
 
-   public static String S(RegenMode regenMode) {
-      return regenMode.w;
+   public static String displayNameOf(RegenMode regenMode) {
+      return regenMode.displayName;
    }
 }

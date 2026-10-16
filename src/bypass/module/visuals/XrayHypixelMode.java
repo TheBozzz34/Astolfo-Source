@@ -5,5 +5,5 @@ public enum XrayHypixelMode {
    TRUE,
    FURTHER;
 
-   private static final XrayHypixelMode[] g = new XrayHypixelMode[]{FALSE, TRUE, FURTHER};
+   private static final XrayHypixelMode[] VALUES = new XrayHypixelMode[]{FALSE, TRUE, FURTHER};
 }

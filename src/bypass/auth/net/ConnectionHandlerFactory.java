@@ -1,5 +1,5 @@
 package bypass.auth.net;
 
 public interface ConnectionHandlerFactory {
-   ConnectionHandler y(NioConnection nioConnection);
+   ConnectionHandler createHandler(NioConnection nioConnection);
 }

@@ -1,11 +1,11 @@
 package bypass.auth.fingerprint;
 
 public interface FingerprintEntry<T> {
-   String c();
+   String getName();
 
-   int o();
+   int getHash();
 
-   T z();
+   T getValue();
 
-   void A();
+   void refresh();
 }

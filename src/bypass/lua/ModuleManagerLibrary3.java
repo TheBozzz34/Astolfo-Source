@@ -22,33 +22,33 @@ import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public class ModuleManagerLibrary3 extends TwoArgFunction implements ClientAccess {
-   private Command g;
-   public final TwoArgFunction H = new ModuleManagerLibrary3.r5i();
-   public static final OneArgFunction b = new GetSettingFunction3();
-   public static final VarArgFunction X = new Option2();
-   public static final VarArgFunction v = new SetOption4();
-   public static final OneArgFunction l = new IsModuleOn2();
-   public static final ThreeArgFunction B = new RegisterBoolean4();
-   public static final VarArgFunction L = new RegisterNumber4();
+   private Command ownerCommand;
+   public final TwoArgFunction registerFunction = new ModuleManagerLibrary3.r5i();
+   public static final OneArgFunction getSettingFunction = new GetSettingFunction3();
+   public static final VarArgFunction optionFunction = new Option2();
+   public static final VarArgFunction setOptionFunction = new SetOption4();
+   public static final OneArgFunction isModuleOnFunction = new IsModuleOn2();
+   public static final ThreeArgFunction registerBooleanFunction = new RegisterBoolean4();
+   public static final VarArgFunction registerNumberFunction = new RegisterNumber4();
 
    public ModuleManagerLibrary3(Command command) {
-      this.g = command;
+      this.ownerCommand = command;
    }
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       LuaTable luaTable = LuaValue.tableOf();
-      luaTable.set("register", this.H);
-      luaTable.set("register_boolean", B);
-      luaTable.set("register_number", L);
-      luaTable.set("option", X);
-      luaTable.set("set_option", v);
-      luaTable.set("is_module_on", l);
+      luaTable.set("register", this.registerFunction);
+      luaTable.set("register_boolean", registerBooleanFunction);
+      luaTable.set("register_number", registerNumberFunction);
+      luaTable.set("option", optionFunction);
+      luaTable.set("set_option", setOptionFunction);
+      luaTable.set("is_module_on", isModuleOnFunction);
       luaValue2.set("module_manager", luaTable);
       return luaTable;
    }
 
-   private static void T(LuaValue luaValue, Setting<?> setting) {
+   private static void applyLuaValue(LuaValue luaValue, Setting<?> setting) {
       if (luaValue.isnumber()) {
          if (setting.getType() == SettingType.NUMBER) {
             NumberSetting numberSetting = (NumberSetting)setting;
@@ -78,19 +78,19 @@ public class ModuleManagerLibrary3 extends TwoArgFunction implements ClientAcces
       }
    }
 
-   public static Command g(ModuleManagerLibrary3 moduleManagerLibrary3) {
-      return moduleManagerLibrary3.g;
+   public static Command getOwnerCommand(ModuleManagerLibrary3 moduleManagerLibrary3) {
+      return moduleManagerLibrary3.ownerCommand;
    }
 
-   public static void U(LuaValue luaValue, Setting setting) {
-      T(luaValue, setting);
+   public static void applyLuaValueToSetting(LuaValue luaValue, Setting setting) {
+      applyLuaValue(luaValue, setting);
    }
 
    public class r5i extends TwoArgFunction {
       @Override
       public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
          String string = null;
-         LuaTable luaTable = null;
+         LuaTable luaTable2 = null;
          if (luaValue.isstring()) {
             LuaString luaString = (LuaString)luaValue;
             string = luaString.checkjstring();
@@ -99,14 +99,14 @@ public class ModuleManagerLibrary3 extends TwoArgFunction implements ClientAcces
          if (luaValue2.isfunction()) {
             LuaValue luaValue3 = luaValue2.call();
             if (luaValue3.istable()) {
-               luaTable = (LuaTable)luaValue3.call();
+               luaTable2 = (LuaTable)luaValue3.call();
             }
          } else if (luaValue2.istable()) {
-            luaTable = (LuaTable)luaValue2;
+            luaTable2 = (LuaTable)luaValue2;
          }
 
-         if (string != null && luaTable != null) {
-            ModuleManagerLibrary3.g(ModuleManagerLibrary3.this).w = luaTable;
+         if (string != null && luaTable2 != null) {
+            ModuleManagerLibrary3.getOwnerCommand(ModuleManagerLibrary3.this).luaTable = luaTable2;
             return valueOf(true);
          } else {
             return valueOf(false);

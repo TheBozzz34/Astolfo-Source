@@ -24,7 +24,7 @@ public final class LoginPacketWriter implements PacketWriter<LoginPacket> {
       byteBuffer.put(bytes4);
       byteBuffer.putInt(bytes5.length);
       byteBuffer.put(bytes5);
-      packetBuffer.n(byteBuffer);
+      packetBuffer.addChunk(byteBuffer);
       PacketWriter.super.write(loginPacket, packetBuffer);
    }
 }

@@ -5,14 +5,14 @@ public enum StepMode {
    NCP("NCP"),
    MOTION("Motion");
 
-   private String O;
-   private static final StepMode[] b = new StepMode[]{VANILLA, NCP, MOTION};
+   private String displayName;
+   private static final StepMode[] VALUES = new StepMode[]{VANILLA, NCP, MOTION};
 
    StepMode(String string2) {
-      this.O = string2;
+      this.displayName = string2;
    }
 
-   public static String l(StepMode stepMode) {
-      return stepMode.O;
+   public static String displayNameOf(StepMode stepMode) {
+      return stepMode.displayName;
    }
 }

@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public final class BodyRequest extends AbstractRequest {
-   private static final Map<String, String> h = new HashMap<>();
+   private static final Map<String, String> headers = new HashMap<>();
 
    @Override
-   public String D() throws Exception {
-      if (this.m.isEmpty()) {
+   public String getBody() throws Exception {
+      if (this.parameters.isEmpty()) {
          return "";
       }
 
       StringBuilder stringBuilder = new StringBuilder();
 
-      for (Entry entry : this.m.entrySet()) {
+      for (Entry entry : this.parameters.entrySet()) {
          stringBuilder.append((String)entry.getKey()).append("=").append((String)entry.getValue()).append("&");
       }
 
@@ -25,19 +25,19 @@ public final class BodyRequest extends AbstractRequest {
    }
 
    @Override
-   public String t() {
+   public String getMethod() {
       return HttpMethod.POST.toString();
    }
 
    @Override
-   public ContentType V() {
+   public ContentType getContentType() {
       return ContentType.URL_ENCODED;
    }
 
    @Override
-   public int d() {
+   public int getContentLength() {
       try {
-         return this.D().length();
+         return this.getBody().length();
       } catch (Exception exception) {
          exception.printStackTrace();
          return -1;
@@ -45,16 +45,16 @@ public final class BodyRequest extends AbstractRequest {
    }
 
    @Override
-   public URL m(URL url) throws Exception {
+   public URL buildUrl(URL url) throws Exception {
       return url;
    }
 
    @Override
-   public Map<String, String> U() {
-      h.clear();
-      h.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-      h.put("Content-Type", this.V().S());
-      h.put("Content-Length", String.valueOf(this.d()));
-      return h;
+   public Map<String, String> getHeaders() {
+      headers.clear();
+      headers.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+      headers.put("Content-Type", this.getContentType().getMimeType());
+      headers.put("Content-Length", String.valueOf(this.getContentLength()));
+      return headers;
    }
 }

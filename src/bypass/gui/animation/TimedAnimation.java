@@ -1,23 +1,23 @@
 package bypass.gui.animation;
 
 public class TimedAnimation extends Animation {
-   private long f;
+   private long lastUpdateTime;
 
    public TimedAnimation() {
-      this.O = 400;
+      this.duration = 400;
    }
 
    @Override
    public Animation start() {
-      this.f = System.currentTimeMillis();
+      this.lastUpdateTime = System.currentTimeMillis();
       return super.start();
    }
 
    @Override
    public double getValue() {
       long l = System.currentTimeMillis();
-      this.step((int)(l - this.f));
-      this.f = l;
-      return this.ease(this.U);
+      this.step((int)(l - this.lastUpdateTime));
+      this.lastUpdateTime = l;
+      return this.ease(this.progress);
    }
 }

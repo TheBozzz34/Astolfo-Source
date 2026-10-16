@@ -9,64 +9,64 @@ import java.io.IOException;
 import java.util.Map.Entry;
 
 public abstract class JsonFileManager<T extends JsonSerializable, U extends JsonElement> extends Manager<T> implements Loadable, ClientAccess {
-   public final File R;
+   public final File file;
 
    public JsonFileManager(File file, String string) {
-      this.R = new File(file, string);
+      this.file = new File(file, string);
       if (!file.exists()) {
          file.mkdir();
       }
    }
 
-   public abstract void t(String string, U jsonElement);
+   public abstract void loadEntry(String string, U jsonElement);
 
-   public abstract void I();
+   public abstract void loadDefaults();
 
    @Override
    public void load() {
-      if (!this.R.exists()) {
+      if (!this.file.exists()) {
          try {
-            this.R.createNewFile();
-            this.I();
+            this.file.createNewFile();
+            this.loadDefaults();
             return;
          } catch (IOException ioException) {
             ioException.printStackTrace();
          }
       }
 
-      JsonElement jsonElement = FileUtil.readJson(this.R);
+      JsonElement jsonElement = FileUtil.readJson(this.file);
       if (!(jsonElement instanceof JsonObject)) {
-         this.I();
+         this.loadDefaults();
       } else {
          JsonObject jsonObject = (JsonObject)jsonElement;
 
          for (Entry entry : jsonObject.entrySet()) {
             try {
-               this.t((String)entry.getKey(), (U)entry.getValue());
+               this.loadEntry((String)entry.getKey(), (U)entry.getValue());
             } catch (Exception exception) {
                exception.printStackTrace();
             }
          }
 
-         this.G();
+         this.onLoaded();
       }
    }
 
-   public void G() {
+   public void onLoaded() {
    }
 
    @Override
-   public void a() {
+   public void save() {
       JsonObject jsonObject = new JsonObject();
 
       for (JsonSerializable jsonSerializable : this.getList()) {
-         this.e(jsonObject, (T)jsonSerializable);
+         this.writeEntry(jsonObject, (T)jsonSerializable);
       }
 
-      FileUtil.writeJson(this.R, jsonObject);
+      FileUtil.writeJson(this.file, jsonObject);
    }
 
-   public void e(JsonObject jsonObject, T jsonSerializable) {
-      jsonObject.add(jsonSerializable.c(), jsonSerializable.V());
+   public void writeEntry(JsonObject jsonObject, T jsonSerializable) {
+      jsonObject.add(jsonSerializable.getKey(), jsonSerializable.toJson());
    }
 }

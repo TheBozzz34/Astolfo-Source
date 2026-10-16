@@ -27,20 +27,20 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
-   private float z;
-   private float r;
-   private final Stopwatch Y = new Stopwatch();
-   private final List<TabGui.Panel> C = new ArrayList<>();
-   private RendererSet N;
-   private final Dimension e = new Dimension(0, 0);
+   private float posX;
+   private float posY;
+   private final Stopwatch animationTimer = new Stopwatch();
+   private final List<TabGui.Panel> panels = new ArrayList<>();
+   private RendererSet rendererSet;
+   private final Dimension size = new Dimension(0, 0);
    @EventHandler(KeyPressEvent.class)
    private Listener<KeyPressEvent> onKeyPress = keyPressEvent -> {
       if (HUD.tabGui.getValue()) {
          if (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) {
-            int i = this.L().size();
+            int i = this.getValue().size();
 
             for (int j = 0; j < i; j++) {
-               TabGui.Panel panel = this.L().get(j);
+               TabGui.Panel panel = this.getValue().get(j);
                panel.onKeyPressed(keyPressEvent.getKey());
             }
          }
@@ -48,7 +48,7 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
    };
 
    public TabGui() {
-      this.N = new DefaultRendererSet();
+      this.rendererSet = new DefaultRendererSet();
       TabGui.Panel panel = new TabGui.Panel(this);
 
       for (Category category : Category.values()) {
@@ -57,181 +57,196 @@ public class TabGui implements ListAccessor<TabGui.Panel>, Sized {
          }
       }
 
-      this.z = 0.0F;
-      this.r = 2.0F;
-      this.s(panel);
+      this.posX = 0.0F;
+      this.posY = 2.0F;
+      this.addElement(panel);
       Astolfo.INSTANCE.getEventBus().subscribe(this);
    }
 
    public void render(ScaledResolution scaledResolution, Minecraft minecraft) {
-      boolean bl = this.Y.hasElapsed(16.0F);
+      boolean bl = this.animationTimer.hasElapsed(16.0F);
       if (bl) {
-         this.Y.reset();
+         this.animationTimer.reset();
       }
 
       TabGui.Panel panel = null;
-      int i = this.C.size();
+      int i = this.panels.size();
 
-      for (int k = 0; k < i; k++) {
+      for (int j = 0; j < i; j++) {
          try {
-            panel = this.C.get(k);
+            panel = this.panels.get(j);
          } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
          }
 
          GL11.glEnable(3089);
          if (panel.getState() == PanelState.CLOSING) {
-            A(this.J() + panel.F(), this.Q(), (int)this.J() + panel.F() + (int)panel.j(), this.Q() + (float)panel.x().getHeight());
+            applyScissor(
+               this.getX() + panel.getOffsetX(),
+               this.getY(),
+               (int)this.getX() + panel.getOffsetX() + (int)panel.getRevealWidth(),
+               this.getY() + (float)panel.getSize().getHeight()
+            );
          } else if (panel.getState() == PanelState.OPENING) {
-            A(this.J() + panel.F(), this.Q(), this.J() + panel.F() + panel.j(), this.Q() + (float)panel.x().getHeight());
+            applyScissor(
+               this.getX() + panel.getOffsetX(),
+               this.getY(),
+               this.getX() + panel.getOffsetX() + panel.getRevealWidth(),
+               this.getY() + (float)panel.getSize().getHeight()
+            );
          } else if (panel.getState() == PanelState.NORMAL) {
-            A(this.J() + panel.F(), this.Q(), this.J() + panel.F() + (float)panel.x().getWidth(), this.Q() + (float)panel.x().getHeight());
+            applyScissor(
+               this.getX() + panel.getOffsetX(),
+               this.getY(),
+               this.getX() + panel.getOffsetX() + (float)panel.getSize().getWidth(),
+               this.getY() + (float)panel.getSize().getHeight()
+            );
          }
 
-         this.N.get((Class<? extends Sized>)panel.getClass()).P(panel, scaledResolution, minecraft);
+         this.rendererSet.get((Class<? extends Sized>)panel.getClass()).renderUnchecked(panel, scaledResolution, minecraft);
          if (bl) {
-            this.N.get((Class<? extends Sized>)panel.getClass()).v(panel, scaledResolution, minecraft);
+            this.rendererSet.get((Class<? extends Sized>)panel.getClass()).updateUnchecked(panel, scaledResolution, minecraft);
          }
 
          panel.getItems().forEach(tabGuiItem -> {
-            this.N.get((Class<? extends Sized>)tabGuiItem.getClass()).P(tabGuiItem, scaledResolution, minecraft);
+            this.rendererSet.get((Class<? extends Sized>)tabGuiItem.getClass()).renderUnchecked(tabGuiItem, scaledResolution, minecraft);
             if (bl) {
-               this.N.get((Class<? extends Sized>)tabGuiItem.getClass()).v(tabGuiItem, scaledResolution, minecraft);
+               this.rendererSet.get((Class<? extends Sized>)tabGuiItem.getClass()).updateUnchecked(tabGuiItem, scaledResolution, minecraft);
             }
          });
          GL11.glDisable(3089);
       }
    }
 
-   public static void A(float f, float g, float h, float f2) {
+   public static void applyScissor(float f, float g, float h, float f2) {
       float f3 = HUD.hudScale.getValue();
       GL11.glScissor((int)(f * f3), (int)((Display.getHeight() / f3 - f2) * f3), (int)((h - f) * f3), (int)((f2 - g) * f3));
    }
 
-   public List<TabGui.Panel> L() {
-      return this.C;
+   public List<TabGui.Panel> getValue() {
+      return this.panels;
    }
 
-   public void Z(RendererSet rendererSet) {
-      this.N = rendererSet;
+   public void setRendererSet(RendererSet rendererSet) {
+      this.rendererSet = rendererSet;
    }
 
-   public RendererSet p() {
-      return this.N;
+   public RendererSet getRendererSet() {
+      return this.rendererSet;
    }
 
    public TabGui.Panel Q_r6q() {
-      return this.w();
+      return this.getLast();
    }
 
-   public void s(TabGui.Panel panel) {
-      this.L().add(panel);
+   public void addElement(TabGui.Panel panel) {
+      this.getValue().add(panel);
       panel.refreshSize();
    }
 
    @Override
-   public Dimension x() {
-      return this.e;
+   public Dimension getSize() {
+      return this.size;
    }
 
-   public float J() {
-      return this.z;
+   public float getX() {
+      return this.posX;
    }
 
-   public float Q() {
-      return this.r;
+   public float getY() {
+      return this.posY;
    }
 
-   public void C(float f) {
-      this.z = f;
+   public void setX(float f) {
+      this.posX = f;
    }
 
-   public void P(float f) {
-      this.r = f;
+   public void setY(float f) {
+      this.posY = f;
    }
 
    public static class Panel implements Sized, TabGuiPanel {
-      private final TabGui J;
-      private final List<TabGuiItem> A;
-      private int b;
-      private float D;
-      private float E;
-      public float h;
-      private float x = 0.0F;
-      private PanelState n;
-      private final Dimension R = new Dimension(0, 0);
+      private final TabGui tabGui;
+      private final List<TabGuiItem> items;
+      private int selectedIndex;
+      private float offsetX;
+      private float offsetY;
+      public float selectorY;
+      private float revealWidth = 0.0F;
+      private PanelState state;
+      private final Dimension panelSize = new Dimension(0, 0);
 
       @Override
       public PanelState getState() {
-         return this.n;
+         return this.state;
       }
 
       @Override
       public void setState(PanelState panelState) {
-         this.n = panelState;
+         this.state = panelState;
       }
 
       public Panel(TabGui tabGui, TabGuiItem... tabGuiItems) {
-         this.J = tabGui;
-         this.A = Lists.newArrayList(tabGuiItems);
-         this.D = 0.0F;
-         int i = tabGui.L().size();
+         this.tabGui = tabGui;
+         this.items = Lists.newArrayList(tabGuiItems);
+         this.offsetX = 0.0F;
+         int i = tabGui.getValue().size();
 
          for (int j = 0; j < i; j++) {
-            this.D = (float)(this.D + tabGui.L().get(j).x().getWidth());
-            this.D += 3.0F;
+            this.offsetX = (float)(this.offsetX + tabGui.getValue().get(j).getSize().getWidth());
+            this.offsetX += 3.0F;
          }
 
-         this.E = 30.0F;
-         this.n = PanelState.OPENING;
+         this.offsetY = 30.0F;
+         this.state = PanelState.OPENING;
       }
 
       public Panel(TabGui tabGui, Collection<TabGuiItem> collection) {
-         this.J = tabGui;
-         this.A = new ArrayList<>(collection);
+         this.tabGui = tabGui;
+         this.items = new ArrayList<>(collection);
       }
 
       @Override
       public List<TabGuiItem> getItems() {
-         return this.A;
+         return this.items;
       }
 
       @Override
       public int getSelectedIndex() {
-         return this.b;
+         return this.selectedIndex;
       }
 
       @Override
       public void setSelectedIndex(int i) {
-         this.b = i;
+         this.selectedIndex = i;
       }
 
       @Override
-      public Dimension x() {
-         return this.R;
+      public Dimension getSize() {
+         return this.panelSize;
       }
 
       @Override
       public TabGui getTabGui() {
-         return this.J;
+         return this.tabGui;
       }
 
       @Override
-      public float F() {
-         return this.D;
+      public float getOffsetX() {
+         return this.offsetX;
       }
 
-      public float A_float() {
-         return this.E;
-      }
-
-      @Override
-      public float j() {
-         return this.x;
+      public float getOffsetY() {
+         return this.offsetY;
       }
 
       @Override
-      public void q(float f) {
-         this.x = f;
+      public float getRevealWidth() {
+         return this.revealWidth;
+      }
+
+      @Override
+      public void setRevealWidth(float f) {
+         this.revealWidth = f;
       }
    }
 }

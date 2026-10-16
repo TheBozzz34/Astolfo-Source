@@ -23,60 +23,60 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vector3d;
 
 public final class Annoy extends Module {
-   private final Rotator s = new Rotator(false, 15.0F);
+   private final Rotator rotator = new Rotator(false, 15.0F);
    private final EnumSetting<AnnoyMode> mode = new EnumSetting<>("Mode", "Set your annoy mode", AnnoyMode.CRAZY);
    private final NumberSetting<Integer> spam = new NumberSetting<>("Spam", "Amount of rod spam it will do", 2, 0, 5);
    private final NumberSetting<Float> range = new NumberSetting<>("Range", "Distance until it activates the hting", 4.0F, 0.0F, 6.0F);
    private final NumberSetting<Float> speed = new NumberSetting<>("Speed", "Spin-bot Speed", 15.0F, 0.0F, 50.0F);
    private final NumberSetting<Float> pitch = new NumberSetting<>("Pitch", "Pitch", 90.0F, -180.0F, 180.0F);
    private final BooleanSetting sneak = new BooleanSetting("Sneak", "Random sneak", true);
-   private boolean Q;
-   private float c;
-   private float H;
-   private float t;
-   private float B;
+   private boolean sneaking;
+   private float appliedYaw;
+   private float lastYaw;
+   private float appliedPitch;
+   private float lastPitch;
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       if (motionEvent.getState() == EventState.PRE) {
          switch ((AnnoyMode)this.mode.getValue()) {
             case CRAZY:
-               EntityPlayer entityPlayer = this.k();
+               EntityPlayer entityPlayer = this.getClosestPlayer();
                if (entityPlayer != null) {
                   Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
                   Vector3d vector3d2 = new Vector3d(entityPlayer.posX, entityPlayer.posY + entityPlayer.height / 1.0, entityPlayer.posZ);
-                  Rotation rotation = this.s.rotationTo(vector3d2, vector3d);
-                  this.g(rotation.getYaw(), rotation.getPitch(), motionEvent);
+                  Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
+                  this.applyRotation(rotation.getYaw(), rotation.getPitch(), motionEvent);
                } else if (this.speed.getValue() > 0.0F) {
-                  this.g(MathHelper.wrapAngleTo180_float(motionEvent.getLastYaw() + this.speed.getValue()), this.pitch.getValue(), motionEvent);
+                  this.applyRotation(MathHelper.wrapAngleTo180_float(motionEvent.getLastYaw() + this.speed.getValue()), this.pitch.getValue(), motionEvent);
                } else {
-                  this.g(MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw), this.pitch.getValue(), motionEvent);
+                  this.applyRotation(MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw), this.pitch.getValue(), motionEvent);
                }
 
                if (this.sneak.getValue()) {
-                  if (!this.Q) {
+                  if (!this.sneaking) {
                      mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
-                     this.Q = true;
+                     this.sneaking = true;
                   } else {
                      mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
-                     this.Q = false;
+                     this.sneaking = false;
                   }
                }
                break;
             case WITCH:
-               EntityPlayer entityPlayer2 = this.k();
+               EntityPlayer entityPlayer2 = this.getClosestPlayer();
                if (entityPlayer2 != null) {
                   Vector3d vector3d3 = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
                   Vector3d vector3d4 = new Vector3d(entityPlayer2.posX, entityPlayer2.posY + entityPlayer2.height / 1.0, entityPlayer2.posZ);
-                  Rotation rotation2 = this.s.rotationTo(vector3d4, vector3d3);
-                  this.g(rotation2.getYaw(), rotation2.getPitch(), motionEvent);
+                  Rotation rotation2 = this.rotator.rotationTo(vector3d4, vector3d3);
+                  this.applyRotation(rotation2.getYaw(), rotation2.getPitch(), motionEvent);
                   if (this.sneak.getValue()) {
-                     this.Q = true;
+                     this.sneaking = true;
                      mc.gameSettings.keyBindSneak.pressed = true;
                   }
                } else {
-                  this.g(mc.thePlayer.rotationYaw + 180.0F, 89.0F, motionEvent);
+                  this.applyRotation(mc.thePlayer.rotationYaw + 180.0F, 89.0F, motionEvent);
                   if (this.sneak.getValue()) {
-                     this.Q = false;
+                     this.sneaking = false;
                      mc.gameSettings.keyBindSneak.pressed = false;
                   }
                }
@@ -96,21 +96,21 @@ public final class Annoy extends Module {
                }
          }
 
-         if (!this.sneak.getValue() && this.Q) {
+         if (!this.sneak.getValue() && this.sneaking) {
             mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
-            this.Q = false;
+            this.sneaking = false;
          }
       }
    };
    @EventHandler(PlayerModelVisibilityEvent.class)
    private Listener<PlayerModelVisibilityEvent> onPlayerModelVisibility = playerModelVisibilityEvent -> {
-      if (this.Q && playerModelVisibilityEvent.getEntity() == mc.thePlayer) {
+      if (this.sneaking && playerModelVisibilityEvent.getEntity() == mc.thePlayer) {
          playerModelVisibilityEvent.cancel();
       }
    };
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (updateEvent.getState() == EventState.PRE
          && this.mode.getValue() == AnnoyMode.CRAZY
          && mc.thePlayer.getHeldItem() != null
@@ -132,21 +132,21 @@ public final class Annoy extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + AnnoyMode.u(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + AnnoyMode.getLabel(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
-   private void g(float f, float g, MotionEvent motionEvent) {
-      this.H = motionEvent.getLastYaw();
-      this.B = motionEvent.getLastPitch();
+   private void applyRotation(float f, float g, MotionEvent motionEvent) {
+      this.lastYaw = motionEvent.getLastYaw();
+      this.lastPitch = motionEvent.getLastPitch();
       motionEvent.setYaw(f);
       motionEvent.setPitch(g);
-      this.c = motionEvent.getYaw();
-      this.t = motionEvent.getPitch();
+      this.appliedYaw = motionEvent.getYaw();
+      this.appliedPitch = motionEvent.getPitch();
    }
 
-   private EntityPlayer k() {
+   private EntityPlayer getClosestPlayer() {
       float f = this.range.getValue();
       EntityPlayer entityPlayer = null;
 
@@ -166,15 +166,15 @@ public final class Annoy extends Module {
    @Override
    public void onDisable() {
       if (mc.thePlayer != null) {
-         if (this.Q) {
+         if (this.sneaking) {
             mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
          }
 
-         this.Q = false;
+         this.sneaking = false;
          mc.gameSettings.keyBindSneak.pressed = false;
       }
 
-      this.t = this.c = this.H = this.B = 0.0F;
+      this.appliedPitch = this.appliedYaw = this.lastYaw = this.lastPitch = 0.0F;
       super.onDisable();
    }
 }

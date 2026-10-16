@@ -88,7 +88,7 @@ public final class Phase extends Module {
    };
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (this.mode.getValue() == PhaseMode.SKIP && updateEvent.getState() == EventState.PRE && mc.thePlayer.isSneaking() && mc.thePlayer.isCollidedHorizontally) {
          float f = mc.thePlayer.rotationYaw;
          float g = 1.2F;
@@ -269,9 +269,9 @@ public final class Phase extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + PhaseMode.G(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + PhaseMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
    @Override

@@ -269,7 +269,7 @@ public class PlayerControllerMP {
    }
 
    public float getBlockReachDistance() {
-      if (ModuleManager.Z.isEnabled()) {
+      if (ModuleManager.infiniteReach.isEnabled()) {
          return InfiniteReach.range.getValue();
       } else {
          return this.currentGameType.isCreative() ? 5.0F : 4.5F;

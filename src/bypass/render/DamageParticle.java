@@ -13,16 +13,16 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 public class DamageParticle extends EntityFX {
-   public String oU;
-   public boolean op = true;
-   public boolean oh = true;
-   public boolean o4;
-   public float oo = 1.0F;
-   private final float oC;
-   private final float oH;
-   private final Color oM;
-   private final Color oF;
-   private final boolean oW;
+   public String text;
+   public boolean throughWalls = true;
+   public boolean growing = true;
+   public boolean grow;
+   public float extraScale = 1.0F;
+   private final float damage;
+   private final float baseScale;
+   private final Color healColor;
+   private final Color damageColor;
+   private final boolean staticParticle;
 
    public DamageParticle(
       int i,
@@ -47,14 +47,14 @@ public class DamageParticle extends EntityFX {
       this.particleTextureJitterY = 0.0F;
       this.particleGravity = f;
       this.particleScale = g;
-      this.oH = g;
-      this.o4 = bl;
+      this.baseScale = g;
+      this.grow = bl;
       this.particleMaxAge = j;
-      this.oW = bl2;
-      this.oM = color;
-      this.oF = color2;
-      this.oC = bl3 ? i / 2.0F : i;
-      this.oU = MathUtil.ONE_DECIMAL.format(Math.abs(this.oC));
+      this.staticParticle = bl2;
+      this.healColor = color;
+      this.damageColor = color2;
+      this.damage = bl3 ? i / 2.0F : i;
+      this.text = MathUtil.ONE_DECIMAL.format(Math.abs(this.damage));
    }
 
    @Override
@@ -74,7 +74,7 @@ public class DamageParticle extends EntityFX {
       float f2 = (float)(this.prevPosY + (this.posY - this.prevPosY) * rotationX - interpPosY);
       float f3 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * rotationZ - interpPosZ);
       GL11.glPushMatrix();
-      if (this.op) {
+      if (this.throughWalls) {
          GL11.glDepthFunc(519);
       } else {
          GL11.glDepthFunc(515);
@@ -85,7 +85,7 @@ public class DamageParticle extends EntityFX {
       GL11.glRotatef(g, 1.0F, 0.0F, 0.0F);
       GL11.glScalef(-1.0F, -1.0F, 1.0F);
       GL11.glScaled(this.particleScale * 0.008, this.particleScale * 0.008, this.particleScale * 0.008);
-      GL11.glScaled(this.oo, this.oo, this.oo);
+      GL11.glScaled(this.extraScale, this.extraScale, this.extraScale);
       OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 0.003662109F);
       GL11.glEnable(3553);
       GL11.glDisable(3042);
@@ -98,23 +98,23 @@ public class DamageParticle extends EntityFX {
       GL11.glEnable(3042);
       GL11.glEnable(3008);
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      int i = this.oF.getRGB();
-      if (this.oC < 0.0F) {
-         i = this.oM.getRGB();
+      int i = this.damageColor.getRGB();
+      if (this.damage < 0.0F) {
+         i = this.healColor.getRGB();
       }
 
       FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
       fontRenderer.drawStringWithShadow(
-         this.oU, -MathHelper.floor_float(fontRenderer.getStringWidth(this.oU) / 2.0F) + 1, -MathHelper.floor_float(fontRenderer.FONT_HEIGHT / 2.0F) + 1, i
+         this.text, -MathHelper.floor_float(fontRenderer.getStringWidth(this.text) / 2.0F) + 1, -MathHelper.floor_float(fontRenderer.FONT_HEIGHT / 2.0F) + 1, i
       );
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       GL11.glDepthFunc(515);
       GL11.glPopMatrix();
-      if (this.o4) {
-         if (this.oh) {
+      if (this.grow) {
+         if (this.growing) {
             this.particleScale *= 1.08F;
-            if (this.particleScale > this.oH * 3.0) {
-               this.oh = false;
+            if (this.particleScale > this.baseScale * 3.0) {
+               this.growing = false;
             }
          } else {
             this.particleScale *= 0.96F;
@@ -124,7 +124,7 @@ public class DamageParticle extends EntityFX {
 
    @Override
    public void onUpdate() {
-      if (this.oW) {
+      if (this.staticParticle) {
          if (this.particleAge++ >= this.particleMaxAge) {
             this.setDead();
          }

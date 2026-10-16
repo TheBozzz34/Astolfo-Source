@@ -11,7 +11,7 @@ public interface TabGuiPanel {
       this.getItems().add(tabGuiItem);
    }
 
-   Dimension x();
+   Dimension getSize();
 
    int getSelectedIndex();
 
@@ -27,13 +27,13 @@ public interface TabGuiPanel {
 
    default void onKeyPressed(int i) {
       if (this.getTabGui().Q_r6q() == this) {
-         this.getSelectedItem().z(i);
+         this.getSelectedItem().handleKeyPress(i);
          if (i == 200) {
             this.selectPrevious();
          } else if (i == 208) {
             this.selectNext();
-         } else if (i == 203 && this.getTabGui().L().indexOf(this) != 0 && this.getState() != PanelState.CLOSING) {
-            this.q((float)this.x().getWidth());
+         } else if (i == 203 && this.getTabGui().getValue().indexOf(this) != 0 && this.getState() != PanelState.CLOSING) {
+            this.setRevealWidth((float)this.getSize().getWidth());
             this.setState(PanelState.CLOSING);
          }
       }
@@ -54,26 +54,26 @@ public interface TabGuiPanel {
    }
 
    default void refreshSize() {
-      this.x().setSize(0, 0);
+      this.getSize().setSize(0, 0);
       this.getItems()
          .forEach(
-            tabGuiItem -> this.x()
+            tabGuiItem -> this.getSize()
                .setSize(
-                  this.x().getWidth() < this.getTabGui().p().get((Class<? extends Sized>)tabGuiItem.getClass()).p(tabGuiItem)[0]
-                     ? this.getTabGui().p().get((Class<? extends Sized>)tabGuiItem.getClass()).p(tabGuiItem)[0]
-                     : this.x().getWidth(),
-                  this.x().getHeight() + this.getTabGui().p().get((Class<? extends Sized>)tabGuiItem.getClass()).p(tabGuiItem)[1]
+                  this.getSize().getWidth() < this.getTabGui().getRendererSet().get((Class<? extends Sized>)tabGuiItem.getClass()).computeSizeUnchecked(tabGuiItem)[0]
+                     ? this.getTabGui().getRendererSet().get((Class<? extends Sized>)tabGuiItem.getClass()).computeSizeUnchecked(tabGuiItem)[0]
+                     : this.getSize().getWidth(),
+                  this.getSize().getHeight() + this.getTabGui().getRendererSet().get((Class<? extends Sized>)tabGuiItem.getClass()).computeSizeUnchecked(tabGuiItem)[1]
                )
          );
    }
 
    TabGui getTabGui();
 
-   float j();
+   float getRevealWidth();
 
-   void q(float f);
+   void setRevealWidth(float f);
 
-   float F();
+   float getOffsetX();
 
    PanelState getState();
 

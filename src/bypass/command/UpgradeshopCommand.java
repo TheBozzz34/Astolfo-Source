@@ -17,12 +17,12 @@ public class UpgradeshopCommand extends Command {
       if (GameUtil.isOnHypixel()) {
          for (Entity entity2 : mc.theWorld.loadedEntityList) {
             if (entity2 instanceof EntityArmorStand && entity2.getDisplayName().getFormattedText().contains("UPGRADES")) {
-               mc.thePlayer.sendQueue.u(new C02PacketUseEntity(entity2, ItemshopCommand.P));
+               mc.thePlayer.sendQueue.u(new C02PacketUseEntity(entity2, ItemshopCommand.HIT_VECTOR));
                return;
             }
          }
 
-         toasts.D("Shop entity not found");
+         toasts.info("Shop entity not found");
       }
    }
 }

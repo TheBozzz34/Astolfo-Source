@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class ThreadedSocketConnection extends SocketConnection {
-   private final Consumer<IOException> o;
-   private Thread V;
+   private final Consumer<IOException> openErrorHandler;
+   private Thread openThread;
 
    public ThreadedSocketConnection(
       ConnectionListener connectionListener,
@@ -21,25 +21,25 @@ public class ThreadedSocketConnection extends SocketConnection {
       Runnable runnable
    ) {
       super(connectionListener, map, map2, packetOutput, connectionHandlerFactory, consumer, runnable);
-      this.o = consumer2;
+      this.openErrorHandler = consumer2;
    }
 
    @Override
    public void open(SocketChannel socketChannel) {
-      this.V = new Thread(() -> {
+      this.openThread = new Thread(() -> {
          try {
             super.open(socketChannel);
          } catch (IOException ioException) {
-            this.o.accept(ioException);
+            this.openErrorHandler.accept(ioException);
          }
       });
-      this.V.start();
+      this.openThread.start();
    }
 
    @Override
    public void close() throws IOException {
-      if (this.V != null) {
-         this.V.interrupt();
+      if (this.openThread != null) {
+         this.openThread.interrupt();
       }
 
       super.close();

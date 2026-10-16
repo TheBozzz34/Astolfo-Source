@@ -12,7 +12,7 @@ import net.minecraft.util.StringUtils;
 import org.lwjgl.input.Mouse;
 
 public class StringComponent extends SettingComponent {
-   private boolean s;
+   private boolean focused;
 
    public StringComponent(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
@@ -20,62 +20,68 @@ public class StringComponent extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      if (Mouse.isButtonDown(0) && !this.G(i, j)) {
-         this.s = false;
+      if (Mouse.isButtonDown(0) && !this.isHovered(i, j)) {
+         this.focused = false;
       }
 
       RenderUtil.drawRect(
-         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
+         this.getX() + 1.5F,
+         this.getYPos() - 1.0F,
+         this.getX() + this.getWidth() + 0.5F,
+         this.getYPos() + this.getHeight() + 4.0F,
+         new Color(1, 1, 1, 120).getRGB()
       );
-      if (this.s) {
-         RenderUtil.c(1.0F, this.M() + 1.0F, this.x() - 1, this.E_float(), this.Y() + 3, client.getColorSetting().getValue().getRGB());
+      if (this.focused) {
+         RenderUtil.drawLineOutline(
+            1.0F, this.getX() + 1.0F, this.getWidth() - 1, this.getYPos(), this.getHeight() + 3, client.getColorSetting().getValue().getRGB()
+         );
       }
 
       RenderUtil.drawRect(
-         this.M() + 3.0F,
-         this.E_float() + this.Y() + 1.0F,
-         this.M() + this.x() - 3.0F,
-         this.E_float() + this.Y() + 2.0F,
+         this.getX() + 3.0F,
+         this.getYPos() + this.getHeight() + 1.0F,
+         this.getX() + this.getWidth() - 3.0F,
+         this.getYPos() + this.getHeight() + 2.0F,
          client.getColorSetting().getValue().getRGB()
       );
-      client.getCustomFontRenderer().drawStringWithShadow(this.z().getValue() + "...", this.M() + 4.0F, this.E_float(), -1);
+      client.getCustomFontRenderer().drawStringWithShadow(this.getStringSetting().getValue() + "...", this.getX() + 4.0F, this.getYPos(), -1);
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
       if (i == 0) {
-         this.s = true;
+         this.focused = true;
       }
    }
 
    @Override
-   public void P(char c, int i) {
-      if (this.s) {
+   public void onKeyTyped(char c, int i) {
+      if (this.focused) {
          if (GuiScreen.isKeyComboCtrlV(i)) {
-            this.z().setValue(this.z().getValue() + GuiScreen.getClipboardString());
+            this.getStringSetting().setValue(this.getStringSetting().getValue() + GuiScreen.getClipboardString());
          } else {
             switch (i) {
                case 14:
-                  if (!StringUtils.isNullOrEmpty(this.z().getValue())) {
-                     this.z().setValue(this.z().getValue().substring(0, this.z().getValue().length() - 1));
+                  if (!StringUtils.isNullOrEmpty(this.getStringSetting().getValue())) {
+                     this.getStringSetting().setValue(this.getStringSetting().getValue().substring(0, this.getStringSetting().getValue().length() - 1));
                   }
                   break;
                default:
                   if (ChatAllowedCharacters.isAllowedCharacter(c)) {
-                     this.z().setValue(this.z().getValue() + c);
+                     this.getStringSetting().setValue(this.getStringSetting().getValue() + c);
                   }
             }
 
-            super.P(c, i);
+            super.onKeyTyped(c, i);
          }
       }
    }
 
-   public StringSetting z() {
-      return (StringSetting)this.t();
+   public StringSetting getStringSetting() {
+      return (StringSetting)this.getSetting();
    }
 
-   public boolean k() {
-      return this.s;
+   public boolean isFocused() {
+      return this.focused;
    }
 }

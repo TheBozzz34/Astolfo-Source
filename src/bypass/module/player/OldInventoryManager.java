@@ -240,7 +240,7 @@ public final class OldInventoryManager extends Module {
                         }
                      }
 
-                     if (ScoreboardTracker.r()) {
+                     if (ScoreboardTracker.isInGame()) {
                         if (itemStack.getItem() instanceof ItemBlock) {
                            ItemBlock itemBlock = (ItemBlock)itemStack.getItem();
                            if (itemBlock.getBlock() == Blocks.ender_chest) {
@@ -275,7 +275,7 @@ public final class OldInventoryManager extends Module {
                         if (itemStack.getItem() instanceof ItemBlock && this.autoCraft.getValue()) {
                            ItemBlock itemBlock2 = (ItemBlock)itemStack.getItem();
                            if (itemBlock2.getBlock() == Blocks.log || itemBlock2.getBlock() == Blocks.log2) {
-                              if (!AutoArmor.c() && this.dropTimer.hasElapsed(this.delay.getValue().intValue())) {
+                              if (!AutoArmor.isInventoryFull() && this.dropTimer.hasElapsed(this.delay.getValue().intValue())) {
                                  mc.playerController.windowClick(0, slot.slotNumber, 0, 0, mc.thePlayer);
                                  mc.playerController.windowClick(0, 1, 0, 0, mc.thePlayer);
                                  mc.playerController.windowClick(0, 0, 0, 1, mc.thePlayer);

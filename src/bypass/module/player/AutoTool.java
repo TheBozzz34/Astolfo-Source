@@ -39,11 +39,11 @@ public final class AutoTool extends Module {
    private final BooleanSetting withKillAura = new BooleanSetting("With-KillAura", "Works with KillAura", true);
    private final BooleanSetting hotbarMove = new BooleanSetting("Hotbar-Move", "Moves items to hotbar automatically", true);
    private final BooleanSetting smartPickaxe = new BooleanSetting("Smart-Pickaxe", "Uses better pickaxes only on ores that it can mine", true);
-   private final Stopwatch x = new Stopwatch();
+   private final Stopwatch clickTimer = new Stopwatch();
    @EventHandler(value = PacketEvent.class, priority = EventPriority.LOW)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
-         if (client.getModuleManager().get(KillAura.class).isEnabled() && !this.withKillAura.getValue() && !AntiObsidian.C()) {
+         if (client.getModuleManager().get(KillAura.class).isEnabled() && !this.withKillAura.getValue() && !AntiObsidian.isInObsidian()) {
             return;
          }
 
@@ -52,32 +52,32 @@ public final class AutoTool extends Module {
             Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
             switch (c02PacketUseEntity.getAction()) {
                case ATTACK:
-                  if (client.getModuleManager().get(AntiObsidian.class).isEnabled() && AntiObsidian.C() || mc.playerController.isHittingBlock) {
+                  if (client.getModuleManager().get(AntiObsidian.class).isEnabled() && AntiObsidian.isInObsidian() || mc.playerController.isHittingBlock) {
                      return;
                   }
 
                   if (entity instanceof EntityLivingBase) {
-                     int i = this.G(this.swordOnly.getValue());
+                     int i = this.findBestWeaponSlot(this.swordOnly.getValue());
                      if (i != -1) {
-                        this.H(i);
+                        this.switchToSlot(i);
                      }
                   }
                   break;
                case INTERACT:
                   if (entity instanceof EntityLivingBase) {
                      if (entity instanceof EntityCow) {
-                        int j = p(Items.bucket);
+                        int j = findItemSlot(Items.bucket);
                         if (j != -1 && ((ItemBucket)mc.thePlayer.inventoryContainer.getSlot(j).getStack().getItem()).N() == Blocks.air) {
-                           this.H(j);
+                           this.switchToSlot(j);
                         }
                      }
 
                      if (entity instanceof EntitySheep) {
                         EntitySheep entitySheep = (EntitySheep)entity;
                         if (!entitySheep.getSheared()) {
-                           int k = p(Items.shears);
+                           int k = findItemSlot(Items.shears);
                            if (k != -1) {
-                              this.H(k);
+                              this.switchToSlot(k);
                            }
                         }
                      }
@@ -92,15 +92,15 @@ public final class AutoTool extends Module {
                   return;
                }
 
-               int l = this.Z(c07PacketPlayerDigging.getPosition());
+               int l = this.findBestToolSlot(c07PacketPlayerDigging.getPosition());
                if (l != -1) {
-                  this.H(l);
+                  this.switchToSlot(l);
                }
             }
          }
 
          if (packetEvent.getPacket() instanceof C0EPacketClickWindow) {
-            this.x.reset();
+            this.clickTimer.reset();
          }
       }
    };
@@ -110,18 +110,18 @@ public final class AutoTool extends Module {
       this.addSettings(this.slot, this.delay, this.swordOnly, this.withKillAura, this.hotbarMove, this.smartPickaxe);
    }
 
-   private void H(int i) {
+   private void switchToSlot(int i) {
       if (i >= 36 && i <= 44) {
          mc.thePlayer.inventory.currentItem = i - 36;
          mc.playerController.u();
-      } else if (this.hotbarMove.getValue() && this.x.hasElapsed(this.delay.getValue().intValue())) {
+      } else if (this.hotbarMove.getValue() && this.clickTimer.hasElapsed(this.delay.getValue().intValue())) {
          mc.playerController.windowClick(0, i, this.slot.getValue() - 1, 2, mc.thePlayer);
          mc.thePlayer.inventory.currentItem = this.slot.getValue() - 1;
          mc.playerController.u();
       }
    }
 
-   private int Z(BlockPos blockPos) {
+   private int findBestToolSlot(BlockPos blockPos) {
       float f = 1.0F;
       int i = -1;
       int j = 9999;
@@ -154,7 +154,7 @@ public final class AutoTool extends Module {
       return i;
    }
 
-   private int G(boolean bl) {
+   private int findBestWeaponSlot(boolean bl) {
       float f = 0.0F;
       int i = -1;
 
@@ -175,7 +175,7 @@ public final class AutoTool extends Module {
       return i;
    }
 
-   public static int p(Item item) {
+   public static int findItemSlot(Item item) {
       for (int i = 44; i >= 9; i--) {
          if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
             Item item2 = mc.thePlayer.inventoryContainer.getSlot(i).getStack().getItem();

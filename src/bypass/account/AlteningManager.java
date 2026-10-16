@@ -11,20 +11,20 @@ public class AlteningManager extends JsonFileManager<AlteningAccount, JsonObject
       super(file, "altening.json");
    }
 
-   public void t(String string, JsonObject jsonObject) {
-      AlteningScreen.b = new String(Base64.getDecoder().decode(jsonObject.get("token").getAsString().getBytes()));
+   public void loadEntry(String string, JsonObject jsonObject) {
+      AlteningScreen.apiKey = new String(Base64.getDecoder().decode(jsonObject.get("token").getAsString().getBytes()));
       if (jsonObject.has("addAccount")) {
-         AlteningScreen.f = jsonObject.get("addAccount").getAsBoolean();
+         AlteningScreen.addToAltList = jsonObject.get("addAccount").getAsBoolean();
       }
    }
 
    @Override
-   public void a() {
-      this.C.add(new AlteningAccount(AlteningScreen.b, AlteningScreen.f));
-      super.a();
+   public void save() {
+      this.items.add(new AlteningAccount(AlteningScreen.apiKey, AlteningScreen.addToAltList));
+      super.save();
    }
 
    @Override
-   public void I() {
+   public void loadDefaults() {
    }
 }

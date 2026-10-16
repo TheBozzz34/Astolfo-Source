@@ -3,9 +3,9 @@ package bypass.loader.check;
 import java.util.List;
 
 public interface CheckContext {
-   CheckRequest f();
+   CheckRequest getRequest();
 
-   List<StageCheck> i();
+   List<StageCheck> getChecks();
 
-   List<VerdictProcessor> a();
+   List<VerdictProcessor> getProcessors();
 }

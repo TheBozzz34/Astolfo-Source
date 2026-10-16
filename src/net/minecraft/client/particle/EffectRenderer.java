@@ -108,7 +108,7 @@ public class EffectRenderer {
    }
 
    public void emitParticleAtEntity(Entity entityIn, EnumParticleTypes particleTypes) {
-      if ((particleTypes == EnumParticleTypes.CRIT || particleTypes == EnumParticleTypes.CRIT_MAGIC) && ModuleManager.N.isEnabled()) {
+      if ((particleTypes == EnumParticleTypes.CRIT || particleTypes == EnumParticleTypes.CRIT_MAGIC) && ModuleManager.moreParticles.isEnabled()) {
          for (int i = 0;
             i < (particleTypes == EnumParticleTypes.CRIT ? MoreParticles.criticalAmount.getValue() : MoreParticles.enchantAmount.getValue());
             i++
@@ -209,7 +209,7 @@ public class EffectRenderer {
    }
 
    public void renderParticles(Entity entityIn, float partialTicks) {
-      if (!ModuleManager.I.isEnabled() || Integer.parseInt(Minecraft.getMinecraft().effectRenderer.getStatistics()) <= 500 && NoRender.smart.getValue()) {
+      if (!ModuleManager.noRender.isEnabled() || Integer.parseInt(Minecraft.getMinecraft().effectRenderer.getStatistics()) <= 500 && NoRender.smart.getValue()) {
          float f = ActiveRenderInfo.S();
          float g = ActiveRenderInfo.N();
          float h = ActiveRenderInfo.T();

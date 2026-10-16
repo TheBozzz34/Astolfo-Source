@@ -16,7 +16,7 @@ import oshi.util.EdidUtil;
 import oshi.util.tuples.Pair;
 
 public class HwidBuilder {
-   private final StringBuilder l = new StringBuilder();
+   private final StringBuilder hwid = new StringBuilder();
 
    public HwidBuilder(HwidOptions hwidOptions) {
       SystemInfo systemInfo = new SystemInfo();
@@ -24,16 +24,16 @@ public class HwidBuilder {
       HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
       ComputerSystem computerSystem = hardwareAbstractionLayer.getComputerSystem();
       CentralProcessor centralProcessor = hardwareAbstractionLayer.getProcessor();
-      if (HwidOptions.E(hwidOptions)) {
-         this.l.append(System.getProperty("user.name")).append("$");
+      if (HwidOptions.isUsernameEnabled(hwidOptions)) {
+         this.hwid.append(System.getProperty("user.name")).append("$");
       }
 
-      if (HwidOptions.o(hwidOptions)) {
+      if (HwidOptions.isBaseboardEnabled(hwidOptions)) {
          String string = String.format("%08x", computerSystem.getBaseboard().A().hashCode());
-         this.l.append(string).append("$");
+         this.hwid.append(string).append("$");
       }
 
-      if (HwidOptions.k(hwidOptions)) {
+      if (HwidOptions.isCpuEnabled(hwidOptions)) {
          String string2;
          try {
             string2 = centralProcessor.getProcessorIdentifier().getIdentifier();
@@ -41,37 +41,37 @@ public class HwidBuilder {
             string2 = "unk";
          }
 
-         this.l.append(string2.hashCode()).append("$");
+         this.hwid.append(string2.hashCode()).append("$");
       }
 
-      if (HwidOptions.s(hwidOptions)) {
+      if (HwidOptions.isGpuEnabled(hwidOptions)) {
          GraphicsCard[] graphicsCards = hardwareAbstractionLayer.getGraphicsCards();
          if (graphicsCards.length - 1 >= 0) {
-            this.l.append(graphicsCards[graphicsCards.length - 1].E().hashCode()).append("$");
+            this.hwid.append(graphicsCards[graphicsCards.length - 1].E().hashCode()).append("$");
          } else {
-            this.l.append("unk").append("$");
+            this.hwid.append("unk").append("$");
          }
       }
 
-      if (HwidOptions.z(hwidOptions)) {
-         this.l.append((int)(hardwareAbstractionLayer.getMemory().f() / 1.0E9)).append("$");
+      if (HwidOptions.isMemoryEnabled(hwidOptions)) {
+         this.hwid.append((int)(hardwareAbstractionLayer.getMemory().f() / 1.0E9)).append("$");
       }
 
-      if (HwidOptions.D(hwidOptions)) {
+      if (HwidOptions.isDiskEnabled(hwidOptions)) {
          if (Platform.isWindows()) {
-            Pair pair = h(System.getProperty("user.home"), Arrays.asList(hardwareAbstractionLayer.getDiskStores()));
+            Pair pair = findPartitionIndex(System.getProperty("user.home"), Arrays.asList(hardwareAbstractionLayer.getDiskStores()));
             int i = (Integer)pair.getA();
             if (i != -1) {
-               this.l.append(hardwareAbstractionLayer.getDiskStores()[i].getSerial().hashCode());
+               this.hwid.append(hardwareAbstractionLayer.getDiskStores()[i].getSerial().hashCode());
             }
          } else {
-            this.l.append(computerSystem.k().hashCode());
+            this.hwid.append(computerSystem.k().hashCode());
          }
 
-         this.l.append("$");
+         this.hwid.append("$");
       }
 
-      if (HwidOptions.X(hwidOptions)) {
+      if (HwidOptions.isDisplaysEnabled(hwidOptions)) {
          Display[] displays = hardwareAbstractionLayer.getDisplays();
 
          for (int j = 0; j < displays.length; j++) {
@@ -85,14 +85,14 @@ public class HwidBuilder {
                }
             }
 
-            this.l.append(string3).append("-");
+            this.hwid.append(string3).append("-");
          }
 
-         this.l.append("$");
+         this.hwid.append("$");
       }
    }
 
-   private static Pair<Integer, Integer> h(String string, List<HWDiskStore> list) {
+   private static Pair<Integer, Integer> findPartitionIndex(String string, List<HWDiskStore> list) {
       for (int i = 0; i < list.size(); i++) {
          HWDiskStore hwDiskStore = (HWDiskStore)list.get(i);
          List list2 = Arrays.asList(hwDiskStore.getPartitions());
@@ -108,7 +108,7 @@ public class HwidBuilder {
       return new Pair<>(-1, -1);
    }
 
-   public String J() {
-      return this.l.toString();
+   public String getRawHwid() {
+      return this.hwid.toString();
    }
 }

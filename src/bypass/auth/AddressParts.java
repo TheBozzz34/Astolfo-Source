@@ -3,13 +3,13 @@ package bypass.auth;
 import bypass.util.container.ListContainerOwner;
 
 public class AddressParts {
-   private final ListContainerOwner<AddressPart> A;
+   private final ListContainerOwner<AddressPart> parts;
 
    public AddressParts(ListContainerOwner<AddressPart> listContainerOwner) {
-      this.A = listContainerOwner;
+      this.parts = listContainerOwner;
    }
 
-   public ListContainerOwner<AddressPart> d() {
-      return this.A;
+   public ListContainerOwner<AddressPart> getParts() {
+      return this.parts;
    }
 }

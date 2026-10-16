@@ -17,12 +17,12 @@ public class DisconnectHandler implements ConnectionListener, ClientAccess {
       } catch (IOException ioException) {
       }
 
-      mc.mouseHelper.Y().getEndpoint().E(null);
-      mc.mouseHelper.Y().getEndpoint().E(new AuthConnection());
+      mc.mouseHelper.Y().getEndpoint().setConnection(null);
+      mc.mouseHelper.Y().getEndpoint().setConnection(new AuthConnection());
       if (!(mc.currentScreen instanceof LoginScreen)) {
          disconnected = true;
          Minecraft.xG = true;
-         Astolfo.INSTANCE.getUserManager().r().clear();
+         Astolfo.INSTANCE.getUserManager().getUsers().clear();
       }
    }
 

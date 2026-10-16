@@ -7,14 +7,14 @@ import java.util.function.Predicate;
 public enum ValueCheckFactory implements Initializable {
    INSTANCE;
 
-   private final ShapedMap<Object, ValueCheckView> i = new ShapedMap<>();
-   private static final ValueCheckFactory[] F = new ValueCheckFactory[]{INSTANCE};
+   private final ShapedMap<Object, ValueCheckView> checkCache = new ShapedMap<>();
+   private static final ValueCheckFactory[] VALUES = new ValueCheckFactory[]{INSTANCE};
 
    @Override
-   public void C() {
+   public void initialize() {
    }
 
-   public <T> AbstractValueCheck Z(T object, Function<T, Integer> function, Predicate<Integer> predicate) {
+   public <T> AbstractValueCheck createCheck(T object, Function<T, Integer> function, Predicate<Integer> predicate) {
       return new ValueCheck(this, object, function, object, predicate);
    }
 }

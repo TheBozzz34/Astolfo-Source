@@ -14,34 +14,34 @@ public final class FriendsCommand extends Command {
       switch (strings.length) {
          case 2:
             if (strings[1].equalsIgnoreCase("clear")) {
-               client.getRelationManager().n().values().removeIf(Relation::z);
-               client.getRelationManager().Z().values().removeIf(Relation::z);
-               chat.I("Cleared friend list");
+               client.getRelationManager().getRelations().values().removeIf(Relation::isFriend);
+               client.getRelationManager().getRelationMap().values().removeIf(Relation::isFriend);
+               chat.print("Cleared friend list");
             }
             break;
          case 3:
          case 4:
-            this.C(strings);
+            this.handleAddOrRemove(strings);
             break;
          default:
-            chat.I(this.getName() + ": " + this.getUsage());
+            chat.print(this.getName() + ": " + this.getUsage());
       }
    }
 
-   private void C(String[] strings) {
+   private void handleAddOrRemove(String[] strings) {
       String string = strings[2];
       switch (strings.length) {
          case 3:
             if (strings[1].equalsIgnoreCase("add")) {
                client.getRelationManager().add(new Relation(string, string, true));
-               chat.I(String.format("Added %s as friend", string));
+               chat.print(String.format("Added %s as friend", string));
             } else if (strings[1].equalsIgnoreCase("del")) {
-               if (client.getRelationManager().A(string)) {
-                  client.getRelationManager().n().remove(string);
-                  client.getRelationManager().Z().remove(string);
-                  chat.I(String.format("%s is not a friend anymore", string));
+               if (client.getRelationManager().isFriendName(string)) {
+                  client.getRelationManager().getRelations().remove(string);
+                  client.getRelationManager().getRelationMap().remove(string);
+                  chat.print(String.format("%s is not a friend anymore", string));
                } else {
-                  chat.I(String.format("%s is not a friend", string));
+                  chat.print(String.format("%s is not a friend", string));
                }
             }
             break;
@@ -49,7 +49,7 @@ public final class FriendsCommand extends Command {
             String string2 = strings[3];
             if (strings[1].equalsIgnoreCase("add")) {
                client.getRelationManager().add(new Relation(string, string2, true));
-               chat.I(String.format("Added %s as friend with alias %s", string, string2));
+               chat.print(String.format("Added %s as friend with alias %s", string, string2));
             }
       }
    }

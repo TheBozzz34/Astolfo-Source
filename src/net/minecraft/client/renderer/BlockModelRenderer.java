@@ -96,7 +96,7 @@ public class BlockModelRenderer {
                   list = BetterGrass.Q(iBlockAccess, block, blockPos, enumFacing, list);
                }
 
-               if (ModuleManager.s.isEnabled()) {
+               if (ModuleManager.xray.isEnabled()) {
                   RenderBlockEvent renderBlockEvent = new RenderBlockEvent(block, blockPos);
                   Astolfo.INSTANCE.getEventBus().post(renderBlockEvent);
                }

@@ -13,7 +13,7 @@ import net.minecraft.network.play.server.S2DPacketOpenWindow;
 
 public final class AntiFrozen extends Module {
    private final BooleanSetting spawn = new BooleanSetting("Spawn", "TPs you to spawn when you hit a frozen player", true);
-   private Stopwatch v = new Stopwatch();
+   private Stopwatch messageTimer = new Stopwatch();
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
@@ -24,9 +24,9 @@ public final class AntiFrozen extends Module {
 
          if (this.spawn.getValue() && packetEvent.getPacket() instanceof S02PacketChat) {
             S02PacketChat s02PacketChat = (S02PacketChat)packetEvent.getPacket();
-            if (s02PacketChat.getChatComponent().getUnformattedText().contains("is currently frozen") && this.v.hasElapsed(1500.0F)) {
+            if (s02PacketChat.getChatComponent().getUnformattedText().contains("is currently frozen") && this.messageTimer.hasElapsed(1500.0F)) {
                mc.thePlayer.setPosition(mc.thePlayer.posX, -999.0, mc.thePlayer.posY);
-               this.v.reset();
+               this.messageTimer.reset();
             }
          }
       }

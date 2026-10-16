@@ -1,32 +1,32 @@
 package bypass.loader.check;
 
 public final class MeasureRequest implements MeasureMarker {
-   public static final int I = 1;
-   public static final int v = 2;
-   public static final int Q = 3;
-   public static final int F = 4;
-   private final AbstractMeasureTask o;
-   private final int c;
-   private boolean r;
+   public static final int GROUP_ONE = 1;
+   public static final int GROUP_TWO = 2;
+   public static final int GROUP_THREE = 3;
+   public static final int GROUP_FOUR = 4;
+   private final AbstractMeasureTask task;
+   private final int groupId;
+   private boolean completed;
 
    public MeasureRequest(AbstractMeasureTask abstractMeasureTask, int i) {
-      this.o = abstractMeasureTask;
-      this.c = i;
+      this.task = abstractMeasureTask;
+      this.groupId = i;
    }
 
-   public AbstractMeasureTask h() {
-      return this.o;
+   public AbstractMeasureTask getTask() {
+      return this.task;
    }
 
-   public int Q() {
-      return this.c;
+   public int getGroupId() {
+      return this.groupId;
    }
 
-   public boolean q() {
-      return this.r;
+   public boolean isCompleted() {
+      return this.completed;
    }
 
-   public void L(boolean bl) {
-      this.r = bl;
+   public void setCompleted(boolean bl) {
+      this.completed = bl;
    }
 }

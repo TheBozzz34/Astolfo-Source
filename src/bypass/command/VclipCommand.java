@@ -15,14 +15,14 @@ public final class VclipCommand extends Command {
          try {
             d = Double.parseDouble(strings[1]);
          } catch (NumberFormatException numberFormatException) {
-            chat.P("\"" + strings[1] + "\" is not a number.");
+            chat.printWarning("\"" + strings[1] + "\" is not a number.");
             return;
          }
 
          mc.thePlayer.getEntityBoundingBox().X(0.0, d, 0.0);
-         chat.R("Teleported " + (d != Double.NaN && d != 0.0 ? (d > 0.0 ? "up " : "down ") : "nowhere ") + d + " blocks");
+         chat.printSuccess("Teleported " + (d != Double.NaN && d != 0.0 ? (d > 0.0 ? "up " : "down ") : "nowhere ") + d + " blocks");
       } else {
-         chat.I("Vclip: " + this.getUsage());
+         chat.print("Vclip: " + this.getUsage());
       }
    }
 }

@@ -6,5 +6,5 @@ public enum HitEffect {
    HEART,
    FAKE;
 
-   private static final HitEffect[] Y = new HitEffect[]{NONE, NORMAL, HEART, FAKE};
+   private static final HitEffect[] VALUES = new HitEffect[]{NONE, NORMAL, HEART, FAKE};
 }

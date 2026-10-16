@@ -5,53 +5,56 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
 public class Checkbox extends Gui {
-   public String d;
-   public int H;
-   public int x;
-   private boolean a;
+   public String label;
+   public int posX;
+   public int posY;
+   private boolean checked;
 
    public Checkbox(String string, int i, int j, boolean bl) {
-      this.d = string;
-      this.H = i;
-      this.x = j;
-      this.a = bl;
+      this.label = string;
+      this.posX = i;
+      this.posY = j;
+      this.checked = bl;
    }
 
-   public void b(int i, int j, int k) {
-      if (this.b(i, j)) {
-         this.a = !this.a;
+   public void handleMouseClick(int i, int j, int k) {
+      if (this.isHovered(i, j)) {
+         this.checked = !this.checked;
       }
    }
 
-   public void E(int i, int j) {
-      if (this.b(i, j)) {
-         drawRect(this.H, this.x, this.H + 15, this.x + 15, -6250336);
-         drawRect(this.H + 1, this.x + 1, this.H + 14, this.x + 14, -16777216);
-         float f = this.H + 18;
-         float g = this.x + 4;
-         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.d, f, g, 16777215);
+   public void drawCheckbox(int i, int j) {
+      if (this.isHovered(i, j)) {
+         drawRect(this.posX, this.posY, this.posX + 15, this.posY + 15, -6250336);
+         drawRect(this.posX + 1, this.posY + 1, this.posX + 14, this.posY + 14, -16777216);
+         float f = this.posX + 18;
+         float g = this.posY + 4;
+         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.label, f, g, 16777215);
       } else {
-         drawRect(this.H, this.x, this.H + 15, this.x + 15, -8947849);
-         drawRect(this.H + 1, this.x + 1, this.H + 14, this.x + 14, -16777216);
-         float h = this.H + 18;
-         float f2 = this.x + 4;
-         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.d, h, f2, 13421772);
+         drawRect(this.posX, this.posY, this.posX + 15, this.posY + 15, -8947849);
+         drawRect(this.posX + 1, this.posY + 1, this.posX + 14, this.posY + 14, -16777216);
+         float h = this.posX + 18;
+         float f2 = this.posY + 4;
+         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(this.label, h, f2, 13421772);
       }
 
-      if (this.a) {
-         drawRect(this.H + 2, this.x + 2, this.H + 13, this.x + 13, Astolfo.INSTANCE.getColorSetting().getValue().getRGB());
+      if (this.checked) {
+         drawRect(this.posX + 2, this.posY + 2, this.posX + 13, this.posY + 13, Astolfo.INSTANCE.getColorSetting().getValue().getRGB());
       }
    }
 
-   public boolean b(int i, int j) {
-      return i >= this.H && i <= this.H + 20 + Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.d) && j >= this.x && j <= this.x + 15;
+   public boolean isHovered(int i, int j) {
+      return i >= this.posX
+         && i <= this.posX + 20 + Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.label)
+         && j >= this.posY
+         && j <= this.posY + 15;
    }
 
-   public void K(boolean bl) {
-      this.a = bl;
+   public void setChecked(boolean bl) {
+      this.checked = bl;
    }
 
-   public boolean a() {
-      return this.a;
+   public boolean isChecked() {
+      return this.checked;
    }
 }

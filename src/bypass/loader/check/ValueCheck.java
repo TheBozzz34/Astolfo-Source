@@ -5,46 +5,48 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ValueCheck extends AbstractValueCheck {
-   public final Function t;
-   public final Object w;
-   public final Predicate M;
-   public final ValueCheckFactory D;
+   public final Function valueFunction;
+   public final Object input;
+   public final Predicate predicate;
+   public final ValueCheckFactory factory;
 
    public ValueCheck(ValueCheckFactory valueCheckFactory, Object object, Function function, Object object2, Predicate predicate) {
       super(object);
-      this.D = valueCheckFactory;
-      this.t = function;
-      this.w = object2;
-      this.M = predicate;
+      this.factory = valueCheckFactory;
+      this.valueFunction = function;
+      this.input = object2;
+      this.predicate = predicate;
    }
 
    @Override
-   public int C() {
-      return (Integer)this.t.apply(this.w);
+   public int computeValue() {
+      return (Integer)this.valueFunction.apply(this.input);
    }
 
    @Override
-   public ValueType o() {
-      return ValueType.compactHashMap.get(this.w.getClass());
+   public ValueType getType() {
+      return ValueType.compactHashMap.get(this.input.getClass());
    }
 
    @Override
-   public CheckResult L() {
-      int i = this.C();
+   public CheckResult evaluate() {
+      int i = this.computeValue();
       return new Double(
                   Integer.compare(
                      Arrays.asList(
-                           Boolean.valueOf(String.format("%s", String.valueOf(this.M.test(i) ? this.M.test(i) : this.M.test(i))))
+                           Boolean.valueOf(
+                                 String.format("%s", String.valueOf(this.predicate.test(i) ? this.predicate.test(i) : this.predicate.test(i)))
+                              )
                               ? Integer.parseInt("1")
                               : Integer.parseInt("0")
                         )
-                        .toArray(new Integer[0])[(int)(!this.M.test(i) ? 0.0 : Math.floor(0.0))],
+                        .toArray(new Integer[0])[(int)(!this.predicate.test(i) ? 0.0 : Math.floor(0.0))],
                      1
                   )
                )
                .hashCode()
             == Long.valueOf(0L).hashCode()
-         ? CheckResult.S(Verdict.H)
-         : CheckResult.I();
+         ? CheckResult.ofVerdict(Verdict.H)
+         : CheckResult.undecided();
    }
 }

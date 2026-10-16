@@ -9,88 +9,92 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
 public final class HypixelAddressCheck {
-   private static final ShapedMap<String, Boolean> X = new ShapedMap<>();
-   private static final List<String> P = new ArrayList<>();
-   private static final Minecraft i = Minecraft.getMinecraft();
-   private static InetAddress F;
+   private static final ShapedMap<String, Boolean> serverIpCache = new ShapedMap<>();
+   private static final List<String> hypixelIps = new ArrayList<>();
+   private static final Minecraft mc = Minecraft.getMinecraft();
+   private static InetAddress localHost;
 
-   public static void C(InetAddress inetAddress) {
+   public static void addHypixelAddress(InetAddress inetAddress) {
       String string = inetAddress.getHostAddress();
-      if ((F == null || !string.equalsIgnoreCase(F.getHostAddress())) && !string.equalsIgnoreCase("localhost") && !string.equalsIgnoreCase("127.0.0.1")) {
-         if (!P.contains(string)) {
-            P.add(string);
+      if ((localHost == null || !string.equalsIgnoreCase(localHost.getHostAddress()))
+         && !string.equalsIgnoreCase("localhost")
+         && !string.equalsIgnoreCase("127.0.0.1")) {
+         if (!hypixelIps.contains(string)) {
+            hypixelIps.add(string);
          }
       }
    }
 
-   public static boolean G() {
-      if (i.isSingleplayer()) {
+   public static boolean isOnHypixel() {
+      if (mc.isSingleplayer()) {
          return false;
       }
 
-      if (i.isIntegratedServerRunning()) {
+      if (mc.isIntegratedServerRunning()) {
          return false;
       }
 
-      ServerData serverData = i.getCurrentServerData();
+      ServerData serverData = mc.getCurrentServerData();
       if (serverData == null) {
          return false;
       }
 
       String string = serverData.serverIP.toLowerCase();
-      if (X.containsKey(string) && !X.get(string)) {
+      if (serverIpCache.containsKey(string) && !serverIpCache.get(string)) {
          return false;
       }
 
-      if (!string.isEmpty() && string.contains("hypixel") && (F == null || !string.contains(F.getHostName()) && !string.contains(F.getHostAddress()))) {
-         int j = string.length();
-         if (string.contains(":") && Character.isDigit(string.charAt(j - 1))) {
-            int k = string.lastIndexOf(":") + 1;
-            String string2 = string.substring(k);
+      if (!string.isEmpty()
+         && string.contains("hypixel")
+         && (localHost == null || !string.contains(localHost.getHostName()) && !string.contains(localHost.getHostAddress()))) {
+         int i = string.length();
+         if (string.contains(":") && Character.isDigit(string.charAt(i - 1))) {
+            int j = string.lastIndexOf(":") + 1;
+            String string2 = string.substring(j);
 
-            int l;
+            int k;
             try {
-               l = Integer.parseInt(string2);
+               k = Integer.parseInt(string2);
             } catch (Exception exception) {
-               l = -1;
+               k = -1;
             }
 
-            if (l >= 0 && l <= 65535) {
-               string = string.substring(0, k - 1);
+            if (k >= 0 && k <= 65535) {
+               string = string.substring(0, j - 1);
             }
          }
 
          String string3 = ".";
          if (string.contains(".")) {
-            int m = string.lastIndexOf(".") + 1;
-            String string4 = string.substring(m);
+            int l = string.lastIndexOf(".") + 1;
+            String string4 = string.substring(l);
             if (!string4.equalsIgnoreCase("net")) {
-               X.put(string, false);
+               serverIpCache.put(string, false);
                return false;
             } else {
-               String string5 = string.substring(0, m - 1);
-               boolean bl = string.equalsIgnoreCase("hypixel.net") || string5.endsWith(".hypixel") || P.contains(string5);
-               X.put(string, bl);
+               String string5 = string.substring(0, l - 1);
+               boolean bl = string.equalsIgnoreCase("hypixel.net") || string5.endsWith(".hypixel") || hypixelIps.contains(string5);
+               serverIpCache.put(string, bl);
                return bl;
             }
          } else {
-            X.put(string, false);
+            serverIpCache.put(string, false);
             return false;
          }
       } else {
-         X.put(string, false);
+         serverIpCache.put(string, false);
          return false;
       }
    }
 
    static {
       try {
-         F = InetAddress.getLocalHost();
+         localHost = InetAddress.getLocalHost();
       } catch (UnknownHostException unknownHostException) {
       }
 
       try {
-         C(InetAddress.getByName("hypixel.net"));
+         addHypixelAddress(InetAddress.getByName("hypixel.net"));
       } catch (UnknownHostException unknownHostException2) {
       }
 
@@ -98,7 +102,7 @@ public final class HypixelAddressCheck {
          InetAddress[] inetAddresss = InetAddress.getAllByName("hypixel.net");
 
          for (InetAddress inetAddress : inetAddresss) {
-            C(inetAddress);
+            addHypixelAddress(inetAddress);
          }
       } catch (UnknownHostException unknownHostException3) {
       }

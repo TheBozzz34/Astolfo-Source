@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 public class StreamReader {
-   private static final StreamReader e = new StreamReader();
-   private static final int z = 8192;
-   private static final int D = 2147483639;
+   private static final StreamReader INSTANCE = new StreamReader();
+   private static final int BUFFER_SIZE = 8192;
+   private static final int MAX_ARRAY_SIZE = 2147483639;
 
-   public byte[] M(InputStream inputStream) throws IOException {
+   public byte[] readAllBytes(InputStream inputStream) throws IOException {
       byte[] bytes = new byte[8192];
       int i = bytes.length;
       int j = 0;
@@ -36,7 +36,7 @@ public class StreamReader {
       }
    }
 
-   public static StreamReader o() {
-      return e;
+   public static StreamReader getInstance() {
+      return INSTANCE;
    }
 }

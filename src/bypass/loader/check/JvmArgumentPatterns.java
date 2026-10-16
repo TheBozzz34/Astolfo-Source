@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JvmArgumentPatterns {
-   private final List<String> c = new ArrayList<>();
+   private final List<String> patterns = new ArrayList<>();
 
    public JvmArgumentPatterns() {
-      this.c.add("-javaagent");
-      this.c.add("-agentlib");
-      this.c.add("-agentpath");
-      this.c.add("-Xrun");
-      this.c.add("-Xdebug");
-      this.c.add("-Xrunjdwp");
-      this.c.add("-Xbootclasspath");
+      this.patterns.add("-javaagent");
+      this.patterns.add("-agentlib");
+      this.patterns.add("-agentpath");
+      this.patterns.add("-Xrun");
+      this.patterns.add("-Xdebug");
+      this.patterns.add("-Xrunjdwp");
+      this.patterns.add("-Xbootclasspath");
    }
 
-   public List<String> N() {
-      return this.c;
+   public List<String> getPatterns() {
+      return this.patterns;
    }
 }

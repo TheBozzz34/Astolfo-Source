@@ -6,14 +6,14 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public final class PacketChannel implements Channel {
-   private static final ConnectionOptions v = ConnectionOptions.M(32);
-   private final ConnectionListener I;
-   private final Map<Short, PacketReader<?>> y;
-   private final Map<Short, List<PacketListener<?>>> E;
-   private final PacketOutput Q;
-   private final ConnectionHandlerFactory w;
-   private final Consumer<IOException> s;
-   private final Runnable J;
+   private static final ConnectionOptions options = ConnectionOptions.ofSize(32);
+   private final ConnectionListener connectionListener;
+   private final Map<Short, PacketReader<?>> readers;
+   private final Map<Short, List<PacketListener<?>>> listeners;
+   private final PacketOutput packetOutput;
+   private final ConnectionHandlerFactory handlerFactory;
+   private final Consumer<IOException> errorHandler;
+   private final Runnable onConnect;
 
    public PacketChannel(
       ConnectionListener connectionListener,
@@ -24,21 +24,23 @@ public final class PacketChannel implements Channel {
       Consumer<IOException> consumer,
       Runnable runnable
    ) {
-      this.I = connectionListener;
-      this.y = map;
-      this.E = map2;
-      this.Q = packetOutput;
-      this.w = connectionHandlerFactory;
-      this.s = consumer;
-      this.J = runnable;
+      this.connectionListener = connectionListener;
+      this.readers = map;
+      this.listeners = map2;
+      this.packetOutput = packetOutput;
+      this.handlerFactory = connectionHandlerFactory;
+      this.errorHandler = consumer;
+      this.onConnect = runnable;
    }
 
-   public static PacketChannelBuilder U() {
+   public static PacketChannelBuilder newBuilder() {
       return new PacketChannelBuilder();
    }
 
    @Override
-   public Connection K() {
-      return new SocketConnection(this.I, this.y, this.E, this.Q, this.w, this.s, this.J);
+   public Connection getConnection() {
+      return new SocketConnection(
+         this.connectionListener, this.readers, this.listeners, this.packetOutput, this.handlerFactory, this.errorHandler, this.onConnect
+      );
    }
 }

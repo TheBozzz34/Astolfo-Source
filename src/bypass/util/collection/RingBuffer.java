@@ -5,50 +5,50 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class RingBuffer<T> {
-   private final T[] s;
-   private final Class<? extends T> k;
-   private final ReadWriteLock q = new ReentrantReadWriteLock();
-   private int Y;
-   private int R;
+   private final T[] buffer;
+   private final Class<? extends T> elementType;
+   private final ReadWriteLock lock = new ReentrantReadWriteLock();
+   private int count;
+   private int writeIndex;
 
    public RingBuffer(Class<? extends T> class2, int i) {
-      this.k = class2;
-      this.s = (T[])((Object[])Array.newInstance(class2, i));
+      this.elementType = class2;
+      this.buffer = (T[])((Object[])Array.newInstance(class2, i));
    }
 
-   public T G(T object) {
-      this.q.writeLock().lock();
-      this.s[this.R] = (T)object;
-      this.R = (this.R + 1) % this.d();
-      if (this.Y < this.d()) {
-         this.Y++;
+   public T add(T object) {
+      this.lock.writeLock().lock();
+      this.buffer[this.writeIndex] = (T)object;
+      this.writeIndex = (this.writeIndex + 1) % this.getCapacity();
+      if (this.count < this.getCapacity()) {
+         this.count++;
       }
 
-      this.q.writeLock().unlock();
+      this.lock.writeLock().unlock();
       return (T)object;
    }
 
-   public int d() {
-      this.q.readLock().lock();
-      int i = this.s.length;
-      this.q.readLock().unlock();
+   public int getCapacity() {
+      this.lock.readLock().lock();
+      int i = this.buffer.length;
+      this.lock.readLock().unlock();
       return i;
    }
 
-   public T[] v() {
-      Object[] objects = (Object[])Array.newInstance(this.k, this.Y);
-      this.q.readLock().lock();
+   public T[] toOrderedArray() {
+      Object[] objects = (Object[])Array.newInstance(this.elementType, this.count);
+      this.lock.readLock().lock();
 
-      for (int i = 0; i < this.Y; i++) {
-         int j = (this.R - this.Y + i) % this.d();
+      for (int i = 0; i < this.count; i++) {
+         int j = (this.writeIndex - this.count + i) % this.getCapacity();
          if (j < 0) {
-            j += this.d();
+            j += this.getCapacity();
          }
 
-         objects[i] = this.s[j];
+         objects[i] = this.buffer[j];
       }
 
-      this.q.readLock().unlock();
+      this.lock.readLock().unlock();
       return (T[])objects;
    }
 }

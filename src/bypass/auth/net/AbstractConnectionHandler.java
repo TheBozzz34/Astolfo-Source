@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
 public class AbstractConnectionHandler implements ConnectionHandler {
-   private final SelectorRegistrar b;
-   private final NioConnection N;
+   private final SelectorRegistrar selectorRegistrar;
+   private final NioConnection connection;
 
    public AbstractConnectionHandler(SelectorRegistrar selectorRegistrar, NioConnection nioConnection) {
-      this.b = selectorRegistrar;
-      this.N = nioConnection;
+      this.selectorRegistrar = selectorRegistrar;
+      this.connection = nioConnection;
    }
 
    @Override
-   public void c(SocketChannel socketChannel) throws IOException {
-      this.b.D(this.N, socketChannel);
+   public void handleConnected(SocketChannel socketChannel) throws IOException {
+      this.selectorRegistrar.register(this.connection, socketChannel);
    }
 }

@@ -8,19 +8,19 @@ public enum MeasureRegistry {
    INSTANCE;
 
    public static final Map<Integer, Measure[]> MEASURE_MAP = new HashMap<>();
-   private boolean F = true;
-   private final int C = 30000;
+   private boolean firstRun = true;
+   private final int intervalMs = 30000;
 
-   public void k() {
+   public void startTimer() {
       Timer timer = new Timer();
       timer.schedule(new MeasureTimerTask(this), 0L, 30000L);
    }
 
-   public void N(int i) throws MeasureException {
-      this.W(MEASURE_MAP.get(i));
+   public void runMeasures(int i) throws MeasureException {
+      this.executeMeasures(MEASURE_MAP.get(i));
    }
 
-   public boolean W(Measure... measures) throws MeasureException {
+   public boolean executeMeasures(Measure... measures) throws MeasureException {
       if (measures == null) {
          return false;
       }
@@ -28,15 +28,15 @@ public enum MeasureRegistry {
       boolean bl = false;
 
       for (Measure measure : measures) {
-         measure.E();
+         measure.execute();
       }
 
       if (bl) {
          throw new MeasureException("Failed measures during authorization check");
       }
 
-      if (this.F) {
-         this.F = false;
+      if (this.firstRun) {
+         this.firstRun = false;
       }
 
       return !bl;

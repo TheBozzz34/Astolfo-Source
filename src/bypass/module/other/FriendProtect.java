@@ -25,13 +25,13 @@ public final class FriendProtect extends Module {
             Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
             ItemStack itemStack = mc.thePlayer.getCurrentEquippedItem();
             Item item = itemStack == null ? null : itemStack.getItem();
-            if (entity instanceof EntityPlayer && client.getRelationManager().z(entity)) {
+            if (entity instanceof EntityPlayer && client.getRelationManager().isFriend(entity)) {
                if (this.swordOnly.getValue() && item instanceof ItemSword) {
                   return;
                }
 
                if (this.notifies.getValue()) {
-                  toasts.B("Friend protect", String.format("%s is your friend", entity.getName()));
+                  toasts.infoMessage("Friend protect", String.format("%s is your friend", entity.getName()));
                }
 
                packetEvent.cancel();

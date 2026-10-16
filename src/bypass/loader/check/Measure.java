@@ -1,7 +1,7 @@
 package bypass.loader.check;
 
 public interface Measure {
-   String d();
+   String getName();
 
-   void E() throws MeasureException;
+   void execute() throws MeasureException;
 }

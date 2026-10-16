@@ -25,7 +25,7 @@ public final class Option2 extends VarArgFunction {
          case 2:
             if (luaValue2.isstring()) {
                String string = luaValue.checkjstring() + luaValue2.checkjstring();
-               Setting setting = LuaApi.f.get(string);
+               Setting setting = LuaApi.settingsByName.get(string);
                if (setting != null) {
                   return CoerceJavaToLua.coerce(setting.getValue());
                }
@@ -34,7 +34,7 @@ public final class Option2 extends VarArgFunction {
                if (module != null) {
                   for (Setting setting2 : module.getSettings()) {
                      if (setting2.getName().equals(luaValue2.checkjstring())) {
-                        LuaApi.f.put(string, setting2);
+                        LuaApi.settingsByName.put(string, setting2);
                         return CoerceJavaToLua.coerce(setting2.getValue());
                      }
                   }
@@ -44,7 +44,7 @@ public final class Option2 extends VarArgFunction {
          case 3:
             if (luaValue2.isstring() && luaValue3.isstring()) {
                String string2 = luaValue.checkjstring() + luaValue2.checkjstring() + luaValue3.checkjstring();
-               Setting setting3 = LuaApi.f.get(string2);
+               Setting setting3 = LuaApi.settingsByName.get(string2);
                if (setting3 != null) {
                   return CoerceJavaToLua.coerce(setting3.getValue());
                }
@@ -56,7 +56,7 @@ public final class Option2 extends VarArgFunction {
                         MapSetting mapSetting = (MapSetting)setting4;
                         Setting setting5 = mapSetting.getSettings().get(luaValue3.checkjstring());
                         if (setting5 != null) {
-                           LuaApi.f.put(string2, setting5);
+                           LuaApi.settingsByName.put(string2, setting5);
                            return CoerceJavaToLua.coerce(setting5.getValue());
                         }
                      }

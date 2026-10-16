@@ -38,7 +38,7 @@ public final class RayCast extends VarArgFunction {
          }
       }
 
-      MovingObjectPosition movingObjectPosition = GameUtil.A(f, g, d);
+      MovingObjectPosition movingObjectPosition = GameUtil.rayTrace(f, g, d);
       if (movingObjectPosition != null) {
          switch (MovingObjectTypeSwitch.$SwitchMap$net$minecraft$util$MovingObjectPosition$MovingObjectType[movingObjectPosition.typeOfHit.ordinal()]) {
             case 1:

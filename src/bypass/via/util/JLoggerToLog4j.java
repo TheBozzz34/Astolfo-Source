@@ -6,11 +6,11 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class JLoggerToLog4j extends Logger {
-   private final org.apache.logging.log4j.Logger J;
+   private final org.apache.logging.log4j.Logger log4jLogger;
 
    public JLoggerToLog4j(org.apache.logging.log4j.Logger logger) {
       super("logger", null);
-      this.J = logger;
+      this.log4jLogger = logger;
    }
 
    @Override
@@ -21,30 +21,30 @@ public class JLoggerToLog4j extends Logger {
    @Override
    public void log(Level level, String string) {
       if (level == Level.FINE) {
-         this.J.debug(string);
+         this.log4jLogger.debug(string);
       } else if (level == Level.WARNING) {
-         this.J.warn(string);
+         this.log4jLogger.warn(string);
       } else if (level == Level.SEVERE) {
-         this.J.error(string);
+         this.log4jLogger.error(string);
       } else if (level == Level.INFO) {
-         this.J.info(string);
+         this.log4jLogger.info(string);
       } else {
-         this.J.trace(string);
+         this.log4jLogger.trace(string);
       }
    }
 
    @Override
    public void log(Level level, String string, Object object) {
       if (level == Level.FINE) {
-         this.J.debug(string, object);
+         this.log4jLogger.debug(string, object);
       } else if (level == Level.WARNING) {
-         this.J.warn(string, object);
+         this.log4jLogger.warn(string, object);
       } else if (level == Level.SEVERE) {
-         this.J.error(string, object);
+         this.log4jLogger.error(string, object);
       } else if (level == Level.INFO) {
-         this.J.info(string, object);
+         this.log4jLogger.info(string, object);
       } else {
-         this.J.trace(string, object);
+         this.log4jLogger.trace(string, object);
       }
    }
 
@@ -56,15 +56,15 @@ public class JLoggerToLog4j extends Logger {
    @Override
    public void log(Level level, String string, Throwable throwable) {
       if (level == Level.FINE) {
-         this.J.debug(string, throwable);
+         this.log4jLogger.debug(string, throwable);
       } else if (level == Level.WARNING) {
-         this.J.warn(string, throwable);
+         this.log4jLogger.warn(string, throwable);
       } else if (level == Level.SEVERE) {
-         this.J.error(string, throwable);
+         this.log4jLogger.error(string, throwable);
       } else if (level == Level.INFO) {
-         this.J.info(string, throwable);
+         this.log4jLogger.info(string, throwable);
       } else {
-         this.J.trace(string, throwable);
+         this.log4jLogger.trace(string, throwable);
       }
    }
 }

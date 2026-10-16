@@ -31,15 +31,15 @@ public class BlockCollisionEvent implements Event {
       this.boundingBox = axisAlignedBB;
    }
 
-   public int I() {
+   public int getX() {
       return this.pos.getX();
    }
 
-   public int W() {
+   public int getY() {
       return this.pos.getY();
    }
 
-   public int B() {
+   public int getZ() {
       return this.pos.getZ();
    }
 }

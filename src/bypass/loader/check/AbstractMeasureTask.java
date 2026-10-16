@@ -1,21 +1,21 @@
 package bypass.loader.check;
 
 public abstract class AbstractMeasureTask implements MeasureTask {
-   private MeasureResult C;
+   private MeasureResult result;
 
    @Override
-   public MeasureResult n() {
-      return this.C;
+   public MeasureResult getResult() {
+      return this.result;
    }
 
-   public abstract void A();
+   public abstract void perform();
 
    @Override
-   public void J(MeasureResult measureResult) {
-      this.C = measureResult;
+   public void setResult(MeasureResult measureResult) {
+      this.result = measureResult;
    }
 
    @Override
-   public void x() throws MeasureException {
+   public void validate() throws MeasureException {
    }
 }

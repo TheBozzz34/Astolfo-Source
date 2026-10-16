@@ -17,7 +17,7 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
 
    public NumberSetting(String string, String string2, T number) {
       super(string, string2, (T)number, SettingType.NUMBER);
-      if (!TypeUtil.Z(number)) {
+      if (!TypeUtil.isNumeric(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
@@ -30,19 +30,19 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       super(string, string2, (T)number, SettingType.NUMBER);
       this.min = (T)number2;
       this.max = (T)number3;
-      if (!TypeUtil.Z(number)) {
+      if (!TypeUtil.isNumeric(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
             invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number2)) {
+      } else if (!TypeUtil.isNumeric(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
          } catch (InvalidValueException invalidValueException2) {
             invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number3)) {
+      } else if (!TypeUtil.isNumeric(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
          } catch (InvalidValueException invalidValueException3) {
@@ -56,19 +56,19 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       this.min = (T)number2;
       this.max = (T)number3;
       this.suffix = string3;
-      if (!TypeUtil.Z(number)) {
+      if (!TypeUtil.isNumeric(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
             invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number2)) {
+      } else if (!TypeUtil.isNumeric(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
          } catch (InvalidValueException invalidValueException2) {
             invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number3)) {
+      } else if (!TypeUtil.isNumeric(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
          } catch (InvalidValueException invalidValueException3) {
@@ -81,19 +81,19 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       super(string, string2, (T)number, SettingType.NUMBER, list);
       this.min = (T)number2;
       this.max = (T)number3;
-      if (!TypeUtil.Z(number)) {
+      if (!TypeUtil.isNumeric(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
             invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number2)) {
+      } else if (!TypeUtil.isNumeric(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
          } catch (InvalidValueException invalidValueException2) {
             invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number3)) {
+      } else if (!TypeUtil.isNumeric(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
          } catch (InvalidValueException invalidValueException3) {
@@ -106,19 +106,19 @@ public final class NumberSetting<T extends Number> extends Setting<T> implements
       super(string, string2, (T)number, SettingType.NUMBER, Arrays.asList(settingAttributes));
       this.min = (T)number2;
       this.max = (T)number3;
-      if (!TypeUtil.Z(number)) {
+      if (!TypeUtil.isNumeric(number)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
             invalidValueException.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number2)) {
+      } else if (!TypeUtil.isNumeric(number2)) {
          try {
             throw new InvalidValueException("Invalid minimum.");
          } catch (InvalidValueException invalidValueException2) {
             invalidValueException2.printStackTrace();
          }
-      } else if (!TypeUtil.Z(number3)) {
+      } else if (!TypeUtil.isNumeric(number3)) {
          try {
             throw new InvalidValueException("Invalid maximum.");
          } catch (InvalidValueException invalidValueException3) {

@@ -5,14 +5,14 @@ public enum JesusMode {
    FLOAT("Float"),
    DOLPHIN("Dolphin");
 
-   private String g;
-   private static final JesusMode[] C = new JesusMode[]{SOLID, FLOAT, DOLPHIN};
+   private String displayName;
+   private static final JesusMode[] VALUES = new JesusMode[]{SOLID, FLOAT, DOLPHIN};
 
    JesusMode(String string2) {
-      this.g = string2;
+      this.displayName = string2;
    }
 
-   public static String R(JesusMode jesusMode) {
-      return jesusMode.g;
+   public static String displayNameOf(JesusMode jesusMode) {
+      return jesusMode.displayName;
    }
 }

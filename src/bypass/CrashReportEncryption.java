@@ -10,9 +10,9 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 public final class CrashReportEncryption {
-   private static final char[] C = "0123456789ABCDEF".toCharArray();
+   private static final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
-   public static String O(String string) {
+   public static String encrypt(String string) {
       if (string != null && !string.isEmpty()) {
          try {
             SecretKeySpec secretKeySpec = new SecretKeySpec("7NW3vp3p3gM3cZJt".getBytes(), "AES");
@@ -30,11 +30,11 @@ public final class CrashReportEncryption {
       }
    }
 
-   public static String D(String string) {
-      return H(string, "7NW3vp3p3gM3cZJt");
+   public static String decrypt(String string) {
+      return decryptWithKey(string, "7NW3vp3p3gM3cZJt");
    }
 
-   public static String H(String string, String string2) {
+   public static String decryptWithKey(String string, String string2) {
       if (string != null && !string.isEmpty()) {
          try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), "AES");
@@ -52,19 +52,19 @@ public final class CrashReportEncryption {
       }
    }
 
-   public static String P(byte[] bytes) {
+   public static String bytesToHex(byte[] bytes) {
       char[] chars = new char[bytes.length * 2];
 
       for (int i = 0; i < bytes.length; i++) {
          int j = bytes[i] & 255;
-         chars[i * 2] = C[j >>> 4];
-         chars[i * 2 + 1] = C[j & 15];
+         chars[i * 2] = hexChars[j >>> 4];
+         chars[i * 2 + 1] = hexChars[j & 15];
       }
 
       return new String(chars);
    }
 
-   public static String h(String string) {
+   public static String runLengthEncode(String string) {
       StringBuilder stringBuilder = new StringBuilder();
       char c = string.charAt(0);
       int i = 1;
@@ -85,7 +85,7 @@ public final class CrashReportEncryption {
       return stringBuilder.toString();
    }
 
-   public static String H(String string) {
+   public static String runLengthDecode(String string) {
       StringBuilder stringBuilder = new StringBuilder();
 
       for (int i = 0; i < string.length(); i += 2) {

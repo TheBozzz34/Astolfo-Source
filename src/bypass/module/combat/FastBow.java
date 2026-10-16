@@ -18,8 +18,8 @@ public final class FastBow extends Module {
    private final EnumSetting<FastBowMode> mode = new EnumSetting<>("Mode", "Set your FastBow mode", FastBowMode.VANILLA);
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
-      if (updateEvent.getState() == EventState.PRE && this.mode.getValue() == FastBowMode.VANILLA && this.a()) {
+      this.updateDisplayName();
+      if (updateEvent.getState() == EventState.PRE && this.mode.getValue() == FastBowMode.VANILLA && this.canFastShoot()) {
          mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem());
          mc.thePlayer.inventory.getCurrentItem().getItem().onItemRightClick(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer);
 
@@ -38,12 +38,12 @@ public final class FastBow extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName("Fast Bow " + EnumChatFormatting.GRAY + FastBowMode.T(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName("Fast Bow " + EnumChatFormatting.GRAY + FastBowMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
-   private boolean a() {
+   private boolean canFastShoot() {
       return mc.thePlayer.inventory.getCurrentItem() != null
          && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBow
          && mc.thePlayer.getHealth() > 0.0F

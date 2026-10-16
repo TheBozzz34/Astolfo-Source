@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 public class ReflectionErrors {
-   public static void H(Exception exception) {
+   public static void rethrowReflectionException(Exception exception) {
       if (exception instanceof NoSuchMethodException) {
          throw new IllegalStateException("Couldn't find the method:\n" + exception.getMessage());
       }
@@ -14,7 +14,7 @@ public class ReflectionErrors {
       }
 
       if (exception instanceof InvocationTargetException) {
-         x((InvocationTargetException)exception);
+         rethrowTargetException((InvocationTargetException)exception);
       }
 
       if (exception instanceof RuntimeException) {
@@ -24,11 +24,11 @@ public class ReflectionErrors {
       }
    }
 
-   public static void x(InvocationTargetException invocationTargetException) {
-      H(invocationTargetException.getTargetException());
+   public static void rethrowTargetException(InvocationTargetException invocationTargetException) {
+      rethrowUnchecked(invocationTargetException.getTargetException());
    }
 
-   public static void H(Throwable throwable) {
+   public static void rethrowUnchecked(Throwable throwable) {
       if (throwable instanceof RuntimeException) {
          throw (RuntimeException)throwable;
       } else if (throwable instanceof Error) {

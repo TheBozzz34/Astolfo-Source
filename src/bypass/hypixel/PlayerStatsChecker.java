@@ -20,11 +20,11 @@ import net.hypixel.api.HypixelAPI;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
 public class PlayerStatsChecker {
-   private HypixelAPI w;
-   public final JsonObject[] v = new JsonObject[1];
-   public final int[] l = new int[1];
-   public static final HashMap<String, PlayerStatsChecker.r95> V = new HashMap<>();
-   private final List<String> z = Arrays.asList(
+   private HypixelAPI hypixelApi;
+   public final JsonObject[] playerJson = new JsonObject[1];
+   public final int[] fetchState = new int[1];
+   public static final HashMap<String, PlayerStatsChecker.r95> unresolvedNicks = new HashMap<>();
+   private final List<String> nickSkinOwners = Arrays.asList(
       "Pickguard",
       "Tactful",
       "DoubleDeltas",
@@ -44,21 +44,21 @@ public class PlayerStatsChecker {
    );
 
    public PlayerStatsChecker(HypixelAPI hypixelAPI) {
-      this.w = hypixelAPI;
-      this.l[0] = 0;
+      this.hypixelApi = hypixelAPI;
+      this.fetchState[0] = 0;
    }
 
    public void initialize(UUID uuid, String string, NetworkPlayerInfo networkPlayerInfo, boolean bl) {
-      this.w.getPlayerByUuid(uuid).whenComplete((playerReply, throwable) -> {
+      this.hypixelApi.getPlayerByUuid(uuid).whenComplete((playerReply, throwable) -> {
          if (PlayerListTracker.checkedPlayers.contains(string)) {
-            this.l[0] = -2;
+            this.fetchState[0] = -2;
          } else if (throwable != null) {
             PlayerListTracker.checkTimer.reset();
             throwable.printStackTrace();
-            this.l[0] = -2;
+            this.fetchState[0] = -2;
          } else {
-            this.v[0] = playerReply.getPlayer();
-            if (this.v[0] == null && !bl) {
+            this.playerJson[0] = playerReply.getPlayer();
+            if (this.playerJson[0] == null && !bl) {
                System.err.println("That player was not found on hypixel. " + string);
                if (!AutoHypixel.autoChecker.getSetting("Denick").asBoolean()) {
                   Denicker.nicks.put(string, "???");
@@ -79,14 +79,14 @@ public class PlayerStatsChecker {
                         String string3 = new String(Base64.getDecoder().decode(string2.getBytes(StandardCharsets.UTF_8)));
 
                         try {
-                           SkinTexturesPayload skinTexturesPayload = ConfigFiles.V.fromJson(string3, SkinTexturesPayload.class);
-                           if (this.z.contains(skinTexturesPayload.g())) {
+                           SkinTexturesPayload skinTexturesPayload = ConfigFiles.GSON.fromJson(string3, SkinTexturesPayload.class);
+                           if (this.nickSkinOwners.contains(skinTexturesPayload.getProfileName())) {
                               atomicBoolean.set(true);
                            } else {
-                              Denicker.nicks.put(string, skinTexturesPayload.g());
-                              PlayerStatsEntry playerStatsEntry = new PlayerStatsEntry(skinTexturesPayload.g(), networkPlayerInfo, this);
-                              playerStatsEntry.E = skinTexturesPayload.g();
-                              playerStatsEntry.Q = string;
+                              Denicker.nicks.put(string, skinTexturesPayload.getProfileName());
+                              PlayerStatsEntry playerStatsEntry = new PlayerStatsEntry(skinTexturesPayload.getProfileName(), networkPlayerInfo, this);
+                              playerStatsEntry.realName = skinTexturesPayload.getProfileName();
+                              playerStatsEntry.name = string;
                               PlayerListTracker.playerStats.add(playerStatsEntry);
                            }
                         } catch (Exception exception) {
@@ -100,14 +100,14 @@ public class PlayerStatsChecker {
 
                   if (atomicBoolean.get() || HypixelGameTracker.game == 4) {
                      Denicker.nicks.put(string, "???");
-                     V.put(string, new PlayerStatsChecker.r95(networkPlayerInfo, this));
+                     unresolvedNicks.put(string, new PlayerStatsChecker.r95(networkPlayerInfo, this));
                   }
                }
 
-               this.l[0] = -1;
+               this.fetchState[0] = -1;
             } else {
                System.out.println("Added " + string + " to stats checking");
-               this.l[0] = 1;
+               this.fetchState[0] = 1;
                PlayerListTracker.playerStats.add(new PlayerStatsEntry(string, networkPlayerInfo, this));
             }
 
@@ -116,12 +116,12 @@ public class PlayerStatsChecker {
       });
    }
 
-   public void h(UUID uuid, String string, NetworkPlayerInfo networkPlayerInfo) {
+   public void initializeWithDenick(UUID uuid, String string, NetworkPlayerInfo networkPlayerInfo) {
       this.initialize(uuid, string, networkPlayerInfo, false);
    }
 
-   public double r() {
-      String string = this.N("networkExp");
+   public double getNetworkLevel() {
+      String string = this.getStatString("networkExp");
       if (string.equals("Err")) {
          return -2.0;
       }
@@ -135,8 +135,8 @@ public class PlayerStatsChecker {
    }
 
    public boolean M_boolean() {
-      String string = this.N("lastLogin");
-      String string2 = this.N("lastLogout");
+      String string = this.getStatString("lastLogin");
+      String string2 = this.getStatString("lastLogout");
       if (string.equals("Err") || string2.equals("Err")) {
          return false;
       } else if (!string.equals("NA") && !string2.equals("NA")) {
@@ -148,8 +148,8 @@ public class PlayerStatsChecker {
       }
    }
 
-   public String v() {
-      String string = this.N("knownAliases");
+   public String getKnownAliases() {
+      String string = this.getStatString("knownAliases");
       if (string.equals("Err")) {
          return "Err";
       } else {
@@ -158,7 +158,7 @@ public class PlayerStatsChecker {
    }
 
    public String E_String() {
-      String string = this.N("guildKickReason");
+      String string = this.getStatString("guildKickReason");
       if (string.equals("Err")) {
          return "Err";
       } else {
@@ -167,7 +167,7 @@ public class PlayerStatsChecker {
    }
 
    public String r_String() {
-      String string = this.N("mostRecentGameType");
+      String string = this.getStatString("mostRecentGameType");
       if (string.equals("Err")) {
          return "Err";
       } else {
@@ -176,7 +176,7 @@ public class PlayerStatsChecker {
    }
 
    public String U_String() {
-      String string = this.N("userLanguage");
+      String string = this.getStatString("userLanguage");
       if (string.equals("Err")) {
          return "Err";
       } else {
@@ -185,7 +185,7 @@ public class PlayerStatsChecker {
    }
 
    public String G_String() {
-      String string = this.N("lastLogin");
+      String string = this.getStatString("lastLogin");
       if (string.equals("Err")) {
          return "Err";
       }
@@ -225,11 +225,11 @@ public class PlayerStatsChecker {
       return i + "d, " + j + "h, " + k + "m, " + i2 + "s ago";
    }
 
-   public int n() {
-      return (int)this.W(this.D("stats", "Bedwars", "Experience"));
+   public int getBedwarsLevel() {
+      return (int)this.getBedwarsLevelFromExp(this.getStatInt("stats", "Bedwars", "Experience"));
    }
 
-   private double W(double d) {
+   private double getBedwarsLevelFromExp(double d) {
       int i = 100 * (int)(d / 487000.0);
       d %= 487000.0;
       if (d < 500.0) {
@@ -256,76 +256,76 @@ public class PlayerStatsChecker {
       return i + d / 5000.0;
    }
 
-   public int B() {
-      return this.D("stats", "SkyWars", "kills");
+   public int getSkywarsKills() {
+      return this.getStatInt("stats", "SkyWars", "kills");
    }
 
    public int z_int() {
-      return this.D("stats", "SkyWars", "deaths");
+      return this.getStatInt("stats", "SkyWars", "deaths");
    }
 
-   public float z() {
-      return this.K(this.B(), this.z_int());
+   public float getSkywarsKdr() {
+      return this.getRatio(this.getSkywarsKills(), this.z_int());
    }
 
-   public int C() {
-      return this.D("stats", "SkyWars", "wins");
+   public int getSkywarsWins() {
+      return this.getStatInt("stats", "SkyWars", "wins");
    }
 
-   public int o() {
-      return this.D("stats", "SkyWars", "losses");
+   public int getSkywarsLosses() {
+      return this.getStatInt("stats", "SkyWars", "losses");
    }
 
-   public float Y() {
-      return this.K(this.C(), this.o());
+   public float getSkywarsWlr() {
+      return this.getRatio(this.getSkywarsWins(), this.getSkywarsLosses());
    }
 
    public int k_int() {
-      return this.D("stats", "Bedwars", "kills_bedwars");
+      return this.getStatInt("stats", "Bedwars", "kills_bedwars");
    }
 
-   public int j() {
-      return this.D("stats", "Bedwars", "deaths_bedwars");
+   public int getBedwarsDeaths() {
+      return this.getStatInt("stats", "Bedwars", "deaths_bedwars");
    }
 
-   public float T() {
-      return this.K(this.k_int(), this.j());
+   public float getBedwarsKdr() {
+      return this.getRatio(this.k_int(), this.getBedwarsDeaths());
    }
 
-   public int W() {
-      return this.D("stats", "Bedwars", "final_kills_bedwars");
+   public int getBedwarsFinalKills() {
+      return this.getStatInt("stats", "Bedwars", "final_kills_bedwars");
    }
 
-   public int l() {
-      return this.D("stats", "Bedwars", "final_deaths_bedwars");
+   public int getBedwarsFinalDeaths() {
+      return this.getStatInt("stats", "Bedwars", "final_deaths_bedwars");
    }
 
-   public float d() {
-      return this.K(this.W(), this.l());
+   public float getBedwarsFkdr() {
+      return this.getRatio(this.getBedwarsFinalKills(), this.getBedwarsFinalDeaths());
    }
 
-   public int w() {
-      return this.D("stats", "Bedwars", "winstreak");
+   public int getBedwarsWinstreak() {
+      return this.getStatInt("stats", "Bedwars", "winstreak");
    }
 
-   public int q() {
-      return this.D("stats", "UHC", "kills");
+   public int getUhcKills() {
+      return this.getStatInt("stats", "UHC", "kills");
    }
 
    public int F_int() {
-      return this.D("stats", "UHC", "deaths");
+      return this.getStatInt("stats", "UHC", "deaths");
    }
 
-   public float F() {
-      return this.K(this.q(), this.F_int());
+   public float getUhcKdr() {
+      return this.getRatio(this.getUhcKills(), this.F_int());
    }
 
    public int Y_int() {
-      return this.D("stats", "UHC", "wins");
+      return this.getStatInt("stats", "UHC", "wins");
    }
 
    public int K_int() {
-      int i = this.D("stats", "UHC", "score");
+      int i = this.getStatInt("stats", "UHC", "score");
       if (i < 10) {
          return 1;
       } else if (i < 60) {
@@ -357,181 +357,181 @@ public class PlayerStatsChecker {
       }
    }
 
-   public int f() {
-      return this.D("stats", "UHC", "kills_solo");
+   public int getUhcSoloKills() {
+      return this.getStatInt("stats", "UHC", "kills_solo");
    }
 
-   public int H() {
-      return this.D("stats", "UHC", "deaths_solo");
+   public int getUhcSoloDeaths() {
+      return this.getStatInt("stats", "UHC", "deaths_solo");
    }
 
-   public float k() {
-      return this.K(this.f(), this.H());
+   public float getUhcSoloKdr() {
+      return this.getRatio(this.getUhcSoloKills(), this.getUhcSoloDeaths());
    }
 
-   public int i() {
-      return this.I(this.f(), this.q());
+   public int getUhcTotalKills() {
+      return this.sumStats(this.getUhcSoloKills(), this.getUhcKills());
    }
 
-   public int R() {
-      return this.I(this.H(), this.F_int());
+   public int getUhcTotalDeaths() {
+      return this.sumStats(this.getUhcSoloDeaths(), this.F_int());
    }
 
-   public float P() {
-      return this.K(this.i(), this.R());
+   public float getUhcTotalKdr() {
+      return this.getRatio(this.getUhcTotalKills(), this.getUhcTotalDeaths());
    }
 
    public String X_String() {
-      return this.N("stats", "UHC", "equippedKit");
+      return this.getStatString("stats", "UHC", "equippedKit");
    }
 
    public int t_int() {
-      return this.D("stats", "Duels", "kills");
+      return this.getStatInt("stats", "Duels", "kills");
    }
 
    public int d_int() {
-      return this.D("stats", "Duels", "deaths");
+      return this.getStatInt("stats", "Duels", "deaths");
    }
 
-   public float u() {
-      return this.K(this.t_int(), this.d_int());
+   public float getDuelsKdr() {
+      return this.getRatio(this.t_int(), this.d_int());
    }
 
    public int E_int() {
-      return this.D("stats", "Duels", "wins");
+      return this.getStatInt("stats", "Duels", "wins");
    }
 
    public int A_int() {
-      return this.D("stats", "Duels", "losses");
+      return this.getStatInt("stats", "Duels", "losses");
    }
 
-   public float E() {
-      return this.K(this.E_int(), this.A_int());
+   public float getDuelsWlr() {
+      return this.getRatio(this.E_int(), this.A_int());
    }
 
-   public int U() {
-      return this.D("stats", "Duels", "current_winstreak");
+   public int getDuelsWinstreak() {
+      return this.getStatInt("stats", "Duels", "current_winstreak");
    }
 
-   public int G() {
-      return this.D("stats", "Duels", "melee_hits");
+   public int getDuelsMeleeHits() {
+      return this.getStatInt("stats", "Duels", "melee_hits");
    }
 
-   public int p() {
-      return this.D("stats", "Duels", "melee_swings");
+   public int getDuelsMeleeSwings() {
+      return this.getStatInt("stats", "Duels", "melee_swings");
    }
 
-   public float O() {
-      return this.K(this.G(), this.p());
+   public float getDuelsMeleeAccuracy() {
+      return this.getRatio(this.getDuelsMeleeHits(), this.getDuelsMeleeSwings());
    }
 
-   public int S() {
-      return this.D("stats", "Duels", "rounds_played");
+   public int getDuelsRoundsPlayed() {
+      return this.getStatInt("stats", "Duels", "rounds_played");
    }
 
-   public int J() {
-      return this.D("stats", "HungerGames", "kills");
+   public int getBlitzKills() {
+      return this.getStatInt("stats", "HungerGames", "kills");
    }
 
    public int u_int() {
-      return this.D("stats", "HungerGames", "deaths");
+      return this.getStatInt("stats", "HungerGames", "deaths");
    }
 
-   public float K() {
-      return this.K(this.J(), this.u_int());
+   public float getBlitzKdr() {
+      return this.getRatio(this.getBlitzKills(), this.u_int());
    }
 
-   public int y() {
-      return this.D("stats", "HungerGames", "wins");
+   public int getBlitzWins() {
+      return this.getStatInt("stats", "HungerGames", "wins");
    }
 
    public int Z_int() {
-      return this.D("stats", "HungerGames", "wins_teams");
+      return this.getStatInt("stats", "HungerGames", "wins_teams");
    }
 
-   public int x() {
-      return this.D("stats", "Walls3", "kills");
+   public int getMegaWallsKills() {
+      return this.getStatInt("stats", "Walls3", "kills");
    }
 
    public int O_int() {
-      return this.D("stats", "Walls3", "assists");
+      return this.getStatInt("stats", "Walls3", "assists");
    }
 
    public int r_int() {
-      return this.D("stats", "Walls3", "final_assists");
+      return this.getStatInt("stats", "Walls3", "final_assists");
    }
 
-   public int c() {
-      return this.D("stats", "Walls3", "deaths");
+   public int getMegaWallsDeaths() {
+      return this.getStatInt("stats", "Walls3", "deaths");
    }
 
-   public int s() {
-      return this.D("stats", "Walls3", "final_kills");
+   public int getMegaWallsFinalKills() {
+      return this.getStatInt("stats", "Walls3", "final_kills");
    }
 
-   public int X() {
-      return this.D("stats", "Walls3", "final_deaths");
+   public int getMegaWallsFinalDeaths() {
+      return this.getStatInt("stats", "Walls3", "final_deaths");
    }
 
    public int P_int() {
-      return this.D("stats", "Walls3", "wins");
+      return this.getStatInt("stats", "Walls3", "wins");
    }
 
-   public int M() {
-      return this.D("stats", "Walls3", "losses");
+   public int getMegaWallsLosses() {
+      return this.getStatInt("stats", "Walls3", "losses");
    }
 
-   public float A() {
-      return this.K(this.x(), this.c());
+   public float getMegaWallsKdr() {
+      return this.getRatio(this.getMegaWallsKills(), this.getMegaWallsDeaths());
    }
 
-   public float D() {
-      return this.K(this.s(), this.X());
+   public float getMegaWallsFkdr() {
+      return this.getRatio(this.getMegaWallsFinalKills(), this.getMegaWallsFinalDeaths());
    }
 
-   public float N() {
-      return this.K(this.P_int(), this.M());
+   public float getMegaWallsWlr() {
+      return this.getRatio(this.P_int(), this.getMegaWallsLosses());
    }
 
    public String f_String() {
-      return this.N("stats", "Walls3", "chosen_class");
+      return this.getStatString("stats", "Walls3", "chosen_class");
    }
 
    public String l_String() {
-      return this.N("stats", "Pit", "profile", "selected_perk_0");
+      return this.getStatString("stats", "Pit", "profile", "selected_perk_0");
    }
 
-   public String V() {
-      return this.N("stats", "Pit", "profile", "selected_perk_1");
+   public String getPitSecondPerk() {
+      return this.getStatString("stats", "Pit", "profile", "selected_perk_1");
    }
 
    public String u_String() {
-      return this.N("stats", "Pit", "profile", "selected_killstreak_1");
+      return this.getStatString("stats", "Pit", "profile", "selected_killstreak_1");
    }
 
-   public int m() {
-      return this.D("stats", "Pit", "pit_stats_ptl", "deaths");
+   public int getPitDeaths() {
+      return this.getStatInt("stats", "Pit", "pit_stats_ptl", "deaths");
    }
 
-   public int b() {
-      return this.D("stats", "Pit", "pit_stats_ptl", "kills");
+   public int getPitKills() {
+      return this.getStatInt("stats", "Pit", "pit_stats_ptl", "kills");
    }
 
-   public float t() {
-      return this.K(this.b(), this.m());
+   public float getPitKdr() {
+      return this.getRatio(this.getPitKills(), this.getPitDeaths());
    }
 
    public int D_int() {
-      return this.D("stats", "Pit", "pit_stats_ptl", "max_streak");
+      return this.getStatInt("stats", "Pit", "pit_stats_ptl", "max_streak");
    }
 
-   public float Z() {
-      return this.R("stats", "Pit", "profile", "cash");
+   public float getPitGold() {
+      return this.getStatFloat("stats", "Pit", "profile", "cash");
    }
 
    private void S_void() {
       try {
-         while (this.l[0] == 0) {
+         while (this.fetchState[0] == 0) {
             Thread.sleep(100L);
          }
       } catch (InterruptedException interruptedException) {
@@ -539,7 +539,7 @@ public class PlayerStatsChecker {
       }
    }
 
-   private float K(int i, int j) {
+   private float getRatio(int i, int j) {
       float f = i;
       float g = j;
       if (f < 0.0F || g < 0.0F) {
@@ -549,19 +549,19 @@ public class PlayerStatsChecker {
       }
    }
 
-   private int I(int i, int j) {
+   private int sumStats(int i, int j) {
       return i >= 0 && j >= 0 ? i + j : Math.min(i, j);
    }
 
-   public int D(String... strings) {
+   public int getStatInt(String... strings) {
       this.S_void();
-      if (this.l[0] != 1) {
-         return this.l[0];
+      if (this.fetchState[0] != 1) {
+         return this.fetchState[0];
       }
 
       try {
          JsonObject[] jsonObjects = new JsonObject[strings.length];
-         jsonObjects[0] = this.v[0];
+         jsonObjects[0] = this.playerJson[0];
 
          for (int i = 0; i < jsonObjects.length - 1; i++) {
             if (jsonObjects[i] == null) {
@@ -589,42 +589,42 @@ public class PlayerStatsChecker {
    }
 
    public String Z_String() {
-      return this.N("displayname");
+      return this.getStatString("displayname");
    }
 
    public String s_String() {
-      String string = this.N("prefix");
+      String string = this.getStatString("prefix");
       if (!string.equals("Err") && !string.equals("NA")) {
          return string;
       }
 
-      String string2 = this.N("rank");
+      String string2 = this.getStatString("rank");
       if (!string2.equals("Err") && !string2.equals("NA")) {
          return string2;
       }
 
-      String string3 = this.N("monthlyPackageRank");
+      String string3 = this.getStatString("monthlyPackageRank");
       if (!string3.equals("Err") && !string3.equals("NA") && !string3.contains("NONE")) {
          return "MVP++";
       }
 
-      String string4 = this.N("newPackageRank");
+      String string4 = this.getStatString("newPackageRank");
       if (!string4.equals("Err") && !string4.equals("NA") && !string4.equals("NONE")) {
          return string4.replaceAll("_PLUS", "+");
       }
 
-      String string5 = this.N("packageRank");
+      String string5 = this.getStatString("packageRank");
       return !string5.equals("Err") && !string5.equals("NA") && !string5.equals("NONE") ? string5.replaceAll("_PLUS", "+") : "";
    }
 
-   public float R(String... strings) {
-      if (this.l[0] != 1) {
-         return this.l[0];
+   public float getStatFloat(String... strings) {
+      if (this.fetchState[0] != 1) {
+         return this.fetchState[0];
       }
 
       try {
          JsonObject[] jsonObjects = new JsonObject[strings.length];
-         jsonObjects[0] = this.v[0];
+         jsonObjects[0] = this.playerJson[0];
 
          for (int i = 0; i < jsonObjects.length - 1; i++) {
             if (jsonObjects[i] == null) {
@@ -645,19 +645,19 @@ public class PlayerStatsChecker {
       }
    }
 
-   public String N(String... strings) {
+   public String getStatString(String... strings) {
       this.S_void();
-      if (this.l[0] == -2) {
+      if (this.fetchState[0] == -2) {
          return "Err";
       }
 
-      if (this.l[0] == -1) {
+      if (this.fetchState[0] == -1) {
          return "NA";
       }
 
       try {
          JsonObject[] jsonObjects = new JsonObject[strings.length];
-         jsonObjects[0] = this.v[0];
+         jsonObjects[0] = this.playerJson[0];
 
          for (int i = 0; i < jsonObjects.length - 1; i++) {
             if (jsonObjects[i] == null) {
@@ -679,12 +679,12 @@ public class PlayerStatsChecker {
    }
 
    public class r95 {
-      public NetworkPlayerInfo F;
-      public PlayerStatsChecker w;
+      public NetworkPlayerInfo playerInfo;
+      public PlayerStatsChecker checker;
 
       public r95(NetworkPlayerInfo networkPlayerInfo, PlayerStatsChecker playerStatsChecker2) {
-         this.F = networkPlayerInfo;
-         this.w = playerStatsChecker2;
+         this.playerInfo = networkPlayerInfo;
+         this.checker = playerStatsChecker2;
       }
    }
 }

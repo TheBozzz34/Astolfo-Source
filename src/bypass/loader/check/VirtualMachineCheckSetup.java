@@ -1,15 +1,15 @@
 package bypass.loader.check;
 
 public class VirtualMachineCheckSetup {
-   private final VirtualMachineFileListOwner B = new VirtualMachineFileListOwner();
-   private final FileListHolder f = new FileListHolder(this.B.A());
-   private final VirtualMachineCheck o = new VirtualMachineCheck(this.f);
+   private final VirtualMachineFileListOwner fileListOwner = new VirtualMachineFileListOwner();
+   private final FileListHolder fileListHolder = new FileListHolder(this.fileListOwner.getFileContainer());
+   private final VirtualMachineCheck virtualMachineCheck = new VirtualMachineCheck(this.fileListHolder);
 
-   public FileListHolder Y() {
-      return this.f;
+   public FileListHolder getFileListHolder() {
+      return this.fileListHolder;
    }
 
-   public VirtualMachineCheck u() {
-      return this.o;
+   public VirtualMachineCheck getVirtualMachineCheck() {
+      return this.virtualMachineCheck;
    }
 }

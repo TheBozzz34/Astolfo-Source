@@ -9,7 +9,7 @@ public final class NameCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      toasts.D("Your username has been copied to the clipboard");
+      toasts.info("Your username has been copied to the clipboard");
       GuiScreen.setClipboardString(mc.session.getUsername());
    }
 }

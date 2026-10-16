@@ -11,7 +11,7 @@ public final class Angles extends VarArgFunction {
    public Varargs onInvoke(Varargs varargs) {
       LuaValue luaValue = varargs.arg1();
       if (luaValue != null && !luaValue.isnil() && luaValue.isnumber()) {
-         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         Entity entity = WorldLibrary.entitiesById.get(luaValue.checkint());
          if (entity != null) {
             return LuaValue.varargsOf(new LuaValue[]{LuaValue.valueOf(entity.rotationYaw), LuaValue.valueOf(entity.rotationPitch)});
          }

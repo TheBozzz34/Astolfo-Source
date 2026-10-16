@@ -13,7 +13,7 @@ public final class GetSettingFunction2 extends OneArgFunction {
    public LuaValue call(LuaValue luaValue) {
       if (luaValue.isstring()) {
          LuaString luaString = (LuaString)luaValue;
-         Setting setting = LuaApi.f.get(luaString.checkjstring());
+         Setting setting = LuaApi.settingsByName.get(luaString.checkjstring());
          if (setting instanceof BooleanSetting) {
             return valueOf(setting.asBoolean());
          } else if (setting instanceof NumberSetting) {

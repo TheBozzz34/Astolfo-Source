@@ -74,11 +74,11 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.util.Vec3;
 
 public final class GameUtil implements ClientAccess {
-   private static final Pattern E = Pattern.compile(
+   private static final Pattern HYPIXEL_ADDRESS_PATTERN = Pattern.compile(
       "^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", 2
    );
-   private static Pattern Q = Pattern.compile("§(.).*§r");
-   public static String N = null;
+   private static Pattern colorCodePattern = Pattern.compile("§(.).*§r");
+   public static String cachedTabDisplayName = null;
 
    public static boolean isPassive(Entity entity) {
       return entity instanceof EntityPig
@@ -202,10 +202,10 @@ public final class GameUtil implements ClientAccess {
    }
 
    public static int getLatencyAdjustedHurtTime(EntityLivingBase entityLivingBase) {
-      return entityLivingBase.hurtTime - MathHelper.ceiling_float_int((float)ServerRotationTracker.U() / 50.0F);
+      return entityLivingBase.hurtTime - MathHelper.ceiling_float_int((float)ServerRotationTracker.getTimeSinceLastPacket() / 50.0F);
    }
 
-   public static boolean N() {
+   public static boolean canCriticalHit() {
       return !mc.thePlayer.isOnLadder()
          && !mc.thePlayer.isInWater()
          && !mc.thePlayer.isPotionActive(Potion.blindness)
@@ -225,16 +225,16 @@ public final class GameUtil implements ClientAccess {
    }
 
    public static boolean isOnHypixel() {
-      return ServerManager.X == ServerType.HYPIXEL && !Minecraft.c;
+      return ServerManager.currentServerType == ServerType.HYPIXEL && !Minecraft.c;
    }
 
    public static boolean isInHypixelGame() {
-      return ServerManager.X == ServerType.HYPIXEL && !Minecraft.c && hasSidebar();
+      return ServerManager.currentServerType == ServerType.HYPIXEL && !Minecraft.c && hasSidebar();
    }
 
-   public static boolean P() {
+   public static boolean isOnHypixelAddress() {
       ServerData serverData = mc.getCurrentServerData();
-      return serverData != null && E.matcher(serverData.serverIP).find();
+      return serverData != null && HYPIXEL_ADDRESS_PATTERN.matcher(serverData.serverIP).find();
    }
 
    public static boolean isMoving(Entity entity) {
@@ -246,7 +246,7 @@ public final class GameUtil implements ClientAccess {
          : entity.posX != entity.lastTickPosX || entity.posY != entity.lastTickPosY || entity.posZ != entity.lastTickPosZ;
    }
 
-   public static boolean S(Entity entity) {
+   public static boolean isFullyInvisible(Entity entity) {
       if (!(entity instanceof EntityLivingBase)) {
          return false;
       }
@@ -326,7 +326,7 @@ public final class GameUtil implements ClientAccess {
       return scoreObjective2 != null;
    }
 
-   public static MovingObjectPosition A(float f, float g, double d) {
+   public static MovingObjectPosition rayTrace(float f, float g, double d) {
       Entity entity = null;
       double e = d;
       MovingObjectPosition movingObjectPosition;
@@ -390,7 +390,7 @@ public final class GameUtil implements ClientAccess {
       return movingObjectPosition;
    }
 
-   public static MovingObjectPosition V(float f, float g, double d) {
+   public static MovingObjectPosition getMouseOverAt(float f, float g, double d) {
       Entity entity = null;
       double e = mc.playerController.getBlockReachDistance();
       double d2 = e;
@@ -500,7 +500,7 @@ public final class GameUtil implements ClientAccess {
       }
    }
 
-   public static int j(ItemStack itemStack) {
+   public static int getArmorColor(ItemStack itemStack) {
       if (itemStack.getItem() instanceof ItemArmor) {
          ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
          if (itemArmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
@@ -557,37 +557,38 @@ public final class GameUtil implements ClientAccess {
    }
 
    private static String getColorCode(EntityPlayer entityPlayer) {
-      Matcher matcher2 = Q.matcher(entityPlayer.getDisplayName().getFormattedText());
+      Matcher matcher2 = colorCodePattern.matcher(entityPlayer.getDisplayName().getFormattedText());
       return matcher2.find() ? matcher2.group(1) : "f";
    }
 
    private static String getColorCode(String string) {
-      Matcher matcher2 = Q.matcher(string);
+      Matcher matcher2 = colorCodePattern.matcher(string);
       return matcher2.find() ? matcher2.group(1) : "f";
    }
 
-   public static boolean O(EntityPlayer entityPlayer, EntityLivingBase entityLivingBase) {
+   public static boolean isOnSameTeam(EntityPlayer entityPlayer, EntityLivingBase entityLivingBase) {
       if (entityLivingBase.getDisplayName() == null) {
          return false;
       }
 
-      if (N == null || mc.thePlayer.ticksExisted % 214 == 0) {
+      if (cachedTabDisplayName == null || mc.thePlayer.ticksExisted % 214 == 0) {
          AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entityPlayer;
          if (abstractClientPlayer.getPlayerInfo() != null && !Objects.equals(abstractClientPlayer.getPlayerInfo().getGameProfile().getName(), mc.thePlayer.getName())) {
             for (NetworkPlayerInfo networkPlayerInfo : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.thePlayer.sendQueue.getPlayerInfoMap())) {
                if (networkPlayerInfo.getGameProfile().getName().equals(abstractClientPlayer.getPlayerInfo().getGameProfile().getName())) {
-                  N = networkPlayerInfo.getDisplayName() != null
+                  cachedTabDisplayName = networkPlayerInfo.getDisplayName() != null
                      ? networkPlayerInfo.getDisplayName().getFormattedText()
                      : ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());
-                  N = N + "§r";
+                  cachedTabDisplayName = cachedTabDisplayName + "§r";
                   break;
                }
             }
          }
       }
 
-      return N != null
-         ? N.contains("§" + getColorCode(N)) && entityLivingBase.getDisplayName().getFormattedText().contains("§" + getColorCode(N))
+      return cachedTabDisplayName != null
+         ? cachedTabDisplayName.contains("§" + getColorCode(cachedTabDisplayName))
+            && entityLivingBase.getDisplayName().getFormattedText().contains("§" + getColorCode(cachedTabDisplayName))
          : entityPlayer.getDisplayName().getFormattedText().contains("§" + getColorCode(entityPlayer))
             && entityLivingBase.getDisplayName().getFormattedText().contains("§" + getColorCode(entityPlayer));
    }

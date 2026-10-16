@@ -13,39 +13,39 @@ public class EnumComponent extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      GuiMainMenu.m.drawString(this.U().getName().replace("-", " "), this.M() + 3.0F, this.E_float(), -1);
+      GuiMainMenu.m.drawString(this.getEnumSetting().getName().replace("-", " "), this.getX() + 3.0F, this.getYPos(), -1);
       GuiMainMenu.m
          .drawString(
-            String.valueOf(this.U().getValue()),
-            this.M() + this.x() - GuiMainMenu.m.getStringWidth(String.valueOf(this.U().getValue()), true),
-            this.E_float(),
+            String.valueOf(this.getEnumSetting().getValue()),
+            this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(String.valueOf(this.getEnumSetting().getValue()), true),
+            this.getYPos(),
             13421772
          );
    }
 
    @Override
-   public void l(int i) {
-      if (this.I().s_boolean()) {
-         Enum[] enums = (Enum[])this.U().getValue().getClass().getEnumConstants();
-         int j = this.W();
+   public void onClick(int i) {
+      if (this.getParentContainer().isExpanded()) {
+         Enum[] enums = (Enum[])this.getEnumSetting().getValue().getClass().getEnumConstants();
+         int j = this.getValueIndex();
          j += i == 0 ? 1 : -1;
          if (j >= enums.length || j < 0) {
             j = 0;
          }
 
-         this.U().setValue(enums[j]);
+         this.getEnumSetting().setValue(enums[j]);
       }
    }
 
-   private EnumSetting U() {
-      return (EnumSetting)this.t();
+   private EnumSetting getEnumSetting() {
+      return (EnumSetting)this.getSetting();
    }
 
-   private int W() {
-      Enum[] enums = (Enum[])this.U().getValue().getClass().getEnumConstants();
+   private int getValueIndex() {
+      Enum[] enums = (Enum[])this.getEnumSetting().getValue().getClass().getEnumConstants();
 
       for (int i = 0; i < enums.length; i++) {
-         if (enums[i] == this.U().getValue()) {
+         if (enums[i] == this.getEnumSetting().getValue()) {
             return i;
          }
       }

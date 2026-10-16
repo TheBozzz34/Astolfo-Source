@@ -8,6 +8,6 @@ public class IntWriter implements PacketWriter<Integer> {
    public void write(Integer integer, PacketBuffer packetBuffer) {
       ByteBuffer byteBuffer = ByteBuffer.allocate(4);
       byteBuffer.putInt(integer);
-      packetBuffer.n(byteBuffer);
+      packetBuffer.addChunk(byteBuffer);
    }
 }

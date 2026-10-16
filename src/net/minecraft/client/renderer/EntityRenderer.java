@@ -431,7 +431,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             AxisAlignedBB axisAlignedBB = entity2.getEntityBoundingBox().expand(g, g, g);
             MovingObjectPosition movingObjectPosition = axisAlignedBB.calculateIntercept(vec3, vec33);
             if (axisAlignedBB.isVecInside(vec3)) {
-               if (d2 >= 0.0 && !ModuleManager.Q.isEnabled()) {
+               if (d2 >= 0.0 && !ModuleManager.noMouseIntersect.isEnabled()) {
                   this.pointedEntity = entity2;
                   vec34 = movingObjectPosition == null ? vec3 : movingObjectPosition.hitVec;
                   d2 = 0.0;
@@ -460,7 +460,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          Astolfo.INSTANCE.getEventBus().post(reachEvent);
          if (this.pointedEntity != null
             && bl
-            && vec3.distanceTo(vec34) > (ModuleManager.Z.isEnabled() ? InfiniteReach.range.getValue().floatValue() : reachEvent.getReach())) {
+            && vec3.distanceTo(vec34) > (ModuleManager.infiniteReach.isEnabled() ? InfiniteReach.range.getValue().floatValue() : reachEvent.getReach())) {
             this.pointedEntity = null;
             this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec34, (EnumFacing)null, new BlockPos(vec34));
          }
@@ -663,7 +663,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
             GlStateManager.rotate(entity.rotationPitch - f5, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(entity.rotationYaw - f4, 0.0F, 1.0F, 0.0F);
-            GlStateManager.translate(0.0 + Freecam2.V, 0.0, (float)(ModuleManager.k.isEnabled() && Camera.viewClip.getValue() ? -5.0 : -d3) + Freecam2.R);
+            GlStateManager.translate(
+               0.0 + Freecam2.cameraOffsetX,
+               0.0,
+               (float)(ModuleManager.camera.isEnabled() && Camera.viewClip.getValue() ? -5.0 : -d3) + Freecam2.cameraOffsetZ
+            );
             GlStateManager.rotate(f4 - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(f5 - entity.rotationPitch, 1.0F, 0.0F, 0.0F);
          }
@@ -747,7 +751,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       }
 
       Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / this.mc.displayHeight, 0.05F, this.clipDistance);
-      GlStateManager.matrixMode(ModuleManager.e);
+      GlStateManager.matrixMode(ModuleManager.modelViewMatrixMode);
       GlStateManager.loadIdentity();
       if (this.mc.gameSettings.anaglyph) {
          GlStateManager.translate((pass * 2 - 1) * 0.1F, 0.0F, 0.0F);
@@ -811,7 +815,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          }
 
          Project.gluPerspective(
-            ModuleManager.k.isEnabled() ? this.getFOVModifier(f, false) * Camera.itemFOV.getValue() : this.getFOVModifier(f, false),
+            ModuleManager.camera.isEnabled() ? this.getFOVModifier(f, false) * Camera.itemFOV.getValue() : this.getFOVModifier(f, false),
             (float)this.mc.displayWidth / this.mc.displayHeight,
             0.05F,
             this.Q * 2.0F
@@ -878,7 +882,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       float f = 0.00390625F;
       GlStateManager.scale(f, f, f);
       GlStateManager.translate(8.0F, 8.0F, 8.0F);
-      GlStateManager.matrixMode(ModuleManager.e);
+      GlStateManager.matrixMode(ModuleManager.modelViewMatrixMode);
       this.mc.getTextureManager().bindTexture(this.locationLightMap);
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
@@ -1013,7 +1017,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                int j = (int)(f7 * 255.0F);
                int k = (int)(f8 * 255.0F);
                int m = (int)(f9 * 255.0F);
-               if (ModuleManager.M.isEnabled()) {
+               if (ModuleManager.worldColor.isEnabled()) {
                   j = WorldColor.color.getValue().getRed();
                   k = WorldColor.color.getValue().getGreen();
                   m = WorldColor.color.getValue().getBlue();
@@ -1288,7 +1292,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
    }
 
    public void renderWorldPass(int pass, float partialTicks, long finishTimeNano) {
-      boolean bl = ModuleManager.I.isEnabled();
+      boolean bl = ModuleManager.noRender.isEnabled();
       boolean bl2 = Config.isShaders();
       if (bl2) {
          Shaders.beginRenderPass(pass, partialTicks, finishTimeNano);
@@ -1324,12 +1328,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       Frustum frustum2 = new Frustum();
       Entity entity = this.mc.getRenderViewEntity();
       double d = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks;
-      double d2 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks;
-      double d3 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks;
+      double e = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks;
+      double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks;
       if (bl2) {
-         ShadersRender.setFrustrumPosition(frustum2, d, d2, d3);
+         ShadersRender.setFrustrumPosition(frustum2, d, e, d2);
       } else {
-         frustum2.setPosition(d, d2, d3);
+         frustum2.setPosition(d, e, d2);
       }
 
       if ((Config.K() || Config.u() || Config.s()) && !Shaders.isShadowPass) {
@@ -1338,7 +1342,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          GlStateManager.matrixMode(5889);
          GlStateManager.loadIdentity();
          Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / this.mc.displayHeight, 0.05F, this.clipDistance);
-         GlStateManager.matrixMode(ModuleManager.e);
+         GlStateManager.matrixMode(ModuleManager.modelViewMatrixMode);
          if (bl2) {
             Shaders.beginSky();
          }
@@ -1351,7 +1355,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          GlStateManager.matrixMode(5889);
          GlStateManager.loadIdentity();
          Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / this.mc.displayHeight, 0.05F, this.clipDistance);
-         GlStateManager.matrixMode(ModuleManager.e);
+         GlStateManager.matrixMode(ModuleManager.modelViewMatrixMode);
       } else {
          GlStateManager.disableBlend();
       }
@@ -1368,9 +1372,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       RenderHelper.disableStandardItemLighting();
       this.mc.mcProfiler.endStartSection("terrain_setup");
       if (bl2) {
-         ShadersRender.setupTerrain(renderGlobal2, entity, partialTicks, frustum2, this.R++, !ModuleManager.I.isEnabled());
+         ShadersRender.setupTerrain(renderGlobal2, entity, partialTicks, frustum2, this.R++, !ModuleManager.noRender.isEnabled());
       } else {
-         renderGlobal2.setupTerrain(entity, partialTicks, frustum2, this.R++, !ModuleManager.I.isEnabled());
+         renderGlobal2.setupTerrain(entity, partialTicks, frustum2, this.R++, !ModuleManager.noRender.isEnabled());
       }
 
       if (pass == 0 || pass == 2) {
@@ -1388,16 +1392,16 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          this.mc.mcProfiler.endStartSection("terrain");
       }
 
-      GlStateManager.matrixMode(ModuleManager.e);
+      GlStateManager.matrixMode(ModuleManager.modelViewMatrixMode);
       GlStateManager.pushMatrix();
       GlStateManager.disableAlpha();
       if (bl2) {
          ShadersRender.o();
       }
 
-      boolean bl4 = ModuleManager.t.isEnabled();
+      boolean bl4 = ModuleManager.caveFinder.isEnabled();
       if (bl4) {
-         CaveFinder.j();
+         CaveFinder.cullFrontFaces();
       }
 
       renderGlobal2.renderBlockLayer(EnumWorldBlockLayer.SOLID, partialTicks, pass, entity);
@@ -1422,7 +1426,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       }
 
       if (bl4) {
-         CaveFinder.B();
+         CaveFinder.cullBackFaces();
       }
 
       Lagometer.timerTerrain.end();
@@ -1466,7 +1470,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          }
       }
 
-      GlStateManager.matrixMode(ModuleManager.e);
+      GlStateManager.matrixMode(ModuleManager.modelViewMatrixMode);
       GlStateManager.popMatrix();
       if (bl3 && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
          EntityPlayer entityPlayer2 = (EntityPlayer)entity;
@@ -1584,7 +1588,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       }
 
       if (pass == 2) {
-         Astolfo.INSTANCE.getEventBus().post(new RenderEvent(RenderType.WORLD, partialTicks, d, d2, d3));
+         Astolfo.INSTANCE.getEventBus().post(new RenderEvent(RenderType.WORLD, partialTicks, d, e, d2));
       }
 
       this.mc.mcProfiler.endStartSection("hand");
@@ -2164,7 +2168,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          }
       }
 
-      if (ModuleManager.X.isEnabled() && NoEffect.noFog.getValue()) {
+      if (ModuleManager.noEffect.isEnabled() && NoEffect.noFog.getValue()) {
          GlStateManager.setFogDensity(0.0F);
       }
 

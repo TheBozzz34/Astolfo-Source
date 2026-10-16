@@ -1,13 +1,13 @@
 package bypass.loader.check;
 
 public abstract class AbstractValueCheck implements ValueCheckView {
-   private final Object k;
+   private final Object value;
 
    public AbstractValueCheck(Object object) {
-      this.k = object;
+      this.value = object;
    }
 
-   public Object Q() {
-      return this.k;
+   public Object getValue() {
+      return this.value;
    }
 }

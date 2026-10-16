@@ -19,17 +19,17 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 
 public final class Announcer extends Module {
    private final BooleanSetting skip = new BooleanSetting("Skip", "Skip players if delay not good", true);
-   private List<String> j = Arrays.asList("Hello {user}", "Welcome {user}", "Nice to see you, {user}");
-   private List<String> O = Arrays.asList("Bye {user}", "See you later, {user}", "Good bye {user}", "Hasta la vista, {user}");
+   private List<String> joinMessages = Arrays.asList("Hello {user}", "Welcome {user}", "Nice to see you, {user}");
+   private List<String> leaveMessages = Arrays.asList("Bye {user}", "See you later, {user}", "Good bye {user}", "Hasta la vista, {user}");
    private final BooleanSetting join = new BooleanSetting("Join", "Welcomes players that join", true);
    private final BooleanSetting leave = new BooleanSetting("Leave", "Welcomes players that leave", true);
-   private Stopwatch f = new Stopwatch();
-   private List<NetworkPlayerInfo> B = new CopyOnWriteArrayList<>();
-   private int h;
+   private Stopwatch messageTimer = new Stopwatch();
+   private List<NetworkPlayerInfo> knownPlayers = new CopyOnWriteArrayList<>();
+   private int ticksSinceJoin;
    @EventHandler(WorldLoadEvent.class)
    private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
-      this.h = 0;
-      this.B.clear();
+      this.ticksSinceJoin = 0;
+      this.knownPlayers.clear();
    };
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
@@ -39,50 +39,50 @@ public final class Announcer extends Module {
 
          for (Object object : list) {
             NetworkPlayerInfo networkPlayerInfo = (NetworkPlayerInfo)object;
-            String string = this.m(networkPlayerInfo);
-            if (this.h < 150) {
-               if (!this.B.contains(networkPlayerInfo)) {
-                  this.B.add(networkPlayerInfo);
+            String string = this.getPlayerDisplayName(networkPlayerInfo);
+            if (this.ticksSinceJoin < 150) {
+               if (!this.knownPlayers.contains(networkPlayerInfo)) {
+                  this.knownPlayers.add(networkPlayerInfo);
                }
-            } else if (this.join.getValue() && !this.B.contains(networkPlayerInfo)) {
-               if (this.f.hasElapsed(1000.0F)) {
-                  String string2 = this.j.get(RandomUtils.RANDOM.nextInt(this.j.size())).replace("{user}", string);
+            } else if (this.join.getValue() && !this.knownPlayers.contains(networkPlayerInfo)) {
+               if (this.messageTimer.hasElapsed(1000.0F)) {
+                  String string2 = this.joinMessages.get(RandomUtils.RANDOM.nextInt(this.joinMessages.size())).replace("{user}", string);
                   mc.thePlayer.sendChatMessage(string2);
                   if (!this.skip.getValue()) {
-                     this.B.add(networkPlayerInfo);
+                     this.knownPlayers.add(networkPlayerInfo);
                   }
 
-                  this.f.reset();
+                  this.messageTimer.reset();
                }
 
                if (this.skip.getValue()) {
-                  this.B.add(networkPlayerInfo);
+                  this.knownPlayers.add(networkPlayerInfo);
                }
             }
          }
 
          if (this.leave.getValue()) {
-            for (NetworkPlayerInfo networkPlayerInfo2 : this.B) {
-               String string3 = this.m(networkPlayerInfo2);
-               if (!list.contains(networkPlayerInfo2) && this.h > 150) {
-                  if (this.f.hasElapsed(1000.0F)) {
-                     String string4 = this.O.get(RandomUtils.RANDOM.nextInt(this.j.size())).replace("{user}", string3);
+            for (NetworkPlayerInfo networkPlayerInfo2 : this.knownPlayers) {
+               String string3 = this.getPlayerDisplayName(networkPlayerInfo2);
+               if (!list.contains(networkPlayerInfo2) && this.ticksSinceJoin > 150) {
+                  if (this.messageTimer.hasElapsed(1000.0F)) {
+                     String string4 = this.leaveMessages.get(RandomUtils.RANDOM.nextInt(this.joinMessages.size())).replace("{user}", string3);
                      mc.thePlayer.sendChatMessage(string4);
                      if (!this.skip.getValue()) {
-                        this.B.remove(networkPlayerInfo2);
+                        this.knownPlayers.remove(networkPlayerInfo2);
                      }
 
-                     this.f.reset();
+                     this.messageTimer.reset();
                   }
 
                   if (this.skip.getValue()) {
-                     this.B.remove(networkPlayerInfo2);
+                     this.knownPlayers.remove(networkPlayerInfo2);
                   }
                }
             }
          }
 
-         this.h++;
+         this.ticksSinceJoin++;
       }
    };
 
@@ -93,18 +93,18 @@ public final class Announcer extends Module {
 
    @Override
    public void onEnable() {
-      this.h = 0;
-      this.f.reset();
+      this.ticksSinceJoin = 0;
+      this.messageTimer.reset();
       super.onEnable();
    }
 
    @Override
    public void onDisable() {
-      this.B.clear();
+      this.knownPlayers.clear();
       super.onDisable();
    }
 
-   private String m(NetworkPlayerInfo networkPlayerInfo) {
+   private String getPlayerDisplayName(NetworkPlayerInfo networkPlayerInfo) {
       return networkPlayerInfo.getDisplayName() != null
          ? networkPlayerInfo.getDisplayName().getFormattedText()
          : ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());

@@ -17,42 +17,42 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class ScriptManager extends JsonFileManager<Script, JsonObject> implements ClientAccess {
-   public static final File B = new File(client.getDirectory().getAbsolutePath(), "scripts");
-   public static final Map<String, Boolean> L = new HashMap<>();
-   private final ArrayList<String> Z = new ArrayList<>();
-   public static final Script N = new Script("troleado", "unsafe-functions");
+   public static final File SCRIPTS_DIR = new File(client.getDirectory().getAbsolutePath(), "scripts");
+   public static final Map<String, Boolean> savedStates = new HashMap<>();
+   private final ArrayList<String> scriptNames = new ArrayList<>();
+   public static final Script unsafeFunctions = new Script("troleado", "unsafe-functions");
 
    public ScriptManager() {
-      super(B, "scripts.json");
-      this.C.add(N);
+      super(SCRIPTS_DIR, "scripts.json");
+      this.items.add(unsafeFunctions);
    }
 
-   public void t(String string, JsonObject jsonObject) {
+   public void loadEntry(String string, JsonObject jsonObject) {
       if (string.equals("unsafe-functions")) {
-         N.j(jsonObject.get("state").getAsBoolean());
+         unsafeFunctions.setEnabled(jsonObject.get("state").getAsBoolean());
       }
 
-      L.put(string, jsonObject.get("state").getAsBoolean());
+      savedStates.put(string, jsonObject.get("state").getAsBoolean());
    }
 
    @Override
-   public void I() {
+   public void loadDefaults() {
    }
 
-   private void E() {
-      try (Stream stream = Files.walk(Paths.get(B.getAbsolutePath()))) {
+   private void loadScriptFiles() {
+      try (Stream stream = Files.walk(Paths.get(SCRIPTS_DIR.getAbsolutePath()))) {
          stream.forEach(object -> {
             String string = ((java.nio.file.Path)object).getFileName().toString();
             String string2 = object.toString();
             if (string.endsWith(".lua")) {
                Script script = new Script(string2, string);
-               if (!script.K()) {
-                  this.C.add(script);
-                  if (L.get(script.C) != null && L.get(script.C) && script.o()) {
-                     script.A();
+               if (!script.hasLoadError()) {
+                  this.items.add(script);
+                  if (savedStates.get(script.name) != null && savedStates.get(script.name) && script.loadAndRun()) {
+                     script.enable();
                   }
                } else {
-                  chat.f("Error loading " + script.C + " " + script.Q);
+                  chat.printError("Error loading " + script.name + " " + script.errorMessage);
                }
             }
          });
@@ -65,15 +65,15 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
    }
 
    @Override
-   public void G() {
+   public void onLoaded() {
       this.W_void();
-      this.E();
+      this.loadScriptFiles();
    }
 
-   public boolean v(String string) {
-      for (Script script : this.C) {
-         if (script.C.equals(string)) {
-            script.r();
+   public boolean rerunScript(String string) {
+      for (Script script : this.items) {
+         if (script.name.equals(string)) {
+            script.runFile();
             return true;
          }
       }
@@ -81,9 +81,9 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
       return false;
    }
 
-   public Script T(String string) {
-      for (Script script : this.C) {
-         if (script.C.equals(string)) {
+   public Script getScript(String string) {
+      for (Script script : this.items) {
+         if (script.name.equals(string)) {
             return script;
          }
       }
@@ -91,7 +91,7 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
       return null;
    }
 
-   private void N() {
+   private void unregisterScriptModules() {
       List list = client.getModuleManager().getList();
       ArrayList arrayList = new ArrayList();
       int i = 0;
@@ -110,32 +110,32 @@ public class ScriptManager extends JsonFileManager<Script, JsonObject> implement
       }
    }
 
-   public void X() {
-      for (Script script : this.C) {
+   public void enableAll() {
+      for (Script script : this.items) {
          if (script != null) {
-            script.A();
+            script.enable();
          }
       }
    }
 
-   public void t() {
-      for (Script script : this.C) {
-         script.x();
+   public void disableAll() {
+      for (Script script : this.items) {
+         script.disable();
       }
    }
 
-   public void M() {
-      this.N();
-      LuaApi.f.clear();
-      LuaApi.Z.clear();
-      this.C.clear();
-      this.C.add(N);
-      this.E();
+   public void reload() {
+      this.unregisterScriptModules();
+      LuaApi.settingsByName.clear();
+      LuaApi.entitiesById.clear();
+      this.items.clear();
+      this.items.add(unsafeFunctions);
+      this.loadScriptFiles();
       System.gc();
-      chat.I("Reloaded " + this.C.size() + " scripts");
+      chat.print("Reloaded " + this.items.size() + " scripts");
    }
 
-   public ArrayList<String> W() {
-      return this.Z;
+   public ArrayList<String> getScriptNames() {
+      return this.scriptNames;
    }
 }

@@ -8,12 +8,12 @@ import net.minecraft.world.IBlockAccess;
 public class BlockFaceEvent extends CancellableEvent {
    private Block block;
    private EnumFacing facing;
-   private double U;
-   private double e;
-   private double A;
-   private double n;
-   private double q;
-   private double O;
+   private double maxY;
+   private double maxZ;
+   private double minX;
+   private double minY;
+   private double minZ;
+   private double maxX;
    private BlockPos pos;
    private IBlockAccess blockAccess;
 
@@ -24,12 +24,12 @@ public class BlockFaceEvent extends CancellableEvent {
       this.facing = enumFacing;
       this.pos = blockPos;
       this.blockAccess = iBlockAccess;
-      this.U = d5;
-      this.e = d6;
-      this.A = d;
-      this.n = d2;
-      this.q = d3;
-      this.O = d4;
+      this.maxY = d5;
+      this.maxZ = d6;
+      this.minX = d;
+      this.minY = d2;
+      this.minZ = d3;
+      this.maxX = d4;
    }
 
    public Block getBlock() {
@@ -44,31 +44,31 @@ public class BlockFaceEvent extends CancellableEvent {
       return this.facing;
    }
 
-   public double f() {
-      return this.n;
+   public double getMinY() {
+      return this.minY;
    }
 
-   public double H() {
-      return this.A;
+   public double getMinX() {
+      return this.minX;
    }
 
-   public double k() {
-      return this.O;
+   public double getMaxX() {
+      return this.maxX;
    }
 
-   public double E() {
-      return this.q;
+   public double getMinZ() {
+      return this.minZ;
    }
 
-   public double h() {
-      return this.e;
+   public double getMaxZ() {
+      return this.maxZ;
    }
 
    public IBlockAccess getBlockAccess() {
       return this.blockAccess;
    }
 
-   public double r() {
-      return this.U;
+   public double getMaxY() {
+      return this.maxY;
    }
 }

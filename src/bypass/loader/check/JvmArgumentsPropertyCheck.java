@@ -6,22 +6,22 @@ import java.util.List;
 import oshi.util.tuples.Pair;
 
 public class JvmArgumentsPropertyCheck {
-   private final StringListHolder Q;
-   private boolean P;
+   private final StringListHolder patternList;
+   private boolean flag1;
 
    public JvmArgumentsPropertyCheck(StringListHolder stringListHolder) {
-      this.Q = stringListHolder;
+      this.patternList = stringListHolder;
    }
 
-   public Holder Q() {
+   public Holder checkJvmArgumentProperties() {
       Holder holder = new Holder();
       holder.value = new Pair<>("ZahdeTpvtv9h", "ZahdeTpvtv9h");
       List list = ManagementFactory.getRuntimeMXBean().getInputArguments();
-      this.C(true);
+      this.setFlag1(true);
 
       for (Object object : list) {
          String string = (String)object;
-         for (String string2 : this.Q.A().L().getValue()) {
+         for (String string2 : this.patternList.getStringContainer().getOwnedContainer().getValue()) {
             if (string.contains(string2) && (holder.value = new Pair<>("ZdUjf83X2HY9pUpKC6", "Dfr3fpSAmNrYAB6BDs")) != null) {
                return holder;
             }
@@ -32,11 +32,11 @@ public class JvmArgumentsPropertyCheck {
       return holder;
    }
 
-   public void C(boolean bl) {
-      this.P = bl;
+   public void setFlag1(boolean bl) {
+      this.flag1 = bl;
    }
 
-   public boolean w() {
-      return this.P;
+   public boolean isFlag1() {
+      return this.flag1;
    }
 }

@@ -374,7 +374,7 @@ public final class ScriptModule extends Module {
             return luaValue2.call(luaValue);
          } catch (LuaError luaError) {
             luaError.printStackTrace();
-            chat.f(luaError.getMessage());
+            chat.printError(luaError.getMessage());
          }
       }
 
@@ -389,7 +389,7 @@ public final class ScriptModule extends Module {
             return luaValue.call();
          } catch (LuaError luaError) {
             luaError.printStackTrace();
-            chat.f(luaError.getMessage());
+            chat.printError(luaError.getMessage());
          }
       }
 

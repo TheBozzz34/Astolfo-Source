@@ -9,14 +9,14 @@ import net.minecraft.client.resources.ResourcePackListEntry;
 import net.minecraft.client.resources.ResourcePackListEntryFound;
 
 public class PackSearch {
-   public static final Comparator<ResourcePackListEntry> b = new PackNameAscending();
-   public static final Comparator<ResourcePackListEntry> A = new PackNameDescending();
-   private final List<ResourcePackListEntry> M;
-   private final List<ResourcePackListEntry> J;
-   private Comparator<ResourcePackListEntry> F;
-   private Pattern H;
+   public static final Comparator<ResourcePackListEntry> NAME_ASCENDING = new PackNameAscending();
+   public static final Comparator<ResourcePackListEntry> NAME_DESCENDING = new PackNameDescending();
+   private final List<ResourcePackListEntry> allEntries;
+   private final List<ResourcePackListEntry> filteredEntries;
+   private Comparator<ResourcePackListEntry> comparator;
+   private Pattern searchPattern;
 
-   private static String T(ResourcePackListEntry resourcePackListEntry) {
+   private static String getPackName(ResourcePackListEntry resourcePackListEntry) {
       if (resourcePackListEntry instanceof CustomPackEntry) {
          return ((CustomPackEntry)resourcePackListEntry).func_148312_b();
       } else {
@@ -26,13 +26,13 @@ public class PackSearch {
       }
    }
 
-   private static String c(ResourcePackListEntry resourcePackListEntry, boolean bl) {
+   private static String computeSortKey(ResourcePackListEntry resourcePackListEntry, boolean bl) {
       String string = !bl ? "a" : "z";
       String string2 = !bl ? "b" : "z";
       String string3 = !bl ? "z" : "a";
       if (resourcePackListEntry instanceof FolderPackEntry) {
          FolderPackEntry folderPackEntry = (FolderPackEntry)resourcePackListEntry;
-         return folderPackEntry.Y ? string + folderPackEntry.B : string2 + folderPackEntry.B;
+         return folderPackEntry.isBackEntry ? string + folderPackEntry.displayName : string2 + folderPackEntry.displayName;
       } else if (resourcePackListEntry instanceof CustomPackEntry) {
          return string3 + ((CustomPackEntry)resourcePackListEntry).func_148312_b();
       } else {
@@ -42,7 +42,7 @@ public class PackSearch {
       }
    }
 
-   private static String F(ResourcePackListEntry resourcePackListEntry) {
+   private static String getPackDescription(ResourcePackListEntry resourcePackListEntry) {
       if (resourcePackListEntry instanceof CustomPackEntry) {
          return ((CustomPackEntry)resourcePackListEntry).func_148311_a();
       } else {
@@ -53,45 +53,45 @@ public class PackSearch {
    }
 
    public PackSearch(List<ResourcePackListEntry> list, List<ResourcePackListEntry> list2) {
-      this.M = list;
-      this.J = list2;
-      this.f();
+      this.allEntries = list;
+      this.filteredEntries = list2;
+      this.updateFilter();
    }
 
-   public void E(Comparator<ResourcePackListEntry> comparator) {
-      this.F = comparator;
-      this.f();
+   public void setComparator(Comparator<ResourcePackListEntry> comparator) {
+      this.comparator = comparator;
+      this.updateFilter();
    }
 
-   public void R(String string) {
+   public void setSearchQuery(String string) {
       if (string != null && !string.isEmpty()) {
-         this.H = Pattern.compile("\\Q" + string.replace("*", "\\E.*\\Q") + "\\E", 2);
+         this.searchPattern = Pattern.compile("\\Q" + string.replace("*", "\\E.*\\Q") + "\\E", 2);
       } else {
-         this.H = null;
+         this.searchPattern = null;
       }
 
-      this.f();
+      this.updateFilter();
    }
 
-   public void f() {
-      this.J.clear();
+   public void updateFilter() {
+      this.filteredEntries.clear();
 
-      for (ResourcePackListEntry resourcePackListEntry : this.M) {
-         if (this.S(T(resourcePackListEntry)) || this.S(F(resourcePackListEntry))) {
-            this.J.add(resourcePackListEntry);
+      for (ResourcePackListEntry resourcePackListEntry : this.allEntries) {
+         if (this.matchesSearch(getPackName(resourcePackListEntry)) || this.matchesSearch(getPackDescription(resourcePackListEntry))) {
+            this.filteredEntries.add(resourcePackListEntry);
          }
       }
 
-      if (this.F != null) {
-         Collections.sort(this.J, this.F);
+      if (this.comparator != null) {
+         Collections.sort(this.filteredEntries, this.comparator);
       }
    }
 
-   private boolean S(String string) {
-      return this.H == null || this.H.matcher(string.toLowerCase(Locale.ENGLISH)).find();
+   private boolean matchesSearch(String string) {
+      return this.searchPattern == null || this.searchPattern.matcher(string.toLowerCase(Locale.ENGLISH)).find();
    }
 
-   public static String A(ResourcePackListEntry resourcePackListEntry, boolean bl) {
-      return c(resourcePackListEntry, bl);
+   public static String getSortKey(ResourcePackListEntry resourcePackListEntry, boolean bl) {
+      return computeSortKey(resourcePackListEntry, bl);
    }
 }

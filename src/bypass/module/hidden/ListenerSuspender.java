@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public final class ListenerSuspender extends HiddenModule {
-   public static HashMap<Class<? extends Event>, List<Subscription<?, ?>>> j = new HashMap<>();
+   public static HashMap<Class<? extends Event>, List<Subscription<?, ?>>> suspendedListeners = new HashMap<>();
    @EventHandler(TickEvent.class)
    private Listener<TickEvent> onTick = tickEvent -> {
       AnnotatedEventBus annotatedEventBus = (AnnotatedEventBus)client.getEventBus();
-      HashMap hashMap = (HashMap)annotatedEventBus.N;
+      HashMap hashMap = (HashMap)annotatedEventBus.subscriptionMap;
       if (DisconnectHandler.disconnected) {
          ArrayList arrayList = new ArrayList();
 
@@ -30,23 +30,23 @@ public final class ListenerSuspender extends HiddenModule {
             Entry entry = (Entry)object;
             for (Object object2 : (List)entry.getValue()) {
                Subscription subscription = (Subscription)object2;
-               if (subscription.t().getClass() == this.getClass()
-                  || subscription.t().getClass() == HUD.class
-                  || subscription.t().getClass() == KeybindHandler.class
-                  || subscription.t().getClass() == ChatCommandHandler.class
-                  || subscription.t().getClass() == BotDetector.class
-                  || subscription.t().getClass() == HypixelPacketHandler.class
-                  || subscription.t().getClass() == PlayerListTracker.class
-                  || subscription.t().getClass() == InventoryPacketHandler.class
-                  || subscription.t().getClass() == MiddleClickFriends.class
-                  || subscription.t().getClass() == NotificationManager.class
-                  || subscription.t().getClass() == GUI.class) {
+               if (subscription.getOwner().getClass() == this.getClass()
+                  || subscription.getOwner().getClass() == HUD.class
+                  || subscription.getOwner().getClass() == KeybindHandler.class
+                  || subscription.getOwner().getClass() == ChatCommandHandler.class
+                  || subscription.getOwner().getClass() == BotDetector.class
+                  || subscription.getOwner().getClass() == HypixelPacketHandler.class
+                  || subscription.getOwner().getClass() == PlayerListTracker.class
+                  || subscription.getOwner().getClass() == InventoryPacketHandler.class
+                  || subscription.getOwner().getClass() == MiddleClickFriends.class
+                  || subscription.getOwner().getClass() == NotificationManager.class
+                  || subscription.getOwner().getClass() == GUI.class) {
                   continue label79;
                }
             }
 
             arrayList.add(entry.getKey());
-            j.put((Class<? extends Event>)entry.getKey(), (List<Subscription<?, ?>>)entry.getValue());
+            suspendedListeners.put((Class<? extends Event>)entry.getKey(), (List<Subscription<?, ?>>)entry.getValue());
          }
 
          for (Object object3 : arrayList) {
@@ -55,12 +55,12 @@ public final class ListenerSuspender extends HiddenModule {
                hashMap.remove(class2);
             }
          }
-      } else if (!j.isEmpty()) {
-         for (Entry entry2 : j.entrySet()) {
+      } else if (!suspendedListeners.isEmpty()) {
+         for (Entry entry2 : suspendedListeners.entrySet()) {
             hashMap.put(entry2.getKey(), entry2.getValue());
          }
 
-         j.clear();
+         suspendedListeners.clear();
       }
    };
 

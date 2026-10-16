@@ -33,7 +33,7 @@ import net.minecraft.network.play.server.S14PacketEntity;
 import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 
 public final class HackerDetector extends Module {
-   private final ShapedMap<Integer, PlayerChecks> N = new ShapedMap<>();
+   private final ShapedMap<Integer, PlayerChecks> checksByEntityId = new ShapedMap<>();
    private final MapSetting checks = new MapSettingBuilder("Checks")
       .ordered()
       .description("killaura entiti")
@@ -46,7 +46,7 @@ public final class HackerDetector extends Module {
    public static final BooleanSetting debug = new BooleanSetting("Debug", "prints flags to chat", false);
    private final BooleanSetting autoEnemy = new BooleanSetting("Auto-Enemy", "Sets people to enemy", true);
    private final BooleanSetting autoReport = new BooleanSetting("Auto-Report", "Auto reports cheaters", false);
-   private final ArrayList<String> l = new ArrayList<>();
+   private final ArrayList<String> detectedPlayers = new ArrayList<>();
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
@@ -61,47 +61,47 @@ public final class HackerDetector extends Module {
                EntityPlayer entityPlayer = (EntityPlayer)entity;
                if (entityPlayer.ticksExisted < 15
                   || GameUtil.isDead(entityPlayer)
-                  || client.getUserManager().g(entity.getName()) != null
+                  || client.getUserManager().getUser(entity.getName()) != null
                   || entity.E()
                   || entityPlayer.capabilities != null && entityPlayer.capabilities.allowFlying
-                  || BotDetector.w.contains(entityPlayer)
-                  || client.getRelationManager().z(entity)
-                  || client.getRelationManager().D(entity)
-                  || this.l.contains(entityPlayer.getName())) {
-                  this.N.remove(entity.getEntityId());
+                  || BotDetector.bots.contains(entityPlayer)
+                  || client.getRelationManager().isFriend(entity)
+                  || client.getRelationManager().isEnemy(entity)
+                  || this.detectedPlayers.contains(entityPlayer.getName())) {
+                  this.checksByEntityId.remove(entity.getEntityId());
                   return;
                }
 
-               PlayerChecks playerChecks = this.N.get(entity.getEntityId());
-               this.N.computeIfAbsent(entity.getEntityId(), integer -> {
+               PlayerChecks playerChecks = this.checksByEntityId.get(entity.getEntityId());
+               this.checksByEntityId.computeIfAbsent(entity.getEntityId(), integer -> {
                   PlayerChecks playerChecks2 = new PlayerChecks();
                   if (this.checks.getSetting("No-Slow").asBoolean()) {
-                     PlayerChecks.p(playerChecks2, new NoSlowdownCheck());
+                     PlayerChecks.addCheckTo(playerChecks2, new NoSlowdownCheck());
                   }
 
                   if (this.checks.getSetting("Spoof-Ground").asBoolean()) {
-                     PlayerChecks.p(playerChecks2, new SpoofGroundACheck());
-                     PlayerChecks.p(playerChecks2, new SpoofGroundBCheck());
+                     PlayerChecks.addCheckTo(playerChecks2, new SpoofGroundACheck());
+                     PlayerChecks.addCheckTo(playerChecks2, new SpoofGroundBCheck());
                   }
 
                   if (this.checks.getSetting("Auto-Armor").asBoolean()) {
-                     PlayerChecks.p(playerChecks2, new AutoArmorCheck());
+                     PlayerChecks.addCheckTo(playerChecks2, new AutoArmorCheck());
                   }
 
                   if (this.checks.getSetting("Illegal-Angles").asBoolean()) {
-                     PlayerChecks.p(playerChecks2, new IllegalAnglesCheck());
+                     PlayerChecks.addCheckTo(playerChecks2, new IllegalAnglesCheck());
                   }
 
                   if (this.checks.getSetting("Blink").asBoolean()) {
-                     PlayerChecks.p(playerChecks2, new BlinkCheck());
+                     PlayerChecks.addCheckTo(playerChecks2, new BlinkCheck());
                   }
 
                   return playerChecks2;
                });
                if (playerChecks != null) {
-                  for (Object object : PlayerChecks.P(playerChecks)) {
+                  for (Object object : PlayerChecks.getChecks(playerChecks)) {
                      Check check = (Check)object;
-                     if (check.D() == CheckType.MOVEMENT) {
+                     if (check.getCheckType() == CheckType.MOVEMENT) {
                         MovementCheck movementCheck = (MovementCheck)check;
                         double d = entity.serverPosX + s14PacketEntity.func_149062_c();
                         double e = entity.serverPosY + s14PacketEntity.func_149061_d();
@@ -110,9 +110,9 @@ public final class HackerDetector extends Module {
                         double d4 = e / 32.0;
                         double d5 = d2 / 32.0;
                         float f = s14PacketEntity.func_149066_f() * 360 / 256.0F;
-                        float h = s14PacketEntity.func_149063_g() * 360 / 256.0F;
-                        if (movementCheck.D(d3, d4, d5, f, h, s14PacketEntity.getOnGround(), entityPlayer) >= movementCheck.p()) {
-                           toasts.X("Hacker Detector", entity.getName() + " has been detected for " + movementCheck.A());
+                        float g = s14PacketEntity.func_149063_g() * 360 / 256.0F;
+                        if (movementCheck.handleMovement(d3, d4, d5, f, g, s14PacketEntity.getOnGround(), entityPlayer) >= movementCheck.getMaxViolations()) {
+                           toasts.warningMessage("Hacker Detector", entity.getName() + " has been detected for " + movementCheck.getName());
                            if (this.autoEnemy.getValue()) {
                               client.getRelationManager().add(new Relation(entityPlayer.getName(), entityPlayer.getName(), false));
                            }
@@ -121,7 +121,7 @@ public final class HackerDetector extends Module {
                               mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/wdr " + entity.getName() + " ka fly nokb ac speed"));
                            }
 
-                           this.l.add(entityPlayer.getName());
+                           this.detectedPlayers.add(entityPlayer.getName());
                            movementCheck.D_void();
                            break;
                         }
@@ -138,7 +138,7 @@ public final class HackerDetector extends Module {
                   if (watchableObject.getDataValueId() == 6 && watchableObject.getObject() instanceof Number) {
                      Number number = (Number)watchableObject.getObject();
                      if (number.floatValue() <= 0.0F) {
-                        this.N.remove(s1CPacketEntityMetadata.getEntityId());
+                        this.checksByEntityId.remove(s1CPacketEntityMetadata.getEntityId());
                      }
                   }
                }
@@ -147,7 +147,7 @@ public final class HackerDetector extends Module {
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.N.clear();
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.checksByEntityId.clear();
 
    public HackerDetector(Category category) {
       super(category);

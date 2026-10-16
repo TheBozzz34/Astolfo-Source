@@ -1,47 +1,47 @@
 package bypass.module.visuals;
 
 public class Waypoint {
-   private final String r;
-   private final String a;
-   private final int o;
-   private final double W;
-   private final double T;
-   private final double v;
+   private final String name;
+   private final String server;
+   private final int dimension;
+   private final double x;
+   private final double y;
+   private final double z;
 
    public Waypoint(String string, String string2, int i, double d, double d2, double d3) {
-      this.r = string;
-      this.a = string2;
-      this.o = i;
-      this.W = d;
-      this.T = d2;
-      this.v = d3;
+      this.name = string;
+      this.server = string2;
+      this.dimension = i;
+      this.x = d;
+      this.y = d2;
+      this.z = d3;
    }
 
-   public String r() {
-      return this.r;
+   public String getName() {
+      return this.name;
    }
 
-   public String z() {
-      return this.a;
+   public String getServer() {
+      return this.server;
    }
 
-   public int k() {
-      return this.o;
+   public int getDimension() {
+      return this.dimension;
    }
 
-   public double c() {
-      return this.W;
+   public double getX() {
+      return this.x;
    }
 
-   public double I() {
-      return this.T;
+   public double getY() {
+      return this.y;
    }
 
-   public double K() {
-      return this.v;
+   public double getZ() {
+      return this.z;
    }
 
-   public static int L(Waypoint waypoint) {
-      return waypoint.o;
+   public static int dimensionOf(Waypoint waypoint) {
+      return waypoint.dimension;
    }
 }

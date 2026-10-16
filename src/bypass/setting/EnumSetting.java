@@ -12,7 +12,7 @@ public final class EnumSetting<E extends Enum> extends Setting<E> implements Com
 
    public EnumSetting(String string, String string2, E enum2) {
       super(string, string2, (E)enum2, SettingType.ENUM);
-      if (!TypeUtil.s(enum2)) {
+      if (!TypeUtil.isEnum(enum2)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
@@ -23,7 +23,7 @@ public final class EnumSetting<E extends Enum> extends Setting<E> implements Com
 
    public EnumSetting(String string, String string2, E enum2, List<SettingAttribute> list) {
       super(string, string2, (E)enum2, SettingType.ENUM, list);
-      if (!TypeUtil.s(enum2)) {
+      if (!TypeUtil.isEnum(enum2)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
@@ -34,7 +34,7 @@ public final class EnumSetting<E extends Enum> extends Setting<E> implements Com
 
    public EnumSetting(String string, String string2, E enum2, SettingAttribute... settingAttributes) {
       super(string, string2, (E)enum2, SettingType.ENUM, Arrays.asList(settingAttributes));
-      if (!TypeUtil.s(enum2)) {
+      if (!TypeUtil.isEnum(enum2)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {

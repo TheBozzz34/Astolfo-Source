@@ -90,7 +90,7 @@ public final class Flight extends Module {
    private int tickCounter;
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       FlightMode flightMode = mode.getValue();
       switch (updateEvent.getState()) {
          case PRE:
@@ -391,7 +391,7 @@ public final class Flight extends Module {
 
    public Flight(Category category) {
       super(category);
-      this.B(-1193283);
+      this.setModuleColor(-1193283);
       this.addSettings(mode, boost, this.custom, bobbing, this.antiKick, this.speed);
    }
 
@@ -442,9 +442,9 @@ public final class Flight extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + FlightMode.A(mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + FlightMode.displayNameOf(mode.getValue()));
+      super.updateDisplayName();
    }
 
    @Override

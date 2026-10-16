@@ -1,19 +1,19 @@
 package bypass.util;
 
 public class ProxyCheckResult {
-   private final HostAndPort I;
-   private final boolean F;
+   private final HostAndPort proxy;
+   private final boolean reachable;
 
    public ProxyCheckResult(HostAndPort hostAndPort, boolean bl) {
-      this.I = hostAndPort;
-      this.F = bl;
+      this.proxy = hostAndPort;
+      this.reachable = bl;
    }
 
-   public HostAndPort q() {
-      return this.I;
+   public HostAndPort getProxy() {
+      return this.proxy;
    }
 
-   public boolean r() {
-      return this.F;
+   public boolean isReachable() {
+      return this.reachable;
    }
 }

@@ -3,7 +3,7 @@ package bypass.loader;
 import net.minecraft.entity.monster.EntitySkeleton;
 
 public final class GuiStage extends AbstractLoadStage {
-   private final IntegrityCheckHolder L = new IntegrityCheckHolder();
+   private final IntegrityCheckHolder integrityCheckHolder = new IntegrityCheckHolder();
 
    @Override
    public StageAction getAction() {
@@ -15,8 +15,8 @@ public final class GuiStage extends AbstractLoadStage {
       return new GuiStage.rs2(this);
    }
 
-   public IntegrityCheckHolder C() {
-      return this.L;
+   public IntegrityCheckHolder getIntegrityCheckHolder() {
+      return this.integrityCheckHolder;
    }
 
    @Override
@@ -29,8 +29,8 @@ public final class GuiStage extends AbstractLoadStage {
       return this.state;
    }
 
-   public static IntegrityCheckHolder t(GuiStage guiStage) {
-      return guiStage.L;
+   public static IntegrityCheckHolder accessIntegrityCheckHolder(GuiStage guiStage) {
+      return guiStage.integrityCheckHolder;
    }
 
    public class a82 extends StageAction {
@@ -49,7 +49,7 @@ public final class GuiStage extends AbstractLoadStage {
       }
 
       public EntitySkeleton get() {
-         return (EntitySkeleton)GuiStage.t(GuiStage.this).z().Y().value;
+         return (EntitySkeleton)GuiStage.accessIntegrityCheckHolder(GuiStage.this).getIntegrityCheck().performIntegrityCheck().value;
       }
    }
 }

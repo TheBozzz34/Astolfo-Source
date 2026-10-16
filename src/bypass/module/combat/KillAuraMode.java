@@ -6,14 +6,14 @@ public enum KillAuraMode {
    MULTI("Multi"),
    TP("TP");
 
-   private String w;
-   private static final KillAuraMode[] K = new KillAuraMode[]{SINGLE, SWITCH, MULTI, TP};
+   private String displayName;
+   private static final KillAuraMode[] VALUES = new KillAuraMode[]{SINGLE, SWITCH, MULTI, TP};
 
    KillAuraMode(String string2) {
-      this.w = string2;
+      this.displayName = string2;
    }
 
-   public static String D(KillAuraMode killAuraMode) {
-      return killAuraMode.w;
+   public static String displayNameOf(KillAuraMode killAuraMode) {
+      return killAuraMode.displayName;
    }
 }

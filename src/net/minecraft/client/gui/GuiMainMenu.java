@@ -241,7 +241,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.disableAlpha();
       this.renderSkybox(mouseX, mouseY, partialTicks);
       GlStateManager.enableAlpha();
-      h.v("Astolfo Client (#" + Astolfo.INSTANCE.getVersion() + ")", 8.0F, scaledResolution.getScaledHeight() - 12, new Color(255, 255, 255, 150).getRGB(), false, false);
+      h.renderString(
+         "Astolfo Client (#" + Astolfo.INSTANCE.getVersion() + ")", 8.0F, scaledResolution.getScaledHeight() - 12, new Color(255, 255, 255, 150).getRGB(), false, false
+      );
       float f = scaledResolution.getScaledWidth() - 10.0F;
       float g = 5.0F;
       float f2 = 8.0F;
@@ -311,7 +313,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       this.W(mouseX, mouseY, partialTicks);
       this.M(mouseX, mouseY);
       String string2 = String.format("Welcome, %s", this.mc.mouseHelper.Y().getAccount().getUsername());
-      h.v(string2, scaledResolution.getScaledWidth() - h.getStringWidth(string2) - 8, scaledResolution.getScaledHeight() - 12, Color.WHITE.getRGB(), false, false);
+      h.renderString(string2, scaledResolution.getScaledWidth() - h.getStringWidth(string2) - 8, scaledResolution.getScaledHeight() - 12, Color.WHITE.getRGB(), false, false);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
@@ -527,7 +529,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                      break;
                   case 3:
                      Astolfo.INSTANCE.getSenseSetting().set(!Astolfo.INSTANCE.getSenseSetting().getValue());
-                     Astolfo.INSTANCE.getUserManager().r().clear();
+                     Astolfo.INSTANCE.getUserManager().getUsers().clear();
                      break;
                   case 4:
                      if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
@@ -583,12 +585,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
          Font font5 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(10.0F);
          Font font6 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Lato-Bold.ttf")).deriveFont(15.0F);
          Font font7 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Comfortaa.ttf")).deriveFont(30.0F);
-         P.B(font2, true);
-         R.B(font3, true);
-         h.B(font4, true);
-         c.B(font5, true);
-         m.B(font6, true);
-         M.B(font7, true);
+         P.loadFont(font2, true);
+         R.loadFont(font3, true);
+         h.loadFont(font4, true);
+         c.loadFont(font5, true);
+         m.loadFont(font6, true);
+         M.loadFont(font7, true);
       } catch (FontFormatException | IOException value) {
          value.printStackTrace();
       }

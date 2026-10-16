@@ -75,7 +75,7 @@ public class RenderEntityItem extends Render<EntityItem> {
    }
 
    public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
-      if (ModuleManager.J.isEnabled()) {
+      if (ModuleManager.itemPhysics.isEnabled()) {
          this.b(entity, x, y, z, entityYaw, partialTicks);
       } else {
          ItemStack itemStack = entity.getEntityItem();

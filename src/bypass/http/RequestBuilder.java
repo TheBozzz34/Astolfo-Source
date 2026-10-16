@@ -5,43 +5,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestBuilder {
-   private AbstractRequest s;
-   private Map<String, String> N;
-   private int Z;
-   private int a;
+   private AbstractRequest request;
+   private Map<String, String> headers;
+   private int readTimeout;
+   private int connectTimeout;
 
    public RequestBuilder() {
    }
 
-   public RequestBuilder Z(AbstractRequest abstractRequest) {
-      this.s = abstractRequest;
+   public RequestBuilder setRequest(AbstractRequest abstractRequest) {
+      this.request = abstractRequest;
       return this;
    }
 
-   public RequestBuilder d(String string, String string2) {
-      if (this.N == null) {
-         this.N = new HashMap<>();
+   public RequestBuilder addHeader(String string, String string2) {
+      if (this.headers == null) {
+         this.headers = new HashMap<>();
       }
 
-      this.N.put(string, string2);
+      this.headers.put(string, string2);
       return this;
    }
 
-   public RequestBuilder H(int i) {
-      this.a = i;
+   public RequestBuilder setConnectTimeout(int i) {
+      this.connectTimeout = i;
       return this;
    }
 
-   public RequestBuilder b(int i) {
-      this.Z = i;
+   public RequestBuilder setReadTimeout(int i) {
+      this.readTimeout = i;
       return this;
    }
 
-   public RequestOptions P() {
-      if (this.s == null) {
+   public RequestOptions build() {
+      if (this.request == null) {
       }
 
-      Map map = this.N == null ? Collections.emptyMap() : this.N;
-      return new RequestOptions(this.s, map, this.Z, this.a);
+      Map map = this.headers == null ? Collections.emptyMap() : this.headers;
+      return new RequestOptions(this.request, map, this.readTimeout, this.connectTimeout);
    }
 }

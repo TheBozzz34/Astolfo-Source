@@ -9,70 +9,70 @@ import net.minecraft.util.EnumChatFormatting;
 public enum ClientChat {
    CHAT;
 
-   private static final Pattern M = Pattern.compile(
+   private static final Pattern URL_PATTERN = Pattern.compile(
       "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)", 42
    );
-   private final EnumChatFormatting F = EnumChatFormatting.AQUA;
-   private final ChatComponentStyle Y = this.D(false, false).i("§8> §f").N().u();
-   private static final ClientChat[] C = new ClientChat[]{CHAT};
+   private final EnumChatFormatting accentColor = EnumChatFormatting.AQUA;
+   private final ChatComponentStyle prefix = this.createBuilder(false, false).append("§8> §f").build().getComponent();
+   private static final ClientChat[] VALUES = new ClientChat[]{CHAT};
 
-   public void I(String string) {
+   public void print(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(string);
+         UnusedTeleportCommand.printPowerMessage(string);
       } else {
-         this.y(string).N().b();
+         this.createPrefixedMessage(string).build().send();
       }
    }
 
-   public void R(String string) {
+   public void printSuccess(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(string);
+         UnusedTeleportCommand.printPowerMessage(string);
       } else {
-         this.y(string).M(EnumChatFormatting.GREEN).N().b();
+         this.createPrefixedMessage(string).color(EnumChatFormatting.GREEN).build().send();
       }
    }
 
-   public void P(String string) {
+   public void printWarning(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(string);
+         UnusedTeleportCommand.printPowerMessage(string);
       } else {
-         this.y(string).M(EnumChatFormatting.YELLOW).N().b();
+         this.createPrefixedMessage(string).color(EnumChatFormatting.YELLOW).build().send();
       }
    }
 
-   public void f(String string) {
+   public void printError(String string) {
       if (HUD.isPowerBranding()) {
-         UnusedTeleportCommand.f(string);
+         UnusedTeleportCommand.printPowerMessage(string);
       } else {
-         this.y(string).M(EnumChatFormatting.RED).N().b();
+         this.createPrefixedMessage(string).color(EnumChatFormatting.RED).build().send();
       }
    }
 
-   public String h(String string) {
+   public String capitalize(String string) {
       return Character.toUpperCase(string.charAt(0)) + string.substring(1);
    }
 
-   public ChatMessageBuilder U() {
+   public ChatMessageBuilder createPrefixedBuilder() {
       ChatMessageBuilder chatMessageBuilder = new ChatMessageBuilder(this);
-      ChatMessageBuilder.Y(chatMessageBuilder).appendSibling(this.Y);
+      ChatMessageBuilder.getRoot(chatMessageBuilder).appendSibling(this.prefix);
       return chatMessageBuilder;
    }
 
-   public ChatMessageBuilder D(boolean bl, boolean bl2) {
-      ChatMessageBuilder chatMessageBuilder = bl ? this.U() : new ChatMessageBuilder(this);
-      ChatMessageBuilder.m(chatMessageBuilder, bl2);
+   public ChatMessageBuilder createBuilder(boolean bl, boolean bl2) {
+      ChatMessageBuilder chatMessageBuilder = bl ? this.createPrefixedBuilder() : new ChatMessageBuilder(this);
+      ChatMessageBuilder.setAutoColor(chatMessageBuilder, bl2);
       return chatMessageBuilder;
    }
 
-   public ChatMessageBuilder y(String string) {
-      return this.U().i(string);
+   public ChatMessageBuilder createPrefixedMessage(String string) {
+      return this.createPrefixedBuilder().append(string);
    }
 
-   public static Pattern N() {
-      return M;
+   public static Pattern getUrlPattern() {
+      return URL_PATTERN;
    }
 
-   public static EnumChatFormatting K(ClientChat clientChat) {
-      return clientChat.F;
+   public static EnumChatFormatting getAccentColor(ClientChat clientChat) {
+      return clientChat.accentColor;
    }
 }

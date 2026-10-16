@@ -4,8 +4,8 @@ import bypass.auth.DisconnectHandler;
 import bypass.util.Stopwatch;
 
 public class BansCommand extends Command {
-   public static int p;
-   private final Stopwatch S = new Stopwatch();
+   public static int hours;
+   private final Stopwatch cooldown = new Stopwatch();
 
    public BansCommand(String string, String string2) {
       super(string, string2);
@@ -14,37 +14,37 @@ public class BansCommand extends Command {
    @Override
    public void runCommand(String[] strings) {
       if (DisconnectHandler.disconnected) {
-         chat.f("You are disconnected");
+         chat.printError("You are disconnected");
       } else {
          if (strings.length == 3) {
-            if (!this.S.hasElapsed(5000.0F)) {
-               chat.I("Wait " + Math.round(5.0F - (float)this.S.getElapsed() / 1000.0F) + "s before using this command again");
+            if (!this.cooldown.hasElapsed(5000.0F)) {
+               chat.print("Wait " + Math.round(5.0F - (float)this.cooldown.getElapsed() / 1000.0F) + "s before using this command again");
                return;
             }
 
-            int i = l(strings[1].toLowerCase());
+            int i = getModeId(strings[1].toLowerCase());
             if (!strings[1].equalsIgnoreCase("all") && i == 0) {
-               chat.I("Gamemode is invalid, defaulting to all");
+               chat.print("Gamemode is invalid, defaulting to all");
             }
 
             try {
-               p = Integer.parseInt(strings[2]);
-               if (p <= 0 || p > 12) {
-                  chat.f("Invalid hour");
+               hours = Integer.parseInt(strings[2]);
+               if (hours <= 0 || hours > 12) {
+                  chat.printError("Invalid hour");
                   return;
                }
 
-               this.S.reset();
+               this.cooldown.reset();
             } catch (NumberFormatException numberFormatException) {
-               chat.f("Invalid hour");
+               chat.printError("Invalid hour");
             }
          } else {
-            chat.I(this.getName() + ": " + this.getUsage());
+            chat.print(this.getName() + ": " + this.getUsage());
          }
       }
    }
 
-   public static int l(String string) {
+   public static int getModeId(String string) {
       switch (string) {
          case "sw":
             return 1;
@@ -61,7 +61,7 @@ public class BansCommand extends Command {
       }
    }
 
-   public static String G(int i) {
+   public static String getModeName(int i) {
       switch (i) {
          case 1:
             return "sw";

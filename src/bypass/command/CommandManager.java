@@ -9,11 +9,11 @@ public class CommandManager extends Manager<CommandInfo> implements Loadable {
    }
 
    @Override
-   public void a() {
+   public void save() {
    }
 
    public CommandInfo getCommand(String string) {
-      for (CommandInfo commandInfo : this.C) {
+      for (CommandInfo commandInfo : this.items) {
          if (commandInfo instanceof Command
             && (commandInfo.getName().equalsIgnoreCase(string) || ((Command)commandInfo).getAliases() != null && ((Command)commandInfo).getAliases().contains(string))) {
             return commandInfo;

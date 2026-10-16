@@ -5,7 +5,7 @@ import java.nio.channels.SocketChannel;
 
 public final class DefaultSelectorRegistrar implements SelectorRegistrar {
    @Override
-   public void D(NioConnection nioConnection, SocketChannel socketChannel) throws ClosedChannelException {
-      nioConnection.p(socketChannel, 1);
+   public void register(NioConnection nioConnection, SocketChannel socketChannel) throws ClosedChannelException {
+      nioConnection.registerChannel(socketChannel, 1);
    }
 }

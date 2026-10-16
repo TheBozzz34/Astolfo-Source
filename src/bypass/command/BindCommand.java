@@ -17,22 +17,22 @@ public final class BindCommand extends Command {
       if (strings.length == 4 && strings[1].equalsIgnoreCase("add")) {
          Module module2 = client.getModuleManager().getModule(strings[2]);
          if (module2 == null) {
-            chat.P(String.format("Module %s not found.", strings[2]));
+            chat.printWarning(String.format("Module %s not found.", strings[2]));
             return;
          }
 
          int i = Keyboard.getKeyIndex(strings[3].toUpperCase());
          module2.setKey(i);
-         chat.I(String.format("%s was bound to %s", module2.getName(), Keyboard.getKeyName(module2.getKey())));
+         chat.print(String.format("%s was bound to %s", module2.getName(), Keyboard.getKeyName(module2.getKey())));
       } else if (strings.length == 3 && strings[1].equalsIgnoreCase("del")) {
          Module module3 = client.getModuleManager().getModule(strings[2]);
          if (module3 == null) {
-            chat.P(String.format("Module %s not found.", strings[2]));
+            chat.printWarning(String.format("Module %s not found.", strings[2]));
             return;
          }
 
          module3.setKey(0);
-         chat.I(String.format("%s keybind was deleted.", module3.getName()));
+         chat.print(String.format("%s keybind was deleted.", module3.getName()));
       } else if (strings.length == 2 && strings[1].equalsIgnoreCase("clear")) {
          for (ModuleInfo moduleInfo : client.getModuleManager().getList()) {
             if (moduleInfo instanceof Module && !(moduleInfo instanceof GUI)) {
@@ -40,9 +40,9 @@ public final class BindCommand extends Command {
             }
          }
 
-         chat.I("Cleared all module keybinds");
+         chat.print("Cleared all module keybinds");
       } else {
-         chat.I(this.getName() + ": " + this.getUsage());
+         chat.print(this.getName() + ": " + this.getUsage());
       }
    }
 }

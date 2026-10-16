@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessNames {
-   private final List<String> h = new ArrayList<>();
+   private final List<String> processNames = new ArrayList<>();
 
    public ProcessNames() {
-      this.h.add("processhacker");
-      this.h.add("wireshark");
-      this.h.add("fiddler");
-      this.h.add("mitmproxy");
-      this.h.add("charles");
-      this.h.add("burpsuitecommunity");
-      this.h.add("tcpviewer");
-      this.h.add("httpanalyzer");
-      this.h.add("procexp");
-      this.h.add("socksa");
-      this.h.add("\\u6b63\\u5728\\u6355\\u83b7");
+      this.processNames.add("processhacker");
+      this.processNames.add("wireshark");
+      this.processNames.add("fiddler");
+      this.processNames.add("mitmproxy");
+      this.processNames.add("charles");
+      this.processNames.add("burpsuitecommunity");
+      this.processNames.add("tcpviewer");
+      this.processNames.add("httpanalyzer");
+      this.processNames.add("procexp");
+      this.processNames.add("socksa");
+      this.processNames.add("\\u6b63\\u5728\\u6355\\u83b7");
    }
 
-   public List<String> A() {
-      return this.h;
+   public List<String> getProcessNames() {
+      return this.processNames;
    }
 }

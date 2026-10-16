@@ -22,11 +22,11 @@ import net.minecraft.util.EnumFacing;
 
 public final class AntiObsidian extends Module {
    private final BooleanSetting antiSuffocate = new BooleanSetting("Anti-Suffocate", "Prevents blocks from suffocating you", true);
-   public static Block j;
+   public static Block headBlock;
    @EventHandler(value = UpdateEvent.class, priority = EventPriority.HIGHEST)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      j = i();
-      if (j instanceof BlockObsidian) {
+      headBlock = getHeadBlock();
+      if (headBlock instanceof BlockObsidian) {
          BlockPos blockPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
          IBlockState iBlockState = mc.theWorld.getBlockState(blockPos);
          if (mc.playerController.onPlayerDamageBlock(blockPos, EnumFacing.UP) && iBlockState.getBlock() != Blocks.bedrock && iBlockState.getBlock() != Blocks.obsidian) {
@@ -34,15 +34,17 @@ public final class AntiObsidian extends Module {
          }
       }
    };
-   public static boolean s;
+   public static boolean suffocating;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C03PacketPlayer) {
-         if (this.antiSuffocate.getValue() && (j instanceof BlockObsidian || j instanceof BlockWorkbench || j instanceof BlockFalling) && this.j()) {
-            s = true;
+         if (this.antiSuffocate.getValue()
+            && (headBlock instanceof BlockObsidian || headBlock instanceof BlockWorkbench || headBlock instanceof BlockFalling)
+            && this.isStandingStill()) {
+            suffocating = true;
             packetEvent.cancel();
          } else {
-            s = false;
+            suffocating = false;
          }
       }
    };
@@ -55,13 +57,13 @@ public final class AntiObsidian extends Module {
       this.addSettings(this.antiSuffocate);
    }
 
-   private boolean j() {
+   private boolean isStandingStill() {
       boolean bl = mc.thePlayer.isUsingItem();
       boolean bl2 = mc.thePlayer.motionX != 0.0 || !mc.thePlayer.isCollidedVertically || mc.gameSettings.keyBindJump.pressed || mc.thePlayer.motionZ != 0.0;
       return !bl && !bl2;
    }
 
-   public static Block i() {
+   public static Block getHeadBlock() {
       if (mc.thePlayer != null && mc.theWorld != null) {
          BlockPos blockPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
          return mc.theWorld.getBlockState(blockPos).getBlock();
@@ -70,7 +72,7 @@ public final class AntiObsidian extends Module {
       }
    }
 
-   public static boolean C() {
-      return j instanceof BlockObsidian;
+   public static boolean isInObsidian() {
+      return headBlock instanceof BlockObsidian;
    }
 }

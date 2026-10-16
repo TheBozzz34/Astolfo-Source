@@ -85,7 +85,7 @@ public final class Speed extends Module {
    private boolean timerReset;
    @EventHandler(UpdateEvent.class)
    private final Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (updateEvent.getState() == EventState.PRE && this.unusedCooldown > 0) {
          this.unusedCooldown--;
       }
@@ -182,7 +182,7 @@ public final class Speed extends Module {
                      }
                      break;
                   case VANILLA_BHOP:
-                     if (mc.theWorld == null || !bl || mc.thePlayer.isInWater() && Jesus.A() || mc.thePlayer.isInLava()) {
+                     if (mc.theWorld == null || !bl || mc.thePlayer.isInWater() && Jesus.isLiquidMetaZero() || mc.thePlayer.isInLava()) {
                         this.boostSpeed = d;
                         return;
                      }
@@ -513,14 +513,14 @@ public final class Speed extends Module {
    };
    @EventHandler(TeleportEvent.class)
    private final Listener<TeleportEvent> onTeleport = teleportEvent -> {
-      if (teleportEvent.y()) {
+      if (teleportEvent.isLagback()) {
          switch ((SpeedTimeOutMode)this.timeOut.getSetting("Mode").getValue()) {
             case WAIT:
                this.timedOut = true;
                this.timeOutTimer.reset();
                break;
             case DISABLE:
-               toasts.A("Lag back", "Disabling Speed due to lag back", 1500);
+               toasts.warningTimed("Lag back", "Disabling Speed due to lag back", 1500);
                this.setEnabled(false);
          }
 
@@ -573,7 +573,7 @@ public final class Speed extends Module {
 
    public Speed(Category category) {
       super(category);
-      this.B(-1551059);
+      this.setModuleColor(-1551059);
       this.addSettings(this.timeOut, this.watchdog, mode, this.damageBooster, this.iceBooster);
    }
 
@@ -827,9 +827,9 @@ public final class Speed extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + SpeedMode.K(mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + SpeedMode.displayNameOf(mode.getValue()));
+      super.updateDisplayName();
    }
 
    @Override

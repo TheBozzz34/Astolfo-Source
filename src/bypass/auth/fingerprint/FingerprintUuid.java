@@ -3,25 +3,25 @@ package bypass.auth.fingerprint;
 import java.util.UUID;
 
 public final class FingerprintUuid {
-   public static final UUID W = UUID.fromString("00000000-0000-0000-0000-000000000000");
-   private final FingerprintRegistry R;
-   private UUID j;
+   public static final UUID NIL_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+   private final FingerprintRegistry registry;
+   private UUID forcedUuid;
 
    public FingerprintUuid(FingerprintRegistry fingerprintRegistry) {
-      this.R = fingerprintRegistry;
-      int i = this.R.B();
-      if (i != this.R.l()) {
-         this.j = W;
-         this.R.invalidateAll();
+      this.registry = fingerprintRegistry;
+      int i = this.registry.validateAll();
+      if (i != this.registry.countValidatedEntries()) {
+         this.forcedUuid = NIL_UUID;
+         this.registry.invalidateAll();
       }
    }
 
-   public UUID h() {
-      if (this.j != null) {
-         return this.j;
+   public UUID getUuid() {
+      if (this.forcedUuid != null) {
+         return this.forcedUuid;
       }
 
-      long l = this.R.C();
+      long l = this.registry.getCombinedHash();
       long m = Long.MIN_VALUE | l << 31 << 11;
       return UUID.nameUUIDFromBytes(Long.toBinaryString(m).getBytes());
    }

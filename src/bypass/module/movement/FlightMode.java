@@ -12,14 +12,14 @@ public enum FlightMode {
    FAITHFUL("Faithful"),
    CUSTOM("Custom");
 
-   private String c;
-   private static final FlightMode[] r = new FlightMode[]{VANILLA, GWEN, COLLISION, AAC_3, AAC_3312, AAC_3313, MC_CENTRAL, SENTINEL, FAITHFUL, CUSTOM};
+   private String displayName;
+   private static final FlightMode[] VALUES = new FlightMode[]{VANILLA, GWEN, COLLISION, AAC_3, AAC_3312, AAC_3313, MC_CENTRAL, SENTINEL, FAITHFUL, CUSTOM};
 
    FlightMode(String string2) {
-      this.c = string2;
+      this.displayName = string2;
    }
 
-   public static String A(FlightMode flightMode) {
-      return flightMode.c;
+   public static String displayNameOf(FlightMode flightMode) {
+      return flightMode.displayName;
    }
 }

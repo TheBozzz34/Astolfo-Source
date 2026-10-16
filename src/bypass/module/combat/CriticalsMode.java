@@ -6,14 +6,14 @@ public enum CriticalsMode {
    INCREMENTAL("Incremental"),
    WATCHDOG("Watchdog");
 
-   private String e;
-   private static final CriticalsMode[] y = new CriticalsMode[]{PACKET, EDIT, INCREMENTAL, WATCHDOG};
+   private String displayName;
+   private static final CriticalsMode[] VALUES = new CriticalsMode[]{PACKET, EDIT, INCREMENTAL, WATCHDOG};
 
    CriticalsMode(String string2) {
-      this.e = string2;
+      this.displayName = string2;
    }
 
-   public static String p(CriticalsMode criticalsMode) {
-      return criticalsMode.e;
+   public static String displayNameOf(CriticalsMode criticalsMode) {
+      return criticalsMode.displayName;
    }
 }

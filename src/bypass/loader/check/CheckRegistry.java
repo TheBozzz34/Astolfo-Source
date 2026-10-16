@@ -3,17 +3,17 @@ package bypass.loader.check;
 import java.util.List;
 
 public interface CheckRegistry {
-   Verdict u(CheckRequest checkRequest);
+   Verdict resolve(CheckRequest checkRequest);
 
-   boolean S(StageCheck stageCheck);
+   boolean addCheck(StageCheck stageCheck);
 
-   boolean L(StageCheck stageCheck);
+   boolean removeCheck(StageCheck stageCheck);
 
-   List<StageCheck> P();
+   List<StageCheck> getChecks();
 
-   boolean h(VerdictProcessor verdictProcessor);
+   boolean addProcessor(VerdictProcessor verdictProcessor);
 
-   boolean P(VerdictProcessor verdictProcessor);
+   boolean removeProcessor(VerdictProcessor verdictProcessor);
 
-   List<VerdictProcessor> i();
+   List<VerdictProcessor> getProcessors();
 }

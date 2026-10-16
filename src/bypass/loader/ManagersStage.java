@@ -6,7 +6,7 @@ import bypass.loader.check.JvmArgumentsPropertyCheckSetup;
 import oshi.util.tuples.Pair;
 
 public final class ManagersStage extends AbstractLoadStage {
-   private final JvmArgumentsPropertyCheckSetup g = new JvmArgumentsPropertyCheckSetup();
+   private final JvmArgumentsPropertyCheckSetup jvmArgumentsPropertyCheckSetup = new JvmArgumentsPropertyCheckSetup();
 
    @Override
    public StageAction getAction() {
@@ -28,8 +28,8 @@ public final class ManagersStage extends AbstractLoadStage {
       return this.state;
    }
 
-   public static JvmArgumentsPropertyCheckSetup U(ManagersStage managersStage) {
-      return managersStage.g;
+   public static JvmArgumentsPropertyCheckSetup accessJvmArgumentsPropertyCheckSetup(ManagersStage managersStage) {
+      return managersStage.jvmArgumentsPropertyCheckSetup;
    }
 
    public class az9 extends StageAction {
@@ -57,7 +57,7 @@ public final class ManagersStage extends AbstractLoadStage {
       }
 
       public Pair get() {
-         return (Pair)ManagersStage.U(ManagersStage.this).b().Q().value;
+         return (Pair)ManagersStage.accessJvmArgumentsPropertyCheckSetup(ManagersStage.this).getJvmArgumentsPropertyCheck().checkJvmArgumentProperties().value;
       }
    }
 }

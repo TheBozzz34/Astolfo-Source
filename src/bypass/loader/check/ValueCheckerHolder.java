@@ -1,13 +1,13 @@
 package bypass.loader.check;
 
 public class ValueCheckerHolder {
-   private final ValueChecker V;
+   private final ValueChecker checker;
 
    public ValueCheckerHolder(ValueChecker valueChecker) {
-      this.V = valueChecker;
+      this.checker = valueChecker;
    }
 
-   public ValueChecker O() {
-      return this.V;
+   public ValueChecker getChecker() {
+      return this.checker;
    }
 }

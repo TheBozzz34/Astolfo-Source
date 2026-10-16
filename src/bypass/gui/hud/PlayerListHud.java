@@ -12,36 +12,36 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 
 public class PlayerListHud extends Component {
-   private final Map<String, String> u = new LinkedHashMap<>();
-   private int d = new Color(17, 17, 17, 197).getRGB();
+   private final Map<String, String> playerTags = new LinkedHashMap<>();
+   private int backgroundColor = new Color(17, 17, 17, 197).getRGB();
 
    public PlayerListHud(float f, float g, int i, int j) {
       super("Player list", f, g, i, j);
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
    }
 
    @Override
    public void render(int i, int j) {
-      float f = this.M();
-      float g = this.E_float();
-      float h = this.x();
-      float f2 = this.Y();
+      float f = this.getX();
+      float g = this.getYPos();
+      float h = this.getWidth();
+      float f2 = this.getHeight();
       RenderUtil.drawRect(f, g, f + h, g + f2, new Color(1, 1, 1, 180).getRGB());
       RenderUtil.drawRect(f, g, f + h, g + 15.0F, new Color(1, 1, 1, 120).getRGB());
-      mc.fontRendererObj.drawStringWithShadow(this.J(), f + 3.0F, g + 3.0F, -1);
+      mc.fontRendererObj.drawStringWithShadow(this.getName(), f + 3.0F, g + 3.0F, -1);
       byte b = 15;
       int k = 0;
 
-      for (Entry entry : this.u.entrySet()) {
+      for (Entry entry : this.playerTags.entrySet()) {
          boolean bl = false;
          if (!((String)entry.getValue()).contains("kill")
-            && !((String)entry.getKey()).equals(PlayerList.j)
-            && !((String)entry.getKey()).equals(PlayerList.O)
-            && !((String)entry.getKey()).equals(PlayerList.X)
-            && !((String)entry.getKey()).equals(PlayerList.T)) {
+            && !((String)entry.getKey()).equals(PlayerList.RED_TEAM)
+            && !((String)entry.getKey()).equals(PlayerList.BLUE_TEAM)
+            && !((String)entry.getKey()).equals(PlayerList.GREEN_TEAM)
+            && !((String)entry.getKey()).equals(PlayerList.YELLOW_TEAM)) {
             EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName((String)entry.getKey());
             if (entityPlayer == null) {
                continue;
@@ -55,9 +55,13 @@ public class PlayerListHud extends Component {
             if (bl) {
                mc.fontRendererObj
                   .drawStringWithShadow(
-                     (k == 1 && !((String)entry.getKey()).equals(PlayerList.j) ? EnumChatFormatting.YELLOW + "✦" + EnumChatFormatting.RESET + " " : "")
+                     (
+                           k == 1 && !((String)entry.getKey()).equals(PlayerList.RED_TEAM)
+                              ? EnumChatFormatting.YELLOW + "✦" + EnumChatFormatting.RESET + " "
+                              : ""
+                        )
                         + (
-                           client.getRelationManager().U((String)entry.getKey())
+                           client.getRelationManager().isEnemyName((String)entry.getKey())
                               ? EnumChatFormatting.RED
                               : (Denicker.nicks.get(entry.getKey()) != null ? EnumChatFormatting.YELLOW : "")
                         )
@@ -87,10 +91,10 @@ public class PlayerListHud extends Component {
          }
       }
 
-      this.B(b);
+      this.setHeight(b);
    }
 
-   public Map<String, String> j() {
-      return this.u;
+   public Map<String, String> getPlayerTags() {
+      return this.playerTags;
    }
 }

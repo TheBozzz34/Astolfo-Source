@@ -14,21 +14,21 @@ import com.google.common.collect.ImmutableMap.Builder;
 import java.util.Map;
 
 public class DefaultRendererSet implements RendererSet {
-   private final Map<Class<? extends Sized>, ElementRenderer<?>> R;
+   private final Map<Class<? extends Sized>, ElementRenderer<?>> renderers;
 
    @Override
-   public CustomFontRenderer O() {
+   public CustomFontRenderer getFontRenderer() {
       return Astolfo.INSTANCE.getCustomFontRenderer();
    }
 
    @Override
    public Map<Class<? extends Sized>, ElementRenderer<?>> getRenderers() {
-      return this.R;
+      return this.renderers;
    }
 
    public DefaultRendererSet() {
       ItemRenderer itemRenderer = new ItemRenderer();
-      this.R = new Builder<Class<? extends Sized>, ElementRenderer<?>>()
+      this.renderers = new Builder<Class<? extends Sized>, ElementRenderer<?>>()
          .put(TabGui.Panel.class, new PanelRenderer())
          .put(CategoryItem.class, itemRenderer)
          .put(ModuleItem.class, itemRenderer)

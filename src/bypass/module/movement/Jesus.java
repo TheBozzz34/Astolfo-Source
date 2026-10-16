@@ -29,13 +29,13 @@ import net.minecraft.util.EnumChatFormatting;
 
 public final class Jesus extends Module {
    private final EnumSetting<JesusMode> mode = new EnumSetting<>("Mode", "Set your Jesus mode", JesusMode.SOLID);
-   public static boolean y;
-   private boolean B;
-   private int x = 0;
-   private boolean G = false;
+   public static boolean alternateTick;
+   private boolean onLiquidSurface;
+   private int unusedCounter = 0;
+   private boolean unusedFlag = false;
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (updateEvent.getState() == EventState.PRE) {
          switch ((JesusMode)this.mode.getValue()) {
             case DOLPHIN:
@@ -62,7 +62,7 @@ public final class Jesus extends Module {
                if (P_boolean()) {
                   if (!mc.theWorld.isAnyLiquid(mc.thePlayer.getEntityBoundingBox())
                      || !mc.thePlayer.isInsideOfMaterial(Material.air)
-                     || !this.B
+                     || !this.onLiquidSurface
                      || mc.thePlayer.isSneaking()
                      || (mc.thePlayer.isCollidedVertically || mc.thePlayer.fallDistance != 0.0F) && !mc.thePlayer.isInWater()) {
                      if (mc.thePlayer.isInWater() && mc.gameSettings.keyBindJump.isKeyDown()) {
@@ -75,15 +75,17 @@ public final class Jesus extends Module {
                   }
                }
 
-               this.B = GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox()) && P_boolean();
-               y = !y;
+               this.onLiquidSurface = GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox()) && P_boolean();
+               alternateTick = !alternateTick;
                if (!mc.thePlayer.isCollidedVertically && mc.thePlayer.ticksExisted % 16 == 0 && GameUtil.getBlockAtPlayer(-1.5) instanceof BlockStaticLiquid) {
                   mc.thePlayer.motionX *= 0.55;
                   mc.thePlayer.motionZ *= 0.55;
                }
                break;
             case FLOAT:
-               if (!mc.thePlayer.movementInput.sneak && mc.thePlayer.isInWater() && this.W(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ)) {
+               if (!mc.thePlayer.movementInput.sneak
+                  && mc.thePlayer.isInWater()
+                  && this.isShallowLiquid(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ)) {
                   mc.thePlayer.motionY = 0.12;
                }
          }
@@ -109,31 +111,31 @@ public final class Jesus extends Module {
    @EventHandler(MotionEvent.class)
    private final Listener<MotionEvent> onMotion = motionEvent -> {
       if (motionEvent.getState() == EventState.PRE) {
-         if (this.B && !mc.thePlayer.handleWaterMovement()) {
+         if (this.onLiquidSurface && !mc.thePlayer.handleWaterMovement()) {
             if (GameUtil.isOnHypixel()) {
                if (mc.thePlayer.fallDistance != 0.0F) {
                   return;
                }
 
-               this.P++;
-               if (this.P == 1) {
+               this.spoofTicks++;
+               if (this.spoofTicks == 1) {
                   motionEvent.setMinY(motionEvent.getMinY() - ThreadLocalRandom.current().nextDouble(0.0155249999999, 0.015625));
                }
 
-               if (this.P == 2) {
+               if (this.spoofTicks == 2) {
                   motionEvent.setMinY(motionEvent.getMinY() + ThreadLocalRandom.current().nextDouble(0.0148999999999, 0.015));
                }
 
-               if (this.P == 3) {
+               if (this.spoofTicks == 3) {
                   motionEvent.setMinY(motionEvent.getMinY() + ThreadLocalRandom.current().nextDouble(0.0198999999999, 0.02));
                }
 
-               if (this.P >= 4) {
+               if (this.spoofTicks >= 4) {
                   motionEvent.setMinY(motionEvent.getMinY() + 0.015625);
-                  this.P = 0;
+                  this.spoofTicks = 0;
                }
 
-               if (this.P % 2 == 0) {
+               if (this.spoofTicks % 2 == 0) {
                   motionEvent.setMinY(motionEvent.getMinY() - 1.0E-13);
                }
 
@@ -142,7 +144,7 @@ public final class Jesus extends Module {
                return;
             }
          } else {
-            this.P = 0;
+            this.spoofTicks = 0;
          }
       }
    };
@@ -169,11 +171,11 @@ public final class Jesus extends Module {
          );
       }
    };
-   private int P;
+   private int spoofTicks;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING
-         && this.B
+         && this.onLiquidSurface
          && this.mode.getValue() == JesusMode.SOLID
          && packetEvent.getPacket() instanceof C03PacketPlayer
          && !GameUtil.isOnHypixel()) {
@@ -185,7 +187,7 @@ public final class Jesus extends Module {
             );
          }
 
-         if (y && !GameUtil.isOnHypixel()) {
+         if (alternateTick && !GameUtil.isOnHypixel()) {
             packetEvent.setPacket(
                new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 1.0E-5 + Math.random() * 1.0E-5, mc.thePlayer.posZ, false)
             );
@@ -194,7 +196,7 @@ public final class Jesus extends Module {
    };
    @EventHandler(JumpEvent.class)
    private Listener<JumpEvent> onJump = jumpEvent -> {
-      if ((this.B || GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox())) && !y) {
+      if ((this.onLiquidSurface || GameUtil.isOverLiquid(mc.thePlayer.getEntityBoundingBox())) && !alternateTick) {
          jumpEvent.cancel();
       }
    };
@@ -204,7 +206,7 @@ public final class Jesus extends Module {
       this.addSettings(this.mode);
    }
 
-   private boolean W(double d, double d2, double d3) {
+   private boolean isShallowLiquid(double d, double d2, double d3) {
       try {
          IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(d, d2, d3));
          if (iBlockState instanceof BlockLiquid) {
@@ -217,15 +219,15 @@ public final class Jesus extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + JesusMode.R(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + JesusMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
    @Override
    public void onDisable() {
-      y = false;
-      this.B = false;
+      alternateTick = false;
+      this.onLiquidSurface = false;
       super.onDisable();
    }
 
@@ -237,7 +239,7 @@ public final class Jesus extends Module {
       return iBlockState.getBlock().getMetaFromState(iBlockState) < 5;
    }
 
-   public static boolean A() {
+   public static boolean isLiquidMetaZero() {
       double d = mc.thePlayer.posX;
       double e = mc.thePlayer.getEntityBoundingBox().minY;
       double d2 = mc.thePlayer.posZ;

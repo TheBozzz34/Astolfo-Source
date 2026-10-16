@@ -32,23 +32,23 @@ public final class FastMine extends Module {
       .add("Delay", new NumberSetting<>("Delay", "Delay", 2, 0, 5, " ticks"))
       .add("Enable", new BooleanSetting("Enable", "Enable instant mining", false))
       .build();
-   private boolean O = false;
-   private float A = 0.0F;
-   public BlockPos x;
-   public EnumFacing v;
-   private final ArrayList<PendingBreak> d = new ArrayList<>();
+   private boolean mining = false;
+   private float breakProgress = 0.0F;
+   public BlockPos miningPos;
+   public EnumFacing miningFacing;
+   private final ArrayList<PendingBreak> pendingBreaks = new ArrayList<>();
    @EventHandler(UpdateEvent.class)
    private final Listener<UpdateEvent> onUpdate = updateEvent -> {
-      if (!this.d.isEmpty()) {
-         Iterator iterator2 = this.d.iterator();
+      if (!this.pendingBreaks.isEmpty()) {
+         Iterator iterator2 = this.pendingBreaks.iterator();
 
          while (iterator2.hasNext()) {
             PendingBreak pendingBreak = (PendingBreak)iterator2.next();
-            if (pendingBreak.B <= 0) {
-               mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pendingBreak.f, pendingBreak.e));
+            if (pendingBreak.ticksLeft <= 0) {
+               mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pendingBreak.pos, pendingBreak.facing));
                iterator2.remove();
             } else {
-               pendingBreak.B--;
+               pendingBreak.ticksLeft--;
             }
          }
       }
@@ -57,14 +57,18 @@ public final class FastMine extends Module {
          mc.thePlayer.removePotionEffect(Potion.digSlowdown.id);
       }
 
-      if (this.fast.getValue() && this.O) {
-         Block block = mc.theWorld.getBlockState(this.x).getBlock();
-         this.A = this.A + (float)(block.getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, this.x) * this.multiplier.asDouble());
-         if (this.A >= 1.0F) {
-            mc.theWorld.setBlockState(this.x, Blocks.air.getDefaultState(), 11);
-            mc.thePlayer.sendQueue.getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.x, this.v));
-            this.A = 0.0F;
-            this.O = false;
+      if (this.fast.getValue() && this.mining) {
+         Block block = mc.theWorld.getBlockState(this.miningPos).getBlock();
+         this.breakProgress = this.breakProgress
+            + (float)(block.getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, this.miningPos) * this.multiplier.asDouble());
+         if (this.breakProgress >= 1.0F) {
+            mc.theWorld.setBlockState(this.miningPos, Blocks.air.getDefaultState(), 11);
+            mc.thePlayer
+               .sendQueue
+               .getNetworkManager()
+               .sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.miningPos, this.miningFacing));
+            this.breakProgress = 0.0F;
+            this.mining = false;
          }
       }
    };
@@ -83,15 +87,15 @@ public final class FastMine extends Module {
             if (packetEvent.getPacket() instanceof C07PacketPlayerDigging && !mc.playerController.L() && mc.playerController != null) {
                C07PacketPlayerDigging c07PacketPlayerDigging = (C07PacketPlayerDigging)packetEvent.getPacket();
                if (c07PacketPlayerDigging.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK) {
-                  this.O = true;
-                  this.x = c07PacketPlayerDigging.getPosition();
-                  this.v = c07PacketPlayerDigging.getFacing();
-                  this.A = 0.0F;
+                  this.mining = true;
+                  this.miningPos = c07PacketPlayerDigging.getPosition();
+                  this.miningFacing = c07PacketPlayerDigging.getFacing();
+                  this.breakProgress = 0.0F;
                } else if (c07PacketPlayerDigging.getStatus() == C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK
                   || c07PacketPlayerDigging.getStatus() == C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK) {
-                  this.O = false;
-                  this.x = null;
-                  this.v = null;
+                  this.mining = false;
+                  this.miningPos = null;
+                  this.miningFacing = null;
                }
             }
 
@@ -102,13 +106,13 @@ public final class FastMine extends Module {
             C07PacketPlayerDigging c07PacketPlayerDigging2 = (C07PacketPlayerDigging)packetEvent.getPacket();
             if (c07PacketPlayerDigging2.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK) {
                mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, c07PacketPlayerDigging2.getPosition(), c07PacketPlayerDigging2.getFacing()));
-               this.d.add(new PendingBreak(this.instant.getSetting("Delay").asInt() + 5, c07PacketPlayerDigging2.getPosition(), c07PacketPlayerDigging2.getFacing()));
+               this.pendingBreaks.add(new PendingBreak(this.instant.getSetting("Delay").asInt() + 5, c07PacketPlayerDigging2.getPosition(), c07PacketPlayerDigging2.getFacing()));
                packetEvent.cancel();
             }
 
             if (c07PacketPlayerDigging2.getStatus() == C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK) {
-               for (PendingBreak pendingBreak : this.d) {
-                  if (pendingBreak.f.equals(c07PacketPlayerDigging2.getPosition())) {
+               for (PendingBreak pendingBreak : this.pendingBreaks) {
+                  if (pendingBreak.pos.equals(c07PacketPlayerDigging2.getPosition())) {
                      packetEvent.cancel();
                      break;
                   }

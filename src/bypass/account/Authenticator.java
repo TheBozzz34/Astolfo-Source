@@ -5,21 +5,21 @@ import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 
 public interface Authenticator {
-   String a();
+   String getUsername();
 
-   void Y(Minecraft minecraft, Consumer<Throwable> consumer);
+   void login(Minecraft minecraft, Consumer<Throwable> consumer);
 
-   boolean u();
+   boolean canLogin();
 
-   boolean d();
+   boolean canEdit();
 
-   void n();
+   void markUsed();
 
-   int B();
+   int getUseCount();
 
-   long v();
+   long getLastUsed();
 
-   default UUID W() {
+   default UUID getUuid() {
       return null;
    }
 }

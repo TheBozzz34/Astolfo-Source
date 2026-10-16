@@ -25,7 +25,7 @@ public final class ShowCommand extends Command {
             if (moduleInfo2 instanceof Module) {
                ((Module)moduleInfo2).setHidden(true);
             } else {
-               chat.f("Module not found");
+               chat.printError("Module not found");
             }
          }
       }

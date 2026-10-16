@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public final class FieldScanner implements MemberScanner<Field> {
-   public final Map<Class<?>, Reference<Field[]>> b = new WeakHashMap<>();
+   public final Map<Class<?>, Reference<Field[]>> cache = new WeakHashMap<>();
 
    @Override
    public void collect(Class<?> class2, List<Field> list) {
@@ -35,7 +35,7 @@ public final class FieldScanner implements MemberScanner<Field> {
    }
 
    public Field[] getMembers(Class<?> class2) {
-      Reference reference = this.b.get(class2);
+      Reference reference = this.cache.get(class2);
       if (reference != null) {
          Field[] fields = (Field[])reference.get();
          if (fields != null) {
@@ -46,7 +46,7 @@ public final class FieldScanner implements MemberScanner<Field> {
       ArrayList arrayList = new ArrayList();
       this.collect(class2, arrayList);
       Field[] fields2 = (java.lang.reflect.Field[])(arrayList.toArray(new Field[arrayList.size()]));
-      this.b.put(class2, new SoftReference<>(fields2));
+      this.cache.put(class2, new SoftReference<>(fields2));
       return (Field[])fields2.clone();
    }
 

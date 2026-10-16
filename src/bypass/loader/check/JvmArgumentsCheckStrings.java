@@ -5,20 +5,20 @@ import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Decoder;
 
 public class JvmArgumentsCheckStrings {
-   public static String m = "ARCFOUR";
-   public static String S = "oR7dsJ1oVZ4aDYPR";
+   public static String algorithm = "ARCFOUR";
+   public static String key = "oR7dsJ1oVZ4aDYPR";
 
-   public static String i(String string) {
+   public static String decrypt(String string) {
       String string2 = "DiVanYz9SZ87dzHMIw+kGA==";
 
       String string3;
       try {
-         Cipher cipher = Cipher.getInstance(m);
-         SecretKeySpec secretKeySpec = new SecretKeySpec(S.getBytes(), m);
+         Cipher cipher = Cipher.getInstance(algorithm);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), algorithm);
          cipher.init(2, secretKeySpec);
          byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
          byte[] bytes2 = cipher.doFinal(bytes);
-         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, m);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, algorithm);
          cipher.init(2, secretKeySpec2);
          byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
          byte[] bytes4 = cipher.doFinal(bytes3);

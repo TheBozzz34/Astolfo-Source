@@ -15,15 +15,15 @@ public final class WhitenameCommand extends Command {
 
    @Override
    public void runCommand(String[] strings) {
-      if (ServerManager.X == ServerType.HYPIXEL) {
+      if (ServerManager.currentServerType == ServerType.HYPIXEL) {
          if (GameUtil.scoreboardTitleContains("BED WARS")) {
             mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(mc.thePlayer, new Vec3(0.0, 0.0, 0.0)));
-            chat.I("Made your name white, check tab");
+            chat.print("Made your name white, check tab");
          } else {
-            chat.I("Only works at bedwars lobbies");
+            chat.print("Only works at bedwars lobbies");
          }
       } else {
-         chat.f("You must be in Hypixel!");
+         chat.printError("You must be in Hypixel!");
       }
    }
 }

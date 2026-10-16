@@ -7,28 +7,28 @@ import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 
 public class VirtualMachineCheck {
-   private static final ShapedMap<String, String> O = new ShapedMap<>();
-   private static String[] j;
-   private final FileListHolder p;
-   private boolean m;
-   private boolean J;
-   private boolean K;
-   private boolean I = true;
-   private boolean z;
-   private boolean P;
+   private static final ShapedMap<String, String> vmSignatures = new ShapedMap<>();
+   private static String[] vmNames;
+   private final FileListHolder fileListHolder;
+   private boolean flag1;
+   private boolean flag2;
+   private boolean flag3;
+   private boolean flag4 = true;
+   private boolean flag5;
+   private boolean flag6;
 
    public VirtualMachineCheck(FileListHolder fileListHolder) {
-      this.p = fileListHolder;
-      O.put("bhyve bhyve", "bhyve");
-      O.put("KVMKVMKVM", "KVM");
-      O.put("TCGTCGTCGTCG", "QEMU");
-      O.put("Microsoft Hv", "Microsoft Hyper-V or Windows Virtual PC");
-      O.put("lrpepyh vr", "Parallels");
-      O.put("VMwareVMware", "VMware");
-      O.put("XenVMMXenVMM", "Xen HVM");
-      O.put("ACRNACRNACRN", "Project ACRN");
-      O.put("QNXQVMBSQG", "QNX Hypervisor");
-      j = new String[]{
+      this.fileListHolder = fileListHolder;
+      vmSignatures.put("bhyve bhyve", "bhyve");
+      vmSignatures.put("KVMKVMKVM", "KVM");
+      vmSignatures.put("TCGTCGTCGTCG", "QEMU");
+      vmSignatures.put("Microsoft Hv", "Microsoft Hyper-V or Windows Virtual PC");
+      vmSignatures.put("lrpepyh vr", "Parallels");
+      vmSignatures.put("VMwareVMware", "VMware");
+      vmSignatures.put("XenVMMXenVMM", "Xen HVM");
+      vmSignatures.put("ACRNACRNACRN", "Project ACRN");
+      vmSignatures.put("QNXQVMBSQG", "QNX Hypervisor");
+      vmNames = new String[]{
          "Linux KVM",
          "Linux lguest",
          "OpenVZ",
@@ -45,34 +45,34 @@ public class VirtualMachineCheck {
       };
    }
 
-   public Holder U() {
+   public Holder checkVirtualMachine() {
       Holder holder = new Holder();
       holder.value = new NullPointerException("1");
-      this.T(true);
+      this.setFlag3(true);
 
-      for (File file : this.p.v().L().getValue()) {
-         this.q(!this.K);
-         if ((file.exists() || !z().isEmpty()) && (holder.value = new NullPointerException("123")) != null) {
-            this.m(!this.I);
+      for (File file : this.fileListHolder.getFileContainer().getOwnedContainer().getValue()) {
+         this.setFlag4(!this.flag3);
+         if ((file.exists() || !detectVirtualMachine().isEmpty()) && (holder.value = new NullPointerException("123")) != null) {
+            this.setFlag1(!this.flag4);
             return holder;
          }
       }
 
-      this.N(true);
+      this.setFlag5(true);
       return holder;
    }
 
-   public static String z() {
+   public static String detectVirtualMachine() {
       SystemInfo systemInfo = new SystemInfo();
       HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
       String string = hardwareAbstractionLayer.getProcessor().getProcessorIdentifier().H().trim();
-      if (O.containsKey(string)) {
-         return O.get(string);
+      if (vmSignatures.containsKey(string)) {
+         return vmSignatures.get(string);
       }
 
       String string2 = hardwareAbstractionLayer.getComputerSystem().z();
 
-      for (String string3 : j) {
+      for (String string3 : vmNames) {
          if (string2.contains(string3)) {
             return string3;
          }
@@ -82,51 +82,51 @@ public class VirtualMachineCheck {
       return "Microsoft Corporation".equals(string4) && "Virtual Machine".equals(string2) ? "Microsoft Hyper-V" : "";
    }
 
-   public void m(boolean bl) {
-      this.m = bl;
+   public void setFlag1(boolean bl) {
+      this.flag1 = bl;
    }
 
-   public void k(boolean bl) {
-      this.J = bl;
+   public void setFlag2(boolean bl) {
+      this.flag2 = bl;
    }
 
-   public void T(boolean bl) {
-      this.K = bl;
+   public void setFlag3(boolean bl) {
+      this.flag3 = bl;
    }
 
-   public void q(boolean bl) {
-      this.I = bl;
+   public void setFlag4(boolean bl) {
+      this.flag4 = bl;
    }
 
-   public void N(boolean bl) {
-      this.z = bl;
+   public void setFlag5(boolean bl) {
+      this.flag5 = bl;
    }
 
-   public void n(boolean bl) {
-      this.P = bl;
+   public void setFlag6(boolean bl) {
+      this.flag6 = bl;
    }
 
-   public boolean S() {
-      return this.m;
+   public boolean isFlag1() {
+      return this.flag1;
    }
 
-   public boolean Y() {
-      return this.J;
+   public boolean isFlag2() {
+      return this.flag2;
    }
 
-   public boolean E() {
-      return this.K;
+   public boolean isFlag3() {
+      return this.flag3;
    }
 
-   public boolean X() {
-      return this.I;
+   public boolean isFlag4() {
+      return this.flag4;
    }
 
-   public boolean w() {
-      return this.z;
+   public boolean isFlag5() {
+      return this.flag5;
    }
 
-   public boolean Z() {
-      return this.P;
+   public boolean isFlag6() {
+      return this.flag6;
    }
 }

@@ -13,29 +13,29 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class AuthReconnectScreen extends GuiScreen {
-   private GuiButton N;
-   private boolean B;
-   private Stopwatch h = new Stopwatch();
-   public boolean w;
-   private boolean f;
+   private GuiButton reconnectButton;
+   private boolean unusedFlag;
+   private Stopwatch reconnectTimer = new Stopwatch();
+   public boolean unusedPublicFlag;
+   private boolean reconnecting;
 
    @Override
    public void initGui() {
       this.buttonList.clear();
-      this.buttonList.add(this.N = new GuiButton(0, this.width / 2 - 50, this.height / 2 - this.height / 12, 100, 20, "Reconnect"));
+      this.buttonList.add(this.reconnectButton = new GuiButton(0, this.width / 2 - 50, this.height / 2 - this.height / 12, 100, 20, "Reconnect"));
    }
 
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       if (!DisconnectHandler.disconnected) {
-         GUI.y();
+         GUI.openClickGui();
       }
 
-      if (this.h.hasElapsed(2000.0F) && this.f) {
-         this.f = false;
+      if (this.reconnectTimer.hasElapsed(2000.0F) && this.reconnecting) {
+         this.reconnecting = false;
       }
 
-      this.N.enabled = !this.f;
+      this.reconnectButton.enabled = !this.reconnecting;
       drawRect(0, 0, this.width, this.height, new Color(1, 1, 1, 120).getRGB());
       RenderUtil.setColor(-1);
       int i = this.width / 2 - 38;
@@ -52,15 +52,15 @@ public class AuthReconnectScreen extends GuiScreen {
 
    @Override
    public void actionPerformed(GuiButton button) throws IOException {
-      if (button.id == 0 && !this.f) {
+      if (button.id == 0 && !this.reconnecting) {
          this.mc
             .mouseHelper
             .Y()
             .getEndpoint()
-            .B()
-            .J(this.mc.mouseHelper.Y().getEndpoint().getHost(), this.mc.mouseHelper.Y().getEndpoint().getPort().getPort());
-         this.f = true;
-         this.h.reset();
+            .getConnection()
+            .connect(this.mc.mouseHelper.Y().getEndpoint().getHost(), this.mc.mouseHelper.Y().getEndpoint().getPort().getPort());
+         this.reconnecting = true;
+         this.reconnectTimer.reset();
       }
 
       super.actionPerformed(button);

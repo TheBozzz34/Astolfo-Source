@@ -9,24 +9,24 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 public class VFAddressParser {
-   public Integer l;
-   public String m;
-   public String p;
-   public String M;
+   public Integer protocol;
+   public String viaSuffix;
+   public String serverAddress;
+   public String viaOptions;
 
-   public VFAddressParser c(String string) {
-      return this.d(string, "viafabric");
+   public VFAddressParser parse(String string) {
+      return this.parseWithSuffix(string, "viafabric");
    }
 
-   public String v() {
-      return this.M != null && !this.M.isEmpty() ? this.M + "." + this.m : this.m;
+   public String getFullSuffix() {
+      return this.viaOptions != null && !this.viaOptions.isEmpty() ? this.viaOptions + "." + this.viaSuffix : this.viaSuffix;
    }
 
-   public VFAddressParser d(String string, String string2) {
+   public VFAddressParser parseWithSuffix(String string, String string2) {
       string = StringUtils.removeEnd(string, ".");
       String string3 = StringUtils.removeEnd(string, "." + string2);
       if (string3.equals(string)) {
-         this.p = string;
+         this.serverAddress = string;
          return this;
       }
 
@@ -35,7 +35,7 @@ public class VFAddressParser {
       ArrayList arrayList2 = new ArrayList();
 
       for (String string4 : Lists.reverse(Arrays.asList(string3.split(Pattern.quote("."))))) {
-         if (!bl && this.n(string4)) {
+         if (!bl && this.parseOption(string4)) {
             arrayList.add(string4);
          } else {
             bl = true;
@@ -43,13 +43,13 @@ public class VFAddressParser {
          }
       }
 
-      this.p = String.join(".", Lists.reverse(arrayList2));
-      this.M = String.join(".", Lists.reverse(arrayList));
-      this.m = string2;
+      this.serverAddress = String.join(".", Lists.reverse(arrayList2));
+      this.viaOptions = String.join(".", Lists.reverse(arrayList));
+      this.viaSuffix = string2;
       return this;
    }
 
-   public boolean n(String string) {
+   public boolean parseOption(String string) {
       if (string.length() < 2) {
          return false;
       }
@@ -67,18 +67,18 @@ public class VFAddressParser {
 
       String string3 = string.substring(2);
       if ("v".equals(string2)) {
-         this.M(string3);
+         this.parseProtocol(string3);
       }
 
       return true;
    }
 
-   public void M(String string) {
-      this.l = Ints.tryParse(string);
-      if (this.l == null) {
+   public void parseProtocol(String string) {
+      this.protocol = Ints.tryParse(string);
+      if (this.protocol == null) {
          ProtocolVersion protocolVersion = ProtocolVersion.getClosest(string.replace("_", "."));
          if (protocolVersion != null) {
-            this.l = protocolVersion.getVersion();
+            this.protocol = protocolVersion.getVersion();
          }
       }
    }

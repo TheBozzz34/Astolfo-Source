@@ -1,5 +1,5 @@
 package bypass.util.function;
 
 public interface Callback {
-   void b();
+   void invoke();
 }

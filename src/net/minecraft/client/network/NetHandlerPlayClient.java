@@ -269,9 +269,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
    @Override
    public void handleSpawnObject(S0EPacketSpawnObject packetIn) {
       PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-      double d = packetIn.getX() / ModuleManager.v;
-      double e = packetIn.getY() / ModuleManager.v;
-      double d2 = packetIn.getZ() / ModuleManager.v;
+      double d = packetIn.getX() / ModuleManager.positionDivisor;
+      double e = packetIn.getY() / ModuleManager.positionDivisor;
+      double d2 = packetIn.getZ() / ModuleManager.positionDivisor;
       Entity entity = null;
       if (packetIn.getType() == 10) {
          entity = EntityMinecart.getMinecart(this.clientWorldController, d, e, d2, EntityMinecart.EnumMinecartType.byNetworkID(packetIn.func_149009_m()));
@@ -377,9 +377,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
       PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
       EntityXPOrb entityXPOrb = new EntityXPOrb(
          this.clientWorldController,
-         packetIn.getX() / ModuleManager.v,
-         packetIn.getY() / ModuleManager.v,
-         packetIn.getZ() / ModuleManager.v,
+         packetIn.getX() / ModuleManager.positionDivisor,
+         packetIn.getY() / ModuleManager.positionDivisor,
+         packetIn.getZ() / ModuleManager.positionDivisor,
          packetIn.getXPValue()
       );
       entityXPOrb.serverPosX = packetIn.getX();
@@ -394,9 +394,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
    @Override
    public void handleSpawnGlobalEntity(S2CPacketSpawnGlobalEntity packetIn) {
       PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-      double d = packetIn.func_149051_d() / ModuleManager.v;
-      double e = packetIn.func_149050_e() / ModuleManager.v;
-      double d2 = packetIn.func_149049_f() / ModuleManager.v;
+      double d = packetIn.func_149051_d() / ModuleManager.positionDivisor;
+      double e = packetIn.func_149050_e() / ModuleManager.positionDivisor;
+      double d2 = packetIn.func_149049_f() / ModuleManager.positionDivisor;
       EntityLightningBolt entityLightningBolt = null;
       if (packetIn.func_149053_g() == 1) {
          entityLightningBolt = new EntityLightningBolt(this.clientWorldController, d, e, d2);
@@ -441,9 +441,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
    @Override
    public void handleSpawnPlayer(S0CPacketSpawnPlayer packetIn) {
       PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-      double d = packetIn.getX() / ModuleManager.v;
-      double e = packetIn.getY() / ModuleManager.v;
-      double d2 = packetIn.getZ() / ModuleManager.v;
+      double d = packetIn.getX() / ModuleManager.positionDivisor;
+      double e = packetIn.getY() / ModuleManager.positionDivisor;
+      double d2 = packetIn.getZ() / ModuleManager.positionDivisor;
       float f = packetIn.getYaw() * 360 / 256.0F;
       float g = packetIn.getPitch() * 360 / 256.0F;
       EntityOtherPlayerMP entityOtherPlayerMP = new EntityOtherPlayerMP(this.gameController.theWorld, this.getPlayerInfo(packetIn.getPlayer()).getGameProfile());
@@ -473,9 +473,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
          entity.serverPosX = packetIn.getX();
          entity.serverPosY = packetIn.getY();
          entity.serverPosZ = packetIn.getZ();
-         double d = entity.serverPosX / ModuleManager.v;
-         double e = entity.serverPosY / ModuleManager.v;
-         double d2 = entity.serverPosZ / ModuleManager.v;
+         double d = entity.serverPosX / ModuleManager.positionDivisor;
+         double e = entity.serverPosY / ModuleManager.positionDivisor;
+         double d2 = entity.serverPosZ / ModuleManager.positionDivisor;
          float f = packetIn.getYaw() * 360 / 256.0F;
          float g = packetIn.getPitch() * 360 / 256.0F;
          if (Math.abs(entity.posX - d) < 0.03125 && Math.abs(entity.posY - e) < 0.015625 && Math.abs(entity.posZ - d2) < 0.03125) {
@@ -504,9 +504,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
          entity.serverPosX = entity.serverPosX + packetIn.func_149062_c();
          entity.serverPosY = entity.serverPosY + packetIn.func_149061_d();
          entity.serverPosZ = entity.serverPosZ + packetIn.func_149064_e();
-         double d = entity.serverPosX / ModuleManager.v;
-         double e = entity.serverPosY / ModuleManager.v;
-         double d2 = entity.serverPosZ / ModuleManager.v;
+         double d = entity.serverPosX / ModuleManager.positionDivisor;
+         double e = entity.serverPosY / ModuleManager.positionDivisor;
+         double d2 = entity.serverPosZ / ModuleManager.positionDivisor;
          float f = packetIn.func_149060_h() ? packetIn.func_149066_f() * 360 / 256.0F : entity.rotationYaw;
          float g = packetIn.func_149060_h() ? packetIn.func_149063_g() * 360 / 256.0F : entity.rotationPitch;
          entity.setPositionAndRotation2(d, e, d2, f, g, 3, false);
@@ -643,7 +643,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
             }
          }
 
-         Astolfo.INSTANCE.getServerManager().x();
+         Astolfo.INSTANCE.getServerManager().updateCurrentServerType();
       }
 
       if (this.guiScreenServer != null) {
@@ -731,9 +731,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
    @Override
    public void handleSpawnMob(S0FPacketSpawnMob packetIn) {
       PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-      double d = packetIn.getX() / ModuleManager.v;
-      double e = packetIn.getY() / ModuleManager.v;
-      double d2 = packetIn.getZ() / ModuleManager.v;
+      double d = packetIn.getX() / ModuleManager.positionDivisor;
+      double e = packetIn.getY() / ModuleManager.positionDivisor;
+      double d2 = packetIn.getZ() / ModuleManager.positionDivisor;
       float f = packetIn.getYaw() * 360 / 256.0F;
       float g = packetIn.getPitch() * 360 / 256.0F;
       EntityLivingBase entityLivingBase = (EntityLivingBase)EntityList.createEntityByID(packetIn.getEntityType(), this.gameController.theWorld);
@@ -1536,7 +1536,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
          }
 
          this.gameController.thePlayer.setClientBrand(packetIn.getBufferData().readStringFromBuffer(32767));
-         Astolfo.INSTANCE.getServerManager().x();
+         Astolfo.INSTANCE.getServerManager().updateCurrentServerType();
       } else if ("MC|BOpen".equals(packetIn.getChannelName())) {
          ItemStack itemStack = this.gameController.thePlayer.getCurrentEquippedItem();
          if (itemStack != null && itemStack.getItem() == Items.written_book) {

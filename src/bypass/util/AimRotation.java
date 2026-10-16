@@ -5,44 +5,44 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 public class AimRotation {
-   private float G;
-   private float c;
-   private boolean f;
+   private float yaw;
+   private float pitch;
+   private boolean gcdFixEnabled;
 
    public AimRotation(float f, float g) {
-      this.G = f;
-      this.c = g;
+      this.yaw = f;
+      this.pitch = g;
    }
 
-   public void U(EntityPlayer entityPlayer) {
-      if (!Float.isNaN(this.G) && !Float.isNaN(this.c)) {
-         if (this.f) {
-            this.n(Minecraft.getMinecraft().gameSettings.Zm);
+   public void applyTo(EntityPlayer entityPlayer) {
+      if (!Float.isNaN(this.yaw) && !Float.isNaN(this.pitch)) {
+         if (this.gcdFixEnabled) {
+            this.applyGcdFix(Minecraft.getMinecraft().gameSettings.Zm);
          }
 
-         float g = MathHelper.wrapAngleTo180_float(this.G - entityPlayer.rotationYaw);
-         this.G = entityPlayer.rotationYaw + g;
-         entityPlayer.rotationYaw = this.G;
-         entityPlayer.rotationPitch = this.c;
+         float f = MathHelper.wrapAngleTo180_float(this.yaw - entityPlayer.rotationYaw);
+         this.yaw = entityPlayer.rotationYaw + f;
+         entityPlayer.rotationYaw = this.yaw;
+         entityPlayer.rotationPitch = this.pitch;
       }
    }
 
-   public void a(boolean bl) {
-      this.f = bl;
+   public void setGcdFixEnabled(boolean bl) {
+      this.gcdFixEnabled = bl;
    }
 
-   public void n(float f) {
+   public void applyGcdFix(float f) {
       float g = f * 0.6F + 0.2F;
       float h = g * g * g * 1.2F;
-      this.G = this.G - this.G % h;
-      this.c = this.c - this.c % h;
+      this.yaw = this.yaw - this.yaw % h;
+      this.pitch = this.pitch - this.pitch % h;
    }
 
-   public float z() {
-      return this.c;
+   public float getPitch() {
+      return this.pitch;
    }
 
-   public float r() {
-      return this.G;
+   public float getYaw() {
+      return this.yaw;
    }
 }

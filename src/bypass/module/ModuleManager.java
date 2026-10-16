@@ -9,36 +9,36 @@ import java.util.ArrayList;
 
 public class ModuleManager extends Manager<ModuleInfo> implements Loadable {
    public final ShapedMap<Class<? extends ModuleInfo>, ModuleInfo> byClass = new ShapedMap<>();
-   public static double v = 1.0;
-   public static int e = 6969;
-   public static Module t;
-   public static Module D;
-   public static Module G;
-   public static Module k;
-   public static Module S;
-   public static Module I;
-   public static Module i;
-   public static Module r;
-   public static Module s;
-   public static Module Z;
-   public static Module X;
-   public static Module B;
-   public static Module Q;
-   public static Module M;
-   public static Module J;
-   public static Module N;
+   public static double positionDivisor = 1.0;
+   public static int modelViewMatrixMode = 6969;
+   public static Module caveFinder;
+   public static Module noSlow;
+   public static Module streamerMode;
+   public static Module camera;
+   public static Module noTitle;
+   public static Module noRender;
+   public static Module scoreboard;
+   public static Module inventory;
+   public static Module xray;
+   public static Module infiniteReach;
+   public static Module noEffect;
+   public static Module antiObsidian;
+   public static Module noMouseIntersect;
+   public static Module worldColor;
+   public static Module itemPhysics;
+   public static Module moreParticles;
 
    @Override
    public void load() {
    }
 
    @Override
-   public void a() {
+   public void save() {
       ConfigFiles.save(ConfigFiles.serializeModules(), Astolfo.INSTANCE.getConfigName());
    }
 
    public ModuleInfo getByName(String string) {
-      for (ModuleInfo moduleInfo : this.C) {
+      for (ModuleInfo moduleInfo : this.items) {
          if (moduleInfo.getName().equalsIgnoreCase(string)) {
             return moduleInfo;
          }
@@ -54,7 +54,7 @@ public class ModuleManager extends Manager<ModuleInfo> implements Loadable {
    public ArrayList<Module> getModules(Category category) {
       ArrayList arrayList = new ArrayList();
 
-      for (ModuleInfo moduleInfo : this.C) {
+      for (ModuleInfo moduleInfo : this.items) {
          if (moduleInfo instanceof Module && moduleInfo.getCategory() == category) {
             arrayList.add((Module)moduleInfo);
          }
@@ -63,12 +63,12 @@ public class ModuleManager extends Manager<ModuleInfo> implements Loadable {
       return arrayList;
    }
 
-   public static void C(double d) {
-      v = d;
+   public static void setPositionDivisor(double d) {
+      positionDivisor = d;
    }
 
-   public static void k(int j) {
-      e = j;
+   public static void setModelViewMatrixMode(int i) {
+      modelViewMatrixMode = i;
    }
 
    public <T extends ModuleInfo> T get(Class<T> class2) {

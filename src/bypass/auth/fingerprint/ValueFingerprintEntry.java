@@ -4,39 +4,39 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ValueFingerprintEntry<T> implements FingerprintEntry<T> {
-   private Supplier<T> H;
-   public String E;
-   public T l;
+   private Supplier<T> supplier;
+   public String name;
+   public T value;
 
    public ValueFingerprintEntry(String string, T object) {
-      this.E = string;
-      this.l = (T)object;
+      this.name = string;
+      this.value = (T)object;
    }
 
    public ValueFingerprintEntry(String string, Supplier<T> supplier) {
       this(string, (T)supplier.get());
-      this.H = supplier;
+      this.supplier = supplier;
    }
 
    @Override
-   public String c() {
-      return this.E;
+   public String getName() {
+      return this.name;
    }
 
    @Override
-   public int o() {
-      return Objects.hash(this.E, this.l);
+   public int getHash() {
+      return Objects.hash(this.name, this.value);
    }
 
    @Override
-   public T z() {
-      return this.l;
+   public T getValue() {
+      return this.value;
    }
 
    @Override
-   public void A() {
-      if (this.H != null) {
-         this.l = this.H.get();
+   public void refresh() {
+      if (this.supplier != null) {
+         this.value = this.supplier.get();
       }
    }
 }

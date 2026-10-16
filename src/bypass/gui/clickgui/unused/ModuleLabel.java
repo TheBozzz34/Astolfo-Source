@@ -5,19 +5,19 @@ import bypass.module.Module;
 import java.awt.Color;
 
 public class ModuleLabel extends Container {
-   private Module f;
+   private Module module;
 
    public ModuleLabel(Module module, int i, int j, int k, int l) {
       super(module.getName(), i, j, k, l);
-      this.f = module;
+      this.module = module;
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
    }
 
    @Override
    public void render(int i, int j) {
-      client.getCustomFontRenderer().drawString(this.f.getName(), this.M(), this.E_float(), new Color(97, 95, 97).getRGB());
+      client.getCustomFontRenderer().drawString(this.module.getName(), this.getX(), this.getYPos(), new Color(97, 95, 97).getRGB());
    }
 }

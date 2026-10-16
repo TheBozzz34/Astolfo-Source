@@ -4,14 +4,14 @@ import bypass.loader.LoadStage;
 import bypass.util.container.ListContainerOwner;
 
 public class LoadStageListFactory {
-   private final ListContainerOwner<LoadStage> q;
+   private final ListContainerOwner<LoadStage> stageContainer;
 
    public LoadStageListFactory() {
       LoadStagesList loadStagesList = new LoadStagesList();
-      this.q = new ListContainerOwner<>(loadStagesList.p());
+      this.stageContainer = new ListContainerOwner<>(loadStagesList.getStages());
    }
 
-   public ListContainerOwner<LoadStage> e() {
-      return this.q;
+   public ListContainerOwner<LoadStage> getStageContainer() {
+      return this.stageContainer;
    }
 }

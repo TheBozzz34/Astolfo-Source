@@ -14,7 +14,7 @@ public final class Inventory extends VarArgFunction {
    @Override
    public Varargs invoke(Varargs varargs) {
       if (varargs.arg1() != null && !varargs.arg1().isnil() && varargs.arg1().isnumber()) {
-         Entity entity = WorldLibrary.X.get(varargs.arg1().checkint());
+         Entity entity = WorldLibrary.entitiesById.get(varargs.arg1().checkint());
          if (entity != null && entity instanceof EntityLivingBase) {
             EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
             LuaTable luaTable = new LuaTable();

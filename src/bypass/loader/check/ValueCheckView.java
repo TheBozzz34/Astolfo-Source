@@ -1,9 +1,9 @@
 package bypass.loader.check;
 
 public interface ValueCheckView {
-   int C();
+   int computeValue();
 
-   ValueType o();
+   ValueType getType();
 
-   CheckResult L();
+   CheckResult evaluate();
 }

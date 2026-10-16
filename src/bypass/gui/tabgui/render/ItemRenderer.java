@@ -5,27 +5,30 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class ItemRenderer implements ElementRenderer<TabGuiItem> {
-   public void x(TabGuiItem tabGuiItem, ScaledResolution scaledResolution, Minecraft minecraft) {
-      float f = (tabGuiItem.s().isSelected(tabGuiItem) ? 8 : 2) - tabGuiItem.k;
-      tabGuiItem.k += f / 9.5F;
+   public void update(TabGuiItem tabGuiItem, ScaledResolution scaledResolution, Minecraft minecraft) {
+      float f = (tabGuiItem.getPanel().isSelected(tabGuiItem) ? 8 : 2) - tabGuiItem.slideOffset;
+      tabGuiItem.slideOffset += f / 9.5F;
    }
 
-   public void a(TabGuiItem tabGuiItem, ScaledResolution scaledResolution, Minecraft minecraft) {
-      tabGuiItem.s()
+   public void render(TabGuiItem tabGuiItem, ScaledResolution scaledResolution, Minecraft minecraft) {
+      tabGuiItem.getPanel()
          .getTabGui()
-         .p()
-         .O()
+         .getRendererSet()
+         .getFontRenderer()
          .drawStringWithShadow(
-            tabGuiItem.L(),
-            tabGuiItem.s().getTabGui().J() + tabGuiItem.s().F() + tabGuiItem.k,
-            tabGuiItem.s().getTabGui().Q() + tabGuiItem.s().getItems().indexOf(tabGuiItem) * tabGuiItem.s().getTabGui().p().O().getStringHeight(tabGuiItem.L()),
+            tabGuiItem.getDisplayText(),
+            tabGuiItem.getPanel().getTabGui().getX() + tabGuiItem.getPanel().getOffsetX() + tabGuiItem.slideOffset,
+            tabGuiItem.getPanel().getTabGui().getY()
+               + tabGuiItem.getPanel().getItems().indexOf(tabGuiItem)
+                  * tabGuiItem.getPanel().getTabGui().getRendererSet().getFontRenderer().getStringHeight(tabGuiItem.getDisplayText()),
             16777215
          );
    }
 
-   public float[] H(TabGuiItem tabGuiItem) {
+   public float[] computeSize(TabGuiItem tabGuiItem) {
       return new float[]{
-         tabGuiItem.s().getTabGui().p().O().getStringWidth(tabGuiItem.L()) + 15, tabGuiItem.s().getTabGui().p().O().getStringHeight(tabGuiItem.L())
+         tabGuiItem.getPanel().getTabGui().getRendererSet().getFontRenderer().getStringWidth(tabGuiItem.getDisplayText()) + 15,
+         tabGuiItem.getPanel().getTabGui().getRendererSet().getFontRenderer().getStringHeight(tabGuiItem.getDisplayText())
       };
    }
 }

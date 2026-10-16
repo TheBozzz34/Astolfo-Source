@@ -13,17 +13,17 @@ public final class Rect extends VarArgFunction {
       double d2 = 0.0;
       double d3 = 0.0;
       int i = 0;
+      int j = 0;
       int k = 0;
       int l = 0;
-      int m = 0;
-      int n = 1;
+      int m = 1;
       if (varargs.narg() < 8) {
          return valueOf(false);
       }
 
-      for (int i2 = varargs.narg(); n <= i2; n++) {
-         LuaValue luaValue = varargs.checkvalue(n);
-         switch (n) {
+      for (int n = varargs.narg(); m <= n; m++) {
+         LuaValue luaValue = varargs.checkvalue(m);
+         switch (m) {
             case 1:
                if (luaValue.isnumber()) {
                   d = luaValue.todouble();
@@ -51,22 +51,22 @@ public final class Rect extends VarArgFunction {
                break;
             case 6:
                if (luaValue.isnumber()) {
-                  k = luaValue.toint();
+                  j = luaValue.toint();
                }
                break;
             case 7:
                if (luaValue.isnumber()) {
-                  l = luaValue.toint();
+                  k = luaValue.toint();
                }
                break;
             case 8:
                if (luaValue.isnumber()) {
-                  m = luaValue.toint();
+                  l = luaValue.toint();
                }
          }
       }
 
-      RenderUtil.j(d, e, d2, d3, i, k, l, m);
+      RenderUtil.drawRectRgba(d, e, d2, d3, i, j, k, l);
       return valueOf(true);
    }
 }

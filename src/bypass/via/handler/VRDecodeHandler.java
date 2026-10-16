@@ -10,28 +10,28 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import java.util.List;
 
 public class VRDecodeHandler extends MessageToMessageDecoder<ByteBuf> {
-   private final UserConnection K;
+   private final UserConnection userConnection;
 
    public VRDecodeHandler(UserConnection userConnection) {
-      this.K = userConnection;
+      this.userConnection = userConnection;
    }
 
-   public UserConnection I() {
-      return this.K;
+   public UserConnection getUserConnection() {
+      return this.userConnection;
    }
 
    public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-      if (!this.K.checkIncomingPacket()) {
+      if (!this.userConnection.checkIncomingPacket()) {
          throw CancelDecoderException.generate(null);
       }
 
-      if (!this.K.shouldTransformPacket()) {
+      if (!this.userConnection.shouldTransformPacket()) {
          list.add(byteBuf.retain());
       } else {
          ByteBuf byteBuf2 = channelHandlerContext.alloc().buffer().writeBytes(byteBuf);
 
          try {
-            this.K.transformIncoming(byteBuf2, CancelDecoderException::generate);
+            this.userConnection.transformIncoming(byteBuf2, CancelDecoderException::generate);
             list.add(byteBuf2.retain());
          } finally {
             byteBuf2.release();

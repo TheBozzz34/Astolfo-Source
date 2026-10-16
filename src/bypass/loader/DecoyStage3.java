@@ -4,7 +4,7 @@ import bypass.loader.check.FileHashCheckSetup;
 import net.minecraft.block.Block;
 
 public final class DecoyStage3 extends AbstractLoadStage {
-   private final FileHashCheckSetup Q = new FileHashCheckSetup();
+   private final FileHashCheckSetup fileHashCheckSetup = new FileHashCheckSetup();
 
    @Override
    public StageAction getAction() {
@@ -26,8 +26,8 @@ public final class DecoyStage3 extends AbstractLoadStage {
       return this.state;
    }
 
-   public static FileHashCheckSetup N(DecoyStage3 decoyStage3) {
-      return decoyStage3.Q;
+   public static FileHashCheckSetup accessFileHashCheckSetup(DecoyStage3 decoyStage3) {
+      return decoyStage3.fileHashCheckSetup;
    }
 
    public class azx extends StageAction {
@@ -46,7 +46,7 @@ public final class DecoyStage3 extends AbstractLoadStage {
       }
 
       public Block get() {
-         return (Block)DecoyStage3.N(DecoyStage3.this).c().T().value;
+         return (Block)DecoyStage3.accessFileHashCheckSetup(DecoyStage3.this).getFileHashCheck().checkFileHash().value;
       }
    }
 }

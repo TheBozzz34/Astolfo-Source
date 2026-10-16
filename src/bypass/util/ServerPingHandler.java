@@ -13,25 +13,25 @@ import net.minecraft.util.IChatComponent;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class ServerPingHandler implements INetHandlerStatusClient {
-   private boolean z;
-   public final ServerPingData U;
-   public final NetworkManager x;
-   public final String u;
-   public final ServerPinger Q;
+   private boolean receivedInfo;
+   public final ServerPingData pingData;
+   public final NetworkManager networkManager;
+   public final String serverAddress;
+   public final ServerPinger pinger;
 
    public ServerPingHandler(ServerPinger serverPinger, ServerPingData serverPingData, NetworkManager networkManager, String string) {
-      this.Q = serverPinger;
-      this.U = serverPingData;
-      this.x = networkManager;
-      this.u = string;
-      this.z = false;
+      this.pinger = serverPinger;
+      this.pingData = serverPingData;
+      this.networkManager = networkManager;
+      this.serverAddress = string;
+      this.receivedInfo = false;
    }
 
    @Override
    public void handleServerInfo(S00PacketServerInfo packetIn) {
       ServerStatusResponse serverStatusResponse = packetIn.getResponse();
       if (serverStatusResponse.getPlayerCountData() != null) {
-         this.U.N = String.valueOf(serverStatusResponse.getPlayerCountData().getOnlinePlayerCount());
+         this.pingData.playerCount = String.valueOf(serverStatusResponse.getPlayerCountData().getOnlinePlayerCount());
          if (ArrayUtils.isNotEmpty(serverStatusResponse.getPlayerCountData().getPlayers())) {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -53,25 +53,25 @@ public class ServerPingHandler implements INetHandlerStatusClient {
                   .append(" more ...");
             }
 
-            this.U.u = stringBuilder.toString();
+            this.pingData.playerList = stringBuilder.toString();
          }
       } else {
-         this.U.u = "";
+         this.pingData.playerList = "";
       }
 
-      this.x.sendPacket(new C01PacketPing(Realms.currentTimeMillis()));
-      this.z = true;
+      this.networkManager.sendPacket(new C01PacketPing(Realms.currentTimeMillis()));
+      this.receivedInfo = true;
    }
 
    @Override
    public void handlePong(S01PacketPong packetIn) {
-      this.x.closeChannel(new ChatComponentText("Finished"));
+      this.networkManager.closeChannel(new ChatComponentText("Finished"));
    }
 
    @Override
    public void onDisconnect(IChatComponent reason) {
-      if (!this.z) {
-         ServerPinger.P().error("Can't ping " + this.u + ": " + reason.getUnformattedText());
+      if (!this.receivedInfo) {
+         ServerPinger.getLogger().error("Can't ping " + this.serverAddress + ": " + reason.getUnformattedText());
       }
    }
 }

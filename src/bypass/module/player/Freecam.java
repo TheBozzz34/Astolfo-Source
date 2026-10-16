@@ -30,7 +30,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public final class Freecam extends Module {
-   private Entity z;
+   private Entity viewedEntity;
    public static final BooleanSetting view = new BooleanSetting("View", "Let's you spectate other players", true);
    private final BooleanSetting staticFlight = new BooleanSetting("Static-Flight", "Doesnt use the ingame minecraft flying", false);
    @EventHandler(WorldLoadEvent.class)
@@ -53,8 +53,8 @@ public final class Freecam extends Module {
    };
    @EventHandler(TeleportEvent.class)
    private Listener<TeleportEvent> onTeleport = teleportEvent -> {
-      if (teleportEvent.y()) {
-         teleportEvent.b(mc.theWorld.getEntityByID(-1337));
+      if (teleportEvent.isLagback()) {
+         teleportEvent.applyToEntity(mc.theWorld.getEntityByID(-1337));
          teleportEvent.cancel();
       }
    };
@@ -87,7 +87,7 @@ public final class Freecam extends Module {
          GL11.glColor4f(1.0F, 1.0F, 1.0F, (mc.thePlayer.getDistanceToEntity(renderModelEvent.getEntity()) - 0.2F) / 2.0F);
       }
 
-      if (renderModelEvent.getEntity() == this.z) {
+      if (renderModelEvent.getEntity() == this.viewedEntity) {
          renderModelEvent.cancel();
       }
    };
@@ -99,7 +99,7 @@ public final class Freecam extends Module {
          } else {
             Entity entity = mc.objectMouseOver.entityHit;
             if (entity instanceof EntityPlayer) {
-               this.z = entity;
+               this.viewedEntity = entity;
                view.set(true);
             }
          }
@@ -112,14 +112,14 @@ public final class Freecam extends Module {
    @EventHandler(SetupTerrainEvent.class)
    private Listener<SetupTerrainEvent> onSetupTerrain = setupTerrainEvent -> {
       setupTerrainEvent.cancel();
-      if (view.getValue() && this.z != null) {
+      if (view.getValue() && this.viewedEntity != null) {
          if (Mouse.isButtonDown(0)) {
-            mc.thePlayer.setPosition(this.z.posX, this.z.posY, this.z.posZ);
-            this.z.rotationYaw = mc.thePlayer.rotationYaw;
-            this.z.rotationPitch = mc.thePlayer.rotationPitch;
-            this.z.setRotationYawHead(mc.thePlayer.getRotationYawHead());
+            mc.thePlayer.setPosition(this.viewedEntity.posX, this.viewedEntity.posY, this.viewedEntity.posZ);
+            this.viewedEntity.rotationYaw = mc.thePlayer.rotationYaw;
+            this.viewedEntity.rotationPitch = mc.thePlayer.rotationPitch;
+            this.viewedEntity.setRotationYawHead(mc.thePlayer.getRotationYawHead());
          } else {
-            mc.thePlayer.z(this.z);
+            mc.thePlayer.z(this.viewedEntity);
          }
       }
    };
@@ -134,7 +134,7 @@ public final class Freecam extends Module {
    @Override
    public void onEnable() {
       if (mc.thePlayer != null) {
-         this.f(-1337);
+         this.spawnFakePlayer(-1337);
          mc.thePlayer.onGround = false;
          mc.thePlayer.motionY = 0.2;
       }
@@ -158,7 +158,7 @@ public final class Freecam extends Module {
       super.onDisable();
    }
 
-   private EntityOtherPlayerMP f(int i) {
+   private EntityOtherPlayerMP spawnFakePlayer(int i) {
       if (mc.theWorld == null) {
          return null;
       }

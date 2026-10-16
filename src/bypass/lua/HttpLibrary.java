@@ -18,27 +18,27 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public class HttpLibrary extends TwoArgFunction implements ClientAccess {
-   public Globals Z;
-   public static final ExecutorService R = Executors.newFixedThreadPool(25);
-   public static final OneArgFunction S = new Get();
-   public static final OneArgFunction w = new Post();
-   public static final TwoArgFunction e = new PostAsync();
-   public static final TwoArgFunction B = new GetAsync();
-   private final OneArgFunction L = new HttpLibrary.z8();
+   public Globals globals;
+   public static final ExecutorService asyncExecutor = Executors.newFixedThreadPool(25);
+   public static final OneArgFunction getFunction = new Get();
+   public static final OneArgFunction postFunction = new Post();
+   public static final TwoArgFunction postAsyncFunction = new PostAsync();
+   public static final TwoArgFunction getAsyncFunction = new GetAsync();
+   private final OneArgFunction loadFunction = new HttpLibrary.z8();
 
    public HttpLibrary(Globals globals) {
-      this.Z = globals;
+      this.globals = globals;
    }
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
-      this.Z = luaValue2.checkglobals();
+      this.globals = luaValue2.checkglobals();
       LuaTable luaTable = LuaValue.tableOf();
-      luaTable.set("get", S);
-      luaTable.set("get_async", B);
-      luaTable.set("post", w);
-      luaTable.set("post_async", e);
-      luaTable.set("load", this.L);
+      luaTable.set("get", getFunction);
+      luaTable.set("get_async", getAsyncFunction);
+      luaTable.set("post", postFunction);
+      luaTable.set("post_async", postAsyncFunction);
+      luaTable.set("load", this.loadFunction);
       luaValue2.set("http", luaTable);
       return luaTable;
    }
@@ -46,7 +46,7 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
    public class z8 extends OneArgFunction {
       @Override
       public LuaValue call(LuaValue luaValue) {
-         if (!ScriptManager.N.t()) {
+         if (!ScriptManager.unsafeFunctions.isEnabled()) {
             return valueOf(false);
          }
 
@@ -54,14 +54,14 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
             return valueOf(false);
          }
 
-         HttpRequest httpRequest = new HttpRequest().g(luaValue.checkjstring());
-         httpRequest.W("Astolfo-User");
-         httpRequest.V(AuthUtil.getHwid());
-         httpRequest.T("Astolfo-Client");
-         httpRequest.i("");
-         httpRequest.S("");
+         HttpRequest httpRequest = new HttpRequest().setUrl(luaValue.checkjstring());
+         httpRequest.setHeaderKeys("Astolfo-User");
+         httpRequest.setHeaderValues(AuthUtil.getHwid());
+         httpRequest.setUserAgent("Astolfo-Client");
+         httpRequest.setAccept("");
+         httpRequest.setContentType("");
          String string = HttpUtil.get(httpRequest);
-         LuaValue luaValue2 = HttpLibrary.this.Z.load(string, "", HttpLibrary.this.Z);
+         LuaValue luaValue2 = HttpLibrary.this.globals.load(string, "", HttpLibrary.this.globals);
          luaValue2.call();
          return luaValue2;
       }

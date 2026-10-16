@@ -75,10 +75,10 @@ public class Aimbot extends Module {
                break;
             }
 
-            if (!BotDetector.w.contains(entityLivingBase) && (!client.getRelationManager().z(entity) || this.entities.getSetting("Friends").asBoolean())) {
-               AstolfoUser astolfoUser = client.getUserManager().g(entity.getName());
-               if ((astolfoUser == null || astolfoUser.K != AstolfoUserStatus.C) && this.isValidTarget(entityLivingBase) && this.canHit(entityLivingBase)) {
-                  ClientChat.CHAT.I(String.valueOf(entityLivingBase));
+            if (!BotDetector.bots.contains(entityLivingBase) && (!client.getRelationManager().isFriend(entity) || this.entities.getSetting("Friends").asBoolean())) {
+               AstolfoUser astolfoUser = client.getUserManager().getUser(entity.getName());
+               if ((astolfoUser == null || astolfoUser.status != AstolfoUserStatus.C) && this.isValidTarget(entityLivingBase) && this.canHit(entityLivingBase)) {
+                  ClientChat.CHAT.print(String.valueOf(entityLivingBase));
                   arrayList.add(entityLivingBase);
                }
             }
@@ -102,21 +102,21 @@ public class Aimbot extends Module {
       }
 
       if ((!GameUtil.isDead(entityLivingBase) || Double.isNaN(entityLivingBase.getHealth()))
-         && (!GameUtil.S(entityLivingBase) || this.entities.getSetting("Invisibles").asBoolean())) {
+         && (!GameUtil.isFullyInvisible(entityLivingBase) || this.entities.getSetting("Invisibles").asBoolean())) {
          if (entityLivingBase instanceof EntityPlayer && this.entities.getSetting("Players").asBoolean()) {
             EntityPlayer entityPlayer = (EntityPlayer)entityLivingBase;
-            if (GameUtil.O(mc.thePlayer, entityPlayer) && this.entities.getSetting("Teams").asBoolean()) {
+            if (GameUtil.isOnSameTeam(mc.thePlayer, entityPlayer) && this.entities.getSetting("Teams").asBoolean()) {
                return false;
             } else if (((AbstractClientPlayer)entityPlayer).getPlayerInfo() != null
                && ((AbstractClientPlayer)entityPlayer).getPlayerInfo().getGameType() == WorldSettings.GameType.CREATIVE) {
                return false;
             } else {
-               return !this.entities.getSetting("Astolfo-Users").asBoolean() && client.getUserManager().g(entityLivingBase.getName()) != null
+               return !this.entities.getSetting("Astolfo-Users").asBoolean() && client.getUserManager().getUser(entityLivingBase.getName()) != null
                   ? false
                   : !entityPlayer.isPlayerSleeping() && entityPlayer.getEntityId() < 1000000000 && entityPlayer.getEntityId() > -1;
             }
          } else {
-            if (GameUtil.isBoss(entityLivingBase) && GameUtil.O(mc.thePlayer, entityLivingBase) && this.entities.getSetting("Teams").asBoolean()) {
+            if (GameUtil.isBoss(entityLivingBase) && GameUtil.isOnSameTeam(mc.thePlayer, entityLivingBase) && this.entities.getSetting("Teams").asBoolean()) {
                return false;
             }
 
@@ -149,7 +149,7 @@ public class Aimbot extends Module {
 
       mc.thePlayer.rotationYaw = floats[0];
       mc.thePlayer.rotationPitch = floats[1];
-      chat.I(String.format("y: %s p: %s", floats[0], floats[1]));
+      chat.print(String.format("y: %s p: %s", floats[0], floats[1]));
       double d3 = d - MathHelper.cos(floats[0] / 180.0F * (float) Math.PI) * 0.16F;
       double d4 = e + mc.thePlayer.getEyeHeight() - 0.1000000014901161;
       double d5 = d2 - MathHelper.sin(floats[0] / 180.0F * (float) Math.PI) * 0.16F;
@@ -189,7 +189,7 @@ public class Aimbot extends Module {
 
       if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
          double d9 = this.distance(doubles[0], doubles[1], doubles[2], movingObjectPosition.getBlockPos().getX(), movingObjectPosition.getBlockPos().getY(), movingObjectPosition.getBlockPos().getZ());
-         ClientChat.CHAT.I(String.valueOf(d9));
+         ClientChat.CHAT.print(String.valueOf(d9));
          if (d9 < 5.0) {
             return true;
          }

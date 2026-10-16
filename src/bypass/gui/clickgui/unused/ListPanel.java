@@ -6,56 +6,58 @@ import bypass.render.RenderUtil;
 import java.awt.Color;
 
 public class ListPanel extends Container {
-   private static final Color s = new Color(34, 33, 32);
-   private static final Color Z = new Color(26, 26, 26);
-   private ListItem w;
+   private static final Color backgroundColor = new Color(34, 33, 32);
+   private static final Color borderColor = new Color(26, 26, 26);
+   private ListItem selectedItem;
 
    public ListPanel(String string, int i, int j, int k, int l) {
       super(string, i, j, k, l);
-      this.F(true);
+      this.setDraggable(true);
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
       if (i == 1) {
-         this.u(!this.s_boolean());
-         if (this.s_boolean()) {
-            this.U.backwards().rewind().start();
+         this.setExpanded(!this.isExpanded());
+         if (this.isExpanded()) {
+            this.expandAnimation.backwards().rewind().start();
          } else {
-            this.U.forwards().rewind().start();
+            this.expandAnimation.forwards().rewind().start();
          }
       }
    }
 
    @Override
    public void render(int i, int j) {
-      int k = this.W() + 4;
-      RenderUtil.drawRect(this.M() - 1.5F, this.E_float(), this.M() + this.x() + 1.5F, this.E_float() + this.Y() + k + 3.5F, Z.getRGB());
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + k + 2.0F, s.getRGB());
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + 6.0F, Z.getRGB());
-      client.getCustomFontRenderer().drawStringWithShadow("Config", this.M() + 3.0F, this.E_float() + 2.0F, Color.WHITE.getRGB());
-      if (this.s_boolean() || this.U.isRunning()) {
+      int k = this.getItemsHeight() + 4;
+      RenderUtil.drawRect(
+         this.getX() - 1.5F, this.getYPos(), this.getX() + this.getWidth() + 1.5F, this.getYPos() + this.getHeight() + k + 3.5F, borderColor.getRGB()
+      );
+      RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight() + k + 2.0F, backgroundColor.getRGB());
+      RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight() + 6.0F, borderColor.getRGB());
+      client.getCustomFontRenderer().drawStringWithShadow("Config", this.getX() + 3.0F, this.getYPos() + 2.0F, Color.WHITE.getRGB());
+      if (this.isExpanded() || this.expandAnimation.isRunning()) {
          int l = 0;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof ListItem) {
                ListItem listItem = (ListItem)element;
-               listItem.r(this.M(), this.E_float() + l + 15.0F);
-               if (this.s_boolean()) {
+               listItem.setPosition(this.getX(), this.getYPos() + l + 15.0F);
+               if (this.isExpanded()) {
                   listItem.render(i, j);
                }
 
                l += 15;
-               l = (int)(l - this.U.getValue(0.0, l));
+               l = (int)(l - this.expandAnimation.getValue(0.0, l));
             }
          }
       }
    }
 
-   private int W() {
+   private int getItemsHeight() {
       byte b = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             b += 15;
          }
       }
@@ -63,11 +65,11 @@ public class ListPanel extends Container {
       return b;
    }
 
-   public ListItem Z() {
-      return this.w;
+   public ListItem getSelectedItem() {
+      return this.selectedItem;
    }
 
-   public void c(ListItem listItem) {
-      this.w = listItem;
+   public void setSelectedItem(ListItem listItem) {
+      this.selectedItem = listItem;
    }
 }

@@ -6,7 +6,7 @@ public enum ColorMode {
    PULSATE(2);
 
    public final int index;
-   private static final ColorMode[] I = new ColorMode[]{NONE, RAINBOW, PULSATE};
+   private static final ColorMode[] VALUES = new ColorMode[]{NONE, RAINBOW, PULSATE};
 
    ColorMode(int j) {
       this.index = j;

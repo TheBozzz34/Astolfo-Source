@@ -29,11 +29,11 @@ public final class CaveFinder extends Module {
       super.onDisable();
    }
 
-   public static void j() {
+   public static void cullFrontFaces() {
       GL11.glCullFace(1028);
    }
 
-   public static void B() {
+   public static void cullBackFaces() {
       GL11.glCullFace(1029);
    }
 }

@@ -117,7 +117,7 @@ public final class RegisterNumber3 extends VarArgFunction {
 
       if (string != null && string2 != null && number != null && number2 != null && number3 != null) {
          NumberSetting numberSetting = new NumberSetting<>(string2, "script option", number3, number, number2);
-         LuaApi.f.put(string2, numberSetting);
+         LuaApi.settingsByName.put(string2, numberSetting);
          ClientAccess.client.getModuleManager().getModule(string).addSettings(numberSetting);
          return ModuleManagerLibrary2.varargsOf(new LuaValue[]{valueOf(true)});
       } else {

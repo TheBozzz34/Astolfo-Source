@@ -5,5 +5,5 @@ public enum ESPHealthBarColorMode {
    GRADIENT,
    CUSTOM;
 
-   private static final ESPHealthBarColorMode[] H = new ESPHealthBarColorMode[]{NORMAL, GRADIENT, CUSTOM};
+   private static final ESPHealthBarColorMode[] VALUES = new ESPHealthBarColorMode[]{NORMAL, GRADIENT, CUSTOM};
 }

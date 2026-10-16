@@ -89,9 +89,9 @@ public class GuiIngestServers extends GuiScreen {
       this.field_152311_g = new GuiIngestServers.ServerList();
       this.field_152311_g.U(7, 8);
       this.u();
-      if (AltManager.o > 0) {
-         Toasts.TOASTS.G("Accounts unbanned", AltManager.o + " accounts have been unbanned", 10000);
-         AltManager.o = 0;
+      if (AltManager.unbannedCount > 0) {
+         Toasts.TOASTS.infoTimed("Accounts unbanned", AltManager.unbannedCount + " accounts have been unbanned", 10000);
+         AltManager.unbannedCount = 0;
       }
    }
 
@@ -107,7 +107,7 @@ public class GuiIngestServers extends GuiScreen {
       this.R.clear();
 
       for (Alt alt : Astolfo.INSTANCE.getAltManager().getList()) {
-         if (alt.o.toLowerCase().contains(this.q != null ? this.q.getText().toLowerCase() : "")) {
+         if (alt.displayName.toLowerCase().contains(this.q != null ? this.q.getText().toLowerCase() : "")) {
             this.R.add(alt);
          }
       }
@@ -118,8 +118,8 @@ public class GuiIngestServers extends GuiScreen {
             break;
          case 1:
             this.R.sort((alt2, alt3) -> {
-               int i = !alt2.N ? (!alt2.I ? 2 : 1) : 0;
-               int j = !alt3.N ? (!alt3.I ? 2 : 1) : 0;
+               int i = !alt2.banned ? (!alt2.failedLogin ? 2 : 1) : 0;
+               int j = !alt3.banned ? (!alt3.failedLogin ? 2 : 1) : 0;
                return j - i;
             });
             this.a.displayString = "Sorting unbanned";
@@ -136,7 +136,7 @@ public class GuiIngestServers extends GuiScreen {
    public void actionPerformed(GuiButton button) {
       switch (button.id) {
          case 0:
-            AltLogin.AUTH.A(this.m);
+            AltLogin.AUTH.loginAlt(this.m);
             break;
          case 1:
             this.mc.displayGuiScreen(new AddAltScreen(this));
@@ -156,14 +156,14 @@ public class GuiIngestServers extends GuiScreen {
          case 5:
             File file = FileUtil.chooseFile(Astolfo.INSTANCE.getDirectory().getParentFile());
             if (file != null) {
-               Astolfo.INSTANCE.getAltManager().r(file);
+               Astolfo.INSTANCE.getAltManager().importFromFile(file);
             }
 
             this.u();
             break;
          case 6:
             if (this.R.size() > 0) {
-               AltLogin.AUTH.A(this.m = this.R.get(RandomUtils.RANDOM.nextInt(this.R.size())));
+               AltLogin.AUTH.loginAlt(this.m = this.R.get(RandomUtils.RANDOM.nextInt(this.R.size())));
                this.t();
             }
             break;
@@ -176,45 +176,45 @@ public class GuiIngestServers extends GuiScreen {
          case 10:
             switch (y) {
                case 0:
-                  int i = Astolfo.INSTANCE.getAltManager().N();
+                  int i = Astolfo.INSTANCE.getAltManager().removeDuplicates();
                   if (i > 0) {
-                     Toasts.TOASTS.D(i + " duplicates removed");
+                     Toasts.TOASTS.info(i + " duplicates removed");
                   } else {
-                     Toasts.TOASTS.m("No duplicates found");
+                     Toasts.TOASTS.warning("No duplicates found");
                   }
                   break;
                case 1:
                case 2:
                   int j = Astolfo.INSTANCE.getAltManager().removeBanned(y == 2);
                   if (j > 0) {
-                     Toasts.TOASTS.D(j + " banned accounts removed");
+                     Toasts.TOASTS.info(j + " banned accounts removed");
                   } else {
-                     Toasts.TOASTS.m("No banned accounts found");
+                     Toasts.TOASTS.warning("No banned accounts found");
                   }
                   break;
                case 3:
                   int k = Astolfo.INSTANCE.getAltManager().removeFailedLogins();
                   if (k > 0) {
-                     Toasts.TOASTS.D(k + " failed login accounts removed");
+                     Toasts.TOASTS.info(k + " failed login accounts removed");
                   } else {
-                     Toasts.TOASTS.m("No failed login accounts found");
+                     Toasts.TOASTS.warning("No failed login accounts found");
                   }
                   break;
                case 4:
                   int l = Astolfo.INSTANCE.getAltManager().getList().size();
                   Astolfo.INSTANCE.getAltManager().getList().clear();
                   if (l > 0) {
-                     Toasts.TOASTS.D(l + " accounts have been removed");
+                     Toasts.TOASTS.info(l + " accounts have been removed");
                   } else {
-                     Toasts.TOASTS.m("No accounts have been removed");
+                     Toasts.TOASTS.warning("No accounts have been removed");
                   }
                   break;
                case 5:
                   int n = Astolfo.INSTANCE.getAltManager().removeMojang();
                   if (n > 0) {
-                     Toasts.TOASTS.D(n + " Mojang accounts removed");
+                     Toasts.TOASTS.info(n + " Mojang accounts removed");
                   } else {
-                     Toasts.TOASTS.m("No Mojang accounts found");
+                     Toasts.TOASTS.warning("No Mojang accounts found");
                   }
             }
 
@@ -277,7 +277,7 @@ public class GuiIngestServers extends GuiScreen {
       }
 
       if (mouseButton == 2 && this.m != null) {
-         this.m.Y = !this.m.Y;
+         this.m.favorite = !this.m.favorite;
       }
 
       super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -289,9 +289,9 @@ public class GuiIngestServers extends GuiScreen {
       if (this.q.isFocused()) {
          this.q.textboxKeyTyped(typedChar, keyCode);
       } else if (GuiScreen.isKeyComboCtrlV(keyCode)) {
-         Astolfo.INSTANCE.getAltManager().O();
+         Astolfo.INSTANCE.getAltManager().importFromClipboard();
       } else if (GuiScreen.isKeyComboCtrlC(keyCode) && this.m != null) {
-         GuiScreen.setClipboardString(this.m.j + ":" + this.m.z);
+         GuiScreen.setClipboardString(this.m.username + ":" + this.m.password);
       }
 
       this.u();
@@ -396,7 +396,7 @@ public class GuiIngestServers extends GuiScreen {
          GuiIngestServers.this.m = GuiIngestServers.this.R.get(slotIndex);
          GuiIngestServers.this.t();
          if (isDoubleClick) {
-            AltLogin.AUTH.A(GuiIngestServers.this.m);
+            AltLogin.AUTH.loginAlt(GuiIngestServers.this.m);
          }
       }
 
@@ -414,34 +414,36 @@ public class GuiIngestServers extends GuiScreen {
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          if (j <= GuiIngestServers.this.height && j >= 0) {
             Alt alt = GuiIngestServers.this.R.get(entryID);
-            GuiIngestServers.this.I(this.mc.fontRendererObj, alt.o, i + 40, j + 5, -1);
-            GuiIngestServers.this.I(this.mc.fontRendererObj, this.Y(alt.z), i + 41, j + 15, -6513508);
-            RenderUtil.setColor(alt.V_boolean() ? (alt.I ? Color.YELLOW.getRGB() : Color.GREEN.getRGB()) : Color.GRAY.getRGB());
-            if (alt.F) {
+            GuiIngestServers.this.I(this.mc.fontRendererObj, alt.displayName, i + 40, j + 5, -1);
+            GuiIngestServers.this.I(this.mc.fontRendererObj, this.Y(alt.password), i + 41, j + 15, -6513508);
+            RenderUtil.setColor(alt.V_boolean() ? (alt.failedLogin ? Color.YELLOW.getRGB() : Color.GREEN.getRGB()) : Color.GRAY.getRGB());
+            if (alt.microsoft) {
                RenderUtil.setColor(Color.WHITE.getRGB());
             }
 
             this.mc
                .getTextureManager()
                .bindTexture(
-                  new ResourceLocation(alt.V_boolean() ? (alt.F ? "client/login/microsoft.png" : "client/login/premium.png") : "client/login/cracked.png")
+                  new ResourceLocation(
+                     alt.V_boolean() ? (alt.microsoft ? "client/login/microsoft.png" : "client/login/premium.png") : "client/login/cracked.png"
+                  )
                );
             Gui.drawModalRectWithCustomSizedTexture(i + 205, j + 3, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
-            if (alt.N) {
-               boolean bl = alt.m != -1L;
+            if (alt.banned) {
+               boolean bl = alt.banExpiry != -1L;
                RenderUtil.setColor(bl ? Color.GRAY.getRGB() : Color.RED.getRGB());
-               this.mc.getTextureManager().bindTexture(new ResourceLocation(alt.m != -1L ? "client/login/date.png" : "client/login/ban.png"));
+               this.mc.getTextureManager().bindTexture(new ResourceLocation(alt.banExpiry != -1L ? "client/login/date.png" : "client/login/ban.png"));
                Gui.drawModalRectWithCustomSizedTexture(i + 205, j + 14, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
             }
 
-            if (alt.Y) {
+            if (alt.favorite) {
                RenderUtil.setColor(Color.YELLOW.getRGB());
                this.mc.getTextureManager().bindTexture(new ResourceLocation("client/login/favorite.png"));
                Gui.drawModalRectWithCustomSizedTexture(i + 205, j + 25, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
             }
 
-            if (alt.N && alt.m != -1L) {
-               long l = alt.m - System.currentTimeMillis();
+            if (alt.banned && alt.banExpiry != -1L) {
+               long l = alt.banExpiry - System.currentTimeMillis();
                if (l > 0L) {
                   long n = l / 1000L % 60L;
                   long l2 = l / 60000L % 60L;
@@ -466,13 +468,13 @@ public class GuiIngestServers extends GuiScreen {
 
                   GuiIngestServers.this.I(this.mc.fontRendererObj, string, i + 40, j + 23, 16777215);
                } else {
-                  alt.N = false;
-                  alt.m = -1L;
+                  alt.banned = false;
+                  alt.banExpiry = -1L;
                }
             }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(GuiIngestServers.W(alt.o));
+            this.mc.getTextureManager().bindTexture(GuiIngestServers.W(alt.displayName));
             GuiIngestServers.this.drawTexturedModalRect(i + 3, j + 2, 32, 32, 32, 32);
          }
       }

@@ -7,11 +7,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 
 public final class CustomFontRenderer extends GlyphFontRenderer {
-   private final GlyphPage X = new GlyphPage();
-   private final GlyphPage C = new GlyphPage();
-   private final GlyphPage p = new GlyphPage();
-   private final int[] h = new int[32];
-   private final String V = "0123456789abcdefklmnor";
+   private final GlyphPage boldPage = new GlyphPage();
+   private final GlyphPage italicPage = new GlyphPage();
+   private final GlyphPage boldItalicPage = new GlyphPage();
+   private final int[] colorCodes = new int[32];
+   private final String formatCodes = "0123456789abcdefklmnor";
 
    public CustomFontRenderer() {
       for (int i = 0; i < 32; i++) {
@@ -29,13 +29,13 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
             m /= 4;
          }
 
-         this.h[i] = (k & 0xFF) << 16 | (l & 0xFF) << 8 | m & 0xFF;
+         this.colorCodes[i] = (k & 0xFF) << 16 | (l & 0xFF) << 8 | m & 0xFF;
       }
    }
 
    @Deprecated
    @Override
-   public float B(GlyphPage glyphPage, String string, float f, float g, int i) {
+   public float drawStringWithPage(GlyphPage glyphPage, String string, float f, float g, int i) {
       return 0.0F;
    }
 
@@ -58,7 +58,7 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
       this.drawString(string, f - this.getStringWidth(string) / 2, g - this.getStringHeight(string) / 2, i);
    }
 
-   public float v(String string, float f, float g, int i, boolean bl, boolean bl2) {
+   public float renderString(String string, float f, float g, int i, boolean bl, boolean bl2) {
       if (string == null) {
          return 0.0F;
       }
@@ -75,8 +75,8 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
          i = (i & 16579836) >> 2 | i & 0xFF000000;
       }
 
-      GlyphPage glyphPage = this.v;
-      float f2 = (i >> 24 & 0xFF) / 255.0F;
+      GlyphPage glyphPage2 = this.glyphPage;
+      float h = (i >> 24 & 0xFF) / 255.0F;
       boolean bl3 = false;
       boolean bl4 = false;
       boolean bl5 = false;
@@ -89,89 +89,89 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
       GlStateManager.enableAlpha();
       GlStateManager.enableBlend();
       GlStateManager.blendFunc(770, 771);
-      GlStateManager.color((i >> 16 & 0xFF) / 255.0F, (i >> 8 & 0xFF) / 255.0F, (i & 0xFF) / 255.0F, f2);
-      int k = string.length();
-      glyphPage.p();
+      GlStateManager.color((i >> 16 & 0xFF) / 255.0F, (i >> 8 & 0xFF) / 255.0F, (i & 0xFF) / 255.0F, h);
+      int j = string.length();
+      glyphPage2.bindTexture();
 
-      for (int l = 0; l < k; l++) {
-         char c2 = string.charAt(l);
-         if (c2 == 167 && l < k && l + 1 < k) {
-            int m = "0123456789abcdefklmnor".indexOf(string.charAt(l + 1));
-            if (m < 16) {
+      for (int k = 0; k < j; k++) {
+         char c = string.charAt(k);
+         if (c == 167 && k < j && k + 1 < j) {
+            int l = "0123456789abcdefklmnor".indexOf(string.charAt(k + 1));
+            if (l < 16) {
                bl4 = false;
                bl5 = false;
                bl3 = false;
                bl7 = false;
                bl6 = false;
-               glyphPage = this.v;
-               glyphPage.p();
-               if (m < 0 || m > 15) {
-                  m = 15;
+               glyphPage2 = this.glyphPage;
+               glyphPage2.bindTexture();
+               if (l < 0 || l > 15) {
+                  l = 15;
                }
 
                if (bl) {
-                  m += 16;
+                  l += 16;
                }
 
-               int n = this.h[m];
-               GlStateManager.color((n >> 16 & 0xFF) / 255.0F, (n >> 8 & 0xFF) / 255.0F, (n & 0xFF) / 255.0F, f2);
-            } else if (m == 16) {
+               int m = this.colorCodes[l];
+               GlStateManager.color((m >> 16 & 0xFF) / 255.0F, (m >> 8 & 0xFF) / 255.0F, (m & 0xFF) / 255.0F, h);
+            } else if (l == 16) {
                bl3 = true;
-            } else if (m == 17) {
+            } else if (l == 17) {
                bl4 = true;
                if (bl5) {
-                  glyphPage = this.p;
-                  glyphPage.p();
+                  glyphPage2 = this.boldItalicPage;
+                  glyphPage2.bindTexture();
                } else {
-                  glyphPage = this.X;
-                  glyphPage.p();
+                  glyphPage2 = this.boldPage;
+                  glyphPage2.bindTexture();
                }
-            } else if (m == 18) {
+            } else if (l == 18) {
                bl6 = true;
-            } else if (m == 19) {
+            } else if (l == 19) {
                bl7 = true;
-            } else if (m == 20) {
+            } else if (l == 20) {
                bl5 = true;
                if (bl4) {
-                  glyphPage = this.p;
-                  glyphPage.p();
+                  glyphPage2 = this.boldItalicPage;
+                  glyphPage2.bindTexture();
                } else {
-                  glyphPage = this.C;
-                  glyphPage.p();
+                  glyphPage2 = this.italicPage;
+                  glyphPage2.bindTexture();
                }
-            } else if (m == 21) {
+            } else if (l == 21) {
                bl4 = false;
                bl5 = false;
                bl3 = false;
                bl7 = false;
                bl6 = false;
-               GlStateManager.color((i >> 16 & 0xFF) / 255.0F, (i >> 8 & 0xFF) / 255.0F, (i & 0xFF) / 255.0F, f2);
-               glyphPage = this.v;
-               glyphPage.p();
+               GlStateManager.color((i >> 16 & 0xFF) / 255.0F, (i >> 8 & 0xFF) / 255.0F, (i & 0xFF) / 255.0F, h);
+               glyphPage2 = this.glyphPage;
+               glyphPage2.bindTexture();
             }
 
-            l++;
-         } else if (glyphPage.x(c2)) {
+            k++;
+         } else if (glyphPage2.hasGlyph(c)) {
             if (bl3) {
-               char c3 = 0;
+               char c2 = 0;
 
-               while (glyphPage.c(c3).F != glyphPage.c(c2).F) {
-                  c3 = (char)(Math.random() * 256.0);
+               while (glyphPage2.getGlyph(c2).width != glyphPage2.getGlyph(c).width) {
+                  c2 = (char)(Math.random() * 256.0);
                }
 
-               c2 = c3;
+               c = c2;
             }
 
-            GlyphPage.aun aun2 = GlyphFontRenderer.O(glyphPage, f, g, c2);
+            GlyphPage.aun aun2 = GlyphFontRenderer.drawGlyph(glyphPage2, f, g, c);
             if (bl6) {
-               RenderUtil.lineVertices(f, g + aun2.j / 4 + 2.0F, f + aun2.F / 2, g + aun2.j / 4 + 2.0F, 1.0F);
+               RenderUtil.lineVertices(f, g + aun2.height / 4 + 2.0F, f + aun2.width / 2, g + aun2.height / 4 + 2.0F, 1.0F);
             }
 
             if (bl7) {
-               RenderUtil.lineVertices(f, g + aun2.j / 2, f + aun2.F / 2, g + aun2.j / 2, 1.0F);
+               RenderUtil.lineVertices(f, g + aun2.height / 2, f + aun2.width / 2, g + aun2.height / 2, 1.0F);
             }
 
-            f += aun2.F + this.N;
+            f += aun2.width + this.charSpacing;
          }
       }
 
@@ -181,7 +181,7 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
    }
 
    public float drawString(String string, float f, float g, int i, boolean bl) {
-      return this.v(string, f, g, i, bl, true);
+      return this.renderString(string, f, g, i, bl, true);
    }
 
    public int getStringHeight(String string) {
@@ -190,41 +190,41 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
       }
 
       int i = 0;
-      GlyphPage glyphPage = this.v;
+      GlyphPage glyphPage2 = this.glyphPage;
       boolean bl = false;
       boolean bl2 = false;
-      int k = string.length();
+      int j = string.length();
 
-      for (int l = 0; l < k; l++) {
-         char c2 = string.charAt(l);
-         if (c2 == 167 && l < k) {
-            int m = "0123456789abcdefklmnor".indexOf(c2);
-            if (m < 16) {
+      for (int k = 0; k < j; k++) {
+         char c = string.charAt(k);
+         if (c == 167 && k < j) {
+            int l = "0123456789abcdefklmnor".indexOf(c);
+            if (l < 16) {
                bl = false;
                bl2 = false;
-            } else if (m == 17) {
+            } else if (l == 17) {
                bl = true;
                if (bl2) {
-                  glyphPage = this.p;
+                  glyphPage2 = this.boldItalicPage;
                } else {
-                  glyphPage = this.X;
+                  glyphPage2 = this.boldPage;
                }
-            } else if (m == 20) {
+            } else if (l == 20) {
                bl2 = true;
                if (bl) {
-                  glyphPage = this.p;
+                  glyphPage2 = this.boldItalicPage;
                } else {
-                  glyphPage = this.C;
+                  glyphPage2 = this.italicPage;
                }
-            } else if (m == 21) {
+            } else if (l == 21) {
                bl = false;
                bl2 = false;
-               glyphPage = this.v;
+               glyphPage2 = this.glyphPage;
             }
 
-            l++;
-         } else if (glyphPage.x(c2) && glyphPage.c(c2).j > i) {
-            i = glyphPage.c(c2).j;
+            k++;
+         } else if (glyphPage2.hasGlyph(c) && glyphPage2.getGlyph(c).height > i) {
+            i = glyphPage2.getGlyph(c).height;
          }
       }
 
@@ -245,51 +245,51 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
       }
 
       int i = 0;
-      GlyphPage glyphPage = this.v;
+      GlyphPage glyphPage2 = this.glyphPage;
       boolean bl2 = false;
       boolean bl3 = false;
       int j = string.length();
 
       for (int k = 0; k < j; k++) {
-         char c2 = string.charAt(k);
-         if (c2 == 167 && k < j) {
-            int l = "0123456789abcdefklmnor".indexOf(c2);
+         char c = string.charAt(k);
+         if (c == 167 && k < j) {
+            int l = "0123456789abcdefklmnor".indexOf(c);
             if (l < 16) {
                bl2 = false;
                bl3 = false;
             } else if (l == 17) {
                bl2 = true;
                if (bl3) {
-                  glyphPage = this.p;
+                  glyphPage2 = this.boldItalicPage;
                } else {
-                  glyphPage = this.X;
+                  glyphPage2 = this.boldPage;
                }
             } else if (l == 20) {
                bl3 = true;
                if (bl2) {
-                  glyphPage = this.p;
+                  glyphPage2 = this.boldItalicPage;
                } else {
-                  glyphPage = this.C;
+                  glyphPage2 = this.italicPage;
                }
             } else if (l == 21) {
                bl2 = false;
                bl3 = false;
-               glyphPage = this.v;
+               glyphPage2 = this.glyphPage;
             }
 
             k++;
-         } else if (glyphPage.x(c2)) {
-            i += glyphPage.c(c2).F + this.N;
+         } else if (glyphPage2.hasGlyph(c)) {
+            i += glyphPage2.getGlyph(c).width + this.charSpacing;
          }
       }
 
       return i / 2;
    }
 
-   public void B(Font font, boolean bl) {
-      this.v.X(font, bl);
-      this.X.X(font.deriveFont(1), bl);
-      this.C.X(font.deriveFont(2), bl);
-      this.p.X(font.deriveFont(3), bl);
+   public void loadFont(Font font, boolean bl) {
+      this.glyphPage.generate(font, bl);
+      this.boldPage.generate(font.deriveFont(1), bl);
+      this.italicPage.generate(font.deriveFont(2), bl);
+      this.boldItalicPage.generate(font.deriveFont(3), bl);
    }
 }

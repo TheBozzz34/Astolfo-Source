@@ -10,7 +10,7 @@ import bypass.util.RandomUtils;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 
 public final class AntiTabComplete extends Module {
-   private final String[] C = new String[]{"hey", "brb", "waddup", "hello", "hi"};
+   private final String[] fakeCompletions = new String[]{"hey", "brb", "waddup", "hello", "hi"};
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C14PacketTabComplete) {
@@ -19,7 +19,7 @@ public final class AntiTabComplete extends Module {
             try {
                c14PacketTabComplete.x(c14PacketTabComplete.getMessage().substring(c14PacketTabComplete.getMessage().lastIndexOf(" ") + 1));
             } catch (Exception exception) {
-               c14PacketTabComplete.x(this.C[RandomUtils.RANDOM.nextInt(this.C.length)] + " ");
+               c14PacketTabComplete.x(this.fakeCompletions[RandomUtils.RANDOM.nextInt(this.fakeCompletions.length)] + " ");
             }
          }
       }

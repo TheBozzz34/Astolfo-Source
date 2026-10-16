@@ -7,54 +7,54 @@ import bypass.gui.component.Container;
 import bypass.setting.Setting;
 
 public abstract class SidebarSettingComponent extends Container {
-   private Setting n;
-   public int X;
-   public Animation B = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
-   private boolean h;
+   private Setting setting;
+   public int fadeAlpha;
+   public Animation fadeAnimation = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
+   private boolean forceVisible;
 
    public SidebarSettingComponent(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
       super(setting.getName(), f, g, i, j);
-      this.f(moduleButton);
-      this.n = setting;
+      this.setParent(moduleButton);
+      this.setting = setting;
    }
 
-   public ModuleButton G() {
-      return (ModuleButton)this.O();
+   public ModuleButton getModuleButton() {
+      return (ModuleButton)this.getParent();
    }
 
-   public Setting H() {
-      return this.n;
+   public Setting getSetting() {
+      return this.setting;
    }
 
    @Override
-   public void W(int i, int j, int k) {
-      ModuleButton moduleButton = this.G();
-      int l = moduleButton.A + k;
-      int m = moduleButton.n().t().Y() - moduleButton.v();
+   public void onMouseScroll(int i, int j, int k) {
+      ModuleButton moduleButton = this.getModuleButton();
+      int l = moduleButton.settingsScrollOffset + k;
+      int m = moduleButton.getCategoryTab().getSidebar().getHeight() - moduleButton.getSettingsListHeight();
       if (l > 25) {
-         moduleButton.A = 25;
+         moduleButton.settingsScrollOffset = 25;
       } else if (l >= m) {
-         moduleButton.A += k;
-         super.W(i, j, k);
+         moduleButton.settingsScrollOffset += k;
+         super.onMouseScroll(i, j, k);
       }
    }
 
-   public boolean y() {
-      if (this.h) {
+   public boolean isVisible() {
+      if (this.forceVisible) {
          return true;
       }
 
-      if (this.G() == null) {
+      if (this.getModuleButton() == null) {
          return true;
       }
 
-      CategoryTab categoryTab = this.G().n();
-      int i = this.G().A;
-      int j = categoryTab.t().Y() - this.G().F(this);
-      return j >= i - 10 && categoryTab.O().E_float() + 20.0F < this.E_float();
+      CategoryTab categoryTab = this.getModuleButton().getCategoryTab();
+      int i = this.getModuleButton().settingsScrollOffset;
+      int j = categoryTab.getSidebar().getHeight() - this.getModuleButton().getSettingOffset(this);
+      return j >= i - 10 && categoryTab.getParent().getYPos() + 20.0F < this.getYPos();
    }
 
-   public void G(boolean bl) {
-      this.h = bl;
+   public void setForceVisible(boolean bl) {
+      this.forceVisible = bl;
    }
 }

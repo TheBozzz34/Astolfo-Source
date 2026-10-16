@@ -15,10 +15,10 @@ public class TransparentPanelManager extends ComponentManager implements Loadabl
    }
 
    @Override
-   public void a() {
+   public void save() {
    }
 
-   public List<JsonObject> n() {
+   public List<JsonObject> serializePanels() {
       ArrayList arrayList = new ArrayList();
       JsonObject jsonObject = new JsonObject();
 
@@ -26,10 +26,10 @@ public class TransparentPanelManager extends ComponentManager implements Loadabl
          if (element instanceof CategoryPanel) {
             CategoryPanel categoryPanel = (CategoryPanel)element;
             JsonObject jsonObject2 = new JsonObject();
-            jsonObject2.addProperty("state", categoryPanel.s_boolean());
-            jsonObject2.addProperty("x", categoryPanel.M());
-            jsonObject2.addProperty("y", categoryPanel.E_float());
-            jsonObject.add(categoryPanel.J(), jsonObject2);
+            jsonObject2.addProperty("state", categoryPanel.isExpanded());
+            jsonObject2.addProperty("x", categoryPanel.getX());
+            jsonObject2.addProperty("y", categoryPanel.getYPos());
+            jsonObject.add(categoryPanel.getName(), jsonObject2);
          }
       }
 
@@ -37,7 +37,7 @@ public class TransparentPanelManager extends ComponentManager implements Loadabl
       return arrayList;
    }
 
-   public String u() {
+   public String getPanelsFilePath() {
       return String.format("%s%s%s%s.json", Astolfo.INSTANCE.getDirectory().getAbsolutePath(), "", File.separator, "panels");
    }
 }

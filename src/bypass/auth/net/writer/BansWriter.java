@@ -14,6 +14,6 @@ public class BansWriter implements PacketWriter<BansPacket> {
       byteBuffer.put(bytes);
       byteBuffer.putInt(bansPacket.mode);
       byteBuffer.putInt(bansPacket.type.ordinal());
-      packetBuffer.n(byteBuffer);
+      packetBuffer.addChunk(byteBuffer);
    }
 }

@@ -3,19 +3,19 @@ package bypass.auth.net;
 import java.util.function.Supplier;
 
 public interface PacketWriterRegistry {
-   void j(short s, String string);
+   void registerPacketId(short s, String string);
 
-   Short S(String string);
+   Short getPacketId(String string);
 
-   void y(String string, PacketWriter<?> packetWriter);
+   void registerWriter(String string, PacketWriter<?> packetWriter);
 
-   PacketWriter<?> w(String string);
+   PacketWriter<?> getWriter(String string);
 
-   PacketWriter<?> q(short s);
+   PacketWriter<?> getWriterById(short s);
 
-   void D(String string, Supplier<?> supplier);
+   void registerSupplier(String string, Supplier<?> supplier);
 
-   Supplier<?> Z(String string);
+   Supplier<?> getSupplier(String string);
 
-   Supplier<?> V(short s);
+   Supplier<?> getSupplierById(short s);
 }

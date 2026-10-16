@@ -28,7 +28,7 @@ public enum ViaFabric {
    public static final ExecutorService ASYNC_EXECUTOR;
    public static final EventLoop EVENT_LOOP;
    public static CompletableFuture<Void> INIT_FUTURE = new CompletableFuture<>();
-   private static final ViaFabric[] m = new ViaFabric[]{INSTANCE};
+   private static final ViaFabric[] VALUES = new ViaFabric[]{INSTANCE};
 
    public void init() {
       MappingDataLoader.enableMappingsCache();
@@ -36,7 +36,7 @@ public enum ViaFabric {
          ViaManagerImpl.builder().injector(new VRInjector()).loader(new VRLoader()).commandHandler(new VRCommandHandler()).platform(new VRPlatform()).build()
       );
       ((ViaManagerImpl)Via.getManager()).init();
-      Via.getManager().getProtocolManager().registerBaseProtocol(ViaFabricHostnameProtocol.i, Range.lessThan(Integer.MIN_VALUE));
+      Via.getManager().getProtocolManager().registerBaseProtocol(ViaFabricHostnameProtocol.instance, Range.lessThan(Integer.MIN_VALUE));
       ProtocolVersion.register(-2, "AUTO");
       INIT_FUTURE.complete(null);
       new VRBackwardsLoader().run();

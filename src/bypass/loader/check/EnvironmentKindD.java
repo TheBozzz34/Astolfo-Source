@@ -2,7 +2,7 @@ package bypass.loader.check;
 
 public class EnvironmentKindD implements EnvironmentKind {
    @Override
-   public EnvironmentType w() {
+   public EnvironmentType getType() {
       return EnvironmentType.D;
    }
 }

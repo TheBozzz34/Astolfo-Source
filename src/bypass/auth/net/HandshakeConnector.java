@@ -5,17 +5,17 @@ import java.net.SocketAddress;
 import java.nio.channels.SocketChannel;
 
 public final class HandshakeConnector implements Connector {
-   private static final ConnectionOptions t = ConnectionOptions.M(32);
-   private final AddressHandshake P = new AddressHandshake();
+   private static final ConnectionOptions options = ConnectionOptions.ofSize(32);
+   private final AddressHandshake addressHandshake = new AddressHandshake();
 
-   public static ConnectorFactory l() {
-      return new ConnectorFactoryBuilder().Z();
+   public static ConnectorFactory createFactory() {
+      return new ConnectorFactoryBuilder().build();
    }
 
    @Override
-   public void K(Connection connection, ChannelOpener channelOpener, SocketAddress socketAddress) throws IOException {
-      SocketChannel socketChannel = channelOpener.j();
-      this.P.g(socketChannel, socketAddress);
+   public void connect(Connection connection, ChannelOpener channelOpener, SocketAddress socketAddress) throws IOException {
+      SocketChannel socketChannel = channelOpener.openChannel();
+      this.addressHandshake.connect(socketChannel, socketAddress);
       connection.open(socketChannel);
    }
 }

@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public class BansReader implements PacketReader<BansPacket> {
-   private BansPacket B;
+   private BansPacket packet;
 
    @Override
    public void read(ByteBuffer byteBuffer) {
@@ -15,10 +15,10 @@ public class BansReader implements PacketReader<BansPacket> {
       byteBuffer.get(bytes);
       int i = byteBuffer.getInt();
       int j = byteBuffer.getInt();
-      this.B = new BansPacket(BansPacketType.values()[j], i, new String(bytes, StandardCharsets.UTF_8));
+      this.packet = new BansPacket(BansPacketType.values()[j], i, new String(bytes, StandardCharsets.UTF_8));
    }
 
    public BansPacket getPacket() {
-      return this.B;
+      return this.packet;
    }
 }

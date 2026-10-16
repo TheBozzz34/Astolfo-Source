@@ -30,44 +30,44 @@ public final class Radar extends Module {
    private final NumberSetting<Float> posY = new NumberSetting<>("Pos-Y", "Pos", 150.0F, 1.0F, 50000.0F);
    private final NumberSetting<Integer> spacing = new NumberSetting<>("Spacing", "Space", 1, 1, 5);
    private final NumberSetting<Integer> size = new NumberSetting<>("Size", "Width", 100, 50, 250);
-   private RadarHud W;
-   private int P;
+   private RadarHud hud;
+   private int lastSize;
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.SCREEN) {
-         if (this.P != this.size.asInt()) {
-            this.L();
+         if (this.lastSize != this.size.asInt()) {
+            this.createHud();
          }
 
-         this.P = this.size.getValue();
-         if (this.W != null) {
+         this.lastSize = this.size.getValue();
+         if (this.hud != null) {
             if (Mouse.isButtonDown(0)) {
-               this.posX.setValue(this.W.M());
-               this.posY.setValue(this.W.E_float());
-            } else if (this.posX.getValue() != this.W.M() || this.posY.getValue() != this.W.E_float()) {
-               if (this.W.M() != this.posX.getValue()) {
-                  this.W.o(this.posX.getValue());
+               this.posX.setValue(this.hud.getX());
+               this.posY.setValue(this.hud.getYPos());
+            } else if (this.posX.getValue() != this.hud.getX() || this.posY.getValue() != this.hud.getYPos()) {
+               if (this.hud.getX() != this.posX.getValue()) {
+                  this.hud.setX(this.posX.getValue());
                }
 
-               if (this.W.E_float() != this.posY.getValue()) {
-                  this.W.q(this.posY.getValue());
+               if (this.hud.getYPos() != this.posY.getValue()) {
+                  this.hud.setY(this.posY.getValue());
                }
             }
 
             int i = renderEvent.getResolution().getScaledHeight();
             int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
             int k = i - Mouse.getY() * i / mc.displayHeight - 1;
-            this.W.E(this.entities);
-            this.W.Z(this.spacing.getValue());
-            this.W.render(j, k);
-            if (mc.currentScreen instanceof GuiChat && this.W.u_boolean() && Mouse.isButtonDown(0)) {
-               this.W.T(j, k);
+            this.hud.setEntities(this.entities);
+            this.hud.setSpacing(this.spacing.getValue());
+            this.hud.render(j, k);
+            if (mc.currentScreen instanceof GuiChat && this.hud.isDragging() && Mouse.isButtonDown(0)) {
+               this.hud.updateDragPosition(j, k);
             }
 
-            if (Mouse.isButtonDown(0) && this.W.G(j, k)) {
-               this.W.F(true, j, k);
+            if (Mouse.isButtonDown(0) && this.hud.isHovered(j, k)) {
+               this.hud.setDragging(true, j, k);
             } else {
-               this.W.x(false);
+               this.hud.setDraggingNoOffset(false);
             }
          }
       }
@@ -79,19 +79,19 @@ public final class Radar extends Module {
       this.setHidden(false);
    }
 
-   private void L() {
-      this.W = new RadarHud(this.posX.getValue(), this.posY.getValue(), this.size.asInt(), this.size.asInt());
+   private void createHud() {
+      this.hud = new RadarHud(this.posX.getValue(), this.posY.getValue(), this.size.asInt(), this.size.asInt());
    }
 
    @Override
    public void onEnable() {
-      this.L();
+      this.createHud();
       super.onEnable();
    }
 
    @Override
    public void onDisable() {
-      this.W = null;
+      this.hud = null;
       super.onDisable();
    }
 }

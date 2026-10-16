@@ -29,13 +29,13 @@ public class VRVersionProvider extends BaseVersionProvider {
       SocketAddress socketAddress = userConnection.getChannel().remoteAddress();
       if (socketAddress instanceof InetSocketAddress) {
          VFAddressParser vfAddressParser = new VFAddressParser();
-         Integer integer = vfAddressParser.c(((InetSocketAddress)socketAddress).getHostName()).l;
+         Integer integer = vfAddressParser.parse(((InetSocketAddress)socketAddress).getHostName()).protocol;
          if (integer != null) {
             i = integer;
          }
       }
 
-      boolean bl = this.v(socketAddress);
+      boolean bl = this.isForcedNative(socketAddress);
       boolean bl2 = ProtocolUtils.isSupported(i, protocolInfo.getProtocolVersion());
       if (bl || !bl2) {
          i = protocolInfo.getProtocolVersion();
@@ -44,7 +44,7 @@ public class VRVersionProvider extends BaseVersionProvider {
       return i;
    }
 
-   private boolean v(SocketAddress socketAddress) {
+   private boolean isForcedNative(SocketAddress socketAddress) {
       return false;
    }
 }

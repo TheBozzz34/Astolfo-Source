@@ -21,21 +21,21 @@ public enum ValueType {
    J(EntityPig.class),
    K(EntitySkeleton.class);
 
-   private final Class<?> s;
+   private final Class<?> type;
    public static final ShapedMap<Class<?>, ValueType> compactHashMap = new ShapedMap<>();
-   private static final ValueType[] f = new ValueType[]{A, B, C, D, E, F, G, H, I, J, K};
+   private static final ValueType[] VALUES = new ValueType[]{A, B, C, D, E, F, G, H, I, J, K};
 
    ValueType(Class<?> class2) {
-      this.s = class2;
+      this.type = class2;
    }
 
-   public Class<?> B() {
-      return this.s;
+   public Class<?> getType() {
+      return this.type;
    }
 
    static {
       for (ValueType valueType : values()) {
-         compactHashMap.put(valueType.s, valueType);
+         compactHashMap.put(valueType.type, valueType);
       }
    }
 }

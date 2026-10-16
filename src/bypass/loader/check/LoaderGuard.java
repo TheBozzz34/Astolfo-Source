@@ -3,27 +3,27 @@ package bypass.loader.check;
 import bypass.manager.Loadable;
 
 public class LoaderGuard implements Loadable {
-   private final LoadStageList Q;
-   private final StageVerification B;
+   private final LoadStageList stageList;
+   private final StageVerification verification;
 
    public LoaderGuard() {
       LoadStageListFactory loadStageListFactory = new LoadStageListFactory();
-      this.Q = new LoadStageList(loadStageListFactory.e());
-      this.B = new StageVerification(this.Q);
+      this.stageList = new LoadStageList(loadStageListFactory.getStageContainer());
+      this.verification = new StageVerification(this.stageList);
    }
 
-   public LoadStageList e() {
-      return this.Q;
+   public LoadStageList getStageList() {
+      return this.stageList;
    }
 
-   public StageVerification U() {
-      return this.B;
+   public StageVerification getVerification() {
+      return this.verification;
    }
 
    @Override
    public void load() {
-      this.U(() -> {
-         ThreadDeath threadDeath = this.B.J().t();
+      this.runTask(() -> {
+         ThreadDeath threadDeath = this.verification.getVerifier().verifyStages();
          if (threadDeath != null) {
             throw threadDeath;
          }
@@ -31,10 +31,10 @@ public class LoaderGuard implements Loadable {
    }
 
    @Override
-   public void a() {
+   public void save() {
    }
 
-   public void U(Task task) {
-      task.c();
+   public void runTask(Task task) {
+      task.run();
    }
 }

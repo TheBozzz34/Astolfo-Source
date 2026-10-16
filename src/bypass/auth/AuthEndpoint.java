@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class AuthEndpoint {
    public static ArrayList<Integer> PORTS = new ArrayList<>(Arrays.asList(29367));
-   public static boolean x;
+   public static boolean unusedFlag;
    private final String host;
    private PortChoice port;
    private AuthConnection connection;
@@ -16,7 +16,7 @@ public class AuthEndpoint {
       this.choosePort();
    }
 
-   public AuthConnection B() {
+   public AuthConnection getConnection() {
       if (this.connection == null) {
          this.connection = new AuthConnection();
       }
@@ -24,7 +24,7 @@ public class AuthEndpoint {
       return this.connection;
    }
 
-   public void E(AuthConnection authConnection) {
+   public void setConnection(AuthConnection authConnection) {
       this.choosePort();
       this.connection = authConnection;
    }

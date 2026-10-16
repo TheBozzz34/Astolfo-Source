@@ -5,5 +5,5 @@ public enum UserListType {
    B,
    C;
 
-   private static final UserListType[] F = new UserListType[]{A, B, C};
+   private static final UserListType[] VALUES = new UserListType[]{A, B, C};
 }

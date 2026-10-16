@@ -4,5 +4,5 @@ public enum GuiMode {
    DEFAULT,
    TRANSPARENT;
 
-   private static final GuiMode[] Q = new GuiMode[]{DEFAULT, TRANSPARENT};
+   private static final GuiMode[] VALUES = new GuiMode[]{DEFAULT, TRANSPARENT};
 }

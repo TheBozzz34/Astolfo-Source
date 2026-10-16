@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class DefaultFileReceiverListener implements FileReceiverListener {
    @Override
-   public void C(FileReceiver fileReceiver, String string, Exception exception) {
+   public void onReceiverError(FileReceiver fileReceiver, String string, Exception exception) {
       exception.printStackTrace();
 
       try {
@@ -15,7 +15,7 @@ public class DefaultFileReceiverListener implements FileReceiverListener {
    }
 
    @Override
-   public void b(FileReceiver fileReceiver, String string, FileReceiveSession fileReceiveSession) {
+   public void onSessionClosed(FileReceiver fileReceiver, String string, FileReceiveSession fileReceiveSession) {
       try {
          fileReceiveSession.close();
       } catch (IOException ioException) {
@@ -24,7 +24,7 @@ public class DefaultFileReceiverListener implements FileReceiverListener {
    }
 
    @Override
-   public void q(FileReceiver fileReceiver, String string, Exception exception, FileReceiveSession fileReceiveSession) {
+   public void onSessionError(FileReceiver fileReceiver, String string, Exception exception, FileReceiveSession fileReceiveSession) {
       exception.printStackTrace();
 
       try {

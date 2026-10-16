@@ -8,7 +8,7 @@ public enum AutoHypixelAutoCheckerGameMode {
 
    public int columnAmount = 1;
    public String name = "";
-   private static final AutoHypixelAutoCheckerGameMode[] W = new AutoHypixelAutoCheckerGameMode[]{SW, BW, UHC, MW};
+   private static final AutoHypixelAutoCheckerGameMode[] VALUES = new AutoHypixelAutoCheckerGameMode[]{SW, BW, UHC, MW};
 
    AutoHypixelAutoCheckerGameMode(String string2, int j) {
       this.name = string2;

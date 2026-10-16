@@ -7,6 +7,6 @@ public class ShapedMapValueIterator<K, V> extends ShapedMapIterator<K, V, V> {
 
    @Override
    public V next() {
-      return this.D().getValue();
+      return this.nextEntry().getValue();
    }
 }

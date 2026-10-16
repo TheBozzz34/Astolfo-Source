@@ -3,14 +3,14 @@ package bypass.loader.check;
 import bypass.util.container.ListContainerOwner;
 
 public class JvmArgumentsPropertyListOwner {
-   private final ListContainerOwner<String> Z;
+   private final ListContainerOwner<String> patternContainer;
 
    public JvmArgumentsPropertyListOwner() {
       JvmArgumentPropertyPatterns jvmArgumentPropertyPatterns = new JvmArgumentPropertyPatterns();
-      this.Z = new ListContainerOwner<>(jvmArgumentPropertyPatterns.Z());
+      this.patternContainer = new ListContainerOwner<>(jvmArgumentPropertyPatterns.getPatterns());
    }
 
-   public ListContainerOwner<String> k() {
-      return this.Z;
+   public ListContainerOwner<String> getPatternContainer() {
+      return this.patternContainer;
    }
 }

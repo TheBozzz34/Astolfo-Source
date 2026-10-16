@@ -11,53 +11,53 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class BlurShader {
-   private static ShaderGroup e;
-   private static Minecraft n = Minecraft.getMinecraft();
-   private static Framebuffer d;
-   private static int G;
-   private static int q;
-   private static int S;
-   private static ResourceLocation N = new ResourceLocation("shaders/post/blur.json");
+   private static ShaderGroup shaderGroup;
+   private static Minecraft mc = Minecraft.getMinecraft();
+   private static Framebuffer framebuffer;
+   private static int lastScaleFactor;
+   private static int lastScaledWidth;
+   private static int lastScaledHeight;
+   private static ResourceLocation blurShaderLocation = new ResourceLocation("shaders/post/blur.json");
 
-   public static void g() {
+   public static void initShader() {
       try {
-         e = new ShaderGroup(n.getTextureManager(), n.getResourceManager(), n.getFramebuffer(), N);
-         e.createBindFramebuffers(n.displayWidth, n.displayHeight);
-         d = e.mainFramebuffer;
+         shaderGroup = new ShaderGroup(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), blurShaderLocation);
+         shaderGroup.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+         framebuffer = shaderGroup.mainFramebuffer;
       } catch (Exception exception) {
          exception.printStackTrace();
       }
    }
 
-   private static void L(float f, float g, float h, float f2) {
-      e.O().get(0).getShaderManager().getShaderUniform("Radius").set(f);
-      e.O().get(1).getShaderManager().getShaderUniform("Radius").set(f);
-      e.O().get(0).getShaderManager().getShaderUniform("Opacity").set(f2);
-      e.O().get(1).getShaderManager().getShaderUniform("Opacity").set(f2);
-      e.O().get(0).getShaderManager().getShaderUniform("BlurDir").set(g, h);
-      e.O().get(1).getShaderManager().getShaderUniform("BlurDir").set(h, g);
+   private static void setUniforms(float f, float g, float h, float f2) {
+      shaderGroup.O().get(0).getShaderManager().getShaderUniform("Radius").set(f);
+      shaderGroup.O().get(1).getShaderManager().getShaderUniform("Radius").set(f);
+      shaderGroup.O().get(0).getShaderManager().getShaderUniform("Opacity").set(f2);
+      shaderGroup.O().get(1).getShaderManager().getShaderUniform("Opacity").set(f2);
+      shaderGroup.O().get(0).getShaderManager().getShaderUniform("BlurDir").set(g, h);
+      shaderGroup.O().get(1).getShaderManager().getShaderUniform("BlurDir").set(h, g);
    }
 
-   public static void Y(int i, int j, int k, int l, float f, float g, float h) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurAreaDirectional(int i, int j, int k, int l, float f, float g, float h) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int m = scaledResolution.getScaleFactor();
-      int i2 = scaledResolution.getScaledWidth();
-      int i3 = scaledResolution.getScaledHeight();
-      if (G != m || q != i2 || S != i3 || d == null || e == null) {
-         g();
+      int n = scaledResolution.getScaledWidth();
+      int i2 = scaledResolution.getScaledHeight();
+      if (lastScaleFactor != m || lastScaledWidth != n || lastScaledHeight != i2 || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = m;
-      q = i2;
-      S = i3;
+      lastScaleFactor = m;
+      lastScaledWidth = n;
+      lastScaledHeight = i2;
       if (OpenGlHelper.isFramebufferEnabled()) {
-         d.framebufferClear();
-         GL11.glScissor(i * m, n.displayHeight - j * m - l * m, k * m, l * m);
+         framebuffer.framebufferClear();
+         GL11.glScissor(i * m, mc.displayHeight - j * m - l * m, k * m, l * m);
          GL11.glEnable(3089);
-         L(f, g, h, 1.0F);
-         d.bindFramebuffer(true);
-         e.t(n.timer.renderPartialTicks);
-         n.getFramebuffer().bindFramebuffer(true);
+         setUniforms(f, g, h, 1.0F);
+         framebuffer.bindFramebuffer(true);
+         shaderGroup.t(mc.timer.renderPartialTicks);
+         mc.getFramebuffer().bindFramebuffer(true);
          GL11.glDisable(3089);
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
@@ -66,25 +66,25 @@ public class BlurShader {
       }
    }
 
-   public static void w(int i, int j, int k, int l, float f) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurAreaWithLighting(int i, int j, int k, int l, float f) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int m = scaledResolution.getScaleFactor();
-      int i2 = scaledResolution.getScaledWidth();
-      int i3 = scaledResolution.getScaledHeight();
-      if (G != m || q != i2 || S != i3 || d == null || e == null) {
-         g();
+      int n = scaledResolution.getScaledWidth();
+      int i2 = scaledResolution.getScaledHeight();
+      if (lastScaleFactor != m || lastScaledWidth != n || lastScaledHeight != i2 || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = m;
-      q = i2;
-      S = i3;
-      d.framebufferClear();
-      GL11.glScissor(i * m, n.displayHeight - j * m - l * m, k * m, l * m);
+      lastScaleFactor = m;
+      lastScaledWidth = n;
+      lastScaledHeight = i2;
+      framebuffer.framebufferClear();
+      GL11.glScissor(i * m, mc.displayHeight - j * m - l * m, k * m, l * m);
       GL11.glEnable(3089);
-      L(f, 1.0F, 0.0F, 1.0F);
-      d.bindFramebuffer(true);
-      e.t(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      setUniforms(f, 1.0F, 0.0F, 1.0F);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.t(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
       GlStateManager.enableBlend();
       GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
@@ -93,123 +93,123 @@ public class BlurShader {
       RenderHelper.enableGUIStandardItemLighting();
    }
 
-   public static void A(float f, float g, float h, float f2, float f3, float f4, float f5) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurRegion(float f, float g, float h, float f2, float f3, float f4, float f5) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
       int k = scaledResolution.getScaledHeight();
-      if (G != i || q != j || S != k || d == null || e == null) {
-         g();
+      if (lastScaleFactor != i || lastScaledWidth != j || lastScaledHeight != k || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = i;
-      q = j;
-      S = k;
-      GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
+      lastScaleFactor = i;
+      lastScaledWidth = j;
+      lastScaledHeight = k;
+      GL11.glScissor((int)(f * i), (int)(mc.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
-      L(f3, f4, f5, 1.0F);
-      d.bindFramebuffer(true);
-      e.t(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      setUniforms(f3, f4, f5, 1.0F);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.t(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
 
-   public static void J(float f, float g, float h, float f2, float f3, float f4, float f5, float f6) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurRegionWithOpacity(float f, float g, float h, float f2, float f3, float f4, float f5, float f6) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
       int k = scaledResolution.getScaledHeight();
-      if (G != i || q != j || S != k || d == null || e == null) {
-         g();
+      if (lastScaleFactor != i || lastScaledWidth != j || lastScaledHeight != k || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = i;
-      q = j;
-      S = k;
-      GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
+      lastScaleFactor = i;
+      lastScaledWidth = j;
+      lastScaledHeight = k;
+      GL11.glScissor((int)(f * i), (int)(mc.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
-      L(f3, f5, f6, f4);
-      d.bindFramebuffer(true);
-      e.o(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      setUniforms(f3, f5, f6, f4);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.o(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
 
-   public static void S(float f, float g, float h, float f2, float f3, float f4, float f5) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurRegionAlt(float f, float g, float h, float f2, float f3, float f4, float f5) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
       int k = scaledResolution.getScaledHeight();
-      if (G != i || q != j || S != k || d == null || e == null) {
-         g();
+      if (lastScaleFactor != i || lastScaledWidth != j || lastScaledHeight != k || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = i;
-      q = j;
-      S = k;
-      GL11.glScissor((int)(f * i), (int)(n.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
+      lastScaleFactor = i;
+      lastScaledWidth = j;
+      lastScaledHeight = k;
+      GL11.glScissor((int)(f * i), (int)(mc.displayHeight - g * i - f2 * i) + 1, (int)(h * i), (int)(f2 * i));
       GL11.glEnable(3089);
-      L(f3, f4, f5, 1.0F);
-      d.bindFramebuffer(true);
-      e.t(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      setUniforms(f3, f4, f5, 1.0F);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.t(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
 
-   public static void F(int i, int j, int k, int l, float f) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurArea(int i, int j, int k, int l, float f) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int m = scaledResolution.getScaleFactor();
-      int i2 = scaledResolution.getScaledWidth();
-      int i3 = scaledResolution.getScaledHeight();
-      if (G != m || q != i2 || S != i3 || d == null || e == null) {
-         g();
+      int n = scaledResolution.getScaledWidth();
+      int i2 = scaledResolution.getScaledHeight();
+      if (lastScaleFactor != m || lastScaledWidth != n || lastScaledHeight != i2 || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = m;
-      q = i2;
-      S = i3;
-      GL11.glScissor(i * m, n.displayHeight - j * m - l * m, k * m, l * m);
+      lastScaleFactor = m;
+      lastScaledWidth = n;
+      lastScaledHeight = i2;
+      GL11.glScissor(i * m, mc.displayHeight - j * m - l * m, k * m, l * m);
       GL11.glEnable(3089);
-      L(f, 1.0F, 0.0F, 1.0F);
-      d.bindFramebuffer(true);
-      e.t(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      setUniforms(f, 1.0F, 0.0F, 1.0F);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.t(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
 
-   public static void n(float f) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurScreen(float f) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int i = scaledResolution.getScaleFactor();
       int j = scaledResolution.getScaledWidth();
       int k = scaledResolution.getScaledHeight();
-      if (G != i || q != j || S != k || d == null || e == null) {
-         g();
+      if (lastScaleFactor != i || lastScaledWidth != j || lastScaledHeight != k || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = i;
-      q = j;
-      S = k;
-      L(f, 0.0F, 1.0F, 1.0F);
-      d.bindFramebuffer(true);
-      e.t(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      lastScaleFactor = i;
+      lastScaledWidth = j;
+      lastScaledHeight = k;
+      setUniforms(f, 0.0F, 1.0F, 1.0F);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.t(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
    }
 
-   public static void j(float f, float g) {
-      ScaledResolution scaledResolution = new ScaledResolution(n);
+   public static void blurScreenWithOpacity(float f, float g) {
+      ScaledResolution scaledResolution = new ScaledResolution(mc);
       int i = scaledResolution.getScaleFactor();
-      int k = scaledResolution.getScaledWidth();
-      int l = scaledResolution.getScaledHeight();
-      if (G != i || q != k || S != l || d == null || e == null) {
-         g();
+      int j = scaledResolution.getScaledWidth();
+      int k = scaledResolution.getScaledHeight();
+      if (lastScaleFactor != i || lastScaledWidth != j || lastScaledHeight != k || framebuffer == null || shaderGroup == null) {
+         initShader();
       }
 
-      G = i;
-      q = k;
-      S = l;
-      L(f, 0.0F, 1.0F, g);
-      d.bindFramebuffer(true);
-      e.o(n.timer.renderPartialTicks);
-      n.getFramebuffer().bindFramebuffer(true);
+      lastScaleFactor = i;
+      lastScaledWidth = j;
+      lastScaledHeight = k;
+      setUniforms(f, 0.0F, 1.0F, g);
+      framebuffer.bindFramebuffer(true);
+      shaderGroup.o(mc.timer.renderPartialTicks);
+      mc.getFramebuffer().bindFramebuffer(true);
    }
 }

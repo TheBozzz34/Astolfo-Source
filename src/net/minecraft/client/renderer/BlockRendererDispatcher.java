@@ -66,7 +66,7 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
    }
 
    public boolean renderBlock(IBlockState state, BlockPos pos, IBlockAccess blockAccess, WorldRenderer worldRendererIn) {
-      if (ModuleManager.s.isEnabled() && !Xray.isTranslucent() && !Xray.isEnabledOre(state.getBlock())) {
+      if (ModuleManager.xray.isEnabled() && !Xray.isTranslucent() && !Xray.isEnabledOre(state.getBlock())) {
          return false;
       }
 

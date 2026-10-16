@@ -1,9 +1,9 @@
 package bypass.util;
 
 public class HexUtil {
-   private static final char[] x = "0123456789abcdef".toCharArray();
+   private static final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
 
-   public static String Q(byte... bytes) {
+   public static String toHex(byte... bytes) {
       if (bytes == null) {
          return null;
       }
@@ -12,14 +12,14 @@ public class HexUtil {
       int i = 0;
 
       for (byte b : bytes) {
-         chars[i++] = x[(b & 255) >> 4];
-         chars[i++] = x[b & 0xFF & 15];
+         chars[i++] = HEX_DIGITS[(b & 255) >> 4];
+         chars[i++] = HEX_DIGITS[b & 0xFF & 15];
       }
 
       return new String(chars);
    }
 
-   public static byte[] e(String string) {
+   public static byte[] fromHex(String string) {
       if (string == null) {
          return null;
       }

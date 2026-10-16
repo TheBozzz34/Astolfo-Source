@@ -8,49 +8,51 @@ import java.net.UnknownHostException;
 import net.minecraft.client.multiplayer.ServerData;
 
 public abstract class Server extends Manager<String> implements ClientAccess {
-   private final ShapedMap<String, Boolean> n = new ShapedMap<>();
-   private static InetAddress S;
-   private final String z;
-   private final String L;
-   private final ServerType P;
+   private final ShapedMap<String, Boolean> matchCache = new ShapedMap<>();
+   private static InetAddress localAddress;
+   private final String tld;
+   private final String domain;
+   private final ServerType type;
 
    public Server(String string, String string2, ServerType serverType) {
-      this.z = string;
-      this.L = string2;
-      this.P = serverType;
+      this.tld = string;
+      this.domain = string2;
+      this.type = serverType;
 
       try {
-         this.N();
+         this.resolveAddresses();
       } catch (UnknownHostException unknownHostException) {
       }
    }
 
-   public abstract boolean m();
+   public abstract boolean isBrandValid();
 
    public String m_String() {
-      return this.L + "." + this.z;
+      return this.domain + "." + this.tld;
    }
 
    public InetAddress[] o_InetAddressArray() throws UnknownHostException {
       return InetAddress.getAllByName(this.m_String());
    }
 
-   private void N() throws UnknownHostException {
+   private void resolveAddresses() throws UnknownHostException {
       for (InetAddress inetAddress : this.o_InetAddressArray()) {
-         this.Y(inetAddress);
+         this.addAddress(inetAddress);
       }
    }
 
-   private void Y(InetAddress inetAddress) {
+   private void addAddress(InetAddress inetAddress) {
       String string = inetAddress.getHostAddress();
-      if ((S == null || !string.equalsIgnoreCase(S.getHostAddress())) && !string.equalsIgnoreCase("localhost") && !string.equalsIgnoreCase("127.0.0.1")) {
-         if (!this.C.contains(string)) {
+      if ((localAddress == null || !string.equalsIgnoreCase(localAddress.getHostAddress()))
+         && !string.equalsIgnoreCase("localhost")
+         && !string.equalsIgnoreCase("127.0.0.1")) {
+         if (!this.items.contains(string)) {
             this.add(string);
          }
       }
    }
 
-   public boolean g() {
+   public boolean isCurrentServer() {
       if (mc.isSingleplayer()) {
          return false;
       }
@@ -65,11 +67,13 @@ public abstract class Server extends Manager<String> implements ClientAccess {
       }
 
       String string = serverData.serverIP.toLowerCase();
-      if (this.n.containsKey(string) && !this.n.get(string)) {
+      if (this.matchCache.containsKey(string) && !this.matchCache.get(string)) {
          return false;
       }
 
-      if (!string.isEmpty() && string.contains(this.L) && (S == null || !string.contains(S.getHostName()) && !string.contains(S.getHostAddress()))) {
+      if (!string.isEmpty()
+         && string.contains(this.domain)
+         && (localAddress == null || !string.contains(localAddress.getHostName()) && !string.contains(localAddress.getHostAddress()))) {
          int i = string.length();
          if (string.contains(":") && Character.isDigit(string.charAt(i - 1))) {
             int j = string.lastIndexOf(":") + 1;
@@ -91,32 +95,32 @@ public abstract class Server extends Manager<String> implements ClientAccess {
          if (string.contains(".")) {
             int l = string.lastIndexOf(".") + 1;
             String string4 = string.substring(l);
-            if (!string4.equalsIgnoreCase(this.z)) {
-               this.n.put(string, false);
+            if (!string4.equalsIgnoreCase(this.tld)) {
+               this.matchCache.put(string, false);
                return false;
             } else {
                String string5 = string.substring(0, l - 1);
-               boolean bl = string.equalsIgnoreCase(this.m_String()) || string5.endsWith("." + this.L) || this.C.contains(string5);
-               this.n.put(string, bl);
-               return bl && this.m();
+               boolean bl = string.equalsIgnoreCase(this.m_String()) || string5.endsWith("." + this.domain) || this.items.contains(string5);
+               this.matchCache.put(string, bl);
+               return bl && this.isBrandValid();
             }
          } else {
-            this.n.put(string, false);
+            this.matchCache.put(string, false);
             return false;
          }
       } else {
-         this.n.put(string, false);
+         this.matchCache.put(string, false);
          return false;
       }
    }
 
-   public ServerType y() {
-      return this.P;
+   public ServerType getType() {
+      return this.type;
    }
 
    static {
       try {
-         S = InetAddress.getLocalHost();
+         localAddress = InetAddress.getLocalHost();
       } catch (UnknownHostException unknownHostException) {
       }
    }

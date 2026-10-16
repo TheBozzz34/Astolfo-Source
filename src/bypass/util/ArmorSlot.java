@@ -8,7 +8,7 @@ public enum ArmorSlot {
 
    public int slot;
    public int armorType;
-   private static final ArmorSlot[] P = new ArmorSlot[]{HELMET, CHEST_PLATE, LEGGINGS, BOOTS};
+   private static final ArmorSlot[] VALUES = new ArmorSlot[]{HELMET, CHEST_PLATE, LEGGINGS, BOOTS};
 
    ArmorSlot(int j, int k) {
       this.slot = j;

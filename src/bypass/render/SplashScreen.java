@@ -10,14 +10,14 @@ import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
 
 public class SplashScreen {
-   private static final int M = 7;
-   public static int N;
-   private static TextureManager k;
-   private static ResourceLocation T;
+   private static final int MAX_PROGRESS = 7;
+   public static int progress;
+   private static TextureManager textureManager;
+   private static ResourceLocation splashTexture;
 
-   public static void h(TextureManager textureManager) {
-      if (k == null) {
-         k = textureManager;
+   public static void render(TextureManager textureManager2) {
+      if (textureManager == null) {
+         textureManager = textureManager2;
       }
 
       ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
@@ -34,14 +34,14 @@ public class SplashScreen {
       GlStateManager.disableFog();
       GlStateManager.disableDepth();
       GlStateManager.enableTexture2D();
-      if (T == null) {
-         T = new ResourceLocation("client/splash.png");
+      if (splashTexture == null) {
+         splashTexture = new ResourceLocation("client/splash.png");
       }
 
-      textureManager.bindTexture(T);
+      textureManager2.bindTexture(splashTexture);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       Gui.drawScaledCustomSizeModalRect(0, 0, 0.0F, 0.0F, 1920, 1080, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), 1920.0F, 1080.0F);
-      h();
+      drawProgressBar();
       framebuffer.unbindFramebuffer();
       framebuffer.framebufferRender(scaledResolution.getScaledWidth() * i, scaledResolution.getScaledHeight() * i);
       GlStateManager.enableAlpha();
@@ -49,21 +49,21 @@ public class SplashScreen {
       Minecraft.getMinecraft().updateDisplay();
    }
 
-   public static void Y() {
+   public static void redraw() {
       if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().getLanguageManager() != null) {
-         h(Minecraft.getMinecraft().getTextureManager());
+         render(Minecraft.getMinecraft().getTextureManager());
       }
    }
 
-   public static void e(int i) {
-      N = i;
-      Y();
+   public static void setProgress(int i) {
+      progress = i;
+      redraw();
    }
 
-   private static void h() {
+   private static void drawProgressBar() {
       if (Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().getTextureManager() != null) {
          ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
-         double d = N;
+         double d = progress;
          int i = scaledResolution.getScaledWidth() / 2;
          int j = scaledResolution.getScaledHeight() / 2;
          int k = i - 45;

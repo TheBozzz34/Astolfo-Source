@@ -11,6 +11,16 @@ public final class NicklistCommand extends Command {
    @Override
    public void runCommand(String[] strings) {
       Denicker.nicks
-         .forEach((string, string2) -> chat.D(false, false).i("> ").i(string).M(EnumChatFormatting.GRAY).i(": ").M(EnumChatFormatting.WHITE).i(string2).N().b());
+         .forEach(
+            (string, string2) -> chat.createBuilder(false, false)
+               .append("> ")
+               .append(string)
+               .color(EnumChatFormatting.GRAY)
+               .append(": ")
+               .color(EnumChatFormatting.WHITE)
+               .append(string2)
+               .build()
+               .send()
+         );
    }
 }

@@ -4,14 +4,14 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 public class PendingBreak {
-   public int B;
-   public BlockPos f;
-   public EnumFacing e;
-   public boolean K;
+   public int ticksLeft;
+   public BlockPos pos;
+   public EnumFacing facing;
+   public boolean unusedFlag;
 
    public PendingBreak(int i, BlockPos blockPos, EnumFacing enumFacing) {
-      this.B = i;
-      this.f = blockPos;
-      this.e = enumFacing;
+      this.ticksLeft = i;
+      this.pos = blockPos;
+      this.facing = enumFacing;
    }
 }

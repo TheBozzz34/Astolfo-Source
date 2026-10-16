@@ -42,7 +42,7 @@ public final class AnglesForCords extends VarArgFunction {
          }
 
          Vector3d vector3d2 = new Vector3d(d, e, d2);
-         Rotation rotation = PlayerLibrary.K().rotationTo(vector3d2, vector3d);
+         Rotation rotation = PlayerLibrary.getRotator().rotationTo(vector3d2, vector3d);
          float f = MathHelper.wrapAngleTo180_float(rotation.getYaw() - ClientAccess.mc.thePlayer.rotationYaw);
          float g = ClientAccess.mc.thePlayer.rotationYaw + f;
          return LuaValue.varargsOf(new LuaValue[]{LuaValue.valueOf(g), LuaValue.valueOf(rotation.getPitch())});

@@ -27,10 +27,10 @@ public final class GuiName extends ZeroArgFunction {
          }
       } else {
          return ClientAccess.client.getModuleManager().get(HideWindow.class).isEnabled()
-               && HideWindow.w != null
-               && HideWindow.d != null
-               && HideWindow.d.getFormattedText() != null
-            ? valueOf(HideWindow.d.getFormattedText())
+               && HideWindow.hiddenChest != null
+               && HideWindow.hiddenWindowTitle != null
+               && HideWindow.hiddenWindowTitle.getFormattedText() != null
+            ? valueOf(HideWindow.hiddenWindowTitle.getFormattedText())
             : valueOf("none");
       }
    }

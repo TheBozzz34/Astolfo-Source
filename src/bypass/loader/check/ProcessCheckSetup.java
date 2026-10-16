@@ -1,15 +1,15 @@
 package bypass.loader.check;
 
 public class ProcessCheckSetup {
-   private final ProcessListOwner v = new ProcessListOwner();
-   private final StringListHolder r = new StringListHolder(this.v.R());
-   private final ProcessCheck T = new ProcessCheck(this.r);
+   private final ProcessListOwner processListOwner = new ProcessListOwner();
+   private final StringListHolder stringListHolder = new StringListHolder(this.processListOwner.getProcessContainer());
+   private final ProcessCheck processCheck = new ProcessCheck(this.stringListHolder);
 
-   public StringListHolder U() {
-      return this.r;
+   public StringListHolder getStringListHolder() {
+      return this.stringListHolder;
    }
 
-   public ProcessCheck U_rss() {
-      return this.T;
+   public ProcessCheck getProcessCheck() {
+      return this.processCheck;
    }
 }

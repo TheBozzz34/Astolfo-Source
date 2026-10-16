@@ -29,15 +29,16 @@ public final class Hitboxes extends Module {
       .add("Invisible", new BooleanSetting("Invisible", "Makes invisible players hitbox bigger", false))
       .add("Teams", new BooleanSetting("Teams", "Removes bigger hitboxes from teammates", false))
       .build();
-   public static boolean G = false;
+   public static boolean witherNearby = false;
    @EventHandler(HitboxEvent.class)
    private final Listener<HitboxEvent> onHitbox = hitboxEvent -> {
-      if (hitboxEvent.entity instanceof EntityPlayer && (!G || !wither.getValue())) {
-         if (GameUtil.O(mc.thePlayer, (EntityPlayer)hitboxEvent.entity) && this.checks.getSetting("Teams").asBoolean()) {
+      if (hitboxEvent.entity instanceof EntityPlayer && (!witherNearby || !wither.getValue())) {
+         if (GameUtil.isOnSameTeam(mc.thePlayer, (EntityPlayer)hitboxEvent.entity) && this.checks.getSetting("Teams").asBoolean()) {
             return;
          }
 
-         if ((!GameUtil.S(hitboxEvent.entity) || this.checks.getSetting("Invisible").asBoolean()) && !BotDetector.w.contains((EntityPlayer)hitboxEvent.entity)) {
+         if ((!GameUtil.isFullyInvisible(hitboxEvent.entity) || this.checks.getSetting("Invisible").asBoolean())
+            && !BotDetector.bots.contains((EntityPlayer)hitboxEvent.entity)) {
             hitboxEvent.borderSize = size.getValue();
          }
       }
@@ -45,13 +46,13 @@ public final class Hitboxes extends Module {
    @EventHandler(UpdateEvent.class)
    private final Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (updateEvent.getState() == EventState.PRE && wither.getValue()) {
-         G = false;
+         witherNearby = false;
 
          for (Entity entity : mc.theWorld.loadedEntityList) {
             if (entity instanceof EntityWither
                && mc.thePlayer.getDistanceToEntity(entity) < 3.0
-               && (!GameUtil.isBoss(entity) || !GameUtil.O(mc.thePlayer, (EntityLivingBase)entity))) {
-               G = true;
+               && (!GameUtil.isBoss(entity) || !GameUtil.isOnSameTeam(mc.thePlayer, (EntityLivingBase)entity))) {
+               witherNearby = true;
                break;
             }
          }

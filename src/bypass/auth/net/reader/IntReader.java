@@ -4,14 +4,14 @@ import bypass.auth.net.PacketReader;
 import java.nio.ByteBuffer;
 
 public class IntReader implements PacketReader<Integer> {
-   private Integer g;
+   private Integer packet;
 
    @Override
    public void read(ByteBuffer byteBuffer) {
-      this.g = byteBuffer.getInt();
+      this.packet = byteBuffer.getInt();
    }
 
    public Integer getPacket() {
-      return this.g;
+      return this.packet;
    }
 }

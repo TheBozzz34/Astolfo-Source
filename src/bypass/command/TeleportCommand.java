@@ -28,7 +28,7 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 
 public class TeleportCommand extends Command {
-   private final Globals m;
+   private final Globals luaGlobals;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       switch (packetEvent.getDirection()) {
@@ -86,7 +86,7 @@ public class TeleportCommand extends Command {
 
             luaTable.set("packet_id", i);
             luaTable.set("cancel", LuaValue.valueOf(packetEvent.isCancelled()));
-            LuaValue luaValue = this.b("on_send_packet", luaTable);
+            LuaValue luaValue = this.callLuaFunctionWithArg("on_send_packet", luaTable);
             if (luaValue != null && !luaValue.isnil() && luaValue.istable()) {
                LuaTable luaTable2 = (LuaTable)luaValue;
                LuaValue luaValue2 = luaTable2.get("cancel");
@@ -125,7 +125,7 @@ public class TeleportCommand extends Command {
                   luaTable3.set("motion_z", s12PacketEntityVelocity.getMotionZ());
             }
 
-            LuaValue luaValue3 = this.b("on_receive_packet", luaTable3);
+            LuaValue luaValue3 = this.callLuaFunctionWithArg("on_receive_packet", luaTable3);
             if (luaValue3 != null && !luaValue3.isnil() && luaValue3.istable()) {
                LuaValue luaValue4 = luaValue3.get("cancel");
                if (!luaValue4.isnil() && luaValue4.isboolean() && luaValue4.checkboolean()) {
@@ -138,19 +138,19 @@ public class TeleportCommand extends Command {
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       switch (updateEvent.getState()) {
          case PRE:
-            this.S("on_pre_update");
+            this.callLuaFunction("on_pre_update");
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.S("on_player_join");
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.callLuaFunction("on_player_join");
 
    public TeleportCommand(String string, String string2, String string3) {
       super(string, string2);
       this.setAliases(Collections.singletonList("tp"));
-      this.m = new Globals();
-      Script.w(this.m);
-      this.m.load(new ModuleManagerLibrary3(this));
-      LuaValue luaValue = LuaGlobals.globals.load(string3, "352675432675", this.m);
+      this.luaGlobals = new Globals();
+      Script.installLibraries(this.luaGlobals);
+      this.luaGlobals.load(new ModuleManagerLibrary3(this));
+      LuaValue luaValue = LuaGlobals.globals.load(string3, "352675432675", this.luaGlobals);
       luaValue.call();
       client.getEventBus().subscribe(this);
    }
@@ -168,7 +168,7 @@ public class TeleportCommand extends Command {
                   double e = Double.parseDouble(strings[2]);
                   mc.thePlayer.sendChatMessage(String.format("!tp %s %s", d, e));
                } catch (NumberFormatException numberFormatException) {
-                  ClientChat.CHAT.f("put cords correctly noob");
+                  ClientChat.CHAT.printError("put cords correctly noob");
                }
                break;
             case 4:
@@ -178,14 +178,14 @@ public class TeleportCommand extends Command {
                   double d4 = Double.parseDouble(strings[3]);
                   mc.thePlayer.sendChatMessage(String.format("!tp %s %s %s", d2, d3, d4));
                } catch (NumberFormatException numberFormatException2) {
-                  ClientChat.CHAT.f("put cords correctly noob");
+                  ClientChat.CHAT.printError("put cords correctly noob");
                }
          }
       }
    }
 
-   public LuaValue b(String string, LuaValue luaValue) {
-      LuaValue luaValue2 = this.w.get(string);
+   public LuaValue callLuaFunctionWithArg(String string, LuaValue luaValue) {
+      LuaValue luaValue2 = this.luaTable.get(string);
       if (!luaValue2.isnil()) {
          try {
             return luaValue2.call(luaValue);
@@ -197,8 +197,8 @@ public class TeleportCommand extends Command {
       return null;
    }
 
-   public LuaValue S(String string) {
-      LuaValue luaValue = this.w.get(string);
+   public LuaValue callLuaFunction(String string) {
+      LuaValue luaValue = this.luaTable.get(string);
       if (!luaValue.isnil()) {
          try {
             return luaValue.call();

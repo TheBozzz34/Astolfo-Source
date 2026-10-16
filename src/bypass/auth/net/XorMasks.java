@@ -1,34 +1,34 @@
 package bypass.auth.net;
 
 public final class XorMasks {
-   private static final byte T = 45;
-   private static final byte u = 22;
-   private static final byte i = 72;
-   private static final byte p = 14;
-   private static final byte V = 99;
-   private static final byte B = 33;
+   private static final byte MASK_45 = 45;
+   private static final byte MASK_22 = 22;
+   private static final byte MASK_72 = 72;
+   private static final byte MASK_14 = 14;
+   private static final byte MASK_99 = 99;
+   private static final byte MASK_33 = 33;
 
-   public static byte m(byte b) {
+   public static byte xor72(byte b) {
       return (byte)(b ^ 72);
    }
 
-   public static byte e(byte b) {
+   public static byte xor45(byte b) {
       return (byte)(b ^ 45);
    }
 
-   public static byte W(byte b) {
+   public static byte xor22(byte b) {
       return (byte)(b ^ 22);
    }
 
-   public static byte L(byte b) {
+   public static byte xor14(byte b) {
       return (byte)(b ^ 14);
    }
 
-   public static byte Z(byte b) {
+   public static byte xor99(byte b) {
       return (byte)(b ^ 99);
    }
 
-   public static byte C(byte b) {
+   public static byte xor33(byte b) {
       return (byte)(b ^ 33);
    }
 }

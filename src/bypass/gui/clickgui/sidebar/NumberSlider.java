@@ -9,46 +9,47 @@ import net.minecraft.client.gui.GuiMainMenu;
 import org.lwjgl.input.Mouse;
 
 public class NumberSlider extends SidebarSettingComponent {
-   private boolean d;
+   private boolean sliderDragging;
 
    public NumberSlider(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
       super(moduleButton, setting, f, g, i, j);
    }
 
    @Override
-   public void l(int i) {
-      if (i == 0 && this.y()) {
-         this.d = true;
+   public void onClick(int i) {
+      if (i == 0 && this.isVisible()) {
+         this.sliderDragging = true;
       }
    }
 
    @Override
    public void render(int i, int j) {
-      float g = this.M() + this.x() / 1.7F;
-      int k = this.t(i, (int)g, 60);
-      String string = String.format("%.1f", Double.valueOf(this.b().asString()));
-      RenderUtil.drawRect(g - 0.5F, this.E_float() + 0.5F, g + 60.0F, this.E_float() + 4.5F, new Color(34, 36, 43, this.X).getRGB());
+      float g = this.getX() + this.getWidth() / 1.7F;
+      int k = this.updateAndGetFillWidth(i, (int)g, 60);
+      String string = String.format("%.1f", Double.valueOf(this.getNumberSetting().asString()));
+      RenderUtil.drawRect(g - 0.5F, this.getYPos() + 0.5F, g + 60.0F, this.getYPos() + 4.5F, new Color(34, 36, 43, this.fadeAlpha).getRGB());
       RenderUtil.drawRect(
          g,
-         this.E_float() + 1.0F,
+         this.getYPos() + 1.0F,
          g + k,
-         this.E_float() + 5.0F,
-         this.d ? Astolfo.INSTANCE.getSidebarGui().U() : new Color(255, 255, 255, this.X).getRGB()
+         this.getYPos() + 5.0F,
+         this.sliderDragging ? Astolfo.INSTANCE.getSidebarGui().getPulseColor() : new Color(255, 255, 255, this.fadeAlpha).getRGB()
       );
-      if (this.X > 40) {
-         GuiMainMenu.c.drawString(string, g + k, this.E_float() + 4.0F, new Color(255, 255, 255, this.X).getRGB());
+      if (this.fadeAlpha > 40) {
+         GuiMainMenu.c.drawString(string, g + k, this.getYPos() + 4.0F, new Color(255, 255, 255, this.fadeAlpha).getRGB());
       }
 
-      if (this.X > 40) {
-         client.getCustomFontRenderer().drawString(this.b().getName(), this.M(), this.E_float(), new Color(255, 255, 255, this.X).getRGB());
+      if (this.fadeAlpha > 40) {
+         client.getCustomFontRenderer()
+            .drawString(this.getNumberSetting().getName(), this.getX(), this.getYPos(), new Color(255, 255, 255, this.fadeAlpha).getRGB());
       }
    }
 
-   public int t(int i, int j, int k) {
+   public int updateAndGetFillWidth(int i, int j, int k) {
       int l = Math.max(Math.min(i - j, k), 0);
-      NumberSetting numberSetting = this.b();
-      if (this.d) {
-         this.d = Mouse.isButtonDown(0);
+      NumberSetting numberSetting = this.getNumberSetting();
+      if (this.sliderDragging) {
+         this.sliderDragging = Mouse.isButtonDown(0);
          if (numberSetting.valueClass == Integer.class) {
             NumberSetting numberSetting2 = numberSetting;
             numberSetting2.setValue(
@@ -83,7 +84,7 @@ public class NumberSlider extends SidebarSettingComponent {
       }
    }
 
-   public NumberSetting b() {
-      return (NumberSetting)this.H();
+   public NumberSetting getNumberSetting() {
+      return (NumberSetting)this.getSetting();
    }
 }

@@ -20,7 +20,7 @@ import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.opengl.GL11;
 
 public final class BlockOverlay extends Module {
-   private static final AxisAlignedBB v = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
+   private static final AxisAlignedBB fullBlockBox = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
    private final ColorSetting color = new ColorSetting("Color", "Color", Color.WHITE);
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
    private final Listener<RenderEvent> onRender = renderEvent -> {
@@ -61,7 +61,7 @@ public final class BlockOverlay extends Module {
          );
          AxisAlignedBB axisAlignedBB = block.getSelectedBoundingBox(mc.theWorld, new BlockPos(0, 0, 0));
          if (axisAlignedBB != null) {
-            z(axisAlignedBB);
+            drawFilledBox(axisAlignedBB);
          }
 
          GL11.glColor4f(this.color.getValue().getRed() / 255.0F, this.color.getValue().getGreen() / 255.0F, this.color.getValue().getBlue() / 255.0F, 0.5F);
@@ -84,7 +84,7 @@ public final class BlockOverlay extends Module {
       this.setHidden(false);
    }
 
-   public static void z(AxisAlignedBB axisAlignedBB) {
+   public static void drawFilledBox(AxisAlignedBB axisAlignedBB) {
       GL11.glBegin(7);
       GL11.glVertex3d(axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.minZ);
       GL11.glVertex3d(axisAlignedBB.maxX, axisAlignedBB.minY, axisAlignedBB.minZ);

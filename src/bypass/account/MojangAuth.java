@@ -8,85 +8,85 @@ import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 
 public class MojangAuth implements Authenticator {
-   private String X;
-   private String a;
-   private UUID f;
-   private UUID C;
-   public int Y;
-   public long T;
+   private String username;
+   private String accessToken;
+   private UUID clientToken;
+   private UUID uuid;
+   public int useCount;
+   public long lastUsed;
 
    public MojangAuth(String string, String string2, UUID uuid, UUID uuid2) {
-      this.X = string;
-      this.a = string2;
-      this.f = uuid;
-      this.C = uuid2;
+      this.username = string;
+      this.accessToken = string2;
+      this.clientToken = uuid;
+      this.uuid = uuid2;
    }
 
    @Override
-   public String a() {
-      return this.X;
+   public String getUsername() {
+      return this.username;
    }
 
    @Override
-   public void Y(Minecraft minecraft, Consumer<Throwable> consumer) {
+   public void login(Minecraft minecraft, Consumer<Throwable> consumer) {
    }
 
-   public boolean h() throws Exception {
+   public boolean validate() throws Exception {
       AuthHttp authHttp = new AuthHttp("https://authserver.mojang.com/validate");
-      authHttp.z("Content-Type", "application/json");
+      authHttp.setHeader("Content-Type", "application/json");
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("accessToken", this.a);
-      jsonObject.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.f));
-      authHttp.C(jsonObject.toString());
-      return authHttp.s() >= 200 && authHttp.s() < 300;
+      jsonObject.addProperty("accessToken", this.accessToken);
+      jsonObject.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.clientToken));
+      authHttp.post(jsonObject.toString());
+      return authHttp.getResponseCode() >= 200 && authHttp.getResponseCode() < 300;
    }
 
-   public void Z() throws Exception {
+   public void refresh() throws Exception {
       AuthHttp authHttp = new AuthHttp("https://authserver.mojang.com/refresh");
-      authHttp.z("Content-Type", "application/json");
+      authHttp.setHeader("Content-Type", "application/json");
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("accessToken", this.a);
-      jsonObject.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.f));
-      authHttp.C(jsonObject.toString());
-      if (authHttp.s() >= 200 && authHttp.s() < 300) {
-         JsonObject jsonObject2 = new Gson().fromJson(authHttp.K(), JsonObject.class);
-         this.a = jsonObject2.get("accessToken").getAsString();
-         this.f = UUIDTypeAdapter.fromString(jsonObject2.get("clientToken").getAsString());
-         this.C = UUIDTypeAdapter.fromString(jsonObject2.getAsJsonObject("selectedProfile").get("id").getAsString());
-         this.X = jsonObject2.getAsJsonObject("selectedProfile").get("name").getAsString();
+      jsonObject.addProperty("accessToken", this.accessToken);
+      jsonObject.addProperty("clientToken", UUIDTypeAdapter.fromUUID(this.clientToken));
+      authHttp.post(jsonObject.toString());
+      if (authHttp.getResponseCode() >= 200 && authHttp.getResponseCode() < 300) {
+         JsonObject jsonObject2 = new Gson().fromJson(authHttp.readResponse(), JsonObject.class);
+         this.accessToken = jsonObject2.get("accessToken").getAsString();
+         this.clientToken = UUIDTypeAdapter.fromString(jsonObject2.get("clientToken").getAsString());
+         this.uuid = UUIDTypeAdapter.fromString(jsonObject2.getAsJsonObject("selectedProfile").get("id").getAsString());
+         this.username = jsonObject2.getAsJsonObject("selectedProfile").get("name").getAsString();
       } else {
-         throw new AuthException("ias.mojauth.unknown", authHttp.q());
+         throw new AuthException("ias.mojauth.unknown", authHttp.readErrorResponse());
       }
    }
 
    @Override
-   public boolean u() {
+   public boolean canLogin() {
       return true;
    }
 
    @Override
-   public boolean d() {
+   public boolean canEdit() {
       return true;
    }
 
    @Override
-   public int B() {
-      return this.Y;
+   public int getUseCount() {
+      return this.useCount;
    }
 
    @Override
-   public long v() {
-      return this.T;
+   public long getLastUsed() {
+      return this.lastUsed;
    }
 
    @Override
-   public void n() {
-      this.Y++;
-      this.T = System.currentTimeMillis();
+   public void markUsed() {
+      this.useCount++;
+      this.lastUsed = System.currentTimeMillis();
    }
 
    @Override
-   public UUID W() {
-      return this.C;
+   public UUID getUuid() {
+      return this.uuid;
    }
 }

@@ -1,17 +1,17 @@
 package bypass.loader.check;
 
 public interface CheckResult {
-   default Verdict u() {
+   default Verdict getVerdict() {
       throw new UnsupportedOperationException();
    }
 
-   ResultKind c();
+   ResultKind getKind();
 
-   static CheckResult S(Verdict verdict) {
-      return VerdictResult.a(verdict);
+   static CheckResult ofVerdict(Verdict verdict) {
+      return VerdictResult.create(verdict);
    }
 
-   static CheckResult I() {
+   static CheckResult undecided() {
       return UndecidedResult.INSTANCE;
    }
 }

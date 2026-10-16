@@ -8,49 +8,49 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 
 public class Notification {
-   private final String i;
-   private final String u;
-   private final NotificationType t;
-   private final int S;
-   public final Animation h = new TimedAnimation();
-   public final Animation v = new TimedAnimation();
+   private final String title;
+   private final String message;
+   private final NotificationType type;
+   private final int duration;
+   public final Animation timerAnimation = new TimedAnimation();
+   public final Animation slideAnimation = new TimedAnimation();
 
    public Notification(String string, String string2, NotificationType notificationType, int i) {
-      this.i = string;
-      this.u = string2 == null ? "" : string2;
-      this.t = notificationType;
-      this.S = i;
+      this.title = string;
+      this.message = string2 == null ? "" : string2;
+      this.type = notificationType;
+      this.duration = i;
    }
 
-   public void K() {
-      this.h.setDuration(this.S);
-      this.v.setDuration(250);
+   public void show() {
+      this.timerAnimation.setDuration(this.duration);
+      this.slideAnimation.setDuration(250);
       Astolfo.INSTANCE.getNotificationManager().add(this);
    }
 
-   public void E() {
+   public void dismiss() {
       Astolfo.INSTANCE.getNotificationManager().getList().remove(this);
    }
 
-   public void N() {
+   public void start() {
       Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("random.pop"), 1.0F));
-      this.h.forwards().rewind().start();
-      this.v.forwards().rewind().start();
+      this.timerAnimation.forwards().rewind().start();
+      this.slideAnimation.forwards().rewind().start();
    }
 
-   public boolean I() {
-      return this.h.isRunning();
+   public boolean isTimerRunning() {
+      return this.timerAnimation.isRunning();
    }
 
-   public String p() {
-      return this.i;
+   public String getTitle() {
+      return this.title;
    }
 
-   public String O() {
-      return this.u;
+   public String getMessage() {
+      return this.message;
    }
 
-   public NotificationType G() {
-      return this.t;
+   public NotificationType getType() {
+      return this.type;
    }
 }

@@ -13,20 +13,20 @@ import java.util.List;
 import javax.xml.bind.DatatypeConverter;
 
 public class GameJarHash {
-   private List<String> g;
+   private List<String> hashes;
 
    public GameJarHash() {
       try {
-         this.g = new ArrayList<>(Collections.singleton(this.G()));
+         this.hashes = new ArrayList<>(Collections.singleton(this.computeHash()));
       } catch (IOException | URISyntaxException | NoSuchAlgorithmException value) {
       }
    }
 
-   public List<String> H() {
-      return this.g;
+   public List<String> getHashes() {
+      return this.hashes;
    }
 
-   private String G() throws IOException, NoSuchAlgorithmException, URISyntaxException {
+   private String computeHash() throws IOException, NoSuchAlgorithmException, URISyntaxException {
       byte[] bytes = Files.readAllBytes(Paths.get(ConfigFiles.getGameJarPath()));
       byte[] bytes2 = MessageDigest.getInstance("MD5").digest(bytes);
       return DatatypeConverter.printHexBinary(bytes2).toLowerCase();

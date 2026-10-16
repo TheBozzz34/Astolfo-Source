@@ -11,7 +11,7 @@ import org.luaj.vm2.lib.TwoArgFunction;
 public final class GetAsync extends TwoArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
-      if (!ScriptManager.N.t()) {
+      if (!ScriptManager.unsafeFunctions.isEnabled()) {
          return valueOf(false);
       }
 
@@ -23,13 +23,13 @@ public final class GetAsync extends TwoArgFunction {
          return valueOf(false);
       }
 
-      HttpRequest httpRequest = new HttpRequest().g(luaValue.checkjstring());
-      httpRequest.W("Astolfo-User");
-      httpRequest.V(AuthUtil.getHwid());
-      httpRequest.T("Astolfo-Client");
-      httpRequest.i("");
-      httpRequest.S("");
-      HttpLibrary.R.submit(() -> {
+      HttpRequest httpRequest = new HttpRequest().setUrl(luaValue.checkjstring());
+      httpRequest.setHeaderKeys("Astolfo-User");
+      httpRequest.setHeaderValues(AuthUtil.getHwid());
+      httpRequest.setUserAgent("Astolfo-Client");
+      httpRequest.setAccept("");
+      httpRequest.setContentType("");
+      HttpLibrary.asyncExecutor.submit(() -> {
          String string = HttpUtil.get(httpRequest);
          LuaValue luaValue3 = luaValue2.get("run");
          luaValue3.call(string);

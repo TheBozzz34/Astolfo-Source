@@ -214,7 +214,7 @@ public class CrashReport {
 
       try {
          FileWriter fileWriter = new FileWriter(toFile);
-         fileWriter.write(CrashReportEncryption.O(this.getCompleteReport()));
+         fileWriter.write(CrashReportEncryption.encrypt(this.getCompleteReport()));
          fileWriter.close();
          this.crashReportFile = toFile;
          return true;

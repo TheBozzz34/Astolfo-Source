@@ -215,13 +215,13 @@ public final class HUD extends Module {
                         Color color = client.getColorSetting().getValue();
                         float g = 1.0F
                            - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.6F);
-                        int j = new Color(
+                        int i = new Color(
                               MathHelper.clamp_int((int)(color.getRed() * g), 0, 255),
                               MathHelper.clamp_int((int)(color.getGreen() * g), 0, 255),
                               MathHelper.clamp_int((int)(color.getBlue() * g), 0, 255)
                            )
                            .getRGB();
-                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, j);
+                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, i);
                         client.getCustomFontRenderer()
                            .drawStringWithShadow(
                               string.substring(1), 2 + client.getCustomFontRenderer().getStringWidth(string.substring(0, 1)), 1.0F, Color.WHITE.getRGB()
@@ -231,8 +231,8 @@ public final class HUD extends Module {
                         client.getCustomFontRenderer().drawStringWithShadow(string, 1.0F, 1.0F, client.getColorSetting().getValue().getRGB());
                         break;
                      case RAINBOW:
-                        int k = Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F);
-                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, k);
+                        int j = Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F);
+                        client.getCustomFontRenderer().drawStringWithShadow("§l" + string.charAt(0), 1.0F, 1.0F, j);
                         client.getCustomFontRenderer()
                            .drawStringWithShadow(
                               string.substring(1), 2 + client.getCustomFontRenderer().getStringWidth(string.substring(0, 1)), 1.0F, Color.WHITE.getRGB()
@@ -241,7 +241,7 @@ public final class HUD extends Module {
                      case RETARD:
                         GL11.glPushMatrix();
                         String string2 = "%s ︳ %s";
-                        int m = Math.min(
+                        int k = Math.min(
                            mc.thePlayer.getPlayerInfo() != null && mc.thePlayer.getPlayerInfo().getResponseTime() > 1
                               ? mc.thePlayer.getPlayerInfo().getResponseTime()
                               : (
@@ -251,7 +251,7 @@ public final class HUD extends Module {
                               ),
                            999
                         );
-                        if (m > 0) {
+                        if (k > 0) {
                            string2 = string2 + " ︳ ping: %sms";
                         }
 
@@ -263,7 +263,7 @@ public final class HUD extends Module {
                            string2,
                            client.getName() + (isDevelopment ? " [DEVELOPMENT]" : (client.getVersion().contains("BETA") ? " [BETA]" : "")),
                            mc.mouseHelper.Y().getAccount().getUsername(),
-                           m
+                           k
                         );
                         RenderUtil.drawRect(3.0, 3.0, 10 + client.getFontRenderer().getStringWidth(string2), 18.0, new Color(1, 1, 1, 80).getRGB());
                         RenderUtil.drawRect(3.0, 3.0, 10 + client.getFontRenderer().getStringWidth(string2), 4.0, client.getColorSetting().getValue().getRGB());
@@ -286,18 +286,18 @@ public final class HUD extends Module {
          if (tabGui.getValue()) {
             if (watermark.getSetting("Enabled").asBoolean()) {
                if (hudWatermarkMode == HUDWatermarkMode.RETARD) {
-                  this.getTabGui().P(20.0F);
-                  this.getTabGui().C(3.0F);
+                  this.getTabGui().setY(20.0F);
+                  this.getTabGui().setX(3.0F);
                } else if (hudWatermarkMode == HUDWatermarkMode.ROTATE) {
-                  this.getTabGui().C(0.0F);
-                  this.getTabGui().P(25.0F);
+                  this.getTabGui().setX(0.0F);
+                  this.getTabGui().setY(25.0F);
                } else {
-                  this.getTabGui().C(0.0F);
-                  this.getTabGui().P(13.0F);
+                  this.getTabGui().setX(0.0F);
+                  this.getTabGui().setY(13.0F);
                }
             } else {
-               this.getTabGui().C(0.0F);
-               this.getTabGui().P(2.0F);
+               this.getTabGui().setX(0.0F);
+               this.getTabGui().setY(2.0F);
             }
 
             this.getTabGui().render(renderEvent.getResolution(), mc);
@@ -316,33 +316,36 @@ public final class HUD extends Module {
             if (this.compass == null) {
                this.compass = new CompassHud(numberSetting.asFloat(), numberSetting2.asFloat(), 75, 20);
             } else {
-               int i2 = renderEvent.getResolution().getScaledHeight();
-               int i3 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i4 = i2 - Mouse.getY() * i2 / mc.displayHeight - 1;
+               int m = renderEvent.getResolution().getScaledHeight();
+               int i2 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i3 = m - Mouse.getY() * m / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
-                  numberSetting.setValue(this.compass.M());
-                  numberSetting2.setValue(this.compass.E_float());
-               } else if ((Float)numberSetting.getValue() != this.compass.M() || (Float)numberSetting2.getValue() != this.compass.E_float()) {
-                  if (this.compass.M() != (Float)numberSetting.getValue()) {
-                     this.compass.o((Float)numberSetting.getValue());
+                  numberSetting.setValue(this.compass.getX());
+                  numberSetting2.setValue(this.compass.getYPos());
+               } else if ((Float)numberSetting.getValue() != this.compass.getX() || (Float)numberSetting2.getValue() != this.compass.getYPos()) {
+                  if (this.compass.getX() != (Float)numberSetting.getValue()) {
+                     this.compass.setX((Float)numberSetting.getValue());
                   }
 
-                  if (this.compass.E_float() != (Float)numberSetting2.getValue()) {
-                     this.compass.q((Float)numberSetting2.getValue());
+                  if (this.compass.getYPos() != (Float)numberSetting2.getValue()) {
+                     this.compass.setY((Float)numberSetting2.getValue());
                   }
                }
 
-               this.compass.i(renderEvent.getResolution().getScaledWidth());
-               this.compass.render(i3, i4);
-               if (mc.currentScreen instanceof GuiChat && this.compass.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.compass.T(i3, i4);
+               this.compass.setScreenWidth(renderEvent.getResolution().getScaledWidth());
+               this.compass.render(i2, i3);
+               if (mc.currentScreen instanceof GuiChat && this.compass.isDragging() && Mouse.isButtonDown(0)) {
+                  this.compass.updateDragPosition(i2, i3);
                }
 
                if (Mouse.isButtonDown(0)
-                  && this.compass.u((int)this.compass.M() - 75, (int)this.compass.E_float(), this.compass.x() + 75, this.compass.Y(), i3, i4)) {
-                  this.compass.F(true, i3, i4);
+                  && this.compass
+                     .isMouseInRect(
+                        (int)this.compass.getX() - 75, (int)this.compass.getYPos(), this.compass.getWidth() + 75, this.compass.getHeight(), i2, i3
+                     )) {
+                  this.compass.setDragging(true, i2, i3);
                } else {
-                  this.compass.x(false);
+                  this.compass.setDraggingNoOffset(false);
                }
             }
          } else {
@@ -356,33 +359,33 @@ public final class HUD extends Module {
             if (this.outgoingGraph == null) {
                this.outgoingGraph = new PacketGraphHud(numberSetting3.asFloat(), numberSetting4.asFloat(), 150, 39);
             } else {
-               int i5 = renderEvent.getResolution().getScaledHeight();
-               int i6 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i7 = i5 - Mouse.getY() * i5 / mc.displayHeight - 1;
+               int i4 = renderEvent.getResolution().getScaledHeight();
+               int i5 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i6 = i4 - Mouse.getY() * i4 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
-                  numberSetting3.setValue(this.outgoingGraph.M());
-                  numberSetting4.setValue(this.outgoingGraph.E_float());
-               } else if ((Float)numberSetting3.getValue() != this.outgoingGraph.M() || (Float)numberSetting4.getValue() != this.outgoingGraph.E_float()) {
-                  if (this.outgoingGraph.M() != (Float)numberSetting3.getValue()) {
-                     this.outgoingGraph.o((Float)numberSetting3.getValue());
+                  numberSetting3.setValue(this.outgoingGraph.getX());
+                  numberSetting4.setValue(this.outgoingGraph.getYPos());
+               } else if ((Float)numberSetting3.getValue() != this.outgoingGraph.getX() || (Float)numberSetting4.getValue() != this.outgoingGraph.getYPos()) {
+                  if (this.outgoingGraph.getX() != (Float)numberSetting3.getValue()) {
+                     this.outgoingGraph.setX((Float)numberSetting3.getValue());
                   }
 
-                  if (this.outgoingGraph.E_float() != (Float)numberSetting4.getValue()) {
-                     this.outgoingGraph.q((Float)numberSetting4.getValue());
+                  if (this.outgoingGraph.getYPos() != (Float)numberSetting4.getValue()) {
+                     this.outgoingGraph.setY((Float)numberSetting4.getValue());
                   }
                }
 
-               this.outgoingGraph.K(this.packetHistory);
-               this.outgoingGraph.N(bl);
-               this.outgoingGraph.render(i6, i7);
-               if (mc.currentScreen instanceof GuiChat && this.outgoingGraph.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.outgoingGraph.T(i6, i7);
+               this.outgoingGraph.setSnapshots(this.packetHistory);
+               this.outgoingGraph.setShowAverage(bl);
+               this.outgoingGraph.render(i5, i6);
+               if (mc.currentScreen instanceof GuiChat && this.outgoingGraph.isDragging() && Mouse.isButtonDown(0)) {
+                  this.outgoingGraph.updateDragPosition(i5, i6);
                }
 
-               if (Mouse.isButtonDown(0) && this.outgoingGraph.G(i6, i7)) {
-                  this.outgoingGraph.F(true, i6, i7);
+               if (Mouse.isButtonDown(0) && this.outgoingGraph.isHovered(i5, i6)) {
+                  this.outgoingGraph.setDragging(true, i5, i6);
                } else {
-                  this.outgoingGraph.x(false);
+                  this.outgoingGraph.setDraggingNoOffset(false);
                }
             }
          } else {
@@ -395,34 +398,34 @@ public final class HUD extends Module {
             if (this.incomingGraph == null) {
                this.incomingGraph = new PacketGraphHud(numberSetting5.asFloat(), numberSetting6.asFloat(), 150, 39);
             } else {
-               int i8 = renderEvent.getResolution().getScaledHeight();
-               int i9 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i10 = i8 - Mouse.getY() * i8 / mc.displayHeight - 1;
+               int i7 = renderEvent.getResolution().getScaledHeight();
+               int i8 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i9 = i7 - Mouse.getY() * i7 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
-                  numberSetting5.setValue(this.incomingGraph.M());
-                  numberSetting6.setValue(this.incomingGraph.E_float());
-               } else if ((Float)numberSetting5.getValue() != this.incomingGraph.M() || (Float)numberSetting6.getValue() != this.incomingGraph.E_float()) {
-                  if (this.incomingGraph.M() != (Float)numberSetting5.getValue()) {
-                     this.incomingGraph.o((Float)numberSetting5.getValue());
+                  numberSetting5.setValue(this.incomingGraph.getX());
+                  numberSetting6.setValue(this.incomingGraph.getYPos());
+               } else if ((Float)numberSetting5.getValue() != this.incomingGraph.getX() || (Float)numberSetting6.getValue() != this.incomingGraph.getYPos()) {
+                  if (this.incomingGraph.getX() != (Float)numberSetting5.getValue()) {
+                     this.incomingGraph.setX((Float)numberSetting5.getValue());
                   }
 
-                  if (this.incomingGraph.E_float() != (Float)numberSetting6.getValue()) {
-                     this.incomingGraph.q((Float)numberSetting6.getValue());
+                  if (this.incomingGraph.getYPos() != (Float)numberSetting6.getValue()) {
+                     this.incomingGraph.setY((Float)numberSetting6.getValue());
                   }
                }
 
-               this.incomingGraph.K(this.packetHistory);
-               this.incomingGraph.r(true);
-               this.incomingGraph.N(bl);
-               this.incomingGraph.render(i9, i10);
-               if (mc.currentScreen instanceof GuiChat && this.incomingGraph.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.incomingGraph.T(i9, i10);
+               this.incomingGraph.setSnapshots(this.packetHistory);
+               this.incomingGraph.setShowIncoming(true);
+               this.incomingGraph.setShowAverage(bl);
+               this.incomingGraph.render(i8, i9);
+               if (mc.currentScreen instanceof GuiChat && this.incomingGraph.isDragging() && Mouse.isButtonDown(0)) {
+                  this.incomingGraph.updateDragPosition(i8, i9);
                }
 
-               if (Mouse.isButtonDown(0) && this.incomingGraph.G(i9, i10)) {
-                  this.incomingGraph.F(true, i9, i10);
+               if (Mouse.isButtonDown(0) && this.incomingGraph.isHovered(i8, i9)) {
+                  this.incomingGraph.setDragging(true, i8, i9);
                } else {
-                  this.incomingGraph.x(false);
+                  this.incomingGraph.setDraggingNoOffset(false);
                }
             }
          } else {
@@ -440,19 +443,19 @@ public final class HUD extends Module {
             if (this.statsHud == null) {
                this.statsHud = new StatsHud(numberSetting7.asFloat(), numberSetting8.asFloat(), 300, 100);
             } else {
-               int i11 = renderEvent.getResolution().getScaledHeight();
-               int i12 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i13 = i11 - Mouse.getY() * i11 / mc.displayHeight - 1;
+               int i10 = renderEvent.getResolution().getScaledHeight();
+               int i11 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i12 = i10 - Mouse.getY() * i10 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
-                  numberSetting7.setValue(this.statsHud.M());
-                  numberSetting8.setValue(this.statsHud.E_float());
-               } else if ((Float)numberSetting7.getValue() != this.statsHud.M() || (Float)numberSetting8.getValue() != this.statsHud.E_float()) {
-                  if (this.statsHud.M() != (Float)numberSetting7.getValue()) {
-                     this.statsHud.o((Float)numberSetting7.getValue());
+                  numberSetting7.setValue(this.statsHud.getX());
+                  numberSetting8.setValue(this.statsHud.getYPos());
+               } else if ((Float)numberSetting7.getValue() != this.statsHud.getX() || (Float)numberSetting8.getValue() != this.statsHud.getYPos()) {
+                  if (this.statsHud.getX() != (Float)numberSetting7.getValue()) {
+                     this.statsHud.setX((Float)numberSetting7.getValue());
                   }
 
-                  if (this.statsHud.E_float() != (Float)numberSetting8.getValue()) {
-                     this.statsHud.q((Float)numberSetting8.getValue());
+                  if (this.statsHud.getYPos() != (Float)numberSetting8.getValue()) {
+                     this.statsHud.setY((Float)numberSetting8.getValue());
                   }
                }
 
@@ -464,17 +467,17 @@ public final class HUD extends Module {
                   numberSetting8.setValue(30.0F);
                }
 
-               this.statsHud.J((AutoHypixelAutoCheckerGameMode)enumSetting.getValue());
-               this.statsHud.I((Integer)numberSetting9.getValue());
-               this.statsHud.render(i12, i13);
-               if (mc.currentScreen instanceof GuiChat && this.statsHud.u_boolean() && Mouse.isButtonDown(0)) {
-                  this.statsHud.T(i12, i13);
+               this.statsHud.setGameMode((AutoHypixelAutoCheckerGameMode)enumSetting.getValue());
+               this.statsHud.setMaxPlayers((Integer)numberSetting9.getValue());
+               this.statsHud.render(i11, i12);
+               if (mc.currentScreen instanceof GuiChat && this.statsHud.isDragging() && Mouse.isButtonDown(0)) {
+                  this.statsHud.updateDragPosition(i11, i12);
                }
 
-               if (Mouse.isButtonDown(0) && this.statsHud.G(i12, i13)) {
-                  this.statsHud.F(true, i12, i13);
+               if (Mouse.isButtonDown(0) && this.statsHud.isHovered(i11, i12)) {
+                  this.statsHud.setDragging(true, i11, i12);
                } else {
-                  this.statsHud.x(false);
+                  this.statsHud.setDraggingNoOffset(false);
                }
             }
          } else {
@@ -816,7 +819,7 @@ public final class HUD extends Module {
          case CATEGORY:
             return category.getColor();
          case TRANS:
-            return HUDFlagColor.s(HUDFlagColor.values()[i]).getRGB();
+            return HUDFlagColor.colorOf(HUDFlagColor.values()[i]).getRGB();
          default:
             return client.getColorSetting().getValue().getRGB();
       }

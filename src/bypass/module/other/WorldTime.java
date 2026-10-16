@@ -14,21 +14,21 @@ import net.minecraft.network.play.server.S03PacketTimeUpdate;
 
 public final class WorldTime extends Module {
    private final EnumSetting<WorldTimeMode> mode = new EnumSetting<>("Mode", "Set time", WorldTimeMode.SUNRISE);
-   private long N = -1L;
-   private long O;
+   private long serverWorldTime = -1L;
+   private long loopTime;
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.WORLD) {
-         mc.theWorld.setWorldTime(this.mode.getValue() == WorldTimeMode.LOOP ? this.O : WorldTimeMode.W(this.mode.getValue()));
-         if (this.O++ >= 23999L) {
-            this.O = 0L;
+         mc.theWorld.setWorldTime(this.mode.getValue() == WorldTimeMode.LOOP ? this.loopTime : WorldTimeMode.getTime(this.mode.getValue()));
+         if (this.loopTime++ >= 23999L) {
+            this.loopTime = 0L;
          }
       }
    };
    @EventHandler(value = PacketEvent.class, priority = EventPriority.LOWEST)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S03PacketTimeUpdate) {
-         this.N = ((S03PacketTimeUpdate)packetEvent.getPacket()).getWorldTime();
+         this.serverWorldTime = ((S03PacketTimeUpdate)packetEvent.getPacket()).getWorldTime();
          packetEvent.cancel();
       }
    };
@@ -41,11 +41,11 @@ public final class WorldTime extends Module {
 
    @Override
    public void onDisable() {
-      if (mc.theWorld != null && this.N != -1L) {
-         mc.theWorld.setWorldTime(this.N);
+      if (mc.theWorld != null && this.serverWorldTime != -1L) {
+         mc.theWorld.setWorldTime(this.serverWorldTime);
       }
 
-      this.O = 0L;
+      this.loopTime = 0L;
       super.onDisable();
    }
 }

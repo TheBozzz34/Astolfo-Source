@@ -13,7 +13,7 @@ public enum EventPriority {
       this.level = j;
    }
 
-   public int J() {
+   public int getLevel() {
       return this.level;
    }
 }

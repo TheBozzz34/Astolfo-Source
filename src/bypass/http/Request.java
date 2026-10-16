@@ -4,30 +4,30 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public interface Request {
-   String e = StandardCharsets.UTF_8.name();
-   String G = "&";
-   String P = "=";
-   String d = "?";
+   String CHARSET = StandardCharsets.UTF_8.name();
+   String PARAM_SEPARATOR = "&";
+   String KEY_VALUE_SEPARATOR = "=";
+   String QUERY_PREFIX = "?";
 
-   Map<String, String> I();
+   Map<String, String> getParameters();
 
-   String t();
+   String getMethod();
 
-   ContentType V();
+   ContentType getContentType();
 
-   int d();
+   int getContentLength();
 
-   Request m(String string, String string2) throws Exception;
+   Request addParameter(String string, String string2) throws Exception;
 
-   Request y(String string) throws Exception;
+   Request removeParameter(String string) throws Exception;
 
-   String D() throws Exception;
+   String getBody() throws Exception;
 
-   default RequestWrapper u(Request request) {
+   default RequestWrapper wrap(Request request) {
       return new RequestWrapper(request);
    }
 
-   default RequestWrapper L() {
+   default RequestWrapper toWrapper() {
       return new RequestWrapper(this);
    }
 }

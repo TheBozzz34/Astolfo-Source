@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public final class UserListReader implements PacketReader<UserListPacket> {
-   private UserListPacket g;
+   private UserListPacket packet;
 
    @Override
    public void read(ByteBuffer byteBuffer) {
@@ -17,10 +17,12 @@ public final class UserListReader implements PacketReader<UserListPacket> {
       byteBuffer.get(bytes2);
       int i = byteBuffer.getInt();
       int j = byteBuffer.getInt();
-      this.g = new UserListPacket(UserListType.values()[i], new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8), j == 1);
+      this.packet = new UserListPacket(
+         UserListType.values()[i], new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8), j == 1
+      );
    }
 
    public UserListPacket getPacket() {
-      return this.g;
+      return this.packet;
    }
 }

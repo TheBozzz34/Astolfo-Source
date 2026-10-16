@@ -241,10 +241,10 @@ public final class ESP extends Module {
             }
 
             List list2 = mc.theWorld.loadedEntityList;
-            int i2 = 0;
+            int n = 0;
 
-            for (int i3 = list2.size(); i2 < i3; i2++) {
-               Entity entity2 = (Entity)list2.get(i2);
+            for (int i2 = list2.size(); n < i2; n++) {
+               Entity entity2 = (Entity)list2.get(n);
                if (this.shouldRender(entity2)) {
                   double d6 = MathUtil.interpolate(entity2.lastTickPosX, entity2.posX, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosX);
                   double d7 = MathUtil.interpolate(entity2.lastTickPosY, entity2.posY, renderEvent.getPartialTicks(), mc.getRenderManager().viewerPosY);
@@ -258,15 +258,15 @@ public final class ESP extends Module {
                float g = renderEvent.getResolution().getScaledHeight() / 2.0F;
                this.menuX = this.menuX - mc.mouseHelper.a();
                this.menuY = this.menuY + mc.mouseHelper.z();
-               int i4 = mc.fontRendererObj.getStringWidth(this.menuTarget.getName());
+               int i3 = mc.fontRendererObj.getStringWidth(this.menuTarget.getName());
                RenderUtil.drawRect(
-                  f - i4 + this.menuX,
+                  f - i3 + this.menuX,
                   g - 100.0F + this.menuY,
-                  f + i4 + this.menuX,
+                  f + i3 + this.menuX,
                   g - 90.0F + this.menuY + 9.0F,
                   new Color(1, 1, 1, 120).getRGB()
                );
-               mc.fontRendererObj.drawStringWithShadow(this.menuTarget.getName(), f - i4 / 2.0F + this.menuX, g - 90.0F + this.menuY - 5.0F, -1);
+               mc.fontRendererObj.drawStringWithShadow(this.menuTarget.getName(), f - i3 / 2.0F + this.menuX, g - 90.0F + this.menuY - 5.0F, -1);
                this.drawMenuButton("Custom", f + 20.0F, g - 75.0F, f + 75.0F, g - 20.0F);
                this.drawMenuButton("Enemy", f - 75.0F, g + 20.0F, f - 20.0F, g + 75.0F);
                this.drawMenuButton("Friend", f + 20.0F, g + 20.0F, f + 75.0F, g + 75.0F);
@@ -287,23 +287,23 @@ public final class ESP extends Module {
                }
 
                if (this.menuX >= 20.0F && this.menuY <= -20.0F && this.menuY >= -75.0F && this.menuX <= 75.0F) {
-                  if (client.getRelationManager().D(this.menuTarget)) {
-                     client.getRelationManager().n().remove(this.menuTarget.getName());
-                     client.getRelationManager().Z().remove(this.menuTarget.getName());
+                  if (client.getRelationManager().isEnemy(this.menuTarget)) {
+                     client.getRelationManager().getRelations().remove(this.menuTarget.getName());
+                     client.getRelationManager().getRelationMap().remove(this.menuTarget.getName());
                   } else {
-                     client.getRelationManager().n().remove(this.menuTarget.getName());
-                     client.getRelationManager().Z().remove(this.menuTarget.getName());
+                     client.getRelationManager().getRelations().remove(this.menuTarget.getName());
+                     client.getRelationManager().getRelationMap().remove(this.menuTarget.getName());
                      client.getRelationManager().add(new Relation(this.menuTarget.getName(), this.menuTarget.getName(), false));
                   }
                }
 
                if (this.menuX <= -20.0F && this.menuY <= -20.0F && this.menuY >= -75.0F && this.menuX >= -75.0F) {
-                  if (client.getRelationManager().z(this.menuTarget)) {
-                     client.getRelationManager().n().remove(this.menuTarget.getName());
-                     client.getRelationManager().Z().remove(this.menuTarget.getName());
+                  if (client.getRelationManager().isFriend(this.menuTarget)) {
+                     client.getRelationManager().getRelations().remove(this.menuTarget.getName());
+                     client.getRelationManager().getRelationMap().remove(this.menuTarget.getName());
                   } else {
-                     client.getRelationManager().n().remove(this.menuTarget.getName());
-                     client.getRelationManager().Z().remove(this.menuTarget.getName());
+                     client.getRelationManager().getRelations().remove(this.menuTarget.getName());
+                     client.getRelationManager().getRelationMap().remove(this.menuTarget.getName());
                      client.getRelationManager().add(new Relation(this.menuTarget.getName(), this.menuTarget.getName(), true));
                   }
                }
@@ -439,7 +439,7 @@ public final class ESP extends Module {
                   boolean bl = false;
                   if (entityItem2.getEntityItem().getItem() instanceof ItemArmor) {
                      ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
-                     ArmorSlot armorSlot = AutoArmor.N(itemArmor.armorType);
+                     ArmorSlot armorSlot = AutoArmor.getArmorSlotByType(itemArmor.armorType);
                      if (armorSlot != null) {
                         int i2 = InventoryUtil.getArmorScore(itemStack);
                         Slot slot2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot.slot);
@@ -536,8 +536,8 @@ public final class ESP extends Module {
 
             int k = Integer.MAX_VALUE;
             int l = Integer.MIN_VALUE;
-            int n = Integer.MAX_VALUE;
-            int i2 = Integer.MIN_VALUE;
+            int m = Integer.MAX_VALUE;
+            int n = Integer.MIN_VALUE;
             float[][] floatss = new float[][]{
                {(float)axisAlignedBB.minX, (float)axisAlignedBB.minY, (float)axisAlignedBB.minZ},
                {(float)axisAlignedBB.minX, (float)axisAlignedBB.maxY, (float)axisAlignedBB.minZ},
@@ -549,24 +549,24 @@ public final class ESP extends Module {
                {(float)axisAlignedBB.maxX, (float)axisAlignedBB.minY, (float)axisAlignedBB.maxZ}
             };
 
-            for (int i3 = 0; i3 < 8; i3++) {
-               float[] floats2 = this.project(floatss[i3][0], floatss[i3][1], floatss[i3][2]);
+            for (int i2 = 0; i2 < 8; i2++) {
+               float[] floats2 = this.project(floatss[i2][0], floatss[i2][1], floatss[i2][2]);
                if (floats2 != null) {
                   k = Math.min(k, (int)floats2[0]);
                   l = Math.max(l, (int)floats2[0]);
-                  n = Math.min(n, (int)floats2[1]);
-                  i2 = Math.max(i2, (int)floats2[1]);
+                  m = Math.min(m, (int)floats2[1]);
+                  n = Math.max(n, (int)floats2[1]);
                }
             }
 
-            if (k != Integer.MAX_VALUE && l != Integer.MIN_VALUE && n != Integer.MAX_VALUE && i2 != Integer.MIN_VALUE) {
+            if (k != Integer.MAX_VALUE && l != Integer.MIN_VALUE && m != Integer.MAX_VALUE && n != Integer.MIN_VALUE) {
                GlStateManager.pushMatrix();
-               int i4 = renderEvent.getResolution().getScaleFactor();
-               double d = i4 / Math.pow(i4, 2.0);
+               int i3 = renderEvent.getResolution().getScaleFactor();
+               double d = i3 / Math.pow(i3, 2.0);
                GlStateManager.scale(d, d, d);
-               int i5 = (k + l) / 2;
+               int i4 = (k + l) / 2;
                if (this.box.getSetting("Enable").asBoolean()) {
-                  this.drawBox(k, l, n, i2, this.getBoxColor(entity));
+                  this.drawBox(k, l, m, n, this.getBoxColor(entity));
                }
 
                if (entity instanceof EntityLivingBase) {
@@ -584,40 +584,40 @@ public final class ESP extends Module {
                      }
 
                      this.displayedHealth.put(entityLivingBase.getEntityId(), float2);
-                     int i6 = i2 + 1;
+                     int i5 = n + 1;
                      if (float2.floatValue() != 0.0) {
-                        i6 = (int)(i2 + (n - i2) * (float2 / entityLivingBase.getMaxHealth() * 100.0F * 0.01F));
+                        i5 = (int)(n + (m - n) * (float2 / entityLivingBase.getMaxHealth() * 100.0F * 0.01F));
                      }
 
                      switch ((ESPHealthBarColorMode)this.healthBar.getSetting("Color-Mode").getValue()) {
                         case NORMAL:
-                           RenderUtil.drawRect(k - 6, n - 1, k - 2, i2 + 2, this.outlineColor);
-                           RenderUtil.drawRect(k - 5, i6, k - 3, i2 + 1, GameUtil.getHealthColorRGB(entityLivingBase));
+                           RenderUtil.drawRect(k - 6, m - 1, k - 2, n + 2, this.outlineColor);
+                           RenderUtil.drawRect(k - 5, i5, k - 3, n + 1, GameUtil.getHealthColorRGB(entityLivingBase));
                            break;
                         case GRADIENT:
                            Color color2 = (Color)this.healthBar.getSetting("Bottom-Color").getValue();
-                           int i7 = color2.darker().darker().getRGB();
-                           int i8 = color2.darker().darker().darker().getRGB();
+                           int i6 = color2.darker().darker().getRGB();
+                           int i7 = color2.darker().darker().darker().getRGB();
                            Color color3 = (Color)this.healthBar.getSetting("Color").getValue();
-                           int i9 = color3.darker().darker().getRGB();
-                           int i10 = color3.darker().darker().darker().darker().getRGB();
-                           RenderUtil.drawVerticalGradient(k - 6, n - 1, k - 2, i2 + 2, i8, i10);
-                           RenderUtil.drawVerticalGradient(k - 5, n, k - 3, i2 + 1, i7, i9);
-                           RenderUtil.drawVerticalGradient(k - 5, n, k - 3, i2 + 1, color2.getRGB(), color3.getRGB());
-                           RenderUtil.drawRect(k - 5, n, k - 3, i6, this.healthBarShadeColor);
+                           int i8 = color3.darker().darker().getRGB();
+                           int i9 = color3.darker().darker().darker().darker().getRGB();
+                           RenderUtil.drawVerticalGradient(k - 6, m - 1, k - 2, n + 2, i7, i9);
+                           RenderUtil.drawVerticalGradient(k - 5, m, k - 3, n + 1, i6, i8);
+                           RenderUtil.drawVerticalGradient(k - 5, m, k - 3, n + 1, color2.getRGB(), color3.getRGB());
+                           RenderUtil.drawRect(k - 5, m, k - 3, i5, this.healthBarShadeColor);
                            break;
                         case CUSTOM:
-                           RenderUtil.drawRect(k - 6, n - 1, k - 2, i2 + 2, this.outlineColor);
-                           RenderUtil.drawRect(k - 5, i6, k - 3, i2 + 1, ((ColorSetting)this.healthBar.getSetting("Color")).getValue().getRGB());
+                           RenderUtil.drawRect(k - 6, m - 1, k - 2, n + 2, this.outlineColor);
+                           RenderUtil.drawRect(k - 5, i5, k - 3, n + 1, ((ColorSetting)this.healthBar.getSetting("Color")).getValue().getRGB());
                      }
 
                      if (entityLivingBase.getAbsorptionAmount() > 0.0F) {
-                        int i11 = (int)(i2 + (n - i2) * (entityLivingBase.getAbsorptionAmount() / entityLivingBase.getMaxHealth() * 100.0F * 0.01F));
-                        if (i11 > i2) {
-                           i11 = n;
+                        int i10 = (int)(n + (m - n) * (entityLivingBase.getAbsorptionAmount() / entityLivingBase.getMaxHealth() * 100.0F * 0.01F));
+                        if (i10 > n) {
+                           i10 = m;
                         }
 
-                        Gui.drawRect(k - 5, i2 + 1, k - 3, i11, Color.YELLOW.getRGB());
+                        Gui.drawRect(k - 5, n + 1, k - 3, i10, Color.YELLOW.getRGB());
                      }
 
                      if (this.hPos.getValue().equals(ESPHPosMode.HEALTH_BAR) && entityLivingBase.getHealth() != entityLivingBase.getMaxHealth()) {
@@ -632,7 +632,7 @@ public final class ESP extends Module {
                            .O(
                               string,
                               (k - 4 + k - 2) / 2 - client.getFontRenderer().getStringWidth(string) - 4,
-                              i6 - client.getFontRenderer().FONT_HEIGHT + 9,
+                              i5 - client.getFontRenderer().FONT_HEIGHT + 9,
                               Color.WHITE.getRGB()
                            );
                      }
@@ -646,11 +646,11 @@ public final class ESP extends Module {
                      float f3 = Display.getHeight() / 2.0F;
                      float f4 = f2 - k;
                      float f5 = f2 - l;
-                     float f6 = f3 - n;
-                     float f7 = f3 - i2;
+                     float f6 = f3 - m;
+                     float f7 = f3 - n;
                      if (Keyboard.isKeyDown(29)
                         && (
-                           this.isInside(k, n, l, i2, (int)(i / d), (int)(j / d))
+                           this.isInside(k, m, l, n, (int)(i / d), (int)(j / d))
                               || f4 > 0.0F && f5 < 0.0F && f6 > 0.0F && f7 < 0.0F
                         )) {
                         this.menuTarget = entityLivingBase;
@@ -659,20 +659,20 @@ public final class ESP extends Module {
 
                   boolean bl = this.nameTags.getSetting("CFont").asBoolean() && !this.nameTags.getSetting("Outline").asBoolean();
                   float f8 = this.nameTags.getSetting("Scale").asFloat() + (bl ? 0.5F : 0.0F);
-                  int i12 = Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F);
+                  int i11 = Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F);
                   GlStateManager.popMatrix();
                   GlStateManager.pushMatrix();
                   GlStateManager.scale(d * f8, d * f8, d * f8);
-                  float f9 = i5 / f8;
-                  float f10 = n / f8;
+                  float f9 = i4 / f8;
+                  float f10 = m / f8;
                   if (entityLivingBase instanceof EntityPlayer) {
                      boolean bl2 = false;
                      if (this.nameTags.getSetting("Armor").asBoolean()) {
                         EntityPlayer entityPlayer = (EntityPlayer)entityLivingBase;
                         ArrayList arrayList = new ArrayList();
 
-                        for (int i13 = 4; i13 >= 0; i13--) {
-                           ItemStack itemStack = i13 == 4 ? entityLivingBase.getHeldItem() : entityPlayer.inventory.armorInventory[i13];
+                        for (int i12 = 4; i12 >= 0; i12--) {
+                           ItemStack itemStack = i12 == 4 ? entityLivingBase.getHeldItem() : entityPlayer.inventory.armorInventory[i12];
                            if (itemStack != null) {
                               arrayList.add(itemStack);
                            }
@@ -685,7 +685,7 @@ public final class ESP extends Module {
                         for (Object object : arrayList) {
                            ItemStack itemStack2 = (ItemStack)object;
                            if (itemStack2 != null) {
-                              int i14 = 9 * arrayList.size();
+                              int i13 = 9 * arrayList.size();
                               GlStateManager.clear(256);
                               GlStateManager.disableDepth();
                               GlStateManager.disableTexture2D();
@@ -693,12 +693,12 @@ public final class ESP extends Module {
                               GlStateManager.enableDepth();
                               float f13 = 1.0F;
                               GlStateManager.scale(f13, f13, 0.0F);
-                              float f14 = -i14 + f11;
+                              float f14 = -i13 + f11;
                               mc.getRenderItem().K(itemStack2, f14 / f13, f12 / f13);
                               mc.getRenderItem().renderItemOverlays(mc.fontRendererObj, itemStack2, (int)(f14 / f13), (int)(f12 / f13));
                               GlStateManager.scale(1.0F / f13, 1.0F / f13, 0.0F);
                               GlStateManager.disableLighting();
-                              this.drawEnchantments(itemStack2, -i14 + f11 + 7.0F, f10 - 34.0F);
+                              this.drawEnchantments(itemStack2, -i13 + f11 + 7.0F, f10 - 34.0F);
                               bl2 = true;
                               f11 += 16.0F;
                            }
@@ -720,7 +720,7 @@ public final class ESP extends Module {
                               byte b2 = 8;
                               GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                               mc.getTextureManager().bindTexture(GuiContainer.inventoryBackground);
-                              int i15 = potion.getStatusIconIndex();
+                              int i14 = potion.getStatusIconIndex();
                               float f16 = 1.0F;
                               String string3 = Denicker.nicks.get(entity.getName());
                               GlStateManager.scale(f16, f16, 0.0F);
@@ -728,8 +728,8 @@ public final class ESP extends Module {
                                  .drawTexturedModalRect(
                                     (float)(f9 + f15 - list.size() * 18 / 2.0F),
                                     (float)(f10 - (bl2 ? 52 + (string3 == null ? 0 : 12) : 34)),
-                                    0 + i15 % 8 * 18,
-                                    198 + i15 / 8 * 18,
+                                    0 + i14 % 8 * 18,
+                                    198 + i14 / 8 * 18,
                                     18,
                                     18
                                  );
@@ -742,17 +742,17 @@ public final class ESP extends Module {
                   }
 
                   if (this.nameTags.getSetting("Enable").asBoolean()) {
-                     AstolfoUser astolfoUser = client.getUserManager().g(entity.getName());
-                     int i16 = astolfoUser == null
+                     AstolfoUser astolfoUser = client.getUserManager().getUser(entity.getName());
+                     int i15 = astolfoUser == null
                         ? ((ColorSetting)this.nameTags.getSetting("Color")).getValue().getRGB()
-                        : (astolfoUser.K == AstolfoUserStatus.C ? i12 : ((ColorSetting)this.groupColor.getSetting("Astolfo")).getValue().getRGB());
-                     Relation relation = client.getRelationManager().Z().get(entity.getName());
+                        : (astolfoUser.status == AstolfoUserStatus.C ? i11 : ((ColorSetting)this.groupColor.getSetting("Astolfo")).getValue().getRGB());
+                     Relation relation = client.getRelationManager().getRelationMap().get(entity.getName());
                      String string4 = Denicker.nicks.get(entity.getName());
                      String string5 = string4 != null
                         ? string4
                         : (
                            relation != null
-                              ? (relation.z() ? "§3" : "§4") + relation.m()
+                              ? (relation.isFriend() ? "§3" : "§4") + relation.getNickname()
                               : (
                                  astolfoUser == null
                                     ? (
@@ -760,7 +760,7 @@ public final class ESP extends Module {
                                           ? entity.getName()
                                           : entity.getDisplayName().getUnformattedTextForChat()
                                     )
-                                    : astolfoUser.s
+                                    : astolfoUser.clientName
                               )
                         );
                      if (this.hPos.getValue().equals(ESPHPosMode.STANDARD)) {
@@ -771,9 +771,9 @@ public final class ESP extends Module {
                            : String.format(
                               "§7[§f%s%%§7]", Double.isNaN(this.getHealthValue(entityLivingBase)) ? "NaN" : MathUtil.ONE_DECIMAL.format(this.getHealthValue(entityLivingBase))
                            );
-                        this.drawNameTag(string4 == null ? "" : entity.getName(), string5 + " " + string6, f9, f10, i16);
+                        this.drawNameTag(string4 == null ? "" : entity.getName(), string5 + " " + string6, f9, f10, i15);
                      } else {
-                        this.drawNameTag(string4 == null ? "" : entity.getName(), string5, f9, f10, i16);
+                        this.drawNameTag(string4 == null ? "" : entity.getName(), string5, f9, f10, i15);
                      }
                   }
 
@@ -781,8 +781,8 @@ public final class ESP extends Module {
                   GlStateManager.pushMatrix();
                   float f17 = 1.0F + (bl ? 0.35F : 0.0F);
                   GlStateManager.scale(d * f17, d * f17, d * f17);
-                  float f18 = i5 / f17;
-                  float f19 = i2 / f17;
+                  float f18 = i4 / f17;
+                  float f19 = n / f17;
                   if (entityLivingBase instanceof EntityPlayer && entityLivingBase.getHeldItem() != null && this.itemName.getValue()) {
                      if (this.pitItemPerks.getValue() && GameUtil.isOnHypixel() && GameUtil.scoreboardTitleContains("PIT") && entityLivingBase.getHeldItem().V() != null) {
                         byte b3 = 32;
@@ -790,12 +790,12 @@ public final class ESP extends Module {
                            NBTTagCompound nbtTagCompound = entityLivingBase.getHeldItem().V().getCompoundTag("display");
                            NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
                            if (nbtTagList.tagCount() > 0) {
-                              for (int i17 = 0; i17 < nbtTagList.tagCount(); i17++) {
-                                 String string7 = nbtTagList.getStringTagAt(i17);
+                              for (int i16 = 0; i16 < nbtTagList.tagCount(); i16++) {
+                                 String string7 = nbtTagList.getStringTagAt(i16);
                                  if (!string7.contains("Unbreakable")
                                     && !string7.contains("Attack Damage")
                                     && (string7.startsWith("§dRARE!") || string7.startsWith("§9"))) {
-                                    this.drawNameTag("", nbtTagList.getStringTagAt(i17), f18, f19 + b3, -1);
+                                    this.drawNameTag("", nbtTagList.getStringTagAt(i16), f18, f19 + b3, -1);
                                     b3 += 12;
                                  }
                               }
@@ -881,7 +881,9 @@ public final class ESP extends Module {
       GL11.glTranslated(d3 + f2, d4 + f3, 0.0);
       GL11.glRotatef(f4 - 90.0F, 0.0F, 0.0F, 1.0F);
       float f5 = 1.0F - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 3000.0F / 3000.0F * (float) Math.PI * 2.0F) * 0.6F);
-      Color color = client.getRelationManager().z(entityLivingBase) ? Color.BLUE.brighter() : ((ColorSetting)this.offScreen.getSetting("Color")).getValue();
+      Color color = client.getRelationManager().isFriend(entityLivingBase)
+         ? Color.BLUE.brighter()
+         : ((ColorSetting)this.offScreen.getSetting("Color")).getValue();
       RenderUtil.drawArrow(
          0.0,
          0.0,
@@ -910,38 +912,40 @@ public final class ESP extends Module {
       boolean bl = this.nameTags.getSetting("Background").asBoolean();
       ESPNameBarMode espNameBarMode = (ESPNameBarMode)this.nameTags.getSetting("Bar").getValue();
       boolean bl2 = this.nameTags.getSetting("CFont").asBoolean() && !this.nameTags.getSetting("Outline").asBoolean();
-      int k = client.getFontRenderer().getStringWidth(string2) / 2;
-      int l = client.getFontRenderer().getStringWidth(string) / 2;
+      int j = client.getFontRenderer().getStringWidth(string2) / 2;
+      int k = client.getFontRenderer().getStringWidth(string) / 2;
       if (bl2) {
-         k = client.getCustomFontRenderer().getStringWidth(string2) / 2;
-         l = client.getCustomFontRenderer().getStringWidth(string) / 2;
+         j = client.getCustomFontRenderer().getStringWidth(string2) / 2;
+         k = client.getCustomFontRenderer().getStringWidth(string) / 2;
       }
 
       if (bl) {
-         RenderUtil.drawRect(f - k - 3.0F, g - 15.5F, f + k + 3.0F, g - 3.0F, this.nameBackgroundColor);
+         RenderUtil.drawRect(f - j - 3.0F, g - 15.5F, f + j + 3.0F, g - 3.0F, this.nameBackgroundColor);
       }
 
       switch (espNameBarMode) {
          case UP:
-            RenderUtil.drawRect(f - k - 3.0F, g - 15.5F, f + k + 3.0F, g - 14.5F, i);
+            RenderUtil.drawRect(f - j - 3.0F, g - 15.5F, f + j + 3.0F, g - 14.5F, i);
             break;
          case DOWN:
-            RenderUtil.drawRect(f - k - 3.0F, g - 4.0F, f + k + 3.0F, g - 3.0F, i);
+            RenderUtil.drawRect(f - j - 3.0F, g - 4.0F, f + j + 3.0F, g - 3.0F, i);
       }
 
       if (this.nameTags.getSetting("Outline").asBoolean()) {
-         client.getFontRenderer().O(string2, (int)(f - k), (int)(g - client.getFontRenderer().FONT_HEIGHT - 4.0F), i);
+         client.getFontRenderer().O(string2, (int)(f - j), (int)(g - client.getFontRenderer().FONT_HEIGHT - 4.0F), i);
       } else if (bl2) {
-         client.getCustomFontRenderer().drawStringWithShadow(string2, f - k, g - client.getCustomFontRenderer().X().j() / 2.0F - 3.0F, i);
+         client.getCustomFontRenderer()
+            .drawStringWithShadow(string2, f - j, g - client.getCustomFontRenderer().getGlyphPage().getMaxGlyphHeight() / 2.0F - 3.0F, i);
       } else {
-         client.getFontRenderer().drawStringWithShadow(string2, f - k, g - client.getFontRenderer().FONT_HEIGHT - 4.0F, i);
+         client.getFontRenderer().drawStringWithShadow(string2, f - j, g - client.getFontRenderer().FONT_HEIGHT - 4.0F, i);
       }
 
       if (string != null) {
          if (bl2) {
-            client.getCustomFontRenderer().drawStringWithShadow("§7" + string, f - l, g - client.getCustomFontRenderer().X().j() - 16.0F, -1);
+            client.getCustomFontRenderer()
+               .drawStringWithShadow("§7" + string, f - k, g - client.getCustomFontRenderer().getGlyphPage().getMaxGlyphHeight() - 16.0F, -1);
          } else {
-            client.getFontRenderer().drawStringWithShadow("§7" + string, f - l, g - client.getFontRenderer().FONT_HEIGHT - 16.0F, -1);
+            client.getFontRenderer().drawStringWithShadow("§7" + string, f - k, g - client.getFontRenderer().FONT_HEIGHT - 16.0F, -1);
          }
       }
    }
@@ -1157,7 +1161,7 @@ public final class ESP extends Module {
                Gui.v(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
             }
 
-            Gui.S(i, j, k, HUDFlagColor.BLUE.m().getRGB());
+            Gui.S(i, j, k, HUDFlagColor.BLUE.getColor().getRGB());
             if (bl) {
                Gui.f(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
             }
@@ -1168,15 +1172,15 @@ public final class ESP extends Module {
             }
 
             Gui.J(j, l, k, Color.WHITE.getRGB());
-            Gui.J(i, k, k + i8, HUDFlagColor.PINK.m().getRGB());
-            Gui.J(j, k, k + i8, HUDFlagColor.PINK.m().getRGB());
+            Gui.J(i, k, k + i8, HUDFlagColor.PINK.getColor().getRGB());
+            Gui.J(j, k, k + i8, HUDFlagColor.PINK.getColor().getRGB());
             if (bl) {
                Gui.v(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
             }
 
-            Gui.S(i, j, l, HUDFlagColor.BLUE.m().getRGB());
-            Gui.J(i, l, l + i9, HUDFlagColor.PINK.m().getRGB());
-            Gui.J(j, l, l + i9, HUDFlagColor.PINK.m().getRGB());
+            Gui.S(i, j, l, HUDFlagColor.BLUE.getColor().getRGB());
+            Gui.J(i, l, l + i9, HUDFlagColor.PINK.getColor().getRGB());
+            Gui.J(j, l, l + i9, HUDFlagColor.PINK.getColor().getRGB());
       }
    }
 
@@ -1228,7 +1232,7 @@ public final class ESP extends Module {
             || GameUtil.isObject(entity) && this.entities.getSetting("Others").asBoolean();
       }
 
-      if (GameUtil.S(entity) && !this.entities.getSetting("Invisibles").asBoolean()) {
+      if (GameUtil.isFullyInvisible(entity) && !this.entities.getSetting("Invisibles").asBoolean()) {
          return false;
       }
 
@@ -1236,14 +1240,14 @@ public final class ESP extends Module {
          return false;
       }
 
-      if (GameUtil.O(mc.thePlayer, (EntityLivingBase)entity) && this.teams.getValue()) {
-         AstolfoUser astolfoUser = client.getUserManager().g(entity.getName());
+      if (GameUtil.isOnSameTeam(mc.thePlayer, (EntityLivingBase)entity) && this.teams.getValue()) {
+         AstolfoUser astolfoUser = client.getUserManager().getUser(entity.getName());
          if (astolfoUser == null) {
             return false;
          }
       }
 
-      return BotDetector.w.contains(entity) && !this.entities.getSetting("Bots").asBoolean() ? false : this.entities.getSetting("Players").asBoolean();
+      return BotDetector.bots.contains(entity) && !this.entities.getSetting("Bots").asBoolean() ? false : this.entities.getSetting("Players").asBoolean();
    }
 
    private boolean isHighlightedItem(EntityItem entityItem) {
@@ -1264,18 +1268,18 @@ public final class ESP extends Module {
    }
 
    private int getBoxColor(Entity entity) {
-      AstolfoUser astolfoUser = client.getUserManager().g(entity.getName());
+      AstolfoUser astolfoUser = client.getUserManager().getUser(entity.getName());
       if (astolfoUser != null) {
-         return astolfoUser.K == AstolfoUserStatus.C
+         return astolfoUser.status == AstolfoUserStatus.C
             ? Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.4F, 0.8F)
             : ((ColorSetting)this.groupColor.getSetting("Astolfo")).getValue().getRGB();
-      } else if (client.getRelationManager().z(entity)) {
+      } else if (client.getRelationManager().isFriend(entity)) {
          return ((ColorSetting)this.groupColor.getSetting("Friends")).getValue().getRGB();
       } else if (Denicker.nicks.get(entity.getName()) != null) {
          return -204212;
-      } else if (client.getRelationManager().D(entity)) {
+      } else if (client.getRelationManager().isEnemy(entity)) {
          return ((ColorSetting)this.groupColor.getSetting("Enemies")).getValue().getRGB();
-      } else if (BotDetector.w.contains(entity)) {
+      } else if (BotDetector.bots.contains(entity)) {
          return this.botColor;
       } else if (entity instanceof EntityItem) {
          return this.isHighlightedItem((EntityItem)entity) ? Color.YELLOW.getRGB() : Color.WHITE.getRGB();

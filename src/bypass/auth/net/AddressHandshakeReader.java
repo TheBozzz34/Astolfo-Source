@@ -8,15 +8,15 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
 public final class AddressHandshakeReader {
-   private final ByteBuffer w = ByteBuffer.allocateDirect(4);
+   private final ByteBuffer lengthBuffer = ByteBuffer.allocateDirect(4);
 
-   public HandshakeAddresses T(SocketChannel socketChannel) throws IOException {
+   public HandshakeAddresses readAddresses(SocketChannel socketChannel) throws IOException {
       boolean bl = socketChannel.isBlocking();
       socketChannel.configureBlocking(true);
-      socketChannel.read(this.w);
-      ((Buffer)this.w).flip();
-      int i = this.w.getInt();
-      ((Buffer)this.w).clear();
+      socketChannel.read(this.lengthBuffer);
+      ((Buffer)this.lengthBuffer).flip();
+      int i = this.lengthBuffer.getInt();
+      ((Buffer)this.lengthBuffer).clear();
       ByteBuffer byteBuffer = ByteBuffer.allocate(i);
       socketChannel.read(byteBuffer);
       ((Buffer)byteBuffer).flip();

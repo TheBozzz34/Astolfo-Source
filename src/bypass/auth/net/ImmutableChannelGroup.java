@@ -3,33 +3,33 @@ package bypass.auth.net;
 import java.util.Map;
 
 public final class ImmutableChannelGroup implements ChannelGroup {
-   private Map<String, Channel> x;
+   private Map<String, Channel> channels;
 
    public ImmutableChannelGroup(ChannelGroupBuilder channelGroupBuilder) {
-      this.x = ChannelGroupBuilder.L(channelGroupBuilder);
+      this.channels = ChannelGroupBuilder.getChannels(channelGroupBuilder);
    }
 
-   public static ChannelGroupBuilder g() {
+   public static ChannelGroupBuilder newBuilder() {
       return new ChannelGroupBuilder();
    }
 
    @Override
-   public void i(Channel channel) {
+   public void addChannel(Channel channel) {
       throw new IllegalStateException();
    }
 
    @Override
-   public void q(Channel channel) {
+   public void removeChannel(Channel channel) {
       throw new IllegalStateException();
    }
 
    @Override
-   public void c() {
+   public void clearChannels() {
       throw new IllegalStateException();
    }
 
    @Override
    public Channel get(String string) {
-      return this.x.get(string);
+      return this.channels.get(string);
    }
 }

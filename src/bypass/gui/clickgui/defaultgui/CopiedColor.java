@@ -3,43 +3,43 @@ package bypass.gui.clickgui.defaultgui;
 import java.awt.Color;
 
 public class CopiedColor {
-   private final Color k;
-   private final int K;
-   private final int d;
-   private final int G;
-   private final int l;
-   private final int L;
+   private final Color color;
+   private final int saturationOffset;
+   private final int brightnessOffset;
+   private final int hueOffset;
+   private final int alphaOffset;
+   private final int modeOrdinal;
 
    public CopiedColor(int i, Color color, int j, int k, int l, int m) {
-      this.L = i;
-      this.k = color;
-      this.K = j;
-      this.d = k;
-      this.G = l;
-      this.l = m;
+      this.modeOrdinal = i;
+      this.color = color;
+      this.saturationOffset = j;
+      this.brightnessOffset = k;
+      this.hueOffset = l;
+      this.alphaOffset = m;
    }
 
-   public int b() {
-      return this.L;
+   public int getModeOrdinal() {
+      return this.modeOrdinal;
    }
 
-   public Color z() {
-      return this.k;
+   public Color getColor() {
+      return this.color;
    }
 
-   public int X() {
-      return this.G;
+   public int getHueOffset() {
+      return this.hueOffset;
    }
 
-   public int a() {
-      return this.K;
+   public int getSaturationOffset() {
+      return this.saturationOffset;
    }
 
-   public int m() {
-      return this.d;
+   public int getBrightnessOffset() {
+      return this.brightnessOffset;
    }
 
-   public int B() {
-      return this.l;
+   public int getAlphaOffset() {
+      return this.alphaOffset;
    }
 }

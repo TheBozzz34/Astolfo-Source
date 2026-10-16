@@ -10,96 +10,97 @@ import bypass.setting.MapSetting;
 import java.awt.Color;
 
 public class MapComponent extends SidebarSettingComponent {
-   private Animation w = new TimedAnimation().setDuration(450).setEasing(Easing.LINEAR).forwards().start();
-   private final MapSetting K;
-   private boolean C;
-   private int u = 25;
-   private boolean Z;
+   private Animation arrowAnimation = new TimedAnimation().setDuration(450).setEasing(Easing.LINEAR).forwards().start();
+   private final MapSetting mapSetting;
+   private boolean mapPanelClosed;
+   private int listOffset = 25;
+   private boolean arrowForward;
 
    public MapComponent(ModuleButton moduleButton, MapSetting mapSetting, int i, int j, int k, int l) {
       super(moduleButton, mapSetting, i, j, k, l);
-      this.f(moduleButton);
-      this.K = mapSetting;
+      this.setParent(moduleButton);
+      this.mapSetting = mapSetting;
    }
 
    @Override
-   public void l(int i) {
-      if (i == 0 && this.y()) {
-         if (this.G().A() != null) {
-            if (this.G().A() != this) {
-               this.G().D(this);
+   public void onClick(int i) {
+      if (i == 0 && this.isVisible()) {
+         if (this.getModuleButton().getSelectedMap() != null) {
+            if (this.getModuleButton().getSelectedMap() != this) {
+               this.getModuleButton().setSelectedMap(this);
             } else {
-               this.G().D(null);
+               this.getModuleButton().setSelectedMap(null);
             }
          } else {
-            this.G().D(this);
+            this.getModuleButton().setSelectedMap(this);
          }
       }
    }
 
    @Override
    public void render(int i, int j) {
-      if (!this.w.isRunning() && (this.G(i, j) || this.G().A() == this)) {
-         if (this.Z) {
-            this.w.forwards().start();
+      if (!this.arrowAnimation.isRunning() && (this.isHovered(i, j) || this.getModuleButton().getSelectedMap() == this)) {
+         if (this.arrowForward) {
+            this.arrowAnimation.forwards().start();
          } else {
-            this.w.backwards().start();
+            this.arrowAnimation.backwards().start();
          }
 
-         this.Z = !this.Z;
+         this.arrowForward = !this.arrowForward;
       }
 
-      if (!this.G(i, j) && this.G().A() != this) {
-         this.w.forwards();
+      if (!this.isHovered(i, j) && this.getModuleButton().getSelectedMap() != this) {
+         this.arrowAnimation.forwards();
       }
 
-      if (this.X > 40) {
-         client.getCustomFontRenderer().drawString(this.K.getName(), this.M(), this.E_float() - 2.0F, new Color(255, 255, 255, this.X).getRGB());
+      if (this.fadeAlpha > 40) {
+         client.getCustomFontRenderer()
+            .drawString(this.mapSetting.getName(), this.getX(), this.getYPos() - 2.0F, new Color(255, 255, 255, this.fadeAlpha).getRGB());
       }
 
-      int k = Astolfo.INSTANCE.getSidebarGui().U();
+      int k = Astolfo.INSTANCE.getSidebarGui().getPulseColor();
       RenderUtil.drawArrow(
-         this.M() + this.x() - 8.0F + this.w.getValue(-8.0, 0.0),
-         this.E_float(),
+         this.getX() + this.getWidth() - 8.0F + this.arrowAnimation.getValue(-8.0, 0.0),
+         this.getYPos(),
          5.0,
          true,
-         this.G().A() == this ? k : new Color(255, 255, 255, this.X).getRGB()
+         this.getModuleButton().getSelectedMap() == this ? k : new Color(255, 255, 255, this.fadeAlpha).getRGB()
       );
-      Sidebar sidebar = this.G().n().t();
-      int l = this.u;
-      if (!this.C && this.G().h() == this && this.G().A() == null
-         || this.G().h() == null && this.G().A() == this
-         || this.G().h() != this && this.G().A() == this) {
-         for (Element element : this.M_ArrayList()) {
+      Sidebar sidebar = this.getModuleButton().getCategoryTab().getSidebar();
+      int l = this.listOffset;
+      if (!this.mapPanelClosed && this.getModuleButton().getPreviousMap() == this && this.getModuleButton().getSelectedMap() == null
+         || this.getModuleButton().getPreviousMap() == null && this.getModuleButton().getSelectedMap() == this
+         || this.getModuleButton().getPreviousMap() != this && this.getModuleButton().getSelectedMap() == this) {
+         for (Element element : this.getChildren()) {
             if (element instanceof SidebarSettingComponent) {
                SidebarSettingComponent sidebarSettingComponent = (SidebarSettingComponent)element;
-               sidebarSettingComponent.r(this.M() + 155.0F, sidebar.E_float() + l);
+               sidebarSettingComponent.setPosition(this.getX() + 155.0F, sidebar.getYPos() + l);
                sidebarSettingComponent.render(i, j);
-               if (!sidebarSettingComponent.B.isRunning()) {
-                  sidebarSettingComponent.B.forwards().start();
+               if (!sidebarSettingComponent.fadeAnimation.isRunning()) {
+                  sidebarSettingComponent.fadeAnimation.forwards().start();
                }
 
-               sidebarSettingComponent.X = (int)sidebarSettingComponent.B.getValue(0.0, 255.0);
+               sidebarSettingComponent.fadeAlpha = (int)sidebarSettingComponent.fadeAnimation.getValue(0.0, 255.0);
                l += 15;
             }
          }
       } else {
-         for (Element element2 : this.M_ArrayList()) {
+         for (Element element2 : this.getChildren()) {
             if (element2 instanceof SidebarSettingComponent) {
                SidebarSettingComponent sidebarSettingComponent2 = (SidebarSettingComponent)element2;
-               if (!sidebarSettingComponent2.B.isRunning()) {
-                  sidebarSettingComponent2.B.backwards().start();
+               if (!sidebarSettingComponent2.fadeAnimation.isRunning()) {
+                  sidebarSettingComponent2.fadeAnimation.backwards().start();
                }
 
-               sidebarSettingComponent2.X = (int)sidebarSettingComponent2.B.getValue(0.0, 255.0);
+               sidebarSettingComponent2.fadeAlpha = (int)sidebarSettingComponent2.fadeAnimation.getValue(0.0, 255.0);
             }
          }
       }
 
-      this.C = this.G().n().t().x() == 270;
+      this.mapPanelClosed = this.getModuleButton().getCategoryTab().getSidebar().getWidth() == 270;
    }
 
-   public MapSetting X() {
-      return this.K;
+   public MapSetting getMapSetting() {
+      return this.mapSetting;
    }
 }

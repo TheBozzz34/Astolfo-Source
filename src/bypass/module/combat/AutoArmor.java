@@ -21,15 +21,15 @@ import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.util.EnumChatFormatting;
 
 public final class AutoArmor extends Module {
-   private final Stopwatch z = new Stopwatch();
-   private int f;
+   private final Stopwatch clickTimer = new Stopwatch();
+   private int currentArmorType;
    private final NumberSetting<Integer> delay = new NumberSetting<>("Delay", "Delay in milliseconds between moving each item", 250, 0, 1000, "ms");
    private final BooleanSetting drop = new BooleanSetting("Drop", "Drops old armor", true);
    private final BooleanSetting inventory = new BooleanSetting("Inventory", "Only changes armour if in inventory", false);
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C0EPacketClickWindow) {
-         this.z.reset();
+         this.clickTimer.reset();
       }
    };
    @EventHandler(MotionEvent.class)
@@ -51,8 +51,8 @@ public final class AutoArmor extends Module {
             ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(k).getStack();
             if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {
                ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
-               ArmorSlot armorSlot2 = N(itemArmor.armorType);
-               if (armorSlot2 != null && itemArmor.armorType == this.f) {
+               ArmorSlot armorSlot2 = getArmorSlotByType(itemArmor.armorType);
+               if (armorSlot2 != null && itemArmor.armorType == this.currentArmorType) {
                   int l = InventoryUtil.getArmorScore(itemStack);
                   Slot slot2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot2.slot);
                   int m = InventoryUtil.getArmorScore(slot2.getStack());
@@ -71,14 +71,14 @@ public final class AutoArmor extends Module {
             }
          }
 
-         if (i >= 0 && this.z.hasElapsed(this.delay.getValue().intValue())) {
+         if (i >= 0 && this.clickTimer.hasElapsed(this.delay.getValue().intValue())) {
             ItemStack itemStack2 = mc.thePlayer.inventoryContainer.getSlot(armorSlot.slot).getStack();
             if (itemStack2 == null) {
                mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 1, mc.thePlayer);
             } else if (KillAura.target == null) {
                if (this.drop.getValue()) {
                   InventoryUtil.dropSlot(armorSlot.slot, 0);
-               } else if (!c()) {
+               } else if (!isInventoryFull()) {
                   mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, armorSlot.slot, 0, 1, mc.thePlayer);
                } else {
                   mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, armorSlot.slot, 0, 4, mc.thePlayer);
@@ -86,10 +86,10 @@ public final class AutoArmor extends Module {
             }
          }
 
-         if (this.f < 3) {
-            this.f++;
+         if (this.currentArmorType < 3) {
+            this.currentArmorType++;
          } else {
-            this.f = 0;
+            this.currentArmorType = 0;
          }
       }
    };
@@ -100,18 +100,18 @@ public final class AutoArmor extends Module {
    }
 
    @Override
-   public void p() {
+   public void updateDisplayName() {
       this.setDisplayName("Auto Armor " + EnumChatFormatting.GRAY + this.delay.getValue());
-      super.p();
+      super.updateDisplayName();
    }
 
    @Override
    public void onDisable() {
-      this.z.reset();
+      this.clickTimer.reset();
       super.onDisable();
    }
 
-   public static boolean c() {
+   public static boolean isInventoryFull() {
       boolean bl = true;
 
       for (int i = 0; i < 35; i++) {
@@ -123,9 +123,9 @@ public final class AutoArmor extends Module {
       return bl;
    }
 
-   public static ArmorSlot N(int i) {
+   public static ArmorSlot getArmorSlotByType(int i) {
       for (ArmorSlot armorSlot : ArmorSlot.values()) {
-         if (ArmorSlot.z(armorSlot) == i) {
+         if (ArmorSlot.armorTypeOf(armorSlot) == i) {
             return armorSlot;
          }
       }

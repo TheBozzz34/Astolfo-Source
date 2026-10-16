@@ -5,5 +5,5 @@ public enum KillAuraRenderStrafeMode {
    TRUE,
    ALWAYS;
 
-   private static final KillAuraRenderStrafeMode[] F = new KillAuraRenderStrafeMode[]{FALSE, TRUE, ALWAYS};
+   private static final KillAuraRenderStrafeMode[] VALUES = new KillAuraRenderStrafeMode[]{FALSE, TRUE, ALWAYS};
 }

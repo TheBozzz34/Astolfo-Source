@@ -15,12 +15,12 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
 
 public final class ScoreboardTracker extends HiddenModule {
-   public static ScoreboardInfo N = new ScoreboardInfo(null);
-   private String Q = null;
+   public static ScoreboardInfo current = new ScoreboardInfo(null);
+   private String lastGameId = null;
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
    private final Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.SCREEN) {
-         N = new ScoreboardInfo(null);
+         current = new ScoreboardInfo(null);
          if (mc.theWorld == null || !GameUtil.isInHypixelGame()) {
             return;
          }
@@ -30,24 +30,24 @@ public final class ScoreboardTracker extends HiddenModule {
             return;
          }
 
-         N = new ScoreboardInfo(scoreboard);
-         String string = N.s();
-         if (string != null && !string.equals(this.Q)) {
-            String string2 = N.s();
+         current = new ScoreboardInfo(scoreboard);
+         String string = current.getGameId();
+         if (string != null && !string.equals(this.lastGameId)) {
+            String string2 = current.getGameId();
             if (string2 != null) {
                FinalKillTracker.setGame(string2);
             }
 
-            FinalKillTracker.K();
+            FinalKillTracker.onGameChanged();
          }
 
-         this.Q = string;
+         this.lastGameId = string;
       }
    };
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S02PacketChat) {
-         if (!r()) {
+         if (!isInGame()) {
             return;
          }
 
@@ -64,11 +64,11 @@ public final class ScoreboardTracker extends HiddenModule {
       client.getEventBus().subscribe(this);
    }
 
-   public static boolean r() {
-      return N.s() != null;
+   public static boolean isInGame() {
+      return current.getGameId() != null;
    }
 
-   public static ScoreboardInfo q() {
-      return N;
+   public static ScoreboardInfo getScoreboardInfo() {
+      return current;
    }
 }

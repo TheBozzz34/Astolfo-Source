@@ -5,20 +5,20 @@ import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Decoder;
 
 public class IntegerCacheScramblerStrings {
-   public static String j = "ARCFOUR";
-   public static String A = "PtpvDfZKhTXrx8Qi";
+   public static String algorithm = "ARCFOUR";
+   public static String key = "PtpvDfZKhTXrx8Qi";
 
-   public static String z(String string) {
+   public static String decrypt(String string) {
       String string2 = "PJc/L4cQHOGvRKrnof+rsQ==";
 
       String string3;
       try {
-         Cipher cipher = Cipher.getInstance(j);
-         SecretKeySpec secretKeySpec = new SecretKeySpec(A.getBytes(), j);
+         Cipher cipher = Cipher.getInstance(algorithm);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), algorithm);
          cipher.init(2, secretKeySpec);
          byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
          byte[] bytes2 = cipher.doFinal(bytes);
-         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, j);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, algorithm);
          cipher.init(2, secretKeySpec2);
          byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
          byte[] bytes4 = cipher.doFinal(bytes3);

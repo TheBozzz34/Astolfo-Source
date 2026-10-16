@@ -4,18 +4,18 @@ import com.viaversion.viaversion.api.platform.PlatformTask;
 import java.util.concurrent.Future;
 
 public class FutureTaskId implements PlatformTask<Future<?>> {
-   private final Future<?> D;
+   private final Future<?> future;
 
    public FutureTaskId(Future<?> future) {
-      this.D = future;
+      this.future = future;
    }
 
    public Future<?> getObject() {
-      return this.D;
+      return this.future;
    }
 
    @Override
    public void cancel() {
-      this.D.cancel(false);
+      this.future.cancel(false);
    }
 }

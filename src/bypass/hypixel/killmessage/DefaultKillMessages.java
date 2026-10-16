@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class DefaultKillMessages {
    public DefaultKillMessages() {
-      FinalKillTracker.c
+      FinalKillTracker.killMessagePatterns
          .addAll(
             Arrays.asList(
                "(\\w{1,16}) was shot and killed by (\\w{1,16}).*",

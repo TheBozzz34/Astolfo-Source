@@ -10,25 +10,25 @@ import java.util.List;
 import java.util.Map;
 
 public final class Response {
-   private static final String R = System.lineSeparator();
-   private final int G;
-   private final String d;
-   private final Map<String, List<String>> a;
+   private static final String LINE_SEPARATOR = System.lineSeparator();
+   private final int statusCode;
+   private final String body;
+   private final Map<String, List<String>> headers;
 
    private Response(int i, String string, Map<String, List<String>> map) {
-      this.G = i;
-      this.d = string;
-      this.a = map;
+      this.statusCode = i;
+      this.body = string;
+      this.headers = map;
    }
 
-   public static final Response g(HttpURLConnection httpURLConnection, boolean bl) throws IOException {
-      String string = Z(httpURLConnection, bl);
+   public static final Response fromConnection(HttpURLConnection httpURLConnection, boolean bl) throws IOException {
+      String string = readBody(httpURLConnection, bl);
       int i = httpURLConnection.getResponseCode();
       httpURLConnection.disconnect();
       return new Response(i, string, httpURLConnection.getHeaderFields());
    }
 
-   public static String Z(URLConnection urlConnection, boolean bl) throws IOException {
+   public static String readBody(URLConnection urlConnection, boolean bl) throws IOException {
       StringBuilder stringBuilder = new StringBuilder();
       HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
       InputStream inputStream = httpURLConnection.getResponseCode() < 400 ? urlConnection.getInputStream() : httpURLConnection.getErrorStream();
@@ -38,7 +38,7 @@ public final class Response {
          while ((string = bufferedReader.readLine()) != null) {
             stringBuilder.append(string);
             if (bl) {
-               stringBuilder.append(R);
+               stringBuilder.append(LINE_SEPARATOR);
             }
          }
       }
@@ -46,15 +46,15 @@ public final class Response {
       return stringBuilder.toString();
    }
 
-   public int P() {
-      return this.G;
+   public int getStatusCode() {
+      return this.statusCode;
    }
 
-   public String u() {
-      return this.d;
+   public String getBody() {
+      return this.body;
    }
 
-   public Map<String, List<String>> k() {
-      return this.a;
+   public Map<String, List<String>> getHeaders() {
+      return this.headers;
    }
 }

@@ -3,13 +3,13 @@ package bypass.loader.check;
 import bypass.util.container.ListContainerOwner;
 
 public class StringListHolder {
-   private final ListContainerOwner<String> f;
+   private final ListContainerOwner<String> stringContainer;
 
    public StringListHolder(ListContainerOwner<String> listContainerOwner) {
-      this.f = listContainerOwner;
+      this.stringContainer = listContainerOwner;
    }
 
-   public ListContainerOwner<String> A() {
-      return this.f;
+   public ListContainerOwner<String> getStringContainer() {
+      return this.stringContainer;
    }
 }

@@ -4,7 +4,7 @@ import bypass.loader.check.JvmArgumentsCheckSetup;
 import net.minecraft.item.ItemFishFood;
 
 public final class DecoyStage2 extends AbstractLoadStage {
-   private final JvmArgumentsCheckSetup n = new JvmArgumentsCheckSetup();
+   private final JvmArgumentsCheckSetup jvmArgumentsCheckSetup = new JvmArgumentsCheckSetup();
 
    @Override
    public StageAction getAction() {
@@ -26,8 +26,8 @@ public final class DecoyStage2 extends AbstractLoadStage {
       return this.state;
    }
 
-   public static JvmArgumentsCheckSetup h(DecoyStage2 decoyStage2) {
-      return decoyStage2.n;
+   public static JvmArgumentsCheckSetup getJvmArgumentsCheckSetup(DecoyStage2 decoyStage2) {
+      return decoyStage2.jvmArgumentsCheckSetup;
    }
 
    public class azg extends StageAction {
@@ -46,7 +46,7 @@ public final class DecoyStage2 extends AbstractLoadStage {
       }
 
       public ItemFishFood get() {
-         return (ItemFishFood)DecoyStage2.h(DecoyStage2.this).Y().V().value;
+         return (ItemFishFood)DecoyStage2.getJvmArgumentsCheckSetup(DecoyStage2.this).getJvmArgumentsCheck().checkJvmArguments().value;
       }
    }
 }

@@ -17,97 +17,102 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class CategoryTab extends Container {
-   public Animation Q = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
-   private ModuleButton n;
-   private ModuleButton w;
-   private Category H;
-   public boolean e;
-   public int O = 12;
-   public final int f;
-   private int u;
+   public Animation hoverAnimation = new TimedAnimation().setDuration(200).setEasing(Easing.LINEAR);
+   private ModuleButton selectedModule;
+   private ModuleButton previousModule;
+   private Category category;
+   public boolean sidebarClosed;
+   public int moduleScrollOffset = 12;
+   public final int initialModuleListHeight;
+   private int hoverAlpha;
 
    public CategoryTab(Sidebar sidebar, Category category, int i, int j, int k, int l) {
       super(category.getDisplayName(), i, j, k, l);
-      this.f(sidebar);
-      this.H = category;
-      this.f = this.g();
+      this.setParent(sidebar);
+      this.category = category;
+      this.initialModuleListHeight = this.getModuleListHeight();
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
       if (i == 0) {
-         if (this.t().z() == this) {
-            this.n = null;
-            this.t().W(null);
+         if (this.getSidebar().getSelectedTab() == this) {
+            this.selectedModule = null;
+            this.getSidebar().setSelectedTab(null);
          } else {
-            this.t().W(this);
+            this.getSidebar().setSelectedTab(this);
          }
       }
    }
 
    @Override
    public void render(int i, int j) {
-      if (!this.Q.isRunning()) {
-         if (!this.G(i, j) && this.t().z() != this) {
-            this.Q.backwards().start();
+      if (!this.hoverAnimation.isRunning()) {
+         if (!this.isHovered(i, j) && this.getSidebar().getSelectedTab() != this) {
+            this.hoverAnimation.backwards().start();
          } else {
-            this.Q.forwards().start();
+            this.hoverAnimation.forwards().start();
          }
       }
 
-      this.u = (int)this.Q.getValue(0.0, 255.0);
-      int k = Math.min(this.u, client.getSidebarGui().e);
-      int l = client.getSidebarGui().F();
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), l);
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(29, 31, 37, k).getRGB());
-      RenderUtil.setColor(new Color(136, 141, 157, client.getSidebarGui().e).getRGB());
+      this.hoverAlpha = (int)this.hoverAnimation.getValue(0.0, 255.0);
+      int k = Math.min(this.hoverAlpha, client.getSidebarGui().fadeAlpha);
+      int l = client.getSidebarGui().getSurfaceColor();
+      RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), l);
+      RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(29, 31, 37, k).getRGB());
+      RenderUtil.setColor(new Color(136, 141, 157, client.getSidebarGui().fadeAlpha).getRGB());
       Minecraft.getMinecraft()
          .getTextureManager()
-         .bindTexture(new ResourceLocation(String.format("client/categories/%s_good.png", this.H.getDisplayName().toLowerCase())));
-      Gui.drawModalRectWithCustomSizedTexture((int)(this.M() + 10.0F), (int)this.E_float() + 6, 0.0F, 0.0F, 16, 16, 16.0F, 16.0F);
+         .bindTexture(new ResourceLocation(String.format("client/categories/%s_good.png", this.category.getDisplayName().toLowerCase())));
+      Gui.drawModalRectWithCustomSizedTexture((int)(this.getX() + 10.0F), (int)this.getYPos() + 6, 0.0F, 0.0F, 16, 16, 16.0F, 16.0F);
       RenderUtil.setColor(new Color(255, 255, 255, k).getRGB());
       Minecraft.getMinecraft()
          .getTextureManager()
-         .bindTexture(new ResourceLocation(String.format("client/categories/%s_good.png", this.H.getDisplayName().toLowerCase())));
-      Gui.drawModalRectWithCustomSizedTexture((int)(this.M() + 10.0F), (int)this.E_float() + 6, 0.0F, 0.0F, 16, 16, 16.0F, 16.0F);
-      if (this.t().z() == this || k > 35) {
+         .bindTexture(new ResourceLocation(String.format("client/categories/%s_good.png", this.category.getDisplayName().toLowerCase())));
+      Gui.drawModalRectWithCustomSizedTexture((int)(this.getX() + 10.0F), (int)this.getYPos() + 6, 0.0F, 0.0F, 16, 16, 16.0F, 16.0F);
+      if (this.getSidebar().getSelectedTab() == this || k > 35) {
          GuiMainMenu.c
             .drawString(
-               this.J().toUpperCase(),
-               this.M() + this.x() / 2.0F - GuiMainMenu.c.getStringWidth(this.J()) / 2.0F - 0.5F,
-               this.E_float() + 23.0F,
+               this.getName().toUpperCase(),
+               this.getX() + this.getWidth() / 2.0F - GuiMainMenu.c.getStringWidth(this.getName()) / 2.0F - 0.5F,
+               this.getYPos() + 23.0F,
                new Color(255, 255, 255, k).getRGB()
             );
       }
 
-      int m = this.O;
-      if (!this.e && this.t().s() == this && this.t().z() == null
-         || this.t().s() == null && this.t().z() == this
-         || this.t().s() != this && this.t().z() == this) {
+      int m = this.moduleScrollOffset;
+      if (!this.sidebarClosed && this.getSidebar().getPreviousTab() == this && this.getSidebar().getSelectedTab() == null
+         || this.getSidebar().getPreviousTab() == null && this.getSidebar().getSelectedTab() == this
+         || this.getSidebar().getPreviousTab() != this && this.getSidebar().getSelectedTab() == this) {
          GL11.glEnable(3089);
-         SidebarGui.c(this.t().M(), this.t().E_float(), this.t().M() + this.t().x(), this.t().E_float() + this.t().Y());
+         SidebarGui.scissor(
+            this.getSidebar().getX(),
+            this.getSidebar().getYPos(),
+            this.getSidebar().getX() + this.getSidebar().getWidth(),
+            this.getSidebar().getYPos() + this.getSidebar().getHeight()
+         );
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof ModuleButton) {
                ModuleButton moduleButton = (ModuleButton)element;
-               moduleButton.r(this.t().M() + 40.0F, this.t().E_float() + m);
+               moduleButton.setPosition(this.getSidebar().getX() + 40.0F, this.getSidebar().getYPos() + m);
                moduleButton.render(i, j);
-               if (!moduleButton.j.isRunning()) {
-                  moduleButton.j.forwards().start();
+               if (!moduleButton.fadeAnimation.isRunning()) {
+                  moduleButton.fadeAnimation.forwards().start();
                }
 
-               moduleButton.P = (int)moduleButton.j.getValue(0.0, 255.0);
+               moduleButton.fadeAlpha = (int)moduleButton.fadeAnimation.getValue(0.0, 255.0);
                m += 15;
             } else if (element instanceof Button) {
                Component component = (Component)element;
-               component.r(this.t().M() + 40.0F, this.t().E_float() + m);
+               component.setPosition(this.getSidebar().getX() + 40.0F, this.getSidebar().getYPos() + m);
                component.render(i, j);
                m += 13;
             }
 
             if (element instanceof StringComponent) {
                Component component2 = (Component)element;
-               component2.r(this.t().M() + 40.0F, this.t().E_float() + m);
+               component2.setPosition(this.getSidebar().getX() + 40.0F, this.getSidebar().getYPos() + m);
                component2.render(i, j);
                m += 20;
             }
@@ -115,25 +120,25 @@ public class CategoryTab extends Container {
 
          GL11.glDisable(3089);
       } else {
-         for (Element element2 : this.M_ArrayList()) {
+         for (Element element2 : this.getChildren()) {
             if (element2 instanceof ModuleButton) {
                ModuleButton moduleButton2 = (ModuleButton)element2;
-               if (!moduleButton2.j.isRunning()) {
-                  moduleButton2.j.backwards().start();
+               if (!moduleButton2.fadeAnimation.isRunning()) {
+                  moduleButton2.fadeAnimation.backwards().start();
                }
 
-               moduleButton2.P = (int)moduleButton2.j.getValue(0.0, 255.0);
+               moduleButton2.fadeAlpha = (int)moduleButton2.fadeAnimation.getValue(0.0, 255.0);
             }
          }
       }
 
-      this.e = this.t().x() == 34;
+      this.sidebarClosed = this.getSidebar().getWidth() == 34;
    }
 
-   public int g() {
+   public int getModuleListHeight() {
       byte b = 5;
 
-      for (Element element : this.M_ArrayList()) {
+      for (Element element : this.getChildren()) {
          if (element instanceof ModuleButton) {
             b += 15;
          }
@@ -142,10 +147,10 @@ public class CategoryTab extends Container {
       return b;
    }
 
-   public int x(ModuleButton moduleButton) {
+   public int getModuleButtonY(ModuleButton moduleButton) {
       byte b = 5;
 
-      for (Element element : this.M_ArrayList()) {
+      for (Element element : this.getChildren()) {
          if (element instanceof ModuleButton) {
             if (moduleButton == element) {
                return b;
@@ -158,29 +163,29 @@ public class CategoryTab extends Container {
       return b;
    }
 
-   public void j(ModuleButton moduleButton) {
+   public void setSelectedModule(ModuleButton moduleButton) {
       if (moduleButton == null) {
-         if (this.w != null) {
-            this.w.D(null);
+         if (this.previousModule != null) {
+            this.previousModule.setSelectedMap(null);
          }
       } else {
-         moduleButton.D(null);
+         moduleButton.setSelectedMap(null);
       }
 
-      ModuleButton moduleButton2 = this.n;
-      this.n = moduleButton;
-      this.w = moduleButton2;
+      ModuleButton moduleButton2 = this.selectedModule;
+      this.selectedModule = moduleButton;
+      this.previousModule = moduleButton2;
    }
 
-   public ModuleButton D() {
-      return this.n;
+   public ModuleButton getSelectedModule() {
+      return this.selectedModule;
    }
 
-   public ModuleButton S() {
-      return this.w;
+   public ModuleButton getPreviousModule() {
+      return this.previousModule;
    }
 
-   public Sidebar t() {
-      return (Sidebar)this.O();
+   public Sidebar getSidebar() {
+      return (Sidebar)this.getParent();
    }
 }

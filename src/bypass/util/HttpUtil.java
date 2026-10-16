@@ -41,16 +41,16 @@ public class HttpUtil {
 
    public static String get(HttpRequest httpRequest, Proxy proxy) {
       try {
-         String string = httpRequest.N();
-         URL url = new URL(httpRequest.o + (string.isEmpty() ? "" : "?" + string));
-         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
+         String string = httpRequest.buildParameterString();
+         URL url2 = new URL(httpRequest.url + (string.isEmpty() ? "" : "?" + string));
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url2.openConnection(proxy);
          httpURLConnection.setRequestMethod("GET");
-         httpURLConnection.setRequestProperty("User-Agent", httpRequest.X);
-         httpURLConnection.setRequestProperty("Accept", httpRequest.I);
-         httpURLConnection.setRequestProperty("Content-Type", httpRequest.M);
+         httpURLConnection.setRequestProperty("User-Agent", httpRequest.userAgent);
+         httpURLConnection.setRequestProperty("Accept", httpRequest.accept);
+         httpURLConnection.setRequestProperty("Content-Type", httpRequest.contentType);
 
-         for (int i = 0; i < httpRequest.H.length; i++) {
-            httpURLConnection.setRequestProperty(httpRequest.H[i], httpRequest.J[i]);
+         for (int i = 0; i < httpRequest.headerKeys.length; i++) {
+            httpURLConnection.setRequestProperty(httpRequest.headerKeys[i], httpRequest.headerValues[i]);
          }
 
          StringBuilder stringBuilder = new StringBuilder();
@@ -67,21 +67,21 @@ public class HttpUtil {
 
    public static String post(HttpRequest httpRequest, Proxy proxy) {
       try {
-         URL url = new URL(httpRequest.o);
-         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
+         URL url2 = new URL(httpRequest.url);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url2.openConnection(proxy);
          httpURLConnection.setRequestMethod("POST");
-         httpURLConnection.setRequestProperty("User-Agent", httpRequest.X);
-         httpURLConnection.setRequestProperty("Accept", httpRequest.I);
-         httpURLConnection.setRequestProperty("Content-Type", httpRequest.M);
+         httpURLConnection.setRequestProperty("User-Agent", httpRequest.userAgent);
+         httpURLConnection.setRequestProperty("Accept", httpRequest.accept);
+         httpURLConnection.setRequestProperty("Content-Type", httpRequest.contentType);
 
-         for (int i = 0; i < httpRequest.H.length; i++) {
-            httpURLConnection.setRequestProperty(httpRequest.H[i], httpRequest.J[i]);
+         for (int i = 0; i < httpRequest.headerKeys.length; i++) {
+            httpURLConnection.setRequestProperty(httpRequest.headerKeys[i], httpRequest.headerValues[i]);
          }
 
          httpURLConnection.setDoInput(true);
          httpURLConnection.setDoOutput(true);
          DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-         dataOutputStream.writeBytes(httpRequest.N());
+         dataOutputStream.writeBytes(httpRequest.buildParameterString());
          dataOutputStream.flush();
          dataOutputStream.close();
          StringBuilder stringBuilder = new StringBuilder();

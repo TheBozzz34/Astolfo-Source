@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Objects;
 
 public interface CheckRequest {
-   LoadStage N();
+   LoadStage getStage();
 
-   CheckContext Y(List<StageCheck> list, List<VerdictProcessor> list2);
+   CheckContext createContext(List<StageCheck> list, List<VerdictProcessor> list2);
 
-   static CheckRequest G(LoadStage loadStage) {
+   static CheckRequest forStage(LoadStage loadStage) {
       Objects.requireNonNull(loadStage, "");
       return new StageCheckRequest(loadStage);
    }

@@ -16,38 +16,40 @@ public class MapComponent extends SettingContainer {
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
       if (i == 0) {
-         this.u(!this.s_boolean());
+         this.setExpanded(!this.isExpanded());
       }
    }
 
    @Override
    public void render(int i, int j) {
-      int k = this.i();
-      if (this.s_boolean()) {
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + k, new Color(18, 18, 18).getRGB());
+      int k = this.getChildrenHeight();
+      if (this.isExpanded()) {
+         RenderUtil.drawRect(
+            this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight() + k, new Color(18, 18, 18).getRGB()
+         );
       }
 
       GuiMainMenu.m
          .drawString(
-            this.T().getName() + "...",
-            this.M() + this.x() / 2 - GuiMainMenu.m.getStringWidth(this.r().getName() + "...", true) / 2 + 3.0F,
-            this.E_float(),
+            this.getMapSetting().getName() + "...",
+            this.getX() + this.getWidth() / 2 - GuiMainMenu.m.getStringWidth(this.getSetting().getName() + "...", true) / 2 + 3.0F,
+            this.getYPos(),
             Color.WHITE.getRGB()
          );
-      if (this.s_boolean()) {
+      if (this.isExpanded()) {
          int l = 0;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof SettingContainer) {
-               ((SettingContainer)element).r(this.M() + 3.0F, this.E_float() + l + 10.0F);
+               ((SettingContainer)element).setPosition(this.getX() + 3.0F, this.getYPos() + l + 10.0F);
                element.render(i, j);
-               l += ((SettingContainer)element).Y() + (((SettingContainer)element).s_boolean() ? 3 : 0);
+               l += ((SettingContainer)element).getHeight() + (((SettingContainer)element).isExpanded() ? 3 : 0);
             }
 
             if (element instanceof SettingComponent) {
-               ((SettingComponent)element).r(this.M() + 3.0F, this.E_float() + l + 10.0F);
+               ((SettingComponent)element).setPosition(this.getX() + 3.0F, this.getYPos() + l + 10.0F);
                element.render(i, j);
                l += 10;
             }
@@ -55,21 +57,21 @@ public class MapComponent extends SettingContainer {
       }
    }
 
-   public int i() {
-      int j = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+   public int getChildrenHeight() {
+      int i = 0;
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof BooleanComponent
                || element instanceof ColorPicker
                || element instanceof StringComponent
                || element instanceof NumberSlider
                || element instanceof RangeSlider
                || element instanceof EnumComponent) {
-               j += ((Component)element).Y();
+               i += ((Component)element).getHeight();
             }
          }
       }
 
-      return j + (this.s_boolean() ? 3 : 0);
+      return i + (this.isExpanded() ? 3 : 0);
    }
 }

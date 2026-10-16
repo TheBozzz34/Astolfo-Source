@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public final class MethodScanner implements MemberScanner<Method> {
-   private final Map<Class<?>, Reference<Method[]>> J = new WeakHashMap<>();
+   private final Map<Class<?>, Reference<Method[]>> cache = new WeakHashMap<>();
 
    @Override
    public void collect(Class<?> class2, List<Method> list) {
@@ -36,7 +36,7 @@ public final class MethodScanner implements MemberScanner<Method> {
    }
 
    public Method[] getMembers(Class<?> class2) {
-      Reference reference = this.J.get(class2);
+      Reference reference = this.cache.get(class2);
       if (reference != null) {
          Method[] methods = (Method[])reference.get();
          if (methods != null) {
@@ -47,7 +47,7 @@ public final class MethodScanner implements MemberScanner<Method> {
       ArrayList arrayList = new ArrayList();
       this.collect(class2, arrayList);
       Method[] methods2 = (java.lang.reflect.Method[])(arrayList.toArray(new Method[arrayList.size()]));
-      this.J.put(class2, new SoftReference<>(methods2));
+      this.cache.put(class2, new SoftReference<>(methods2));
       return (Method[])methods2.clone();
    }
 

@@ -192,7 +192,7 @@ public class RenderItem implements IResourceManagerReloadListener {
          float f = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
          GlStateManager.translate(f, 0.0F, 0.0F);
          GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-         int i = ModuleManager.k.isEnabled() && Camera.enchant.getSetting("Enabled").asBoolean()
+         int i = ModuleManager.camera.isEnabled() && Camera.enchant.getSetting("Enabled").asBoolean()
             ? ((ColorSetting)Camera.enchant.getSetting("Color")).getValue().getRGB()
             : -8372020;
          this.renderModel(model, i);
@@ -537,7 +537,7 @@ public class RenderItem implements IResourceManagerReloadListener {
                j = (int)Math.round(255.0 - d * 255.0);
             }
 
-            if (Inventory.percentage.getValue() && ModuleManager.r.isEnabled()) {
+            if (Inventory.percentage.getValue() && ModuleManager.inventory.isEnabled()) {
                GlStateManager.disableDepth();
                GlStateManager.disableBlend();
                int k = 100 - stack.getItemDamage() * 100 / stack.getMaxDamage();

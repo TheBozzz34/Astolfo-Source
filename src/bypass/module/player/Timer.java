@@ -17,7 +17,7 @@ public final class Timer extends Module {
    private final BooleanSetting onlyMoving = new BooleanSetting("Only-Moving", "Only when moving", true);
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (this.onlyMoving.getValue() && !GameUtil.isMoving(mc.thePlayer)) {
          mc.timer.timerSpeed = 1.0F;
       } else if (this.tick.getValue()) {
@@ -44,8 +44,8 @@ public final class Timer extends Module {
    }
 
    @Override
-   public void p() {
+   public void updateDisplayName() {
       this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + MathUtil.ONE_DECIMAL.format(this.speed.getValue()));
-      super.p();
+      super.updateDisplayName();
    }
 }

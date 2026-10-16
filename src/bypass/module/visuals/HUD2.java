@@ -17,12 +17,12 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
 public class HUD2 extends Module {
-   private final ArrayList<HudElement> z = new ArrayList<>();
+   private final ArrayList<HudElement> hudElements = new ArrayList<>();
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.n) {
-         for (HudElement hudElement : this.z) {
-            if (hudElement.N()) {
+         for (HudElement hudElement : this.hudElements) {
+            if (hudElement.isVisible()) {
                float f = hudElement.getScale().asFloat();
                double d = renderEvent.getResolution().getScaleFactor() / Math.pow(renderEvent.getResolution().getScaleFactor(), 2.0);
                GlStateManager.pushMatrix();
@@ -36,30 +36,32 @@ public class HUD2 extends Module {
                int j = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
                int k = i - Mouse.getY() * i / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
-                  numberSetting.setValue(hudElement.M());
-                  numberSetting2.setValue(hudElement.E_float());
-               } else if ((Float)numberSetting.getValue() != hudElement.M() || (Float)numberSetting2.getValue() != hudElement.E_float()) {
-                  if (hudElement.M() != (Float)numberSetting.getValue()) {
-                     hudElement.o((Float)numberSetting.getValue());
+                  numberSetting.setValue(hudElement.getX());
+                  numberSetting2.setValue(hudElement.getYPos());
+               } else if ((Float)numberSetting.getValue() != hudElement.getX() || (Float)numberSetting2.getValue() != hudElement.getYPos()) {
+                  if (hudElement.getX() != (Float)numberSetting.getValue()) {
+                     hudElement.setX((Float)numberSetting.getValue());
                   }
 
-                  if (hudElement.E_float() != (Float)numberSetting2.getValue()) {
-                     hudElement.q((Float)numberSetting2.getValue());
+                  if (hudElement.getYPos() != (Float)numberSetting2.getValue()) {
+                     hudElement.setY((Float)numberSetting2.getValue());
                   }
                }
 
                hudElement.render(j, k);
                if (mc.currentScreen instanceof GuiChat) {
-                  RenderUtil.drawRect(hudElement.M(), hudElement.E_float(), hudElement.M() + hudElement.x(), hudElement.E_float() + hudElement.Y(), new Color(0, 0, 0, 120).getRGB());
-                  if (hudElement.u_boolean() && Mouse.isButtonDown(0)) {
-                     hudElement.T(j, k);
+                  RenderUtil.drawRect(
+                     hudElement.getX(), hudElement.getYPos(), hudElement.getX() + hudElement.getWidth(), hudElement.getYPos() + hudElement.getHeight(), new Color(0, 0, 0, 120).getRGB()
+                  );
+                  if (hudElement.isDragging() && Mouse.isButtonDown(0)) {
+                     hudElement.updateDragPosition(j, k);
                   }
                }
 
-               if (Mouse.isButtonDown(0) && hudElement.G(j, k)) {
-                  hudElement.F(true, j, k);
+               if (Mouse.isButtonDown(0) && hudElement.isHovered(j, k)) {
+                  hudElement.setDragging(true, j, k);
                } else {
-                  hudElement.x(false);
+                  hudElement.setDraggingNoOffset(false);
                }
 
                GlStateManager.popMatrix();
@@ -70,6 +72,6 @@ public class HUD2 extends Module {
 
    public HUD2() {
       super("HUD2", Category.VISUALS);
-      this.z.add(new WatermarkHud());
+      this.hudElements.add(new WatermarkHud());
    }
 }

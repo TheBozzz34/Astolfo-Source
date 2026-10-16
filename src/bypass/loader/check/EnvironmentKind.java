@@ -1,17 +1,17 @@
 package bypass.loader.check;
 
 public interface EnvironmentKind {
-   static EnvironmentKindC k() {
+   static EnvironmentKindC createKindC() {
       return new EnvironmentKindC();
    }
 
-   static EnvironmentKindD O() {
+   static EnvironmentKindD createKindD() {
       return new EnvironmentKindD();
    }
 
-   static EnvironmentKind M(BooleanCondition booleanCondition) {
-      return booleanCondition.c() ? k() : O();
+   static EnvironmentKind fromCondition(BooleanCondition booleanCondition) {
+      return booleanCondition.test() ? createKindC() : createKindD();
    }
 
-   EnvironmentType w();
+   EnvironmentType getType();
 }

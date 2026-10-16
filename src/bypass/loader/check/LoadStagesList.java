@@ -7,9 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LoadStagesList {
-   private final List<LoadStage> t = new ArrayList<>(Arrays.asList(LoadStages.N(), LoadStages.R(), LoadStages.D(), LoadStages.I()));
+   private final List<LoadStage> stages = new ArrayList<>(
+      Arrays.asList(LoadStages.createDecoyStage1(), LoadStages.createDirectoryStage(), LoadStages.createManagersStage(), LoadStages.createModulesStage())
+   );
 
-   public List<LoadStage> p() {
-      return this.t;
+   public List<LoadStage> getStages() {
+      return this.stages;
    }
 }

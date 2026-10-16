@@ -14,31 +14,31 @@ public enum SettingType {
    LIST("list", 6, List.class),
    COLOR("color", 7, Color.class);
 
-   private int E;
-   private String R;
-   private Class<?> q;
+   private int id;
+   private String typeName;
+   private Class<?> valueClass;
 
    SettingType(String string2, int j, Class<?> class2) {
-      this.E = j;
-      this.R = string2;
-      this.q = class2;
+      this.id = j;
+      this.typeName = string2;
+      this.valueClass = class2;
    }
 
-   public int J() {
-      return this.E;
+   public int getId() {
+      return this.id;
    }
 
-   public String l() {
-      return this.R;
+   public String getTypeName() {
+      return this.typeName;
    }
 
-   public Class<?> x() {
-      return this.q;
+   public Class<?> getValueClass() {
+      return this.valueClass;
    }
 
-   public static SettingType U(String string) {
+   public static SettingType fromName(String string) {
       for (SettingType settingType : values()) {
-         if (settingType.l().equalsIgnoreCase(string)) {
+         if (settingType.getTypeName().equalsIgnoreCase(string)) {
             return settingType;
          }
       }
@@ -46,10 +46,10 @@ public enum SettingType {
       return null;
    }
 
-   public static Class<?> S(String string) {
+   public static Class<?> getClassForName(String string) {
       for (SettingType settingType : values()) {
-         if (settingType.l().equalsIgnoreCase(string)) {
-            return settingType.x();
+         if (settingType.getTypeName().equalsIgnoreCase(string)) {
+            return settingType.getValueClass();
          }
       }
 

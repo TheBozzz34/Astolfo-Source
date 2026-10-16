@@ -16,6 +16,6 @@ public final class IrcMessageWriter implements PacketWriter<IrcMessage> {
       byteBuffer.putInt(bytes2.length);
       byteBuffer.put(bytes2);
       byteBuffer.putInt(ircMessage.type.ordinal());
-      packetBuffer.n(byteBuffer);
+      packetBuffer.addChunk(byteBuffer);
    }
 }

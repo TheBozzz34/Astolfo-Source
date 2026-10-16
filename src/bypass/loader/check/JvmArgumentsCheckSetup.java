@@ -1,15 +1,15 @@
 package bypass.loader.check;
 
 public class JvmArgumentsCheckSetup {
-   private final JvmArgumentsListOwner P = new JvmArgumentsListOwner();
-   private final StringListHolder T = new StringListHolder(this.P.d());
-   private final JvmArgumentsCheck C = new JvmArgumentsCheck(this.T);
+   private final JvmArgumentsListOwner listOwner = new JvmArgumentsListOwner();
+   private final StringListHolder stringListHolder = new StringListHolder(this.listOwner.getPatternContainer());
+   private final JvmArgumentsCheck jvmArgumentsCheck = new JvmArgumentsCheck(this.stringListHolder);
 
-   public StringListHolder P() {
-      return this.T;
+   public StringListHolder getStringListHolder() {
+      return this.stringListHolder;
    }
 
-   public JvmArgumentsCheck Y() {
-      return this.C;
+   public JvmArgumentsCheck getJvmArgumentsCheck() {
+      return this.jvmArgumentsCheck;
    }
 }

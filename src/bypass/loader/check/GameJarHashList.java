@@ -3,14 +3,14 @@ package bypass.loader.check;
 import bypass.util.container.ListContainerOwner;
 
 public class GameJarHashList {
-   private final ListContainerOwner<String> l;
+   private final ListContainerOwner<String> hashContainer;
 
    public GameJarHashList() {
       GameJarHash gameJarHash = new GameJarHash();
-      this.l = new ListContainerOwner<>(gameJarHash.H());
+      this.hashContainer = new ListContainerOwner<>(gameJarHash.getHashes());
    }
 
-   public ListContainerOwner<String> E() {
-      return this.l;
+   public ListContainerOwner<String> getHashContainer() {
+      return this.hashContainer;
    }
 }

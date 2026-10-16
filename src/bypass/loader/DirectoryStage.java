@@ -41,7 +41,7 @@ public final class DirectoryStage extends AbstractLoadStage {
                .setDirectory(new File(Minecraft.getMinecraft().mcDataDir.getAbsoluteFile().getParentFile(), ClientAccess.client.getName().toLowerCase()));
             ClientAccess.client.getDirectory().mkdir();
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getFontManager());
-            FontManager.A();
+            FontManager.reloadFont();
          }
       }
    }
@@ -54,7 +54,7 @@ public final class DirectoryStage extends AbstractLoadStage {
       public EnvironmentKind get() {
          boolean bl = Util.getOSType().equals(Util.EnumOS.WINDOWS);
          if (!bl) {
-            return EnvironmentKind.M(() -> EnvironmentKinds.O(EnvironmentKind.O()));
+            return EnvironmentKind.fromCondition(() -> EnvironmentKinds.isNotKindD(EnvironmentKind.createKindD()));
          }
 
          bl = false;
@@ -72,7 +72,7 @@ public final class DirectoryStage extends AbstractLoadStage {
          }
 
          boolean bl2 = bl;
-         return EnvironmentKind.M(() -> !bl2);
+         return EnvironmentKind.fromCondition(() -> !bl2);
       }
    }
 }

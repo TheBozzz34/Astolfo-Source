@@ -10,18 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parsers {
-   private Map<Class<?>, Parser<?>> B = new HashMap<>();
+   private Map<Class<?>, Parser<?>> parsers = new HashMap<>();
 
    public Parsers() {
-      this.B.put(Class.class, new ClassParser());
-      this.B.put(Boolean.class, new BooleanParser());
-      this.B.put(Enum.class, new EnumParser());
-      this.B.put(Number.class, new NumberParser());
-      this.B.put(Character.class, new CharacterParser());
-      this.B.put(String.class, new StringParser());
+      this.parsers.put(Class.class, new ClassParser());
+      this.parsers.put(Boolean.class, new BooleanParser());
+      this.parsers.put(Enum.class, new EnumParser());
+      this.parsers.put(Number.class, new NumberParser());
+      this.parsers.put(Character.class, new CharacterParser());
+      this.parsers.put(String.class, new StringParser());
    }
 
    public Parser<?> get(Class<?> class2) {
-      return this.B.get(class2);
+      return this.parsers.get(class2);
    }
 }

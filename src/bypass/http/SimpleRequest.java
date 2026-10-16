@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public final class SimpleRequest extends AbstractRequest {
-   private static final Map<String, String> K = new HashMap<>();
+   private static final Map<String, String> defaultHeaders = new HashMap<>();
 
    @Override
-   public String D() throws Exception {
-      if (this.m.isEmpty()) {
+   public String getBody() throws Exception {
+      if (this.parameters.isEmpty()) {
          return "";
       }
 
       StringBuilder stringBuilder = new StringBuilder();
 
-      for (Entry entry : this.m.entrySet()) {
+      for (Entry entry : this.parameters.entrySet()) {
          stringBuilder.append((String)entry.getKey()).append("=").append((String)entry.getValue()).append("&");
       }
 
@@ -25,19 +25,19 @@ public final class SimpleRequest extends AbstractRequest {
    }
 
    @Override
-   public String t() {
+   public String getMethod() {
       return HttpMethod.GET.toString();
    }
 
    @Override
-   public ContentType V() {
+   public ContentType getContentType() {
       return ContentType.URL_ENCODED;
    }
 
    @Override
-   public int d() {
+   public int getContentLength() {
       try {
-         return this.D().length();
+         return this.getBody().length();
       } catch (Exception exception) {
          exception.printStackTrace();
          return -1;
@@ -45,22 +45,22 @@ public final class SimpleRequest extends AbstractRequest {
    }
 
    @Override
-   public URL m(URL url) throws Exception {
+   public URL buildUrl(URL url) throws Exception {
       String string = url.toString();
       if (!string.endsWith("?")) {
          string = string.concat("?");
       }
 
-      string = string.concat(this.D());
+      string = string.concat(this.getBody());
       return new URL(string);
    }
 
    @Override
-   public Map<String, String> U() {
-      return K;
+   public Map<String, String> getHeaders() {
+      return defaultHeaders;
    }
 
    static {
-      K.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+      defaultHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
    }
 }

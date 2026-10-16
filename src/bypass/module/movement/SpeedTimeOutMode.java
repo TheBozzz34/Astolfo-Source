@@ -5,5 +5,5 @@ public enum SpeedTimeOutMode {
    DISABLE,
    WAIT;
 
-   private static final SpeedTimeOutMode[] q = new SpeedTimeOutMode[]{NONE, DISABLE, WAIT};
+   private static final SpeedTimeOutMode[] VALUES = new SpeedTimeOutMode[]{NONE, DISABLE, WAIT};
 }

@@ -13,8 +13,8 @@ import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Mouse;
 
 public class NumberSlider extends SettingComponent {
-   private final DecimalFormat n = new DecimalFormat("#");
-   private static final Color Y = new Color(22, 22, 22);
+   private final DecimalFormat decimalFormat = new DecimalFormat("#");
+   private static final Color darkColor = new Color(22, 22, 22);
 
    public NumberSlider(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
@@ -22,62 +22,80 @@ public class NumberSlider extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      float f = this.o().getMax().floatValue() - this.o().getMin().floatValue();
-      int k = this.o().getMax().intValue() - this.o().getMin().intValue();
-      float g = Math.round((this.C() - this.o().getMin().floatValue()) / (this.o().valueClass == Integer.class ? k : f) * this.x());
-      RenderUtil.drawRect(
-         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
+      float f = this.getNumberSetting().getMax().floatValue() - this.getNumberSetting().getMin().floatValue();
+      int k = this.getNumberSetting().getMax().intValue() - this.getNumberSetting().getMin().intValue();
+      float g = Math.round(
+         (this.getRoundedFloat() - this.getNumberSetting().getMin().floatValue())
+            / (this.getNumberSetting().valueClass == Integer.class ? k : f)
+            * this.getWidth()
       );
-      RenderUtil.drawRect(this.M() + 1.5F, this.E_float() + 10.0F, this.M() + g, this.E_float() + this.Y() + 2.0F, client.getColor().getRGB());
+      RenderUtil.drawRect(
+         this.getX() + 1.5F,
+         this.getYPos() - 1.0F,
+         this.getX() + this.getWidth() + 0.5F,
+         this.getYPos() + this.getHeight() + 4.0F,
+         new Color(1, 1, 1, 120).getRGB()
+      );
+      RenderUtil.drawRect(this.getX() + 1.5F, this.getYPos() + 10.0F, this.getX() + g, this.getYPos() + this.getHeight() + 2.0F, client.getColor().getRGB());
       String string;
-      if (this.o().valueClass.equals(Integer.class)) {
-         string = String.format("%s %s", this.o().getName().replace("-", " "), this.h());
-      } else if (this.o().valueClass.equals(Float.class)) {
-         string = String.format("%s %s", this.o().getName().replace("-", " "), this.C());
-      } else if (this.o().valueClass.equals(Double.class)) {
-         string = String.format("%s %s", this.o().getName().replace("-", " "), this.j());
+      if (this.getNumberSetting().valueClass.equals(Integer.class)) {
+         string = String.format("%s %s", this.getNumberSetting().getName().replace("-", " "), this.getRoundedInt());
+      } else if (this.getNumberSetting().valueClass.equals(Float.class)) {
+         string = String.format("%s %s", this.getNumberSetting().getName().replace("-", " "), this.getRoundedFloat());
+      } else if (this.getNumberSetting().valueClass.equals(Double.class)) {
+         string = String.format("%s %s", this.getNumberSetting().getName().replace("-", " "), this.getRoundedDouble());
       } else {
-         string = String.format("%s %s", this.o().getName().replace("-", " "), this.h());
+         string = String.format("%s %s", this.getNumberSetting().getName().replace("-", " "), this.getRoundedInt());
       }
 
-      string = string + this.o().getSuffix();
-      client.getCustomFontRenderer().drawStringWithShadow(EnumChatFormatting.GRAY + string, this.M() + 4.0F, this.E_float() - 1.0F, Color.WHITE.getRGB());
-      if (this.G(i, j) && HUD.toolTips.getValue()) {
-         client.getCustomFontRenderer().drawStringWithShadow(this.o().getDescription(), i + 6, j - 4, -1);
+      string = string + this.getNumberSetting().getSuffix();
+      client.getCustomFontRenderer().drawStringWithShadow(EnumChatFormatting.GRAY + string, this.getX() + 4.0F, this.getYPos() - 1.0F, Color.WHITE.getRGB());
+      if (this.isHovered(i, j) && HUD.toolTips.getValue()) {
+         client.getCustomFontRenderer().drawStringWithShadow(this.getNumberSetting().getDescription(), i + 6, j - 4, -1);
       }
 
-      if (this.G(i, j) && Mouse.isButtonDown(0) && this.I().s_boolean()) {
-         if (this.o().valueClass == Integer.class) {
-            this.o().setValue((i - (int)this.M()) * this.o().getMax().intValue() / this.x() + this.o().getMin().intValue());
-         } else if (this.o().valueClass == Double.class) {
-            this.o()
-               .setValue(Double.valueOf(MathUtil.ONE_DECIMAL.format((i - this.M()) * f / this.x() + this.o().getMin().doubleValue()).replace(",", ".")));
+      if (this.isHovered(i, j) && Mouse.isButtonDown(0) && this.getParentContainer().isExpanded()) {
+         if (this.getNumberSetting().valueClass == Integer.class) {
+            this.getNumberSetting()
+               .setValue((i - (int)this.getX()) * this.getNumberSetting().getMax().intValue() / this.getWidth() + this.getNumberSetting().getMin().intValue());
+         } else if (this.getNumberSetting().valueClass == Double.class) {
+            this.getNumberSetting()
+               .setValue(
+                  Double.valueOf(
+                     MathUtil.ONE_DECIMAL.format((i - this.getX()) * f / this.getWidth() + this.getNumberSetting().getMin().doubleValue()).replace(",", ".")
+                  )
+               );
          } else {
-            this.o().setValue(Float.valueOf(MathUtil.ONE_DECIMAL.format((i - this.M()) * f / this.x() + this.o().getMin().floatValue()).replace(",", ".")));
+            this.getNumberSetting()
+               .setValue(
+                  Float.valueOf(
+                     MathUtil.ONE_DECIMAL.format((i - this.getX()) * f / this.getWidth() + this.getNumberSetting().getMin().floatValue()).replace(",", ".")
+                  )
+               );
          }
       }
    }
 
-   public int h() {
-      String string = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", "");
+   public int getRoundedInt() {
+      String string = MathUtil.ONE_DECIMAL.format(this.getNumberSetting().getValue()).replace(",", "");
       return Integer.valueOf(string);
    }
 
-   public float C() {
-      String string = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", ".");
+   public float getRoundedFloat() {
+      String string = MathUtil.ONE_DECIMAL.format(this.getNumberSetting().getValue()).replace(",", ".");
       return Float.parseFloat(string);
    }
 
-   public double j() {
-      String string = MathUtil.ONE_DECIMAL.format(this.o().getValue()).replace(",", ".");
+   public double getRoundedDouble() {
+      String string = MathUtil.ONE_DECIMAL.format(this.getNumberSetting().getValue()).replace(",", ".");
       return Double.parseDouble(string);
    }
 
-   private NumberSetting o() {
-      return (NumberSetting)this.t();
+   private NumberSetting getNumberSetting() {
+      return (NumberSetting)this.getSetting();
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
    }
 }

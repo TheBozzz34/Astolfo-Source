@@ -40,17 +40,17 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 public class LoginScreen extends GuiScreen {
-   private final Animation P = new TimedAnimation().setDuration(750).setEasing(Easing.LINEAR);
-   public static GuiButton e;
+   private final Animation fadeInAnimation = new TimedAnimation().setDuration(750).setEasing(Easing.LINEAR);
+   public static GuiButton loginButton;
    public static GuiTextField usernameField;
    public static PasswordField passwordField;
-   public static boolean V;
-   public int h = 12;
-   public int R = 40;
-   private int y;
-   private ResourceLocation q;
-   public static final Stopwatch N = new Stopwatch();
-   private static final ResourceLocation[] a = new ResourceLocation[]{
+   public static boolean loggedIn;
+   public int unusedSpacing = 12;
+   public int unusedInt = 40;
+   private int panoramaTimer;
+   private ResourceLocation backgroundTexture;
+   public static final Stopwatch authTimer = new Stopwatch();
+   private static final ResourceLocation[] panoramaTextures = new ResourceLocation[]{
       new ResourceLocation("textures/gui/title/background/panorama_0.png"),
       new ResourceLocation("textures/gui/title/background/panorama_1.png"),
       new ResourceLocation("textures/gui/title/background/panorama_2.png"),
@@ -58,35 +58,35 @@ public class LoginScreen extends GuiScreen {
       new ResourceLocation("textures/gui/title/background/panorama_4.png"),
       new ResourceLocation("textures/gui/title/background/panorama_5.png")
    };
-   private boolean Y;
-   public static boolean d;
-   public static boolean p;
-   public static String x;
-   public static String Q;
-   public static String l;
-   private static SecretKeySpec f;
-   private static byte[] n;
+   private boolean startFadeIn;
+   public static boolean loginFailed;
+   public static boolean authenticating;
+   public static String loginResponseMessage;
+   public static String unusedString1;
+   public static String unusedString2;
+   private static SecretKeySpec credentialsKey;
+   private static byte[] credentialsKeyBytes;
 
    @Override
    public void initGui() {
       DynamicTexture dynamicTexture = new DynamicTexture(256, 256);
-      this.q = this.mc.getTextureManager().getDynamicTextureLocation("background", dynamicTexture);
+      this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", dynamicTexture);
       Keyboard.enableRepeatEvents(true);
       this.buttonList.clear();
-      this.buttonList.add(e = new GuiButton(-88888, this.width / 2 - 95, this.height / 2 + 25, 191, 20, "Login"));
-      e.n = true;
+      this.buttonList.add(loginButton = new GuiButton(-88888, this.width / 2 - 95, this.height / 2 + 25, 191, 20, "Login"));
+      loginButton.n = true;
       usernameField = new GuiTextField(0, this.fontRendererObj, this.width / 2 - 25, this.height / 2 - 40, 120, 20);
       usernameField.w = true;
       usernameField.setText("");
       passwordField = new PasswordField(0, this.width / 2 - 25, this.height / 2 - 20, 120, 20);
       passwordField.w = true;
-      passwordField.Z(true);
+      passwordField.setPasswordMode(true);
       passwordField.setMaxStringLength(128);
       passwordField.setText("");
-      this.Y = true;
+      this.startFadeIn = true;
 
       try {
-         this.l();
+         this.loadSavedCredentials();
       } catch (FileNotFoundException fileNotFoundException) {
          fileNotFoundException.printStackTrace();
       }
@@ -104,30 +104,30 @@ public class LoginScreen extends GuiScreen {
       }
 
       GlStateManager.disableAlpha();
-      this.w(mouseX, mouseY, partialTicks);
+      this.renderSkybox(mouseX, mouseY, partialTicks);
       GlStateManager.enableAlpha();
-      if (this.Y) {
-         this.P.rewindAndStop().rewind().forwards().start();
-         this.Y = false;
+      if (this.startFadeIn) {
+         this.fadeInAnimation.rewindAndStop().rewind().forwards().start();
+         this.startFadeIn = false;
       }
 
       int i = this.width / 2;
       int j = this.height / 2;
-      int k = (int)this.P.getValue(40.0, 255.0);
-      int l = (int)this.P.getValue(40.0, 120.0);
-      int m = (int)this.P.getValue(40.0, 170.0);
+      int k = (int)this.fadeInAnimation.getValue(40.0, 255.0);
+      int l = (int)this.fadeInAnimation.getValue(40.0, 120.0);
+      int m = (int)this.fadeInAnimation.getValue(40.0, 170.0);
       RenderUtil.drawBorderedRect(
          i - 105, j - 57, i + 105, j + 55, 1.0F, new Color(17, 17, 17, l).getRGB(), new Color(17, 17, 17, m).getRGB()
       );
       drawRect(i - 105, j - 57, i + 105, j - 55, new Color(164, 54, 145, k).getRGB());
       drawRect(i - 105, j - 56, i + 105, j - 55, new Color(164, 54, 145, k).darker().getRGB());
       if (bl) {
-         this.w(i, j - 17);
+         this.drawLogo(i, j - 17);
       } else {
-         this.w(i - 63, j - 17);
+         this.drawLogo(i - 63, j - 17);
       }
 
-      e.t = m;
+      loginButton.t = m;
       passwordField.I = m;
       usernameField.I = m;
       usernameField.drawTextBox();
@@ -159,18 +159,18 @@ public class LoginScreen extends GuiScreen {
             usernameField.getText().contains("@")
                ? "Use the username instead of mail"
                : (
-                  p
+                  authenticating
                      ? "Authenticating" + string
                      : (
-                        !d
+                        !loginFailed
                            ? (this.mc.autoLoginToken.isEmpty() ? "Waiting for authentication" : "Auto-Login ready")
                            : (
-                              x.contains("FAILED_INVALID_HWID")
+                              loginResponseMessage.contains("FAILED_INVALID_HWID")
                                  ? "HWID Changed, open a support request in the forums for reset"
                                  : (
-                                    x.contains("FAILED_INVALID_USER")
+                                    loginResponseMessage.contains("FAILED_INVALID_USER")
                                        ? "Username not found"
-                                       : (x.contains("FAILED_INCORRECT_PASS") ? "Incorrect password" : "Unknown")
+                                       : (loginResponseMessage.contains("FAILED_INCORRECT_PASS") ? "Incorrect password" : "Unknown")
                                  )
                            )
                      )
@@ -200,7 +200,7 @@ public class LoginScreen extends GuiScreen {
          passwordField.setFocused(!passwordField.isFocused());
       } else if (keyCode == 28) {
          try {
-            this.k();
+            this.submitLogin();
          } catch (Exception exception) {
             this.mc.shutdown();
          }
@@ -217,11 +217,11 @@ public class LoginScreen extends GuiScreen {
    @Override
    public void updateScreen() {
       this.mc.displayGuiScreen(new GuiMainMenu());
-      if (N.hasElapsed(5000.0F) && p) {
-         p = false;
+      if (authTimer.hasElapsed(5000.0F) && authenticating) {
+         authenticating = false;
       }
 
-      this.y++;
+      this.panoramaTimer++;
       usernameField.updateCursorCounter();
       passwordField.updateCursorCounter();
       super.updateScreen();
@@ -232,16 +232,16 @@ public class LoginScreen extends GuiScreen {
       if ((!usernameField.getText().isEmpty() || !this.mc.autoLoginToken.isEmpty())
          && !usernameField.getText().contains("@")
          && (!passwordField.getText().isEmpty() || !this.mc.autoLoginToken.isEmpty())
-         && !V
-         && !p) {
+         && !loggedIn
+         && !authenticating) {
          super.actionPerformed(button);
       }
    }
 
-   private void k() {
+   private void submitLogin() {
    }
 
-   private void w(int i, int j) {
+   private void drawLogo(int i, int j) {
       int k = i - 32;
       int l = j - 32;
       GL11.glEnable(3553);
@@ -250,12 +250,12 @@ public class LoginScreen extends GuiScreen {
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/logo.png"));
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
-      int m = (int)this.P.getValue(0.0, 255.0);
+      int m = (int)this.fadeInAnimation.getValue(0.0, 255.0);
       GlStateManager.color(1.0F, 1.0F, 1.0F, m / 255.0F);
       drawModalRectWithCustomSizedTexture(k, l, 0.0F, 0.0F, 64, 64, 64.0F, 64.0F);
    }
 
-   private void l() throws FileNotFoundException {
+   private void loadSavedCredentials() throws FileNotFoundException {
       try {
          Path path = Astolfo.INSTANCE.getDirectory().getAbsoluteFile().toPath().resolve("creds");
          BufferedReader bufferedReader = null;
@@ -265,7 +265,7 @@ public class LoginScreen extends GuiScreen {
 
             String string;
             while ((string = bufferedReader.readLine()) != null) {
-               String string2 = this.b(string, AuthUtil.getHwid());
+               String string2 = this.decryptCredentials(string, AuthUtil.getHwid());
                if (string2 != null) {
                   String[] strings = string2.split(":");
                   if (strings[0] != null) {
@@ -283,30 +283,30 @@ public class LoginScreen extends GuiScreen {
       }
    }
 
-   private String b(String string, String string2) {
+   private String decryptCredentials(String string, String string2) {
       try {
-         x(string2);
+         initCredentialsKey(string2);
          Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-         cipher.init(2, f);
+         cipher.init(2, credentialsKey);
          return new String(cipher.doFinal(Base64.getDecoder().decode(string)));
       } catch (Exception exception) {
          return null;
       }
    }
 
-   public static void x(String string) {
+   public static void initCredentialsKey(String string) {
       try {
-         n = string.getBytes(StandardCharsets.UTF_8);
+         credentialsKeyBytes = string.getBytes(StandardCharsets.UTF_8);
          MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-         n = messageDigest.digest(n);
-         n = Arrays.copyOf(n, 16);
-         f = new SecretKeySpec(n, "AES");
+         credentialsKeyBytes = messageDigest.digest(credentialsKeyBytes);
+         credentialsKeyBytes = Arrays.copyOf(credentialsKeyBytes, 16);
+         credentialsKey = new SecretKeySpec(credentialsKeyBytes, "AES");
       } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
          noSuchAlgorithmException.printStackTrace();
       }
    }
 
-   private void D(int i, int j, float g) {
+   private void drawPanorama(int i, int j, float f) {
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.matrixMode(5889);
@@ -328,12 +328,12 @@ public class LoginScreen extends GuiScreen {
 
       for (int k = 0; k < b * b; k++) {
          GlStateManager.pushMatrix();
-         float f = ((float)(k % b) / b - 0.5F) / 64.0F;
+         float g = ((float)(k % b) / b - 0.5F) / 64.0F;
          float h = ((float)(k / b) / b - 0.5F) / 64.0F;
          float f2 = 0.0F;
-         GlStateManager.translate(f, h, f2);
-         GlStateManager.rotate(MathHelper.sin((this.y + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-         GlStateManager.rotate(-(this.y + g) * 0.1F, 0.0F, 1.0F, 0.0F);
+         GlStateManager.translate(g, h, f2);
+         GlStateManager.rotate(MathHelper.sin((this.panoramaTimer + f) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+         GlStateManager.rotate(-(this.panoramaTimer + f) * 0.1F, 0.0F, 1.0F, 0.0F);
 
          for (int l = 0; l < 6; l++) {
             GlStateManager.pushMatrix();
@@ -357,7 +357,7 @@ public class LoginScreen extends GuiScreen {
                GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
             }
 
-            this.mc.getTextureManager().bindTexture(a[l]);
+            this.mc.getTextureManager().bindTexture(panoramaTextures[l]);
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
             int m = 255 / (k + 1);
             worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, m).endVertex();
@@ -383,8 +383,8 @@ public class LoginScreen extends GuiScreen {
       GlStateManager.enableDepth();
    }
 
-   private void y(float g) {
-      this.mc.getTextureManager().bindTexture(this.q);
+   private void rotateAndBlurSkybox(float f) {
+      this.mc.getTextureManager().bindTexture(this.backgroundTexture);
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
       GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, 256, 256);
@@ -398,14 +398,14 @@ public class LoginScreen extends GuiScreen {
       byte b = 3;
 
       for (int i = 0; i < b; i++) {
-         float f = 1.0F / (i + 1);
+         float g = 1.0F / (i + 1);
          int j = this.width;
          int k = this.height;
          float h = (i - b / 2) / 256.0F;
-         worldRenderer.pos(j, k, this.zLevel).tex(0.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
-         worldRenderer.pos(j, 0.0, this.zLevel).tex(1.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
-         worldRenderer.pos(0.0, 0.0, this.zLevel).tex(1.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
-         worldRenderer.pos(0.0, k, this.zLevel).tex(0.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
+         worldRenderer.pos(j, k, this.zLevel).tex(0.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
+         worldRenderer.pos(j, 0.0, this.zLevel).tex(1.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
+         worldRenderer.pos(0.0, 0.0, this.zLevel).tex(1.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
+         worldRenderer.pos(0.0, k, this.zLevel).tex(0.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
       }
 
       tessellator.draw();
@@ -413,22 +413,22 @@ public class LoginScreen extends GuiScreen {
       GlStateManager.colorMask(true, true, true, true);
    }
 
-   private void w(int i, int j, float g) {
+   private void renderSkybox(int i, int j, float f) {
       this.mc.getFramebuffer().unbindFramebuffer();
       GlStateManager.viewport(0, 0, 256, 256);
-      this.D(i, j, g);
-      this.y(g);
-      this.y(g);
-      this.y(g);
-      this.y(g);
-      this.y(g);
-      this.y(g);
-      this.y(g);
+      this.drawPanorama(i, j, f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
       this.mc.getFramebuffer().bindFramebuffer(true);
       GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-      float f = this.width > this.height ? 120.0F / this.width : 120.0F / this.height;
-      float h = this.height * f / 256.0F;
-      float f2 = this.width * f / 256.0F;
+      float g = this.width > this.height ? 120.0F / this.width : 120.0F / this.height;
+      float h = this.height * g / 256.0F;
+      float f2 = this.width * g / 256.0F;
       int k = this.width;
       int l = this.height;
       Tessellator tessellator = Tessellator.getInstance();

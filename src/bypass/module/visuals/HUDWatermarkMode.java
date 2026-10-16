@@ -9,5 +9,5 @@ public enum HUDWatermarkMode {
    RETARD,
    ROTATE;
 
-   private static final HUDWatermarkMode[] J = new HUDWatermarkMode[]{WHITE, COLOR, BREATH, SOLID, RAINBOW, RETARD, ROTATE};
+   private static final HUDWatermarkMode[] VALUES = new HUDWatermarkMode[]{WHITE, COLOR, BREATH, SOLID, RAINBOW, RETARD, ROTATE};
 }

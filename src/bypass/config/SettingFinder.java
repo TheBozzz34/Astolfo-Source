@@ -45,7 +45,7 @@ public class SettingFinder {
             .orElse(null);
    }
 
-   public static Setting<?> I(Setting<?>[] settings, String string) {
+   public static Setting<?> getOptionFromArray(Setting<?>[] settings, String string) {
       if (settings == null) {
          return null;
       }
@@ -75,7 +75,7 @@ public class SettingFinder {
             .orElse(null);
    }
 
-   public static Setting<?> J(Map<String, Setting<?>> map, String string) {
+   public static Setting<?> getOptionFromMap(Map<String, Setting<?>> map, String string) {
       if (map == null) {
          return null;
       } else {

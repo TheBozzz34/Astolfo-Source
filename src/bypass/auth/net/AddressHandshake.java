@@ -10,9 +10,9 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
 public final class AddressHandshake {
-   private final ByteBuffer c = ByteBuffer.allocateDirect(4);
+   private final ByteBuffer lengthBuffer = ByteBuffer.allocateDirect(4);
 
-   public void g(SocketChannel socketChannel, SocketAddress socketAddress) throws IOException {
+   public void connect(SocketChannel socketChannel, SocketAddress socketAddress) throws IOException {
       if (socketChannel.isConnected()) {
          throw new AlreadyConnectedException();
       }
@@ -20,18 +20,18 @@ public final class AddressHandshake {
       boolean bl = socketChannel.isBlocking();
       socketChannel.configureBlocking(true);
       socketChannel.connect(socketAddress);
-      this.p(socketChannel);
+      this.sendLocalAddress(socketChannel);
       socketChannel.configureBlocking(bl);
    }
 
-   private void p(SocketChannel socketChannel) throws IOException {
+   private void sendLocalAddress(SocketChannel socketChannel) throws IOException {
       String string = ((InetSocketAddress)socketChannel.getLocalAddress()).getAddress().getHostAddress();
       byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
       int i = bytes.length;
-      this.c.putInt(i);
-      ((Buffer)this.c).flip();
-      socketChannel.write(this.c);
-      ((Buffer)this.c).clear();
+      this.lengthBuffer.putInt(i);
+      ((Buffer)this.lengthBuffer).flip();
+      socketChannel.write(this.lengthBuffer);
+      ((Buffer)this.lengthBuffer).clear();
       ByteBuffer byteBuffer = ByteBuffer.allocate(i);
       byteBuffer.put(bytes);
       ((Buffer)byteBuffer).flip();

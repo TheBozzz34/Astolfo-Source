@@ -6,28 +6,28 @@ import bypass.setting.MapSetting;
 import bypass.setting.Setting;
 
 public abstract class SettingContainer extends Container {
-   private Setting A;
-   private Container H;
+   private Setting setting;
+   private Container parentContainer;
 
    public SettingContainer(Container container, Setting setting, int i, int j) {
       super(setting.getName(), 0.0F, 0.0F, i, j);
-      this.H = container;
-      this.A = setting;
+      this.parentContainer = container;
+      this.setting = setting;
    }
 
-   public Setting r() {
-      return this.A;
+   public Setting getSetting() {
+      return this.setting;
    }
 
-   public MapSetting T() {
-      return (MapSetting)this.A;
+   public MapSetting getMapSetting() {
+      return (MapSetting)this.setting;
    }
 
-   public EnumSetting Q() {
-      return (EnumSetting)this.A;
+   public EnumSetting getEnumSetting() {
+      return (EnumSetting)this.setting;
    }
 
-   public Container O() {
-      return this.H;
+   public Container getParent() {
+      return this.parentContainer;
    }
 }

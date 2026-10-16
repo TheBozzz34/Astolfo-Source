@@ -3,41 +3,41 @@ package bypass.anticheat;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class NoSlowdownCheck extends MovementCheck {
-   private double N;
-   private double X;
-   private boolean J;
+   private double lastX;
+   private double lastZ;
+   private boolean sprintedWhileUsing;
 
    public NoSlowdownCheck() {
       super("NoSlowdown");
    }
 
    @Override
-   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
       if (entityPlayer.isUsingItem()) {
-         if (this.N != 0.0 && this.X != 0.0) {
-            double e = Math.hypot(d - this.N, d3 - this.X);
-            if (entityPlayer.isSprinting() && e >= 0.25 && e < 3.0 && this.J) {
-               this.x(entityPlayer.getName());
+         if (this.lastX != 0.0 && this.lastZ != 0.0) {
+            double e = Math.hypot(d - this.lastX, d3 - this.lastZ);
+            if (entityPlayer.isSprinting() && e >= 0.25 && e < 3.0 && this.sprintedWhileUsing) {
+               this.flag(entityPlayer.getName());
             }
 
             if (entityPlayer.isSprinting()) {
-               this.J = true;
+               this.sprintedWhileUsing = true;
             }
          }
 
-         this.N = d;
-         this.X = d3;
+         this.lastX = d;
+         this.lastZ = d3;
       } else {
-         this.J = false;
-         this.X = 0.0;
-         this.N = 0.0;
+         this.sprintedWhileUsing = false;
+         this.lastZ = 0.0;
+         this.lastX = 0.0;
       }
 
-      return this.T;
+      return this.violations;
    }
 
    @Override
-   public int p() {
+   public int getMaxViolations() {
       return 7;
    }
 }

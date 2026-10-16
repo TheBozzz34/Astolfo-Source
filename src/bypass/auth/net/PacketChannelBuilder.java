@@ -8,114 +8,114 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class PacketChannelBuilder {
-   private ConnectionListener f;
-   private String G;
-   private String W;
-   private ShapedMap<Short, PacketReader<?>> o = new ShapedMap<>();
-   private short k;
-   private final ShapedMap<Short, List<PacketListener<?>>> J = new ShapedMap<>();
-   private List<PacketChunk> e;
-   private PacketOutput P;
-   private int I;
-   private ConnectionOptions i = ConnectionOptions.M(16);
-   private ConnectionHandlerFactory p;
-   private Consumer<IOException> j;
-   private HandshakeAddresses R;
-   private final String m;
-   private Runnable t;
+   private ConnectionListener connectionListener;
+   private String label;
+   private String secondaryLabel;
+   private ShapedMap<Short, PacketReader<?>> readers = new ShapedMap<>();
+   private short defaultPacketId;
+   private final ShapedMap<Short, List<PacketListener<?>>> listeners = new ShapedMap<>();
+   private List<PacketChunk> chunks;
+   private PacketOutput packetOutput;
+   private int bufferSize;
+   private ConnectionOptions options = ConnectionOptions.ofSize(16);
+   private ConnectionHandlerFactory handlerFactory;
+   private Consumer<IOException> errorHandler;
+   private HandshakeAddresses handshakeAddresses;
+   private final String name;
+   private Runnable onConnect;
 
    public PacketChannelBuilder(String string) {
-      this.m = string;
+      this.name = string;
    }
 
    public PacketChannelBuilder() {
       this(null);
    }
 
-   public PacketChannelBuilder z(ConnectionListener connectionListener) {
-      this.f = connectionListener;
+   public PacketChannelBuilder withConnectionListener(ConnectionListener connectionListener) {
+      this.connectionListener = connectionListener;
       return this;
    }
 
-   public PacketChannelBuilder V(short s, PacketReader<?> packetReader) {
-      this.o.put(s, packetReader);
+   public PacketChannelBuilder withReader(short s, PacketReader<?> packetReader) {
+      this.readers.put(s, packetReader);
       return this;
    }
 
-   public PacketChannelBuilder T(String string) {
-      this.G = string;
+   public PacketChannelBuilder withLabel(String string) {
+      this.label = string;
       return this;
    }
 
-   public PacketChannelBuilder J(String string) {
-      this.W = string;
+   public PacketChannelBuilder withSecondaryLabel(String string) {
+      this.secondaryLabel = string;
       return this;
    }
 
-   public PacketChannelBuilder Z(short s, List<PacketListener<?>> list) {
-      this.J.put(s, list);
+   public PacketChannelBuilder withListeners(short s, List<PacketListener<?>> list) {
+      this.listeners.put(s, list);
       return this;
    }
 
-   public PacketChannelBuilder n(short s) {
-      this.k = s;
+   public PacketChannelBuilder withDefaultPacketId(short s) {
+      this.defaultPacketId = s;
       return this;
    }
 
-   public PacketChannelBuilder Q(PacketOutput packetOutput) {
-      this.P = packetOutput;
+   public PacketChannelBuilder withPacketOutput(PacketOutput packetOutput) {
+      this.packetOutput = packetOutput;
       return this;
    }
 
-   public PacketChannelBuilder M(HandshakeAddresses handshakeAddresses) {
-      if (this.R != null) {
+   public PacketChannelBuilder withHandshakeAddresses(HandshakeAddresses handshakeAddresses) {
+      if (this.handshakeAddresses != null) {
          throw new SecurityException();
       }
 
-      this.R = handshakeAddresses;
+      this.handshakeAddresses = handshakeAddresses;
       return this;
    }
 
-   public PacketChannelBuilder a(ConnectionHandlerFactory connectionHandlerFactory) {
-      this.p = connectionHandlerFactory;
+   public PacketChannelBuilder withHandlerFactory(ConnectionHandlerFactory connectionHandlerFactory) {
+      this.handlerFactory = connectionHandlerFactory;
       return this;
    }
 
-   public PacketChannelBuilder V(short s) {
-      this.o.put(s, null);
+   public PacketChannelBuilder withoutReader(short s) {
+      this.readers.put(s, null);
       return this;
    }
 
-   public PacketChannelBuilder A(Consumer<IOException> consumer) {
-      this.j = consumer;
+   public PacketChannelBuilder withErrorHandler(Consumer<IOException> consumer) {
+      this.errorHandler = consumer;
       return this;
    }
 
-   public PacketChannelBuilder X(InputStream inputStream) throws IOException {
+   public PacketChannelBuilder closeStream(InputStream inputStream) throws IOException {
       inputStream.close();
       return this;
    }
 
-   public PacketChannelBuilder e(List<PacketChunk> list) {
-      this.e = list;
+   public PacketChannelBuilder withChunks(List<PacketChunk> list) {
+      this.chunks = list;
       return this;
    }
 
-   public PacketChannelBuilder I(PacketChunk packetChunk) {
-      if (this.e == null) {
-         this.e = new ArrayList<>();
+   public PacketChannelBuilder addChunk(PacketChunk packetChunk) {
+      if (this.chunks == null) {
+         this.chunks = new ArrayList<>();
       }
 
-      this.e.add(packetChunk);
+      this.chunks.add(packetChunk);
       return this;
    }
 
-   public PacketChannelBuilder K(Runnable runnable) {
-      this.t = runnable;
+   public PacketChannelBuilder withConnectCallback(Runnable runnable) {
+      this.onConnect = runnable;
       return this;
    }
 
-   public PacketChannel C() {
-      return new PacketChannel(this.f, this.o, this.J, this.P, this.p, this.j, this.t);
+   public PacketChannel build() {
+      return new PacketChannel(this.connectionListener, this.readers, this.listeners, this.packetOutput, this.handlerFactory, this.errorHandler, this.onConnect);
    }
 }

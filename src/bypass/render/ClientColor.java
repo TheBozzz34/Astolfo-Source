@@ -13,17 +13,17 @@ public enum ClientColor {
    ORANGE(new Color(243, 156, 18)),
    WHITE(Color.WHITE);
 
-   private Color H;
+   private Color color;
 
    ClientColor(Color color) {
-      this.H = color;
+      this.color = color;
    }
 
    public void setColor(Color color) {
-      this.H = color;
+      this.color = color;
    }
 
    public Color getColor() {
-      return this == DEFAULT ? Astolfo.INSTANCE.getColorSetting().getValue() : this.H;
+      return this == DEFAULT ? Astolfo.INSTANCE.getColorSetting().getValue() : this.color;
    }
 }

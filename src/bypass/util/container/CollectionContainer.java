@@ -11,18 +11,18 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
    }
 
    @Override
-   public void j() throws ContainerException {
+   public void initialize() throws ContainerException {
    }
 
    @Override
-   public void m() throws ContainerError {
+   public void destroy() throws ContainerError {
    }
 
    public Collection<E> view() {
       return Collections.unmodifiableCollection(this.getValue());
    }
 
-   public Collection<E> a(Collection<E> collection) {
+   public Collection<E> setCollection(Collection<E> collection) {
       return this.setValue(collection);
    }
 
@@ -34,7 +34,7 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       return this.getValue().add((E)object);
    }
 
-   public boolean k(E object) {
+   public boolean remove(E object) {
       return this.getValue().remove(object);
    }
 
@@ -42,11 +42,11 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       return this.getValue().size();
    }
 
-   public boolean N() {
+   public boolean isEmpty() {
       return this.getValue().isEmpty();
    }
 
-   public boolean x() {
+   public boolean isNull() {
       return this.getValue() == null;
    }
 
@@ -54,7 +54,7 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       this.getValue().clear();
    }
 
-   public Optional<E> y(Class<? extends E> class2) {
+   public Optional<E> findByClass(Class<? extends E> class2) {
       for (Object object : this.getValue()) {
          if (object.getClass() == class2) {
             return Optional.of((E)object);
@@ -64,11 +64,11 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       return Optional.empty();
    }
 
-   public boolean k(Collection<? extends E> collection) {
+   public boolean addAllFrom(Collection<? extends E> collection) {
       return this.getValue().addAll(collection);
    }
 
-   public boolean R(Collection<?> collection) {
+   public boolean containsAll(Collection<?> collection) {
       return this.getValue().containsAll(collection);
    }
 
@@ -76,7 +76,7 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       return this.getValue().iterator();
    }
 
-   public boolean M(Collection<?> collection) {
+   public boolean removeAll(Collection<?> collection) {
       return this.getValue().removeAll(collection);
    }
 
@@ -84,11 +84,11 @@ public abstract class CollectionContainer<E> extends Container<Collection<E>> {
       return this.getValue().retainAll(collection);
    }
 
-   public Object[] O() {
+   public Object[] toArray() {
       return this.getValue().toArray();
    }
 
-   public <E> E[] o(E[] objects) {
+   public <E> E[] toTypedArray(E[] objects) {
       return (E[])this.getValue().toArray(objects);
    }
 }

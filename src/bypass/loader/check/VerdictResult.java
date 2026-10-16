@@ -3,23 +3,23 @@ package bypass.loader.check;
 import java.util.Objects;
 
 public final class VerdictResult implements CheckResult {
-   private final Verdict B;
+   private final Verdict verdict;
 
    private VerdictResult(Verdict verdict) {
-      this.B = verdict;
+      this.verdict = verdict;
    }
 
    @Override
-   public Verdict u() {
-      return this.B;
+   public Verdict getVerdict() {
+      return this.verdict;
    }
 
    @Override
-   public ResultKind c() {
+   public ResultKind getKind() {
       return ResultKind.A;
    }
 
-   public static CheckResult a(Verdict verdict) {
+   public static CheckResult create(Verdict verdict) {
       Objects.requireNonNull(verdict, "https://blog.smartekh.com/hubfs/wannacry.png");
       return new VerdictResult(verdict);
    }

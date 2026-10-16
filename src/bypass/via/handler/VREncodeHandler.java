@@ -11,22 +11,22 @@ import java.util.List;
 import net.minecraft.util.MessageSerializer;
 
 public class VREncodeHandler extends MessageToMessageEncoder<ByteBuf> {
-   private final UserConnection H;
+   private final UserConnection userConnection;
 
    public VREncodeHandler(UserConnection userConnection) {
-      this.H = userConnection;
+      this.userConnection = userConnection;
    }
 
    public void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-      if (!this.H.checkOutgoingPacket()) {
+      if (!this.userConnection.checkOutgoingPacket()) {
          throw CancelEncoderException.generate(null);
       }
 
-      if (this.H.shouldTransformPacket() && !MessageSerializer.o) {
+      if (this.userConnection.shouldTransformPacket() && !MessageSerializer.o) {
          ByteBuf byteBuf2 = channelHandlerContext.alloc().buffer().writeBytes(byteBuf);
 
          try {
-            this.H.transformOutgoing(byteBuf2, CancelEncoderException::generate);
+            this.userConnection.transformOutgoing(byteBuf2, CancelEncoderException::generate);
             list.add(byteBuf2.retain());
          } finally {
             byteBuf2.release();

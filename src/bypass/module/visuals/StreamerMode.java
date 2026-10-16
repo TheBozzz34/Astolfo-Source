@@ -18,15 +18,15 @@ public final class StreamerMode extends Module {
    public static final BooleanSetting scrambleNames = new BooleanSetting("Scramble-Names", "Scrambles other people usernames", true);
    public static final BooleanSetting hideSkins = new BooleanSetting("Hide-Skins", "Hides skins", true);
    public static final StringSetting spoofName = new StringSetting("Spoof-Name", "Name you're spoofing", "You");
-   public static final ArrayList<String> d = new ArrayList<>();
+   public static final ArrayList<String> seenPlayerNames = new ArrayList<>();
    @EventHandler(WorldLoadEvent.class)
-   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> d.clear();
+   private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> seenPlayerNames.clear();
    @EventHandler(TickEvent.class)
    private Listener<TickEvent> onTick = tickEvent -> {
       if (tickEvent.getState() == EventState.PRE && mc.thePlayer != null && mc.theWorld != null) {
          for (EntityPlayer entityPlayer : mc.theWorld.playerEntities) {
-            if (entityPlayer != mc.thePlayer && !d.contains(entityPlayer.getName())) {
-               d.add(entityPlayer.getName());
+            if (entityPlayer != mc.thePlayer && !seenPlayerNames.contains(entityPlayer.getName())) {
+               seenPlayerNames.add(entityPlayer.getName());
             }
          }
       }
@@ -37,7 +37,7 @@ public final class StreamerMode extends Module {
       this.addSettings(scrambleNames, hideSkins, spoofName);
    }
 
-   public static String t(NetworkPlayerInfo networkPlayerInfo) {
+   public static String getPlayerListName(NetworkPlayerInfo networkPlayerInfo) {
       return networkPlayerInfo.getDisplayName() != null
          ? networkPlayerInfo.getDisplayName().getFormattedText()
          : ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());

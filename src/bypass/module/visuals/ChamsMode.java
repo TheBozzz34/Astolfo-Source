@@ -5,5 +5,5 @@ public enum ChamsMode {
    COLOR,
    OUTLINE;
 
-   private static final ChamsMode[] c = new ChamsMode[]{NORMAL, COLOR, OUTLINE};
+   private static final ChamsMode[] VALUES = new ChamsMode[]{NORMAL, COLOR, OUTLINE};
 }

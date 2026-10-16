@@ -8,14 +8,14 @@ public enum SocketChannelOpener implements ChannelOpener {
    INSTANCE;
 
    @Override
-   public SocketChannel A(Consumer<SocketChannel> consumer) throws IOException {
+   public SocketChannel openChannelWith(Consumer<SocketChannel> consumer) throws IOException {
       SocketChannel socketChannel = SocketChannel.open();
       consumer.accept(socketChannel);
       return socketChannel;
    }
 
    @Override
-   public SocketChannel j() throws IOException {
+   public SocketChannel openChannel() throws IOException {
       return SocketChannel.open();
    }
 }

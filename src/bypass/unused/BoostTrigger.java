@@ -5,5 +5,5 @@ public enum BoostTrigger {
    ON_DAMAGE,
    ON_BOOST;
 
-   private static final BoostTrigger[] m = new BoostTrigger[]{NONE, ON_DAMAGE, ON_BOOST};
+   private static final BoostTrigger[] VALUES = new BoostTrigger[]{NONE, ON_DAMAGE, ON_BOOST};
 }

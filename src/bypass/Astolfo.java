@@ -33,7 +33,7 @@ public enum Astolfo implements Loadable {
    INSTANCE;
 
    private List<Loadable> loadables;
-   private LoaderGuard B;
+   private LoaderGuard loaderGuard;
    private RelationManager relationManager;
    private EventBus eventBus;
    private ModuleManager moduleManager;
@@ -51,15 +51,15 @@ public enum Astolfo implements Loadable {
    private ChatManager chatManager;
    private ServerManager serverManager;
    private ScriptManager scriptManager;
-   private final ColorSetting color = new ColorSetting("Color", "client color", BaseColor.PURPLE.z());
+   private final ColorSetting color = new ColorSetting("Color", "client color", BaseColor.PURPLE.getColor());
    private final BooleanSetting cFont = new BooleanSetting("CFont", "custom font", true);
    private final BooleanSetting sense = new BooleanSetting("Sense", "Advanced technology", true);
    private File directory;
-   private boolean J = true;
+   private boolean unusedFlag = true;
    public static boolean failedAndRunning;
    private String configName = "default";
    private Proxy proxy = Proxy.NO_PROXY;
-   private static final Astolfo[] V = new Astolfo[]{INSTANCE};
+   private static final Astolfo[] VALUES = new Astolfo[]{INSTANCE};
 
    Astolfo() {
       this.loadables = new ArrayList<>();
@@ -67,15 +67,15 @@ public enum Astolfo implements Loadable {
 
    @Override
    public void load() {
-      this.register(121968519176554L, this.x());
+      this.register(121968519176554L, this.getLoaderGuard());
       ViaFabric.INSTANCE.init();
       this.serverManager = new ServerManager();
-      Runtime.getRuntime().addShutdownHook(new Thread(this::a));
+      Runtime.getRuntime().addShutdownHook(new Thread(this::save));
    }
 
    @Override
-   public void a() {
-      this.loadables.forEach(Loadable::a);
+   public void save() {
+      this.loadables.forEach(Loadable::save);
    }
 
    public void register(long l, Loadable loadable) {
@@ -203,20 +203,20 @@ public enum Astolfo implements Loadable {
       return this.notificationManager;
    }
 
-   public LoaderGuard x() {
-      if (this.B == null) {
-         this.B = new LoaderGuard();
+   public LoaderGuard getLoaderGuard() {
+      if (this.loaderGuard == null) {
+         this.loaderGuard = new LoaderGuard();
       }
 
-      return this.B;
+      return this.loaderGuard;
    }
 
    public ServerManager getServerManager() {
       return this.serverManager;
    }
 
-   public LoaderGuard W(LoaderGuard loaderGuard) {
-      this.B = loaderGuard;
+   public LoaderGuard setLoaderGuard(LoaderGuard loaderGuard) {
+      this.loaderGuard = loaderGuard;
       return loaderGuard;
    }
 
@@ -276,8 +276,8 @@ public enum Astolfo implements Loadable {
       return this.color;
    }
 
-   public void J(boolean bl) {
-      this.J = bl;
+   public void setUnusedFlag(boolean bl) {
+      this.unusedFlag = bl;
    }
 
    public String getConfigName() {

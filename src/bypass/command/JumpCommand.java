@@ -6,7 +6,7 @@ import bypass.event.player.MoveEvent;
 import java.util.Arrays;
 
 public final class JumpCommand extends Command {
-   private boolean x;
+   private boolean leftGround;
    @EventHandler(MoveEvent.class)
    private Listener<MoveEvent> onMove = moveEvent -> {
       switch (moveEvent.getState()) {
@@ -30,12 +30,12 @@ public final class JumpCommand extends Command {
             if (mc.thePlayer.isCollidedVertically) {
                mc.thePlayer.motionY = 0.42F;
             } else {
-               this.x = true;
+               this.leftGround = true;
                mc.thePlayer.motionX = g * 0.36;
                mc.thePlayer.motionZ = h * 0.36;
             }
 
-            if (this.x && mc.thePlayer.isCollidedVertically) {
+            if (this.leftGround && mc.thePlayer.isCollidedVertically) {
                mc.thePlayer.setVelocity(0.0, 0.0, 0.0);
                client.getEventBus().unsubscribe(this);
             }
@@ -50,6 +50,6 @@ public final class JumpCommand extends Command {
    @Override
    public void runCommand(String[] strings) {
       client.getEventBus().subscribe(this);
-      this.x = false;
+      this.leftGround = false;
    }
 }

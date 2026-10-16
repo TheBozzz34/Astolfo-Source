@@ -1,78 +1,78 @@
 package bypass.auth;
 
 public class HwidOptions {
-   private boolean Y;
-   private boolean h;
-   private boolean c;
-   private boolean f;
-   private boolean A;
-   private boolean z;
-   private boolean m;
+   private boolean useBaseboard;
+   private boolean useCpu;
+   private boolean useDisplays;
+   private boolean useUsername;
+   private boolean useGpu;
+   private boolean useMemory;
+   private boolean useDisk;
 
-   public HwidOptions J(boolean bl) {
-      this.Y = bl;
+   public HwidOptions withBaseboard(boolean bl) {
+      this.useBaseboard = bl;
       return this;
    }
 
-   public HwidOptions i(boolean bl) {
-      this.h = bl;
+   public HwidOptions withCpu(boolean bl) {
+      this.useCpu = bl;
       return this;
    }
 
-   public HwidOptions n(boolean bl) {
-      this.c = bl;
+   public HwidOptions withDisplays(boolean bl) {
+      this.useDisplays = bl;
       return this;
    }
 
-   public HwidOptions O(boolean bl) {
-      this.A = bl;
+   public HwidOptions withGpu(boolean bl) {
+      this.useGpu = bl;
       return this;
    }
 
-   public HwidOptions R(boolean bl) {
-      this.z = bl;
+   public HwidOptions withMemory(boolean bl) {
+      this.useMemory = bl;
       return this;
    }
 
-   public HwidOptions d(boolean bl) {
-      this.m = bl;
+   public HwidOptions withDisk(boolean bl) {
+      this.useDisk = bl;
       return this;
    }
 
-   public HwidOptions P(boolean bl) {
-      this.f = bl;
+   public HwidOptions withUsername(boolean bl) {
+      this.useUsername = bl;
       return this;
    }
 
-   public HwidBuilder H() {
+   public HwidBuilder build() {
       return new HwidBuilder(this);
    }
 
-   public static boolean E(HwidOptions hwidOptions) {
-      return hwidOptions.f;
+   public static boolean isUsernameEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useUsername;
    }
 
-   public static boolean o(HwidOptions hwidOptions) {
-      return hwidOptions.Y;
+   public static boolean isBaseboardEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useBaseboard;
    }
 
-   public static boolean k(HwidOptions hwidOptions) {
-      return hwidOptions.h;
+   public static boolean isCpuEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useCpu;
    }
 
-   public static boolean s(HwidOptions hwidOptions) {
-      return hwidOptions.A;
+   public static boolean isGpuEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useGpu;
    }
 
-   public static boolean z(HwidOptions hwidOptions) {
-      return hwidOptions.z;
+   public static boolean isMemoryEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useMemory;
    }
 
-   public static boolean D(HwidOptions hwidOptions) {
-      return hwidOptions.m;
+   public static boolean isDiskEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useDisk;
    }
 
-   public static boolean X(HwidOptions hwidOptions) {
-      return hwidOptions.c;
+   public static boolean isDisplaysEnabled(HwidOptions hwidOptions) {
+      return hwidOptions.useDisplays;
    }
 }

@@ -14,52 +14,52 @@ import java.util.StringJoiner;
 import java.util.Map.Entry;
 
 public class AuthHttp {
-   public HttpURLConnection C;
+   public HttpURLConnection connection;
 
    public AuthHttp(String string) throws MalformedURLException, IOException {
-      this.C = (HttpURLConnection)new URL(string).openConnection();
-      this.C.setDoOutput(true);
-      this.C.setDoInput(true);
-      this.C.setConnectTimeout(5000);
-      this.C.setReadTimeout(5000);
+      this.connection = (HttpURLConnection)new URL(string).openConnection();
+      this.connection.setDoOutput(true);
+      this.connection.setDoInput(true);
+      this.connection.setConnectTimeout(5000);
+      this.connection.setReadTimeout(5000);
    }
 
-   public void z(String string, String string2) {
-      this.C.setRequestProperty(string, string2);
+   public void setHeader(String string, String string2) {
+      this.connection.setRequestProperty(string, string2);
    }
 
-   public void C(String string) throws IOException {
-      this.C.setRequestMethod("POST");
+   public void post(String string) throws IOException {
+      this.connection.setRequestMethod("POST");
       byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
 
-      try (OutputStream outputStream = this.C.getOutputStream()) {
+      try (OutputStream outputStream = this.connection.getOutputStream()) {
          outputStream.write(bytes);
       }
    }
 
-   public void e(Map<Object, Object> map) throws IOException {
+   public void postForm(Map<Object, Object> map) throws IOException {
       StringJoiner stringJoiner = new StringJoiner("&");
 
       for (Entry entry : map.entrySet()) {
          stringJoiner.add(URLEncoder.encode(entry.getKey().toString(), "UTF-8") + "=" + URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
       }
 
-      this.C(stringJoiner.toString());
+      this.post(stringJoiner.toString());
    }
 
-   public void Y() throws ProtocolException {
-      this.C.setRequestMethod("GET");
+   public void setGetMethod() throws ProtocolException {
+      this.connection.setRequestMethod("GET");
    }
 
-   public int s() throws IOException {
-      return this.C.getResponseCode();
+   public int getResponseCode() throws IOException {
+      return this.connection.getResponseCode();
    }
 
-   public String K() throws IOException {
+   public String readResponse() throws IOException {
       StringBuilder stringBuilder = new StringBuilder();
 
       int i;
-      try (InputStreamReader inputStreamReader = new InputStreamReader(this.C.getInputStream(), StandardCharsets.UTF_8)) {
+      try (InputStreamReader inputStreamReader = new InputStreamReader(this.connection.getInputStream(), StandardCharsets.UTF_8)) {
          while ((i = inputStreamReader.read()) >= 0) {
             stringBuilder.append((char)i);
          }
@@ -68,11 +68,11 @@ public class AuthHttp {
       return stringBuilder.toString();
    }
 
-   public String q() throws IOException {
+   public String readErrorResponse() throws IOException {
       StringBuilder stringBuilder = new StringBuilder();
 
       int i;
-      try (InputStreamReader inputStreamReader = new InputStreamReader(this.C.getErrorStream(), StandardCharsets.UTF_8)) {
+      try (InputStreamReader inputStreamReader = new InputStreamReader(this.connection.getErrorStream(), StandardCharsets.UTF_8)) {
          while ((i = inputStreamReader.read()) >= 0) {
             stringBuilder.append((char)i);
          }

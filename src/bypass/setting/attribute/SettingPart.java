@@ -6,5 +6,5 @@ public enum SettingPart {
    DESCRIPTION,
    VALUE;
 
-   private static final SettingPart[] U = new SettingPart[]{ALL, LABEL, DESCRIPTION, VALUE};
+   private static final SettingPart[] VALUES = new SettingPart[]{ALL, LABEL, DESCRIPTION, VALUE};
 }

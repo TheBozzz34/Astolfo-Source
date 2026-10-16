@@ -8,31 +8,31 @@ import bypass.setting.MapSetting;
 import bypass.setting.NumberSetting;
 
 public class ModuleItem extends TabGuiItem {
-   private final Module U;
+   private final Module module;
 
    public ModuleItem(TabGui.Panel panel, Module module) {
       super(panel);
-      this.U = module;
+      this.module = module;
    }
 
-   public Module c() {
-      return this.U;
+   public Module getModule() {
+      return this.module;
    }
 
    @Override
-   public String L() {
-      return (this.U.isEnabled() ? "§f" : "§7") + this.U.getName();
+   public String getDisplayText() {
+      return (this.module.isEnabled() ? "§f" : "§7") + this.module.getName();
    }
 
    @Override
    public void onPress() {
-      this.U.toggle();
+      this.module.toggle();
    }
 
    @Override
    public void onExpand() {
-      TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
-      this.U.getSettings().forEach(setting -> {
+      TabGui.Panel panel = new TabGui.Panel(this.getPanel().getTabGui());
+      this.module.getSettings().forEach(setting -> {
          if (setting instanceof BooleanSetting) {
             BooleanSetting booleanSetting = (BooleanSetting)setting;
             if (!setting.getName().equals("Hide")) {
@@ -49,7 +49,7 @@ public class ModuleItem extends TabGuiItem {
          }
       });
       if (panel.getItems().size() != 0) {
-         panel.getTabGui().s(panel);
+         panel.getTabGui().addElement(panel);
       }
    }
 }

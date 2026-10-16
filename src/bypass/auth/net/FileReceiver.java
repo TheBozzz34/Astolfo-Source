@@ -8,44 +8,44 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 public class FileReceiver implements Closeable {
-   public final FileReceiverListener g;
-   public final boolean r;
-   public Selector c;
-   public Thread h;
+   public final FileReceiverListener listener;
+   public final boolean threaded;
+   public Selector selector;
+   public Thread selectThread;
 
    public FileReceiver(boolean bl) {
       this(new DefaultFileReceiverListener(), bl);
    }
 
    public FileReceiver(FileReceiverListener fileReceiverListener, boolean bl) {
-      this.g = fileReceiverListener;
-      this.r = bl;
+      this.listener = fileReceiverListener;
+      this.threaded = bl;
    }
 
-   public void R() throws IOException {
-      this.c = Selector.open();
-      if (this.r) {
-         this.h = new Thread(this::M);
-         this.h.start();
+   public void start() throws IOException {
+      this.selector = Selector.open();
+      if (this.threaded) {
+         this.selectThread = new Thread(this::selectLoop);
+         this.selectThread.start();
       } else {
-         this.M();
+         this.selectLoop();
       }
    }
 
-   private void M() {
+   private void selectLoop() {
       while (!Thread.currentThread().isInterrupted()) {
          synchronized (this) {
             ;
          }
 
          try {
-            this.c.select();
+            this.selector.select();
          } catch (IOException ioException) {
-            this.g.C(this, "sel", ioException);
+            this.listener.onReceiverError(this, "sel", ioException);
             return;
          }
 
-         Iterator iterator2 = this.c.selectedKeys().iterator();
+         Iterator iterator2 = this.selector.selectedKeys().iterator();
 
          while (iterator2.hasNext()) {
             SelectionKey selectionKey = (SelectionKey)iterator2.next();
@@ -54,29 +54,29 @@ public class FileReceiver implements Closeable {
                FileReceiveSession fileReceiveSession = (FileReceiveSession)selectionKey.attachment();
 
                try {
-                  fileReceiveSession.e((SocketChannel)selectionKey.channel());
+                  fileReceiveSession.handleRead((SocketChannel)selectionKey.channel());
                } catch (IOException ioException2) {
-                  this.g.q(this, "retrieve", ioException2, fileReceiveSession);
+                  this.listener.onSessionError(this, "retrieve", ioException2, fileReceiveSession);
                }
             }
          }
       }
    }
 
-   public void f(SocketChannel socketChannel, FileReceiveSession fileReceiveSession) throws IOException {
+   public void addSession(SocketChannel socketChannel, FileReceiveSession fileReceiveSession) throws IOException {
       socketChannel.configureBlocking(false);
       synchronized (this) {
-         this.c.wakeup();
-         socketChannel.register(this.c, 1, fileReceiveSession);
+         this.selector.wakeup();
+         socketChannel.register(this.selector, 1, fileReceiveSession);
       }
    }
 
    @Override
    public void close() throws IOException {
-      if (this.h != null) {
-         this.h.interrupt();
+      if (this.selectThread != null) {
+         this.selectThread.interrupt();
       }
 
-      this.c.close();
+      this.selector.close();
    }
 }

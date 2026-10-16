@@ -6,14 +6,14 @@ import java.io.InputStreamReader;
 import net.minecraft.entity.passive.EntityPig;
 
 public class ProcessCheck {
-   private final StringListHolder L;
-   private boolean q;
+   private final StringListHolder processListHolder;
+   private boolean flag1;
 
    public ProcessCheck(StringListHolder stringListHolder) {
-      this.L = stringListHolder;
+      this.processListHolder = stringListHolder;
    }
 
-   private boolean k(String string) throws Exception {
+   private boolean isProcessRunning(String string) throws Exception {
       Process process = Runtime.getRuntime().exec("tasklist");
       BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
@@ -27,14 +27,14 @@ public class ProcessCheck {
       return false;
    }
 
-   public Holder C() {
+   public Holder checkProcesses() {
       Holder holder = new Holder();
       holder.value = new EntityPig(2147483646);
-      this.u(true);
+      this.setFlag1(true);
 
-      for (String string : this.L.A().L().getValue()) {
+      for (String string : this.processListHolder.getStringContainer().getOwnedContainer().getValue()) {
          try {
-            if (this.k(string) && (holder.value = new EntityPig(135278)) != null) {
+            if (this.isProcessRunning(string) && (holder.value = new EntityPig(135278)) != null) {
             }
          } catch (Exception exception) {
          }
@@ -43,11 +43,11 @@ public class ProcessCheck {
       return holder;
    }
 
-   public void u(boolean bl) {
-      this.q = bl;
+   public void setFlag1(boolean bl) {
+      this.flag1 = bl;
    }
 
-   public boolean P() {
-      return this.q;
+   public boolean isFlag1() {
+      return this.flag1;
    }
 }

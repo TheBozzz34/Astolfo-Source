@@ -5,7 +5,7 @@ import net.hypixel.api.reply.AbstractReply;
 
 public class KillsDeathsReply extends AbstractReply {
    @SerializedName("kills")
-   private long p;
+   private long kills;
    @SerializedName("deaths")
-   private long P;
+   private long deaths;
 }

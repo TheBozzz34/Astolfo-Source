@@ -3,35 +3,35 @@ package bypass.auth.net;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class RandomValues {
-   public static byte y() {
+   public static byte minByte() {
       return -128;
    }
 
-   public static byte x() {
+   public static byte maxByte() {
       return 127;
    }
 
-   public static int H() {
+   public static int minInt() {
       return Integer.MIN_VALUE;
    }
 
-   public static int n() {
+   public static int randomInt() {
       return ThreadLocalRandom.current().nextInt();
    }
 
-   public static short X() {
+   public static short randomShort() {
       return (short)ThreadLocalRandom.current().nextInt(-32768, 32768);
    }
 
-   public static short k(short s) {
+   public static short randomShortBelow(short s) {
       return (short)ThreadLocalRandom.current().nextInt(-32768, s);
    }
 
-   public static byte c(byte b) {
+   public static byte randomByteBelow(byte b) {
       return (byte)ThreadLocalRandom.current().nextInt(-128, b);
    }
 
-   public static byte S() {
+   public static byte randomByte() {
       return (byte)ThreadLocalRandom.current().nextInt(-128, 128);
    }
 }

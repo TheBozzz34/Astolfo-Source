@@ -14,13 +14,13 @@ public enum PacketId {
    LOGIN_RESPONSE((short)672),
    BANS((short)892);
 
-   private final short R;
+   private final short id;
 
    PacketId(short s) {
-      this.R = s;
+      this.id = s;
    }
 
    public short getId() {
-      return this.R;
+      return this.id;
    }
 }

@@ -1,20 +1,20 @@
 package bypass.auth.net;
 
 public final class HandshakeAddresses {
-   private final String G;
-   private final String O;
+   private final String clientAddress;
+   private final String remoteAddress;
 
    public HandshakeAddresses(String string, String string2) {
-      this.G = string;
-      this.O = string2;
+      this.clientAddress = string;
+      this.remoteAddress = string2;
    }
 
-   public String W() {
-      return this.G;
+   public String getClientAddress() {
+      return this.clientAddress;
    }
 
-   public String F() {
-      return this.O;
+   public String getRemoteAddress() {
+      return this.remoteAddress;
    }
 
    @Override
@@ -28,16 +28,16 @@ public final class HandshakeAddresses {
       }
 
       HandshakeAddresses handshakeAddresses = (HandshakeAddresses)object;
-      return handshakeAddresses.G.equals(this.G) && handshakeAddresses.O.equals(this.O);
+      return handshakeAddresses.clientAddress.equals(this.clientAddress) && handshakeAddresses.remoteAddress.equals(this.remoteAddress);
    }
 
    @Override
    public int hashCode() {
-      return 31 * (31 + this.G.hashCode()) + this.O.hashCode();
+      return 31 * (31 + this.clientAddress.hashCode()) + this.remoteAddress.hashCode();
    }
 
    @Override
    public String toString() {
-      return this.O + '-' + this.G;
+      return this.remoteAddress + '-' + this.clientAddress;
    }
 }

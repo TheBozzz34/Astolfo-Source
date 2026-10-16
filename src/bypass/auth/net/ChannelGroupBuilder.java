@@ -3,18 +3,18 @@ package bypass.auth.net;
 import bypass.util.collection.ShapedMap;
 
 public class ChannelGroupBuilder {
-   private final ShapedMap<String, Channel> h = new ShapedMap<>();
+   private final ShapedMap<String, Channel> channels = new ShapedMap<>();
 
-   public ChannelGroupBuilder H(String string, Channel channel) {
-      this.h.put(string, channel);
+   public ChannelGroupBuilder withChannel(String string, Channel channel) {
+      this.channels.put(string, channel);
       return this;
    }
 
-   public ImmutableChannelGroup K() {
+   public ImmutableChannelGroup build() {
       return new ImmutableChannelGroup(this);
    }
 
-   public static ShapedMap L(ChannelGroupBuilder channelGroupBuilder) {
-      return channelGroupBuilder.h;
+   public static ShapedMap getChannels(ChannelGroupBuilder channelGroupBuilder) {
+      return channelGroupBuilder.channels;
    }
 }

@@ -9,66 +9,66 @@ import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
 
 public class Alt implements JsonSerializable<JsonObject> {
-   public static final DateFormat M = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-   public String j;
-   public final String z;
-   public final Session.Type T;
-   public String o;
-   public String y;
-   public String U;
-   public boolean N;
-   public long m = -1L;
-   public boolean I;
-   public boolean Y;
-   public boolean F;
-   public String Z;
+   public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+   public String username;
+   public final String password;
+   public final Session.Type sessionType;
+   public String displayName;
+   public String accessToken;
+   public String clientToken;
+   public boolean banned;
+   public long banExpiry = -1L;
+   public boolean failedLogin;
+   public boolean favorite;
+   public boolean microsoft;
+   public String refreshToken;
 
    public Alt(String string, String string2) {
       this(string, string2, string);
    }
 
    public Alt(String string, String string2, String string3) {
-      this(string, string2, string3, AltLogin.AUTH.x(), null);
+      this(string, string2, string3, AltLogin.AUTH.generateClientToken(), null);
    }
 
    public Alt(String string, String string2, String string3, String string4, String string5) {
-      this.j = string.trim();
-      this.z = string2;
-      this.T = AltLogin.AUTH.t(string);
-      this.U = string4;
-      this.o = string3.trim().length() > 1 ? string3 : this.j;
-      this.y = string5;
+      this.username = string.trim();
+      this.password = string2;
+      this.sessionType = AltLogin.AUTH.getSessionType(string);
+      this.clientToken = string4;
+      this.displayName = string3.trim().length() > 1 ? string3 : this.username;
+      this.accessToken = string5;
    }
 
    public boolean V_boolean() {
-      return !StringUtils.isNullOrEmpty(this.z) || this.D() || this.F;
+      return !StringUtils.isNullOrEmpty(this.password) || this.isAlteningAlt() || this.microsoft;
    }
 
-   public boolean D() {
-      return this.j.endsWith("@alt.com");
+   public boolean isAlteningAlt() {
+      return this.username.endsWith("@alt.com");
    }
 
    @Override
-   public String c() {
-      return this.j;
+   public String getKey() {
+      return this.username;
    }
 
-   public JsonObject V() {
+   public JsonObject toJson() {
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("password", Base64.getEncoder().encodeToString(this.z.getBytes()));
-      jsonObject.addProperty("display", this.o);
-      jsonObject.addProperty("accessToken", this.y);
-      jsonObject.addProperty("clientToken", this.U);
-      jsonObject.addProperty("banned", this.N);
-      jsonObject.addProperty("failedLogin", this.I);
-      jsonObject.addProperty("favorite", this.Y);
-      jsonObject.addProperty("microsoft", this.F);
-      if (this.F) {
-         jsonObject.addProperty("refreshToken", this.Z);
+      jsonObject.addProperty("password", Base64.getEncoder().encodeToString(this.password.getBytes()));
+      jsonObject.addProperty("display", this.displayName);
+      jsonObject.addProperty("accessToken", this.accessToken);
+      jsonObject.addProperty("clientToken", this.clientToken);
+      jsonObject.addProperty("banned", this.banned);
+      jsonObject.addProperty("failedLogin", this.failedLogin);
+      jsonObject.addProperty("favorite", this.favorite);
+      jsonObject.addProperty("microsoft", this.microsoft);
+      if (this.microsoft) {
+         jsonObject.addProperty("refreshToken", this.refreshToken);
       }
 
-      if (this.N) {
-         jsonObject.addProperty("banExpiry", this.m);
+      if (this.banned) {
+         jsonObject.addProperty("banExpiry", this.banExpiry);
       }
 
       return jsonObject;
@@ -76,7 +76,7 @@ public class Alt implements JsonSerializable<JsonObject> {
 
    @Override
    public int hashCode() {
-      return this.j.hashCode();
+      return this.username.hashCode();
    }
 
    @Override
@@ -85,7 +85,7 @@ public class Alt implements JsonSerializable<JsonObject> {
          return true;
       } else if (object != null && object.getClass() == this.getClass()) {
          Alt alt = (Alt)object;
-         return alt.j.equalsIgnoreCase(this.j);
+         return alt.username.equalsIgnoreCase(this.username);
       } else {
          return false;
       }

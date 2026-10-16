@@ -7,9 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class GatherProxySource implements ProxySource {
-   private final ExecutorService F;
-   private String H = "http://gatherproxy.com/sockslist/country/?c=";
-   private String[] u = new String[]{
+   private final ExecutorService executor;
+   private String baseUrl = "http://gatherproxy.com/sockslist/country/?c=";
+   private String[] countries = new String[]{
       "United%20States",
       "Brazil",
       "Mexico",
@@ -42,7 +42,7 @@ public class GatherProxySource implements ProxySource {
    };
 
    public GatherProxySource() {
-      this.F = Executors.newFixedThreadPool(25);
+      this.executor = Executors.newFixedThreadPool(25);
    }
 
    @Override
@@ -51,7 +51,7 @@ public class GatherProxySource implements ProxySource {
    }
 
    @Override
-   public void z() {
-      this.F.shutdownNow();
+   public void shutdown() {
+      this.executor.shutdownNow();
    }
 }
